@@ -332,7 +332,6 @@ class AccountDataController extends AbstractAdminController
             );
         }
 
-        $this->addScript('filterlist.js');
         $this->assign([
             'Userlist'         => new Markup($Userlist, 'UTF-8'),
             'ac_enter_user_id' => $LNG['ac_enter_user_id'],

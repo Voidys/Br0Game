@@ -546,7 +546,7 @@ class FlyingFleetsTable
     {
         $LNG = & $this->state->LNG;
         return htmlspecialchars((string) $fleetRow['own_username'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false)
-            . ' <a href="#" onclick="return Dialog.PM(' . $fleetRow['owner'] . ')">' . $LNG['PM'] . '</a>';
+            . ' <a href="#" data-action="dialog-pm" data-id="' . (int) $fleetRow['owner'] . '">' . $LNG['PM'] . '</a>';
     }
 
     private function createFleetPopupedMissionLink(array $fleetRow, string $Texte, string $FleetType): string

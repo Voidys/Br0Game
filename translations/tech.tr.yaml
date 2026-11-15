@@ -517,6 +517,10 @@ longDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Xer'in egemenliğini kırmak için geliştirilen Engerek; Hafif Savaşçılara, Ağır Savaşçılara ve Kruvazörlere karşı nihai silahtır. Seri atışlı topları ve gelişmiş teknolojisiyle evrendeki güç dengesini değiştirir."
+  "230": "Hızlı. Hassas. Dokunulmaz. Önleyici adil savaşlar için yapılmadı – hızlı ve sert vurmak, göz açıp kapayıncaya kadar ezici bir üstünlük sağlamak için tasarlandı."
+  "231": "Behemot, onlarca yıllık graviton araştırmasının sonucudur ve bu teknolojiyi acımasız bir savaş platformunda birleştirir. Ölüm Yıldızlarının aksine gezegen yıkımı için değil, azami savaş alanı verimliliği için tasarlandı. Ayları yok etmek için gereken enerji yoğun sistemlerden vazgeçilerek tasarımı belirgin biçimde hafifletildi; bu da daha güçlü motorlara, daha fazla çevikliğe ve artan ateş gücüne imkân verdi. Kompakt graviton topu onu, devasa filoları bile tek başına yok edebilen hareketli bir yıkım makinesine dönüştürür."
+  "232": "Boşluk Titanı, modern graviton teknolojisinin zirvesidir. Tasarımının her unsuru tek bir amaca hizmet eder: düşman aylarının hızla yok edilmesi. Kütleyi azaltmak ve devasa kristal jeneratörlerine yer açmak için geleneksel silah kuleleri bilinçli olarak çıkarıldı. Bunlar, bilinen galaksilerde şimdiye dek inşa edilmiş en gelişmiş hızlandırma bobinlerini besleyerek gemiye eşsiz bir hareket kabiliyeti kazandırır. Muazzam kristal gereksinimi her Boşluk Titanı'nı anıtsal bir endüstriyel başarı ve sınırsız yıkım gücünün simgesi yapar."
 secureResources: >-
   Yükseltme seviyesine bağlı olarak, günlük üretimin %1'i maksimum %10'a kadar
   saldırılar sırasında yağmalamaya karşı korunur.
@@ -812,6 +816,9 @@ shortDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Xer'in egemenliğini kırmak için geliştirilen Engerek; Hafif Savaşçılara, Ağır Savaşçılara ve Kruvazörlere karşı nihai silahtır. Seri atışlı topları ve gelişmiş teknolojisiyle evrendeki güç dengesini değiştirir."
+  "230": "Hızlı. Hassas. Dokunulmaz. Önleyici adil savaşlar için yapılmadı – hızlı ve sert vurmak, göz açıp kapayıncaya kadar ezici bir üstünlük sağlamak için tasarlandı."
+  "232": "Daha hızlı, daha patlayıcı, her zaman güzel bir sürpriz. Boşluk Titanı, ayların korkulu rüyasıdır."
 shortNames:
   '202': Kucuk Nakliye
   '203': Buyuk Nakliye
@@ -854,6 +861,10 @@ shortNames:
   '412': Bunker
   '413': Titan Lazer
   '414': Yem
+  "229": "Engerek"
+  "230": "Önleyici"
+  "231": "Behemot"
+  "232": "Boşluk Titanı"
 spytechStatsDescription: >-
   Seviye 0 ve 1'de sadece diğer oyuncuların toplam puanları görünür. Seviye
   2'den itibaren diğer oyuncuların bina puanları da görülebilir. Seviye 4'ten
@@ -954,3 +965,7 @@ tech:
   '902': Kristal
   '903': Deuterium
   '911': Enerji
+  "229": "Engerek"
+  "230": "Önleyici"
+  "231": "Behemot"
+  "232": "Boşluk Titanı"

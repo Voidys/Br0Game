@@ -28,7 +28,6 @@
   <link rel="stylesheet" href="styles/resource/css/app/base.css?v={{ asset_version }}">
   <link rel="stylesheet" href="styles/resource/css/login/login.css?v={{ asset_version }}">
   <link rel="stylesheet" href="styles/resource/css/app/rte.css?v={{ asset_version }}">
-  <script>window.__pageInit = []; window.onPageInit = function (fn) { window.__pageInit.push(fn); };</script>
   <script type="module" src="scripts/app/main.js?v={{ asset_version }}"></script>
   <script type="module" src="scripts/login/main.js?v={{ asset_version }}"></script>
   {% block script %}{% endblock %}
@@ -88,13 +87,11 @@
       </div>
     </footer>
   {% endif %}
-  <script>
-    var LoginConfig = {
-      'isMultiUniverse': {{ isMultiUniverse|json_encode|raw }},
-      'unisWildcast': {{ unisWildcast|json_encode|raw }},
-      'referralEnable': {{ referralEnable|json_encode|raw }},
-      'basePath': {{ basepath|json_encode|raw }}
-    };
-  </script>
+  <script type="application/json" id="login-config">{{ {
+    isMultiUniverse: isMultiUniverse,
+    unisWildcast: unisWildcast,
+    referralEnable: referralEnable,
+    basePath: basepath,
+  }|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
 </body>
 </html>

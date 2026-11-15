@@ -1,5 +1,16 @@
-import { qsa, on, getJSON, post, serialize, pretty_number, dezInt, pad, getFormatedDate, setVisibleInterval, NotifyBox, now, show, hide, fadeOut } from '../app/core.js';
+import { qsa, on, getJSON, post, serialize, pretty_number, dezInt, pad, getFormatedDate, setVisibleInterval, NotifyBox, now, show, hide, pageData } from '../app/core.js';
 import { Dialog } from '../app/dialog.js';
+import { registerActions } from '../app/actions.js';
+
+/**
+ * Fleet dispatch, steps 1 and 2 (target and speed, then mission and cargo) and the ship selection of the
+ * fleet table. The server's numbers arrive in the data island #fleet-data (templates page.fleetStep1/
+ * fleetStep2): {step, data (fleet), honorboost, config, token, questionList, tradeMarket, targetMission}.
+ * The controls are data-action / data-on-* markup (see app/actions.js). Changing ship amounts is announced
+ * with the document event "fleet:amounts" (the fleet table shows the sums).
+ */
+const fleetPage = pageData('fleet-data');
+const { data, honorboost, config, token, questionList = {}, tradeMarket } = fleetPage;
 
 let acstime = 0;
 let dataFlyDistance = 0;
@@ -36,20 +47,20 @@ function updateVars($reset_acs = true)
  * @returns int
  */
 function GetDistance() {
-	var thisGalaxy = Number(data.planet.galaxy);
-	var thisSystem = Number(data.planet.system);
-	var thisPlanet = Number(data.planet.planet);
-	var targetGalaxy = Number(document.getElementsByName("galaxy")[0].value);
-	var targetSystem = Number(document.getElementsByName("system")[0].value);
-	var targetPlanet = Number(document.getElementsByName("planet")[0].value);
+	let thisGalaxy = Number(data.planet.galaxy);
+	let thisSystem = Number(data.planet.system);
+	let thisPlanet = Number(data.planet.planet);
+	let targetGalaxy = Number(document.getElementsByName("galaxy")[0].value);
+	let targetSystem = Number(document.getElementsByName("system")[0].value);
+	let targetPlanet = Number(document.getElementsByName("planet")[0].value);
 
 	if (thisGalaxy != targetGalaxy) {
 		if (config.uni_type == 2) {
 			return config.galaxy_distance_factor;
 		}
 		else if (config.uni_type == 1) {
-			var max = Number(config.max_galaxy);
-			var dist = 0;
+			let max = Number(config.max_galaxy);
+			let dist = 0;
 
 			if (Math.abs(thisGalaxy - targetGalaxy) < Math.ceil(max / 2)) {
 				dist = Math.abs(thisGalaxy - targetGalaxy);
@@ -67,8 +78,8 @@ function GetDistance() {
 			return config.system_distance_factor + config.system_distance;
 		}
         else if (config.galaxy_type == 1) {
-			var max = Number(config.max_system);
-			var dist = 0;
+			let max = Number(config.max_system);
+			let dist = 0;
 
 			if (Math.abs(thisSystem - targetSystem) < Math.ceil(max / 2)) {
 				dist = Math.abs(thisSystem - targetSystem);
@@ -92,8 +103,8 @@ function GetDistance() {
  * Keep in sync with FleetFunctions::getMissionDuration().
  */
 function GetRawDuration() {
-	var sp = Number(document.getElementsByName("speed")[0].value);
-	var duration = ((3500 / (sp * 0.1) * Math.pow(dataFlyDistance * 10 / data.maxspeed, 0.5) + 10) / data.gamespeed) * data.fleetspeedfactor;
+	let sp = Number(document.getElementsByName("speed")[0].value);
+	let duration = ((3500 / (sp * 0.1) * Math.pow(dataFlyDistance * 10 / data.maxspeed, 0.5) + 10) / data.gamespeed) * data.fleetspeedfactor;
 	return Math.max(duration, data.fleetMinDuration);
 }
 
@@ -107,10 +118,10 @@ function GetDuration() {
 }
 
 function GetConsumption() {
-	var dataFlyConsumption = 0;
-	var dataFlyConsumption2 = 0;
-	var basicConsumption = 0;
-	var i;
+	let dataFlyConsumption = 0;
+	let dataFlyConsumption2 = 0;
+	let basicConsumption = 0;
+	let i;
 	Object.values(data.ships).forEach(function(ship){
 		const spd = 35000 / Math.max(dataFlyTimeRaw * data.gamespeed - 10, 1) * Math.sqrt(dataFlyDistance * 10 / ship.speed);
 		basicConsumption = ship.consumption * ship.amount;
@@ -124,10 +135,10 @@ function storage() {
 }
 
 function refreshFormData() {
-	var seconds = dataFlyTime;
-	var hours = Math.floor(seconds / 3600);
+	let seconds = dataFlyTime;
+	let hours = Math.floor(seconds / 3600);
 	seconds -= hours * 3600;
-	var minutes = Math.floor(seconds / 60);
+	let minutes = Math.floor(seconds / 60);
 	seconds -= minutes * 60;
 	document.getElementById("duration").textContent = hours + (":" + dezInt(minutes, 2) + ":" + dezInt(seconds,2) + " h");
 	document.getElementById("distance").textContent = pretty_number(dataFlyDistance);
@@ -151,8 +162,8 @@ function setTarget(galaxy, solarsystem, planet, type) {
 }
 
 function FleetTime(){
-	var starttime = dataFlyTime;
-	var endtime	= starttime + dataFlyTime;
+	let starttime = dataFlyTime;
+	let endtime	= starttime + dataFlyTime;
 	document.getElementById("arrival").innerHTML = getFormatedDate(now().getTime()+1000*starttime, tdformat);
 	document.getElementById("return").innerHTML = getFormatedDate(now().getTime()+1000*endtime, tdformat);
 }
@@ -164,8 +175,8 @@ function setResource(id, val) {
 }
 
 function maxResource(id) {
-	var thisresource = getRessource(id);
-	var thisresourcechosen = parseInt(document.getElementsByName(id)[0].value);
+	let thisresource = getRessource(id);
+	let thisresourcechosen = parseInt(document.getElementsByName(id)[0].value);
 	if (isNaN(thisresourcechosen)) {
 		thisresourcechosen = 0;
 	}
@@ -173,14 +184,14 @@ function maxResource(id) {
 		thisresource = 0;
 	}
 
-	var storCap = data.fleetroom - data.consumption;
+	let storCap = data.fleetroom - data.consumption;
 
 	if (id == 'deuterium') {
 		thisresource -= data.consumption;
 	}
-	var metalToTransport = parseInt(document.getElementsByName("metal")[0].value);
-	var crystalToTransport = parseInt(document.getElementsByName("crystal")[0].value);
-	var deuteriumToTransport = parseInt(document.getElementsByName("deuterium")[0].value);
+	let metalToTransport = parseInt(document.getElementsByName("metal")[0].value);
+	let crystalToTransport = parseInt(document.getElementsByName("crystal")[0].value);
+	let deuteriumToTransport = parseInt(document.getElementsByName("deuterium")[0].value);
 	if (isNaN(metalToTransport)) {
 		metalToTransport = 0;
 	}
@@ -190,7 +201,7 @@ function maxResource(id) {
 	if (isNaN(deuteriumToTransport)) {
 		deuteriumToTransport = 0;
 	}
-	var freeCapacity = Math.max(storCap - metalToTransport - crystalToTransport - deuteriumToTransport, 0);
+	let freeCapacity = Math.max(storCap - metalToTransport - crystalToTransport - deuteriumToTransport, 0);
 	document.getElementsByName(id)[0].value = Math.min(freeCapacity + thisresourcechosen, thisresource);
 	calculateTransportCapacity();
 }
@@ -226,9 +237,9 @@ function selectedResources() {
 }
 
 function calculateTransportCapacity() {
-	var metal = Math.abs(document.getElementsByName("metal")[0].value);
-	var crystal = Math.abs(document.getElementsByName("crystal")[0].value);
-	var deuterium = Math.abs(document.getElementsByName("deuterium")[0].value);
+	let metal = Math.abs(document.getElementsByName("metal")[0].value);
+	let crystal = Math.abs(document.getElementsByName("crystal")[0].value);
+	let deuterium = Math.abs(document.getElementsByName("deuterium")[0].value);
 	transportCapacity = data.fleetroom - data.consumption - metal - crystal - deuterium;
 	if (transportCapacity < 0) {
 		document.getElementById("remainingresources").innerHTML = "<font color=red>" + pretty_number(transportCapacity) + "</font>";
@@ -240,7 +251,7 @@ function calculateTransportCapacity() {
 }
 
 function parseTradeAmount(value) {
-	var amount = parseInt(value, 10);
+	let amount = parseInt(value, 10);
 	return isFinite(amount) && amount > 0 ? amount : 0;
 }
 
@@ -255,14 +266,14 @@ function tradeReferenceDecimals() {
 }
 
 function convertTradeAmountToDeut(amount, resourceId, rates) {
-	var key = tradeResourceKey(resourceId);
+	let key = tradeResourceKey(resourceId);
 	if (!key || amount <= 0 || !rates) {
 		return 0;
 	}
 	if (key === 'deuterium') {
 		return Math.ceil(amount);
 	}
-	var rate = parseFloat(rates[key]);
+	let rate = parseFloat(rates[key]);
 	if (!isFinite(rate) || rate <= 0) {
 		return 0;
 	}
@@ -270,7 +281,7 @@ function convertTradeAmountToDeut(amount, resourceId, rates) {
 }
 
 function setTradeRatioDisplay(ratio) {
-	var ratioEl = document.getElementById('tradeRelativeRatio');
+	let ratioEl = document.getElementById('tradeRelativeRatio');
 	if (!ratioEl) {
 		return;
 	}
@@ -284,9 +295,9 @@ function setTradeRatioDisplay(ratio) {
 }
 
 function getLoadedTradeResources() {
-	var metalEl = document.getElementsByName('metal')[0];
-	var crystalEl = document.getElementsByName('crystal')[0];
-	var deuteriumEl = document.getElementsByName('deuterium')[0];
+	let metalEl = document.getElementsByName('metal')[0];
+	let crystalEl = document.getElementsByName('crystal')[0];
+	let deuteriumEl = document.getElementsByName('deuterium')[0];
 	return [
 		{id: 1, amount: parseTradeAmount(metalEl && metalEl.value)},
 		{id: 2, amount: parseTradeAmount(crystalEl && crystalEl.value)},
@@ -301,7 +312,7 @@ function getTradeElement(name) {
 }
 
 function getTradeResourceId(name) {
-	var el = getTradeElement(name);
+	let el = getTradeElement(name);
 	return el ? parseInt(el.value, 10) : 0;
 }
 
@@ -317,16 +328,16 @@ function setTradeOptionsDisabled(selectEl, disabledId) {
 	if (!selectEl) {
 		return;
 	}
-	var i;
+	let i;
 	for (i = 0; i < selectEl.options.length; i++) {
 		selectEl.options[i].disabled = parseInt(selectEl.options[i].value, 10) === disabledId;
 	}
 }
 
 function setTradeCargo(metal, crystal, deuterium) {
-	var metalEl = getTradeElement('metal');
-	var crystalEl = getTradeElement('crystal');
-	var deuteriumEl = getTradeElement('deuterium');
+	let metalEl = getTradeElement('metal');
+	let crystalEl = getTradeElement('crystal');
+	let deuteriumEl = getTradeElement('deuterium');
 	if (metalEl) {
 		metalEl.value = metal;
 	}
@@ -339,8 +350,8 @@ function setTradeCargo(metal, crystal, deuterium) {
 }
 
 function ensureTradePairExclusive() {
-	var offerEl = getTradeElement('resOffer');
-	var askEl = getTradeElement('resEx');
+	let offerEl = getTradeElement('resOffer');
+	let askEl = getTradeElement('resEx');
 	if (!offerEl || !askEl) {
 		return;
 	}
@@ -349,7 +360,7 @@ function ensureTradePairExclusive() {
 		setTradeOptionsDisabled(askEl, 0);
 		return;
 	}
-	var offerId = parseInt(offerEl.value, 10);
+	let offerId = parseInt(offerEl.value, 10);
 	if (offerId === parseInt(askEl.value, 10)) {
 		askEl.value = String(otherTradeResource(offerId));
 	}
@@ -361,19 +372,19 @@ function syncTradeOfferToCargo() {
 		setTradeCargo(0, 0, 0);
 		return;
 	}
-	var amountEl = document.getElementById('tradeOfferAmount');
+	let amountEl = document.getElementById('tradeOfferAmount');
 	if (!amountEl) {
 		return;
 	}
-	var offerId = getTradeResourceId('resOffer');
-	var amount = parseTradeAmount(amountEl.value);
+	let offerId = getTradeResourceId('resOffer');
+	let amount = parseTradeAmount(amountEl.value);
 	setTradeCargo(offerId === 1 ? amount : 0, offerId === 2 ? amount : 0, offerId === 3 ? amount : 0);
 }
 
 function applyTradeMarketType() {
-	var isFleet = isFleetMarket();
-	var offerRow = document.getElementById('tradeOfferRow');
-	var selectedResRow = document.getElementById('selectedResRow');
+	let isFleet = isFleetMarket();
+	let offerRow = document.getElementById('tradeOfferRow');
+	let selectedResRow = document.getElementById('selectedResRow');
 	if (offerRow) {
 		offerRow.style.display = isFleet ? 'none' : '';
 	}
@@ -381,7 +392,7 @@ function applyTradeMarketType() {
 		selectedResRow.style.display = isFleet ? 'none' : '';
 	}
 	if (isFleet) {
-		var amountEl = document.getElementById('tradeOfferAmount');
+		let amountEl = document.getElementById('tradeOfferAmount');
 		if (amountEl) {
 			amountEl.value = '';
 		}
@@ -395,7 +406,7 @@ function maxTradeOffer() {
 	if (isFleetMarket()) {
 		return;
 	}
-	var key = tradeResourceKey(getTradeResourceId('resOffer'));
+	let key = tradeResourceKey(getTradeResourceId('resOffer'));
 	if (!key || !getTradeElement(key)) {
 		return;
 	}
@@ -405,7 +416,7 @@ function maxTradeOffer() {
 		}
 	});
 	maxResource(key);
-	var amountEl = document.getElementById('tradeOfferAmount');
+	let amountEl = document.getElementById('tradeOfferAmount');
 	if (amountEl) {
 		amountEl.value = getTradeElement(key).value;
 	}
@@ -431,8 +442,8 @@ function applySelectedResourcesToTrade() {
 		calculateTransportCapacity();
 		return;
 	}
-	var amountEl = document.getElementById('tradeOfferAmount');
-	var loaded = getLoadedTradeResources();
+	let amountEl = document.getElementById('tradeOfferAmount');
+	let loaded = getLoadedTradeResources();
 	if (!amountEl || loaded.length === 0) {
 		if (amountEl) {
 			amountEl.value = '';
@@ -452,33 +463,33 @@ function updateTradeRatio() {
 	if (typeof tradeMarket === 'undefined' || !tradeMarket) {
 		return;
 	}
-	var markettypeEl = document.getElementsByName('markettype')[0];
-	var resExEl = document.getElementsByName('resEx')[0];
-	var exchangeEl = document.getElementsByName('exchange')[0];
+	let markettypeEl = document.getElementsByName('markettype')[0];
+	let resExEl = document.getElementsByName('resEx')[0];
+	let exchangeEl = document.getElementsByName('exchange')[0];
 	if (!markettypeEl || !resExEl || !exchangeEl) {
 		return;
 	}
 
-	var markettype = parseInt(markettypeEl.value, 10) || 0;
-	var askId = parseInt(resExEl.value, 10);
-	var askAmount = parseTradeAmount(exchangeEl.value);
-	var rates = tradeMarket.rates;
+	let markettype = parseInt(markettypeEl.value, 10) || 0;
+	let askId = parseInt(resExEl.value, 10);
+	let askAmount = parseTradeAmount(exchangeEl.value);
+	let rates = tradeMarket.rates;
 
 	if (markettype === 1) {
-		var fleetAskDeut = convertTradeAmountToDeut(askAmount, askId, rates);
+		let fleetAskDeut = convertTradeAmountToDeut(askAmount, askId, rates);
 		setTradeRatioDisplay(fleetAskDeut > 0 ? tradeMarket.fleetDeut / fleetAskDeut : 0);
 		return;
 	}
 
-	var loaded = getLoadedTradeResources();
+	let loaded = getLoadedTradeResources();
 	if (loaded.length !== 1 || loaded[0].id === askId) {
 		setTradeRatioDisplay(0);
 		return;
 	}
 
-	var offer = loaded[0];
-	var offerDeut = convertTradeAmountToDeut(offer.amount, offer.id, rates);
-	var askDeut = convertTradeAmountToDeut(askAmount, askId, rates);
+	let offer = loaded[0];
+	let offerDeut = convertTradeAmountToDeut(offer.amount, offer.id, rates);
+	let askDeut = convertTradeAmountToDeut(askAmount, askId, rates);
 	setTradeRatioDisplay(askDeut > 0 ? offerDeut / askDeut : 0);
 }
 
@@ -509,22 +520,27 @@ function initTradeMarket() {
 	applyTradeMarketType();
 }
 
-function maxShip(id) {
-	var input = document.getElementsByName(id)[0];
-	var cell = document.getElementById(id + "_value");
-	if (input && cell) {
-		var raw = cell.getAttribute("data-count");
-		input.value = (raw !== null && raw !== "") ? raw : cell.textContent.replace(/\D/g, "");
-	}
-  show_values();
+/** tells the page that the ship amounts changed (fleetTable.js recomputes its sums) */
+function amountsChanged() {
+	document.dispatchEvent(new Event('fleet:amounts'));
 }
 
-function maxShips() {
-	var id;
+function maxShip(id) {
+	let input = document.getElementsByName(id)[0];
+	let cell = document.getElementById(id + "_value");
+	if (input && cell) {
+		let raw = cell.getAttribute("data-count");
+		input.value = (raw !== null && raw !== "") ? raw : cell.textContent.replace(/\D/g, "");
+	}
+  amountsChanged();
+}
+
+export function maxShips() {
+	let id;
 	qsa('input[name^="ship"]').forEach(function(input) {
 		maxShip(input.name);
 	});
-  show_values();
+  amountsChanged();
 }
 
 
@@ -532,16 +548,16 @@ function noShip(id) {
 	if (document.getElementsByName(id)[0]) {
 		document.getElementsByName(id)[0].value = 0;
 	}
-  show_values();
+  amountsChanged();
 }
 
 
-function noShips() {
-	var id;
+export function noShips() {
+	let id;
 	qsa('input[name^="ship"]').forEach(function(input) {
 		noShip(input.name);
 	});
-  show_values();
+  amountsChanged();
 }
 
 function setNumber(name, number) {
@@ -647,7 +663,7 @@ function EditShortcuts(autoadd) {
 }
 
 function AddShortcuts() {
-	var HTML	= Array.from(document.querySelector('.shortcut-new td').cloneNode(true).children);
+	let HTML	= Array.from(document.querySelector('.shortcut-new td').cloneNode(true).children);
 	const count = document.querySelectorAll('.shortcut-link').length;
 	HTML.forEach(function (child) {
 		child.querySelectorAll('input, select').forEach(function (field) {
@@ -672,8 +688,8 @@ function SaveShortcuts(reedit) {
 }
 
 function checkHold(mission) {
-	var stayHead = document.getElementById("stay_head");
-	var stay = document.getElementById("stay");
+	let stayHead = document.getElementById("stay_head");
+	let stay = document.getElementById("stay");
 	if ([5,15,16,17,-1].includes(mission)) {
 		if (stayHead) {
 			stayHead.style.display = 'initial';
@@ -693,7 +709,7 @@ function checkHold(mission) {
 
 function sendFleet() {
 	let mission = document.querySelector('input[name="mission"]:checked').value;
-	let message = window.questionList[parseInt(mission)] || null;
+	let message = questionList[parseInt(mission)] || null;
 	showWait();
 	if (message) {
 		if (!confirm(message)) {
@@ -750,10 +766,47 @@ if(document.getElementById("arr_time")){
 });
 
 
-// called from inline handlers / links of the fleet templates and from fleetTable.js
-Object.assign(window, {
-	updateVars, setTarget, setACSTarget, setResource, maxResource, maxResources, selectedResources,
-	calculateTransportCapacity, maxTradeOffer, maxShip, maxShips, noShip, noShips, setNumber, setCargoPreset,
-	CheckTarget, CheckResources, EditShortcuts, AddShortcuts, SaveShortcuts, checkHold, sendFleet, FleetTime,
-	initTradeMarket, addBeforeUnload, removeBeforeUnload,
+const coords = (link) => [link.dataset.galaxy, link.dataset.system, link.dataset.planet, link.dataset.type];
+
+registerActions({
+	'set-target': (link) => { setTarget(...coords(link)); updateVars(); },
+	'set-acs-target': (link) => setACSTarget(...coords(link), link.dataset.acs),
+	'update-vars': () => updateVars(),
+	'update-vars-speed': () => updateVars(false),
+	'check-target': () => CheckTarget(),
+	'edit-shortcuts': () => EditShortcuts(),
+	'save-shortcuts': () => SaveShortcuts(),
+	'add-shortcut': () => AddShortcuts(),
+	'check-resources': () => CheckResources(),
+	'check-hold': (radio) => checkHold(Number(radio.dataset.mission)),
+	'calc-capacity': () => { calculateTransportCapacity(); },
+	'max-trade-offer': () => maxTradeOffer(),
+	'max-resource': (link) => maxResource(link.dataset.resource),
+	'max-resources': () => maxResources(),
+	'selected-resources': () => selectedResources(),
+	'send-fleet': () => sendFleet(),
+	'max-ship': (link) => maxShip(link.dataset.ship),
+	'no-ship': (link) => noShip(link.dataset.ship),
+	'max-ships': () => maxShips(),
+	'no-ships': () => noShips(),
+	'cargo-preset': (span) => {
+		const d = span.dataset;
+		const n = (key) => Number(d[key]);
+		setCargoPreset(n('type'), n('galaxy'), n('system'), n('planet'), n('planetType'), n('metal'), n('crystal'), n('deuterium'), n('total'),
+			n('ship202'), n('ship203'), n('needed202'), n('needed203'), n('capacity202'), n('capacity203'));
+	},
+});
+
+onPageInit(() => {
+	if (fleetPage.step === 1) {
+		addBeforeUnload();
+		updateVars();
+		FleetTime();
+		setVisibleInterval(FleetTime, 1000);
+	} else if (fleetPage.step === 2) {
+		addBeforeUnload();
+		calculateTransportCapacity();
+		checkHold(Number(fleetPage.targetMission));
+		initTradeMarket();
+	}
 });

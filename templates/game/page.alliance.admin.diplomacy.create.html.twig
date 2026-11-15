@@ -21,33 +21,18 @@
 	<tr>
 		<td>{{ LNG.al_diplo_text }}<br>(<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
 		<td>
-			<textarea name="text" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;" maxlength="5000"></textarea>
+			<textarea name="text" rows="10" data-on-keyup="char-count" data-target="cntChars" maxlength="5000"></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th class="form-actions" colspan="2">
 		<input type="reset" value="{{ LNG.al_circular_reset }}">
-		<input type="button" onclick="return check();" value="{{ LNG.al_circular_send_submit }}">
+		<input type="button" data-action="alliance-message-send" data-url="game?page=alliance&amp;mode=admin&amp;action=diplomacyCreateProcessor&amp;ajax=1" data-after="reload" data-empty="{{ LNG.mg_empty_text|e('html_attr') }}" value="{{ LNG.al_circular_send_submit }}">
 		</th>
 	</tr>
 	</table>
 </form>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="module">
-import { post, serialize } from './scripts/app/core.js';
-
-async function check() {
-	if (document.message.text.value == '') {
-		window.Dialog.alert('{{ LNG.mg_empty_text }}');
-		return false;
-	}
-	const data = await post('game?page=alliance&mode=admin&action=diplomacyCreateProcessor&ajax=1', serialize(document.getElementById('message')), 'json');
-	window.Dialog.alert(data.message, () => {
-		if (!data.error) location.reload();
-	});
-	return true;
-}
-window.check = check;
-</script>
+<script type="module" src="./scripts/game/alliance.js?v={{ asset_version }}"></script>
 {% endblock %}

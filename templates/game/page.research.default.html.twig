@@ -7,7 +7,7 @@
 	{% if IsLabinBuild %}<div class="hidden-div">{{ LNG.bd_building_lab }}</div>{% endif %}
 	<div>
 		<div class="planeto">
-			<span class="segmented" role="group"><button id="lab1">{{ LNG.fm_imperial }}</button><button id="lab2">{{ LNG.fm_military }}</button><button id="lab3">{{ LNG.fm_engines }}</button><button id="lab4">{{ LNG.fm_mining }}</button><button id="lab5" class="selected">{{ LNG.fm_all }}</button></span>
+			<span class="segmented" role="group"><button id="lab1" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t108, #t113, #t114, #t123, #t124">{{ LNG.fm_imperial }}</button><button id="lab2" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t109, #t106, #t110, #t111, #t120, #t121, #t122, #t199">{{ LNG.fm_military }}</button><button id="lab3" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t114, #t115, #t117, #t118">{{ LNG.fm_engines }}</button><button id="lab4" data-action="filter-rows" data-filter-group="lab" data-hide=".infos" data-show="#t131, #t132, #t133">{{ LNG.fm_mining }}</button><button id="lab5" class="selected" data-action="filter-rows" data-filter-group="lab" data-hide=".infos">{{ LNG.fm_all }}</button></span>
 			{% if isCatchUp %}
 				<br>{{ catchUp }} %
 			{% endif %}
@@ -17,7 +17,7 @@
 			{% if hide_useless == 0 or Element['max_useful_level'] == 0 or Element['level'] < Element['max_useful_level'] %}
 				<div class="infos {% if Element.fade %}unavailable{% endif %}" id="t{{ ID }}">
 					<div class="buildn relative">
-						<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
+						<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
 						{% if ID == watch %}
 							<a href="?page=research&watch=0">
 								<img class="watchlist-fav-button" src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
@@ -29,13 +29,13 @@
 						{% endif %}
 					</div>
 					<div class="buildl">
-						<a href="#" onclick="return Dialog.info({{ ID }})">
+						<a href="#" data-action="dialog-info" data-id="{{ ID }}">
 							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" width="120" height="120">
 						</a>
 						{% if not empty(Element.requirements) %}
 							{{ LNG.tt_requirements }}: </br>
 							{% for requireID, NeedLevel in (Element.requirements)|php_iter %}
-								<a href="#" onclick="return Dialog.info({{ requireID }})">
+								<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
 								<span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
 									{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
 								</span>
@@ -44,7 +44,7 @@
 						{% else %}
 							{{ LNG.bd_remaining }}:<br>
 							{% for ResType, ResCount in (Element.costOverflow)|php_iter %}
-								<a href='#' onclick='return Dialog.info({{ ResType }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ ResType ~ '.' ~ ((ResType >=600 and ResType <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+								<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ ResType ~ '.' ~ ((ResType >=600 and ResType <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
 							{% endfor %}
 							{% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
 						{% endif %}
@@ -53,7 +53,7 @@
 					<div class="buildl">
 						<span>
 							{% for RessID, RessAmount in (Element.costResources)|php_iter %}
-								<a href='#' onclick='return Dialog.info({{ RessID }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+								<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
 							{% endfor %}
 							
 							{% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
@@ -93,28 +93,4 @@
 	{% if not empty(Queue) %}
 		<script type="module" src="./scripts/game/research.js"></script>
 	{% endif %}
-	<script>
-		onPageInit(function() {
-			var labs = {
-				lab1: ['#t108', '#t113', '#t114', '#t123', '#t124'],
-				lab2: ['#t109', '#t106', '#t110', '#t111', '#t120', '#t121', '#t122', '#t199'],
-				lab3: ['#t114', '#t115', '#t117', '#t118'],
-				lab4: ['#t131', '#t132', '#t133'],
-				lab5: null
-			};
-			Object.keys(labs).forEach(function(id) {
-				document.getElementById(id)?.addEventListener('click', function() {
-					document.querySelectorAll('.infos').forEach(function(el) {
-						el.style.display = labs[id] ? 'none' : '';
-					});
-					if (labs[id]) {
-						document.querySelectorAll(labs[id].join(', ')).forEach(function(el) { el.style.display = ''; });
-					}
-					Object.keys(labs).forEach(function(other) {
-						document.getElementById(other)?.classList.toggle('selected', other === id);
-					});
-				});
-			});
-		});
-	</script>
 {% endblock %}

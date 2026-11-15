@@ -45,7 +45,7 @@
 	{% if rights.ROUNDMAIL %}
 	<tr>
 		<td colspan="2">{{ LNG.al_circular_message }}</td>
-		<td><a href="game?page=alliance&mode=circular" onclick="return Dialog.open(this.href, 650, 300);">{{ LNG.al_send_circular_message }}</a></td>
+		<td><a href="game?page=alliance&mode=circular" data-dialog="" data-dialog-width="650">{{ LNG.al_send_circular_message }}</a></td>
 	</tr>
 	{% endif %}
 	<tr>
@@ -70,7 +70,7 @@
 		<td colspan="3">
 		{% if diplomats %}
 			<b><u>{{ LNG.al_rank_diplo }}</u></b><br><br>
-			{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" onclick="return Dialog.PM({{ diplomat.id }})"><img class="inline" src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
+			{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" data-action="dialog-pm" data-id="{{ diplomat.id }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
 			<br>
 		{% endif %}
 		{% if DiploInfo and (not empty(DiploInfo[0]) or not empty(DiploInfo[1]) or not empty(DiploInfo[2]) or not empty(DiploInfo[3]) or not empty(DiploInfo[4])) %}
@@ -126,7 +126,7 @@
 		<th>{{ LNG.al_leave_alliance }}</th>
 	</tr>
 	<tr>
-		<td><a href="game?page=alliance&amp;mode=close" onclick="return confirm('{{ LNG.al_leave_ally }}');"><button>{{ LNG.al_continue }}</button></a></td>
+		<td><a data-method="post" href="game?page=alliance&amp;mode=close" data-confirm="{{ LNG.al_leave_ally|e('html_attr') }}"><button>{{ LNG.al_continue }}</button></a></td>
 	</tr>
 </table>
 {% endif %}

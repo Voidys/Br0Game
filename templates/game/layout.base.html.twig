@@ -42,30 +42,27 @@
     .colorNeutral { color: var(--signal-neutral-local, var(--signal-neutral, {{ sigNeu|default('#f0b429') }})); }
   </style>
 
-  <script>
-    var ServerTimezoneOffset = {{ Offset|default(0) }};
-    var serverTimeDelta = new Date({{ date[0] }}, {{ date[1] - 1 }}, {{ date[2] }}, {{ date[3] }}, {{ date[4] }}, {{ date[5] }}).getTime() - Date.now();
-    Object.defineProperty(window, 'serverTime', { get: function () { return new Date(Date.now() + serverTimeDelta); } });
-    var startTime = serverTime.getTime();
-    var Gamename = document.title;
-    var Ready = "{{ LNG.ready }}";
-    var Skin = "{{ dpath }}";
-    var Lang = "{{ lang }}";
-    var head_info = "{{ LNG.fcm_info }}";
-    var auth = {{ authlevel|default('0') }};
-    var days = {{ LNG.week_day|json_encode|default('[]')|raw }};
-    var months = {{ LNG.months|json_encode|default('[]')|raw }};
-    var localtimezonestring = "{{ TIMEZONESTRING }}";
-    var tdformat = "{{ LNG.js_tdformat }}";
-    var queryString = "{{ queryString|e('js') }}";
-    var isPlayerCardActive = {{ isPlayerCardActive|json_encode|raw }};
-    var decimalSeparator = {{ decimalSeparator|json_encode|raw }};
-    var userLang = {{ lang|json_encode|raw }};
-    var numberSuffixes = {{ numberSuffixes|json_encode|raw }};
-    {# page init queue until the modules are loaded (see scripts/app/main.js) #}
-    window.__pageInit = [];
-    window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-  </script>
+  {# server clock, language strings and flags for scripts/app/env.js (JSON, not executed: no inline script) #}
+  {{ data_island('game-env', {
+    offset: Offset|default(0),
+    date: date,
+    ready: LNG.ready,
+    skin: dpath,
+    lang: lang,
+    headInfo: LNG.fcm_info,
+    auth: authlevel|default(0),
+    days: LNG.week_day|default([]),
+    months: LNG.months|default([]),
+    timezone: TIMEZONESTRING,
+    tdformat: LNG.js_tdformat,
+    queryString: queryString,
+    isPlayerCardActive: isPlayerCardActive,
+    decimalSeparator: decimalSeparator,
+    numberSuffixes: numberSuffixes,
+    viewShortlyNumber: shortlyNumber,
+    vacation: vmode,
+    debug: debug == 1
+  }) }}
 
   <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
   {# page scripts are ES modules; vendor libraries (../base/...) stay classic, deferred keeps the order #}
@@ -78,39 +75,13 @@
   {% endfor %}
 
   {% if captchakey != "" %}
-    <script>
-      {# reCAPTCHA loads on the first form submit, so idle pages don't pay for it #}
-      document.addEventListener('submit', function (event) {
-        var form = event.target;
-        if (form.dataset.captchaDone) return;
-        event.preventDefault();
-        var key = "{{ captchakey }}";
-        var load = window.__recaptcha || (window.__recaptcha = new Promise(function (resolve, reject) {
-          var s = document.createElement('script');
-          s.src = 'https://www.google.com/recaptcha/api.js?render=' + key;
-          s.onload = function () { grecaptcha.ready(resolve); };
-          s.onerror = reject;
-          document.head.appendChild(s);
-        }));
-        load.then(function () { return grecaptcha.execute(key); }).then(function (token) {
-          var input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = 'rcaptcha';
-          input.value = token;
-          form.prepend(input);
-          form.dataset.captchaDone = '1';
-          form.submit();
-        }).catch(function () { alert('Captcha could not be loaded. Please try again.'); });
-      });
-    </script>
+    {{ csp_allow('recaptcha') }}
+    {{ data_island('captcha-config', {key: captchakey}) }}
+    <script type="module" src="./scripts/app/recaptcha.js?v={{ asset_version }}"></script>
     <style>.grecaptcha-badge { visibility: hidden; }</style>
   {% endif %}
 
   {% block script %}{% endblock %}
-
-  {% if execscript %}
-    <script>onPageInit(function () { {{ execscript|raw }} });</script>
-  {% endif %}
 </head>
 
 <body id="{{ app.request.query.get('page')|default('overview') }}" class="{% block bodyclass %}{% endblock %}">

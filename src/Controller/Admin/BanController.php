@@ -51,7 +51,6 @@ class BanController extends AbstractAdminController
         if ($this->state->requestQuery['view'] == 'bana') {
             $WHEREBANA = "AND `bana` = '1'";
         }
-        $this->addScript('filterlist.js');
         switch ($this->state->requestQuery['mode']) {
             case 'user':
                 $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "username";

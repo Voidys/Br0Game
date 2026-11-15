@@ -1,17 +1,16 @@
 import { qsa, now, getRestTimeFormat, setVisibleInterval } from '../app/core.js';
 
+/**
+ * Phalanx scan (modal or page): counts the remaining flight time of every listed fleet down. One interval
+ * serves every load of the module's markup (the modal's content is new each time, the module runs once).
+ */
 function FleetTime() {
-	qsa('.fleets').forEach(function(el) {
-		var s		= Number(el.dataset.fleetTime) - (now().getTime() - window.startTime) / 1000;
-		if(s <= 0) {
-			el.textContent = '-';
-		} else {
-			el.textContent = getRestTimeFormat(s);
-		}
-	});
+  qsa('.fleets').forEach((el) => {
+    const s = Number(el.dataset.fleetTime) - (now().getTime() - window.startTime) / 1000;
+    el.textContent = s <= 0 ? '-' : getRestTimeFormat(s);
+  });
 }
 
-onPageInit(function() {
-	FleetTime();
-	setVisibleInterval(FleetTime, 1000);
-});
+setVisibleInterval(FleetTime, 1000);
+document.addEventListener('modal:load', FleetTime);
+FleetTime();

@@ -86,7 +86,6 @@ class AnalyticsController extends AbstractAdminController
             $Data['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $Data['onlinetime']);
         }
 
-        $this->addScript('filterlist.js');
         $this->assign([
             'UserSelect'      => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $userSelect),
             'usercount'       => $usercount,

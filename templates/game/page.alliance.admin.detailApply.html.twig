@@ -282,14 +282,8 @@
 	</tr>
 	<tr>
 
-		<td colspan="2" class="form-actions"><input hidden name="answer"> <button  value="yes" type="submit">{{ LNG.al_acept_request }}</button> <button  value="no"   type="submit">{{ LNG.al_decline_request }}</button></td>
+		<td colspan="2" class="form-actions"><input hidden name="answer"> <button  value="yes" type="submit" data-action="set-field" data-field="answer">{{ LNG.al_acept_request }}</button> <button  value="no"   type="submit" data-action="set-field" data-field="answer">{{ LNG.al_decline_request }}</button></td>
 	</tr>
 	</table>
-  <script>
-    function answer(){
-      document.getElementsByName("answer")[0].value=this.value
-    }
-    document.querySelector("button[value='yes']").onclick=answer;
-    document.querySelector("button[value='no']").onclick=answer;
-  </script>
+  <script type="module" src="./scripts/game/alliance.js?v={{ asset_version }}"></script>
 {% endblock %}

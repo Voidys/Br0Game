@@ -5,13 +5,24 @@
  *   [data-menu-filter]      filters the side navigation as you type; "/" focuses it, Enter opens the
  *                           first match, Esc clears it
  *   [data-admin-universe]   switches the emulated universe and reloads the current page with ?uni=
- *   [data-confirm]          asks before following a link / submitting a form (text = attribute value,
- *                           empty = the generic question)
+ *   [data-confirm]          question before a link / submit button acts (asked by app/actions.js; an empty
+ *                           value is replaced by the generic admin question)
  *   form[data-track-dirty]  marks the form while it has unsaved changes and warns before leaving
  *   [data-table-filter]     input that filters the rows of the table given by its value (a selector)
- *
- * toggleBlock(id) stays for inline handlers of older admin markup.
+ *   [data-open-edit]        opens the quick editor in the dialog (data-edit-type="player|planet", data-edit-id)
+ *   [data-autosubmit]       submits its form when the control changes
+ *   [data-set-checked]      button: sets every checkbox matching the selector to data-checked ("1"/"0")
+ *   [data-check-all]        checkbox: mirrors its state onto all other checkboxes of its form
+ *   [data-count-chars]      textarea: writes its length (or, with data-count-max, the characters left)
+ *                           into the element given by the selector value
+ *   [data-toggle-rows]      checkbox: shows/hides the elements matching the selector (class "hidden")
+ *   [data-reveal]           link: reveals (and focuses) the element given by the selector, hides itself
+ *   select[data-filter-select] and friends: see filterSelect.js
+ *   form[data-ajax-dialog]  background POST with the answer in the dialog: see ajaxForm.js
  */
+import { Dialog } from '../app/dialog.js';
+import { initFilterSelect } from './filterSelect.js';
+import { initAjaxForms } from './ajaxForm.js';
 
 const confirmText = () => window.confirmText || '';
 
@@ -78,19 +89,15 @@ function universeSwitch() {
   });
 }
 
+/**
+ * Confirmation questions are asked by ../app/actions.js (data-confirm on a link or button, text = the
+ * attribute); an empty attribute means the generic admin question, which is filled in just before the
+ * click reaches it. Put data-confirm on the submit button, not on the form.
+ */
 function confirmations() {
   document.addEventListener('click', (event) => {
-    const trigger = event.target instanceof Element ? event.target.closest('a[data-confirm], button[data-confirm], input[data-confirm]') : null;
-    if (trigger && !window.confirm(trigger.dataset.confirm || confirmText())) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  }, true);
-  document.addEventListener('submit', (event) => {
-    const form = event.target;
-    if (form instanceof HTMLFormElement && form.hasAttribute('data-confirm') && !window.confirm(form.dataset.confirm || confirmText())) {
-      event.preventDefault();
-    }
+    const trigger = event.target instanceof Element ? event.target.closest('[data-confirm=""]') : null;
+    if (trigger) trigger.dataset.confirm = confirmText();
   }, true);
 }
 
@@ -123,14 +130,58 @@ function tableFilters() {
   });
 }
 
-/** show/hide the element with the given id (older admin markup) */
-function toggleBlock(id) {
-  const element = document.getElementById(id);
-  if (element) element.style.display = getComputedStyle(element).display === 'none' ? '' : 'none';
-  return false;
+/** quick editor of a player or planet in the shared modal dialog */
+function openEdit() {
+  document.addEventListener('click', (event) => {
+    const button = event.target instanceof Element ? event.target.closest('[data-open-edit]') : null;
+    if (!button) return;
+    event.preventDefault();
+    Dialog.open(`admin?page=quickEditor&edit=${button.dataset.editType}&id=${button.dataset.editId}`, 880, 640);
+  });
 }
 
-Object.assign(window, { toggleBlock });
+/** small declarative behaviours of forms (see the list in the file header) */
+function formHelpers() {
+  document.addEventListener('change', (event) => {
+    const control = event.target;
+    if (!(control instanceof HTMLInputElement || control instanceof HTMLSelectElement)) return;
+    if (control.hasAttribute('data-autosubmit')) control.form.submit();
+    if (control instanceof HTMLInputElement && control.hasAttribute('data-check-all')) {
+      control.form.querySelectorAll('input[type=checkbox]').forEach((box) => { box.checked = control.checked; });
+    }
+    if (control instanceof HTMLInputElement && control.dataset.toggleRows) {
+      const rows = document.querySelectorAll(control.dataset.toggleRows);
+      if (rows.length) {
+        const hide = !rows[0].classList.contains('hidden');
+        rows.forEach((row) => row.classList.toggle('hidden', hide));
+      }
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const setter = target?.closest('[data-set-checked]');
+    if (setter) {
+      document.querySelectorAll(setter.dataset.setChecked).forEach((box) => { box.checked = setter.dataset.checked === '1'; });
+    }
+    const reveal = target?.closest('[data-reveal]');
+    if (reveal) {
+      event.preventDefault();
+      const field = document.querySelector(reveal.dataset.reveal);
+      if (field) {
+        field.hidden = false;
+        field.focus();
+      }
+      reveal.hidden = true;
+    }
+  });
+
+  document.querySelectorAll('textarea[data-count-chars]').forEach((area) => {
+    const out = document.querySelector(area.dataset.countChars);
+    const max = Number(area.dataset.countMax ?? 0);
+    area.addEventListener('input', () => { if (out) out.textContent = max ? max - area.value.length : area.value.length; });
+  });
+}
 
 const init = () => {
   menuFilter();
@@ -138,6 +189,10 @@ const init = () => {
   confirmations();
   dirtyForms();
   tableFilters();
+  openEdit();
+  formHelpers();
+  initFilterSelect();
+  initAjaxForms();
 };
 
 if (document.readyState === 'loading') {

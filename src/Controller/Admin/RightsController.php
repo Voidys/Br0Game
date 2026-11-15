@@ -39,7 +39,6 @@ class RightsController extends AbstractAdminController
         $mode = $this->http()->_GP('mode', '');
         switch ($mode) {
             case 'rights':
-                $this->addScript('filterlist.js');
 
                 if ($this->state->requestPost) {
                     $id = $this->http()->_GP('id_1', 0);
@@ -157,7 +156,6 @@ class RightsController extends AbstractAdminController
 
                 return $this->render('admin/ModerrationRightsPage.html.twig');
             case 'users':
-                $this->addScript('filterlist.js');
 
                 if ($this->state->requestPost) {
                     $id = $this->http()->_GP('id_1', 0);

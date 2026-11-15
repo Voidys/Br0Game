@@ -34,41 +34,11 @@
             {% elseif tutorial.skippable %}
                 <a data-method="post" href="?page=tutorial&amp;mode=skip"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
                 &nbsp;
-                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% else %}
-                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" data-confirm="{{ LNG.tutorial_buttons_skipAll_confirm|e('html_attr') }}"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% endif %}
         </div>
     </div>
 {% endif %}
-{% block script %}
-    <script>
-        if (localStorage.getItem('tutorial') === null) {
-            localStorage.setItem('tutorial', 'false'); // Default to visible
-        }
-        document.addEventListener("DOMContentLoaded", (event) => {
-            const tutorialElement = document.getElementById('tutorial');
-            const tutorialToggle = document.getElementById('tutorial-toggle');
-            if (tutorialToggle && tutorialElement) {
-                let tutorialHidden = localStorage.getItem('tutorial') === 'true';
-                tutorialToggle.innerText = tutorialHidden ? "▼" : "▲";
-                if (tutorialHidden) {
-                    tutorialElement.classList.add("hidden");
-                } else {
-                    tutorialElement.classList.remove("hidden");
-                }
-
-                document.getElementById('tutorial-header').addEventListener("click", (event) => {
-                    let newstate = localStorage.getItem('tutorial') === 'false';
-                    tutorialToggle.innerText = newstate ? "▼" : "▲";
-                    if (newstate) {
-                        tutorialElement.classList.add("hidden");
-                    } else {
-                        tutorialElement.classList.remove("hidden");
-                    }
-                    localStorage.setItem('tutorial', newstate.toString());
-                });
-            }
-        });
-    </script>
-{% endblock %}
+<script type="module" src="./scripts/game/tutorial.js?v={{ asset_version }}"></script>

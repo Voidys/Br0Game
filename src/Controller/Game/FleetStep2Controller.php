@@ -333,7 +333,6 @@ class FleetStep2Controller extends AbstractGameController
             ];
         }
 
-        $this->addInlineScript('addBeforeUnload();calculateTransportCapacity();checkHold(' . $targetMission . ');initTradeMarket();');
         $this->assign([
             'questionList'      => $questionList,
             'fleetdata'         => $fleetData,

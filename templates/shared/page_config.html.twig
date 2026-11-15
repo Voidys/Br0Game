@@ -1,0 +1,20 @@
+{#
+  Data island for public/scripts/page/config.js (admin and account layouts): server clock, language
+  strings and flags the shared modules read as globals. No executable inline code, CSP friendly.
+#}
+<script type="application/json" id="page-config">{{ {
+  offset: Offset|default(0),
+  date: date|default([1970, 1, 1, 0, 0, 0]),
+  ready: LNG.ready,
+  skin: dpath|default(''),
+  lang: lang|default(''),
+  headInfo: LNG.fcm_info,
+  days: LNG.week_day|default([]),
+  months: LNG.months|default([]),
+  tdformat: LNG.js_tdformat,
+  confirmText: LNG.adm_confirm,
+  auth: authlevel|default(0),
+  queryString: queryString|default(''),
+  timezone: TIMEZONESTRING|default(''),
+  debug: debug|default(0) == 1,
+}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>

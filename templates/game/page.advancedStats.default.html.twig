@@ -2,7 +2,7 @@
 {% block title %}{{ LNG.lm_records }}{{ parent() }}{% endblock %} {% block content %}
 <table>
     <tbody>
-        <tr onclick="toggle_rows('advanced-expo')">
+        <tr data-action="toggle-rows" data-target="advanced-expo">
             <th colspan="2">
                 <span id="advanced-expo-toggle">▼</span>
                 {{ LNG.expedition }}
@@ -14,7 +14,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-build')">
+        <tr data-action="toggle-rows" data-target="advanced-build">
             <th colspan="2">
                 <span id="advanced-build-toggle">▲</span>
                 {{ LNG.build }}
@@ -26,7 +26,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-lost')">
+        <tr data-action="toggle-rows" data-target="advanced-lost">
             <th colspan="2">
                 <span id="advanced-lost-toggle">▲</span>
                 {{ LNG.lost }}
@@ -38,7 +38,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-destroyed')">
+        <tr data-action="toggle-rows" data-target="advanced-destroyed">
             <th colspan="2">
                 <span id="advanced-destroyed-toggle">▲</span>
                 {{ LNG.destroyed }}
@@ -50,7 +50,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-repaired')">
+        <tr data-action="toggle-rows" data-target="advanced-repaired">
             <th colspan="2">
                 <span id="advanced-repaired-toggle">▲</span>
                 {{ LNG.repaired }}
@@ -62,7 +62,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-first')">
+        <tr data-action="toggle-rows" data-target="advanced-first">
             <th colspan="2">
                 <span id="advanced-first-toggle">▲</span>
                 {{ LNG.first }}
@@ -74,7 +74,7 @@
                 <td class="num">{{ elementRow.value }}</td>
             </tr>
         {% endfor %}
-        <tr onclick="toggle_rows('advanced-others')">
+        <tr data-action="toggle-rows" data-target="advanced-others">
             <th colspan="2">
                 <span id="advanced-others-toggle">▲</span>
                 {{ LNG.other }}
@@ -88,18 +88,4 @@
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}
-{% block script %}{{ parent() }}
-	<script>
-		function toggle_rows(target) {
-			const rows = document.querySelectorAll("." + target)
-			if (rows[0].classList.contains("hidden")) {
-				rows.forEach(r => r.classList.remove("hidden"))
-				document.getElementById(target + "-toggle").innerText = "▼"
-			} else {
-				rows.forEach(r => r.classList.add("hidden"))
-				document.getElementById(target + "-toggle").innerText = "▲"
-			}
-		}
-	</script>
 {% endblock %}

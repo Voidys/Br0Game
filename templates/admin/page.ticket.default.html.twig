@@ -68,22 +68,5 @@
     </div>
   </details>
 </div>
-<script>
-	onPageInit(function() {
-		document.getElementById('categoryID').addEventListener('change', function(e) {
-			var table = document.getElementById("openTickets");
-			var tr = table.getElementsByTagName("tr");
-			var category = this.value;
-			for (var i = 0; i < tr.length; i++) {
-				if (category == 0) {
-					tr[i].style.display = "";
-				} else if (tr[i].dataset.category != null && tr[i].dataset.category != category) {
-					tr[i].style.display = "none";
-				} else {
-					tr[i].style.display = "";
-				}
-			}
-		});
-	});
-</script>
+<script type="module" src="./scripts/admin/pages/tickets.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

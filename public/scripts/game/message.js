@@ -1,4 +1,13 @@
-import { qs, qsa, show, hide, getText, getJSON, post, cookie, NotifyBox } from '../app/core.js';
+import { qs, qsa, show, hide, getText, getJSON, post, cookie, NotifyBox, pageData } from '../app/core.js';
+import { registerActions } from '../app/actions.js';
+
+/**
+ * Messages: category list and message actions (favourite, delete, reply, forward, spy report toggle,
+ * grouping), the write / forward dialog (receiver search, sending) and the spy report conclusions.
+ * Controls are data-action / data-on-* markup (app/actions.js). The write dialog's state arrives in the
+ * data island #message-write-data ({action, searchNote, searchNoUser, emptyText, messageGroup, messageID,
+ * receiverList}), read each time a dialog is loaded.
+ */
 
 const Message = {
   MessID: 0,
@@ -7,18 +16,18 @@ const Message = {
   rememberCategoryStorageKey: 'messages.rememberLastCategory',
 
   initCategoryPreferences: function () {
-    var openAll = localStorage.getItem(Message.openAllStorageKey) === '1';
-    var rememberCategory = localStorage.getItem(Message.rememberCategoryStorageKey) === '1';
-    var openAllSwitch = document.getElementById('message-open-all');
-    var rememberCategorySwitch = document.getElementById('message-remember-category');
-    var url = new URL(window.location.href);
+    let openAll = localStorage.getItem(Message.openAllStorageKey) === '1';
+    let rememberCategory = localStorage.getItem(Message.rememberCategoryStorageKey) === '1';
+    let openAllSwitch = document.getElementById('message-open-all');
+    let rememberCategorySwitch = document.getElementById('message-remember-category');
+    let url = new URL(window.location.href);
 
     openAllSwitch.checked = openAll;
     rememberCategorySwitch.checked = rememberCategory;
 
     if (!url.searchParams.has('category')) {
-      var lastCategory = localStorage.getItem(Message.categoryStorageKey);
-      var categoryItem = /^\d+$/.test(String(lastCategory))
+      let lastCategory = localStorage.getItem(Message.categoryStorageKey);
+      let categoryItem = /^\d+$/.test(String(lastCategory))
         ? document.querySelector('[data-message-category="' + lastCategory + '"]')
         : null;
 
@@ -61,11 +70,11 @@ const Message = {
   },
 
   MessageCount: function () {
-    var setText = function (selector, text) {
-      var el = qs(selector);
+    let setText = function (selector, text) {
+      let el = qs(selector);
       if (el) el.textContent = text;
     };
-    var num = function (selector) {
+    let num = function (selector) {
       return parseInt(qs(selector)?.textContent, 10);
     };
 
@@ -75,8 +84,8 @@ const Message = {
       });
       setText('#newmes', '');
     } else {
-      var count = num('#unread_' + Message.MessID);
-      var lmnew = num('#newmesnum');
+      let count = num('#unread_' + Message.MessID);
+      let lmnew = num('#newmesnum');
 
       setText('#unread_' + Message.MessID, Math.max(0, num('#unread_100') - 10));
       if (Message.MessID != 999) {
@@ -110,17 +119,17 @@ const Message = {
   },
 
   CreateAnswer: function (Answer) {
-    var answer = Message.stripHTML(Answer).trim();
-    var prefixes = answer.match(/^(?:Re(?:\[(\d+)\])?:\s*)+/i);
+    let answer = Message.stripHTML(Answer).trim();
+    let prefixes = answer.match(/^(?:Re(?:\[(\d+)\])?:\s*)+/i);
 
     if (!prefixes) {
       return 'Re: ' + answer;
     }
 
-    var replyLevel = 1;
-    var prefix = prefixes[0];
-    var levelMatches = prefix.match(/Re\[(\d+)\]/gi) || [];
-    for (var i = 0; i < levelMatches.length; i++) {
+    let replyLevel = 1;
+    let prefix = prefixes[0];
+    let levelMatches = prefix.match(/Re\[(\d+)\]/gi) || [];
+    for (let i = 0; i < levelMatches.length; i++) {
       replyLevel = Math.max(replyLevel, parseInt(levelMatches[i].match(/\d+/)[0], 10));
     }
 
@@ -128,7 +137,7 @@ const Message = {
   },
 
   getMessagesIDs: function (Infos) {
-    var IDs = [];
+    let IDs = [];
     for (const mess of Infos) {
       if (mess.value == 'on')
         IDs.push(mess.name.replace(/delmes\[(\d+)\]/, '$1'));
@@ -170,10 +179,22 @@ const Message = {
 let selectBox;
 let request = null;
 
-// state set by inline scripts of the write/forward popup lives on window
-// (emptyText, messageGroup, messageID, receiverList, receiver, searchNote, searchNoUser)
+// state of the write / forward dialog (from the data island, see initWriteDialog)
+let write = { searchNote: '', searchNoUser: '', emptyText: '', messageGroup: '', messageID: 0 };
+let receiver = [];
+
+/** (re)reads the write dialog's data island; receiver = ids of the chosen players */
+function initWriteDialog() {
+  const island = document.getElementById('message-write-data');
+  if (!island) return;
+  write = pageData('message-write-data');
+  receiver = write.action === 'write' ? Object.values(write.receiverList ?? {}).map((r) => r.id) : [];
+  selectBox = qs('.select-box');
+}
+document.addEventListener('modal:load', initWriteDialog);
 
 window.onPageInit(function () {
+  initWriteDialog();
   selectBox = qs('.select-box');
   if (qs('#message-open-all')) {
     Message.initCategoryPreferences();
@@ -196,30 +217,30 @@ async function sendAndClose(url, data) {
 function check() {
   const text = qs('#text').value;
   if (text.length === 0) {
-    window.Dialog.alert(window.emptyText);
+    window.Dialog.alert(write.emptyText);
     return false;
   }
   sendAndClose('game?page=messages&mode=send&ajax=1', {
-    'to[]': window.receiver,
+    'to[]': receiver,
     subject: qs('#subject').value,
     text: text,
-    groupid: window.messageGroup,
+    groupid: write.messageGroup,
   });
 }
 
 function checkForward() {
   sendAndClose('game?page=messages&mode=sendForward&ajax=1', {
-    id: window.messageID,
-    'to[]': window.receiver,
+    id: write.messageID,
+    'to[]': receiver,
   });
 }
 
 // collapseUrl / expandUrl: resolved theme images (theme_asset() in the template)
 function toggleSpyReport(messageId, collapseUrl, expandUrl) {
-  var content = document.getElementById('msgcontent_' + messageId);
-  var details = document.getElementById('msgdetails_' + messageId);
-  var title = document.getElementById('spytitle_' + messageId);
-  var icon = document.getElementById('imgtoggle_' + messageId);
+  let content = document.getElementById('msgcontent_' + messageId);
+  let details = document.getElementById('msgdetails_' + messageId);
+  let title = document.getElementById('spytitle_' + messageId);
+  let icon = document.getElementById('imgtoggle_' + messageId);
 
   const isIcon = icon.classList.contains('msg-toggle'); // icon: the state is a class, else swap the image
   if (content.style.display === 'none') {
@@ -236,7 +257,7 @@ function toggleSpyReport(messageId, collapseUrl, expandUrl) {
 }
 
 function toggleGrouping(MessID, fav) {
-  var isGrp = parseInt(cookie.get('msgGrouping') || 0);
+  let isGrp = parseInt(cookie.get('msgGrouping') || 0);
   cookie.set('msgGrouping', isGrp === 1 ? 0 : 1);
   window.location.href = 'game?page=messages&category=' + MessID + '&fav=' + fav;
 }
@@ -247,7 +268,7 @@ async function loadUser() {
   request?.abort();
 
   if (searchtext.length < 3) {
-    selectBox.innerHTML = '<div class="select-box-option">' + window.searchNote + '</div>';
+    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNote + '</div>';
     return;
   }
 
@@ -265,11 +286,11 @@ async function loadUser() {
   }
 
   if (data.error || data.length === 0) {
-    selectBox.innerHTML = '<div class="select-box-option">' + window.searchNoUser + '</div>';
+    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNoUser + '</div>';
   } else {
     selectBox.innerHTML = '';
     for (let i = 0; i < data.length; i++) {
-      if (window.receiver.includes(data[i].id)) {
+      if (receiver.includes(data[i].id)) {
         continue;
       }
       const option = document.createElement('div');
@@ -280,7 +301,7 @@ async function loadUser() {
     }
   }
   if (selectBox.innerHTML === '') {
-    selectBox.innerHTML = '<div class="select-box-option">' + window.searchNoUser + '</div>';
+    selectBox.innerHTML = '<div class="select-box-option">' + write.searchNoUser + '</div>';
   }
 }
 
@@ -289,10 +310,10 @@ function addUser(id, username) {
   qs('#to').value = '';
   selectBox.innerHTML = '';
 
-  if (window.receiver.includes(id)) {
+  if (receiver.includes(id)) {
     return;
   }
-  window.receiver.push(id);
+  receiver.push(id);
   const entry = document.createElement('div');
   entry.className = 'receiver';
   entry.id = 'receiver-' + id;
@@ -305,7 +326,7 @@ function addUser(id, username) {
 }
 
 function removeUser(id) {
-  window.receiver = window.receiver.filter(function (value) {
+  receiver = receiver.filter(function (value) {
     return value !== id;
   });
   qs('#receiver-' + id)?.remove();
@@ -318,12 +339,26 @@ function hideSearch() {
 }
 
 function showSearch() {
-  show(selectBox);
+  // .select-box is display:none in the stylesheet, so an empty inline value would keep it hidden
+  show(selectBox, 'block');
   loadUser();
 }
 
-Object.assign(window, {
-  Message, check, checkForward, toggleSpyReport, toggleGrouping, loadUser, addUser, removeUser, hideSearch, showSearch,
+registerActions({
+  'msg-toggle-grouping': (link) => toggleGrouping(link.dataset.category, link.dataset.fav),
+  'msg-fav': (link) => Message.favMessage(link.dataset.id, link.dataset.favUrl, link.dataset.nofavUrl),
+  'msg-reply': (link) => {
+    window.Dialog.PM(JSON.parse(link.dataset.receivers), Message.CreateAnswer(link.dataset.subject), '', link.dataset.group);
+    return false;
+  },
+  'msg-toggle-spy': (link) => toggleSpyReport(link.dataset.id, '', ''),
+  'msg-delete': (link) => Message.delMessage(link.dataset.id, link.dataset.group),
+  'msg-send': () => check(),
+  'msg-forward': () => checkForward(),
+  'msg-load-user': () => loadUser(),
+  'msg-hide-search': () => hideSearch(),
+  'msg-show-search': () => showSearch(),
+  'msg-remove-user': (span) => removeUser(Number(span.dataset.id)),
 });
 
 function scavengers() {
@@ -363,7 +398,7 @@ function scavengers() {
 
   function spyReportParser(spyReportElement) {
     let spyReport = {};
-    var spyReportHead = spyReportElement.querySelector(".spyRaportHead");
+    let spyReportHead = spyReportElement.querySelector(".spyRaportHead");
     let cords = spyReportHead.getAttribute('coords').split(':');
     spyReport.head = {
       galaxy: cords[0],
@@ -401,7 +436,7 @@ function scavengers() {
 
 
   function raidTimeKT(met, kris, deut, raidLocation) {
-    var bestPlanet,
+    let bestPlanet,
       flytime = '',
       flytimeBestPlanet = '',
       flightSpeedKT = flightSpeed("202"),
@@ -410,7 +445,7 @@ function scavengers() {
       galaJump,
       galaJumpPlanet;
 
-    var bestLocationForRaid = bestLocation(raidLocation);
+    let bestLocationForRaid = bestLocation(raidLocation);
     bestPlanet = bestLocationForRaid.bestPlanet;
     galaJump = bestLocationForRaid.galaJump;
     galaJumpPlanet = bestLocationForRaid.galaJumpPlanet;
@@ -440,7 +475,7 @@ function scavengers() {
 
   function bestLocation(raidLocation) {
 
-    var activPlanet,
+    let activPlanet,
       activPlanetdistance,
       bestPlanet,
       bestPlanetdistance,
@@ -557,7 +592,7 @@ function scavengers() {
   }
 
   function flightSpeed(shiptype) {
-    var speed;
+    let speed;
 
 
     if (shiptype === "202") {
@@ -592,7 +627,7 @@ function scavengers() {
 
     let spyReport = spyReportParser(spyReportElement);
 
-    var raidLocation = [spyReport.head.galaxy, spyReport.head.system, spyReport.head.planet];
+    let raidLocation = [spyReport.head.galaxy, spyReport.head.system, spyReport.head.planet];
     spyReport.conclusions = {};
 
     spyReport.conclusions.summedUpResources = sumUpResources(spyReport);

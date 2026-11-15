@@ -51,7 +51,7 @@
 	<td colspan="3">
 	{% if diplomats %}
 		<b><u>{{ LNG.al_rank_diplo }}</u></b><br><br>
-		{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" onclick="return Dialog.PM({{ diplomat.id }})"><img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
+		{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" data-action="dialog-pm" data-id="{{ diplomat.id }}"><img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
 		<br>
 	{% endif %}
 	{% if diplomaticData and (not empty(diplomaticData[0]) or not empty(diplomaticData[1]) or not empty(diplomaticData[2]) or not empty(diplomaticData[3]) or not empty(diplomaticData[4])) %}

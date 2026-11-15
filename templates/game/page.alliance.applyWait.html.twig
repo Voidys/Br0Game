@@ -10,7 +10,7 @@
 		<td>{{ request_text }}</td>
 	</tr>
 	<tr>
-		<td class="form-actions"><input type="submit" value="{{ LNG.al_delete_request }}" onclick="return confirm('{{ LNG.al_delete_request_confirm }}');"></td>
+		<td class="form-actions"><input type="submit" value="{{ LNG.al_delete_request }}" data-confirm="{{ LNG.al_delete_request_confirm|e('html_attr') }}"></td>
 	</tr>
 </table>
 </form>

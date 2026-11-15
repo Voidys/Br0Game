@@ -344,7 +344,7 @@ al_leave_ally: Вы уверены, что хотите покинуть аль�
 al_leave_sucess: Вы покинули альянс %s.
 al_leaving: Игрок покинул альянс
 al_leaving_msg: >-
-  Игрок <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a> покинул
+  Игрок <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a> покинул
   альянс.
 al_legend: Описание ранга
 al_legend_admin_alliance: управление альянсом
@@ -385,7 +385,7 @@ al_name_required: Название
 al_new_apply: >-
   Ваш альянс получил новое <a
   href="?page=alliance&mode=admin&action=manageApply">заявление</a> от - <a
-  href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
 al_new_member_rank_text: Новичок
 al_new_name: 'Новое название (3-30 символов):'
 al_new_requests: 'Новых заявок: %d'
@@ -1706,3 +1706,95 @@ user_level_2: Оператор
 user_level_3: Администратор
 whenbuildable: Возможно в
 write_message: Написать сообщение
+ach_filter_all: "Все"
+ach_filter_locked: "Заблокированные"
+ach_filter_unlocked: "Разблокированные"
+ach_locked: "Ещё не разблокировано"
+ach_progress: "Разблокировано %d из %d"
+ach_unlocked_on: "Разблокировано: %s"
+al_apply_accepted: "Заявка принята."
+al_apply_declined: "Заявка отклонена."
+al_name_tag_too_long: "Тег альянса может содержать не более 8 символов, а название — не более 30!"
+bs_share_code: "Код для обмена"
+bs_swap: "Поменять стороны"
+bu_player_not_exist: "Этот игрок не существует!"
+cff_mission_other_expo_0: "%s от %s %s %s достиг позиции %s. Задание: %s"
+cff_mission_other_expo_2: "%s от %s %s %s находится в экспедиции на позиции %s. Задание: %s"
+cff_mission_other_recy_0: "%s от %s %s %s достиг поля обломков в %s. Задание: %s"
+cff_mission_other_0: "%s от %s %s %s достиг %s %s %s. Задание: %s"
+cff_mission_other_1: "%s возвращается из %s %s %s на %s %s %s. Задание: %s"
+cff_mission_other_2: "%s от %s %s %s находится на орбите вокруг %s %s %s. Задание: %s"
+cff_mission_other_expo_1: "%s возвращается с позиции %s на %s %s %s. Задание: %s"
+cff_mission_other_mip: "Ракетная атака (%d) с %s %s %s на %s %s %s."
+cff_mission_other_recy_1: "%s возвращается с поля обломков в %s на планету %s %s %s. Задание: %s"
+fl_exchange: "Обмен"
+fl_expedition_tech_required: "Для начала экспедиции требуется Астрофизика уровня 1."
+fl_stronger_techs: "Ваши атака/броня/щиты слишком низкие."
+fl_visibility: "Видимость"
+fl_visibility_all: "Все"
+fl_visibility_alliance: "Союзники и торговые партнёры"
+fl_visibility_no_enemies: "Все, кроме врагов"
+fm_engines: "Двигатели"
+fm_imperial: "Имперские"
+fm_mining: "Добыча"
+fm_other: "Прочее"
+fm_storage: "Хранилища"
+lm_marketplace: "Рынок"
+market_buyable_no_enemies: "Без врагов"
+market_buyable_only_trade_partners: "Только партнёры"
+market_confirm_are_you_sure: "Вы уверены?"
+market_info_description: "Левая сторона — предложения о продаже | Правая сторона — запрашиваемая цена<br><br>&bull; Принятые предложения нельзя отменить &bull;<br>&bull; Некоторые предложения нельзя принять из-за правила пуша &bull;<br>&bull; Топливо для купленного флота оплачивает покупатель &bull;"
+market_info_header: "Рынок"
+market_info_no_return: "Предложения на рынке нельзя отменить!"
+market_msg_trade_bought: "Ваш флот летит на %s с %s %s, %s %s, %s %s и стоит %s %s."
+market_msg_trade_from: "Рынок"
+market_msg_trade_sold: "Ваш флот летит на %s с %s %s, %s %s, %s %s."
+market_msg_trade_topic: "Статус сделки"
+market_p_buy: "Купить"
+market_p_cost_amount: "Количество"
+market_p_cost_type: "Тип стоимости"
+market_p_end: "Конец"
+market_p_from_duration: "Полёт из"
+market_p_msg_more_ships_is_needed: "Требуется больше кораблей."
+market_p_msg_not_found: "Предложение не найдено."
+market_p_msg_own_offer: "Вы не можете купить собственное предложение."
+market_p_msg_resources_error: "Недостаточно ресурсов."
+market_p_msg_sent: "Отправлено: малых транспортов — %s, больших транспортов — %s"
+market_p_msg_wrong_resource_type: "Это предложение запрашивает недопустимый ресурс."
+market_p_offer_type: "Тип предложения"
+market_p_ratio: "Соотношение"
+market_p_submit: "Купить сейчас!"
+market_p_to_duration: "Полёт в"
+market_ship_as_first: "Выберите тип корабля для торговли:"
+ov_checknews_hide: "Скрыть новости"
+ov_checknews_show: "Показать новости"
+ov_fleetbutton_hide: "Скрыть"
+ov_fleetbutton_show: "Показать"
+ov_newname_too_long: "Название планеты может содержать не более %d символов."
+ov_rules: "Правила"
+ov_rulesnotify: "Пожалуйста, соблюдайте"
+st_units: "Единицы"
+ui_skip_to_content: "Перейти к содержимому"
+ui_menu: "Меню"
+ui_rank: "Место"
+ui_queue: "Очередь"
+ui_queue_free: "свободный слот"
+ui_points: "Очки"
+ui_close: "Закрыть"
+ui_messages: "Сообщения"
+ui_server_time: "Время сервера"
+ui_planet: "Планета"
+ui_nav_empire: "Империя"
+ui_nav_universe: "Вселенная"
+ui_nav_community: "Сообщество"
+ui_nav_help: "Помощь"
+ui_nav_personal: "Личное"
+ov_moving_fleets: "Флоты в движении"
+ov_online: "Онлайн"
+ov_players: "Игроки"
+source_code: "Исходный код"
+teamMemberName: "Имя"
+teamMemberContact: "Контакт"
+teamMemberAbout: "О себе"
+teamEmpty: "Участники команды ещё не добавлены."
+lm_board: "Форум"

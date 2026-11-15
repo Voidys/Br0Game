@@ -1,4 +1,5 @@
 import { qs, qsa, show, hide, setVisibleInterval, clearVisibleInterval, getRestTimeFormat } from '../app/core.js';
+import { registerActions } from '../app/actions.js';
 
 let resttime = 0;
 let time = 0;
@@ -39,7 +40,7 @@ function Repairlist() {
   setProgress(rest);
 }
 
-Object.assign(window, { repairAll });
+registerActions({ 'repair-all': repairAll });
 
 window.onPageInit(() => {
   if (!qs('#time')) return;

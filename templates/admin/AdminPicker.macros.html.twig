@@ -1,4 +1,4 @@
-{# live filter above a <select> managed by filterlist.js (jsvar = name of the filterlist instance) #}
-{% macro filter(jsvar, placeholder) %}
-  <input type="search" autocomplete="off" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" oninput="{{ jsvar }}.set(this.value)" onkeydown="if (event.key === 'Enter') { event.preventDefault(); }">
+{# live filter above a <select> (public/scripts/admin/filterSelect.js); selectName = name of the select in the same form #}
+{% macro filter(selectName, placeholder) %}
+  <input type="search" autocomplete="off" placeholder="{{ placeholder }}" aria-label="{{ placeholder }}" data-filter-select="{{ selectName }}">
 {% endmacro %}

@@ -5,16 +5,13 @@
     <div class="toolbar">
       <div class="field field--lg">
         <label for="ad-filter">{{ button_filter }}</label>
-        <input id="ad-filter" type="search" name="regexp" onkeyup="UserList.set(this.value)" autocomplete="off" autofocus placeholder="{{ LNG.ac_filter_placeholder }}">
+        <input id="ad-filter" type="search" name="regexp" data-filter-select="id_u" autocomplete="off" autofocus placeholder="{{ LNG.ac_filter_placeholder }}">
       </div>
-      <button type="button" onclick="UserList.reset();this.form.regexp.value=''">{{ icon('eraser') }}{{ button_deselect }}</button>
+      <button type="button" data-filter-reset="id_u">{{ icon('eraser') }}{{ button_deselect }}</button>
     </div>
-    <select name="id_u" size="14" aria-label="{{ ac_enter_user_id }}" ondblclick="if (this.value) { this.form.submit(); }">
+    <select name="id_u" size="14" aria-label="{{ ac_enter_user_id }}" data-submit-on-dblclick>
       {{ Userlist }}
     </select>
-    <script>
-      var UserList = new filterlist(document.users.id_u);
-    </script>
     <div class="toolbar">
       <div class="field field--fixed-10">
         <label for="ad-id2">{{ ac_select_id_num }}</label>

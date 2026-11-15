@@ -32,8 +32,9 @@ class LinkTutorialSupport extends AbstractTutorialSupport
             case 1:
                 $text = 'Discord';
                 $link = 'https://discord.gg/jhYYN3yuat';
-                $goal = "'".$this->state->runtime->httpPath.'game?page=tutorial&mode=fullfill&goal='.$elementID."'";
-                return '<a class="tutorial-link" href="'.$link.'" onclick="location.href='.$goal.';" target="_blank">'.$text.'</a>';
+                $goal = $this->state->runtime->httpPath.'game?page=tutorial&mode=fullfill&goal='.$elementID;
+                // opens the link in a new tab and reports the goal as fulfilled (action "tutorial-link", scripts/game/tutorial.js)
+                return '<a class="tutorial-link" href="'.$link.'" data-action="tutorial-link" data-goal="'.htmlspecialchars($goal, ENT_QUOTES).'" target="_blank" rel="noopener">'.$text.'</a>';
 
             default:
                 return 'unknown';

@@ -108,7 +108,7 @@
 		<th>{{ LNG.al_disolve_alliance }}</th>
 	</tr>
 	<tr>
-		<td><form action="game?page=alliance&amp;mode=admin&amp;action=close" method="post"><input type="submit" value="{{ LNG.al_continue }}" onclick="return confirm('{{ LNG.al_close_ally }}');"></form></td>
+		<td><form action="game?page=alliance&amp;mode=admin&amp;action=close" method="post"><input type="submit" value="{{ LNG.al_continue }}" data-confirm="{{ LNG.al_close_ally|e('html_attr') }}"></form></td>
 	</tr>
 </table>
 <table>

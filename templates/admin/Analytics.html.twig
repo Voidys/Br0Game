@@ -1,5 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-{% macro userlist(LNG, title, formName, selectName, options, jsVar, orderLink, submitName, submitLabel, totalLabel, total, selectTitle) %}
+{% macro userlist(LNG, title, formName, selectName, options, orderLink, submitName, submitLabel, totalLabel, total, selectTitle) %}
 <form action="" method="POST" name="{{ formName }}" class="card">
   <header class="card__head">
     <h2 class="card__title">{{ icon('users') }}{{ title }}</h2>
@@ -12,19 +12,16 @@
       <select name="{{ selectName }}" size="12">
         {{ options }}
       </select>
-      <script type="text/javascript">
-        var {{ jsVar }} = new filterlist(document.getElementsByName('{{ selectName }}')[0]);
-      </script>
       <div class="toolbar">
-        <input type="search" name="regexp" placeholder="{{ LNG.button_filter }}" onKeyUp="{{ jsVar }}.set(this.value)">
-        <button type="button" onClick="{{ jsVar }}.reset();this.form.regexp.value=''">{{ LNG.button_deselect }}</button>
+        <input type="search" name="regexp" placeholder="{{ LNG.button_filter }}" data-filter-select="{{ selectName }}">
+        <button type="button" data-filter-reset="{{ selectName }}">{{ LNG.button_deselect }}</button>
         <span class="toolbar__spacer"></span>
         
         <a href="?page=analytics">{{ LNG.bo_order_username|trim('[] ') }}</a>
         <a href="?page=analytics&amp;{{ orderLink }}=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
       </div>
       <div class="toolbar">
-        {% for c in 'A'..'Z' %}<a href="javascript:{{ jsVar }}.set('^{{ c }}')" title="{{ selectTitle }} {{ c }}" class="button btn--small">{{ c }}</a>{% endfor %}
+        {% for c in 'A'..'Z' %}<a href="#" data-filter-select="{{ selectName }}" data-filter-pattern="^{{ c }}" title="{{ selectTitle }} {{ c }}" class="button btn--small">{{ c }}</a>{% endfor %}
       </div>
     </div>
   </div>
@@ -36,8 +33,8 @@
 {% import _self as a %}
 <div class="stack">
   <div class="cols">
-    {{ a.userlist(LNG, LNG.an_user_list, 'users', 'user_name', UserSelect.List, 'UserList', 'order', 'userListSubmit', LNG.an_btn_enable, LNG.bo_total_users, usercount, bo_select_title) }}
-    {{ a.userlist(LNG, LNG.an_analyzed_list, 'userban', 'analyse_name', UserSelect.ListBan, 'analysedUsers', 'order2', 'analysedUsersSubmit', LNG.an_btn_disable, LNG.an_total_analyzed, bancount, bo_select_title) }}
+    {{ a.userlist(LNG, LNG.an_user_list, 'users', 'user_name', UserSelect.List, 'order', 'userListSubmit', LNG.an_btn_enable, LNG.bo_total_users, usercount, bo_select_title) }}
+    {{ a.userlist(LNG, LNG.an_analyzed_list, 'userban', 'analyse_name', UserSelect.ListBan, 'order2', 'analysedUsersSubmit', LNG.an_btn_disable, LNG.an_total_analyzed, bancount, bo_select_title) }}
   </div>
 
   <section class="card card--flush">

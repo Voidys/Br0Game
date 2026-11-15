@@ -1,55 +1,15 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="{{ lang }}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{{ lang }}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{{ lang }}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{{ lang }}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="{{ lang }}" class="no-js"> <!--<![endif]-->
-<head>
-	<title>{{ title }}</title>
-	{% if not empty(goto) %}
-	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
-	{% endif %}
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/base/boilerplate.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/app/content.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/install/main.css">
-	<link rel="stylesheet" type="text/css" href="../styles/theme/nova/theme.css">
-	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-	<script type="text/javascript">
-	window.__pageInit = [];
-	window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-	</script>
-	<script type="module" src="../scripts/app/main.js"></script>
-	{% for scriptname in (scripts)|php_iter %}
-	<script type="text/javascript" src="../scripts/game/{{ scriptname }}"></script>
-	{% endfor %}
-	{% block script %}{% endblock %}
-	{% if execscript %}
-	<script type="text/javascript">onPageInit(function () { {{ execscript|raw }} });</script>
-	{% endif %}
-</head>
-<body id="step{{ step|default('intro') }}">
-<div id="tooltip" class="tip"></div>
-<div><p>&nbsp;</p></div>
-<table width="960">
-<tr>
-	<th colspan="3">{{ header }}</th>
-</tr>
-<tr>
-    <td colspan="2">
-        <div id="main" align="left">
-            <h1>{{ LNG.upgrade_title }}</h1>
-            <p>{{ LNG.upgrade_message_admin }}</p>
-            <p>{{ LNG.upgrade_message_user }}</p>
-            <form action="?mode=upgrade" method="POST">
-                <p class="left">
-                    <label for="migrationpw">{{ LNG.step1_mysql_migrationpass }}: </label>
-                    <input type="password" name="migrationpw" id="migrationpw">
-                    <input type="submit" value="{{ LNG.continueUpgrade }}">
-                </p>
-            </form>
-            <a href="../game"><button>{{ LNG.upgrade_return }}</button></a>
-        </div>
-    </td>
-</tr>
-{% include 'install/ins_footer.html.twig' %}
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ LNG.upgrade_title }}{% endblock %}
+{% block panel %}
+  <p>{{ LNG.upgrade_message_admin }}</p>
+  <p>{{ LNG.upgrade_message_user }}</p>
+  <form class="install-form" action="?mode=upgrade" method="POST">
+    <fieldset>
+      <label class="install-field install-field--wide">{{ LNG.step1_mysql_migrationpass|trim(':') }}<input type="password" name="migrationpw" autocomplete="current-password"></label>
+    </fieldset>
+    <div class="install-actions">
+      <button type="submit" class="btn--primary">{{ LNG.continueUpgrade }}</button>
+      <a class="button" href="../game">{{ LNG.upgrade_return }}</a>
+    </div>
+  </form>
+{% endblock %}

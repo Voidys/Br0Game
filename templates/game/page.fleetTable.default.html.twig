@@ -1,18 +1,12 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-  <script>
-    const exp_values = {
-        {% for elementID, fleetArray in (shiptypes)|php_iter %}
-        {{ fleetArray.id }}: {{ fleetArray.expo }},
-        {% endfor %}
-    }
-    const ship_storage = {
-        {% for elementID, fleetArray in (shiptypes)|php_iter %}
-        {{ fleetArray.id }}: {{ fleetArray.capacity }},
-        {% endfor %}
-    }
-  </script>
+  {# experience points and cargo capacity per ship type for the live sums (scripts/game/fleetTable.js) #}
+  {% set ships = [] %}
+  {% for elementID, fleetArray in (shiptypes)|php_iter %}
+    {% set ships = ships|merge([{id: fleetArray.id, expo: fleetArray.expo, capacity: fleetArray.capacity}]) %}
+  {% endfor %}
+  {{ data_island('fleet-table-data', {ships: ships}) }}
   <div class="flyingFleets-scroll">
   <table class="flyingFleets">
     <tr>
@@ -126,9 +120,9 @@
             <td class="num">
               {% if FleetRow.speed != 0 %}
                 <span class="control-group">
-                  <a href="javascript:noShip('ship{{ FleetRow.id }}');">{{ LNG.fl_null }}</a>
+                  <a href="#" data-action="no-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_null }}</a>
                   <input type="number" name="ship{{ FleetRow.id }}" id="ship{{ FleetRow.id }}_input" value="0" class="fleet-amount">
-                  <a href="javascript:maxShip('ship{{ FleetRow.id }}');">{{ LNG.fl_max }}</a>
+                  <a href="#" data-action="max-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_max }}</a>
                 </span>
               {% endif %}
             </td>
@@ -142,8 +136,8 @@
             <td id="cargospace" colspan="2" data="{{ LNG['in_capacity'] }}">&nbsp;</td>
             <td class="num">
               <span class="control-group">
-                <a href="javascript:noShips();">{{ LNG.fl_remove_all_ships }}</a>
-                <a href="javascript:maxShips();">{{ LNG.fl_select_all_ships }}</a>
+                <a href="#" data-action="no-ships">{{ LNG.fl_remove_all_ships }}</a>
+                <a href="#" data-action="max-ships">{{ LNG.fl_select_all_ships }}</a>
               </span>
             </td>
           {% endif %}
@@ -207,8 +201,8 @@
               <span class="{% if FleetsOnPlanet[202].count >= entry.needed202 %}colorPositive{% else %}colorNegative{% endif %}">{{ entry.needed202 }}</span> / <span class="{% if FleetsOnPlanet[203].count >= entry.needed203 %}colorPositive{% else %}colorNegative{% endif %}">{{ entry.needed203 }}</span>
             </td>
             <td class="ctr">
-              <span class="{% if FleetsOnPlanet[202].count == 0 %}colorNegative{% else %}{% if FleetsOnPlanet[202].count >= entry.needed202 %}colorPositive{% else %}colorNeutral{% endif %}{% endif %} clickable" onclick="setCargoPreset(202, {{ entry.galaxy }}, {{ entry.system }}, {{ entry.planet }}, {{ entry.planet_type }}, {{ entry.metal }}, {{ entry.crystal }}, {{ entry.deuterium }}, {{ entry.total }}, {{ FleetsOnPlanet[202].count|default(0) }}, {{ FleetsOnPlanet[203].count|default(0) }}, {{ entry.needed202 }}, {{ entry.needed203 }}, {{ shiptypes[202].capacity }}, {{ shiptypes[203].capacity }})">{{ icon('car') }}</span> /
-              <span class="{% if FleetsOnPlanet[203].count == 0 %}colorNegative{% else %}{% if FleetsOnPlanet[203].count >= entry.needed203 %}colorPositive{% else %}colorNeutral{% endif %}{% endif %} clickable" onclick="setCargoPreset(203, {{ entry.galaxy }}, {{ entry.system }}, {{ entry.planet }}, {{ entry.planet_type }}, {{ entry.metal }}, {{ entry.crystal }}, {{ entry.deuterium }}, {{ entry.total }}, {{ FleetsOnPlanet[202].count|default(0) }}, {{ FleetsOnPlanet[203].count|default(0) }}, {{ entry.needed202 }}, {{ entry.needed203 }}, {{ shiptypes[202].capacity }}, {{ shiptypes[203].capacity }})">{{ icon('truck') }}</span>
+              <span class="{% if FleetsOnPlanet[202].count == 0 %}colorNegative{% else %}{% if FleetsOnPlanet[202].count >= entry.needed202 %}colorPositive{% else %}colorNeutral{% endif %}{% endif %} clickable" data-action="cargo-preset" data-type="202" data-galaxy="{{ entry.galaxy }}" data-system="{{ entry.system }}" data-planet="{{ entry.planet }}" data-planet-type="{{ entry.planet_type }}" data-metal="{{ entry.metal }}" data-crystal="{{ entry.crystal }}" data-deuterium="{{ entry.deuterium }}" data-total="{{ entry.total }}" data-ship202="{{ FleetsOnPlanet[202].count|default(0) }}" data-ship203="{{ FleetsOnPlanet[203].count|default(0) }}" data-needed202="{{ entry.needed202 }}" data-needed203="{{ entry.needed203 }}" data-capacity202="{{ shiptypes[202].capacity }}" data-capacity203="{{ shiptypes[203].capacity }}">{{ icon('car') }}</span> /
+              <span class="{% if FleetsOnPlanet[203].count == 0 %}colorNegative{% else %}{% if FleetsOnPlanet[203].count >= entry.needed203 %}colorPositive{% else %}colorNeutral{% endif %}{% endif %} clickable" data-action="cargo-preset" data-type="203" data-galaxy="{{ entry.galaxy }}" data-system="{{ entry.system }}" data-planet="{{ entry.planet }}" data-planet-type="{{ entry.planet_type }}" data-metal="{{ entry.metal }}" data-crystal="{{ entry.crystal }}" data-deuterium="{{ entry.deuterium }}" data-total="{{ entry.total }}" data-ship202="{{ FleetsOnPlanet[202].count|default(0) }}" data-ship203="{{ FleetsOnPlanet[203].count|default(0) }}" data-needed202="{{ entry.needed202 }}" data-needed203="{{ entry.needed203 }}" data-capacity202="{{ shiptypes[202].capacity }}" data-capacity203="{{ shiptypes[203].capacity }}">{{ icon('truck') }}</span>
             </td>
           </tr>
       {% endfor %}
@@ -243,9 +237,7 @@
   <br>
   <table>
     <tr>
-      <th colspan="3" onclick="toogle_custom_fleet()" class="clickable"><span
-          id="c_fleet_span">▼</span> {{ LNG["custom_fleet"] }}
-      </th>
+      <th colspan="3" data-action="toggle-custom-fleet" class="clickable"><span id="c_fleet_span">▼</span> {{ LNG["custom_fleet"] }}</th>
     </tr>
   </table>
   <table id="customfleet" style="display: none" data-noname="{{ LNG['fleet_table_custom_empty_name'] }}" data-delconf="{{ LNG['custom_fleet_confirm'] }}" data-saved="{{ LNG['al_saved'] }}">

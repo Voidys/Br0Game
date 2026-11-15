@@ -1,6 +1,14 @@
-import { qs, qsa, on, post, serialize } from '../app/core.js';
+import { qs, qsa, on, post, serialize, pageData } from '../app/core.js';
+import { registerActions } from '../app/actions.js';
 import { Dialog } from '../app/dialog.js';
 import { tabs } from '../app/ui.js';
+
+/**
+ * Battle simulator: submit helpers (more slots, swap sides, simulate), the slot tabs and the share string
+ * (compressed JSON of the inputs). The texts come from the data island #sim-data; the buttons are
+ * data-action="sim-*" markup (app/actions.js).
+ */
+const BS_LNG = pageData('sim-data');
 
 function submitTo(action) {
 	const form = document.getElementById('form');
@@ -57,11 +65,11 @@ function rebuildTabs() {
 // clear button in a section header: sets the number fields of its column in this section to 0
 on(document, 'click', '.sim-clear', function (event, button) {
 	event.preventDefault();
-	var cell = button.closest('th');
-	var index = Array.prototype.indexOf.call(cell.parentElement.children, cell);
-	var row = cell.parentElement.nextElementSibling;
+	let cell = button.closest('th');
+	let index = Array.prototype.indexOf.call(cell.parentElement.children, cell);
+	let row = cell.parentElement.nextElementSibling;
 	while (row) {
-		var target = row.children[index];
+		let target = row.children[index];
 		if (target) {
 			qsa('input[type="number"]', target).forEach(function (input) { input.value = 0; });
 		}
@@ -70,27 +78,27 @@ on(document, 'click', '.sim-clear', function (event, button) {
 });
 
 function generateShareString(){
-	var slots = parseInt(document.getElementById('slots').value, 10) || 1;
-	var data = {};
-	for(var s=0;s<slots;s++){
+	let slots = parseInt(document.getElementById('slots').value, 10) || 1;
+	let data = {};
+	for(let s=0;s<slots;s++){
 		data[s] = {};
 		data[s][0] = {};
 		data[s][1] = {};
 		qsa('[name^="battleinput['+s+']"]').forEach(function(input){
-			var name = input.getAttribute('name');
-			var m = name.match(/^battleinput\[\d+\]\[(\d)\]\[(\d+)\]$/);
+			let name = input.getAttribute('name');
+			let m = name.match(/^battleinput\[\d+\]\[(\d)\]\[(\d+)\]$/);
 			if(m){
-				var side = parseInt(m[1],10);
-				var id = m[2];
-				var val = input.value;
+				let side = parseInt(m[1],10);
+				let id = m[2];
+				let val = input.value;
 				if(val === undefined || val === null || val === '') val = 0;
 				data[s][side][id] = parseFloat(val);
 			}
 		});
 	}
 	try{
-		var json = JSON.stringify(data);
-		var b64 = LZString.compressToBase64(json);
+		let json = JSON.stringify(data);
+		let b64 = LZString.compressToBase64(json);
 		if (navigator.clipboard && navigator.clipboard.writeText) {
 			navigator.clipboard.writeText(b64).then(function(){
 				Dialog.alert(BS_LNG.shareCopied);
@@ -106,7 +114,7 @@ function generateShareString(){
 }
 
 function fallbackCopy(text){
-	var el = document.createElement('textarea');
+	let el = document.createElement('textarea');
 	el.value = text;
 	el.setAttribute('readonly', '');
 	el.style.position = 'absolute';
@@ -123,14 +131,15 @@ function fallbackCopy(text){
 }
 
 function loadShareString(){
-	var str = document.getElementById('shareInput').value;
+	let str = document.getElementById('shareInput').value;
 	if(!str) {
 		Dialog.alert(BS_LNG.shareLoadNoInput);
 		return;
 	}
+	let data;
 	try{
-		var json = LZString.decompressFromBase64(str);
-		var data = JSON.parse(json);
+		let json = LZString.decompressFromBase64(str);
+		data = JSON.parse(json);
 	}catch(e){
 		Dialog.alert(BS_LNG.shareLoadInvalid);
 		return;
@@ -140,28 +149,28 @@ function loadShareString(){
 	const list = qs(':scope > ul', container);
 
 	// determine required slots
-	var slotsNeeded = 0;
-	for(var k in data){ if(data.hasOwnProperty(k)) slotsNeeded = Math.max(slotsNeeded, parseInt(k,10)+1); }
+	let slotsNeeded = 0;
+	for(let k in data){ if(data.hasOwnProperty(k)) slotsNeeded = Math.max(slotsNeeded, parseInt(k,10)+1); }
 	if(slotsNeeded === 0) slotsNeeded = 1;
 
 	// current slots
-	var currentSlots = qsa(':scope > div', container).length;
+	let currentSlots = qsa(':scope > div', container).length;
 
 	// remove extra tabs first (keep first)
 	if(currentSlots > 1){
-		for(var i=currentSlots-1;i>=1;i--){
+		for(let i=currentSlots-1;i>=1;i--){
 			list.children[i]?.remove();
 			document.getElementById('tabs-'+i)?.remove();
 		}
 	}
 
 	// clone template (tabs-0) to create needed slots
-	var baseLabel = list.querySelector('li a').textContent.replace(/\s*\d+\s*$/, '') || 'ACS Slot';
-	for(var i=1;i<slotsNeeded;i++){
-		var newDiv = document.getElementById('tabs-0').cloneNode(true);
+	let baseLabel = list.querySelector('li a').textContent.replace(/\s*\d+\s*$/, '') || 'ACS Slot';
+	for(let i=1;i<slotsNeeded;i++){
+		let newDiv = document.getElementById('tabs-0').cloneNode(true);
 		newDiv.id = 'tabs-'+i;
 		qsa('[name]', newDiv).forEach(function(field) {
-			var name = field.getAttribute('name');
+			let name = field.getAttribute('name');
 			if (name) {
 				name = name.replace(/battleinput\[0\]/g, 'battleinput['+i+']');
 				field.setAttribute('name', name);
@@ -181,11 +190,11 @@ function loadShareString(){
 	document.getElementById('slots').value = slotsNeeded;
 
 	// populate inputs
-	for(var s=0;s<slotsNeeded;s++){
-		var slotData = data[s] || {0:{},1:{}};
-		for(var side=0;side<=1;side++){
-			var sideData = slotData[side] || {};
-			for(var id in sideData){
+	for(let s=0;s<slotsNeeded;s++){
+		let slotData = data[s] || {0:{},1:{}};
+		for(let side=0;side<=1;side++){
+			let sideData = slotData[side] || {};
+			for(let id in sideData){
 				if(!sideData.hasOwnProperty(id)) continue;
 				qsa('[name="battleinput['+s+']['+side+']['+id+']"]').forEach(function (field) { field.value = sideData[id]; });
 			}
@@ -193,4 +202,10 @@ function loadShareString(){
 	}
 }
 
-Object.assign(window, { add, switchSides, check, generateShareString, loadShareString });
+registerActions({
+	'sim-add-slot': () => add(),
+	'sim-switch-sides': () => switchSides(),
+	'sim-send': () => check(),
+	'sim-load-share': () => loadShareString(),
+	'sim-generate-share': () => generateShareString(),
+});

@@ -257,7 +257,6 @@ export function initUi() {
   qsa('table.sortable, table[data-sortable]').forEach(sortableTable);
 }
 
-Object.assign(window, { DestroyMissiles });
 window.App = Object.assign(window.App ?? {}, { tabs, sortableTable, autocomplete });
 
 export { qs };

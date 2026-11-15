@@ -357,31 +357,31 @@
   </div>
 {% endblock %}
 
-{# ===== Statistics Data Bridge & Script ===== #}
+{# ===== Statistics data (JSON island) & script ===== #}
 {% block script %}{{ parent() }}
 {% if not isset(Info) %}
-<script>
-  window.raportData = {{ Raport|json_encode|raw }};
-  window.shipNames = {{ LNG.shortNames|json_encode|raw }};
-  window.raportLNG = {
-    damage_done: {{ LNG.battle_stats_damage_done|json_encode|raw }},
-    damage_dead: {{ LNG.battle_stats_damage_dead|json_encode|raw }},
-    shield_hit: {{ LNG.battle_stats_shield_hit|json_encode|raw }},
-    ship_destroyed: {{ LNG.battle_stats_ship_destroyed|json_encode|raw }},
-    shield_bounced: {{ LNG.battle_stats_shield_bounced|json_encode|raw }},
-    rapid_fire_done: {{ LNG.battle_stats_rapid_fire_done|json_encode|raw }},
-    explosion_triggered: {{ LNG.battle_stats_explosion_triggered|json_encode|raw }},
-    stunned_done: {{ LNG.battle_stats_stunned_done|json_encode|raw }},
-    fleet: {{ LNG.sys_spy_fleet|json_encode|raw }},
-    target: {{ LNG.battle_stats_target|json_encode|raw }},
-    total: {{ LNG.battle_stats_total|json_encode|raw }},
-    total_all_targets: {{ LNG.battle_stats_total_all_targets|json_encode|raw }},
-    total_all_fleets: {{ LNG.battle_stats_total_all_fleets|json_encode|raw }},
-    attacker: {{ LNG.sys_attack_attacker_pos|json_encode|raw }},
-    defender: {{ LNG.sys_attack_defender_pos|json_encode|raw }},
-    round: {{ LNG.sys_attack_round|json_encode|raw }}
-  };
-</script>
+{{ data_island('raport-data', {
+  raportData: Raport,
+  shipNames: LNG.shortNames,
+  raportLNG: {
+    damage_done: LNG.battle_stats_damage_done,
+    damage_dead: LNG.battle_stats_damage_dead,
+    shield_hit: LNG.battle_stats_shield_hit,
+    ship_destroyed: LNG.battle_stats_ship_destroyed,
+    shield_bounced: LNG.battle_stats_shield_bounced,
+    rapid_fire_done: LNG.battle_stats_rapid_fire_done,
+    explosion_triggered: LNG.battle_stats_explosion_triggered,
+    stunned_done: LNG.battle_stats_stunned_done,
+    fleet: LNG.sys_spy_fleet,
+    target: LNG.battle_stats_target,
+    total: LNG.battle_stats_total,
+    total_all_targets: LNG.battle_stats_total_all_targets,
+    total_all_fleets: LNG.battle_stats_total_all_fleets,
+    attacker: LNG.sys_attack_attacker_pos,
+    defender: LNG.sys_attack_defender_pos,
+    round: LNG.sys_attack_round
+  }
+}) }}
 <script type="module" src="./scripts/game/raport.js?v={{ asset_version }}"></script>
 {% endif %}
 {% endblock %}

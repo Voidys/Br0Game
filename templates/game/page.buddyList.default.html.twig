@@ -14,7 +14,7 @@
 </tr>
 {% for otherRequestID, otherRequestRow in (otherRequestList)|php_iter %}
 <tr>
-	<td><a href="#" onclick="return Dialog.PM({{ otherRequestRow.id }});">{{ otherRequestRow.username }}</a></td>
+	<td><a href="#" data-action="dialog-pm" data-id="{{ otherRequestRow.id }}">{{ otherRequestRow.username }}</a></td>
 	<td>{% if otherRequestRow.ally_name %}<a href="game?page=alliance&amp;mode=info&amp;id={{ otherRequestRow.ally_id }}">{{ otherRequestRow.ally_name }}</a>{% else %}-{% endif %}</td>
 	<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ otherRequestRow.galaxy }}&amp;system={{ otherRequestRow.system }}">[{{ otherRequestRow.galaxy }}:{{ otherRequestRow.system }}:{{ otherRequestRow.planet }}]</a></td>
 	<td>{{ otherRequestRow.text }}</td>
@@ -35,7 +35,7 @@
 </tr>
 {% for myRequestID, myRequestRow in (myRequestList)|php_iter %}
 <tr>
-	<td><a href="#" onclick="return Dialog.PM({{ myRequestRow.id }});">{{ myRequestRow.username }}</a></td>
+	<td><a href="#" data-action="dialog-pm" data-id="{{ myRequestRow.id }}">{{ myRequestRow.username }}</a></td>
 	<td>{% if myRequestRow.ally_name %}<a href="game?page=alliance&amp;mode=info&amp;id={{ myRequestRow.ally_id }}">{{ myRequestRow.ally_name }}</a>{% else %}-{% endif %}</td>
 	<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ myRequestRow.galaxy }}&amp;system={{ myRequestRow.system }}">[{{ myRequestRow.galaxy }}:{{ myRequestRow.system }}:{{ myRequestRow.planet }}]</a></td>
 	<td>{{ myRequestRow.text }}</td>
@@ -55,7 +55,7 @@
 </tr>
 {% for myBuddyID, myBuddyRow in (myBuddyList)|php_iter %}
 <tr>
-	<td><a href="#" onclick="return Dialog.PM({{ myBuddyRow.id }});">{{ myBuddyRow.username }}</a></td>
+	<td><a href="#" data-action="dialog-pm" data-id="{{ myBuddyRow.id }}">{{ myBuddyRow.username }}</a></td>
 	<td>{% if myBuddyRow.ally_name %}<a href="game?page=alliance&amp;mode=info&amp;id={{ myBuddyRow.ally_id }}">{{ myBuddyRow.ally_name }}</a>{% else %}-{% endif %}</td>
 	<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ myBuddyRow.galaxy }}&amp;system={{ myBuddyRow.system }}">[{{ myBuddyRow.galaxy }}:{{ myBuddyRow.system }}:{{ myBuddyRow.planet }}]</a></td>
 	<td class="ctr">

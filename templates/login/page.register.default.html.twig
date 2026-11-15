@@ -64,10 +64,4 @@
     </div>
   </form>
 </div>
-<script>
-  (function () {
-    var select = document.getElementById('timezone');
-    if (select) select.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  })();
-</script>
 {% endblock %}

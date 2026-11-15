@@ -27,6 +27,11 @@ framework:
             policy: sliding_window
             limit: 5
             interval: '15 minutes'
+        # CSP violation reports (App\Controller\CspReportController): per client IP
+        csp_report:
+            policy: sliding_window
+            limit: 30
+            interval: '1 minute'
 
     # Note that the session will be started ONLY if you read or write from it.
     # The game session (App\Game\Core\SessionManager) lives in this session ("obj" attribute).

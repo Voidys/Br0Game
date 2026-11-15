@@ -300,6 +300,19 @@ longDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Desenvolvida para quebrar o domínio dos Xer, a Víbora é a arma definitiva contra Caças ligeiros, Caças pesados e Cruzadores. Com os seus canhões de disparo rápido e tecnologia avançada, altera o equilíbrio de poder no universo."
+  "230": "Rápido. Preciso. Intocável. O Intercetor não foi feito para combates justos: foi concebido para atacar depressa e com força, criando uma vantagem esmagadora num piscar de olhos."
+  "231": "O Beemote é o resultado de décadas de investigação de gravitões, combinando esta tecnologia numa plataforma de combate implacável. Ao contrário das Estrelas da morte, não foi concebido para a destruição planetária, mas para a máxima eficiência no campo de batalha. Ao abandonar os sistemas de elevado consumo de energia necessários para destruir luas, o seu design foi significativamente aligeirado, permitindo motores mais fortes, maior agilidade e maior poder de fogo. O seu canhão de gravitões compacto transforma-o numa máquina de destruição móvel, capaz de aniquilar sozinha até frotas enormes."
+  "232": "O Titã do Vazio representa o auge da moderna tecnologia de gravitões. Cada aspeto do seu design serve um único propósito: a rápida aniquilação de luas inimigas. As torres de armas convencionais foram deliberadamente omitidas para reduzir a massa e dar espaço a colossais geradores de cristal. Estes alimentam as bobinas de aceleração mais avançadas alguma vez construídas nas galáxias conhecidas, conferindo à nave um nível de mobilidade sem igual. As imensas necessidades de cristal fazem de cada Titã do Vazio uma conquista industrial monumental – e um símbolo de poder destrutivo ilimitado."
+  "220": "O Colosso de Aço é uma verdadeira fortaleza no espaço, protegido por barreiras inabaláveis e blindagem maciça. Mesmo os ataques mais ferozes ressaltam enquanto avança implacavelmente. Mas esta superioridade defensiva tem um custo: o seu armamento mal merece menção e os seus motores lentos fazem dele um gigante vagaroso. Em vez de ataques-relâmpago ou manobras ágeis, esta nave conta com pura resistência. Quem quiser detê-la precisa de grande resistência – ou de um poder de fogo esmagador."
+  "221": "A Lâmina da Tempestade é um caça de topo: incrivelmente rápido e armado sem piedade. Os adversários mal a veem antes de atacar. A defesa é uma preocupação secundária – não precisa de resistir ao que simplesmente consegue ultrapassar. O seu único foco são as frotas de transportadores e recicladores, que são obliteradas sem resistência. Com a sua velocidade estonteante, pode atacar à vontade e desaparecer antes de chegarem reforços. Quem for alvo da Lâmina da Tempestade tem poucas hipóteses de escapar."
+  "222": "O Cruzador Pesado é uma evolução reforçada do cruzador padrão. Com escudos melhorados e armamento poderoso, consegue aguentar-se contra inimigos pesados. Destaca-se quando usado junto com Colossos de Aço, Destruidores e Bombardeiros, onde o seu poder de fogo realmente brilha. No entanto, apesar da sua força, continua lento e menos manobrável."
+  "223": "O Drone de Escudo representa uma nova abordagem na defesa da frota, centrada sobretudo na proteção da tripulação. Tecnologias de blindagem inovadoras mas pesadas reduziram significativamente a velocidade de voo e a manobrabilidade. Apesar da fraca velocidade e agilidade, é muito eficaz na defesa. A estrutura desatualizada foi levada ao limite para proporcionar uma defesa quase impenetrável."
+  "224": "O Transporte de Assalto Improvisado é uma nave de transporte não testada, equipada com armamento mínimo, criada especificamente para incomodar vizinhos descuidados e desprevenidos. Este veículo improvisado não foi concebido para uso prolongado, mas para ataques rápidos e impulsivos que provocam reações imediatas. Uma disputa de vizinhança está praticamente garantida assim que for utilizado. Com o seu equipamento limitado e natureza imprevisível, torna-se uma ferramenta perigosa para a rápida escalada de conflitos."
+  "225": "O Transportador Tempestade é uma verdadeira maravilha da tecnologia, oferecendo o equilíbrio perfeito entre poder de combate, velocidade e capacidade de transporte. A sua capacidade de destacar rapidamente tropas e recursos, entregando ao mesmo tempo um poder de fogo impressionante ao campo de batalha, tornou-o um elemento essencial de qualquer frota poderosa. Seja para unidades de assalto rápidas ou para apoiar operações prolongadas, o Transportador Tempestade é fundamental para uma guerra eficaz e um item indispensável em qualquer frota."
+  "226": "O Transportador de Batalha Colossal representa o auge da engenharia. Apesar do seu design ligeiramente volumoso e da consequente baixa velocidade de voo, é o transportador de batalha mais blindado alguma vez visto por qualquer frota. O seu poder de fogo esmagador torna-o uma força imparável no campo de batalha. Este colosso consegue romper facilmente as linhas inimigas enquanto proporciona proteção máxima à tripulação. Encarna força e resistência, sendo um recurso essencial para qualquer frota fortemente armada."
+  "227": "O Reciclador Otimizado é uma atualização de ponta do reciclador padrão. Equipado com um poderoso motor de impulso, chega aos campos de destroços mais depressa e com menor custo, sendo um recurso essencial para qualquer frota avançada. O seu design otimizado reduz os custos de construção e aumenta a eficiência da recuperação de recursos. Disponível a partir do meio do jogo, proporciona uma vantagem estratégica a qualquer império em expansão."
+  "228": "O Reciclador Ómega representa o auge da tecnologia de reciclagem – mas a um custo elevado. O seu poderoso motor de hiperespaço permite-lhe chegar aos campos de destroços em tempo recorde e recuperar recursos mais depressa do que qualquer outra nave. No entanto, esta velocidade tem o custo da eficiência: os seus custos de construção e combustível são imensos, tornando-o uma opção viável apenas para comandantes ricos no final do jogo. Para quem prioriza a velocidade em vez do custo, este é o Reciclador definitivo."
 secureResources: >-
   Dependendo do nível de atualização, 1% da produção diária, até um máximo de
   10%, está protegida contra o saque durante os ataques.
@@ -565,6 +578,18 @@ shortDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Desenvolvida para quebrar o domínio dos Xer, a Víbora é a arma definitiva contra Caças ligeiros, Caças pesados e Cruzadores. Com os seus canhões de disparo rápido e tecnologia avançada, altera o equilíbrio de poder no universo."
+  "230": "Rápido. Preciso. Intocável. O Intercetor não foi feito para combates justos: foi concebido para atacar depressa e com força, criando uma vantagem esmagadora num piscar de olhos."
+  "232": "Mais rápido, mais explosivo, sempre uma boa surpresa. O Titã do Vazio é o terror das luas."
+  "220": "O Colosso de Aço resiste a qualquer ataque com escudos maciços e blindagem espessa, mas as suas armas e motores deixam muito a desejar."
+  "221": "A Lâmina da Tempestade é um caça relâmpago, armado até aos dentes. Defesa? Desnecessária – as suas presas são transportadores e recicladores indefesos."
+  "222": "Um cruzador lento mas fortemente armado, com escudos melhorados e capacidades ofensivas reforçadas."
+  "223": "Uma reformulação do caça ligeiro, que prioriza a segurança da tripulação à custa de fracas características de voo."
+  "224": "Uma nave de transporte não testada com armamento mínimo, concebida para incomodar vizinhos descuidados e desencadear conflito imediato."
+  "225": "Uma nave que combina poder de combate, velocidade e capacidade de transporte, tornando-a indispensável para qualquer frota poderosa."
+  "226": "Um transportador de batalha fortemente blindado, de design imponente e ligeiramente volumoso, cujo poder de fogo esmagador pode derrotar até os adversários mais duros."
+  "227": "Uma versão melhorada do reciclador clássico com motores de impulso, permitindo missões de recuperação mais eficientes a menor custo."
+  "228": "Uma atualização do Reciclador extremamente rápida mas ineficiente, com motor de hiperespaço."
 shortNames:
   '202': Cg.Pequeno
   '203': Cg.Grande
@@ -598,6 +623,19 @@ shortNames:
   '412': Bunker
   '413': Titan Laser
   '414': Isca
+  "229": "Víbora"
+  "230": "Intercetor"
+  "231": "Beemote"
+  "232": "Titã do Vazio"
+  "220": "Colosso de Aço"
+  "221": "Lâmina da Tempestade"
+  "222": "Cruzador Pesado"
+  "223": "Drone de Escudo"
+  "224": "Transporte de Assalto Improvisado"
+  "225": "Transportador Tempestade"
+  "226": "Transportador de Batalha Colossal"
+  "227": "Reciclador Otimizado"
+  "228": "Reciclador Ómega"
 spytechStatsDescription: >-
   Nos níveis 0 e 1, apenas são visíveis os pontos totais dos outros jogadores. A
   partir do nível 2, os pontos de construção dos outros jogadores também são
@@ -690,3 +728,16 @@ tech:
   '902': Cristal
   '903': Deutério
   '911': Energia
+  "229": "Víbora"
+  "230": "Intercetor"
+  "231": "Beemote"
+  "232": "Titã do Vazio"
+  "220": "Colosso de Aço"
+  "221": "Lâmina da Tempestade"
+  "222": "Cruzador Pesado"
+  "223": "Drone de Escudo"
+  "224": "Transporte de Assalto Improvisado"
+  "225": "Transportador Tempestade"
+  "226": "Transportador de Batalha Colossal"
+  "227": "Reciclador Otimizado"
+  "228": "Reciclador Ómega"

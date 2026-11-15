@@ -359,7 +359,7 @@ al_leave_ally: Möchteschd Du wirglich die Allianz verlassen?
 al_leave_sucess: Erfolgreich aus der Allianzne %s verpisst.
 al_leaving: Schbieler is aus der Allianz ausgedreden
 al_leaving_msg: >-
-  Der Schbieler <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  Der Schbieler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
   isd aus der Allianz ausgedreden.
 al_legend: Beschreibung
 al_legend_admin_alliance: Allianz verwalden
@@ -400,7 +400,7 @@ al_name_required: Du haschd geinene Allianznamne angegeben.
 al_new_apply: >-
   Ihre Allianz hat eine neue <a
   href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von
-  - <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
 al_new_member_rank_text: Neuling
 al_new_name: 'Neuer Allianz Name (3-30 Zeichen):'
 al_new_requests: '%d neue Bewerbung(en)'
@@ -1777,3 +1777,71 @@ user_level_2: Oberator
 user_level_3: Adminischdrator
 whenbuildable: Möglich in
 write_message: Schreibe ne Nachricht
+ach_filter_all: "Alle"
+ach_filter_locked: "Gesperrt"
+ach_filter_unlocked: "Freigeschaltet"
+ach_locked: "Noch nicht freigeschaltet"
+ach_progress: "%d von %d freigeschaltet"
+ach_unlocked_on: "Freigeschaltet am %s"
+al_apply_accepted: "Bewerbung angenommen."
+al_apply_declined: "Bewerbung abgelehnt."
+al_name_tag_too_long: "Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!"
+bs_share_code: "Teilen-Code"
+bs_swap: "Seiten tauschen"
+bu_player_not_exist: "Dieser Spieler existiert nicht!"
+cff_mission_other_expo_0: "Eine %s vom %s %s %s erreicht die Position %s. Mission: %s"
+cff_mission_other_expo_2: "Eine %s vom %s %s %s ist auf einer Expedition bei Position %s. Mission: %s"
+cff_mission_other_recy_0: "Eine %s vom %s %s %s erreicht das Trümmerfeld %s. Mission: %s"
+cff_mission_other_0: "Eine %s vom %s %s %s erreicht den %s %s %s. Mission: %s"
+cff_mission_other_1: "Eine %s kehrt vom %s %s %s zurück zum %s %s %s. Mission: %s"
+cff_mission_other_2: "Eine %s vom %s %s %s ist im Orbit von dem %s %s %s. Mission: %s"
+cff_mission_other_expo_1: "Eine %s kehrt von der Position %s zurück zum %s %s %s. Mission: %s"
+cff_mission_other_mip: "Raketenangriff (%d) vom %s %s %s auf den %s %s %s."
+cff_mission_other_recy_1: "Eine %s kehrt vom Trümmerfeld %s zurück zum Planeten %s %s %s. Mission: %s"
+market_p_msg_own_offer: "Du kannst dein eigenes Angebot nicht kaufen."
+market_p_msg_wrong_resource_type: "Dieses Angebot verlangt eine ungültige Ressource."
+ov_newname_too_long: "Der Planetenname darf höchstens %d Zeichen lang sein."
+st_units: "Units"
+ui_skip_to_content: "Zum Inhalt springen"
+ui_menu: "Menü"
+ui_rank: "Platz"
+ui_queue: "Bauliste"
+ui_queue_free: "freier Platz"
+ui_points: "Punkte"
+ui_close: "Schließen"
+ui_messages: "Nachrichten"
+ui_server_time: "Serverzeit"
+ui_planet: "Planet"
+ui_nav_empire: "Imperium"
+ui_nav_universe: "Universum"
+ui_nav_community: "Gemeinschaft"
+ui_nav_help: "Hilfe"
+ui_nav_personal: "Persönlich"
+source_code: "Quellcode"
+teamMemberName: "Name"
+teamMemberContact: "Kontakt"
+teamMemberAbout: "Info"
+teamEmpty: "Es wurden noch keine Teammitglieder eingetragen."
+lm_board: "Board"
+foreign_colors: "Gegnerische Farben"
+own_colors: "Eigene Farben"
+general_colors: "Generelle Farben"
+gl_no_deuterium_to_view_galaxy: "Du hast nicht genügend Deuterium!"
+gl_no_spy_report: "Für diesen Planeten liegt kein Spionagebericht vor."
+gl_show_spy_report: "Spionagebericht"
+gl_spy_report_fresh: "Spionagebericht (< %dh)"
+gl_spy_report_none: "Kein Spionagebericht"
+gl_spy_report_old: "Spionagebericht (> %dh)"
+gl_spy_report_recent: "Spionagebericht (< %dh)"
+op_spy_report: "Spionagebericht"
+op_spy_report_fresh_time: "Frischer Spionagebericht (grüner Punkt), bis zu"
+op_spy_report_fresh_time_tooltip: "Spionageberichte, die jünger als die angegebene Stundenzahl sind, zeigen in der Galaxieansicht einen grünen Punkt."
+op_spy_report_recent_time: "Kürzlicher Spionagebericht (gelber Punkt), bis zu"
+op_spy_report_recent_time_tooltip: "Spionageberichte, die jünger als die angegebene Stundenzahl sind, zeigen einen gelben Punkt; ältere Berichte zeigen einen roten Punkt."
+op_spy_report_time_invalid: "Ungültige Spionagebericht-Zeitwerte. Beide Werte müssen mindestens 1 Stunde betragen, und der Wert für kürzliche Berichte muss größer als der für frische sein."
+ov_position: "Position"
+px_no_deuterium: "Du hast nicht genügend Deuterium!"
+px_scan_position: "Scan Position"
+sh_position: "Rank"
+st_in_the_positions: "auf den Positionen"
+st_position: "Rank"

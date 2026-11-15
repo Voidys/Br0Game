@@ -21,7 +21,7 @@
         <div class="field-row">
           <label for="ban-why">{{ LNG.bo_reason }}</label>
           <div class="field-control">
-            <textarea id="ban-why" name="why" maxlength="500" rows="5" onkeyup="document.getElementById('result2').textContent = 500 - this.value.length;">{{ reas }}</textarea>
+            <textarea id="ban-why" name="why" maxlength="500" rows="5" data-count-chars="#result2" data-count-max="500">{{ reas }}</textarea>
           </div>
           <div class="field-help">{{ LNG.bo_characters_1 }}: <span id="result2">{{ 500 - (reas|length) }}</span></div>
         </div>
@@ -67,11 +67,10 @@
         </div>
       </header>
       <div class="card__body stack">
-        {{ picker.filter('UserList', LNG.button_filter) }}
+        {{ picker.filter('ban_id', LNG.button_filter) }}
         <select name="ban_id" size="14">
           {{ ban.list }}
         </select>
-        <script>var UserList = new filterlist(document.getElementsByName('ban_id')[0]);</script>
       </div>
       <footer class="card__foot">
         <button type="submit" name="panel" value="{{ LNG.bo_ban }}" class="btn--primary">{{ icon('ban') }}{{ LNG.bo_ban }}</button>
@@ -88,11 +87,10 @@
         </div>
       </header>
       <div class="card__body stack">
-        {{ picker.filter('UsersBan', LNG.button_filter) }}
+        {{ picker.filter('unban_id', LNG.button_filter) }}
         <select name="unban_id" size="14">
           {{ ban.listBan }}
         </select>
-        <script>var UsersBan = new filterlist(document.getElementsByName('unban_id')[0]);</script>
       </div>
       <footer class="card__foot">
         <button type="submit" value="{{ LNG.bo_unban }}" class="btn--danger" data-confirm="">{{ icon('shield-check') }}{{ LNG.bo_unban }}</button>

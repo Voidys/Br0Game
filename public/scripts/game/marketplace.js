@@ -1,8 +1,14 @@
-import { qs, qsa, on, now, pretty_number, getRestTimeFormat, setVisibleInterval } from '../app/core.js';
+import { qs, qsa, on, now, pretty_number, getRestTimeFormat, setVisibleInterval, pageData } from '../app/core.js';
+
+/**
+ * Marketplace: reference ratios and the live ratio colouring, sortable offer tables, the resource /
+ * fleet market switch, the flight column selector and the confirmed "buy" buttons. The confirmation
+ * text comes from the data island #market-data ({confirmText}).
+ */
 
 function Refrash() {
 	qsa("[data-time]").forEach(function (el) {
-		var remaining = Number(el.dataset.time) - (now().getTime() - window.startTime) / 1000;
+		let remaining = Number(el.dataset.time) - (now().getTime() - window.startTime) / 1000;
 		el.textContent = getRestTimeFormat(remaining);
 	});
 }
@@ -13,13 +19,13 @@ function parseReferenceRatio(value) {
 	if (typeof value === 'number') {
 		return isFinite(value) && value > 0 ? value : NaN;
 	}
-	var text = String(value == null ? '' : value).replace(/\s/g, '');
+	let text = String(value == null ? '' : value).replace(/\s/g, '');
 	if (text === '') {
 		return NaN;
 	}
 	// decimalSeparator 0 is comma (same as pretty_number). A lone '.' stays a
 	// decimal so machine-formatted data attributes still parse.
-	var european = (typeof decimalSeparator !== 'undefined' && String(decimalSeparator) === '0');
+	let european = (typeof decimalSeparator !== 'undefined' && String(decimalSeparator) === '0');
 	if (european) {
 		if (text.indexOf(',') !== -1) {
 			text = text.replace(/\./g, '').replace(',', '.');
@@ -27,17 +33,17 @@ function parseReferenceRatio(value) {
 	} else if (text.indexOf(',') !== -1) {
 		text = text.replace(/,/g, '');
 	}
-	var ratio = parseFloat(text);
+	let ratio = parseFloat(text);
 	return isFinite(ratio) && ratio > 0 ? ratio : NaN;
 }
 
 function formatReferenceRatio(value) {
-	var ratio = parseReferenceRatio(value);
+	let ratio = parseReferenceRatio(value);
 	return isFinite(ratio) ? pretty_number(ratio, 2) : value;
 }
 
 function officialReferenceRatios() {
-	var box = qs('#ratioBaselines');
+	let box = qs('#ratioBaselines');
 	return {
 		metal: parseReferenceRatio(box?.dataset.metal),
 		crystal: parseReferenceRatio(box?.dataset.crystal),
@@ -54,8 +60,8 @@ function inputReferenceRatios() {
 }
 
 function scaleOfficialReferenceTo(resource) {
-	var official = officialReferenceRatios();
-	var baseline = official[resource];
+	let official = officialReferenceRatios();
+	let baseline = official[resource];
 	if (!isFinite(baseline) || baseline <= 0) {
 		return null;
 	}
@@ -76,14 +82,14 @@ function setReferenceRatioInputs(ratios) {
 	set('ratio-deuterium', ratios.deuterium);
 }
 
-var workingReferenceRatios = null;
+let workingReferenceRatios = null;
 
 function setWorkingReferenceRatios(ratios) {
 	workingReferenceRatios = ratios;
 }
 
 function normalizeReferenceTo(resource) {
-	var ratios = scaleOfficialReferenceTo(resource);
+	let ratios = scaleOfficialReferenceTo(resource);
 	if (!ratios) {
 		return;
 	}
@@ -106,7 +112,7 @@ function deuteriumRelativeRatios(refs) {
 }
 
 function convertAmountToDeut(amount, isMetal, isCrystal, isDeuterium, rates) {
-	var value = 0;
+	let value = 0;
 	if (isMetal) {
 		value += amount / rates.metal;
 	}
@@ -120,8 +126,8 @@ function convertAmountToDeut(amount, isMetal, isCrystal, isDeuterium, rates) {
 }
 
 function officialRowRatio(ratioCell) {
-	var offerDeut = parseFloat(ratioCell.getAttribute('data-offer-deut'));
-	var askDeut = parseFloat(ratioCell.getAttribute('data-ask-deut'));
+	let offerDeut = parseFloat(ratioCell.getAttribute('data-offer-deut'));
+	let askDeut = parseFloat(ratioCell.getAttribute('data-ask-deut'));
 	if (!isFinite(offerDeut) || !isFinite(askDeut) || askDeut <= 0) {
 		return 0;
 	}
@@ -135,7 +141,7 @@ function paintRatio(ratioCell, ratio) {
 
 function paintFleetRatios() {
 	qsa('table#tradeFleetList tbody tr').forEach(function(row) {
-		var ratioCell = row.querySelector('.ratio');
+		let ratioCell = row.querySelector('.ratio');
 		if (ratioCell) paintRatio(ratioCell, officialRowRatio(ratioCell));
 	});
 }
@@ -145,8 +151,8 @@ function calculateRatios(){
 	 * Thanks to zb0oj for idea and a part of source code!
 	 */
 	paintFleetRatios();
-	var useOfficial = qsa('.ratioBaseline.selected').length > 0;
-	var rates = null;
+	let useOfficial = qsa('.ratioBaseline.selected').length > 0;
+	let rates = null;
 	if (!useOfficial) {
 		rates = deuteriumRelativeRatios(workingReferenceRatios || inputReferenceRatios());
 		if (!rates || !isFinite(rates.metal) || !isFinite(rates.crystal)) {
@@ -156,23 +162,23 @@ function calculateRatios(){
 	qsa('table#tradeList tbody tr').filter(function (row) {
 		return !row.matches('.no-background.no-border.center');
 	}).forEach(function(tradeOffer) {
-			var ratioCell = tradeOffer.querySelector('.ratio');
+			let ratioCell = tradeOffer.querySelector('.ratio');
 			if (!ratioCell) return;
-			var ratio;
+			let ratio;
 			if (useOfficial) {
 				ratio = officialRowRatio(ratioCell);
 			} else {
-				var has = function (selector) { return tradeOffer.querySelector(selector) !== null; };
-				var offeredAmount = parseInt(tradeOffer.querySelector('.offered-resource-amount').innerHTML.replace(/\D/g, ''), 10) || 0;
-				var wantedAmount = parseInt(tradeOffer.querySelector('.wanted-resource-amount').innerHTML.replace(/\D/g, ''), 10) || 0;
-				var offerDeut = convertAmountToDeut(
+				let has = function (selector) { return tradeOffer.querySelector(selector) !== null; };
+				let offeredAmount = parseInt(tradeOffer.querySelector('.offered-resource-amount').innerHTML.replace(/\D/g, ''), 10) || 0;
+				let wantedAmount = parseInt(tradeOffer.querySelector('.wanted-resource-amount').innerHTML.replace(/\D/g, ''), 10) || 0;
+				let offerDeut = convertAmountToDeut(
 					offeredAmount,
 					has('.offered-resource-1'),
 					has('.offered-resource-2'),
 					has('.offered-resource-3'),
 					rates
 				);
-				var costDeut = convertAmountToDeut(
+				let costDeut = convertAmountToDeut(
 					wantedAmount,
 					has('.wanted-resource-1'),
 					has('.wanted-resource-2'),
@@ -228,11 +234,60 @@ onPageInit(function() {
 			normalizeReferenceTo(el.dataset.resource);
 		});
 	});
-	var selectedBaseline = qs('.ratioBaseline.selected')?.dataset.resource;
-	var selectedRatios = selectedBaseline ? scaleOfficialReferenceTo(selectedBaseline) : null;
+	let selectedBaseline = qs('.ratioBaseline.selected')?.dataset.resource;
+	let selectedRatios = selectedBaseline ? scaleOfficialReferenceTo(selectedBaseline) : null;
 	if (selectedRatios) {
 		setWorkingReferenceRatios(selectedRatios);
 	}
 	calculateRatios();
 	prepareSorting();
+	initMarketBoxes();
+});
+
+/** shows the resource or the fleet market box, whichever switch is selected (the only one if just one exists) */
+function reloadMarketBox() {
+	const resBtn = document.getElementById('resourceMBtn');
+	const fleetBtn = document.getElementById('fleetMBtn');
+	const clRes = resBtn ? resBtn.className : null;
+	const clFleet = fleetBtn ? fleetBtn.className : null;
+
+	document.getElementById('resourceMarketBox').hidden = !(clRes != null && (clRes.indexOf('selected') != -1 || clFleet == null));
+	document.getElementById('fleetMarketBox').hidden = !(clFleet != null && (clFleet.indexOf('selected') != -1 || clRes == null));
+}
+
+/** fleet market: the light / heavy cargo selector decides which flight column is shown */
+function toggleFlightColumns() {
+	const valueSelected = document.getElementById('shipT').value;
+	const showLC = valueSelected == 1;
+	const showHC = valueSelected == 2;
+	if (showLC || showHC) {
+		qsa('.HC').forEach((el) => { el.hidden = showLC; });
+		qsa('.LC').forEach((el) => { el.hidden = !showLC; });
+	}
+}
+
+function initMarketBoxes() {
+	reloadMarketBox();
+	if (document.getElementById('shipT')) toggleFlightColumns();
+}
+
+on(document, 'click', '#resourceMBtn, #fleetMBtn', (event, button) => {
+	qsa('.marketOption').forEach((el) => el.classList.remove('selected'));
+	button.classList.add('selected');
+	reloadMarketBox();
+});
+
+on(document, 'change', '#shipT', toggleFlightColumns);
+
+/** buy button: asks, then submits its form with the chosen ship type (#shipT) as hidden field */
+on(document, 'click', '.market_buy_button', (event, button) => {
+	if (!window.confirm(pageData('market-data').confirmText)) return;
+	const form = button.closest('form');
+	form.querySelectorAll('input[name="shipType"]').forEach((el) => el.remove());
+	const hidden = document.createElement('input');
+	hidden.type = 'hidden';
+	hidden.name = 'shipType';
+	hidden.value = document.getElementById('shipT').value;
+	form.append(hidden);
+	form.submit();
 });

@@ -27,7 +27,7 @@
 <ul class="resources" aria-label="{{ LNG.lm_resources|default('Resources') }}">
   {% for resourceID, resourceData in (resourceTable)|php_iter %}
     <li class="resource resource--{{ resourceData.name }}">
-      <a class="resource__icon"{% if noobInterface %} href="#" onclick="return Dialog.info({{ resourceID }});"{% endif %}>
+      <a class="resource__icon"{% if noobInterface %} href="#" data-action="dialog-info" data-id="{{ resourceID }}"{% endif %}>
         <img src="{{ theme_asset('images/' ~ resourceData.name ~ '.gif') }}" alt="" width="32" height="22">
       </a>
       <span class="resource__body">
@@ -82,19 +82,16 @@
 </nav>
 
 {% if not vmode %}
-<script>
-  var viewShortlyNumber = {{ shortlyNumber|json_encode|raw }};
-  var vacation = {{ vmode|json_encode|raw }};
-  onPageInit(function () {
-    {% for resourceID, resourceData in (resourceTable)|php_iter %}{% if isset(resourceData.production) %}
-    resourceTicker({
-      available: {{ resourceData.current|json_encode|raw }},
-      limit: [0, {{ resourceData.max|json_encode|raw }}],
-      production: {{ resourceData.production|json_encode|raw }},
-      valueElem: "current_{{ resourceData.name }}"
-    }, true);
-    {% endif %}{% endfor %}
-  });
-</script>
+{# resource counters (scripts/app/ticker.js initResourceTickers) #}
+{% set tickers = [] %}
+{% for resourceID, resourceData in (resourceTable)|php_iter %}{% if isset(resourceData.production) %}
+  {% set tickers = tickers|merge([{
+    available: resourceData.current,
+    limit: [0, resourceData.max],
+    production: resourceData.production,
+    valueElem: 'current_' ~ resourceData.name
+  }]) %}
+{% endif %}{% endfor %}
+{{ data_island('resource-tickers', {tickers: tickers}) }}
 {% if hasGate %}<script type="module" src="scripts/game/gate.js?v={{ asset_version }}"></script>{% endif %}
 {% endif %}

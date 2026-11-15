@@ -15,7 +15,7 @@
 				<td><input type="text" name="name" id="name" maxlength="20" autocomplete="off"></td>
 			</tr>
 			<tr>
-				<td colspan="2" class="form-actions"><input type="button" onclick="checkrename()" value="{{ LNG.ov_planet_rename }}"></td>
+				<td colspan="2" class="form-actions"><input type="button" data-action="rename-planet" value="{{ LNG.ov_planet_rename }}"></td>
 			</tr>
 		</table>
 	</div>
@@ -29,7 +29,7 @@
 					<td><input name="password" id="password" maxlength="20" autocomplete="off"></td>
 				</tr>
 				<tr>
-					<td colspan="2" class="form-actions"><input type="button" onclick="checkdelete()" value="{{ LNG.ov_delete_planet }}"></td>
+					<td colspan="2" class="form-actions"><input type="button" data-action="delete-planet" value="{{ LNG.ov_delete_planet }}"></td>
 				</tr>
 			</table>
 		</div>
@@ -37,12 +37,6 @@
 </div>
 {% endblock %}
 {% block script %}{{ parent() }}
-	<script type="text/javascript">
-		var mainPlanet = "{{ mainPlanet|e('js') }}";
-	</script>
+	{{ data_island('overview-actions-data', {mainPlanet: mainPlanet}) }}
 	<script type="module" src="./scripts/game/overview.actions.js?v={{ asset_version }}"></script>
-	<script type="module">
-		import { tabs } from './scripts/app/ui.js';
-		tabs(document.getElementById('planet-actions-tabs'));
-	</script>
 {% endblock %}

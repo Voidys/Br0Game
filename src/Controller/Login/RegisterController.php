@@ -174,7 +174,8 @@ class RegisterController extends AbstractLoginController
         if (!empty($errors)) {
             $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
                 'label' => $LNG['registerBack'],
-                'url' => 'javascript:window.history.back()',
+                'url' => '#',
+                'action' => 'history-back',
             ]]);
         }
 

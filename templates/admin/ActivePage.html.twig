@@ -1,13 +1,4 @@
 {% include 'admin/overall_header.html.twig' %}
-<script type="text/javascript">
-	function activeUser(validationID, validationKey) {
-		fetch('./?page=vertify&mode=json&i='+validationID+'&k='+validationKey, {credentials: 'same-origin'}).then(function (response) { return response.json(); }).then(function(data){
-			alert(data);
-			location.reload();
-		});
-		return false;
-	}
-</script>
 <div class="stack">
   <section class="card card--flush">
     <header class="card__head">
@@ -37,7 +28,7 @@
               <td>{{ account.email }}</td>
               <td class="mono">{{ account.ip }}</td>
               <td class="actions">
-                <a href="#" class="button btn--small" onclick="return activeUser({{ account.validationID }},'{{ account.validationKey }}');">{{ icon('user-check') }}{{ LNG.ap_aktivieren }}</a>
+                <a href="#" class="button btn--small" data-validation-id="{{ account.validationID }}" data-validation-key="{{ account.validationKey }}">{{ icon('user-check') }}{{ LNG.ap_aktivieren }}</a>
                 <a data-method="post" href="?page=active&amp;action=delete&amp;id={{ account.validationID }}" class="button btn--small btn--danger" title="{{ LNG.ap_del }}" data-confirm="{{ (LNG.ap_sicher ~ account.accountname ~ ' ' ~ LNG.ap_entfernen)|e('html_attr') }}" aria-label="{{ LNG.ap_del }}">{{ icon('trash-2') }}</a>
               </td>
             </tr>
@@ -51,4 +42,5 @@
     {% endif %}
   </section>
 </div>
+<script type="module" src="./scripts/admin/pages/active.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

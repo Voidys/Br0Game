@@ -5,7 +5,7 @@
 			<th colspan="2">{{ LNG.fl_sac_of_fleet }}</th>
 		</tr>
 		<tr>
-			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="javascript:Rename();">{{ LNG.fl_acs_change }}</a>)</th>
+			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="#" data-action="acs-rename" data-fleet="{{ acsData.mainFleetID }}" data-prompt="{{ LNG.fl_acs_change_name|e('html_attr') }}" data-name="{{ acsData.acsName }}">{{ LNG.fl_acs_change }}</a>)</th>
 		</tr>
 		<tr>
 			<td colspan="2" id="acsName">{{ acsData.acsName }}</td>
@@ -34,17 +34,4 @@
 		</tr>
 	</table>
 </form>
-<script type="text/javascript">
-function Rename(){
-	var Name = prompt("{{ LNG.fl_acs_change_name }}", "{{ acsData.acsName }}");
-	fetch('?page=fleetTable&action=acs&fleetID={{ acsData.mainFleetID }}&acsName=' + encodeURIComponent(Name), {method: 'POST', credentials: 'same-origin'})
-		.then(function (response) { return response.json(); })
-		.then(function(data) {
-			if(data != "") {
-				alert(data);
-				return;
-			}
-			document.getElementById('acsName').textContent = Name;
-		});
-}
-</script>
+<script type="module" src="./scripts/game/acs.js?v={{ asset_version }}"></script>

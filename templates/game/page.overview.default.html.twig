@@ -24,14 +24,14 @@
         
         <div class="infos">
             <div class="planeto">
-                <a href="#" onclick="return Dialog.PlanetAction();" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
+                <a href="#" data-dialog="game?page=overview&amp;mode=actions" data-dialog-width="400" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
             </div>
             {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
             <br>
             {{ LNG.ov_admins_online }}
             {% for ID, Name in (AdminsOnline)|php_iter %}
                 &nbsp;&bull;&nbsp;
-                <a class="colorPositive" href="#" onclick="return Dialog.PM({{ ID }})">{{ Name }}</a>
+                <a class="colorPositive" href="#" data-action="dialog-pm" data-id="{{ ID }}">{{ Name }}</a>
             {% endfor %}
             &nbsp;&bull;&nbsp;<a class="colorPositive" href="game?page=ticket">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
             <br><br>

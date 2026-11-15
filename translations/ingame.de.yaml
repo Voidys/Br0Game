@@ -361,7 +361,7 @@ al_leave_ally: Möchtest du wirklich die Allianz verlassen?
 al_leave_sucess: Erfolgreich aus der Allianz %s ausgetreten.
 al_leaving: Spieler ist aus der Allianz ausgetreten
 al_leaving_msg: >-
-  Der Spieler <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  Der Spieler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
   ist aus der Allianz ausgetreten.
 al_legend: Beschreibung
 al_legend_admin_alliance: Allianz verwalten
@@ -403,7 +403,7 @@ al_name_tag_too_long: Das Allianz-Tag darf höchstens 8 und der Name höchstens 
 al_new_apply: >-
   Ihre Allianz hat eine neue <a
   href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von
-  - <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
 al_new_member_rank_text: Neuling
 al_new_name: 'Neuer Allianz Name (3-30 Zeichen):'
 al_new_requests: '%d neue Bewerbung(en)'

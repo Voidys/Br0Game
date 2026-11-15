@@ -194,7 +194,7 @@
               <td class="num">{{ pl.fields }} <span class="muted">({{ pl.fieldsDb }})</span></td>
               <td class="num">{{ pl.temp }}</td>
               {% if canedit == 1 %}
-                <td class="actions"><button type="button" class="btn--small" onclick="return openEdit('{{ pl.id }}', 'planet');" title="{{ LNG.se_search_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.se_search_edit }}</span></button></td>
+                <td class="actions"><button type="button" class="btn--small" data-open-edit data-edit-id="{{ pl.id }}" data-edit-type="planet" title="{{ LNG.se_search_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.se_search_edit }}</span></button></td>
               {% endif %}
             </tr>
           {% endfor %}

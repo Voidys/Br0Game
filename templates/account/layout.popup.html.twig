@@ -1,113 +1,45 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="{{ lang }}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{{ lang }}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{{ lang }}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{{ lang }}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!-->
-<html lang="{{ lang }}" class="no-js">
-<!--<![endif]-->
-<style>
-  .colorPositive {
-    color:{{ signalColors.colorPositive }}
-  }
-
-  .colorNegative {
-    color:{{ signalColors.colorNegative }} !important;
-  }
-
-  .colorNeutral {
-    color:{{ signalColors.colorNeutral }}
-  }
-</style>
-
+<html lang="{{ lang }}">
 <head>
-  {{ import_map() }}
-  <title>{% block title %} - {{ uni_name }} - {{ game_name }}{% endblock %}</title>
   <meta charset="utf-8">
+  {{ import_map() }}
+  <style>
+    .colorPositive {
+      color:{{ signalColors.colorPositive }}
+    }
+  
+    .colorNegative {
+      color:{{ signalColors.colorNegative }} !important;
+    }
+  
+    .colorNeutral {
+      color:{{ signalColors.colorNeutral }}
+    }
+  </style>
+  <title>{% block title %} - {{ uni_name }} - {{ game_name }}{% endblock %}</title>
   {{ csrf_meta() }}
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   {% if not empty(goto) %}
     <meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
   {% endif %}
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="./styles/resource/css/app/base.css?v={{ asset_version }}">
   <link rel="stylesheet" type="text/css" href="{{ themeCssPath }}?v={{ asset_version }}">
   <link rel="stylesheet" type="text/css" href="./styles/resource/css/account/account.css?v={{ asset_version }}">
   <link rel="stylesheet" type="text/css" href="./styles/resource/css/app/rte.css?v={{ asset_version }}">
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 
-  <script type="text/javascript">
-    var ServerTimezoneOffset = {{ Offset }};
-    var serverTimeDelta = new Date({{ date[0] }}, {{ date[1] - 1 }}, {{ date[2] }}, {{ date[3] }}, {{ date[4] }}, {{ date[5] }}).getTime() - Date.now();
-    Object.defineProperty(window, 'serverTime', {
-      get: function () {
-        return new Date(Date.now() + serverTimeDelta);
-      }
-    });
-    var startTime = serverTime.getTime();
-    var Gamename = document.title;
-    var Ready		= "{{ LNG.ready }}";
-    var Skin		= "{{ dpath }}";
-    var Lang		= "{{ lang }}";
-    var head_info	= "{{ LNG.fcm_info }}";
-    var auth		= {{ authlevel|default('0') }};
-    var days 		= {{ LNG.week_day|json_encode|default('[]')|raw }}
-    var months 		= {{ LNG.months|json_encode|default('[]')|raw }} ;
-    const localtimezonestring="{{ TIMEZONESTRING }}"
-    var tdformat	= "{{ LNG.js_tdformat }}";
-    var queryString	= "{{ queryString|e('js') }}";
-    window.__pageInit = [];
-    window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-  </script>
+  {% include 'shared/page_config.html.twig' %}
+  <script type="module" src="./scripts/page/config.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
-  {% if captchakey!="" %}
-    <script>
-      // reCAPTCHA is loaded lazily on the first form submit so idle pages
-      // don't pay for the script and its background beacons.
-      document.addEventListener("DOMContentLoaded", function() {
-        const captchakey = "{{ captchakey }}";
-        let recaptchaLoader = null;
-        function loadRecaptcha() {
-          if (!recaptchaLoader) {
-            recaptchaLoader = new Promise(function (resolve, reject) {
-              const s = document.createElement("script");
-              s.src = "https://www.google.com/recaptcha/api.js?render=" + captchakey;
-              s.onload = function () {
-                grecaptcha.ready(resolve);
-              };
-              s.onerror = reject;
-              document.head.appendChild(s);
-            });
-          }
-          return recaptchaLoader;
-        }
-        document.querySelectorAll('form').forEach(function(form) {
-          form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            loadRecaptcha().then(function () {
-              return grecaptcha.execute(captchakey);
-            }).then(function (token) {
-              let hinpt = document.createElement("input");
-              hinpt.type = "hidden";
-              hinpt.name = "rcaptcha";
-              hinpt.value = token;
-              form.insertBefore(hinpt, form.firstChild);
-              form.submit();
-            }).catch(function () {
-              alert("Captcha could not be loaded. Please try again.");
-            });
-          });
-        });
-      });
-    </script>
+  {% if captchakey != "" %}
+    {{ csp_allow('recaptcha') }}
+    <script type="application/json" id="captcha-config">{{ {key: captchakey}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+    <script type="module" src="./scripts/account/recaptcha.js?v={{ asset_version }}"></script>
   {% endif %}
 
 
   {% block script %}{% endblock %}
-  {% if execscript %}
-    <script>onPageInit(function () { {{ execscript|raw }} });</script>
-  {% endif %}
 </head>
 
 <body id="{{ app.request.query.get('page')|default('overview') }}" class="account-page account-page--popup">
@@ -117,5 +49,4 @@
 </header>
 <main class="acc-main" id="content">{% block content %}{% endblock %}</main>
 <footer class="acc-footer">
-{% include 'account/main.footer.html.twig' %}
 </footer>

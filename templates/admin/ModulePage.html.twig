@@ -20,7 +20,7 @@
             <td>{% if Info.state == 1 %}<span class="badge badge--ok">{{ mod_active }}</span>{% else %}<span class="badge badge--muted">{{ mod_deactive }}</span>{% endif %}</td>
             <td class="actions">
               <form method="post" action="{{ toggleUrl|e('html_attr') }}" class="inline-form">
-                <input type="checkbox" class="switch" {% if Info.state == 1 %}checked{% endif %} onchange="this.form.submit()" aria-label="{{ Info.name|e('html_attr') }}: {% if Info.state == 1 %}{{ mod_change_deactive }}{% else %}{{ mod_change_active }}{% endif %}">
+                <input type="checkbox" class="switch" {% if Info.state == 1 %}checked{% endif %} data-autosubmit aria-label="{{ Info.name|e('html_attr') }}: {% if Info.state == 1 %}{{ mod_change_deactive }}{% else %}{{ mod_change_active }}{% endif %}">
               </form>
             </td>
           </tr>

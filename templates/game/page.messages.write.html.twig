@@ -10,12 +10,12 @@
         <td><label for="to">{{ LNG.mg_send_to }}</label></td>
         <td>
           <div class="search-receiver">
-            <input type="text" id="to" name="to" value="" oninput="loadUser();" onblur="hideSearch();" onfocus="showSearch();" autocomplete="off" placeholder="Suche Spieler">
+            <input type="text" id="to" name="to" value="" data-on-input="msg-load-user" data-on-blur="msg-hide-search" data-on-focus="msg-show-search" autocomplete="off" placeholder="Suche Spieler">
             <div class="select-box"></div>
           </div>
           <div id="receiver-list">
             {% for receiver in (receiverList)|php_iter %}
-              <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <span onclick="removeUser({{ receiver.id }})">X</span></div>
+              <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <span data-action="msg-remove-user" data-id="{{ receiver.id }}">X</span></div>
             {% endfor %}
           </div>
         </td>
@@ -34,33 +34,26 @@
         </tr>
         <tr>
           <td colspan="2">
-            <textarea name="text" id="text" cols="40" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;">{{ message }}</textarea>
+            <textarea name="text" id="text" cols="40" rows="10" data-on-keyup="char-count" data-target="cntChars">{{ message }}</textarea>
           </td>
         </tr>
       {% endif %}
       <tr>
         <td colspan="2" class="form-actions">
-          <input id="submit" type="button" onClick="{% if action == 'write' %}check(){% else %}checkForward(){% endif %};" name="button" value="{{ LNG.mg_send }}">
+          <input id="submit" type="button" data-action="{% if action == 'write' %}msg-send{% else %}msg-forward{% endif %}" name="button" value="{{ LNG.mg_send }}">
         </td>
       </tr>
     </table>
   </form>
 {% endblock %}
 {% block script %}{{ parent() }}
-  <script type="text/javascript">
-
-    searchNote = "{{ LNG.mg_min_3_chars }}";
-    searchNoUser = "{{ LNG.mg_no_user }}";
-
-    {% if action == 'write' %}
-      emptyText = "{{ LNG.mg_empty_text }}";
-      messageGroup = "{{ messageGroup }}";
-      receiverList = {{ receiverList|json_encode|default('{}')|raw }};
-      receiver = Object.values(receiverList).map(r => r.id);
-    {% else %}
-      receiver = [];
-      messageID = {{ messageID }};
-    {% endif %}
-    
-  </script>
+  {{ data_island('message-write-data', {
+    action: action,
+    searchNote: LNG.mg_min_3_chars,
+    searchNoUser: LNG.mg_no_user,
+    emptyText: LNG.mg_empty_text,
+    messageGroup: messageGroup|default(''),
+    messageID: messageID|default(0),
+    receiverList: receiverList|default({})
+  }) }}
 {% endblock %}

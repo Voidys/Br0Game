@@ -83,38 +83,14 @@ class ErrorReporter
         $DIR = ($this->state->runtime->mode === 'INSTALL' || $this->state->runtime->mode === 'UPGRADE') ? '..' : '.';
         ob_start();
         echo '<!DOCTYPE html>
-    <!--[if lt IE 7 ]> <html lang="de" class="no-js ie6"> <![endif]-->
-    <!--[if IE 7 ]>    <html lang="de" class="no-js ie7"> <![endif]-->
-    <!--[if IE 8 ]>    <html lang="de" class="no-js ie8"> <![endif]-->
-    <!--[if IE 9 ]>    <html lang="de" class="no-js ie9"> <![endif]-->
-    <!--[if (gt IE 9)|!(IE)]><!--> <html lang="de" class="no-js"> <!--<![endif]-->
+    <html lang="de">
     <head>
+    	<meta charset="utf-8">
     	<title>' . $gameName . ' - Error</title>
-    	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     	<link rel="stylesheet" type="text/css" href="' . $DIR . '/styles/resource/css/app/base.css">
     	<link rel="stylesheet" type="text/css" href="' . $DIR . '/styles/theme/nova/theme.css">
     	<link rel="stylesheet" type="text/css" href="' . $DIR . '/styles/resource/css/app/content.css">
     	<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
-    	<script type="text/javascript">
-    	var ServerTimezoneOffset = -3600;
-    	var serverTimeDelta = new Date(2012, 2, 12, 14, 43, 36).getTime() - Date.now();
-    	Object.defineProperty(window, "serverTime", {
-    		get: function () {
-    			return new Date(Date.now() + serverTimeDelta);
-    		}
-    	});
-    	var startTime	= serverTime.getTime();
-    	var Gamename	= document.title;
-    	var Ready		= "Fertig";
-    	var Skin		= "' . $DIR . '/styles/theme/nova/";
-    	var Lang		= "de";
-    	var head_info	= "Information";
-    	var auth		= 3;
-    	var days 		= ["So","Mo","Di","Mi","Do","Fr","Sa"]
-    	var months 		= ["Jan","Feb","Mar","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"] ;
-    	var tdformat	= "[M] [D] [d] [H]:[i]:[s]";
-    	var queryString	= "";
-    	</script>
     </head>
     <body id="overview" class="full">
 

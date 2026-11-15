@@ -13,7 +13,7 @@
     </tr>
 	<tr>
         <td>{{ LNG.bu_request_text }}(<span id="cntChars">0</span> / 5000 {{ LNG.bu_characters }})</td>
-        <td><textarea name="text" id="text" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;"></textarea></td>
+        <td><textarea name="text" id="text" rows="10" data-on-keyup="char-count" data-target="cntChars"></textarea></td>
     </tr>
 	<tr>
         <td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.bu_send }}"></td>

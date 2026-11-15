@@ -8,15 +8,15 @@
       <div class="galaxy-nav__bar">
         <div class="galaxy-nav__group">
           <span class="galaxy-nav__label">{{ LNG.gl_galaxy }}</span>
-          <button type="button" name="galaxyLeft" aria-label="{{ LNG.gl_galaxy }} -1" title="{{ LNG.gl_galaxy }} -1" onclick="galaxy_submit('galaxyLeft')">{{ icon('chevron-left') }}</button>
+          <button type="button" name="galaxyLeft" aria-label="{{ LNG.gl_galaxy }} -1" title="{{ LNG.gl_galaxy }} -1" data-action="galaxy-submit" data-direction="galaxyLeft">{{ icon('chevron-left') }}</button>
           <input type="number" name="galaxy" value="{{ galaxy }}" maxlength="3" tabindex="1" class="coord" aria-label="{{ LNG.gl_galaxy }}">
-          <button type="button" name="galaxyRight" aria-label="{{ LNG.gl_galaxy }} +1" title="{{ LNG.gl_galaxy }} +1" onclick="galaxy_submit('galaxyRight')">{{ icon('chevron-right') }}</button>
+          <button type="button" name="galaxyRight" aria-label="{{ LNG.gl_galaxy }} +1" title="{{ LNG.gl_galaxy }} +1" data-action="galaxy-submit" data-direction="galaxyRight">{{ icon('chevron-right') }}</button>
         </div>
         <div class="galaxy-nav__group">
           <span class="galaxy-nav__label">{{ LNG.gl_solar_system }}</span>
-          <button type="button" name="systemLeft" aria-label="{{ LNG.gl_solar_system }} -1" title="{{ LNG.gl_solar_system }} -1" onclick="galaxy_submit('systemLeft')">{{ icon('chevron-left') }}</button>
+          <button type="button" name="systemLeft" aria-label="{{ LNG.gl_solar_system }} -1" title="{{ LNG.gl_solar_system }} -1" data-action="galaxy-submit" data-direction="systemLeft">{{ icon('chevron-left') }}</button>
           <input type="number" name="system" value="{{ system }}" maxlength="3" tabindex="2" class="coord" aria-label="{{ LNG.gl_solar_system }}">
-          <button type="button" name="systemRight" aria-label="{{ LNG.gl_solar_system }} +1" title="{{ LNG.gl_solar_system }} +1" onclick="galaxy_submit('systemRight')">{{ icon('chevron-right') }}</button>
+          <button type="button" name="systemRight" aria-label="{{ LNG.gl_solar_system }} +1" title="{{ LNG.gl_solar_system }} +1" data-action="galaxy-submit" data-direction="systemRight">{{ icon('chevron-right') }}</button>
         </div>
         <div class="galaxy-nav__actions">
           <input type="submit" value="{{ LNG.gl_show }}">
@@ -37,7 +37,7 @@
         <th colspan="2">{{ LNG.gl_missil_launch }} [{{ galaxy }}:{{ system }}:{{ planet }}] {{ LNG.gl_missil_flytime }}: <span id="irakFlyTime">{{ duration }}</span></th>
       </tr>
       <tr>
-        <td>{{ LNG.gl_missil_to_launch|format(currentmip) }} <span class="control-group"><input type="number" name="SendMI" maxlength="7"> <a href="javascript:;" onclick="document.getElementsByName('SendMI')[0].value=document.getElementById('missiles').textContent.replace(/\D/g,'');">{{ LNG.fl_max }}</a></span></td>
+        <td>{{ LNG.gl_missil_to_launch|format(currentmip) }} <span class="control-group"><input type="number" name="SendMI" maxlength="7"> <a href="#" data-action="missiles-max">{{ LNG.fl_max }}</a></span></td>
         <td>{{ LNG.gl_objective }}:
           {{ html_options({'name': 'Target', 'options': missileSelector}) }}
         </td>
@@ -131,32 +131,32 @@
           <div class="galaxy-grid-item galaxy-actions">
             {% if currentPlanet.action %}
               {% if currentPlanet.action.esp %}
-                <a href="javascript:doit(6,{{ currentPlanet.planet.id }},{{ spyShips|json_encode|e('html') }})">
+                <a href="#" data-action="galaxy-mission" data-mission="6" data-planet="{{ currentPlanet.planet.id }}">
                   <img src="{{ theme_asset('img/e.gif') }}" title="{{ LNG.gl_spy }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.spyReport %}
-                <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" onclick="OpenPopup('?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}','',900,600);return false;">
+                <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" data-action="popup" data-url="?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="900">
                   <img src="{{ theme_asset('img/spy_report.png') }}" title="{{ currentPlanet.spyReportTitle }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.message %}
-                <a href="#" onclick="return Dialog.PM({{ currentPlanet.user.id }})">
+                <a href="#" data-action="dialog-pm" data-id="{{ currentPlanet.user.id }}">
                   <img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.buddy and not currentPlanet.ownPlanet %}
-                <a href="#" onclick="return Dialog.Buddy({{ currentPlanet.user.id }})">
+                <a href="#" data-action="dialog-buddy" data-id="{{ currentPlanet.user.id }}">
                   <img src="{{ theme_asset('img/b.gif') }}" title="{{ LNG.gl_buddy_request }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.missle %}
-                <a href="#" onclick="return openMissileForm({{ currentPlanet.planet.id }}, {{ galaxy }}, {{ system }}, {{ planet.planet_position }}, {{ duration }}, 1);">
+                <a href="#" data-action="missile-form" data-planet="{{ currentPlanet.planet.id }}" data-galaxy="{{ galaxy }}" data-system="{{ system }}" data-position="{{ planet.planet_position }}" data-duration="{{ duration }}" data-type="1">
                   <img src="{{ theme_asset('img/r.gif') }}" title="{{ LNG.gl_missile_attack }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.phalanx %}
-                <a href="#" onclick="OpenPopup('?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}','',640,510);return false;">
+                <a href="#" data-action="popup" data-url="?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="640">
                   <span>{{ LNG.gl_phalanx }}</span>
                 </a>
               {% endif %}
@@ -205,7 +205,7 @@
         </div>
         <div class="galaxy-grid-item galaxy-actions">
           {% if pirateBase.missions[21] %}
-            <a href="javascript:doit(21,{{ pirateBase.id }},{{ spyShips|json_encode|e('html') }})">
+            <a href="#" data-action="galaxy-mission" data-mission="21" data-planet="{{ pirateBase.id }}">
               <img src="{{ theme_asset('img/e.gif') }}" title="{{ LNG.gl_spy }}" alt="">
             </a>
           {% endif %}
@@ -262,39 +262,31 @@
   <div class="galaxy-grid-container" hidden id="fleetstatusrow">
   </div>
 
-  <script type="text/javascript">
-    const galakey = "{{ galaxy }}:{{ system }}";
-    const systemdata = {
-      {% if (max_planets) >= (1) %}{% for planet in 1..max_planets %}
-        {% if not isset(GalaxyRows[planet]) %}
-          {{ planet }}:null,
-        {% elseif GalaxyRows[planet].destroyed == true %}
-          {{ planet }}:null,
-        {% else %}
-          {% set currentPlanet = GalaxyRows[planet] %}
-          {{ planet }}: {
-            planetname: "{{ currentPlanet.planet.name }}",
-            hasmoon: {% if currentPlanet.moon %}true{% else %}false{% endif %},
-            playerid: {{ currentPlanet.user.id }},
-            name: "{{ currentPlanet.user.username }}",
-            {% if currentPlanet.alliance %}
-              allianceid:{{ currentPlanet.alliance.id }},
-              alliancename:"{{ currentPlanet.alliance.name }}",
-            {% else %}
-              allianceid: -1,
-              alliancename: "-",
-            {% endif %}
-            special: {% if not empty(currentPlanet.user.class) %}"{% for class in (currentPlanet.user.class)|php_iter %}{{ ShortStatus[class] }}{% endfor %}"{% else %}""{% endif %},
-          },
-        {% endif %}
-      {% endfor %}{% endif %}
-      timepoint: Date.now(),
-    };
-    status_ok		= '{{ LNG.gl_ajax_status_ok }}';
-    status_fail		= '{{ LNG.gl_ajax_status_fail }}';
-    MaxFleetSetting = {{ settings_fleetactions }};
-    const planetlng = "{{ LNG['bonus']['Planets'] }}";
-    const moonshortlng = "{{ LNG['type_planet_short_3'] }}";
-    const confirmlng = "{{ LNG["delete_confirm_gala"] }}";
-  </script>
+  {# system data for the galaxy sync (scripts/game/galaxy.js); the rows become the position-keyed map and get a timepoint there #}
+  {% set systemRows = [] %}
+  {% if max_planets >= 1 %}{% for planet in 1..max_planets %}
+    {% set row = GalaxyRows[planet] ?? null %}
+    {% if row is null or row.destroyed == true %}
+      {% set systemRows = systemRows|merge([{position: planet, data: null}]) %}
+    {% else %}
+      {% set special %}{% if not empty(row.user.class) %}{% for class in (row.user.class)|php_iter %}{{ ShortStatus[class] }}{% endfor %}{% endif %}{% endset %}
+      {% set systemRows = systemRows|merge([{position: planet, data: {
+        planetname: row.planet.name,
+        hasmoon: row.moon ? true : false,
+        playerid: row.user.id,
+        name: row.user.username,
+        allianceid: row.alliance ? row.alliance.id : -1,
+        alliancename: row.alliance ? row.alliance.name : '-',
+        special: special|trim
+      }}]) %}
+    {% endif %}
+  {% endfor %}{% endif %}
+  {{ data_island('galaxy-data', {
+    galakey: galaxy ~ ':' ~ system,
+    systemRows: systemRows,
+    maxFleetSetting: settings_fleetactions,
+    planetLng: LNG['bonus']['Planets'],
+    moonShortLng: LNG['type_planet_short_3'],
+    confirmLng: LNG['delete_confirm_gala']
+  }) }}
 {% endblock %}

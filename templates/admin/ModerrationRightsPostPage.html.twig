@@ -18,8 +18,8 @@
       <h2 class="card__title">{{ icon('lock') }}{{ ad_authlevel_title }}</h2>
       <div class="card__actions">
         <input type="search" class="table-filter" data-table-filter="#rights-table" placeholder="{{ LNG.adm_filter_page }}">
-        <button type="button" class="btn--small" onclick="document.querySelectorAll('.yes').forEach(function (e) { e.checked = true; });">{{ icon('check') }}{{ yesorno[1] }}</button>
-        <button type="button" class="btn--small" onclick="document.querySelectorAll('.no').forEach(function (e) { e.checked = true; });">{{ icon('x') }}{{ yesorno[0] }}</button>
+        <button type="button" class="btn--small" data-set-checked=".yes" data-checked="1">{{ icon('check') }}{{ yesorno[1] }}</button>
+        <button type="button" class="btn--small" data-set-checked=".no" data-checked="1">{{ icon('x') }}{{ yesorno[0] }}</button>
       </div>
     </header>
     <div class="table-wrap">

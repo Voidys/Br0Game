@@ -20,37 +20,15 @@
     .colorNegative { color: {{ signalColors.colorNegative|default('#f05252') }} !important; }
     .colorNeutral { color: {{ signalColors.colorNeutral|default('#f0b429') }}; }
   </style>
-  <script>
-    var ServerTimezoneOffset = {{ Offset }};
-    var serverTimeDelta = new Date({{ date[0] }}, {{ date[1] - 1 }}, {{ date[2] }}, {{ date[3] }}, {{ date[4] }}, {{ date[5] }}).getTime() - Date.now();
-    Object.defineProperty(window, 'serverTime', { get: function () { return new Date(Date.now() + serverTimeDelta); } });
-    var startTime = serverTime.getTime();
-    var Ready = "{{ LNG.ready }}";
-    var Skin = "{{ dpath }}";
-    var Lang = "{{ lang }}";
-    var head_info = "{{ LNG.fcm_info }}";
-    var days = {{ LNG.week_day|json_encode|default('[]')|raw }};
-    var months = {{ LNG.months|json_encode|default('[]')|raw }};
-    var tdformat = "{{ LNG.js_tdformat }}";
-    var confirmText = {{ LNG.adm_confirm|json_encode|raw }};
-    window.__pageInit = [];
-    window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-    {# quick editor (user/planet) in the shared modal dialog #}
-    function openEdit(id, type) {
-      Dialog.open('admin?page=quickEditor&edit=' + type + '&id=' + id, 880, 640);
-      return false;
-    }
-  </script>
+  {% include 'shared/page_config.html.twig' %}
+  <script type="module" src="./scripts/page/config.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/admin/main.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
-  {# admin page scripts are classic, synchronous scripts: inline page code uses their globals while parsing #}
+  {# classic page scripts (game/, base/) #}
   {% for scriptname in (scripts)|php_iter %}
     <script src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
   {% endfor %}
-  {% if execscript %}
-    <script>onPageInit(function () { {{ execscript|raw }} });</script>
-  {% endif %}
 </head>
 <body id="{{ bodyId }}" class="admin {{ adminShell ? 'admin--shell' : 'admin--bare' }}">
 {% if adminShell %}

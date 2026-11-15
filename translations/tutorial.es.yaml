@@ -9,6 +9,12 @@ tutorial_goal:
     '1': Ataca a otro jugador
     '6': Envía una sonda de espionaje a otro jugador.
     '8': Recicla un campo de escombros
+    "7": "Coloniza otro planeta"
+    "15": "Envía una flota de expedición"
+  step6:
+    "1": "Cambia el nombre de tu planeta"
+    "2": "Envía una solicitud de amistad a otro jugador"
+    "3": "Envía una solicitud de alianza"
 tutorial_goals_header: 'Metas:'
 tutorial_goals_ignore: (ignorar)
 tutorial_rewards_header: 'Recompensas:'

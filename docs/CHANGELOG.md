@@ -655,3 +655,31 @@ Technical changes per migration step, newest last.
 
 - Alliance website/image links: only absolute http(s) URLs are stored and rendered (`AllianceController::httpUrlOrEmpty()`). Migration 1794900300 clears stored `javascript:`/`data:` values (audit XSS-1).
 - Error page: exception message, file, URL and trace go into the HTML comment only in debug mode (`ErrorReporter` gets `%kernel.debug%`), escaped and with `--` neutralised (audit AUTH-10).
+
+## 91. Translations completed (phase 3c)
+
+- All locales (es, fr, pl, pt, ru, tr, pi, of) now carry every key of `en`/`de` in every domain (about 6800 keys added: admin, install, ingame, public, account, tech, faq, tutorial, fleet); es/fr/pl/pt/ru/tr translated, pi/of take the German text where no dialect text exists.
+- Stale duplicate key `shortDescription.231'` (stray apostrophe) removed from `tech.de.yaml`.
+
+## 92. Non-game frontend without inline code (phase 3b)
+
+- Admin, account, login and installer templates have no `on*=` handlers, `javascript:` links or inline scripts left (CSP `script-src 'self' 'nonce'` clean); only JSON data islands and module scripts remain.
+- New `templates/shared/page_config.html.twig` + `scripts/page/config.js`: server clock, language strings and flags as a JSON island (`#page-config`), published as the globals the shared modules read; `readPageData(id)` for per-page islands (`#login-config`, `#bots-config`, `#config-uni-data`, `#captcha-config`).
+- Admin behaviour by data attributes in `scripts/admin/main.js` (`data-open-edit`, `-autosubmit`, `-set-checked`, `-check-all`, `-count-chars`, `-toggle-rows`, `-reveal`, `-goto-page`), `filterSelect.js` (replaces the 2003 `filterlist.js`), `ajaxForm.js` (`data-ajax-dialog`); one page module per complex page in `scripts/admin/pages/` (configUni incl. former `Percentslider.js`, bots, team, dump, reshuffle, sendMessages, active, tickets, createTestUser).
+- Confirm questions: `data-confirm` sits on the submit button / link (asked once by `app/actions.js`), no longer on forms; admin fills the empty generic text. Removed duplicate confirm code from `admin/main.js` and `account/board.js`.
+- Login: `[data-autosubmit]` selects, time zone preselection and `LoginConfig` moved into `login/main.js`/island; dead `Login.setLanguage`, `loginError`, `toggleBlock`, `execscript` (non-game layouts) removed. Installer language select and the four legacy table pages (update, doupdate, migration, message) now use `ins_layout`; `scripts/install/main.js`.
+- Account popup layout: reCAPTCHA loader is `scripts/account/recaptcha.js` (needs `https://www.google.com` in `script-src`/`connect-src`/`frame-src` while it exists); `ErrorReporter` page lost its dead inline script.
+
+## 93. Content-Security-Policy, no inline handlers in the game (phase 3a)
+
+- `Content-Security-Policy` on the HTML of every area (`App\Security\ContentSecurityPolicy`, `EventListener\CspListener`): `default-src 'self'`, `script-src 'self' 'nonce-…'`, inline styles allowed (style="" attributes, signal colour `<style>`), `img-src 'self' data: https:` (alliance logos/avatars), `connect-src/font-src 'self'`, `frame-ancestors/base-uri/form-action 'self'`, `object-src 'none'`. Per-request nonce (`CspNonce`, Twig `csp_nonce()`; the importmap is the only inline script).
+- `CSP_MODE=enforce|report|off` (default enforce; areas in `app.csp.enforced_areas`, all five by default, the rest report-only); violations go to `POST /csp-report` (`CspReportController`, rate limited 30/min per IP) and `var/log/csp.log`.
+- reCAPTCHA sources (google.com, gstatic.com in script/frame/connect-src) are opened only for pages that call `csp_allow('recaptcha')` (game and account layouts when a key is configured).
+- Game templates: 0 `on*=` attributes (was 198 in 46 files), 0 `javascript:` links (was 26), 0 inline `<script>` (was 34 files). Behaviour by data attributes and one delegated listener per event type (`public/scripts/app/actions.js`: `data-action`, `data-on-change|input|keyup|focus|blur|submit|error`, `data-confirm`, `registerActions()`); built-in actions for dialogs, popups, auto-submit selects, collapsible rows, char counters, row filters, fill-input.
+- Template data reaches modules as JSON data islands (`data_island(id, data)`, JSON_HEX_* escaped; `pageData(id)` in `app/core.js`); layout clock/language values in `#game-env` (`app/env.js`), resource tickers in `#resource-tickers`, reCAPTCHA loader `app/recaptcha.js`. `execscript`/`addInlineScript` no longer used by the game (4 callers replaced).
+- New page modules: settings, alliance, acs, achievements, techtree, tutorial, playercard, logout; `var` -> `let` in app and game scripts. Dead scripts removed: `trader.js`, `vertify.js`, `install.js`.
+- Stored message texts and old translation strings with `onclick="Dialog.Playercard(…)"` keep working (legacy shim reads the blocked attribute); PHP-built links (fleet table, tutorial link, ticket back button) use data attributes.
+- Fixes found on the way: receiver search list of the write dialog never became visible and went stale on the second open; galaxy `annotatehover` crashed on a tooltip-less cell; alliance "leave" link lacked `data-method="post"`; phalanx/overview-actions/message modules now re-init on every modal load.
+- Translations: the two alliance message texts (`al_leaving_msg`, `al_new_apply`) in all ten `ingame.*.yaml` now use `data-action="dialog-playercard" data-id="%s" data-name="%s"` (same three placeholders). Old stored messages are rewritten when shown by the Twig filter `legacy_markup` (no CSP report); `actions.js` keeps a click fallback. `javascript:history.back()` buttons (ticket, login/account register) became `data-action="history-back"`. No `on*=` or `javascript:` is left in `src`, `translations` or `templates/texts`.
+- Layout tables: fleet step 1 submit row (`div.form-actions`), fleet step 2 mission choice (`div.mission-list`), repair dock and shipyard info boxes (`p#infobox`), alliance chart wrapper (plain `div`). Header-strip tables (custom fleets toggle, alliance "back") stay tables: as buttons/divs they lost the theme's header look.
+

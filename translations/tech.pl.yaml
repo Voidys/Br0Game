@@ -406,6 +406,10 @@ longDescription:
     kopalń i ekstraktorów, wymagane są ogromne ilości czystej energii. Prawie
     wszystkie budynki potrzebują energii do ich eksploatacji. Energia jest
     niewymienialna.
+  "229": "Stworzona, by przełamać dominację Xerów, Żmija jest ostateczną bronią przeciwko Lekkim myśliwcom, Ciężkim myśliwcom i Krążownikom. Dzięki szybkostrzelnym działom i zaawansowanej technologii zmienia układ sił we wszechświecie."
+  "230": "Szybki. Precyzyjny. Nietykalny. Przechwytywacz nie jest stworzony do uczciwych walk – został zaprojektowany, by uderzać szybko i mocno, zapewniając przytłaczającą przewagę w mgnieniu oka."
+  "231": "Behemot jest owocem dziesięcioleci badań nad gravitonami, które połączono w bezlitosną platformę bojową. W przeciwieństwie do Gwiazd Śmierci nie został zaprojektowany do niszczenia planet, lecz do maksymalnej skuteczności na polu bitwy. Rezygnując z energochłonnych systemów potrzebnych do niszczenia księżyców, znacznie odchudzono jego konstrukcję, co pozwoliło na mocniejsze silniki, większą zwrotność i większą siłę ognia. Kompaktowe działo gravitonowe zmienia go w mobilną maszynę zniszczenia, zdolną samodzielnie unicestwić nawet ogromne floty."
+  "232": "Tytan Pustki to szczyt nowoczesnej technologii gravitonowej. Każdy element jego konstrukcji służy jednemu celowi: szybkiej anihilacji wrogich księżyców. Konwencjonalne wieżyczki bojowe celowo pominięto, aby zmniejszyć masę i zrobić miejsce na kolosalne generatory kryształowe. Zasilają one najbardziej zaawansowane cewki przyspieszające, jakie kiedykolwiek zbudowano w znanych galaktykach, nadając statkowi niezrównaną mobilność. Ogromne zapotrzebowanie na kryształ sprawia, że każdy Tytan Pustki to monumentalne osiągnięcie przemysłowe – i symbol nieograniczonej siły niszczącej."
 secureResources: >-
   W zależności od poziomu ulepszenia, 1% dziennej produkcji do maksymalnie 10%
   jest chronione przed grabieżą podczas ataków.
@@ -628,6 +632,9 @@ shortDescription:
     Deuter jest izotopem wodoru, paliwo dla statków kosmicznych, nawigatorów i
     naukowców.
   '911': Czysta energia napędzająca przemysł wydobywczy.
+  "229": "Stworzona, by przełamać dominację Xerów, Żmija jest ostateczną bronią przeciwko Lekkim myśliwcom, Ciężkim myśliwcom i Krążownikom. Dzięki szybkostrzelnym działom i zaawansowanej technologii zmienia układ sił we wszechświecie."
+  "230": "Szybki. Precyzyjny. Nietykalny. Przechwytywacz nie jest stworzony do uczciwych walk – został zaprojektowany, by uderzać szybko i mocno, zapewniając przytłaczającą przewagę w mgnieniu oka."
+  "232": "Szybszy, bardziej wybuchowy, zawsze dobra niespodzianka. Tytan Pustki to postrach księżyców."
 shortNames:
   '202': M. Transporter
   '203': D. Transporter
@@ -670,6 +677,10 @@ shortNames:
   '412': Bunkier
   '413': Titan Laser
   '414': Wabik
+  "229": "Żmija"
+  "230": "Przechwytywacz"
+  "231": "Behemot"
+  "232": "Tytan Pustki"
 spytechStatsDescription: >-
   Na poziomach 0 i 1 widoczna jest tylko suma punktów innych graczy. Od poziomu
   2 widoczne są również punkty budynków innych graczy. Od poziomu 4 wyświetlane
@@ -770,3 +781,7 @@ tech:
   '902': Kryształ
   '903': Deuterium
   '911': Energia
+  "229": "Żmija"
+  "230": "Przechwytywacz"
+  "231": "Behemot"
+  "232": "Tytan Pustki"

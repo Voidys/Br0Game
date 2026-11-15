@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="{{ base }}/styles/resource/css/login/login.css?v={{ asset_version }}">
   <link rel="stylesheet" href="{{ base }}/styles/resource/css/app/rte.css?v={{ asset_version }}">
   <script type="module" src="{{ base }}/scripts/login/main.js?v={{ asset_version }}"></script>
-  <script>{% if login_error is defined %}var loginError = {{ login_error|json_encode|raw }};{% endif %}</script>
   {% block script %}{% endblock %}
 </head>
 <body id="{% block page_id %}overview{% endblock %}" class="site site--normal">
@@ -67,13 +66,11 @@
       </nav>
     </div>
   </footer>
-  <script>
-    var LoginConfig = {
-      'isMultiUniverse': false,
-      'unisWildcast': false,
-      'referralEnable' : {{ (game_config('ref_active') == '1')|json_encode|raw }},
-      'basePath' : {{ (app.request.schemeAndHttpHost ~ base ~ '/')|json_encode|raw }}
-    };
-  </script>
+  <script type="application/json" id="login-config">{{ {
+    isMultiUniverse: false,
+    unisWildcast: false,
+    referralEnable: game_config('ref_active') == '1',
+    basePath: app.request.schemeAndHttpHost ~ base ~ '/',
+  }|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
 </body>
 </html>

@@ -1,16 +1,14 @@
 /**
  * Start page: language select, menu toggle (narrow screens), universe start countdowns, universe
- * based form urls, screenshot viewer. Native ES module; LoginConfig is defined by layout.base.
+ * based form urls, screenshot viewer, auto-submitting selects ([data-autosubmit]), browser time zone
+ * preselection on the register form. Native ES module; the configuration comes from the JSON island
+ * #login-config ({isMultiUniverse, unisWildcast, referralEnable, basePath}) of the layout.
  */
 import '../app/csrf.js';
 import { qs, qsa, on, ready, cookie } from '../app/core.js';
+import { readPageData } from '../page/config.js';
 
-const Login = {
-  setLanguage(lang, query) {
-    cookie.set('lang', lang);
-    document.location.href = document.location.href + (query ?? '');
-  },
-};
+const config = readPageData('login-config') ?? {};
 
 function fbLinks() {
   return qsa('.fb_login');
@@ -19,7 +17,6 @@ function fbLinks() {
 function updateUrls(select) {
   const universe = select.value;
   const form = select.closest('form');
-  const config = window.LoginConfig;
   let base = config.basePath;
   if (config.unisWildcast && universe != 0) {
     base = config.basePath.replace('://', `://uni${universe}.`);
@@ -106,6 +103,11 @@ ready(() => {
   });
   window.matchMedia('(width > 60rem)').addEventListener('change', (event) => { if (event.matches) setMenu(false); });
 
+  on(document, 'change', '[data-autosubmit]', (event, select) => select.form.submit());
+
+  const timezone = document.getElementById('timezone');
+  if (timezone) timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   countdowns();
 
   on(document, 'click', 'a.gallery', (event, link) => {
@@ -114,16 +116,14 @@ ready(() => {
     openGallery(links, links.indexOf(link));
   });
 
-  if (window.LoginConfig?.isMultiUniverse) {
+  if (config.isMultiUniverse) {
     for (const select of qsa('.changeAction')) {
       updateUrls(select);
       select.addEventListener('change', () => updateUrls(select));
     }
   } else {
     for (const link of fbLinks()) {
-      link.setAttribute('href', window.LoginConfig.basePath + link.dataset.href);
+      link.setAttribute('href', config.basePath + link.dataset.href);
     }
   }
 });
-
-window.Login = Login;

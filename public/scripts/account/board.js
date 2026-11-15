@@ -1,6 +1,6 @@
 /*
  * Board (account?page=board): voting via fetch, thread collapse, inline reply/edit forms,
- * delete confirmation. Native ES module, no dependencies.
+ * (delete confirmations are data-confirm buttons, asked by ../app/actions.js). Native ES module, no dependencies.
  */
 import { initRte } from '../app/rte.js';
 
@@ -38,12 +38,6 @@ if (root) {
     } finally {
       box.classList.remove('is-busy');
     }
-  });
-
-  // -------------------------------------------------------------- delete confirmation
-  root.addEventListener('submit', (event) => {
-    const message = event.target.dataset?.confirm;
-    if (message && !window.confirm(message)) event.preventDefault();
   });
 
   // -------------------------------------------------------------- thread collapse

@@ -94,7 +94,7 @@
     </form>
     <div class="msg-filters">
       <a href="game?page=messages&category={{ MessID }}&fav={{ fav ? 0 : 1 }}" class="button{% if fav %} active{% endif %}">{{ fav ? LNG.mg_favorite_filter_off : LNG.mg_favorite_filter_on }}</a>
-      <a href="#" class="button{% if grp %} active{% endif %}" onclick="toggleGrouping({{ MessID }}, {{ fav }}); return false;">{{ grp ? LNG.mg_grouping_off : LNG.mg_grouping_on }}</a>
+      <a href="#" class="button{% if grp %} active{% endif %}" data-action="msg-toggle-grouping" data-category="{{ MessID }}" data-fav="{{ fav }}">{{ grp ? LNG.mg_grouping_off : LNG.mg_grouping_on }}</a>
     </div>
   </div>
 
@@ -116,7 +116,7 @@
           <input class="message-select" type="checkbox" name="messageID[{{ Message.id }}]" value="1" aria-label="{{ LNG.mg_select_all }}">
           <span class="message-type">{{ LNG.mg_type[Message.type] }}{% if Message.unread == 1 %} <span class="message-new">{{ icon('mail') }} {{ LNG.mg_new }}</span>{% endif %}</span>
           <span class="message-details" id="msgdetails_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
-            <span class="message-from">{{ Message.from|raw }}</span>
+            <span class="message-from">{{ Message.from|legacy_markup }}</span>
             <span class="message-subject">{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
           </span>
           {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
@@ -124,22 +124,22 @@
           {% endif %}
           <time class="message-date">{{ Message.time }}</time>
           <span class="message-tools">
-            <a href="#" class="msg-act" onclick="Message.favMessage({{ Message.id }}, '{{ theme_asset('img/fav.png') }}', '{{ theme_asset('img/nofav.png') }}'); return false;" title="{{ LNG.mg_favorite }}"><span id="imgfav_{{ Message.id }}" class="msg-fav{% if Message.favorite %} is-on{% endif %}">{{ icon('star') }}</span></a>
+            <a href="#" class="msg-act" data-action="msg-fav" data-id="{{ Message.id }}" data-fav-url="{{ theme_asset('img/fav.png') }}" data-nofav-url="{{ theme_asset('img/nofav.png') }}" title="{{ LNG.mg_favorite }}"><span id="imgfav_{{ Message.id }}" class="msg-fav{% if Message.favorite %} is-on{% endif %}">{{ icon('star') }}</span></a>
             {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
-              <a href="#" class="msg-act" onclick="return Dialog.PM({{ Message.answerTo|json_encode }}, Message.CreateAnswer('{{ Message.subject }}'), '', '{{ Message.group }}');" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}">{{ icon('reply') }}</a>
+              <a href="#" class="msg-act" data-action="msg-reply" data-receivers="{{ Message.answerTo|json_encode }}" data-subject="{{ Message.subject }}" data-group="{{ Message.group }}" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}">{{ icon('reply') }}</a>
             {% endif %}
-            <a href="#" class="msg-act" onclick="return Dialog.Forward({{ Message.id }});" title="{{ LNG.mg_forward }}">{{ icon('forward') }}</a>
+            <a href="#" class="msg-act" data-action="dialog-forward" data-id="{{ Message.id }}" title="{{ LNG.mg_forward }}">{{ icon('forward') }}</a>
             {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
-              <a href="#" class="msg-act" onclick="toggleSpyReport({{ Message.id }}, '', ''); return false;" title="Toggle"><span id="imgtoggle_{{ Message.id }}" class="msg-toggle{% if spyCollapsed %} is-collapsed{% endif %}">{{ icon('chevron-up') }}{{ icon('chevron-down') }}</span></a>
+              <a href="#" class="msg-act" data-action="msg-toggle-spy" data-id="{{ Message.id }}" title="Toggle"><span id="imgtoggle_{{ Message.id }}" class="msg-toggle{% if spyCollapsed %} is-collapsed{% endif %}">{{ icon('chevron-up') }}{{ icon('chevron-down') }}</span></a>
             {% endif %}
-            <a href="#" class="msg-act msg-act--delete" onclick="Message.delMessage({{ Message.id }}, 'group_{{ groupId }}'); return false;" title="{{ LNG.mg_delete }}">{{ icon('trash-2') }}</a>
+            <a href="#" class="msg-act msg-act--delete" data-action="msg-delete" data-id="{{ Message.id }}" data-group="group_{{ groupId }}" title="{{ LNG.mg_delete }}">{{ icon('trash-2') }}</a>
           </span>
           {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
             <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in (Message.receiver)|php_iter %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
           {% endif %}
         </header>
         <div class="message-content" id="msgcontent_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
-          {{ Message.text|raw }}
+          {{ Message.text|legacy_markup }}
         </div>
       </article>
     {% endfor %}

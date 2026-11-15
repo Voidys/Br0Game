@@ -7,7 +7,7 @@
 	<div class="table-scroll">
 	<table class="rank-table">
 	<tr>
-			<th colspan="{{ countRank + 2 }}">{{ LNG.al_configura_ranks }} <span class="float-right"><button id="create_new_alliance_rank">+</button></span></th>
+			<th colspan="{{ countRank + 2 }}">{{ LNG.al_configura_ranks }} <span class="float-right"><button type="button" id="create_new_alliance_rank" data-action="dialog-show" data-target="new_alliance_rank" data-width="760">+</button></span></th>
 	</tr>
 	<tr>
 		<td class="ctr">{{ LNG.al_dlte }}</td>
@@ -72,12 +72,5 @@
 </div>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script>
-onPageInit(function () {
-	document.getElementById('create_new_alliance_rank').addEventListener('click', function (event) {
-		event.preventDefault();
-		Dialog.show(document.getElementById('new_alliance_rank'), {width: 760});
-	});
-});
-</script>
+<script type="module" src="./scripts/game/alliance.js?v={{ asset_version }}"></script>
 {% endblock %}

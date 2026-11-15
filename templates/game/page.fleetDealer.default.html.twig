@@ -11,7 +11,7 @@
 			<td>
 				<div class="transparent text-left float-left"><img id="img" alt=""></div>
 				<div class="transparent text-right float-right fleet-dealer-pick">
-					<select name="shipID" id="shipID" onchange="updateVars()">
+					<select name="shipID" id="shipID" data-on-change="trader-update">
 						{% for shipID in (shipIDs)|php_iter %}
 						<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
 						{% endfor %}
@@ -22,8 +22,8 @@
 					<p>
             {{ LNG.ft_count }}:
             <span class="control-group">
-              <input type="text" id="count" name="count" onkeyup="Total();" class="num">
-              <button onclick="MaxShips();return false;">{{ LNG.ft_max }}</button>
+              <input type="text" id="count" name="count" data-on-keyup="trader-total" class="num">
+              <button data-action="trader-max">{{ LNG.ft_max }}</button>
             </span>
           </p>
 					<p>
@@ -46,10 +46,6 @@
 </form>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="module" src="scripts/game/fleettrader.js"></script>
-<script>
-var CostInfo = {{ CostInfos|json_encode|raw }};
-var Charge = {{ Charge }};
-var ShipImg = {{ shipImg|json_encode|raw }};
-</script>
+{{ data_island('fleet-dealer-data', {costInfo: CostInfos, charge: Charge, shipImg: shipImg}) }}
+<script type="module" src="./scripts/game/fleettrader.js?v={{ asset_version }}"></script>
 {% endblock %}

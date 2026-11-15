@@ -17,9 +17,9 @@
 			<td>{{ diploName }}</td>
 			<td class="act">
 				{% if diploMode == php_const('DIPLO_WAR') %}
-				<a href="game?page=alliance&amp;mode=admin&amp;action=diplomacyCreate&amp;diploMode={{ php_const('DIPLO_PEACE') }}&amp;id={{ diploID }}" onclick="return Dialog.open(this.href, 650, 300);"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
+				<a href="game?page=alliance&amp;mode=admin&amp;action=diplomacyCreate&amp;diploMode={{ php_const('DIPLO_PEACE') }}&amp;id={{ diploID }}" data-dialog="" data-dialog-width="650"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
 				{% else %}
-				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_confirm_delete }}');"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
+				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" data-confirm="{{ LNG.al_diplo_confirm_delete|e('html_attr') }}"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
 				{% endif %}
 			</td>
 		</tr>
@@ -31,7 +31,7 @@
 	{% if diploMode != php_const('DIPLO_MAIN') %}
 	<tr>
 		<td colspan="2">
-			<a href="game?page=alliance&amp;mode=admin&amp;action=diplomacyCreate&amp;diploMode={{ diploMode }}" onclick="return Dialog.open(this.href, 650, 300);">{{ LNG.al_diplo_create }}</a>
+			<a href="game?page=alliance&amp;mode=admin&amp;action=diplomacyCreate&amp;diploMode={{ diploMode }}" data-dialog="" data-dialog-width="650">{{ LNG.al_diplo_create }}</a>
 		</td>
 	</tr>
 	{% endif %}
@@ -51,8 +51,8 @@
 		<tr>
 			<td>{{ diploName }}</td>
 			<td class="act">
-				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyAccept&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_accept_yes_confirm }}');"><img class="inline" src="styles/resource/images/true.webp" alt="" width="16" height="16"></a>
-				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyReject&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_accept_no_confirm }}');"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
+				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyAccept&amp;id={{ diploID }}" data-confirm="{{ LNG.al_diplo_accept_yes_confirm|e('html_attr') }}"><img class="inline" src="styles/resource/images/true.webp" alt="" width="16" height="16"></a>
+				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyReject&amp;id={{ diploID }}" data-confirm="{{ LNG.al_diplo_accept_no_confirm|e('html_attr') }}"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
 			</td>
 		</tr>
 		{% endfor %}
@@ -78,7 +78,7 @@
 		<tr>
 			<td>{{ diploName }}</td>
 			<td class="act">
-				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" onclick="return confirm('{{ LNG.al_diplo_withdraw_confirm }}');"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
+				<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=diplomacyDelete&amp;id={{ diploID }}" data-confirm="{{ LNG.al_diplo_withdraw_confirm|e('html_attr') }}"><img class="inline" src="styles/resource/images/false.webp" alt="" width="16" height="16"></a>
 			</td>
 		</tr>
 		{% endfor %}

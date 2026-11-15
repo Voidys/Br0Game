@@ -19,16 +19,5 @@
 </table>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="text/javascript">
-    var second = 5;
-	function Countdown(){
-		if(second == 0)
-			return;
-			
-		second--;
-		document.getElementById('seconds').textContent = second;
-	}
-	window.setTimeout("window.location.href='./'", 5000);
-	window.setInterval("Countdown()", 1000);
-</script>
+<script type="module" src="./scripts/game/logout.js?v={{ asset_version }}"></script>
 {% endblock %}

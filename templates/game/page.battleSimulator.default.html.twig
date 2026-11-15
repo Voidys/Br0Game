@@ -20,7 +20,7 @@
 {% endmacro %}
 
 {% macro unit(id) %}
-  <span class="sim-unit"><img src="{{ theme_asset('gebaeude/' ~ id ~ '.gif') }}" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">{{ LNG.tech[id] }}</span>
+  <span class="sim-unit"><img src="{{ theme_asset('gebaeude/' ~ id ~ '.gif') }}" alt="" width="24" height="24" loading="lazy" data-on-error="remove">{{ LNG.tech[id] }}</span>
 {% endmacro %}
 
 {% block content %}
@@ -32,30 +32,28 @@
     <tr>
       <td>
         <span class="sim-toolbar__group">
-          <button type="button" onclick="return add();">{{ icon('plus') }}{{ LNG.bs_add_acs_slot }}</button>
-          <button type="button" onclick="return switchSides();">{{ icon('arrow-left-right') }}{{ LNG.bs_swap }}</button>
+          <button type="button" data-action="sim-add-slot">{{ icon('plus') }}{{ LNG.bs_add_acs_slot }}</button>
+          <button type="button" data-action="sim-switch-sides">{{ icon('arrow-left-right') }}{{ LNG.bs_swap }}</button>
         </span>
       </td>
       <td>
         <div class="sim-toolbar__share">
         <label class="visually-hidden" for="shareInput">{{ LNG.bs_share_code }}</label>
         <input type="text" id="shareInput" class="share-input" placeholder="{{ LNG.bs_share_code }}" autocomplete="off" spellcheck="false">
-        <button type="button" onclick="loadShareString();">{{ LNG.bs_load }}</button>
-        <button type="button" onclick="generateShareString();">{{ LNG.bs_share }}</button>
+        <button type="button" data-action="sim-load-share">{{ LNG.bs_load }}</button>
+        <button type="button" data-action="sim-generate-share">{{ LNG.bs_share }}</button>
         </div>
       </td>
     </tr>
   </table>
-  <script>
-    var BS_LNG = {
-      shareCopied: '{{ LNG.bs_share_success|e('js') }}',
-      shareError: '{{ LNG.bs_share_error|e('js') }}',
-      shareCopyFail: '{{ LNG.bs_share_copy_fail|e('js') }}',
-      shareCopyPrompt: '{{ LNG.bs_share_copy_prompt|e('js') }}',
-      shareLoadNoInput: '{{ LNG.bs_load_no_input|e('js') }}',
-      shareLoadInvalid: '{{ LNG.bs_load_invalid|e('js') }}',
-    };
-  </script>
+  {{ data_island('sim-data', {
+    shareCopied: LNG.bs_share_success,
+    shareError: LNG.bs_share_error,
+    shareCopyFail: LNG.bs_share_copy_fail,
+    shareCopyPrompt: LNG.bs_share_copy_prompt,
+    shareLoadNoInput: LNG.bs_load_no_input,
+    shareLoadInvalid: LNG.bs_load_invalid
+  }) }}
 
   <div id="tabs" data-tabs class="sim-slots">
     <ul>
@@ -120,7 +118,7 @@
   </div>
 
   <div class="sim-actions">
-    <button type="button" id="sim-submit" class="sim-actions__primary" onclick="return check();" data-busy-label="{{ LNG.bs_wait }}">{{ icon('swords') }}<span>{{ LNG.bs_send }}</span></button>
+    <button type="button" id="sim-submit" class="sim-actions__primary" data-action="sim-send" data-busy-label="{{ LNG.bs_wait }}">{{ icon('swords') }}<span>{{ LNG.bs_send }}</span></button>
     <button type="reset">{{ icon('refresh-cw') }}{{ LNG.bs_cancel }}</button>
   </div>
 </form>

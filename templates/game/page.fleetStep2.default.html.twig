@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetStep3" method="post" onsubmit="return CheckResources()" id="form">
+<form action="game?page=fleetStep3" method="post" data-on-submit="check-resources" id="form">
 <input type="hidden" name="token" value="{{ token }}">
 {% if Exchange %}
 <input type="hidden" name="metal" value="">
@@ -18,24 +18,18 @@
         </tr>
 		<tr>
 			<td class="left top w-50 p-0"{% if not empty(StaySelector) %} rowspan="{% if Exchange %}6{% else %}5{% endif %}"{% endif %}>
-        <table border="0" cellpadding="0" cellspacing="0" class="m-0 p-0">
+        <div class="mission-list">
           {% for MissionID in (MissionSelector)|php_iter %}
-					<tr>
-						<td class="transparent left">
-						<input id="radio_{{ MissionID }}" type="radio" name="mission" value="{{ MissionID }}" {% if mission == MissionID or loop.length == 1 %}checked="checked"{% endif %} onchange="checkHold({{ MissionID }})" class="fleet-radio"><label for="radio_{{ MissionID }}">{{ LNG["type_mission_#{MissionID}"] }}</label><br>
-							{% if MissionID == 17 %}<br><div class="fleet-alert">{{ LNG.fl_transfer_alert_message }}</div><br>{% endif %}
-							{% if MissionID == 15 %}<br><div class="fleet-alert">{{ LNG.fl_expedition_alert_message }}</div><br>{% endif %}
-						</td>
-					</tr>
-					{% endfor %}
-					{% if Exchange %}
-					<tr class="fleet-noreturn">
-						<td class="transparent left fleet-warning">
-							{{ LNG.market_info_no_return }}
-						</td>
-					</tr>
-					{% endif %}
-        </table>
+          <div class="mission-option">
+            <input id="radio_{{ MissionID }}" type="radio" name="mission" value="{{ MissionID }}" {% if mission == MissionID or loop.length == 1 %}checked="checked"{% endif %} data-on-change="check-hold" data-mission="{{ MissionID }}" class="fleet-radio"><label for="radio_{{ MissionID }}">{{ LNG["type_mission_#{MissionID}"] }}</label>
+            {% if MissionID == 17 %}<div class="fleet-alert">{{ LNG.fl_transfer_alert_message }}</div>{% endif %}
+            {% if MissionID == 15 %}<div class="fleet-alert">{{ LNG.fl_expedition_alert_message }}</div>{% endif %}
+          </div>
+          {% endfor %}
+          {% if Exchange %}
+          <div class="mission-option fleet-noreturn fleet-warning">{{ LNG.market_info_no_return }}</div>
+          {% endif %}
+        </div>
       </td>
       <td class="top">
 				<table border="0" cellpadding="0" cellspacing="0">
@@ -48,20 +42,20 @@
                 <option value="3">{{ LNG.tech[903] }}</option>
               </select>
             </td>
-            <td class="transparent num"><span class="control-group"><a href="javascript:maxTradeOffer();">{{ LNG.fl_max }}</a> <input id="tradeOfferAmount" type="number" class="fleet-amount"></span></td>
+            <td class="transparent num"><span class="control-group"><a href="#" data-action="max-trade-offer">{{ LNG.fl_max }}</a> <input id="tradeOfferAmount" type="number" class="fleet-amount"></span></td>
           </tr>
           {% else %}
           <tr>
             <td class="transparent">{{ LNG.tech[901] }}</td>
-            <td class="transparent num"><span class="control-group"><a href="javascript:maxResource('metal');">{{ LNG.fl_max }}</a> <input name="metal" onchange="calculateTransportCapacity();" type="number" class="fleet-amount"></span></td>
+            <td class="transparent num"><span class="control-group"><a href="#" data-action="max-resource" data-resource="metal">{{ LNG.fl_max }}</a> <input name="metal" data-on-change="calc-capacity" type="number" class="fleet-amount"></span></td>
           </tr>
           <tr>
             <td class="transparent">{{ LNG.tech[902] }}</td>
-            <td class="transparent num"><span class="control-group"><a href="javascript:maxResource('crystal');">{{ LNG.fl_max }}</a> <input name="crystal" onchange="calculateTransportCapacity();" type="number" class="fleet-amount"></span></td>
+            <td class="transparent num"><span class="control-group"><a href="#" data-action="max-resource" data-resource="crystal">{{ LNG.fl_max }}</a> <input name="crystal" data-on-change="calc-capacity" type="number" class="fleet-amount"></span></td>
           </tr>
           <tr>
             <td class="transparent">{{ LNG.tech[903] }}</td>
-            <td class="transparent num"><span class="control-group"><a href="javascript:maxResource('deuterium');">{{ LNG.fl_max }}</a> <input name="deuterium" onchange="calculateTransportCapacity();" type="number" class="fleet-amount"></span></td>
+            <td class="transparent num"><span class="control-group"><a href="#" data-action="max-resource" data-resource="deuterium">{{ LNG.fl_max }}</a> <input name="deuterium" data-on-change="calc-capacity" type="number" class="fleet-amount"></span></td>
           </tr>
           {% endif %}
           <tr>
@@ -70,11 +64,11 @@
           </tr>
           {% if not Exchange %}
           <tr>
-            <td class="transparent" colspan="2"><a href="javascript:maxResources()">{{ LNG.fl_all_resources }}</a></td>
+            <td class="transparent" colspan="2"><a href="#" data-action="max-resources">{{ LNG.fl_all_resources }}</a></td>
           </tr>
           {% endif %}
           <tr id="selectedResRow">
-            <td class="transparent" colspan="2"><a  id="selectedres" href="javascript:selectedResources(this)" data="{{ predefinedRes['met'] }},{{ predefinedRes['krist'] }},{{ predefinedRes['deut'] }},{{ consumption }}">{{ LNG.fl_selected_resources }}</a></td>
+            <td class="transparent" colspan="2"><a  id="selectedres" href="#" data-action="selected-resources" data="{{ predefinedRes['met'] }},{{ predefinedRes['krist'] }},{{ predefinedRes['deut'] }},{{ consumption }}">{{ LNG.fl_selected_resources }}</a></td>
           </tr>
           <tr>
             <td class="transparent" colspan="2">{{ LNG.fl_fuel_consumption }}: <span id="consumption" class="consumption">{{ consumption }}</span></td>
@@ -167,7 +161,7 @@
 		</tr>
 		{% endif %}
         <tr id="submit">
-			<td colspan="2" class="form-actions"><input value="{{ LNG.fl_continue }}" type="submit" onclick="return sendFleet('{{ question }}');"/></td>
+			<td colspan="2" class="form-actions"><input value="{{ LNG.fl_continue }}" type="submit" data-action="send-fleet"/></td>
         </tr>
 		<tr id="wait" style="display:none;">
 			<td colspan="2" class="ctr">{{ LNG.fl_continue }}</td>
@@ -176,10 +170,12 @@
 </form>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="text/javascript">
-	data	= {{ fleetdata|json_encode|raw }};
-	token	= '{{ token }}';
-	questionList = {{ questionList|json_encode|raw }};
-	tradeMarket = {{ tradeMarket|json_encode|raw }};
-</script>
+{{ data_island('fleet-data', {
+	step: 2,
+	data: fleetdata,
+	token: token,
+	questionList: questionList,
+	tradeMarket: tradeMarket,
+	targetMission: mission
+}) }}
 {% endblock %}

@@ -58,40 +58,8 @@
     </section>
     <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
   </form>
-  <script>
-  onPageInit(function () {
-    var csrf = {{ csrf|json_encode|raw }};
-    var text = {{ jsStrings|json_encode|raw }};
-    document.querySelectorAll('#bots-providers-form .js-test').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var row = btn.closest('tr');
-        var out = row.querySelector('.js-result');
-        var fd = new FormData();
-        fd.append('csrf', csrf);
-        fd.append('provider', row.getAttribute('data-provider'));
-        fd.append('api_key', row.querySelector('.js-key').value);
-        fd.append('model', row.querySelector('.js-model').value);
-        fd.append('base_url', row.querySelector('.js-url').value);
-        out.textContent = text.testing;
-        btn.disabled = true;
-        fetch('admin?page=bots&mode=providers&action=test', {method: 'POST', body: fd, credentials: 'same-origin'})
-          .then(function (r) { return r.json(); })
-          .then(function (d) {
-            out.textContent = '';
-            var badge = document.createElement('span');
-            badge.className = 'badge badge--' + (d.ok ? 'ok' : 'danger');
-            badge.textContent = d.ok ? text.ok : text.failed;
-            out.appendChild(badge);
-            var detail = document.createElement('span');
-            detail.textContent = ' ' + (d.latency_ms || 0) + ' ms - ' + (d.ok ? d.response : d.message);
-            out.appendChild(detail);
-          })
-          .catch(function (e) { out.textContent = text.failed + ': ' + e; })
-          .then(function () { btn.disabled = false; });
-      });
-    });
-  });
-  </script>
+  <script type="application/json" id="bots-config">{{ {csrf: csrf, text: jsStrings}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+  <script type="module" src="./scripts/admin/pages/bots.js?v={{ asset_version }}"></script>
 
 {% elseif tab == 'profiles' %}
   {% if editForm %}
@@ -157,9 +125,9 @@
       <h2 class="card__title">{{ icon('user-cog') }}{{ LNG.bot_tab_profiles }}</h2>
       <div class="card__actions">
         <a class="button" href="admin?page=bots&amp;mode=profiles&amp;new=1">{{ icon('plus') }}{{ LNG.bot_new_profile }}</a>
-        <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=restore_profiles" data-confirm="{{ LNG.bot_confirm_restore }}">
+        <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=restore_profiles">
           <input type="hidden" name="csrf" value="{{ csrf }}">
-          <button type="submit">{{ LNG.bot_restore_defaults }}</button>
+          <button data-confirm="{{ LNG.bot_confirm_restore }}" type="submit">{{ LNG.bot_restore_defaults }}</button>
         </form>
       </div>
     </header>
@@ -179,9 +147,9 @@
                 <button type="submit" class="btn--small">{{ LNG.bot_duplicate }}</button>
               </form>
               {% if not p.is_default %}
-              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=delete_profile" class="inline" data-confirm="{{ LNG.bot_confirm_delete }}">
+              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=delete_profile" class="inline">
                 <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ p.id }}">
-                <button type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
+                <button data-confirm="{{ LNG.bot_confirm_delete }}" type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
               </form>
               {% endif %}
             </td>
@@ -237,9 +205,9 @@
             <td>{{ b.next_tick }}</td>
             <td><span class="badge badge--{{ b.online ? 'ok' : 'muted' }}">{{ b.online ? LNG.bot_online : LNG.bot_offline }}</span></td>
             <td class="actions">
-              <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=remove_bot" data-confirm="{{ LNG.bot_confirm_delete }}">
+              <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=remove_bot">
                 <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="user_id" value="{{ b.user_id }}">
-                <button type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
+                <button data-confirm="{{ LNG.bot_confirm_delete }}" type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
               </form>
             </td>
           </tr>

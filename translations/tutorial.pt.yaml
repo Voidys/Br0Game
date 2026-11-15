@@ -13,6 +13,10 @@ tutorial_goal:
     '7': Colonize um novo planeta
     '8': Recicle um campo de destroços
     '15': Envie uma frota para uma expedição
+  step6:
+    "1": "Mude o nome do seu planeta"
+    "2": "Envie um pedido de amizade a outro jogador"
+    "3": "Faça um pedido de aliança"
 tutorial_goals_header: 'Metas:'
 tutorial_goals_ignore: (ignorar)
 tutorial_rewards_header: 'Recompensas:'

@@ -11,11 +11,10 @@
   <form action="" method="post" name="users" class="card" data-track-dirty>
     <header class="card__head"><h2 class="card__title">{{ icon('shield-check') }}{{ ad_authlevel_title }}</h2></header>
     <div class="card__body stack">
-      {{ picker.filter('UserList', button_filter) }}
+      {{ picker.filter('id_1', button_filter) }}
       <select name="id_1" size="14">
         {{ UserList }}
       </select>
-      <script>var UserList = new filterlist(document.getElementsByName('id_1')[0]);</script>
       <div class="fields">
         <div class="field">
           <label for="rank-id2">{{ ad_authlevel_insert_id }}</label>

@@ -96,6 +96,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         $filters[] = new TwigFilter('format', [self::class, 'format'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('sprintf', [self::class, 'format'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('nl2br', [self::class, 'nl2br'], ['is_safe' => ['all']]);
+        $filters[] = new TwigFilter('legacy_markup', [self::class, 'legacyMarkup'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('php_date', 'date');
         $filters[] = new TwigFilter('php_number_format', [self::class, 'numberFormat']);
         // {foreach} semantics: null -> nothing, iterable -> as is, anything else -> one element
@@ -125,6 +126,23 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         };
 
         return new Markup(sprintf((string) $escape($format), ...array_map($escape, $args)), 'UTF-8');
+    }
+
+    /**
+     * Stored message HTML written before the Content-Security-Policy carries inline handlers such as
+     * onclick="return Dialog.Playercard(12, 'name');" (blocked by the policy, and reported). Rewrites those
+     * player/info links to the data attributes of public/scripts/app/actions.js before the browser sees them.
+     * Use on stored HTML only (`Message.text|legacy_markup`); new texts are written with data attributes.
+     */
+    public static function legacyMarkup(mixed $html): Markup
+    {
+        $out = preg_replace_callback(
+            '/\sonclick\s*=\s*(["\'])\s*(?:return\s+)?Dialog\.(Playercard|PM|Buddy|info|ach)\(\s*(\d+)(?:(?!\1).)*\1/is',
+            static fn (array $m): string => ' data-action="dialog-' . strtolower($m[2]) . '" data-id="' . $m[3] . '"',
+            (string) $html,
+        );
+
+        return new Markup($out ?? (string) $html, 'UTF-8');
     }
 
     /** nl2br() for plain text: escapes it (unless it is Markup), then turns line breaks into <br> */

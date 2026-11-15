@@ -12,6 +12,7 @@ tutorial_goal:
     '7': Başka bir oyuncunun gezegenini yağmala
     '8': Bir enkaz alanını geri dönüştür
     '15': Bir keşif filosu gönder
+    "1": "Başka bir oyuncuya saldır"
   step6:
     '1': Gezegenini yeniden adlandır
     '2': Bir oyuncuya dostluk isteği gönder

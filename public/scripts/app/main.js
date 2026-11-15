@@ -3,18 +3,21 @@
  * runs the per-page init code that templates register with window.onPageInit(fn).
  *
  * Page scripts are ES modules too (loaded after this one, in document order) and import what they
- * need from ./core.js, ./dialog.js, ./ui.js, ...; functions used by inline on*="" handlers are put
- * on window by the page module.
+ * need from ./core.js, ./dialog.js, ./ui.js, ...; behaviour that markup triggers (data-action="…") is
+ * registered with registerActions() from ./actions.js, template data arrives as a JSON data island
+ * (pageData() in ./core.js). There are no inline handlers or inline scripts (Content-Security-Policy).
  */
 import './csrf.js';
 import './core.js';
+import './env.js';
 import './dialog.js';
+import './actions.js';
 import { initTooltips } from './tooltip.js';
 import { initTimers } from './timers.js';
-import './ticker.js';
+import { initResourceTickers } from './ticker.js';
 import { initUi } from './ui.js';
 
-const queue = window.__pageInit ?? [];
+const queue = [];
 
 /** run fn once the DOM is ready and all modules are loaded */
 window.onPageInit = (fn) => {
@@ -31,6 +34,7 @@ const boot = () => {
   initTooltips();
   initTimers();
   initUi();
+  initResourceTickers();
   queue.started = true;
   for (const fn of queue.splice(0)) {
     try {

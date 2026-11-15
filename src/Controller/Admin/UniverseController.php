@@ -250,8 +250,8 @@ class UniverseController extends AbstractAdminController
                             ],
                             $LNG->getTemplate('createUniverseInfo'),
                         )
-                        . '<a href="javascript:window.history.back();"><button>' . $LNG['uvs_back'] . '</button></a>'
-                        . '<a href="javascript:window.location.reload();"><button>' . $LNG['uvs_reload'] . '</button></a>', 'UTF-8'),
+                        . '<a href="#" data-action="history-back"><button>' . $LNG['uvs_back'] . '</button></a>'
+                        . '<a href="#" data-action="reload"><button>' . $LNG['uvs_reload'] . '</button></a>', 'UTF-8'),
                     );
                 }
 

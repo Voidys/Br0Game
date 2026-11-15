@@ -56,35 +56,5 @@
     </tr>
   </template>
 </div>
-<script>
-onPageInit(function () {
-  var form = document.getElementById('team-form');
-  var body = form.querySelector('[data-team-rows]');
-  var empty = form.querySelector('[data-team-empty]');
-  var count = form.querySelector('[data-team-count]');
-  var tpl = document.getElementById('team-row-template');
-  function refresh() {
-    var n = body.querySelectorAll('[data-team-row]').length;
-    count.textContent = n;
-    empty.hidden = n > 0;
-  }
-  function changed() { form.dispatchEvent(new Event('input', { bubbles: true })); }
-  form.querySelector('[data-team-add]').addEventListener('click', function () {
-    body.appendChild(tpl.content.cloneNode(true));
-    var rows = body.querySelectorAll('[data-team-row]');
-    rows[rows.length - 1].querySelector('input[type=text]').focus();
-    refresh(); changed();
-  });
-  body.addEventListener('click', function (event) {
-    var btn = event.target.closest('button');
-    var row = btn && btn.closest('[data-team-row]');
-    if (!row) return;
-    if (btn.hasAttribute('data-team-delete')) { row.remove(); }
-    else if (btn.hasAttribute('data-team-up') && row.previousElementSibling) { body.insertBefore(row, row.previousElementSibling); }
-    else if (btn.hasAttribute('data-team-down') && row.nextElementSibling) { body.insertBefore(row.nextElementSibling, row); }
-    else return;
-    refresh(); changed();
-  });
-});
-</script>
+<script type="module" src="./scripts/admin/pages/team.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

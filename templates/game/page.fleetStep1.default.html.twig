@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetStep2" method="post" onsubmit="return CheckTarget()" id="form">
+<form action="game?page=fleetStep2" method="post" data-on-submit="check-target" id="form">
 	<input type="hidden" name="token" value="{{ token }}">
 	<input type="hidden" name="group" value="0">
 	<input type="hidden" name="target_mission" value="{{ mission }}">
@@ -13,10 +13,10 @@
 			<td>{{ LNG.fl_destiny }}</td>
 			<td>
 				<span class="control-group">
-				<input type="number" id="galaxy" name="galaxy" maxlength="4" oninput="updateVars()" value="{{ galaxy }}" class="coord">
-				<input type="number" id="system" name="system" maxlength="6" oninput="updateVars()" value="{{ system }}" class="coord">
-				<input type="number" id="planet" name="planet" maxlength="4" oninput="updateVars()" value="{{ planet }}" class="coord">
-				<select id="type" name="type" onchange="updateVars()">
+				<input type="number" id="galaxy" name="galaxy" maxlength="4" data-on-input="update-vars" value="{{ galaxy }}" class="coord">
+				<input type="number" id="system" name="system" maxlength="6" data-on-input="update-vars" value="{{ system }}" class="coord">
+				<input type="number" id="planet" name="planet" maxlength="4" data-on-input="update-vars" value="{{ planet }}" class="coord">
+				<select id="type" name="type" data-on-change="update-vars">
 					{{ html_options({'options': typeSelect, 'selected': type}) }}
 				</select>
 				</span>
@@ -25,7 +25,7 @@
 		<tr>
 			<td>{{ LNG.fl_fleet_speed }}</td>
 			<td>
-				<select id="speed" name="speed" onChange="updateVars(false)">
+				<select id="speed" name="speed" data-on-change="update-vars-speed">
 					{{ html_options({'options': speedSelect}) }}
 				</select> %
 			</td>
@@ -66,16 +66,16 @@
 	</tr>
 	<tr>
 		<td>
-			<a href="javascript:setTarget({{ galaxy }},{{ system }},{{ config.max_planets+1 }},1);updateVars();">{{ LNG.type_mission_15 }} [{{ galaxy }}:{{ system }}:{{ config.max_planets+1 }}]</a>
+			<a href="#" data-action="set-target" data-galaxy="{{ galaxy }}" data-system="{{ system }}" data-planet="{{ config.max_planets+1 }}" data-type="1">{{ LNG.type_mission_15 }} [{{ galaxy }}:{{ system }}:{{ config.max_planets+1 }}]</a>
 		</td>
 		<td>
-			<a href="javascript:setTarget({{ galaxy }},{{ system }},{{ config.max_planets+2 }},1);updateVars();">{{ LNG.type_mission_16 }} [{{ galaxy }}:{{ system }}:{{ config.max_planets+2 }}]</a>
+			<a href="#" data-action="set-target" data-galaxy="{{ galaxy }}" data-system="{{ system }}" data-planet="{{ config.max_planets+2 }}" data-type="1">{{ LNG.type_mission_16 }} [{{ galaxy }}:{{ system }}:{{ config.max_planets+2 }}]</a>
 		</td>
 	</tr>
 	{% if pirateBase %}
 		<tr>
 			<td>
-				<a href="javascript:setTarget({{ pirateBase.galaxy }},{{ pirateBase.system }},{{ config.max_planets+3 }},1);updateVars();">{{ LNG.type_planet_4 }} [{{ pirateBase.galaxy }}:{{ pirateBase.system }}:{{ config.max_planets+3 }}]</a>
+				<a href="#" data-action="set-target" data-galaxy="{{ pirateBase.galaxy }}" data-system="{{ pirateBase.system }}" data-planet="{{ config.max_planets+3 }}" data-type="1">{{ LNG.type_planet_4 }} [{{ pirateBase.galaxy }}:{{ pirateBase.system }}:{{ config.max_planets+3 }}]</a>
 			</td>
 		</tr>
 	{% endif %}
@@ -84,7 +84,7 @@
 	{% if isModuleAvailable(php_const('MODULE_SHORTCUTS')) %}
 	<table class="table-fixed shortcut">
 		<tr>
-			<th colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_shortcut }} (<a href="#" onclick="EditShortcuts();return false" class="shortcut-link-edit shortcut-link">{{ LNG.fl_shortcut_edition }}</a><a href="#" onclick="SaveShortcuts();return false" class="shortcut-edit">{{ LNG.fl_shortcut_save }}</a>)</th>
+			<th colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_shortcut }} (<a href="#" data-action="edit-shortcuts" class="shortcut-link-edit shortcut-link">{{ LNG.fl_shortcut_edition }}</a><a href="#" data-action="save-shortcuts" class="shortcut-edit">{{ LNG.fl_shortcut_save }}</a>)</th>
 		</tr>
     <tr class="shortcut-row">
       <td colspan="2">
@@ -92,7 +92,7 @@
           {% for shortcutID, shortcutRow in (shortcutList)|php_iter %}
             <div class="shortcut-colum shortcut-isset">
               <div class="shortcut-link">
-                <a href="javascript:setTarget({{ shortcutRow.galaxy }},{{ shortcutRow.system }},{{ shortcutRow.planet }},{{ shortcutRow.type }});updateVars();">{{ shortcutRow.name }}{% if shortcutRow.type == 1 %}{{ LNG.fl_planet_shortcut }}{% elseif shortcutRow.type == 2 %}{{ LNG.fl_debris_shortcut }}{% elseif shortcutRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ shortcutRow.galaxy }}:{{ shortcutRow.system }}:{{ shortcutRow.planet }}]</a>
+                <a href="#" data-action="set-target" data-galaxy="{{ shortcutRow.galaxy }}" data-system="{{ shortcutRow.system }}" data-planet="{{ shortcutRow.planet }}" data-type="{{ shortcutRow.type }}">{{ shortcutRow.name }}{% if shortcutRow.type == 1 %}{{ LNG.fl_planet_shortcut }}{% elseif shortcutRow.type == 2 %}{{ LNG.fl_debris_shortcut }}{% elseif shortcutRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ shortcutRow.galaxy }}:{{ shortcutRow.system }}:{{ shortcutRow.planet }}]</a>
               </div>
               <div class="shortcut-edit">
                 <input type="text" class="shortcut-input" name="shortcut[{{ shortcutID }}][name]" maxlength="32" value="{{ shortcutRow.name }}">
@@ -135,7 +135,7 @@
 		</tr>
 		<tr class="shortcut-edit">
 			<td colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">
-				<a href="#" onclick="AddShortcuts();return false">{{ LNG.fl_shortcut_add }}</a>
+				<a href="#" data-action="add-shortcut">{{ LNG.fl_shortcut_add }}</a>
 			</td>
 		</tr>
 	</table>
@@ -147,7 +147,7 @@
 		{% for ColonyRow in (colonyList)|php_iter %}
 			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 1 %}<tr>{% endif %}
 			<td>
-				<a href="javascript:setTarget({{ ColonyRow.galaxy }},{{ ColonyRow.system }},{{ ColonyRow.planet }},{{ ColonyRow.type }});updateVars();">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
+				<a href="#" data-action="set-target" data-galaxy="{{ ColonyRow.galaxy }}" data-system="{{ ColonyRow.system }}" data-planet="{{ ColonyRow.planet }}" data-type="{{ ColonyRow.type }}">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
 			</td>
 			{% if loop.last and (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) != 0 %}
 				{% set to = themeSettings.COLONY_ROWS_ON_FLEET1 - (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) %}
@@ -167,25 +167,20 @@
 		</tr>
 		{% for ACSRow in (ACSList)|php_iter %}
 			<tr>
-				<td colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}"><a href="javascript:setACSTarget({{ ACSRow.galaxy }},{{ ACSRow.system }},{{ ACSRow.planet }},{{ ACSRow.planet_type }},'{{ ACSRow.public_id }}');">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
+				<td colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}"><a href="#" data-action="set-acs-target" data-galaxy="{{ ACSRow.galaxy }}" data-system="{{ ACSRow.system }}" data-planet="{{ ACSRow.planet }}" data-type="{{ ACSRow.planet_type }}" data-acs="{{ ACSRow.public_id }}">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
 			</tr>
 		{% endfor %}
 	</table>
 	{% endif %}
-	<table class="table-fixed">
-		<tr>
-			<td class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></td>
-		</tr>
-	</table>
+	<div class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></div>
 </form>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="text/javascript">
-	data			= {{ fleetdata|json_encode|raw }};
-	honorboost		= {{ honorboost }};
-	shortCutRows	= {{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }};
-	fl_no_shortcuts = '{{ LNG.fl_no_shortcuts }}';
-	config 			= {{ config|json_encode|raw }};
-	token			= '{{ token }}';
-</script>
+{{ data_island('fleet-data', {
+	step: 1,
+	data: fleetdata,
+	honorboost: honorboost,
+	config: config,
+	token: token
+}) }}
 {% endblock %}

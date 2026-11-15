@@ -90,7 +90,6 @@ class NotesController extends AbstractGameController
             ];
         }
 
-        $this->addInlineScript("document.getElementById('cntChars').textContent = document.getElementById('text').value.length;");
         $this->assign([
             'PriorityList'	=> [2 => $LNG['nt_important'], 1 => $LNG['nt_normal'], 0 => $LNG['nt_unimportant']],
             'noteDetail'	=> $noteDetail,

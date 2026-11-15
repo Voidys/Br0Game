@@ -112,7 +112,6 @@ class FleetStep1Controller extends AbstractGameController
         }
 
         $this->addScript('flotten.js');
-        $this->addInlineScript('addBeforeUnload();updateVars();FleetTime();setVisibleInterval(FleetTime, 1000);');
 
         $config = $this->configs->get();
 

@@ -6,6 +6,7 @@ use App\Runtime\GameConfig;
 use App\Runtime\LanguagePacks;
 use App\Runtime\ProjectPaths;
 use App\Runtime\RuntimeContext;
+use App\Security\CspNonce;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\Markup;
@@ -19,6 +20,9 @@ use Twig\TwigFunction;
  *   import_map()              <script type="importmap"> that versions every ES module under
  *                             public/scripts by its mtime, so modules imported by other modules
  *                             (`import './dialog.js'`) are refetched as soon as the file changes
+ *   data_island(id, data)     <script type="application/json" id="id"> with the data as JSON: the way a template
+ *                             hands data to its page module (read with pageData() from scripts/app/core.js).
+ *                             JSON is not executed, so no nonce is needed
  */
 final class GameExtension extends AbstractExtension implements GlobalsInterface
 {
@@ -26,6 +30,7 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         private readonly GameConfig $config,
         private readonly LanguagePacks $languagePacks,
         private readonly RuntimeContext $runtime,
+        private readonly CspNonce $nonce,
     ) {}
 
     public function getFunctions(): array
@@ -34,15 +39,16 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('game_config', $this->config->get(...)),
             new TwigFunction('languages', $this->languagePacks->getNames(...)),
             new TwigFunction('import_map', $this->importMap(...)),
+            new TwigFunction('data_island', $this->dataIsland(...), ['is_safe' => ['all']]),
         ];
     }
 
     /** must precede every module script of the page (import maps apply to later module loads only) */
     public function importMap(): Markup
     {
-        static $html = null;
-        if ($html !== null) {
-            return $html;
+        static $json = null;
+        if ($json !== null) {
+            return $this->importMapTag($json);
         }
 
         $root = ProjectPaths::ROOT . 'public/scripts/';
@@ -57,9 +63,26 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         }
         ksort($imports);
 
-        return $html = new Markup('<script type="importmap">'
-            . json_encode(['imports' => $imports], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG)
-            . '</script>', 'UTF-8');
+        $json = json_encode(['imports' => $imports], JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
+
+        return $this->importMapTag($json);
+    }
+
+    /**
+     * JSON data island. `<`, `>`, `&` and quotes are \u-escaped, so no value can close the script element
+     * or leak markup; translations (trusted Markup) and plain values are encoded as they are.
+     */
+    public function dataIsland(string $id, mixed $data): string
+    {
+        $json = json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+
+        return '<script type="application/json" id="' . htmlspecialchars($id, ENT_QUOTES) . '">' . ($json === false ? 'null' : $json) . '</script>';
+    }
+
+    /** the importmap is an inline script, so it carries the Content-Security-Policy nonce of the request */
+    private function importMapTag(string $json): Markup
+    {
+        return new Markup('<script type="importmap" nonce="' . $this->nonce->value() . '">' . $json . '</script>', 'UTF-8');
     }
 
     public function getGlobals(): array

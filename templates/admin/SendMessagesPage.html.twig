@@ -1,48 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<script type="text/javascript">
-
-function recipientSummary() {
-	var label = function (id) {
-		var select = document.getElementById(id);
-		return select && select.selectedOptions.length ? select.selectedOptions[0].textContent.trim() : '';
-	};
-	return [label('ma-mode'), label('ma-universe'), label('ma-lang')].filter(Boolean).join(' · ');
-}
-
-function check(){
-	if(document.getElementById('text').value.length == 0) {
-		Dialog.alert('{{ LNG.mg_empty_text }}');
-		return false;
-	} else {
-		if (!window.confirm('{{ LNG.ma_send_global_message|e('js') }}\n' + recipientSummary())) {
-			return false;
-		}
-		fetch('admin?page=sendMessages&action=send&ajax=1', {
-		method: 'POST',
-		credentials: 'same-origin',
-		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-		body: new URLSearchParams(new FormData(document.getElementById('message')))
-	}).then(function (response) { return response.text(); }).then(function (data) {
-			Dialog.alert(data, function() {
-				location.reload();
-			});
-		});
-		return true;
-	}
-}
-
-onPageInit(function () {
-	var update = function () {
-		document.getElementById('ma-summary').textContent = recipientSummary();
-	};
-	['ma-mode', 'ma-universe', 'ma-lang'].forEach(function (id) {
-		var select = document.getElementById(id);
-		if (select) select.addEventListener('change', update);
-	});
-	update();
-});
-</script>
-<form name="message" id="message" action="admin?page=sendMessages&amp;action=send&amp;ajax=1" class="stack" onsubmit="check(); return false;">
+<form name="message" id="message" action="admin?page=sendMessages&amp;action=send&amp;ajax=1" class="stack" data-empty-text="{{ LNG.mg_empty_text|e('html_attr') }}" data-confirm-text="{{ LNG.ma_send_global_message|e('html_attr') }}">
   <div class="cols cols--wide-left">
     <section class="card">
       <header class="card__head"><h2 class="card__title">{{ icon('megaphone') }}{{ LNG.ma_send_global_message }}</h2></header>
@@ -55,7 +12,7 @@ onPageInit(function () {
           <div class="field-row">
             <label for="text">{{ LNG.ma_message }} (<span id="cntChars">0</span> / 5000 {{ LNG.ma_characters }})</label>
             <div class="field-control">
-              <textarea name="text" id="text" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;"></textarea>
+              <textarea name="text" id="text" rows="10" data-count-chars="#cntChars"></textarea>
             </div>
           </div>
         </div>
@@ -85,6 +42,7 @@ onPageInit(function () {
       </div>
     </section>
   </div>
-  <div class="form-actions"><button type="button" class="btn--primary" onclick="check();">{{ icon('send') }}{{ LNG.button_submit }}</button></div>
+  <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('send') }}{{ LNG.button_submit }}</button></div>
 </form>
+<script type="module" src="./scripts/admin/pages/sendMessages.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

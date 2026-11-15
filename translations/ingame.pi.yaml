@@ -220,6 +220,7 @@ Advanced_Stats:
   stolen_metal: Gestohlenes Holz
   used_fuel: Treibstoff verbraucht
   wons: Siege
+  galaxy_scroll_spending: "Gesamtverbrauch an Deuterium zum Scrollen in der Galaxienansicht"
 advancedStats: Erweiterte Statistiken
 al_acept_request: Annehmen
 al_actions: Aktionen
@@ -350,7 +351,7 @@ al_leave_ally: Möchtest Du wirklich die Allianz verlassen?
 al_leave_sucess: Erfolgreich aus der Allianz %s ausgetreten.
 al_leaving: Spieler ist aus der Allianz ausgetreten
 al_leaving_msg: >-
-  Der Spieler <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  Der Spieler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
   ist aus der Allianz ausgetreten.
 al_legend: Beschreibung
 al_legend_admin_alliance: Allianz verwalten
@@ -391,7 +392,7 @@ al_name_required: Du hast keinen Allianznamen angegeben.
 al_new_apply: >-
   Ihre Allianz hat eine neue <a
   href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von
-  - <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
 al_new_member_rank_text: Neuling
 al_new_name: 'Neuer Allianz Name (3-30 Zeichen):'
 al_new_requests: '%d neue Bewerbung(en)'
@@ -1779,3 +1780,52 @@ user_level_2: Operator
 user_level_3: Administrator
 whenbuildable: Möglich in
 write_message: Schreibe eine Nachricht
+ach_filter_all: "Alle"
+ach_filter_locked: "Gesperrt"
+ach_filter_unlocked: "Freigeschaltet"
+ach_locked: "Noch nicht freigeschaltet"
+ach_progress: "%d von %d freigeschaltet"
+ach_unlocked_on: "Freigeschaltet am %s"
+al_apply_accepted: "Bewerbung angenommen."
+al_apply_declined: "Bewerbung abgelehnt."
+al_name_tag_too_long: "Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!"
+bs_share_code: "Teilen-Code"
+bs_swap: "Seiten tauschen"
+bu_player_not_exist: "Dieser Spieler existiert nicht!"
+cff_mission_other_expo_0: "Eine %s vom %s %s %s erreicht die Position %s. Mission: %s"
+cff_mission_other_expo_2: "Eine %s vom %s %s %s ist auf einer Expedition bei Position %s. Mission: %s"
+cff_mission_other_recy_0: "Eine %s vom %s %s %s erreicht das Trümmerfeld %s. Mission: %s"
+cff_mission_other_0: "Eine %s vom %s %s %s erreicht den %s %s %s. Mission: %s"
+cff_mission_other_1: "Eine %s kehrt vom %s %s %s zurück zum %s %s %s. Mission: %s"
+cff_mission_other_2: "Eine %s vom %s %s %s ist im Orbit von dem %s %s %s. Mission: %s"
+cff_mission_other_expo_1: "Eine %s kehrt von der Position %s zurück zum %s %s %s. Mission: %s"
+cff_mission_other_mip: "Raketenangriff (%d) vom %s %s %s auf den %s %s %s."
+cff_mission_other_recy_1: "Eine %s kehrt vom Trümmerfeld %s zurück zum Planeten %s %s %s. Mission: %s"
+market_p_msg_own_offer: "Du kannst dein eigenes Angebot nicht kaufen."
+market_p_msg_wrong_resource_type: "Dieses Angebot verlangt eine ungültige Ressource."
+ov_newname_too_long: "Der Planetenname darf höchstens %d Zeichen lang sein."
+st_units: "Units"
+ui_skip_to_content: "Zum Inhalt springen"
+ui_menu: "Menü"
+ui_rank: "Platz"
+ui_queue: "Bauliste"
+ui_queue_free: "freier Platz"
+ui_points: "Punkte"
+ui_close: "Schließen"
+ui_messages: "Nachrichten"
+ui_server_time: "Serverzeit"
+ui_planet: "Planet"
+ui_nav_empire: "Imperium"
+ui_nav_universe: "Universum"
+ui_nav_community: "Gemeinschaft"
+ui_nav_help: "Hilfe"
+ui_nav_personal: "Persönlich"
+source_code: "Quellcode"
+teamMemberName: "Name"
+teamMemberContact: "Kontakt"
+teamMemberAbout: "Info"
+teamEmpty: "Es wurden noch keine Teammitglieder eingetragen."
+lm_board: "Board"
+foreign_colors: "Gegnerische Farben"
+own_colors: "Eigene Farben"
+general_colors: "Generelle Farben"

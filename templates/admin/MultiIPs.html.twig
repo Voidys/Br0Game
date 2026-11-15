@@ -3,8 +3,8 @@
   <div class="card">
     <div class="card__body">
       <div class="toolbar">
-        <label><input type="checkbox" id="showBanned" onchange="toggle_rows('allBanned')"> {{ LNG.adm_mip_show_banned }}</label>
-        <label><input type="checkbox" id="showAllowed" onchange="toggle_rows('allAllowed')"> {{ LNG.adm_mip_show_allowed }}</label>
+        <label><input type="checkbox" id="showBanned" data-toggle-rows=".allBanned"> {{ LNG.adm_mip_show_banned }}</label>
+        <label><input type="checkbox" id="showAllowed" data-toggle-rows=".allAllowed"> {{ LNG.adm_mip_show_allowed }}</label>
         <span class="toolbar__spacer"></span>
         <span class="badge badge--muted">{{ count(multiGroups) }} {{ LNG.mip_ip }}</span>
       </div>
@@ -68,17 +68,4 @@
     <div class="empty">{{ icon('network') }}<p>0</p></div>
   {% endfor %}
 </div>
-{% block script %}
-    <script>
-      function toggle_rows(target) {
-        const rows = document.querySelectorAll("." + target)
-        if (!rows.length) return
-        if (rows[0].classList.contains("hidden")) {
-          rows.forEach(r => r.classList.remove("hidden"))
-        } else {
-          rows.forEach(r => r.classList.add("hidden"))
-        }
-      }
-    </script>
-{% endblock %}
 {% include 'admin/overall_footer.html.twig' %}

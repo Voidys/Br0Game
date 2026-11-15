@@ -5,7 +5,7 @@
     {% if currentPlanet.action.message %}
         <tr>
             <td>
-                <a href='#' onclick='return Dialog.PM({{ currentPlanet.user.id }})'>
+                <a href='#' data-action="dialog-pm" data-id="{{ currentPlanet.user.id }}">
                     {{ LNG.write_message }}
                 </a>
             </td>
@@ -14,7 +14,7 @@
     {% if not currentPlanet.user.isBuddy and not currentPlanet.ownPlanet %}
         <tr>
             <td>
-                <a href='#' onclick='return Dialog.Buddy({{ currentPlanet.user.id }})'>
+                <a href='#' data-action="dialog-buddy" data-id="{{ currentPlanet.user.id }}">
                     {{ LNG.gl_buddy_request }}
                 </a>
             </td>
@@ -22,7 +22,7 @@
     {% endif %}
     <tr>
         <td>
-            <a href='#' playerid='{{ currentPlanet.user.id }}' onclick='return Dialog.Playercard({{ currentPlanet.user.id }});'>
+            <a href='#' playerid='{{ currentPlanet.user.id }}' data-action="dialog-playercard" data-id="{{ currentPlanet.user.id }}">
                 {{ LNG.gl_playercard }}
             </a>
         </td>

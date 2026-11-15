@@ -101,3 +101,27 @@ empire, galaxy, messages, fleet table, statistics) with and without it stays wit
 
 - `bin/console lint:twig templates`
 - `bin/console lint:container`
+
+## Page behaviour without inline code (Content-Security-Policy)
+
+The game sends a strict CSP (`script-src 'self' 'nonce-…'`), so templates contain no `on*=` attributes, `javascript:`
+links or executable inline `<script>`. Instead:
+
+- **Behaviour**: markup names an action, a page module registers it (`public/scripts/app/actions.js`).
+  `<a href="#" data-action="max-ship" data-ship="ship202">`, `<select data-on-change="submit-form">`,
+  `<form data-on-submit="check-target">` (also `data-on-input|keyup|focus|blur|error`). A module calls
+  `registerActions({'max-ship': (element, event) => ...})`; a click action returns `false` to cancel the default
+  (anchors with `href="#"` are always cancelled), a submit action returns `false` to stop the submit.
+  Built-ins: `dialog-info|pm|buddy|playercard|ach|forward|show`, `popup`, `submit-form`, `toggle-rows`, `char-count`,
+  `fill-input`, `filter-rows`, `open-url`, `history-back`, `reload`, `remove`. `data-confirm="question"` on a link, button or
+  submit input asks first.
+- **Load the module** with `<script type="module" src="./scripts/game/x.js?v={{ asset_version }}"></script>` in
+  `{% block script %}` (or `addScript()`). Modules run once per page load; content in a modal fragment is new each
+  time, so re-initialise on the `modal:load` event.
+- **Data**: `{{ data_island('my-data', {key: value}) }}` prints `<script type="application/json" id="my-data">`
+  (not executed, `<>&'"` escaped); read it with `pageData('my-data')` from `app/core.js`. Use unique ids (a dialog
+  can sit on top of a page that has its own island). Twig `merge` renumbers integer keys: pass lists of rows, not maps.
+- **Unavoidable inline scripts** (none today besides the importmap) carry `nonce="{{ csp_nonce() }}"`.
+- **Styles**: inline `style=""` attributes and `<style>` blocks stay allowed (`style-src 'unsafe-inline'`).
+- **Third parties**: a page that loads reCAPTCHA calls `{{ csp_allow('recaptcha') }}`.
+- **Config**: `CSP_MODE=enforce|report|off`; reports at `/csp-report` -> `var/log/csp.log`.

@@ -10,6 +10,7 @@ tutorial_goal:
     '7': Zasiedlaj kolejną planetę
     '8': Zrecyklinguj pole szczątków
     '15': Wyślij flotę na ekspedycję
+    "1": "Zaatakuj innego gracza"
   step6:
     '1': Zmień nazwę swojej planety
     '2': Wyślij prośbę o znajomego do innego gracza

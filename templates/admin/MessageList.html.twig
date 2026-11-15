@@ -2,15 +2,15 @@
 {% macro pager(page, maxPage, ariaLabel) %}
   {% if maxPage > 1 %}
     <nav class="pager" aria-label="{{ ariaLabel }}">
-      {% if page != 1 %}<a href="#" class="button btn--small" onclick="gotoPage({{ page - 1 }});return false;">{{ icon('chevron-left') }}</a>{% endif %}
+      {% if page != 1 %}<a href="#" class="button btn--small" data-goto-page="{{ page - 1 }}">{{ icon('chevron-left') }}</a>{% endif %}
       {% for site in 1..maxPage %}
         {% if site == 1 or site == maxPage or (site >= page - 2 and site <= page + 2) %}
-          {% if site == page %}<span class="pager__current" aria-current="page">{{ site }}</span>{% else %}<a href="#" onclick="gotoPage({{ site }});return false;">{{ site }}</a>{% endif %}
+          {% if site == page %}<span class="pager__current" aria-current="page">{{ site }}</span>{% else %}<a href="#" data-goto-page="{{ site }}">{{ site }}</a>{% endif %}
         {% elseif site == page - 3 or site == page + 3 %}
           <span class="pager__gap">…</span>
         {% endif %}
       {% endfor %}
-      {% if page != maxPage %}<a href="#" class="button btn--small" onclick="gotoPage({{ page + 1 }});return false;">{{ icon('chevron-right') }}</a>{% endif %}
+      {% if page != maxPage %}<a href="#" class="button btn--small" data-goto-page="{{ page + 1 }}">{{ icon('chevron-right') }}</a>{% endif %}
     </nav>
   {% endif %}
 {% endmacro %}
@@ -97,5 +97,5 @@
     {% endif %}
   </section>
 </form>
-<script type="module" src="scripts/admin/messageList.js"></script>
+<script type="module" src="./scripts/admin/messageList.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

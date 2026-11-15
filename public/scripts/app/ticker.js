@@ -1,8 +1,9 @@
 /**
- * Live resource counters of the top bar (formerly topnav.js). resourceTicker() is called per resource
- * by the layout; elements are matched by data-ticker="current_<name>" (or the legacy #id).
+ * Live resource counters of the top bar (formerly topnav.js). The layout lists the resources in the data
+ * island #resource-tickers ({tickers: [{available, limit, production, valueElem}]}), initResourceTickers()
+ * starts one ticker per entry; elements are matched by data-ticker="current_<name>" (or the legacy #id).
  */
-import { qsa, now, pretty_number, shortly_number, setVisibleInterval } from './core.js';
+import { qsa, now, pretty_number, shortly_number, setVisibleInterval, pageData } from './core.js';
 
 function updateTooltip(element, amount, full) {
   const content = element.getAttribute('data-tooltip-content') ?? '';
@@ -49,6 +50,13 @@ export function resourceTicker(config, init) {
       element.classList.add('colorNegative', 'res_current_max');
       updateTooltip(element, null, true);
     }
+  }
+}
+
+/** starts the tickers listed in the #resource-tickers island (none in vacation mode) */
+export function initResourceTickers() {
+  for (const config of pageData('resource-tickers').tickers ?? []) {
+    resourceTicker(config, true);
   }
 }
 

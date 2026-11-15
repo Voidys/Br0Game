@@ -532,6 +532,10 @@ longDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Desarrollada para romper el dominio de los Xer, la Víbora es el arma definitiva contra cazas ligeros, cazas pesados y cruceros. Con sus cañones de fuego rápido y su tecnología avanzada, inclina el equilibrio de poder en el universo."
+  "230": "Rápido. Preciso. Intocable. El Interceptor no está hecho para combates justos: está diseñado para golpear rápido y fuerte, creando una ventaja abrumadora en un abrir y cerrar de ojos."
+  "231": "El Behemot es el resultado de décadas de investigación de gravitones, que combina esta tecnología en una plataforma de combate implacable. A diferencia de las Estrellas de la muerte, no fue diseñado para la destrucción planetaria, sino para la máxima eficiencia en el campo de batalla. Al renunciar a los sistemas de alto consumo energético necesarios para destruir lunas, su diseño se aligeró notablemente, lo que permitió motores más potentes, mayor agilidad y más potencia de fuego. Su compacto cañón de gravitones lo convierte en una máquina de destrucción móvil, capaz de aniquilar por sí solo incluso flotas enormes."
+  "232": "El Titán del Vacío representa la cumbre de la tecnología moderna de gravitones. Cada aspecto de su diseño sirve a un único propósito: la rápida aniquilación de lunas enemigas. Se omitieron deliberadamente las torretas de armas convencionales para reducir la masa y dejar espacio a colosales generadores de cristal. Estos alimentan las bobinas de aceleración más avanzadas jamás construidas en las galaxias conocidas, otorgando a la nave un nivel de movilidad sin igual. Las inmensas necesidades de cristal convierten a cada Titán del Vacío en un logro industrial monumental y en un símbolo de poder destructivo ilimitado."
 secureResources: >-
   Dependiendo del nivel de mejora, el 1% de la producción diaria hasta un máximo
   del 10% está protegida contra el saqueo durante los ataques.
@@ -812,6 +816,9 @@ shortDescription:
     the Universe. Because you have to get to the ground of the sea in order to
     get Deuterium, it is the most expensive resource.
   '911': Energy is needed for the production of every resource.
+  "229": "Desarrollada para romper el dominio de los Xer, la Víbora es el arma definitiva contra cazas ligeros, cazas pesados y cruceros. Con sus cañones de fuego rápido y su tecnología avanzada, inclina el equilibrio de poder en el universo."
+  "230": "Rápido. Preciso. Intocable. El Interceptor no está hecho para combates justos: está diseñado para golpear rápido y fuerte, creando una ventaja abrumadora en un abrir y cerrar de ojos."
+  "232": "Más rápido, más explosivo, siempre una buena sorpresa. El Titán del Vacío es el terror de las lunas."
 shortNames:
   '202': N.C peque&ntilde;a
   '203': N.C grande
@@ -854,6 +861,10 @@ shortNames:
   '412': Búnker
   '413': Titan Laser
   '414': Señuelo
+  "229": "Víbora"
+  "230": "Interceptor"
+  "231": "Behemot"
+  "232": "Titán del Vacío"
 spytechStatsDescription: >-
   En los niveles 0 y 1, sólo son visibles los puntos totales de otros jugadores.
   A partir del nivel 2, también son visibles los puntos de construcción de otros
@@ -955,3 +966,7 @@ tech:
   '902': Cristal
   '903': Deutério
   '911': Energía
+  "229": "Víbora"
+  "230": "Interceptor"
+  "231": "Behemot"
+  "232": "Titán del Vacío"

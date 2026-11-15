@@ -337,8 +337,7 @@ al_leave_ally: Are you sure you want to leave the alliance?
 al_leave_sucess: You have left the alliance <b>%s</b>!
 al_leaving: Player has left the alliance
 al_leaving_msg: >-
-  The player <a href="#" onclick="return Dialog.Playercard(%s,
-  '%s');"><b>%s</b></a> has left the alliance!
+  The player <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> has left the alliance!
 al_make_alliance: Create Alliance
 al_make_ally_insufficient_points: >-
   You do not have enough points to create an alliance.<br>You need at least %s
@@ -367,8 +366,7 @@ al_name_tag_too_long: The alliance tag may have at most 8 and the name at most 3
 al_new_apply: >-
   Your alliance has received <a
   href="?page=alliance&mode=admin&action=manageApply">[an application]</a> from
-  player <a href="#" onclick="return Dialog.Playercard(%s,
-  '%s');"><b>%s</b></a>.
+  player <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: New Member
 al_new_name: Change name (3-30 characters)
 al_new_requests: '%d pending'

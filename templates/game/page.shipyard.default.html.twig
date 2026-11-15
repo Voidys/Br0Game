@@ -3,9 +3,7 @@
 {% block content %}
 
 	{% if not NotBuilding %}
-		<table id="infobox" class="repair-infobox">
-			<tr><td>{{ LNG.bd_building_shipyard }}</td></tr>
-		</table><br><br>
+		<p id="infobox" class="repair-infobox">{{ LNG.bd_building_shipyard }}</p><br><br>
 	{% endif %}
 
 	{% if not empty(BuildList) %}
@@ -16,7 +14,7 @@
 					<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" >
 						<input type="hidden" name="action" value="delete">
 						<div >
-							<select name="auftr[]" id="auftr" onchange="this.form.myText.setAttribute('size', this.value);" multiple class="shipl"><option>&nbsp;</option></select><br><br>{{ LNG.bd_cancel_warning }}<br><input class="z" type="submit" value="{{ LNG.bd_cancel_send }}" />
+							<select name="auftr[]" id="auftr" multiple class="shipl"><option>&nbsp;</option></select><br><br>{{ LNG.bd_cancel_warning }}<br><input class="z" type="submit" value="{{ LNG.bd_cancel_send }}" />
 						</div>
 					</form>
 					<br><span id="timeleft" data-umode="{{ umode }}"></span><br><br>
@@ -29,7 +27,7 @@
 					<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" >
 						<input type="hidden" name="action" value="delete">
 						<div >
-							<select name="auftrumode[]" id="auftrumode" onchange="this.form.myText.setAttribute('size', this.value);" multiple class="shipl"><option>&nbsp;</option></select><br><br><br><input class="z" value="{{ LNG['bd_paused'] }}" />
+							<select name="auftrumode[]" id="auftrumode" multiple class="shipl"><option>&nbsp;</option></select><br><br><br><input class="z" value="{{ LNG['bd_paused'] }}" />
 						</div>
 					</form>
 					<br><span id="timeleft" data-umode="{{ umode }}"></span><br><br>
@@ -63,24 +61,24 @@
 		</div>
 		{% else %}
 		<div class="planeto">
-			<span class="segmented" role="group"><button id="ship1">{{ LNG.fm_civil }}</button><button id="ship2">{{ LNG.fm_military }}</button><button id="ship3" class="selected">{{ LNG.fm_all }}</button></span>
+			<span class="segmented" role="group"><button id="ship1" data-action="filter-rows" data-filter-group="ship" data-hide=".infos" data-show="{{ civil }}">{{ LNG.fm_civil }}</button><button id="ship2" data-action="filter-rows" data-filter-group="ship" data-hide=".infos" data-show="{{ military }}">{{ LNG.fm_military }}</button><button id="ship3" class="selected" data-action="filter-rows" data-filter-group="ship" data-hide=".infos">{{ LNG.fm_all }}</button></span>
 		</div>
 		{% endif %}
 	{% endif %}
 
 	{% for ID, Element in (elementList)|php_iter %}
 		<div class="infos {% if Element.fade %}unavailable{% endif %}" id="s{{ ID }}">
-			<div class="buildn"><a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>
+			<div class="buildn"><a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>
 				<span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ pretty_number(Element.available) }}){% endif %}</span>
 			</div>
 			<div class="buildl">
-				<a href="#" onclick="return Dialog.info({{ ID }})">
+				<a href="#" data-action="dialog-info" data-id="{{ ID }}">
 					<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120">
 				</a>
 				{% if not empty(Element.requirements) %}
 					{{ LNG.tt_requirements }}: </br>
 					{% for requireID, NeedLevel in (Element.requirements)|php_iter %}
-						<a href="#" onclick="return Dialog.info({{ requireID }})">
+						<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
 						<span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
 							{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
 						</span>
@@ -89,7 +87,7 @@
 				{% else %}
 					{{ LNG.bd_remaining }}:<br>
 					{% for ResType, ResCount in (Element.costOverflow)|php_iter %}
-						<a href='#' onclick='return Dialog.info({{ ResType }})' class='tooltip' data-tooltip-content="
+						<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="
 							<table>
 								<tr><th>{{ LNG.tech[ResType] }}</th></tr>
 								<tr>
@@ -108,7 +106,7 @@
 			<div class="buildl">
 				<span>
 					{% for RessID, RessAmount in (Element.costResources)|php_iter %}
-						<a href='#' onclick='return Dialog.info({{ RessID }})' class='tooltip' data-tooltip-content="
+						<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="
 						<table>
 							<tr><th>{{ LNG.tech[RessID] }}</th></tr>
 							<tr>
@@ -139,7 +137,7 @@
 						<form action="game?page=shipyard&amp;mode={{ mode }}" method="post" id="s{{ ID }}">
 							<span class="control-group">
 								<input type="number" name="fmenge[{{ ID }}]" id="input_{{ ID }}" maxlength="{{ maxlength }}" value="0" tabindex="{{ null }}" >
-								<input type="button" value="{{ LNG.bd_max_ships }}" onclick="document.getElementById('input_{{ ID }}').value='{{ Element.maxBuildable }}'">
+								<input type="button" value="{{ LNG.bd_max_ships }}" data-action="fill-input" data-target="input_{{ ID }}" data-value="{{ Element.maxBuildable }}">
 							</span>
 							<input class="b colorPositive" type="submit" value="{{ LNG.bd_build_ships }}">
 						</form>
@@ -151,47 +149,12 @@
 	{% endfor %}
 {% endblock %}
 {% block script %}{{ parent() }}
-	<script type="text/javascript">
-		data			= {{ BuildList|json_encode|raw }};
-		bd_operating	= '{{ LNG.bd_operating }}';
-		bd_available	= '{{ LNG.bd_available }}';
-	</script>
-
 	{% if not empty(BuildList) %}
-	<script src="scripts/base/bcmath.js"></script>
-	<script type="module" src="./scripts/game/shipyard.js"></script>
-	<script type="text/javascript">
-		onPageInit(function() {
-			ShipyardInit();
-		});
-	</script>
+	{{ data_island('shipyard-data', {data: BuildList, bdOperating: LNG.bd_operating, bdAvailable: LNG.bd_available}) }}
+	<script src="scripts/base/bcmath.js?v={{ asset_version }}"></script>
+	<script type="module" src="./scripts/game/shipyard.js?v={{ asset_version }}"></script>
 	{% endif %}
-	{% if mode == "fleet" %}
-		{% if hangarFiltersEnabled %}
-	<script type="module" src="./scripts/game/hangarFilter.js"></script>
-		{% else %}
-	<script>
-		onPageInit(function() {
-			var filters = {
-				ship1: "{{ civil }}",
-				ship2: "{{ military }}",
-				ship3: null
-			};
-			Object.keys(filters).forEach(function(id) {
-				document.getElementById(id)?.addEventListener('click', function() {
-					document.querySelectorAll('.infos').forEach(function(el) {
-						el.style.display = filters[id] !== null ? 'none' : '';
-					});
-					if (filters[id]) {
-						document.querySelectorAll(filters[id]).forEach(function(el) { el.style.display = ''; });
-					}
-					Object.keys(filters).forEach(function(other) {
-						document.getElementById(other)?.classList.toggle('selected', other === id);
-					});
-				});
-			});
-		});
-	</script>
-		{% endif %}
+	{% if mode == "fleet" and hangarFiltersEnabled %}
+	<script type="module" src="./scripts/game/hangarFilter.js?v={{ asset_version }}"></script>
 	{% endif %}
 {% endblock %}

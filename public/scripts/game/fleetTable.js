@@ -1,9 +1,24 @@
-import { qsa, now, pad, pretty_number, setVisibleInterval, NotifyBox } from '../app/core.js';
+import { qsa, now, pad, pretty_number, setVisibleInterval, NotifyBox, pageData } from '../app/core.js';
+import { registerActions } from '../app/actions.js';
+import { noShips } from './flotten.js';
+
+/**
+ * Fleet table page: running fleets' timers, experience / cargo sums of the chosen ships, the quick cargo
+ * selection and the custom fleets saved in localStorage. Ship data (experience points, capacity per
+ * type) comes from the data island #fleet-table-data; controls are data-action markup (app/actions.js).
+ */
+const exp_values = {};
+const ship_storage = {};
+for (const ship of pageData('fleet-table-data').ships ?? []) {
+  exp_values[ship.id] = ship.expo;
+  ship_storage[ship.id] = ship.capacity;
+}
+document.addEventListener('fleet:amounts', () => show_values());
 
 onPageInit(function () {
   setVisibleInterval(function () {
     qsa('.fleets').forEach(function (el) {
-      var s = Number(el.dataset.fleetTime) - (now().getTime() - startTime) / 1000;
+      let s = Number(el.dataset.fleetTime) - (now().getTime() - startTime) / 1000;
       if (s <= 0) {
         el.textContent = '-';
       } else {
@@ -300,7 +315,12 @@ function customfleet_show() {
   let cfleet = local_getValue("custom_fleets", {})
   let x = ""
   for (let k in cfleet) {
-    x += '   <a  href="javascript:;" onclick="custom_fleet(\''+k+'\')">' + k + '</a>'
+    const label = document.createElement('a');
+    label.href = '#';
+    label.dataset.action = 'custom-fleet';
+    label.dataset.name = k;
+    label.textContent = k;
+    x += '   ' + label.outerHTML;
 
   }
   document.getElementById("customfleets").innerHTML=x
@@ -329,7 +349,7 @@ onPageInit(function () {
   fillShipps()
 });
 
-// inline handlers (fleet table template), customfleet links and flotten.js
-Object.assign(window, {
-  show_values, toogle_custom_fleet, custom_fleet,
+registerActions({
+  'toggle-custom-fleet': () => toogle_custom_fleet(),
+  'custom-fleet': (link) => custom_fleet(link.dataset.name),
 });

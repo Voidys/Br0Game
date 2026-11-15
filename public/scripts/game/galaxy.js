@@ -1,5 +1,24 @@
-import { getJSON, post, pretty_number } from '../app/core.js';
+import { post, pretty_number, pageData } from '../app/core.js';
+import { registerActions } from '../app/actions.js';
 
+/**
+ * Galaxy page: mission buttons (spy, recycle, ...), the missile form, system navigation (buttons and
+ * keyboard) and the local galaxy data store (sync / export / import / reset).
+ * Server data (current system, labels) comes from the data island #galaxy-data (template
+ * page.galaxy.default.html.twig); the controls are data-action markup (see app/actions.js).
+ */
+const galaxyData = pageData('galaxy-data');
+const galakey = galaxyData.galakey;
+// position -> planet data (null: empty or destroyed), as stored in the local galaxy data
+const systemdata = {};
+for (const { position, data } of galaxyData.systemRows) systemdata[position] = data;
+systemdata.timepoint = Date.now();
+const maxFleetSetting = galaxyData.maxFleetSetting;
+const planetlng = galaxyData.planetLng;
+const moonshortlng = galaxyData.moonShortLng;
+const confirmlng = galaxyData.confirmLng;
+
+/** sends a fleet mission (spy, recycle, ...) of the galaxy view to the server; asks first when the server wants a confirmation */
 function doit(missionID, planetID) {
   post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID, {}, 'json').then(function (data) {
     if (data.code === 602) {
@@ -28,7 +47,7 @@ function handleDoIt(data) {
 
   let statustable = document.getElementById('fleetstatusrow');
   let messages = statustable.querySelectorAll(':scope > div');
-  if (messages.length == MaxFleetSetting) {
+  if (messages.length == maxFleetSetting) {
     messages[0].remove();
   }
   let element = document.createElement('div');
@@ -137,13 +156,13 @@ onPageInit(function () {
 });
 
 function onChange_import(event) {
-  var reader = new FileReader();
+  const reader = new FileReader();
   reader.onload = onReaderLoad_import;
   reader.readAsText(event.target.files[0]);
 }
 
 function onReaderLoad_import(event) {
-  var ttl = JSON.parse(event.target.result);
+  const ttl = JSON.parse(event.target.result);
   let obj = ttl[0]
   let pid = ttl[1]
   let aid = ttl[2]
@@ -182,7 +201,7 @@ function onReaderLoad_import(event) {
 function export_csv() {
   let keys = Object.keys(universe)
   keys.sort(compareFn)
-  var outcsv = "coords,moon?,name,ally,status,\n"
+  let outcsv = "coords,moon?,name,ally,status,\n"
   for (let k of keys) {
     for (let p = 1; p < 16; p++) {
       if (universe[k][p] !== null) {
@@ -233,6 +252,7 @@ function showplayerinfos() {
 }
 
 function annotatehover(id, htmlobject) {
+  if (!htmlobject.hasAttribute("data-tooltip-content")) return;
   let anostr = htmlobject.getAttribute("data-tooltip-content").replace("</table>", "")
   anostr += "<tr><th colspan='2'>"+planetlng+"</th></tr>"
   let baseurl = location.href.split("?")[0] + "?page=galaxy&galaxy="
@@ -294,7 +314,7 @@ function compareFn(a, b) {
 }
 
 function download(filename, text) {
-  var element = document.createElement('a');
+  const element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
   element.setAttribute('download', filename);
 
@@ -307,7 +327,7 @@ function download(filename, text) {
 }
 
 
-var keypressRegistered = false;
+let keypressRegistered = false;
 document.addEventListener('keydown', logKey);
 
 function logKey(e) {
@@ -346,5 +366,15 @@ function downHandler() {
   galaxy_submit('galaxyRight');
 }
 
-// inline handlers and javascript: links of the galaxy templates and tooltips
-Object.assign(window, { doit, openMissileForm, showMissileForm, galaxy_submit });
+registerActions({
+  'galaxy-submit': (button) => galaxy_submit(button.dataset.direction),
+  'galaxy-mission': (link) => doit(link.dataset.mission, link.dataset.planet),
+  'missile-form': (link) => {
+    const { planet, galaxy, system, position, duration, type } = link.dataset;
+    return openMissileForm(planet, galaxy, system, position, duration, type);
+  },
+  /** "max" next to the missile count: all available missiles */
+  'missiles-max': () => {
+    document.getElementsByName('SendMI')[0].value = document.getElementById('missiles').textContent.replace(/\D/g, '');
+  },
+});

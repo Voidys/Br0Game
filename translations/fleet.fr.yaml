@@ -489,3 +489,5 @@ type_planet_4: Base des pirates
 type_planet_short_1: P
 type_planet_short_2: D
 type_planet_short_3: L
+sys_lost: "Pertes"
+sys_raport_amount_error: "Pas de vaisseaux/défenses ou trop pour la simulation"

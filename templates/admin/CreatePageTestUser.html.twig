@@ -21,11 +21,6 @@
     <span class="spinner__label">{{ LNG.adm_loading }}</span>
 </div>
 
-<script>
-    document.getElementById('testDataForm').addEventListener('submit', function(event) {
-        document.getElementById('testDataForm').classList.add('hidden');
-        document.getElementById('loadingSpinner').classList.remove('hidden');
-    });
-</script>
+<script type="module" src="./scripts/admin/pages/createTestUser.js?v={{ asset_version }}"></script>
 </div>
 {% include 'admin/overall_footer.html.twig' %}

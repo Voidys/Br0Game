@@ -3,14 +3,12 @@
  * Renders interactive statistics from the Rust battle engine report data.
  * Shows full FleetId/Player drill-down: source fleet → target fleet → ship table.
  * Runs on page init and for every report opened in the modal (modal:load, scripts/app/dialog.js);
- * the data comes from the inline bridge of the report template (window.raportData, ...).
+ * the data comes from the JSON island #raport-data of the report template ({raportData, shipNames, raportLNG}).
  */
-import { qs, qsa, on, show, hide, toggle } from '../app/core.js';
+import { qs, qsa, on, show, hide, toggle, pageData } from '../app/core.js';
 
 function renderRaport() {
-  let raportData = window.raportData;
-  let shipNames = window.shipNames || {};
-  let raportLNG = window.raportLNG || {};
+  const { raportData, shipNames = {}, raportLNG = {} } = pageData('raport-data');
   if (!raportData || !raportData.rounds) return;
 
   // Stat category labels & icons

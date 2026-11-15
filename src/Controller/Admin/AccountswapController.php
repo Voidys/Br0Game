@@ -61,7 +61,6 @@ class AccountswapController extends AbstractAdminController
             $Userlist .= sprintf('<option value="%d">%s&nbsp;&nbsp;(%s)</option>', $User['id'], GameEscaping::escape((string) $User['username'], 'UTF-8'), $LNG['se_rank'][$User['authlevel']]);
         }
 
-        $this->addScript('filterlist.js');
         $this->assign([
             'Userlist' => new Markup($Userlist, 'UTF-8'),
         ]);

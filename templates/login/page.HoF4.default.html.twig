@@ -4,7 +4,7 @@
 
   {% block content %}
   <form class="filter-bar" name="stats" id="stats" method="post" action="">
-    <select name="universe" id="universe" class="changeUni" onchange="document.getElementById('stats').submit();">{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
+    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
   </form>
   <div class="table-scroll">
   <table class="HOF-Table">

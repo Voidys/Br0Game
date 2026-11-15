@@ -1,20 +1,5 @@
 {% include 'admin/overall_header.html.twig' %}
-<script type="text/javascript">
-function check(){
-	fetch('?page=quickEditor&edit=planet&id={{ id }}&action=send', {
-		method: 'POST',
-		credentials: 'same-origin',
-		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-		body: new URLSearchParams(new FormData(document.getElementById('userform')))
-	}).then(function (response) { return response.text(); }).then(function (data) {
-		Dialog.alert(data, function() {
-			location.reload();
-		});
-	});
-	return false;
-}
-</script>
-<form method="post" id="userform" action="" onsubmit="return check();" class="stack quick-edit" data-track-dirty>
+<form method="post" id="userform" action="" data-ajax-dialog="?page=quickEditor&amp;edit=planet&amp;id={{ id }}&amp;action=send" class="stack quick-edit" data-track-dirty>
   <section class="card">
     <header class="card__head"><h2 class="card__title">{{ icon('orbit') }}{{ LNG.qe_info }}</h2></header>
     <div class="card__body">

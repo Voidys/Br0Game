@@ -12,7 +12,7 @@
   </section>
 {% endmacro %}
 {% import _self as ui %}
-<form method="post" class="stack" data-confirm="{{ LNG.adm_giveaway_confirm|e('html_attr') }}">
+<form method="post" class="stack">
   <input type="hidden" name="action" value="send">
 
   <div class="notice notice--warning">
@@ -48,7 +48,7 @@
   {{ ui.amounts(LNG.tech[400], 'shield', reslist.defense, LNG) }}
 
   <div class="form-actions">
-    <button type="submit" class="btn--primary">{{ icon('gift') }}{{ LNG.qe_send }}</button>
+    <button data-confirm="{{ LNG.adm_giveaway_confirm|e('html_attr') }}" type="submit" class="btn--primary">{{ icon('gift') }}{{ LNG.qe_send }}</button>
   </div>
 </form>
 {% include 'admin/overall_footer.html.twig' %}

@@ -1,58 +1,17 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="{{ lang }}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{{ lang }}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{{ lang }}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{{ lang }}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="{{ lang }}" class="no-js"> <!--<![endif]-->
-<head>
-	<title>{{ title }}</title>
-	{% if not empty(goto) %}
-	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
-	{% endif %}
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/base/boilerplate.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/app/content.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/install/main.css">
-	<link rel="stylesheet" type="text/css" href="../styles/theme/nova/theme.css">
-	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-	<script type="text/javascript">
-	window.__pageInit = [];
-	window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-	</script>
-	<script type="module" src="../scripts/app/main.js"></script>
-	{% for scriptname in (scripts)|php_iter %}
-	<script type="text/javascript" src="../scripts/game/{{ scriptname }}"></script>
-	{% endfor %}
-	{% block script %}{% endblock %}
-	{% if execscript %}
-	<script type="text/javascript">onPageInit(function () { {{ execscript|raw }} });</script>
-	{% endif %}
-</head>
-<body id="step{{ step|default('intro') }}">
-<div id="tooltip" class="tip"></div>
-<div><p>&nbsp;</p></div>
-<table width="960">
-<tr>
-	<th colspan="3">{{ header }}</th>
-</tr>
-<tr>
-	<td colspan="2">
-		<div id="main">
-			<h2 class="left">{{ LNG.upgrade_intro_welcome }}</h2>
-			{% if not empty(updates) %}
-				<form action="?mode=doupgrade" method="POST">
-					<p class="left">{{ sprintf(LNG.upgrade_available, sql_revision, file_revision) }}</p>
-
-					{% for file, content in (updates)|php_iter %}
-						<div><p class="left">{{ file }}</p><div class="left install-diff">{{ content }}</div></div>
-					{% endfor %}
-					<p><input type="submit" value="{{ LNG.continue }}"></p>
-				</form>
-			{% else %}
-				<p class="left">{{ sprintf(LNG.upgrade_notavailable, sql_revision) }}</p>
-				<p><a href="./"><button>{{ LNG.upgrade_back }}</button></a></p>
-			{% endif %}
-		</div>
-	</td>
-</tr>
-{% include 'install/ins_footer.html.twig' %}
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ header }}{% endblock %}
+{% block panel %}
+  <h2>{{ LNG.upgrade_intro_welcome }}</h2>
+  {% if not empty(updates) %}
+    <form action="?mode=doupgrade" method="POST">
+      <p>{{ sprintf(LNG.upgrade_available, sql_revision, file_revision) }}</p>
+      {% for file, content in (updates)|php_iter %}
+        <div><p>{{ file }}</p><div class="install-diff">{{ content }}</div></div>
+      {% endfor %}
+      <div class="install-actions"><button type="submit" class="btn--primary">{{ LNG.continue }}</button></div>
+    </form>
+  {% else %}
+    <p>{{ sprintf(LNG.upgrade_notavailable, sql_revision) }}</p>
+    <div class="install-actions"><a class="button" href="./">{{ LNG.upgrade_back }}</a></div>
+  {% endif %}
+{% endblock %}

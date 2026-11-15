@@ -5,7 +5,7 @@
 
   <div>
     <div class="planeto">
-      <span class="segmented" role="group"><button id="btn1">{{ LNG.fm_mining }}</button><button id="btn2">{{ LNG.fm_storage }}</button><button id="btn3">{{ LNG.fm_other }}</button><button id="btn4" class="selected">{{ LNG.fm_all }}</button></span>
+      <span class="segmented" role="group"><button id="btn1" data-action="filter-rows" data-filter-group="build" data-hide=".prod, .storage, .other" data-show=".prod">{{ LNG.fm_mining }}</button><button id="btn2" data-action="filter-rows" data-filter-group="build" data-hide=".prod, .storage, .other" data-show=".storage">{{ LNG.fm_storage }}</button><button id="btn3" data-action="filter-rows" data-filter-group="build" data-hide=".prod, .storage, .other" data-show=".other">{{ LNG.fm_other }}</button><button id="btn4" class="selected" data-action="filter-rows" data-filter-group="build" data-hide=".prod, .storage, .other">{{ LNG.fm_all }}</button></span>
       <span class="planeto__meta"><a title="{{ LNG.ov_developed_fields }}">{{ planet_field_current }}</a> / <a title="{{ LNG.ov_max_developed_fields }}">{{ planet_field_max }}</a> {{ LNG.ov_fields }}
       {% if isCatchUp %}
           &middot; {{ catchUp }} %
@@ -14,7 +14,7 @@
     {% for ID, Element in (BuildInfoList)|php_iter %}
       <div class="infos {{ Element.filterClass }} {% if Element.fade %}unavailable{% endif %}" >
         <div class="buildn relative">
-          <a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>{% if Element.level > 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
+          <a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level > 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
             {% if ID == watch %}
               <a href="?page=buildings&watch=0">
                 <img class="watchlist-fav-button"  src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
@@ -26,13 +26,13 @@
             {% endif %}
         </div>
         <div class="buildl">
-          <a href="#" onclick="return Dialog.info({{ ID }})">
+          <a href="#" data-action="dialog-info" data-id="{{ ID }}">
             <img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120">
           </a>
           {% if not empty(Element.requirements) %}
             {{ LNG.tt_requirements }}: </br>
             {% for requireID, NeedLevel in (Element.requirements)|php_iter %}
-              <a href="#" onclick="return Dialog.info({{ requireID }})">
+              <a href="#" data-action="dialog-info" data-id="{{ requireID }}">
                 <span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
                   {{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
                 </span>
@@ -41,7 +41,7 @@
           {% else %}
             {{ LNG.bd_remaining }}:<br>
             {% for ResType, ResCount in (Element.costOverflow)|php_iter %}
-              <a href='#' onclick="return Dialog.info({{ ResType }});" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+              <a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
             {% endfor %}
             {% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
             <br>
@@ -55,7 +55,7 @@
         <div class="buildl">
           <span>
             {% for RessID, RessAmount in (Element.costResources)|php_iter %}
-              <a href='#' onclick="return Dialog.info({{ RessID }});" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+              <a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
             {% endfor %}
             
             {% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
@@ -82,9 +82,9 @@
               <input type="hidden" name="cmd" value="insert">
               <input type="hidden" name="building" value="{{ ID }}">
               {% if userLang=="de" or userLang=="of" or userLang=="pi" %}
-                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}onclick="window.open('https://www.youtube.com/watch?v=u3dahwW0njk');" {% endif %}>
+                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}data-action="open-url" data-url="https://www.youtube.com/watch?v=u3dahwW0njk" {% endif %}>
               {% else %}
-                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}onclick="window.open('https://www.youtube.com/watch?v=tldGgGFe194');" {% endif %}>
+                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}data-action="open-url" data-url="https://www.youtube.com/watch?v=tldGgGFe194" {% endif %}>
               {% endif %}
               {% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
             </form>
@@ -93,7 +93,7 @@
           <br>
           {{ LNG.fgf_time }}:<span class="statictime" timestamp="{{ Element.elementTime }}"></span>
           {% if Element.level > 0 %}
-            {% if ID == 43 %}<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
+            {% if ID == 43 %}<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
             {% if Element.destroyable %}<br><a class="tooltip_sticky" data-tooltip-content="
             {# Start Destruction Popup #}
             <table class='tt-destroy'>
@@ -130,27 +130,4 @@
     {% endfor %}
   </div>
 {% endblock %}
-{% block script %}
-  <script>
-    onPageInit(function() {
-      var groups = {
-        btn1: ['.prod'],
-        btn2: ['.storage'],
-        btn3: ['.other'],
-        btn4: ['.prod', '.storage', '.other']
-      };
-      Object.keys(groups).forEach(function(id) {
-        document.getElementById(id)?.addEventListener('click', function() {
-          ['.prod', '.storage', '.other'].forEach(function(sel) {
-            document.querySelectorAll(sel).forEach(function(el) {
-              el.style.display = groups[id].indexOf(sel) !== -1 ? '' : 'none';
-            });
-          });
-          Object.keys(groups).forEach(function(other) {
-            document.getElementById(other)?.classList.toggle('selected', other === id);
-          });
-        });
-      });
-    });
-  </script>
-{% endblock %}
+

@@ -26,11 +26,11 @@
 				<tr>
 					<td>{{ LNG.tech[fleetID] }}</td>
 					<td class="num"><span id="ship{{ fleetID }}_value" data-count="{{ amount }}">{{ pretty_number(amount) }}</span></td>
-					<td class="num"><span class="control-group"><input class="jumpgate num" name="ship[{{ fleetID }}]" id="ship{{ fleetID }}_input" value="0" type="text"><input onclick="Gate.max({{ fleetID }});" value="max" type="button"></span></td>
+					<td class="num"><span class="control-group"><input class="jumpgate num" name="ship[{{ fleetID }}]" id="ship{{ fleetID }}_input" value="0" type="text"><input data-action="gate-max" data-id="{{ fleetID }}" value="max" type="button"></span></td>
 				</tr>
 				{% endfor %}
 				<tr>
-					<td colspan="3" class="form-actions"><input value="{{ LNG.in_jump_gate_jump }}" type="button" onclick="Gate.submit();"></td>
+					<td colspan="3" class="form-actions"><input value="{{ LNG.in_jump_gate_jump }}" type="button" data-action="gate-submit"></td>
 				</tr>
 			{% else %}
 				<tr>

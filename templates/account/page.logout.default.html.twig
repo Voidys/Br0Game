@@ -10,17 +10,5 @@
 </section>
 {% endblock %}
 {% block script %}{{ parent() }}
-<script type="text/javascript">
-	var second = 5;
-	function Countdown(){
-		if(second == 0)
-			return;
-
-		second--;
-		var seconds = document.getElementById('seconds');
-		if (seconds) seconds.textContent = second;
-	}
-	window.setTimeout(function () { window.location.href = './'; }, 5000);
-	window.setInterval(Countdown, 1000);
-</script>
+<script type="module" src="./scripts/account/logout.js?v={{ asset_version }}"></script>
 {% endblock %}

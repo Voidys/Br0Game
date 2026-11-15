@@ -26,10 +26,10 @@
       <div class="board-actions">
         {% if post.canEdit %}<a class="board-action" href="account?page=board&amp;mode=editPost&amp;id={{ post.id }}">{{ icon('pencil') }}{{ LNG.board_edit }}</a>{% endif %}
         {% if post.canDelete %}
-        <form action="account?page=board" method="post" data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}">
+        <form action="account?page=board" method="post">
           <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
           <input type="hidden" name="type" value="post"><input type="hidden" name="id" value="{{ post.id }}">
-          <button class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+          <button data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
         </form>
         {% endif %}
         {% if isMod and not post.deleted %}
@@ -86,10 +86,10 @@
             {% if canComment %}<button type="button" class="board-action" data-reply>{{ icon('message-circle') }}{{ LNG.board_reply }}</button>{% endif %}
             {% if c.canEdit %}<button type="button" class="board-action" data-edit>{{ icon('pencil') }}{{ LNG.board_edit }}</button>{% endif %}
             {% if c.canDelete %}
-            <form action="account?page=board" method="post" data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}">
+            <form action="account?page=board" method="post">
               <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
               <input type="hidden" name="type" value="comment"><input type="hidden" name="id" value="{{ c.id }}">
-              <button class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+              <button data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
             </form>
             {% endif %}
           </div>

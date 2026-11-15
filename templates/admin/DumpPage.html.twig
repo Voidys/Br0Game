@@ -21,17 +21,5 @@
     </footer>
   </section>
 </form>
-<script>
-(function () {
-  var boxes = function () { return document.querySelectorAll('#dbtables input[type=checkbox]'); };
-  document.getElementById('selectAll').addEventListener('click', function () {
-    var checked = this.checked;
-    boxes().forEach(function (box) { if (!box.closest('label').hidden) { box.checked = checked; } });
-  });
-  document.getElementById('dump-filter').addEventListener('input', function () {
-    var q = this.value.toLowerCase();
-    boxes().forEach(function (box) { box.closest('label').hidden = q !== '' && box.value.toLowerCase().indexOf(q) === -1; });
-  });
-})();
-</script>
+<script type="module" src="./scripts/admin/pages/dump.js?v={{ asset_version }}"></script>
 {% include 'admin/overall_footer.html.twig' %}

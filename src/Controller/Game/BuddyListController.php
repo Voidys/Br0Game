@@ -89,7 +89,8 @@ class BuddyListController extends AbstractGameController
         $USER = & $this->state->USER;
         $LNG = & $this->state->LNG;
         $this->setWindow('popup');
-        $this->addInlineScript('window.setTimeout(function () { window.Dialog.close(); }, 2000);');
+        // the result message closes its dialog after two seconds (data-auto-close, scripts/app/actions.js)
+        $this->assign(['autoCloseMs' => 2000]);
 
         $id		= $this->http()->_GP('id', 0);
         $text	= $this->http()->_GP('text', '', UTF8_SUPPORT);

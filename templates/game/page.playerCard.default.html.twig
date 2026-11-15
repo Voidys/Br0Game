@@ -1,19 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_playercard }}{{ parent() }}{% endblock %}
 {% block content %}
-	<script type="text/javascript">
-		function block(targetUser) {
-			var trade = document.getElementById("blockTrade").checked ? 1 : 0;
-			var dm = document.getElementById("blockDm").checked ? 1 : 0;
-			console.log('dm: '+dm+', trade: '+trade)
-			fetch('game?page=playerCard&mode=toggleBlock&id='+targetUser+'&blockTrade='+trade+'&blockDm='+dm+'&ajax=1', {method: 'POST', credentials: 'same-origin'})
-				.then(function (response) { return response.json(); })
-				.then(function () {
-					const loading = document.getElementById('loading');
-					if (loading) loading.style.display = '';
-				});
-		}   
-	</script>
+	<script type="module" src="./scripts/game/playercard.js?v={{ asset_version }}"></script>
 <table>
 	<tr>
 		<th colspan="5">{{ LNG.pl_overview }}</th>
@@ -367,15 +355,15 @@
 	</tr>
 	<tr>
 		<td></td>
-		<td colspan="1"><a href="#" onclick="return Dialog.Buddy({{ id }})">{{ LNG.pl_buddy }}</a></td>
-		<td colspan="3"><a href="#" onclick="return Dialog.PM({{ id }});" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
+		<td colspan="1"><a href="#" data-action="dialog-buddy" data-id="{{ id }}">{{ LNG.pl_buddy }}</a></td>
+		<td colspan="3"><a href="#" data-action="dialog-pm" data-id="{{ id }}" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
 	</tr>
 	{% if targetRights == 0 %}
 		<form action="game?page=playerCard&id={{ id }}" method="post">
 			<tr>
 				<td></td>
-				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input onclick="block({{ id }});" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
-				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input onclick="block({{ id }});" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
+				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input data-action="player-block" data-id="{{ id }}" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
+				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input data-action="player-block" data-id="{{ id }}" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
 			</tr>
 		</form>
 	{% endif %}
@@ -391,7 +379,7 @@
 					{#if $i % 5 == 0}
 						</td></tr><tr><td colspan="4">
 					{/if#}
-					<img class="inline-block achievement-icon" src="{{ theme_asset('achievements/' ~ achievement.image ~ '.jpg') }}" onclick="return Dialog.ach({{ achievement.id }})" title="{{ LNG.Achievement_names[achievement.id] }}" alt="{{ achievement.name }}" />
+					<img class="inline-block achievement-icon" src="{{ theme_asset('achievements/' ~ achievement.image ~ '.jpg') }}" data-action="dialog-ach" data-id="{{ achievement.id }}" title="{{ LNG.Achievement_names[achievement.id] }}" alt="{{ achievement.name }}" />
 					{% include 'game/shared.achievementInfo.html.twig' with {id: achievement.id, image: theme_asset('achievements/' ~ achievement.image ~ '.jpg')} only %}
 					{% set i = i + 1 %}
 				{% endfor %}

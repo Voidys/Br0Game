@@ -49,6 +49,28 @@ export function fadeOut(el, ms = 400) {
     .finished.then(() => hide(el));
 }
 
+// ---------------------------------------------------------------------------------------- page data
+
+const islands = new Map();
+
+/**
+ * Data a template hands to its page module: the content of <script type="application/json" id="…">
+ * (Twig: data_island('page-data', {...})). Parsed once per element; {} when the island is missing.
+ */
+export function pageData(id = 'page-data') {
+  const element = document.getElementById(id);
+  if (!element) return {};
+  if (!islands.has(element)) {
+    try {
+      islands.set(element, JSON.parse(element.textContent));
+    } catch (error) {
+      console.error(`data island #${id} is not valid JSON`, error);
+      islands.set(element, {});
+    }
+  }
+  return islands.get(element);
+}
+
 // ---------------------------------------------------------------------------------------- HTTP
 
 /** URLSearchParams from a form, an object or a query string */

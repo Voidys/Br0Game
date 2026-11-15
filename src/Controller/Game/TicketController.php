@@ -110,7 +110,8 @@ class TicketController extends AbstractGameController
             if (empty($subject)) {
                 $this->printMessage($LNG['ti_error_no_subject'], [[
                     'label' => $LNG['sys_back'],
-                    'url' => 'javascript:window.history.back()',
+                    'url' => '#',
+                    'action' => 'history-back',
                 ]]);
             }
 

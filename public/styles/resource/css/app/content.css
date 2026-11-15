@@ -1630,7 +1630,7 @@ input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
 input.fleet-radio { width: 3.75rem; }
 .fleet-alert { color: red; padding-left: 0.8125rem; }
 .fleet-warning { color: red; }
-tr.fleet-noreturn { height: 3.125rem; }
+.fleet-noreturn { min-block-size: 3.125rem; }
 
 /* fleet overview: slot counters in three columns, running fleet times, resource tooltip */
 .fleet-slot { width: 33.33%; }
@@ -1668,7 +1668,12 @@ tr.fleet-noreturn { height: 3.125rem; }
 .fleet-dealer-body { clear: right; margin-top: 1.25rem; margin-left: 7.8125rem; }
 
 /* shipyard / repair dock: info box, wreck list link */
-table#infobox.repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; }
+#infobox.repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; padding: 0.3125rem; margin: 0 0 1rem; }
+
+/* mission choice of fleet step 2 (formerly a one-column table) */
+.mission-list { display: grid; gap: 0.75rem; padding: 0.5rem 0.75rem; }
+.mission-option { display: block; }
+.mission-option .fleet-alert { margin-block: 0.5rem; }
 .repair-element-link { padding: 0.625rem; }
 
 /* buildings: dismantle tooltip */

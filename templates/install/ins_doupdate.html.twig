@@ -1,49 +1,6 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="{{ lang }}" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="{{ lang }}" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="{{ lang }}" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="{{ lang }}" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="{{ lang }}" class="no-js"> <!--<![endif]-->
-<head>
-	<title>{{ title }}</title>
-	{% if not empty(goto) %}
-	<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
-	{% endif %}
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/base/boilerplate.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/app/content.css">
-	<link rel="stylesheet" type="text/css" href="../styles/resource/css/install/main.css">
-	<link rel="stylesheet" type="text/css" href="../styles/theme/nova/theme.css">
-	<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
-	<script type="text/javascript">
-	window.__pageInit = [];
-	window.onPageInit = function (fn) { window.__pageInit.push(fn); };
-	</script>
-	<script type="module" src="../scripts/app/main.js"></script>
-	{% for scriptname in (scripts)|php_iter %}
-	<script type="text/javascript" src="../scripts/game/{{ scriptname }}"></script>
-	{% endfor %}
-	{% block script %}{% endblock %}
-	{% if execscript %}
-	<script type="text/javascript">onPageInit(function () { {{ execscript|raw }} });</script>
-	{% endif %}
-</head>
-<body id="step{{ step|default('intro') }}">
-<div id="tooltip" class="tip"></div>
-<div><p>&nbsp;</p></div>
-<table width="960">
-<tr>
-	<th colspan="3">{{ header }}</th>
-</tr>
-<tr>
-	<td colspan="2">
-		<div id="main" align="left">
-		{% if update %}
-			<p>{{ sprintf(LNG.upgrade_success, revision) }}</p>
-		{% else %}
-			<p>{{ sprintf(LNG.upgrade_nothingtodo, revision) }}</p>
-		{% endif %}
-		</div><br><a href="../"><button>{{ LNG.upgrade_back }}</button></a>
-	</td>
-</tr>
-{% include 'install/ins_footer.html.twig' %}
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ header }}{% endblock %}
+{% block panel %}
+  <p>{% if update %}{{ sprintf(LNG.upgrade_success, revision) }}{% else %}{{ sprintf(LNG.upgrade_nothingtodo, revision) }}{% endif %}</p>
+  <div class="install-actions"><a class="button" href="../">{{ LNG.upgrade_back }}</a></div>
+{% endblock %}

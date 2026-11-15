@@ -11,6 +11,3 @@
     <script type="module" src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
   {% endif %}
 {% endfor %}
-{% if execscript %}
-  <script>onPageInit(function () { {{ execscript|raw }} });</script>
-{% endif %}

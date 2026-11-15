@@ -337,6 +337,10 @@ longDescription:
     la plus rare dans l'univers car il faut creuser les fonds marins pour
     l'obtenir, ce qui en fait également la ressource la plus coûteuse.
   '911': De l'énergie est nécessaire à la production de chacune des ressources.
+  "229": "Développée pour briser la domination des Xer, la Vipère est l'arme ultime contre les chasseurs légers, les chasseurs lourds et les croiseurs. Avec ses canons à tir rapide et sa technologie avancée, elle fait basculer l'équilibre des forces dans l'univers."
+  "230": "Rapide. Précis. Intouchable. L'Intercepteur n'est pas fait pour les combats équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant en un clin d'œil."
+  "231": "Le Béhémoth est le fruit de décennies de recherche sur les gravitons, réunissant cette technologie dans une plateforme de combat implacable. Contrairement aux Étoiles de la mort, il n'a pas été conçu pour la destruction planétaire, mais pour une efficacité maximale sur le champ de bataille. En abandonnant les systèmes énergivores nécessaires à la destruction des lunes, sa conception a été considérablement allégée, permettant des moteurs plus puissants, une plus grande agilité et une puissance de feu accrue. Son canon à gravitons compact en fait une machine de destruction mobile, capable d'anéantir seule même de vastes flottes."
+  "232": "Le Titan du Vide représente le sommet de la technologie moderne des gravitons. Chaque aspect de sa conception sert un seul but : l'anéantissement rapide des lunes ennemies. Les tourelles d'armes conventionnelles ont été délibérément omises pour réduire la masse et faire place à de colossaux générateurs de cristal. Ceux-ci alimentent les bobines d'accélération les plus avancées jamais construites dans les galaxies connues, offrant au vaisseau une mobilité inégalée. Les besoins immenses en cristal font de chaque Titan du Vide un exploit industriel monumental – et un symbole de puissance destructrice illimitée."
 secureResources: >-
   Selon le niveau d'amélioration, 1 % de la production quotidienne, jusqu'à un
   maximum de 10 %, est protégé contre le pillage pendant les attaques.
@@ -604,6 +608,9 @@ shortDescription:
     la plus rare dans l'univers car il faut creuser les fonds marins pour
     l'obtenir, ce qui en fait également la ressource la plus coûteuse.
   '911': De l'énergie est nécessaire à la production de chacune des ressources.
+  "229": "Développée pour briser la domination des Xer, la Vipère est l'arme ultime contre les chasseurs légers, les chasseurs lourds et les croiseurs. Avec ses canons à tir rapide et sa technologie avancée, elle fait basculer l'équilibre des forces dans l'univers."
+  "230": "Rapide. Précis. Intouchable. L'Intercepteur n'est pas fait pour les combats équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant en un clin d'œil."
+  "232": "Plus rapide, plus explosif, toujours une bonne surprise. Le Titan du Vide est la terreur des lunes."
 shortNames:
   '202': Petit transporteur
   '203': Grand transporteur
@@ -646,6 +653,10 @@ shortNames:
   '412': Bunker
   '413': Titan Laser
   '414': Le leurre
+  "229": "Vipère"
+  "230": "Intercepteur"
+  "231": "Béhémoth"
+  "232": "Titan du Vide"
 spytechStatsDescription: >-
   Aux niveaux 0 et 1, seuls les points totaux des autres joueurs sont visibles.
   À partir du niveau 2, les points de construction des autres joueurs sont
@@ -747,3 +758,7 @@ tech:
   '902': Crystal
   '903': Deuterium
   '911': Énergie
+  "229": "Vipère"
+  "230": "Intercepteur"
+  "231": "Béhémoth"
+  "232": "Titan du Vide"

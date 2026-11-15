@@ -110,7 +110,7 @@
     <h2 class="nav__heading">{{ LNG.ui_nav_personal|default('Personal') }}</h2>
     <ul>
       {% if isModuleAvailable(php_const('MODULE_NOTICE')) and (not noobInterface or not tutorial) %}
-        {{ nav.link('#', 'sticky-note', LNG.lm_notes, false, ' onclick="OpenPopup(\'?page=notes\', \'notes\', 720, 300); return false;"') }}
+        {{ nav.link('#', 'sticky-note', LNG.lm_notes, false, ' data-action="popup" data-url="?page=notes" data-width="720"') }}
       {% endif %}
       {{ nav.link('game?page=settings', 'settings', LNG.lm_options, currentPage == 'settings') }}
       {% if account_id != 0 %}

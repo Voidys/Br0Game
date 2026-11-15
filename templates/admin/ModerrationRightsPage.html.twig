@@ -12,11 +12,10 @@
     <header class="card__head"><h2 class="card__title">{{ icon('lock') }}{{ LNG.mu_moderation_page }}</h2></header>
     <div class="card__body stack">
       <p class="muted">{{ LNG.adm_rights_pick }}</p>
-      {{ picker.filter('UserList', button_filter) }}
+      {{ picker.filter('id_1', button_filter) }}
       <select name="id_1" size="16">
         {{ UserList }}
       </select>
-      <script>var UserList = new filterlist(document.getElementsByName('id_1')[0]);</script>
     </div>
     <footer class="card__foot">
       <button type="submit" class="btn--primary">{{ icon('pencil') }}{{ LNG.adm_rights_edit }}</button>

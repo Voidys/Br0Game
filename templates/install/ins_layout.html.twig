@@ -4,18 +4,20 @@
   Styles: login.css (panels, notices, inputs) + install/installer.css (steps, checklist, form grid).
 #}
 {% set steps = {1: LNG.ins_step_licence, 2: LNG.ins_step_requirements, 3: LNG.ins_step_database, 5: LNG.ins_step_build, 6: LNG.ins_step_game, 7: LNG.ins_step_admin, 8: LNG.ins_step_done} %}
-{% set activeStep = currentStep == 4 ? 3 : currentStep %}
+{% set activeStep = (currentStep|default(0)) == 4 ? 3 : currentStep|default(0) %}
 <!doctype html>
 <html lang="{{ lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>{{ title }}</title>
+  <title>{{ title|default(LNG.title_install ~ ' · Br0Game') }}</title>
+  {% if goto is defined and goto %}<meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">{% endif %}
   <link rel="stylesheet" href="../styles/resource/css/app/base.css?v={{ asset_version }}">
   <link rel="stylesheet" href="../styles/resource/css/login/login.css?v={{ asset_version }}">
   <link rel="stylesheet" href="../styles/resource/css/install/installer.css?v={{ asset_version }}">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script type="module" src="../scripts/install/main.js?v={{ asset_version }}"></script>
   {% block script %}{% endblock %}
 </head>
 <body class="site site--install">
@@ -24,9 +26,9 @@
   <header class="site-header">
     <div class="site-wrap site-header__inner">
       <span class="site-brand">{{ icon('rocket') }}<span>Br0Game · {{ LNG.title_install }}</span></span>
-      {% if Selector|length > 1 %}
+      {% if Selector is defined and Selector|length > 1 %}
         <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.intro_lang }}</span>
-          <select onchange="var u = new URL(location.href); u.searchParams.set('lang', this.value); location.href = u.toString();">
+          <select data-lang-select>
             {% for langKey, langName in Selector %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endfor %}
           </select>
         </label>
