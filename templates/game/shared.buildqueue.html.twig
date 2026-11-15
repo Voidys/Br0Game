@@ -60,12 +60,11 @@
       </li>
     {% endfor %}
     {% if queueSlots > queueLength %}
-      {% for slot in (queueLength + 1)..queueSlots %}
-        <li class="build-queue__item build-queue__item--free">
-          <span class="build-queue__pos">{{ slot }}</span>
-          <span class="build-queue__name">{{ LNG.ui_queue_free|default('free slot') }}</span>
-        </li>
-      {% endfor %}
+      {# the free slots collapse into one row: "Queue: 0 / 5 - 5x free slot" #}
+      <li class="build-queue__item build-queue__item--free">
+        <span class="build-queue__pos">{{ queueLength }}/{{ queueSlots }}</span>
+        <span class="build-queue__name">{{ LNG.ui_queue|default('Queue') }} &middot; {{ queueSlots - queueLength }}&times; {{ LNG.ui_queue_free|default('free slot') }}</span>
+      </li>
     {% endif %}
   </ol>
 {% endif %}

@@ -590,3 +590,20 @@ Technical changes per migration step, newest last.
 - Theme artwork stored once: `theme-shared/common` (identical in all/most themes), `theme-shared/sets/nebula` (DarkNebula, MinimalNoir, community, community pr0gress), `sets/classic` (nova, EpicBlueXIII, gow). 3193 duplicate files removed from the theme folders, byte-identical resolution verified for 4313 theme x path pairs.
 - `tools/images/convert-theme-images.sh`: shipped JPG/PNG/GIF to WebP q90 (animated GIFs stay animated), size limits per category, originals deleted when the WebP is smaller; `tools/images/dedupe-theme-assets.php`: the dedupe step, with `--apply` and a built-in hash verification.
 - `theme.css` url()s and the few hard-coded resource image references point to the `.webp` files.
+
+## 84. Br0Game theme and content layout
+
+- New theme `public/styles/theme/br0game/` ("Br0Game"). It is the default for new installs and players (`DEFAULT_THEME`, `default_theme`, install.sql). Existing players keep their theme. Palette, contrast values and rules are in DESIGN.md.
+  - Look: a dark green-tinted CSS ground, layered surfaces, an emerald accent for state only, themed scrollbars/selection/caret/focus, and tabular numbers.
+  - Artwork comes from the `nebula` asset set.
+- Theme hooks (fallbacks keep every other theme unchanged):
+  - signal colours and overview mission colours become CSS custom properties, emitted inline only when the player changed the factory default;
+  - `--galaxy-pos-*` for galaxy position states, `--c-accent-ink`, `--shell-bar-shadow`.
+- Content-area layout (shared, all themes):
+  - build lists (buildings, research, hangar, defense, repair dock) as a title bar + artwork/requirements + a fixed action column (~25–30 % shorter, button always in the same place); one column with a thumbnail on phones;
+  - empty queue slots collapsed into one row; build filters as a segmented control (no `|` separators);
+  - overview status and planet in one row, planets/moons as an auto-fill grid;
+  - galaxy navigation as a compact toolbar with chevron buttons (same fields);
+  - fleet Continue rows sticky at the viewport bottom; an empty fleet table takes one row;
+  - message categories as uniform chips (colour dot, count, full labels on desktop); neutral message rows with unread = raised + bold; row actions as Lucide icons (`star`, `reply`, `forward`, `chevron-up` added to the sprite).
+- Shell (top bar, side panel, drawer, footer) structurally unchanged.

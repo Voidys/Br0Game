@@ -63,7 +63,7 @@
 		</div>
 		{% else %}
 		<div class="planeto">
-			<button id="ship1">{{ LNG.fm_civil }}</button> | <button id="ship2">{{ LNG.fm_military }}</button> | <button id="ship3" class="selected">{{ LNG.fm_all }}</button>
+			<span class="segmented" role="group"><button id="ship1">{{ LNG.fm_civil }}</button><button id="ship2">{{ LNG.fm_military }}</button><button id="ship3" class="selected">{{ LNG.fm_all }}</button></span>
 		</div>
 		{% endif %}
 	{% endif %}

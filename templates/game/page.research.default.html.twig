@@ -7,7 +7,7 @@
 	{% if IsLabinBuild %}<div class="hidden-div">{{ LNG.bd_building_lab }}</div>{% endif %}
 	<div>
 		<div class="planeto">
-			<button id="lab1">{{ LNG.fm_imperial }}</button> | <button id="lab2">{{ LNG.fm_military }}</button> | <button id="lab3">{{ LNG.fm_engines }}</button> | <button id="lab4">{{ LNG.fm_mining }}</button> | <button id="lab5" class="selected">{{ LNG.fm_all }}</button>
+			<span class="segmented" role="group"><button id="lab1">{{ LNG.fm_imperial }}</button><button id="lab2">{{ LNG.fm_military }}</button><button id="lab3">{{ LNG.fm_engines }}</button><button id="lab4">{{ LNG.fm_mining }}</button><button id="lab5" class="selected">{{ LNG.fm_all }}</button></span>
 			{% if isCatchUp %}
 				<br>{{ catchUp }} %
 			{% endif %}

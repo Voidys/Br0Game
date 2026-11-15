@@ -168,4 +168,296 @@
     :is(.content, .modal) { --cell-pad-x: 0.375rem; --control-w: 100%; --control-num-w: 5rem; }
     :is(.content, .modal) table.form-table td:first-child:not(:only-child) { width: auto; }
   }
+
+  /* ------------------------------------------------------------------ build lists (buildings, research, hangar, defense)
+     One compact card per element: slim title bar, then a body of two columns, info (artwork, requirements or
+     missing resources) | action (costs, button, time). The old 50/50 floats made every card ~11 rem tall. */
+  .content .infos:has(> .buildn + .buildl) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 17rem);
+    grid-template-areas: "head head" "info act";
+    align-items: stretch;
+
+    > .buildn { grid-area: head; padding: 0.375rem 0.75rem; text-align: start; }
+    > .buildl {
+      float: none;
+      inline-size: auto;
+      min-block-size: 0;
+      padding: 0.5rem 0.75rem;
+      text-align: start;
+      line-height: 1.4;
+    }
+    > .buildn + .buildl { grid-area: info; display: flow-root; }
+    > .buildl + .buildl { grid-area: act; display: flow-root; align-self: center; }
+    > .buildl br + br { display: none; }
+    > .buildl p { margin: 0.25rem 0 0; }
+    > .buildn + .buildl img {
+      float: inline-start;
+      inline-size: 5.5rem;
+      block-size: 5.5rem;
+      margin: 0 0.75rem 0 0;
+      object-fit: cover;
+    }
+    > .buildl form { margin: 0; }
+    > .buildl .build_submit { inline-size: 100%; min-inline-size: 0; }
+    > .buildl .control-group { display: flex; inline-size: 100%; }
+    > .buildl .control-group input[type="number"] { flex: 1 1 auto; inline-size: auto; min-inline-size: 0; }
+    > .buildl input[type="submit"].b { inline-size: 100%; margin-block-start: 0.25rem; }
+  }
+
+  @media (max-width: 40rem) {
+    .content .infos:has(> .buildn + .buildl) {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "head" "info" "act";
+
+      > .buildn + .buildl img { display: block; inline-size: 4rem; block-size: 4rem; margin-inline-end: 0.5rem; }
+      > .buildl + .buildl { padding-block-start: 0; }
+    }
+  }
+
+  /* ------------------------------------------------------------------ overview: planet block and planet list
+     Planet block: moon | artwork | status text in one wrapping row. Planet list: a grid of cards. */
+  .content .infos:has(> .planeth) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    > .planeto { flex: 1 0 100%; }
+    > .moon { float: none; flex: 0 0 auto; inline-size: 9rem; padding: 0.75rem; text-align: center; }
+    > .planeth { float: none; flex: 0 0 auto; margin: 0; padding: 0.75rem; text-align: start; line-height: 1.55; }
+    > .planeth + .planeth { flex: 1 1 16rem; min-inline-size: 0; }
+    > .planeth img { float: none; margin: 0; }
+    .moon img { margin: 0 0 0.25rem; }
+  }
+
+  .content .infos:has(> .planetl) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: 0.5rem;
+    padding-block-end: 0.5rem;
+
+    > .planeto { grid-column: 1 / -1; margin: 0; }
+    > .planetl { float: none; min-block-size: 0; padding: 0.25rem 0.5rem; text-align: center; line-height: 1.45; }
+    .planet-thumb { margin: 0 0 0.25rem; }
+  }
+
+
+  /* ------------------------------------------------------------------ queue: the free slots are one quiet row */
+  .content .build-queue__item--free {
+    --row-h: 1.875rem;
+    opacity: 1;
+    color: var(--c-muted, inherit);
+  }
+
+  /* ------------------------------------------------------------------ filter row: one segmented control
+     (buildings, research, hangar, repair dock); the buttons keep their ids, the selected one is tinted */
+  .content .segmented {
+    display: inline-flex;
+    vertical-align: middle;
+    border: 0.0625rem solid var(--c-border-strong, #33475e);
+    border-radius: var(--btn-radius, 0.375rem);
+    overflow: hidden;
+    max-inline-size: 100%;
+
+    > button {
+      flex: 1 1 auto;
+      min-inline-size: 0;
+      padding-inline: 0.625rem;
+      white-space: normal;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      min-block-size: 1.875rem;
+    }
+    > button + button { border-inline-start: 0.0625rem solid var(--c-border-strong, #33475e); }
+    > button:hover { background: var(--btn-hover-bg, rgb(255 255 255 / 0.08)); }
+    > button.selected { background: color-mix(in oklab, var(--btn-selected, #ee4d2e) 20%, transparent); }
+  }
+  .content .planeto__meta { margin-inline-start: 0.75rem; color: var(--c-muted, inherit); white-space: nowrap; }
+  .content .planeto .hangar-filter-sep { display: none; }
+
+  /* ------------------------------------------------------------------ fleet: the continue row stays reachable
+     (long ship lists, phones): it sticks to the bottom of the viewport while its table is on screen */
+  .content :is(form:has(#cargospace), form#form) td.form-actions {
+    position: sticky;
+    inset-block-end: 0;
+    z-index: 2;
+    background-color: var(--c-bg-2, #0b111a);
+    border-block-start: 0.0625rem solid var(--c-border, #233142);
+  }
+
+  /* ------------------------------------------------------------------ galaxy: toolbar
+     one centred row: [Galaxy ‹ n ›] [System ‹ n ›] [Show] [Save]; every control has the same height */
+  .content .galaxy-nav { display: grid; justify-items: center; gap: 0.5rem; margin-block-end: 0.75rem; }
+  .content .galaxy-nav__time { color: var(--c-muted, inherit); font-size: var(--fs-sm, 0.8125rem); }
+  .content .galaxy-nav__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1.5rem; }
+  .content .galaxy-nav__group, .content .galaxy-nav__actions { display: flex; align-items: center; gap: 0.375rem; }
+  .content .galaxy-nav__label { color: var(--c-muted, inherit); font-weight: 600; margin-inline-end: 0.25rem; }
+  .content .galaxy-nav :is(button, input[type="button"], input[type="submit"]) { min-block-size: var(--control-h); block-size: var(--control-h); }
+  .content .galaxy-nav button { inline-size: var(--control-h); padding: 0; }
+  .content .galaxy-nav input.coord { inline-size: 4.5rem; block-size: var(--control-h); }
+  @media (max-width: 40rem) {
+    .content .galaxy-nav { justify-items: stretch; }
+    .content .galaxy-nav__time { justify-self: center; }
+    .content .galaxy-nav__bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+    .content .galaxy-nav__group { justify-content: center; flex-wrap: wrap; }
+    .content .galaxy-nav__label { flex: 1 0 100%; text-align: center; margin: 0; }
+    .content .galaxy-nav input.coord { flex: 1 1 0; min-inline-size: 0; inline-size: auto; text-align: center; }
+    .content .galaxy-nav__actions { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* ------------------------------------------------------------------ galaxy: grid
+     fixed columns, one row height, no zebra, hairline separators; the footer is a balanced section */
+  .content .galaxy-grid-container { grid-template-columns: 3.25rem minmax(0, 1.5fr) 4.5rem minmax(0, 1.1fr) minmax(0, 1.5fr) minmax(0, 1.2fr); }
+  .content .galaxy-grid-row { grid-column: 1 / -1; gap: 0; margin-block-end: 0; }
+  .content .galaxy-grid-item, .content .galaxy-grid-header { padding: 0.25rem 0.625rem; font-weight: 400; }
+  .content .galaxy-grid-header { font-weight: 600; min-block-size: 2.25rem; text-align: start; }
+  .content .galaxy-grid-row:not(.header, .legende, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.5rem; }
+  .content .galaxy-grid-item { border-block-end: 0.0625rem solid var(--c-border, rgb(255 255 255 / 0.08)); }
+  .content .galaxy-grid-item.centered, .content .galaxy-grid-header.centered,
+  .content .galaxy-grid-item.galaxy-moon, .content .galaxy-grid-header.galaxy-moon,
+  .content .galaxy-grid-item.galaxy-debris, .content .galaxy-grid-header.galaxy-debris,
+  .content .galaxy-grid-item.galaxy-actions, .content .galaxy-grid-header.galaxy-actions { justify-content: center; text-align: center; }
+  .content .galaxy-grid-item.galaxy-planet, .content .galaxy-grid-item.galaxy-player,
+  .content .galaxy-grid-header.galaxy-planet, .content .galaxy-grid-header.galaxy-player { justify-content: flex-start; text-align: start; }
+  .content .galaxy-grid-item.galaxy-player { flex-wrap: wrap; row-gap: 0; }
+  .content .galaxy-grid-item.position { font-variant-numeric: tabular-nums; }
+
+  /* footer: summary line (legend at the end), four even counters, one row of equal buttons */
+  .content .galaxy-grid-row.legende { grid-template-columns: 1fr auto; }
+  .content .galaxy-grid-row.legende > .galaxy-grid-header { min-block-size: 2.25rem; justify-content: flex-start; text-align: start; }
+  .content .galaxy-grid-row.legende > .galaxy-grid-header:last-child { justify-content: flex-end; }
+  .content .galaxy-grid-row.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .content .galaxy-grid-row.stats > .galaxy-grid-item, .content .galaxy-grid-row.sync > .galaxy-grid-item { min-block-size: 2.5rem; justify-content: center; text-align: center; }
+  .content .galaxy-grid-row.sync { grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 2.4fr); }
+  .content .galaxy-grid-row.sync button { inline-size: 100%; max-inline-size: 11rem; }
+  .content .galaxy-grid-row.sync .upload { gap: 0.5rem; flex-wrap: nowrap; white-space: nowrap; }
+  .content #gala_upload { box-sizing: border-box; flex: 0 1 auto; min-inline-size: 0; min-block-size: var(--control-h); max-inline-size: 100%; padding: 0; font: inherit; }
+  .content #gala_upload::file-selector-button {
+    min-block-size: var(--control-h);
+    margin: 0 0.5rem 0 0;
+    padding: 0 0.8rem;
+    border: 0.0625rem solid var(--btn-border, #33475e);
+    border-radius: var(--btn-radius, 0.375rem);
+    background: var(--btn-bg, #141b24);
+    color: var(--btn-fg, inherit);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  @media (max-width: 66.875rem) {
+    .content .galaxy-grid-row:not(.header, .legende, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.25rem; }
+    .content .galaxy-grid-row.stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .content .galaxy-grid-row.sync { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .content .galaxy-grid-row.sync .upload { grid-column: 1 / -1; }
+    .content .galaxy-grid-row.sync .upload { flex-wrap: wrap; white-space: normal; }
+    .content .galaxy-grid-row.sync button { max-inline-size: none; }
+    .content .galaxy-grid-item.galaxy-actions, .content .galaxy-grid-header.galaxy-actions { display: none; }
+  }
+
+  /* ------------------------------------------------------------------ messages: categories as calm, even chips
+     neutral surface, one-line label, muted count on the right; the category colour is only the dot before the label,
+     the active category is tinted like the segmented control */
+  .content .msg-cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); gap: 0.375rem; }
+  .content .msg-cat {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    min-block-size: 2.125rem;
+    block-size: 2.125rem;
+    padding: 0 0.625rem;
+    border: 0.0625rem solid var(--c-border, #233142);
+    border-radius: var(--radius-sm, 0.375rem);
+    background-color: var(--c-panel-2, #141b24);
+    color: var(--c-text, inherit);
+    font-size: inherit;
+    font-weight: 400;
+    text-align: start;
+    overflow: hidden;
+    hyphens: none;
+
+    &::before {
+      content: "";
+      flex: none;
+      inline-size: 0.5rem;
+      block-size: 0.5rem;
+      border-radius: 50%;
+      background: var(--cat, currentColor);
+    }
+    &:hover, &:focus-visible { background-color: var(--btn-hover-bg, rgb(255 255 255 / 0.08)); }
+    &.active {
+      border-color: var(--btn-selected, var(--cat));
+      background-color: color-mix(in oklab, var(--btn-selected, var(--cat)) 20%, transparent);
+      font-weight: 600;
+    }
+    &.is-empty { opacity: 1; color: var(--c-muted, inherit); }
+    .msg-cat__name { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .msg-cat__count { flex: none; color: var(--c-muted, inherit); margin-inline-start: auto; }
+    &.has-unread .msg-cat__count b { color: var(--c-text, inherit); font-weight: 700; }
+  }
+  @media (max-width: 40rem) {
+    .content .msg-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+
+  /* ------------------------------------------------------------------ message rows: neutral surface
+     the category is the same colour dot as on the chips; unread = raised surface + bold subject + NEW badge */
+  .content .message-item {
+    border: 0.0625rem solid var(--c-border, #233142);
+    border-inline-start-width: 0.0625rem;
+    border-radius: var(--radius-sm, 0.375rem);
+    background-color: var(--c-panel, transparent);
+    overflow: hidden;
+
+    &.message-unread { background-color: var(--c-panel-2, rgb(255 255 255 / 0.05)); border-inline-start-color: var(--c-border, #233142); }
+    &.message-unread .message-subject { font-weight: 700; }
+    &:not(.message-unread) .message-subject { font-weight: 500; }
+  }
+  .content .message-head { background-color: transparent; }
+  .content .message-type {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    color: var(--c-text, inherit);
+
+    &::before {
+      content: "";
+      flex: none;
+      inline-size: 0.5rem;
+      block-size: 0.5rem;
+      border-radius: 50%;
+      background: var(--cat, currentColor);
+    }
+  }
+  .content .message-content { border-block-start: 0.0625rem solid var(--c-border, #233142); }
+
+  /* row actions: icons, muted, text colour on hover */
+  .content .message-tools { gap: 0.125rem; }
+  .content .message-tools .msg-act {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+    border-radius: var(--radius-xs, 0.25rem);
+    color: var(--c-muted, inherit);
+    text-decoration: none;
+    transition: color 0.15s var(--ease, ease-out), background-color 0.15s var(--ease, ease-out);
+
+    .icon { inline-size: 1.125rem; block-size: 1.125rem; }
+    &:hover, &:focus-visible { color: var(--c-text, inherit); background-color: var(--btn-hover-bg, rgb(255 255 255 / 0.08)); text-decoration: none; }
+    &.msg-act--delete:hover, &.msg-act--delete:focus-visible { color: var(--c-negative, #f05252); }
+  }
+  .content .msg-fav { display: inline-grid; }
+  .content .msg-fav.is-on { color: var(--c-warning, #f0b429); }
+  .content .msg-fav.is-on .icon { fill: currentColor; }
+  .content .message-tools a:hover .msg-fav.is-on, .content .message-tools a:focus-visible .msg-fav.is-on { color: var(--c-warning, #f0b429); }
+  .content .msg-toggle { display: inline-grid; }
+  .content .msg-toggle .icon:last-child, .content .msg-toggle.is-collapsed .icon:first-child { display: none; }
+  .content .msg-toggle.is-collapsed .icon:last-child { display: inline-block; }
 }

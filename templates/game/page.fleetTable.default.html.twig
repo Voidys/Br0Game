@@ -22,6 +22,7 @@
         <div class="transparent fleet-slot fleet-slot--end">{{ LNG.fl_expeditions }} {{ activeExpedition }} / {{ maxExpedition }}</div>
       </th>
     </tr>
+    {% if not empty(FlyingFleetList) %}
     <tr>
       <td class="fleet-col-id ctr">{{ LNG.fl_number }}</td>
       <td class="fleet-col-mission ctr">{{ LNG.fl_mission }}</td>
@@ -33,6 +34,7 @@
       <td class="ctr">{{ LNG.fl_objective }}</td>
       <td class="act">{{ LNG.fl_order }}</td>
     </tr>
+    {% endif %}
       {% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
         <tr>
           <td class="fleet-col-id ctr">{{ loop.index }}</td>
@@ -87,15 +89,7 @@
         </tr>
           {% else %}
         <tr>
-          <td class="fleet-col-id ctr">-</td>
-          <td class="fleet-col-mission ctr">-</td>
-          <td class="num">-</td>
-          <td class="ctr">-</td>
-          <td class="ctr">-</td>
-          <td class="ctr">-</td>
-          <td class="ctr">-</td>
-          <td class="ctr">-</td>
-          <td class="act">-</td>
+          <td colspan="9" class="ctr">-</td>
         </tr>
       {% endfor %}
       {% if maxFleetSlots == activeFleetSlots %}

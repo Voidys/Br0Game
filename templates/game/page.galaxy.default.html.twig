@@ -3,45 +3,27 @@
 {% block content %}
   <form action="?page=galaxy" method="post" id="galaxy_form">
     <input type="hidden" id="auto" value="dr">
-    <table class="galaxy-nav">
-      <tr>
-        <td class="transparent" colspan="3">
-          {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
-        </td>
-      </tr>
-      <tr>
-        <td class="transparent">
-          <table>
-            <tr>
-              <th colspan="3">{{ LNG.gl_galaxy }}</th>
-            </tr>
-            <tr>
-              <td><input type="button" name="galaxyLeft" value="&lt;-" onclick="galaxy_submit('galaxyLeft')"></td>
-              <td><input type="number" name="galaxy" value="{{ galaxy }}" maxlength="3" tabindex="1" class="coord"></td>
-              <td><input type="button" name="galaxyRight" value="-&gt;" onclick="galaxy_submit('galaxyRight')"></td>
-            </tr>
-          </table>
-        </td>
-        <td class="transparent">
-          <table>
-            <tr>
-              <th colspan="3">{{ LNG.gl_solar_system }}</th>
-            </tr>
-            <tr>
-              <td><input type="button" name="systemLeft" value="&lt;-" onclick="galaxy_submit('systemLeft')"></td>
-              <td><input type="number" name="system" value="{{ system }}" maxlength="3" tabindex="2" class="coord"></td>
-              <td><input type="button" name="systemRight" value="-&gt;" onclick="galaxy_submit('systemRight')"></td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-      <tr>
-        <td class="galaxy-form-actions" colspan="2">
+    <div class="galaxy-nav">
+      <div class="galaxy-nav__time">{{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span></div>
+      <div class="galaxy-nav__bar">
+        <div class="galaxy-nav__group">
+          <span class="galaxy-nav__label">{{ LNG.gl_galaxy }}</span>
+          <button type="button" name="galaxyLeft" aria-label="{{ LNG.gl_galaxy }} -1" title="{{ LNG.gl_galaxy }} -1" onclick="galaxy_submit('galaxyLeft')">{{ icon('chevron-left') }}</button>
+          <input type="number" name="galaxy" value="{{ galaxy }}" maxlength="3" tabindex="1" class="coord" aria-label="{{ LNG.gl_galaxy }}">
+          <button type="button" name="galaxyRight" aria-label="{{ LNG.gl_galaxy }} +1" title="{{ LNG.gl_galaxy }} +1" onclick="galaxy_submit('galaxyRight')">{{ icon('chevron-right') }}</button>
+        </div>
+        <div class="galaxy-nav__group">
+          <span class="galaxy-nav__label">{{ LNG.gl_solar_system }}</span>
+          <button type="button" name="systemLeft" aria-label="{{ LNG.gl_solar_system }} -1" title="{{ LNG.gl_solar_system }} -1" onclick="galaxy_submit('systemLeft')">{{ icon('chevron-left') }}</button>
+          <input type="number" name="system" value="{{ system }}" maxlength="3" tabindex="2" class="coord" aria-label="{{ LNG.gl_solar_system }}">
+          <button type="button" name="systemRight" aria-label="{{ LNG.gl_solar_system }} +1" title="{{ LNG.gl_solar_system }} +1" onclick="galaxy_submit('systemRight')">{{ icon('chevron-right') }}</button>
+        </div>
+        <div class="galaxy-nav__actions">
           <input type="submit" value="{{ LNG.gl_show }}">
           <input type="button" value="{{ LNG.gl_sync }}" id="gala_sync">
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
   </form>
   <form action="?page=fleetMissile" method="post">
     <input type="hidden" name="galaxy" value="{{ galaxy }}">
@@ -82,15 +64,14 @@
       {% set currentPlanet = GalaxyRows[planet.planet_position] %}
       {% if not isset(currentPlanet) %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
             {{ planet.planet_position }}
           </div>
-          <div class="galaxy-grid-item span2"></div>
-          <div class="galaxy-grid-item galaxy-debris span3"></div>
+          <div class="galaxy-grid-item span5"></div>
         </div>
       {% elseif currentPlanet.destroyed == true %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item span2">{{ LNG.gl_planet_destroyed }}</div>
@@ -105,7 +86,7 @@
         </div>
       {% else %}
         <div class="galaxy-grid-row {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ currentPlanet.ownPlanet ? 'own' : 'taken' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item galaxy-planet">
@@ -248,20 +229,18 @@
           </table>">{{ LNG.gl_legend }}</a>
       </div>
     </div>
-    <div class="galaxy-grid-row info">
+    <div class="galaxy-grid-row stats">
       <div class="galaxy-grid-item centered">
-        <span id="missiles">{{ pretty_number(currentmip) }}</span> {{ LNG.gl_avaible_missiles }}
+        <span id="missiles">{{ pretty_number(currentmip) }}</span>&nbsp;{{ LNG.gl_avaible_missiles }}
       </div>
       <div class="galaxy-grid-item centered">
         <span id="slots">{{ maxfleetcount }}</span>/{{ fleetmax }} {{ LNG.gl_fleets }}
       </div>
-    </div>
-    <div class="galaxy-grid-row info">
       <div class="galaxy-grid-item centered">
-        <span id="elementID210">{{ pretty_number(spyprobes) }}</span> {{ LNG.gl_avaible_spyprobes }}
+        <span id="elementID210">{{ pretty_number(spyprobes) }}</span>&nbsp;{{ LNG.gl_avaible_spyprobes }}
       </div>
       <div class="galaxy-grid-item centered">
-        <span id="elementID209">{{ pretty_number(recyclers) }}</span> {{ LNG.gl_avaible_recyclers }}
+        <span id="elementID209">{{ pretty_number(recyclers) }}</span>&nbsp;{{ LNG.gl_avaible_recyclers }}
       </div>
     </div>
     <div class="galaxy-grid-row sync" data-info="galatool">

@@ -688,6 +688,13 @@ textarea {
 
 /* ------------------------------------------------------------------ galaxy */
 
+/* position numbers: a theme can colour them by state through --galaxy-pos-free|blocked|taken|own; without it the
+   player's signal colours apply as before (an unset variable makes the *-local variable invalid, so the fallback wins) */
+.galaxy-pos--free { --signal-positive-local: var(--galaxy-pos-free); --signal-negative-local: var(--galaxy-pos-free); }
+.galaxy-pos--blocked { --signal-positive-local: var(--galaxy-pos-blocked); --signal-negative-local: var(--galaxy-pos-blocked); }
+.galaxy-pos--taken { --signal-positive-local: var(--galaxy-pos-taken); --signal-negative-local: var(--galaxy-pos-taken); }
+.galaxy-pos--own { --signal-positive-local: var(--galaxy-pos-own); --signal-negative-local: var(--galaxy-pos-own); }
+
 .galaxy-grid-container {
 	display: grid;
 	grid-template-columns: 2.1875rem 1fr 3.3125rem 0.8fr 1fr 0.7fr;
@@ -712,9 +719,6 @@ textarea {
 		grid-template-columns: 1fr 1fr 1fr 3fr;
 	}
 
-	&.even .galaxy-grid-item {
-		background-color: #1e2530;
-	}
 }
 
 .galaxy-grid-header {
@@ -1653,8 +1657,6 @@ tr.fleet-noreturn { height: 3.125rem; }
 .infos .moon img { margin: 20% 0 0.3125rem; }
 
 /* galaxy */
-table.galaxy-nav { min-width: 20.25rem; width: 20.25rem; }
-td.galaxy-form-actions { background-color: transparent; border: 0; }
 .galaxy-rank-leader { color: yellow; }
 .galaxy-rank-diplo { color: orange; }
 .tt-galaxy { width: 15rem; }
@@ -1715,8 +1717,6 @@ table:has(input.fleet-amount--fill) { table-layout: fixed; }
 input.fleet-amount--fill { min-width: 0; }
 @media (max-width: 40rem) {
 	#form .control-group { flex-wrap: wrap; max-width: 100%; }
-	table.galaxy-nav { min-width: 0; width: 100%; }
-	table.galaxy-nav > tbody > tr > td { display: block; }
 }
 
 /* ---- tables & forms: economy, messages, reports */

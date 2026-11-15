@@ -6,7 +6,7 @@
  * are defined by App\Runtime\GameBootstrap::defineRequestConstants().
  */
 
-const DEFAULT_THEME = 'nova';
+const DEFAULT_THEME = 'br0game';
 const DISCORD_URL = 'https://discord.gg/jhYYN3yuat';
 
 const COMBAT_ENGINE = 'xnova';

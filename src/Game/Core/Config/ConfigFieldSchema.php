@@ -101,7 +101,7 @@ class ConfigFieldSchema
                     'type' => self::TYPE_SELECT,
                     'transform' => 'string',
                     'options' => \App\Game\Core\Theme::getAvailableCssThemes(),
-                    'default' => 'nova',
+                    'default' => 'br0game',
                 ],
                 // AGPL: players of a (modified) server can get its source code here (footer link)
                 'source_url' => [

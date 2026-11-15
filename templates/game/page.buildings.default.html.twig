@@ -5,11 +5,11 @@
 
   <div>
     <div class="planeto">
-      <button id="btn1">{{ LNG.fm_mining }}</button> | <button id="btn2">{{ LNG.fm_storage }}</button> | <button id="btn3">{{ LNG.fm_other }}</button> | <button id="btn4" class="selected">{{ LNG.fm_all }}</button>
-      <br><a title="{{ LNG.ov_developed_fields }}">{{ planet_field_current }}</a> / <a title="{{ LNG.ov_max_developed_fields }}">{{ planet_field_max }}</a> {{ LNG.ov_fields }}
+      <span class="segmented" role="group"><button id="btn1">{{ LNG.fm_mining }}</button><button id="btn2">{{ LNG.fm_storage }}</button><button id="btn3">{{ LNG.fm_other }}</button><button id="btn4" class="selected">{{ LNG.fm_all }}</button></span>
+      <span class="planeto__meta"><a title="{{ LNG.ov_developed_fields }}">{{ planet_field_current }}</a> / <a title="{{ LNG.ov_max_developed_fields }}">{{ planet_field_max }}</a> {{ LNG.ov_fields }}
       {% if isCatchUp %}
-          <br>{{ catchUp }} %
-      {% endif %}
+          &middot; {{ catchUp }} %
+      {% endif %}</span>
     </div>
     {% for ID, Element in (BuildInfoList)|php_iter %}
       <div class="infos {{ Element.filterClass }} {% if Element.fade %}unavailable{% endif %}" >

@@ -159,7 +159,9 @@ const Message = {
     hide(qs('#loading'));
 
     const img = qs('#imgfav_' + ID);
-    if (img) {
+    if (img?.classList.contains('msg-fav')) {
+      img.classList.toggle('is-on', data.code == 1); // icon: the state is a class
+    } else if (img) {
       img.setAttribute('src', data.code == 1 ? favUrl : nofavUrl);
     }
   }
@@ -219,16 +221,17 @@ function toggleSpyReport(messageId, collapseUrl, expandUrl) {
   var title = document.getElementById('spytitle_' + messageId);
   var icon = document.getElementById('imgtoggle_' + messageId);
 
+  const isIcon = icon.classList.contains('msg-toggle'); // icon: the state is a class, else swap the image
   if (content.style.display === 'none') {
     content.style.display = '';
     details.style.display = '';
     title.style.display = 'none';
-    icon.src = collapseUrl;
+    if (isIcon) icon.classList.remove('is-collapsed'); else icon.src = collapseUrl;
   } else {
     content.style.display = 'none';
     details.style.display = 'none';
     title.style.display = '';
-    icon.src = expandUrl;
+    if (isIcon) icon.classList.add('is-collapsed'); else icon.src = expandUrl;
   }
 }
 

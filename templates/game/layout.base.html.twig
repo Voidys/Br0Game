@@ -25,11 +25,20 @@
     @import url("{{ themeCssPath }}?v={{ asset_version }}") layer(legacy);
   </style>
   <link rel="stylesheet" href="./styles/resource/css/app/game.css?v={{ asset_version }}">
-  {# the player's signal colours (settings) win over theme and base styles #}
+  {# the player's signal colours win over theme and base styles. A colour still at its factory default is not
+     emitted as a custom property: the theme may set --signal-* itself (fallbacks = the factory values) #}
+  {% set sigPos = signalColors.colorPositive|default('') %}
+  {% set sigNeg = signalColors.colorNegative|default('') %}
+  {% set sigNeu = signalColors.colorNeutral|default('') %}
   <style>
-    .colorPositive { color: {{ signalColors.colorPositive|default('#3fbf6f') }}; }
-    .colorNegative { color: {{ signalColors.colorNegative|default('#f05252') }} !important; }
-    .colorNeutral { color: {{ signalColors.colorNeutral|default('#f0b429') }}; }
+    {% if sigPos and sigPos|lower != '#00ff00' or sigNeg and sigNeg|lower != '#ff0000' or sigNeu and sigNeu|lower != '#ffd600' %}:root {
+      {% if sigPos and sigPos|lower != '#00ff00' %}--signal-positive: {{ sigPos }};{% endif %}
+      {% if sigNeg and sigNeg|lower != '#ff0000' %}--signal-negative: {{ sigNeg }};{% endif %}
+      {% if sigNeu and sigNeu|lower != '#ffd600' %}--signal-neutral: {{ sigNeu }};{% endif %}
+    }{% endif %}
+    .colorPositive { color: var(--signal-positive-local, var(--signal-positive, {{ sigPos|default('#3fbf6f') }})); }
+    .colorNegative { color: var(--signal-negative-local, var(--signal-negative, {{ sigNeg|default('#f05252') }})) !important; }
+    .colorNeutral { color: var(--signal-neutral-local, var(--signal-neutral, {{ sigNeu|default('#f0b429') }})); }
   </style>
 
   <script>
