@@ -51,7 +51,7 @@
 	<td colspan="3">
 	{% if diplomats %}
 		<b><u>{{ LNG.al_rank_diplo }}</u></b><br><br>
-		{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" onclick="return Dialog.PM({{ diplomat.id }})"><img src="{{ dpath }}img/m.gif" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
+		{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" onclick="return Dialog.PM({{ diplomat.id }})"><img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
 		<br>
 	{% endif %}
 	{% if diplomaticData and (not empty(diplomaticData[0]) or not empty(diplomaticData[1]) or not empty(diplomaticData[2]) or not empty(diplomaticData[3]) or not empty(diplomaticData[4])) %}
@@ -71,35 +71,35 @@
 	<th colspan="3">{{ LNG.pl_fightstats }}</th>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_totalfight }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_totalfight }}</td>
 	<td class="num">{% if show %}{{ pretty_number(totalfight) }}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightwon }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightwon }}</td>
 	<td class="num">{% if show %}{{ pretty_number(fightwon) }} {% if totalfight %}({{ round(fightwon / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
 </tr>
 <tr>	
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightlose }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightlose }}</td>
 	<td class="num">{% if show %}{{ pretty_number(fightlose) }} {% if totalfight %}({{ round(fightlose / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightdraw }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightdraw }}</td>
 	<td class="num">{% if show %}{{ pretty_number(fightdraw) }} {% if totalfight %}({{ round(fightdraw / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_unitsshot }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_unitsshot }}</td>
 	<td class="num">{% if show %}{{ unitsshot }}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_unitslose }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_unitslose }}</td>
 	<td class="num">{% if show %}{{ unitslose }}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_dermetal }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_dermetal }}</td>
 	<td class="num">{% if show %}{{ dermetal }}{% else %}-{% endif %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_dercrystal }}</td>
+	<td colspan="2">{% if not show %}<div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_dercrystal }}</td>
 	<td class="num">{% if show %}{{ dercrystal }}{% else %}-{% endif %}</td>
 </tr>
 {% endif %}

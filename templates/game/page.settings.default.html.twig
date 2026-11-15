@@ -159,11 +159,11 @@
 					<th>{{ LNG.op_show }}</th>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ dpath }}img/e.gif" alt="">{{ LNG.op_spy }}</td>
+					<td><img class="inline" src="{{ theme_asset('img/e.gif') }}" alt="">{{ LNG.op_spy }}</td>
 					<td><input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ dpath }}img/spy_report.png" alt="">{{ LNG.op_spy_report }}</td>
+					<td><img class="inline" src="{{ theme_asset('img/spy_report.png') }}" alt="">{{ LNG.op_spy_report }}</td>
 					<td><input name="galaxySpyReport" type="checkbox" value="1" {% if galaxySpyReport == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
@@ -175,15 +175,15 @@
 					<td><input name="spyReportRecentHours" value="{{ spyReportRecentHours }}" type="number"> {{ LNG.fl_hours }}</td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ dpath }}img/m.gif" alt="">{{ LNG.op_write_message }}</td>
+					<td><img class="inline" src="{{ theme_asset('img/m.gif') }}" alt="">{{ LNG.op_write_message }}</td>
 					<td><input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ dpath }}img/b.gif" alt="">{{ LNG.op_add_to_buddy_list }}</td>
+					<td><img class="inline" src="{{ theme_asset('img/b.gif') }}" alt="">{{ LNG.op_add_to_buddy_list }}</td>
 					<td><input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ dpath }}img/r.gif" alt="">{{ LNG.op_missile_attack }}</td>
+					<td><img class="inline" src="{{ theme_asset('img/r.gif') }}" alt="">{{ LNG.op_missile_attack }}</td>
 					<td><input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 
@@ -582,13 +582,13 @@
 				<td class="ctr">
 					<form action="game?page=settings" method="post">
 						<input type="hidden" name="mode" value="toggleVacation">
-						<input name="vacation" type="submit" value="{{ LNG.op_activate_vacation_mode }}" onclick="return confirm('{{ LNG.op_activate_vacation_mode_confirm }}')"> <img src="./styles/resource/images/admin/i.gif" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_activate_vacation_mode_descrip }}">
+						<input name="vacation" type="submit" value="{{ LNG.op_activate_vacation_mode }}" onclick="return confirm('{{ LNG.op_activate_vacation_mode_confirm }}')"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_activate_vacation_mode_descrip }}">
 					</form>
 				</td>
 				<td class="ctr">
 					<form action="game?page=settings" method="post">
 						<input type="hidden" name="mode" value="toggleDelete">
-						<input name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}"> <img src="./styles/resource/images/admin/i.gif" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_dlte_account_descrip }}">
+						<input name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_dlte_account_descrip }}">
 					</form>
 				</td>
 			</tr>

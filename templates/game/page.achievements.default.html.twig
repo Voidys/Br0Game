@@ -22,7 +22,7 @@
 
   <ul class="achievements__grid">
     {% for achievement in achievements %}
-      {% set image = dpath ~ 'achievements/achievement_' ~ achievement.id ~ '.jpg' %}
+      {% set image = theme_asset('achievements/achievement_' ~ achievement.id ~ '.jpg') %}
       <li class="ach-tile{% if achievement.unlocked %} is-unlocked{% endif %}" data-state="{{ achievement.unlocked ? 'unlocked' : 'locked' }}">
         <button type="button" class="ach-tile__button" onclick="return Dialog.ach({{ achievement.id }})">
           <img class="ach-tile__image" src="{{ image }}" alt="" width="56" height="56" loading="lazy">

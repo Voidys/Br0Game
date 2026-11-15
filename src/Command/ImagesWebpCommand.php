@@ -15,6 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
+ * Theme images ship as WebP already (tools/images/convert-theme-images.sh); this command is for the JPEG/PNG/GIF
+ * files that remain (uploads, kept originals).
  * Writes a WebP copy (quality 85) next to every JPEG/PNG/GIF under public/ (`foo.png` → `foo.png.webp`).
  * Animated images and files where WebP is not smaller are skipped. public/.htaccess serves the copy to
  * browsers that accept WebP, so templates and CSS keep their original URLs. The installer runs it once;

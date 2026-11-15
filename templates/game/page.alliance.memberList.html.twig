@@ -23,7 +23,7 @@
 	<tr>
 		<td class="ctr">{{ loop.index }}</td>
 		<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-		<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img class="inline" src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+		<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 		<td>{{ memberListRow.rankName }}</td>
 		<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 		<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
@@ -62,7 +62,7 @@
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
 			<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
@@ -100,7 +100,7 @@
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
 			<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
-			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
 			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>

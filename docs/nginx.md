@@ -8,7 +8,8 @@ All requests that don't match a file in `public/` go to the front controller
 Example nginx server block (the `map` belongs in the `http` context, e.g. a file in `conf.d/`):
 
 ```
-# serve foo.png.webp instead of foo.png to browsers that accept WebP (copies made by bin/console app:images:webp)
+# serve foo.png.webp instead of foo.png to browsers that accept WebP (copies made by bin/console app:images:webp;
+# the theme images already ship as WebP, so this only matters for the remaining JPG/PNG/GIF files)
 map $http_accept $webp_suffix {
     default        "";
     "~*image/webp" ".webp";

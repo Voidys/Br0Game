@@ -5,7 +5,7 @@ function updateVars()
 {
 	var shipID 	= qs('#shipID').value;
 	const img = qs('#img');
-	img.setAttribute('src', img.dataset.src+shipID+'.gif');
+	img.setAttribute('src', ShipImg[shipID]);
 	qs('#metal').textContent = pretty_number(CostInfo[shipID][2][901] * (1 - Charge / 100));
 	qs('#crystal').textContent = pretty_number(CostInfo[shipID][2][902] * (1 - Charge / 100));
 	qs('#deuterium').textContent = pretty_number(CostInfo[shipID][2][903] * (1 - Charge / 100));

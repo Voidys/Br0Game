@@ -161,7 +161,7 @@ class GalaxyController extends AbstractGameController
                     22 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE),
                 ];
                 $THEME = & $this->state->THEME;
-                $pirateBase['image'] = $THEME->getTheme() . "planeten/pirate_base.jpg";
+                $pirateBase['image'] = $THEME->asset("planeten/pirate_base.jpg");
             }
         }
 

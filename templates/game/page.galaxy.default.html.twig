@@ -97,7 +97,7 @@
           <div class="galaxy-grid-item galaxy-debris span3">
             {% if currentPlanet.debris and (currentPlanet.debris.metal + currentPlanet.debris.crystal) > hiddenDebris %}
               <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris} %}">
-                <img src="{{ dpath }}planeten/debris.jpg" height="22" width="22" alt="">
+                <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
               </a>
               {{ shortly_number(currentPlanet.debris.metal) }} / {{ shortly_number(currentPlanet.debris.crystal) }}
             {% endif %}
@@ -125,7 +125,7 @@
           <div class="galaxy-grid-item galaxy-debris centered">
             {% if currentPlanet.debris and (currentPlanet.debris.metal + currentPlanet.debris.crystal) > hiddenDebris %}
               <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris} %}">
-                <img src="{{ dpath }}planeten/debris.jpg" height="22" width="22" alt="">
+                <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
               </a>
               <div class="galaxy-debris-text">{{ shortly_number(currentPlanet.debris.metal) }} / {{ shortly_number(currentPlanet.debris.crystal) }}</div>
             {% endif %}
@@ -151,27 +151,27 @@
             {% if currentPlanet.action %}
               {% if currentPlanet.action.esp %}
                 <a href="javascript:doit(6,{{ currentPlanet.planet.id }},{{ spyShips|json_encode|e('html') }})">
-                  <img src="{{ dpath }}img/e.gif" title="{{ LNG.gl_spy }}" alt="">
+                  <img src="{{ theme_asset('img/e.gif') }}" title="{{ LNG.gl_spy }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.spyReport %}
                 <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" onclick="OpenPopup('?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1','',900,600);return false;">
-                  <img src="{{ dpath }}img/spy_report.png" title="{{ currentPlanet.spyReportTitle }}" alt="">
+                  <img src="{{ theme_asset('img/spy_report.png') }}" title="{{ currentPlanet.spyReportTitle }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.message %}
                 <a href="#" onclick="return Dialog.PM({{ currentPlanet.user.id }})">
-                  <img src="{{ dpath }}img/m.gif" title="{{ LNG.write_message }}" alt="">
+                  <img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.buddy and not currentPlanet.ownPlanet %}
                 <a href="#" onclick="return Dialog.Buddy({{ currentPlanet.user.id }})">
-                  <img src="{{ dpath }}img/b.gif" title="{{ LNG.gl_buddy_request }}" alt="">
+                  <img src="{{ theme_asset('img/b.gif') }}" title="{{ LNG.gl_buddy_request }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.missle %}
                 <a href="#" onclick="return openMissileForm({{ currentPlanet.planet.id }}, {{ galaxy }}, {{ system }}, {{ planet.planet_position }}, {{ duration }}, 1);">
-                  <img src="{{ dpath }}img/r.gif" title="{{ LNG.gl_missile_attack }}" alt="">
+                  <img src="{{ theme_asset('img/r.gif') }}" title="{{ LNG.gl_missile_attack }}" alt="">
                 </a>
               {% endif %}
               {% if currentPlanet.action.phalanx %}
@@ -217,7 +217,7 @@
           {% if (pirateBase.metal + pirateBase.crystal) > 0 %}
             {% set currentPlanet = currentPlanet|merge({'planet': (currentPlanet.planet|default({}))|merge({'id': pirateBase.id})}) %}
             <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': pirateBase.id, 'missions': pirateBase.missions, 'debris': pirateBase} %}">
-              <img src="{{ dpath }}planeten/debris.jpg" height="22" width="22" alt="">
+              <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
             </a>
             <div class="galaxy-debris-text">{{ shortly_number(pirateBase.metal) }} / {{ shortly_number(pirateBase.crystal) }}</div>
           {% endif %}
@@ -225,7 +225,7 @@
         <div class="galaxy-grid-item galaxy-actions">
           {% if pirateBase.missions[21] %}
             <a href="javascript:doit(21,{{ pirateBase.id }},{{ spyShips|json_encode|e('html') }})">
-              <img src="{{ dpath }}img/e.gif" title="{{ LNG.gl_spy }}" alt="">
+              <img src="{{ theme_asset('img/e.gif') }}" title="{{ LNG.gl_spy }}" alt="">
             </a>
           {% endif %}
         </div>

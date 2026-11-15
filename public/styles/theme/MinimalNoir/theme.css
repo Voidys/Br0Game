@@ -42,7 +42,7 @@
 }
 
 html {
-  background: url("img/bkd_page.jpg") no-repeat fixed center center var(--theme-page-bg);
+  background: url("img/bkd_page.webp") no-repeat fixed center center var(--theme-page-bg);
   background-size: cover;
 }
 
@@ -508,7 +508,7 @@ input:invalid, textarea:invalid {
 
 /* logo: the terminal mark replaces the default brand image */
 .topbar__brand img {
-  content: url("gebaeude/pr0gamelogo.png");
+  content: url("gebaeude/pr0gamelogo.webp");
 }
 
 /* modals (Dialog: info, messages, reports, ...), see css/app/base.css */

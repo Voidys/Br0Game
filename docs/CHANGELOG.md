@@ -583,3 +583,10 @@ Technical changes per migration step, newest last.
 - `bin/console app:install`: the same steps from the CLI, interactive or `--no-interaction`. It refuses on an existing install.
 - `install.sh`: interactive or flag-driven. Modes: DDEV trial, server install, requirements check. It verifies the Composer installer signature, offers `--dry-run`, never runs sudo itself, and updates existing checkouts.
 - `tools/release/build.sh`: release ZIP with vendor, prod `.env` and no `.env.local`, plus a `.sha256` file. `.github/workflows/release.yml` builds and attaches both on `v*` tags. `docs/INSTALL.md` covers the ZIP, script and DDEV paths, checksum verification, docroot `public/`, cron, updates, a security checklist and troubleshooting.
+
+## 83. Shared theme artwork, WebP images
+
+- `App\Game\Core\ThemeAssets` + `theme_asset()` (Twig) / `Theme::asset()` (PHP): theme image lookup = theme folder, the `assetSets` declared in its `style.cfg`, `styles/resource/theme-shared/common/`; each folder tries the exact path, then `.webp`. Per-theme map cached in `var/game/theme-assets-<theme>.php`, rebuilt when a folder mtime changes. All `{{ dpath }}…` image paths in templates, `GalaxyRows`, `GalaxyController`, `FleetDealerController` and the message/trader JS go through it (JS gets resolved URLs). Docs: `docs/themes.md`.
+- Theme artwork stored once: `theme-shared/common` (identical in all/most themes), `theme-shared/sets/nebula` (DarkNebula, MinimalNoir, community, community pr0gress), `sets/classic` (nova, EpicBlueXIII, gow). 3193 duplicate files removed from the theme folders, byte-identical resolution verified for 4313 theme x path pairs.
+- `tools/images/convert-theme-images.sh`: shipped JPG/PNG/GIF to WebP q90 (animated GIFs stay animated), size limits per category, originals deleted when the WebP is smaller; `tools/images/dedupe-theme-assets.php`: the dedupe step, with `--apply` and a built-in hash verification.
+- `theme.css` url()s and the few hard-coded resource image references point to the `.webp` files.

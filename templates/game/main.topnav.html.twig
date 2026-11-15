@@ -3,19 +3,19 @@
 </button>
 
 <a class="topbar__brand" href="game?page=overview">
-  <img src="styles/resource/images/pr0game.gif" alt="{{ game_name }}" width="120" height="30">
+  <img src="styles/resource/images/pr0game.webp" alt="{{ game_name }}" width="120" height="30">
 </a>
 
 <div class="planet-switch">
   <a class="planet-switch__image" href="game?page=overview" title="{{ LNG.lm_overview }}">
     {% if planet_style == 1 %}
-      <img src="{{ dpath }}planeten/varianten/v1_magic/{{ image }}_v1_magic.webp" width="40" height="40" alt="">
+      <img src="{{ theme_asset('planeten/varianten/v1_magic/' ~ image ~ '_v1_magic.webp') }}" width="40" height="40" alt="">
     {% elseif planet_style == 2 %}
-      <img src="{{ dpath }}planeten/varianten/v2_storm/{{ image }}_v2_storm.webp" width="40" height="40" alt="">
+      <img src="{{ theme_asset('planeten/varianten/v2_storm/' ~ image ~ '_v2_storm.webp') }}" width="40" height="40" alt="">
     {% elseif planet_style == 3 %}
-      <img src="{{ dpath }}planeten/varianten/v3_voronoi/{{ image }}_v3_voronoi.webp" width="40" height="40" alt="">
+      <img src="{{ theme_asset('planeten/varianten/v3_voronoi/' ~ image ~ '_v3_voronoi.webp') }}" width="40" height="40" alt="">
     {% else %}
-      <img src="{{ dpath }}planeten/{{ image }}.jpg" width="40" height="40" alt="">
+      <img src="{{ theme_asset('planeten/' ~ image ~ '.jpg') }}" width="40" height="40" alt="">
     {% endif %}
   </a>
   <label class="visually-hidden" for="planetSelector">{{ LNG.ui_planet|default('Planet') }}</label>
@@ -28,7 +28,7 @@
   {% for resourceID, resourceData in (resourceTable)|php_iter %}
     <li class="resource resource--{{ resourceData.name }}">
       <a class="resource__icon"{% if noobInterface %} href="#" onclick="return Dialog.info({{ resourceID }});"{% endif %}>
-        <img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="" width="32" height="22">
+        <img src="{{ theme_asset('images/' ~ resourceData.name ~ '.gif') }}" alt="" width="32" height="22">
       </a>
       <span class="resource__body">
         <span class="resource__name">{{ LNG.tech[resourceID] }}</span>

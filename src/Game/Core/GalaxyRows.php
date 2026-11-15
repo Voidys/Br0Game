@@ -291,20 +291,20 @@ class GalaxyRows
             $THEME = & $this->state->THEME;
 
             if (!$USER['enable_planet_styles']) {
-                $image = $THEME->getTheme() . "planeten/" . $this->galaxyRow['m_image'] . ".jpg";
+                $image = $THEME->asset("planeten/" . $this->galaxyRow['m_image'] . ".jpg");
             } else {
                 switch ($this->galaxyRow['m_planet_style']) {
                     case 1:
-                        $image = $THEME->getTheme() . "planeten/varianten/v1_magic/" . $this->galaxyRow['m_image'] . "_v1_magic.webp";
+                        $image = $THEME->asset("planeten/varianten/v1_magic/" . $this->galaxyRow['m_image'] . "_v1_magic.webp");
                         break;
                     case 2:
-                        $image = $THEME->getTheme() . "planeten/varianten/v2_storm/" . $this->galaxyRow['m_image'] . "_v2_storm.webp";
+                        $image = $THEME->asset("planeten/varianten/v2_storm/" . $this->galaxyRow['m_image'] . "_v2_storm.webp");
                         break;
                     case 3:
-                        $image = $THEME->getTheme() . "planeten/varianten/v3_voronoi/" . $this->galaxyRow['m_image'] . "_v3_voronoi.webp";
+                        $image = $THEME->asset("planeten/varianten/v3_voronoi/" . $this->galaxyRow['m_image'] . "_v3_voronoi.webp");
                         break;
                     default:
-                        $image = $THEME->getTheme() . "planeten/" . $this->galaxyRow['m_image'] . ".jpg";
+                        $image = $THEME->asset("planeten/" . $this->galaxyRow['m_image'] . ".jpg");
                         break;
                 }
             }
@@ -326,20 +326,20 @@ class GalaxyRows
         $THEME = & $this->state->THEME;
 
         if (!$USER['enable_planet_styles']) {
-            $image = $THEME->getTheme() . "planeten/" . $this->galaxyRow['image'] . ".jpg";
+            $image = $THEME->asset("planeten/" . $this->galaxyRow['image'] . ".jpg");
         } else {
             switch ($this->galaxyRow['planet_style']) {
                 case 1:
-                    $image = $THEME->getTheme() . "planeten/varianten/v1_magic/" . $this->galaxyRow['image'] . "_v1_magic.webp";
+                    $image = $THEME->asset("planeten/varianten/v1_magic/" . $this->galaxyRow['image'] . "_v1_magic.webp");
                     break;
                 case 2:
-                    $image = $THEME->getTheme() . "planeten/varianten/v2_storm/" . $this->galaxyRow['image'] . "_v2_storm.webp";
+                    $image = $THEME->asset("planeten/varianten/v2_storm/" . $this->galaxyRow['image'] . "_v2_storm.webp");
                     break;
                 case 3:
-                    $image = $THEME->getTheme() . "planeten/varianten/v3_voronoi/" . $this->galaxyRow['image'] . "_v3_voronoi.webp";
+                    $image = $THEME->asset("planeten/varianten/v3_voronoi/" . $this->galaxyRow['image'] . "_v3_voronoi.webp");
                     break;
                 default:
-                    $image = $THEME->getTheme() . "planeten/" . $this->galaxyRow['image'] . ".jpg";
+                    $image = $THEME->asset("planeten/" . $this->galaxyRow['image'] . ".jpg");
                     break;
             }
         }

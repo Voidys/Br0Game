@@ -45,11 +45,10 @@ The game rules are the same as before; everything around them is new.
 
 | | |
 | --- | --- |
-| **83 game bugs fixed** | **3 critical** (a jump gate SQL injection, a repair dock duplication race, a cleaner that deleted every player), **12 high**, **26 medium**, **7 low-medium**, **35 low**. All are documented in [docs/GAMEBUGS.md](docs/GAMEBUGS.md) |
+| **81 game bugs fixed** | **3 critical** (a jump gate SQL injection, a repair dock duplication race, a cleaner that deleted every player), **11 high**, **26 medium**, **7 low-medium**, **34 low**. All are documented in [docs/GAMEBUGS.md](docs/GAMEBUGS.md) |
 | **Up to 48 % faster pages** | A typical game page went from 40 to 28 queries. The empire view went from 116 to 37 queries and the galaxy from 71 to 33 ([docs/PERFORMANCE.md](docs/PERFORMANCE.md)) |
 | **Up to 96 % faster background jobs** | The statistics cronjob went from 4375 to 66 queries, the records build is 96 % faster, and the resource update is 56 % faster |
 | **Smaller images** | Static images are served as WebP (53.7 MB → 12.7 MB) |
-| **Rust battle engine in use** | The old setup never found it, so every fight ran on the slow PHP fallback |
 
 ## Features
 

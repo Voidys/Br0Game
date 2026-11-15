@@ -101,7 +101,7 @@ Game routines:
 
 ## Battle engines
 
-The game now has two engines: the Rust engine and the PHP engine as fallback (`BattleHandler`). Until GB-80 the Rust
+The game now has two engines: the Rust engine and the PHP engine as fallback (`BattleHandler`). Until GB-80 (a regression from the port, not a pr0game bug) the Rust
 library was never found (wrong path), so every battle ran on the PHP engine. The Julia engine (a separate HTTP service)
 and the in-process FFI call of the Rust library were removed: the Rust engine always runs through `bin/battlerust`,
 a 16 KB launcher (`tools/battlerust-cli/`, built with `tools/battlerust-cli/build.sh` in a throwaway Ubuntu 20.04 container, glibc ≥ 2.4)

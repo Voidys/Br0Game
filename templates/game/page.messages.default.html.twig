@@ -124,15 +124,15 @@
           {% endif %}
           <time class="message-date">{{ Message.time }}</time>
           <span class="message-tools">
-            <a href="#" onclick="Message.favMessage({{ Message.id }}, '{{ dpath }}'); return false;" title="{{ LNG.mg_favorite }}"><img id="imgfav_{{ Message.id }}" src="{{ dpath }}img/{{ Message.favorite ? 'fav.png' : 'nofav.png' }}" alt="{{ LNG.mg_favorite }}"></a>
+            <a href="#" onclick="Message.favMessage({{ Message.id }}, '{{ theme_asset('img/fav.png') }}', '{{ theme_asset('img/nofav.png') }}'); return false;" title="{{ LNG.mg_favorite }}"><img id="imgfav_{{ Message.id }}" src="{{ theme_asset('img/' ~ (Message.favorite ? 'fav.png' : 'nofav.png')) }}" alt="{{ LNG.mg_favorite }}"></a>
             {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
-              <a href="#" onclick="return Dialog.PM({{ Message.answerTo|json_encode }}, Message.CreateAnswer('{{ Message.subject }}'), '', '{{ Message.group }}');" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}"><img src="{{ dpath }}img/m.gif" alt="{{ LNG.mg_answer_to }}"></a>
+              <a href="#" onclick="return Dialog.PM({{ Message.answerTo|json_encode }}, Message.CreateAnswer('{{ Message.subject }}'), '', '{{ Message.group }}');" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}"><img src="{{ theme_asset('img/m.gif') }}" alt="{{ LNG.mg_answer_to }}"></a>
             {% endif %}
-            <a href="#" onclick="return Dialog.Forward({{ Message.id }});" title="{{ LNG.mg_forward }}"><img src="{{ dpath }}img/fwrd.png" alt="{{ LNG.mg_forward }}"></a>
+            <a href="#" onclick="return Dialog.Forward({{ Message.id }});" title="{{ LNG.mg_forward }}"><img src="{{ theme_asset('img/fwrd.png') }}" alt="{{ LNG.mg_forward }}"></a>
             {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
-              <a href="#" onclick="toggleSpyReport({{ Message.id }}, '{{ dpath }}'); return false;" title="Toggle"><img id="imgtoggle_{{ Message.id }}" src="{{ dpath }}img/{{ spyCollapsed ? 'expand_spy_msg.png' : 'collapse_spy_msg.png' }}" alt="Toggle"></a>
+              <a href="#" onclick="toggleSpyReport({{ Message.id }}, '{{ theme_asset('img/collapse_spy_msg.png') }}', '{{ theme_asset('img/expand_spy_msg.png') }}'); return false;" title="Toggle"><img id="imgtoggle_{{ Message.id }}" src="{{ theme_asset('img/' ~ (spyCollapsed ? 'expand_spy_msg.png' : 'collapse_spy_msg.png')) }}" alt="Toggle"></a>
             {% endif %}
-            <a href="#" onclick="Message.delMessage({{ Message.id }}, 'group_{{ groupId }}'); return false;" title="{{ LNG.mg_delete }}"><img src="{{ dpath }}img/deletemsg.png" alt="{{ LNG.mg_delete }}"></a>
+            <a href="#" onclick="Message.delMessage({{ Message.id }}, 'group_{{ groupId }}'); return false;" title="{{ LNG.mg_delete }}"><img src="{{ theme_asset('img/deletemsg.png') }}" alt="{{ LNG.mg_delete }}"></a>
           </span>
           {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
             <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in (Message.receiver)|php_iter %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>

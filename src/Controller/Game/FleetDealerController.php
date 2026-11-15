@@ -150,8 +150,14 @@ class FleetDealerController extends AbstractGameController
             ]);
         }
 
+        $shipImg = [];
+        foreach ($allowedShipIDs as $shipID) {
+            $shipImg[$shipID] = $this->state->THEME->asset('gebaeude/' . $shipID . '.gif');
+        }
+
         $this->assign([
             'shipIDs'   => $allowedShipIDs,
+            'shipImg'   => $shipImg,
             'CostInfos' => $Cost,
             'Charge'    => $this->configs->get()->trade_charge,
         ]);

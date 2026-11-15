@@ -113,11 +113,11 @@
 		<td class="num offered-resource-amount">{{ pretty_number(FlyingFleetRow.offer_resource_amount) }}</td>
 		<td class="ctr market-res-type offered-resource-{{ FlyingFleetRow.offer_resource_id }}" data-resource-id="{{ FlyingFleetRow.offer_resource_id }}">
 			{% if FlyingFleetRow.offer_resource_id == 1 %}
-			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.offer_resource_id == 2 %}
-			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.offer_resource_id == 3 %}
-			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 			{% endif %}
 			{{ FlyingFleetRow.offer_resource }}
 		</td>
@@ -125,11 +125,11 @@
 		<td class="num wanted-resource-amount">{{ pretty_number(FlyingFleetRow.wanted_resource_amount) }}</td>
 		<td class="ctr market-res-type wanted-resource-{{ FlyingFleetRow.wanted_resource_id }}" data-resource-id="{{ FlyingFleetRow.wanted_resource_id }}">
 			{% if FlyingFleetRow.wanted_resource_id == 1 %}
-			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.wanted_resource_id == 2 %}
-			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.wanted_resource_id == 3 %}
-			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 			{% endif %}
 			{{ FlyingFleetRow.wanted_resource }}
 		</td>
@@ -176,11 +176,11 @@
 			<td class="num">{{ pretty_number(row.offer_amount) }}</td>
 			<td class="ctr market-res-type" data-resource-id="{{ row.offer_type }}">
 				{% if row.offer_type == 1 %}
-				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 				{% elseif row.offer_type == 2 %}
-				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 				{% elseif row.offer_type == 3 %}
-				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 				{% endif %}
 				{{ row.offer_name }}
 			</td>
@@ -188,11 +188,11 @@
 			<td class="num">{{ pretty_number(row.cost_amount) }}</td>
 			<td class="ctr market-res-type" data-resource-id="{{ row.cost_type }}">
 				{% if row.cost_type == 1 %}
-				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 				{% elseif row.cost_type == 2 %}
-				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 				{% elseif row.cost_type == 3 %}
-				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 				{% endif %}
 				{{ row.cost_name }}
 			</td>
@@ -235,11 +235,11 @@
 		<td class="num wanted-resource-amount">{{ pretty_number(FlyingFleetRow.wanted_resource_amount) }}</td>
 		<td class="ctr market-res-type wanted-resource-{{ FlyingFleetRow.wanted_resource_id }}" data-resource-id="{{ FlyingFleetRow.wanted_resource_id }}">
 			{% if FlyingFleetRow.wanted_resource_id == 1 %}
-			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.wanted_resource_id == 2 %}
-			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 			{% elseif FlyingFleetRow.wanted_resource_id == 3 %}
-			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 			{% endif %}
 			{{ FlyingFleetRow.wanted_resource }}
 		</td>
@@ -287,11 +287,11 @@
 			<td class="num">{{ pretty_number(row.cost_amount) }}</td>
 			<td class="ctr market-res-type" data-resource-id="{{ row.cost_type }}">
 				{% if row.cost_type == 1 %}
-				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/metal.gif') }}" alt=""/>
 				{% elseif row.cost_type == 2 %}
-				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/crystal.gif') }}" alt=""/>
 				{% elseif row.cost_type == 3 %}
-				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				<img class="market-res-icon" src="{{ theme_asset('images/deuterium.gif') }}" alt=""/>
 				{% endif %}
 				{{ row.cost_name }}
 			</td>

@@ -14,7 +14,7 @@
 {% else %}{% if requireList %}
 <div class="techi" id="h{{ elementID }}">
 <span class="achievement-name"><a href="#" onclick="return Dialog.info({{ elementID }})">{{ LNG.tech[elementID] }}</a></span>
-<a href="#" onclick="return Dialog.info({{ elementID }})"><img class="inline" src="{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 and elementID <= 699 %}jpg{% else %}gif{% endif %}" width="89"></a>
+<a href="#" onclick="return Dialog.info({{ elementID }})"><img class="inline" src="{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}" width="89"></a>
 </br>
 {{ LNG.tt_requirements }}: </br>
 {% for requireID, NeedLevel in (requireList)|php_iter %}

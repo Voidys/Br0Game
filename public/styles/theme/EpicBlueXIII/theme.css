@@ -41,7 +41,7 @@ body {
   color: var(--theme-text);
   margin-block-start: 0.0625rem;
   margin-inline-start: 0.0625rem;
-  background: var(--theme-page-bg) url(img/background.jpg) no-repeat fixed top;
+  background: var(--theme-page-bg) url(img/background.webp) no-repeat fixed top;
   font-size: var(--theme-font-size);
   font-family: var(--theme-font);
 }

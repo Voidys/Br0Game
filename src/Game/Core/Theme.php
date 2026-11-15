@@ -65,6 +65,12 @@ class Theme
         return './styles/theme/'.$this->imageSkin.'/';
     }
 
+    /** URL of an image of the image theme (`gebaeude/229.gif`): own folder, artwork sets, common (see ThemeAssets) */
+    public function asset(string $path): string
+    {
+        return ThemeAssets::resolve($this->imageSkin, $path);
+    }
+
     public function getThemeName()
     {
         return $this->skin;

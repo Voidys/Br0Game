@@ -152,7 +152,7 @@ const Message = {
     NotifyBox(data.mess);
   },
 
-  favMessage: async function (ID, dpath) {
+  favMessage: async function (ID, favUrl, nofavUrl) {
     show(qs('#loading'));
 
     const data = await getJSON('game?page=messages&mode=favMessage&favMessID=' + ID + '&ajax=1');
@@ -160,7 +160,7 @@ const Message = {
 
     const img = qs('#imgfav_' + ID);
     if (img) {
-      img.setAttribute('src', dpath + (data.code == 1 ? 'img/fav.png' : 'img/nofav.png'));
+      img.setAttribute('src', data.code == 1 ? favUrl : nofavUrl);
     }
   }
 };
@@ -212,7 +212,8 @@ function checkForward() {
   });
 }
 
-function toggleSpyReport(messageId, dpath) {
+// collapseUrl / expandUrl: resolved theme images (theme_asset() in the template)
+function toggleSpyReport(messageId, collapseUrl, expandUrl) {
   var content = document.getElementById('msgcontent_' + messageId);
   var details = document.getElementById('msgdetails_' + messageId);
   var title = document.getElementById('spytitle_' + messageId);
@@ -222,12 +223,12 @@ function toggleSpyReport(messageId, dpath) {
     content.style.display = '';
     details.style.display = '';
     title.style.display = 'none';
-    icon.src = dpath + 'img/collapse_spy_msg.png';
+    icon.src = collapseUrl;
   } else {
     content.style.display = 'none';
     details.style.display = 'none';
     title.style.display = '';
-    icon.src = dpath + 'img/expand_spy_msg.png';
+    icon.src = expandUrl;
   }
 }
 

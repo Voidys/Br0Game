@@ -242,7 +242,7 @@ abstract class AbstractGameController implements GameControllerInterface
             $commitShort = substr($commit, 0, 7);
         }
 
-        $avatar = 'styles/resource/images/user.png';
+        $avatar = 'styles/resource/images/user.webp';
         if ($this->sessions()->load()->data !== null) {
             try {
                 $avatar = json_decode($this->sessions()->load()->data->account->json_metadata)->profile->profile_image;

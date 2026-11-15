@@ -12,16 +12,16 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td class="num"><a href='#' onclick='return Dialog.info(901)' class='tooltip'
-							data-tooltip-content="<table><tr><th>{{ LNG.tech[901] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/901.gif'></td><td>{{ LNG.shortDescription[901] }}</td></tr></table></tr></table>">{{ LNG.tech[901] }}</a>
+							data-tooltip-content="<table><tr><th>{{ LNG.tech[901] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/901.gif') }}'></td><td>{{ LNG.shortDescription[901] }}</td></tr></table></tr></table>">{{ LNG.tech[901] }}</a>
 					</td>
 					<td class="num"><a href='#' onclick='return Dialog.info(902)' class='tooltip'
-							data-tooltip-content="<table><tr><th>{{ LNG.tech[902] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/902.gif'></td><td>{{ LNG.shortDescription[902] }}</td></tr></table></tr></table>">{{ LNG.tech[902] }}</a>
+							data-tooltip-content="<table><tr><th>{{ LNG.tech[902] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/902.gif') }}'></td><td>{{ LNG.shortDescription[902] }}</td></tr></table></tr></table>">{{ LNG.tech[902] }}</a>
 					</td>
 					<td class="num"><a href='#' onclick='return Dialog.info(903)' class='tooltip'
-							data-tooltip-content="<table><tr><th>{{ LNG.tech[903] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/903.gif'></td><td>{{ LNG.shortDescription[903] }}</td></tr></table></tr></table>">{{ LNG.tech[903] }}</a>
+							data-tooltip-content="<table><tr><th>{{ LNG.tech[903] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/903.gif') }}'></td><td>{{ LNG.shortDescription[903] }}</td></tr></table></tr></table>">{{ LNG.tech[903] }}</a>
 					</td>
 					<td class="num"><a href='#' onclick='return Dialog.info(911)' class='tooltip'
-							data-tooltip-content="<table><tr><th>{{ LNG.tech[911] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/911.gif'></td><td>{{ LNG.shortDescription[911] }}</td></tr></table></tr></table>">{{ LNG.tech[911] }}</a>
+							data-tooltip-content="<table><tr><th>{{ LNG.tech[911] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/911.gif') }}'></td><td>{{ LNG.shortDescription[911] }}</td></tr></table></tr></table>">{{ LNG.tech[911] }}</a>
 					</td>
 					<td class="act"></td>
 				</tr>
@@ -36,7 +36,7 @@
 				{% for productionID, productionRow in (productionList)|php_iter %}
 					<tr>
 						<td><a href='#' onclick='return Dialog.info({{ productionID }});' class='tooltip'
-								data-tooltip-content="<table><tr><th>{{ LNG.tech[productionID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/{{ productionID }}.{% if productionID >=600 and productionID <= 699 %}jpg{% else %}gif{% endif %}'></td><td>{{ LNG.shortDescription[productionID] }}</td></tr></table></tr></table>">{{ LNG.tech[productionID] }}</a>
+								data-tooltip-content="<table><tr><th>{{ LNG.tech[productionID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ productionID ~ '.' ~ ((productionID >=600 and productionID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[productionID] }}</td></tr></table></tr></table>">{{ LNG.tech[productionID] }}</a>
 							({% if productionID > 200 %}{{ LNG.rs_amount }}{% else %}{{ LNG.rs_lvl }}{% endif %} {{ productionRow.elementLevel }})
 						</td>
 						<td class="num"><span

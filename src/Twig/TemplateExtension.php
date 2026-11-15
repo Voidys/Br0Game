@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Game\Core\Singleton;
+use App\Game\Core\ThemeAssets;
 use App\Game\Core\ViewHelpers;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -38,6 +39,14 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return ['LNG' => LanguageView::of($this->state)];
     }
 
+    /** URL of a theme image (own folder, artwork sets, common), see App\Game\Core\ThemeAssets */
+    public function themeAsset(string $path, ?string $theme = null): string
+    {
+        $theme ??= isset($this->state->THEME) ? $this->state->THEME->getImageThemeName() : DEFAULT_THEME;
+
+        return ThemeAssets::resolve($theme, $path);
+    }
+
     /** @return array<string, callable> game view helpers, as function and as filter */
     private function viewHelperCallables(): array
     {
@@ -58,6 +67,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         foreach ($this->viewHelperCallables() as $name => $callable) {
             $functions[] = new TwigFunction($name, $callable);
         }
+        $functions[] = new TwigFunction('theme_asset', $this->themeAsset(...));
         $functions[] = new TwigFunction('round', static fn($v, int $precision = 0) => round((float) $v, $precision));
         $functions[] = new TwigFunction('json_encode', 'json_encode');
         $functions[] = new TwigFunction('php_date', 'date');

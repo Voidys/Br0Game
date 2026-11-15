@@ -9,7 +9,7 @@
 		</tr>
         <tr>
 			<td>
-				<div class="transparent text-left float-left"><img id="img" alt="" data-src="{{ dpath }}gebaeude/"></div>
+				<div class="transparent text-left float-left"><img id="img" alt=""></div>
 				<div class="transparent text-right float-right fleet-dealer-pick">
 					<select name="shipID" id="shipID" onchange="updateVars()">
 						{% for shipID in (shipIDs)|php_iter %}
@@ -50,5 +50,6 @@
 <script>
 var CostInfo = {{ CostInfos|json_encode|raw }};
 var Charge = {{ Charge }};
+var ShipImg = {{ shipImg|json_encode|raw }};
 </script>
 {% endblock %}

@@ -1,13 +1,13 @@
 import { pretty_number } from '../app/core.js';
 
-// CostInfo and Charge are defined by the inline script of the template
+// CostInfo, Charge and ShipImg (resolved ship image URLs) are defined by the inline script of the template
 const el = (id) => document.getElementById(id);
 
 function updateVars()
 {
 	var shipID 	= el('shipID').value;
 	const img = el('img');
-	img.setAttribute('src', img.dataset.src+shipID+'.gif');
+	img.setAttribute('src', ShipImg[shipID]);
 	el('metal').textContent = pretty_number(CostInfo[shipID][2][901] * (1 - Charge / 100));
 	el('crystal').textContent = pretty_number(CostInfo[shipID][2][902] * (1 - Charge / 100));
 	el('deuterium').textContent = pretty_number(CostInfo[shipID][2][903] * (1 - Charge / 100));

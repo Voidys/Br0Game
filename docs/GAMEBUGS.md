@@ -6,6 +6,8 @@ Method: four read-only reviews of the game code (fleets/missions, combat, econom
 
 Severity: **critical** = exploit, duplication or data loss · **high** = wrong results players notice · **medium** · **low**.
 
+GB-78 and GB-80 are regressions from the Symfony port (the move to `src/Game/` and the CLI cron), not bugs of the original pr0game. They are fixed and listed for completeness, but not counted as game bugs (81 game bugs + 2 port regressions).
+
 ## Overview
 
 | ID | Severity | Area | Bug | Status |
@@ -87,9 +89,9 @@ Severity: **critical** = exploit, duplication or data loss · **high** = wrong r
 | GB-75 | low | Found while fixing | Fleet step 2 loads the target as a planet even for moons | fixed |
 | GB-76 | low | Found while fixing | Moon destruction report shows raw sys_* translation keys | fixed |
 | GB-77 | low | Found while fixing | Alliance tag/name length not validated server-side | fixed |
-| GB-78 | low | Found while fixing | Game log entries need a web session (CLI processing of missions fails) | fixed |
+| GB-78 | low | Port regression | Game log entries need a web session (CLI processing of missions fails) | fixed (port regression, not a pr0game bug) |
 | GB-79 | low | Found while fixing | Resource stock clamp leaves 1 + fraction instead of 0 | fixed |
-| GB-80 | high | Found while fixing | Rust battle engine never loaded (wrong library path) | fixed |
+| GB-80 | high | Port regression | Rust battle engine never loaded (wrong library path) | fixed (port regression, not a pr0game bug) |
 | GB-81 | medium | Found while fixing | In-game team page showed a hard-coded team | fixed |
 | GB-82 | low | Found while fixing | Closing an alliance left its ranks behind | fixed |
 | GB-83 | high | Found while fixing | "Delete unmarked messages" also deleted the marked ones | fixed |
@@ -733,6 +735,8 @@ Severity: **critical** = exploit, duplication or data loss · **high** = wrong r
 
 ### GB-78 · Game log entries need a web session (CLI processing of missions fails)
 
+> Regression from the port (cron moved to the CLI); the original pr0game was not affected.
+
 - Status: **fixed** — `Log` takes the acting user from the request session and falls back to 0 (system) outside a web request.
 - Severity: low · Confidence: confirmed (found by the performance benchmark, which had to mock the session to process fleets from the CLI)
 - Files: `src/Game/Core/Log.php:33` (`(new SessionManager(...))->load()->userId` for the admin id)
@@ -747,6 +751,8 @@ Severity: **critical** = exploit, duplication or data loss · **high** = wrong r
 - What happened: `$produced = 1 + (floor($stock) * -1)` left the stock at `1 + fraction` (e.g. 800.5 → 1.5) when a negative production (fusion deuterium burn) exceeded it.
 
 ### GB-80 · Rust battle engine never loaded (wrong library path)
+
+> Regression from the port (the library path broke with the move to `src/Game/`); the original pr0game was not affected.
 
 - Status: **fixed** — the engine now runs through the launcher `bin/battlerust`, located via `App\Runtime\ProjectPaths::ROOT`; verified end to end (simulator report stored with engine `rust`).
 - Severity: high (performance, battle results come from the slower PHP engine) · Confidence: confirmed

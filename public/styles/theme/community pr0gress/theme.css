@@ -503,22 +503,22 @@ select#auftr {
   font-weight: bold;
 }
 
-body#buddyList table a img[src="styles/resource/images/false.png"] {
+body#buddyList table a img[src="styles/resource/images/false.webp"] {
   inline-size: 1rem;
   block-size: 1rem;
   box-sizing: border-box;
   padding-inline-start: 1rem;
-  background-image: url("./img/deletemsg.png");
+  background-image: url("./img/deletemsg.webp");
   background-size: cover;
   margin: 0.25rem;
 }
 
-body#buddyList table a img[src="styles/resource/images/true.png"] {
+body#buddyList table a img[src="styles/resource/images/true.webp"] {
   inline-size: 1rem;
   block-size: 1rem;
   box-sizing: border-box;
   padding-inline-start: 1rem;
-  background-image: url("./img/check.png");
+  background-image: url("./img/check.webp");
   background-size: cover;
   margin: 0.25rem;
 }

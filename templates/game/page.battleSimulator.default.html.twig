@@ -19,8 +19,8 @@
   </tr>
 {% endmacro %}
 
-{% macro unit(id, dpath) %}
-  <span class="sim-unit"><img src="{{ dpath }}gebaeude/{{ id }}.gif" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">{{ LNG.tech[id] }}</span>
+{% macro unit(id) %}
+  <span class="sim-unit"><img src="{{ theme_asset('gebaeude/' ~ id ~ '.gif') }}" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">{{ LNG.tech[id] }}</span>
 {% endmacro %}
 
 {% block content %}
@@ -67,7 +67,7 @@
         {{ _self.sectionHead(LNG.tech[200], slot) }}
         {% for id in (fleetList)|php_iter %}
           <tr>
-            <td>{{ _self.unit(id, dpath) }}</td>
+            <td>{{ _self.unit(id) }}</td>
             {% if id == php_const('SHIP_SOLSAT') %}
               <td class="num">–<input type="hidden" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]"></td>
             {% else %}
@@ -83,7 +83,7 @@
           {{ _self.sectionHead(LNG.bs_techno, slot) }}
           {% for id in [109, 110, 111] %}
             <tr>
-              <td>{{ _self.unit(id, dpath) }}</td>
+              <td>{{ _self.unit(id) }}</td>
               <td class="num"><input type="number" min="0" class="sim-level" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_atter }})"></td>
               <td class="num"><input type="number" min="0" class="sim-level" value="{{ _self.value(battleinput, slot, 1, id) }}" name="battleinput[{{ slot }}][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
             </tr>
@@ -96,7 +96,7 @@
             {{ _self.sectionHead(LNG.tech[400], slot, false) }}
             {% for id in (defensiveList)|php_iter %}
               <tr>
-                <td>{{ _self.unit(id, dpath) }}</td>
+                <td>{{ _self.unit(id) }}</td>
                 <td class="num">–<input type="hidden" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]"></td>
                 <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, slot, 1, id) }}" name="battleinput[{{ slot }}][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
               </tr>
@@ -107,7 +107,7 @@
             {{ _self.sectionHead(LNG.bs_steal|trim(':'), slot, false) }}
             {% for id in [901, 902, 903] %}
               <tr>
-                <td>{{ _self.unit(id, dpath) }}</td>
+                <td>{{ _self.unit(id) }}</td>
                 <td class="num">–<input type="hidden" value="{{ battleinput[0][0][id]|default(0) }}" name="battleinput[0][0][{{ id }}]"></td>
                 <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, 0, 1, id) }}" name="battleinput[0][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
               </tr>

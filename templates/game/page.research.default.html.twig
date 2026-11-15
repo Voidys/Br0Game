@@ -20,17 +20,17 @@
 						<a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
 						{% if ID == watch %}
 							<a href="?page=research&watch=0">
-								<img class="watchlist-fav-button" src="./styles/theme/nova/img/fav.png" alt="Unwatch">
+								<img class="watchlist-fav-button" src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
 							</a>
 						{% else %}
 							<a href="?page=research&watch={{ ID }}">
-								<img class="watchlist-fav-button" src="./styles/theme/nova/img/nofav.png" alt="Watch">
+								<img class="watchlist-fav-button" src="./styles/theme/nova/img/nofav.webp" alt="Watch">
 							</a>
 						{% endif %}
 					</div>
 					<div class="buildl">
 						<a href="#" onclick="return Dialog.info({{ ID }})">
-							<img class="float-left" src="{{ dpath }}gebaeude/{{ ID }}.gif" width="120" height="120">
+							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" width="120" height="120">
 						</a>
 						{% if not empty(Element.requirements) %}
 							{{ LNG.tt_requirements }}: </br>
@@ -44,7 +44,7 @@
 						{% else %}
 							{{ LNG.bd_remaining }}:<br>
 							{% for ResType, ResCount in (Element.costOverflow)|php_iter %}
-								<a href='#' onclick='return Dialog.info({{ ResType }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/{{ ResType }}.{% if ResType >=600 and ResType <= 699 %}jpg{% else %}gif{% endif %}'></td><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+								<a href='#' onclick='return Dialog.info({{ ResType }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ ResType ~ '.' ~ ((ResType >=600 and ResType <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
 							{% endfor %}
 							{% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
 						{% endif %}
@@ -53,7 +53,7 @@
 					<div class="buildl">
 						<span>
 							{% for RessID, RessAmount in (Element.costResources)|php_iter %}
-								<a href='#' onclick='return Dialog.info({{ RessID }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/{{ RessID }}.{% if RessID >=600 and RessID <= 699 %}jpg{% else %}gif{% endif %}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+								<a href='#' onclick='return Dialog.info({{ RessID }})' class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
 							{% endfor %}
 							
 							{% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
