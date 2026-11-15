@@ -1,0 +1,232 @@
+<?php
+
+/**
+ *  2Moons
+ *   by Jan-Otto Kröpke 2009-2016
+ *
+ * For the full copyright and license information, please view the LICENSE
+ *
+ * @package 2Moons
+ * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @copyright 2009 Lucky
+ * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+ * @licence MIT
+ * @version 1.8.0
+ * @link https://github.com/jkroepke/2Moons
+ */
+
+namespace App\Game\Missions;
+
+use App\Game\BattleEngine\BattleHandler;
+use App\Game\Core\StoredData;
+
+/**
+ * Report side of a fight for AbstractBattleMission: stores the combat report, sends the report messages, top-KB rows and the
+ * "attack cancelled" message, and builds the message template.
+ */
+trait BattleReporting
+{
+    /** Stores the combat report (table rw) for the fight in the format of the engine used. */
+    protected function storeReport(BattleSetup $setup, BattleHandler $battleHandler, array $reportData, string $reportID): void
+    {
+        $db = $this->db;
+        $userAttack = $setup->userAttack;
+        $userDefend = $setup->userDefend;
+
+        $sql = 'INSERT INTO %%RW%% SET
+            `rid` = :reportId,
+            `raport` = :reportData,
+            `time` = :time,
+            `attacker` = :attackers,
+            `defender` = :defenders,
+            `battleengine` = :battleengine;';
+
+        $db->insert($sql, [
+            ':reportId'     => $reportID,
+            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
+            ':time'         => $this->_fleet['arrival_time'],
+            ':attackers'    => implode(',', array_keys($userAttack)),
+            ':defenders'    => implode(',', array_keys($userDefend)),
+            ':battleengine' => $battleHandler->engine->getName(),
+        ]);
+    }
+
+    /**
+     * Sends the battle report message to every attacker and defender (in their language) and, for a fight that makes the
+     * top list, inserts the participants into the top-KB users table.
+     *
+     * @param array<int, int|float> $stealResource loot by resource
+     * @param array<int, int|float> $debris        new debris by resource
+     * @param array{0: string, 1: string} $class   CSS classes of the two sides
+     * @return bool whether the fight is a top-KB entry
+     */
+    protected function sendReportMessages(BattleSetup $setup, array $combatResult, string $reportID, string $messageHTML, array $class, array $stealResource, array $debris, int|float $units): bool
+    {
+        $db = $this->db;
+        $userAttack = $setup->userAttack;
+        $userDefend = $setup->userDefend;
+
+        $i = 0;
+        $universe = $this->_fleet['universe'];
+        $topkb = $this->checkForTopKB($units, $universe);
+
+        foreach ([$userAttack, $userDefend] as $data) {
+            foreach ($data as $userID => $userName) {
+                $LNG = $this->getLanguage(null, $userID);
+
+                $message = sprintf(
+                    $messageHTML,
+                    $reportID,
+                    $class[$i],
+                    $LNG['sys_mess_attack_report'],
+                    sprintf(
+                        $LNG['sys_adress_planet'],
+                        $this->_fleet['end_galaxy'],
+                        $this->_fleet['end_system'],
+                        $this->_fleet['end_planet'],
+                    ),
+                    $LNG['type_planet_short_' . $this->_fleet['end_type']],
+                    $LNG['sys_lost'],
+                    $class[0],
+                    $LNG['sys_attack_attacker_pos'],
+                    $this->viewHelpers()->prettyNumber($combatResult['unitLost']['attacker']),
+                    $class[1],
+                    $LNG['sys_attack_defender_pos'],
+                    $this->viewHelpers()->prettyNumber($combatResult['unitLost']['defender']),
+                    $LNG['sys_gain'],
+                    $LNG['tech'][901],
+                    $this->viewHelpers()->prettyNumber($stealResource[901]),
+                    $LNG['tech'][902],
+                    $this->viewHelpers()->prettyNumber($stealResource[902]),
+                    $LNG['tech'][903],
+                    $this->viewHelpers()->prettyNumber($stealResource[903]),
+                    $LNG['sys_debris'],
+                    $LNG['tech'][901],
+                    $this->viewHelpers()->prettyNumber($debris[901]),
+                    $LNG['tech'][902],
+                    $this->viewHelpers()->prettyNumber($debris[902]),
+                );
+
+                $this->playerUtil()->sendMessage(
+                    $userID,
+                    0,
+                    $LNG['sys_mess_tower'],
+                    MESSAGE_TYPE_BATTLE_REPORT,
+                    $LNG['sys_mess_attack_report'],
+                    $message,
+                    $this->_fleet['arrival_time'],
+                    1,
+                    $this->_fleet['universe'],
+                    $this->_fleet['end_id'],
+                );
+
+                if ($topkb) {
+                    $sql = "INSERT INTO %%TOPKB_USERS%% SET
+                        `rid` = :reportId,
+                        `role` = :userRole,
+                        `username` = :username,
+                        `uid` = :userId;";
+
+                    $db->insert($sql, [
+                        ':reportId' => $reportID,
+                        ':userRole' => $i + 1,
+                        ':username' => $userName,
+                        ':userId'   => $userID,
+                    ]);
+                }
+            }
+
+            $i++;
+        }
+
+        return $topkb;
+    }
+
+    /** Inserts the fight into the top-KB list (table topkb). */
+    protected function insertTopKb(array $combatResult, string $reportID, int|float $units): void
+    {
+        $db = $this->db;
+        $sql = 'INSERT INTO %%TOPKB%% SET
+            `units` = :units,
+            `rid` = :reportId,
+            `time` = :time,
+            `universe` = :universe,
+            `galaxy` = :galaxy,
+            `result` = :result;';
+
+        $db->insert($sql, [
+            ':units'    => $units,
+            ':reportId' => $reportID,
+            ':time'     => $this->_fleet['arrival_time'],
+            ':universe' => $this->_fleet['universe'],
+            ':galaxy'	=> $this->_fleet['end_galaxy'],
+            ':result'   => $combatResult['won'],
+        ]);
+    }
+
+    protected function cancelFight($userAttack, $userDefend, $targetPlanet)
+    {
+        foreach ([$userAttack, $userDefend] as $data) {
+            foreach ($data as $userID => $userName) {
+                $LNG = $this->getLanguage(null, $userID);
+
+                $message = sprintf(
+                    $LNG['sys_mess_attack_cancel'],
+                    $targetPlanet['name'],
+                    GetTargetAddressLink($this->_fleet),
+                );
+
+                $this->playerUtil()->sendMessage(
+                    $userID,
+                    0,
+                    $LNG['sys_mess_tower'],
+                    MESSAGE_TYPE_BATTLE_REPORT,
+                    $LNG['sys_mess_attack_report'],
+                    $message,
+                    $this->state->runtime->timestamp,
+                    1,
+                    $this->_fleet['universe'],
+                    $this->_fleet['end_id'],
+                );
+            }
+        }
+
+        $this->setState(FLEET_RETURN);
+        $this->SaveFleet();
+    }
+
+    protected function getMessageText()
+    {
+        $messageHTML = <<<HTML
+<div class="raportMessage">
+	<table>
+		<tr>
+			<td colspan="2">
+			<a href="game?page=raport&raport=%s" target="_blank"><span class="%s">%s %s (%s)</span></a>
+			</td>
+		</tr>
+		<tr>
+			<td>%s</td><td><span class="%s">%s: %s</span>&nbsp;<span class="%s">%s: %s</span></td>
+		</tr>
+		<tr>
+			<td>%s</td>
+			<td>
+                <span>%s:&nbsp;<span class="reportSteal element901">%s</span>&nbsp;</span>
+                <span>%s:&nbsp;<span class="reportSteal element902">%s</span>&nbsp;</span>
+                <span>%s:&nbsp;<span class="reportSteal element903">%s</span></span>
+			</td>
+		</tr>
+		<tr>
+			<td>%s</td>
+			<td>
+                <span>%s:&nbsp;<span class="reportDebris element901">%s</span>&nbsp;</span>
+                <span>%s:&nbsp;<span class="reportDebris element902">%s</span></span>
+			</td>
+		</tr>
+	</table>
+</div>
+HTML;
+        //Minize HTML
+        return str_replace(["\n", "\t", "\r"], "", $messageHTML);
+    }
+}

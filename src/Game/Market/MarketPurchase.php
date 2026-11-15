@@ -1,0 +1,582 @@
+<?php
+
+namespace App\Game\Market;
+
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
+use App\Game\Core\GameUtilities;
+use App\Game\Core\Singleton;
+
+/**
+ * Buying a marketplace offer: validates the offer for the current player, sends the buyer's cargo fleet, re-routes the
+ * seller's held fleet to the buyer, updates the fleet log, the fleet event and the trade row, and notifies both
+ * players by system message.
+ *
+ * The caller (MarketPlaceController::show) wraps buy() in a database transaction; the offer row is locked
+ * (FOR UPDATE) so that a concurrent buyer finds it no longer holding. Every failure is returned as a translated
+ * message string (nothing is written before the last validation passed, only the in-memory PLANET row is touched
+ * and the caller restores it on rollback).
+ */
+class MarketPurchase
+{
+    use GameUtilities;
+
+    public function __construct(
+        protected Database $db,
+        protected ConfigRegistry $configs,
+        protected Singleton $state,
+        private ?MarketRules $rules = null,
+    ) {
+        $this->rules ??= new MarketRules($db, $configs, $state);
+    }
+
+    /**
+     * Buys the offer given by the request parameters `fleetID` and `shipType` (1 = prefer small cargo, else large cargo).
+     *
+     * Side effects: deducts the paid resources and fuel from the current planet (in memory), creates the buyer's fleet,
+     * updates fleets/log_fleets/fleets_event/trades of the seller's fleet and sends two system messages.
+     *
+     * @return string translated message for the player (success or the reason the purchase was refused)
+     */
+    public function buy(): string
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $FleetID = $this->http()->_GP('fleetID', 0);
+        $shipType = $this->http()->_GP('shipType', "");
+
+        $vmode = $this->rules->checkVmode();
+        if (!$vmode['buyable']) {
+            return $vmode['reason'];
+        }
+        $checkResult = $this->rules->checkSlots($USER);
+        if ($checkResult['result'] < 0) {
+            return $checkResult['message'];
+        }
+
+        $fleetResult = $this->loadOffer($FleetID);
+        if (!is_array($fleetResult)) {
+            return $fleetResult;
+        }
+        $refusal = $this->validateOffer($fleetResult);
+        if ($refusal !== null) {
+            return $refusal;
+        }
+        $isFleetTrade = ($fleetResult['transaction_type'] == 1);
+
+        $trip = $this->planBuyerTrip($fleetResult, $isFleetTrade, $shipType);
+        if (is_string($trip)) {
+            return $trip;
+        }
+        ['fleetArray' => $fleetArray, 'consumption' => $consumption, 'fleetResource' => $fleetResource, 'marketplace' => $marketplace] = $trip;
+
+        $buyerfleet = $this->sendBuyerFleet($fleetResult, $isFleetTrade, $trip);
+
+        $USER_2 = $this->db->selectSingle(
+            "SELECT * FROM %%USERS%% as u 
+            INNER JOIN %%USERS_SETTINGS%% as s ON s.`user_id` = u.`id` 
+            WHERE u.`id` = :userId;",
+            [':userId' => $fleetResult['owner']],
+        );
+        $sellerFleet = $this->fleetFunctions()->unserialize($fleetResult['ships']);
+        $times = $this->sellerFleetTimes($fleetResult, $isFleetTrade, $sellerFleet, $USER_2, $marketplace);
+        $this->rerouteSellerFleet($FleetID, $fleetResult, $isFleetTrade, $marketplace, $times, $buyerfleet);
+
+        $this->notify($fleetResult, $isFleetTrade, $marketplace, $fleetResource, $consumption, $USER_2);
+
+        $LC = $sellerFleet[202] ?? 0;
+        $HC = $sellerFleet[203] ?? 0;
+        return sprintf($LNG['market_p_msg_sent'], $LC, $HC);
+    }
+
+    /**
+     * Loads and locks (FOR UPDATE) the holding offer of the current universe.
+     *
+     * @return array<string, mixed>|string offer row (fleet + trade columns + seller's ally_id) or the "not found" message
+     */
+    private function loadOffer(mixed $FleetID): array|string
+    {
+        $LNG = & $this->state->LNG;
+        $sql = "SELECT f.*, t.*, u.`ally_id` FROM %%FLEETS%% f
+            JOIN %%TRADES%% t ON f.`id` = t.`seller_fleet_id`
+            JOIN %%USERS%% u ON f.`owner` = u.`id`
+            WHERE f.`id` = :id AND f.`status` = :fleetState AND f.`universe` = :universe FOR UPDATE;";
+        $fleetResult = $this->db->selectSingle($sql, [
+            ':id' => $FleetID,
+            ':fleetState' => FLEET_HOLD,
+            ':universe' => $this->universe()->current(),
+        ]);
+
+        if ($this->db->rowCount() == 0) {
+            return $LNG['market_p_msg_not_found'];
+        }
+
+        return $fleetResult;
+    }
+
+    /**
+     * Checks that the current player may buy this offer: not their own, a valid wanted resource, the diplomacy filter
+     * and push prevention.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @return string|null the refusal message, null when the offer is buyable
+     */
+    private function validateOffer(array $fleetResult): ?string
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+
+        // an offer cannot be bought by its seller
+        if ($fleetResult['owner'] == $USER['id']) {
+            return $LNG['market_p_msg_own_offer'];
+        }
+
+        // a crafted offer may carry an invalid wanted resource
+        if ($fleetResult['ex_resource_type'] >= 4 || $fleetResult['ex_resource_type'] <= 0) {
+            return $LNG['market_p_msg_wrong_resource_type'];
+        }
+
+        if ($fleetResult['filter_visibility'] != 0 && $USER['id'] != $fleetResult['owner']) {
+            //Check packts
+            $sql = "SELECT * FROM %%DIPLO%% WHERE ((owner_1 = :ow AND owner_2 = :ow2) OR"
+                . " (owner_2 = :ow AND owner_1 = :ow2)) AND accept = 1;";
+            $res = $this->db->select($sql, [
+                ':ow' => $USER['ally_id'],
+                ':ow2' => $fleetResult['ally_id'],
+            ]);
+            $level = null;
+            if ($this->db->rowCount() != 0) {
+                $level = $res[0]['level'];
+            }
+            $buy = $this->rules->checkDiplo(
+                $fleetResult['filter_visibility'],
+                $level,
+                $fleetResult['ally_id'],
+                $USER['ally_id'],
+                $fleetResult['owner'],
+            );
+            if (!$buy['buyable']) {
+                return $buy['reason'];
+            }
+        }
+
+        if ($this->rules->checkPush($fleetResult, $USER['id'], $fleetResult['owner'])) {
+            return $LNG['market_buyable_no_tech'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Chooses the cargo ships the buyer sends and computes the trip, its fuel cost and the paid cargo.
+     *
+     * For a fleet offer the buyer also pays the fuel of the sold fleet's trip. The buyer must hold the paid resources
+     * plus fuel on the current planet. On success the cost is already deducted from the in-memory PLANET row.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @param mixed                $shipType    1 = prefer small cargo
+     * @return array{fleetArray: array<int, int|float>, consumption: int|float, fleetResource: array<int, int|float>, marketplace: int, startTime: int, stayTime: int, endTime: int}|string
+     *         the trip plan, or the refusal message (not enough ships / resources)
+     */
+    private function planBuyerTrip(array $fleetResult, bool $isFleetTrade, mixed $shipType): array|string
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $resource = & $this->state->resource;
+        $LNG = & $this->state->LNG;
+
+        //if not in range 1-3
+        if ($fleetResult['resource_amount'] > $fleetResult['ex_resource_amount'] || $isFleetTrade) {
+            $amount['ex_resource_amount'] = $fleetResult['resource_amount'];
+        } else {
+            $amount['ex_resource_amount'] = $fleetResult['ex_resource_amount'];
+        }
+        $fleetNeeded = $this->calculateFleetSize($amount, $shipType);
+
+        // not enough ships
+        if (!$fleetNeeded) {
+            return $LNG['market_p_msg_more_ships_is_needed'];
+        }
+
+        $fleetArray = array_filter($fleetNeeded);
+        $amount = $fleetResult['ex_resource_amount'];
+        $marketplace = ($this->configs->get($USER['universe'])->max_planets + 2);
+
+        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        if ($isFleetTrade) {
+            $Distance = $this->fleetFunctions()->getTargetDistance(
+                [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
+                [$fleetResult['end_galaxy'], $fleetResult['end_system'], $fleetResult['end_planet']],
+            );
+        } else {
+            $Distance = $this->fleetFunctions()->getTargetDistance(
+                [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
+                [$PLANET['galaxy'], $PLANET['system'], $marketplace],
+            );
+        }
+
+        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $USER);
+        $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $USER);
+        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $Duration, $Distance, $USER, $SpeedFactor);
+
+        if ($isFleetTrade) {
+            $fleet = $this->fleetFunctions()->unserialize($fleetResult['ships']);
+            $fleetSpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleet, $USER);
+            $fleetDuration = $this->fleetFunctions()->getMissionDuration(10, $fleetSpeedAllMin, $Distance, $SpeedFactor, $USER);
+            $bonusConsumption = $this->fleetFunctions()->getFleetConsumption($fleet, $fleetDuration, $Distance, $USER, $SpeedFactor);
+            $consumption += $bonusConsumption;
+        }
+
+        $fleetStartTime = $Duration + $this->state->runtime->timestamp;
+        $fleetStayTime = $fleetStartTime;
+        $fleetEndTime = $fleetStayTime + $Duration;
+
+        $met = 0;
+        $cry = 0;
+        $deu = 0;
+        if ($fleetResult['ex_resource_type'] == 1) {
+            $met = $amount;
+        } elseif ($fleetResult['ex_resource_type'] == 2) {
+            $cry = $amount;
+        } elseif ($fleetResult['ex_resource_type'] == 3) {
+            $deu = $amount;
+        }
+
+        $fleetResource = [
+            RESOURCE_METAL => $met,
+            RESOURCE_CRYSTAL => $cry,
+            RESOURCE_DEUT => $deu,
+        ];
+
+        if (
+            $PLANET[$resource[RESOURCE_METAL]] - $fleetResource[RESOURCE_METAL] < 0
+            || $PLANET[$resource[RESOURCE_CRYSTAL]] - $fleetResource[RESOURCE_CRYSTAL] < 0
+            || $PLANET[$resource[RESOURCE_DEUT]] - $fleetResource[RESOURCE_DEUT] - $consumption < 0
+        ) {
+            return $LNG['market_p_msg_resources_error'];
+        }
+
+        $PLANET[$resource[RESOURCE_METAL]] -= $fleetResource[RESOURCE_METAL];
+        $PLANET[$resource[RESOURCE_CRYSTAL]] -= $fleetResource[RESOURCE_CRYSTAL];
+        $PLANET[$resource[RESOURCE_DEUT]] -= $fleetResource[RESOURCE_DEUT] + $consumption;
+
+        return [
+            'fleetArray' => $fleetArray,
+            'consumption' => $consumption,
+            'fleetResource' => $fleetResource,
+            'marketplace' => $marketplace,
+            'startTime' => $fleetStartTime,
+            'stayTime' => $fleetStayTime,
+            'endTime' => $fleetEndTime,
+        ];
+    }
+
+    /**
+     * Creates the buyer's fleet from the current planet to the market (resource offer, mission trade) or to the
+     * seller's planet (fleet offer, mission transport), carrying the paid resources.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @param array<string, mixed> $trip        plan from planBuyerTrip()
+     * @return int|string id of the new fleet
+     */
+    private function sendBuyerFleet(array $fleetResult, bool $isFleetTrade, array $trip): mixed
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $marketplace = $trip['marketplace'];
+
+        $buyerMission = $isFleetTrade ? MISSION_TRANSPORT : MISSION_TRADE;
+        $targetGalaxy = $isFleetTrade ? $fleetResult['start_galaxy'] : $PLANET['galaxy'];
+        $targetSystem = $isFleetTrade ? $fleetResult['start_system'] : $PLANET['system'];
+        $targetPlanet = $isFleetTrade ? $fleetResult['start_planet'] : $marketplace;
+        $targetType = $isFleetTrade ? $fleetResult['start_type'] : 1;
+
+        return $this->fleetFunctions()->sendFleet(
+            $trip['fleetArray'],
+            $buyerMission /*buyerfleet to automatically get rerouted*/,
+            $USER['id'],
+            $PLANET['id'],
+            $PLANET['galaxy'],
+            $PLANET['system'],
+            $PLANET['planet'],
+            $PLANET['planet_type'],
+            $fleetResult['owner'],
+            $fleetResult['start_id'],
+            $targetGalaxy,
+            $targetSystem,
+            $targetPlanet,
+            $targetType,
+            $trip['fleetResource'],
+            $trip['startTime'],
+            $trip['stayTime'],
+            $trip['endTime'],
+            0,
+            0,
+            1,
+            $trip['consumption'],
+        );
+    }
+
+    /**
+     * Timetable of the seller's fleet once it is re-routed to the buyer: a resource offer of the same system keeps its
+     * original start/arrival and stays 6 hours at the market; other resource offers start now and stay 6 hours; a fleet
+     * offer travels without staying.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @param array<int, int>      $sellerFleet ship id => amount of the held fleet
+     * @param array<string, mixed> $USER_2      seller (users + settings row)
+     * @return array{start: int, arrival: int, stay: int, end: int} start_time, arrival_time, stay_time, return_time
+     */
+    private function sellerFleetTimes(array $fleetResult, bool $isFleetTrade, array $sellerFleet, array $USER_2, int $marketplace): array
+    {
+        $PLANET = & $this->state->PLANET;
+        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $Distance = $this->fleetFunctions()->getTargetDistance(
+            [$PLANET['galaxy'], $PLANET['system'], $marketplace],
+            [$fleetResult['end_galaxy'], $fleetResult['end_system'], $marketplace],
+        );
+        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($sellerFleet, $USER_2);
+        $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $USER_2);
+        if ($PLANET['galaxy'] == $fleetResult['end_galaxy'] && $PLANET['system'] == $fleetResult['end_system'] && !$isFleetTrade) {
+            $Distance = $this->fleetFunctions()->getTargetDistance(
+                [$fleetResult['start_galaxy'], $fleetResult['start_system'], $marketplace],
+                [$fleetResult['end_galaxy'], $fleetResult['end_system'], $marketplace],
+            );
+            $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $USER_2);
+            $startTime = $fleetResult['start_time'];
+            $fleetStartTime = $fleetResult['arrival_time'];
+            $fleetStayTime = $fleetStartTime + TIME_6_HOURS;
+            $fleetEndTime = $fleetStayTime + $Duration;
+        } elseif (!$isFleetTrade) {
+            $startTime = $this->state->runtime->timestamp;
+            $fleetStartTime = $Duration + $this->state->runtime->timestamp;
+            $fleetStayTime = $fleetStartTime + TIME_6_HOURS;
+            $fleetEndTime = $fleetStayTime + $Duration;
+        } else {
+            $startTime = $fleetResult['start_time'];
+            $fleetStartTime = $Duration + $this->state->runtime->timestamp;
+            $fleetStayTime = $fleetStartTime;
+            $fleetEndTime = $fleetStayTime + $Duration;
+        }
+
+        return ['start' => $startTime, 'arrival' => $fleetStartTime, 'stay' => $fleetStayTime, 'end' => $fleetEndTime];
+    }
+
+    /**
+     * Turns the seller's holding fleet into an outward fleet to the buyer: updates fleets (cargo emptied, new target
+     * and times, cannot be recalled), its log row, its fleet event time, and links the buyer's fleet in the trade row.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     * @param array{start: int, arrival: int, stay: int, end: int} $times from sellerFleetTimes()
+     */
+    private function rerouteSellerFleet(mixed $FleetID, array $fleetResult, bool $isFleetTrade, int $marketplace, array $times, mixed $buyerfleet): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $db = $this->db;
+        $params = [
+            ':fleetID' => $FleetID,
+            ':target_owner' => $USER['id'],
+            ':end_id' => $isFleetTrade ? $PLANET['id'] : 0,
+            ':end_planet' => $isFleetTrade ? $PLANET['planet'] : $marketplace,
+            ':end_system' => $PLANET['system'],
+            ':end_galaxy' => $PLANET['galaxy'],
+            ':start_time' => $times['start'],
+            ':arrival_time' => $times['arrival'],
+            ':stay_time' => $times['stay'],
+            ':return_time' => $times['end'],
+            ':mission' => $fleetResult['transaction_type'] == 0 ? MISSION_TRADE : MISSION_TRANSFER,
+            ':cannotCancel' => 1,
+            ':fleetState' => FLEET_OUTWARD,
+        ];
+        $logParams = array_merge($params, [
+            ':start_time_formated' => $this->db->formatDate($times['start']),
+            ':arrival_time_formated' => $this->db->formatDate($times['arrival']),
+            ':stay_time_formated' => $this->db->formatDate($times['stay']),
+            ':return_time_formated' => $this->db->formatDate($times['end']),
+        ]);
+        $params = array_merge($params, [
+            ':metal' => 0,
+            ':crystal' => 0,
+            ':deuterium' => 0,
+        ]);
+        $sql = "UPDATE %%FLEETS%% SET
+            `mission` = :mission,
+            `target_owner` = :target_owner,
+            `start_time` = :start_time,
+            `arrival_time` = :arrival_time,
+            `stay_time` = :stay_time,
+            `return_time` = :return_time,
+            `end_id` = :end_id,
+            `end_planet` = :end_planet,
+            `end_system` = :end_system,
+            `end_galaxy` = :end_galaxy,
+            `resource_metal` = :metal,
+            `resource_crystal` = :crystal,
+            `resource_deuterium` = :deuterium,
+            `status` = :fleetState,
+            `cannotCancel` = :cannotCancel
+            WHERE `id` = :fleetID;";
+        $db->update($sql, $params);
+        $sql = "UPDATE %%LOG_FLEETS%% SET 
+            `mission` = :mission,
+            `target_owner` = :target_owner,
+            `start_time` = :start_time,
+            `start_time_formated` = :start_time_formated,
+            `arrival_time` = :arrival_time,
+            `arrival_time_formated` = :arrival_time_formated,
+            `stay_time` = :stay_time,
+            `stay_time_formated` = :stay_time_formated,
+            `return_time` = :return_time,
+            `return_time_formated` = :return_time_formated,
+            `end_id` = :end_id,
+            `end_planet` = :end_planet,
+            `end_system` = :end_system,
+            `end_galaxy` = :end_galaxy,
+            `status` = :fleetState,
+            `cannotCancel` = :cannotCancel
+            WHERE `id` = :fleetID;";
+        $db->update($sql, $logParams);
+        $sql = 'UPDATE %%FLEETS_EVENT%% SET `time` = :endTime WHERE `fleetID` = :fleetId;';
+        $db->update($sql, [
+            ':fleetId'  => $FleetID,
+            ':endTime'  => $times['arrival'],
+        ]);
+
+        $sql = 'UPDATE %%TRADES%% SET `buyer_fleet_id` = :buyerFleetId,`buy_time` = NOW()
+            WHERE `seller_fleet_id` = :fleetId;';
+        $db->update($sql, [
+            ':fleetId'  => $FleetID,
+            ':buyerFleetId' => $buyerfleet,
+        ]);
+    }
+
+    /**
+     * Sends the "bought" system message to the buyer and the "sold" message (in the seller's language) to the seller.
+     *
+     * @param array<string, mixed> $fleetResult   offer row
+     * @param array<int, int|float> $fleetResource resources the buyer pays
+     * @param array<string, mixed> $USER_2        seller (users + settings row)
+     */
+    private function notify(array $fleetResult, bool $isFleetTrade, int $marketplace, array $fleetResource, mixed $consumption, array $USER_2): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $LNG = & $this->state->LNG;
+        $sql = "SELECT `marketplace_galaxy`, `marketplace_system` FROM %%TRADES%% 
+            WHERE `seller_fleet_id` = :fleetId;";
+        $target = $this->db->selectSingle($sql, [
+            ':fleetId' => $fleetResult['id'],
+        ]);
+        // To customer
+        $Message = sprintf(
+            $LNG['market_msg_trade_bought'],
+            sprintf(
+                '%s:%s:%s',
+                $isFleetTrade ? $fleetResult['start_galaxy'] : $target['marketplace_galaxy'],
+                $isFleetTrade ? $fleetResult['start_system'] : $target['marketplace_system'],
+                $isFleetTrade ? $fleetResult['start_planet'] : $marketplace,
+            ),
+            $fleetResource[RESOURCE_METAL],
+            $LNG['tech'][RESOURCE_METAL],
+            $fleetResource[RESOURCE_CRYSTAL],
+            $LNG['tech'][RESOURCE_CRYSTAL],
+            $fleetResource[RESOURCE_DEUT],
+            $LNG['tech'][RESOURCE_DEUT],
+            $consumption,
+            $LNG['tech'][RESOURCE_DEUT],
+        );
+        $this->playerUtil()->sendMessage(
+            $USER['id'],
+            0,
+            $LNG['market_msg_trade_from'],
+            MESSAGE_TYPE_SYSTEM,
+            $LNG['market_msg_trade_topic'],
+            $Message,
+            $this->state->runtime->timestamp,
+            1,
+            $fleetResult['universe'],
+        );
+
+        // To salesmen
+        $LNG_SALESMEN = $this->playerUtil()->getLanguage($USER_2['lang']);
+        $Message = sprintf(
+            $LNG_SALESMEN['market_msg_trade_sold'],
+            $PLANET['galaxy'] . ":" . $PLANET['system'] . ":" . ($isFleetTrade ? $marketplace : $PLANET['planet']),
+            $fleetResult['resource_metal'],
+            $LNG_SALESMEN['tech'][RESOURCE_METAL],
+            $fleetResult['resource_crystal'],
+            $LNG_SALESMEN['tech'][RESOURCE_CRYSTAL],
+            $fleetResult['resource_deuterium'],
+            $LNG_SALESMEN['tech'][RESOURCE_DEUT],
+        );
+        $this->playerUtil()->sendMessage(
+            $fleetResult['owner'],
+            0,
+            $LNG_SALESMEN['market_msg_trade_from'],
+            MESSAGE_TYPE_SYSTEM,
+            $LNG_SALESMEN['market_msg_trade_topic'],
+            $Message,
+            $this->state->runtime->timestamp,
+            1,
+            $fleetResult['universe'],
+        );
+    }
+
+    /**
+     * Picks the cargo ships a buyer sends to pay $amount: the preferred cargo type first (up to what the planet holds),
+     * the other type for the rest.
+     *
+     * @param array{ex_resource_amount: int|float} $fleetResult amount to carry
+     * @param mixed $shipType 1 = prefer small cargo, anything else = prefer large cargo
+     * @return array<int, int|float>|false ship id => count, false when the planet's cargo ships cannot carry it
+     */
+    private function calculateFleetSize(array $fleetResult, mixed $shipType): array|false
+    {
+        $pricelist = & $this->state->pricelist;
+        $PLANET = & $this->state->PLANET;
+        $resource = & $this->state->resource;
+        // sorry world.
+        $amount = $fleetResult['ex_resource_amount'];
+
+        $F1capacity = 0;
+        $F1type = 0;
+        if ($shipType == 1) {
+            // PRIO for LC
+            $F1capacity = $pricelist[SHIP_SMALL_CARGO]['capacity'];
+            $F1type = SHIP_SMALL_CARGO;
+        } else {
+            // PRIO for HC
+            $F1capacity = $pricelist[SHIP_LARGE_CARGO]['capacity'];
+            $F1type = SHIP_LARGE_CARGO;
+        }
+
+        $F1 = min($PLANET[$resource[$F1type]], ceil($amount / $F1capacity));
+
+        //taken
+        $amountTMP = $amount - $F1 * $F1capacity;
+        // If still fleet needed
+        $F2 = 0;
+        $F2capacity = 0;
+        $F2type = 0;
+        if ($amountTMP > 0) {
+            if ($shipType == 1) {
+                // We need HC
+                $F2capacity = $pricelist[SHIP_LARGE_CARGO]['capacity'];
+                $F2type = SHIP_LARGE_CARGO;
+            } else {
+                // We need LC
+                $F2capacity = $pricelist[SHIP_SMALL_CARGO]['capacity'];
+                $F2type = SHIP_SMALL_CARGO;
+            }
+            $F2 = min($PLANET[$resource[$F2type]], ceil($amountTMP / $F2capacity));
+            $amountTMP -= $F2 * $F2capacity;
+        }
+
+        if ($amountTMP > 0) {
+            return false;
+        }
+
+        return [$F1type => $F1, $F2type => $F2];
+    }
+}

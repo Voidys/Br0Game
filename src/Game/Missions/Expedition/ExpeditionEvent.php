@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Game\Missions\Expedition;
+
+use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
+use App\Game\Core\GameUtilities;
+use App\Game\Core\Language;
+use App\Game\Core\Singleton;
+
+/**
+ * Base of the expedition event handlers: gives them the fleet as it was when the event started, the owner's language and
+ * the shared ExpeditionContext (fleet writes, report state, advanced stats). Handlers are created per event.
+ */
+abstract class ExpeditionEvent
+{
+    use GameUtilities;
+
+    /** @var array<string, mixed> the fleet row when the event started */
+    protected array $fleet;
+    protected Language $LNG;
+
+    public function __construct(
+        protected Database $db,
+        protected ConfigRegistry $configs,
+        protected Singleton $state,
+        protected ExpeditionContext $ctx,
+    ) {
+        $this->fleet = $ctx->fleet();
+        $this->LNG = $ctx->LNG;
+    }
+
+    protected function fleetValue(): ExpeditionFleetValue
+    {
+        return new ExpeditionFleetValue($this->db, $this->configs, $this->state);
+    }
+}

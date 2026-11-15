@@ -1,0 +1,258 @@
+<?php
+
+namespace App\Game\Core\Player;
+
+use App\Game\Core\StoredData;
+use App\Game\Core\Database;
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Singleton;
+use App\Game\Core\ResourceUpdate;
+use App\Game\Core\GameUtilities;
+
+/**
+ * Entering and leaving vacation mode: freezes production and sends hold fleets home on entry, postpones
+ * queues, wreck fields and recalculates resources on exit. Collaborators: ResourceUpdate, FleetFunctions,
+ * PlayerUtilAchievement.
+ */
+class VacationMode
+{
+    use GameUtilities;
+
+    public function __construct(
+        protected Database $db,
+        protected ConfigRegistry $configs,
+        protected Singleton $state,
+    ) {}
+
+    /**
+     * Ends vacation mode once the minimum duration has passed.
+     *
+     * Callers hold a transaction; the user row is re-read under lock so a concurrent request cannot end the vacation
+     * twice. All queues (research, buildings on every planet) and wreck field timers are postponed by the time spent
+     * in vacation, mine/plant percentages are reset to 10 and the resources are recalculated for every planet.
+     * Does nothing if the user is not in vacation or urlaubs_until is still in the future.
+     *
+     * @param array $USER user row, updated in place
+     * @param array|null $PLANET current planet row, updated in place
+     */
+    public function disable_vmode(array &$USER, ?array &$PLANET = null): void
+    {
+        $db = $this->db;
+
+        // Callers hold a transaction. Re-read the user under lock: a concurrent
+        // request may already have ended vacation mode, and urlaubs_start = 0
+        // would then shift every queue by TIMESTAMP.
+        $sql = 'SELECT * FROM %%USERS%% WHERE `id` = :userID FOR UPDATE;';
+        $u = $db->selectSingle($sql, [
+            ':userID'   => $USER['id'],
+        ]);
+        if (empty($u) || $u['urlaubs_modus'] != 1) {
+            return;
+        }
+        $USER = array_merge($USER, $u);
+        $umode_start = $u['urlaubs_start'];
+        $umode_delta = $this->state->runtime->timestamp - $umode_start;
+        if ($USER['urlaubs_until'] <= $this->state->runtime->timestamp) {
+            $this->shiftResearchQueue($USER, $umode_delta);
+            if (isset($PLANET)) {
+                $this->shiftBuildQueue($PLANET, $umode_delta);
+            }
+            $this->resumeOtherPlanets((int) $USER['id'], $umode_delta);
+
+            $sql = 'UPDATE %%USERS%% SET
+                `urlaubs_modus` = 0,
+                `urlaubs_until` = 0,
+                `urlaubs_start` = 0
+                WHERE `id` = :userID;';
+            $db->update($sql, [':userID'   => $USER['id']]);
+
+            $USER['urlaubs_modus'] = 0;
+            $USER['urlaubs_until'] = 0;
+            $USER['urlaubs_start'] = 0;
+
+            $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :id;";
+            $PlanetsRAW = $db->select($sql, [
+                ':id' => $USER['id'],
+            ]);
+
+            $PlanetRess = new ResourceUpdate($this->db, $this->configs, $this->state);
+            if (isset($PLANET)) {
+                $PLANET['last_update'] = $this->state->runtime->timestamp;
+                $PLANET['eco_hash'] = '';
+                [$USER, $PLANET] = $PlanetRess->CalcResource($USER, $PLANET, true);
+                $this->playerUtilAchievements()->checkPlayerUtilAchievements33($USER['id']);
+            }
+
+            foreach ($PlanetsRAW as $CPLANET) {
+                $CPLANET['eco_hash'] = '';
+                [$USER, $CPLANET] = $PlanetRess->CalcResource($USER, $CPLANET, true);
+            }
+        }
+    }
+
+    /**
+     * Postpones the research queue by the length of the vacation (end times + b_tech).
+     * Side effects: UPDATE users (b_tech, b_tech_queue); $USER is updated in place.
+     *
+     * @param array $USER user row (b_tech, b_tech_queue, id)
+     * @param int $umode_delta seconds spent in vacation mode
+     */
+    private function shiftResearchQueue(array &$USER, int $umode_delta): void
+    {
+        $db = $this->db;
+        if (!empty($USER['b_tech']) && !empty($USER['b_tech_queue'])) {
+            $CurrentQueue       = StoredData::decode($USER['b_tech_queue']);
+            foreach ($CurrentQueue as &$TechArray) {
+                $TechArray[3] += $umode_delta;
+            }
+            $USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
+            unset($CurrentQueue);
+            $sql = 'UPDATE %%USERS%% SET
+                `b_tech` = `b_tech` + :umode_delta,
+                `b_tech_queue` = :b_tech_queue
+                WHERE `id` = :userID;';
+            $db->update($sql, [
+                ':umode_delta' => $umode_delta,
+                ':userID'   => $USER['id'],
+                ':b_tech_queue' => $USER['b_tech_queue'],
+            ]);
+            $USER['b_tech'] = $USER['b_tech'] + $umode_delta;
+        }
+    }
+
+    /**
+     * Postpones the building queue of the planet the player is on by the vacation length (in memory only; the
+     * row is written later by resumeOtherPlanets()/the caller).
+     *
+     * @param array $PLANET planet row (b_building, b_building_id), updated in place
+     * @param int $umode_delta seconds spent in vacation mode
+     */
+    private function shiftBuildQueue(array &$PLANET, int $umode_delta): void
+    {
+        if (!empty($PLANET['b_building']) && !empty($PLANET['b_building_id'])) {
+            $PLANET['b_building'] = $PLANET['b_building'] + $umode_delta;
+            $CurrentQueue       = StoredData::decode($PLANET['b_building_id']);
+            foreach ($CurrentQueue as &$BuildArray) {
+                $BuildArray[3] += $umode_delta;
+            }
+            $PLANET['b_building_id'] = StoredData::encode($CurrentQueue);
+            unset($CurrentQueue);
+        }
+    }
+
+    /**
+     * Postpones building queues and wreck fields of all non-destroyed planets by the vacation length and
+     * resets the production percentages of mines, power plants and satellites to 10.
+     * Side effects: locks the planets (FOR UPDATE), UPDATE planets and planet_wreckfield.
+     *
+     * @param int $userId
+     * @param int $umode_delta seconds spent in vacation mode
+     */
+    private function resumeOtherPlanets(int $userId, int $umode_delta): void
+    {
+        $db = $this->db;
+        $sql = 'SELECT `id`, `b_building`, `b_building_id` FROM %%PLANETS%% WHERE `id_owner` = :userID AND `destruyed` = 0 FOR UPDATE;';
+        $planets = $db->select($sql, [
+            ':userID'   => $userId,
+        ]);
+
+        foreach ($planets as $CPLANET) {
+            if (!empty($CPLANET['b_building']) && !empty($CPLANET['b_building_id'])) {
+                $CPLANET['b_building'] = $CPLANET['b_building'] + $umode_delta;
+                $CurrentQueue = StoredData::decode($CPLANET['b_building_id']);
+                foreach ($CurrentQueue as &$BuildArray) {
+                    $BuildArray[3] += $umode_delta;
+                }
+                $CPLANET['b_building_id'] = StoredData::encode($CurrentQueue);
+                unset($CurrentQueue);
+            }
+
+            $sql = 'UPDATE %%PLANETS%% SET
+                `b_building` = :building,
+                `b_building_id` = :current_queue,
+                `last_update` = :timestamp,
+                `metal_mine_porcent` = "10",
+                `crystal_mine_porcent` = "10",
+                `deuterium_sintetizer_porcent` = "10",
+                `solar_plant_porcent` = "10",
+                `fusion_plant_porcent` = "10",
+                `solar_satelit_porcent` = "10"
+                WHERE `id` = :planetID;';
+            $db->update($sql, [
+                ':planetID' => $CPLANET['id'],
+                ':building' => $CPLANET['b_building'],
+                ':current_queue' => $CPLANET['b_building_id'],
+                ':timestamp' => $this->state->runtime->timestamp,
+            ]);
+
+            $sql = 'UPDATE %%PLANET_WRECKFIELD%% SET
+                `created` = `created` + :umode_delta,
+                `repair_order_start` =`repair_order_start` + :umode_delta,
+                `repair_order_end` = `repair_order_end` + :umode_delta
+                WHERE `planetID` = :planetID;';
+            $db->update($sql, [
+                ':umode_delta' => $umode_delta,
+                ':planetID' => $CPLANET['id'],
+            ]);
+
+            unset($CPLANET);
+        }
+    }
+
+    /**
+     * Starts vacation mode: sets urlaubs_modus/start (and urlaubs_until = now + vmode_min_time, or 0 when
+     * caused by a ban), zeroes production and energy on all planets and sends back fleets that hold at the user's planets.
+     *
+     * @param array $USER user row
+     * @param array|null $PLANET current planet row, zeroed in place
+     * @param bool $byBan vacation imposed by a ban (no minimum duration)
+     */
+    public function enable_vmode(array &$USER, ?array &$PLANET, bool $byBan = false): void
+    {
+        $db = $this->db;
+
+        $sql = 'UPDATE %%USERS%% SET `urlaubs_modus` = 1, `urlaubs_until` = :time, `urlaubs_start` = :startTime
+            WHERE `id` = :userID';
+        $db->update($sql, [
+            ':userID'       => $USER['id'],
+            ':time'         => $byBan ? 0 : ($this->state->runtime->timestamp + $this->configs->get()->vmode_min_time),
+            ':startTime'    => $this->state->runtime->timestamp,
+        ]);
+
+        $sql = 'UPDATE %%PLANETS%% SET `energy_used` = 0, `energy` = 0, `metal_mine_porcent` = "0",
+            `crystal_mine_porcent` = "0", `deuterium_sintetizer_porcent` = "0", `solar_plant_porcent` = "0",
+            `fusion_plant_porcent` = "0", `solar_satelit_porcent` = "0", `metal_perhour` = 0,
+            `crystal_perhour` = 0, `deuterium_perhour` = 0 WHERE `id_owner` = :userID;';
+        $db->update($sql, [
+            ':userID'   => $USER['id'],
+        ]);
+
+        $sql = 'SELECT `id`, `owner` FROM %%FLEETS%%
+            WHERE `universe` = :universe
+            AND `mission` = :fleet_mision
+            AND `target_owner` = :id;';
+        $FleetsRAW = $db->select($sql, [
+            ':universe'     => $this->universe()->current(),
+            ':fleet_mision' => MISSION_HOLD,
+            ':id'           => $USER['id'],
+        ]);
+        foreach ($FleetsRAW as $Fleet) {
+            $attacker['id'] = $Fleet['owner'];
+            $this->fleetFunctions()->SendFleetBack($attacker, $Fleet['id']);
+        }
+        if (!empty($PLANET)) {
+            $PLANET['energy_used'] = '0';
+            $PLANET['energy'] = '0';
+            $PLANET['metal_mine_porcent'] = '0';
+            $PLANET['crystal_mine_porcent'] = '0';
+            $PLANET['deuterium_sintetizer_porcent'] = '0';
+            $PLANET['solar_plant_porcent'] = '0';
+            $PLANET['fusion_plant_porcent'] = '0';
+            $PLANET['solar_satelit_porcent'] = '0';
+            $PLANET['metal_perhour'] = '0';
+            $PLANET['crystal_perhour'] = '0';
+            $PLANET['deuterium_perhour'] = '0';
+            $this->playerUtilAchievements()->checkPlayerUtilAchievements31($USER['id']);
+        }
+    }
+}

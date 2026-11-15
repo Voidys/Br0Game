@@ -256,8 +256,8 @@ final class ResourceProductionTest extends GameTestCase
 
     public function testEveryProductionAndStorageFormulaOfTheVarsTable(): void
     {
-        $runFormula = new \ReflectionMethod(ResourceUpdate::class, 'runFormula');
-        $eco = new ResourceUpdate($this->db, $this->configs, $this->state);
+        $runFormula = new \ReflectionMethod(\App\Game\Core\ResourceProduction::class, 'runFormula');
+        $eco = new \App\Game\Core\ResourceProduction($this->db, $this->configs, $this->state);
 
         $count = 0;
         foreach ($this->state->ProdGrid as $element => $kinds) {

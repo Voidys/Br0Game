@@ -1,0 +1,604 @@
+<?php
+
+namespace App\Game\Fleet;
+
+use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\AdvancedStats\AdvancedStatsHandler;
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
+use App\Game\Core\GameUtilities;
+use App\Game\Core\Singleton;
+use Exception;
+
+/**
+ * Fleet dispatch, step 3: validates the prepared fleet (form token of step 2) against the target and the player's
+ * limits, takes cargo and fuel from the start planet and sends the fleet (FleetFunctions::sendFleet); a trade mission also
+ * records its market offer. Runs inside one database transaction that locks the user and the start planet.
+ *
+ * Every refusal is thrown as FleetDispatchRefused (message and back buttons); the controller shows it as message page.
+ * Collaborators: FleetFunctions (rules, slots, send), PlayerUtil (noob protection), SessionManager (form token).
+ */
+class FleetDispatch
+{
+    use GameUtilities;
+    use FleetDispatchMissionRules;
+
+    private mixed $targetMission;
+    private float|int $TransportMetal;
+    private float|int $TransportCrystal;
+    private float|int $TransportDeuterium;
+    private mixed $WantedResourceType;
+    private float|int $WantedResourceAmount;
+    private mixed $markettype;
+    private mixed $visibility;
+    private mixed $maxFlightTime;
+    private mixed $stayTime;
+    private mixed $token;
+    private mixed $distance;
+    private mixed $targetGalaxy;
+    private mixed $targetSystem;
+    private mixed $targetPlanet;
+    private mixed $targetType;
+    private mixed $fleetGroup;
+    private mixed $fleetArray;
+    private mixed $fleetStorage;
+    private mixed $fleetSpeed;
+    private mixed $ownPlanet;
+    private mixed $ACSTime = 0;
+    private mixed $targetPlanetData = [];
+    private mixed $targetPlayerData = [];
+    private mixed $availableMissions = [];
+    private bool $containsOnlyProbes = true;
+    private mixed $consumption = 0;
+    private mixed $duration = 0;
+    private mixed $fleetMaxSpeed = 0;
+    private mixed $fleetResource = [];
+    private mixed $fleetStartTime = 0;
+    private mixed $fleetEndTime = 0;
+    private mixed $fleetStayTime = 0;
+    private mixed $StayDuration = 0;
+    private mixed $config;
+
+    public function __construct(
+        protected Database $db,
+        protected ConfigRegistry $configs,
+        protected Singleton $state,
+    ) {}
+
+    /**
+     * Dispatches the fleet of the posted form.
+     *
+     * @return array<string, mixed> template variables of the result page (target mission, times, consumption, fleet list ...)
+     * @throws FleetDispatchRefused when the dispatch is refused (nothing is sent)
+     */
+    public function dispatch(): array
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+
+        if (IsVacationMode($USER)) {
+            $this->fleetFunctions()->gotoFleetPage(0);
+        }
+
+        $db = $this->db;
+        $db->startTransaction();
+        // Serialise parallel dispatches of the same player, so the slot and expedition limits cannot be raced
+        // from several planets/sessions (the user row is locked before the planet row, always in this order).
+        $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $USER['id']]);
+        // reloading global $PLANET for database lock support.
+        // not pretty, but not using the global dupes resources
+        $this->lockPlanet($PLANET['id']);
+
+        $this->loadForm();
+        $this->validateRequest();
+        $this->resolveAcs();
+        $this->loadTargetPlanet();
+        $this->loadTargetPlayer();
+        $this->checkMission();
+        $this->planFlight();
+        $this->launch();
+
+        return $this->resultVariables();
+    }
+
+    /**
+     * Refuses the dispatch with a message and a single "back" button to the given page.
+     *
+     * @throws FleetDispatchRefused always
+     */
+    private function refuse(string $message, string $url): never
+    {
+        $LNG = & $this->state->LNG;
+        throw new FleetDispatchRefused($message, [['label' => $LNG['sys_back'], 'url' => $url]]);
+    }
+
+    /** Locks the start planet row for the transaction. */
+    private function lockPlanet(mixed $planetId): void
+    {
+        $this->db->selectSingle("SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;", [
+            ':planetId' => $planetId,
+        ]);
+    }
+
+    /** Reads the request and the prepared fleet form (token from step 2) from the session; refuses when the token is unknown (back to step 1) or older than 10 minutes. */
+    private function loadForm(): void
+    {
+        $this->targetMission = $this->http()->_GP('mission', MISSION_TRANSPORT);
+        $this->TransportMetal = max(0, round($this->http()->_GP('metal', 0.0)));
+        $this->TransportCrystal = max(0, round($this->http()->_GP('crystal', 0.0)));
+        $this->TransportDeuterium = max(0, round($this->http()->_GP('deuterium', 0.0)));
+        $this->WantedResourceType = $this->http()->_GP('resEx', 0);
+        $this->WantedResourceAmount = max(0, round($this->http()->_GP('exchange', 0.0)));
+        $this->markettype = $this->http()->_GP('markettype', 0);
+        $this->visibility = $this->http()->_GP('visibility', 0);
+        $this->maxFlightTime = $this->http()->_GP('maxFlightTime', 0);
+        $this->stayTime = $this->http()->_GP('staytime', 0);
+        $this->token = $this->http()->_GP('token', '');
+
+        $this->config = $this->configs->get();
+
+        $session = $this->sessions()->load();
+        $fleet = $session->fleet;
+
+        if (!isset($fleet[$this->token])) {
+            $this->fleetFunctions()->gotoFleetPage(1);
+        }
+
+        if ($fleet[$this->token]['time'] < $this->state->runtime->timestamp - 600) {
+            unset($fleet[$this->token]);
+            $session->fleet = $fleet;
+            $session->save();
+            $this->fleetFunctions()->gotoFleetPage(0);
+        }
+
+        $session = $this->sessions()->load();
+        $fleet = $session->fleet;
+        $formData = $fleet[$this->token];
+        unset($fleet[$this->token]);
+        $session->fleet = $fleet;
+        $session->save();
+
+        $this->distance = $formData['distance'];
+        $this->targetGalaxy = $formData['targetGalaxy'];
+        $this->targetSystem = $formData['targetSystem'];
+        $this->targetPlanet = $formData['targetPlanet'];
+        $this->targetType = $formData['targetType'];
+        $this->fleetGroup = $formData['fleetGroup'];
+        $this->fleetArray = $formData['fleet'];
+        $this->fleetStorage = $formData['fleetRoom'];
+        $this->fleetSpeed = $formData['fleetSpeed'];
+        $this->ownPlanet = $formData['ownPlanet'];
+    }
+
+    /** Validates own planet, target coordinates, trade parameters, the resources to carry and the free fleet slots. */
+    private function validateRequest(): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $LNG = & $this->state->LNG;
+        if ($this->ownPlanet != $PLANET['id']) {
+            $this->refuse($LNG['fl_own_planet_error'], 'game?page=fleetStep1');
+        }
+
+        if ($this->targetMission != MISSION_ACS) {
+            $this->fleetGroup = 0;
+        }
+
+        if (
+            $PLANET['galaxy'] == $this->targetGalaxy && $PLANET['system'] == $this->targetSystem
+            && $PLANET['planet'] == $this->targetPlanet && $PLANET['planet_type'] == $this->targetType
+        ) {
+            $this->refuse($LNG['fl_error_same_planet'], 'game?page=fleetStep1');
+        }
+
+        if (
+            $this->targetGalaxy < 1 || $this->targetGalaxy > $this->config->max_galaxy
+            || $this->targetSystem < 1 || $this->targetSystem > $this->config->max_system
+            || $this->targetPlanet < 1 || $this->targetPlanet > ($this->config->max_planets + 3)
+            || ($this->targetType !== 1 && $this->targetType !== 2 && $this->targetType !== 3)
+        ) {
+            $this->refuse($LNG['fl_invalid_target'], 'game?page=fleetStep1');
+        }
+
+        if ($this->targetMission == MISSION_TRADE) {
+            // Whitelist the trade parameters (the AJAX pre-check in step 2 can be skipped with a crafted request)
+            $this->WantedResourceType = (int) $this->WantedResourceType;
+            $this->markettype = (int) $this->markettype;
+            if (!in_array($this->WantedResourceType, [1, 2, 3], true) || !in_array($this->markettype, [0, 1], true)) {
+                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+            }
+        }
+
+        // Transport and market type 0 have to contain resources
+        if (
+            ($this->targetMission == MISSION_TRANSPORT || ($this->targetMission == MISSION_TRADE && $this->markettype == 0))
+            && $this->TransportMetal + $this->TransportCrystal + $this->TransportDeuterium < 1
+        ) {
+            $this->refuse($LNG['fl_no_noresource'], 'game?page=fleetStep2');
+        }
+        // Market typ 1 cannot contain resources
+        if (
+            $this->targetMission == MISSION_TRADE && $this->markettype == 1
+            && $this->TransportMetal + $this->TransportCrystal + $this->TransportDeuterium != 0
+        ) {
+            $this->refuse($LNG['fl_resources'], 'game?page=fleetStep2');
+        }
+
+        if ($this->targetMission == MISSION_TRADE && $this->WantedResourceAmount < 1) {
+            $this->refuse($LNG['fl_no_noresource_exchange'], 'game?page=fleetStep2');
+        }
+
+        if ($this->targetMission == MISSION_TRADE && $this->WantedResourceAmount > pow(10, 50)) {
+            $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+        }
+
+        $ActualFleets = $this->fleetFunctions()->getCurrentFleets($USER['id']);
+
+        if ($this->fleetFunctions()->getMaxFleetSlots($USER) <= $ActualFleets) {
+            $this->refuse($LNG['fl_no_slots'], 'game?page=fleetTable');
+        }
+    }
+
+    /** Resolves the ACS group the fleet wants to join (arrival time of the group); without a valid group the mission becomes a plain attack. */
+    private function resolveAcs(): void
+    {
+        $USER = & $this->state->USER;
+        $db = $this->db;
+        $this->ACSTime = 0;
+
+        if (!empty($this->fleetGroup)) {
+            $sql = "SELECT `ankunft`
+                FROM %%USERS_TO_ACS%%
+                INNER JOIN %%AKS%% ON `id` = `acsID`
+                WHERE `acsID` = :acsID
+                AND `userID` = :userID
+                AND :maxFleets > (SELECT COUNT(*) FROM %%FLEETS%% WHERE `group` = :acsID);";
+            $this->ACSTime = $db->selectSingle($sql, [
+                ':acsID'        => $this->fleetGroup,
+                ':userID'       => $USER['id'],
+                ':maxFleets'    => $this->config->max_fleets_per_acs,
+            ], 'ankunft');
+
+            if (!empty($this->ACSTime)) {
+                $sql = "SELECT `ankunft`
+                    FROM %%USERS_TO_ACS%%
+                    INNER JOIN %%AKS%% ON `id` = `acsID`
+                    WHERE `acsID` = :acsID
+                      AND `userID` = :userID
+                      AND ( :maxParticipants > (SELECT COUNT(DISTINCT `owner`) FROM %%FLEETS%% WHERE `group` = :acsID)
+                       OR 1 = (SELECT COUNT(DISTINCT `owner`) FROM %%FLEETS%% WHERE `group` = :acsID AND `owner` = :userID) );";
+                $this->ACSTime = $db->selectSingle($sql, [
+                    ':acsID'        => $this->fleetGroup,
+                    ':userID' => $USER['id'],
+                    ':maxParticipants' => $this->config->max_participants_per_acs,
+                ], 'ankunft');
+            }
+
+            if (empty($this->ACSTime)) {
+                $this->fleetGroup = 0;
+                $this->targetMission = MISSION_ATTACK;
+            }
+        }
+    }
+
+    /** Loads the target planet (or pirate base) and checks that it exists, colonisation and expedition limits, the ships on the planet and that an ACS fleet flies to the ACS target. */
+    private function loadTargetPlanet(): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $resource = & $this->state->resource;
+        $LNG = & $this->state->LNG;
+        $db = $this->db;
+        if ($this->targetPlanet == $this->config->max_planets + 3) {
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `destruyed`, 0 as `ally_deposit`
+                FROM %%PIRATE_BASES%% 
+                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy AND `system` = :targetSystem AND `id_owner` = :userId;";
+            $this->targetPlanetData = $db->selectSingle($sql, [
+                ':universe' => $this->universe()->current(),
+                ':targetGalaxy' => $this->targetGalaxy,
+                ':targetSystem' => $this->targetSystem,
+                ':userId' => $USER['id'],
+            ]);
+        } else {
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, `destruyed`, `ally_deposit`
+                FROM %%PLANETS%%
+                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy
+                  AND `system` = :targetSystem AND `planet` = :targetPlanet AND `planet_type` = :targetType;";
+            $this->targetPlanetData = $db->selectSingle($sql, [
+                ':universe' => $this->universe()->current(),
+                ':targetGalaxy' => $this->targetGalaxy,
+                ':targetSystem' => $this->targetSystem,
+                ':targetPlanet' => $this->targetPlanet,
+                ':targetType' => ($this->targetType == 2 ? 1 : $this->targetType),
+            ]);
+        }
+
+        if ($this->targetMission == MISSION_COLONISATION) {
+            if (!empty($this->targetPlanetData)) {
+                $this->refuse($LNG['fl_target_exists'], 'game?page=fleetStep1');
+            }
+
+            if ($this->targetType != 1) {
+                $this->refuse($LNG['fl_only_planets_colonizable'], 'game?page=fleetStep1');
+            }
+        }
+
+        if ($this->targetMission == MISSION_COLONISATION || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+            $this->targetPlanetData = ['id' => 0, 'id_owner' => 0, 'planettype' => 1];
+        } else {
+            if (!empty($this->targetPlanetData["destruyed"]) && $this->targetMission != MISSION_RECYCLING) {
+                $this->refuse($LNG['fl_no_target'], 'game?page=fleetStep1');
+            }
+
+            if (empty($this->targetPlanetData)) {
+                $this->refuse($LNG['fl_no_target'], 'game?page=fleetStep1');
+            }
+        }
+        $this->containsOnlyProbes = true;
+        foreach ($this->fleetArray as $Ship => $Count) {
+            if ($Count > $PLANET[$resource[$Ship]]) {
+                $this->refuse($LNG['fl_not_all_ship_avalible'], 'game?page=fleetTable');
+            }
+            if ($Ship != SHIP_PROBE) {
+                $this->containsOnlyProbes = false;
+            }
+        }
+
+        if ($this->targetMission == MISSION_EXPEDITION) {
+            $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], MISSION_EXPEDITION, true);
+            $maxExpedition = $this->fleetFunctions()->getExpeditionLimit($USER);
+
+            if ($activeExpedition >= $maxExpedition) {
+                $this->refuse($LNG['fl_no_expedition_slot'], 'game?page=fleetTable');
+            }
+            if ($this->containsOnlyProbes) {
+                $this->refuse($LNG['fl_no_probe_expos'], 'game?page=fleetTable');
+            }
+        }
+
+        // An ACS fleet must fly to the planet the ACS was created for
+        if ($this->fleetGroup != 0) {
+            $acsTarget = $db->selectSingle('SELECT `target` FROM %%AKS%% WHERE `id` = :acsID;', [
+                ':acsID' => $this->fleetGroup,
+            ], 'target');
+            if ((int) $acsTarget !== (int) ($this->targetPlanetData['id'] ?? 0)) {
+                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+            }
+        }
+    }
+
+    /** Loads the owner of the target (a neutral dummy for colonisation, expedition and trade). */
+    private function loadTargetPlayer(): void
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $db = $this->db;
+        $usedPlanet = isset($this->targetPlanetData['id_owner']);
+        $myPlanet = $usedPlanet && $this->targetPlanetData['id_owner'] == $USER['id'];
+        $this->targetPlayerData = [];
+
+        if ($this->targetMission == MISSION_COLONISATION || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+            $this->targetPlayerData = [
+                'id'                    => 0,
+                'onlinetime'            => $this->state->runtime->timestamp,
+                'ally_id'               => 0,
+                'urlaubs_modus'         => 0,
+                'authattack'            => 0,
+                'total_points'          => 0,
+                'rebuild_protection'    => 0,
+            ];
+        } elseif ($myPlanet) {
+            $this->targetPlayerData = $USER;
+        } elseif (!empty($this->targetPlanetData['id_owner'])) {
+            $sql = "SELECT user.*, stat.`total_points`
+                FROM %%USERS%% as user
+                LEFT JOIN %%STATPOINTS%% as stat ON stat.`id_owner` = user.`id` AND stat.`stat_type` = '1'
+                WHERE user.`id` = :ownerID;";
+
+            $this->targetPlayerData = $db->selectSingle($sql, [':ownerID'  => $this->targetPlanetData['id_owner']]);
+        }
+
+        if (empty($this->targetPlayerData)) {
+            $this->refuse($LNG['fl_empty_target'], 'game?page=fleetStep1');
+        }
+    }
+
+
+
+
+    /** Computes duration, consumption, stay time and cargo, checks fuel, space and tech levels, deducts the cargo and fuel from the planet (in memory) and fixes the ACS-synchronised times. */
+    private function planFlight(): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $resource = & $this->state->resource;
+        $LNG = & $this->state->LNG;
+        $this->fleetMaxSpeed = $this->fleetFunctions()->getFleetMaxSpeed($this->fleetArray, $USER);
+        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $this->duration = $this->fleetFunctions()->getMissionDuration($this->fleetSpeed, $this->fleetMaxSpeed, $this->distance, $SpeedFactor, $USER);
+        $this->consumption = $this->fleetFunctions()->getFleetConsumption($this->fleetArray, $this->duration, $this->distance, $USER, $SpeedFactor);
+
+        if ($PLANET[$resource[903]] < $this->consumption) {
+            $this->refuse($LNG['fl_not_enough_deuterium'], 'game?page=fleetTable');
+        }
+
+        $this->StayDuration = 0;
+
+        if ($this->targetMission == MISSION_HOLD || $this->targetMission == MISSION_EXPEDITION || $this->targetMission == MISSION_TRADE) {
+            if (!isset($this->availableMissions['StayBlock'][$this->stayTime])) {
+                $this->refuse($LNG['fl_hold_time_not_exists'], 'game?page=fleetTable');
+            }
+
+            $this->StayDuration = round($this->availableMissions['StayBlock'][$this->stayTime] * 3600, 0);
+        }
+
+        $this->fleetStorage -= $this->consumption;
+
+        $this->fleetResource = [
+            901 => min($this->TransportMetal, floor($PLANET[$resource[901]])),
+            902 => min($this->TransportCrystal, floor($PLANET[$resource[902]])),
+            903 => min($this->TransportDeuterium, floor($PLANET[$resource[903]] - $this->consumption)),
+        ];
+
+        $StorageNeeded = max(array_sum($this->fleetResource), $this->WantedResourceAmount);
+
+        if ($StorageNeeded > $this->fleetStorage) {
+            $this->refuse($LNG['fl_not_enough_space'], 'game?page=fleetTable');
+        }
+
+
+        if ($this->targetMission == MISSION_TRANSFER) {
+            $attack = $USER[$resource[109]] * 10;
+            $shield = $USER[$resource[110]] * 10;
+            $defensive = $USER[$resource[111]] * 10;
+
+            $attack_targ = $this->targetPlayerData[$resource[109]] * 10;
+            $shield_targ = $this->targetPlayerData[$resource[110]] * 10;
+            $defensive_targ = $this->targetPlayerData[$resource[111]] * 10;
+
+            if ($attack < $attack_targ || $defensive < $defensive_targ || $shield < $shield_targ) {
+                $this->refuse($LNG['fl_stronger_techs'], 'game?page=fleetTable');
+            }
+        }
+
+        $PLANET[$resource[901]] -= $this->fleetResource[901];
+        $PLANET[$resource[902]] -= $this->fleetResource[902];
+        $PLANET[$resource[903]] -= $this->fleetResource[903] + $this->consumption;
+
+        $this->fleetStartTime = floor($this->duration) + $this->state->runtime->timestamp;
+        $timeDifference = round(max(0, $this->fleetStartTime - $this->ACSTime));
+
+        if ($this->fleetGroup != 0) {
+            if ($timeDifference != 0) {
+                // A joiner may delay the whole ACS by at most 30% of its remaining time
+                if ($timeDifference > max(0, $this->ACSTime - $this->state->runtime->timestamp) * 0.3) {
+                    $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetTable');
+                }
+                $this->fleetFunctions()->setACSTime($timeDifference, $this->fleetGroup);
+            } else {
+                $this->fleetStartTime = $this->ACSTime;
+            }
+        }
+
+        $this->fleetStayTime = floor($this->fleetStartTime + $this->StayDuration);
+        $this->fleetEndTime = floor($this->fleetStayTime + $this->duration);
+    }
+
+    /** Sends the fleet, records a market offer for the trade mission and commits the transaction. */
+    private function launch(): void
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $db = $this->db;
+        $id = $this->fleetFunctions()->sendFleet(
+            $this->fleetArray,
+            $this->targetMission,
+            $USER['id'],
+            $PLANET['id'],
+            $PLANET['galaxy'],
+            $PLANET['system'],
+            $PLANET['planet'],
+            $PLANET['planet_type'],
+            $this->targetPlanetData['id_owner'],
+            $this->targetPlanetData['id'],
+            $this->targetGalaxy,
+            $this->targetSystem,
+            $this->targetPlanet,
+            $this->targetType,
+            $this->fleetResource,
+            $this->fleetStartTime,
+            $this->fleetStayTime,
+            $this->fleetEndTime,
+            $this->fleetGroup,
+            0, // missileTarget
+            0, // noReturn
+            $this->consumption,
+        );
+
+        $this->recordTradeOffer($id);
+
+        $db->commit();
+    }
+
+    /** Records the market offer (table trades) of a trade mission fleet: what it carries and what it wants in return. */
+    private function recordTradeOffer(mixed $id): void
+    {
+        $db = $this->db;
+        if ($this->targetMission == MISSION_TRADE) {
+            if ($this->fleetResource[901] > 0) {
+                $resourceType = 1;
+                $resourceAmount = $this->fleetResource[901];
+            } elseif ($this->fleetResource[902] > 0) {
+                $resourceType = 2;
+                $resourceAmount = $this->fleetResource[902];
+            } elseif ($this->fleetResource[903] > 0) {
+                $resourceType = 3;
+                $resourceAmount = $this->fleetResource[903];
+            } else {
+                $resourceType = 0;
+                $resourceAmount = 0;
+            }
+
+            $sql = 'INSERT INTO %%TRADES%% SET
+				`transaction_type`      = :transaction,
+                `seller_fleet_id`       = :sellerFleet,
+				`filter_visibility`     = :visibility,
+				`filter_flighttime`     = :flightTime,
+				`ex_resource_type`      = :exResType,
+				`ex_resource_amount`    = :exResAmount,
+                `resource_type`         = :resType,
+                `resource_amount`       = :resAmount,
+                `marketplace_galaxy`    = :galaxy,
+                `marketplace_system`    = :system;';
+
+            $db->insert($sql, [
+                ':transaction'          => $this->markettype,
+                ':sellerFleet'          => $id,
+                ':exResType'            => $this->WantedResourceType,
+                ':exResAmount'          => $this->WantedResourceAmount,
+                ':flightTime'           => $this->maxFlightTime * 3600,
+                ':visibility'           => $this->visibility,
+                ':resType'              => $resourceType,
+                ':resAmount'            => $resourceAmount,
+                ':galaxy'               => $this->targetGalaxy,
+                ':system'               => $this->targetSystem,
+            ]);
+        }
+    }
+
+    /**
+     * Template variables of the "fleet sent" page.
+     *
+     * @return array<string, mixed>
+     */
+    private function resultVariables(): array
+    {
+        $USER = & $this->state->USER;
+        $PLANET = & $this->state->PLANET;
+        $LNG = & $this->state->LNG;
+        foreach ($this->fleetArray as $Ship => $Count) {
+            $fleetList[$LNG['tech'][$Ship]] = $Count;
+        }
+
+        $LNG->includeData(['FLEET']);
+
+        $keySender = 'type_planet_short_' . $PLANET['planet_type'];
+        $startTypeLetter = ' (' . $LNG[$keySender] . ')';
+        $this->targetType = $this->targetMission == MISSION_RECYCLING ? 2 : $this->targetType;
+        $keyTarget = 'type_planet_short_' . $this->targetType;
+        $targetTypeLetter = ' (' . $LNG[$keyTarget] . ')';
+        return [
+            'goto'              => 'game?page=fleetTable',
+            'gotoinsec'         => 3,
+            'targetMission'     => $this->targetMission,
+            'distance'          => $this->distance,
+            'consumption'       => $this->consumption,
+            'from'              => $PLANET['galaxy'] . ":" . $PLANET['system'] . ":" . $PLANET['planet'] . $startTypeLetter,
+            'destination'       => $this->targetGalaxy . ":" . $this->targetSystem . ":" . $this->targetPlanet . $targetTypeLetter,
+            'fleetStartTime'    => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->fleetStartTime, $USER['timezone']),
+            'fleetEndTime'      => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->fleetEndTime, $USER['timezone']),
+            'MaxFleetSpeed'     => $this->fleetMaxSpeed,
+            'FleetList'         => $this->fleetArray,
+        ];
+    }
+}

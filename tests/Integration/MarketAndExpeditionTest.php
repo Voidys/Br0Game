@@ -6,6 +6,7 @@ namespace App\Tests\Integration;
 
 use App\Game\Core\ExpeditionFindableShipsHandler;
 use App\Game\Core\MarketManager;
+use App\Game\Missions\Expedition\ExpeditionShipEvent;
 use App\Game\Missions\MissionCaseExpedition;
 use App\Tests\Support\GameTestCase;
 
@@ -157,7 +158,9 @@ final class MarketAndExpeditionTest extends GameTestCase
     {
         [$user] = $this->createPlayer();
         $mission = $this->expedition(['owner' => $user['id'], 'ships' => '202,1']);
-        $found = new \ReflectionMethod(MissionCaseExpedition::class, 'determineFoundShips');
+        $context = (new \ReflectionProperty(MissionCaseExpedition::class, 'ctx'))->getValue($mission);
+        $mission = new ExpeditionShipEvent($this->db, $this->configs, $this->state, $context);
+        $found = new \ReflectionMethod(ExpeditionShipEvent::class, 'determineFoundShips');
         $pricelist = $this->state->pricelist;
 
         // the draw uses random_int(): not reproducible, so it is pinned by invariants

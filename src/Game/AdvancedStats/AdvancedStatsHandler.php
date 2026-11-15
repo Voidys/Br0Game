@@ -100,10 +100,10 @@ class AdvancedStatsHandler
                 FROM %%ADVANCED_STATS%% 
                 WHERE userId = :userId AND statkey = :statkey";
 
-        return (float) $this->db->selectSingle($sql, [
+        return (float) ($this->db->selectSingle($sql, [
             ':userId'       => $userId,
             ':statkey'      => $statKey->name,
-        ])['statvalue'] ?? 0;
+        ])['statvalue'] ?? 0);
     }
 
     public function getMultipleStats(int $userId, array $statKeys, bool $history = false): array
@@ -219,14 +219,14 @@ class AdvancedStatsHandler
             $sql = "SELECT statvalue 
                     FROM %%ADVANCED_STATS%% 
                     WHERE statkey = :hp_key AND userId = :user_id";
-            $row['honorable_fights'] = (int)$this->db->selectSingle($sql, [
+            $row['honorable_fights'] = (int) ($this->db->selectSingle($sql, [
                 ':hp_key'   => AdvancedStatsEnum::HONORABLE_FIGHTS->name,
                 ':user_id'  => $row['userId'],
-            ])['statvalue'] ?? 0;
-            $row['dishonorable_fights'] = (int)$this->db->selectSingle($sql, [
+            ])['statvalue'] ?? 0);
+            $row['dishonorable_fights'] = (int) ($this->db->selectSingle($sql, [
                 ':hp_key'   => AdvancedStatsEnum::DISHONORABLE_FIGHTS->name,
                 ':user_id'  => $row['userId'],
-            ])['statvalue'] ?? 0;
+            ])['statvalue'] ?? 0);
         }
 
         if ($kind == 'top') {

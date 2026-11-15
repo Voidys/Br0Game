@@ -53,7 +53,11 @@ class SearchController extends AbstractAdminController
         $Page = $this->http()->_GP('side', 0);
         $Order = $this->http()->_GP('key_order', '');
         $OrderBY = $this->http()->_GP('key_acc', '');
+        // page size: only the values offered in the form (an empty or foreign value meant LIMIT x,0 and a division by zero)
         $limit = $this->http()->_GP('limit', 25);
+        if (!in_array($limit, [1, 5, 10, 15, 20, 25, 50, 100, 200, 500], true)) {
+            $limit = 25;
+        }
 
         $Selector = [
             'list'   => [
