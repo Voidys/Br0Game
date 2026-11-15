@@ -2,6 +2,8 @@
 
 namespace App\Game\Core;
 
+use App\Runtime\SafeFile;
+
 /**
  * Cache clearing and the database migration check (formerly the ClearCache(), listMigrations()
  * and checkDBUpgrade() globals in functions.php, which remain as wrappers).
@@ -44,7 +46,7 @@ class Maintenance
         clearstatcache();
 
         // The release version lives in install/VERSION (year scheme: 1.<yy>.<patch>, e.g. 1.26.0 for 2026).
-        $version = trim((string) @file_get_contents($this->state->runtime->rootPath . 'install/VERSION'));
+        $version = trim((string) SafeFile::read($this->state->runtime->rootPath . 'install/VERSION'));
         if ($version !== '') {
             $config = $this->configs->get();
             $config->version = $version;
@@ -89,10 +91,10 @@ class Maintenance
     {
         $directory = $this->state->runtime->rootPath . 'install/migrations/';
         $cacheFile = $this->state->runtime->cachePath . 'cache.migrations.php';
-        $mtime = (int) @filemtime($directory);
+        $mtime = SafeFile::mtime($directory);
 
         if ($mtime > 0 && is_file($cacheFile)) {
-            $cached = @include $cacheFile;
+            $cached = include $cacheFile;
             if (is_array($cached) && ($cached['mtime'] ?? null) === $mtime && ($cached['directory'] ?? null) === $directory) {
                 return $cached['files'];
             }
@@ -116,11 +118,8 @@ class Maintenance
         }
 
         if ($mtime > 0 && is_dir(dirname($cacheFile))) {
-            $tmp = $cacheFile . '.' . getmypid() . '.tmp';
             $code = '<?php return ' . var_export(['mtime' => $mtime, 'directory' => $directory, 'files' => $migrationFileList], true) . ';';
-            if (@file_put_contents($tmp, $code) !== false) {
-                @rename($tmp, $cacheFile);
-            }
+            SafeFile::write($cacheFile, $code);
         }
 
         return $migrationFileList;

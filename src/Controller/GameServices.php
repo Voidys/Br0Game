@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
+use App\Runtime\CanonicalUrl;
+use App\Security\AuthRateLimits;
 use Symfony\Contracts\Service\Attribute\Required;
 
 /**
@@ -18,6 +20,8 @@ trait GameServices
     protected Database $db;
     protected ConfigRegistry $configs;
     protected Singleton $state;
+    protected AuthRateLimits $rateLimits;
+    protected CanonicalUrl $canonicalUrl;
 
     #[Required]
     public function setGameServices(Database $db, ConfigRegistry $configs, Singleton $state): void
@@ -25,6 +29,14 @@ trait GameServices
         $this->db = $db;
         $this->configs = $configs;
         $this->state = $state;
+    }
+
+    /** Abuse limits (registration, lost password, admin prompt) and e-mail link base URL, for the controllers that need them. */
+    #[Required]
+    public function setSecurityServices(AuthRateLimits $rateLimits, CanonicalUrl $canonicalUrl): void
+    {
+        $this->rateLimits = $rateLimits;
+        $this->canonicalUrl = $canonicalUrl;
     }
 
     /**
@@ -41,6 +53,7 @@ trait GameServices
     public function withGameServicesOf(object $creator): static
     {
         $this->setGameServices($creator->db, $creator->configs, $creator->state);
+        $this->setSecurityServices($creator->rateLimits, $creator->canonicalUrl);
 
         return $this;
     }

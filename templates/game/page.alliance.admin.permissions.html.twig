@@ -18,7 +18,7 @@
 	</tr>
 	{% for rowId, rankRow in (rankList)|php_iter %}
 	<tr>
-		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a href="game?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
+		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
 		<td><input type="text" class="control-wide" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
 		{% for rankId, rankName in (availableRanks)|php_iter %}
 		<td class="ctr"><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>

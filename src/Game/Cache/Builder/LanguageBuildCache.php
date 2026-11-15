@@ -50,7 +50,7 @@ class LanguageBuildCache implements BuildCacheInterface
         foreach ($files as $file) {
             $name = strtoupper(basename($file, '.' . $lang . '.yaml'));
             $data = Yaml::parseFile($file);
-            file_put_contents(\App\Runtime\ProjectPaths::CACHE.'languages/'.$lang.'-'.$name, serialize($data));
+            \App\Game\Cache\Resource\PhpArrayFile::write(\App\Runtime\ProjectPaths::CACHE.'languages/'.$lang.'-'.$name, $data);
         }
     }
 }

@@ -34,7 +34,7 @@ class ResetController extends AbstractAdminController
     {
         $USER = & $this->state->USER;
 
-        if ($USER['id'] != ROOT_USER || ($this->state->requestQuery['sid'] ?? '') != $this->sessions()->id()) {
+        if ($USER['id'] != ROOT_USER) {
             throw new \App\Game\Core\EndOfRequest();
         }
 
@@ -239,7 +239,7 @@ class ResetController extends AbstractAdminController
                     ':universe' => $this->universe()->getEmulated(),
                 ]);
             }
-            $this->message($LNG['re_reset_excess'], '?page=reset&sid=' . $this->sessions()->id(), 3);
+            $this->message($LNG['re_reset_excess'], '?page=reset', 3);
         }
 
         $this->assign([

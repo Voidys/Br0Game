@@ -16,6 +16,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\BuildFunctions;
@@ -60,7 +61,7 @@ class RepairdockController extends AbstractGameController
         $buildTodo = $this->http()->_GP('fmenge', []);
         $action = $this->http()->_GP('cmd', '');
 
-        $ElementQueue = !empty($wreckfield['repair_order']) ? unserialize($wreckfield['repair_order']) : [];
+        $ElementQueue = !empty($wreckfield['repair_order']) ? StoredData::decode($wreckfield['repair_order']) : [];
         $buildList = [];
         if (!empty($action) && $action == 'deploy' && $wreckfield['repair_order_end'] <= $this->state->runtime->timestamp) {
             $db->startTransaction();
@@ -76,7 +77,7 @@ class RepairdockController extends AbstractGameController
                 $this->redirectTo('game?page=repairdock');
             }
             $ships = $this->fleetFunctions()->unserialize($locked['ships']);
-            $ElementQueue = unserialize($locked['repair_order']);
+            $ElementQueue = StoredData::decode($locked['repair_order']);
             $queuedShips = $ships;
 
             $repaired = [];
@@ -138,7 +139,7 @@ class RepairdockController extends AbstractGameController
             $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = :repair_order, `repair_order_start` = :start_time, `repair_order_end` = :end_time
                 WHERE `planetID` = :planetID;";
             $db->update($sql, [
-                ':repair_order' => serialize(array_filter($ElementQueue)),
+                ':repair_order' => StoredData::encode(array_filter($ElementQueue)),
                 ':start_time' => $this->state->runtime->timestamp,
                 ':end_time' => $this->state->runtime->timestamp + $QueueTime,
                 ':planetID' => $PLANET['id'],

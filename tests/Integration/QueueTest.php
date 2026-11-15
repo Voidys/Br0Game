@@ -8,15 +8,16 @@ use App\Controller\Game\AbstractGameController;
 use App\Controller\Game\BuildingsController;
 use App\Controller\Game\ResearchController;
 use App\Game\Core\ResourceUpdate;
+use App\Game\Core\StoredData;
 use App\Tests\Support\GameTestCase;
 
 /**
  * Pins the build, research and shipyard queues: what adding, cancelling and removing queue entries writes into
- * `planets.b_building_id` / `users.b_tech_queue` (the exact serialize() string, which is the on-disk format), how the
+ * `planets.b_building_id` / `users.b_tech_queue` (as the serialize() string of the decoded structure; the on-disk format is JSON, see shape()), how the
  * resources are deducted and refunded, the queue limits, how the queues are persisted, and how ResourceUpdate advances
  * a queue when time passes (finished entries raise levels, the next entry starts and is paid).
  *
- * Why: the queues are stored as PHP serialize() strings and read back with unserialize(). The legacy renewal moves them
+ * Why: the queues used to be stored as PHP serialize() strings; the legacy renewal moved them
  * to JSON with a migration; these tests pin today's structure and semantics so the new format can be proven equivalent.
  *
  * The controllers' queue methods are private game logic; they are driven by reflection on the real controller classes,
@@ -78,12 +79,15 @@ final class QueueTest extends GameTestCase
     }
 
     /**
-     * The serialized queue with the clock and the planet id made relative: "d:T+57;" instead of "d:1794777123;"
-     * ($base defaults to the request timestamp), "i:4;i:PLANET;" instead of the planet id of a research entry.
+     * The stored queue (JSON, legacy serialize() also accepted) as the serialize() string the goldens were captured
+     * from: decoding the storage and serializing the structure again proves it is identical to what the former
+     * serialize()-based storage held. The clock and the planet id are made relative: "d:T+57;" instead of
+     * "d:1794777123;" ($base defaults to the request timestamp), "i:4;i:PLANET;" instead of the planet id of a research entry.
      */
-    private function shape(string $serialized, ?int $base = null): string
+    private function shape(string $stored, ?int $base = null): string
     {
         $base ??= $this->state->runtime->timestamp;
+        $serialized = serialize(StoredData::decode($stored));
         $serialized = (string) preg_replace('/i:4;i:\d+;/', 'i:4;i:PLANET;', $serialized);
 
         return (string) preg_replace_callback('/(d|i):(\d{10,});/', static fn(array $m): string => $m[1] . ':T+' . ((int) $m[2] - $base) . ';', $serialized);
@@ -105,6 +109,7 @@ final class QueueTest extends GameTestCase
         $this->call($buildings, 'addBuildingToQueue', 1, true);
 
         $now = $this->planetNow();
+        $this->assertTrue(json_validate($now['b_building_id']), 'the queue is stored as JSON');
         $this->goldenAssert('building first: serialized', $this->shape($now['b_building_id']));
         $this->goldenAssert('building first: b_building relative', $now['b_building'] - $this->state->runtime->timestamp);
         $this->goldenAssert('building first: resources in memory', [$now['metal'], $now['crystal'], $now['deuterium']]);
@@ -134,7 +139,7 @@ final class QueueTest extends GameTestCase
         $this->call($buildings, 'addBuildingToQueue', 2, true);   // crystal mine 1
 
         $this->goldenAssert('building several: serialized', $this->shape($this->planetNow()['b_building_id']));
-        $this->goldenAssert('building several: count', count(unserialize($this->planetNow()['b_building_id'])));
+        $this->goldenAssert('building several: count', count(StoredData::decode($this->planetNow()['b_building_id'])));
     }
 
     public function testBuildingQueueLimit(): void
@@ -147,7 +152,7 @@ final class QueueTest extends GameTestCase
             $this->call($buildings, 'addBuildingToQueue', $element, true);
         }
 
-        $this->assertCount(2, unserialize($this->planetNow()['b_building_id']));
+        $this->assertCount(2, StoredData::decode($this->planetNow()['b_building_id']));
     }
 
     public function testBuildingQueueRejectsLevelsAboveTheMaximum(): void
@@ -215,7 +220,7 @@ final class QueueTest extends GameTestCase
 
         $stored = $this->loadPlanet((int) $planet['id']);
         $this->assertSame($this->planetNow()['b_building_id'], $stored['b_building_id']);
-        $this->assertSame([[1, 1, 1], [2, 1, 1]], array_map(static fn(array $entry): array => [$entry[0], $entry[1], 1], unserialize($stored['b_building_id'])));
+        $this->assertSame([[1, 1, 1], [2, 1, 1]], array_map(static fn(array $entry): array => [$entry[0], $entry[1], 1], StoredData::decode($stored['b_building_id'])));
     }
 
     // --- research queue -------------------------------------------------------------------------------------------
@@ -305,7 +310,7 @@ final class QueueTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([], ['metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000, 'metal_mine' => 3]);
         $start = $planet['last_update'];
         $planet['b_building'] = $start + 100;
-        $planet['b_building_id'] = serialize([[1, 4, 100.0, (float) ($start + 100), 'build', [901 => 100.0, 902 => 25.0]]]);
+        $planet['b_building_id'] = StoredData::encode([[1, 4, 100.0, (float) ($start + 100), 'build', [901 => 100.0, 902 => 25.0]]]);
 
         [, $after] = (new ResourceUpdate($this->db, $this->configs, $this->state))->CalcResource($user, $planet, false, $start + 500) + [1 => null];
 
@@ -321,7 +326,7 @@ final class QueueTest extends GameTestCase
         $user['b_tech'] = $start + 100;
         $user['b_tech_id'] = 106;
         $user['b_tech_planet'] = $planet['id'];
-        $user['b_tech_queue'] = serialize([
+        $user['b_tech_queue'] = StoredData::encode([
             [106, 2, 100.0, (float) ($start + 100), (int) $planet['id'], [901 => 200.0, 902 => 1000.0, 903 => 200.0]],
             [108, 1, 150.0, (float) ($start + 250), (int) $planet['id']],
         ]);
@@ -338,11 +343,11 @@ final class QueueTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([], ['metal' => 1000, 'crystal' => 1000, 'hangar' => 4, 'small_ship_cargo' => 5]);
         $start = $planet['last_update'];
         $planet['b_hangar'] = 0;
-        $planet['b_hangar_id'] = serialize([[202, 10], [204, 5]]);
+        $planet['b_hangar_id'] = StoredData::encode([[202, 10], [204, 5]]);
 
         [, $after] = (new ResourceUpdate($this->db, $this->configs, $this->state))->CalcResource($user, $planet, false, $start + 3000) + [1 => null];
 
-        $this->goldenAssert('elapsed shipyard: queue', [$after['b_hangar_id'], $after['b_hangar']]);
+        $this->goldenAssert('elapsed shipyard: queue', [serialize(StoredData::decode($after['b_hangar_id'])), $after['b_hangar']]);
         $this->goldenAssert('elapsed shipyard: ships', [$after['small_ship_cargo'], $after['light_hunter']]);
     }
 }

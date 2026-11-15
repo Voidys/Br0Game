@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Game\Core\EndOfRequest;
+use App\Runtime\SafeFile;
 use App\Runtime\GameKernel;
 use App\Runtime\InstallService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -191,7 +192,7 @@ final class InstallCommand extends Command
         });
         if ($exit !== 0) {
             $io->error('The installation failed; config/game.php was removed so you can run it again (check var/log/game.log and the database).');
-            @unlink($this->installer->root() . 'config/game.php');
+            SafeFile::remove($this->installer->root() . 'config/game.php');
         }
 
         return $exit === 0 ? Command::SUCCESS : Command::FAILURE;

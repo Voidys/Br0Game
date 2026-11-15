@@ -2,6 +2,7 @@
  * Start page: language select, menu toggle (narrow screens), universe start countdowns, universe
  * based form urls, screenshot viewer. Native ES module; LoginConfig is defined by layout.base.
  */
+import '../app/csrf.js';
 import { qs, qsa, on, ready, cookie } from '../app/core.js';
 
 const Login = {

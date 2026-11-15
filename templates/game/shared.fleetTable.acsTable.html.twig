@@ -37,7 +37,7 @@
 <script type="text/javascript">
 function Rename(){
 	var Name = prompt("{{ LNG.fl_acs_change_name }}", "{{ acsData.acsName }}");
-	fetch('?page=fleetTable&action=acs&fleetID={{ acsData.mainFleetID }}&acsName=' + encodeURIComponent(Name), {credentials: 'same-origin'})
+	fetch('?page=fleetTable&action=acs&fleetID={{ acsData.mainFleetID }}&acsName=' + encodeURIComponent(Name), {method: 'POST', credentials: 'same-origin'})
 		.then(function (response) { return response.json(); })
 		.then(function(data) {
 			if(data != "") {

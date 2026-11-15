@@ -241,8 +241,8 @@ class AllianceController extends AbstractGameController
             'statisticData' => $statisticData,
             'ally_description' => $allydesc,
             'ally_id' => $this->allianceData['id'],
-            'ally_image' => $this->allianceData['ally_image'],
-            'ally_web' => $this->allianceData['ally_web'],
+            'ally_image' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_image']),
+            'ally_web' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_web']),
             'ally_member_scount' => $this->allianceData['ally_members'],
             'ally_max_members' => $this->allianceData['ally_max_members'],
             'ally_name' => $this->allianceData['ally_name'],
@@ -790,12 +790,12 @@ class AllianceController extends AbstractGameController
 
         $this->assign([
             'DiploInfo' => $this->getDiplomatic(),
-            'ally_web' => $this->allianceData['ally_web'],
+            'ally_web' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_web']),
             'ally_tag' => $this->allianceData['ally_tag'],
             'ally_members' => $this->allianceData['ally_members'],
             'ally_max_members' => $this->allianceData['ally_max_members'],
             'ally_name' => $this->allianceData['ally_name'],
-            'ally_image' => $this->allianceData['ally_image'],
+            'ally_image' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_image']),
             'ally_description' => $allydesc,
             'ally_text' => $allytext,
             'rankName' => $rankName,
@@ -1238,8 +1238,8 @@ class AllianceController extends AbstractGameController
             $db = $this->db;
 
             $this->allianceData['ally_owner_range'] = mb_substr($this->http()->_GP('owner_range', '', true), 0, 32);
-            $this->allianceData['ally_web'] = filter_var($this->http()->_GP('web', ''), FILTER_VALIDATE_URL);
-            $this->allianceData['ally_image'] = filter_var($this->http()->_GP('image', ''), FILTER_VALIDATE_URL);
+            $this->allianceData['ally_web'] = $this->httpUrlOrEmpty($this->http()->_GP('web', ''));
+            $this->allianceData['ally_image'] = $this->httpUrlOrEmpty($this->http()->_GP('image', ''));
             $this->allianceData['ally_request_notallow'] = $this->http()->_GP('request_notallow', 0);
             $this->allianceData['ally_max_members'] = max(
                 $this->http()->_GP('ally_max_members', ''),
@@ -1375,8 +1375,8 @@ class AllianceController extends AbstractGameController
             'text' => $text,
             'ally_tag' => $this->allianceData['ally_tag'],
             'ally_name' => $this->allianceData['ally_name'],
-            'ally_web' => $this->allianceData['ally_web'],
-            'ally_image' => $this->allianceData['ally_image'],
+            'ally_web' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_web']),
+            'ally_image' => $this->httpUrlOrEmpty((string) $this->allianceData['ally_image']),
             'ally_request_notallow' => $this->allianceData['ally_request_notallow'],
             'ally_members' => $this->allianceData['ally_members'],
             'ally_max_members' => $this->allianceData['ally_max_members'],
@@ -2612,5 +2612,20 @@ class AllianceController extends AbstractGameController
         }
 
         return $receivers;
+    }
+
+    /**
+     * Alliance website/image links are rendered as href/src: only absolute http(s) URLs are kept,
+     * everything else (javascript:, data:, relative junk) is stored as an empty string.
+     */
+    private function httpUrlOrEmpty(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return '';
+        }
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+
+        return in_array($scheme, ['http', 'https'], true) ? $url : '';
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Runtime;
 
 use Exception;
+use App\Game\Core\StoredData;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
 use App\Game\Core\Language;
@@ -32,6 +33,7 @@ final class GameBootstrap
         private \App\Game\Core\FlyingFleetHandler $fleetHandler,
         private \App\Game\Core\ErrorReporter $errorReporter,
         private \App\Security\GameAuth $auth,
+        private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient,
     ) {}
 
     public function run(): void
@@ -51,7 +53,7 @@ final class GameBootstrap
 
         // runtime data lives in var/ (game caches in var/game/, sessions shared with Symfony in var/sessions/)
         foreach ([$this->state->runtime->cachePath, $this->state->runtime->rootPath . 'var/sessions/'] as $runtimeDir) {
-            is_dir($runtimeDir) || @mkdir($runtimeDir, 0777, true);
+            SafeFile::mkdir($runtimeDir, 0777);
         }
 
         $THEME      = new Theme();
@@ -77,7 +79,7 @@ final class GameBootstrap
         $ACCOUNT = [];
         $ACCOUNT['lang'] = 'en';
         $ACCOUNT['bana'] = 0;
-        $ACCOUNT['timezone'] = @date_default_timezone_get() ?: 'Europe/London';
+        $ACCOUNT['timezone'] = date_default_timezone_get() ?: 'Europe/London';
         $ACCOUNT['urlaubs_modus'] = 0;
         $ACCOUNT['authlevel'] = 0;
         $ACCOUNT['id'] = 0;
@@ -87,7 +89,7 @@ final class GameBootstrap
         $USER = [];
         $USER['lang'] = 'en';
         $USER['bana'] = 0;
-        $USER['timezone'] = @date_default_timezone_get() ?: 'Europe/London';
+        $USER['timezone'] = date_default_timezone_get() ?: 'Europe/London';
         $USER['urlaubs_modus'] = 0;
         $USER['authlevel'] = 0;
         $USER['id'] = 0;
@@ -226,7 +228,7 @@ final class GameBootstrap
                 } elseif ($this->state->runtime->mode === 'ADMIN') {
                     error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-                    $USER['rights']     = !empty($USER['rights']) ? unserialize($USER['rights']) : [];
+                    $USER['rights']     = StoredData::tryDecode($USER['rights']);
                     $LNG->includeData(['ADMIN', 'CUSTOM']);
                 }
             }
@@ -257,13 +259,14 @@ final class GameBootstrap
             $privKey = $config->recaptcha_priv_key;
             $rcaptcha = $this->http()->_GP('rcaptcha', '');
             if ($privKey !== "" && $rcaptcha !== "") {
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['secret' => $privKey, 'response' => $rcaptcha]));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($ch);
-                curl_close($ch);
+                try {
+                    $response = $this->httpClient->request('POST', 'https://www.google.com/recaptcha/api/siteverify', [
+                        'body' => ['secret' => $privKey, 'response' => $rcaptcha],
+                        'max_redirects' => 0,
+                    ])->getContent(false);
+                } catch (\Throwable) {
+                    $response = '';
+                }
                 $arrResponse = json_decode($response, true);
                 $sql = "insert into %%RECAPTCHA%% (userId, success, time, score, url) VALUES (:userId, :success, :time, :score, :url);";
 

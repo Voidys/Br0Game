@@ -96,14 +96,14 @@ final class RuntimeContext
 
     private function readGitVersion(): string
     {
-        $head = @file_get_contents($this->rootPath . '.git/HEAD');
-        if (!is_string($head)) {
+        $head = SafeFile::read($this->rootPath . '.git/HEAD');
+        if ($head === null) {
             return '';
         }
 
         $head = trim($head);
         $commit = str_starts_with($head, 'ref: ')
-            ? trim((string) @file_get_contents($this->rootPath . '.git/' . substr($head, 5)))
+            ? trim((string) SafeFile::read($this->rootPath . '.git/' . substr($head, 5)))
             : $head;
 
         return substr($commit, 0, 7);

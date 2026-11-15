@@ -35,14 +35,14 @@
 {% endblock %}
 {% block script %}{{ parent() }}
 <script type="module">
-import { getJSON, serialize } from './scripts/app/core.js';
+import { post, serialize } from './scripts/app/core.js';
 
 async function check() {
 	if (document.message.text.value == '') {
 		window.Dialog.alert('{{ LNG.mg_empty_text }}');
 		return false;
 	}
-	const data = await getJSON('game?page=alliance&mode=admin&action=diplomacyCreateProcessor&ajax=1&' + serialize(document.getElementById('message')));
+	const data = await post('game?page=alliance&mode=admin&action=diplomacyCreateProcessor&ajax=1', serialize(document.getElementById('message')), 'json');
 	window.Dialog.alert(data.message, () => {
 		if (!data.error) location.reload();
 	});

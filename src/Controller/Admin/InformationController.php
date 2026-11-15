@@ -18,6 +18,7 @@
 namespace App\Controller\Admin;
 
 use App\Game\Core\ServerInfo;
+use App\Runtime\SafeFile;
 use DateTime;
 use DateTimeZone;
 use Exception;
@@ -64,8 +65,8 @@ class InformationController extends AbstractAdminController
 
         $gameVersion = $config->version;
         $origHead = $this->state->runtime->rootPath . '.git/ORIG_HEAD';
-        if (@is_file($origHead)) {
-            $gameVersion .= ' (' . trim((string) @file_get_contents($origHead)) . ')';
+        if (is_file($origHead)) {
+            $gameVersion .= ' (' . trim((string) SafeFile::read($origHead)) . ')';
         }
 
         $this->assign([

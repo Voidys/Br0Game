@@ -2,6 +2,32 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
+    # Reverse proxies whose X-Forwarded-* headers are trusted (client IP, scheme, host): comma separated
+    # IPs/CIDRs, or "REMOTE_ADDR" for any directly connected proxy. Default: none (headers are ignored,
+    # Request::getClientIp() = the TCP peer). See docs/INSTALL.md "Security".
+    trusted_proxies: '%env(default::SYMFONY_TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
+
+    # Per-session CSRF token (id "game"), checked for every state-changing game/account/admin request by
+    # App\EventListener\CsrfListener; handed to the browser as <meta name="csrf-token"> (public/scripts/app/csrf.js).
+    csrf_protection: true
+
+    # Abuse limits of the public forms (App\Security\AuthRateLimits); the game login itself is throttled by
+    # security.firewalls.main.login_throttling.
+    rate_limiter:
+        registration:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+        lost_password:
+            policy: sliding_window
+            limit: 5
+            interval: '1 hour'
+        admin_elevation:
+            policy: sliding_window
+            limit: 5
+            interval: '15 minutes'
+
     # Note that the session will be started ONLY if you read or write from it.
     # The game session (App\Game\Core\SessionManager) lives in this session ("obj" attribute).
     # Storage: SESSION_HANDLER_DSN (e.g. redis://host:6379), default files in var/sessions.
@@ -13,7 +39,7 @@ framework:
         cookie_path: /
         cookie_secure: auto
         cookie_httponly: true
-        cookie_samesite: null
+        cookie_samesite: lax
 
     #esi: true
     #fragments: true

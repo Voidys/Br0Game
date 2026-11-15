@@ -139,7 +139,7 @@ const Message = {
   delMessage: async function (ID, div_id) {
     show(qs('#loading'));
 
-    const data = await getJSON('game?page=messages&mode=deleteMessage&delMessID=' + ID + '&ajax=1');
+    const data = await post('game?page=messages&mode=deleteMessage&delMessID=' + ID + '&ajax=1', {}, 'json');
     hide(qs('#loading'));
 
     qs('#message_' + ID)?.remove();
@@ -155,7 +155,7 @@ const Message = {
   favMessage: async function (ID, favUrl, nofavUrl) {
     show(qs('#loading'));
 
-    const data = await getJSON('game?page=messages&mode=favMessage&favMessID=' + ID + '&ajax=1');
+    const data = await post('game?page=messages&mode=favMessage&favMessID=' + ID + '&ajax=1', {}, 'json');
     hide(qs('#loading'));
 
     const img = qs('#imgfav_' + ID);

@@ -16,6 +16,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Achievements\MiscAchievement;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Config;
@@ -45,7 +46,7 @@ class ShipyardController extends AbstractGameController
     {
         $USER = & $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? unserialize($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
 
         $CancelArray = $this->http()->_GP('auftr', []);
 
@@ -75,7 +76,7 @@ class ShipyardController extends AbstractGameController
         if (empty($ElementQueue)) {
             $PLANET['b_hangar_id'] = '';
         } else {
-            $PLANET['b_hangar_id'] = serialize(array_values($ElementQueue));
+            $PLANET['b_hangar_id'] = StoredData::encode(array_values($ElementQueue));
         }
 
         $this->ecoObj->saveShipyardQueue($PLANET);
@@ -108,7 +109,7 @@ class ShipyardController extends AbstractGameController
                 continue;
             }
 
-            $BuildArray = !empty($PLANET['b_hangar_id']) ? unserialize($PLANET['b_hangar_id']) : [];
+            $BuildArray = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
             if ($maxBuildQueue != 0 && count($BuildArray) >= $maxBuildQueue) {
                 break;
             }
@@ -153,7 +154,7 @@ class ShipyardController extends AbstractGameController
 
             $this->miscAchievements()->checkShipyardAchievements($USER['id'], $Count, $Element);
             $BuildArray[] = [$Element, $Count];
-            $PLANET['b_hangar_id'] = serialize($BuildArray);
+            $PLANET['b_hangar_id'] = StoredData::encode($BuildArray);
         }
         $this->ecoObj->removeResources($PLANET['id'], $totalCostResources, $PLANET);
         $this->ecoObj->saveShipyardQueue($PLANET);
@@ -177,7 +178,7 @@ class ShipyardController extends AbstractGameController
 
         $NotBuilding = true;
         if (!empty($PLANET['b_building_id'])) {
-            $CurrentQueue = !empty($PLANET['b_building_id']) ? unserialize($PLANET['b_building_id']) : [];
+            $CurrentQueue = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
             foreach ($CurrentQueue as $ElementArray) {
                 if ($ElementArray[self::QUEUE_ELEMENT_ID] == SHIPYARD || $ElementArray[self::QUEUE_ELEMENT_ID] == NANITE_FACTORY) {
                     $NotBuilding = false;
@@ -186,7 +187,7 @@ class ShipyardController extends AbstractGameController
             }
         }
 
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? unserialize($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
         if (empty($ElementQueue)) {
             $Count = 0;
         } else {
@@ -219,7 +220,7 @@ class ShipyardController extends AbstractGameController
         }
 
         $elementInQueue = [];
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? unserialize($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
         $buildList = [];
         $elementList = [];
 

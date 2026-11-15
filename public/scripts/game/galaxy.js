@@ -1,13 +1,13 @@
-import { getJSON, pretty_number } from '../app/core.js';
+import { getJSON, post, pretty_number } from '../app/core.js';
 
 function doit(missionID, planetID) {
-  getJSON("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID).then(function (data) {
+  post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID, {}, 'json').then(function (data) {
     if (data.code === 602) {
       //602 = needs confirmation
       if (!confirm(data.mess)) {
         return;
       }
-      getJSON("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID + "&confirm=1").then(function (data) {
+      post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
         handleDoIt(data)
       });
       return;
@@ -65,13 +65,13 @@ function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
 }
 
 function openMissileForm(planetID, galaxy, system, planetPos, duration, type) {
-  getJSON("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID).then(function (data) {
+  post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID, {}, 'json').then(function (data) {
     if (data.code === 602) {
       //602 = needs confirmation (become/remain outlaw vs strong player)
       if (!confirm(data.mess)) {
         return;
       }
-      getJSON("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID + "&confirm=1").then(function (data) {
+      post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
         handleMissileAjax(data, galaxy, system, planetPos, duration, type);
       });
       return;

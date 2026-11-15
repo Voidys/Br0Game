@@ -40,10 +40,7 @@ login_error_2: >-
   Someone has logged in from a different PC in your account, or your IP is
   different!
 login_error_3: Your session has expired!
-login_error_4: >-
-  There have been too many login attempts. Please contact an administrator via
-  Discord for new login details. Have your e-mail address ready for
-  verification.
+login_error_4: 'There have been too many login attempts. Please wait 15 minutes and try again.'
 loginButton: Login
 loginEmail: Email
 loginHeader: Login
@@ -202,3 +199,4 @@ news_pinned: Pinned
 news_read_more: Read more
 news_latest: Latest news
 news_all: All news
+csrf_invalid: 'The security check of the request failed (session expired?). Please reload the page and try again.'

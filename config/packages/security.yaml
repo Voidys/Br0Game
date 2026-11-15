@@ -26,6 +26,11 @@ security:
             custom_authenticators:
                 - App\Security\LoginFormAuthenticator
             entry_point: App\Security\LoginFormAuthenticator
+            # failed game logins per IP + e-mail: 5 per 15 minutes (a global limit per IP is 5x that);
+            # the authenticator answers a throttled attempt with ?code=4
+            login_throttling:
+                max_attempts: 5
+                interval: '15 minutes'
             logout:
                 path: app_logout
                 target: /

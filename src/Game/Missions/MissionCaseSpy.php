@@ -18,6 +18,7 @@
 namespace App\Game\Missions;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\Core\StoredData;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -234,7 +235,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
                 ':planetID' => $wreckPlanetID,
             ], 'repair_order');
             if (!empty($repairing)) {
-                $repair_order = unserialize($repairing);
+                $repair_order = StoredData::decode($repairing);
                 foreach ($repair_order as $elementID => $amount) {
                     if (!isset($spyData[200][$elementID])) {
                         $spyData[200][$elementID] = 0;

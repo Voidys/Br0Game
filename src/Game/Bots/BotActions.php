@@ -3,6 +3,7 @@
 namespace App\Game\Bots;
 
 use App\Game\Core\Config;
+use App\Game\Core\StoredData;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -103,7 +104,7 @@ class BotActions
             if (empty($planet['b_building_id'])) {
                 continue;
             }
-            $queue = unserialize($planet['b_building_id']);
+            $queue = StoredData::decode($planet['b_building_id']);
             if (!is_array($queue)) {
                 continue;
             }
@@ -123,7 +124,7 @@ class BotActions
         if (empty($planet['b_building_id'])) {
             return false;
         }
-        $queue = unserialize($planet['b_building_id']);
+        $queue = StoredData::decode($planet['b_building_id']);
         if (!is_array($queue)) {
             return false;
         }
@@ -138,7 +139,7 @@ class BotActions
 
     public function hangarCount(array $planet): int
     {
-        $queue = !empty($planet['b_hangar_id']) ? unserialize($planet['b_hangar_id']) : [];
+        $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
 
         return is_array($queue) ? count($queue) : 0;
     }
@@ -201,7 +202,7 @@ class BotActions
         if ($planet['watch_id'] == $element) {
             $planet['watch_id'] = 0;
         }
-        $planet['b_building_id'] = serialize([[$element, $level, $time, $end, 'build', $cost]]);
+        $planet['b_building_id'] = StoredData::encode([[$element, $level, $time, $end, 'build', $cost]]);
         $planet['b_building'] = $end;
         $this->eco->saveBuilingQueue($planet);
 
@@ -259,7 +260,7 @@ class BotActions
             );
         }
 
-        $this->user['b_tech_queue'] = serialize([[$element, $level, $time, $end, $planet['id'], $cost]]);
+        $this->user['b_tech_queue'] = StoredData::encode([[$element, $level, $time, $end, $planet['id'], $cost]]);
         $this->user['b_tech'] = $end;
         $this->user['b_tech_id'] = $element;
         $this->user['b_tech_planet'] = $planet['id'];
@@ -296,7 +297,7 @@ class BotActions
             if ($planet[$resource[$element]] != 0) {
                 return false;
             }
-            $queue = !empty($planet['b_hangar_id']) ? unserialize($planet['b_hangar_id']) : [];
+            $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
             foreach ((array) $queue as $item) {
                 if ($item[0] == $element) {
                     return false;
@@ -328,12 +329,12 @@ class BotActions
 
         $cost = $this->buildFunctions()->getElementPrice($this->user, $planet, $element, false, $count);
 
-        $queue = !empty($planet['b_hangar_id']) ? unserialize($planet['b_hangar_id']) : [];
+        $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
         if (!is_array($queue)) {
             $queue = [];
         }
         $queue[] = [$element, $count];
-        $planet['b_hangar_id'] = serialize($queue);
+        $planet['b_hangar_id'] = StoredData::encode($queue);
 
         $this->miscAchievements()->checkShipyardAchievements($this->user['id'], $count, $element);
         $this->eco->removeResources($planet['id'], $cost, $planet);

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Starts, wakes and creates the game session (formerly the static side of Session). The current
  * Session lives in the game state ($state->session), so every SessionManager of a request sees
- * the same one; Session objects get the services attached after create/unserialize.
+ * the same one; Session objects get the services attached after create/restore.
  */
 class SessionManager
 {
@@ -56,26 +56,43 @@ class SessionManager
         return $request instanceof Request && $request->hasSession() ? $request->getSession()->get($name) : null;
     }
 
-    public function getClientIp()
+    /**
+     * The client's IP address as stored in sessions, registrations and multi-account checks:
+     * Request::getClientIp(), i.e. the TCP peer, or the forwarded address only when the peer is in
+     * framework.trusted_proxies (env SYMFONY_TRUSTED_PROXIES). Client-IP/X-Forwarded-For headers of
+     * untrusted peers are never read. Always a valid IPv4/IPv6 string, "UNKNOWN" without a request.
+     */
+    public function getClientIp(): string
     {
-        $keys = ['HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR'];
-        foreach ($keys as $key) {
-            if (empty($this->state->requestServer[$key])) continue;
-            $value = $this->state->requestServer[$key];
-            if ($key === 'HTTP_X_FORWARDED_FOR') {
-                $parts = array_map('trim', explode(',', $value));
-                foreach ($parts as $ip) {
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                        return $ip;
-                    }
-                }
-                return trim($parts[0]); // Fallback: erstes Element
-            }
-            if (filter_var($value, FILTER_VALIDATE_IP)) {
-                return $value;
-            }
-        }
-        return 'UNKNOWN';
+        $request = $this->state->request ?? null;
+        $ip = $request instanceof Request ? $request->getClientIp() : null;
+
+        return is_string($ip) && filter_var($ip, FILTER_VALIDATE_IP) !== false ? $ip : 'UNKNOWN';
+    }
+
+    /**
+     * Gives the current session a new id and keeps its data (session fixation defence when privileges
+     * change, e.g. admin elevation). The game's session row ({prefix}session) of the old id is removed;
+     * Session::save() writes the row of the new id at the end of the request.
+     */
+    public function regenerateId(): void
+    {
+        $this->db->delete('DELETE FROM %%SESSION%% WHERE sessionID = :sessionId;', [':sessionId' => $this->id()]);
+        $this->symfonySession()->migrate(true);
+    }
+
+    /**
+     * Ends all game sessions of an account (password change/reset): the game accepts a session only
+     * while its row in {prefix}session exists (Session::isValidSession()).
+     *
+     * @param string|null $exceptSessionId session id to keep (the current one), null to end all
+     */
+    public function revokeAccountSessions(int $accountId, ?string $exceptSessionId = null): void
+    {
+        $this->db->delete(
+            'DELETE FROM %%SESSION%% WHERE accountID = :accountId AND sessionID != :keep;',
+            [':accountId' => $accountId, ':keep' => $exceptSessionId ?? ''],
+        );
     }
 
     /**
@@ -105,7 +122,14 @@ class SessionManager
             $symfonySession = $this->symfonySession();
             $symfonySession->start();
             if ($symfonySession->has('obj')) {
-                $session = unserialize($symfonySession->get('obj'), ['allowed_classes' => [Session::class]]);
+                $stored = $symfonySession->get('obj');
+                // sessions written before the switch to arrays hold a serialized Session: read once, rewritten as array on save
+                $session = is_array($stored) ? Session::fromArray($stored) : StoredData::decodeLegacySession($stored);
+                if ($session === null) {
+                    $this->create();
+
+                    return $this->state->session;
+                }
                 $session->attach($this, $this->db);
                 $this->state->session = $session;
             } else {

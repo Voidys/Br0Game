@@ -80,7 +80,7 @@ class Log
             ':admin'    => $this->data['admin'],
             ':target'   => $this->data['target'],
             ':time'     => $this->state->runtime->timestamp,
-            ':data'     => serialize($this->data['new']),
+            ':data'     => StoredData::encode($this->data['new']),
             ':universe' => $uni,
         ]);
     }
@@ -103,7 +103,7 @@ class Log
             ':admin'    => $this->data['admin'],
             ':target'   => $this->data['target'],
             ':time'     => $this->state->runtime->timestamp,
-            ':data'     => serialize([$this->data['old'], $this->data['new']]),
+            ':data'     => StoredData::encode([$this->data['old'], $this->data['new']]),
             ':universe' => $uni,
         ]);
     }

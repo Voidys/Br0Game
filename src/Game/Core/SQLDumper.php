@@ -38,7 +38,7 @@ class SQLDumper
 
     private function setTimelimit()
     {
-        @set_time_limit(600); // 10 Minutes
+        set_time_limit(600); // 10 Minutes
     }
 
     private function canNative($command)

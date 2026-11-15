@@ -3,6 +3,8 @@
 namespace App\Game\Bots\Llm;
 
 use App\Game\Core\Database;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * One configured LLM provider. Built by LlmClientFactory (not a container service).
@@ -26,6 +28,7 @@ class LlmClient
      */
     public function __construct(
         private readonly Database $db,
+        private readonly HttpClientInterface $httpClient,
         private readonly string $provider,
         private readonly string $apiKey,
         private readonly string $model,
@@ -48,6 +51,14 @@ class LlmClient
         return $this->provider;
     }
 
+    /**
+     * Sends one prompt and returns the model's text. POST (JSON) to /messages (claude) or /chat/completions
+     * (others); 30 s total, 10 s connect/idle, no redirects. openai gets max_completion_tokens, opencode_go the
+     * x-opencode-session header, openrouter referer/title headers.
+     *
+     * @throws LlmException on missing config, transport error, non-2xx status (HTTP code + provider message,
+     *                      API key masked) or an empty/invalid response
+     */
     public function complete(string $system, string $prompt, int $maxTokens = 400): string
     {
         if ($this->apiKey === '') {
@@ -61,12 +72,12 @@ class LlmClient
         }
 
         $base = rtrim($this->baseUrl, '/');
-        $headers = ['Content-Type: application/json', 'Accept: application/json'];
+        $headers = ['Content-Type' => 'application/json', 'Accept' => 'application/json'];
 
         if ($this->provider === 'claude') {
             $url = $base . '/messages';
-            $headers[] = 'x-api-key: ' . $this->apiKey;
-            $headers[] = 'anthropic-version: 2023-06-01';
+            $headers['x-api-key'] = $this->apiKey;
+            $headers['anthropic-version'] = '2023-06-01';
             $body = [
                 'model' => $this->model,
                 'max_tokens' => $maxTokens,
@@ -75,14 +86,14 @@ class LlmClient
             ];
         } else {
             $url = $base . '/chat/completions';
-            $headers[] = 'Authorization: Bearer ' . $this->apiKey;
+            $headers['Authorization'] = 'Bearer ' . $this->apiKey;
             if ($this->provider === 'opencode_go') {
                 // OpenCode Go routes requests by session; one stable id per installation.
-                $headers[] = 'x-opencode-session: ' . $this->installId;
+                $headers['x-opencode-session'] = $this->installId;
             }
             if ($this->provider === 'openrouter') {
-                $headers[] = 'HTTP-Referer: ' . $this->referer;
-                $headers[] = 'X-Title: pr0game';
+                $headers['HTTP-Referer'] = $this->referer;
+                $headers['X-Title'] = 'pr0game';
             }
             $body = [
                 'model' => $this->model,
@@ -95,24 +106,18 @@ class LlmClient
             $body[$this->provider === 'openai' ? 'max_completion_tokens' : 'max_tokens'] = $maxTokens;
         }
 
-        $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($body),
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION => false,
-        ]);
-        $raw = curl_exec($ch);
-        $errno = curl_errno($ch);
-        $error = curl_error($ch);
-        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        if ($raw === false || $errno !== 0) {
-            throw new LlmException('Request failed: ' . $this->clean($error !== '' ? $error : 'curl error ' . $errno));
+        try {
+            $response = $this->httpClient->request('POST', $url, [
+                'headers' => $headers,
+                'body' => json_encode($body),
+                'timeout' => 10, // connect / idle
+                'max_duration' => 30,
+                'max_redirects' => 0,
+            ]);
+            $status = $response->getStatusCode();
+            $raw = $response->getContent(false);
+        } catch (TransportExceptionInterface $e) {
+            throw new LlmException('Request failed: ' . $this->clean($e->getMessage() !== '' ? $e->getMessage() : 'transport error'));
         }
 
         $json = json_decode((string) $raw, true);

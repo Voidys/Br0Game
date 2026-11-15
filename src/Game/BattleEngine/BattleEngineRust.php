@@ -160,7 +160,7 @@ class BattleEngineRust extends AbstractBattleEngine
             foreach ($round['attacker']['Roundstats'] as $fleetID => $attacker) {
                 foreach ($attacker as $element => $ship) {
                     if ($ship['lost'] > 0) {
-                        $stats['attacker'][$fleetID]['lost'][$element] += $ship['lost'];
+                        $stats['attacker'][$fleetID]['lost'][$element] = ($stats['attacker'][$fleetID]['lost'][$element] ?? 0) + $ship['lost'];
                     }
                 }
             }
@@ -168,7 +168,7 @@ class BattleEngineRust extends AbstractBattleEngine
             foreach ($round['defender']['Roundstats'] as $fleetID => $defender) {
                 foreach ($defender as $element => $ship) {#
                     if ($ship['lost'] > 0) {
-                        $stats['defender'][$fleetID]['lost'][$element] += $ship['lost'];
+                        $stats['defender'][$fleetID]['lost'][$element] = ($stats['defender'][$fleetID]['lost'][$element] ?? 0) + $ship['lost'];
                     }
                 }
             }
@@ -192,7 +192,7 @@ class BattleEngineRust extends AbstractBattleEngine
                     foreach ($toFleet as $fromElement => $toElements) {
                         foreach ($toElements as $toElement => $amount) {
                             if ($amount > 0) {
-                                $stats['attacker'][$fromFleetID]['destroyed'][$toElement] += $amount;
+                                $stats['attacker'][$fromFleetID]['destroyed'][$toElement] = ($stats['attacker'][$fromFleetID]['destroyed'][$toElement] ?? 0) + $amount;
                             }
                         }
                     }
@@ -204,7 +204,7 @@ class BattleEngineRust extends AbstractBattleEngine
                     foreach ($toFleet as $fromElement => $toElements) {
                         foreach ($toElements as $toElement => $amount) {
                             if ($amount > 0) {
-                                $stats['attacker'][$fromFleetID]['destroyed'][$toElement] += $amount;
+                                $stats['attacker'][$fromFleetID]['destroyed'][$toElement] = ($stats['attacker'][$fromFleetID]['destroyed'][$toElement] ?? 0) + $amount;
                             }
                         }
                     }
@@ -216,7 +216,7 @@ class BattleEngineRust extends AbstractBattleEngine
                     foreach ($toFleet as $fromElement => $toElements) {
                         foreach ($toElements as $toElement => $amount) {
                             if ($amount > 0) {
-                                $stats['defender'][$fromFleetID]['destroyed'][$toElement] += $amount;
+                                $stats['defender'][$fromFleetID]['destroyed'][$toElement] = ($stats['defender'][$fromFleetID]['destroyed'][$toElement] ?? 0) + $amount;
                             }
                         }
                     }
@@ -228,7 +228,7 @@ class BattleEngineRust extends AbstractBattleEngine
                     foreach ($toFleet as $fromElement => $toElements) {
                         foreach ($toElements as $toElement => $amount) {
                             if ($amount > 0) {
-                                $stats['defender'][$fromFleetID]['destroyed'][$toElement] += $amount;
+                                $stats['defender'][$fromFleetID]['destroyed'][$toElement] = ($stats['defender'][$fromFleetID]['destroyed'][$toElement] ?? 0) + $amount;
                             }
                         }
                     }
@@ -258,7 +258,7 @@ class BattleEngineRust extends AbstractBattleEngine
         // PlayerID for AI is 0
 
         foreach ($stats['attacker'] as $fleetID => $attacker) {
-            foreach ($attacker['lost'] as $element => $amount) {
+            foreach ($attacker['lost'] ?? [] as $element => $amount) {
                 if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
                     if ($defenders[0]['player']['id'] === 0) { // PlayerID for AI is 0
                         // Expo
@@ -278,13 +278,15 @@ class BattleEngineRust extends AbstractBattleEngine
                     $debris['attacker'][RESOURCE_CRYSTAL] += $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * $amount * ($config->fleet_debris_percentage / 100);
 
                     $totalLost['attacker'] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+                    $unitsLost['attacker'][$attackers[$fleetID]['player']['id']] ??= 0;
                     $unitsLost['attacker'][$attackers[$fleetID]['player']['id']] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+                    $capacityLost['attacker'][$attackers[$fleetID]['player']['id']] ??= 0;
                     $capacityLost['attacker'][$attackers[$fleetID]['player']['id']] += $amount * $pricelist[$element]['capacity'];
                 }
             }
 
             if (!$sim && $defenders[0]['player']['id'] !== 0) {
-                foreach ($attacker['destroyed'] as $element => $amount) {
+                foreach ($attacker['destroyed'] ?? [] as $element => $amount) {
                     if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
                         $statsHandler->updateDestroyedAdvancedStats($attackers[$fleetID]['player']['id'], 0, $element, $amount);
                     }
@@ -298,7 +300,7 @@ class BattleEngineRust extends AbstractBattleEngine
         ];
 
         foreach ($stats['defender'] as $fleetID => $defender) {
-            foreach ($defender['lost'] as $element => $amount) {
+            foreach ($defender['lost'] ?? [] as $element => $amount) {
                 if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
                     if (!$sim) {
                         $statsHandler->updateLostAdvancedStats($defenders[$fleetID]['player']['id'], [$element => $amount]);
@@ -338,13 +340,15 @@ class BattleEngineRust extends AbstractBattleEngine
 
                 $totalLost['defender'] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
                 if ($element < 300) {
+                    $unitsLost['defender'][$defenders[$fleetID]['player']['id']] ??= 0;
                     $unitsLost['defender'][$defenders[$fleetID]['player']['id']] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+                    $capacityLost['defender'][$defenders[$fleetID]['player']['id']] ??= 0;
                     $capacityLost['defender'][$defenders[$fleetID]['player']['id']] += $amount * $pricelist[$element]['capacity'];
                 }
             }
 
             if (!$sim) {
-                foreach ($defender['destroyed'] as $element => $amount) {
+                foreach ($defender['destroyed'] ?? [] as $element => $amount) {
                     if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
                         $statsHandler->updateDestroyedAdvancedStats($defenders[$fleetID]['player']['id'], 0, $element, $amount);
                     }

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
+use App\Game\Core\StoredData;
 use App\Game\Core\Universe;
 
 /**
@@ -44,7 +45,7 @@ class RightsController extends AbstractAdminController
                     $id = $this->http()->_GP('id_1', 0);
 
                     if ($USER['id'] != ROOT_USER && $id == ROOT_USER) {
-                        $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=rights&sid=' . $this->sessions()->id());
+                        $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=rights');
                     }
 
                     if (!isset($this->state->requestPost['rights'])) {
@@ -55,7 +56,8 @@ class RightsController extends AbstractAdminController
                     }
 
                     if ($this->state->requestPost['action'] == 'send') {
-                        $db->update("UPDATE %%USERS%% SET `rights` = '" . serialize(array_map('intval', $this->state->requestPost['rights'])) . "' WHERE `id` = :userID;", [
+                        $db->update("UPDATE %%USERS%% SET `rights` = :rights WHERE `id` = :userID;", [
+                            ':rights'   => StoredData::encode(array_map('intval', $this->state->requestPost['rights'])),
                             ':userID'   => $id,
                         ]);
                     }
@@ -64,9 +66,7 @@ class RightsController extends AbstractAdminController
                         ':userID'   => $id,
                     ]);
 
-                    if (($Rights['rights'] = unserialize($Rights['rights'])) === false) {
-                        $Rights['rights'] = [];
-                    }
+                    $Rights['rights'] = StoredData::tryDecode($Rights['rights']);
 
                     $Files = array_map(
                         [$this, 'prepare'],
@@ -97,7 +97,6 @@ class RightsController extends AbstractAdminController
                         'yesorno'            => [1 => $LNG['one_is_yes_1'], 0 => $LNG['one_is_yes_0']],
                         'ad_authlevel_title' => $LNG['ad_authlevel_title'],
                         'button_submit'      => $LNG['button_submit'],
-                        'sid'                => $this->sessions()->id(),
                         'User'               => '',
                     ]);
 
@@ -154,7 +153,6 @@ class RightsController extends AbstractAdminController
                     'ad_authlevel_mm'        => $LNG['ad_authlevel_mm'],
                     'ad_authlevel_jj'        => $LNG['ad_authlevel_jj'],
                     'ad_authlevel_tt'        => $LNG['ad_authlevel_tt'],
-                    'sid'                    => $this->sessions()->id(),
                 ]);
 
                 return $this->render('admin/ModerrationRightsPage.html.twig');
@@ -170,14 +168,14 @@ class RightsController extends AbstractAdminController
                     }
 
                     if ($USER['id'] != ROOT_USER && $id == ROOT_USER) {
-                        $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users&sid=' . $this->sessions()->id());
+                        $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
                     }
 
                     $db->update("UPDATE %%USERS%% SET `authlevel` = :authlevel WHERE `id` = :userID;", [
                         ':userID'   => $id,
                         ':authlevel' => $authlevel,
                     ]);
-                    $this->message($LNG['ad_authlevel_succes'], '?page=rights&mode=users&sid=' . $this->sessions()->id());
+                    $this->message($LNG['ad_authlevel_succes'], '?page=rights&mode=users');
                 }
                 if (!isset($this->state->requestQuery['get'])) {
                     $this->state->requestQuery['get'] = '';
@@ -230,7 +228,6 @@ class RightsController extends AbstractAdminController
                     'ad_authlevel_mm'        => $LNG['ad_authlevel_mm'],
                     'ad_authlevel_jj'        => $LNG['ad_authlevel_jj'],
                     'ad_authlevel_tt'        => $LNG['ad_authlevel_tt'],
-                    'sid'                    => $this->sessions()->id(),
                 ]);
 
                 return $this->render('admin/ModerrationUsersPage.html.twig');

@@ -79,7 +79,7 @@ class DisposableEmailDomainBlocklist
         }
 
         $domains = array_fill_keys(self::FALLBACK_DOMAINS, true);
-        $contents = @file_get_contents(\App\Runtime\ProjectPaths::CACHE . self::CACHE_FILE);
+        $contents = \App\Runtime\SafeFile::read(\App\Runtime\ProjectPaths::CACHE . self::CACHE_FILE);
         $cachedDomains = is_string($contents) ? json_decode($contents, true) : null;
         if (is_array($cachedDomains)) {
             foreach ($cachedDomains as $cachedDomain) {

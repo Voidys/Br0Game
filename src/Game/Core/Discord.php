@@ -2,15 +2,27 @@
 
 namespace App\Game\Core;
 
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
 class Discord
 {
-    /** no database on purpose: reports errors even when the database is down */
+    private HttpClientInterface $httpClient;
+
+    /**
+     * No database on purpose: reports errors even when the database is down.
+     *
+     * @param HttpClientInterface|null $httpClient transport; null builds a default client (this class is created
+     *                                             with `new` in many places, also from the error reporter)
+     */
     public function __construct(
         protected \App\Game\Core\ConfigRegistry $configs,
         protected \App\Game\Core\Singleton $state,
-    ) {}
+        ?HttpClientInterface $httpClient = null,
+    ) {
+        $this->httpClient = $httpClient ?? HttpClient::create();
+    }
 
     public function sendException(Throwable $exception): void
     {
@@ -92,24 +104,34 @@ class Discord
         $this->send($webHookUrl, $message);
     }
 
-    private function send(string $webHookUrl, string $message): void
+    /**
+     * Builds the webhook JSON payload (content, username = game name, tts, embeds).
+     *
+     * @return string JSON, slashes and unicode unescaped
+     */
+    public function buildPayload(string $message): string
     {
-        $json_data = json_encode([
+        return json_encode([
             'content' => $message,
             'username' => (string) $this->configs->get()->game_name,
             'tts' => false,
-            'embeds' => []
-
+            'embeds' => [],
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
 
-        $ch = curl_init($webHookUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json']);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_exec($ch);
-        curl_close($ch);
+    /**
+     * POSTs the message to the webhook (redirects followed, response ignored). Failures are swallowed on purpose:
+     * reporting an error must never raise another one.
+     */
+    private function send(string $webHookUrl, string $message): void
+    {
+        try {
+            $this->httpClient->request('POST', $webHookUrl, [
+                'headers' => ['Content-type' => 'application/json'],
+                'body' => $this->buildPayload($message),
+            ])->getStatusCode();
+        } catch (Throwable) {
+            // webhook unreachable or invalid: nothing sensible left to report to
+        }
     }
 }

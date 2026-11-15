@@ -197,7 +197,7 @@ class RegisterController extends AbstractAccountController
             $referralID = 0;
         }
 
-        $validationKey = md5(uniqid('2m'));
+        $validationKey = bin2hex(random_bytes(16));
 
 
         [$userID, $planetID] = $this->playerUtil()->createPlayer(

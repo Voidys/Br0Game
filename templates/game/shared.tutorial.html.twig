@@ -11,7 +11,7 @@
                 <b>{{ LNG.tutorial_goals_header }}</b><br>
                 <ul>
                     {% for elementID, goal in (tutorial.goals)|php_iter %}
-                        <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a href="?page=tutorial&amp;mode=skip&amp;goal={{ elementID }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
+                        <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a data-method="post" href="?page=tutorial&amp;mode=skip&amp;goal={{ elementID }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -26,17 +26,17 @@
         </div>
         <div class="tutorial-buttons">
             {% if tutorial.fullfilled and tutorial.last %}
-                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_finalize }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_finalize }}</button></a>
             {% elseif tutorial.fullfilled and not empty(tutorial.rewards) %}
-                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_claim }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_claim }}</button></a>
             {% elseif tutorial.fullfilled %}
-                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_continue }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_continue }}</button></a>
             {% elseif tutorial.skippable %}
-                <a href="?page=tutorial&amp;mode=skip"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=skip"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
                 &nbsp;
-                <a href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% else %}
-                <a href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
+                <a data-method="post" href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
             {% endif %}
         </div>
     </div>

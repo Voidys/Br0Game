@@ -49,11 +49,14 @@ class VertifyController extends AbstractLoginController
 
         $sql = "SELECT * FROM %%ACCOUNTS_VALID%%
 		WHERE validationID	= :validationID
-		AND validationKey	= :validationKey;";
+		AND validationKey	= :validationKey
+		AND date > :oldest;";
 
+        // verification links are valid for 3 days (the daily cronjob removes older rows)
         $userData = $db->selectSingle($sql, [
             ':validationKey'	=> $validationKey,
             ':validationID'		=> $validationID,
+            ':oldest'		=> $this->state->runtime->timestamp - 3 * TIME_24_HOURS,
         ]);
 
         if (empty($userData)) {

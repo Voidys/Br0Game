@@ -30,18 +30,24 @@ class CacheFile
         return sys_get_temp_dir();
     }
 
-    public function store($Key, $Value)
+    /**
+     * Stores a cache entry as a PHP array file (see PhpArrayFile).
+     *
+     * @param array<mixed> $Value
+     */
+    public function store($Key, array $Value)
     {
-        return file_put_contents($this->path.'cache.'.$Key.'.php', $Value);
+        return PhpArrayFile::write($this->path.'cache.'.$Key.'.php', $Value);
     }
 
+    /**
+     * Reads a cache entry.
+     *
+     * @return array<mixed>|false false when missing or still in the old serialized format (rebuild needed)
+     */
     public function open($Key)
     {
-        if (!file_exists($this->path.'cache.'.$Key.'.php')) {
-            return false;
-        }
-
-        return file_get_contents($this->path.'cache.'.$Key.'.php');
+        return PhpArrayFile::read($this->path.'cache.'.$Key.'.php') ?? false;
     }
 
     public function flush($Key)

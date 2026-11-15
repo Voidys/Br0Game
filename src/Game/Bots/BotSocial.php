@@ -587,6 +587,21 @@ class BotSocial
     // helpers
     // ------------------------------------------------------------------------------------------------
 
+    /**
+     * Whether an admin-entered forbidden-text pattern matches. A pattern that is not a valid regex counts as
+     * "no match": PCRE's compile warning is swallowed for this one call only (there is no way to validate a
+     * pattern up front without triggering it).
+     */
+    private function forbiddenMatch(string $regex, string $text): bool
+    {
+        set_error_handler(static fn(): bool => true, E_WARNING);
+        try {
+            return preg_match($regex, $text) === 1;
+        } finally {
+            restore_error_handler();
+        }
+    }
+
     /** Sends a private message from the bot. $text/$subject are raw text; they are escaped here. */
     private function send(array $ctx, int $receiverId, string $subject, string $text, ?string $group): bool
     {
@@ -603,7 +618,7 @@ class BotSocial
         try {
             foreach ($this->db->select('SELECT `text` FROM %%MESSAGES_FORBIDDEN%%;') as $row) {
                 $regex = '/' . $row['text'] . '/i';
-                if (@preg_match($regex, $text) || @preg_match($regex, $subject)) {
+                if ($this->forbiddenMatch($regex, $text) || $this->forbiddenMatch($regex, $subject)) {
                     return false;
                 }
             }

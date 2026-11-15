@@ -18,6 +18,7 @@
 namespace App\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
@@ -152,7 +153,7 @@ class LogController extends AbstractAdminController
             $this->message($LNG['log_no_data']);
         }
 
-        $data = unserialize($result['data']);
+        $data = StoredData::tryDecode($result['data']);
         if (!is_array($data)) {
             $data = [];
         }

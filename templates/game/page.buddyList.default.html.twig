@@ -18,7 +18,7 @@
 	<td>{% if otherRequestRow.ally_name %}<a href="game?page=alliance&amp;mode=info&amp;id={{ otherRequestRow.ally_id }}">{{ otherRequestRow.ally_name }}</a>{% else %}-{% endif %}</td>
 	<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ otherRequestRow.galaxy }}&amp;system={{ otherRequestRow.system }}">[{{ otherRequestRow.galaxy }}:{{ otherRequestRow.system }}:{{ otherRequestRow.planet }}]</a></td>
 	<td>{{ otherRequestRow.text }}</td>
-	<td class="act"><a href="game?page=buddyList&amp;mode=accept&amp;id={{ otherRequestID }}"><img src="styles/resource/images/true.webp" alt="{{ LNG.bu_accept }}" title="{{ LNG.bu_accept }}"></a><a href="game?page=buddyList&amp;mode=delete&amp;id={{ otherRequestID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_decline }}" title="{{ LNG.bu_decline }}"></a></td>
+	<td class="act"><a data-method="post" href="game?page=buddyList&amp;mode=accept&amp;id={{ otherRequestID }}"><img src="styles/resource/images/true.webp" alt="{{ LNG.bu_accept }}" title="{{ LNG.bu_accept }}"></a><a data-method="post" href="game?page=buddyList&amp;mode=delete&amp;id={{ otherRequestID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_decline }}" title="{{ LNG.bu_decline }}"></a></td>
 </tr>
 {% else %}
 <tr><td colspan="5">{{ LNG.bu_no_request }}</td></tr>
@@ -39,7 +39,7 @@
 	<td>{% if myRequestRow.ally_name %}<a href="game?page=alliance&amp;mode=info&amp;id={{ myRequestRow.ally_id }}">{{ myRequestRow.ally_name }}</a>{% else %}-{% endif %}</td>
 	<td class="ctr"><a href="game?page=galaxy&amp;galaxy={{ myRequestRow.galaxy }}&amp;system={{ myRequestRow.system }}">[{{ myRequestRow.galaxy }}:{{ myRequestRow.system }}:{{ myRequestRow.planet }}]</a></td>
 	<td>{{ myRequestRow.text }}</td>
-	<td class="act"><a href="game?page=buddyList&amp;mode=delete&amp;id={{ myRequestID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_cancel_request }}" title="{{ LNG.bu_cancel_request }}"></a></td>
+	<td class="act"><a data-method="post" href="game?page=buddyList&amp;mode=delete&amp;id={{ myRequestID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_cancel_request }}" title="{{ LNG.bu_cancel_request }}"></a></td>
 </tr>
 {% else %}
 <tr><td colspan="5">{{ LNG.bu_no_request }}</td></tr>
@@ -67,7 +67,7 @@
 	<span class="colorNegative">{{ LNG.bu_disconnected }}</span>
 	{% endif %}
 	</td>
-	<td class="act"><a href="game?page=buddyList&amp;mode=delete&amp;id={{ myBuddyID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_delete }}" title="{{ LNG.bu_delete }}"></a></td>
+	<td class="act"><a data-method="post" href="game?page=buddyList&amp;mode=delete&amp;id={{ myBuddyID }}"><img src="styles/resource/images/false.webp" alt="{{ LNG.bu_delete }}" title="{{ LNG.bu_delete }}"></a></td>
 </tr>
 {% else %}
 <tr><td colspan="5">{{ LNG.bu_no_buddys }}</td></tr>

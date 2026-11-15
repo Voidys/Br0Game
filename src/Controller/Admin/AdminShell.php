@@ -156,7 +156,6 @@ final class AdminShell
         $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $isAdmin = (int) $USER['authlevel'] === AUTH_ADM;
-        $sid = $this->sessions()->id();
         $currentPage = strtolower((string) ($this->state->requestQuery['page'] ?? 'overview'));
         $currentPage = self::PAGE_ALIASES[$currentPage] ?? $currentPage;
         $currentSearch = (string) ($this->state->requestQuery['search'] ?? '');
@@ -172,14 +171,14 @@ final class AdminShell
         $groups = self::MENU;
         if ($isAdmin) {
             $groups['ad_system'] = [
-                ['mu_universe', 'server', [['universe', 'sid=' . $sid, 'mu_universe', null]]],
+                ['mu_universe', 'server', [['universe', '', 'mu_universe', null]]],
                 ['mu_moderation_page', 'lock', [
-                    ['rights', 'mode=rights&sid=' . $sid, 'mu_moderation_page', null],
-                    ['rights', 'mode=users&sid=' . $sid, 'ad_authlevel_title', null],
+                    ['rights', 'mode=rights', 'mu_moderation_page', null],
+                    ['rights', 'mode=users', 'ad_authlevel_title', null],
                 ]],
             ];
             if ((int) $USER['id'] === 1) {
-                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', 'sid=' . $sid, 're_reset_universe', null]]];
+                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', '', 're_reset_universe', null]]];
             }
         }
 

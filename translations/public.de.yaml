@@ -39,10 +39,7 @@ login_error_1: >-
   Usernamen, du musst dich aber mit deiner E-Mail anmelden.
 login_error_2: Jemand hat sich von einem anderem PC in deinem Account eingeloggt!
 login_error_3: Deine Session ist abgelaufen!
-login_error_4: >-
-  Es gab zu viele Loginversuche. Bitte melde dich bei einem Administrator über
-  Discord für neue Login-Daten. Halte deine E-Mail-Adresse zur Verifikation
-  bereit.
+login_error_4: 'Es gab zu viele Anmeldeversuche. Bitte warte 15 Minuten und versuche es dann erneut.'
 loginButton: Login
 loginEmail: E-Mail
 loginHeader: Login
@@ -206,3 +203,4 @@ news_pinned: Angepinnt
 news_read_more: Weiterlesen
 news_latest: Neueste News
 news_all: Alle News
+csrf_invalid: 'Die Sicherheitsprüfung der Anfrage ist fehlgeschlagen (Sitzung abgelaufen?). Bitte die Seite neu laden und es noch einmal versuchen.'

@@ -6,7 +6,7 @@
 			var trade = document.getElementById("blockTrade").checked ? 1 : 0;
 			var dm = document.getElementById("blockDm").checked ? 1 : 0;
 			console.log('dm: '+dm+', trade: '+trade)
-			fetch('game?page=playerCard&mode=toggleBlock&id='+targetUser+'&blockTrade='+trade+'&blockDm='+dm+'&ajax=1', {credentials: 'same-origin'})
+			fetch('game?page=playerCard&mode=toggleBlock&id='+targetUser+'&blockTrade='+trade+'&blockDm='+dm+'&ajax=1', {method: 'POST', credentials: 'same-origin'})
 				.then(function (response) { return response.json(); })
 				.then(function () {
 					const loading = document.getElementById('loading');

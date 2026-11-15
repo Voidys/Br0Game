@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -23,9 +24,13 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 /**
  * The game login (POST /?page=login from the start page): e-mail + password checked by Symfony's
  * password hasher (bcrypt hashes of the accounts table), with the game's rules around it:
- * failed logins are counted per account (code=1, from the 5th attempt code=4), accounts that still
- * wait for their e-mail verification are sent to the verification link when the universe does not
- * require it, and visitors without login are sent to the start page (code=3).
+ * failed logins are counted per account, accounts that still wait for their e-mail verification are
+ * sent to the verification link when the universe does not require it, and visitors without login
+ * are sent to the start page (code=3).
+ *
+ * Brute force is limited by the firewall's login_throttling (per IP + e-mail, see security.yaml): a
+ * throttled attempt gets code=4. Every other failure answers with the same code=1, whether the
+ * account exists or not (no account enumeration).
  */
 final class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
@@ -71,20 +76,26 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        if ($exception instanceof TooManyLoginAttemptsAuthenticationException) {
+            return new RedirectResponse($this->directory($request) . '?code=4');
+        }
+
         $email = trim((string) $request->request->get('email', ''));
         $password = (string) $request->request->get('password', '');
 
         $account = $this->connection->fetchAssociative(
-            sprintf('SELECT id, failed_logins FROM %s WHERE email = ?', $this->tables->get('accounts')),
+            sprintf('SELECT id FROM %s WHERE email = ?', $this->tables->get('accounts')),
             [$email],
         );
         if ($account !== false) {
-            return $this->countFailure($request, $this->tables->get('accounts'), 'id', $account['id'], (int) $account['failed_logins']);
+            $this->countFailure($this->tables->get('accounts'), 'id', $account['id']);
+
+            return new RedirectResponse($this->directory($request) . '?code=1');
         }
 
         // registered but not verified yet
         $pending = $this->connection->fetchAssociative(
-            sprintf('SELECT validationID, validationKey, password, failed_logins FROM %s WHERE email = ?', $this->tables->get('accounts_valid')),
+            sprintf('SELECT validationID, validationKey, password FROM %s WHERE email = ?', $this->tables->get('accounts_valid')),
             [$email],
         );
         if ($pending !== false && !$this->config->getBool('user_valid')) {
@@ -92,7 +103,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
                 return new RedirectResponse($this->directory($request) . '?page=vertify&i=' . $pending['validationID'] . '&k=' . $pending['validationKey']);
             }
 
-            return $this->countFailure($request, $this->tables->get('accounts_valid'), 'validationID', $pending['validationID'], (int) $pending['failed_logins']);
+            $this->countFailure($this->tables->get('accounts_valid'), 'validationID', $pending['validationID']);
         }
 
         return new RedirectResponse($this->directory($request) . '?code=1');
@@ -104,18 +115,13 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         return new RedirectResponse($this->directory($request) . '?code=3');
     }
 
-    private function countFailure(Request $request, string $table, string $idColumn, int|string $id, int $failed): RedirectResponse
+    /** statistics only (accounts.failed_logins, shown to admins); the throttle itself lives in the firewall */
+    private function countFailure(string $table, string $idColumn, int|string $id): void
     {
-        if ($failed < 4) {
-            $this->connection->executeStatement(
-                sprintf('UPDATE %s SET failed_logins = failed_logins + 1 WHERE %s = ?', $table, $idColumn),
-                [$id],
-            );
-
-            return new RedirectResponse($this->directory($request) . '?code=1');
-        }
-
-        return new RedirectResponse($this->directory($request) . '?code=4');
+        $this->connection->executeStatement(
+            sprintf('UPDATE %s SET failed_logins = LEAST(failed_logins + 1, 100) WHERE %s = ?', $table, $idColumn),
+            [$id],
+        );
     }
 
     /** directory of the requested page: "/" or "/uniN/" (links stay inside the universe prefix) */

@@ -38,7 +38,7 @@
               <td class="mono">{{ account.ip }}</td>
               <td class="actions">
                 <a href="#" class="button btn--small" onclick="return activeUser({{ account.validationID }},'{{ account.validationKey }}');">{{ icon('user-check') }}{{ LNG.ap_aktivieren }}</a>
-                <a href="?page=active&amp;action=delete&amp;id={{ account.validationID }}" class="button btn--small btn--danger" title="{{ LNG.ap_del }}" data-confirm="{{ (LNG.ap_sicher ~ account.accountname ~ ' ' ~ LNG.ap_entfernen)|e('html_attr') }}" aria-label="{{ LNG.ap_del }}">{{ icon('trash-2') }}</a>
+                <a data-method="post" href="?page=active&amp;action=delete&amp;id={{ account.validationID }}" class="button btn--small btn--danger" title="{{ LNG.ap_del }}" data-confirm="{{ (LNG.ap_sicher ~ account.accountname ~ ' ' ~ LNG.ap_entfernen)|e('html_attr') }}" aria-label="{{ LNG.ap_del }}">{{ icon('trash-2') }}</a>
               </td>
             </tr>
             {% endfor %}

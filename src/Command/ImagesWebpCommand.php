@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Content\ImageProcessor;
+use App\Runtime\SafeFile;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -59,7 +60,7 @@ final class ImagesWebpCommand extends Command
                 '/\.(png|jpe?g|gif)\.webp$/i',
             );
             foreach ($copies as $copy) {
-                $removed += (int) @unlink($copy->getPathname());
+                $removed += (int) SafeFile::remove($copy->getPathname());
             }
             $io->success(sprintf('%d WebP copies removed.', $removed));
 

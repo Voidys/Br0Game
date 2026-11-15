@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Game\Core;
 
 use App\Runtime\ProjectPaths;
+use App\Runtime\SafeFile;
 
 /**
  * Resolves theme image paths (`gebaeude/229.gif`, `planeten/varianten/v2_storm/x.webp`) to a URL.
@@ -85,7 +86,7 @@ final class ThemeAssets
     private static function load(string $theme): array
     {
         $file = ProjectPaths::CACHE . 'theme-assets-' . preg_replace('/[^A-Za-z0-9_-]+/', '_', $theme) . '.php';
-        $cached = is_file($file) ? (@include $file) : null;
+        $cached = is_file($file) ? (is_readable($file) ? include $file : null) : null;
         if (is_array($cached) && self::fresh($cached['dirs'] ?? [])) {
             return $cached['map'];
         }
@@ -106,15 +107,10 @@ final class ThemeAssets
                 }
             }
         }
-        $dirs[ProjectPaths::ROOT . self::THEMES_DIR . $theme . '/style.cfg'] = (int) @filemtime(ProjectPaths::ROOT . self::THEMES_DIR . $theme . '/style.cfg');
+        $dirs[ProjectPaths::ROOT . self::THEMES_DIR . $theme . '/style.cfg'] = SafeFile::mtime(ProjectPaths::ROOT . self::THEMES_DIR . $theme . '/style.cfg');
 
-        if (!is_dir(ProjectPaths::CACHE)) {
-            @mkdir(ProjectPaths::CACHE, 0775, true);
-        }
-        $tmp = $file . '.' . getmypid() . '.tmp';
-        if (@file_put_contents($tmp, '<?php return ' . var_export(['dirs' => $dirs, 'map' => $map], true) . ';')) {
-            @rename($tmp, $file);
-        }
+        // best effort: without a cache file the map is simply rebuilt on the next request (failure is logged)
+        SafeFile::write($file, '<?php return ' . var_export(['dirs' => $dirs, 'map' => $map], true) . ';');
 
         return $map;
     }
@@ -127,7 +123,7 @@ final class ThemeAssets
         }
         foreach ($dirs as $path => $mtime) {
             clearstatcache(false, $path);
-            if ((int) @filemtime($path) !== $mtime) {
+            if (SafeFile::mtime($path) !== $mtime) {
                 return false;
             }
         }
@@ -146,7 +142,7 @@ final class ThemeAssets
     {
         $dir = rtrim($dir, '/');
         $entries = is_dir($dir . '/' . $rel) ? scandir($dir . '/' . $rel) : false;
-        $dirs[rtrim($dir . '/' . $rel, '/')] = (int) @filemtime($dir . '/' . $rel);
+        $dirs[rtrim($dir . '/' . $rel, '/')] = SafeFile::mtime($dir . '/' . $rel);
         if ($entries === false) {
             return [];
         }

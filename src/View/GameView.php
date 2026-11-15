@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\View;
 
 use App\Controller\Admin\AdminShell;
+use App\Runtime\SafeFile;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
@@ -84,7 +85,7 @@ final class GameView
             \RecursiveIteratorIterator::CHILD_FIRST,
         );
         foreach ($files as $file) {
-            $file->isDir() ? @rmdir($file->getPathname()) : @unlink($file->getPathname());
+            SafeFile::remove($file->getPathname());
         }
     }
 

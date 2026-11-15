@@ -120,7 +120,7 @@ class ConfigFieldSchema
                     'type' => self::TYPE_SELECT,
                     'transform' => 'string',
                     'options' => get_timezone_selector(),
-                    'default' => @date_default_timezone_get() ?: 'Europe/London',
+                    'default' => date_default_timezone_get() ?: 'Europe/London',
                 ],
                 'dst' => [ // Daylight Saving Time
                     'type' => self::TYPE_SELECT,

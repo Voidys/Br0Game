@@ -103,6 +103,8 @@ class AccountSettingsController extends AbstractAccountController
                 ':newpass'  => $newpass,
                 ':accountID'   => $ACCOUNT['id'],
             ]);
+            // the new password ends every session of the account, this one included
+            $this->sessions()->revokeAccountSessions((int) $ACCOUNT['id']);
             $this->state->auth->logout();
         }
 

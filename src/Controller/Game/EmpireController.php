@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -88,7 +89,7 @@ class EmpireController extends AbstractGameController
         $config = $this->configs->get($USER['universe']);
 
         if (!empty($USER['b_tech_queue'])) {
-            $researchque = unserialize($USER['b_tech_queue']);
+            $researchque = StoredData::decode($USER['b_tech_queue']);
 
             $researchid = $researchque[0][0];
             $researchlvl = $researchque[0][1];
@@ -160,7 +161,7 @@ class EmpireController extends AbstractGameController
                 $basic[RESOURCE_DEUT][$Planet['id']] = 0;
             }
             if (!empty($Planet['b_building_id'])) {
-                $Queue = unserialize($Planet['b_building_id']);
+                $Queue = StoredData::decode($Planet['b_building_id']);
                 $planetList['currentBuilding'][$Planet['id']] = $Queue[0][0];
                 $planetList['currentBuildinglvl'][$Planet['id']] = $Queue[0][1];
             } else {
@@ -278,7 +279,7 @@ class EmpireController extends AbstractGameController
             }
 
             if (!empty($Planet['b_hangar_id'])) {
-                foreach (unserialize($Planet['b_hangar_id']) as $que) {
+                foreach (StoredData::decode($Planet['b_hangar_id']) as $que) {
                     $planetList['currentShipyard'][$que[0]][$Planet['id']] += $que[1];
                 }
             }

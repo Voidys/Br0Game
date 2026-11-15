@@ -2,6 +2,8 @@
 
 namespace App\Game\Core;
 
+use App\Runtime\SafeFile;
+
 /**
  * Data behind the admin information page: health checks, server, database, game statistics,
  * logs and caches. Read only and defensive: every probe may be unavailable (open_basedir, missing
@@ -147,7 +149,7 @@ class ServerInfo
 
         $cpuCores = null;
         $cpuModel = null;
-        $cpuinfo = @file_get_contents('/proc/cpuinfo');
+        $cpuinfo = SafeFile::read('/proc/cpuinfo');
         if (is_string($cpuinfo) && $cpuinfo !== '') {
             $cpuCores = preg_match_all('/^processor\s*:/m', $cpuinfo) ?: null;
             if (preg_match('/^model name\s*:\s*(.+)$/m', $cpuinfo, $m)) {
@@ -155,23 +157,23 @@ class ServerInfo
             }
         }
 
-        $load = function_exists('sys_getloadavg') ? @sys_getloadavg() : false;
+        $load = function_exists('sys_getloadavg') ? sys_getloadavg() : false;
         $uptime = null;
-        $uptimeRaw = @file_get_contents('/proc/uptime');
+        $uptimeRaw = SafeFile::read('/proc/uptime');
         if (is_string($uptimeRaw) && preg_match('/^(\d+)/', $uptimeRaw, $m)) {
             $uptime = $this->duration((int) $m[1]);
         }
 
         $memory = null;
-        $meminfo = @file_get_contents('/proc/meminfo');
+        $meminfo = SafeFile::read('/proc/meminfo');
         if (is_string($meminfo) && preg_match('/^MemTotal:\s+(\d+) kB/m', $meminfo, $t) && preg_match('/^MemAvailable:\s+(\d+) kB/m', $meminfo, $a)) {
             $total = (int) $t[1] * 1024;
             $avail = (int) $a[1] * 1024;
             $memory = ['total' => self::bytes($total), 'free' => self::bytes($avail), 'usedPct' => $total > 0 ? (int) round(($total - $avail) / $total * 100) : 0];
         }
 
-        $diskTotal = @disk_total_space($root);
-        $diskFree = @disk_free_space($root);
+        $diskTotal = is_dir($root) ? disk_total_space($root) : false;
+        $diskFree = is_dir($root) ? disk_free_space($root) : false;
         $disk = null;
         if ($diskTotal !== false && $diskFree !== false && $diskTotal > 0) {
             $disk = ['total' => self::bytes($diskTotal), 'free' => self::bytes($diskFree), 'usedPct' => (int) round(($diskTotal - $diskFree) / $diskTotal * 100)];
@@ -227,7 +229,7 @@ class ServerInfo
         if (!function_exists('opcache_get_status')) {
             return null;
         }
-        $status = @opcache_get_status(false);
+        $status = opcache_get_status(false);
         if (!is_array($status) || empty($status['opcache_enabled'])) {
             return null;
         }
@@ -596,8 +598,8 @@ class ServerInfo
 
         $phpLines = null;
         $phpSize = null;
-        if ($phpLog !== '' && @is_file($phpLog) && @is_readable($phpLog)) {
-            $phpSize = (int) @filesize($phpLog);
+        if ($phpLog !== '' && is_file($phpLog) && is_readable($phpLog)) {
+            $phpSize = (int) filesize($phpLog);
             if (realpath($phpLog) !== realpath($root . 'var/log/game.log')) {
                 $scan = $this->scanLog($phpLog, $this->state->runtime->timestamp);
                 $phpLines = $scan['lines'];
@@ -607,7 +609,7 @@ class ServerInfo
         return [
             'game' => $gameLog,
             'symfonyFile' => 'var/log/' . $environment . '.log',
-            'symfonySize' => @is_file($symfonyLog) ? self::bytes((int) @filesize($symfonyLog)) : null,
+            'symfonySize' => is_file($symfonyLog) ? self::bytes((int) filesize($symfonyLog)) : null,
             'phpLogPath' => $phpLog !== '' ? $this->relativePath($phpLog) : null,
             'phpLogEnabled' => (bool) ini_get('log_errors'),
             'phpLogSize' => $phpSize !== null ? self::bytes($phpSize) : null,
@@ -630,13 +632,13 @@ class ServerInfo
     private function scanLog(string $file, int $now): array
     {
         $out = ['path' => $this->relativePath($file), 'size' => null, 'scanned' => null, 'errors24' => null, 'warnings24' => null, 'last' => [], 'lines' => null];
-        if (!@is_file($file) || !@is_readable($file)) {
+        if (!is_file($file) || !is_readable($file)) {
             return $out;
         }
-        $size = (int) @filesize($file);
+        $size = (int) filesize($file);
         $out['size'] = self::bytes($size);
 
-        $handle = @fopen($file, 'rb');
+        $handle = fopen($file, 'rb');
         if ($handle === false) {
             return $out;
         }

@@ -28,7 +28,7 @@ class Session
 
     private $data = null;
 
-    /** services, attached by SessionManager after create/unserialize (not serialized, see __sleep) */
+    /** services, attached by SessionManager after create/restore (not part of the stored data) */
     private ?Database $db = null;
     private ?SessionManager $manager = null;
     /** set by delete(): a destroyed session is not written back */
@@ -43,13 +43,27 @@ class Session
         return $this;
     }
 
-    public function __sleep()
+    /**
+     * The session data as stored in the Symfony session under 'obj' (a plain array, no serialized object).
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
     {
-        return ['data'];
+        return $this->data ?? [];
     }
 
-    public function __wakeup()
+    /**
+     * Restores a session from the array written by toArray(); services are attached afterwards by SessionManager.
+     *
+     * @param array<string, mixed> $data
+     */
+    public static function fromArray(array $data): static
     {
+        $session = new static();
+        $session->data = $data;
+
+        return $session;
     }
 
     public function __set($name, $value)
@@ -120,7 +134,7 @@ class Session
             ) {
                 // nothing changed and the database was written a moment ago: only keep the session data
                 // (selected planet etc.) in the Symfony session
-                $this->manager->symfonySession()->set('obj', serialize($this));
+                $this->manager->symfonySession()->set('obj', $this->toArray());
                 return;
             }
 
@@ -228,7 +242,7 @@ class Session
             $this->data['userIpAddress'] = $userIpAddress;
 
 
-            $this->manager->symfonySession()->set('obj', serialize($this));
+            $this->manager->symfonySession()->set('obj', $this->toArray());
         }
     }
 

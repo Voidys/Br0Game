@@ -19,9 +19,9 @@
           <span class="muted small">{{ multiEntry.lastActivity }}</span>
           <span class="badge badge--muted">{{ count(multiEntry.users) }}</span>
           {% if multiEntry.allowed != 0 %}
-            <a class="button btn--small" href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-check') }}{{ LNG.mip_known }}</a>
+            <a data-method="post" class="button btn--small" href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-check') }}{{ LNG.mip_known }}</a>
           {% else %}
-            <a class="button btn--small" href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-x') }}{{ LNG.mip_known }}</a>
+            <a data-method="post" class="button btn--small" href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-x') }}{{ LNG.mip_known }}</a>
           {% endif %}
         </div>
       </header>
@@ -45,9 +45,9 @@
               <tr>
                 <td>
                   {% if User.allowed != 0 %}
-                    <a href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-check') }}</a>
+                    <a data-method="post" href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-check') }}</a>
                   {% else %}
-                    <a href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-x') }}</a>
+                    <a data-method="post" href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-x') }}</a>
                   {% endif %}
                 </td>
                 <td class="num">{{ ID }}</td>

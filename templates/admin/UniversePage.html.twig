@@ -4,7 +4,7 @@
     <header class="card__head">
       <h2 class="card__title">{{ icon('server') }}{{ LNG.mu_universe }}</h2>
       <div class="card__actions">
-        <a class="button btn--primary" href="?page=universe&amp;action=create&amp;sid={{ SID }}&amp;reload=t">{{ icon('plus') }}{{ LNG.uvs_new }}</a>
+        <a data-method="post" class="button btn--primary" href="?page=universe&amp;action=create&amp;reload=t">{{ icon('plus') }}{{ LNG.uvs_new }}</a>
       </div>
     </header>
     <div class="table-wrap">
@@ -47,12 +47,12 @@
               </td>
               <td class="actions">
                 {% if uniRow.uni_status == 0 %}
-                  <a class="button btn--small" href="?page=universe&amp;action=closed&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" title="{{ LNG.adm_uni_close }}">{{ icon('lock') }}<span class="visually-hidden">{{ LNG.adm_uni_close }}</span></a>
+                  <a data-method="post" class="button btn--small" href="?page=universe&amp;action=closed&amp;uniID={{ uniID }}&amp;reload=t" title="{{ LNG.adm_uni_close }}">{{ icon('lock') }}<span class="visually-hidden">{{ LNG.adm_uni_close }}</span></a>
                 {% else %}
-                  <a class="button btn--small" href="?page=universe&amp;action=open&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" title="{{ LNG.adm_uni_open }}">{{ icon('check') }}<span class="visually-hidden">{{ LNG.adm_uni_open }}</span></a>
+                  <a data-method="post" class="button btn--small" href="?page=universe&amp;action=open&amp;uniID={{ uniID }}&amp;reload=t" title="{{ LNG.adm_uni_open }}">{{ icon('check') }}<span class="visually-hidden">{{ LNG.adm_uni_open }}</span></a>
                 {% endif %}
                 {% if uniID != php_const('ROOT_UNI') %}
-                  <a class="button btn--small btn--danger" href="?page=universe&amp;action=delete&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" data-confirm="{{ LNG.uvs_delete|e('html_attr') }}: {{ uniRow.uni_name|e('html_attr') }}" title="{{ LNG.uvs_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.uvs_delete }}</span></a>
+                  <a data-method="post" class="button btn--small btn--danger" href="?page=universe&amp;action=delete&amp;uniID={{ uniID }}&amp;reload=t" data-confirm="{{ LNG.uvs_delete|e('html_attr') }}: {{ uniRow.uni_name|e('html_attr') }}" title="{{ LNG.uvs_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.uvs_delete }}</span></a>
                 {% endif %}
               </td>
             </tr>

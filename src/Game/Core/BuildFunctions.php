@@ -210,7 +210,7 @@ class BuildFunctions
             $maxQueueIndex = max(0, $maxQueueIndex);
             $robo = $PLANET[$resource[14]];
             $nani = $PLANET[$resource[15]];
-            $CurrentQueue = !empty($PLANET['b_building_id']) ? unserialize($PLANET['b_building_id']) : [];
+            $CurrentQueue = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
             if (!empty($CurrentQueue) && count($CurrentQueue) != 0) {
                 foreach ($CurrentQueue as $index => $QueueSubArray) {
                     if ($index >= $maxQueueIndex) {
@@ -317,7 +317,7 @@ class BuildFunctions
             }
         }
 
-        $BuildArray = !empty($PLANET['b_hangar_id']) ? unserialize($PLANET['b_hangar_id']) : [];
+        $BuildArray = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
         $MaxMissiles = $PLANET[$resource[SILO]] * 10 * max($this->configs->get()->silo_factor, 1);
 
         foreach ($BuildArray as $ElementArray) {

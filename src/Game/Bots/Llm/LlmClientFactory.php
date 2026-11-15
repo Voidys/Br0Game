@@ -4,6 +4,7 @@ namespace App\Game\Bots\Llm;
 
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Builds LlmClient objects from the bot_llm_providers table and manages the provider rows.
@@ -22,6 +23,7 @@ class LlmClientFactory
     public function __construct(
         private readonly Database $db,
         private readonly Singleton $state,
+        private readonly HttpClientInterface $httpClient,
     ) {}
 
     /** The active provider with a stored key and model, else null. */
@@ -142,6 +144,7 @@ class LlmClientFactory
 
         return new LlmClient(
             $this->db,
+            $this->httpClient,
             $provider,
             $key,
             $model,

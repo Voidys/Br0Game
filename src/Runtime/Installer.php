@@ -78,12 +78,12 @@ final class Installer
         $quickStartFile        = 'var/FIRST_INSTALL';
         // If include/FIRST_INSTALL is present and can be deleted, automatically create include/ENABLE_INSTALL_TOOL
         if (is_file($quickStartFile) && is_writeable($quickStartFile) && unlink($quickStartFile)) {
-            @touch($enableInstallToolFile);
+            SafeFile::touch($enableInstallToolFile);
         }
         // fresh project (no config/game.php yet): the installer opens by itself; the tool file keeps it open
         // for the steps after the database step, until the administrator is created (or for an hour)
         if (!$configAvailable && $mode !== 'upgrade' && $mode !== 'doupgrade') {
-            @touch($enableInstallToolFile);
+            SafeFile::touch($enableInstallToolFile);
         }
         // Only allow Install Tool access if the file "include/ENABLE_INSTALL_TOOL" is found
         if (is_file($enableInstallToolFile) && (time() - filemtime($enableInstallToolFile) > 3600)) {
@@ -176,7 +176,7 @@ final class Installer
                     throw new Exception('No tables found for dump.');
                 }
 
-                @set_time_limit(600);
+                set_time_limit(600);
                 $db = $this->db;
                 $sql = "INSERT INTO %%SYSTEM%% VALUES (:dbVersion);";
                 $fileList = $this->maintenance()->listMigrations();
@@ -315,7 +315,7 @@ final class Installer
             $this->assign(['accept' => false]);
         }
         // the project's licence file (GNU AGPL v3), shown as is
-        $this->assign(['licenceText' => (string) @file_get_contents($this->state->runtime->rootPath . 'LICENSE')]);
+        $this->assign(['licenceText' => (string) SafeFile::read($this->state->runtime->rootPath . 'LICENSE')]);
         $this->show('ins_license');
     }
 
@@ -388,7 +388,7 @@ final class Installer
             }
         } catch (\Throwable $e) {
             error_log('installer task ' . $task . ': ' . $e->getMessage());
-            @unlink($this->state->runtime->rootPath . 'config/game.php');
+            SafeFile::remove($this->state->runtime->rootPath . 'config/game.php');
             if ($task === 'all') {
                 $this->assign(['tasks' => $tasks, 'error' => $LNG['step3_db_error'] . ' ' . $e->getMessage()]);
                 $this->show('ins_step5');

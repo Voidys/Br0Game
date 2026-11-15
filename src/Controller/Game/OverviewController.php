@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\BuildFunctions;
@@ -73,7 +74,7 @@ class OverviewController extends AbstractGameController
             }
 
             if (!empty($CPLANET['b_building']) && !empty($CPLANET['b_building_id']) && $CPLANET['b_building'] > $this->state->runtime->timestamp) {
-                $Queue = unserialize($CPLANET['b_building_id']);
+                $Queue = StoredData::decode($CPLANET['b_building_id']);
                 $timeleft = $USER['urlaubs_modus'] ? ($CPLANET['b_building'] - $USER['urlaubs_start']) : ($CPLANET['b_building'] - $this->state->runtime->timestamp);
                 $BuildPlanet = [
                     'id'        => $Queue[0][0],
@@ -109,7 +110,7 @@ class OverviewController extends AbstractGameController
         }
         if (!empty($Moon)) {
             if (!empty($Moon['b_building']) && !empty($Moon['b_building_id']) && $Moon['b_building'] > $this->state->runtime->timestamp) {
-                $Queue = unserialize($Moon['b_building_id']);
+                $Queue = StoredData::decode($Moon['b_building_id']);
                 $timeleft = $USER['urlaubs_modus'] ? ($Moon['b_building'] - $USER['urlaubs_start']) : ($Moon['b_building'] - $this->state->runtime->timestamp);
                 $Moon['build'] = [
                     'id'        => $Queue[0][0],
@@ -125,7 +126,7 @@ class OverviewController extends AbstractGameController
         }
 
         if (!empty($PLANET['b_building']) && !empty($PLANET['b_building_id'])) {
-            $Queue          = unserialize($PLANET['b_building_id']);
+            $Queue          = StoredData::decode($PLANET['b_building_id']);
             $timeleft = $USER['urlaubs_modus'] ? ($PLANET['b_building'] - $USER['urlaubs_start']) : ($PLANET['b_building'] - $this->state->runtime->timestamp);
             $buildInfo['buildings'] = [
                 'id'        => $Queue[0][0],
@@ -140,7 +141,7 @@ class OverviewController extends AbstractGameController
         }
 
         if (!empty($PLANET['b_hangar_id'])) {
-            $Queue  = unserialize($PLANET['b_hangar_id']);
+            $Queue  = StoredData::decode($PLANET['b_hangar_id']);
             $time   = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Queue[0][0]) * $Queue[0][1];
             $buildInfo['fleet'] = [
                 'id'        => $Queue[0][0],
@@ -155,7 +156,7 @@ class OverviewController extends AbstractGameController
 
         if (!empty($USER['b_tech_id']) && !empty($USER['b_tech_queue'])) {
             $timeleft = $USER['urlaubs_modus'] ? ($USER['b_tech'] - $USER['urlaubs_start']) : ($USER['b_tech'] - $this->state->runtime->timestamp);
-            $Queue = unserialize($USER['b_tech_queue']);
+            $Queue = StoredData::decode($USER['b_tech_queue']);
             $buildInfo['tech'] = [
                 'id'        => $Queue[0][0],
                 'level'     => $Queue[0][1],
@@ -364,7 +365,7 @@ class OverviewController extends AbstractGameController
             } else {
                 // Re-home research queued on the abandoned planet to the main planet and persist it
                 if (!empty($USER['b_tech_queue'])) {
-                    $TechQueue = unserialize($USER['b_tech_queue']);
+                    $TechQueue = StoredData::decode($USER['b_tech_queue']);
                     foreach ($TechQueue as $ID => $ListIDArray) {
                         if ($ListIDArray[4] == $PLANET['id']) {
                             $TechQueue[$ID][4] = $USER['id_planet'];
@@ -375,7 +376,7 @@ class OverviewController extends AbstractGameController
                         $USER['b_tech_planet'] = $USER['id_planet'];
                     }
 
-                    $USER['b_tech_queue'] = serialize($TechQueue);
+                    $USER['b_tech_queue'] = StoredData::encode($TechQueue);
                     $this->resourceUpdate()->saveTechQueue($USER);
                 }
 

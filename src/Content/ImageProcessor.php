@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Content;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Runtime\SafeFile;
 
 /**
  * Images as WebP (quality 85) with GD.
@@ -32,12 +33,12 @@ final class ImageProcessor
         if ($file->getSize() > self::MAX_UPLOAD_BYTES) {
             throw new \RuntimeException('The image is larger than 8 MB.');
         }
-        $info = @getimagesize($file->getPathname());
+        $info = SafeFile::imageSize($file->getPathname());
         $mime = $info['mime'] ?? '';
         if (!isset(self::MIME[$mime])) {
             throw new \RuntimeException('Only JPEG, PNG, GIF or WebP images are allowed.');
         }
-        if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        if (!SafeFile::mkdir($dir)) {
             throw new \RuntimeException('The upload folder is not writable.');
         }
 
@@ -64,7 +65,7 @@ final class ImageProcessor
         if (!$force && is_file($target) && filemtime($target) >= filemtime($path)) {
             return true;
         }
-        $mime = @getimagesize($path)['mime'] ?? '';
+        $mime = (SafeFile::imageSize($path) ?: [])['mime'] ?? '';
         if (!in_array($mime, ['image/jpeg', 'image/png', 'image/gif'], true) || $this->isAnimated($path, $mime)) {
             return false;
         }
@@ -73,7 +74,7 @@ final class ImageProcessor
         }
         // keep the original when WebP does not help (tiny icons, already optimised PNGs)
         if (filesize($target) >= filesize($path)) {
-            @unlink($target);
+            SafeFile::remove($target);
 
             return false;
         }
@@ -112,8 +113,8 @@ final class ImageProcessor
 
     public function isAnimated(string $path, string $mime): bool
     {
-        $data = @file_get_contents($path, false, null, 0, 4 * 1024 * 1024);
-        if ($data === false) {
+        $data = SafeFile::read($path, 4 * 1024 * 1024);
+        if ($data === null) {
             return false;
         }
 
@@ -128,7 +129,9 @@ final class ImageProcessor
 
     private function convert(string $source, string $target, int $maxWidth): bool
     {
-        $image = @imagecreatefromstring((string) file_get_contents($source));
+        $data = SafeFile::read($source);
+        // imagecreatefromstring() warns on data that is no image: check the header first
+        $image = $data !== null && getimagesizefromstring($data) !== false ? imagecreatefromstring($data) : false;
         if ($image === false) {
             return false;
         }

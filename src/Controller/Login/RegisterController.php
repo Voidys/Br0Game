@@ -73,6 +73,13 @@ class RegisterController extends AbstractLoginController
         $LNG = & $this->state->LNG;
         $config = $this->configs->get();
 
+        if (!$this->rateLimits->allowRegistration($this->sessions()->getClientIp())) {
+            $this->printMessage($LNG['login_error_4'], [[
+                'label' => $LNG['registerBack'],
+                'url' => './?page=register',
+            ]]);
+        }
+
         $userName       = $this->http()->_GP('username', '', UTF8_SUPPORT);
         $password       = $this->http()->_GP('password', '', true);
         $password2      = $this->http()->_GP('passwordReplay', '', true);
@@ -184,7 +191,7 @@ class RegisterController extends AbstractLoginController
             $referralID = 0;
         }
 
-        $validationKey = md5(uniqid('2m'));
+        $validationKey = bin2hex(random_bytes(16));
 
         $sql = "INSERT INTO %%ACCOUNTS_VALID%% SET
 				`accountname` = :userName,
@@ -230,7 +237,7 @@ class RegisterController extends AbstractLoginController
                 $userName,
                 $mailAddress,
                 $config->game_name,
-                $this->state->runtime->httpPath . $verifyURL,
+                $this->canonicalUrl->forPage($this->state->runtime, $verifyURL),
                 DISCORD_URL,
             ], $MailRAW);
 

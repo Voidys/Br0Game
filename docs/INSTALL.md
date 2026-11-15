@@ -198,6 +198,40 @@ password `db`, name `db`), the game settings and your administrator account. The
 - [ ] `var/ENABLE_INSTALL_TOOL` does not exist after installing
 - [ ] PHP, MySQL/MariaDB and the operating system receive updates; update Br0Game when new versions appear
 - [ ] Regular backups
+- [ ] Behind a reverse proxy or load balancer: `SYMFONY_TRUSTED_PROXIES` set (see below)
+- [ ] `DEFAULT_URI` in `.env.local` is your public address (the setup wizard writes it); e-mail links (password reset, account activation) use it
+
+### Reverse proxies and client IPs
+
+The game stores each player's IP address (multi-account detection, login history, abuse limits). It trusts
+only the address of the TCP connection by default; `X-Forwarded-For` and similar headers are ignored, so
+nobody can fake an address with a request header.
+
+If a reverse proxy, CDN or load balancer sits in front of the web server, every request comes from the
+proxy and all players would share one IP. Tell the game which proxies to trust, in `.env.local`:
+
+```
+# comma separated IP addresses or CIDR ranges of your proxies
+SYMFONY_TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8
+# or: trust whatever connects directly (only if the web server is not reachable except through the proxy)
+SYMFONY_TRUSTED_PROXIES=REMOTE_ADDR
+```
+
+The proxy has to set `X-Forwarded-For` (and `X-Forwarded-Proto` for HTTPS). Behind Cloudflare use its published
+IP ranges. DDEV: the router container is the proxy, so a local `SYMFONY_TRUSTED_PROXIES=REMOTE_ADDR` shows the
+browser's address.
+
+### What the game does for you
+
+- Every state-changing request (all forms, fetch calls and action links) carries a per-session CSRF token
+  (`<meta name="csrf-token">`, hidden field `_csrf` or header `X-CSRF-Token`); requests without it get `403`.
+  Behind a cache, never cache logged-in or form pages.
+- Session cookie: `HttpOnly`, `SameSite=Lax`, `Secure` on HTTPS; the session id is renewed on login, logout and when
+  the admin password is entered. A password change ends all other sessions of the account.
+- Failed logins are throttled (5 per 15 minutes per IP and e-mail), registration, "lost password" and the admin
+  password prompt have their own limits (`config/packages/framework.yaml`, `rate_limiter`). The counters live in the
+  application cache (`var/cache`); clear them with `bin/console cache:pool:clear cache.rate_limiter`.
+- Responses carry `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` headers.
 
 ## Troubleshooting
 

@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
@@ -179,7 +180,7 @@ class RaportController extends AbstractGameController
         if ($reportData['battleengine'] === 'rust') {
             $combatReport = json_decode(decompressFromBase64($reportData['raport']), true);
         } else {
-            $combatReport = unserialize($reportData['raport']);
+            $combatReport = StoredData::decode($reportData['raport']);
         }
 
         if (!$isDefender && $combatReport['result'] == DEFENDER && count($combatReport['rounds']) <= 2) {

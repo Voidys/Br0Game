@@ -3,6 +3,7 @@
 namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Runtime\SafeFile;
 use App\Content\HtmlContent;
 use App\Routing\GamePage;
 use App\Runtime\ProjectPaths;
@@ -84,7 +85,7 @@ final class NewsController extends AbstractLoginController
     {
         $name = basename((string) ($row['image'] ?? ''));
         $path = ProjectPaths::ROOT . 'public/uploads/news/' . $name;
-        if ($name === '' || !is_file($path) || ($size = @getimagesize($path)) === false) {
+        if ($name === '' || !is_file($path) || ($size = SafeFile::imageSize($path)) === false) {
             return null;
         }
 

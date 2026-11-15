@@ -169,7 +169,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
     {
         static $version = null;
 
-        return $version ??= (string) @filemtime(\App\Runtime\ProjectPaths::ROOT . 'public/styles/resource/icons/lucide.svg');
+        return $version ??= (string) \App\Runtime\SafeFile::mtime(\App\Runtime\ProjectPaths::ROOT . 'public/styles/resource/icons/lucide.svg');
     }
 
     public static function numberFormat($num, int $decimals = 0, ?string $decimalSeparator = '.', ?string $thousandsSeparator = ','): string

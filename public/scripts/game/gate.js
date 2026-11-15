@@ -1,4 +1,4 @@
-import { qs, qsa, getJSON, serialize } from '../app/core.js';
+import { qs, qsa, post, serialize } from '../app/core.js';
 
 const Gate	= {
 	max: function(ID) {
@@ -8,7 +8,7 @@ const Gate	= {
 	},
 
 	submit: async function() {
-		const data = await getJSON('?page=information&mode=sendFleet&'+serialize(qsa('.jumpgate')));
+		const data = await post('?page=information&mode=sendFleet', serialize(qsa('.jumpgate')), 'json');
 		window.Dialog.alert(data.message, function () {
 			if (!data.error) window.Dialog.close();
 		});

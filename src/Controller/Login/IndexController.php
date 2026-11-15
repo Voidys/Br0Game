@@ -16,6 +16,7 @@
 namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Runtime\SafeFile;
 use DateTimeImmutable;
 use DateTimeZone;
 use App\Runtime\ProjectPaths;
@@ -102,7 +103,7 @@ class IndexController extends AbstractLoginController
         sort($files);
         $memes = [];
         foreach ($files as $file) {
-            $size = @getimagesize($file);
+            $size = SafeFile::imageSize($file);
             if ($size === false || $size[0] === 0) {
                 continue;
             }

@@ -9,6 +9,7 @@
 namespace App\Game\Achievements;
 
 use App\Game\Core\Achievement;
+use App\Game\Core\StoredData;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
@@ -182,9 +183,9 @@ class PlayerUtilAchievement
         ]);
         if ($attacks) {
             foreach ($attacks as $attack) {
-                $combatReport = unserialize($attack['raport']);
+                $combatReport = StoredData::tryDecode($attack['raport']);
 
-                if ($combatReport['result'] != 'a') {
+                if (($combatReport['result'] ?? null) != 'a') {
                     continue;
                 }
                 foreach ($combatReport['rounds'][0]['attacker'] as $attacker) {
@@ -204,8 +205,8 @@ class PlayerUtilAchievement
         ]);
         if ($attacks) {
             foreach ($attacks as $attack) {
-                $combatReport = unserialize($attack['raport']);
-                if ($combatReport['result'] != 'r') {
+                $combatReport = StoredData::tryDecode($attack['raport']);
+                if (($combatReport['result'] ?? null) != 'r') {
                     continue;
                 }
                 foreach ($combatReport['rounds'][0]['defender'] as $defender) {

@@ -114,9 +114,10 @@ function getNumber($from, $default = 0)
     return is_numeric($from) ? $from : $default;
 }
 
+/** 128 bit random hex token (reset/verification keys, fleet tokens); random_bytes(), not predictable */
 function getRandomString()
 {
-    return md5(uniqid());
+    return bin2hex(random_bytes(16));
 }
 
 function isVacationMode($USER)

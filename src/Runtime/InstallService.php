@@ -80,7 +80,7 @@ final class InstallService
         if (!isset($this->languages[$locale])) {
             // the language cache lives in var/game/, which a fresh checkout does not have yet
             foreach (['var/game/', 'var/sessions/', 'var/log/'] as $dir) {
-                is_dir($this->root . $dir) || @mkdir($this->root . $dir, 0777, true);
+                SafeFile::mkdir($this->root . $dir, 0777);
             }
             $LNG = new Language($this->configs, 'en');
             if ($locale !== 'en' && in_array($locale, $LNG->getAllowedLangs(), true)) {
@@ -113,7 +113,7 @@ final class InstallService
 
     public function defaultTimezone(): string
     {
-        $zone = @date_default_timezone_get() ?: 'UTC';
+        $zone = date_default_timezone_get() ?: 'UTC';
 
         return in_array($zone, $this->timezones(), true) ? $zone : 'UTC';
     }
@@ -146,7 +146,7 @@ final class InstallService
             $add(sprintf($LNG['reg_file'], $file), $writable, $writable ? $LNG['reg_writable'] : $LNG['reg_not_writable']);
         }
         foreach (['var/', 'var/game/', 'var/sessions/', 'var/backups/', 'var/log/', 'config/'] as $dir) {
-            $exists = file_exists($this->root . $dir) || @mkdir($this->root . $dir, 0777, true);
+            $exists = SafeFile::mkdir($this->root . $dir, 0777);
             $add(
                 sprintf($LNG['reg_dir'], $dir),
                 $exists && is_writable($this->root . $dir),
@@ -287,10 +287,9 @@ final class InstallService
             $salt,
         );
         $label = sprintf($LNG['ins_check_write'], 'config/game.php');
-        if (@file_put_contents($root . 'config/game.php', $php) === false) {
+        if (!SafeFile::write($root . 'config/game.php', $php, 0640)) { // holds the database password and the salt
             return $fail($label, $LNG['step2_conf_op_fail']);
         }
-        @chmod($root . 'config/game.php', 0640); // holds the database password and the salt
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
 
         // .env.local: the game's connection (Doctrine) reads DATABASE_URL
@@ -312,17 +311,16 @@ final class InstallService
         }
         $label = sprintf($LNG['ins_check_write'], '.env.local');
         if (!$this->writeEnvLocal($env)) {
-            @unlink($root . 'config/game.php');
+            SafeFile::remove($root . 'config/game.php');
 
             return $fail($label, $LNG['reg_not_writable']);
         }
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
 
-        @touch($root . 'var/log/game.log');
+        SafeFile::touch($root . 'var/log/game.log');
         if ($generated) {
             // shown once on the last page, then removed
-            @file_put_contents($root . self::SECRET_FILE, $migrationpw . "\n");
-            @chmod($root . self::SECRET_FILE, 0600);
+            SafeFile::write($root . self::SECRET_FILE, $migrationpw . "\n", 0600);
         }
 
         return $result(true);
@@ -379,11 +377,8 @@ final class InstallService
             }
         }
 
-        $written = @file_put_contents($file, implode("\n", $lines) . "\n") !== false;
         // holds the database password and the app secret: not readable by others
-        @chmod($file, 0640);
-
-        return $written;
+        return SafeFile::write($file, implode("\n", $lines) . "\n", 0640);
     }
 
     /** @return array<string, string> task => label, run in this order */
@@ -447,7 +442,7 @@ final class InstallService
                 break;
             case 'images':
                 // WebP copies of the static images (same as bin/console app:images:webp); never fails the install
-                @set_time_limit(300);
+                set_time_limit(300);
                 (new \App\Content\ImageProcessor())->webpTree($this->root . 'public');
                 break;
             default:
@@ -604,7 +599,7 @@ final class InstallService
     /** locks the install tool (removes var/ENABLE_INSTALL_TOOL) */
     public function lock(): void
     {
-        @unlink($this->root . 'var/ENABLE_INSTALL_TOOL');
+        SafeFile::remove($this->root . 'var/ENABLE_INSTALL_TOOL');
     }
 
     /** the migration password generated in the database step, if any; it is removed from disk when read */
@@ -614,8 +609,8 @@ final class InstallService
         if (!is_file($file)) {
             return null;
         }
-        $secret = trim((string) @file_get_contents($file));
-        @unlink($file);
+        $secret = trim((string) SafeFile::read($file));
+        SafeFile::remove($file);
 
         return $secret === '' ? null : $secret;
     }

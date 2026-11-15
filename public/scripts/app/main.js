@@ -6,6 +6,7 @@
  * need from ./core.js, ./dialog.js, ./ui.js, ...; functions used by inline on*="" handlers are put
  * on window by the page module.
  */
+import './csrf.js';
 import './core.js';
 import './dialog.js';
 import { initTooltips } from './tooltip.js';

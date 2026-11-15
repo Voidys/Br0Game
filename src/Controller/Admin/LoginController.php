@@ -20,7 +20,11 @@ namespace App\Controller\Admin;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
-/** Admin password prompt: grants admin access to the session after re-entering the account password. */
+/**
+ * Admin password prompt: grants admin access to the session after re-entering the account password.
+ * The password is only read from a POST body (never from the URL), attempts are limited per IP and
+ * account, and the session id is renewed when the access is granted (session fixation).
+ */
 #[\App\Routing\GamePage('admin.php', 'login')]
 #[\App\Routing\GamePage('admin.php', 'login', uniPrefix: true)]
 class LoginController extends AbstractAdminController
@@ -47,9 +51,13 @@ class LoginController extends AbstractAdminController
             $this->http()->redirectTo('admin');
         }
 
-        if (isset($this->state->requestInput['admin_pw'])) {
-            if (password_verify($this->state->requestInput['admin_pw'], $account['password'])) {
+        if (isset($this->state->requestPost['admin_pw']) && is_string($this->state->requestPost['admin_pw'])) {
+            if (!$this->rateLimits->allowAdminElevation($this->sessions()->getClientIp(), (int) $accountId)) {
+                $this->message($this->state->LNG['adm_login_throttled'], 'admin?page=login', 5, true);
+            }
+            if (password_verify($this->state->requestPost['admin_pw'], $account['password'])) {
                 $session->adminAccess = 1;
+                $this->sessions()->regenerateId();
                 $this->http()->redirectTo('admin');
             }
         }

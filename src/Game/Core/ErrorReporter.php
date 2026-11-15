@@ -16,6 +16,9 @@ class ErrorReporter
         protected Database $db,
         protected ConfigRegistry $configs,
         protected Singleton $state,
+        // exception details (message, file, trace) are only written into the error page in debug mode
+        #[\Symfony\Component\DependencyInjection\Attribute\Autowire('%kernel.debug%')]
+        protected bool $debug = false,
     ) {}
 
     /**
@@ -131,18 +134,18 @@ class ErrorReporter
         <a class="button" href="/game">Zurück zur Startseite</a>
     </div>
 
-    <!--
-    Message: ' . $exception->getMessage() . '
-    File: ' . $exception->getFile() . '
+    ' . ($this->debug ? '<!--
+    Message: ' . str_replace('--', '- -', htmlspecialchars($exception->getMessage())) . '
+    File: ' . htmlspecialchars($exception->getFile()) . '
     Line: ' . $exception->getLine() . '
-    URL: ' . $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->requestServer['REQUEST_URI'] . '
+    URL: ' . htmlspecialchars($this->state->runtime->protocol . $this->state->runtime->httpHost . ($this->state->requestServer['REQUEST_URI'] ?? '')) . '
     PHP-Version: ' . PHP_VERSION . '
     PHP-API: ' . php_sapi_name() . '
-    Br0Game Version: ' . $version . '
+    Br0Game Version: ' . htmlspecialchars((string) $version) . '
 
     Debug Backtrace:
-    ' . makebr(htmlspecialchars($exception->getTraceAsString())) . '
-    -->
+    ' . str_replace('--', '- -', makebr(htmlspecialchars($exception->getTraceAsString()))) . '
+    -->' : '') . '
     </body>
     </html>';
 

@@ -45,22 +45,22 @@
             </td>
             <td class="nowrap">
               {% if CronjobInfo.isActive %}
-                <a href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=0" class="badge badge--ok" title="{{ LNG.adm_cron_click_disable }}">{{ icon('check') }}{{ LNG.adm_cron_active }}</a>
+                <a data-method="post" href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=0" class="badge badge--ok" title="{{ LNG.adm_cron_click_disable }}">{{ icon('check') }}{{ LNG.adm_cron_active }}</a>
               {% else %}
-                <a href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=1" class="badge badge--muted" title="{{ LNG.adm_cron_click_enable }}">{{ LNG.adm_cron_inactive }}</a>
+                <a data-method="post" href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=1" class="badge badge--muted" title="{{ LNG.adm_cron_click_enable }}">{{ LNG.adm_cron_inactive }}</a>
               {% endif %}
               {% if CronjobInfo.lock %}
-                <a href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=unlock" class="badge badge--danger" title="{{ LNG.adm_cron_click_unlock }}">{{ icon('lock') }}{{ LNG.adm_cron_locked }}</a>
+                <a data-method="post" href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=unlock" class="badge badge--danger" title="{{ LNG.adm_cron_click_unlock }}">{{ icon('lock') }}{{ LNG.adm_cron_locked }}</a>
               {% else %}
-                <a href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=lock" class="badge badge--muted" title="{{ LNG.adm_cron_click_lock }}">{{ LNG.adm_cron_free }}</a>
+                <a data-method="post" href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=lock" class="badge badge--muted" title="{{ LNG.adm_cron_click_lock }}">{{ LNG.adm_cron_free }}</a>
               {% endif %}
             </td>
             <td class="actions">
               {% if CronjobInfo.isActive %}
-                <a class="button btn--small" href="admin?page=cronjob&amp;action=run&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_run }}">{{ icon('refresh-cw') }}<span class="visually-hidden">{{ LNG.cronjob_run }}</span></a>
+                <a data-method="post" class="button btn--small" href="admin?page=cronjob&amp;action=run&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_run }}">{{ icon('refresh-cw') }}<span class="visually-hidden">{{ LNG.cronjob_run }}</span></a>
               {% endif %}
               <a class="button btn--small" href="admin?page=cronjob&amp;action=detail&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.cronjob_edit }}</span></a>
-              <a class="button btn--small btn--danger" href="admin?page=cronjob&amp;action=delete&amp;id={{ CronjobInfo.id }}" data-confirm="" title="{{ LNG.cronjob_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.cronjob_delete }}</span></a>
+              <a data-method="post" class="button btn--small btn--danger" href="admin?page=cronjob&amp;action=delete&amp;id={{ CronjobInfo.id }}" data-confirm="" title="{{ LNG.cronjob_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.cronjob_delete }}</span></a>
             </td>
           </tr>
         {% endfor %}

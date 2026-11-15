@@ -18,6 +18,7 @@
 namespace App\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Runtime\SafeFile;
 use App\Content\HtmlContent;
 use App\Content\ImageProcessor;
 use App\Runtime\ProjectPaths;
@@ -201,7 +202,7 @@ class NewsController extends AbstractAdminController
     {
         $path = ProjectPaths::ROOT . 'public/uploads/news/' . basename($name);
         if (is_file($path)) {
-            @unlink($path);
+            SafeFile::remove($path);
         }
     }
 }

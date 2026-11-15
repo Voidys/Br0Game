@@ -219,31 +219,6 @@ class ResourceUpdate
         $this->PLANET[$resource[$resource_type]] += $produced;
     }
 
-    public function getProd($Calculation, $Element = false)
-    {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        if ($Element) {
-            $BuildEnergy = $USER[$resource[113]];
-            $BuildTemp = $PLANET['temp_max'];
-            $BuildLevelFactor = $PLANET[$resource[$Element] . '_porcent'];
-
-            if (in_array($Element, array_merge($reslist['build'], $reslist['fleet'], $reslist['defense']))) {
-                $BuildLevel = $PLANET[$resource[$Element]];
-            } elseif (in_array($Element, $reslist['tech'])) {
-                $BuildLevel = $USER[$resource[$Element]];
-            } else {
-                $BuildLevel = 0;
-            }
-
-            $Calculation = str_replace('this->', "", $Calculation);
-        }
-
-        return 'return ' . $Calculation . ';';
-    }
-
     public function getNetworkLevel($USER, $PLANET)
     {
         $resource = & $this->state->resource;
@@ -268,21 +243,15 @@ class ResourceUpdate
         return $researchLevelList;
     }
 
-    /** @var array<string, \Closure> compiled production/storage formulas by formula text */
-    private static array $formulaCache = [];
-
     /**
-     * Evaluates a production/storage formula of the vars table. The formula is compiled once per process
-     * (eval parses on every call) into a closure over the variables the formulas may use.
+     * Evaluates a production/storage formula of the vars table with the four variables formulas may use
+     * (see FormulaEvaluator for the grammar; compiled once per process, no eval()).
+     *
+     * @throws FormulaException when the stored formula is invalid
      */
     private function runFormula(string $formula, $BuildLevel, $BuildTemp, $BuildEnergy, $BuildLevelFactor)
     {
-        $fn = self::$formulaCache[$formula] ??= eval(
-            'return function ($BuildLevel, $BuildTemp, $BuildEnergy, $BuildLevelFactor) { '
-            . $this->getProd($formula) . ' };'
-        );
-
-        return $fn($BuildLevel, $BuildTemp, $BuildEnergy, $BuildLevelFactor);
+        return FormulaEvaluator::evaluate($formula, compact('BuildLevel', 'BuildTemp', 'BuildEnergy', 'BuildLevelFactor'));
     }
 
     public function ReBuildCache()
@@ -466,7 +435,7 @@ class ResourceUpdate
         $this->repairJobWreckfield = [$this->PLANET['id'], $wreckfield];
 
         if (!empty($wreckfield['repair_order']) && $wreckfield['repair_order_end'] <= $this->TIME - TIME_72_HOURS) {
-            $ElementQueue = unserialize($wreckfield['repair_order']);
+            $ElementQueue = StoredData::decode($wreckfield['repair_order']);
 
             foreach ($ElementQueue as $elementID => $amount) {
                 if (!isset($this->Repaired[$elementID])) {
@@ -495,7 +464,7 @@ class ResourceUpdate
     {
         $resource = & $this->state->resource;
 
-        $BuildQueue = !empty($this->PLANET['b_hangar_id']) ? unserialize($this->PLANET['b_hangar_id']) : [];
+        $BuildQueue = !empty($this->PLANET['b_hangar_id']) ? StoredData::decode($this->PLANET['b_hangar_id']) : [];
         if (!$BuildQueue) {
             $this->PLANET['b_hangar'] = 0;
             $this->PLANET['b_hangar_id'] = '';
@@ -558,7 +527,7 @@ class ResourceUpdate
             $this->PLANET['b_hangar_id'] = '';
             $this->PLANET['b_hangar'] = 0;
         } else {
-            $this->PLANET['b_hangar_id'] = serialize($NewQueue);
+            $this->PLANET['b_hangar_id'] = StoredData::encode($NewQueue);
         }
 
         return true;
@@ -572,7 +541,7 @@ class ResourceUpdate
             return false;
         }
 
-        $CurrentQueue = unserialize($this->PLANET['b_building_id']);
+        $CurrentQueue = StoredData::decode($this->PLANET['b_building_id']);
 
         $Element = $CurrentQueue[0][0];
         $BuildLevel = $CurrentQueue[0][1];
@@ -604,7 +573,7 @@ class ResourceUpdate
 
             return false;
         } else {
-            $this->PLANET['b_building_id'] = serialize($CurrentQueue);
+            $this->PLANET['b_building_id'] = StoredData::encode($CurrentQueue);
             return true;
         }
     }
@@ -625,7 +594,7 @@ class ResourceUpdate
             return false;
         }
 
-        $CurrentQueue = !empty($this->PLANET['b_building_id']) ? unserialize($this->PLANET['b_building_id']) : [];
+        $CurrentQueue = !empty($this->PLANET['b_building_id']) ? StoredData::decode($this->PLANET['b_building_id']) : [];
         $Loop = true;
 
         $BuildEndTime = 0;
@@ -665,7 +634,7 @@ class ResourceUpdate
                     $this->Builded[RESOURCE_DEUT] -= $costResources[RESOURCE_DEUT];
                     $this->PLANET[$resource[RESOURCE_DEUT]] -= $costResources[RESOURCE_DEUT];
                 }
-                $NewQueue = serialize($CurrentQueue);
+                $NewQueue = StoredData::encode($CurrentQueue);
                 $Loop = false;
             } else {
                 if ($this->USER['hof'] == 1) {
@@ -772,7 +741,7 @@ class ResourceUpdate
             $this->Builded[$this->USER['b_tech_id']] = 0;
         }
 
-        $CurrentQueue = !empty($this->USER['b_tech_queue']) ? unserialize($this->USER['b_tech_queue']) : [];
+        $CurrentQueue = !empty($this->USER['b_tech_queue']) ? StoredData::decode($this->USER['b_tech_queue']) : [];
 
         $Element = $this->USER['b_tech_id'];
         $BuildLevel = $CurrentQueue[0][1];
@@ -808,7 +777,7 @@ class ResourceUpdate
             return false;
         } else {
             $this->USER['b_tech_id'] = 0;
-            $this->USER['b_tech_queue'] = serialize(array_values($CurrentQueue));
+            $this->USER['b_tech_queue'] = StoredData::encode(array_values($CurrentQueue));
             return true;
         }
     }
@@ -830,7 +799,7 @@ class ResourceUpdate
             return false;
         }
 
-        $CurrentQueue = !empty($this->USER['b_tech_queue']) ? unserialize($this->USER['b_tech_queue']) : [];
+        $CurrentQueue = !empty($this->USER['b_tech_queue']) ? StoredData::decode($this->USER['b_tech_queue']) : [];
         $Loop = true;
         while ($Loop == true) {
             $ListIDArray = $CurrentQueue[0];
@@ -884,7 +853,7 @@ class ResourceUpdate
                 $this->USER['b_tech_id'] = $Element;
                 $this->USER['b_tech'] = $BuildEndTime;
                 $this->USER['b_tech_planet'] = $PLANET['id'];
-                $this->USER['b_tech_queue'] = serialize($CurrentQueue);
+                $this->USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
 
                 $Loop = false;
             } else {

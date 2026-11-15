@@ -20,6 +20,7 @@ namespace App\Controller\Game;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\HTTP;
+use App\Game\Core\FormulaEvaluator;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Core\Singleton;
 
@@ -285,7 +286,7 @@ class InformationController extends AbstractGameController
                         continue;
                     }
 
-                    $Production = eval($this->resourceUpdate()->getProd($ProdGrid[$elementID]['production'][$ID], $elementID));
+                    $Production = FormulaEvaluator::evaluate($ProdGrid[$elementID]['production'][$ID], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
                     if (in_array($ID, $reslist['resstype'][2])) {
                         $Production *= $this->configs->get()->energy_multiplier;
@@ -309,7 +310,7 @@ class InformationController extends AbstractGameController
                         continue;
                     }
 
-                    $production = round(eval($this->resourceUpdate()->getProd($ProdGrid[$elementID]['storage'][$ID])));
+                    $production = round(FormulaEvaluator::evaluate($ProdGrid[$elementID]['storage'][$ID], compact('BuildLevel')));
                     $production *= $this->configs->get()->storage_multiplier;
 
                     $productionTable['storage'][$BuildLevel][$ID]   = $production;

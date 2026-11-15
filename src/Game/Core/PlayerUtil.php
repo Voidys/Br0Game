@@ -1320,7 +1320,7 @@ class PlayerUtil
 
         $astroTech = $USER[$resource[124]];
 
-        $CurrentQueue = !empty($USER['b_tech_queue']) ? unserialize($USER['b_tech_queue']) : [];
+        $CurrentQueue = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if (!empty($CurrentQueue) && count($CurrentQueue) > 0) {
             foreach ($CurrentQueue as $ListIDArray) {
                 if ($ListIDArray[0] == 124 && $ListIDArray[3] <= $this->state->runtime->timestamp) {
@@ -1609,11 +1609,11 @@ class PlayerUtil
         $umode_delta = $this->state->runtime->timestamp - $umode_start;
         if ($USER['urlaubs_until'] <= $this->state->runtime->timestamp) {
             if (!empty($USER['b_tech']) && !empty($USER['b_tech_queue'])) {
-                $CurrentQueue       = unserialize($USER['b_tech_queue']);
+                $CurrentQueue       = StoredData::decode($USER['b_tech_queue']);
                 foreach ($CurrentQueue as &$TechArray) {
                     $TechArray[3] += $umode_delta;
                 }
-                $USER['b_tech_queue'] = serialize($CurrentQueue);
+                $USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
                 unset($CurrentQueue);
                 $sql = 'UPDATE %%USERS%% SET
                     `b_tech` = `b_tech` + :umode_delta,
@@ -1628,11 +1628,11 @@ class PlayerUtil
             }
             if (isset($PLANET) && !empty($PLANET['b_building']) && !empty($PLANET['b_building_id'])) {
                 $PLANET['b_building'] = $PLANET['b_building'] + $umode_delta;
-                $CurrentQueue       = unserialize($PLANET['b_building_id']);
+                $CurrentQueue       = StoredData::decode($PLANET['b_building_id']);
                 foreach ($CurrentQueue as &$BuildArray) {
                     $BuildArray[3] += $umode_delta;
                 }
-                $PLANET['b_building_id'] = serialize($CurrentQueue);
+                $PLANET['b_building_id'] = StoredData::encode($CurrentQueue);
                 unset($CurrentQueue);
             }
 
@@ -1644,11 +1644,11 @@ class PlayerUtil
             foreach ($planets as $CPLANET) {
                 if (!empty($CPLANET['b_building']) && !empty($CPLANET['b_building_id'])) {
                     $CPLANET['b_building'] = $CPLANET['b_building'] + $umode_delta;
-                    $CurrentQueue = unserialize($CPLANET['b_building_id']);
+                    $CurrentQueue = StoredData::decode($CPLANET['b_building_id']);
                     foreach ($CurrentQueue as &$BuildArray) {
                         $BuildArray[3] += $umode_delta;
                     }
-                    $CPLANET['b_building_id'] = serialize($CurrentQueue);
+                    $CPLANET['b_building_id'] = StoredData::encode($CurrentQueue);
                     unset($CurrentQueue);
                 }
 

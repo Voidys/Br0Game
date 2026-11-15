@@ -75,7 +75,9 @@ class LostPasswordController extends AbstractLoginController
             ]]);
         }
 
-        $newPassword	= uniqid();
+        $newPassword	= bin2hex(random_bytes(6));
+        // the new password ends every other session of the account
+        $this->sessions()->revokeAccountSessions((int) $accountID);
 
         $sql = "UPDATE %%ACCOUNTS%% SET password = :newPassword WHERE id = :accountID;";
         $db->update($sql, [
@@ -143,6 +145,18 @@ class LostPasswordController extends AbstractLoginController
 
         $config	= $this->configs->get();
 
+        // without working mail the reset link would have to be shown on screen to whoever asks
+        if (!$config->mail_active || empty($config->smtp_host)) {
+            $this->redirectTo('./');
+        }
+
+        if (!$this->rateLimits->allowLostPassword($this->sessions()->getClientIp())) {
+            $this->printMessage($LNG['login_error_4'], [[
+                'label'	=> $LNG['passwordBack'],
+                'url'	=> './?page=lostPassword',
+            ]]);
+        }
+
         if (!empty($errorMessages)) {
             $message	= new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errorMessages)), 'UTF-8');
             $this->printMessage($message, [[
@@ -159,10 +173,11 @@ class LostPasswordController extends AbstractLoginController
             ':mail'		=> $mail,
         ], 'id');
 
+        // unknown accounts get the same answer as known ones (no account enumeration)
         if (empty($accountID)) {
-            $this->printMessage($LNG['passwordErrorUnknown'], [[
-                'label'	=> $LNG['passwordBack'],
-                'url'	=> './?page=lostPassword',
+            $this->printMessage($LNG['passwordValidMailSend'], [[
+                'label'	=> $LNG['passwordNext'],
+                'url'	=> './',
             ]]);
         }
 
@@ -173,13 +188,13 @@ class LostPasswordController extends AbstractLoginController
         ], 'state');
 
         if (!empty($hasChanged)) {
-            $this->printMessage($LNG['passwordErrorOnePerDay'], [[
-                'label'	=> $LNG['passwordBack'],
-                'url'	=> './?page=lostPassword',
+            $this->printMessage($LNG['passwordValidMailSend'], [[
+                'label'	=> $LNG['passwordNext'],
+                'url'	=> './',
             ]]);
         }
 
-        $validationKey	= md5(uniqid());
+        $validationKey	= bin2hex(random_bytes(16));
 
         $sql = "INSERT INTO %%LOSTPASSWORD%% SET accountID = :accountID, `key` = :validationKey, `time` = :timestamp, fromIP = :remoteAddr;";
         $db->insert($sql, [
@@ -198,22 +213,15 @@ class LostPasswordController extends AbstractLoginController
         ], [
             $accountname,
             $config->game_name,
-            $this->state->runtime->httpPath . './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey,
+            $this->canonicalUrl->forPage($this->state->runtime, './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey),
         ], $MailRAW);
 
-        if ($config->mail_active && !empty($config->smtp_host)) {
-            $subject	= sprintf($LNG['passwordValidMailTitle'], $config->game_name);
-            $this->mailer()->send($mail, $accountname, $subject, $MailContent);
+        $subject	= sprintf($LNG['passwordValidMailTitle'], $config->game_name);
+        $this->mailer()->send($mail, $accountname, $subject, $MailContent);
 
-            $this->printMessage($LNG['passwordValidMailSend'], [[
-                'label'	=> $LNG['passwordNext'],
-                'url'	=> './',
-            ]]);
-        } else {
-            $verifyURL = './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey;
-            $this->redirectTo($verifyURL);
-            // $validurl = HTTP_PATH.'./?page=lostPassword&mode=newPassword&u='.$userID.'&k='.$validationKey;
-            // echo '<meta http-equiv="refresh" content="0; url='.$validurl.'"/>';
-        }
+        $this->printMessage($LNG['passwordValidMailSend'], [[
+            'label'	=> $LNG['passwordNext'],
+            'url'	=> './',
+        ]]);
     }
 }

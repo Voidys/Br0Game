@@ -18,6 +18,7 @@
 namespace App\Game\Missions;
 
 use OutOfRangeException;
+use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Config;
@@ -525,7 +526,7 @@ class MissionCaseDestruction extends MissionFunctions implements MissionInterfac
 
         $db->insert($sql, [
             ':reportId'     => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : serialize($reportData),
+            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
             ':time'         => $this->_fleet['arrival_time'],
             ':attackers'    => implode(',', array_keys($userAttack)),
             ':defenders'    => implode(',', array_keys($userDefend)),

@@ -146,7 +146,7 @@ export function autocomplete(input, { source, onSelect, minLength = 2, delay = 2
 
 /** "drop admin access" / "drop rebuild protection" links in the warning banners */
 function warningBanners() {
-  const drop = (url) => getText(url).then(() => qsa('.globalWarning').forEach((el) => fadeOut(el)));
+  const drop = (url) => post(url, {}).then(() => qsa('.globalWarning').forEach((el) => fadeOut(el)));
   on(document, 'click', '#drop-admin', (event) => { event.preventDefault(); drop('admin?page=logout'); });
   on(document, 'click', '#drop-rebuild-protection', (event) => { event.preventDefault(); drop('game?page=rebuildProtectionAjax'); });
 
@@ -194,7 +194,7 @@ function listFilters() {
 
 /** information page of the missile silo: destroy interplanetary/anti-ballistic missiles */
 export async function DestroyMissiles() {
-  const data = await getJSON(`?page=information&mode=destroyMissiles&${serialize(qsa('.missile'))}`);
+  const data = await post('?page=information&mode=destroyMissiles', serialize(qsa('.missile')), 'json');
   const target502 = document.getElementById('missile_502');
   const target503 = document.getElementById('missile_503');
   if (target502) target502.textContent = pretty_number(data[0]);

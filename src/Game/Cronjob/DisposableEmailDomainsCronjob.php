@@ -3,38 +3,54 @@
 namespace App\Game\Cronjob;
 
 use RuntimeException;
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
 use App\Game\Core\DisposableEmailDomainBlocklist;
+use App\Game\Core\Singleton;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DisposableEmailDomainsCronjob extends AbstractCronjobTask
 {
     private const SOURCE_URL = 'https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/master/disposable_email_blocklist.conf';
 
+    public function __construct(
+        Database $db,
+        ConfigRegistry $configs,
+        Singleton $state,
+        private readonly HttpClientInterface $httpClient,
+    ) {
+        parent::__construct($db, $configs, $state);
+    }
+
+    /**
+     * Downloads the public disposable-email blocklist (GET, https only, 10 s idle / 30 s total, max 10 MB,
+     * redirects followed) and caches it via DisposableEmailDomainBlocklist.
+     *
+     * @throws RuntimeException on transport error, non-2xx status or an invalid list
+     */
     public function run(): void
     {
-        $curl = curl_init(self::SOURCE_URL);
-        if ($curl === false) {
-            throw new RuntimeException('Could not initialize the disposable domain list request.');
+        try {
+            $response = $this->httpClient->request('GET', self::SOURCE_URL, [
+                'timeout' => 10,
+                'max_duration' => 30,
+                'headers' => ['User-Agent' => 'Br0Game disposable-domain-list updater'],
+                // https only, also after redirects
+                'on_progress' => static function (int $downloaded, int $total, array $info): void {
+                    if (!str_starts_with((string) ($info['url'] ?? 'https://'), 'https://')) {
+                        throw new RuntimeException('redirect to a non-https URL');
+                    }
+                    if ($downloaded > 10 * 1024 * 1024 || $total > 10 * 1024 * 1024) {
+                        throw new RuntimeException('too large');
+                    }
+                },
+            ]);
+            $statusCode = $response->getStatusCode();
+            $contents = $response->getContent(false);
+        } catch (\Throwable $e) {
+            throw new RuntimeException('Could not download the disposable domain list: ' . $e->getMessage());
         }
 
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_MAXFILESIZE => 10 * 1024 * 1024,
-            CURLOPT_PROTOCOLS => CURLPROTO_HTTPS,
-            CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS,
-            CURLOPT_USERAGENT => 'Br0Game disposable-domain-list updater',
-        ]);
-
-        $contents = curl_exec($curl);
-        $statusCode = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-        $curlError = curl_error($curl);
-        curl_close($curl);
-
-        if ($contents === false) {
-            throw new RuntimeException('Could not download the disposable domain list: ' . $curlError);
-        }
         if ($statusCode < 200 || $statusCode >= 300) {
             throw new RuntimeException('The disposable domain list returned HTTP status ' . $statusCode . '.');
         }

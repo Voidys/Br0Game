@@ -79,11 +79,6 @@ class Cache
             return false;
         }
 
-        $cacheData	= unserialize($cacheData);
-        if ($cacheData === false) {
-            return false;
-        }
-
         $this->cacheObj[$Key] = $cacheData;
         return true;
     }
@@ -97,7 +92,6 @@ class Cache
         $cacheData		= $cacheBuilder->buildCache();
         $cacheData		= (array) $cacheData;
         $this->cacheObj[$Key] = $cacheData;
-        $cacheData		= serialize($cacheData);
         $this->cacheResource->store($Key, $cacheData);
         return true;
     }

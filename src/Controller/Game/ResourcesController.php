@@ -20,6 +20,7 @@ namespace App\Controller\Game;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
+use App\Game\Core\FormulaEvaluator;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
@@ -165,7 +166,7 @@ class ResourcesController extends AbstractGameController
                     continue;
                 }
 
-                $Production = eval($this->resourceUpdate()->getProd($ProdGrid[$ProdID]['production'][$ID], $ProdID));
+                $Production = FormulaEvaluator::evaluate($ProdGrid[$ProdID]['production'][$ID], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
                 if (in_array($ID, $reslist['resstype'][2])) {
                     $Production *= $config->energy_multiplier;
@@ -175,7 +176,7 @@ class ResourcesController extends AbstractGameController
 
                 if ($ProdID == fusion_plant && $ID == RESOURCE_ENERGY) {
                     $BuildEnergy = 0;
-                    $bonus = eval($this->resourceUpdate()->getProd($ProdGrid[$ProdID]['production'][$ID], $ProdID));
+                    $bonus = FormulaEvaluator::evaluate($ProdGrid[$ProdID]['production'][$ID], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
                     $temp[RESOURCE_ENERGY]['bonus'] = $Production - $bonus;
                     $BuildEnergy = $USER[$resource[ENERGY_TECH]];
                 }
@@ -197,7 +198,7 @@ class ResourcesController extends AbstractGameController
             $BuildLevelFactor = 10;
             $BuildLevel = $PLANET[$resource[$ProdID]];
 
-            $energyBaseProduction = eval($this->resourceUpdate()->getProd($ProdGrid[$ProdID]['production'][RESOURCE_ENERGY])) * $config->energy_multiplier / 100 ;
+            $energyBaseProduction = FormulaEvaluator::evaluate($ProdGrid[$ProdID]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp')) * $config->energy_multiplier / 100 ;
 
             foreach (range(10, 0) as $percent) {
                 $percentValue = $percent * 10;

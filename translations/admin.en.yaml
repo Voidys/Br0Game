@@ -1756,3 +1756,4 @@ adm_info_zone: "Time zone"
 adm_info_tz_php: "PHP"
 adm_info_tz_config: "Game config"
 adm_info_tz_user: "Your account"
+adm_login_throttled: 'Too many attempts. Please try again in a few minutes.'

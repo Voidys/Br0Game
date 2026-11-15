@@ -18,11 +18,13 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
 use App\Game\Core\PlayerUtil;
+use App\Game\Core\FormulaEvaluator;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Core\Singleton;
 
@@ -49,7 +51,7 @@ class BuildingsController extends AbstractGameController
     {
         $PLANET = &$this->state->PLANET;
         $USER = &$this->state->USER;
-        $CurrentQueue  = !empty($PLANET['b_building_id']) ? unserialize($PLANET['b_building_id']) : [];
+        $CurrentQueue  = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
         if (empty($CurrentQueue)) {
             $PLANET['b_building_id']    = '';
             $PLANET['b_building']       = 0;
@@ -95,7 +97,7 @@ class BuildingsController extends AbstractGameController
             return false;
         }
 
-        $CurrentQueue  = unserialize($PLANET['b_building_id']);
+        $CurrentQueue  = StoredData::decode($PLANET['b_building_id']);
         $ActualCount   = count($CurrentQueue);
         if ($ActualCount <= 1) {
             // Stale request: never cancel the running building by accident
@@ -116,7 +118,7 @@ class BuildingsController extends AbstractGameController
         }
 
         if (!empty($CurrentQueue)) {
-            $PLANET['b_building_id'] = serialize($CurrentQueue);
+            $PLANET['b_building_id'] = StoredData::encode($CurrentQueue);
         } else {
             $PLANET['b_building_id'] = "";
         }
@@ -147,7 +149,7 @@ class BuildingsController extends AbstractGameController
             return;
         }
 
-        $CurrentQueue       = !empty($PLANET['b_building_id']) ? unserialize($PLANET['b_building_id']) : [];
+        $CurrentQueue       = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
         if (!is_array($CurrentQueue)) {
             $CurrentQueue = [];
         }
@@ -186,7 +188,7 @@ class BuildingsController extends AbstractGameController
             $elementTime                = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Element, $costResources, !$AddMode);
             $BuildEndTime               = $this->state->runtime->timestamp + $elementTime;
 
-            $PLANET['b_building_id']    = serialize([[$Element, $BuildLevel, $elementTime, $BuildEndTime, $BuildMode, $costResources]]);
+            $PLANET['b_building_id']    = StoredData::encode([[$Element, $BuildLevel, $elementTime, $BuildEndTime, $BuildMode, $costResources]]);
             $PLANET['b_building']       = $BuildEndTime;
         } else {
             $addLevel = 0;
@@ -215,7 +217,7 @@ class BuildingsController extends AbstractGameController
             $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Element, null, !$AddMode, $BuildLevel, $ActualCount);
             $BuildEndTime = $CurrentQueue[$ActualCount - 1][self::QUEUE_BUILD_END_TIME] + $elementTime;
             $CurrentQueue[] = [$Element, $BuildLevel, $elementTime, $BuildEndTime, $BuildMode];
-            $PLANET['b_building_id'] = serialize($CurrentQueue);
+            $PLANET['b_building_id'] = StoredData::encode($CurrentQueue);
         }
     }
 
@@ -231,7 +233,7 @@ class BuildingsController extends AbstractGameController
             return ['queue' => $scriptData, 'quickinfo' => $quickinfo];
         }
 
-        $buildQueue     = unserialize($PLANET['b_building_id']);
+        $buildQueue     = StoredData::decode($PLANET['b_building_id']);
 
         foreach ($buildQueue as $BuildArray) {
             if ($BuildArray[self::QUEUE_BUILD_END_TIME] < $this->state->runtime->timestamp && !$USER['urlaubs_modus']) {
@@ -324,7 +326,7 @@ class BuildingsController extends AbstractGameController
         $CanBuildElement = isVacationMode($USER)
             || $config->max_elements_build == 0
             || $QueueCount < $config->max_elements_build;
-        $CurrentQueue = !empty($PLANET['b_building_id']) ? unserialize($PLANET['b_building_id']) : [];
+        $CurrentQueue = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
         if (!is_array($CurrentQueue)) {
             $CurrentQueue = [];
         }
@@ -373,10 +375,10 @@ class BuildingsController extends AbstractGameController
 
             if (in_array($Element, $reslist['prod'])) {
                 $BuildLevel = $PLANET[$resource[$Element]];
-                $Need       = eval($this->resourceUpdate()->getProd($ProdGrid[$Element]['production'][RESOURCE_ENERGY], $Element));
+                $Need       = FormulaEvaluator::evaluate($ProdGrid[$Element]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
                 $BuildLevel = $levelToBuild + 1;
-                $Prod       = eval($this->resourceUpdate()->getProd($ProdGrid[$Element]['production'][RESOURCE_ENERGY], $Element));
+                $Prod       = FormulaEvaluator::evaluate($ProdGrid[$Element]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
                 $requireEnergy  = $Prod - $Need;
                 $requireEnergy  = round($requireEnergy * $config->energy_multiplier);

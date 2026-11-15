@@ -76,7 +76,7 @@
       {{ icon('shield-alert', LNG.lm_administration) }}
     </a>
   {% endif %}
-  <a class="topbar__item topbar__logout" href="game?page=logout" title="{{ LNG.lm_logout }}">
+  <a data-method="post" class="topbar__item topbar__logout" href="game?page=logout" title="{{ LNG.lm_logout }}">
     {{ icon('log-out', LNG.lm_logout) }}
   </a>
 </nav>

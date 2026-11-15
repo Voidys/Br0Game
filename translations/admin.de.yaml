@@ -1812,3 +1812,4 @@ adm_info_zone: "Zeitzone"
 adm_info_tz_php: "PHP"
 adm_info_tz_config: "Spiel-Konfiguration"
 adm_info_tz_user: "Dein Account"
+adm_login_throttled: 'Zu viele Versuche. Bitte in ein paar Minuten erneut versuchen.'

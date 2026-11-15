@@ -70,7 +70,7 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
 
         if ($limit > 0 && $limit < $needed && $limit < self::MAX_MEMORY_LIMIT) {
             $target = min(self::MAX_MEMORY_LIMIT, $needed);
-            if (@ini_set('memory_limit', (string) $target) !== false) {
+            if (ini_set('memory_limit', (string) $target) !== false) {
                 $this->originalMemoryLimit ??= (string) $limit;
                 $limit = $target;
             }
@@ -85,7 +85,7 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
     protected function restoreMemoryLimit(): void
     {
         if ($this->originalMemoryLimit !== null) {
-            @ini_set('memory_limit', $this->originalMemoryLimit);
+            ini_set('memory_limit', $this->originalMemoryLimit);
             $this->originalMemoryLimit = null;
         }
     }

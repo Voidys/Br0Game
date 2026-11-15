@@ -34,11 +34,20 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'universe', uniPrefix: true)]
 class UniverseController extends AbstractAdminController
 {
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+
+    /** HTTP client for the multi-universe (rewrite rule) probe on create. */
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setHttpClient(\Symfony\Contracts\HttpClient\HttpClientInterface $httpClient): void
+    {
+        $this->httpClient = $httpClient;
+    }
+
     protected function construct(): void
     {
         $USER = & $this->state->USER;
 
-        if ($USER['authlevel'] != AUTH_ADM || ($this->state->requestQuery['sid'] ?? '') != $this->sessions()->id()) {
+        if ($USER['authlevel'] != AUTH_ADM) {
             throw new Exception("Permission error!");
         }
 
@@ -205,31 +214,29 @@ class UniverseController extends AbstractAdminController
             case 'create':
                 $universeCount = max($this->universe()->availableUniverses());
                 // Check Multiuniverse Support
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase . "uni" . ($universeCount + 1) . "/");
-                curl_setopt($ch, CURLOPT_HTTPGET, true);
-                curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt(
-                    $ch,
-                    CURLOPT_USERAGENT,
-                    "Mozilla/5.0 (compatible; Br0Game/" . $this->configs->get()->version
-                    . "; +https://github.com/Voidys/Br0Game)",
-                );
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                    "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3",
-                    "Accept-Language: de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",
-                ]);
+                $options = [
+                    'max_redirects' => 0,
+                    'headers' => [
+                        'User-Agent' => "Mozilla/5.0 (compatible; Br0Game/" . $this->configs->get()->version
+                            . "; +https://github.com/Voidys/Br0Game)",
+                        'Accept' => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                        'Accept-Charset' => "ISO-8859-1,utf-8;q=0.7,*;q=0.3",
+                        'Accept-Language' => "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4",
+                    ],
+                ];
                 if (str_contains($this->state->runtime->httpHost, '127.0.0.1') || str_contains($this->state->runtime->httpHost, 'localhost')) {
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                    $options['verify_peer'] = false;
+                    $options['verify_host'] = false;
                 }
-                curl_exec($ch);
-                $httpCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-
-                curl_close($ch);
+                try {
+                    $httpCode = $this->httpClient->request(
+                        'GET',
+                        $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase . "uni" . ($universeCount + 1) . "/",
+                        $options,
+                    )->getStatusCode();
+                } catch (\Throwable) {
+                    $httpCode = 0;
+                }
                 if ($httpCode != 302) {
                     // static information text with HTML (no user input)
                     $this->message(
@@ -347,7 +354,6 @@ class UniverseController extends AbstractAdminController
 
         $this->assign([
             'uniList'      => $uniList,
-            'SID'          => $this->sessions()->id(),
         ]);
 
         return $this->render('admin/UniversePage.html.twig');

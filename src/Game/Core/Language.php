@@ -121,7 +121,7 @@ class Language implements ArrayAccess
         // domain) would leave raw keys in messages written by missions: rebuild the packs once.
         foreach ($files as $file) {
             if (
-                !file_exists($path.'en-'.$file)
+                \App\Game\Cache\Resource\PhpArrayFile::read($path.'en-'.$file) === null
                 && file_exists(\App\Runtime\ProjectPaths::ROOT.'translations/'.strtolower($file).'.en.yaml')
             ) {
                 (new \App\Game\Cache\Builder\LanguageBuildCache())->buildCache();
@@ -130,10 +130,9 @@ class Language implements ArrayAccess
         }
 
         foreach ($files as $file) {
-            $filePath = $path.'en-'.$file;
-            if (file_exists($filePath)) {
+            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path.'en-'.$file);
+            if ($data !== null) {
                 try {
-                    $data = unserialize(file_get_contents($filePath));
                     $this->addData($this->withGameName($data));
                 } catch (Exception $e) {
                     error_log("YAML-Fehler: " . $e->getMessage());
@@ -143,10 +142,9 @@ class Language implements ArrayAccess
 
         // Get current client language
         foreach ($files as $file) {
-            $filePath = $path.$this->getLanguage().'-'.$file;
-            if (file_exists($filePath)) {
+            $data = \App\Game\Cache\Resource\PhpArrayFile::read($path.$this->getLanguage().'-'.$file);
+            if ($data !== null) {
                 try {
-                    $data = unserialize(file_get_contents($filePath));
                     $this->addData($this->withGameName($data));
                 } catch (Exception $e) {
                     error_log("YAML-Fehler: " . $e->getMessage());

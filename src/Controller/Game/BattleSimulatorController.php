@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -235,14 +236,14 @@ class BattleSimulatorController extends AbstractGameController
 
         $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, SIM_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
         unset($reportData['repaired']);
-        $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
+        $reportID = bin2hex(random_bytes(16));
 
         $db = $this->db;
 
         $sql = "INSERT INTO %%RW%% SET rid = :reportID, raport = :reportData, time = :time, attacker = :marker, battleengine = :battleengine;";
         $db->insert($sql, [
             ':reportID'     => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : serialize($reportData),
+            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
             ':time'         => $this->state->runtime->timestamp,
             ':marker'       => $simMarker,
             ':battleengine' => $battleHandler->engine->getName(),

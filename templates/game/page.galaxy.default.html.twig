@@ -136,7 +136,7 @@
                 </a>
               {% endif %}
               {% if currentPlanet.action.spyReport %}
-                <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" onclick="OpenPopup('?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1','',900,600);return false;">
+                <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" onclick="OpenPopup('?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}','',900,600);return false;">
                   <img src="{{ theme_asset('img/spy_report.png') }}" title="{{ currentPlanet.spyReportTitle }}" alt="">
                 </a>
               {% endif %}
@@ -156,7 +156,7 @@
                 </a>
               {% endif %}
               {% if currentPlanet.action.phalanx %}
-                <a href="#" onclick="OpenPopup('?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1','',640,510);return false;">
+                <a href="#" onclick="OpenPopup('?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}','',640,510);return false;">
                   <span>{{ LNG.gl_phalanx }}</span>
                 </a>
               {% endif %}

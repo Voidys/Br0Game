@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\StoredData;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -59,7 +60,7 @@ class ResearchController extends AbstractGameController
                 continue;
             }
 
-            $CurrentQueue       = unserialize($planet['b_building_id']);
+            $CurrentQueue       = StoredData::decode($planet['b_building_id']);
             foreach ($CurrentQueue as $ListIDArray) {
                 if ($ListIDArray[self::QUEUE_ELEMENT_ID] == university || $ListIDArray[self::QUEUE_ELEMENT_ID] == RESEARCH_LABORATORY) {
                     return false;
@@ -75,7 +76,7 @@ class ResearchController extends AbstractGameController
         $PLANET = & $this->state->PLANET;
         $USER = & $this->state->USER;
         $resource = & $this->state->resource;
-        $CurrentQueue  = !empty($USER['b_tech_queue']) ? unserialize($USER['b_tech_queue']) : [];
+        $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if (empty($CurrentQueue) || empty($USER['b_tech'])) {
             $USER['b_tech_queue']   = '';
             $USER['b_tech_planet']  = 0;
@@ -151,7 +152,7 @@ class ResearchController extends AbstractGameController
 
             if (!empty($NewCurrentQueue)) {
                 $USER['b_tech']             = $this->state->runtime->timestamp;
-                $USER['b_tech_queue']       = serialize($NewCurrentQueue);
+                $USER['b_tech_queue']       = StoredData::encode($NewCurrentQueue);
                 $this->ecoObj->setData($USER, $PLANET);
                 $this->ecoObj->SetNextQueueTechOnTop($saveRessources);
                 [$USER, $PLANET] = $this->ecoObj->getData();
@@ -169,7 +170,7 @@ class ResearchController extends AbstractGameController
         $USER = & $this->state->USER;
         $PLANET = & $this->state->PLANET;
         $resource = & $this->state->resource;
-        $CurrentQueue  = !empty($USER['b_tech_queue']) ? unserialize($USER['b_tech_queue']) : [];
+        $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if ($QueueID <= 1 || empty($CurrentQueue)) {
             return false;
         }
@@ -217,7 +218,7 @@ class ResearchController extends AbstractGameController
         }
 
         if (!empty($NewCurrentQueue)) {
-            $USER['b_tech_queue'] = serialize($NewCurrentQueue);
+            $USER['b_tech_queue'] = StoredData::encode($NewCurrentQueue);
         } else {
             $USER['b_tech_queue'] = "";
         }
@@ -241,7 +242,7 @@ class ResearchController extends AbstractGameController
             return false;
         }
 
-        $CurrentQueue       = !empty($USER['b_tech_queue']) ? unserialize($USER['b_tech_queue']) : [];
+        $CurrentQueue       = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
 
         if (!empty($CurrentQueue)) {
             $ActualCount    = count($CurrentQueue);
@@ -283,7 +284,7 @@ class ResearchController extends AbstractGameController
             $elementTime                = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementId, $costResources);
             $BuildEndTime               = $this->state->runtime->timestamp + $elementTime;
 
-            $USER['b_tech_queue'] = serialize([[$elementId, $BuildLevel, $elementTime, $BuildEndTime, $PLANET['id'], $costResources]]);
+            $USER['b_tech_queue'] = StoredData::encode([[$elementId, $BuildLevel, $elementTime, $BuildEndTime, $PLANET['id'], $costResources]]);
             $USER['b_tech'] = $BuildEndTime;
             $USER['b_tech_id'] = $elementId;
             $USER['b_tech_planet'] = $PLANET['id'];
@@ -307,7 +308,7 @@ class ResearchController extends AbstractGameController
 
             $BuildEndTime = $CurrentQueue[$ActualCount - 1][self::QUEUE_BUILD_END_TIME] + $elementTime;
             $CurrentQueue[] = [$elementId, $BuildLevel, $elementTime, $BuildEndTime, $PLANET['id']];
-            $USER['b_tech_queue'] = serialize($CurrentQueue);
+            $USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
         }
 
         return true;
@@ -325,7 +326,7 @@ class ResearchController extends AbstractGameController
             return ['queue' => $scriptData, 'quickinfo' => $quickinfo];
         }
 
-        $CurrentQueue   = !empty($USER['b_tech_queue']) ? unserialize($USER['b_tech_queue']) : [];
+        $CurrentQueue   = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
 
         foreach ($CurrentQueue as $BuildArray) {
             if ($BuildArray[self::QUEUE_BUILD_END_TIME] < $this->state->runtime->timestamp && !$USER['urlaubs_modus']) {

@@ -18,6 +18,7 @@
 namespace App\Game\Missions;
 
 use App\Game\Achievements\MiscAchievement;
+use App\Game\Core\StoredData;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\BuildFunctions;
@@ -487,7 +488,7 @@ HTML;
 
         $this->db->insert($sql, [
             ':reportId' => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : serialize($reportData),
+            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
             ':time' => $this->_fleet['stay_time'],
             ':attacker' => $this->_fleet['owner'],
             ':battleengine' => $battleHandler->engine->getName()

@@ -5,7 +5,7 @@ async function checkrename() {
   if (qs('#name').value.trim() === '') {
     return false;
   }
-  const response = await getJSON(`game?page=overview&mode=rename&name=${encodeURIComponent(qs('#name').value)}`);
+  const response = await post('game?page=overview&mode=rename', { name: qs('#name').value }, 'json');
   window.Dialog.alert(response.message, () => {
     if (!response.error) location.reload();
   });
