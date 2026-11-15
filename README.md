@@ -191,11 +191,24 @@ ddev composer exec php-cs-fixer fix                                         # ne
 ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # legacy game code: PSR-12
 ```
 
+- **Testing:** PHPUnit (`tests/Unit` needs no database, `tests/Integration` runs against a dedicated database `db_test`):
+
+  ```sh
+  ddev exec vendor/bin/phpunit                        # everything (also: ddev composer test)
+  ddev exec vendor/bin/phpunit --testsuite Unit       # no database needed (also: ddev composer test:unit)
+  ddev exec vendor/bin/phpunit --filter BuildFunctionsTest
+  ```
+
+  - The test database name must end in `_test` (`.env.test`, `DATABASE_URL`); the tests refuse to run against anything else, so the dev database `db` is never touched. DDEV's `db` user may need `GRANT ALL ON db_test.*`; DDEV's root user can do that (`ddev mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS db_test; GRANT ALL ON db_test.* TO 'db'@'%';"`).
+  - Every run rebuilds the schema of `db_test` from `install/install.sql` and the migrations; each test runs in a rolled-back transaction.
+  - The mechanics tests compare against golden values captured from the code before the legacy renewal (prices, build times, production, queues, fleet maths, battles). A failing golden test means a result changed; only update the value (`GOLDEN_CAPTURE=1 vendor/bin/phpunit --filter <Class>` prints the new values to `var/golden/`) when the change is intended.
+  - The Rust battle engine cannot be seeded: it is checked against invariants and, statistically, against the PHP engine (the PHP engine is seeded with `mt_srand`).
 - Errors land in `var/log/`. After changing translations or game data, clear `var/game/`.
 - Template and escaping rules are in [docs/templates.md](docs/templates.md).
 - **CI** ([`ci.yml`](.github/workflows/ci.yml)) runs on every push to `main` and on every pull request:
   - composer validate;
   - PHP syntax, Twig, YAML and container lint;
+  - the PHPUnit suite against a MySQL 8.4 service container (`db_test`);
   - `bash -n` and shellcheck for the install scripts.
 - **Releases** ([`release.yml`](.github/workflows/release.yml)):
   - bump `install/VERSION` (year scheme `1.<yy>.<patch>`, e.g. `1.26.0`) and push a tag `v1.26.0`;

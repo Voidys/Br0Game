@@ -143,21 +143,4 @@ class HTTP
 
         return $var;
     }
-
-    public function getPageResponse(string $url): string
-    {
-        $response = '';
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-        $resp = curl_exec($ch);
-        $errNo = curl_errno($ch);
-        curl_close($ch);
-        if ($errNo === 0 && $resp !== false) {
-            $response = $resp;
-        }
-        return $response;
-    }
 }

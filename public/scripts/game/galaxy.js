@@ -86,27 +86,36 @@ function galaxy_submit(value) {
   document.getElementById('galaxy_form').submit();
 }
 
-const universe = GM_getValue("universe", {})
-const playerids = GM_getValue("playerids", {})
-const allyids = GM_getValue("allyids", {})
-
 function parseUni() {
   return window.location.pathname.match('uni?.')?.[0] || 'uni1'
 }
 
-function GM_getValue(key, defaultv) {
-  let uni = parseUni()
-  let x = localStorage.getItem(`${uni}_${key}`);
-  if (x === null) {
-    return defaultv;
-  }
-  return JSON.parse(x)
-}
+/**
+ * Per-universe galaxy data store on localStorage (keys "<uniN>_<name>", JSON values).
+ * The key format is unchanged so galaxy data saved by earlier versions still loads.
+ * Storage errors (quota, disabled storage, corrupt JSON) fall back to the default / are ignored.
+ */
+const galaxyStore = {
+  get(key, defaultValue) {
+    try {
+      const raw = localStorage.getItem(`${parseUni()}_${key}`);
+      return raw === null ? defaultValue : JSON.parse(raw);
+    } catch (e) {
+      return defaultValue;
+    }
+  },
+  set(key, value) {
+    try {
+      localStorage.setItem(`${parseUni()}_${key}`, JSON.stringify(value));
+    } catch (e) {
+      console.warn('galaxy data could not be saved', e);
+    }
+  },
+};
 
-function GM_setValue(key, value) {
-  let uni = parseUni()
-  localStorage.setItem(`${uni}_${key}`, JSON.stringify(value))
-}
+const universe = galaxyStore.get("universe", {})
+const playerids = galaxyStore.get("playerids", {})
+const allyids = galaxyStore.get("allyids", {})
 
 
 function addlisteners() {
@@ -165,9 +174,9 @@ function onReaderLoad_import(event) {
       allyids[k] = aid[k]
     }
   }
-  GM_setValue("universe", universe)
-  GM_setValue("playerids", playerids)
-  GM_setValue("allyids", allyids)
+  galaxyStore.set("universe", universe)
+  galaxyStore.set("playerids", playerids)
+  galaxyStore.set("allyids", allyids)
 }
 
 function export_csv() {
@@ -197,9 +206,9 @@ function reset() {
   Object.keys(universe).forEach(key => delete universe[key]);
   Object.keys(playerids).forEach(key => delete playerids[key]);
   Object.keys(allyids).forEach(key => delete allyids[key]);
-  GM_setValue("universe", universe)
-  GM_setValue("playerids", playerids)
-  GM_setValue("allyids", allyids)
+  galaxyStore.set("universe", universe)
+  galaxyStore.set("playerids", playerids)
+  galaxyStore.set("allyids", allyids)
 }
 
 function syncsys() {
@@ -211,9 +220,9 @@ function syncsys() {
     playerids[systemdata[pos].playerid] = {name: systemdata[pos].name, timepoint: systemdata.timepoint}
     allyids[systemdata[pos].allianceid] = {name: systemdata[pos].alliancename, timepoint: systemdata.timepoint}
   }
-  GM_setValue("universe", universe)
-  GM_setValue("playerids", playerids)
-  GM_setValue("allyids", allyids)
+  galaxyStore.set("universe", universe)
+  galaxyStore.set("playerids", playerids)
+  galaxyStore.set("allyids", allyids)
 
 }
 

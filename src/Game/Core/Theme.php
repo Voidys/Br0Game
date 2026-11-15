@@ -76,20 +76,6 @@ class Theme
         return $this->skin;
     }
 
-    public function getTemplatePath()
-    {
-        return \App\Runtime\ProjectPaths::ROOT.'/styles/templates/'.$this->skin.'/';
-    }
-
-    public function isCustomTPL($tpl)
-    {
-        if (!isset($this->customtpls)) {
-            return false;
-        }
-
-        return in_array($tpl, $this->customtpls);
-    }
-
     public function setStyleSettings()
     {
         if (file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg')) {

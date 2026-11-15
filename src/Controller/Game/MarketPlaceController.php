@@ -42,31 +42,6 @@ class MarketPlaceController extends AbstractGameController
         return ['result' => 0];
     }
 
-    private function checkTechs($SELLER)
-    {
-        $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
-        $attack = $USER[$resource[MILITARY_TECH]] * 10;
-        $shield = $USER[$resource[SHIELD_TECH]] * 10;
-        $defensive = $USER[$resource[DEFENCE_TECH]] * 10;
-
-        $attack_targ = $SELLER[$resource[MILITARY_TECH]] * 10;
-        $shield_targ = $SELLER[$resource[SHIELD_TECH]] * 10;
-        $defensive_targ = $SELLER[$resource[DEFENCE_TECH]] * 10;
-
-        if ($attack > $attack_targ || $defensive > $defensive_targ || $shield > $shield_targ) {
-            return [
-                'buyable' => false,
-                'reason' => $LNG['market_buyable_no_tech'],
-            ];
-        }
-
-        return [
-            'buyable' => true,
-            'reason' => '',
-        ];
-    }
     private function checkVmode()
     {
         $USER = & $this->state->USER;

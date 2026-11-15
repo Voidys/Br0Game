@@ -607,3 +607,18 @@ Technical changes per migration step, newest last.
   - fleet Continue rows sticky at the viewport bottom; an empty fleet table takes one row;
   - message categories as uniform chips (colour dot, count, full labels on desktop); neutral message rows with unread = raised + bold; row actions as Lucide icons (`star`, `reply`, `forward`, `chevron-up` added to the sprite).
 - Shell (top bar, side panel, drawer, footer) structurally unchanged.
+
+## 85. Legacy cleanup (phase 1a)
+- Removed local leftovers of the old development branch (untracked `cache/`, `includes/`, `juliaBattleEngine/`, `stats_Universe_1.json`); the game cache lives in `var/game/`.
+- Removed unreferenced images: `fancybox/`, `facebook/`, `battlesim/` (art), `banned.png`, `banner.jpg`, `meta.png`, `steem.png`, `pr0game_old.gif`, `icons/closed.png`, `icons/open.png` (+ generated `.webp` copies).
+- `galaxy.js`: the userscript-style `GM_getValue`/`GM_setValue` shim became `galaxyStore.get/set` (same `<uniN>_<key>` localStorage keys and JSON format, storage errors handled).
+- Removed 8 never-rendered templates (admin officiers editor, mod version, vertify x2, admin ticket create, alliance rename name/tag, login rules.default) and unused `HTTP::getPageResponse()`, `Theme::getTemplatePath()/isCustomTPL()`, `MarketPlaceController::checkTechs()`.
+
+## 86. Test foundation (phase 1b)
+- PHPUnit 13 as dev dependency (`phpunit.dist.xml`, `tests/bootstrap.php`, `composer test` / `composer test:unit`, autoload-dev `App\Tests\`).
+- `tests/Unit` (no database): `HTTP::_GP` casting/encoding, `PlayerUtil::isNameValid` (player + planet names), fleet string format, reference-ratio format.
+- `tests/Integration` (kernel + game booted like `bin/console`, dedicated database `db_test`): the schema is rebuilt per run by `tests/Support/setup-database.php` from `install.sql` + migrations + default config through `InstallService::runBuildTask`; every test runs in a transaction that is rolled back; refuses any database whose name does not end in `_test`.
+- Golden values captured from the pre-renewal code (`GOLDEN_CAPTURE=1`, see `tests/Support/GoldenAssertions.php`): `BuildFunctions` prices/times/max constructible/catch-up, `ResourceUpdate` production, energy, storage, eco hash and every `ProdGrid` formula (the `eval()` ones), build/research/shipyard queue structures (serialize format) and their progression, `FleetFunctions` distance/duration/consumption/speed/room/ranges, market conversion + push detection, expedition value and findable ships.
+- Battle: PHP engine seeded (`mt_srand`) golden fights, fights decided without luck identical in the PHP and Rust engines, invariants for both, statistical agreement of Rust vs PHP (the Rust engine has no seed).
+- `config/packages/doctrine.yaml`: removed the `when@test` `dbname_suffix` (the test database is `db_test` via `.env.test`).
+- CI job `tests` (PHP 8.4, MySQL 8.4 service, `db_test`).

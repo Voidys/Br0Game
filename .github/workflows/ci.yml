@@ -52,6 +52,49 @@ jobs:
       - name: Service container
         run: php bin/console lint:container
 
+  tests:
+    name: PHPUnit (unit + integration)
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: db_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      APP_ENV: test
+      # the tests refuse a database whose name does not end in _test
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/db_test?serverVersion=8.4.0&charset=utf8mb4
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, mbstring, gd, curl, ctype, json, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+
   shell:
     name: Shell scripts
     runs-on: ubuntu-latest
