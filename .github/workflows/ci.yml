@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP lint, Twig, YAML, container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, mbstring, gd, curl, ctype, json, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Validate composer.json
+        run: composer validate --no-check-publish
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: PHP syntax
+        run: find src bin config install public -name '*.php' -print0 | xargs -0 -n1 -P4 php -l > /dev/null
+
+      - name: Twig templates
+        run: php bin/console lint:twig templates
+
+      - name: YAML (translations, config, workflows)
+        run: php bin/console lint:yaml translations config .github
+
+      - name: Service container
+        run: php bin/console lint:container
+
+  shell:
+    name: Shell scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: bash -n
+        run: bash -n install.sh tools/release/build.sh
+
+      - name: shellcheck
+        run: shellcheck --severity=warning install.sh tools/release/build.sh

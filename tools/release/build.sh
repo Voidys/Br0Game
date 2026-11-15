@@ -68,7 +68,7 @@ find "$STAGE/vendor" -type d \( -iname tests -o -iname test -o -iname .git -o -i
 rm -f "$STAGE/config/game.php"
 
 echo "==> runtime directories and environment"
-rm -rf "$STAGE/var"
+rm -rf "${STAGE:?}/var"
 mkdir -p "$STAGE"/var/{cache,log,game,sessions,backups,share} "$STAGE/stats" \
     "$STAGE/public/uploads/news" "$STAGE/public/stats"
 for d in var/cache var/log var/game var/sessions var/backups var/share stats public/uploads/news public/stats; do
