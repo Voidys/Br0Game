@@ -1,0 +1,13 @@
+{#
+  Board for visitors without login: the start page frame (header, navigation, footer of
+  login/layout.base) around the account area content; account.css styles the board.
+#}
+{% extends 'login/layout.base.html.twig' %}
+{% block body_class %} account-page account-page--site{% endblock %}
+{% block script %}
+  <link rel="stylesheet" href="./styles/resource/css/account/account.css?v={{ asset_version }}">
+  <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
+{% endblock %}
+{% block main %}
+  <main class="acc-main" id="content">{% block content %}{% endblock %}</main>
+{% endblock %}

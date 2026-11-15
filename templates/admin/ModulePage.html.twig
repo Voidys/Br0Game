@@ -1,0 +1,32 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ mod_info }}</div></div>
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('puzzle') }}{{ mod_module }}</h2>
+      <div class="card__actions"><input type="search" class="table-filter" data-table-filter="#module-table" placeholder="{{ LNG.adm_filter_page }}"></div>
+    </header>
+    <div class="table-wrap">
+      <table class="data" id="module-table">
+        <tbody>
+        {% for ID, Info in (Modules)|php_iter %}
+          {% if Info.state == 1 %}
+            {% set toggleUrl = '?page=module&mode=deaktiv&id=' ~ ID %}
+          {% else %}
+            {% set toggleUrl = '?page=module&mode=aktiv&id=' ~ ID %}
+          {% endif %}
+          <tr>
+            <td>{{ Info.name }}</td>
+            <td>{% if Info.state == 1 %}<span class="badge badge--ok">{{ mod_active }}</span>{% else %}<span class="badge badge--muted">{{ mod_deactive }}</span>{% endif %}</td>
+            <td class="actions">
+              <input type="checkbox" class="switch" {% if Info.state == 1 %}checked{% endif %} data-href="{{ toggleUrl|e('html_attr') }}" onchange="location.href=this.dataset.href" aria-label="{{ Info.name|e('html_attr') }}: {% if Info.state == 1 %}{{ mod_change_deactive }}{% else %}{{ mod_change_active }}{% endif %}">
+              <noscript><a class="button btn--small" href="{{ toggleUrl|e('html_attr') }}">{% if Info.state == 1 %}{{ mod_change_deactive }}{% else %}{{ mod_change_active }}{% endif %}</a></noscript>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

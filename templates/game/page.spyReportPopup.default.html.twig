@@ -1,0 +1,47 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.gl_show_spy_report }}{{ parent() }}{% endblock %}
+{% block content %}
+{% if spyReports|count > 0 %}
+    <div id="stuff" jsthings='
+    {
+    "impulseEngineTech":{{ impulse_motor_tech }},
+    "combustionEngineTech":{{ combustion_tech }},
+    "tfpercFleet":{{ fleetIntoDebris }},
+    "tfpercDeff":{{ defIntoDebris }},
+    "marketRatios":{
+        "901":{{ refratesMetal }},
+        "902":{{ refratesCrystal }},
+        "903":{{ refratesDeuterium }}
+    },
+    "fleetspeed":1,
+    "stbSettings":{
+        "stb_big_time": {{ stb_big_time }},
+        "stb_med_time": {{ stb_med_time }},
+        "stb_small_time": {{ stb_small_time }},
+        "stb_big_ress": {{ stb_big_ress }},
+        "stb_med_ress": {{ stb_med_ress }},
+        "stb_small_ress": {{ stb_small_ress }}
+    },
+    "uniType": {{ uniType }},
+    "maxGalaxy": {{ maxGalaxy }}
+    }
+    '><select id="planetSelector" hidden>
+		{{ html_options({'options': PlanetSelect, 'selected': current_pid}) }}
+	</select></div>
+    {% for report in (spyReports)|php_iter %}
+        <details class="spy-report-collapsible" {% if loop.first %}open{% endif %}>
+            <summary class="spy-report-summary">{{ report.date }}</summary>
+            {{ report.html|raw }}
+        </details>
+    {% endfor %}
+{% else %}
+    <table>
+    <tr>
+        <th>{{ LNG.gl_show_spy_report }}</th>
+    </tr>
+    <tr>
+        <td class="spy-report-empty">{{ LNG.gl_no_spy_report }}</td>
+    </tr>
+    </table>
+{% endif %}
+{% endblock %}

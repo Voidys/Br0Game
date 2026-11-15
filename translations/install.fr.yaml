@@ -1,0 +1,66 @@
+back: Retour
+continue: Continue
+install_desc: >-
+  Pour activer l'outil d'installation, créez le fichier
+  "var/ENABLE_INSTALL_TOOL"<br> Le nom du fichier est sensible à la casse
+  et n'a pas de fin de type de fichier.<br> Le fichier peut être vide. 
+
+  Il sera supprimé automatiquement une fois l’installation terminée ou s’il date
+  de plus d’une heure.
+install_title: L'outil d'installation est verrouillé
+intro_install: Installation
+intro_lang: Language
+intro_text: >-
+  Un des meilleurs clones Ogame : 2 Moons.<br>The latest is and 2 Moons the
+  stablest flat rate was ever developed. 2 of Moon shines by stability,
+  flexibility, dynamics, quality and user-friendliness. We hope always to be
+  better than her expectations.<br><br>The installation system guides you
+  through the install or upgrade from an older version to the latest. On
+  questions or trouble don't hesitate to contact us.<br><br>Br0Game is an open
+  source project licensed under the GNU GPL v3. For the license please click on
+  the item in the menu.<br><br>Before the installation starts, a test is
+  conducted, if system requirements are met.
+intro_welcome: Bievenue dans Br0Game!
+menu_install: Install
+menu_intro: Intro
+menu_license: License
+reg_dir: Dossier
+reg_file: Fichier
+reg_found: Trouvé
+reg_gd_need: GB-Lib disponible ?
+reg_global_need: register_globals desactivé ?
+reg_iniset_need: ini_set() disponible ?
+reg_json_need: JSON disponible ?
+reg_no: Non
+reg_not_found: Non trouvé
+reg_not_writable: Non inscriptibles
+reg_writable: Inscriptibles
+reg_yes: Oui
+req_php_need: PHP-Version (min. 5.2.5)
+sql_close_reason: |-
+  L'univers est en train de se mettre en place. 
+  S'il vous plaît, attendez.
+sql_welcome: 'Bienvenue sur '
+step1_mysql_dbname: 'MySQL-DB-Name: <br> Ex.: Game'
+step1_mysql_dbpass: 'MySQL-DB-Password: <br> Ex.: 12345'
+step1_mysql_dbuser: 'MySQL-DB-User: <br> Ex.: root'
+step1_mysql_migrationpass: Mot de passe de migration de base de données
+step1_mysql_migrationpass_info: >-
+  Le mot de passe de migration sera demandé lorsque des modifications ou des
+  mises à niveau de la base de données sont requises pour une nouvelle version
+  du jeu.
+step1_mysql_port: 'MySQL-DB-Server-Port: <br>Standard: 3306'
+step1_mysql_prefix: 'MySQL-DB-Prefix: <br> Ex.: uni1_'
+step1_mysql_server: 'MySQL-DB-Server: <br>Standard: localhost'
+step2_conf_create: config.php à été crée avec succès...
+step2_conf_op_fail: config.php n'est pas en CHMOD 777!
+step2_db_con_fail: Aucune connexion avec la base de données.<br> %s
+step2_db_no_migrationpw: Vous n'avez pas spécifié le mot de passe de migration pour la base de données
+step2_prefix_invalid: >-
+  Le préfixe DB doit contenir que des caractères alphanumériques et caractères
+  de soulignement.
+title_install: Installeur
+upgrade_message_admin: "Administrateurs\_: pour installer la mise à niveau de la base de données, saisissez le mot de passe de migration et continuez."
+upgrade_message_user: "Joueurs\_: Veuillez patienter un peu, puis essayez de cliquer sur \"Revenir au jeu\"."
+upgrade_return: Retour au jeu
+upgrade_title: "Une mise à niveau de la base de données est nécessaire\_!"

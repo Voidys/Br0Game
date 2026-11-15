@@ -1,0 +1,99 @@
+{#
+  Start page frame (login area): head with the configured game name in title, meta and structured
+  data, top bar (brand, navigation, language), {% block main %}, footer. Variants: layout.light
+  (homepage), layout.normal (content pages in a card), layout.popup (messages without navigation);
+  account/layout.site puts the board in this frame for visitors without login.
+#}
+{% set currentPage = (app.request.query.get('page')|default('index'))|lower %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
+  {{ import_map() }}
+  {# pages fill "title" (also the card heading); defined here once, rendered via block() #}
+  {% if false %}{% block title %}{% endblock %}{% endif %}
+  {% set pageTitle = block('title') is defined ? block('title')|striptags|trim : '' %}
+  <title>{% if pageTitle and currentPage != 'index' %}{{ pageTitle }} · {% endif %}{{ gameName }}</title>
+  <meta name="description" content="{{ LNG.home_meta_description|format(gameName) }}">
+  <meta property="og:title" content="{{ gameName }}">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="{{ LNG.home_meta_description|format(gameName) }}">
+  <meta property="og:image" content="{{ basepath }}memes/first-day.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  <link rel="preload" href="styles/resource/fonts/michroma/michroma-eu.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles/resource/css/app/base.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="styles/resource/css/login/login.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="styles/resource/css/app/rte.css?v={{ asset_version }}">
+  <script>window.__pageInit = []; window.onPageInit = function (fn) { window.__pageInit.push(fn); };</script>
+  <script type="module" src="scripts/app/main.js?v={{ asset_version }}"></script>
+  <script type="module" src="scripts/login/main.js?v={{ asset_version }}"></script>
+  {% block script %}{% endblock %}
+  <script type="application/ld+json">{{ {
+    '@context': 'https://schema.org',
+    '@type': ['VideoGame', 'WebApplication'],
+    'name': gameName,
+    'url': basepath,
+    'image': basepath ~ 'memes/first-day.webp',
+    'description': LNG.home_meta_description|format(gameName),
+    'inLanguage': languages|keys,
+    'genre': ['Strategy', 'Browser game', 'MMOG'],
+    'gamePlatform': 'Browser',
+    'playMode': 'MultiPlayer',
+    'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR'}
+  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+</head>
+<body id="{{ currentPage }}" class="site site--{{ bodyclass }}{% block body_class %}{% endblock %}">
+  {% if bodyclass != 'popup' %}
+    <header class="site-header">
+      <div class="site-wrap site-header__inner">
+        <a class="site-brand" href="./">{{ icon('rocket') }}<span>{{ gameName }}</span></a>
+        <button type="button" class="icon-button site-menu-toggle" data-site-menu aria-expanded="false" aria-controls="site-nav">{{ icon('menu', LNG.home_menu) }}</button>
+        <nav class="site-nav" id="site-nav" aria-label="{{ LNG.home_menu }}">
+          <a href="./?page=news"{% if currentPage == 'news' %} aria-current="page"{% endif %}>{{ LNG.menu_news }}</a>
+          <a href="./?page=HoF"{% if currentPage == 'hof' %} aria-current="page"{% endif %}>{{ LNG.siteTitleHOF }}</a>
+          <a href="./?page=battleHall"{% if currentPage == 'battlehall' %} aria-current="page"{% endif %}>{{ LNG.menu_battlehall }}</a>
+          <a href="./?page=screens"{% if currentPage == 'screens' %} aria-current="page"{% endif %}>{{ LNG.buttonScreenshot }}</a>
+          <a href="./?page=rules"{% if currentPage == 'rules' %} aria-current="page"{% endif %}>{{ LNG.menu_rules }}</a>
+          <a href="account?page=board"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
+        </nav>
+        {% if languages|length > 1 %}
+          <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.registerLanguage }}</span>
+            <select data-language-select>
+              {% for langKey, langName in languages %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endfor %}
+            </select>
+          </label>
+        {% endif %}
+      </div>
+    </header>
+  {% endif %}
+
+  {% block main %}{% endblock %}
+
+  {% if bodyclass != 'popup' %}
+    <footer class="site-footer">
+      <div class="site-wrap site-footer__inner">
+        <span>{% if gameName is empty or gameName == 'Br0Game' %}© Project Br0Game{% else %}© {{ gameName }} on Project Br0Game{% endif %}</span>
+        <nav aria-label="Footer">
+          <a href="./?page=team">{{ LNG.home_team }}</a>
+          <a href="./?page=banList">{{ LNG.menu_banlist }}</a>
+          <a href="./?page=disclamer">{{ LNG.menu_disclamer }}</a>
+          <a href="./?page=dataPrivacy">{{ LNG.siteTitleDataPrivacy }}</a>
+          {% set sourceUrl = game_config('source_url') %}
+          {% if sourceUrl %}<a href="{{ sourceUrl|e('html_attr') }}" target="_blank" rel="noopener" title="AGPL-3.0">{{ LNG.source_code }}</a>{% endif %}
+        </nav>
+      </div>
+    </footer>
+  {% endif %}
+  <script>
+    var LoginConfig = {
+      'isMultiUniverse': {{ isMultiUniverse|json_encode|raw }},
+      'unisWildcast': {{ unisWildcast|json_encode|raw }},
+      'referralEnable': {{ referralEnable|json_encode|raw }},
+      'basePath': {{ basepath|json_encode|raw }}
+    };
+  </script>
+</body>
+</html>

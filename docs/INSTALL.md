@@ -1,0 +1,214 @@
+# Installing Br0Game
+
+This guide starts simple and gets more technical further down. Pick your way first.
+
+## Which way is for me?
+
+| You have ... | Take this way | Command line needed? |
+|---|---|---|
+| Ordinary web hosting (shared hosting, "web space" with PHP and a database) or a server with a control panel | [ZIP download](#way-1-zip-download) | No |
+| A VPS or root server where you log in over SSH | [Install script](#way-2-install-script-ssh) | Yes |
+| Just want to look at it on your own PC | [DDEV](#way-3-ddev-try-it-on-your-pc) | A little |
+
+You always need: PHP 8.4 with a few extensions, a MySQL 8.4 or MariaDB 10.11 database, and a way to run a command
+every minute (cron). A domain with HTTPS is strongly recommended.
+
+---
+
+## Way 1: ZIP download
+
+### 1. Download and check the file
+
+Download `br0game-<version>.zip` **only** from the
+[Releases page](https://github.com/Voidys/Br0Game/releases) of the project. Download the matching
+`br0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
+it with your own calculation:
+
+* Windows (Command Prompt): `certutil -hashfile br0game-1.26.0.zip SHA256`
+* macOS: `shasum -a 256 br0game-1.26.0.zip`
+* Linux: `sha256sum -c br0game-1.26.0.zip.sha256` (both files in the same folder; it prints `OK`)
+
+On Windows and macOS, compare the printed value with the one in the `.sha256` file by eye. If they differ, download
+again and do not use the file.
+
+### 2. Check your hosting
+
+Ask your hoster (or look in the panel) for:
+
+* **PHP 8.4** with the extensions `pdo_mysql`, `intl`, `mbstring`, `gd`, `curl`, `ctype`, `json`, `xml`, `zip`
+  (and `opcache`, which most hosters have; `openssl` if mail goes through SMTP with TLS)
+* **MySQL 8.4 or MariaDB 10.11** (a database, a user, a password)
+* **Cron jobs** (run a command every minute) with PHP on the command line
+* **HTTPS** (a free certificate, often "Let's Encrypt" in the panel)
+* About 1 GB of disk space (the images are most of it)
+
+Hosting that cannot offer PHP 8.4, or cannot run cron jobs every minute, is not suitable: the game's jobs
+(statistics, fleet cleanup, bots) depend on them.
+
+### 3. Upload
+
+The ZIP is large (about 340 MB, mostly theme artwork), so an FTP upload of the unpacked files takes a while. If the
+hoster's file manager supports it, upload the ZIP itself and extract it on the server ("Extract"/"Unzip"); that is much
+faster. Otherwise unpack the ZIP on your computer and upload **the content of the folder** `br0game-<version>` (including the
+hidden file `.env`) to your web space, ideally *next to* the public folder, not inside it, for
+example `/home/you/br0game/`. Many panels can also unpack the ZIP on the server (file manager: "Extract"), which is
+faster than uploading thousands of files.
+
+### 4. Point the domain to the `public/` folder
+
+The web address of your site must lead to the folder **`public/`** inside the project, not to the project folder.
+Why: everything else (the database password in `config/game.php`, the source code, backups in `var/`) must never be
+reachable from the internet. Only `public/` is meant to be served.
+
+* In the hosting panel look for "Domains", "Document root" or "Web root" and set it to e.g. `br0game/public`.
+* If the hoster cannot change the document root: do not upload the project into the public web folder. Instead put the
+  project one level above and ask the support to point the domain to `public/`, or choose different hosting. Leaving
+  the project folder itself web-accessible exposes your secrets.
+
+### 5. Create the database
+
+In the hosting panel open "Databases" (MySQL/MariaDB), create a database and a user with a strong password, and give
+the user all rights on it. Write down host (often `localhost`), name, user and password.
+
+### 6. Run the setup wizard
+
+Open `https://your-domain/install/`. The wizard checks the requirements, asks for the database data, game name,
+language, speed and your administrator account, creates everything and shows you the next steps. If the check lists
+something in red, fix it first (most often missing write permissions on `var/`, `config/`, `.env.local`: set the
+folders to 775 / the files to 664 in the file manager, or ask the hoster).
+
+**What the "install tool lock" means:** the wizard only works while the game is not installed yet. As soon as the
+administrator account exists it closes itself; the game has to be unlocked with the file `var/ENABLE_INSTALL_TOOL`
+for anything else (upgrade tool). If the admin overview warns that this file is present, delete it.
+
+### 7. Set up the cron job
+
+In the panel look for "Cron jobs" (also "Scheduled tasks", "Cronjobs"). Add a job that runs **every minute**
+(`* * * * *`, or "every minute" in the drop-down) with this command (adjust the path to your project, and use the
+PHP 8.4 binary if the panel has several):
+
+```
+cd /home/you/br0game && php bin/console app:cron:run --quiet
+```
+
+Some panels want only the program and arguments, then use `/usr/bin/php8.4 /home/you/br0game/bin/console app:cron:run --quiet`.
+After a few minutes the admin panel (Information → health checks) should show the cron as running.
+
+### 8. Turn on HTTPS
+
+Activate the certificate in the panel and, if offered, "force HTTPS". Then open `https://your-domain/` and log in with
+the administrator account. The admin area is at `https://your-domain/admin`.
+
+---
+
+## Way 2: Install script (SSH)
+
+For a VPS where you are comfortable with a shell. Download the script, **read it**, then run it. Please do not pipe it
+into a shell.
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/Voidys/Br0Game/main/install.sh
+less install.sh
+bash install.sh
+```
+
+The script asks what you want (local try-out with DDEV, install on this server, or only check requirements), tests
+git, PHP 8.4 and its extensions, Composer (it can download Composer into the project, verified against the official
+signature), a database server and the disk space, and prints how to install what is missing for apt, dnf and pacman.
+It does not use sudo on its own. Then it fetches the latest release with git, runs
+`composer install --no-dev --optimize-autoloader --classmap-authoritative`, creates the folders, writes `.env.local`
+(production mode, random `APP_SECRET`) and either runs `php bin/console app:install` in the terminal or points you to
+the web wizard. At the end it prints the next steps (document root, cron line, HTTPS).
+
+Useful options (`bash install.sh --help` lists everything):
+
+```sh
+bash install.sh --mode server --dir /var/www/br0game          # skip the menu
+bash install.sh --version v1.26.0 ...                          # a specific release (default: latest)
+bash install.sh --dry-run --mode server --dir /tmp/x --yes    # show what would happen
+# unattended, secrets from the environment:
+BR0GAME_DB_PASSWORD=... BR0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/br0game --yes \
+    --db-name br0game --db-user br0game --admin-name admin --admin-email you@example.com --language en --speed classic
+```
+
+The `--db-*`, `--game-name`, `--language`, `--timezone`, `--speed` (`classic`, `fast`, `blitz`), `--registration`
+(`open`, `closed`), `--admin-*`, `--bots` and `--base-url` options go to `bin/console app:install`.
+
+Afterwards:
+
+* **Web server:** document root `<dir>/public`. nginx: see [nginx.md](nginx.md). Apache: `DocumentRoot <dir>/public`,
+  `AllowOverride All` (the `.htaccess` in `public/` does the rewriting), PHP via PHP-FPM or `mod_php` 8.4.
+* **Permissions:** the web server's user must write to `var/`, `public/uploads/`, `public/stats/`, `stats/`,
+  `config/` (until installed) and `.env.local`. For example `sudo chgrp -R www-data var public/uploads public/stats stats config .env.local`.
+* **Cron** (as the web server's user or your own): `* * * * * cd /var/www/br0game && php bin/console app:cron:run --quiet`
+* **HTTPS:** e.g. `certbot --nginx`.
+
+OPcache preloading saves a few milliseconds per request, see [PERFORMANCE.md](PERFORMANCE.md).
+
+---
+
+## Way 3: DDEV (try it on your PC)
+
+[Docker](https://www.docker.com/products/docker-desktop) and
+[DDEV](https://ddev.readthedocs.io/en/stable/users/install/ddev-installation/) are needed.
+
+```sh
+git clone https://github.com/Voidys/Br0Game.git
+cd Br0Game
+ddev start
+ddev composer install
+```
+
+Open `https://br0game.ddev.site/install/`. The wizard asks for the database (in DDEV: host `db`, user `db`,
+password `db`, name `db`), the game settings and your administrator account. The cron job runs by itself inside DDEV.
+`bash install.sh --mode ddev` does the same steps with requirement checks. Remove everything again with `ddev delete`.
+
+---
+
+## Updating
+
+**Always back up first** (see [Backups](#backups)).
+
+* **ZIP installation:** download and verify the new ZIP. Replace all files of the project **except `config/` (your
+  `game.php`), `.env.local` (written by the installer), `var/`, `public/uploads/` and `stats/`** (delete the old folders `src`, `templates`,
+  `translations`, `vendor`, `public`, `install`, `bin` first, then upload the new ones; do not merge old and new
+  `vendor/`). Then open the site once: pending database migrations run automatically on that request. Read
+  `CHANGES.md` for notes on the version.
+* **Script or git installation:** `cd` into the project and run `bash install.sh --dir . ` (it detects the checkout and
+  updates), or by hand: `git pull` (or `git fetch --tags && git checkout v<new>`) and
+  `composer install --no-dev --optimize-autoloader --classmap-authoritative`. Migrations run on the next request.
+* If something looks odd after an update, clear the cache: `php bin/console cache:clear` (or empty `var/cache/` and
+  `var/game/`).
+
+## Backups
+
+* **Database** (the game itself): `mysqldump --single-transaction -u USER -p DBNAME > br0game-$(date +%F).sql`, or
+  "Export" in phpMyAdmin or the hosting panel. The admin panel can also create dumps into `var/backups/`.
+* **Files:** `config/game.php` and `.env.local` (credentials; keep them private) and `public/uploads/`.
+  Everything else can be re-downloaded.
+* Store backups outside the web space and test a restore now and then.
+
+## Security checklist
+
+- [ ] HTTPS on, HTTP redirects to HTTPS
+- [ ] Document root is `public/` (check: `https://your-domain/config/game.php` and `/.env` must give 404, not content)
+- [ ] `config/game.php` and `.env.local` are not world-readable (640/660) and never uploaded anywhere public
+- [ ] Strong, unique administrator password
+- [ ] Mail configured (Admin → settings), so password resets work
+- [ ] `var/ENABLE_INSTALL_TOOL` does not exist after installing
+- [ ] PHP, MySQL/MariaDB and the operating system receive updates; update Br0Game when new versions appear
+- [ ] Regular backups
+
+## Troubleshooting
+
+| Symptom | What to do |
+|---|---|
+| White page / "Error 500" right after upload | Look at `var/log/game.log` and the web server's error log. Most often: a **missing PHP extension** (compare with the list above, `php -m`), or PHP older than 8.4 for the web (not just the command line). |
+| "Not writable" in the wizard, or errors about `var/` | The web server user needs write access to `var/`, `config/`, `.env.local`, `public/uploads/`: 775/664 or `chgrp` to the web server group. |
+| Pages show but images/CSS 404, or every URL except the front page 404s | Rewriting is missing: nginx `try_files` as in [nginx.md](nginx.md); Apache `AllowOverride All` and `mod_rewrite`. |
+| Game works, but nothing happens in the background (no new statistics, fleets stuck) | The cron job is not running. Run the command by hand (`php bin/console app:cron:run`) and look at the output. In the admin panel open Information and read the health checks. Check the panel's cron logs and that the PHP binary is 8.4. |
+| Wizard says it is closed | The game is already installed (`config/game.php` exists), or `var/` is not writable so the unlock file cannot be created. |
+| Blank/odd after update | `php bin/console cache:clear`, empty `var/game/`. |
+
+Still stuck? Open an issue at <https://github.com/Voidys/Br0Game/issues> with the last lines of `var/log/game.log`
+(remove passwords first).

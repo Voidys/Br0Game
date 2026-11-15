@@ -1,0 +1,16 @@
+﻿Hello {USERNAME},
+
+the time has come - the {UNINAME} has opened its doors on {OPENTIME}!
+We are delighted that you are here and wish you lots of fun and exciting experiences.
+
+You can find the game at {HTTPPATH}.
+You are also welcome to visit our Discord:
+{DISCORD}
+
+If you have forgotten your password, simply click on “Forgot password” on the page.
+Shortly afterwards you will receive an e-mail with a new password.
+
+If you continue to have problems logging in or registering, please contact us in the Discord.
+
+Yours sincerely,
+The team of {GAMENAME}

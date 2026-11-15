@@ -1,0 +1,25 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Note that the session will be started ONLY if you read or write from it.
+    # The game session (App\Game\Core\SessionManager) lives in this session ("obj" attribute).
+    # Storage: SESSION_HANDLER_DSN (e.g. redis://host:6379), default files in var/sessions.
+    session:
+        name: 2Moons
+        handler_id: '%env(default:session_handler_default:SESSION_HANDLER_DSN)%'
+        cookie_lifetime: 43200
+        gc_maxlifetime: 43200
+        cookie_path: /
+        cookie_secure: auto
+        cookie_httponly: true
+        cookie_samesite: null
+
+    #esi: true
+    #fragments: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

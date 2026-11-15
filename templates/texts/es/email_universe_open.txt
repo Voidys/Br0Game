@@ -1,0 +1,14 @@
+﻿Hola {USERNAME},
+
+ya casi es hora: el {UNINAME}, donde ya te has inscrito, abrirá sus puertas el {OPENTIME}.
+Estamos encantados de que te unas a nosotros y te deseamos mucha diversión y experiencias emocionantes.
+
+Puedes encontrar el juego en {HTTPPATH}.
+También puedes echar un vistazo a nuestro Discord: 
+{DISCORD}
+
+Si ha olvidado su contraseña, sólo tiene que hacer clic en «Olvidé mi contraseña» en la página.
+Poco después recibirá una nueva contraseña por correo electrónico.
+
+Atentamente,
+El equipo de {GAMENAME}

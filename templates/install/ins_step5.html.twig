@@ -1,0 +1,24 @@
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ LNG.step3_head }}{% endblock %}
+{% block script %}<script type="module" src="../scripts/install/build.js?v={{ asset_version }}"></script>{% endblock %}
+{% block panel %}
+  <p>{{ LNG.ins_build_desc }}</p>
+  <ul class="install-checks install-build" data-build-url="./?mode=install&amp;step=5" data-next-url="./?mode=install&amp;step=6">
+    {% for task, label in tasks %}
+      <li class="is-pending" data-task="{{ task }}">
+        <span class="install-build__state" aria-hidden="true"></span>
+        <span class="install-checks__label">{{ label }}</span>
+        <span class="install-checks__detail"></span>
+      </li>
+    {% endfor %}
+  </ul>
+  {% if error is defined and error %}
+    <div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ error|e }}</div></div>
+  {% endif %}
+  <div class="notice notice--danger install-build__error" role="alert" hidden>{{ icon('circle-alert') }}<div></div></div>
+  <div class="install-actions">
+    <a class="button install-build__back" href="./?mode=install&amp;step=3" hidden>{{ LNG.ins_back_database }}</a>
+    <button type="button" class="btn--primary install-build__start">{{ icon('hammer') }}{{ LNG.ins_build_start }}</button>
+    <noscript><a class="button btn--primary" href="./?mode=install&amp;step=5&amp;task=all">{{ LNG.ins_build_start }}</a></noscript>
+  </div>
+{% endblock %}

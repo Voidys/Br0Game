@@ -1,0 +1,53 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<form name="message" id="message">
+	<table class="form-table">
+	<tr>
+		<th colspan="2">{{ LNG.al_diplo_create }}</th>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_diplo_ally }}</td>
+		<td>{{ html_options({'name': "ally_id", 'values': IdList, 'output': AllyList}) }}</td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_diplo_level_des }}</td>
+		{% if diploMode == php_const('DIPLO_PEACE') %}
+			<td>{{ html_options({'name': "level", 'values': 'range(7,7)', 'output': diploLevel, 'selected': diploMode}) }}</td>
+		{% else %}
+			<td>{{ html_options({'name': "level", 'values': 'range(1,6)', 'output': diploLevel, 'selected': diploMode}) }}</td>
+		{% endif %}
+	</tr>
+	<tr>
+		<td>{{ LNG.al_diplo_text }}<br>(<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
+		<td>
+			<textarea name="text" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;" maxlength="5000"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<th class="form-actions" colspan="2">
+		<input type="reset" value="{{ LNG.al_circular_reset }}">
+		<input type="button" onclick="return check();" value="{{ LNG.al_circular_send_submit }}">
+		</th>
+	</tr>
+	</table>
+</form>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script type="module">
+import { getJSON, serialize } from './scripts/app/core.js';
+
+async function check() {
+	if (document.message.text.value == '') {
+		window.Dialog.alert('{{ LNG.mg_empty_text }}');
+		return false;
+	}
+	const data = await getJSON('game?page=alliance&mode=admin&action=diplomacyCreateProcessor&ajax=1&' + serialize(document.getElementById('message')));
+	window.Dialog.alert(data.message, () => {
+		if (!data.error) location.reload();
+	});
+	return true;
+}
+window.check = check;
+</script>
+{% endblock %}

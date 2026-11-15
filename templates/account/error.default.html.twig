@@ -1,0 +1,9 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.fcm_info }}{{ parent() }}{% endblock %}
+{% block content %}
+  <section class="panel acc-message">
+    <h1 class="acc-title">{{ LNG.fcm_info }}</h1>
+    <p>{{ message }}</p>
+    {% if not empty(redirectButtons) %}<p class="acc-message__actions">{% for button in (redirectButtons)|php_iter %}<a class="btn" href="{{ button.url }}">{{ button.label }}</a>{% endfor %}</p>{% endif %}
+  </section>
+{% endblock %}

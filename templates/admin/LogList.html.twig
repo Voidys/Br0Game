@@ -1,0 +1,41 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('scroll-text') }}{{ log_target }} <span class="badge badge--muted">{{ count(LogArray) }}</span></h2>
+      <div class="card__actions">
+        <input type="search" class="table-filter" data-table-filter="#log-table" placeholder="{{ LNG.adm_filter_page }}">
+        <a class="button btn--small" href="?page=log">{{ icon('arrow-left') }}{{ LNG.log_cat }}</a>
+      </div>
+    </header>
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data" id="log-table" data-sortable>
+          <thead>
+            <tr>
+              <th class="num">{{ log_id }}</th>
+              <th>{{ log_admin }}</th>
+              <th>{{ log_uni }}</th>
+              <th>{{ log_target }}</th>
+              <th>{{ log_time }}</th>
+              <th class="actions">{{ log_log }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for LogInfo in (LogArray)|php_iter %}
+            <tr>
+              <td class="num">{{ LogInfo.id }}</td>
+              <td>{{ LogInfo.admin }}</td>
+              <td>{{ LogInfo.target_uni }}</td>
+              <td>{{ LogInfo.target }}</td>
+              <td class="nowrap">{{ LogInfo.time }}</td>
+              <td class="actions"><a class="button btn--small" href="?page=log&amp;type=detail&amp;id={{ LogInfo.id }}">{{ icon('eye') }}{{ log_view }}</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

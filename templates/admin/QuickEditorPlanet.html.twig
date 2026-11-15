@@ -1,0 +1,87 @@
+{% include 'admin/overall_header.html.twig' %}
+<script type="text/javascript">
+function check(){
+	fetch('?page=quickEditor&edit=planet&id={{ id }}&action=send', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+		body: new URLSearchParams(new FormData(document.getElementById('userform')))
+	}).then(function (response) { return response.text(); }).then(function (data) {
+		Dialog.alert(data, function() {
+			location.reload();
+		});
+	});
+	return false;
+}
+</script>
+<form method="post" id="userform" action="" onsubmit="return check();" class="stack quick-edit" data-track-dirty>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('orbit') }}{{ LNG.qe_info }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        <div class="field"><label for="qe-name">{{ LNG.qe_planetname }}</label><input id="qe-name" name="name" type="text" value="{{ name }}"></div>
+        <div class="field"><label for="qe-field_max">{{ LNG.qe_fields }} <span class="muted small">({{ LNG.qe_count }} {{ field_min }})</span></label><input id="qe-field_max" class="num" name="field_max" type="text" inputmode="numeric" value="{{ field_max }}"></div>
+      </div>
+      <dl class="kv">
+        <dt>{{ LNG.qe_id }}</dt><dd>{{ id }}</dd>
+        <dt>{{ LNG.qe_coords }}</dt><dd class="mono">[{{ galaxy }}:{{ system }}:{{ planet }}]</dd>
+        <dt>{{ LNG.qe_owner }}</dt><dd>{{ ownername }} ({{ LNG.qe_id }}: {{ ownerid }})</dd>
+        <dt>{{ LNG.qe_temp }}</dt><dd>{{ temp_min }} / {{ temp_max }}</dd>
+      </dl>
+    </div>
+  </section>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('database') }}{{ LNG.qe_resources }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        <div class="field"><label for="qe-metal">{{ LNG.tech[901] }} <span class="muted small">({{ LNG.qe_count }} {{ metal_c }})</span></label><input id="qe-metal" class="num" name="metal" type="text" inputmode="numeric" value="{{ metal }}"></div>
+        <div class="field"><label for="qe-crystal">{{ LNG.tech[902] }} <span class="muted small">({{ LNG.qe_count }} {{ crystal_c }})</span></label><input id="qe-crystal" class="num" name="crystal" type="text" inputmode="numeric" value="{{ crystal }}"></div>
+        <div class="field"><label for="qe-deuterium">{{ LNG.tech[903] }} <span class="muted small">({{ LNG.qe_count }} {{ deuterium_c }})</span></label><input id="qe-deuterium" class="num" name="deuterium" type="text" inputmode="numeric" value="{{ deuterium }}"></div>
+      </div>
+    </div>
+  </section>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('building-2') }}{{ LNG.qe_build }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        {% for Element in (build)|php_iter %}
+        <div class="field">
+          <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_level }} {{ Element.count }})</span></label>
+          <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('rocket') }}{{ LNG.qe_fleet }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        {% for Element in (fleet)|php_iter %}
+        <div class="field">
+          <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_count }} {{ Element.count }})</span></label>
+          <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('shield') }}{{ LNG.qe_defensive }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        {% for Element in (defense)|php_iter %}
+        <div class="field">
+          <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_count }} {{ Element.count }})</span></label>
+          <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <div class="form-actions">
+    <button type="reset">{{ icon('eraser') }}{{ LNG.qe_reset }}</button>
+    <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.qe_submit }}</button>
+  </div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

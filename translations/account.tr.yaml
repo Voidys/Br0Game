@@ -1,0 +1,22 @@
+Active_players: Aktif Oyuncular
+Back: Geri
+mail:
+  subject:
+    mail_changed: '%s hesap e-posta adresi değiştirildi'
+Other_universes: Diğer Evrenler
+Play: Oyun
+Playername: Oyuncu Adı
+Register: Kayıt Olun
+Settings: Ayarlar
+Sitting_cancel: Oturmayı İptal Et
+Sitting_end: Oturma ucu
+Sitting_request: Oturma Talebi (programlanmamış)
+uni_status_regclosed_gameclosed: Kapalı
+uni_status_regclosed_gameopen: Oynamaya açık
+uni_status_regopen_gameclosed: Kayıt için açık
+uni_status_regopen_gameopen: Açık
+Universe_end: Bitiş
+Universe_start: Başlangıç
+Universe_status: 'Evrenlerin durumu: '
+Universes: Evrenler
+Your_universes: Evrenleriniz

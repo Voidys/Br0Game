@@ -1,0 +1,67 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_board }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="account?page=board&amp;mode=vote">
+  <div class="board__head">
+    <h1 class="acc-title">{{ icon('messages-square') }}{{ LNG.lm_board }}</h1>
+    {% if isGuest %}
+      <a class="btn btn--primary" href="./">{{ icon('log-in') }}{{ LNG.board_guest_login }}</a>
+    {% else %}
+      <a class="btn btn--primary" href="account?page=board&amp;mode=submit">{{ icon('plus') }}{{ LNG.board_create }}</a>
+    {% endif %}
+  </div>
+  {% if isGuest %}{% include 'account/board.guest_hint.html.twig' %}{% endif %}
+
+  <div class="board__filters">
+    <nav class="board-tabs" aria-label="{{ LNG.board_sort }}">
+      {% for tab in tabs %}
+        <a class="board-tab{% if tab.active %} is-active{% endif %}" href="{{ tab.url|e }}"{% if tab.active %} aria-current="true"{% endif %}>{{ attribute(LNG, 'board_sort_' ~ tab.key) }}</a>
+      {% endfor %}
+      {% for per in periods %}
+        <a class="board-tab board-tab--sub{% if per.active %} is-active{% endif %}" href="{{ per.url|e }}">{{ attribute(LNG, 'board_period_' ~ per.key) }}</a>
+      {% endfor %}
+    </nav>
+    <nav class="board-chips" aria-label="{{ LNG.board_flair }}">
+      {% for chip in chips %}
+        <a class="board-chip{% if chip.active %} is-active{% endif %}" href="{{ chip.url|e }}">{% if chip.key == '' %}{{ LNG.board_flair_all }}{% else %}{{ attribute(LNG, 'board_flair_' ~ chip.key) }}{% endif %}</a>
+      {% endfor %}
+    </nav>
+  </div>
+
+  {% if posts %}
+  <ol class="board-list">
+    {% for p in posts %}
+    <li class="board-row{% if p.pinned %} is-pinned{% endif %}">
+      <div class="board-vote" data-vote data-type="post" data-id="{{ p.id }}" data-value="{{ p.myvote }}">
+        <button type="button" class="board-vote__btn board-vote__up{% if p.myvote == 1 %} is-on{% endif %}" data-dir="1" aria-label="{{ LNG.board_upvote }}" aria-pressed="{{ p.myvote == 1 ? 'true' : 'false' }}"{% if isGuest %} disabled title="{{ LNG.board_guest_hint|e('html_attr') }}"{% endif %}>&#9650;</button>
+        <span class="board-vote__score">{{ p.score }}</span>
+        <button type="button" class="board-vote__btn board-vote__down{% if p.myvote == -1 %} is-on{% endif %}" data-dir="-1" aria-label="{{ LNG.board_downvote }}" aria-pressed="{{ p.myvote == -1 ? 'true' : 'false' }}"{% if isGuest %} disabled title="{{ LNG.board_guest_hint|e('html_attr') }}"{% endif %}>&#9660;</button>
+      </div>
+      <div class="board-row__main">
+        <div class="board-row__title">
+          {% if p.pinned %}<span class="board-badge board-badge--pin">{{ LNG.board_pinned }}</span>{% endif %}
+          {% if p.flair != '' %}<span class="board-badge board-badge--{{ p.flair }}">{{ attribute(LNG, 'board_flair_' ~ p.flair) }}</span>{% endif %}
+          <a href="{{ p.url|e }}">{{ p.title|e }}</a>
+          {% if p.locked %}<span class="board-meta">{{ icon('lock') }}</span>{% endif %}
+        </div>
+        <div class="board-meta">
+          {{ LNG.board_by }} <strong>{{ p.author|e }}</strong> &middot; <time title="{{ p.date|e }}">{{ p.ago|e }}</time>
+        </div>
+      </div>
+      <a class="board-row__comments" href="{{ p.url|e }}#comments" title="{{ LNG.board_comments }}">{{ icon('message-circle') }}{{ p.comments }}</a>
+    </li>
+    {% endfor %}
+  </ol>
+  {% if pages > 1 %}
+  <nav class="board-pager" aria-label="pagination">
+    {% if prevUrl %}<a class="btn" href="{{ prevUrl|e }}">{{ icon('chevron-left') }}</a>{% else %}<span></span>{% endif %}
+    <span>{{ pageNo }} / {{ pages }}</span>
+    {% if nextUrl %}<a class="btn" href="{{ nextUrl|e }}">{{ icon('chevron-right') }}</a>{% else %}<span></span>{% endif %}
+  </nav>
+  {% endif %}
+  {% else %}
+  <p class="panel board-empty">{{ LNG.board_empty }}</p>
+  {% endif %}
+</div>
+<script type="module" src="./scripts/account/board.js?v={{ asset_version }}"></script>
+{% endblock %}

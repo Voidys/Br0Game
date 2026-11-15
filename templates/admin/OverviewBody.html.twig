@@ -1,0 +1,94 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if not empty(Messages) %}
+    <div class="notice notice--danger" role="alert">
+      {{ icon('triangle-alert') }}
+      <div>
+        <strong>{{ LNG.adm_dash_attention }}</strong>
+        <ul>
+          {% for Message in (Messages)|php_iter %}<li>{{ Message }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.adm_dash_all_good }}</div></div>
+  {% endif %}
+
+  <div class="stats">
+    <a class="stat" href="admin?page=search&amp;search=online">
+      <span class="stat__label">{{ icon('wifi') }}{{ LNG.adm_dash_online }}</span>
+      <span class="stat__value">{{ pretty_number(stats.online) }}</span>
+    </a>
+    <a class="stat" href="admin?page=search&amp;search=users">
+      <span class="stat__label">{{ icon('users') }}{{ LNG.adm_dash_players }}</span>
+      <span class="stat__value">{{ pretty_number(stats.players) }}</span>
+    </a>
+    <a class="stat{% if adminOpenTickets > 0 %} stat--alert{% endif %}" href="admin?page=support">
+      <span class="stat__label">{{ icon('ticket') }}{{ LNG.adm_dash_tickets }}</span>
+      <span class="stat__value">{{ pretty_number(adminOpenTickets) }}</span>
+    </a>
+    <a class="stat" href="admin?page=flyingFleet">
+      <span class="stat__label">{{ icon('send') }}{{ LNG.adm_dash_fleets }}</span>
+      <span class="stat__value">{{ pretty_number(stats.fleets) }}</span>
+    </a>
+  </div>
+
+  <div class="cols cols--wide-left">
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('layout-dashboard') }}{{ LNG.adm_dash_quick }}</h2></header>
+      <div class="card__body">
+        {% set quickPages = ['search', 'accountData', 'ban', 'support', 'messageList', 'log', 'giveaway', 'clearCache'] %}
+        <div class="quick-links">
+          {% for group in adminMenu %}
+            {% for item in group.items %}
+              {% set itemPage = item.href|split('page=')|last|split('&')|first %}
+              {% if itemPage in quickPages %}
+                <a class="quick-link" href="{{ item.href }}">{{ icon(item.icon) }}<span>{{ item.label }}</span>{% if item.badge %}<span class="admin-nav__badge">{{ item.badge }}</span>{% endif %}</a>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('server') }}{{ LNG.adm_dash_system }}</h2></header>
+      <div class="card__body">
+        <dl class="kv">
+          <dt>{{ LNG.adm_dash_version }}</dt><dd class="mono">{{ system.version }}</dd>
+          <dt>{{ LNG.adm_dash_php }}</dt><dd class="mono">{{ system.php }}</dd>
+          <dt>{{ LNG.adm_dash_uni_status }}</dt>
+          <dd><span class="badge {{ system.uniStatusOpen ? 'badge--ok' : 'badge--warn' }}">{{ system.uniStatus }}</span></dd>
+          <dt>{{ LNG.adm_dash_next_cron }}</dt>
+          <dd>{% if system.nextCron %}{{ system.nextCron.name }} <span class="muted">· {{ nextCronTime }}</span>{% else %}–{% endif %}<br><span class="muted small">{{ system.cronjobs }} {{ LNG.adm_dash_cron_count }}</span></dd>
+        </dl>
+      </div>
+      <footer class="card__foot">
+        <a href="https://github.com/Voidys/Br0Game" target="_blank" rel="noopener">{{ icon('external-link') }} {{ LNG.adm_dash_project }}</a>
+      </footer>
+    </section>
+  </div>
+
+  <details class="card disclosure">
+    <summary class="card__head"><h2 class="card__title">{{ icon('heart') }}{{ LNG.adm_dash_credits }}</h2></summary>
+    <div class="card__body cols">
+      <div>
+        <h3 class="small muted">{{ LNG.ow_proyect_leader }}</h3>
+        <p><a href="https://github.com/jkroepke" target="_blank" rel="noopener">Jan</a></p>
+        <h3 class="small muted">{{ LNG.ow_translator }}</h3>
+        <dl class="kv">
+          <dt>English, Português</dt><dd>QwataKayean</dd>
+          <dt>Français</dt><dd><a href="https://github.com/BigTwoProduction" target="_blank" rel="noopener">BigTwoProduction</a></dd>
+          <dt>Русский</dt><dd>InquisitorEA</dd>
+          <dt>Español</dt><dd>Orion</dd>
+          <dt>Türkçe</dt><dd>romansmac</dd>
+        </dl>
+      </div>
+      <div>
+        <h3 class="small muted">{{ LNG.ow_special_thanks }}</h3>
+        <p><a href="https://github.com/Hilarious001" target="_blank" rel="noopener">Hilarious001</a>, Ralf M., InquisitorEA, lucky, Metusalem, Meikel, Phil, Schnippi, Vobi, Sycrog, Raito, Chlorel, e-Zobar, Flousedid, jstar, scrippi</p>
+      </div>
+    </div>
+  </details>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

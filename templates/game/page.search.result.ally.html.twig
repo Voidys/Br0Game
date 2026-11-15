@@ -1,0 +1,19 @@
+{% extends layout_template %}
+{% block content %}
+<table id="resulttable">
+	<tr>
+		<th>{{ LNG.sh_tag }}</th>
+		<th>{{ LNG.sh_name }}</th>
+		<th class="num">{{ LNG.sh_members }}</th>
+		<th class="num">{{ LNG.sh_points }}</th>
+	</tr>
+	{% for searchRow in (searchList)|php_iter %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=info&amp;id={{ searchRow.allyid }}">{{ searchRow.allytag }}</a></td>
+		<td>{{ searchRow.allyname }}</td>
+		<td class="num">{{ searchRow.allymembers }}</td>
+		<td class="num">{{ searchRow.allypoints }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

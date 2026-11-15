@@ -1,0 +1,271 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack bots-page">
+  {% if message %}
+    <div class="notice notice--{{ messageOk ? 'success' : 'danger' }}" role="alert">
+      {{ icon(messageOk ? 'circle-check' : 'circle-alert') }}<div>{{ message }}</div>
+    </div>
+  {% endif %}
+
+{% if tab == 'providers' %}
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.bot_providers_info }}</div></div>
+
+  <form method="POST" action="admin?page=bots&amp;mode=providers&amp;action=save_providers" id="bots-providers-form" data-track-dirty>
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <section class="card card--flush">
+      <header class="card__head"><h2 class="card__title">{{ icon('key-round') }}{{ LNG.bot_tab_providers }}</h2></header>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>{{ LNG.bot_provider }}</th>
+              <th>{{ LNG.bot_api_key }}</th>
+              <th>{{ LNG.bot_model }}</th>
+              <th>{{ LNG.bot_base_url }}</th>
+              <th class="text-center">{{ LNG.bot_active }}</th>
+              <th>{{ LNG.bot_last_test }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in providers %}
+            <tr data-provider="{{ p.provider }}">
+              <td><strong>{{ p.provider }}</strong></td>
+              <td>
+                <input type="password" name="providers[{{ p.provider }}][api_key]" value="" autocomplete="new-password" class="js-key" placeholder="{{ LNG.bot_key_keep }}" aria-label="{{ LNG.bot_api_key }}: {{ p.provider }}">
+                <div class="small muted">{% if p.has_key %}{{ LNG.bot_key_stored }}: {{ p.key_hint }}{% else %}{{ LNG.bot_key_not_set }}{% endif %}</div>
+              </td>
+              <td><input type="text" name="providers[{{ p.provider }}][model]" value="{{ p.model }}" class="js-model" placeholder="{{ p.model_hint }}" maxlength="128" aria-label="{{ LNG.bot_model }}: {{ p.provider }}"></td>
+              <td><input type="text" name="providers[{{ p.provider }}][base_url]" value="{{ p.base_url }}" class="js-url" placeholder="{{ p.default_url }}" maxlength="255" aria-label="{{ LNG.bot_base_url }}: {{ p.provider }}"></td>
+              <td class="text-center"><input type="radio" name="active" value="{{ p.provider }}" {% if p.is_active %}checked{% endif %} aria-label="{{ LNG.bot_active }}: {{ p.provider }}"></td>
+              <td>
+                {% if p.last_test_at %}
+                  <span class="badge badge--{{ p.last_test_ok ? 'ok' : 'danger' }}">{{ p.last_test_ok ? 'OK' : LNG.bot_failed }}</span>
+                  <div class="small muted">{{ p.last_test_at }}<br>{{ p.last_test_message }}</div>
+                {% else %}-{% endif %}
+                <div class="js-result small" aria-live="polite"></div>
+              </td>
+              <td><button type="button" class="js-test">{{ LNG.bot_test }}</button></td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td colspan="4">{{ LNG.bot_active_none }}</td>
+              <td class="text-center"><input type="radio" name="active" value="none" {% if not anyActive %}checked{% endif %} aria-label="{{ LNG.bot_active_none }}"></td>
+              <td colspan="2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
+  </form>
+  <script>
+  onPageInit(function () {
+    var csrf = {{ csrf|json_encode|raw }};
+    var text = {{ jsStrings|json_encode|raw }};
+    document.querySelectorAll('#bots-providers-form .js-test').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var row = btn.closest('tr');
+        var out = row.querySelector('.js-result');
+        var fd = new FormData();
+        fd.append('csrf', csrf);
+        fd.append('provider', row.getAttribute('data-provider'));
+        fd.append('api_key', row.querySelector('.js-key').value);
+        fd.append('model', row.querySelector('.js-model').value);
+        fd.append('base_url', row.querySelector('.js-url').value);
+        out.textContent = text.testing;
+        btn.disabled = true;
+        fetch('admin?page=bots&mode=providers&action=test', {method: 'POST', body: fd, credentials: 'same-origin'})
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            out.textContent = '';
+            var badge = document.createElement('span');
+            badge.className = 'badge badge--' + (d.ok ? 'ok' : 'danger');
+            badge.textContent = d.ok ? text.ok : text.failed;
+            out.appendChild(badge);
+            var detail = document.createElement('span');
+            detail.textContent = ' ' + (d.latency_ms || 0) + ' ms - ' + (d.ok ? d.response : d.message);
+            out.appendChild(detail);
+          })
+          .catch(function (e) { out.textContent = text.failed + ': ' + e; })
+          .then(function () { btn.disabled = false; });
+      });
+    });
+  });
+  </script>
+
+{% elseif tab == 'profiles' %}
+  {% if editForm %}
+  {% set s = editForm.s %}
+  <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=save_profile" data-track-dirty>
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <input type="hidden" name="id" value="{{ editForm.id }}">
+    <section class="card">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('pencil') }}{{ editForm.id ? LNG.bot_edit_profile : LNG.bot_new_profile }}</h2>
+        <div class="card__actions"><a class="button" href="admin?page=bots&amp;mode=profiles">{{ icon('arrow-left') }}{{ LNG.bot_cancel }}</a></div>
+      </header>
+      <div class="card__body">
+        <div class="form-grid">
+          <div class="field-row"><label for="bp-name">{{ LNG.bot_name }}</label><div class="field-control"><input type="text" id="bp-name" name="name" value="{{ editForm.name }}" maxlength="64"></div></div>
+          <div class="field-row"><label for="bp-desc">{{ LNG.bot_description }}</label><div class="field-control"><input type="text" id="bp-desc" name="description" value="{{ editForm.description }}" maxlength="255"></div></div>
+          <div class="field-row"><label for="bp-act">{{ LNG.bot_activity }}</label><div class="field-control"><input type="text" id="bp-act" name="activity" value="{{ s.activity_csv }}"></div><div class="field-help">{{ LNG.bot_activity_info }}</div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_pattern_shift }}</span><div class="field-control">
+            <input type="number" name="pattern_shift_hours" value="{{ s.pattern_shift_hours }}" min="0" max="23"> {{ LNG.bot_hours_every }}
+            <input type="number" name="pattern_shift_days" value="{{ s.pattern_shift_days }}" min="0" max="365"> {{ LNG.bot_days_zero_off }}
+          </div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_check_interval }}</span><div class="field-control">
+            <input type="number" name="check_interval_min" value="{{ s.check_interval[0] }}" min="1" max="1440"> -
+            <input type="number" name="check_interval_max" value="{{ s.check_interval[1] }}" min="1" max="1440"> min
+          </div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_session_minutes }}</span><div class="field-control">
+            <input type="number" name="session_minutes_min" value="{{ s.session_minutes[0] }}" min="1" max="600"> -
+            <input type="number" name="session_minutes_max" value="{{ s.session_minutes[1] }}" min="1" max="600"> min
+          </div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_actions_per_session }}</span><div class="field-control">
+            <input type="number" name="actions_per_session_min" value="{{ s.actions_per_session[0] }}" min="1" max="100"> -
+            <input type="number" name="actions_per_session_max" value="{{ s.actions_per_session[1] }}" min="1" max="100">
+          </div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_weights }}</span><div class="field-control">
+            {% for w in weightKeys %}
+            <label>{{ attribute(LNG, 'bot_w_' ~ w) }} <input type="number" name="weights[{{ w }}]" value="{{ s.weights[w] }}" min="0" max="1000"></label>
+            {% endfor %}
+          </div></div>
+          <div class="field-row"><label for="bp-exp">{{ LNG.bot_expedition_chance }}</label><div class="field-control"><input type="number" id="bp-exp" name="expedition_chance" value="{{ s.expedition_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-col">{{ LNG.bot_colonize_chance }}</label><div class="field-control"><input type="number" id="bp-col" name="colonize_chance" value="{{ s.colonize_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_skill }}</span><div class="field-control">
+            <label>{{ LNG.bot_skill_start }} <input type="number" step="0.01" name="skill_start" value="{{ s.skill_start }}" min="0" max="1"></label>
+            <label>{{ LNG.bot_skill_max }} <input type="number" step="0.01" name="skill_max" value="{{ s.skill_max }}" min="0" max="1"></label>
+            <label>{{ LNG.bot_skill_gain }} <input type="number" step="0.001" name="skill_gain_per_day" value="{{ s.skill_gain_per_day }}" min="0" max="1"></label>
+          </div></div>
+          <div class="field-row"><label for="bp-mis">{{ LNG.bot_mistake_chance }}</label><div class="field-control"><input type="number" id="bp-mis" name="mistake_chance" value="{{ s.mistake_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-rnd">{{ LNG.bot_randomness }}</label><div class="field-control"><input type="number" id="bp-rnd" name="randomness" value="{{ s.randomness }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-llm">{{ LNG.bot_llm_advice }}</label><div class="field-control"><input type="checkbox" class="switch" id="bp-llm" name="llm_advice" value="1" {% if s.llm_advice %}checked{% endif %}></div></div>
+          <div class="field-row"><label for="bp-rep">{{ LNG.bot_reply_chance }}</label><div class="field-control"><input type="number" id="bp-rep" name="reply_chance" value="{{ s.reply_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-msg">{{ LNG.bot_message_chance }}</label><div class="field-control"><input type="number" id="bp-msg" name="message_chance" value="{{ s.message_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-ali">{{ LNG.bot_alliance_chance }}</label><div class="field-control"><input type="number" id="bp-ali" name="alliance_chance" value="{{ s.alliance_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-bud">{{ LNG.bot_buddy_accept_chance }}</label><div class="field-control"><input type="number" id="bp-bud" name="buddy_accept_chance" value="{{ s.buddy_accept_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-style">{{ LNG.bot_chat_style }}</label><div class="field-control"><input type="text" id="bp-style" name="chat_style" value="{{ s.chat_style }}" maxlength="120"></div></div>
+        </div>
+      </div>
+    </section>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
+  </form>
+  {% endif %}
+
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('user-cog') }}{{ LNG.bot_tab_profiles }}</h2>
+      <div class="card__actions">
+        <a class="button" href="admin?page=bots&amp;mode=profiles&amp;new=1">{{ icon('plus') }}{{ LNG.bot_new_profile }}</a>
+        <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=restore_profiles" data-confirm="{{ LNG.bot_confirm_restore }}">
+          <input type="hidden" name="csrf" value="{{ csrf }}">
+          <button type="submit">{{ LNG.bot_restore_defaults }}</button>
+        </form>
+      </div>
+    </header>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>{{ LNG.bot_name }}</th><th>{{ LNG.bot_key }}</th><th>{{ LNG.bot_summary }}</th><th></th></tr></thead>
+        <tbody>
+          {% for p in profiles %}
+          <tr>
+            <td>{{ p.name }}{% if p.is_default %} <span class="badge badge--muted">{{ LNG.bot_default }}</span>{% endif %}<div class="small muted">{{ p.description }}</div></td>
+            <td>{{ p.profile_key }}</td>
+            <td>{{ p.summary }}</td>
+            <td class="actions nowrap">
+              <a class="button btn--small" href="admin?page=bots&amp;mode=profiles&amp;edit={{ p.id }}">{{ icon('pencil') }}{{ LNG.bot_edit }}</a>
+              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=duplicate_profile" class="inline">
+                <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ p.id }}">
+                <button type="submit" class="btn--small">{{ LNG.bot_duplicate }}</button>
+              </form>
+              {% if not p.is_default %}
+              <form method="POST" action="admin?page=bots&amp;mode=profiles&amp;action=delete_profile" class="inline" data-confirm="{{ LNG.bot_confirm_delete }}">
+                <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="id" value="{{ p.id }}">
+                <button type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+{% else %}
+  <section class="card">
+    <div class="card__body">
+      <dl class="kv">
+        <dt>{{ LNG.bot_universe }}</dt><dd>{{ universe }}</dd>
+        <dt>{{ LNG.bot_mode }}</dt><dd><span class="badge badge--{{ botsEnabled ? 'ok' : 'warn' }}">{{ botsEnabled ? LNG.bot_enabled : LNG.bot_disabled }}</span> <a href="admin?page=configUni">{{ LNG.bot_open_config }}</a></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('user-plus') }}{{ LNG.bot_spawn }}</h2></header>
+    <div class="card__body">
+      <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=spawn" class="toolbar">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <select name="profile_id" aria-label="{{ LNG.bot_profile }}">
+          {% for p in profiles %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+        </select>
+        <input type="number" name="count" value="1" min="1" max="50" aria-label="{{ LNG.bot_spawn }}">
+        <button type="submit" class="btn--primary">{{ LNG.bot_spawn }}</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('users') }}{{ LNG.bot_list }}</h2></header>
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>{{ LNG.bot_player }}</th><th>{{ LNG.bot_profile }}</th><th class="num">{{ LNG.bot_skill }}</th><th class="num">{{ LNG.bot_points }}</th>
+            <th>{{ LNG.bot_last_action }}</th><th>{{ LNG.bot_next_tick }}</th><th>{{ LNG.bot_session }}</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in bots %}
+          <tr>
+            <td>{{ b.username }} <span class="small muted">(#{{ b.user_id }})</span>{% if b.bio %}<div class="small muted">{{ b.bio }}</div>{% endif %}</td>
+            <td>{{ b.profile_name }}</td>
+            <td class="num">{{ b.skill }}%</td>
+            <td class="num">{{ b.points }}</td>
+            <td>{{ b.last_action }} <span class="small muted">({{ b.actions_total }})</span></td>
+            <td>{{ b.next_tick }}</td>
+            <td><span class="badge badge--{{ b.online ? 'ok' : 'muted' }}">{{ b.online ? LNG.bot_online : LNG.bot_offline }}</span></td>
+            <td class="actions">
+              <form method="POST" action="admin?page=bots&amp;mode=bots&amp;action=remove_bot" data-confirm="{{ LNG.bot_confirm_delete }}">
+                <input type="hidden" name="csrf" value="{{ csrf }}"><input type="hidden" name="user_id" value="{{ b.user_id }}">
+                <button type="submit" class="btn--danger btn--small">{{ icon('trash-2') }}{{ LNG.bot_delete }}</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="8" class="empty">{{ LNG.bot_none }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('scroll-text') }}{{ LNG.bot_log }}</h2></header>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>{{ LNG.bot_time }}</th><th>{{ LNG.bot_player }}</th><th>{{ LNG.bot_action }}</th><th>{{ LNG.bot_detail }}</th></tr></thead>
+        <tbody>
+          {% for l in botLog %}
+          <tr><td class="nowrap">{{ l.time }}</td><td>{{ l.username }}</td><td>{{ l.action }}</td><td>{{ l.detail }}</td></tr>
+          {% else %}
+          <tr><td colspan="4" class="empty">{{ LNG.bot_none }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endif %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

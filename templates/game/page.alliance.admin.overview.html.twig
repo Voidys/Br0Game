@@ -1,0 +1,128 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th>{{ LNG.al_manage_alliance }}</th>
+	</tr>
+	{% if rights.RANKS %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=admin&amp;action=permissions">{{ LNG.al_manage_ranks }}</a></td>
+	</tr>
+	{% endif %}
+	{% if rights.MANAGEUSERS %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=admin&amp;action=members">{{ LNG.al_manage_members }}</a></td>
+	</tr>
+	{% endif %}
+	{% if rights.DIPLOMATIC %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=admin&amp;action=diplomacy">{{ LNG.al_manage_diplo }}</a></td>
+	</tr>
+	{% endif %}
+</table>
+{% if rights.ADMIN %}
+<form action="game?page=alliance&mode=admin" method="post">
+<input type="hidden" name="textMode" value="{{ textMode }}">
+<input type="hidden" name="send" value="1">
+<table>
+	<tr>
+		<th colspan="3">{{ LNG.al_texts }}</th>
+	</tr>
+	<tr>
+		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=external">{{ LNG.al_outside_text }}</a></td>
+		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=internal">{{ LNG.al_inside_text }}</a></td>
+		<td class="ctr"><a href="game?page=alliance&amp;mode=admin&amp;textMode=apply">{{ LNG.al_request_text }}</a></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<textarea name="text" id="text" rows="15" {% if textMode == 'apply' %}maxlength="1000"{% endif %}>{{ text }}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" class="form-actions">
+			<input type="reset" value="{{ LNG.al_circular_reset }}">
+			<input type="submit" value="{{ LNG.al_save }}">
+		</td>
+	</tr>
+</table>
+<table class="form-table">
+	<tr>
+		<th colspan="2">{{ LNG.al_manage_options }}</th>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_tag }}</td>
+		<td><input type="text" name="ally_tag" value="{{ ally_tag }}" maxlength="8" required></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_name }}</td>
+		<td><input type="text" name="ally_name" value="{{ ally_name }}" maxlength="30" required></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_manage_founder_rank }}</td>
+		<td><input type="text" name="owner_range" value="{{ ally_owner_range }}" maxlength="32"></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_web_site }}</td>
+		<td><input type="text" class="control-wide" name="web" value="{{ ally_web }}" maxlength="255"></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_manage_image }}</td>
+		<td><input type="text" class="control-wide" name="image" value="{{ ally_image }}" maxlength="255"></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_view_stats }}</td>
+		<td>{{ html_options({'name': 'stats', 'options': YesNoSelector, 'selected': ally_stats_data}) }}</td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_view_diplo }}</td>
+		<td>{{ html_options({'name': 'diplo', 'options': YesNoSelector, 'selected': ally_diplo_data}) }}</td>
+	</tr>
+	<tr>
+		<th colspan="2">{{ LNG.al_manage_requests }}</th>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_manage_requests }}</td>
+		<td>{{ html_options({'name': 'request_notallow', 'options': RequestSelector, 'selected': ally_request_notallow}) }}</td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_set_max_members }}</td>
+		<td>{{ ally_members }} / <input type="number" min="1" name="ally_max_members" value="{{ ally_max_members }}"></td>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_manage_request_min_points }}</td>
+		<td><input type="number" min="0" name="request_min_points" value="{{ ally_request_min_points }}"></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="form-actions">
+			<input type="reset" value="{{ LNG.al_circular_reset }}">
+			<input type="submit" value="{{ LNG.al_save }}">
+		</td>
+	</tr>
+</table>
+</form>
+{% endif %}
+{% if AllianceOwner %}
+<table>
+	<tr>
+		<th>{{ LNG.al_disolve_alliance }}</th>
+	</tr>
+	<tr>
+		<td><form action="game?page=alliance&amp;mode=admin&amp;action=close" method="post"><input type="submit" value="{{ LNG.al_continue }}" onclick="return confirm('{{ LNG.al_close_ally }}');"></form></td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>{{ LNG.al_transfer_alliance }}</th>
+	</tr>
+	<tr>
+		<td><form action="game?page=alliance&amp;mode=admin&amp;action=transfer" method="post"><input type="submit" value="{{ LNG.al_continue }}"></form></td>
+	</tr>
+</table>
+{% endif %}
+<table>
+	<tr>
+		<th colspan="9"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+	</tr>
+</table>
+{% endblock %}

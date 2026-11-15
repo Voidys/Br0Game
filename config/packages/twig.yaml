@@ -1,0 +1,8 @@
+twig:
+    file_name_pattern: '*.twig'
+    # the game templates rely on lenient variable access (undefined -> null)
+    strict_variables: false
+    # game area templates (templates/{game,login,account,admin,install}/) escape with the
+    # "game_html" strategy, everything else with Twig's default (see App\Twig\GameEscaping)
+    autoescape_service: App\Twig\GameEscaping
+    autoescape_service_method: guess

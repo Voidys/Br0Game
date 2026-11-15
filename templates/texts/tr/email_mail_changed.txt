@@ -1,0 +1,11 @@
+Merhaba {USERNAME},
+
+hesabınızın e-posta adresi az önce değiştirildi.
+Değişiklik birkaç gün içinde kalıcı hale gelecektir.
+
+Bunu kendiniz yapmadıysanız, lütfen Discord'umuzda bir bilet oluşturun:
+{DISCORD}
+
+Saygılarımla
+
+Sizin {GAMENAME} ekibiniz

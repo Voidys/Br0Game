@@ -1,0 +1,23 @@
+﻿Witaj {USERNAME},
+
+Dziękujemy za rejestrację w {GAMENAME}.
+
+Zanim będziemy mogli aktywować Twoje konto, potrzebny jest jeszcze jeden krok.
+Należy pamiętać, że ten krok jest obowiązkowy, aby zostać 
+zarejestrowanym użytkownikiem. Musisz nacisnąć poniższy link tylko raz, aby 
+zweryfikować swoją tożsamość.
+
+Aby dokończyć rejestrację, kliknij 
+następujący link aktywacyjny:
+
+{VERTIFYURL}
+
+Dane logowania:
+
+Email : {EMAIL}
+
+W przypadku jakichkolwiek problemów z automatyczną rejestracją, prosimy o utworzenie zgłoszenia na naszym Discordzie: 
+{DISCORD}.
+
+Pozdrawiam,
+{GAMENAME} Zespół

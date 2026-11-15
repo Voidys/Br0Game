@@ -1,0 +1,78 @@
+{#
+  Installer frame (fresh install): top bar with language, step list, one panel per step, footer.
+  Pages extend it and fill {% block panel %}; currentStep (0 = intro) marks the step list.
+  Styles: login.css (panels, notices, inputs) + install/installer.css (steps, checklist, form grid).
+#}
+{% set steps = {1: LNG.ins_step_licence, 2: LNG.ins_step_requirements, 3: LNG.ins_step_database, 5: LNG.ins_step_build, 6: LNG.ins_step_game, 7: LNG.ins_step_admin, 8: LNG.ins_step_done} %}
+{% set activeStep = currentStep == 4 ? 3 : currentStep %}
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="../styles/resource/css/app/base.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="../styles/resource/css/login/login.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="../styles/resource/css/install/installer.css?v={{ asset_version }}">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  {% block script %}{% endblock %}
+</head>
+<body class="site site--install">
+{# the shared icon() helper points at ./styles/, the installer lives one level down #}
+{% apply replace({'href="./styles/': 'href="../styles/'})|raw %}
+  <header class="site-header">
+    <div class="site-wrap site-header__inner">
+      <span class="site-brand">{{ icon('rocket') }}<span>Br0Game · {{ LNG.title_install }}</span></span>
+      {% if Selector|length > 1 %}
+        <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.intro_lang }}</span>
+          <select onchange="var u = new URL(location.href); u.searchParams.set('lang', this.value); location.href = u.toString();">
+            {% for langKey, langName in Selector %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endfor %}
+          </select>
+        </label>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="site-wrap install">
+    {% if activeStep > 0 %}
+      <ol class="install-steps" aria-label="{{ LNG.menu_install }}">
+        {% for number, label in steps %}
+          <li class="{{ number < activeStep ? 'is-done' : (number == activeStep ? 'is-current' : '') }}"{% if number == activeStep %} aria-current="step"{% endif %}>
+            <span class="install-steps__dot">{{ number < activeStep ? icon('check') : loop.index }}</span><span class="install-steps__label">{{ label }}</span>
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+
+    <section class="panel install-panel">
+      <h1 class="panel__head">{% block heading %}{{ LNG.menu_install }}{% endblock %}</h1>
+      <div class="panel__body">
+        {% block panel %}{% endblock %}
+      </div>
+    </section>
+
+    {# respect to the games this one descends from (credits as in README.md) #}
+    <aside class="install-credits" aria-labelledby="install-credits-head">
+      <h2 id="install-credits-head">{{ icon('heart') }}{{ LNG.ins_credits_head }}</h2>
+      <p>{{ LNG.ins_credits_text }}</p>
+      <ol class="install-lineage">
+        <li><strong>UGamela 0.2h</strong><span>Perberos · 2004–2006</span></li>
+        <li><strong>UGamela 0.4</strong><span>Phoscur · 2006–2007</span></li>
+        <li><strong>XNova 0.9a</strong><span>XNova Group · 2008–2009</span></li>
+        <li><strong>XG Proyecto</strong><span>lucky · 2008–2014</span></li>
+        <li><a href="https://github.com/jkroepke/2Moons" target="_blank" rel="noopener"><strong>2Moons</strong></a><span>Jan-Otto Kröpke · 2009–2019</span></li>
+        <li><a href="https://github.com/steemnova/steemnova" target="_blank" rel="noopener"><strong>SteemNova</strong></a><span>steemnova, IntinteDAO · 2018–2020</span></li>
+        <li class="is-parent"><a href="https://codeberg.org/pr0game/pr0game" target="_blank" rel="noopener"><strong>pr0game</strong></a><span>pr0game community</span></li>
+        <li class="is-current"><strong>Br0Game</strong><span>Project Br0Game</span></li>
+      </ol>
+      <p class="install-credits__thanks">{{ LNG.ins_credits_thanks }}</p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-wrap site-footer__inner"><span>© Project Br0Game</span><span>{{ LNG.ins_licence_note }}</span></div>
+  </footer>
+{% endapply %}
+</body>
+</html>

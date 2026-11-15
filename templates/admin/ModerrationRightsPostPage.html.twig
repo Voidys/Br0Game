@@ -1,0 +1,76 @@
+{% include 'admin/overall_header.html.twig' %}
+{# page key (ShowFooPage) => admin menu group and label, to present the rights grouped like the menu #}
+{% set pageInfo = {} %}
+{% for group in adminMenu %}
+  {% for item in group.items %}
+    {% set itemPage = item.href|split('page=')|last|split('&')|first|lower %}
+    {% if pageInfo[itemPage] is not defined %}
+      {% set pageInfo = pageInfo|merge({(itemPage): {'group': group.label, 'label': item.label}}) %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+{% set known = [] %}
+<form action="" method="post" class="stack" data-track-dirty>
+  <input name="action" type="hidden" value="send">
+  <input name="id_1" type="hidden" value="{{ id }}">
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('lock') }}{{ ad_authlevel_title }}</h2>
+      <div class="card__actions">
+        <input type="search" class="table-filter" data-table-filter="#rights-table" placeholder="{{ LNG.adm_filter_page }}">
+        <button type="button" class="btn--small" onclick="document.querySelectorAll('.yes').forEach(function (e) { e.checked = true; });">{{ icon('check') }}{{ yesorno[1] }}</button>
+        <button type="button" class="btn--small" onclick="document.querySelectorAll('.no').forEach(function (e) { e.checked = true; });">{{ icon('x') }}{{ yesorno[0] }}</button>
+      </div>
+    </header>
+    <div class="table-wrap">
+      <table class="data data--compact" id="rights-table">
+        <thead>
+          <tr><th>{{ LNG.adm_rights_page }}</th><th class="text-center">{{ yesorno[1] }}</th><th class="text-center">{{ yesorno[0] }}</th></tr>
+        </thead>
+        {% for group in adminMenu %}
+          {% set rows = [] %}
+          {% for File in (Files)|php_iter %}
+            {% set key = File|replace({'Show': '', 'Page': ''})|lower %}
+            {% if pageInfo[key] is defined and pageInfo[key].group == group.label %}
+              {% set rows = rows|merge([File]) %}
+              {% set known = known|merge([File]) %}
+            {% endif %}
+          {% endfor %}
+          {% if rows %}
+            <tbody>
+              <tr><th colspan="3">{{ group.label }}</th></tr>
+              {% for File in rows %}
+                {% set info = pageInfo[File|replace({'Show': '', 'Page': ''})|lower] %}
+                <tr>
+                  <td><strong>{{ info.label }}</strong> <span class="muted small mono">{{ File }}</span></td>
+                  <td class="text-center"><input class="yes" name="rights[{{ File }}]" type="radio" aria-label="{{ yesorno[1] }}"{% if array_key_exists(File, Rights) and Rights[File] == 1 %} checked="checked"{% endif %} value="1"></td>
+                  <td class="text-center"><input class="no" name="rights[{{ File }}]" type="radio" aria-label="{{ yesorno[0] }}"{% if array_key_exists(File, Rights) and Rights[File] != 1 %} checked="checked"{% endif %} value="0"></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          {% endif %}
+        {% endfor %}
+        {% set otherFiles = [] %}
+        {% for File in (Files)|php_iter %}
+          {% if File not in known %}{% set otherFiles = otherFiles|merge([File]) %}{% endif %}
+        {% endfor %}
+        {% if otherFiles %}
+          <tbody>
+            <tr><th colspan="3">{{ LNG.adm_rights_other }}</th></tr>
+            {% for File in otherFiles %}
+              <tr>
+                <td><span class="mono">{{ File }}</span></td>
+                <td class="text-center"><input class="yes" name="rights[{{ File }}]" type="radio" aria-label="{{ yesorno[1] }}"{% if array_key_exists(File, Rights) and Rights[File] == 1 %} checked="checked"{% endif %} value="1"></td>
+                <td class="text-center"><input class="no" name="rights[{{ File }}]" type="radio" aria-label="{{ yesorno[0] }}"{% if array_key_exists(File, Rights) and Rights[File] != 1 %} checked="checked"{% endif %} value="0"></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+      </table>
+    </div>
+  </section>
+  <div class="form-actions">
+    <button type="submit" class="btn--primary">{{ icon('save') }}{{ button_submit }}</button>
+  </div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

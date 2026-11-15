@@ -1,0 +1,366 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_marketplace }}{{ parent() }}{% endblock %}
+{% block content %}
+
+<table class="market-table">
+	<tr>
+		<th colspan="2">
+			{{ LNG.market_info_header }}
+		</th>
+	</tr>
+	<tr>
+		{% if isModuleAvailable(php_const('MODULE_MARKET_TRADE')) and isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+			<td>
+				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
+			</td>
+			<td>
+				<button id="fleetMBtn" class="marketOption">Fleet market</button>
+			</td>
+		{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRADE')) %}
+			<td colspan="2">
+				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
+			</td>
+		{% elseif isModuleAvailable(php_const('MODULE_MARKET_TRANSFER')) %}
+			<td colspan="2">
+				<button id="fleetMBtn" class="marketOption selected">Fleet market</button>
+			</td>
+		{% endif %}
+	</tr>
+	<tr>
+		<td colspan="2">
+			<p>
+				{{ LNG.market_info_description }}
+			</p>
+		</td>
+	</tr>
+
+</table>
+
+<table class="ratio-ref form-table">
+	<tr class="ratio">
+		<td>Reference ratio:</td>
+		<td id="ratioBaselines" data-metal="{{ ratio_base_metal }}" data-crystal="{{ ratio_base_crystal }}" data-deuterium="{{ ratio_base_deuterium }}">
+			<div class="ratio-grid">
+				<input type="text" inputmode="decimal" name="ratio-metal" value="{{ ratio_metal }}" autocomplete="off"/>
+				<span>:</span>
+				<input type="text" inputmode="decimal" name="ratio-cristal" value="{{ ratio_crystal }}" autocomplete="off"/>
+				<span>:</span>
+				<input type="text" inputmode="decimal" name="ratio-deuterium" value="{{ ratio_deuterium }}" autocomplete="off"/>
+				<button type="button" class="ratioBaseline{% if ratio_baseline == 'metal' %} selected{% endif %}" data-resource="metal">{{ LNG['tech'][901] }}</button>
+				<span>:</span>
+				<button type="button" class="ratioBaseline{% if ratio_baseline == 'crystal' %} selected{% endif %}" data-resource="crystal">{{ LNG['tech'][902] }}</button>
+				<span>:</span>
+				<button type="button" class="ratioBaseline{% if ratio_baseline == 'deuterium' %} selected{% endif %}" data-resource="deuterium">{{ LNG['tech'][903] }}</button>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			{{ LNG.market_ship_as_first }}
+		</td>
+		<td>
+			<select id="shipT">
+				<option value="1">{{ LNG.shortNames[202] }}</option>
+				<option value="2" selected>{{ LNG.shortNames[203] }}</option>
+			</select>
+		</td>
+	</tr>
+</table>
+
+{% if message %}
+<table class="market-table">
+	<tr>
+		<th>
+			{{ LNG.fcm_info }}
+		</th>
+	</tr>
+	<tr>
+		<td>
+			{{ message }}
+		</td>
+	</tr>
+</table>
+{% endif %}
+
+<br/><br/>
+<div id="resourceMarketBox" hidden>
+<div class="table-scroll">
+<table id="tradeList" class="market-list" data-sortable>
+	<thead>
+		<tr>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_offer_type }}</th>
+			<th class="no-background no-border ctr">-></th>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_cost_type }}</th>
+			<th class="num">{{ LNG.market_p_ratio }}</th>
+			<th class="num">{{ LNG.market_p_end }}</th>
+			<th class="num LC" hidden>{{ LNG.market_p_to_duration }}</th>
+			<th class="num HC">{{ LNG.market_p_to_duration }}</th>
+			<th class="act">{{ LNG.market_p_buy }}</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
+	{% if FlyingFleetRow.type == 0 %}
+	<tr class='{% if FlyingFleetRow.diplo == 5 %}
+	 trade-enemy
+		{% elseif (FlyingFleetRow.diplo != null and FlyingFleetRow.diplo <= 3) or FlyingFleetRow.from_alliance == 1 %}
+		 trade-ally
+		  {% endif %}
+	{% if FlyingFleetRow.possible_to_buy != true %} trade-disallowed {% endif %}'>
+		<td class="num offered-resource-amount">{{ pretty_number(FlyingFleetRow.offer_resource_amount) }}</td>
+		<td class="ctr market-res-type offered-resource-{{ FlyingFleetRow.offer_resource_id }}" data-resource-id="{{ FlyingFleetRow.offer_resource_id }}">
+			{% if FlyingFleetRow.offer_resource_id == 1 %}
+			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			{% elseif FlyingFleetRow.offer_resource_id == 2 %}
+			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			{% elseif FlyingFleetRow.offer_resource_id == 3 %}
+			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			{% endif %}
+			{{ FlyingFleetRow.offer_resource }}
+		</td>
+		<td class="no-background no-border ctr">-></td>
+		<td class="num wanted-resource-amount">{{ pretty_number(FlyingFleetRow.wanted_resource_amount) }}</td>
+		<td class="ctr market-res-type wanted-resource-{{ FlyingFleetRow.wanted_resource_id }}" data-resource-id="{{ FlyingFleetRow.wanted_resource_id }}">
+			{% if FlyingFleetRow.wanted_resource_id == 1 %}
+			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			{% elseif FlyingFleetRow.wanted_resource_id == 2 %}
+			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			{% elseif FlyingFleetRow.wanted_resource_id == 3 %}
+			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			{% endif %}
+			{{ FlyingFleetRow.wanted_resource }}
+		</td>
+		<td class="num ratio" data-offer-deut="{{ FlyingFleetRow.offer_deut }}" data-ask-deut="{{ FlyingFleetRow.ask_deut }}">{{ FlyingFleetRow.fleet_ratio }}</td>
+		<td class="num" data-time="{{ FlyingFleetRow.end }}">{{ getRestTimeFormat(FlyingFleetRow.end) }}</td>
+		<td class="num LC" hidden data-seconds="{{ FlyingFleetRow.to_lc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_lc_duration) }}</td>
+		<td class="num HC" data-seconds="{{ FlyingFleetRow.to_hc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_hc_duration) }}</td>
+		<td class="act">
+			{% if FlyingFleetRow.possible_to_buy == true %}
+			<form class="market_form" action="game?page=marketPlace&amp;action=buy" method="post">
+				<input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
+				<input value="{{ LNG.market_p_submit }}" type="button" class="market_buy_button">
+        <input type="submit" hidden>
+			</form>
+			{% else %}
+				{{ FlyingFleetRow.reason }}
+			{% endif %}
+		</td>
+	</tr>
+
+	{% endif %}
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+<hr>
+
+<div class="table-scroll">
+<table id="resourceHistoryList" class="market-list" data-sortable>
+	<thead>
+		<tr>
+			<th>{{ LNG.tkb_datum }}</th>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_offer_type }}</th>
+			<th class="no-background no-border ctr">-></th>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_cost_type }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in (resourceHistory)|php_iter %}
+		<tr>
+			<td data-seconds="{{ row.time_unix }}">{{ row.time }}</td>
+			<td class="num">{{ pretty_number(row.offer_amount) }}</td>
+			<td class="ctr market-res-type" data-resource-id="{{ row.offer_type }}">
+				{% if row.offer_type == 1 %}
+				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				{% elseif row.offer_type == 2 %}
+				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				{% elseif row.offer_type == 3 %}
+				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				{% endif %}
+				{{ row.offer_name }}
+			</td>
+			<td class="no-background no-border ctr">-></td>
+			<td class="num">{{ pretty_number(row.cost_amount) }}</td>
+			<td class="ctr market-res-type" data-resource-id="{{ row.cost_type }}">
+				{% if row.cost_type == 1 %}
+				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				{% elseif row.cost_type == 2 %}
+				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				{% elseif row.cost_type == 3 %}
+				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				{% endif %}
+				{{ row.cost_name }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+</div>
+<div id="fleetMarketBox" hidden>
+<div class="table-scroll">
+<table id="tradeFleetList" class="market-list" data-sortable>
+	<thead>
+		<tr>
+			<th>{{ LNG['market_fleet'] }}</th>
+			<th class="no-background no-border ctr">-></th>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_cost_type }}</th>
+			<th class="num">{{ LNG.market_p_from_duration }}</th>
+			<th class="num">{{ LNG.market_p_ratio }}</th>
+			<th class="num">{{ LNG.market_p_end }}</th>
+			<th class="num LC" hidden>{{ LNG.market_p_to_duration }}</th>
+			<th class="num HC">{{ LNG.market_p_to_duration }}</th>
+			<th class="act">{{ LNG.market_p_buy }}</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
+	{% if FlyingFleetRow.type == 1 %}
+	<tr class='{% if FlyingFleetRow.diplo == 5 %}
+	 trade-enemy
+		{% elseif (FlyingFleetRow.diplo != null and FlyingFleetRow.diplo <= 3) or FlyingFleetRow.from_alliance == 1 %}
+		 trade-ally
+		  {% endif %}
+	{% if FlyingFleetRow.possible_to_buy != true %} trade-disallowed {% endif %}'>
+		<td>{{ FlyingFleetRow.fleet }}</td>
+		<td class="no-background no-border ctr">-></td>
+		<td class="num wanted-resource-amount">{{ pretty_number(FlyingFleetRow.wanted_resource_amount) }}</td>
+		<td class="ctr market-res-type wanted-resource-{{ FlyingFleetRow.wanted_resource_id }}" data-resource-id="{{ FlyingFleetRow.wanted_resource_id }}">
+			{% if FlyingFleetRow.wanted_resource_id == 1 %}
+			<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+			{% elseif FlyingFleetRow.wanted_resource_id == 2 %}
+			<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+			{% elseif FlyingFleetRow.wanted_resource_id == 3 %}
+			<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+			{% endif %}
+			{{ FlyingFleetRow.wanted_resource }}
+		</td>
+		<td class="num" data-seconds="{{ FlyingFleetRow.from_duration }}">{{ pretty_fly_time(FlyingFleetRow.from_duration) }}</td>
+		<td class="num ratio" data-offer-deut="{{ FlyingFleetRow.offer_deut }}" data-ask-deut="{{ FlyingFleetRow.ask_deut }}">{{ FlyingFleetRow.fleet_ratio }}</td>
+		<td class="num" data-time="{{ FlyingFleetRow.end }}">{{ getRestTimeFormat(FlyingFleetRow.end) }}</td>
+		<td class="num LC" hidden data-seconds="{{ FlyingFleetRow.to_lc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_lc_duration) }}</td>
+		<td class="num HC" data-seconds="{{ FlyingFleetRow.to_hc_duration }}">{{ pretty_fly_time(FlyingFleetRow.to_hc_duration) }}</td>
+		<td class="act">
+			{% if FlyingFleetRow.possible_to_buy == true %}
+			<form class="market_form" action="game?page=marketPlace&amp;action=buy" method="post">
+				<input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
+				<input value="{{ LNG.market_p_submit }}" type="submit">
+			</form>
+			{% else %}
+				{{ FlyingFleetRow.reason }}
+			{% endif %}
+		</td>
+	</tr>
+
+	{% endif %}
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+<hr/>
+
+<div class="table-scroll">
+<table id="fleetHistoryList" class="market-list" data-sortable>
+	<thead>
+		<tr>
+			<th>{{ LNG.tkb_datum }}</th>
+			<th>{{ LNG['market_fleet'] }}</th>
+			<th class="no-background no-border ctr">-></th>
+			<th class="num">{{ LNG.market_p_cost_amount }}</th>
+			<th class="ctr market-res-type">{{ LNG.market_p_cost_type }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for row in (fleetHistory)|php_iter %}
+		<tr>
+			<td data-seconds="{{ row.time_unix }}">{{ row.time }}</td>
+			<td>{{ row.fleet_str }}</td>
+			<td class="no-background no-border ctr">-></td>
+			<td class="num">{{ pretty_number(row.cost_amount) }}</td>
+			<td class="ctr market-res-type" data-resource-id="{{ row.cost_type }}">
+				{% if row.cost_type == 1 %}
+				<img class="market-res-icon" src="{{ dpath }}images/metal.gif" alt=""/>
+				{% elseif row.cost_type == 2 %}
+				<img class="market-res-icon" src="{{ dpath }}images/crystal.gif" alt=""/>
+				{% elseif row.cost_type == 3 %}
+				<img class="market-res-icon" src="{{ dpath }}images/deuterium.gif" alt=""/>
+				{% endif %}
+				{{ row.cost_name }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+</div>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script>
+function reloadMarketBox() {
+	var resBtn = document.getElementById("resourceMBtn");
+	var fleetBtn = document.getElementById("fleetMBtn");
+	var clRes = resBtn ? resBtn.className : null;
+	var clFleet = fleetBtn ? fleetBtn.className : null;
+
+	var resB = document.getElementById("resourceMarketBox");
+	resB.hidden = !(clRes != null && (clRes.indexOf("selected") != -1 || clFleet == null));
+
+	var fleetB = document.getElementById("fleetMarketBox");
+	fleetB.hidden = !(clFleet != null && (clFleet.indexOf("selected") != -1 || clRes == null));
+}
+
+onPageInit(function() {
+// Set the default
+reloadMarketBox();
+//
+document.querySelectorAll("#resourceMBtn, #fleetMBtn").forEach(function (button) {
+	button.addEventListener("click", function(){
+		document.querySelectorAll(".marketOption").forEach(function (el) { el.classList.remove("selected"); });
+		button.classList.add("selected");
+		reloadMarketBox();
+	});
+});
+
+document.querySelectorAll(".market_buy_button").forEach(function (button) {
+	button.addEventListener("click", function() {
+		var c = confirm("{{ LNG.market_confirm_are_you_sure }}");
+		if (c) {
+			var form = button.closest('form');
+			form.querySelectorAll('input[name="shipType"]').forEach(function (el) { el.remove(); });
+			var hidden = document.createElement('input');
+			hidden.type = 'hidden';
+			hidden.name = 'shipType';
+			hidden.value = document.getElementById('shipT').value;
+			form.append(hidden);
+			form.submit();
+		}
+		return c;
+	});
+});
+
+// Flight-to column: light or heavy cargo
+var shipT = document.getElementById('shipT');
+function toggleFlightColumns() {
+	var valueSelected = shipT.value;
+	var showLC = valueSelected == 1;
+	var showHC = valueSelected == 2;
+	if (showLC || showHC) {
+		document.querySelectorAll('.HC').forEach(function (el) { el.hidden = showLC; });
+		document.querySelectorAll('.LC').forEach(function (el) { el.hidden = !showLC; });
+	}
+}
+if (shipT) {
+	shipT.addEventListener('change', toggleFlightColumns);
+	toggleFlightColumns();
+}
+});</script>
+{% endblock %}

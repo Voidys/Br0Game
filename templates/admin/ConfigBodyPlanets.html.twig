@@ -1,0 +1,45 @@
+{% include 'admin/overall_header.html.twig' %}
+<form action="" method="post" class="stack" data-track-dirty>
+  <input type="hidden" name="mode" value="send">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('orbit') }}{{ LNG.adm_cfg_planet_props }}</h2>
+      <span class="muted small">{{ LNG.adm_cfg_planet_props_hint }}</span>
+    </header>
+    <div class="card__body table-wrap">
+      <table class="data data--compact">
+        <thead>
+          <tr>
+            <th class="num">{{ LNG.adm_coord_position }}</th>
+            <th class="num">{{ LNG.adm_cfg_temp_min }}</th>
+            <th class="num">{{ LNG.adm_cfg_temp_max }}</th>
+            <th class="num">{{ LNG.adm_cfg_fields_min }}</th>
+            <th class="num">{{ LNG.adm_cfg_fields_max }}</th>
+            <th class="num">{{ LNG.adm_cfg_metal_pct }}</th>
+            <th class="num">{{ LNG.adm_cfg_crystal_pct }}</th>
+            <th class="num">{{ LNG.adm_cfg_deuterium_pct }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for Element in (planet_data)|php_iter %}
+            {% set pos = Element.planet_position %}
+            <tr>
+              <th scope="row" class="num">{{ pos }}</th>
+              <td><input name="temp_min_{{ pos }}" value="{{ Element.temp_min }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_temp_min }}"></td>
+              <td><input name="temp_max_{{ pos }}" value="{{ Element.temp_max }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_temp_max }}"></td>
+              <td><input name="fields_min_{{ pos }}" value="{{ Element.fields_min }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_fields_min }}"></td>
+              <td><input name="fields_max_{{ pos }}" value="{{ Element.fields_max }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_fields_max }}"></td>
+              <td><input name="metalBonusPercent_{{ pos }}" value="{{ Element.metalBonusPercent }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_metal_pct }}"></td>
+              <td><input name="crystalBonusPercent_{{ pos }}" value="{{ Element.crystalBonusPercent }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_crystal_pct }}"></td>
+              <td><input name="deuteriumBonusPercent_{{ pos }}" value="{{ Element.deuteriumBonusPercent }}" type="number" aria-label="{{ LNG.adm_coord_position }} {{ pos }}: {{ LNG.adm_cfg_deuterium_pct }}"></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="form-actions">
+    <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button>
+  </div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

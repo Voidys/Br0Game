@@ -1,0 +1,112 @@
+<div class="spyRaport">
+	<div class="spyRaportHead" coords="{{ targetPlanet.galaxy }}:{{ targetPlanet.system }}:{{ targetPlanet.planet }}">
+		<a href="game?page=galaxy&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}">{{ title }}</a>
+	</div>
+    {% if stbEnabled %}
+		<div class="spyRaportContainer" name="scavengeruwu">
+			<div class="spyRaportContainerHead">
+				{{ LNG.spy_summary }}
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell 35">
+					{{ LNG.spy_total_resources }}
+				</div>
+				<div class="spyRaportContainerCell 15" name="totalRes"></div>
+				<div class="spyRaportContainerCell {{ dangerClass }}">
+					{{ LNG.spy_hazard_potential }}
+				</div>
+				<div class="spyRaportContainerCell {{ dangerClass }}" name="dangerValue">
+          			{{ pretty_number(danger) }}
+				</div>
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell">
+					{{ LNG.spy_potential_resources }}
+				</div>
+				<div class="spyRaportContainerCell" name="resToRaid"></div>
+				<div class="spyRaportContainerCell">
+					{{ LNG.spy_potential_recycling }}
+				</div>
+				<div class="spyRaportContainerCell" name="resToRec"></div>
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell" >
+					{{ LNG.spy_necessary_transporters }}
+				</div>
+				<div class="spyRaportContainerCell" >
+					{{ pretty_number(smallCargoNeeded) }} {{ LNG.spy_small_transporter }}  <br>
+          			{{ pretty_number(largeCargoNeeded) }} {{ LNG.spy_large_transporter }}
+				</div>
+				<div class="spyRaportContainerCell" >
+					{{ LNG.spy_necessary_recycler }}
+				</div>
+				<div class="spyRaportContainerCell" name="recNeeded"></div>
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell" classadd="marketClass" >
+					{{ LNG.spy_market_value }}
+				</div>
+				<div class="spyRaportContainerCell" name="marketValue" classadd="marketClass"></div>
+				<div class="spyRaportContainerCell {{ energyClass }}" >
+					{{ LNG.spy_energy }}
+				</div>
+				<div class="spyRaportContainerCell {{ energyClass }}" name="energyValue">
+					{{ pretty_number(energy) }}
+				</div>
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell" classadd="timePerResClass">
+					{{ LNG.spy_best_resources_per_second }}
+				</div>
+				<div class="spyRaportContainerCell" name="resPerSec" classadd="timePerResClass"></div>
+				<div class="spyRaportContainerCell" >
+					{{ LNG.spy_best_planet }}
+				</div>
+				<div class="spyRaportContainerCell" name="bestPlanet"></div>
+			</div>
+			<div class="spyRaportContainerRow clearfix">
+				<div class="spyRaportContainerCell spy-cell-half {{ dangerClass }}">
+					<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[202]={{ smallCargoNeeded }}" target="_blank">
+						<button type="button">
+              				⚔️ {{ pretty_number(smallCargoNeeded) }} {{ LNG.spy_small_transporter }} ⚔️
+						</button>
+					</a>
+				</div>
+				<div class="spyRaportContainerCell spy-cell-half {{ dangerClass }}">
+					<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission=1&#35;ship_input[203]={{ largeCargoNeeded }}" target="_blank">
+						<button type="button">
+              				⚔️ {{ pretty_number(largeCargoNeeded) }} {{ LNG.spy_large_transporter }} ⚔️
+						</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+	{% for Class, elementIDs in (spyData)|php_iter %}
+		<div class="spyRaportContainer">
+    		<div class="spyRaportContainerHead spyRaportContainerHeadClass{{ Class }}">{{ LNG.tech[Class] }}</div>
+			{% for elementID, amount in (elementIDs)|php_iter %}
+				{% if (loop.index % 2) == 1 %}
+					<div class="spyRaportContainerRow clearfix">
+				{% endif %}
+				<div class="spyRaportContainerCell">
+					<div class="lg:hidden">{{ LNG.tech[elementID] }}</div>
+					<a href='#' onclick='return Dialog.info({{ elementID }})' class='tooltip max-lg:hidden' data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 and elementID <= 699 %}jpg{% else %}gif{% endif %}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+				</div>
+				<div class="spyRaportContainerCell" data-info="{{ Class }}_{{ elementID }}">
+					{{ pretty_number(amount) }}{% if isset(repair_order[elementID]) %} <span class="colorPositive">(+ {{ repair_order[elementID] }})</span>{% endif %}
+				</div>
+				{% if (loop.index % 2) == 0 or loop.last %}</div>{% endif %}
+			{% endfor %}
+			{% if not empty(repair_order) and Class == 200 %}
+				<div><span class="colorPositive">(+ X)</span> {{ LNG.sys_mess_spy_repair_order }}</div>
+			{% endif %}
+  			<br>
+		</div>
+	{% endfor %}
+	<div class="spyRaportFooter">
+		<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={% if targetPlanet.planet_type < 4 %}1">{{ LNG.type_mission_1 }}{% else %}20">{{ LNG.type_mission_20 }}{% endif %}</a>
+		<br>{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ sprintf(LNG.sys_mess_spy_lostproba, targetChance) }}{% endif %}
+		{% if isBattleSim %}<br><a target="_blank" href="game?page=battleSimulator{% for Class, elementIDs in (spyData)|php_iter %}{% for elementID, amount in (elementIDs)|php_iter %}&amp;im[{{ elementID }}]={{ amount|intval }}{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
+	</div>
+</div>

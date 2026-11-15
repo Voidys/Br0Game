@@ -1,0 +1,98 @@
+tutorial_buttons_claim: Odbierz nagrodę
+tutorial_buttons_continue: Kontynuuj
+tutorial_buttons_finalize: Ukończ samouczek
+tutorial_buttons_skip: Pomiń
+tutorial_buttons_skipAll: Pomiń samouczek
+tutorial_buttons_skipAll_confirm: Czy naprawdę chcesz pominąć resztę samouczka? Nie można go ponownie aktywować!
+tutorial_goal:
+  mission:
+    '6': Wyślij sondę szpiegowską do innego gracza.
+    '7': Zasiedlaj kolejną planetę
+    '8': Zrecyklinguj pole szczątków
+    '15': Wyślij flotę na ekspedycję
+  step6:
+    '1': Zmień nazwę swojej planety
+    '2': Wyślij prośbę o znajomego do innego gracza
+    '3': Wyślij prośbę o dołączenie do aliansu
+tutorial_goals_header: 'Cele:'
+tutorial_goals_ignore: (ignoruj)
+tutorial_rewards_header: 'Nagrody:'
+tutorial_text:
+  step0: "Witamy w {game_name}!<br><br>\r\nTen samouczek wprowadzi cię w podstawy gry.<br>\r\nCzęsto pojawiają się odnośniki do naszego Wiki, aby dostarczyć więcej informacji, ponieważ nie wszystkie aspekty gry mogą być wyjaśnione w samouczku.\r\nWiki można zawsze znaleźć w menu po lewej stronie.<br>\r\nMożesz pominąć samouczek w dowolnym momencie, ale nie będziesz mógł go ponownie uruchomić.<br><br>\r\nPowodzenia, Imperatorze!"
+  step1: "W tej grze chodzi o zdobywanie jak największej liczby punktów. Jeden punkt zdobywa się za każde wydane 1 000 surowców.\r\nSurowce można zdobyć na różne sposoby. Najważniejszym z nich jest produkcja z własnych kopalni.<br>\r\nZapewnij więc najpierw podstawowe zaopatrzenie, budując kopalnie metalu i kryształu oraz zapewniając energię z elektrowni słonecznej.\r\nBrak wystarczającej energii oznacza niższą produkcję.<br>\r\nTe budynki możesz rozbudować w menu <b>Budynki</b>. Klikając na nazwę budynku, zobaczysz, ile zasobów przyniesie jego rozbudowa oraz ile energii będzie zużywać na wyższym poziomie.<br><br>\r\nWięcej informacji znajdziesz w <b>Wiki</b>:\r\n<a href=\"https://wiki.pr0game.com/wiki/EN/Rohstoffe\" target=\"_blank\">Raw material production</a>"
+  step2: "Gra jest bardziej interesująca, gdy możesz komunikować się z innymi graczami.\r\nWiększość graczy korzysta z naszego Discorda.\r\nW społeczności znajdziesz odpowiedzi na swoje pytania oraz innych graczy, z którymi możesz grać razem.<br>\r\nW razie potrzeby możesz również tworzyć zgłoszenia pomocy."
+  step3: "Innym sposobem na zdobywanie surowców jest atakowanie planet innych graczy.<br>\r\nJednak to samo może spotkać ciebie - zbuduj swoją pierwszą obronę!<br>\r\nObrona jest ważna, by chronić przynajmniej zasoby wyprodukowane w nocy.<br>\r\nTutaj liczy się nie tylko ilość, ale również kompozycja floty atakującej.<br>\r\nZanim cię ograbią, napastnik musi przełamać twoją obronę. Im więcej statków musi wysłać, tym mniej zarobi i bardziej ryzykuje straty.<br>\r\nInstalacje obronne można budować w menu <b>Obrona</b> za pomocą stoczni. Aby ją zbudować, potrzebujesz fabryki robotów i deuteru.<br><br>\r\nWięcej informacji w Wiki:\r\n<a href=\"https://wiki.pr0game.com/wiki/En/Verteidigung\" target=\"_blank\">Defense facilities</a>"
+  step4: "Zapewnij ciągłe zaopatrzenie, rozbudowując swoje kopalnie!<br>\r\nBudowa budynków, statków i obrony, a także badania, stają się coraz droższe z czasem.\r\nAby sprostać potrzebom zasobowym swojej planety, musisz stale zwiększać produkcję.\r\nTeraz wejdź do menu Budynki i rozbuduj swoje budynki, gdy masz odpowiednie zasoby."
+  step5: "Zbuduj mały transporter!<br>\r\nMałe transportery są szybką metodą transportu w późniejszej grze.<br>\r\nGdy lecą z napędem impulsowym, są szybsze niż duże transportery na długich dystansach.<br>\r\nSłużą do transportu surowców między twoimi planetami, handlu z innymi graczami lub napadania na nich.<br><br>\r\nWięcej informacji w Wiki:\r\n<a href=\"https://wiki.pr0game.com/wiki/En/Schiffe\" target=\"_blank\">Ships</a>"
+  step6: "Aby lepiej zarządzać planetami, można je nazwać. Kliknij na nazwę planety w menu głównym, aby nadać jej nazwę.<br><br>\r\nMożesz także wysyłać prośby o znajomych do innych graczy. Po zaakceptowaniu łatwiej jest komunikować się i widzieć status online.\r\nNie trzeba być w tej samej alianсji.\r\nMożesz również wysłać swoje floty do sojusznika w celu wspólnej obrony.<br><br>\r\nMożesz także dołączyć do aliansu, aby grać z innymi graczami. W aliansie nie potrzebujesz osobnych próśb o znajomych do trzymania floty na ich planetach.\r\nCzłonkowie aliansu mogą wysyłać wiadomości grupowe i widzieć status online oraz punkty innych członków, w zależności od ich rangi."
+  step7: "Aby zobaczyć zasoby, budynki, badania, statki i obronę innych graczy, musisz ich szpiegować.\r\nWysyłaj sondy szpiegowskie przez menu Floty lub z Galaktyki.<br>\r\nPamiętaj, że inni gracze mogą cię również szpiegować!"
+  step8: >-
+    Wyprawa może przynieść zasoby, statki, wydarzenia lub straty. Aby to
+    sprawdzić, wybierz statek i wyrusz w wyprawę, klikając współrzędne planety
+    16 i misję „Wyprawa” w menu floty.<br>
+
+    Każdy typ statku dodaje punkty do wielkości floty wyprawy, aż do osiągnięcia
+    maksymalnej wielkości wydarzenia.<br><br>
+
+    Więcej informacji znajdziesz w Wiki:
+
+    <a href="https://wiki.pr0game.com/wiki/En/Expoanleitung"
+    target="_blank">Expeditions</a>
+  step9: "Aby przyspieszyć produkcję, zasiedlaj kolejne planety.\r\nProdukcja na wielu planetach pozwala na jednoczesną budowę i produkcję.<br>\r\nKolonizacja wymaga odpowiedniego poziomu Astrofizyki, a pierwszy statek kolonizacyjny możesz zbudować bez niej, ale kolonizacja wymaga już Astrofizyki!<br>\r\nBliskość planet skraca czas transportu, ale może uczynić cię celem dla graczy szukających szybkich ataków.<br><br>\r\nWięcej informacji znajdziesz w Wiki:\r\n<a href=\"https://wiki.pr0game.com/wiki/En/Astrophysik\" target=\"_blank\">Astrophysics</a>"
+  step10: "Aby szybciej zwiększać swoją potęgę, możesz handlować z innymi graczami.<br>\r\nW ten sposób możesz zdobyć zasoby, które są ci potrzebne, lub pozbyć się nadmiaru, jeśli masz ich za dużo.<br>\r\nOferty handlowe można publikować na naszym serwerze Discord. Możesz również wyszukać inne oferty i zawrzeć transakcję.<br>\r\nJako kurs wymiany przyjęto <b>2.5:1.5:1 dla Metalu:Kryształu:Deuteru</b>, ale można ustalać inne kursy. Przestrzegaj zasad gry i handluj uczciwie!<br><br>\r\nWięcej informacji znajdziesz w Wiki:\r\n<a href=\"https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Saven</a> - \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensorphalanx</a>"
+  step10_u6: >-
+    Aby szybciej zwiększać swoją potęgę, możesz handlować z innymi graczami.<br>
+
+    W ten sposób możesz zdobyć zasoby, które są ci potrzebne, lub pozbyć się
+    nadmiaru, jeśli masz ich za dużo.<br>
+
+    Oferty handlowe można publikować na naszym serwerze Discord. Możesz również
+    wyszukać inne oferty i zawrzeć transakcję.<br>
+
+    Jako kurs wymiany przyjęto <b>2.5:1.5:1 dla Metalu:Kryształu:Deuteru</b>,
+    ale można ustalać inne kursy. Przestrzegaj zasad gry i handluj
+    uczciwie!<br><br>
+
+    Więcej informacji znajdziesz w Wiki:
+
+    <a
+    href="https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden"
+    target="_blank">Saven</a>
+  step11: "Podczas niszczenia flot powstaje pole szczątków, które można zbierać. \r\nDo tego potrzebujesz recyklera, który może zebrać do 20k zasobów z pola szczątków. \r\nZniszczenie dużej floty może być zatem lukratywnym źródłem zasobów.<br><br>\r\nZamiast korzystać z menu floty, recyklery mogą być również wysyłane bezpośrednio z menu Galaktyki, klikając na pole szczątków i wybierając odpowiednią ilość."
+  step12: "Gratulacje, ukończyłeś samouczek!<br><br>\r\nGra oferuje wiele innych mechanik.<br>\r\nNa przykład istnieją zasadniczo 3 style gry, różniące się czasem zaangażowania:<br>\r\n<ul>\r\n<li>Górnik: rozwija kopalnie na wielu koloniach, głównie używa transporterów</li>\r\n<li>Flociarz: większość punktów zdobywa za flotę bojową, produkuje niewiele zasobów samodzielnie, polega na najazdach na innych graczy</li>\r\n<li>Mieszany: połączenie obu stylów</li>\r\n</ul>\r\nW późniejszym etapie gry ważne stają się księżyce, a Ty już poznałeś Phalankę Sensorów.<br><br>\r\nJeśli masz dalsze pytania, możesz zajrzeć do Wiki lub poprosić o pomoc społeczność na Discordzie."
+  step12_u6: >-
+    Gratulacje, ukończyłeś samouczek!<br><br>
+
+    Gra oferuje wiele innych mechanik.<br>
+
+    Na przykład istnieją zasadniczo 3 style gry, różniące się czasem
+    zaangażowania:<br>
+
+    <ul>
+
+    <li>Górnik: rozwija kopalnie na wielu koloniach, głównie używa
+    transporterów</li>
+
+    <li>Flociarz: większość punktów zdobywa za flotę bojową, produkuje niewiele
+    zasobów samodzielnie, polega na najazdach na innych graczy</li>
+
+    <li>Mieszany: połączenie obu stylów</li>
+
+    </ul>
+
+    Jeśli masz dalsze pytania, możesz zajrzeć do Wiki lub poprosić o pomoc
+    społeczność na Discordzie.
+tutorial_title:
+  step0: O co chodzi w tej grze?
+  step1: Zacznij zarabiać!
+  step2: Poznaj innych graczy!
+  step3: Nie stój bezbronny na otwartej przestrzeni!
+  step4: Myśl strategicznie!
+  step5: Potrzebujemy statków!
+  step6: Nazwij swoją planetę i szukaj sojuszników!
+  step7: Zobacz, co mają inni!
+  step8: Eksploruj nieznane!
+  step9: Nie zostaniesz przy jednej planecie!
+  step10: Nie czekaj na zasoby z własnej produkcji!
+  step11: Zagraj w recyklera!
+  step12: Udało Ci się

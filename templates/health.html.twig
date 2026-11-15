@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Health{% endblock %}
+
+{% block body %}
+    <dl>
+        <dt>PHP</dt><dd>{{ php }}</dd>
+        <dt>Database</dt><dd>{{ database }}</dd>
+        <dt>Accounts</dt><dd>{{ accounts }}</dd>
+        <dt>Logged in</dt><dd>{{ account ? account.accountName ~ ' (' ~ account.roles|join(', ') ~ ')' : 'no' }}</dd>
+    </dl>
+{% endblock %}

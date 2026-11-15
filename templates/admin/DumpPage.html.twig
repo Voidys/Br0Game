@@ -1,0 +1,37 @@
+{% include 'admin/overall_header.html.twig' %}
+<form action="admin?page=dump" method="post" class="stack">
+  <input type="hidden" name="action" value="dump">
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('hard-drive-download') }}{{ LNG.du_choose_tables }}</h2>
+      <div class="card__actions">
+        <input type="search" class="table-filter" id="dump-filter" placeholder="{{ LNG.adm_filter_page }}">
+        <label class="nowrap"><input type="checkbox" id="selectAll"> {{ LNG.du_select_all_tables }}</label>
+      </div>
+    </header>
+    <div class="card__body">
+      <div class="grid" id="dbtables">
+        {% for table in (dumpData.sqlTables)|php_iter %}
+          <label class="dump-table"><input type="checkbox" name="dbtables[]" value="{{ table }}"> <span class="mono small">{{ table }}</span></label>
+        {% endfor %}
+      </div>
+    </div>
+    <footer class="card__foot">
+      <button type="submit" class="btn--primary">{{ icon('hard-drive-download') }}{{ LNG.du_submit }}</button>
+    </footer>
+  </section>
+</form>
+<script>
+(function () {
+  var boxes = function () { return document.querySelectorAll('#dbtables input[type=checkbox]'); };
+  document.getElementById('selectAll').addEventListener('click', function () {
+    var checked = this.checked;
+    boxes().forEach(function (box) { if (!box.closest('label').hidden) { box.checked = checked; } });
+  });
+  document.getElementById('dump-filter').addEventListener('input', function () {
+    var q = this.value.toLowerCase();
+    boxes().forEach(function (box) { box.closest('label').hidden = q !== '' && box.value.toLowerCase().indexOf(q) === -1; });
+  });
+})();
+</script>
+{% include 'admin/overall_footer.html.twig' %}

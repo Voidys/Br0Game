@@ -1,0 +1,20 @@
+{% include 'admin/overall_header.html.twig' %}
+<form method="post" action="" class="stack">
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('key-round') }}{{ et_md5_encripter }}</h2></header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="md5q">{{ et_pass }}</label>
+          <div class="field-control"><input type="text" id="md5q" name="md5q" value="{{ md5_md5 }}" autocomplete="off"></div>
+        </div>
+        <div class="field-row">
+          <label for="md5w">{{ et_result }}</label>
+          <div class="field-control"><input type="text" id="md5w" name="md5w" class="mono" value="{{ md5_enc }}" readonly></div>
+        </div>
+      </div>
+    </div>
+    <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('refresh-cw') }}{{ et_encript }}</button></footer>
+  </section>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

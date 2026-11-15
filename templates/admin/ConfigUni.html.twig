@@ -1,0 +1,198 @@
+{% include 'admin/overall_header.html.twig' %}
+{% include 'admin/ConfigSections.html.twig' %}
+
+<script src="./scripts/admin/Percentslider.js"></script>
+<script>
+	addpercentsliderstuff(["expo_ress_met_chance", "expo_ress_crys_chance", "expo_ress_deut_chance"])
+</script>
+<script>
+(function () {
+	var previewSettings = {{ flightTimePreview|json_encode|raw }};
+	var t = {{ {format: LNG.adm_flight_err_format, maxMissing: LNG.adm_flight_err_max_missing, minOne: LNG.adm_flight_err_min_one, galaxyOver: LNG.adm_flight_err_galaxy_over, systemOver: LNG.adm_flight_err_system_over, planetOver: LNG.adm_flight_err_planet_over, distMissing: LNG.adm_flight_err_dist_missing, time: LNG.adm_flight_time, distance: LNG.adm_flight_distance, shipSpeed: LNG.adm_flight_ship_speed, fleetSpeed: LNG.adm_flight_fleet_speed}|json_encode|raw }};
+	var targetInput = document.getElementById('flight-time-preview-target');
+	var resultNode = document.getElementById('flight-time-preview-result');
+	var distanceNode = document.getElementById('flight-time-preview-distance');
+	var observedFields = [
+		'max_galaxy',
+		'max_system',
+		'max_planets',
+		'uni_type',
+		'galaxy_type',
+		'galaxy_distance_factor',
+		'system_distance_factor',
+		'system_distance',
+		'planet_distance_factor',
+		'planet_distance'
+	];
+
+	if (!targetInput || !resultNode || !distanceNode) {
+		return;
+	}
+
+	function getFieldValue(name) {
+		var field = document.getElementsByName(name)[0];
+		return field ? parseInt(field.value, 10) : NaN;
+	}
+
+	function formatNumber(value) {
+		return String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+	}
+
+	function pad(value) {
+		return value < 10 ? '0' + value : String(value);
+	}
+
+	function formatDuration(seconds) {
+		var wholeSeconds = Math.floor(seconds);
+		var hours = Math.floor(wholeSeconds / 3600);
+		var minutes = Math.floor((wholeSeconds - hours * 3600) / 60);
+		var restSeconds = wholeSeconds - hours * 3600 - minutes * 60;
+
+		return hours + ':' + pad(minutes) + ':' + pad(restSeconds) + ' h';
+	}
+
+	function parseTarget() {
+		var match = targetInput.value.trim().match(/^(\d+):(\d+):(\d+)$/);
+
+		if (!match) {
+			return null;
+		}
+
+		return {
+			galaxy: parseInt(match[1], 10),
+			system: parseInt(match[2], 10),
+			planet: parseInt(match[3], 10)
+		};
+	}
+
+	function validateTarget(target) {
+		var maxGalaxy = getFieldValue('max_galaxy');
+		var maxSystem = getFieldValue('max_system');
+		var maxPlanets = getFieldValue('max_planets');
+
+		if (!target) {
+			return t.format;
+		}
+
+		if (!isFinite(maxGalaxy) || !isFinite(maxSystem) || !isFinite(maxPlanets)) {
+			return t.maxMissing;
+		}
+
+		if (target.galaxy < 1 || target.system < 1 || target.planet < 1) {
+			return t.minOne;
+		}
+
+		if (target.galaxy > maxGalaxy) {
+			return t.galaxyOver;
+		}
+
+		if (target.system > maxSystem) {
+			return t.systemOver;
+		}
+
+		if (target.planet > maxPlanets) {
+			return t.planetOver;
+		}
+
+		return '';
+	}
+
+	function getRingDistance(current, target, max) {
+		var diff = Math.abs(current - target);
+
+		if (diff < Math.ceil(max / 2)) {
+			return diff;
+		}
+
+		return Math.floor(max / 2) - (diff - Math.ceil(max / 2));
+	}
+
+	function getDistance(target) {
+		var startGalaxy = 1;
+		var startSystem = 1;
+		var startPlanet = 1;
+		var uniType = getFieldValue('uni_type');
+		var galaxyType = getFieldValue('galaxy_type');
+		var maxGalaxy = getFieldValue('max_galaxy');
+		var maxSystem = getFieldValue('max_system');
+		var galaxyDistanceFactor = getFieldValue('galaxy_distance_factor');
+		var systemDistanceFactor = getFieldValue('system_distance_factor');
+		var systemDistance = getFieldValue('system_distance');
+		var planetDistanceFactor = getFieldValue('planet_distance_factor');
+		var planetDistance = getFieldValue('planet_distance');
+
+		if (startGalaxy !== target.galaxy) {
+			if (uniType === 2) {
+				return galaxyDistanceFactor;
+			}
+
+			if (uniType === 1) {
+				return getRingDistance(startGalaxy, target.galaxy, maxGalaxy) * galaxyDistanceFactor;
+			}
+
+			return Math.abs(startGalaxy - target.galaxy) * galaxyDistanceFactor;
+		}
+
+		if (startSystem !== target.system) {
+			if (galaxyType === 2) {
+				return systemDistanceFactor + systemDistance;
+			}
+
+			if (galaxyType === 1) {
+				return getRingDistance(startSystem, target.system, maxSystem) * systemDistanceFactor + systemDistance;
+			}
+
+			return Math.abs(startSystem - target.system) * systemDistanceFactor + systemDistance;
+		}
+
+		if (startPlanet !== target.planet) {
+			return Math.abs(startPlanet - target.planet) * planetDistanceFactor + planetDistance;
+		}
+
+		return 5;
+	}
+
+	function getDuration(distance) {
+		var duration = ((3500 / (previewSettings.speedFactor * 0.1) * Math.pow(distance * 10 / previewSettings.shipSpeed, 0.5) + 10) / previewSettings.gameSpeed) * previewSettings.fleetSpeedFactor;
+		return Math.floor(Math.max(duration, previewSettings.minDuration));
+	}
+
+	function updateFlightTimePreview() {
+		var target = parseTarget();
+		var validationError = validateTarget(target);
+
+		if (validationError !== '') {
+			resultNode.textContent = validationError;
+			distanceNode.textContent = '';
+			return;
+		}
+
+		var distance = getDistance(target);
+		var duration = getDuration(distance);
+
+		if (!isFinite(distance) || !isFinite(duration)) {
+			resultNode.textContent = t.distMissing;
+			distanceNode.textContent = '';
+			return;
+		}
+
+		resultNode.textContent = t.time + ': ' + formatDuration(duration);
+		distanceNode.textContent = t.distance + ': ' + formatNumber(distance) + ' | ' + t.shipSpeed + ': ' + formatNumber(previewSettings.shipSpeed) + ' | ' + t.fleetSpeed + ': 1';
+	}
+
+	targetInput.addEventListener('input', updateFlightTimePreview);
+
+	observedFields.forEach(function (name) {
+		var field = document.getElementsByName(name)[0];
+
+		if (field) {
+			field.addEventListener('input', updateFlightTimePreview);
+			field.addEventListener('change', updateFlightTimePreview);
+		}
+	});
+
+	updateFlightTimePreview();
+})();
+</script>
+
+{% include 'admin/overall_footer.html.twig' %}

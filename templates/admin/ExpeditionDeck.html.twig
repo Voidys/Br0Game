@@ -1,0 +1,73 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if message %}
+    <div class="notice notice--{% if messageType == 'success' %}success{% else %}danger{% endif %}" role="alert">
+      {{ icon(messageType == 'success' ? 'circle-check' : 'circle-alert') }}<div>{{ message }}</div>
+    </div>
+  {% endif %}
+
+  <div class="cols">
+    <section class="card card--flush">
+      <header class="card__head"><h2 class="card__title">{{ icon('chart-pie') }}{{ LNG.exp_deck_statistics }}</h2></header>
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead>
+            <tr>
+              <th>{{ LNG.exp_deck_event_type }}</th>
+              <th class="num">{{ LNG.exp_deck_cards }}</th>
+              <th class="num">{{ LNG.exp_deck_percentage }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for type, stat in (deckStats['by_type'])|php_iter %}
+            <tr>
+              <td>{{ type }}</td>
+              <td class="num">{{ stat['cards'] }}</td>
+              <td class="num">{{ stat['percentage'] }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>{{ LNG.exp_deck_total }}</th>
+              <th class="num">{{ deckStats['total_cards'] }}</th>
+              <th class="num">100%</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('info') }}{{ LNG.exp_deck_format_instructions }}</h2></header>
+      <div class="card__body stack">
+        <p>{{ LNG.exp_deck_format_help }}</p>
+        <dl class="kv">
+          <dt>{{ LNG.exp_deck_type_label }}</dt><dd>{{ LNG.exp_deck_type_desc }}</dd>
+          <dt>{{ LNG.exp_deck_size_label }}</dt><dd>{{ LNG.exp_deck_size_desc }}</dd>
+          <dt>{{ LNG.exp_deck_count_label }}</dt><dd>{{ LNG.exp_deck_count_desc }}</dd>
+        </dl>
+        <p class="muted">{{ LNG.exp_deck_example }}</p>
+        {% verbatim %}
+<pre class="mono small">[
+  {"type": "Res", "size": "Small", "count": 18},
+  {"type": "Res", "size": "Medium", "count": 15},
+  {"type": "Ships", "size": "Small", "count": 10}
+]</pre>
+        {% endverbatim %}
+      </div>
+    </section>
+  </div>
+
+  <form method="POST" action="admin?page=expeditiondeck&amp;action=update&amp;uniID={{ universe }}" data-track-dirty>
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('pencil') }}{{ LNG.exp_deck_edit }}</h2></header>
+      <div class="card__body stack">
+        <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.exp_deck_warning }}</div></div>
+        <textarea name="deck_config_json" class="mono" rows="20" spellcheck="false">{{ deckJson }}</textarea>
+      </div>
+    </section>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

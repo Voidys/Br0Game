@@ -1,0 +1,23 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="login-gate">
+  <form action="" method="post" class="card">
+    <header class="card__head">
+      <h1 class="card__title">{{ icon('lock') }}{{ LNG.adm_login }}</h1>
+    </header>
+    <div class="card__body stack">
+      <div class="field">
+        <label for="admin-email">{{ LNG.adm_email }}</label>
+        <input id="admin-email" type="email" value="{{ email }}" readonly>
+      </div>
+      <div class="field">
+        <label for="admin-pw">{{ LNG.adm_password }}</label>
+        <input id="admin-pw" type="password" name="admin_pw" autocomplete="current-password" required autofocus>
+      </div>
+    </div>
+    <footer class="card__foot">
+      <a href="game">{{ icon('arrow-left') }} {{ LNG.adm_back_to_game }}</a>
+      <button type="submit" class="btn--primary ml-auto">{{ LNG.adm_absenden }}</button>
+    </footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,40 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_banned }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th colspan="5">{{ LNG.bn_players_banned_list }}</th>
+	</tr>
+	<tr>
+		<th>{{ LNG.bn_from }}</th>
+		<th>{{ LNG.bn_until }}</th>
+		<th>{{ LNG.bn_player }}</th>
+		<th>{{ LNG.bn_by }}</th>
+		<th>{{ LNG.bn_reason }}</th>
+	</tr>
+	{% if banCount %}
+	<tr>
+		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="game?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="game?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+	</tr>
+	{% for banRow in (banList)|php_iter %}
+	<tr>
+		<td>{{ banRow.from }}</td>
+		<td>{{ banRow.to }}</td>
+		<td>{{ banRow.player }}</td>
+		<td><a href="mailto:{{ banRow.mail }}" title="{{ banRow.info }}">{{ banRow.admin }}</a></td>
+		<td>{{ banRow.theme }}</td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td class="right" colspan="5">{{ LNG.mg_page }}: {% if page != 1 %}<a href="game?page=banList&amp;side={{ page - 1 }}">&laquo;</a>&nbsp;{% endif %}{% if (maxPage) >= (1) %}{% for site in 1..maxPage %}<a href="game?page=banList&amp;side={{ site }}">{% if site == page %}<b>[{{ site }}]</b>{% else %}[{{ site }}]{% endif %}</a>{% if site != maxPage %}&nbsp;{% endif %}{% endfor %}{% endif %}{% if page != maxPage %}&nbsp;<a href="game?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}</td>
+	</tr>
+	<tr>
+		<td colspan="5">{{ LNG.bn_exists }}{{ pretty_number(banCount) }}{{ LNG.bn_players_banned }}</td>
+	</tr>
+	{% else %}
+	<tr>
+		<td colspan="5">{{ LNG.bn_no_players_banned }}</td>
+	</tr>	
+	{% endif %}
+</table>
+{% endblock %}

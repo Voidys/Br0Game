@@ -1,0 +1,109 @@
+<table>
+	<tbody>
+		{% if not empty(FleetInfo.tech1) or not empty(FleetInfo.tech2) or not empty(FleetInfo.tech3) %}
+		<tr>
+			<td>{{ LNG.in_engine }}</td>
+			<td class="num">
+				{% if FleetInfo.tech1 > 0 and FleetInfo.tech2 > 0 and FleetInfo.tech3 > 0 %}
+					{{ LNG.tech[115] }}<br>
+					<span class="speed-boost-2">({{ LNG.tech[117] }} ≥ {{ FleetInfo.tech2 }})</span><br>
+					<span class="speed-boost-3">({{ LNG.tech[118] }} ≥ {{ FleetInfo.tech3 }})</span>
+				{% elseif FleetInfo.tech2 > 0 and FleetInfo.tech3 > 0 %}
+					{{ LNG.tech[117] }}<br>
+					<span class="speed-boost-2">({{ LNG.tech[118] }} ≥ {{ FleetInfo.tech3 }})</span>
+				{% elseif FleetInfo.tech1 > 0 and FleetInfo.tech2 > 0 %}
+					{{ LNG.tech[115] }}<br>
+					<span class="speed-boost-2">({{ LNG.tech[117] }} ≥ {{ FleetInfo.tech2 }})</span>
+				{% elseif FleetInfo.tech1 > 0 and FleetInfo.tech3 > 0 %}
+					{{ LNG.tech[115] }}<br>
+					<span class="speed-boost-2">({{ LNG.tech[118] }} ≥ {{ FleetInfo.tech3 }})</span>
+				{% elseif FleetInfo.tech3 > 0 %}
+					{{ LNG.tech[118] }}
+				{% elseif FleetInfo.tech2 > 0 %}
+					{{ LNG.tech[117] }}
+				{% elseif FleetInfo.tech1 > 0 %}
+					{{ LNG.tech[115] }}
+				{% else %}
+					-
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>{{ LNG.in_struct_pt }}</td>
+			<td class="num">{{ pretty_number(FleetInfo.structure) }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.in_attack_pt }}</td>
+			<td class="num">{{ pretty_number(FleetInfo.attack) }}</td>
+		</tr>
+		<tr>
+			<td>{{ LNG.in_shield_pt }}</td>
+			<td class="num">{{ pretty_number(FleetInfo.shield) }}</td>
+		</tr>
+		{% if not empty(FleetInfo.capacity) %}
+		<tr>
+			<td>{{ LNG.in_capacity }}</td>
+			<td class="num">{{ pretty_number(FleetInfo.capacity) }}</td>
+		</tr>
+		{% endif %}
+		{% if not empty(FleetInfo.speed1) or not empty(FleetInfo.speed2) or not empty(FleetInfo.speed3) %}
+		<tr>
+			<td>{{ LNG.in_base_speed }}</td>
+			<td class="num">
+				{% if FleetInfo.speed1 > 0 and FleetInfo.speed2 > 0 and FleetInfo.speed3 > 0 %}
+					{{ pretty_number(FleetInfo.speed1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.speed2) }})</span>
+					<span class="speed-boost-3"> ({{ pretty_number(FleetInfo.speed3) }})</span>
+				{% elseif FleetInfo.speed2 > 0 and FleetInfo.speed3 > 0 %}
+					{{ pretty_number(FleetInfo.speed2) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.speed3) }})</span>
+				{% elseif FleetInfo.speed1 > 0 and FleetInfo.speed2 > 0 %}
+					{{ pretty_number(FleetInfo.speed1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.speed2) }})</span>
+				{% elseif FleetInfo.speed1 > 0 and FleetInfo.speed3 > 0 %}
+					{{ pretty_number(FleetInfo.speed1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.speed3) }})</span>
+				{% elseif FleetInfo.speed3 > 0 %}
+					{{ pretty_number(FleetInfo.speed3) }}
+				{% elseif FleetInfo.speed2 > 0 %}
+					{{ pretty_number(FleetInfo.speed2) }}
+				{% elseif FleetInfo.speed1 > 0 %}
+					{{ pretty_number(FleetInfo.speed1) }}
+				{% else %}
+					-
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+		{% if not empty(FleetInfo.consumption1) or not empty(FleetInfo.consumption2) or not empty(FleetInfo.consumption3) %}
+		<tr>
+			<td>{{ LNG.in_consumption }}</td>
+			<td class="num">
+				{% if FleetInfo.consumption1 > 0 and FleetInfo.consumption2 > 0 and FleetInfo.consumption3 > 0 %}
+					{{ pretty_number(FleetInfo.consumption1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.consumption2) }})</span>
+					<span class="speed-boost-3"> ({{ pretty_number(FleetInfo.consumption3) }})</span>
+				{% elseif FleetInfo.consumption2 > 0 and FleetInfo.consumption3 > 0 %}
+					{{ pretty_number(FleetInfo.consumption2) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.consumption3) }})</span>
+				{% elseif FleetInfo.consumption1 > 0 and FleetInfo.consumption2 > 0 %}
+					{{ pretty_number(FleetInfo.consumption1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.consumption2) }})</span>
+				{% elseif FleetInfo.consumption1 > 0 and FleetInfo.consumption3 > 0 %}
+					{{ pretty_number(FleetInfo.consumption1) }}
+					<span class="speed-boost-2"> ({{ pretty_number(FleetInfo.consumption3) }})</span>
+				{% elseif FleetInfo.consumption3 > 0 %}
+					{{ pretty_number(FleetInfo.consumption3) }}
+				{% elseif FleetInfo.consumption2 > 0 %}
+					{{ pretty_number(FleetInfo.consumption2) }}
+				{% elseif FleetInfo.consumption1 > 0 %}
+					{{ pretty_number(FleetInfo.consumption1) }}
+				{% else %}
+					-
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+	</tbody>
+</table>

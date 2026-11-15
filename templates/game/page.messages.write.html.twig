@@ -1,0 +1,66 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.write_message }}{{ parent() }}{% endblock %}
+{% block content %}
+  <form name="message" id="message" action="">
+    <table class="form-table">
+      <tr>
+        <th colspan="2">{{ LNG.mg_send_new }}</th>
+      </tr>
+      <tr>
+        <td><label for="to">{{ LNG.mg_send_to }}</label></td>
+        <td>
+          <div class="search-receiver">
+            <input type="text" id="to" name="to" value="" oninput="loadUser();" onblur="hideSearch();" onfocus="showSearch();" autocomplete="off" placeholder="Suche Spieler">
+            <div class="select-box"></div>
+          </div>
+          <div id="receiver-list">
+            {% for receiver in (receiverList)|php_iter %}
+              <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <span onclick="removeUser({{ receiver.id }})">X</span></div>
+            {% endfor %}
+          </div>
+        </td>
+      </tr>
+      {% if action == 'write' %}
+        <tr>
+          <td><label for="subject">{{ LNG.mg_subject }}</label></td>
+          <td><input type="text" name="subject" id="subject" maxlength="40" value="{% if not empty(subject) %}{{ subject }}{% else %}{{ LNG.mg_no_subject }}{% endif %}"></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <label for="text">
+              {{ LNG.mg_message }} (<span id="cntChars">0</span>&nbsp;/&nbsp;5.000&nbsp;{{ LNG.mg_characters }})
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <textarea name="text" id="text" cols="40" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;">{{ message }}</textarea>
+          </td>
+        </tr>
+      {% endif %}
+      <tr>
+        <td colspan="2" class="form-actions">
+          <input id="submit" type="button" onClick="{% if action == 'write' %}check(){% else %}checkForward(){% endif %};" name="button" value="{{ LNG.mg_send }}">
+        </td>
+      </tr>
+    </table>
+  </form>
+{% endblock %}
+{% block script %}{{ parent() }}
+  <script type="text/javascript">
+
+    searchNote = "{{ LNG.mg_min_3_chars }}";
+    searchNoUser = "{{ LNG.mg_no_user }}";
+
+    {% if action == 'write' %}
+      emptyText = "{{ LNG.mg_empty_text }}";
+      messageGroup = "{{ messageGroup }}";
+      receiverList = {{ receiverList|json_encode|default('{}')|raw }};
+      receiver = Object.values(receiverList).map(r => r.id);
+    {% else %}
+      receiver = [];
+      messageID = {{ messageID }};
+    {% endif %}
+    
+  </script>
+{% endblock %}

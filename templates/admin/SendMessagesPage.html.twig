@@ -1,0 +1,90 @@
+{% include 'admin/overall_header.html.twig' %}
+<script type="text/javascript">
+
+function recipientSummary() {
+	var label = function (id) {
+		var select = document.getElementById(id);
+		return select && select.selectedOptions.length ? select.selectedOptions[0].textContent.trim() : '';
+	};
+	return [label('ma-mode'), label('ma-universe'), label('ma-lang')].filter(Boolean).join(' · ');
+}
+
+function check(){
+	if(document.getElementById('text').value.length == 0) {
+		Dialog.alert('{{ LNG.mg_empty_text }}');
+		return false;
+	} else {
+		if (!window.confirm('{{ LNG.ma_send_global_message|e('js') }}\n' + recipientSummary())) {
+			return false;
+		}
+		fetch('admin?page=sendMessages&action=send&ajax=1', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+		body: new URLSearchParams(new FormData(document.getElementById('message')))
+	}).then(function (response) { return response.text(); }).then(function (data) {
+			Dialog.alert(data, function() {
+				location.reload();
+			});
+		});
+		return true;
+	}
+}
+
+onPageInit(function () {
+	var update = function () {
+		document.getElementById('ma-summary').textContent = recipientSummary();
+	};
+	['ma-mode', 'ma-universe', 'ma-lang'].forEach(function (id) {
+		var select = document.getElementById(id);
+		if (select) select.addEventListener('change', update);
+	});
+	update();
+});
+</script>
+<form name="message" id="message" action="admin?page=sendMessages&amp;action=send&amp;ajax=1" class="stack" onsubmit="check(); return false;">
+  <div class="cols cols--wide-left">
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('megaphone') }}{{ LNG.ma_send_global_message }}</h2></header>
+      <div class="card__body">
+        <div class="form-grid">
+          <div class="field-row">
+            <label for="subject">{{ LNG.ma_subject }}</label>
+            <div class="field-control"><input name="subject" id="subject" maxlength="40" value="{{ LNG.ma_none }}" type="text"></div>
+          </div>
+          <div class="field-row">
+            <label for="text">{{ LNG.ma_message }} (<span id="cntChars">0</span> / 5000 {{ LNG.ma_characters }})</label>
+            <div class="field-control">
+              <textarea name="text" id="text" rows="10" onkeyup="document.getElementById('cntChars').textContent = this.value.length;"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('users') }}{{ LNG.adm_ma_recipients }}</h2></header>
+      <div class="card__body">
+        <div class="stack">
+          <div class="fields">
+            <div class="field">
+              <label for="ma-mode">{{ LNG.ma_mode }}</label>
+              {{ html_options({'name': 'mode', 'id': 'ma-mode', 'options': modes}) }}
+            </div>
+            <div class="field">
+              <label for="ma-universe">{{ LNG.log_universe }}</label>
+              {{ html_options({'name': 'globalmessageuniverse', 'id': 'ma-universe', 'options': universeSelector}) }}
+            </div>
+            <div class="field">
+              <label for="ma-lang">{{ LNG.se_lang }}</label>
+              {{ html_options({'name': 'globalmessagelang', 'id': 'ma-lang', 'options': langSelector}) }}
+            </div>
+          </div>
+          <div class="notice notice--info">{{ icon('info') }}<div><strong>{{ LNG.adm_ma_recipients }}:</strong> <span id="ma-summary"></span></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="form-actions"><button type="button" class="btn--primary" onclick="check();">{{ icon('send') }}{{ LNG.button_submit }}</button></div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

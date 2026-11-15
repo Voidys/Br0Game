@@ -1,0 +1,7 @@
+{% extends 'game/layout.base.html.twig' %}
+
+{% block bodyclass %}layout layout--popup popup{% endblock %}
+
+{% block body %}
+<main class="content content--popup" id="content">{% block content %}{% endblock %}</main>
+{% endblock %}

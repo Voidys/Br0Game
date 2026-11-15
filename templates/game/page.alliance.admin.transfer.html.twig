@@ -1,0 +1,21 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=alliance&amp;mode=admin&amp;action=transfer" method="post">
+<table class="form-table">
+	<tr>
+		<th colspan="2">{{ LNG.al_transfer_alliance }}</th>
+	</tr>
+	<tr>
+		<td>{{ LNG.al_transfer_to }}:</td>
+		<td>{{ html_options({'name': 'newleader', 'options': transferUserList}) }}</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.al_transfer_submit }}"></td>
+	</tr>
+	<tr>
+		<th colspan="2"><a href="game?page=alliance&amp;mode=admin">{{ LNG.al_back }}</a></th>
+	</tr>
+</table>
+</form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_logout }}{{ parent() }}{% endblock %}
+{% block content %}<section class="panel acc-message">
+	<h1 class="acc-title">{{ LNG.lo_title }}</h1>
+	<p>{{ LNG.lo_logout }}</p>
+</section>
+<section class="panel acc-message">
+	<h1 class="acc-title">{{ LNG.lo_redirect }}</h1>
+	<p>{{ LNG.lo_notify }}<br><a href="./">{{ LNG.lo_continue }}</a></p>
+</section>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script type="text/javascript">
+	var second = 5;
+	function Countdown(){
+		if(second == 0)
+			return;
+
+		second--;
+		var seconds = document.getElementById('seconds');
+		if (seconds) seconds.textContent = second;
+	}
+	window.setTimeout(function () { window.location.href = './'; }, 5000);
+	window.setInterval(Countdown, 1000);
+</script>
+{% endblock %}

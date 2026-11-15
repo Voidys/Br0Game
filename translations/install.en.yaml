@@ -1,0 +1,250 @@
+back: Back
+continue: Continue
+continueUpgrade: Upgrade
+install_desc: >-
+  To enable the installation tool, create the file
+  "var/ENABLE_INSTALL_TOOL".<br> The filename is case-sensitive and has
+  no file extension.<br> The file may be empty.
+
+  It is deleted automatically once installation is complete, or if it is more
+  than one hour old.
+install_title: The installation tool is locked
+intro_install: Install
+intro_lang: Language
+intro_text: 'Br0Game is an open-source space strategy game in the browser: build up your planets, research, send fleets and fight it out with hundreds of players at the same time.<br><br>This wizard sets up a new installation step by step: it checks your server, connects to and creates the database, builds the tables, lets you name your game and creates the administrator.'
+intro_upgrade_head: Already installed Br0Game?
+intro_upgrade_text: >-
+  <p>Already installed Br0Game and just want to update?</p><p>You can update
+  your existing database here in a few clicks!</p>
+intro_welcome: 'Welcome to Br0Game!'
+licence_accept: >-
+  Do you accept the license terms? You can only install the software if you
+  accept them.
+licence_desc: >-
+  Please read the license terms below. Use the scroll bar to view the full
+  document.
+licence_head: License terms
+licence_need_accept: You must accept the license terms to continue the installation.
+login: Login
+menu_install: Installation
+menu_upgrade: Upgrade
+reg_dir: Is the folder &raquo;%s&laquo; writable?
+reg_file: Is the file &raquo;%s&laquo; writable?
+reg_found: Found
+reg_gd_desc: >-
+  <strong>Optional</strong> — The graphics library &raquo;gdlib&laquo;
+  generates images dynamically. Without it, some features of the software
+  will not work.
+reg_gd_need: Installed version of the graphics library &raquo;gdlib&laquo;
+reg_global_desc: >-
+  Br0Game will still work if this setting is enabled. For security reasons,
+  however, it is recommended that you disable register_globals in PHP if
+  possible.
+reg_global_need: register_globals disabled?
+reg_iniset_need: PHP function &raquo;ini_set&laquo; available?
+reg_json_need: Extension &raquo;JSON&laquo; available?
+reg_no: 'No'
+reg_not_found: Not found
+reg_not_writable: Not writable
+reg_pdo_active: PDO extension support
+reg_pdo_desc: <strong>Required</strong> — PHP must have PDO support.
+reg_writable: Writable
+reg_yes: 'Yes'
+req_desc: >-
+  Before installation can continue, Br0Game will check your server
+  configuration and files to make sure it can be installed and used. Please
+  read the results carefully and do not continue until all required tests
+  have passed.
+req_head: System requirements
+req_php_need: Installed version of &raquo;PHP&laquo;
+req_php_need_desc: >-
+  <strong>Required</strong> — PHP is the server-side language Br0Game is
+  written in. Version 5.2.5 or higher is required for everything to work
+  correctly.
+sql_close_reason: |-
+  The universe is being set up.
+  Please wait.
+sql_welcome: Welcome to Br0Game v
+step1_desc: >-
+  Your server can run Br0Game. Next, enter your database connection details.
+  If you do not know them, contact your hosting provider or the Br0Game
+  support forums. Check the details carefully before continuing.
+step1_head: Configure database access
+step1_mysql_dbname: Database name
+step1_mysql_dbpass: Database password
+step1_mysql_dbuser: Database username
+step1_mysql_migrationpass: Database migration password
+step1_mysql_migrationpass_info: >-
+  You will be asked for this password when database changes or upgrades are
+  required for a new game version.
+step1_mysql_port: Database port
+step1_mysql_prefix: 'Table prefix:'
+step1_mysql_server: Database host or DSN
+step2_conf_op_fail: config.php is not writable!
+step2_config_exists: config.php already exists!
+step2_db_con_fail: Could not connect to the database. See the error details below.
+step2_db_done: Database connection successful!
+step2_db_no_dbname: No database name specified.
+step2_db_no_migrationpw: You have not specified the database migration password.
+step2_db_too_long: Table prefix cannot be longer than 36 characters.
+step2_prefix_invalid: >-
+  The table prefix may only contain alphanumeric characters and underscores.
+step3_db_error: 'Failed to create the database tables:'
+step3_desc: >-
+  The database tables have been created and filled with default values.
+  Continue to the next step to finish installing Br0Game.
+step3_head: Create database tables
+step4_admin_mail: 'Contact e-mail:'
+step4_admin_name: 'Administrator username:'
+step4_admin_name_desc: Enter a username of 3 to 20 characters.
+step4_admin_pass: 'Administrator password:'
+step4_admin_pass_desc: Enter a password of 6 to 30 characters.
+step4_desc: >-
+  The installation wizard will now create an administrator account. Please
+  enter a username, e-mail address and password.
+step4_head: Create administrator
+step6_desc: 'You have successfully installed Br0Game.'
+step6_head: Congratulations!
+step6_info_additional: >-
+  Clicking the button below will take you to a form in the administration
+  area. Take a moment afterwards to familiarise yourself with the available
+  options.<br/><br/><strong>Please delete or rename
+  &raquo;var/ENABLE_INSTALL_TOOL&laquo; before you use the game. As long
+  as that file exists, your installation is at risk.</strong>
+step6_info_head: 'Get started with Br0Game!'
+step8_need_fields: You must fill in all fields.
+title_install: Installer
+upgrade_available: >-
+  Database updates are available. The database is at revision %s and can be
+  updated to revision %s.
+upgrade_back: Back
+upgrade_intro_welcome: Welcome to the database updater!
+upgrade_message_admin: >-
+  Administrators: To install the database upgrade, enter the migration password
+  and continue.
+upgrade_message_user: >-
+  Players: Please wait a moment, then try clicking "Return to game".
+upgrade_notavailable: Revision %s is already the latest for your database.
+upgrade_nothingtodo: No action required. The database is already at revision %s.
+upgrade_return: Return to game
+upgrade_success: >-
+  Database update successful. The database is now at revision %s.
+upgrade_title: A database upgrade is required!
+ins_step_licence: 'Licence'
+ins_step_requirements: 'Requirements'
+ins_step_database: 'Database'
+ins_step_build: 'Tables'
+ins_step_game: 'Game'
+ins_step_admin: 'Administrator'
+ins_step_done: 'Done'
+ins_recheck: 'Check again'
+ins_db_connection: 'Connection'
+ins_db_database: 'Database'
+ins_db_security: 'Security'
+ins_db_createdb: 'Create the database if it does not exist yet'
+ins_db_connect: 'Connect & create'
+ins_db_no_host: 'No database host specified.'
+ins_db_name_invalid: 'The database name may only contain letters, digits, _ and - (max. 64 characters).'
+ins_check_input: 'Input checked'
+ins_check_connect: 'Connected to the database server'
+ins_check_database: 'Database »%s«'
+ins_db_missing: 'does not exist (tick "create the database" or create it yourself)'
+ins_db_create_fail: 'could not be created:'
+ins_db_created: 'created'
+ins_db_exists: 'exists'
+ins_check_tables: 'No tables with the prefix »%s« yet'
+ins_tables_exist: '%d table(s) with this prefix already exist. Choose another prefix or database.'
+ins_check_write: '%s written'
+ins_build_desc: 'The installer now creates the game tables and fills them with the default values, one step at a time.'
+ins_task_tables: 'Create tables'
+ins_task_migrations: 'Register database version'
+ins_task_config: 'Write game settings'
+ins_task_universe: 'Set up universe 1'
+ins_build_start: 'Build the database'
+ins_back_database: 'Back to the database settings'
+ins_game_name: 'Game name'
+ins_game_name_info: 'Shown in the title, the header and the e-mails. Default: Br0Game.'
+ins_default_theme: 'Default theme'
+ins_default_theme_info: 'Theme for new accounts and visitors; players can switch in their settings.'
+ins_game_name_invalid: 'Enter a game name of 1 to 64 characters.'
+ins_theme_invalid: 'Unknown theme.'
+ins_to_start: 'To the start page'
+ins_credits_head: 'Standing on the shoulders of giants'
+ins_credits_text: 'Br0Game continues a long line of open-source browser games. Respect to everyone who built and kept it alive before us:'
+ins_credits_thanks: 'Thank you, pr0game community, for the game this one grew from.'
+ins_licence_note: 'Free software under the GNU AGPL v3'
+ins_task_images: 'Optimise images (WebP)'
+ins_db_help: 'Br0Game stores everything in a MySQL or MariaDB database. You get the values below from your hosting panel (look for "Databases" or "MySQL"), or from whoever set up your server. If you installed MySQL yourself, the defaults usually work.'
+ins_db_host: 'Database server'
+ins_db_host_info: 'Almost always "localhost". Some hosts give you a name like "db1.example.com".'
+ins_db_name_info: 'The name of the database for the game. Create it in your hosting panel first, or let the installer create it (see the box below).'
+ins_db_advanced: 'Advanced (port, table prefix, migration password) - normally not needed'
+ins_db_prefix_info: 'Added in front of every table name. Change it only if you share one database with other software.'
+ins_db_migrationpw_info: 'Protects the update page (install/?mode=upgrade) for later game updates. Leave empty and the installer generates a strong one and shows it once on the last page.'
+ins_db_migrationpw_placeholder: 'generated automatically'
+ins_migrationpw_invalid: 'The migration password must not contain quotes, backslashes, $ or line breaks.'
+ins_err_technical: 'technical details'
+ins_err_access_denied: 'The database server refused the user name or password. Check both for typos (upper/lower case counts) in your hosting panel.'
+ins_err_unknown_db: 'This database does not exist on the server. Check the name, or tick "Create the database" below.'
+ins_err_no_privilege: 'This database user is not allowed to use that database. Give the user all privileges on it in your hosting panel.'
+ins_err_no_create: 'This user is not allowed to create databases. Create an empty database in your hosting panel and untick "Create the database".'
+ins_err_socket: 'The database server socket was not found. Try the host "127.0.0.1" instead of "localhost".'
+ins_err_unreachable: 'The database server "%s" cannot be reached. Check the host name and port, and that the database server is running. Many hosts only allow connections from their own web servers, so "localhost" is usually right.'
+ins_game_desc: 'Name your game and choose how it plays. Everything here can be changed later in the administration (Admin - Settings).'
+ins_group_general: 'General'
+ins_uni_name: 'Universe name'
+ins_uni_name_info: 'Shown to players when they pick a universe. Empty = "Universe 1".'
+ins_uni_name_invalid: 'The universe name may have at most 60 characters.'
+ins_language: 'Default language'
+ins_language_info: 'Language for new visitors and for your administrator account.'
+ins_language_invalid: 'Unknown language.'
+ins_timezone: 'Time zone'
+ins_timezone_info: 'Preselected from your server. Used for the displayed server time.'
+ins_timezone_invalid: 'Unknown time zone.'
+ins_group_speed: 'Game speed'
+ins_speed_info: 'How fast buildings, research, ships, fleets and production go. Classic is the original pace; the faster presets suit small communities and short rounds.'
+ins_speed_classic: 'Classic'
+ins_speed_classic_info: 'the original pace, rounds last months'
+ins_speed_fast: 'Fast'
+ins_speed_fast_info: 'about three times as fast, rounds last weeks'
+ins_speed_blitz: 'Blitz'
+ins_speed_blitz_info: 'up to ten times as fast, rounds last days'
+ins_speed_detail: 'Building/research %bx, fleets %fx, resources %rx'
+ins_speed_invalid: 'Unknown speed preset.'
+ins_group_players: 'Players'
+ins_registration: 'Registration'
+ins_registration_open: 'Open - anyone can sign up'
+ins_registration_closed: 'Closed - only you can create accounts'
+ins_registration_info: 'Choose "closed" while you are still setting things up. You can open it later in Admin - Settings.'
+ins_registration_invalid: 'Unknown registration setting.'
+ins_bots: 'Computer players (bots)'
+ins_bots_info: '0 to 50. Bots play like real players with different habits, so a new universe is not empty. 0 = no bots.'
+ins_bots_invalid: 'The number of bots must be between 0 and 50.'
+ins_mail: 'Send e-mails (registration, password reset)'
+ins_mail_info: 'Off by default. Turn it on only when your server can send mail; you can set up SMTP later in Admin - Settings.'
+ins_admin_mail_info: 'Used for password resets and as the contact address.'
+ins_admin_mail_invalid: 'Enter a valid e-mail address.'
+ins_admin_pass_confirm: 'Repeat password'
+ins_admin_pass_rules: 'The password needs at least %d characters (at most 64). A sentence of a few words is easy to remember and hard to guess.'
+ins_admin_pass_short: 'The password needs at least %d characters.'
+ins_admin_pass_long: 'The password may have at most 64 characters.'
+ins_admin_pass_mismatch: 'The two passwords do not match.'
+ins_done_checklist: 'Your checklist'
+ins_done_login: 'Log in to the administration.'
+ins_done_login_info: 'You are already logged in as "%s". Next time use:'
+ins_done_cron: 'Set up the cron job (required).'
+ins_done_cron_info: 'Without it nothing in the game progresses (fleets, building queues, statistics). Add this line to the crontab of the web server user (crontab -e) or create a cron job with it in your hosting panel:'
+ins_done_locked: 'The install tool is now locked.'
+ins_done_locked_info: 'Nobody can run the wizard again. To update later, follow the upgrade section of the documentation.'
+ins_done_https: 'Use HTTPS.'
+ins_done_https_info: 'You are on plain HTTP: passwords travel unencrypted. Set up a certificate (for example Let''s Encrypt) before you invite players.'
+ins_done_https_ok: 'This page was served over HTTPS - good.'
+ins_done_settings: 'Change settings later.'
+ins_done_settings_info: 'Admin - Settings: game name, speed, registration, e-mail (SMTP), bots and much more.'
+ins_done_bots: 'Bots.'
+ins_done_bots_info: '%d bots were created. They act when the cron job runs. Manage them in the administration.'
+ins_done_bots_failed: 'The administrator was created, but the bots could not be created. You can add them later in the administration.'
+ins_done_migrationpw: 'Write down your migration password (shown only once).'
+ins_done_migrationpw_info: 'You need it for game updates. It is also stored in config/game.php.'
+ins_done_docs: 'Documentation:'
+ins_done_to_admin: 'To the administration'

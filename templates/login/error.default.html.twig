@@ -1,0 +1,10 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.fcm_info }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ message }}</div></div>
+{% if not empty(redirectButtons) %}
+  <div class="form__actions">
+    {% for button in (redirectButtons)|php_iter %}<a class="button btn--primary" href="{{ button.url }}">{{ button.label }}</a>{% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

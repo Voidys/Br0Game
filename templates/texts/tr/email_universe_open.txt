@@ -1,0 +1,16 @@
+﻿Merhaba {USERNAME},
+
+zamanı geldi - {UNINAME} kapılarını {OPENTIME}'da açtı!
+Burada olduğunuz için çok mutluyuz ve size bol eğlenceli ve heyecan verici deneyimler diliyoruz.
+
+Oyunu {HTTPPATH} adresinde bulabilirsiniz.
+Discord'umuzu da ziyaret edebilirsiniz:
+{DISCORD}
+
+Şifrenizi unuttuysanız, sayfadaki “Şifremi unuttum” seçeneğine tıklamanız yeterlidir.
+Kısa bir süre sonra yeni bir şifre içeren bir e-posta alacaksınız.
+
+Oturum açarken veya kayıt olurken sorun yaşamaya devam ederseniz, lütfen Discord'da bizimle iletişime geçin.
+
+Saygılarımla,
+{GAMENAME} ekibi

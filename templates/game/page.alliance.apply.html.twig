@@ -1,0 +1,18 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=alliance&amp;mode=apply&amp;id={{ allyid }}" method="post">
+<table class="form-table">
+	<tr>
+		<th colspan="2">{{ al_write_request }}</th>
+	</tr>
+	<tr>
+		<td><label for="message">{{ LNG.al_message }}</label></td>
+		<td><textarea name="text" rows="20" id="message">{{ applytext }}</textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.al_applyform_send }}"></td>
+	</tr>
+</table>
+</form>
+{% endblock %}

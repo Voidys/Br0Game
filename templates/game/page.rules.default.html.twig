@@ -1,0 +1,8 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_rules }}{{ parent() }}{% endblock %}
+{% block content %}
+  <section class="rules">
+    <h1>{{ LNG.lm_rules }}</h1>
+    <div class="rich-text">{{ rules }}</div>
+  </section>
+{% endblock %}

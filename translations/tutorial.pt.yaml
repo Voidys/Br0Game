@@ -1,0 +1,95 @@
+tutorial_buttons_claim: Recompensa de reivindicação
+tutorial_buttons_continue: Continuar
+tutorial_buttons_finalize: Completar o tutorial
+tutorial_buttons_skip: Pular
+tutorial_buttons_skipAll: Pule o tutorial
+tutorial_buttons_skipAll_confirm: |-
+  Você realmente quer pular o resto do tutorial? 
+  Você não pode reativar isso!
+tutorial_goal:
+  mission:
+    '1': Ataque outro jogador
+    '6': Envie uma sonda de espionagem a outro jogador.
+    '7': Colonize um novo planeta
+    '8': Recicle um campo de destroços
+    '15': Envie uma frota para uma expedição
+tutorial_goals_header: 'Metas:'
+tutorial_goals_ignore: (ignorar)
+tutorial_rewards_header: 'Recompensas:'
+tutorial_text:
+  step0: "Bem-vindo ao jogo! Este tutorial irá guiá-lo pelos conceitos básicos para que você possa começar a jogar e crescer rapidamente.\r\nVocê verá metas e dicas que o ajudarão a progredir em vários aspectos do jogo, desde a construção de minas até a expansão do seu império.<br><br>\r\nVamos começar com o básico para que você possa configurar sua produção de recursos e se preparar para futuras aventuras.\r\nBoa sorte e divirta-se!"
+  step1: "O objetivo deste jogo é acumular o máximo de pontos possível. Você ganha um ponto para cada 1.000 recursos gastos.\r\nExistem várias maneiras de obter recursos, sendo a produção de suas próprias minas a mais importante.<br>\r\nPara começar, certifique-se de estabelecer uma produção básica. Você precisará de metal e cristal, que são produzidos em minas específicas. Para fazer as minas funcionarem, é necessário ter energia proveniente da usina solar.\r\nSe a energia não for suficiente, a produção não será de 100%.<br>\r\nVocê pode construir esses edifícios através do menu <b>Construções</b>. Clicando no nome do edifício, você pode ver o que a próxima expansão oferece em termos de recursos e quanta energia será consumida na próxima fase.<br><br>\r\nPara mais informações, consulte o <b>Wiki</b>: \r\n<a href=\"https://wiki.pr0game.com/wiki/EN/Rohstoffe\" target=\"_blank\">Raw material production</a>"
+  step2: "Jogar é muito mais divertido quando você interage com outros jogadores.\r\nA maioria organiza-se no nosso Discord, onde você pode obter respostas para suas dúvidas e encontrar outros jogadores para formar parcerias.<br>\r\nSe tiver dúvidas, você também pode abrir tickets lá."
+  step3: "Outra maneira de obter recursos é atacando planetas de outros jogadores.<br>\r\nMas isso também pode acontecer com você, então é melhor construir uma defesa inicial!<br>\r\nTer uma defesa é importante para proteger ao menos a produção durante a noite.<br>\r\nA quantidade não é o mais importante; a composição da frota de ataque também conta.<br>\r\nAntes de saquear, o atacante precisa superar sua defesa. Cada nave que o atacante precisa enviar reduz seu lucro e aumenta suas perdas em caso de destruição.<br>\r\nVocê pode construir defesas no menu <b>Defesa</b> usando um estaleiro, que requer uma fábrica de robôs e deutério para construção.<br><br>\r\nPara mais informações, consulte o Wiki: \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Verteidigung\" target=\"_blank\">Defense facilities</a>"
+  step4: "Garanta sua produção de recursos expandindo suas minas!<br>\r\nCom o tempo, a construção de edifícios, naves e defesas, além de pesquisas, ficam mais caras.\r\nEntão, aumente sua produção para acompanhar a demanda de recursos no seu planeta.\r\nClique em Construções e expanda os edifícios conforme tiver recursos suficientes."
+  step5: "Construa um pequeno transportador!<br>\r\nTransportadores pequenos são uma opção rápida para transporte no jogo mais avançado.<br>\r\nCom um motor de impulso, são mais rápidos que transportadores grandes em viagens longas.<br>\r\nEles são usados para transportar recursos entre planetas, negociar com outros jogadores, ou atacar.<br><br>\r\nMais informações no Wiki: \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Schiffe\" target=\"_blank\">Ships</a>"
+  step6: "Para organizar melhor seus planetas, você pode renomeá-los. Clique no nome do planeta na barra superior e tente renomeá-lo agora.<br><br>\r\nVocê também pode enviar pedidos de amizade para outros jogadores. Quando aceitos, fica mais fácil se comunicar e ver o status online um do outro.\r\nEsse recurso funciona mesmo fora de alianças.<br><br>\r\nJuntar-se a uma aliança permite que você jogue com mais pessoas e envie mensagens coletivas, além de ver o status de atividade e pontuação dos membros, dependendo do cargo.<br><br>\r\nObjetivos:\r\n<ul>\r\n<li>Renomeie seu planeta</li>\r\n<li>Envie um pedido de amizade</li>\r\n<li>Envie um pedido para uma aliança</li>\r\n</ul>"
+  step7: "Para ver quais recursos, edifícios, pesquisas, naves e defesas outros jogadores têm, você pode espioná-los. \r\nEnvie uma sonda de espionagem pelo menu da frota ou pela galáxia.<br>\r\nLembre-se de que outros jogadores também podem espionar você!"
+  step8: >-
+    Uma expedição pode trazer recursos, naves, eventos ou perdas. Para
+    experimentar, pegue uma nave e voe numa expedição clicando nas coordenadas
+    do planeta 16 e na missão «Expedição» no menu da frota.<br>
+
+    Cada tipo de nave adicionará pontos ao tamanho da frota da expedição até um
+    limite em que o tamanho máximo do evento é atingido.<br><br>
+
+    Mais informações no Wiki: 
+
+    <a href="https://wiki.pr0game.com/wiki/En/Expoanleitung"
+    target="_blank">Expeditions</a>
+  step9: "Para aumentar a produção, colonize novos planetas e produza ou construa naves simultaneamente.\r\nObserve que para colonizar nas bordas do sistema, você precisa de um nível avançado de Astrofísica.\r\nUm transporte curto economiza tempo, mas o deixa vulnerável a jogadores com colônias de ataque temporárias.<br><br>\r\nPara mais informações, consulte o Wiki: \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Astrophysik\" target=\"_blank\">Astrophysics</a>"
+  step10: "Para obter recursos mais rapidamente, você pode atacar outros jogadores.\r\nAvalie o custo-benefício para garantir que o ataque compense e utilize os relatórios de espionagem e simulador de combate.<br><br>\r\nAtenção! Muitas missões de frota podem ser rastreadas por outros jogadores.<br>\r\nProteger sua frota é um dos aspectos mais importantes do jogo.<br><br>\r\nLeia sobre esses tópicos no Wiki: \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Saven</a> - \r\n<a href=\"https://wiki.pr0game.com/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensorphalanx</a>"
+  step10_u6: >-
+    Para obter recursos mais rapidamente, você pode atacar outros jogadores.
+
+    Avalie o custo-benefício para garantir que o ataque compense e utilize os
+    relatórios de espionagem e simulador de combate.<br><br>
+
+    Atenção! Muitas missões de frota podem ser rastreadas por outros
+    jogadores.<br>
+
+    Proteger sua frota é um dos aspectos mais importantes do jogo.<br><br>
+
+    Leia sobre esses tópicos no Wiki: 
+
+    <a
+    href="https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden"
+    target="_blank">Saven</a>
+  step11: "Quando frotas são destruídas, um campo de destroços é formado e pode ser reciclado.\r\nPara isso, você precisa de um reciclador, que é capaz de coletar até 20.000 recursos do campo de destroços.\r\nDestruir uma frota grande pode ser uma fonte lucrativa de recursos.<br><br>\r\nAlém de enviá-los pelo menu de frotas, recicladores também podem ser enviados diretamente através do menu da galáxia, clicando em um campo de destroços e selecionando a quantidade apropriada."
+  step12: "Parabéns, você concluiu o tutorial!<br><br>\r\nExistem ainda muitas outras mecânicas que este jogo oferece.<br>\r\nPor exemplo, existem essencialmente três estilos de jogo, que diferem em esforço e estratégia:<br>\r\n<ul>\r\n<li>Minerador: foca em expandir as minas em várias colônias, usando principalmente transportadores</li>\r\n<li>Frotista: investe fortemente em naves de combate, com pouca produção própria, sobrevivendo ao saquear outros jogadores</li>\r\n<li>Combinado: uma combinação de ambos os estilos</li>\r\n</ul>\r\nMais tarde, as luas se tornam importantes no jogo, e você já deve ter conhecido a falange sensorial.<br><br>\r\nSe tiver mais perguntas, consulte o Wiki ou peça ajuda à comunidade no Discord."
+  step12_u6: >-
+    Parabéns, você concluiu o tutorial!<br><br>
+
+    Existem ainda muitas outras mecânicas que este jogo oferece.<br>
+
+    Por exemplo, existem essencialmente três estilos de jogo, que diferem em
+    esforço e estratégia:<br>
+
+    <ul>
+
+    <li>Minerador: foca em expandir as minas em várias colônias, usando
+    principalmente transportadores</li>
+
+    <li>Frotista: investe fortemente em naves de combate, com pouca produção
+    própria, sobrevivendo ao saquear outros jogadores</li>
+
+    <li>Combinado: uma combinação de ambos os estilos</li>
+
+    </ul>
+
+    Se tiver mais perguntas, consulte o Wiki ou peça ajuda à comunidade no
+    Discord.
+tutorial_title:
+  step0: Bem-vindo ao Tutorial!
+  step1: Comece a ganhar recursos!
+  step2: Interaja com outros jogadores!
+  step3: Defenda-se!
+  step4: Planeje seu crescimento!
+  step5: Construa naves!
+  step6: Nomeie e faça amigos!
+  step7: Observe os outros!
+  step8: Explore o desconhecido!
+  step9: Expanda com novos planetas!
+  step10: Não dependa apenas de produção própria!
+  step11: Experimente ser um reciclador!
+  step12: Você conseguiu

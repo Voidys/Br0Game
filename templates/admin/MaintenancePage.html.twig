@@ -1,0 +1,18 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="grid">
+  {% if canClearCache %}
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('eraser') }}{{ LNG.mu_clear_cache }}</h2></header>
+      <div class="card__body"><p class="muted">{{ LNG.adm_maint_cache_text }}</p></div>
+      <footer class="card__foot"><a class="button btn--primary" href="admin?page=clearCache">{{ icon('eraser') }}{{ LNG.mu_clear_cache }}</a></footer>
+    </section>
+  {% endif %}
+  {% if canUpdateStats %}
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('refresh-cw') }}{{ LNG.mu_manual_points_update }}</h2></header>
+      <div class="card__body"><p class="muted">{{ LNG.adm_maint_points_text }}</p></div>
+      <footer class="card__foot"><a class="button btn--primary" href="admin?page=statUpdate" data-confirm="{{ LNG.mu_mpu_confirmation|e('html_attr') }}">{{ icon('refresh-cw') }}{{ LNG.mu_manual_points_update }}</a></footer>
+    </section>
+  {% endif %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

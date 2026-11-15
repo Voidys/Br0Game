@@ -1,0 +1,36 @@
+{% include 'admin/overall_header.html.twig' %}
+<script type="text/javascript">
+
+function check(){
+    var universeValue = document.getElementById('universe').value;
+    fetch('admin?page=reshuffle&action=send&universe='+universeValue+'', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+		body: new URLSearchParams(new FormData(document.getElementById('message')))
+	}).then(function (response) { return response.text(); }).then(function (data) {
+        Dialog.alert(data, function() {
+            location.reload();
+        });
+    });
+    return true;
+}
+</script>
+<form name="message" id="message" action="admin?page=reshuffle&action=send&ajax=1" class="stack">
+  <section class="card card--danger">
+    <header class="card__head"><h2 class="card__title">{{ icon('shuffle') }}{{ LNG.rp_header }}</h2></header>
+    <div class="card__body stack">
+      <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.rp_explain }}</div></div>
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="universe">{{ LNG.uni_reg }}</label>
+          <div class="field-control">{{ html_options({'name': 'universe', 'options': universes}) }}</div>
+        </div>
+      </div>
+    </div>
+    <footer class="card__foot">
+      <button type="button" class="btn--danger" data-confirm="" onclick="check();">{{ icon('shuffle') }}{{ LNG.button_submit }}</button>
+    </footer>
+  </section>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

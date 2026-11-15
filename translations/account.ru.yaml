@@ -1,0 +1,22 @@
+Active_players: Активные игроки
+Back: Назад
+mail:
+  subject:
+    mail_changed: Адрес электронной почты %s был изменен
+Other_universes: Другие вселенные
+Play: Играть
+Playername: Игровое имя
+Register: Регистрация
+Settings: Настройки
+Sitting_cancel: Прервать сидение
+Sitting_end: Сидячий конец
+Sitting_request: Запрос Сидеть (не запрограммирован)
+uni_status_regclosed_gameclosed: Закрытый
+uni_status_regclosed_gameopen: Открыто для игры
+uni_status_regopen_gameclosed: Открыт для регистрации
+uni_status_regopen_gameopen: Открыть
+Universe_end: Конец
+Universe_start: Начало
+Universe_status: 'Состояние вселенных: '
+Universes: Вселенные
+Your_universes: Ваши вселенные

@@ -1,0 +1,8 @@
+{% extends layout_template %}
+{% block title %}{{ cms_title }}{{ parent() }}{% endblock %}
+{% block content %}
+<section class="panel acc-message">
+  <h1 class="acc-title">{{ cms_title }}</h1>
+  <div class="rich-text">{{ cms_content|raw }}</div>
+</section>
+{% endblock %}

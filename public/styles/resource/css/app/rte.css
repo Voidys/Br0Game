@@ -1,0 +1,112 @@
+/*
+ * Rich text: the editor (public/scripts/app/rte.js) and rendered editor content (.rich-text).
+ * Works in every area (game, account, admin, login); uses the tokens of app/base.css with fallbacks.
+ *
+ *   .rte (__toolbar __group __btn __area __source, is-source, is-empty)   editor
+ *   .rich-text                                                           rendered CMS/news/board HTML
+ */
+
+@layer components {
+  .rte {
+    display: grid;
+    border: 1px solid var(--c-border-strong, #33475e);
+    border-radius: var(--radius-sm, 0.25rem);
+    background: var(--c-bg-2, #0b111a);
+    overflow: hidden;
+  }
+  .rte:focus-within { border-color: var(--c-accent, #ee4d2e); box-shadow: 0 0 0 2px var(--c-accent-soft, rgb(238 77 46 / 0.16)); }
+  .rte__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1, 0.25rem) var(--space-2, 0.5rem);
+    padding: var(--space-1, 0.25rem);
+    border-bottom: 1px solid var(--c-border, #233142);
+    background: var(--c-panel-2, #141b24);
+  }
+  .rte__group { display: inline-flex; gap: 2px; }
+  .rte__group + .rte__group { padding-left: var(--space-2, 0.5rem); border-left: 1px solid var(--c-border, #233142); }
+  .rte__btn {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0 0.45rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm, 0.25rem);
+    background: transparent;
+    color: var(--c-text, #d5dce5);
+    font: 600 0.8125rem/1 var(--font, system-ui);
+    cursor: pointer;
+  }
+  .rte__btn:hover:not(:disabled) { border-color: var(--c-border-strong, #33475e); background: rgb(255 255 255 / 0.05); }
+  .rte__btn.is-active { border-color: var(--c-accent, #ee4d2e); background: var(--c-accent-soft, rgb(238 77 46 / 0.16)); color: #fff; }
+  .rte__btn:disabled { opacity: 0.35; cursor: default; }
+  .rte__btn:focus-visible { outline: 2px solid var(--c-accent, #ee4d2e); outline-offset: 1px; }
+  .rte-b { font-weight: 800; }
+  .rte-i { font-style: italic; font-family: Georgia, serif; }
+  .rte-s { text-decoration: line-through; }
+  .rte-link { color: var(--c-link, #5b9cff); text-decoration: underline; text-underline-offset: 2px; }
+  .rte-unlink { color: var(--c-muted, #8796a7); text-decoration: line-through; }
+  .rte-clear { text-decoration: line-through; text-decoration-color: var(--c-accent, #ee4d2e); }
+
+  .rte__area {
+    min-height: 10rem;
+    max-height: 32rem;
+    padding: var(--space-3, 0.75rem) var(--space-4, 1rem);
+    overflow-y: auto;
+    outline: none;
+    color: var(--c-text, #d5dce5);
+    line-height: 1.55;
+  }
+  .rte--basic .rte__area { min-height: 6rem; }
+  .rte.is-empty .rte__area[data-placeholder]::before { content: attr(data-placeholder); position: absolute; color: var(--c-muted, #8796a7); pointer-events: none; }
+  .rte.is-source .rte__area { display: none; }
+  .rte .rte__source {
+    width: 100%;
+    min-height: 16rem;
+    margin: 0;
+    padding: var(--space-3, 0.75rem);
+    border: 0;
+    border-radius: 0;
+    background: #05080d;
+    color: #c9d6e6;
+    font: 0.8125rem/1.5 var(--font-mono, monospace);
+    resize: vertical;
+  }
+
+  /* rendered rich text (editor area shares it): calm reading type, modest headings, readable line length */
+  .rich-text { max-width: 76ch; color: #c9d1db; line-height: 1.65; }
+  :where(.rich-text, .rte__area) > :first-child { margin-top: 0; }
+  :where(.rich-text, .rte__area) > :last-child { margin-bottom: 0; }
+  :where(.rich-text, .rte__area) :where(p, ul, ol, blockquote, pre, table, details) { margin: 0 0 0.9em; }
+  :where(.rich-text, .rte__area) :where(h1, h2, h3, h4) { margin: 1.8em 0 0.5em; color: #fff; font-weight: 650; line-height: 1.3; letter-spacing: 0.005em; }
+  :where(.rich-text, .rte__area) h1 { font-size: 1.3rem; }
+  :where(.rich-text, .rte__area) h2 { font-size: 1.12rem; }
+  :where(.rich-text, .rte__area) h3 { font-size: 1rem; }
+  :where(.rich-text, .rte__area) h4 { font-size: 0.95rem; color: var(--c-text, #d5dce5); }
+  :where(.rich-text, .rte__area) :where(h1, h2, h3, h4) + :where(h1, h2, h3, h4) { margin-top: 0.6em; }
+  :where(.rich-text, .rte__area) :where(strong, b) { color: #fff; font-weight: 650; }
+  :where(.rich-text, .rte__area) :where(ul, ol) { padding-left: 1.3em; }
+  :where(.rich-text, .rte__area) li::marker { color: var(--c-muted, #8796a7); }
+  :where(.rich-text, .rte__area) li + li { margin-top: 0.3em; }
+  :where(.rich-text, .rte__area) details { padding: 0.55em 0.85em; border: 1px solid var(--c-border, #233142); border-radius: var(--radius-sm, 0.25rem); }
+  :where(.rich-text, .rte__area) summary { color: var(--c-link, #5b9cff); cursor: pointer; }
+  :where(.rich-text, .rte__area) details[open] summary { margin-bottom: 0.6em; }
+  /* the highlighted first line of the default rules text */
+  :where(.rich-text) .rules-notice { padding: 0.55em 0.85em; border-radius: var(--radius-sm, 0.25rem); background: rgb(240 82 82 / 0.1); color: #f3a6a6; }
+  :where(.rich-text) .rules-notice strong { color: inherit; }
+  :where(.rich-text, .rte__area) a { color: var(--c-link, #5b9cff); text-decoration: underline; text-underline-offset: 2px; }
+  :where(.rich-text, .rte__area) blockquote { padding: 0.5em 0.9em; border-radius: var(--radius-sm, 0.25rem); background: rgb(255 255 255 / 0.04); color: #c4ccd6; font-style: italic; }
+  :where(.rich-text, .rte__area) code { padding: 0.05em 0.3em; border-radius: 3px; background: rgb(255 255 255 / 0.07); font: 0.9em var(--font-mono, monospace); }
+  :where(.rich-text, .rte__area) pre { padding: 0.7em 0.9em; overflow-x: auto; border-radius: var(--radius-sm, 0.25rem); background: #05080d; font: 0.8125rem/1.5 var(--font-mono, monospace); white-space: pre-wrap; }
+  :where(.rich-text, .rte__area) pre code { padding: 0; background: none; }
+  :where(.rich-text, .rte__area) hr { margin: 1.8em 0; border: 0; border-top: 1px solid var(--c-border, #233142); }
+  :where(.rich-text, .rte__area) hr + :where(h1, h2, h3, h4) { margin-top: 0; }
+  :where(.rich-text, .rte__area) table { width: 100%; border-collapse: collapse; }
+  :where(.rich-text, .rte__area) :where(th, td) { padding: 0.35em 0.6em; border: 1px solid var(--c-border, #233142); text-align: start; }
+}
+
+/* unlayered: theme stylesheets style every <button>, the toolbar keeps its own look */
+.rte .rte__btn { border: 1px solid transparent; background: transparent; box-shadow: none; color: var(--c-text, #d5dce5); text-shadow: none; }
+.rte .rte__btn:hover:not(:disabled) { border-color: var(--c-border-strong, #33475e); background: rgb(255 255 255 / 0.05); }
+.rte .rte__btn.is-active { border-color: var(--c-accent, #ee4d2e); background: var(--c-accent-soft, rgb(238 77 46 / 0.16)); color: #fff; }
+.rte .rte__btn.rte-link { color: var(--c-link, #5b9cff); }
+.rte .rte__btn.rte-unlink { color: var(--c-muted, #8796a7); }

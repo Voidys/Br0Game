@@ -1,0 +1,16 @@
+Olá {USERNAME},
+
+Obrigada por registares em {GAMENAME}
+
+Para completar o seu registo por favor clique no seguinte link:
+
+{VERTIFYURL}
+
+Dados de Login:
+
+Email : {EMAIL}
+
+Se tiver algum problema com o registo automático, crie um bilhete no nosso Discord: 
+{DISCORD}
+
+{GAMENAME} Team

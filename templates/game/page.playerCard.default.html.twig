@@ -1,0 +1,402 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_playercard }}{{ parent() }}{% endblock %}
+{% block content %}
+	<script type="text/javascript">
+		function block(targetUser) {
+			var trade = document.getElementById("blockTrade").checked ? 1 : 0;
+			var dm = document.getElementById("blockDm").checked ? 1 : 0;
+			console.log('dm: '+dm+', trade: '+trade)
+			fetch('game?page=playerCard&mode=toggleBlock&id='+targetUser+'&blockTrade='+trade+'&blockDm='+dm+'&ajax=1', {credentials: 'same-origin'})
+				.then(function (response) { return response.json(); })
+				.then(function () {
+					const loading = document.getElementById('loading');
+					if (loading) loading.style.display = '';
+				});
+		}   
+	</script>
+<table>
+	<tr>
+		<th colspan="5">{{ LNG.pl_overview }}</th>
+		</tr>
+	<tr>
+		<td colspan="2">{{ LNG.pl_name }}</td>
+		<td colspan="3">{{ name }}</td>
+	</tr>
+	<tr>
+		<td colspan="2">{{ LNG.pl_homeplanet }}</td>
+		<td colspan="3">{{ homeplanet }} <a href="game?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a></td>
+	</tr>
+	<tr>
+		<td colspan="2">{{ LNG.pl_ally }}</td>
+		<td colspan="3">{% if allyname %}<a href="game?page=alliance&amp;mode=info&amp;id={{ allyid }}">{{ allyname }}</a>{% else %}-{% endif %}</td>
+	</tr>
+	<tr>
+		<th colspan="2">&nbsp;</th>
+		<th class="num">{{ LNG.pl_points }}</th>
+		<th class="num">%</th>
+		<th class="num">{{ LNG.pl_range }}</th>
+	</tr>
+	<tr>
+		{% if showBuild == true %}
+			<td></td>
+			<td>{{ LNG.pl_builds }}</td>
+			<td class="num">{{ build_points }}</td>
+			<td class="num">{{ build_percent }}%</td>
+			<td class="num">{{ build_rank }}</td>
+		{% else %}
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level2 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_builds }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		{% endif %}
+	</tr>
+	<tr>
+		{% if showTech == true %}
+			<td></td>
+			<td>{{ LNG.pl_tech }}</td>
+			<td class="num">{{ tech_points }}</td>
+			<td class="num">{{ tech_percent }}%</td>
+			<td class="num">{{ tech_rank }}</td>
+		{% else %}
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level4 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_tech }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		{% endif %}
+	</tr>
+	<tr>
+		{% if showFleet == true %}
+			<td></td>
+			<td>{{ LNG.pl_fleet }}</td>
+			<td class="num">{{ fleet_points }}</td>
+			<td class="num">{{ fleet_percent }}%</td>
+			<td class="num">{{ fleet_rank }}</td>
+		{% else %}
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_fleet }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		{% endif %}
+	</tr>
+	<tr>
+		{% if showDef == true %}
+			<td></td>
+			<td>{{ LNG.pl_def }}</td>
+			<td class="num">{{ defs_points }}</td>
+			<td class="num">{{ defs_percent }}%</td>
+			<td class="num">{{ defs_rank }}</td>
+		{% else %}
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_def }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		{% endif %}
+	</tr>
+	<tr>
+		<td></td>
+		<td>{{ LNG.pl_total }}</td>
+		<td class="num">{{ total_points }}</td>
+		<td class="num">100%</td>
+		<td class="num">{{ total_rank }}</td>
+	</tr>
+	<tr>
+		<th colspan="5">{{ LNG.pl_fightstats }}</th>
+	</tr>
+	<tr>
+		<td colspan="2">&nbsp;</td>
+		<td class="num">{{ LNG.pl_fights }}</td>
+		<td class="num">{{ LNG.pl_fprocent }}</td>
+		<td></td>
+	</tr>
+	{% if showBattle == true %}
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_fightwon }}</td>
+			<td class="num">{{ wons }}</td>
+			<td class="num">{{ siegprozent }}%</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_fightdraw }}</td>
+			<td class="num">{{ draws }}</td>
+			<td class="num">{{ drawsprozent }}%</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_fightlose }}</td>
+			<td class="num">{{ loos }}</td>
+			<td class="num">{{ loosprozent }}%</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_totalfight }}</td>
+			<td class="num">{{ totalfights }}</td>
+			<td class="num">100%</td>
+			<td></td>
+		</tr>
+		{% if isModuleAvailable(php_const('MODULE_HONORPOINTS')) %}
+			<tr>
+				<th colspan="5">{{ LNG.honorpoints }}:</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="1">{{ LNG.honorpoints }}</td>
+				<td class="num">{{ honorpoints }}</td>
+			<td colspan="2"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="1">{{ LNG.honor_rank }}</td>
+				<td class="num">{{ honor_rank }}</td>
+			<td colspan="2"></td>
+			</tr>
+			<tr>
+				<th colspan="5">{{ LNG.honorfights }}:</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td class="num">{{ LNG.pl_fights }}</td>
+				<td class="num">{{ LNG.pl_fprocent }}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>{{ LNG.honorable_fights }}</td>
+				<td class="num">{{ honorable_fights }}</td>
+				<td class="num">{{ honorable_percent }}%</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>{{ LNG.dishonorable_fights }}</td>
+				<td class="num">{{ dishonorable_fights }}</td>
+				<td class="num">{{ dishonorable_percent }}%</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>{{ LNG.neutral_fights }}</td>
+				<td class="num">{{ neutral_fights }}</td>
+				<td class="num">{{ neutral_percent }}%</td>
+				<td></td>
+			</tr>
+		{% endif %}
+		<tr>
+			<th colspan="5">{{ playerdestory }}:</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_unitsshot }}</td>
+			<td class="num">{{ desunits }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_unitslose }}</td>
+			<td class="num">{{ lostunits }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_dermetal }}</td>
+			<td class="num">{{ kbmetal }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_dercrystal }}</td>
+			<td class="num">{{ kbcrystal }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<th colspan="5">{{ realdestory }}:</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_unitsshot }}</td>
+			<td class="num">{{ realdesunits }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_unitslose }}</td>
+			<td class="num">{{ reallostunits }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_dermetal }}</td>
+			<td class="num">{{ realmetal }}</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>{{ LNG.pl_dercrystal }}</td>
+			<td class="num">{{ realcrystal }}</td>
+			<td colspan="2"></td>
+		</tr>
+	{% else %}
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_fightwon }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_fightdraw }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_fightlose }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.pl_totalfight }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<th colspan="5">{{ LNG.honorpoints }}:</th>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.honorpoints }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td colspan="1">{{ LNG.honor_rank }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<th colspan="5">{{ LNG.honorfights }}:</th>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td></td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.honorable_fights }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.dishonorable_fights }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.neutral_fights }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<th colspan="5">{{ playerdestory }}:</th>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_unitsshot }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_unitslose }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_dermetal }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_dercrystal }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<th colspan="5">{{ realdestory }}:</th>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_unitsshot }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_unitslose }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_dermetal }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.png" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
+			<td>{{ LNG.pl_dercrystal }}</td>
+			<td class="num">-</td>
+			<td colspan="2"></td>
+		</tr>
+	{% endif %}
+{% if id != yourid %}
+	<tr>
+		<th colspan="5">{{ LNG.pl_etc }}</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td colspan="1"><a href="#" onclick="return Dialog.Buddy({{ id }})">{{ LNG.pl_buddy }}</a></td>
+		<td colspan="3"><a href="#" onclick="return Dialog.PM({{ id }});" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
+	</tr>
+	{% if targetRights == 0 %}
+		<form action="game?page=playerCard&id={{ id }}" method="post">
+			<tr>
+				<td></td>
+				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input onclick="block({{ id }});" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
+				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input onclick="block({{ id }});" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
+			</tr>
+		</form>
+	{% endif %}
+{% endif %}
+	<tr>
+		<th colspan="5">{{ LNG.Achievements }}:</th>
+	</tr>
+	<tr>
+		<td colspan="5">
+			{% if achievements %}
+				{% set i = 0 %}
+				{% for achievement in (achievements)|php_iter %}
+					{#if $i % 5 == 0}
+						</td></tr><tr><td colspan="4">
+					{/if#}
+					<img class="inline-block achievement-icon" src="{{ dpath }}achievements/{{ achievement.image }}.jpg" onclick="return Dialog.ach({{ achievement.id }})" title="{{ LNG.Achievement_names[achievement.id] }}" alt="{{ achievement.name }}" />
+					{% include 'game/shared.achievementInfo.html.twig' with {id: achievement.id, image: dpath ~ 'achievements/' ~ achievement.image ~ '.jpg'} only %}
+					{% set i = i + 1 %}
+				{% endfor %}
+			{% endif %}
+		</td>
+	</tr>
+</table>
+{% endblock %}

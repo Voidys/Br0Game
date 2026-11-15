@@ -1,0 +1,45 @@
+.idea
+config/game.php
+juliaBattleEngine/shipinfos.csv
+package-lock.json
+vendor/
+stats/*.json
+stats*.json
+stats.json
+.well-known/
+404.html
+.user.ini
+
+composer.phar
+.php-cs-fixer.cache
+.ddev/docker-compose.phpmyadmin-norouter.yaml
+.ddev/docker-compose.phpmyadmin.yaml
+.ddev/commands/host/phpmyadmin
+.ddev/addon-metadata/phpmyadmin/manifest.yaml
+.ddev/docker-compose.phpmyadmin_norouter.yaml
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+# user uploads (news images, ...)
+/public/uploads/
+# WebP copies of static images (bin/console app:images:webp)
+/public/**/*.png.webp
+/public/**/*.jpg.webp
+/public/**/*.jpeg.webp
+/public/**/*.gif.webp
+
+# release builds (tools/release/build.sh)
+/dist/

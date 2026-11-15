@@ -1,0 +1,26 @@
+{% include 'admin/overall_header.html.twig' %}
+{% import 'admin/AdminPicker.macros.html.twig' as picker %}
+<div class="stack">
+  <nav class="tabs">
+    <a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}">{{ ad_authlevel_tt|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}&amp;get=adm">{{ ad_authlevel_aa|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}&amp;get=ope">{{ ad_authlevel_oo|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}&amp;get=mod">{{ ad_authlevel_mm|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=rights&amp;sid={{ sid }}&amp;get=pla">{{ ad_authlevel_jj|trim('[] ') }}</a>
+  </nav>
+  <form action="" method="post" name="users" class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('lock') }}{{ LNG.mu_moderation_page }}</h2></header>
+    <div class="card__body stack">
+      <p class="muted">{{ LNG.adm_rights_pick }}</p>
+      {{ picker.filter('UserList', button_filter) }}
+      <select name="id_1" size="16">
+        {{ UserList }}
+      </select>
+      <script>var UserList = new filterlist(document.getElementsByName('id_1')[0]);</script>
+    </div>
+    <footer class="card__foot">
+      <button type="submit" class="btn--primary">{{ icon('pencil') }}{{ LNG.adm_rights_edit }}</button>
+    </footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,7 @@
+{% extends 'login/layout.html.twig' %}
+
+{% block page_id %}rules{% endblock %}
+{% block title %}{{ page_title|e }}{% endblock %}
+{% block content %}
+<div class="rich-text">{{ rules|raw }}</div>
+{% endblock %}

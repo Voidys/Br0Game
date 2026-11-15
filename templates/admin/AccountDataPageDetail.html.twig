@@ -1,0 +1,269 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro amount(cell) %}<span title="{{ cell.full }}">{{ cell.short }}</span>{% endmacro %}
+{% macro placename(p, moonLabel) %}{{ p.name }}{% if p.isMoon %} <span class="badge badge--muted">{{ icon('moon') }}{{ moonLabel }}</span>{% endif %} <span class="muted mono">{{ p.coords }}</span>{% endmacro %}
+{% macro matrix(rows, cols, title, ic, emptyText) %}
+  {% import _self as ui %}
+  <details class="card disclosure">
+    <summary class="card__head"><h2 class="card__title">{{ icon(ic) }}{{ title }}</h2></summary>
+    {% if cols %}
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead>
+            <tr>
+              <th>{{ title }}</th>
+              {% for c in cols %}<th class="num"><span class="nowrap">{{ c.name }}</span>{% if c.isMoon %} {{ icon('moon') }}{% endif %}<br><span class="muted mono small">{{ c.coords }}</span></th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+              <tr>
+                <td>{{ row.name }}</td>
+                {% for cell in row.cells %}<td class="num">{{ ui.amount(cell) }}</td>{% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty"><p>{{ emptyText }}</p></div>
+    {% endif %}
+  </details>
+{% endmacro %}
+{% import _self as ui %}
+
+<div class="stack">
+  {# key facts #}
+  <div class="stats">
+    <div class="stat">
+      <span class="stat__label">{{ icon('user') }}{{ LNG.ac_name }}</span>
+      <span class="stat__value">{{ nombre }}</span>
+      <span class="stat__meta">{{ LNG.input_id_user }} {{ id }} · {{ nivel }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat__label">{{ icon('trophy') }}{{ LNG.ac_total_points }}</span>
+      <span class="stat__value">{{ total_points }}</span>
+      <span class="stat__meta">{{ LNG.ac_ranking }} <a href="#ac-ranking">{{ LNG.ac_see_ranking }}</a></span>
+    </div>
+    <div class="stat">
+      <span class="stat__label">{{ icon('handshake') }}{{ LNG.ac_alliance }}</span>
+      <span class="stat__value">{% if not empty(allianceData) %}[{{ allianceData.tag }}]{% else %}-{% endif %}</span>
+      <span class="stat__meta">{% if not empty(allianceData) %}{{ allianceData.name }} ({{ LNG.ac_ali_idid }} {{ allianceData.id }}){% else %}{{ LNG.ac_no_ally }}{% endif %}</span>
+    </div>
+    <div class="stat">
+      <span class="stat__label">{{ icon('clock') }}{{ LNG.ac_act_time }}</span>
+      <span class="stat__value small">{{ onlinetime }}</span>
+      <span class="stat__meta">
+        {% if mas %}<span class="badge badge--danger">{{ LNG.ac_banned }} {{ suspen }}</span>{% endif %}
+        <span class="badge {{ vacas == LNG.one_is_yes_1 ? 'badge--warn' : 'badge--muted' }}">{{ LNG.ac_on_vacation }} {{ vacas }}</span>
+      </span>
+    </div>
+  </div>
+
+  {% if mas %}
+    <section class="card card--danger">
+      <header class="card__head"><h2 class="card__title">{{ icon('ban') }}{{ LNG.ac_suspended_title }}</h2></header>
+      <div class="card__body">
+        <dl class="kv">
+          <dt>{{ LNG.ac_suspended_time }}</dt><dd>{{ sus_time }}</dd>
+          <dt>{{ LNG.ac_suspended_longer }}</dt><dd>{{ sus_longer }}</dd>
+          <dt>{{ LNG.ac_suspended_reason }}</dt><dd>{{ sus_reason }}</dd>
+          <dt>{{ LNG.ac_suspended_autor }}</dt><dd>{{ sus_author }}</dd>
+        </dl>
+      </div>
+    </section>
+  {% endif %}
+
+  <div class="cols">
+    <section class="card">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('id-card') }}{{ LNG.ac_account_data }}</h2>
+        <div class="card__actions">
+          <a class="tooltip" href="#" data-tooltip-content="{{ LNG.ac_note_k|e('html_attr') }}">{{ icon('info') }}<span class="visually-hidden">{{ LNG.ac_leyend|trim('[] ') }}</span></a>
+        </div>
+      </header>
+      <div class="card__body">
+        <dl class="kv">
+          <dt>{{ LNG.input_id_account }}</dt><dd>{{ account_id }}</dd>
+          <dt>{{ LNG.ac_name }} ({{ LNG.input_id_account }})</dt><dd>{{ accountname }}</dd>
+          <dt>{{ LNG.input_id_user }}</dt><dd>{{ id }}</dd>
+          <dt>{{ LNG.ac_name }}</dt><dd>{{ nombre }}</dd>
+          <dt>{{ LNG.ac_auth_level }}</dt><dd>{{ nivel }}</dd>
+          <dt>{{ LNG.ac_on_vacation }}</dt><dd>{{ vacas }}</dd>
+          <dt>{{ LNG.ac_banned }}</dt><dd>{{ suspen }}</dd>
+          <dt>{{ LNG.ac_register_time }}</dt><dd>{{ reg_time }}</dd>
+          <dt>{{ LNG.ac_act_time }}</dt><dd>{{ onlinetime }}</dd>
+          <dt>{{ LNG.ac_home_planet_id }}</dt><dd>{{ id_p }}</dd>
+          <dt>{{ LNG.ac_home_planet_coord }}</dt><dd class="mono">[{{ g }}:{{ s }}:{{ p }}]</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('network') }}{{ LNG.ac_checkip_title }}</h2></header>
+      <div class="card__body">
+        <dl class="kv">
+          <dt>{{ LNG.ac_reg_ip }}</dt><dd class="mono">{{ ip }}</dd>
+          <dt>{{ LNG.ac_last_ip }}</dt><dd class="mono">{{ ip2 }}</dd>
+          <dt>{{ LNG.ac_checkip_title }}</dt><dd>{{ ipcheck }}</dd>
+          {% if info %}<dt>{{ LNG.ac_user_system }}</dt><dd class="small">{{ info }}</dd>{% endif %}
+        </dl>
+      </div>
+    </section>
+  </div>
+
+  <section class="card card--flush" id="ac-ranking">
+    <header class="card__head"><h2 class="card__title">{{ icon('chart-column') }}{{ LNG.ac_user_ranking }}</h2></header>
+    <div class="table-wrap">
+      <table class="data data--compact">
+        <thead><tr><th></th><th class="num">{{ LNG.ac_points_count }}</th><th class="num">#</th><th>{{ LNG.ac_ranking }}</th></tr></thead>
+        <tbody>
+          <tr><td>{{ LNG.researchs_title }}</td><td class="num">{{ point_tecno }}</td><td class="num muted">{{ count_tecno }}</td><td class="nowrap"># {{ ranking_tecno }}</td></tr>
+          <tr><td>{{ LNG.defenses_title }}</td><td class="num">{{ point_def }}</td><td class="num muted">{{ count_def }}</td><td class="nowrap"># {{ ranking_def }}</td></tr>
+          <tr><td>{{ LNG.ships_title }}</td><td class="num">{{ point_fleet }}</td><td class="num muted">{{ count_fleet }}</td><td class="nowrap"># {{ ranking_fleet }}</td></tr>
+          <tr><td>{{ LNG.buildings_title }}</td><td class="num">{{ point_builds }}</td><td class="num muted">{{ count_builds }}</td><td class="nowrap"># {{ ranking_builds }}</td></tr>
+        </tbody>
+        <tfoot><tr><th>{{ LNG.ac_total_points }}</th><th class="num"><span class="colorNegative">{{ total_points }}</span></th><th></th><th></th></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  {# alliance #}
+  {% if not empty(allianceData) %}
+    <details class="card disclosure">
+      <summary class="card__head"><h2 class="card__title">{{ icon('handshake') }}{{ LNG.ac_info_ally }}: [{{ allianceData.tag }}] {{ allianceData.name }}</h2></summary>
+      <div class="card__body stack">
+        <div class="cols">
+          <dl class="kv">
+            <dt>{{ LNG.input_id }}</dt><dd>{{ allianceData.id }}</dd>
+            <dt>{{ LNG.ac_leader }}</dt><dd>{{ allianceData.leader }}</dd>
+            <dt>{{ LNG.ac_tag }}</dt><dd>{{ allianceData.tag }}</dd>
+            <dt>{{ LNG.ac_name_ali }}</dt><dd>{{ allianceData.name }}</dd>
+            <dt>{{ LNG.ac_ally_web }}</dt><dd>{% if allianceData.website %}<a href="{{ allianceData.website }}" target="_blank" rel="noopener">{{ allianceData.website }}</a>{% else %}-{% endif %}</dd>
+            <dt>{{ LNG.ac_register_ally_time }}</dt><dd>{{ allianceData.foundationDate }}</dd>
+            <dt>{{ LNG.ac_total_members }}</dt><dd>{{ allianceData.memberAmount }}</dd>
+          </dl>
+          <div class="table-wrap">
+            <table class="data data--compact">
+              <caption class="visually-hidden">{{ LNG.ac_ally_ranking }}</caption>
+              <thead><tr><th>{{ LNG.ac_ally_ranking }}</th><th class="num">{{ LNG.ac_points_count }}</th><th class="num">#</th><th>{{ LNG.ac_ranking }}</th></tr></thead>
+              <tbody>
+                <tr><td>{{ LNG.researchs_title }}</td><td class="num">{{ pretty_number(allianceStats.tech_points) }}</td><td class="num muted">{{ pretty_number(allianceStats.tech_count) }}</td><td># {{ pretty_number(allianceStats.tech_rank) }}</td></tr>
+                <tr><td>{{ LNG.defenses_title }}</td><td class="num">{{ pretty_number(allianceStats.defs_points) }}</td><td class="num muted">{{ pretty_number(allianceStats.defs_count) }}</td><td># {{ pretty_number(allianceStats.defs_rank) }}</td></tr>
+                <tr><td>{{ LNG.ships_title }}</td><td class="num">{{ pretty_number(allianceStats.fleet_points) }}</td><td class="num muted">{{ pretty_number(allianceStats.fleet_count) }}</td><td># {{ pretty_number(allianceStats.fleet_rank) }}</td></tr>
+                <tr><td>{{ LNG.buildings_title }}</td><td class="num">{{ pretty_number(allianceStats.build_points) }}</td><td class="num muted">{{ pretty_number(allianceStats.build_count) }}</td><td># {{ pretty_number(allianceStats.build_rank) }}</td></tr>
+              </tbody>
+              <tfoot><tr><th>{{ LNG.ac_total_points }}</th><th class="num"><span class="colorNegative">{{ pretty_number(allianceStats.total_points) }}</span></th><th></th><th></th></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <dl class="kv">
+          <dt>{{ LNG.ac_ext_text }}</dt><dd>{% if not allianceData.externalText %}<span class="muted">{{ LNG.ac_no_text_ext }}</span>{% else %}{{ allianceData.externalText }}{% endif %}</dd>
+          <dt>{{ LNG.ac_int_text }}</dt><dd>{% if not allianceData.internalText %}<span class="muted">{{ LNG.ac_no_text_int }}</span>{% else %}{{ allianceData.internalText }}{% endif %}</dd>
+          <dt>{{ LNG.ac_sol_text }}</dt><dd>{% if not allianceData.applyText %}<span class="muted">{{ LNG.ac_no_text_sol }}</span>{% else %}{{ allianceData.applyText }}{% endif %}</dd>
+          <dt>{{ LNG.ac_image }}</dt>
+          <dd>
+            {% if not allianceData.logo %}<span class="muted">{{ LNG.ac_no_img }}</span>
+            {% else %}<a href="{{ allianceData.logo }}" target="_blank" rel="noopener">{{ LNG.ac_view_image }}</a> <span class="muted mono small">{{ allianceData.logo }}</span>{% endif %}
+          </dd>
+        </dl>
+      </div>
+    </details>
+  {% endif %}
+
+  {# planets and moons #}
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('orbit') }}{{ LNG.ac_id_names_coords }}</h2></header>
+    <div class="table-wrap">
+      <table class="data data--compact">
+        <thead>
+          <tr>
+            <th>{{ LNG.ac_name }}</th>
+            <th class="num">{{ LNG.input_id }}</th>
+            <th class="num">{{ LNG.ac_diameter }}</th>
+            <th class="num">{{ LNG.ac_fields }}</th>
+            <th class="num">{{ LNG.ac_temperature }}</th>
+            {% if canedit == 1 %}<th class="actions" aria-label="{{ LNG.se_search_edit }}"></th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for pl in planetRows %}
+            <tr>
+              <td>{{ ui.placename(pl, LNG.ac_moon) }}</td>
+              <td class="num">{{ pl.id }}</td>
+              <td class="num">{{ pl.diameter }}</td>
+              <td class="num">{{ pl.fields }} <span class="muted">({{ pl.fieldsDb }})</span></td>
+              <td class="num">{{ pl.temp }}</td>
+              {% if canedit == 1 %}
+                <td class="actions"><button type="button" class="btn--small" onclick="return openEdit('{{ pl.id }}', 'planet');" title="{{ LNG.se_search_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.se_search_edit }}</span></button></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('database') }}{{ LNG.resources_title }}</h2></header>
+    <div class="table-wrap">
+      <table class="data data--compact">
+        <thead>
+          <tr>
+            <th>{{ LNG.ac_name }}</th>
+            <th class="num">{{ Metal }}</th>
+            <th class="num">{{ Crystal }}</th>
+            <th class="num">{{ Deuterium }}</th>
+            <th class="num">{{ Energy }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in resourceRows %}
+            <tr>
+              <td>{{ ui.placename(r, LNG.ac_moon) }}</td>
+              <td class="num">{{ ui.amount(r.metal) }}</td>
+              <td class="num">{{ ui.amount(r.crystal) }}</td>
+              <td class="num">{{ ui.amount(r.deuterium) }}</td>
+              <td class="num">
+                <span title="{{ r.energySum.full }}" class="{{ r.energySum.sign < 0 ? 'colorNegative' : (r.energySum.sign > 0 ? 'colorPositive' : '') }}">{{ r.energySum.short }}</span>
+                <span class="muted">/ {{ ui.amount(r.energy) }}</span>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {{ ui.matrix(buildingRows, planetCols, LNG.buildings_title, 'building-2', LNG.se_no_data) }}
+  {{ ui.matrix(fleetRows, planetCols, LNG.ships_title, 'rocket', LNG.se_no_data) }}
+  {{ ui.matrix(defenseRows, planetCols, LNG.defenses_title, 'shield', LNG.se_no_data) }}
+
+  <details class="card disclosure">
+    <summary class="card__head"><h2 class="card__title">{{ icon('flask-conical') }}{{ LNG.ac_research }}</h2></summary>
+    <div class="table-wrap">
+      <table class="data data--compact">
+        <thead><tr><th>{{ LNG.researchs_title }}</th><th class="num">{{ LNG.ad_levels }}</th></tr></thead>
+        <tbody>
+          {% for t in technologyRows %}<tr><td>{{ t.name }}</td><td class="num">{{ t.level }}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="card disclosure">
+    <summary class="card__head"><h2 class="card__title">{{ icon('skull') }}{{ LNG.ac_recent_destroyed_planets }}</h2></summary>
+    {% if hasDestroyedPlanets %}
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead><tr><th>{{ LNG.ac_name }}</th><th class="num">{{ LNG.input_id }}</th><th>{{ LNG.ac_coords }}</th><th>{{ LNG.ac_time_destruyed }}</th></tr></thead>
+          <tbody>
+            {% for d in destroyedRows %}<tr><td>{{ d.name }}</td><td class="num">{{ d.id }}</td><td class="mono">{{ d.coords }}</td><td class="nowrap">{{ d.time }}</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty">{{ icon('circle-check') }}<p>{{ LNG.adm_ac_no_destroyed }}</p></div>
+    {% endif %}
+  </details>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,132 @@
+back: Wróć
+continue: Dalej
+continueUpgrade: Aktualizuj!
+install_desc: >-
+  Aby włączyć narzędzie instalacyjne, utwórz plik
+  "var/ENABLE_INSTALL_TOOL"<br> W nazwie pliku uwzględniana jest wielkość
+  liter i nie ma końcówki typu pliku.<br> Plik może być pusty. 
+
+  Zostanie on automatycznie usunięty po zakończeniu instalacji lub jeśli jest
+  starszy niż godzinę.
+install_title: Narzędzie instalacyjne jest zablokowane
+intro_install: Przejdź do instalacji
+intro_lang: Język
+intro_text: >-
+  Br0Game to najlepszy klon Ogame.<br>Br0Game to najnowsza i najbardziej
+  stabilna wersja Xnova, jaka kiedykolwiek powstała. Cechuje ją przyjazność,
+  elastyczność i dynamiczność, jak również najwyższa jakość obsługi. System
+  przeprowadzi Cię przez proces instalacji lub też aktualizacji aktualnej wersji
+  do najnowszej. Jeśli masz jakiekolwiek problemy nie wahaj się zadać pytania na
+  naszym forum poświęconemu rozwojowi i wsparciu.<br><br>Br0Game podlega
+  licencji GNU GPL v3. Licencje przeczytasz po kliknięciu odpowiedniego linku w
+  menu.<br><br>Przed instalacją skrypt sprawdzi, czy twój serwer spełnia
+  minimalne wymagania.
+intro_upgrade_head: Zainstalować Br0Game?
+intro_upgrade_text: >-
+  <p>Br0Game zainstalowane, chcesz teraz sprawdzić
+  aktualizacje?</p><p>Aktualizacje!</p>
+intro_welcome: Serdecznie witamy w Br0Game!
+licence_accept: >-
+  Możesz zainstalować ten program tylko wtedy, gdy zgadasz sie z postanowieniami
+  licencji.
+licence_desc: Prosze przeczytać licencję, przewiń by przeczytać całą!.
+licence_head: Licencja
+licence_need_accept: By przejść dalej zaakceptuj licencję.
+login: Login
+menu_install: Instalacja
+menu_intro: Intro
+menu_license: Licencja
+menu_upgrade: Aktualizacja
+reg_dir: Katalogi &raquo;%s&laquo; zapisywalne ?
+reg_file: Dane &raquo;%s&laquo; zapisywalne?
+reg_found: Znalazłem
+reg_gd_desc: >-
+  <strong>Opcjonalne</strong> — Biblioteka graficzna &raquo;gdlib&laquo; jest
+  potrzebna do generowania grafik w "locie". Bez niej nie wykorzystasz
+  wszystkich możliwości Br0Game.
+reg_gd_need: Zainstalowana wersja biblioteki graficznej &raquo;gdlib&laquo;
+reg_global_desc: >-
+  Br0Game nie będzie funkcjonował gdy register_globals jest aktywne. Z powodów
+  bezpieczeństwa zaleca się by, register_globals wyłączyć w ustawieniach php.
+reg_global_need: register_globals deaktywowane?
+reg_iniset_need: Funkcja php &raquo;ini_set&laquo; dostępna?
+reg_json_need: Dostępny &raquo;JSON&laquo; ?
+reg_no: Nie
+reg_not_found: Nie znalazłem
+reg_not_writable: Nie zapisywalny
+reg_writable: zapisywalny
+reg_yes: Tak
+req_desc: >-
+  Br0Game sprawdzi teraz konfigurację twojego serwera. Czytaj uważnie wyniki
+  testów nim przejdziesz dalej. Jeśli chcesz używać opcjonalnych modułów to
+  upewnij się że dodatkowe testy mają wynik pozytywny..
+req_head: Wymagania systemowe
+req_php_need: Minimalna wersja &raquo;PHP&laquo;
+req_php_need_desc: >-
+  <strong>Wymagane</strong> — PHP to język skryptowy wykonywane po stronie
+  serwera, Br0Game jest w nim napisany. Do poprawnej instalacji wymagana wersja
+  minimalna to PHP Version 5.2.5.
+sql_close_reason: |-
+  Wszechświat jest w trakcie tworzenia. 
+  Proszę czekać.
+sql_welcome: Serdecznie witamy na Br0Game v
+step1_desc: >-
+  Tutaj musisz podać dane do połączenia się z baza mysql, jeśli ich nie znasz
+  skontaktują się usługodwacą hostingu, lub napisz na forum wsparcia.
+step1_head: Konfiguracja bazy danych
+step1_mysql_dbname: Nazwa bazy danych
+step1_mysql_dbpass: Hasło
+step1_mysql_dbuser: Nazwa użytkownika
+step1_mysql_migrationpass: Hasło migracji bazy danych
+step1_mysql_migrationpass_info: >-
+  Hasło migracji zostanie poproszony, gdy wymagane będą zmiany w bazie danych
+  lub aktualizacje dla nowej wersji gry.
+step1_mysql_port: Port serwera
+step1_mysql_prefix: 'Prefix tabeli:'
+step1_mysql_server: Adres serwera mysql
+step2_conf_create: config.php utworzono pomyślnie
+step2_conf_op_fail: config.php jest nie zapisywalny!
+step2_config_exists: config.php już istnieje!
+step2_db_con_fail: Nie można połączyć z bazą danych, szczegóły poniżej.
+step2_db_done: Połączenie z bazą danych ustalone!
+step2_db_no_dbname: Nie znaleziono bazy danych o takiej nazwie.
+step2_db_no_migrationpw: Nie określono hasła migracji dla bazy danych
+step2_db_too_long: Nazwa tabeli jest za długa, maksymalnie 36 znaków.
+step2_prefix_invalid: Prefix może mieć tylko litery i cyfry ewentualnie znak podkreślenia.
+step3_db_error: 'Błąd podczas łączenia do bazy danych:'
+step3_desc: Tabele utworzone, przejdź do następnego kroku.
+step3_head: Instalacja tabeli
+step4_admin_mail: 'Adres kontaktowy email:'
+step4_admin_name: 'Nazwa konta administratora:'
+step4_admin_name_desc: Nazwa musi mieć od 3 do 20 znaków.
+step4_admin_pass: 'Hasło:'
+step4_admin_pass_desc: Minimalna długość hasła to 6 a maksymalnie 30 znaków.
+step4_desc: >-
+  Kreator instalacji utworzy teraz konto administratora, proszę podać hasło,
+  nazwę użytkownika i adres email.
+step4_head: Dane administratora
+step6_desc: Zainstalowałeś prawidłowo Br0Game.
+step6_head: Gratualcje!
+step6_info_additional: >-
+  Po kliknięciu zostaniesz przeniesiony na stronę zarządzania
+  grą.<br/><br/><strong>Skasuj plik &raquo;var/ENABLE_INSTALL_TOOL&laquo;
+  nim gra zostanie udostępniona, w przeciwnym wypadku bezpieczeństwo serwera
+  będzie zagrożone!</strong>
+step6_info_head: Możesz już grać!
+title_install: Instalator
+upgrade_available: >-
+  Dostępna jest aktualizacja bazy danych. Aktualna wersja bazy to %s i może
+  zostać zaktualizowana do wersji %s.<br><br>Wybierz z menu wersję do której
+  chcesz zaktualizować:
+upgrade_back: Wróć
+upgrade_intro_welcome: Witaj w aktualizatorze bazy danych!
+upgrade_message_admin: >-
+  Administratorzy: Aby zainstalować aktualizację bazy danych, wpisz hasło
+  migracji i kontynuuj.
+upgrade_message_user: 'Gracze: Poczekaj chwilę, a następnie spróbuj kliknąć „Wróć do gry”'
+upgrade_notavailable: Wersja %s bazy to aktualna wersja!.
+upgrade_nothingtodo: Baza danych aktualna z wersją %s.
+upgrade_required_rev: Aktualizator bazy danych działa od wersji r2579 (pr0game v1.7) lub wyższej!.
+upgrade_return: Wróć do gry
+upgrade_success: Aktualizacja przebiegła pomyślnie, baza danych została zaktualizowana do %s.
+upgrade_title: Konieczna jest aktualizacja bazy danych!

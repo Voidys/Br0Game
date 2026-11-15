@@ -1,0 +1,11 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.siteTitleScreens }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="gallery-grid">
+  {% for screenshot in (screenshots)|php_iter %}
+    <a class="gallery" href="{{ screenshot.path }}" target="_blank" rel="gallery">
+      <img src="{{ screenshot.thumbnail }}" alt="" loading="lazy">
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

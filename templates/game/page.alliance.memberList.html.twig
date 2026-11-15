@@ -1,0 +1,129 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="table-scroll">
+<table id="memberList" data-sortable>
+	<thead>
+		<tr>
+			<th colspan="8">{{ al_users_list }}</th>
+		</tr>
+		<tr>
+			<th class="no-sort ctr">{{ LNG.al_num }}</th>
+			<th>{{ LNG.al_member }}</th>
+			<th class="ctr">{{ LNG.al_message }}</th>
+			<th class="no-sort">{{ LNG.al_position }}</th>
+			<th class="num">{{ LNG.al_points }}</th>
+			<th class="ctr">{{ LNG.al_coords }}</th>
+			<th class="ctr">{{ LNG.al_member_since }}</th>
+			<th class="ctr">{{ LNG.al_estate }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for userID, memberListRow in (memberList)|php_iter %}
+	<tr>
+		<td class="ctr">{{ loop.index }}</td>
+		<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+		<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img class="inline" src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+		<td>{{ memberListRow.rankName }}</td>
+		<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
+		<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+		<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
+		<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	<tr>
+		<th colspan="8"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+	</tr>
+</table>
+</div>
+{% if not empty(mainList) %}
+{% for mainId, main in (mainList)|php_iter %}
+	<br>
+	<div class="table-scroll">
+	<table id="mainList" data-sortable>
+		<thead>
+			<tr>
+				<th colspan="8"><a href="?page=alliance&mode=info&id={{ mainId }}">{{ main['header'] }}</a></th>
+			</tr>
+			<tr>
+				<th class="no-sort ctr">{{ LNG.al_num }}</th>
+				<th>{{ LNG.al_member }}</th>
+				<th class="ctr">{{ LNG.al_message }}</th>
+				<th class="no-sort">{{ LNG.al_position }}</th>
+				<th class="num">{{ LNG.al_points }}</th>
+				<th class="ctr">{{ LNG.al_coords }}</th>
+				<th class="ctr">{{ LNG.al_member_since }}</th>
+				<th class="ctr">{{ LNG.al_estate }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for userID, memberListRow in (main['memberList'])|php_iter %}
+		<tr>
+			<td class="ctr">{{ loop.index }}</td>
+			<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td>{{ memberListRow.rankName }}</td>
+			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
+			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+			<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
+			<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	</div>
+{% endfor %}
+{% endif %}
+{% if not empty(wingList) %}
+{% for wingId, wing in (wingList)|php_iter %}
+	<br>
+	<div class="table-scroll">
+	<table id="wingList" data-sortable>
+		<thead>
+			<tr>
+				<th colspan="8"><a href="?page=alliance&mode=info&id={{ wingId }}">{{ wing['header'] }}</a></th>
+			</tr>
+			<tr>
+				<th class="no-sort ctr">{{ LNG.al_num }}</th>
+				<th>{{ LNG.al_member }}</th>
+				<th class="ctr">{{ LNG.al_message }}</th>
+				<th class="no-sort">{{ LNG.al_position }}</th>
+				<th class="num">{{ LNG.al_points }}</th>
+				<th class="ctr">{{ LNG.al_coords }}</th>
+				<th class="ctr">{{ LNG.al_member_since }}</th>
+				<th class="ctr">{{ LNG.al_estate }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for userID, memberListRow in (wing['memberList'])|php_iter %}
+		<tr>
+			<td class="ctr">{{ loop.index }}</td>
+			<td><a href="#" onclick="return Dialog.Playercard({{ userID }}, '{{ memberListRow.username }}');">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td class="ctr"><a href="#" onclick="return Dialog.PM({{ userID }});"><img src="{{ dpath }}img/m.gif" border="0" title="{{ LNG.write_message }}"></a></td>
+			<td>{{ memberListRow.rankName }}</td>
+			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
+			<td class="ctr" data-sort="{{ memberListRow.galaxy * 1000000 + memberListRow.system * 1000 + memberListRow.planet }}"><a href="game?page=galaxy&amp;galaxy={{ memberListRow.galaxy }}&amp;system={{ memberListRow.system }}" data-postion="{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}">[{{ memberListRow.galaxy }}:{{ memberListRow.system }}:{{ memberListRow.planet }}]</a></td>
+			<td class="ctr registerTime" data-sort="{{ memberListRow.register_time }}" data-time="{{ memberListRow.register_time }}">{{ memberListRow.register_time }}</td>
+			<td class="ctr"{% if rights.ONLINESTATE %} data-sort="{% if memberListRow.onlinetime < 4 %}0{% elseif memberListRow.onlinetime <= 60 %}{{ memberListRow.onlinetime }}{% else %}999{% endif %}"{% endif %}>{% if rights.ONLINESTATE %}{% if memberListRow.onlinetime < 4 %}<span class="colorPositive">{{ LNG.al_memberlist_on }}</span>{% elseif memberListRow.onlinetime <= 60 %}<span class="color-yellow">{{ memberListRow.onlinetime }} {{ LNG.al_memberlist_min }}</span>{% else %}<span class="colorNegative">{{ LNG.al_memberlist_off }}</span>{% endif %}{% else %}-{% endif %}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+{% block script %}{{ parent() }}
+<script>onPageInit(function() {
+	document.querySelectorAll('.points').forEach(function (el) {
+		el.innerHTML = pretty_number(el.innerHTML, 0);
+	});
+
+	const months = {{ LNG.months|json_encode|raw }};
+	document.querySelectorAll('.registerTime').forEach(function (el) {
+		const date = new Date(el.innerHTML * 1000);
+		el.innerHTML = date.getDate() + ". " + months[date.getMonth()] + " " + date.getFullYear();
+	});
+});</script>
+{% endblock %}

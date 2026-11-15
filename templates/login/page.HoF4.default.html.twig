@@ -1,0 +1,489 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.hof4_header }}{{ parent() }}{% endblock %}
+
+
+  {% block content %}
+  <form class="filter-bar" name="stats" id="stats" method="post" action="">
+    <select name="universe" id="universe" class="changeUni" onchange="document.getElementById('stats').submit();">{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
+  </form>
+  <div class="table-scroll">
+  <table class="HOF-Table">
+    <tr>
+      <th>
+        {{ LNG.theme }}
+      </th>
+      <th>
+        {{ LNG.players }}
+      </th>
+      <th>
+        {{ LNG.points_amount }}
+      </th>
+    </tr>
+    <tr>
+      <td>
+        {{ LNG.st_points }}
+      </td>
+      <td>
+          <span class="gold">1.</span> para bellum
+          <br><span class="silver">2.</span> SHELLdon 
+          <br><span class="bronze">3.</span> Fleischi der Müllwerker
+      </td>
+      <td>
+        3.039.075<br>
+        2.913.477<br>
+        2.863.861
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ LNG.st_fleets }}
+      </td>
+      <td>
+        <span class="gold">1.</span> para bellum
+        <br><span class="silver">2.</span> Greathful Garbage Man 
+        <br><span class="bronze">3.</span> Fleischi der Müllwerker
+      </td>
+      <td>
+        1.778.439<br>
+        1.753.055<br>
+        1.649.537
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ LNG.st_researh }}
+      </td>
+      <td>
+        <span class="gold">1.</span> para bellum
+        <br><span class="silver">2.</span> Fleischi der Müllwerker 
+        <br><span class="bronze">3.</span> Sozialistischer Müllmensch
+      </td>
+      <td>
+        434.848<br>
+        433.375<br>
+        421.304
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ LNG.st_buildings }}
+      </td>
+      <td>
+        <span class="gold">1.</span> SHELLdon
+        <br><span class="silver">2.</span> Sozialistischer Müllmensch 
+        <br><span class="bronze">3.</span> Väterchen Franz
+      </td>
+      <td>
+        2.452.856	<br>
+        1.583.617<br>
+        1.531.678
+      </td>
+    </tr>
+    <tr>
+      <td>
+        {{ LNG.st_defenses }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Wiaschtl
+        <br><span class="silver">2.</span> Suicide Emotion 
+        <br><span class="bronze">3.</span> Stevy
+      </td>
+      <td>
+        686.562<br>
+        641.291<br>
+        603.483
+      </td>
+    </tr>
+
+
+
+    <tr>
+      <td>
+        {{ LNG.biggest_solo }}
+      </td>
+      <td>
+      <span class="gold">1.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=1d94d6db64abcb40be1711f2b6c8aa8c">
+          <span class="colorPositive">Müllmannizm</span> vs <span class="colorNegative">XNightmareX</span>
+        </a>
+        <br><span class="silver">2.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=3b5d3840cc1d8002407d65b92def3dc3">
+          <span class="colorPositive">Greathful Garbage Man</span> vs <span class="colorNegative">MaryJ</span>
+        </a>
+        <br><span class="bronze">3.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=efe034960e65a42c1aa1506bb3207743">
+          <span class="colorPositive">Novize Theobald</span> vs <span class="colorNegative">Verdichten und Zünden</span>
+        </a>
+      </td>
+      <td>
+        83.031.000 Units
+        <br>56.367.000 Units
+        <br>31.870.000 Units
+      </td>
+    </tr>
+    <tr>
+      <!-- 
+select * from uni1_raports ur where time > 1712383200 and attacker != '' and defender != '' and raport like '%i:0;d:100;i:1;d:100;i:2;d:100;%' and keep = 1 order by time asc limit 10  
+      -->
+      <td>
+        {{ LNG.first_fights }}
+      </td>
+      <td>
+      <span class="gold">1.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=cc8e284af181541d1d37f3a1f8f08cd3">
+          <span class="colorNegative">Papst Pius LXIX</span> vs <span class="colorPositive">exo</span>
+        </a>
+        <br><span class="silver">2.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=b6a72fa58276d65d603e3fd18ce5c81d">
+          <span class="colorNegative">error</span> vs <span class="colorPositive">Loki</span>
+        </a>
+        <br><span class="bronze">3.</span> <a href="https://pr0game.com/uni4/game?page=raport&raport=a02127590c42716f1f65f1f7e4021c9d">
+          <span class="colorPositive">Kardinal Borromäus</span> vs <span class="colorNegative">Cherrydestroyer</span>
+        </a>
+      </td>
+      <td>
+        07. Apr 2024, 12:31:10<br>
+        07. Apr 2024, 13:06:49<br>
+        07. Apr 2024, 13:08:24
+      </td>
+    </tr>
+    <tr>
+    <!--
+select SUM(destroyed_212) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 3
+    -->
+      <td>
+        {{ LNG.destroyed_sats }}
+      </td>
+      <td colspan="2">
+        237.980
+      </td>
+    </tr>
+    <tr>
+    <!--
+SELECT
+(SELECT username FROM uni1_users WHERE id = (SELECT id FROM uni1_users WHERE universe = 3 ORDER BY wons DESC LIMIT 1)) AS player_with_most_wins,
+(SELECT username FROM uni1_users WHERE id = (SELECT id FROM uni1_users WHERE universe = 3 ORDER BY loos DESC LIMIT 1)) AS player_with_most_losses,
+(SELECT username FROM uni1_users WHERE id = (SELECT id FROM uni1_users WHERE universe = 3 ORDER BY draws DESC LIMIT 1)) AS player_with_most_draws;
+    -->
+      <td>
+        {{ LNG.most_fights }}
+      </td>
+      <td>
+        SHELLdon
+        <br>eskimoausmexiko
+        <br>Pater Noster
+      </td>
+      <td>
+        10.996<br>
+         4.702<br>
+            23
+      </td>
+    </tr>
+    <tr>
+    <!--
+select uni1_advanced_stats.moons_destroyed, uni1_users.username from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 3
+WHERE moons_destroyed != 0
+    -->
+      <td>
+        {{ LNG.most_defended_moons }}
+      </td>
+      <td>
+      <span class="gold">1.</span> para bellum
+      <br><span class="silver">2.</span> Rocko
+      <br><span class="bronze">3.</span> LüLa
+      <br><span class="bronze">3.</span> Erika
+      </td>
+      <td>
+        8<br>
+        6<br>
+        4<br>
+        4
+      </td>
+    </tr>
+
+
+    <tr>
+    <!--
+SELECT uni1_users.username, COUNT(uni1_users_to_achievements.achievementID) AS achievement_count
+FROM uni1_users_to_achievements
+JOIN uni1_users ON uni1_users_to_achievements.userID = uni1_users.id
+WHERE uni1_users.universe = 4
+GROUP BY uni1_users_to_achievements.userID
+ORDER BY achievement_count DESC
+    -->
+      <td>
+        {{ LNG.most_achievements }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Müllmannizm
+        <br><span class="silver">2.</span> RedJive
+        <br><span class="bronze">3.</span> IronBeagle
+      </td>
+      <td>
+        25<br>
+        21<br>
+        17
+      </td>
+    </tr>
+    <tr>
+    <!--
+SELECT uni1_achievements.name, uni1_users_to_achievements.achievementID, COUNT(*) AS achievement_count
+FROM uni1_users_to_achievements
+JOIN uni1_achievements ON uni1_users_to_achievements.achievementID = uni1_achievements.id
+JOIN uni1_users ON uni1_users_to_achievements.userID = uni1_users.id AND uni1_users.universe = 4
+GROUP BY uni1_users_to_achievements.achievementID
+ORDER BY achievement_count DESC
+LIMIT 5;
+    -->
+      <td>
+        {{ LNG.most_reached_ach }}
+      </td>
+      <td>
+        <span class="gold">1.</span> #34 Edelfarm
+        <br><span class="silver">2.</span> #19 Dicke Haut 1
+        <br><span class="bronze">3.</span> #20 Dicke Haut 2
+      </td>
+      <td>
+        153<br>
+        133<br>
+        124
+      </td>
+    </tr>
+    <tr>
+    <!--
+SELECT uni1_achievements.name, uni1_users_to_achievements.achievementID, COUNT(*) AS achievement_count
+FROM uni1_users_to_achievements
+JOIN uni1_achievements ON uni1_users_to_achievements.achievementID = uni1_achievements.id
+JOIN uni1_users ON uni1_users_to_achievements.userID = uni1_users.id AND uni1_users.universe = 4
+GROUP BY uni1_users_to_achievements.achievementID
+ORDER BY achievement_count ASC
+LIMIT 5;
+
+SELECT u.username
+FROM uni1_users_to_achievements ua
+JOIN uni1_users u ON ua.userID = u.id
+WHERE ua.achievementID = 10 and u.universe = 4;
+    -->
+      <td>
+      {{ LNG.least_reached_ach }}
+      </td>
+      <td colspan="2">
+        <span class="gold">1.</span> Because I can erreicht von Sozialistischer Müllmensch <br>
+        <span class="silver">2.</span> Freibeuter erreicht von Sozialistischer Müllmensch, RedJive <br>
+        <span class="silver">2.</span> Slippys Fluch erreicht von Hildegard, Greathful Garbage Man
+      </td>
+    </tr>
+    <tr>
+    <!--
+SELECT uni1_records.userID, uni1_users.username, COUNT(*) AS entry_count
+FROM uni1_records
+INNER JOIN uni1_users ON uni1_records.userID = uni1_users.id
+WHERE uni1_records.universe = 4
+GROUP BY uni1_records.userID
+ORDER BY entry_count DESC 
+Limit 7
+    -->
+      <td>
+        {{ LNG.most_records }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Sozialistischer Müllmensch
+        <br><span class="silver">2.</span> para bellum
+        <br><span class="bronze">3.</span> SHELLdon
+      </td>
+      <td>
+        12<br>
+        11<br>
+        10<br>
+      </td>
+    </tr>
+    <tr>
+    <!--
+select u.username, us.total_points 
+from uni1_users u 
+inner join uni1_statpoints us on us.id_owner = u.id 
+inner join uni1_planets p on p.id = u.id_planet 
+where u.universe = 4 and us.stat_type = 1 and p.creation_time < 1712419200 
+order by us.total_points asc;
+    -->
+      <td>
+        {{ LNG.Lowest_longterm_points }}
+      </td>
+      <td>
+        <span class="gold">1.</span> onizuka31
+        <br><span class="silver">2.</span> Paddy90
+        <br><span class="bronze">3.</span> Crawn
+      </td>
+      <td>
+        11.051<br>
+        17.756<br>
+        31.623
+      </td>
+    </tr>
+    <tr>
+    <!--
+select u.username, build_205 
+from uni1_users u 
+inner join uni1_advanced_stats uas on uas.userid = u.id 
+where u.universe = 4 
+order by build_205 desc;
+    -->
+      <td>
+        {{ LNG.most_build_HF }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Pater Noster
+        <br><span class="silver">2.</span> Putzvarruckt
+        <br><span class="bronze">3.</span> Novize Theobald
+      </td>
+      <td>
+        8.543<br>
+        2.545<br>
+        2.271
+      </td>
+    </tr>
+    <tr>
+    <!--
+select SUM(uni1_advanced_stats.build_202 + uni1_advanced_stats.build_203 + uni1_advanced_stats.build_204 + uni1_advanced_stats.build_205 + uni1_advanced_stats.build_206 + uni1_advanced_stats.build_207 + uni1_advanced_stats.build_208 + uni1_advanced_stats.build_209 + uni1_advanced_stats.build_210 + uni1_advanced_stats.build_211 + uni1_advanced_stats.build_212 + uni1_advanced_stats.build_213 + uni1_advanced_stats.build_214  + uni1_advanced_stats.build_215  + uni1_advanced_stats.build_216  + uni1_advanced_stats.build_217  + uni1_advanced_stats.build_218  + uni1_advanced_stats.build_219 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.build_202 + uni1_advanced_stats.build_203 + uni1_advanced_stats.build_208 + uni1_advanced_stats.build_209 + uni1_advanced_stats.build_212 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.build_204 + uni1_advanced_stats.build_205 + uni1_advanced_stats.build_206 + uni1_advanced_stats.build_207 + uni1_advanced_stats.build_211 + uni1_advanced_stats.build_213 + uni1_advanced_stats.build_214  + uni1_advanced_stats.build_215  + uni1_advanced_stats.build_216  + uni1_advanced_stats.build_217  + uni1_advanced_stats.build_218  + uni1_advanced_stats.build_219 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.build_210 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+    -->
+      <td>
+        {{ LNG.build_ships }}
+      </td>
+      <td>
+      {{ LNG.overall }}
+      <br> {{ LNG.civil }}
+      <br> {{ LNG.military }}
+      <br> {{ LNG.spy }}
+    </td>
+    <td>
+      2.859.727<br>
+        678.792<br>
+      2.138.797<br>
+         42.138
+      </td>
+    </tr>
+
+
+   
+    <tr>
+    <!--
+select SUM(uni1_advanced_stats.found_202 + uni1_advanced_stats.found_203 + uni1_advanced_stats.found_204 + uni1_advanced_stats.found_204 + uni1_advanced_stats.found_205 + uni1_advanced_stats.found_206 + uni1_advanced_stats.found_207 + uni1_advanced_stats.found_208 + uni1_advanced_stats.found_209 + uni1_advanced_stats.found_210 + uni1_advanced_stats.found_211 + uni1_advanced_stats.found_212 + uni1_advanced_stats.found_213 + uni1_advanced_stats.found_214  + uni1_advanced_stats.found_215  + uni1_advanced_stats.found_216  + uni1_advanced_stats.found_217  + uni1_advanced_stats.found_218  + uni1_advanced_stats.found_219 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.found_202 + uni1_advanced_stats.found_203 +  uni1_advanced_stats.found_208 + uni1_advanced_stats.found_209 + uni1_advanced_stats.found_212 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.found_204 + uni1_advanced_stats.found_204 + uni1_advanced_stats.found_205 + uni1_advanced_stats.found_206 + uni1_advanced_stats.found_207 + uni1_advanced_stats.found_211 + uni1_advanced_stats.found_213 + uni1_advanced_stats.found_214  + uni1_advanced_stats.found_215  + uni1_advanced_stats.found_216  + uni1_advanced_stats.found_217  + uni1_advanced_stats.found_218  + uni1_advanced_stats.found_219 ) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+
+select SUM(uni1_advanced_stats.found_210) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+    -->
+      <td>
+        {{ LNG.found_ships }}
+      </td>
+      <td>
+        {{ LNG.overall }}
+        <br> {{ LNG.civil }}
+        <br> {{ LNG.military }}
+        <br> {{ LNG.spy }}
+      </td>
+      <td>
+        509.616<br>
+         84.447<br>
+        156.731<br>
+        268.438
+      </td>
+    </tr>
+    <tr>
+    <!--
+select SUM(uni1_advanced_stats.found_901) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+WHERE found_901 != 0
+select SUM(uni1_advanced_stats.found_902) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+WHERE found_902 != 0
+select SUM(uni1_advanced_stats.found_903) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+WHERE found_903 != 0
+    -->
+      <td>
+        {{ LNG.found_res }}
+      </td>
+      <td>
+        Metal
+        <br>Kristal
+        <br>Deuterium
+      </td>
+      <td>
+        1.584.133.750<br>
+          779.349.028<br>
+          516.193.353
+      </td>
+    </tr>
+    <tr>
+    <!--
+select u.username, (uas.expo_pirates_small + uas.expo_pirates_medium + uas.expo_pirates_large + uas.expo_aliens_small + uas.expo_aliens_medium + uas.expo_aliens_large) as fights
+from uni1_advanced_stats uas 
+inner join uni1_users u on u.id = uas.userId 
+where u.universe = 4
+order by fights desc
+      -->
+      <td>
+        {{ LNG.most_expo_fights }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Greathful Garbage Man
+        <br><span class="silver">2.</span> Väterchen Franz
+        <br><span class="bronze">3.</span> Sozialistischer Müllmensch
+      </td>
+      <td>
+        223<br>
+        219<br>
+        209
+      </td>
+    </tr>
+    <tr>
+    <!--
+select uni1_advanced_stats.expo_black_hole, uni1_users.username from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+WHERE expo_black_hole != 0
+ORDER by expo_black_hole DESC 
+    -->
+      <td>
+        {{ LNG.most_black_holes }}
+      </td>
+      <td>
+        <span class="gold">1.</span> Greathful Garbage Man
+        <br><span class="silver">2.</span> Hildegard
+        <br><span class="bronze">3.</span> Sozialistischer Müllmensch
+      </td>
+      <td>
+        11<br>
+        10<br>
+        9
+      </td>
+    </tr>
+    <tr>
+    <!--
+select SUM(expo_count) from uni1_advanced_stats
+JOIN uni1_users ON uni1_advanced_stats.userId = uni1_users.id AND uni1_users.universe = 4
+    -->
+      <td>
+        {{ LNG.flown_expos }}
+      </td>
+      <td colspan="2">
+        60.411
+      </td>
+    </tr>
+  </table>
+  </div>
+
+  {% endblock %}

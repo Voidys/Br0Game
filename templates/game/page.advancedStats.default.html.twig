@@ -1,0 +1,105 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_records }}{{ parent() }}{% endblock %} {% block content %}
+<table>
+    <tbody>
+        <tr onclick="toggle_rows('advanced-expo')">
+            <th colspan="2">
+                <span id="advanced-expo-toggle">▼</span>
+                {{ LNG.expedition }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (expo)|php_iter %}
+            <tr id="{{ elementID }}" class="advanced-expo">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-build')">
+            <th colspan="2">
+                <span id="advanced-build-toggle">▲</span>
+                {{ LNG.build }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (build)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-build">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-lost')">
+            <th colspan="2">
+                <span id="advanced-lost-toggle">▲</span>
+                {{ LNG.lost }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (lost)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-lost">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-destroyed')">
+            <th colspan="2">
+                <span id="advanced-destroyed-toggle">▲</span>
+                {{ LNG.destroyed }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (destroyed)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-destroyed">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-repaired')">
+            <th colspan="2">
+                <span id="advanced-repaired-toggle">▲</span>
+                {{ LNG.repaired }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (repaired)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-repaired">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-first')">
+            <th colspan="2">
+                <span id="advanced-first-toggle">▲</span>
+                {{ LNG.first }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (first)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-first">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+        <tr onclick="toggle_rows('advanced-others')">
+            <th colspan="2">
+                <span id="advanced-others-toggle">▲</span>
+                {{ LNG.other }}
+            </th>
+        </tr>
+        {% for elementID, elementRow in (rest)|php_iter %}
+            <tr id="{{ elementID }}" class="hidden advanced-others">
+                <td>{{ elementRow.text }}</td>
+                <td class="num">{{ elementRow.value }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+{% block script %}{{ parent() }}
+	<script>
+		function toggle_rows(target) {
+			const rows = document.querySelectorAll("." + target)
+			if (rows[0].classList.contains("hidden")) {
+				rows.forEach(r => r.classList.remove("hidden"))
+				document.getElementById(target + "-toggle").innerText = "▼"
+			} else {
+				rows.forEach(r => r.classList.add("hidden"))
+				document.getElementById(target + "-toggle").innerText = "▲"
+			}
+		}
+	</script>
+{% endblock %}

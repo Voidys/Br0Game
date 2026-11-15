@@ -1,0 +1,60 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if message %}<div class="notice notice--success" role="status">{{ message }}</div>{% endif %}
+
+  {% if edit is defined %}
+  <form method="POST" action="?page=pages&amp;slug={{ edit.slug }}&amp;lang={{ edit.lang }}&amp;action=save" class="card" data-track-dirty>
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('pencil') }}{{ edit.label }} <span class="badge badge--muted">{{ edit.langName|e }}</span></h2>
+      <div class="card__actions"><a class="button btn--small" href="{{ edit.url }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.cms_view }}</a></div>
+    </header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="cms-title">{{ LNG.cms_title }}</label>
+          <div class="field-control"><input type="text" id="cms-title" name="title" maxlength="255" value="{{ edit.title|e('html_attr') }}"></div>
+        </div>
+        <div class="field-row">
+          <label for="cms-content">{{ LNG.cms_content }}</label>
+          <div class="field-control"><textarea id="cms-content" name="content" rows="18" data-rte="rich">{{ edit.content|e }}</textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.cms_save }}</button>
+      {% if edit.edited %}
+      <button type="submit" class="btn--danger" formaction="?page=pages&amp;slug={{ edit.slug }}&amp;lang={{ edit.lang }}&amp;action=reset" formnovalidate data-confirm="{{ LNG.cms_reset_confirm|e('html_attr') }}">{{ icon('refresh-cw') }}{{ LNG.cms_reset }}</button>
+      {% endif %}
+    </div>
+  </form>
+  {% endif %}
+
+  {% for page in pages %}
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('file-text') }}{{ page.label }}</h2>
+      <div class="card__actions"><a class="button btn--small" href="{{ page.url }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.cms_view }}</a></div>
+    </header>
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>{{ LNG.cms_language }}</th><th>{{ LNG.cms_status }}</th><th>{{ LNG.cms_last_edit }}</th><th class="actions"></th></tr>
+          </thead>
+          <tbody>
+            {% for row in page.rows %}
+            <tr>
+              <td>{{ row.name|e }} <span class="muted">({{ row.lang }})</span></td>
+              <td>{% if row.edited %}<span class="badge badge--success">{{ LNG.cms_status_edited }}</span>{% else %}<span class="badge badge--muted">{{ LNG.cms_status_default }}</span>{% endif %}</td>
+              <td class="nowrap">{% if row.edited %}{{ row.date }} &middot; {{ row.by|e }}{% else %}&ndash;{% endif %}</td>
+              <td class="actions nowrap"><a class="button btn--small" href="?page=pages&amp;slug={{ page.slug }}&amp;lang={{ row.lang }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

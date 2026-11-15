@@ -1,0 +1,2 @@
+INSERT INTO `%PREFIX%cronjobs` (`cronjobID`, `name`, `isActive`, `min`, `hours`, `dom`, `month`, `dow`, `class`, `nextTime`, `lock`) VALUES
+(NULL, 'disposable_email_domains', 1, '0', '3', '*', '*', '*', 'DisposableEmailDomainsCronjob', 0, NULL);

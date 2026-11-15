@@ -1,0 +1,82 @@
+Active_players: Active Players
+Back: Back
+mail:
+  subject:
+    mail_changed: '%s account email address has been changed'
+Other_universes: Other Universes
+Play: Play
+Playername: Player name
+Register: Register
+Settings: Settings
+Sitting_end: Sitting end
+Sitting_request: Request Sitting (not programmed)
+uni_status_regclosed_gameclosed: Closed
+uni_status_regclosed_gameopen: Open to play
+uni_status_regopen_gameclosed: Open to register
+uni_status_regopen_gameopen: Open
+Universe_end: End
+Universe_start: Start
+Universe_status: 'Universes status: '
+Universes: Universes
+Your_universes: Your Universes
+
+board_create: New post
+board_edit_post: Edit post
+board_sort: Sort
+board_sort_hot: Hot
+board_sort_new: New
+board_sort_top: Top
+board_period_all: All time
+board_period_week: This week
+board_csort_best: Best
+board_flair: Flair
+board_flair_all: All
+board_flair_general: General
+board_flair_guide: Guide
+board_flair_question: Question
+board_flair_suggestion: Suggestion
+board_flair_bug: Bug
+board_flair_offtopic: Off-topic
+board_upvote: Upvote
+board_downvote: Downvote
+board_pinned: Pinned
+board_locked: Locked
+board_by: by
+board_comments: Comments
+board_empty: No posts yet. Be the first to write one.
+board_no_comments: No comments yet.
+board_title: Title
+board_body: Text
+board_publish: Publish
+board_save: Save
+board_cancel: Cancel
+board_edit: Edit
+board_edited: edited
+board_delete: Delete
+board_deleted: "[deleted]"
+board_deleted_user: "[deleted]"
+board_confirm_delete: Really delete this?
+board_reply: Reply
+board_collapse: Collapse thread
+board_add_comment: Write a comment
+board_comment_send: Comment
+board_mod_pin: Pin
+board_mod_unpin: Unpin
+board_mod_lock: Lock
+board_mod_unlock: Unlock
+board_not_found: This post or comment does not exist.
+board_not_allowed: You are not allowed to do that.
+board_err_csrf: The request could not be verified. Please reload the page and try again.
+board_err_title: Please enter a title.
+board_err_title_long: The title may have at most 200 characters.
+board_err_body: Please enter a text (it may not be empty or too long).
+board_err_locked: This post is locked, no new comments.
+board_err_rate_post: "Please wait %d more second(s) before the next post."
+board_err_rate_comment: "Please wait %d more second(s) before the next comment."
+board_ago_now: just now
+board_ago_min: "%d min ago"
+board_ago_hours: "%d h ago"
+board_ago_days: "%d d ago"
+board_guest_hint: Log in to post, comment and vote.
+board_guest_login: Log in
+board_guest_register: Register

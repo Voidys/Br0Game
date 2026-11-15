@@ -1,0 +1,129 @@
+tutorial_buttons_claim: Beute einsacken
+tutorial_buttons_continue: Weiter gehts
+tutorial_buttons_finalize: Lehre beenden
+tutorial_buttons_skip: Lass dat!
+tutorial_buttons_skipAll: Lehre schwänzen
+tutorial_buttons_skipAll_confirm: >-
+  Soll das restliche Lehere wirklich geschwänzt werden? Du kannst es nicht
+  wieder teilnehmen!
+tutorial_goal:
+  mission:
+    '1': Greife einen anderen Spieler an
+    '6': Sende eine Spionagesonde zu einem anderen Spieler.
+    '7': Besiedele einen weiteren Planeten
+    '8': Recycle ein Trümmerfeld
+    '15': Sende eine Expoflotte
+  step6:
+    '1': Benenne deinen Planeten um
+    '2': Stelle eine Buddyanfrage an einen anderen Spieler
+    '3': Stelle eine Allianzanfrage
+tutorial_goals_header: 'Aufgaben:'
+tutorial_goals_ignore: (sch**ß druff)
+tutorial_rewards_header: 'Beute:'
+tutorial_text:
+  step0: "Willkommen bei {game_name}!<br><br>\r\nMit diesem Tutorial werden dir die Grundlagen des Spiels gezeigt.<br>\r\nOft wird auf unser Wiki für Zusatzinformationen verwiesen, da nicht alle Aspekte des Spiels im Tutorial erklärt werden können. \r\nAuf das Wiki kannst du jederzeit über das Menü auf der linken Seite zugreifen.<br>\r\nDu kannst das Tutorial jederzeit überspringen, aber es lässt sich dann nicht wieder starten.<br><br>\r\nViel Erfolg, Imperator!"
+  step1: "In diesem Spiel geht es darum, möglichst viele Punkte zu bekommen. Einen Punkt bekommt man für je 1.000 ausgegebenen Ressourcen.\r\nAn diese Ressourcen kommt man auf unterschiedlichste Weise heran. Die Wichtigste ist dabei die eigene Produktion der Minen.<br>\r\nStelle also zunächst deine Basisversorgung sicher. Hierzu benötigst du Metall und Kristall aus den entsprechenden Minen. Damit diese funktionieren, benötigst du außerdem Energie aus dem Solarkraftwerk.\r\nSollte nicht genug Energie vorhanden sein, so wird keine 100 %ige Produktion erreicht.<br>\r\nDiese Gebäude kannst du über das Menü <b>Gebäude</b> ausbauen. Mit einem Klick auf den Gebäudenamen wird angezeigt, was der Mehrwert des Ausbaus an Ressourcen ist. \r\nHier siehst du auch, wieviel Energie die nächste Stufe bei Fertigstellung verbraucht.<br><br>\r\nFür weitere Infos kannst du es dir im <b>Wiki</b> noch einmal ansehen: \r\n<a href=\"https://wiki.pr0game.com/wiki/Rohstoffe\" target=\"_blank\">Rohstoffproduktion</a>"
+  step2: "Es macht deutlich mehr Spaß, wenn man mit seinem Mitspielern interagiert.\r\nDie Meisten organisieren sich über unseren Discord. \r\nIn der Community erhältst du nicht nur Antworten auf deine Fragen, sondern kannst auch andere Spieler für das gemeinsame Spielen finden.<br>\r\nBei Unklarheiten kannst du hier auch Tickets aufmachen."
+  step3: >-
+    Eine weitere Möglichkeit an Ressourcen zu kommen ist das Überfallen der
+    Planeten deiner Mitspieler.<br>
+
+    Das kann dir allerdings auch selbst passieren - also bau dir deine erste
+    Verteidigung!<br>
+
+    Es ist wichtig eine Verteidigung zu besitzen, um zumindest deine
+    Nachtproduktion zu schützen.<br>
+
+    Hier ist aber nicht zwangsweise die Masse ausschlaggebend, sondern es zählt
+    auch die Zusammensetzung der angreifenden Flotte.<br>
+
+    Vor dem Plünden muss der Angreifer erst deine Verteidigung überwinden. Jedes
+    Schiff was der Angreifer mit senden muss, verringert seinen Gewinn und
+    erhöht eventuell seinen Verlust durch kaputte Schiffe.<br>
+
+    Verteidigungsanlagen werden im <b>Verteidigung</b>-Menü mit einer
+    Schiffswerft gebaut. Diese wiederum bedingt eine Roboterfabrik und Deuterium
+    für den Bau.<br><br>
+
+    Hier noch der passende Artikel im Wiki: 
+
+    <a href="https://wiki.pr0game.com/wiki/Verteidigung"
+    target="_blank">Verteidigungsanlagen</a>
+  step4: "Stell deine Versorgung sicher, indem du deine Minen ausbaust!<br>\r\nDer Bau deiner Gebäude, Schiffe und deiner Verteidigung, sowie das Forschen werden mit der Zeit teurer.\r\nDu solltest also weiter deine Produktion ausbauen, um dem Ressourcenbedarf deines Planeten auszugleichen.\r\nKlicke also jetzt auf Gebäude und bau deine Gebäude entsprechend aus, wenn du genug Ressourcen dafür hast."
+  step5: "Bau dir einen kleinen Transporter!<br>\r\nKleine Transporter sind im späteren Spiel eine schnelle Transportmöglichkeit.<br>\r\nSollten diese mit Impulstriebwerk fliegen, sind diese über einen langen Zeitraum schneller als der große Transporter.<br>\r\nSie werden eingesetzt, um Rohstoffe zwischen deinen Planeten zu transportieren, mit anderen Spielern zu Handeln, oder sie zu überfallen.<br><br>\r\nWeitere Infos findest du im Wiki: \r\n<a href=\"https://wiki.pr0game.com/wiki/Schiffe\" target=\"_blank\">Schiffe</a>"
+  step6: "Für eine bessere Übersicht können Planeten umbenannt werden. Klicke hierzu auf den Planetennamen in der Übersicht in der Kopfzeile der Punkteanzeige. Probier das jetzt mal aus.<br><br>\r\nDu kannst außerdem Buddyanfragen an andere Spieler stellen. Wenn diese deine Anfrage annehmen, könnt ihr einfacher kommunizieren und seht gegenseitig euren Onlinestatus. \r\nHierzu muss man nicht in der gleichen Allianz sein. \r\nEin weiterer Vorteil ist das Halten von Flotten beim Buddy, was ein gemeinsames Verteidigen außerhalb einer Allianz ermöglicht.<br><br>\r\nAußerdem kannst du einer Allianz beitreten um mit weiteren Spieler zusammen zu spielen. \r\nHierbei benötigt ihr zum Halten von Flotten keine separate Buddyanfrage mehr. \r\nInnerhalb der Allianz könnt ihr Rundmails versenden, sowie euren Onlinestatus und Punktestand sehen - in Abhängigkeit vom Allianzrang. \r\nIhr seht ebenfalls den Onlinestatus und Punktestand der anderen Allianzmitglieder."
+  step7: "Um zu sehen, welche Ressourcen, Gebäuden, Forschungen, Schiffen und Verteidigung andere Spieler haben, musst du sie ausspionieren. \r\nSende hierzu entweder über das Flottenmenü oder über die Galaxie eine Spionagesonde zu einem anderen Spieler.<br>\r\nAndere Spieler können dich jedoch genauso ausspionieren!"
+  step8: >-
+    Eine Expedition kann Ressourcen, Schiffe, Ereignisse oder Verluste mit sich
+    bringen. Um dies auszuprobieren, schnapp dir ein Schiff und starte eine
+    Expedition, indem du im Flottenmenü auf die Planetenkoordinate 16 und die
+    Mission „Expedition” klickst.<br>
+
+    Jeder Schiffstyp fügt der Expeditionsflotte Punkte hinzu, bis die maximale
+    Ereignisgröße erreicht ist.<br><br>
+
+    Für weitere Informationen kannst du im Wiki nachlesen was du in welcher Form
+    verändern kannst, um eventuell deinen Gewinn zu maximieren: 
+
+    <a href="https://wiki.pr0game.com/wiki/Expoanleitung"
+    target="_blank">Expeditionen</a>
+  step9: "Um eine schnelle Produktion zu haben, solltest du weitere Planeten besiedeln. \r\nSo hast du die Möglichkeit gleichzeitig auf zwei oder mehr Planeten zu produzieren oder Schiffe zu bauen.\r\nBeachte hierbei, dass du nur mit einer entsprechend hohen Stufe Astrophysik am inneren oder äußeren Rand eines Systems siedeln kannst.\r\nZudem kann das Kolonieschiff zwar ohne Astrophysik gebaut werden, aber die erste Kolonie erfordert Astrophysik!<br><br>\r\nPlaneten in einem System oder direkt in Nachbarsystemen zu besiedeln hält zwar Transportwege kurz, macht dich später im Spiel aber auch anfällig für Spieler, \r\ndie eine Kolonie nicht für die Minen, sondern als kurzzeitigen Flottenstützpunkt - Raidkolo genannt - bei dir ins System setzten.<br><br>\r\nFür weitere Information kannst du im Wiki nachsehen: \r\n<a href=\"https://wiki.pr0game.com/wiki/Astrophysik\" target=\"_blank\">Astrophysik</a>"
+  step10: "Um schneller an Ressourcen zu kommen, kannst du auch andere Spieler angreifen. \r\nAchte hierbei auf den Kosten-Nutzen Faktor, um gewinnbringend einen Angriff zu starten. \r\nBenutze dazu Spionageberichte den Kampfsimulator.<br><br>\r\nAchtung! Viele Flottenmissionen sind auf verschiedene Weisen von anderen Spielern nachverfolgbar.<br>\r\nSeine hart erarbeitete Flotte nicht zu verlieren ist einer der wichtigsten Aspekte des Spiels.<br><br>\r\nLieß dir also unbedingt diese Themen im Wiki durch: \r\n<a href=\"https://wiki.pr0game.com/wiki/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Saven</a> - \r\n<a href=\"https://wiki.pr0game.com/wiki/Sensorenphalanx\" target=\"_blank\">Sensorphalanx</a>"
+  step10_u6: >-
+    Um schneller an Ressourcen zu kommen, kannst du auch andere Spieler
+    angreifen. 
+
+    Achte hierbei auf den Kosten-Nutzen Faktor, um gewinnbringend einen Angriff
+    zu starten. 
+
+    Benutze dazu Spionageberichte den Kampfsimulator.<br><br>
+
+    Achtung! Viele Flottenmissionen sind auf verschiedene Weisen von anderen
+    Spielern nachverfolgbar.<br>
+
+    Seine hart erarbeitete Flotte nicht zu verlieren ist einer der wichtigsten
+    Aspekte des Spiels.<br><br>
+
+    Ließ dir also unbedingt diese Themen im Wiki durch: 
+
+    <a
+    href="https://wiki.pr0game.com/wiki/Slippys_progame_flottensicherung_leitfaden"
+    target="_blank">Saven</a>
+  step11: "Bei der Zerstörung von Flotten ensteht ein Trümmerfeld, welches abgebaut werden kann. \r\nHierfür benötigst du einen Recycler, der bis zu 20k Ressourcen vom Trümmerfeld abbauen kann. \r\nEine große Flotte zu zerstören kann eine lukrative Ressourcenquelle sein.<br><br>\r\nStatt über das Flottenmenü können Recycler auch direkt über das Glaxiemenü per Klick auf ein Trümmerfeld in passender Anzahl gesendet werden."
+  step12: "Herzlichen Glückwunsch, du hast das Tutorial beendet.<br><br>\r\nEs gibt noch viele weitere Mechaniken, die deses Spiel zu bieten hat.<br>\r\nZum Beispiel gibt es im Wesentlichen 3 Spielstile, die sich auch im zeitlichem Aufwand unterscheiden:<br>\r\n<ul>\r\n<li>Miner: Minen auf vielen Kolonien ausbauen, setzt hauptsächlich Transporter</li>\r\n<li>Fleeter: Hoher Punkteanteil in Kampfschiffen, kaum Eigenproduktion, lebt vom Überfallen anderer Spieler</li>\r\n<li>Comber: Eine Kombination von beidem</li>\r\n</ul>\r\nSpäter im Spiel werden Monde wichtig, von denen du bereits die Sensorphalanx kennengelernt haben solltest.<br><br>\r\nWenn du weitere Fragen hast, kannst du dich im Wiki belesen oder die Community im Discord um Hilfe bitten."
+  step12_u6: >-
+    Herzlichen Glückwunsch, du hast das Tutorial beendet.<br><br>
+
+    Es gibt noch viele weitere Mechaniken, die deses Spiel zu bieten hat.<br>
+
+    Zum Beispiel gibt es im Wesentlichen 3 Spielstile, die sich auch im
+    zeitlichem Aufwand unterscheiden:<br>
+
+    <ul>
+
+    <li>Miner: Minen auf vielen Kolonien ausbauen, setzt hauptsächlich
+    Transporter</li>
+
+    <li>Fleeter: Hoher Punkteanteil in Kampfschiffen, kaum Eigenproduktion, lebt
+    vom Überfallen anderer Spieler</li>
+
+    <li>Comber: Eine Kombination von beidem</li>
+
+    </ul>
+
+    Wenn du weitere Fragen hast, kannst du dich im Wiki belesen oder die
+    Community im Discord um Hilfe bitten.
+tutorial_title:
+  step0: Was isn das fürn Game?
+  step1: Geh mal was verdienen!
+  step2: Komm mal unter Leute!
+  step3: Stell dich nicht nackt auf eine Lichtung!
+  step4: Du musst schon weiter denken!
+  step5: Schiffe, wir brauchen Schiffe!
+  step6: Dem Kind einen Namen geben und Freunde suchen!
+  step7: Guck mal was die Anderen so haben!
+  step8: Der Start in das Unbekannte!
+  step9: Du kannst nicht auf Dauer nur einen Planeten haben!
+  step10: Willst du echt auf die Ressourcen durch eigene Produktion warten?
+  step11: Spiel doch mal Müllmann!
+  step12: Du hast es geschafft

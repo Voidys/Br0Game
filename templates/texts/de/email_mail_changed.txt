@@ -1,0 +1,11 @@
+Hallo {USERNAME},
+
+gerade wurde deine Account-Mail-Adresse geändert.
+Die Änderung wird in einigen Tagen permanent übernommen.
+
+Wenn du das nicht selbst gemacht hast, erstelle bitte ein Ticket auf unserem Discord:
+{DISCORD}
+
+Mit freundlichen Grüßen
+
+Dein {GAMENAME} Team

@@ -1,0 +1,644 @@
+<?php
+
+namespace App\Game\BattleEngine;
+
+use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\AdvancedStats\AdvancedStatsHandler;
+use App\Game\Core\Config;
+use App\Game\Core\Singleton;
+use App\Game\Missions\MissionFunctions;
+use App\Game\Core\FleetFunctions;
+
+
+class BattleEngineSteemNova extends AbstractBattleEngine
+{
+
+    private $dsAvailable = false;
+    private int $minScale = 1;
+    public function __construct(\App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
+    {
+        parent::__construct($db, $configs, $state);
+        $this->dsAvailable = extension_loaded('ds');
+    }
+    public function getName(): string
+    {
+        return 'steemnova';
+    }
+
+    public function isAvailable(bool $sim = false): bool
+    {
+        return true;
+    }
+
+    /**
+     * A battle is never cancelled because one side is very large (a defender could otherwise make a planet
+     * unattackable by stacking cheap units). Order of preference: the engines that need no per-ship arrays
+     * (Rust, see BattleHandler) -> this engine with memory_limit raised for the fight -> this engine on
+     * proportionally scaled fleets (see fightScaled). Only if even that keeps running out of memory is false
+     * returned, after the scale was quadrupled several times (down to a few thousand ships).
+     */
+    public function calculateAttack(&$attackers, &$defenders, $universe, $sim = false, int $simTries = 1): array|false
+    {
+        $originalAttackers = $attackers;
+        $originalDefenders = $defenders;
+        $this->minScale = 1;
+        try {
+            for ($try = 0; $try < 6; $try++) {
+                $result = $this->fightScaled($attackers, $defenders, $universe, $sim, $simTries);
+                if ($result !== false) {
+                    return $result;
+                }
+                $attackers = $originalAttackers;
+                $defenders = $originalDefenders;
+                $this->minScale *= 4;
+            }
+        } finally {
+            $this->restoreMemoryLimit();
+        }
+
+        return false;
+    }
+
+    /**
+     * Fights with at most shipBudget() simulated ships. Bigger fleets are divided by a common factor (every
+     * unit type keeps at least one ship), fought, and the remaining share of each unit type is applied to the
+     * real amounts. Fights are statistical (random targets) and invariant when both sides shrink by the same
+     * factor, so the outcome matches the full fight closely; losses, wrecks and debris are computed from the
+     * real amounts. Round data of the report is scaled back as well.
+     */
+    private function fightScaled(&$attackers, &$defenders, $universe, $sim, int $simTries): array|false
+    {
+        $executionTime = microtime(true);
+
+        $pricelist =& $this->state->pricelist;
+        $CombatCaps =& $this->state->CombatCaps;
+        $resource =& $this->state->resource;
+        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
+        $config = $this->configs->get($universe);
+
+        $unitsLost = ['attacker' => [], 'defender' => []];
+        $capacityLost = ['attacker' => [], 'defender' => []];
+
+        $TRES = ['attacker' => 0, 'defender' => 0];
+        $ARES = $DRES = ['metal' => 0, 'crystal' => 0];
+        $ROUND = [];
+
+        // $STARTDEF - snapshot of defense amount. Needed for 70% restore
+        $STARTDEF = [];
+
+        // calculate attackers fleet metal+crystal value
+        foreach ($attackers as $fleetID => $attacker) {
+            if (!isset($unitsLost['attacker'][$attacker['player']['id']])) {
+                $unitsLost['attacker'][$attacker['player']['id']] = 0;
+                $capacityLost['attacker'][$attacker['player']['id']] = 0;
+            }
+            foreach ($attacker['unit'] as $element => $amount) {
+                $ARES['metal'] += $pricelist[$element]['cost'][901] * $amount;
+                $ARES['crystal'] += $pricelist[$element]['cost'][902] * $amount;
+
+                $unitsLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['cost'][901] * $amount;
+                $unitsLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['cost'][902] * $amount;
+                $capacityLost['attacker'][$attacker['player']['id']] += $pricelist[$element]['capacity'] * $amount;
+            }
+        }
+        $TRES['attacker'] = $ARES['metal'] + $ARES['crystal'];
+
+        //calculate defenders fleet metal+crystal value
+        foreach ($defenders as $fleetID => $defender) {
+            if (!isset($unitsLost['defender'][$defender['player']['id']])) {
+                $unitsLost['defender'][$defender['player']['id']] = 0;
+                $capacityLost['defender'][$defender['player']['id']] = 0;
+            }
+            foreach ($defender['unit'] as $element => $amount) {
+                if ($element < 300) {
+                    // ships
+                    $DRES['metal'] += $pricelist[$element]['cost'][901] * $amount;
+                    $DRES['crystal'] += $pricelist[$element]['cost'][902] * $amount;
+
+                    $unitsLost['defender'][$defender['player']['id']] += $pricelist[$element]['cost'][901] * $amount;
+                    $unitsLost['defender'][$defender['player']['id']] += $pricelist[$element]['cost'][902] * $amount;
+                    $capacityLost['defender'][$defender['player']['id']] += $pricelist[$element]['capacity'] * $amount;
+                }
+
+                if ($fleetID == 0) {
+                    if (!isset($STARTDEF[$element])) {
+                        $STARTDEF[$element] = 0;
+                    }
+                    $STARTDEF[$element] += $amount;
+                }
+
+                $TRES['defender'] += $pricelist[$element]['cost'][901] * $amount;
+                $TRES['defender'] += $pricelist[$element]['cost'][902] * $amount;
+            }
+        }
+
+        // scale huge fights down so they fit into memory and time (see calculateAttack)
+        $totalShips = 0;
+        foreach ([$attackers, $defenders] as $side) {
+            foreach ($side as $fleet) {
+                $totalShips += array_sum($fleet['unit']);
+            }
+        }
+        $budget = $this->shipBudget((int) $totalShips);
+        $scale = max($this->minScale, $totalShips > $budget ? (int) ceil($totalShips / $budget) : 1);
+        $realUnits = ['attackers' => [], 'defenders' => []];
+        if ($scale > 1) {
+            foreach (['attackers', 'defenders'] as $sideName) {
+                foreach ($$sideName as $fleetID => $fleet) {
+                    foreach ($fleet['unit'] as $element => $amount) {
+                        $realUnits[$sideName][$fleetID][$element] = $amount;
+                        if ($amount > 0) {
+                            ${$sideName}[$fleetID]['unit'][$element] = max(1, (int) round($amount / $scale));
+                        }
+                    }
+                }
+            }
+        }
+        $scaledUnits = $scale > 1 ? ['attackers' => $attackers, 'defenders' => $defenders] : [];
+
+        //will also be filled during simulation to have a comparable ram usage. If sim crashes, the real fight will not work.
+        $advancedStats = [];
+
+        for ($ROUNDC = 0; $ROUNDC <= MAX_ATTACK_ROUNDS; $ROUNDC++) {
+            if (!$this->checkMemoryUsage()) {
+                return false; // Memory limit exceeded, return false to indicate failure
+            }
+            $att = $this->initCombatValues($attackers, $ROUNDC == 0);
+            $def = $this->initCombatValues($defenders, $ROUNDC == 0);
+
+            $ROUND[$ROUNDC] = [
+                'attackers' => $this->withoutUnits($attackers),
+                'defenders' => $this->withoutUnits($defenders),
+                'infoA' => $att['attArray'],
+                'infoD' => $def['attArray'],
+            ];
+
+            if ($att['attackAmount']['total'] > 0 && $def['attackAmount']['total'] > 0 && $ROUNDC < MAX_ATTACK_ROUNDS) {
+                // FIGHT
+                $fightResults = $this->fight($attackers, $defenders, $sim, $advancedStats);
+                if (!$fightResults) {
+                    return false; // Memory limit exceeded, return false to indicate failure
+                }
+
+                $this->destroy($attackers);
+                $this->destroy($defenders);
+
+                $this->restoreShields($attackers);
+                $this->restoreShields($defenders);
+
+                $ROUND[$ROUNDC]['attack'] = $fightResults['attack'];
+                $ROUND[$ROUNDC]['defense'] = $fightResults['defense'];
+                $ROUND[$ROUNDC]['attackShield'] = $fightResults['attackShield'];
+                $ROUND[$ROUNDC]['defShield'] = $fightResults['defShield'];
+            } else {
+                break;
+            }
+        }
+
+        if ($scale > 1) {
+            $this->scaleBack($attackers, $defenders, $ROUND, $advancedStats, $realUnits, $scaledUnits, $scale);
+        }
+
+        if (!$sim) {
+            foreach ($advancedStats as $attacker => $victims) {
+                foreach ($victims as $victim => $ships) {
+                    foreach ($ships as $element => $amount) {
+                        if ($attacker == 0) { // PlayerID for AI is 0
+                            // Expo
+                            $statsHandler->updateExpoLostAdvancedStats($victim, [$element => $amount]);
+                        } else {
+                            // Attack
+                            $statsHandler->updateDestroyedAdvancedStats($attacker, $victim, $element, $amount);
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($att['attackAmount']['total'] <= 0 && $def['attackAmount']['total'] > 0) {
+            $won = DEFENDER;
+        } elseif ($att['attackAmount']['total'] > 0 && $def['attackAmount']['total'] <= 0) {
+            $won = ATTACKER;
+        } else {
+            $won = DRAW;
+        }
+
+        // CDR
+        foreach ($attackers as $fleetID => $attacker) {                    // flotte attaquant en CDR
+            foreach ($attacker['unit'] as $element => $amount) {
+                $TRES['attacker'] -= $pricelist[$element]['cost'][901] * $amount;
+                $TRES['attacker'] -= $pricelist[$element]['cost'][902] * $amount;
+
+                $ARES['metal'] -= $pricelist[$element]['cost'][901] * $amount;
+                $ARES['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+
+                $unitsLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
+                $unitsLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
+                $capacityLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+            }
+        }
+
+        $DRESDefs = ['metal' => 0, 'crystal' => 0];
+
+        // restore defense (70% +/- 20%)
+        $repairedDef = [];
+        // wreckfield ships
+        $wreckfield = [];
+        // wreckfield requirements
+        $defendingPlayer = [
+            'lost' => 0,
+        ];
+        foreach ($defenders as $fleetID => $defender) {
+            foreach ($defender['unit'] as $element => $amount) {
+                if ($element < 300) {                           // flotte defenseur en CDR
+                    $DRES['metal'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $DRES['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+
+                    $TRES['defender'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $TRES['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+
+                    $unitsLost['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
+                    $unitsLost['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
+                    $capacityLost['defender'][$defender['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+
+                    if ($fleetID == 0 && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) && $STARTDEF[$element] > $amount) {
+                        $lost = $STARTDEF[$element] - $amount;
+
+                        $wreckfield[$element] = floor($lost * (1-($config->fleet_debris_percentage / 100)));
+                        $defendingPlayer['lost'] += $pricelist[$element]['cost'][901] * $lost;
+                        $defendingPlayer['lost'] += $pricelist[$element]['cost'][902] * $lost;
+                    }
+                } else {                                    // defs defenseur en CDR + reconstruction
+                    $TRES['defender'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $TRES['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+
+                    $lost = $STARTDEF[$element] - $amount;
+                    $giveback = 0;
+                    if ($lost > 10) {
+                        $giveback = ceil($lost*(rand(60, 80)/100));
+                    } else {
+                        for ($i = 0; $i < $lost; $i++) {
+                            if (rand(1, 100) <= 70) {
+                                $giveback += 1;
+                            }
+                        }
+                    }
+                    $defenders[$fleetID]['unit'][$element] += $giveback;
+                    if ($lost > 0) {
+                        $repairedDef[$element]['units'] = $giveback;
+                        $repairedDef[$element]['percent'] = $giveback / $lost * 100;
+                        if (!$sim) {
+                            $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::getRepaired($element), $giveback);
+                        }
+                    }
+                    $DRESDefs['metal'] += $pricelist[$element]['cost'][901] * ($lost - $giveback);
+                    $DRESDefs['crystal'] += $pricelist[$element]['cost'][902] * ($lost - $giveback);
+                }
+            }
+        }
+
+        $ARES['metal'] = max($ARES['metal'], 0);
+        $ARES['crystal'] = max($ARES['crystal'], 0);
+        $DRES['metal'] = max($DRES['metal'], 0);
+        $DRES['crystal'] = max($DRES['crystal'], 0);
+        $TRES['attacker'] = max($TRES['attacker'], 0);
+        $TRES['defender'] = max($TRES['defender'], 0);
+
+        $totalLost = ['attacker' => $TRES['attacker'], 'defender' => $TRES['defender']];
+        $debAttMet = ($ARES['metal'] * ($config->fleet_debris_percentage / 100));
+        $debAttCry = ($ARES['crystal'] * ($config->fleet_debris_percentage / 100));
+        $debDefMet = ($DRES['metal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['metal'] * ($config->def_debris_percentage / 100));
+        $debDefCry = ($DRES['crystal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['crystal'] * ($config->def_debris_percentage / 100));
+
+        if (!$sim && $defenders[0]['player']['id'] != 0) {
+            $statsDone = [];
+            foreach ($attackers as $fleetID => $attacker) {
+                if (isset($statsDone[$attacker['player']['id']])) {
+                    continue; // once per user, not per fleet
+                }
+                $statsDone[$attacker['player']['id']] = true;
+                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBMETAL, $debAttMet + $debDefMet);
+                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debAttCry + $debDefCry);
+                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['defender']);
+                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['attacker'][$attacker['player']['id']] ?? 0));
+            }
+            $statsDone = [];
+            foreach ($defenders as $fleetID => $defender) {
+                if (isset($statsDone[$defender['player']['id']])) {
+                    continue; // once per user, not per fleet
+                }
+                $statsDone[$defender['player']['id']] = true;
+                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBMETAL, $debAttMet + $debDefMet);
+                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debAttCry + $debDefCry);
+                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['attacker']);
+                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['defender'][$defender['player']['id']] ?? 0));
+            }
+        }
+
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
+            $defenders[0]['player']['id'] === 0 ||
+            !isset($defenders[0]['currentTotalFleetState']['totalUnits']) ||
+            $defenders[0]['currentTotalFleetState']['totalUnits'] <= 0 ||
+            (!empty($defenders[0]['player']['wreckfield_cooldown_until']) && $defenders[0]['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
+            $defendingPlayer['lost'] < $config->wreckfield_min_units ||
+            $defendingPlayer['lost']/$defenders[0]['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
+            $wreckfield = [];
+        }
+
+        return [
+            'won' => $won,
+            'debris' => [
+                'attacker' => [
+                    901 => $debAttMet,
+                    902 => $debAttCry,
+                ],
+                'defender' => [
+                    901 => $debDefMet,
+                    902 => $debDefCry,
+                ]
+            ],
+            'rw' => $ROUND,
+            'unitLost' => $totalLost,
+            'repaired' => $repairedDef,
+            'wreckfield' => $wreckfield,
+            'duration' => microtime(true) - $executionTime,
+            'unitLostPerSideAndUser' => $unitsLost,
+            'transportCapacityLostPerSideAndUser' => $capacityLost,
+        ];
+    }
+
+    /** Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds). */
+    private function withoutUnits(array $fleets): array
+    {
+        foreach ($fleets as $fleetID => $fleet) {
+            unset($fleets[$fleetID]['units']);
+        }
+
+        return $fleets;
+    }
+
+    /** Converts the result of a fight on scaled fleets back to the real amounts. */
+    private function scaleBack(&$attackers, &$defenders, &$ROUND, &$advancedStats, array $realUnits, array $scaledUnits, int $scale)
+    {
+        $factor = static function ($real, $scaled) {
+            return $scaled > 0 ? $real / $scaled : 1;
+        };
+        $sides = ['attackers' => 'infoA', 'defenders' => 'infoD'];
+
+        foreach ($sides as $sideName => $infoKey) {
+            foreach ($realUnits[$sideName] as $fleetID => $elements) {
+                foreach ($elements as $element => $real) {
+                    $start = $scaledUnits[$sideName][$fleetID]['unit'][$element];
+                    $f = $factor($real, $start);
+                    foreach ($ROUND as $r => $round) {
+                        $left = $round[$sideName][$fleetID]['unit'][$element] ?? 0;
+                        $ROUND[$r][$sideName][$fleetID]['unit'][$element] = $left <= 0 ? 0 : ($left >= $start ? $real : max(1, (int) round($left * $f)));
+                        if (isset($round[$infoKey][$fleetID][$element])) {
+                            foreach (['def', 'shield', 'att'] as $key) {
+                                $ROUND[$r][$infoKey][$fleetID][$element][$key] *= $f;
+                            }
+                        }
+                    }
+                    $left = $sideName === 'attackers' ? ($attackers[$fleetID]['unit'][$element] ?? 0) : ($defenders[$fleetID]['unit'][$element] ?? 0);
+                    $new = $left <= 0 ? 0 : ($left >= $start ? $real : max(1, (int) round($left * $f)));
+                    if ($sideName === 'attackers') {
+                        $attackers[$fleetID]['unit'][$element] = $new;
+                    } else {
+                        $defenders[$fleetID]['unit'][$element] = $new;
+                    }
+                }
+            }
+        }
+
+        foreach ($ROUND as $r => $round) {
+            foreach (['attack', 'defense', 'attackShield', 'defShield'] as $key) {
+                if (isset($round[$key])) {
+                    $ROUND[$r][$key] *= $scale;
+                }
+            }
+        }
+        foreach ($advancedStats as $attacker => $victims) {
+            foreach ($victims as $victim => $ships) {
+                foreach ($ships as $element => $amount) {
+                    $advancedStats[$attacker][$victim][$element] = $amount * $scale;
+                }
+            }
+        }
+    }
+
+    private function fight(&$attackers, &$defenders, $sim, &$advancedStats)
+    {
+
+        $attack = ['attack' => 0, 'shield' => 0];
+        $defense = ['attack' => 0, 'shield' => 0];
+
+        if ($this->dsAvailable) {
+            $attack = new \Ds\Map(['attack' => 0, 'shield' => 0]);
+            $defense = new \Ds\Map(['attack' => 0, 'shield' => 0]);
+        }
+
+        // attackers shoot
+        foreach ($attackers as $fleetID => $attacker) {
+            foreach ($attacker['units'] as $element => $unit) {
+                $this->shoot($attacker['player']['id'], $unit, $defenders, $attack, $sim, $advancedStats);
+            }
+            if (!$this->checkMemoryUsage()) {
+                return false; // Memory limit exceeded, return false to indicate failure
+            }
+        }
+        // defenders shoot
+        foreach ($defenders as $fleetID => $defender) {
+            foreach ($defender['units'] as $element => $unit) {
+                $this->shoot($defender['player']['id'], $unit, $attackers, $defense, $sim, $advancedStats);
+            }
+            if (!$this->checkMemoryUsage()) {
+                return false; // Memory limit exceeded, return false to indicate failure
+            }
+        }
+
+        if ($this->dsAvailable) {
+            return new \Ds\Map([
+                'attack' => $attack['attack'],
+                'defense' => $defense['attack'],
+                'attackShield' => $defense['shield'],
+                'defShield' => $attack['shield'],
+            ]);
+        }
+
+        return [
+            'attack' => $attack['attack'],
+            'defense' => $defense['attack'],
+            'attackShield' => $defense['shield'],
+            'defShield' => $attack['shield']
+        ];
+    }
+
+    private function destroy(&$attackers)
+    {
+        foreach ($attackers as $fleetID => &$attacker) {
+            // foreach ($attacker['units'] as $element => $unit)
+            for ($i = 0; $i < count($attacker['units']); $i++) {
+                $unit = $attacker['units'][$i];
+                if ($unit['armor'] <= 0 || $unit['explode']) {
+                    // destroy unit
+                    $attacker['unit'][$unit['unit']] -= 1;
+                    if ($this->dsAvailable) {
+                        $attacker['units']->remove($i);
+                    } else {
+                        unset($attacker['units'][$i]);
+                        $attacker['units'] = array_values($attacker['units']);
+                    }
+                    $i--;
+                }
+            }
+        }
+    }
+
+    private function shoot($attacker, $unit, &$defenders, &$ad, $sim, &$advancedStats)
+    {
+        // SHOOT
+        $CombatCaps =& $this->state->CombatCaps;
+        $pricelist =& $this->state->pricelist;
+        $count = 0;
+        foreach ($defenders as $fID => &$defender) {
+            $count += count($defender['units']);
+        }
+        $ran = rand(0, $count - 1);
+        $count = 0;
+        $victim = 0;
+        $victimShip = [];
+        $initialArmor = 0;
+        foreach ($defenders as $fID => &$defender) {
+            $count += count($defender['units']);
+            if ($ran < $count) {
+                $victim = $defender['player']['id'];
+                $victimShipId = rand(0, count($defender['units']) - 1);
+                $victimShip = &$defender['units'][$victimShipId];
+                $armorTech = (1 + (0.1 * $defender['player']['defence_tech']));
+                $initialArmor = ($pricelist[$victimShip['unit']]['cost'][901]
+                        + $pricelist[$victimShip['unit']]['cost'][902]) / 10 * $armorTech;
+                break;
+            }
+        }
+        $ad['attack'] += $unit['att'];
+        if ($unit['att'] * 100 > $victimShip['shield']) {
+            $penetration = $unit['att'] - $victimShip['shield'];
+            if ($penetration >= 0) {
+                //+penetration
+                $ad['shield'] += $victimShip['shield'];
+                $victimShip['shield'] = 0;
+                $victimShip['armor'] -= $penetration; // shoot at armor
+            } else {
+                //-penetration
+                $ad['shield'] += $unit['att'];
+                $victimShip['shield'] -= $unit['att']; // shoot at shield
+            }
+
+            //check destruction
+            if (floor($victimShip['unit'] / 100) == 2 && !$victimShip['explode']) {
+                if ($victimShip['armor'] > 0 && $victimShip['armor'] < 0.7 * $initialArmor) {
+                    $ran = rand(0, (int) $initialArmor);
+                    if ($ran > $victimShip['armor']) {
+                        $victimShip['explode'] = true;
+                        if (!isset($advancedStats[$attacker][$victim][$victimShip['unit']])) {
+                            $advancedStats[$attacker][$victim][$victimShip['unit']] = 0;
+                        }
+                        $advancedStats[$attacker][$victim][$victimShip['unit']] += 1;
+                    }
+                }
+            }
+            if ($victimShip['armor'] <= 0 && !$victimShip['explode']) {
+                $victimShip['explode'] = true;
+                if (!isset($advancedStats[$attacker][$victim][$victimShip['unit']])) {
+                    $advancedStats[$attacker][$victim][$victimShip['unit']] = 0;
+                }
+                $advancedStats[$attacker][$victim][$victimShip['unit']] += 1;
+            }
+        }
+        // else bounced hit (Weaponry of the shooting unit is less than 1% of the Shielding of the target unit)
+
+        // Rapid fire
+        if (isset($CombatCaps[$unit['unit']]['sd'])) {
+            foreach ($CombatCaps[$unit['unit']]['sd'] as $sdId => $count) {
+                if ($victimShip['unit'] == $sdId) {
+                    $ran = rand(1, $count);
+                    if ($ran < $count) {
+                        $this->shoot($attacker, $unit, $defenders, $ad, $sim, $advancedStats);
+                    }
+                }
+            }
+        }
+    }
+
+    protected function initCombatValues(&$fleets, $firstInit = false): array
+    {
+        // INIT COMBAT VALUES
+        $CombatCaps =& $this->state->CombatCaps;
+        $pricelist =& $this->state->pricelist;
+        $attackAmount = ['total' => 0];
+        $attArray = [];
+        foreach ($fleets as $fleetID => $attacker) {
+            $attackAmount[$fleetID] = 0;
+
+            // init techs
+            $attTech = (1 + (0.1 * $attacker['player']['military_tech']));
+            $shieldTech = (1 + (0.1 * $attacker['player']['shield_tech']));
+            $armorTech = (1 + (0.1 * $attacker['player']['defence_tech']));
+
+            if ($firstInit) {
+                $fleets[$fleetID]['techs'] = [$attTech, $shieldTech, $armorTech];
+                $fleets[$fleetID]['units'] = []; // array();
+                if ($this->dsAvailable) {
+                    $fleets[$fleetID]['units'] = new \Ds\Vector();
+                }
+            }
+
+            $iter = 0;
+            // init single ships
+            foreach ($attacker['unit'] as $element => $amount) {
+                // dont randomize +/-20% of attack power. The random factor is high enough
+
+                $thisAtt = ($CombatCaps[$element]['attack']) * $attTech; // * (rand(80, 120) / 100);
+                $thisShield = ($CombatCaps[$element]['shield']) * $shieldTech;
+                $thisArmor = ($pricelist[$element]['cost'][901] + $pricelist[$element]['cost'][902]) / 10 * $armorTech;
+
+                $attArray[$fleetID][$element]['def'] = 0;
+                $attArray[$fleetID][$element]['shield'] = 0;
+                $attArray[$fleetID][$element]['att'] = 0;
+                for ($ship = 0; $ship < $amount; $ship++, $iter++) {
+                    if ($firstInit) {
+                        // create new array for EACH ship
+                        $fleets[$fleetID]['units'][] = [
+                            'unit' => $element,
+                            'shield' => $thisShield,
+                            'armor' => $thisArmor,
+                            'att' => $thisAtt,
+                            'explode' => false
+                        ];
+                    }
+                    $attArray[$fleetID][$element]['def'] += $fleets[$fleetID]['units'][$iter]['armor'];
+                    $attArray[$fleetID][$element]['shield'] += $thisShield;
+                    $attArray[$fleetID][$element]['att'] += $thisAtt;
+                }
+
+                $attackAmount[$fleetID] += $amount;
+                $attackAmount['total'] += $amount;
+            }
+        }
+
+        return ['attackAmount' => $attackAmount, 'attArray' => $attArray];
+    }
+
+    private function restoreShields(&$fleets)
+    {
+        $CombatCaps =& $this->state->CombatCaps;
+        foreach ($fleets as $fleetID => $attacker) {
+            $shieldTech = (1 + (0.1 * $attacker['player']['shield_tech']));
+            foreach ($attacker['units'] as $element => $unit) {
+                $fleets[$fleetID]['units'][$element]['shield'] = ($CombatCaps[$unit['unit']]['shield']) * $shieldTech;
+            }
+        }
+    }
+
+
+}

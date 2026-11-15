@@ -1,0 +1,16 @@
+﻿Bonjour {USERNAME},
+
+le moment est venu - le {UNINAME} a ouvert ses portes sur {OPENTIME} !
+Nous sommes ravis que vous soyez ici et nous vous souhaitons beaucoup de plaisir et d'expériences passionnantes.
+
+Vous trouverez le jeu sur {HTTPPATH}.
+Vous pouvez également visiter notre Discord :
+{DISCORD}
+
+Si vous avez oublié votre mot de passe, cliquez simplement sur « Mot de passe oublié » sur la page.
+Peu après, vous recevrez un e-mail contenant un nouveau mot de passe.
+
+Si vous continuez à avoir des problèmes de connexion ou d'enregistrement, veuillez nous contacter dans le Discord.
+
+Avec nos meilleures salutations,
+L'équipe de {GAMENAME}

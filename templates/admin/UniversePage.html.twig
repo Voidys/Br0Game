@@ -1,0 +1,65 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('server') }}{{ LNG.mu_universe }}</h2>
+      <div class="card__actions">
+        <a class="button btn--primary" href="?page=universe&amp;action=create&amp;sid={{ SID }}&amp;reload=t">{{ icon('plus') }}{{ LNG.uvs_new }}</a>
+      </div>
+    </header>
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th class="num">{{ LNG.uvs_id }}</th>
+            <th>{{ LNG.uvs_name }}</th>
+            <th class="num" title="{{ LNG.uvs_speeds_full }}">{{ LNG.uvs_speeds }}</th>
+            <th class="num">{{ LNG.uvs_players }}</th>
+            <th class="num">{{ LNG.uvs_planets }}</th>
+            <th class="num">{{ LNG.uvs_inactive }}</th>
+            <th>{{ LNG.uvs_open }}</th>
+            <th class="actions">{{ LNG.uvs_actions }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for uniID, uniRow in (uniList)|php_iter %}
+            <tr>
+              <td class="num">{{ uniID }}</td>
+              <td><strong>{{ uniRow.uni_name }}</strong></td>
+              <td class="num nowrap" title="{{ LNG.uvs_speeds_full }}">
+                {{ pretty_number(uniRow.building_speed / 2500) }} /
+                {{ pretty_number(uniRow.shipyard_speed / 2500) }} /
+                {{ pretty_number(uniRow.research_speed / 2500) }} /
+                {{ pretty_number(uniRow.fleet_speed / 2500) }} /
+                {{ pretty_number(uniRow.resource_multiplier / 2500) }} /
+                {{ pretty_number(uniRow.expo_hold_multiplier) }} /
+                {{ pretty_number(uniRow.energy_multiplier) }}
+              </td>
+              <td class="num">{{ pretty_number(uniRow.users_amount) }}</td>
+              <td class="num">{{ pretty_number(uniRow.planet) }}</td>
+              <td class="num">{{ pretty_number(uniRow.inactive) }}</td>
+              <td>
+                {% if uniRow.uni_status == 0 %}
+                  <span class="badge badge--ok">{{ LNG.uvs_on }}</span>
+                {% else %}
+                  <span class="badge badge--danger">{{ LNG.uvs_off }}</span>
+                {% endif %}
+              </td>
+              <td class="actions">
+                {% if uniRow.uni_status == 0 %}
+                  <a class="button btn--small" href="?page=universe&amp;action=closed&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" title="{{ LNG.adm_uni_close }}">{{ icon('lock') }}<span class="visually-hidden">{{ LNG.adm_uni_close }}</span></a>
+                {% else %}
+                  <a class="button btn--small" href="?page=universe&amp;action=open&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" title="{{ LNG.adm_uni_open }}">{{ icon('check') }}<span class="visually-hidden">{{ LNG.adm_uni_open }}</span></a>
+                {% endif %}
+                {% if uniID != php_const('ROOT_UNI') %}
+                  <a class="button btn--small btn--danger" href="?page=universe&amp;action=delete&amp;uniID={{ uniID }}&amp;sid={{ SID }}&amp;reload=t" data-confirm="{{ LNG.uvs_delete|e('html_attr') }}: {{ uniRow.uni_name|e('html_attr') }}" title="{{ LNG.uvs_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.uvs_delete }}</span></a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

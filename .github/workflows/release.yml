@@ -1,0 +1,49 @@
+name: Release
+
+# Builds the installable ZIP when a version tag (v1.26.0, ...) is pushed and
+# attaches it, with its SHA-256 checksum, to a GitHub release.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: intl, mbstring, gd, curl, ctype, json, pdo_mysql, zip
+          tools: composer:v2
+
+      - name: Build release ZIP
+        run: tools/release/build.sh "${GITHUB_REF_NAME#v}"
+
+      - name: Verify checksum
+        working-directory: dist
+        run: sha256sum -c ./*.zip.sha256
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/br0game-*.zip
+            dist/br0game-*.zip.sha256
+          generate_release_notes: true
+          body: |
+            ## Installing
+
+            Download `br0game-<version>.zip` below, check it against the `.sha256` file and follow
+            [docs/INSTALL.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/INSTALL.md).
+            Upgrading from an older version: replace the files except `config/` and `.env.local`,
+            then open the site (database migrations run automatically).
+
+            Only use ZIP files from this releases page.

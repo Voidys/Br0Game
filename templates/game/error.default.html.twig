@@ -1,0 +1,12 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.fcm_info }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th>{{ LNG.fcm_info }}</th>
+	</tr>
+	<tr>
+		<td><p>{{ message }}</p>{% if not empty(redirectButtons) %}<p>{% for button in (redirectButtons)|php_iter %}<a href="{{ button.url }}"><button>{{ button.label }}</button></a>{% endfor %}</p>{% endif %}</td>
+	</tr>
+</table>
+{% endblock %}

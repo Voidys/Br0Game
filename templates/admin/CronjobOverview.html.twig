@@ -1,0 +1,72 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <span class="muted small">{{ LNG.adm_cron_hint }}</span>
+      <div class="card__actions">
+        <a class="button btn--primary" href="admin?page=cronjob&amp;action=detail">{{ icon('plus') }}{{ LNG.cronjob_new }}</a>
+      </div>
+    </header>
+    <div class="table-wrap">
+      <table class="data data--compact">
+        <thead>
+          <tr>
+            <th>{{ LNG.cronjob_name }}</th>
+            <th>{{ LNG.cronjob_lastTime }} / {{ LNG.cronjob_nextTime }}</th>
+            <th>{{ LNG.adm_cron_state }}</th>
+            <th class="actions"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for CronjobInfo in (CronjobArray)|php_iter %}
+          {% if CronjobInfo.month == '*' %}
+            {% set monthText = '*' %}
+          {% else %}
+            {% set monthParts = [] %}
+            {% for month in (CronjobInfo.month)|php_iter %}{% set monthParts = monthParts|merge([LNG.months[month-1]]) %}{% endfor %}
+            {% set monthText = monthParts|join(',') %}
+          {% endif %}
+          {% if CronjobInfo.dow == '*' %}
+            {% set dowText = '*' %}
+          {% else %}
+            {% set dowParts = [] %}
+            {% for d in (CronjobInfo.dow)|php_iter %}{% set dowParts = dowParts|merge([LNG.week_day[d]]) %}{% endfor %}
+            {% set dowText = dowParts|join(',') %}
+          {% endif %}
+          <tr>
+            <td>
+              <strong>{{ LNG["cronName_#{CronjobInfo.name}"] }}</strong>
+              <div class="small muted mono">#{{ CronjobInfo.id }} · {{ CronjobInfo.class }}</div>
+              <div class="small mono" title="{{ LNG.cronjob_min }} / {{ LNG.cronjob_hours }} / {{ LNG.cronjob_dom }} / {{ LNG.cronjob_month }} / {{ LNG.cronjob_dow }}">{{ CronjobInfo.min }} · {{ CronjobInfo.hours }} · {{ CronjobInfo.dom }} · {{ monthText }} · {{ dowText }}</div>
+            </td>
+            <td class="nowrap small">
+              <div>{% if CronjobInfo.lastExecution != 0 %}{{ php_date(LNG.php_tdformat, CronjobInfo.lastExecution) }}{% else %}-{% endif %}</div>
+              <div class="muted">{% if CronjobInfo.isActive %}{{ php_date(LNG.php_tdformat, CronjobInfo.nextTime) }}{% else %}-{% endif %}</div>
+            </td>
+            <td class="nowrap">
+              {% if CronjobInfo.isActive %}
+                <a href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=0" class="badge badge--ok" title="{{ LNG.adm_cron_click_disable }}">{{ icon('check') }}{{ LNG.adm_cron_active }}</a>
+              {% else %}
+                <a href="admin?page=cronjob&amp;action=enable&amp;id={{ CronjobInfo.id }}&amp;enable=1" class="badge badge--muted" title="{{ LNG.adm_cron_click_enable }}">{{ LNG.adm_cron_inactive }}</a>
+              {% endif %}
+              {% if CronjobInfo.lock %}
+                <a href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=unlock" class="badge badge--danger" title="{{ LNG.adm_cron_click_unlock }}">{{ icon('lock') }}{{ LNG.adm_cron_locked }}</a>
+              {% else %}
+                <a href="admin?page=cronjob&amp;id={{ CronjobInfo.id }}&amp;action=lock" class="badge badge--muted" title="{{ LNG.adm_cron_click_lock }}">{{ LNG.adm_cron_free }}</a>
+              {% endif %}
+            </td>
+            <td class="actions">
+              {% if CronjobInfo.isActive %}
+                <a class="button btn--small" href="admin?page=cronjob&amp;action=run&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_run }}">{{ icon('refresh-cw') }}<span class="visually-hidden">{{ LNG.cronjob_run }}</span></a>
+              {% endif %}
+              <a class="button btn--small" href="admin?page=cronjob&amp;action=detail&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.cronjob_edit }}</span></a>
+              <a class="button btn--small btn--danger" href="admin?page=cronjob&amp;action=delete&amp;id={{ CronjobInfo.id }}" data-confirm="" title="{{ LNG.cronjob_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.cronjob_delete }}</span></a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

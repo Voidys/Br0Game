@@ -1,0 +1,31 @@
+{% set count = productionTable.usedResource %}
+
+<table>
+	<tbody>
+				<tr>
+					<th class="act">{{ LNG.in_level }}</th>
+				{% if count > 1 %}
+					{% for resourceID in (productionTable.usedResource)|php_iter %}
+					<th colspan="2" class="num">{{ LNG.tech[resourceID] }}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+				{% endif %}
+					{% for resourceID in (productionTable.usedResource)|php_iter %}
+					<th class="num">{{ LNG.in_storage }}</th>
+					<th class="num">{{ LNG.in_difference }}</th>
+					{% endfor %}
+				</tr>
+				{% for elementLevel, productionData in (productionTable.storage)|php_iter %}
+				<tr>
+					<td class="act"><span{% if CurrentLevel == elementLevel %} class="colorNegative"{% endif %}>{{ elementLevel }}</span></td>
+					{% for resourceID, storage in (productionData)|php_iter %}
+					{% set storageDiff = storage - productionTable.storage[CurrentLevel[resourceID]] %}
+					<td class="num"><span class="{% if storage > 0 %}colorPositive{% elseif storage < 0 %}colorNegative{% else %}white{% endif %}">{{ pretty_number(storage) }}</span></td>
+					<td class="num"><span class="{% if storageDiff > 0 %}colorPositive{% elseif storageDiff < 0 %}colorNegative{% else %}white{% endif %}">{{ pretty_number(storageDiff) }}</span></td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+	</tbody>
+</table>

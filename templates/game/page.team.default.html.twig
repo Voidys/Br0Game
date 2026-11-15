@@ -1,0 +1,29 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.team }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="table-scroll">
+<table class="team">
+	<thead>
+	<tr><th colspan="4">{{ LNG.team }}</th></tr>
+	<tr>
+		<th>{{ LNG.teamMemberName }}</th>
+		<th>{{ LNG.teamRole }}</th>
+		<th>{{ LNG.teamMemberContact }}</th>
+		<th>{{ LNG.teamMemberAbout }}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for member in members %}
+	<tr>
+		<td><strong>{{ member.name }}</strong></td>
+		<td>{{ member.position }}</td>
+		<td>{{ member.contact }}</td>
+		<td>{{ member.description|nl2br }}</td>
+	</tr>
+	{% else %}
+	<tr><td colspan="4">{{ LNG.teamEmpty }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endblock %}

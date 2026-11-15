@@ -1,0 +1,73 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.siteTitleRegister }}{{ parent() }}{% endblock %}
+{% block content %}
+<div id="registerFormWrapper">
+  <form class="form" id="registerForm" method="post" action="./?page=register" data-action="./?page=register">
+    <input type="hidden" value="send" name="mode">
+    <input type="hidden" value="{{ referralData.id }}" name="referralID">
+
+    <div class="field">
+      <label for="email">{{ LNG.registerEmail }}</label>
+      <input type="email" class="input" name="email" id="email" maxlength="64" autocomplete="email" required>
+      <small class="field__help">{{ LNG.registerEmailDesc }}</small>
+    </div>
+    <div class="field">
+      <label for="emailReplay">{{ LNG.registerEmailReplay }}</label>
+      <input type="email" class="input" name="emailReplay" id="emailReplay" maxlength="64" autocomplete="email" required>
+      <small class="field__help">{{ LNG.registerEmailReplayDesc }}</small>
+    </div>
+    <div class="field">
+      <label for="username">{{ LNG.registerUsername }}</label>
+      <input type="text" class="input" name="username" id="username" maxlength="32" autocomplete="username" required>
+      <small class="field__help">{{ LNG.registerUsernameDesc }}</small>
+    </div>
+    <div class="field">
+      <label for="password">{{ LNG.registerPassword }}</label>
+      <input type="password" class="input" name="password" id="password" autocomplete="new-password" required>
+      <small class="field__help">{{ LNG.registerPasswordDesc|format(6) }}</small>
+    </div>
+    <div class="field">
+      <label for="passwordReplay">{{ LNG.registerPasswordReplay }}</label>
+      <input type="password" class="input" name="passwordReplay" id="passwordReplay" autocomplete="new-password" required>
+      <small class="field__help">{{ LNG.registerPasswordReplayDesc }}</small>
+    </div>
+    {% if count(languages) > 1 %}
+      <div class="field">
+        <label for="language">{{ LNG.registerLanguage }}</label>
+        <select name="lang" id="language">{{ html_options({'options': languages, 'selected': lang}) }}</select>
+      </div>
+    {% endif %}
+    {% if not empty(referralData.name) %}
+      <div class="field">
+        <span class="field__label">{{ LNG.registerReferral }}</span>
+        <span class="field__value">{{ referralData.name }}</span>
+      </div>
+    {% endif %}
+    {% if count(timezones) > 1 %}
+      <div class="field">
+        <label for="timezone">{{ LNG.registerTimezone }}</label>
+        <select name="time" id="timezone">{{ html_options({'options': timezones}) }}</select>
+      </div>
+    {% endif %}
+
+    <div class="field field--check">
+      <input type="checkbox" name="rules" id="rules" value="1">
+      <label for="rules">{{ LNG.registerRules }}<small class="field__help">{% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}{{ LNG.registerRulesDesc|format(rulesLink) }}</small></label>
+    </div>
+    <div class="field field--check">
+      <input type="checkbox" name="privacy" id="privacy" value="1">
+      <label for="privacy">{{ LNG.siteTitleDataPrivacy }}<small class="field__help">{% set privacyLink %}<a href="{{ privacyUrl }}">{{ LNG.siteTitleDataPrivacy }}</a>{% endset %}{{ LNG.registerDataPrivacyDesc|format(privacyLink) }}</small></label>
+    </div>
+
+    <div class="form__actions">
+      <button type="submit" class="btn--primary btn-hero">{{ icon('user-plus') }}{{ LNG.buttonRegister }}</button>
+    </div>
+  </form>
+</div>
+<script>
+  (function () {
+    var select = document.getElementById('timezone');
+    if (select) select.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  })();
+</script>
+{% endblock %}

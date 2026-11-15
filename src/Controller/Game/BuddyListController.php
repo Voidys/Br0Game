@@ -1,0 +1,288 @@
+<?php
+
+/**
+ *  2Moons
+ *   by Jan-Otto Kröpke 2009-2016
+ *
+ * For the full copyright and license information, please view the LICENSE
+ *
+ * @package 2Moons
+ * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @copyright 2009 Lucky
+ * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+ * @licence MIT
+ * @version 1.8.0
+ * @link https://github.com/jkroepke/2Moons
+ */
+
+namespace App\Controller\Game;
+
+use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\Database;
+use App\Game\Core\HTTP;
+use App\Game\Core\Language;
+use App\Game\Core\PlayerUtil;
+use App\Game\Core\Singleton;
+use App\Game\Core\Universe;
+
+/**
+ * Buddy list: friends, friend requests (send, accept, reject, delete).
+ */
+#[\App\Routing\GamePage('game.php', 'buddyList')]
+#[\App\Routing\GamePage('game.php', 'buddyList', uniPrefix: true)]
+class BuddyListController extends AbstractGameController
+{
+    public static $requireModule = 'MODULE_BUDDYLIST';
+
+    public function initialize(): void
+    {
+        parent::initialize();
+    }
+
+    public function request(): Response
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $this->setWindow('popup');
+
+        $id	= $this->http()->_GP('id', 0);
+
+        if ($id == $USER['id']) {
+            $this->printMessage($LNG['bu_cannot_request_yourself']);
+        }
+
+        $db = $this->db;
+
+        $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE (sender = :userID AND owner = :friendID) OR (owner = :userID AND sender = :friendID);";
+        $exists = $db->selectSingle($sql, [
+            ':userID'	=> $USER['id'],
+            ':friendID'  => $id,
+        ], 'count');
+
+        if ($exists != 0) {
+            $this->printMessage($LNG['bu_request_exists']);
+        }
+
+        $sql = "SELECT username, galaxy, system, planet FROM %%USERS%% WHERE id = :friendID AND universe = :universe;";
+        $userData = $db->selectSingle($sql, [
+            ':friendID'  => $id,
+            ':universe'  => $this->universe()->current(),
+        ]);
+
+        if (empty($userData)) {
+            $this->printMessage($LNG['bu_player_not_exist']);
+        }
+
+        $this->assign([
+            'username'	=> $userData['username'],
+            'galaxy'	=> $userData['galaxy'],
+            'system'	=> $userData['system'],
+            'planet'	=> $userData['planet'],
+            'id'		=> $id,
+        ]);
+
+        return $this->render('game/page.buddyList.request.html.twig');
+    }
+
+    public function send()
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $this->setWindow('popup');
+        $this->addInlineScript('window.setTimeout(function () { window.Dialog.close(); }, 2000);');
+
+        $id		= $this->http()->_GP('id', 0);
+        $text	= $this->http()->_GP('text', '', UTF8_SUPPORT);
+
+        if ($id == $USER['id']) {
+            $this->printMessage($LNG['bu_cannot_request_yourself']);
+        }
+        $blocked    = $this->playerUtil()->get_block_status($USER['id'], $id);
+        $blockedInverted = $this->playerUtil()->get_block_status($id, $USER['id']);
+        if ($blocked['block_dm'] == 1 || $blockedInverted['block_dm'] == 1) {
+            $this->printMessage($LNG['mg_blocked']);
+        }
+        $db = $this->db;
+
+        $sql = "SELECT COUNT(*) as count FROM %%USERS%% WHERE id = :friendID AND universe = :universe;";
+        $targetExists = $db->selectSingle($sql, [
+            ':friendID'  => $id,
+            ':universe'  => $this->universe()->current(),
+        ], 'count');
+
+        if (!$targetExists) {
+            $this->printMessage($LNG['bu_player_not_exist']);
+        }
+
+        $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE (sender = :userID AND owner = :friendID) OR (owner = :userID AND sender = :friendID);";
+        $exists = $db->selectSingle($sql, [
+            ':userID'	=> $USER['id'],
+            ':friendID'  => $id,
+        ], 'count');
+
+        if ($exists != 0) {
+            $this->printMessage($LNG['bu_request_exists']);
+        }
+
+        $sql = "INSERT INTO %%BUDDY%% SET sender = :userID,	owner = :friendID, universe = :universe;";
+        $db->insert($sql, [
+            ':userID'	=> $USER['id'],
+            ':friendID'  => $id,
+            ':universe' => $this->universe()->current(),
+        ]);
+
+        // $sql = "SELECT `id` FROM %%BUDDY%% WHERE `sender` = :userID AND `owner` = :friendID AND `universe` = :universe;";
+        // $buddyID = $db->selectSingle($sql, [
+        //     ':userID'	=> $USER['id'],
+        //     ':friendID'  => $id,
+        //     ':universe' => Universe::current(),
+        // ], 'id');
+
+        $buddyID = $db->lastInsertId();
+
+        $sql = "INSERT INTO %%BUDDY_REQUEST%% SET id = :buddyID, text = :text;";
+        $db->insert($sql, [
+            ':buddyID'  => $buddyID,
+            ':text' => $text,
+        ]);
+
+        $sql = "SELECT u.username, us.lang  FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id WHERE u.id = :friendID;";
+        $row = $db->selectSingle($sql, [
+            ':friendID'  => $id,
+        ]);
+
+        $Friend_LNG = $LNG;
+
+        if ($USER['lang'] != $row['lang']) {
+            $Friend_LNG = new Language($this->configs, $row['lang']);
+            $Friend_LNG->includeData(['INGAME']);
+        }
+
+        $this->playerUtil()->sendMessage($id, $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_new_request_title'], sprintf($Friend_LNG['bu_new_request_body'], $row['username'], $USER['username']), $this->state->runtime->timestamp);
+
+        $this->printMessage($LNG['bu_request_send']);
+    }
+
+    public function delete()
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $id	= $this->http()->_GP('id', 0);
+        $db = $this->db;
+
+        $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE id = :id AND (sender = :userID OR owner = :userID);";
+        $isAllowed = $db->selectSingle($sql, [
+            ':id'  => $id,
+            ':userID' => $USER['id'],
+        ], 'count');
+
+        if ($isAllowed) {
+            $sql = "SELECT COUNT(*) as count FROM %%BUDDY_REQUEST%% WHERE id = :id;";
+            $isRequest = $db->selectSingle($sql, [
+                ':id'  => $id,
+            ], 'count');
+
+            if ($isRequest) {
+                $sql = "SELECT u.username, u.id, us.lang FROM %%BUDDY%% b INNER JOIN %%USERS%% u ON u.id = IF(b.sender = :userID,b.owner,b.sender) INNER JOIN  %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE b.id = :id;";
+                $requestData = $db->selectSingle($sql, [
+                    ':id'       => $id,
+                    'userID'    => $USER['id'],
+                ]);
+
+                $Enemy_LNG = $LNG;
+
+                if ($USER['lang'] != $requestData['lang']) {
+                    $Enemy_LNG = new Language($this->configs, $requestData['lang']);
+                    $Enemy_LNG->includeData(['INGAME']);
+                }
+
+                $this->playerUtil()->sendMessage($requestData['id'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Enemy_LNG['bu_rejected_request_title'], sprintf($Enemy_LNG['bu_rejected_request_body'], $requestData['username'], $USER['username']), $this->state->runtime->timestamp);
+            }
+
+            $sql = "DELETE b.*, r.* FROM %%BUDDY%% b LEFT JOIN %%BUDDY_REQUEST%% r USING (id) WHERE b.id = :id;";
+            $db->delete($sql, [
+                ':id'       => $id,
+            ]);
+        }
+        $this->redirectTo("game?page=buddyList");
+    }
+
+    public function accept()
+    {
+        $USER = & $this->state->USER;
+        $LNG = & $this->state->LNG;
+        $id	= $this->http()->_GP('id', 0);
+        $db = $this->db;
+
+        // Only the recipient of a still pending request may accept it
+        $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% b INNER JOIN %%BUDDY_REQUEST%% r ON r.id = b.id"
+            . " WHERE b.id = :id AND b.owner = :userID;";
+        $isAllowed = $db->selectSingle($sql, [
+            ':id'       => $id,
+            ':userID'   => $USER['id'],
+        ], 'count');
+
+        if (!$isAllowed) {
+            $this->redirectTo("game?page=buddyList");
+        }
+
+        $sql = "DELETE FROM %%BUDDY_REQUEST%% WHERE id = :id;";
+        $db->delete($sql, [
+            ':id'       => $id,
+        ]);
+
+        $sql = "SELECT sender, u.username, us.lang FROM %%BUDDY%% b INNER JOIN %%USERS%% u ON sender = u.id INNER JOIN  %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE b.id = :id;";
+        $sender = $db->selectSingle($sql, [
+            ':id'       => $id,
+        ]);
+
+        $Friend_LNG = $LNG;
+
+        if ($USER['lang'] != $sender['lang']) {
+            $Friend_LNG = new Language($this->configs, $sender['lang']);
+            $Friend_LNG->includeData(['INGAME']);
+        }
+
+        $this->playerUtil()->sendMessage($sender['sender'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_accepted_request_title'], sprintf($Friend_LNG['bu_accepted_request_body'], $sender['username'], $USER['username']), $this->state->runtime->timestamp);
+
+        $this->redirectTo("game?page=buddyList");
+    }
+
+    public function show(): Response
+    {
+        $USER = & $this->state->USER;
+
+        $db = $this->db;
+        $sql = "SELECT a.sender, a.id as buddyid, b.id, b.username, b.onlinetime, b.galaxy, b.system, b.planet, b.ally_id, c.ally_name, d.text
+		FROM (%%BUDDY%% as a, %%USERS%% as b) LEFT JOIN %%ALLIANCE%% as c ON c.id = b.ally_id LEFT JOIN %%BUDDY_REQUEST%% as d ON a.id = d.id
+		WHERE (a.sender = :userID AND a.owner = b.id) OR (a.owner = :userID AND a.sender = b.id);";
+        $BuddyListResult = $db->select($sql, [
+            'userID'    => $USER['id'],
+        ]);
+
+        $myRequestList		= [];
+        $otherRequestList	= [];
+        $myBuddyList		= [];
+
+        foreach ($BuddyListResult as $BuddyList) {
+            if (isset($BuddyList['text'])) {
+                if ($BuddyList['sender'] == $USER['id']) {
+                    $myRequestList[$BuddyList['buddyid']]		= $BuddyList;
+                } else {
+                    $otherRequestList[$BuddyList['buddyid']]	= $BuddyList;
+                }
+            } else {
+                $BuddyList['onlinetime']			= floor(($this->state->runtime->timestamp - $BuddyList['onlinetime']) / 60);
+                $myBuddyList[$BuddyList['buddyid']]	= $BuddyList;
+            }
+        }
+
+        $this->assign([
+            'myBuddyList'		=> $myBuddyList,
+            'myRequestList'			=> $myRequestList,
+            'otherRequestList'	=> $otherRequestList,
+        ]);
+
+        return $this->render('game/page.buddyList.default.html.twig');
+    }
+}

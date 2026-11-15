@@ -1,0 +1,28 @@
+#!/bin/bash
+
+enable_installtool () {
+  touch var/ENABLE_INSTALL_TOOL
+  echo "Br0Game installtool enabled."
+}
+
+disable_installtool () {
+  rm var/ENABLE_INSTALL_TOOL
+  echo "Br0Game installtool disabled."
+}
+
+if [ $# -eq 0 ] ; then
+  enable_installtool
+  exit
+fi
+
+case $1 in
+  on|true|enable)
+    enable_installtool
+    ;;
+  off|false|disable)
+    disable_installtool
+    ;;
+  *)
+    echo "The parameter '${1}' is not valid, try on|true|enable or off|false|disable instead."
+    ;;
+esac

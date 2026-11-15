@@ -1,0 +1,20 @@
+Merhaba {USERNAME},
+
+{GAMENAME} kayit oldugunuz icin tesekkur ederiz.
+
+Hesabinizin aktiflestirilmesine son bir adim kaldi;
+Lutfen unutmayin oyuna baslayabilmeniz icin bu adim zorunludur.Asagidaki linke tiklayip mail adresinizi onaylamaniz gerekmektedir.
+
+Kayit isleminizi tamamlamak icin asgidaki aktivasyon linkine tiklayiniz:
+
+{VERTIFYURL}
+
+Bilgileriniz:
+
+E-posta : {EMAIL}
+
+Otomatik kayıt ile ilgili herhangi bir sorunla karşılaşırsanız, lütfen Discord'umuzda bir bilet oluşturun: 
+{DISCORD}
+
+Saygilarla,
+{GAMENAME} Takimi

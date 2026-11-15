@@ -1,0 +1,52 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.Achievements }}{{ parent() }}{% endblock %}
+
+{% block content %}
+{#
+  Achievements: summary with progress, filter (all / unlocked / locked) and a compact grid; a tile opens
+  the description modal (Dialog.ach, inline <template> per achievement).
+#}
+<section class="infos achievements" data-ach-filter="all">
+  <header class="achievements__head">
+    <h1 class="achievements__title">{{ LNG.Achievements }}</h1>
+    <p class="achievements__count">{{ LNG.ach_progress|format(unlockedCount, totalCount) }}</p>
+    <div class="achievements__bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ totalCount }}" aria-valuenow="{{ unlockedCount }}" aria-label="{{ LNG.ach_progress|format(unlockedCount, totalCount) }}">
+      <span style="width: {{ totalCount > 0 ? (unlockedCount * 100 / totalCount)|round(1) : 0 }}%"></span>
+    </div>
+    <div class="achievements__filter" role="group" aria-label="{{ LNG.Achievements }}">
+      {% for key in ['all', 'unlocked', 'locked'] %}
+        <button type="button" class="achievements__chip" data-filter="{{ key }}" aria-pressed="{{ key == 'all' ? 'true' : 'false' }}">{{ attribute(LNG, 'ach_filter_' ~ key) }}</button>
+      {% endfor %}
+    </div>
+  </header>
+
+  <ul class="achievements__grid">
+    {% for achievement in achievements %}
+      {% set image = dpath ~ 'achievements/achievement_' ~ achievement.id ~ '.jpg' %}
+      <li class="ach-tile{% if achievement.unlocked %} is-unlocked{% endif %}" data-state="{{ achievement.unlocked ? 'unlocked' : 'locked' }}">
+        <button type="button" class="ach-tile__button" onclick="return Dialog.ach({{ achievement.id }})">
+          <img class="ach-tile__image" src="{{ image }}" alt="" width="56" height="56" loading="lazy">
+          <span class="ach-tile__name">{{ LNG.Achievement_names[achievement.id] }}</span>
+          <span class="ach-tile__meta">{% if achievement.unlocked %}{{ achievement.date }}{% else %}{{ icon('lock', LNG.ach_locked) }}{% endif %}</span>
+        </button>
+        {% include 'game/shared.achievementInfo.html.twig' with {id: achievement.id, image: image, date: achievement.date, unlocked: achievement.unlocked} only %}
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<script>
+  onPageInit(function () {
+    var root = document.querySelector('[data-ach-filter]');
+    if (!root) return;
+    root.addEventListener('click', function (event) {
+      var chip = event.target.closest('[data-filter]');
+      if (!chip) return;
+      root.dataset.achFilter = chip.dataset.filter;
+      root.querySelectorAll('[data-filter]').forEach(function (other) {
+        other.setAttribute('aria-pressed', String(other === chip));
+      });
+    });
+  });
+</script>
+{% endblock %}

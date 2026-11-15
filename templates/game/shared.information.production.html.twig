@@ -1,0 +1,29 @@
+{% set count = count(productionTable.usedResource) %}
+
+<table>
+	<tbody>
+				<tr>
+					<th class="act">{{ LNG.in_level }}</th>
+					{% for resourceID in (productionTable.usedResource)|php_iter %}
+					<th colspan="2" class="num">{{ LNG.tech[resourceID] }}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					{% for resourceID in (productionTable.usedResource)|php_iter %}
+					<th class="num">{{ LNG.in_prod_p_hour }}</th>
+					<th class="num">{{ LNG.in_difference }}</th>
+					{% endfor %}
+				</tr>
+				{% for elementLevel, productionData in (productionTable.production)|php_iter %}
+				<tr>
+					<td class="act"><span{% if CurrentLevel == elementLevel %} class="colorNegative"{% endif %}>{{ elementLevel }}</span></td>
+					{% for resourceID, production in (productionData)|php_iter %}
+					{% set productionDiff = production - productionTable.production[CurrentLevel[resourceID]] %}
+					<td class="num"><span class="{% if production > 0 %}colorPositive{% elseif production < 0 %}colorNegative{% else %}white{% endif %}">{{ pretty_number(production) }}</span></td>
+					<td class="num"><span class="{% if productionDiff > 0 %}colorPositive{% elseif productionDiff < 0 %}colorNegative{% else %}white{% endif %}">{{ pretty_number(productionDiff) }}</span></td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+	</tbody>
+</table>

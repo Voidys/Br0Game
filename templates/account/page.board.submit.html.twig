@@ -1,0 +1,27 @@
+{% extends layout_template %}
+{% block title %}{{ editing ? LNG.board_edit_post : LNG.board_create }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="board">
+  <h1 class="acc-title">{{ editing ? LNG.board_edit_post : LNG.board_create }}</h1>
+  <form class="panel board-form" action="account?page=board" method="post">
+    <input type="hidden" name="mode" value="{{ editing ? 'savePost' : 'create' }}">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    {% if editing %}<input type="hidden" name="id" value="{{ form.id }}">{% endif %}
+    <label class="board-form__label" for="board-title">{{ LNG.board_title }}</label>
+    <input id="board-title" name="title" type="text" maxlength="200" required value="{{ form.title|e('html_attr') }}">
+    <label class="board-form__label" for="board-flair">{{ LNG.board_flair }}</label>
+    <select id="board-flair" name="flair">
+      <option value="">&ndash;</option>
+      {% for f in flairs %}
+        <option value="{{ f }}"{% if form.flair == f %} selected{% endif %}>{{ attribute(LNG, 'board_flair_' ~ f) }}</option>
+      {% endfor %}
+    </select>
+    <label class="board-form__label" for="board-body">{{ LNG.board_body }}</label>
+    <textarea id="board-body" name="body" data-rte="basic" rows="10">{{ form.body|e }}</textarea>
+    <div class="board-form__actions">
+      <button class="btn btn--primary" type="submit">{{ editing ? LNG.board_save : LNG.board_publish }}</button>
+      <a class="btn" href="{{ editing ? 'account?page=board&mode=post&id=' ~ form.id : 'account?page=board' }}">{{ LNG.board_cancel }}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

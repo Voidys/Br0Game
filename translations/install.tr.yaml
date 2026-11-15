@@ -1,0 +1,152 @@
+back: Geri
+continue: Devam Et
+continueUpgrade: Guncellestir!
+install_desc: >-
+  Kurulum Aracını etkinleştirmek için dosyayı "var/ENABLE_INSTALL_TOOL"<br>
+  Dosya adı büyük/küçük harfe duyarlıdır ve dosya türü sonu yoktur.<br> Dosya
+  boş olabilir. 
+
+  Kurulum tamamlandıktan sonra veya bir saatten eskiyse otomatik olarak
+  silinecektir.
+install_title: Kurulum Aracı kilitli
+intro_install: To installation
+intro_lang: Dil
+intro_text: >-
+  Br0Game en iyi ogame projelerinden birisidir.<br>Br0Game mevcut gelistirilmis
+  en yeni ve guvenilir Xnova versiyonudur. Br0Game gerek kullanim kolayligi,
+  gerek kod esnekligi, dinamizmi, kod kalitesi ve islevleri ile goz almaktadir.
+  Her zaman sizin beklentilerinizden daha iyi olmaya calistik. <br><br>
+  Kurulumdaki direktifler kurulum esnasinda size rehberlik edecektir. Her sorun
+  ve problemde, bize danismak icin kesinlikle tereddut etmeyin!<br><br>The
+  Br0Game bir acik kod uygulamasidir ve GNU GPL v3 lisanslidir. Lisans hakkinda
+  bilgi edinmek icin asagidaki "Lisans" linkine tiklayabilirsiniz.  <br><br>
+  Kurulum islemine baslamadan once sisteminiz Br0Game kurmak icin gerekli
+  ozelliklere sahip olup olmadigi test edilecektir. 
+intro_upgrade_head: Sisteminizde Br0Game mevcut kurulu mu?
+intro_upgrade_text: >-
+  <p>Sisteminizde Br0Game kurulu, kolay bir guncelleme
+  istermisiniz?</p><p>Buraya tiklayarak sisteminizin eski veritabanini bir kac
+  tiklama ile guncelleyebilirsiniz.!</p>
+intro_welcome: Hosgeldin yeni Br0Game Kullanicisi!
+licence_accept: >-
+  Br0Game kurulumuna devam etmek icin, lisans sartlarini kabul etmeniz
+  gerekmektedir. 
+licence_desc: Lutfen asagidaki lisans kosullarini iyice okuyunuz.
+licence_head: Lisans Kosullari
+licence_need_accept: Eger kuruluma devam etmek istiyorsaniz lisans kosullarini kabul etmelisiniz.
+login: Giris
+menu_install: Kurulum
+menu_intro: Tanitim
+menu_license: Lisans
+menu_upgrade: Guncelle
+reg_dir: Klasor &raquo;%s&laquo; Kaydedilebilir mi?
+reg_file: Dosya &raquo;%s&laquo; Kaydedilebilir mi?
+reg_found: Bulundu
+reg_gd_desc: >-
+  <strong>Opsiyonel</strong> — Grapfik isleme kutuphanesi &raquo;gdlib&laquo;
+  sistemdeki dinamik resimlerin olusturma isinden sorumludur. Bu olmadan
+  sistemdeki bazi fonksiyonlar calismayabilir.
+reg_gd_need: Yuklu GD PHP Script var mi? &raquo;gdlib&laquo;
+reg_global_desc: >-
+  Br0Game globaller aktif olsun olsun olmasin calisacaktir. Ama, eger mumkunse
+  guvenlik onlemleri bunu inaktif yapmaniz onerilir.
+reg_global_need: Globallerin kaydi aktif mi?
+reg_iniset_need: PHP fonksiyonu &raquo;ini_set&laquo; uygun mu?
+reg_json_need: ' &raquo;JSON&laquo; uzantisi uygun mu?'
+reg_no: Hayir
+reg_not_found: Bulunamadi
+reg_not_writable: Kaydedilemez
+reg_pdo_active: PDO Aktif
+reg_pdo_desc: >-
+  PHP Veri Nesneleri (PDO) eklentisi, PHP'deki veritabanlarina erismek için
+  hafif ve tutarli bir arayuz tanimlar. PDO arayuzu tanimi bulunan her
+  veritabani surucuusu, veritabanina ozgu ozellikleri siradan eklenti islevleri
+  olarak ifade edebilir.
+reg_writable: Kaydedilebilir
+reg_yes: Evet
+req_desc: >-
+  Kuruluma baslamadan once Br0Game sistemin kurulum icin uygun olup olmadigini
+  test edecek. Sonuclari dikkatlice okumaniz tavsiye edilir ve butun testleri
+  gecmeden bir sonraki adima gecmeyiniz
+req_head: System Gereksinimleri
+req_php_need: Mevcut script dili/versiyonu &raquo;PHP&laquo;
+req_php_need_desc: >-
+  <strong>Gereken:</strong> — PHP Br0Game yazilim dilidir. Bu sebeple, butun
+  fonksiyonlarin tam calisabilmesi icin mevcut PHP versiyonu 5.2.5 yada ustu
+  olmasi gereklidir. 
+sql_close_reason: |-
+  Evren kuruluyor. 
+  Lütfen bekleyin.Oyun su an kapali
+sql_welcome: Br0Game'a hosgeldiniz
+step1_desc: >-
+  Br0Game sisteminize kurululabilir. Simdi, veritabanina baglanmak icin
+  asagidaki bilgileri girmelisiniz. Eger gerekli bilgileri bilmiyorsaniz, domain
+  (alan) saglayiciniz ile irtibata geciniz yada Br0Game forumlarindaki
+  direktifleri okuyunuz.
+step1_head: Kurulum veritabanini konfigure et
+step1_mysql_dbname: Veritabani
+step1_mysql_dbpass: Veritabani-Sifre
+step1_mysql_dbuser: Veritabani-Kullanici adi
+step1_mysql_migrationpass: Veritabanı taşıma şifresi
+step1_mysql_migrationpass_info: >-
+  Yeni bir oyun sürümü için veritabanı değişiklikleri veya yükseltmeleri
+  gerektiğinde geçiş şifresi sorulacaktır.
+step1_mysql_port: Veritabani-Port
+step1_mysql_prefix: 'Veritabani prefix eki: <br /> Degistirmeniz gerekmez'
+step1_mysql_server: Veritabani sinicisi <br /> SQL Server
+step2_conf_create: config.php basariyla olustu!
+step2_conf_op_fail: config.php yazilamadi!
+step2_config_exists: config.php zaten mevcut!
+step2_db_con_fail: 'Veritabanina baglanirken hata olustu. Detaylar : '
+step2_db_done: Basari ile veritabananina baglandi!
+step2_db_no_dbname: Veritabani adi girmediniz.
+step2_db_no_migrationpw: Veritabanı için geçiş şifresini belirtmediniz
+step2_db_too_long: Prefiks eki cok uzun. En fazla 36 hane olabilir.
+step2_prefix_invalid: >-
+  Prefix eki sadece alfanumerik karakterlerden olusur ve son karakter altcizgi (
+  _ ) olmalidir. 
+step3_db_error: 'Veritabani tablolari olusturulamadi:'
+step3_desc: >-
+  Br0Game veritabani icin mevcut tablolar yaratildi ve varsayilan degerler
+  yuklendi. Bir sonraki isleme gecip kurulumu tamamlamak icin;
+step3_head: Veritabani dosyalari olusturuluyor
+step4_admin_mail: 'E-mail adresi:'
+step4_admin_name: 'Admin-kullanici adi:'
+step4_admin_name_desc: 3-20 karakter arasi kullanici adi giriniz.
+step4_admin_pass: 'Admin sifresi:'
+step4_admin_pass_desc: 6-30 karakter arasi sifre giriniz
+step4_desc: >-
+  Kurulum sihirbazi simdi sizin icin admin hesabi yaratacak. Asagiya kullanici
+  adi, sifre ve mail adresinizi yaziniz.
+step4_head: Admin Hesabi
+step6_desc: Br0Game sisteminize basari ile kuruldu
+step6_head: Kurulum basari ile tamamlandi!
+step6_info_additional: >-
+  Asagidaki butona tiklayarak Br0Game admin sayfasina yonlendirileceksiniz.
+  Br0Game admin araclarini buradan inceleyebilirsiniz.<br/><br/><strong>
+  &raquo;var/ENABLE_INSTALL_TOOL&laquo; dosyasini silmeyi unutmayiniz. Eger
+  bu dosya sisteminizde kalirsa baska birisinin oyunu tekrar kurmasina izin
+  vererek kurulumunuzu buyuk riske atarsiniz!</strong>
+step6_info_head: Br0Game kullanilmaya hazir!
+step8_need_fields: Zorunlu alanlari doldurmadiniz. Lutfen geri giderek butnu alanlari doldurunuz!
+title_install: Kurulum
+upgrade_available: >-
+  Veritabaniniz icin gerekli guncellemeler! Veritabaninizin su anki surumu  %s
+  ve surum %s guncellenebilir.<br><br Lutfen asagidaki menuden ilk SQL
+  guncellemesini tiklayiniz:
+upgrade_back: Geri
+upgrade_intro_welcome: Veritabani guncellemeye hosgeldiniz!
+upgrade_message_admin: >-
+  Yöneticiler: Veritabanı yükseltmesini yüklemek için geçiş şifresini yazın ve
+  devam edin.
+upgrade_message_user: >-
+  Oyuncular: Lütfen kısa bir süre bekleyin ve ardından "Oyuna dön" seçeneğine
+  tıklamayı deneyin.
+upgrade_notavailable: Mevcut surum %s zaten son versiyon.
+upgrade_nothingtodo: Herhangi bir eylem gerekmiyor. Veritabani surum  %s icin uygun.
+upgrade_required_rev: >-
+  Guncelleme programi versiyon  r2579 (pr0game v1. 7) yada ust versiyonlari icin
+  uygulanabilir.
+upgrade_return: Oyuna dön
+upgrade_success: Guncelleme basari ile tamamlandi. Veritabaniniz su an surum  %s icin uygun.
+upgrade_title: Veritabanı yükseltmesi gerekli!

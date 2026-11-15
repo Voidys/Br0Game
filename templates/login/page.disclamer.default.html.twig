@@ -1,0 +1,5 @@
+{% extends layout_template %}
+{% block title %}{{ cms_title }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="rich-text" id="disclamerTable">{{ cms_content|raw }}</div>
+{% endblock %}

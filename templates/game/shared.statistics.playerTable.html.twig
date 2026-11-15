@@ -1,0 +1,40 @@
+<tr>
+	<th class="num">{{ LNG.st_position }}</th>
+	<th>{{ LNG.st_player }}</th>
+	<th class="ctr">&nbsp;</th>
+	<th>{{ LNG.st_alliance }}</th>
+	<th class="num">{{ LNG.st_points }}</th>
+</tr>
+{% for RangeInfo in (RangeList)|php_iter %}
+<tr>
+	<td class="num"><a class="tooltip" data-tooltip-content="{% if RangeInfo.ranking == 0 %}<span class='color-star'>*</span>{% elseif RangeInfo.ranking < 0 %}<span class='colorNegative'>-{{ RangeInfo.ranking }}</span>{% elseif RangeInfo.ranking > 0 %}<span class='color-green'>+{{ RangeInfo.ranking }}</span>{% endif %}">{{ RangeInfo.rank }}</a></td>
+	<td>
+		{% if type == 6 and who == 1 %}
+			{% if RangeInfo.honortitle == "top1" %}
+				[<span class="color-gold">{{ LNG.honor_rank_top_1 }}</span>]
+			{% elseif RangeInfo.honortitle == "top10" %}
+				[<span class="honor-top">{{ LNG.honor_rank_top_10 }}</span>]
+			{% elseif RangeInfo.honortitle == "top20" %}
+				[<span class="honor-top">{{ LNG.honor_rank_top_20 }}</span>]
+			{% elseif RangeInfo.honortitle == "top30" %}
+				[<span class="honor-top">{{ LNG.honor_rank_top_30 }}</span>]
+			{% elseif RangeInfo.honortitle == "low30" %}
+				[<span class="honor-low">{{ LNG.honor_rank_low_30 }}</span>]
+			{% elseif RangeInfo.honortitle == "low20" %}
+				[<span class="honor-low">{{ LNG.honor_rank_low_20 }}</span>]
+			{% elseif RangeInfo.honortitle == "low10" %}
+				[<span class="honor-low">{{ LNG.honor_rank_low_10 }}</span>]
+			{% elseif RangeInfo.honortitle == "low1" %}
+				[<span class="honor-bottom">{{ LNG.honor_rank_low_1 }}</span>]
+			{% endif %}
+			
+		{% endif %}
+		<a href="#" onclick="return Dialog.Playercard({{ RangeInfo.id }}, '{{ RangeInfo.name }}');"{% if RangeInfo.id == CUser_id %} class='colorPositive'{% endif %}><span class="{% if RangeInfo.isBuddy %} galaxy-friend{% endif %}">{{ RangeInfo.name }}&nbsp;</span></a>
+		{% if RangeInfo.is_leader %}<a class="tooltip color-yellow" data-tooltip-content="<table width='100%'><tr><th class='text-center' colspan='2'>{{ RangeInfo.ally_owner_range }}</th></tr><tr><td class='transparent'>{{ RangeInfo.allyname }}</td></tr></table>">{{ icon('trophy') }}</a>{% endif %} 
+		{% if RangeInfo.is_diplo %}<a class="tooltip color-orange" data-tooltip-content="<table width='100%'><tr><th class='text-center' colspan='2'>{{ LNG.al_rank_diplo }}</th></tr><tr><td class='transparent'>{{ RangeInfo.allyname }}</td></tr></table>">{{ icon('handshake') }}</a>{% endif %} 
+		{% if RangeInfo.id != CUser_id and not empty(RangeInfo.class) %}{% for class in (RangeInfo.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+	<td class="ctr">{% if RangeInfo.id != CUser_id %}<a href="#" onclick="return Dialog.PM({{ RangeInfo.id }});"><img src="{{ dpath }}img/m.gif" title="{{ LNG.st_write_message }}" alt="{{ LNG.st_write_message }}"></a>{% endif %}</td>
+	<td>{% if RangeInfo.allyid != 0 %}<a href="game?page=alliance&amp;mode=info&amp;id={{ RangeInfo.allyid }}"><span class="{% for class in (RangeInfo.allyClass)|php_iter %}{% if not loop.first %} {% endif %}galaxy-alliance-{{ class }}{% endfor %} galaxy-alliance">{{ RangeInfo.allyname }}</span></a>{% else %}-{% endif %}</td>
+	<td class="num">{{ RangeInfo.points }}</td>
+</tr>
+{% endfor %}

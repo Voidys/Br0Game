@@ -1,0 +1,10 @@
+{# checklist: checks = [{label, ok, detail, required?}] #}
+<ul class="install-checks">
+  {% for check in checks %}
+    <li class="{{ check.ok ? 'is-ok' : (check.required is defined and not check.required ? 'is-warn' : 'is-fail') }}">
+      {{ icon(check.ok ? 'circle-check' : (check.required is defined and not check.required ? 'circle-alert' : 'circle-x')) }}
+      <span class="install-checks__label">{{ check.label }}</span>
+      {% if check.detail %}<span class="install-checks__detail">{{ check.detail|e }}</span>{% endif %}
+    </li>
+  {% endfor %}
+</ul>

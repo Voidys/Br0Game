@@ -1,0 +1,18 @@
+{% if chartData.dataSets %}
+<table>
+	<tr>
+		<td>
+			<div class="alliance-chart chart">
+				<canvas id="allianceChart"></canvas>
+			</div>
+		</td>
+	</tr>
+</table>
+{# chart data for scripts/game/alliance-chart.js #}
+<script type="application/json" id="alliance-chart-data">{{ {
+	times: chartData.timesFormated,
+	timesAgo: chartData.timesAgo,
+	datasets: chartData.dataSets,
+}|json_encode|raw }}</script>
+<script type="module" src="./scripts/game/alliance-chart.js?v={{ asset_version }}"></script>
+{% endif %}

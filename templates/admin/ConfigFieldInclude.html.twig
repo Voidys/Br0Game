@@ -1,0 +1,40 @@
+{# One setting as a labelled row: label, control (+ unit), visible help text. #}
+{% if fieldConfig.type != 'none' %}
+  {% set helpKey = 'se_' ~ fieldName ~ '_info' %}
+  {% set helpText = array_key_exists('tooltip', fieldConfig) ? fieldConfig.tooltip : (LNG.has(helpKey) ? LNG[helpKey] : '') %}
+  <div class="field-row" data-field="{{ fieldName }}">
+    <label for="{{ fieldName }}">{{ LNG[('se_' ~ fieldName)] }}</label>
+    <div class="field-control">
+      {% if fieldConfig.type == 'text' or fieldConfig.type == 'float' %}
+        <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="text"{% if fieldConfig.type == 'float' %} inputmode="decimal"{% endif %}{% if array_key_exists('maxlength', fieldConfig) %} maxlength="{{ fieldConfig.maxlength }}"{% endif %}>
+      {% elseif fieldConfig.type == 'number' %}
+        <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="number"{% if array_key_exists('min', fieldConfig) %} min="{{ fieldConfig.min }}"{% endif %}{% if array_key_exists('max', fieldConfig) %} max="{{ fieldConfig.max }}"{% endif %}>
+      {% elseif fieldConfig.type == 'textarea' %}
+        <textarea id="{{ fieldName }}" name="{{ fieldName }}" rows="{{ fieldConfig.rows|default(5) }}">{{ configValues[fieldName] }}</textarea>
+      {% elseif fieldConfig.type == 'checkbox' %}
+        <input id="{{ fieldName }}" name="{{ fieldName }}" type="checkbox" class="switch"{% if configValues[fieldName] %} checked{% endif %}>
+      {% elseif fieldConfig.type == 'select' %}
+        {{ html_options({'name': fieldName, 'id': fieldName, 'options': fieldConfig.options, 'selected': configValues[fieldName]}) }}
+      {% elseif fieldConfig.type == 'slider' %}
+        <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="range" min="{{ fieldConfig.min }}" max="{{ fieldConfig.max }}">
+        {% if fieldConfig.label is defined %}<span class="muted">{{ fieldConfig.label }}</span>{% endif %}
+        <output id="{{ fieldName }}Value" for="{{ fieldName }}" class="mono"></output>
+      {% endif %}
+      {% if array_key_exists('unit', fieldConfig) %}<span class="muted">{{ fieldConfig.unit }}</span>{% endif %}
+    </div>
+    <div class="field-help">{{ helpText|raw }}</div>
+  </div>
+
+  {% if fieldName == 'planet_distance' %}
+    <div class="field-row">
+      <label for="flight-time-preview-target">{{ LNG.adm_flight_preview }}</label>
+      <div class="field-control">
+        <span class="muted">1:1:1 &rarr;</span>
+        <input id="flight-time-preview-target" type="text" value="2:1:1" size="11" autocomplete="off">
+        <strong id="flight-time-preview-result"></strong>
+        <span id="flight-time-preview-distance" class="muted small"></span>
+      </div>
+      <div class="field-help">{{ LNG.adm_flight_preview_help }}</div>
+    </div>
+  {% endif %}
+{% endif %}

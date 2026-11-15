@@ -1,0 +1,60 @@
+{% include 'admin/overall_header.html.twig' %}
+<script type="text/javascript">
+function check(){
+	fetch('?page=quickEditor&edit=player&id={{ id }}&action=send', {
+		method: 'POST',
+		credentials: 'same-origin',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+		body: new URLSearchParams(new FormData(document.getElementById('userform')))
+	}).then(function (response) { return response.text(); }).then(function (data) {
+		Dialog.alert(data, function() {
+			location.reload();
+		});
+	});
+	return false;
+}
+</script>
+<form method="post" id="userform" action="" onsubmit="return check();" class="stack quick-edit" data-track-dirty>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('user') }}{{ LNG.qe_info }}</h2></header>
+    <div class="card__body stack">
+      <div class="fields">
+        <div class="field"><label for="qe-name">{{ LNG.qe_username }}</label><input id="qe-name" name="name" type="text" value="{{ name }}" autocomplete="off"></div>
+        {% if ChangePW %}
+        <div class="field">
+          <label for="password">{{ LNG.qe_password }}</label>
+          <div>
+            <a href="#" class="button btn--small" onclick="document.getElementById('password').hidden = false;document.getElementById('password').focus();this.hidden = true;return false">{{ icon('key-round') }}{{ LNG.qe_change }}</a>
+            <input hidden id="password" name="password" type="password" value="" autocomplete="off">
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% if authlevel != php_const('AUTH_USER') %}
+        <label class="check"><input type="checkbox" name="authattack"{% if authattack != 0 %} checked{% endif %}>{{ LNG.qe_authattack }}</label>
+      {% endif %}
+      <dl class="kv">
+        <dt>{{ LNG.qe_id }}</dt><dd>{{ id }}</dd>
+        <dt>{{ LNG.qe_hpcoords }}</dt><dd>{{ planetname }} <span class="mono">[{{ galaxy }}:{{ system }}:{{ planet }}]</span> ({{ LNG.qe_id }}: {{ planetid }})</dd>
+      </dl>
+    </div>
+  </section>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('flask-conical') }}{{ LNG.qe_tech }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        {% for Element in (tech)|php_iter %}
+        <div class="field">
+          <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_level }} {{ Element.count }})</span></label>
+          <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <div class="form-actions">
+    <button type="reset">{{ icon('eraser') }}{{ LNG.qe_reset }}</button>
+    <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.qe_submit }}</button>
+  </div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

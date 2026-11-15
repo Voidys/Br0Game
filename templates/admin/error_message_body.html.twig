@@ -1,0 +1,12 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <div class="notice notice--{% if Fatal %}danger{% else %}info{% endif %}" role="alert">
+    {{ icon(Fatal ? 'circle-alert' : 'info') }}
+    <div>
+      <strong>{{ fcm_info }}</strong>
+      <p>{{ mes }}</p>
+      {% if not empty(goto) %}<p><a class="button" href="{{ goto }}">{{ icon('arrow-left') }}{{ LNG.adm_continue }}</a></p>{% endif %}
+    </div>
+  </div>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

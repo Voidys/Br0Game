@@ -1,0 +1,13 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+    <table>
+        <tr>
+			<th colspan="2">{{ LNG.al_alliance }}</th>
+        </tr>
+        <tr>
+			<td class="w-50 ctr"><a href="game?page=alliance&amp;mode=create">{{ LNG.al_alliance_make }}</a></td>
+			<td class="w-50 ctr"><a href="game?page=alliance&amp;mode=search">{{ LNG.al_alliance_search }}</a></td>
+        </tr>
+    </table>
+{% endblock %}

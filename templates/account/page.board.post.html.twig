@@ -1,0 +1,120 @@
+{% extends layout_template %}
+{% block title %}{{ post.deleted ? LNG.board_deleted : post.title|e }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="board" data-board data-csrf="{{ csrf }}" data-vote-url="account?page=board&amp;mode=vote">
+  <p><a href="account?page=board">{{ icon('arrow-left') }}{{ LNG.lm_board }}</a></p>
+
+  <article class="panel board-post">
+    <div class="board-vote" data-vote data-type="post" data-id="{{ post.id }}" data-value="{{ post.myvote }}">
+      <button type="button" class="board-vote__btn board-vote__up{% if post.myvote == 1 %} is-on{% endif %}" data-dir="1" aria-label="{{ LNG.board_upvote }}" aria-pressed="{{ post.myvote == 1 ? 'true' : 'false' }}"{% if post.deleted or isGuest %} disabled{% endif %}>&#9650;</button>
+      <span class="board-vote__score">{{ post.score }}</span>
+      <button type="button" class="board-vote__btn board-vote__down{% if post.myvote == -1 %} is-on{% endif %}" data-dir="-1" aria-label="{{ LNG.board_downvote }}" aria-pressed="{{ post.myvote == -1 ? 'true' : 'false' }}"{% if post.deleted or isGuest %} disabled{% endif %}>&#9660;</button>
+    </div>
+    <div class="board-post__main">
+      <h1 class="board-post__title">
+        {% if post.pinned %}<span class="board-badge board-badge--pin">{{ LNG.board_pinned }}</span>{% endif %}
+        {% if post.flair != '' %}<span class="board-badge board-badge--{{ post.flair }}">{{ attribute(LNG, 'board_flair_' ~ post.flair) }}</span>{% endif %}
+        {% if post.deleted %}<em>{{ LNG.board_deleted }}</em>{% else %}{{ post.title|e }}{% endif %}
+        {% if post.locked %}<span class="board-meta" title="{{ LNG.board_locked }}">{{ icon('lock') }}</span>{% endif %}
+      </h1>
+      <div class="board-meta">
+        {{ LNG.board_by }} <strong>{{ post.author|e }}</strong> &middot; <time title="{{ post.date|e }}">{{ post.ago|e }}</time>
+        {% if post.edited %}&middot; <span title="{{ post.edited|e }}">{{ LNG.board_edited }}</span>{% endif %}
+      </div>
+      {% if not post.deleted %}<div class="rich-text board-post__body">{{ post.body|raw }}</div>{% endif %}
+
+      <div class="board-actions">
+        {% if post.canEdit %}<a class="board-action" href="account?page=board&amp;mode=editPost&amp;id={{ post.id }}">{{ icon('pencil') }}{{ LNG.board_edit }}</a>{% endif %}
+        {% if post.canDelete %}
+        <form action="account?page=board" method="post" data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}">
+          <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
+          <input type="hidden" name="type" value="post"><input type="hidden" name="id" value="{{ post.id }}">
+          <button class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+        </form>
+        {% endif %}
+        {% if isMod and not post.deleted %}
+          {% for act in [post.pinned ? 'unpin' : 'pin', post.locked ? 'unlock' : 'lock'] %}
+          <form action="account?page=board" method="post">
+            <input type="hidden" name="mode" value="moderate"><input type="hidden" name="csrf" value="{{ csrf }}">
+            <input type="hidden" name="id" value="{{ post.id }}"><input type="hidden" name="action" value="{{ act }}">
+            <button class="board-action board-action--mod" type="submit">{{ icon(act == 'lock' or act == 'unlock' ? 'lock' : 'shield') }}{{ attribute(LNG, 'board_mod_' ~ act) }}</button>
+          </form>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </article>
+
+  <section id="comments" class="board-comments">
+    <div class="board__head">
+      <h2 class="acc-title">{{ LNG.board_comments }} ({{ post.comments }})</h2>
+      <nav class="board-tabs" aria-label="{{ LNG.board_sort }}">
+        <a class="board-tab{% if csort == 'best' %} is-active{% endif %}" href="{{ csortBest|e }}">{{ LNG.board_csort_best }}</a>
+        <a class="board-tab{% if csort == 'new' %} is-active{% endif %}" href="{{ csortNew|e }}">{{ LNG.board_sort_new }}</a>
+      </nav>
+    </div>
+
+    {% if canComment %}
+    <form class="panel board-form board-form--comment" action="account?page=board" method="post">
+      <input type="hidden" name="mode" value="comment"><input type="hidden" name="csrf" value="{{ csrf }}">
+      <input type="hidden" name="post_id" value="{{ post.id }}"><input type="hidden" name="parent_id" value="0">
+      <textarea name="body" data-rte="basic" rows="4" aria-label="{{ LNG.board_add_comment }}"></textarea>
+      <div class="board-form__actions"><button class="btn btn--primary" type="submit">{{ LNG.board_comment_send }}</button></div>
+    </form>
+    {% elseif isGuest %}
+    {% include 'account/board.guest_hint.html.twig' %}
+    {% elseif not post.deleted %}
+    <p class="infobox">{{ icon('lock') }}<span>{{ LNG.board_err_locked }}</span></p>
+    {% endif %}
+
+    {% for c in comments %}
+    <article class="board-comment" id="c{{ c.id }}" data-comment data-depth="{{ c.depth }}" style="--depth: {{ c.depth < 6 ? c.depth : 6 }}">
+      <div class="board-vote board-vote--small" data-vote data-type="comment" data-id="{{ c.id }}" data-value="{{ c.myvote }}">
+        <button type="button" class="board-vote__btn board-vote__up{% if c.myvote == 1 %} is-on{% endif %}" data-dir="1" aria-label="{{ LNG.board_upvote }}" aria-pressed="{{ c.myvote == 1 ? 'true' : 'false' }}"{% if c.deleted or isGuest %} disabled{% endif %}>&#9650;</button>
+        <span class="board-vote__score">{{ c.score }}</span>
+        <button type="button" class="board-vote__btn board-vote__down{% if c.myvote == -1 %} is-on{% endif %}" data-dir="-1" aria-label="{{ LNG.board_downvote }}" aria-pressed="{{ c.myvote == -1 ? 'true' : 'false' }}"{% if c.deleted or isGuest %} disabled{% endif %}>&#9660;</button>
+      </div>
+      <div class="board-comment__main">
+        <div class="board-meta">
+          <button type="button" class="board-collapse" data-collapse aria-expanded="true" title="{{ LNG.board_collapse }}">[&minus;]</button>
+          {% if c.deleted %}<em>{{ LNG.board_deleted }}</em>{% else %}<strong>{{ c.author|e }}</strong>{% endif %}
+          &middot; <time title="{{ c.date|e }}">{{ c.ago|e }}</time>{% if c.edited %} &middot; {{ LNG.board_edited }}{% endif %}
+        </div>
+        <div class="board-comment__content">
+          {% if not c.deleted %}<div class="rich-text" data-comment-body>{{ c.body|raw }}</div>{% endif %}
+          <div class="board-actions">
+            {% if canComment %}<button type="button" class="board-action" data-reply>{{ icon('message-circle') }}{{ LNG.board_reply }}</button>{% endif %}
+            {% if c.canEdit %}<button type="button" class="board-action" data-edit>{{ icon('pencil') }}{{ LNG.board_edit }}</button>{% endif %}
+            {% if c.canDelete %}
+            <form action="account?page=board" method="post" data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}">
+              <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
+              <input type="hidden" name="type" value="comment"><input type="hidden" name="id" value="{{ c.id }}">
+              <button class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </article>
+    {% else %}
+    <p class="board-empty">{{ LNG.board_no_comments }}</p>
+    {% endfor %}
+  </section>
+
+  {% if not isGuest %}
+  <template id="board-reply-tpl">
+    <form class="board-form board-form--inline" action="account?page=board" method="post">
+      <input type="hidden" name="mode" value="comment"><input type="hidden" name="csrf" value="{{ csrf }}">
+      <input type="hidden" name="post_id" value="{{ post.id }}"><input type="hidden" name="parent_id" value="0">
+      <input type="hidden" name="id" value="0" disabled>
+      <textarea name="body" data-rte="basic" rows="4"></textarea>
+      <div class="board-form__actions">
+        <button class="btn btn--primary" type="submit">{{ LNG.board_comment_send }}</button>
+        <button class="btn" type="button" data-cancel>{{ LNG.board_cancel }}</button>
+      </div>
+    </form>
+  </template>
+  {% endif %}
+</div>
+<script type="module" src="./scripts/account/board.js?v={{ asset_version }}"></script>
+{% endblock %}

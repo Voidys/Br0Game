@@ -1,0 +1,171 @@
+/*
+ * Game content: tables and forms. Layout only (width, spacing, alignment, control sizes); colours, borders and
+ * backgrounds stay with the player's theme. Sits in the "components" layer, so these rules win over the themes
+ * (layer "legacy") and every theme gets the same, even layout. Scoped to the game content area (.content) and
+ * dialogs (.modal), which open outside it.
+ *
+ * Tables span the content width. Cells are left aligned; a cell or header says what it holds:
+ *   .num   numbers and amounts            → right aligned, tabular figures, no wrapping
+ *   .ctr   icons, status, short values     → centred
+ *   .act   buttons/links of a row          → centred, as narrow as their content
+ *   .top   cells holding blocks of different height (nested tables, lists) → top aligned
+ *   (the older helpers .right/.text-right, .center/.text-center, .left/.text-left mean the same)
+ * Section headers (th colspan) stay left aligned. `table.auto` and tooltip tables keep their natural width.
+ *
+ * Forms:
+ *   table.form-table        label | control rows: labels 40 % wide, controls left aligned, inputs and selects share
+ *                           one width (--control-w), so the controls of a form line up in one even column
+ *   .form-actions           the submit row: buttons centred with even spacing
+ *   input.num / [type=number]  amount fields: right aligned text, one shared width (--control-num-w)
+ *   input.coord             a coordinate field (galaxy / system / position): narrow, right aligned
+ *   .control-wide           a text input or select that should use the full cell width
+ *
+ * Wide tables (many columns: fleet movements, matrices) sit in <div class="table-scroll">, which scrolls them
+ * sideways on narrow screens instead of widening the page.
+ */
+@layer components {
+  :is(.content, .modal) {
+    --cell-pad-y: 0.375rem;
+    --cell-pad-x: 0.625rem;
+    --control-h: 2rem;
+    --control-pad-x: 0.5rem;
+    --control-w: 18rem;
+    --control-num-w: 7.5rem;
+  }
+
+  /* ------------------------------------------------------------------ tables */
+  :is(.content, .modal) table:not(.auto, .hoverinfo, [class*="tt-"]) {
+    width: 100%;
+    max-width: none;
+  }
+
+  :is(.content, .modal) :is(th, td) {
+    padding: var(--cell-pad-y) var(--cell-pad-x);
+    vertical-align: middle;
+    text-align: start;
+  }
+
+  :is(.content, .modal) :is(th, td):is(.num, .right, .text-right) {
+    text-align: end;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :is(.content, .modal) :is(th, td):is(.ctr, .center, .text-center) { text-align: center; }
+
+  :is(.content, .modal) :is(th, td):is(.left, .text-left) { text-align: start; }
+
+  :is(.content, .modal) :is(th, td):is(.top, .align-top) { vertical-align: top; }
+
+  :is(.content, .modal) :is(th, td).act {
+    width: 1%;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  :is(.content, .modal) .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  /* tooltips keep their compact layout */
+  :is(.content, .modal) :is(.hoverinfo, [class*="tt-"]) :is(th, td) { padding: 0.125rem 0.375rem; }
+
+  /* ------------------------------------------------------------------ controls */
+  :is(.content, .modal) :is(
+      input:not([type="checkbox"], [type="radio"], [type="range"], [type="image"], [type="hidden"], [type="submit"], [type="button"], [type="reset"]),
+      select
+    ) {
+    box-sizing: border-box;
+    min-height: var(--control-h);
+    margin: 0;
+    padding: 0 var(--control-pad-x);
+    border-radius: var(--radius-sm, 0.25rem);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  :is(.content, .modal) :is(input[type="number"], input.num) {
+    width: var(--control-num-w);
+    max-width: 100%;
+    text-align: end;
+  }
+
+  /* after the amount rule: a coordinate field is a narrower number field */
+  :is(.content, .modal) input.coord {
+    width: 4.5rem;
+    text-align: end;
+  }
+
+  :is(.content, .modal) input[type="color"] {
+    width: 3rem;
+    padding: 0.125rem;
+  }
+
+  :is(.content, .modal) textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 6rem;
+    margin: 0;
+    padding: var(--control-pad-x);
+    border-radius: var(--radius-sm, 0.25rem);
+    text-align: start;
+  }
+
+  :is(.content, .modal) :is(button, input[type="submit"], input[type="button"], input[type="reset"], .button) {
+    min-height: var(--control-h);
+    margin: 0;
+    vertical-align: middle;
+  }
+
+  :is(.content, .modal) :is(input[type="checkbox"], input[type="radio"]) {
+    margin: 0 0.25rem;
+    vertical-align: middle;
+  }
+
+  /* ------------------------------------------------------------------ form tables */
+  :is(.content, .modal) table.form-table td:first-child:not(:only-child) {
+    width: 40%;
+  }
+
+  /* text inputs and selects of a form share one width; controls inside a .control-group keep their own
+     (coordinates, amount + button) */
+  :is(.content, .modal) table.form-table :is(input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="reset"], [type="hidden"], [type="number"], .num), select):not(.control-group *) {
+    width: 100%;
+    max-width: var(--control-w);
+  }
+
+  :is(.content, .modal) .control-wide {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* the cell variant outranks the default cell alignment above */
+  :is(.content, .modal) .form-actions,
+  :is(.content, .modal) :is(th, td).form-actions {
+    text-align: center;
+  }
+
+  :is(.content, .modal) div.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2, 0.5rem);
+    margin-top: var(--space-3, 0.75rem);
+  }
+
+  /* a group of controls in one cell (amount + max button, select + go) */
+  :is(.content, .modal) .control-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1, 0.25rem);
+    max-width: 100%;
+  }
+
+  @media (max-width: 40rem) {
+    /* phones: narrower amount fields, so "amount + max" groups fit their cells */
+    :is(.content, .modal) { --cell-pad-x: 0.375rem; --control-w: 100%; --control-num-w: 5rem; }
+    :is(.content, .modal) table.form-table td:first-child:not(:only-child) { width: auto; }
+  }
+}

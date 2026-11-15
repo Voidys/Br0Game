@@ -1,0 +1,13 @@
+{% include 'admin/overall_header.html.twig' %}
+{% include 'admin/BanPageBody.html.twig' with {'ban': {
+  'mode': 'account',
+  'id': account_id|default(''),
+  'nameLabel': LNG.bo_accountname,
+  'list': accountSelect.List,
+  'listBan': accountSelect.ListBan,
+  'total': accountCount,
+  'totalLabel': LNG.bo_total_accs,
+  'bannedLabel': LNG.bo_total_accs_banned,
+  'bancount': bancount
+}} %}
+{% include 'admin/overall_footer.html.twig' %}

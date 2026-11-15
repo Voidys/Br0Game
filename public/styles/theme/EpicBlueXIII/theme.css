@@ -1,0 +1,92 @@
+/*
+ * OGame: Epic Blue V 1.0 - skin for "OGame" www.ogame.de V 1.2 (etapred@gmx.de)
+ */
+
+:root {
+  --theme-text: #e6ebfb;
+  --theme-link-hover: #cdd7f8;
+  --theme-surface: #344566;
+  --theme-page-bg: #344055;
+  --theme-border: #415680;
+  --theme-font: Tahoma, sans-serif;
+  --theme-font-size: 0.6875rem;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+img {
+  border: 0;
+}
+
+table table {
+  border: 0;
+
+  & td {
+    font-size: var(--theme-font-size);
+    font-family: var(--theme-font);
+  }
+}
+
+body {
+  color: var(--theme-text);
+  margin-block-start: 0.0625rem;
+  margin-inline-start: 0.0625rem;
+  background: var(--theme-page-bg) url(img/background.jpg) no-repeat fixed top;
+  font-size: var(--theme-font-size);
+  font-family: var(--theme-font);
+}
+
+th, input, select, textarea {
+  border: 0.0625rem var(--theme-border) solid;
+  font-size: var(--theme-font-size);
+  font-family: var(--theme-font);
+}
+
+th, input, select {
+  background-color: var(--theme-surface);
+}
+
+input, select, textarea {
+  color: var(--theme-text);
+  background-color: var(--theme-surface);
+}
+
+div.z {
+  font-weight: bold;
+  color: var(--theme-text);
+}
+
+a {
+  color: var(--theme-text);
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    color: var(--theme-link-hover);
+    text-decoration: underline;
+  }
+}
+
+h1 {
+  font-size: var(--theme-font-size);
+  font-family: var(--theme-font);
+  width: 98%;
+  text-align: right;
+}
+
+/* modals (Dialog: info, messages, reports, ...), see css/app/base.css */
+:root {
+  --modal-bg: var(--theme-surface);
+  --modal-border: var(--theme-border);
+  --modal-fg: var(--theme-text);
+}

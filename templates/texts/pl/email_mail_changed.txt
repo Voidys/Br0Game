@@ -1,0 +1,11 @@
+Witaj {USERNAME},
+
+adres e-mail Twojego konta został właśnie zmieniony.
+Zmiana zostanie wprowadzona na stałe w ciągu kilku dni.
+
+Jeśli nie zrobiłeś tego samodzielnie, utwórz zgłoszenie na naszym Discordzie:
+{DISCORD}.
+
+Z poważaniem
+
+Zespół {GAMENAME}

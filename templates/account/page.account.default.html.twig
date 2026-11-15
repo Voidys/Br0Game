@@ -1,0 +1,66 @@
+{% extends layout_template %}
+
+{% block title %}
+{{ LNG.Achievements }}{{ parent() }}{% endblock %}
+
+{% block content %}
+
+
+<div class="account-login">
+  <section class="acc-section" aria-labelledby="your-universes">
+    <h1 class="acc-title" id="your-universes">{{ LNG["Your_universes"] }}</h1>
+    <div class="universe-grid">
+    {% for universe in (playerUniverses)|php_iter %}
+      <article class="panel universe-card">
+        <h2 class="universe-card__title">{{ icon('globe') }}{{ universe["uni_name"] }}</h2>
+        <dl class="universe-card__facts">
+          <dt>{{ LNG["Playername"] }}</dt><dd>{{ universe["username"] }}</dd>
+          <dt>{{ LNG["al_position"] }}</dt><dd>{{ universe["total_rank"] }}</dd>
+          <dt>{{ LNG["Universe_start"] }}</dt><dd>{{ universe["start"] }}</dd>
+          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"] }}</dd>
+          <dt>{{ LNG["Sitting_end"] }}</dt><dd>-</dd>
+        </dl>
+        <div class="universe-card__actions">
+          <form action="account?page=account" method="post">
+            <input type="hidden" name="mode" value="send">
+            <input type="hidden" name="universe" value="{{ universe["uni"] }}">
+            <input type="hidden" name="userID" value="{{ universe["user_id"] }}">
+            {% if universe["uni_status"] == php_const('STATUS_OPEN') or universe["uni_status"] == php_const('STATUS_LOGIN_ONLY') or universe["authlevel"] == php_const('AUTH_ADM') %}
+              <input type="hidden" name="action" value="login">
+              <input class="btn btn--primary" value="{{ LNG["Play"] }}" type="submit">
+            {% else %}
+              <input type="hidden" name="action" value="logout">
+              <button class="btn">{{ LNG["uni_status_regclosed_gameclosed"] }}</button>
+            {% endif %}
+          </form>
+          <button class="btn btn--secondary" disabled>{{ LNG["Sitting_request"] }}</button>
+        </div>
+      </article>
+    {% endfor %}
+    </div>
+  </section>
+
+  <section class="acc-section" aria-labelledby="other-universes">
+    <h1 class="acc-title" id="other-universes">{{ LNG["Other_universes"] }}</h1>
+    <div class="universe-grid">
+    {% for universe in (newUniverses)|php_iter %}
+      <article class="panel universe-card">
+        <h2 class="universe-card__title">{{ icon('globe') }}{{ universe["uni_name"] }}</h2>
+        <dl class="universe-card__facts">
+          <dt>{{ LNG["Active_players"] }}</dt><dd>{{ (universe["active"]=="") ? 0 : universe["active"] }}</dd>
+          <dt>{{ LNG["Universe_start"] }}</dt><dd>{{ universe["start"] }}</dd>
+          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"] }}</dd>
+        </dl>
+        <div class="universe-card__actions">
+          {% if universe["uni_status"] == php_const('STATUS_OPEN') or universe["uni_status"] == php_const('STATUS_REG_ONLY') or authlevel == php_const('AUTH_ADM') %}
+            <a class="btn btn--primary" href="account?page=register&uni={{ universe["uni"] }}">{{ LNG["Register"] }}</a>
+          {% else %}
+            <button class="btn" disabled>{{ LNG["uni_status_regclosed_gameclosed"] }}</button>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

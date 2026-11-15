@@ -1,0 +1,1753 @@
+/*
+ * Legacy content styles: page components shared by the game, admin, installer and account popup.
+ * Grouped by component; selectors are the contract with the templates and the classic themes.
+ * Plain values on purpose: the admin, installer and account popup link this file without base.css,
+ * so design tokens (var(--space-*) etc.) are not available here.
+ */
+
+/* ------------------------------------------------------------------ elements */
+
+input.invalid {
+	background-color: red;
+	border: 0.0625rem solid #FFF;
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+	cursor: pointer;
+}
+
+table {
+	inline-size: 100%;
+	overflow: auto;
+	border-collapse: separate;
+	border-spacing: 0.125rem;
+	empty-cells: show;
+	margin-inline: auto;
+	align-self: center;
+
+	&.auto {
+		inline-size: unset;
+	}
+
+	/* hack to expand full width */
+	&.hack {
+		table-layout: fixed;
+	}
+}
+
+table table,
+img {
+	border-radius: 25%;
+}
+
+td {
+	padding: 0.125rem 0.1875rem;
+	vertical-align: middle;
+}
+
+input,
+button {
+	margin: 0.125rem;
+}
+
+th {
+	block-size: 0.875rem;
+	padding: 0.25rem 0.375rem;
+
+	& input {
+		margin: 0;
+	}
+}
+
+textarea {
+	inline-size: 97%;
+
+	&.tinymce {
+		inline-size: 100%;
+	}
+}
+
+/* ------------------------------------------------------------------ helpers */
+
+.left {
+	text-align: start;
+}
+
+.right {
+	text-align: end;
+}
+
+.center {
+	text-align: center;
+}
+
+.top {
+	vertical-align: top;
+}
+
+.clear {
+	clear: both;
+}
+
+.mobile {
+	display: none;
+}
+
+.unavailable {
+	opacity: 0.5;
+}
+
+.textForBlind {
+	position: absolute;
+	inset-inline-start: -625rem;
+	inset-block-start: auto;
+	inline-size: 0.0625rem;
+	block-size: 0.0625rem;
+	overflow: hidden;
+}
+
+.infobox {
+	border: 0.125rem solid red;
+	padding: 0.125rem 0.3125rem;
+	text-align: center;
+}
+
+.danger {
+	background-color: red;
+	font-weight: bold;
+}
+
+.lowRess {
+	background-color: indianred;
+}
+
+.midRess {
+	background-color: chocolate;
+}
+
+.highRess {
+	background-color: seagreen;
+}
+
+.realHighRess {
+	background-color: royalblue;
+}
+
+/* ------------------------------------------------------------------ card, article */
+
+.card {
+	padding-block-end: 1rem;
+
+	& .title {
+		padding: 0.25rem 0.375rem;
+		margin-block-end: 0.125rem;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	& .content {
+		padding: 0.25rem;
+		margin-block-end: 0.125rem;
+	}
+}
+
+.article {
+	& .text {
+		margin: 0.125rem;
+	}
+
+	& img {
+		inline-size: 100%;
+	}
+}
+
+/* ------------------------------------------------------------------ resources, menu, options */
+
+.res_max,
+.res_current,
+.res_current_max {
+	min-inline-size: 5.625rem;
+}
+
+#resource {
+	text-align: center;
+	align-items: center;
+}
+
+#menu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#options select {
+	max-inline-size: 10.625rem;
+}
+
+#overview #planetList td {
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ buttons in build lists */
+
+/* build/research buttons: one even width so the level label ("Upgrade 13") fits on one line */
+.build_submit {
+	min-inline-size: 9.375rem;
+	padding: 0 0.5rem;
+	white-space: nowrap;
+
+	&:hover {
+		text-decoration: underline;
+		font-weight: bold;
+	}
+}
+
+.build_form {
+	display: inline;
+}
+
+.onlist {
+	max-inline-size: 100%;
+	margin: 0;
+	padding: 0;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+/* ------------------------------------------------------------------ tooltips, notices */
+
+.tooltip,
+.tooltip_sticky {
+	cursor: pointer;
+}
+
+.hoverinfo {
+	min-inline-size: 9.375rem;
+	max-inline-size: 15.625rem;
+	min-block-size: 1.25rem;
+	max-block-size: 2.5rem;
+
+	& img {
+		inline-size: 5.25rem;
+		block-size: 5.25rem;
+	}
+}
+
+.tip {
+	display: none;
+	padding: 0.4375rem;
+	position: absolute;
+	z-index: 1000;
+	max-inline-size: 31.25rem;
+
+	&.notify {
+		position: fixed;
+		inset-block-start: 12.5rem;
+		padding: 1.25rem;
+	}
+}
+
+/* ------------------------------------------------------------------ shortcuts */
+
+.shortcut-edit {
+	display: none;
+}
+
+.shortcut-colum {
+	position: relative;
+
+	&:hover .shortcut-delete {
+		display: block;
+	}
+}
+
+.shortcut-delete {
+	position: absolute;
+	z-index: 1;
+	inset-block-start: 0.1875rem;
+	inset-inline-end: 0.1875rem;
+	display: none;
+	inline-size: 1rem;
+	block-size: 1rem;
+	cursor: pointer;
+	background: url(../../images/false.png) scroll no-repeat 0 0 transparent;
+}
+
+.watchlist-fav-button {
+	position: absolute;
+	inset-block-start: 0.1875rem;
+	inset-inline-end: 0.3125rem;
+	cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ spy report */
+
+.spyRaportFooter,
+.spyRaportContainer {
+	clear: both;
+}
+
+.spyRaportContainerRow {
+	&.first {
+		clear: both;
+	}
+}
+
+.spyRaportContainerHead {
+	font-weight: 700;
+	padding-block-start: 0.5rem;
+}
+
+.spyRaportContainerCell {
+	float: inline-start;
+	inline-size: 25%;
+}
+
+.spyRaportFooter {
+	text-align: center;
+	padding-block-start: 0.5rem;
+}
+
+.spy-report-collapsible {
+	margin-block-end: 0.75rem;
+}
+
+.spy-report-summary {
+	cursor: pointer;
+	font-weight: 700;
+	padding: 0.375rem 0.5rem;
+	text-align: center;
+	list-style: none;
+	border: 0.0625rem solid rgba(255, 255, 255, 0.2);
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+
+	&:hover {
+		color: #87ceeb;
+		border-color: rgba(255, 255, 255, 0.4);
+	}
+}
+
+.spy-report-collapsed-title {
+	padding-block: 0.5rem;
+	font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ alliance */
+
+.alliance-image {
+	max-inline-size: 64rem;
+}
+
+.alliance-chart {
+	position: relative;
+	inline-size: 100%;
+	block-size: 31.25rem;
+	overflow: hidden;
+
+	& canvas {
+		display: block !important;
+		inline-size: 100% !important;
+		block-size: 100% !important;
+	}
+}
+
+/* ------------------------------------------------------------------ repair dock */
+
+#repairlist {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.repaira,
+.repairb {
+	float: inline-start;
+	line-height: 1.4;
+	padding: 0.5rem;
+}
+
+.repaira {
+	inline-size: 35%;
+}
+
+.repairb {
+	inline-size: 65%;
+}
+
+.repairShipHeader {
+	border-radius: 0.9375rem 0.9375rem 0 0;
+	padding: 0.375rem;
+	overflow: auto;
+	background: #256b99;
+
+	& a:hover {
+		color: #e62cf7;
+		font-weight: bold;
+	}
+}
+
+.repairShipContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #212121;
+}
+
+.repairShipContainerContent {
+	float: inline-start;
+	inline-size: 50%;
+	line-height: 1.4;
+	padding: 0.625rem;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ------------------------------------------------------------------ tutorial */
+
+.tutorial {
+	background-color: #0e754281;
+	text-align: center;
+	border-radius: 0 0 0.9375rem 0.9375rem;
+	padding: 0.3125rem 1.25rem;
+	overflow: auto;
+	block-size: auto;
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	grid-template-rows: auto auto;
+}
+
+.tutorial-header {
+	background-color: #032514;
+	text-align: center;
+	border-radius: 0.9375rem 0.9375rem 0 0;
+	margin-block-start: 0.625rem;
+	padding: 0.3125rem;
+	cursor: pointer;
+}
+
+.tutorial-text {
+	text-align: start;
+	grid-column: 1 / auto;
+	grid-row: 1 / 1;
+}
+
+.tutorial-goals,
+.tutorial-goals ul {
+	text-align: start;
+	grid-column: 2 / 2;
+	grid-row: 1 / 1;
+	padding: 0 0 0 1.25rem;
+}
+
+.tutorial-text a,
+.tutorial-goals a {
+	text-decoration: underline;
+}
+
+.tutorial-buttons {
+	grid-column: 1 / 3;
+	grid-row: 2 / 2;
+	padding: 0.625rem 0 0;
+}
+
+/* ------------------------------------------------------------------ messages */
+
+/* Page layout: category tabs, toolbar (search + filters), bulk bar (select all, action, pages), message list.
+   Each category and message carries its colour as --cat (set in the template). Message headers share one
+   column grid, so sender, subject and date line up from message to message like a table. */
+.msg-title {
+	margin: 0 0 0.75rem;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+.msg-nav { container-type: inline-size; }
+
+/* 14 categories: two even rows of seven; three compact columns on narrow screens */
+.msg-cats {
+	display: grid;
+	grid-template-columns: repeat(7, minmax(0, 1fr));
+	gap: 0.25rem;
+}
+
+@container (max-width: 44rem) {
+	.msg-cats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.msg-cat { min-height: 2.75rem; padding: 0.25rem; font-size: 0.85em; }
+}
+
+.msg-cat {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.125rem;
+	min-height: 3.25rem;
+	padding: 0.375rem 0.5rem;
+	border-bottom: 0.125rem solid transparent;
+	background-color: color-mix(in srgb, var(--cat) 7%, transparent);
+	color: var(--cat);
+	text-align: center;
+	text-decoration: none;
+	overflow-wrap: break-word;
+	hyphens: auto;
+	transition: background-color 0.15s;
+
+	&:hover,
+	&:focus-visible { background-color: color-mix(in srgb, var(--cat) 20%, transparent); text-decoration: none; }
+	&.active { border-bottom-color: var(--cat); background-color: color-mix(in srgb, var(--cat) 24%, transparent); font-weight: bold; }
+	&.is-empty { opacity: 0.55; }
+}
+
+.msg-cat__count {
+	font-size: 0.85em;
+	font-variant-numeric: tabular-nums;
+
+	& b { font-weight: normal; }
+	.has-unread & b { font-weight: bold; }
+}
+
+.msg-prefs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.25rem 1.25rem;
+	margin-block: 0.5rem 0.75rem;
+	font-size: 0.9em;
+
+	& label { display: inline-flex; align-items: center; gap: 0.25rem; cursor: pointer; }
+}
+
+/* toolbar and bulk bar: start | end, wrapping on narrow screens */
+.msg-toolbar,
+.msg-bulk {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1rem;
+	padding-block: 0.375rem;
+}
+
+.msg-toolbar { border-block: 0.0625rem solid rgb(128 128 128 / 0.3); }
+.msg-search { flex: 1 1 18rem; }
+.msg-search input[type="search"] { flex: 1 1 auto; min-width: 0; max-width: 22rem; }
+.msg-filters { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-inline-start: auto; }
+.msg-filters .button.active { font-weight: bold; text-decoration: underline; }
+.msg-select-all { display: inline-flex; align-items: center; white-space: nowrap; cursor: pointer; }
+.msg-bulk select { max-width: 100%; }
+.msg-bulk .control-group { flex-wrap: wrap; }
+.msg-pages { margin-inline-start: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.msg-pages > * { margin-inline-start: 0.125rem; }
+
+/* list */
+.messages-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+	padding-block: 0.25rem;
+}
+
+.message-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+}
+
+/* a real conversation/group (two or more messages) gets a frame; single messages don't */
+.message-group:has(> .message-item + .message-item) {
+	padding: 0.25rem;
+	border: 0.0625rem dashed rgb(128 128 128 / 0.5);
+}
+
+.message-item {
+	border: 0.0625rem solid color-mix(in srgb, var(--cat) 45%, transparent);
+	border-inline-start: 0.25rem solid color-mix(in srgb, var(--cat) 45%, transparent);
+
+	&.message-unread {
+		border-inline-start-color: var(--cat);
+		background-color: color-mix(in srgb, var(--cat) 8%, transparent);
+	}
+}
+
+.message-head {
+	display: grid;
+	grid-template-columns: auto 10rem minmax(0, 1fr) minmax(0, 1.5fr) 10.5rem 6rem;
+	grid-template-areas: "sel type from subj date tools";
+	align-items: center;
+	gap: 0.25rem 0.75rem;
+	padding: 0.375rem 0.5rem;
+	background-color: color-mix(in srgb, var(--cat) 6%, transparent);
+}
+
+.message-select { grid-area: sel; }
+.message-type { grid-area: type; color: var(--cat); }
+.message-details { display: contents; }
+.message-from { grid-area: from; overflow-wrap: anywhere; }
+.message-subject { grid-area: subj; font-weight: bold; overflow-wrap: anywhere; }
+.message-head .spy-report-collapsed-title { grid-row: 1; grid-column: from-start / subj-end; padding: 0; }
+.message-date { grid-area: date; text-align: end; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.message-receiver { grid-column: from-start / -1; font-size: 0.9em; opacity: 0.8; }
+.message-fw { color: #FF6699; }
+
+.message-tools {
+	grid-area: tools;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 0.375rem;
+
+	& img { display: block; }
+}
+
+.message-new {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.125rem;
+	color: red;
+	font-weight: bold;
+	font-size: 0.85em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.message-content {
+	padding: 0.5rem 0.75rem 0.625rem;
+	border-top: 0.0625rem dashed color-mix(in srgb, var(--cat) 30%, transparent);
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 64rem) {
+	/* tablets and phones: type + tools on top, sender + date, subject below */
+	.message-head {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			"sel type tools"
+			". from date"
+			". subj subj";
+	}
+
+	.message-head .spy-report-collapsed-title { grid-row: auto; grid-area: subj; }
+	.msg-pages { margin-inline-start: 0; }
+}
+
+/* receiver search (write message) */
+
+.search-receiver {
+	display: inline-block;
+	position: relative;
+}
+
+.select-box {
+	display: none;
+	position: absolute;
+	inline-size: 100%;
+	background-color: #383838;
+	z-index: 1000;
+	max-block-size: 12.5rem;
+	overflow: auto;
+	inset-block-start: 1.5625rem;
+	inset-inline-start: 3.125rem;
+	border: 0.0625rem solid #0c0c0c;
+}
+
+.select-box-option {
+	padding: 0.3125rem;
+	cursor: pointer;
+	background-color: #383838;
+	transition: background-color 0.2s;
+	border-block-end: 0.0625rem solid #0c0c0c;
+
+	&:hover {
+		background-color: #4d4d4d;
+	}
+}
+
+.receiver {
+	display: inline-block;
+	background-color: #383838;
+	color: white;
+	padding: 0.3125rem;
+	margin: 0.1875rem;
+
+	& span {
+		cursor: pointer;
+	}
+}
+
+#receiver-list {
+	margin-inline: -0.1875rem;
+}
+
+/* ------------------------------------------------------------------ galaxy */
+
+.galaxy-grid-container {
+	display: grid;
+	grid-template-columns: 2.1875rem 1fr 3.3125rem 0.8fr 1fr 0.7fr;
+}
+
+.galaxy-grid-row {
+	display: grid;
+	grid-template-columns: subgrid;
+	gap: 0.125rem;
+	margin-block-end: 0.125rem;
+	grid-column: span 8;
+
+	&.legende {
+		grid-template-columns: 1fr auto;
+	}
+
+	&.info {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	&.sync {
+		grid-template-columns: 1fr 1fr 1fr 3fr;
+	}
+
+	&.even .galaxy-grid-item {
+		background-color: #1e2530;
+	}
+}
+
+.galaxy-grid-header {
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	text-align: center;
+	background: linear-gradient(180deg, rgba(20, 30, 38, 1) 43%, rgb(6 7 8) 100%);
+	color: #fff;
+	padding: 0.3125rem;
+}
+
+.galaxy-grid-item {
+	display: flex;
+	column-gap: 0.3125rem;
+	align-items: center;
+	text-align: center;
+	background-color: #0d1014;
+	padding: 0.3125rem;
+
+	& a {
+		display: flex;
+		column-gap: 0.3125rem;
+		align-items: center;
+		text-align: center;
+	}
+
+	& img {
+		max-inline-size: 100%;
+		block-size: auto;
+	}
+
+	&.centered {
+		justify-content: center;
+	}
+
+	&.galaxy-actions {
+		display: flex;
+		justify-content: flex-start;
+		gap: 0.3rem;
+		flex-wrap: wrap;
+	}
+
+	&.span2 {
+		grid-column: span 2;
+	}
+
+	&.span3 {
+		grid-column: span 3;
+	}
+
+	&.span5 {
+		grid-column: span 5;
+	}
+
+	&.span6 {
+		grid-column: span 6;
+	}
+}
+
+.spy-report-indicator {
+	position: relative;
+
+	&.spy-report-none img {
+		opacity: 0.3;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset-block-end: 0;
+		inset-inline-end: 0;
+		inline-size: 0.4375rem;
+		block-size: 0.4375rem;
+		border-radius: 50%;
+		border: 0.0625rem solid #0d1014;
+	}
+
+	&.spy-report-none::after {
+		display: none;
+	}
+
+	&.spy-report-fresh::after {
+		background: #00cc00;
+	}
+
+	&.spy-report-recent::after {
+		background: #ffcc00;
+	}
+
+	&.spy-report-old::after {
+		background: #ff3300;
+	}
+}
+
+/* ------------------------------------------------------------------ empire charts */
+
+/* collapsible row groups (scripts/game/empire.js) */
+[data-toggle-rows] { cursor: pointer; user-select: none; }
+
+/* Chart.js sizes from the parent. Fill the content table (already full width) so narrow layouts
+   are not capped by a desktop sidebar offset. */
+.empire-chart {
+	position: relative;
+	inline-size: 100%;
+	overflow: hidden;
+
+	& canvas {
+		display: block !important;
+		inline-size: 100% !important;
+		block-size: 100% !important;
+	}
+}
+
+.empire-chart--points {
+	block-size: 18.75rem;
+}
+
+.empire-chart--bars {
+	block-size: 12.5rem;
+	margin-block-start: 0.5rem;
+
+	&.is-legend-only {
+		block-size: 2.75rem;
+	}
+}
+
+/* flying fleets table: scroll wrapper, sticky ID / mission columns on narrow viewports */
+.flyingFleets-scroll {
+	inline-size: 100%;
+	max-inline-size: 100%;
+}
+
+/* ------------------------------------------------------------------ FAQ */
+
+body#questions .faq-content {
+	padding: 0.625rem 0.875rem 1rem;
+	line-height: 1.5;
+
+	& h2 {
+		font-weight: 700;
+		font-size: 1.2em;
+		margin: 1.5em 0 0.45em;
+
+		&:first-child {
+			margin-block-start: 0.35em;
+		}
+	}
+
+	& h3 {
+		font-weight: 700;
+		font-size: 1.08em;
+		margin: 1.35em 0 0.4em;
+
+		&:first-child {
+			margin-block-start: 0.35em;
+		}
+	}
+
+	& p {
+		margin: 0.45em 0 0.85em;
+	}
+
+	& ul,
+	& ol {
+		list-style: disc;
+		margin: 0.4em 0 1.1em;
+		padding-inline-start: 1.6em;
+	}
+
+	& li {
+		margin: 0.3em 0;
+
+		& p {
+			margin: 0.35em 0;
+		}
+	}
+}
+
+/* ------------------------------------------------------------------ responsive */
+
+@media screen and (max-width: 66.875rem) {
+	.galaxy-grid-row {
+		grid-template-columns: 2.5rem 1fr 2.5rem 2.5rem;
+		grid-auto-flow: row;
+
+		&.sync {
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-auto-flow: row;
+
+			& .upload {
+				grid-column: span 3;
+			}
+		}
+
+		&.header .galaxy-grid-header {
+			position: relative;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			color: transparent;
+
+			&::before {
+				content: attr(data-small-text);
+				visibility: visible;
+				position: absolute;
+				inset-inline: 0;
+				text-align: center;
+				color: #fff;
+			}
+		}
+
+		&.empty {
+			& .position {
+				grid-row: span 1;
+			}
+
+			& .galaxy-debris {
+				grid-column: span 1;
+			}
+		}
+	}
+
+	.galaxy-grid-item {
+		text-align: start;
+
+		&.span5 {
+			grid-column: span 3;
+		}
+	}
+
+	.galaxy-grid-header.position,
+	.galaxy-grid-item.position {
+		grid-row: span 2;
+	}
+
+	.galaxy-planet a img,
+	.galaxy-debris a img {
+		inline-size: 1.25rem;
+		block-size: 1.25rem;
+	}
+
+	.galaxy-player {
+		grid-column: span 3;
+	}
+
+	.galaxy-grid-header.galaxy-actions,
+	.galaxy-grid-item.galaxy-actions {
+		display: none;
+	}
+
+	.galaxy-debris-text {
+		display: none;
+	}
+}
+
+@media screen and (min-width: 43.75rem) and (max-width: 60.5625rem) {
+	.tutorial {
+		display: block;
+	}
+
+	.tutorial-goals {
+		padding: 0.625rem 0 0;
+	}
+}
+
+@media screen and (max-width: 43.6875rem) {
+	.mobile {
+		display: initial;
+	}
+
+	.alliance-image {
+		max-inline-size: 100vw;
+	}
+
+	.buildl img {
+		display: none;
+	}
+
+	.tutorial {
+		display: block;
+	}
+
+	.tutorial-goals {
+		padding: 0.625rem 0 0;
+	}
+
+	/* mobile menu: shown while the invisible checkbox is checked */
+	input[type=checkbox]:not(:checked) ~ menu {
+		display: none;
+	}
+
+	.flyingFleets-scroll {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	table.flyingFleets {
+		/* scroll on the wrapper so position:sticky works against it */
+		overflow: visible;
+		inline-size: max-content;
+		min-inline-size: 100%;
+
+		& .fleet-col-id,
+		& .fleet-col-mission {
+			position: sticky;
+			z-index: 2;
+			/* theme-aware opaque fill so scrolled cells do not show through */
+			background-color: var(--tv-bg-primary, #0D1014);
+			box-shadow: 0.125rem 0 0.25rem rgba(0, 0, 0, 0.35);
+		}
+
+		& .fleet-col-id {
+			inset-inline-start: 0;
+			min-inline-size: 2.25rem;
+		}
+
+		& .fleet-col-mission {
+			inset-inline-start: 2.25rem;
+			min-inline-size: 4.5rem;
+		}
+	}
+
+	/* overview: with a moon, keep the planet on the left (like the no-moon layout) and move the
+	   moon below it, so the info text keeps its column */
+	.infos.infos-with-moon {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+	}
+
+	.infos-with-moon > .planeto {
+		grid-column: 1 / -1;
+	}
+
+	.infos-with-moon > .moon {
+		grid-column: 1;
+		grid-row: 3;
+		float: none;
+		inline-size: auto;
+		padding-block-start: 0;
+
+		& img {
+			/* override the inline "margin: 20% 0 5px" from the template */
+			margin: 0 0 0.3125rem !important;
+		}
+
+		& + .planeth {
+			grid-column: 1;
+			grid-row: 2;
+			/* flex centres the image and neutralises its inline float */
+			display: flex;
+			justify-content: center;
+
+			/* same size as the moon image, so the text column gets more room */
+			& img {
+				inline-size: 6.25rem;
+				block-size: 6.25rem;
+			}
+
+			& + .planeth {
+				grid-column: 2;
+				grid-row: 2 / span 2;
+			}
+		}
+	}
+}
+
+/* ---- generated markup: fleet events, expedition messages, tutorial links (inline styles moved here) */
+.tip-table { width: 200px; }
+.tip-table td { width: 50%; color: #fff; }
+.tip-table td.tip-wide { width: 100%; }
+.tutorial-link { text-decoration: underline; }
+.expo-event, .expo-freq { font-weight: bold; }
+.expo-event--white { color: white; }
+.expo-event--green { color: #addc8d; }
+.expo-event--teal { color: #75c0c7; }
+.expo-event--red { color: red; }
+.expo-freq--yellow { color: yellow; }
+.expo-freq--orange { color: orange; }
+.expo-freq--red { color: red; }
+.error-report { margin: 0 auto; padding: 50px; max-width: 50%; }
+.expo-event--yellow { color: #ff0; }
+
+/* ---- pages: messages, reports, alliance, community (inline styles moved here) */
+
+/* shared colour helpers (statistics, notes, tickets, buddies, member lists) */
+.color-yellow { color: yellow; }
+.color-orange { color: orange; }
+.color-green { color: green; }
+.color-gold { color: gold; }
+.color-star { color: #87CEEB; }
+.honor-top { color: #1B6F1B; }
+.honor-low { color: #7F06FB; }
+.honor-bottom { color: #920505; }
+
+/* column widths used by notes, tickets, statistics */
+.cw-15 { width: 15%; }
+.cw-30 { width: 30%; }
+.cw-40 { width: 40%; }
+.cw-45 { width: 45%; }
+.cw-60 { width: 60%; }
+.cw-70 { width: 70%; }
+.cw-20px { width: 20px; }
+.cw-40px { width: 40px; }
+.cw-60px { width: 60px; }
+.cw-150px { width: 150px; }
+
+/* alliance / player card: lock tooltip */
+.tooltip1 {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip1 .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 150%;
+	left: 50%;
+	margin-left: -60px;
+}
+
+.tooltip1 .tooltiptext::after {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: transparent transparent black transparent;
+}
+
+.tooltip1:hover .tooltiptext {
+	visibility: visible;
+}
+
+/* alliance */
+.ally-description {
+	height: 100px;
+}
+
+.member-kick {
+	border: 1px solid #212121;
+	vertical-align: top;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	margin: 2px;
+}
+
+/* player card achievements, achievements page */
+.achievement-icon {
+	width: 32px;
+	height: 32px;
+	margin: 2px;
+}
+
+/* tech tree element names */
+.achievement-name {
+	max-width: 42%;
+	display: inline-block;
+}
+
+/* achievement description in the modal (game/shared.achievementInfo.html.twig) */
+.achievement-info {
+	display: flex;
+	gap: var(--space-4);
+	align-items: center;
+}
+.achievement-info__image {
+	flex: none;
+	border-radius: var(--radius-sm);
+}
+.achievement-info__text {
+	margin: 0;
+}
+.achievement-info__state {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+	margin: var(--space-2) 0 0;
+	color: var(--c-muted);
+	font-size: var(--fs-sm);
+}
+.achievement-info__state .icon { width: 0.9rem; height: 0.9rem; }
+
+#achievements .minus {
+	display: none;
+}
+
+/* records page */
+.recordtable tr {
+	height: 40px;
+}
+
+.recordtable th {
+	text-align: center;
+}
+
+.recordtable td:first-child {
+	text-align: left;
+	padding-left: 15px;
+}
+
+/* advanced statistics page */
+#advancedStats th {
+	text-align: center;
+}
+
+#advancedStats tr {
+	height: 30px;
+}
+
+#advancedStats td:first-child {
+	text-align: left;
+	padding-left: 15px;
+}
+
+/* team page */
+#team content {
+	max-width: unset;
+}
+
+/* changelog */
+.changelog-text {
+	padding: 0 10px;
+}
+
+/* tickets */
+.ticket-message {
+	height: 100px;
+}
+
+/* battle simulator */
+.share-row {
+	margin: 6px 0;
+}
+
+.share-input {
+	width: 55%;
+}
+
+/* spy report (also rendered inside stored messages and the popup) */
+.spyRaportContainerCell.spy-cell-half {
+	width: 50% !important;
+	text-align: center;
+}
+
+.spy-report-empty {
+	text-align: center;
+	padding: 20px;
+}
+
+/* combat report header and loss markers */
+.raport-head {
+	font-size: 22px;
+	font-weight: bold;
+	padding: 10px 0 30px;
+}
+
+.raport-head-side {
+	width: 40%;
+}
+
+.raport-draw {
+	color: white;
+}
+
+.raport-loss {
+	color: #ee4d2e;
+}
+
+/* FAQ articles */
+.faq-content {
+	padding: 10px 14px 16px;
+	line-height: 1.5;
+}
+
+.faq-content h2 {
+	font-weight: 700;
+	font-size: 1.2em;
+	margin: 1.5em 0 0.45em;
+}
+
+.faq-content h2:first-child {
+	margin-top: 0.35em;
+}
+
+.faq-content h3 {
+	font-weight: 700;
+	font-size: 1.08em;
+	margin: 1.35em 0 0.4em;
+}
+
+.faq-content h3:first-child {
+	margin-top: 0.35em;
+}
+
+.faq-content p {
+	margin: 0.45em 0 0.85em;
+}
+
+.faq-content ul,
+.faq-content ol {
+	list-style: disc;
+	margin: 0.4em 0 1.1em;
+	padding-left: 1.6em;
+}
+
+.faq-content li {
+	margin: 0.3em 0;
+}
+
+.faq-content li p {
+	margin: 0.35em 0;
+}
+
+/* combat report (rust engine) layout and battle statistics */
+	.scrollable-content {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.round-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		min-width: min-content;
+	}
+
+	.round-container > div[data-side] {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: 1rem;
+	}
+
+	/* ===== Battle Statistics Styles ===== */
+	.battle-stats-container {
+		max-width: 900px;
+		margin: 1.5rem auto;
+		text-align: left;
+	}
+	.battle-stats-container:empty {
+		display: none;
+	}
+
+	/* Round Tabs */
+	.stats-round-tabs {
+		display: flex;
+		justify-content: center;
+		gap: 4px;
+		margin-bottom: 1rem;
+		flex-wrap: wrap;
+	}
+	.stats-round-tab {
+		padding: 6px 16px;
+		background: rgba(255,255,255,0.06);
+		border: 1px solid rgba(255,255,255,0.12);
+		border-radius: 4px 4px 0 0;
+		color: #aaa;
+		cursor: pointer;
+		font-size: 13px;
+		transition: all 0.15s;
+	}
+	.stats-round-tab:hover {
+		background: rgba(255,255,255,0.10);
+		color: #ddd;
+	}
+	.stats-round-tab.active {
+		background: rgba(255,255,255,0.12);
+		color: #fff;
+		border-bottom-color: transparent;
+		font-weight: 600;
+	}
+
+	/* Side titles */
+	.stats-side {
+		margin-bottom: 1rem;
+	}
+	.stats-side-title {
+		font-size: 15px;
+		font-weight: 700;
+		padding: 6px 12px;
+		margin-bottom: 4px;
+		border-radius: 3px;
+		text-align: center;
+	}
+	.stats-attacker .stats-side-title {
+		background: rgba(231, 76, 60, 0.15);
+		color: #e74c3c;
+		border-left: 3px solid #e74c3c;
+	}
+	.stats-defender .stats-side-title {
+		background: rgba(52, 152, 219, 0.15);
+		color: #3498db;
+		border-left: 3px solid #3498db;
+	}
+
+	/* Accordion */
+	.stats-accordion {
+		margin-bottom: 2px;
+	}
+	.stats-accordion-btn {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		padding: 7px 12px;
+		background: rgba(255,255,255,0.04);
+		border: 1px solid rgba(255,255,255,0.08);
+		border-radius: 3px;
+		color: #ccc;
+		cursor: pointer;
+		font-size: 13px;
+		text-align: left;
+		transition: background 0.15s;
+	}
+	.stats-accordion-btn:hover {
+		background: rgba(255,255,255,0.08);
+		color: #fff;
+	}
+	.stats-acc-icon {
+		margin-right: 8px;
+		font-size: 14px;
+	}
+	.stats-acc-label {
+		flex: 1;
+		font-weight: 500;
+	}
+	.stats-acc-arrow {
+		font-size: 12px;
+		color: #888;
+		transition: transform 0.15s;
+	}
+	.stats-accordion-body {
+		padding: 8px 4px;
+		border: 1px solid rgba(255,255,255,0.06);
+		border-top: none;
+		border-radius: 0 0 3px 3px;
+		background: rgba(0,0,0,0.15);
+	}
+
+	/* Stat Tables */
+	.stat-table-wrap {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	.stat-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 12px;
+		white-space: nowrap;
+	}
+	.stat-table th,
+	.stat-table td {
+		padding: 4px 8px;
+		text-align: center;
+		border-bottom: 1px solid rgba(255,255,255,0.06);
+	}
+	.stat-cell-header {
+		font-weight: 600;
+		color: #aaa;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.3px;
+		border-bottom: 2px solid rgba(255,255,255,0.1) !important;
+	}
+	.stat-cell-source {
+		text-align: left;
+		font-weight: 500;
+		color: #ddd;
+		white-space: nowrap;
+	}
+	.stat-cell-has-value {
+		color: #f0f0f0;
+		background: rgba(255,255,255,0.03);
+	}
+	.stat-cell-value {
+		color: #888;
+	}
+	.stat-zero {
+		color: #444;
+	}
+	.stat-cell-total {
+		font-weight: 600;
+		color: #f1c40f;
+		border-left: 1px solid rgba(255,255,255,0.08);
+	}
+	.stat-cell-total-label {
+		font-weight: 700;
+		color: #f1c40f;
+	}
+	.stat-cell-grand-total {
+		font-weight: 700;
+		color: #f39c12;
+		background: rgba(243,156,18,0.08);
+		border-left: 1px solid rgba(255,255,255,0.08);
+	}
+	.stat-row-total td {
+		border-top: 2px solid rgba(255,255,255,0.1);
+	}
+	.stat-table tr:hover td {
+		background: rgba(255,255,255,0.04);
+	}
+
+	/* Fleet/Player sub-accordion */
+	.stats-fleet-accordion {
+		margin: 2px 0 2px 16px;
+	}
+	.stats-fleet-btn {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		padding: 5px 10px;
+		background: rgba(255,255,255,0.03);
+		border: 1px solid rgba(255,255,255,0.06);
+		border-radius: 3px;
+		color: #bbb;
+		cursor: pointer;
+		font-size: 12px;
+		text-align: left;
+		transition: background 0.15s;
+	}
+	.stats-fleet-btn:hover {
+		background: rgba(255,255,255,0.07);
+		color: #eee;
+	}
+	.stats-fleet-btn .stats-acc-icon {
+		font-size: 12px;
+	}
+	.stats-fleet-btn .stats-acc-label {
+		flex: 1;
+		font-weight: 400;
+	}
+	.stats-fleet-body {
+		padding: 6px 4px;
+		border: 1px solid rgba(255,255,255,0.04);
+		border-top: none;
+		border-radius: 0 0 3px 3px;
+		background: rgba(0,0,0,0.10);
+		margin-left: 0;
+	}
+	.stats-fleet-total .stats-fleet-btn {
+		border-top: 1px solid rgba(255,255,255,0.10);
+	}
+	.stats-fleet-btn-total .stats-acc-label {
+		font-weight: 600;
+		color: #f1c40f;
+	}
+
+	/* Target fleet sub-accordion (nested inside source fleet) */
+	.stats-target-accordion {
+		margin: 2px 0 2px 16px;
+	}
+	.stats-target-btn .stats-acc-label {
+		font-weight: 400;
+		font-style: italic;
+		color: #9ab;
+	}
+	.stats-target-btn:hover .stats-acc-label {
+		color: #cde;
+	}
+	.stats-target-info {
+		padding: 4px 10px;
+		font-size: 12px;
+		font-style: italic;
+		color: #9ab;
+		margin-bottom: 4px;
+	}
+
+	/* Responsive */
+	@media (max-width: 600px) {
+		.stats-round-tabs { gap: 2px; }
+		.stats-round-tab { padding: 4px 10px; font-size: 12px; }
+		.stat-table { font-size: 11px; }
+		.stat-table th, .stat-table td { padding: 3px 4px; }
+		.stats-fleet-accordion { margin-left: 8px; }
+		.stats-target-accordion { margin-left: 8px; }
+	}
+
+/* ---- pages: settings, fleet, overview, galaxy, economy (inline styles moved here) */
+
+/* fleet: coordinate and amount inputs */
+input.fleet-amount { max-width: 10em; }
+input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
+
+/* fleet step 1: shortcut grid */
+.shortcut-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.shortcut-container .shortcut-colum {
+	padding: 0.125rem;
+	border: 0.0625rem solid #000;
+}
+
+/* fleet step 2 */
+input.fleet-radio { width: 3.75rem; }
+.fleet-alert { color: red; padding-left: 0.8125rem; }
+.fleet-warning { color: red; }
+tr.fleet-noreturn { height: 3.125rem; }
+
+/* fleet overview: slot counters in three columns, running fleet times, resource tooltip */
+.fleet-slot { width: 33.33%; }
+.fleet-slot--start { text-align: left; float: left; }
+.fleet-slot--center { text-align: center; float: inline-start; }
+.fleet-slot--end { text-align: right; float: right; }
+.fleet-active-time { color: lime; }
+.tt-fleet-res { width: 12.5rem; }
+.tt-fleet-res td { width: 50%; color: white; }
+
+/* ship information: speed, fuel and engine upgrades */
+.speed-boost-2 { color: yellow; }
+.speed-boost-3 { color: pink; }
+
+/* overview */
+.hidden-div { display: none; }
+.rules-link { color: #008FFF; }
+.news-title { font-size: 1.25rem; font-weight: 700; text-decoration: underline; }
+.event-list { list-style-type: none; }
+.event-list li { padding: 0.1875rem; }
+.timer-muted { color: #7F7F7F; }
+.planet-thumb { display: inline-block; margin: 0.3125rem; }
+.infos .planeth img { float: left; }
+.infos .moon img { margin: 20% 0 0.3125rem; }
+
+/* galaxy */
+table.galaxy-nav { min-width: 20.25rem; width: 20.25rem; }
+td.galaxy-form-actions { background-color: transparent; border: 0; }
+.galaxy-rank-leader { color: yellow; }
+.galaxy-rank-diplo { color: orange; }
+.tt-galaxy { width: 15rem; }
+.tt-galaxy-icon, .tt-galaxy-label { width: 5rem; }
+.tt-galaxy-label { width: 13.75rem; }
+
+/* fleet dealer */
+.fleet-dealer-pick { padding: 0.3125rem; }
+.fleet-dealer-body { clear: right; margin-top: 1.25rem; margin-left: 7.8125rem; }
+
+/* shipyard / repair dock: info box, wreck list link */
+table#infobox.repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; }
+.repair-element-link { padding: 0.625rem; }
+
+/* buildings: dismantle tooltip */
+.tt-destroy { width: 18.75rem; }
+
+/* empire */
+.empire-col { width: 6.25rem; }
+.empire-sigma { font-size: 3.125rem; }
+
+/* tech tree: branches start collapsed */
+#techtree .techi,
+#techtree .minus { display: none; }
+#techtree .techi.tt-open { display: block; }
+#techtree .techb.tt-open .minus { display: inline; }
+#techtree .techb.tt-open .plus { display: none; }
+
+/* shipyard: hangar filter bar */
+.hangar-filter-add-wrap { position: relative; display: inline-block; }
+.hangar-filter-menu { position: absolute; left: 0; top: 100%; z-index: 20; min-width: 10rem; max-height: 15rem; overflow: auto; text-align: left; background-color: #111; border: 0.0625rem solid currentColor; padding: 0.25rem; }
+.hangar-filter-menu button { display: block; width: 100%; text-align: left; }
+.hangar-filter-remove { margin-left: 0.25rem; cursor: pointer; }
+
+/* market place */
+#marketPlace .market-list { white-space: nowrap; }
+#marketPlace .ratioBaseline.selected { font-weight: 700; }
+#marketPlace .market-res-type .market-res-icon { display: block; margin: 0 auto 0.125rem; }
+/* keep the reference ratio as a stable 3x2 grid (inputs / baseline buttons) */
+#marketPlace #ratioBaselines .ratio-grid {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr auto 1fr;
+	column-gap: 0.125rem;
+	row-gap: 0.25rem;
+	align-items: center;
+}
+#marketPlace #ratioBaselines .ratio-grid input,
+#marketPlace #ratioBaselines .ratio-grid button { width: 100%; min-width: 0; box-sizing: border-box; }
+
+
+/* ---- tables & forms: settings, fleet, galaxy, information */
+.fleet-amount { width: var(--control-num-w); }
+td.num .control-group { justify-content: flex-end; }
+#form .form-table .control-group select { width: auto; }
+#form td.top > table { margin: 0; }
+/* fleet resources: three amount fields share the row evenly */
+table:has(input.fleet-amount--fill) { table-layout: fixed; }
+input.fleet-amount--fill { min-width: 0; }
+@media (max-width: 40rem) {
+	#form .control-group { flex-wrap: wrap; max-width: 100%; }
+	table.galaxy-nav { min-width: 0; width: 100%; }
+	table.galaxy-nav > tbody > tr > td { display: block; }
+}
+
+/* ---- tables & forms: economy, messages, reports */
+.prod-table select { width: 6rem; font-family: var(--font-mono, monospace); }
+.empire-sigma { text-align: end; }
+.search-receiver { display: block; }
+.search-receiver .select-box { inset-inline-start: 0; }
+#message .receiver { margin-inline-start: 0; }
+/* battle simulator: fleet and defence tables side by side, stacked below 64rem */
+.sim-split > tbody > tr > td { width: 50%; }
+@media (max-width: 64rem) {
+	.sim-split > tbody > tr > td { display: block; width: 100%; }
+}
+/* spy reports: rows of 25 % cells; .lg:hidden / .max-lg:hidden come from reports stored with the old utility classes */
+.spyRaport .spyRaportContainerRow { display: flex; flex-wrap: wrap; align-items: flex-start; }
+.spyRaport .spyRaportContainerRow::after { content: none; }
+.spyRaport .spyRaportContainerCell { float: none; box-sizing: border-box; padding: 0.125rem 0.25rem; overflow-wrap: anywhere; }
+@media (min-width: 64rem) { .spyRaport .lg\:hidden { display: none; } }
+@media (max-width: 63.99rem) { .spyRaport .max-lg\:hidden { display: none; } }
+@media (max-width: 40rem) {
+	/* empire: the wide matrix scrolls (.table-scroll) with the row labels kept in view */
+	.empire-table { width: max-content; min-width: 100%; }
+	.empire-table tr > :first-child { position: sticky; inset-inline-start: 0; z-index: 1; background-color: var(--tv-bg-primary, #0d1014); }
+}
+
+/* ---- tables & forms: alliance, community, help */
+.stats-filter { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.stats-filter .control-group { display: flex; flex: 1 1 12rem; }
+.stats-filter .control-group select { flex: 1 1 auto; min-width: 0; }
+.search-bar { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.search-bar #searchtext { flex: 1 1 10rem; min-width: 0; }
+@media (max-width: 40rem) {
+	.stats-filter .control-group label { flex: 0 0 4.5rem; }
+}

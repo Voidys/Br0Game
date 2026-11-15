@@ -1,0 +1,16 @@
+<tr>
+	<th class="num">{{ LNG.st_position }}</th>
+	<th>{{ LNG.st_alliance }}</th>
+	<th class="num">{{ LNG.st_members }}</th>
+	<th class="num">{{ LNG.st_points }}</th>
+	<th class="num">{{ LNG.st_per_member }}</th>
+</tr>
+{% for RangeInfo in (RangeList)|php_iter %}
+<tr>
+	<td class="num"><a class="tooltip" data-tooltip-content="{% if RangeInfo.ranking == 0 %}<span class='color-star'>*</span>{% elseif RangeInfo.ranking < 0 %}<span class='colorNegative'>{{ RangeInfo.ranking }}</span>{% elseif RangeInfo.ranking > 0 %}<span class='color-green'>+{{ RangeInfo.ranking }}</span>{% endif %}">{{ RangeInfo.rank }}</a></td>
+	<td><a href="game?page=alliance&amp;mode=info&amp;id={{ RangeInfo.id }}"{% if RangeInfo.id == CUser_ally %} class="colorPositive"{% endif %}>{{ RangeInfo.name }}</a></td>
+	<td class="num">{{ RangeInfo.members }}</td>
+	<td class="num">{{ RangeInfo.points }}</td>
+	<td class="num">{{ RangeInfo.mppoints }}</td>
+</tr>
+{% endfor %}

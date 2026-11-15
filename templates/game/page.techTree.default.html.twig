@@ -1,0 +1,48 @@
+{% extends layout_template %}
+
+{% block title %}
+{{ LNG.lm_technology }}{{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="infos"> 
+{% for elementID, requireList in (TechTreeList)|php_iter %}
+{% if not is_array(requireList) %}
+
+<div class="techb" id="{{ requireList }}"> <button> <span class="plus" id="{{ requireList }}s">{{ icon('plus') }}</span>
+  <span class="minus" id="{{ requireList }}h">{{ icon('minus') }}</span></button> {{ LNG.tech[requireList] }}</div>
+	
+{% else %}{% if requireList %}
+<div class="techi" id="h{{ elementID }}">
+<span class="achievement-name"><a href="#" onclick="return Dialog.info({{ elementID }})">{{ LNG.tech[elementID] }}</a></span>
+<a href="#" onclick="return Dialog.info({{ elementID }})"><img class="inline" src="{{ dpath }}gebaeude/{{ elementID }}.{% if elementID >=600 and elementID <= 699 %}jpg{% else %}gif{% endif %}" width="89"></a>
+</br>
+{{ LNG.tt_requirements }}: </br>
+{% for requireID, NeedLevel in (requireList)|php_iter %}
+<a href="#" onclick="return Dialog.info({{ requireID }})"><span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})</span></a>{% if not loop.last %}<br>{% endif %}
+
+{% endfor %}
+</div>
+
+{% endif %}
+
+{% endif %}
+{% endfor %}</div>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script>
+onPageInit(function () {
+	// Toggle all .techi boxes that follow a .techb header up to the next header
+	document.querySelectorAll('#techtree .techb').forEach(function (header) {
+		header.addEventListener('click', function () {
+			var open = !header.classList.contains('tt-open');
+			header.classList.toggle('tt-open', open);
+			for (var el = header.nextElementSibling; el && !el.classList.contains('techb'); el = el.nextElementSibling) {
+				if (el.classList.contains('techi')) {
+					el.classList.toggle('tt-open', open);
+				}
+			}
+		});
+	});
+});
+</script>
+{% endblock %}

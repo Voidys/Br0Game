@@ -1,0 +1,121 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if newsNotice %}<div class="notice notice--success">{{ icon('circle-check') }}<div>{{ newsNotice }}</div></div>{% endif %}
+  {% if newsError %}<div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ newsError }}</div></div>{% endif %}
+
+  {% if editor %}
+  <form method="POST" action="?page=news&amp;action=save" class="card" data-track-dirty enctype="multipart/form-data">
+    <input name="id" type="hidden" value="{{ news_id }}">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('pencil') }}{{ nws_head }}</h2>
+      <div class="card__actions">
+        <a class="button btn--small" href="?page=news">{{ icon('arrow-left') }}{{ LNG.nws_back }}</a>
+        {% if news_id %}<a class="button btn--small" href="./?page=news&amp;id={{ news_id }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.nws_view }}</a>{% endif %}
+      </div>
+    </header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="news-title">{{ LNG.nws_title }}</label>
+          <div class="field-control"><input type="text" id="news-title" name="title" maxlength="160" required value="{{ news.title }}"></div>
+        </div>
+        <div class="field-row">
+          <label for="news-summary">{{ LNG.nws_summary }}</label>
+          <div class="field-control">
+            <textarea id="news-summary" name="summary" rows="2" maxlength="300">{{ news.summary }}</textarea>
+            <p class="field-help">{{ LNG.nws_summary_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="news-text">{{ LNG.nws_content }}</label>
+          <div class="field-control"><textarea id="news-text" rows="14" name="text" data-rte="rich">{{ news.text }}</textarea></div>
+        </div>
+        <div class="field-row">
+          <label for="news-image">{{ LNG.nws_image }}</label>
+          <div class="field-control">
+            {% if news.image %}<p><img src="./uploads/news/{{ news.image|e('html_attr') }}" alt="" class="news-thumb"></p>{% endif %}
+            <input type="file" id="news-image" name="image" accept="image/jpeg,image/png,image/gif,image/webp">
+            {% if news.image %}<label><input type="checkbox" name="remove_image" value="1"> {{ LNG.nws_image_remove }}</label>{% endif %}
+            <p class="field-help">{{ LNG.nws_image_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="news-date">{{ LNG.nws_publish_date }}</label>
+          <div class="field-control">
+            <input type="datetime-local" id="news-date" name="date" value="{{ news.date }}">
+            <p class="field-help">{{ LNG.nws_publish_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="news-status">{{ LNG.nws_status }}</label>
+          <div class="field-control">
+            <select id="news-status" name="status">
+              <option value="0"{% if news.status == 0 %} selected{% endif %}>{{ LNG.nws_status_draft }}</option>
+              <option value="1"{% if news.status == 1 %} selected{% endif %}>{{ LNG.nws_status_published }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="news-pinned">{{ LNG.nws_pinned }}</label>
+          <div class="field-control"><input type="checkbox" id="news-pinned" name="pinned" value="1"{% if news.pinned %} checked{% endif %}></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.button_submit }}</button></div>
+  </form>
+  {% else %}
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('newspaper') }}{{ LNG.nws_news }} <span class="badge badge--muted">{{ count(NewsList) }}</span></h2>
+      <div class="card__actions"><a class="button btn--primary btn--small" href="?page=news&amp;action=create">{{ icon('plus') }}{{ LNG.nws_create }}</a></div>
+    </header>
+    <div class="toolbar">
+      <a class="button btn--small"{% if newsFilter == 'all' %} aria-current="true"{% endif %} href="?page=news">{{ LNG.nws_filter_all }}</a>
+      <a class="button btn--small"{% if newsFilter == 'published' %} aria-current="true"{% endif %} href="?page=news&amp;filter=published">{{ LNG.nws_status_published }}</a>
+      <a class="button btn--small"{% if newsFilter == 'drafts' %} aria-current="true"{% endif %} href="?page=news&amp;filter=drafts">{{ LNG.nws_filter_drafts }}</a>
+    </div>
+    {% if count(NewsList) > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>{{ LNG.nws_title }}</th>
+              <th>{{ LNG.nws_status }}</th>
+              <th>{{ LNG.nws_publish_date }}</th>
+              <th>{{ LNG.nws_from }}</th>
+              <th class="actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for NewsRow in (NewsList)|php_iter %}
+            <tr>
+              <td><a href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}">{{ NewsRow.title }}</a></td>
+              <td class="nowrap">
+                {% if NewsRow.draft %}<span class="badge badge--muted">{{ LNG.nws_status_draft }}</span>
+                {% elseif NewsRow.scheduled %}<span class="badge badge--warn">{{ LNG.nws_status_scheduled }}</span>
+                {% else %}<span class="badge badge--ok">{{ LNG.nws_status_published }}</span>{% endif %}
+                {% if NewsRow.pinned %}<span class="badge">{{ LNG.nws_pinned }}</span>{% endif %}
+              </td>
+              <td class="nowrap">{{ NewsRow.date }}</td>
+              <td>{{ NewsRow.user }}</td>
+              <td class="actions nowrap">
+                <a class="button btn--small" href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a>
+                <form method="POST" action="?page=news&amp;action=delete" class="inline-form">
+                  <input type="hidden" name="id" value="{{ NewsRow.id }}">
+                  <button type="submit" class="btn--small btn--danger" title="{{ LNG.nws_del }}" data-confirm="{{ NewsRow.confirm|e('html_attr') }}" aria-label="{{ LNG.nws_del }}">{{ icon('trash-2') }}</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('newspaper') }}<p>{{ LNG.nws_empty }}</p></div></div>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

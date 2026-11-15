@@ -1,0 +1,100 @@
+<button type="button" class="topbar__menu icon-button" data-sidebar-toggle aria-controls="sidebar" aria-label="{{ LNG.ui_menu|default('Menu') }}">
+  {{ icon('menu') }}
+</button>
+
+<a class="topbar__brand" href="game?page=overview">
+  <img src="styles/resource/images/pr0game.gif" alt="{{ game_name }}" width="120" height="30">
+</a>
+
+<div class="planet-switch">
+  <a class="planet-switch__image" href="game?page=overview" title="{{ LNG.lm_overview }}">
+    {% if planet_style == 1 %}
+      <img src="{{ dpath }}planeten/varianten/v1_magic/{{ image }}_v1_magic.webp" width="40" height="40" alt="">
+    {% elseif planet_style == 2 %}
+      <img src="{{ dpath }}planeten/varianten/v2_storm/{{ image }}_v2_storm.webp" width="40" height="40" alt="">
+    {% elseif planet_style == 3 %}
+      <img src="{{ dpath }}planeten/varianten/v3_voronoi/{{ image }}_v3_voronoi.webp" width="40" height="40" alt="">
+    {% else %}
+      <img src="{{ dpath }}planeten/{{ image }}.jpg" width="40" height="40" alt="">
+    {% endif %}
+  </a>
+  <label class="visually-hidden" for="planetSelector">{{ LNG.ui_planet|default('Planet') }}</label>
+  <select id="planetSelector" class="planet-switch__select">
+    {{ html_options({'options': PlanetSelect, 'selected': current_pid}) }}
+  </select>
+</div>
+
+<ul class="resources" aria-label="{{ LNG.lm_resources|default('Resources') }}">
+  {% for resourceID, resourceData in (resourceTable)|php_iter %}
+    <li class="resource resource--{{ resourceData.name }}">
+      <a class="resource__icon"{% if noobInterface %} href="#" onclick="return Dialog.info({{ resourceID }});"{% endif %}>
+        <img src="{{ dpath }}images/{{ resourceData.name }}.gif" alt="" width="32" height="22">
+      </a>
+      <span class="resource__body">
+        <span class="resource__name">{{ LNG.tech[resourceID] }}</span>
+        {% if not isset(resourceData.current) %}
+          {# energy: free / total #}
+          {% set free = resourceData.max + resourceData.used %}
+          <span class="resource__value{% if free < 0 %} colorNegative{% endif %}">{{ pretty_number(free) }}<span class="resource__max"> / {{ pretty_number(resourceData.max) }}</span></span>
+        {% else %}
+          {% set full = isset(resourceData.max) and resourceData.current >= resourceData.max %}
+          {% set tip %}<div>{{ LNG.tech[resourceID] }}</div><div class="res_current{% if full %} colorNegative{% endif %}">{{ pretty_number(resourceData.current) }}</div>{% if isset(resourceData.max) %}<div class="res_max colorPositive">{{ pretty_number(resourceData.max) }}</div>{% endif %}{% endset %}
+          <span class="resource__value resource__value--full res_current{% if full %} colorNegative{% endif %}" id="current_{{ resourceData.name }}" data-ticker="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}">{{ shortlyNumber ? shortly_number(resourceData.current) : pretty_number(resourceData.current) }}</span>
+          <span class="resource__value resource__value--short res_current tooltip{% if full %} colorNegative{% endif %}" data-ticker="current_{{ resourceData.name }}" data-tooltip-content="{{ tip|e('html') }}">{{ shortly_number(resourceData.current) }}</span>
+          {% if isset(resourceData.max) %}
+            <span class="resource__max res_max" id="max_{{ resourceData.name }}" data-real="{{ resourceData.max }}">{{ pretty_number(resourceData.max) }}</span>
+          {% endif %}
+        {% endif %}
+      </span>
+    </li>
+  {% endfor %}
+</ul>
+
+<nav class="topbar__status" aria-label="{{ LNG.lm_options|default('Account') }}">
+  <span class="topbar__item topbar__universe" title="{{ uni_name }}">
+    {{ icon('globe') }}<span class="topbar__label">{{ uni_name }}</span>
+  </span>
+  <span class="topbar__item topbar__clock" title="{{ LNG.ui_server_time|default('Server time') }}">
+    {{ icon('clock') }}<span class="servertime"></span>
+  </span>
+  {% if isModuleAvailable(php_const('MODULE_MESSAGES')) %}
+    <a class="topbar__item{% if new_message > 0 %} has-badge{% endif %}" href="game?page=messages" title="{{ LNG.ui_messages|default('Messages') }}">
+      {{ icon('mail', LNG.ui_messages|default('Messages')) }}
+      {% if new_message > 0 %}<span class="badge" id="newmesnum">{{ new_message }}</span>{% endif %}
+    </a>
+  {% endif %}
+  {% if isModuleAvailable(php_const('MODULE_STATISTICS')) %}
+    <a class="topbar__item topbar__rank" href="game?page=statistics" title="{{ LNG.ui_points|default('Points') }}: {{ pretty_number(userPoints) }}">
+      {{ icon('trophy') }}<span><span class="topbar__label">{{ LNG.ui_rank|default('Rank') }}</span> {{ userRank > 0 ? pretty_number(userRank) : '–' }}</span>
+    </a>
+  {% endif %}
+  <a class="topbar__item topbar__user" href="game?page=settings" title="{{ LNG.lm_options }}">
+    {{ icon('user') }}<span class="topbar__label">{{ username }}</span>
+  </a>
+  {% if authlevel > 0 %}
+    <a class="topbar__item topbar__admin" href="./admin" title="{{ LNG.lm_administration }} ({{ version }})">
+      {{ icon('shield-alert', LNG.lm_administration) }}
+    </a>
+  {% endif %}
+  <a class="topbar__item topbar__logout" href="game?page=logout" title="{{ LNG.lm_logout }}">
+    {{ icon('log-out', LNG.lm_logout) }}
+  </a>
+</nav>
+
+{% if not vmode %}
+<script>
+  var viewShortlyNumber = {{ shortlyNumber|json_encode|raw }};
+  var vacation = {{ vmode|json_encode|raw }};
+  onPageInit(function () {
+    {% for resourceID, resourceData in (resourceTable)|php_iter %}{% if isset(resourceData.production) %}
+    resourceTicker({
+      available: {{ resourceData.current|json_encode|raw }},
+      limit: [0, {{ resourceData.max|json_encode|raw }}],
+      production: {{ resourceData.production|json_encode|raw }},
+      valueElem: "current_{{ resourceData.name }}"
+    }, true);
+    {% endif %}{% endfor %}
+  });
+</script>
+{% if hasGate %}<script type="module" src="scripts/game/gate.js?v={{ asset_version }}"></script>{% endif %}
+{% endif %}

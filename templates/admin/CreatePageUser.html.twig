@@ -1,0 +1,22 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% include 'admin/CreateTabs.html.twig' with {'createMode': 'user'} %}
+  <form action="" method="post" class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('user-plus') }}{{ new_title }}</h2></header>
+    <div class="card__body stack">
+      <div class="fields">
+        <div class="field"><label for="c-account">{{ accountID }}</label><input type="text" id="c-account" name="accountID" inputmode="numeric"></div>
+        <div class="field"><label for="c-name">{{ user_reg }}</label><input type="text" id="c-name" name="name" autocomplete="off"></div>
+        <div class="field"><label for="c-authlevel">{{ new_range }}</label>{{ html_options({'name': 'authlevel', 'id': 'c-authlevel', 'options': Selector.auth}) }}</div>
+        <div class="field"><label for="c-lang">{{ lang_reg }}</label>{{ html_options({'name': 'lang', 'id': 'c-lang', 'options': Selector.lang}) }}</div>
+      </div>
+      <div class="fields">
+        <div class="field"><label for="c-galaxy">{{ new_coord }}: {{ LNG.po_galaxy }}</label><input type="text" id="c-galaxy" name="galaxy" maxlength="1" inputmode="numeric"></div>
+        <div class="field"><label for="c-system">{{ LNG.po_system }}</label><input type="text" id="c-system" name="system" maxlength="3" inputmode="numeric"></div>
+        <div class="field"><label for="c-planet">{{ LNG.adm_coord_position }}</label><input type="text" id="c-planet" name="planet" maxlength="2" inputmode="numeric"></div>
+      </div>
+    </div>
+    <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('plus') }}{{ new_add_user }}</button></footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

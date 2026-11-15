@@ -1,0 +1,16 @@
+﻿Hallo {USERNAME},
+
+es ist soweit – das {UNINAME} hat am {OPENTIME} seine Pforten geöffnet!
+Wir freuen uns, dass du dabei bist, und wünschen dir viel Spaß und spannende Erlebnisse.
+
+Du findest das Spiel unter {HTTPPATH}.
+Schau auch gern auf unserem Discord vorbei:
+{DISCORD}
+
+Solltest du dein Passwort vergessen haben, klicke einfach auf der Seite auf "Passwort vergessen".
+Kurz darauf erhältst du eine E-Mail mit einem neuen Passwort.
+
+Solltest du weiterhin Probleme beim Einloggen oder Registrieren haben, melde dich bitte bei uns im Discord.
+
+Mit freundlichen Grüßen,
+Das Team von {GAMENAME}

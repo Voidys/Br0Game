@@ -1,0 +1,38 @@
+{#
+  Settings form shared by ConfigBasic and ConfigUni: one card per section with a jump list on top
+  and a sticky save bar (unsaved changes are flagged). extraSectionActions: section name => html
+  rendered in that card's footer (e.g. the SMTP test button).
+#}
+<form action="" method="post" class="stack" data-track-dirty>
+  <input type="hidden" name="opt_save" value="1">
+  {# Enter in a field saves (the first submit button is the default one, not a section's extra action) #}
+  <button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+
+  {% if configSchema|length > 2 %}
+    <nav class="jumplist" aria-label="{{ LNG.adm_sections }}">
+      <span class="jumplist__label">{{ LNG.adm_sections }}</span>
+      {% for categoryName, fields in (configSchema)|php_iter %}
+        <a href="#section-{{ categoryName }}">{{ LNG[('se_' ~ categoryName)] }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+
+  {% for categoryName, fields in (configSchema)|php_iter %}
+    <section class="card" id="section-{{ categoryName }}">
+      <header class="card__head"><h2 class="card__title">{{ LNG[('se_' ~ categoryName)] }}</h2></header>
+      <div class="card__body form-grid">
+        {% for fieldName, fieldConfig in (fields)|php_iter %}
+          {% include 'admin/ConfigFieldInclude.html.twig' with {'fieldName': fieldName, 'fieldConfig': fieldConfig} %}
+        {% endfor %}
+      </div>
+      {% if extraSectionActions[categoryName] is defined %}
+        <footer class="card__foot">{{ extraSectionActions[categoryName]|raw }}</footer>
+      {% endif %}
+    </section>
+  {% endfor %}
+
+  <div class="form-actions">
+    <span class="form-actions__hint">{{ LNG.adm_unsaved_hint }}</span>
+    <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button>
+  </div>
+</form>

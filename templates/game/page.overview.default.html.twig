@@ -1,0 +1,348 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_overview }}{{ parent() }}{% endblock %}
+{% block script %}{{ parent() }}
+    <script type="module" src="scripts/game/overview.js"></script>
+
+{% endblock %}
+{% block content %}
+    <style>
+        .colorMission2friend{
+            color:{{ colors.colorMission2friend }}
+        }
+        .colorMission1Own{
+            color:{{ colors.colorMission1Own }}
+        }
+        .colorMission2Own{
+            color:{{ colors.colorMission2Own }}
+        }
+        .colorMission3Own{
+            color:{{ colors.colorMission3Own }}
+        }
+        .colorMission4Own{
+            color:{{ colors.colorMission4Own }}
+        }
+        .colorMission5Own{
+            color:{{ colors.colorMission5Own }}
+        }
+        .colorMission6Own{
+            color:{{ colors.colorMission6Own }}
+        }
+        .colorMission7Own{
+            color:{{ colors.colorMission7Own }}
+        }
+        .colorMission7OwnReturn{
+            color:{{ colors.colorMission7OwnReturn }}
+        }
+        .colorMission8Own{
+            color:{{ colors.colorMission8Own }}
+        }
+        .colorMission9Own{
+            color:{{ colors.colorMission9Own }}
+        }
+        .colorMission10Own{
+            color:{{ colors.colorMission10Own }}
+        }
+        .colorMission15Own{
+            color:{{ colors.colorMission15Own }}
+        }
+        .colorMission16Own{
+            color:{{ colors.colorMission16Own }}
+        }
+        .colorMission17Own{
+            color:{{ colors.colorMission17Own }}
+        }
+        .colorMissionReturnOwn{
+            color:{{ colors.colorMissionReturnOwn }}
+        }
+        .colorMission1Foreign{
+            color:{{ colors.colorMission1Foreign }}
+        }
+        .colorMission2Foreign{
+            color:{{ colors.colorMission2Foreign }}
+        }
+        .colorMission3Foreign{
+            color:{{ colors.colorMission3Foreign }}
+        }
+        .colorMission4Foreign{
+            color:{{ colors.colorMission2friend }}
+        }
+        .colorMission5Foreign{
+            color:{{ colors.colorMission5Foreign }}
+        }
+        .colorMission6Foreign{
+            color:{{ colors.colorMission6Foreign }}
+        }
+        .colorMission7Foreign{
+            color:{{ colors.colorMission7Foreign }}
+        }
+        .colorMission8Foreign{
+            color:{{ colors.colorMission8Foreign }}
+        }
+        .colorMission9Foreign{
+            color:{{ colors.colorMission9Foreign }}
+        }
+        .colorMission10Foreign{
+            color:{{ colors.colorMission10Foreign }}
+        }
+        .colorMission15Foreign{
+            color:{{ colors.colorMission15Foreign }}
+        }
+        .colorMission16Foreign{
+            color:{{ colors.colorMission16Foreign }}
+        }
+        .colorMission17Foreign{
+            color:{{ colors.colorMission17Foreign }}
+        }
+        .colorMissionReturnForeign{
+            color:{{ colors.colorMissionReturnForeign }}
+        }
+        .statictimer{
+        color:{{ colors.colorStaticTimer }}
+        }
+    </style>
+    <div>
+        <div class="tutorial-box">
+            {% include 'game/shared.tutorial.html.twig' %}
+        </div>
+        <div class="message-box">
+        </div>
+        
+        <div class="infos">
+            <div class="planeto">
+                <a href="#" onclick="return Dialog.PlanetAction();" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
+            </div>
+            {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
+            <br>
+            {{ LNG.ov_admins_online }}
+            {% for ID, Name in (AdminsOnline)|php_iter %}
+                &nbsp;&bull;&nbsp;
+                <a class="colorPositive" href="#" onclick="return Dialog.PM({{ ID }})">{{ Name }}</a>
+            {% endfor %}
+            &nbsp;&bull;&nbsp;<a class="colorPositive" href="game?page=ticket">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
+            <br><br>
+            {{ LNG.ov_points }} {% if rankInfo %}{{ LNG.ov_userrank_info|format(rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}
+            {% if outlawTime %}
+                <br><span class="colorNegative">{{ LNG.ov_outlaw }} {{ outlawTime }}</span>
+            {% endif %}
+            {% if isCatchUp %}
+                <br>{{ catchUp }} %
+            {% endif %}
+            <br><br>
+            <span class="bold">
+                {{ LNG.ov_rulesnotify }}&nbsp;<a href="./?page=rules" data-dialog data-dialog-width="820" class="rules-link">[{{ LNG.ov_rules }}]</a>
+            </span>
+            {% if is_news %}
+                <div class="hidden-div" id="hidden-div">
+                    <span class="news-title">
+                        {{ LNG.ov_news }}:
+                    </span>
+                    <br><br>
+                    {{ news|raw }}
+                    <br>
+                    <span class="block mt-2 text-center">
+                        <button id="chkbtn2">{{ LNG.ov_checknews_hide }}</button>
+                    </span>
+                </div>
+                <span class="block mt-2">
+                    <button id="chkbtn">{{ LNG.ov_checknews_show }}</button>
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="infos">
+            <div class="planeto">
+                {{ LNG.ov_events }} <button id="chkbtn1">{{ LNG.ov_fleetbutton_hide }}</button>
+                <span style="display:none" id="tn3">
+                    <button id="chkbtn3">{{ LNG.ov_fleetbutton_show }}</button>
+                </span>
+            </div>
+
+            <ul class="event-list" id="hidden-div2">
+                {% for index, fleet in (fleets)|php_iter %}
+                    <li>
+                      <span data-time="{{ fleet.returntime }}" class="statictimer"></span> |
+                      <span id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">
+                            {{ getRestTimeFormat(fleet.resttime) }}
+                        </span>
+                        <td id="fleettime_{{ index }}">{{ fleet.text }}</td>
+                    </li>
+                {% endfor %}
+            </ul>
+            &nbsp;
+        </div>
+
+        <div class="infos{% if Moon %} infos-with-moon{% endif %}">
+            <div class="planeto">
+                {{ LNG.lm_overview }}
+            </div>
+            {% if Moon %}
+                <div class="moon">
+                    <a href="game?page=overview&amp;cp={{ Moon.id }}&amp;re=0" title="{{ Moon.name }}">
+                        {% if enablePlanetStyles == 0 %}
+                            <img class="inline" src="{{ dpath }}planeten/{{ Moon.image }}.jpg" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
+                        {% else %}
+                            {% if Moon.planet_style == 0 %}
+                                <img class="inline" src="{{ dpath }}planeten/{{ Moon.image }}.jpg" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
+                            {% endif %}
+                            {% if Moon.planet_style == 1 %}
+                                <img class="inline" src="{{ dpath }}planeten/varianten/v1_magic/{{ Moon.image }}_v1_magic.webp" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
+                            {% endif %}
+                            {% if Moon.planet_style == 2 %}
+                                <img class="inline" src="{{ dpath }}planeten/varianten/v2_storm/{{ Moon.image }}_v2_storm.webp" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
+                            {% endif %}
+                            {% if Moon.planet_style == 3 %}
+                                <img class="inline" src="{{ dpath }}planeten/varianten/v3_voronoi/{{ Moon.image }}_v3_voronoi.webp" height="100" width="100" alt="{{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.fcm_moon }}){% else %}({{ LNG.fcm_planet }}){% endif %}">
+                            {% endif %}             
+                        {% endif %}             
+                    </a>
+                    <br>
+                    {{ Moon.name }} {% if Moon.planet_type == 3 %}({{ LNG.ov_moon }}){% else %}({{ LNG.ov_planet }}){% endif %}
+                    <br>
+                    {% if Moon.build %}
+                        {{ LNG.tech[Moon.build['id']] }} ({{ Moon.build['level'] }})
+                        <br>
+                        <div class="timershort timer-muted" data-umode="{{ umode }}" data-time="{{ Moon.build['timeleft'] }}">
+                            {{ Moon.build['starttime'] }}
+                        </div>
+                    {% else %}
+                        {{ LNG.ov_free }}
+                    {% endif %}
+                </div>
+            {% else %}
+                &nbsp;
+            {% endif %}
+            <div class="planeth">
+                {% if enablePlanetStyles == 0 %}
+                    <img src="{{ dpath }}planeten/{{ planetimage }}.jpg" height="200" width="200" alt="{{ planetname }}">
+                {% else %}
+                    {% if planet_style == 0 %}
+                        <img src="{{ dpath }}planeten/{{ planetimage }}.jpg" height="200" width="200" alt="{{ planetname }}">
+                    {% endif %}
+                    {% if planet_style == 1 %}
+                        <img src="{{ dpath }}planeten/varianten/v1_magic/{{ planetimage }}_v1_magic.webp" height="200" width="200" alt="{{ planetname }}">
+                    {% endif %}
+                    {% if planet_style == 2 %}
+                        <img src="{{ dpath }}planeten/varianten/v2_storm/{{ planetimage }}_v2_storm.webp" height="200" width="200" alt="{{ planetname }}">
+                    {% endif %}
+                    {% if planet_style == 3 %}
+                        <img src="{{ dpath }}planeten/varianten/v3_voronoi/{{ planetimage }}_v3_voronoi.webp" height="200" width="200" alt="{{ planetname }}">
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="planeth">
+                {{ planetname }}
+                <br>
+                {% if buildInfo.buildings %}
+                    <a href="game?page=buildings">{{ LNG.lm_buildings }}:</a> {{ LNG.tech[buildInfo.buildings['id']] }}{% if buildInfo.buildings['mode'] == 'destroy' %} {{ LNG.bd_dismantle }}{% endif %} ({{ buildInfo.buildings['level'] }})
+                    <br>
+                    <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.buildings['timeleft'] }}">
+                        {{ buildInfo.buildings['starttime'] }}
+                    </div>
+                {% else %}
+                    <a href="game?page=buildings">{{ LNG.lm_buildings }}: {{ LNG.ov_free }}</a>
+                    <br>
+                {% endif %}
+                {% if buildInfo.tech %}
+                    <a href="game?page=research">{{ LNG.lm_research }}:</a> {{ LNG.tech[buildInfo.tech['id']] }} ({{ buildInfo.tech['level'] }})
+                    <br>
+                    <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.tech['timeleft'] }}">
+                        {{ buildInfo.tech['starttime'] }}
+                    </div>
+                {% else %}
+                    <a href="game?page=research">{{ LNG.lm_research }}: {{ LNG.ov_free }}</a>
+                    <br>
+                {% endif %}
+                {% if buildInfo.fleet %}
+                    <a href="game?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}: </a>{{ LNG.tech[buildInfo.fleet['id']] }} ({{ buildInfo.fleet['level'] }})
+                    <br>
+                    <div class="timer" data-umode="{{ umode }}" data-time="{{ buildInfo.fleet['timeleft'] }}">
+                        {{ buildInfo.fleet['starttime'] }}
+                    </div>
+                {% else %}
+                    <a href="game?page=shipyard&amp;mode=fleet">{{ LNG.lm_shipshard }}: {{ LNG.ov_free }}</a>
+                    <br>
+                {% endif %}
+                
+                {% if isModuleAvailable(php_const('MODULE_REPAIR_DOCK')) %}
+                    {% if buildInfo.repair %}
+                        {% if buildInfo.repair.repairing %}
+                            <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: </a><span id="repairtext" data-alttext="{{ buildInfo.repair['deploy_text'] }}">{{ buildInfo.repair['text'] }}</span>
+                        {% else %}
+                            <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: </a><span id="repairtext">{{ buildInfo.repair['deploy_text'] }}</span>
+                        {% endif %}
+                        <br>
+                        <div class="timerrepair" data-umode="{{ umode }}" data-time="{{ buildInfo.repair['timeleft'] }}" data-repairing={{ buildInfo.repair['repairing'] }}>
+                            {{ buildInfo.repair['starttime'] }}
+                        </div>
+                    {% else %}
+                        <a href="game?page=repairdock">{{ LNG.lm_repairdock }}: {{ LNG.ov_free }}</a>
+                        <br>
+                    {% endif %}
+                {% endif %}
+                
+                <br>
+                {{ LNG.ov_diameter }}: {{ planet_diameter }} {{ LNG.ov_distance_unit }} (<a title="{{ LNG.ov_developed_fields }}">{{ planet_field_current }}</a> / <a title="{{ LNG.ov_max_developed_fields }}">{{ planet_field_max }}</a> {{ LNG.ov_fields }})
+                <br>
+                {{ LNG.ov_temperature }}: <a class="tooltip_sticky" data-tooltip-content="{{ LNG.ov_aprox }} {{ planet_temp_min }}{{ LNG.ov_temp_unit }} {{ LNG.ov_to }} {{ planet_temp_max }}{{ LNG.ov_temp_unit }}">{{ planet_temp_max }}{{ LNG.ov_temp_unit }}</a>
+                <br>
+                {{ LNG.ov_position }}: <a href="game?page=galaxy&amp;galaxy={{ galaxy }}&amp;system={{ system }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a>
+            </div>
+            &nbsp;<br>
+        </div>
+
+        <div class="infos">
+            {% if AllPlanets %}
+                <div class="planeto">
+                    {{ LNG.ov_planets }}
+                </div>
+                {% for PlanetRow in (AllPlanets)|php_iter %}
+                    {% if (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) == 1 %}{% endif %}
+                    <div class="planetl">
+                        <a href="game?page=overview&amp;cp={{ PlanetRow.id }}" title="{{ PlanetRow.name }}">
+                            {% if enablePlanetStyles == 0 %}
+                                <img class="planet-thumb" src="{{ dpath }}planeten/{{ PlanetRow.image }}.jpg" width="100" height="100" alt="{{ PlanetRow.name }}">
+                            {% else %}
+                                {% if PlanetRow.planet_style == 0 %}
+                                    <img class="planet-thumb" src="{{ dpath }}planeten/{{ PlanetRow.image }}.jpg" width="100" height="100" alt="{{ PlanetRow.name }}">
+                                {% endif %}                  
+                                {% if PlanetRow.planet_style == 1 %}
+                                    <img class="planet-thumb" src="{{ dpath }}planeten/varianten/v1_magic/{{ PlanetRow.image }}_v1_magic.webp" width="100" height="100" alt="{{ PlanetRow.name }}">
+                                {% endif %}                  
+                                {% if PlanetRow.planet_style == 2 %}
+                                    <img class="planet-thumb" src="{{ dpath }}planeten/varianten/v2_storm/{{ PlanetRow.image }}_v2_storm.webp" width="100" height="100" alt="{{ PlanetRow.name }}">
+                                {% endif %}                  
+                                {% if PlanetRow.planet_style == 3 %}
+                                    <img class="planet-thumb" src="{{ dpath }}planeten/varianten/v3_voronoi/{{ PlanetRow.image }}_v3_voronoi.webp" width="100" height="100" alt="{{ PlanetRow.name }}">
+                                {% endif %}                  
+                            {% endif %}                  
+                        </a>
+                        <br>
+                        {{ PlanetRow.name }}
+                        <br>
+                        [{{ PlanetRow.galaxy }}:{{ PlanetRow.system }}:{{ PlanetRow.planet }}]
+                        <br>
+                        {% if PlanetRow.build %}
+                            {{ LNG.tech[PlanetRow.build['id']] }}{% if PlanetRow.build['mode'] == 'destroy' %} {{ LNG.bd_dismantle }}{% endif %} ({{ PlanetRow.build['level'] }})
+                            <br>
+                            <div class="timershort timer-muted" data-umode="{{ umode }}" data-time="{{ PlanetRow.build['timeleft'] }}">
+                                {{ PlanetRow.build['starttime'] }}
+                            </div>
+                        {% else %}
+                            {{ LNG.ov_free }}
+                        {% endif %}
+                    </div>
+                    {% if loop.last and loop.length > 1 and (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) != 0 %}
+                        {% set to = themeSettings.PLANET_ROWS_ON_OVERVIEW - (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) %}
+                        {% if (to) >= (1) %}{% for foo in 1..to %}
+
+                        {% endfor %}{% endif %}
+                    {% endif %}
+                    {% if (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) == 0 %}</tr>{% endif %}
+                {% endfor %}
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

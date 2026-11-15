@@ -1,0 +1,24 @@
+Hola {USERNAME},
+
+Gracias por registrarte al juego {GAMENAME}. 
+Antes de que su cuenta sea activada y el registro esté completado,
+usted debe realizar un paso más.
+
+Tenga en cuenta que este es un paso absolutamente necesario para ser
+un usuario registrado. Es necesario que se dirija al enlace que aparece a
+continuación, una vez realizado esto usted habrá activado la cuenta..
+
+Para completar el registro haga click en el siguiente enlace:
+
+{VERTIFYURL}
+
+Sus datos de acceso son:
+
+Email : {EMAIL}
+
+Si tiene algún problema con el registro automático, cree un ticket en nuestro Discord: 
+{DISCORD}
+
+Saludos cordiales,
+
+El Equipo de {GAMENAME}.

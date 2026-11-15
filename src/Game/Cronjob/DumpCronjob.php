@@ -1,0 +1,48 @@
+<?php
+
+/**
+ *  2Moons
+ *   by Jan-Otto Kröpke 2009-2016
+ *
+ * For the full copyright and license information, please view the LICENSE
+ *
+ * @package 2Moons
+ * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @copyright 2009 Lucky
+ * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+ * @licence MIT
+ * @version 1.8.0
+ * @link https://github.com/jkroepke/2Moons
+ */
+
+namespace App\Game\Cronjob;
+
+use Exception;
+use App\Game\Core\Database;
+use App\Game\Core\SQLDumper;
+
+class DumpCronjob extends AbstractCronjobTask
+{
+    public function run(): void
+    {
+        $prefixCounts	= strlen($this->db->getTablePrefix());
+        $dbTables		= [];
+        $tableNames		= $this->db->nativeQuery('SHOW TABLE STATUS FROM '.$this->db->getDatabaseName().';');
+
+        foreach ($tableNames as $table) {
+            if ($this->db->getTablePrefix() == substr($table['Name'], 0, $prefixCounts)) {
+                $dbTables[]	= $table['Name'];
+            }
+        }
+
+        if (empty($dbTables)) {
+            throw new Exception('No tables found for dump.');
+        }
+
+        $fileName	= 'br0gameBackup_'.date('d_m_Y_H_i_s', $this->state->runtime->timestamp).'.sql';
+        $filePath	= 'var/backups/'.$fileName;
+
+        $dump	= new SQLDumper($this->db, $this->configs, $this->state);
+        $dump->dumpTablesToFile($dbTables, $filePath);
+    }
+}

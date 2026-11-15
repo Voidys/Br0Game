@@ -1,0 +1,204 @@
+biggest_solo: Biggest solo Fights
+build_ships: Ships built overall
+buttonLostPassword: Lost Password?
+buttonRegister: Register
+buttonScreenshot: Screenshots
+civil: Civilian
+colony: Colony
+CrystalStorage: Crystal Storage
+deathstar: Deathstar
+destroyed_sats: Destroyed solar satellites
+disclamerLabelAddress: 'Game Address:'
+disclamerLabelMail: 'Support Email:'
+disclamerLabelNotice: More information
+disclamerLabelPhone: 'Telephone Nr.:'
+disclamerRecaptcha: >-
+  This page uses reCAPTCHA and the Google <a
+  href="https://policies.google.com/privacy">privacy statement</a> and <a
+  href="https://policies.google.com/terms">terms of use</a> apply.
+first_fights: First Fights of the Universe
+flown_expos: Overall flown expeditions
+flownDeut: Overall spent Deuterium flying
+forum: Board
+found_res: Resources found overall
+found_ships: Overall found ships
+galaxySpendDeut: Deut spend clicking through the galaxy
+gameInformations: |-
+  A space strategy game in real time.
+  Game with hundreds of users.
+  No download, it only requires a standard browser.
+  Free registration
+hof3_header: The legends of Uni 3 are immortalized here!
+hof4_header: The legends of Uni 4 are immortalized here!
+hof7_header: The legends of Uni 7 are immortalized here!
+IonCannon: Ion Cannon
+least_reached_ach: Rarest Achievements
+login_error_1: >-
+  Wrong e-mail or password! Hint: Password safes often save the user name, but
+  you have to log in with your e-mail.
+login_error_2: >-
+  Someone has logged in from a different PC in your account, or your IP is
+  different!
+login_error_3: Your session has expired!
+login_error_4: >-
+  There have been too many login attempts. Please contact an administrator via
+  Discord for new login details. Have your e-mail address ready for
+  verification.
+loginButton: Login
+loginEmail: Email
+loginHeader: Login
+loginInfo: With the login I accept the %s.
+loginPassword: Password
+loginServerDesc: >-
+  %s is a space strategy game with hundreds of players playing together
+  <strong>at the same time</strong> trying to be the best. All you need to play
+  is a standard web browser.
+loginWelcome: Welcome to %s
+Lowest_longterm_points: Preregistered Accounts with the fewest points
+medAliens: Medium Aliens
+menu_banlist: Banned Hall
+menu_battlehall: Battle Hall
+menu_disclamer: Contacts
+menu_index: Index
+menu_news: News
+menu_rules: Rules
+military: Military
+most_achievements: Most Achievements collected
+most_black_holes: Most black holes encountered
+most_build: Most built
+most_build_HF: Most Heavy Fighters built
+most_defended_moons: Most successful moon defenses
+most_destroyed_moons: Most destroyed Moons
+most_expo_fights: Most fights against Aliens/Pirates
+most_fights: Most Wins / Losses / Draws
+most_reached_ach: Most common Achievements
+most_records: Most records collected
+news_does_not_exist: No news available!
+news_from: On %s by %s
+oldest_active_acc: Oldest active accounts
+overall: Overall
+passwordBack: Back
+passwordChangedMailSend: You will receive an email shortly with your new password.
+passwordChangedMailTitle: 'New password on the game: %s'
+passwordErrorMailEmpty: You have specified an unknown email address!
+passwordErrorOnePerDay: >-
+  A password for this account was already requested in the last 24 hours. You
+  can request a new password for this account again in 24 hours. 
+passwordErrorUnknown: No account was found with those details.
+passwordInfo: >-
+  If you have forgotten your password, enter the username and the email address
+  stored in your account. If you no longer know those details, contact an
+  administrator.
+passwordMail: E-Mail
+passwordNext: Next
+passwordSubmit: Submit
+passwordUsername: Username
+passwordValidInValid: Invalid Request!
+passwordValidMailSend: You will receive an email shortly with further information.
+passwordValidMailTitle: 'Forgot my password on the game: %s'
+players: Players
+points_amount: Points / Amount
+realDesUnits: Real destroyed units
+registerBack: Back
+registerDataPrivacyDesc: I agree with the %s
+registerEmail: E-Mail
+registerEmailDesc: Please enter your email address!
+registerEmailReplay: Repeat E-Mail
+registerEmailReplayDesc: Please enter your email address again to confirm it.
+registerErrorDataPrivacy: You must confirm the privacy policy!
+registerErrorMailEmpty: You must enter an email address!
+registerErrorMailExist: This email address is already registered!
+registerErrorMailInvalid: Invalid email address!
+registerErrorMailSame: The two email addresses do not match!
+registerErrorPasswordLength: The password must be at least %s characters long!
+registerErrorPasswordSame: The two passwords do not match!
+registerErrorRules: You have to accept the rules!
+registerErrorUniClosed: Registration is closed in this universe.
+registerErrorUsernameChar: Your username may only contain letters, numbers, spaces, _, - and .
+registerErrorUsernameEmpty: You must enter a username!
+registerErrorUsernameExist: The username is already taken!
+registerLanguage: Language
+registerMailCompleteTitle: Welcome to %s!
+registerMailVertifyTitle: 'Activation of registration on the game: %s'
+registerPassword: Password
+registerPasswordDesc: The password must be at least %s characters long.
+registerPasswordReplay: Repeat Password
+registerPasswordReplayDesc: Please enter the same password.
+registerReferral: 'Advertised by:'
+registerRules: Rules
+registerRulesDesc: I agree with the %s
+registerSendComplete: >-
+  Thank you for registering. Please check your email (including spam) for
+  further information.
+registerTimezone: Timezone
+registerUsername: Username
+registerUsernameDesc: >-
+  The username must be between 3 and 25 characters and may contain letters,
+  numbers, spaces, periods, hyphens and underscores.
+registerWelcomePMSenderName: Administrator
+registerWelcomePMSubject: Welcome
+registerWelcomePMText: >-
+  Welcome to %s! First build a Solar Power Plant, because energy is needed to
+  produce resources. Open Buildings in the left menu and start with the Solar
+  Power Plant.<br>Once you have energy, you can build mines. Stay in Buildings
+  and construct a Metal Mine, then a Crystal Mine.<br><br>To build ships you
+  need a Shipyard. The Technologies menu on the left shows what is required to
+  unlock it.<br>If you have more questions, check the FAQ, the wiki, or open a
+  support ticket.<br><br>The team wishes you a lot of fun exploring the
+  universe!
+second_expo_deck: Started their second Expedition Deck
+siteTitleBanList: Banned Hall
+siteTitleBattleHall: Battle Hall
+siteTitleDataPrivacy: Data Privacy
+siteTitleDisclamer: Contacts
+siteTitleHOF: Hall of Fame
+siteTitleIndex: Index
+siteTitleLostPassword: Lost Password?
+siteTitleNews: News
+siteTitleRegister: Register
+siteTitleRules: Rules
+siteTitleScreens: Screenshots
+spy: Spy probes
+st_buildings: Buildings
+st_defenses: Defense
+st_fleets: Fleet
+st_points: Points
+st_researh: Research
+theme: Theme
+universe: Universe
+vertifyAdminMessage: The username "%s" has enabled!
+vertifyNoUserFound: Invalid Request!
+votingPoints: Voting Points
+wonAttack: Won Attack
+wonDefense: Won Defense
+chose_a_uni: Choose a universe
+menu_register: Registration
+news_overview: News
+passwordCaptcha: Security code
+passwordErrorUsernameEmpty: You did not enter a username!
+registerCaptcha: Security code
+registerCaptchaDesc: Please enter the characters below into the empty field without spaces. Case does not matter. If you still cannot read the image after reloading several times, contact the administrator of this site.
+registerCaptchaReload: Reload captcha.
+registerErrorCaptcha: The security code is incorrect!
+registerMailVertifyError: 'Error sending the mail: %s'
+registerNext: Continue
+rulesHeader: Rules
+uni_closed: ' (closed)'
+uni_reg_closed: ' (registration closed)'
+uni_reg_open: ' (registration only)'
+home_meme_alt_first_day: 'Comic: Commander Vane rests a robotic hand on a nervous cadet’s shoulder – “Don’t worry, cadet. High Command has complete confidence in your solo scouting mission into space.”'
+home_menu: Menu
+home_meta_description: '%s – the space strategy browser game with 2000s charm: grow planets, build fleets, forge alliances.'
+home_started: Already running!
+home_starts_in: In
+home_team: Team
+home_meme_caption: Your first day
+home_meme_alt: 'Comic meme from the {game_name} command deck'
+home_meme_alt_deuterium_faith: 'Comic: Commander Kamioka grins and rests a robotic hand on a cadet’s shoulder – “It seems you failed to bring back the Deuterium, and your ship is on fire. Don’t worry, cadet. We still have… ‘complete’ faith in you.”'
+home_meme_alt_this_is_fine: 'Comic: a dog in a space suit sits calmly with a cup of coffee in a burning command hub – “This is fine.” The cadet says: “Don’t worry. My fleet is only 4 hours late returning.”'
+source_code: Source code
+news_back: Back to news
+news_pinned: Pinned
+news_read_more: Read more
+news_latest: Latest news
+news_all: All news

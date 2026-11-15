@@ -1,0 +1,313 @@
+{% include 'admin/overall_header.html.twig' %}
+{% set statusIcon = {ok: 'circle-check', warn: 'triangle-alert', fail: 'circle-x', info: 'info'} %}
+{% set statusBadge = {ok: 'badge--ok', warn: 'badge--warn', fail: 'badge--danger', info: 'badge--muted'} %}
+{% set dash = '–' %}
+<div class="stack">
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.info_information|format(git_issues_link) }}</div></div>
+
+  {# ---------------------------------------------------------------- 1. health #}
+  {% if checkCounts.fail > 0 %}
+    <div class="notice notice--danger" role="alert">{{ icon('circle-x') }}<div>{{ LNG.adm_info_summary_fail|format(checkCounts.fail, checkCounts.warn) }}</div></div>
+  {% elseif checkCounts.warn > 0 %}
+    <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.adm_info_summary_warn|format(checkCounts.warn) }}</div></div>
+  {% else %}
+    <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.adm_info_summary_ok }}</div></div>
+  {% endif %}
+
+  <section class="card" aria-labelledby="info-health">
+    <header class="card__head"><h2 class="card__title" id="info-health">{{ icon('activity') }}{{ LNG.adm_info_health }}</h2></header>
+    <div class="card__body">
+      <ul class="health">
+        {% for check in checks %}
+          <li class="health__item">
+            <span class="badge {{ statusBadge[check.status] }}">{{ icon(statusIcon[check.status]) }}{{ LNG['adm_info_status_' ~ check.status] }}</span>
+            <div class="health__text">
+              <strong>{{ LNG['adm_info_chk_' ~ check.id] }}</strong>
+              <span class="mono small">{{ check.value }}</span>
+              {% if check.status != 'ok' %}<span class="health__hint">{{ LNG['adm_info_chk_' ~ check.id ~ '_hint'] }}</span>{% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  {# ---------------------------------------------------------------- 2. server + 3. database #}
+  <div class="cols">
+    <section class="card" aria-labelledby="info-server">
+      <header class="card__head"><h2 class="card__title" id="info-server">{{ icon('server') }}{{ LNG.adm_info_server }}</h2></header>
+      <div class="card__body stack">
+        <dl class="kv info-kv">
+          <dt>{{ LNG.adm_info_os }}</dt><dd>{{ server.os }}</dd>
+          <dt>{{ LNG.adm_info_hostname }}</dt><dd class="mono">{{ server.hostname ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_server_info }}</dt><dd>{{ server.webserver ?: dash }}</dd>
+          <dt>{{ LNG.adm_info_php_version }}</dt><dd class="mono">{{ server.php }} ({{ server.sapi }})</dd>
+          <dt>{{ LNG.adm_info_memory_limit }}</dt><dd class="mono">{{ server.ini.memory_limit }}</dd>
+          <dt>{{ LNG.adm_info_max_exec }}</dt><dd class="mono">{{ server.ini.max_execution_time }} s</dd>
+          <dt>{{ LNG.adm_info_upload_max }}</dt><dd class="mono">{{ server.ini.upload_max_filesize }}</dd>
+          <dt>{{ LNG.adm_info_post_max }}</dt><dd class="mono">{{ server.ini.post_max_size }}</dd>
+          <dt>{{ LNG.adm_info_realpath }}</dt><dd class="mono">{{ server.ini.realpath_cache_size }}</dd>
+          <dt>{{ LNG.adm_info_peak }}</dt><dd class="mono">{{ server.peak }}</dd>
+          <dt>{{ LNG.adm_info_cpu }}</dt><dd>{% if server.cpuCores %}{{ server.cpuCores }}{% if server.cpuModel %} × {{ server.cpuModel }}{% endif %}{% else %}{{ dash }}{% endif %}</dd>
+          <dt>{{ LNG.adm_info_load }}</dt><dd class="mono">{{ server.load ? server.load|join(' / ') : dash }}</dd>
+          <dt>{{ LNG.adm_info_uptime }}</dt><dd>{{ server.uptime ?? dash }}</dd>
+        </dl>
+
+        <div>
+          <h3 class="subhead">{{ LNG.adm_info_disk }}</h3>
+          {% if server.disk %}
+            <div class="meter{% if server.disk.usedPct >= 90 %} meter--danger{% elseif server.disk.usedPct >= 75 %} meter--warn{% endif %}" role="img" aria-label="{{ LNG.adm_info_disk }}: {{ server.disk.usedPct }} %"><span style="width: {{ server.disk.usedPct }}%"></span></div>
+            <p class="meter__meta">{{ LNG.adm_info_free_of|format(server.disk.free, server.disk.total, server.disk.usedPct) }}</p>
+          {% else %}<p class="meter__meta">{{ dash }}</p>{% endif %}
+        </div>
+
+        {% if server.memory %}
+          <div>
+            <h3 class="subhead">{{ LNG.adm_info_memory }}</h3>
+            <div class="meter{% if server.memory.usedPct >= 90 %} meter--danger{% elseif server.memory.usedPct >= 80 %} meter--warn{% endif %}" role="img" aria-label="{{ LNG.adm_info_memory }}: {{ server.memory.usedPct }} %"><span style="width: {{ server.memory.usedPct }}%"></span></div>
+            <p class="meter__meta">{{ LNG.adm_info_free_of|format(server.memory.free, server.memory.total, server.memory.usedPct) }}</p>
+          </div>
+        {% endif %}
+
+        {% if opcache %}
+          <div>
+            <h3 class="subhead">OPcache</h3>
+            <div class="meter{% if opcache.usedPct >= 95 %} meter--danger{% elseif opcache.usedPct >= 85 %} meter--warn{% endif %}" role="img" aria-label="OPcache: {{ opcache.usedPct }} %"><span style="width: {{ opcache.usedPct }}%"></span></div>
+            <p class="meter__meta">{{ LNG.adm_info_opcache_line|format(opcache.used, opcache.total, opcache.hitRate, opcache.scripts) }}</p>
+          </div>
+        {% endif %}
+
+        <div>
+          <h3 class="subhead">{{ LNG.adm_info_extensions }}</h3>
+          <ul class="chips">
+            {% for ext in server.extensions %}
+              <li><span class="badge {{ ext.loaded ? 'badge--ok' : (ext.required ? 'badge--danger' : 'badge--muted') }}" title="{{ LNG['adm_info_ext_' ~ ext.name] }}">{{ icon(ext.loaded ? 'check' : 'x') }}{{ ext.name }}{% if ext.required %}<span class="visually-hidden"> ({{ LNG.adm_info_required }})</span>{% endif %}</span></li>
+            {% endfor %}
+          </ul>
+          <p class="meter__meta">{{ LNG.adm_info_extensions_hint }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="info-db">
+      <header class="card__head"><h2 class="card__title" id="info-db">{{ icon('database') }}{{ LNG.adm_info_database }}</h2></header>
+      <div class="card__body stack">
+        <dl class="kv info-kv">
+          <dt>{{ LNG.adm_info_mysql_server }}</dt><dd class="mono">{{ database.server }}</dd>
+          <dt>{{ LNG.adm_info_mysql_client }}</dt><dd class="mono">{{ database.client }}</dd>
+          <dt>{{ LNG.adm_info_db_schema }}</dt><dd class="mono">{{ database.schema }}</dd>
+          <dt>{{ LNG.adm_info_db_size }}</dt><dd>{{ database.size ?? dash }}{% if database.tableCount is not null %} ({{ database.tableCount }} {{ LNG.adm_info_tables }}){% endif %}</dd>
+          <dt>{{ LNG.adm_info_db_version }}</dt><dd class="mono">{{ database.dbVersion ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_pending }}</dt><dd>{% if database.pending > 0 %}<span class="badge badge--danger">{{ database.pending }}</span>{% else %}<span class="badge badge--ok">0</span>{% endif %}</dd>
+          <dt>{{ LNG.adm_info_db_uptime }}</dt><dd>{{ database.uptime ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_threads }}</dt><dd>{{ database.threads is not null ? pretty_number(database.threads) : dash }}{% if database.maxConnections %} / {{ pretty_number(database.maxConnections) }} {{ LNG.adm_info_max }}{% endif %}</dd>
+          <dt>{{ LNG.adm_info_qps }}</dt><dd>{{ database.qps ?? dash }}{% if database.questions is not null %} ({{ pretty_number(database.questions) }} {{ LNG.adm_info_queries }}){% endif %}</dd>
+          <dt>{{ LNG.adm_info_slow }}</dt><dd>{{ database.slow is not null ? pretty_number(database.slow) : dash }}</dd>
+          <dt>{{ LNG.adm_info_buffer_pool }}</dt><dd class="mono">{{ database.bufferPool ?? dash }}</dd>
+        </dl>
+
+        <div>
+          <h3 class="subhead">{{ LNG.adm_info_top_tables }}</h3>
+          {% if database.top %}
+            <div class="table-wrap">
+              <table class="data data--compact">
+                <thead><tr><th scope="col">{{ LNG.adm_info_table }}</th><th scope="col" class="num">≈ {{ LNG.adm_info_rows }}</th><th scope="col" class="num">{{ LNG.adm_info_data }}</th><th scope="col" class="num">{{ LNG.adm_info_index }}</th></tr></thead>
+                <tbody>
+                  {% for t in database.top %}
+                    <tr><td class="mono">{{ t.name }}</td><td class="num">{{ pretty_number(t.rows) }}</td><td class="num nowrap">{{ t.data }}</td><td class="num nowrap">{{ t.index }}</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="meter__meta">{{ dash }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {# ---------------------------------------------------------------- 4. game statistics #}
+  <section class="card" aria-labelledby="info-game">
+    <header class="card__head"><h2 class="card__title" id="info-game">{{ icon('gamepad-2') }}{{ LNG.adm_info_game_stats }} <span class="badge badge--muted">{{ LNG.adm_info_universe }} {{ game.universe }}</span></h2></header>
+    <div class="card__body stack">
+      <div class="stats">
+        <div class="stat"><span class="stat__label">{{ icon('users') }}{{ LNG.adm_info_players }}</span><span class="stat__value">{{ pretty_number(game.users.total) }}</span><span class="stat__meta">{{ LNG.adm_info_accounts }}: {{ pretty_number(game.accounts.total) }}</span></div>
+        <div class="stat"><span class="stat__label">{{ icon('wifi') }}{{ LNG.adm_info_online }}</span><span class="stat__value">{{ pretty_number(game.users.online) }}</span><span class="stat__meta">15 min</span></div>
+        <div class="stat"><span class="stat__label">{{ icon('orbit') }}{{ LNG.adm_info_planets }}</span><span class="stat__value">{{ pretty_number(game.planets.planets) }}</span><span class="stat__meta">{{ LNG.adm_info_moons }}: {{ pretty_number(game.planets.moons) }}</span></div>
+        <div class="stat"><span class="stat__label">{{ icon('send') }}{{ LNG.adm_info_fleets }}</span><span class="stat__value">{{ pretty_number(game.fleetsTotal) }}</span><span class="stat__meta">{{ LNG.adm_info_acs }}: {{ pretty_number(game.acs) }}</span></div>
+        <div class="stat"><span class="stat__label">{{ icon('handshake') }}{{ LNG.adm_info_alliances }}</span><span class="stat__value">{{ pretty_number(game.alliances) }}</span></div>
+        <div class="stat"><span class="stat__label">{{ icon('messages-square') }}{{ LNG.adm_info_messages }}</span><span class="stat__value">{% if game.messages.total is not null %}{% if not game.messages.exact %}≈ {% endif %}{{ pretty_number(game.messages.total) }}{% else %}{{ dash }}{% endif %}</span><span class="stat__meta">{{ LNG.adm_info_unread }}: {{ game.messages.unread is not null ? pretty_number(game.messages.unread) : dash }}</span></div>
+      </div>
+
+      <div class="cols">
+        <div class="stack">
+          <h3 class="subhead">{{ LNG.adm_info_activity }}</h3>
+          <div class="table-wrap">
+            <table class="data data--compact">
+              <thead><tr><th scope="col"></th><th scope="col" class="num">24 h</th><th scope="col" class="num">7 d</th><th scope="col" class="num">30 d</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">{{ LNG.adm_info_active }}</th><td class="num">{{ pretty_number(game.users.act24) }}</td><td class="num">{{ pretty_number(game.users.act7) }}</td><td class="num">{{ pretty_number(game.users.act30) }}</td></tr>
+                <tr><th scope="row">{{ LNG.adm_info_registrations }}</th><td class="num">{{ pretty_number(game.users.reg24) }}</td><td class="num">{{ pretty_number(game.users.reg7) }}</td><td class="num">{{ pretty_number(game.users.reg30) }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <dl class="kv info-kv">
+            <dt>{{ LNG.adm_info_banned }}</dt><dd>{{ pretty_number(game.users.banned) }} ({{ LNG.adm_info_accounts }}: {{ pretty_number(game.accounts.banned) }})</dd>
+            <dt>{{ LNG.adm_info_vacation }}</dt><dd>{{ pretty_number(game.users.vacation) }}</dd>
+            <dt>{{ LNG.adm_info_bots }}</dt><dd>{{ game.bots is not null ? pretty_number(game.bots) : dash }}</dd>
+            <dt>{{ LNG.adm_info_points_avg }}</dt><dd>{{ pretty_number(game.points.avg) }}</dd>
+            <dt>{{ LNG.adm_info_points_top }}</dt><dd>{{ pretty_number(game.points.top) }}</dd>
+            <dt>{{ LNG.adm_info_last_stats }}</dt><dd>{{ game.lastStats ?? dash }}</dd>
+            <dt>{{ LNG.adm_info_market }}</dt><dd>{{ pretty_number(game.market) }}</dd>
+            <dt>{{ LNG.adm_info_reports }}</dt><dd>{{ game.reports is not null ? '≈ ' ~ pretty_number(game.reports) : dash }}</dd>
+            <dt>{{ LNG.adm_info_debris }}</dt><dd>{{ pretty_number(game.planets.debris) }}{% if game.planets.debris > 0 %} ({{ pretty_number(game.planets.debris_metal) }} / {{ pretty_number(game.planets.debris_crystal) }}){% endif %}</dd>
+          </dl>
+        </div>
+
+        <div class="stack">
+          <h3 class="subhead">{{ LNG.adm_info_resources }}</h3>
+          <dl class="kv info-kv">
+            <dt>{{ LNG.tech[901] }}</dt><dd>{{ shortly_number(game.planets.metal) }}</dd>
+            <dt>{{ LNG.tech[902] }}</dt><dd>{{ shortly_number(game.planets.crystal) }}</dd>
+            <dt>{{ LNG.tech[903] }}</dt><dd>{{ shortly_number(game.planets.deuterium) }}</dd>
+          </dl>
+          <h3 class="subhead">{{ LNG.adm_info_fleets_by_mission }}</h3>
+          {% if game.fleetsByMission %}
+            <div class="table-wrap">
+              <table class="data data--compact">
+                <thead><tr><th scope="col">{{ LNG.adm_info_mission }}</th><th scope="col" class="num">{{ LNG.adm_info_fleets }}</th></tr></thead>
+                <tbody>
+                  {% for mission, count in game.fleetsByMission %}
+                    <tr><td>{{ LNG['type_mission_' ~ mission] }}</td><td class="num">{{ pretty_number(count) }}</td></tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="empty">{{ LNG.adm_info_no_fleets }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div>
+        <h3 class="subhead">{{ LNG.adm_info_reg_chart }} <span class="badge badge--muted">{{ game.registrations.total }}</span></h3>
+        {% if game.registrations.total > 0 %}
+          <ol class="barchart" aria-label="{{ LNG.adm_info_reg_chart }}">
+            {% for day in game.registrations.days %}
+              <li class="barchart__col" title="{{ day.label }}: {{ day.count }}">
+                <span class="barchart__bar" style="height: {{ day.pct }}%"></span>
+                <span class="barchart__label" aria-hidden="true">{% if loop.first or loop.last or loop.index0 % 7 == 0 %}{{ day.label }}{% endif %}</span>
+                <span class="visually-hidden">{{ day.label }}: {{ day.count }}</span>
+              </li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <p class="empty">{{ LNG.adm_info_no_registrations }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <h3 class="subhead">{{ LNG.adm_info_all_universes }}</h3>
+        <div class="table-wrap">
+          <table class="data data--compact">
+            <thead><tr><th scope="col">{{ LNG.adm_info_universe }}</th><th scope="col" class="num">{{ LNG.adm_info_players }}</th><th scope="col" class="num">{{ LNG.adm_info_planets }}</th><th scope="col" class="num">{{ LNG.adm_info_alliances }}</th><th scope="col" class="num">{{ LNG.adm_info_fleets }}</th></tr></thead>
+            <tbody>
+              {% set totals = {players: 0, planets: 0, alliances: 0, fleets: 0} %}
+              {% for u in game.universes %}
+                {% set totals = {players: totals.players + u.players, planets: totals.planets + u.planets, alliances: totals.alliances + u.alliances, fleets: totals.fleets + u.fleets} %}
+                <tr><th scope="row">{{ u.id }}</th><td class="num">{{ pretty_number(u.players) }}</td><td class="num">{{ pretty_number(u.planets) }}</td><td class="num">{{ pretty_number(u.alliances) }}</td><td class="num">{{ pretty_number(u.fleets) }}</td></tr>
+              {% endfor %}
+            </tbody>
+            <tfoot><tr><th scope="row">{{ LNG.adm_info_total }}</th><td class="num">{{ pretty_number(totals.players) }}</td><td class="num">{{ pretty_number(totals.planets) }}</td><td class="num">{{ pretty_number(totals.alliances) }}</td><td class="num">{{ pretty_number(totals.fleets) }}</td></tr></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ---------------------------------------------------------------- 5. logs and caches #}
+  <div class="cols">
+    <section class="card" aria-labelledby="info-logs">
+      <header class="card__head"><h2 class="card__title" id="info-logs">{{ icon('scroll-text') }}{{ LNG.adm_info_logs }}</h2></header>
+      <div class="card__body stack">
+        <dl class="kv info-kv">
+          <dt>{{ LNG.adm_info_game_log }}</dt><dd class="mono">{{ logs.game.path }}: {{ logs.game.size ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_errors_24h }}</dt><dd>{% if logs.game.errors24 is not null %}<span class="badge {{ logs.game.errors24 > 0 ? 'badge--danger' : 'badge--ok' }}">{{ logs.game.errors24 }}</span>{% else %}{{ dash }}{% endif %}</dd>
+          <dt>{{ LNG.adm_info_warnings_24h }}</dt><dd>{% if logs.game.warnings24 is not null %}<span class="badge {{ logs.game.warnings24 > 0 ? 'badge--warn' : 'badge--ok' }}">{{ logs.game.warnings24 }}</span>{% else %}{{ dash }}{% endif %}</dd>
+          <dt>{{ LNG.adm_info_scanned }}</dt><dd>{{ logs.game.scanned ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_symfony_log }}</dt><dd class="mono">{{ logs.symfonyFile }}: {{ logs.symfonySize ?? dash }}</dd>
+          <dt>{{ LNG.adm_info_errorlog }}</dt><dd class="mono">{% if logs.phpLogPath %}{{ logs.phpLogPath }} ({{ logs.phpLogSize ?? dash }}{% if logs.phpLogLines is not null %}, ≈ {{ logs.phpLogLines }} {{ LNG.adm_info_lines }}{% endif %}, {{ logs.phpLogEnabled ? LNG.adm_cron_active : LNG.adm_cron_inactive }}){% else %}{{ dash }}{% endif %}</dd>
+          {% for dir, d in logs.dirs %}
+            <dt class="mono">{{ dir }}</dt><dd>{% if d.size %}{{ d.partial ? '≥ ' : '' }}{{ d.size }} ({{ d.files }} {{ LNG.adm_info_files }}){% else %}{{ dash }}{% endif %}</dd>
+          {% endfor %}
+        </dl>
+        <div>
+          <h3 class="subhead">{{ LNG.adm_info_last_errors }}</h3>
+          {% if logs.game.last %}
+            <ul class="logtail">
+              {% for line in logs.game.last %}<li class="mono small">{{ line }}</li>{% endfor %}
+            </ul>
+          {% else %}
+            <p class="empty">{{ LNG.adm_info_no_errors }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="info-game-meta">
+      <header class="card__head"><h2 class="card__title" id="info-game-meta">{{ icon('clock') }}{{ LNG.adm_info_game }}</h2></header>
+      <div class="card__body stack">
+        <dl class="kv info-kv">
+          <dt>{{ LNG.adm_info_game_version }}</dt><dd class="mono">{{ game_config('game_name') }} {{ vGame }}</dd>
+          <dt>{{ LNG.adm_info_game_address }}</dt><dd class="mono">{{ gameHost }}</dd>
+        </dl>
+        <h3 class="subhead">{{ LNG.adm_info_time }}</h3>
+        <div class="table-wrap">
+          <table class="data data--compact">
+            <thead><tr><th scope="col">{{ LNG.adm_info_timezone_of }}</th><th scope="col">{{ LNG.adm_info_zone }}</th><th scope="col">{{ LNG.adm_info_time }}</th></tr></thead>
+            <tbody>
+              {% for tz in timezones %}
+                <tr><th scope="row">{{ LNG['adm_info_tz_' ~ tz.key] }}</th><td class="mono">{{ tz.name }} ({{ tz.offset }})</td><td class="mono nowrap">{{ tz.time }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <details class="card disclosure">
+    <summary class="card__head"><span class="card__title">{{ icon('file-text') }}{{ LNG.adm_info_text }}</span></summary>
+    <div class="card__body">
+<pre class="mono small">```-- {{ LNG.adm_info_game }} --
+{{ LNG.adm_info_game_version }}: {{ game_config('game_name') }} {{ vGame }}
+{{ LNG.adm_info_game_address }}: {{ gameHost }}
+
+-- {{ LNG.adm_info_health }} --
+{% for check in checks %}{{ LNG['adm_info_chk_' ~ check.id] }}: {{ check.status|upper }} ({{ check.value }})
+{% endfor %}
+-- {{ LNG.adm_info_server }} --
+{{ LNG.adm_info_os }}: {{ server.os }}
+{{ LNG.adm_info_server_info }}: {{ server.webserver ?: dash }}
+{{ LNG.adm_info_php_version }}: {{ server.php }} ({{ server.sapi }})
+{{ LNG.adm_info_memory_limit }}: {{ server.ini.memory_limit }}
+{{ LNG.adm_info_max_exec }}: {{ server.ini.max_execution_time }}
+{{ LNG.adm_info_upload_max }}: {{ server.ini.upload_max_filesize }}, {{ LNG.adm_info_post_max }}: {{ server.ini.post_max_size }}
+{{ LNG.adm_info_cpu }}: {{ server.cpuCores ?? dash }}
+{{ LNG.adm_info_load }}: {{ server.load ? server.load|join(' / ') : dash }}
+{{ LNG.adm_info_disk }}: {{ server.disk ? server.disk.free ~ ' / ' ~ server.disk.total : dash }}
+{{ LNG.adm_info_timezone }}: {% for tz in timezones %}{{ tz.name }} ({{ tz.offset }}){{ loop.last ? '' : ' / ' }}{% endfor %}
+
+-- {{ LNG.adm_info_database }} --
+{{ LNG.adm_info_mysql_server }}: {{ database.server }}
+{{ LNG.adm_info_mysql_client }}: {{ database.client }}
+{{ LNG.adm_info_db_size }}: {{ database.size ?? dash }}
+{{ LNG.adm_info_db_version }}: {{ database.dbVersion ?? dash }} ({{ LNG.adm_info_pending }}: {{ database.pending }})
+{{ LNG.adm_info_errorlog }}: {{ logs.phpLogPath ?? dash }}
+{{ LNG.adm_info_errors_24h }}: {{ logs.game.errors24 ?? dash }}
+```</pre>
+    </div>
+  </details>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

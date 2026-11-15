@@ -1,0 +1,21 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% include 'admin/CreateTabs.html.twig' with {'createMode': 'moon'} %}
+  <form action="" method="post" class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('moon') }}{{ po_add_moon }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        <div class="field"><label for="c-planet">{{ input_id_planet }}</label><input id="c-planet" type="text" name="add_moon" value="" inputmode="numeric"></div>
+        <div class="field"><label for="c-name">{{ mo_moon_name }}</label><input id="c-name" type="text" name="name" value="{{ mo_moon }}"></div>
+        <div class="field">
+          <label for="c-diameter">{{ mo_diameter }}</label>
+          <input id="c-diameter" type="text" name="diameter" maxlength="5" inputmode="numeric">
+          <label class="check"><input type="checkbox" checked="checked" name="diameter_check">{{ LNG.mo_moon_random }}</label>
+        </div>
+        <div class="field"><label for="c-fields">{{ mo_fields_avaibles }}</label><input id="c-fields" type="text" name="field_max" maxlength="5" value="1" inputmode="numeric"></div>
+      </div>
+    </div>
+    <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('plus') }}{{ button_add }}</button></footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

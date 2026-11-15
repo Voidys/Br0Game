@@ -1,0 +1,39 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_faq }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th>{{ LNG.faq_overview }}</th>
+	</tr>
+	<tr>
+		<td class="left faq-content">{% for categoryID, categoryRow in (LNG.questions)|php_iter %}<h2>{{ categoryRow.category }}</h2>
+		<ul>
+		{% for questionID, questionRow in (categoryRow)|php_iter %}
+		{% if is_numeric(questionID) %}
+			<li><a href="game?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
+		{% endif %}
+		{% endfor %}
+		</ul>
+		{% endfor %}</td>
+	</tr>
+</table>
+{% endblock %}
+
+
+
+	{#{foreach $LNG.questions as $categoryID => $categoryRow}
+	<tr>
+		<th>{$categoryRow.category}</th>
+	</tr>
+	{foreach $categoryRow as $questionID => $questionRow}
+	{if is_numeric($questionID)}
+	<tr>
+		<th>{$questionRow.title}</th>
+	</tr>
+	<tr>
+		<td class="left">
+		{$questionRow.body}
+	</tr>
+	{/if}
+	{/foreach}
+	{/foreach}#}

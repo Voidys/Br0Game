@@ -1,0 +1,453 @@
+and: and
+battle_stats_damage_done: Damage dealt
+battle_stats_damage_dead: Overkill damage
+battle_stats_shield_hit: Shield hits
+battle_stats_ship_destroyed: Ships destroyed
+battle_stats_shield_bounced: Damage deflected
+battle_stats_rapid_fire_done: Rapid fire
+battle_stats_explosion_triggered: Explosions
+battle_stats_stunned_done: Disabled
+battle_stats_target: Target
+battle_stats_total: Total
+battle_stats_total_all_targets: Total (all targets)
+battle_stats_total_all_fleets: Total (all fleets)
+damage: damage points.
+debree_field_1: 'At the coordinates are now:'
+debree_field_2: ' debris.'
+fcp_colony: Colony
+fl_expocap_explain: >-
+  This is the maximum amount of expedition points you should send.  Anything
+  over this cap will not increase your rewards but can still be lost.
+fl_send_back: Return
+fl_simulate: Simulate
+fleet_attack_1: The attacking fleet fires with a power of
+fleet_attack_2: at the defender. The shields of the defender absorb
+fleet_defs_1: The defending fleet fires with a power of
+fleet_defs_2: at the attacker. The shields of the attacker absorb
+spy_best_planet: Best planet
+spy_best_resources_per_second: Best resources per second
+spy_energy: Energy
+spy_hazard_potential: Hazard potential
+spy_large_transporter: Heavy Cargo
+spy_market_value: Market value
+spy_necessary_recycler: Necessary recyclers
+spy_necessary_transporters: Ships needed
+spy_potential_recycling: Recycling potential
+spy_potential_resources: Potential resources
+spy_small_transporter: Light Cargo
+spy_summary: Summary
+spy_total_resources: Total Resources
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: and
+sys_attack_attacker_pos: Attacker
+sys_attack_defender_pos: Defender
+sys_attack_round: Round
+sys_attack_title: 'The following fleets face each other on: '
+sys_attacker_lostunits: 'The attacker''s losses:'
+sys_attacker_won: The attacker has won the battle!
+sys_both_won: 'The fight ends in a draw! '
+sys_colo_allisok: >-
+  Your fleet arrived at the coordinates %s. The settlers have started to colonise
+  the new planet.
+sys_colo_badpos: >-
+  Your fleet arrived at the coordinates %s. With no settlement possible,
+  the settlers return disappointed.
+sys_colo_maxcolo: >-
+  Your fleet arrived at the coordinates %s. Settlement is not possible as
+  you can only have %d planets. 
+sys_colo_mess_from: Colonisation
+sys_colo_mess_report: Colonisation report
+sys_colo_notech: >-
+  Your fleet arrived at the coordinates %s. The settlers determined that their
+  current equipment was not suitable for the climate and must be improved.
+  Disappointed, the settlers returned home.
+sys_colo_notfree: >-
+  Your fleet arrived at the coordinates %s. Unfortunately, the settlers found
+  that the planet is already inhabited! Completely demoralized, they returned home.
+sys_debris: Debris field
+sys_def_rebuild: 'The defence installations could be partially repaired:'
+sys_defender_lostunits: 'The defender''s losses:'
+sys_defender_won: The defender has won the battle!
+sys_destroyed: Destroyed
+sys_destruc_echec: >-
+  Earthquakes shook the planet. But something went wrong, the Death Stars
+  exploded and disintegrated into a thousand pieces and the shockwaves took out
+  the entire fleet.
+sys_destruc_lune: 'The probability of a moon destruction is: %d%% '
+sys_destruc_mess1: 'The Death Stars fired their tremendous energy at the moon. '
+sys_destruc_null: >-
+  The Death Stars could not charge fully before firing.<br> The moon was not
+  destroyed.
+sys_destruc_reussi: >-
+  The Death Stars' beams reached the moon and tore it to pieces. <br>The entire
+  moon was destroyed!
+sys_destruc_rip: 'The probability of a self-destruction of the fleet is: %d%%'
+sys_destruc_stop: The defender has blocked the moon destruction successfully.
+sys_destruc_title: 'The following fleets face each other for a moon destruction:'
+sys_expe_attack_1_1_1: A space pirate in despair tried to commandeer our expedition fleet.
+sys_expe_attack_1_1_2: >-
+  Some primitive barbarians attacked us with spaceships. At least their ships
+  were in horrible condition. If their firepower was a serious threat, we would
+  have been forced to reply with our own.
+sys_expe_attack_1_1_3: >-
+  We have intercepted a couple of radio messages of some very drunk pirates. We
+  apparently will be attacked.
+sys_expe_attack_1_1_4: >-
+  We had to fight against some pirates who fortunately were outnumbered by us.
+sys_expe_attack_1_1_5: >-
+  Our fleet reports that a certain Moa Tikarr and his crew requested the
+  unconditional surrender of our fleet. If they are serious, they will
+  find out that we can defend ourselves very well.
+sys_expe_attack_1_2_1: Your expedition fleet had an unforeseen encounter with some space pirates.
+sys_expe_attack_1_2_2: >-
+  We flew into an ambush of some star pirates! Unfortunately, a fight was unavoidable.
+sys_expe_attack_1_2_3: >-
+  The call for help of another expedition fleet turned out to be a trap of some
+  cunning pirates. A battle was unavoidable.
+sys_expe_attack_1_3_1: >-
+  The intercepted signals did not come from unknown aliens, but from a secret
+  pirate base! The pirates were not very happy about our presence in their sector.
+sys_expe_attack_1_3_2: The expedition fleet reported intense fights with unidentified pirate ships!
+sys_expe_attack_1_3_3: >-
+  We have just received an urgent message from the expedition commander:
+  "They're coming at us! They jumped out of hyperspace, fortunately they're just
+  pirates, so we have a chance, we'll fight!"
+sys_expe_attack_2_1_1: Your expedition fleet had an unwelcoming first contact with an unknown species.
+sys_expe_attack_2_1_2: Some strange ships have attacked the expedition fleet without warning!
+sys_expe_attack_2_1_3: Our expedition was attacked by a small group of unidentified spacecraft!
+sys_expe_attack_2_1_4: >-
+  The expedition fleet reports contact with unknown ships. The radio messages are not able
+  to be decoded. However, the strange ships seem to activate their weapons.
+sys_expe_attack_2_2_1: An unknown species attacks our expedition!
+sys_expe_attack_2_2_2: >-
+  Your expedition fleet has apparently violated the territory of a previously
+  unknown but highly aggressive alien race.
+sys_expe_attack_2_2_3: >-
+  The connection with our expedition fleet was disconnected abruptly. The last
+  we heard of the fleet was that it was taking heavy fire. The aggressors
+  could not be identified.
+sys_expe_attack_2_3_1: >-
+  Your expedition has come across an alien invasion fleet and reports massive battles!
+sys_expe_attack_2_3_2: >-
+  A large group of crystalline ships of unknown origin is on a direct collision
+  course with our expedition fleet. We must prepare ourselves for the worst.
+sys_expe_attack_2_3_3: >-
+  We had a bit of difficulty pronouncing the dialect of the alien race
+  correctly. Our diplomat accidentally called 'Fire!' instead of 'Peace!'
+sys_expe_attackname_1: Pirates
+sys_expe_attackname_2: Aliens
+sys_expe_back_home: Your fleet has returned to %1$s %2$s from the expedition at %3$s.
+sys_expe_back_home_ress: It delivers %s %s, %s %s, and %s %s.
+sys_expe_back_home_ships_flound: 'The following ships were found:'
+sys_expe_back_home_ships_lost: 'The following ships were lost:'
+sys_expe_blackholl_1: 'Your fleet encountered a black hole and was partially destroyed! '
+sys_expe_blackholl_2: 'Your fleet encountered a black hole and was completely destroyed! '
+sys_expe_depleted_max_1: >-
+  Entry from the communications officer's logbook: If we ever feel unsafe, we could
+  always join forces with the other expeditions flying around here.
+sys_expe_depleted_max_2: >-
+  Entry from the communication officer's logbook: If it goes on like this we will
+  have to place navigation buoys to handle all this traffic.
+sys_expe_depleted_max_3: >-
+  Logbook entry of the communication officer: Maybe it would be more useful to
+  open a souvenir store here than send yet another expedition.
+sys_expe_depleted_med_1: >-
+  Entry from the communications officer's logbook: We found proof indicating the
+  presence of multiple expedition fleets in the area. We are returning home.
+sys_expe_depleted_med_2: >-
+  Entry from the communications officer's logbook: We established friendly radio
+  contact with some other expeditions in this sector.
+sys_expe_depleted_med_3: >-
+  Entry from the communications officer's logbook: We celebrated the expeditions
+  conclusion with the crew of another expedition fleet who were
+  traveling in the same sector. They have nothing new to report.
+sys_expe_depleted_min_1: >-
+  Entry from the communications officer's logbook: It seems that humans have been
+  in this part of the galaxy before.
+sys_expe_depleted_min_2: >-
+  Entry from the communications officer's logbook: We found debris of old
+  space ships. We are not the first ones here.
+sys_expe_depleted_min_3: >-
+  Entry from the communications officer's logbook: We nearly had a collision with
+  another expedition fleet. I did not believe that there would be others around
+  here.
+sys_expe_depleted_not_1: >-
+  Entry from the communications officer's logbook: It seems that this part of the
+  universe has not been explored yet.
+sys_expe_depleted_not_2: >-
+  Entry from the communications officer's logbook: It feels great to be the first
+  ones traveling through an unexplored sector.
+sys_expe_feqeuence_few: More than 10 expeditions in the last 24 hours
+sys_expe_feqeuence_many: More than 50 expeditions in the last 24 hours
+sys_expe_feqeuence_medium: More than 25 expeditions in the last 24 hours
+sys_expe_feqeuence_no: Few expeditions in 24 hours
+sys_expe_found_goods: '%s %s were mined.'
+sys_expe_found_ress_1_1: >-
+  Your expedition has discovered a small asteroid cluster from which some
+  resources could be extracted.
+sys_expe_found_ress_1_2: >-
+  On a remote planetoid, several easily accessible resource fields were found
+  and raw materials were successfully extracted.
+sys_expe_found_ress_1_3: >-
+  Your expedition stumbled upon very old spaceship wrecks from a long-past battle.
+  Individual components could be salvaged and recycled.
+sys_expe_found_ress_1_4: >-
+  The expedition discovered a planet contaminated by radiation with a
+  highly poisonous atmosphere. However, scans showed that this planet contains
+  a lot of raw material. Automated drones were used to try to extract
+  as many resources as possible.
+sys_expe_found_ress_2_1: >-
+  Your expedition found an ancient freighter convoy which is fully loaded but
+  deserted. Some resources could be yielded. 
+sys_expe_found_ress_2_2: >-
+  Your expedition found great raw material deposits on a little moon with an
+  atmosphere of its own. The crew are currently extracting this treasure.
+sys_expe_found_ress_2_3: >-
+  We have met a small convoy of civilian ships which urgently needed food and
+  medicine. In exchange, we received a considerable amount of useful resources.
+sys_expe_found_ress_3_1: >-
+  Your expedition fleet reports the discovery of a massive alien shipwreck.
+  While they couldn't do anything with the technology, the ship could be
+  dismantled into its individual parts, yielding valuable raw materials.
+sys_expe_found_ress_3_2: >-
+  The asteroid belt around an unknown planet contained vast amounts of raw
+  materials. The expedition fleet filled its storage rooms!
+sys_expe_found_ress_logbook_1: >-
+  Entry from the first officer's logbook: We used all free space but we were
+  still not able to take all discovered resources with us.
+sys_expe_found_ress_logbook_2: >-
+  Entry from the first officer's logbook: If only we had a few more cargo ships!
+  Now we will have to leave loads of resources behind.
+sys_expe_found_ress_logbook_3: >-
+  Entry from the first officer's logbook: We already threw away everything that
+  we do not really need anymore but we are still not able to make enough space
+  for all the resources found.
+sys_expe_found_ress_logbook_4: >-
+  Entry from the first officer's logbook: Even when we transformed the cafeteria
+  and all the lounges into storage rooms, we still could not transport all
+  the resources we found.
+sys_expe_found_ships: 'Your researchers have found spaceships which were in perfect condition!<br>: '
+sys_expe_found_ships_1_1: >-
+  We have discovered the remains of a predecessor expedition! Our technicians
+  are checking whether they can get some of the wrecks working again.
+sys_expe_found_ships_1_2: >-
+  We have found a deserted pirate base. Some old ships are still located in the
+  hangar. Our technicians are checking whether some of the ships are still usable.
+sys_expe_found_ships_1_3: >-
+  Our expedition found a planet which was almost completely destroyed by wars.
+  Various shipwrecks drifted in orbit. The technicians tried to repair some of
+  these. Perhaps we can learn more of what happened here.
+sys_expe_found_ships_1_4: >-
+  The expedition stumbled upon an old starbase which seems to have been abandoned for
+  an eternity. A couple of ships were found in the hangar of the fortress. The
+  technicians managed to get some of them flying again.
+sys_expe_found_ships_2_1: >-
+  We have found the remains of an armada. The technicians of the expedition have
+  immediately gone onto the partly intact ships and were able to repair some of
+  them.
+sys_expe_found_ships_2_2: >-
+  Our expedition discovered an old automatic shipyard with some of the ships still in
+  the production phase. After restoring the energy supply of the shipyard, our technicians
+  worked to complete their construction.
+sys_expe_found_ships_3_1: >-
+  We have found a gigantic ship cemetery. Some technicians of the expedition
+  have managed to get one or two ships into operation again.
+sys_expe_found_ships_3_2: >-
+  We have discovered a planet with remains of a civilization. Another gigantic
+  ship station which is still intact has been spotted from outer space. Some of
+  our technicians and pilots have gone onto the surface to determine whether a
+  couple of the ships can be retrieved.
+sys_expe_found_ships_logbook_1: >-
+  Entry from the engine room officer's logbook: Had we brought some more ships with
+  us, it would have been easy to take some of those beauties with us!
+sys_expe_found_ships_logbook_2: >-
+  Entry from the engine room officer's logbook: Unfortunately, we did not have the
+  capacity to bring back all the ships discovered in our mission.
+sys_expe_found_ships_logbook_3: >-
+  Entry from the engine room officer's logbook: We unfortunately do not have enough
+  capacity to bring all the found ships back with us.
+sys_expe_found_ships_nothing: No ships could be found.
+sys_expe_lost_fleet_1: >-
+  The only thing left of the expedition is the following radio message: Zzzrrt
+  oh God!...Krrrzzzzt the zrrrtrzt sees krgzzzz yes from how Krzzzzzzzztzzzz...
+sys_expe_lost_fleet_2: >-
+  The last thing we received of the expedition were some unbelievable good
+  close-ups of an opening black hole.
+sys_expe_lost_fleet_3: >-
+  A nuclear breach on one of the commanding ships led to a chain reaction which
+  destroyed the entire expedition in a spectacular explosion.
+sys_expe_lost_fleet_4: >-
+  The expedition fleet has not returned from their hyperspace jump. Our scientists
+  are still puzzling over what might have happened, but the fleet appears to be lost forever.
+sys_expe_nothing_1: >-
+  This expedition brings nothing exciting from its journey except some curious,
+  small little animals of an unknown marsh planet.
+sys_expe_nothing_2: >-
+  Your expedition took some beautiful pictures of a supernova. However, this expedition
+  did not really yield any new insights. But it has a good chance of winning this year's
+  Best Picture in the Universe competition.
+sys_expe_nothing_3: >-
+  A strange computer virus crippled navigation shortly after leaving the solar system.
+  This caused the entire expedition fleet to fly in circles the whole time.
+  Needless to say, the expedition was not particularly successful.
+sys_expe_nothing_4: >-
+  A life form of pure energy has made all expedition members stare at hypnotic
+  symbols on their screens for several days. When most were finally clear in the
+  head again, the expedition had to be cancelled due to a deuterium shortage.
+sys_expe_nothing_5: >-
+  Well, at least we now know that Class 5 red anomalies not only have chaotic effects
+  on the ship's systems, but can also trigger massive hallucinations in the crew.
+  Unfortunately, nothing else has been discovered on this expedition.
+sys_expe_nothing_6: >-
+  Despite the initially promising scans of this sector, we unfortunately
+  came back empty-handed.
+sys_expe_nothing_7: >-
+  Perhaps the captain's birthday shouldn't have been celebrated on this remote planet.
+  A nasty hemorrhagic fever has forced the majority of the crew to be sent to the sickbay.
+  The acute staff shortage led to the expeditions failure.
+sys_expe_nothing_8: >-
+  Your expedition has found nothing but the vast emptiness of space. There
+  was not even a little asteroid, or radiation, or particles, or anything else that
+  could make this expedition at least a bit exciting.
+sys_expe_nothing_9: >-
+  A reactor malfunction on the command ship almost destroyed the entire
+  expedition. Fortunately, the technicians were more than capable and could
+  prevent the worst. The repair, however, took so much time that the expedition
+  returned without achieving anything.
+sys_expe_report: Expedition report
+sys_expe_report_msg: 'Expedition report of the fleet of %s %s at %s:'
+sys_expe_time_fast_1: >-
+  An unforeseen feedback loop in the propulsion system energy coils accelerated
+  the expeditions return, causing it to arrive earlier than expected.
+  Initial reports indicate, however, that it has nothing else to report.
+sys_expe_time_fast_2: >-
+  The somewhat daring new commander used an unstable wormhole to shorten the
+  return journey - successfully! However, the expedition itself yielded no new insights.
+sys_expe_time_fast_3: >-
+  Your expedition reported no anomalies in the explored sector. However, the fleet
+  encountered a solar wind during the return flight, which significantly accelerated
+  the trip. Your expedition will now return home somewhat earlier than expected.
+sys_expe_time_slow_1: >-
+  A serious blunder by the navigator landed the fleet at the wrong place entirely.
+  The return journey consequently took considerably longer.
+sys_expe_time_slow_2: >-
+  For reasons still unknown, the expedition fleets jump went completely wrong.
+  They almost ended up in the heart of a star! Luckily, they landed in a known system,
+  but the return trip will take longer than originally anticipated.
+sys_expe_time_slow_3: >-
+  The new navigation module still seems to be plagued by some bugs. Not only did the
+  expedition fleet go in completely the wrong direction, but it also consumed all of
+  its deuterium! Disappointed, the expedition is now returning on reserve power.
+sys_expe_time_slow_4: >-
+  Your expedition entered a sector with intensified particle storms. This overloaded
+  the energy storage systems, causing the main systems of all ships to fail.
+  Your mechanics managed to prevent the worst, but the expedition will now return
+  with a considerable delay.
+sys_expe_time_slow_5: >-
+  The flagship of your expedition fleet collided with an alien vessel that jumped
+  directly into the fleet without warning. The alien ship exploded, and the damage
+  to the flagship was considerable. Once the most serious repairs are completed,
+  your ships will begin their return journey, as the expedition cannot continue
+  in its current condition.
+sys_expe_time_slow_6: >-
+  The stellar wind of a red giant distorted the jump of the expedition, causing
+  the navigation systems to completely miscalculate the return journey.
+  As a result, the expedition finds itself in the vast emptiness between unfamiliar stars.
+sys_fleet_return: Your fleet returns to the %s %s %s and delivers %s %s, %s %s, and %s %s. %s
+sys_fleet_won: >-
+  Your fleet has returned from an attack at %s %s to %s %s. You have captured %s %s, %s %s, and %s %s.
+sys_gain: Profit
+sys_honorpoints_changed: 'Honorpoints:'
+sys_irak_def: '%d missiles were intercepted.'
+sys_irak_mess: Interplanetary missiles (%d) from %s have impacted at %s <br><br>
+sys_irak_no_att: All missiles were intercepted.
+sys_irak_no_def: The planet does not have defences.
+sys_irak_subject: Missile impact
+sys_lost: Losses
+sys_mess_attack_cancel: |-
+  The battle at %s %s has been canceled.
+  The server could not calculate it.
+sys_mess_attack_report: Attack report
+sys_mess_fleetback: Fleet return
+sys_mess_piratebase_gone: 'Your fleet arrived at %s, but the pirate base is no longer there. The fleet is returning home.'
+sys_mess_spy_activity: Counterintelligence report
+sys_mess_spy_control: Central Intelligence
+sys_mess_spy_destroyed: Your spy probes were destroyed!
+sys_mess_spy_ennemyfleet_1: Enemy spy probes from planet %s have been sighted near %s.
+sys_mess_spy_ennemyfleet_3: Enemy spy probes from moon %s have been sighted near %s.
+sys_mess_spy_link: >-
+  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'The spy probes discovery chance was: %d%%'
+sys_mess_spy_qg: Spying department
+sys_mess_spy_repair_order: Ships are currently being restored in the repair dock.
+sys_mess_spy_report: Intelligence report
+sys_mess_spy_report_details_1: Spy report from planet %1$s (%2$s) [%3$s:%4$s:%5$s] on %6$s
+sys_mess_spy_report_details_3: Spy report from moon %1$s (%2$s) [%3$s:%4$s:%5$s] on %6$s
+sys_mess_spy_report_details_4: Spy report from %1$s (%2$s) [%3$s:%4$s:%5$s] on %6$s
+sys_mess_tower: Fleet Command
+sys_mess_transport: Transport
+sys_moonbuilt: >-
+  The enormous amounts of free metal and crystal attract each other and form a
+  satellite around the planet!
+sys_moonproba: 'Moon Chance: '
+sys_raport_amount_error: No or too many ships/defence for simulation
+sys_raport_lost_contact: >-
+  Contact with the attacking fleet was lost (i.e. it was shot down in the
+  first round).
+sys_raport_not_found: Invalid Battle Report ID
+sys_recy_gotten: >-
+  Your recyclers have collected %2$s %6$s and %3$s %7$s from a total of %4$s
+  %6$s and %5$s %7$s at coordinates %1$s.
+sys_recy_mess: Your recycler fleet has returned to %s %s with %s %s, %s %s, and %s %s.
+sys_recy_report: Recycling Report
+sys_ship_armour: Armour
+sys_ship_count: Amount
+sys_ship_repaired: Repaired
+sys_ship_shield: Shields
+sys_ship_type: Type
+sys_ship_weapon: Firepower
+sys_spy_fleet: Fleet
+sys_stat_mess: >-
+  Your fleet from %s %s arrived at %s %s %s and delivered %s %s, %s %s, and %s
+  %s. %s
+sys_stat_mess_stay: Stationed fleet
+sys_stealed_ressources: They loot
+sys_trade_mess_arr_success: >-
+  Your merchant fleet is ready to return to %1$s %2$s (return flight: %5$s). <form
+  action="game?page=fleetTable&amp;action=sendfleetback"
+  method="post"><input name="fleetID" value="%3$s" type="hidden"><input
+  value="%4$s" type="submit"></form>
+sys_trade_mess_back: Your merchant fleet has returned to %s %s without success.
+sys_trade_mess_back_success: >-
+  Your merchant fleet successfully returned to %4$s %5$s with
+  %1$s metal, %2$s crystal, and %3$s deuterium.
+sys_tran_mess_back: Your fleet has returned to %s %s.
+sys_tran_mess_owner: >-
+  Your fleet from %s %s has arrived at %s %s %s and delivered %s %s, %s %s,
+  and %s %s.
+sys_tran_mess_user: A peaceful fleet from %s %s arrived at %s %s and delivered %s %s, %s %s, and %s %s.
+sys_units: units
+sys_wreckfield: >-
+  Some of the defender's destroyed ships form a wreck field in the planet's
+  orbit for a few days.
+sys_wreckfield_added: 'Added to wreck field:'
+type_mission_1: Attack
+type_mission_2: Alliance Attack
+type_mission_3: Transport
+type_mission_4: Station
+type_mission_5: Hold
+type_mission_6: Spy
+type_mission_7: Colonize
+type_mission_8: Recycle
+type_mission_9: Destroy
+type_mission_15: Expedition
+type_mission_16: Trade
+type_mission_17: Transfer
+type_planet_1: Planet
+type_planet_2: Debris
+type_planet_3: Moon
+type_planet_4: Pirate base
+type_planet_short_1: P
+type_planet_short_2: D
+type_planet_short_3: M

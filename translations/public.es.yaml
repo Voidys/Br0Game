@@ -1,0 +1,152 @@
+buttonLostPassword: Recuperar contraseña?
+buttonRegister: Registrate Ahora!
+buttonScreenshot: Imagenes del Juego
+chose_a_uni: Elige el Universo
+disclamerLabelAddress: 'Dirección:'
+disclamerLabelMail: 'Dirección de E-Mail:'
+disclamerLabelNotice: Información de Contacto
+disclamerLabelPhone: 'Nr. de Teléfono:'
+disclamerRecaptcha: >-
+  Esta página utiliza reCAPTCHA y se aplican la <a
+  href="https://policies.google.com/privacy">declaración de privacidad</a> y las
+  <a href="https://policies.google.com/terms">condiciones de uso</a> de Google.
+forum: Foro
+gameInformations: |-
+  Un juego de estrategia espacial en tiempo real.
+  Juega junto con cientos de jugadores.
+  Nada de descarga, s&oacute;lo se requiere un navegador est&aacute;ndar.
+  Registro Gratuito
+login_error_1: >-
+  Correo electrónico o contraseña incorrectos Consejo: las cajas fuertes de
+  contraseñas suelen guardar el nombre de usuario, pero tienes que iniciar
+  sesión con tu correo electrónico.
+login_error_2: >-
+  Alguien se ha conectado desde otro PC en su cuenta, o su dirección IP es
+  diferente!
+login_error_3: Tu sesión ha expirado!
+login_error_4: >-
+  Ha habido demasiados intentos de inicio de sesión. Ponte en contacto con un
+  administrador a través de Discord para obtener nuevos datos de acceso. Ten
+  preparada tu dirección de correo electrónico para la verificación.
+loginButton: Iniciar Sesión
+loginEmail: Email
+loginHeader: Iniciar Sesión
+loginInfo: Con el Inicio de Sesión acepto las %s.
+loginPassword: Contraseña
+loginServerDesc: >-
+  %s es un juego de estrategia espacial con cientos de jugadores jugando juntos
+  <strong>al mismo tiempo</strong> tratando de ser el mejor. Todo lo que
+  necesitas para jugar es un navegador estándar.
+loginWelcome: Bienvenido a %s
+menu_banlist: Baneados
+menu_battlehall: Salón de la Fama
+menu_disclamer: Contactar
+menu_index: Indice
+menu_news: Noticias
+menu_register: Registrar
+menu_rules: Reglas
+news_does_not_exist: No hay Noticias Disponibles!
+news_from: El %s por %s
+news_overview: Noticias
+passwordBack: Anterior
+passwordCaptcha: Codigo de Seguridad
+passwordChangedMailSend: Recibirás un correo electrónico en breve con tu nueva contraseña.
+passwordChangedMailTitle: 'Nueva contraseña en el juego: %s'
+passwordErrorMailEmpty: Ha introducido una dirección de e-mail desconocida!
+passwordErrorOnePerDay: >-
+  Contraseña para esta cuenta de usuario solicitada en las últimas 24. Sólo se
+  puede solicitar la contraseña para esta cuenta de usuario cada 24 horas. 
+passwordErrorUnknown: No se pudo encontrar con los datos de la cuenta.
+passwordErrorUsernameEmpty: No has especificado el nombre de usuario!
+passwordInfo: >-
+  Si ha olvidado su contraseña, debe especificar el nombre de usuario y la
+  dirección de E-Mail que consta en su cuenta.
+passwordMail: E-Mail
+passwordNext: Siguiente
+passwordSubmit: Enviar
+passwordUsername: Usuario
+passwordValidInValid: Solicitud no valida!
+passwordValidMailSend: Recibirás un correo electrónico en breve con información adicional.
+passwordValidMailTitle: 'Olvidó su contraseña en el juego: %s'
+registerBack: Atras
+registerCaptcha: Código de Seguridad
+registerCaptchaDesc: >-
+  Por favor ingrese los caracteres de la imagen en el campo vacío. No tiene
+  mayúsculas y minúsculas
+registerCaptchaReload: Recargar Captcha.
+registerEmail: E-Mail
+registerEmailDesc: >-
+  Por Favor introduce tu direccion de E-Mail (Necesaria para confirmacion de
+  cuenta)!
+registerEmailReplay: Repetir E-Mail
+registerEmailReplayDesc: >-
+  Por favor, introduzca su dirección de correo electrónico de nuevo para
+  confirmación de seguridad!
+registerErrorCaptcha: El Codigo de seguridad no es correcto!
+registerErrorDataPrivacy: ¡Debe confirmar la política de privacidad!
+registerErrorMailEmpty: Tienes que especificar una dirección de E-Mail!
+registerErrorMailExist: La dirección de E-Mail ya esta en uso!
+registerErrorMailInvalid: Dirección de E-Mail invalida!
+registerErrorMailSame: Has introducido 2 direcciones de email diferentes!
+registerErrorPasswordLength: La contraseña debe tener al menos %s caracteres de longitud!
+registerErrorPasswordSame: Introducidas 2 contraseñas diferentes!
+registerErrorRules: Tienes que aceptar las Reglas!
+registerErrorUniClosed: El registro está cerrado en este Universo.!
+registerErrorUsernameChar: >-
+  Su nombre de usuario debe consistir sólo en números, letras, espacios, _, -,
+  .!
+registerErrorUsernameEmpty: Tienes que introducir un nombre de Usuario!
+registerErrorUsernameExist: El nombre de usuario ya está en uso!
+registerLanguage: Idioma
+registerMailCompleteTitle: Bienvenido a %s!
+registerMailVertifyError: 'Fallo en el envio del mail: %s'
+registerMailVertifyTitle: 'La activación del registro en el juego: %s'
+registerNext: Siguiente
+registerPassword: Contraseña
+registerPasswordDesc: La Contraseña debe tener por lo menos %s caracteres de longitud.
+registerPasswordReplay: Repetir Contraseña
+registerPasswordReplayDesc: Por Favor ingrese la misma contraseña.
+registerReferral: 'Invitado por:'
+registerRules: Reglas
+registerRulesDesc: Estoy deacuerdo con las %s
+registerSendComplete: >-
+  Gracias por tu registro. Debes consultar tu correo electrónico (atención con
+  el SPAM) para más información.
+registerTimezone: Zona horaria
+registerUsername: Usuario
+registerUsernameDesc: >-
+  El nombre de usuario debe tener por lo menos 3 y un máximo de 25 caracteres y
+  puntos, y pueden consistir en números, letras, guiones y espacios
+registerWelcomePMSenderName: Administrador
+registerWelcomePMSubject: Bienvenido
+registerWelcomePMText: >-
+  Bienvenido a %s! En primer lugar tienes que construir una planta de energía
+  solar, ya que es el edificio que genera la energía que se necesita para la
+  producción de materias primas. Para crear una, haga clic izquierdo en el menú
+  de "edificios". Entonces construya el cuarto edificio contando apartir de la
+  parte superior. </br> Cuando tengas construida la planta de energía, podrás
+  comenzar a construir las minas. Ir a los edificios en el menú y construir una
+  mina de metal, seguido de una mina de cristal. </br></br>Con el fin de poder
+  construir tus propias flotas, debes tener un Hangar. Para ver lo que se
+  necesita para desbloquear ese edificio se puede echar un vistazo al apartado
+  "Tecnologías" en el menú de la izquierda.</br>Si tienes más preguntas puedes
+  mirar en la guía de principiantes, nuestro foro o abrir un ticket de soporte.
+  </br></br> El equipo te desea mucha diversión explorando el universo!
+rulesHeader: Reglas
+siteTitleBanList: Baneados
+siteTitleBattleHall: Salón de la Fama
+siteTitleDataPrivacy: Protección de datos
+siteTitleDisclamer: Contactar
+siteTitleHOF: Salón de la Fama
+siteTitleIndex: Indice
+siteTitleLostPassword: Olvidaste tu contraseña?
+siteTitleNews: Noticias
+siteTitleRegister: Registro
+siteTitleRules: Reglas
+siteTitleScreens: Imagenes del Juego
+uni_closed: ' (cerrado)'
+uni_reg_closed: ' (Registro cerrado)'
+uni_reg_open: ' (Sólo registro)'
+universe: Universo
+vertifyAdminMessage: El Usuario "%s" ha sido activado!
+vertifyNoUserFound: Solicitud no válida!

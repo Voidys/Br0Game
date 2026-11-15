@@ -1,0 +1,150 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_messages }}{{ parent() }}{% endblock %}
+
+{# bulk actions + page links, printed above and below the list #}
+{% macro bulkbar(MessID, page, maxPage, fav, MessageList) %}
+  <div class="msg-bulk">
+    <label class="msg-select-all"><input type="checkbox" data-message-select-all> {{ LNG.mg_select_all }}</label>
+    <form class="control-group" action="game?page=messages" method="post">
+      <input type="hidden" name="mode" value="action">
+      <input type="hidden" name="ajax" value="1">
+      <input type="hidden" name="messcat" value="{{ MessID }}">
+      <input type="hidden" name="site" value="{{ page }}">
+      {% if MessID != php_const('MESSAGE_TYPE_FAVORITES') %}
+        {% for Message in (MessageList)|php_iter %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox" hidden>{% endfor %}
+      {% endif %}
+      <select name="action" aria-label="{{ LNG.mg_action }}">
+        <option value="readmarked">{{ LNG.mg_read_marked }}</option>
+        <option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
+        <option value="readall">{{ LNG.mg_read_all }}</option>
+        <option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
+        <option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
+        <option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
+        <option value="deleteall">{{ LNG.mg_delete_all }}</option>
+      </select>
+      <input value="{{ LNG.mg_confirm }}" type="submit">
+    </form>
+    {% if maxPage > 1 %}
+      {% set url = 'game?page=messages&category=' ~ MessID ~ '&fav=' ~ fav ~ '&site=' %}
+      <nav class="msg-pages" aria-label="{{ LNG.mg_page }}">{{ LNG.mg_page }}:
+        {% if page > 1 %}<a href="{{ url }}1" title="1">&laquo;</a>{% endif %}
+        {% if page > 5 %}<span>..</span>{% endif %}
+        {% for site in max(1, page - 4)..min(maxPage, page + 4) %}
+          {% if site == page %}<b aria-current="page">[{{ site }}]</b>{% else %}<a href="{{ url }}{{ site }}">[{{ site }}]</a>{% endif %}
+        {% endfor %}
+        {% if page < maxPage - 4 %}<span>..</span>{% endif %}
+        {% if page < maxPage %}<a href="{{ url }}{{ maxPage }}" title="{{ maxPage }}">&raquo;</a>{% endif %}
+      </nav>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% block content %}
+  <section class="msg-nav">
+    <h2 class="msg-title">{{ LNG.mg_overview }}<span id="loading" hidden> ({{ LNG.loading }})</span></h2>
+    <nav class="msg-cats" aria-label="{{ LNG.mg_message_type }}">
+      {% for CategoryID, CategoryRow in (CategoryList)|php_iter %}
+        <a href="game?page=messages&category={{ CategoryID }}" data-message-category="{{ CategoryID }}"
+           class="msg-cat{% if CategoryID == MessID %} active{% endif %}{% if CategoryRow.unread > 0 %} has-unread{% elseif CategoryRow.total == 0 and CategoryID != php_const('MESSAGE_TYPE_SEARCH') %} is-empty{% endif %}"
+           style="--cat: {{ CategoryRow.color }}"{% if CategoryID == MessID %} aria-current="page"{% endif %}>
+          <span class="msg-cat__name">{{ LNG.mg_type[CategoryID] }}</span>
+          {% if CategoryID != php_const('MESSAGE_TYPE_SEARCH') %}
+            <span class="msg-cat__count"><b id="unread_{{ CategoryID }}">{{ CategoryRow.unread }}</b>/<span id="total_{{ CategoryID }}">{{ CategoryRow.total }}</span></span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </nav>
+    <div class="msg-prefs">
+      <label><input id="message-open-all" type="checkbox"> {{ LNG.mg_open_all }}</label>
+      <label><input id="message-remember-category" type="checkbox"> {{ LNG.mg_remember_last_category }}</label>
+    </div>
+  </section>
+
+<div id="stuff" jsthings='
+{
+"impulseEngineTech":{{ impulse_motor_tech }},
+"combustionEngineTech":{{ combustion_tech }},
+"tfpercFleet":{{ fleetIntoDebris }},
+"tfpercDeff":{{ defIntoDebris }},
+"marketRatios":{
+	"901":{{ refratesMetal }},
+	"902":{{ refratesCrystal }},
+	"903":{{ refratesDeuterium }}
+},
+"fleetspeed":1,
+"stbSettings":{
+	"stb_big_time": {{ stb_big_time }},
+	"stb_med_time": {{ stb_med_time }},
+	"stb_small_time": {{ stb_small_time }},
+	"stb_big_ress": {{ stb_big_ress }},
+	"stb_med_ress": {{ stb_med_ress }},
+	"stb_small_ress": {{ stb_small_ress }}
+  },
+"uniType": {{ uniType }},
+"maxGalaxy": {{ maxGalaxy }}
+}
+'></div>
+
+  <div class="msg-toolbar">
+    <form class="control-group msg-search" action="game?page=messages&category={{ MessID }}" method="post">
+      <input type="hidden" name="category" value="{{ MessID }}">
+      <input type="hidden" name="fav" value="{{ fav }}">
+      <input type="search" name="searchtext" value="{{ searchtext }}" placeholder="{{ LNG.mg_search_placeholder }}" aria-label="{{ LNG.mg_search }}" autocomplete="off" maxlength="50">
+      <input type="submit" value="{{ LNG.mg_search }}">
+    </form>
+    <div class="msg-filters">
+      <a href="game?page=messages&category={{ MessID }}&fav={{ fav ? 0 : 1 }}" class="button{% if fav %} active{% endif %}">[{{ fav ? LNG.mg_favorite_filter_off : LNG.mg_favorite_filter_on }}]</a>
+      <a href="#" class="button{% if grp %} active{% endif %}" onclick="toggleGrouping({{ MessID }}, {{ fav }}); return false;">[{{ grp ? LNG.mg_grouping_off : LNG.mg_grouping_on }}]</a>
+    </div>
+  </div>
+
+  {{ _self.bulkbar(MessID, page, maxPage, fav, MessageList) }}
+
+  <div class="messages-container">
+    {% set currentGroup = null %}
+    {% for Message in (MessageList)|php_iter %}
+      {% set groupId = Message.grp_id == null ? Message.id : Message.grp_id %}
+      {% if currentGroup != Message.grp_id %}
+        {% if currentGroup != null %}</div>{% endif %}
+        <div class="message-group" id="group_{{ groupId }}">
+          {% set currentGroup = Message.grp_id %}
+      {% endif %}
+      {% set spyCollapsed = (Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') and spyReportsCollapsed == 1) %}
+      {% set typeColor = Message.myself ? CategoryList[php_const('MESSAGE_TYPE_FAVORITES')].color : CategoryList[Message.type].color %}
+      <article id="message_{{ Message.id }}" class="message-item{% if Message.unread == 1 %} message-unread{% endif %}" style="--cat: {{ typeColor }}">
+        <header class="message-head">
+          <input class="message-select" type="checkbox" name="messageID[{{ Message.id }}]" value="1" aria-label="{{ LNG.mg_select_all }}">
+          <span class="message-type">{{ LNG.mg_type[Message.type] }}{% if Message.unread == 1 %} <span class="message-new">{{ icon('mail') }} {{ LNG.mg_new }}</span>{% endif %}</span>
+          <span class="message-details" id="msgdetails_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
+            <span class="message-from">{{ Message.from|raw }}</span>
+            <span class="message-subject">{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
+          </span>
+          {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
+            <span id="spytitle_{{ Message.id }}" class="spy-report-collapsed-title"{% if not spyCollapsed %} style="display: none;"{% endif %}>{{ Message.spyTitle }}</span>
+          {% endif %}
+          <time class="message-date">{{ Message.time }}</time>
+          <span class="message-tools">
+            <a href="#" onclick="Message.favMessage({{ Message.id }}, '{{ dpath }}'); return false;" title="{{ LNG.mg_favorite }}"><img id="imgfav_{{ Message.id }}" src="{{ dpath }}img/{{ Message.favorite ? 'fav.png' : 'nofav.png' }}" alt="{{ LNG.mg_favorite }}"></a>
+            {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
+              <a href="#" onclick="return Dialog.PM({{ Message.answerTo|json_encode }}, Message.CreateAnswer('{{ Message.subject }}'), '', '{{ Message.group }}');" title="{{ LNG.mg_answer_to }} {{ strip_tags(Message.from) }}"><img src="{{ dpath }}img/m.gif" alt="{{ LNG.mg_answer_to }}"></a>
+            {% endif %}
+            <a href="#" onclick="return Dialog.Forward({{ Message.id }});" title="{{ LNG.mg_forward }}"><img src="{{ dpath }}img/fwrd.png" alt="{{ LNG.mg_forward }}"></a>
+            {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
+              <a href="#" onclick="toggleSpyReport({{ Message.id }}, '{{ dpath }}'); return false;" title="Toggle"><img id="imgtoggle_{{ Message.id }}" src="{{ dpath }}img/{{ spyCollapsed ? 'expand_spy_msg.png' : 'collapse_spy_msg.png' }}" alt="Toggle"></a>
+            {% endif %}
+            <a href="#" onclick="Message.delMessage({{ Message.id }}, 'group_{{ groupId }}'); return false;" title="{{ LNG.mg_delete }}"><img src="{{ dpath }}img/deletemsg.png" alt="{{ LNG.mg_delete }}"></a>
+          </span>
+          {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
+            <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in (Message.receiver)|php_iter %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
+          {% endif %}
+        </header>
+        <div class="message-content" id="msgcontent_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
+          {{ Message.text|raw }}
+        </div>
+      </article>
+    {% endfor %}
+    {% if currentGroup != null %}</div>{% endif %}
+  </div>
+
+  {% if MessageList|length > 2 %}{{ _self.bulkbar(MessID, page, maxPage, fav, MessageList) }}{% endif %}
+{% endblock %}

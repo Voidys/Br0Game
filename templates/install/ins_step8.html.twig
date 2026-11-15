@@ -1,0 +1,25 @@
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ LNG.step6_head }}{% endblock %}
+{% block panel %}
+  <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.step6_desc }}</div></div>
+  {% if botError %}
+    <div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ LNG.ins_done_bots_failed }}</div></div>
+  {% endif %}
+  <h2>{{ LNG.ins_done_checklist }}</h2>
+  <ol class="install-todo">
+    <li><strong>{{ LNG.ins_done_login }}</strong> {{ LNG.ins_done_login_info|replace({'%s': adminName}) }}<br><a href="{{ adminUrl|e('html_attr') }}">{{ adminUrl }}</a></li>
+    <li><strong>{{ LNG.ins_done_cron }}</strong> {{ LNG.ins_done_cron_info }}<pre class="install-code">{{ cronLine }}</pre></li>
+    <li><strong>{{ LNG.ins_done_locked }}</strong> {{ LNG.ins_done_locked_info }}</li>
+    <li><strong>{{ LNG.ins_done_https }}</strong> {{ https ? LNG.ins_done_https_ok : LNG.ins_done_https_info }}</li>
+    <li><strong>{{ LNG.ins_done_settings }}</strong> {{ LNG.ins_done_settings_info }}</li>
+    {% if botsCreated > 0 %}<li><strong>{{ LNG.ins_done_bots }}</strong> {{ LNG.ins_done_bots_info|replace({'%d': botsCreated}) }}</li>{% endif %}
+    {% if migrationPw %}
+      <li><strong>{{ LNG.ins_done_migrationpw }}</strong> {{ LNG.ins_done_migrationpw_info }}<pre class="install-code">{{ migrationPw }}</pre></li>
+    {% endif %}
+    <li><strong>{{ LNG.ins_done_docs }}</strong> <a href="{{ docsUrl|e('html_attr') }}" target="_blank" rel="noopener">{{ docsUrl }}</a></li>
+  </ol>
+  <div class="install-actions">
+    <a class="button" href="../">{{ LNG.ins_to_start }}</a>
+    <a class="button btn--primary" href="../admin">{{ icon('settings') }}{{ LNG.ins_done_to_admin }}</a>
+  </div>
+{% endblock %}

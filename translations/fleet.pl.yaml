@@ -1,0 +1,517 @@
+and: i
+battle_stats_damage_done: Zadane obrażenia
+battle_stats_damage_dead: Nadmiarowe obrażenia
+battle_stats_shield_hit: Trafienia w osłony
+battle_stats_ship_destroyed: Zniszczone statki
+battle_stats_shield_bounced: Odbite obrażenia
+battle_stats_rapid_fire_done: Szybki ostrzał
+battle_stats_explosion_triggered: Eksplozje
+battle_stats_stunned_done: Wyłączone
+battle_stats_target: Cel
+battle_stats_total: Łącznie
+battle_stats_total_all_targets: Łącznie (wszystkie cele)
+battle_stats_total_all_fleets: Łącznie (wszystkie floty)
+damage: punktów ostrzału.
+debree_field_1: Pole zniszczeń
+debree_field_2: .
+fcp_colony: Kolonia
+fl_expocap_explain: >-
+  Jest to maksymalna liczba punktów ekspedycyjnych, które powinieneś wysłać.
+
+  Wszystko, co nad tym czapką nie zwiększy twoich nagród, ale nadal może zostać
+  utracone.
+fl_send_back: Zawróć
+fl_simulate: Symulacja
+fleet_attack_1: 'Atakująca flota dokonała ostrzału z siłą:'
+fleet_attack_2: 'w obrońcę. Osłony obrońcy pochłonęły:'
+fleet_defs_1: 'Broniąca się flota oddała ostrzał z siłą:'
+fleet_defs_2: 'w agresora. Osłony najeźdźcy pochłonęły:'
+spy_attack_with: Atak z
+spy_best_planet: Najlepsza planeta
+spy_best_resources_per_second: Najlepsza ress na sekundę
+spy_energy: Energia
+spy_hazard_potential: Potencjalne zagrożenie
+spy_large_transporter: duży transporter
+spy_market_value: Wartość rynkowa
+spy_necessary_recycler: Niezbędne recyklery
+spy_necessary_transporters: Niezbędne transportery
+spy_potential_recycling: Potencjał recyklingu
+spy_potential_resources: Potencjalne zasoby
+spy_small_transporter: mały transporter
+spy_summary: Streszczenie
+spy_total_resources: Zasoby ogółem
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: i
+sys_attack_attacker_pos: Agresor
+sys_attack_defender_pos: Obrońca
+sys_attack_round: Runda
+sys_attack_techologies: 'Broń: %d %% Osłona: %d %% Pancerz: %d %% '
+sys_attack_title: 'Doszło do starcia następujących flot: '
+sys_attacker_lostunits: 'Agresor przegrał:'
+sys_attacker_won: >-
+  Agresor wygrał bitwę, jego statki lądują w stolicy, a dowódca przyjmuje
+  upokarzającą przegranego defiladę zwycięskich wojsk.
+sys_both_won: >-
+  Bitwa nie przyniosła rozstrzygnięcia! Zmęczone floty wracają do swoich baz by
+  dokonać niezbędnych napraw
+sys_colo_allisok: >-
+  Jedna z twoich flot osiągnęła koordynaty %s. Rozpocząłeś kolonizację nowej
+  planety. To kolejny krok do ostatecznego triumfu naszego wspaniałego Imperium.
+sys_colo_badpos: >-
+  Jedna z twoich flot osiągnęła koordynaty %s. Brak możliwości kolonizacji, twoi
+  kolonizatorzy wracają rozczarowani.
+sys_colo_defaultname: Kolonia
+sys_colo_maxcolo: >-
+  Jedna z twoich flot osiągnęła koordynaty %s. Kolonizacja okazała się
+  niemożliwa, możesz mieć tylko %d planet, przy tak niskiej znajomości
+  astrofizyki.
+sys_colo_mess_from: Kolonizacja
+sys_colo_mess_report: Raport kolonizacji
+sys_colo_notech: >-
+  Jedna z twoich flot doleciała na %s. I okazało się, że nie możemy zasiedlić
+  tej planety. Nasza znajomość Astrofizyki jest zbyt niska, żebyśmy mogli żyć w
+  tak niesprzyjających warunkach!
+sys_colo_notfree: >-
+  Jedna z twoich flot osiągnęła koordynaty %s. Po dotarciu na miejsce okazało
+  się, że planeta została wcześniej skolonizowana, przez kogoś innego.
+  Kolonizatorzy wracają do domu kompletnie zdemoralizowani.
+sys_debris: Wielkość pola zniszczeń
+sys_def_rebuild: 'Instalacje obronne mogły zostać częściowo naprawione:'
+sys_defender_lostunits: 'Obrońca przegrał:'
+sys_defender_won: >-
+  Obrońca wygrał bitwę, gubernator ogłasza dzień wolny od pracy, mieszkańcy
+  świętują, oglądają pokazy fajerwerków i upijają się do nieprzytomności.
+sys_destroyed: Zniszczony
+sys_destruc_echec: >-
+  Trzęsienia ziemi przetaczają się po planecie, lecz coś idzie nie tak: Gwiazdy
+  śmierci implodują, rozpadając się na tysiące kawałków. <br>Niestety fala
+  uderzeniowa niszczy kompletnie całą flotę.
+sys_destruc_lune: 'Szansa na zniszczenie księżyca to: %d%% '
+sys_destruc_mess1: 'Gwiazdy śmierci skierowały swoje ogromne działa na księżyc. '
+sys_destruc_null: Niestety atak zakończył się niepowodzeniem.<br> Księżyc nie został zniszczony.
+sys_destruc_reussi: >-
+  Potężne działa Gwiazd śmierci rozniosły księżyc na kawałki. <br>Księżyc został
+  zniszczony.
+sys_destruc_rip: 'Prawdopodobieństwo samozniszczenia floty to: %d%%'
+sys_destruc_stop: Obrońca zablokował zniszczenie księżyca.
+sys_destruc_title: 'Następujące floty z misją zniszcz księżyc:'
+sys_expe_attack_1_1_1: Jeden z kosmicznych piratów desperacko starał się przejąć naszą ekspedycję.
+sys_expe_attack_1_1_2: >-
+  Jacyś prymitiwni barbarzyńcy, poruszający się czymś, co nie powinno się
+  nazywać statkiem kosmicznym. Na ogień czujemy się odpowiedzieć ogniem.
+sys_expe_attack_1_1_3: >-
+  Przechwyciliśmy kilka komunikatów piratów... najwyraźniej zostaniemy
+  zaatakowani.
+sys_expe_attack_1_1_4: Zostaliśmy zmuszeni do walki z piratami, na szczęście nie byli zbyt liczni.
+sys_expe_attack_1_1_5: >-
+  Nasza flota informuje, że natknęliśmy się na znanego pirtata Moa Tikarr i jej
+  dzikie psy. Żądają kapitulacji, ale nasze Imperium nigdy się nie podadaje!
+  Będziemy walczyć do ostatniej kropli paliwa, naszego lub ich.
+sys_expe_attack_1_2_1: >-
+  Nasza ekspedycja natknęła się na grupę nieznanej grupy pirackiej, niestety nie
+  chcieli się poddać i podporządkować prawu. Bitwa stała się nieunikniona.
+sys_expe_attack_1_2_2: >-
+  Podążając za obiecującymi odczytami trafiliśmy prosto w zasadzkę piratów. Nie
+  poddamy się jednak bez walki, będziesz z nas dumny Imperatorze!
+sys_expe_attack_1_2_3: >-
+  Dostaliśmy sygnął SOS, więc zgodnie z procedurami, przerwaliśmy ekspedycję by
+  pomóc potrzebującym. Na miejscu okazało się, że wezwanie było zasadzką
+  zastawioną przez piratów. Stawimy i czoło i oby nikt więcej nie wpadł w ich
+  zasadzki.
+sys_expe_attack_1_3_1: >-
+  Przechwyciliśmy transmisję obcych, niezidentyfikowanych obiektów latających,
+  dowództwo floty postanowiło to sprawdzić. Okazało się, że za transmisję
+  odpowiada baza renegatów. Nie było negocjacji, od razu przystąpiliśmy do
+  ostrzału z wojennym okrzykiem: na phybel pirackim ścierwom!
+sys_expe_attack_1_3_2: >-
+  Podążaliśmy właśnie za obiecującymi odczytami z pobliskiego pasa asteroid, gdy
+  nagle z nadprzestrzeni wypadły na nas pirackie okręty, jeśli szczęście nam
+  dopisze szybko ich rozgonimy i może jeszcze uda nam się zebrać jakieś surowce.
+sys_expe_attack_1_3_3: >-
+  Otrzymaliśmy właśnie pilną wiadomość od dowódcy ekspedycji: "Lecą na nas!
+  Wyskoczyli z nadprzestrzeni, na szczęście to tylko piraci, więc mamy szansę,
+  będziemy walczyć!"
+sys_expe_attack_2_1_1: >-
+  Nasza flota napotkała nieznane jednostki latające. Doszło do pierwszego
+  kontaktu, niestety za pośrednictwem wystrzelonych w nasze okręty pocisków...
+sys_expe_attack_2_1_2: >-
+  Sir! Właśnie badaliśmy niezwykle interesującą anomalię powiązaną z Czarną
+  Materią, gdy nagle z nadprzestrzeni wyłoniły się okręty, jakich jeszcze dotąd
+  nie widzieliśmy. Bez ostrzeżenia otworzyli do nas ogień. Będziemy mieli
+  szczęście jeśli ktokolwiek przeżyje tę niczym nieuzasadnioną agresję...
+sys_expe_attack_2_1_3: >-
+  Nasza ekspedycja napotkała niewielką grupę nieznanych okrętów. Próbowaliśmy
+  nawiązać z nimi łączność radiową, próbowaliśmy dawać znaki świetle, bez żadnej
+  reakcji. Gdy postanowiliśmy odlecieć badać dalsze obszary galaktyki, obca
+  flota zaatakowała. Ta niewielka grupa okrętów okazała się niestety zabójczo
+  silna...
+sys_expe_attack_2_1_4: >-
+  Ekspedycja raportuje kontakt z nieznanymi okrętami. Nie udało nam się
+  odszyfrować wiadomości, ale nasze odczyty wskazują, że uzbroili swoje
+  działa...
+sys_expe_attack_2_2_1: >-
+  Napotykaliśmy nieznaną nam rasę obcych, początkowo byli nastawieni pokojowo.
+  Przybyli na nasz okręt dowodzenia, wymieniliśmy się darami i zaprosiliśmy na
+  uroczysty obiad. Niestety najwyraźniej podanie ośmiorniczek kosmitom
+  wyglądającym jak wielkie ośmiornice nie było dobrym pomysłem. Gdy tylko
+  delegacja obcych zobaczyła potrawy, z oburzeniem coś zabulgotali i
+  teleportowali się na swoje okręty. Nie mieliśmy nawet czasu dokończyć jedzenia
+  - kosmici rozpoczęli ostrzał.
+sys_expe_attack_2_2_2: >-
+  Nasza ekspedycja natrafiła na nieznaną rasę. Najprawdopodobniej naruszyliśmy
+  ich teretorium, niestety nie chcieli słuchać wyjaśnień, niezwykle agresywna i
+  wojownicza rasa. Musieliśmy podjąć walkę.
+sys_expe_attack_2_2_3: >-
+  Połącznie z naszą ekspedycją zostało utracone, ale udało się jej wysłać
+  ostatni raport. Flota była pod ciężkim ostrzałem niezidentyfikowanych wysoce
+  zaawansowanych jednostek.
+sys_expe_attack_2_3_1: >-
+  Imperatorze! Flota która wyruszyła na ekspedycję przesłała raport o ciężkich
+  walkach z nieznanym wrogiem. Musimy przygotować się na stratę całej floty.
+sys_expe_attack_2_3_2: >-
+  Duża flota krystalicznych statków nieznanego pochodzenia jest na kursie
+  kolizyjnym. Kapitanowie okrętów zrobią co w ich mocy, ale obawiam się
+  najgorszego.
+sys_expe_attack_2_3_3: >-
+  Mamy drobne problemy z wymawianiem słów w języku obcych. Nasz dyplomata
+  przypadkowo powiedział 'Ognia!' zamiast 'Pokój!'
+sys_expe_attackname_1: Piraci
+sys_expe_attackname_2: Obcy
+sys_expe_back_home: Twoja flota powróciła do %1$s %2$s z wyprawy w %3$s.
+sys_expe_back_home_ress: Flota dostarczyła %s %s, %s %s i %s %s.
+sys_expe_back_home_ships_flound: 'Znaleziono następujące statki:'
+sys_expe_back_home_ships_lost: 'Stracono następujące statki:'
+sys_expe_blackholl_1: >-
+  Twoja flota przelatywała zbyt blisko czarnej dziury, dzięki zręczności i
+  opanowaniu Twojego Admirała tylko część jednostek uległa zniszczeniu!
+sys_expe_blackholl_2: >-
+  Twoja flota wyszła z nadprzestrzeniu wprost w czarną dziurę, nic nie dało się
+  już zrobić, wszystkie jednostki zostały stracone bezpowrotnie!
+sys_expe_depleted_max_1: >-
+  Wpis z dziennika oficera łączności: Gdybyśmy poczuli się w niebezpieczeństwie,
+  moglibyśmy wrócić ze wszystkimi innymi ekspedycjami latającymi tutaj.
+sys_expe_depleted_max_2: >-
+  Wpis z dziennika oficerów łączności: Jeśli tak dalej pójdzie, będziemy musieli
+  umieścić boje nawigacyjne, aby obsłużyć cały ten ruch.
+sys_expe_depleted_max_3: >-
+  Wpis w dzienniku oficera łączności: Może bardziej przydałoby się otworzyć tu
+  sklep z pamiątkami niż wysyłać kolejną ekspedycję.
+sys_expe_depleted_med_1: >-
+  Wpis z dziennika oficera łączności: Znaleźliśmy dowód wskazujący na obecność
+  wielu flot ekspedycyjnych w okolicy. Wracamy do domu.
+sys_expe_depleted_med_2: >-
+  Wpis z dziennika oficera łączności: Nawiązaliśmy przyjazny kontakt radiowy z
+  kilkoma innymi ekspedycjami w tym sektorze.
+sys_expe_depleted_med_3: >-
+  Wpis z dziennika oficera łączności: Świętowaliśmy zakończenie ekspedycji z
+  członkami załogi innej floty ekspedycyjnej, która była w drodze w tym samym
+  sektorze. Nie mają nic nowego do przekazania.
+sys_expe_depleted_min_1: >-
+  Wpis z dziennika oficera łączności: Wygląda na to, że ludzie byli już
+  wcześniej w tej części galaktyki.
+sys_expe_depleted_min_2: >-
+  Wpis z dziennika oficera łączności: Znaleźliśmy szczątki starożytnych statków
+  kosmicznych. Nie jesteśmy tu pierwsi.
+sys_expe_depleted_min_3: >-
+  Dodatek do dziennika pokładowego oficera łączności: Prawie mieliśmy kolizję z
+  inną flotą ekspedycyjną. Nie sądziłem, że w pobliżu będą inni.
+sys_expe_depleted_not_1: >-
+  Wpis z dziennika oficera łączności: Wygląda na to, że ta część wszechświata
+  nie została jeszcze zbadana.
+sys_expe_depleted_not_2: >-
+  Wpis z dziennika oficera łączności: To wspaniałe uczucie być pierwszymi
+  podróżującymi przez niezbadany sektor.
+sys_expe_feqeuence_few: Ponad 10 wypraw w ciągu ostatnich 24 godzin
+sys_expe_feqeuence_many: Ponad 50 wypraw w ciągu ostatnich 24 godzin
+sys_expe_feqeuence_medium: Ponad 25 wypraw w ciągu ostatnich 24 godzin
+sys_expe_feqeuence_no: Kilka wypraw w ciągu 24 godzin
+sys_expe_found_goods: '%s %s zostały wydobyte.'
+sys_expe_found_ress_1_1: >-
+  Twoja ekspedycja trafiła na mały rój asteroid, z niektórych udało się wydobyć
+  cenne surowce.
+sys_expe_found_ress_1_2: Na małej planetoidzie znaleziono łatwo wydobywalne surowce.
+sys_expe_found_ress_1_3: >-
+  W czasie ekspedycji nasza flota musiała awaryjnie lądować na nieoznaczonej na
+  mapach planecie. Ciężko w to uwierzyć, ale odpady które wyrzuciliśmy tak
+  zachwyciły mieszkające tu istoty, że w podzięce podarowały nam cenne surowce.
+  I właśnie taką niewidzialną rękę rynku lubimy.
+sys_expe_found_ress_1_4: >-
+  Ekspedycja odkryła radioaktywną planetoidę. Za pomocą statków bezzałogowych
+  wydobyto z niej, co tylko się dało.
+sys_expe_found_ress_2_1: >-
+  Ekspedycja znalazła starożytny frachtowiec. Ponieważ szanujemy środowisko i
+  chcemy mieć czysty kosmos odzyskaliśmy z tego wraku wszystkie możliwe surowce.
+sys_expe_found_ress_2_2: >-
+  Twoja ekspedycja trafiła na mały księżyc pełen cennych zasobów. Nie możemy
+  pozwolić, żeby takie dobra się marnowały. Wydobyliśmy wszystko co się dało.
+sys_expe_found_ress_2_3: >-
+  Spotkaliśmy mały konwój statków cywilnych. W zamian za zapas żywności i leków
+  otrzymaliśmy zasoby i wdzięczność. Okazuje się, że czasem lepiej okazać
+  miłosierdznie niż od razu otwierać ogień.
+sys_expe_found_ress_3_1: >-
+  Twoja ekspedycja natrafiła na gigatyczny porzucony okręt obcych. Niestety,
+  nasi naukowcy nie mają pojęcia jak uruchomić ten cud technologiczny, zatem
+  dowódzctwo floty zdecydowało o pocięciu go na kawałki i odzyskaniu surowców
+sys_expe_found_ress_3_2: >-
+  Pas asteroid wokół nieznanej planety na którą natrafiliśmy zawiera ogromne
+  ilości potrzebnego naszemu Imperium surowca. Ekspedycja wraca z pełnymi
+  magazynami!
+sys_expe_found_ress_logbook_1: >-
+  Wpis z dziennika pokładowego pierwszego oficera: Wykorzystaliśmy całą wolną
+  przestrzeń, ale wciąż nie byliśmy w stanie zabrać ze sobą wszystkich
+  znalezionych zasobów.
+sys_expe_found_ress_logbook_2: >-
+  Wpis z dziennika pokładowego pierwszego oficera: Gdybyśmy tylko mieli kilka
+  frachtowców więcej! Teraz będziemy musieli zostawić za sobą mnóstwo zasobów.
+sys_expe_found_ress_logbook_3: >-
+  Wpis z dziennika pierwszego oficera: Wyrzuciliśmy już wszystko, czego tak
+  naprawdę już nie potrzebujemy, ale wciąż nie jesteśmy w stanie zrobić
+  wystarczająco dużo miejsca na wszystkie znalezione zasoby.
+sys_expe_found_ress_logbook_4: >-
+  Wpis z dziennika pokładowego pierwszego oficera: Nawet gdy przekształciliśmy
+  kafeterię i wszystkie salony w magazyny, wciąż nie możemy przetransportować
+  wszystkich znalezionych zasobów.
+sys_expe_found_ships: >-
+  To niesamowite! Twoja ekspedycja odkryła statki kosmiczne w doskonałym stanie,
+  kto mógł je tutaj porzucić? Miejmy nadzieję, że wykonana sterylizacja będzie
+  wystarczająca i ten dar, nie okaże się naszym przekleństwem...<br>:
+sys_expe_found_ships_1_1: >-
+  Ekspedycja trafiła na wraki poprzedniej ekspedycji. Technicy sprawdzają, czy
+  nie da się czegoś uratować.
+sys_expe_found_ships_1_2: >-
+  Trafiliśmy na opuszczoną bazę piratów. Okazało się, że w hangarze pozostawiono
+  kilka pojazdów. Technicy pracują nad ich ponownym uruchomieniem.
+sys_expe_found_ships_1_3: >-
+  Nasza wyprawa trafiła na prawie kompletnie zniszczoną wojną planetę. Z wraków
+  na orbicie technicy próbują coś odzyskać, a pokładowy historyk stara się
+  dociec co tu się włąściwie wydarzyło.
+sys_expe_found_ships_1_4: >-
+  Napotkaliśmy dryfującą i opuszczoną od wielu lat bojową stację kosmiczną. Jak
+  się okazało, hangary nie są całkiem puste. Nasi technicy spróbują uruchomić
+  pozostawione statki.
+sys_expe_found_ships_2_1: >-
+  Trafiliśmy na szczątki zniszczonej armady. Natychmiast wysłaliśmy techników do
+  statków które wyglądały na najmniej uszkodzone, może uda nam się niektóre z
+  nich ponownie uruchomić.
+sys_expe_found_ships_2_2: >-
+  Ekspedycja trafiła na dryfującą, automatyczną stocznię. Po dostarczeniu jej
+  energii udało się ją ponownie uruchomić, czekamy teraz co uda się jej
+  wyprodukować.
+sys_expe_found_ships_3_1: >-
+  Znaleźliśmy gigantyczne cmentarzystko statków. Technicy sprawdzają, czy da się
+  coś uratować.
+sys_expe_found_ships_3_2: >-
+  Odkryliśmy planetę z pozostałością cywilizacji, a na orbicie ogromną stocznię.
+  Część techników i pilotów sprawdza, czy nie da się czegoś uratować.
+sys_expe_found_ships_logbook_1: >-
+  Wpis z dziennika pokładowego oficerów maszynowych: Gdybyśmy przywieźli ze sobą
+  trochę więcej statków, łatwo byłoby zabrać ze sobą kilka z tych piękności!
+sys_expe_found_ships_logbook_2: >-
+  Wpis z dziennika pokładowego oficerów maszyn: Niestety nie mieliśmy możliwości
+  sprowadzenia z powrotem wszystkich statków odkrytych podczas naszej misji.
+sys_expe_found_ships_logbook_3: >-
+  Wpis z dziennika pokładowego oficerów maszyn: Niestety nie mamy wystarczającej
+  przepustowości, aby sprowadzić z powrotem wszystkie odnalezione statki.
+sys_expe_found_ships_nothing: >-
+  - Nie odnaleziono żadnych statków, które nadawałaby się do naprawy i ponownego
+  uruchomienia.
+sys_expe_lost_fleet_1: >-
+  Trafiliśmy na sygnał SOS, zgodnie z protokołem lecimy na pomoc... To ZZZrt!
+  Boże ... zzrrrttt.. co ...byyyyooo.... kurrr....
+sys_expe_lost_fleet_2: >-
+  Ekspedycja skorzystała z kilku skrótów oszczędzając sporo czasu, niestety
+  ostatni z nich zaprowadził całą flotę wprost w czarną dziurę. Wszyscy
+  zginęli... a mówili: "gdy się człowiek spieszy to się diabeł cieszy!".
+sys_expe_lost_fleet_3: >-
+  Awaria na okręcie dowodzenia doprowadziła do reakcji łańcuchowej... Cała
+  ekspedycja zniknęła w spektakularnym wybuchu!
+sys_expe_lost_fleet_4: >-
+  Flota nie wróciła z nadprzestrzeni. Nikt nie wie, co się stało, ale wygląda na
+  to, że ją utraciliśmy. Naukowcy próbują rozwikłać tę tragiczną zagadkę.
+sys_expe_nothing_1: >-
+  Wyprawa wraca z niczym, nie licząc zwierzątek z wyglądu przypominających
+  niezdarne kury. Przynajmniej są dość smaczne.
+sys_expe_nothing_2: >-
+  Ekspedycja zrobiła świetne zdjęcia supernowej, ale poza tym nie udało się
+  uchwycić niczego innego. Zdjęcie można zgłaszać na konkurs, wypłata dużej
+  ilości steemu gwarantowana!
+sys_expe_nothing_3: >-
+  Wirus komputerowy spraliżował systemy nawigacyjne wkrótce po opuszczeniu
+  systemu słonecznego. Wyprawę zakończono gdy okazało się, że flota lata w
+  kółko. Winnego hakera należy jak najszybciej odnaleźć i ukarać, suguruję
+  Najjaśniejszemu Imperatorowi, aby jako karę zlecił obcięcie dłoni.
+sys_expe_nothing_4: >-
+  Spotkano nieznaną formę życia w postaci czystej energii. Swoim pięknem i
+  prawdopodobnie wydzielanymi falami pozytywnych emocji zauroczyła całą załogę.
+  Na szczęście pokładowy robot podjął śmiałą, samodzielną decyzję aby zawrócić
+  flotę do domu. Należy się tej puszce medal. Istota, gdy tylko spostrzegła, że
+  flota zmienia kierunek lotu znikła, a załoga wybudziła się z transu wypoczęta
+  i szczęśliwa. Szkoda tylko że bez surowców...
+sys_expe_nothing_5: >-
+  Teraz już wiadomo, że czerowna anomalia klasy 5 nie tylko zakłóca pracę
+  systemów komputerowych, ale również wywołuje halucynacje u ludzi. Nic więcej
+  wyprawa nie wniosła.
+sys_expe_nothing_6: >-
+  Skan sektora przyniósł obiecujące odczyty, natychmiast przystąpiliśmy do
+  dalszych skan i poszukiwań. Niestety jednak okazało się że to tylko anomalia
+  która zakłócała działanie naszych sensorów, więc wracamy z niczym. Technicy
+  obiecują że następnym razem się poprawią i proszą o nieskracenie ich o głowe.
+  Pozostawią decyzję Waszej Imperatorskiej Wszechjasności.
+sys_expe_nothing_7: >-
+  Wstyd przyznać, ale akurat wczasie długiego lotu do regionu który mieliśmy
+  zbadać wypadły urodziny Admirała floty. Cała załoga postanowiła wspólnymi
+  siłami zorganizować wspaniałe przyjęcie! Na nasze nieszczęście, ktoś wpadł na
+  pomysł żeby jako główny składnik dań wybrać te kurczakowate borgi, co je
+  kiedyś złapaliśmy. Okazało się, że w dużych ilościach powodują okropne choroby
+  żołądka... Załoga nie miała wyjścia i podjęła decyzję o powrocie do domu, bez
+  dalszej eksploracji kosmosu.
+sys_expe_nothing_8: >-
+  Nasza Ekspedycja zawarła znajomość z kompletną pustką w przestrzeni... Coś
+  niespotykanego...
+sys_expe_nothing_9: >-
+  Awaria reaktora statku dowództwa prawie zniszczyła wyprawę, na szczęście kilku
+  zdolnych techników opanowało kryzys. Straty paliwa i materiałów były tak duże,
+  że trzeba było wracać, zanim udało się coś ciekawego znaleźć.
+sys_expe_report: Raport ekspedycji
+sys_expe_report_msg: 'Raport z ekspedycji floty %s %s w %s:'
+sys_expe_time_fast_1: >-
+  Nieprzewidziane sprzężenie zwrotne w agregatach energii sprawiło, iż flota
+  wróciła znacznie szybciej niż się spodziewano. Niestety nie udało się znaleźć
+  niczego cennego.
+sys_expe_time_fast_2: >-
+  Trochę zbyt śmiały nowy dowódca użył do powrotu niestabilnego tunelu
+  podprzestrzennego. Niestety, zdarzenie to nie przyniosło żadnych nowych
+  rozwiązań, które dałoby się wykorzystać.
+sys_expe_time_fast_3: >-
+  Ekspedycja nie znalazła niczego ciekawego w badanym sektorze, jednakże flota
+  wpadła w dziwne zawirowania słoneczne, co przyspieszyło jej powrót.
+sys_expe_time_slow_1: >-
+  Niedoświadczony nawigator doprowadził do błedu podczas skoku - nie dość, że
+  wysłał flotę w rejon gdzie niczego nie ma, to jeszcze na tyle daleko że
+  znacznie wydłuży się powrót flotylli.
+sys_expe_time_slow_2: >-
+  Do tej pory nie wiadomo dlaczego, ale skok w nadprzestrzeń kompletnie się nie
+  udał. Zamiast wylądować w odległych rejonach układy flota niemal wleciała w
+  słońce! Powrót ekspedycji do domu potrwa dłużej niż pierwotnie zakładano.
+sys_expe_time_slow_3: >-
+  Podczas testów nowego modułu nawigacji coś poszło nie tak. Flota została
+  wysłana znacznie dalej w nieznaną przestrzeń niż planowano, przez co został
+  zużyty prawie cały zapas paliwa. Flota na najniższych obrotach wraca, ale
+  zajmnie jej to dużo czasu.
+sys_expe_time_slow_4: >-
+  Wyprawa trafiła na burzę cząstek. Dzieki mechanikom nie doszło do najgorszego,
+  ale burza znacznie wydłuży powrót floty, która tym razem musi obejść się
+  smakiem wracając do bazy z niczym.
+sys_expe_time_slow_5: >-
+  Statek Dowództwa zderzył się z niezidentyfikowanym obiektem latającym, który
+  wyskoczył z nadprzestrzeni bez żadnego ostrzeżenia. Szkody są tak duże, iż
+  dokonanie niezbędnych napraw wydłuży powrót floty. Nie będzie też możliwości
+  na poszukiwanie czegokolwiek wartościowego.
+sys_expe_time_slow_6: >-
+  Kosmiczny wiatr z czerwonego olbrzyma zakłócił wejście floty w nadprzestrzeń,
+  a komputery mają duży problem z obliczneniem wyjścia z nadprzestrzeni. Flota
+  wyszła gdzieś na krańcach systemu, gdzie nie ma praktycznie nic. Wracamy z
+  pustymi rękami i do tego dłużej niżbyśmy chcieli.
+sys_fleet_return: |-
+  Twoja flota powraca do %s %s %s i dostarcza %s %s, %s %s i %s %s.
+  %s
+sys_fleet_won: >-
+  Jedna z twoich flot wraca z ataku na planetę %s %s na %s %s. Zdobyłeś %s %s,
+  %s %s i %s %s
+sys_gain: Zysk
+sys_honorpoints_changed: 'Punkty honoru:'
+sys_irak_def: '%d Rakiety zostały przechwycone.'
+sys_irak_mess: Międzyplanetarne rakiety  (%d) z %s na planetę %s <br><br>
+sys_irak_no_att: Wszystkie rakiety zostały przechwycone.
+sys_irak_no_def: Ta planeta nie posiada żadnej obrony
+sys_irak_subject: Zniszczenie spowodowane przez rakiety
+sys_lost: Straty
+sys_mess_attack_cancel: |-
+  Bitwa o %s %s została anulowana.
+  Serwer nie mógł tego obliczyć.
+sys_mess_attack_report: Raport ze starcia
+sys_mess_destruc_report: 'Raport: Zniszczenie księżyca'
+sys_mess_fleetback: Powrót floty
+sys_mess_piratebase_gone: Wasza flota dotarła do %s, ale baza piratów już tam nie istnieje. Flota wraca do bazy.
+sys_mess_spy_activity: Aktywność szpiegowska
+sys_mess_spy_control: Kontrola szpiegowska
+sys_mess_spy_destroyed: Twoja sonda została zniszczona!
+sys_mess_spy_ennemyfleet_1: W pobliżu %s wykryto wrogie sondy szpiegowskie z planety %s.
+sys_mess_spy_ennemyfleet_3: W pobliżu %s zauważono wrogie sondy szpiegowskie z księżyca %s.
+sys_mess_spy_link: >-
+  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'Szansa na zniszczenie sondy szpiegowskiej to:  %d %% '
+sys_mess_spy_qg: Centrum szpiegowania
+sys_mess_spy_repair_order: Statki są obecnie odnawiane w doku naprawczym.
+sys_mess_spy_report: Raport wywiadu
+sys_mess_spy_report_details_1: Raport szpiegowski z planety %1$s (%2$s) [%3$s:%4$s:%5$s] na %6$s
+sys_mess_spy_report_details_3: Raport szpiegowski z księżyca %1$s (%2$s) [%3$s:%4$s:%5$s] na %6$s
+sys_mess_spy_report_details_4: Raport szpiegowski z %1$s (%2$s) [%3$s:%4$s:%5$s] na %6$s
+sys_mess_tower: Dowództwo Floty
+sys_mess_transport: Transport
+sys_moonbuilt: >-
+  Ogromne ilości wolnego metalu i kryształu przyciągają się wzajemnie i tworzą
+  satelitę wokół planety!
+sys_moonproba: 'Szansa na księżyc: '
+sys_raport_amount_error: Brak lub zbyt wiele statków/obrony do symulacji
+sys_raport_lost_contact: >-
+  Kontakt z atakującą flotą utracony (To znaczy, że flota została zniszczona w 1
+  rundzie!)
+sys_raport_not_found: Nieprawidłowy id bitwy
+sys_recy_gotten: >-
+  Twoi recyklerzy zebrali %2$s %6$s i %3$s %7$s z łącznej ilości %4$s %6$s i
+  %5$s %7$s na współrzędnych %1$s.
+sys_recy_mess: Jedna z twoich flot recyklerów wraca do %s %s z %s %s, %s %s i %s %s.
+sys_recy_report: Raport zbierania
+sys_ship_armour: Pancerz
+sys_ship_count: Ilość
+sys_ship_repaired: Naprawiono
+sys_ship_shield: Osłona
+sys_ship_type: Typ
+sys_ship_weapon: Broń
+sys_spy_defenses: Systemy obronne
+sys_spy_fleet: Flota
+sys_stat_mess: Twoja flota z %s %s dociera do %s %s %s i dostarcza %s %s, %s %s i %s %s. %s
+sys_stat_mess_stay: Położenie floty
+sys_stealed_ressources: 'Po defiladzie opróżniono magazyny surowców i zrabowano:'
+sys_trade_mess_arr_success: >-
+  Jedna z flot handlowych jest gotowa do powrotu na planetę %1$s %2$s (lot powrotny: %5$s). <form
+  action="game?page=fleetTable&amp;action=sendfleetback"
+  method="post"><input name="fleetID" value="%3$s" type="hidden"><input
+  value="%4$s" type="submit"></form>
+sys_trade_mess_back: Jedna z flot handlowych powróciła na planetę %s %s bez powodzenia.
+sys_trade_mess_back_success: >-
+  Jedna z twoich flot handlowych pomyślnie powróciła na planetę %4$s %5$s z %1$s
+  metalem, %2$s kryształami i %3$s deuterem.
+sys_tran_mess_back: Jedna z twoich flot wróciła z planety %s %s.
+sys_tran_mess_owner: >-
+  Jedna z twoich flot z %s %s osiągnęła %s %s %s i dostarczyła %s %s, %s %s i %s
+  %s.
+sys_tran_mess_user: >-
+  Pokojowo nastawiona flota z  %s %s osiągnęła %s %s i dostarczyła %s %s, %s %s
+  i %s %s.
+sys_units: Jednostki
+sys_wreckfield: >-
+  Niektóre ze zniszczonych statków obrońcy przez kilka dni tworzą pole wraków na
+  orbicie planety.
+sys_wreckfield_added: 'Dodano do wraku:'
+type_mission_1: Atak
+type_mission_2: Atak łączony
+type_mission_3: Transport
+type_mission_4: Stacjonuj
+type_mission_5: Zostań
+type_mission_6: Szpieguj
+type_mission_7: Kolonizuj
+type_mission_8: Recykling
+type_mission_9: Zniszcz
+type_mission_15: Ekspedycja
+type_mission_16: Handel
+type_mission_17: Przenosić
+type_planet_1: Planeta
+type_planet_2: Pole zniszczeń
+type_planet_3: Księżyc
+type_planet_4: Baza piratów
+type_planet_short_1: P
+type_planet_short_2: Pz
+type_planet_short_3: M

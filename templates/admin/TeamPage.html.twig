@@ -1,0 +1,90 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if message %}<div class="notice notice--success" role="status">{{ message }}</div>{% endif %}
+
+  <form method="POST" action="?page=team&amp;action=save" class="card card--flush" id="team-form" data-track-dirty>
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('users') }}{{ LNG.adm_tab_team }} <span class="badge badge--muted" data-team-count>{{ members|length }}</span></h2>
+      <div class="card__actions"><button type="button" class="button btn--small" data-team-add>{{ icon('plus') }}{{ LNG.team_add }}</button></div>
+    </header>
+    <div class="card__body">
+      <p class="muted">{{ LNG.team_hint }}</p>
+      <div class="table-wrap">
+        <table class="data" id="team-table">
+          <thead>
+            <tr>
+              <th>{{ LNG.team_name }}</th>
+              <th>{{ LNG.team_position }}</th>
+              <th>{{ LNG.team_contact }}</th>
+              <th>{{ LNG.team_description }}</th>
+              <th class="actions"></th>
+            </tr>
+          </thead>
+          <tbody data-team-rows>
+            {% for m in members %}
+            <tr data-team-row>
+              <td><input type="hidden" name="id[]" value="{{ m.id }}"><input type="text" name="name[]" maxlength="64" value="{{ m.name|e('html_attr') }}" aria-label="{{ LNG.team_name|e('html_attr') }}"></td>
+              <td><input type="text" name="position[]" maxlength="128" value="{{ m.position|e('html_attr') }}" aria-label="{{ LNG.team_position|e('html_attr') }}"></td>
+              <td><input type="text" name="contact[]" maxlength="128" value="{{ m.contact|e('html_attr') }}" aria-label="{{ LNG.team_contact|e('html_attr') }}"></td>
+              <td><textarea name="description[]" rows="2" aria-label="{{ LNG.team_description|e('html_attr') }}">{{ m.description|e }}</textarea></td>
+              <td class="actions nowrap">
+                <button type="button" class="button btn--small" data-team-up title="{{ LNG.team_move_up|e('html_attr') }}" aria-label="{{ LNG.team_move_up|e('html_attr') }}"><span class="icon-flip">{{ icon('chevron-down') }}</span></button>
+                <button type="button" class="button btn--small" data-team-down title="{{ LNG.team_move_down|e('html_attr') }}" aria-label="{{ LNG.team_move_down|e('html_attr') }}">{{ icon('chevron-down') }}</button>
+                <button type="button" class="button btn--small btn--danger" data-team-delete title="{{ LNG.team_delete|e('html_attr') }}" aria-label="{{ LNG.team_delete|e('html_attr') }}">{{ icon('trash-2') }}</button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="empty" data-team-empty{% if members|length > 0 %} hidden{% endif %}>{{ icon('users') }}<p>{{ LNG.team_empty }}</p></div>
+    </div>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.team_save }}</button></div>
+  </form>
+
+  <template id="team-row-template">
+    <tr data-team-row>
+      <td><input type="hidden" name="id[]" value=""><input type="text" name="name[]" maxlength="64" aria-label="{{ LNG.team_name|e('html_attr') }}"></td>
+      <td><input type="text" name="position[]" maxlength="128" aria-label="{{ LNG.team_position|e('html_attr') }}"></td>
+      <td><input type="text" name="contact[]" maxlength="128" aria-label="{{ LNG.team_contact|e('html_attr') }}"></td>
+      <td><textarea name="description[]" rows="2" aria-label="{{ LNG.team_description|e('html_attr') }}"></textarea></td>
+      <td class="actions nowrap">
+        <button type="button" class="button btn--small" data-team-up title="{{ LNG.team_move_up|e('html_attr') }}" aria-label="{{ LNG.team_move_up|e('html_attr') }}"><span class="icon-flip">{{ icon('chevron-down') }}</span></button>
+        <button type="button" class="button btn--small" data-team-down title="{{ LNG.team_move_down|e('html_attr') }}" aria-label="{{ LNG.team_move_down|e('html_attr') }}">{{ icon('chevron-down') }}</button>
+        <button type="button" class="button btn--small btn--danger" data-team-delete title="{{ LNG.team_delete|e('html_attr') }}" aria-label="{{ LNG.team_delete|e('html_attr') }}">{{ icon('trash-2') }}</button>
+      </td>
+    </tr>
+  </template>
+</div>
+<script>
+onPageInit(function () {
+  var form = document.getElementById('team-form');
+  var body = form.querySelector('[data-team-rows]');
+  var empty = form.querySelector('[data-team-empty]');
+  var count = form.querySelector('[data-team-count]');
+  var tpl = document.getElementById('team-row-template');
+  function refresh() {
+    var n = body.querySelectorAll('[data-team-row]').length;
+    count.textContent = n;
+    empty.hidden = n > 0;
+  }
+  function changed() { form.dispatchEvent(new Event('input', { bubbles: true })); }
+  form.querySelector('[data-team-add]').addEventListener('click', function () {
+    body.appendChild(tpl.content.cloneNode(true));
+    var rows = body.querySelectorAll('[data-team-row]');
+    rows[rows.length - 1].querySelector('input[type=text]').focus();
+    refresh(); changed();
+  });
+  body.addEventListener('click', function (event) {
+    var btn = event.target.closest('button');
+    var row = btn && btn.closest('[data-team-row]');
+    if (!row) return;
+    if (btn.hasAttribute('data-team-delete')) { row.remove(); }
+    else if (btn.hasAttribute('data-team-up') && row.previousElementSibling) { body.insertBefore(row, row.previousElementSibling); }
+    else if (btn.hasAttribute('data-team-down') && row.nextElementSibling) { body.insertBefore(row.nextElementSibling, row); }
+    else return;
+    refresh(); changed();
+  });
+});
+</script>
+{% include 'admin/overall_footer.html.twig' %}

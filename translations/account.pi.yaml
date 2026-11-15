@@ -1,0 +1,22 @@
+Active_players: Aktive Piraten
+Back: Zurück
+mail:
+  subject:
+    mail_changed: '%s Account E-Mail-Adresse wurde geändert'
+Other_universes: Andere Weltmeere
+Play: Spielen
+Playername: Spielername
+Register: Registrieren
+Settings: Einstellungen
+Sitting_cancel: Sitting abbrechen
+Sitting_end: Sitting Ende
+Sitting_request: Sitting anfragen (nicht programmiert)
+uni_status_regclosed_gameclosed: Geschlossen
+uni_status_regclosed_gameopen: Anmeldung offen
+uni_status_regopen_gameclosed: Registrierung offen
+uni_status_regopen_gameopen: Offen
+Universe_end: Ende
+Universe_start: Start
+Universe_status: 'Weltmeers Status: '
+Universes: Weltmeere
+Your_universes: Deine Weltmeere

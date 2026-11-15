@@ -1,0 +1,67 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if not empty(error_msg) %}
+    <div class="notice notice--danger" role="alert">
+      {{ icon('circle-alert') }}
+      <div>
+        <ul>
+          {% for error in (error_msg)|php_iter %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+  <form method="POST" action="" data-track-dirty>
+    <input type="hidden" name="action" value="edit">
+    <input type="hidden" name="id" value="{{ id }}">
+    <section class="card">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('calendar-clock') }}{% if id == 0 %}{{ LNG.cronjob_new }}{% else %}{{ LNG.cronjob_headline }}{{ id }}{% endif %}</h2>
+        <div class="card__actions"><a class="button" href="admin?page=cronjob">{{ icon('arrow-left') }}{{ LNG.cronjob_name }}</a></div>
+      </header>
+      <div class="card__body stack">
+        <div class="form-grid">
+          <div class="field-row">
+            <label for="cj-name">{{ LNG.cronjob_name }}</label>
+            <div class="field-control"><input type="text" id="cj-name" name="name" value="{{ name }}"></div>
+            <div class="field-help">{{ LNG.cronjob_desc_name }}</div>
+          </div>
+          <div class="field-row">
+            <label for="cj-class">{{ LNG.cronjob_class }}</label>
+            <div class="field-control">{{ html_options({'name': "class", 'id': "cj-class", 'output': avalibleCrons, 'values': avalibleCrons, 'selected': class}) }}</div>
+            <div class="field-help">{{ LNG.cronjob_desc_class }}</div>
+          </div>
+        </div>
+        <p class="muted small">{{ LNG.cronjob_desc }}</p>
+        <div class="fields">
+          <div class="field">
+            <label for="min_all">{{ LNG.cronjob_min }}</label>
+            <select name="min[]" multiple="multiple" size="8">{{ html_options({'values': range(0, 59), 'output': range(0, 59), 'selected': min}) }}</select>
+            <label class="small"><input name="min_all" id="min_all" type="checkbox" value="1" {% if not empty(min) and min[0] == "*" %}checked{% endif %}> {{ LNG.cronjob_selectall }}</label>
+          </div>
+          <div class="field">
+            <label for="hours_all">{{ LNG.cronjob_hours }}</label>
+            <select name="hours[]" multiple="multiple" size="8">{{ html_options({'values': range(0, 23), 'output': range(0, 23), 'selected': hours}) }}</select>
+            <label class="small"><input name="hours_all" id="hours_all" type="checkbox" value="1" {% if not empty(hours) and hours[0] == "*" %}checked{% endif %}> {{ LNG.cronjob_selectall }}</label>
+          </div>
+          <div class="field">
+            <label for="dom_all">{{ LNG.cronjob_dom }}</label>
+            <select name="dom[]" multiple="multiple" size="8">{{ html_options({'values': range(1, 31), 'output': range(1, 31), 'selected': dom}) }}</select>
+            <label class="small"><input name="dom_all" id="dom_all" type="checkbox" value="1" {% if not empty(dom) and dom[0] == "*" %}checked{% endif %}> {{ LNG.cronjob_selectall }}</label>
+          </div>
+          <div class="field">
+            <label for="month_all">{{ LNG.cronjob_month }}</label>
+            <select name="month[]" multiple="multiple" size="8">{{ html_options({'values': range(1, 12), 'output': LNG.months, 'selected': month}) }}</select>
+            <label class="small"><input name="month_all" id="month_all" type="checkbox" value="1" {% if not empty(month) and month[0] == "*" %}checked{% endif %}> {{ LNG.cronjob_selectall }}</label>
+          </div>
+          <div class="field">
+            <label for="dow_all">{{ LNG.cronjob_dow }}</label>
+            <select name="dow[]" multiple="multiple" size="8">{{ html_options({'values': range(0, 6), 'output': LNG.week_day, 'selected': dow}) }}</select>
+            <label class="small"><input name="dow_all" id="dow_all" type="checkbox" value="1" {% if not empty(dow) and dow[0] == "*" %}checked{% endif %}> {{ LNG.cronjob_selectall }}</label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.button_submit }}</button></div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

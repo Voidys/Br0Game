@@ -1,0 +1,440 @@
+<?php
+
+namespace App\Runtime;
+
+use Exception;
+use App\Game\Core\Database;
+use App\Game\Core\HTTP;
+use App\Game\Core\Language;
+use App\Game\Core\NumberAbbreviation;
+use App\Game\Core\Session;
+use App\Game\Core\Singleton;
+use App\Game\Core\Theme;
+use App\Game\Core\Universe;
+use App\Controller\Login\ErrorController as ShowErrorPage;
+
+/**
+ * Per-request bootstrap of the game code (formerly includes/common.php), unchanged in
+ * behaviour: error handling, theme, session, user/account/planet and language for the
+ * current mode, fleet event processing, closed-universe checks.
+ *
+ * Requires a started RuntimeContext ($state->runtime) and the project root as working
+ * directory (see GameKernel::boot()). Early returns for INSTALL and UPGRADE.
+ */
+final class GameBootstrap
+{
+    use \App\Game\Core\GameUtilities;
+
+    public function __construct(
+        private \App\Game\Core\Database $db,
+        private \App\Game\Core\ConfigRegistry $configs,
+        private \App\Game\Core\Singleton $state,
+        private \App\Game\Core\FlyingFleetHandler $fleetHandler,
+        private \App\Game\Core\ErrorReporter $errorReporter,
+        private \App\Security\GameAuth $auth,
+    ) {}
+
+    public function run(): void
+    {
+        if (isset($this->state->requestPost['GLOBALS']) || isset($this->state->requestQuery['GLOBALS'])) {
+            throw new \App\Game\Core\EndOfRequest('You cannot set the GLOBALS-array from outside the script.');
+        }
+
+        // Symfony Security for the game code (logged-in account, login, logout)
+        $this->state->auth = $this->auth;
+
+        // keep processing (fleet events, builds) when the client disconnects mid-request
+        ignore_user_abort(true);
+        $this->errorReporter->register();
+        $this->http()->sendHeader('Content-Type', 'text/html; charset=UTF-8');
+        $this->registerModules();
+
+        // runtime data lives in var/ (game caches in var/game/, sessions shared with Symfony in var/sessions/)
+        foreach ([$this->state->runtime->cachePath, $this->state->runtime->rootPath . 'var/sessions/'] as $runtimeDir) {
+            is_dir($runtimeDir) || @mkdir($runtimeDir, 0777, true);
+        }
+
+        $THEME      = new Theme();
+        $this->state->THEME = $THEME;
+        $THEME = & $this->state->THEME;
+
+        if ($this->state->runtime->mode === 'INSTALL') {
+            return;
+        }
+
+        if (!file_exists('config/game.php') || filesize('config/game.php') === 0) {
+            $this->http()->redirectTo('install/');
+        }
+
+        if ($this->state->runtime->mode === 'UPGRADE') {
+            return;
+        }
+
+        if ($this->maintenance()->checkDBUpgrade()) {
+            $this->http()->redirectTo('install/?mode=upgrade');
+        }
+
+        $ACCOUNT = [];
+        $ACCOUNT['lang'] = 'en';
+        $ACCOUNT['bana'] = 0;
+        $ACCOUNT['timezone'] = @date_default_timezone_get() ?: 'Europe/London';
+        $ACCOUNT['urlaubs_modus'] = 0;
+        $ACCOUNT['authlevel'] = 0;
+        $ACCOUNT['id'] = 0;
+        $this->state->ACCOUNT = $ACCOUNT;
+        $ACCOUNT = & $this->state->ACCOUNT;
+
+        $USER = [];
+        $USER['lang'] = 'en';
+        $USER['bana'] = 0;
+        $USER['timezone'] = @date_default_timezone_get() ?: 'Europe/London';
+        $USER['urlaubs_modus'] = 0;
+        $USER['authlevel'] = 0;
+        $USER['id'] = 0;
+        $USER['decimal_separator'] = (new NumberAbbreviation())->defaultDecimalSeparatorForLang(
+            DEFAULT_LANG,
+        );
+        $USER['signalColors'] = $this->playerUtil()->player_signal_colors();
+        $USER['colors'] = $this->playerUtil()->player_colors();
+        $USER['stb_settings'] = $this->playerUtil()->player_stb_settings();
+        $this->state->USER = $USER;
+        $USER = & $this->state->USER;
+
+        // loading the configuration registers the universes (needed by Universe::current() below);
+        // the former native session setup did this as a side effect
+        $this->configs->get(ROOT_UNI);
+        $THEME->setUserTheme(\App\Game\Core\Theme::resolveDefaultTheme($this->configs->get(ROOT_UNI)->default_theme ?? null));
+
+        if ($this->state->runtime->mode === 'INGAME' || $this->state->runtime->mode === 'ADMIN' || $this->state->runtime->mode === 'CRON') {
+            $session    = $this->sessions()->load();
+            // a battle report link works without login (access_control allows exactly this request)
+            $raportWithoutSession = $this->auth->account() === null && isset($this->state->requestQuery['page']) && $this->state->requestQuery['page'] == "raport" && isset($this->state->requestQuery['raport']) && count($this->state->requestQuery) == 2 && $this->state->runtime->mode === 'INGAME';
+
+            if (!$raportWithoutSession) {
+                $this->syncGameSession($session);
+            }
+
+            (new \App\Game\Core\GameData($this->db, $this->configs, $this->state))->load();
+
+            if (!$this->state->runtime->ajax && $this->state->runtime->mode === 'INGAME' && $this->viewHelpers()->isModuleAvailable(MODULE_FLEET_EVENTS)) {
+                $this->processFleetEvents();
+            }
+
+            $db     = $this->db;
+
+            if (!$raportWithoutSession) {
+                $sql    = "SELECT
+            	u.*, us.*, s.total_points, s.total_rank,
+            	COUNT(um.message_id) as messages,
+                CASE
+                    WHEN COUNT(DISTINCT message.message_type) = 1 THEN MIN(message.message_type)
+                    ELSE ''
+                END AS message_type
+            	FROM %%USERS%% u
+                INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
+                LEFT JOIN %%STATPOINTS%% s ON s.id_owner = u.id AND s.stat_type = :statTypeUser
+            	LEFT JOIN %%USERS_TO_MESSAGES%% as um ON um.user_id = u.id AND um.message_unread = :unread AND um.deleted_at is null
+                LEFT JOIN %%MESSAGES%% as message ON message.message_id = um.message_id
+            	WHERE u.id = :userId
+            	GROUP BY um.user_id;";
+
+                $USER   = $db->selectSingle($sql, [
+                    ':statTypeUser'     => 1,
+                    ':unread'           => 1,
+                    ':userId'           => $session->userId,
+                ]);
+
+                $this->state->USER = $USER;
+                $USER = & $this->state->USER;
+
+                if (empty($USER)) {
+                    // logged in, but no player of this universe chosen yet
+                    $this->http()->redirectTo('account');
+                } else {
+                    if ($USER['banaday'] <= $this->state->runtime->timestamp) {
+                        // only write when a ban actually ran out (otherwise bana/banaday are 0 already)
+                        if ((int) $USER['bana'] !== 0 || (int) $USER['banaday'] !== 0) {
+                            $sql = "UPDATE %%USERS%% SET bana = 0, banaday = 0 WHERE id = :userId";
+                            $db->update($sql, [
+                                ':userId'   => $session->userId,
+                            ]);
+                        }
+                        $USER['bana'] = 0;
+                        $USER['banaday'] = 0;
+                    }
+
+                    $USER['signalColors'] = $this->playerUtil()->player_signal_colors($USER);
+                    $USER['colors'] = $this->playerUtil()->player_colors($USER);
+                }
+            }
+
+            $LNG    = new Language($this->configs, $USER['lang']);
+            $this->state->LNG = $LNG;
+            $LNG = & $this->state->LNG;
+            $LNG->includeData(['L18N', 'INGAME', 'TECH', 'CUSTOM']);
+            if (!empty($USER['dpath'])) {
+                $THEME->setUserTheme($USER['dpath'], $USER['css_dpath'] ?? null);
+            }
+
+            $config = $this->configs->get();
+            date_default_timezone_set($config->timezone);
+
+            if ($USER['bana'] == 1) {
+                $sql = 'SELECT theme FROM %%USERS_BANNED%% WHERE user_id = :user_id';
+                $reason = $db->selectSingle($sql, [
+                    ':user_id' => $USER['id'],
+                ], 'theme');
+
+                (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError("<font size=\"6px\">" . $LNG['css_account_banned_message'] . "</font><br><br>"
+                . sprintf($LNG['css_account_banned_expire'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['banaday'], $USER['timezone']), $config->forum_url) . "<br><br>"
+                . sprintf($LNG['css_account_banned_reason'], $reason) . "<br><br>"
+                . $LNG['css_goto_homeside'], false);
+            }
+
+            if (!$raportWithoutSession) {
+                if ($this->state->runtime->mode === 'INGAME') {
+                    $universeAmount = count($this->universe()->availableUniverses());
+                    if ($this->universe()->current() != $USER['universe'] && $universeAmount > 1) {
+                        $this->http()->redirectToUniverse($USER['universe']);
+                    }
+
+                    $session->selectActivePlanet();
+
+                    $sql    = "SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;";
+                    $PLANET = $db->selectSingle($sql, [
+                        ':planetId' => $session->planetId,
+                    ]);
+                    $this->state->PLANET = $PLANET;
+                    $PLANET = & $this->state->PLANET;
+
+                    if (empty($PLANET) || !empty($PLANET['destruyed'])) {
+                        $sql    = "SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;";
+                        $PLANET = $db->selectSingle($sql, [
+                            ':planetId' => $USER['id_planet'],
+                        ]);
+                        $this->state->PLANET = $PLANET;
+                        $PLANET = & $this->state->PLANET;
+
+                        if (empty($PLANET)) {
+                            throw new Exception("Main Planet does not exist!");
+                        }
+
+                        $session->planetId = $USER['id_planet'];
+                    }
+
+                    $USER['PLANETS']    = $this->playerUtil()->getPlanets($USER);
+                } elseif ($this->state->runtime->mode === 'ADMIN') {
+                    error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+                    $USER['rights']     = !empty($USER['rights']) ? unserialize($USER['rights']) : [];
+                    $LNG->includeData(['ADMIN', 'CUSTOM']);
+                }
+            }
+
+            if (
+                ($config->uni_status == STATUS_CLOSED) && $USER['authlevel'] == AUTH_USR
+                && (!isset($this->state->requestQuery['page']) || $this->state->requestQuery['page'] !== 'logout') && !$raportWithoutSession
+            ) {
+                (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError($LNG['sys_closed_game'] . '<br><br>' . $config->close_reason, false);
+            }
+            if (
+                ($config->uni_status == STATUS_REG_ONLY) && $USER['authlevel'] == AUTH_USR
+                && (!isset($this->state->requestQuery['page']) || $this->state->requestQuery['page'] !== 'logout') && !$raportWithoutSession
+            ) {
+                (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError($LNG['sys_game_is_setup'] . '<br><br>' . $config->prepare_text, false);
+            }
+
+            if (isset($USER['enable_analytics']) && $USER['enable_analytics'] == 1) {
+                $sql = 'INSERT INTO %%USERS_ANALYTICS%% (`userID`, `onlinetime`, `url`)
+                    VALUES (:userID, :onlinetime, :requestedUri);';
+                $db->insert($sql, [
+                    ':userID'       => $USER['id'],
+                    ':onlinetime'   => $this->state->runtime->timestamp,
+                    ':requestedUri' => $this->state->requestServer['REQUEST_URI'],
+                ]);
+            }
+
+            $privKey = $config->recaptcha_priv_key;
+            $rcaptcha = $this->http()->_GP('rcaptcha', '');
+            if ($privKey !== "" && $rcaptcha !== "") {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(['secret' => $privKey, 'response' => $rcaptcha]));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($ch);
+                curl_close($ch);
+                $arrResponse = json_decode($response, true);
+                $sql = "insert into %%RECAPTCHA%% (userId, success, time, score, url) VALUES (:userId, :success, :time, :score, :url);";
+
+                if (isset($arrResponse) && $arrResponse['success'] == true) {
+                    $db->insert($sql, [
+                        ':userId'   => $USER['id'],
+                        ':success'  => $arrResponse['success'],
+                        ':time'     => $this->state->runtime->timestamp,
+                        ':score'    => $arrResponse['score'],
+                        ':url'      => $this->state->requestServer['REQUEST_URI'],
+                    ]);
+                }
+            }
+        } elseif ($this->state->runtime->mode === 'LOGIN') {
+            $LNG    = new Language($this->configs);
+            $this->state->LNG = $LNG;
+            $LNG->includeData(['L18N', 'INGAME', 'PUBLIC', 'CUSTOM']);
+        } elseif ($this->state->runtime->mode === 'ACCOUNT' && $this->auth->accountId() === 0 && ($this->state->requestQuery['page'] ?? '') === 'board') {
+            $this->bootAccountGuest();
+        } elseif ($this->state->runtime->mode === 'ACCOUNT') {
+            $sql    = "SELECT * FROM %%ACCOUNTS%% WHERE id = :id;";
+            $db     = $this->db;
+            $session    = $this->sessions()->load();
+            $this->syncGameSession($session);
+            $ACCOUNT   = $db->selectSingle($sql, [
+                ':id'           => $this->auth->accountId(),
+            ]);
+            $this->state->ACCOUNT = $ACCOUNT;
+            $ACCOUNT = & $this->state->ACCOUNT;
+            if (empty($ACCOUNT)) {
+                $this->auth->logout();
+                $this->http()->redirectTo('./?code=3');
+            }
+            $LNG    = new Language($this->configs, $ACCOUNT['lang']);
+            $this->state->LNG = $LNG;
+            $LNG = & $this->state->LNG;
+            $LNG->includeData(['L18N', 'INGAME', 'TECH', 'CUSTOM']);
+            if (!empty($ACCOUNT['dpath'])) {
+                $THEME->setUserTheme($ACCOUNT['dpath'], $ACCOUNT['css_dpath'] ?? null);//?
+            }
+            $ACCOUNT['signalColors'] = $this->playerUtil()->player_signal_colors();
+            $ACCOUNT['colors'] = $this->playerUtil()->player_colors();
+            if ($ACCOUNT['bana'] == 1) {
+                $sql = 'SELECT theme FROM %%ACCOUNTS_BANNED%% WHERE id = :account_id';
+                $reason = $db->selectSingle($sql, [
+                    ':account_id' => $ACCOUNT['id'],
+                ], 'theme');
+
+                (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError("<font size=\"6px\">" . $LNG['css_account_banned_message'] . "</font><br><br>"
+                . sprintf($LNG['css_account_banned_expire'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $ACCOUNT['banaday'], $ACCOUNT['timezone']), $this->configs->get()->forum_url) . "<br><br>"
+                . sprintf($LNG['css_account_banned_reason'], $reason) . "<br><br>"
+                . $LNG['css_goto_homeside'], false);
+            }
+        }
+
+        // Guests have no users_settings row. The stub above uses DEFAULT_LANG, which
+        // is not the language login/account pages actually render (cookie / account
+        // lang). Logged-in users keep their stored decimal_separator.
+        if (isset($USER, $LNG) && empty($USER['id'])) {
+            $USER['decimal_separator'] = (new NumberAbbreviation())->defaultDecimalSeparatorForLang($LNG->getLanguage());
+        }
+    }
+
+    /**
+     * Claims the due fleet events of the current universe and runs their missions
+     * (formerly src/Game/Support/fleet_events.php).
+     */
+    /**
+     * The game session object follows the Symfony login: a fresh login (or another account) starts a
+     * new game session (no player chosen, no admin access); an idle session past SESSION_LIFETIME
+     * ends the login; a missing session row is written again. Visitors without login were already
+     * stopped by access_control.
+     */
+    /**
+     * Visitor without login on the public board (account?page=board): an account stub with id 0,
+     * language from the start page cookie or the browser, server timezone, default theme; PUBLIC
+     * texts for the start page frame (account/layout.site).
+     */
+    private function bootAccountGuest(): void
+    {
+        $cookieLang = $this->state->requestCookies['lang'] ?? null;
+        $LNG = new Language($this->configs, is_string($cookieLang) && $cookieLang !== '' ? $cookieLang : null);
+        $LNG->includeData(['L18N', 'INGAME', 'PUBLIC', 'TECH', 'CUSTOM']);
+        $this->state->LNG = $LNG;
+        $this->state->ACCOUNT = [
+            'id' => 0,
+            'guest' => true,
+            'accountname' => '',
+            'authlevel' => AUTH_USR,
+            'lang' => $LNG->getLanguage(),
+            'timezone' => $this->configs->get()->timezone,
+            'db_deaktjava' => 0,
+            'bana' => 0,
+            'signalColors' => $this->playerUtil()->player_signal_colors(),
+            'colors' => $this->playerUtil()->player_colors(),
+        ];
+    }
+
+    private function syncGameSession(\App\Game\Core\Session $session): void
+    {
+        $accountId = $this->auth->accountId();
+        if ($accountId === 0) {
+            $this->http()->redirectTo('./?code=3');
+        }
+
+        if ((int) ($session->accountId ?? 0) !== $accountId) {
+            $session->accountId = $accountId;
+            $session->userId = 0;
+            $session->adminAccess = 0;
+            $session->save();
+        } elseif ((int) ($session->lastActivity ?? 0) < $this->state->runtime->timestamp - SESSION_LIFETIME) {
+            $this->auth->logout();
+            $this->http()->redirectTo('./?code=3');
+        } elseif (!$session->isValidSession()) {
+            // e.g. the login renewed the session id: the session row is written again under the new id
+            $session->save(true);
+        }
+    }
+
+    private function processFleetEvents(): void
+    {
+        $token = getRandomString();
+        $db = $this->db;
+        $claimedFleetCount = 0;
+        $db->startTransaction();
+
+        try {
+            $db->update("UPDATE %%FLEETS_EVENT%%
+                SET `lock` = :token
+                WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;", [
+                ':token' => $token,
+                ':time' => $this->state->runtime->timestamp,
+                ':universe' => $this->universe()->current(),
+            ]);
+            $claimedFleetCount = $db->rowCount();
+            $db->commit();
+        } catch (Exception $e) {
+            $claimedFleetCount = 0;
+            $db->rollback();
+            $previous = $e->getPrevious();
+            if ($previous instanceof \PDOException && isset($previous->errorInfo[1]) && (int) $previous->errorInfo[1] === 1213) {
+                $ex = new Exception('Catched FleetHandler excepion:<br>' . $e->getMessage());
+                $this->discord()->sendException($ex);
+            } else {
+                throw $e;
+            }
+        }
+
+        if ($claimedFleetCount > 0) {
+            $db->startTransaction();
+
+            $this->fleetHandler->setToken($token);
+            $this->fleetHandler->run();
+
+            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [
+                ':token' => $token,
+            ]);
+
+            $db->commit();
+        }
+    }
+
+    /** module id => MODULE_* name map (game state "modules"), from the MODULE_* consts (game_constants.php) */
+    private function registerModules(): void
+    {
+        $modules = [];
+        foreach (get_defined_constants(true)['user'] as $key => $value) {
+            if (str_starts_with($key, 'MODULE_')) {
+                $modules[$value] = $key;
+            }
+        }
+        $this->state->modules = $modules;
+    }
+}

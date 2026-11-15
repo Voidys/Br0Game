@@ -1,0 +1,38 @@
+{% extends layout_template %}
+
+{% block title %}
+{{ LNG.Achievements }}{{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="account-settings">
+  <h1 class="acc-title">{{ LNG["Settings"] }}</h1>
+  <section class="panel acc-form-panel">
+    <div class="acc-form">
+      <label class="acc-form__label" for="f_password">{{ LNG['op_old_pass'] }}:</label>
+      <div class="acc-form__field"><input id="f_password" form="account-settings-form" name="password" size="20" type="password"></div>
+      <label class="acc-form__label" for="f_newpassword">{{ LNG['op_new_pass'] }}:</label>
+      <div class="acc-form__field"><input id="f_newpassword" form="account-settings-form" name="newpassword" size="20" type="password"></div>
+      <label class="acc-form__label" for="f_newpassword2">{{ LNG['op_repeat_new_pass'] }}:</label>
+      <div class="acc-form__field"><input id="f_newpassword2" form="account-settings-form" name="newpassword2" size="20" type="password"></div>
+      <label class="acc-form__label" for="f_email">{{ LNG['op_email_adress'] }}:</label>
+      <div class="acc-form__field"><input id="f_email" form="account-settings-form" name="email" maxlength="64" size="20" value="{{ email|default('') }}" type="email" maxlength="64"></div>
+      <label class="acc-form__label" for="language">{{ LNG['op_lang'] }}:</label>
+      <div class="acc-form__field"><select form="account-settings-form" name="language" id="language">{{ html_options({'options': Selectors.lang, 'selected': userLang}) }}</select></div>
+      <label class="acc-form__label" for="theme">{{ LNG['op_skin_example'] }}:</label>
+      <div class="acc-form__field"><select form="account-settings-form" name="theme" id="theme">{{ html_options({'options': Selectors.Skins, 'selected': theme}) }}</select></div>
+      <label class="acc-form__label" for="timezone">{{ LNG['op_timezone'] }}: </label>
+      <div class="acc-form__field"><select form="account-settings-form" name="timezone" id="timezone">{{ html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
+    </div>
+    <div class="acc-form__actions">
+      <form id="account-settings-form" action="account?page=accountSettings" method="post"><input type="hidden" name="mode" value="send"><input class="btn btn--primary" value="{{ LNG['op_save_changes'] }}" type="submit"></form>
+    </div>
+  </section>
+
+  <section class="panel acc-form-panel acc-danger">
+    <form action="account?page=accountSettings" method="post">
+      <input type="hidden" name="mode" value="toggleDelete">
+      <input class="btn btn--danger" name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}">
+    </form>
+  </section>
+</div>
+{% endblock %}

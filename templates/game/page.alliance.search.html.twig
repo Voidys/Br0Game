@@ -1,0 +1,38 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=alliance&amp;mode=search" method="post">
+	<table class="form-table">
+		<tr>
+			<th colspan="2">{{ LNG.al_find_alliances }}</th>
+		</tr>
+		<tr>
+			<td><label for="searchtext">{{ LNG.al_find_text }}</label></td>
+			<td><input type="text" id="searchtext" name="searchtext" value="{{ searchText }}"></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.al_find_submit }}"></td>
+		</tr>
+	</table>
+</form>
+{% if not empty(searchList) %}
+<table>
+	<tr>
+		<th>{{ LNG.al_ally_info_tag }}</th>
+		<th>{{ LNG.al_ally_info_name }}</th>
+		<th class="num">{{ LNG.al_ally_info_members }}</th>
+	</tr>
+	{% for seachRow in (searchList)|php_iter %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.tag }}</a></td>
+		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.name }}</a></td>
+		<td class="num"><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.members }}</a></td>
+	</tr>
+	{% else %}
+	<tr>
+		<td colspan="3">{{ LNG.al_find_no_alliances }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+{% endblock %}

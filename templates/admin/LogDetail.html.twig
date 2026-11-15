@@ -1,0 +1,43 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <div class="page-actions"><a class="button btn--small" href="?page=log">{{ icon('arrow-left') }}{{ LNG.log_cat }}</a></div>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('info') }}{{ log_info }}</h2></header>
+    <div class="card__body">
+      <dl class="kv">
+        <dt>{{ log_admin }}</dt><dd>{{ admin }}</dd>
+        <dt>{{ log_target }}</dt><dd>{{ target }}</dd>
+        <dt>{{ log_time }}</dt><dd>{{ time }}</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('arrow-left-right') }}{{ log_old }} → {{ log_new }}</h2></header>
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>{{ log_element }}</th>
+              <th>{{ log_old }}</th>
+              <th>{{ log_new }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for LogInfo in (LogArray)|php_iter %}
+            {% if LogInfo.old != LogInfo.new %}
+            <tr>
+              <td>{{ LogInfo.Element }}</td>
+              <td><del class="mono">{{ LogInfo.old }}</del></td>
+              <td><ins class="mono">{{ LogInfo.new }}</ins></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

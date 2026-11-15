@@ -1,0 +1,133 @@
+buttonLostPassword: Reset hasła
+buttonRegister: Zarejestruj się!
+buttonScreenshot: Screenshots
+chose_a_uni: Wybór Universum
+disclamerLabelAddress: Dane właściela
+disclamerLabelMail: Adres e-mail
+disclamerLabelNotice: Więcej informacji
+disclamerLabelPhone: Numer telefonu
+disclamerRecaptcha: >-
+  Ta strona używa reCAPTCHA i obowiązują na niej zasady Google <a
+  href="https://policies.google.com/privacy">oświadczenia o prywatności</a> i <a
+  href="https://policies.google.com/terms">warunków użytkowania</a>.
+forum: Forum
+gameInformations: |-
+  Gra online strategiczno-ekonomiczna czasu rzeczywistego w kosmosie.
+  Graj przeciwko innym graczom.
+  Nic nie musisz sciągać, grasz w przeglądarce !.
+  Darmowa rejestracja
+login_error_1: >-
+  Błędny adres e-mail lub hasło! Wskazówka: Sejfy na hasło często zapisują nazwę
+  użytkownika, ale musisz zalogować się za pomocą adresu e-mail.
+login_error_2: Ktoś zalogował się na twoje konto z innego komputera!
+login_error_3: Sesja wygasła!
+login_error_4: >-
+  Podjęto zbyt wiele prób logowania. Skontaktuj się z administratorem przez
+  Discord, aby uzyskać nowe dane logowania. Przygotuj swój adres e-mail do
+  weryfikacji.
+loginButton: Login
+loginEmail: Adres e-mail
+loginHeader: Zaloguj
+loginInfo: Logując się akceptujesz %s.
+loginPassword: Hasło
+loginServerDesc: >-
+  %s to gra online, gdzie stajesz naprzeciw innych graczy,
+  <strong>jednocześnie</strong> próbując zostać najlepszym. Wszystko, czego
+  potrzebujesz do gry, to zwykła przeglądarka.
+loginWelcome: Witaj na %s
+menu_banlist: Pręgierz
+menu_battlehall: Hala sław
+menu_disclamer: Kontakt
+menu_index: Indeks
+menu_news: News
+menu_register: Rejestracja
+menu_rules: Regulamin
+news_does_not_exist: Brak postów!
+news_from: Od %s do %s
+news_overview: News
+passwordBack: Wróć
+passwordCaptcha: Kod
+passwordChangedMailSend: Wkrótce otrzymasz e-maila z nowym hasłem.
+passwordChangedMailTitle: 'Nowe hasło: %s'
+passwordErrorMailEmpty: Nie podałeś adresu e-mail!
+passwordErrorOnePerDay: >-
+  W ciągu ostatnich 24h zostało zmienione hasło użytkownika. Pamiętaj, że hasło
+  możesz zmienić raz na dobę
+passwordErrorUnknown: Nie można znaleźć użytkownika o takim adresie e-mail lub nazwie użytkownika.
+passwordErrorUsernameEmpty: Nie podałeś nazwy użytkownika!
+passwordInfo: >-
+  Jeśli zapomniałeś hasła, musisz podać nazwę użytkownika i adres e-mail, użyty
+  podczas rejestracji lub aktywny w profilu.
+passwordMail: e-mail
+passwordNext: Dalej
+passwordSubmit: Wyślij
+passwordUsername: Nazwa użytkownika
+passwordValidInValid: Niepoprawne zapytanie!
+passwordValidMailSend: Otrzymasz maila z informacjami, co dalej.
+passwordValidMailTitle: 'Przypomnienie hasła dla strony: %s'
+registerBack: Wróć
+registerCaptcha: Kod
+registerCaptchaDesc: Podaj kod widoczny na obrazku
+registerCaptchaReload: Załaduj ponownie captcha.
+registerEmail: e-mail
+registerEmailDesc: Podaj twój prawdziwy e-mail!
+registerEmailReplay: Powtórz e-mail
+registerEmailReplayDesc: Powtórz e-mail dla bezpieczeństwa!
+registerErrorCaptcha: Podałeś zły kod!
+registerErrorDataPrivacy: Musisz potwierdzić politykę prywatności!
+registerErrorMailEmpty: Musisz podać adres prawidłowy adres e-mail!
+registerErrorMailExist: Taki e-mail jest już używany!
+registerErrorMailInvalid: Nie prawidłowy adres e-mail!
+registerErrorMailSame: Podałeś 2 różne adresy e-mail!
+registerErrorPasswordLength: Hasło musi mieć najmniej %s znaków!
+registerErrorPasswordSame: Podałeś dwa różne hasła!
+registerErrorRules: Musisz zaakceptować regulamin!
+registerErrorUniClosed: Rejestracja na tym universum zamknięta!
+registerErrorUsernameChar: >-
+  W nazwie użytkownika dozwolone są tylko litery, liczby, puste znaki i
+  podkreślenia!
+registerErrorUsernameEmpty: Nie podałeś nazwy użytkownika!
+registerErrorUsernameExist: Ta nazwa użytkownika jest już zajęta!
+registerLanguage: Język
+registerMailCompleteTitle: Witaj na %s!
+registerMailVertifyError: 'Błąd przy wysyłaniu e-maila: %s'
+registerMailVertifyTitle: 'Musisz potwierdzić rejestrację: %s'
+registerNext: Dalej
+registerPassword: Hasło
+registerPasswordDesc: Hasło musi mieć min %s znaków.
+registerPasswordReplay: Ponowanie hasło
+registerPasswordReplayDesc: Powtórz hasło dla bezpieczeństwa!
+registerReferral: 'Zwerbowany przez:'
+registerRules: Regulamin
+registerRulesDesc: Potwierdzam, że zrozumiałem %s.
+registerSendComplete: Dziękujemy za rejestrację. Wkrótce otrzymasz e-mail z dalszymi krokami.
+registerTimezone: Strefa czasowa
+registerUsername: Nazwa użytkownika
+registerUsernameDesc: Nazwa użytkownika musi składać się min. z 3 i max. z 25 znaków.
+registerWelcomePMSenderName: Administrator
+registerWelcomePMSubject: Witaj
+registerWelcomePMText: >-
+  Witaj na %s! Jako pierwszy budnek zbuduj elektrownię słoneczną. Energia jest
+  konieczna do pracy kopalń i wydobywania zasobów!. By zbudować kliknij na
+  zakładkę "Budynki" w Menu. Potem zbuduj 4 budynek od góry. Po zbudowaniu masz
+  już energię, zatem czas zbudować kopalnie metalu i kryształu. Jeśli chcesz coś
+  zbudować a nie możesz, skorzystaj z zakładki Technologia - tam dowiesz się, co
+  jest wymagane do budowy czy też badania!
+rulesHeader: Regulamin
+siteTitleBanList: Pręgierz
+siteTitleBattleHall: Hala sław
+siteTitleDataPrivacy: Prywatność danych
+siteTitleDisclamer: Kontakt
+siteTitleHOF: Galeria sław
+siteTitleIndex: Indeks
+siteTitleLostPassword: Reset hasła
+siteTitleNews: News
+siteTitleRegister: Rejestracja
+siteTitleRules: Regulamin
+siteTitleScreens: Screenshots
+uni_closed: ' (Zamknięte)'
+uni_reg_closed: ' (Rejestracja zamknięta)'
+uni_reg_open: ' (Tylko rejestracja)'
+universe: Universum
+vertifyAdminMessage: Użytkownik "%s" został aktywowany!
+vertifyNoUserFound: Niepoprawne zapytanie!

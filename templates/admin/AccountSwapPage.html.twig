@@ -1,0 +1,40 @@
+{% include 'admin/overall_header.html.twig' %}
+<form action="" method="POST" name="accountswap" class="stack" data-confirm="{{ LNG.adm_as_confirm|e('html_attr') }}">
+  <input type="hidden" name="action" value="swap">
+  <div class="notice notice--danger" role="alert">
+    {{ icon('triangle-alert') }}
+    <div>
+      <strong>{{ LNG.ac_swap_title }}</strong>
+      <p>{{ LNG.adm_as_explain }}</p>
+    </div>
+  </div>
+  <div class="cols">
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('user') }}{{ LNG.ac_swap_user_a }}</h2></header>
+      <div class="card__body stack">
+        <input type="search" name="user1_text" onkeyup="UserList1.set(this.value);" placeholder="{{ LNG.ac_filter_placeholder }}" aria-label="{{ LNG.ac_filter_placeholder }}" autocomplete="off">
+        <select name="user1" size="14" aria-label="{{ LNG.ac_swap_user_a }}">
+          {{ Userlist }}
+        </select>
+      </div>
+    </section>
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('user') }}{{ LNG.ac_swap_user_b }}</h2></header>
+      <div class="card__body stack">
+        <input type="search" name="user2_text" onkeyup="UserList2.set(this.value);" placeholder="{{ LNG.ac_filter_placeholder }}" aria-label="{{ LNG.ac_filter_placeholder }}" autocomplete="off">
+        <select name="user2" size="14" aria-label="{{ LNG.ac_swap_user_b }}">
+          {{ Userlist }}
+        </select>
+      </div>
+    </section>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn--danger">{{ icon('arrow-left-right') }}{{ LNG.ac_swap_submit }}</button>
+  </div>
+</form>
+<script type="text/javascript">
+// Initialize live filters for both selects
+var UserList1 = new filterlist(document.accountswap.user1);
+var UserList2 = new filterlist(document.accountswap.user2);
+</script>
+{% include 'admin/overall_footer.html.twig' %}

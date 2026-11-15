@@ -1,0 +1,29 @@
+{% include 'admin/overall_header.html.twig' %}
+<form action="" method="POST" name="users" class="card">
+  <header class="card__head"><h2 class="card__title">{{ icon('user-check') }}{{ ac_enter_user_id }}</h2></header>
+  <div class="card__body stack">
+    <div class="toolbar">
+      <div class="field field--lg">
+        <label for="ad-filter">{{ button_filter }}</label>
+        <input id="ad-filter" type="search" name="regexp" onkeyup="UserList.set(this.value)" autocomplete="off" autofocus placeholder="{{ LNG.ac_filter_placeholder }}">
+      </div>
+      <button type="button" onclick="UserList.reset();this.form.regexp.value=''">{{ icon('eraser') }}{{ button_deselect }}</button>
+    </div>
+    <select name="id_u" size="14" aria-label="{{ ac_enter_user_id }}" ondblclick="if (this.value) { this.form.submit(); }">
+      {{ Userlist }}
+    </select>
+    <script>
+      var UserList = new filterlist(document.users.id_u);
+    </script>
+    <div class="toolbar">
+      <div class="field field--fixed-10">
+        <label for="ad-id2">{{ ac_select_id_num }}</label>
+        <input id="ad-id2" class="num" type="text" name="id_u2" inputmode="numeric">
+      </div>
+    </div>
+  </div>
+  <footer class="card__foot">
+    <button type="submit" class="btn--primary">{{ icon('search') }}{{ button_submit }}</button>
+  </footer>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

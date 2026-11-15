@@ -1,0 +1,163 @@
+<?php
+
+/**
+ *  2Moons
+ *   by Jan-Otto Kröpke 2009-2016
+ *
+ * For the full copyright and license information, please view the LICENSE
+ *
+ * @package 2Moons
+ * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @copyright 2009 Lucky
+ * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+ * @licence MIT
+ * @version 1.8.0
+ * @link https://github.com/jkroepke/2Moons
+ */
+
+namespace App\Game\Core;
+
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
+class HTTP
+{
+    /**
+     * Request input and response headers of the game, on top of the Symfony request: GameKernel puts
+     * the request data into the game state (requestInput = POST over GET), headers, cookies and the
+     * status code set here are applied to the Response by GameResponseFactory.
+     */
+    public function __construct(
+        protected Singleton $state,
+    ) {}
+
+    /** $URL relative to the area's directory, e.g. "game?page=overview" or "./?code=3" (login) */
+    public function redirectTo(string $URL, bool $external = false): never
+    {
+        if (!$external && str_starts_with($URL, './')) {
+            $URL = substr($URL, 2);
+        }
+        throw EndOfRequest::withResponse(new RedirectResponse($external ? $URL : $this->state->runtime->httpPath . $URL));
+    }
+
+    /** a header ("Name", "value") or a status line ("HTTP/1.1 503 Service Unavailable") */
+    public function sendHeader(string $name, ?string $value = null): void
+    {
+        if ($value === null && preg_match('#^HTTP/\S+\s+(\d{3})#', $name, $match)) {
+            $this->state->responseStatus = (int) $match[1];
+
+            return;
+        }
+        $this->responseHeaders()->set($name, (string) $value);
+    }
+
+    public function redirectToUniverse(int $universe): never
+    {
+        $this->redirectTo($this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase . "uni" . $universe . "/" . $this->state->runtime->httpFile, true);
+    }
+
+    /** same defaults as PHP's setcookie(): no HttpOnly, no SameSite */
+    public function sendCookie(
+        string $name,
+        string $value = "",
+        ?int $toTime = null,
+        string $path = '/',
+        ?string $domain = null,
+        bool $secure = false,
+        bool $httpOnly = false,
+    ): void {
+        $this->responseHeaders()->setCookie(Cookie::create($name, $value, $toTime ?? 0, $path, $domain, $secure, $httpOnly, false, null));
+    }
+
+    public function _GP(string $name, mixed $default, bool $multibyte = false, bool $highnum = false): mixed
+    {
+        $input = $this->state->requestInput ?? [];
+        if (!isset($input[$name])) {
+            return $default;
+        }
+
+        if (is_float($default) || $highnum) {
+            return (float) $input[$name];
+        }
+
+        if (is_int($default)) {
+            return (int) $input[$name];
+        }
+
+        if (is_string($default)) {
+            return $this->_quote($input[$name], $multibyte);
+        }
+
+        if (is_array($default) && is_array($input[$name])) {
+            return $this->_quoteArray($input[$name], $multibyte, !empty($default) && $default[0] === 0);
+        }
+
+        return $default;
+    }
+
+    /** raw POST data of the request */
+    public function post(): array
+    {
+        return $this->state->requestPost ?? [];
+    }
+
+    private function responseHeaders(): ResponseHeaderBag
+    {
+        if (!($this->state->responseHeaders ?? null) instanceof ResponseHeaderBag) {
+            $this->state->responseHeaders = new ResponseHeaderBag();
+        }
+
+        return $this->state->responseHeaders;
+    }
+
+    private function _quoteArray(array $var, bool $multibyte, bool $onlyNumbers = false): array
+    {
+        $data	= [];
+        foreach ($var as $key => $value) {
+            if (is_array($value)) {
+                $data[$key]	= $this->_quoteArray($value, $multibyte);
+            } elseif ($onlyNumbers) {
+                $data[$key]	= (int) $value;
+            } else {
+                $data[$key]	= $this->_quote($value, $multibyte);
+            }
+        }
+
+        return $data;
+    }
+
+    private function _quote(string $var, bool $multibyte): string
+    {
+        $var	= str_replace(["\r\n", "\r", "\0"], ["\n", "\n", ''], $var);
+        $var	= htmlspecialchars($var, ENT_QUOTES, 'UTF-8');
+        $var	= trim($var);
+
+        if ($multibyte) {
+            if (!preg_match('/^./u', $var)) {
+                $var = '';
+            }
+        } else {
+            $var = preg_replace('/[\x80-\xFF]/', '?', $var); // no multibyte, allow only ASCII (0-127)
+        }
+
+        return $var;
+    }
+
+    public function getPageResponse(string $url): string
+    {
+        $response = '';
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        $resp = curl_exec($ch);
+        $errNo = curl_errno($ch);
+        curl_close($ch);
+        if ($errNo === 0 && $resp !== false) {
+            $response = $resp;
+        }
+        return $response;
+    }
+}

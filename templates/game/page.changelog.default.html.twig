@@ -1,0 +1,12 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_changelog }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+<tr>
+	<th>{{ LNG.lm_changelog }}</th>
+</tr>
+<tr>
+	<td class="left changelog-text">{{ ChangelogList }}</td>
+</tr>
+</table>
+{% endblock %}

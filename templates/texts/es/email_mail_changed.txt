@@ -1,0 +1,11 @@
+Hola {USERNAME},
+
+acaba de cambiar la dirección de correo electrónico de su cuenta.
+El cambio será permanente en unos días.
+
+Si no lo has hecho tú mismo, crea un ticket en nuestro Discord:
+{DISCORD}
+
+Atentamente
+
+Tu equipo de {GAMENAME}

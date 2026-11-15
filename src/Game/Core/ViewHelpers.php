@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Game\Core;
+
+/**
+ * View helpers of the game: number/time formatting, rights and module checks, the message page
+ * (formerly globals in functions.php, which remain as wrappers). Twig reaches them through
+ * App\Twig\TemplateExtension (container service), PHP code through GameUtilities::viewHelpers().
+ */
+class ViewHelpers
+{
+    public function __construct(
+        protected Database $db,
+        protected ConfigRegistry $configs,
+        protected Singleton $state,
+    ) {}
+
+    public function localeDateFormat($format, $time, $LNG = null)
+    {
+        // Workaround for locale Names.
+
+        if (!isset($LNG)) {
+            $LNG = & $this->state->LNG;
+        }
+
+        $weekDay = date('w', $time);
+        $months = date('n', $time) - 1;
+
+        $format = str_replace(['D', 'M'], ['$D$', '$M$'], $format);
+        $format = str_replace('$D$', addcslashes($LNG['week_day'][$weekDay], 'A..z'), $format);
+        $format = str_replace('$M$', addcslashes($LNG['months'][$months], 'A..z'), $format);
+
+        return $format;
+    }
+
+    /**
+     * Ends the request with the standalone message page (admin area, installer), see
+     * App\View\GameView::messagePage(). Plain text is escaped, pass Twig\Markup for HTML.
+     */
+    public function message(string|\Twig\Markup $mes, string|false $dest = '', int $time = 3, bool $topnav = false): never
+    {
+        throw EndOfRequest::withResponse((new \App\View\GameView($this->db, $this->configs, $this->state))->messagePage($mes, $dest, $time, !$topnav));
+    }
+
+    public function prettyTime($seconds)
+    {
+        $LNG = & $this->state->LNG;
+        $day = $seconds / 86400;
+        $day = floor($day);
+        $hour = $seconds / 3600;
+        $hour = floor($hour);
+        $hour = $hour % 24;
+        $minute = $seconds / 60;
+        $minute = floor($minute);
+        $minute = $minute % 60;
+        $second = floor($seconds);
+        $second = $seconds % 60;
+
+        $time = '';
+
+        if ($day > 0) {
+            $time .= sprintf('%d%s ', $day, $LNG['short_day']);
+        }
+
+        return $time . sprintf(
+            '%02d%s %02d%s %02d%s',
+            $hour,
+            $LNG['short_hour'],
+            $minute,
+            $LNG['short_minute'],
+            $second,
+            $LNG['short_second']
+        );
+    }
+
+    public function prettyNumber($n, $dec = 0)
+    {
+        if (is_numeric($n)) {
+            $USER = & $this->state->USER;
+            if ($USER['decimal_separator'] == 0) {
+                return number_format($n, $dec, ',', '.');
+            } else {
+                return number_format($n, $dec, '.', ',');
+            }
+        } else {
+            return $n;
+        }
+    }
+
+    public function shortlyNumber($number, $decimal = null)
+    {
+        $negate = $number < 0 ? -1 : 1;
+        $number = abs($number);
+
+        $USER = & $this->state->USER;
+        $userLang = $USER['lang'] ?? DEFAULT_LANG;
+        $unit = (new NumberAbbreviation())->suffixesForLang($userLang);
+        $maxKey = count($unit) - 1;
+        $key = 0;
+
+        // All profiles use ÷1000 steps; only suffix labels differ by language profile.
+        while ($number >= 1000 && $key < $maxKey) {
+            ++$key;
+            $number = $number / 1000;
+        }
+
+        if ($key > $maxKey) {
+            $key = $maxKey;
+        }
+
+        if (!is_numeric($decimal)) {
+            $decimal = ((int)(((int)$number != $number) && $key != 0 && $number != 0 && $number < 100));
+        }
+        return $this->prettyNumber($negate * $number, $decimal) . ($key !== 0 ? '&nbsp;' . $unit[$key] : '');
+    }
+
+    public function isModuleAvailable($ID, $universe = 0)
+    {
+        $config = $this->configs->get($universe);
+        $modules = $config->moduls;
+
+        if (!isset($modules[$ID])) {
+            $e = new \Exception();
+            error_log('Unknown module ID: ' . $ID);
+            error_log('\n' . $e->getTraceAsString());
+        }
+
+        return isset($modules[$ID]) ? $modules[$ID] == 1 : true;
+    }
+
+    public function allowedTo($side)
+    {
+
+        $USER = & $this->state->USER;
+        return ($USER['authlevel'] == AUTH_ADM || (isset($USER['rights']) && isset($USER['rights'][$side]) && $USER['rights'][$side] == 1));
+    }
+
+    /** date() with localized day/month names and optional target time zone (formerly _date()) */
+    public function formatDate($format, $time = null, $toTimeZone = null, $LNG = null)
+    {
+        if (!isset($time)) {
+            $time = $this->state->runtime->timestamp;
+        }
+
+        if (isset($toTimeZone)) {
+            $date = new \DateTime();
+            if (method_exists($date, 'setTimestamp')) {    // PHP > 5.3
+                $date->setTimestamp($time);
+            } else {
+                // PHP < 5.3
+                $tempDate = getdate((int)$time);
+                $date->setDate($tempDate['year'], $tempDate['mon'], $tempDate['mday']);
+                $date->setTime($tempDate['hours'], $tempDate['minutes'], $tempDate['seconds']);
+            }
+
+            $time -= $date->getOffset();
+            try {
+                $date->setTimezone(new \DateTimeZone($toTimeZone));
+            } catch (\Exception $e) {
+            }
+            $time += $date->getOffset();
+        }
+
+        $format = $this->localeDateFormat($format, $time, $LNG);
+        return date($format, $time);
+    }
+}

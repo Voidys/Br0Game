@@ -1,0 +1,7 @@
+framework:
+    default_locale: en
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks: [de]
+        # translations/<domain>.<locale>.yaml (public, ingame, tech, l18n, ...), shared with the game code.
+        # Selectable locales: App\DependencyInjection\Compiler\AvailableLocalesPass (config/languages.yaml).

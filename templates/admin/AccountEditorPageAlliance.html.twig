@@ -1,0 +1,73 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+<nav class="tabs" aria-label="{{ LNG.ad_editor_title }}">
+  <a href="?page=accountEditor">{{ icon('layout-dashboard') }}{{ LNG.ad_editor_title }}</a>
+  <a href="?page=accountEditor&amp;edit=buildings">{{ icon('building-2') }}{{ LNG.ad_editor_buildings }}</a>
+  <a href="?page=accountEditor&amp;edit=ships">{{ icon('rocket') }}{{ LNG.ad_editor_ships }}</a>
+  <a href="?page=accountEditor&amp;edit=defenses">{{ icon('shield') }}{{ LNG.ad_editor_defenses }}</a>
+  <a href="?page=accountEditor&amp;edit=researchs">{{ icon('flask-conical') }}{{ LNG.ad_editor_researchs }}</a>
+  <a href="?page=accountEditor&amp;edit=resources">{{ icon('database') }}{{ LNG.ad_editor_resources }}</a>
+  <a href="?page=accountEditor&amp;edit=planets">{{ icon('orbit') }}{{ LNG.ad_editor_planets }}</a>
+  <a href="?page=accountEditor&amp;edit=personal">{{ icon('user') }}{{ LNG.ad_editor_personal }}</a>
+  <a href="?page=accountEditor&amp;edit=alliances" aria-current="page">{{ icon('handshake') }}{{ LNG.ad_editor_alliances }}</a>
+</nav>
+  <form action="" method="post" data-track-dirty>
+    <div class="stack">
+      <section class="card">
+        <header class="card__head"><h2 class="card__title">{{ icon('handshake') }}{{ LNG.ad_ally_title }}</h2></header>
+        <div class="card__body form-grid">
+          <div class="field-row">
+            <label for="ae-id">{{ LNG.input_id_ally }}</label>
+            <div class="field-control"><input id="ae-id" name="id" type="text" inputmode="numeric"></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-name">{{ LNG.ad_ally_name }}</label>
+            <div class="field-control"><input id="ae-name" name="name" type="text"></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-tag">{{ LNG.ad_ally_tag }}</label>
+            <div class="field-control"><input id="ae-tag" name="tag" type="text" size="5"></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-leader">{{ LNG.ad_ally_change_id }} {{ LNG.ad_ally_user_id }}</label>
+            <div class="field-control"><input id="ae-leader" name="changeleader" type="text" inputmode="numeric"></div>
+          </div>
+        </div>
+      </section>
+      <section class="card">
+        <header class="card__head"><h2 class="card__title">{{ icon('file-text') }}{{ LNG.ad_ally_text1 }} / {{ LNG.ad_ally_text2 }} / {{ LNG.ad_ally_text3 }}</h2></header>
+        <div class="card__body form-grid">
+          <div class="field-row">
+            <label for="ae-externo">{{ LNG.ad_ally_text1 }}</label>
+            <div class="field-control"><textarea id="ae-externo" name="externo" rows="6"></textarea></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-interno">{{ LNG.ad_ally_text2 }}</label>
+            <div class="field-control"><textarea id="ae-interno" name="interno" rows="6"></textarea></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-solicitud">{{ LNG.ad_ally_text3 }}</label>
+            <div class="field-control"><textarea id="ae-solicitud" name="solicitud" rows="6"></textarea></div>
+          </div>
+        </div>
+      </section>
+      <section class="card card--danger">
+        <header class="card__head"><h2 class="card__title">{{ icon('trash-2') }}{{ LNG.adm_ae_danger_zone }}</h2></header>
+        <div class="card__body form-grid">
+          <div class="field-row">
+            <label for="ae-delete-u">{{ LNG.ad_ally_delete_u }} {{ LNG.ad_ally_user_id }}</label>
+            <div class="field-control"><input id="ae-delete-u" name="delete_u" type="text" inputmode="numeric"></div>
+          </div>
+          <div class="field-row">
+            <label for="ae-delete">{{ LNG.ad_ally_delete }}</label>
+            <div class="field-control"><input id="ae-delete" name="delete" type="checkbox"></div>
+          </div>
+        </div>
+      </section>
+      <div class="form-actions">
+        <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.button_submit }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

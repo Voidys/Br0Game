@@ -1,0 +1,51 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_info }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tbody>
+	<tr>
+		<th>{{ LNG.tech[elementID] }}</th>
+	</tr>
+	<tr>
+		<td>
+			<div class="transparent">
+						<p>{{ LNG.longDescription[elementID] }}</p>
+          				{% if elementID == 106 and spytechStatsEnabled == true %}<p>{{ LNG.spytechStatsDescription }}</p>{% endif %}
+          				{% if elementID >= 22 and elementID <= 24 and isModuleAvailable(php_const('MODULE_RESOURCE_STASH')) %}<p>{{ LNG.secureResources }}</p>{% endif %}
+						{% if not empty(FleetInfo) %}
+							<br>
+							{% if not empty(FleetInfo.rapidfire.to) or not empty(FleetInfo.rapidfire.from) %}
+								<p>{{ LNG.in_rf_explanation }}</p>
+							{% endif %}
+							{% if not empty(FleetInfo.rapidfire.to) %}<p>
+								{% for rapidfireID, shoots in (FleetInfo.rapidfire.to)|php_iter %}
+									{{ LNG.in_rf_again }} {{ LNG.tech[rapidfireID] }}: <span class="colorPositive">{{ shoots }}%</span><br>
+								{% endfor %}
+							</p>{% endif %}
+							{% if not empty(FleetInfo.rapidfire.from) %}<p>
+								{% for rapidfireID, shoots in (FleetInfo.rapidfire.from)|php_iter %}
+									{{ LNG.in_rf_from }} {{ LNG.tech[rapidfireID] }}: <span class="colorNegative">{{ shoots }}%</span><br>
+								{% endfor %}
+							</p>{% endif %}
+						{% endif %}
+			</div>
+		</td>
+	</tr>
+	</tbody>
+</table>
+{% if not empty(FleetInfo) %}
+{% include 'game/shared.information.shipInfo.html.twig' %}
+{% endif %}
+{% if not empty(gateData) %}
+{% include 'game/shared.information.gate.html.twig' %}
+{% endif %}
+{% if not empty(MissileList) %}
+{% include 'game/shared.information.missiles.html.twig' %}
+{% endif %}
+{% if not empty(productionTable.production) %}
+{% include 'game/shared.information.production.html.twig' %}
+{% endif %}
+{% if not empty(productionTable.storage) %}
+{% include 'game/shared.information.storage.html.twig' %}
+{% endif %}
+{% endblock %}

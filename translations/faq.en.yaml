@@ -1,0 +1,154 @@
+faq_overview: FAQ
+questions:
+  '1':
+    '1':
+      body: |-
+        <p>This part of the tutorial covers the main buildings: what to build first, and what each one is for. A working empire depends on building them in a sensible order.</p>
+        <h3>Solar Power Plant</h3>
+        <p>Build this first. Mines need energy to produce metal, crystal and deuterium. After the plant finishes, the resource bar and the Production page show how much energy you have.</p>
+        <h3>Metal Mine</h3>
+        <p>Metal is one of the three resources. Almost everything you build or research costs metal, so expanding this mine is a priority. Early on, keep it several levels ahead of your other mines.</p>
+        <h3>Crystal Mine and Deuterium Refinery</h3>
+        <p>Crystal is used in buildings, ships and research. You produce less of it than metal, which makes it more valuable; later in the game it is often fiercely contested. Deuterium fuels fleets, can be fused for energy in the Fusion Power Plant, and is required for several important buildings and researches (including the Research Lab).</p>
+        <p>More information: <a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">pr0game wiki</a>.</p>
+      title: Step 1
+    '2':
+      body: |-
+        <p>To grow your empire and interact with other players you need more buildings. Research and a Shipyard let you start a fleet and planetary defense.</p>
+        <h3>Shipyard</h3>
+        <p>All ships (and defenses) are built here. The Shipyard is available early, but many ship classes still need extra research. The Technologies menu lists the requirements for each ship and defense. Higher Shipyard levels build faster.</p>
+        <h3>Research Lab</h3>
+        <p>Research is started here. It unlocks buildings, ships, defenses and further research, and some technologies also give bonuses to things you already have. Expanding the Research Lab speeds up research.</p>
+        <h3>Robot Factory</h3>
+        <p>The Robot Factory is essential. Higher levels reduce building construction time and also speed up ship production. When build times get long, expand the Robot Factory to bring them back down.</p>
+      title: Step 2
+    '3':
+      body: |-
+        <p>This part covers defending your planet and your first fleet actions: how to send fleets and how to interact with other players.</p>
+        <h3>Galaxy view</h3>
+        <p>Use it to find other players. You see details about other planets and can send parts of your fleet directly from this view. You can also contact players or spy on a planet if you can already build Spy Probes and have some available.</p>
+        <h3>Sending fleets</h3>
+        <p>Fleets can be sent from the Galaxy view or from the Fleets menu. First choose how many ships of each type to send. Then set the target (coordinates from the Galaxy view) and the speed. Finally choose the mission, such as Attack, Deploy, Hold, Recycle or Transport.</p>
+        <h3>Defense</h3>
+        <p>Once you have a Shipyard, you can also build defenses. They protect the planet and fight together with any fleet that is present when an attack lands. Unlike ships, about 70% of destroyed defenses are repaired after combat.</p>
+      title: Step 3
+    category: Tips for beginners
+  '2':
+    '1':
+      body: |-
+        <h3>Raiding</h3>
+        <p>Raiding means attacking other players to take their resources. Common types:</p>
+        <ul>
+        <li>Farm raid</li>
+        <li>Fleet attack</li>
+        <li>Debris-field raid</li>
+        <li>Intercepting</li>
+        </ul>
+        <h3>Farm raid</h3>
+        <p>These are the most common attacks in a universe. You spy nearby planets and send small fleets with enough cargo and firepower to break light defense and still profit: stolen resources should exceed deuterium used plus your own losses.</p>
+        <h3>Fleet attack</h3>
+        <p>The high end of raiding: hunting other players' fleets. Besides Spy Probes and luck, a Sensor Phalanx and good timing matter. Once you spot a worthwhile fleet you still have to catch it and recycle the debris. That is often hard, because profitable fleets can exceed your recycler capacity — then you must coordinate recyclers and, if needed, Alliance Combat System partners as well as the combat fleet.</p>
+        <h3>Debris-field raid</h3>
+        <p>The easiest and least popular way to make a profit: harvesting debris fields that other players created. Debris belongs to whoever collects it, so stealing fields is a common source of bad blood.</p>
+        <h3>Intercepting</h3>
+        <p>A fleeter's job is to build fleet and destroy fleet. You will not always find idle ships, so catching good players often means intercepting them while they fleet-save or while they fly an attack. That is not easy; there are ways to defend against it.</p>
+        <ul>
+        <li><p>A moon makes intercepting easier, because a Sensor Phalanx can scan fleet movements on planets in range (not moons). If you find a fleet worth catching, work out its remaining flight time — especially the return time after it arrives. Engine levels (Combustion, Impulse, Hyperspace) from a spy report are enough to calculate this, by hand or with a flight-time calculator. A precise clock helps. Time your fleet and recyclers to arrive about 3–5 seconds after the target at their planet or moon. Recyclers need to be timed as well.</p></li>
+        <li><p>To intercept a fleet flying from a moon to a debris field, you need a rough launch time. Create a visible debris field at the spots you think they will harvest (for example with Spy Probes). Calculate how long their fleet takes to get there, watch the system, and refresh until the field disappears. Note that time, add their return flight, and time your fleet and recyclers a few seconds behind that arrival.</p>
+        <p><b>Note:</b> this does not always work. A recycler sent ahead to clear the field first is a common counter.</p></li>
+        <li>Another form of intercept is holding at a friend's planet to protect them, forcing attackers to recall because the defending fleet would be too strong. You can reduce the risk of being caught this way with a save scan.</li>
+        <li><p>If a player deploys from one planet to another and then recalls, the fleet disappears from the Sensor Phalanx. Watch their save pattern (when they launch and when they recall). When you expect a recall, phalanx the planet every second. The moment the fleet vanishes, note the time, add the return flight, and arrive about 4–6 seconds later with fleet and recyclers.</p>
+        <p>If they save from a moon to a debris field and send recyclers ahead, intercepting is almost impossible unless you destroy the moon. Send Death Stars with the Destroy mission. After the moon is gone, the fleet returns to the planet; phalanx that planet and slot in a few seconds behind them.</p>
+        <p>All of these techniques work much better if you know the target's habits — for example a save every evening at 23:00, or coming online at noon. Study the player before you intercept.</p></li>
+        </ul>
+        <p>More in the wiki: <a href="https://wiki.pr0game.com/wiki/En/Saven" target="_blank">Fleet saving</a>, <a href="https://wiki.pr0game.com/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
+      title: Raiding
+    '2':
+      body: |-
+        <h3>Attacking with ACS</h3>
+        <p>To attack together, first send a fleet with the mission Attack to the target. After it has launched, open the Fleets menu and use Federation to turn that fleet into an ACS group. There you can rename the group and invite other players; the player who started the attack is invited automatically. Each invited player then sends their own ships to the same coordinates with the mission Alliance Attack.</p>
+        <p>The group always flies as long as the slowest participating fleet. Faster fleets joining later do not shorten the remaining time. Slower fleets increase remaining time to their own flight time. Typically at most 5 players and 16 fleets can share one ACS attack (universe settings may differ). A joining fleet may increase remaining flight time by at most 30%. If 100 minutes remain, a joining fleet may take at most 130 minutes.</p>
+        <p><b>Warning:</b> if the ACS founder recalls, every fleet in the group is recalled as well.</p>
+        <h3>Defending with ACS</h3>
+        <p>If you are under attack, alliance members and buddies can help. They send a fleet to the coordinates being attacked, choose how long to stay, and use the mission Hold. Besides flight deuterium, extra hold costs are charged at launch depending on fleet size and duration. While they are holding, they fight in every battle on that planet or moon and appear on spy reports as if they were your ships. Time holds to arrive shortly before the attacker so a save scan is less likely to see them. Holding players can recall from the Fleets menu at any time; otherwise the fleet waits out the hold and returns home.</p>
+        <h3>Deuterium per 1 hour of hold</h3>
+        <p>Light Cargo: 5<br>
+        Heavy Cargo: 5<br>
+        Light Fighter: 2<br>
+        Heavy Fighter: 7<br>
+        Cruiser: 30<br>
+        Battleship: 50<br>
+        Colony Ship: 100<br>
+        Recycler: 30<br>
+        Spy Probe: 1/10<br>
+        Bomber: 100<br>
+        Destroyer: 100<br>
+        Death Star: 1/10</p>
+      title: Alliance Combat System
+    '3':
+      body: |-
+        <p>A moon can form when a debris field of at least 100,000 units is created (1% moon chance). The chance caps at 20%, no matter how large the field is.</p>
+        <h3>General</h3>
+        <p>Moons can be renamed like planets, but “(Moon)” stays in the name. You can have at most one moon per planet. A moon lets you fleet-save out of sight of a Sensor Phalanx, so it is worth creating one relatively early. On a moon you can build Robot Factory, Shipyard, Metal Storage, Crystal Storage, Deuterium Storage, Alliance Depot, Moon Base, Sensor Phalanx and Jumpgate.</p>
+        <h3>Moonshot</h3>
+        <p>A moonshot is the deliberate destruction of ships to create a debris field. Light Fighters are the usual choice: at 30% fleet and 0% defense into debris, 1,667 Light Fighters yield a 20% moon chance. They are cheap to lose and land very close to the cap. If a stronger player destroys Light Fighters at a weaker player, anyone may harvest the debris. If a weaker player attacks a stronger one with ships meant to die, only the weaker player may harvest — otherwise it is pushing. Moons and moon attempts fall under the pushing rules.</p>
+        <p>In a universe where defense also creates debris, it is often better to build defense and have it smashed in several waves for several moon attempts. 3,334 Missile Launchers or 3,334 Light Laser Turrets are a common choice.</p>
+        <p>When a moon forms, the combat report says that the enormous amounts of free metal and crystal draw together and form a satellite around the planet.</p>
+        <p>Moon chance between 1% and 19%: random size. Moon chance of 20%: more than 8,000 km diameter. A moon is never larger than 8,944 km.</p>
+        <h3>Buildings</h3>
+        <p>Storages are usually not worth building on a moon because nothing is produced there. A Shipyard is also rarely useful: build times are long, and you can build ships on the planet. An Alliance Depot is debated; it also occupies valuable fields.</p>
+        <p>The three moon-only buildings are:</p>
+        <ul>
+        <li><p><b>Moon Base</b><br>Adds buildable fields: 3 per level, one of which is taken by the next Moon Base upgrade.</p></li>
+        <li><p><b>Sensor Phalanx</b><br>Shows fleet movements at enemy planets (not moons). Range increases with each level.</p></li>
+        <li><p><b>Jumpgate</b><br>Moves ships instantly from one moon to another. Resources cannot go with them. After a jump, the gate needs time to cool down (typically one hour) or it overheats.</p></li>
+        </ul>
+        <p>A common moon build order:<br>
+        <b>Legend:</b><br>
+        MB – Moon Base<br>
+        SP – Sensor Phalanx<br>
+        ST – Jumpgate<br>
+        RB – Robot Factory</p>
+        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
+        After that you can keep expanding the Sensor Phalanx if you have the resources. You can also tear down some Robot Factory levels and put those fields into the phalanx.</p>
+        <h3>Destruction</h3>
+        <p>A moon can be destroyed only with Death Stars. In the mission menu choose Destroy instead of Attack. Any fleet on the moon must be destroyed first; surviving Death Stars can still be lost when the moon itself is destroyed. Moon destruction creates no debris field.</p>
+        <h3>Death Star moon attacks</h3>
+        <p>Moon destruction chance: (100 − sqrt(moon size)) × sqrt(number of Death Stars). Chance that the attacking Death Stars are destroyed: sqrt(moon size) / 2. Larger moons are riskier to destroy.</p>
+        <h3>Moon chance and size</h3>
+        <p>100,000 debris units give 1% moon chance. Maximum chance: 20%. After a later change, every moon has the maximum number of buildable fields (79). Previously this was FLOOR((diameter / 1000)²). Largest possible moon: 8,944 km diameter, 79 fields.</p>
+        <p>More in the wiki: <a href="https://wiki.pr0game.com/wiki/En/Mond" target="_blank">Moons</a>, <a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">pr0game wiki</a>.</p>
+      title: Moons
+    '4':
+      body: |-
+        <h3>How do I found an alliance?</h3>
+        <p>Open Alliance in the left menu, then Create your own Alliance. Enter an alliance tag (the short abbreviation) and an alliance name. Example: an alliance named “The Top Ally” might use the tag “DTA”.</p>
+        <p>Only letters, digits and spaces are allowed. After you enter tag and name, click Create. If that name or tag is already taken, you get an error and must choose another. On success you are shown a confirmation; Continue opens the still-empty alliance menu, which you can always reach from Alliance in the left menu. At the top you see your tag and name.</p>
+        <p>Below that you will find:<br>
+        Members: every member with points, home-planet coordinates, join date and online status. Click column headers to sort.<br>
+        Your Rank: your rank name, plus a link to alliance management.<br>
+        Mass messages: send a message to the whole alliance or to selected ranks.</p>
+        <h3>Alliance management</h3>
+        <p>Ranks lets you set rights for each rank, for example dissolving the alliance or sending mass messages. Members lets you kick players, assign ranks, and see how many days they have been offline. You can also change the alliance tag and name.</p>
+        <p>Text Management edits alliance texts. The external text is visible to every player; the internal text only to members. The application text is a template for people who apply.</p>
+        <p>Options let you link a banner image and an alliance forum, choose whether applications are open, and set your founder rank name. If you leave that empty, the rank is Founder.</p>
+        <p>You can dissolve the alliance, or transfer it to another member, who then becomes the founder.</p>
+      title: Alliances
+    '5':
+      body: |-
+        <h3>Where can I find more information?</h3>
+        <p>The pr0game wiki is the first place to look:</p>
+        <p><a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">English wiki home</a><br>
+        <a href="https://wiki.pr0game.com/wiki/En/Buildorder" target="_blank">Build order</a><br>
+        <a href="https://wiki.pr0game.com/wiki/En/%C3%96konomik" target="_blank">Playstyles (Miner, Raider, Comber)</a><br>
+        <a href="https://wiki.pr0game.com/wiki/En/Saven" target="_blank">Fleet saving</a><br>
+        <a href="https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Fleet-saving guide</a><br>
+        <a href="https://wiki.pr0game.com/wiki/En/Expoanleitung" target="_blank">Expeditions</a></p>
+        <p>German (owiki):<br>
+        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Build tactics</a><br>
+        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Playstyle: Miner</a><br>
+        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Playstyle: Fleeter</a><br>
+        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Playstyle: Comber</a><br>
+        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Fleet saving</a></p>
+      title: Links
+    category: Advanced information

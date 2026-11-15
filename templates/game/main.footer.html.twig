@@ -1,0 +1,5 @@
+{% set sourceUrl = game_config('source_url') %}
+<p class="footer__meta"><span>{{ game_name }}</span><span>v{{ version }}</span>{% if sourceUrl %}<a href="{{ sourceUrl|e('html_attr') }}" target="_blank" rel="noopener" title="AGPL-3.0">{{ LNG.source_code }}</a>{% endif %}</p>
+{% if debug == 1 %}
+<script>onPageInit(function () { window.onerror = handleErr; });</script>
+{% endif %}

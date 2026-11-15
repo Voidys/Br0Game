@@ -1,0 +1,16 @@
+﻿Witaj {USERNAME},
+
+nadszedł czas - {UNINAME} otworzyło swoje podwoje na {OPENTIME}!
+Cieszymy się, że tu jesteś i życzymy Ci mnóstwa zabawy i ekscytujących wrażeń.
+
+Grę można znaleźć pod adresem {HTTPPATH}.
+Zapraszamy również do odwiedzenia naszego Discorda:
+{DISCORD}.
+
+Jeśli zapomniałeś hasła, po prostu kliknij „Zapomniałem hasła” na stronie.
+Wkrótce potem otrzymasz wiadomość e-mail z nowym hasłem.
+
+Jeśli nadal będziesz mieć problemy z logowaniem lub rejestracją, skontaktuj się z nami na Discordzie.
+
+Z poważaniem,
+Zespół {GAMENAME}

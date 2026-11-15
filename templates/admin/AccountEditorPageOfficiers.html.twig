@@ -1,0 +1,52 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+<nav class="tabs" aria-label="{{ LNG.ad_editor_title }}">
+  <a href="?page=accountEditor">{{ icon('layout-dashboard') }}{{ LNG.ad_editor_title }}</a>
+  <a href="?page=accountEditor&amp;edit=buildings">{{ icon('building-2') }}{{ LNG.ad_editor_buildings }}</a>
+  <a href="?page=accountEditor&amp;edit=ships">{{ icon('rocket') }}{{ LNG.ad_editor_ships }}</a>
+  <a href="?page=accountEditor&amp;edit=defenses">{{ icon('shield') }}{{ LNG.ad_editor_defenses }}</a>
+  <a href="?page=accountEditor&amp;edit=researchs">{{ icon('flask-conical') }}{{ LNG.ad_editor_researchs }}</a>
+  <a href="?page=accountEditor&amp;edit=resources">{{ icon('database') }}{{ LNG.ad_editor_resources }}</a>
+  <a href="?page=accountEditor&amp;edit=planets">{{ icon('orbit') }}{{ LNG.ad_editor_planets }}</a>
+  <a href="?page=accountEditor&amp;edit=personal">{{ icon('user') }}{{ LNG.ad_editor_personal }}</a>
+  <a href="?page=accountEditor&amp;edit=alliances">{{ icon('handshake') }}{{ LNG.ad_editor_alliances }}</a>
+</nav>
+  <form action="" method="post" data-track-dirty>
+    <div class="stack">
+      <section class="card">
+        <header class="card__head"><h2 class="card__title">{{ icon('pencil') }}{{ LNG.adm_ae_officiers }}</h2></header>
+        <div class="card__body">
+          <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.adm_ae_addremove_hint }}</div></div>
+          <div class="form-grid">
+            <div class="field-row">
+              <label for="ae-id">{{ LNG.input_id_user }}</label>
+              <div class="field-control"><input id="ae-id" name="id" type="text" inputmode="numeric" value="0" required></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="card card--flush">
+        <div class="table-wrap">
+          <table class="data data--compact">
+            <thead><tr><th class="num">{{ LNG.ad_number }}</th><th>{{ LNG.adm_ae_officiers }}</th><th class="num">{{ LNG.ad_count }}</th></tr></thead>
+            <tbody>
+              {% for id, input in (inputlist)|php_iter %}
+              <tr>
+                <td class="num muted">{{ id }}</td>
+                <td><label for="ae-{{ input.type }}">{{ LNG.tech[id] }}</label></td>
+                <td class="num"><input id="ae-{{ input.type }}" class="num" name="{{ input.type }}" type="text" inputmode="numeric" value="0"></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <div class="form-actions">
+        <button type="reset">{{ icon('eraser') }}{{ LNG.button_reset }}</button>
+        <button type="submit" name="delete" value="{{ LNG.button_delete|e('html_attr') }}" class="btn--danger" data-confirm="{{ LNG.adm_ae_confirm_remove|e('html_attr') }}">{{ icon('minus') }}{{ LNG.button_delete }}</button>
+        <button type="submit" name="add" value="{{ LNG.button_add|e('html_attr') }}" class="btn--primary">{{ icon('plus') }}{{ LNG.button_add }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

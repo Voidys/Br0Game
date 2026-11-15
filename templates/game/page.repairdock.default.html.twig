@@ -1,0 +1,105 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_repairdock }}{{ parent() }}{% endblock %}
+{% block content %}
+  <table id="infobox" class="repair-infobox">
+    <tr>
+      <td>{{ LNG.bd_repairdock_time }}: <span class="countdown" data-time="{{ wftime }}"></span></td>
+    </tr>
+  </table><br><br>
+  {% if repdock_level == 0 %}
+    <table id="infobox" class="repair-infobox">
+      <tr>
+        <td>{{ LNG.bd_repairdock_required }}</td>
+      </tr>
+    </table><br><br>
+  {% else %}
+    {% if busy %}
+      <table id="infobox" class="repair-infobox">
+        <tr>
+          <td>{{ LNG.bd_repairdock_busy }}</td>
+        </tr>
+      </table><br><br>
+    {% endif %}
+    {% if not empty(List) %}
+      <div id="repairlist" class="infos1">
+        {% set ctime = 0 %}
+        <div class="repairb">
+          {% for shipID, amount in (List.ships)|php_iter %}
+            {{ LNG.tech[shipID] }} {{ amount }}<br>
+          {% endfor %}
+          {% set ctime = List.resttime+ ctime %}
+          <span id="progress">
+            <br>
+            <progress id="progressbar" data-time="{{ List.resttime }}" max="100" value="0"></progress>
+          </span>
+        </div>
+        <div class="repaira">
+          <div id="time" data-time="{{ List.time }}"><br></div>
+          {% if umode == 0 %}
+            <form action="game?page=repairdock" method="post" class="build_form">
+              <input type="hidden" name="cmd" value="deploy">
+              <button type="submit" class="build_submit onlist" id="deployRepaired" style="display:none">{{ LNG.bd_deploy }}</button>
+            </form>
+          {% else %}
+            -
+          {% endif %}
+          <br><span class="colorPositive timer" data-time="{{ List.endtime }}" data-umode="{{ umode }}">{% if umode == 0 %}{{ List.pretty_end_time }}{% else %}{{ LNG.bd_paused }}{% endif %}</span>
+        </div>
+      </div><br>
+    {% endif %}
+
+    <div>
+      <div class="planeto">
+        <button id="ship1">{{ LNG.fm_civil }}</button> | <button id="ship2">{{ LNG.fm_military }}</button> | <button id="ship3">{{ LNG.fm_all }}</button>
+      </div>
+      <form action="game?page=repairdock" method="post">
+        {% if not busy %}
+          <br>
+          <div class="planeto">
+            <input type="button" value="{{ LNG.bd_max_ships }}" onclick="repairAll()">
+            <input class="b colorPositive" type="submit" value="{{ LNG.bd_repair_ships }}">
+          </div>
+        {% endif %}
+        {% for ID, Element in (elementList)|php_iter %}
+          <div class="infos" id="s{{ ID }}">
+            <div class="repairShipHeader">
+              <a href="#" onclick="return Dialog.info({{ ID }})">{{ LNG.tech[ID] }}</a>
+              <span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ pretty_number(Element.available) }}){% endif %}</span>
+            </div>
+            <div class="repairShipContainer">
+              <a class="repair-element-link" href="#" onclick="return Dialog.info({{ ID }})">
+                <img class="float-left" src="{{ dpath }}gebaeude/{{ ID }}.gif" alt="{{ LNG.tech[ID] }}" width="120" height="120">
+              </a>
+              <div class="repairShipContainerContent">
+                <span>
+                  <p>{{ LNG.bd_wreck_count }}: <span class="bold">{{ pretty_number(Element.wrecks) }}</span></p>
+                  <p>{{ LNG.bd_repair_rate }}: <span class="bold">{{ pretty_number(repairRate, 1) }}%</span></p>
+                  <p>{{ LNG.bd_max_ships_repair }}: <span class="bold">{{ pretty_number(Element.maxBuildable) }}</span></p>
+                </span>
+              </div>
+              <div class="repairShipContainerContent">
+                <span>
+                  {% if ID==212 %} +{{ SolarEnergy }} {{ LNG.tech[911] }}<br>{% endif %}
+                  {% if not busy and Element.maxBuildable > 0 %}
+                    <input type="number" class="numfield" data-max="{{ Element.maxBuildable }}" name="fmenge[{{ ID }}]" id="input_{{ ID }}" value="0" tabindex="{{ null }}">
+                    <input type="button" value="{{ LNG.bd_max_ships }}" onclick="document.getElementById('input_{{ ID }}').value='{{ Element.maxBuildable }}'">
+                    <br>
+                  {% endif %}
+                  {{ LNG.fgr_time }}
+                  <span class="statictime" timestamp="{{ Element.elementTime }}"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% if not busy %}
+          <br>
+          <div class="planeto">
+            <input type="button" value="{{ LNG.bd_max_ships }}" onclick="repairAll()">
+            <input class="b colorPositive" type="submit" value="{{ LNG.bd_repair_ships }}">
+          </div>
+        {% endif %}
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}

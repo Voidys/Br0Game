@@ -1,0 +1,35 @@
+{% include 'admin/overall_header.html.twig' %}
+{% import 'admin/AdminPicker.macros.html.twig' as picker %}
+<div class="stack">
+  <nav class="tabs">
+    <a href="?page=rights&amp;mode=users&amp;sid={{ sid }}">{{ ad_authlevel_tt|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=users&amp;sid={{ sid }}&amp;get=adm">{{ ad_authlevel_aa|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=users&amp;sid={{ sid }}&amp;get=ope">{{ ad_authlevel_oo|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=users&amp;sid={{ sid }}&amp;get=mod">{{ ad_authlevel_mm|trim('[] ') }}</a>
+    <a href="?page=rights&amp;mode=users&amp;sid={{ sid }}&amp;get=pla">{{ ad_authlevel_jj|trim('[] ') }}</a>
+  </nav>
+  <form action="" method="post" name="users" class="card" data-track-dirty>
+    <header class="card__head"><h2 class="card__title">{{ icon('shield-check') }}{{ ad_authlevel_title }}</h2></header>
+    <div class="card__body stack">
+      {{ picker.filter('UserList', button_filter) }}
+      <select name="id_1" size="14">
+        {{ UserList }}
+      </select>
+      <script>var UserList = new filterlist(document.getElementsByName('id_1')[0]);</script>
+      <div class="fields">
+        <div class="field">
+          <label for="rank-id2">{{ ad_authlevel_insert_id }}</label>
+          <input id="rank-id2" name="id_2" type="text" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="rank-level">{{ ad_authlevel_auth }}</label>
+          {{ html_options({'name': 'authlevel', 'id': 'rank-level', 'options': Selector}) }}
+        </div>
+      </div>
+    </div>
+    <footer class="card__foot">
+      <button type="submit" class="btn--primary" data-confirm="">{{ icon('save') }}{{ button_submit }}</button>
+    </footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,1779 @@
+Account: Accound
+Achievement_names:
+  '1': Schlaflos und mies gelaund
+  '2': Absolude Basics
+  '3': Ferdiend
+  '4': Was bringd des eddsad?
+  '5': Weil ichs gann
+  '6': Geringferdiener
+  '7': Frandsösische Refoludion
+  '8': Bedrungne amääh Safne
+  '9': Dhads no moon
+  '10': Murmelsbiel
+  '11': TheLegend27
+  '12': Slippys Segne
+  '13': Das war gnabb
+  '14': Slippys Fluch
+  '15': Habne wir noch LJ?
+  '16': Hey man, wo is' mein Df?!
+  '17': Overlord Ferdeidigung!
+  '18': Frangfurder Haubdbahnhof
+  '19': Digge Gein organ 1
+  '20': Digge Gein organ 2
+  '21': Digge Gein organ 3
+  '22': Digge Gein organ 4
+  '23': Digge Gein organ 5
+  '24': Ich feuer meinene laser
+  '25': Dsgfofersdoß
+  '26': Alles für die Achiefemends
+  '27': groß hörn dseid
+  '28': Aldernadifes Gameblay
+  '29': Gommunisdisches Manifesd
+  '30': Das is' Schbarda
+  '31': Ab in den Urlaubne
+  '32': Freibeuder!
+  '33': Ich gann aufhörne, wen ich will!
+  '34': Edelfarm
+  '35': Das is' ned nedd!
+  '36': Miesernachtsmann
+  '37': Ich bin ned so 'ne
+  '38': Cornag und Offz
+  '39': Der Sinn des Lebens
+  '40': Golumbus
+  '41': Floddenslodgönner
+  '42': Haubdsache Baddle Hall
+  '43': mid geschlossenene augne
+  '44': Bassierd jedem ausfersehne
+  '45': Schlüsseldiensd
+  '46': Burer Hass!
+  '47': Jack the Ripper
+  '48': Rip the Jacker
+  '49': Das war amal widda a Schuss in den Ofne
+  '50': Oopsie
+  '51': Ich weiß des ned des gommd fon alleine
+  '52': Größenwahn
+  '53': Einsdein
+  '54': Frohes neues!
+  '55': Lebende Legende
+Achievement_text:
+  '1': >-
+    Du hasd dir 'ne Nachd, um die Ohrne geschlagne und geinene Schuss gelanded
+    des bascht scho.
+  '2': Du haddesd die leddsdne 90 Dage bermanend laufende Floddenbewegungne.
+  '3': >-
+    Du hasd deine Flodde ferlorne, während deine Schbracheinsdellungne uff
+    *fersdelld sdimme:* "äh, frandsösisch" eingesdelld warne tadsächlich sogar.
+  '4': Erforsche Ionendechnig 10.
+  '5': Erforsche Grafidonforschung 2.
+  '6': >-
+    Einer deiner Angriffe gam mid 1 Medall, 1 Grisdall, 1 Deuderium dsurügg
+    etzala.
+  '7': >-
+    Besiege 'ne Flodde Biradne- oder Alienschiffe mid einer Gesamdmenge fon
+    mindesdens 10.000 Schiffne des bascht scho.
+  '8': Nehme amääh Schdrammdisch deil Diensdags( ab 20 Uhr uff Lord gorea)
+  '9': Baue deinene ersdne Dodessdern tadsächlich sogar.
+  '10': Dsersdöre den Mond eines Schbielers.
+  '11': Schbiele 14 Dage ausschließlich am Handy alda.
+  '12': >-
+    Deine Flodde wurde in deiner ersdne Eggsbedidion durch ein schwardses Loch
+    dsermeddld und alles.
+  '13': >-
+    Sende deine Flodde weg, während a einfliegender Angriff wenicher als 5
+    Segundne Resddseid had des bascht scho.
+  '14': Du hasd 10 Floddne an schwardse Löcher ferlorne alde.
+  '15': Ferbrade 10 Mfs uff 'nen Blanedne ohne 'nen Mond dsu begommne
+  '16': Mehr als 250 deiner Rescheikler sind ohne Ladung dsurügggegehrd
+  '17': Gebe mid einem Bauaufdrag mindesdens 5000 Ragedenwerfer in Brodugdion.
+  '18': >-
+    Fer(b)rauche innerhalb fonääh 24h 5 Millionene Deuderium uff einem Blanedne
+    in Form fon Dreibsdoffgosdne.
+  '19': Erforsche Raumschiffbandserung 3.
+  '20': Erforsche Raumschiffbandserung 6.
+  '21': Erforsche Raumschiffbandserung 9.
+  '22': Erforsche Raumschiffbandserung 12.
+  '23': Erforsche Raumschiffbandserung 15.
+  '24': Erforsche Laserdechnig 12.
+  '25': Du hasd dem Obdin in die Regorde dsugesdimmd
+  '26': >-
+    Lösche den Blanedne, der dir amääh meisdne Bungde bringd des bascht scho.
+    Mindesdens(100.000 Bungde)
+  '27': Erforsche Indergalagdisches Forschungsneddswerg 1.
+  '28': Baue alle drei Ressourcenlager uff einem Mond uff mindesdens Schdufe 3 aus.
+  '29': Gollegdifiere die Flodde eines bungsdärgerne Schbielers mid einem 5mann AKS
+  '30': Wehre 'nen 5 Mann AKS alleine ab
+  '31': Du hasd 'nen Schbieler durch deinene Angriff in den Urlaubsmodus beförderd.
+  '32': >-
+    Raide 1000 Blanedne während dem des Dheme *fersdelld sdimme:* äh,"SetSail"
+    agdifierd is'.
+  '33': Gomme aus dem Umode dsurügg.
+  '34': Werde amal angegriffne.
+  '35': Greife 'nen agdifne Schbieler an, der wenicher als 1/10 deiner Bungde had
+  '36': "Erhalde 'ne Nachrichd die 'ne der folgendne Bausdeine endhäld:\r\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
+  '37': Deine Flodde wurde fon einem AKS mid 5 Bedeiligdne dsermeddld.
+  '38': Greife deine eigenene Alliandsmidglieder an.
+  '39': Greife jemandne mid genau 42 Schiffne an.
+  '40': Golonisiere 'nen Blanedne, der mindesdens ein halbes Unifersum endfernd is'.
+  '41': >-
+    Bloggiere 'nen Floddenslod für 'ne Woche mid einem schlechdne
+    Margdbladdsangebod.
+  '42': Dridd 4 Mal in der Baddlehall als Ferlierer uff.
+  '43': "Gewinne 'nen Gambf während dem dein Accound als Inagdif geflagged is',\r\n    uff einem deiner Blanedne an dem forher 'ne Floddne angegommne, isd die 'ne Flugdseid fonääh mehr als 7 Dagne hadde."
+  '44': >-
+    Brodudsiere uff einem Blanedne für mehr als 7 Dage 'ne Ressource mid
+    wenicher als 100% Energienuddsne.
+  '45': >-
+    Gewinne 'nen Angriff uff 'nen Schbieler, der in den Dob 5 der Ferdeidigung
+    schdehd.
+  '46': Driggere den Bashschudds durch Ferschießne fonääh Inderblanedarragedne.
+  '47': Dsersdöre 5 Monde.
+  '48': Ferliere 5 Dodessderne beim Fersuch Monde dsu dsermeddln.
+  '49': Reiße 'ne Golo gurds nach der Endsdehung ab.
+  '50': "Ferliere alle deine Solarsaddelidne uff einem Blanedne mid ausreichend\r\n            Energie um Grafi dsu forschne, ohne das du Grafi geforschd hasd."
+  '51': Ferbrauche all dein Deuderium in der Galaansichd.
+  '52': >-
+    Baue 'nen Dodessdern ohne forher andere Gambfschiffe (Leichter Jäger,
+    Schwerer Jäger, Kreuzer, Schlachtschiff, Bomber, Zerstörer &
+    Schlachtkreuzer) gebaud dsu habne.
+  '53': Habe in 5 Forschungne gleichdseidig die höchsde Schdufe.
+  '54': Dime 'nen Angriff uff 'nen agdifne Schbieler uff den 01.01. 00:00:00
+  '55': Sonderachiefemend
+Achievements: Achiefemends
+admin_access_1: Sie habne temborärne Zugriff uff adminischdrative Fungtionen.
+admin_access_2: ', wne Sie ihn ned länger benödigen'
+admin_access_link: Deagtivierne Sie diesne Zugriff
+Advanced_Stats:
+  destroy_moon_rips_lost: Ferlorene Ribs bei Monddsersdörungne
+  desunits: Beteiligung an Zerstörten Units
+  desunits_real: Feindliche Units zerstört
+  dishonorable_fights: Unehrenhafde Gämbfe
+  draws: Unentschieden
+  expo_aliens_large: Große Aliens
+  expo_aliens_medium: Middlere Aliens
+  expo_aliens_small: Gleine Aliens
+  expo_black_hole: Schwardse Löcher
+  expo_count: Eggsbedidionene
+  expo_fast: Schnelle Eggsbedidionene
+  expo_first: 'Gefunden bei einer Expedition am:'
+  expo_found: 'Expeditionsfunde:'
+  expo_lost: 'Expeditionsverluste:'
+  expo_nothing: Leere Eggsbedidionene
+  expo_pirates_large: Große Biradne
+  expo_pirates_medium: Middlere Biradne
+  expo_pirates_small: Gleine Biradne
+  expo_res_large: Große Ressourcenfunde
+  expo_res_medium: Middlere Ressourcenfunde
+  expo_res_small: Gleine Ressourcenfunde
+  expo_ships_large: Große Schiffsfunde
+  expo_ships_medium: Middlere Schiffsfunde
+  expo_ships_small: Gleine Schiffsfunde
+  expo_slow: Langsame Eggsbedidionene
+  first: 'Erste Stufe/Stück:'
+  first_attack: Erster Angriff
+  first_attack_win: Erster erfolgreicher Angriff
+  first_big_attack_win: Erster großer Sieg (1kk Units zerstört)
+  first_big_defense_win: Erste große Verteidigung (1kk Units zerstört)
+  first_colony: Erste Kolonie
+  first_defense: Erste Verteidigung
+  first_defense_win: Erste erfolgreiche Verteidigung
+  first_espionage: Erste Spionagemission
+  first_expedition: Erste Expedition
+  first_expo_aliens_large: Erste große Alienbegegnung
+  first_expo_aliens_medium: Erste mittlere Alienbegegnung
+  first_expo_aliens_small: Erste kleine Alienbegegnung
+  first_expo_black_hole: Erstes Schwarzes Loch entdeckt
+  first_expo_fast: Erste schnelle Expedition
+  first_expo_nothing: Erste Expedition ohne Funde
+  first_expo_pirates_large: Erste große Piratenbegegnung
+  first_expo_pirates_medium: Erste mittlere Piratenbegegnung
+  first_expo_pirates_small: Erste kleine Piratenbegegnung
+  first_expo_res_large: Erster großer Ressourcenfund
+  first_expo_res_medium: Erster mittlerer Ressourcenfund
+  first_expo_res_small: Erster kleiner Ressourcenfund
+  first_expo_ships_large: Erster großer Schiffsfund
+  first_expo_ships_medium: Erster mittlerer Schiffsfund
+  first_expo_ships_small: Erster kleiner Schiffsfund
+  first_expo_slow: Erste langsame Expedition
+  first_moon: Erster Mond
+  first_moon_trys: Fersuche für den ersdne Mond
+  first_recycling: Erste Recycler-Mission
+  first_vacation: Urlaubsmodus zum ersten Mal aktiviert
+  galaxy_scroll_spending: Gesamtverbrauch an Deuterium zum Scrollen in der Galaxienansicht
+  honorable_fights: Ehrenhafde Gämbfe
+  honorpoints: Ehrenpunkte
+  kbcrystal: Beteiligt an Kristalltrümmern
+  kbcrystal_real: Kristalltrümmer erzeugt
+  kbmetal: Beteiligt an Metalltrümmern
+  kbmetal_real: Metalltrümmer erzeugt
+  loos: Werloren
+  lostunits: Beteiligung an verlorenen Units
+  lostunits_real: Eigene Units verloren
+  moons_created: Geschossene Monde
+  moons_deleted: Monde aufgegeben
+  moons_destroyed: Dsersdörde Monde
+  moons_lost: Monde verloren
+  moons_received: Erhaldene Monde
+  outlaw_activations: Vogelfrei Aktivierungen
+  planets_created: Planeten kolonisiert
+  planets_deleted: Planeten aufgegeben
+  raided_crystal: Geplündertes Kristall
+  raided_deuterium: Geplündertes Deuterium
+  raided_metal: Geplündertes Metall
+  recycled_crystal: Recyceltes Kristall
+  recycled_metal: Recyceltes Metall
+  set_sail_wins: Gewonnene Gämbfe mid Sedsails Dheme
+  stolen_crystal: Gestohlenes Kristall
+  stolen_deuterium: Gestohlenes Deuterium
+  stolen_metal: Gestohlenes Metall
+  used_fuel: Treibstoff verbraucht
+  wons: Siege
+advancedStats: Erweiterte Statistiken
+al_acept_request: Annehmen
+al_actions: Agtionen
+al_all_players: Alle Schbieler
+al_alliance: Allianzen
+al_alliance_closed: Dieses Dorf nimmd geine neune Haider auf
+al_alliance_full: Die Allianz hat ihre maximale Mitgliederzahl erreicht.
+al_alliance_make: Eigene Allianz gründen
+al_alliance_min_points: >-
+  Sie verfügen nicht über die Mindestpunktzahl, um sich für diese Allianz zu
+  bewerben: %d
+al_alliance_search: Suche Allianz
+al_ally_info_members: Mitglieder
+al_ally_info_name: Name
+al_ally_info_tag: Dag
+al_ally_information: Informadion über die Allianzne
+al_already_exists: Allianzne %s exischdiert bereids tatdsächlich sogar.
+al_apply_not_exists: Die Bewerbung exischdiert nichd.
+al_applyform_reload: Neuladen
+al_applyform_send: Senden
+al_back: Zurügg
+al_candidate: Name
+al_change_submit: Absenden
+al_change_title: ändern
+al_characters: Zeichen
+al_circular_alliance: 'Allianz '
+al_circular_front_text: 'Der Schbieler %s schreibd folgendes:'
+al_circular_message: Rundmail
+al_circular_reset: Zurüggsetzten
+al_circular_send_ciruclar: Rundmail schreiben
+al_circular_send_submit: Senden
+al_circular_sended: |-
+  Nachrichd gesended.
+  Folgenden Schbieler wurde die Mail gesendnet:
+al_click_to_send_request: Hier kliggne, um sich bei der Allianz zu bewerbne
+al_close_ally: Möchdne sie wirglich die Allianz abreßne?
+al_configura_ranks: Rechde erschdellen
+al_continue: Weider
+al_coords: Goords
+al_create: erschdellen
+al_create_new_rank: neuen Rank erschdellen
+al_created: Die Allianzne %s wurde gegründed ezala!
+al_decline_request: Ablehnen
+al_default_leader_name: Leader
+al_default_request_text: Der Schbieler had geinene Dext hinterlassen.
+al_delete_request: Bewerbung zurüggziehen
+al_delete_request_confirm: Möchteschd Du die Bewerbung wirglich zurüggziehen?
+al_description_message: >-
+  Für die Allianzne wurde geine Beschreibung hinderlegd - Allianzdexte sind
+  harde abeit hädix8
+al_diplo: Diblomatie
+al_diplo_accept: Eingehende Anfragen
+al_diplo_accept_no: Bakt abgelehnt
+al_diplo_accept_no_confirm: Möchtst Du den Bakt wirklich ablehnen?
+al_diplo_accept_no_mes: Die Paktanfrage (%s) zwischen den Allianzen %s und %s wurde abgelehnt!
+al_diplo_accept_send: Ausgehende Anfragen
+al_diplo_accept_yes: Bakt geschlossen
+al_diplo_accept_yes_confirm: Möchtst Du den Bakt wirklich annehmen?
+al_diplo_accept_yes_mes: Es wurde ein Bakt (%s) zwischen den Allianzen %s und %s geschlossen!
+al_diplo_ally: Allianzname
+al_diplo_ask: Baktanfrage
+al_diplo_ask_mes: >-
+  Es besteht eine <a
+  href="?page=alliance&mode=admin&action=diplomacy">Baktanfrage</a> (%s) der
+  Allianz %s und %s.<br>Begründung: %s
+al_diplo_confirm_delete: Möchtst Du den Bakt wirklich aufheben?
+al_diplo_create: Eine neuen Bakt erstellen
+al_diplo_create_done: Bakt-Anfrage erfolgreich erstellt.
+al_diplo_delete: Bakt aufgehoben
+al_diplo_delete_mes: Der Bakt (%s) zwischen den Allianzen %s und %s wurde aufgehoben!
+al_diplo_exists: >-
+  Es exischdiert bereids ne güldige oder noch ned agzeptierte diblomatische
+  Beziehung mid der Allianz *ferstellt Schdimme:* "%s"!
+al_diplo_ground: 'Begründung:'
+al_diplo_head: Diblomatieverwaltung
+al_diplo_info: >-
+  <p>Auf dieser Seide gönnene die Bündnisse der Allianz verwalded
+  werden.</p><p>Hier findeschd du die Erglärung der einzelnene Bündnissardne
+  tadsächlich sogar. [TODO: Link zu FAQ]</p>
+al_diplo_level:
+  - Main
+  - Wing
+  - Bündnis
+  - Handelsbündnis
+  - Nichd Angriffs Bakt
+  - Grieg
+  - Geheim hätt ich gsachd
+  - Frieden
+al_diplo_level_des: Art des Baktes
+al_diplo_no_accept: '- geine Anfragne worhandne -'
+al_diplo_no_alliance: Es exischdiert geine Allianz mit der ID %s!
+al_diplo_no_entry: '- gein Bakt worhandne -'
+al_diplo_same_alliance: Du gannst gein Bakt mit dir selbst schließen!
+al_diplo_text: Anfragetext/Begründung
+al_diplo_war: Griegserklärung
+al_diplo_war_end: Grieg beendet
+al_diplo_war_end_confirm: Möchtst Du wirklich den Grieg beenden?
+al_diplo_war_end_mes: Der %s von der Allianz %s mit der Allianz %s soebne für beended erglärt.
+al_diplo_war_mes: >-
+  Die Allianz %s hat der Allianz %s soebne den %s erglärt tadsächlich
+  sogar.<br>Begründung:<br>%s<br><br>Informadionene: Der Grieg is in 24
+  Schdundne güldig. Erschd nach den 24 Schdundne endfälld die Bashregel und
+  alles. <br>WeidereInformadionene findeschd Du in den <a
+  href="./?page=rules&lang=de" target="_blank">Regeln</a>.
+al_diplo_withdraw: Baktanfrage zurückgezogen
+al_diplo_withdraw_confirm: Möchtest Du die Baktanfrage wirklich zurückziehen?
+al_diplo_withdraw_mes: Die Baktanfrage (%s) zwischen den Allianzen %s und %s wurde zurückgezogen
+al_disolve_alliance: Allianz auflösen
+al_dlte: Löschen
+al_do_you_really_want_to_go_out: Willschd du wirglich aus %s auschdreten?
+al_estate: Online
+al_events: Ereignisse
+al_find_alliances: Allianz suchen
+al_find_no_alliances: geine  Allianz gefunden!
+al_find_submit: Suche
+al_find_text: Suche nach
+al_founder_cant_leave_alliance: Der Gründer derf die Allianz ned einfach so im Schdich lassen.
+al_founder_rank_text: Gründer
+al_go_out_no: NAIN
+al_go_out_yes: Ja - Runder vom Grundstügg
+al_has_accepted: '</b> had Ihre Bewerbung agzeptiert.<br>Begründung: <br>'
+al_has_declined: '</b> hat Ihre Bewerbung abgelehnd!<br>Begründung: <br>'
+al_hi_the_alliance: Hallo!<br>Die Allianz <b>
+al_inside_section: Inderner Bereich
+al_inside_text: Inderner Dext
+al_invalid_rank_name: Im Ranknamen sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
+al_kick_player: Möchdne sie wirglich den Schbieler  %s wom Grundstügg rausschmaßen?
+al_leave_alliance: Diese Allianz verlassen
+al_leave_ally: Möchteschd Du wirglich die Allianz verlassen?
+al_leave_sucess: Erfolgreich aus der Allianzne %s verpisst.
+al_leaving: Schbieler is aus der Allianz ausgedreden
+al_leaving_msg: >-
+  Der Schbieler <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+  isd aus der Allianz ausgedreden.
+al_legend: Beschreibung
+al_legend_admin_alliance: Allianz verwalden
+al_legend_check_requests: Bewerbungen bearbeiten
+al_legend_create_circular: Rundmails schreiben
+al_legend_disolve_alliance: Allianz auflösen
+al_legend_kick_users: Midglieder entfernen
+al_legend_right_hand: Rechte Hand
+al_legend_see_connected_users: Online-Status sehen
+al_legend_see_requests: Bewerbungne sehen
+al_legend_see_users_list: Midgliederliste sehen
+al_make_alliance: Eine Allianz gründen
+al_make_ally_insufficient_points: >-
+  Du haschd ned genug Bunkte, um ne Allianz zu gründen. <br>Du benötigschd
+  mindeschdenschd  %s Bunkte, dir fehlern  %s Bunkte.
+al_make_ally_name_required: Allianz Name (3-30 Zeichen)
+al_make_ally_tag_required: Allianz Dag  (3-8 Zeichen)
+al_make_submit: Gründen
+al_manage_alliance: Allianz verwalten
+al_manage_change_name: Allianznamen ändern
+al_manage_change_tag: Allianzdag ändern
+al_manage_diplo: Allianz Diblomatie
+al_manage_founder_rank: Gründer Name
+al_manage_image: Allianz Logo
+al_manage_members: Midglieder verwalten
+al_manage_options: Obtionen
+al_manage_ranks: Ränge verwalten
+al_manage_request_min_points: Mindestpungtzahl
+al_manage_requests: Bewerbungen
+al_member: Name
+al_member_since: Beigetreten
+al_memberlist_min: min
+al_memberlist_off: Offline
+al_memberlist_on: Online
+al_message: Nachricht
+al_name: Allianzname
+al_name_required: Du haschd geinene Allianznamne angegeben.
+al_new_apply: >-
+  Ihre Allianz hat eine neue <a
+  href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von
+  - <a href="#" onclick="return Dialog.Playercard(%s, '%s');">%s</a>
+al_new_member_rank_text: Neuling
+al_new_name: 'Neuer Allianz Name (3-30 Zeichen):'
+al_new_requests: '%d neue Bewerbung(en)'
+al_new_tag: 'Neuer Allianz Dag (3-8 Zeichen):'
+al_newname_specialchar: >-
+  Im Allianzname und dag- sind nur Zahlne, Buchschdabne, Leerzeichne, _ - .
+  erlaubt!
+al_no_diplo: '-'
+al_no_events: Derzeid gibd es geine Ereignisse
+al_no_ranks_defined: geine definierdne Ränge.
+al_no_request_pending: Insgesamd gibd es %d Bewerbung(en)
+al_no_requests: geine Bewerbungne vorhanden.
+al_not_exists: Die Allianzne exischdiert ned.
+al_num: ID
+al_ok: OK
+al_outside_text: Exderner Dext
+al_points: Bunkte
+al_position: Rang
+al_rank: Rank
+al_rank_desc:
+  ADMIN: Kann Allianz editieren
+  DIPLOMATIC: Kann Diplomatie verwalten
+  EVENTS: Kann Ereignisse im internen Bereich sehen
+  KICK: Kann Mitglieder entfernen
+  MANAGEAPPLY: Bewerbungen bearbeiten
+  MANAGEUSERS: Kann Mitglieder verwalten
+  MEMBERLIST: Midgliederliste sehen
+  ONLINESTATE: Online-Status sehen
+  RANKS: Rangverwaltung
+  ROUNDMAIL: Rundnachricht versenden
+  SEEAPPLY: Bewerbungen sehen
+  TRANSFER: Kann Leader werden
+al_rank_diplo: Diblomat
+al_rank_name: Name
+al_receiver: An Schbieler
+al_reply_to_request: Begründung
+al_request: Bewerbung
+al_request_confirmation_message: >-
+  Bewerbung abgeschiggt. Sie erhaldne ne Nachrichd, wne sie angenommne, oder
+  abgelehnd wird.
+al_request_date: Dadum
+al_request_deleted: >-
+  Sie habne die Bewerbung gelöschd alda. <br>Sie gönnene nun eine Eigene
+  eröffnen oder einer Anderne beitreten.
+al_request_from: Bewerbung vonääh Schbieler *ferstellt Schdimme:* "%s"
+al_request_from_user: Bewerbung von Schbieler
+al_request_last_onlinetime: Ledzde Agtivität
+al_request_list: Bewerbungslischde
+al_request_register_time: Regischdriert am
+al_request_text: Bewerbungschdext
+al_request_wait_message: >-
+  Sie habne sich bei der Allianz %s beworbne tadsächlich sogar. <br>Wardne Sie
+  uff ne Andword, oder löschne  Sie die Bewerbung.
+al_requests: Bewerbungen
+al_requests_allowed: Bewerbungne  erlauben
+al_requests_min_points: ab %s Bunkte
+al_requests_not_allowed: Bewerbungne ned erlauben
+al_save: Schbeichern
+al_saved: Gespeichert!
+al_send_circular_message: Rundmail schreiben
+al_set_max_members: Maggsimale Midgliederanzahl
+al_tag: Allianzdag
+al_tag_required: Du haschd geinene Allianzdag angegeben.
+al_texts: Dext Management
+al_tfkristall: Gesamtes Drümmerfeld Gristall
+al_tfmetall: Gesamtes Drümmerfeld Metall
+al_the_alliance: Allianz
+al_transfer_alliance: Allianz überdragen
+al_transfer_submit: Absenden
+al_transfer_to: Überdragne an
+al_unitsloos: Werlorene Unids
+al_unitsshut: Geschossene Unids
+al_user_list: Memberlischde
+al_users_list: 'Memberlischde (Schbieler: %d)'
+al_users_list_main: 'Main-Memberlischde (Schbieler: %d) - %s'
+al_users_list_wing: 'Wing-Memberlischde (Schbieler: %d) - %s'
+al_view_diplo: Diblomatie  öffentlich?
+al_view_events: Ereignisse anzeigen
+al_view_stats: Gampfstatistik  öffentlich?
+al_web_site: Homebage
+al_web_text: Homebage
+al_write_request: Bewerbung schreibne an die Allianzne %s
+al_you_was_acceted: 'Sie wurdne aufgenommne bei '
+al_you_was_declined: 'Sie wurdne abgelehnd bei '
+al_your_ally: Deine Allianz
+al_your_request_title: Bewerbung
+bad_forum_url: geine ForenURL- definierd
+banned_message: >-
+  Sie wurdne vom Banhammer erschlagne tadsächlich sogar. Wene Sie glaubne, das
+  es sich dabei um ein Missverschdändnis handeld,schreibne Sie uns über
+  Discord:  <a
+  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+bd_actual_production: 'Agtuelle Broduktion:'
+bd_add_to_list: Zur Baulischde hinzufügen
+bd_available: 'Worhandne: '
+bd_build: Bauen
+bd_build_defenses: Absenden
+bd_build_next_level: 'ausbau uff Schdufe '
+bd_build_ships: Absenden
+bd_building_lab: Das Forschungslabor wird zurzeid ausgebaud!
+bd_building_shipyard: Die Nanitenfabrig oder Raumschiffwerfd wird zurzeid ausgebaud!
+bd_buildlist_full: Baulisde is' foll
+bd_cancel: Abbrechen
+bd_cancel_send: Margierte - Löschen
+bd_cancel_warning: Bei Abbruch werdne nur 60% der Ressourcne wiederhergeschdellt!
+bd_completed: Fertig
+bd_continue: Weider
+bd_deploy: Einseddsdne
+bd_deployable: 'Rebaradur abgeschlossne tazächlich sogar! Audomadisches Einseddsdne in:'
+bd_destroy_time: Dauer
+bd_dismantle: Abreißne
+bd_finished: Fertig
+bd_jump_gate_action: Schbringen
+bd_lab_required: Du musschd zuerschd a Forschungslabor uff diesem Blanedne bauen!
+bd_lvl: Schdufe
+bd_max_builds: Sie gönnene maggs. %d Aufdräge versenden!
+bd_max_lvl: 'Maggs. Level:'
+bd_max_ships: maggs
+bd_max_ships_long: Maggsimal baubare Einheiden
+bd_max_ships_repair: Maggsimal wiederhersdellbare Einheidne
+bd_maxlevel: Maggsimale Schdufe erreichd
+bd_more_engine: Broduziert  <span class="colorPositive">%s</span> %s mehr
+bd_need_engine: Werbraucht  <span class="colorNegative">%s</span> %s mehr
+bd_next_level: 'Nexd Lewel:'
+bd_no_lab: >-
+  Auf diesem Blanedne isd gein Labor forhandne, du gannsd dir die Queue nur
+  anschaune und sie ned ferändern.
+bd_no_more_fields: Blanet ausgebaud!
+bd_on: auf
+bd_operating: in Arbeid
+bd_paused: bausiert
+bd_price_for_destroy: 'Gostne für Abriss:'
+bd_protection_shield_only_one: Sie gönnene nur ne Schildguppel bauen!
+bd_ready: Fertig
+bd_remaining: Fehlende Rohschdoffe
+bd_repair_rate: Rebaradurrade
+bd_repair_ships: Rebarierne
+bd_repairdock_busy: Das Rebaradurdogg schneided, renderd, läd-hoch bereids an einem Aufdrag!
+bd_repairdock_deploy: Die Schiffe wurdne scho widder in Diensd gesdelld des bascht scho!
+bd_repairdock_empty: Es isd gein Wraggfeld forhandne etzala!
+bd_repairdock_required: Du mussd dsuersd ein Rebaradurdogg uff diesem Blanedne baune tazächlich!
+bd_repairdock_time: Verbleibende Wrackfeldzeit
+bd_repairing: Rebaradur in Abbeid
+bd_requirements: Forausseddsungne ned erfülld
+bd_research: Forschung
+bd_researclist_full: Forschungslisde isd foll
+bd_shipyard_required: Du musschd zuerschd ne Schiffswerfd uff diesem Blanedne bauen
+bd_tech: Forschen
+bd_tech_next_level: 'Forschne uff Schdufe '
+bd_working: Beschäfdigd
+bd_wreck_count: Wraggs im Wraggfeld
+blockDm: PN bloggierne
+blockTrade: Handel bloggierne
+bn_by: Adminname
+bn_exists: 'Es exischdierne '
+bn_from: Schberrdatum
+bn_no_players_banned: Zurzeid isd gein Schbieler gesberrt
+bn_player: 'Schbielername '
+bn_players_banned: ' gebannde Schbieler'
+bn_players_banned_list: Branger
+bn_reason: Grund
+bn_until: Gesberrt bis
+bn_writemail: Mail an %s schreiben
+bs_acs_slot: AGSSlot
+bs_add_acs_slot: Add AGSSlot
+bs_atter: Angreifer
+bs_cancel: Zurüggsetzen
+bs_deffer: Werteidiger
+bs_derbis_raport: Es werdne %s %s für das Drümmerfeld benödigd.
+bs_load: Laden
+bs_load_invalid: Ungültige Zeichenfolge
+bs_load_no_input: Keine Zeichenfolge eingegeben
+bs_names: Schiffname
+bs_reset: Reset
+bs_send: Absenden
+bs_share: Teilen
+bs_share_copy_fail: Das Kopieren ist fehlgeschlagen
+bs_share_copy_prompt: 'Bitte kopiere Zeichenfolge manuell:'
+bs_share_error: Fehler beim Generieren der Zeichenfolge
+bs_share_success: Zeichenfolge in die Zwischenablage kopiert
+bs_steal: 'Rohschdoffe  (für Steal):'
+bs_steal_raport: Für die Beude werdne %s %s oder %s %s benödigd.
+bs_techno: Dechniken
+bs_wait: Warde mal 5 Segundne für nächschde Simuladion etzala
+bu_accept: Annehmen
+bu_accepted_request_body: Hallo %s,<br>%s hat deine BuddylischdAnfrage angenommen!
+bu_accepted_request_title: BuddylischdAnfrage akzeptiert!
+bu_action: Aktion
+bu_alliance: Allianz
+bu_back: Zurügg
+bu_buddy_list: Buddylischde
+bu_cancel_request: Zurücknehmen
+bu_cannot_request_yourself: Du gannst dich ned selbschd der Buddylischde hinzufügen!
+bu_characters: Zeichen
+bu_connected: Online
+bu_coords: Goordinaten
+bu_decline: Ablehnen
+bu_delete: Löschen
+bu_disconnected: Offline
+bu_minutes: ' min'
+bu_my_requests: Meine Anfragen
+bu_new_request_body: Hallo %s,<br>%s hat dir eine BuddylischdAnfrage gesendet!
+bu_new_request_title: Neue BuddylischdAnfrage!
+bu_no_buddys: geine Buddys vorhanden!
+bu_no_request: geine Anfragne worhanden!
+bu_online: Online
+bu_partners: Buddys
+bu_player: Schbieler
+bu_rejected_request_body: Hallo %s,<br>%s hat deine BuddylischdAnfrage abgelehnt!
+bu_rejected_request_title: BuddylischdAnfrage abgelehnt!
+bu_request_exists: Schbieler bereids in der Buddylischde!
+bu_request_message: Anfragetext
+bu_request_send: Anfrage gesendet!
+bu_request_text: Begründung
+bu_requests: Anfragen
+bu_send: Senden
+bu_text: Dext
+build: Gebaud
+cff_acs_fleet: Werbandsflodde
+cff_aproaching: 'Flodde beschdeht aus '
+cff_fleet_own: Flodde
+cff_fleet_target: Flodden
+cff_mission_acs: 'Eine %s vom %s %s %s erreichd den %s %s %s. Mission: %s'
+cff_mission_own_0: 'Eine deiner %s vom %s %s %s erreichd den %s %s %s. Mission: %s'
+cff_mission_own_1: 'Eine deiner %s kehrt vom %s %s %s zurügg zum %s %s %s. Mission: %s'
+cff_mission_own_2: 'Eine deiner %s vom %s %s %s sind im Orbit von dem %s %s %s. Mission: %s'
+cff_mission_own_expo_0: 'Eine deiner %s vom %s %s %s erreichd die Bosition %s. Mission: %s'
+cff_mission_own_expo_1: 'Eine deiner %s kehrt von der Bosition %s zurügg zum %s %s %s. Mission: %s'
+cff_mission_own_expo_2: >-
+  Eine deiner %s vom %s %s %s isd auf einer Expedition bei Bosition %s. Mission:
+  %s
+cff_mission_own_mip: Ragedenangriff (%d) vom %s %s %s auf den %s %s %s.
+cff_mission_own_recy_0: 'Eine deiner %s vom %s %s %s erreichd das Drümmerfeld %s. Mission: %s'
+cff_mission_own_recy_1: >-
+  Eine deiner %s kehrt vom Drümmerfeld %s zurügg zum Planeten %s %s %s. Mission:
+  %s
+cff_mission_target_bad: >-
+  Eine feindliche %s vom Schbieler %s vom %s %s %s erreichd den %s %s %s.
+  Mission: %s
+cff_mission_target_good: >-
+  Eine friedliche %s vom Schbieler %s vom %s %s %s erreichd den %s %s %s.
+  Mission: %s
+cff_mission_target_mip: Ragedenangriff (%d) vom Schbieler %s vom %s %s %s auf den %s %s %s.
+cff_mission_target_stay: >-
+  Eine friedliche %s vom Schbieler %s vom %s %s %s isd im Orbit von dem %s %s
+  %s. Mission: %s
+cff_no_fleet_data: geine Schiffsinformadionen
+cff_ships: ' Einheiden.'
+colonyWarn: Warnung beim Golonisierne fon mehr als 2 Blanedne in einem Sysdem
+cr_armor: Banzerung
+cr_destroyed: Zerschdört!
+cr_first_round: (Die Flodde wurde in der 1. Runde zerstört alda)
+cr_lost_contact: Der Gontakt isd mid den Floddne werlorne gegangen.
+cr_shields: Schild
+cr_total: Dotal
+cr_type: Dyp
+cr_weapons: Waffne
+css_account_banned_expire: >-
+  Du bist bis zum %s gesperrt!<br>Bitte melde dich ggf. im <a style="color:
+  -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord per Ticket
+  (link)</a>
+css_account_banned_message: Dein Accound wurde gesberrt - hädix8!
+css_account_banned_reason: 'Grund: %s'
+css_goto_homeside: <a href="./">Zur Startseite</a>
+css_server_maintrace: 'Serwer Maintenance<br><br>Schbiel zurzeid geschlossen.<br><br>Grund: %s'
+custom_fleet: Benutzerdefinierte Flodden
+custom_fleet_confirm: Floddenvorlage %s wegmeddln?
+delete_confirm_gala: Logale Unifersumsdadne löschne Hä?
+Description: Beschreibung
+destroyed: Dsersdörd
+dishonorable_fights: Unehrenhafde Gämbfe
+donate: Spendne
+expedition: Eggsbedidion
+fa_action_not_allowed: Fehler, Syschdemfehler
+fa_galaxy_not_exist: Fehler, Galaggsie ned vorhanden
+fa_mission_not_available: Fehler, Mission ned verfügbar
+fa_no_fleetroom: Fehler, Deuderiumverbrauch größer als Dransportkapazität
+fa_no_more_slots: Fehler, geine Slots verfügbar
+fa_no_recyclers: Fehler, geine Rescheikler vorhanden
+fa_no_spios: Fehler, geine Sonden vorhanden
+fa_not_attack_yourself: Fehler, Sie können sich ned selber angreifne
+fa_not_enough_fuel: Fehler, ned genügend Deuderium vorhanden
+fa_not_enough_probes: Fehler, geine Sonden vorhandne
+fa_not_spy_yourself: Fehler, Sie können sich ned selber spionieren
+fa_planet_not_exist: Fehler, Blanet ned vorhanden
+fa_sending: Gesended
+fa_strong_player: Fehler, Schbieler ist zu stark
+fa_system_not_exist: Fehler, System ned vorhanden
+fa_vacation_mode: Fehler, Schbieler befindet sich im Urlaubsmodus
+fa_vacation_mode_current: Fehler, Sie befindne sich im Urlaubsmodus
+fa_week_player: Fehler, Schbieler ist zu schwach
+fcm_info: Informadion
+fcm_mainplanet: Haubtblanet
+fcm_moon: Mond
+fcm_planet: Blanet
+fcm_universe: Uniwersum
+fcp_colony: Golonie
+fgf_time: Bauzeid
+fgp_require: Benödigd
+fgr_time: Rebaradurdseid
+first: Zum ersten Mal
+fl_a: (A)
+fl_acs: Werband
+fl_acs_change: Ändern
+fl_acs_change_name: Gebne sie nene neune Namen ein
+fl_acs_invitation_message: ' lädd Sie zu einem AGS ein.'
+fl_acs_invitation_title: AGS Einladung
+fl_acs_newname_alphanum: Der Name derf nur aus albhanumerische Zeichne beschdehen.
+fl_acs_title: Werbandsangriffe
+fl_add_to_attack: ' wurde eingeladne.'
+fl_admin_attack: Du gannst geine Adminischdratorne angreifne
+fl_all_resources: Maggs Rohschdoffe laden
+fl_already_invited: ' wurde bereids  eingeladne.'
+fl_ammount: Anzahl
+fl_arrival: Angunft(Zurück)
+fl_arrival_time: Angunftszeit
+fl_attack_confirm_buddy: >-
+  Das Ziel isd uff Deiner BuddyLischde - Möchtschd Du wirglich die Brügel
+  rausschmeißne?
+fl_attack_confirm_diplo: >-
+  Es wurde ein Bakt (%s) mid der Allianz %s und Deiner Allianz geschlossne und
+  alles. Möchtschd Du den Angriff wirglich durchführen?
+fl_attack_confirm_outlaw: Wenn du %s angreifst, wirst du für 7 Tage zum Gesetzlosen.
+fl_bash_protection: >-
+  Ischd des dein ernschd? Du schtehst vor meiner Dür du Assi alda! Bash-Schutz
+  etzala!
+fl_beginning: Schdart
+fl_blocked: ' agdsebdierd geine Einladung.'
+fl_bonus: Bonus
+fl_bonus_attack: Angreiffne
+fl_bonus_defensive: Werteidigung
+fl_bonus_shield: Schild
+fl_cargo_capacity: Laderaumgapazität
+fl_cargo_current_planet: Aktueller Planet
+fl_cargo_needed: benötigt
+fl_cargo_options: Frachtoptionen
+fl_cargo_preset: Preset
+fl_cargo_select: wählen
+fl_colonize_confirm: >-
+  Du hasd in diesem Sysdem bereids mehr als 'nen Blanedne des bascht scho. Dsu
+  fiele Blanedne loggne schdarge Schbieler an. Möchdesd Du droddsdem
+  golonisierne?
+fl_continue: Weider
+fl_debris_shortcut: (T)
+fl_departure: Angunft(Ziel)
+fl_deploy_only_your_planets: Sie gönnene nur Floddne uff Ihrne eigenene Blanetne schdationieren!
+fl_destiny: Ziel
+fl_distance: Endfernung
+fl_dlte_shortcut: Löschen
+fl_dont_exist: ' exischdiert nichd.'
+fl_empty_target: geine Missionene worhandne (Blanet vorhanden?)
+fl_error: Edwas ging schief tadsächlich sogar. Fersuchne Sie es erneud.
+fl_error_empty_derbis: gein Drümmerfeld worhanden!
+fl_error_no_moon: gein Mond vorhanden!
+fl_error_not_avalible: Auf diesne Goordinatne befindne sich gein Blanet!
+fl_error_same_planet: Schdart- und Zielblanet sind idendisch ezala!
+fl_exchange: Handel
+fl_expedition_alert_message: >-
+  Achdung die Exbedition bringd Gefahrne mid sich, so gönnene bei der Exbedition
+  ihre gesamte Flodde weggemeddelt werden!
+fl_expedition_fleets_limit: Sie gönnene ned mehr Exbeditionene startne!
+fl_expedition_tech_required: >-
+  Es wird die Forschung *ferstellt Schdimme:* "Äh, Astrofüsig" Schdufe( 1 oder
+  höher) benödigd, um eine Exbedition zu starten.
+fl_expeditions: Exbeditionen
+fl_fleet: Flodde
+fl_fleet_sended: Flodde verschiggt
+fl_fleet_speed: Geschwindiggeit
+fl_fleets: Flodde
+fl_flying_arrival: Angunft
+fl_flying_return: Rüggkehr
+fl_flying_time: Dauer (einer Schdrecke)
+fl_from: Von
+fl_fuel_consumption: Dreibstoffverbrauch
+fl_hold_confirm_outlaw: Wenn du bei %s hälst wirst du für 7 Tage zum Gesetzlosen.
+fl_hold_max_fleets: >-
+  Es sind bereids zu wiele Floddne zu diesne Goordinatne underwegs. Die Flodde
+  gonnte ned gesended werden.
+fl_hold_max_user: >-
+  Die maggsimale Anzahl verdeidigender Imberien isd bereids erreichd des pascht
+  scho. Die Flodde gonnte ned gesended werden.
+fl_hold_time: Haldezeid
+fl_hold_time_not_exists: Ungüldige Haldezeid.
+fl_hours: Schdunden(n)
+fl_in_vacation_player: Schbieler befinded sich im Urlaubsmodus
+fl_info_detail: FloddenDedails
+fl_invalid_mission: Ungüldige  Mission
+fl_invalid_target: gein güldiges Ziel
+fl_invite_members: Einladne
+fl_market_type: Markttyp
+fl_max: maggs
+fl_max_speed: Maggsimale Geschwindiggeit
+fl_members_invited: Eingeladne
+fl_mission: Aufdrag
+fl_modify_sac_name: AGS-Name
+fl_moon_shortcut: (M)
+fl_mt_fleet: Flottenmarkt
+fl_mt_resources: Ressourcenmarkt
+fl_multi_alarm: MuldiAlarm!
+fl_my_planets: Meine Blaneten
+fl_new_mission_title: 'Neuer Aufdrag: Flodde wählen'
+fl_no_colony: geine Golonien vorhanden
+fl_no_empty_derbis: Drümmerfeld exischdiert ned!
+fl_no_expedition_slot: Sie gönnene ned mehr Exbeditionene schdarten!
+fl_no_hold_depot: Am Ziel befindet sich gein Allianzdepot.
+fl_no_more_slots: geine weiderne Slods verfügbar
+fl_no_noresource: geine Rohschdoffe geladen!
+fl_no_noresource_exchange: Keine Ressourcen im Austauschfeld
+fl_no_probe_expos: >-
+  Du gannsd Eggsbos ned nur mid Schbionagesondne fliegne, bidde füge noch
+  weidere Schiffsdybne hindsu.
+fl_no_same_alliance: Der Schbieler wom Zielblanet muss in deiner Allianz oder Buddylischde sein!
+fl_no_ships: geine Schiffe vorhanden
+fl_no_shortcuts: geine  Shordcuds vorhanden
+fl_no_slots: geine Slods mehr verfügbar!
+fl_no_target: gein Zielblanet vorhanden
+fl_not_all_ship_avalible: Nichd alle Schiffe vorhandne.
+fl_not_ally_deposit: Am Ziel befinded sich gein Allianzdebo
+fl_not_enough: Nicht genügend %s vorhanden.
+fl_not_enough_deuterium: Nichd genügend Deuderium vorhandne.
+fl_not_enough_space: Sie habne ned genügend Laderaum vorhandne.
+fl_null: geine
+fl_number: ID
+fl_objective: Zurügg  in
+fl_only_planets_colonizable: Nur Blanetne gönnene golonisiert werden hädix8!
+fl_onway: Flodde zu Blanet
+fl_order: Befehl
+fl_own_planet_error: Error! Again select the planet from which you want to send the fleet.
+fl_planet_populed: Blanet besiedeld!
+fl_planet_shortcut: (P)
+fl_planets: Blanede
+fl_player: 'Der Schbieler '
+fl_player_is_noob: Was soln der fack? Schbieler befinded sich im Noobschudds!
+fl_player_is_strong: Schbieler isd zu starg - oder arbeitslos hädix8!
+fl_r: (R)
+fl_register_shorcut: Erschdellen
+fl_remove_all_ships: geine  Schiffe
+fl_resources: Rohschdoffe
+fl_resources_left: Werbleiben
+fl_return_time: Rüggkehrzeit
+fl_returning: Flodde uff Blanet
+fl_sac_of_fleet: Flodden-AGS
+fl_select_all_ships: Alle Schiffe
+fl_selected_resources: Ausgewählte Rohstoffe Laden
+fl_send_back: Zurügg
+fl_send_fleet: Flodde verschiggen
+fl_ship_available: Werfügbar
+fl_ship_type: Schiffs tyb
+fl_shortcut: Shordcud
+fl_shortcut_add: Hinzufügen
+fl_shortcut_edition: Shordcud edidieren
+fl_shortcut_name: Name
+fl_shortcut_save: Shordcud sbeicherne
+fl_shortcut_saved: Gesbeichert!
+fl_shortcuts: Shordcuds
+fl_simulate: Simulieren
+fl_speed_title: 'Geschwindiggeit: '
+fl_spy_confirm_outlaw: Wenn du %s ausspionierst, wirst du für 7 Tage zum Gesetzlosen.
+fl_strong_player: Schbieler isd zu starg für sie!
+fl_stronger_techs: Deine Angriffsstärke/Werteidigung/Schilde/ sind zu niedrig.
+fl_system_places: Besondere Orte
+fl_target_exists: Zielblanet exischdiert
+fl_target_not_exists: Zielblanet exischdiert ned!
+fl_trade_no_resource_loaded: Sie haben keine Ressource geladen.
+fl_trade_same_resource: Sie können nicht %s gegen %s verkaufen.
+fl_trade_to_many_resources_loaded: Sie können nur eine Ressource verkaufen.
+fl_transfer_alert_message: |-
+  Achtung!
+  Ihre Flotte wird an einen anderen Benutzer übertragen!
+fl_vacation_mode_active: Sie befindne sich im Urlaubsmodus
+fl_visibility: Sichdbargeid
+fl_visibility_all: Jeder
+fl_visibility_alliance: Nur Allianzmidglieder und Freunde
+fl_visibility_no_enemies: Jeder außer Haider
+fl_week_player: Schbieler is zu schwach für sie!
+fleet_table_custom_empty_name: Bitte einen Floddennamen eingebene!
+fleetPrio: Flodden Auftrag Prioritätene
+fm_add_filter: Schieff-Filder hinzufügen
+fm_all: Alle
+fm_civil: Zivil
+fm_engines: Driebwerke
+fm_imperial: Imberium
+fm_military: Militär
+fm_mining: Rohschdoffabbau
+fm_other: Sonschdige
+fm_recycler: Rescheikler
+fm_storage: Lagerung
+found: 'Gefundene '
+ft_absenden: Absenden
+ft_charge: Händlergebühr
+ft_count: Anzahl
+ft_empty: Der Schrothändler kauft zur Zeit geine Schiffe!
+ft_head: Schrotthandler
+ft_max: max
+ft_total: TOTAL
+gl_actions: Agtion
+gl_activity: (*)
+gl_activity_inactive: (%d min)
+gl_ajax_status_fail: Error
+gl_ajax_status_ok: Done
+gl_all_defenses: Alle
+gl_alliance: Allianz
+gl_alliance_page: Allianzseite
+gl_alliance_web_page: Allianz Homebage
+gl_avaible_grecyclers: Gigarecycler
+gl_avaible_missiles: Interplanetarrageten
+gl_avaible_recyclers: Recycler
+gl_avaible_spyprobes: Schbionagesonden
+gl_banned: Gesberrt
+gl_buddy_request: Buddylischdanfrage
+gl_collect: Abbauen
+gl_colonizable: Golonisierbar
+gl_debris: DF
+gl_debris_field: Drümmerfeld
+gl_diameter: Durchmesser
+gl_features: Eigenschafden
+gl_fleets: Floddenslods
+gl_free: Frei
+gl_free_desc: >-
+  Ein großer unbesiedelder Blanet alde. Hier währe a idealer Ord um ne neue
+  Golonie zu gründne.
+gl_galaxy: Galaxy
+gl_in_the_rank: Schbieler  %s uff Blatz %d
+gl_inactive_seven: 7 Dage inagtiv
+gl_inactive_twentyeight: 28 Dage inagtiv
+gl_legend: Legende
+gl_member: '%d Midgliedern'
+gl_member_add: '%d Mitglied'
+gl_missil_flytime: Flugzeit
+gl_missil_launch: Ragetenangriff
+gl_missil_launch_action: Abschiggen
+gl_missil_to_launch: 'Anzahl an Ragetne  (<b>%d</b> übrig):'
+gl_missile_attack: Ragetenangriff
+gl_moon: Mond
+gl_name_activity: Name (Aktivität)
+gl_no: Nein
+gl_not_colonizable: nichd golonisierbar
+gl_objective: Brimäres Ziel
+gl_out_space: Die unendlichne Weidne des Uniwersums
+gl_phalanx: Bhalanx
+gl_planet: Blanet
+gl_planet_destroyed: Zerschdörter Blanet
+gl_player: Schbieler
+gl_player_estate: Schbieler (Status)
+gl_playercard: Blayercard
+gl_points: Bunkte
+gl_populed_planets: '%d Blanetne besiedelt'
+gl_pos: Bos
+gl_resources: Rohschdoffe
+gl_see_on_stats: Schdatistiken
+gl_short_ban: g
+gl_short_inactive: i
+gl_short_long_inactive: I
+gl_short_newbie: 'n'
+gl_short_strong: s
+gl_short_vacation: u
+gl_show: Anzeigen
+gl_solar_system: Syschdem
+gl_spy: Schbionieren
+gl_strong_player: Schdarker Schbieler
+gl_sync: Synchronisieren
+gl_sync_export_csv: CSV exportieren
+gl_sync_export_json: JSON exportieren
+gl_sync_import_json: JSON importieren
+gl_sync_reset: Daten zurücksetzen
+gl_temperature: Demperatur
+gl_to: nach
+gl_trade_space: Handelszone
+gl_vacation: Urlaubsmodus
+gl_week_player: Schwacher Schbieler
+gl_with: ' mit '
+gl_wreckfield: Wraggfeld
+gl_wreckfield_short: WF
+gl_yes: Ja
+honor_rank: Ehrenbungde Rang
+honor_rank_low_1: Bandidenimberador
+honor_rank_low_10: Bandidengönig
+honor_rank_low_20: Bandidenlord
+honor_rank_low_30: Bandid
+honor_rank_top_1: Goddimberador
+honor_rank_top_10: Großimberador
+honor_rank_top_20: Imberador
+honor_rank_top_30: Schdarlord
+honorable_fights: Ehrenhafde Gämbfe
+honorpoints: Ehrenbungde
+in_attack_pt: Angriffswert
+in_base_speed: Geschwindiggeit
+in_bonus: 'Bonus:'
+in_capacity: Ladegapazität
+in_consumption: Deuderium verbrauch
+in_dest_durati: Dauer
+in_destroy: Abreißen
+in_difference: Differenz
+in_engine: Andrieb
+in_jump_gate_already_used: 'Dieses Schanzentor isd noch ned bereid: '
+in_jump_gate_available: Anzahl
+in_jump_gate_doesnt_have_one: Sie habne gein Schanzentor
+in_jump_gate_done: >-
+  Floddne erfolgreich verschiggt hätt ich gsachd. Sie gönnene dieses Schanzentor
+  widda in %s nutzen.
+in_jump_gate_error_data: Fehler, Dadne sind ingorregt!
+in_jump_gate_finish_moon: Reiseziel Mond
+in_jump_gate_jump: Aufladen
+in_jump_gate_no_target: gein Ziel Schanzentor vorhandne.
+in_jump_gate_not_ready_target: 'Das Zielschanzentor is noch ned bereid:'
+in_jump_gate_select_ships: 'Werwendne des Schanzentores: Anzahl der Schiffe'
+in_jump_gate_start_moon: Ausgangspungt Mond
+in_jump_gate_wait_time: 'Nächschd mögliche Nudzung:'
+in_level: Schdufe
+in_missilesamount: Worhanden
+in_missilestype: Ragetendüb
+in_name: Name
+in_needed: Benötigt
+in_prod_p_hour: Brod. Bedarf bro h
+in_range: Reichweide der Sensoren
+in_rf_again: Rabidfire gegen
+in_rf_explanation: >-
+  Rabidfire: In jeder Kampfrunde kann diese Einheit mehrmals feuern. Der
+  Prozentsatz gibt die Wahrscheinlichkeit eines zusätzlichen Schusses nachdem
+  dieses Ziel getroffen wurde.
+in_rf_from: Rabidfire von
+in_shield_pt: Schildstärke
+in_storage: Schbeicher
+in_struct_pt: Schdrukturbunkte
+in_title_head: Informadion won
+in_units: Einheiten
+invalid_action: Ungüldige Agtion
+kontakt: >-
+  Hi!<br>Auf dieser Seite findest du Informationen zu den Leuten, die dieses
+  Projekt aktiv betreiben, moderieren und weiterentwickeln.<br>Wende dich bei
+  Fragen und Problemen gern an uns.<br><br>Für den besseren Austausch mit uns,
+  aber auch mit den anderen Mitspielern, haben wir einen Discord-Server
+  eingerichtet. Du findest ihn » <a
+  href="https://discord.gg/jhYYN3yuat">hier</a> « oder über das Menü.<br>Auf dem
+  Server findest du die aktuellsten News, sowie spannende Memes zwischen den
+  Allianzen des Universums.<br>Stelle Fragen zu Spielmechaniken und hilf durch
+  eigene Vorschläge mit bei der Weiterentwicklung des Spiels.<br><br>Natürlich
+  antworten wir dir dennoch auch bei Ingame-Nachriten.<br>Bedenke jedoch, dass
+  auch wir das Spiel nur als Hobby betreiben. Antworten können sich einige Tage
+  hinziehen.<br>
+lm_administration: Adminischdration
+lm_alliance: Allianz
+lm_banned: Branger
+lm_battlesim: Gampfsimulator
+lm_buddylist: Buddylischd
+lm_buildings: Gebäudne
+lm_changelog: Changelog
+lm_dataPrivacy: Datenschutz
+lm_defenses: Werteidigung
+lm_disclamer: Imbressum
+lm_empire: Imberium
+lm_faq: FAQ
+lm_fleet: Flodde
+lm_fleettrader: Schroddhändler
+lm_forums: Forum
+lm_galaxy: Galaggsie
+lm_info: Informadionen
+lm_logout: Logout
+lm_marketplace: Margtplatz
+lm_messages: Nachrichden
+lm_notes: Notizen
+lm_options: Einschdellungen
+lm_overview: Übersichd
+lm_playercard: Schbielerinformationen
+lm_queue: Queues
+lm_records: Regorde
+lm_repairdock: Rebaradurdogg
+lm_research: Forschunk
+lm_resources: Rohschdoffe
+lm_rules: Regeln
+lm_search: Suche
+lm_shipshard: Schiffswerfd
+lm_statistics: Schdatistik
+lm_support: Subbort
+lm_technology: Dechnologie
+lm_topkb: Baddle Hall
+lo_continue: Glickne Sie hier, um ned zu warden
+lo_logout: Session wurde beended
+lo_notify: Sie werdne in <span id="seconds">5</span>s weidergeleided
+lo_redirect: Weiderleidung
+lo_title: Logoud erfolgreich etzala! Bis bald
+loading: Lade ...
+lost: Verlorne
+lv_buildable: baubare Elemende
+lv_buildings: Gebäudne
+lv_coords: Goordinaten
+lv_defenses: Werteidigung
+lv_fields: Felder
+lv_highlight: 'Herforhebne: '
+lv_imperium_title: Imberiumsübersicht
+lv_name: Name
+lv_planet: Blanet
+lv_prodPerHour: Brodugdion /h
+lv_resources: Rohschdoffe
+lv_ships: Schiffe
+lv_show: 'Andseigne: '
+lv_storageFilled: Lager foll in h
+lv_technology: Forschungen
+lv_total: Dotal
+lv_unbuildable: nichd baubare Elemende
+ma_add_missile_number: Sie müssne ne Zahl eingebene!
+ma_all: Alle
+ma_big_laser: Schweres Lasergeschüdz
+ma_big_protection_shield: Große Schildguppel
+ma_buster_canyon: Blasmawerfer
+ma_gauss_canyon: Gaußganone
+ma_impulse_drive_required: Du musschd zuerschd des Impulstriebwerg erforschen
+ma_ionic_canyon: Ionenganone
+ma_misil_launcher: Ragedenwerfer
+ma_missiles_sended: 'Interblanetarragetne gesended alda. Zerschdörte Objegte:'
+ma_no_missiles: Du haschd geine Interplanetarrageten
+ma_no_range: Das Ziel ist nicht in Reichweite deiner Raketen.
+ma_not_send_other_galaxy: Du gannst geine Ragedne in ne andere Galaggsie schiggen.
+ma_planet_doesnt_exists: Blanet exischdiert nichd.
+ma_silo_level: Du benötigschd Ragedensilo Schdufe 4!
+ma_small_laser: Leichdes Lasergeschüdz
+ma_small_protection_shield: Gleine Schildguppel
+ma_wrong_target: gein Ziel
+market_buyable_no_enemies: geine Haider
+market_buyable_no_tech: Zu schwach
+market_buyable_only_trade_partners: Nur Bartner
+market_confirm_are_you_sure: Bist du sicher?
+market_fleet: Flotte
+market_info_description: >-
+  Linke Seite - Martblatzangebot | Rechte Seite - Gaufbetrag<br> <br>&bull;
+  Angenommene Margtplatzangebote gönnene ned schdorniert werdne.
+  &bull;<br>&bull; Manche Angebode gönnene wegne der BushRegel- ned angenommne
+  werdne. &bull;<br>&bull; Deud für gegaufte Flodde wird wom Gäufer
+  bezahlt.&bull;
+market_info_header: Margtplatz
+market_info_no_return: Erschdellte Margtplatzangebote gönnene ned schdorniert werden!
+market_msg_trade_bought: Deine Flodde fliegd zu %s mit %s %s, %s %s, %s %s und es kostet %s %s
+market_msg_trade_from: Br0game Margtplatz
+market_msg_trade_sold: Deine Flodde fliegd zu %s mit %s %s, %s %s, %s %s.
+market_msg_trade_topic: Handelsstatus
+market_p_buy: Kaufen
+market_p_cost_amount: Menge
+market_p_cost_type: Ard der Gosten
+market_p_end: Ende
+market_p_from_duration: Flug von
+market_p_msg_more_ships_is_needed: Es werdne weidere Schiffe benötigt.
+market_p_msg_not_found: Angebod ned gefunden.
+market_p_msg_purchase_failed: Der Kauf konnt ned abgschlossen werdn. Bitte versuchs no amol.
+market_p_msg_resources_error: ned genug Ressourcne  vorhanden.
+market_p_msg_sent: Sende %s Gleine Dransporter, %s Große Dransporter
+market_p_offer_type: Ard des Angebods
+market_p_ratio: Wechselgurs
+market_p_submit: Handel annehmen!
+market_p_to_duration: Flug nach
+market_ship_as_first: Schiffstyb wählne für den Handel
+Messages: Nachrichden
+messagesPerPage: Nachrichten pro Seite, min 3 & max 50
+mg_action: Acdion
+mg_answer_to: 'Andword an:'
+mg_blocked: Empfänger akzeptiert keine Nachrichten!
+mg_characters: Zeichen
+mg_confirm: Ausführen
+mg_date: Dadum
+mg_delete: Nachricht löschen
+mg_delete_all: Alle Nachrichdne wegmeddln
+mg_delete_marked: Margierte Nachrichdne löschen
+mg_delete_type_all: Alle Nachrichdne dieses Dyps löschen
+mg_delete_unmarked: Nichd Margierde Nachrichdne dieses Dybs löschne
+mg_deleted: The message has been deleted.
+mg_empty_text: Gebe a Dext ein!
+mg_error: Embfänger ned gefunden!
+mg_favorite: Als Favorit markieren
+mg_favorite_filter_off: Alle anzeigen
+mg_favorite_filter_on: Nur Favoriten anzeigen
+mg_forward: Nachricht weiterleiten
+mg_from: Won
+mg_game_message: Autoren Message
+mg_game_operators: Game Oberatoren
+mg_grouping_off: Nachrichten nicht gruppiert anzeigen
+mg_grouping_on: Nachrichten gruppiert anzeigen
+mg_message: Nachrichd
+mg_message_send: Nachrichd  gesendet!
+mg_message_title: Nachrichdne
+mg_message_type: Nachrichdnedyb
+mg_min_3_chars: Die Suche beginnt bei 3 Buchstaben
+mg_msg_sended: Nachrichd gesendet!
+mg_new: Neu
+mg_no_subject: gein Bedreff
+mg_no_text: gein Dext angegeben
+mg_no_user: Kein Benutzer gefunden
+mg_open_all: Immer "alle Nachrichten"-Kategorie öffnen
+mg_overview: Nachrichdenverwaldung
+mg_page: Seite
+mg_read_all: Alle Nachrichdne als gelesne margieren
+mg_read_marked: Margierte Nachrichdne als gelesne margieren
+mg_read_type_all: Alle Nachrichdne dieses Dyps als gelesne margieren
+mg_receiver_block_pm: Der Embfänger bloggiert Brivate Nachrichden.
+mg_remember_last_category: Letzte Nachrichtenkategorie speichern
+mg_select_all: Alle auswählen
+mg_search: Suchen
+mg_search_placeholder: Suchbegriff eingeben
+mg_send: Absenden
+mg_send_new: Eine Nachrichd schreibne
+mg_send_to: Embfänger
+mg_show_only_header_spy_reports: Schbionageberichte nur deilweise anzeigen
+mg_subject: Bedreff
+mg_to: An
+mg_total: Insgesamt
+mg_type:
+  '0': Schbionageberichte
+  '1': Schbieler Nachrichten
+  '2': Allianz Nachrichten
+  '3': Gampfberichte
+  '4': Syschdem Nachrichten
+  '5': Dransport
+  '6': Fremdtransport
+  '7': Spionageabwehr
+  '15': Exbeditionberichte
+  '50': Autoren Nachrichten
+  '99': Bauschleife
+  '100': Alle Nachrichten
+  '998': Favoriten
+  '999': Nachrichten durchsuchen
+mg_write_mail_to_ops: Schreibe ne E-Mail an
+negativ: Negadif
+neutral: Neudral
+neutral_fights: Neudrale Gämbfe
+noob_interface: >-
+  Die Anfängeransichd isd agdifierd hätt i gsachd. Sie is' 'ne fereinfachde
+  Fersion des Schbiels, die es dir ermöglichd, schnell und einfach dsu
+  schdardne. Du endsberrsd Menüeindräge, während du des Dudorial absolfiersd
+  hätt i gsachd. Die Anfängeransichd gann jederdseid in den Obdionene
+  deagdifierd werdne.
+nt_back: Zurück
+nt_characters: Zeichen
+nt_create_new_note: Erstelle eine neue Notiz
+nt_create_note: Erstellen
+nt_date_note: Datum
+nt_dlte_note: Löschen
+nt_edit_note: Editiere Notiz
+nt_important: Wichtig
+nt_no_text: gein Text
+nt_no_title: gein Titel
+nt_normal: Normal
+nt_note: Notiz
+nt_notes: Notizen
+nt_priority: Priorität
+nt_reset: Reset
+nt_save: Speichern
+nt_size_note: Größe
+nt_subject_note: Betreff
+nt_unimportant: Unwichtig
+nt_you_dont_have_notes: gein Notizen vorhanden
+op_activate_vacation_mode: Urlaubsmodus agtiveren
+op_activate_vacation_mode_confirm: >-
+  Der Urlaubsmodus gann für 48h ned scho widder deagdifierd werdne etzala. Bisd
+  du dir sicher?
+op_activate_vacation_mode_descrip: >-
+  Der Urlaubsmodus soll Sie während längerer Abwesenheid schüddsne etzala. Er
+  gann nur agdifierd werdne, wen geine eigenene Floddne underwegs sind. Wen er
+  agdifierd isd, schüddsd er Sie for neune Angriffne alda. Bereids begonnene
+  Angriffe werdne jedoch fordgeseddsd und haldende befreundede Floddne werdne
+  dsurügggeschiggd! Die Brodugdion fon Ressourcne, der Bau fon Gebäudne und
+  Werfdaufdrägne, sowie die Forschung is' in dieser Dseid bausierd und wird
+  anschließend fordgeseddsd alde. Der Urlaubsmodus häld mindesdens 48 Schdundne
+  an, danach gönnene Sie ihn scho widder deagdifierne des bascht scho.
+op_active_build_messages: Baulischdennachrichtne aktivieren
+op_active_spy_messages_mode: Schbioangeberichte zusammenfassne
+op_add_to_buddy_list: Zur Buddylischde hinzufügen
+op_admin_discord_hook: Discord-Webhook für Nachricht bei PN
+op_admin_discord_id: Eigene Discord-UserID für Ping bei PN
+op_admin_planets_protection: Adminschutz aktiveren
+op_admin_title_options: Adminischdrator Obtionen
+op_block_pm: Brivate Nachrichdne bloggieren
+op_build_pages: Bau- und Forschungsseideneinsdellungne
+op_cant_activate_vacation_mode: Sie gönnene ned in den Urlaubsmodus während die Flodde bewegd wird.
+op_cant_deactivate_vacation_mode: Sie gönnene den Urlaubsmodus noch ned ferlassne.
+op_change_mail_exist: Die angegebene EMailAdresse %s wird bereids verwendet!
+op_change_name_exist: Der Name %s exischdiert bereits
+op_change_name_pro_week: Sie Gönnene ihrne Usernamne nur 1ggs bro Woche ändern
+op_collapse_spy_reports: Spionageberichte standardmäßig ausblenden
+op_deactivate_ipcheck: IP-Check deaktivieren
+op_deactivate_ipcheck_descrip: >-
+  IBCheck- imblementiert, das audomadisch a Sicherheidslogoud erfolgd, wne die
+  IB gewechseld wird oder zwei Loide gleichzeidig under werschiedenene IBs in
+  einem Accound eingeloggd sind. Den IBCheck- zu deagtivierne kann ein
+  Sicherheitsrisigo darstellen!
+op_decimal_separator: Dezimaltrennzeichen
+op_dlte_account: Account löschen
+op_dlte_account_descrip: >-
+  Hiermid wird Ihr Gondo nach mindesdens 7 Dagne audomadisch follsdändig
+  gelöschd. Die endgüldige Löschung hängd fonääh der Ausführungsdseid des
+  Löschcronjobs- ab und gann noch a baar Dage dauern. Die Löschung gann gesdobbd
+  werdne, solange sie noch ned durchgeführd wurde, dh. solange Sie sich noch in
+  des Gondo einloggne gönnene tadsächlich sogar.
+op_email_adress: E-Mail Adresse
+op_email_adress_descrip: >-
+  Diese Mailadresse kann jederzeid vonääh Dir geänderd werdne. Etzala Nach 7
+  Dagne ohne Änderung wird diese als bermanente Adresse eingetragen.
+op_enable_planet_styles: Dseige die Holoeffegde für Blanedne an, falls der Blaned 'nen besiddsd
+op_end_vacation_mode: Urlaubsmodus beenden
+op_error: Fehler
+op_galaxy_settings: Galaggsieansichd Einstellungen
+op_general_settings: Generelle Einstellungen
+op_hangar_filters: Erweiderde Hangar-Filder anknipsen
+op_hangar_group_filters: Hangar-Grubbenfilder
+op_hide_useless: >-
+  Grundlagenforschungen nicht mehr anzeigen sobald das höchste nützliche Level
+  erreicht wurde
+op_lang: Schbrache
+op_max_fleets_messages: Maggsimale Floddennachrichten
+op_missile_attack: Ragetenangriff
+op_missing_requirements_opacity: Bei fehlendne Anforderungne ferblassne
+op_missing_resources_opacity: Bei fehlendne Ressourcne ferblassne
+op_need_pass_mail: Um deine EMailAdresse- zu ändern, musschd du dein Basswort eingeben!
+op_new_pass: neues Basswort (min. 8 Zeichen)
+op_noob_interface: Anfängerinterface
+op_not_vaild_mail: Du haschd geine güldige EMail- Adresse angegeben!
+op_old_pass: Aldes Basswort
+op_options_changed: Einschdellungne gesbeichert.
+op_options_deletion_activated: Accoundlöschung- agdifierd.
+op_options_deletion_deactivated: Accoundlöschung- deagdifierd.
+op_options_no_other_settings_changed: Es wurdne geine anderne Einsdellungne geänderd alde.
+op_options_vacation_activated: Urlaubsmodus agdifierd.
+op_options_vacation_deactivated: Urlaubsmodus deagdifierd.
+op_password_changed: Basswort wurde geändert
+op_permanent_email_adress: Bermanente E-Mail Adresse
+op_repeat_new_pass: neues Basswort (wiederholne)
+op_save_changes: Einschdellungne sbeichern
+op_seconds: Segunden
+op_send_report: Schbionagereport
+op_shortcut: Shortcut
+op_show: Anzeigen
+op_show_all_buildable_elements: Elemende mid fehlendne Anforderungne andseigne
+op_show_message_category: Diregd bassende Nachrichdengadegorie andseigne
+op_show_planetmenu: Blanetenmenü anzeigen
+op_show_skin: Sgin anzeigen
+op_skin_example: Dheme
+op_sort_abc: Albhabet
+op_sort_down: absteigend
+op_sort_kind: Sortierungsreihenfolge
+op_sort_koords: Goordinaten
+op_sort_normal: Reihenfolge der Entschdehung tazächlich
+op_sort_planets_by: Blanedne sordierne nach
+op_sort_up: aufsteigend
+op_spy: Schbionieren
+op_spy_probes_number: Schbionagesondne Anzahl
+op_spy_probes_number_descrip: >-
+  Anzahl der Schbionagesondne, die bei jedem Scan aus dem Galaggsiemenu direkt
+  versended werden.
+op_stop_dlte_account: Accoundlöschung abbrechne
+op_timezone: Zeitzone
+op_toolt_data: Zeige Dooltip für
+op_user_data: Benutzerdaten
+op_user_name_no_alphanumeric: Bidde beim Username nur albhanumerische Zeichne eingeben!
+op_username: Username
+op_username_changed: Username geändert
+op_vacation_delete_mode: Urlaubsmodus / Account löschen
+op_vacation_mode_active_message: 'Urlaubsmodus agtiviert und alles. Urlaubsmodus mindeschdens bis: '
+op_write_message: Nachrichd schreiben
+other: Anderes
+ov_abandon_planet_not_possible: >-
+  Golonie ned löschbar, wne Floddenagtivitätne zu oder vonääh ihrer Golonie
+  stadtfindne!
+ov_admins_online: 'Admins(Online):'
+ov_aprox: ca. von
+ov_checknews_hide: Neuiggeitne ausblenden
+ov_checknews_show: Neuiggeitne einblenden
+ov_closed: Schbiel isd zurzeid deagtiviert!
+ov_delete_planet: Aufgeben
+ov_developed_fields: bebaude Felder
+ov_diameter: Durchmesser
+ov_distance_unit: km
+ov_events: Ereignisse
+ov_fields: Felder
+ov_fleet: Flodden
+ov_fleetbutton_hide: Ausblenden
+ov_fleetbutton_show: Einblenden
+ov_free: arbeitslos
+ov_have_new_message: Du haschd ne neue Nachrichd etzala
+ov_have_new_messages: Du haschd %d neue Nachrichden hädix8
+ov_max_developed_fields: maggs alda bebaubare Felder
+ov_moon: Mond
+ov_moving_fleets: Floddne in Bewegung
+ov_newname_done: Blanet erfolgreich umbenannt!
+ov_newname_specialchar: >-
+  Pass auf, im Blanetennamne sind nur Zahlne, Buchschdabne, Leerzeichne, _ - .
+  erlaubd
+ov_news: News
+ov_no_admins_online: Zurzeit gein Admin online!
+ov_noreflink: 'Du haschd geine User angeworben hätt ich gsachd. '
+ov_of: von
+ov_online: Online
+ov_outlaw: 'Gesetzloser bis:'
+ov_password: Basswort
+ov_place: Blatz
+ov_planet: Blanet
+ov_planet_abandoned: Blanet erfolgreich aufgegeben
+ov_planet_rename: Umbenennen
+ov_planetmenu: Name ändern/Löschen
+ov_planets: Planeten und Monde
+ov_players: Schbieler
+ov_points: Bunkte
+ov_principal_planet_cant_abanone: Sie gönnene ned ihrne Haubtblanetne löschne!
+ov_reflink: Reflink
+ov_rename_label: Neuer Name
+ov_rules: Regeln
+ov_rulesnotify: Bidde beachded die
+ov_security_confirm: Bidde beschdätigne sie, das sie den Blanet %s aufgebne wollen.
+ov_security_request: Sicherheidsfrage
+ov_server_time: 'Serverzeid '
+ov_temp_unit: °C
+ov_temperature: Demperatur
+ov_ticketbot: Tiggedbod
+ov_to: bis
+ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_wrong_name: Falsches Name. Wersuchne sie es noch einmal!
+ov_wrong_pass: Falsches Basswort. Wersuchne sie es noch einmal!
+own: Eigene
+page_doesnt_exist: Die Aufgerufene Seide exischdiert nichd
+pl_ally: Allianz
+pl_buddy: Freundesanfrage stellen
+pl_builds: Gebäudne
+pl_def: Defensive
+pl_dercrystal: Gesamt Drümmerfeld Gristall
+pl_dermetal: Gesamt Drümmerfeld Metall
+pl_destroy: '%s war an folgendne Zerschdörungne beteiligt'
+pl_destroy_real: '%s hat real folgendes selbst Zerstört'
+pl_etc: Gontakt
+pl_fightdraw: Unentschieden
+pl_fightlose: Werloren
+pl_fights: Gämpfe
+pl_fightstats: Gampfstatistik
+pl_fightwon: Siege
+pl_fleet: Flodde
+pl_fprocent: Gampfquote
+pl_homeplanet: Heimatblanet
+pl_message: Brivate Nachricht
+pl_name: Username
+pl_overview: Blayercard
+pl_points: Bunkte
+pl_range: Rank
+pl_tech: Forschung
+pl_total: Gesamt
+pl_totalfight: Gesamtgämpfe
+pl_unitslose: Werlorene Units
+pl_unitsshot: Geschossene Units
+PM: '[PN]'
+positiv: Bosidif
+px_fleet_movement: Momendane Floddenbewegungne
+px_no_fleet: geine  Floddenbewegungne vorhanden.
+px_out_of_range: Oud of Range
+ready: Ferdig
+rebuild_proteciton_link: Deaktivieren Sie diesen Modus hier vorzeitig.
+rebuild_proteciton_mode: >-
+  Ihr Account befidet sich im Wiederaufbau-Schutzmodus, der Sie vor Angriffen
+  schützen kann.
+rec_count: Anzahl
+rec_last_update_on: Ledzdes Ubdate um
+rec_level: Level
+rec_players: Schbieler
+rec_time: Datum/Uhrzeit
+recordsOptIn: Deine Regorde allne Sbielern andseigne
+repaired: Rebarierd
+rs_amount: Anzahl
+rs_basic_income: Basiseingommen
+rs_calculate: Berechnen
+rs_daily: Bro Dag
+rs_lvl: Schdufe
+rs_production_on_planet: Rohstoffprodugtion uff Blanet "%s"
+rs_ress_bonus: Bonus (durch Forschung)
+rs_ress_bonus_position: Bonus (durch Planetenposition)
+rs_storage_capacity: Lagergapazität
+rs_sum: Bro Schdunde
+rs_weekly: Bro  Woche
+sh_alliance: Allianz
+sh_alliance_name: Allianz Name
+sh_alliance_tag: Allianz Dag
+sh_buddy_request: BuddylischdAnfrage
+sh_coords: Goordinaten
+sh_loading: (rendere ...)
+sh_members: Midglieder
+sh_name: Name
+sh_planet: Blanet
+sh_planet_name: Blanet Name
+sh_player_name: Schbieler Name
+sh_points: Bunkte
+sh_search: Suche
+sh_search_in_the_universe: Suche im Uniwersum
+sh_tag: Dag
+sh_write_message: Brivate Nachrichd
+spec_mail_inactive_title: '%s - Erinnerung'
+spytech_playercard:
+  level2: Sichdbar ab Schbionagetechnik 2!
+  level4: Sichdbar ab Schbionagetechnik 4!
+  level6: Sichdbar ab Schbionagetechnik 6!
+st_alliance: Allianz
+st_buildings: Gebaeudne
+st_defenses: Werteidigung
+st_fleets: Flodde
+st_honor: Ehrenbungde
+st_members: Midglieder
+st_per: von
+st_per_member: bro Midglied
+st_player: Schbieler
+st_points: Bunkte
+st_researh: Forschung
+st_show: Anzeigen
+st_statistics: Schdatistiken
+st_updated: Agtualisiert am
+st_write_message: Brivate Nachrichd
+StaticTimer: Angunfdsdseid
+stats:
+  '202': Kleine Dransporter
+  '203': Große Dransporter
+  '204': Leichde Jäger
+  '205': Schwere Jäger
+  '206': Greuzer
+  '207': Schlachdschiffe
+  '208': Golonieschiffe
+  '209': Rescheikler
+  '210': Schbionagesonden
+  '211': Bombah
+  '212': Solahrsadellidne
+  '213': Zerschdörer
+  '214': Dodesschderne
+  '215': Schlachdgreuzer
+  '216': Lune Noire
+  '217': Evolution Dransporter
+  '218': Awadare
+  '219': Gigarecycler
+  '401': Ragetenwerfer
+  '402': Leichde Lasergeschüdze
+  '403': Schwere Lasergeschüdze
+  '404': Gaußganonen
+  '405': Ionengeschüdze
+  '406': Blasmawerfer
+  '407': Gleine Schildgubbeln
+  '408': Große Schildgubbeln
+  '409': Gigantische Schildgubbeln
+  '410': Gravidonenganonen
+  '411': Orbidale Werteidigungsplattformen
+  '412': Bunker
+  '413': Titan Laser
+  '414': Köder
+  '502': Abfangrageten
+  '503': Interplanetarrageten
+  '901': Medall
+  '902': Gristall
+  '903': Deuderium
+stb_activ: Scavengers Toolbox enabled
+stb_big_ress: Many resources present on the target planet
+stb_big_ress_tooltip: >-
+  If there are fewer resources than entered on the planet, the spy report is
+  marked light green (good). Spy reports with resources above this value are
+  displayed in light blue (optimal).
+stb_big_time: Good resources per second ratio
+stb_big_time_tooltip: >-
+  Describes the best possible resource yield per second, rounded to two decimal
+  places. A ratio less than the entered value is interpreted as good (light
+  green), a value above as optimal (light blue).
+stb_low_ress: Low resources present on the target planet
+stb_low_ress_tooltip: >-
+  If there are fewer resources than entered on the planet, the spy report is
+  marked bright red (bad).
+stb_med_time: Average resources per second ratio
+stb_med_time_tooltip: >-
+  Describes the best possible resource yield per second, rounded to two decimal
+  places. A ratio less than the registered value is interpreted as medium (light
+  orange).
+stb_mid_ress: Medium resources present on the target planet
+stb_mid_ress_tooltip: >-
+  If there are fewer resources than entered on the planet, the spy report is
+  marked light orange (medium).
+stb_small_time: Low resources per second ratio
+stb_small_time_tooltip: >-
+  Describes the best possible resource yield per second, rounded to two decimal
+  places. A ratio less than the registered value is interpreted as bad (light
+  red).
+stb_title: Scavengers Toolbox
+sys_back: Zurück
+sys_buildlist: Baulischde
+sys_buildlist_fail: Bau ned möglich
+sys_catchup: 'Kosten- und Bauzeit-Bonus: %01.2f'
+sys_catchup_short: 'Bonus: %01.2f'
+sys_catchup_tooltip: >-
+  Zeit- und Kostenbonus aufgrund des Rekordniveaus dieses Gebäudes/dieser
+  Forschung
+sys_closed_game: 'Das Uniwersum isd zur Zeit ned verfügbar:'
+sys_forward: Weider
+sys_game_is_setup: >-
+  <h1>Registrierung Geschafft!</h1><br><p>Wir bereiten gerade das Universum für
+  euch vor!</p><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
+  den</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord
+  <-</a></h3>
+sys_module_inactive: Modul inagtiv
+sys_nomore_level: Sie wersuchne, ein Gebäude zu zermeddln, was sie ned mehr besidzne( %s ).
+sys_notenough_money: >-
+  Sie werfügne uff Blaned  %s <a
+  href="?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> ned über genügend
+  Ressourcne, um mid dem Bau von %s zu beginnene. <br>Sie werfügne über %s %s ,
+  %s %s und %s %s. <br>Die Baugostne bedragne %s %s , %s %s und %s %s.
+sys_refferal_from: Syschdem
+sys_refferal_text: Der von dir geworbene Schbieler %s hat nun %s Bunkte erreicht.
+sys_refferal_title: Bonus für Schbieler %s
+sys_techlist: Forschungslischde
+team: Das Deam
+teamAdmin: Admin
+teamAdminLong: Had Dsugriff uff Sonderfeadures dsum Adminisdrierne des Schbiels
+teamAktiv: Agdif
+teamAlumni: Ehemalige, Inagdife Deammidglieder
+teamAlumniLong: Wir bedangne uns gands herdslich bei
+teamCommunity: Community Support
+teamCommunityLong: >-
+  Sie sind für euch da, wenn ihr Support benötigt.<br>Egal welches Anliegen ihr
+  habt, meldet euch einfach bei uns!<br>Wir geben unser Bestes, um eine Lösung
+  zu finden.<br>Habt ihr Fragen oder möchtet ihr etwas loswerden?<br>Auch anonym
+  könnt ihr euch jederzeit an uns wenden!<br>Auch verantwortlich für das
+  Vermitteln zwischen Spielern und den Mods.
+teamContributor: Mitwirkender
+teamContributorLong: Trägt zur Entwicklung des Projekts bei.
+teamDatabase: Dadenbangdsugang
+teamDev: Endwiggler
+teamDevLong: >-
+  Bflegd und endwiggeld des Brojegd weider<br>had Dsugriff uff Discordbereich-
+  für Defdisgussionen
+teamDiscordName: Lord gorea Name
+teamEmergency: Nodfalldeam
+teamEmergencyLong: Erhäld fon den Usern 'nen Bing, wen es dsu Serferausfällne gommd
+teamIngameName: Ingame Name
+teamLegend: Legende, Erglärung der Rollne und Rechde
+teamMod: Moderador
+teamModLong: >-
+  Bearbeided eurer Fällebrobleme<br>fersuchd/ für a faires Schbielerlebnis dsu
+  sorgen<br>drägd bei Besdrafungne die Ferandwordung<br>had Dsugriff uff
+  Discordbereich- für Moddisgussionen<br>had- Dsugriff uff Discordbereich- für
+  Defdisgussionen<br>had- Dsugriff uff Discordbereich- für Diggedbesbrechungne
+  mid Defs
+teamNo: Nein
+teamPlayer: Schbieler
+teamRole: Rolle
+teamScripte: Sgribde überbrüfne
+teamScripteLong: >-
+  Bewerded die fon den Schbielern ersdelldne Sgribde damid des
+  Deam<br>endscheidne gann, ob des Sgribd mid den Feadures erlaubd werdne derf
+teamTickets: Diggeddsugang
+teamTicketsLong: Gann bei allne eröffnedne Diggeds midlesne
+teamYes: Ja
+ti_admin_close: Ticket wurde geschlossen!
+ti_admin_open: Ticket wurde geöffnet!
+ti_answer: Antwort schreiben
+ti_answers: Antworten
+ti_category: Kategorie
+ti_close: Ticket schließen
+ti_create: Ticket erstellt am
+ti_create_head: Neues Ticket
+ti_create_info: >-
+  <p>Bitte vergeben Sie beim Erstellen einer neuen Anfrage einen möglichst
+  aussagekräftigen Betreff und schildern Sie Ihr Anliegen so detailliert wie
+  möglich.</p><p>Eine genaue Beschreibung Ihrer Anfrage ermöglicht kurze
+  Bearbeitungszeiten und vermeidet zeitaufwendige Rückfragen auf beiden
+  Seiten.</p><p>Bei accountbezogenen Fragen erleichtert die Angabe des
+  entsprechenden Kundenaccounts die Zuordnung und verkürzt ebenfalls die
+  Bearbeitungsdauer.</p>
+ti_date: Datum
+ti_error_closed: >-
+  Auf dieses Ticket kann geine Antwort erstellt werden, da es bereits
+  geschlossen wurde!
+ti_error_no_subject: Du musst einen Betreff eingeben!
+ti_from: von
+ti_header: Support-System
+ti_id: Dicket
+ti_message: Nachricht
+ti_msgtime: Nachricht geschrieben am
+ti_new: Neues Ticket erstellen
+ti_not_exist: 'Das Ticket #%d existiert ned!'
+ti_open: Ticket öffnen
+ti_overview: Zurügg zur Übersichd
+ti_re: 'RE:'
+ti_read: Ticket lesen
+ti_responded: 'Ticket antworteten am '
+ti_status: Schdatus
+ti_status_answer: Beantwortet
+ti_status_closed: Geschlossen
+ti_status_open: Offen
+ti_subject: Betreff
+ti_submit: Absenden
+ti_username: Schbieler
+tkb_all: alle
+tkb_datum: Datum
+tkb_day: Tag
+tkb_diplomacy: Diplomatie
+tkb_exclude: ausblenden
+tkb_galaxy: Galaxie
+tkb_gewinner: <b>-Gewinner-</b>
+tkb_gratz: Das ganze Deam gradulierd den Dop 100
+tkb_legende: '<b>Legende: </b>'
+tkb_memorial: Abschiede
+tkb_missing: '<br>Missing in Action: Der Useraccount exischdiert ned mehr.'
+tkb_month: Monat
+tkb_only: anzeigen
+tkb_owners: Beteiligte
+tkb_platz: Blatz
+tkb_self: eigene
+tkb_timeframe: Zeitfenster
+tkb_top: Hall of Fame
+tkb_unentschieden: <b>-Beide Weiss, unendschiedne- </b>
+tkb_units: Units
+tkb_verlierer: <b>-Werlierer-</b>
+tkb_week: Woche
+tn_delete_mode: 'Ihr Accound wird amääh %s audomadisch gelöschd tazächlich sogar! '
+tn_player_title: Imberator
+tn_vacation_mode: 'Sie sind im Urlaubsmodus - des bascht scho. '
+tn_vacation_mode_kick: >-
+  <br><br>ACHDUNG: Urlaubsmodus wird nach 4 Wochne Inagtivität audomadisch
+  deagtiviert!
+tn_vacation_mode_until: Sie sind bis mindeschdens %s Uhr im Urlaubsmodus.
+tr_exchange_done: Erfolgreich umgedauschd
+tr_exchange_error: Zu a weng werfügbare Einheidne oder falscher Dyp
+tt_lvl: 'Schdufe '
+tt_requirements: Benödigd
+type_mission_1: 'Angreifne '
+type_mission_1_foreign: Fremder Angriff
+type_mission_1_own: Eigener Angriff
+type_mission_2: 'Werbandsangriff '
+type_mission_2_foreign: Fremde Ferbandsangriffsflodde
+type_mission_2_friend: Befreundede Ferbandsangriffsflodde
+type_mission_2_own: Eigene Ferbandsangriffsflodde
+type_mission_3: 'Dransport '
+type_mission_3_foreign: Fremder Dransbord
+type_mission_3_own: Eigener Dransbord
+type_mission_4: 'Schdationierne '
+type_mission_4_foreign: Fremdes Sdadionierne
+type_mission_4_own: Eigenes Sdadionierne
+type_mission_5: 'Haltne '
+type_mission_5_foreign: Fremdes Haldne
+type_mission_5_own: Eigenes Haldne
+type_mission_6: 'Schbionierne '
+type_mission_6_foreign: Fremdes Sbionierne
+type_mission_6_own: Eigenes Sbionierne
+type_mission_7: 'Golonisierne '
+type_mission_7_foreign: Fremdes Golonisierne
+type_mission_7_own: Eigenes Golonisierne
+type_mission_7_own_return: Rückkehr Eigenes Golonisierne
+type_mission_8: 'Abbaune '
+type_mission_8_foreign: Fremdes Abbaune
+type_mission_8_own: Eigenes Abbaune
+type_mission_9: 'Zermeddln '
+type_mission_9_foreign: Fremdes Dsersdörne
+type_mission_9_own: Eigenes Dsersdörne
+type_mission_10: Ragetenangriff
+type_mission_10_foreign: Fremder Ragedenangriff
+type_mission_10_own: Eigener Ragedenangriff
+type_mission_15: 'Exbedition '
+type_mission_15_foreign: Fremde Eggsbedidion
+type_mission_15_own: Eigene Eggsbedidion
+type_mission_16: Marktplatz
+type_mission_16_foreign: Fremde Margdbladdsflodde
+type_mission_16_own: Eigene Margdbladdsflodde
+type_mission_17: Transfer
+type_mission_17_foreign: Fremder Dransfer
+type_mission_17_own: Eigener Dransfer
+type_mission_20: Angreifen
+type_mission_21: Spionieren
+type_mission_22: Abbauen
+type_mission_return_foreign: Fremde Rücggehr
+type_mission_return_own: Eigene Rücggehr
+type_planet_1: Blanet
+type_planet_2: 'Drümmerfeld '
+type_planet_3: Mond
+type_planet_4: Piratenbasis
+type_planet_short_1: P
+type_planet_short_2: T
+type_planet_short_3: M
+type_planet_short_4: Pb
+user_level_0: Schbieler
+user_level_1: Moderador
+user_level_2: Oberator
+user_level_3: Adminischdrator
+whenbuildable: Möglich in
+write_message: Schreibe ne Nachricht

@@ -1,0 +1,78 @@
+{# Start page frame for pages rendered by Symfony controllers (rules); same look as login/layout.base.html.twig. #}
+{%- set base = app.request.basePath -%}
+{%- set gameName = game_config('game_name') -%}
+{%- set language_names = languages() -%}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
+  {{ import_map() }}
+  <title>{% block title %}{% endblock %} · {{ gameName }}</title>
+  <meta property="og:title" content="{{ gameName }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ base }}/memes/first-day.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="{{ base }}/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="{{ base }}/styles/resource/css/app/base.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="{{ base }}/styles/resource/css/login/login.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="{{ base }}/styles/resource/css/app/rte.css?v={{ asset_version }}">
+  <script type="module" src="{{ base }}/scripts/login/main.js?v={{ asset_version }}"></script>
+  <script>{% if login_error is defined %}var loginError = {{ login_error|json_encode|raw }};{% endif %}</script>
+  {% block script %}{% endblock %}
+</head>
+<body id="{% block page_id %}overview{% endblock %}" class="site site--normal">
+  <header class="site-header">
+    <div class="site-wrap site-header__inner">
+      <a class="site-brand" href="{{ base }}/">{{ icon('rocket') }}<span>{{ gameName }}</span></a>
+      <button type="button" class="icon-button site-menu-toggle" data-site-menu aria-expanded="false" aria-controls="site-nav">{{ icon('menu', 'menu') }}</button>
+      <nav class="site-nav" id="site-nav">
+        <a href="{{ base }}/?page=news">{{ 'menu_news'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=HoF">{{ 'siteTitleHOF'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=battleHall">{{ 'menu_battlehall'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=screens">{{ 'buttonScreenshot'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=rules" aria-current="page">{{ 'menu_rules'|trans({}, 'public') }}</a>
+      </nav>
+      {% if language_names|length > 1 %}
+        <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ 'registerLanguage'|trans({}, 'public') }}</span>
+          <select data-language-select>
+            {% for code, name in language_names %}<option value="{{ code }}"{% if code == app.request.locale %} selected{% endif %}>{{ name }}</option>{% endfor %}
+          </select>
+        </label>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="page" id="content">
+    <div class="site-wrap">
+      <section class="panel page-card">
+        <h1 class="panel__head">{{ block('title') }}</h1>
+        <div class="panel__body">{% block content %}{% endblock %}</div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-wrap site-footer__inner">
+      <span>{% if gameName is empty or gameName == 'Br0Game' %}© Project Br0Game{% else %}© {{ gameName }} on Project Br0Game{% endif %}</span>
+      <nav aria-label="Footer">
+        <a href="{{ base }}/?page=team">{{ 'home_team'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=banList">{{ 'menu_banlist'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=disclamer">{{ 'menu_disclamer'|trans({}, 'public') }}</a>
+        <a href="{{ base }}/?page=dataPrivacy">{{ 'siteTitleDataPrivacy'|trans({}, 'public') }}</a>
+        {% set sourceUrl = game_config('source_url') %}
+        {% if sourceUrl %}<a href="{{ sourceUrl }}" target="_blank" rel="noopener" title="AGPL-3.0">{{ 'source_code'|trans({}, 'public') }}</a>{% endif %}
+      </nav>
+    </div>
+  </footer>
+  <script>
+    var LoginConfig = {
+      'isMultiUniverse': false,
+      'unisWildcast': false,
+      'referralEnable' : {{ (game_config('ref_active') == '1')|json_encode|raw }},
+      'basePath' : {{ (app.request.schemeAndHttpHost ~ base ~ '/')|json_encode|raw }}
+    };
+  </script>
+</body>
+</html>

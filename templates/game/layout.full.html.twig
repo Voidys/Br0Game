@@ -1,0 +1,60 @@
+{% extends 'game/layout.base.html.twig' %}
+
+{% block bodyclass %}layout layout--full{% endblock %}
+
+{% block body %}
+<a class="skip-link" href="#content">{{ LNG.ui_skip_to_content|default('Skip to content') }}</a>
+
+<header class="topbar">
+  {% include 'game/main.topnav.html.twig' %}
+</header>
+
+<aside class="sidebar" id="sidebar" aria-label="{{ LNG.ui_menu|default('Menu') }}">
+  {% include 'game/main.navigation.html.twig' %}
+</aside>
+<div class="sidebar-backdrop" aria-hidden="true"></div>
+
+<main class="content" id="content">
+  {% if hasAdminAccess %}
+    <div class="globalWarning">
+      {{ icon('shield-alert') }}
+      <span>{{ LNG.admin_access_1 }} <a id="drop-admin" href="#">{{ LNG.admin_access_link }}</a>{{ LNG.admin_access_2 }}</span>
+    </div>
+  {% endif %}
+  {% if noobInterface and tutorial %}
+    <div class="globalWarning globalWarning--info">
+      {{ icon('info') }}
+      <span>{{ LNG.noob_interface }}</span>
+    </div>
+  {% endif %}
+  {% if hasRebuildProtection %}
+    <div class="globalWarning">
+      {{ icon('shield') }}
+      <span>{{ LNG.rebuild_proteciton_mode }} <a id="drop-rebuild-protection" href="#">{{ LNG.rebuild_proteciton_link }}</a>
+        <span class="countdown" data-time="{{ rebuildProtectionUntil }}"></span></span>
+    </div>
+  {% endif %}
+  {% if uni_status == 1 or uni_status == 2 %}
+    <div class="infobox">{{ icon('triangle-alert') }}<span>{{ LNG.ov_closed }}</span></div>
+  {% elseif delete %}
+    <div class="infobox">{{ icon('triangle-alert') }}<span>{{ delete|raw }}</span></div>
+  {% elseif vacation %}
+    <div class="infobox">{{ icon('moon') }}<span>{{ vacation|raw }}</span></div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</main>
+
+{% if loginNotice %}
+  {# once per login (AbstractGameController::newMessagesNotice); the top bar badge keeps the count afterwards #}
+  <div class="login-notice" role="status" data-login-notice>
+    {{ icon('mail') }}
+    <a class="login-notice__link" href="{{ loginNotice.url }}">{{ loginNotice.text }}</a>
+    <button type="button" class="login-notice__close" data-login-notice-close aria-label="{{ LNG.ui_close }}">{{ icon('x') }}</button>
+  </div>
+{% endif %}
+
+<footer class="footer">
+  {% include 'game/main.footer.html.twig' %}
+</footer>
+{% endblock %}

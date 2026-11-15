@@ -1,0 +1,110 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro pager(result, prevLabel, nextLabel, ariaLabel) %}
+  {% if result.pages > 1 %}
+    <nav class="pager" aria-label="{{ ariaLabel }}">
+      {% if result.page > 1 %}<a class="button btn--small" href="{{ result.pageUrl }}{{ result.page - 1 }}" aria-label="{{ prevLabel }}">{{ icon('chevron-left') }}</a>{% endif %}
+      {% for i in 1..result.pages %}
+        {% if i == 1 or i == result.pages or (i >= result.page - 2 and i <= result.page + 2) %}
+          {% if i == result.page %}<span class="pager__current" aria-current="page">{{ i }}</span>{% else %}<a href="{{ result.pageUrl }}{{ i }}">{{ i }}</a>{% endif %}
+        {% elseif i == result.page - 3 or i == result.page + 3 %}
+          <span class="pager__gap">…</span>
+        {% endif %}
+      {% endfor %}
+      {% if result.page < result.pages %}<a class="button btn--small" href="{{ result.pageUrl }}{{ result.page + 1 }}" aria-label="{{ nextLabel }}">{{ icon('chevron-right') }}</a>{% endif %}
+    </nav>
+  {% endif %}
+{% endmacro %}
+{% import _self as ui %}
+
+<div class="stack">
+  <form action="" method="post" class="card">
+    <div class="card__body">
+      <div class="toolbar">
+        <div class="field field--lg">
+          <label for="search-key">{{ se_intro }}</label>
+          <input id="search-key" type="search" name="key_user" value="{{ search }}" autofocus>
+        </div>
+        <div class="field">
+          <label for="search-type">{{ se_type_typee }}</label>
+          {{ html_options({'name': 'search', 'id': 'search-type', 'options': Selector.list, 'selected': SearchFile}) }}
+        </div>
+        <div class="field">
+          <label for="search-in">{{ se_search_in }}</label>
+          {{ html_options({'name': 'search_in', 'id': 'search-in', 'options': Selector.search, 'selected': SearchFor}) }}
+        </div>
+        <div class="field">
+          <label for="search-filter">{{ se_filter_title }}</label>
+          {{ html_options({'name': 'fucki', 'id': 'search-filter', 'options': Selector.filter, 'selected': SearchMethod}) }}
+        </div>
+        {% if OrderBYParse %}
+          <div class="field">
+            <label for="search-order">{{ se_search_order }}</label>
+            {{ html_options({'name': 'key_order', 'id': 'search-order', 'options': OrderBYParse, 'selected': Order}) }}
+          </div>
+        {% endif %}
+        <div class="field field--fixed-8">
+          <label for="search-dir">{{ se_asc_desc }}</label>
+          {{ html_options({'name': 'key_acc', 'id': 'search-dir', 'options': Selector.order, 'selected': OrderBY}) }}
+        </div>
+        <div class="field field--fixed-6">
+          <label for="search-limit">{{ se_limit }}</label>
+          {{ html_options({'name': 'limit', 'id': 'search-limit', 'options': Selector.limit, 'selected': limit}) }}
+        </div>
+        <button type="submit" class="btn--primary">{{ icon('search') }}{{ se_search }}</button>
+      </div>
+    </div>
+  </form>
+
+  {% if not empty(error) %}
+    <div class="notice notice--danger">{{ icon('circle-alert') }}<div>{{ error }}</div></div>
+  {% endif %}
+
+  {% if result %}
+    {% if result.empty %}
+      <div class="card"><div class="empty">{{ icon('search') }}<p>{{ LNG.se_no_data }}</p></div></div>
+    {% else %}
+      <section class="card card--flush">
+        <header class="card__head">
+          <h2 class="card__title">{{ result.name|striptags|trim }}</h2>
+          <span class="badge">{{ pretty_number(result.total) }}</span>
+          <div class="card__actions">
+            <input type="search" class="table-filter" data-table-filter="#search-results" placeholder="{{ LNG.adm_filter_page }}" aria-label="{{ LNG.adm_filter_page }}">
+          </div>
+        </header>
+        <div class="card__body table-wrap">
+          <table class="data data--compact" id="search-results" data-sortable>
+            <thead>
+              <tr>
+                {% for column in result.columns %}<th>{{ column }}</th>{% endfor %}
+                {% if result.hasActions %}<th class="actions"><span class="visually-hidden">{{ LNG.adm_actions }}</span></th>{% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result.rows %}
+                <tr>
+                  {% for cell in row.cells %}<td>{{ cell|raw }}</td>{% endfor %}
+                  {% if result.hasActions %}
+                    <td class="actions">
+                      {% for action in row.actions %}
+                        {% if action.type == 'edit' %}
+                          <button type="button" class="btn--small" onclick="return openEdit('{{ action.id }}', '{{ action.edit }}');" title="{{ action.label }}">{{ icon('pencil') }}<span class="visually-hidden">{{ action.label }}</span></button>
+                        {% else %}
+                          <a class="button btn--small btn--danger" href="{{ action.href }}" data-confirm="{{ action.confirm|e('html_attr') }}" title="{{ action.label }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ action.label }}</span></a>
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <footer class="card__foot">
+          <span class="muted small">{{ LNG.se_input_hay }}<strong>{{ pretty_number(result.total) }}</strong>{{ result.name }}</span>
+          {{ ui.pager(result, LNG.se__before, LNG.se__next, LNG.adm_pagination) }}
+        </footer>
+      </section>
+    {% endif %}
+  {% endif %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,387 @@
+{% extends layout_template %}
+{% block title %}{{ pageTitle }}{{ parent() }}{% endblock %}
+{% block content %}
+    {% if isset(Info) %}
+      <table>
+        <tr>
+          <td class="transparent raport-head raport-head-side {% if Raport.result == php_const('ATTACKER') %}colorPositive{% elseif Raport.result == php_const('DEFENDER') %}colorNegative{% else %}raport-draw{% endif %}">{{ Info[0] }}</td>
+          <td class="transparent raport-head">VS</td>
+          <td class="transparent raport-head raport-head-side {% if Raport.result == php_const('DEFENDER') %}colorPositive{% elseif Raport.result == php_const('ATTACKER') %}colorNegative{% else %}raport-draw{% endif %}">{{ Info[1] }}</td>
+        </tr>
+      </table>
+    {% endif %}
+  <div class="w-100 text-center">
+    <div class="text-center mb-2">
+      {% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} {{ Raport.time }}{% if isset(Raport.duration) %} ({{ round(Raport.duration, 4) }} s){% endif %}
+    </div>
+    <div id="arrow-stat-selector"></div>
+    {% for Round, RoundInfo in (Raport.rounds)|php_iter %}
+      {% if not loop.first and (not isset(Info) or Round == 1) %}
+        <div class="text-center mb-2">
+            {{ LNG.fleet_attack_1 }} {{ pretty_number(RoundInfo.attacker.Statistics.damage_done.sum+RoundInfo.attacker.Statistics.damage_dead.sum+RoundInfo.attacker.Statistics.shield_hit.sum+RoundInfo.attacker.Statistics.shield_bounced.sum) }} {{ LNG.fleet_attack_2 }} {{ pretty_number(RoundInfo.attacker.Statistics.shield_bounced.sum+RoundInfo.attacker.Statistics.shield_hit.sum) }} {{ LNG.damage }}
+          <br>
+            {{ LNG.fleet_defs_1 }} {{ pretty_number(RoundInfo.defender.Statistics.damage_done.sum+RoundInfo.defender.Statistics.damage_dead.sum+RoundInfo.defender.Statistics.shield_hit.sum+RoundInfo.defender.Statistics.shield_bounced.sum) }} {{ LNG.fleet_defs_2 }} {{ pretty_number(RoundInfo.defender.Statistics.shield_bounced.sum+RoundInfo.defender.Statistics.shield_hit.sum) }} {{ LNG.damage }}
+          <br>
+          <hr>
+        </div>
+      {% endif %}
+      {% if not (isset(Info) and Round > 0 and not loop.last) %}
+
+      <div class="scrollable-content">
+        <div class="round-container" data-round="{{ Round }}">
+          <div class="flex justify-center mb-4" data-side="attacker" data-round="{{ Round }}">
+            {% for fleetId, ships in (RoundInfo.attacker.Roundstats)|php_iter %}
+                {% set PlayerInfo = Raport.rounds[0].attackers[fleetId].player %}
+                {% set fleetDetail = Raport.rounds[0].attackers[fleetId].fleetDetail %}
+              <div class="fleet-box mx-4 p-4 bg-[#0d1014f2] box-content" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
+                <div class="mb-2">
+                    {{ LNG.sys_attack_attacker_pos }} {{ PlayerInfo.username }} {% if isset(Info) %}([XX:XX:XX]){% else %}([{{ fleetDetail.start_galaxy }}:{{ fleetDetail.start_system }}:{{ fleetDetail.start_planet }}]{% if isset(fleetDetail.start_type) %} ({{ LNG["type_planet_short_#{fleetDetail.start_type}"] }}){% endif %}){% endif %}
+                    {% if not isset(Info) %}<br>{{ LNG.sys_ship_weapon }} {{ PlayerInfo.military_tech*10+100 }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.shield_tech*10+100 }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.defence_tech*10+100 }}%{% endif %}
+                </div>
+                  {% set shipCount = ships|length %}
+
+                <div class="flex justify-center">
+                  <div
+                          class="ships-grid inline-grid gap-x-3 gap-y-2 items-center"
+                          style="grid-template-columns: max-content repeat({{ shipCount }}, max-content);"
+                  >
+                      {# Header row: Type + Ship names #}
+                    <div class="font-medium whitespace-nowrap">{{ LNG.sys_ship_type }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="ship-box text-center font-medium whitespace-nowrap" data-shipid="{{ shipId }}" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
+                            {{ LNG.shortNames[shipId] }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Count #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_count }}<br></div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+
+                          <div class="{% if shipData['lost'] <= 0 %}row-span-2 flex items-center justify-center{% else %}flex items-end justify-center{% endif %}">
+                              {{ pretty_number(shipData['amount']) }}
+                          </div>
+
+                          {% if Raport.rounds[0].attacker.Roundstats[fleetId][shipId].amount > shipData['amount'] %}
+                            <div class="text-[#ee4d2e]">
+
+                              (-{{ pretty_number(shipData['lost']) }} / -{{ pretty_number(Raport.rounds[0].attacker.Roundstats[fleetId][shipId].amount-shipData['amount']) }})
+                            </div>
+                          {% endif %}
+                          {% if shipData['stunned'] > 0 %}
+                            <div class="text-[#1d68e0]">
+                              (-{{ pretty_number(shipData['stunned']) }})
+                            </div>
+                          {% endif %}
+                        </div>
+
+                      {% endfor %}
+
+                      {% if not isset(Info) %}
+                      {# Row: Weapon #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_weapon }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['attack']) }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Shield #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_shield }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['shield']) }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Armour #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_armour }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['hull']) }}
+                        </div>
+                      {% endfor %}
+                      {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+          <div class="flex justify-center mb-4" data-side="defender" data-round="{{ Round }}">
+            {% for fleetId, ships in (RoundInfo.defender.Roundstats)|php_iter %}
+                {% set PlayerInfo = Raport.rounds[0].defenders[fleetId].player %}
+                {% set fleetDetail = Raport.rounds[0].defenders[fleetId].fleetDetail %}
+              <div class="fleet-box mx-4 p-4 bg-[#0d1014f2] box-content" data-fleetid="{{ fleetId }}" data-side="defender" data-round="{{ Round }}">
+                <div class="mb-2">
+                    {{ LNG.sys_attack_defender_pos }} {{ PlayerInfo.username }} {% if isset(Info) %}([XX:XX:XX]){% else %}([{{ fleetDetail.start_galaxy }}:{{ fleetDetail.start_system }}:{{ fleetDetail.start_planet }}]{% if isset(fleetDetail.start_type) %} ({{ LNG["type_planet_short_#{fleetDetail.start_type}"] }}){% endif %}){% endif %}
+                    {% if not isset(Info) %}<br>{{ LNG.sys_ship_weapon }} {{ PlayerInfo.military_tech*10+100 }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.shield_tech*10+100 }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.defence_tech*10+100 }}%{% endif %}
+                </div>
+                  {% set shipCount = ships|length %}
+
+                <div class="flex justify-center">
+                  <div
+                          class="ships-grid inline-grid gap-x-3 gap-y-2 items-center"
+                          style="grid-template-columns: max-content repeat({{ shipCount }}, max-content);"
+                  >
+                      {# Header row: Type + Ship names #}
+                    <div class="font-medium whitespace-nowrap">{{ LNG.sys_ship_type }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="ship-box text-center font-medium whitespace-nowrap" data-shipid="{{ shipId }}" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
+                            {{ LNG.shortNames[shipId] }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Count #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_count }}<br></div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+
+                          <div class="{% if shipData['lost'] <= 0 %}row-span-2 flex items-center justify-center{% else %}flex items-end justify-center{% endif %}">
+                              {{ pretty_number(shipData['amount']) }}
+                          </div>
+
+                            {% if Raport.rounds[0].defender.Roundstats[fleetId][shipId].amount > shipData['amount'] %}
+                              <div class="text-[#ee4d2e]">
+                                (-{{ pretty_number(shipData['lost']) }} / -{{ pretty_number(Raport.rounds[0].defender.Roundstats[fleetId][shipId].amount-shipData['amount']) }})
+                              </div>
+                            {% endif %}
+                            {% if shipData['stunned'] > 0 %}
+                              <div class="text-[#1d68e0]">
+                                (-{{ pretty_number(shipData['stunned']) }})
+                              </div>
+                            {% endif %}
+                        </div>
+
+                      {% endfor %}
+
+                      {% if not isset(Info) %}
+                      {# Row: Weapon #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_weapon }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['attack']) }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Shield #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_shield }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['shield']) }}
+                        </div>
+                      {% endfor %}
+
+                      {# Row: Armour #}
+                    <div class="whitespace-nowrap">{{ LNG.sys_ship_armour }}</div>
+                      {% for shipId, shipData in (ships)|php_iter %}
+                        <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
+                            {{ pretty_number(shipData['hull']) }}
+                        </div>
+                      {% endfor %}
+                      {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+        {#<svg class="arrow-overlay" data-round="{$Round}"></svg>#}
+        </div>{# /round-container #}
+      </div>
+    {% endif %}{% endfor %}
+
+    {# ===== Battle Statistics Section ===== #}
+    <div id="battle-statistics" class="battle-stats-container"></div>
+    
+    <div class="text-center mb-2">
+      {% if Raport.result == php_const('ATTACKER') %}
+        {{ LNG.sys_attacker_won }}
+        <br>
+        {{ LNG.sys_stealed_ressources }} {% for elementID, amount in (Raport.steal)|php_iter %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.steal) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
+      {% elseif Raport.result == php_const('DEFENDER') %}
+          {{ LNG.sys_defender_won }}
+      {% else %}
+          {{ LNG.sys_both_won }}
+      {% endif %}
+      <br><br>
+      {{ LNG.sys_attacker_lostunits }} {{ pretty_number(Raport['units'][0]) }} {{ LNG.sys_units }}<br>
+      {{ LNG.sys_defender_lostunits }} {{ pretty_number(Raport['units'][1]) }} {{ LNG.sys_units }}<br>
+      {{ LNG.debree_field_1 }} {% for elementID, amount in (Raport.debris)|php_iter %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.debris) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+      {% if Raport.mode == 1 %}
+          {# Destruction #}
+          {% if Raport.moon.moonDestroySuccess == -1 %}
+              {# Attack not win #}
+              {{ LNG.sys_destruc_stop }}
+            <br>
+          {% else %}
+              {# Attack win #}
+              {{ sprintf(LNG.sys_destruc_lune, "#{Raport.moon.moonDestroyChance}") }}
+            <br>
+              {{ LNG.sys_destruc_mess1 }}
+              {% if Raport.moon.moonDestroySuccess == 1 %}
+                  {# Destroy success #}
+                  {{ LNG.sys_destruc_reussi }}
+              {% elseif Raport.moon.moonDestroySuccess == 0 %}
+                  {# Destroy failed #}
+                  {{ LNG.sys_destruc_null }}
+              {% endif %}
+            <br>
+              {{ sprintf(LNG.sys_destruc_rip, "#{Raport.moon.fleetDestroyChance}") }}
+              {% if Raport.moon.fleetDestroySuccess == 1 %}
+                  {# Fleet destroyed #}
+                <br>
+                  {{ LNG.sys_destruc_echec }}
+              {% endif %}
+          {% endif %}
+      {% else %}
+          {# Normal Attack #}
+          {{ LNG.sys_moonproba }} {{ Raport.moon.moonChance }} %{% if not empty(Raport.moon.additionalChance) and Raport.moon.additionalChance != 0 %} + {{ Raport.moon.additionalChance }} %{% endif %}
+        <br>
+          {% if not empty(Raport.moon.moonName) %}
+              {{ LNG.sys_moonbuilt }}
+          {% endif %}
+      {% endif %}
+
+      {% if array_sum(Raport.debris) > 0 %}
+          {{ sprintf(LNG['bs_derbis_raport'], pretty_number(ceil(array_sum(Raport.debris) / recCapacity)), LNG['tech'][php_const('SHIP_RECYCLER')]) }}
+        <br>
+      {% endif %}
+
+      {{ Raport.additionalInfo }}
+
+      {% if Raport.wreckfield_created %}
+        <br>
+          {{ LNG.sys_wreckfield }}
+      {% endif %}
+    </div>
+    <div class="text-center">
+
+      {% if not empty(Raport.repaired) %}
+        <br>
+          {% set lastRound = count(Raport.rounds)-1 %}
+          {% set lastDefender = count(Raport.rounds[0].defender)-1 %}
+        <table class="auto">
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="4" class="transparent">{{ LNG.sys_def_rebuild }}</th>
+                </tr>
+                <tr>
+                  <th class="transparent">{{ LNG.sys_ship_type }}</th>
+                  <th class="transparent num">{{ LNG.sys_ship_repaired }}</th>
+                  <th class="transparent num">%</th>
+                  <th class="transparent num">{{ LNG.sys_destroyed }}</th>
+                </tr>
+                  {% for ShipID, ShipData in (Raport.repaired)|php_iter %}
+                    <tr>
+                      <td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
+                      <td class="transparent num">{{ ShipData.units }} /
+                          {% if empty(Raport.rounds[lastRound].defender[lastDefender].ships) or empty(Raport.rounds[lastRound].defender[lastDefender].ships[ShipID]) %}
+                              {{ Raport.rounds[0].defender[lastDefender].ships[ShipID][0] }}
+                          {% else %}
+                              {{ Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-Raport.rounds[lastRound].defender[lastDefender].ships[ShipID][0] }}
+                          {% endif %}
+                      </td>
+                      <td class="transparent num">{{ ("%.1f"|format(ShipData.percent)) }}</td>
+                      <td class="transparent num">
+                          {% set dest = 0 %}
+                          {% if empty(Raport.rounds[lastRound].defender[lastDefender].ships) or empty(Raport.rounds[lastRound].defender[lastDefender].ships[ShipID]) %}
+                              {% set dest = Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-ShipData.units %}
+                          {% else %}
+                              {% set dest = Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-Raport.rounds[lastRound].defender[lastDefender].ships[ShipID][0]-ShipData.units %}
+                          {% endif %}
+                          {% if dest > 0 %}
+                            <span class="raport-loss">-{{ dest }}</span>
+                          {% else %}
+                              {{ dest }}
+                          {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+              </table>
+            </td>
+          </tr>
+        </table>
+      {% endif %}
+
+      {% if not empty(Raport.wreckfield) %}
+        <br>
+        <table class="auto">
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="2" class="transparent">{{ LNG.sys_wreckfield_added }}</th>
+                </tr>
+                  {% for ShipID, amount in (Raport.wreckfield)|php_iter %}
+                    <tr>
+                      <td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
+                      <td class="transparent num">{{ amount }}</td>
+                    </tr>
+                  {% endfor %}
+              </table>
+            </td>
+          </tr>
+        </table>
+      {% endif %}
+
+      {% if not empty(Raport.honorpoints) %}
+        <br>
+        <table class="auto">
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="2" class="transparent">{{ LNG.sys_honorpoints_changed }}</th>
+                </tr>
+                  {% for username, honorpointsChange in (Raport.honorpoints.attackersH)|php_iter %}
+                    <tr>
+                      <td class="transparent">{{ username }}</td>
+                      <td class="transparent num">{{ honorpointsChange }}</td>
+                    </tr>
+                  {% endfor %}
+                  {% for username, honorpointsChange in (Raport.honorpoints.defendersH)|php_iter %}
+                    <tr>
+                      <td class="transparent">{{ username }}</td>
+                      <td class="transparent num">{{ honorpointsChange }}</td>
+                    </tr>
+                  {% endfor %}
+              </table>
+            </td>
+          </tr>
+        </table>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{# ===== Statistics Data Bridge & Script ===== #}
+{% block script %}{{ parent() }}
+{% if not isset(Info) %}
+<script>
+  window.raportData = {{ Raport|json_encode|raw }};
+  window.shipNames = {{ LNG.shortNames|json_encode|raw }};
+  window.raportLNG = {
+    damage_done: {{ LNG.battle_stats_damage_done|json_encode|raw }},
+    damage_dead: {{ LNG.battle_stats_damage_dead|json_encode|raw }},
+    shield_hit: {{ LNG.battle_stats_shield_hit|json_encode|raw }},
+    ship_destroyed: {{ LNG.battle_stats_ship_destroyed|json_encode|raw }},
+    shield_bounced: {{ LNG.battle_stats_shield_bounced|json_encode|raw }},
+    rapid_fire_done: {{ LNG.battle_stats_rapid_fire_done|json_encode|raw }},
+    explosion_triggered: {{ LNG.battle_stats_explosion_triggered|json_encode|raw }},
+    stunned_done: {{ LNG.battle_stats_stunned_done|json_encode|raw }},
+    fleet: {{ LNG.sys_spy_fleet|json_encode|raw }},
+    target: {{ LNG.battle_stats_target|json_encode|raw }},
+    total: {{ LNG.battle_stats_total|json_encode|raw }},
+    total_all_targets: {{ LNG.battle_stats_total_all_targets|json_encode|raw }},
+    total_all_fleets: {{ LNG.battle_stats_total_all_fleets|json_encode|raw }},
+    attacker: {{ LNG.sys_attack_attacker_pos|json_encode|raw }},
+    defender: {{ LNG.sys_attack_defender_pos|json_encode|raw }},
+    round: {{ LNG.sys_attack_round|json_encode|raw }}
+  };
+</script>
+<script type="module" src="./scripts/game/raport.js?v={{ asset_version }}"></script>
+{% endif %}
+{% endblock %}

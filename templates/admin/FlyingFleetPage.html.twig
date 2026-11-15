@@ -1,0 +1,61 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('send') }}{{ LNG.ff_mission }} <span class="badge badge--muted">{{ count(FleetList) }}</span></h2>
+      <div class="card__actions">
+        <input type="search" class="table-filter" data-table-filter="#fleet-table" placeholder="{{ LNG.adm_filter_page }}">
+        <a class="button btn--small" href="admin?page=flyingFleet&amp;massunlock=1" data-confirm="">{{ icon('lock') }}{{ LNG.ff_lock }} / {{ LNG.ff_unlock }}</a>
+        <a class="button btn--small btn--danger" href="admin?page=flyingFleet&amp;sendfleetsback=1" data-confirm="{{ LNG.ff_sendFleetsBack|e('html_attr') }}?">{{ icon('arrow-left') }}{{ LNG.ff_sendFleetsBack }}</a>
+      </div>
+    </header>
+    {% if count(FleetList) > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data data--compact data--wrap-head" id="fleet-table" data-sortable>
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.ff_fleetid }}</th>
+              <th>{{ LNG.ff_mission }}</th>
+              <th>{{ LNG.ff_ships }}</th>
+              <th>{{ LNG.ff_startuser }} / {{ LNG.ff_startplanet }}</th>
+              <th>{{ LNG.ff_targetuser }} / {{ LNG.ff_targetplanet }}</th>
+              <th>{{ LNG.ff_starttime }} / {{ LNG.ff_arrivaltime }}</th>
+              <th>{{ LNG.ff_holdtime }} / {{ LNG.ff_endtime }}</th>
+              <th class="actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for FleetRow in (FleetList)|php_iter %}
+            <tr>
+              <td class="num">{{ FleetRow.fleetID }}</td>
+              <td class="nowrap"><a href="#" data-tooltip-content="<table class='tip-table'>{% for resourceID, resourceCount in (FleetRow.resource)|php_iter %}<tr><td>{{ LNG.tech[resourceID] }}</td><td>{{ pretty_number(resourceCount) }}</td></tr>{% endfor %}</table>" class="tooltip">{{ LNG["type_mission_#{FleetRow.missionID}"] }}{% if FleetRow.acsID != 0 %}<br>{{ FleetRow.acsID }}<br>{{ FleetRow.acsName }}{% endif %}&nbsp;(R)</a></td>
+              <td class="nowrap"><a href="#" data-tooltip-content="<table class='tip-table'>{% for shipID, shipCount in (FleetRow.ships)|php_iter %}<tr><td>{{ LNG.tech[shipID] }}</td><td>{{ pretty_number(shipCount) }}</td></tr>{% endfor %}</table>" class="tooltip">{{ pretty_number(FleetRow.count) }}&nbsp;(D)</a></td>
+              <td>{{ FleetRow.startUserName }} <span class="muted small">#{{ FleetRow.startUserID }}</span><br><span class="small">{{ FleetRow.startPlanetName }} <span class="mono">[{{ FleetRow.startPlanetGalaxy }}:{{ FleetRow.startPlanetSystem }}:{{ FleetRow.startPlanetPlanet }}]</span></span></td>
+              <td>{% if FleetRow.targetUserID != 0 %}{{ FleetRow.targetUserName }} <span class="muted small">#{{ FleetRow.targetUserID }}</span><br>{% endif %}<span class="small">{{ FleetRow.targetPlanetName }} <span class="mono">[{{ FleetRow.targetPlanetGalaxy }}:{{ FleetRow.targetPlanetSystem }}:{{ FleetRow.targetPlanetPlanet }}]</span></span></td>
+              <td class="small">{{ FleetRow.starttime }}<br>{% if FleetRow.state == 0 %}<span class="badge badge--ok" title="{{ LNG.ff_arrivaltime }}">{{ FleetRow.arrivaltime }}</span>{% else %}<span class="muted">{{ FleetRow.arrivaltime }}</span>{% endif %}</td>
+              <td class="small">{% if FleetRow.stayhour != 0 %}{% if FleetRow.state == 2 %}<span class="badge badge--ok">{{ FleetRow.staytime }} ({{ FleetRow.stayhour }}&nbsp;h)</span>{% else %}{{ FleetRow.staytime }} ({{ FleetRow.stayhour }}&nbsp;h){% endif %}{% else %}<span class="muted">–</span>{% endif %}<br>{% if FleetRow.state == 1 %}<span class="badge badge--ok" title="{{ LNG.ff_endtime }}">{{ FleetRow.endtime }}</span>{% else %}<span class="muted">{{ FleetRow.endtime }}</span>{% endif %}</td>
+              <td class="actions nowrap">
+                {% if FleetRow.lock %}
+                  <a class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=0" title="{{ LNG.ff_unlock }}" aria-label="{{ LNG.ff_unlock }}">{{ icon('lock') }}</a>
+                {% elseif FleetRow.error %}
+                  <a class="button btn--small btn--danger" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=2" data-confirm="" title="{{ LNG.ff_del }}" aria-label="{{ LNG.ff_del }}">{{ icon('trash-2') }}</a>
+                {% else %}
+                  <a class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=1" title="{{ LNG.ff_lock }}" aria-label="{{ LNG.ff_lock }}">{{ icon('lock') }}</a>
+                {% endif %}
+                {% if FleetRow.state == 0 %}
+                  <a class="button btn--small" href="admin?page=flyingFleet&amp;sendfleetback={{ FleetRow.fleetID }}" data-confirm="" title="{{ LNG.ff_sendFleetBack }}" aria-label="{{ LNG.ff_sendFleetBack }}">{{ icon('arrow-left') }}</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('send') }}<p>{{ LNG.ff_no_fleets }}</p></div></div>
+    {% endif %}
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

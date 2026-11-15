@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    # game session storage unless SESSION_HANDLER_DSN is set (framework.session.handler_id)
+    session_handler_default: 'file://%kernel.project_dir%/var/sessions'
+    app.table_prefix: '%env(TABLE_PREFIX)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Kernel.php'
+            # Game core (App\Game\*): uses game constants at class level and is loaded only after the
+            # game bootstrap; classes are registered explicitly where needed.
+            - '../src/Game/'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # --- Game core as container services -------------------------------------------------------
+    # Game state, database and configuration are plain shared services; the game classes get them
+    # through their constructors (GameUtilities hands them on to the utility objects).
+    App\Game\Core\Singleton: ~
+    App\Game\Core\DatabaseConfig: ~
+    # lazy: connects on first use (the installer runs before a database config exists)
+    App\Game\Core\Database:
+        lazy: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $debug: '%kernel.debug%'
+    App\Game\Core\ConfigRegistry: ~
+    App\Game\Core\ViewHelpers: ~
+    App\Game\Core\ErrorReporter: ~
+    App\Game\Cronjob\Cronjob: ~
+    App\Game\Core\FlyingFleetHandler:
+        lazy: true
+
+    # Cronjob tasks (schedules in table cronjobs) are services, resolved by Cronjob::execute()
+    App\Game\Cronjob\:
+        resource: '../src/Game/Cronjob/'
+        exclude: '../src/Game/Cronjob/{Cronjob.php,CronjobTaskInterface.php}'
+        tags: ['app.game_cronjob']
+
+    # Bots (App\Game\Bots\*): game logic, registered explicitly (src/Game is excluded from discovery)
+    App\Game\Bots\:
+        resource: '../src/Game/Bots/'
+        exclude: '../src/Game/Bots/{BotActions.php,Llm/LlmClient.php,Llm/LlmException.php}'

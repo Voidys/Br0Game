@@ -1,0 +1,48 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_overview }}{{ parent() }}{% endblock %}
+{% block content %}
+<div id="planet-actions-tabs">
+	<ul>
+		<li><a href="#planet-actions-1">{{ LNG.ov_planet_rename }}</a></li>
+		{% if mainPlanet != currentPlanet %}
+			<li><a href="#planet-actions-2">{{ LNG.ov_delete_planet }}</a></li>
+		{% endif %}
+	</ul>
+	<div id="planet-actions-1">
+		<table class="form-table">
+			<tr>
+				<td><label for="name">{{ LNG.ov_rename_label }}</label></td>
+				<td><input type="text" name="name" id="name" maxlength="20" autocomplete="off"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="form-actions"><input type="button" onclick="checkrename()" value="{{ LNG.ov_planet_rename }}"></td>
+			</tr>
+		</table>
+	</div>
+	{% if mainPlanet != currentPlanet %}
+		<div id="planet-actions-2">
+			<h3 class="m-0">{{ LNG.ov_security_request }}</h3>
+			{{ ov_security_confirm }}<br><br>
+			<table class="form-table">
+				<tr>
+					<td><label for="password">{{ LNG.sh_planet_name }}</label></td>
+					<td><input name="password" id="password" maxlength="20" autocomplete="off"></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="form-actions"><input type="button" onclick="checkdelete()" value="{{ LNG.ov_delete_planet }}"></td>
+				</tr>
+			</table>
+		</div>
+	{% endif %}
+</div>
+{% endblock %}
+{% block script %}{{ parent() }}
+	<script type="text/javascript">
+		var mainPlanet = "{{ mainPlanet|e('js') }}";
+	</script>
+	<script type="module" src="./scripts/game/overview.actions.js?v={{ asset_version }}"></script>
+	<script type="module">
+		import { tabs } from './scripts/app/ui.js';
+		tabs(document.getElementById('planet-actions-tabs'));
+	</script>
+{% endblock %}

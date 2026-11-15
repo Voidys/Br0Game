@@ -1,0 +1,144 @@
+buttonLostPassword: Passwort vergessen?
+buttonRegister: Erstelle deinen Account!
+buttonScreenshot: Screenshots
+chose_a_uni: Wähle ein Universum
+disclamerLabelAddress: 'Adresse:'
+disclamerLabelMail: 'E-Mail Adresse:'
+disclamerLabelNotice: Weitere Informationen
+disclamerLabelPhone: 'Telefon Nr.:'
+disclamerRecaptcha: >-
+  Diese Seite nutzt reCAPTCHA und die Google <a
+  href="https://policies.google.com/privacy">Datenschutzerklärung</a> und <a
+  href="https://policies.google.com/terms">Nutzungsbedingungen</a> gelten.
+forum: Forum
+gameInformations: |-
+  Ein Weltraum-Strategiespiel in Echtzeit.
+  Spiele zusammen mit hunderten Usern.
+  Kein Download, es wird nur ein Standardbrowser benötigt.
+  Kostenlose Registrierung
+login_error_1: >-
+  Falsche E-Mail oder Passwort! Tipp: Passworttresore speichern oft den
+  Usernamen, du musst dich aber mit deiner E-Mail anmelden.
+login_error_2: Jemand hat sich von einem anderem PC in deinem Account eingeloggt!
+login_error_3: Deine Session ist abgelaufen!
+login_error_4: >-
+  Es gab zu viele Loginversuche. Bitte melde dich bei einem Administrator über
+  Discord für neue Login-Daten. Halte deine E-Mail-Adresse zur Verifikation
+  bereit.
+loginButton: Login
+loginEmail: E-Mail
+loginHeader: Login
+loginInfo: Mit dem Login akzeptiere ich die %s.
+loginPassword: Passwort
+loginServerDesc: >-
+  %s ist ein Weltraum-Strategiespiel mit hunderten Spielern die erdumgreifend
+  <strong>gleichzeitig</strong> versuchen der/die Beste zu werden. Alles was ihr
+  zum spielen braucht ist ein Standardwebbrowser.
+loginWelcome: Willkommen bei %s
+menu_banlist: Pranger
+menu_battlehall: Battle Hall
+menu_disclamer: Impressum
+menu_index: IndeX
+menu_news: News
+menu_register: Registration
+menu_rules: Regeln
+news_does_not_exist: Keine News vorhanden!
+news_from: Am %s von %s
+news_overview: News
+passwordBack: Zurück
+passwordCaptcha: Sicherheitscode
+passwordChangedMailSend: Du erhälst in Kürze eine E-Mail mit deinem neuen Kennwort.
+passwordChangedMailTitle: 'Neues Kennwort auf der Website: %s'
+passwordErrorMailEmpty: Du hast keine E-Mail-Adresse angegeben!
+passwordErrorOnePerDay: >-
+  Das Kennwort für dieses Benutzerkonto wurde in den letzten 24 Stunden bereits
+  einmal angefordert. Aus Sicherheitsgründen kann das Kennwort eines Benutzers
+  nur einmal pro Tag angefordert werden. Sie können das Kennwort für dieses
+  Benutzerkonto in 24 Stunde(n) erneut anfordern. 
+passwordErrorUnknown: Es könnte kein Benutzterkonto mit den Daten gefunden werden.
+passwordErrorUsernameEmpty: Du hast keinen Benuternamen angegeben!
+passwordInfo: >-
+  Wenn du dein Kennwort vergessen hast, musst du den Benutzernamen und die
+  E-Mail-Adresse angeben, die du in deinem Profil hinterlegt hast. Wenn du die
+  Daten nicht mehr weißt, wende dich an den Gameadministrator.
+passwordMail: E-Mail
+passwordNext: Weiter
+passwordSubmit: Absenden
+passwordUsername: Benutzernamen
+passwordValidInValid: Ungültiger Anfrage!
+passwordValidMailSend: Du erhälst in Kürze eine E-Mail mit weiteren Informationen.
+passwordValidMailTitle: 'Kennwort vergessen auf der Website: %s'
+registerBack: Zurück
+registerCaptcha: Sicherheitscode
+registerCaptchaDesc: >-
+  Bitte gebe die untenstehenden Zeichen ohne Leerstellen in das leere Feld ein.
+  Groß- und Kleinschreibung müssen nicht beachtet werden. Solltest du das Bild
+  auch nach mehrfachem Neuladen nicht entziffern können, wenden Sie sich an den
+  Administrator dieser Seite.
+registerCaptchaReload: Captcha neuladen.
+registerEmail: E-Mail
+registerEmailDesc: Bitte geben deine E-Mail-Adresse ein!
+registerEmailReplay: E-Mail wiederhohlen
+registerEmailReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deiner E-Mail-Adresse!
+registerErrorCaptcha: Der Sicherheitscode ist falsch!
+registerErrorDataPrivacy: Du musst die Datenschutzbestimmungen bestätigen!
+registerErrorMailEmpty: Du musst eine E-Mail-Adresse angeben!
+registerErrorMailExist: Die E-Mail-Adresse ist bereits registriert!
+registerErrorMailInvalid: Ungültige E-Mail-Adresse!
+registerErrorMailSame: Sie haben 2 unterschiedliche E-Mail-Adressen angegeben!
+registerErrorPasswordLength: Das Passwort muss mindestens %s Zeichen lang sein!
+registerErrorPasswordSame: Sie haben 2 unterschiedliche Passwörter eingegeben!
+registerErrorRules: Du musst die Regeln akzeptieren!
+registerErrorUniClosed: Die Registrierung ist in diesem Universum geschlossen. Das tut uns Leid!
+registerErrorUsernameChar: Im Username sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
+registerErrorUsernameEmpty: Du hast keinen Usernamen eingeben!
+registerErrorUsernameExist: Der Username ist bereits vergeben!
+registerLanguage: Sprache
+registerMailCompleteTitle: Willkommen bei %s!
+registerMailVertifyError: 'Fehler beim Versenden der Mail: %s'
+registerMailVertifyTitle: 'Aktivierung der Registrierung auf der Website: %s'
+registerNext: Weiter
+registerPassword: Passwort
+registerPasswordDesc: Das Passwort muss mindestens %s Zeichen lang sein.
+registerPasswordReplay: Passwort widerhohlen
+registerPasswordReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deines Paswortes!
+registerReferral: 'Geworben von:'
+registerRules: Regeln
+registerRulesDesc: Ich bin mit den %s einverstanden.
+registerSendComplete: >-
+  Vielen Dank für die Registration. Du erhälst in Kürze eine E-Mail mit weiteren
+  Informationen.
+registerTimezone: Zeitzone
+registerUsername: Username
+registerUsernameDesc: >-
+  Der Username muss mindestens 3 und darf maximal 25 Zeichen und darf nur aus
+  Zahlen, Buchstaben, Punkte, Binde- und Unterstriche und Leerzeichen bestehen
+registerWelcomePMSenderName: Administrator
+registerWelcomePMSubject: Willkommen
+registerWelcomePMText: >-
+  Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die
+  spätere Rohstoffproduktion benötigt. Um diese zu bauen, klicke links im Menu
+  auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast,
+  kannst du anfangen Minen zu bauen. Gehe dazu wieder im Menü auf Gebäude und
+  baue eine Metallmine, danach wieder eine Kristallmine. Um Schiffe bauen zu
+  können musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt
+  wird findest du links im Menüpunkt Technologie. Das Team wünscht dir viel Spaß
+  beim Erkunden des Universums!
+rulesHeader: Regelwerk
+siteTitleBanList: Pranger
+siteTitleBattleHall: BattleHall
+siteTitleDataPrivacy: Datenschutz
+siteTitleDisclamer: Impressum
+siteTitleHOF: Ruhmeshalle
+siteTitleIndex: Index
+siteTitleLostPassword: Passwort vergessen?
+siteTitleNews: News
+siteTitleRegister: Registrieren
+siteTitleRules: Regeln
+siteTitleScreens: Screenshots
+uni_closed: ' (geschlossen)'
+uni_reg_closed: ' (Registrierung geschlossen)'
+uni_reg_open: ' (nur Registrierung)'
+universe: Universum
+vertifyAdminMessage: Der Username "%s" wurder aktiviert!
+vertifyNoUserFound: Ungültiger Anfrage!

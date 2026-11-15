@@ -1,0 +1,11 @@
+Bonjour {USERNAME},
+
+l'adresse électronique de votre compte vient d'être modifiée.
+Le changement deviendra permanent dans quelques jours.
+
+Si vous ne l'avez pas fait vous-même, veuillez créer un ticket sur notre Discord :
+{DISCORD}
+
+Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+Votre équipe {GAMENAME}

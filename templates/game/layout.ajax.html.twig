@@ -1,0 +1,16 @@
+{#
+  Fragment of a game page (?ajax=1 or the modal loader's X-Game-Fragment request, scripts/app/dialog.js):
+  the content plus its page scripts and inline code, which the loader runs in the page's document.
+#}
+{% block content %}{% endblock %}
+{% block script %}{% endblock %}
+{% for scriptname in (scripts)|php_iter %}
+  {% if scriptname starts with '../' %}
+    <script src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
+  {% else %}
+    <script type="module" src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
+  {% endif %}
+{% endfor %}
+{% if execscript %}
+  <script>onPageInit(function () { {{ execscript|raw }} });</script>
+{% endif %}

@@ -1,0 +1,83 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+{% set countRank = count(availableRanks) %}
+<form action="game?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
+<input type="hidden" value="1" name="send">
+	<div class="table-scroll">
+	<table class="rank-table">
+	<tr>
+			<th colspan="{{ countRank + 2 }}">{{ LNG.al_configura_ranks }} <span class="float-right"><button id="create_new_alliance_rank">+</button></span></th>
+	</tr>
+	<tr>
+		<td class="ctr">{{ LNG.al_dlte }}</td>
+		<td>{{ LNG.al_rank_name }}</td>
+		{% for rankName in (availableRanks)|php_iter %}
+		<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
+		{% endfor %}
+	</tr>
+	{% for rowId, rankRow in (rankList)|php_iter %}
+	<tr>
+		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a href="game?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.png" alt="" width="16" height="16"></a>{% endif %}</td>
+		<td><input type="text" class="control-wide" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
+		{% for rankId, rankName in (availableRanks)|php_iter %}
+		<td class="ctr"><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
+		{% endfor %}
+	</tr>
+	{% else %}
+	<tr>
+		<td colspan="{{ countRank + 2 }}">{{ LNG.al_no_ranks_defined }}</td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="{{ countRank + 2 }}" class="form-actions"><input type="submit" value="{{ LNG.al_save }}"></td>
+	</tr>
+	<tr>
+			<th colspan="{{ countRank + 2 }}">{{ LNG.gl_legend }}</th>
+	</tr>
+		{% for rankName in (availableRanks)|php_iter %}
+	<tr>
+			<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
+			<td colspan="{{ countRank + 1 }}">{{ LNG.al_rank_desc[rankName] }}</td>
+	</tr>
+		{% endfor %}
+	<tr>
+			<th colspan="{{ countRank + 2 }}"><a href="game?page=alliance&amp;mode=admin">{{ LNG.al_back }}</a></th>
+	</tr>
+	</table>
+	</div>
+</form>
+
+<div id="new_alliance_rank" title="{{ LNG.al_create_new_rank }}" style="display:none;">
+	<form action="game?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
+		<table class="form-table">
+	<tr>
+				<td><label for="rankName">{{ LNG.al_rank_name }}</label></td>
+				<td><input type="text" name="newrank[rankName]" maxlength="32" id="rankName" required></td>
+	</tr>
+			<tr>
+				<th colspan="2">&nbsp;</th>
+			</tr>
+	{% for rankId, rankName in (availableRanks)|php_iter %}
+	<tr>
+		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16">&nbsp;<label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
+		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{{ LNG.al_rank_desc[rankName] }}"></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.al_create }}"></td>
+	</tr>
+	</table>
+</form>
+</div>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script>
+onPageInit(function () {
+	document.getElementById('create_new_alliance_rank').addEventListener('click', function (event) {
+		event.preventDefault();
+		Dialog.show(document.getElementById('new_alliance_rank'), {width: 760});
+	});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro amounts(title, icon_name, ids, LNG) %}
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon(icon_name) }}{{ title }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        {% for Element in ids %}
+          <div class="field"><label for="element_{{ Element }}">{{ LNG.tech[Element] }}</label><input type="text" id="element_{{ Element }}" name="element_{{ Element }}" value="0" pattern="[0-9]*" inputmode="numeric"></div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endmacro %}
+{% import _self as ui %}
+<form method="post" class="stack" data-confirm="{{ LNG.adm_giveaway_confirm|e('html_attr') }}">
+  <input type="hidden" name="action" value="send">
+
+  <div class="notice notice--warning">
+    {{ icon('triangle-alert') }}
+    <div>{{ LNG.adm_giveaway_hint }}</div>
+  </div>
+
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('compass') }}{{ LNG.ga_definetarget }}</h2></header>
+    <div class="card__body form-grid">
+      <div class="field-row">
+        <span class="field-label">{{ LNG.ga_planettypes }}</span>
+        <div class="field-control">
+          <label class="check"><input type="checkbox" name="planet" value="1" checked>{{ LNG.fcm_planet }}</label>
+          <label class="check"><input type="checkbox" name="moon" value="1">{{ LNG.fcm_moon }}</label>
+        </div>
+      </div>
+      <div class="field-row">
+        <label for="ga-main">{{ LNG.ga_homecoordinates }}</label>
+        <div class="field-control"><input type="checkbox" class="switch" id="ga-main" name="mainplanet" value="1"></div>
+      </div>
+      <div class="field-row">
+        <label for="ga-inactive">{{ LNG.ga_no_inactives }}</label>
+        <div class="field-control"><input type="checkbox" class="switch" id="ga-inactive" name="no_inactive" value="1"></div>
+      </div>
+    </div>
+  </section>
+
+  {{ ui.amounts(LNG.tech[900], 'database', reslist.resstype[1]|merge(reslist.resstype[3]), LNG) }}
+  {{ ui.amounts(LNG.tech[0], 'building-2', reslist.build, LNG) }}
+  {{ ui.amounts(LNG.tech[100], 'flask-conical', reslist.tech, LNG) }}
+  {{ ui.amounts(LNG.tech[200], 'rocket', reslist.fleet, LNG) }}
+  {{ ui.amounts(LNG.tech[400], 'shield', reslist.defense, LNG) }}
+
+  <div class="form-actions">
+    <button type="submit" class="btn--primary">{{ icon('gift') }}{{ LNG.qe_send }}</button>
+  </div>
+</form>
+{% include 'admin/overall_footer.html.twig' %}

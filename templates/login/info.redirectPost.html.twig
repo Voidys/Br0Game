@@ -1,0 +1,5 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.fcm_info }}{{ parent() }}{% endblock %}
+{% block content %}
+<div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ LNG.redirectPostMessage }}</div></div>
+{% endblock %}

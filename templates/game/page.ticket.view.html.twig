@@ -1,0 +1,40 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.ti_read }} - {{ LNG.lm_support }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=ticket&mode=send" method="post" id="form">
+<input type="hidden" name="id" value="{{ ticketID }}">
+<table class="form-table">
+	{% for answerID, answerRow in (answerList)|php_iter %}	
+	{% if loop.first %}
+	<tr>
+		<th colspan="2">{{ LNG.ti_read }} :: {{ answerRow.subject }}</th>
+	</tr>
+	{% endif %}
+	<tr>
+		<td class="left" colspan="2">
+			{{ LNG.ti_msgtime }} <b>{{ answerRow.time }}</b> {{ LNG.ti_from }} <b>{{ answerRow.ownerName }}</b>
+			{% if loop.first %}
+				<br>{{ LNG.ti_category }}: {{ categoryList[answerRow.categoryID] }}
+			{% endif %}
+			<hr>
+			<p>
+				{{ answerRow.message|raw }}
+			</p>
+		</td>
+	</tr>
+	{% endfor %}
+	{% if status < 2 %}
+	<tr>
+		<th colspan="2">{{ LNG.ti_answer }}</th>
+	</tr>
+	<tr>
+		<td><label for="message">{{ LNG.ti_message }}</label></td>
+		<td><textarea required id="message" name="message" class="ticket-message"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.ti_submit }}"></td>
+	</tr>
+	{% endif %}
+</table>
+</form>
+{% endblock %}

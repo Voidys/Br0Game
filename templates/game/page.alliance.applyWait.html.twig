@@ -1,0 +1,17 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_research }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=alliance&amp;mode=cancelApply" method="post">
+	<table>
+	<tr>
+		<th>{{ LNG.al_your_request_title }}</th>
+	</tr>
+	<tr>
+		<td>{{ request_text }}</td>
+	</tr>
+	<tr>
+		<td class="form-actions"><input type="submit" value="{{ LNG.al_delete_request }}" onclick="return confirm('{{ LNG.al_delete_request_confirm }}');"></td>
+	</tr>
+</table>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+Active_players: Joueurs actifs
+Back: Retour
+mail:
+  subject:
+    mail_changed: '%s Le compte e-mail l''adresse e-mail a été modifiée'
+Other_universes: Autres univers
+Play: Jouer
+Playername: Nom de joueur
+Register: Registre
+Settings: Paramètres
+Sitting_cancel: Abandonner la sitting
+Sitting_end: Fin de séance
+Sitting_request: Demande de sitting (non programmé)
+uni_status_regclosed_gameclosed: Fermé
+uni_status_regclosed_gameopen: Ouvert au jeu
+uni_status_regopen_gameclosed: Ouverture à l'inscription
+uni_status_regopen_gameopen: Ouvrir
+Universe_end: Fin
+Universe_start: Démarrage
+Universe_status: 'Statut des univers: '
+Universes: Univers
+Your_universes: Vos univers

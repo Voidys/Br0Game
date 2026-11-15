@@ -1,0 +1,127 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_battlesim }}{{ parent() }}{% endblock %}
+{#
+  Battle simulator: toolbar (ACS slots, swap sides, share code), one tab per ACS slot with ships on the left
+  and technology / defense / defender resources on the right (defense and resources only in the first slot),
+  sticky action bar. Field names battleinput[slot][side][elementID] (side 0 attacker, 1 defender) are what
+  BattleSimulatorController and the share codes (battlesim.js) read. The classic look comes from the theme's
+  tables; layout in game.css (.sim).
+#}
+{% set slotCount = Slots is iterable ? Slots|length : Slots %}
+
+{% macro value(battleinput, slot, side, id) %}{% if isset(battleinput[slot][side][id]) %}{{ battleinput[slot][side][id] }}{% else %}0{% endif %}{% endmacro %}
+
+{% macro sectionHead(title, slot, attacker = true) %}
+  <tr>
+    <th>{{ title }}</th>
+    <th class="num">{% if attacker %}<span class="sim-col">{{ LNG.bs_atter }}<button type="button" class="sim-clear reset" title="{{ LNG.bs_reset }}" aria-label="{{ LNG.bs_reset }}: {{ LNG.bs_atter }}">{{ icon('eraser') }}</button></span>{% else %}{{ LNG.bs_atter }}{% endif %}</th>
+    <th class="num"><span class="sim-col">{{ LNG.bs_deffer }}<button type="button" class="sim-clear reset" title="{{ LNG.bs_reset }}" aria-label="{{ LNG.bs_reset }}: {{ LNG.bs_deffer }}">{{ icon('eraser') }}</button></span></th>
+  </tr>
+{% endmacro %}
+
+{% macro unit(id, dpath) %}
+  <span class="sim-unit"><img src="{{ dpath }}gebaeude/{{ id }}.gif" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">{{ LNG.tech[id] }}</span>
+{% endmacro %}
+
+{% block content %}
+<form id="form" name="battlesim" class="sim">
+  <input type="hidden" name="slots" id="slots" value="{{ Slots }}">
+
+  <table class="sim-toolbar">
+    <tr><th colspan="2">{{ LNG.lm_battlesim }}</th></tr>
+    <tr>
+      <td>
+        <span class="sim-toolbar__group">
+          <button type="button" onclick="return add();">{{ icon('plus') }}{{ LNG.bs_add_acs_slot }}</button>
+          <button type="button" onclick="return switchSides();">{{ icon('arrow-left-right') }}{{ LNG.bs_swap }}</button>
+        </span>
+      </td>
+      <td>
+        <div class="sim-toolbar__share">
+        <label class="visually-hidden" for="shareInput">{{ LNG.bs_share_code }}</label>
+        <input type="text" id="shareInput" class="share-input" placeholder="{{ LNG.bs_share_code }}" autocomplete="off" spellcheck="false">
+        <button type="button" onclick="loadShareString();">{{ LNG.bs_load }}</button>
+        <button type="button" onclick="generateShareString();">{{ LNG.bs_share }}</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <script>
+    var BS_LNG = {
+      shareCopied: '{{ LNG.bs_share_success|e('js') }}',
+      shareError: '{{ LNG.bs_share_error|e('js') }}',
+      shareCopyFail: '{{ LNG.bs_share_copy_fail|e('js') }}',
+      shareCopyPrompt: '{{ LNG.bs_share_copy_prompt|e('js') }}',
+      shareLoadNoInput: '{{ LNG.bs_load_no_input|e('js') }}',
+      shareLoadInvalid: '{{ LNG.bs_load_invalid|e('js') }}',
+    };
+  </script>
+
+  <div id="tabs" data-tabs class="sim-slots">
+    <ul>
+      {% if slotCount > 0 %}{% for slot in 0..(slotCount - 1) %}<li><a href="#tabs-{{ slot }}">{{ LNG.bs_acs_slot }} {{ slot + 1 }}</a></li>{% endfor %}{% endif %}
+    </ul>
+    {% if slotCount > 0 %}{% for slot in 0..(slotCount - 1) %}
+    <div id="tabs-{{ slot }}" class="sim-grid">
+      <table class="sim-table">
+        {{ _self.sectionHead(LNG.tech[200], slot) }}
+        {% for id in (fleetList)|php_iter %}
+          <tr>
+            <td>{{ _self.unit(id, dpath) }}</td>
+            {% if id == php_const('SHIP_SOLSAT') %}
+              <td class="num">–<input type="hidden" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]"></td>
+            {% else %}
+              <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_atter }})"></td>
+            {% endif %}
+            <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, slot, 1, id) }}" name="battleinput[{{ slot }}][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
+          </tr>
+        {% endfor %}
+      </table>
+
+      <div class="sim-side">
+        <table class="sim-table">
+          {{ _self.sectionHead(LNG.bs_techno, slot) }}
+          {% for id in [109, 110, 111] %}
+            <tr>
+              <td>{{ _self.unit(id, dpath) }}</td>
+              <td class="num"><input type="number" min="0" class="sim-level" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_atter }})"></td>
+              <td class="num"><input type="number" min="0" class="sim-level" value="{{ _self.value(battleinput, slot, 1, id) }}" name="battleinput[{{ slot }}][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
+            </tr>
+          {% endfor %}
+        </table>
+
+        {% if slot == 0 %}
+          {# defender only: the attacker column keeps hidden fields so the posted array stays complete #}
+          <table class="sim-table" data-first-slot-only>
+            {{ _self.sectionHead(LNG.tech[400], slot, false) }}
+            {% for id in (defensiveList)|php_iter %}
+              <tr>
+                <td>{{ _self.unit(id, dpath) }}</td>
+                <td class="num">–<input type="hidden" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]"></td>
+                <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, slot, 1, id) }}" name="battleinput[{{ slot }}][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
+              </tr>
+            {% endfor %}
+          </table>
+
+          <table class="sim-table" data-first-slot-only>
+            {{ _self.sectionHead(LNG.bs_steal|trim(':'), slot, false) }}
+            {% for id in [901, 902, 903] %}
+              <tr>
+                <td>{{ _self.unit(id, dpath) }}</td>
+                <td class="num">–<input type="hidden" value="{{ battleinput[0][0][id]|default(0) }}" name="battleinput[0][0][{{ id }}]"></td>
+                <td class="num"><input type="number" min="0" value="{{ _self.value(battleinput, 0, 1, id) }}" name="battleinput[0][1][{{ id }}]" aria-label="{{ LNG.tech[id] }} ({{ LNG.bs_deffer }})"></td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}{% endif %}
+  </div>
+
+  <div class="sim-actions">
+    <button type="button" id="sim-submit" class="sim-actions__primary" onclick="return check();" data-busy-label="{{ LNG.bs_wait }}">{{ icon('swords') }}<span>{{ LNG.bs_send }}</span></button>
+    <button type="reset">{{ icon('refresh-cw') }}{{ LNG.bs_cancel }}</button>
+  </div>
+</form>
+{% endblock %}

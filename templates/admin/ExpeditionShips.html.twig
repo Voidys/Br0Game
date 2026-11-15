@@ -1,0 +1,55 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack expedition-ships-page">
+  {% if message %}
+    <div class="notice notice--{% if messageType == 'success' %}success{% else %}danger{% endif %}" role="alert">
+      {{ icon(messageType == 'success' ? 'circle-check' : 'circle-alert') }}<div>{{ message }}</div>
+    </div>
+  {% endif %}
+
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.exp_ships_description }}</div></div>
+
+  <form method="POST" action="admin?page=expeditionShips&amp;action=update&amp;uniID={{ universe }}" data-track-dirty>
+    <section class="card card--flush">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('rocket') }}{{ LNG.exp_ships_ship }}</h2>
+        <div class="card__actions"><input type="search" class="table-filter" data-table-filter="#exp-ships-table" placeholder="{{ LNG.adm_filter_page }}"></div>
+      </header>
+      <div class="table-wrap">
+        <table class="data" id="exp-ships-table">
+          <thead>
+            <tr>
+              <th>{{ LNG.exp_ships_ship }}</th>
+              <th class="text-center">{{ LNG.exp_ships_findable }}</th>
+              <th>{{ LNG.exp_ships_found_by }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ship in (findableShips)|php_iter %}
+            <tr>
+              <td>{{ ship.label|e('html') }}</td>
+              <td class="text-center">
+                <input type="checkbox" class="switch" name="findable_ships[{{ ship.ship_id }}][is_findable]" value="1" {% if ship.is_findable %}checked{% endif %} aria-label="{{ LNG.exp_ships_findable }}: {{ ship.label|e('html_attr') }}">
+              </td>
+              <td>
+                <details>
+                  <summary>{{ LNG.exp_ships_select_finders }}</summary>
+                  <div class="fields">
+                    {% for finder in (ship.finders)|php_iter %}
+                    <label class="nowrap">
+                      <input type="checkbox" name="findable_ships[{{ ship.ship_id }}][findable_by][]" value="{{ finder.id }}" {% if finder.selected %}checked{% endif %}>
+                      {{ finder.label|e('html') }}
+                    </label>
+                    {% endfor %}
+                  </div>
+                </details>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

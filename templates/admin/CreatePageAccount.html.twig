@@ -1,0 +1,20 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% include 'admin/CreateTabs.html.twig' with {'createMode': 'account'} %}
+  <form action="" method="post" class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('id-card') }}{{ new_title_acc }}</h2></header>
+    <div class="card__body">
+      <div class="fields">
+        <div class="field"><label for="c-name">{{ user_reg }}</label><input type="text" id="c-name" name="name" autocomplete="off"></div>
+        <div class="field"><label for="c-authlevel">{{ new_range }}</label>{{ html_options({'name': 'authlevel', 'id': 'c-authlevel', 'options': Selector.auth}) }}</div>
+        <div class="field"><label for="c-password">{{ pass_reg }}</label><input type="password" id="c-password" name="password" autocomplete="new-password"></div>
+        <div class="field"><label for="c-password2">{{ pass2_reg }}</label><input type="password" id="c-password2" name="password2" autocomplete="new-password"></div>
+        <div class="field"><label for="c-email">{{ email_reg }}</label><input type="text" id="c-email" name="email" autocomplete="off"></div>
+        <div class="field"><label for="c-email2">{{ email2_reg }}</label><input type="text" id="c-email2" name="email2" autocomplete="off"></div>
+        <div class="field"><label for="c-lang">{{ lang_reg }}</label>{{ html_options({'name': 'lang', 'id': 'c-lang', 'options': Selector.lang}) }}</div>
+      </div>
+    </div>
+    <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('plus') }}{{ new_add_account }}</button></footer>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

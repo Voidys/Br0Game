@@ -1,0 +1,89 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro rows(ticketList, withCategory, closed, LNG) %}
+  {% for TicketID, TicketInfo in (ticketList)|php_iter %}
+    {% if (closed and TicketInfo.status == 2) or (not closed and TicketInfo.status < 2) %}
+    <tr{% if withCategory %} data-category="{{ TicketInfo.categoryID }}"{% endif %}>
+      <td class="num"><a href="admin?page=support&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
+      <td>{{ TicketInfo.username }}</td>
+      <td><a href="admin?page=support&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>
+      <td class="num">{{ TicketInfo.answer - 1 }}</td>
+      <td class="nowrap">{{ TicketInfo.time }}</td>
+      <td>
+        {% if TicketInfo.status == 0 %}<span class="badge badge--ok">{{ LNG.ti_status_open }}</span>
+        {% elseif TicketInfo.status == 1 %}<span class="badge badge--warn">{{ LNG.ti_status_answer }}</span>
+        {% else %}<span class="badge badge--muted">{{ LNG.ti_status_closed }}</span>{% endif %}
+      </td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+{% import _self as t %}
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('ticket') }}{{ LNG.ti_header }}</h2>
+      <div class="card__actions">
+        <label for="categoryID" class="muted small">{{ LNG.ti_category }}</label>
+        <select id="categoryID">{{ html_options({'options': categories}) }}</select>
+      </div>
+    </header>
+    {% if count(ticketList) == 0 %}<div class="card__body"><div class="empty">{{ icon('ticket') }}<p>{{ LNG.ti_header }}: 0</p></div></div>{% endif %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data" id="openTickets">
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.ti_id }}</th>
+              <th>{{ LNG.ti_username }}</th>
+              <th>{{ LNG.ti_subject }}</th>
+              <th class="num">{{ LNG.ti_answers }}</th>
+              <th>{{ LNG.ti_date }}</th>
+              <th>{{ LNG.ti_status }}</th>
+            </tr>
+          </thead>
+          <tbody>{{ t.rows(ticketList, true, false, LNG) }}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <details class="card card--flush disclosure">
+    <summary class="card__head"><h2 class="card__title">{{ icon('circle-check') }}{{ LNG.ti_status_closed }}</h2></summary>
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data" data-sortable>
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.ti_id }}</th>
+              <th>{{ LNG.ti_username }}</th>
+              <th>{{ LNG.ti_subject }}</th>
+              <th class="num">{{ LNG.ti_answers }}</th>
+              <th>{{ LNG.ti_date }}</th>
+              <th>{{ LNG.ti_status }}</th>
+            </tr>
+          </thead>
+          <tbody>{{ t.rows(ticketList, false, true, LNG) }}</tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+</div>
+<script>
+	onPageInit(function() {
+		document.getElementById('categoryID').addEventListener('change', function(e) {
+			var table = document.getElementById("openTickets");
+			var tr = table.getElementsByTagName("tr");
+			var category = this.value;
+			for (var i = 0; i < tr.length; i++) {
+				if (category == 0) {
+					tr[i].style.display = "";
+				} else if (tr[i].dataset.category != null && tr[i].dataset.category != category) {
+					tr[i].style.display = "none";
+				} else {
+					tr[i].style.display = "";
+				}
+			}
+		});
+	});
+</script>
+{% include 'admin/overall_footer.html.twig' %}

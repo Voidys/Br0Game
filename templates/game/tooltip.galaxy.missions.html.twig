@@ -1,0 +1,50 @@
+
+<table class='tt-galaxy'>
+    <tr>
+        <th colspan='2'>{% if moon %}{{ LNG.gl_moon }} {{ details.name }}{% elseif isPirateBase %}{{ details.name }}{% else %}{{ LNG.gl_planet }} {{ details.name }}{% endif %} [{{ galaxy }}:{{ system }}:{{ planet.planet_position }}]</th>
+    </tr>
+    {% if moon %}
+        <tr>
+            <td>{{ LNG.gl_diameter }}</td>
+            <td>{{ pretty_number(details.diameter) }}</td>
+        </tr>
+    {% endif %}
+    <tr>
+        <td class='tt-galaxy-icon'>
+            <img src='{{ details.image }}' height='75' width='75'>
+        </td>
+        <td>
+            {% if missions[6] %}
+                <a href='javascript:doit(6,{{ details.id }});'>{{ LNG["type_mission_6"] }}</a><br><br>
+                <a href='javascript:OpenPopup(&quot;?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&quot;, &quot;&quot;, 900, 600);'>{{ LNG.gl_show_spy_report }}</a><br><br>
+            {% endif %}
+            {% if details.phalanx %}
+                <a href='javascript:OpenPopup(&quot;?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&quot;, &quot;&quot;, 640, 510);'>{{ LNG.gl_phalanx }}</a><br>
+            {% endif %}
+            {% if missions[1] %}
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=1'>{{ LNG["type_mission_1"] }}</a><br>
+            {% endif %}
+            {% if missions[5] %}
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=5'>{{ LNG["type_mission_5"] }}</a><br>
+            {% endif %}
+            {% if missions[4] %}
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=4'>{{ LNG["type_mission_4"] }}</a><br>
+            {% endif %}
+            {% if missions[3] %}
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=3'>{{ LNG["type_mission_3"] }}</a><br>
+            {% endif %}
+            {% if missions[10] %}
+                <a href='#' onclick='return openMissileForm({{ details.id }}, {{ galaxy }}, {{ system }}, {{ planet.planet_position }}, {{ duration }}, {{ details.type }});'>{{ LNG["type_mission_10"] }}</a><br>
+            {% endif %}
+            {% if missions[9] and moon %}<br>
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=9'>{{ LNG["type_mission_9"] }}</a><br>
+            {% endif %}
+            {% if missions[21] %}
+                <a href='javascript:doit(21,{{ details.id }});'>{{ LNG["type_mission_21"] }}</a><br><br>
+            {% endif %}
+            {% if missions[20] %}
+                <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype={{ details.type }}&amp;target_mission=20'>{{ LNG["type_mission_20"] }}</a><br>
+            {% endif %}
+        </td>
+    </tr>
+</table>

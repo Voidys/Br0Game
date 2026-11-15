@@ -1,0 +1,80 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro userlist(LNG, title, formName, selectName, options, jsVar, orderLink, submitName, submitLabel, totalLabel, total, selectTitle) %}
+<form action="" method="POST" name="{{ formName }}" class="card">
+  <header class="card__head">
+    <h2 class="card__title">{{ icon('users') }}{{ title }}</h2>
+    <div class="card__actions">
+      <span class="muted small">{{ totalLabel }}</span> <span class="badge badge--muted">{{ total }}</span>
+    </div>
+  </header>
+  <div class="card__body">
+    <div class="stack">
+      <select name="{{ selectName }}" size="12">
+        {{ options }}
+      </select>
+      <script type="text/javascript">
+        var {{ jsVar }} = new filterlist(document.getElementsByName('{{ selectName }}')[0]);
+      </script>
+      <div class="toolbar">
+        <input type="search" name="regexp" placeholder="{{ LNG.button_filter }}" onKeyUp="{{ jsVar }}.set(this.value)">
+        <button type="button" onClick="{{ jsVar }}.reset();this.form.regexp.value=''">{{ LNG.button_deselect }}</button>
+        <span class="toolbar__spacer"></span>
+        
+        <a href="?page=analytics">{{ LNG.bo_order_username|trim('[] ') }}</a>
+        <a href="?page=analytics&amp;{{ orderLink }}=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
+      </div>
+      <div class="toolbar">
+        {% for c in 'A'..'Z' %}<a href="javascript:{{ jsVar }}.set('^{{ c }}')" title="{{ selectTitle }} {{ c }}" class="button btn--small">{{ c }}</a>{% endfor %}
+      </div>
+    </div>
+  </div>
+  <footer class="card__foot">
+    <button type="submit" name="{{ submitName }}" class="btn--primary" value="{{ submitLabel }}">{{ submitLabel }}</button>
+  </footer>
+</form>
+{% endmacro %}
+{% import _self as a %}
+<div class="stack">
+  <div class="cols">
+    {{ a.userlist(LNG, LNG.an_user_list, 'users', 'user_name', UserSelect.List, 'UserList', 'order', 'userListSubmit', LNG.an_btn_enable, LNG.bo_total_users, usercount, bo_select_title) }}
+    {{ a.userlist(LNG, LNG.an_analyzed_list, 'userban', 'analyse_name', UserSelect.ListBan, 'analysedUsers', 'order2', 'analysedUsersSubmit', LNG.an_btn_disable, LNG.an_total_analyzed, bancount, bo_select_title) }}
+  </div>
+
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('activity') }}{{ LNG.adm_analytics }} <span class="badge badge--muted">{{ count(analytics) }}</span></h2>
+      <div class="card__actions"><input type="search" class="table-filter" data-table-filter="#analytics-table" placeholder="{{ LNG.adm_filter_page }}"></div>
+    </header>
+    {% if count(analytics) > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data data--compact" id="analytics-table" data-sortable>
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.input_id_user }}</th>
+              <th>{{ LNG.ac_name }}</th>
+              <th>{{ LNG.ac_alliance }}</th>
+              <th>{{ LNG.an_timestamp }}</th>
+              <th>URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for Users in (analytics)|php_iter %}
+            <tr>
+              <td class="num">{{ Users.userID }}</td>
+              <td><a href="admin?page=accountData&amp;id_u={{ Users.userID }}">{{ Users.username }}</a></td>
+              <td>{{ Users.ally_name }}</td>
+              <td class="nowrap">{{ Users.onlinetime }}</td>
+              <td class="mono">{{ Users.url }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('activity') }}<p>–</p></div></div>
+    {% endif %}
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,104 @@
+table{
+	margin: auto;
+	width:56.25rem;
+}
+
+body > table{
+	width:60rem;
+}
+
+.yes{
+	color:lime;
+}
+.ok{
+	color:yellow;
+}
+.no{
+	color:red;
+}
+
+#menu{
+	padding: 0 !important;
+}
+
+#content{
+	margin:0 auto;
+	width:80%;
+	padding:0;
+}
+
+span > a{
+	color: inherit;
+}
+
+.desc{
+	font-style:italic;
+	margin-top: -0.625rem;
+   	max-width: 25rem;
+}
+.desc > a{
+	text-decoration:underline;
+}
+.desc > a:hover{
+	text-decoration:none;
+}
+
+#lang {
+	float:right;
+}
+
+.req{
+	width:56.25rem;
+	border-collapse: collapse;
+	max-width:56.25rem;
+}
+
+.req > tbody > tr > td{
+	width:50%;
+}
+
+.req > tbody > tr > td{
+	padding:0;
+}
+
+.border > tbody > tr > td{
+	padding:0.1875rem 0;
+}
+
+.border > tbody > tr{
+	border-bottom:0.0625rem solid #CCC;
+	height:1.5rem;
+}
+
+#licence {
+    background-color: #FFFFFF;
+    color: #000000;
+    height: 25rem;
+    overflow: auto;
+    padding: 0 0.625rem;
+}
+
+#licence a{
+    color: #000000;
+	text-decoration:underline;
+}
+#licence a:hover{
+	text-decoration:none;
+}
+
+.noborder {
+	border:0 none !important;
+}
+
+.fatalerror {
+	background-color:#FFEEEE;
+	border: 0.0625rem solid #CC0000;
+    color: #CC0000;
+	padding:0.4375rem 0.625rem 0.4375rem 2.8125rem
+}
+.noerror { 
+	background-color: #EEFFEE;
+	border: 0.0625rem solid #009900;
+	color: #009900;
+	padding:0.4375rem 0.625rem 0.4375rem 2.8125rem
+}

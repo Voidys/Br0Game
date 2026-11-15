@@ -1,0 +1,125 @@
+{% set currentPage = (app.request.query.get('page')|default('overview'))|lower %}
+{% set currentMode = (app.request.query.get('mode')|default(''))|lower %}
+{% macro link(href, iconName, label, active, extra) %}
+  <li><a class="nav__link" href="{{ href }}"{% if active %} aria-current="page"{% endif %}{{ extra|default('')|raw }}>{{ icon(iconName) }}<span class="nav__label">{{ label|raw }}</span></a></li>
+{% endmacro %}
+{% import _self as nav %}
+
+<nav class="nav">
+  <section class="nav__group">
+    <h2 class="nav__heading">{{ LNG.ui_nav_empire|default('Empire') }}</h2>
+    <ul>
+      {{ nav.link('game?page=overview', 'layout-dashboard', LNG.lm_overview, currentPage == 'overview') }}
+      {% if isModuleAvailable(php_const('MODULE_IMPERIUM')) and (not noobInterface or not tutorial or tutorial['id'] > 10) %}
+        {{ nav.link('game?page=Empire', 'globe', LNG.lm_empire, currentPage == 'empire') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_BUILDING')) %}
+        {{ nav.link('game?page=buildings', 'building-2', LNG.lm_buildings, currentPage == 'buildings') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_RESEARCH')) and (not noobInterface or not tutorial or tutorial['id'] >= 6) %}
+        {{ nav.link('game?page=research', 'flask-conical', LNG.lm_research, currentPage == 'research') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_SHIPYARD_FLEET')) and (not noobInterface or not tutorial or tutorial['id'] >= 4) %}
+        {{ nav.link('game?page=shipyard&amp;mode=fleet', 'rocket', LNG.lm_shipshard, currentPage == 'shipyard' and currentMode != 'defense') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_SHIPYARD_DEFENSIVE')) and (not noobInterface or not tutorial or tutorial['id'] >= 4) %}
+        {{ nav.link('game?page=shipyard&amp;mode=defense', 'shield', LNG.lm_defenses, currentPage == 'shipyard' and currentMode == 'defense') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_REPAIR_DOCK')) and (not noobInterface or not tutorial) %}
+        {{ nav.link('game?page=repairdock', 'wrench', LNG.lm_repairdock ~ (wreckfield ? ' <span class="nav__alert" title="!">!</span>' : ''), currentPage == 'repairdock') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_RESSOURCE_LIST')) %}
+        {{ nav.link('game?page=resources', 'chart-column', LNG.lm_resources, currentPage == 'resources') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_TECHTREE')) and (not noobInterface or not tutorial or tutorial['id'] >= 6) %}
+        {{ nav.link('game?page=techtree', 'git-fork', LNG.lm_technology, currentPage == 'techtree') }}
+      {% endif %}
+    </ul>
+  </section>
+
+  <section class="nav__group">
+    <h2 class="nav__heading">{{ LNG.ui_nav_universe|default('Universe') }}</h2>
+    <ul>
+      {% if isModuleAvailable(php_const('MODULE_GALAXY')) and (not noobInterface or not tutorial or tutorial['id'] >= 7) %}
+        {{ nav.link('game?page=galaxy', 'orbit', LNG.lm_galaxy, currentPage == 'galaxy') }}
+      {% endif %}
+      {% if (not noobInterface or not tutorial or tutorial['id'] > 6) %}
+        {{ nav.link('game?page=fleetTable', 'send', LNG.lm_fleet, currentPage starts with 'fleet') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_MESSAGES')) %}
+        {{ nav.link('game?page=messages', 'mail', LNG.lm_messages ~ (new_message > 0 ? ' <span class="nav__count">' ~ new_message ~ '</span>' : ''), currentPage == 'messages') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_MISSION_TRADE')) and (not noobInterface or not tutorial) %}
+        {{ nav.link('game?page=marketPlace', 'store', LNG.lm_marketplace, currentPage == 'marketplace') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_SIMULATOR')) and (not noobInterface or not tutorial or tutorial['id'] > 6) %}
+        {{ nav.link('game?page=battleSimulator', 'swords', LNG.lm_battlesim, currentPage == 'battlesimulator') }}
+      {% endif %}
+    </ul>
+  </section>
+
+  <section class="nav__group">
+    <h2 class="nav__heading">{{ LNG.ui_nav_community|default('Community') }}</h2>
+    <ul>
+      {% if isModuleAvailable(php_const('MODULE_ALLIANCE')) %}
+        {{ nav.link('game?page=alliance', 'users', LNG.lm_alliance ~ (new_allyrequests > 0 ? ' <span class="nav__count">' ~ new_allyrequests ~ '</span>' : ''), currentPage == 'alliance') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_BUDDYLIST')) %}
+        {{ nav.link('game?page=buddyList', 'user-plus', LNG.lm_buddylist ~ (new_buddyrequests > 0 ? ' <span class="nav__count">' ~ new_buddyrequests ~ '</span>' : ''), currentPage == 'buddylist') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_STATISTICS')) %}
+        {{ nav.link('game?page=statistics', 'trophy', LNG.lm_statistics, currentPage == 'statistics') }}
+      {% endif %}
+      {{ nav.link('account?page=board', 'messages-square', LNG.lm_board, false) }}
+      {{ nav.link('game?page=battleHall', 'skull', LNG.lm_topkb, currentPage == 'battlehall') }}
+      {% if isModuleAvailable(php_const('MODULE_RECORDS')) %}
+        {{ nav.link('game?page=records', 'medal', LNG.lm_records, currentPage == 'records') }}
+      {% endif %}
+      {% if not noobInterface or not tutorial %}
+        {{ nav.link('game?page=achievements', 'award', LNG.Achievements, currentPage == 'achievements') }}
+        {{ nav.link('game?page=advancedStats', 'chart-line', LNG.advancedStats, currentPage == 'advancedstats') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_SEARCH')) %}
+        {{ nav.link('game?page=search', 'search', LNG.lm_search, currentPage == 'search') }}
+      {% endif %}
+      {% if isModuleAvailable(php_const('MODULE_BANLIST')) %}
+        {{ nav.link('game?page=banList', 'ban', LNG.lm_banned, currentPage == 'banlist') }}
+      {% endif %}
+    </ul>
+  </section>
+
+  <section class="nav__group">
+    <h2 class="nav__heading">{{ LNG.ui_nav_help|default('Help') }}</h2>
+    <ul>
+      {{ nav.link('game?page=wikiLogin', 'book-open', 'Wiki', false, ' target="_blank" rel="noopener"') }}
+      {% if isModuleAvailable(php_const('MODULE_SUPPORT')) %}
+        {{ nav.link('game?page=ticket', 'life-buoy', LNG.lm_support, currentPage == 'ticket') }}
+      {% endif %}
+      {{ nav.link('game?page=questions', 'circle-help', LNG.lm_faq, currentPage == 'questions') }}
+      {% if (not noobInterface or not tutorial or tutorial['id'] > 6) %}
+        {{ nav.link('game?page=team', 'users', 'Team', currentPage == 'team') }}
+      {% endif %}
+      {{ nav.link('https://discord.gg/jhYYN3yuat', 'message-circle', 'Discord', false, ' target="_blank" rel="noopener"') }}
+      {% if not tutorial['id'] %}
+        {{ nav.link('https://ko-fi.com/pr0game', 'heart', LNG.donate, false, ' target="_blank" rel="noopener"') }}
+      {% endif %}
+    </ul>
+  </section>
+
+  <section class="nav__group">
+    <h2 class="nav__heading">{{ LNG.ui_nav_personal|default('Personal') }}</h2>
+    <ul>
+      {% if isModuleAvailable(php_const('MODULE_NOTICE')) and (not noobInterface or not tutorial) %}
+        {{ nav.link('#', 'sticky-note', LNG.lm_notes, false, ' onclick="OpenPopup(\'?page=notes\', \'notes\', 720, 300); return false;"') }}
+      {% endif %}
+      {{ nav.link('game?page=settings', 'settings', LNG.lm_options, currentPage == 'settings') }}
+      {% if account_id != 0 %}
+        {{ nav.link('account?page=account', 'user', LNG['Account'], false) }}
+      {% endif %}
+      {{ nav.link('./?page=dataPrivacy', 'shield-check', LNG.lm_dataPrivacy, false, ' data-dialog data-dialog-width="820"') }}
+      {% if authlevel > 0 %}
+        {{ nav.link('./admin', 'shield-alert', LNG.lm_administration, false) }}
+      {% endif %}
+    </ul>
+  </section>
+</nav>

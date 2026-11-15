@@ -1,0 +1,18 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.vt_info }}</div></div>
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('shield-check') }}{{ LNG.vt_fail }}</h2></header>
+    <div class="card__body stack">
+      <div><div class="processbar"></div><div class="info"></div></div>
+      <div class="stats">
+        <div class="stat"><span class="stat__label">{{ LNG.vt_fileok }}</span><span class="stat__value" id="fileok">0</span></div>
+        <div class="stat"><span class="stat__label">{{ LNG.vt_filefail }}</span><span class="stat__value" id="filefail">0</span></div>
+        <div class="stat"><span class="stat__label">{{ LNG.vt_filenew }}</span><span class="stat__value" id="filenew">0</span></div>
+        <div class="stat"><span class="stat__label">{{ LNG.vt_fileerror }}</span><span class="stat__value" id="fileerror">0</span></div>
+      </div>
+      <div id="result"><div>{{ LNG.vt_loadfile }}</div></div>
+    </div>
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -1,0 +1,62 @@
+<table class='tt-galaxy'>
+    <tr>
+        <th colspan='2'>
+        {{ LNG.gl_features }}
+        </th>
+    </tr>
+    <tr>
+        <td>
+        {{ LNG.ov_fields }}
+        </td>
+        <td>
+        {{ planet.fields_min }} - {{ planet.fields_max }}                 
+        </td>
+    </tr>
+    <tr>
+        <td>
+        {{ LNG.gl_temperature }}
+        </td>
+        <td>
+        {{ planet.temp_min }} - {{ planet.temp_max }}  
+        </td>
+    </tr>
+    <tr>
+        {% if isset(planet.metalBonusPercent) and planet.metalBonusPercent > 0 %}
+        <td>
+            {{ LNG.tech[901] }}
+        </td>
+        <td>
+            {{ planet.metalBonusPercent }} %
+        </td>
+        {% endif %}
+    </tr>
+    <tr>
+        {% if isset(planet.crystalBonusPercent) and planet.crystalBonusPercent > 0 %} 
+        <td>
+            {{ LNG.tech[902] }}
+        </td>
+        <td>
+            {{ planet.crystalBonusPercent }} %
+        </td>
+        {% endif %} 
+    </tr>
+    <tr>
+        {% if isset(planet.deuteriumBonusPercent) and planet.deuteriumBonusPercent > 0 %}
+        <td>
+            {{ LNG.tech[903] }}
+        </td>
+        <td>
+            {{ planet.deuteriumBonusPercent }} %
+        </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td colspan='2' class='text-center'>
+        {% if not isset(currentPlanet) and colonizable[planet.planet_position] != 'colorNegative' %}
+            <a href='?page=fleetTable&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;target_mission=7'>{{ LNG.type_mission_7 }}</a>
+        {% else %}
+            {{ LNG.gl_not_colonizable }}
+        {% endif %}
+        </td>
+    </tr>
+</table>

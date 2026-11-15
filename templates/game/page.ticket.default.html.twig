@@ -1,0 +1,28 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_support }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th colspan="5">{{ LNG.ti_header }}</th>
+	</tr>
+	<tr>
+		<td colspan="5"><a href="game?page=ticket&amp;mode=create">{{ LNG.ti_new }}</a></td>
+	</tr>
+	<tr>
+		<th class="num">{{ LNG.ti_id }}</th>
+		<th>{{ LNG.ti_subject }}</th>
+		<th class="num">{{ LNG.ti_answers }}</th>
+		<th>{{ LNG.ti_date }}</th>
+		<th class="ctr">{{ LNG.ti_status }}</th>
+	</tr>
+	{% for TicketID, TicketInfo in (ticketList)|php_iter %}	
+	<tr>
+		<td class="num"><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
+		<td><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>
+		<td class="num">{{ TicketInfo.answer - 1 }}</td>
+		<td>{{ TicketInfo.time }}</td>
+		<td class="ctr">{% if TicketInfo.status == 0 %}<span class="color-green">{{ LNG.ti_status_open }}</span>{% elseif TicketInfo.status == 1 %}<span class="color-orange">{{ LNG.ti_status_answer }}</span>{% else %}<span class="colorNegative">{{ LNG.ti_status_closed }}</span>{% endif %}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

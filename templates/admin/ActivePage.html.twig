@@ -1,0 +1,54 @@
+{% include 'admin/overall_header.html.twig' %}
+<script type="text/javascript">
+	function activeUser(validationID, validationKey) {
+		fetch('./?page=vertify&mode=json&i='+validationID+'&k='+validationKey, {credentials: 'same-origin'}).then(function (response) { return response.json(); }).then(function(data){
+			alert(data);
+			location.reload();
+		});
+		return false;
+	}
+</script>
+<div class="stack">
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('user-plus') }}{{ LNG.ap_nicht_aktivierte_user }}</h2>
+      <div class="card__actions"><span class="badge badge--muted">{{ count(accounts) }} {{ LNG.ap_nicht_aktivierte }}</span></div>
+    </header>
+    {% if count(accounts) > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data" data-sortable>
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.ap_id }}</th>
+              <th>{{ LNG.ap_username }}</th>
+              <th>{{ LNG.ap_datum }}</th>
+              <th>{{ LNG.ap_email }}</th>
+              <th>{{ LNG.ap_ip }}</th>
+              <th class="actions">{{ LNG.ap_status }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for account in (accounts)|php_iter %}
+            <tr>
+              <td class="num">{{ account.validationID }}</td>
+              <td>{{ account.accountname }}</td>
+              <td class="nowrap">{{ account.date }}</td>
+              <td>{{ account.email }}</td>
+              <td class="mono">{{ account.ip }}</td>
+              <td class="actions">
+                <a href="#" class="button btn--small" onclick="return activeUser({{ account.validationID }},'{{ account.validationKey }}');">{{ icon('user-check') }}{{ LNG.ap_aktivieren }}</a>
+                <a href="?page=active&amp;action=delete&amp;id={{ account.validationID }}" class="button btn--small btn--danger" title="{{ LNG.ap_del }}" data-confirm="{{ (LNG.ap_sicher ~ account.accountname ~ ' ' ~ LNG.ap_entfernen)|e('html_attr') }}" aria-label="{{ LNG.ap_del }}">{{ icon('trash-2') }}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('user-check') }}<p>0 {{ LNG.ap_nicht_aktivierte }}</p></div></div>
+    {% endif %}
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

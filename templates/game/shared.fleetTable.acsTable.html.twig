@@ -1,0 +1,50 @@
+<form action="?page=fleetTable&amp;action=acs" method="post">
+<input name="fleetID" value="{{ acsData.mainFleetID }}" type="hidden">
+	<table>
+		<tr>
+			<th colspan="2">{{ LNG.fl_sac_of_fleet }}</th>
+		</tr>
+		<tr>
+			<th colspan="2">{{ LNG.fl_modify_sac_name }} (<a href="javascript:Rename();">{{ LNG.fl_acs_change }}</a>)</th>
+		</tr>
+		<tr>
+			<td colspan="2" id="acsName">{{ acsData.acsName }}</td>
+		</tr>
+		<tr>
+			<th>{{ LNG.fl_members_invited }}</th>
+			<th>{{ LNG.fl_invite_members }}</th>
+		</tr>
+		{% if not empty(acsData.statusMessage) %}
+		<tr>
+			<td colspan="2">
+				{{ acsData.statusMessage }}
+			</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>
+				<select size="5" class="control-wide">
+					{{ html_options({'options': acsData.invitedUsers}) }}
+                </select>
+			</td>
+			<td>
+				<p><input name="username" type="text" class="control-wide"></p>
+				<p class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></p>
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+function Rename(){
+	var Name = prompt("{{ LNG.fl_acs_change_name }}", "{{ acsData.acsName }}");
+	fetch('?page=fleetTable&action=acs&fleetID={{ acsData.mainFleetID }}&acsName=' + encodeURIComponent(Name), {credentials: 'same-origin'})
+		.then(function (response) { return response.json(); })
+		.then(function(data) {
+			if(data != "") {
+				alert(data);
+				return;
+			}
+			document.getElementById('acsName').textContent = Name;
+		});
+}
+</script>

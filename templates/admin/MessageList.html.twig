@@ -1,0 +1,101 @@
+{% include 'admin/overall_header.html.twig' %}
+{% macro pager(page, maxPage, ariaLabel) %}
+  {% if maxPage > 1 %}
+    <nav class="pager" aria-label="{{ ariaLabel }}">
+      {% if page != 1 %}<a href="#" class="button btn--small" onclick="gotoPage({{ page - 1 }});return false;">{{ icon('chevron-left') }}</a>{% endif %}
+      {% for site in 1..maxPage %}
+        {% if site == 1 or site == maxPage or (site >= page - 2 and site <= page + 2) %}
+          {% if site == page %}<span class="pager__current" aria-current="page">{{ site }}</span>{% else %}<a href="#" onclick="gotoPage({{ site }});return false;">{{ site }}</a>{% endif %}
+        {% elseif site == page - 3 or site == page + 3 %}
+          <span class="pager__gap">…</span>
+        {% endif %}
+      {% endfor %}
+      {% if page != maxPage %}<a href="#" class="button btn--small" onclick="gotoPage({{ page + 1 }});return false;">{{ icon('chevron-right') }}</a>{% endif %}
+    </nav>
+  {% endif %}
+{% endmacro %}
+{% import _self as ui %}
+{% set cols = Selected == 100 ? 6 : 5 %}
+<form action="admin?page=messageList" method="post" id="form" class="stack">
+  <input type="hidden" name="side" value="{{ page }}" id="side">
+  <section class="card">
+    <div class="card__body">
+      <div class="toolbar">
+        <div class="field field--sm">
+          <label for="type">{{ LNG.ml_type }}</label>
+          {{ html_options({'options': categories, 'selected': type, 'name': "type", 'id': 'type'}) }}
+        </div>
+        <div class="field field--sm">
+          <label for="sender">{{ LNG.ml_sender }}</label>
+          <input type="text" id="sender" name="sender" value="{{ sender }}">
+        </div>
+        <div class="field field--sm">
+          <label for="receiver">{{ LNG.ml_receiver }}</label>
+          <input type="text" id="receiver" name="receiver" value="{{ receiver }}">
+        </div>
+        <div class="field field--md">
+          <label for="dateStartDay">{{ LNG.ml_date_range }}: {{ LNG.adm_ml_from }} {{ LNG.adm_date_format }}</label>
+          <div class="toolbar">
+            <input value="{{ dateStart.day|default('') }}" type="text" id="dateStartDay" name="dateStart[day]" size="2" maxlength="2" placeholder="{{ LNG.adm_date_dd }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_start_day }}">
+            <input value="{{ dateStart.month|default('') }}" type="text" id="dateStartMonth" name="dateStart[month]" size="2" maxlength="2" placeholder="{{ LNG.adm_date_mm }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_start_month }}">
+            <input value="{{ dateStart.year|default('') }}" type="text" id="dateStartYear" name="dateStart[year]" size="4" maxlength="4" placeholder="{{ LNG.adm_date_yyyy }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_start_year }}">
+          </div>
+        </div>
+        <div class="field field--md">
+          <label for="dateEndDay">{{ LNG.adm_ml_to }} {{ LNG.adm_date_format }}</label>
+          <div class="toolbar">
+            <input value="{{ dateEnd.day|default('') }}" type="text" id="dateEndDay" name="dateEnd[day]" size="2" maxlength="2" placeholder="{{ LNG.adm_date_dd }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_end_day }}">
+            <input value="{{ dateEnd.month|default('') }}" type="text" id="dateEndMonth" name="dateEnd[month]" size="2" maxlength="2" placeholder="{{ LNG.adm_date_mm }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_end_month }}">
+            <input value="{{ dateEnd.year|default('') }}" type="text" id="dateEndYear" name="dateEnd[year]" size="4" maxlength="4" placeholder="{{ LNG.adm_date_yyyy }}" inputmode="numeric" aria-label="{{ LNG.adm_ml_end_year }}">
+          </div>
+        </div>
+        <button type="submit" class="btn--primary">{{ icon('search') }}{{ LNG.ml_type_submit }}</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('messages-square') }}{{ LNG.ml_message_list }}</h2>
+      {{ ui.pager(page, maxPage, LNG.adm_pagination) }}
+    </header>
+    {% if count(messageList) > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead>
+            <tr>
+              <th class="num">{{ LNG.ml_id }}</th>
+              {% if Selected == 100 %}<th>{{ LNG.ml_type }}</th>{% endif %}
+              <th>{{ LNG.ml_date }}</th>
+              <th>{{ LNG.ml_sender }}</th>
+              <th>{{ LNG.ml_receiver }}</th>
+              <th>{{ LNG.ml_subject }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for messageID, messageRow in (messageList)|php_iter %}
+            <tr data-messageID="{{ messageID }}">
+              <td class="num"><a href="#" class="toggle">{{ messageID }}</a></td>
+              {% if Selected == 100 %}<td><a href="#" class="toggle">{{ LNG.mg_type[messageRow.type] }}</a></td>{% endif %}
+              <td class="nowrap"><a href="#" class="toggle">{{ messageRow.time }}</a></td>
+              <td><a href="#" class="toggle">{{ messageRow.sender }}</a></td>
+              <td><a href="#" class="toggle">{{ messageRow.receiver }}</a></td>
+              <td>{# subjects are stored encoded; system and admin subjects carry markup #}<a href="#" class="toggle">{{ messageRow.subject|raw }}</a>{% if messageRow.deleted %} <span class="badge badge--muted">{{ LNG.ml_deleted }}</span>{% endif %}</td>
+            </tr>
+            <tr id="contentID{{ messageID }}" style="display:none;">
+              <td colspan="{{ cols }}">{{ messageRow.text|raw }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer class="card__foot">{{ ui.pager(page, maxPage, LNG.adm_pagination) }}</footer>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('messages-square') }}<p>{{ LNG.ml_message_list }}</p></div></div>
+    {% endif %}
+  </section>
+</form>
+<script type="module" src="scripts/admin/messageList.js"></script>
+{% include 'admin/overall_footer.html.twig' %}

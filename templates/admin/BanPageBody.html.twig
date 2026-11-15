@@ -1,0 +1,104 @@
+{# shared by BanPageUser / BanPageAccount: expects ban = {mode, id, nameLabel, list, listBan, total, totalLabel, bannedLabel} #}
+{% import 'admin/AdminPicker.macros.html.twig' as picker %}
+<div class="stack">
+  <nav class="tabs">
+    <a href="?page=ban&amp;mode=account"{% if ban.mode == 'account' %} aria-current="page"{% endif %}>{{ icon('id-card') }}{{ LNG.adm_ban_accounts }}</a>
+    <a href="?page=ban&amp;mode=user"{% if ban.mode == 'user' %} aria-current="page"{% endif %}>{{ icon('user') }}{{ LNG.adm_ban_users }}</a>
+  </nav>
+
+  {% if isset(name) %}
+    <form action="" method="post" name="countt" class="card card--danger" data-track-dirty>
+      <input type="hidden" name="ban_id" value="{{ ban.id }}">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('ban') }}{{ bantitle|striptags }}: {{ name }}</h2>
+        {% if changedate_advert %}<div class="card__actions"><span class="badge badge--danger">{{ LNG.bo_characters_suus }}</span></div>{% endif %}
+      </header>
+      <div class="card__body form-grid">
+        <div class="field-row">
+          <label for="ban-name">{{ ban.nameLabel }}</label>
+          <div class="field-control"><input id="ban-name" name="ban_name" type="text" value="{{ name }}" readonly></div>
+        </div>
+        <div class="field-row">
+          <label for="ban-why">{{ LNG.bo_reason }}</label>
+          <div class="field-control">
+            <textarea id="ban-why" name="why" maxlength="500" rows="5" onkeyup="document.getElementById('result2').textContent = 500 - this.value.length;">{{ reas }}</textarea>
+          </div>
+          <div class="field-help">{{ LNG.bo_characters_1 }}: <span id="result2">{{ 500 - (reas|length) }}</span></div>
+        </div>
+        {{ timesus }}
+        <div class="field-row">
+          <span class="field-label">{{ changedate }}</span>
+          <div class="field-control">
+            <label class="check"><input name="permanent" type="checkbox"{% if perma %} checked="checked"{% endif %}>{{ LNG.bo_permanent }}</label>
+          </div>
+          {% if changedate_advert %}<div class="field-help">{{ LNG.bo_bbb_title_4 }}</div>{% endif %}
+        </div>
+        <div class="field-row">
+          <span class="field-label">{{ LNG.bo_vacaations }}</span>
+          <div class="field-control">
+            <label class="check"><input name="vacat" type="checkbox"{% if vacation %} checked="checked"{% endif %}>{{ LNG.bo_vacation_mode }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="card__body">
+        <h3 class="field-label">{{ LNG.adm_ban_duration }}</h3>
+        <div class="fields">
+          <div class="field"><label for="ban-days">{{ LNG.time_days }}</label><input id="ban-days" name="days" type="text" inputmode="numeric" value="0"></div>
+          <div class="field"><label for="ban-hour">{{ LNG.time_hours }}</label><input id="ban-hour" name="hour" type="text" inputmode="numeric" value="0"></div>
+          <div class="field"><label for="ban-mins">{{ LNG.time_minutes }}</label><input id="ban-mins" name="mins" type="text" inputmode="numeric" value="0"></div>
+          <div class="field"><label for="ban-secs">{{ LNG.time_seconds }}</label><input id="ban-secs" name="secs" type="text" inputmode="numeric" value="0"></div>
+        </div>
+      </div>
+      <footer class="card__foot">
+        <button type="submit" name="bannow" value="{{ LNG.button_submit }}" class="btn--danger" data-confirm="">{{ icon('ban') }}{{ LNG.bo_ban }}</button>
+        <button type="submit" name="cancel" value="{{ LNG.button_cancel }}" formnovalidate>{{ LNG.button_cancel }}</button>
+      </footer>
+    </form>
+  {% endif %}
+
+  <div class="cols">
+    <form action="" method="POST" name="{{ ban.mode == 'user' ? 'users' : 'account' }}" class="card">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('ban') }}{{ LNG.bo_ban_player }}</h2>
+        <div class="card__actions small">
+          <a href="?page=ban&amp;mode={{ ban.mode }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
+          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;order=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
+          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;view=bana">{{ LNG.bo_order_banned|trim('[] ') }}</a>
+        </div>
+      </header>
+      <div class="card__body stack">
+        {{ picker.filter('UserList', LNG.button_filter) }}
+        <select name="ban_id" size="14">
+          {{ ban.list }}
+        </select>
+        <script>var UserList = new filterlist(document.getElementsByName('ban_id')[0]);</script>
+      </div>
+      <footer class="card__foot">
+        <button type="submit" name="panel" value="{{ LNG.bo_ban }}" class="btn--primary">{{ icon('ban') }}{{ LNG.bo_ban }}</button>
+        <span class="muted small">{{ ban.totalLabel }}<strong>{{ ban.total }}</strong></span>
+      </footer>
+    </form>
+
+    <form action="" method="POST" name="{{ ban.mode }}ban" class="card">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('shield-check') }}{{ LNG.bo_unban_player }}</h2>
+        <div class="card__actions small">
+          <a href="?page=ban&amp;mode={{ ban.mode }}">{{ LNG.bo_order_username|trim('[] ') }}</a>
+          <a href="?page=ban&amp;mode={{ ban.mode }}&amp;order2=id">{{ LNG.bo_order_id|trim('[] ') }}</a>
+        </div>
+      </header>
+      <div class="card__body stack">
+        {{ picker.filter('UsersBan', LNG.button_filter) }}
+        <select name="unban_id" size="14">
+          {{ ban.listBan }}
+        </select>
+        <script>var UsersBan = new filterlist(document.getElementsByName('unban_id')[0]);</script>
+      </div>
+      <footer class="card__foot">
+        <button type="submit" value="{{ LNG.bo_unban }}" class="btn--danger" data-confirm="">{{ icon('shield-check') }}{{ LNG.bo_unban }}</button>
+        <button type="submit" name="panel_change" value="{{ LNG.bo_ban_change }}">{{ icon('pencil') }}{{ LNG.bo_ban_change }}</button>
+        <span class="muted small">{{ ban.bannedLabel }}<strong>{{ ban.bancount }}</strong></span>
+      </footer>
+    </form>
+  </div>
+</div>

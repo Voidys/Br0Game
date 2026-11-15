@@ -1,0 +1,45 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_notes }}{{ parent() }}{% endblock %}
+{% block content %}
+<form action="game?page=notes&amp;mode=delete" method="post">
+	<table>
+		<tr>
+			<th colspan="4">{{ LNG.nt_notes }}</th>
+		</tr>
+		<tr>
+			<td colspan="4"><a href="game?page=notes&amp;mode=detail">{{ LNG.nt_create_new_note }}</a></td>
+		</tr>
+		<tr>
+			<th class="ctr">{{ LNG.nt_dlte_note }}</th>
+			<th>{{ LNG.nt_date_note }}</th>
+			<th>{{ LNG.nt_subject_note }}</th>
+			<th class="num">{{ LNG.nt_size_note }}</th>
+		</tr>
+		{% for notesID, notesRow in (notesList)|php_iter %}
+		<tr>
+			<td class="ctr"><input name="delmes[{{ notesID }}]" type="checkbox"></td>
+			<td>{{ notesRow.time }}</td>
+			<td><a href="game?page=notes&amp;mode=detail&amp;id={{ notesID }}">
+			{% if notesRow.priority == 0 %}
+			<span class="colorPositive">{{ notesRow.title }}</span>
+			{% elseif notesRow.priority == 2 %}
+			<span class="colorNegative">{{ notesRow.title }}</span>
+			{% else %}
+			<span class="color-yellow">{{ notesRow.title }}</span>
+			{% endif %}
+			</a></td>
+			<td class="num">{{ pretty_number(notesRow.size) }}</td>
+		</tr>
+		{% if loop.last %}
+		<tr>
+			<td colspan="4" class="form-actions"><input value="{{ LNG.nt_dlte_note }}" type="submit"></td>
+		</tr>
+		{% endif %}
+		{% else %}
+		<tr>
+			<td colspan="4">{{ LNG.nt_you_dont_have_notes }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</form>
+{% endblock %}

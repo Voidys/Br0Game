@@ -1,0 +1,52 @@
+<?php
+
+/**
+ *  2Moons
+ *   by Jan-Otto Kröpke 2009-2016
+ *
+ * For the full copyright and license information, please view the LICENSE
+ *
+ * @package 2Moons
+ * @author Jan-Otto Kröpke <slaver7@gmail.com>
+ * @copyright 2009 Lucky
+ * @copyright 2016 Jan-Otto Kröpke <slaver7@gmail.com>
+ * @licence MIT
+ * @version 1.8.0
+ * @link https://github.com/jkroepke/2Moons
+ */
+
+namespace App\Controller\Login;
+
+use Symfony\Component\HttpFoundation\Response;
+
+/** Public data privacy page, rendered from the CMS page "dataPrivacy". */
+#[\App\Routing\GamePage('index.php', 'dataPrivacy')]
+#[\App\Routing\GamePage('index.php', 'dataPrivacy', uniPrefix: true)]
+class DataPrivacyController extends AbstractLoginController
+{
+    public static $requireModule = 0;
+
+    private \App\Content\ContentPages $contentPages;
+
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setContentPages(\App\Content\ContentPages $contentPages): void
+    {
+        $this->contentPages = $contentPages;
+    }
+
+    public function initialize(): void
+    {
+        parent::initialize();
+    }
+
+    public function show(): Response
+    {
+        $page = $this->contentPages->find('dataPrivacy', $this->state->LNG->getLanguage());
+        $this->assign([
+            'cms_title' => htmlspecialchars($page['title'], ENT_QUOTES, 'UTF-8'),
+            'cms_content' => $page['content'],
+        ]);
+
+        return $this->render('login/page.dataPrivacy.default.html.twig');
+    }
+}

@@ -1,0 +1,193 @@
+# Selectable game languages (formerly language/<locale>/LANG.cfg).
+# number_suffixes: compact shortly_number suffixes (/1000 steps); number_profile: short|long;
+# decimal_separator: 0 = European 1.234,56, 1 = US/UK 1,234.56.
+de:
+    name: Deutsch
+    tag: de
+    author: 'Jan-Otto Kröpke'
+    date: 30.10.2012
+    number_suffixes:
+        - ''
+        - k
+        - Mio
+        - Mrd
+        - Bio
+        - Brd
+        - Tr
+        - Trd
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+en:
+    name: English
+    tag: en
+    author: QwataKayean
+    date: 12.06.2012
+    number_suffixes:
+        - ''
+        - K
+        - M
+        - B
+        - T
+        - Q
+        - Q+
+        - S
+        - S+
+        - O
+        - 'N'
+    number_profile: short
+    decimal_separator: 1
+es:
+    name: Spanish
+    tag: es
+    author: Orion-Manolo
+    date: 21-08-2012
+    number_suffixes:
+        - ''
+        - k
+        - M
+        - MM
+        - B
+        - MB
+        - T
+        - MT
+        - Cd
+        - MCd
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+fr:
+    name: French
+    tag: fr
+    author: 'KickXAss4Ever & Apocalypto2202'
+    date: 28.02.2016
+    number_suffixes:
+        - ''
+        - k
+        - M
+        - Md
+        - Bn
+        - Bd
+        - Tn
+        - Td
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+of:
+    name: Ogerfränkisch
+    tag: OF
+    author: 'Appendix / Altschauerberg 8 (ASB8)'
+    date: 08.09.2022
+    number_suffixes:
+        - ''
+        - k
+        - Mio
+        - Mrd
+        - Bio
+        - Brd
+        - Tr
+        - Trd
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+pi:
+    name: SetSails
+    tag: pi
+    author: Slippy
+    date: 16.09.2022
+    number_suffixes:
+        - ''
+        - k
+        - Mio
+        - Mrd
+        - Bio
+        - Brd
+        - Tr
+        - Trd
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+pl:
+    name: Polish
+    tag: pl
+    author: 'Sirgomo, poprawki tatarysh, poprawki steemit TheRavikin'
+    date: 1.02.2018
+    number_suffixes:
+        - ''
+        - k
+        - mln
+        - mld
+        - bln
+        - bld
+        - trln
+        - trld
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+pt:
+    name: Português
+    tag: pt
+    author: QwataKayean
+    date: 12.06.2012
+    number_suffixes:
+        - ''
+        - k
+        - M
+        - Md
+        - Bi
+        - Bd
+        - Tri
+        - Trd
+        - Qa
+        - Qad
+        - Qi
+    number_profile: long
+    decimal_separator: 0
+ru:
+    name: Русский
+    tag: ru
+    author: InquisitorEA
+    date: 08.08.2013
+    number_suffixes:
+        - ''
+        - тыс
+        - млн
+        - млрд
+        - трлн
+        - Q
+        - Q+
+        - S
+        - S+
+        - O
+        - 'N'
+    number_profile: hybrid
+    decimal_separator: 0
+tr:
+    name: Turkce
+    tag: tr
+    author: MatthewCollins
+    date: 20.06.2013
+    number_suffixes:
+        - ''
+        - K
+        - M
+        - Mr
+        - T
+        - Q
+        - Q+
+        - S
+        - S+
+        - O
+        - 'N'
+    number_profile: hybrid
+    decimal_separator: 0

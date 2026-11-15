@@ -1,0 +1,622 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Runtime;
+
+use App\Game\Bots\BotProfiles;
+use App\Game\Bots\BotSpawner;
+use App\Game\Core\Config\ConfigFieldSchema;
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
+use App\Game\Core\GameData;
+use App\Game\Core\GameUtilities;
+use App\Game\Core\Language;
+use App\Game\Core\Singleton;
+use App\Game\Core\Theme;
+use Exception;
+use PDO;
+use PDOException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
+/**
+ * The steps of a fresh installation, independent of the request: used by the web wizard (App\Runtime\Installer)
+ * and by `bin/console app:install` (App\Command\InstallCommand).
+ *
+ * Order: requirements -> prepareDatabase() (connect, create the database, write config/game.php and .env.local)
+ * -> runBuildTask() for every buildTasks() entry -> applyGameSettings() -> createAdmin() -> spawnBots() -> finish().
+ * Everything after prepareDatabase() needs a process that started after .env.local was written (the game's
+ * connection reads DATABASE_URL at start-up).
+ */
+final class InstallService
+{
+    use GameUtilities;
+
+    /** Speed presets: multipliers of the universe settings (stored x 2500 for the "int_multiply_2500" fields). */
+    public const SPEED_PRESETS = [
+        'classic' => ['building_speed' => 1, 'shipyard_speed' => 1, 'research_speed' => 1, 'fleet_speed' => 1, 'resource_multiplier' => 1, 'storage_multiplier' => 1],
+        'fast' => ['building_speed' => 3, 'shipyard_speed' => 3, 'research_speed' => 3, 'fleet_speed' => 2, 'resource_multiplier' => 3, 'storage_multiplier' => 2],
+        'blitz' => ['building_speed' => 10, 'shipyard_speed' => 10, 'research_speed' => 10, 'fleet_speed' => 5, 'resource_multiplier' => 10, 'storage_multiplier' => 5],
+    ];
+
+    public const MIN_PASSWORD_LENGTH = 8;
+    public const DOCS_URL = 'https://github.com/Voidys/Br0Game/blob/main/docs/INSTALL.md';
+
+    /** file (in var/) that carries a generated migration password from the database step to the last page */
+    private const SECRET_FILE = 'var/INSTALL_SECRET';
+
+    /** @var array<string, Language> */
+    private array $languages = [];
+
+    private readonly string $root;
+
+    public function __construct(
+        private Database $db,
+        private ConfigRegistry $configs,
+        private Singleton $state,
+        #[Autowire(lazy: true)]
+        private BotSpawner $botSpawner,
+        #[Autowire(lazy: true)]
+        private BotProfiles $botProfiles,
+        #[Autowire(param: 'kernel.project_dir')]
+        string $projectDir,
+    ) {
+        $this->root = rtrim($projectDir, '/') . '/';
+    }
+
+    public function root(): string
+    {
+        return $this->root;
+    }
+
+    public function isInstalled(): bool
+    {
+        return is_file($this->root . 'config/game.php') && filesize($this->root . 'config/game.php') > 0;
+    }
+
+    /** translations of the installer (domain install, plus the shared ones) in the given language */
+    public function lng(string $locale): Language
+    {
+        if (!isset($this->languages[$locale])) {
+            // the language cache lives in var/game/, which a fresh checkout does not have yet
+            foreach (['var/game/', 'var/sessions/', 'var/log/'] as $dir) {
+                is_dir($this->root . $dir) || @mkdir($this->root . $dir, 0777, true);
+            }
+            $LNG = new Language($this->configs, 'en');
+            if ($locale !== 'en' && in_array($locale, $LNG->getAllowedLangs(), true)) {
+                $LNG->setLanguage($locale);
+            }
+            $LNG->includeData(['L18N', 'INGAME', 'INSTALL', 'CUSTOM']);
+            $this->languages[$locale] = $LNG;
+        }
+
+        return $this->languages[$locale];
+    }
+
+    /** makes the game state use this language (the console has no request that would set it) */
+    public function useLanguage(string $locale): void
+    {
+        $this->state->LNG = $this->lng($locale);
+    }
+
+    /** @return array<string, string> language key => name */
+    public function allowedLanguages(): array
+    {
+        return $this->lng('en')->getAllowedLangs(false);
+    }
+
+    /** @return list<string> */
+    public function timezones(): array
+    {
+        return \DateTimeZone::listIdentifiers();
+    }
+
+    public function defaultTimezone(): string
+    {
+        $zone = @date_default_timezone_get() ?: 'UTC';
+
+        return in_array($zone, $this->timezones(), true) ? $zone : 'UTC';
+    }
+
+    /** @return array<string, array<string, int>> */
+    public function speedPresets(): array
+    {
+        return self::SPEED_PRESETS;
+    }
+
+    /** @return array{checks: list<array{label: string, ok: bool, detail: string, required: bool}>, passed: bool} */
+    public function requirements(string $locale): array
+    {
+        $LNG = $this->lng($locale);
+        $checks = [];
+        $add = static function (string $label, bool $ok, string $detail = '', bool $required = true) use (&$checks): void {
+            $checks[] = ['label' => $label, 'ok' => $ok, 'detail' => $detail, 'required' => $required];
+        };
+
+        $add('PHP ≥ 8.2', version_compare(PHP_VERSION, '8.2.0', '>='), 'v' . PHP_VERSION);
+        $add('PDO MySQL', class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers(), true));
+        $add('JSON', function_exists('json_encode'));
+        $add('ini_set()', function_exists('ini_set'));
+        $add('GD', extension_loaded('gd'), extension_loaded('gd') ? (gd_info()['GD Version'] ?? '') : '', false);
+
+        clearstatcache();
+        foreach (['config/game.php', '.env.local'] as $file) {
+            $exists = file_exists($this->root . $file);
+            $writable = $exists ? is_writable($this->root . $file) : is_writable(dirname($this->root . $file));
+            $add(sprintf($LNG['reg_file'], $file), $writable, $writable ? $LNG['reg_writable'] : $LNG['reg_not_writable']);
+        }
+        foreach (['var/', 'var/game/', 'var/sessions/', 'var/backups/', 'var/log/', 'config/'] as $dir) {
+            $exists = file_exists($this->root . $dir) || @mkdir($this->root . $dir, 0777, true);
+            $add(
+                sprintf($LNG['reg_dir'], $dir),
+                $exists && is_writable($this->root . $dir),
+                !$exists ? $LNG['reg_not_found'] : (is_writable($this->root . $dir) ? $LNG['reg_writable'] : $LNG['reg_not_writable']),
+            );
+        }
+
+        return [
+            'checks' => $checks,
+            'passed' => array_filter($checks, static fn(array $check): bool => $check['required'] && !$check['ok']) === [],
+        ];
+    }
+
+    /** a strong random migration password (24 hex characters) */
+    public function generateMigrationPassword(): string
+    {
+        return bin2hex(random_bytes(12));
+    }
+
+    /** Plain-words explanation of a failed database connection (access denied, unknown database, host unreachable). */
+    public function explainConnectionError(PDOException $e, string $host, string $locale): string
+    {
+        $LNG = $this->lng($locale);
+        $code = (int) ($e->errorInfo[1] ?? $e->getCode());
+        $message = $e->getMessage();
+        $hint = match (true) {
+            $code === 1045 || str_contains($message, 'Access denied') => $LNG['ins_err_access_denied'],
+            $code === 1049 || str_contains($message, 'Unknown database') => $LNG['ins_err_unknown_db'],
+            $code === 1044 => $LNG['ins_err_no_privilege'],
+            $code === 2002 && str_contains($message, 'No such file') => $LNG['ins_err_socket'],
+            in_array($code, [2002, 2003, 2005, 2006], true) || str_contains($message, 'getaddrinfo') || str_contains($message, 'Connection refused') || str_contains($message, 'timed out') => sprintf($LNG['ins_err_unreachable'], $host),
+            default => $LNG['step2_db_con_fail'],
+        };
+
+        return $hint . ' (' . $LNG['ins_err_technical'] . ': ' . $message . ')';
+    }
+
+    /**
+     * Connects with the form values (not the configured connection), creates the database when asked, makes sure no
+     * tables with the prefix exist yet, then writes config/game.php and .env.local (DATABASE_URL + TABLE_PREFIX).
+     * The first failure stops the step; every check is returned as a list.
+     *
+     * @param array{host: string, port: string|int, user: string, dbname: string, prefix: string, createdb: bool|string, migrationpw?: string} $form
+     * @return array{checks: list<array{label: string, ok: bool, detail: string}>, passed: bool, migrationpw: string, generated: bool}
+     */
+    public function prepareDatabase(array $form, string $password, string $locale, string $baseUrl = ''): array
+    {
+        $LNG = $this->lng($locale);
+        $root = $this->root;
+        $form['host'] = trim((string) $form['host']);
+        $form['port'] = (string) (int) ($form['port'] ?: 3306);
+        $form['dbname'] = trim((string) $form['dbname']);
+        $form['prefix'] = trim((string) ($form['prefix'] === '' ? 'uni1_' : $form['prefix']));
+        $form['createdb'] = !empty($form['createdb']);
+        $migrationpw = (string) ($form['migrationpw'] ?? '');
+        $generated = $migrationpw === '';
+        if ($generated) {
+            $migrationpw = $this->generateMigrationPassword();
+        }
+
+        $checks = [];
+        $result = static function (bool $passed) use (&$checks, &$migrationpw, &$generated): array {
+            return ['checks' => $checks, 'passed' => $passed, 'migrationpw' => $migrationpw, 'generated' => $generated];
+        };
+        $fail = static function (string $label, string $detail) use (&$checks, $result): array {
+            $checks[] = ['label' => $label, 'ok' => false, 'detail' => $detail];
+
+            return $result(false);
+        };
+
+        // input
+        $invalid = match (true) {
+            $form['host'] === '' => $LNG['ins_db_no_host'],
+            $form['dbname'] === '' => $LNG['step2_db_no_dbname'],
+            !preg_match('/^[A-Za-z0-9_\-]{1,64}$/', $form['dbname']) => $LNG['ins_db_name_invalid'],
+            strlen($form['prefix']) > 36 => $LNG['step2_db_too_long'],
+            !preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $form['prefix']) => $LNG['step2_prefix_invalid'],
+            preg_match('/[\r\n\'"\\\\$]/', $migrationpw) === 1 => $LNG['ins_migrationpw_invalid'],
+            $this->isInstalled() => $LNG['step2_config_exists'],
+            default => null,
+        };
+        if ($invalid !== null) {
+            return $fail($LNG['ins_check_input'], $invalid);
+        }
+        $checks[] = ['label' => $LNG['ins_check_input'], 'ok' => true, 'detail' => ''];
+
+        // server
+        try {
+            $pdo = new PDO('mysql:host=' . $form['host'] . ';port=' . $form['port'] . ';charset=utf8mb4', $form['user'], $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_TIMEOUT => 5,
+            ]);
+            $version = (string) $pdo->query('SELECT VERSION()')->fetchColumn();
+        } catch (PDOException $e) {
+            return $fail($LNG['ins_check_connect'], $this->explainConnectionError($e, $form['host'], $locale));
+        }
+        $checks[] = ['label' => $LNG['ins_check_connect'], 'ok' => true, 'detail' => $version];
+
+        // database
+        $label = sprintf($LNG['ins_check_database'], $form['dbname']);
+        $exists = $pdo->prepare('SELECT COUNT(*) FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
+        $exists->execute([$form['dbname']]);
+        if ((int) $exists->fetchColumn() === 0) {
+            if (!$form['createdb']) {
+                return $fail($label, $LNG['ins_db_missing']);
+            }
+            try {
+                $pdo->exec('CREATE DATABASE `' . $form['dbname'] . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
+            } catch (PDOException $e) {
+                return $fail($label, $LNG['ins_db_create_fail'] . ' ' . $this->explainCreateError($e, $locale));
+            }
+            $checks[] = ['label' => $label, 'ok' => true, 'detail' => $LNG['ins_db_created']];
+        } else {
+            $checks[] = ['label' => $label, 'ok' => true, 'detail' => $LNG['ins_db_exists']];
+        }
+
+        // free of game tables
+        $label = sprintf($LNG['ins_check_tables'], $form['prefix']);
+        $tables = $pdo->prepare('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME LIKE ?');
+        $tables->execute([$form['dbname'], addcslashes($form['prefix'], '_%\\') . '%']);
+        $tableCount = (int) $tables->fetchColumn();
+        if ($tableCount > 0) {
+            return $fail($label, sprintf($LNG['ins_tables_exist'], $tableCount));
+        }
+        $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
+
+        // config/game.php (salt, migration password, DB fallback)
+        $salt = substr(str_shuffle('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 22);
+        $php = sprintf(
+            (string) file_get_contents($root . 'config/game.sample.php'),
+            addcslashes($form['host'], "'\\"),
+            $form['port'],
+            addcslashes($form['user'], "'\\"),
+            addcslashes($password, "'\\"),
+            $form['dbname'],
+            $form['prefix'],
+            addcslashes($migrationpw, "'\\"),
+            $salt,
+        );
+        $label = sprintf($LNG['ins_check_write'], 'config/game.php');
+        if (@file_put_contents($root . 'config/game.php', $php) === false) {
+            return $fail($label, $LNG['step2_conf_op_fail']);
+        }
+        @chmod($root . 'config/game.php', 0640); // holds the database password and the salt
+        $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
+
+        // .env.local: the game's connection (Doctrine) reads DATABASE_URL
+        $serverVersion = str_contains(strtolower($version), 'mariadb')
+            ? 'mariadb-' . preg_replace('/^(\d+\.\d+\.\d+).*/', '$1', $version)
+            : preg_replace('/^(\d+\.\d+\.\d+).*/', '$1', $version);
+        $url = sprintf(
+            'mysql://%s:%s@%s:%s/%s?serverVersion=%s&charset=utf8mb4',
+            rawurlencode($form['user']),
+            rawurlencode($password),
+            $form['host'],
+            $form['port'],
+            $form['dbname'],
+            $serverVersion,
+        );
+        $env = ['DATABASE_URL' => $url, 'TABLE_PREFIX' => $form['prefix']] + $this->environmentDefaults();
+        if ($baseUrl !== '') {
+            $env['DEFAULT_URI'] = $baseUrl;
+        }
+        $label = sprintf($LNG['ins_check_write'], '.env.local');
+        if (!$this->writeEnvLocal($env)) {
+            @unlink($root . 'config/game.php');
+
+            return $fail($label, $LNG['reg_not_writable']);
+        }
+        $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
+
+        @touch($root . 'var/log/game.log');
+        if ($generated) {
+            // shown once on the last page, then removed
+            @file_put_contents($root . self::SECRET_FILE, $migrationpw . "\n");
+            @chmod($root . self::SECRET_FILE, 0600);
+        }
+
+        return $result(true);
+    }
+
+    /**
+     * Settings a fresh install needs besides the database: a random APP_SECRET (when .env.local has none) and production
+     * mode (APP_ENV=prod, APP_DEBUG=0) unless .env.local already sets APP_ENV or the install runs inside DDEV.
+     *
+     * @return array<string, string>
+     */
+    private function environmentDefaults(): array
+    {
+        $file = $this->root . '.env.local';
+        $content = is_file($file) ? (string) file_get_contents($file) : '';
+        $values = [];
+        if (preg_match('/^\s*APP_SECRET\s*=\s*["\']?[^"\'\s]+/m', $content) !== 1) {
+            $values['APP_SECRET'] = bin2hex(random_bytes(32));
+        }
+        if (preg_match('/^\s*APP_ENV\s*=/m', $content) !== 1 && getenv('IS_DDEV_PROJECT') === false) {
+            $values['APP_ENV'] = 'prod';
+            $values['APP_DEBUG'] = '0';
+        }
+
+        return $values;
+    }
+
+    private function explainCreateError(PDOException $e, string $locale): string
+    {
+        $LNG = $this->lng($locale);
+        $code = (int) ($e->errorInfo[1] ?? 0);
+
+        return ($code === 1044 || $code === 1227 || str_contains($e->getMessage(), 'denied'))
+            ? $LNG['ins_err_no_create'] . ' (' . $e->getMessage() . ')'
+            : $e->getMessage();
+    }
+
+    /** sets the given keys in .env.local (other lines stay), values quoted for Symfony's Dotenv */
+    public function writeEnvLocal(array $values): bool
+    {
+        $file = $this->root . '.env.local';
+        $lines = is_file($file) ? (file($file, FILE_IGNORE_NEW_LINES) ?: []) : ['# written by the installer'];
+        foreach ($values as $key => $value) {
+            $line = $key . '="' . addcslashes((string) $value, '"\\$') . '"';
+            $found = false;
+            foreach ($lines as $i => $existing) {
+                if (preg_match('/^\s*' . preg_quote((string) $key, '/') . '\s*=/', $existing)) {
+                    $lines[$i] = $line;
+                    $found = true;
+                }
+            }
+            if (!$found) {
+                $lines[] = $line;
+            }
+        }
+
+        $written = @file_put_contents($file, implode("\n", $lines) . "\n") !== false;
+        // holds the database password and the app secret: not readable by others
+        @chmod($file, 0640);
+
+        return $written;
+    }
+
+    /** @return array<string, string> task => label, run in this order */
+    public function buildTasks(string $locale): array
+    {
+        $LNG = $this->lng($locale);
+
+        return [
+            'tables' => $LNG['ins_task_tables'],
+            'migrations' => $LNG['ins_task_migrations'],
+            'config' => $LNG['ins_task_config'],
+            'universe' => $LNG['ins_task_universe'],
+            'images' => $LNG['ins_task_images'],
+        ];
+    }
+
+    /** Runs one build task; throws on failure (the caller removes config/game.php so the database step can repeat). */
+    public function runBuildTask(string $task, string $locale): void
+    {
+        $LNG = $this->lng($locale);
+        $db = $this->db;
+        switch ($task) {
+            case 'tables':
+                if ($db->selectSingle('SELECT COUNT(*) AS n FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name', [':name' => $db->getTablePrefix() . 'config'], 'n') > 0) {
+                    throw new Exception(sprintf($LNG['ins_tables_exist'], 1));
+                }
+                $db->query(str_replace('%PREFIX%', $db->getTablePrefix(), (string) file_get_contents($this->root . 'install/install.sql')));
+                break;
+            case 'migrations':
+                foreach ($this->maintenance()->listMigrations() as $fileRevision => $fileInfo) {
+                    $db->insert('INSERT INTO %%SYSTEM%% VALUES (:dbVersion);', [':dbVersion' => $fileRevision]);
+                }
+                break;
+            case 'config':
+                $installVersion = trim((string) file_get_contents($this->root . 'install/VERSION'));
+                $schemaGlobal = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_BASIC, $this->state, $this->configs);
+                foreach ($schemaGlobal->getAllFields() as $fieldName => $fieldConfig) {
+                    $db->insert('INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value);', [
+                        ':key' => $fieldName,
+                        ':value' => $fieldName === 'version' ? $installVersion : ($fieldConfig['default'] ?? ''),
+                    ]);
+                }
+                break;
+            case 'universe':
+                $schemaUni = new ConfigFieldSchema(ConfigFieldSchema::CONFIG_TYPE_UNI, $this->state, $this->configs);
+                foreach ($schemaUni->getAllFields() as $fieldName => $fieldConfig) {
+                    $db->insert('INSERT INTO %%CONFIG_UNIVERSE%% (`uni`, `key`, `value`) VALUES (:uni, :key, :value);', [
+                        ':uni' => 1,
+                        ':key' => $fieldName,
+                        ':value' => $fieldName === 'uni_name' ? $LNG['fcm_universe'] . ' 1' : ($fieldConfig['default'] ?? ''),
+                    ]);
+                }
+                foreach ($this->state->modules as $moduleKey => $moduleName) {
+                    $db->insert('INSERT INTO %%CONFIG_UNIVERSE_MODULES%% (`uni`, `module`, `module_name`, `state`) VALUES (:uni, :module, :module_name, :state)', [
+                        ':uni' => 1,
+                        ':module' => $moduleKey,
+                        ':module_name' => $moduleName,
+                        ':state' => 1,
+                    ]);
+                }
+                break;
+            case 'images':
+                // WebP copies of the static images (same as bin/console app:images:webp); never fails the install
+                @set_time_limit(300);
+                (new \App\Content\ImageProcessor())->webpTree($this->root . 'public');
+                break;
+            default:
+                throw new Exception('Unknown task: ' . $task);
+        }
+    }
+
+    /**
+     * Validates the game step. Keys of $input: game_name, default_theme, uni_name, language, timezone, speed,
+     * registration (open|closed), mail (bool), bots (0..50).
+     *
+     * @param array<string, mixed> $input
+     * @return array{error: ?string, values: array<string, mixed>}
+     */
+    public function validateGameSettings(array $input, string $locale): array
+    {
+        $LNG = $this->lng($locale);
+        $values = [
+            'game_name' => trim((string) ($input['game_name'] ?? 'Br0Game')),
+            'default_theme' => (string) ($input['default_theme'] ?? DEFAULT_THEME),
+            'uni_name' => trim((string) ($input['uni_name'] ?? '')),
+            'language' => (string) ($input['language'] ?? $locale),
+            'timezone' => (string) ($input['timezone'] ?? $this->defaultTimezone()),
+            'speed' => (string) ($input['speed'] ?? 'classic'),
+            'registration' => (string) ($input['registration'] ?? 'open'),
+            'mail' => !empty($input['mail']),
+            'bots' => (int) ($input['bots'] ?? 0),
+        ];
+        if ($values['uni_name'] === '') {
+            $values['uni_name'] = $LNG['fcm_universe'] . ' 1';
+        }
+
+        $error = match (true) {
+            $values['game_name'] === '' || mb_strlen($values['game_name']) > 64 => $LNG['ins_game_name_invalid'],
+            !isset(Theme::getAvailableCssThemes()[$values['default_theme']]) => $LNG['ins_theme_invalid'],
+            mb_strlen($values['uni_name']) > 60 => $LNG['ins_uni_name_invalid'],
+            !array_key_exists($values['language'], $this->allowedLanguages()) => $LNG['ins_language_invalid'],
+            !in_array($values['timezone'], $this->timezones(), true) => $LNG['ins_timezone_invalid'],
+            !isset(self::SPEED_PRESETS[$values['speed']]) => $LNG['ins_speed_invalid'],
+            !in_array($values['registration'], ['open', 'closed'], true) => $LNG['ins_registration_invalid'],
+            $values['bots'] < 0 || $values['bots'] > 50 => $LNG['ins_bots_invalid'],
+            default => null,
+        };
+
+        return ['error' => $error, 'values' => $values];
+    }
+
+    /** Writes validated game settings (see validateGameSettings()) to the global and universe 1 configuration. */
+    public function applyGameSettings(array $values): void
+    {
+        $global = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);';
+        $this->db->insert($global, [':key' => 'game_name', ':value' => $values['game_name']]);
+        $this->db->insert($global, [':key' => 'default_theme', ':value' => $values['default_theme']]);
+        $this->db->insert($global, [':key' => 'timezone', ':value' => $values['timezone']]);
+        $this->db->insert($global, [':key' => 'mail_active', ':value' => $values['mail'] ? '1' : '0']);
+
+        $universe = [
+            'uni_name' => $values['uni_name'],
+            'lang' => $values['language'],
+            // 0 = registration open + game open, 3 = registration closed + game open
+            'uni_status' => $values['registration'] === 'open' ? '0' : '3',
+            'bots_enabled' => $values['bots'] > 0 ? '1' : '0',
+        ];
+        foreach (self::SPEED_PRESETS[$values['speed']] as $key => $multiplier) {
+            $universe[$key] = (string) ($key === 'storage_multiplier' ? $multiplier : $multiplier * 2500);
+        }
+        $sql = 'UPDATE %%CONFIG_UNIVERSE%% SET `value` = :value WHERE `uni` = 1 AND `key` = :key;';
+        foreach ($universe as $key => $value) {
+            $this->db->update($sql, [':key' => $key, ':value' => $value]);
+        }
+        if ($this->configs->isLoaded()) {
+            $this->configs->reload();
+        }
+    }
+
+    /** @return array<string, string> empty when valid, else field => message */
+    public function validateAdmin(string $username, string $password, string $confirm, string $mail, string $locale): array
+    {
+        $LNG = $this->lng($locale);
+        $errors = [];
+        $length = mb_strlen($username);
+        if ($length < 3 || $length > 20) {
+            $errors['username'] = $LNG['step4_admin_name_desc'];
+        }
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = $LNG['ins_admin_mail_invalid'];
+        }
+        if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
+            $errors['password'] = sprintf($LNG['ins_admin_pass_short'], self::MIN_PASSWORD_LENGTH);
+        } elseif (strlen($password) > 64) {
+            $errors['password'] = $LNG['ins_admin_pass_long'];
+        } elseif ($password !== $confirm) {
+            $errors['password'] = $LNG['ins_admin_pass_mismatch'];
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Creates the administrator account with its home planet in universe 1.
+     *
+     * @return array{0: int, 1: int, 2: int} account id, user id, planet id
+     */
+    public function createAdmin(string $username, string $password, string $mail, string $language): array
+    {
+        (new GameData($this->db, $this->configs, $this->state))->load();
+        $accountId = $this->accountUtil()->createAccount($username, $this->accountUtil()->cryptPassword($password), $mail, $language, AUTH_ADM);
+        [$userId, $planetId] = $this->playerUtil()->createPlayer(
+            $accountId,
+            $this->universe()->current(),
+            $username,
+            $language,
+            1,
+            1,
+            2,
+            null,
+            AUTH_ADM,
+        );
+
+        return [(int) $accountId, (int) $userId, (int) $planetId];
+    }
+
+    /** Spawns $count bots in universe 1, spread over the default profiles (mixed personalities). @return int number created */
+    public function spawnBots(int $count): int
+    {
+        if ($count <= 0) {
+            return 0;
+        }
+        $universe = (int) $this->universe()->current();
+        $profiles = $this->botProfiles->all();
+        if ($profiles === []) {
+            return 0;
+        }
+        $perProfile = array_fill(0, count($profiles), intdiv($count, count($profiles)));
+        for ($i = 0; $i < $count % count($profiles); $i++) {
+            $perProfile[$i]++;
+        }
+        $created = 0;
+        foreach (array_values($profiles) as $i => $profile) {
+            if ($perProfile[$i] > 0) {
+                $created += count($this->botSpawner->spawn($universe, (int) $profile['id'], $perProfile[$i]));
+            }
+        }
+
+        return $created;
+    }
+
+    /** the system cron line for this installation */
+    public function cronLine(): string
+    {
+        return '* * * * * cd ' . rtrim($this->root, '/') . ' && php bin/console app:cron:run --quiet';
+    }
+
+    /** locks the install tool (removes var/ENABLE_INSTALL_TOOL) */
+    public function lock(): void
+    {
+        @unlink($this->root . 'var/ENABLE_INSTALL_TOOL');
+    }
+
+    /** the migration password generated in the database step, if any; it is removed from disk when read */
+    public function takeGeneratedSecret(): ?string
+    {
+        $file = $this->root . self::SECRET_FILE;
+        if (!is_file($file)) {
+            return null;
+        }
+        $secret = trim((string) @file_get_contents($file));
+        @unlink($file);
+
+        return $secret === '' ? null : $secret;
+    }
+}

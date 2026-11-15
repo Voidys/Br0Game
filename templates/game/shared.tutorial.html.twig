@@ -1,0 +1,74 @@
+{% if not empty(tutorial) %}
+    <div id="tutorial-header" class="tutorial-header">
+        <span id="tutorial-toggle">▲</span> <b>Tutorial:</b> {{ tutorial.title|raw }}
+    </div>
+    <div id="tutorial" class="tutorial">
+        <div class="tutorial-text">
+            {{ tutorial.text|raw }}<br>
+        </div>
+        <div class="tutorial-goals">
+            {% if not empty(tutorial.goals) %}
+                <b>{{ LNG.tutorial_goals_header }}</b><br>
+                <ul>
+                    {% for elementID, goal in (tutorial.goals)|php_iter %}
+                        <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a href="?page=tutorial&amp;mode=skip&amp;goal={{ elementID }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if not empty(tutorial.rewards) %}
+                <b>{{ LNG.tutorial_rewards_header }}</b><br>
+                <ul>
+                    {% for elementID, reward in (tutorial.rewards)|php_iter %}
+                        <li>{{ reward.name }}&nbsp;:&nbsp;{{ reward.ammount }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="tutorial-buttons">
+            {% if tutorial.fullfilled and tutorial.last %}
+                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_finalize }}</button></a>
+            {% elseif tutorial.fullfilled and not empty(tutorial.rewards) %}
+                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_claim }}</button></a>
+            {% elseif tutorial.fullfilled %}
+                <a href="?page=tutorial&amp;mode=claim"><button>{{ LNG.tutorial_buttons_continue }}</button></a>
+            {% elseif tutorial.skippable %}
+                <a href="?page=tutorial&amp;mode=skip"><button>{{ LNG.tutorial_buttons_skip }}</button></a>
+                &nbsp;
+                <a href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button >{{ LNG.tutorial_buttons_skipAll }}</button></a>
+            {% else %}
+                <a href="?page=tutorial&amp;mode=skipAll" onclick="return confirm('{{ LNG.tutorial_buttons_skipAll_confirm|e('js') }}');"><button>{{ LNG.tutorial_buttons_skipAll }}</button></a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% block script %}
+    <script>
+        if (localStorage.getItem('tutorial') === null) {
+            localStorage.setItem('tutorial', 'false'); // Default to visible
+        }
+        document.addEventListener("DOMContentLoaded", (event) => {
+            const tutorialElement = document.getElementById('tutorial');
+            const tutorialToggle = document.getElementById('tutorial-toggle');
+            if (tutorialToggle && tutorialElement) {
+                let tutorialHidden = localStorage.getItem('tutorial') === 'true';
+                tutorialToggle.innerText = tutorialHidden ? "▼" : "▲";
+                if (tutorialHidden) {
+                    tutorialElement.classList.add("hidden");
+                } else {
+                    tutorialElement.classList.remove("hidden");
+                }
+
+                document.getElementById('tutorial-header').addEventListener("click", (event) => {
+                    let newstate = localStorage.getItem('tutorial') === 'false';
+                    tutorialToggle.innerText = newstate ? "▼" : "▲";
+                    if (newstate) {
+                        tutorialElement.classList.add("hidden");
+                    } else {
+                        tutorialElement.classList.remove("hidden");
+                    }
+                    localStorage.setItem('tutorial', newstate.toString());
+                });
+            }
+        });
+    </script>
+{% endblock %}

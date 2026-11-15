@@ -1,0 +1,84 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  <div class="card">
+    <div class="card__body">
+      <div class="toolbar">
+        <label><input type="checkbox" id="showBanned" onchange="toggle_rows('allBanned')"> {{ LNG.adm_mip_show_banned }}</label>
+        <label><input type="checkbox" id="showAllowed" onchange="toggle_rows('allAllowed')"> {{ LNG.adm_mip_show_allowed }}</label>
+        <span class="toolbar__spacer"></span>
+        <span class="badge badge--muted">{{ count(multiGroups) }} {{ LNG.mip_ip }}</span>
+      </div>
+    </div>
+  </div>
+
+  {% for multiID, multiEntry in (multiGroups)|php_iter %}
+    <section class="card card--flush {% if multiEntry.allAllowed %}allAllowed{% endif %} {% if multiEntry.allBanned %}allBanned{% endif %} {% if multiEntry.allAllowed or multiEntry.allBanned %}hidden{% endif %}">
+      <header class="card__head">
+        <h2 class="card__title">{{ icon('network') }}<span class="mono">{{ multiEntry.multi_ip }}</span></h2>
+        <div class="card__actions">
+          <span class="muted small">{{ multiEntry.lastActivity }}</span>
+          <span class="badge badge--muted">{{ count(multiEntry.users) }}</span>
+          {% if multiEntry.allowed != 0 %}
+            <a class="button btn--small" href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-check') }}{{ LNG.mip_known }}</a>
+          {% else %}
+            <a class="button btn--small" href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-x') }}{{ LNG.mip_known }}</a>
+          {% endif %}
+        </div>
+      </header>
+      <div class="card__body">
+        <div class="table-wrap">
+          <table class="data data--compact">
+            <thead>
+              <tr>
+                <th>{{ LNG.mip_known }}</th>
+                <th class="num">{{ LNG.se_id_owner }}</th>
+                <th>{{ LNG.se_name }}</th>
+                <th>{{ LNG.se_email }}</th>
+                <th>{{ LNG.ac_register_time }}</th>
+                <th>{{ LNG.ac_act_time }}</th>
+                <th>{{ LNG.mip_ip }}</th>
+                <th>{{ LNG.adm_mip_activity }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for ID, User in (multiEntry.users)|php_iter %}
+              <tr>
+                <td>
+                  {% if User.allowed != 0 %}
+                    <a href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-check') }}</a>
+                  {% else %}
+                    <a href="admin?page=multiIP&amp;action=known&amp;id={{ multiID }}&amp;userID={{ ID }}" title="{{ LNG.mip_known }}" aria-label="{{ LNG.mip_known }}">{{ icon('circle-x') }}</a>
+                  {% endif %}
+                </td>
+                <td class="num">{{ ID }}</td>
+                <td><a href="admin?page=accountData&amp;id_u={{ ID }}">{{ User.username }}</a></td>
+                <td>{{ User.email }}</td>
+                <td class="nowrap">{{ User.register_time }}</td>
+                <td class="nowrap">{{ User.onlinetime }}</td>
+                <td class="mono">{{ User.user_lastip }}</td>
+                <td class="nowrap">{{ User.lastActivity }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  {% else %}
+    <div class="empty">{{ icon('network') }}<p>0</p></div>
+  {% endfor %}
+</div>
+{% block script %}
+    <script>
+      function toggle_rows(target) {
+        const rows = document.querySelectorAll("." + target)
+        if (!rows.length) return
+        if (rows[0].classList.contains("hidden")) {
+          rows.forEach(r => r.classList.remove("hidden"))
+        } else {
+          rows.forEach(r => r.classList.add("hidden"))
+        }
+      }
+    </script>
+{% endblock %}
+{% include 'admin/overall_footer.html.twig' %}

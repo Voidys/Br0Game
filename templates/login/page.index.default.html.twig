@@ -1,0 +1,84 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.siteTitleIndex }}{% endblock %}
+{% block content %}
+<div class="home site-wrap">
+  <div class="home__main">
+    <section class="hero">
+      <h1 class="hero__title">{{ LNG.loginWelcome|format(gameName) }}</h1>
+      <p class="hero__text">{{ LNG.loginServerDesc|format(gameName) }}</p>
+      <div class="hero__actions">
+        <a class="button btn--primary btn-hero" href="./?page=register">{{ icon('rocket') }}{{ LNG.buttonRegister }}</a>
+      </div>
+      {% if universeStarts %}
+        <div class="uni-starts">
+          {% for universeStart in universeStarts %}
+            <span class="uni-start">
+              <span><strong>{{ universeStart.name }}</strong> · {{ universeStart.date }}</span>
+              <span class="uni-countdown" data-start-timestamp="{{ universeStart.timestamp }}" data-text-in="{{ LNG.home_starts_in }}" data-text-done="{{ LNG.home_started }}" aria-live="polite"></span>
+            </span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="panel" id="login">
+      <h2 class="panel__head">{{ icon('lock') }}{{ LNG.loginHeader }}</h2>
+      <div class="panel__body">
+        {% if code %}
+          <div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ code }}</div></div>
+        {% endif %}
+        <form class="login-form" id="login-form" name="login" action="./?page=login" data-action="./?page=login" method="post">
+          <label>{{ LNG.loginEmail }}<input name="email" id="email" type="email" maxlength="64" autocomplete="username" required></label>
+          <label>{{ LNG.loginPassword }}<input name="password" id="password" type="password" autocomplete="current-password" required></label>
+          <button type="submit" class="btn--primary">{{ LNG.loginButton }}</button>
+        </form>
+        <div class="login-meta">
+          {% if mailEnable %}<a href="./?page=lostPassword">{{ LNG.buttonLostPassword }}</a>{% endif %}
+          {% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}
+          <span>{{ LNG.loginInfo|format(rulesLink) }}</span>
+        </div>
+      </div>
+    </section>
+
+    {% if latestNews %}
+    <section class="panel panel--news">
+      <h2 class="panel__head">{{ icon('newspaper') }}{{ LNG.news_latest }}</h2>
+      <div class="panel__body">
+        <ul class="news-teasers">
+          {% for item in latestNews %}
+            <li><a href="./?page=news&amp;id={{ item.id }}"><span class="news-teasers__title">{{ item.title }}</span><time>{{ item.date }}</time></a></li>
+          {% endfor %}
+        </ul>
+        <a class="news-teasers__all" href="./?page=news">{{ LNG.news_all }} {{ icon('chevron-right') }}</a>
+      </div>
+    </section>
+    {% endif %}
+  </div>
+
+  <div class="home__side">
+    {% if meme %}
+      <figure class="hero__art">
+        <img src="{{ meme.src }}" width="{{ meme.width }}" height="{{ meme.height }}" alt="{{ meme.alt|e('html_attr') }}" fetchpriority="high" decoding="async">
+        <figcaption>{{ LNG.home_meme_caption }}</figcaption>
+      </figure>
+    {% endif %}
+
+    <section class="panel panel--links">
+      <div class="panel__body">
+        <div class="links">
+          <a href="https://discord.gg/jhYYN3yuat" target="_blank" rel="noopener">{{ icon('message-circle') }}Discord</a>
+          <a href="https://wiki.pr0game.com" target="_blank" rel="noopener">{{ icon('book-open') }}Wiki</a>
+          <a href="./?page=HoF">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
+          <a href="./?page=battleHall">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>
+          <a href="./?page=screens">{{ icon('layers') }}{{ LNG.buttonScreenshot }}</a>
+          <a href="./?page=news">{{ icon('newspaper') }}{{ LNG.menu_news }}</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% if countcaptchakey != 0 %}
+    <p class="recaptcha-note">{{ LNG['disclamerRecaptcha'] }}</p>
+  {% endif %}
+</div>
+{% endblock %}

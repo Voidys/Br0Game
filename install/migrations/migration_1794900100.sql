@@ -1,0 +1,2 @@
+UPDATE `%PREFIX%config` SET `value` = 'https://github.com/Voidys/Br0Game/issues' WHERE `key` = 'git_issues_link' AND (`value` = '' OR `value` LIKE '%codeberg.org%' OR `value` LIKE '%git_issues_link%' OR `value` LIKE '%pr0game%');
+UPDATE `%PREFIX%config` SET `value` = 'https://github.com/Voidys/Br0Game' WHERE `key` = 'source_url' AND (`value` = '' OR `value` LIKE '%codeberg.org%' OR `value` LIKE '%pr0game%');

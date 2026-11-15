@@ -1,0 +1,60 @@
+DirectoryIndex index.php
+
+Options -Indexes +FollowSymLinks
+
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+AddDefaultCharset utf-8
+AddCharset utf-8 .css .js .xml .json .rss .atom
+
+<IfModule mod_headers.c>
+    # images may come as their WebP copy depending on the Accept header (see the rewrite below)
+    <FilesMatch "\.(png|jpe?g|gif|webp)$">
+        Header append Vary Accept
+    </FilesMatch>
+    <FilesMatch "\.(gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff2?|ico|webp)$">
+        Header set Cache-Control "public, max-age=31536000, stale-while-revalidate=604800"
+    </FilesMatch>
+</IfModule>
+
+# Theme metadata (styles/theme/*/style.cfg, settings.cfg) is read by PHP, not served
+<FilesMatch "\.cfg$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # Never serve dotfiles
+    RewriteRule "(^|/)\." - [F]
+
+    # Multi-universe URLs: /uni2/<path> -> <path>, universe passed as REDIRECT_UNI
+    RewriteRule ^uni([0-9]+)/?(.*)$ $2 [E=UNI:$1]
+
+    # Determine the RewriteBase automatically
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
+
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+    # WebP copies (bin/console app:images:webp): foo.png -> foo.png.webp for browsers that accept WebP;
+    # animated images have no copy and stay as they are
+    RewriteCond %{HTTP_ACCEPT} image/webp
+    RewriteCond %{REQUEST_FILENAME} \.(png|jpe?g|gif)$ [NC]
+    RewriteCond %{REQUEST_FILENAME}.webp -f
+    RewriteRule ^(.+)$ $1.webp [T=image/webp,E=WEBP:1,L]
+
+    # Existing files (assets, symlinked legacy asset dirs) are served directly
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Everything else goes through the front controller (Symfony or the legacy bridge)
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>

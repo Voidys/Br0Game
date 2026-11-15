@@ -1,0 +1,46 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.siteTitleBanList }}{{ parent() }}{% endblock %}
+{% block content %}
+{% if isMultiUniverse %}
+  <p>{{ html_options({'options': universeSelect, 'selected': UNI, 'class': "changeUni", 'id': "universe", 'name': "universe"}) }}</p>
+{% endif %}
+{% set pager %}
+  <nav class="pager" aria-label="{{ LNG.mg_page }}">
+    <span>{{ LNG.mg_page }}</span>
+    {% if page != 1 %}<a href="./?page=banList&amp;side={{ page - 1 }}">&laquo;</a>{% endif %}
+    {% if maxPage >= 1 %}{% for site in 1..maxPage %}<a href="./?page=banList&amp;side={{ site }}"{% if site == page %} aria-current="page"{% endif %}>{{ site }}</a>{% endfor %}{% endif %}
+    {% if page != maxPage %}<a href="./?page=banList&amp;side={{ page + 1 }}">&raquo;</a>{% endif %}
+  </nav>
+{% endset %}
+{% if banCount %}
+  {{ pager }}
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ LNG.bn_from }}</th>
+          <th>{{ LNG.bn_until }}</th>
+          <th>{{ LNG.bn_player }}</th>
+          <th>{{ LNG.bn_by }}</th>
+          <th>{{ LNG.bn_reason }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for banRow in (banList)|php_iter %}
+          <tr>
+            <td>{{ banRow.from }}</td>
+            <td>{{ banRow.to }}</td>
+            <td>{{ banRow.player }}</td>
+            <td><a href="mailto:{{ banRow.mail }}" title="{{ banRow.info }}">{{ banRow.admin }}</a></td>
+            <td>{{ banRow.theme }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {{ pager }}
+  <p class="empty">{{ LNG.bn_exists }}{{ pretty_number(banCount) }}{{ LNG.bn_players_banned }}</p>
+{% else %}
+  <p class="empty">{{ LNG.bn_no_players_banned }}</p>
+{% endif %}
+{% endblock %}

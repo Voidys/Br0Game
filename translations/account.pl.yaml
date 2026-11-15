@@ -1,0 +1,22 @@
+Active_players: Aktywni gracze
+Back: Powrót
+mail:
+  subject:
+    mail_changed: '%s Adres e-mail konta został zmieniony'
+Other_universes: Inne wszechświaty
+Play: Grać
+Playername: Nazwa gracza
+Register: Rejestr
+Settings: Ustawienia
+Sitting_cancel: Przerwij siedzenie
+Sitting_end: Koniec siedzenia
+Sitting_request: Żądanie siedzenia (nie zaprogramowane)
+uni_status_regclosed_gameclosed: Zamknięte
+uni_status_regclosed_gameopen: Otwarty do gry
+uni_status_regopen_gameclosed: Rejestracja otwarta
+uni_status_regopen_gameopen: Otwarty
+Universe_end: Koniec
+Universe_start: Start
+Universe_status: 'Status wszechświatów: '
+Universes: Wszechświaty
+Your_universes: Twoje wszechświaty

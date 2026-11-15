@@ -1,0 +1,41 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.siteTitleBattleHall }}{{ parent() }}{% endblock %}
+{% block content %}
+{% if isMultiUniverse %}
+  <form class="filter-bar" name="stats" id="stats" method="post" action="">
+    <select name="universe" id="universe" class="changeUni" onchange="document.getElementById('stats').submit();">{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
+    <select name="memorial" id="memorial" class="changeUni" onchange="document.getElementById('stats').submit();">{{ html_options({'options': memorialSelect, 'selected': memorial}) }}</select>
+  </form>
+{% endif %}
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>{{ LNG.tkb_platz }}</th>
+        <th>{{ LNG.tkb_owners }}</th>
+        <th>{{ LNG.tkb_datum }}</th>
+        <th>{{ LNG.tkb_units }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hallRow in (hallList)|php_iter %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><a href="game?page=raport&amp;raport={{ hallRow.rid }}" target="_blank" rel="noopener">
+            {% if hallRow.result == "a" %}
+              <span class="colorPositive">{{ hallRow.attacker }}</span> <b class="vs">VS</b> <span class="colorNegative">{{ hallRow.defender }}</span>
+            {% elseif hallRow.result == "r" %}
+              <span class="colorNegative">{{ hallRow.attacker }}</span> <b class="vs">VS</b> <span class="colorPositive">{{ hallRow.defender }}</span>
+            {% else %}
+              {{ hallRow.attacker }} <b class="vs">VS</b> {{ hallRow.defender }}
+            {% endif %}
+          </a></td>
+          <td>{{ hallRow.time }}</td>
+          <td>{{ pretty_number(hallRow.units) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p class="legend">{{ LNG.tkb_legende }}<span class="colorPositive">{{ LNG.tkb_gewinner }}</span><span class="colorNegative">{{ LNG.tkb_verlierer }}</span></p>
+{% endblock %}

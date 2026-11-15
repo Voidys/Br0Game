@@ -1,0 +1,70 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+  {% if collector.count > 0 %}
+    {% set icon %}
+      {{ source('@Doctrine/Collector/icon.svg') }}
+      <span class="sf-toolbar-value">{{ collector.count }}</span>
+      <span class="sf-toolbar-label">game queries</span>
+      <span class="sf-toolbar-value">{{ '%.1f'|format(collector.time) }}</span>
+      <span class="sf-toolbar-label">ms</span>
+    {% endset %}
+    {% set text %}
+      <div class="sf-toolbar-info-piece"><b>Game queries</b><span>{{ collector.count }}</span></div>
+      <div class="sf-toolbar-info-piece"><b>Query time</b><span>{{ '%.2f'|format(collector.time) }} ms</span></div>
+      <div class="sf-toolbar-info-piece"><b>Repeated SQL</b><span>{{ collector.repeated|length }}</span></div>
+    {% endset %}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', {link: true, status: collector.count > 150 ? 'yellow' : ''}) }}
+  {% endif %}
+{% endblock %}
+
+{% block menu %}
+  <span class="label{{ collector.count == 0 ? ' disabled' }}">
+    <span class="icon">{{ source('@Doctrine/Collector/icon.svg') }}</span>
+    <strong>Game DB</strong>
+    <span class="count"><span>{{ collector.count }}</span></span>
+  </span>
+{% endblock %}
+
+{% block panel %}
+  <h2>Game database</h2>
+  <div class="metrics">
+    <div class="metric"><span class="value">{{ collector.count }}</span><span class="label">Queries</span></div>
+    <div class="metric"><span class="value">{{ '%.2f'|format(collector.time) }} <span class="unit">ms</span></span><span class="label">Query time</span></div>
+    <div class="metric"><span class="value">{{ collector.repeated|length }}</span><span class="label">Repeated SQL</span></div>
+  </div>
+
+  {% if collector.repeated %}
+    <h3>Repeated queries</h3>
+    <table>
+      <thead><tr><th class="text-right">Runs</th><th>SQL</th></tr></thead>
+      <tbody>
+        {% for sql, runs in collector.repeated %}
+          <tr><td class="text-right">{{ runs }}</td><td><code>{{ sql }}</code></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  <h3>All queries</h3>
+  {% if collector.count == 0 %}
+    <div class="empty"><p>No game queries in this request.</p></div>
+  {% else %}
+    <table>
+      <thead><tr><th class="text-right">#</th><th class="text-right">ms</th><th>Type</th><th>SQL / parameters</th></tr></thead>
+      <tbody>
+        {% for query in collector.queries %}
+          <tr>
+            <td class="text-right">{{ loop.index }}</td>
+            <td class="text-right">{{ '%.2f'|format(query.ms) }}</td>
+            <td>{{ query.type }}</td>
+            <td>
+              <code>{{ query.sql }}</code>
+              {% if query.params %}<br><small>{{ query.params|json_encode }}</small>{% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

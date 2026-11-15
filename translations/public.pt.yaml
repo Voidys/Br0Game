@@ -1,0 +1,143 @@
+buttonLostPassword: Perdeste a Password?
+buttonRegister: Regista Agora!
+buttonScreenshot: Screenshots
+chose_a_uni: Escolhe o universo
+disclamerLabelAddress: 'Game Address:'
+disclamerLabelMail: 'Support Adress:'
+disclamerLabelNotice: More information
+disclamerLabelPhone: 'Telephone Nr.:'
+disclamerRecaptcha: >-
+  Esta página utiliza reCAPTCHA e o Google <a
+  href="https://policies.google.com/privacy">provacy statement</a> e <a
+  href="https://policies.google.com/terms">terms of use</a> apply.
+forum: Fórum
+gameInformations: |-
+  Um jogo de estratégia em tempo real.
+  Jogo com centenas de imperadores.
+  Nenhum download, requer apenas um navegador padrão.
+  Inscrição gratuita
+login_error_1: >-
+  E-mail ou palavra-passe errados! Sugestão: Os cofres de senhas guardam
+  frequentemente o nome de utilizador, mas tem de iniciar sessão com o seu
+  e-mail.
+login_error_2: >-
+  Alguém iniciou sessão a partir de um PC diferente na sua conta, ou o seu IP é
+  diferente!
+login_error_3: A sua sessão expirou!
+login_error_4: >-
+  Houve demasiadas tentativas de início de sessão. Contacta um administrador
+  através do Discord para obteres novos detalhes de início de sessão. Tem o teu
+  endereço de e-mail pronto para verificação.
+loginButton: Login
+loginEmail: Email
+loginHeader: Login
+loginInfo: Com o login eu aceito os %s.
+loginPassword: Password
+loginServerDesc: >-
+  %s é um jogo de estratégia espacial com milhares de jogadores a jogar juntos
+  <strong>ao mesmo tempo</strong> a tentar ser o melhor do Universo. Tudo que
+  precisas para o jogo é um navegador padrão.
+loginWelcome: Bem-vindo ao %s
+menu_banlist: Muro da Vergonha
+menu_battlehall: Muro da Batalha
+menu_disclamer: Contatos
+menu_index: Página Inicial
+menu_news: Notícias
+menu_register: Registo
+menu_rules: Regras
+news_does_not_exist: No news available!
+news_from: On %s bt %s
+news_overview: News
+passwordBack: Back
+passwordCaptcha: Security code
+passwordChangedMailSend: You will receive an email shortly with your new password.
+passwordChangedMailTitle: 'New password on the website: %s'
+passwordErrorMailEmpty: You have specified an unknown email address!
+passwordErrorOnePerDay: >-
+  Password for this user account in the last 24 hours previously requested. You
+  can only request the password for this user account in  next 24 hours. 
+passwordErrorUnknown: It could not be found with the account data.
+passwordErrorUsernameEmpty: You have no specified the Username!
+passwordInfo: >-
+  If you have forgotten your password, you must specify the user name and the
+  E-Mail address that you have entered in your account.
+passwordMail: E-Mail
+passwordNext: Next
+passwordSubmit: Submit
+passwordUsername: Username
+passwordValidInValid: Invalid Request!
+passwordValidMailSend: You will receive an email shortly with further information.
+passwordValidMailTitle: 'Forgot my password on the website: %s'
+registerBack: Voltar
+registerCaptcha: Código de segurança
+registerCaptchaDesc: >-
+  Por favor, insere os caracteres abaixo no campo vazio. Não tem diferença
+  maiúsculas de minúsculas
+registerCaptchaReload: Recarregar Captcha.
+registerEmail: E-Mail
+registerEmailDesc: Por favor, digita o teu endereço de E-Mail!
+registerEmailReplay: Repetir E-Mail
+registerEmailReplayDesc: Por favor, insere o teu endereço de e-mail mais uma vez!
+registerErrorCaptcha: O código de segurança está errado!
+registerErrorDataPrivacy: É necessário confirmar a política de privacidade!
+registerErrorMailEmpty: Deves especificar um endereço de email!
+registerErrorMailExist: O endereço de E-Mail já está registado!
+registerErrorMailInvalid: Endereço de E-Mail inválido!
+registerErrorMailSame: Inseriste 2 endereços de email diferentes!
+registerErrorPasswordLength: A Password deve ter pelo menos %s caracteres!
+registerErrorPasswordSame: Inseriste 2 Passwords diferentes!
+registerErrorRules: Tens que aceitar as regras!
+registerErrorUniClosed: O registro é fechado neste universo!
+registerErrorUsernameChar: O Username deve consistir em números, letras, espaços, _, -, . apenas!
+registerErrorUsernameEmpty: Deves digitar um username!
+registerErrorUsernameExist: O Username já está em uso!
+registerLanguage: Língua
+registerMailCompleteTitle: Welcome to %s!
+registerMailVertifyError: 'Fehler beim Versenden der Mail: %s'
+registerMailVertifyTitle: 'Aktivierung der Registrierung auf der Website: %s'
+registerNext: Próximo
+registerPassword: Password
+registerPasswordDesc: A Password deve ter pelo menos %s caracteres.
+registerPasswordReplay: Repetir Password
+registerPasswordReplayDesc: Por favor, digita a mesma password.
+registerReferral: 'Anunciado por:'
+registerRules: Regras
+registerRulesDesc: Concordo com o %s
+registerSendComplete: >-
+  Thank you for the registration. You must check your email (Attention with the
+  SPAM) with further information.
+registerTimezone: Fuso horário
+registerUsername: Username
+registerUsernameDesc: >-
+  O Username deve ser no mínimo 3 e máximo de 25 caracteres e pontos e pode
+  consistir em números, letras, sublinhados e espaços
+registerWelcomePMSenderName: Administrator
+registerWelcomePMSubject: Welcome
+registerWelcomePMText: >-
+  Welcome to %s! First build a solar power plant,because energy is needed for
+  the production of raw materials. To build one, left click in the menu on
+  "buildings". Then build the 4th Building from the top. </br> When you have
+  energy, you can begin to build mines. Go to buildings on the menu and build a
+  metal mine, followed by a crystal mine. </br></br>In order to be able to build
+  ships you need to have a shipyard. To see what is needed to unlock that
+  building you can take a look at "Technologies" at the left menu.</br>If you
+  more questions you can look at the beginnersguide, our forum or open a support
+  ticket. </br></br> The team wishes you much fun exploring the universe!
+rulesHeader: Rules
+siteTitleBanList: Muro da Vergonha
+siteTitleBattleHall: Muro da Batalha
+siteTitleDataPrivacy: Privacidade dos dados
+siteTitleDisclamer: Contatos
+siteTitleHOF: Galeria de Fama
+siteTitleIndex: Página Inicial
+siteTitleLostPassword: Senha perdida?
+siteTitleNews: Notícias
+siteTitleRegister: Registar
+siteTitleRules: Regras
+siteTitleScreens: Screenshots
+uni_closed: ' (fechado)'
+uni_reg_closed: ' (Registo encerrado)'
+uni_reg_open: ' (Apenas registo)'
+universe: Universo
+vertifyAdminMessage: The username "%s" has enabled!
+vertifyNoUserFound: Invalid Request!

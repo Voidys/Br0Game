@@ -1,0 +1,26 @@
+{% extends layout_template %}
+{% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
+{% block content %}
+<table>
+	<tr>
+		<th colspan="2">{{ LNG.al_request_list }}</th>
+	</tr>
+	<tr>
+		<th>{{ LNG.al_candidate }}</th>
+		<th>{{ LNG.al_request_date }}</th>
+	</tr>
+	{% for applyRow in (applyList)|php_iter %}
+	<tr>
+		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.username }}</a></td>
+		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.time }}</a></td>
+	</tr>
+	{% else %}
+	<tr>
+		<td colspan="2">{{ LNG.al_no_requests }}</td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<th colspan="2"><a href="game?page=alliance">{{ LNG.al_back }}</a></th>
+	</tr>
+</table>
+{% endblock %}

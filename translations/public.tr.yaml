@@ -1,0 +1,133 @@
+buttonLostPassword: Sifremi Unuttum?
+buttonRegister: Kayit Ol!
+buttonScreenshot: Ekran Goruntuleri
+chose_a_uni: Evreni Seciniz
+disclamerLabelAddress: 'Adres:'
+disclamerLabelMail: 'Destek Email:'
+disclamerLabelNotice: Ayrintili bilgi
+disclamerLabelPhone: 'Telefon:'
+disclamerRecaptcha: >-
+  Bu sayfa reCAPTCHA kullanır ve Google <a
+  href="https://policies.google.com/privacy">gizlilik bildirimi</a> ve <a
+  href="https://policies.google.com/terms">kullanım şartları</a> geçerlidir.
+forum: Forum
+gameInformations: >-
+  Gercek zamanli uzay strateji oyunu.
+
+  Buyuk bir rekabet seni bekliyor.
+
+  Tek ihtiyacin internet.Herhan gibi bir browser ile oynayabilirsin. Internet
+  Explorer, Mozilla, Chrome
+
+  Ucretsiz Kayit
+login_error_1: >-
+  Yanlış e-posta veya şifre! İpucu: Şifre kasaları genellikle kullanıcı adını
+  kaydeder, ancak e-postanızla oturum açmanız gerekir.
+login_error_2: Baskasi farki bir bilgisayardan bu hesaba girdi, yada IP adresiniz degisti!
+login_error_3: Oturumunuz sonlandi!
+login_error_4: >-
+  Çok fazla giriş denemesi oldu. Yeni giriş bilgileri için lütfen Discord
+  üzerinden bir yönetici ile iletişime geçin. Doğrulama için e-posta adresinizi
+  hazır bulundurun.
+loginButton: Giris
+loginEmail: E-mail
+loginHeader: Giris
+loginInfo: Giris yaparak tum %si kabul etmis oluyorsunuz.
+loginPassword: Sifre
+loginServerDesc: >-
+  %s tam zamanli bir uzay strateji oyunu. Yuzlerce oyuncunun <strong>ayni anda
+  beraber oynayabildigi</strong> ve ellerinden geleni yaptigi bir oyun. Tek
+  ihtiyacin olan herhangi bir web tarayicisi.
+loginWelcome: ' %s hosgeldiniz '
+menu_banlist: Banlananlar
+menu_battlehall: En Buyuk Savaslar
+menu_disclamer: Iletisim
+menu_index: Anasayfa
+menu_news: Haberler
+menu_register: Kayit
+menu_rules: Kurallar
+news_does_not_exist: Yeni haber yok!
+news_from: On %s by %s
+news_overview: Haberler
+passwordBack: Geri
+passwordCaptcha: Guvenlik Kodu
+passwordChangedMailSend: Yeni sifrenizi mail adresinize gonderdik.
+passwordChangedMailTitle: ' %s evrenindeki yeni sifreniz :'
+passwordErrorMailEmpty: Yanlis e-mail adresi girdiniz!
+passwordErrorOnePerDay: >-
+  Bu hesap icin sifre son 24 saat icinde talep edildi. Tekrar sifre talep icin
+  24 saat beklemeniz gerekmekte 
+passwordErrorUnknown: Girdiginiz bilgiler veri tabaninda mevcut degil.
+passwordErrorUsernameEmpty: Kullanici adi girmediniz!
+passwordInfo: Eger sifreni unuttuysan, kullanici adi ve kayitli email adresini saglamalisin.
+passwordMail: E-Mail
+passwordNext: Ileri
+passwordSubmit: Gonder
+passwordUsername: Kullanici Adi
+passwordValidInValid: Hatali Islem!
+passwordValidMailSend: Email gonderildi.
+passwordValidMailTitle: 'Sifremi unuttum : %s'
+registerBack: Geri
+registerCaptcha: Guvenlik kodu
+registerCaptchaDesc: >-
+  Lutfen bos alana asagidaki karakterleri giriniz. Buyuk kucuk harf duyarli
+  degildir. 
+registerCaptchaReload: Yeni Kod Iste.
+registerEmail: E-Mail
+registerEmailDesc: Lutfen e-mail adresinizi yaziniz!
+registerEmailReplay: Tekrar email
+registerEmailReplayDesc: Guvenlik icin e-mail adrenizi tekrar giriniz.!
+registerErrorCaptcha: Guvenlik kodu dogru degil!
+registerErrorDataPrivacy: Gizlilik politikasını onaylamalısınız!
+registerErrorMailEmpty: Lutfen e-mail adresini giriniz!
+registerErrorMailExist: Bu email zaten kayitli!
+registerErrorMailInvalid: E-mail adresini yanlis girdiniz!
+registerErrorMailSame: Farki 2 email adresi girdiniz!
+registerErrorPasswordLength: Sifre en az %s karakter olmak zorunda
+registerErrorPasswordSame: Sifreler birbirini tutmuyor!
+registerErrorRules: Oyuna baslamadan once kurallari kabul etmelisiniz!
+registerErrorUniClosed: Bu evren icin kayitlar kapandi.!
+registerErrorUsernameChar: Kullanici adi sadece rakam, harf,tire (-) ve altcizgi (_) den olusur!
+registerErrorUsernameEmpty: Kullanici adi girmediniz!
+registerErrorUsernameExist: Bu kullanici ismi zaten mevcut!
+registerLanguage: Dil
+registerMailCompleteTitle: ' %s dunyasina hosgeldiniz!'
+registerMailVertifyError: 'Email gondermede basarisiz oldu: %s'
+registerMailVertifyTitle: 'Activation of registration on the game: %s'
+registerNext: Ileri
+registerPassword: Sifre
+registerPasswordDesc: Sifre en az %s karakterden olusmalidir.
+registerPasswordReplay: Tekrar sifre
+registerPasswordReplayDesc: Lurfen sifrenizi tekrar giriniz
+registerReferral: 'Oneren:'
+registerRules: Kurallar
+registerRulesDesc: '%si kabul ediyorum'
+registerSendComplete: >-
+  Thank you for the registration. You must check your email (Attention with the
+  SPAM) with further information.
+registerTimezone: Zaman Dilimi
+registerUsername: Kullanici adi
+registerUsernameDesc: >-
+  Kullanici adi 3 ila 25 karakter arasinda olmalidir ayrica sadece rakam,
+  harf,tire (-) ve altcizgi (_) kullanilabilir. 
+registerWelcomePMSenderName: Admin
+registerWelcomePMSubject: Hosgeldiniz
+registerWelcomePMText: ' %s dunyasina hosgeldin! Oncelikle solar enerji santrali yapmalisin, cunku hammadde uretimi icin enerjiye ihtiyacin vars. Insa etmek icin soldaki menuden binlara tiklayip,  acilan pencerede yukaridan 4. bina (solar enerji ) binasini insa et demen lazim </br> Enerjiden sonra madenleri insa etmeye baslayabilirsin. </br></br> Gemi uretmek icinse tersane yapmalisin. Onun icin de Robot Fabrikasini 2. kademeye getirmelisin.  Hangi binanin hangisini, yada hangi geminin uretilmesi icin nelere ihtiyacin var gormek icin soldaki menuden teknoloji butonuna tiklayip gorebilirsin. </br> Eger sorularin varsa, yeni baslayanlar menusune girebilirsin yada destek bileti gonderebilirsin.  </br></br> Hos ve guzel vakit gecirmen dilegiyle!'
+rulesHeader: Kurallar
+siteTitleBanList: Banlananlar
+siteTitleBattleHall: En Buyuk Savaslar
+siteTitleDataPrivacy: Veri gizliliği
+siteTitleDisclamer: Iletisim
+siteTitleHOF: Onur Listesi
+siteTitleIndex: Ana Sayfa
+siteTitleLostPassword: Sifremi Unuttum?
+siteTitleNews: Haberler
+siteTitleRegister: Kayit Ol
+siteTitleRules: Kurallar
+siteTitleScreens: Ekran Goruntuleri
+uni_closed: ' (kapalı)'
+uni_reg_closed: ' (Kayıtlar kapandı)'
+uni_reg_open: ' (Sadece kayıt)'
+universe: Evren
+vertifyAdminMessage: Kullanici adi "%s" aktif!
+vertifyNoUserFound: Hata!

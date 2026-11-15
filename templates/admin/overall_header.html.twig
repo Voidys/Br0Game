@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# versions all ES modules by mtime (imported modules carry no ?v=): App\\Twig\\GameExtension::importMap #}
+  {{ import_map() }}
+  <title>{% if adminShell %}{% if adminTab %}{{ adminTab }} · {% endif %}{{ adminTitle }} · {% endif %}{{ title }}</title>
+  {% if not empty(goto) and gotoinsec > 0 %}
+    <meta http-equiv="refresh" content="{{ gotoinsec }};URL={{ goto }}">
+  {% endif %}
+  <link rel="stylesheet" href="./styles/resource/css/app/base.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="./styles/resource/css/admin/admin.css?v={{ asset_version }}">
+  <link rel="stylesheet" href="./styles/resource/css/app/rte.css?v={{ asset_version }}">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  {# the admin's signal colours (settings) #}
+  <style>
+    .colorPositive { color: {{ signalColors.colorPositive|default('#3fbf6f') }}; }
+    .colorNegative { color: {{ signalColors.colorNegative|default('#f05252') }} !important; }
+    .colorNeutral { color: {{ signalColors.colorNeutral|default('#f0b429') }}; }
+  </style>
+  <script>
+    var ServerTimezoneOffset = {{ Offset }};
+    var serverTimeDelta = new Date({{ date[0] }}, {{ date[1] - 1 }}, {{ date[2] }}, {{ date[3] }}, {{ date[4] }}, {{ date[5] }}).getTime() - Date.now();
+    Object.defineProperty(window, 'serverTime', { get: function () { return new Date(Date.now() + serverTimeDelta); } });
+    var startTime = serverTime.getTime();
+    var Ready = "{{ LNG.ready }}";
+    var Skin = "{{ dpath }}";
+    var Lang = "{{ lang }}";
+    var head_info = "{{ LNG.fcm_info }}";
+    var days = {{ LNG.week_day|json_encode|default('[]')|raw }};
+    var months = {{ LNG.months|json_encode|default('[]')|raw }};
+    var tdformat = "{{ LNG.js_tdformat }}";
+    var confirmText = {{ LNG.adm_confirm|json_encode|raw }};
+    window.__pageInit = [];
+    window.onPageInit = function (fn) { window.__pageInit.push(fn); };
+    {# quick editor (user/planet) in the shared modal dialog #}
+    function openEdit(id, type) {
+      Dialog.open('admin?page=quickEditor&edit=' + type + '&id=' + id, 880, 640);
+      return false;
+    }
+  </script>
+  <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
+  <script type="module" src="./scripts/admin/main.js?v={{ asset_version }}"></script>
+  <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
+  {# admin page scripts are classic, synchronous scripts: inline page code uses their globals while parsing #}
+  {% for scriptname in (scripts)|php_iter %}
+    <script src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
+  {% endfor %}
+  {% if execscript %}
+    <script>onPageInit(function () { {{ execscript|raw }} });</script>
+  {% endif %}
+</head>
+<body id="{{ bodyId }}" class="admin {{ adminShell ? 'admin--shell' : 'admin--bare' }}">
+{% if adminShell %}
+  <a class="skip-link" href="#admin-main">{{ LNG.adm_skip }}</a>
+
+  <header class="admin-topbar">
+    <button type="button" class="icon-button admin-topbar__menu" data-sidebar-toggle aria-controls="admin-sidebar">{{ icon('menu', LNG.adm_menu_toggle) }}</button>
+    <a class="admin-brand" href="admin?page=overview">
+      <img src="styles/resource/images/pr0game.gif" alt="" width="96" height="24">
+      <span>{{ LNG.adm_cp_title }}</span>
+    </a>
+
+    {% if adminUniverses|length > 1 %}
+      <label class="admin-universe">
+        {{ icon('server') }}
+        <span class="visually-hidden">{{ LNG.adm_universe_switch }}</span>
+        <select data-admin-universe>{{ html_options({'options': adminUniverses, 'selected': adminUniverse}) }}</select>
+      </label>
+    {% endif %}
+
+    <nav class="admin-topbar__actions" aria-label="{{ LNG.adm_cp_title }}">
+      <span class="admin-topbar__user" title="{{ adminUser }}">{{ icon('user') }}<span>{{ adminUser }}</span></span>
+      <a class="admin-topbar__item" href="game">{{ icon('gamepad-2') }}<span>{{ LNG.adm_back_to_game }}</span></a>
+      <a class="admin-topbar__item admin-topbar__item--danger" href="admin?page=logout">{{ icon('lock') }}<span>{{ LNG.adm_drop_rights }}</span></a>
+    </nav>
+  </header>
+
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div class="admin-filter">
+      {{ icon('search') }}
+      <input type="search" data-menu-filter placeholder="{{ LNG.adm_menu_filter }}" aria-label="{{ LNG.adm_menu_filter }}" autocomplete="off">
+      <kbd aria-hidden="true">/</kbd>
+    </div>
+    <nav class="admin-nav">
+      {% for group in adminMenu %}
+        <section class="admin-nav__group">
+          <h2 class="admin-nav__heading">{{ group.label }}</h2>
+          <ul>
+            {% for item in group.items %}
+              <li><a class="admin-nav__link" href="{{ item.href }}" data-keywords="{{ item.keywords|e('html_attr') }}"{% if item.active %} aria-current="page"{% endif %}{% if item.confirm %} data-confirm="{{ item.confirm|e('html_attr') }}"{% endif %}>{{ icon(item.icon) }}<span class="admin-nav__label">{{ item.label }}</span>{% if item.badge %}<span class="admin-nav__badge">{{ item.badge }}</span>{% endif %}</a></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+      <p class="admin-nav__empty" hidden>{{ LNG.adm_menu_empty }}</p>
+    </nav>
+  </aside>
+  <div class="sidebar-backdrop"></div>
+
+  <main class="admin-main" id="admin-main">
+    <header class="admin-page-head">
+      <h1>{{ adminTitle }}</h1>
+      {% if adminTabs %}
+        <nav class="page-tabs" aria-label="{{ adminTitle }}">
+          {% for tab in adminTabs %}
+            <a href="{{ tab.href }}"{% if tab.active %} aria-current="page"{% endif %}>{{ tab.label }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </header>
+{% else %}
+  <main class="admin-main admin-main--bare" id="admin-main">
+{% endif %}

@@ -1,0 +1,16 @@
+{#
+  Description of one achievement as inline modal content: Dialog.ach(id) shows it (scripts/app/dialog.js).
+  Parameters: id, image (path of the achievement picture); optional: unlocked, date (formatted unlock date)
+#}
+<template id="achievement-info-{{ id }}">
+  <div class="achievement-info">
+    <img class="achievement-info__image" src="{{ image }}" alt="" width="72" height="72">
+    <div>
+      <h2 class="modal__title">{{ LNG.Achievement_names[id] }}</h2>
+      <p class="achievement-info__text">{{ LNG.Achievement_text[id] }}</p>
+      {% if unlocked is defined %}
+        <p class="achievement-info__state">{% if unlocked %}{{ icon('circle-check') }}{{ LNG.ach_unlocked_on|format(date) }}{% else %}{{ icon('lock') }}{{ LNG.ach_locked }}{% endif %}</p>
+      {% endif %}
+    </div>
+  </div>
+</template>

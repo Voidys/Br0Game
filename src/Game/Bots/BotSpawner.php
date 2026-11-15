@@ -1,0 +1,184 @@
+<?php
+
+namespace App\Game\Bots;
+
+use App\Game\Core\ConfigRegistry;
+use App\Game\Core\Database;
+use App\Game\Core\GameUtilities;
+use App\Game\Core\Singleton;
+use Throwable;
+
+/**
+ * Creates and removes bot players (account + user + home planet + bot_players row).
+ */
+class BotSpawner
+{
+    use GameUtilities;
+
+    public const PERSONALITY_CATEGORIES = ['mines', 'energy', 'storage', 'facilities', 'research', 'ships', 'defense'];
+
+    public function __construct(
+        private readonly Database $db,
+        private readonly ConfigRegistry $configs,
+        private readonly Singleton $state,
+        private readonly BotProfiles $profiles,
+        private readonly BotPersona $persona,
+        private readonly BotNameGenerator $names,
+        private readonly BotLog $botLog,
+    ) {}
+
+    /**
+     * Creates up to $count bots (capped by bots_max_count) with the given profile.
+     *
+     * @return int[] ids of the created users
+     */
+    public function spawn(int $universe, int $profileId, int $count): array
+    {
+        $config = $this->configs->get($universe);
+        $profile = $this->profiles->load($profileId);
+        if ($profile === null) {
+            throw new \Exception('Unknown bot profile ' . $profileId);
+        }
+
+        $existing = (int) $this->db->selectSingle(
+            'SELECT COUNT(*) as count FROM %%BOT_PLAYERS%% WHERE universe = :universe;',
+            [':universe' => $universe],
+            'count',
+        );
+        $max = max(0, (int) $config->bots_max_count);
+        $count = max(0, min($count, $max - $existing));
+
+        $created = [];
+        $lastError = null;
+        for ($i = 0; $i < $count; $i++) {
+            try {
+                $created[] = $this->spawnOne($universe, $profile);
+            } catch (Throwable $e) {
+                $lastError = $e;
+                error_log('BotSpawner: ' . $e->getMessage());
+            }
+        }
+
+        if (empty($created) && $lastError !== null) {
+            throw $lastError;
+        }
+
+        return $created;
+    }
+
+    private function spawnOne(int $universe, array $profile): int
+    {
+        $config = $this->configs->get($universe);
+        $s = $profile['settings'];
+
+        $persona = null;
+        $name = null;
+        try {
+            $generated = $this->persona->generate($universe, $profile['row']);
+            if (!empty($generated['nickname']) && $this->names->isUsable((string) $generated['nickname'], $universe)) {
+                $name = (string) $generated['nickname'];
+                $persona = $generated['persona'] ?? null;
+            }
+        } catch (Throwable $e) {
+            error_log('BotSpawner persona: ' . $e->getMessage());
+        }
+        if ($name === null) {
+            $name = $this->names->generate($universe);
+        }
+
+        $password = bin2hex(random_bytes(16));
+        $email = 'bot-' . bin2hex(random_bytes(8)) . '@bots.invalid';
+        $lang = (string) $config->lang;
+
+        $accountId = $this->accountUtil()->createAccount(
+            $name,
+            $this->accountUtil()->cryptPassword($password),
+            $email,
+            $lang,
+            0,
+            '0.0.0.0',
+            (string) $config->timezone,
+        );
+
+        try {
+            [$userId, $planetId] = $this->playerUtil()->createPlayer(
+                $accountId,
+                $universe,
+                $name,
+                $lang,
+                null,
+                null,
+                null,
+                'Home',
+                0,
+                '0.0.0.0',
+            );
+        } catch (Throwable $e) {
+            $this->db->delete('DELETE FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $accountId]);
+            throw $e;
+        }
+
+        $personality = ['patience' => round(0.7 + mt_rand() / mt_getrandmax() * 0.6, 2)];
+        foreach (self::PERSONALITY_CATEGORIES as $cat) {
+            $personality[$cat] = round(0.7 + mt_rand() / mt_getrandmax() * 0.6, 2);
+        }
+
+        $now = time();
+        $this->db->insert(
+            'INSERT INTO %%BOT_PLAYERS%% SET
+                user_id = :userId, universe = :universe, profile_id = :profileId, skill = :skill,
+                personality = :personality, next_tick = :nextTick, persona = :persona, created_at = :now;',
+            [
+                ':userId' => $userId,
+                ':universe' => $universe,
+                ':profileId' => $profile['row']['id'],
+                ':skill' => (float) $s['skill_start'],
+                ':personality' => json_encode($personality),
+                ':nextTick' => $now + random_int(0, 600),
+                ':persona' => $persona !== null ? json_encode($persona) : null,
+                ':now' => $now,
+            ],
+        );
+
+        if ($persona !== null) {
+            try {
+                $botRow = $this->db->selectSingle('SELECT * FROM %%BOT_PLAYERS%% WHERE user_id = :id;', [':id' => $userId]);
+                $this->persona->renamePlanet((int) $planetId, $this->persona->planetName($botRow, $persona, true));
+            } catch (Throwable $e) {
+                error_log('BotSpawner planet name: ' . $e->getMessage());
+            }
+        }
+
+        $this->botLog->log($userId, $universe, 'spawn', substr('profile ' . $profile['row']['profile_key'] . ' as ' . $name, 0, 255));
+
+        return (int) $userId;
+    }
+
+    public function remove(int $userId): void
+    {
+        $db = $this->db;
+
+        $accountId = (int) $db->selectSingle(
+            'SELECT account_id FROM %%ACCOUNTS_TO_USERS%% WHERE user_id = :id;',
+            [':id' => $userId],
+            'account_id',
+        );
+
+        $this->playerUtil()->deletePlayer($userId);
+
+        if ($accountId > 0) {
+            $others = (int) $db->selectSingle(
+                'SELECT COUNT(*) as count FROM %%ACCOUNTS_TO_USERS%% WHERE account_id = :id;',
+                [':id' => $accountId],
+                'count',
+            );
+            if ($others === 0 && $accountId !== ROOT_USER) {
+                $db->delete('DELETE FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $accountId]);
+                $db->delete('DELETE FROM %%ACCOUNTS_BANNED%% WHERE account_id = :id;', [':id' => $accountId]);
+            }
+        }
+
+        $db->delete('DELETE FROM %%BOT_PLAYERS%% WHERE user_id = :id;', [':id' => $userId]);
+        $db->delete('DELETE FROM %%BOT_LOG%% WHERE user_id = :id;', [':id' => $userId]);
+    }
+}

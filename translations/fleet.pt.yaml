@@ -1,0 +1,514 @@
+and: e
+battle_stats_damage_done: Dano infligido
+battle_stats_damage_dead: Dano excedente
+battle_stats_shield_hit: Impactos no escudo
+battle_stats_ship_destroyed: Naves destruídas
+battle_stats_shield_bounced: Dano desviado
+battle_stats_rapid_fire_done: Fogo rápido
+battle_stats_explosion_triggered: Explosões
+battle_stats_stunned_done: Desativado
+battle_stats_target: Alvo
+battle_stats_total: Total
+battle_stats_total_all_targets: Total (todos os alvos)
+battle_stats_total_all_fleets: Total (todas as frotas)
+damage: pontos de danos.
+debree_field_1: 'Nestas coordenadas flutuam:'
+debree_field_2: A flutuar na orbita do planeta.
+fcp_colony: Colónia
+fl_expocap_explain: >-
+  Esta é a quantidade máxima de pontos de expedição que você deve enviar.
+
+  Qualquer coisa sobre esse limite não aumentará suas recompensas, mas ainda
+  pode ser perdida.
+fl_send_back: Regressar
+fl_simulate: <font color="red">Simular</font>
+fleet_attack_1: A frota atacante disparou com uma potência de
+fleet_attack_2: sobre o defensor. O escudo do defensor absorveu
+fleet_defs_1: A frota defensora disparou com uma potência de
+fleet_defs_2: sobre o atacante. O escudo do atacante absorveu
+spy_attack_with: Ataque com
+spy_best_planet: melhor planeta
+spy_best_resources_per_second: melhor ress por segundo
+spy_energy: Energia
+spy_hazard_potential: Potencial de perigo
+spy_large_transporter: transporte grande
+spy_market_value: Valor de mercado
+spy_necessary_recycler: Recicladores necessários
+spy_necessary_transporters: Transportadores necessários
+spy_potential_recycling: Potencial de reciclagem
+spy_potential_resources: Recursos potenciais
+spy_small_transporter: pequeno transportador
+spy_summary: Resumo
+spy_total_resources: Recursos Totais
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: e
+sys_attack_attacker_pos: Atacante
+sys_attack_defender_pos: Defensor
+sys_attack_round: Ronda Nr
+sys_attack_techologies: 'Armas: %d %% Escudo: %d %% Blindagem: %d %% '
+sys_attack_title: As frotas seguintes encontraram-se em
+sys_attacker_lostunits: 'O atacante perdeu um total de '
+sys_attacker_won: O atacante ganhou a batalha!
+sys_both_won: A batalha foi muito violenta e acabou por se dar um empate
+sys_colo_allisok: >-
+  A nave de colonização chegou às coordenadas %s, A tua colónia acabou de ser
+  colonizada podes começar a construir nela.
+sys_colo_badpos: >-
+  A nave de colonização chegou às coordenadas %s, A nave de colonização chegou
+  ao destino e constatou que o planeta já foi colonizado..
+sys_colo_defaultname: Colónia
+sys_colo_maxcolo: >-
+  Uma das suas frotas atinge as coordenadas %s. A colonização não é possível
+  porque não se pode ter mais do que %d de planetas.
+sys_colo_mess_from: Colonização
+sys_colo_mess_report: Relatório de colonização
+sys_colo_notech: >-
+  As tuas naves alcançaram as coordenadas %s. Quando os teus colonos
+  aproximaram-se do planeta, eles tinham que determinar que seu equipamento
+  ainda não para o clima predominante foi adequado e deve ser desenvolvido
+  primeiro. Decepcionado, os colonos voltaram.
+sys_colo_notfree: >-
+  A nave de colonização chegou às coordenadas %s, A nave de colonização não
+  descobriu um planeta desabitado. O Comandante foi obrigado a ordenar o
+  regresso imediato, viajam cansados e desmoralizados ...
+sys_debris: Destroços
+sys_def_rebuild: 'As instalações de defesa poderiam ser parcialmente reparadas:'
+sys_defender_lostunits: 'O defensor perdeu um total de '
+sys_defender_won: O defensor ganhou a batalha!
+sys_destroyed: Destruido
+sys_destruc_echec: >-
+  .As tuas estrelas da morte e os seus gravitões produziram enormes terramotos
+  na estrutura da lua mas não foram suficientemente fortes para uma lua deste
+  tamanho. O seu ataque foi refletido pela lua e destruiu toda a frota
+sys_destruc_lune: 'A probabilidade de destruição de lua foi de: %d%% '
+sys_destruc_mess1: As estrelas da morte causam gravitação na órbita da lua
+sys_destruc_null: >-
+  , As tuas estrelas da morte e os seus gravitões não têm energia suficiente
+  para fazer qualquer estrago nesta lua.<br> A lua absorveu a onda de gravitões
+  na sua superfície.<br> A frota retornará da sua missão sem ter destruído a lua
+sys_destruc_reussi: >-
+  ,<br> As tuas estrelas da morte e os seus gravitões produziram enormes
+  terramotos na estrutura da lua.<br> A lua entrou em colapso e foi destruída
+sys_destruc_rip: 'A probabilidade das estrelas serem destruídas no confronto é de: %d%% '
+sys_destruc_stop: O defensor não conseguiu evitar a destruição da sua lua
+sys_destruc_title: 'Destruição de lua %s :'
+sys_expe_attack_1_1_1: >-
+  Alguns piratas espaciais aparentemente muito desesperado tentaram saquear a
+  nossa frota de exploração.
+sys_expe_attack_1_1_2: >-
+  Alguns bárbaros primitivos estão a atacar-nos com naves espaciais que ainda
+  nem sequer ganharam a designação do nome nave. Se o fogo assumir proporções
+  graves, seremos forçados a retornar o fogo contra eles.
+sys_expe_attack_1_1_3: >-
+  Temos intercetadas mensagens de rádio para uns piratas, alguns muito bêbados.
+  Aparentemente, vamos ser atacados.
+sys_expe_attack_1_1_4: >-
+  Tivemos de nos defender contra alguns piratas, que felizmente não foram
+  muitos.
+sys_expe_attack_1_1_5: >-
+  Os relatórios da frota de exploração dizem que uma raça desconhecida exige a
+  nossa rendíção incondicional e entrega da nossa frota. Se levarem  a sério,
+  terão de primeiro destruir as nossas naves.
+sys_expe_attack_1_2_1: >-
+  A tua frota de exploração teve um encontro desagradável com alguns piratas
+  espaciais.
+sys_expe_attack_1_2_2: >-
+  Estamos no meio de uma emboscada feita pelo Kazen-piratas! A batalha foi,
+  infelizmente, inevitável.
+sys_expe_attack_1_2_3: >-
+  O grito de socorro, seguido pela exploração acabou por ser mau caso de alguns
+  piratas mal-intencionados. A batalha era inevitável.
+sys_expe_attack_1_3_1: >-
+  A nossa frota identificou sinais estranhos. Averiguamos e detetamos que eram
+  mensagens entre piratas, mas a partir de uma base secreta de piratas!
+  Identificamos que os piratas não estavam particularmente entusiasmados com a
+  nossa presença no seu setor.
+sys_expe_attack_1_3_2: >-
+  A Frota de Exploração relatou ataques pesados do clã Kalin com naves de
+  piratas não identificados.A única coisa que conseguimos indentificar foi o
+  nome do clã que se encontrava escrito nas suas frotas!
+sys_expe_attack_1_3_3: >-
+  Nós recebemos uma mensagem urgente do comandante de expedições: "Eles estão
+  vindo em nossa direção! Acabaram de sair do hiperespaço, mas felizmente são
+  apenas piratas, então temos uma chance. Vamos lutar!
+sys_expe_attack_2_1_1: >-
+  A tua frota de exploração teve um primeiro contacto não muito amigável, com
+  uma espécie desconhecida.
+sys_expe_attack_2_1_2: >-
+  Algumas estranhas naves decidiram atacar, sem aviso, a nossa frota de
+  Exploração!
+sys_expe_attack_2_1_3: Nossa exploração foi atacada por um pequeno grupo de naves desconhecidas!
+sys_expe_attack_2_1_4: >-
+  A Frota Exploração relatou contacto com uma nave desconhecida. Os Funkspro não
+  são uma raça inimiga, no entanto as naves alienígenas parecem estar a ativar
+  as suas armas.
+sys_expe_attack_2_2_1: Uma espécie desconhecida está a atacar a nossa frota de exploração!
+sys_expe_attack_2_2_2: >-
+  A tua frota de exploração aparentemente violou o território de uma até então
+  desconhecida raça alienígena guerreira altamente agressiva. .
+sys_expe_attack_2_2_3: >-
+  O link para a nossa frota expedicionária foi temporariamente interrompido.
+  Tanto quanto temos descodificado corretamente a última mensagem, a frota está
+  sob fogo pesado - os agressores não puderam ser identificados.
+sys_expe_attack_2_3_1: >-
+  A tua frota exploração foi intercetada por uma frota de invasão alienígena, e
+  temos relatórios de combate pesados!
+sys_expe_attack_2_3_2: >-
+  Um grande vestir cristalinos de origem desconhecida tem uma rota de colisão
+  com a nossa frota de exploração. Temos agora que assumir o pior.
+sys_expe_attack_2_3_3: >-
+  Nós tivemos um pouco de dificuldade pronunciando o dialeto alienígena
+  corretamente. Nosso diplomata acabou dizendo "Fogo!" ao invés de "Paz!"
+sys_expe_attackname_1: Piratas
+sys_expe_attackname_2: Aliens
+sys_expe_back_home: A vossa frota regressou a %1$s %2$s da expedição em %3$s.
+sys_expe_back_home_ress: Consegiram recuperar %s %s, %s %s e %s %s.
+sys_expe_back_home_ships_flound: 'Foram encontrados os seguintes navios:'
+sys_expe_back_home_ships_lost: 'Perderam-se os seguintes navios:'
+sys_expe_blackholl_1: A frota foi sugada por um buraco negro, e foi praticamente toda destruída.
+sys_expe_blackholl_2: A frota foi sugada por um buraco negro, e foi completamente destruída!
+sys_expe_depleted_max_1: >-
+  Registo do diário de bordo do oficial de comunicações: Se nos sentíssemos em
+  perigo, poderíamos regressar com todas as outras expedições que voam por aqui.
+sys_expe_depleted_max_2: >-
+  Registo do diário de bordo do oficial de comunicações: Se isto continuar
+  assim, vamos ter de colocar bóias de navegação para aguentar todo este
+  tráfego.
+sys_expe_depleted_max_3: >-
+  Registo no diário de bordo do oficial de comunicações: Talvez fosse mais útil
+  abrir aqui uma loja de recordações do que enviar mais uma expedição.
+sys_expe_depleted_med_1: >-
+  Registo do diário de bordo do oficial de comunicações: Encontrámos provas que
+  indicam a presença de várias frotas de expedição na área. Estamos a regressar
+  a casa.
+sys_expe_depleted_med_2: >-
+  Registo do diário de bordo do oficial de comunicações: Estabelecemos contacto
+  radiofónico amigável com algumas outras expedições neste sector.
+sys_expe_depleted_med_3: >-
+  Registo do diário de bordo do oficial de comunicações: Celebrámos o
+  cumprimento da expedição com os membros da tripulação de outra frota de
+  expedição que se encontrava a caminho no mesmo sector. Não têm nada de novo a
+  dizer.
+sys_expe_depleted_min_1: >-
+  Registo do diário de bordo do oficial de comunicações: Parece que os humanos
+  já estiveram nesta parte da galáxia antes.
+sys_expe_depleted_min_2: >-
+  Registo do diário de bordo do oficial de comunicações: Encontrámos destroços
+  de naves espaciais antigas. Não somos os primeiros a chegar aqui.
+sys_expe_depleted_min_3: >-
+  Acréscimo no diário de bordo do oficial de comunicações: Quase tivemos uma
+  colisão com outra frota de expedição. Eu não acreditava que houvesse outros
+  por aqui.
+sys_expe_depleted_not_1: >-
+  Registo do diário de bordo do oficial de comunicações: Parece que esta parte
+  do universo ainda não foi explorada.
+sys_expe_depleted_not_2: >-
+  Registo do diário de bordo do oficial de comunicações: É ótimo sermos os
+  primeiros a viajar por um sector inexplorado.
+sys_expe_feqeuence_few: Mais de 10 expedições nas últimas 24 horas
+sys_expe_feqeuence_many: Mais de 50 expedições nas últimas 24 horas
+sys_expe_feqeuence_medium: Mais de 25 expedições nas últimas 24 horas
+sys_expe_feqeuence_no: Poucas expedições em 24 horas
+sys_expe_found_goods: '%s %s foram extraídas.'
+sys_expe_found_ress_1_1: >-
+  A tua exploração espacial descobriu um enxame de pequenos asterôides, do qual
+  alguns recursos puderam ser obtidos.
+sys_expe_found_ress_1_2: >-
+  Num remoto planetoide, foram encontrados alguns campos com recursos facilmente
+  acessíveis e foram obtidos com êxito.
+sys_expe_found_ress_1_3: >-
+  A tua exploração deparou com umas naves muito antigas, destroços duma longa
+  batalha passada. Componentes individuais poderão ser recuperados e reciclados.
+sys_expe_found_ress_1_4: >-
+  A exploração encontrou um campo de asteroides com uma atmosfera radioativa e
+  altamente tóxica. No entanto, exames mostraram que os asteroides são  muito
+  ricos em recursos. Usando naves automáticas tentamos recuperar o mâximo de
+  recursos possíveis.
+sys_expe_found_ress_2_1: >-
+  A tua equipa de exploração descobriu uma antiga frota de cargueiros
+  completamente carregada de recursos, mas deserta. Alguns recursos poderão ser
+  recuperados.
+sys_expe_found_ress_2_2: >-
+  A tua equipa de exploração encontrou uma pequena lua com uma atmosfera com
+  grandes depósitos de minério na sua órbita. Recolhes-te o que pudeste  destes
+  tesouros naturais.
+sys_expe_found_ress_2_3: >-
+  A tua Equipa de exploração deu com uma pequena frota de naves civis, os
+  tripulantes dessas naves tinha necessidade urgente de alimentos e
+  medicamentos. Em troca da nossa ajuda para com os tripulantes das naves civis,
+  recebemos um monte de recursos úteis.
+sys_expe_found_ress_3_1: >-
+  A tua equipa de exploração descobriu uma gigantesca nave alienígena. Com a
+  tecnologia que eles descobriram seremos capazes de fazer qualquer coisa, o
+  navio pode ser decomposto em componentes e matérias-primas que poderiam ser
+  muito valiosos para ti.
+sys_expe_found_ress_3_2: >-
+  A tua frota de exploração descobriu um cinturão de mineral em torno de um
+  planeta desconhecido que continha grandes quantidades de matérias-primas.!
+sys_expe_found_ress_logbook_1: >-
+  Registo do diário de bordo dos primeiros oficiais: Utilizámos todo o espaço
+  livre, mas ainda não conseguimos levar connosco todos os recursos encontrados.
+sys_expe_found_ress_logbook_2: >-
+  Registo do diário de bordo do primeiro oficial: Se ao menos tivéssemos mais
+  alguns navios de carga! Agora vamos ter de deixar montes de recursos para
+  trás.
+sys_expe_found_ress_logbook_3: >-
+  Registo do diário de bordo dos primeiros oficiais: Já deitámos fora tudo o que
+  já não nos faz falta, mas ainda não conseguimos arranjar espaço suficiente
+  para todos os recursos encontrados.
+sys_expe_found_ress_logbook_4: >-
+  Registo do diário de bordo dos primeiros oficiais: Mesmo depois de
+  transformarmos a cafetaria e todas as salas em armazéns, continuamos a não
+  conseguir transportar todos os recursos que encontrámos.
+sys_expe_found_ships: >-
+  A tua frota descobriu um esquadrão de frota abandonado, recuperaram as naves e
+  voltaram para casa.<br> Squadron:
+sys_expe_found_ships_1_1: >-
+  A tua frota de exploração detetou restos de uma exploração anterior! Os teus
+  engenheiros vão ver se conseguem reparar algumas das naves descobertas para se
+  juntarem à tua exploração.
+sys_expe_found_ships_1_2: >-
+  Encontramos uma base pirata abandonada. No hangar ainda se encontram algumas
+  naves antigas. Os nossos engenheiros vão verificar se algumas delas ainda
+  poderão ser usadas.
+sys_expe_found_ships_1_3: >-
+  A tua frota de exploração encontrou um planeta que provavelmente foi quase
+  todo destruído por guerras. Em órbita estão diversas naves. Os engenheiros
+  estão a tentar reparar algumas delas. Talvez, então, possamos também obter
+  informações sobre o que realmente aconteceu aqui.
+sys_expe_found_ships_1_4: >-
+  A tua exploração encontrou um forte de uma raça pouco conhecida, que
+  provavelmente teve de sair de urgência devido ao seu estado de destruição. Mas
+  no hangar do forte ainda se encontram algumas naves, os engenheiros tão a
+  tentar recuperar algumas delas, para fazerem parte da tua frota de
+  exploração.
+sys_expe_found_ships_2_1: >-
+  Encontramos os restos de uma Armada de guerra. Os teus engenheiros da frota de
+  exploração estão a tentar repará-la novamente para que possam executar a sua
+  função novamente e pertencer à tua Armada.
+sys_expe_found_ships_2_2: >-
+  A nossa exploração deparou com um estaleiro de produção automática. Algumas
+  naves ainda estão em fase de produção e os nossos engenheiros estão a tentar
+  restaurar a energia ao estaleiro de produção, para que essas naves possam ser
+  acabadas.
+sys_expe_found_ships_3_1: >-
+  A frota de exploração encontrou um cemitério de naves gigantes. Alguns
+  engenheiros da frota de exploração foram tentar reparar algumas dessas naves
+  para as poderem levar de volta.
+sys_expe_found_ships_3_2: >-
+  Descobrimos um planeta com os restos de uma civilização muito evoluída. Na
+  órbita desse planeta encontra-se uma enorme estação espacial, é o único
+  edifício intacto. Alguns dos nossos engenheiros e pilotos foram para a
+  superfície para ver se algumas das naves que estão estacionadas ali podem
+  ainda ser usadas.
+sys_expe_found_ships_logbook_1: >-
+  Registo do diário de bordo do oficial de máquinas: Se tivéssemos trazido mais
+  navios connosco, teria sido fácil levar algumas destas belezas connosco!
+sys_expe_found_ships_logbook_2: >-
+  Registo do diário de bordo dos oficiais das máquinas: Infelizmente, não
+  tivemos a capacidade de trazer de volta todas as naves descobertas na nossa
+  missão.
+sys_expe_found_ships_logbook_3: >-
+  Registo do diário de bordo dos oficiais das máquinas: Infelizmente não temos
+  capacidade suficiente para trazer de volta todas as naves encontradas.
+sys_expe_found_ships_nothing: Não foi possivel encontrar naves
+sys_expe_lost_fleet_1: >-
+  Da exploração, apenas a mensagem de rádio restou: Zzzrrt Oh Deus! Krrrzzzzt o
+  zrrrtrzt sim krgzzzz parece Krzzzzzzzztzzzz ...
+sys_expe_lost_fleet_2: >-
+  A última coisa que foi enviada pela exploração ainda tinha algumas coisas
+  incrivelmente boas sucesso de uma abertura de...Oh Deus! Zrrrrrrrrrr... um
+  buraco negro.
+sys_expe_lost_fleet_3: >-
+  A rutura do núcleo do motor de hieprespaço da embarcação de liderança resultou
+  em uma reação em cadeia que destruiu toda a frota de exploração numa explosão
+  espetacular.
+sys_expe_lost_fleet_4: >-
+  A frota de exploração já não deu o salto para o teu sistema solar. Os nossos
+  cientistas ainda estão intrigados, sempre poderia ter acontecido isto, mas a
+  frota parece ter desaparecido por completo. A ultima coisa que ouvimos dessa
+  frota foi Arrzzzzzzzzzzzz............
+sys_expe_nothing_1: >-
+  Para além de algumas estranhas criaturas pequenas de um planeta desconhecido,
+  esta exploração  não trás nada emocionante sobre a sua viagem.
+sys_expe_nothing_2: >-
+  A tua exploração fez belas imagens de uma supernova. Realmente não foram
+  feitas novas descobertas. Mas temos boas hipóteses de ganharmos o concurso das
+  melhores fotos de supernovas do Universo deste ano.
+sys_expe_nothing_3: >-
+  Um vírus de computador estranho foi descoberto após tentarmos sair do sistema
+  solar para navegar. Isso significava que a frota de exploração durante todo o
+  tempo voou em círculos. Escusado será dizer, que a exploração não foi muito
+  bem sucedida.
+sys_expe_nothing_4: >-
+  Uma vida de pura energia garantiu que todos os membros da exploração tivesse
+  durante dias a olhar para os padrões hipnóticos nas telas. A exploração tinha
+  por causa da aguda escassez de deutério que ser cancelada.
+sys_expe_nothing_5: >-
+  Bem, pelo menos sabemos, agora que tem anomalias na classe 5 estrelas. Não são
+  apenas efeitos caóticos em sistemas solares, mas também pode provocar
+  alucinações em maciço na tripulação. Mais desta exploração não se pode dizer.
+sys_expe_nothing_6: >-
+  Apesar de as primeiras varreduras promissoras deste setor, infelizmente,
+  voltamos de mãos vazias.
+sys_expe_nothing_7: >-
+  Talvez não devamos comemorar o aniversário do Comandante neste planeta remoto.
+  A febre da galáxia acompanhou grande parte da tripulação e obrigou a que
+  estivessem na enfermaria. Como tal aconteceu, isso significava que a
+  exploração tinha falhado.
+sys_expe_nothing_8: >-
+  A tua exploração foi literalmente fazer amizade com o vazio do universo. Não
+  havia sequer um pequeno asteroide, ou radiação, ou partículas, ou qualquer
+  coisa que esta exploração tivesse sido designada excitante.
+sys_expe_nothing_9: >-
+  Uma falha do reator de hiperespaço teria destruído quase toda a exploração se
+  não fosse os teus engenheiros. Felizmente, os engenheiros foram capazes de
+  evitar o pior. No entanto, o reparo demorou muito tempo, e a exploração voltou
+  de mãos vazias.
+sys_expe_report: Relatório de expedição
+sys_expe_report_msg: 'Relatório de expedição da %s %s da frota em %s:'
+sys_expe_time_fast_1: >-
+  Um feedback imprevisto na bobina de alimentação das unidades de disco acelerou
+  o retorno da exploração e agora é mais cedo do que os retornos esperados.
+  Primeiro informou que não tem nada interessante para relatar, no entanto.
+sys_expe_time_fast_2: >-
+  O novo comandante aproveitou um buraco de salto instável para encurtar o voo
+  de regresso - com sucesso! No entanto, a exploração em si não trouxe novos
+  elementos de prova.
+sys_expe_time_fast_3: >-
+  A tua exploração não retorna as características do setor investigado. No
+  entanto, a frota teve um recesso no vento solar. Assim, o salto foi bastante
+  acelerado. A frota de exploração agora retorna para casa um pouco mais cedo.
+sys_expe_time_slow_1: >-
+  Um erro levou a um mau cálculo do Navegador com o salto da exploração. Não é
+  só a frota que tem erros! A frota acabou por saltar para um lugar
+  completamente errado, agora o caminho de volta levará muito mais tempo.
+sys_expe_time_slow_2: >-
+  Por razões desconhecidas a frota deu o salto da exploração simplesmente
+  errado. Por pouco que não saltamos para o coração de um sol. Felizmente que
+  aterrou num sistema conhecido, mas o retorno vai demorar mais tempo do que se
+  pensava.
+sys_expe_time_slow_3: >-
+  O módulo de navegação novo que provavelmente ainda tem alguns erros, provocou
+  um salto errado da frota de exploração, a totalidade do deutério que foi
+  consumido, que terminou no salto da frota foi apenas o início, acabamos por
+  ter de reabastecer num planeta. Um pouco dececionados agora, retornam a
+  exploração. Este retorno estará atrasado, provavelmente um pouco.
+sys_expe_time_slow_4: >-
+  A tua exploração entrou em um setor com tempestades de partículas aumentadas.
+  Esta sobrecarga de energia da frota danificou os principais sistemas de
+  navegação da frota. O teu engenheiro não pode evitar o pior, mas a exploração
+  está agora de volta com algum atraso.
+sys_expe_time_slow_5: >-
+  A nave de comando da tua frota de exploração colidiu com uma nave alienígena
+  que saltou para a tua localização sem qualquer aviso à tua frota. A nave
+  alienígena explodiu e os danos para a tua nave foram substanciais. Uma vez que
+  os maiores reparos forem concluídos, a tua frota fará o caminho de volta,
+  porque neste estado, a exploração nao pode ser continuada.
+sys_expe_time_slow_6: >-
+  O vento estelar de uma gigante estrela distorceu o salto da exploração, tanto
+  que levou algum tempo para calcular o retorno. Para além do que aconteceu não
+  havia nada no setor em que a exploração saiu, a não ser um vazio entre as
+  estrelas.
+sys_fleet_return: |-
+  Sua frota retorna aos %s %s %s e entrega %s %s, %s %s e %s %s.
+  %s
+sys_fleet_won: >-
+  Uma das suas frotas regressa de um ataque ao planeta %s %s a %s %s. Capturou
+  %s %s, %s %s e %s %s
+sys_gain: Lucro
+sys_honorpoints_changed: 'Pontos de honra:'
+sys_irak_def: '%d Foguetes foram interceptados.'
+sys_irak_mess: >-
+  (%d) Misseis Interplanetários do planeta %s dirigemce para o planeta %s
+  <br><br>
+sys_irak_no_att: Todos os foguetes foram interceptados.
+sys_irak_no_def: O planeta não tinha defesa
+sys_irak_subject: Missil Interplanetário
+sys_lost: Perdas
+sys_mess_attack_cancel: |-
+  A batalha em %s %s foi cancelada.
+  O servidor não conseguiu calculá -lo.
+sys_mess_attack_report: Relatório de Combate
+sys_mess_destruc_report: Relatório de destruição
+sys_mess_fleetback: Regresso da frota
+sys_mess_piratebase_gone: A vossa frota chegou a %s, mas a base pirata já lá não está. A frota está a regressar a casa.
+sys_mess_spy_activity: Atividade de espionagem
+sys_mess_spy_control: Controlador espacial
+sys_mess_spy_destroyed: As tua frota foi descoberta e destruida!
+sys_mess_spy_ennemyfleet_1: As sondas espiãs inimigas da lua %s foram avistadas perto de %s.
+sys_mess_spy_ennemyfleet_3: As sondas espiãs inimigas do planeta %s foram avistadas perto de %s.
+sys_mess_spy_link: >-
+  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'A probabilidade das tuas sondas serem detetadas é de: %d %% '
+sys_mess_spy_qg: Central de Operações
+sys_mess_spy_repair_order: Os navios estão sendo restaurados na doca de reparos.
+sys_mess_spy_report: Relatório de espionagem
+sys_mess_spy_report_details_1: Relatório de espionagem do planeta %1$s (%2$s) [%3$s:%4$s:%5$s] em %6$s
+sys_mess_spy_report_details_3: Relatório de espionagem da lua %1$s (%2$s) [%3$s:%4$s:%5$s] em %6$s
+sys_mess_spy_report_details_4: Relatório de espionagem de %1$s (%2$s) [%3$s:%4$s:%5$s] em %6$s
+sys_mess_tower: Torre de controle
+sys_mess_transport: Transportar
+sys_moonbuilt: >-
+  Após o combate, a grande quantidade de metal e cristal deixados nos destroços
+  atraem-se, devido ao efeito gravitacional, e formam lentamente um satélite
+  lunar na órbita do planeta.
+sys_moonproba: A probabilidade de criação de lua devido aos destroços do combate é de
+sys_raport_amount_error: Ausência ou excesso de navios/defesa para a simulação
+sys_raport_lost_contact: Perdeu-se o contato com a frota  (ou seja, foi abatido na primeira rodada.)
+sys_raport_not_found: ID de Relatório de Batalha inválido
+sys_recy_gotten: >-
+  Os vossos recicladores recolheram %2$s %6$s e %3$s %7$s de um total de %4$s
+  %6$s e %5$s %7$s nas coordenadas %1$s.
+sys_recy_mess: Uma das suas frotas de recicladores regressa a %s %s com %s %s, %s %s e %s %s
+sys_recy_report: Relatório de reciclagem
+sys_ship_armour: 'Blindagem:'
+sys_ship_count: Número
+sys_ship_repaired: Reparado
+sys_ship_shield: 'Escudo:'
+sys_ship_type: Tipo
+sys_ship_weapon: 'Armas:'
+sys_spy_defenses: Defesas
+sys_spy_fleet: Frota
+sys_stat_mess: A vossa frota de %s %s chega a %s %s %s e entrega %s %s, %s %s e %s %s. %s
+sys_stat_mess_stay: Frota Localizada
+sys_stealed_ressources: Ele roubou
+sys_trade_mess_arr_success: >-
+  Uma das vossas frotas mercantes está pronta para regressar ao planeta %1$s
+  %2$s (voo de regresso: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback"
+  method="post"><input name="fleetID" value="%3$s" type="hidden"><input
+  value="%4$s" type="submit"></form>
+sys_trade_mess_back: Uma das vossas frotas comerciais regressa ao planeta %s %s sem sucesso.
+sys_trade_mess_back_success: >-
+  Uma das vossas frotas mercantes regressou com sucesso ao planeta %4$s %5$s com
+  %1$s metal, %2$s cristal e %3$s deutério.
+sys_tran_mess_back: A Frota voltou ao planeta % s% s. A frota não entregou os recursos.
+sys_tran_mess_owner: Uma das suas frotas de %s %s chega ao %s %s %s e entrega %s %s, %s %s e %s %s
+sys_tran_mess_user: >-
+  Uma frota de %s %s %s vem entregar %s %s %s unidades, unidades de %s %s %s %s
+  unidades.
+sys_units: ' unidades.'
+sys_wreckfield: >-
+  Algumas das naves destruídas do defensor formam um campo de destroços na
+  órbita do planeta por alguns dias.
+sys_wreckfield_added: 'Adicionado ao campo de destroços:'
+type_mission_1: Atacar
+type_mission_2: Ataque de Aliança
+type_mission_3: Transportar
+type_mission_4: Transferir
+type_mission_5: Manter posições
+type_mission_6: Espiar
+type_mission_7: Colonizar
+type_mission_8: Reciclar
+type_mission_9: Destruir
+type_mission_15: Exploração Espacial
+type_mission_16: Troca
+type_mission_17: Transferir
+type_planet_1: Planeta
+type_planet_2: Campo de Destroços
+type_planet_3: Lua
+type_planet_4: Base pirata
+type_planet_short_1: P
+type_planet_short_2: D
+type_planet_short_3: L

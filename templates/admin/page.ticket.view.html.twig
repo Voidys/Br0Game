@@ -1,0 +1,55 @@
+{% include 'admin/overall_header.html.twig' %}
+<form action="admin?page=support&amp;mode=send" method="post" id="form" class="stack">
+  <input type="hidden" name="id" value="{{ ticketID }}">
+  <div class="page-actions"><a class="button btn--small" href="admin?page=support">{{ icon('arrow-left') }}{{ LNG.ti_overview }}</a></div>
+
+  {% for answerID, answerRow in (answerList)|php_iter %}
+  {% if loop.first %}
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('ticket') }}{{ answerRow.subject }}</h2>
+      <div class="card__actions">
+        {% if ticket_status < 2 %}<span class="badge badge--ok">{{ LNG.ti_status_open }}</span>{% else %}<span class="badge badge--muted">{{ LNG.ti_status_closed }}</span>{% endif %}
+      </div>
+    </header>
+    <div class="card__body">
+      <dl class="kv">
+        <dt>{{ LNG.ti_category }}</dt><dd>{{ categoryList[answerRow.categoryID] }}</dd>
+        <dt>{{ LNG.ti_create }}</dt><dd>{{ answerRow.time }} {{ LNG.ti_from }} <strong>{{ answerRow.ownerName }}</strong></dd>
+      </dl>
+      <hr>
+      <p>{{ answerRow.message|nl2br }}</p>
+    </div>
+  </section>
+  {% else %}
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('message-square-text') }}{{ answerRow.ownerName }}</h2>
+      <div class="card__actions"><span class="muted small">{{ LNG.ti_responded }}{{ answerRow.time }}</span></div>
+    </header>
+    <div class="card__body">
+      <p class="muted small"><strong>{{ LNG.ti_subject }}:</strong> {{ answerRow.subject }}</p>
+      <p>{{ answerRow.message|nl2br }}</p>
+    </div>
+  </section>
+  {% endif %}
+  {% endfor %}
+
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('send') }}{{ LNG.ti_answer }}</h2></header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="message">{{ LNG.ti_message }}</label>
+          <div class="field-control"><textarea required id="message" name="message" rows="6"></textarea></div>
+        </div>
+        <div class="field-row">
+          <label for="change_status">{% if ticket_status < 2 %}{{ LNG.ti_close }}{% else %}{{ LNG.ti_open }}{% endif %}</label>
+          <div class="field-control"><input type="checkbox" id="change_status" name="change_status" value="1"></div>
+        </div>
+      </div>
+    </div>
+    <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('send') }}{{ LNG.ti_submit }}</button></footer>
+  </section>
+</form>
+{% include 'admin/overall_footer.html.twig' %}
