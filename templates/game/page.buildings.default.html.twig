@@ -41,7 +41,7 @@
           {% else %}
             {{ LNG.bd_remaining }}:<br>
             {% for ResType, ResCount in (Element.costOverflow)|php_iter %}
-              <a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[ResType] }}</th></tr><tr><table class='hoverinfo'><tr><td>{{ LNG.shortDescription[ResType] }}</td></tr></table></tr></table>">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
+              <a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: ResType, image: false})|e('html_attr') }}">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
             {% endfor %}
             {% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
             <br>
@@ -55,7 +55,7 @@
         <div class="buildl">
           <span>
             {% for RessID, RessAmount in (Element.costResources)|php_iter %}
-              <a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[RessID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ RessID ~ '.' ~ ((RessID >=600 and RessID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[RessID] }}</td></tr></table></tr></table>">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
+              <a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: RessID})|e('html_attr') }}">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
             {% endfor %}
             
             {% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
@@ -95,7 +95,7 @@
           {% if Element.level > 0 %}
             {% if ID == 43 %}<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
             {% if ID == 34 %}<a href="game?page=allianceDepot">{{ LNG.bd_depot_action }}</a>{% endif %}
-            {% if Element.destroyable %}<br><a class="tooltip_sticky" data-tooltip-forms data-tooltip-content="
+            {% if Element.destroyable %}{% set tt_destroy %}
             {# Start Destruction Popup #}
             <table class='tt-destroy'>
               <tr>
@@ -121,8 +121,7 @@
                 </td>
               </tr>
             </table>
-            {# End Destruction Popup #}
-            ">{{ LNG.bd_dismantle }}</a>{% endif %}
+            {% endset %}<br><a class="tooltip_sticky" data-tooltip-forms data-tooltip-content="{{ tt_destroy|e('html_attr') }}">{{ LNG.bd_dismantle }}</a>{% endif %}
           {% else %}
             &nbsp;
           {% endif %}

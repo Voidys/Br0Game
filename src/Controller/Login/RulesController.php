@@ -25,7 +25,7 @@ final class RulesController extends AbstractController
 
         return $this->render('login/rules.html.twig', [
             'page_title' => $page['title'],
-            'rules' => $page['content'],
+            'rules' => new \Twig\Markup($page['content'], 'UTF-8'), // sanitized by ContentPages
             'rules_empty' => $html->isEmpty($page['content']),
             'rules_empty_text' => $translator->trans('rulesEmpty', [], 'public', $request->getLocale()),
         ]);

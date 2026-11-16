@@ -22,7 +22,7 @@
       {% endif %}
       {% if array_key_exists('unit', fieldConfig) %}<span class="muted">{{ fieldConfig.unit }}</span>{% endif %}
     </div>
-    <div class="field-help">{{ helpText|raw }}</div>
+    <div class="field-help">{# raw: LNG help texts are trusted Markup; a schema 'tooltip' is a code constant in the config field schema, never user input #}{{ helpText|raw }}</div>
   </div>
 
   {% if fieldName == 'planet_distance' %}

@@ -40,7 +40,7 @@ final class NewsController extends AbstractLoginController
                 $this->printMessage($LNG['news_does_not_exist'], [['label' => $LNG['news_back'], 'url' => './?page=news']]);
             }
             $this->assign([
-                'article' => $this->present($row, $html) + ['text' => $this->body($row, $html)],
+                'article' => $this->present($row, $html) + ['text' => new \Twig\Markup($this->body($row, $html), 'UTF-8')],
             ]);
             return $this->render('login/page.news.default.html.twig');
         }

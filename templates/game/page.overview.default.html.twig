@@ -52,7 +52,7 @@
                         {{ LNG.ov_news }}:
                     </span>
                     <br><br>
-                    {{ news|raw }}
+                    {# raw: universe news text, HTML written by admins in the universe settings (makebr only adds <br>) #}{{ news|raw }}
                     <br>
                     <span class="block mt-2 text-center">
                         <button id="chkbtn2">{{ LNG.ov_checknews_hide }}</button>

@@ -209,8 +209,7 @@ class TicketController extends AbstractGameController
 
         foreach ($answerResult as $answerRow) {
             $answerRow['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $answerRow['time'], $USER['timezone']);
-            $answerRow['message'] = nl2br($answerRow['message']);
-            $answerList[$answerRow['answerID']] = $answerRow;
+                        $answerList[$answerRow['answerID']] = $answerRow;
             if (empty($ticket_status)) {
                 $ticket_status = $answerRow['status'];
             }

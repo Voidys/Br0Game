@@ -1080,3 +1080,7 @@ Technical changes per migration step, newest last.
 - Deps: phpmailer 7.2 (mail via SMTP verified), doctrine/dbal 4.6, doctrine-bundle 3.4.2, cron-expression 3.6, php-cs-fixer 3.95.31.
 - Tests: `MarketPurchaseTest` loads the TECH language domain, obsolete bot greeting test removed (feature removed in 122), universe schema golden values updated; 853 tests green, no warnings.
 
+## 134. Tooltips escaped as attributes, `|raw` audit
+
+- Tooltip markup is built in `{% set %}`/include blocks and printed with `|e('html_attr')` everywhere (~40 sites; new `game/tooltip.element.html.twig` for the element name/image/description tooltip); `|tooltip_text` dropped from templates (it double-encoded under html_attr). All 406 tooltips render identical content; names with `"`, `&`, `<` stay literal.
+- `|raw` audit: 18 uses replaced by `Twig\Markup` built in controllers (sanitised CMS/news/board HTML, tutorial, questions, search badges, vacation/delete notices) or by plain escaping (`|nl2br` in tickets); the remaining 7 carry a `{# raw: why #}` comment. `docs/templates.md` updated.

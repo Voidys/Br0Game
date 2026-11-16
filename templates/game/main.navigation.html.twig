@@ -1,7 +1,7 @@
 {% set currentPage = (app.request.query.get('page')|default('overview'))|lower %}
 {% set currentMode = (app.request.query.get('mode')|default(''))|lower %}
 {% macro link(href, iconName, label, active, extra) %}
-  <li><a class="nav__link" href="{{ href }}"{% if active %} aria-current="page"{% endif %}{{ extra|default('')|raw }}>{{ icon(iconName) }}<span class="nav__label">{{ label|raw }}</span></a></li>
+  <li><a class="nav__link" href="{{ href }}"{% if active %} aria-current="page"{% endif %}{# raw: extra is a fixed attribute string from this template; label is LNG text (trusted) plus <span> badges built here around integers #}{{ extra|default('')|raw }}>{{ icon(iconName) }}<span class="nav__label">{{ label|raw }}</span></a></li>
 {% endmacro %}
 {% import _self as nav %}
 

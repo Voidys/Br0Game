@@ -91,7 +91,7 @@
 				{% endif %}
 				<div class="spyRaportContainerCell">
 					<div class="lg:hidden">{{ LNG.tech[elementID] }}</div>
-					<a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip max-lg:hidden' data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+					<a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip max-lg:hidden' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
 				</div>
 				<div class="spyRaportContainerCell" data-info="{{ Class }}_{{ elementID }}">
 					{{ pretty_number(amount) }}{% if isset(repair_order[elementID]) %} <span class="colorPositive">(+ {{ repair_order[elementID] }})</span>{% endif %}

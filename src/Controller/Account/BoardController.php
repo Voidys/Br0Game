@@ -244,7 +244,7 @@ class BoardController extends AbstractAccountController
             'id' => $id,
             'title' => $deleted ? '' : $post['title'],
             'flair' => $post['flair'],
-            'body' => $deleted ? '' : $this->content()->basic($post['body']),
+            'body' => $deleted ? '' : new \Twig\Markup($this->content()->basic($post['body']), 'UTF-8'),
             'score' => (int) $post['score'],
             'comments' => (int) $post['comment_count'],
             'pinned' => (bool) $post['pinned'],
@@ -733,7 +733,7 @@ class BoardController extends AbstractAccountController
                 $out[] = [
                     'id' => $id,
                     'depth' => $depth,
-                    'body' => $deleted ? '' : $this->content()->basic($row['body']),
+                    'body' => $deleted ? '' : new \Twig\Markup($this->content()->basic($row['body']), 'UTF-8'),
                     'score' => (int) $row['score'],
                     'deleted' => $deleted,
                     'author' => $deleted ? '' : $this->authorName($row['accountname']),

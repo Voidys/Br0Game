@@ -64,7 +64,7 @@ class QuestionsController extends AbstractGameController
         }
 
         $this->assign([
-            'questionRow'	=> $LNG['questions'][$categoryID][$questionID],
+            'questionRow'	=> ['body' => new \Twig\Markup((string) $LNG['questions'][$categoryID][$questionID]['body'], 'UTF-8')] + $LNG['questions'][$categoryID][$questionID],
         ]);
         return $this->render('game/page.questions.single.html.twig');
     }

@@ -6,6 +6,6 @@
 {% if rules_empty %}
   <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ rules_empty_text }}</div></div>
 {% else %}
-  <div class="rich-text rich-text--wide">{{ rules|raw }}</div>
+  <div class="rich-text rich-text--wide">{{ rules }}</div>
 {% endif %}
 {% endblock %}

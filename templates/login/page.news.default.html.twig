@@ -6,7 +6,7 @@
     <h2>{{ article.title }}</h2>
     <p class="news-item__meta">{{ icon('newspaper') }}{{ LNG.format('news_from', article.date, article.author) }}</p>
     {% if article.image %}<img class="news-article__image" src="{{ article.image.src }}"{% if article.image.srcset %} srcset="{{ article.image.srcset }}" sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"{% endif %} width="{{ article.image.width }}" height="{{ article.image.height }}" alt="{{ article.title|e('html_attr') }}" fetchpriority="high" decoding="async">{% endif %}
-    <div class="rich-text news-item__text">{{ article.text|raw }}</div>
+    <div class="rich-text news-item__text">{{ article.text }}</div>
     <p class="news-article__back"><a href="./?page=news">{{ icon('arrow-left') }}{{ LNG.news_back }}</a></p>
   </article>
 {% else %}

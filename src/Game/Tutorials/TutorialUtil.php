@@ -119,8 +119,8 @@ class TutorialUtil
         $translationKey = $tutorialStep['translation_key'];
 
         $tutorial = [
-            'title' => $LNG['tutorial_title'][$translationKey],
-            'text' => $LNG['tutorial_text'][$translationKey],
+            'title' => new \Twig\Markup((string) $LNG['tutorial_title'][$translationKey], 'UTF-8'),
+            'text' => new \Twig\Markup((string) $LNG['tutorial_text'][$translationKey], 'UTF-8'),
             'fullfilled' => $supportClass->isFullfilled(),
             'goals' => $supportClass->listGoals(),
             'rewards' => $supportClass->listRewards(),

@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_resources }}{{ parent() }}{% endblock %}
 {% macro tip(id, ext) %}<a href='#' data-action="dialog-info" data-id="{{ id }}" class='tooltip'
-	data-tooltip-content="<table><tr><th>{{ LNG.tech[id] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ id ~ '.' ~ ext) }}'></td><td>{{ LNG.shortDescription[id] }}</td></tr></table></tr></table>">{{ LNG.tech[id] }}</a>{% endmacro %}
+	data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: id})|e('html_attr') }}">{{ LNG.tech[id] }}</a>{% endmacro %}
 {% macro val(v) %}<span class="{% if v > 0 %}colorPositive prod-pos{% elseif v < 0 %}colorNegative prod-neg{% else %}white prod-zero{% endif %}">{{ pretty_number(v) }}</span>{% endmacro %}
 {% block content %}
 	<form action="?page=resources" method="post" class="prod-form">

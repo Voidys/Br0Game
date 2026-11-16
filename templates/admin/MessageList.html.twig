@@ -81,10 +81,10 @@
               <td class="nowrap"><a href="#" class="toggle">{{ messageRow.time }}</a></td>
               <td><a href="#" class="toggle">{{ messageRow.sender }}</a></td>
               <td><a href="#" class="toggle">{{ messageRow.receiver }}</a></td>
-              <td>{# subjects are stored encoded; system and admin subjects carry markup #}<a href="#" class="toggle">{{ messageRow.subject|raw }}</a>{% if messageRow.deleted %} <span class="badge badge--muted">{{ LNG.ml_deleted }}</span>{% endif %}</td>
+              <td>{# raw: subjects are stored encoded; system and admin subjects carry markup #}<a href="#" class="toggle">{{ messageRow.subject|raw }}</a>{% if messageRow.deleted %} <span class="badge badge--muted">{{ LNG.ml_deleted }}</span>{% endif %}</td>
             </tr>
             <tr id="contentID{{ messageID }}" style="display:none;">
-              <td colspan="{{ cols }}">{{ messageRow.text|raw }}</td>
+              <td colspan="{{ cols }}">{# raw: message texts are stored HTML (encoded user input or system markup) #}{{ messageRow.text|raw }}</td>
             </tr>
             {% endfor %}
           </tbody>

@@ -1,10 +1,10 @@
 {% if not empty(tutorial) %}
     <div id="tutorial-header" class="tutorial-header">
-        <span id="tutorial-toggle">▲</span> <b>Tutorial:</b> {{ tutorial.title|raw }}
+        <span id="tutorial-toggle">▲</span> <b>Tutorial:</b> {{ tutorial.title }}
     </div>
     <div id="tutorial" class="tutorial">
         <div class="tutorial-text">
-            {{ tutorial.text|raw }}<br>
+            {{ tutorial.text }}<br>
         </div>
         <div class="tutorial-goals">
             {% if not empty(tutorial.goals) %}

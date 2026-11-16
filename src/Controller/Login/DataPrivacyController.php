@@ -47,7 +47,7 @@ class DataPrivacyController extends AbstractLoginController
         $page = $this->contentPages->find('dataPrivacy', $this->state->LNG->getLanguage());
         $this->assign([
             'cms_title' => htmlspecialchars($page['title'], ENT_QUOTES, 'UTF-8'),
-            'cms_content' => $page['content'],
+            'cms_content' => new \Twig\Markup($page['content'], 'UTF-8'), // sanitized by ContentPages
         ]);
 
         return $this->render('login/page.dataPrivacy.default.html.twig');

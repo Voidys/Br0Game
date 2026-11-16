@@ -33,8 +33,9 @@
         <tr>
           <td class="fleet-col-id ctr">{{ loop.index }}</td>
           <td class="fleet-col-mission ctr">
+            {% set tt_res %}<table class='tt-fleet-res'><tr><td>{{ LNG['tech'][901] }}</td><td>{{ FlyingFleetRow.metal }}</td></tr><tr><td>{{ LNG['tech'][902] }}</td><td>{{ FlyingFleetRow.crystal }}</td></tr><tr><td>{{ LNG['tech'][903] }}</td><td>{{ FlyingFleetRow.deuterium }}</td></tr></table>{% endset %}
             <a
-              data-tooltip-content="<table class='tt-fleet-res'><tr><td>{{ LNG['tech'][901] }}</td><td>{{ FlyingFleetRow.metal }}</td></tr><tr><td>{{ LNG['tech'][902] }}</td><td>{{ FlyingFleetRow.crystal }}</td></tr><tr><td>{{ LNG['tech'][903] }}</td><td>{{ FlyingFleetRow.deuterium }}</td></tr></table>"
+              data-tooltip-content="{{ tt_res|e('html_attr') }}"
               class="tooltip">
                 {{ LNG["type_mission_#{FlyingFleetRow.mission}"] }}
             </a>
@@ -46,8 +47,9 @@
                 <a title="{{ LNG.fl_onway }}">{{ LNG.fl_a }}</a>
               {% endif %}
           </td>
+          {% set tt_ships %}<table><tr><th colspan='2' class='text-center'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in (FlyingFleetRow.FleetList)|php_iter %}<tr><td class='transparent'>{{ LNG.tech[shipID] }}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>{% endset %}
           <td class="num"><a class="tooltip_sticky"
-                 data-tooltip-content="<table><tr><th colspan='2' class='text-center'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in (FlyingFleetRow.FleetList)|php_iter %}<tr><td class='transparent'>{{ LNG.tech[shipID] }}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>">{{ FlyingFleetRow.amount }}</a>
+                 data-tooltip-content="{{ tt_ships|e('html_attr') }}">{{ FlyingFleetRow.amount }}</a>
           </td>
           <td class="ctr"><a
               href="game?page=galaxy&amp;galaxy={{ FlyingFleetRow.startGalaxy }}&amp;system={{ FlyingFleetRow.startSystem }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.startType}"] }})</a></td>
@@ -113,8 +115,8 @@
       </tr>
         {% for FleetRow in (FleetsOnPlanet)|php_iter %}
           <tr>
-            <td>{% if FleetRow.speed != 0 %} <a class='tooltip'
-                                             data-tooltip-content='<table><tr><td>{{ LNG.fl_speed_title }}</td><td>{{ FleetRow.speed }}</td></tr></table>'>{{ LNG.tech[FleetRow.id] }}</a>{% else %}{{ LNG.tech[FleetRow.id] }}{% endif %}
+            <td>{% if FleetRow.speed != 0 %}{% set tt_speed %}<table><tr><td>{{ LNG.fl_speed_title }}</td><td>{{ FleetRow.speed }}</td></tr></table>{% endset %} <a class='tooltip'
+                                             data-tooltip-content="{{ tt_speed|e('html_attr') }}">{{ LNG.tech[FleetRow.id] }}</a>{% else %}{{ LNG.tech[FleetRow.id] }}{% endif %}
             </td>
             <td class="num" id="ship{{ FleetRow.id }}_value" data-count="{{ FleetRow.count }}">{{ pretty_number(FleetRow.count) }}</td>
             <td class="num">

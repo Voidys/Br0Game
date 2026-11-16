@@ -1,3 +1,4 @@
 {% include 'admin/overall_header.html.twig' %}
-{% include 'admin/ConfigSections.html.twig' with {extraSectionActions: {smtp: '<button type="submit" name="test" value="1">' ~ icon('send') ~ smtpTest ~ '</button>'}} %}
+{% set smtpButton %}<button type="submit" name="test" value="1">{{ icon('send') }}{{ smtpTest }}</button>{% endset %}
+{% include 'admin/ConfigSections.html.twig' with {extraSectionActions: {smtp: smtpButton}} %}
 {% include 'admin/overall_footer.html.twig' %}

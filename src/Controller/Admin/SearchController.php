@@ -612,8 +612,8 @@ class SearchController extends AbstractAdminController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $yes = '<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>';
-        $no = '<span class="muted">' . $LNG['one_is_yes_0'] . '</span>';
+        $yes = new \Twig\Markup('<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>', 'UTF-8');
+        $no = new \Twig\Markup('<span class="muted">' . $LNG['one_is_yes_0'] . '</span>', 'UTF-8');
 
     if ($Table === 'USERS') {
         if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {

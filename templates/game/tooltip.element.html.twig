@@ -1,0 +1,1 @@
+<table><tr><th>{{ LNG.tech[id] }}</th></tr><tr><table class='hoverinfo'><tr>{% if image is not same as(false) %}<td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ id ~ '.' ~ ((id >= 600 and id <= 699) ? 'jpg' : 'gif')) }}'></td>{% endif %}<td>{{ LNG.shortDescription[id] }}</td></tr></table></tr></table>

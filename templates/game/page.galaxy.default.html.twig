@@ -115,8 +115,8 @@
             <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.player.html.twig')|e('html_attr') }}">
               <span playerid='{{ currentPlanet.user.id }}' class="{% for class in (currentPlanet.user.class)|php_iter %}{% if not loop.first %} {% endif %}galaxy-username-{{ class }}{% endfor %} galaxy-username{% if currentPlanet.user.isBuddy %} galaxy-friend{% endif %}">{{ currentPlanet.user.username }}</span>
             </a>
-            {% if currentPlanet.user.is_leader %}<a class="tooltip galaxy-rank-leader" data-tooltip-content="<table width='100%'><tr><th colspan='2' class='text-center'>{{ currentPlanet.user.ally_owner_range|tooltip_text }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name|tooltip_text }}</td></tr></table>">{{ icon('trophy') }}</a>{% endif %}
-            {% if currentPlanet.user.is_diplo %}<a class="tooltip galaxy-rank-diplo" data-tooltip-content="<table width='100%'><tr><th colspan='2' class='text-center'>{{ LNG.al_rank_diplo }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name|tooltip_text }}</td></tr></table>">{{ icon('handshake') }}</a>{% endif %}
+            {% if currentPlanet.user.is_leader %}{% set tt_rank %}<table width='100%'><tr><th colspan='2' class='text-center'>{{ currentPlanet.user.ally_owner_range }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-leader" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('trophy') }}</a>{% endif %}
+            {% if currentPlanet.user.is_diplo %}{% set tt_rank %}<table width='100%'><tr><th colspan='2' class='text-center'>{{ LNG.al_rank_diplo }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-diplo" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('handshake') }}</a>{% endif %}
             {% if not empty(currentPlanet.user.class) %}
               <div>{# Do not format next line. It will break layout. #}
                 ({% for class in (currentPlanet.user.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %})
@@ -215,7 +215,7 @@
     <div class="galaxy-grid-row legende">
       <div class="galaxy-grid-header centered">({{ planetcount }})</div>
       <div class="galaxy-grid-header centered">
-        <a class="tooltip" data-tooltip-content="
+        {% set tt_legend %}
           <table class='tt-galaxy'>
             <tr><th colspan='2'>{{ LNG.gl_legend }}</th></tr>
             <tr><td class='tt-galaxy-label'>{{ LNG.gl_colonizable }}</td><td><span class='colorPositive'>{{ LNG.gl_pos }}</span></td></tr>
@@ -226,7 +226,9 @@
             <tr><td class='tt-galaxy-label'>{{ LNG.gl_banned }}</td><td><span class='galaxy-short-banned'>{{ LNG.gl_short_ban }}</span></td></tr>
             <tr><td class='tt-galaxy-label'>{{ LNG.gl_inactive_seven }}</td><td><span class='galaxy-short-inactive'>{{ LNG.gl_short_inactive }}</span></td></tr>
             <tr><td class='tt-galaxy-label'>{{ LNG.gl_inactive_twentyeight }}</td><td><span class='galaxy-short-longinactive'>{{ LNG.gl_short_long_inactive }}</span></td></tr>
-          </table>">{{ LNG.gl_legend }}</a>
+          </table>
+        {% endset %}
+        <a class="tooltip" data-tooltip-content="{{ tt_legend|e('html_attr') }}">{{ LNG.gl_legend }}</a>
       </div>
     </div>
     <div class="galaxy-grid-row stats">

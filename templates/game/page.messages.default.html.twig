@@ -117,7 +117,7 @@
           <span class="message-type">{{ LNG.mg_type[Message.type] }}{% if Message.unread == 1 %} <span class="message-new">{{ icon('mail') }} {{ LNG.mg_new }}</span>{% endif %}</span>
           <span class="message-details" id="msgdetails_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
             <span class="message-from">{{ Message.from|legacy_markup }}</span>
-            <span class="message-subject">{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
+            <span class="message-subject">{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# raw: subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
           </span>
           {% if Message.type == php_const('MESSAGE_TYPE_SPY_REPORT') %}
             <span id="spytitle_{{ Message.id }}" class="spy-report-collapsed-title"{% if not spyCollapsed %} style="display: none;"{% endif %}>{{ Message.spyTitle }}</span>

@@ -21,7 +21,7 @@
         {{ LNG.board_by }} <strong>{{ post.author|e }}</strong> &middot; <time title="{{ post.date|e }}">{{ post.ago|e }}</time>
         {% if post.edited %}&middot; <span title="{{ post.edited|e }}">{{ LNG.board_edited }}</span>{% endif %}
       </div>
-      {% if not post.deleted %}<div class="rich-text board-post__body">{{ post.body|raw }}</div>{% endif %}
+      {% if not post.deleted %}<div class="rich-text board-post__body">{{ post.body }}</div>{% endif %}
 
       <div class="board-actions">
         {% if post.canEdit %}<a class="board-action" href="account?page=board&amp;mode=editPost&amp;id={{ post.id }}">{{ icon('pencil') }}{{ LNG.board_edit }}</a>{% endif %}
@@ -81,7 +81,7 @@
           &middot; <time title="{{ c.date|e }}">{{ c.ago|e }}</time>{% if c.edited %} &middot; {{ LNG.board_edited }}{% endif %}
         </div>
         <div class="board-comment__content">
-          {% if not c.deleted %}<div class="rich-text" data-comment-body>{{ c.body|raw }}</div>{% endif %}
+          {% if not c.deleted %}<div class="rich-text" data-comment-body>{{ c.body }}</div>{% endif %}
           <div class="board-actions">
             {% if canComment %}<button type="button" class="board-action" data-reply>{{ icon('message-circle') }}{{ LNG.board_reply }}</button>{% endif %}
             {% if c.canEdit %}<button type="button" class="board-action" data-edit>{{ icon('pencil') }}{{ LNG.board_edit }}</button>{% endif %}

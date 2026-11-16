@@ -37,9 +37,9 @@
   {% if uni_status == 1 or uni_status == 2 %}
     <div class="infobox">{{ icon('triangle-alert') }}<span>{{ LNG.ov_closed }}</span></div>
   {% elseif delete %}
-    <div class="infobox">{{ icon('triangle-alert') }}<span>{{ delete|raw }}</span></div>
+    <div class="infobox">{{ icon('triangle-alert') }}<span>{{ delete }}</span></div>
   {% elseif vacation %}
-    <div class="infobox">{{ icon('moon') }}<span>{{ vacation|raw }}</span></div>
+    <div class="infobox">{{ icon('moon') }}<span>{{ vacation }}</span></div>
   {% endif %}
 
   {% block content %}{% endblock %}

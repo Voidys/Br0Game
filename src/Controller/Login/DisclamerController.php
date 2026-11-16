@@ -47,7 +47,7 @@ class DisclamerController extends AbstractLoginController
         $page = $this->contentPages->find('contacts', $this->state->LNG->getLanguage());
         $this->assign([
             'cms_title' => htmlspecialchars($page['title'], ENT_QUOTES, 'UTF-8'),
-            'cms_content' => $page['content'],
+            'cms_content' => new \Twig\Markup($page['content'], 'UTF-8'), // sanitized by ContentPages
         ]);
 
         return $this->render('login/page.disclamer.default.html.twig');

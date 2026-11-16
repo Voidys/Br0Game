@@ -31,7 +31,7 @@
     {% for report in (spyReports)|php_iter %}
         <details class="spy-report-collapsible" {% if loop.first %}open{% endif %}>
             <summary class="spy-report-summary">{{ report.date }}</summary>
-            {{ report.html|raw }}
+            {# raw: HTML of a spy report rendered by game/shared.mission.spyReport (escaped there) or an old-format stored message #}{{ report.html|raw }}
         </details>
     {% endfor %}
 {% else %}

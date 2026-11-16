@@ -93,7 +93,7 @@
     {% for elementID, resourceArray in (planetList.resource)|php_iter %}
       <tr class="ressources" data-info="r_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">
           {{ pretty_number(array_sum(resourceArray)) }}
@@ -158,7 +158,7 @@
     {% for elementID, buildArray in (planetList.build)|php_iter %}
       <tr class="buildings" data-info="b_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">{{ pretty_number(avgBuildings[elementID], 1) }}</td>
         {% for planetID, build in (buildArray)|php_iter %}
@@ -177,7 +177,7 @@
     {% for elementID, techArray in (planetList.tech)|php_iter %}
       <tr class="technology" data-info="t_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">
           {{ pretty_number(max(max(techArray), 0)) }}
@@ -201,7 +201,7 @@
     {% for elementID, fleetArray in (planetList.fleet)|php_iter %}
       <tr class="ships" data-info="f_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">
           {{ pretty_number(array_sum(fleetArray)) }}
@@ -231,7 +231,7 @@
     {% for elementID, defenceArray in (planetList.defense)|php_iter %}
       <tr class="defenses" data-info="d_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">
           {{ pretty_number(array_sum(defenceArray)) }}
@@ -255,7 +255,7 @@
     {% for elementID, missileArray in (planetList.missiles)|php_iter %}
       <tr class="missile" data-info="d_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
-               data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+               data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">
           {{ pretty_number(array_sum(missileArray)) }}

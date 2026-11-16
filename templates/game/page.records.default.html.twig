@@ -14,7 +14,7 @@
         </tr>
         {% for elementID, elementRow in (buildList)|php_iter %}
         <tr>
-            <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a>
+            <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
             </td>
             {% if not empty(elementRow) and count(elementRow) <= 3 %}
                 <td>
@@ -66,7 +66,7 @@
         </tr>
         {% for elementID, elementRow in (researchList)|php_iter %}
         <tr>
-            <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="<table><tr><th>{{ LNG.tech[elementID] }}</th></tr><tr><table class='hoverinfo'><tr><td><img class='inline max-w-none' src='{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}'></td><td>{{ LNG.shortDescription[elementID] }}</td></tr></table></tr></table>">{{ LNG.tech[elementID] }}</a></td>
+            <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a></td>
             {% if not empty(elementRow) and count(elementRow) <= 3 %}
                 <td>
                     {% set test = 0 %}

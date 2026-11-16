@@ -82,7 +82,7 @@
             <tbody>
               {% for row in result.rows %}
                 <tr>
-                  {% for cell in row.cells %}<td>{{ cell|raw }}</td>{% endfor %}
+                  {% for cell in row.cells %}<td>{{ cell }}</td>{% endfor %}
                   {% if result.hasActions %}
                     <td class="actions">
                       {% for action in row.actions %}
