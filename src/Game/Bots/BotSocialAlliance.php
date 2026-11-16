@@ -44,10 +44,13 @@ class BotSocialAlliance
 
     /**
      * Alliance step of a social turn. A bot in an alliance it owns handles the oldest application (processApplications()).
-     * A bot without alliance and without pending application rolls `alliance_chance` (percent): if an open alliance
-     * exists (accepts applications, not full, min points <= the bot's points) it applies to one of the three best
-     * scored (similar average points, same galaxy as members, plus randomness), otherwise it may found its own
-     * (maybeFound()). Always returns false (never counts as the turn's chat message).
+     * Universe settings: `bots_alliances_enabled` off makes bots lone wolves (no applications, no new alliances, members
+     * leave; an alliance a bot founded stays); `bots_join_human_alliances` off keeps bots among themselves (they apply only
+     * to alliances founded by bots, leave player alliances and withdraw applications there). A bot without alliance and
+     * without pending application first rolls `alliance_join_chance` (percent, default 5): on success it applies to one of
+     * the three best scored open alliances (accepting applications, not full, min points <= the bot's points; scored by
+     * similar average points, same galaxy as members, plus randomness). Otherwise it rolls `alliance_chance` (percent) to
+     * found its own (maybeFound()). Always returns false (never counts as the turn's chat message).
      *
      * @param array<string, mixed> $ctx bot context built by BotSocial::act()
      */
@@ -58,12 +61,28 @@ class BotSocialAlliance
         $uni = $ctx['uni'];
         $allyId = (int) $ctx['me']['ally_id'];
 
+        $config = $this->configs->get($uni);
+        $alliancesOn = !isset($config->bots_alliances_enabled) || !empty($config->bots_alliances_enabled);
+        $joinHumans = !empty($config->bots_join_human_alliances);
+
+        if (!$alliancesOn || !$joinHumans) {
+            $this->withdrawApplications($ctx, $alliancesOn);
+        }
+
         if ($allyId > 0) {
             $owner = $db->selectSingle('SELECT * FROM %%ALLIANCE%% WHERE id = :id AND ally_owner = :bot;', [':id' => $allyId, ':bot' => $bot]);
             if (!empty($owner)) {
                 $this->processApplications($ctx, $owner);
+            } elseif (!$alliancesOn) {
+                $this->leaveAlliance($ctx, $allyId, 'lone wolf');
+            } elseif (!$joinHumans && !$this->isBotAlliance($allyId)) {
+                $this->leaveAlliance($ctx, $allyId, 'human alliance');
             }
 
+            return false;
+        }
+
+        if (!$alliancesOn) {
             return false;
         }
 
@@ -72,8 +91,10 @@ class BotSocialAlliance
             return false;
         }
 
-        $chance = (int) ($ctx['profile']['alliance_chance'] ?? 20);
-        if (mt_rand(1, 100) > $chance) {
+        $joinChance = (int) ($ctx['profile']['alliance_join_chance'] ?? 5);
+        $foundChance = (int) ($ctx['profile']['alliance_chance'] ?? 20);
+        $wantsToJoin = mt_rand(1, 100) <= $joinChance;
+        if (!$wantsToJoin && mt_rand(1, 100) > $foundChance) {
             return false;
         }
 
@@ -89,11 +110,12 @@ class BotSocialAlliance
                     (SELECT COUNT(*) FROM %%USERS%% u WHERE u.ally_id = a.id AND u.galaxy = :gal) AS same_gal
              FROM %%ALLIANCE%% a
              WHERE a.ally_universe = :uni AND a.ally_request_notallow = 0 AND a.ally_members < a.ally_max_members
-               AND a.ally_request_min_points <= :points;',
-            [':uni' => $uni, ':gal' => (int) $ctx['me']['galaxy'], ':points' => $points],
+               AND a.ally_request_min_points <= :points
+               AND (:humans = 1 OR a.ally_owner IN (SELECT b.user_id FROM %%BOT_PLAYERS%% b WHERE b.universe = :uni2));',
+            [':uni' => $uni, ':uni2' => $uni, ':gal' => (int) $ctx['me']['galaxy'], ':points' => $points, ':humans' => $joinHumans ? 1 : 0],
         );
 
-        if (!empty($candidates)) {
+        if ($wantsToJoin && !empty($candidates)) {
             $scored = [];
             foreach ($candidates as $c) {
                 $avg = (float) ($c['avg_points'] ?? 0);
@@ -111,6 +133,53 @@ class BotSocialAlliance
         $this->maybeFound($ctx, $points);
 
         return false;
+    }
+
+    /** Whether the alliance was founded by (is owned by) a bot of this universe. */
+    private function isBotAlliance(int $allianceId): bool
+    {
+        return (int) $this->db->selectSingle(
+            'SELECT COUNT(*) AS c FROM %%ALLIANCE%% a INNER JOIN %%BOT_PLAYERS%% b ON b.user_id = a.ally_owner WHERE a.id = :id;',
+            [':id' => $allianceId],
+            'c',
+        ) > 0;
+    }
+
+    /**
+     * The bot (a member, not the owner) leaves the alliance like a player leaving: user and statistics row detached, member
+     * counter recomputed. `$reason` goes to the bot log (lone wolf / human alliance).
+     *
+     * @param array<string, mixed> $ctx bot context
+     */
+    private function leaveAlliance(array $ctx, int $allianceId, string $reason): void
+    {
+        $db = $this->db;
+        $bot = $ctx['bot'];
+        $tag = (string) $db->selectSingle('SELECT ally_tag FROM %%ALLIANCE%% WHERE id = :id;', [':id' => $allianceId], 'ally_tag');
+        $db->update('UPDATE %%USERS%% SET ally_id = 0, ally_register_time = 0, ally_rank_id = 0 WHERE id = :bot;', [':bot' => $bot]);
+        $db->update('UPDATE %%STATPOINTS%% SET id_ally = 0 WHERE id_owner = :bot AND stat_type = 1;', [':bot' => $bot]);
+        // member counter recomputed like AllianceRepository::recountMembers()
+        $db->update('UPDATE %%ALLIANCE%% SET ally_members = (SELECT COUNT(*) FROM %%USERS%% WHERE ally_id = :id) WHERE id = :id2;', [':id' => $allianceId, ':id2' => $allianceId]);
+        $this->botLog->log($bot, $ctx['uni'], 'alliance_leave', 'left [' . $tag . '] #' . $allianceId . ' (' . $reason . ')');
+    }
+
+    /**
+     * Withdraws open applications of the bot: only those at alliances founded by humans (`$humanOnly`, bots kept among
+     * themselves) or all of them (lone wolves).
+     *
+     * @param array<string, mixed> $ctx bot context
+     */
+    private function withdrawApplications(array $ctx, bool $humanOnly): void
+    {
+        $this->db->delete(
+            'DELETE r FROM %%ALLIANCE_REQUEST%% r INNER JOIN %%ALLIANCE%% a ON a.id = r.allianceID
+             LEFT JOIN %%BOT_PLAYERS%% b ON b.user_id = a.ally_owner
+             WHERE r.userID = :bot AND (:all = 1 OR b.user_id IS NULL);',
+            [':bot' => $ctx['bot'], ':all' => $humanOnly ? 0 : 1],
+        );
+        if ($this->db->rowCount() > 0) {
+            $this->botLog->log($ctx['bot'], $ctx['uni'], 'alliance_apply', $humanOnly ? 'withdrew applications at human alliances' : 'withdrew all applications (lone wolf)');
+        }
     }
 
     /**

@@ -427,3 +427,5 @@ type_planet_short_3: L
 sys_lost: "Pertes"
 sys_raport_amount_error: Aucun vaisseau ni aucune défense sélectionné, ou trop nombreux
   pour la simulation.
+depot_msg_subject: "Flotte ravitaillée"
+depot_msg_text: "Ta flotte en %s a été ravitaillée par %s : séjour prolongé de %s h."

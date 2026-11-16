@@ -53,9 +53,7 @@ longDescription:
     en produire assez (1 000 pour le niveau 1, le double à chaque niveau), même si
     tes mines l''utilisent déjà. Une fois construit, le terraformeur ne peut plus
     jamais être démoli.'
-  '34': 'Le dépôt d''alliance n''a actuellement aucun effet dans ce jeu : les flottes
-    amies peuvent stationner sur ta planète sans lui, et il n''y a pas de ravitaillement
-    en carburant.'
+  '34': "Le dépôt d'alliance te permet de ravitailler en deutérium les flottes amies qui stationnent sur ta planète et de prolonger ainsi leur séjour. Tu l'ouvres depuis la page des bâtiments : pour chaque flotte en stationnement, tu choisis entre 1 heure et autant d'heures que le niveau du dépôt, et tu paies les heures multipliées par le coût de stationnement horaire de la flotte, pris sur le deutérium de ta planète. Le coût horaire est un dixième de la consommation de base cumulée des vaisseaux de la flotte, arrondi à l'entier supérieur. Une flotte peut être ravitaillée encore et encore, mais ne peut jamais avoir plus de 32 heures de séjour restantes. Seules les flottes d'autres joueurs actuellement en orbite autour de ta planète peuvent être ravitaillées."
   '35': Le dock de réparation peut réparer les vaisseaux détruits au combat qui ont
     laissé un champ d'épaves. Une réparation dure 12 heures au maximum, et elle ne
     peut pas se terminer moins de 30 minutes après l'apparition du champ d'épaves.<br>Une
@@ -374,7 +372,7 @@ shortDescription:
   '33': 'Le terraformeur agrandit la surface exploitable de la planète : 5 cases supplémentaires
     par niveau, plus une en bonus à chaque niveau pair. Chaque niveau occupe lui-même
     une case.'
-  '34': Le dépôt d'alliance n'a actuellement aucun effet dans ce jeu.
+  '34': "Le dépôt d'alliance te permet de prolonger, contre du deutérium, le séjour des flottes amies stationnées sur ta planète : par ravitaillement, jusqu'à autant d'heures que le niveau du dépôt."
   '35': Le dock de réparation remet en état des vaisseaux d'un champ d'épaves.
   '41': 'La lune n''a pas d''atmosphère, et une lune toute neuve n''a de place que
     pour un seul bâtiment : commence donc par la base lunaire.'

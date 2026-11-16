@@ -357,8 +357,22 @@ class BotsController extends AbstractAdminController
             'reply_chance' => $p['reply_chance'] ?? 0,
             'message_chance' => $p['message_chance'] ?? 0,
             'alliance_chance' => $p['alliance_chance'] ?? 0,
+            'alliance_join_chance' => $p['alliance_join_chance'] ?? 0,
+            'fleetsave_chance' => $p['fleetsave_chance'] ?? 0,
+            'saving_discipline' => $p['saving_discipline'] ?? 0,
+            'expedition_slots' => $p['expedition_slots'] ?? 0,
             'buddy_accept_chance' => $p['buddy_accept_chance'] ?? 0,
             'chat_style' => (string) ($p['chat_style'] ?? ''),
+            'raid_enabled' => !empty($p['raid_enabled']),
+            'raid_chance' => $p['raid_chance'] ?? 0,
+            'scout_range' => $p['scout_range'] ?? 1,
+            'min_profit_ratio' => $p['min_profit_ratio'] ?? 1,
+            'relentless_minutes' => [$p['relentless_min'] ?? 0, $p['relentless_max'] ?? 0],
+            'recall_check_chance' => $p['recall_check_chance'] ?? 0,
+            'max_attacks_per_target_per_day' => $p['max_attacks_per_target_per_day'] ?? 1,
+            'attack_bots' => !empty($p['attack_bots']),
+            'attack_humans' => !empty($p['attack_humans']),
+            'prefer_inactive' => $p['prefer_inactive'] ?? 0,
         ];
     }
 

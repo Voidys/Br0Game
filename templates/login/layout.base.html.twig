@@ -49,7 +49,7 @@
   {% if bodyclass != 'popup' %}
     <header class="site-header">
       <div class="site-wrap site-header__inner">
-        <a class="site-brand" href="./">{{ icon('rocket') }}<span>{{ gameName }}</span></a>
+        <a class="site-brand" href="./"><span>{{ gameName }}</span></a>
         <button type="button" class="icon-button site-menu-toggle" data-site-menu aria-expanded="false" aria-controls="site-nav">{{ icon('menu', LNG.home_menu) }}</button>
         <nav class="site-nav" id="site-nav" aria-label="{{ LNG.home_menu }}">
           <a href="./?page=news"{% if currentPage == 'news' %} aria-current="page"{% endif %}>{{ LNG.menu_news }}</a>

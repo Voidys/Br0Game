@@ -455,3 +455,5 @@ type_planet_4: Pirate base
 type_planet_short_1: P
 type_planet_short_2: D
 type_planet_short_3: M
+depot_msg_subject: "Fleet supplied"
+depot_msg_text: "Your fleet at %s got supplied by %s: stay extended by %s h."

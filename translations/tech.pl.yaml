@@ -32,7 +32,7 @@ longDescription:
   '24': "Magazynuje nadwyżki Deuterium."
   '31': "Do badania nowych technologii potrzebujesz Laboratorium Badawczego. Jego poziom decyduje o tempie badań i o tym, jakie technologie możesz odblokować. Badanie trwa w laboratorium na planecie, na której je zaczniesz, a efekt działa na wszystkie twoje planety. Gdy trwa badanie, żadnego Laboratorium Badawczego nie można rozbudować."
   '33': "Terraformer powiększa użyteczną powierzchnię planety. Każdy poziom daje 5 dodatkowych pól, a na każdym parzystym poziomie jeszcze jedno. Każdy poziom Terraformera zajmuje jedno pole.<br>Budowa wymaga energii, ale jej nie zużywa: twoja planeta musi tylko produkować jej wystarczająco dużo (1000 na poziomie 1, podwajane z każdym poziomem), nawet jeśli kopalnie już ją pobierają. Raz zbudowanego Terraformera nie da się już zburzyć."
-  '34': "Depozyt Sojuszniczy obecnie nie działa w tej grze: przyjazne floty mogą stacjonować na twojej planecie bez niego, a zaopatrzenia w paliwo nie ma."
+  '34': "Depozyt sojuszniczy pozwala zaopatrzyć w deuter przyjazne floty stacjonujące na twojej planecie i w ten sposób wydłużyć ich pobyt. Otwierasz go ze strony budynków: dla każdej stacjonującej floty wybierasz od 1 godziny do tylu godzin, ile wynosi poziom depozytu, i płacisz liczbę godzin razy godzinny koszt utrzymania floty z deuteru swojej planety. Godzinny koszt utrzymania to jedna dziesiąta sumy bazowego zużycia paliwa statków floty, zaokrąglona w górę. Flotę można zaopatrywać wielokrotnie, ale nigdy nie może mieć więcej niż 32 godz. pozostałego pobytu. Zaopatrzyć można tylko floty innych graczy, które właśnie znajdują się na orbicie twojej planety."
   '35': "Dok Naprawczy potrafi naprawić statki zniszczone w walce, które zostawiły pole wraków. Naprawa trwa najwyżej 12 godzin i nie może się zakończyć wcześniej niż 30 minut po pojawieniu się pola wraków.<br>Gdy pole wraków się pojawi, masz 3 dni na rozpoczęcie naprawy. Po jej zakończeniu musisz sam przywrócić statki do służby. Jeśli tego nie zrobisz, wrócą do służby automatycznie po 3 dniach."
   '41': "Księżyc nie ma atmosfery, a świeży księżyc ma miejsce tylko na jeden budynek, więc zacznij od Bazy Księżycowej. Każdy poziom daje 3 dodatkowe pola i sam zajmuje jedno. Raz zbudowanej Bazy Księżycowej nie da się już rozebrać."
   '42': "Falanga pozwala śledzić ruchy flot. Im wyższy poziom, tym większy zasięg: domyślnie (poziom Falangi)^2 - 1 układów, więc poziom 1 obejmuje tylko układ samego księżyca. Jedno skanowanie kosztuje 5000 deuterium, które musi być na księżycu. Żeby skanować, otwórz widok Galaktyki z księżyca i kliknij planetę w zasięgu. Samych księżyców Falangą skanować nie można, bo nie mają atmosfery.<br><br>Falanga pokazuje floty, które startują z skanowanej planety albo lecą do niej: moment przylotu, koniec postoju i powrót flot właściciela do domu. Przerzutów (stacjonowania) i rakiet nie widać nigdy, podobnie jak lotów recyklingowych i handlowych zmierzających na planetę."
@@ -47,7 +47,7 @@ longDescription:
   '114': "Dzięki połączeniu czwartego i piątego wymiaru możesz zbadać nowy rodzaj napędu, bardziej ekonomiczny i wydajny."
   '115': "Rozwój tego napędu przyspiesza część statków, ale każdy poziom dodaje tylko 10% prędkości bazowej. Dotyczy to: Małego Transportera, Dużego Transportera, Lekkiego Myśliwca, Recyklera i Sondy Szpiegowskiej (Mały Transporter i Recykler później przechodzą na lepsze napędy)."
   '117': "Napęd impulsowy działa na zasadzie odrzutu. Jego rozwój przyspiesza część statków, ale każdy poziom dodaje tylko 20% prędkości bazowej: Bombowiec, Krążownik, Ciężki Myśliwiec i Statek Kolonizacyjny, a także Mały Transporter i Recykler po przejściu na ten napęd. Rakiety międzyplanetarne też lecą z każdym poziomem dalej."
-  '118': "Napęd nadprzestrzenny zakrzywia przestrzeń wokół statku. Jego rozwój przyspiesza część statków, ale każdy poziom dodaje tylko 30% prędkości bazowej: Pancernik, Okręt Wojenny, Niszczyciel, Gwiazda Śmierci, Dark Moon, Giga Transporter, Avatar i Gigarecykler, a także Bombowiec i Recykler po przejściu na ten napęd. Wymaga Technologii Nadprzestrzennej (poziom 3) i Laboratorium Badawczego (poziom 7)."
+  '118': "Napęd nadprzestrzenny zakrzywia przestrzeń wokół statku. Jego rozwój przyspiesza część statków, ale każdy poziom dodaje tylko 30% prędkości bazowej: Pancernik, Okręt Wojenny, Niszczyciel, Gwiazda Śmierci, Dark Moon, Transporter bojowy, Avatar i Gigarecykler, a także Bombowiec i Recykler po przejściu na ten napęd. Wymaga Technologii Nadprzestrzennej (poziom 3) i Laboratorium Badawczego (poziom 7)."
   '120': "Skupione światło tworzy wiązkę, która niszczy wszystko, w co uderzy. Wymaga Laboratorium Badawczego (poziom 1) i Technologii Energetycznej (poziom 2)."
   '121': "Śmiercionośna wiązka rozpędzonych jonów, która przy uderzeniu wyrządza ogromne szkody."
   '122': "Dalszy rozwój technologii jonowej: przyspiesza wysokoenergetyczną plazmę, powstałą z przegrzanych jonów. Przy uderzeniu działa niszcząco."
@@ -202,7 +202,7 @@ shortDescription:
   '24': "Magazynuje nadwyżki Deuterium."
   '31': "Do badania nowych technologii potrzebujesz Laboratorium Badawczego."
   '33': "Terraformer powiększa użyteczną powierzchnię planety: 5 dodatkowych pól na poziom, plus jedno na każdym parzystym poziomie. Każdy poziom sam zajmuje jedno pole."
-  '34': "Depozyt Sojuszniczy obecnie nie działa w tej grze."
+  '34': "Depozyt sojuszniczy pozwala za deuter wydłużyć pobyt przyjaznych flot stacjonujących na twojej planecie: jednorazowo o tyle godzin, ile wynosi poziom depozytu."
   '35': "Dok Naprawczy przywraca statki z pola wraków."
   '41': "Księżyc nie ma atmosfery, a świeży księżyc ma miejsce tylko na jeden budynek, więc zacznij od Bazy Księżycowej."
   '42': "Falanga pozwala śledzić ruchy flot. Im wyższy poziom, tym większy zasięg."
@@ -318,7 +318,7 @@ shortNames:
   '214': "Gwiazda Śmierci"
   '215': Pancernik
   '216': Dark Moon
-  '217': Giga Transporter
+  '217': "Transporter bojowy"
   '218': Avatar
   '219': Gigarecykler
   '220': Stalowy Kolos
@@ -338,7 +338,7 @@ shortNames:
   '406': Wyrzutnia Plazmy
   '407': M. Osłona
   '408': D. Osłona
-  '409': Giga Osłona
+  '409': "Osłona atmosferyczna"
   '410': Działo Grawitonowe
   '411': Orb. Plat.Obr
   '412': Bunkier
@@ -413,7 +413,7 @@ tech:
   '214': "Gwiazda Śmierci"
   '215': Pancernik
   '216': Dark Moon
-  '217': "Giga Transporter"
+  '217': "Transporter bojowy"
   '218': Avatar
   '219': "Gigarecykler"
   '220': Stalowy Kolos
@@ -434,7 +434,7 @@ tech:
   '406': Wyrzutnia Plazmy
   '407': Mała Osłona
   '408': Duża Osłona
-  '409': "Giga Osłona"
+  '409': "Osłona atmosferyczna"
   '410': Działo Grawitonowe
   '411': Orbitalna Platforma Obronna
   '412': Bunkier

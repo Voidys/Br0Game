@@ -32,7 +32,7 @@ longDescription:
   '24': Fazla Deuterium için depo sağlar.
   '31': Yeni teknolojileri araştırmak için bir araştırma laboratuvarına ihtiyacın var. Laboratuvar seviyesi ne kadar hızlı araştırma yapacağını ve hangi teknolojilerin kilidini açabileceğini belirler. Araştırma, başlattığın gezegenin laboratuvarında yürür ve sonucu tüm gezegenlerin için geçerli olur. Bir araştırma sürerken hiçbir araştırma laboratuvarı yükseltilemez.
   '33': 'Terraformer gezegenin kullanılabilir alanını genişletir. Her seviye sana 5 ek alan, her çift seviyede ayrıca bir alan daha verir. Terraformer''ın her seviyesi kendisi de bir alan kaplar.<br>İnşası enerji ister ama enerji harcanıp bitmez: gezegenin yalnızca yeterince enerji üretmesi gerekir (1. seviye için 1.000, her seviyede iki katına çıkar); madenlerin zaten bu enerjiyi kullanıyor olması sorun değildir. İnşa edildikten sonra Terraformer asla yıkılamaz.'
-  '34': 'İttifak Deposu şu an bu oyunda hiçbir işe yaramıyor: dost filolar o olmadan da gezegeninde bekleyebilir ve yakıt ikmali de yok.'
+  '34': "İttifak Deposu, gezegeninde bekleyen dost filoları deuterium ile ikmal etmeni ve böylece kalışlarını uzatmanı sağlar. Bina sayfasından açarsın: bekleyen her filo için 1 saat ile deponun seviyesi kadar saat arasında seçim yaparsın ve saat sayısı çarpı filonun saatlik bekleme maliyetini gezegenindeki deuteriumdan ödersin. Saatlik bekleme maliyeti, filodaki gemilerin toplam temel yakıt tüketiminin onda biridir, yukarı yuvarlanır. Bir filo tekrar tekrar ikmal edilebilir ama kalan kalış süresi hiçbir zaman 32 saati geçemez. Yalnızca diğer oyuncuların, şu anda gezegeninin yörüngesinde bulunan filoları ikmal edilebilir."
   '35': Onarım rıhtımı, savaşta yok edilip geride hurda alanı bırakan gemileri onarabilir. Bir onarım en fazla 12 saat sürer ve hurda alanı oluştuktan en az 30 dakika önce bitemez.<br>Hurda alanı oluştuktan sonra onarımı başlatmak için 3 günün var. Onarım bitince gemileri kendin yeniden hizmete almalısın. Almazsan 3 gün sonra otomatik olarak hizmete dönerler.
   '41': Ayda atmosfer yoktur ve yeni bir ayda yalnızca tek bir binaya yer vardır, o yüzden Ay Merkez İstasyonu ile başla. Her seviye 3 ek alan verir ve kendisi bir alan kaplar. İnşa edildikten sonra Ay Merkez İstasyonu asla yıkılamaz.
   '42': 'Sensör dizisi filo hareketlerini izlemeni sağlar. Seviye yükseldikçe Radar İstasyonu menzili artar: varsayılan olarak (Radar İstasyonu seviyesi)^2 - 1 sistem, yani 1. seviye yalnızca ayın kendi sistemini kapsar. Bir tarama 5.000 deuterium harcar ve bu deuterium ayda bulunmalıdır. Taramak için aydan galaksi görünümünü aç ve menzildeki bir gezegene tıkla. Aylar atmosferi olmadığı için Radar İstasyonu ile taranamaz.<br><br>Radar İstasyonu, taranan gezegenden kalkan ya da o gezegene uçan filoları gösterir: varış zamanlarını, bir beklemenin ne zaman bittiğini ve sahibinin filolarının ne zaman eve döndüğünü. Konuşlandırmalar ve roketler hiçbir zaman gösterilmez; gezegene giden geri dönüşüm ve ticaret uçuşları da gösterilmez.'
@@ -47,7 +47,7 @@ longDescription:
   '114': 4. ve 5. boyutları birleştirerek daha ekonomik ve verimli yeni bir itici türü araştırabilirsin.
   '115': 'Bu iticiyi geliştirmek bazı gemileri hızlandırır, ama her seviye temel hızın yalnızca %10''unu ekler. Etkilenen gemiler: Küçük Nakliye, Büyük Nakliye, Hafif Avcı, Geri Dönüşümcü ve Casus Sondası (Küçük Nakliye ve Geri Dönüşümcü daha sonra daha iyi iticilere geçer).'
   '117': 'İmpuls iticisi tepki ilkesiyle çalışır. Geliştirmek bazı gemileri hızlandırır, ama her seviye temel hızın yalnızca %20''sini ekler: Bombardıman Gemisi, Kruvazör, Ağır Avcı ve Koloni Gemisi, ayrıca bu iticiye geçtiklerinde Küçük Nakliye ve Geri Dönüşümcü. Gezegenler Arası Roketler de her seviyeyle daha uzağa uçar.'
-  '118': 'Hiperuzay iticisi bir geminin çevresindeki uzayı büker. Geliştirmek bazı gemileri hızlandırır, ama her seviye temel hızın yalnızca %30''unu ekler: Fırkateyn, Komuta Gemisi, Muhrip, Ölüm Yıldızı, Kara Savaşçı, Ultra Nakliye, Avatar ve Ultra Dönüşümcü, ayrıca bu iticiye geçtiklerinde Bombardıman Gemisi ve Geri Dönüşümcü. Hiperuzay Tekniği (seviye 3) ve Araştırma Laboratuvarı (seviye 7) gerektirir.'
+  '118': 'Hiperuzay iticisi bir geminin çevresindeki uzayı büker. Geliştirmek bazı gemileri hızlandırır, ama her seviye temel hızın yalnızca %30''unu ekler: Fırkateyn, Komuta Gemisi, Muhrip, Ölüm Yıldızı, Kara Ay, Ultra Nakliye, Avatar ve Ultra Dönüşümcü, ayrıca bu iticiye geçtiklerinde Bombardıman Gemisi ve Geri Dönüşümcü. Hiperuzay Tekniği (seviye 3) ve Araştırma Laboratuvarı (seviye 7) gerektirir.'
   '120': Odaklanmış ışık, çarptığı her şeye zarar veren bir ışın üretir. Araştırma Laboratuvarı (seviye 1) ve Enerji Tekniği (seviye 2) gerektirir.
   '121': Hızlandırılmış iyonlardan oluşan ölümcül bir ışın; çarptığında muazzam hasar verir.
   '122': 'İyon teknolojisinin bir adım ötesi: aşırı ısıtılmış iyonlardan oluşan yüksek enerjili plazmayı hızlandırır. Çarptığında yıkıcı etki yapar.'
@@ -125,7 +125,7 @@ shortDescription:
   '24': Fazla Deuterium için depo sağlar.
   '31': Yeni teknolojileri araştırmak için bir araştırma laboratuvarına ihtiyacın var.
   '33': 'Terraformer gezegenin kullanılabilir alanını genişletir: seviye başına 5 ek alan, her çift seviyede bir alan daha. Her seviye kendisi de bir alan kaplar.'
-  '34': İttifak Deposu şu an bu oyunda hiçbir işe yaramıyor.
+  '34': "İttifak Deposu, gezegeninde bekleyen dost filoların kalışını deuterium karşılığında uzatmanı sağlar: ikmal başına deponun seviyesi kadar saate kadar."
   '35': Onarım rıhtımı, hurda alanındaki gemileri geri kazandırır.
   '41': Ayda atmosfer yok ve yeni bir ayda yalnızca tek bir binaya yer var, o yüzden Ay Merkez İstasyonu ile başla.
   '42': Sensör dizisi filo hareketlerini izlemeni sağlar. Seviye yükseldikçe Radar İstasyonu menzili artar.
@@ -217,7 +217,7 @@ shortNames:
   '213': Muhrip
   '214': Ölüm Yıldızı
   '215': Fırkateyn
-  '216': Kara Savaşçı
+  '216': Kara Ay
   '217': Ultra Nakliye
   '218': Avatar
   '219': Ultra Dönüşümcü
@@ -308,7 +308,7 @@ tech:
   '213': Muhrip
   '214': Ölüm Yıldızı
   '215': Fırkateyn
-  '216': Kara Savaşçı
+  '216': Kara Ay
   '217': Ultra Nakliye
   '218': Avatar
   '219': Ultra Dönüşümcü

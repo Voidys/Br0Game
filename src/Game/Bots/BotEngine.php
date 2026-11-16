@@ -2,6 +2,8 @@
 
 namespace App\Game\Bots;
 
+use App\Game\Bots\Raid\BotRaids;
+use App\Game\Bots\Raid\RaidMemory;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\FlyingFleetHandler;
@@ -28,6 +30,9 @@ class BotEngine
         private readonly BotPersona $persona,
         private readonly BotLog $botLog,
         private readonly FlyingFleetHandler $fleetHandler,
+        private readonly BotRaids $raids,
+        private readonly BotLogistics $logistics,
+        private readonly BotExpeditions $expeditions,
     ) {}
 
     /** Writes an entry to the bot activity log (see BotLog). */
@@ -198,30 +203,44 @@ class BotEngine
         $session = $personality['_s'] ?? ['left' => 0];
         $inSession = (int) $bot['session_until'] > $now;
         $sessionUntil = (int) $bot['session_until'];
+        $raidsOn = $this->raids->enabled($universe);
+
+        // a raid task (re-spy, hit to settle) woke the bot before its regular next check: do only that, unless it starts a raid streak
+        $regular = (int) ($personality['_reg'] ?? 0);
+        if (!$raidsOn || $regular <= $now) {
+            unset($personality['_reg']);
+        }
+        if ($raidsOn && !$inSession && $regular > $now) {
+            if (!$this->wakeTick($bot, $s, $personality, $now)) {
+                $this->save($bot, $skill, $personality, $this->scheduleNext($personality, $regular, $now), $sessionUntil);
+
+                return;
+            }
+            $inSession = true;
+            $sessionUntil = (int) RaidMemory::of($personality)['streak']['until'];
+            $session = ['left' => 1, 'expo' => false, 'colo' => false, 'social' => true, 'raid' => true];
+            unset($personality['_reg']);
+            $this->log($userId, $universe, 'login', 'raid streak, online until ' . date('H:i', $sessionUntil));
+        }
 
         if (!$inSession) {
             if (!$this->rollActive($s, $now, (int) $bot['created_at'])) {
-                $this->save($bot, $skill, $personality, $now + $this->roll($s['check_interval']) * 60, $sessionUntil);
+                $this->save($bot, $skill, $personality, $this->scheduleNext($personality, $now + $this->roll($s['check_interval']) * 60, $now), $sessionUntil);
 
                 return;
             }
 
             $sessionUntil = $now + $this->roll($s['session_minutes']) * 60;
-            $mult = (float) ($personality['expo_mult'] ?? 1.0);
-            $session = [
-                'left' => max(1, $this->roll($s['actions_per_session'])),
-                'expo' => mt_rand(1, 10000) <= (float) $s['expedition_chance'] * $mult * 100,
-                'colo' => mt_rand(1, 10000) <= (float) $s['colonize_chance'] * 100,
-                'social' => true,
-            ];
+            $session = $this->newSession($s, $personality, $raidsOn);
             $db->update('UPDATE %%USERS%% SET onlinetime = :t WHERE id = :id;', [':t' => $now, ':id' => $userId]);
-            $this->log($userId, $universe, 'login', 'session ' . round(($sessionUntil - $now) / 60) . ' min, ' . $session['left'] . ' actions planned');
+            $this->log($userId, $universe, 'login', 'session ' . round(($sessionUntil - $now) / 60) . ' min, ' . $session['left'] . ' actions planned' . (!empty($session['raid']) ? ', going raiding' : ''));
         } else {
             $db->update('UPDATE %%USERS%% SET onlinetime = :t WHERE id = :id;', [':t' => $now, ':id' => $userId]);
         }
 
-        $user = $this->playSession($bot, $s, $personality, $skill, $session, $userId, $universe);
+        $user = $this->playSession($bot, $s, $personality, $skill, $session, $userId, $universe, $raidsOn);
         $botRow = $bot;
+        $sessionUntil = $this->applyRaidSession($session, $personality, $sessionUntil, $now);
 
         // --- social behaviour, isolated from gameplay errors ---
         if ($user !== null) {
@@ -233,13 +252,159 @@ class BotEngine
         }
 
         $next = $now + random_int(60, 240);
+        $wake = $raidsOn ? RaidMemory::nextWake($personality) : null;
         $personality['_s'] = $session;
         if ($session['left'] <= 0 || $next >= $sessionUntil) {
             $personality['_s']['left'] = 0;
-            $this->save($bot, $skill, $personality, $now + $this->roll($s['check_interval']) * 60, $now);
+            $offline = $this->roll($s['check_interval']) * 60;
+            $this->fleetSaveAtLogout($bot, $s, $personality, $offline);
+            $this->save($bot, $skill, $personality, $this->scheduleNext($personality, $now + $offline, $now), $now);
             $this->log($userId, $universe, 'logout', 'session finished');
         } else {
-            $this->save($bot, $skill, $personality, $next, $sessionUntil);
+            $this->save($bot, $skill, $personality, $wake !== null ? min($next, max($now, $wake)) : $next, $sessionUntil);
+        }
+    }
+
+    /**
+     * State of a session that starts now: planned action count (`left`), whether it tries an expedition and a colonization (chances
+     * in percent, expedition scaled by the bot's `expo_mult`) and goes raiding (`raid`).
+     *
+     * @param array<string, mixed> $s profile settings
+     * @param array<string, mixed> $personality bot personality
+     * @return array<string, mixed>
+     */
+    private function newSession(array $s, array $personality, bool $raidsOn): array
+    {
+        $mult = (float) ($personality['expo_mult'] ?? 1.0);
+
+        return [
+            'left' => max(1, $this->roll($s['actions_per_session'])),
+            'expo' => mt_rand(1, 10000) <= (float) $s['expedition_chance'] * $mult * 100,
+            'colo' => mt_rand(1, 10000) <= (float) $s['colonize_chance'] * 100,
+            'social' => true,
+            'raid' => $raidsOn && $this->raids->rollSession($s),
+        ];
+    }
+
+    /**
+     * What the raid turn asks of the session: a longer session (probes under way, raid streak running) and the end of it when the streak
+     * ended. A running streak keeps at least one action left, so the session does not close under it.
+     *
+     * @param array<string, mixed> $session session state; the raid flags are consumed
+     * @param array<string, mixed> $personality bot personality (raid memory)
+     * @return int the session end (unix time) after the raid's request
+     */
+    private function applyRaidSession(array &$session, array $personality, int $sessionUntil, int $now): int
+    {
+        if (!empty($session['extend_until'])) {
+            $sessionUntil = max($sessionUntil, (int) $session['extend_until']);
+        }
+        if (!empty($session['streak_ended'])) {
+            $session['left'] = 0;
+        } elseif (RaidMemory::streakActive($personality, $now)) {
+            $session['left'] = max((int) $session['left'], 1);
+        }
+        unset($session['extend_until'], $session['streak_ended']);
+
+        return $sessionUntil;
+    }
+
+    /**
+     * Session end: with the profile's `fleetsave_chance` the fleet and most resources leave on a slow flight that brings them home after the
+     * expected offline time (BotLogistics::fleetSave()). Own transaction; a failure is only logged, the logout goes on.
+     *
+     * @param array<string, mixed> $bot bot row
+     * @param array<string, mixed> $s profile settings
+     * @param array<string, mixed> $personality bot personality
+     * @param int $offline expected seconds until the bot is online again
+     */
+    private function fleetSaveAtLogout(array $bot, array $s, array $personality, int $offline): void
+    {
+        $db = $this->db;
+        $userId = (int) $bot['user_id'];
+        $db->startTransaction();
+        try {
+            $ctx = new BotActions((int) $bot['universe'], $this->db, $this->configs, $this->state, $this->persona);
+            if (!$ctx->load($userId)) {
+                $db->rollback();
+
+                return;
+            }
+            $ctx->reservedSlots = 0;
+            $sent = $this->logistics->fleetSave($ctx, $s, $offline, 'session end');
+            $db->commit();
+            $this->countActions($userId, $sent);
+        } catch (Throwable $e) {
+            try {
+                $db->rollback();
+            } catch (Throwable $ignored) {
+            }
+            $this->log($userId, (int) $bot['universe'], 'error', 'fleetsave: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * The next tick of a bot that is not in a session: its regular check time, or earlier when a raid task (re-spy before an
+     * impact, settling a hit) is due first; then the regular time is remembered in `_reg` and the early tick only does the raid task.
+     *
+     * @param array<string, mixed> $personality `_reg` set or removed
+     */
+    private function scheduleNext(array &$personality, int $regularNext, int $now): int
+    {
+        $wake = RaidMemory::nextWake($personality);
+        if ($wake !== null && $wake < $regularNext) {
+            $personality['_reg'] = $regularNext;
+
+            return max($now, $wake);
+        }
+        unset($personality['_reg']);
+
+        return $regularNext;
+    }
+
+    /**
+     * Early tick of a bot outside its session for a raid task: marks it online (it looks at its fleets), settles landed attacks and
+     * runs the due re-spy checks in one transaction.
+     *
+     * @param array<string, mixed> $bot bot row
+     * @param array<string, mixed> $s profile settings
+     * @param array<string, mixed> $personality changed in place
+     * @return bool whether a raid streak is running afterwards (the bot then stays online)
+     */
+    private function wakeTick(array $bot, array $s, array &$personality, int $now): bool
+    {
+        $db = $this->db;
+        $userId = (int) $bot['user_id'];
+        $db->update('UPDATE %%USERS%% SET onlinetime = :t WHERE id = :id;', [':t' => $now, ':id' => $userId]);
+        $db->startTransaction();
+        try {
+            $ctx = new BotActions((int) $bot['universe'], $this->db, $this->configs, $this->state, $this->persona);
+            if (!$ctx->load($userId)) {
+                $db->rollback();
+                throw new \Exception('user row missing');
+            }
+            $actions = $this->raids->maintain($ctx, $bot, $s, $personality, $now);
+            $db->commit();
+        } catch (Throwable $e) {
+            try {
+                $db->rollback();
+            } catch (Throwable $ignored) {
+            }
+            throw $e;
+        }
+        $this->countActions($userId, $actions);
+
+        return RaidMemory::streakActive($personality, $now);
+    }
+
+    /** Counts raid actions in `actions_total` / `last_action_at` of the bot. */
+    private function countActions(int $userId, int $count): void
+    {
+        if ($count > 0) {
+            $this->db->update(
+                'UPDATE %%BOT_PLAYERS%% SET actions_total = actions_total + :n, last_action_at = :t WHERE user_id = :id;',
+                [':n' => $count, ':t' => time(), ':id' => $userId],
+            );
         }
     }
 
@@ -249,11 +414,12 @@ class BotEngine
      *
      * @param array<string, mixed> $bot bot row
      * @param array<string, mixed> $s profile settings
-     * @param array<string, mixed> $personality personality of the bot
+     * @param array<string, mixed> $personality personality of the bot (`_raid` raid memory and `farm` list are updated in place)
      * @param array<string, mixed> $session session state (`left` actions, flags), updated in place
+     * @param bool $raidsOn whether bot raids are enabled in the universe (the raid turn follows the ordinary steps)
      * @return array<string, mixed>|null the user row after the steps
      */
-    private function playSession(array $bot, array $s, array $personality, float $skill, array &$session, int $userId, int $universe): ?array
+    private function playSession(array $bot, array $s, array &$personality, float $skill, array &$session, int $userId, int $universe, bool $raidsOn = false): ?array
     {
         $db = $this->db;
         $user = null;
@@ -265,18 +431,25 @@ class BotEngine
                 throw new \Exception('user row missing');
             }
 
+            $ctx->reservedSlots = (int) ($s['expedition_slots'] ?? 0);
+            $this->expeditions->settle($bot, $personality, time());
             $persona = !empty($bot['persona']) ? json_decode((string) $bot['persona'], true) : null;
             if (is_array($persona)) {
                 $ctx->renameDefaultColonies($bot, $persona);
             }
 
-            $actions = min((int) $session['left'], random_int(1, 3));
+            // in a raid streak the bot mostly raids: at most one ordinary action, and it does not use up the session's actions
+            $streak = $raidsOn && RaidMemory::streakActive($personality, time());
+            $actions = $streak ? random_int(0, 1) : min((int) $session['left'], random_int(1, 3));
             for ($i = 0; $i < $actions; $i++) {
                 $this->step($ctx, $s, $personality, $skill, $session, $userId, $universe);
-                $session['left']--;
+                $session['left'] -= $streak ? 0 : 1;
             }
+            $raidActions = $raidsOn ? $this->raids->play($ctx, $bot, $s, $personality, $session, time()) : 0;
+            $raidActions += $this->logistics->threats($ctx, $s, $personality, time());
             $user = $ctx->user;
             $db->commit();
+            $this->countActions($userId, $raidActions);
         } catch (Throwable $e) {
             try {
                 $db->rollback();
@@ -295,12 +468,12 @@ class BotEngine
      *
      * @param array<string, mixed> $session session state (`left` actions, `expo`/`colo` flags), updated in place
      */
-    private function step(BotActions $ctx, array $s, array $personality, float $skill, array &$session, int $userId, int $universe): void
+    private function step(BotActions $ctx, array $s, array &$personality, float $skill, array &$session, int $userId, int $universe): void
     {
         // optional special actions rolled at session start
         if (!empty($session['expo'])) {
             $session['expo'] = false;
-            $detail = $ctx->expedition();
+            $detail = $this->expeditions->send($ctx, $personality, time());
             if ($detail !== null) {
                 $this->done($userId, $universe, 'expedition', $detail);
 
@@ -320,6 +493,10 @@ class BotEngine
         $decision = $this->brain->choose($ctx, $s, $personality, $skill);
         if ($decision['kind'] === 'wait') {
             $this->log($userId, $universe, 'wait', (string) ($decision['note'] ?? ''));
+            // saving for a goal on one planet: bring resources from the others
+            if (!empty($decision['goal'])) {
+                $this->logistics->consolidate($ctx, $decision['goal']);
+            }
 
             return;
         }

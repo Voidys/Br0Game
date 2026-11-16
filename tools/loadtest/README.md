@@ -43,3 +43,10 @@ state use `ddev export-db` before and `ddev import-db` after.
 - Test accounts must carry the game's own password cost (the seed uses `AccountUtil::cryptPassword()`): a weaker hash is rehashed at
   the first login and Symfony then drops that session.
 - The site runs in dev mode (profiler, debug log) like the rest of the DDEV setup, so absolute latencies are higher than in production.
+
+## Bots fast-forward (dev only)
+
+`bin/console app:bots:fast-forward --minutes=45 --universe=1` runs the bots of a universe through game minutes in seconds: per step
+(`--step`, default 60 s) it shifts the timestamps of the bots' fleets, fleet events, fleet log, bot schedule and raid memory back by the
+step, ticks the bot engine like the cron job and prints the new bot log lines. Only the bots' world moves (not human sessions or planet
+production). Refuses to run outside APP_ENV=dev without `--force`.

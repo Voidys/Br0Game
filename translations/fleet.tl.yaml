@@ -481,3 +481,5 @@ type_planet_4: Base ng pirata
 type_planet_short_1: P
 type_planet_short_2: D
 type_planet_short_3: B
+depot_msg_subject: "Nasuplayan ang fleet"
+depot_msg_text: "Ang fleet mo sa %s ay nasuplayan ni %s: pinahaba ang pananatili nang %s oras."

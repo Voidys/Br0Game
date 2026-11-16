@@ -90,10 +90,7 @@ longDescription:
     können (1.000 für Stufe 1, mit jeder Stufe doppelt so viel), auch wenn deine
     Minen sie schon nutzen. Einmal gebaut, lässt sich der Terraformer nie wieder
     abreißen.
-  '34': >-
-    Das Allianzdepot hat derzeit keine Wirkung in diesem Spiel: Befreundete
-    Flotten können auch ohne es an deinem Planeten gehalten werden, und eine
-    Treibstoffversorgung gibt es nicht.
+  '34': "Mit dem Allianzdepot kannst du befreundete Flotten, die an deinem Planeten halten, mit Deuterium versorgen und so ihren Aufenthalt verlängern. Du öffnest es auf der Gebäudeseite: Für jede haltende Flotte wählst du zwischen 1 Stunde und so vielen Stunden, wie das Depot Stufen hat, und zahlst Stunden mal die stündlichen Haltekosten der Flotte aus dem Deuterium deines Planeten. Die stündlichen Haltekosten sind ein Zehntel des summierten Grundverbrauchs der Schiffe der Flotte, aufgerundet. Eine Flotte kann immer wieder versorgt werden, darf aber nie mehr als 32 Stunden Aufenthalt übrig haben. Versorgt werden können nur Flotten anderer Spieler, die gerade an deinem Planeten im Orbit stehen."
   '35': >-
     Das Reparaturdock kann Schiffe reparieren, die im Kampf zerstört wurden und
     ein Wrackfeld hinterlassen haben. Eine Reparatur dauert höchstens 12 Stunden
@@ -650,8 +647,7 @@ shortDescription:
     Der Terraformer erweitert die nutzbare Fläche des Planeten: 5 zusätzliche
     Felder pro Stufe, auf jeder geraden Stufe ein weiteres. Jede Stufe belegt
     selbst ein Feld.
-  '34': >-
-    Das Allianzdepot hat derzeit keine Wirkung in diesem Spiel.
+  '34': "Mit dem Allianzdepot verlängerst du für Deuterium den Aufenthalt befreundeter Flotten, die an deinem Planeten halten: pro Versorgung bis zu so viele Stunden wie die Depotstufe."
   '35': Das Reparaturdock stellt Schiffe aus einem Wrackfeld wieder her.
   '41': >-
     Der Mond hat keine Atmosphäre, und ein frischer Mond bietet Platz für nur

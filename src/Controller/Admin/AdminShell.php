@@ -278,6 +278,17 @@ final class AdminShell
             $allowed[] = $tab + ['page' => $page];
         }
 
+        // a page called without its mode (e.g. admin?page=bots) shows its first tab, so that tab is the active one
+        if ($activeTab === null && $currentMode === '') {
+            foreach ($allowed as $i => $tab) {
+                if (strtolower($tab['page']) === $currentPage && str_contains($tab['href'], '&mode=')) {
+                    $allowed[$i]['active'] = true;
+                    $activeTab = array_diff_key($allowed[$i], ['page' => true]);
+                    break;
+                }
+            }
+        }
+
         return [$allowed, $activeTab];
     }
 

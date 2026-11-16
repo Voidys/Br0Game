@@ -236,3 +236,5 @@ type_planet_4: Căn cứ hải tặc
 type_planet_short_1: HT
 type_planet_short_2: MV
 type_planet_short_3: MT
+depot_msg_subject: "Hạm đội được tiếp tế"
+depot_msg_text: "Hạm đội của bạn tại %s đã được %s tiếp tế: thời gian đóng quân kéo dài thêm %s giờ."

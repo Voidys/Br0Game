@@ -8,7 +8,7 @@
       <p class="hero__text">{{ LNG.format('loginServerDesc', gameName) }}</p>
       {% if loginAccountName is null %}
         <div class="hero__actions">
-          <a class="button btn--primary btn-hero" href="./?page=register">{{ icon('rocket') }}{{ LNG.buttonRegister }}</a>
+          <a class="button btn--primary btn-hero" href="./?page=register">{{ LNG.buttonRegister }}</a>
         </div>
       {% endif %}
       {% if universeStarts %}
@@ -72,7 +72,6 @@
     {% if meme %}
       <figure class="hero__art">
         <img src="{{ meme.src }}"{% if meme.srcset %} srcset="{{ meme.srcset }}" sizes="(max-width: 60rem) min(calc(100vw - 2rem), 40rem), min(50vw, 37rem)"{% endif %} width="{{ meme.width }}" height="{{ meme.height }}" alt="{{ meme.alt|e('html_attr') }}" fetchpriority="high" decoding="async">
-        <figcaption>{{ LNG.home_meme_caption }}</figcaption>
       </figure>
     {% endif %}
 

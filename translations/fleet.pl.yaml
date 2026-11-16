@@ -253,3 +253,5 @@ type_planet_4: Baza piratów
 type_planet_short_1: P
 type_planet_short_2: Pz
 type_planet_short_3: M
+depot_msg_subject: "Flota zaopatrzona"
+depot_msg_text: "Twoja flota przy %s została zaopatrzona przez %s: pobyt wydłużony o %s godz."

@@ -148,7 +148,7 @@ class Cronjob
     }
 
     /**
-     * Sets nextTime of one job (or all when null) to the next run of its cron expression after now + 60 s.
+     * Sets nextTime of one job (or all when null) to the next run of its cron expression strictly after now (CronExpression already skips the current minute, so `* * * * *` runs every minute; the former +60 s made it skip one).
      */
     public function reCalculateCronjobs(?int $cronjobID = null): void
     {
@@ -170,7 +170,7 @@ class Cronjob
             $cronTabString = implode(' ', [$cronjobRow['min'], $cronjobRow['hours'], $cronjobRow['dom'], $cronjobRow['month'], $cronjobRow['dow']]);
 
             $cron = new CronExpression($cronTabString);
-            $nextTime = $cron->getNextRunDate(new DateTime('@' . $this->state->runtime->timestamp + 60))->getTimestamp();
+            $nextTime = $cron->getNextRunDate(new DateTime('@' . $this->state->runtime->timestamp))->getTimestamp();
 
             $db->update($sql, [
                 ':nextTime' => $nextTime,

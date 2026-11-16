@@ -1350,7 +1350,7 @@ stats:
   '213': Muhrip
   '214': Ölüm Yıldızı
   '215': Fırkateyn
-  '216': Kara Savaşçı
+  '216': Kara Ay
   '217': Ultra Nakliye
   '218': Avatar
   '219': Ultra Dönüşümcü
@@ -1662,3 +1662,24 @@ neutral: "Tarafsız"
 lv_prodPerHour: "Saatlik üretim"
 lv_show: "Göster: "
 lv_storageFilled: "Dolmasına kalan saat"
+bd_depot_action: "Filoları ikmal et"
+depot_title: "İttifak Deposu"
+depot_intro: "Bu gezegende bekleyen dost filoları buradan ikmal edebilirsin. Her ikmal kalışlarını 1 ile %s saat arasında uzatır (deponun seviyesi kadar) ve bu gezegenden deuterium harcar. Bir filonun kalan kalış süresi hiçbir zaman %s saati geçemez."
+depot_deuterium_stock: "Bu gezegendeki deuterium"
+depot_empty: "Bu gezegende bekleyen dost filo yok."
+depot_col_owner: "Oyuncu"
+depot_col_ships: "Gemiler"
+depot_col_stay_end: "Kalış biter"
+depot_col_hourly: "Saatlik maliyet"
+depot_col_supply: "İkmal"
+depot_hours: "%s sa."
+depot_cost: "Maliyet"
+depot_supply: "İkmal et"
+depot_full: "Azami kalışa ulaşıldı"
+depot_done: "Filo ikmal edildi: kalışı %s sa. uzadı, maliyeti %s deuterium."
+depot_err_not_owner: "Bu gezegen senin değil."
+depot_err_no_depot: "Bu gezegende İttifak Deposu yok."
+depot_err_hours: "Bir filoyu tek seferde 1 ile %s saat arasında ikmal edebilirsin (deponun seviyesi)."
+depot_err_fleet: "Bu filo artık bu gezegende beklemiyor."
+depot_err_max_stay: "Bir filonun en fazla %s saat kalış süresi kalabilir. Daha az saat seç."
+depot_err_deuterium: "Bu gezegende yeterli deuterium yok: %s gerekli."

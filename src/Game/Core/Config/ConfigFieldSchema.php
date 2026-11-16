@@ -1653,6 +1653,21 @@ class ConfigFieldSchema
                     'min' => 1,
                     'default' => 25,
                 ],
+                'bots_raids_enabled' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => false,
+                ],
+                'bots_alliances_enabled' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => true,
+                ],
+                'bots_join_human_alliances' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => false,
+                ],
                 'bots_llm_enabled' => [
                     'type' => self::TYPE_CHECKBOX,
                     'transform' => 'bool',

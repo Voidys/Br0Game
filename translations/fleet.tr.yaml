@@ -247,3 +247,5 @@ type_planet_4: Korsan üssü
 type_planet_short_1: G
 type_planet_short_2: EA
 type_planet_short_3: A
+depot_msg_subject: "Filo ikmal edildi"
+depot_msg_text: "%s konumundaki filon %s tarafından ikmal edildi: kalış %s sa. uzatıldı."

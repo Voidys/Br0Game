@@ -506,3 +506,5 @@ type_planet_4: Piratenbasis
 type_planet_short_1: P
 type_planet_short_2: T
 type_planet_short_3: M
+depot_msg_subject: "Flotte versorgt"
+depot_msg_text: "Deine Flotte bei %s wurde von %s versorgt: Aufenthalt um %s Std. verlängert."

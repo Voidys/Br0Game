@@ -65,6 +65,22 @@ class BotSocialMessaging
         ],
     ];
 
+    /** Short messages after a successful raid (subject, text), by language. */
+    private const TAUNTS = [
+        'de' => [
+            ['Danke', 'Danke fuer die Rohstoffe.'],
+            ['Bis bald', 'Das war leicht. Bis zum naechsten Mal!'],
+            ['Lecker', 'Deine Minen laufen gut, ich komme wieder.'],
+            ['Hi', 'Schoenes Lager hast du da.'],
+        ],
+        'en' => [
+            ['Thanks', 'Thanks for the resources.'],
+            ['See you', 'That was easy. See you next time!'],
+            ['Nice', 'Nice mines you have, I will be back.'],
+            ['Hi', 'Nice stockpile you have there.'],
+        ],
+    ];
+
     public function __construct(
         private readonly Database $db,
         private readonly ConfigRegistry $configs,
@@ -234,6 +250,28 @@ class BotSocialMessaging
         $this->botLog->log($bot, $uni, 'message', ($ok ? 'greeted #' : 'skipped #') . $target['id'] . ($llm !== null ? ' llm' : ''));
 
         return $ok;
+    }
+
+    /**
+     * Short taunt after a successful raid, to the raided player: a canned phrase in the bot's language ('de' or 'en', else the
+     * target's, else German), styled like the persona writes. Refused DM blocks and forbidden texts return false.
+     *
+     * @param array<string, mixed> $ctx bot context (bot, uni, me, persona, profile; see BotSocial::act())
+     */
+    public function taunt(array $ctx, int $receiverId, string $targetLang): bool
+    {
+        $bot = (int) $ctx['bot'];
+        if (
+            $this->playerUtil()->get_block_status($bot, $receiverId)['block_dm'] == 1
+            || $this->playerUtil()->get_block_status($receiverId, $bot)['block_dm'] == 1
+        ) {
+            return false;
+        }
+        $lang = $ctx['persona']['language'] ?? $targetLang;
+        $lang = isset(self::TAUNTS[$lang]) ? $lang : (isset(self::TAUNTS[$targetLang]) ? $targetLang : 'de');
+        [$subject, $text] = self::pick(self::TAUNTS[$lang]);
+
+        return $this->send($ctx, $receiverId, $subject, self::stylize($text, $ctx['persona']), null);
     }
 
     // ------------------------------------------------------------------------------------------------

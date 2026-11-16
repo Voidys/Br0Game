@@ -236,3 +236,5 @@ type_planet_4: ฐานโจรสลัด
 type_planet_short_1: P
 type_planet_short_2: D
 type_planet_short_3: M
+depot_msg_subject: "เติมเสบียงกองเรือแล้ว"
+depot_msg_text: "กองเรือของคุณที่ %s ได้รับการเติมเสบียงจาก %s: ต่อเวลาตรึงกำลัง %s ชม."

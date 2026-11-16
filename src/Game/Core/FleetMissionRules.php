@@ -13,6 +13,9 @@ class FleetMissionRules
 {
     use \App\Game\Core\GameUtilities;
 
+    /** Hold durations (hours) the fleet page offers for the hold mission; the largest one also caps the stay at an Alliance Depot. */
+    public const HOLD_STAY_HOURS = [1, 2, 4, 8, 12, 16, 32];
+
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
@@ -42,7 +45,7 @@ class FleetMissionRules
                 $stayBlock[$i] = round($i / $haltSpeed, 2);
             }
         } elseif (in_array(MISSION_HOLD, $Missions)) {
-            $stayBlock = [1 => 1, 2 => 2, 4 => 4, 8 => 8, 12 => 12, 16 => 16, 32 => 32];
+            $stayBlock = array_combine(self::HOLD_STAY_HOURS, self::HOLD_STAY_HOURS);
         } elseif (in_array(MISSION_TRADE, $Missions)) {
             $stayBlock = [1 => 1, 2 => 2, 4 => 4, 8 => 8, 12 => 12, 24 => 24, 48 => 48, 168 => 168];
             $exchange = true;

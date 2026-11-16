@@ -27,6 +27,8 @@ class BotActions
     public Config $config;
     public ResourceUpdate $eco;
     public int $universe;
+    /** Fleet slots kept free for expeditions (profile `expedition_slots`), applied by freeFleetSlots() for every other flight. */
+    public int $reservedSlots = 0;
 
     public function __construct(
         int $universe,
@@ -369,10 +371,16 @@ class BotActions
     // fleet actions
     // ------------------------------------------------------------------
 
-    /** Fleet slots (computer technology and bonuses) minus fleets already flying. */
-    private function freeFleetSlots(): int
+    /**
+     * Free fleet slots: computer technology and bonuses minus the fleets already flying. Other flights than expeditions leave
+     * `reservedSlots` free (never more than total - 2, so a bot with few slots can still act).
+     */
+    public function freeFleetSlots(bool $forExpedition = false): int
     {
-        return $this->fleetFunctions()->getMaxFleetSlots($this->user) - $this->fleetFunctions()->getCurrentFleets($this->user['id']);
+        $total = $this->fleetFunctions()->getMaxFleetSlots($this->user);
+        $free = $total - $this->fleetFunctions()->getCurrentFleets($this->user['id']);
+
+        return $forExpedition ? $free : $free - min($this->reservedSlots, max(0, $total - 2));
     }
 
     /**
@@ -384,7 +392,7 @@ class BotActions
      * @param array<int, int> $fleetArray ship id => count
      * @param int $stayHours expedition hold time in hours (0 = none)
      */
-    private function dispatch(array &$planet, array $fleetArray, int $mission, int $galaxy, int $system, int $pos, int $stayHours = 0): ?int
+    public function dispatch(array &$planet, array $fleetArray, int $mission, int $galaxy, int $system, int $pos, int $stayHours = 0): ?int
     {
         $resource = $this->res();
 
@@ -466,60 +474,8 @@ class BotActions
     public function canSendExpedition(): bool
     {
         return $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_EXPEDITION, $this->universe)
-            && $this->freeFleetSlots() > 0
+            && $this->freeFleetSlots(true) > 0
             && $this->fleetFunctions()->getCurrentFleets($this->user['id'], MISSION_EXPEDITION, true) < $this->fleetFunctions()->getExpeditionLimit($this->user);
-    }
-
-    /**
-     * Sends an expedition to the expedition position (max_planets + 1) of the system of a random own planet that has
-     * cargo ships: 40-100 % of its small and large cargos and, with 50 % chance, one probe; 1 hour hold time. Returns
-     * a log text, or null when it cannot be sent.
-     */
-    public function expedition(): ?string
-    {
-        $resource = $this->res();
-        if (!$this->canSendExpedition()) {
-            return null;
-        }
-
-        $targetPos = (int) $this->config->max_planets + 1;
-        $ids = [];
-        foreach ($this->planets as $id => $planet) {
-            $cargo = (int) $planet[$resource[SHIP_SMALL_CARGO]] + (int) $planet[$resource[SHIP_LARGE_CARGO]];
-            if ($cargo >= 1) {
-                $ids[] = $id;
-            }
-        }
-        if (empty($ids)) {
-            return null;
-        }
-        shuffle($ids);
-        $planet = &$this->planets[$ids[0]];
-
-        $fleet = [];
-        $small = (int) $planet[$resource[SHIP_SMALL_CARGO]];
-        $large = (int) $planet[$resource[SHIP_LARGE_CARGO]];
-        if ($small > 0) {
-            $fleet[SHIP_SMALL_CARGO] = max(1, (int) floor($small * (random_int(40, 100) / 100)));
-        }
-        if ($large > 0) {
-            $fleet[SHIP_LARGE_CARGO] = max(1, (int) floor($large * (random_int(40, 100) / 100)));
-        }
-        if ($planet[$resource[SHIP_PROBE]] >= 1 && random_int(0, 1)) {
-            $fleet[SHIP_PROBE] = 1;
-        }
-
-        $id = $this->dispatch($planet, $fleet, MISSION_EXPEDITION, (int) $planet['galaxy'], (int) $planet['system'], $targetPos, 1);
-        if ($id === null) {
-            return null;
-        }
-
-        $parts = [];
-        foreach ($fleet as $ship => $count) {
-            $parts[] = $count . ' ' . $resource[$ship];
-        }
-
-        return implode(', ', $parts) . ' from ' . $this->planetLabel($planet) . ' to [' . $planet['galaxy'] . ':' . $planet['system'] . ':' . $targetPos . ']';
     }
 
     /** Colony module on, a free fleet slot, below the maximum planet count and no colonization fleet already flying. */
@@ -534,9 +490,8 @@ class BotActions
     }
 
     /**
-     * Sends a colony ship from the first planet that has one to a random free position near it: up to 40 tries, system
-     * within 3 (first 20 tries) or 10 systems, position 2 to max_planets - 2, allowed for the user and not already
-     * targeted by a colonization fleet. Returns a log text, or null when no ship or no target was found.
+     * Sends a colony ship from the first planet that has one to the best free position near it (see colonyTarget()). Returns a log
+     * text, or null when no ship or no target was found.
      */
     public function colonize(): ?string
     {
@@ -557,26 +512,7 @@ class BotActions
         }
         $planet = &$this->planets[$origin];
 
-        $maxSystem = (int) $this->config->max_system;
-        $maxPlanets = (int) $this->config->max_planets;
-        $target = null;
-        for ($try = 0; $try < 40; $try++) {
-            $spread = $try < 20 ? 3 : 10;
-            $system = (int) $planet['system'] + random_int(-$spread, $spread);
-            $pos = random_int(2, max(2, $maxPlanets - 2));
-            if ($system < 1 || $system > $maxSystem) {
-                continue;
-            }
-            if (
-                $this->playerUtil()->checkPosition($this->universe, (int) $planet['galaxy'], $system, $pos)
-                && $this->playerUtil()->isPositionFree($this->universe, (int) $planet['galaxy'], $system, $pos)
-                && $this->playerUtil()->allowPlanetPosition($pos, $this->user)
-                && !$this->positionTargeted((int) $planet['galaxy'], $system, $pos)
-            ) {
-                $target = [(int) $planet['galaxy'], $system, $pos];
-                break;
-            }
-        }
+        $target = $this->colonyTarget($planet);
         if ($target === null) {
             return null;
         }
@@ -587,6 +523,46 @@ class BotActions
         }
 
         return 'colony ship from ' . $this->planetLabel($planet) . ' to [' . implode(':', $target) . ']';
+    }
+
+    /** Planets of a colony system the way experienced players rate positions (size and temperature by position, 8 best, edges worst). */
+    private const POSITION_VALUE = [8 => 100, 7 => 92, 9 => 92, 6 => 85, 10 => 85, 5 => 75, 11 => 75, 4 => 65, 12 => 60, 3 => 50, 13 => 45, 2 => 35, 14 => 30, 15 => 25, 1 => 20];
+
+    /**
+     * Picks the colony position: free, allowed for the user and not targeted yet, within 3 systems of the origin (10 when nothing is free
+     * there). Rated by what a player knows about positions (POSITION_VALUE), minus 3 points per system of distance, plus a little noise;
+     * the best of up to 60 sampled positions wins. Only information the galaxy view gives is used (free or not).
+     *
+     * @param array<string, mixed> $planet origin planet (the one with the colony ship)
+     * @return array{0: int, 1: int, 2: int}|null galaxy, system, position
+     */
+    private function colonyTarget(array $planet): ?array
+    {
+        $maxSystem = (int) $this->config->max_system;
+        $maxPlanets = (int) $this->config->max_planets;
+        $best = null;
+        $bestScore = -INF;
+        for ($try = 0; $try < 60; $try++) {
+            $spread = $try < 40 ? 3 : 10;
+            $system = (int) $planet['system'] + random_int(-$spread, $spread);
+            $pos = random_int(2, max(2, $maxPlanets - 1));
+            if (
+                $system < 1 || $system > $maxSystem
+                || !$this->playerUtil()->checkPosition($this->universe, (int) $planet['galaxy'], $system, $pos)
+                || !$this->playerUtil()->isPositionFree($this->universe, (int) $planet['galaxy'], $system, $pos)
+                || !$this->playerUtil()->allowPlanetPosition($pos, $this->user)
+                || $this->positionTargeted((int) $planet['galaxy'], $system, $pos)
+            ) {
+                continue;
+            }
+            $score = (self::POSITION_VALUE[$pos] ?? 20) - 3 * abs($system - (int) $planet['system']) + random_int(0, 8);
+            if ($score > $bestScore) {
+                $bestScore = $score;
+                $best = [(int) $planet['galaxy'], $system, $pos];
+            }
+        }
+
+        return $best;
     }
 
     /** Whether a colonization fleet is already heading for these coordinates. */

@@ -60,9 +60,7 @@ longDescription:
     but the energy is not used up: your planet only has to produce enough of it
     (1,000 for level 1, doubling with every level), even if your mines are
     already using it. Once built, the Terraformer can never be demolished.
-  '34': >-
-    The Alliance Depot currently has no effect in this game: friendly fleets can
-    be held at your planet without it, and there is no fuel resupply.
+  '34': "The Alliance Depot lets you supply friendly fleets that hold at your planet with deuterium and so extend their stay. Open it from the building page: for every holding fleet you choose between 1 hour and as many hours as the level of the depot, and pay hours times the fleet's hourly holding cost from the deuterium of your planet. The hourly holding cost is one tenth of the summed base fuel consumption of the fleet's ships, rounded up. A fleet can be supplied again and again, but it may never have more than 32 hours of stay left. Only fleets of other players that are currently in orbit at your planet can be supplied."
   '35': >-
     The repair dock can repair ships that were destroyed in battle and left a
     wreck field. A repair takes at most 12 hours, and it cannot finish earlier
@@ -444,8 +442,7 @@ shortDescription:
     The Terraformer expands the usable area of the planet: 5 additional fields
     per level, plus one extra on every even level. Every level takes up one
     field itself.
-  '34': >-
-    The Alliance Depot currently has no effect in this game.
+  '34': "The Alliance Depot lets you extend the stay of friendly fleets holding at your planet for deuterium: per supply up to as many hours as the depot level."
   '35': 'The repair dock restores ships from a wreck field.'
   '41': >-
     The moon has no atmosphere, and a fresh moon has room for just one building,

@@ -26,7 +26,7 @@ class BotProfiles
     {
         $rows = $this->db->select("SELECT * FROM %%BOT_PROFILES%% ORDER BY is_default DESC, id ASC;");
         foreach ($rows as &$row) {
-            $row['settings'] = $this->decode((string) $row['settings']);
+            $row['settings'] = $this->decode((string) $row['settings'], (string) $row['profile_key']);
         }
         unset($row);
 
@@ -43,7 +43,7 @@ class BotProfiles
         if (empty($row)) {
             return null;
         }
-        $row['settings'] = $this->decode((string) $row['settings']);
+        $row['settings'] = $this->decode((string) $row['settings'], (string) $row['profile_key']);
 
         return $row;
     }
@@ -135,13 +135,18 @@ class BotProfiles
      * Fills missing keys with the engine defaults (the "office_worker" profile) and clamps values to valid ranges:
      * `activity` = 24 hourly play probabilities 0-1; `check_interval` (minutes between online checks),
      * `session_minutes`, `actions_per_session` = [min, max] pairs; `weights` = relative build priorities 0-1000 per
-     * category; `*_chance` values in percent 0-100; skill values 0-1 (`skill_gain_per_day` is added per day of bot age);
+     * category; `*_chance` values in percent 0-100 (`alliance_join_chance`: roll per social turn to apply at a bot alliance; `fleetsave_chance`: chance to fleetsave when a session ends or a threat shows; `saving_discipline`: how strictly the bot saves for its goal instead of buying cheaper things); `expedition_slots` = fleet slots kept free for expeditions (0-5); skill values 0-1 (`skill_gain_per_day` is added per day of bot age);
      * `pattern_shift_hours` every `pattern_shift_days` moves the daily rhythm; `chat_style` is a plain-text hint for the LLM.
+     * Raid settings (see RAID_KEYS): `raid_enabled`, `raid_chance` (percent of sessions that go raiding), `scout_range` (systems
+     * around the own planets), `min_profit_ratio` (expected loot divided by fuel and losses), `relentless_minutes` = [min, max]
+     * of the raid streak after a hit (0 = none), `recall_check_chance` (percent, pre-impact re-spy), `max_attacks_per_target_per_day`,
+     * `attack_bots` / `attack_humans`, `prefer_inactive` (0-100 weight of inactive targets).
      *
      * @param array<string, mixed> $in raw settings (e.g. from the admin form or JSON)
+     * @param array<string, mixed>|null $raidDefaults raid values for missing raid keys (default: office worker without raids' extras, see RAID_FALLBACK)
      * @return array<string, mixed>
      */
-    public function normalizeSettings(array $in): array
+    public function normalizeSettings(array $in, ?array $raidDefaults = null): array
     {
         $base = $this->baseSettings();
         $out = [];
@@ -176,18 +181,69 @@ class BotProfiles
         $out['reply_chance'] = self::clampInt($in['reply_chance'] ?? 80, 0, 100);
         $out['message_chance'] = self::clampInt($in['message_chance'] ?? 5, 0, 100);
         $out['alliance_chance'] = self::clampInt($in['alliance_chance'] ?? 20, 0, 100);
+        $out['alliance_join_chance'] = self::clampInt($in['alliance_join_chance'] ?? 5, 0, 100);
+        $out['fleetsave_chance'] = self::clampInt($in['fleetsave_chance'] ?? $base['fleetsave_chance'], 0, 100);
+        $out['saving_discipline'] = self::clampInt($in['saving_discipline'] ?? $base['saving_discipline'], 0, 100);
+        $out['expedition_slots'] = self::clampInt($in['expedition_slots'] ?? $base['expedition_slots'], 0, 5);
         $out['buddy_accept_chance'] = self::clampInt($in['buddy_accept_chance'] ?? 60, 0, 100);
         $out['chat_style'] = mb_substr(trim(strip_tags((string) ($in['chat_style'] ?? 'short'))), 0, 120);
 
-        return $out;
+        return $out + $this->normalizeRaidSettings($in, $raidDefaults ?? self::RAID_FALLBACK);
+    }
+
+    /**
+     * The raid part of the settings: missing keys come from `$defaults`, values are clamped (percent 0-100, scout range
+     * 1-200 systems, profit ratio 0.5-100, streak 0-600 minutes as ordered pair, attacks per target and day 1-50).
+     *
+     * @param array<string, mixed> $in raw settings
+     * @param array<string, mixed> $defaults raid values used for missing keys
+     * @return array<string, mixed>
+     */
+    private function normalizeRaidSettings(array $in, array $defaults): array
+    {
+        $in += $defaults;
+        $streak = array_values((array) $in['relentless_minutes']);
+        $a = self::clampInt($streak[0] ?? 0, 0, 600);
+        $b = self::clampInt($streak[1] ?? $a, 0, 600);
+
+        return [
+            'raid_enabled' => !empty($in['raid_enabled']),
+            'raid_chance' => self::clampInt($in['raid_chance'], 0, 100),
+            'scout_range' => self::clampInt($in['scout_range'], 1, 200),
+            'min_profit_ratio' => self::clampFloat($in['min_profit_ratio'], 0.5, 100),
+            'relentless_minutes' => [min($a, $b), max($a, $b)],
+            'recall_check_chance' => self::clampInt($in['recall_check_chance'], 0, 100),
+            'max_attacks_per_target_per_day' => self::clampInt($in['max_attacks_per_target_per_day'], 1, 50),
+            'attack_bots' => !empty($in['attack_bots']),
+            'attack_humans' => !empty($in['attack_humans']),
+            'prefer_inactive' => self::clampInt($in['prefer_inactive'], 0, 100),
+        ];
     }
 
     /** JSON settings string to normalized settings; invalid JSON gives the defaults. */
-    private function decode(string $json): array
+    private function decode(string $json, string $profileKey = ''): array
     {
         $data = json_decode($json, true);
+        // profiles saved before the raid settings existed get the raid values of their default profile
+        $raidDefaults = isset($this->defaults()[$profileKey]) ? $this->raidOf($this->defaults()[$profileKey]['settings']) : null;
 
-        return $this->normalizeSettings(is_array($data) ? $data : []);
+        $data = is_array($data) ? $data : [];
+        if (isset($this->defaults()[$profileKey])) {
+            $data += array_intersect_key($this->defaults()[$profileKey]['settings'], array_flip(['alliance_join_chance', 'fleetsave_chance', 'saving_discipline', 'expedition_slots']));
+        }
+
+        return $this->normalizeSettings($data, $raidDefaults);
+    }
+
+    /**
+     * The raid keys of a settings array.
+     *
+     * @param array<string, mixed> $settings
+     * @return array<string, mixed>
+     */
+    private function raidOf(array $settings): array
+    {
+        return array_intersect_key($settings, array_flip(array_keys(self::RAID_FALLBACK)));
     }
 
     /** `$v` as integer within [min, max]. */
@@ -223,6 +279,20 @@ class BotProfiles
             'noob' => $this->noob(),
         ];
     }
+
+    /** Raid settings of a profile that has none stored and is not one of the defaults: cautious, rarely raids. */
+    private const RAID_FALLBACK = [
+        'raid_enabled' => true,
+        'raid_chance' => 8,
+        'scout_range' => 15,
+        'min_profit_ratio' => 4.0,
+        'relentless_minutes' => [10, 25],
+        'recall_check_chance' => 20,
+        'max_attacks_per_target_per_day' => 2,
+        'attack_bots' => true,
+        'attack_humans' => true,
+        'prefer_inactive' => 80,
+    ];
 
     /** Settings every default profile shares (profiles override single keys). */
     private const COMMON_SETTINGS = [
@@ -262,6 +332,28 @@ class BotProfiles
         ];
     }
 
+    /**
+     * Raid settings of a default profile (see normalizeSettings()).
+     *
+     * @param array{0: int, 1: int} $streak relentless_minutes
+     * @return array<string, mixed>
+     */
+    private function raid(int $chance, int $range, float $ratio, array $streak, int $recall, int $maxAttacks, int $preferInactive, bool $enabled = true): array
+    {
+        return [
+            'raid_enabled' => $enabled,
+            'raid_chance' => $chance,
+            'scout_range' => $range,
+            'min_profit_ratio' => $ratio,
+            'relentless_minutes' => $streak,
+            'recall_check_chance' => $recall,
+            'max_attacks_per_target_per_day' => $maxAttacks,
+            'attack_bots' => true,
+            'attack_humans' => true,
+            'prefer_inactive' => $preferInactive,
+        ];
+    }
+
     /** Office worker: plays before work, at lunch and in the evening. */
     private function officeWorker(): array
     {
@@ -283,9 +375,13 @@ class BotProfiles
                 'reply_chance' => 50,
                 'message_chance' => 3,
                 'alliance_chance' => 10,
+                'alliance_join_chance' => 3,
+                'fleetsave_chance' => 60,
+                'saving_discipline' => 70,
+                'expedition_slots' => 0,
                 'buddy_accept_chance' => 50,
                 'chat_style' => 'short, polite, businesslike, few words',
-            ] + self::COMMON_SETTINGS,
+            ] + $this->raid(8, 15, 4.0, [10, 25], 20, 2, 80) + self::COMMON_SETTINGS,
         ];
     }
 
@@ -310,9 +406,13 @@ class BotProfiles
                 'reply_chance' => 95,
                 'message_chance' => 10,
                 'alliance_chance' => 25,
+                'alliance_join_chance' => 6,
+                'fleetsave_chance' => 85,
+                'saving_discipline' => 55,
+                'expedition_slots' => 1,
                 'buddy_accept_chance' => 70,
                 'chat_style' => 'chatty, casual, relaxed, uses slang',
-            ] + self::COMMON_SETTINGS,
+            ] + $this->raid(45, 30, 2.5, [30, 90], 50, 3, 50) + self::COMMON_SETTINGS,
         ];
     }
 
@@ -340,9 +440,13 @@ class BotProfiles
                 'reply_chance' => 75,
                 'message_chance' => 5,
                 'alliance_chance' => 20,
+                'alliance_join_chance' => 5,
+                'fleetsave_chance' => 70,
+                'saving_discipline' => 65,
+                'expedition_slots' => 1,
                 'buddy_accept_chance' => 60,
                 'chat_style' => 'medium length, friendly, a bit tired',
-            ] + ['pattern_shift_hours' => 8, 'pattern_shift_days' => 7] + self::COMMON_SETTINGS,
+            ] + ['pattern_shift_hours' => 8, 'pattern_shift_days' => 7] + $this->raid(20, 20, 3.0, [15, 45], 35, 2, 60) + self::COMMON_SETTINGS,
         ];
     }
 
@@ -367,9 +471,13 @@ class BotProfiles
                 'reply_chance' => 95,
                 'message_chance' => 15,
                 'alliance_chance' => 30,
+                'alliance_join_chance' => 8,
+                'fleetsave_chance' => 98,
+                'saving_discipline' => 90,
+                'expedition_slots' => 2,
                 'buddy_accept_chance' => 80,
                 'chat_style' => 'very chatty, enthusiastic, long messages, emojis',
-            ] + self::COMMON_SETTINGS,
+            ] + $this->raid(70, 50, 2.0, [60, 180], 80, 4, 30) + self::COMMON_SETTINGS,
         ];
     }
 
@@ -395,9 +503,13 @@ class BotProfiles
                 'reply_chance' => 90,
                 'message_chance' => 6,
                 'alliance_chance' => 40,
+                'alliance_join_chance' => 4,
+                'fleetsave_chance' => 15,
+                'saving_discipline' => 25,
+                'expedition_slots' => 0,
                 'buddy_accept_chance' => 85,
                 'chat_style' => 'friendly, curious newbie, asks naive questions, typos',
-            ] + self::COMMON_SETTINGS,
+            ] + $this->raid(0, 5, 8.0, [0, 0], 0, 1, 90, false) + self::COMMON_SETTINGS,
         ];
     }
 }

@@ -241,3 +241,5 @@ type_planet_4: Пиратская база
 type_planet_short_1: П
 type_planet_short_2: ПО
 type_planet_short_3: Л
+depot_msg_subject: "Флот снабжён"
+depot_msg_text: "Твой флот у %s снабжён игроком %s: пребывание продлено на %s ч."

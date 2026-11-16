@@ -184,8 +184,8 @@ body.site {
 .uni-start strong { color: #fff; }
 .uni-start .uni-countdown { color: var(--nova-accent); font-variant-numeric: tabular-nums; font-weight: 700; }
 
-/* the comic panel (room above for the caption badge) */
-.hero__art { margin: 1.5rem 0 0; position: relative; }
+/* the comic panel (kept straight: a tilted bitmap gets resampled and its small text blurs) */
+.hero__art { margin: 0; position: relative; }
 .hero__art img {
   display: block;
   width: 100%;
@@ -193,23 +193,6 @@ body.site {
   border: 3px solid #0b0d10;
   border-radius: var(--radius);
   box-shadow: 0 0 0 1px rgb(0 210 190 / 0.35), 0 1.5rem 3rem rgb(0 0 0 / 0.6), 0 0 4rem rgb(238 77 46 / 0.12);
-}
-/* the comic stays straight: a tilted bitmap gets resampled and its small text blurs; only the sticker is tilted */
-.hero__art figcaption {
-  position: absolute;
-  left: -0.75rem;
-  top: -2.3rem;
-  padding: 0.3rem 0.75rem;
-  border: 2px solid #0b0d10;
-  border-radius: var(--radius-sm);
-  background: #e9ff79;
-  color: #11140b;
-  font-weight: 800;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  rotate: -3deg;
-  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.45);
 }
 
 .links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }

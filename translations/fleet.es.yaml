@@ -245,3 +245,5 @@ type_planet_4: Base pirata
 type_planet_short_1: P
 type_planet_short_2: CE
 type_planet_short_3: M
+depot_msg_subject: "Flota abastecida"
+depot_msg_text: "Tu flota en %s ha sido abastecida por %s: estancia alargada %s h."

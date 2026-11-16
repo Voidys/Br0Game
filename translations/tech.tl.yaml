@@ -66,9 +66,7 @@ longDescription:
     nauubos: kailangan lang na makagawa ng sapat nito ang planeta mo (1,000
     para sa level 1, dumodoble sa bawat level), kahit ginagamit na ito ng mga
     mine mo. Kapag naitayo na, hindi na maaaring gibain ang Terraformer.
-  '34': >-
-    Wala pang epekto sa larong ito ang Alliance Depot: puwedeng manatili ang mga
-    friendly na fleet sa planeta mo kahit wala nito, at walang fuel resupply.
+  '34': "Hinahayaan ka ng Alliance Depot na suplayan ng deuterium ang mga friendly na fleet na nakatigil sa planeta mo para mapahaba ang pananatili nila. Buksan ito mula sa pahina ng mga gusali: para sa bawat nakatigil na fleet, pipili ka mula 1 oras hanggang kasing-dami ng oras ng level ng depot, at magbabayad ka ng bilang ng oras na i-multiply sa oras-oras na gastos sa pagtigil ng fleet mula sa deuterium ng planeta mo. Ang oras-oras na gastos ay one-tenth ng pinagsamang base na konsumo ng fuel ng mga barko ng fleet, na bilugan pataas. Puwedeng suplayan nang paulit-ulit ang isang fleet, pero hindi puwedeng lumampas sa 32 oras ang natitira nitong pananatili. Mga fleet lang ng ibang manlalaro na kasalukuyang nasa orbit ng planeta mo ang puwedeng suplayan."
   '35': >-
     Kayang ayusin ng repair dock ang mga barkong nawasak sa laban at nag-iwan
     ng wreck field. Hindi hihigit sa 12 oras ang isang repair, at hindi ito
@@ -486,8 +484,7 @@ shortDescription:
     Pinalalawak ng Terraformer ang magagamit na lugar ng planeta: 5 karagdagang
     field kada level, dagdag ang isa pa sa bawat even na level. Isang field din
     ang inookupahan ng bawat level.
-  '34': >-
-    Wala pang epekto sa larong ito ang Alliance Depot.
+  '34': "Hinahayaan ka ng Alliance Depot na pahabain kapalit ng deuterium ang pananatili ng mga friendly na fleet sa planeta mo: kada suplay hanggang kasing-dami ng oras ng level ng depot."
   '35': 'Ibinabalik ng repair dock ang mga barko mula sa wreck field.'
   '41': >-
     Walang atmosphere ang buwan, at isang gusali lang ang kasya sa bagong buwan,

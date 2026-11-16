@@ -115,6 +115,11 @@ trait GameUtilities
         return $this->gameUtility(HangarFilters::class);
     }
 
+    protected function allianceDepot(): AllianceDepot
+    {
+        return $this->gameUtility(AllianceDepot::class);
+    }
+
     protected function resourceUpdate(): ResourceUpdate
     {
         return $this->gameUtility(ResourceUpdate::class);

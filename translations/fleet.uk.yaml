@@ -236,3 +236,5 @@ type_planet_4: Піратська база
 type_planet_short_1: П
 type_planet_short_2: У
 type_planet_short_3: М
+depot_msg_subject: "Флот постачено"
+depot_msg_text: "Твій флот біля %s постачив гравець %s: перебування подовжено на %s год."

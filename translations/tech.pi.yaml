@@ -101,11 +101,7 @@ longDescription:
     fortwährend eigens dafür konstruierte Naniten produziert, die für eine
     konstante Qualität des Bodens sorgen. Einmal gebaut kann der Terraformer
     nicht wieder abgerissen werden.
-  '34': >-
-    Das Allianzdepot bietet die Möglichkeit, befreundete Flotten, die bei der
-    Verteidigung helfen und im Orbit stehen, mit Treibstoff zu versorgen. Für
-    jeden Ausbaulevel des Allianzdepots können 10.000 Einheiten Deuterium pro
-    Stunde an die zu versorgenden Flotten im Orbit geschickt werden.
+  '34': "Mit dem Allianzdepot kannst du befreundete Flotten, die an deinem Planeten halten, mit Deuterium versorgen und so ihren Aufenthalt verlängern. Du öffnest es auf der Gebäudeseite: Für jede haltende Flotte wählst du zwischen 1 Stunde und so vielen Stunden, wie das Depot Stufen hat, und zahlst Stunden mal die stündlichen Haltekosten der Flotte aus dem Deuterium deines Planeten. Die stündlichen Haltekosten sind ein Zehntel des summierten Grundverbrauchs der Schiffe der Flotte, aufgerundet. Eine Flotte kann immer wieder versorgt werden, darf aber nie mehr als 32 Stunden Aufenthalt übrig haben. Versorgt werden können nur Flotten anderer Spieler, die gerade an deinem Planeten im Orbit stehen."
   '35': >-
     Das Reparaturdock bietet die Möglichkeit zerstörte Schiffe, die in Folge
     eines Kampfes ein Wrackfeld hinterlassen haben, zu reparieren. Die
@@ -608,9 +604,7 @@ shortDescription:
     Um neue Technologien zu erforschen, ist der Betrieb einer Forschungsstation
     notwendig.
   '33': Der Terraformer vergrößert die nutzbare Fläche auf Planeten.
-  '34': >-
-    Das Allianzdepot bietet die Möglichkeit, befreundete Flotten, die bei der
-    Verteidigung helfen und im Orbit stehen, mit Treibstoff zu versorgen.
+  '34': "Mit dem Allianzdepot verlängerst du für Deuterium den Aufenthalt befreundeter Flotten, die an deinem Planeten halten: pro Versorgung bis zu so viele Stunden wie die Depotstufe."
   '35': Das Reparaturdock ermöglicht Schiffe aus einem Wrackfeld wiederherzustellen.
   '41': >-
     Ein Mond verfügt über keinerlei Atmosphäre, deshalb muss vor der Besiedlung

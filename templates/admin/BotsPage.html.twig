@@ -111,8 +111,25 @@
           <div class="field-row"><label for="bp-rep">{{ LNG.bot_reply_chance }}</label><div class="field-control"><input type="number" id="bp-rep" name="reply_chance" value="{{ s.reply_chance }}" min="0" max="100"> %</div></div>
           <div class="field-row"><label for="bp-msg">{{ LNG.bot_message_chance }}</label><div class="field-control"><input type="number" id="bp-msg" name="message_chance" value="{{ s.message_chance }}" min="0" max="100"> %</div></div>
           <div class="field-row"><label for="bp-ali">{{ LNG.bot_alliance_chance }}</label><div class="field-control"><input type="number" id="bp-ali" name="alliance_chance" value="{{ s.alliance_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-alij">{{ LNG.bot_alliance_join_chance }}</label><div class="field-control"><input type="number" id="bp-alij" name="alliance_join_chance" value="{{ s.alliance_join_chance }}" min="0" max="100"> %</div></div>
           <div class="field-row"><label for="bp-bud">{{ LNG.bot_buddy_accept_chance }}</label><div class="field-control"><input type="number" id="bp-bud" name="buddy_accept_chance" value="{{ s.buddy_accept_chance }}" min="0" max="100"> %</div></div>
           <div class="field-row"><label for="bp-style">{{ LNG.bot_chat_style }}</label><div class="field-control"><input type="text" id="bp-style" name="chat_style" value="{{ s.chat_style }}" maxlength="120"></div></div>
+          <div class="field-row"><label for="bp-fs">{{ LNG.bot_fleetsave_chance }}</label><div class="field-control"><input type="number" id="bp-fs" name="fleetsave_chance" value="{{ s.fleetsave_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-disc">{{ LNG.bot_saving_discipline }}</label><div class="field-control"><input type="number" id="bp-disc" name="saving_discipline" value="{{ s.saving_discipline }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-exslots">{{ LNG.bot_expedition_slots }}</label><div class="field-control"><input type="number" id="bp-exslots" name="expedition_slots" value="{{ s.expedition_slots }}" min="0" max="5"></div></div>
+          <div class="field-row"><label for="bp-raid">{{ LNG.bot_raid_enabled }}</label><div class="field-control"><input type="checkbox" class="switch" id="bp-raid" name="raid_enabled" value="1" {% if s.raid_enabled %}checked{% endif %}></div></div>
+          <div class="field-row"><label for="bp-raidc">{{ LNG.bot_raid_chance }}</label><div class="field-control"><input type="number" id="bp-raidc" name="raid_chance" value="{{ s.raid_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-scout">{{ LNG.bot_scout_range }}</label><div class="field-control"><input type="number" id="bp-scout" name="scout_range" value="{{ s.scout_range }}" min="1" max="200"></div></div>
+          <div class="field-row"><label for="bp-ratio">{{ LNG.bot_min_profit_ratio }}</label><div class="field-control"><input type="number" id="bp-ratio" step="0.1" name="min_profit_ratio" value="{{ s.min_profit_ratio }}" min="0.5" max="100"></div></div>
+          <div class="field-row"><span class="field-label">{{ LNG.bot_relentless_minutes }}</span><div class="field-control">
+            <input type="number" name="relentless_min" value="{{ s.relentless_minutes[0] }}" min="0" max="600"> -
+            <input type="number" name="relentless_max" value="{{ s.relentless_minutes[1] }}" min="0" max="600">
+          </div></div>
+          <div class="field-row"><label for="bp-recall">{{ LNG.bot_recall_check_chance }}</label><div class="field-control"><input type="number" id="bp-recall" name="recall_check_chance" value="{{ s.recall_check_chance }}" min="0" max="100"> %</div></div>
+          <div class="field-row"><label for="bp-maxatk">{{ LNG.bot_max_attacks_per_target }}</label><div class="field-control"><input type="number" id="bp-maxatk" name="max_attacks_per_target_per_day" value="{{ s.max_attacks_per_target_per_day }}" min="1" max="50"></div></div>
+          <div class="field-row"><label for="bp-atkb">{{ LNG.bot_attack_bots }}</label><div class="field-control"><input type="checkbox" class="switch" id="bp-atkb" name="attack_bots" value="1" {% if s.attack_bots %}checked{% endif %}></div></div>
+          <div class="field-row"><label for="bp-atkh">{{ LNG.bot_attack_humans }}</label><div class="field-control"><input type="checkbox" class="switch" id="bp-atkh" name="attack_humans" value="1" {% if s.attack_humans %}checked{% endif %}></div></div>
+          <div class="field-row"><label for="bp-inact">{{ LNG.bot_prefer_inactive }}</label><div class="field-control"><input type="number" id="bp-inact" name="prefer_inactive" value="{{ s.prefer_inactive }}" min="0" max="100"></div></div>
         </div>
       </div>
     </section>

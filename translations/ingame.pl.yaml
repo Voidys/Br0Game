@@ -1348,7 +1348,7 @@ stats:
   '214': "Gwiazda Śmierci"
   '215': Pancernik
   '216': Dark Moon
-  '217': "Giga Transporter"
+  '217': "Transporter bojowy"
   '218': Avatar
   '219': "Gigarecykler"
   '401': Wyrzutnia Rakiet
@@ -1359,7 +1359,7 @@ stats:
   '406': Wyrzutnia Plazmy
   '407': Mała Osłona
   '408': Duża Osłona
-  '409': "Giga Osłona"
+  '409': "Osłona atmosferyczna"
   '410': Działo Grawitonowe
   '411': Orbitalna Platforma Obronna
   '412': "Bunkier"
@@ -1654,3 +1654,24 @@ teamMemberAbout: "O mnie"
 teamEmpty: "Nie dodano jeszcze członków zespołu."
 lm_board: "Forum"
 blockDm: "Blokuj wiadomości prywatne"
+bd_depot_action: "Zaopatrz floty"
+depot_title: "Depozyt sojuszniczy"
+depot_intro: "Tutaj możesz zaopatrywać przyjazne floty, które stacjonują na tej planecie. Każde zaopatrzenie wydłuża ich pobyt o 1 do %s godz. (poziom twojego depozytu) i kosztuje deuter z tej planety. Flota nigdy nie może mieć więcej niż %s godz. pozostałego pobytu."
+depot_deuterium_stock: "Deuter na tej planecie"
+depot_empty: "Żadne przyjazne floty nie stacjonują na tej planecie."
+depot_col_owner: "Gracz"
+depot_col_ships: "Statki"
+depot_col_stay_end: "Koniec pobytu"
+depot_col_hourly: "Koszt na godzinę"
+depot_col_supply: "Zaopatrz"
+depot_hours: "%s godz."
+depot_cost: "Koszt"
+depot_supply: "Zaopatrz"
+depot_full: "Osiągnięto maksymalny pobyt"
+depot_done: "Flota została zaopatrzona: jej pobyt wydłużono o %s godz. za %s deuteru."
+depot_err_not_owner: "Ta planeta nie należy do ciebie."
+depot_err_no_depot: "Na tej planecie nie ma depozytu sojuszniczego."
+depot_err_hours: "Możesz zaopatrzyć flotę jednorazowo na 1 do %s godz. (poziom twojego depozytu)."
+depot_err_fleet: "Ta flota już nie stacjonuje na tej planecie."
+depot_err_max_stay: "Flota może mieć najwyżej %s godz. pozostałego pobytu. Wybierz mniej godzin."
+depot_err_deuterium: "Za mało deuteru na tej planecie: potrzeba %s."
