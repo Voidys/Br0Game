@@ -12,6 +12,20 @@ parameters:
     # private messages one player may send or forward per window (rate limiter "private_messages")
     app.pm_rate_limit: 20
     app.pm_rate_interval: '10 minutes'
+    # in-game request limits per account (App\Security\GameRateLimits): token buckets, burst = bucket size,
+    # refill = amount per interval. Generous on purpose: a human clicking fast must never see the 429 page.
+    # actions = POST requests and the state-changing GET links of CsrfPolicy::GET_RULES (game and account areas);
+    # reads = expensive pages (galaxy, playerCard, search, statistics, battleHall, raport, records).
+    app.game_rate_limit.enabled: true
+    app.game_rate_limit.action_burst: 30
+    app.game_rate_limit.action_interval: '1 second'
+    app.game_rate_limit.action_amount: 1
+    app.game_rate_limit.read_burst: 60
+    app.game_rate_limit.read_interval: '1 second'
+    app.game_rate_limit.read_amount: 2
+    # board: votes and posts+comments one account may make per day (sliding window)
+    app.board_votes_per_day: 200
+    app.board_writes_per_day: 50
     app.table_prefix: '%env(TABLE_PREFIX)%'
     # Content-Security-Policy: CSP_MODE=enforce|report|off (default enforce); in "enforce" mode only these
     # areas (game, login, account, admin, install) are enforced, the others are report-only until verified

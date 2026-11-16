@@ -80,3 +80,6 @@ board_ago_days: "%d d ago"
 board_guest_hint: Log in to post, comment and vote.
 board_guest_login: Log in
 board_guest_register: Register
+rl_board_err_self_vote: "You cannot vote on your own post or comment."
+rl_board_err_vote_cap: "Daily vote limit reached. Try again tomorrow."
+rl_board_err_write_cap: "Daily limit for posts and comments reached. Try again tomorrow."

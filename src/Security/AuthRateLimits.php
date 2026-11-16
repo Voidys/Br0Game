@@ -25,6 +25,10 @@ final class AuthRateLimits
         private readonly RateLimiterFactoryInterface $accountSettingsPassword,
         #[Autowire(service: 'limiter.private_messages')]
         private readonly RateLimiterFactoryInterface $privateMessages,
+        #[Autowire(service: 'limiter.board_votes')]
+        private readonly RateLimiterFactoryInterface $boardVotes,
+        #[Autowire(service: 'limiter.board_writes')]
+        private readonly RateLimiterFactoryInterface $boardWrites,
     ) {}
 
     /** Registration attempts (successful or not) per client IP. */
@@ -49,6 +53,18 @@ final class AuthRateLimits
     public function allowPrivateMessage(int $userId): bool
     {
         return $this->privateMessages->create((string) $userId)->consume()->isAccepted();
+    }
+
+    /** Board votes per account and day (app.board_votes_per_day); one count per vote request. */
+    public function allowBoardVote(int $accountId): bool
+    {
+        return $this->boardVotes->create((string) $accountId)->consume()->isAccepted();
+    }
+
+    /** Board posts and comments per account and day (app.board_writes_per_day); one count per created post or comment. */
+    public function allowBoardWrite(int $accountId): bool
+    {
+        return $this->boardWrites->create((string) $accountId)->consume()->isAccepted();
     }
 
     /** Admin password prompt attempts per client IP and account. */

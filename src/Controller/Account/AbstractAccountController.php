@@ -46,6 +46,14 @@ abstract class AbstractAccountController implements GameControllerInterface
         return 'account';
     }
 
+    /** Message page for a request over the in-game request budget (RateLimitListener): no page code runs, status 429 is set by the listener. */
+    public function showRateLimited(int $retryAfter): never
+    {
+        $this->state->LNG->includeData(['INGAME']);
+        $this->setWindow('full');
+        $this->printMessage($this->state->LNG->format('rl_too_many_requests', $retryAfter));
+    }
+
     protected function printPageError(string $message): never
     {
         $this->printMessage($message);

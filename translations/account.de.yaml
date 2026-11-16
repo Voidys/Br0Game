@@ -81,3 +81,6 @@ board_ago_days: "vor %d Tg."
 board_guest_hint: Melde dich an, um zu posten, zu kommentieren und abzustimmen.
 board_guest_login: Anmelden
 board_guest_register: Registrieren
+rl_board_err_self_vote: "Du kannst nicht für deinen eigenen Beitrag oder Kommentar abstimmen."
+rl_board_err_vote_cap: "Tageslimit für Stimmen erreicht. Versuche es morgen wieder."
+rl_board_err_write_cap: "Tageslimit für Beiträge und Kommentare erreicht. Versuche es morgen wieder."

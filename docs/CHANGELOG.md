@@ -1152,3 +1152,9 @@ Technical changes per migration step, newest last.
 - F-26: a market purchase is refused when the seller's start planet is gone or destroyed (checked under the offer lock).
 - Tests: `FleetStepGuardsTest`, `FleetLauncherTest`, `MarketPurchaseTest`.
 
+## 146. In-game rate limits, board caps
+
+- F-14/F-23: `RateLimitListener` + `GameRateLimits`: per-account token buckets for state-changing requests (`game_actions`, burst 30, +1/s) and expensive reads (`game_reads`: galaxy, player card, search, statistics, battle hall, reports, records — burst 60, +2/s); over the limit a themed 429 page (`Retry-After`) or JSON 429 for scripts; parameters `app.game_rate_limit.*` (switchable), operator notes in `docs/INSTALL.md`. Defaults are generous: normal play and a full 90-page crawl never trip them.
+- F-22: no votes on one's own board posts/comments; daily caps of 200 votes and 50 posts+comments per account (`app.board_votes_per_day`, `app.board_writes_per_day`).
+- Tests: `GameRateLimitsTest`.
+

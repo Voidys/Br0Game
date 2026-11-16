@@ -44,6 +44,30 @@ framework:
             limit: 30
             interval: '1 minute'
 
+        # in-game request budget per account (App\Security\GameRateLimits, listener RateLimitListener); token buckets:
+        # `limit` = burst, refilled by rate.amount per rate.interval. All values are parameters in config/services.yaml
+        game_actions:
+            policy: token_bucket
+            limit: '%app.game_rate_limit.action_burst%'
+            rate:
+                interval: '%app.game_rate_limit.action_interval%'
+                amount: '%app.game_rate_limit.action_amount%'
+        game_reads:
+            policy: token_bucket
+            limit: '%app.game_rate_limit.read_burst%'
+            rate:
+                interval: '%app.game_rate_limit.read_interval%'
+                amount: '%app.game_rate_limit.read_amount%'
+        # board votes and posts/comments per account and day (AuthRateLimits::allowBoardVote / allowBoardWrite)
+        board_votes:
+            policy: sliding_window
+            limit: '%app.board_votes_per_day%'
+            interval: '1 day'
+        board_writes:
+            policy: sliding_window
+            limit: '%app.board_writes_per_day%'
+            interval: '1 day'
+
     # Note that the session will be started ONLY if you read or write from it.
     # The game session (App\Game\Core\SessionManager) lives in this session ("obj" attribute).
     # Storage: SESSION_HANDLER_DSN (e.g. redis://host:6379), default files in var/sessions.

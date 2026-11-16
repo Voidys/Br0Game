@@ -342,6 +342,10 @@ class BoardController extends AbstractAccountController
             $this->fail($data['error'], 'account?page=board&mode=submit');
         }
 
+        if (!$this->rateLimits->allowBoardWrite($me)) {
+            $this->fail($this->state->LNG['rl_board_err_write_cap'], 'account?page=board&mode=submit');
+        }
+
         $this->db->insert(
             'INSERT INTO %%BOARD_POSTS%% SET account_id = :me, flair = :flair, title = :title, body = :body,
              created_at = :now, last_activity = :now2;',
@@ -414,6 +418,10 @@ class BoardController extends AbstractAccountController
         );
         if ($last > $now - self::COMMENT_COOLDOWN) {
             $this->fail($this->state->LNG->format('board_err_rate_comment', self::COMMENT_COOLDOWN - ($now - $last)), $back);
+        }
+
+        if (!$this->rateLimits->allowBoardWrite($me)) {
+            $this->fail($this->state->LNG['rl_board_err_write_cap'], $back);
         }
 
         $this->db->insert(
@@ -535,10 +543,19 @@ class BoardController extends AbstractAccountController
         $this->db->startTransaction();
         try {
             $table = $type === 1 ? '%%BOARD_POSTS%%' : '%%BOARD_COMMENTS%%';
-            $target = $this->db->selectSingle("SELECT id, deleted FROM $table WHERE id = :id FOR UPDATE;", [':id' => $id]);
+            $target = $this->db->selectSingle("SELECT id, deleted, account_id FROM $table WHERE id = :id FOR UPDATE;", [':id' => $id]);
             if (!$target || $target['deleted']) {
                 $this->db->rollback();
                 $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['board_not_found']]);
+            }
+            // no votes on one's own post or comment; votes per account and day are capped
+            if ((int) $target['account_id'] === $me) {
+                $this->db->rollback();
+                $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['rl_board_err_self_vote']]);
+            }
+            if (!$this->rateLimits->allowBoardVote($me)) {
+                $this->db->rollback();
+                $this->sendJSON(['ok' => false, 'error' => $this->state->LNG['rl_board_err_vote_cap']]);
             }
 
             $old = (int) ($this->db->selectSingle(

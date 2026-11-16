@@ -263,6 +263,13 @@ not depend on it: they are built from `DEFAULT_URI`.
 - Failed logins are throttled (5 per 15 minutes per IP and e-mail), registration, "lost password" and the admin
   password prompt have their own limits (`config/packages/framework.yaml`, `rate_limiter`). The counters live in the
   application cache (`var/cache`); clear them with `bin/console cache:pool:clear cache.rate_limiter`.
+- In-game request limit per account (`App\EventListener\RateLimitListener`): token buckets for state-changing requests
+  (POSTs and the action links) and for expensive pages (galaxy, player card, search, statistics, battle hall, battle
+  reports, records). Beyond the budget the player gets a translated `429` page (JSON `429` for script calls) with a
+  `Retry-After` header. The defaults are generous (actions: burst 30, 1 per second; reads: burst 60, 2 per second), so
+  normal play never sees it. Tune or switch off with the `app.game_rate_limit.*` parameters in `config/services.yaml`
+  (`enabled: false` turns it off); the board's daily caps are `app.board_votes_per_day` and `app.board_writes_per_day`.
+  Counters live in the cache pool `cache.rate_limiter` (see above).
 - Responses carry `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` headers.
 
 ## Troubleshooting

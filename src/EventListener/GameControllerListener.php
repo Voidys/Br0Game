@@ -44,6 +44,18 @@ final class GameControllerListener
 
         $kernel = $this->kernel;
         $responses = $this->responses;
+        // over the in-game request budget (RateLimitListener): boot the game for the theme and show the message page instead of the page
+        $retryAfter = $request->attributes->get(RateLimitListener::RETRY_AFTER);
+        if (is_int($retryAfter) && method_exists($object, 'showRateLimited')) {
+            $event->setController(static function () use ($object, $kernel, $responses, $retryAfter) {
+                return $responses->run(static function () use ($object, $kernel, $retryAfter): void {
+                    $kernel->boot($object::getGameMode(), $object::getEntryScript());
+                    $object->showRateLimited($retryAfter);
+                });
+            });
+
+            return;
+        }
         $event->setController(static function (...$arguments) use ($controller, $object, $kernel, $responses) {
             return $responses->run(static function () use ($controller, $object, $kernel, $arguments) {
                 $kernel->boot($object::getGameMode(), $object::getEntryScript());
