@@ -32,6 +32,12 @@ framework:
             policy: sliding_window
             limit: 10
             interval: '15 minutes'
+        # private messages sent or forwarded, per player (App\Security\AuthRateLimits::allowPrivateMessage);
+        # limit and window are the parameters app.pm_rate_limit / app.pm_rate_interval (config/services.yaml)
+        private_messages:
+            policy: sliding_window
+            limit: '%app.pm_rate_limit%'
+            interval: '%app.pm_rate_interval%'
         # CSP violation reports (App\Controller\CspReportController): per client IP
         csp_report:
             policy: sliding_window

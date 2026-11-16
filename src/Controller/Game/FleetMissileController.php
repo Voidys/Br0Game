@@ -78,11 +78,19 @@ class FleetMissileController extends AbstractGameController
             $error = $LNG['fl_in_vacation_player'];
         }
 
+        if ($error == "" && $target['id_owner'] == $this->state->USER['id']) {
+            $error = $LNG['ma_own_planet'];
+        }
+
         $this->loadOwnPoints();
 
         $protectionError = $this->protectionError($target);
         if ($protectionError !== null) {
             $error = $protectionError;
+        }
+
+        if ($error == "" && $this->fleetFunctions()->checkBash((int) $target['planetID'])) {
+            $error = $LNG['fl_bash_protection'];
         }
 
         if ($error != "") {

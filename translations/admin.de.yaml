@@ -808,6 +808,9 @@ se_bash_per_planet: Bashlimit pro Planet
 se_bash_per_planet_info: >-
   Wie oft ein Spieler den Planeten eines anderen Spielers pro 24h angreifen darf
   (Zählt pro Planet). 0 = ausgeschaltet
+se_bash_count_missiles: Bashlimits zählen Raketenangriffe
+se_bash_count_missiles_info: >-
+  Interplanetare Raketenangriffe zählen wie Flottenangriffe für die Bashlimits (pro User und pro Planet). Aus: Raketen werden nicht gezählt.
 se_bash_per_user: Bashlimit pro User
 se_bash_per_user_info: >-
   Wie oft ein Spieler einen anderen Spieler pro 24h angreifen darf  (Alle

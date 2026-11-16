@@ -68,6 +68,9 @@ abstract class GameTestCase extends TestCase
         $this->db = $container->get(Database::class);
         $this->configs = $container->get(ConfigRegistry::class);
         $this->state = $container->get(Singleton::class);
+        // the state is one shared container service: no test may inherit the previous test's game session
+        // (SessionManager::create() reuses an existing one, bound to that test's request)
+        $this->state->session = null;
         $this->createdPlayers = [];
         $this->db->startTransaction();
         $this->configs->reload();

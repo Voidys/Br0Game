@@ -699,6 +699,9 @@ se_bash_per_planet: Bash limit per planet
 se_bash_per_planet_info: >-
   How often a player can attack another player's planet per 24 hours (counted
   per planet). 0 = off
+se_bash_count_missiles: Bash limits count missile attacks
+se_bash_count_missiles_info: >-
+  Interplanetary missile attacks count like fleet attacks towards the bash limits (per player and per planet). Off: missiles are not counted.
 se_bash_per_user: Bash limit per player
 se_bash_per_user_info: >-
   How often a player can attack another player per 24 hours (across all

@@ -20,7 +20,7 @@ final class MessagesAndCreatorTest extends GameTestCase
         $composer = new MessageComposer($this->db, $this->configs, $this->state);
 
         $receivers = $composer->deliverableReceivers([(string) $receiver['id']]);
-        $this->assertSame([(string) $receiver['id']], $receivers);
+        $this->assertSame([(int) $receiver['id']], $receivers);
 
         $banned = $composer->send($receivers, [(string) $receiver['id']], 'subject p4b4', 'hello', '');
         $this->assertFalse($banned);

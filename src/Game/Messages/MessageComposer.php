@@ -22,45 +22,81 @@ class MessageComposer
         protected Singleton $state,
     ) {}
 
-    /** The recipient exists in the current universe and has not disabled private messages. */
-    private function canReceiveMessages(int $userId): bool
-    {
-        $sql = "SELECT COUNT(*) AS count FROM %%USERS%% u
-            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id`
-            WHERE u.`id` = :userId AND u.`universe` = :universe AND us.`settings_blockPM` = 0;";
+    /** Most recipients of one private message or forward (rejected before any query). */
+    public const MAX_RECIPIENTS = 10;
 
-        return (bool) $this->db->selectSingle($sql, [
-            ':userId'   => $userId,
-            ':universe' => $this->universe()->current(),
-        ], 'count');
+    /** Longest private message text in characters (the limit the compose form shows). */
+    public const MAX_TEXT_LENGTH = 5000;
+
+    /**
+     * The distinct valid user ids of the request, in request order (non-numeric and non-positive entries dropped).
+     *
+     * @return list<int>
+     */
+    public function requestedIds(mixed $receiver): array
+    {
+        $ids = [];
+        foreach ((array) $receiver as $receiverID) {
+            $id = (int) $receiverID;
+            if ($id > 0) {
+                $ids[$id] = $id;
+            }
+        }
+
+        return array_values($ids);
+    }
+
+    /** Whether more recipients than allowed were requested (counted before any lookup). */
+    public function tooManyRecipients(mixed $receiver): bool
+    {
+        return count($this->requestedIds($receiver)) > self::MAX_RECIPIENTS;
+    }
+
+    /** Whether the decoded message text exceeds the allowed length. */
+    public function textTooLong(string $text): bool
+    {
+        return mb_strlen(html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8')) > self::MAX_TEXT_LENGTH;
     }
 
     /**
-     * Filters the requested recipients to those the current player may write to.
+     * Filters the requested recipients to those the current player may write to, with one query for all of them.
      *
      * @param mixed $receiver requested user ids (array or single id)
-     * @return list<int|string> ids that exist, accept private messages and are not blocked in either direction
+     * @return list<int> ids that exist in the universe, accept private messages and are not blocked in either direction
      */
     public function deliverableReceivers(mixed $receiver): array
     {
-        $USER = $this->state->USER;
-        $receiverList = [];
-        foreach ((array) $receiver as $receiverID) {
-            if (!$this->canReceiveMessages((int) $receiverID)) {
-                continue;
-            }
-
-            $blocked = $this->playerUtil()->get_block_status($USER['id'], $receiverID);
-            $blockedInverted = $this->playerUtil()->get_block_status($receiverID, $USER['id']);
-
-            if ($blocked['block_dm'] == 1 || $blockedInverted['block_dm'] == 1) {
-                continue;
-            }
-
-            $receiverList[] = $receiverID;
+        $ids = $this->requestedIds($receiver);
+        if ($ids === [] || count($ids) > self::MAX_RECIPIENTS) {
+            return [];
         }
 
-        return $receiverList;
+        $params = [
+            ':universe' => $this->universe()->current(),
+            ':sender'   => $this->state->USER['id'],
+        ];
+        $placeholders = [];
+        foreach ($ids as $index => $id) {
+            $placeholders[] = ':id' . $index;
+            $params[':id' . $index] = $id;
+        }
+
+        $sql = 'SELECT u.`id` FROM %%USERS%% u
+            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id`
+            WHERE u.`id` IN (' . implode(', ', $placeholders) . ') AND u.`universe` = :universe AND us.`settings_blockPM` = 0
+              AND NOT EXISTS (
+                SELECT 1 FROM %%USERS_BLOCKLIST%% b
+                WHERE b.`block_dm` = 1
+                  AND ((b.`blocked_user` = :sender AND b.`blocking_user` = u.`id`)
+                    OR (b.`blocked_user` = u.`id` AND b.`blocking_user` = :sender))
+              );';
+
+        $valid = [];
+        foreach ($this->db->select($sql, $params) as $row) {
+            $valid[(int) $row['id']] = true;
+        }
+
+        return array_values(array_filter($ids, static fn (int $id): bool => isset($valid[$id])));
     }
 
     /** Whether the message is in the current player's (not deleted) mailbox, i.e. may be forwarded by them. */
@@ -91,7 +127,7 @@ class MessageComposer
      * (table messages_forbidden, applied to normal players only): then nothing is sent, the account is banned
      * ("Forbidden message content") and a Discord notice goes to the tickets hook.
      *
-     * @param list<int|string> $receiverList deliverable recipient ids
+     * @param list<int> $receiverList deliverable recipient ids
      * @param mixed            $requested    the recipients as requested (only the last one is named in the Discord notice)
      * @return bool true when the message was blocked and the sender banned
      */

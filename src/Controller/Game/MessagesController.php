@@ -133,8 +133,16 @@ class MessagesController extends AbstractGameController
             $this->sendJSON($LNG['mg_error']);
         }
 
+        if ($composer->tooManyRecipients($receiver)) {
+            $this->sendJSON(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
+        }
+
         if (!$composer->ownsMessage($messageID)) {
             $this->sendJSON($LNG['mg_error']);
+        }
+
+        if (!$this->rateLimits->allowPrivateMessage((int) $this->state->USER['id'])) {
+            $this->sendJSON($LNG['mg_rate_limited']);
         }
 
         $receiverList = $composer->deliverableReceivers($receiver);
@@ -169,6 +177,16 @@ class MessagesController extends AbstractGameController
         }
 
         $composer = $this->composer();
+        if ($composer->tooManyRecipients($receiver)) {
+            $this->sendJSON(sprintf($LNG['mg_too_many_recipients'], MessageComposer::MAX_RECIPIENTS));
+        }
+        if ($composer->textTooLong((string) $text)) {
+            $this->sendJSON(sprintf($LNG['mg_text_too_long'], MessageComposer::MAX_TEXT_LENGTH));
+        }
+        if (!$this->rateLimits->allowPrivateMessage((int) $this->state->USER['id'])) {
+            $this->sendJSON($LNG['mg_rate_limited']);
+        }
+
         $receiverList = $composer->deliverableReceivers($receiver);
 
         if (empty($receiverList)) {

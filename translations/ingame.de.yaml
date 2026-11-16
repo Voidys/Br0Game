@@ -1050,6 +1050,7 @@ ma_misil_launcher: Raketenwerfer
 ma_missiles_sended: ' Interplanetarraketen abgefeuert. Ziel: '
 ma_no_missiles: Du hast keine Interplanetarraketen.
 ma_no_range: Das Ziel ist nicht in Reichweite deiner Raketen.
+ma_own_planet: "Du kannst deinen eigenen Planeten nicht mit Raketen angreifen."
 ma_not_send_other_galaxy: Du kannst keine Raketen in eine andere Galaxie schicken.
 ma_planet_doesnt_exists: Diesen Planeten gibt es nicht.
 ma_silo_level: Du benötigst Raketensilo Stufe 4!
@@ -1101,6 +1102,9 @@ mg_delete_unmarked: Nicht markierte Nachrichten dieses Typs löschen
 mg_deleted: Die Nachricht wurde gelöscht.
 mg_empty_text: Gib einen Text ein!
 mg_error: Empfänger nicht gefunden!
+mg_too_many_recipients: "Du kannst höchstens %d Spieler gleichzeitig anschreiben."
+mg_text_too_long: "Die Nachricht ist zu lang (höchstens %d Zeichen)."
+mg_rate_limited: "Du sendest Nachrichten zu schnell. Bitte warte ein paar Minuten."
 mg_favorite: Als Favorit markieren
 mg_favorite_filter_off: Alle anzeigen
 mg_favorite_filter_on: Nur Favoriten anzeigen

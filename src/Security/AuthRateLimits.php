@@ -23,6 +23,8 @@ final class AuthRateLimits
         private readonly RateLimiterFactoryInterface $adminElevation,
         #[Autowire(service: 'limiter.account_settings_password')]
         private readonly RateLimiterFactoryInterface $accountSettingsPassword,
+        #[Autowire(service: 'limiter.private_messages')]
+        private readonly RateLimiterFactoryInterface $privateMessages,
     ) {}
 
     /** Registration attempts (successful or not) per client IP. */
@@ -41,6 +43,12 @@ final class AuthRateLimits
     public function allowAccountSettingsPassword(int $accountId): bool
     {
         return $this->accountSettingsPassword->create((string) $accountId)->consume()->isAccepted();
+    }
+
+    /** Private messages sent or forwarded (one count per send/forward request) per player. */
+    public function allowPrivateMessage(int $userId): bool
+    {
+        return $this->privateMessages->create((string) $userId)->consume()->isAccepted();
     }
 
     /** Admin password prompt attempts per client IP and account. */

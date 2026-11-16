@@ -117,6 +117,11 @@ final class UniAttacksFields
                 'transform' => 'int',
                 'default' => 6,
             ],
+            'bash_count_missiles' => [
+                'type' => ConfigFieldSchema::TYPE_CHECKBOX,
+                'transform' => 'bool',
+                'default' => true,
+            ],
             'wreckfield_min_units' => [
                 'type' => ConfigFieldSchema::TYPE_NUMBER,
                 'transform' => 'int',

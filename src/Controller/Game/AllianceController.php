@@ -362,16 +362,28 @@ class AllianceController extends AbstractGameController
     /** dispatches ?action= to the admin* handlers below */
     public function admin(): ?Response
     {
-        $LNG = $this->state->LNG;
+        $action = (string) $this->http()->_GP('action', 'overview');
 
-        $action = $this->http()->_GP('action', 'overview');
-        $methodName = 'admin' . ucwords($action);
-
-        if (!is_callable([$this, $methodName])) {
-            (new ErrorController())->withGameServicesOf($this)->showError($LNG['page_doesnt_exist']);
-        }
-
-        return $this->{$methodName}();
+        return match ($action === '' ? 'overview' : $action) {
+            'overview' => $this->adminOverview(),
+            'close' => $this->adminClose(),
+            'transfer' => $this->adminTransfer(),
+            'manageApply' => $this->adminManageApply(),
+            'detailApply' => $this->adminDetailApply(),
+            'sendAnswerToApply' => $this->adminSendAnswerToApply(),
+            'permissions' => $this->adminPermissions(),
+            'permissionsSend' => $this->adminPermissionsSend(),
+            'members' => $this->adminMembers(),
+            'rank' => $this->adminRank(),
+            'membersKick' => $this->adminMembersKick(),
+            'diplomacy' => $this->adminDiplomacy(),
+            'diplomacyAccept' => $this->adminDiplomacyAccept(),
+            'diplomacyReject' => $this->adminDiplomacyReject(),
+            'diplomacyDelete' => $this->adminDiplomacyDelete(),
+            'diplomacyCreate' => $this->adminDiplomacyCreate(),
+            'diplomacyCreateProcessor' => $this->adminDiplomacyCreateProcessor(),
+            default => $this->printPageError($this->state->LNG['page_doesnt_exist']),
+        };
     }
 
     /**

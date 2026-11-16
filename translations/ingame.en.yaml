@@ -967,6 +967,7 @@ ma_impulse_drive_required: Impulse Drive required
 ma_missiles_sended: ' missiles launched. Target: '
 ma_no_missiles: No missiles
 ma_no_range: The target is out of range for your missiles.
+ma_own_planet: "You can't attack your own planet with missiles."
 ma_not_send_other_galaxy: 'You cannot send missiles into another galaxy. '
 ma_planet_doesnt_exists: 'That planet doesn''t exist. '
 ma_silo_level: 'Silo level 4 required! '
@@ -1014,6 +1015,9 @@ mg_delete_unmarked: Delete unmarked messages of this type
 mg_deleted: Message deleted.
 mg_empty_text: Please enter a text
 mg_error: 'Recipient not found!'
+mg_too_many_recipients: "You can write to at most %d players at once."
+mg_text_too_long: "The message is too long (at most %d characters)."
+mg_rate_limited: "You are sending messages too fast. Please wait a few minutes."
 mg_favorite: Mark as favorite
 mg_favorite_filter_off: Show all
 mg_favorite_filter_on: Show only favorites

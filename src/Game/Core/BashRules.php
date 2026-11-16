@@ -8,7 +8,8 @@ namespace App\Game\Core;
  *
  * Collaborators: Database (LOG_FLEETS, USERS, PLANETS, DIPLO), Singleton (current user, request time), FleetString.
  * Rules: inactive targets and targets in a declared, accepted war older than a day are never bash-protected;
- * single espionage probe fleets (ship 210) do not count as attacks.
+ * single espionage probe fleets (ship 210) do not count as attacks. Interplanetary missile attacks count like attacks
+ * unless the universe setting bash_count_missiles is off.
  */
 class BashRules
 {
@@ -81,6 +82,15 @@ class BashRules
     }
 
     /**
+     * The mission that counts as a fourth attack kind in the queries: interplanetary missiles when the universe setting
+     * bash_count_missiles is on, otherwise the plain attack mission again (a repeated value in IN() changes nothing).
+     */
+    private function missionCountedAsMissile(): int
+    {
+        return $this->configs->get()->bash_count_missiles ? MISSION_MISSILE : MISSION_ATTACK;
+    }
+
+    /**
      * Attack counts of $USER on a target user within BASH_TIME: solo flights and distinct other ACS groups.
      *
      * @return array{CountSoloAttacksOnUser: int, CountAcsAttacksOnUser: int}
@@ -92,7 +102,7 @@ class BashRules
             WHERE `owner` = :fleetOwner
             AND `target_owner` = :fleetEndOwner
             AND `arrival_time` > :arrivalTime
-            AND `mission` IN (:att,:aks,:dest)
+            AND `mission` IN (:att,:aks,:dest,:mis)
             AND `group` = 0
             AND `hasCanceled` = 0;';
 
@@ -103,6 +113,7 @@ class BashRules
             ':att' => MISSION_ATTACK,
             ':aks' => MISSION_ACS,
             ':dest' => MISSION_DESTRUCTION,
+            ':mis' => $this->missionCountedAsMissile(),
         ]);
 
         $CountSoloAttacksOnUser = 0;
@@ -118,7 +129,7 @@ class BashRules
 		WHERE `owner` = :fleetOwner
 		AND `target_owner` = :fleetEndOwner
 		AND `arrival_time` > :arrivalTime
-		AND `mission` IN (:att,:aks,:dest)
+		AND `mission` IN (:att,:aks,:dest,:mis)
         AND `group` != :fleetGroup
         AND `group` != 0
         AND `hasCanceled` = 0;';
@@ -130,6 +141,7 @@ class BashRules
             ':att' => MISSION_ATTACK,
             ':aks' => MISSION_ACS,
             ':dest' => MISSION_DESTRUCTION,
+            ':mis' => $this->missionCountedAsMissile(),
             ':fleetGroup' => $fleetGroup,
         ], 'amount');
         return [
@@ -150,7 +162,7 @@ class BashRules
 		WHERE `owner` = :fleetOwner
 		AND `end_id` = :fleetEndId
 		AND `arrival_time` > :arrivalTime
-		AND `mission` IN (:att,:aks,:dest)
+		AND `mission` IN (:att,:aks,:dest,:mis)
         AND `group` = 0
         AND `hasCanceled` = 0;';
 
@@ -161,6 +173,7 @@ class BashRules
             ':att' => MISSION_ATTACK,
             ':aks' => MISSION_ACS,
             ':dest' => MISSION_DESTRUCTION,
+            ':mis' => $this->missionCountedAsMissile(),
         ]);
 
         $CountSoloAttacksOnPlanet = 0;
@@ -176,7 +189,7 @@ class BashRules
 		WHERE `owner` = :fleetOwner
 		AND `end_id` = :fleetEndId
 		AND `arrival_time` > :arrivalTime
-		AND `mission` IN (:att,:aks,:dest)
+		AND `mission` IN (:att,:aks,:dest,:mis)
         AND `group` != :fleetGroup
         AND `group` != 0
         AND `hasCanceled` = 0;';
@@ -188,6 +201,7 @@ class BashRules
             ':att' => MISSION_ATTACK,
             ':aks' => MISSION_ACS,
             ':dest' => MISSION_DESTRUCTION,
+            ':mis' => $this->missionCountedAsMissile(),
             ':fleetGroup' => $fleetGroup,
         ], 'amount');
         return [

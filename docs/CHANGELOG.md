@@ -1131,3 +1131,10 @@ Technical changes per migration step, newest last.
 - `App\Game\Model\ElementCatalog` / `Element` / `ResourceCost` / `CombatStats`: read-only typed value objects over the unit data (`resource`, `reslist`, `pricelist`, `requeriments`, `CombatCaps`, `ProdGrid`) via `GameUtilities::elements()` (built lazily per request, reset by `GameData::load()`); `GameUtilities::player()` / `planet()` return the typed `User` / `Planet` snapshots of the state rows for reading (writes keep using the state arrays — their in-place by-reference semantics stay untouched).
 - `BuildFunctions`, `ResourceProduction` and the buildings, research, shipyard, empire, techtree, records and advanced stats controllers read the game data through the catalog (~105 array reads); pages render byte-identical (crawl diff). `ElementCatalogTest` proves the catalog equals the arrays for every element; `docs/game-data-model.md` documents the API for new code.
 
+## 143. Audit fixes: missile bash, message limits, alliance admin dispatch
+
+- F-06: missile attacks count toward the bash limits (universe setting `bash_count_missiles`, default on); missiles at one's own planet/moon are refused (`ma_own_planet`); the missile launch checks bash first.
+- F-09: private messages: at most 10 recipients and 5000 characters (refused before any query), recipients resolved in one set-based query, rate limit 20 per 10 minutes per player (`private_messages` limiter, parameters `app.pm_rate_limit` / `app.pm_rate_interval`).
+- F-11: the alliance admin dispatcher uses an explicit action whitelist (empty action shows the overview instead of recursing).
+- Tests: `AbuseGuardsTest`; `GameTestCase` clears the shared game session in `setUp()` (a session left by one test made `SessionManager::create()` reuse it in the next).
+
