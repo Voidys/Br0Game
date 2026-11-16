@@ -145,7 +145,6 @@ class BuildingsController extends AbstractGameController
      */
     private function addBuildingToQueue(int $Element, bool $AddMode = true): void
     {
-        $resource = $this->state->resource;
         if (!$this->canQueueBuilding($Element, $AddMode)) {
             return;
         }
@@ -171,7 +170,7 @@ class BuildingsController extends AbstractGameController
         }
 
         $BuildMode          = $AddMode ? 'build' : 'destroy';
-        $BuildLevel         = $this->state->PLANET[$resource[$Element]] + (int) $AddMode;
+        $BuildLevel         = $this->state->PLANET[$this->elements()->column($Element)] + (int) $AddMode;
 
         if ($ActualCount == 0) {
             $this->startBuilding($Element, $AddMode, $BuildLevel, $BuildMode);
@@ -188,17 +187,15 @@ class BuildingsController extends AbstractGameController
     private function canQueueBuilding(int $Element, bool $AddMode): bool
     {
         $USER = $this->state->USER;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
 
         return !(
-            !in_array($Element, $reslist['allow'][$this->state->PLANET['planet_type']])
+            !in_array($Element, $this->elements()->allowedOn($this->state->PLANET['planet_type']))
             || !$this->buildFunctions()->isEnabled($Element)
             || !$this->buildFunctions()->isTechnologieAccessible($USER, $this->state->PLANET, $Element)
             || ($Element == RESEARCH_LABORATORY && $USER["b_tech_planet"] != 0)
             || (($Element == NANITE_FACTORY || $Element == SHIPYARD) && !empty($this->state->PLANET['b_hangar_id']))
-            || (!$AddMode && (($Element == SILO && ($this->state->PLANET[$resource[INTERCEPTOR_MISSILE]] + $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]] + $this->queuedMissiles()) > 0) || $Element == TERRAFORMER || $Element == MOONBASE))
-            || (!$AddMode && $this->state->PLANET[$resource[$Element]] == 0)
+            || (!$AddMode && (($Element == SILO && ($this->state->PLANET[$this->elements()->column(INTERCEPTOR_MISSILE)] + $this->state->PLANET[$this->elements()->column(INTERPLANETARY_MISSILE)] + $this->queuedMissiles()) > 0) || $Element == TERRAFORMER || $Element == MOONBASE))
+            || (!$AddMode && $this->state->PLANET[$this->elements()->column($Element)] == 0)
         );
     }
 
@@ -210,7 +207,7 @@ class BuildingsController extends AbstractGameController
         $queue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
         $queued = 0;
         foreach ((array) $queue as $entry) {
-            if (isset($entry[0], $entry[1]) && in_array((int) $entry[0], $this->state->reslist['missile'])) {
+            if (isset($entry[0], $entry[1]) && in_array((int) $entry[0], $this->elements()->ids('missile'))) {
                 $queued += $entry[1];
             }
         }
@@ -225,9 +222,8 @@ class BuildingsController extends AbstractGameController
     private function startBuilding(int $Element, bool $AddMode, int $BuildLevel, string $BuildMode): void
     {
         $USER = $this->state->USER;
-        $pricelist = $this->state->pricelist;
 
-        if ($pricelist[$Element]['max'] < $BuildLevel) {
+        if ($this->elements()->get($Element)->maxLevel < $BuildLevel) {
             return;
         }
 
@@ -256,7 +252,6 @@ class BuildingsController extends AbstractGameController
     private function appendToBuildQueue(array $CurrentQueue, int $Element, bool $AddMode, int $BuildLevel, string $BuildMode): void
     {
         $USER = $this->state->USER;
-        $pricelist = $this->state->pricelist;
         $ActualCount = count($CurrentQueue);
 
         $addLevel = 0;
@@ -278,7 +273,7 @@ class BuildingsController extends AbstractGameController
             return;
         }
 
-        if ($pricelist[$Element]['max'] < $BuildLevel) {
+        if ($this->elements()->get($Element)->maxLevel < $BuildLevel) {
             return;
         }
 
@@ -461,12 +456,9 @@ class BuildingsController extends AbstractGameController
      */
     private function buildingList(User $userModel, Planet $planetModel, array $queueData, int $QueueCount, float $catchupFactor, object $config): array
     {
-        $requeriments = $this->state->requeriments;
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
 
         $BuildInfoList      = [];
-        $Elements           = $reslist['allow'][$this->state->PLANET['planet_type']];
+        $Elements           = $this->elements()->allowedOn($this->state->PLANET['planet_type']);
         $production = [
             RESOURCE_METAL => $this->state->PLANET['metal_perhour'] + $config->metal_basic_income * ($config->resource_multiplier / 2500),
             RESOURCE_CRYSTAL => $this->state->PLANET['crystal_perhour'] + $config->crystal_basic_income * ($config->resource_multiplier / 2500),
@@ -482,11 +474,11 @@ class BuildingsController extends AbstractGameController
                 if (!$this->state->USER['show_all_buildable_elements']) {
                     continue;
                 }
-                if (isset($requeriments[$Element])) {
-                    foreach ($requeriments[$Element] as $requireID => $RedCount) {
+                if ($this->elements()->get($Element)->requirements !== []) {
+                    foreach ($this->elements()->get($Element)->requirements as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [
                             'count' => $RedCount,
-                            'own'   => isset($this->state->PLANET[$resource[$requireID]]) ? $this->state->PLANET[$resource[$requireID]] : $this->state->USER[$resource[$requireID]],
+                            'own'   => isset($this->state->PLANET[$this->elements()->column($requireID)]) ? $this->state->PLANET[$this->elements()->column($requireID)] : $this->state->USER[$this->elements()->column($requireID)],
                         ];
                     }
                 }
@@ -507,14 +499,13 @@ class BuildingsController extends AbstractGameController
     private function energyChange(int $Element, int $levelToBuild, object $config): array
     {
         $ProdGrid = $this->state->ProdGrid;
-        $resource = $this->state->resource;
 
         /* Data for eval */
-        $BuildEnergy        = $this->state->USER[$resource[ENERGY_TECH]];
+        $BuildEnergy        = $this->state->USER[$this->elements()->column(ENERGY_TECH)];
         $BuildLevelFactor   = 10;
         $BuildTemp          = $this->state->PLANET['temp_max'];
 
-        $BuildLevel = $this->state->PLANET[$resource[$Element]];
+        $BuildLevel = $this->state->PLANET[$this->elements()->column($Element)];
         $Need       = FormulaEvaluator::evaluate($ProdGrid[$Element]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
 
         $BuildLevel = $levelToBuild + 1;
@@ -562,9 +553,6 @@ class BuildingsController extends AbstractGameController
      */
     private function buildingRow(int $Element, array $requirementsList, User $userModel, Planet $planetModel, array $queueData, int $QueueCount, float $catchupFactor, array $production, object $config): array
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
-        $pricelist = $this->state->pricelist;
 
         $infoEnergy = null;
 
@@ -572,11 +560,11 @@ class BuildingsController extends AbstractGameController
             $levelToBuild   = $queueData['quickinfo'][$Element];
             $levelToDestroy = $levelToBuild - 1;
         } else {
-            $levelToBuild   = $this->state->PLANET[$resource[$Element]];
+            $levelToBuild   = $this->state->PLANET[$this->elements()->column($Element)];
             $levelToDestroy = $levelToBuild;
         }
 
-        if (in_array($Element, $reslist['prod'])) {
+        if (in_array($Element, $this->elements()->ids('prod'))) {
             // the template formats bd_need_engine / bd_more_engine with this amount
             $infoEnergy = $this->energyChange($Element, $levelToBuild, $config);
         }
@@ -590,24 +578,24 @@ class BuildingsController extends AbstractGameController
         $destroyTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $Element, $destroyResources, true);
         $destroyOverflow = $this->buildFunctions()->restPriceFor($userModel, $planetModel, $Element, $destroyResources);
         $buyable = $QueueCount != 0 || $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $Element, $costResources);
-        $destroyable = ($Element != SILO || ($this->state->PLANET[$resource[INTERCEPTOR_MISSILE]] + $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]]) == 0) && $Element != TERRAFORMER && $Element != MOONBASE;
+        $destroyable = ($Element != SILO || ($this->state->PLANET[$this->elements()->column(INTERCEPTOR_MISSILE)] + $this->state->PLANET[$this->elements()->column(INTERPLANETARY_MISSILE)]) == 0) && $Element != TERRAFORMER && $Element != MOONBASE;
 
         $filterClass = 'other';
-        if (in_array($Element, $reslist['prod'])) {
+        if (in_array($Element, $this->elements()->ids('prod'))) {
             $filterClass = 'prod';
-        } elseif (in_array($Element, $reslist['storage'])) {
+        } elseif (in_array($Element, $this->elements()->ids('storage'))) {
             $filterClass = 'storage';
         }
 
         $fade = ($this->state->USER['missing_requirements_opacity'] && !empty($requirementsList))
             || ($this->state->USER['missing_resources_opacity'] && !$buyable)
-            || $pricelist[$Element]['max'] == $levelToBuild;
+            || $this->elements()->get($Element)->maxLevel == $levelToBuild;
 
         $factor = $this->playerUtil()->getCatchUpFactorForElement($catchupFactor, $Element, $levelToBuild + 1);
 
         return [
-            'level'             => $this->state->PLANET[$resource[$Element]],
-            'maxLevel'          => $pricelist[$Element]['max'],
+            'level'             => $this->state->PLANET[$this->elements()->column($Element)],
+            'maxLevel'          => $this->elements()->get($Element)->maxLevel,
             'infoEnergy'        => $infoEnergy,
             'costResources'     => $costResources,
             'costOverflow'      => $costOverflow,

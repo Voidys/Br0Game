@@ -49,7 +49,6 @@ class EmpireController extends AbstractGameController
      */
     public function show(): Response
     {
-        $reslist = $this->state->reslist;
         $PLANETS = $this->recalculatePlanets();
 
         $planetList = [];
@@ -63,7 +62,7 @@ class EmpireController extends AbstractGameController
         ]);
 
         $sumBuildings = [];
-        foreach ($reslist['build'] as $elementID) {
+        foreach ($this->elements()->ids('build') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
@@ -275,19 +274,23 @@ class EmpireController extends AbstractGameController
      */
     private function addBuildingColumns(array &$planetList, array &$sumBuildings, array $Planet, User $userModel, Planet $planetModel): void
     {
-        $resource = $this->state->resource;
-        foreach ($this->state->reslist['build'] as $elementID) {
+        foreach ($this->elements()->ids('build') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
-            $planetList['build'][$elementID][$Planet['id']] = $Planet[$resource[$elementID]];
+            $column = $this->elements()->column($elementID);
+            $planetType = (int) $Planet['planet_type'];
+            $planetList['build'][$elementID][$Planet['id']] = $Planet[$column];
 
-            if ($Planet[$resource[$elementID]] > 0 && in_array($elementID, $this->state->reslist['allow'][$Planet['planet_type']])) {
-                $sumBuildings[$Planet['planet_type']][$elementID]['sum'] += $Planet[$resource[$elementID]];
-                $sumBuildings[$Planet['planet_type']][$elementID]['cnt'] += 1;
+            if ($Planet[$column] > 0 && in_array($elementID, $this->elements()->allowedOn($planetType))) {
+                $total = $sumBuildings[$planetType][$elementID];
+                $sumBuildings[$planetType][$elementID] = [
+                    'sum' => $total['sum'] + $Planet[$column],
+                    'cnt' => $total['cnt'] + 1,
+                ];
             }
 
-            $planetList['buildable'][$elementID][$Planet['id']] = $this->isBuildableNow($userModel, $planetModel, $elementID, $Planet[$resource[$elementID]] + 1);
+            $planetList['buildable'][$elementID][$Planet['id']] = $this->isBuildableNow($userModel, $planetModel, $elementID, $Planet[$column] + 1);
         }
     }
 
@@ -300,35 +303,33 @@ class EmpireController extends AbstractGameController
      */
     private function addShipColumns(array &$planetList, array $Planet, User $userModel, Planet $planetModel): void
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
 
-        foreach ($reslist['fleet'] as $elementID) {
+        foreach ($this->elements()->ids('fleet') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
-            $planetList['fleet'][$elementID][$Planet['id']] = $Planet[$resource[$elementID]];
+            $planetList['fleet'][$elementID][$Planet['id']] = $Planet[$this->elements()->column($elementID)];
             $planetList['currentShipyard'][$elementID][$Planet['id']] = 0;
             $planetList['currentFlying'][$elementID][$Planet['id']] = 0;
 
             $planetList['buildable'][$elementID][$Planet['id']] = $this->isBuildableNow($userModel, $planetModel, $elementID, 1);
         }
 
-        foreach ($reslist['defense'] as $elementID) {
+        foreach ($this->elements()->ids('defense') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
-            $planetList['defense'][$elementID][$Planet['id']] = $Planet[$resource[$elementID]];
+            $planetList['defense'][$elementID][$Planet['id']] = $Planet[$this->elements()->column($elementID)];
             $planetList['currentShipyard'][$elementID][$Planet['id']] = 0;
 
             $planetList['buildable'][$elementID][$Planet['id']] = $this->isBuildableNow($userModel, $planetModel, $elementID, 1);
         }
 
-        foreach ($reslist['missile'] as $elementID) {
+        foreach ($this->elements()->ids('missile') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
-            $planetList['missiles'][$elementID][$Planet['id']] = $Planet[$resource[$elementID]];
+            $planetList['missiles'][$elementID][$Planet['id']] = $Planet[$this->elements()->column($elementID)];
             $planetList['currentShipyard'][$elementID][$Planet['id']] = 0;
             $planetList['currentFlying'][$elementID][$Planet['id']] = 0;
 
@@ -392,8 +393,7 @@ class EmpireController extends AbstractGameController
      */
     private function addTechColumns(array &$planetList, array $Planet, User $userModel, Planet $planetModel): void
     {
-        $resource = $this->state->resource;
-        foreach ($this->state->reslist['tech'] as $elementID) {
+        foreach ($this->elements()->ids('tech') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
@@ -401,11 +401,11 @@ class EmpireController extends AbstractGameController
             $planetList['tech'][$elementID][$Planet['id']] = -1;
             $planetList['buildable'][$elementID][$Planet['id']] = false;
             if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
-                $planetList['tech'][$elementID][$Planet['id']] = $this->state->USER[$resource[$elementID]];
-                $levelToBuild = $this->state->USER[$resource[$elementID]] + 1;
+                $planetList['tech'][$elementID][$Planet['id']] = $this->state->USER[$this->elements()->column($elementID)];
+                $levelToBuild = $this->state->USER[$this->elements()->column($elementID)] + 1;
                 $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, $levelToBuild);
                 $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
-            } elseif ($Planet[$resource[RESEARCH_LABORATORY]] > 0) {
+            } elseif ($Planet[$this->elements()->column(RESEARCH_LABORATORY)] > 0) {
                 $planetList['tech'][$elementID][$Planet['id']] = 0;
             }
         }
@@ -420,17 +420,16 @@ class EmpireController extends AbstractGameController
      */
     private function averageBuildings(array $sumBuildings): array
     {
-        $reslist = $this->state->reslist;
         $avgBuildings = [];
-        foreach ($reslist['build'] as $elementID) {
+        foreach ($this->elements()->ids('build') as $elementID) {
             if (!$this->buildFunctions()->isEnabled($elementID)) {
                 continue;
             }
-            if (in_array($elementID, $reslist['allow'][1]) && in_array($elementID, $reslist['allow'][3])
+            if (in_array($elementID, $this->elements()->allowedOn(1)) && in_array($elementID, $this->elements()->allowedOn(3))
                     && ($sumBuildings[1][$elementID]['cnt'] + $sumBuildings[3][$elementID]['cnt']) > 0) {
                 $avgBuildings[$elementID] = ($sumBuildings[1][$elementID]['sum'] + $sumBuildings[3][$elementID]['sum'])
                     / ($sumBuildings[1][$elementID]['cnt'] + $sumBuildings[3][$elementID]['cnt']);
-            } elseif (in_array($elementID, $reslist['allow'][1]) && $sumBuildings[1][$elementID]['cnt'] > 0) {
+            } elseif (in_array($elementID, $this->elements()->allowedOn(1)) && $sumBuildings[1][$elementID]['cnt'] > 0) {
                 $avgBuildings[$elementID] = $sumBuildings[1][$elementID]['sum'] / $sumBuildings[1][$elementID]['cnt'];
             } elseif ($sumBuildings[3][$elementID]['cnt'] > 0) {
                 $avgBuildings[$elementID] = $sumBuildings[3][$elementID]['sum'] / $sumBuildings[3][$elementID]['cnt'];

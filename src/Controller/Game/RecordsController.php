@@ -133,8 +133,8 @@ class RecordsController extends AbstractGameController
     private function ownResearchLevels(): array|false
     {
         $selected_tech = [];
-        foreach ($this->state->reslist['tech'] as $Techno) {
-            $selected_tech[] = $this->state->resource[$Techno];
+        foreach ($this->elements()->ids('tech') as $Techno) {
+            $selected_tech[] = $this->elements()->column($Techno);
         }
 
         $db = $this->db;
@@ -156,8 +156,8 @@ class RecordsController extends AbstractGameController
     private function ownBuildingMaxLevels(): array|false
     {
         $select_buildings = [];
-        foreach ($this->state->reslist['build'] as $Building) {
-            $select_buildings[] = sprintf('max(%1$s) AS \'%1$s\'', $this->state->resource[$Building]);
+        foreach ($this->elements()->ids('build') as $Building) {
+            $select_buildings[] = sprintf('max(%1$s) AS \'%1$s\'', $this->elements()->column($Building));
         }
 
         $db = $this->db;
@@ -179,24 +179,23 @@ class RecordsController extends AbstractGameController
      */
     private function groupRecords(array $recordResult): array
     {
-        $reslist = $this->state->reslist;
-        $defenseList = array_fill_keys($reslist['defense'], []);
-        $fleetList = array_fill_keys($reslist['fleet'], []);
-        $researchList = array_fill_keys($reslist['tech'], []);
-        $buildList = array_fill_keys($reslist['build'], []);
+        $defenseList = array_fill_keys($this->elements()->ids('defense'), []);
+        $fleetList = array_fill_keys($this->elements()->ids('fleet'), []);
+        $researchList = array_fill_keys($this->elements()->ids('tech'), []);
+        $buildList = array_fill_keys($this->elements()->ids('build'), []);
 
         foreach ($recordResult as $recordRow) {
             $element = $recordRow['elementID'];
             if ($this->buildFunctions()->isEnabled($element)) {
-                if (in_array($element, $reslist['defense'])) {
+                if ($this->elements()->isDefense($element)) {
                     $defenseList[$element][] = $recordRow;
-                } elseif (in_array($element, $reslist['fleet'])) {
+                } elseif ($this->elements()->isFleet($element)) {
                     $fleetList[$element][] = $recordRow;
-                } elseif (in_array($element, $reslist['tech'])) {
+                } elseif ($this->elements()->isResearch($element)) {
                     $researchList[$element][] = $recordRow;
-                } elseif (in_array($element, $reslist['build'])) {
+                } elseif ($this->elements()->isBuilding($element)) {
                     $buildList[$element][] = $recordRow;
-                } elseif (in_array($element, $reslist['missile'])) {
+                } elseif ($this->elements()->isMissile($element)) {
                     $defenseList[$element][] = $recordRow;
                 }
             }

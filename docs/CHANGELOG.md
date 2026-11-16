@@ -1126,3 +1126,8 @@ Technical changes per migration step, newest last.
 - `public/scripts/base/battlesim/lz-string.js` is an ES module (`export default LZString`, angular/UMD tail dropped) imported by `battlesim.js`; the classic script tag is gone; share strings unchanged (round trip verified).
 - Alliance diplomacy proposal form: the level select got `'range(1,6)'`/`'range(7,7)'` as literal strings since the Smarty transpile (a single bogus option, rejected server-side) — now real `range()` values (levels 1–6, peace 7).
 
+## 142. Typed game data model
+
+- `App\Game\Model\ElementCatalog` / `Element` / `ResourceCost` / `CombatStats`: read-only typed value objects over the unit data (`resource`, `reslist`, `pricelist`, `requeriments`, `CombatCaps`, `ProdGrid`) via `GameUtilities::elements()` (built lazily per request, reset by `GameData::load()`); `GameUtilities::player()` / `planet()` return the typed `User` / `Planet` snapshots of the state rows for reading (writes keep using the state arrays — their in-place by-reference semantics stay untouched).
+- `BuildFunctions`, `ResourceProduction` and the buildings, research, shipyard, empire, techtree, records and advanced stats controllers read the game data through the catalog (~105 array reads); pages render byte-identical (crawl diff). `ElementCatalogTest` proves the catalog equals the arrays for every element; `docs/game-data-model.md` documents the API for new code.
+

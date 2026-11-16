@@ -16,6 +16,8 @@ use App\Game\Model\User;
  */
 class ResourceProduction
 {
+    use GameUtilities;
+
     public function __construct(
         protected Database $db,
         protected ConfigRegistry $configs,
@@ -43,17 +45,16 @@ class ResourceProduction
      */
     public function hashFor(User $user, Planet $planet, Config $config): string
     {
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
+        $elements = $this->elements();
         $hash = [];
-        foreach ($reslist['prod'] as $id) {
+        foreach ($elements->ids('prod') as $id) {
             $hash[] = $planet->level($id);
             $hash[] = $planet->productionRate($id);
         }
 
-        $ressource = array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]);
+        $ressource = array_merge([], $elements->resourceIds(1), $elements->resourceIds(2));
         foreach ($ressource as $id) {
-            $hash[] = $config->{$resource[$id] . '_basic_income'};
+            $hash[] = $config->{$elements->column($id) . '_basic_income'};
         }
 
         $hash[] = $config->resource_multiplier;
@@ -240,13 +241,13 @@ class ResourceProduction
      */
     public function networkLevelFor(User $user, Planet $planet): array
     {
-        $resource = $this->state->resource;
+        $labColumn = $this->elements()->column(RESEARCH_LABORATORY);
 
         $researchLevelList = [$planet->level(RESEARCH_LABORATORY)];
         if ($user->level(INTERGALACTIC_TECH) > 0) {
-            $sql = 'SELECT ' . $resource[31]
+            $sql = 'SELECT ' . $labColumn
                     . ' FROM %%PLANETS%% WHERE id != :planetId AND id_owner = :userId AND destruyed = 0 ORDER BY '
-                    . $resource[31] . ' DESC LIMIT :limit;';
+                    . $labColumn . ' DESC LIMIT :limit;';
 
             $researchResult = $this->db->select($sql, [
                 ':limit'    => $user->level(INTERGALACTIC_TECH),
@@ -255,7 +256,7 @@ class ResourceProduction
             ]);
 
             foreach ($researchResult as $researchRow) {
-                $researchLevelList[] = (int) $researchRow[$resource[31]];
+                $researchLevelList[] = (int) $researchRow[$labColumn];
             }
         }
 
@@ -283,8 +284,7 @@ class ResourceProduction
      */
     private function sumBuildings(User $user, Planet $planet): array
     {
-        $ProdGrid = $this->state->ProdGrid;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
         $temp = [
             901 => ['max' => 0, 'plus' => 0, 'minus' => 0],
@@ -297,15 +297,16 @@ class ResourceProduction
         $BuildTemp = $planet->tempMax;
         $BuildEnergy = $user->level(ENERGY_TECH);
 
-        foreach ($reslist['storage'] as $ProdID) {
-            foreach ($reslist['resstype'][1] as $ID) {
-                if (!isset($ProdGrid[$ProdID]['storage'][$ID])) {
+        foreach ($elements->ids('storage') as $ProdID) {
+            foreach ($elements->resourceIds(1) as $ID) {
+                $storageFormula = $elements->get($ProdID)->storageFormula($ID);
+                if ($storageFormula === null) {
                     continue;
                 }
 
                 $BuildLevel = $planet->level($ProdID);
                 $temp[$ID]['max'] += round($this->runFormula(
-                    $ProdGrid[$ProdID]['storage'][$ID],
+                    $storageFormula,
                     $BuildLevel,
                     $BuildTemp,
                     $BuildEnergy,
@@ -314,19 +315,20 @@ class ResourceProduction
             }
         }
 
-        $ressIDs = array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]);
+        $ressIDs = array_merge([], $elements->resourceIds(1), $elements->resourceIds(2));
 
-        foreach ($reslist['prod'] as $ProdID) {
+        foreach ($elements->ids('prod') as $ProdID) {
             $BuildLevelFactor = $planet->productionRate($ProdID);
             $BuildLevel = $planet->level($ProdID);
 
             foreach ($ressIDs as $ID) {
-                if (!isset($ProdGrid[$ProdID]['production'][$ID])) {
+                $productionFormula = $elements->get($ProdID)->productionFormula($ID);
+                if ($productionFormula === null) {
                     continue;
                 }
 
                 $Production = $this->runFormula(
-                    $ProdGrid[$ProdID]['production'][$ID],
+                    $productionFormula,
                     $BuildLevel,
                     $BuildTemp,
                     $BuildEnergy,

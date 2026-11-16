@@ -17,6 +17,10 @@ namespace App\Game\Core;
  * @property array<int, string> $resource element id => database column (former vars.php)
  * @property array<string, mixed> $reslist element id lists by group (build, tech, fleet, defense, ..., nested by type)
  * @property array<int, array<string, mixed>> $pricelist element id => cost, factor, consumption, speed, ...
+ * @property array<int, array<string, mixed>> $CombatCaps element id => attack, shield, bigshield, stun, sd (rapidfire)
+ * @property array<int, array<string, mixed>> $ProdGrid element id => production and storage formulas by resource id
+ * @property array<int, array<int, mixed>> $requeriments element id => required element id => level
+ * @property \App\Game\Model\ElementCatalog|null $elementCatalog typed view of the game data, built lazily (GameUtilities::elements())
  */
 class Singleton
 {

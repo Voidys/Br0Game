@@ -44,5 +44,8 @@ class GameData
         $this->state->reslist['resstype'][1] = [901, 902, 903];
         $this->state->reslist['resstype'][2] = [911];
         $this->state->reslist['resstype'][3] = [];
+
+        // the typed element catalog (GameUtilities::elements()) is built lazily from the data just loaded
+        $this->state->elementCatalog = null;
     }
 }

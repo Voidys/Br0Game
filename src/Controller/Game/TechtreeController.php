@@ -38,8 +38,7 @@ class TechtreeController extends AbstractGameController
      */
     public function show(): Response
     {
-        $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $LNG = $this->state->LNG;
 
         $groups = [];
@@ -47,12 +46,13 @@ class TechtreeController extends AbstractGameController
         $names = [];
         foreach (array_keys(TechTree::HEADLINES) as $group) {
             $groups[$group] = array_values(array_filter(
-                $reslist[$group] ?? [],
-                fn($id) => isset($resource[$id]) && $this->buildFunctions()->isEnabled((int) $id),
+                $elements->ids($group),
+                fn($id) => $elements->has((int) $id) && $this->buildFunctions()->isEnabled((int) $id),
             ));
             foreach ($groups[$group] as $id) {
                 $names[$id] = $LNG['tech'][$id] ?? (string) $id;
-                $levels[$id] = $this->state->PLANET[$resource[$id]] ?? $this->state->USER[$resource[$id]] ?? 0;
+                $column = $elements->column($id);
+                $levels[$id] = $this->state->PLANET[$column] ?? $this->state->USER[$column] ?? 0;
             }
         }
 

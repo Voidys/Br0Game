@@ -128,14 +128,11 @@ class BuildFunctions
      */
     public function elementPriceFor(User $user, Planet $planet, int $element, bool $forDestroy = false, ?int $forLevel = null): array
     {
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
         $catchUpFactor = $this->playerUtil()->catchUpFactorFor($user);
-        if (
-            in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
-            || in_array($element, $reslist['missile'])
-        ) {
+        $isHangarUnit = $elements->isHangarUnit($element);
+        if ($isHangarUnit) {
             $elementLevel = $forLevel ?? 0;
             $catchUpFactor = 1.0; // no reduction for fleet/defence/missiles
         } elseif (isset($forLevel)) {
@@ -150,11 +147,12 @@ class BuildFunctions
         $catchUpFactor = $this->playerUtil()->getCatchUpFactorForElement($catchUpFactor, $element, $elementLevel);
 
         $price = [];
-        foreach ($reslist['ressources'] as $resType) {
-            if (!isset($pricelist[$element]['cost'][$resType])) {
-                continue;
-            }
-            $ressourceAmount = $pricelist[$element]['cost'][$resType];
+        if (!$elements->has($element)) {
+            return $price;
+        }
+        $data = $elements->get($element);
+        foreach ($elements->ids('ressources') as $resType) {
+            $ressourceAmount = $data->cost->of($resType);
 
             if ($ressourceAmount == 0) {
                 continue;
@@ -166,17 +164,11 @@ class BuildFunctions
                 $price[$resType] = $ressourceAmount;
             }
 
-            if (
-                isset($pricelist[$element]['factor']) && $pricelist[$element]['factor'] != 0
-                && $pricelist[$element]['factor'] != 1
-            ) {
-                $price[$resType] *= pow($pricelist[$element]['factor'], $elementLevel - 1);
+            if ($data->factor != 0 && $data->factor != 1) {
+                $price[$resType] *= pow($data->factor, $elementLevel - 1);
             }
 
-            if (
-                $forLevel && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
-                    || in_array($element, $reslist['missile']))
-            ) {
+            if ($forLevel && $isHangarUnit) {
                 $price[$resType] *= $elementLevel;
             }
 
@@ -206,13 +198,11 @@ class BuildFunctions
      */
     public function isAccessibleFor(User $user, Planet $planet, int $element): bool
     {
-        $requeriments = $this->state->requeriments;
-
-        if (!isset($requeriments[$element])) {
+        if (!$this->elements()->has($element)) {
             return true;
         }
 
-        foreach ($requeriments[$element] as $reqElement => $eleLevel) {
+        foreach ($this->elements()->get($element)->requirements as $reqElement => $eleLevel) {
             if (
                 ($user->has($reqElement) && $user->level($reqElement) < $eleLevel) ||
                 ($planet->has($reqElement) && $planet->level($reqElement) < $eleLevel)
@@ -293,7 +283,7 @@ class BuildFunctions
         int $maxQueueIndex = 0
     ): float
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
         $config = $this->configs->get($user->universe);
 
         $time = 0;
@@ -312,15 +302,12 @@ class BuildFunctions
             $elementCost += $elementPrice[RESOURCE_CRYSTAL];
         }
 
-        if (in_array($element, $reslist['build'])) {
+        if ($elements->isBuilding($element)) {
             $time = $this->constructionSeconds($planet, $elementCost, $maxQueueIndex, $config);
-        } elseif (
-            in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
-            || in_array($element, $reslist['missile'])
-        ) {
+        } elseif ($elements->isHangarUnit($element)) {
             $time = $elementCost / ($config->shipyard_speed * (1 + $planet->level(SHIPYARD)))
                 * pow(0.5, $planet->level(NANITE_FACTORY));
-        } elseif (in_array($element, $reslist['tech'])) {
+        } elseif ($elements->isResearch($element)) {
             $time = $this->researchSeconds($planet, $element, $elementCost, $config);
         }
 
@@ -376,13 +363,15 @@ class BuildFunctions
      */
     private function researchSeconds(Planet $planet, int $element, int|float $elementCost, object $config): int|float
     {
-        $requeriments = $this->state->requeriments;
+        $requiredLab = $this->elements()->has($element)
+            ? $this->elements()->get($element)->requiredLevel(RESEARCH_LABORATORY)
+            : null;
         if ($planet->labNetwork === null) {
             $Level = $planet->level(RESEARCH_LABORATORY);
         } else {
             $Level = 0;
             foreach ($planet->labNetwork as $Levels) {
-                if (!isset($requeriments[$element][RESEARCH_LABORATORY]) || $Levels >= $requeriments[$element][RESEARCH_LABORATORY]) {
+                if ($requiredLab === null || $Levels >= $requiredLab) {
                     $Level += $Levels;
                 }
             }
@@ -443,7 +432,6 @@ class BuildFunctions
      */
     public function maxConstructibleFor(User $user, Planet $planet, int $element, ?array $elementPrice = null): int
     {
-        $reslist = $this->state->reslist;
         if (!isset($elementPrice)) {
             $elementPrice = $this->elementPriceFor($user, $planet, $element);
         }
@@ -460,7 +448,7 @@ class BuildFunctions
             }
         }
 
-        if (in_array($element, $reslist['one'])) {
+        if ($this->elements()->isOnePerPlanet($element)) {
             $maxElement[] = 1;
         }
 
@@ -489,11 +477,10 @@ class BuildFunctions
      */
     public function maxRocketsFor(Planet $planet, ?array $Missiles = null): array
     {
-        $reslist = $this->state->reslist;
         if (!isset($Missiles)) {
             $Missiles = [];
 
-            foreach ($reslist['missile'] as $elementID) {
+            foreach ($this->elements()->ids('missile') as $elementID) {
                 $Missiles[$elementID] = $planet->count($elementID);
             }
         }
@@ -523,13 +510,13 @@ class BuildFunctions
      */
     public function getType(int $Element): string
     {
-        $reslist = $this->state->reslist;
+        $elements = $this->elements();
 
-        if (in_array($Element, $reslist['ship_type']['civil'])) {
+        if (in_array($Element, $elements->shipTypeIds('civil'))) {
             return "civil";
-        } elseif (in_array($Element, $reslist['ship_type']['military'])) {
+        } elseif (in_array($Element, $elements->shipTypeIds('military'))) {
             return "military";
-        } elseif (in_array($Element, $reslist['ship_type']['recycler'])) {
+        } elseif (in_array($Element, $elements->shipTypeIds('recycler'))) {
             return "recycler";
         }
         return "civil";

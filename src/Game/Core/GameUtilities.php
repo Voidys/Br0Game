@@ -32,6 +32,24 @@ trait GameUtilities
         return $this->gameUtilityInstances[\App\Game\Model\ModelFactory::class] ??= new \App\Game\Model\ModelFactory($this->state);
     }
 
+    /** typed read-only catalog of the game elements (cost, groups, columns, ...), built once per loaded game data */
+    protected function elements(): \App\Game\Model\ElementCatalog
+    {
+        return $this->state->elementCatalog ??= \App\Game\Model\ElementCatalog::fromState($this->state);
+    }
+
+    /** typed snapshot of the current player (`$USER`) for reading; never cached, writes keep using the state array */
+    protected function player(): \App\Game\Model\User
+    {
+        return $this->models()->user($this->state->USER);
+    }
+
+    /** typed snapshot of the current planet (`$PLANET`) for reading; never cached, writes keep using the state array */
+    protected function planet(): \App\Game\Model\Planet
+    {
+        return $this->models()->planet($this->state->PLANET);
+    }
+
     protected function playerUtil(): PlayerUtil
     {
         return $this->gameUtility(PlayerUtil::class);

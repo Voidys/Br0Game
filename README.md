@@ -212,6 +212,7 @@ ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # leg
   New findings fail the run; fix them rather than extending the baseline.
 - Errors land in `var/log/`. After changing translations or game data, clear `var/game/`.
 - Template and escaping rules are in [docs/templates.md](docs/templates.md).
+- Typed game data (element catalog, player/planet snapshots) — new code reads through it: [docs/game-data-model.md](docs/game-data-model.md).
 - **CI** ([`ci.yml`](.github/workflows/ci.yml)) runs on every push to `main` and on every pull request:
   - composer validate;
   - PHP syntax, Twig, YAML and container lint;

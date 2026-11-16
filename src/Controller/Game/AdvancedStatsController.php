@@ -37,7 +37,6 @@ class AdvancedStatsController extends AbstractGameController
      */
     private function checkAvailable(string $key)
     {
-        $reslist = $this->state->reslist;
         $result = false;
         $id = substr(strrchr($key, "_"), 1);
 
@@ -45,9 +44,12 @@ class AdvancedStatsController extends AbstractGameController
             return true;
         }
 
-        if ((in_array($id, $reslist['build']) || in_array($id, $reslist['tech'])
-            || in_array($id, $reslist['fleet']) || in_array($id, $reslist['defense'])
-            || in_array($id, $reslist['missile'])
+        $elements = $this->elements();
+        $elementId = (int) $id;
+
+        if (($elements->isBuilding($elementId) || $elements->isResearch($elementId)
+            || $elements->isFleet($elementId) || $elements->isDefense($elementId)
+            || $elements->isMissile($elementId)
             || $id == RESOURCE_METAL || $id == RESOURCE_CRYSTAL || $id == RESOURCE_DEUT)
             && $this->buildFunctions()->isEnabled($id)
         ) {
