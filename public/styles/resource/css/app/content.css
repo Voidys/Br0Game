@@ -1266,18 +1266,8 @@ body#questions .faq-content {
 }
 
 /* advanced statistics page */
-#advancedStats th {
-	text-align: center;
-}
-
-#advancedStats tr {
-	height: 30px;
-}
-
-#advancedStats td:first-child {
-	text-align: left;
-	padding-left: 15px;
-}
+.advanced-stats__table { inline-size: 100%; }
+.advanced-stats__table td:first-child { text-align: start; padding-inline-start: 0.75rem; }
 
 /* team page */
 #team content {

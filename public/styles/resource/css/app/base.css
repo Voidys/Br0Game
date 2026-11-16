@@ -218,6 +218,37 @@
     border-color: var(--btn-selected);
     background: color-mix(in oklab, var(--btn-bg), var(--btn-selected) 18%);
   }
+  /* tabs built from buttons (app/tabs.js `.tabs__*`, tech tree `.tt-*`): a tab strip instead of a button row.
+     Here and not in content.css, because the legacy layer loses against the button rule above. */
+  :is(.tabs__list, .tt-tabs) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-block-end: 0.75rem;
+    border-block-end: 0.0625rem solid var(--c-border-strong, #33475e);
+  }
+  :is(.tabs__tab, .tt-tab) {
+    min-block-size: 0;
+    margin: 0;
+    padding: 0.45rem 0.85rem;
+    border: 0.0625rem solid transparent;
+    border-block-end: 0;
+    border-radius: 0.375rem 0.375rem 0 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--c-muted, #8796a7);
+    font-weight: 600;
+    &:hover { background: color-mix(in oklab, transparent, var(--c-text, #fff) 6%); border-color: transparent; color: var(--c-text, inherit); }
+    &:active { transform: none; }
+    &[aria-selected="true"] {
+      border-color: var(--c-border-strong, #33475e);
+      background: var(--theme-raised, #141b24);
+      color: var(--c-text, inherit);
+      box-shadow: inset 0 -0.1875rem 0 var(--c-accent, #ee4d2e);
+    }
+  }
+  @media (max-width: 40rem) { :is(.tabs__tab, .tt-tab) { padding-inline: 0.55rem; } }
+  .tabs__panel:focus-visible { outline: 0.125rem solid var(--c-accent, #ee4d2e); outline-offset: 0.125rem; }
   /* coloured buttons (upgrade = affordable, etc.) carry their signal colour on the border too */
   :where(button.colorPositive, button.colorNegative, button.colorNeutral) {
     border-color: color-mix(in oklab, currentColor 45%, var(--btn-border));

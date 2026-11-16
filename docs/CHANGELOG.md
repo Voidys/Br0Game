@@ -1051,3 +1051,7 @@ Technical changes per migration step, newest last.
 ## 128. Clear the game log from the admin area
 
 - `ClearLogController` (`admin?page=clearLog`, POST only via `CsrfPolicy`, right `ShowClearCachePage`) truncates `var/log/game.log`; the maintenance page shows its size and last change in a new card with a confirm button.
+## 130. Advanced stats as tabs
+
+- `page.advancedStats` shows its seven groups (expedition, build, lost, destroyed, repaired, firsts, other) as ARIA tabs instead of one table with toggled rows; page title fixed (was "Records").
+- Generic tab component: `public/scripts/app/tabs.js` (`[data-tabs]`, `.tabs__tab`/`.tabs__panel`, arrow keys, last tab remembered, `#tab-<key>` hash) and tab-strip styles in `base.css` (components layer, shared with the tech tree tabs, which lost against the button rule in the legacy layer).

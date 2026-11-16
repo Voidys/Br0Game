@@ -1,91 +1,37 @@
 {% extends layout_template %}
-{% block title %}{{ LNG.lm_records }}{{ parent() }}{% endblock %} {% block content %}
-<table>
-    <tbody>
-        <tr data-action="toggle-rows" data-target="advanced-expo">
-            <th colspan="2">
-                <span id="advanced-expo-toggle">▼</span>
-                {{ LNG.expedition }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (expo)|php_iter %}
-            <tr id="{{ elementID }}" class="advanced-expo">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
+{% block title %}{{ LNG.advancedStats }}{{ parent() }}{% endblock %}
+{% block content %}
+{% set groups = [
+  {key: 'expo', label: LNG.expedition, rows: expo},
+  {key: 'build', label: LNG.build, rows: build},
+  {key: 'lost', label: LNG.lost, rows: lost},
+  {key: 'destroyed', label: LNG.destroyed, rows: destroyed},
+  {key: 'repaired', label: LNG.repaired, rows: repaired},
+  {key: 'first', label: LNG.first, rows: first},
+  {key: 'other', label: LNG.other, rows: rest},
+] %}
+<div class="tabs advanced-stats" data-tabs="advanced-stats">
+  <div class="tabs__list" role="tablist" aria-label="{{ LNG.advancedStats }}">
+    {% for group in groups %}
+      <button type="button" class="tabs__tab" role="tab" id="as-tab-{{ group.key }}" data-tab="{{ group.key }}" aria-controls="as-panel-{{ group.key }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}">{{ group.label }}</button>
+    {% endfor %}
+  </div>
+  {% for group in groups %}
+    <section class="tabs__panel" role="tabpanel" id="as-panel-{{ group.key }}" aria-labelledby="as-tab-{{ group.key }}" data-tab="{{ group.key }}" tabindex="0"{% if not loop.first %} hidden{% endif %}>
+      <table class="advanced-stats__table">
+        <tbody>
+          {% for elementID, elementRow in (group.rows)|php_iter %}
+            <tr id="{{ elementID }}">
+              <td>{{ elementRow.text }}</td>
+              <td class="num">{{ elementRow.value }}</td>
             </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-build">
-            <th colspan="2">
-                <span id="advanced-build-toggle">▲</span>
-                {{ LNG.build }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (build)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-build">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-lost">
-            <th colspan="2">
-                <span id="advanced-lost-toggle">▲</span>
-                {{ LNG.lost }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (lost)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-lost">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-destroyed">
-            <th colspan="2">
-                <span id="advanced-destroyed-toggle">▲</span>
-                {{ LNG.destroyed }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (destroyed)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-destroyed">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-repaired">
-            <th colspan="2">
-                <span id="advanced-repaired-toggle">▲</span>
-                {{ LNG.repaired }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (repaired)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-repaired">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-first">
-            <th colspan="2">
-                <span id="advanced-first-toggle">▲</span>
-                {{ LNG.first }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (first)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-first">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-        <tr data-action="toggle-rows" data-target="advanced-others">
-            <th colspan="2">
-                <span id="advanced-others-toggle">▲</span>
-                {{ LNG.other }}
-            </th>
-        </tr>
-        {% for elementID, elementRow in (rest)|php_iter %}
-            <tr id="{{ elementID }}" class="hidden advanced-others">
-                <td>{{ elementRow.text }}</td>
-                <td class="num">{{ elementRow.value }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+          {% else %}
+            <tr><td colspan="2" class="empty">-</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  {% endfor %}
+</div>
+<script type="module" src="./scripts/app/tabs.js?v={{ asset_version }}"></script>
 {% endblock %}
