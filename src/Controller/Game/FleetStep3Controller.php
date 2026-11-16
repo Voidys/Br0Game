@@ -40,6 +40,10 @@ class FleetStep3Controller extends AbstractGameController
      */
     public function show(): Response
     {
+        // sending a fleet changes state: only the posted form of step 2 (with the CSRF token) may do it, a GET goes back to the fleet table
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
+            $this->fleetFunctions()->gotoFleetPage(0);
+        }
         try {
             $variables = (new FleetDispatch($this->db, $this->configs, $this->state))->dispatch();
         } catch (FleetDispatchRefused $refused) {

@@ -46,7 +46,7 @@ class FleetLauncher
     }
 
     /**
-     * Recalls a flight of the user (or, for an ACS attack with a group, the whole group): flips it to FLEET_RETURN,
+     * Recalls a flight of the user (or, for the lead attack fleet of an ACS group, the whole group; a joiner only turns their own fleet): flips it to FLEET_RETURN,
      * sets the return time to "now + time already flown" (hold/trade missions that are already holding: the remaining
      * outward duration instead), cancels the ACS group row and updates the fleet log.
      *
@@ -81,29 +81,6 @@ class FleetLauncher
             return false;
         }
 
-        $sqlWhere = '`id`';
-
-        if ($fleetResult['mission'] == MISSION_ATTACK && $fleetResult['group'] != 0) {
-            $sql = 'SELECT COUNT(*) as state FROM %%USERS_TO_ACS%% WHERE `acsID` = :acsId;';
-            $isInGroup = $db->selectSingle($sql, [
-                ':acsId' => $fleetResult['group'],
-            ], 'state');
-
-            if ($isInGroup) {
-                $sql = 'DELETE %%AKS%%, %%USERS_TO_ACS%%
-                    FROM %%AKS%%
-                    LEFT JOIN %%USERS_TO_ACS%% ON `acsID` = %%AKS%%.id
-                    WHERE %%AKS%%.id = :acsId;';
-
-                $db->delete($sql, [
-                    ':acsId' => $fleetResult['group'],
-                ]);
-
-                $FleetID = $fleetResult['group'];
-                $sqlWhere = '`group`';
-            }
-        }
-
         if (
             ($fleetResult['mission'] == MISSION_HOLD || $fleetResult['mission'] == MISSION_TRADE)
             && $fleetResult['status'] == FLEET_HOLD
@@ -113,24 +90,55 @@ class FleetLauncher
             $endTime = ($this->state->runtime->timestamp - $fleetResult['start_time']) + $this->state->runtime->timestamp;
         }
 
-        // An ACS group is recalled as a whole, but every fleet gets its return time from its own start time
-        $recallFleets = [$FleetID => $endTime];
-        if ($sqlWhere === '`group`') {
-            $recallFleets = [];
-            $groupFleets = $db->select('SELECT `id`, `start_time` FROM %%FLEETS%% WHERE `group` = :id;', [
-                ':id' => $FleetID,
-            ]);
-            foreach ($groupFleets as $groupFleet) {
-                $recallFleets[$groupFleet['id']] = ($this->state->runtime->timestamp - $groupFleet['start_time'])
-                    + $this->state->runtime->timestamp;
-            }
+        // Group rule: only an attack fleet that belongs to a group (the creator's lead fleet, joiners fly as MISSION_ACS)
+        // recalls the whole group. A joiner's recall turns that joiner's own fleet only.
+        $groupId = ($fleetResult['mission'] == MISSION_ATTACK) ? (int) $fleetResult['group'] : 0;
+        if ($groupId !== 0 && $this->groupHasParticipants($groupId)) {
+            $this->recallGroup($groupId);
+
+            return true;
         }
 
-        foreach ($recallFleets as $recallFleetId => $recallEndTime) {
-            $this->markFleetReturning($recallFleetId, $recallEndTime);
-        }
+        $this->markFleetReturning($FleetID, $endTime);
 
         return true;
+    }
+
+    /** Whether the ACS group still has participant rows (a group without them is only a stale marker on the fleet). */
+    private function groupHasParticipants(int $groupId): bool
+    {
+        return (bool) $this->db->selectSingle('SELECT COUNT(*) as state FROM %%USERS_TO_ACS%% WHERE `acsID` = :acsId;', [
+            ':acsId' => $groupId,
+        ], 'state');
+    }
+
+    /**
+     * Recalls every fleet of an ACS group, each with its return time from its own start time, and only then deletes the
+     * group rows (AKS, USERS_TO_ACS), all in one transaction: a failure leaves the group intact instead of a dissolved
+     * group with fleets still flying towards the attack.
+     */
+    private function recallGroup(int $groupId): void
+    {
+        $this->db->transactional(function () use ($groupId): void {
+            $groupFleets = $this->db->select('SELECT `id`, `start_time` FROM %%FLEETS%% WHERE `group` = :id;', [
+                ':id' => $groupId,
+            ]);
+            foreach ($groupFleets as $groupFleet) {
+                $this->markFleetReturning(
+                    $groupFleet['id'],
+                    ($this->state->runtime->timestamp - $groupFleet['start_time']) + $this->state->runtime->timestamp,
+                );
+            }
+
+            // the group is deleted last, after all its fleets have been re-routed
+            $this->db->delete(
+                'DELETE %%AKS%%, %%USERS_TO_ACS%%
+                FROM %%AKS%%
+                LEFT JOIN %%USERS_TO_ACS%% ON `acsID` = %%AKS%%.id
+                WHERE %%AKS%%.id = :acsId;',
+                [':acsId' => $groupId],
+            );
+        });
     }
 
     /**

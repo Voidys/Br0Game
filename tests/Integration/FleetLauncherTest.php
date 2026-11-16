@@ -198,6 +198,24 @@ final class FleetLauncherTest extends GameTestCase
         $this->assertEmpty($this->db->selectSingle('SELECT id FROM %%AKS%% WHERE id = :id;', [':id' => $acsId]), 'the group is dissolved');
     }
 
+    public function testRecallOfAnAcsJoinerTurnsOnlyTheJoinersOwnFleetAndKeepsTheGroup(): void
+    {
+        $now = $this->state->runtime->timestamp;
+        $this->db->insert('INSERT INTO %%AKS%% SET public_id = :p, name = :n, target = 1, ankunft = :a;', [':p' => 'abcdefabcdefabcdefabcdefabcdef34', ':n' => 'test', ':a' => $now + 500]);
+        $acsId = (int) $this->db->lastInsertId();
+        [, , , $lead] = $this->launch(MISSION_ATTACK, $acsId);
+        [$joiner, , , $joined] = $this->launch(MISSION_ACS, $acsId);
+        $this->db->insert('INSERT INTO %%USERS_TO_ACS%% SET userID = :u, acsID = :a;', [':u' => $joiner['id'], ':a' => $acsId]);
+
+        $this->assertTrue($this->launcher()->sendFleetBack($joiner, $joined));
+
+        $rows = array_column($this->db->select('SELECT id, status, `group` FROM %%FLEETS%% WHERE id IN (:a, :b);', [':a' => $lead, ':b' => $joined]), null, 'id');
+        $this->assertSame(FLEET_RETURN, (int) $rows[$joined]['status']);
+        $this->assertSame(FLEET_OUTWARD, (int) $rows[$lead]['status'], 'the lead fleet keeps flying');
+        $this->assertSame($acsId, (int) $rows[$lead]['group']);
+        $this->assertNotEmpty($this->db->selectSingle('SELECT id FROM %%AKS%% WHERE id = :id;', [':id' => $acsId]), 'the group survives a joiner recall');
+    }
+
     public function testAcsGroupTimeIsShiftedForTheGroupFlightsOnly(): void
     {
         $now = $this->state->runtime->timestamp;

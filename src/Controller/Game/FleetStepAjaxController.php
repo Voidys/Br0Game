@@ -38,6 +38,10 @@ class FleetStepAjaxController extends AbstractGameController
      */
     public function show()
     {
+        // state-changing: POST only (the beacon is one) and thereby covered by the central CSRF check
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
+            return;
+        }
         $token = $this->http()->_GP('token', '');
         $session = $this->sessions()->load();
         $fleet = $session->fleet;

@@ -83,6 +83,8 @@ class FleetStep1Controller extends AbstractGameController
             'fleetMinDuration'  => MIN_FLEET_TIME,
         ];
 
+        // validate before anything is stored: a refused fleet must not occupy a token
+        $this->checkShipsAvailable($Fleet);
         $token = $this->storeFleet($Fleet, $FleetRoom);
 
         $shortcutList = $this->GetUserShotcut();
@@ -126,7 +128,6 @@ class FleetStep1Controller extends AbstractGameController
             'config'        => $this->universeGeometry(),
         ]);
 
-        $this->checkShipsAvailable($Fleet);
         return $this->render('game/page.fleetStep1.default.html.twig');
     }
 

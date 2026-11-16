@@ -1144,3 +1144,11 @@ Technical changes per migration step, newest last.
 - F-21: Discord webhooks only go to `https://discord.com|discordapp.com/api/webhooks/…` (also ptb/canary), no redirects; validated on save (`op_discord_hook_invalid`) and in `Discord::send()`.
 - F-24: colour settings are validated as hex on save and sanitised on read (`ColorSetting`), so inline CSS only ever gets a colour.
 - Tests: `DiscordTest` allowlist, `ColorSettingTest`, `AdminAuthorizationTest` (moderator vs admin vs root in the account editor).
+
+## 145. Audit lows: fleet steps, ACS recall, trade escrow
+
+- F-08: an ACS group recall (only the creator's attack fleet recalls the group) re-routes all fleets in one transaction and deletes the group rows last; a joiner's recall only turns their own fleet.
+- F-12: the fleet-step release beacon only acts on POST (central CSRF check applies). F-13: fleet step 1 checks ship availability before storing the prepared fleet. F-25: fleet step 3 only dispatches on POST, GET redirects to the fleet table and leaves the token intact.
+- F-26: a market purchase is refused when the seller's start planet is gone or destroyed (checked under the offer lock).
+- Tests: `FleetStepGuardsTest`, `FleetLauncherTest`, `MarketPurchaseTest`.
+

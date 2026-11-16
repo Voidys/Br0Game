@@ -107,6 +107,19 @@ final class MarketPurchaseTest extends GameTestCase
         $this->assertSame($linked, $this->db->selectSingle('SELECT buyer_fleet_id FROM %%TRADES%% WHERE seller_fleet_id = :id;', [':id' => $fleetId], 'buyer_fleet_id'), 'the trade stays linked to the first buyer');
     }
 
+    public function testAnOfferWhoseSellerPlanetIsGoneOrDestroyedIsRefused(): void
+    {
+        [, $buyer, $planet, $fleetId] = $this->offer();
+        $startId = (int) $this->db->selectSingle('SELECT start_id FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId], 'start_id');
+        $this->db->update('UPDATE %%PLANETS%% SET destruyed = :t WHERE id = :id;', [':t' => time() + 3600, ':id' => $startId]);
+
+        $this->assertSame($this->state->LNG['market_p_msg_not_found'], $this->buy($buyer, $planet, $fleetId));
+        $this->assertNull($this->db->selectSingle('SELECT buyer_fleet_id FROM %%TRADES%% WHERE seller_fleet_id = :id;', [':id' => $fleetId], 'buyer_fleet_id'));
+
+        $this->db->update('UPDATE %%FLEETS%% SET start_id = 99999999 WHERE id = :id;', [':id' => $fleetId]);
+        $this->assertSame($this->state->LNG['market_p_msg_not_found'], $this->buy($buyer, $planet, $fleetId));
+    }
+
     public function testAnOfferWhoseStayIsOverCannotBeBought(): void
     {
         [, $buyer, $planet, $fleetId] = $this->offer();

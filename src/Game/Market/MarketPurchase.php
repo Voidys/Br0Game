@@ -137,7 +137,7 @@ class MarketPurchase
     }
 
     /**
-     * Checks that the current player may buy this offer: not their own, a valid wanted resource, the diplomacy filter
+     * Checks that the current player may buy this offer: not their own, the seller's start planet still exists, a valid wanted resource, the diplomacy filter
      * and push prevention.
      *
      * @param array<string, mixed> $fleetResult offer row
@@ -151,6 +151,16 @@ class MarketPurchase
         // an offer cannot be bought by its seller
         if ($fleetResult['owner'] == $USER['id']) {
             return $LNG['market_p_msg_own_offer'];
+        }
+
+        // the seller's fleet flies back to its start planet: when that planet is gone or destroyed the trade can never settle
+        // (the buyer's payment would return while the seller's ships are delivered), so the offer is void (offer row is locked)
+        $sellerPlanet = $this->db->selectSingle(
+            'SELECT `id`, `destruyed` FROM %%PLANETS%% WHERE `id` = :id;',
+            [':id' => $fleetResult['start_id']],
+        );
+        if (empty($sellerPlanet) || !empty($sellerPlanet['destruyed'])) {
+            return $LNG['market_p_msg_not_found'];
         }
 
         // a crafted offer may carry an invalid wanted resource
