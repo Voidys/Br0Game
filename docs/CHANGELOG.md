@@ -1031,3 +1031,7 @@ Technical changes per migration step, newest last.
 ## 124. Galaxy action icons
 
 - Galaxy row actions (spy, spy report, message, buddy request, missile attack, phalanx) use Lucide icons (`scan-eye`, `file-search`, `mail`, `user-plus`, `crosshair`, `radar`; new symbols in the sprite) as `.galaxy-action` buttons instead of theme GIFs; the spy report freshness dot stays.
+
+## 125. Board link opens in a new tab
+
+- Game side panel: the board entry (account area) opens with `target="_blank" rel="noopener"`, like the other community links.
