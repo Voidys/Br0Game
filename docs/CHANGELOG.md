@@ -833,3 +833,4 @@ Technical changes per migration step, newest last.
 - Existing installs that relied on the pr0game links must set them in the admin (docs/INSTALL.md, Updating).
 - `tests/Unit/Game/CommunityLinksTest.php`: field validation, token set/empty, all shipped FAQ/tutorial/ingame/tech/rules/mail texts with empty and set links, `Language::getTemplate()` from the config.
 - Tutorial Discord step (`LinkTutorialSupport`): without a Discord URL the goal counts as fulfilled automatically (plain text, no link) and the step grants no reward; with a URL the click/reward flow is unchanged. `tests/Integration/LinkTutorialTest.php` covers both branches, `CommunityLinksTest` the nav conditions.
+- PHP battle engine: the php-ds fast path is used only when the `Ds\Vector`/`Ds\Map` classes exist (a runner reported the extension loaded without them and every PHP fight crashed); the array path gives identical results.

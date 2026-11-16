@@ -25,7 +25,9 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     public function __construct(\App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
         parent::__construct($db, $configs, $state);
-        $this->dsAvailable = extension_loaded('ds');
+        // use the php-ds structures only when their classes really exist: a runner can report the extension as
+        // loaded without registering the classes (seen on GitHub's PHP builds); the array path gives identical results
+        $this->dsAvailable = class_exists(\Ds\Vector::class, false) && class_exists(\Ds\Map::class, false);
     }
     public function getName(): string
     {
