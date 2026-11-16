@@ -28,6 +28,8 @@ class UserCreator extends CreatorTab
         $LNG = $this->state->LNG;
         $UserName = $this->http()->_GP('name', '', UTF8_SUPPORT);
         $UserAuth = $this->http()->_GP('authlevel', 0);
+        // nobody can hand out a level above their own (the form only offers the allowed ones)
+        $UserAuth = max(AUTH_USR, min((int) $UserAuth, (int) $this->state->USER['authlevel']));
         $Galaxy = $this->http()->_GP('galaxy', 0);
         $System = $this->http()->_GP('system', 0);
         $Planet = $this->http()->_GP('planet', 0);

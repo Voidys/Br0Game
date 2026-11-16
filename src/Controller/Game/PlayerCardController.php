@@ -34,6 +34,8 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('game.php', 'playerCard', uniPrefix: true)]
 class PlayerCardController extends AbstractGameController
 {
+    private const MAX_BLOCKS = 200;
+
     public static $requireModule = 'MODULE_PLAYERCARD';
 
     // protected $disableEcoSystem = true;
@@ -546,8 +548,8 @@ class PlayerCardController extends AbstractGameController
         $this->setWindow('ajax');
 
         $PlayerID 	    = $this->http()->_GP('id', 0);
-        $blockTrade     = $this->http()->_GP('blockTrade', 0);
-        $blockDm        = $this->http()->_GP('blockDm', 0);
+        $blockTrade     = min(1, max(0, $this->http()->_GP('blockTrade', 0)));
+        $blockDm        = min(1, max(0, $this->http()->_GP('blockDm', 0)));
 
         $sql = "SELECT id FROM %%USERS_BLOCKLIST%% 
                 WHERE blocking_user = :userID AND blocked_user = :targetID;";
@@ -573,6 +575,8 @@ class PlayerCardController extends AbstractGameController
                 ':userID'             => $USER['id'],
                 ':targetID'           => $PlayerID,
             ]);
+        } elseif (!$this->canBlock((int) $PlayerID)) {
+            $this->sendData(400, 'Invalid player');
         } else {
             $sql = "INSERT INTO %%USERS_BLOCKLIST%% SET
                 blocking_user	= :userID,
@@ -587,6 +591,27 @@ class PlayerCardController extends AbstractGameController
             ]);
         }
         $this->sendData(200, 'Successfully changed block settings');
+    }
+
+    /**
+     * A new block-list entry needs another player of this universe and stays below MAX_BLOCKS entries per player.
+     */
+    private function canBlock(int $targetId): bool
+    {
+        $userId = $this->state->USER['id'];
+        if ($targetId <= 0 || $targetId == $userId) {
+            return false;
+        }
+
+        $sql = 'SELECT (SELECT COUNT(*) FROM %%USERS%% WHERE id = :targetID AND universe = :universe) AS target,
+            (SELECT COUNT(*) FROM %%USERS_BLOCKLIST%% WHERE blocking_user = :userID) AS blocks;';
+        $row = $this->db->selectSingle($sql, [
+            ':targetID' => $targetId,
+            ':universe' => $this->universe()->current(),
+            ':userID' => $userId,
+        ]);
+
+        return $row['target'] > 0 && $row['blocks'] < self::MAX_BLOCKS;
     }
 
     /**

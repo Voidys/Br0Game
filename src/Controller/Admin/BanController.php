@@ -95,6 +95,10 @@ class BanController extends AbstractAdminController
             ':universe' => $this->universe()->getEmulated(),
         ]);
 
+        if ($this->isBanPost() && !$this->mayActOn((int) $id)) {
+            $this->deny();
+        }
+
         if (!empty($bannedUser) && (isset($this->state->requestPost['panel']) || isset($this->state->requestPost['panel_change']))) {
             if (isset($this->state->requestPost['panel_change'])) {
                 $vacation = ($bannedUser['urlaubs_modus'] == 1) ? true : false;
@@ -155,6 +159,10 @@ class BanController extends AbstractAdminController
         $bannedAccount = $db->SelectSingle($sql, [
             ':account_id' => $id,
         ]);
+
+        if ($this->isBanPost() && !$this->mayActOnAccount((int) $id)) {
+            $this->deny();
+        }
 
         if (!empty($bannedAccount) && (isset($this->state->requestPost['panel']) || isset($this->state->requestPost['panel_change']))) {
             $perma = isset($this->state->requestPost['panel_change']) ? ($bannedAccount['banaday'] == 2147483647) : false;
@@ -340,6 +348,27 @@ class BanController extends AbstractAdminController
             'perma'             => $perma,
             'vacation'          => $vacation,
         ]);
+    }
+
+    /** Does the request carry one of the ban form actions (panel, ban, unban)? */
+    private function isBanPost(): bool
+    {
+        $post = $this->state->requestPost;
+
+        return isset($post['panel']) || isset($post['panel_change']) || isset($post['bannow']) || isset($post['unban_id']);
+    }
+
+    /** May the acting admin ban/unban the account: every player of it must be one they may act on (never themselves, user 1 or an equal/higher level). */
+    private function mayActOnAccount(int $accountId): bool
+    {
+        $users = $this->db->select('SELECT `user_id` FROM %%ACCOUNTS_TO_USERS%% WHERE `account_id` = :id;', [':id' => $accountId]);
+        foreach ($users as $row) {
+            if (!$this->mayActOn((int) $row['user_id'])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

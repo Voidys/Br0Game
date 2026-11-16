@@ -50,6 +50,7 @@ CREATE TABLE `%PREFIX%accounts` (
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE INDEX idx_userids ON `%PREFIX%accounts` (`email`);
+CREATE UNIQUE INDEX uniq_accounts_email ON `%PREFIX%accounts` (`email`);
 
 CREATE TABLE `%PREFIX%accounts_banned` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -548,6 +549,7 @@ CREATE TABLE `%PREFIX%planet_wreckfield` (
   `repair_order` text,
   `repair_order_start` int(11) NOT NULL DEFAULT '0',
   `repair_order_end` int(11) NOT NULL DEFAULT '0',
+  `repair_order_rate` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`planetID`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -657,7 +659,7 @@ CREATE TABLE `%PREFIX%planets` (
   KEY `id_luna` (`id_luna`),
   KEY `id_owner` (`id_owner`),
   KEY `destruyed` (`destruyed`),
-  KEY `universe` (`universe`,`galaxy`,`system`,`planet`,`planet_type`)
+  UNIQUE KEY `universe` (`universe`,`galaxy`,`system`,`planet`,`planet_type`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `%PREFIX%pirate_bases` (
@@ -918,6 +920,7 @@ CREATE TABLE `%PREFIX%users` (
   KEY `authlevel` (`authlevel`),
   KEY `ref_bonus` (`ref_bonus`),
   KEY `universe` (`universe`,`username`,`onlinetime`,`authlevel`),
+  UNIQUE KEY `uniq_universe_username` (`universe`,`username`),
   KEY `ally_id` (`ally_id`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

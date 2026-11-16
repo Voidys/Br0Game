@@ -133,6 +133,31 @@ final class CsrfListenerTest extends TestCase
         self::assertSame(403, $event->getResponse()?->getStatusCode());
     }
 
+    public function testLogoutRouteByGetOnlyRedirectsAndNeverLogsOut(): void
+    {
+        $event = $this->dispatch($this->request('GET', 'app_logout', controller: 'App\\Controller\\LogoutController'));
+
+        self::assertSame(303, $event->getResponse()?->getStatusCode());
+    }
+
+    public function testLogoutRoutePostNeedsTheToken(): void
+    {
+        $rejected = $this->dispatch($this->request('POST', 'app_logout', controller: 'App\\Controller\\LogoutController'));
+        $accepted = $this->dispatch($this->request('POST', 'app_logout', post: [CsrfPolicy::FIELD => $this->token()], controller: 'App\\Controller\\LogoutController'));
+
+        self::assertSame(403, $rejected->getResponse()?->getStatusCode());
+        self::assertFalse($accepted->hasResponse());
+    }
+
+    public function testAccountModeSendByGetNeedsTheToken(): void
+    {
+        foreach (['game_account_register' => 'send', 'game_account_account' => 'send'] as $route => $mode) {
+            $event = $this->dispatch($this->request('GET', $route, query: ['mode' => $mode]));
+
+            self::assertSame(403, $event->getResponse()?->getStatusCode(), $route);
+        }
+    }
+
     /** @return iterable<string, array{array<string, string>, array<string, mixed>}> */
     public static function ajaxCalls(): iterable
     {
@@ -175,6 +200,9 @@ final class CsrfListenerTest extends TestCase
     {
         self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_cronjob', ['action' => 'run', 'id' => '1']))->getResponse()?->getStatusCode());
         self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_module', ['mode' => 'aktiv', 'id' => '3']))->getResponse()?->getStatusCode());
+        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_search', ['delete' => 'user', 'user' => '5']))->getResponse()?->getStatusCode());
+        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_flyingfleet', ['id' => '3', 'lock' => '1']))->getResponse()?->getStatusCode());
+        self::assertSame(403, $this->dispatch($this->request('GET', 'game_admin_flyingfleet', ['massunlock' => '1']))->getResponse()?->getStatusCode());
         self::assertFalse($this->dispatch($this->request('GET', 'game_admin_cronjob', ['action' => 'detail', 'id' => '1']))->hasResponse());
         self::assertFalse($this->dispatch($this->request('GET', 'game_admin_overview'))->hasResponse());
     }

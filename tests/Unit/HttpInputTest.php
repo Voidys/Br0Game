@@ -30,6 +30,15 @@ final class HttpInputTest extends TestCase
         return new HTTP($state);
     }
 
+    public function testRawInputKeepsTheValueExactlyAsSent(): void
+    {
+        $http = $this->http(['pw' => "  a&b\"<c>'ä ", 'arr' => ['x']]);
+
+        $this->assertSame("  a&b\"<c>'ä ", $http->rawInput('pw'));
+        $this->assertSame('', $http->rawInput('arr'));
+        $this->assertSame('', $http->rawInput('missing'));
+    }
+
     public function testMissingKeyReturnsTheDefault(): void
     {
         $http = $this->http([]);
@@ -139,13 +148,10 @@ final class HttpInputTest extends TestCase
         $this->assertNull($http->_GP('x', null));
     }
 
-    public function testArrayInputForAStringDefaultIsRejectedWithATypeError(): void
+    public function testArrayInputForAStringDefaultGivesTheDefault(): void
     {
-        // pins today's behaviour: ?name[]=x for a string parameter is not coerced but raises (the game's error handler
-        // turns it into an error page); hardening may turn this into "use the default" - then update this test on purpose
-        $this->expectException(\TypeError::class);
-
-        $this->http(['x' => ['a']])->_GP('x', '');
+        // ?name[]=x for a string parameter counts as missing (it used to raise a TypeError)
+        $this->assertSame('d', $this->http(['x' => ['a']])->_GP('x', 'd'));
     }
 
     public function testNumericZeroIsNotTreatedAsMissing(): void

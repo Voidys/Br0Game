@@ -86,4 +86,25 @@ final class MarketPurchaseTest extends GameTestCase
 
         $this->assertSame($this->state->LNG['market_p_msg_more_ships_is_needed'], $this->buy($buyer, $planet, $fleetId));
     }
+
+    public function testASoldOfferCannotBeBoughtAgainWhileItsFleetHoldsAtTheMarket(): void
+    {
+        [, $buyer, $planet, $fleetId] = $this->offer();
+        $this->buy($buyer, $planet, $fleetId);
+        // the seller fleet has arrived at the market again and holds with the payment (finished trade)
+        $this->db->update('UPDATE %%FLEETS%% SET status = :s WHERE id = :id;', [':s' => FLEET_HOLD, ':id' => $fleetId]);
+        [, $second, $secondPlanet] = [null, ...array_slice($this->createPlayer(['computer_tech' => 5], ['metal' => 1e7, 'crystal' => 1e7, 'deuterium' => 1e7, 'small_ship_cargo' => 100, 'big_ship_cargo' => 20]), 0, 2)];
+        $linked = $this->db->selectSingle('SELECT buyer_fleet_id FROM %%TRADES%% WHERE seller_fleet_id = :id;', [':id' => $fleetId], 'buyer_fleet_id');
+
+        $this->assertSame($this->state->LNG['market_p_msg_not_found'], $this->buy($second, $secondPlanet, $fleetId));
+        $this->assertSame($linked, $this->db->selectSingle('SELECT buyer_fleet_id FROM %%TRADES%% WHERE seller_fleet_id = :id;', [':id' => $fleetId], 'buyer_fleet_id'), 'the trade stays linked to the first buyer');
+    }
+
+    public function testAnOfferWhoseStayIsOverCannotBeBought(): void
+    {
+        [, $buyer, $planet, $fleetId] = $this->offer();
+        $this->db->update('UPDATE %%FLEETS%% SET stay_time = :t WHERE id = :id;', [':t' => $this->state->runtime->timestamp - 5, ':id' => $fleetId]);
+
+        $this->assertSame($this->state->LNG['market_p_msg_not_found'], $this->buy($buyer, $planet, $fleetId));
+    }
 }

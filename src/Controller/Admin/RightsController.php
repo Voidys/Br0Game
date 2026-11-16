@@ -31,30 +31,34 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'rights', uniPrefix: true)]
 class RightsController extends AbstractAdminController
 {
+    /** Only authlevel ADM may edit rights and levels (the menu shows the page to admins only). */
+    protected function construct(): void
+    {
+        $this->requireAdmin();
+        parent::construct();
+    }
+
     /**
      * Moderator rights. mode=rights: choose an admin/moderator (id_1, `get` filters the list by level adm, ope, mod, pla) and POST
      * action=send with rights[] to store the allowed admin pages in `users.rights` (keyed by the former page class names); only the root
-     * user may edit root. mode=users: set the authlevel of a player (id_1 or id_2, authlevel) with the same root protection. Unknown modes
-     * render an empty page.
+     * user may edit root. mode=users: set the authlevel of a player (id_1 or id_2, authlevel) with the same root protection. Without
+     * (or with an unknown) mode the first tab (rights) is shown, as the admin menu marks it.
      */
     public function show(): Response
     {
         $mode = $this->http()->_GP('mode', '');
         switch ($mode) {
-            case 'rights':
-                if ($this->state->requestPost) {
-                    return $this->saveRights();
-                }
-                return $this->userPicker('admin/ModerrationRightsPage.html.twig');
             case 'users':
                 if ($this->state->requestPost) {
                     $this->saveAuthlevel();
                 }
                 return $this->userPicker('admin/ModerrationUsersPage.html.twig');
+            default:
+                if ($this->state->requestPost) {
+                    return $this->saveRights();
+                }
+                return $this->userPicker('admin/ModerrationRightsPage.html.twig');
         }
-
-        // unknown mode: empty page, as before
-        return new Response();
     }
 
     /**
@@ -146,6 +150,10 @@ class RightsController extends AbstractAdminController
         }
 
         if ($USER['id'] != ROOT_USER && $id == ROOT_USER) {
+            $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
+        }
+        // only known levels, never above the acting admin's own
+        if ($authlevel < AUTH_USR || $authlevel > (int) $USER['authlevel']) {
             $this->message($LNG['ad_authlevel_error_3'], '?page=rights&mode=users');
         }
 

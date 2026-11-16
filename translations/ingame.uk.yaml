@@ -340,6 +340,7 @@ al_memberlist_on: В мережі
 al_message: Повідомлення
 al_name: Змінити назву альянсу
 al_name_required: Введи назву альянсу.
+al_link_too_long: "Посилання занадто довге (не більше 255 символів)."
 al_name_tag_too_long: Тег може містити щонайбільше 8 символів, а назва — 30.
 al_new_apply: Твій альянс отримав <a href="?page=alliance&mode=admin&action=manageApply">[заявку]</a> від гравця <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Новачок
@@ -478,6 +479,8 @@ bs_acs_slot: Слот ACS
 bs_add_acs_slot: Додати слот ACS
 bs_atter: Нападник
 bs_cancel: Скинути
+bs_too_many_units: "Забагато юнітів для однієї симуляції (максимум %s)."
+bs_busy: "Симуляція вже триває, зачекай, поки вона завершиться."
 bs_deffer: Захисник
 bs_derbis_raport: 'Потрібно для переробки уламків: %s %s.'
 bs_load: Завантажити
@@ -524,6 +527,7 @@ bu_player_not_exist: Такого гравця не існує.
 bu_rejected_request_body: Привіт, %s!<br>%s відхилив твій запит у друзі!
 bu_rejected_request_title: Запит у друзі відхилено!
 bu_request_exists: Для цього гравця вже є запит у друзі!
+bu_request_limit: 'Забагато запитів у друзі. Зачекай кілька хвилин, перш ніж надсилати нові.'
 bu_request_message: Повідомлення із запитом
 bu_request_send: Запит у друзі надіслано.
 bu_request_text: Текст запиту
@@ -1040,6 +1044,7 @@ nt_dlte_note: Видалити
 nt_edit_note: Редагувати нотатку
 nt_important: Високий
 nt_no_text: Немає тексту
+nt_limit_reached: 'Ти досяг максимальної кількості нотаток (%1$d). Спочатку видали старі нотатки.'
 nt_no_title: Немає заголовка
 nt_normal: Звичайний
 nt_note: Нотатка

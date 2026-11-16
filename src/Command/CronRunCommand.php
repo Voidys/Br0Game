@@ -53,7 +53,12 @@ final class CronRunCommand extends Command
 
         foreach ($due as $cronjobId) {
             $output->writeln(sprintf('Running cronjob %d', $cronjobId), OutputInterface::VERBOSITY_VERBOSE);
-            $this->cronjobs->execute((int) $cronjobId);
+            try {
+                $this->cronjobs->execute((int) $cronjobId);
+            } catch (\Exception $e) {
+                // locked or switched off by another runner since the list was taken: the other jobs still run
+                $output->writeln($e->getMessage(), OutputInterface::VERBOSITY_VERBOSE);
+            }
         }
 
         $output->writeln(sprintf('%d cronjob(s) executed.', count($due)));

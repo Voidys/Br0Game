@@ -48,12 +48,15 @@ class FlyingFleetController extends AbstractAdminController
             $lock = $this->http()->_GP('lock', 0);
             $SQL = ($lock == 0) ? null : "ADM_LOCK";
 
-            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :lock WHERE `fleetID` = :id;", [
+            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = :lock WHERE `fleetID` = :id AND `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
                 ':lock' => $SQL,
                 ':id' => $id,
+                ':universe' => $this->universe()->getEmulated(),
             ]);
         } elseif (!empty($massunlock)) {
-            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL");
+            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `fleetID` IN (SELECT `id` FROM %%FLEETS%% WHERE `universe` = :universe);", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
         } elseif (!empty($sendFleetsBack)) {
             $this->returnAttackingFleets();
         } elseif (!empty($sendFleetBack)) {
@@ -195,10 +198,13 @@ class FlyingFleetController extends AbstractAdminController
 
         $sql = "SELECT f.`id`, f.`group`, f.`return_time` FROM %%FLEETS%% f
             JOIN %%USERS%% u ON u.`id` = f.`target_owner`
-            WHERE f.`mission` IN (:missions)
+            WHERE f.`mission` IN (:attack, :acs, :destruction) AND f.`universe` = :universe
               AND u.`onlinetime` > :inactive AND f.`status` <> :fleetState;";
         $fleets = $db->select($sql, [
-            ':missions'  => MISSION_ATTACK . ', ' . MISSION_ACS . ', ' . MISSION_DESTRUCTION,
+            ':attack'      => MISSION_ATTACK,
+            ':acs'         => MISSION_ACS,
+            ':destruction' => MISSION_DESTRUCTION,
+            ':universe'    => $this->universe()->getEmulated(),
             ':inactive'  => $this->state->runtime->timestamp - INACTIVE,
             ':fleetState' => FLEET_RETURN,
         ]);

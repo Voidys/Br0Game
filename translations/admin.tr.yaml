@@ -625,6 +625,7 @@ ow_config_file_writable: >-
 ow_credits: Katkida Bulunanlar
 ow_database_errors: Veritabaninda hatalar mevcut. <a href="ErrorPage.php">Hatalari Goster</a>
 ow_developers: Kod Gelistiricileri
+ow_default_uri_missing: 'E-posta bağlantıları için DEFAULT_URI (.env.local) gerekir: ayarlanana kadar kayıt ve şifre sıfırlama e-postaları gönderilmez.'
 ow_dir_not_writable: /%s klasorune yazilamaz!
 ow_donate: Kodu Gelistirenlere Bagis
 ow_file_detected: ' %s adli dosya saptandi. Guvenlik nedeniyle dosyayi silin yada adini degistirin'

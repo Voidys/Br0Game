@@ -122,6 +122,23 @@ final class MissionQueriesTest extends GameTestCase
         $this->assertFalse($this->db->selectSingle('SELECT id FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleet['id']]), 'missiles are used up');
     }
 
+    public function testMissilesAtAVacationTargetAreSpentWithoutLeavingAZombieEvent(): void
+    {
+        $resource = $this->state->resource;
+        [$sender, $senderPlanet] = $this->createPlayer(['impulse_motor_tech' => 5], [$resource[503] => 10, 'deuterium' => 1e6]);
+        [$owner, $ownerPlanet] = $this->createPlayer(['urlaubs_modus' => 1], [$resource[401] => 50]);
+        $fleet = $this->fleet($sender, $senderPlanet, $owner, $ownerPlanet, MISSION_MISSILE, [503 => 10], 401);
+
+        (new MissionCaseMIP($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
+        $turned = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleet['id']]);
+        $this->assertSame(FLEET_RETURN, (int) $turned['status'], 'turned around by the vacation rule');
+        (new MissionCaseMIP($turned, $this->db, $this->configs, $this->state))->ReturnEvent();
+
+        $this->assertFalse($this->db->selectSingle('SELECT id FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleet['id']]), 'the fleet is deleted');
+        $this->assertFalse($this->db->selectSingle('SELECT fleetID FROM %%FLEETS_EVENT%% WHERE fleetID = :id;', [':id' => $fleet['id']]), 'and its event with it');
+        $this->assertEquals(50, $this->loadPlanet((int) $ownerPlanet['id'])[$resource[401]]);
+    }
+
     public function testMissilesDestroyDefenseWhenSomeGetThrough(): void
     {
         $resource = $this->state->resource;

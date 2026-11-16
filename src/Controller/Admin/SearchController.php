@@ -124,19 +124,35 @@ class SearchController extends AbstractAdminController
         if (!isset($this->state->requestQuery['delete'])) {
             $this->state->requestQuery['delete'] = '';
         }
+        if ($this->state->requestQuery['delete'] !== '') {
+            // deleting is for admins only (the buttons are), as POST, in the emulated universe, never user 1, yourself or an equal/higher level
+            $isPost = ($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST';
+            if (!$isPost || (int) $this->state->USER['authlevel'] !== AUTH_ADM) {
+                $this->deny();
+            }
+        }
         if ($this->state->requestQuery['delete'] == 'user') {
-            if (!$this->playerUtil()->deletePlayer((int) $this->state->requestQuery['user'])) {
+            $targetId = (int) ($this->state->requestQuery['user'] ?? 0);
+            $inUniverse = $this->db->selectSingle(
+                'SELECT `id` FROM %%USERS%% WHERE `id` = :id AND `universe` = :universe;',
+                [':id' => $targetId, ':universe' => $this->universe()->getEmulated()],
+            );
+            if (!empty($inUniverse) && !$this->mayActOn($targetId)) {
+                $this->deny();
+            }
+            if (empty($inUniverse) || !$this->playerUtil()->deletePlayer($targetId)) {
                 $this->message($LNG['se_delete_not_found'], '?page=search&search=users&minimize=on', 2);
             }
             $this->message($LNG['se_delete_succes_p'], '?page=search&search=users&minimize=on', 2);
         } elseif ($this->state->requestQuery['delete'] == 'planet') {
             $planetId = (int) $this->state->requestQuery['planet'];
+            $planetUniverse = $this->db->selectSingle('SELECT `universe` FROM %%PLANETS%% WHERE `id` = :id;', [':id' => $planetId], 'universe');
             // the same condition deletePlanet() applies (it throws for unknown planets and main planets)
             $deletable = $this->db->selectSingle(
                 'SELECT `id` FROM %%PLANETS%% WHERE `id` = :planetId AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%%);',
                 [':planetId' => $planetId],
             );
-            if (empty($deletable)) {
+            if (empty($deletable) || (int) $planetUniverse !== (int) $this->universe()->getEmulated()) {
                 $this->message($LNG['se_delete_not_found'], '?page=search&search=planet&minimize=on', 2);
             }
             $this->playerUtil()->deletePlanet($planetId);

@@ -20,6 +20,7 @@ namespace App\Game\Cronjob;
 use App\Game\Core\Config;
 use App\Game\Cronjob\Cronjob;
 use App\Game\Core\Database;
+use App\Game\Core\ResourceUpdate;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Universe;
 
@@ -137,19 +138,36 @@ class DailyCronjob extends AbstractCronjobTask
     /**
      * Sets the production percentage of mines, solar plant, fusion plant and satellites on the home/colony planets
      * (type 1) of players offline longer than INACTIVE (7 days, not in vacation) back to 100% (stored as 10).
+     * Every planet whose levels change is brought up to date first (stock integrated to now at the levels the player set),
+     * so the new levels only count from now on and nothing is credited retroactively.
      * @param int $universe universe id.
      */
     public function updateInactiveMines(int $universe): void
     {
-        $sql = "UPDATE %%PLANETS%% set metal_mine_porcent = :full, crystal_mine_porcent = :full, deuterium_sintetizer_porcent = :full, solar_plant_porcent = :full, fusion_plant_porcent = :full, solar_satelit_porcent = :full
-				WHERE planet_type = :planet AND id_owner IN (SELECT u.id FROM %%USERS%% AS u WHERE urlaubs_modus = 0 AND onlinetime < :inactive AND universe = :universe);";
-
-        $this->db->update($sql, [
-            ':full' 	=> 10, // 10 = 100%
+        $db = $this->db;
+        $sql = "SELECT p.`id`, p.`id_owner` FROM %%PLANETS%% p INNER JOIN %%USERS%% u ON u.`id` = p.`id_owner`
+				WHERE p.`planet_type` = :planet AND u.`urlaubs_modus` = 0 AND u.`onlinetime` < :inactive AND u.`universe` = :universe
+				AND (p.`metal_mine_porcent` != '10' OR p.`crystal_mine_porcent` != '10' OR p.`deuterium_sintetizer_porcent` != '10'
+				OR p.`solar_plant_porcent` != '10' OR p.`fusion_plant_porcent` != '10' OR p.`solar_satelit_porcent` != '10');";
+        $planets = $db->select($sql, [
             ':planet'	=> 1,
             ':inactive' => $this->state->runtime->timestamp - INACTIVE,
-            ':universe' => $universe
+            ':universe' => $universe,
         ]);
+
+        foreach ($planets as $row) {
+            $db->startTransaction();
+            $user = $db->selectSingle('SELECT u.*, us.* FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.`user_id` = u.`id` WHERE u.`id` = :id FOR UPDATE;', [':id' => $row['id_owner']]);
+            $planet = $db->selectSingle('SELECT * FROM %%PLANETS%% WHERE `id` = :id FOR UPDATE;', [':id' => $row['id']]);
+            if (!empty($user) && !empty($planet)) {
+                (new ResourceUpdate($db, $this->configs, $this->state))->CalcResource($user, $planet, true);
+                $db->update("UPDATE %%PLANETS%% SET `eco_hash` = '', `metal_mine_porcent` = :full, `crystal_mine_porcent` = :full, `deuterium_sintetizer_porcent` = :full, `solar_plant_porcent` = :full, `fusion_plant_porcent` = :full, `solar_satelit_porcent` = :full WHERE `id` = :id;", [
+                    ':full' => 10, // 10 = 100%
+                    ':id' => $row['id'],
+                ]);
+            }
+            $db->commit();
+        }
     }
 
     /**

@@ -325,6 +325,28 @@ final class BattleEngineTest extends GameTestCase
         $this->assertGreaterThanOrEqual(4, count($rounds), 'fights of different length occur');
     }
 
+    /** A Rust process that never finishes is killed after ENGINE_TIMEOUT and the fight falls back (runEngine gives null). */
+    public function testRunEngineKillsAProcessThatRunsTooLong(): void
+    {
+        $endless = new class ($this->db, $this->configs, $this->state) extends BattleEngineRust {
+            protected const ENGINE_TIMEOUT = 1;
+
+            protected static function binary(): string
+            {
+                return '/usr/bin/yes'; // prints forever, never exits on its own
+            }
+
+            public function run(string $json): ?string
+            {
+                return $this->runEngine($json);
+            }
+        };
+
+        $start = microtime(true);
+        $this->assertNull($endless->run('{}'));
+        $this->assertLessThan(5.0, microtime(true) - $start);
+    }
+
     /** When the library refuses or fails, the PHP engine fights instead and the report is stored as a PHP-engine report. */
     public function testRustEngineFallsBackToThePhpEngineWhenTheLibraryFails(): void
     {

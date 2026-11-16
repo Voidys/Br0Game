@@ -352,6 +352,7 @@ al_memberlist_on: Online
 al_message: Mensahe
 al_name: Palitan ang pangalan ng alliance
 al_name_required: Maglagay ng pangalan ng alliance.
+al_link_too_long: "Masyadong mahaba ang link (hanggang 255 character lang)."
 al_name_tag_too_long: Hanggang 8 character lang ang tag at 30 ang pangalan.
 al_new_apply: >-
   Nakatanggap ang alliance mo ng <a
@@ -495,6 +496,8 @@ bs_acs_slot: ACS slot
 bs_add_acs_slot: Magdagdag ng ACS slot
 bs_atter: Umaatake
 bs_cancel: I-reset
+bs_too_many_units: "Masyadong maraming yunit para sa isang simulation (hanggang %s lang)."
+bs_busy: "May tumatakbo nang simulation, hintayin mo munang matapos."
 bs_deffer: Depensor
 bs_derbis_raport: 'Kailangan para i-recycle ang debris: %s %s.'
 bs_load: I-load
@@ -541,6 +544,7 @@ bu_player_not_exist: Walang ganoong manlalaro.
 bu_rejected_request_body: 'Hello %s,<br>tinanggihan ni %s ang friend request mo!'
 bu_rejected_request_title: 'Tinanggihan ang friend request!'
 bu_request_exists: 'May friend request na para sa manlalarong ito!'
+bu_request_limit: 'Sobrang daming friend request. Maghintay ng ilang minuto bago magpadala ng iba pa.'
 bu_request_message: Mensahe ng request
 bu_request_send: Naipadala ang friend request.
 bu_request_text: Mensahe ng request
@@ -1065,6 +1069,7 @@ nt_dlte_note: Burahin
 nt_edit_note: I-edit ang tala
 nt_important: Mataas
 nt_no_text: Walang teksto
+nt_limit_reached: 'Naabot mo na ang pinakamataas na bilang ng mga tala (%1$d). Magbura muna ng mga lumang tala.'
 nt_no_title: Walang pamagat
 nt_normal: Normal
 nt_note: Tala

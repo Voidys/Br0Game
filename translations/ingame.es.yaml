@@ -499,6 +499,8 @@ bs_acs_slot: Slot de SAC
 bs_add_acs_slot: Añadir slot de SAC
 bs_atter: Atacante
 bs_cancel: Restablecer
+bs_too_many_units: "Demasiadas unidades para una simulación (máximo %s)."
+bs_busy: "Ya hay una simulación en marcha, espera a que termine."
 bs_deffer: Defensor
 bs_derbis_raport: 'Necesario para reciclar los escombros: %s %s.'
 bs_load: Cargar
@@ -543,6 +545,7 @@ bu_player: Jugador
 bu_rejected_request_body: Hola %s,<br>¡%s ha rechazado tu solicitud de amistad!
 bu_rejected_request_title: ¡Solicitud de amistad rechazada!
 bu_request_exists: ¡Ya existe una solicitud de amistad para este jugador!
+bu_request_limit: 'Demasiadas solicitudes de amistad. Espera unos minutos antes de enviar más.'
 bu_request_message: Mensaje de la solicitud
 bu_request_send: Solicitud de amistad enviada.
 bu_request_text: Mensaje de la solicitud
@@ -1085,6 +1088,7 @@ nt_dlte_note: Eliminar
 nt_edit_note: Editar nota
 nt_important: Alta
 nt_no_text: Sin texto
+nt_limit_reached: 'Has alcanzado el número máximo de notas (%1$d). Borra primero las notas antiguas.'
 nt_no_title: Sin título
 nt_normal: Normal
 nt_note: Nota
@@ -1566,6 +1570,7 @@ al_apply_accepted: "Solicitud aceptada."
 al_apply_declined: "Solicitud rechazada."
 al_invalid_rank_name: Los nombres de rango solo pueden contener letras, números, espacios, guiones bajos, guiones y puntos.
 al_make_ally_insufficient_points: No tienes puntos suficientes para crear una alianza.<br>Necesitas al menos %s puntos y aún te faltan %s.
+al_link_too_long: "El enlace es demasiado largo (255 caracteres como máximo)."
 al_name_tag_too_long: La etiqueta puede tener 8 caracteres como máximo y el nombre, 30.
 bs_share_code: Código para compartir
 bs_swap: Intercambiar bandos

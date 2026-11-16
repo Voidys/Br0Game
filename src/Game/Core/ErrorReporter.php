@@ -94,6 +94,28 @@ class ErrorReporter
     }
 
     /**
+     * Reports an exception that was caught and isolated (no error page, the request goes on): appends it with stack
+     * trace to var/log/game.log and sends it to the Discord exceptions webhook. Used for failed fleet events.
+     */
+    public function reportIsolated(\Throwable $exception, string $context): void
+    {
+        $errorText = date('[d-M-Y H:i:s]', $this->state->runtime->timestamp) . ' ISOLATED ERROR (' . $context . '): "'
+            . strip_tags($exception->getMessage()) . "\"\r\n"
+            . 'File: ' . $exception->getFile() . ' | Line: ' . $exception->getLine() . "\r\n"
+            . "Stack trace:\r\n"
+            . str_replace('\\', '/', $exception->getTraceAsString()) . "\r\n";
+        if (is_writable('var/log/game.log')) {
+            file_put_contents('var/log/game.log', $errorText, FILE_APPEND);
+        }
+
+        try {
+            (new Discord($this->configs, $this->state))->sendException($exception);
+        } catch (\Throwable) {
+            // reporting must never break the caller
+        }
+    }
+
+    /**
      * Game name and version for the error page and the log: the configured ones, or `-` / the install VERSION file when
      * the config cannot be read (install, broken database).
      *
@@ -199,23 +221,21 @@ class ErrorReporter
     }
 
     /**
-     * Debug setting on: opens a support ticket of category 9 (as the player when logged in, else as `System`) and puts
-     * the log text into its first answer.
+     * Debug setting on: opens a support ticket of category 9 owned by `System` (staff only; the triggering player is named in
+     * the text, never the owner, so he cannot read the stack trace) and puts the log text into its first answer.
      */
     private function openDebugTicket(string $type, string $errorText): void
     {
+        // the ticket belongs to "System" (staff only): stack traces and URLs must not be readable by the player who
+        // triggered the error; he is only named in the text
         $USER = $this->state->USER;
         if (isset($USER) && is_array($USER) && !empty($USER['id']) && !empty($USER['username'])) {
-            $ErrSource = $USER['id'];
-            $ErrName = $USER['username'];
-        } else {
-            $ErrSource = 0;
-            $ErrName = 'System';
+            $errorText = 'Player: ' . $USER['username'] . ' (#' . (int) $USER['id'] . ')' . "\n" . $errorText;
         }
 
         $ticketObj = new SupportTickets($this->db, $this->configs, $this->state);
-        $ticketID = $ticketObj->createTicket($ErrSource, 9, $type);
-        $ticketObj->createAnswer($ticketID, $ErrSource, $ErrName, $type, $errorText, 0);
+        $ticketID = $ticketObj->createTicket(0, 9, $type);
+        $ticketObj->createAnswer($ticketID, 0, 'System', $type, $errorText, 0);
     }
 
     /** PHP errors become ErrorExceptions (only those covered by error_reporting()). */

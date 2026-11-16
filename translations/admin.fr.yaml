@@ -636,6 +636,7 @@ ow_config_file_writable: >-
 ow_credits: Credits
 ow_database_errors: Il y a des erreurs présentes !
 ow_developers: Developpeur
+ow_default_uri_missing: 'Les liens des e-mails ont besoin de DEFAULT_URI (.env.local) : tant qu''elle n''est pas définie, les e-mails d''inscription et de réinitialisation du mot de passe ne sont pas envoyés.'
 ow_dir_not_writable: ./%s n\est pas inscriptible!
 ow_donate: Donation
 ow_file_detected: >-

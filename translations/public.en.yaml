@@ -77,6 +77,8 @@ overall: Overall
 passwordBack: Back
 passwordChangedMailSend: Your new password is on its way. You will receive an email shortly.
 passwordChangedMailTitle: 'New password for %s'
+passwordConfirmInfo: 'Click the button to reset your password. We will email you the new password.'
+passwordConfirmSubmit: 'Send me a new password'
 passwordErrorMailEmpty: We don't know that email address.
 passwordErrorOnePerDay: >-
   A password for this account was already requested in the last 24 hours. You

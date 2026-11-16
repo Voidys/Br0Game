@@ -141,7 +141,7 @@ class BuildingsController extends AbstractGameController
     /**
      * Adds an upgrade ($AddMode) or a demolition (false) of building $Element to the planet's build queue after checking: allowed on this
      * planet type, module enabled, requirements met, not blocked by running research (research lab) or shipyard work (shipyard, nanite factory), and
-     * that missiles are not stored when demolishing the silo. Deducts resources and starts the entry when the queue was empty.
+     * that no missiles are stored or queued when demolishing the silo. Deducts resources and starts the entry when the queue was empty.
      */
     private function addBuildingToQueue(int $Element, bool $AddMode = true): void
     {
@@ -197,9 +197,25 @@ class BuildingsController extends AbstractGameController
             || !$this->buildFunctions()->isTechnologieAccessible($USER, $this->state->PLANET, $Element)
             || ($Element == RESEARCH_LABORATORY && $USER["b_tech_planet"] != 0)
             || (($Element == NANITE_FACTORY || $Element == SHIPYARD) && !empty($this->state->PLANET['b_hangar_id']))
-            || (!$AddMode && (($Element == SILO && ($this->state->PLANET[$resource[INTERCEPTOR_MISSILE]] + $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]]) > 0) || $Element == TERRAFORMER || $Element == MOONBASE))
+            || (!$AddMode && (($Element == SILO && ($this->state->PLANET[$resource[INTERCEPTOR_MISSILE]] + $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]] + $this->queuedMissiles()) > 0) || $Element == TERRAFORMER || $Element == MOONBASE))
             || (!$AddMode && $this->state->PLANET[$resource[$Element]] == 0)
         );
+    }
+
+    /**
+     * Missiles waiting in the planet's hangar queue; they count like stored ones when the silo is to be demolished.
+     */
+    private function queuedMissiles(): int|float
+    {
+        $queue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
+        $queued = 0;
+        foreach ((array) $queue as $entry) {
+            if (isset($entry[0], $entry[1]) && in_array((int) $entry[0], $this->state->reslist['missile'])) {
+                $queued += $entry[1];
+            }
+        }
+
+        return $queued;
     }
 
     /**
@@ -402,6 +418,11 @@ class BuildingsController extends AbstractGameController
         $ListID         = $this->http()->_GP('listid', 0);
         $db = $this->db;
         $db->startTransaction();
+        // user row first (like the research code), so a research started a moment ago is seen by the laboratory rule
+        $locked = $db->selectSingle('SELECT b_tech_planet FROM %%USERS%% WHERE id = :userId FOR UPDATE;', [':userId' => $this->state->USER['id']]);
+        if (!empty($locked)) {
+            $this->state->USER['b_tech_planet'] = $locked['b_tech_planet'];
+        }
         $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
         $validCommand = true;
         switch ($TheCommand) {

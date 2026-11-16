@@ -36,7 +36,9 @@ final class AllianceText
     public static function httpUrlOrEmpty(string $url): string
     {
         $url = trim($url);
-        if ($url === '' || filter_var($url, FILTER_VALIDATE_URL) === false) {
+        // stored values are HTML-encoded: judge the decoded URL, and refuse characters that could leave an attribute
+        $decoded = html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if ($url === '' || preg_match('/[\s"\'<>`\\\\]/u', $decoded) === 1 || filter_var($decoded, FILTER_VALIDATE_URL) === false) {
             return '';
         }
         $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));

@@ -325,7 +325,8 @@ class PlanetManager
             AND `galaxy` = :galaxy
             AND `system` = :system
             AND `planet` = :planet
-            AND `planet_type` = :type;';
+            AND `planet_type` = :type
+            AND `destruyed` = 0;';
 
         $parentPlanet = $db->selectSingle($sql, [
             ':universe' => $universe,
@@ -335,7 +336,8 @@ class PlanetManager
             ':type'     => 1,
         ]);
 
-        if ($parentPlanet['id_luna'] != 0) {
+        // no parent (abandoned, destroyed or gone) or it has a moon already
+        if (empty($parentPlanet) || $parentPlanet['id_luna'] != 0) {
             return false;
         }
 
@@ -443,7 +445,7 @@ class PlanetManager
             throw new Exception("Can not found planet #" . $planetId . "!");
         }
 
-        $sql = 'SELECT `id` FROM %%FLEETS%% WHERE `end_id` = :planetId
+        $sql = 'SELECT `id`, `owner` FROM %%FLEETS%% WHERE `end_id` = :planetId
                     OR (`end_type` = :type AND `end_id` = :moondId);';
         $fleetIds = $db->select($sql, [
             ':planetId' => $planetId,
@@ -451,8 +453,9 @@ class PlanetManager
             ':moondId'  => $planetData['id_luna'],
         ]);
 
+        // every fleet heading for the planet or its moon turns around, foreign ones too (each is recalled in its owner's name)
         foreach ($fleetIds as $fleetId) {
-            $this->fleetFunctions()->sendFleetBack(['id' => $planetData['id_owner']], $fleetId['id']);
+            $this->fleetFunctions()->sendFleetBack(['id' => $fleetId['owner']], $fleetId['id']);
         }
 
         if ($planetData['planet_type'] == TYPE_MOON) {

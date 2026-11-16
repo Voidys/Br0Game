@@ -13,6 +13,70 @@ let current = null;
 let pinned = false;
 let timer = 0;
 
+const TAGS = new Set(['TABLE', 'THEAD', 'TBODY', 'TR', 'TD', 'TH', 'BR', 'B', 'I', 'STRONG', 'EM', 'U', 'SMALL', 'SPAN', 'DIV', 'P', 'UL', 'LI', 'A', 'IMG']);
+const FORM_TAGS = new Set(['FORM', 'INPUT', 'BUTTON']);
+const ATTRIBUTES = new Set(['class', 'colspan', 'rowspan', 'width', 'height', 'timestamp', 'alt', 'title', 'playerid', 'allyid']);
+/** data-action values the game's tooltips use; everything else loses the attribute */
+const ACTIONS = new Set(['galaxy-mission', 'missile-form', 'popup', 'dialog-pm', 'dialog-buddy', 'dialog-playercard', 'dialog-info']);
+
+/** same-origin or relative http(s) URL (also "#"); anything else (javascript:, data:, other schemes) is refused */
+function safeUrl(value, { sameOrigin = false } = {}) {
+  try {
+    const url = new URL(value, document.baseURI);
+    if (!['http:', 'https:'].includes(url.protocol)) return false;
+    return !sameOrigin || url.origin === location.origin;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Parses tooltip HTML in an inert document and rebuilds it from an allowlist (tags, attributes, safe URLs), so markup
+ * that slipped through server-side escaping cannot add forms, handlers, scripts or foreign images. Forms are kept only
+ * when the trigger carries data-tooltip-forms (set by the server template), and then only same-origin POST/GET forms.
+ */
+export function sanitizeTooltip(html, allowForms = false) {
+  const source = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body;
+  const target = document.createDocumentFragment();
+  const copy = (from, into) => {
+    for (const node of from.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        into.append(document.createTextNode(node.data));
+        continue;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) continue;
+      const tag = node.tagName;
+      const isForm = allowForms && FORM_TAGS.has(tag);
+      if (!TAGS.has(tag) && !isForm) {
+        if (!['SCRIPT', 'STYLE', 'TEMPLATE', 'IFRAME', 'OBJECT', 'EMBED', 'SVG', 'MATH', 'NOSCRIPT'].includes(tag.toUpperCase())) copy(node, into);
+        continue;
+      }
+      if (tag === 'FORM' && !safeUrl(node.getAttribute('action') ?? '', { sameOrigin: true })) continue;
+      const clean = document.createElement(tag);
+      for (const { name, value } of node.attributes) {
+        if (ATTRIBUTES.has(name)) clean.setAttribute(name, value);
+        else if (name === 'style' && /^\s*text-align:\s*(center|left|right)\s*;?\s*$/i.test(value)) clean.setAttribute(name, value);
+        else if (name === 'href' && tag === 'A' && (value === '#' || safeUrl(value))) clean.setAttribute(name, value);
+        else if (name === 'src' && tag === 'IMG' && safeUrl(value, { sameOrigin: true })) clean.setAttribute(name, value);
+        else if (name === 'data-action' && ACTIONS.has(value)) clean.setAttribute(name, value);
+        else if (name === 'data-url' && node.getAttribute('data-action') === 'popup' && (value.startsWith('?') || safeUrl(value, { sameOrigin: true }))) clean.setAttribute(name, value);
+        else if (/^data-(id|mission|planet|galaxy|system|position|duration|type|width)$/.test(name)) clean.setAttribute(name, value);
+        else if (isForm && tag === 'FORM' && (name === 'action' || (name === 'method' && /^(post|get)$/i.test(value)))) clean.setAttribute(name, value);
+        else if (isForm && tag === 'INPUT' && (name === 'name' || name === 'value' || (name === 'type' && value === 'hidden'))) clean.setAttribute(name, value);
+        else if (isForm && tag === 'BUTTON' && name === 'type' && /^(submit|button)$/.test(value)) clean.setAttribute(name, value);
+      }
+      if (tag === 'A') {
+        if (clean.hasAttribute('href') && node.getAttribute('target') === '_blank') clean.setAttribute('target', '_blank');
+        clean.setAttribute('rel', 'noopener noreferrer');
+      }
+      copy(node, clean);
+      into.append(clean);
+    }
+  };
+  copy(source, target);
+  return target;
+}
+
 /** The shared tooltip element (#tooltip), created on first use. */
 function element() {
   if (!tip) {
@@ -28,7 +92,7 @@ function element() {
 function open(source, x, y) {
   const box = element();
   current = source;
-  box.innerHTML = source.getAttribute('data-tooltip-content') ?? '';
+  box.replaceChildren(sanitizeTooltip(source.getAttribute('data-tooltip-content') ?? '', source.hasAttribute('data-tooltip-forms')));
   // fixed durations in injected content (e.g. the demolish time) are rendered here, timers.js only sees the page
   box.querySelectorAll('.statictime[timestamp]').forEach((el) => { el.textContent = getRestTimeFormat(el.getAttribute('timestamp')); });
   box.style.display = 'block';

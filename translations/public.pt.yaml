@@ -38,6 +38,8 @@ passwordBack: Voltar
 passwordCaptcha: Código de segurança
 passwordChangedMailSend: A tua nova palavra-passe está a caminho. Vais receber um email dentro de momentos.
 passwordChangedMailTitle: Nova palavra-passe para %s
+passwordConfirmInfo: 'Clica no botão para repor a tua palavra-passe. Enviamos-te a nova palavra-passe por e-mail.'
+passwordConfirmSubmit: 'Enviar-me uma nova palavra-passe'
 passwordErrorMailEmpty: Não conhecemos esse endereço de email.
 passwordErrorOnePerDay: Já pediste uma palavra-passe para esta conta nas últimas 24 horas. Podes pedir outra daqui a 24 horas.
 passwordErrorUnknown: Não foi encontrada nenhuma conta com esses dados.

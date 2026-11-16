@@ -219,8 +219,8 @@ class Session
 
     /**
      * Marks the owner of the session online (user: online time and ip, account lobby: online time), removes the other
-     * sessions of the owner when multiple sessions are prevented and this session's row once it is older than the
-     * session lifetime. A logged-in user session also records the request path.
+     * sessions of the owner when multiple sessions are prevented. The session lifetime is sliding (idle time, checked in
+     * GameBootstrap::syncGameSession() and by the cleaner cronjob), never time since login. A logged-in user session also records the request path.
      *
      * @param int|string $created creation time of the session row
      */
@@ -249,15 +249,6 @@ class Session
                 ]);
             }
 
-            // Remove old sessions
-            if ($created + SESSION_LIFETIME < time()) {
-                $sql    = 'DELETE FROM %%SESSION%% WHERE (userID = :userId AND sessionID = :sessionId);';
-
-                $db->delete($sql, [
-                    ':userId'       => $this->data['userId'],
-                    ':sessionId'    => $this->manager->id(),
-                ]);
-            }
             $this->data['requestPath']   = $this->getRequestPath();
         } else {
             $sql = 'UPDATE %%ACCOUNTS%% SET
@@ -272,16 +263,6 @@ class Session
             // Remove multisessions
             if (PREVENT_MULTISESSIONS == true) {
                 $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID != :sessionId);';
-                $db->delete($sql, [
-                    ':accountId'    => $this->data['accountId'],
-                    ':sessionId'    => $this->manager->id(),
-                ]);
-            }
-
-            // Remove old sessions
-            if ($created + SESSION_LIFETIME < time()) {
-                $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID = :sessionId);';
-
                 $db->delete($sql, [
                     ':accountId'    => $this->data['accountId'],
                     ':sessionId'    => $this->manager->id(),

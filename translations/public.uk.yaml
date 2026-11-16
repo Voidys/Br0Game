@@ -67,6 +67,8 @@ overall: Загалом
 passwordBack: Назад
 passwordChangedMailSend: Твій новий пароль уже в дорозі. Незабаром ти отримаєш лист.
 passwordChangedMailTitle: Новий пароль для %s
+passwordConfirmInfo: 'Натисни кнопку, щоб скинути свій пароль. Новий пароль ми надішлемо тобі електронною поштою.'
+passwordConfirmSubmit: 'Надіслати мені новий пароль'
 passwordErrorMailEmpty: Ми не знаємо такої електронної адреси.
 passwordErrorOnePerDay: Пароль для цього облікового запису вже запитували протягом останніх 24 годин. Наступний запит можна надіслати через 24 години.
 passwordErrorUnknown: Облікового запису за цими даними не знайдено.

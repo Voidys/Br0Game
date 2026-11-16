@@ -39,7 +39,7 @@ class ResourcesController extends AbstractGameController
 
     /**
      * Saves the production levels (POST prod[<resource id>] = 0..10 in steps of 10%). Not in vacation mode. Locks the planet row, only
-     * accepts columns `<resource>_porcent` that exist on the planet, updates them and clears `eco_hash` so the production is recalculated.
+     * accepts columns `<resource>_porcent` that exist on the planet, locks the user row first, updates them and clears `eco_hash` so the production is recalculated.
      * Redirects back.
      */
     public function send()
@@ -53,6 +53,13 @@ class ResourcesController extends AbstractGameController
 
             $db = $this->db;
             $db->startTransaction();
+
+            // User row first, then the planet (the order everywhere else). The page-start copy of the user is stale under concurrent
+            // requests and the recalculation below writes its research queue back.
+            $locked = $db->selectSingle('SELECT * FROM %%USERS%% WHERE id = :userId FOR UPDATE;', [':userId' => $this->state->USER['id']]);
+            if (!empty($locked)) {
+                $this->state->USER = array_merge($this->state->USER, $locked);
+            }
 
             $param = [':planetId' => $this->state->PLANET['id']];
             $sql = "SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;";

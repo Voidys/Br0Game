@@ -275,6 +275,7 @@ class ConfigFieldSchema
             'discord_hooks' => [
                 'discord_logs_hook' => [
                     'type' => self::TYPE_TEXT,
+                    'secret' => true,
                     'maxlength' => 500,
                     'size' => 60,
                     'transform' => 'string',
@@ -282,6 +283,7 @@ class ConfigFieldSchema
                 ],
                 'discord_exceptions_hook' => [
                     'type' => self::TYPE_TEXT,
+                    'secret' => true,
                     'maxlength' => 500,
                     'size' => 60,
                     'transform' => 'string',
@@ -289,6 +291,7 @@ class ConfigFieldSchema
                 ],
                 'discord_tickets_hook' => [
                     'type' => self::TYPE_TEXT,
+                    'secret' => true,
                     'maxlength' => 500,
                     'size' => 60,
                     'transform' => 'string',
@@ -374,6 +377,7 @@ class ConfigFieldSchema
                 ],
                 'smtp_pass' => [
                     'type' => self::TYPE_TEXT,
+                    'secret' => true,
                     'maxlength' => 255,
                     'size' => 60,
                     'transform' => 'string',
@@ -468,6 +472,7 @@ class ConfigFieldSchema
             'recaptcha' => [
                 'recaptcha_priv_key' => [
                     'type' => self::TYPE_TEXT,
+                    'secret' => true,
                     'maxlength' => 255,
                     'size' => 60,
                     'transform' => 'string',

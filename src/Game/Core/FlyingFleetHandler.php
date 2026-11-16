@@ -39,7 +39,7 @@ use App\Game\Missions\MissionInterface;
  * Processes the due fleet events: for every fleet whose `fleets_event` row carries this run's lock token (set by
  * the caller/cronjob) it instantiates the mission class of the fleet's mission id (missionClasses()) and calls
  * TargetEvent / ReturnEvent / EndStayEvent depending on the fleet status, oldest event first. Fleets of an unknown
- * mission are deleted. The caller wraps the run in a transaction.
+ * mission are deleted. Every event runs in its own transaction (see run()); the caller only claims the events.
  */
 class FlyingFleetHandler
 {
@@ -47,7 +47,11 @@ class FlyingFleetHandler
         private Database $db,
         private ConfigRegistry $configs,
         private Singleton $state,
+        private ErrorReporter $errors,
     ) {}
+
+    /** Seconds a failed event is parked before it is claimed again. */
+    public const QUARANTINE_SECONDS = 300;
 
     protected string $token;
 
@@ -85,35 +89,52 @@ class FlyingFleetHandler
     }
 
     /**
-     * Handles all events locked with the token (see setToken()), ordered by event time then fleet id, rows locked FOR UPDATE.
+     * Handles all events locked with the token (see setToken()), ordered by event time then fleet id. Every event runs in
+     * its own transaction (Database::transactional, deadlocks are repeated) and releases its lock when it is done, so a
+     * failing event is rolled back, reported (game log + Discord) and quarantined (lock released, event time pushed back
+     * by QUARANTINE_SECONDS) while the others go on. The fleet rows are read once up front, as before: an event
+     * sees its fleet as it was at the claim, even when an earlier event of the batch (e.g. an ACS battle) changed it.
      */
     public function run(): void
     {
-
-        $db = $this->db;
-
-        $sql = 'SELECT f.*
+        $fleetResult = $this->db->select(
+            'SELECT f.*
             FROM %%FLEETS_EVENT%% fe
             INNER JOIN %%FLEETS%% f ON fe.`fleetID` = f.`id`
-            WHERE fe.`lock` = :token ORDER BY fe.`time` ASC, fe.`fleetID` ASC FOR UPDATE;';
-
-        $fleetResult = $db->select($sql, [
-            ':token'    => $this->token
-        ]);
+            WHERE fe.`lock` = :token ORDER BY fe.`time` ASC, fe.`fleetID` ASC;',
+            [':token' => $this->token],
+        );
 
         foreach ($fleetResult as $fleetRow) {
-            if (!isset(self::missionClasses()[$fleetRow['mission']])) {
-                $sql = 'DELETE FROM %%FLEETS%% WHERE `id` = :fleetId;';
-
-                $db->delete($sql, [
-                    ':fleetId'  => $fleetRow['id']
-                ]);
-
-                continue;
+            try {
+                $this->db->transactional(fn() => $this->runEvent($fleetRow));
+            } catch (\Throwable $exception) {
+                $this->quarantine($fleetRow, $exception);
             }
+        }
+    }
 
-            $missionName    = self::missionClasses()[$fleetRow['mission']];
+    /**
+     * Runs one event in the open transaction: locks the event row (skips it when an earlier event of the batch removed the
+     * fleet), calls the mission and releases the event lock.
+     *
+     * @param array<string, mixed> $fleetRow
+     */
+    private function runEvent(array $fleetRow): void
+    {
+        $db = $this->db;
+        $locked = $db->selectSingle(
+            'SELECT `fleetID` FROM %%FLEETS_EVENT%% WHERE `fleetID` = :fleetId AND `lock` = :token FOR UPDATE;',
+            [':fleetId' => $fleetRow['id'], ':token' => $this->token],
+        );
+        if (empty($locked)) {
+            return;
+        }
 
+        $missionName = $this->missionClass((int) $fleetRow['mission']);
+        if ($missionName === null) {
+            $db->delete('DELETE FROM %%FLEETS%% WHERE `id` = :fleetId;', [':fleetId' => $fleetRow['id']]);
+        } else {
             /** @var MissionInterface $missionObj */
             $missionObj = new $missionName($fleetRow, $this->db, $this->configs, $this->state);
 
@@ -128,6 +149,41 @@ class FlyingFleetHandler
                     $missionObj->EndStayEvent();
                     break;
             }
+        }
+
+        $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `fleetID` = :fleetId AND `lock` = :token;', [
+            ':fleetId' => $fleetRow['id'],
+            ':token' => $this->token,
+        ]);
+    }
+
+    /** Mission class of a mission id, null for an unknown mission (its fleet is deleted). */
+    protected function missionClass(int $mission): ?string
+    {
+        return self::missionClasses()[$mission] ?? null;
+    }
+
+    /**
+     * Parks a failed event: reports the exception, releases the lock and pushes the event time back so the same event
+     * cannot stall every later batch.
+     *
+     * @param array<string, mixed> $fleetRow
+     */
+    private function quarantine(array $fleetRow, \Throwable $exception): void
+    {
+        $this->errors->reportIsolated($exception, 'fleet ' . $fleetRow['id'] . ', mission ' . $fleetRow['mission'] . ', status ' . $fleetRow['status']);
+
+        try {
+            $this->db->update(
+                'UPDATE %%FLEETS_EVENT%% SET `lock` = NULL, `time` = :time WHERE `fleetID` = :fleetId AND `lock` = :token;',
+                [
+                    ':time' => $this->state->runtime->timestamp + self::QUARANTINE_SECONDS,
+                    ':fleetId' => $fleetRow['id'],
+                    ':token' => $this->token,
+                ],
+            );
+        } catch (\Throwable $releaseFailure) {
+            $this->errors->reportIsolated($releaseFailure, 'quarantine of fleet ' . $fleetRow['id']);
         }
     }
 }

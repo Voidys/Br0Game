@@ -35,6 +35,7 @@ class LlmClient
         private string $baseUrl,
         private readonly string $installId = 'br0game',
         private readonly string $referer = 'https://br0game.local/',
+        private readonly ?LlmUrlGuard $guard = null,
     ) {
         if (trim($this->baseUrl) === '') {
             $this->baseUrl = self::DEFAULT_BASE_URLS[$provider] ?? '';
@@ -55,7 +56,7 @@ class LlmClient
 
     /**
      * Sends one prompt and returns the model's text. POST (JSON) to /messages (claude) or /chat/completions
-     * (others); 30 s total, 10 s connect/idle, no redirects. openai gets max_completion_tokens, opencode_go the
+     * (others); 10 s total, 8 s connect/idle, no redirects. openai gets max_completion_tokens, opencode_go the
      * x-opencode-session header, openrouter referer/title headers.
      *
      * @throws LlmException on missing config, transport error, non-2xx status (HTTP code + provider message,
@@ -73,15 +74,19 @@ class LlmClient
             throw new LlmException('Invalid base URL.');
         }
 
+        // public hosts only; the client is pinned to the checked addresses (no second lookup)
+        $target = ($this->guard ?? new LlmUrlGuard())->check($this->baseUrl);
+
         [$url, $headers, $body] = $this->buildRequest($system, $prompt, $maxTokens);
 
         try {
             $response = $this->httpClient->request('POST', $url, [
                 'headers' => $headers,
                 'body' => json_encode($body),
-                'timeout' => 10, // connect / idle
-                'max_duration' => 30,
+                'timeout' => 8, // connect / idle
+                'max_duration' => 10,
                 'max_redirects' => 0,
+                'resolve' => [$target['host'] => $target['ips'][0]],
             ]);
             $status = $response->getStatusCode();
             $raw = $response->getContent(false);

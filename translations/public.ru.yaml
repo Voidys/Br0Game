@@ -34,6 +34,8 @@ passwordBack: Назад
 passwordCaptcha: Защитный код
 passwordChangedMailSend: Твой новый пароль уже в пути. Скоро ты получишь письмо.
 passwordChangedMailTitle: Новый пароль на сайте %s
+passwordConfirmInfo: 'Нажми на кнопку, чтобы сбросить свой пароль. Новый пароль мы отправим тебе по электронной почте.'
+passwordConfirmSubmit: 'Отправить мне новый пароль'
 passwordErrorMailEmpty: Такой адрес электронной почты нам неизвестен.
 passwordErrorOnePerDay: Пароль для этого аккаунта уже запрашивали за последние 24 часа. Следующий запрос можно отправить через 24 часа.
 passwordErrorUnknown: Аккаунт с такими данными не найден.

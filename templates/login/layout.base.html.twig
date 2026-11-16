@@ -43,7 +43,7 @@
     'gamePlatform': 'Browser',
     'playMode': 'MultiPlayer',
     'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR'}
-  }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}</script>
+  }|json_script }}</script>
 </head>
 <body id="{{ currentPage }}" class="site site--{{ bodyclass }}{% block body_class %}{% endblock %}">
   {% if bodyclass != 'popup' %}
@@ -101,6 +101,6 @@
     unisWildcast: unisWildcast,
     referralEnable: referralEnable,
     basePath: basepath,
-  }|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+  }|json_script }}</script>
 </body>
 </html>

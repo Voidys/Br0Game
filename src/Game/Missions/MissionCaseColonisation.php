@@ -83,6 +83,9 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
      */
     private function tryColonise(array $senderUser, \App\Game\Core\Language $LNG): string
     {
+        // serialise with every other colonisation of this player (planet limit) before anything is checked
+        $this->db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $this->_fleet['owner']]);
+
         $checkPosition = $this->playerUtil()->checkPosition(
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
@@ -112,16 +115,24 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                         $maxPlanetCount
                     );
                 } else {
-                    $NewOwnerPlanet = $this->playerUtil()->createPlanet(
-                        $this->_fleet['end_galaxy'],
-                        $this->_fleet['end_system'],
-                        $this->_fleet['end_planet'],
-                        $this->_fleet['universe'],
-                        $this->_fleet['owner'],
-                        $LNG['fcp_colony'],
-                        false,
-                        $senderUser['authlevel']
-                    );
+                    try {
+                        $NewOwnerPlanet = $this->playerUtil()->createPlanet(
+                            $this->_fleet['end_galaxy'],
+                            $this->_fleet['end_system'],
+                            $this->_fleet['end_planet'],
+                            $this->_fleet['universe'],
+                            $this->_fleet['owner'],
+                            $LNG['fcp_colony'],
+                            false,
+                            $senderUser['authlevel']
+                        );
+                    } catch (\Throwable $exception) {
+                        // a parallel colonisation took the position between the check and the insert (unique position key)
+                        if (Database::errorNumber($exception) !== Database::ERROR_DUPLICATE_KEY) {
+                            throw $exception;
+                        }
+                        return $LNG->format('sys_colo_notfree', GetTargetAddressLink($this->_fleet, ''));
+                    }
 
                     if ($NewOwnerPlanet === false) {
                         $message = $LNG->format('sys_colo_badpos', GetTargetAddressLink($this->_fleet, ''));

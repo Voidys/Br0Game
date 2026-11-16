@@ -53,29 +53,16 @@ class VertifyController extends AbstractLoginController
 
         $db = $this->db;
 
-        $sql = "SELECT * FROM %%ACCOUNTS_VALID%%
-		WHERE validationID	= :validationID
-		AND validationKey	= :validationKey
-		AND date > :oldest;";
+        // claim and account creation run under the registration lock: the link works exactly once, however many
+        // requests (double click, mail scanner) arrive together
+        $result = $this->withRegistrationLock(fn(): ?array => $this->claimPendingRegistration((int) $validationID, (string) $validationKey));
 
-        // verification links are valid for 3 days (the daily cronjob removes older rows)
-        $userData = $db->selectSingle($sql, [
-            ':validationKey'	=> $validationKey,
-            ':validationID'		=> $validationID,
-            ':oldest'		=> $this->state->runtime->timestamp - 3 * TIME_24_HOURS,
-        ]);
-
-        if (empty($userData)) {
+        if ($result === null) {
             $this->printMessage($LNG['vertifyNoUserFound']);
         }
+        [$userData, $accountID] = $result;
 
         $config	= $this->configs->get();
-
-        $sql = "DELETE FROM %%ACCOUNTS_VALID%% WHERE validationID = :validationID;";
-        $db->delete($sql, [
-            ':validationID'	=> $validationID,
-        ]);
-        $accountID = $this->accountUtil()->createAccount($userData['accountname'], $userData['password'], $userData['email'], $userData['language'], 0, $userData['ip'], $userData['timezone']);
 
         if ($config->mail_active == 1) {
             $MailSubject	= $LNG->format('registerMailCompleteTitle', $config->game_name);
@@ -109,6 +96,38 @@ class VertifyController extends AbstractLoginController
             'accountID'	=> $accountID,
             'accountname'	=> $userData['accountname'],
         ];
+    }
+
+    /**
+     * Creates the account of a pending registration and consumes the row (called under the registration lock): the
+     * row must match id and key and be younger than 3 days (verification links are valid for 3 days, the daily cronjob
+     * removes older rows). The account is created first and the row is deleted afterwards, so a failing insert keeps the
+     * pending registration; the lock makes the pair atomic for parallel requests. An e-mail address that an account
+     * already uses ends without creating a second account.
+     *
+     * @return array{0: array<string, mixed>, 1: int|string}|null pending data and new account id, null for an unknown, used or expired link
+     */
+    private function claimPendingRegistration(int $validationID, string $validationKey): ?array
+    {
+        $db = $this->db;
+        $userData = $db->selectSingle("SELECT * FROM %%ACCOUNTS_VALID%% WHERE validationID = :validationID AND validationKey = :validationKey AND date > :oldest;", [
+            ':validationKey'	=> $validationKey,
+            ':validationID'		=> $validationID,
+            ':oldest'		=> $this->state->runtime->timestamp - 3 * TIME_24_HOURS,
+        ]);
+        if (empty($userData)) {
+            return null;
+        }
+
+        $taken = (int) $db->selectSingle("SELECT COUNT(*) AS count FROM %%ACCOUNTS%% WHERE email = :email;", [':email' => $userData['email']], 'count') > 0;
+        $accountID = $taken ? null : $this->accountUtil()->createAccount($userData['accountname'], $userData['password'], $userData['email'], $userData['language'], 0, $userData['ip'], $userData['timezone']);
+
+        $db->delete("DELETE FROM %%ACCOUNTS_VALID%% WHERE validationID = :validationID AND validationKey = :validationKey;", [
+            ':validationID'	=> $validationID,
+            ':validationKey'	=> $validationKey,
+        ]);
+
+        return $accountID === null ? null : [$userData, $accountID];
     }
 
     /**

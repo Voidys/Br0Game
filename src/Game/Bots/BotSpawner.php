@@ -40,6 +40,26 @@ class BotSpawner
             throw new \Exception('Unknown bot profile ' . $profileId);
         }
 
+        // the count check and the inserts of concurrent spawn requests of a universe must not interleave
+        $lockName = $this->db->getDatabaseName() . ':bots_spawn_' . $universe;
+        if (!(int) $this->db->selectSingle('SELECT GET_LOCK(:name, 10) AS acquired;', [':name' => $lockName], 'acquired')) {
+            throw new \Exception('Another bot spawn is running, try again in a moment.');
+        }
+        try {
+            return $this->spawnLocked($universe, $profileId, $count, $profile, $config);
+        } finally {
+            $this->db->selectSingle('SELECT RELEASE_LOCK(:name) AS released;', [':name' => $lockName], 'released');
+        }
+    }
+
+    /**
+     * spawn() with the universe's spawn lock held: counts the existing bots, then creates up to the allowed number.
+     *
+     * @param array<string, mixed> $profile
+     * @return int[] ids of the created users
+     */
+    private function spawnLocked(int $universe, int $profileId, int $count, array $profile, mixed $config): array
+    {
         $existing = (int) $this->db->selectSingle(
             'SELECT COUNT(*) as count FROM %%BOT_PLAYERS%% WHERE universe = :universe;',
             [':universe' => $universe],
@@ -80,8 +100,39 @@ class BotSpawner
         $s = $profile['settings'];
 
         [$name, $persona] = $this->chooseIdentity($universe, $profile);
-        [$userId, $planetId] = $this->createPlayerAccount($universe, $name);
 
+        // account, player, home planet and bot row succeed or fail together (no half-created player without bot row)
+        [$userId, $planetId] = $this->db->transactional(function () use ($universe, $name, $s, $profile, $persona): array {
+            [$userId, $planetId] = $this->createPlayerAccount($universe, $name);
+            $this->insertBotRow($universe, $profile, (int) $userId, $s, $persona);
+
+            return [$userId, $planetId];
+        });
+
+        if ($persona !== null) {
+            try {
+                $botRow = $this->db->selectSingle('SELECT * FROM %%BOT_PLAYERS%% WHERE user_id = :id;', [':id' => $userId]);
+                $this->persona->renamePlanet((int) $planetId, $this->persona->planetName($botRow, $persona, true));
+            } catch (Throwable $e) {
+                error_log('BotSpawner planet name: ' . $e->getMessage());
+            }
+        }
+
+        $this->botLog->log($userId, $universe, 'spawn', substr('profile ' . $profile['row']['profile_key'] . ' as ' . $name, 0, 255));
+
+        return (int) $userId;
+    }
+
+    /**
+     * Inserts the bot_players row of a new bot: skill from the profile's `skill_start`, random category preferences 0.7-1.3 as
+     * `personality`, first tick within 10 minutes.
+     *
+     * @param array<string, mixed> $profile profile as returned by BotProfiles::load()
+     * @param array<string, mixed> $s profile settings
+     * @param array<string, mixed>|null $persona
+     */
+    private function insertBotRow(int $universe, array $profile, int $userId, array $s, ?array $persona): void
+    {
         $personality = ['patience' => round(0.7 + mt_rand() / mt_getrandmax() * 0.6, 2)];
         foreach (self::PERSONALITY_CATEGORIES as $cat) {
             $personality[$cat] = round(0.7 + mt_rand() / mt_getrandmax() * 0.6, 2);
@@ -103,19 +154,6 @@ class BotSpawner
                 ':now' => $now,
             ],
         );
-
-        if ($persona !== null) {
-            try {
-                $botRow = $this->db->selectSingle('SELECT * FROM %%BOT_PLAYERS%% WHERE user_id = :id;', [':id' => $userId]);
-                $this->persona->renamePlanet((int) $planetId, $this->persona->planetName($botRow, $persona, true));
-            } catch (Throwable $e) {
-                error_log('BotSpawner planet name: ' . $e->getMessage());
-            }
-        }
-
-        $this->botLog->log($userId, $universe, 'spawn', substr('profile ' . $profile['row']['profile_key'] . ' as ' . $name, 0, 255));
-
-        return (int) $userId;
     }
 
     /**

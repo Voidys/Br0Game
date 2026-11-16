@@ -44,6 +44,7 @@ class Database
     public const ISOLATION_COMMAND = 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED';
 
     /** MySQL error numbers worth repeating a transaction for: deadlock victim and lock wait timeout. */
+    public const ERROR_DUPLICATE_KEY = 1062;
     public const ERROR_DEADLOCK = 1213;
     public const ERROR_LOCK_WAIT_TIMEOUT = 1205;
 

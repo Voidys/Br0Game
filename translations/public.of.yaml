@@ -52,6 +52,8 @@ passwordBack: Zurück
 passwordCaptcha: 'Sicherheidscode '
 passwordChangedMailSend: 'Du erhälschd in Gürze ne EMail- mid deinem neune Gennwort. '
 passwordChangedMailTitle: 'Neues Gennwort auf der Website: %s'
+passwordConfirmInfo: 'Glick auf den Knobf, dass dei Gennwort zurügggsetzd wird. Des neue Gennwort schiggn mir der per EMail.'
+passwordConfirmSubmit: 'Neues Gennwort anforderne'
 passwordErrorMailEmpty: Du haschd geine EMailAdresse- angegebne!
 passwordErrorOnePerDay: >-
   Das Gennwort für dieses Benutzergonto wurde in den ledzdne 24 Schdundne

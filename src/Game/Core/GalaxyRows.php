@@ -291,7 +291,7 @@ class GalaxyRows
                     ($this->galaxyRow['ally_members'] == 1) ? 'gl_member_add' : 'gl_member',
                     $this->galaxyRow['ally_members']
                 ),
-                'web'    => $this->galaxyRow['ally_web'],
+                'web'    => \App\Game\Alliance\AllianceText::httpUrlOrEmpty((string) $this->galaxyRow['ally_web']),
                 'tag'    => $this->galaxyRow['ally_tag'],
                 'rank'   => $this->galaxyRow['ally_rank'],
                 'class'  => $Class,

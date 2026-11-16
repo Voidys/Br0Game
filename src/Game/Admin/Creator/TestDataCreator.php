@@ -77,7 +77,7 @@ class TestDataCreator extends CreatorTab
         $accountId = $this->accountUtil()->createAccount(
             'TestUser' . $number,
             $this->accountUtil()->cryptPassword('TestUser' . $number),
-            'TestUser' . $number . '@test.com',
+            'TestUser' . $number . '-u' . $universe . '@test.com',
             $lang,
         );
         $player = $this->playerUtil()->createPlayer(

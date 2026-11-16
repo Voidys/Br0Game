@@ -17,6 +17,7 @@ use App\Game\Core\Mail;
 use App\Game\Core\Session;
 use App\Game\Core\Singleton;
 use App\Game\Core\Theme;
+use App\Security\PasswordSupport;
 
 /** Account settings: language, timezone, email and password, account deletion (modes: show, send, toggleDelete). */
 #[\App\Routing\GamePage('account.php', 'accountSettings')]
@@ -34,7 +35,7 @@ class AccountSettingsController extends AbstractAccountController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $LNG->includeData(['INGAME', 'ACCOUNT']);
+        $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
         $ACCOUNT = $this->state->ACCOUNT;
 
         $this->assign([
@@ -67,20 +68,23 @@ class AccountSettingsController extends AbstractAccountController
     public function send()
     {
         $LNG = $this->state->LNG;
-        $LNG->includeData(['INGAME', 'ACCOUNT']);
+        $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
         $THEME = $this->state->THEME;
-        $password           = $this->http()->_GP('password', '');
-        $newpassword        = $this->http()->_GP('newpassword', '');
-        $newpassword2       = $this->http()->_GP('newpassword2', '');
+        // passwords are used exactly as typed (no HTML encoding, trimming or "?" for non-ASCII)
+        $password           = $this->http()->rawInput('password');
+        $newpassword        = $this->http()->rawInput('newpassword');
+        $newpassword2       = $this->http()->rawInput('newpassword2');
         $email              = $this->http()->_GP('email', $this->state->ACCOUNT['email']);
         $language           = $this->http()->_GP('language', '');
         $theme              = $this->http()->_GP('theme', $THEME->getThemeName());
-        $timezone           = $this->http()->_GP('timezone', '');
+        $timezone           = (string) $this->http()->_GP('timezone', '');
+        $timezone = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $this->state->ACCOUNT['timezone'];
 
         $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
         $theme = array_key_exists($theme, Theme::getAvailableCssThemes()) ? $theme : $THEME->getThemeName();
 
         $db = $this->db;
+        $LNG->includeData(['PUBLIC']);
         $db->startTransaction();
         $sql = "SELECT * FROM %%ACCOUNTS%% a WHERE a.id = :id FOR UPDATE;";
         $db->select($sql, [
@@ -145,6 +149,22 @@ class AccountSettingsController extends AbstractAccountController
     }
 
     /**
+     * Checks the typed current password (limited per account: a hijacked session cannot guess it); a spent limit ends
+     * the request with the "too many attempts" message.
+     */
+    private function currentPasswordMatches(string $password): bool
+    {
+        if (!$this->rateLimits->allowAccountSettingsPassword((int) $this->state->ACCOUNT['id'])) {
+            $this->printMessage($this->state->LNG['login_error_4'], [[
+                'label' => $this->state->LNG['sys_back'],
+                'url'   => 'account?page=accountSettings',
+            ]]);
+        }
+
+        return PasswordSupport::verifyAny($password, $this->state->ACCOUNT['password']);
+    }
+
+    /**
      * Sets a new password when the current one is given and correct and both repetitions match: re-hashes it, revokes
      * every session of the account and logs this one out. Otherwise nothing happens.
      */
@@ -152,17 +172,26 @@ class AccountSettingsController extends AbstractAccountController
     {
         $db = $this->db;
         if (
-            !empty($newpassword)
-            && !empty($password)
-            && password_verify($password, $this->state->ACCOUNT['password'])
-            && $newpassword == $newpassword2
+            $newpassword !== ''
+            && $password !== ''
+            && $this->currentPasswordMatches($password)
+            && $newpassword === $newpassword2
         ) {
+            if (strlen($newpassword) < PasswordSupport::MIN_LENGTH) {
+                $this->printMessage($this->state->LNG->format('registerErrorPasswordLength', PasswordSupport::MIN_LENGTH), [[
+                    'label' => $this->state->LNG['sys_back'],
+                    'url'   => 'account?page=accountSettings',
+                ]]);
+            }
+
             $newpass     = $this->accountUtil()->cryptPassword($newpassword);
             $sql = "UPDATE %%ACCOUNTS%% SET password = :newpass WHERE id = :accountID;";
             $db->update($sql, [
                 ':newpass'  => $newpass,
                 ':accountID'   => $this->state->ACCOUNT['id'],
             ]);
+            // open reset links of the account do not survive a password change
+            $db->update('UPDATE %%LOSTPASSWORD%% SET hasChanged = 1 WHERE accountID = :accountID AND hasChanged = 0;', [':accountID' => $this->state->ACCOUNT['id']]);
             // the new password ends every session of the account, this one included
             $this->sessions()->revokeAccountSessions((int) $this->state->ACCOUNT['id']);
             $this->state->auth->logout();
@@ -180,7 +209,7 @@ class AccountSettingsController extends AbstractAccountController
         $db = $this->db;
 
         if (!empty($email) && $email != $this->state->ACCOUNT['email']) {
-            if (!password_verify($password, $this->state->ACCOUNT['password'])) {
+            if (!$this->currentPasswordMatches((string) $password)) {
                 $this->printMessage($LNG['op_need_pass_mail'], [
                     [
                         'label' => $LNG['sys_back'],

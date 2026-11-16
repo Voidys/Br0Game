@@ -36,6 +36,16 @@ class AccountswapController extends AbstractAdminController
                 $this->message($LNG['ac_swap_invalid']);
             }
 
+            // both players of the emulated universe, never user 1 or a player of the same or a higher level (own player only for admins)
+            $inUniverse = (int) $db->selectSingle(
+                'SELECT COUNT(*) AS c FROM %%USERS%% WHERE `id` IN (:u1, :u2) AND `universe` = :universe;',
+                [':u1' => $user1, ':u2' => $user2, ':universe' => $this->universe()->getEmulated()],
+                'c',
+            );
+            if ($inUniverse !== 2 || !$this->mayActOn((int) $user1, $USER['authlevel'] == AUTH_ADM) || !$this->mayActOn((int) $user2, $USER['authlevel'] == AUTH_ADM)) {
+                $this->message($LNG['ac_swap_invalid']);
+            }
+
             $acc1 = $db->selectSingle('SELECT `account_id` FROM %%ACCOUNTS_TO_USERS%% WHERE `user_id` = :userID;', [':userID' => $user1]);
             $acc2 = $db->selectSingle('SELECT `account_id` FROM %%ACCOUNTS_TO_USERS%% WHERE `user_id` = :userID;', [':userID' => $user2]);
 

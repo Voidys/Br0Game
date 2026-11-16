@@ -38,7 +38,7 @@ Nếu không thể phân phối tài nguyên đã cướp trong khoảng 24 gi�
 <p>Chỉ được phép 1.000 cuộc tấn công tên lửa liên hành tinh mỗi 24 giờ. Số tên lửa mỗi cuộc tấn công thì độc lập.</p>
 <hr>
 <h2>6. Lợi dụng lỗi (Bugusing)</h2>
-<p>Khai thác lỗi và sai sót trong lập trình bị cấm. Lỗi phát hiện được nên báo cáo càng sớm càng tốt qua <a href="%s" target="_blank">GIT Issue</a> hoặc trong kênh Discord #bugs. Gian lận cũng bị cấm.</p>
+<p>Khai thác lỗi và sai sót trong lập trình bị cấm. Lỗi phát hiện được nên báo cáo càng sớm càng tốt qua <a href="%s" target="_blank" rel="noopener noreferrer">GIT Issue</a> hoặc trong kênh Discord #bugs. Gian lận cũng bị cấm.</p>
 <hr>
 <h2>6.1 Công cụ và ứng dụng</h2>
 <p>Cấm sử dụng công cụ bên ngoài và user script chưa được cho phép đầy đủ.</p>

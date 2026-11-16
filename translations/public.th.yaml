@@ -67,6 +67,8 @@ overall: โดยรวม
 passwordBack: กลับ
 passwordChangedMailSend: "รหัสผ่านใหม่ของคุณกำลังเดินทางไป คุณจะได้รับอีเมลในไม่ช้า"
 passwordChangedMailTitle: "รหัสผ่านใหม่สำหรับ %s"
+passwordConfirmInfo: 'กดปุ่มเพื่อรีเซ็ตรหัสผ่านของคุณ เราจะส่งรหัสผ่านใหม่ให้คุณทางอีเมล'
+passwordConfirmSubmit: 'ส่งรหัสผ่านใหม่ให้ฉัน'
 passwordErrorMailEmpty: ไม่รู้จักที่อยู่อีเมลนี้
 passwordErrorOnePerDay: "มีการขอรหัสผ่านของบัญชีนี้ไปแล้วภายใน 24 ชั่วโมงที่ผ่านมา คุณขอใหม่ได้ในอีก 24 ชั่วโมง"
 passwordErrorUnknown: ไม่พบบัญชีที่ตรงกับข้อมูลนี้

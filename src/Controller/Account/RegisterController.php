@@ -38,7 +38,10 @@ class RegisterController extends AbstractAccountController
         $uniId = $this->http()->_GP('uni', '0');
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
-        $LNG->includeData(['INGAME', 'ACCOUNT']);
+        $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
+        if ((int) $uniId !== 0 && !$this->isUniverse($uniId)) {
+            (new ErrorController())->withGameServicesOf($this)->showError($LNG['registerErrorUniClosed']);
+        }
         $accountName = "";
         $status = "";
         $config = $this->configs->get($uniId);
@@ -105,8 +108,15 @@ class RegisterController extends AbstractAccountController
         $LNG = $this->state->LNG;
         $ACCOUNT = $this->state->ACCOUNT;
         $universe = $this->http()->_GP('uni', 0);
+        $LNG->includeData(['PUBLIC', 'INGAME', 'ACCOUNT']);
+        if ($universe != 0 && !$this->isUniverse($universe)) {
+            $this->printMessage($LNG['registerErrorUniClosed'], [[
+                'label' => $LNG['registerBack'],
+                'url' => '#',
+                'action' => 'history-back',
+            ]]);
+        }
         $config = $this->configs->get($universe);
-        $LNG->includeData(['INGAME', 'ACCOUNT']);
         $this->assign([
             'accountName' => $ACCOUNT['accountname'],
             'universe' => $config->uni_name,
@@ -125,7 +135,9 @@ class RegisterController extends AbstractAccountController
         $language = $this->http()->_GP('language', 'en');
         $imageTheme = $this->http()->_GP('imageTheme', '');
         $cssTheme = $this->http()->_GP('cssTheme', '');
-        $timezone = $this->http()->_GP('timezone', '');
+        $timezone = (string) $this->http()->_GP('timezone', '');
+        $timezone = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $ACCOUNT['timezone'];
+        $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
         $colors = $this->http()->_GP('colors', 'default');
         $mission = $this->http()->_GP('missionPrios', 'default');
         $stb = $this->http()->_GP('stbSettings', 'default');
@@ -171,6 +183,12 @@ class RegisterController extends AbstractAccountController
         $session->save();
 
         $this->http()->redirectTo('game');
+    }
+
+    /** Is $uniId one of the universes of this installation? */
+    private function isUniverse(mixed $uniId): bool
+    {
+        return in_array((int) $uniId, array_map('intval', $this->universe()->availableUniverses()), true);
     }
 
     /**

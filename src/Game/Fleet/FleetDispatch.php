@@ -98,9 +98,11 @@ class FleetDispatch
             // Serialise parallel dispatches of the same player, so the slot and expedition limits cannot be raced
             // from several planets/sessions (the user row is locked before the planet row, always in this order).
             $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $USER['id']]);
-            // reloading global $PLANET for database lock support.
-            // not pretty, but not using the global dupes resources
-            $this->lockPlanet($this->state->PLANET['id']);
+            // all checks below (ships, fuel, cargo) run on the locked row, not on the copy read at the start of the request
+            $locked = $this->lockPlanet($this->state->PLANET['id']);
+            if (!empty($locked)) {
+                $this->state->PLANET = array_merge($this->state->PLANET, $locked);
+            }
 
             $this->validateRequest();
             $this->resolveAcs();
@@ -125,10 +127,14 @@ class FleetDispatch
         throw new FleetDispatchRefused($message, [['label' => $LNG['sys_back'], 'url' => $url]]);
     }
 
-    /** Locks the start planet row for the transaction. */
-    private function lockPlanet(mixed $planetId): void
+    /**
+     * Locks the start planet row for the transaction.
+     *
+     * @return array<string, mixed>|false the locked row
+     */
+    private function lockPlanet(mixed $planetId): array|false
     {
-        $this->db->selectSingle("SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;", [
+        return $this->db->selectSingle("SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;", [
             ':planetId' => $planetId,
         ]);
     }
@@ -228,6 +234,13 @@ class FleetDispatch
             && $this->TransportMetal + $this->TransportCrystal + $this->TransportDeuterium < 1
         ) {
             $this->refuse($LNG['fl_no_noresource'], 'game?page=fleetStep2');
+        }
+        // A trade offer carries exactly one resource (the offer stores only that one; the UI pre-check enforces it too)
+        if (
+            $this->targetMission == MISSION_TRADE
+            && (($this->TransportMetal > 0) + ($this->TransportCrystal > 0) + ($this->TransportDeuterium > 0)) > 1
+        ) {
+            $this->refuse($LNG['fl_trade_to_many_resources_loaded'], 'game?page=fleetStep2');
         }
         // Market typ 1 cannot contain resources
         if (

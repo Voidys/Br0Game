@@ -30,10 +30,6 @@ use Twig\Markup;
 #[\App\Routing\GamePage('admin.php', 'accountData', uniPrefix: true)]
 class AccountDataController extends AbstractAdminController
 {
-    // The former ShowAccountDataPage did not extend AbstractAdminPage: only the admin entry
-    // checks applied, no per-page permission check.
-    protected function construct(): void {}
-
     /**
      * Read-only player report (admin?page=accoutdata). Without id_u a list of the users the acting admin may see (authlevel <= own)
      * to pick from; with id_u the detail page: account and login data, last IP, ban state and reason, points and ranks, alliance (with
@@ -57,9 +53,12 @@ class AccountDataController extends AbstractAdminController
     {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        $sql = "SELECT `id`, `authlevel` FROM %%USERS%% WHERE `id` = :userID;";
+        // like the picker: players of the emulated universe up to the acting admin's own level
+        $sql = "SELECT `id`, `authlevel` FROM %%USERS%% WHERE `id` = :userID AND `universe` = :universe AND `authlevel` <= :userLevel;";
         $OnlyQueryLogin = $db->selectSingle($sql, [
             ':userID' => $id_u,
+            ':universe' => $this->universe()->getEmulated(),
+            ':userLevel' => $this->state->USER['authlevel'],
         ]);
         if (empty($OnlyQueryLogin)) {
             $this->message($LNG['ac_username_doesnt'], '?page=accoutdata');

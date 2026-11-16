@@ -114,16 +114,52 @@ abstract class AbstractAdminController implements GameControllerInterface
         throw EndOfRequest::withResponse($this->gameView()->messagePage($message, $redirect, $delay, $fatal));
     }
 
+    /** Ends the request with the admin "permission denied" page (HTTP 403) instead of the error page (503). */
+    protected function deny(): never
+    {
+        $response = $this->gameView()->messagePage($this->state->LNG['adm_permission_error'], false, 3, true);
+        $response->setStatusCode(Response::HTTP_FORBIDDEN);
+
+        throw EndOfRequest::withResponse($response);
+    }
+
+    /** Only authlevel ADM may use the page (rights, creator of admins, ...): the menu hides it, this enforces it. */
+    protected function requireAdmin(): void
+    {
+        if ((int) $this->state->USER['authlevel'] !== AUTH_ADM) {
+            $this->deny();
+        }
+    }
+
+    /**
+     * May the acting admin change the player `$userId` (any universe)? Never user 1 unless the actor is user 1; never
+     * a player of equal or higher authlevel (the actor itself is allowed when `$allowSelf`). Unknown ids are allowed
+     * (the caller reports "not found").
+     */
+    protected function mayActOn(int $userId, bool $allowSelf = false): bool
+    {
+        $USER = $this->state->USER;
+        if ((int) $USER['id'] === (int) $userId) {
+            return $allowSelf;
+        }
+        if ($userId === ROOT_USER) {
+            return false;
+        }
+        $level = $this->db->selectSingle('SELECT `authlevel` FROM %%USERS%% WHERE `id` = :id;', [':id' => $userId], 'authlevel');
+
+        return $level === null || $level === false || (int) $level < (int) $USER['authlevel'];
+    }
+
     /** Former AbstractAdminPage constructor check (rights are stored under the former class names). */
     private function checkPermission(string $pageName): void
     {
         if (!in_array($pageName, self::ALWAYS_ALLOWED, true) && !$this->viewHelpers()->allowedTo($pageName)) {
-            throw new \Exception('Permission error for: ' . $pageName);
+            $this->deny();
         }
 
         $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
-            throw new \Exception('Permission error!');
+            $this->deny();
         }
     }
 }

@@ -255,11 +255,13 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
     }
 
     /**
-     * Missiles do not return (the fleet is deleted in TargetEvent); never called.
+     * Missiles do not return (the fleet is deleted in TargetEvent). Only a missile that met a target in vacation mode
+     * (returnIfTargetInVacation turns it to FLEET_RETURN) gets here: it is spent, so the fleet and its event are
+     * deleted instead of staying as a zombie that is claimed on every request.
      */
     public function ReturnEvent(): void
     {
-        return;
+        $this->KillFleet();
     }
 
     /**

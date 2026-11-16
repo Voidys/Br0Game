@@ -33,6 +33,28 @@ class LostPasswordController extends AbstractLoginController
 {
     public static $requireModule = 0;
 
+    /** seconds a reset link stays valid */
+    private const KEY_LIFETIME = 1800;
+    /** seconds an unused link blocks a new request for the same account (a lost mail can be requested again after that) */
+    private const REQUEST_COOLDOWN = 600;
+
+    private ?\App\Security\DeferredWork $deferred = null;
+
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setDeferredWork(\App\Security\DeferredWork $deferred): void
+    {
+        $this->deferred = $deferred;
+    }
+
+    /** message page for an unknown, used or expired key */
+    private function invalidKey(): never
+    {
+        $this->printMessage($this->state->LNG['passwordValidInValid'], [[
+            'label'	=> $this->state->LNG['passwordBack'],
+            'url'	=> './',
+        ]]);
+    }
+
     public function initialize(): void
     {
         parent::initialize();
@@ -57,31 +79,47 @@ class LostPasswordController extends AbstractLoginController
     }
 
     /**
-     * Sets a new password from the mail link (mode=newPassword). Request: u (account id), k (key). The key must belong to the
-     * account, be unused (`hasChanged` = 0) and not older than 30 minutes. Writes the new password hash to ACCOUNTS, marks the
-     * key used, revokes the other sessions of the account and mails the result (on systems without working mail the new
-     * password is shown on the page).
+     * Mail link target (mode=newPassword). Request: u (account id), k (key). A GET only shows a confirmation form
+     * (mail scanners and link previews open links, so a GET must not use the key up); the POST of that form sets the new
+     * password. The key must belong to the account, be unused (`hasChanged` = 0) and not older than 30 minutes; it is claimed
+     * with one conditional UPDATE, so it works once even for parallel requests. Writes the new password hash to ACCOUNTS,
+     * revokes the other sessions of the account and mails the result (on systems without working mail the new password
+     * is shown on the page).
      */
     public function newPassword()
     {
         $LNG = $this->state->LNG;
-        $accountID		= $this->http()->_GP('u', 0);
+        $accountID		= (int) $this->http()->_GP('u', 0);
         $validationKey	= $this->http()->_GP('k', '');
 
         $db = $this->db;
 
-        $sql = "SELECT COUNT(*) as state FROM %%LOSTPASSWORD%% WHERE accountID = :accountID AND `key` = :validationKey AND `time` > :time AND hasChanged = 0;";
-        $isValid = $db->selectSingle($sql, [
+        $oldest = $this->state->runtime->timestamp - self::KEY_LIFETIME;
+        if (!$this->state->request->isMethod('POST')) {
+            $sql = "SELECT COUNT(*) as state FROM %%LOSTPASSWORD%% WHERE accountID = :accountID AND `key` = :validationKey AND `time` > :time AND hasChanged = 0;";
+            $isValid = $db->selectSingle($sql, [
+                ':accountID'		=> $accountID,
+                ':validationKey'	=> $validationKey,
+                ':time'				=> $oldest,
+            ], 'state');
+            if (empty($isValid)) {
+                $this->invalidKey();
+            }
+
+            $this->assign(['accountID' => $accountID, 'validationKey' => $validationKey]);
+
+            return $this->render('login/page.lostPassword.confirm.html.twig');
+        }
+
+        // single use: only the request that flips hasChanged gets to set the password
+        $sql = "UPDATE %%LOSTPASSWORD%% SET hasChanged = 1 WHERE accountID = :accountID AND `key` = :validationKey AND `time` > :time AND hasChanged = 0;";
+        $db->update($sql, [
             ':accountID'		=> $accountID,
             ':validationKey'	=> $validationKey,
-            ':time'				=> ($this->state->runtime->timestamp - 1800),
-        ], 'state');
-
-        if (empty($isValid)) {
-            $this->printMessage($LNG['passwordValidInValid'], [[
-                'label'	=> $LNG['passwordBack'],
-                'url'	=> './',
-            ]]);
+            ':time'				=> $oldest,
+        ]);
+        if ($db->rowCount() !== 1) {
+            $this->invalidKey();
         }
 
         $newPassword	= bin2hex(random_bytes(6));
@@ -92,12 +130,6 @@ class LostPasswordController extends AbstractLoginController
         $db->update($sql, [
             ':accountID'		=> $accountID,
             ':newPassword'	=> $this->accountUtil()->cryptPassword($newPassword),
-        ]);
-
-        $sql = "UPDATE %%LOSTPASSWORD%% SET hasChanged = 1 WHERE accountID = :accountID AND `key` = :validationKey;";
-        $db->update($sql, [
-            ':accountID'			=> $accountID,
-            ':validationKey'	=> $validationKey,
         ]);
 
         $sql = "SELECT accountname, email_2 as mail FROM %%ACCOUNTS%% WHERE id = :accountID;";
@@ -138,7 +170,7 @@ class LostPasswordController extends AbstractLoginController
 
     /**
      * Requests a reset mail (mode=send). Request: username (account name), mail (the account's second address `email_2`).
-     * Needs working mail, passes the lost-password rate limit per IP, and allows one open request per account per 24 hours.
+     * Needs working mail, passes the lost-password rate limit per IP, and allows one open request per account per 10 minutes.
      * Stores a key in LOSTPASSWORD and mails a link (mode=newPassword). Unknown accounts and repeated requests get the same
      * answer as a successful one, so account names cannot be enumerated.
      */
@@ -188,29 +220,21 @@ class LostPasswordController extends AbstractLoginController
             ':mail'		=> $mail,
         ], 'id');
 
-        // unknown accounts get the same answer as known ones (no account enumeration)
-        if (empty($accountID)) {
-            $this->printMessage($LNG['passwordValidMailSend'], [[
-                'label'	=> $LNG['passwordNext'],
-                'url'	=> './',
-            ]]);
-        }
-
+        // an unused link younger than REQUEST_COOLDOWN blocks a new one (spam), an older one does not (lost mail)
         $sql = "SELECT COUNT(*) as state FROM %%LOSTPASSWORD%% WHERE accountID = :accountID AND time > :time AND hasChanged = 0;";
-        $hasChanged = $db->selectSingle($sql, [
-            ':accountID'	=> $accountID,
-            ':time'		=> ($this->state->runtime->timestamp - 86400),
+        $recent = $db->selectSingle($sql, [
+            ':accountID'	=> (int) $accountID,
+            ':time'		=> ($this->state->runtime->timestamp - self::REQUEST_COOLDOWN),
         ], 'state');
 
-        if (!empty($hasChanged)) {
-            $this->printMessage($LNG['passwordValidMailSend'], [[
-                'label'	=> $LNG['passwordNext'],
-                'url'	=> './',
-            ]]);
+        // unknown accounts, repeated requests and real ones get the same answer in the same time: key and mail are
+        // handled after the response was sent
+        if (!empty($accountID) && empty($recent)) {
+            $this->deferred?->add(function () use ($accountname, $mail, $accountID): void {
+                $validationKey = $this->storeResetRequest($accountID);
+                $this->sendResetMail($accountname, $mail, $accountID, $validationKey);
+            });
         }
-$validationKey = $this->storeResetRequest($accountID);
-
-        $this->sendResetMail($accountname, $mail, $accountID, $validationKey);
 
         $this->printMessage($LNG['passwordValidMailSend'], [[
             'label'	=> $LNG['passwordNext'],
@@ -228,6 +252,9 @@ $validationKey = $this->storeResetRequest($accountID);
         $db = $this->db;
 
         $validationKey	= bin2hex(random_bytes(16));
+
+        // an older unused link of the account stops working with the new one
+        $db->update("UPDATE %%LOSTPASSWORD%% SET hasChanged = 1 WHERE accountID = :accountID AND hasChanged = 0;", [':accountID' => $accountID]);
 
         $sql = "INSERT INTO %%LOSTPASSWORD%% SET accountID = :accountID, `key` = :validationKey, `time` = :timestamp, fromIP = :remoteAddr;";
         $db->insert($sql, [
@@ -249,6 +276,11 @@ $validationKey = $this->storeResetRequest($accountID);
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
+        $url = $this->canonicalUrl->forPage($this->state->runtime, './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey);
+        if ($url === null) {
+            return;
+        }
+
         $MailRAW		= $LNG->getTemplate('email_lost_password_validation');
 
         $MailContent	= str_replace([
@@ -258,7 +290,7 @@ $validationKey = $this->storeResetRequest($accountID);
         ], [
             $accountname,
             $config->game_name,
-            $this->canonicalUrl->forPage($this->state->runtime, './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey),
+            $url,
         ], $MailRAW);
 
         $subject	= $LNG->format('passwordValidMailTitle', $config->game_name);

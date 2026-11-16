@@ -38,7 +38,7 @@
 <p>每 24 小时只允许发动 1,000 次星际导弹攻击。每次攻击使用的导弹数量不受限制。</p>
 <hr>
 <h2>6. 利用漏洞</h2>
-<p>禁止利用程序中的漏洞和错误。发现的漏洞应尽快通过 <a href="%s" target="_blank">GIT Issue</a> 或 Discord 频道 #bugs 报告。作弊同样被禁止。</p>
+<p>禁止利用程序中的漏洞和错误。发现的漏洞应尽快通过 <a href="%s" target="_blank" rel="noopener noreferrer">GIT Issue</a> 或 Discord 频道 #bugs 报告。作弊同样被禁止。</p>
 <hr>
 <h2>6.1 工具与应用</h2>
 <p>禁止使用未完全公开的外部工具和用户脚本。</p>

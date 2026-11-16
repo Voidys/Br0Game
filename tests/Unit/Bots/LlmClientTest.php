@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Bots;
 
 use App\Game\Bots\Llm\LlmClient;
 use App\Game\Bots\Llm\LlmException;
+use App\Game\Bots\Llm\LlmUrlGuard;
 use App\Game\Core\Database;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -35,7 +36,7 @@ final class LlmClientTest extends TestCase
             return $response;
         });
 
-        return new LlmClient($this->createStub(Database::class), $recording, $provider, self::KEY, 'model-x', $base, 'install-1', 'https://game.test/');
+        return new LlmClient($this->createStub(Database::class), $recording, $provider, self::KEY, 'model-x', $base, 'install-1', 'https://game.test/', new LlmUrlGuard(static fn(string $host): array => ['93.184.216.34']));
     }
 
     /** @return array<string, string> lower-cased header name => value of the last request */

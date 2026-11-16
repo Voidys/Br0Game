@@ -215,6 +215,7 @@ final class GameBootstrap
             ELSE ''
         END AS message_type
     	FROM %%USERS%% u
+        INNER JOIN %%ACCOUNTS_TO_USERS%% atu ON atu.user_id = u.id AND atu.account_id = :accountId AND atu.end_time = 0
         INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
         LEFT JOIN %%STATPOINTS%% s ON s.id_owner = u.id AND s.stat_type = :statTypeUser
     	LEFT JOIN %%USERS_TO_MESSAGES%% as um ON um.user_id = u.id AND um.message_unread = :unread AND um.deleted_at is null
@@ -226,10 +227,11 @@ final class GameBootstrap
             ':statTypeUser'     => 1,
             ':unread'           => 1,
             ':userId'           => $session->userId,
+            ':accountId'        => $this->auth->accountId(),
         ]);
 
         if (empty($this->state->USER)) {
-            // logged in, but no player of this universe chosen yet
+            // logged in, but no player chosen yet, or the player no longer belongs to this account (account swap)
             $this->http()->redirectTo('account');
         } else {
             if ($this->state->USER['banaday'] <= $this->state->runtime->timestamp) {
@@ -455,7 +457,7 @@ final class GameBootstrap
     /**
      * The game session object follows the Symfony login: a fresh login (or another account) starts a
      * new game session (no player chosen, no admin access); an idle session past SESSION_LIFETIME
-     * ends the login; a missing session row is written again. Visitors without login were already
+     * ends the login, and so does a missing session row (revoked or expired). Visitors without login were already
      * stopped by access_control.
      */
     private function syncGameSession(\App\Game\Core\Session $session): void
@@ -474,8 +476,9 @@ final class GameBootstrap
             $this->auth->logout();
             $this->http()->redirectTo('./?code=3');
         } elseif (!$session->isValidSession()) {
-            // e.g. the login renewed the session id: the session row is written again under the new id
-            $session->save(true);
+            // the session row is gone (password reset, expired lifetime, removed by an admin): the login is over
+            $this->auth->logout();
+            $this->http()->redirectTo('./?code=3');
         }
     }
 
@@ -515,22 +518,12 @@ final class GameBootstrap
 
         if ($claimedFleetCount > 0) {
             try {
-                $db->transactional(function () use ($db, $token): void {
-                    $this->fleetHandler->setToken($token);
-                    $this->fleetHandler->run();
-
-                    $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [
-                        ':token' => $token,
-                    ]);
-                });
-            } catch (\Throwable $e) {
-                // the claim is committed: hand the events back, or no request would ever process them
-                try {
-                    $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [':token' => $token]);
-                } catch (\Throwable) {
-                    // reported below with the original error
-                }
-                throw $e;
+                // every event runs in its own transaction and a failing one is quarantined (FlyingFleetHandler::run)
+                $this->fleetHandler->setToken($token);
+                $this->fleetHandler->run();
+            } finally {
+                // events the handler did not reach (or could not release) go back to the next request
+                $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [':token' => $token]);
             }
         }
     }

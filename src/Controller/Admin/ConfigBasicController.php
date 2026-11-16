@@ -46,7 +46,7 @@ class ConfigBasicController extends AbstractAdminController
         if (!empty($this->state->requestPost)) {
             $config_before = ConfigFieldProcessor::createSnapshot($config, $schema);
 
-            $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->http());
+            $config_after = ConfigFieldProcessor::processPostData($schema->getAllFields(), $this->http(), $config);
 
             // Apply all config changes at once
             foreach ($config_after as $key => $value) {
@@ -57,8 +57,8 @@ class ConfigBasicController extends AbstractAdminController
             // Logging
             $LOG = new Log($this->db, $this->configs, $this->state, 3);
             $LOG->target = 0;
-            $LOG->old = $config_before;
-            $LOG->new = $config_after;
+            $LOG->old = ConfigFieldProcessor::maskSecrets($config_before, $schema);
+            $LOG->new = ConfigFieldProcessor::maskSecrets($config_after, $schema);
             $LOG->save();
         }
 

@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
@@ -49,17 +49,65 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         return $request->isMethod('POST') && in_array($request->attributes->get('_route'), self::ROUTES, true);
     }
 
-    /** Passport from the posted e-mail and password; hashes with an outdated algorithm are upgraded after success. */
+    /**
+     * Passport from the posted e-mail (never an account id) and password. Unknown accounts spend the same
+     * hashing time as known ones (no timing oracle); see checkPassword() for the accepted password forms.
+     */
     public function authenticate(Request $request): Passport
     {
         $email = trim((string) $request->request->get('email', ''));
         $password = (string) $request->request->get('password', '');
 
         return new Passport(
-            new UserBadge($email, $this->accounts->loadUserByIdentifier(...)),
-            new PasswordCredentials($password),
-            [new PasswordUpgradeBadge($password, $this->accounts)],
+            new UserBadge($email, fn(string $identifier): Account => $this->loadAccount($identifier, $password)),
+            new CustomCredentials(fn(string $given, Account $account): bool => $this->checkPassword($given, $account), $password),
         );
+    }
+
+    /** the account of the e-mail; for an unknown one the password check is simulated first and the lookup fails */
+    private function loadAccount(string $email, string $password): Account
+    {
+        $account = $this->accounts->loadByEmail($email);
+        if ($account !== null) {
+            return $account;
+        }
+
+        // a pending registration is verified (and costs time) in onAuthenticationFailure() when the universe allows it
+        $pending = $this->connection->fetchOne(
+            sprintf('SELECT COUNT(*) FROM %s WHERE email = ?', $this->tables->get('accounts_valid')),
+            [$email],
+        );
+        if ((int) $pending === 0 || $this->config->getBool('user_valid')) {
+            PasswordSupport::burn($password);
+        }
+
+        $exception = new UserNotFoundException();
+        $exception->setUserIdentifier($email);
+        throw $exception;
+    }
+
+    /**
+     * Accepts the raw password, or the form the former input filter produced from it (accounts registered or changed
+     * before the fix: HTML-encoded, trimmed, "?" for non-ASCII); an old-style match is rehashed with the raw password.
+     * A hash with an outdated cost is renewed after a successful login.
+     */
+    private function checkPassword(string $password, Account $account): bool
+    {
+        $hash = (string) $account->getPassword();
+        if (PasswordSupport::verify($password, $hash)) {
+            if (password_needs_rehash($hash, PASSWORD_BCRYPT, ['cost' => 13])) {
+                $this->accounts->upgradePassword($account, password_hash($password, PASSWORD_BCRYPT, ['cost' => 13]));
+            }
+
+            return true;
+        }
+        if (PasswordSupport::matchesLegacy($password, $hash)) {
+            $this->accounts->upgradePassword($account, password_hash($password, PASSWORD_BCRYPT, ['cost' => 13]));
+
+            return true;
+        }
+
+        return false;
     }
 
     /** Resets the failed-login counter, sets the plain "account" cookie (start page remembers returning players) and goes to the account lobby. */
@@ -108,7 +156,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
             [$email],
         );
         if ($pending !== false && !$this->config->getBool('user_valid')) {
-            if (password_verify($password, (string) $pending['password'])) {
+            if (PasswordSupport::verifyAny($password, (string) $pending['password'])) {
                 return new RedirectResponse($this->directory($request) . '?page=vertify&i=' . $pending['validationID'] . '&k=' . $pending['validationKey']);
             }
 

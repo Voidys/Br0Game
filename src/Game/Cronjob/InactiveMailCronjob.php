@@ -30,6 +30,25 @@ use App\Game\Core\Singleton;
 class InactiveMailCronjob extends AbstractCronjobTask
 {
     /**
+     * Players who were offline since before $before, were not mailed yet and are no bots; the address is the one of the
+     * player's account (the users table has none).
+     *
+     * @return list<array<string, mixed>> id, username, lang, email, onlinetime, timezone, universe
+     */
+    public function inactiveUsers(int $before): array
+    {
+        $sql = 'SELECT u.`id`, u.`username`, us.`lang`, a.`email`, u.`onlinetime`, us.`timezone`, u.`universe`
+            FROM %%USERS%% u
+            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id`
+            INNER JOIN %%ACCOUNTS_TO_USERS%% au ON au.`user_id` = u.`id`
+            INNER JOIN %%ACCOUNTS%% a ON a.`id` = au.`account_id`
+            WHERE us.`inactive_mail` = 0 AND u.`onlinetime` < :time AND a.`email` != ""
+            AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% bp WHERE bp.`user_id` = u.`id`);';
+
+        return $this->db->select($sql, [':time' => $before]);
+    }
+
+    /**
      * Sends the localized `email_inactive` text to each player with inactive_mail = 0 and onlinetime older than the
      * limit, then sets inactive_mail = 1 so the player is not mailed again.
      */
@@ -43,13 +62,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
             /** @var Language[] $langObjects */
             $langObjects	= [];
 
-            $sql	= 'SELECT u.`id`, u.`username`, us.`lang`, u.`email`, u.`onlinetime`, us.`timezone`, u.`universe`
-			FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us on u.id = us.user_id WHERE us.`inactive_mail` = 0 AND u.`onlinetime` < :time
-			AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% bp WHERE bp.`user_id` = u.`id`);';
-
-            $inactiveUsers	= $this->db->select($sql, [
-                ':time'	=> $this->state->runtime->timestamp - $config->del_user_sendmail * 24 * 60 * 60
-            ]);
+            $inactiveUsers	= $this->inactiveUsers($this->state->runtime->timestamp - $config->del_user_sendmail * 24 * 60 * 60);
 
             foreach ($inactiveUsers as $user) {
                 if (!isset($langObjects[$user['lang']])) {

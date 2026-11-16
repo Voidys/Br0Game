@@ -67,4 +67,4 @@ services:
     # Bots (App\Game\Bots\*): game logic, registered explicitly (src/Game is excluded from discovery)
     App\Game\Bots\:
         resource: '../src/Game/Bots/'
-        exclude: '../src/Game/Bots/{BotActions.php,Llm/LlmClient.php,Llm/LlmException.php}'
+        exclude: '../src/Game/Bots/{BotActions.php,Llm/LlmClient.php,Llm/LlmException.php,Llm/LlmUrlGuard.php}'

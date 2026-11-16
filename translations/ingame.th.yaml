@@ -342,6 +342,7 @@ al_memberlist_on: ออนไลน์
 al_message: ข้อความ
 al_name: เปลี่ยนชื่อพันธมิตร
 al_name_required: โปรดใส่ชื่อพันธมิตร
+al_link_too_long: "ลิงก์ยาวเกินไป (สูงสุด 255 ตัวอักษร)"
 al_name_tag_too_long: "แท็กยาวได้สูงสุด 8 ตัวอักษร และชื่อสูงสุด 30"
 al_new_apply: "พันธมิตรของคุณได้รับ<a href=\"?page=alliance&mode=admin&action=manageApply\">[ใบสมัคร]</a>จากผู้เล่น <a href=\"#\" data-action=\"dialog-playercard\" data-id=\"%s\" data-name=\"%s\"><b>%s</b></a>"
 al_new_member_rank_text: สมาชิกใหม่
@@ -480,6 +481,8 @@ bs_acs_slot: "ช่อง ACS"
 bs_add_acs_slot: "เพิ่มช่อง ACS"
 bs_atter: ผู้โจมตี
 bs_cancel: รีเซ็ต
+bs_too_many_units: "หน่วยมากเกินไปสำหรับการจำลองหนึ่งครั้ง (สูงสุด %s)"
+bs_busy: "มีการจำลองกำลังทำงานอยู่ รอให้เสร็จก่อนนะ"
 bs_deffer: ผู้ป้องกัน
 bs_derbis_raport: "ที่ต้องใช้เพื่อรีไซเคิลเศษซาก: %s %s"
 bs_load: โหลด
@@ -526,6 +529,7 @@ bu_player_not_exist: ไม่มีผู้เล่นคนนั้น
 bu_rejected_request_body: "สวัสดี %s<br>%s ปฏิเสธคำขอเป็นเพื่อนของคุณ!"
 bu_rejected_request_title: "คำขอเป็นเพื่อนถูกปฏิเสธ!"
 bu_request_exists: "มีคำขอเป็นเพื่อนสำหรับผู้เล่นคนนี้อยู่แล้ว!"
+bu_request_limit: 'ส่งคำขอเป็นเพื่อนมากเกินไป รอสักสองสามนาทีก่อนส่งเพิ่มนะ'
 bu_request_message: ข้อความคำขอ
 bu_request_send: ส่งคำขอเป็นเพื่อนแล้ว
 bu_request_text: ข้อความคำขอ
@@ -1042,6 +1046,7 @@ nt_dlte_note: ลบ
 nt_edit_note: แก้ไขโน้ต
 nt_important: สูง
 nt_no_text: ไม่มีข้อความ
+nt_limit_reached: 'คุณมีโน้ตครบจำนวนสูงสุดแล้ว (%1$d) ลบโน้ตเก่าก่อนนะ'
 nt_no_title: ไม่มีหัวข้อ
 nt_normal: ปกติ
 nt_note: โน้ต

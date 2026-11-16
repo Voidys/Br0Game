@@ -68,6 +68,11 @@ class RepairdockController extends AbstractGameController
         $action = $this->http()->_GP('cmd', '');
 
         $ElementQueue = !empty($wreckfield['repair_order']) ? StoredData::decode($wreckfield['repair_order']) : [];
+        if (empty($ElementQueue) && !empty($wreckfield['repair_order'])) {
+            // an empty order ("[]", written by an older version) is no order: clear it so the dock is free again
+            $db->update("UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0, `repair_order_rate` = 0 WHERE `planetID` = :planetID;", [':planetID' => $PLANET['id']]);
+            $wreckfield['repair_order'] = '';
+        }
         $buildList = [];
         if (!empty($action) && $action == 'deploy' && $wreckfield['repair_order_end'] <= $this->state->runtime->timestamp) {
             $this->deployRepairedShips();
@@ -82,7 +87,7 @@ class RepairdockController extends AbstractGameController
                 'pretty_end_time' => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $wreckfield['repair_order_end'], $USER['timezone']),
             ];
 
-            $ships = $this->remainingWrecks($ships, $ElementQueue, $PLANET[$resource[REPAIR_DOCK]]);
+            $ships = $this->remainingWrecks($ships, $ElementQueue, $this->orderRate($wreckfield, $PLANET));
         }
 
         $elementIDs = $reslist['fleet'];
@@ -105,7 +110,7 @@ class RepairdockController extends AbstractGameController
         }
         $SolarEnergy = round((($PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
 
-        $busy = !empty($wreckfield['repair_order']);
+        $busy = !empty($ElementQueue);
 
         $this->addScript('repairdock.js');
 
@@ -143,7 +148,7 @@ class RepairdockController extends AbstractGameController
         // Re-read the order under the lock: a parallel deploy request may already have consumed it.
         $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
         if (
-            empty($locked) || empty($locked['repair_order'])
+            empty($locked) || empty(StoredData::decode((string) $locked['repair_order']))
             || $locked['repair_order_end'] > $this->state->runtime->timestamp
         ) {
             $db->commit();
@@ -158,13 +163,13 @@ class RepairdockController extends AbstractGameController
             $repaired[$resource[$elementID]] = $amount;
             $statsHandler->increment($USER['id'], AdvancedStatsEnum::getRepaired($elementID), $amount);
         }
-        $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $PLANET[$resource[REPAIR_DOCK]]);
+        $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $this->orderRate($locked, $PLANET));
 
         if (!empty($repaired)) {
             // the repaired ships return to the planet
             $db->updateRows('PLANETS', [], ['id' => $PLANET['id']], [], $repaired);
 
-            $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `ships` = :ships, `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0
+            $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `ships` = :ships, `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0, `repair_order_rate` = 0
                 WHERE `planetID` = :planetID;";
             $db->update($sql, [
                 ':ships' => $this->fleetFunctions()->serialize($ships),
@@ -198,7 +203,7 @@ class RepairdockController extends AbstractGameController
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%%
             WHERE `planetID` = :planetID FOR UPDATE;";
         $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
-        if (empty($locked) || !empty($locked['repair_order'])) {
+        if (empty($locked) || !empty(StoredData::decode((string) $locked['repair_order']))) {
             // A parallel request already queued an order.
             $db->commit();
             $this->redirectTo('game?page=repairdock');
@@ -218,16 +223,22 @@ class RepairdockController extends AbstractGameController
             }
         }
         $ElementQueue = array_filter($ElementQueue);
+        if (empty($ElementQueue)) {
+            // nothing can be repaired from the requested amounts: no (empty) order that would block the dock
+            $db->commit();
+            $this->redirectTo('game?page=repairdock');
+        }
 
         $min = max($this->configs->get()->min_build_time, 1800 - ($this->state->runtime->timestamp - $wreckfield['created']));
         $QueueTime = max($min, min($QueueTime, TIME_12_HOURS)); //Repair duration: min Creation + 30m, max 12h
 
-        $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = :repair_order, `repair_order_start` = :start_time, `repair_order_end` = :end_time
+        $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = :repair_order, `repair_order_start` = :start_time, `repair_order_end` = :end_time, `repair_order_rate` = :rate
             WHERE `planetID` = :planetID;";
         $db->update($sql, [
             ':repair_order' => StoredData::encode(array_filter($ElementQueue)),
             ':start_time' => $this->state->runtime->timestamp,
             ':end_time' => $this->state->runtime->timestamp + $QueueTime,
+            ':rate' => $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]),
             ':planetID' => $PLANET['id'],
         ]);
 
@@ -239,9 +250,29 @@ class RepairdockController extends AbstractGameController
      * Wrecks left after an order. An order of $amount ships uses up ceil($amount / rate) wrecks (rounded up, so
      * splitting an order into many small ones can never repair more than the rate share of the wrecks).
      */
-    private function remainingWrecks(array $ships, array $queue, $repairDockLvl): array
+    /**
+     * Repair rate the order was started with (stored with the order), the current dock's rate for orders without one:
+     * the dock level may change while an order runs, the wrecks it consumed must not.
+     *
+     * @param array<string, mixed> $wreckfield wreck field row
+     * @param array<string, mixed> $planet current planet
+     */
+    private function orderRate(array $wreckfield, array $planet): float
     {
-        $rate = $this->getRepairRate($repairDockLvl);
+        $stored = (float) ($wreckfield['repair_order_rate'] ?? 0);
+
+        return $stored > 0 ? $stored : $this->getRepairRate($planet[$this->state->resource[REPAIR_DOCK]]);
+    }
+
+    /**
+     * Wrecks left after an order: the ships the order's amounts used up at the given repair rate are taken off.
+     *
+     * @param array<int|string, int|float> $ships wrecks per ship id
+     * @param array<int|string, int|float> $queue repaired amounts per ship id
+     * @return array<int|string, int|float>
+     */
+    private function remainingWrecks(array $ships, array $queue, float $rate): array
+    {
         foreach ($queue as $elementID => $amount) {
             if (empty($ships[$elementID])) {
                 continue;

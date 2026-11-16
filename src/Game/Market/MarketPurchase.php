@@ -90,7 +90,8 @@ class MarketPurchase
     }
 
     /**
-     * Loads and locks (FOR UPDATE) the holding offer of the current universe.
+     * Loads and locks (FOR UPDATE) the open offer of the current universe: same conditions as the offer list (trade fleet
+     * holding at the market, stay not over, trade row without buyer), so a sold offer cannot be bought again.
      *
      * @return array<string, mixed>|string offer row (fleet + trade columns + seller's ally_id) or the "not found" message
      */
@@ -100,11 +101,14 @@ class MarketPurchase
         $sql = "SELECT f.*, t.*, u.`ally_id` FROM %%FLEETS%% f
             JOIN %%TRADES%% t ON f.`id` = t.`seller_fleet_id`
             JOIN %%USERS%% u ON f.`owner` = u.`id`
-            WHERE f.`id` = :id AND f.`status` = :fleetState AND f.`universe` = :universe FOR UPDATE;";
+            WHERE f.`id` = :id AND f.`status` = :fleetState AND f.`mission` = :mission AND f.`universe` = :universe
+              AND f.`stay_time` > :now AND t.`buyer_fleet_id` IS NULL FOR UPDATE;";
         $fleetResult = $this->db->selectSingle($sql, [
             ':id' => $FleetID,
             ':fleetState' => FLEET_HOLD,
+            ':mission' => MISSION_TRADE,
             ':universe' => $this->universe()->current(),
+            ':now' => $this->state->runtime->timestamp,
         ]);
 
         if ($this->db->rowCount() == 0) {

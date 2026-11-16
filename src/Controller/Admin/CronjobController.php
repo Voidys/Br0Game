@@ -103,7 +103,7 @@ class CronjobController extends AbstractAdminController
         }
         if ($post_class == '') {
             $error_msg[] = $LNG['cronjob_error_class'];
-        } elseif (!file_exists('src/Game/Cronjob/' . ucfirst($post_class) . '.php')) {
+        } elseif (!preg_match('/^[A-Za-z][A-Za-z0-9]*$/', $post_class) || !file_exists('src/Game/Cronjob/' . ucfirst($post_class) . '.php')) {
             $error_msg[] = $LNG['cronjob_error_filenotfound'] . 'src/Game/Cronjob/' . ucfirst($post_class) . '.php';
         }
 
@@ -210,7 +210,7 @@ class CronjobController extends AbstractAdminController
         );
 
         try {
-            $this->cronjobs()->execute($cronjobId);
+            $this->cronjobs()->execute((int) $cronjobId, true);
         } catch (Exception $e) {
             // Cronjob::execute() handles failures of the job's own run() internally
             // But here we are catching inactive/unknown jobs.
@@ -253,6 +253,7 @@ class CronjobController extends AbstractAdminController
             $cronjobLogLastExecSql = "SELECT MAX(`executionTime`) AS lastExecution FROM %%CRONJOBS_LOG%%
                  WHERE cronjobID = :cronjobID;";
             $dataCronjobLog = $this->db->selectSingle($cronjobLogLastExecSql, [':cronjobID' => $CronjobRow['cronjobID']]);
+            $lastExecutionTimestamp = 0;
             if (!is_null($dataCronjobLog['lastExecution'])) {
                 $lastExecutionTimestamp = (new DateTime($dataCronjobLog['lastExecution']))->getTimestamp();
             }

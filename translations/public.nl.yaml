@@ -69,6 +69,8 @@ overall: Totaal
 passwordBack: Terug
 passwordChangedMailSend: Je nieuwe wachtwoord is onderweg. Je ontvangt zo meteen een e-mail.
 passwordChangedMailTitle: Nieuw wachtwoord voor %s
+passwordConfirmInfo: 'Klik op de knop om je wachtwoord opnieuw in te stellen. We sturen je het nieuwe wachtwoord per e-mail.'
+passwordConfirmSubmit: 'Nieuw wachtwoord aanvragen'
 passwordErrorMailEmpty: Dat e-mailadres kennen we niet.
 passwordErrorOnePerDay: Voor dit account is het afgelopen 24 uur al een wachtwoord aangevraagd. Je kunt over 24 uur een nieuw aanvragen.
 passwordErrorUnknown: Met deze gegevens is geen account gevonden.

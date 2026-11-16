@@ -142,7 +142,8 @@ class VacationMode
 
     /**
      * Postpones building queues and wreck fields of all non-destroyed planets by the vacation length and
-     * resets the production percentages of mines, power plants and satellites to 10.
+     * resets the production percentages of mines, power plants and satellites to 10. The eco hash is cleared: the
+     * vacation entry zeroed production and energy, so the next update must rebuild them (the hash alone would match).
      * Side effects: locks the planets (FOR UPDATE), UPDATE planets and planet_wreckfield.
      *
      * @param int $userId
@@ -171,6 +172,7 @@ class VacationMode
                 `b_building` = :building,
                 `b_building_id` = :current_queue,
                 `last_update` = :timestamp,
+                `eco_hash` = "",
                 `metal_mine_porcent` = "10",
                 `crystal_mine_porcent` = "10",
                 `deuterium_sintetizer_porcent` = "10",

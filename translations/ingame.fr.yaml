@@ -534,6 +534,8 @@ bs_acs_slot: Slot ACS
 bs_add_acs_slot: Ajouter un slot ACS
 bs_atter: Attaquant
 bs_cancel: Réinitialiser
+bs_too_many_units: "Trop d'unités pour une simulation (au maximum %s)."
+bs_busy: "Une simulation est déjà en cours, attends qu'elle se termine."
 bs_deffer: Défenseur
 bs_derbis_raport: 'Nécessaire pour recycler les débris : %s %s.'
 bs_load: Charger
@@ -579,6 +581,7 @@ bu_player: Joueur
 bu_rejected_request_body: Bonjour %s,<br>%s a refusé ta demande d'ami !
 bu_rejected_request_title: Demande d'ami refusée !
 bu_request_exists: Une demande d'ami existe déjà pour ce joueur !
+bu_request_limit: 'Trop de demandes d''ami. Attends quelques minutes avant d''en envoyer d''autres.'
 bu_request_message: Demande de message
 bu_request_send: Demande d'ami envoyée.
 bu_request_text: Message de la demande
@@ -1155,6 +1158,7 @@ nt_dlte_note: Supprimer
 nt_edit_note: Modifier la note
 nt_important: Haute
 nt_no_text: Pas de texte
+nt_limit_reached: 'Tu as atteint le nombre maximal de notes (%1$d). Supprime d''abord d''anciennes notes.'
 nt_no_title: Sans titre
 nt_normal: Normal
 nt_note: Note
@@ -1690,6 +1694,7 @@ ach_progress: "%d sur %d débloqués"
 ach_unlocked_on: "Débloqué le %s"
 al_apply_accepted: "Candidature acceptée."
 al_apply_declined: "Candidature refusée."
+al_link_too_long: "Le lien est trop long (255 caractères au maximum)."
 al_name_tag_too_long: Le tag peut compter 8 caractères au maximum, et le nom 30.
 bs_share_code: "Code de partage"
 bs_swap: "Échanger les camps"

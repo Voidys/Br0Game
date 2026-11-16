@@ -69,6 +69,8 @@ overall: 总榜
 passwordBack: 返回
 passwordChangedMailSend: 你的新密码已在路上，很快就会收到邮件。
 passwordChangedMailTitle: '%s 的新密码'
+passwordConfirmInfo: '点击按钮重置你的密码，我们会把新密码发送到你的邮箱。'
+passwordConfirmSubmit: '给我发送新密码'
 passwordErrorMailEmpty: 我们不认识这个邮箱地址。
 passwordErrorOnePerDay: 过去 24 小时内已申请过该账号的密码。请 24 小时后再申请。
 passwordErrorUnknown: 找不到与这些信息匹配的账号。

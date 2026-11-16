@@ -501,6 +501,8 @@ bs_acs_slot: "Slot AKS"
 bs_add_acs_slot: "Dodaj slot AKS"
 bs_atter: Agresor
 bs_cancel: "Resetuj"
+bs_too_many_units: "Za dużo jednostek na jedną symulację (maksymalnie %s)."
+bs_busy: "Symulacja już trwa, poczekaj, aż się zakończy."
 bs_deffer: Obrońca
 bs_derbis_raport: "Do zebrania pola zniszczeń potrzeba: %s %s."
 bs_load: "Wczytaj"
@@ -545,6 +547,7 @@ bu_player: Gracz
 bu_rejected_request_body: "Cześć %s,<br>%s odrzucił(a) twoje zaproszenie do znajomych!"
 bu_rejected_request_title: "Zaproszenie do znajomych odrzucone!"
 bu_request_exists: "Dla tego gracza istnieje już zaproszenie do znajomych!"
+bu_request_limit: 'Za dużo zaproszeń do znajomych. Poczekaj kilka minut, zanim wyślesz kolejne.'
 bu_request_message: "Wiadomość do zaproszenia"
 bu_request_send: "Zaproszenie do znajomych wysłane."
 bu_request_text: "Treść zaproszenia"
@@ -1080,6 +1083,7 @@ nt_dlte_note: Usuń
 nt_edit_note: "Edytuj notatkę"
 nt_important: "Wysoki"
 nt_no_text: Brak tekstu
+nt_limit_reached: 'Osiągnąłeś maksymalną liczbę notatek (%1$d). Usuń najpierw stare notatki.'
 nt_no_title: Brak tytułu
 nt_normal: "Normalny"
 nt_note: "Notatka"
@@ -1567,6 +1571,7 @@ al_apply_accepted: "Podanie zaakceptowane."
 al_apply_declined: "Podanie odrzucone."
 al_invalid_rank_name: "Nazwy rang mogą zawierać tylko litery, cyfry, spacje, podkreślenia, myślniki i kropki."
 al_make_ally_insufficient_points: "Nie masz dość punktów, żeby założyć sojusz.<br>Potrzebujesz co najmniej %s punktów, a brakuje ci jeszcze %s."
+al_link_too_long: "Link jest za długi (maksymalnie 255 znaków)."
 al_name_tag_too_long: "Tag może mieć najwyżej 8 znaków, a nazwa najwyżej 30."
 bs_share_code: "Kod udostępniania"
 bs_swap: "Zamień strony"

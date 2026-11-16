@@ -36,7 +36,7 @@ class DumpController extends AbstractAdminController
     {
         $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
-            throw new Exception($this->state->LNG['adm_permission_error']);
+            $this->deny();
         }
         parent::construct();
     }
@@ -63,7 +63,11 @@ class DumpController extends AbstractAdminController
                 $filePath = 'var/backups/' . $fileName;
 
                 $dump = new SQLDumper($this->db, $this->configs, $this->state);
-                $dump->dumpTablesToFile($dbTables, $filePath);
+                try {
+                    $dump->dumpTablesToFile($dbTables, $filePath);
+                } catch (\InvalidArgumentException) {
+                    $this->message($LNG['du_not_tables_selected']);
+                }
                 $this->message($LNG->format('du_success', 'var/backups/' . $fileName));
                 // no break
             default:

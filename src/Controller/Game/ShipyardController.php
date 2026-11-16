@@ -107,9 +107,11 @@ class ShipyardController extends AbstractGameController
             RESOURCE_DEUT => 0,
         ];
         foreach ($fmenge as $Element => $Count) {
+            // the key is request input ("407.0" would pass the loose list check but find no column): use the integer id only
+            $Element = is_numeric($Element) && (string) (int) $Element === (string) $Element ? (int) $Element : 0;
             if (
                 empty($Count)
-                || !in_array($Element, array_merge($reslist['fleet'], $reslist['defense'], $reslist['missile']))
+                || !in_array($Element, array_merge($reslist['fleet'], $reslist['defense'], $reslist['missile']), true)
                 || !$this->buildFunctions()->isEnabled($Element)
                 || !$this->buildFunctions()->isTechnologieAccessible($USER, $this->state->PLANET, $Element)
             ) {
@@ -323,6 +325,11 @@ class ShipyardController extends AbstractGameController
             $db = $this->db;
             $db->startTransaction();
             $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
+            if ($this->isShipyardUpgrading()) {
+                // a shipyard/nanite upgrade was queued after the page started: judged on the locked row
+                $db->rollback();
+                $this->redirectTo('game?page=shipyard&mode=' . $mode);
+            }
             $this->buildAuftr($buildTodo);
             $db->commit();
             $this->redirectTo('game?page=shipyard&mode=' . $mode);

@@ -134,6 +134,28 @@ abstract class AbstractLoginController implements GameControllerInterface
         $this->display('login/error.default.html.twig');
     }
 
+    /**
+     * Runs $work while holding the named MySQL lock `registration`, so that "is the name/e-mail free?" and the insert
+     * (or the claim of a verification link and the account creation) of parallel requests cannot interleave. The lock
+     * is released afterwards, also when $work ends the request or throws.
+     *
+     * @template T
+     * @param callable(): T $work
+     * @return T
+     */
+    protected function withRegistrationLock(callable $work): mixed
+    {
+        $locked = (int) $this->db->selectSingle("SELECT GET_LOCK('registration', 10) AS locked;", [], 'locked');
+        if ($locked !== 1) {
+            throw new \RuntimeException('Could not get the registration lock.');
+        }
+        try {
+            return $work();
+        } finally {
+            $this->db->selectSingle("SELECT RELEASE_LOCK('registration') AS released;", [], 'released');
+        }
+    }
+
     /** hook run before every response (pages that write data on the way out) */
     protected function save() {}
 

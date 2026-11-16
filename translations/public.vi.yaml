@@ -67,6 +67,8 @@ overall: Tổng thể
 passwordBack: Quay lại
 passwordChangedMailSend: Mật khẩu mới đang trên đường tới. Bạn sẽ nhận được email trong giây lát.
 passwordChangedMailTitle: Mật khẩu mới cho %s
+passwordConfirmInfo: 'Nhấn vào nút để đặt lại mật khẩu của bạn. Chúng tôi sẽ gửi mật khẩu mới cho bạn qua email.'
+passwordConfirmSubmit: 'Gửi cho tôi mật khẩu mới'
 passwordErrorMailEmpty: Chúng tôi không biết địa chỉ email này.
 passwordErrorOnePerDay: Tài khoản này đã yêu cầu mật khẩu trong 24 giờ qua. Bạn có thể yêu cầu lại sau 24 giờ.
 passwordErrorUnknown: Không tìm thấy tài khoản nào với thông tin này.

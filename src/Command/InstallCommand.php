@@ -325,6 +325,7 @@ final class InstallCommand extends Command
             ['Cron line (required)' => $this->installer->cronLine()],
         );
         $io->listing(array_filter([
+            $payload['baseUrl'] === '' ? 'WARNING: no --base-url given, so DEFAULT_URI is not set: registration and password-reset mails are not sent until you set DEFAULT_URI in .env.local.' : null,
             'The install tool is locked.',
             $payload['migrationGenerated'] ? 'A migration password was generated; it is stored as "migrationpw" in config/game.php.' : null,
             'Use HTTPS in production. Change settings later in Admin - Settings.',

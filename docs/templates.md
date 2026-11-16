@@ -63,7 +63,14 @@ What is printed unescaped:
 
 Other contexts:
 
-- JSON inside `<script>`: `{{ data|json_encode|raw }}`. JSON inside an HTML attribute stays escaped.
+- JSON inside `<script>`: `{{ data|json_script }}` (or `data_island()`): `< > & ' "` are \u-escaped, so no value can
+  close the element. Never `json_encode|raw` there. JSON inside an HTML attribute stays escaped.
+- **Tooltips (`data-tooltip-content`).** The attribute holds HTML: the browser decodes it once and `tooltip.js` parses
+  the result. A value that `game_html` printed as `&lt;u&gt;` would therefore become a `<u>` element. Every
+  non-translation, non-numeric value inside tooltip markup (names, titles, links) takes `|tooltip_text`, which encodes
+  twice so it stays text after the attribute decode. This applies to `{% include %}`d tooltip templates too.
+  `tooltip.js` additionally rebuilds the HTML from an allowlist (tags, attributes, same-origin URLs, known
+  `data-action`s); forms survive only in tooltips whose trigger carries `data-tooltip-forms` (set in the template).
 - Text inside an inline JavaScript string: `'{{ value|e('js') }}'`.
 - New helpers that return markup declare `is_safe => ['all']`. A plain `['html']` does not cover
   `game_html`.

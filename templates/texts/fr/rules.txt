@@ -38,7 +38,7 @@ If it is not possible to distribute the captured resources within the 24h window
 <p>Only 1,000 Interplanetary Missile attacks per 24 hours are allowed. The number of missiles per attack is independent.</p>
 <hr>
 <h2>6. Bugusing</h2>
-<p>Exploiting bugs and errors in programming is prohibited. Detected bugs should be reported as soon as possible via <a href="%s" target="_blank">GIT Issue</a> or in the Discord channel #bugs. Cheating is also forbidden.</p>
+<p>Exploiting bugs and errors in programming is prohibited. Detected bugs should be reported as soon as possible via <a href="%s" target="_blank" rel="noopener noreferrer">GIT Issue</a> or in the Discord channel #bugs. Cheating is also forbidden.</p>
 <hr>
 <h2>6.1 Tools and Applications</h2>
 <p>The use of external tools and user scripts that have not been fully released is prohibited.</p>

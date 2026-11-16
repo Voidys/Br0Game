@@ -5,7 +5,7 @@
       <h2 class="card__title">{{ icon('send') }}{{ LNG.ff_mission }} <span class="badge badge--muted">{{ count(FleetList) }}</span></h2>
       <div class="card__actions">
         <input type="search" class="table-filter" data-table-filter="#fleet-table" placeholder="{{ LNG.adm_filter_page }}">
-        <a class="button btn--small" href="admin?page=flyingFleet&amp;massunlock=1" data-confirm="">{{ icon('lock') }}{{ LNG.ff_lock }} / {{ LNG.ff_unlock }}</a>
+        <a data-method="post" class="button btn--small" href="admin?page=flyingFleet&amp;massunlock=1" data-confirm="">{{ icon('lock') }}{{ LNG.ff_lock }} / {{ LNG.ff_unlock }}</a>
         <a data-method="post" class="button btn--small btn--danger" href="admin?page=flyingFleet&amp;sendfleetsback=1" data-confirm="{{ LNG.ff_sendFleetsBack|e('html_attr') }}?">{{ icon('arrow-left') }}{{ LNG.ff_sendFleetsBack }}</a>
       </div>
     </header>
@@ -37,11 +37,11 @@
               <td class="small">{% if FleetRow.stayhour != 0 %}{% if FleetRow.state == 2 %}<span class="badge badge--ok">{{ FleetRow.staytime }} ({{ FleetRow.stayhour }}&nbsp;h)</span>{% else %}{{ FleetRow.staytime }} ({{ FleetRow.stayhour }}&nbsp;h){% endif %}{% else %}<span class="muted">–</span>{% endif %}<br>{% if FleetRow.state == 1 %}<span class="badge badge--ok" title="{{ LNG.ff_endtime }}">{{ FleetRow.endtime }}</span>{% else %}<span class="muted">{{ FleetRow.endtime }}</span>{% endif %}</td>
               <td class="actions nowrap">
                 {% if FleetRow.lock %}
-                  <a class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=0" title="{{ LNG.ff_unlock }}" aria-label="{{ LNG.ff_unlock }}">{{ icon('lock') }}</a>
+                  <a data-method="post" class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=0" title="{{ LNG.ff_unlock }}" aria-label="{{ LNG.ff_unlock }}">{{ icon('lock') }}</a>
                 {% elseif FleetRow.error %}
-                  <a class="button btn--small btn--danger" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=2" data-confirm="" title="{{ LNG.ff_del }}" aria-label="{{ LNG.ff_del }}">{{ icon('trash-2') }}</a>
+                  <a data-method="post" class="button btn--small btn--danger" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=2" data-confirm="" title="{{ LNG.ff_del }}" aria-label="{{ LNG.ff_del }}">{{ icon('trash-2') }}</a>
                 {% else %}
-                  <a class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=1" title="{{ LNG.ff_lock }}" aria-label="{{ LNG.ff_lock }}">{{ icon('lock') }}</a>
+                  <a data-method="post" class="button btn--small" href="admin?page=flyingFleet&amp;id={{ FleetRow.fleetID }}&amp;lock=1" title="{{ LNG.ff_lock }}" aria-label="{{ LNG.ff_lock }}">{{ icon('lock') }}</a>
                 {% endif %}
                 {% if FleetRow.state == 0 %}
                   <a data-method="post" class="button btn--small" href="admin?page=flyingFleet&amp;sendfleetback={{ FleetRow.fleetID }}" data-confirm="" title="{{ LNG.ff_sendFleetBack }}" aria-label="{{ LNG.ff_sendFleetBack }}">{{ icon('arrow-left') }}</a>

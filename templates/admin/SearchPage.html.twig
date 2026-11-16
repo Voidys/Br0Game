@@ -89,7 +89,7 @@
                         {% if action.type == 'edit' %}
                           <button type="button" class="btn--small" data-open-edit data-edit-id="{{ action.id }}" data-edit-type="{{ action.edit }}" title="{{ action.label }}">{{ icon('pencil') }}<span class="visually-hidden">{{ action.label }}</span></button>
                         {% else %}
-                          <a class="button btn--small btn--danger" href="{{ action.href }}" data-confirm="{{ action.confirm|e('html_attr') }}" title="{{ action.label }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ action.label }}</span></a>
+                          <a data-method="post" class="button btn--small btn--danger" href="{{ action.href }}" data-confirm="{{ action.confirm|e('html_attr') }}" title="{{ action.label }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ action.label }}</span></a>
                         {% endif %}
                       {% endfor %}
                     </td>

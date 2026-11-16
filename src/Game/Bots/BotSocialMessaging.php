@@ -201,7 +201,7 @@ class BotSocialMessaging
             'SELECT u.id, u.username, u.galaxy, u.`system`, u.planet, us.lang FROM %%USERS%% u
              LEFT JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
              WHERE u.universe = :uni AND u.id <> :bot AND u.galaxy = :gal AND u.`system` BETWEEN :s1 AND :s2
-               AND u.onlinetime > :online
+               AND u.onlinetime > :online AND u.authlevel = 0 AND u.urlaubs_modus = 0 AND u.banaday < :nowban
                AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = u.id)
                AND NOT EXISTS (SELECT 1 FROM %%MESSAGES%% m WHERE m.message_sender = :bot AND m.message_owner = u.id
                                AND m.message_type = :t AND m.message_time > :week)
@@ -209,7 +209,7 @@ class BotSocialMessaging
             [
                 ':uni' => $uni, ':bot' => $bot, ':gal' => (int) $ctx['me']['galaxy'],
                 ':s1' => (int) $ctx['me']['system'] - 10, ':s2' => (int) $ctx['me']['system'] + 10,
-                ':online' => $now - 30 * 86400, ':t' => MESSAGE_TYPE_USER, ':week' => $now - 7 * 86400,
+                ':online' => $now - 30 * 86400, ':nowban' => $now, ':t' => MESSAGE_TYPE_USER, ':week' => $now - 7 * 86400,
             ],
         );
         if (empty($target)) {

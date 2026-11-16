@@ -33,7 +33,7 @@ class LogoutController extends AbstractAdminController
     {
         $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
-            throw new Exception($this->state->LNG['adm_permission_error']);
+            $this->deny();
         }
 
         parent::construct();

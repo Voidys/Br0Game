@@ -92,18 +92,29 @@ class RegisterController extends AbstractLoginController
         }
 
         $userName       = $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $password       = $this->http()->_GP('password', '', true);
-        $password2      = $this->http()->_GP('passwordReplay', '', true);
+        $password       = $this->http()->rawInput('password');
+        $password2      = $this->http()->rawInput('passwordReplay');
         $mailAddress    = $this->http()->_GP('email', '');
         $mailAddress2   = $this->http()->_GP('emailReplay', '');
         $rulesChecked   = $this->http()->_GP('rules', 0);
         $privacyChecked = $this->http()->_GP('privacy', 0);
-        $language       = $this->http()->_GP('lang', '');
-        $timezone       = $this->http()->_GP('time', '');
+        $language       = (string) $this->http()->_GP('lang', '');
+        $language       = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
+        $timezone       = (string) $this->http()->_GP('time', '');
+        $timezone       = in_array($timezone, \DateTimeZone::listIdentifiers(), true) ? $timezone : (string) $config->timezone;
 
         $referralID = $this->http()->_GP('referralID', 0);
 
-        $errors = $this->registrationErrors($userName, $password, $password2, $mailAddress, $mailAddress2, $rulesChecked, $privacyChecked);
+        // name and e-mail checks and the insert run under one lock: two parallel requests cannot both pass the checks
+        $verifyURL = '';
+        $errors = $this->withRegistrationLock(function () use (&$verifyURL, $userName, $password, $password2, $mailAddress, $mailAddress2, $rulesChecked, $privacyChecked, $language, $timezone, $referralID): array {
+            $errors = $this->registrationErrors($userName, $password, $password2, $mailAddress, $mailAddress2, $rulesChecked, $privacyChecked);
+            if (empty($errors)) {
+                $verifyURL = $this->storePendingRegistration($userName, $password, $mailAddress, $language, $this->validReferralId($referralID), $timezone);
+            }
+
+            return $errors;
+        });
 
         if (!empty($errors)) {
             $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
@@ -112,10 +123,6 @@ class RegisterController extends AbstractLoginController
                 'action' => 'history-back',
             ]]);
         }
-
-        $referralID = $this->validReferralId($referralID);
-
-        $verifyURL = $this->storePendingRegistration($userName, $password, $mailAddress, $language, $referralID, $timezone);
 
         if ($config->mail_active == 0 || $config->user_valid == 0) {
             $this->redirectTo($verifyURL);
@@ -146,8 +153,8 @@ class RegisterController extends AbstractLoginController
             $errors[] = $LNG['registerErrorUsernameChar'];
         }
 
-        if (strlen($password) < 6) {
-            $errors[] = $LNG->format('registerErrorPasswordLength', 6);
+        if (strlen($password) < \App\Security\PasswordSupport::MIN_LENGTH) {
+            $errors[] = $LNG->format('registerErrorPasswordLength', \App\Security\PasswordSupport::MIN_LENGTH);
         }
 
         if ($password != $password2) {
@@ -306,6 +313,11 @@ class RegisterController extends AbstractLoginController
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
+        $url = $this->canonicalUrl->forPage($this->state->runtime, $verifyURL);
+        if ($url === null) {
+            return;
+        }
+
         $MailRAW = $LNG->getTemplate('email_vaild_reg');
         $MailContent = str_replace([
             '{USERNAME}',
@@ -317,7 +329,7 @@ class RegisterController extends AbstractLoginController
             $userName,
             $mailAddress,
             $config->game_name,
-            $this->canonicalUrl->forPage($this->state->runtime, $verifyURL),
+            $url,
             $this->configs->get()->discord_url,
         ], $MailRAW);
 

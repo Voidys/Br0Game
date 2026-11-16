@@ -71,6 +71,6 @@
     unisWildcast: false,
     referralEnable: game_config('ref_active') == '1',
     basePath: app.request.schemeAndHttpHost ~ base ~ '/',
-  }|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+  }|json_script }}</script>
 </body>
 </html>

@@ -35,13 +35,13 @@ class ReportController extends AbstractGameController
 
         $db = $this->db;
 
-        // Throttle: at most 20 comments per user per minute, bounded lengths
-        $sql = "SELECT COUNT(*) AS cnt FROM %%USERS_COMMENTS%% WHERE `user_id` = :user AND `created_at` > :since;";
-        $recent = $db->selectSingle($sql, [
+        // Caps (the client answer stays "saved"): at most 20 comments per user and hour and 200 in total, bounded lengths
+        $sql = "SELECT COUNT(*) AS total, COALESCE(SUM(`created_at` > :since), 0) AS recent FROM %%USERS_COMMENTS%% WHERE `user_id` = :user;";
+        $counts = $db->selectSingle($sql, [
             ':user'  => $USER['id'],
-            ':since' => $this->state->runtime->timestamp - 60,
-        ], 'cnt');
-        if ($recent >= 20) {
+            ':since' => $this->state->runtime->timestamp - 3600,
+        ]);
+        if ((int) $counts['recent'] >= 20 || (int) $counts['total'] >= 200) {
             throw new \App\Game\Core\EndOfRequest('saved');
         }
         $uri = mb_substr((string) $uri, 0, 1000);

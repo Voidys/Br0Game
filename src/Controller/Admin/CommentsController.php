@@ -19,7 +19,7 @@ class CommentsController extends AbstractAdminController
     protected function construct(): void
     {
         if (!$this->viewHelpers()->allowedTo('ShowMultiIPPage')) {
-            throw new Exception($this->state->LNG['adm_permission_error']);
+            $this->deny();
         }
 
         parent::construct();

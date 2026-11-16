@@ -46,6 +46,12 @@ final class CsrfListener
         }
         $request = $event->getRequest();
 
+        // /logout only logs out through a POST with the token; a plain visit (link, image, prefetch) does nothing
+        if ($this->policy->isLogoutRoute($request) && !$request->isMethod('POST')) {
+            $event->setResponse(new RedirectResponse($request->getBasePath() . '/', Response::HTTP_SEE_OTHER));
+
+            return;
+        }
         if ($this->policy->isForeignNavigation($request)) {
             $event->setResponse($this->bounce($request));
 

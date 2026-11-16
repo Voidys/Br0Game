@@ -38,6 +38,8 @@ passwordBack: Geri
 passwordCaptcha: Güvenlik kodu
 passwordChangedMailSend: Yeni şifren yolda. Birazdan bir e-posta alacaksın.
 passwordChangedMailTitle: '%s için yeni şifre'
+passwordConfirmInfo: 'Şifreni sıfırlamak için düğmeye tıkla. Yeni şifreni sana e-posta ile göndereceğiz.'
+passwordConfirmSubmit: 'Bana yeni şifre gönder'
 passwordErrorMailEmpty: Bu e-posta adresini tanımıyoruz.
 passwordErrorOnePerDay: Bu hesap için son 24 saat içinde zaten bir şifre istendi. 24 saat sonra yeniden isteyebilirsin.
 passwordErrorUnknown: Bu bilgilerle bir hesap bulunamadı.

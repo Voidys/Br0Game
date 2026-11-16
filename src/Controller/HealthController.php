@@ -3,30 +3,24 @@
 namespace App\Controller;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-/** Health check (/healthz): PHP, database version and account count. */
-final class HealthController extends AbstractController
+/** Health check (/healthz): answers "ok" when the database responds, nothing else (no versions, counts or paths). */
+final class HealthController
 {
     /**
-     * Health page: PHP version, database server version and the number of accounts; renders health.html.twig. Also shows the logged in account.
+     * Plain text `ok` (200) when `SELECT 1` works, `fail` (503) otherwise.
      */
     #[Route('/healthz', name: 'health', methods: ['GET'])]
-    public function __invoke(
-        Connection $connection,
-        #[Autowire(param: 'app.table_prefix')]
-        string $tablePrefix,
-    ): Response {
-        $accounts = (int) $connection->fetchOne(sprintf('SELECT COUNT(*) FROM %saccounts', $tablePrefix));
+    public function __invoke(Connection $connection): Response
+    {
+        try {
+            $connection->fetchOne('SELECT 1');
+        } catch (\Throwable) {
+            return new Response('fail', Response::HTTP_SERVICE_UNAVAILABLE, ['Content-Type' => 'text/plain']);
+        }
 
-        return $this->render('health.html.twig', [
-            'php' => PHP_VERSION,
-            'database' => $connection->getServerVersion(),
-            'accounts' => $accounts,
-            'account' => $this->getUser(),
-        ]);
+        return new Response('ok', Response::HTTP_OK, ['Content-Type' => 'text/plain']);
     }
 }

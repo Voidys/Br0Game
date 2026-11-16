@@ -51,6 +51,24 @@ final class AccountProvider implements UserProviderInterface, PasswordUpgraderIn
         );
     }
 
+    /** Account by its e-mail address (case-insensitive like the column); no id lookup, so a numeric "e-mail" never names an account. */
+    public function loadByEmail(string $email): ?Account
+    {
+        $row = $this->connection->fetchAssociative(
+            sprintf('SELECT id, accountname, email, authlevel, lang, password FROM %s WHERE email = ? ORDER BY id LIMIT 1', $this->tables->get('accounts')),
+            [$email],
+        );
+
+        return $row === false ? null : new Account(
+            (int) $row['id'],
+            (string) $row['accountname'],
+            (string) $row['email'],
+            (int) $row['authlevel'],
+            (string) $row['lang'],
+            (string) $row['password'],
+        );
+    }
+
     /**
      * Reloads the logged-in account from the database on every request so bans, deletions and password changes
      * take effect immediately.

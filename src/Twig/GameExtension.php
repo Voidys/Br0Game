@@ -10,6 +10,7 @@ use App\Security\CspNonce;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 use Twig\Markup;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -42,6 +43,12 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
             new TwigFunction('import_map', $this->importMap(...)),
             new TwigFunction('data_island', $this->dataIsland(...), ['is_safe' => ['all']]),
         ];
+    }
+
+    /** @return list<TwigFilter> json_script (JSON for inside a <script> element, see jsonForScript()) */
+    public function getFilters(): array
+    {
+        return [new TwigFilter('json_script', self::jsonForScript(...), ['is_safe' => ['all']])];
     }
 
     /**
@@ -79,9 +86,18 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
      */
     public function dataIsland(string $id, mixed $data): string
     {
+        return '<script type="application/json" id="' . htmlspecialchars($id, ENT_QUOTES) . '">' . self::jsonForScript($data) . '</script>';
+    }
+
+    /**
+     * JSON for the inside of a <script> element (data islands, JSON-LD): `<`, `>`, `&`, `'` and `"` are \u-escaped, so no value
+     * (host name, player text, translation) can close the element or open a comment. "null" when the data cannot be encoded.
+     */
+    public static function jsonForScript(mixed $data): string
+    {
         $json = json_encode($data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
 
-        return '<script type="application/json" id="' . htmlspecialchars($id, ENT_QUOTES) . '">' . ($json === false ? 'null' : $json) . '</script>';
+        return $json === false ? 'null' : $json;
     }
 
     /** the importmap is an inline script, so it carries the Content-Security-Policy nonce of the request */

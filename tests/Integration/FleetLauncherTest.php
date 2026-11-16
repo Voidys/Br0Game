@@ -131,6 +131,18 @@ final class FleetLauncherTest extends GameTestCase
         $this->assertFalse($this->launcher()->sendFleetBack($user, $fleetId), 'a returning fleet cannot be recalled again');
     }
 
+    public function testRecallIsRefusedWhileTheEventHandlerHasClaimedTheFleet(): void
+    {
+        [$user, , , $fleetId] = $this->launch();
+        $this->db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = :l WHERE fleetID = :id;', [':l' => 'claimed', ':id' => $fleetId]);
+
+        $this->assertFalse($this->launcher()->sendFleetBack($user, $fleetId));
+        $this->assertSame(FLEET_OUTWARD, (int) $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId], 'status'));
+
+        $this->db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE fleetID = :id;', [':id' => $fleetId]);
+        $this->assertTrue($this->launcher()->sendFleetBack($user, $fleetId));
+    }
+
     public function testRecallOfAHoldingFleetReturnsAfterItsOutwardDuration(): void
     {
         [$user, , , $fleetId] = $this->launch(MISSION_HOLD);

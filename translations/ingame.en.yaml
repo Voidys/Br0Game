@@ -352,6 +352,7 @@ al_memberlist_on: Online
 al_message: Message
 al_name: Change alliance name
 al_name_required: Please enter an alliance name.
+al_link_too_long: The link is too long (255 characters at most).
 al_name_tag_too_long: The tag can have 8 characters at most and the name 30.
 al_new_apply: >-
   Your alliance has received <a
@@ -495,6 +496,8 @@ bs_acs_slot: ACS slot
 bs_add_acs_slot: Add ACS slot
 bs_atter: Attacker
 bs_cancel: Reset
+bs_too_many_units: "Too many units for one simulation (at most %s)."
+bs_busy: "A simulation is already running, please wait for it to finish."
 bs_deffer: Defender
 bs_derbis_raport: 'Required for recycling debris: %s %s.'
 bs_load: Load
@@ -541,6 +544,7 @@ bu_player_not_exist: That player doesn't exist.
 bu_rejected_request_body: 'Hello %s,<br>%s declined your friend request!'
 bu_rejected_request_title: 'Friend request declined!'
 bu_request_exists: 'There is already a friend request for this player!'
+bu_request_limit: 'Too many friend requests. Wait a few minutes before sending more.'
 bu_request_message: Message request
 bu_request_send: Friend request sent.
 bu_request_text: Request message
@@ -1065,6 +1069,7 @@ nt_dlte_note: Delete
 nt_edit_note: Edit note
 nt_important: High
 nt_no_text: No text
+nt_limit_reached: 'You reached the maximum number of notes (%1$d). Delete old notes first.'
 nt_no_title: No title
 nt_normal: Normal
 nt_note: Note

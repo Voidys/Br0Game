@@ -803,5 +803,8 @@ final class AllianceServicesTest extends GameTestCase
         self::assertSame('', AllianceText::httpUrlOrEmpty('data:text/html,x'));
         self::assertSame('', AllianceText::httpUrlOrEmpty('/relative/path'));
         self::assertSame('', AllianceText::httpUrlOrEmpty(''));
+        self::assertSame('', AllianceText::httpUrlOrEmpty("http://a.b/x&#039;><form/action=x>"));
+        self::assertSame('', AllianceText::httpUrlOrEmpty("http://a.b/x'y"));
+        self::assertSame('http://a.b/?x=1&amp;y=2', AllianceText::httpUrlOrEmpty('http://a.b/?x=1&amp;y=2'));
     }
 }

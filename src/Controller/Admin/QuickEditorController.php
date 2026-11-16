@@ -80,6 +80,9 @@ class QuickEditorController extends AbstractAdminController
         );
 
         if ($action == 'send') {
+            if (!is_array($PlanetData) || !$this->mayActOn((int) $PlanetData['id_owner'], true)) {
+                $this->deny();
+            }
             $this->savePlanet((int) $id, $PlanetData, $DataIDs);
         }
 
@@ -144,9 +147,18 @@ class QuickEditorController extends AbstractAdminController
                 ->where('`id` = :userID')
                 ->setParameter('userID', $id)
         );
-        $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > $UserData['authlevel']);
+        // the password belongs to the account, so every player of the account (all universes) must rank below the actor
+        $accountTop = (int) $db->selectSingle(
+            'SELECT MAX(u.`authlevel`) AS top FROM %%ACCOUNTS_TO_USERS%% au INNER JOIN %%ACCOUNTS_TO_USERS%% other ON other.account_id = au.account_id INNER JOIN %%USERS%% u ON u.id = other.user_id WHERE au.user_id = :userID;',
+            [':userID' => $id],
+            'top',
+        );
+        $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > max((int) $UserData['authlevel'], $accountTop));
 
         if ($action == 'send') {
+            if (!$this->mayActOn((int) $id, true)) {
+                $this->deny();
+            }
             $this->savePlayer((int) $id, $UserData, $DataIDs, $ChangePW);
         }
         $sql = "SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetID AND `universe` = :universe;";
@@ -322,7 +334,7 @@ class QuickEditorController extends AbstractAdminController
         }
 
         if (!empty($this->state->requestPost['password']) && $ChangePW) {
-            $newPasswordHash = $this->accountUtil()->cryptPassword($this->http()->_GP('password', '', true));
+            $newPasswordHash = $this->accountUtil()->cryptPassword($this->http()->rawInput('password'));
         }
 
         $old['username'] = $new['username'] = $UserData['username'];

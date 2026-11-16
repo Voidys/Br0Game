@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Game\Bots\BotEngine;
+use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\EndOfRequest;
 use App\Game\Core\StoredData;
@@ -19,7 +20,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * moved one step into the future by shifting the timestamps back (fleets and their events, the fleet log, the bots' schedule and
  * raid memory, production and build queues), then the bot engine ticks like the cron job would, and the new bot log lines are printed. Only the bots' own world is
  * shifted (not human sessions, other players' planets or the statistics), so it is a test aid, not a simulation of the whole game.
- * Runs only in the dev environment or with --force.
+ * Runs only in the dev or test environment; --force only overrides the "bots disabled" check.
  */
 #[AsCommand(name: 'app:bots:fast-forward', description: 'Dev only: runs the bots of a universe through N minutes of game time in seconds')]
 final class BotsFastForwardCommand extends Command
@@ -31,6 +32,7 @@ final class BotsFastForwardCommand extends Command
         private readonly GameKernel $kernel,
         private readonly BotEngine $engine,
         private readonly Database $db,
+        private readonly ConfigRegistry $configs,
         #[Autowire('%kernel.environment%')]
         private readonly string $environment,
     ) {
@@ -46,7 +48,7 @@ final class BotsFastForwardCommand extends Command
             ->addOption('limit', null, InputOption::VALUE_REQUIRED, 'Bots per tick (default: all)')
             ->addOption('step', null, InputOption::VALUE_REQUIRED, 'Seconds per step', '60')
             ->addOption('stats', null, InputOption::VALUE_NONE, 'Print SQL queries and wall time per bot tick instead of the bot log lines')
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Allow outside the dev environment (never on a live server)');
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Run even when bots are disabled in the universe (still only in the dev or test environment)');
     }
 
     /**
@@ -55,8 +57,8 @@ final class BotsFastForwardCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->environment !== 'dev' && !$input->getOption('force')) {
-            $output->writeln('<error>Only in the dev environment (or with --force).</error>');
+        if (!in_array($this->environment, ['dev', 'test'], true)) {
+            $output->writeln('<error>Only in the dev or test environment (not even with --force).</error>');
 
             return Command::FAILURE;
         }
@@ -68,6 +70,11 @@ final class BotsFastForwardCommand extends Command
             return Command::FAILURE;
         }
         $universe = (int) $input->getOption('universe');
+        if (empty($this->configs->get($universe)->bots_enabled) && !$input->getOption('force')) {
+            $output->writeln('<error>Bots are disabled in this universe (use --force to run anyway).</error>');
+
+            return Command::FAILURE;
+        }
         $step = max(1, (int) $input->getOption('step'));
         $steps = (int) ceil((int) $input->getOption('minutes') * 60 / $step);
         $last = (int) $this->db->selectSingle('SELECT COALESCE(MAX(id), 0) AS m FROM %%BOT_LOG%%;', [], 'm');
@@ -113,13 +120,13 @@ final class BotsFastForwardCommand extends Command
     }
 
     /**
-     * Moves the bots of a universe `$seconds` into the future: fleets that belong to or target a bot (times, events, log), the bots'
+     * Moves the bots of a universe `$seconds` into the future: fleets that belong to a bot (times, events, log), the bots'
      * `next_tick` / `session_until` and the absolute times in their personality (raid memory, `_reg`).
      */
     private function shift(int $universe, int $seconds): void
     {
         $db = $this->db;
-        $ids = array_column($db->select('SELECT f.id FROM %%FLEETS%% f INNER JOIN %%BOT_PLAYERS%% b ON b.user_id = f.owner OR b.user_id = f.target_owner WHERE f.universe = :u;', [':u' => $universe]), 'id');
+        $ids = array_column($db->select('SELECT f.id FROM %%FLEETS%% f INNER JOIN %%BOT_PLAYERS%% b ON b.user_id = f.owner WHERE f.universe = :u;', [':u' => $universe]), 'id');
         if ($ids !== []) {
             $in = implode(',', array_map('intval', $ids));
             $db->update("UPDATE %%FLEETS%% SET start_time = start_time - :s, arrival_time = arrival_time - :s, stay_time = stay_time - :s, return_time = return_time - :s WHERE id IN ($in);", [':s' => $seconds]);

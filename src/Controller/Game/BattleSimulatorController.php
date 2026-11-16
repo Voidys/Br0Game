@@ -35,6 +35,9 @@ class BattleSimulatorController extends AbstractGameController
 {
     public static $requireModule = 'MODULE_SIMULATOR';
 
+    /** Most ships and defenses of all slots together one simulation may contain (a fight of 20 million per side takes about 17 s of CPU). */
+    public const MAX_SIMULATED_UNITS = 10000000;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -75,15 +78,24 @@ class BattleSimulatorController extends AbstractGameController
         $fleetDefend[0] = $tempFleet;
         // the fleets are keyed by their list position (as before); the planet is fleet 0 and fires last
 
-        if ($battleElementAmount > 135000000) {
-            $this->sendJSON(0); // return
+        if ($battleElementAmount > self::MAX_SIMULATED_UNITS) {
+            $this->sendJSON($this->state->LNG->format('bs_too_many_units', $this->viewHelpers()->prettyNumber(self::MAX_SIMULATED_UNITS)));
         }
 
         $LNG->includeData(['FLEET']);
 
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-        $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
+        // one simulation at a time per player: the throttle above only counts stored reports, parallel requests would all pass it
+        $lockName = $this->db->getDatabaseName() . ':' . $simMarker;
+        if (!(int) $this->db->selectSingle('SELECT GET_LOCK(:name, 0) AS acquired;', [':name' => $lockName], 'acquired')) {
+            $this->sendJSON($this->state->LNG['bs_busy']);
+        }
+        try {
+            $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
+        } finally {
+            $this->db->selectSingle('SELECT RELEASE_LOCK(:name) AS released;', [':name' => $lockName], 'released');
+        }
 
         if (!$combatResult) {
             $this->sendJSON(0); // return

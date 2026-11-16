@@ -56,7 +56,14 @@ class AllianceSettingsService
         $db = $this->db;
         $back = '?page=alliance&mode=admin';
 
-        $alliance['ally_owner_range'] = mb_substr($input['owner_range'], 0, 32);
+        // the request values are HTML-encoded and the columns hold the encoded text: a too long link is refused with a
+        // message, the leader title is cut on the typed text (never inside an entity) until its encoded form fits
+        foreach (['web', 'image'] as $linkField) {
+            if (mb_strlen((string) $input[$linkField]) > 255) {
+                throw AllianceException::message($LNG['al_link_too_long'], $LNG['sys_back'], $back);
+            }
+        }
+        $alliance['ally_owner_range'] = self::fitEncoded((string) $input['owner_range'], 32);
         $alliance['ally_web'] = AllianceText::httpUrlOrEmpty($input['web']);
         $alliance['ally_image'] = AllianceText::httpUrlOrEmpty($input['image']);
         $alliance['ally_request_notallow'] = $input['request_notallow'];
@@ -65,26 +72,7 @@ class AllianceSettingsService
         $alliance['ally_stats'] = $input['stats'];
         $alliance['ally_diplo'] = $input['diplo'];
 
-        $new_ally_tag = $input['ally_tag'] ?? $alliance['ally_tag'];
-        $new_ally_name = $input['ally_name'] ?? $alliance['ally_name'];
-
-        if (mb_strlen($new_ally_tag) > 8 || mb_strlen($new_ally_name) > 30) {
-            throw AllianceException::message($LNG['al_name_tag_too_long'], $LNG['sys_back'], $back);
-        }
-
-        if (!$this->playerUtil()->isNameValid($new_ally_tag) || !$this->playerUtil()->isNameValid($new_ally_name)) {
-            throw AllianceException::message($LNG['al_newname_specialchar'], $LNG['sys_back'], $back);
-        }
-
-        if (!empty($new_ally_tag) && $alliance['ally_tag'] != $new_ally_tag) {
-            $this->assertFree('ally_tag', ':NewAllianceTag', $new_ally_tag);
-            $alliance['ally_tag'] = $new_ally_tag;
-        }
-
-        if (!empty($new_ally_name) && $alliance['ally_name'] != $new_ally_name) {
-            $this->assertFree('ally_name', ':NewAllianceName', $new_ally_name);
-            $alliance['ally_name'] = $new_ally_name;
-        }
+        $alliance = $this->applyTagAndName($alliance, $input, $back);
 
         if ($alliance['ally_request_notallow'] != 0 && $alliance['ally_request_notallow'] != 1) {
             $alliance['ally_request_notallow'] = 0;
@@ -127,6 +115,53 @@ class AllianceSettingsService
         ]);
 
         return $alliance;
+    }
+
+    /**
+     * Validates and applies a new alliance tag/name (length, allowed characters, not taken by another alliance).
+     *
+     * @param array<string, mixed> $alliance current alliance row
+     * @param array<string, mixed> $input    request values (ally_tag, ally_name)
+     * @return array<string, mixed> the alliance row with the new tag/name
+     * @throws AllianceException message page (back to `$back`) on invalid or duplicate name/tag
+     */
+    private function applyTagAndName(array $alliance, array $input, string $back): array
+    {
+        $LNG = $this->state->LNG;
+        $new_ally_tag = $input['ally_tag'] ?? $alliance['ally_tag'];
+        $new_ally_name = $input['ally_name'] ?? $alliance['ally_name'];
+
+        if (mb_strlen($new_ally_tag) > 8 || mb_strlen($new_ally_name) > 30) {
+            throw AllianceException::message($LNG['al_name_tag_too_long'], $LNG['sys_back'], $back);
+        }
+
+        if (!$this->playerUtil()->isNameValid($new_ally_tag) || !$this->playerUtil()->isNameValid($new_ally_name)) {
+            throw AllianceException::message($LNG['al_newname_specialchar'], $LNG['sys_back'], $back);
+        }
+
+        if (!empty($new_ally_tag) && $alliance['ally_tag'] != $new_ally_tag) {
+            $this->assertFree('ally_tag', ':NewAllianceTag', $new_ally_tag);
+            $alliance['ally_tag'] = $new_ally_tag;
+        }
+
+        if (!empty($new_ally_name) && $alliance['ally_name'] != $new_ally_name) {
+            $this->assertFree('ally_name', ':NewAllianceName', $new_ally_name);
+            $alliance['ally_name'] = $new_ally_name;
+        }
+
+        return $alliance;
+    }
+
+    /** encoded request text cut to what fits into $length characters once encoded again, cut on the decoded text */
+    private static function fitEncoded(string $encoded, int $length): string
+    {
+        $text = html_entity_decode($encoded, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        do {
+            $result = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+            $text = mb_substr($text, 0, -1);
+        } while (mb_strlen($result) > $length && $text !== '');
+
+        return mb_strlen($result) > $length ? '' : $result;
     }
 
     /**

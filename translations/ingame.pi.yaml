@@ -559,6 +559,8 @@ bs_acs_slot: AKS-Slot
 bs_add_acs_slot: Add AKS-Slot
 bs_atter: Angreifer
 bs_cancel: Zurücksetzen
+bs_too_many_units: "Zu viele Einheiten für eine Simulation (maximal %s), Arr!"
+bs_busy: "Es läuft schon eine Simulation, warte bis sie fertig ist, Arr!"
 bs_deffer: Verteidiger
 bs_derbis_raport: Es werden %s %s für das gesamte Treibgut benötigt.
 bs_load: Laden
@@ -603,6 +605,7 @@ bu_player: Spieler
 bu_rejected_request_body: Hallo %s,<br>%s hat deine Buddylistanfrage abgelehnt!
 bu_rejected_request_title: Buddylist-Anfrage abgelehnt!
 bu_request_exists: Spieler bereits in der Buddyliste!
+bu_request_limit: 'Zu viele Buddy-Anfragen. Warte ein paar Minuten, bevor du weitere sendest, Landratte.'
 bu_request_message: Anfragetext
 bu_request_send: Anfrage gesendet!
 bu_request_text: Begründung
@@ -1229,6 +1232,7 @@ nt_dlte_note: Löschen
 nt_edit_note: Editiere Notiz
 nt_important: Wichtig
 nt_no_text: Kein Text
+nt_limit_reached: 'Du hast die maximale Anzahl an Notizen (%1$d) erreicht. Wirf erst alte Notizen über Bord.'
 nt_no_title: Kein Titel
 nt_normal: Normal
 nt_note: Notiz
@@ -1797,6 +1801,7 @@ ach_progress: "%d von %d freigeschaltet"
 ach_unlocked_on: "Freigeschaltet am %s"
 al_apply_accepted: "Bewerbung angenommen."
 al_apply_declined: "Bewerbung abgelehnt."
+al_link_too_long: "Der Link is zu lang (höchstens 255 Zeichen)!"
 al_name_tag_too_long: "Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!"
 bs_share_code: "Teilen-Code"
 bs_swap: "Seiten tauschen"

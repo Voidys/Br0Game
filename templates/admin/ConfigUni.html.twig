@@ -4,7 +4,7 @@
 <script type="application/json" id="config-uni-data">{{ {
   preview: flightTimePreview,
   text: {format: LNG.adm_flight_err_format, maxMissing: LNG.adm_flight_err_max_missing, minOne: LNG.adm_flight_err_min_one, galaxyOver: LNG.adm_flight_err_galaxy_over, systemOver: LNG.adm_flight_err_system_over, planetOver: LNG.adm_flight_err_planet_over, distMissing: LNG.adm_flight_err_dist_missing, time: LNG.adm_flight_time, distance: LNG.adm_flight_distance, shipSpeed: LNG.adm_flight_ship_speed, fleetSpeed: LNG.adm_flight_fleet_speed},
-}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+}|json_script }}</script>
 <script type="module" src="./scripts/admin/pages/configUni.js?v={{ asset_version }}"></script>
 
 {% include 'admin/overall_footer.html.twig' %}

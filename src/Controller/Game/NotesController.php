@@ -33,6 +33,9 @@ class NotesController extends AbstractGameController
 {
     public static $requireModule = 'MODULE_NOTICE';
 
+    private const MAX_NOTES = 100;
+    private const MAX_TEXT_LENGTH = 10000;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -125,9 +128,19 @@ class NotesController extends AbstractGameController
             $title = preg_replace('/&#?[a-zA-Z0-9]*$/', '', mb_substr($title, 0, 32));
         }
 
+        // the text is stored encoded; cut it without leaving a broken entity at the end
+        if (mb_strlen($text) > self::MAX_TEXT_LENGTH) {
+            $text = preg_replace('/&#?[a-zA-Z0-9]*$/', '', mb_substr($text, 0, self::MAX_TEXT_LENGTH));
+        }
+
         $db = $this->db;
 
         if ($id == 0) {
+            $count = $db->selectSingle('SELECT COUNT(*) AS count FROM %%NOTES%% WHERE owner = :userID;', [':userID' => $USER['id']], 'count');
+            if ($count >= self::MAX_NOTES) {
+                $this->printMessage($LNG->format('nt_limit_reached', self::MAX_NOTES));
+            }
+
             $sql = "INSERT INTO %%NOTES%% SET owner = :userID, time = :time, priority = :priority, title = :title, text = :text, universe = :universe;";
             $db->insert($sql, [
                 ':userID'   => $USER['id'],

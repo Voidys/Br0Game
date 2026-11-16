@@ -99,6 +99,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         $filters[] = new TwigFilter('format', [self::class, 'format'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('sprintf', [self::class, 'format'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('nl2br', [self::class, 'nl2br'], ['is_safe' => ['all']]);
+        $filters[] = new TwigFilter('tooltip_text', [self::class, 'tooltipText'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('legacy_markup', [self::class, 'legacyMarkup'], ['is_safe' => ['all']]);
         $filters[] = new TwigFilter('php_date', 'date');
         $filters[] = new TwigFilter('php_number_format', [self::class, 'numberFormat']);
@@ -146,6 +147,17 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         );
 
         return new Markup($out ?? (string) $html, 'UTF-8');
+    }
+
+    /**
+     * A plain value (player name, leader title, link) for use INSIDE the HTML of a `data-tooltip-content` attribute.
+     * The browser decodes the attribute once and tooltip.js then parses the result as HTML, so the value is encoded
+     * twice: stored `&lt;u&gt;` (or raw `<u>`) ends up as the text "<u>" and never as an element. Always use it for
+     * non-translation values in tooltip markup, see docs/templates.md.
+     */
+    public static function tooltipText(mixed $value): Markup
+    {
+        return new Markup(htmlspecialchars(GameEscaping::escape((string) $value, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', true), 'UTF-8');
     }
 
     /** nl2br() for plain text: escapes it (unless it is Markup), then turns line breaks into <br> */

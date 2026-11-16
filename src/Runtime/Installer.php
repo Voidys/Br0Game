@@ -381,6 +381,10 @@ final class Installer
     private function install(Language $LNG, string $enableInstallToolFile): void
     {
         $step = (int) $this->http()->_GP('step', 0);
+        // the build, settings and administrator steps never run against a game that already has an administrator
+        if ($step >= 5 && $this->installer->hasAdmin()) {
+            $this->http()->redirectTo('./');
+        }
         $this->assign(['currentStep' => $step]);
         match ($step) {
             1 => $this->stepLicence(),
@@ -446,7 +450,10 @@ final class Installer
             'migrationpw' => (string) $this->http()->_GP('migrationpw', '', true),
         ];
         $password = (string) ($this->state->requestPost['password'] ?? '');
-        $result = $this->installer->prepareDatabase($form, $password, $LNG->getLanguage());
+        // the address the installer is opened at becomes DEFAULT_URI (links in mails are built from it)
+        $request = $this->state->request ?? null;
+        $baseUrl = $request instanceof \Symfony\Component\HttpFoundation\Request ? rtrim($request->getSchemeAndHttpHost() . $request->getBasePath(), '/') : '';
+        $result = $this->installer->prepareDatabase($form, $password, $LNG->getLanguage(), $baseUrl);
         $this->assign(['checks' => $result['checks'], 'passed' => $result['passed']]);
         if (!$result['passed']) {
             // the generated migration password is not carried back into the form
@@ -562,8 +569,8 @@ final class Installer
     {
         $locale = $LNG->getLanguage();
         $username = $this->http()->_GP('username', '', UTF8_SUPPORT);
-        $password = $this->http()->_GP('password', '', true);
-        $confirm = $this->http()->_GP('password_confirm', '', true);
+        $password = $this->http()->rawInput('password');
+        $confirm = $this->http()->rawInput('password_confirm');
         $mail = $this->http()->_GP('email', '');
         $bots = max(0, min(50, (int) $this->http()->_GP('bots', 0)));
 

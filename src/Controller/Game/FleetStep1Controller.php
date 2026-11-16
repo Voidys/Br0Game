@@ -32,6 +32,12 @@ class FleetStep1Controller extends AbstractGameController
 {
     public static $requireModule = 'MODULE_FLEET_TABLE';
 
+    /** Prepared fleets (tokens) kept per session; each open fleet page uses one. */
+    private const MAX_PREPARED_FLEETS = 20;
+
+    /** Shortcuts (saved coordinates) per player. */
+    private const MAX_SHORTCUTS = 50;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -159,7 +165,7 @@ class FleetStep1Controller extends AbstractGameController
     {
         $token = getRandomString();
         $session = $this->sessions()->load();
-        $fleet = $session->fleet;
+        $fleet = $this->freshTokens($session->fleet);
         $fleet[$token] = [
             'ownPlanet' => $this->state->PLANET['id'],
             'time'      => $this->state->runtime->timestamp,
@@ -179,6 +185,28 @@ class FleetStep1Controller extends AbstractGameController
 
     /**
      * Universe geometry the form needs for the flight time preview (size and distance factors).
+     *
+     * @return array<string, mixed>
+     */
+    /**
+     * The prepared fleets still worth keeping: not older than the 10 minutes step 3 accepts, at most MAX_PREPARED_FLEETS
+     * (the newest), so the session cannot grow without bound.
+     *
+     * @param mixed $fleet session value `fleet` (token => form data)
+     * @return array<string, array<string, mixed>>
+     */
+    private function freshTokens(mixed $fleet): array
+    {
+        $fleet = is_array($fleet) ? $fleet : [];
+        $oldest = $this->state->runtime->timestamp - 600;
+        $fleet = array_filter($fleet, static fn(mixed $entry): bool => is_array($entry) && ($entry['time'] ?? 0) >= $oldest);
+
+        return array_slice($fleet, -(self::MAX_PREPARED_FLEETS - 1), null, true);
+    }
+
+    /**
+     * Galaxy geometry and distance settings of the current universe for the fleet page script (distance, duration and
+     * fuel preview in the browser).
      *
      * @return array<string, mixed>
      */
@@ -231,6 +259,9 @@ class FleetStep1Controller extends AbstractGameController
         $db = $this->db;
 
         $ShortcutData = $this->state->requestInput['shortcut'] ?? [];
+        if (!is_array($ShortcutData)) {
+            $ShortcutData = [];
+        }
         $ShortcutUser = $this->GetUserShotcut();
 
         foreach ($ShortcutUser as $ID => $shortcut) {
@@ -247,11 +278,17 @@ class FleetStep1Controller extends AbstractGameController
             $this->sendJSON($LNG['fl_shortcut_saved']);
         }
 
+        $kept = count(array_intersect_key($ShortcutUser, $ShortcutData));
         foreach ($ShortcutData as $ID => $planetData) {
-            if (empty($planetData['name']) || empty($planetData['galaxy']) || empty($planetData['system']) || empty($planetData['planet'])) {
+            $planetData = $this->cleanShortcut($planetData);
+            if ($planetData === null) {
                 continue;
             }
-            if (strpos($ID, 'new') !== false) {
+            if (strpos((string) $ID, 'new') !== false) {
+                if ($kept >= self::MAX_SHORTCUTS) {
+                    continue;
+                }
+                ++$kept;
                 $sql = "INSERT INTO %%SHORTCUTS%% SET 
                     `ownerID`   = :userID,
                     `name`      = :name,
@@ -261,13 +298,13 @@ class FleetStep1Controller extends AbstractGameController
                     `type`      = :type;";
                 $db->insert($sql, [
                     ':userID' => $USER['id'],
-                    ':name' => substr($planetData['name'], 0, 32),
+                    ':name' => $planetData['name'],
                     ':galaxy' => $planetData['galaxy'],
                     ':system' => $planetData['system'],
                     ':planet' => $planetData['planet'],
                     ':type' => $planetData['type'],
                 ]);
-            } else {
+            } elseif (isset($ShortcutUser[$ID])) {
                 $planetData['ownerID'] = $USER['id'];
                 $planetData['shortcutID'] = $ID;
                 if ($planetData != $ShortcutUser[$ID]) {
@@ -280,7 +317,7 @@ class FleetStep1Controller extends AbstractGameController
                         WHERE `shortcutID` = :shortcutID AND `ownerID` = :userID;";
                     $db->update($sql, [
                         ':userID' => $USER['id'],
-                        ':name' => substr($planetData['name'], 0, 32),
+                        ':name' => $planetData['name'],
                         ':galaxy' => $planetData['galaxy'],
                         ':system' => $planetData['system'],
                         ':planet' => $planetData['planet'],
@@ -292,6 +329,34 @@ class FleetStep1Controller extends AbstractGameController
         }
 
         $this->sendJSON($LNG['fl_shortcut_saved']);
+    }
+
+    /**
+     * A posted shortcut with a name of at most 32 characters and coordinates inside the universe (galaxy, system, slot
+     * 1 .. max_planets + 3, type planet/debris/moon), or null when it is incomplete or outside.
+     *
+     * @param mixed $planetData one entry of `shortcut[...]`
+     * @return array{name: string, galaxy: int, system: int, planet: int, type: int}|null
+     */
+    private function cleanShortcut(mixed $planetData): ?array
+    {
+        if (!is_array($planetData) || !is_scalar($planetData['name'] ?? null) || !is_numeric($planetData['galaxy'] ?? null) || !is_numeric($planetData['system'] ?? null) || !is_numeric($planetData['planet'] ?? null)) {
+            return null;
+        }
+        $config = $this->configs->get();
+        $name = mb_substr(trim((string) $planetData['name']), 0, 32);
+        $galaxy = (int) $planetData['galaxy'];
+        $system = (int) $planetData['system'];
+        $planet = (int) $planetData['planet'];
+        $type = (int) ($planetData['type'] ?? 1);
+        if (
+            $name === '' || $galaxy < 1 || $galaxy > $config->max_galaxy || $system < 1 || $system > $config->max_system
+            || $planet < 1 || $planet > $config->max_planets + 3 || $type < 1 || $type > 3
+        ) {
+            return null;
+        }
+
+        return ['name' => $name, 'galaxy' => $galaxy, 'system' => $system, 'planet' => $planet, 'type' => $type];
     }
 
     /**

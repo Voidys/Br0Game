@@ -259,6 +259,7 @@ class ResourceUpdate
             RESOURCE_CRYSTAL => 0,
             RESOURCE_DEUT => 0,
         ];
+        $this->st->repaired = [];
 
         return $result;
     }

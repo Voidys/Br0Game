@@ -27,11 +27,13 @@ class AccountCreator extends CreatorTab
     {
         $LNG = $this->state->LNG;
         $accountName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-        $accountPass = $this->http()->_GP('password', '');
-        $accountPass2 = $this->http()->_GP('password2', '');
+        $accountPass = $this->http()->rawInput('password');
+        $accountPass2 = $this->http()->rawInput('password2');
         $accountMail = $this->http()->_GP('email', '');
         $accountMail2 = $this->http()->_GP('email2', '');
         $authlevel = $this->http()->_GP('authlevel', 0);
+        // nobody can hand out a level above their own (the form only offers the allowed ones)
+        $authlevel = max(AUTH_USR, min((int) $authlevel, (int) $this->state->USER['authlevel']));
         $Language = $this->http()->_GP('lang', '');
 
         $config = $this->configs->get($this->universe()->getEmulated());

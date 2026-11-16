@@ -82,6 +82,8 @@ class BotPersona
         'Nebenwelt', 'Fort Knox', 'Waldmond', 'Eisklotz', 'Sandkasten', 'Last Stop', 'Nowhere',
     ];
 
+    private ?float $llmDeadline = null;
+
     public function __construct(
         private readonly Database $db,
         private readonly ConfigRegistry $configs,
@@ -170,11 +172,24 @@ class BotPersona
     // ------------------------------------------------------------------------------------------------
 
     /**
+     * Wall-clock limit (microtime) after which ask() answers null without calling the provider; null = no limit.
+     * Set by BotEngine::tick() so slow LLM calls cannot stretch a cron run.
+     */
+    public function limitLlmUntil(?float $deadline): void
+    {
+        $this->llmDeadline = $deadline;
+    }
+
+    /**
      * Asks the LLM if it is enabled, available and within the bot's daily budget. Returns null otherwise
      * (or on any error), so callers fall back to local text. $userId 0 = no budget accounting.
      */
     public function ask(int $universe, int $userId, string $system, string $prompt, int $maxTokens = 400): ?string
     {
+        if ($this->llmDeadline !== null && microtime(true) > $this->llmDeadline) {
+            return null; // the LLM time budget of this tick is used up: callers fall back to local text
+        }
+
         try {
             if (!$this->configs->get($universe)->bots_llm_enabled) {
                 return null;

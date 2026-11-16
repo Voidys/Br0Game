@@ -22,7 +22,7 @@ class MaintenanceController extends AbstractAdminController
     {
         // no right of its own: open for admins who may run at least one of the tools
         if (!$this->viewHelpers()->allowedTo('ShowClearCachePage') && !$this->viewHelpers()->allowedTo('ShowStatUpdatePage')) {
-            throw new \Exception('Permission error for: ShowMaintenancePage');
+            $this->deny();
         }
     }
 

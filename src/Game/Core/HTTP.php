@@ -103,7 +103,12 @@ class HTTP
         }
 
         if (is_string($default)) {
-            return $this->_quote($input[$name], $multibyte);
+            // an array (`?x[]=1`) where a string is expected counts as missing
+            if (!is_scalar($input[$name])) {
+                return $default;
+            }
+
+            return $this->_quote((string) $input[$name], $multibyte);
         }
 
         if (is_array($default) && is_array($input[$name])) {
@@ -111,6 +116,17 @@ class HTTP
         }
 
         return $default;
+    }
+
+    /**
+     * Reads a request value (POST overrides GET) exactly as sent: no HTML encoding, trimming or charset changes. For
+     * secrets (passwords) that are hashed or compared, where _GP() would alter the value.
+     */
+    public function rawInput(string $name): string
+    {
+        $value = ($this->state->requestInput ?? [])[$name] ?? '';
+
+        return is_string($value) ? $value : '';
     }
 
     /** raw POST data of the request */

@@ -36,7 +36,7 @@ class LoginController extends AbstractAdminController
     {
         $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
-            throw new Exception($this->state->LNG['adm_permission_error']);
+            $this->deny();
         }
 
         parent::construct();
@@ -62,7 +62,7 @@ class LoginController extends AbstractAdminController
             if (!$this->rateLimits->allowAdminElevation($this->sessions()->getClientIp(), (int) $accountId)) {
                 $this->message($this->state->LNG['adm_login_throttled'], 'admin?page=login', 5, true);
             }
-            if (password_verify($this->state->requestPost['admin_pw'], $account['password'])) {
+            if (\App\Security\PasswordSupport::verifyAny($this->state->requestPost['admin_pw'], $account['password'])) {
                 $session->adminAccess = 1;
                 $this->sessions()->regenerateId();
                 $this->http()->redirectTo('admin');

@@ -210,7 +210,8 @@ class SearchController extends AbstractGameController
 
         $searchList	= [];
 
-        $seachModes	= explode('|', $seachMode);
+        // only the four known modes, each once (the term is searched once per mode)
+        $seachModes	= array_values(array_intersect(array_unique(explode('|', $seachMode)), ['playername', 'planetname', 'allytag', 'allyname']));
 
         if (empty($searchText)) {
             $this->sendJSON([]);
@@ -221,16 +222,16 @@ class SearchController extends AbstractGameController
             foreach ($searchData as $data) {
                 switch ($search) {
                     case 'playername':
-                        $searchList[]	= ['label' => str_replace($searchText, '<b>' . $searchText . '</b>', $data['username']), 'category' => $LNG['sh_player_name'], 'type' => 'playername'];
+                        $searchList[]	= ['label' => $data['username'], 'category' => $LNG['sh_player_name'], 'type' => 'playername'];
                         break;
                     case 'planetname':
-                        $searchList[]	= ['label' => str_replace($searchText, '<b>' . $searchText . '</b>', $data['planetname']), 'category' => $LNG['sh_planet_name'], 'type' => 'planetname'];
+                        $searchList[]	= ['label' => $data['planetname'], 'category' => $LNG['sh_planet_name'], 'type' => 'planetname'];
                         break;
                     case "allytag":
-                        $searchList[]	= ['label' => str_replace($searchText, '<b>' . $searchText . '</b>', $data['allytag']), 'category' => $LNG['sh_alliance_tag'], 'type' => 'allytag'];
+                        $searchList[]	= ['label' => $data['allytag'], 'category' => $LNG['sh_alliance_tag'], 'type' => 'allytag'];
                         break;
                     case "allyname":
-                        $searchList[]	= ['label' => str_replace($searchText, '<b>' . $searchText . '</b>', $data['allyname']), 'category' => $LNG['sh_alliance_name'], 'type' => 'allyname'];
+                        $searchList[]	= ['label' => $data['allyname'], 'category' => $LNG['sh_alliance_name'], 'type' => 'allyname'];
                         break;
                 }
             }

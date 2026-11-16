@@ -336,6 +336,7 @@ al_memberlist_on: Trực tuyến
 al_message: Tin nhắn
 al_name: Đổi tên liên minh
 al_name_required: Hãy nhập tên liên minh.
+al_link_too_long: "Liên kết quá dài (tối đa 255 ký tự)."
 al_name_tag_too_long: Thẻ tối đa 8 ký tự và tên tối đa 30 ký tự.
 al_new_apply: Liên minh của bạn đã nhận <a href="?page=alliance&mode=admin&action=manageApply">[một đơn xin gia nhập]</a> từ người chơi <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Thành viên mới
@@ -474,6 +475,8 @@ bs_acs_slot: Ô ACS
 bs_add_acs_slot: Thêm ô ACS
 bs_atter: Bên tấn công
 bs_cancel: Đặt lại
+bs_too_many_units: "Quá nhiều đơn vị cho một lần mô phỏng (tối đa %s)."
+bs_busy: "Đang có một mô phỏng chạy, hãy đợi nó xong nhé."
 bs_deffer: Bên phòng thủ
 bs_derbis_raport: 'Cần để tái chế mảnh vỡ: %s %s.'
 bs_load: Tải
@@ -520,6 +523,7 @@ bu_player_not_exist: Người chơi đó không tồn tại.
 bu_rejected_request_body: Xin chào %s,<br>%s đã từ chối lời mời kết bạn của bạn!
 bu_rejected_request_title: Lời mời kết bạn đã bị từ chối!
 bu_request_exists: Đã có lời mời kết bạn cho người chơi này!
+bu_request_limit: 'Bạn gửi quá nhiều lời mời kết bạn. Hãy đợi vài phút rồi gửi tiếp nhé.'
 bu_request_message: Lời nhắn kèm lời mời
 bu_request_send: Đã gửi lời mời kết bạn.
 bu_request_text: Lời nhắn kèm lời mời
@@ -1036,6 +1040,7 @@ nt_dlte_note: Xóa
 nt_edit_note: Sửa ghi chú
 nt_important: Cao
 nt_no_text: Chưa có nội dung
+nt_limit_reached: 'Bạn đã đạt số ghi chú tối đa (%1$d). Hãy xóa bớt ghi chú cũ trước.'
 nt_no_title: Chưa có tiêu đề
 nt_normal: Bình thường
 nt_note: Ghi chú

@@ -43,6 +43,8 @@ passwordBack: Atrás
 passwordCaptcha: Código de seguridad
 passwordChangedMailSend: Tu nueva contraseña está en camino. Recibirás un correo en breve.
 passwordChangedMailTitle: Nueva contraseña para %s
+passwordConfirmInfo: 'Haz clic en el botón para restablecer tu contraseña. Te enviaremos la nueva contraseña por correo electrónico.'
+passwordConfirmSubmit: 'Enviarme una contraseña nueva'
 passwordErrorMailEmpty: No conocemos esa dirección de correo.
 passwordErrorOnePerDay: En las últimas 24 horas ya se solicitó una contraseña para esta cuenta. Podrás pedir otra dentro de 24 horas.
 passwordErrorUnknown: No se ha encontrado ninguna cuenta con esos datos.

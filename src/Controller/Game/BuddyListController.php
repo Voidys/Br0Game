@@ -34,6 +34,10 @@ class BuddyListController extends AbstractGameController
 {
     public static $requireModule = 'MODULE_BUDDYLIST';
 
+    private const MAX_OPEN_REQUESTS = 10;
+    private const MAX_REQUESTS_PER_WINDOW = 5;
+    private const REQUEST_WINDOW = 600;
+
     public function initialize(): void
     {
         parent::initialize();
@@ -88,6 +92,35 @@ class BuddyListController extends AbstractGameController
     }
 
     /**
+     * Spam guard of the requests: at most MAX_OPEN_REQUESTS unanswered requests and MAX_REQUESTS_PER_WINDOW new ones per
+     * REQUEST_WINDOW seconds (kept in the session), so withdrawing and re-sending cannot flood a player with messages.
+     * Counts the attempt when it is allowed.
+     */
+    private function allowRequest(): bool
+    {
+        $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% b INNER JOIN %%BUDDY_REQUEST%% r ON r.id = b.id WHERE b.sender = :userID;";
+        $open = $this->db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'count');
+        if ($open >= self::MAX_OPEN_REQUESTS) {
+            return false;
+        }
+
+        $session = $this->sessions()->symfonySession();
+        $now = $this->state->runtime->timestamp;
+        $times = array_values(array_filter(
+            (array) $session->get('buddy_request_times', []),
+            static fn($time): bool => is_int($time) && $time > $now - self::REQUEST_WINDOW,
+        ));
+        if (count($times) >= self::MAX_REQUESTS_PER_WINDOW) {
+            return false;
+        }
+
+        $times[] = $now;
+        $session->set('buddy_request_times', $times);
+
+        return true;
+    }
+
+    /**
      * Stores a buddy request (request: id, text): refused for yourself, a player who blocks direct messages (either direction), an unknown player or an existing
      * request. Inserts BUDDY and BUDDY_REQUEST (the text) and sends the target a system message in his own language.
      */
@@ -112,14 +145,20 @@ class BuddyListController extends AbstractGameController
         }
         $db = $this->db;
 
-        $sql = "SELECT COUNT(*) as count FROM %%USERS%% WHERE id = :friendID AND universe = :universe;";
+        $sql = "SELECT COUNT(*) as count FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
+            WHERE u.id = :friendID AND u.universe = :universe AND us.settings_blockPM = 0;";
         $targetExists = $db->selectSingle($sql, [
             ':friendID'  => $id,
             ':universe'  => $this->universe()->current(),
         ], 'count');
 
         if (!$targetExists) {
+            // unknown player, or one who switched private messages (and with them requests) off
             $this->printMessage($LNG['bu_player_not_exist']);
+        }
+
+        if (!$this->allowRequest()) {
+            $this->printMessage($LNG['bu_request_limit']);
         }
 
         $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE (sender = :userID AND owner = :friendID) OR (owner = :userID AND sender = :friendID);";
@@ -187,7 +226,11 @@ class BuddyListController extends AbstractGameController
                 ':id'  => $id,
             ], 'count');
 
-            if ($isRequest) {
+            // only the recipient rejecting a request is told; the sender withdrawing his own request sends nothing
+            $sql = "SELECT COUNT(*) as count FROM %%BUDDY%% WHERE id = :id AND owner = :userID;";
+            $isRecipient = $db->selectSingle($sql, [':id' => $id, ':userID' => $USER['id']], 'count');
+
+            if ($isRequest && $isRecipient) {
                 $sql = "SELECT u.username, u.id, us.lang FROM %%BUDDY%% b INNER JOIN %%USERS%% u ON u.id = IF(b.sender = :userID,b.owner,b.sender) INNER JOIN  %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE b.id = :id;";
                 $requestData = $db->selectSingle($sql, [
                     ':id'       => $id,

@@ -73,12 +73,15 @@ final class CsrfPolicy
         // --- account (the board additionally checks its own token on writes)
         ['area' => 'account', 'page' => 'logout'],
         ['area' => 'account', 'page' => 'accountSettings', 'mode' => ['send', 'toggleDelete']],
+        ['area' => 'account', 'page' => 'register', 'mode' => 'send'],
+        ['area' => 'account', 'page' => 'account', 'mode' => 'send'],
         // --- admin: every action of the admin pages except the read-only views
         ['area' => 'admin', 'page' => 'logout'],
         ['area' => 'admin', 'page' => 'module', 'has' => ['mode']],
         ['area' => 'admin', 'page' => 'clearCache'],
         ['area' => 'admin', 'page' => 'statUpdate'],
-        ['area' => 'admin', 'page' => 'flyingFleet', 'has' => ['sendfleetback', 'sendfleetsback']],
+        ['area' => 'admin', 'page' => 'flyingFleet', 'has' => ['sendfleetback', 'sendfleetsback', 'lock', 'massunlock']],
+        ['area' => 'admin', 'page' => 'search', 'has' => ['delete']],
         ['area' => 'admin', 'page' => 'multiIP', 'has' => ['action']],
         ['area' => 'admin', 'page' => 'rights', 'has' => ['action']],
         ['area' => 'admin', 'page' => 'support', 'mode' => 'send'],
@@ -100,9 +103,18 @@ final class CsrfPolicy
         return class_exists($class) && is_subclass_of($class, GameControllerInterface::class);
     }
 
+    /** The firewall's logout route (/logout): not a game controller, but ending a login is state-changing too. */
+    public function isLogoutRoute(Request $request): bool
+    {
+        return $request->attributes->get('_route') === 'app_logout';
+    }
+
     /** Must this request prove itself with the token? */
     public function requiresToken(Request $request): bool
     {
+        if ($this->isLogoutRoute($request)) {
+            return true;
+        }
         if (!$this->isGameRequest($request)) {
             return false;
         }

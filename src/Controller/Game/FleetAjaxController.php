@@ -57,6 +57,40 @@ class FleetAjaxController extends AbstractGameController
      */
     public function show()
     {
+        // user row, then planet row (the order of FleetDispatch): slot count, ships and fuel are read from the locked
+        // rows, so parallel requests cannot all see a free slot. Every answer ends the request with EndOfRequest;
+        // nothing is written before the fleet is sent, so committing on it is right for refusals and success alike.
+        $db = $this->db;
+        $db->startTransaction();
+        try {
+            $this->lockPlayerAndPlanet();
+            $this->handleRequest();
+        } catch (\App\Game\Core\EndOfRequest $end) {
+            $db->commit();
+            throw $end;
+        } catch (\Throwable $failure) {
+            $db->rollback();
+            throw $failure;
+        }
+        $db->commit();
+    }
+
+    /** Locks the user and the current planet row and refreshes the planet copy (ships, fuel) from the locked row. */
+    private function lockPlayerAndPlanet(): void
+    {
+        $this->db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $this->state->USER['id']]);
+        $planet = $this->db->selectSingle('SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;', [':planetId' => $this->state->PLANET['id']]);
+        if (!empty($planet)) {
+            $this->state->PLANET = array_merge($this->state->PLANET, $planet);
+        }
+    }
+
+    /**
+     * The request itself, run inside the locked transaction of show(): slot, vacation, ship and fuel checks for the
+     * spy, recycle and missile shortcuts, then sends the fleet; every answer ends the request via sendData().
+     */
+    private function handleRequest()
+    {
         $LNG = $this->state->LNG;
         $UserDeuterium = $this->state->PLANET['deuterium'];
 

@@ -27,6 +27,11 @@ framework:
             policy: sliding_window
             limit: 5
             interval: '15 minutes'
+        # checks of the current password on the account settings page (password / e-mail change), per account
+        account_settings_password:
+            policy: sliding_window
+            limit: 10
+            interval: '15 minutes'
         # CSP violation reports (App\Controller\CspReportController): per client IP
         csp_report:
             policy: sliding_window

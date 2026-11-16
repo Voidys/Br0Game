@@ -38,7 +38,7 @@ Kung hindi posibleng mamahagi ng mga nakuhang resource sa loob ng 24h na palugit
 <p>1,000 atake lang ng Interplanetary Missile kada 24 oras ang pinapayagan. Hindi nakadepende ang bilang ng missile kada atake.</p>
 <hr>
 <h2>6. Bugusing</h2>
-<p>Ipinagbabawal ang pagsasamantala sa mga bug at pagkakamali sa programming. Dapat iulat sa lalong madaling panahon ang mga natuklasang bug sa pamamagitan ng <a href="%s" target="_blank">GIT Issue</a> o sa Discord channel na #bugs. Ipinagbabawal din ang pandaraya.</p>
+<p>Ipinagbabawal ang pagsasamantala sa mga bug at pagkakamali sa programming. Dapat iulat sa lalong madaling panahon ang mga natuklasang bug sa pamamagitan ng <a href="%s" target="_blank" rel="noopener noreferrer">GIT Issue</a> o sa Discord channel na #bugs. Ipinagbabawal din ang pandaraya.</p>
 <hr>
 <h2>6.1 Mga Tool at Application</h2>
 <p>Ipinagbabawal ang paggamit ng mga external na tool at user script na hindi ganap na naaprubahan.</p>

@@ -32,6 +32,12 @@ class BotRaids
     /** Seconds after which a report of a target is too old to attack on. */
     private const REPORT_MAX_AGE = 1800;
 
+    /** Seconds before a target is spied on again (it gets a counter-espionage message each time). */
+    private const SPY_COOLDOWN = 7200;
+
+    /** The same inside a raid streak, where fresh reports matter. */
+    private const SPY_COOLDOWN_STREAK = 900;
+
     /** Probe flights in the air at once (scouting). */
     private const MAX_PENDING_SPIES = 3;
 
@@ -382,10 +388,12 @@ class BotRaids
 
         $busy = array_merge(array_column($mem['spies'], 'planet'), array_column($mem['attacks'], 'planet'));
         $sent = 0;
+        // a target is looked at again after SPY_COOLDOWN, in a running raid streak after SPY_COOLDOWN_STREAK
+        $cooldown = !empty($mem['streak']) && (int) $mem['streak']['until'] > $now ? self::SPY_COOLDOWN_STREAK : self::SPY_COOLDOWN;
         foreach ($mem['cand'] as $target) {
             $pid = (int) $target['planet_id'];
             $known = $mem['targets'][$pid] ?? [];
-            $recent = ($known['spy_at'] ?? 0) > $now - 900 && (int) ($known['spy_try'] ?? 0) === 0;
+            $recent = ($known['spy_at'] ?? 0) > $now - $cooldown && (int) ($known['spy_try'] ?? 0) === 0;
             if ($sent >= 2 || count($mem['spies']) >= self::MAX_PENDING_SPIES || in_array($pid, $busy, true) || $recent || ($known['skip_until'] ?? 0) > $now) {
                 continue;
             }

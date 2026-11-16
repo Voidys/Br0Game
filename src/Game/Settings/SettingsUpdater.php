@@ -259,11 +259,16 @@ class SettingsUpdater
     private function lockPlayerRows(): void
     {
         $db = $this->db;
-        $sql = "SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id WHERE u.universe = :universe AND u.id = :id FOR UPDATE;";
-        $db->select($sql, [
+        $sql = "SELECT u.username, u.uctime FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id WHERE u.universe = :universe AND u.id = :id FOR UPDATE;";
+        $locked = $db->selectSingle($sql, [
             ':universe' => $this->universe()->current(),
             ':id' => $this->state->USER['id'],
         ]);
+        if (!empty($locked)) {
+            // the page-start copy is stale when a second request renamed the player meanwhile (name cooldown)
+            $this->state->USER['username'] = $locked['username'];
+            $this->state->USER['uctime'] = $locked['uctime'];
+        }
         $sql = "SELECT * FROM %%PLANETS%% WHERE universe = :universe AND id_owner = :id FOR UPDATE;";
         $db->select($sql, [
             ':universe' => $this->universe()->current(),
@@ -299,11 +304,19 @@ class SettingsUpdater
                     throw new SettingsRefused($LNG->format('op_change_name_exist', $username));
                 } else {
                     $sql = "UPDATE %%USERS%% SET username = :username, uctime = :timestamp WHERE id = :userID;";
-                    $db->update($sql, [
-                        ':username' => $username,
-                        ':userID'   => $this->state->USER['id'],
-                        ':timestamp' => $this->state->runtime->timestamp,
-                    ]);
+                    try {
+                        $db->update($sql, [
+                            ':username' => $username,
+                            ':userID'   => $this->state->USER['id'],
+                            ':timestamp' => $this->state->runtime->timestamp,
+                        ]);
+                    } catch (\Throwable $exception) {
+                        // the unique (universe, username) index decides when two players take the same free name at once
+                        if (Database::errorNumber($exception) !== Database::ERROR_DUPLICATE_KEY) {
+                            throw $exception;
+                        }
+                        throw new SettingsRefused($LNG->format('op_change_name_exist', $username));
+                    }
 
                     $this->state->auth->logout();
                 }

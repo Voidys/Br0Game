@@ -6,7 +6,7 @@
     <label for="{{ fieldName }}">{{ LNG[('se_' ~ fieldName)] }}</label>
     <div class="field-control">
       {% if fieldConfig.type == 'text' or fieldConfig.type == 'float' %}
-        <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="text"{% if fieldConfig.type == 'float' %} inputmode="decimal"{% endif %}{% if array_key_exists('maxlength', fieldConfig) %} maxlength="{{ fieldConfig.maxlength }}"{% endif %}>
+        <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="{{ fieldConfig.secret|default(false) ? 'password' : 'text' }}"{% if fieldConfig.secret|default(false) %} autocomplete="new-password" placeholder="{{ configValues['_hint_' ~ fieldName]|default('') }}"{% endif %}{% if fieldConfig.type == 'float' %} inputmode="decimal"{% endif %}{% if array_key_exists('maxlength', fieldConfig) %} maxlength="{{ fieldConfig.maxlength }}"{% endif %}>
       {% elseif fieldConfig.type == 'number' %}
         <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="number"{% if array_key_exists('min', fieldConfig) %} min="{{ fieldConfig.min }}"{% endif %}{% if array_key_exists('max', fieldConfig) %} max="{{ fieldConfig.max }}"{% endif %}>
       {% elseif fieldConfig.type == 'textarea' %}

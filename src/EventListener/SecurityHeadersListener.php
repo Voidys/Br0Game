@@ -30,6 +30,10 @@ final class SecurityHeadersListener
             return;
         }
         $headers = $event->getResponse()->headers;
+        // browsers keep to HTTPS for a year once they saw it (only sent over HTTPS)
+        if ($event->getRequest()->isSecure() && !$headers->has('Strict-Transport-Security')) {
+            $headers->set('Strict-Transport-Security', 'max-age=31536000');
+        }
         foreach (self::HEADERS as $name => $value) {
             if (!$headers->has($name)) {
                 $headers->set($name, $value);

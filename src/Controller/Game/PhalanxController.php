@@ -54,11 +54,6 @@ class PhalanxController extends AbstractGameController
         }
 
         $db = $this->db;
-        $sql = "UPDATE %%PLANETS%% SET deuterium = deuterium - :phalanxDeuterium WHERE id = :planetID;";
-        $db->update($sql, [
-            ':phalanxDeuterium'	=> PHALANX_DEUTERIUM,
-            ':planetID'			=> $PLANET['id'],
-        ]);
 
         $sql = "SELECT id, name, id_owner FROM %%PLANETS%% WHERE universe = :universe
 		AND galaxy = :galaxy AND system = :system AND planet = :planet AND planet_type = :type;";
@@ -91,6 +86,14 @@ class PhalanxController extends AbstractGameController
             $this->printMessage($LNG['px_out_of_range']);
         }
 
+        // the scan is only paid when it is possible; the guard keeps parallel scans from spending the same deuterium twice
+        $db->update('UPDATE %%PLANETS%% SET deuterium = deuterium - :cost WHERE id = :planetID AND deuterium >= :cost;', [
+            ':cost' => PHALANX_DEUTERIUM,
+            ':planetID' => $PLANET['id'],
+        ]);
+        if ($db->rowCount() !== 1) {
+            $this->printMessage($LNG['px_no_deuterium']);
+        }
 
         $fleetTableObj = new FlyingFleetsTable($this->db, $this->configs, $this->state);
         $fleetTableObj->setPhalanxMode();

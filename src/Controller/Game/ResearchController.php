@@ -256,11 +256,11 @@ class ResearchController extends AbstractGameController
     }
 
     /**
-     * Adds a research to the player's research queue ($AddMode false asks BuildFunctions for the price and time of the destroy mode). Refused when the element is
+     * Adds a research to the player's research queue (research is never torn down). Refused when the element is
      * not allowed here, disabled, its requirements are missing, the lab or university is being upgraded, the queue limit `max_elements_tech` is reached or the maximum
      * level is hit; checks affordability for the first entry, deducts the cost and starts it when the queue was empty.
      */
-    private function addResearchToQueue(int $elementId, bool $AddMode = true): bool
+    private function addResearchToQueue(int $elementId): bool
     {
 
         $resource = $this->state->resource;
@@ -301,24 +301,24 @@ class ResearchController extends AbstractGameController
 
         $BuildLevel                 = $this->state->USER[$resource[$elementId]] + 1;
         if ($ActualCount == 0) {
-            return $this->startResearch($elementId, $AddMode, $BuildLevel);
+            return $this->startResearch($elementId, $BuildLevel);
         }
 
-        return $this->appendResearch($CurrentQueue, $elementId, $AddMode, $BuildLevel);
+        return $this->appendResearch($CurrentQueue, $elementId, $BuildLevel);
     }
 
     /**
      * Starts the first entry of an empty research queue: refused above the maximum level or when not affordable, otherwise
      * deducts the cost and sets the running research (queue entry, end time, id and planet) on the user.
      */
-    private function startResearch(int $elementId, bool $AddMode, int $BuildLevel): bool
+    private function startResearch(int $elementId, int $BuildLevel): bool
     {
         $pricelist = $this->state->pricelist;
         if ($pricelist[$elementId]['max'] < $BuildLevel) {
             return false;
         }
 
-        $costResources      = $this->buildFunctions()->getElementPrice($this->state->USER, $this->state->PLANET, $elementId, !$AddMode, $BuildLevel);
+        $costResources      = $this->buildFunctions()->getElementPrice($this->state->USER, $this->state->PLANET, $elementId, false, $BuildLevel);
 
         if (!$this->buildFunctions()->isElementBuyable($this->state->USER, $this->state->PLANET, $elementId, $costResources)) {
             return false;
@@ -343,7 +343,7 @@ class ResearchController extends AbstractGameController
      *
      * @param array<int, array<int, mixed>> $CurrentQueue the decoded queue (not empty)
      */
-    private function appendResearch(array $CurrentQueue, int $elementId, bool $AddMode, int $BuildLevel): bool
+    private function appendResearch(array $CurrentQueue, int $elementId, int $BuildLevel): bool
     {
         $pricelist = $this->state->pricelist;
         $ActualCount = count($CurrentQueue);
@@ -363,7 +363,7 @@ class ResearchController extends AbstractGameController
             return false;
         }
 
-        $elementTime = $this->buildFunctions()->getBuildingTime($this->state->USER, $this->state->PLANET, $elementId, null, !$AddMode, $BuildLevel);
+        $elementTime = $this->buildFunctions()->getBuildingTime($this->state->USER, $this->state->PLANET, $elementId, null, false, $BuildLevel);
 
         $BuildEndTime = $CurrentQueue[$ActualCount - 1][self::QUEUE_BUILD_END_TIME] + $elementTime;
         $CurrentQueue[] = [$elementId, $BuildLevel, $elementTime, $BuildEndTime, $this->state->PLANET['id']];
@@ -485,7 +485,8 @@ class ResearchController extends AbstractGameController
     }
 
     /**
-     * Executes a queue command (cancel, remove, insert, destroy) in a transaction with the user, the current planet and all
+     * Executes a queue command (cancel, remove, insert; research cannot be torn down, so `destroy` is refused like any unknown
+     * command: no cost, no queue entry) in a transaction with the user, the current planet and all
      * planets of the player locked, saves the research queue unless the command is unknown, and redirects back to the page
      * (ends the request).
      *
@@ -511,10 +512,7 @@ class ResearchController extends AbstractGameController
                 $this->removeResearchFromQueue($ListID);
                 break;
             case 'insert':
-                $this->addResearchToQueue($elementId, true);
-                break;
-            case 'destroy':
-                $this->addResearchToQueue($elementId, false);
+                $this->addResearchToQueue($elementId);
                 break;
             default:
                 error_log($TheCommand);

@@ -48,6 +48,10 @@ class OverviewController extends AbstractAdminController
                 $Message[] = $LNG->format('ow_file_detected', 'var/ENABLE_INSTALL_TOOL');
             }
 
+            if (!$this->canonicalUrl->canBuildLinks()) {
+                $Message[] = $LNG['ow_default_uri_missing'];
+            }
+
             // runtime data lives in var/ (game caches, sessions, logs)
             foreach (['var/game', 'var/sessions', 'var/log'] as $dir) {
                 if (!is_writable($this->state->runtime->rootPath . $dir)) {

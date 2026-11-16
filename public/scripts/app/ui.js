@@ -76,6 +76,18 @@ export function sortableTable(table) {
 
 // ---------------------------------------------------------------------------------------- autocomplete
 
+/** Fills `element` with `text`, the first (case-insensitive) occurrence of `term` in a <b> element; DOM nodes only, no HTML parsing. */
+function highlight(element, text, term) {
+  const at = term === '' ? -1 : text.toLowerCase().indexOf(term.toLowerCase());
+  if (at < 0) {
+    element.textContent = text;
+    return;
+  }
+  const bold = document.createElement('b');
+  bold.textContent = text.slice(at, at + term.length);
+  element.append(text.slice(0, at), bold, text.slice(at + term.length));
+}
+
 /**
  * Suggestion list under an input: source(term) resolves to [{label, value, category?}];
  * onSelect(item) runs when one is chosen. Grouped by category like the former catcomplete widget.
@@ -97,11 +109,14 @@ export function autocomplete(input, { source, onSelect, minLength = 2, delay = 2
     items.forEach((item, index) => {
       if (item.category && item.category !== category) {
         category = item.category;
-        list.insertAdjacentHTML('beforeend', `<li class="autocomplete__category">${category}</li>`);
+        const heading = document.createElement('li');
+        heading.className = 'autocomplete__category';
+        heading.textContent = category;
+        list.append(heading);
       }
       const li = document.createElement('li');
       li.className = 'autocomplete__item' + (index === active ? ' is-active' : '');
-      li.textContent = item.label ?? item.value;
+      highlight(li, String(item.label ?? item.value), input.value.trim());
       li.addEventListener('mousedown', (event) => { event.preventDefault(); choose(index); });
       list.append(li);
     });

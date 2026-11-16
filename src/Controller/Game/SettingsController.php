@@ -285,6 +285,7 @@ class SettingsController extends AbstractGameController
             }
 
             $this->playerUtil()->enable_vmode($this->state->USER, $this->state->PLANET);
+            $this->db->commit();
             $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
             $statsHandler->setTimestamp($this->state->USER['id'], AdvancedStatsEnum::FIRST_VACATION, $this->state->runtime->timestamp);
 
@@ -357,20 +358,14 @@ class SettingsController extends AbstractGameController
     }
 
     /**
-     * True when vacation mode may be entered: no own fleet is in flight. Recalculates all other planets under lock first so the stored state is
-     * current when the vacation mode is applied.
+     * True when vacation mode may be entered: no own fleet is in flight. Locks the user and all planet rows, counts the fleets and
+     * recalculates all other planets so the stored state is current when the vacation mode is applied. On success the transaction
+     * stays OPEN (the caller enables vacation mode and commits, so no fleet can start in between); on refusal it is rolled back.
      */
     private function checkVMode()
     {
         $PLANET = $this->state->PLANET;
         $db = $this->db;
-
-        $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE `owner` = :userID FOR UPDATE;";
-        $fleets = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'state');
-
-        if ($fleets != 0) {
-            return false;
-        }
 
         $db->startTransaction();
         // Lock the user row first and calc from it. The page-start copy is
@@ -379,23 +374,30 @@ class SettingsController extends AbstractGameController
         $sql = "SELECT * FROM %%USERS%% WHERE id = :userID FOR UPDATE;";
         $u = $db->selectSingle($sql, [':userID' => $this->state->USER['id']]);
         if (empty($u) || $u['urlaubs_modus'] == 1) {
-            $db->commit();
+            $db->rollback();
             return false;
         }
         $this->state->USER = array_merge($this->state->USER, $u);
 
-        $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :userID AND id != :planetID AND destruyed = 0 FOR UPDATE;";
-        $query = $db->select($sql, [
-            ':userID'   => $this->state->USER['id'],
-            ':planetID' => $PLANET['id'],
-        ]);
+        $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :userID AND destruyed = 0 FOR UPDATE;";
+        $query = $db->select($sql, [':userID' => $this->state->USER['id']]);
+
+        $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE `owner` = :userID;";
+        $fleets = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'state');
+
+        if ($fleets != 0) {
+            $db->rollback();
+            return false;
+        }
 
         foreach ($query as $CPLANET) {
+            if ($CPLANET['id'] == $PLANET['id']) {
+                continue;
+            }
             [$this->state->USER, $CPLANET] = $this->ecoObj->CalcResource($this->state->USER, $CPLANET, true);
             unset($CPLANET);
         }
 
-        $db->commit();
         return true;
     }
 

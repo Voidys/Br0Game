@@ -37,11 +37,37 @@ class SQLDumper
      */
     public function dumpTablesToFile($dbTables, $filePath)
     {
+        $dbTables = $this->validTables($dbTables);
         if ($this->canNative('mysqldump')) {
             return $this->nativeDumpToFile($dbTables, $filePath);
         } else {
             return $this->softwareDumpToFile($dbTables, $filePath);
         }
+    }
+
+    /**
+     * Exact table names of the game (configured prefix) from the database; anything else in the request (other tables,
+     * option-like strings such as `--host=...`) is rejected.
+     *
+     * @param mixed $requested table names from the caller
+     * @return list<string> the requested names, deduplicated
+     * @throws \InvalidArgumentException for an empty list or a name that is no game table
+     */
+    private function validTables($requested): array
+    {
+        $prefix = $this->db->getTablePrefix();
+        $known = [];
+        foreach ($this->db->nativeQuery('SHOW TABLE STATUS FROM `' . $this->db->getDatabaseName() . '`;') as $table) {
+            if (str_starts_with((string) $table['Name'], $prefix)) {
+                $known[] = (string) $table['Name'];
+            }
+        }
+        $requested = is_array($requested) ? array_values(array_unique(array_map('strval', $requested))) : [];
+        if ($requested === [] || array_diff($requested, $known) !== []) {
+            throw new \InvalidArgumentException('Invalid table selection for the dump.');
+        }
+
+        return $requested;
     }
 
     private function setTimelimit()
@@ -56,31 +82,44 @@ class SQLDumper
 
     /**
      * Dumps the given tables with the mysqldump binary into $filePath (structure + complete inserts, primary-key
-     * order, hex blobs). The password goes through MYSQL_PWD for MySQL ≥ 5.5 so it doesn't appear in the process list;
-     * all arguments are shell-escaped.
+     * order, hex blobs, no tablespace info: that needs the PROCESS privilege). The password goes into a private
+     * temporary option file (`--defaults-file`, mode 0600, removed afterwards; it also keeps a per-user ~/.my.cnf from overriding the credentials): not on the command line and not
+     * in MYSQL_PWD, which MySQL 8.4 clients ignore. All arguments are shell-escaped.
      *
      * @param list<string> $dbTables prefixed table names
      * @throws \Exception with mysqldump's error output when the dump fails
      */
     private function nativeDumpToFile($dbTables, $filePath)
     {
-        $database	= [];
         $database = $this->db->getConnectionConfig();
 
-        $dbVersion	= $this->db->selectSingle('SELECT @@version', [], '@@version');
-        if (version_compare($dbVersion, '5.5') >= 0) {
-            putenv('MYSQL_PWD='.$database['userpw']);
-            $passwordArgument = '';
-        } else {
-            $passwordArgument = "--password='".escapeshellarg($database['userpw'])."'";
+        $optionFile = tempnam(sys_get_temp_dir(), 'mydump');
+        if ($optionFile === false || file_put_contents($optionFile, "[client]\npassword=\"" . addcslashes((string) $database['userpw'], "\\\"") . "\"\n") === false) {
+            throw new Exception('Cannot write the temporary option file for mysqldump.');
         }
+        chmod($optionFile, 0600);
 
-        $dbTables	= array_map('escapeshellarg', $dbTables);
-        $sqlDump	= shell_exec("mysqldump --host=".escapeshellarg($database['host'])." --port=".((int) $database['port'])." --user=".escapeshellarg($database['user'])." ".$passwordArgument." --no-create-db --order-by-primary --add-drop-table --comments --complete-insert --hex-blob ".escapeshellarg($database['databasename'])." ".implode(' ', $dbTables)." 2>&1 1> ".$filePath);
-        if (strlen($sqlDump) !== 0) { #mysqldump error
+        try {
+            $dbTables = array_map('escapeshellarg', $dbTables);
+            $sqlDump = shell_exec(
+                "mysqldump --defaults-file=" . escapeshellarg($optionFile)
+                . " --host=" . escapeshellarg($database['host']) . " --port=" . ((int) $database['port'])
+                . " --user=" . escapeshellarg($database['user'])
+                . " --no-tablespaces --no-create-db --order-by-primary --add-drop-table --comments --complete-insert --hex-blob "
+                . escapeshellarg($database['databasename']) . " -- " . implode(' ', $dbTables)
+                . " 2>&1 1> " . escapeshellarg($filePath)
+            );
+        } finally {
+            unlink($optionFile);
+        }
+        if ($sqlDump !== null && $sqlDump !== '') { #mysqldump error
+            if (is_file($filePath)) {
+                unlink($filePath);
+            }
             throw new Exception($sqlDump);
         }
-        return $sqlDump;
+
+        return '';
     }
 
     /**
@@ -157,7 +196,7 @@ class SQLDumper
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;\n\n");
 
-        $createTable	= $db->nativeQuery("SHOW CREATE TABLE ".$dbTable);
+        $createTable	= $db->nativeQuery("SHOW CREATE TABLE `".$dbTable."`");
         $createTableSql = isset($createTable['Create Table']) ?
             $createTable['Create Table'] : (
                 #old mysql clients
@@ -173,7 +212,7 @@ class SQLDumper
         fwrite($fp, $createTableSql.';');
         fwrite($fp, "\n\n/*!40101 SET character_set_client = @saved_cs_client */;");
 
-        $sql = "SELECT COUNT(*) as state FROM ".$dbTable.";";
+        $sql = "SELECT COUNT(*) as state FROM `".$dbTable."`;";
 
         $count	= $db->nativeQuery($sql);
         if ($count[0]['state'] == 0) {
@@ -229,7 +268,7 @@ UNLOCK TABLES;
 
         fwrite($fp, $insertInto);
         $i = 0;
-        $tableData	= $db->select("SELECT * FROM ".$dbTable);
+        $tableData	= $db->select("SELECT * FROM `".$dbTable."`");
         foreach ($tableData as $tableRow) {
             $rowData = [];
             $i++;

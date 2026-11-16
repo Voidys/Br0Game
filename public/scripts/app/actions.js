@@ -149,7 +149,7 @@ registerActions({
   /** missile silo information page: destroy the missiles typed into .missile fields */
   'destroy-missiles': () => { DestroyMissiles(); },
   /** data-url: opened in a new window; the click itself carries on (a submit button still submits) */
-  'open-url': (element) => { window.open(element.dataset.url); return true; },
+  'open-url': (element) => { window.open(element.dataset.url, '_blank', 'noopener,noreferrer'); return true; },
   /** reloads the page */
   reload: () => { window.location.reload(); return false; },
   /** "back" button of message pages */

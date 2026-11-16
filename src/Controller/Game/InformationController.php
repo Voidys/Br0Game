@@ -68,6 +68,45 @@ class InformationController extends AbstractGameController
      */
     public function sendFleet()
     {
+        // both gate planets are locked (lowest id first) and re-read, so parallel jumps cannot pass the cooldown check
+        // on stale values. Every answer ends the request with EndOfRequest; nothing is written before the ships move.
+        $db = $this->db;
+        $db->startTransaction();
+        try {
+            $this->lockGatePlanets();
+            $this->jump();
+        } catch (\App\Game\Core\EndOfRequest $end) {
+            $db->commit();
+            throw $end;
+        } catch (\Throwable $failure) {
+            $db->rollback();
+            throw $failure;
+        }
+        $db->commit();
+    }
+
+    /** Locks the current planet and the requested target planet (own planets only) and refreshes the current planet copy from the locked row. */
+    private function lockGatePlanets(): void
+    {
+        $current = (int) $this->state->PLANET['id'];
+        $target = (int) $this->http()->_GP('jmpto', $current);
+        $rows = $this->db->select(
+            'SELECT * FROM %%PLANETS%% WHERE `id` IN (:current, :target) AND `id_owner` = :userId ORDER BY `id` FOR UPDATE;',
+            [':current' => $current, ':target' => $target, ':userId' => $this->state->USER['id']],
+        );
+        foreach ($rows as $row) {
+            if ((int) $row['id'] === $current) {
+                $this->state->PLANET = array_merge($this->state->PLANET, $row);
+            }
+        }
+    }
+
+    /**
+     * The jump itself, run inside the locked transaction of sendFleet(): checks both gates, takes the ships from the
+     * planet state, moves them and answers JSON (ends the request).
+     */
+    private function jump(): void
+    {
         $LNG = $this->state->LNG;
 
         $TargetPlanet = $this->checkJumpGates();

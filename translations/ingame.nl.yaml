@@ -336,6 +336,7 @@ al_memberlist_on: Online
 al_message: Bericht
 al_name: Alliantienaam wijzigen
 al_name_required: Voer een alliantienaam in.
+al_link_too_long: "De link is te lang (maximaal 255 tekens)."
 al_name_tag_too_long: De tag mag maximaal 8 tekens hebben en de naam 30.
 al_new_apply: Je alliantie heeft <a href="?page=alliance&mode=admin&action=manageApply">[een sollicitatie]</a> ontvangen van speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Nieuw lid
@@ -474,6 +475,8 @@ bs_acs_slot: ACS-slot
 bs_add_acs_slot: ACS-slot toevoegen
 bs_atter: Aanvaller
 bs_cancel: Herstellen
+bs_too_many_units: "Te veel eenheden voor één simulatie (maximaal %s)."
+bs_busy: "Er loopt al een simulatie, wacht tot die klaar is."
 bs_deffer: Verdediger
 bs_derbis_raport: 'Nodig om het puin te recyclen: %s %s.'
 bs_load: Laden
@@ -520,6 +523,7 @@ bu_player_not_exist: Die speler bestaat niet.
 bu_rejected_request_body: Hallo %s,<br>%s heeft je vriendschapsverzoek geweigerd!
 bu_rejected_request_title: Vriendschapsverzoek geweigerd!
 bu_request_exists: Er is al een vriendschapsverzoek voor deze speler!
+bu_request_limit: 'Te veel vriendschapsverzoeken. Wacht een paar minuten voordat je er meer verstuurt.'
 bu_request_message: Verzoekbericht
 bu_request_send: Vriendschapsverzoek verstuurd.
 bu_request_text: Verzoektekst
@@ -1036,6 +1040,7 @@ nt_dlte_note: Verwijderen
 nt_edit_note: Notitie bewerken
 nt_important: Hoog
 nt_no_text: Geen tekst
+nt_limit_reached: 'Je hebt het maximale aantal notities (%1$d) bereikt. Verwijder eerst oude notities.'
 nt_no_title: Geen titel
 nt_normal: Normaal
 nt_note: Notitie

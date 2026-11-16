@@ -52,7 +52,7 @@ class BattleEngineRust extends AbstractBattleEngine
     {
         return \function_exists('proc_open')
             && \PHP_OS_FAMILY === 'Linux'
-            && \is_executable(self::binary())
+            && \is_executable(static::binary())
             && \is_file(\App\Runtime\ProjectPaths::ROOT . 'bin/libbattlerust.so');
     }
 
@@ -83,25 +83,44 @@ class BattleEngineRust extends AbstractBattleEngine
         return $this->parseRustJson($output, $attackers, $defenders, $universe, $sim, $executionTime);
     }
 
-    /** battle input JSON → result JSON (null: the engine failed) */
+    /** Seconds the Rust process may run before it is killed (the fight then falls back to the PHP engine). */
+    protected const ENGINE_TIMEOUT = 60;
+
+    /** battle input JSON → result JSON (null: the engine failed or ran longer than ENGINE_TIMEOUT and was killed) */
     protected function runEngine(string $json): ?string
     {
         // stderr (the library's progress lines) goes to /dev/null, so a full pipe can never block the engine
-        $process = \proc_open([self::binary()], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes);
+        $process = \proc_open([static::binary()], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes);
         if (!\is_resource($process)) {
             return null;
         }
 
         \fwrite($pipes[0], $json);
         \fclose($pipes[0]);
-        $output = \stream_get_contents($pipes[1]);
+        \stream_set_blocking($pipes[1], false);
+
+        $output = '';
+        $deadline = \microtime(true) + static::ENGINE_TIMEOUT;
+        $timedOut = false;
+        while (!\feof($pipes[1])) {
+            $read = [$pipes[1]];
+            $write = $except = null;
+            if (\stream_select($read, $write, $except, 0, 200000) > 0) {
+                $output .= (string) \fread($pipes[1], 65536);
+            }
+            if (\microtime(true) > $deadline) {
+                $timedOut = true;
+                \proc_terminate($process, 9);
+                break;
+            }
+        }
         \fclose($pipes[1]);
         $exitCode = \proc_close($process);
 
-        return $exitCode === 0 && \is_string($output) && $output !== '' ? $output : null;
+        return !$timedOut && $exitCode === 0 && $output !== '' ? $output : null;
     }
 
-    private static function binary(): string
+    protected static function binary(): string
     {
         return \App\Runtime\ProjectPaths::ROOT . 'bin/battlerust';
     }

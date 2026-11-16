@@ -464,6 +464,14 @@ class OverviewController extends AbstractGameController
 
         if (!empty($password)) {
             $db = $this->db;
+            // the planet row is locked while the fleets are counted and the planet is removed: a fleet cannot be launched in between
+            $db->startTransaction();
+            // user row first (the research queue is rewritten below from the locked copy), then the planet
+            $locked = $db->selectSingle('SELECT b_tech, b_tech_id, b_tech_planet, b_tech_queue FROM %%USERS%% WHERE id = :userID FOR UPDATE;', [':userID' => $this->state->USER['id']]);
+            if (!empty($locked)) {
+                $this->state->USER = array_merge($this->state->USER, $locked);
+            }
+            $db->selectSingle('SELECT id FROM %%PLANETS%% WHERE id = :planetID FOR UPDATE;', [':planetID' => $PLANET['id']]);
             $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE
                       (`owner` = :userID AND (`start_id` = :planetID OR `start_id` = :lunaID));";
             $IfFleets = $db->selectSingle($sql, [
@@ -473,12 +481,15 @@ class OverviewController extends AbstractGameController
             ], 'state');
 
             if ($IfFleets > 0) {
+                $db->rollback();
                 $this->sendJSON(['message' => $LNG['ov_abandon_planet_not_possible']]);
             } elseif ($this->state->USER['id_planet'] == $PLANET['id']) {
+                $db->rollback();
                 $this->sendJSON(['message' => $LNG['ov_principal_planet_cant_abanone']]);
                 // } elseif (!password_verify($password, $accPassword)) {
                 //     $this->sendJSON(['message' => $LNG['ov_wrong_pass']]);
             } elseif ($password != $PLANET['name']) {
+                $db->rollback();
                 $this->sendJSON(['message' => $LNG['ov_wrong_name']]);
             } else {
                 // Re-home research queued on the abandoned planet to the main planet and persist it
@@ -499,6 +510,7 @@ class OverviewController extends AbstractGameController
                 }
 
                 $this->playerUtil()->deletePlanet($PLANET['id']);
+                $db->commit();
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
                 $statsHandler->increment($this->state->USER['id'], $PLANET['planet_type'] === TYPE_MOON ? AdvancedStatsEnum::MOONS_DELETED : AdvancedStatsEnum::PLANETS_DELETED, 1);
 

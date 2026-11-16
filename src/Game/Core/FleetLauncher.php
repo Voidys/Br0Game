@@ -134,9 +134,11 @@ class FleetLauncher
      */
     private function loadRecallableFleet(int $FleetID)
     {
-        $sql = 'SELECT `start_time`, `arrival_time`, `mission`, `group`, `owner`, `status`
-            FROM %%FLEETS%%
-            WHERE `id` = :fleetId AND `cannotCancel` = :cannotCancel;';
+        // a flight whose event is claimed by the event handler (lock set) is being processed right now: no recall
+        $sql = 'SELECT f.`start_time`, f.`arrival_time`, f.`mission`, f.`group`, f.`owner`, f.`status`
+            FROM %%FLEETS%% f
+            LEFT JOIN %%FLEETS_EVENT%% fe ON fe.`fleetID` = f.`id`
+            WHERE f.`id` = :fleetId AND f.`cannotCancel` = :cannotCancel AND fe.`lock` IS NULL;';
         $fleetResult = $this->db->selectSingle($sql, [
             ':fleetId' => $FleetID,
             ':cannotCancel' => 0,
@@ -181,7 +183,7 @@ class FleetLauncher
             `status`        = :fleetState,
             `hasCanceled`   = :hasCanceled,
             `time`          = :endTime
-            WHERE `id` = :id AND `id` = `fleetID`;';
+            WHERE `id` = :id AND `id` = `fleetID` AND `lock` IS NULL;';
 
         $db->update($sql, [
             ':id'           => $recallFleetId,
@@ -191,6 +193,10 @@ class FleetLauncher
             ':hasCanceled'  => 1,
             ':fleetState'   => FLEET_RETURN,
         ]);
+        if ($db->rowCount() === 0) {
+            // the event was claimed between the check and the update: leave the flight (and its log) alone
+            return;
+        }
 
         $sql = 'UPDATE %%LOG_FLEETS%% SET
             `stay_time`             = :endStayTime,

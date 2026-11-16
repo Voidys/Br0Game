@@ -51,7 +51,7 @@ class UniverseController extends AbstractAdminController
         $USER = $this->state->USER;
 
         if ($USER['authlevel'] != AUTH_ADM) {
-            throw new Exception("Permission error!");
+            $this->deny();
         }
 
         parent::construct();

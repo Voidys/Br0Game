@@ -38,7 +38,7 @@ Sollte es nach Angriffen mit Todessternen nicht möglich sein, die erbeuteten Re
 <p>Es sind nur 1.000 Irak-Angriffe pro 24 Stunden erlaubt. Die Anzahl der Raketen pro Angriff ist unabhängig.</p>
 <hr>
 <h2>6. Bugusing</h2>
-<p>Bugs und/oder Fehler in der Programmierung auszunutzen ist verboten. Erkannte Bugs sollten so schnell wie möglich per <a href="%s" target="_blank">GIT Issue</a> oder im Discord Channel #bugs gemeldet werden. Cheaten ist ebenfalls verboten.</p>
+<p>Bugs und/oder Fehler in der Programmierung auszunutzen ist verboten. Erkannte Bugs sollten so schnell wie möglich per <a href="%s" target="_blank" rel="noopener noreferrer">GIT Issue</a> oder im Discord Channel #bugs gemeldet werden. Cheaten ist ebenfalls verboten.</p>
 <hr>
 <h2>6.1 Tools und Anwendungen</h2>
 <p>Das Verwenden von externen Tools und Userskripten, die nicht vollumfänglich Freigeben wurden ist verboten.</p>

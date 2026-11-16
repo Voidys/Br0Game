@@ -338,6 +338,7 @@ al_memberlist_on: 在线
 al_message: 消息
 al_name: 修改联盟名称
 al_name_required: 请输入联盟名称。
+al_link_too_long: "链接太长（最多 255 个字符）。"
 al_name_tag_too_long: 标签最多 8 个字符，名称最多 30 个字符。
 al_new_apply: 你的联盟收到了玩家 <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> 的<a href="?page=alliance&mode=admin&action=manageApply">[入盟申请]</a>。
 al_new_member_rank_text: 新成员
@@ -476,6 +477,8 @@ bs_acs_slot: 联合攻击栏位
 bs_add_acs_slot: 添加联合攻击栏位
 bs_atter: 进攻方
 bs_cancel: 重置
+bs_too_many_units: "单次模拟的单位太多了（最多 %s）。"
+bs_busy: "已有模拟正在运行，请等它结束。"
 bs_deffer: 防守方
 bs_derbis_raport: 回收残骸所需：%s %s。
 bs_load: 加载
@@ -522,6 +525,7 @@ bu_player_not_exist: 该玩家不存在。
 bu_rejected_request_body: 你好 %s，<br>%s 拒绝了你的好友请求！
 bu_rejected_request_title: 好友请求被拒绝！
 bu_request_exists: 已经有一个针对该玩家的好友请求了！
+bu_request_limit: '好友请求太多了，请等几分钟再继续发送。'
 bu_request_message: 请求留言
 bu_request_send: 好友请求已发送。
 bu_request_text: 请求留言
@@ -1038,6 +1042,7 @@ nt_dlte_note: 删除
 nt_edit_note: 编辑笔记
 nt_important: 高
 nt_no_text: 无内容
+nt_limit_reached: '你的笔记数量已达上限（%1$d）。请先删除旧笔记。'
 nt_no_title: 无标题
 nt_normal: 普通
 nt_note: 笔记

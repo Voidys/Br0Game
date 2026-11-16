@@ -49,7 +49,7 @@ class AccountController extends AbstractAccountController
     }
 
     /**
-     * Enters a universe (mode=send): POST/GET userID (player id) and universe (id).
+     * Enters a universe (mode=send): POST userID (player id); the universe comes from the player.
      * Checks that the player belongs to the logged in account (ACCOUNTS_TO_USERS), switches the session to that player and universe
      * (admin access is dropped) and redirects to /game. A foreign player id redirects back to the lobby.
      */
@@ -57,13 +57,13 @@ class AccountController extends AbstractAccountController
     {
         $ACCOUNT = $this->state->ACCOUNT;
         $userID = $this->http()->_GP('userID', 0);
-        $universe = $this->http()->_GP('universe', 0);
 
         $db = $this->db;
-        $sql = "SELECT count(*) as count FROM %%ACCOUNTS_TO_USERS%% WHERE `account_id` = :accountId && user_id = :userId;";
-        $count = $db->selectSingle($sql, [':accountId' => $ACCOUNT['id'], ':userId' => $userID], 'count');
+        // the universe is the one the player lives in (the request's `universe` is not trusted)
+        $sql = "SELECT u.`universe` FROM %%ACCOUNTS_TO_USERS%% au INNER JOIN %%USERS%% u ON u.`id` = au.`user_id` WHERE au.`account_id` = :accountId AND au.`user_id` = :userId AND au.`end_time` = 0;";
+        $universe = $db->selectSingle($sql, [':accountId' => $ACCOUNT['id'], ':userId' => $userID], 'universe');
 
-        if ($count == 0) {
+        if (empty($universe)) {
             $this->http()->redirectTo('account?page=account');
         }
 

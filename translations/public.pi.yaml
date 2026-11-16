@@ -49,6 +49,8 @@ passwordBack: Zurück
 passwordCaptcha: Sicherheitscode
 passwordChangedMailSend: Du erhälst in Kürze eine E-Mail mit deinem neuen Kennwort.
 passwordChangedMailTitle: 'Neues Kennwort auf der Website: %s'
+passwordConfirmInfo: 'Klick auf den Button, damit dein Kennwort zurückgesetzt wird. Das neue Kennwort schicken wir dir per E-Mail.'
+passwordConfirmSubmit: 'Neues Kennwort anfordern'
 passwordErrorMailEmpty: Du hast keine E-Mail-Adresse angegeben!
 passwordErrorOnePerDay: >-
   Das Kennwort für dieses Benutzerkonto wurde in den letzten 24 Stunden bereits

@@ -642,6 +642,7 @@ ow_config_file_writable: >-
 ow_credits: Creditos
 ow_database_errors: Tens erros na tua base de dados. <a href="ErrorPage.php">Mostrar Erros</a>
 ow_developers: Desenvolvedores
+ow_default_uri_missing: 'Os links dos e-mails precisam de DEFAULT_URI (.env.local): enquanto não estiver definido, os e-mails de registo e de reposição da palavra-passe não são enviados.'
 ow_dir_not_writable: /%s dir não pode ser escrito!
 ow_donate: Doar
 ow_file_detected: Foi encontrado o arquivo %s. Por motivos de segurança, apagar ou renomear.

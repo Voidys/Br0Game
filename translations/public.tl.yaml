@@ -76,6 +76,8 @@ overall: Pangkalahatan
 passwordBack: Bumalik
 passwordChangedMailSend: Papunta na ang bago mong password. Makakatanggap ka ng email sa lalong madaling panahon.
 passwordChangedMailTitle: 'Bagong password para sa %s'
+passwordConfirmInfo: 'I-click ang button para i-reset ang password mo. Ipapadala namin sa iyo ang bagong password sa email.'
+passwordConfirmSubmit: 'Padalhan ako ng bagong password'
 passwordErrorMailEmpty: Hindi namin kilala ang email address na iyan.
 passwordErrorOnePerDay: >-
   May humiling na ng password para sa account na ito sa nakaraang 24 oras.

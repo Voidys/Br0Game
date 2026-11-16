@@ -20,6 +20,12 @@ class BotEngine
 {
     use GameUtilities;
 
+    /** Seconds of one tick run after which the bots stop asking the LLM (they use their local texts). */
+    private const LLM_BUDGET = 20;
+
+    /** Seconds of one tick run after which no further bot is started. */
+    private const TICK_BUDGET = 45;
+
     public function __construct(
         private readonly Database $db,
         private readonly ConfigRegistry $configs,
@@ -93,7 +99,13 @@ class BotEngine
 
         $profiles = [];
         $processed = 0;
+        // time budget of the run: LLM calls stop after LLM_BUDGET seconds, no new bot is started after TICK_BUDGET (it stays due for the next run)
+        $started = microtime(true);
+        $this->persona->limitLlmUntil($started + self::LLM_BUDGET);
         foreach ($bots as $bot) {
+            if (microtime(true) - $started > self::TICK_BUDGET) {
+                break;
+            }
             $processed++;
             try {
                 if (!isset($profiles[$bot['profile_id']])) {
@@ -120,6 +132,8 @@ class BotEngine
                 error_log('BotEngine bot ' . $bot['user_id'] . ': ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
             }
         }
+
+        $this->persona->limitLlmUntil(null);
 
         if (random_int(1, 200) === 1) {
             $db->delete('DELETE FROM %%BOT_LOG%% WHERE `time` < :t;', [':t' => $now - 14 * 86400]);
@@ -161,14 +175,11 @@ class BotEngine
 
         if ($claimed > 0) {
             try {
-                $db->transactional(function () use ($db, $token): void {
-                    $this->fleetHandler->setToken($token);
-                    $this->fleetHandler->run();
-                    $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
-                });
-            } catch (Throwable $e) {
+                // every event runs in its own transaction and a failing one is quarantined (FlyingFleetHandler::run)
+                $this->fleetHandler->setToken($token);
+                $this->fleetHandler->run();
+            } finally {
                 $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
-                throw $e;
             }
         }
     }

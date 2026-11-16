@@ -48,9 +48,10 @@ class Cronjob
      * (container service tagged app.game_cronjob, else built by hand), computes its next run time, releases the lock and
      * writes a row to cronjobs_log, then reports success to Discord. Task exceptions release the lock and are
      * reported to Discord (not rethrown, nextTime stays unchanged so the job is retried on the next run).
+     * `$force` (manual run from the admin) skips the due-time check. A job that another runner locked or already ran is skipped silently.
      * @throws Exception for an unknown, inactive or locked job id.
      */
-    public function execute(int $cronjobID): void
+    public function execute(int $cronjobID, bool $force = false): void
     {
 
         $lockToken = md5($this->state->runtime->timestamp);
@@ -68,14 +69,21 @@ class Cronjob
             throw new Exception(sprintf("Unknown cronjob %s or cronjob is deactive!", $cronjobID));
         }
 
+        // take the lock atomically: only one runner wins, and only while the job is still due (a runner with a stale
+        // list of due jobs finds nextTime already moved on by the runner before it)
+        $db->update('UPDATE %%CRONJOBS%% SET `lock` = :lock WHERE cronjobID = :cronjobId AND isActive = 1 AND `lock` IS NULL AND (:force = 1 OR nextTime IS NULL OR nextTime < :now);', [
+            ':lock' => $lockToken,
+            ':cronjobId' => $cronjobID,
+            ':now' => $this->state->runtime->timestamp,
+            ':force' => $force ? 1 : 0,
+        ]);
+        if ($db->rowCount() !== 1) {
+            return;
+        }
+
+        $cronjobClassName = 'App\\Game\\Cronjob\\' . $cronjobClassName;
+        $done = false;
         try {
-            $db->update('UPDATE %%CRONJOBS%% SET `lock` = :lock WHERE cronjobID = :cronjobId;', [
-                ':lock' => $lockToken,
-                ':cronjobId' => $cronjobID
-            ]);
-
-            $cronjobClassName = 'App\\Game\\Cronjob\\' . $cronjobClassName;
-
             /** @var CronjobTaskInterface $cronjobObj */
             $cronjobObj = $this->tasks !== null && $this->tasks->has($cronjobClassName)
                 ? $this->tasks->get($cronjobClassName)   // Symfony service (see config/services.yaml)
@@ -83,10 +91,7 @@ class Cronjob
             $cronjobObj->run();
 
             $this->reCalculateCronjobs($cronjobID);
-
-            $db->update('UPDATE %%CRONJOBS%% SET `lock` = NULL WHERE cronjobID = :cronjobId;', [
-                ':cronjobId' => $cronjobID
-            ]);
+            $done = true;
 
             $db->insert('INSERT INTO %%CRONJOBS_LOG%% SET `cronjobId` = :cronjobId, `executionTime` = :executionTime, `lockToken` = :lockToken', [
                 ':cronjobId' => $cronjobID,
@@ -95,14 +100,17 @@ class Cronjob
             ]);
 
             (new Discord($this->configs, $this->state))->sendLog($cronjobClassName, ['successful' => true]);
-        } catch (Exception $exception) {
-            // unlock cronjob
-            $db->update('UPDATE %%CRONJOBS%% SET `lock` = :lock WHERE cronjobID = :cronjobId;', [
-                ':lock' => null,
-                ':cronjobId' => $cronjobID
+        } catch (\Throwable $exception) {
+            // a failed run is reported (not rethrown); nextTime stays unchanged so the job is retried on the next run
+            if (!$done) {
+                (new Discord($this->configs, $this->state))->sendLog($cronjobClassName, null, $exception);
+            }
+        } finally {
+            // unlock in every case, also after an \Error
+            $db->update('UPDATE %%CRONJOBS%% SET `lock` = NULL WHERE cronjobID = :cronjobId AND `lock` = :lock;', [
+                ':cronjobId' => $cronjobID,
+                ':lock' => $lockToken,
             ]);
-
-            (new Discord($this->configs, $this->state))->sendLog($cronjobClassName, null, $exception);
         }
     }
 

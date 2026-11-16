@@ -639,6 +639,7 @@ ow_config_file_writable: Plik config.php jest zapisywalny.
 ow_credits: Credits
 ow_database_errors: Wystąpił błąd!
 ow_developers: Entwickler
+ow_default_uri_missing: 'Linki w wiadomościach e-mail wymagają DEFAULT_URI (.env.local): dopóki nie zostanie ustawione, wiadomości rejestracyjne i resetujące hasło nie są wysyłane.'
 ow_dir_not_writable: ./%s jest nie zapisywalny!
 ow_donate: Dotacja
 ow_file_detected: Znaleziono %s . By gra była aktywna, musisz plik usunąć lub zmienić jego nazwę

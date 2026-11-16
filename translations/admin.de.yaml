@@ -665,6 +665,7 @@ ow_config_file_writable: Die config.php ist beschreibar.
 ow_credits: Credits
 ow_database_errors: Es sind Fehler vorhanden!
 ow_developers: Entwickler
+ow_default_uri_missing: 'Mail-Links brauchen DEFAULT_URI (.env.local): Solange sie fehlt, werden Registrierungs- und Passwort-zurücksetzen-Mails nicht versendet.'
 ow_dir_not_writable: ./%s ist nicht beschreibar!
 ow_donate: Spende
 ow_file_detected: >-

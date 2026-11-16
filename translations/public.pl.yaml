@@ -34,6 +34,8 @@ passwordBack: "Wstecz"
 passwordCaptcha: "Kod z obrazka"
 passwordChangedMailSend: "Nowe hasło jest już w drodze. Wkrótce dostaniesz e-mail."
 passwordChangedMailTitle: "Nowe hasło dla %s"
+passwordConfirmInfo: 'Kliknij przycisk, aby zresetować swoje hasło. Nowe hasło wyślemy ci e-mailem.'
+passwordConfirmSubmit: 'Wyślij mi nowe hasło'
 passwordErrorMailEmpty: "Nie znamy takiego adresu e-mail."
 passwordErrorOnePerDay: "Hasło do tego konta zostało już zażądane w ciągu ostatnich 24 godzin. Kolejne możesz zażądać za 24 godziny."
 passwordErrorUnknown: "Nie znaleziono konta z takimi danymi."

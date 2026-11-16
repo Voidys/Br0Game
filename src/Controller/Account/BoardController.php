@@ -426,7 +426,7 @@ class BoardController extends AbstractAccountController
     }
 
     /**
-     * Saves an edited comment (POST only, id); author or moderator only.
+     * Saves an edited comment (POST only, id); author only, refused when the post is locked or deleted.
      */
     public function saveComment()
     {
@@ -437,6 +437,13 @@ class BoardController extends AbstractAccountController
             $this->fail($this->state->LNG['board_not_allowed']);
         }
         $back = 'account?page=board&mode=post&id=' . (int) $comment['post_id'];
+        $post = $this->loadPost((int) $comment['post_id']);
+        if ($post === null || (bool) $post['deleted']) {
+            $this->fail($this->state->LNG['board_not_found']);
+        }
+        if ($post['locked']) {
+            $this->fail($this->state->LNG['board_err_locked'], $back);
+        }
         $body = $this->cleanBody();
         if ($body === null) {
             $this->fail($this->state->LNG['board_err_body'], $back);

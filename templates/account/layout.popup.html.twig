@@ -34,7 +34,7 @@
   <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
   {% if captchakey != "" %}
     {{ csp_allow('recaptcha') }}
-    <script type="application/json" id="captcha-config">{{ {key: captchakey}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+    <script type="application/json" id="captcha-config">{{ {key: captchakey}|json_script }}</script>
     <script type="module" src="./scripts/account/recaptcha.js?v={{ asset_version }}"></script>
   {% endif %}
 

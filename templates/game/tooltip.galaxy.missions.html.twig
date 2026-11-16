@@ -1,7 +1,7 @@
 
 <table class='tt-galaxy'>
     <tr>
-        <th colspan='2'>{% if moon %}{{ LNG.gl_moon }} {{ details.name }}{% elseif isPirateBase %}{{ details.name }}{% else %}{{ LNG.gl_planet }} {{ details.name }}{% endif %} [{{ galaxy }}:{{ system }}:{{ planet.planet_position }}]</th>
+        <th colspan='2'>{% if moon %}{{ LNG.gl_moon }} {{ details.name|tooltip_text }}{% elseif isPirateBase %}{{ details.name|tooltip_text }}{% else %}{{ LNG.gl_planet }} {{ details.name|tooltip_text }}{% endif %} [{{ galaxy }}:{{ system }}:{{ planet.planet_position }}]</th>
     </tr>
     {% if moon %}
         <tr>

@@ -55,8 +55,10 @@ final class CspReportController
             }
         }
         $directory = ProjectPaths::ROOT . 'var/log';
-        if (is_dir($directory) || mkdir($directory, 0775, true)) {
-            file_put_contents($directory . '/csp.log', json_encode($entry, JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND | LOCK_EX);
+        $log = $directory . '/csp.log';
+        // no rotation here: stop writing once the file is 5 MB, so a flood cannot fill the disk
+        if ((is_dir($directory) || mkdir($directory, 0775, true)) && (!is_file($log) || filesize($log) < 5 * 1024 * 1024)) {
+            file_put_contents($log, json_encode($entry, JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND | LOCK_EX);
         }
 
         return $response;

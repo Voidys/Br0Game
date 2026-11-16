@@ -46,6 +46,8 @@ passwordCaptcha: Code de sécurité
 passwordChangedMailSend: Ton nouveau mot de passe est en route. Tu vas recevoir
   un e-mail sous peu.
 passwordChangedMailTitle: Nouveau mot de passe pour %s
+passwordConfirmInfo: 'Clique sur le bouton pour réinitialiser ton mot de passe. Nous t''enverrons le nouveau mot de passe par e-mail.'
+passwordConfirmSubmit: 'M''envoyer un nouveau mot de passe'
 passwordErrorMailEmpty: Cette adresse e-mail nous est inconnue.
 passwordErrorOnePerDay: Un mot de passe a déjà été demandé pour ce compte au cours
   des dernières 24 heures. Tu pourras en demander un autre dans 24 heures.

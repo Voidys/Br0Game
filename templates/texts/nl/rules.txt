@@ -38,7 +38,7 @@ Als het niet mogelijk is de buitgemaakte grondstoffen binnen 24 uur te verdelen 
 <p>Er zijn slechts 1.000 aanvallen met interplanetaire raketten per 24 uur toegestaan. Het aantal raketten per aanval staat daar los van.</p>
 <hr>
 <h2>6. Bugusing</h2>
-<p>Het uitbuiten van bugs en fouten in de programmering is verboden. Gevonden bugs moeten zo snel mogelijk worden gemeld via een <a href="%s" target="_blank">GIT-issue</a> of in het Discord-kanaal #bugs. Valsspelen is ook verboden.</p>
+<p>Het uitbuiten van bugs en fouten in de programmering is verboden. Gevonden bugs moeten zo snel mogelijk worden gemeld via een <a href="%s" target="_blank" rel="noopener noreferrer">GIT-issue</a> of in het Discord-kanaal #bugs. Valsspelen is ook verboden.</p>
 <hr>
 <h2>6.1 Tools en toepassingen</h2>
 <p>Het gebruik van externe tools en userscripts die niet volledig zijn vrijgegeven, is verboden.</p>

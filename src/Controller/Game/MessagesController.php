@@ -160,6 +160,8 @@ class MessagesController extends AbstractGameController
         $text       = $this->http()->_GP('text', '', true);
         $groupKey   = $this->http()->_GP('groupid', "", true);
 
+        // the subject field allows 40 typed characters: cut the decoded text, so no entity is split and the column (255) holds it
+        $subject    = htmlspecialchars(mb_substr(html_entity_decode((string) $subject, ENT_QUOTES | ENT_HTML5, 'UTF-8'), 0, 40), ENT_QUOTES, 'UTF-8');
         $text		= makebr($text);
 
         if (empty($receiver) || empty($text)) {

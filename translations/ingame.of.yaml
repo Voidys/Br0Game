@@ -568,6 +568,8 @@ bs_acs_slot: AGSSlot
 bs_add_acs_slot: Add AGSSlot
 bs_atter: Angreifer
 bs_cancel: Zurüggsetzen
+bs_too_many_units: "Zu viel Einheidn für a Simulation (höchsdns %s)."
+bs_busy: "Do läffd scho a Simulation, wadd hald, bis die ferdich is."
 bs_deffer: Werteidiger
 bs_derbis_raport: Es werdne %s %s für das Drümmerfeld benödigd.
 bs_load: Laden
@@ -612,6 +614,7 @@ bu_player: Schbieler
 bu_rejected_request_body: Hallo %s,<br>%s hat deine BuddylischdAnfrage abgelehnt!
 bu_rejected_request_title: BuddylischdAnfrage abgelehnt!
 bu_request_exists: Schbieler bereids in der Buddylischde!
+bu_request_limit: 'Zu fiel Buddy-Anfrong. Wart a boar Minudn, bevor du mehr schickschd.'
 bu_request_message: Anfragetext
 bu_request_send: Anfrage gesendet!
 bu_request_text: Begründung
@@ -1236,6 +1239,7 @@ nt_dlte_note: Löschen
 nt_edit_note: Editiere Notiz
 nt_important: Wichtig
 nt_no_text: gein Text
+nt_limit_reached: 'Du hosd die Hegschdzahl an Notizn (%1$d) erreichd. Lösch erschd alde Notizn.'
 nt_no_title: gein Titel
 nt_normal: Normal
 nt_note: Notiz
@@ -1794,6 +1798,7 @@ ach_progress: "%d von %d freigeschaltet"
 ach_unlocked_on: "Freigeschaltet am %s"
 al_apply_accepted: "Bewerbung angenommen."
 al_apply_declined: "Bewerbung abgelehnt."
+al_link_too_long: "Der Link is zu lang (höchstens 255 Zeichen)!"
 al_name_tag_too_long: "Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!"
 bs_share_code: "Teilen-Code"
 bs_swap: "Seiten tauschen"

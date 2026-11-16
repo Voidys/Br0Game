@@ -507,6 +507,8 @@ bs_acs_slot: İSS yuvası
 bs_add_acs_slot: İSS yuvası ekle
 bs_atter: Saldıran
 bs_cancel: Sıfırla
+bs_too_many_units: "Tek bir simülasyon için çok fazla birim var (en fazla %s)."
+bs_busy: "Zaten bir simülasyon çalışıyor, bitmesini bekle."
 bs_deffer: Savunan
 bs_derbis_raport: 'Enkaz alanını geri dönüştürmek için gereken: %s %s.'
 bs_load: Yükle
@@ -551,6 +553,7 @@ bu_player: Oyuncu
 bu_rejected_request_body: Merhaba %s,<br>%s arkadaşlık isteğini reddetti!
 bu_rejected_request_title: Arkadaşlık isteği reddedildi!
 bu_request_exists: Bu oyuncu için zaten bir arkadaşlık isteği var!
+bu_request_limit: 'Çok fazla arkadaşlık isteği. Daha fazla göndermeden önce birkaç dakika bekle.'
 bu_request_message: İstek mesajı
 bu_request_send: Arkadaşlık isteği gönderildi.
 bu_request_text: İstek mesajı
@@ -1087,6 +1090,7 @@ nt_dlte_note: Sil
 nt_edit_note: Notu düzenle
 nt_important: Yüksek
 nt_no_text: Metin yok
+nt_limit_reached: 'Maksimum not sayısına (%1$d) ulaştın. Önce eski notları sil.'
 nt_no_title: Başlık yok
 nt_normal: Normal
 nt_note: Not
@@ -1573,6 +1577,7 @@ ach_progress: '%d / %d açıldı'
 ach_unlocked_on: "%s tarihinde açıldı"
 al_apply_accepted: "Başvuru kabul edildi."
 al_apply_declined: "Başvuru reddedildi."
+al_link_too_long: "Bağlantı çok uzun (en fazla 255 karakter)."
 al_name_tag_too_long: Etiket en fazla 8, ad en fazla 30 karakter olabilir.
 bs_share_code: Paylaşım kodu
 bs_swap: Tarafları değiştir

@@ -88,6 +88,8 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     public function initialize(): void
     {
+        // pages (also in XHR/fragment mode) debit and credit through it; only the recalculation below is skipped for XHR
+        $this->ecoObj = new ResourceUpdate($this->db, $this->configs, $this->state);
         if (!$this->state->runtime->ajax) {
             $this->setWindow('full');
             if (!$this->disableEcoSystem) {
@@ -114,7 +116,6 @@ abstract class AbstractGameController implements GameControllerInterface
                         $this->state->PLANET = $p;
                     }
 
-                    $this->ecoObj = new ResourceUpdate($this->db, $this->configs, $this->state);
                     [$this->state->USER, $this->state->PLANET] = $this->ecoObj->CalcResource($this->state->USER, $this->state->PLANET, true);
                     $db->commit();
                 }

@@ -361,6 +361,7 @@ al_memberlist_on: Online
 al_message: Nachricht
 al_name: Allianzname
 al_name_required: Bitte gib einen Allianznamen ein.
+al_link_too_long: Link zu lang (höchstens 255 Zeichen).
 al_name_tag_too_long: Das Tag darf höchstens 8 Zeichen lang sein, der Name höchstens 30.
 al_new_apply: Deine Allianz hat eine <a href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> von <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> erhalten.
 al_new_member_rank_text: Neuling
@@ -516,6 +517,8 @@ bs_acs_slot: Verbandsslot
 bs_add_acs_slot: Verbandsslot hinzufügen
 bs_atter: Angreifer
 bs_cancel: Zurücksetzen
+bs_too_many_units: "Zu viele Einheiten für eine Simulation (höchstens %s)."
+bs_busy: "Es läuft bereits eine Simulation, bitte warte, bis sie fertig ist."
 bs_deffer: Verteidiger
 bs_derbis_raport: Zum Recyceln des Trümmerfelds werden %s %s benötigt.
 bs_load: Laden
@@ -563,6 +566,7 @@ bu_player_not_exist: Diesen Spieler gibt es nicht.
 bu_rejected_request_body: Hallo %s,<br>%s hat deine Buddylistanfrage abgelehnt!
 bu_rejected_request_title: Buddylist-Anfrage abgelehnt!
 bu_request_exists: Für diesen Spieler gibt es bereits eine Buddylist-Anfrage.
+bu_request_limit: 'Zu viele Buddy-Anfragen. Warte ein paar Minuten, bevor du weitere sendest.'
 bu_request_message: Anfragetext
 bu_request_send: Anfrage gesendet.
 bu_request_text: Nachricht
@@ -1163,6 +1167,7 @@ nt_dlte_note: Löschen
 nt_edit_note: Notiz bearbeiten
 nt_important: Wichtig
 nt_no_text: Kein Text
+nt_limit_reached: 'Du hast die maximale Anzahl an Notizen (%1$d) erreicht. Lösche zuerst alte Notizen.'
 nt_no_title: Kein Titel
 nt_normal: Normal
 nt_note: Notiz

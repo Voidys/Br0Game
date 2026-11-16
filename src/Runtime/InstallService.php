@@ -76,6 +76,19 @@ final class InstallService
         return is_file($this->root . 'config/game.php') && filesize($this->root . 'config/game.php') > 0;
     }
 
+    /**
+     * True when the database already holds an administrator (authlevel ADM): the game is installed, whatever the tool
+     * file says. False while the tables do not exist yet.
+     */
+    public function hasAdmin(): bool
+    {
+        try {
+            return (int) $this->db->selectSingle('SELECT COUNT(*) AS n FROM %%USERS%% WHERE `authlevel` = :level;', [':level' => AUTH_ADM], 'n') > 0;
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
     /** translations of the installer (domain install, plus the shared ones) in the given language */
     public function lng(string $locale): Language
     {

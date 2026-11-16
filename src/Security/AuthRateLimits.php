@@ -21,6 +21,8 @@ final class AuthRateLimits
         private readonly RateLimiterFactoryInterface $lostPassword,
         #[Autowire(service: 'limiter.admin_elevation')]
         private readonly RateLimiterFactoryInterface $adminElevation,
+        #[Autowire(service: 'limiter.account_settings_password')]
+        private readonly RateLimiterFactoryInterface $accountSettingsPassword,
     ) {}
 
     /** Registration attempts (successful or not) per client IP. */
@@ -33,6 +35,12 @@ final class AuthRateLimits
     public function allowLostPassword(string $ip): bool
     {
         return $this->lostPassword->create($ip)->consume()->isAccepted();
+    }
+
+    /** Current-password checks on the account settings page (password and e-mail change) per account. */
+    public function allowAccountSettingsPassword(int $accountId): bool
+    {
+        return $this->accountSettingsPassword->create((string) $accountId)->consume()->isAccepted();
     }
 
     /** Admin password prompt attempts per client IP and account. */

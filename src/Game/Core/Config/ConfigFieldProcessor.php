@@ -14,7 +14,7 @@ class ConfigFieldProcessor
     /**
      * Processes POST data according to schema
      */
-    public static function processPostData(array $schema, \App\Game\Core\HTTP $http): array
+    public static function processPostData(array $schema, \App\Game\Core\HTTP $http, ?object $current = null): array
     {
         $processed = [];
 
@@ -24,6 +24,10 @@ class ConfigFieldProcessor
                 continue;
             }
             $processed[$fieldName] = self::processField($fieldName, $fieldConfig, $http);
+            // secrets are never shown in the form: an empty input keeps the stored value
+            if (!empty($fieldConfig['secret']) && $processed[$fieldName] === '' && $current !== null) {
+                $processed[$fieldName] = (string) ($current->$fieldName ?? '');
+            }
         }
 
         return $processed;
@@ -107,10 +111,43 @@ class ConfigFieldProcessor
                 $value = $value / 2500;
             }
 
+            if (!empty($fieldConfig['secret'])) {
+                // the form gets a hint (set / last characters) instead of the secret itself
+                $configValues['_hint_' . $fieldName] = self::secretHint((string) $value);
+                $value = '';
+            }
+
             $configValues[$fieldName] = $value;
         }
 
         return $configValues;
+    }
+
+    /** "" when unset, else the last 4 characters behind bullets (short secrets: bullets only) */
+    public static function secretHint(string $value): string
+    {
+        if ($value === '') {
+            return '';
+        }
+
+        return '••••' . (mb_strlen($value) > 8 ? mb_substr($value, -4) : '');
+    }
+
+    /**
+     * Replaces the secret fields of a snapshot by their hint (admin log).
+     *
+     * @param array<string, mixed> $values field => value
+     * @return array<string, mixed>
+     */
+    public static function maskSecrets(array $values, ConfigFieldSchema $schema): array
+    {
+        foreach ($schema->getAllFields() as $fieldName => $fieldConfig) {
+            if (!empty($fieldConfig['secret']) && array_key_exists($fieldName, $values)) {
+                $values[$fieldName] = self::secretHint((string) $values[$fieldName]);
+            }
+        }
+
+        return $values;
     }
 
     /**

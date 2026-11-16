@@ -38,7 +38,7 @@ class ResetController extends AbstractAdminController
         $USER = $this->state->USER;
 
         if ($USER['id'] != ROOT_USER) {
-            throw new \App\Game\Core\EndOfRequest();
+            $this->deny();
         }
 
         parent::construct();
@@ -57,12 +57,15 @@ class ResetController extends AbstractAdminController
 
         if ($this->state->requestPost) {
             $dbcol = $this->resetColumns();
-            $this->resetPlayersAndPlanets();
-            $this->resetHangarsAndDefenses($dbcol);
-            $this->resetBuildings($dbcol);
-            $this->resetResearch($dbcol);
-            $this->resetResources($dbcol);
-            $this->resetGeneral();
+            // all or nothing: a failing step must not leave a half reset universe
+            $this->db->transactional(function () use ($dbcol): void {
+                $this->resetPlayersAndPlanets();
+                $this->resetHangarsAndDefenses($dbcol);
+                $this->resetBuildings($dbcol);
+                $this->resetResearch($dbcol);
+                $this->resetResources($dbcol);
+                $this->resetGeneral();
+            });
             $this->message($LNG['re_reset_excess'], '?page=reset', 3);
         }
 
@@ -127,16 +130,15 @@ class ResetController extends AbstractAdminController
                 ':universe' => $this->universe()->getEmulated(),
             ], 'id_owner');
 
-            $db->delete("DELETE FROM %%USERS%% WHERE `universe` = :universe AND `id` != :ownerID;", [
+            // through the player deletion, so fleets, messages, stats, settings and the account link go too (user 1 stays)
+            $ids = $db->select('SELECT `id` FROM %%USERS%% WHERE `universe` = :universe AND `id` != :ownerID AND `id` != :root;', [
                 ':universe' => $this->universe()->getEmulated(),
-                ':ownerID'  => $ID,
+                ':ownerID'  => (int) $ID,
+                ':root'     => ROOT_USER,
             ]);
-
-            $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `id_owner` != :ownerID;", [
-                ':universe' => $this->universe()->getEmulated(),
-                ':ownerID'  => $ID,
-            ]);
-
+            foreach ($ids as $row) {
+                $this->playerUtil()->deletePlayer((int) $row['id']);
+            }
         }
 
         if (($this->state->requestPost['planets'] ?? '') === 'on') {
@@ -276,13 +278,14 @@ class ResetController extends AbstractAdminController
         }
 
         if (($this->state->requestPost['fleets'] ?? '') === 'on') {
-            $db->delete("DELETE FROM %%FLEETS%% WHERE `universe` = :universe;", [
+            // the events go with their fleets (a fleet row alone leaves the event behind until the cleaner cron runs)
+            $db->delete("DELETE %%FLEETS%%, %%FLEETS_EVENT%% FROM %%FLEETS%% LEFT JOIN %%FLEETS_EVENT%% ON %%FLEETS%%.`id` = %%FLEETS_EVENT%%.`fleetID` WHERE %%FLEETS%%.`universe` = :universe;", [
                 ':universe' => $this->universe()->getEmulated(),
             ]);
         }
 
         if (($this->state->requestPost['banneds'] ?? '') === 'on') {
-            $db->delete("DELETE FROM %%BANNED%% WHERE `universe` = :universe;", [
+            $db->delete("DELETE FROM %%USERS_BANNED%% WHERE `universe` = :universe;", [
                 ':universe' => $this->universe()->getEmulated(),
             ]);
 

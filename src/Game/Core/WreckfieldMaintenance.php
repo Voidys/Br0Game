@@ -95,7 +95,7 @@ class WreckfieldMaintenance
         $this->repairJobWreckfield = null;
 
         if (!empty($wreckfield) && $wreckfield['created'] <= $time - TIME_72_HOURS) {
-            if (empty($wreckfield['repair_order'])) {
+            if (empty($wreckfield['repair_order']) || empty(StoredData::decode((string) $wreckfield['repair_order']))) {
                 $sql = "DELETE FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
                 $db->delete($sql, [':planetID' => $planetID]);
             } else {

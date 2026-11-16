@@ -200,10 +200,12 @@ password `db`, name `db`), the game settings and your administrator account. The
 - [ ] Strong, unique administrator password
 - [ ] Mail configured (Admin → settings), so password resets work
 - [ ] `var/ENABLE_INSTALL_TOOL` does not exist after installing
+- [ ] Production mode: `.env.local` contains `APP_ENV=prod` and `APP_DEBUG=0` (the checked-in `.env` defaults to `dev` for development; the ZIP and the install script set prod for you, a manual `git clone` does not). In `dev` the Symfony profiler and debug pages are reachable.
 - [ ] PHP, MySQL/MariaDB and the operating system receive updates; update Br0Game when new versions appear
 - [ ] Regular backups
 - [ ] Behind a reverse proxy or load balancer: `SYMFONY_TRUSTED_PROXIES` set (see below)
-- [ ] `DEFAULT_URI` in `.env.local` is your public address (the setup wizard writes it); e-mail links (password reset, account activation) use it
+- [ ] `DEFAULT_URI` in `.env.local` is your public address (the setup wizard writes it); e-mail links (password reset, account activation) use it. Without it (outside development) those mails are not sent (an error is logged per refused mail and the admin home page shows a warning): the Host header of a request is never used for links. The web installer writes it from the address you opened it at, `app:install` from `--base-url`; an existing install must add `DEFAULT_URI=https://your-domain` to `.env.local`
+- [ ] `TRUSTED_HOSTS` in `.env.local` lists the host names of your site (see below)
 
 ### Reverse proxies and client IPs
 
@@ -224,6 +226,18 @@ SYMFONY_TRUSTED_PROXIES=REMOTE_ADDR
 The proxy has to set `X-Forwarded-For` (and `X-Forwarded-Proto` for HTTPS). Behind Cloudflare use its published
 IP ranges. DDEV: the router container is the proxy, so a local `SYMFONY_TRUSTED_PROXIES=REMOTE_ADDR` shows the
 browser's address.
+
+### Trusted hosts
+
+The `Host` header comes from the visitor. To make sure the game only ever works with your own names, set in `.env.local`:
+
+```
+# comma separated host names; "*.example.com" admits sub-domains (uni2.example.com) and example.com itself
+TRUSTED_HOSTS=example.com,www.example.com
+```
+
+Requests with any other `Host` header are answered with 400. Leave it empty during development (DDEV). Mail links do
+not depend on it: they are built from `DEFAULT_URI`.
 
 ### What the game does for you
 

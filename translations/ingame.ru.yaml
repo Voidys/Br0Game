@@ -501,6 +501,8 @@ bs_acs_slot: Слот САБ
 bs_add_acs_slot: Добавить слот САБ
 bs_atter: Атакующий
 bs_cancel: Сбросить
+bs_too_many_units: "Слишком много юнитов для одной симуляции (максимум %s)."
+bs_busy: "Симуляция уже идёт, подожди, пока она завершится."
 bs_deffer: Обороняющийся
 bs_derbis_raport: 'Для сбора обломков понадобится: %s %s.'
 bs_load: Загрузить
@@ -545,6 +547,7 @@ bu_player: Игрок
 bu_rejected_request_body: Привет, %s!<br>%s отклонил твой запрос в друзья.
 bu_rejected_request_title: Запрос в друзья отклонён
 bu_request_exists: Запрос этому игроку уже отправлен!
+bu_request_limit: 'Слишком много запросов в друзья. Подожди несколько минут, прежде чем отправлять новые.'
 bu_request_message: Запрос в друзья
 bu_request_send: Запрос в друзья отправлен.
 bu_request_text: Текст запроса
@@ -1080,6 +1083,7 @@ nt_dlte_note: Удалить
 nt_edit_note: Редактировать заметку
 nt_important: Высокая
 nt_no_text: Без текста
+nt_limit_reached: 'Ты достиг максимального количества заметок (%1$d). Сначала удали старые заметки.'
 nt_no_title: Без названия
 nt_normal: Обычная
 nt_note: Заметка
@@ -1562,6 +1566,7 @@ ach_progress: "Разблокировано %d из %d"
 ach_unlocked_on: "Разблокировано: %s"
 al_apply_accepted: "Заявка принята."
 al_apply_declined: "Заявка отклонена."
+al_link_too_long: "Ссылка слишком длинная (не более 255 символов)."
 al_name_tag_too_long: Тег — не более 8 символов, название — не более 30.
 bs_share_code: "Код для обмена"
 bs_swap: "Поменять стороны"

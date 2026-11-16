@@ -24,6 +24,7 @@ class LlmClientFactory
         private readonly Database $db,
         private readonly Singleton $state,
         private readonly HttpClientInterface $httpClient,
+        private readonly LlmUrlGuard $guard = new LlmUrlGuard(),
     ) {}
 
     /** The active provider with a stored key and model, else null. */
@@ -116,7 +117,7 @@ class LlmClientFactory
         }
         $model = mb_substr(trim($model), 0, 128);
         $baseUrl = mb_substr(trim($baseUrl), 0, 255);
-        if ($baseUrl !== '' && !preg_match('~^https?://~i', $baseUrl)) {
+        if ($baseUrl !== '' && !preg_match('~^https?://[^/@\s]+~i', $baseUrl)) {
             throw new LlmException('Invalid base URL.');
         }
 
@@ -126,6 +127,11 @@ class LlmClientFactory
 
         $params = [':m' => $model, ':u' => $baseUrl, ':a' => $active ? 1 : 0, ':p' => $provider];
         $key = $apiKey === null ? '' : trim($apiKey);
+        if ($key === '' && $this->baseUrlChanged($provider, $baseUrl)) {
+            // the stored key must never travel to a different URL: it has to be entered again
+            $this->db->update('UPDATE %%BOT_LLM_PROVIDERS%% SET api_key = \'\', is_active = 0 WHERE provider = :p;', [':p' => $provider]);
+            $params[':a'] = 0;
+        }
         if ($key !== '') {
             $this->db->update(
                 'UPDATE %%BOT_LLM_PROVIDERS%% SET api_key = :k, model = :m, base_url = :u, is_active = :a WHERE provider = :p;',
@@ -137,6 +143,15 @@ class LlmClientFactory
                 $params,
             );
         }
+    }
+
+    /** Does `$baseUrl` differ from the stored one (an empty URL means the provider default)? */
+    private function baseUrlChanged(string $provider, string $baseUrl): bool
+    {
+        $stored = (string) $this->db->selectSingle('SELECT `base_url` FROM %%BOT_LLM_PROVIDERS%% WHERE provider = :p;', [':p' => $provider], 'base_url');
+        $normalize = static fn(string $url): string => rtrim(trim($url) !== '' ? trim($url) : LlmClient::defaultBaseUrl($provider), '/');
+
+        return $normalize($stored) !== $normalize($baseUrl);
     }
 
     /** Creates the client; the OpenCode session id is stable per installation (hash of the project path), the referer is this game's URL. */
@@ -154,6 +169,7 @@ class LlmClientFactory
             $url,
             'pr0game-' . substr(hash('sha256', $runtime->rootPath), 0, 24),
             $referer,
+            $this->guard,
         );
     }
 }

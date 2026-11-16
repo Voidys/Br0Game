@@ -1,6 +1,6 @@
 <table class='tt-galaxy'>
     <tr>
-        <th>{{ LNG.gl_alliance }} {{ currentPlanet.alliance.name }}</th>
+        <th>{{ LNG.gl_alliance }} {{ currentPlanet.alliance.name|tooltip_text }}</th>
     </tr>
     <tr>
         <td>{{ currentPlanet.alliance.member }}</td>
@@ -16,7 +16,7 @@
                 </tr>
                 {% if currentPlanet.alliance.web %}
                     <tr>
-                        <td><a href='{{ currentPlanet.alliance.web }}' target='allyweb'>{{ LNG.gl_alliance_web_page }}</a></td>
+                        <td><a href='{{ currentPlanet.alliance.web|tooltip_text }}' target='_blank' rel='noopener noreferrer'>{{ LNG.gl_alliance_web_page }}</a></td>
                     </tr>
                 {% endif %}
             </table>

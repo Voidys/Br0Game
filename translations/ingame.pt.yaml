@@ -501,6 +501,8 @@ bs_acs_slot: Slot ACS
 bs_add_acs_slot: Adicionar slot ACS
 bs_atter: Atacante
 bs_cancel: Repor
+bs_too_many_units: "Unidades a mais para uma simulação (máximo %s)."
+bs_busy: "Já há uma simulação em curso, espera que termine."
 bs_deffer: Defensor
 bs_derbis_raport: 'Necessário para reciclar os destroços: %s %s.'
 bs_load: Carregar
@@ -545,6 +547,7 @@ bu_player: Jogador
 bu_rejected_request_body: Olá %s,<br>%s recusou o teu pedido de amizade!
 bu_rejected_request_title: Pedido de amizade recusado!
 bu_request_exists: Já existe um pedido de amizade para este jogador!
+bu_request_limit: 'Demasiados pedidos de amizade. Espera alguns minutos antes de enviar mais.'
 bu_request_message: Mensagem do pedido
 bu_request_send: Pedido de amizade enviado.
 bu_request_text: Mensagem do pedido
@@ -1082,6 +1085,7 @@ nt_dlte_note: Eliminar
 nt_edit_note: Editar nota
 nt_important: Importante
 nt_no_text: Sem texto
+nt_limit_reached: 'Atingiste o número máximo de notas (%1$d). Apaga primeiro as notas antigas.'
 nt_no_title: Sem título
 nt_normal: Normal
 nt_note: Nota
@@ -1570,6 +1574,7 @@ ach_progress: '%d de %d desbloqueadas'
 ach_unlocked_on: Desbloqueada em %s
 al_apply_accepted: "Candidatura aceite."
 al_apply_declined: "Candidatura recusada."
+al_link_too_long: "O link é demasiado longo (no máximo 255 caracteres)."
 al_name_tag_too_long: A tag pode ter no máximo 8 caracteres e o nome 30.
 bs_share_code: "Código de partilha"
 bs_swap: Trocar lados

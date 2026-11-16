@@ -58,7 +58,7 @@
     </section>
     <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.se_save_parameters }}</button></div>
   </form>
-  <script type="application/json" id="bots-config">{{ {csrf: csrf, text: jsStrings}|json_encode(constant('JSON_HEX_TAG'))|raw }}</script>
+  <script type="application/json" id="bots-config">{{ {csrf: csrf, text: jsStrings}|json_script }}</script>
   <script type="module" src="./scripts/admin/pages/bots.js?v={{ asset_version }}"></script>
 
 {% elseif tab == 'profiles' %}

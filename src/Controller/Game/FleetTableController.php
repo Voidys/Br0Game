@@ -100,6 +100,27 @@ class FleetTableController extends AbstractGameController
     /**
      * The combat group of $fleetData['group'] (id, public_id, name) if the player takes part in it, otherwise empty.
      */
+    /**
+     * Whether the user created the ACS group: the group's first (lowest id) fleet is the one that opened it, joiners fly later.
+     */
+    private function isAcsCreator(int $acsID, int $userID): bool
+    {
+        $owner = $this->db->selectSingle(
+            'SELECT `owner` FROM %%FLEETS%% WHERE `group` = :acsID ORDER BY `id` ASC LIMIT 1;',
+            [':acsID' => $acsID],
+            'owner',
+        );
+
+        return (int) $owner === $userID;
+    }
+
+    /**
+     * The ACS group of `$fleetData['group']` the current player belongs to (id, public_id, name), or an empty result when he
+     * is not a member of it.
+     *
+     * @param array<string, mixed> $fleetData fleet row with the `group` id
+     * @return array<string, mixed>|false|null
+     */
     public function loadACS($fleetData)
     {
         $USER = $this->state->USER;
@@ -152,6 +173,10 @@ class FleetTableController extends AbstractGameController
         if ($fleetData['group'] == 0) {
             $acsData = $this->createACS($fleetID, $fleetData);
         } else {
+            // only the creator (owner of the leading fleet of the group) manages the group: invite, rename
+            if (!$this->isAcsCreator((int) $fleetData['group'], (int) $USER['id'])) {
+                return [];
+            }
             $acsData = $this->loadACS($fleetData);
         }
 
