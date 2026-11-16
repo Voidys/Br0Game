@@ -1051,6 +1051,13 @@ Technical changes per migration step, newest last.
 ## 128. Clear the game log from the admin area
 
 - `ClearLogController` (`admin?page=clearLog`, POST only via `CsrfPolicy`, right `ShowClearCachePage`) truncates `var/log/game.log`; the maintenance page shows its size and last change in a new card with a confirm button.
+
+## 129. Themed modals instead of native popups
+
+- `Dialog.confirm()` (Promise<boolean>) and `Dialog.prompt()` (Promise<string|null>) in `app/dialog.js`, same `modal--alert` look, Esc/backdrop = cancel, focus returns to the trigger; `danger` styles OK as destructive (`.modal__actions .btn--danger`). OK/Cancel labels from `dialog_ok` / `dialog_cancel` (l18n, de + en, others fall back to en) via `data-dialog-ok/-cancel` on `<html>` of the game, admin, account and login layouts.
+- `data-confirm` (`app/actions.js`) now asks via `Dialog.confirm`: the click is held back and, on OK, replayed once on the same element with a one-shot bypass (data-action, `data-method="post"` links and the submit button's name/value keep working). New `data-confirm-danger` attribute, set on the destructive admin actions (`btn--danger`) and on alliance close/kick/diplomacy delete/leave, apply-request delete and board post delete.
+- Every native `confirm()`/`alert()`/`prompt()` replaced: rte link URL, recaptcha errors (game + account), `handleErr`, galaxy (mission/missile confirm, missile alert, reset), acs rename, marketplace buy, fleet table (no-name alert, delete), fleet step 2 send question (cancel click, `requestSubmit` on OK), admin sendMessages / active, battlesim copy fallback.
+
 ## 130. Advanced stats as tabs
 
 - `page.advancedStats` shows its seven groups (expedition, build, lost, destroyed, repaired, firsts, other) as ARIA tabs instead of one table with toggled rows; page title fixed (was "Records").

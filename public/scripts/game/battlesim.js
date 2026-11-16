@@ -138,7 +138,7 @@ function fallbackCopy(text){
 		document.execCommand('copy');
 		Dialog.alert(BS_LNG.shareCopied);
 	}catch(e){
-		prompt(BS_LNG.shareCopyPrompt, text);
+		Dialog.prompt(BS_LNG.shareCopyPrompt, { value: text });
 	}
 	document.body.removeChild(el);
 }

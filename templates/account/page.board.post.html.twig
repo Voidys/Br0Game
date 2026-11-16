@@ -29,7 +29,7 @@
         <form action="account?page=board" method="post">
           <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
           <input type="hidden" name="type" value="post"><input type="hidden" name="id" value="{{ post.id }}">
-          <button data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+          <button data-confirm-danger data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
         </form>
         {% endif %}
         {% if isMod and not post.deleted %}
@@ -89,7 +89,7 @@
             <form action="account?page=board" method="post">
               <input type="hidden" name="mode" value="delete"><input type="hidden" name="csrf" value="{{ csrf }}">
               <input type="hidden" name="type" value="comment"><input type="hidden" name="id" value="{{ c.id }}">
-              <button data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
+              <button data-confirm-danger data-confirm="{{ LNG.board_confirm_delete|e('html_attr') }}" class="board-action" type="submit">{{ icon('trash-2') }}{{ LNG.board_delete }}</button>
             </form>
             {% endif %}
           </div>

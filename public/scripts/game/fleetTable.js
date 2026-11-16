@@ -154,7 +154,7 @@ function save_fleet_Select() {
   }
   let fname = document.getElementById("cfleet_name").value
   if (fname.trim() === "") {
-    alert(document.getElementById("customfleet").getAttribute("data-noname"))
+    window.Dialog.alert(document.getElementById("customfleet").getAttribute("data-noname"))
     return;
   }
   if (!(fname in cfleet)) {
@@ -176,9 +176,9 @@ function change_fleet_select() {
 }
 
 /** Deletes the selected custom fleet after confirmation. */
-function cf_remove() {
+async function cf_remove() {
   let oname = document.getElementById("cfleet_select").value
-  let rv = confirm(document.getElementById("customfleet").getAttribute("data-delconf").replace("%s",oname))
+  let rv = await window.Dialog.confirm(document.getElementById("customfleet").getAttribute("data-delconf").replace("%s",oname), { danger: true })
 
   if (rv === false) {
     return;

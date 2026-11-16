@@ -7,8 +7,10 @@
  *
  * Pasted HTML is reduced to the same tags; the server cleans everything again (App\Content\HtmlContent).
  * Usage: import { initRte } from '../app/rte.js'; initRte(root?) — or just load the module, it enhances
- * every [data-rte] on DOMContentLoaded. Styles: css/app/rte.css.
+ * every [data-rte] on DOMContentLoaded. Styles: css/app/rte.css. The link button asks for the URL in the themed
+ * Dialog.prompt (the selection is restored afterwards).
  */
+import { Dialog } from './dialog.js';
 
 const TOOLS = {
   p: { label: '¶', title: 'Paragraph', block: 'p', rich: true },
@@ -138,10 +140,18 @@ function enhance(textarea) {
       b.disabled = sourceMode && b.dataset.tool !== 'source';
     }
   };
-  const link = () => {
-    const current = document.getSelection()?.anchorNode?.parentElement?.closest('a')?.getAttribute('href') ?? 'https://';
-    const url = window.prompt(TOOLS.link.title, current);
-    if (url === null) return;
+  const link = async () => {
+    const selection = document.getSelection();
+    const current = selection?.anchorNode?.parentElement?.closest('a')?.getAttribute('href') ?? 'https://';
+    // the modal takes the focus: remember the selection and put it back before the command runs
+    const range = selection && selection.rangeCount > 0 && area.contains(selection.getRangeAt(0).commonAncestorContainer)
+      ? selection.getRangeAt(0).cloneRange() : null;
+    const url = await Dialog.prompt(TOOLS.link.title, { value: current });
+    if (url === null) { area.focus(); return; }
+    if (range) {
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
     if (url === '' || url === 'https://') { exec('unlink'); return; }
     if (!/^(https?:|mailto:|\/|\.\/|#)/i.test(url)) { exec('createLink', `https://${url}`); return; }
     exec('createLink', url);

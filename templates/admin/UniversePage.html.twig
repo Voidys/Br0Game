@@ -52,7 +52,7 @@
                   <a data-method="post" class="button btn--small" href="?page=universe&amp;action=open&amp;uniID={{ uniID }}&amp;reload=t" title="{{ LNG.adm_uni_open }}">{{ icon('check') }}<span class="visually-hidden">{{ LNG.adm_uni_open }}</span></a>
                 {% endif %}
                 {% if uniID != php_const('ROOT_UNI') %}
-                  <a data-method="post" class="button btn--small btn--danger" href="?page=universe&amp;action=delete&amp;uniID={{ uniID }}&amp;reload=t" data-confirm="{{ LNG.uvs_delete|e('html_attr') }}: {{ uniRow.uni_name|e('html_attr') }}" title="{{ LNG.uvs_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.uvs_delete }}</span></a>
+                  <a data-method="post" class="button btn--small btn--danger" href="?page=universe&amp;action=delete&amp;uniID={{ uniID }}&amp;reload=t" data-confirm-danger data-confirm="{{ LNG.uvs_delete|e('html_attr') }}: {{ uniRow.uni_name|e('html_attr') }}" title="{{ LNG.uvs_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.uvs_delete }}</span></a>
                 {% endif %}
               </td>
             </tr>

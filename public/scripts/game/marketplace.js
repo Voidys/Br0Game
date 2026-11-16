@@ -1,4 +1,5 @@
 import { qs, qsa, on, now, pretty_number, getRestTimeFormat, setVisibleInterval, pageData } from '../app/core.js';
+import { Dialog } from '../app/dialog.js';
 
 /**
  * Marketplace: reference ratios and the live ratio colouring, sortable offer tables, the resource /
@@ -296,8 +297,8 @@ on(document, 'click', '#resourceMBtn, #fleetMBtn', (event, button) => {
 on(document, 'change', '#shipT', toggleFlightColumns);
 
 /** buy button: asks, then submits its form with the chosen ship type (#shipT) as hidden field */
-on(document, 'click', '.market_buy_button', (event, button) => {
-	if (!window.confirm(pageData('market-data').confirmText)) return;
+on(document, 'click', '.market_buy_button', async (event, button) => {
+	if (!(await Dialog.confirm(pageData('market-data').confirmText))) return;
 	const form = button.closest('form');
 	form.querySelectorAll('input[name="shipType"]').forEach((el) => el.remove());
 	const hidden = document.createElement('input');

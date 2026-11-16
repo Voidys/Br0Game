@@ -60,7 +60,7 @@
                 <a data-method="post" class="button btn--small" href="admin?page=cronjob&amp;action=run&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_run }}">{{ icon('refresh-cw') }}<span class="visually-hidden">{{ LNG.cronjob_run }}</span></a>
               {% endif %}
               <a class="button btn--small" href="admin?page=cronjob&amp;action=detail&amp;id={{ CronjobInfo.id }}" title="{{ LNG.cronjob_edit }}">{{ icon('pencil') }}<span class="visually-hidden">{{ LNG.cronjob_edit }}</span></a>
-              <a data-method="post" class="button btn--small btn--danger" href="admin?page=cronjob&amp;action=delete&amp;id={{ CronjobInfo.id }}" data-confirm="" title="{{ LNG.cronjob_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.cronjob_delete }}</span></a>
+              <a data-method="post" class="button btn--small btn--danger" href="admin?page=cronjob&amp;action=delete&amp;id={{ CronjobInfo.id }}" data-confirm-danger data-confirm="" title="{{ LNG.cronjob_delete }}">{{ icon('trash-2') }}<span class="visually-hidden">{{ LNG.cronjob_delete }}</span></a>
             </td>
           </tr>
         {% endfor %}

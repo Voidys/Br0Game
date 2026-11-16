@@ -743,16 +743,21 @@ function checkHold(mission) {
 	}
 }
 
-/** Send button of step 2: shows the wait row; for missions with a warning text (`questionList`) asks to confirm first and returns false when declined. */
-function sendFleet() {
+/**
+ * Send button of step 2: shows the wait row; for missions with a warning text (`questionList`) the click is cancelled
+ * (returns false), the question asked in the modal and, when accepted, the form submitted (requestSubmit, with the
+ * button as submitter); declined restores the button row.
+ */
+function sendFleet(button) {
 	let mission = document.querySelector('input[name="mission"]:checked').value;
 	let message = questionList[parseInt(mission)] || null;
 	showWait();
 	if (message) {
-		if (!confirm(message)) {
-			showSubmit();
-			return false;
-		}
+		Dialog.confirm(message).then((ok) => {
+			if (ok) button.form.requestSubmit(button);
+			else showSubmit();
+		});
+		return false;
 	}
 	return true;
 }
@@ -822,7 +827,7 @@ registerActions({
 	'max-resource': (link) => maxResource(link.dataset.resource),
 	'max-resources': () => maxResources(),
 	'selected-resources': () => selectedResources(),
-	'send-fleet': () => sendFleet(),
+	'send-fleet': (button) => sendFleet(button),
 	'max-ship': (link) => maxShip(link.dataset.ship),
 	'no-ship': (link) => noShip(link.dataset.ship),
 	'max-ships': () => maxShips(),

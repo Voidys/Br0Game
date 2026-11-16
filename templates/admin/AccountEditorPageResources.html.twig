@@ -39,7 +39,7 @@
       </section>
       <div class="form-actions">
         <button type="reset">{{ icon('eraser') }}{{ LNG.button_reset }}</button>
-        <button type="submit" name="delete" value="{{ LNG.button_delete|e('html_attr') }}" class="btn--danger" data-confirm="{{ LNG.adm_ae_confirm_remove|e('html_attr') }}">{{ icon('minus') }}{{ LNG.button_delete }}</button>
+        <button type="submit" name="delete" value="{{ LNG.button_delete|e('html_attr') }}" class="btn--danger" data-confirm-danger data-confirm="{{ LNG.adm_ae_confirm_remove|e('html_attr') }}">{{ icon('minus') }}{{ LNG.button_delete }}</button>
         <button type="submit" name="add" value="{{ LNG.button_add|e('html_attr') }}" class="btn--primary">{{ icon('plus') }}{{ LNG.button_add }}</button>
       </div>
     </div>

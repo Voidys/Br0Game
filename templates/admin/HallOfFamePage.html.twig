@@ -26,7 +26,7 @@
         <button type="submit" class="button btn--small">{{ icon('download') }}{{ LNG.hof_export }}</button>
       </form>
       <form method="POST" action="?page=hallOfFame&amp;action=clear" class="inline-form">
-        <button type="submit" class="btn--small btn--danger" data-confirm="{{ LNG.hof_confirm_clear|e('html_attr') }}">{{ icon('trash-2') }}{{ LNG.hof_clear }}</button>
+        <button type="submit" class="btn--small btn--danger" data-confirm-danger data-confirm="{{ LNG.hof_confirm_clear|e('html_attr') }}">{{ icon('trash-2') }}{{ LNG.hof_clear }}</button>
       </form>
     </footer>
     {% endif %}

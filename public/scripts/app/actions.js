@@ -18,8 +18,11 @@
  * (a link or submit button); anchors with href="#" or no href are always cancelled. A submit action returns
  * false to stop the submission. For the other events the result is ignored.
  *
- * data-confirm="question" on a link, button or submit input asks first (native confirm()); declining
- * cancels the click and every action on that element.
+ * data-confirm="question" on a link, button or submit input asks first in the themed modal (Dialog.confirm);
+ * declining cancels the click and every action on that element. The click is stopped while the question is
+ * open; on OK it is replayed once on the same element (a one-shot bypass skips the question), so actions,
+ * the data-method="post" link handler and form submission (a replayed click on a submit button submits
+ * with it as submitter, so its name/value is sent) run exactly once. data-confirm-danger styles the OK button as destructive.
  *
  * Built-in actions (below) cover what many pages need: the dialogs, popups, auto-submitting selects,
  * collapsible table sections, character counters.
@@ -55,14 +58,28 @@ function run(event, attribute) {
 }
 
 // confirmation first: a declined one stops the click before any action or the csrf link handler sees it
+let confirmed = null; // element whose replayed click skips the question
+
+/** replays the click the confirmation held back; a synthetic click on a submit button submits with that button as submitter (name/value kept) */
+function replay(element) {
+  confirmed = element;
+  try {
+    element.click();
+  } finally {
+    confirmed = null;
+  }
+}
+
 document.addEventListener('click', (event) => {
   // only links, buttons and submit inputs ask (not a form or a wrapper that merely contains them)
   const element = event.target instanceof Element ? event.target.closest('a[data-confirm], button[data-confirm], input[data-confirm]') : null;
-  if (element && !window.confirm(element.dataset.confirm)) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
-});
+  if (!element || element === confirmed) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  Dialog.confirm(element.dataset.confirm, { danger: element.hasAttribute('data-confirm-danger') }).then((ok) => {
+    if (ok) replay(element);
+  });
+}, true);
 
 document.addEventListener('click', (event) => {
   const ran = run(event, 'data-action');

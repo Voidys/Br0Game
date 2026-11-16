@@ -4,6 +4,7 @@
  * a hidden field "rcaptcha" and the form is submitted for real.
  */
 import { pageData } from './core.js';
+import { Dialog } from './dialog.js';
 
 const key = pageData('captcha-config').key;
 let loader = null;
@@ -36,7 +37,7 @@ if (key) {
       form.dataset.captchaDone = '1';
       form.submit();
     } catch {
-      window.alert('Captcha could not be loaded. Please try again.');
+      Dialog.alert('Captcha could not be loaded. Please try again.');
     }
   });
 }

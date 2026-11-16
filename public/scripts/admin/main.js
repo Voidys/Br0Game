@@ -5,8 +5,9 @@
  *   [data-menu-filter]      filters the side navigation as you type; "/" focuses it, Enter opens the
  *                           first match, Esc clears it
  *   [data-admin-universe]   switches the emulated universe and reloads the current page with ?uni=
- *   [data-confirm]          question before a link / submit button acts (asked by app/actions.js; an empty
- *                           value is replaced by the generic admin question)
+ *   [data-confirm]          question before a link / submit button acts, asked in the themed modal
+ *                           (Dialog.confirm via app/actions.js; an empty value is replaced by the generic admin
+ *                           question); [data-confirm-danger] styles its OK button as destructive
  *   form[data-track-dirty]  marks the form while it has unsaved changes and warns before leaving
  *   [data-table-filter]     input that filters the rows of the table given by its value (a selector)
  *   [data-open-edit]        opens the quick editor in the dialog (data-edit-type="player|planet", data-edit-id)
@@ -96,8 +97,8 @@ function universeSwitch() {
 }
 
 /**
- * Confirmation questions are asked by ../app/actions.js (data-confirm on a link or button, text = the
- * attribute); an empty attribute means the generic admin question, which is filled in just before the
+ * Confirmation questions are asked by ../app/actions.js in the themed modal (data-confirm on a link or
+ * button, text = the attribute; data-confirm-danger = destructive OK button); an empty attribute means the generic admin question, which is filled in just before the
  * click reaches it. Put data-confirm on the submit button, not on the form.
  */
 function confirmations() {

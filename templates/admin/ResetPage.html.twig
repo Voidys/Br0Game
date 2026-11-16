@@ -67,7 +67,7 @@
 
   <div class="form-actions">
     <label class="check form-actions__hint"><input type="checkbox" name="resetall" data-check-all><strong>{{ re_reset_all }}</strong></label>
-    <button data-confirm="{{ re_reset_universe_confirmation|e('html_attr') }}" type="submit" class="btn--danger">{{ icon('triangle-alert') }}{{ LNG.re_reset_universe }}</button>
+    <button data-confirm-danger data-confirm="{{ re_reset_universe_confirmation|e('html_attr') }}" type="submit" class="btn--danger">{{ icon('triangle-alert') }}{{ LNG.re_reset_universe }}</button>
   </div>
 </form>
 {% include 'admin/overall_footer.html.twig' %}

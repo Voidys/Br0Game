@@ -74,3 +74,5 @@ week_day:
   - Fr
   - Sa
 lang_group_fun: "Spaßsprachen"
+dialog_ok: "OK"
+dialog_cancel: "Abbrechen"

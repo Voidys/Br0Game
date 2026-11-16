@@ -20,12 +20,12 @@ const update = () => { summary.textContent = recipientSummary(); };
 selects.forEach((select) => select.addEventListener('change', update));
 update();
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (form.elements.text.value.length === 0) {
     Dialog.alert(form.dataset.emptyText);
     return;
   }
-  if (!window.confirm(`${form.dataset.confirmText}\n${recipientSummary()}`)) return;
+  if (!(await Dialog.confirm(`${form.dataset.confirmText}\n${recipientSummary()}`))) return;
   postToDialog(form, 'admin?page=sendMessages&action=send&ajax=1');
 });

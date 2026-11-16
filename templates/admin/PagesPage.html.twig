@@ -23,7 +23,7 @@
     <div class="form-actions">
       <button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.cms_save }}</button>
       {% if edit.edited %}
-      <button type="submit" class="btn--danger" formaction="?page=pages&amp;slug={{ edit.slug }}&amp;lang={{ edit.lang }}&amp;action=reset" formnovalidate data-confirm="{{ LNG.cms_reset_confirm|e('html_attr') }}">{{ icon('refresh-cw') }}{{ LNG.cms_reset }}</button>
+      <button type="submit" class="btn--danger" formaction="?page=pages&amp;slug={{ edit.slug }}&amp;lang={{ edit.lang }}&amp;action=reset" formnovalidate data-confirm-danger data-confirm="{{ LNG.cms_reset_confirm|e('html_attr') }}">{{ icon('refresh-cw') }}{{ LNG.cms_reset }}</button>
       {% endif %}
     </div>
   </form>

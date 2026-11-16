@@ -103,7 +103,7 @@
                 <a class="button btn--small" href="?page=news&amp;action=edit&amp;id={{ NewsRow.id }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a>
                 <form method="POST" action="?page=news&amp;action=delete" class="inline-form">
                   <input type="hidden" name="id" value="{{ NewsRow.id }}">
-                  <button type="submit" class="btn--small btn--danger" title="{{ LNG.nws_del }}" data-confirm="{{ NewsRow.confirm|e('html_attr') }}" aria-label="{{ LNG.nws_del }}">{{ icon('trash-2') }}</button>
+                  <button type="submit" class="btn--small btn--danger" title="{{ LNG.nws_del }}" data-confirm-danger data-confirm="{{ NewsRow.confirm|e('html_attr') }}" aria-label="{{ LNG.nws_del }}">{{ icon('trash-2') }}</button>
                 </form>
               </td>
             </tr>

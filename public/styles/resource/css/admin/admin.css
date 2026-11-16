@@ -645,6 +645,9 @@ details.disclosure[open] > summary::after { content: "–"; }
 .admin a.btn:hover { text-decoration: none; }
 .admin .btn--danger { border-color: rgb(240 82 82 / 0.5); color: var(--c-negative); }
 .admin .btn--danger:hover { background: rgb(240 82 82 / 0.12); border-color: var(--c-negative); }
+/* destructive confirm dialog: the OK button is the one solid red button (beats the outline danger style above) */
+.admin .modal__actions .btn--danger { border-color: var(--c-negative); background: var(--c-negative); color: #fff; }
+.admin .modal__actions .btn--danger:hover { background: color-mix(in oklab, var(--c-negative), #fff 12%); }
 
 /* legacy helper classes still used by page markup */
 .admin .left { text-align: start; }

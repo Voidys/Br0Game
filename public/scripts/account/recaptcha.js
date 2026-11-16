@@ -34,7 +34,7 @@ if (key) {
         form.insertBefore(input, form.firstChild);
         form.submit();
       } catch {
-        window.alert('Captcha could not be loaded. Please try again.');
+        window.Dialog.alert('Captcha could not be loaded. Please try again.');
       }
     });
   });

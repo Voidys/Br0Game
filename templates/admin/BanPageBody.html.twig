@@ -50,7 +50,7 @@
         </div>
       </div>
       <footer class="card__foot">
-        <button type="submit" name="bannow" value="{{ LNG.button_submit }}" class="btn--danger" data-confirm="">{{ icon('ban') }}{{ LNG.bo_ban }}</button>
+        <button type="submit" name="bannow" value="{{ LNG.button_submit }}" class="btn--danger" data-confirm-danger data-confirm="">{{ icon('ban') }}{{ LNG.bo_ban }}</button>
         <button type="submit" name="cancel" value="{{ LNG.button_cancel }}" formnovalidate>{{ LNG.button_cancel }}</button>
       </footer>
     </form>
@@ -93,7 +93,7 @@
         </select>
       </div>
       <footer class="card__foot">
-        <button type="submit" value="{{ LNG.bo_unban }}" class="btn--danger" data-confirm="">{{ icon('shield-check') }}{{ LNG.bo_unban }}</button>
+        <button type="submit" value="{{ LNG.bo_unban }}" class="btn--danger" data-confirm-danger data-confirm="">{{ icon('shield-check') }}{{ LNG.bo_unban }}</button>
         <button type="submit" name="panel_change" value="{{ LNG.bo_ban_change }}">{{ icon('pencil') }}{{ LNG.bo_ban_change }}</button>
         <span class="muted small">{{ ban.bannedLabel }}<strong>{{ ban.bancount }}</strong></span>
       </footer>

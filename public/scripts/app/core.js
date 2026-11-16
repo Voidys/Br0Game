@@ -319,7 +319,7 @@ export function handleErr(message, url, line, col, error) {
   const text = `There is an error at this page.\nError: ${message}\nURL: ${url}\nLine: ${line}\nColumn: ${col}\n`
     + (error ? `Error Object: ${error.stack}\n` : '');
   console.error(text);
-  alert(`${text}\nClick OK to continue viewing this page.`);
+  window.Dialog?.alert(`${text}\nClick OK to continue viewing this page.`);
   return true;
 }
 

@@ -20,10 +20,10 @@ const confirmlng = galaxyData.confirmLng;
 
 /** sends a fleet mission (spy, recycle, ...) of the galaxy view to the server; asks first when the server wants a confirmation */
 function doit(missionID, planetID) {
-  post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID, {}, 'json').then(function (data) {
+  post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID, {}, 'json').then(async function (data) {
     if (data.code === 602) {
       //602 = needs confirmation
-      if (!confirm(data.mess)) {
+      if (!(await window.Dialog.confirm(data.mess))) {
         return;
       }
       post("game?page=fleetAjax&ajax=1&mission=" + missionID + "&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
@@ -80,7 +80,7 @@ function showMissileForm(galaxy, system, planetPos, duration, type) {
 /** Answer of the missile pre-check (`mission=10`): code 600 opens the form, anything else is shown as an alert. */
 function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
   if (data.code !== 600) {
-    alert(data.mess);
+    window.Dialog.alert(data.mess);
     return;
   }
   showMissileForm(galaxy, system, planetPos, duration, type);
@@ -88,10 +88,10 @@ function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
 
 /** Pre-checks a missile attack on the planet via `fleetAjax` (mission 10); code 602 asks the player to confirm first (outlaw rules), then opens the form on success. Returns false (cancels the link). */
 function openMissileForm(planetID, galaxy, system, planetPos, duration, type) {
-  post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID, {}, 'json').then(function (data) {
+  post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID, {}, 'json').then(async function (data) {
     if (data.code === 602) {
       //602 = needs confirmation (become/remain outlaw vs strong player)
-      if (!confirm(data.mess)) {
+      if (!(await window.Dialog.confirm(data.mess))) {
         return;
       }
       post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID + "&confirm=1", {}, 'json').then(function (data) {
@@ -231,8 +231,8 @@ function export_json() {
 }
 
 /** After confirmation deletes all locally stored galaxy data. */
-function reset() {
-  if (confirm(confirmlng) === false) {
+async function reset() {
+  if (!(await window.Dialog.confirm(confirmlng, { danger: true }))) {
     return;
   }
   Object.keys(universe).forEach(key => delete universe[key]);

@@ -355,6 +355,10 @@
   .modal--alert { width: min(28rem, calc(100vw - 2rem)); padding: var(--space-4); }
   .modal__message { margin: 0 0 var(--space-4); white-space: pre-line; overflow-wrap: anywhere; }
   .modal__actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+  .modal__input { box-sizing: border-box; width: 100%; margin: 0 0 var(--space-4); }
+  /* destructive confirmation (Dialog.confirm danger): the OK button carries the negative colour */
+  .modal__actions .btn--danger { border-color: var(--c-negative); background: var(--c-negative); color: #fff; }
+  .modal__actions .btn--danger:hover { border-color: var(--c-negative); background: color-mix(in oklab, var(--c-negative), #fff 12%); color: #fff; }
   .modal__close {
     position: absolute;
     top: -0.85rem;

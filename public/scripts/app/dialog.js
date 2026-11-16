@@ -7,6 +7,13 @@
  *   runs its scripts, keeps its forms and same-page links inside the modal.
  * Dialog.show(element | <template>[, {width}]) shows inline content (hidden markup of the page).
  * Dialog.alert(message[, callback]) themed message box. Dialog.close() closes the topmost modal.
+ * Dialog.confirm(message[, {okLabel, cancelLabel, danger}]) -> Promise<boolean>: themed replacement of window.confirm
+ *   (Esc, backdrop click and Cancel resolve false; danger styles the OK button as destructive).
+ * Dialog.prompt(message[, {value, placeholder, okLabel, cancelLabel}]) -> Promise<string|null>: replacement of
+ *   window.prompt (Enter confirms, Esc / backdrop / Cancel resolve null).
+ * The button labels come from the page language: the layouts put data-dialog-ok / data-dialog-cancel on <html>
+ * (translation keys dialog_ok / dialog_cancel, domain l18n); English is the fallback. Focus returns to the element
+ * that had it before the modal opened. Native confirm(), alert() and prompt() are not used anywhere.
  */
 import { on } from './core.js';
 
@@ -165,7 +172,67 @@ async function load(dialog, url, init = {}) {
   document.dispatchEvent(new CustomEvent('modal:load', { detail: { root: body } }));
 }
 
+/** button labels of the page language (data attributes of <html>), English fallback */
+function labels() {
+  const { dialogOk, dialogCancel } = document.documentElement.dataset;
+  return { ok: dialogOk || 'OK', cancel: dialogCancel || 'Cancel' };
+}
+
+/**
+ * Builds and shows the alertdialog of confirm()/prompt(); resolves with the value of the OK button (the input text
+ * for a prompt) or null when cancelled by button, Esc or backdrop click, then gives the focus back.
+ */
+function ask(message, { input = false, value = '', placeholder = '', okLabel, cancelLabel, danger = false } = {}) {
+  return new Promise((resolve) => {
+    const trigger = document.activeElement;
+    const text = labels();
+    const dialog = document.createElement('dialog');
+    dialog.className = 'modal modal--alert';
+    dialog.setAttribute('role', 'alertdialog');
+    dialog.innerHTML = `<p class="modal__message"></p>${input ? '<input type="text" class="modal__input">' : ''}`
+      + '<div class="modal__actions"><button type="button" class="button" data-dialog-cancel></button>'
+      + '<button type="button" class="button btn--primary" data-dialog-ok></button></div>';
+    dialog.querySelector('.modal__message').textContent = String(message ?? '');
+    const cancel = dialog.querySelector('[data-dialog-cancel]');
+    const ok = dialog.querySelector('[data-dialog-ok]');
+    cancel.textContent = cancelLabel ?? text.cancel;
+    ok.textContent = okLabel ?? text.ok;
+    ok.classList.toggle('btn--primary', !danger);
+    ok.classList.toggle('btn--danger', danger);
+    const field = dialog.querySelector('input');
+    if (field) {
+      field.value = value ?? '';
+      field.placeholder = placeholder ?? '';
+      field.setAttribute('aria-label', String(message ?? ''));
+      field.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') { event.preventDefault(); dialog.close('ok'); }
+      });
+    }
+    ok.addEventListener('click', () => dialog.close('ok'));
+    cancel.addEventListener('click', () => dialog.close(''));
+    closeOnBackdrop(dialog);
+    dialog.addEventListener('close', () => {
+      const accepted = dialog.returnValue === 'ok';
+      const result = input ? (accepted ? field.value : null) : accepted;
+      dialog.remove();
+      if (trigger instanceof HTMLElement && trigger.isConnected) trigger.focus({ preventScroll: true });
+      resolve(result);
+    });
+    document.body.append(dialog);
+    dialog.showModal();
+    // a destructive question starts on Cancel, a prompt in its field
+    (field ?? (danger ? cancel : ok)).focus();
+    field?.select();
+  });
+}
+
 export const Dialog = {
+  /** themed window.confirm: resolves true on OK, false on Cancel / Esc / backdrop; opts {okLabel, cancelLabel, danger} */
+  confirm: (message, opts = {}) => ask(message, opts),
+
+  /** themed window.prompt: resolves the entered text, null when cancelled; opts {value, placeholder, okLabel, cancelLabel} */
+  prompt: (message, opts = {}) => ask(message, { ...opts, input: true }),
+
   /** a game page as modal content; width in px (optional), the height follows the content */
   open(url, width) {
     contentDialog ??= buildContentDialog();

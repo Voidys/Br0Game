@@ -126,7 +126,7 @@
 		<th>{{ LNG.al_leave_alliance }}</th>
 	</tr>
 	<tr>
-		<td><a data-method="post" href="game?page=alliance&amp;mode=close" data-confirm="{{ LNG.al_leave_ally|e('html_attr') }}"><button>{{ LNG.al_continue }}</button></a></td>
+		<td><a data-method="post" href="game?page=alliance&amp;mode=close" data-confirm-danger data-confirm="{{ LNG.al_leave_ally|e('html_attr') }}"><button>{{ LNG.al_continue }}</button></a></td>
 	</tr>
 </table>
 {% endif %}
