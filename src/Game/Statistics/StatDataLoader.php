@@ -37,85 +37,11 @@ class StatDataLoader
             'Alliance' => [],
             'Honor' => [],
         ];
-        $database = $this->db;
         foreach ($this->universes as $uni) {
-
-            $resource = $this->resources[$uni];
-            $reslist = $this->reslists[$uni];
-            $select_defenses = '';
-            $select_buildings = '';
-            $selected_tech = '';
-            $select_fleets = '';
-
-            foreach ($reslist['build'] as $Building) {
-                $select_buildings .= " p." . $resource[$Building] . ",";
-            }
-
-            foreach ($reslist['tech'] as $Techno) {
-                $selected_tech .= " u." . $resource[$Techno] . ",";
-            }
-
-            foreach ($reslist['fleet'] as $Fleet) {
-                $select_fleets .= " SUM(p." . $resource[$Fleet] . ") as " . $resource[$Fleet] . ",";
-            }
-
-            foreach ($reslist['defense'] as $Defense) {
-                $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
-            }
-
-            foreach ($reslist['missile'] as $Defense) {
-                $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
-            }
-
-            $FlyingFleets = [];
-            $SQLFleets = $database->select('SELECT `ships`, `owner` FROM %%FLEETS%% WHERE `universe` = :universe;', [':universe' => $uni]);
-            foreach ($SQLFleets as $CurFleets) {
-                $FleetRec = explode(";", $CurFleets['ships']);
-
-                if (!is_array($FleetRec)) {
-                    continue;
-                }
-
-                foreach ($FleetRec as $Group) {
-                    if (empty($Group)) {
-                        continue;
-                    }
-
-                    $Ship = explode(",", $Group);
-                    if (!isset($FlyingFleets[$CurFleets['owner']][$Ship[0]])) {
-                        $FlyingFleets[$CurFleets['owner']][$Ship[0]] = $Ship[1];
-                    } else {
-                        $FlyingFleets[$CurFleets['owner']][$Ship[0]] += $Ship[1];
-                    }
-                }
-            }
-
-            $Return['Fleets'] = array_replace($Return['Fleets'], $FlyingFleets);
+            $Return['Fleets'] = array_replace($Return['Fleets'], $this->flyingShips($uni));
             $Return['Honor'] = array_replace($Return['Honor'], $this->getHonorDataByUniverse($uni));
-            $Return['Planets'] = array_merge(
-                $Return['Planets'],
-                $database->select(
-                    "SELECT SQL_BIG_RESULT $select_buildings p.`id`, p.`universe`, p.`id_owner`, u.`authlevel`, u.`bana`, u.`username` 
-                    FROM %%PLANETS%% as p 
-                    LEFT JOIN %%USERS%% as u ON u.`id` = p.`id_owner` 
-                    WHERE p.`universe` = :universe and p.`destruyed` = 0;",
-                    [':universe' => $uni],
-                ),
-            );
-            $Return['Users'] = array_merge(
-                $Return['Users'],
-                $database->select(
-                    "SELECT SQL_BIG_RESULT $selected_tech $select_fleets $select_defenses u.`id`, u.`ally_id`, u.`authlevel`,
-                        u.`bana`, u.`universe`, u.`username`, u.`onlinetime`, s.`tech_rank` AS old_tech_rank, s.`build_rank` AS old_build_rank,
-                        s.`defs_rank` AS old_defs_rank, s.`fleet_rank` AS old_fleet_rank, s.`total_rank` AS old_total_rank, s.`honor_rank` AS old_honor_rank, s.`units_rank` AS old_units_rank
-                    FROM %%USERS%% as u
-                    LEFT JOIN %%STATPOINTS%% as s ON s.`stat_type` = 1 AND s.`id_owner` = u.`id`
-                    LEFT JOIN %%PLANETS%% as p ON u.`id` = p.`id_owner`
-                    WHERE u.`universe` = :universe
-                    GROUP BY s.`id_owner`, u.`id`, u.`authlevel`;",
-                    [':universe' => $uni],
-                ),
-            );
+            $Return['Planets'] = array_merge($Return['Planets'], $this->loadPlanets($uni));
+            $Return['Users'] = array_merge($Return['Users'], $this->loadUsers($uni));
         }
         $Return['Alliance'] = $database->select(
             "SELECT SQL_BIG_RESULT DISTINCT a.`id`, a.`ally_universe`, s.`tech_rank` AS old_tech_rank, s.`build_rank` AS old_build_rank,
@@ -126,6 +52,108 @@ class StatDataLoader
         );
 
         return $Return;
+    }
+
+    /**
+     * Ships in flight per owner and ship type of a universe (sums over all fleets of the owner).
+     *
+     * @return array<int, array<int, int|string>> owner id => ship id => amount
+     */
+    private function flyingShips(int $uni): array
+    {
+        $database = $this->db;
+        $FlyingFleets = [];
+        $SQLFleets = $database->select('SELECT `ships`, `owner` FROM %%FLEETS%% WHERE `universe` = :universe;', [':universe' => $uni]);
+        foreach ($SQLFleets as $CurFleets) {
+            $FleetRec = explode(";", $CurFleets['ships']);
+
+            if (!is_array($FleetRec)) {
+                continue;
+            }
+
+            foreach ($FleetRec as $Group) {
+                if (empty($Group)) {
+                    continue;
+                }
+
+                $Ship = explode(",", $Group);
+                if (!isset($FlyingFleets[$CurFleets['owner']][$Ship[0]])) {
+                    $FlyingFleets[$CurFleets['owner']][$Ship[0]] = $Ship[1];
+                } else {
+                    $FlyingFleets[$CurFleets['owner']][$Ship[0]] += $Ship[1];
+                }
+            }
+        }
+
+        return $FlyingFleets;
+    }
+
+    /**
+     * Planets of a universe (not awaiting deletion) with the levels of all buildings and their owner's name, ban and
+     * authlevel.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function loadPlanets(int $uni): array
+    {
+        $database = $this->db;
+        $resource = $this->resources[$uni];
+        $select_buildings = '';
+        foreach ($this->reslists[$uni]['build'] as $Building) {
+            $select_buildings .= " p." . $resource[$Building] . ",";
+        }
+
+        return $database->select(
+            "SELECT SQL_BIG_RESULT $select_buildings p.`id`, p.`universe`, p.`id_owner`, u.`authlevel`, u.`bana`, u.`username` 
+            FROM %%PLANETS%% as p 
+            LEFT JOIN %%USERS%% as u ON u.`id` = p.`id_owner` 
+            WHERE p.`universe` = :universe and p.`destruyed` = 0;",
+            [':universe' => $uni],
+        );
+    }
+
+    /**
+     * Players of a universe with their research levels, the ship and defense sums over their planets and their ranks of
+     * the last statistics run (old_*_rank).
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function loadUsers(int $uni): array
+    {
+        $database = $this->db;
+        $resource = $this->resources[$uni];
+        $reslist = $this->reslists[$uni];
+        $select_defenses = '';
+        $selected_tech = '';
+        $select_fleets = '';
+
+        foreach ($reslist['tech'] as $Techno) {
+            $selected_tech .= " u." . $resource[$Techno] . ",";
+        }
+
+        foreach ($reslist['fleet'] as $Fleet) {
+            $select_fleets .= " SUM(p." . $resource[$Fleet] . ") as " . $resource[$Fleet] . ",";
+        }
+
+        foreach ($reslist['defense'] as $Defense) {
+            $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
+        }
+
+        foreach ($reslist['missile'] as $Defense) {
+            $select_defenses .= " SUM(p." . $resource[$Defense] . ") as " . $resource[$Defense] . ",";
+        }
+
+        return $database->select(
+            "SELECT SQL_BIG_RESULT $selected_tech $select_fleets $select_defenses u.`id`, u.`ally_id`, u.`authlevel`,
+                u.`bana`, u.`universe`, u.`username`, u.`onlinetime`, s.`tech_rank` AS old_tech_rank, s.`build_rank` AS old_build_rank,
+                s.`defs_rank` AS old_defs_rank, s.`fleet_rank` AS old_fleet_rank, s.`total_rank` AS old_total_rank, s.`honor_rank` AS old_honor_rank, s.`units_rank` AS old_units_rank
+            FROM %%USERS%% as u
+            LEFT JOIN %%STATPOINTS%% as s ON s.`stat_type` = 1 AND s.`id_owner` = u.`id`
+            LEFT JOIN %%PLANETS%% as p ON u.`id` = p.`id_owner`
+            WHERE u.`universe` = :universe
+            GROUP BY s.`id_owner`, u.`id`, u.`authlevel`;",
+            [':universe' => $uni],
+        );
     }
 
     /**

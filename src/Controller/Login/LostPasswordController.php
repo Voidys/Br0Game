@@ -116,7 +116,7 @@ class LostPasswordController extends AbstractLoginController
         ], [
             $accountData['accountname'],
             $config->game_name,
-            DISCORD_URL,
+            $this->configs->get()->discord_url,
             $newPassword,
         ], $MailRAW);
 
@@ -208,6 +208,24 @@ class LostPasswordController extends AbstractLoginController
                 'url'	=> './',
             ]]);
         }
+$validationKey = $this->storeResetRequest($accountID);
+
+        $this->sendResetMail($accountname, $mail, $accountID, $validationKey);
+
+        $this->printMessage($LNG['passwordValidMailSend'], [[
+            'label'	=> $LNG['passwordNext'],
+            'url'	=> './',
+        ]]);
+    }
+
+    /**
+     * Stores a reset request (LOSTPASSWORD: account, random key, time, client IP).
+     *
+     * @return string the key that goes into the mailed link
+     */
+    private function storeResetRequest(mixed $accountID): string
+    {
+        $db = $this->db;
 
         $validationKey	= bin2hex(random_bytes(16));
 
@@ -218,6 +236,18 @@ class LostPasswordController extends AbstractLoginController
             ':validationKey' => $validationKey,
             ':remoteAddr'	=> $this->sessions()->getClientIp(),
         ]);
+
+        return $validationKey;
+    }
+
+    /**
+     * Mails the reset link (`?page=lostPassword&mode=newPassword&u=<account>&k=<key>`, canonical absolute URL) to the
+     * account's second address.
+     */
+    private function sendResetMail(string $accountname, string $mail, mixed $accountID, string $validationKey): void
+    {
+        $LNG = $this->state->LNG;
+        $config = $this->configs->get();
 
         $MailRAW		= $LNG->getTemplate('email_lost_password_validation');
 
@@ -233,10 +263,5 @@ class LostPasswordController extends AbstractLoginController
 
         $subject	= $LNG->format('passwordValidMailTitle', $config->game_name);
         $this->mailer()->send($mail, $accountname, $subject, $MailContent);
-
-        $this->printMessage($LNG['passwordValidMailSend'], [[
-            'label'	=> $LNG['passwordNext'],
-            'url'	=> './',
-        ]]);
     }
 }

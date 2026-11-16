@@ -45,13 +45,9 @@ final class Installer
     private array $viewData = [];
 
     /**
-     * Entry point of /install/ (modes install, upgrade, doupgrade).
-     *
-     * Picks the installer language (?lang= / cookie), guards access: the tool only opens while
-     * var/ENABLE_INSTALL_TOOL exists (created automatically on a fresh project or from var/FIRST_INSTALL, removed
-     * after an hour unless it contains KEEP_FILE); upgrades additionally need the migration password from
-     * config/game.php (grants `migrationAccess` in the game session). Then renders the wizard step (`step` 1-8) or the
-     * pending-migrations page / runs them. Ends every request via show()/redirectTo().
+     * Entry of the installer/upgrader (`/install/`): loads the config (if any), sets up the installer language, guards
+     * the install tool (tool file, 1 hour expiry), authorizes the upgrade mode with the migration password and
+     * dispatches the mode (intro, install steps, upgrade page, doupgrade).
      */
     public function run(): void
     {
@@ -64,7 +60,51 @@ final class Installer
                 $this->http()->redirectTo('../game', true);
             }
         }
+        $LNG = $this->setupLanguage();
 
+        $this->assign([
+            'lang'       => $LNG->getLanguage(),
+            'Selector'   => $LNG->getAllowedLangs(false),
+            'title'      => $LNG['title_install'] . ' · Br0Game',
+            'header'     => $LNG['menu_install'],
+            'canUpgrade' => $configAvailable,
+        ]);
+
+        $enableInstallToolFile = $this->guardInstallTool($mode, $configAvailable);
+
+        $language = $this->http()->_GP('lang', '');
+        if (!empty($language) && in_array($language, $LNG->getAllowedLangs())) {
+            $this->http()->sendCookie('lang', $language);
+        }
+
+        if ($mode === 'upgrade' || $mode === 'doupgrade') {
+            $session = $this->authorizeUpgrade($database, $enableInstallToolFile);
+        }
+
+        switch ($mode) {
+            case 'upgrade':
+                $this->showUpgrade($LNG);
+                break;
+            case 'doupgrade':
+                $this->doUpgrade($LNG, $session, $enableInstallToolFile);
+                break;
+            case 'install':
+                $this->install($LNG, $enableInstallToolFile);
+                break;
+            default:
+                $this->assign(['currentStep' => 0]);
+                $this->show('ins_intro');
+                break;
+        }
+    }
+
+    /**
+     * Creates the installer language (`?lang=`, else the `lang` cookie, else English), uses the nova theme and loads
+     * the installer texts into `state->LNG`.
+     */
+    private function setupLanguage(): Language
+    {
+        $THEME = $this->state->THEME;
         $THEME->setUserTheme('nova');
         // installer language: ?lang= (also remembered as cookie), the cookie, else English
         $LNG = new Language($this->configs, 'en');
@@ -75,14 +115,18 @@ final class Installer
         $this->state->LNG = $LNG;
         $LNG->includeData(['L18N', 'INGAME', 'INSTALL', 'CUSTOM']);
 
-        $this->assign([
-            'lang'       => $LNG->getLanguage(),
-            'Selector'   => $LNG->getAllowedLangs(false),
-            'title'      => $LNG['title_install'] . ' · Br0Game',
-            'header'     => $LNG['menu_install'],
-            'canUpgrade' => $configAvailable,
-        ]);
+        return $LNG;
+    }
 
+    /**
+     * Install tool access: a fresh `var/FIRST_INSTALL` or a project without config opens the tool (touches
+     * `var/ENABLE_INSTALL_TOOL`), a tool file older than one hour (without KEEP_FILE) is removed, and a missing tool
+     * file shows the "tool disabled" page (ends the request) outside the upgrade modes.
+     *
+     * @return string path of the tool file
+     */
+    private function guardInstallTool(string $mode, bool $configAvailable): string
+    {
         $enableInstallToolFile = 'var/ENABLE_INSTALL_TOOL';
         $quickStartFile        = 'var/FIRST_INSTALL';
         // If include/FIRST_INSTALL is present and can be deleted, automatically create include/ENABLE_INSTALL_TOOL
@@ -107,168 +151,204 @@ final class Installer
             $this->show('ins_install');
         }
 
-        $language = $this->http()->_GP('lang', '');
-        if (!empty($language) && in_array($language, $LNG->getAllowedLangs())) {
-            $this->http()->sendCookie('lang', $language);
+        return $enableInstallToolFile;
+    }
+
+    /**
+     * Upgrade modes only: requires the migration password from the config (else removes the tool file and ends with an
+     * error), grants the session migration access on the correct posted password and shows the password form
+     * otherwise.
+     *
+     * @param array $database the `$database` array of config/game.php
+     * @return \App\Game\Core\Session the session with migration access
+     */
+    private function authorizeUpgrade(array $database, string $enableInstallToolFile): \App\Game\Core\Session
+    {
+        if (!array_key_exists('migrationpw', $database) || empty($database['migrationpw'])) {
+            unlink($enableInstallToolFile);
+            throw \App\Game\Core\EndOfRequest::withResponse(
+                $this->gameView()->messagePage('Migration password is not set. Please set migration password in config.php and try again.', false, 3, true),
+            );
+        }
+        $migrationpw = $this->http()->_GP('migrationpw', '');
+        if (!empty($migrationpw) && $migrationpw === $database['migrationpw']) {
+            $session = $this->sessions()->create();
+            $session->migrationAccess = 1;
+            $session->save();
         }
 
-        if ($mode === 'upgrade' || $mode === 'doupgrade') {
-            if (!array_key_exists('migrationpw', $database) || empty($database['migrationpw'])) {
-                unlink($enableInstallToolFile);
-                throw \App\Game\Core\EndOfRequest::withResponse(
-                    $this->gameView()->messagePage('Migration password is not set. Please set migration password in config.php and try again.', false, 3, true),
-                );
-            }
-            $migrationpw = $this->http()->_GP('migrationpw', '');
-            if (!empty($migrationpw) && $migrationpw === $database['migrationpw']) {
-                $session = $this->sessions()->create();
-                $session->migrationAccess = 1;
-                $session->save();
-            }
+        $session = $this->sessions()->load();
+        if ($session->migrationAccess != 1) {
+            $this->show('ins_migration');
+        }
 
-            $session = $this->sessions()->load();
-            if ($session->migrationAccess != 1) {
-                $this->show('ins_migration');
+        return $session;
+    }
+
+    /**
+     * Upgrade page: lists the pending migrations (SQL shown with prefix and database name filled in) with the file
+     * revision and the current database version.
+     */
+    private function showUpgrade(Language $LNG): void
+    {
+        try {
+            $sql    = "SELECT max(dbVersion) as dbVersion FROM %%SYSTEM%%;";
+            $dbVersion  = $this->db->selectSingle($sql, [], 'dbVersion');
+        } catch (Exception $e) {
+            $dbVersion  = 0;
+        }
+
+        $updates = [];
+        $fileRevision = 0;
+        $migrationFileList = $this->maintenance()->listMigrations();
+        foreach ($migrationFileList as $fileRevision => $fileInfo) {
+            $updates[$fileInfo['pathName']] = makebr(
+                str_replace(
+                    '%PREFIX%',
+                    $this->db->getTablePrefix(),
+                    str_replace(
+                        '%DB_NAME%',
+                        $this->db->getDatabaseName(),
+                        $fileContents = file_get_contents($fileInfo['pathName']),
+                    ),
+                ),
+            );
+        }
+
+        $revision = end($migrationFileList);
+
+        $this->assign([
+            'file_revision' => $revision['fileRevision'],
+            'sql_revision'  => $dbVersion,
+            'updates'       => $updates,
+            'header'        => $LNG['menu_upgrade'],
+        ]);
+
+        $this->show('ins_update');
+    }
+
+    /**
+     * Runs the upgrade: checks that the game tables exist, applies every migration (PHP or SQL), records its version,
+     * clears the caches, removes the tool file, ends the session and shows the result page.
+     */
+    private function doUpgrade(Language $LNG, \App\Game\Core\Session $session, string $enableInstallToolFile): void
+    {
+        // TODO:Need a rewrite!
+        // Create a Backup
+        $sqlTableRaw  = $this->db->nativeQuery("SHOW TABLE STATUS FROM `" . $this->db->getDatabaseName() . "`;");
+        $prefixCounts = strlen($this->db->getTablePrefix());
+        $dbTables     = [];
+        foreach ($sqlTableRaw as $table) {
+            if ($this->db->getTablePrefix() == substr($table['Name'], 0, $prefixCounts)) {
+                $dbTables[] = $table['Name'];
             }
         }
 
-        switch ($mode) {
-            case 'upgrade':
+        if (empty($dbTables)) {
+            throw new Exception('No tables found for dump.');
+        }
+
+        set_time_limit(600);
+        $db = $this->db;
+        $sql = "INSERT INTO %%SYSTEM%% VALUES (:dbVersion);";
+        $fileList = $this->maintenance()->listMigrations();
+        foreach ($fileList as $fileInfo) {
+            switch ($fileInfo['fileExtension']) {
+                case 'php':
+                    $this->runPhpMigration($fileInfo, $session, $enableInstallToolFile);
+                    $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
+                    break;
+                case 'sql':
+                    $this->runSqlMigration($fileInfo, $session, $enableInstallToolFile, $sql);
+                    break;
+            }
+        }
+
+        $revision = end($fileList);
+
+        $this->maintenance()->clearCache();
+
+        $this->assign([
+            'update'   => !empty($fileList),
+            'revision' => $revision['fileRevision'],
+            'header'   => $LNG['menu_upgrade'],
+        ]);
+        unlink($enableInstallToolFile);
+        $session->delete();
+        $this->show('ins_doupdate');
+    }
+
+    /**
+     * Runs one PHP migration as a CLI script from the project root (the script is copied there for the run and
+     * removed again). A non-zero exit removes the tool file, ends the session and throws with the script output.
+     *
+     * @param array{fileName: string, fileRevision: mixed} $fileInfo
+     */
+    private function runPhpMigration(array $fileInfo, \App\Game\Core\Session $session, string $enableInstallToolFile): void
+    {
+        // PHP migrations run as CLI scripts from the project root (the root is not web-reachable)
+        copy($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName'], $this->state->runtime->rootPath . $fileInfo['fileName']);
+        $migrationOutput = [];
+        exec(
+            'cd ' . escapeshellarg($this->state->runtime->rootPath) . ' && ' . escapeshellarg(PHP_BINDIR . '/php') . ' '
+            . escapeshellarg($fileInfo['fileName']) . ' 2>&1',
+            $migrationOutput,
+            $migrationExitCode,
+        );
+        if ($migrationExitCode !== 0) {
+            unlink($enableInstallToolFile);
+            unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
+            $session->delete();
+            throw new Exception(
+                sprintf(
+                    'Update error.<br><br>Error on update %s:<br><pre>%s</pre><br><br>'
+                    . '<b><i>You should restore with a backup.</i></b>',
+                    basename($fileInfo['fileName']),
+                    htmlspecialchars(implode("\n", $migrationOutput)),
+                ),
+            );
+        }
+        unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
+    }
+
+    /**
+     * Runs one SQL migration (`%PREFIX%` replaced, queries split at `;\n`): failing single queries are logged and
+     * skipped; on any other exception the tool file is removed, the session ended and the error thrown. Records the
+     * version on success.
+     *
+     * @param array{fileName: string, fileRevision: mixed} $fileInfo
+     * @param string $versionSql INSERT statement of the version row
+     */
+    private function runSqlMigration(array $fileInfo, \App\Game\Core\Session $session, string $enableInstallToolFile, string $versionSql): void
+    {
+        $db = $this->db;
+        $sql = $versionSql;
+        $data = file_get_contents($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName']);
+        try {
+            $queries    = explode(";\n", str_replace('%PREFIX%', $this->db->getTablePrefix(), $data));
+            $queries    = array_filter($queries);
+            foreach ($queries as $query) {
+                if (empty(trim($query))) {
+                    error_log('Query: [' . $query . '] is empty. File: ' . $fileInfo['fileName']);
+                    continue;
+                }
                 try {
-                    $sql    = "SELECT max(dbVersion) as dbVersion FROM %%SYSTEM%%;";
-                    $dbVersion  = $this->db->selectSingle($sql, [], 'dbVersion');
+                    // alter table IF NOT EXISTS
+                    $this->db->nativeQuery(trim($query));
                 } catch (Exception $e) {
-                    $dbVersion  = 0;
+                    error_log('Query: [' . $query . '] failed. Error: ' . $e->getMessage() . '. Skipped');
                 }
-
-                $updates = [];
-                $fileRevision = 0;
-                $migrationFileList = $this->maintenance()->listMigrations();
-                foreach ($migrationFileList as $fileRevision => $fileInfo) {
-                    $updates[$fileInfo['pathName']] = makebr(
-                        str_replace(
-                            '%PREFIX%',
-                            $this->db->getTablePrefix(),
-                            str_replace(
-                                '%DB_NAME%',
-                                $this->db->getDatabaseName(),
-                                $fileContents = file_get_contents($fileInfo['pathName']),
-                            ),
-                        ),
-                    );
-                }
-
-                $revision = end($migrationFileList);
-
-                $this->assign([
-                    'file_revision' => $revision['fileRevision'],
-                    'sql_revision'  => $dbVersion,
-                    'updates'       => $updates,
-                    'header'        => $LNG['menu_upgrade'],
-                ]);
-
-                $this->show('ins_update');
-                break;
-            case 'doupgrade':
-                // TODO:Need a rewrite!
-                // Create a Backup
-                $sqlTableRaw  = $this->db->nativeQuery("SHOW TABLE STATUS FROM `" . $this->db->getDatabaseName() . "`;");
-                $prefixCounts = strlen($this->db->getTablePrefix());
-                $dbTables     = [];
-                foreach ($sqlTableRaw as $table) {
-                    if ($this->db->getTablePrefix() == substr($table['Name'], 0, $prefixCounts)) {
-                        $dbTables[] = $table['Name'];
-                    }
-                }
-
-                if (empty($dbTables)) {
-                    throw new Exception('No tables found for dump.');
-                }
-
-                set_time_limit(600);
-                $db = $this->db;
-                $sql = "INSERT INTO %%SYSTEM%% VALUES (:dbVersion);";
-                $fileList = $this->maintenance()->listMigrations();
-                foreach ($fileList as $fileInfo) {
-                    switch ($fileInfo['fileExtension']) {
-                        case 'php':
-                            // PHP migrations run as CLI scripts from the project root (the root is not web-reachable)
-                            copy($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName'], $this->state->runtime->rootPath . $fileInfo['fileName']);
-                            $migrationOutput = [];
-                            exec(
-                                'cd ' . escapeshellarg($this->state->runtime->rootPath) . ' && ' . escapeshellarg(PHP_BINDIR . '/php') . ' '
-                                . escapeshellarg($fileInfo['fileName']) . ' 2>&1',
-                                $migrationOutput,
-                                $migrationExitCode,
-                            );
-                            if ($migrationExitCode !== 0) {
-                                unlink($enableInstallToolFile);
-                                unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
-                                $session->delete();
-                                throw new Exception(
-                                    sprintf(
-                                        'Update error.<br><br>Error on update %s:<br><pre>%s</pre><br><br>'
-                                        . '<b><i>You should restore with a backup.</i></b>',
-                                        basename($fileInfo['fileName']),
-                                        htmlspecialchars(implode("\n", $migrationOutput)),
-                                    ),
-                                );
-                            }
-                            unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
-                            $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
-                            break;
-                        case 'sql':
-                            $data = file_get_contents($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName']);
-                            try {
-                                $queries    = explode(";\n", str_replace('%PREFIX%', $this->db->getTablePrefix(), $data));
-                                $queries    = array_filter($queries);
-                                foreach ($queries as $query) {
-                                    if (empty(trim($query))) {
-                                        error_log('Query: [' . $query . '] is empty. File: ' . $fileInfo['fileName']);
-                                        continue;
-                                    }
-                                    try {
-                                        // alter table IF NOT EXISTS
-                                        $this->db->nativeQuery(trim($query));
-                                    } catch (Exception $e) {
-                                        error_log('Query: [' . $query . '] failed. Error: ' . $e->getMessage() . '. Skipped');
-                                    }
-                                }
-                                $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
-                            } catch (Exception $e) {
-                                unlink($enableInstallToolFile);
-                                $session->delete();
-                                throw new Exception(
-                                    sprintf(
-                                        'Update error.<br><br>%s<br><br><b><i>You should restore with a backup.</i></b>',
-                                        $e->getMessage(),
-                                    ),
-                                );
-                            }
-                            break;
-                    }
-                }
-
-                $revision = end($fileList);
-
-                $this->maintenance()->clearCache();
-
-                $this->assign([
-                    'update'   => !empty($fileList),
-                    'revision' => $revision['fileRevision'],
-                    'header'   => $LNG['menu_upgrade'],
-                ]);
-                unlink($enableInstallToolFile);
-                $session->delete();
-                $this->show('ins_doupdate');
-                break;
-            case 'install':
-                $this->install($LNG, $enableInstallToolFile);
-                break;
-            default:
-                $this->assign(['currentStep' => 0]);
-                $this->show('ins_intro');
-                break;
+            }
+            $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
+        } catch (Exception $e) {
+            unlink($enableInstallToolFile);
+            $session->delete();
+            throw new Exception(
+                sprintf(
+                    'Update error.<br><br>%s<br><br><b><i>You should restore with a backup.</i></b>',
+                    $e->getMessage(),
+                ),
+            );
         }
     }
 

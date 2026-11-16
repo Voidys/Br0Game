@@ -61,7 +61,7 @@ class PhalanxController extends AbstractGameController
         ]);
 
         $sql = "SELECT id, name, id_owner FROM %%PLANETS%% WHERE universe = :universe
-		AND galaxy = :galaxy AND system = :system AND planet = :planet AND :type;";
+		AND galaxy = :galaxy AND system = :system AND planet = :planet AND planet_type = :type;";
 
         $TargetInfo = $db->selectSingle($sql, [
             ':universe'	=> $this->universe()->current(),
@@ -70,6 +70,11 @@ class PhalanxController extends AbstractGameController
             ':planet'	=> $Planet,
             ':type'		=> 1,
         ]);
+
+        if (empty($TargetInfo)) {
+            // no planet at these coordinates (also: no coordinates given)
+            $this->printMessage($LNG['px_out_of_range']);
+        }
 
         $sql = "SELECT u.id, s.total_points, u.onlinetime, u.banaday, u.rebuild_protection, u.rebuild_protection_attackers, u.outlaw_time
             FROM %%USERS%% u 
@@ -82,10 +87,7 @@ class PhalanxController extends AbstractGameController
             ':id_owner'			=> $TargetInfo['id_owner'],
         ]);
 
-        if (!$this->fleetFunctions()->allowPhalanx($Galaxy, $System, $TargetUser)) {
-            $this->printMessage($LNG['px_out_of_range']);
-        }
-        if (empty($TargetInfo)) {
+        if (empty($TargetUser) || !$this->fleetFunctions()->allowPhalanx($Galaxy, $System, $TargetUser)) {
             $this->printMessage($LNG['px_out_of_range']);
         }
 

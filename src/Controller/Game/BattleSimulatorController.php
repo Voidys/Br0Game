@@ -47,7 +47,6 @@ class BattleSimulatorController extends AbstractGameController
      */
     public function send()
     {
-        $reslist = $this->state->reslist;
         $pricelist = $this->state->pricelist;
         $LNG = $this->state->LNG;
         if (!isset($this->state->requestInput['battleinput'])) {
@@ -61,15 +60,167 @@ class BattleSimulatorController extends AbstractGameController
 
         // Throttle: stored simulator reports are marked in `attacker`, at most 10 per user per minute
         $simMarker = 'sim:' . $this->state->USER['id'];
-        $sql = "SELECT COUNT(*) AS cnt FROM %%RW%% WHERE `attacker` = :marker AND `time` > :since;";
-        $recent = $this->db->selectSingle($sql, [
-            ':marker' => $simMarker,
-            ':since'  => $this->state->runtime->timestamp - 60,
-        ], 'cnt');
-        if ($recent >= 10) {
+        if ($this->recentSimulations($simMarker) >= 10) {
             $this->sendJSON(0);
         }
 
+        [$fleetAttack, $fleetDefend, $battleElementAmount] = $this->simulatedFleets($BattleArray);
+
+        //Move defending planet to the end to match mission attack
+        if (empty($fleetAttack) || !isset($fleetDefend[0])) {
+            $this->sendJSON(0);
+        }
+        $tempFleet = $fleetDefend[0];
+        unset($fleetDefend[0]);
+        $fleetDefend[0] = $tempFleet;
+        // the fleets are keyed by their list position (as before); the planet is fleet 0 and fires last
+
+        if ($battleElementAmount > 135000000) {
+            $this->sendJSON(0); // return
+        }
+
+        $LNG->includeData(['FLEET']);
+
+
+        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
+        $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
+
+        if (!$combatResult) {
+            $this->sendJSON(0); // return
+        }
+
+        // resources of the defending planet (slot 0) the attackers can plunder
+        $defenderResources = [
+            'metal' => getNumber($BattleArray[0][1][RESOURCE_METAL]),
+            'crystal' => getNumber($BattleArray[0][1][RESOURCE_CRYSTAL]),
+            'deuterium' => getNumber($BattleArray[0][1][RESOURCE_DEUT]),
+        ];
+
+        [$stealResource, $capacityNeeded] = $this->plunder($battleHandler, $combatResult, $fleetAttack, $defenderResources);
+
+        $debris = [];
+
+        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL] as $elementID) {
+            $debris[$elementID] = $combatResult->debris->total($elementID);
+        }
+
+        $stealResourceInformation = $LNG->format('bs_steal_raport',
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity'])),
+            $LNG['tech'][SHIP_SMALL_CARGO],
+            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity'])),
+            $LNG['tech'][SHIP_LARGE_CARGO],
+        );
+
+        $reportInfo = $this->simulationReportInfo($debris, $stealResource, $this->moonChance($debris), $stealResourceInformation);
+
+        $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, SIM_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
+        unset($reportData['repaired']);
+
+        $this->sendJSON($this->storeReport($reportData, $battleHandler->engine->getName(), $simMarker));
+    }
+
+    /**
+     * Plunder of the simulated fight: the resources the winning attackers would steal (zero unless the attackers won) and the
+     * cargo capacity that would be needed to carry everything the defending planet holds.
+     *
+     * @param array<int, BattleFleet> $fleetAttack
+     * @param array<string, int|float> $defenderResources metal, crystal and deuterium of the defending planet
+     * @return array{0: array<int|string, int|float>, 1: int|float} stolen resources, capacity needed
+     */
+    private function plunder(BattleHandler $battleHandler, object $combatResult, array $fleetAttack, array $defenderResources): array
+    {
+        if ($combatResult->won == ATTACKER) {
+            $stealResource = $battleHandler->calculateSteal($fleetAttack, $defenderResources, $this->state->USER['universe'], true);
+        } else {
+            $stealResource = [
+                RESOURCE_METAL => 0,
+                RESOURCE_CRYSTAL => 0,
+                RESOURCE_DEUT => 0,
+            ];
+        }
+
+        return [$stealResource, $battleHandler->calculateMinCapacity($defenderResources)];
+    }
+
+    /**
+     * Chance (percent) that the simulated battle would create a moon: debris per 100000 times the universe's moon factor, rounded
+     * down and capped at the universe's maximum moon chance.
+     *
+     * @param array<int, int|float> $debris metal and crystal debris
+     */
+    private function moonChance(array $debris): int|float
+    {
+        $debrisTotal = array_sum($debris);
+
+        $moonFactor = $this->configs->get()->moon_factor;
+        $maxMoonChance = $this->configs->get()->moon_chance;
+
+        $chanceCreateMoon = floor($debrisTotal / 100000 * $moonFactor);
+
+        return min($chanceCreateMoon, $maxMoonChance);
+    }
+
+    /**
+     * Report info block of a simulated fight: the virtual start/end position 1:33:7, debris, plunder, moon chance and the cargo hint;
+     * all moon/fleet destruction fields stay empty (nothing is destroyed by a simulation).
+     *
+     * @param array<int, int|float> $debris
+     * @param array<int|string, int|float> $stealResource
+     * @return array<string, mixed>
+     */
+    private function simulationReportInfo(array $debris, array $stealResource, int|float $chanceCreateMoon, string $stealResourceInformation): array
+    {
+        return [
+            'thisFleet'             => [
+                'start_galaxy'    => 1,
+                'start_system'    => 33,
+                'start_planet'    => 7,
+                'start_type'      => 1,
+                'end_galaxy'      => 1,
+                'end_system'      => 33,
+                'end_planet'      => 7,
+                'end_type'        => 1,
+                'arrival_time'      => $this->state->runtime->timestamp,
+            ],
+            'debris'                => $debris,
+            'stealResource'         => $stealResource,
+            'moonChance'            => $chanceCreateMoon,
+            'additionalChance'      => 0,
+            'moonDestroy'           => false,
+            'moonName'              => null,
+            'moonDestroyChance'     => null,
+            'moonDestroySuccess'    => null,
+            'fleetDestroyChance'    => null,
+            'fleetDestroySuccess'   => null,
+            'additionalInfo'        => $stealResourceInformation,
+        ];
+    }
+
+    /**
+     * Number of simulator reports the user stored in the last minute (the stored reports carry the marker in `attacker`).
+     */
+    private function recentSimulations(string $simMarker): int|string
+    {
+        $sql = "SELECT COUNT(*) AS cnt FROM %%RW%% WHERE `attacker` = :marker AND `time` > :since;";
+
+        return $this->db->selectSingle($sql, [
+            ':marker' => $simMarker,
+            ':since'  => $this->state->runtime->timestamp - 60,
+        ], 'cnt');
+    }
+
+    /**
+     * Builds the attacking and defending fleets of all slots from the sanitized input. Slots without ships are skipped
+     * (except slot 0); non-ship entries and, for attackers, solar satellites are dropped. Counts the ships and defenses
+     * for the overall size limit.
+     *
+     * @param array<int, array<int, array<int, int|float>>> $BattleArray slot => side (0 attacker, 1 defender) => element id => amount
+     * @return array{0: list<BattleFleet>, 1: list<BattleFleet>, 2: int|float} attackers, defenders, total amount of elements
+     */
+    private function simulatedFleets(array $BattleArray): array
+    {
+        $reslist = $this->state->reslist;
+        $LNG = $this->state->LNG;
         $battleElementAmount = 0;
         $fleetDefend = [];
         $fleetAttack = [];
@@ -117,110 +268,30 @@ class BattleSimulatorController extends AbstractGameController
             }
         }
 
-        //Move defending planet to the end to match mission attack
-        if (empty($fleetAttack) || !isset($fleetDefend[0])) {
-            $this->sendJSON(0);
-        }
-        $tempFleet = $fleetDefend[0];
-        unset($fleetDefend[0]);
-        $fleetDefend[0] = $tempFleet;
-        // the fleets are keyed by their list position (as before); the planet is fleet 0 and fires last
+        return [$fleetAttack, $fleetDefend, $battleElementAmount];
+    }
 
-        if ($battleElementAmount > 135000000) {
-            $this->sendJSON(0); // return
-        }
-
-        $LNG->includeData(['FLEET']);
-
-
-        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-        $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
-
-        if (!$combatResult) {
-            $this->sendJSON(0); // return
-        }
-
-        if ($combatResult->won == ATTACKER) {
-            $stealResource = $battleHandler->calculateSteal($fleetAttack, [
-                'metal' => getNumber($BattleArray[0][1][RESOURCE_METAL]),
-                'crystal' => getNumber($BattleArray[0][1][RESOURCE_CRYSTAL]),
-                'deuterium' => getNumber($BattleArray[0][1][RESOURCE_DEUT]),
-            ], $this->state->USER['universe'], true);
-        } else {
-            $stealResource = [
-                RESOURCE_METAL => 0,
-                RESOURCE_CRYSTAL => 0,
-                RESOURCE_DEUT => 0,
-            ];
-        }
-        $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($BattleArray[0][1][RESOURCE_METAL]),
-            'crystal' => getNumber($BattleArray[0][1][RESOURCE_CRYSTAL]),
-            'deuterium' => getNumber($BattleArray[0][1][RESOURCE_DEUT]),
-        ]);
-
-        $debris = [];
-
-        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL] as $elementID) {
-            $debris[$elementID] = $combatResult->debris->total($elementID);
-        }
-
-        $debrisTotal = array_sum($debris);
-
-        $moonFactor = $this->configs->get()->moon_factor;
-        $maxMoonChance = $this->configs->get()->moon_chance;
-
-        $chanceCreateMoon = floor($debrisTotal / 100000 * $moonFactor);
-        $chanceCreateMoon = min($chanceCreateMoon, $maxMoonChance);
-
-        $stealResourceInformation = $LNG->format('bs_steal_raport',
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity'])),
-            $LNG['tech'][SHIP_SMALL_CARGO],
-            $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity'])),
-            $LNG['tech'][SHIP_LARGE_CARGO],
-        );
-
-        $reportInfo = [
-            'thisFleet'             => [
-                'start_galaxy'    => 1,
-                'start_system'    => 33,
-                'start_planet'    => 7,
-                'start_type'      => 1,
-                'end_galaxy'      => 1,
-                'end_system'      => 33,
-                'end_planet'      => 7,
-                'end_type'        => 1,
-                'arrival_time'      => $this->state->runtime->timestamp,
-            ],
-            'debris'                => $debris,
-            'stealResource'         => $stealResource,
-            'moonChance'            => $chanceCreateMoon,
-            'additionalChance'      => 0,
-            'moonDestroy'           => false,
-            'moonName'              => null,
-            'moonDestroyChance'     => null,
-            'moonDestroySuccess'    => null,
-            'fleetDestroyChance'    => null,
-            'fleetDestroySuccess'   => null,
-            'additionalInfo'        => $stealResourceInformation,
-        ];
-
-        $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, SIM_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
-        unset($reportData['repaired']);
+    /**
+     * Stores the simulated report under a fresh random id (RW row marked with the throttle marker; rust reports as
+     * compressed JSON, the PHP engine's as serialized data).
+     *
+     * @param array<string, mixed> $reportData generated battle report
+     * @return string the report id
+     */
+    private function storeReport(array $reportData, string $engineName, string $simMarker): string
+    {
         $reportID = bin2hex(random_bytes(16));
 
-        $db = $this->db;
-
         $sql = "INSERT INTO %%RW%% SET rid = :reportID, raport = :reportData, time = :time, attacker = :marker, battleengine = :battleengine;";
-        $db->insert($sql, [
+        $this->db->insert($sql, [
             ':reportID'     => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
+            ':reportData'   => $engineName === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
             ':time'         => $this->state->runtime->timestamp,
             ':marker'       => $simMarker,
-            ':battleengine' => $battleHandler->engine->getName(),
+            ':battleengine' => $engineName,
         ]);
 
-        $this->sendJSON($reportID);
+        return $reportID;
     }
 
     /**

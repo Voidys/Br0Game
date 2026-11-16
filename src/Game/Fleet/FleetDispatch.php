@@ -288,29 +288,7 @@ class FleetDispatch
         $resource = $this->state->resource;
         $LNG = $this->state->LNG;
         $db = $this->db;
-        if ($this->targetPlanet == $this->config->max_planets + 3) {
-            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `destruyed`, 0 as `ally_deposit`
-                FROM %%PIRATE_BASES%% 
-                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy AND `system` = :targetSystem AND `id_owner` = :userId;";
-            $this->targetPlanetData = $db->selectSingle($sql, [
-                ':universe' => $this->universe()->current(),
-                ':targetGalaxy' => $this->targetGalaxy,
-                ':targetSystem' => $this->targetSystem,
-                ':userId' => $USER['id'],
-            ]);
-        } else {
-            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, `destruyed`, `ally_deposit`
-                FROM %%PLANETS%%
-                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy
-                  AND `system` = :targetSystem AND `planet` = :targetPlanet AND `planet_type` = :targetType;";
-            $this->targetPlanetData = $db->selectSingle($sql, [
-                ':universe' => $this->universe()->current(),
-                ':targetGalaxy' => $this->targetGalaxy,
-                ':targetSystem' => $this->targetSystem,
-                ':targetPlanet' => $this->targetPlanet,
-                ':targetType' => ($this->targetType == 2 ? 1 : $this->targetType),
-            ]);
-        }
+        $this->targetPlanetData = $this->fetchTargetRow();
 
         if ($this->targetMission == MISSION_COLONISATION) {
             if (!empty($this->targetPlanetData)) {
@@ -343,6 +321,61 @@ class FleetDispatch
             }
         }
 
+        $this->checkExpeditionSlot();
+
+        // An ACS fleet must fly to the planet the ACS was created for
+        if ($this->fleetGroup != 0) {
+            $acsTarget = $db->selectSingle('SELECT `target` FROM %%AKS%% WHERE `id` = :acsID;', [
+                ':acsID' => $this->fleetGroup,
+            ], 'target');
+            if ((int) $acsTarget !== (int) ($this->targetPlanetData['id'] ?? 0)) {
+                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
+            }
+        }
+    }
+
+    /**
+     * Reads the target row: the user's pirate base of the target system when the target position is the pirate base
+     * slot, otherwise the planet or moon at the target coordinates (a debris target counts as the planet).
+     *
+     * @return array<string, mixed>|false false when there is nothing at the target
+     */
+    private function fetchTargetRow(): array|false
+    {
+        $USER = $this->state->USER;
+        $db = $this->db;
+        if ($this->targetPlanet == $this->config->max_planets + 3) {
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `destruyed`, 0 as `ally_deposit`
+                FROM %%PIRATE_BASES%% 
+                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy AND `system` = :targetSystem AND `id_owner` = :userId;";
+            return $db->selectSingle($sql, [
+                ':universe' => $this->universe()->current(),
+                ':targetGalaxy' => $this->targetGalaxy,
+                ':targetSystem' => $this->targetSystem,
+                ':userId' => $USER['id'],
+            ]);
+        } else {
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, `destruyed`, `ally_deposit`
+                FROM %%PLANETS%%
+                WHERE `universe` = :universe AND `galaxy` = :targetGalaxy
+                  AND `system` = :targetSystem AND `planet` = :targetPlanet AND `planet_type` = :targetType;";
+            return $db->selectSingle($sql, [
+                ':universe' => $this->universe()->current(),
+                ':targetGalaxy' => $this->targetGalaxy,
+                ':targetSystem' => $this->targetSystem,
+                ':targetPlanet' => $this->targetPlanet,
+                ':targetType' => ($this->targetType == 2 ? 1 : $this->targetType),
+            ]);
+        }
+    }
+
+    /**
+     * Expedition missions need a free expedition slot and more than probes in the fleet.
+     */
+    private function checkExpeditionSlot(): void
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         if ($this->targetMission == MISSION_EXPEDITION) {
             $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], MISSION_EXPEDITION, true);
             $maxExpedition = $this->fleetFunctions()->getExpeditionLimit($USER);
@@ -352,16 +385,6 @@ class FleetDispatch
             }
             if ($this->containsOnlyProbes) {
                 $this->refuse($LNG['fl_no_probe_expos'], 'game?page=fleetTable');
-            }
-        }
-
-        // An ACS fleet must fly to the planet the ACS was created for
-        if ($this->fleetGroup != 0) {
-            $acsTarget = $db->selectSingle('SELECT `target` FROM %%AKS%% WHERE `id` = :acsID;', [
-                ':acsID' => $this->fleetGroup,
-            ], 'target');
-            if ((int) $acsTarget !== (int) ($this->targetPlanetData['id'] ?? 0)) {
-                $this->refuse($LNG['fl_invalid_mission'], 'game?page=fleetStep2');
             }
         }
     }

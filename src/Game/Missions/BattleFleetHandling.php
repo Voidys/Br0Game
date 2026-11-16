@@ -37,109 +37,17 @@ trait BattleFleetHandling
      */
     protected function collectParticipants(array $targetUser, array $targetPlanet): BattleSetup
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $db = $this->db;
-        $fleetAttack = [];
-        $fleetDefend = [];
         $userAttack = [];
         $userDefend = [];
-        $incomingFleets = [];
 
-        if ($this->_fleet['group'] != 0) {
-            $sql = "DELETE FROM %%AKS%% WHERE `id` = :acsId;";
-            $db->delete($sql, [
-                ':acsId'    => $this->_fleet['group'],
-            ]);
-
-            $sql = "SELECT * FROM %%FLEETS%% WHERE `group` = :acsId " . $this->acsFleetsOrder . ";";
-
-            $incomingFleetsResult = $db->select($sql, [
-                ':acsId'    => $this->_fleet['group'],
-            ]);
-
-            foreach ($incomingFleetsResult as $incomingFleetRow) {
-                $incomingFleets[$incomingFleetRow['id']] = $incomingFleetRow;
-            }
-
-            $attacker_id = $this->acsLeadIsFirstFleet ? $incomingFleetsResult[0]['id'] : $this->_fleet['id'];
-            unset($incomingFleetsResult);
-        } else {
-            $incomingFleets = [$this->_fleet['id'] => $this->_fleet];
-            $attacker_id = $this->_fleet['id'];
-        }
+        [$incomingFleets, $attacker_id] = $this->loadIncomingFleets();
 
         $currentTotalFleetState = [];
-        $mainAttacker = null;
-        foreach ($incomingFleets as $fleetID => $fleetDetail) {
-            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $player = $db->selectSingle($sql, [
-                ':userId'   => $fleetDetail['owner'],
-            ]);
+        $fleetAttack = $this->battleFleetsOf($incomingFleets, $userAttack, $currentTotalFleetState);
+        $firstFleet = reset($incomingFleets);
+        $mainAttacker = $firstFleet === false ? null : $firstFleet['owner'];
 
-            $fleetAttack[$fleetID] = new BattleFleet(
-                $fleetID,
-                $player,
-                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
-                $fleetDetail,
-            );
-
-            if (!isset($currentTotalFleetState[$fleetDetail['owner']])) {
-                $currentTotalFleetState[$fleetDetail['owner']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($fleetDetail['owner']);
-            }
-
-            $userAttack[$player['id']] = $player['username'];
-
-            if ($mainAttacker === null) {
-                $mainAttacker = $fleetDetail['owner'];
-            }
-        }
-
-        $sql = "SELECT * FROM %%FLEETS%%
-            WHERE `mission` = :mission
-            AND `end_id` = :fleetEndId
-            AND (`arrival_time` < :timeStamp OR (`arrival_time` = :timeStamp AND `id` < :acsFleetId))
-            AND `stay_time` >= :timeStamp FOR UPDATE;";
-
-        $targetFleetsResult = $db->select($sql, [
-            ':mission'      => MISSION_HOLD,
-            ':fleetEndId'   => $this->_fleet['end_id'],
-            ':timeStamp'    => $this->_fleet['arrival_time'],
-            ':acsFleetId'   => $attacker_id,
-        ]);
-
-        foreach ($targetFleetsResult as $fleetDetail) {
-            $fleetID = $fleetDetail['id'];
-
-            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $player = $db->selectSingle($sql, [
-                ':userId'   => $fleetDetail['owner'],
-            ]);
-
-            $fleetDefend[$fleetID] = new BattleFleet(
-                $fleetID,
-                $player,
-                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
-                $fleetDetail,
-            );
-
-            if (!isset($currentTotalFleetState[$fleetDetail['owner']])) {
-                $currentTotalFleetState[$fleetDetail['owner']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($fleetDetail['owner']);
-            }
-
-            $userDefend[$player['id']] = $player['username'];
-        }
-
-        unset($targetFleetsResult);
-
-        $planetUnits = [];
-        foreach (array_merge($reslist['fleet'], $reslist['defense']) as $elementID) {
-            if (empty($targetPlanet[$resource[$elementID]])) {
-                continue;
-            }
-
-            $planetUnits[$elementID] = $targetPlanet[$resource[$elementID]];
-        }
+        $fleetDefend = $this->battleFleetsOf($this->loadHoldingFleets($attacker_id), $userDefend, $currentTotalFleetState);
 
         $userDefend[$targetUser['id']] = $targetUser['username'];
         if (!isset($currentTotalFleetState[$targetUser['id']])) {
@@ -148,7 +56,7 @@ trait BattleFleetHandling
         $fleetDefend[0] = new BattleFleet(
             0,
             $targetUser,
-            $planetUnits,
+            $this->planetBattleUnits($targetPlanet),
             [
                 'start_galaxy'    => $targetPlanet['galaxy'],
                 'start_system'    => $targetPlanet['system'],
@@ -170,132 +78,225 @@ trait BattleFleetHandling
     }
 
     /**
+     * The attacking fleet rows: the whole ACS group (the group is deleted, its fleets row-locked or ordered by id, see
+     * $acsFleetsLocked), or just this fleet.
+     *
+     * @return array{0: array<int|string, array<string, mixed>>, 1: int|string} fleet rows by fleet id, and the id of the
+     *         lead fleet (first of the group when acsLeadIsFirstFleet, otherwise this fleet)
+     */
+    private function loadIncomingFleets(): array
+    {
+        $db = $this->db;
+        $incomingFleets = [];
+
+        if ($this->_fleet['group'] != 0) {
+            $sql = "DELETE FROM %%AKS%% WHERE `id` = :acsId;";
+            $db->delete($sql, [
+                ':acsId'    => $this->_fleet['group'],
+            ]);
+
+            $acsQuery = $db->qb()
+                ->select('*')
+                ->from($db->table('FLEETS'))
+                ->where('`group` = :acsId')
+                ->setParameter('acsId', $this->_fleet['group']);
+            if ($this->acsFleetsLocked) {
+                $acsQuery->forUpdate();
+            } else {
+                $acsQuery->orderBy('`id`', 'ASC');
+            }
+            $incomingFleetsResult = $db->fetchAll($acsQuery);
+
+            foreach ($incomingFleetsResult as $incomingFleetRow) {
+                $incomingFleets[$incomingFleetRow['id']] = $incomingFleetRow;
+            }
+
+            $attacker_id = $this->acsLeadIsFirstFleet ? $incomingFleetsResult[0]['id'] : $this->_fleet['id'];
+        } else {
+            $incomingFleets = [$this->_fleet['id'] => $this->_fleet];
+            $attacker_id = $this->_fleet['id'];
+        }
+
+        return [$incomingFleets, $attacker_id];
+    }
+
+    /**
+     * Fleets holding at the target that arrived before the attack (earlier arrival time, or the same time and a lower
+     * fleet id than the lead attacker); row-locked.
+     *
+     * @return list<array<string, mixed>> fleet rows
+     */
+    private function loadHoldingFleets(int|string $attackerId): array
+    {
+        $sql = "SELECT * FROM %%FLEETS%%
+            WHERE `mission` = :mission
+            AND `end_id` = :fleetEndId
+            AND (`arrival_time` < :timeStamp OR (`arrival_time` = :timeStamp AND `id` < :acsFleetId))
+            AND `stay_time` >= :timeStamp FOR UPDATE;";
+
+        return $this->db->select($sql, [
+            ':mission'      => MISSION_HOLD,
+            ':fleetEndId'   => $this->_fleet['end_id'],
+            ':timeStamp'    => $this->_fleet['arrival_time'],
+            ':acsFleetId'   => $attackerId,
+        ]);
+    }
+
+    /**
+     * Turns fleet rows into battle fleets (with the owner's user row) and registers every owner: his name in $users and
+     * his current total fleet state (for the rebuild protection) once in $currentTotalFleetState.
+     *
+     * @param iterable<array<string, mixed>> $fleetRows
+     * @param array<int|string, string> $users out: user id => username
+     * @param array<int|string, mixed> $currentTotalFleetState out: owner id => state
+     * @return array<int|string, BattleFleet> by fleet id
+     */
+    private function battleFleetsOf(iterable $fleetRows, array &$users, array &$currentTotalFleetState): array
+    {
+        $fleets = [];
+        foreach ($fleetRows as $fleetDetail) {
+            $fleetID = $fleetDetail['id'];
+
+            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
+            $player = $this->db->selectSingle($sql, [
+                ':userId'   => $fleetDetail['owner'],
+            ]);
+
+            $fleets[$fleetID] = new BattleFleet(
+                $fleetID,
+                $player,
+                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
+                $fleetDetail,
+            );
+
+            if (!isset($currentTotalFleetState[$fleetDetail['owner']])) {
+                $currentTotalFleetState[$fleetDetail['owner']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($fleetDetail['owner']);
+            }
+
+            $users[$player['id']] = $player['username'];
+        }
+
+        return $fleets;
+    }
+
+    /**
+     * The ships and defense standing on the planet (non-empty types only): the planet's own side of the fight, as the
+     * units of fleet 0.
+     *
+     * @param array<string, mixed> $targetPlanet planet row
+     * @return array<int, int|float|string> element id => amount
+     */
+    private function planetBattleUnits(array $targetPlanet): array
+    {
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $planetUnits = [];
+        foreach (array_merge($reslist['fleet'], $reslist['defense']) as $elementID) {
+            if (empty($targetPlanet[$resource[$elementID]])) {
+                continue;
+            }
+
+            $planetUnits[$elementID] = $targetPlanet[$resource[$elementID]];
+        }
+
+        return $planetUnits;
+    }
+
+    /**
      * Writes the fight result to the fleets: surviving ships are saved (fleet and log), fleets without ships are deleted and
      * logged as destroyed, the planet's ships and defense are set to what survived. Destroyed fleets are removed from the setup.
      */
     protected function applyLosses(BattleSetup $setup, string $reportID): void
     {
-        $resource = & $this->state->resource;
-        $db = $this->db;
-        $fleetAttack = & $setup->fleetAttack;
-        $fleetDefend = & $setup->fleetDefend;
+        $resource = $this->state->resource;
 
-        foreach ($fleetAttack as $fleetID => $fleet) {
-            $fleetArray = '';
-            $totalCount = 0;
-
-            $survivors = array_filter($fleet->units);
-            foreach ($survivors as $elementID => $amount) {
-                $fleetArray .= $elementID . ',' . floatToString($amount) . ';';
-                $totalCount += $amount;
-            }
-
-            if ($totalCount == 0) {
-                if ($this->_fleet['id'] == $fleetID) {
-                    $this->KillFleet();
-                } else {
-                    $sql = 'DELETE %%FLEETS%%, %%FLEETS_EVENT%%
-                        FROM %%FLEETS%%
-                        INNER JOIN %%FLEETS_EVENT%% ON `fleetID` = `id`
-                        WHERE `id` = :fleetId;';
-
-                    $db->delete($sql, [
-                        ':fleetId'  => $fleetID,
-                    ]);
-                }
-
-                $sql = 'UPDATE %%LOG_FLEETS%% SET `report_id` = :reportId, `status` = :fleetState WHERE `id` = :fleetId;';
-                $db->update($sql, [
-                    ':reportId'     => $reportID,
-                    ':fleetId'      => $fleetID,
-                    ':fleetState'   => FLEET_DESTROYED,
-                ]);
-
-                unset($fleetAttack[$fleetID]);
-            } elseif ($totalCount > 0) {
-                $sql = "UPDATE %%FLEETS%% f, %%LOG_FLEETS%% l SET
-                    f.`ships` = :fleetData,
-                    f.`ship_amount` = :fleetCount,
-                    l.`ships` = :fleetData,
-                    l.`ship_amount` = :fleetCount,
-                    l.`report_id` = :reportId
-                    WHERE f.`id` = :fleetId AND l.`id` = :fleetId;";
-
-                $db->update($sql, [
-                    ':fleetData'    => substr($fleetArray, 0, -1),
-                    ':fleetCount'   => $totalCount,
-                    ':fleetId'      => $fleetID,
-                    ':reportId'     => $reportID,
-                ]);
-            } else {
-                throw new OutOfRangeException("Negative Fleet amount ....");
+        foreach ($setup->fleetAttack as $fleetID => $fleet) {
+            if ($this->saveFleetSurvivors($fleetID, $fleet, $reportID)) {
+                unset($setup->fleetAttack[$fleetID]);
             }
         }
 
-        foreach ($fleetDefend as $fleetID => $fleet) {
+        foreach ($setup->fleetDefend as $fleetID => $fleet) {
             if ($fleetID != 0) {
                 // Stay fleet
-                $fleetArray = '';
-                $totalCount = 0;
-
-                $survivors = array_filter($fleet->units);
-
-                foreach ($survivors as $elementID => $amount) {
-                    $fleetArray .= $elementID . ',' . floatToString($amount) . ';';
-                    $totalCount += $amount;
-                }
-
-                if ($totalCount == 0) {
-                    $sql = 'DELETE %%FLEETS%%, %%FLEETS_EVENT%%
-                        FROM %%FLEETS%%
-                        INNER JOIN %%FLEETS_EVENT%% ON `fleetID` = `id`
-                        WHERE `id` = :fleetId;';
-
-                    $db->delete($sql, [
-                        ':fleetId'  => $fleetID,
-                    ]);
-
-                    $sql = 'UPDATE %%LOG_FLEETS%% SET `report_id` = :reportId, `status` = :fleetState WHERE `id` = :fleetId;';
-                    $db->update($sql, [
-                        ':reportId'     => $reportID,
-                        ':fleetId'      => $fleetID,
-                        ':fleetState'   => FLEET_DESTROYED,
-                    ]);
-
-                    unset($fleetDefend[$fleetID]);
-                } elseif ($totalCount > 0) {
-                    $sql = "UPDATE %%FLEETS%% f, %%LOG_FLEETS%% l SET
-                        f.`ships` = :fleetData,
-                        f.`ship_amount` = :fleetCount,
-                        l.`ships` = :fleetData,
-                        l.`ship_amount` = :fleetCount,
-                        l.`report_id` = :reportId
-                        WHERE f.`id` = :fleetId AND l.`id` = :fleetId;";
-
-                    $db->update($sql, [
-                        ':fleetData'    => substr($fleetArray, 0, -1),
-                        ':fleetCount'   => $totalCount,
-                        ':fleetId'      => $fleetID,
-                        ':reportId'     => $reportID,
-                    ]);
-                } else {
-                    throw new OutOfRangeException("Negative Fleet amount ....");
+                if ($this->saveFleetSurvivors($fleetID, $fleet, $reportID)) {
+                    unset($setup->fleetDefend[$fleetID]);
                 }
             } else {
-                $params = [':planetId' => $this->_fleet['end_id']];
-
-                // Planet fleet
-                $fleetArray = [];
+                // Planet fleet: the surviving ships and defense (the resource names are fixed game data)
+                $survivorColumns = [];
                 foreach ($fleet->units as $elementID => $amount) {
-                    $fleetArray[] = '`' . $resource[$elementID] . '` = :' . $resource[$elementID];
-                    $params[':' . $resource[$elementID]] = $amount;
+                    $survivorColumns[$resource[$elementID]] = $amount;
                 }
-
-                if (!empty($fleetArray)) {
-                    $sql = 'UPDATE %%PLANETS%% SET ' . implode(', ', $fleetArray) . ' WHERE `id` = :planetId;';
-                    $db->update($sql, $params);
-                }
+                $this->db->updateRows('PLANETS', $survivorColumns, ['id' => $this->_fleet['end_id']]);
             }
         }
+    }
+
+    /**
+     * Writes the survivors of one fleet: without ships the fleet is killed (the current fleet) or deleted with its event
+     * and its log entry is marked destroyed with the report id; otherwise the remaining ships are saved to the fleet and
+     * its log together with the report id.
+     *
+     * @param int|string $fleetID fleet id
+     * @return bool true when the fleet was destroyed (the caller removes it from the setup)
+     * @throws OutOfRangeException on a negative ship count
+     */
+    private function saveFleetSurvivors(int|string $fleetID, BattleFleet $fleet, string $reportID): bool
+    {
+        $db = $this->db;
+        $fleetArray = '';
+        $totalCount = 0;
+
+        $survivors = array_filter($fleet->units);
+        foreach ($survivors as $elementID => $amount) {
+            $fleetArray .= $elementID . ',' . floatToString($amount) . ';';
+            $totalCount += $amount;
+        }
+
+        if ($totalCount == 0) {
+            if ($this->_fleet['id'] == $fleetID) {
+                $this->KillFleet();
+            } else {
+                $sql = 'DELETE %%FLEETS%%, %%FLEETS_EVENT%%
+                    FROM %%FLEETS%%
+                    INNER JOIN %%FLEETS_EVENT%% ON `fleetID` = `id`
+                    WHERE `id` = :fleetId;';
+
+                $db->delete($sql, [
+                    ':fleetId'  => $fleetID,
+                ]);
+            }
+
+            $sql = 'UPDATE %%LOG_FLEETS%% SET `report_id` = :reportId, `status` = :fleetState WHERE `id` = :fleetId;';
+            $db->update($sql, [
+                ':reportId'     => $reportID,
+                ':fleetId'      => $fleetID,
+                ':fleetState'   => FLEET_DESTROYED,
+            ]);
+
+            return true;
+        }
+
+        if ($totalCount > 0) {
+            $sql = "UPDATE %%FLEETS%% f, %%LOG_FLEETS%% l SET
+                f.`ships` = :fleetData,
+                f.`ship_amount` = :fleetCount,
+                l.`ships` = :fleetData,
+                l.`ship_amount` = :fleetCount,
+                l.`report_id` = :reportId
+                WHERE f.`id` = :fleetId AND l.`id` = :fleetId;";
+
+            $db->update($sql, [
+                ':fleetData'    => substr($fleetArray, 0, -1),
+                ':fleetCount'   => $totalCount,
+                ':fleetId'      => $fleetID,
+                ':reportId'     => $reportID,
+            ]);
+
+            return false;
+        }
+
+        throw new OutOfRangeException("Negative Fleet amount ....");
     }
 }

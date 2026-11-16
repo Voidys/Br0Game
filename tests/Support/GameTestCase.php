@@ -34,6 +34,8 @@ abstract class GameTestCase extends TestCase
     private static ?ContainerInterface $container = null;
     private static int $positionCounter = 0;
     private static ?string $passwordHash = null;
+    /** @var list<array{0: int, 1: int}> [account id, user id] of the players this test created */
+    private array $createdPlayers = [];
 
     protected Database $db;
     protected ConfigRegistry $configs;
@@ -66,6 +68,7 @@ abstract class GameTestCase extends TestCase
         $this->db = $container->get(Database::class);
         $this->configs = $container->get(ConfigRegistry::class);
         $this->state = $container->get(Singleton::class);
+        $this->createdPlayers = [];
         $this->db->startTransaction();
         $this->configs->reload();
         // the defaults of a fresh install, spelled out so a golden value never depends on a changed default
@@ -106,7 +109,24 @@ abstract class GameTestCase extends TestCase
     protected function tearDown(): void
     {
         $this->db->rollback();
+        $this->purgeCommittedPlayers();
         $this->configs->reload();
+    }
+
+    /**
+     * Code under test that runs its own SQL transaction makes MySQL commit the test transaction implicitly, so the
+     * rollback above keeps everything created before that point. Deletes the players (and their rows) this test
+     * created that survived the rollback, so the suite can run twice on the same database (no leaked coordinates).
+     */
+    private function purgeCommittedPlayers(): void
+    {
+        foreach ($this->createdPlayers as [$accountId, $userId]) {
+            foreach (['PLANETS' => 'id_owner', 'STATPOINTS' => 'id_owner', 'USERS_SETTINGS' => 'user_id', 'MESSAGES' => 'message_owner', 'USERS_TO_MESSAGES' => 'user_id', 'ALLIANCE_REQUEST' => 'userId', 'USERS' => 'id'] as $table => $column) {
+                $this->db->delete("DELETE FROM %%$table%% WHERE $column = :id;", [':id' => $userId]);
+            }
+            $this->db->delete('DELETE FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $accountId]);
+        }
+        $this->createdPlayers = [];
     }
 
     /** @param array<string, mixed> $values in-memory universe settings (not saved) */
@@ -138,6 +158,7 @@ abstract class GameTestCase extends TestCase
         $accountId = $accounts->createAccount($name, self::$passwordHash ??= password_hash('secret', PASSWORD_BCRYPT, ['cost' => 4]), $name . '@example.com', 'en');
         [$userId, $planetId] = $players->createPlayer($accountId, 1, $name, 'en', 1 + intdiv($n, 100), 1 + ($n % 100), 8);
 
+        $this->createdPlayers[] = [(int) $accountId, (int) $userId];
         foreach (['users' => [$user, $userId], 'planets' => [$planet, $planetId]] as $table => [$values, $id]) {
             if ($values === []) {
                 continue;

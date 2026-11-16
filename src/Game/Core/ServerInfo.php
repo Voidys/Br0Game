@@ -67,6 +67,37 @@ class ServerInfo
             $checks[] = ['id' => $id, 'status' => $status, 'value' => $value];
         };
 
+        $this->addPhpChecks($add);
+        $this->addEnvironmentChecks($add, $environment, $debug, $sessionDsn, $local);
+
+        $migrations = $this->databaseInfo()->migrations();
+        $add('migrations', $migrations['pending'] === 0 ? self::OK : self::FAIL, $migrations['pending'] === 0 ? (string) $migrations['latest'] : $migrations['pending'] . ' pending');
+
+        $rustLauncher = $root . 'bin/battlerust';
+        $rustLib = $root . 'bin/libbattlerust.so';
+        $rustOk = function_exists('proc_open') && PHP_OS_FAMILY === 'Linux' && is_executable($rustLauncher) && is_file($rustLib);
+        $add('battle_engine', $rustOk ? self::OK : self::WARN, $rustOk ? 'Rust' : 'PHP fallback');
+
+        [$cronStatus, $cronValue] = $this->cronCheck($formatDate);
+        $add('cron', $cronStatus, $cronValue);
+
+        $add('https', $this->state->runtime->https ? self::OK : ($local ? self::INFO : self::WARN), $this->state->runtime->https ? 'https' : 'http');
+
+        $this->addMailCheck($add);
+
+        $scheme = $sessionDsn === '' ? 'file' : (string) (parse_url($sessionDsn, PHP_URL_SCHEME) ?: 'custom');
+        $add('session', self::OK, $scheme);
+
+        return $checks;
+    }
+
+    /**
+     * PHP version, required and optional extensions and the opcache state.
+     *
+     * @param callable(string, string, string): void $add adds a check row (id, status, value)
+     */
+    private function addPhpChecks(callable $add): void
+    {
         $add('php', version_compare(PHP_VERSION, '8.4.0', '>=') ? self::OK : self::FAIL, PHP_VERSION);
 
         $missing = array_values(array_filter(ServerInfoSystem::REQUIRED_EXTENSIONS, static fn(string $e): bool => !extension_loaded($e)));
@@ -81,7 +112,17 @@ class ServerInfo
         } else {
             $add('opcache', self::OK, $opcache['used'] . ' / ' . $opcache['total'] . ', ' . $opcache['hitRate'] . ' %, ' . $opcache['scripts'] . ' scripts');
         }
+    }
 
+    /**
+     * Environment (prod/debug), display_errors, writable directories (var/* and the news uploads) and the install tool
+     * marker. Unproblematic on a local host: findings there are only informational.
+     *
+     * @param callable(string, string, string): void $add adds a check row (id, status, value)
+     */
+    private function addEnvironmentChecks(callable $add, string $environment, bool $debug, string $sessionDsn, bool $local): void
+    {
+        $root = $this->state->runtime->rootPath;
         $isProd = $environment === 'prod' && !$debug;
         $add('environment', $isProd ? self::OK : ($local ? self::INFO : self::WARN), $environment . ($debug ? ' (debug)' : ''));
 
@@ -105,15 +146,16 @@ class ServerInfo
 
         $installTool = file_exists($root . 'var/ENABLE_INSTALL_TOOL');
         $add('install_tool', $installTool ? self::WARN : self::OK, $installTool ? 'on' : 'off');
+    }
 
-        $migrations = $this->databaseInfo()->migrations();
-        $add('migrations', $migrations['pending'] === 0 ? self::OK : self::FAIL, $migrations['pending'] === 0 ? (string) $migrations['latest'] : $migrations['pending'] . ' pending');
-
-        $rustLauncher = $root . 'bin/battlerust';
-        $rustLib = $root . 'bin/libbattlerust.so';
-        $rustOk = function_exists('proc_open') && PHP_OS_FAMILY === 'Linux' && is_executable($rustLauncher) && is_file($rustLib);
-        $add('battle_engine', $rustOk ? self::OK : self::WARN, $rustOk ? 'Rust' : 'PHP fallback');
-
+    /**
+     * Health of the cron: failing when jobs are locked or the last run is older than 15 minutes, warning when jobs are
+     * overdue, the cron never ran or the last run is older than 5 minutes.
+     *
+     * @return array{0: string, 1: string} status, description (locked jobs, overdue jobs, time of the last run)
+     */
+    private function cronCheck(callable $formatDate): array
+    {
         $cron = $this->gameInfo()->cron($formatDate);
         $cronStatus = self::OK;
         if ($cron['stuck'] !== []) {
@@ -136,10 +178,17 @@ class ServerInfo
             $cronParts[] = 'overdue: ' . implode(', ', $cron['overdue']);
         }
         $cronParts[] = $cron['lastAge'] === null ? 'never run' : 'last run ' . ServerInfoFormat::duration($cron['lastAge']) . ' ago';
-        $add('cron', $cronStatus, implode('; ', $cronParts));
 
-        $add('https', $this->state->runtime->https ? self::OK : ($local ? self::INFO : self::WARN), $this->state->runtime->https ? 'https' : 'http');
+        return [$cronStatus, implode('; ', $cronParts)];
+    }
 
+    /**
+     * Mail: off is a warning, SMTP without host fails.
+     *
+     * @param callable(string, string, string): void $add adds a check row (id, status, value)
+     */
+    private function addMailCheck(callable $add): void
+    {
         $config = $this->configs->get();
         $mailActive = (int) $config->mail_active === 1;
         $mailMethods = [0 => 'mail()', 1 => 'sendmail', 2 => 'SMTP'];
@@ -151,11 +200,6 @@ class ServerInfo
         } else {
             $add('mail', self::OK, $mailMethod);
         }
-
-        $scheme = $sessionDsn === '' ? 'file' : (string) (parse_url($sessionDsn, PHP_URL_SCHEME) ?: 'custom');
-        $add('session', self::OK, $scheme);
-
-        return $checks;
     }
 
     // ------------------------------------------------------------------------------ server

@@ -121,15 +121,7 @@ class Session
 
         $userIpAddress = $this->manager->getClientIp();
 
-        if (
-            !(
-                isset($this->manager->gameState()->requestQuery['page'])
-                && $this->manager->gameState()->requestQuery['page'] == "raport"
-                && isset($this->manager->gameState()->requestQuery['raport'])
-                && count($this->manager->gameState()->requestQuery) == 2
-                && $this->manager->gameState()->runtime->mode === 'INGAME'
-            )
-        ) {
+        if (!$this->isRaportView()) {
             if (empty($this->data['userId'])) {
                 $this->data['userId'] = 0;
             }
@@ -153,102 +145,8 @@ class Session
                 return;
             }
 
-            $sql    = 'REPLACE INTO %%SESSION%% SET
-                sessionID	= :sessionId,
-                userID		= :userId,
-                accountID	= :accountId,
-                lastonline	= :lastActivity,
-                created		= :created,
-                userIP		= :userAddress;';
-
-            $db     = $this->db;
-
-            $sql_created = 'SELECT created FROM %%SESSION%% 
-                WHERE sessionID = :sessionId 
-                AND userID = :userId 
-                AND accountID = :accountId;';
-
-            $created = $db->selectSingle($sql_created, [
-                ':sessionId'    => $this->manager->id(),
-                ':userId'       => $this->data['userId'],
-                ':accountId'    => $this->data['accountId'],
-            ], 'created');
-
-            if (empty($created)) {
-                $created = time();
-            }
-
-            $db->replace($sql, [
-                ':sessionId'    => $this->manager->id(),
-                ':userId'       => $this->data['userId'],
-                ':accountId'    => $this->data['accountId'],
-                ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                ':created'  => $created,
-                ':userAddress'  => $userIpAddress,
-            ]);
-
-
-
-            if ($this->data['userId'] != 0) {
-                $sql = 'UPDATE %%USERS%% SET
-                onlinetime	= :lastActivity,
-                user_lastip = :userAddress
-                WHERE id = :userId;';
-
-                $db->update($sql, [
-                ':userAddress'   => $userIpAddress,
-                ':lastActivity'  => $this->manager->gameState()->runtime->timestamp,
-                ':userId'        => $this->data['userId'],
-                ]);
-
-                // Remove multisessions
-                if (PREVENT_MULTISESSIONS == true) {
-                    $sql    = 'DELETE FROM %%SESSION%% WHERE (userID = :userId AND sessionID != :sessionId);';
-                    $db->delete($sql, [
-                        ':userId'   => $this->data['userId'],
-                        ':sessionId'    => $this->manager->id(),
-                    ]);
-                }
-
-                // Remove old sessions
-                if ($created + SESSION_LIFETIME < time()) {
-                    $sql    = 'DELETE FROM %%SESSION%% WHERE (userID = :userId AND sessionID = :sessionId);';
-
-                    $db->delete($sql, [
-                        ':userId'       => $this->data['userId'],
-                        ':sessionId'    => $this->manager->id(),
-                    ]);
-                }
-                $this->data['requestPath']   = $this->getRequestPath();
-            } else {
-                $sql = 'UPDATE %%ACCOUNTS%% SET
-                onlinetime	= :lastActivity
-                WHERE id = :accountId;';
-
-                $db->update($sql, [
-                ':lastActivity'     => $this->manager->gameState()->runtime->timestamp,
-                ':accountId'        => $this->data['accountId'],
-                ]);
-
-                // Remove multisessions
-                if (PREVENT_MULTISESSIONS == true) {
-                    $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID != :sessionId);';
-                    $db->delete($sql, [
-                        ':accountId'    => $this->data['accountId'],
-                        ':sessionId'    => $this->manager->id(),
-                    ]);
-                }
-
-                // Remove old sessions
-                if ($created + SESSION_LIFETIME < time()) {
-                    $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID = :sessionId);';
-
-                    $db->delete($sql, [
-                        ':accountId'    => $this->data['accountId'],
-                        ':sessionId'    => $this->manager->id(),
-                    ]);
-                }
-            }
+            $created = $this->writeSessionRow($userIpAddress);
+            $this->touchOwner($created, $userIpAddress);
             $this->checkMultiIP();
 
             $this->data['syncKey']       = $syncKey;
@@ -258,6 +156,137 @@ class Session
 
 
             $this->manager->symfonySession()->set('obj', $this->toArray());
+        }
+    }
+
+    /**
+     * The public combat report view (`page=raport&raport=<id>` as the only parameters while in game): it works without a
+     * session and must not create or refresh one.
+     */
+    private function isRaportView(): bool
+    {
+        return isset($this->manager->gameState()->requestQuery['page'])
+            && $this->manager->gameState()->requestQuery['page'] == "raport"
+            && isset($this->manager->gameState()->requestQuery['raport'])
+            && count($this->manager->gameState()->requestQuery) == 2
+            && $this->manager->gameState()->runtime->mode === 'INGAME';
+    }
+
+    /**
+     * Writes the session row (REPLACE: session id, user, account, last activity, client ip), keeping the creation time of
+     * an existing row.
+     *
+     * @return int|string creation time of the session
+     */
+    private function writeSessionRow(string $userIpAddress): int|string
+    {
+        $sql    = 'REPLACE INTO %%SESSION%% SET
+            sessionID	= :sessionId,
+            userID		= :userId,
+            accountID	= :accountId,
+            lastonline	= :lastActivity,
+            created		= :created,
+            userIP		= :userAddress;';
+
+        $db     = $this->db;
+
+        $sql_created = 'SELECT created FROM %%SESSION%% 
+            WHERE sessionID = :sessionId 
+            AND userID = :userId 
+            AND accountID = :accountId;';
+
+        $created = $db->selectSingle($sql_created, [
+            ':sessionId'    => $this->manager->id(),
+            ':userId'       => $this->data['userId'],
+            ':accountId'    => $this->data['accountId'],
+        ], 'created');
+
+        if (empty($created)) {
+            $created = time();
+        }
+
+        $db->replace($sql, [
+            ':sessionId'    => $this->manager->id(),
+            ':userId'       => $this->data['userId'],
+            ':accountId'    => $this->data['accountId'],
+            ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+            ':created'  => $created,
+            ':userAddress'  => $userIpAddress,
+        ]);
+
+        return $created;
+    }
+
+    /**
+     * Marks the owner of the session online (user: online time and ip, account lobby: online time), removes the other
+     * sessions of the owner when multiple sessions are prevented and this session's row once it is older than the
+     * session lifetime. A logged-in user session also records the request path.
+     *
+     * @param int|string $created creation time of the session row
+     */
+    private function touchOwner(int|string $created, string $userIpAddress): void
+    {
+        $db = $this->db;
+
+        if ($this->data['userId'] != 0) {
+            $sql = 'UPDATE %%USERS%% SET
+            onlinetime	= :lastActivity,
+            user_lastip = :userAddress
+            WHERE id = :userId;';
+
+            $db->update($sql, [
+            ':userAddress'   => $userIpAddress,
+            ':lastActivity'  => $this->manager->gameState()->runtime->timestamp,
+            ':userId'        => $this->data['userId'],
+            ]);
+
+            // Remove multisessions
+            if (PREVENT_MULTISESSIONS == true) {
+                $sql    = 'DELETE FROM %%SESSION%% WHERE (userID = :userId AND sessionID != :sessionId);';
+                $db->delete($sql, [
+                    ':userId'   => $this->data['userId'],
+                    ':sessionId'    => $this->manager->id(),
+                ]);
+            }
+
+            // Remove old sessions
+            if ($created + SESSION_LIFETIME < time()) {
+                $sql    = 'DELETE FROM %%SESSION%% WHERE (userID = :userId AND sessionID = :sessionId);';
+
+                $db->delete($sql, [
+                    ':userId'       => $this->data['userId'],
+                    ':sessionId'    => $this->manager->id(),
+                ]);
+            }
+            $this->data['requestPath']   = $this->getRequestPath();
+        } else {
+            $sql = 'UPDATE %%ACCOUNTS%% SET
+            onlinetime	= :lastActivity
+            WHERE id = :accountId;';
+
+            $db->update($sql, [
+            ':lastActivity'     => $this->manager->gameState()->runtime->timestamp,
+            ':accountId'        => $this->data['accountId'],
+            ]);
+
+            // Remove multisessions
+            if (PREVENT_MULTISESSIONS == true) {
+                $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID != :sessionId);';
+                $db->delete($sql, [
+                    ':accountId'    => $this->data['accountId'],
+                    ':sessionId'    => $this->manager->id(),
+                ]);
+            }
+
+            // Remove old sessions
+            if ($created + SESSION_LIFETIME < time()) {
+                $sql    = 'DELETE FROM %%SESSION%% WHERE (accountID = :accountId AND sessionID = :sessionId);';
+
+                $db->delete($sql, [
+                    ':accountId'    => $this->data['accountId'],
+                    ':sessionId'    => $this->manager->id(),
+                ]);
+            }
         }
     }
 
@@ -374,98 +403,134 @@ class Session
                 ]);
 
                 if (empty($multiEntry)) {
-                    // the multi group that contains all of these users (fewest members first)
-                    $multiID = $db->fetchValue(
-                        $db->qb()
-                            ->select('mu.`multiID`')
-                            ->addSelect('count(DISTINCT muc.`userID`) AS anz')
-                            ->from($db->table('MULTI_TO_USERS'), 'mu')
-                            ->join('mu', $db->table('MULTI_TO_USERS'), 'muc', 'muc.`multiID` = mu.`multiID`')
-                            ->where('mu.`userID` IN (:userIds)')
-                            ->groupBy('mu.`multiID`')
-                            ->having('count(DISTINCT mu.`userID`) >= :usersSize')
-                            ->orderBy('anz', 'ASC')
-                            ->setParameter('userIds', array_map('intval', array_column($multis, 'id')), \Doctrine\DBAL\ArrayParameterType::INTEGER)
-                            ->setParameter('usersSize', count($multis))
-                    );
-
-                    $sql = "SELECT * FROM %%MULTI%%
-                        WHERE `multiID` = :multiID;";
-                    $multiEntry = $db->selectSingle($sql, [
-                        ':multiID'  => $multiID,
-                    ]);
+                    $multiEntry = $this->findGroupOfUsers($multis);
                 }
 
                 if (empty($multiEntry)) {
-                    $sql = "INSERT INTO %%MULTI%% SET
-                        `multi_ip` = :userAddress,
-                        `lastActivity` = :lastActivity,
-                        `universe` = :universe,
-                        `allowed` = 0;";
-                    $db->insert($sql, [
-                        ':userAddress' => $userIpAddress,
-                        ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                        ':universe' => $this->data['universe'],
-                    ]);
-                    $multiID = $db->lastInsertId();
-
-                    $sql = "INSERT INTO %%MULTI_TO_USERS%% SET
-                        `multiID` = :multiID,
-                        `userID` = :userID,
-                        `lastActivity` = :lastActivity,
-                        `allowed` = 0;";
-
-                    foreach ($multis as $multi) {
-                        $db->insert($sql, [
-                            ':multiID' => $multiID,
-                            ':userID' => $multi['id'],
-                            ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                        ]);
-                    }
+                    $this->createMultiGroup($multis, $userIpAddress);
                 } else {
-                    $multiID = $multiEntry['multiID'];
-                    $sql = "UPDATE %%MULTI%% SET
-                        `multi_ip` = :userAddress,
-                        `lastActivity` = :lastActivity
-                        WHERE `multiID` = :multiID;";
-                    $db->update($sql, [
-                        ':userAddress'  => $userIpAddress,
-                        ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                        ':multiID' => $multiID,
-                    ]);
-
-                    $sqlSelect = "SELECT * FROM %%MULTI_TO_USERS%%
-                        WHERE `multiID` = :multiID AND `userID` = :userID;";
-                    $sqlInsert = "INSERT INTO %%MULTI_TO_USERS%% SET
-                        `multiID` = :multiID,
-                        `userID` = :userID,
-                        `lastActivity` = :lastActivity,
-                        `allowed` = 0;";
-                    $sqlUpdate = "UPDATE %%MULTI_TO_USERS%% SET
-                        `lastActivity` = :lastActivity
-                        WHERE `multiID` = :multiID AND `userID` = :userID;";
-
-                    foreach ($multis as $multi) {
-                        $result = $db->selectSingle($sqlSelect, [
-                            ':multiID' => $multiID,
-                            ':userID' => $multi['id'],
-                        ]);
-
-                        if (empty($result)) {
-                            $db->insert($sqlInsert, [
-                                ':multiID' => $multiID,
-                                ':userID' => $multi['id'],
-                                ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                            ]);
-                        } elseif ($multi['id'] == $this->data['userId']) {
-                            $db->update($sqlUpdate, [
-                                ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
-                                ':multiID' => $multiID,
-                                ':userID' => $multi['id'],
-                            ]);
-                        }
-                    }
+                    $this->refreshMultiGroup($multiEntry, $multis, $userIpAddress);
                 }
+            }
+        }
+    }
+
+    /**
+     * The multi group that contains all of the given users (the one with the fewest members first), or false.
+     *
+     * @param list<array{id: int|string}> $multis the users that share the ip, including this session's user
+     * @return array<string, mixed>|false the `multi` row
+     */
+    private function findGroupOfUsers(array $multis): array|false
+    {
+        $db = $this->db;
+        // the multi group that contains all of these users (fewest members first)
+        $multiID = $db->fetchValue(
+            $db->qb()
+                ->select('mu.`multiID`')
+                ->addSelect('count(DISTINCT muc.`userID`) AS anz')
+                ->from($db->table('MULTI_TO_USERS'), 'mu')
+                ->join('mu', $db->table('MULTI_TO_USERS'), 'muc', 'muc.`multiID` = mu.`multiID`')
+                ->where('mu.`userID` IN (:userIds)')
+                ->groupBy('mu.`multiID`')
+                ->having('count(DISTINCT mu.`userID`) >= :usersSize')
+                ->orderBy('anz', 'ASC')
+                ->setParameter('userIds', array_map('intval', array_column($multis, 'id')), \Doctrine\DBAL\ArrayParameterType::INTEGER)
+                ->setParameter('usersSize', count($multis))
+        );
+
+        $sql = "SELECT * FROM %%MULTI%%
+            WHERE `multiID` = :multiID;";
+        return $db->selectSingle($sql, [
+            ':multiID'  => $multiID,
+        ]);
+    }
+
+    /**
+     * Creates a new multi group for the ip (not allowed) with all the given users.
+     *
+     * @param list<array{id: int|string}> $multis the users that share the ip, including this session's user
+     */
+    private function createMultiGroup(array $multis, string $userIpAddress): void
+    {
+        $db = $this->db;
+        $sql = "INSERT INTO %%MULTI%% SET
+            `multi_ip` = :userAddress,
+            `lastActivity` = :lastActivity,
+            `universe` = :universe,
+            `allowed` = 0;";
+        $db->insert($sql, [
+            ':userAddress' => $userIpAddress,
+            ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+            ':universe' => $this->data['universe'],
+        ]);
+        $multiID = $db->lastInsertId();
+
+        $sql = "INSERT INTO %%MULTI_TO_USERS%% SET
+            `multiID` = :multiID,
+            `userID` = :userID,
+            `lastActivity` = :lastActivity,
+            `allowed` = 0;";
+
+        foreach ($multis as $multi) {
+            $db->insert($sql, [
+                ':multiID' => $multiID,
+                ':userID' => $multi['id'],
+                ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+            ]);
+        }
+    }
+
+    /**
+     * An existing multi group is seen again: its ip and activity time are refreshed, missing users are added, and the
+     * activity time of this session's own entry is refreshed.
+     *
+     * @param array<string, mixed> $multiEntry the `multi` row
+     * @param list<array{id: int|string}> $multis the users that share the ip, including this session's user
+     */
+    private function refreshMultiGroup(array $multiEntry, array $multis, string $userIpAddress): void
+    {
+        $db = $this->db;
+        $multiID = $multiEntry['multiID'];
+        $sql = "UPDATE %%MULTI%% SET
+            `multi_ip` = :userAddress,
+            `lastActivity` = :lastActivity
+            WHERE `multiID` = :multiID;";
+        $db->update($sql, [
+            ':userAddress'  => $userIpAddress,
+            ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+            ':multiID' => $multiID,
+        ]);
+
+        $sqlSelect = "SELECT * FROM %%MULTI_TO_USERS%%
+            WHERE `multiID` = :multiID AND `userID` = :userID;";
+        $sqlInsert = "INSERT INTO %%MULTI_TO_USERS%% SET
+            `multiID` = :multiID,
+            `userID` = :userID,
+            `lastActivity` = :lastActivity,
+            `allowed` = 0;";
+        $sqlUpdate = "UPDATE %%MULTI_TO_USERS%% SET
+            `lastActivity` = :lastActivity
+            WHERE `multiID` = :multiID AND `userID` = :userID;";
+
+        foreach ($multis as $multi) {
+            $result = $db->selectSingle($sqlSelect, [
+                ':multiID' => $multiID,
+                ':userID' => $multi['id'],
+            ]);
+
+            if (empty($result)) {
+                $db->insert($sqlInsert, [
+                    ':multiID' => $multiID,
+                    ':userID' => $multi['id'],
+                    ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+                ]);
+            } elseif ($multi['id'] == $this->data['userId']) {
+                $db->update($sqlUpdate, [
+                    ':lastActivity' => $this->manager->gameState()->runtime->timestamp,
+                    ':multiID' => $multiID,
+                    ':userID' => $multi['id'],
+                ]);
             }
         }
     }

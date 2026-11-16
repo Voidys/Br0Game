@@ -38,48 +38,76 @@ class MultiIPController extends AbstractAdminController
      */
     public function show(): Response
     {
+        if (isset($this->state->requestQuery['action'])) {
+            $this->markAllowed();
+        }
+
+        $IPs = $this->multiGroups();
+
+        $this->assign([
+            'multiGroups'  => $IPs,
+        ]);
+        return $this->render('admin/MultiIPs.html.twig');
+    }
+
+    /**
+     * Marks one IP group (`id`) or a single user of it (`userID`) as known/allowed (`action=known`) or not, writes an
+     * admin log entry (type 7) with the old and new row and redirects back to the list (ends the request).
+     */
+    private function markAllowed(): void
+    {
+        $db = $this->db;
+
+        $id = (int) $this->state->requestQuery['id'];
+        $allowed = $this->state->requestQuery['action'] === 'known' ? 1 : 0;
+
+        if (!isset($this->state->requestQuery['userID'])) {
+            $sql = "SELECT * FROM %%MULTI%% WHERE `multiID` = :multiID;";
+            $old = $db->selectSingle($sql, [':multiID' => $id]);
+
+            $sql = "UPDATE %%MULTI%% SET `allowed` = :allowed WHERE `multiID` = :multiID;";
+            $db->update($sql, [
+                ':multiID' => $id,
+                ':allowed' => $allowed,
+            ]);
+        } else {
+            $userID = (int) $this->state->requestQuery['userID'];
+            $sql = "SELECT * FROM %%MULTI_TO_USERS%% WHERE `multiID` = :multiID AND userID = :userID;";
+            $old = $db->selectSingle($sql, [
+                ':multiID' => $id,
+                ':userID'  => $userID,
+            ]);
+
+            $sql = "UPDATE %%MULTI_TO_USERS%% SET `allowed` = :allowed WHERE `multiID` = :multiID AND userID = :userID;";
+            $db->update($sql, [
+                ':multiID' => $id,
+                ':userID'  => $userID,
+                ':allowed' => $allowed,
+            ]);
+        }
+
+        $new = $old;
+        $new['allowed'] = $allowed;
+
+        $LOG = new Log($this->db, $this->configs, $this->state, 7);
+        $LOG->target = $id;
+        $LOG->old = $old;
+        $LOG->new = $new;
+        $LOG->save();
+
+        $this->http()->redirectTo("admin?page=multiIP");
+    }
+
+    /**
+     * The IP groups of the emulated universe that still have users: IP, last activity and per user the dates, mail and
+     * flags; `allAllowed` / `allBanned` summarize the group.
+     *
+     * @return array<int, array<string, mixed>> groups by multi id
+     */
+    private function multiGroups(): array
+    {
         $LNG = $this->state->LNG;
         $db = $this->db;
-        if (isset($this->state->requestQuery['action'])) {
-            $id = (int) $this->state->requestQuery['id'];
-            $allowed = $this->state->requestQuery['action'] === 'known' ? 1 : 0;
-
-            if (!isset($this->state->requestQuery['userID'])) {
-                $sql = "SELECT * FROM %%MULTI%% WHERE `multiID` = :multiID;";
-                $old = $db->selectSingle($sql, [':multiID' => $id]);
-
-                $sql = "UPDATE %%MULTI%% SET `allowed` = :allowed WHERE `multiID` = :multiID;";
-                $db->update($sql, [
-                    ':multiID' => $id,
-                    ':allowed' => $allowed,
-                ]);
-            } else {
-                $userID = (int) $this->state->requestQuery['userID'];
-                $sql = "SELECT * FROM %%MULTI_TO_USERS%% WHERE `multiID` = :multiID AND userID = :userID;";
-                $old = $db->selectSingle($sql, [
-                    ':multiID' => $id,
-                    ':userID'  => $userID,
-                ]);
-
-                $sql = "UPDATE %%MULTI_TO_USERS%% SET `allowed` = :allowed WHERE `multiID` = :multiID AND userID = :userID;";
-                $db->update($sql, [
-                    ':multiID' => $id,
-                    ':userID'  => $userID,
-                    ':allowed' => $allowed,
-                ]);
-            }
-
-            $new = $old;
-            $new['allowed'] = $allowed;
-
-            $LOG = new Log($this->db, $this->configs, $this->state, 7);
-            $LOG->target = $id;
-            $LOG->old = $old;
-            $LOG->new = $new;
-            $LOG->save();
-
-            $this->http()->redirectTo("admin?page=multiIP");
-        }
 
         $sql = "SELECT * FROM %%MULTI%% WHERE universe = :universe ORDER BY `lastActivity`";
         $multis = $db->select($sql, [':universe' => $this->universe()->getEmulated()]);
@@ -118,9 +146,6 @@ class MultiIPController extends AbstractAdminController
             }
         }
 
-        $this->assign([
-            'multiGroups'  => $IPs,
-        ]);
-        return $this->render('admin/MultiIPs.html.twig');
+        return $IPs;
     }
 }

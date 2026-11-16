@@ -463,9 +463,9 @@ al_your_ally: Twój sojusz
 al_your_request_title: Twoje podanie
 bad_forum_url: Zły format adresu strony!
 banned_message: >-
-  Zostałeś zbanowany. Jeśli uważasz, że to nieporozumienie, napisz do nas przez
+  Zostałeś zbanowany. <!--discord_url-->Jeśli uważasz, że to nieporozumienie, napisz do nas przez
   Discord: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Aktualna produkcja:'
 bd_add_to_list: Dodaj do kolejki
 bd_available: 'Dostępne: '
@@ -975,13 +975,13 @@ invalid_action: Niedozwolona akcja
 kontakt: >-
   Cześć!<br>Na tej stronie znajdziesz informacje o osobach, które aktywnie
   prowadzą, moderują i rozwijają ten projekt.<br>Jeśli masz jakieś pytania lub
-  problemy, skontaktuj się z nami.<br><br>Dla lepszej wymiany informacji z nami,
+  problemy, skontaktuj się z nami.<br><br><!--discord_url-->Dla lepszej wymiany informacji z nami,
   ale także z innymi współspawaczami, uruchomiliśmy serwer Discord. Można go
-  znaleźć " <a href="https://discord.gg/jhYYN3yuat">tutaj</a> " lub poprzez
+  znaleźć " <a href="{discord_url}">tutaj</a> " lub poprzez
   menu.<br>Na serwerze znajdziesz najnowsze wiadomości, a także ekscytujące memy
   między sojuszami wszechświata.<br>Zadawaj pytania dotyczące mechaniki gry i
   pomagaj, przedstawiając własne sugestie dotyczące dalszego rozwoju
-  gry.<br><br>Oczywiście będziemy również odpowiadać na wiadomości w
+  gry.<br><br><!--/discord_url-->Oczywiście będziemy również odpowiadać na wiadomości w
   grze.<br>Należy jednak pamiętać, że gramy w tę grę tylko hobbystycznie.
   Odpowiedzi mogą zająć kilka dni.<br>
 lm_administration: Administracja
@@ -1496,9 +1496,9 @@ sys_catchup_tooltip: >-
 sys_closed_game: 'Gra chwilowo niedostępna:'
 sys_game_is_setup: >-
   <h1>Rejestracja zakończona! </h1><br><p>Właśnie teraz przygotowujemy dla
-  ciebie wszechświat!</p><p>W międzyczasie nie przegap niczego, dołącz do nas
-  na</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">->
-  Discordzie <-</a></h3>.
+  ciebie wszechświat!</p><!--discord_url--><p>W międzyczasie nie przegap niczego, dołącz do nas
+  na</p><h3><a href="{discord_url}" target="_blank">->
+  Discordzie <-</a></h3><!--/discord_url-->.
 sys_module_inactive: Moduł nieaktywny
 sys_nomore_level: Próbujesz zniszczyć budynek, którego nie posiadasz( %s ).
 sys_notenough_money: >-

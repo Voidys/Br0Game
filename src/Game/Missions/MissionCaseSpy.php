@@ -96,7 +96,6 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
     public function TargetEvent()
     {
         $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
         $resource = $this->state->resource;
         $db = $this->db;
 
@@ -117,21 +116,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             return;
         }
 
-        $sql = 'SELECT * FROM %%USERS%% u 
-            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id` 
-            WHERE u.`id` = :userId;';
-        $senderUser = $db->selectSingle($sql, [
-            ':userId'   => $this->_fleet['owner'],
-        ]);
-
-        $targetUser = $db->selectSingle($sql, [
-            ':userId'   => $this->_fleet['target_owner']
-        ]);
-
-        $sql = 'SELECT `name`, `planet_type` FROM %%PLANETS%% WHERE `id` = :planetId;';
-        $senderPlanet = $db->selectSingle($sql, [
-            ':planetId' => $this->_fleet['start_id']
-        ]);
+        [$senderUser, $targetUser, $senderPlanet] = $this->loadParticipants();
 
         $LNG = $this->getLanguage($senderUser['lang']);
 
@@ -143,55 +128,14 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['arrival_time']
         );
 
-        $sql = 'SELECT * FROM %%FLEETS%%
-            WHERE `end_id` = :planetId
-            AND `mission` = :mission
-            AND `arrival_time` <= :time
-            AND `stay_time` >= :time FOR UPDATE;';
-
-        $targetStayFleets = $db->select($sql, [
-            ':planetId' => $this->_fleet['end_id'],
-            ':time'     => $this->_fleet['arrival_time'],
-            ':mission'  => MISSION_HOLD,
-        ]);
-
-        foreach ($targetStayFleets as $fleetRow) {
-            $fleetData = $this->fleetFunctions()->unserialize($fleetRow['ships']);
-            foreach ($fleetData as $shipId => $shipAmount) {
-                $targetPlanet[$resource[$shipId]] += $shipAmount;
-            }
-        }
+        $targetPlanet = $this->addHoldFleets($targetPlanet);
 
         $fleetAmount = $this->_fleet['ship_amount'];
 
         $senderSpyTech = max($senderUser['spy_tech'], 1);
         $targetSpyTech = max($targetUser['spy_tech'], 1);
 
-        $techDifference = abs($senderSpyTech - $targetSpyTech);
-        $MinAmount = ($senderSpyTech > $targetSpyTech ? -1 : 1) * pow($techDifference * SPY_DIFFENCE_FACTOR, 2);
-        $SpyFleet = $fleetAmount >= $MinAmount;
-        $SpyDef = $fleetAmount >= $MinAmount + 1 * SPY_VIEW_FACTOR;
-        $SpyBuild = $fleetAmount >= $MinAmount + 3 * SPY_VIEW_FACTOR;
-        $SpyTechno = $fleetAmount >= $MinAmount + 5 * SPY_VIEW_FACTOR;
-
-        $classIDs[900] = array_merge($reslist['resstype'][1], $reslist['resstype'][2]);
-
-
-        if ($SpyFleet) {
-            $classIDs[200] = $reslist['fleet'];
-        }
-
-        if ($SpyDef) {
-            $classIDs[400] = array_merge($reslist['defense'], $reslist['missile']);
-        }
-
-        if ($SpyBuild) {
-            $classIDs[0] = $reslist['build'];
-        }
-
-        if ($SpyTechno) {
-            $classIDs[100] = $reslist['tech'];
-        }
+        [$classIDs, $SpyFleet] = $this->visibleClasses($fleetAmount, $senderSpyTech, $targetSpyTech);
 
         // what is seen by the 'attacker' is already calculated above.
         // if target planet does not have fleet or def, it is safe to set $targetChance to -1
@@ -202,88 +146,52 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $totalShipDefCount += $ships;
         }
 
-        // $targetChance = random_int(0, min(($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech), 100));
-
-        // New calculation: 1% Counterspy-Chance for 250 Ships * target spy bonus, if > sender spy tec
-        // $targetChance = ($totalShipDefCount/250)*MAX($senderSpyTech-$targetSpyTech, 1) + (($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech));
-
-        // Calculation from https://ogame.fandom.com/wiki/Counterespionage
-        $targetChance = min(round(pow(2, $targetSpyTech - $senderSpyTech) * $fleetAmount * $totalShipDefCount * 0.0025), 100);
-
+        $targetChance = $this->getDetectionChance($senderSpyTech, $targetSpyTech, $fleetAmount, $totalShipDefCount);
         $spyChance = random_int(1, 100);
-        $spyData = [];
 
-        foreach ($classIDs as $classID => $elementIDs) {
-            foreach ($elementIDs as $elementID) {
-                if (!$this->buildFunctions()->isEnabled($elementID)) {
-                    continue;
-                }
-                if (isset($targetUser[$resource[$elementID]])) {
-                    if ($elementID == DECOY) {
-                        $spyData[$classID][MISSILE_LAUNCHER] = $targetPlanet[$resource[$elementID]];
-                    } else {
-                        $spyData[$classID][$elementID] = $targetUser[$resource[$elementID]];
-                    }
-                } else {
-                    if ($elementID == DECOY) {
-                        $spyData[$classID][MISSILE_LAUNCHER] += $targetPlanet[$resource[$elementID]];
-                    } else {
-                        $spyData[$classID][$elementID] = $targetPlanet[$resource[$elementID]];
-                    }
-                }
-            }
+        $spyData = $this->collectSpyData($classIDs, $senderUser, $targetUser, $targetPlanet);
+        $repair_order = $this->addRepairDockShips($spyData, $SpyFleet, $targetPlanet);
 
-            if ($senderUser['spyMessagesMode'] == 1) {
-                $spyData[$classID] = array_filter($spyData[$classID]);
-            }
+        $reportData = $this->buildReportData($senderUser, $targetUser, $targetPlanet, $spyData, $repair_order, $targetChance, $spyChance, $totalShipDefCount);
+
+        $this->sendReport($reportData, $LNG);
+
+        $this->notifyTargetOwner($senderUser, $targetUser, $senderPlanet, $targetPlanet);
+
+        if ($totalShipDefCount > 0 && $targetChance >= $spyChance) {
+            $this->destroyProbes($fleetAmount);
+        } else {
+            $this->setState(FLEET_RETURN);
+            $this->SaveFleet();
         }
+    }
 
-        // show ships beeing repaired
-        $repair_order = [];
-        if ($SpyFleet && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)) {
-            // Wreck fields of moon fights are stored under the parent planet id
-            $wreckPlanetID = $this->_fleet['end_id'];
-            if ($targetPlanet['planet_type'] == 3) {
-                $wreckPlanetID = $db->selectSingle(
-                    "SELECT `id` FROM %%PLANETS%% WHERE `id_luna` = :moonId;",
-                    [':moonId' => $this->_fleet['end_id']],
-                    'id'
-                ) ?: $wreckPlanetID;
-            }
-            $sql = "SELECT `repair_order` FROM %%PLANET_WRECKFIELD%%
-                WHERE `planetID` = :planetID;";
-            $repairing = $db->selectSingle($sql, [
-                ':planetID' => $wreckPlanetID,
-            ], 'repair_order');
-            if (!empty($repairing)) {
-                $repair_order = StoredData::decode($repairing);
-                foreach ($repair_order as $elementID => $amount) {
-                    if (!isset($spyData[200][$elementID])) {
-                        $spyData[200][$elementID] = 0;
-                    }
-                }
-            }
-        }
+    /**
+     * Chance (percent, at most 100) that the target shoots the probes down. OGame rule
+     * (https://ogame.fandom.com/wiki/Counterespionage): 2^(t-s) * probes * ships_and_defenses_on_planet * 0.0025,
+     * rounded; t/s = spy tech of target/sender.
+     */
+    private function getDetectionChance(int|float|string $senderSpyTech, int|float|string $targetSpyTech, int|float|string $fleetAmount, int|float|string $totalShipDefCount): int|float
+    {
+        // Calculation from https://ogame.fandom.com/wiki/Counterespionage
+        return min(round(pow(2, $targetSpyTech - $senderSpyTech) * $fleetAmount * $totalShipDefCount * 0.0025), 100);
+    }
 
-        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-
-        $sumPlanetRessources = 2 * ($targetPlanet[$resource[RESOURCE_METAL]] + $targetPlanet[$resource[RESOURCE_CRYSTAL]] + $targetPlanet[$resource[RESOURCE_DEUT]]);
-        $simulated = [];
-        $simulated['fleetDetail']['resource_metal'] = 0;
-        $simulated['fleetDetail']['resource_crystal'] = 0;
-        $simulated['fleetDetail']['resource_deuterium'] = 0;
-        $simulated['unit'] = [
-            '203' => ceil($sumPlanetRessources / $pricelist[SHIP_LARGE_CARGO]['capacity']),
-        ];
-        $fleetSimulate[] = $simulated;
-
-        $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetPlanet[$resource[RESOURCE_METAL]]),
-            'crystal' => getNumber($targetPlanet[$resource[RESOURCE_CRYSTAL]]),
-            'deuterium' => getNumber($targetPlanet[$resource[RESOURCE_DEUT]]),
-        ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
-        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
+    /**
+     * The content of the spy report (stored as JSON in the message): what the probes saw, the danger value of the
+     * visible ships and defense, the cargo ships needed to loot half of the planet, the planet's energy class (to
+     * spot players building gravitons), and both counter-espionage numbers.
+     *
+     * @param array<string, mixed> $senderUser fleet owner (users + settings)
+     * @param array<string, mixed> $targetUser target owner
+     * @param array<string, mixed> $targetPlanet planet row (resources as of the arrival)
+     * @param array<int, array<int, int|float|string>> $spyData see collectSpyData()
+     * @param array<int|string, int|float|string> $repair_order ships in the repair dock
+     * @return array<string, mixed>
+     */
+    private function buildReportData(array|false $senderUser, array|false $targetUser, array $targetPlanet, array $spyData, array $repair_order, int|float $targetChance, int $spyChance, int|float $totalShipDefCount): array
+    {
+        [$smallCargoNeeded, $largeCargoNeeded] = $this->cargoNeeded($targetPlanet);
 
         // Scavengers Tool Box
 
@@ -328,6 +236,40 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             'isBattleSim'       => ENABLE_SIMULATOR_LINK == true && $this->viewHelpers()->isModuleAvailable(MODULE_SIMULATOR),
         ];
 
+        return $reportData;
+    }
+
+    /**
+     * Cargo ships needed to carry the planet's resources (the capacity BattleHandler::calculateMinCapacity() gives for
+     * metal, crystal and deuterium).
+     *
+     * @param array<string, mixed> $targetPlanet planet row
+     * @return array{0: float, 1: float} small and large cargos needed
+     */
+    private function cargoNeeded(array $targetPlanet): array
+    {
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
+
+        $capacityNeeded = $battleHandler->calculateMinCapacity([
+            'metal' => getNumber($targetPlanet[$resource[RESOURCE_METAL]]),
+            'crystal' => getNumber($targetPlanet[$resource[RESOURCE_CRYSTAL]]),
+            'deuterium' => getNumber($targetPlanet[$resource[RESOURCE_DEUT]]),
+        ]);
+        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
+        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
+
+        return [$smallCargoNeeded, $largeCargoNeeded];
+    }
+
+    /**
+     * Sends the spy report (JSON) to the fleet owner and sets the "first espionage" stat.
+     *
+     * @param array<string, mixed> $reportData report content
+     */
+    private function sendReport(array $reportData, \App\Game\Core\Language $LNG): void
+    {
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],
             0,
@@ -342,7 +284,193 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         );
 
         $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
+    }
 
+    /**
+     * Loads the rows the report needs.
+     *
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>} sender user (with settings),
+     *         target user (with settings), name and type of the sender's start planet
+     */
+    private function loadParticipants(): array
+    {
+        $db = $this->db;
+        $sql = 'SELECT * FROM %%USERS%% u 
+            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id` 
+            WHERE u.`id` = :userId;';
+        $senderUser = $db->selectSingle($sql, [
+            ':userId'   => $this->_fleet['owner'],
+        ]);
+
+        $targetUser = $db->selectSingle($sql, [
+            ':userId'   => $this->_fleet['target_owner']
+        ]);
+
+        $sql = 'SELECT `name`, `planet_type` FROM %%PLANETS%% WHERE `id` = :planetId;';
+        $senderPlanet = $db->selectSingle($sql, [
+            ':planetId' => $this->_fleet['start_id']
+        ]);
+
+        return [$senderUser, $targetUser, $senderPlanet];
+    }
+
+    /**
+     * Adds the ships of the hold fleets that stand at the target at the arrival time to the planet's ship counts (the
+     * probes see them too). Locks those fleet rows (FOR UPDATE).
+     *
+     * @param array<string, mixed> $targetPlanet planet row
+     * @return array<string, mixed> the planet row with the stationed ships added (in memory only)
+     */
+    private function addHoldFleets(array $targetPlanet): array
+    {
+        $resource = $this->state->resource;
+        $sql = 'SELECT * FROM %%FLEETS%%
+            WHERE `end_id` = :planetId
+            AND `mission` = :mission
+            AND `arrival_time` <= :time
+            AND `stay_time` >= :time FOR UPDATE;';
+
+        $targetStayFleets = $this->db->select($sql, [
+            ':planetId' => $this->_fleet['end_id'],
+            ':time'     => $this->_fleet['arrival_time'],
+            ':mission'  => MISSION_HOLD,
+        ]);
+
+        foreach ($targetStayFleets as $fleetRow) {
+            $fleetData = $this->fleetFunctions()->unserialize($fleetRow['ships']);
+            foreach ($fleetData as $shipId => $shipAmount) {
+                $targetPlanet[$resource[$shipId]] += $shipAmount;
+            }
+        }
+
+        return $targetPlanet;
+    }
+
+    /**
+     * Information level of the report: with the spy techs s (sender) and t (target) the probes needed for fleets are
+     * n0 = +-((|s-t|*SPY_DIFFENCE_FACTOR)^2) (negative if the sender has the better tech); defense is visible with
+     * n0+1*SPY_VIEW_FACTOR probes, buildings n0+3*, research n0+5*. Resources are always shown.
+     *
+     * @return array{0: array<int, array<int, int>>, 1: bool} element ids per class (900 resources, 200 fleet, 400 defense,
+     *         0 buildings, 100 research; only the visible classes), and whether the fleet is visible
+     */
+    private function visibleClasses(int|float|string $fleetAmount, int|float|string $senderSpyTech, int|float|string $targetSpyTech): array
+    {
+        $reslist = $this->state->reslist;
+        $techDifference = abs($senderSpyTech - $targetSpyTech);
+        $MinAmount = ($senderSpyTech > $targetSpyTech ? -1 : 1) * pow($techDifference * SPY_DIFFENCE_FACTOR, 2);
+        $SpyFleet = $fleetAmount >= $MinAmount;
+        $SpyDef = $fleetAmount >= $MinAmount + 1 * SPY_VIEW_FACTOR;
+        $SpyBuild = $fleetAmount >= $MinAmount + 3 * SPY_VIEW_FACTOR;
+        $SpyTechno = $fleetAmount >= $MinAmount + 5 * SPY_VIEW_FACTOR;
+
+        $classIDs[900] = array_merge($reslist['resstype'][1], $reslist['resstype'][2]);
+
+        if ($SpyFleet) {
+            $classIDs[200] = $reslist['fleet'];
+        }
+
+        if ($SpyDef) {
+            $classIDs[400] = array_merge($reslist['defense'], $reslist['missile']);
+        }
+
+        if ($SpyBuild) {
+            $classIDs[0] = $reslist['build'];
+        }
+
+        if ($SpyTechno) {
+            $classIDs[100] = $reslist['tech'];
+        }
+
+        return [$classIDs, $SpyFleet];
+    }
+
+    /**
+     * The amounts of the visible element classes: from the target user row if the column lives there (research),
+     * otherwise from the planet; the decoy counts as missile launchers. The sender's "only show what exists" setting
+     * drops zero entries.
+     *
+     * @param array<int, array<int, int>> $classIDs see visibleClasses()
+     * @return array<int, array<int, int|float|string>> class id => element id => amount
+     */
+    private function collectSpyData(array $classIDs, array|false $senderUser, array|false $targetUser, array $targetPlanet): array
+    {
+        $resource = $this->state->resource;
+        $spyData = [];
+
+        foreach ($classIDs as $classID => $elementIDs) {
+            foreach ($elementIDs as $elementID) {
+                if (!$this->buildFunctions()->isEnabled($elementID)) {
+                    continue;
+                }
+                if (isset($targetUser[$resource[$elementID]])) {
+                    if ($elementID == DECOY) {
+                        $spyData[$classID][MISSILE_LAUNCHER] = $targetPlanet[$resource[$elementID]];
+                    } else {
+                        $spyData[$classID][$elementID] = $targetUser[$resource[$elementID]];
+                    }
+                } else {
+                    if ($elementID == DECOY) {
+                        $spyData[$classID][MISSILE_LAUNCHER] += $targetPlanet[$resource[$elementID]];
+                    } else {
+                        $spyData[$classID][$elementID] = $targetPlanet[$resource[$elementID]];
+                    }
+                }
+            }
+
+            if ($senderUser['spyMessagesMode'] == 1) {
+                $spyData[$classID] = array_filter($spyData[$classID]);
+            }
+        }
+
+        return $spyData;
+    }
+
+    /**
+     * Shows the ships in the repair dock queue: adds them (with 0 if not on the planet) to the fleet block of the
+     * report data. Wreck fields of moon fights are stored under the parent planet id.
+     *
+     * @param array<int, array<int, int|float|string>> $spyData report data, changed in place (class 200)
+     * @return array<int|string, int|float|string> the decoded repair order (empty when not visible or nothing repairing)
+     */
+    private function addRepairDockShips(array &$spyData, bool $spyFleet, array $targetPlanet): array
+    {
+        $db = $this->db;
+        $repair_order = [];
+        if ($spyFleet && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)) {
+            // Wreck fields of moon fights are stored under the parent planet id
+            $wreckPlanetID = $this->_fleet['end_id'];
+            if ($targetPlanet['planet_type'] == 3) {
+                $wreckPlanetID = $db->selectSingle(
+                    "SELECT `id` FROM %%PLANETS%% WHERE `id_luna` = :moonId;",
+                    [':moonId' => $this->_fleet['end_id']],
+                    'id'
+                ) ?: $wreckPlanetID;
+            }
+            $sql = "SELECT `repair_order` FROM %%PLANET_WRECKFIELD%%
+                WHERE `planetID` = :planetID;";
+            $repairing = $db->selectSingle($sql, [
+                ':planetID' => $wreckPlanetID,
+            ], 'repair_order');
+            if (!empty($repairing)) {
+                $repair_order = StoredData::decode($repairing);
+                foreach ($repair_order as $elementID => $amount) {
+                    if (!isset($spyData[200][$elementID])) {
+                        $spyData[200][$elementID] = 0;
+                    }
+                }
+            }
+        }
+
+        return $repair_order;
+    }
+
+    /**
+     * Sends the "foreign fleet seen" notice (spy defence message) to the target owner, in his language: who (sender
+     * planet, owner, coordinates) probed which of his planets. Sent on every probe arrival.
+     */
+    private function notifyTargetOwner(array|false $senderUser, array|false $targetUser, array|false $senderPlanet, array $targetPlanet): void
+    {
         $LNG = $this->getLanguage($targetUser['lang']);
 
         $sourceLink = $LNG->format('sys_mess_spy_link',
@@ -378,31 +506,34 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['universe'],
             $this->_fleet['end_id']
         );
+    }
 
-        if ($totalShipDefCount > 0 && $targetChance >= $spyChance) {
-            $config = $this->configs->get($this->_fleet['universe']);
-            $whereCol = $this->_fleet['end_type'] == 3 ? "id_luna" : "id";
+    /**
+     * Counter-espionage succeeded: the probes are shot down. Their debris (fleet_debris_percentage of the probe cost)
+     * goes to the debris field (a moon: its parent planet), the destroyed-ships stat is counted, the fleet is deleted.
+     */
+    private function destroyProbes(int|float|string $fleetAmount): void
+    {
+        $pricelist = $this->state->pricelist;
+        $config = $this->configs->get($this->_fleet['universe']);
+        $whereCol = $this->_fleet['end_type'] == 3 ? "id_luna" : "id";
 
-            $sql = 'UPDATE %%PLANETS%% SET
+        $sql = 'UPDATE %%PLANETS%% SET
 			der_metal   = der_metal + :metal,
 			der_crystal = der_crystal + :crystal,
             tf_active = :new_debris
 			WHERE ' . $whereCol . ' = :planetId;';
 
-            $db->update($sql, [
-                ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
-                ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
-                ':new_debris' => 1,
-                ':planetId' => $this->_fleet['end_id'],
-            ]);
+        $this->db->update($sql, [
+            ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
+            ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
+            ':new_debris' => 1,
+            ':planetId' => $this->_fleet['end_id'],
+        ]);
 
-            $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], SHIP_PROBE, $fleetAmount);
+        $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], SHIP_PROBE, $fleetAmount);
 
-            $this->KillFleet();
-        } else {
-            $this->setState(FLEET_RETURN);
-            $this->SaveFleet();
-        }
+        $this->KillFleet();
     }
 
     /**

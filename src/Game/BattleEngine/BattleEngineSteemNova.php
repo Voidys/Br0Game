@@ -91,18 +91,93 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     {
         $executionTime = microtime(true);
 
-        $pricelist =& $this->state->pricelist;
-        $CombatCaps =& $this->state->CombatCaps;
-        $resource =& $this->state->resource;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $config = $this->configs->get($universe);
 
+        $tally = $this->tallyStartValues($attackers, $defenders);
+        [$scale, $realUnits, $scaledUnits] = $this->scaleDown($attackers, $defenders);
+
+        $rounds = $this->fightRounds($attackers, $defenders, $sim, $advancedStats, $att, $def);
+        if ($rounds === false) {
+            return false; // Memory limit exceeded, return false to indicate failure
+        }
+        $ROUND = $rounds;
+
+        if ($scale > 1) {
+            $this->scaleBack($attackers, $defenders, $ROUND, $advancedStats, $realUnits, $scaledUnits, $scale);
+        }
+
+        if (!$sim) {
+            $this->recordKills($statsHandler, $advancedStats);
+        }
+
+        if ($att['attackAmount']['total'] <= 0 && $def['attackAmount']['total'] > 0) {
+            $won = DEFENDER;
+        } elseif ($att['attackAmount']['total'] > 0 && $def['attackAmount']['total'] <= 0) {
+            $won = ATTACKER;
+        } else {
+            $won = DRAW;
+        }
+
+        $this->subtractSurvivors($tally, $attackers);
+        [$repairedDef, $wreckfield, $defendingPlayer, $DRESDefs] = $this->settleDefenders($tally, $defenders, $config, $sim, $statsHandler);
+
+        $unitsLost = $tally['unitsLost'];
+        $capacityLost = $tally['capacityLost'];
+        $ARES = $tally['ARES'];
+        $DRES = $tally['DRES'];
+        $TRES = $tally['TRES'];
+
+        $ARES['metal'] = max($ARES['metal'], 0);
+        $ARES['crystal'] = max($ARES['crystal'], 0);
+        $DRES['metal'] = max($DRES['metal'], 0);
+        $DRES['crystal'] = max($DRES['crystal'], 0);
+        $TRES['attacker'] = max($TRES['attacker'], 0);
+        $TRES['defender'] = max($TRES['defender'], 0);
+
+        $totalLost = ['attacker' => $TRES['attacker'], 'defender' => $TRES['defender']];
+        $debAttMet = ($ARES['metal'] * ($config->fleet_debris_percentage / 100));
+        $debAttCry = ($ARES['crystal'] * ($config->fleet_debris_percentage / 100));
+        $debDefMet = ($DRES['metal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['metal'] * ($config->def_debris_percentage / 100));
+        $debDefCry = ($DRES['crystal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['crystal'] * ($config->def_debris_percentage / 100));
+
+        if (!$sim && $defenders[0]['player']['id'] != 0) {
+            $this->recordFightStats($statsHandler, $attackers, $defenders, $debAttMet + $debDefMet, $debAttCry + $debDefCry, $totalLost, $unitsLost);
+        }
+
+        if (!$this->wreckfieldAllowed($defenders[0], $defendingPlayer['lost'], $config)) {
+            $wreckfield = [];
+        }
+
+        return new BattleResult(
+            $won,
+            new BattleDebris($debAttMet, $debAttCry, $debDefMet, $debDefCry),
+            $ROUND,
+            new BattleLosses($totalLost['attacker'], $totalLost['defender'], $unitsLost, $capacityLost),
+            $repairedDef,
+            $wreckfield,
+            microtime(true) - $executionTime,
+        );
+    }
+
+    /**
+     * Value bookkeeping at the start of a fight: metal+crystal value of both sides (`TRES` total per side; `ARES`/`DRES`
+     * attacker and defender fleet value, the defender's defense counts in the total only), the per-player value and cargo
+     * capacity of the fleets (the starting point of the lost values) and the defense snapshot `STARTDEF` of the planet
+     * (fleet 0) for the 70 percent restore.
+     *
+     * @param array<int|string, array<string, mixed>> $attackers working copies of the fleets
+     * @param array<int|string, array<string, mixed>> $defenders likewise
+     * @return array<string, mixed> keys unitsLost, capacityLost, TRES, ARES, DRES, STARTDEF
+     */
+    private function tallyStartValues(array $attackers, array $defenders): array
+    {
+        $pricelist = $this->state->pricelist;
         $unitsLost = ['attacker' => [], 'defender' => []];
         $capacityLost = ['attacker' => [], 'defender' => []];
 
         $TRES = ['attacker' => 0, 'defender' => 0];
         $ARES = $DRES = ['metal' => 0, 'crystal' => 0];
-        $ROUND = [];
 
         // $STARTDEF - snapshot of defense amount. Needed for 70% restore
         $STARTDEF = [];
@@ -153,7 +228,20 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             }
         }
 
-        // scale huge fights down so they fit into memory and time (see calculateAttack)
+        return ['unitsLost' => $unitsLost, 'capacityLost' => $capacityLost, 'TRES' => $TRES, 'ARES' => $ARES, 'DRES' => $DRES, 'STARTDEF' => $STARTDEF];
+    }
+
+    /**
+     * Scales huge fights down so they fit into memory and time (see calculateAttack): every unit type is divided by the
+     * common factor and keeps at least one ship.
+     *
+     * @param array<int|string, array<string, mixed>> $attackers changed in place when scaled
+     * @param array<int|string, array<string, mixed>> $defenders changed in place when scaled
+     * @return array{0: int, 1: array<string, array>, 2: array<string, array>} scale factor; the real amounts per side,
+     *         fleet and element and the scaled fleets per side (both empty when not scaled)
+     */
+    private function scaleDown(array &$attackers, array &$defenders): array
+    {
         $totalShips = 0;
         foreach ([$attackers, $defenders] as $side) {
             foreach ($side as $fleet) {
@@ -177,7 +265,24 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         }
         $scaledUnits = $scale > 1 ? ['attackers' => $attackers, 'defenders' => $defenders] : [];
 
-        //will also be filled during simulation to have a comparable ram usage. If sim crashes, the real fight will not work.
+        return [$scale, $realUnits, $scaledUnits];
+    }
+
+    /**
+     * Fights the rounds until one side is out of ships or MAX_ATTACK_ROUNDS is reached: per round the start state of both
+     * sides is recorded, then (if both can still shoot) the shots, the destruction and the shield restore.
+     *
+     * @param array<int|string, array<string, mixed>> $attackers survivors at the end (changed in place)
+     * @param array<int|string, array<string, mixed>> $defenders likewise
+     * @param array<int|string, mixed> $advancedStats out: kills per attacker/victim/element (also filled in simulations
+     *        to have a comparable memory usage; if a simulation crashes the real fight would not work)
+     * @param array<string, mixed> $att out: combat values of the attackers at the end of the last round
+     * @param array<string, mixed> $def likewise for the defenders
+     * @return array<int, array<string, mixed>>|false the round log, false when the memory limit was exceeded
+     */
+    private function fightRounds(array &$attackers, array &$defenders, bool $sim, ?array &$advancedStats, ?array &$att, ?array &$def): array|false
+    {
+        $ROUND = [];
         $advancedStats = [];
 
         for ($ROUNDC = 0; $ROUNDC <= MAX_ATTACK_ROUNDS; $ROUNDC++) {
@@ -216,49 +321,72 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             }
         }
 
-        if ($scale > 1) {
-            $this->scaleBack($attackers, $defenders, $ROUND, $advancedStats, $realUnits, $scaledUnits, $scale);
-        }
+        return $ROUND;
+    }
 
-        if (!$sim) {
-            foreach ($advancedStats as $attacker => $victims) {
-                foreach ($victims as $victim => $ships) {
-                    foreach ($ships as $element => $amount) {
-                        if ($attacker == 0) { // PlayerID for AI is 0
-                            // Expo
-                            $statsHandler->updateExpoLostAdvancedStats($victim, [$element => $amount]);
-                        } else {
-                            // Attack
-                            $statsHandler->updateDestroyedAdvancedStats($attacker, $victim, $element, $amount);
-                        }
+    /**
+     * Counts the kills of a real fight in the advanced stats: attacker id 0 is the AI (expedition: the victim's lost
+     * units), otherwise the destroyed units of attacker against victim.
+     *
+     * @param array<int|string, array<int|string, array<int|string, int|float>>> $advancedStats attacker => victim => element => amount
+     */
+    private function recordKills(AdvancedStatsHandler $statsHandler, array $advancedStats): void
+    {
+        foreach ($advancedStats as $attacker => $victims) {
+            foreach ($victims as $victim => $ships) {
+                foreach ($ships as $element => $amount) {
+                    if ($attacker == 0) { // PlayerID for AI is 0
+                        // Expo
+                        $statsHandler->updateExpoLostAdvancedStats($victim, [$element => $amount]);
+                    } else {
+                        // Attack
+                        $statsHandler->updateDestroyedAdvancedStats($attacker, $victim, $element, $amount);
                     }
                 }
             }
         }
+    }
 
-        if ($att['attackAmount']['total'] <= 0 && $def['attackAmount']['total'] > 0) {
-            $won = DEFENDER;
-        } elseif ($att['attackAmount']['total'] > 0 && $def['attackAmount']['total'] <= 0) {
-            $won = ATTACKER;
-        } else {
-            $won = DRAW;
-        }
-
-        // CDR
+    /**
+     * CDR of the attackers: subtracts the surviving ships from the start values, so the tally holds what was lost.
+     *
+     * @param array<string, mixed> $tally from tallyStartValues(), changed in place
+     * @param array<int|string, array<string, mixed>> $attackers survivors
+     */
+    private function subtractSurvivors(array &$tally, array $attackers): void
+    {
+        $pricelist = $this->state->pricelist;
         foreach ($attackers as $fleetID => $attacker) {                    // flotte attaquant en CDR
             foreach ($attacker['unit'] as $element => $amount) {
-                $TRES['attacker'] -= $pricelist[$element]['cost'][901] * $amount;
-                $TRES['attacker'] -= $pricelist[$element]['cost'][902] * $amount;
+                $tally['TRES']['attacker'] -= $pricelist[$element]['cost'][901] * $amount;
+                $tally['TRES']['attacker'] -= $pricelist[$element]['cost'][902] * $amount;
 
-                $ARES['metal'] -= $pricelist[$element]['cost'][901] * $amount;
-                $ARES['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+                $tally['ARES']['metal'] -= $pricelist[$element]['cost'][901] * $amount;
+                $tally['ARES']['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
 
-                $unitsLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
-                $unitsLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
-                $capacityLost['attacker'][$attacker['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
+                $tally['unitsLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
+                $tally['capacityLost']['attacker'][$attacker['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
             }
         }
+    }
 
+    /**
+     * Settles the defenders: subtracts the surviving ships from the start values, collects the wreck field candidates
+     * (ships lost from the planet's fleet, with the repair dock) and restores the destroyed defense (70 percent +/- 20,
+     * random per defense type; the destroyed rest counts as debris). Uses rand() in the order of the fleets and
+     * units, which seeded fights depend on.
+     *
+     * @param array<string, mixed> $tally from tallyStartValues(), changed in place
+     * @param array<int|string, array<string, mixed>> $defenders survivors; the restored defense is added in place
+     * @return array{0: array<int, array{units: int|float, percent: int|float}>, 1: array<int, int|float>, 2: array{lost: int|float}, 3: array{metal: int|float, crystal: int|float}}
+     *         repaired defense per element, wreck field candidates, lost value of the planet's ships, value of the
+     *         destroyed (not restored) defense
+     */
+    private function settleDefenders(array &$tally, array &$defenders, object $config, bool $sim, AdvancedStatsHandler $statsHandler): array
+    {
+        $pricelist = $this->state->pricelist;
+        $STARTDEF = $tally['STARTDEF'];
         $DRESDefs = ['metal' => 0, 'crystal' => 0];
 
         // restore defense (70% +/- 20%)
@@ -272,15 +400,15 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         foreach ($defenders as $fleetID => $defender) {
             foreach ($defender['unit'] as $element => $amount) {
                 if ($element < 300) {                           // flotte defenseur en CDR
-                    $DRES['metal'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $DRES['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['DRES']['metal'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $tally['DRES']['crystal'] -= $pricelist[$element]['cost'][902] * $amount;
 
-                    $TRES['defender'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $TRES['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][902] * $amount;
 
-                    $unitsLost['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
-                    $unitsLost['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
-                    $capacityLost['defender'][$defender['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
+                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][901] * $amount;
+                    $tally['unitsLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['capacityLost']['defender'][$defender['player']['id']] -= $pricelist[$element]['capacity'] * $amount;
 
                     if ($fleetID == 0 && $this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) && $STARTDEF[$element] > $amount) {
                         $lost = $STARTDEF[$element] - $amount;
@@ -290,8 +418,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
                         $defendingPlayer['lost'] += $pricelist[$element]['cost'][902] * $lost;
                     }
                 } else {                                    // defs defenseur en CDR + reconstruction
-                    $TRES['defender'] -= $pricelist[$element]['cost'][901] * $amount;
-                    $TRES['defender'] -= $pricelist[$element]['cost'][902] * $amount;
+                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][901] * $amount;
+                    $tally['TRES']['defender'] -= $pricelist[$element]['cost'][902] * $amount;
 
                     $lost = $STARTDEF[$element] - $amount;
                     $giveback = 0;
@@ -318,63 +446,63 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             }
         }
 
-        $ARES['metal'] = max($ARES['metal'], 0);
-        $ARES['crystal'] = max($ARES['crystal'], 0);
-        $DRES['metal'] = max($DRES['metal'], 0);
-        $DRES['crystal'] = max($DRES['crystal'], 0);
-        $TRES['attacker'] = max($TRES['attacker'], 0);
-        $TRES['defender'] = max($TRES['defender'], 0);
+        return [$repairedDef, $wreckfield, $defendingPlayer, $DRESDefs];
+    }
 
-        $totalLost = ['attacker' => $TRES['attacker'], 'defender' => $TRES['defender']];
-        $debAttMet = ($ARES['metal'] * ($config->fleet_debris_percentage / 100));
-        $debAttCry = ($ARES['crystal'] * ($config->fleet_debris_percentage / 100));
-        $debDefMet = ($DRES['metal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['metal'] * ($config->def_debris_percentage / 100));
-        $debDefCry = ($DRES['crystal'] * ($config->fleet_debris_percentage / 100)) + ($DRESDefs['crystal'] * ($config->def_debris_percentage / 100));
-
-        if (!$sim && $defenders[0]['player']['id'] != 0) {
-            $statsDone = [];
-            foreach ($attackers as $fleetID => $attacker) {
-                if (isset($statsDone[$attacker['player']['id']])) {
-                    continue; // once per user, not per fleet
-                }
-                $statsDone[$attacker['player']['id']] = true;
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBMETAL, $debAttMet + $debDefMet);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debAttCry + $debDefCry);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['defender']);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['attacker'][$attacker['player']['id']] ?? 0));
+    /**
+     * Writes the fight to the advanced stats of every involved player (once per user, not per fleet): the debris, the
+     * destroyed value of the other side and the own lost value. Only for fights against real players.
+     *
+     * @param array<int|string, array<string, mixed>> $attackers survivors
+     * @param array<int|string, array<string, mixed>> $defenders survivors
+     * @param int|float $debrisMetal metal debris of both sides
+     * @param int|float $debrisCrystal crystal debris of both sides
+     * @param array{attacker: int|float, defender: int|float} $totalLost lost value per side
+     * @param array<string, array<int|string, int|float>> $unitsLost lost value per player and side
+     */
+    private function recordFightStats(AdvancedStatsHandler $statsHandler, array $attackers, array $defenders, int|float $debrisMetal, int|float $debrisCrystal, array $totalLost, array $unitsLost): void
+    {
+        $statsDone = [];
+        foreach ($attackers as $fleetID => $attacker) {
+            if (isset($statsDone[$attacker['player']['id']])) {
+                continue; // once per user, not per fleet
             }
-            $statsDone = [];
-            foreach ($defenders as $fleetID => $defender) {
-                if (isset($statsDone[$defender['player']['id']])) {
-                    continue; // once per user, not per fleet
-                }
-                $statsDone[$defender['player']['id']] = true;
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBMETAL, $debAttMet + $debDefMet);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debAttCry + $debDefCry);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['attacker']);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['defender'][$defender['player']['id']] ?? 0));
+            $statsDone[$attacker['player']['id']] = true;
+            $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBMETAL, $debrisMetal);
+            $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debrisCrystal);
+            $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['defender']);
+            $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['attacker'][$attacker['player']['id']] ?? 0));
+        }
+        $statsDone = [];
+        foreach ($defenders as $fleetID => $defender) {
+            if (isset($statsDone[$defender['player']['id']])) {
+                continue; // once per user, not per fleet
             }
+            $statsDone[$defender['player']['id']] = true;
+            $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBMETAL, $debrisMetal);
+            $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debrisCrystal);
+            $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['attacker']);
+            $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['defender'][$defender['player']['id']] ?? 0));
         }
+    }
 
-        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
-            $defenders[0]['player']['id'] === 0 ||
-            !isset($defenders[0]['currentTotalFleetState']['totalUnits']) ||
-            $defenders[0]['currentTotalFleetState']['totalUnits'] <= 0 ||
-            (!empty($defenders[0]['player']['wreckfield_cooldown_until']) && $defenders[0]['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
-            $defendingPlayer['lost'] < $config->wreckfield_min_units ||
-            $defendingPlayer['lost']/$defenders[0]['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
-            $wreckfield = [];
-        }
-
-        return new BattleResult(
-            $won,
-            new BattleDebris($debAttMet, $debAttCry, $debDefMet, $debDefCry),
-            $ROUND,
-            new BattleLosses($totalLost['attacker'], $totalLost['defender'], $unitsLost, $capacityLost),
-            $repairedDef,
-            $wreckfield,
-            microtime(true) - $executionTime,
-        );
+    /**
+     * Whether the destroyed ships of the planet may form a wreck field: repair dock module on, a real player as owner
+     * who has ships at all, no wreck field cooldown running, and the lost value reaching the minimum units and the
+     * minimum share of his total fleet.
+     *
+     * @param array<string, mixed> $planetFleet the planet's side (fleet 0) with player and currentTotalFleetState
+     * @param int|float $lostValue metal+crystal value of the ships lost from the planet
+     */
+    private function wreckfieldAllowed(array $planetFleet, int|float $lostValue, object $config): bool
+    {
+        return !(!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
+            $planetFleet['player']['id'] === 0 ||
+            !isset($planetFleet['currentTotalFleetState']['totalUnits']) ||
+            $planetFleet['currentTotalFleetState']['totalUnits'] <= 0 ||
+            (!empty($planetFleet['player']['wreckfield_cooldown_until']) && $planetFleet['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
+            $lostValue < $config->wreckfield_min_units ||
+            $lostValue / $planetFleet['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100));
     }
 
     /** Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds). */

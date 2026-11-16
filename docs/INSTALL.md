@@ -179,6 +179,10 @@ password `db`, name `db`), the game settings and your administrator account. The
   `composer install --no-dev --optimize-autoloader --classmap-authoritative`. Migrations run on the next request.
 * If something looks odd after an update, clear the cache: `php bin/console cache:clear` (or empty `var/cache/` and
   `var/game/`).
+* **Community links (new):** the game no longer ships links to the pr0game Discord, wiki, donation page or userscripts.
+  A fresh install shows none. If your server relied on them, set them in the admin area under *Configuration >
+  Community links* (`discord_url`, `wiki_url` without trailing slash, `donate_url`, `userscripts_url`); an empty field
+  hides the link everywhere. Old values are not migrated.
 
 ## Backups
 

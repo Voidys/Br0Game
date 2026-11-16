@@ -127,18 +127,8 @@ class MissionFunctions
             return;
         }
 
-        $param = [];
-        $updateQuery = [];
-
-        foreach ($this->_upd as $Opt => $Val) {
-            $updateQuery[] = "`" . $Opt . "` = :" . $Opt;
-            $param[':' . $Opt] = $Val;
-        }
-
-        if (!empty($updateQuery)) {
-            $sql = 'UPDATE %%FLEETS%% SET ' . implode(', ', $updateQuery) . ' WHERE `id` = :fleetId;';
-            $param[':fleetId'] = $this->_fleet['id'];
-            $this->db->update($sql, $param);
+        if (!empty($this->_upd)) {
+            $this->db->updateRows('FLEETS', $this->_upd, ['id' => $this->_fleet['id']]);
 
             $sql = 'UPDATE %%FLEETS_EVENT%% SET `time` = :time WHERE `fleetID` = :fleetId;';
             $this->db->update($sql, [
@@ -147,19 +137,160 @@ class MissionFunctions
             ]);
         }
 
-        $param = [];
-        $updateQuery = [];
+        if (!empty($this->_updLog)) {
+            $this->db->updateRows('LOG_FLEETS', $this->_updLog, ['id' => $this->_fleet['id']]);
+        }
+    }
 
-        foreach ($this->_updLog as $Opt => $Val) {
-            $updateQuery[] = "`" . $Opt . "` = :" . $Opt;
-            $param[':' . $Opt] = $Val;
+    /**
+     * Reads (and row-locks, FOR UPDATE) the debris columns `der_<resource>` of a debris carrier row (planet or pirate
+     * base) together with their sum as `total`.
+     *
+     * @param string $tableKey PLANETS or PIRATE_BASES
+     * @param array<int> $debrisIDs resource ids that can lie in the field (metal, crystal)
+     * @return array<string, mixed>|false the row, false when it is gone
+     */
+    protected function lockDebrisField(string $tableKey, int|string $rowId, array $debrisIDs): array|false
+    {
+        $columns = array_map(fn(int $debrisID): string => '`der_' . $this->state->resource[$debrisID] . '`', $debrisIDs);
+        $qb = $this->db->qb()
+            ->select(...$columns)
+            ->addSelect('(' . implode(' + ', $columns) . ') AS total')
+            ->from($this->db->table($tableKey))
+            ->where('`id` = :planetId')
+            ->setParameter('planetId', $rowId)
+            ->forUpdate();
+
+        return $this->db->fetchRow($qb);
+    }
+
+    /**
+     * Removes the collected goods from the debris columns of a debris carrier row (never below 0).
+     *
+     * @param string $tableKey PLANETS or PIRATE_BASES
+     * @param array<int, int|float> $collectedGoods resource id => amount taken
+     */
+    protected function takeDebris(string $tableKey, int|string $rowId, array $collectedGoods): void
+    {
+        $qb = $this->db->qb()->update($this->db->table($tableKey))
+            ->where('`id` = :planetId')
+            ->setParameter('planetId', $rowId);
+        foreach ($collectedGoods as $debrisID => $amount) {
+            $column = '`der_' . $this->state->resource[$debrisID] . '`';
+            $qb->set($column, 'GREATEST(0, ' . $column . ' - :take' . $debrisID . ')')->setParameter('take' . $debrisID, $amount);
+        }
+        $this->db->execute($qb);
+    }
+
+    /**
+     * Loads the debris from a locked debris field into the fleet cargo. The room is the recyclers' capacity plus whatever
+     * the other ships have left after the cargo already on board (it can only reduce it); a field bigger than the room is
+     * taken proportionally (ceil) in both resources. Updates the fleet (cargo) and the fleet log (gained_*), and removes
+     * the goods from the field row.
+     *
+     * @param string $tableKey PLANETS or PIRATE_BASES
+     * @param array<string, mixed> $targetData row from lockDebrisField() (der_* columns and `total` > 0)
+     * @return array{0: array<int, int|float>, 1: array<int, int|float>} collected and remaining goods by resource id
+     */
+    protected function collectDebris(string $tableKey, array $targetData): array
+    {
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $debrisIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL];
+        $collectedGoods = [];
+        $remainingGoods = [];
+
+        $recyclerStorage = 0;
+        $otherFleetStorage = 0;
+        foreach ($this->fleetFunctions()->unserialize($this->_fleet['ships']) as $shipId => $shipAmount) {
+            if (isset($this->state->reslist['ship_type'][SHIP_TYPE_RECYCLER][$shipId])) {
+                $recyclerStorage += $pricelist[$shipId]['capacity'] * $shipAmount;
+            } else {
+                $otherFleetStorage += $pricelist[$shipId]['capacity'] * $shipAmount;
+            }
         }
 
-        if (!empty($updateQuery)) {
-            $sql = 'UPDATE %%LOG_FLEETS%% SET ' . implode(', ', $updateQuery) . ' WHERE `id` = :fleetId;';
-            $param[':fleetId'] = $this->_fleet['id'];
-            $this->db->update($sql, $param);
+        $incomingGoods = 0;
+        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceID) {
+            $incomingGoods += $this->_fleet['resource_' . $resource[$resourceID]];
         }
+
+        $totalStorage = $recyclerStorage + min(0, $otherFleetStorage - $incomingGoods);
+
+        // fast way
+        $collectFactor = min(1, $totalStorage / $targetData['total']);
+        foreach ($debrisIDs as $debrisID) {
+            $fleetColName = 'resource_' . $resource[$debrisID];
+            $logColName = 'gained_' . $resource[$debrisID];
+            $debrisColName = 'der_' . $resource[$debrisID];
+
+            $collectedGoods[$debrisID] = ceil($targetData[$debrisColName] * $collectFactor);
+            $remainingGoods[$debrisID] = max(0, $targetData[$debrisColName] - $collectedGoods[$debrisID]);
+
+            $this->UpdateFleet($fleetColName, $this->_fleet[$fleetColName] + $collectedGoods[$debrisID]);
+            $this->UpdateFleetLog($logColName, $collectedGoods[$debrisID]);
+        }
+
+        $this->takeDebris($tableKey, $this->_fleet['end_id'], $collectedGoods);
+
+        return [$collectedGoods, $remainingGoods];
+    }
+
+    /** Checks the recycling achievements for a fleet that found an empty debris field (nothing collected). */
+    protected function checkEmptyRecycling(array $collectedGoods): void
+    {
+        $fleetData = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
+        $recCount = 0;
+        foreach ($fleetData as $shipId => $shipAmount) {
+            if (isset($this->state->reslist['ship_type'][SHIP_TYPE_RECYCLER][$shipId])) {
+                $recCount += $shipAmount;
+            }
+        }
+        $this->miscAchievements()->checkRecAchievements($this->_fleet['owner'], $collectedGoods, $recCount);
+    }
+
+    /**
+     * Sends the recycling report to the fleet owner: what was collected, the total the field held before, and how many
+     * recyclers the remainder needs.
+     *
+     * @param array<int, int|float> $collectedGoods by resource id
+     * @param array<int, int|float> $remainingGoods by resource id
+     * @param array<string, mixed> $targetData row from lockDebrisField() (the field before the collection)
+     */
+    protected function sendRecyclingReport(array $collectedGoods, array $remainingGoods, array $targetData): void
+    {
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $LNG = $this->getLanguage(null, $this->_fleet['owner']);
+        $LNG->includeData(['INGAME']);
+
+        $Message = $LNG->format('sys_recy_gotten',
+            GetTargetAddressLink($this->_fleet, ''),
+            $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_METAL]),
+            $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_CRYSTAL]),
+            $this->viewHelpers()->prettyNumber($targetData['der_' . $resource[RESOURCE_METAL]]),
+            $this->viewHelpers()->prettyNumber($targetData['der_' . $resource[RESOURCE_CRYSTAL]]),
+            $LNG['tech'][RESOURCE_METAL],
+            $LNG['tech'][RESOURCE_CRYSTAL],
+        );
+        $Message .= '<br>';
+        $Message .= $LNG->format('bs_derbis_raport',
+            $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $pricelist[SHIP_RECYCLER]['capacity'])),
+            $LNG['tech'][SHIP_RECYCLER]
+        );
+
+        $this->playerUtil()->sendMessage(
+            $this->_fleet['owner'],
+            0,
+            $LNG['sys_mess_tower'],
+            MESSAGE_TYPE_TRANSPORT,
+            $LNG['sys_recy_report'],
+            $Message,
+            $this->_fleet['arrival_time'],
+            1,
+            $this->_fleet['universe'],
+            $this->_fleet['end_id']
+        );
     }
 
     /**

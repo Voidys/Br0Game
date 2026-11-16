@@ -489,10 +489,10 @@ al_your_ally: Deine Allianz
 al_your_request_title: Bewerbung
 bad_forum_url: geine ForenURL- definierd
 banned_message: >-
-  Sie wurdne vom Banhammer erschlagne tadsächlich sogar. Wene Sie glaubne, das
+  Sie wurdne vom Banhammer erschlagne tadsächlich sogar. <!--discord_url-->Wene Sie glaubne, das
   es sich dabei um ein Missverschdändnis handeld,schreibne Sie uns über
   Discord:  <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Agtuelle Broduktion:'
 bd_add_to_list: Zur Baulischde hinzufügen
 bd_available: 'Worhandne: '
@@ -1029,13 +1029,13 @@ invalid_action: Ungüldige Agtion
 kontakt: >-
   Hi!<br>Auf dieser Seite findest du Informationen zu den Leuten, die dieses
   Projekt aktiv betreiben, moderieren und weiterentwickeln.<br>Wende dich bei
-  Fragen und Problemen gern an uns.<br><br>Für den besseren Austausch mit uns,
+  Fragen und Problemen gern an uns.<br><br><!--discord_url-->Für den besseren Austausch mit uns,
   aber auch mit den anderen Mitspielern, haben wir einen Discord-Server
   eingerichtet. Du findest ihn » <a
-  href="https://discord.gg/jhYYN3yuat">hier</a> « oder über das Menü.<br>Auf dem
+  href="{discord_url}">hier</a> « oder über das Menü.<br>Auf dem
   Server findest du die aktuellsten News, sowie spannende Memes zwischen den
   Allianzen des Universums.<br>Stelle Fragen zu Spielmechaniken und hilf durch
-  eigene Vorschläge mit bei der Weiterentwicklung des Spiels.<br><br>Natürlich
+  eigene Vorschläge mit bei der Weiterentwicklung des Spiels.<br><br><!--/discord_url-->Natürlich
   antworten wir dir dennoch auch bei Ingame-Nachriten.<br>Bedenke jedoch, dass
   auch wir das Spiel nur als Hobby betreiben. Antworten können sich einige Tage
   hinziehen.<br>
@@ -1586,9 +1586,9 @@ sys_closed_game: 'Das Uniwersum isd zur Zeit ned verfügbar:'
 sys_forward: Weider
 sys_game_is_setup: >-
   <h1>Registrierung Geschafft!</h1><br><p>Wir bereiten gerade das Universum für
-  euch vor!</p><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
-  den</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord
-  <-</a></h3>
+  euch vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
+  den</p><h3><a href="{discord_url}" target="_blank">-> Discord
+  <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modul inagtiv
 sys_nomore_level: Sie wersuchne, ein Gebäude zu zermeddln, was sie ned mehr besidzne( %s ).
 sys_notenough_money: >-

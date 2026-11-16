@@ -55,9 +55,7 @@ class FleetStep2Controller extends AbstractGameController
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
         $this->addScript('flotten.js');
-        $config = $this->configs->get();
 
         $targetGalaxy = $this->http()->_GP('galaxy', 0);
         $targetSystem = $this->http()->_GP('system', 0);
@@ -66,7 +64,6 @@ class FleetStep2Controller extends AbstractGameController
         $targetMission = $this->http()->_GP('target_mission', -1);
         $fleetSpeed = $this->http()->_GP('speed', 0);
         $fleetGroupPublicId = $this->http()->_GP('group', '');
-        $fleetGroup = 0;
         $token = $this->http()->_GP('token', '');
 
         $session = $this->sessions()->load();
@@ -75,10 +72,179 @@ class FleetStep2Controller extends AbstractGameController
             $this->fleetFunctions()->gotoFleetPage();
         }
 
-
         $fleetArray = $fleet[$token]['fleet'];
 
+        [$targetPlanetData, $fleetGroup] = $this->loadTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetType, $fleetGroupPublicId);
+
+        $MissionOutput = $this->possibleMissions($targetPlanetData, $fleetArray, $fleetGroup, $targetGalaxy, $targetSystem, $targetPlanet, $targetType);
+
+        if ($targetMission == -1) {
+            $targetMission = $this->preferredMission($MissionOutput['MissionSelector'], $targetMission);
+        }
+        // validate the speed first: the flight duration divides by it
+        if (!$this->fleetFunctions()->checkUserSpeed((int) $fleetSpeed)) {
+            $this->fleetFunctions()->gotoFleetPage(0);
+        }
+
+        [$MaxFleetSpeed, $distance, $duration, $consumption] = $this->flightPlan($fleetArray, $targetGalaxy, $targetSystem, $targetPlanet, $fleetSpeed);
+
+        if ($consumption > $PLANET['deuterium']) {
+            $this->backToFleetTable($LNG['fl_not_enough_deuterium']);
+        }
+
+        $fleet[$token] = array_merge($fleet[$token], [
+            'speed' => $MaxFleetSpeed,
+            'distance' => $distance,
+            'targetGalaxy' => $targetGalaxy,
+            'targetSystem' => $targetSystem,
+            'targetPlanet' => $targetPlanet,
+            'targetType' => $targetType,
+            'fleetGroup' => $fleetGroup,
+            'fleetSpeed' => $fleetSpeed,
+            'ownPlanet' => $PLANET['id'],
+        ]);
+        $session->fleet = $fleet;
+        $session->save();
+
+        if ($targetMission == 0) {
+            $targetMission = $this->guessMission($MissionOutput['MissionSelector'], $targetPlanetData, $fleetArray);
+        }
+
+        if (!empty($fleetGroup) && $targetMission == MISSION_ATTACK) {
+            $targetMission  = MISSION_ACS;
+        }
+
+        $questionList = $this->confirmationQuestions($targetPlanetData, $targetGalaxy, $targetSystem);
+
+        $fleetData  = [
+            'fleetroom'     => floatToString($fleet[$token]['fleetRoom']),
+            'consumption'   => floatToString($consumption),
+        ];
+
+        $tradeMarket = empty($MissionOutput['Exchange']) ? null : $this->tradeMarketData($fleetArray);
+
+        $this->assign($this->formVariables($questionList, $fleetData, $consumption, $targetMission, $MissionOutput, $tradeMarket, $token, $duration, $fleet[$token]['predefinedResources']));
+
+        $this->checkShipsAvailable($fleetArray, $targetMission);
+
+        return $this->render('game/page.fleetStep2.default.html.twig');
+    }
+
+    /**
+     * Asks FleetFunctions which missions are possible against the target. Ends the request with a message when the target
+     * is an empty debris field or when no mission is possible.
+     *
+     * @param array<string, mixed> $targetPlanetData target row from loadTarget() (empty = nothing there)
+     * @param array<int, int|float> $fleetArray ship id => count
+     * @return array<string, mixed> MissionSelector, StayBlock, Exchange
+     */
+    private function possibleMissions(array $targetPlanetData, array $fleetArray, int $fleetGroup, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType): array
+    {
+        $LNG = $this->state->LNG;
+        if ($targetType == 2 && !empty($targetPlanetData) && ($targetPlanetData['der_metal'] + $targetPlanetData['der_crystal']) == 0
+            && $targetPlanetData['tf_active'] == 0) {
+            $this->backToFleetTable($LNG['fl_error_empty_derbis']);
+        }
+
+        $MissionOutput = $this->fleetFunctions()->getFleetMissions($this->state->USER, [
+            'galaxy' => $targetGalaxy,
+            'system' => $targetSystem,
+            'planet' => $targetPlanet,
+            'planettype' => $targetType,
+            'IsAKS' => $fleetGroup,
+            'Ship' => $fleetArray,
+        ], $targetPlanetData);
+
+        if (empty($MissionOutput['MissionSelector'])) {
+            $this->backToFleetTable($LNG['fl_empty_target']);
+        }
+
+        return $MissionOutput;
+    }
+
+    /**
+     * Flight data for the chosen target: the slowest ship's speed, the distance from the current planet, the flight duration
+     * at the chosen speed percentage and the deuterium consumption.
+     *
+     * @param array<int, int|float> $fleetArray ship id => count
+     * @return array{0: mixed, 1: mixed, 2: mixed, 3: mixed} max fleet speed, distance, duration, consumption
+     */
+    private function flightPlan(array $fleetArray, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $fleetSpeed): array
+    {
+        $PLANET = $this->state->PLANET;
+        $GameSpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $userModel = $this->models()->user($this->state->USER);
+        $MaxFleetSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
+        $distance = $this->fleetFunctions()->getTargetDistance(
+            [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
+            [$targetGalaxy, $targetSystem, $targetPlanet],
+        );
+        $duration = $this->fleetFunctions()->missionDurationFor($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $userModel);
+        $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $duration, $distance, $userModel, $GameSpeedFactor);
+
+        return [$MaxFleetSpeed, $distance, $duration, $consumption];
+    }
+
+    /**
+     * Template variables of the mission form: questions, fleet data, the chosen mission and the selectors from
+     * FleetFunctions::getFleetMissions(), the trade market and the origin planet coordinates.
+     *
+     * @param array<int, string> $questionList mission => confirmation question
+     * @param array<string, mixed> $fleetData fleetroom and consumption
+     * @param array<string, mixed> $MissionOutput result of getFleetMissions()
+     * @param array<string, mixed>|null $tradeMarket from tradeMarketData()
+     * @return array<string, mixed>
+     */
+    private function formVariables(array $questionList, array $fleetData, mixed $consumption, mixed $targetMission, array $MissionOutput, ?array $tradeMarket, mixed $token, mixed $duration, mixed $predefinedResources): array
+    {
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+
+        return [
+            'questionList'      => $questionList,
+            'fleetdata'         => $fleetData,
+            'consumption'       => floatToString($consumption),
+            'mission'           => $targetMission,
+            'galaxy'            => $PLANET['galaxy'],
+            'system'            => $PLANET['system'],
+            'planet'            => $PLANET['planet'],
+            'type'              => $PLANET['planet_type'],
+            'MissionSelector'   => $MissionOutput['MissionSelector'],
+            'StaySelector'      => $MissionOutput['StayBlock'],
+            'Exchange'          => $MissionOutput['Exchange'],
+            'tradeMarket'       => $tradeMarket,
+            'fl_continue'       => $LNG['fl_continue'],
+            'token'             => $token,
+            'duration'          => $duration,
+            'predefinedRes'     => $predefinedResources,
+        ];
+    }
+
+    /**
+     * Ends the request with $message and a back link to the fleet page.
+     */
+    private function backToFleetTable(mixed $message): void
+    {
+        $this->printMessage($message, [[
+            'label' => $this->state->LNG['sys_back'],
+            'url'   => 'game?page=fleetTable',
+        ]]);
+    }
+
+    /**
+     * Loads the target of the dispatch: the player's own pirate base (when $targetPlanet is the pirate slot) or the
+     * planet/moon at the coordinates (debris fields hang off the planet row). For normal targets it also resolves the
+     * public id of an alliance combat group the player is invited to.
+     *
+     * @return array{0: array<string, mixed>, 1: int} target row (empty = nothing there) and the internal combat group id (0 = none)
+     */
+    private function loadTarget(mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType, mixed $fleetGroupPublicId): array
+    {
         $db = $this->db;
+        $USER = $this->state->USER;
+        $config = $this->configs->get();
+        $fleetGroup = 0;
+
         if ($targetPlanet == $config->max_planets + 3) {
             $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `tf_active`
                 FROM %%PIRATE_BASES%% 
@@ -118,152 +284,125 @@ class FleetStep2Controller extends AbstractGameController
             $targetPlanetData = [];
         }
 
-        if ($targetType == 2 && !empty($targetPlanetData) && ($targetPlanetData['der_metal'] + $targetPlanetData['der_crystal']) == 0
-            && $targetPlanetData['tf_active'] == 0) {
-            $this->printMessage($LNG['fl_error_empty_derbis'], [[
-                'label' => $LNG['sys_back'],
-                'url'   => 'game?page=fleetTable',
-            ]]);
-        }
+        return [$targetPlanetData, $fleetGroup];
+    }
 
-        $MisInfo = [];
-        $MisInfo['galaxy'] = $targetGalaxy;
-        $MisInfo['system'] = $targetSystem;
-        $MisInfo['planet'] = $targetPlanet;
-        $MisInfo['planettype'] = $targetType;
-        $MisInfo['IsAKS'] = $fleetGroup;
-        $MisInfo['Ship'] = $fleetArray;
-
-        $MissionOutput = $this->fleetFunctions()->getFleetMissions($USER, $MisInfo, $targetPlanetData);
-
-        if (empty($MissionOutput['MissionSelector'])) {
-            $this->printMessage($LNG['fl_empty_target'], [[
-                'label' => $LNG['sys_back'],
-                'url'   => 'game?page=fleetTable',
-            ]]);
-        }
-
-        if ($targetMission == -1) {
-            $sql = "SELECT `prioMission1` as '1', `prioMission2` as '2', `prioMission3` as '3', `prioMission4` as '4', `prioMission5` as '5',
-                    `prioMission6` as '6', `prioMission7` as '7', `prioMission8` as '8', `prioMission9` as '9', `prioMission17` as '17'
-                FROM %%USERS_SETTINGS%%
-                WHERE `user_id` = :userID ;";
-            $missionprios = $db->selectSingle($sql, [
-                ':userID'   => $USER['id'],
-            ]);
-            $bestmission = 999;
-            foreach ($MissionOutput['MissionSelector'] as $mission) {
-                if (array_key_exists($mission, $missionprios)) {
-                    $score = $missionprios[$mission];
-                    if ($score < $bestmission) {
-                        $targetMission = $mission;
-                        $bestmission = $score;
-                    }
-                }
-            }
-        }
-        $GameSpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
-        $userModel = $this->models()->user($USER);
-        $MaxFleetSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
-        $distance = $this->fleetFunctions()->getTargetDistance(
-            [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
-            [$targetGalaxy, $targetSystem, $targetPlanet],
-        );
-        $duration = $this->fleetFunctions()->missionDurationFor($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $userModel);
-        $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $duration, $distance, $userModel, $GameSpeedFactor);
-
-        if ($consumption > $PLANET['deuterium']) {
-            $this->printMessage($LNG['fl_not_enough_deuterium'], [[
-                'label' => $LNG['sys_back'],
-                'url'   => 'game?page=fleetTable',
-            ]]);
-        }
-
-        if (!$this->fleetFunctions()->checkUserSpeed($fleetSpeed)) {
-            $this->fleetFunctions()->gotoFleetPage(0);
-        }
-
-        $fleet[$token]['speed'] = $MaxFleetSpeed;
-        $fleet[$token]['distance'] = $distance;
-        $fleet[$token]['targetGalaxy'] = $targetGalaxy;
-        $fleet[$token]['targetSystem'] = $targetSystem;
-        $fleet[$token]['targetPlanet'] = $targetPlanet;
-        $fleet[$token]['targetType'] = $targetType;
-        $fleet[$token]['fleetGroup'] = $fleetGroup;
-        $fleet[$token]['fleetSpeed'] = $fleetSpeed;
-        $fleet[$token]['ownPlanet'] = $PLANET['id'];
-        $session->fleet = $fleet;
-        $session->save();
-
-        if ($targetMission == 0) {
-            if (count($MissionOutput['MissionSelector']) == 1) {
-                $targetMission = $MissionOutput['MissionSelector'][0];
-            } elseif (!empty($targetPlanetData) && $targetPlanetData['id_owner'] == $USER['id']) {
-                $targetMission = MISSION_TRANSPORT;
-            } else {
-                if (count($fleetArray) == 1 && isset($fleetArray[SHIP_PROBE])) {
-                    $targetMission = MISSION_SPY;
-                } elseif (!empty($targetPlanetData)) {
-                    $sql = "SELECT a.`id`, a.`ally_tag`, a.`ally_name`, d.`level`, d.`owner_2`
-                        FROM %%USERS%% u
-                        JOIN %%ALLIANCE%% a ON a.`id` = u.`ally_id`
-                        JOIN %%DIPLO%% d ON ((d.`owner_1` = u.`ally_id` AND d.`owner_2` = :ally_id)
-                            OR (d.`owner_2` = u.`ally_id` AND d.`owner_1` = :ally_id))
-                            AND d.`accept` = 1
-                        WHERE u.`universe` = :universe AND u.`id` = :targetPlayerId AND d.`level` IN (1,2,4,6);";
-                    $targetAllianceData = $db->selectSingle($sql, [
-                        ':universe' => $this->universe()->current(),
-                        ':targetPlayerId' => $targetPlanetData['id_owner'],
-                        ':ally_id' => $USER['ally_id'],
-                    ]);
-
-                    $sql = "SELECT count(*) as anz FROM %%BUDDY%%
-                        WHERE (`sender` = :id AND `owner` = :targetPlayerId)
-                           OR (`sender` = :targetPlayerId AND `owner` = :id);";
-                    $buddy = $db->selectSingle($sql, [
-                        ':id' => $USER['id'],
-                        ':targetPlayerId' => $targetPlanetData['id_owner'],
-                    ]);
-
-                    if ($targetAllianceData || $buddy['anz'] > 0) {
-                        $targetMission = MISSION_TRANSPORT;
-                    } else {
-                        $targetMission = MISSION_ATTACK;
-                    }
-                } else {
-                    $targetMission = MISSION_ATTACK;
+    /**
+     * Picks the mission the player prefers (USERS_SETTINGS prioMission*, lower score wins) among the possible
+     * missions. Keeps $current when none of the possible missions has a priority.
+     *
+     * @param list<int> $missionSelector possible missions
+     */
+    private function preferredMission(array $missionSelector, mixed $current): mixed
+    {
+        $sql = "SELECT `prioMission1` as '1', `prioMission2` as '2', `prioMission3` as '3', `prioMission4` as '4', `prioMission5` as '5',
+                `prioMission6` as '6', `prioMission7` as '7', `prioMission8` as '8', `prioMission9` as '9', `prioMission17` as '17'
+            FROM %%USERS_SETTINGS%%
+            WHERE `user_id` = :userID ;";
+        $missionprios = $this->db->selectSingle($sql, [
+            ':userID'   => $this->state->USER['id'],
+        ]);
+        $targetMission = $current;
+        $bestmission = 999;
+        foreach ($missionSelector as $mission) {
+            if (array_key_exists($mission, $missionprios)) {
+                $score = $missionprios[$mission];
+                if ($score < $bestmission) {
+                    $targetMission = $mission;
+                    $bestmission = $score;
                 }
             }
         }
 
-        if (!empty($fleetGroup) && $targetMission == MISSION_ATTACK) {
-            $targetMission  = MISSION_ACS;
+        return $targetMission;
+    }
+
+    /**
+     * Allied-alliance row (diplomacy level 1, 2, 4 or 6, accepted) between the player's alliance and the alliance of
+     * $targetPlayerId, or a falsy value when there is none.
+     *
+     * @return array<string, mixed>|false|null
+     */
+    private function alliedAllianceOf(int $targetPlayerId): array|false|null
+    {
+        $sql = "SELECT a.`id`, a.`ally_tag`, a.`ally_name`, d.`level`, d.`owner_2`
+            FROM %%USERS%% u
+            JOIN %%ALLIANCE%% a ON a.`id` = u.`ally_id`
+            JOIN %%DIPLO%% d ON ((d.`owner_1` = u.`ally_id` AND d.`owner_2` = :ally_id)
+                OR (d.`owner_2` = u.`ally_id` AND d.`owner_1` = :ally_id))
+                AND d.`accept` = 1
+            WHERE u.`universe` = :universe AND u.`id` = :targetPlayerId AND d.`level` IN (1,2,4,6);";
+
+        return $this->db->selectSingle($sql, [
+            ':universe' => $this->universe()->current(),
+            ':targetPlayerId' => $targetPlayerId,
+            ':ally_id' => $this->state->USER['ally_id'],
+        ]);
+    }
+
+    /**
+     * Row with the number (`anz`) of buddy relations between the player and $targetPlayerId.
+     *
+     * @return array<string, mixed>
+     */
+    private function buddyCount(int $targetPlayerId): array
+    {
+        $sql = "SELECT count(*) as anz FROM %%BUDDY%%
+            WHERE (`sender` = :id AND `owner` = :targetPlayerId)
+               OR (`sender` = :targetPlayerId AND `owner` = :id);";
+
+        return $this->db->selectSingle($sql, [
+            ':id' => $this->state->USER['id'],
+            ':targetPlayerId' => $targetPlayerId,
+        ]);
+    }
+
+    /**
+     * Chooses the mission when the form asked for "auto" (0): the only possible one; transport on an own planet; spy for
+     * a lone probe; transport for targets of allied alliances or buddies; otherwise attack.
+     *
+     * @param list<int> $missionSelector possible missions
+     * @param array<string, mixed> $targetPlanetData target row, empty when nothing is there
+     * @param array<int, int> $fleetArray ship id => count
+     */
+    private function guessMission(array $missionSelector, array $targetPlanetData, array $fleetArray): int
+    {
+        if (count($missionSelector) == 1) {
+            return $missionSelector[0];
+        }
+        if (!empty($targetPlanetData) && $targetPlanetData['id_owner'] == $this->state->USER['id']) {
+            return MISSION_TRANSPORT;
+        }
+        if (count($fleetArray) == 1 && isset($fleetArray[SHIP_PROBE])) {
+            return MISSION_SPY;
+        }
+        if (empty($targetPlanetData)) {
+            return MISSION_ATTACK;
         }
 
+        $targetAllianceData = $this->alliedAllianceOf($targetPlanetData['id_owner']);
+        $buddy = $this->buddyCount($targetPlanetData['id_owner']);
+
+        return ($targetAllianceData || $buddy['anz'] > 0) ? MISSION_TRANSPORT : MISSION_ATTACK;
+    }
+
+    /**
+     * Confirmation questions the form asks before certain missions: attacks (and ACS / destruction) on outlaws, allied
+     * alliances or buddies; hold and spy on outlaws; colonising a system where the player already has two colonies.
+     *
+     * @param array<string, mixed> $targetPlanetData target row, empty when nothing is there
+     * @return array<int, string> mission => question text
+     */
+    private function confirmationQuestions(array $targetPlanetData, mixed $targetGalaxy, mixed $targetSystem): array
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $questionList = [];
         $question = '';
 
         if (!empty($targetPlanetData) && $targetPlanetData['id_owner'] != $USER['id']) {
-            $sql = "SELECT a.`id`, a.`ally_tag`, a.`ally_name`, d.`level`, d.`owner_2`
-                FROM %%USERS%% u
-                JOIN %%ALLIANCE%% a ON a.`id` = u.`ally_id`
-                JOIN %%DIPLO%% d ON ((d.`owner_1` = u.`ally_id` AND d.`owner_2` = :ally_id)
-                    OR (d.`owner_2` = u.`ally_id` AND d.`owner_1` = :ally_id))
-                    AND d.`accept` = 1
-                WHERE u.`universe` = :universe AND u.`id` = :targetPlayerId AND d.`level` IN (1,2,4,6);";
-            $targetAllianceData = $db->selectSingle($sql, [
-                ':universe' => $this->universe()->current(),
-                ':targetPlayerId' => $targetPlanetData['id_owner'],
-                ':ally_id' => $USER['ally_id'],
-            ]);
-
-            $sql = "SELECT count(*) as anz FROM %%BUDDY%%
-                WHERE (`sender` = :id AND `owner` = :targetPlayerId)
-                   OR (`sender` = :targetPlayerId AND `owner` = :id);";
-            $buddy = $db->selectSingle($sql, [
-                ':id' => $USER['id'],
-                ':targetPlayerId' => $targetPlanetData['id_owner'],
-            ]);
+            $targetAllianceData = $this->alliedAllianceOf($targetPlanetData['id_owner']);
+            $buddy = $this->buddyCount($targetPlanetData['id_owner']);
             $config = $this->configs->get();
 
             if ($config->noob_protection_outlaw) {
@@ -310,7 +449,7 @@ class FleetStep2Controller extends AbstractGameController
                   AND `system` = :system
                   AND `destruyed` = 0;";
 
-            $coloniesInSys = $db->selectSingle($sql, [
+            $coloniesInSys = $this->db->selectSingle($sql, [
                 ':id' => $USER['id'],
                 ':galaxy' => $targetGalaxy,
                 ':system' => $targetSystem,
@@ -320,68 +459,54 @@ class FleetStep2Controller extends AbstractGameController
             }
         }
 
-        $fleetData  = [
-            'fleetroom'     => floatToString($fleet[$token]['fleetRoom']),
-            'consumption'   => floatToString($consumption),
+        return $questionList;
+    }
+
+    /**
+     * Trade market data for trade missions: the deuterium-relative rates of the three resources, the deuterium value
+     * of the fleet's ships and the reference decimals.
+     *
+     * @param array<int, int> $fleetArray ship id => count
+     * @return array<string, mixed>
+     */
+    private function tradeMarketData(array $fleetArray): array
+    {
+        $pMarket = new MarketManager($this->db, $this->configs, $this->state);
+        $deutRelative = $pMarket->getDeutRelativeRatios();
+
+        return [
+            'rates' => [
+                'metal' => sprintf('%.12F', $deutRelative['metal']),
+                'crystal' => sprintf('%.12F', $deutRelative['crystal']),
+                'deuterium' => sprintf('%.12F', $deutRelative['deuterium']),
+            ],
+            'fleetDeut' => $pMarket->getFleetValue($fleetArray),
+            'decimals' => MarketManager::REFERENCE_DECIMALS,
         ];
+    }
 
-        $tradeMarket = null;
-        if (!empty($MissionOutput['Exchange'])) {
-            $pMarket = new MarketManager($this->db, $this->configs, $this->state);
-            $deutRelative = $pMarket->getDeutRelativeRatios();
-            $tradeMarket = [
-                'rates' => [
-                    'metal' => sprintf('%.12F', $deutRelative['metal']),
-                    'crystal' => sprintf('%.12F', $deutRelative['crystal']),
-                    'deuterium' => sprintf('%.12F', $deutRelative['deuterium']),
-                ],
-                'fleetDeut' => $pMarket->getFleetValue($fleetArray),
-                'decimals' => MarketManager::REFERENCE_DECIMALS,
-            ];
-        }
-
-        $this->assign([
-            'questionList'      => $questionList,
-            'fleetdata'         => $fleetData,
-            'consumption'       => floatToString($consumption),
-            'mission'           => $targetMission,
-            'galaxy'            => $PLANET['galaxy'],
-            'system'            => $PLANET['system'],
-            'planet'            => $PLANET['planet'],
-            'type'              => $PLANET['planet_type'],
-            'MissionSelector'   => $MissionOutput['MissionSelector'],
-            'StaySelector'      => $MissionOutput['StayBlock'],
-            'Exchange'          => $MissionOutput['Exchange'],
-            'tradeMarket'       => $tradeMarket,
-            'fl_continue'       => $LNG['fl_continue'],
-            'token'             => $token,
-            'duration'          => $duration,
-            'predefinedRes'     => $fleet[$token]['predefinedResources'],
-        ]);
-
+    /**
+     * Last sanity checks before the form is rendered; ends the request with a message when the planet no longer has
+     * the ships, or when an expedition would be sent with probes only.
+     *
+     * @param array<int, int> $fleetArray ship id => count
+     */
+    private function checkShipsAvailable(array $fleetArray, mixed $targetMission): void
+    {
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
         $containsOnlyProbes = true;
         foreach ($fleetArray as $Ship => $Count) {
-            if ($Count > $PLANET[$resource[$Ship]]) {
-                $this->printMessage($LNG['fl_not_all_ship_avalible'], [[
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetTable',
-                ]]);
+            if ($Count > $this->state->PLANET[$resource[$Ship]]) {
+                $this->backToFleetTable($LNG['fl_not_all_ship_avalible']);
             }
             if ($Ship != SHIP_PROBE) {
                 $containsOnlyProbes = false;
             }
         }
-        if ($targetMission == MISSION_EXPEDITION) {
-            if ($containsOnlyProbes) {
-                $this->printMessage($LNG['fl_no_probe_expos'], [[
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetTable',
-                ]]);
-            }
+        if ($targetMission == MISSION_EXPEDITION && $containsOnlyProbes) {
+            $this->backToFleetTable($LNG['fl_no_probe_expos']);
         }
-
-
-        return $this->render('game/page.fleetStep2.default.html.twig');
     }
 
     /**

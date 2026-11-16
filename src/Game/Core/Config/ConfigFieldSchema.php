@@ -66,6 +66,7 @@ class ConfigFieldSchema
      *       'maxlength' => 255,                // For text/number: maximum length
      *       'size'      => 60,                 // For text: size of the input field
      *       'transform' => 'string',           // Transformation function: int, float, string, bool, int_multiply_2500 (example for special transformations)
+     *       'validate'  => 'http_url',         // For text: empty or an absolute http(s) URL, anything else is stored as empty
      *       'sanitize'  => true,               // For text: whether the value should be sanitized before saving
      *       'min'       => 0,                  // For slider/number: minimum value
      *       'max'       => 100,                // For slider/number: maximum value
@@ -87,8 +88,29 @@ class ConfigFieldSchema
         }
         $LNG->includeData(['ADMIN']);
 
+        return array_merge(
+            $this->basicServerParametersSchema(),
+            $this->basicCommunityLinksSchema(),
+            $this->basicDiscordHooksSchema(),
+            $this->basicSmtpSchema(),
+            $this->basicUserSettingsSchema(),
+            $this->basicMessagesSchema(),
+            $this->basicRecaptchaSchema(),
+            $this->basicDisclaimerSchema(),
+            $this->basicStatisticsSchema(),
+        );
+    }
+
+    /**
+     * Basic server settings, category `server_parameters` (Basic Server Settings).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicServerParametersSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
         return [
-            // Basic Server Settings
             'server_parameters' => [
                 'game_name' => [
                     'type' => self::TYPE_TEXT,
@@ -174,8 +196,62 @@ class ConfigFieldSchema
                     'default' => '',
                 ],
             ],
+        ];
+    }
 
-            // Discord Webhooks
+    /**
+     * Basic server settings, category `community_links` (Community links (empty = hidden everywhere, see App\Game\Core\CommunityLinks)).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicCommunityLinksSchema(): array
+    {
+        return [
+            'community_links' => [
+                'discord_url' => [
+                    'type' => self::TYPE_TEXT,
+                    'maxlength' => 255,
+                    'size' => 60,
+                    'transform' => 'string',
+                    'validate' => 'http_url',
+                    'default' => '',
+                ],
+                'wiki_url' => [
+                    'type' => self::TYPE_TEXT,
+                    'maxlength' => 255,
+                    'size' => 60,
+                    'transform' => 'string',
+                    'validate' => 'http_url',
+                    'default' => '',
+                ],
+                'donate_url' => [
+                    'type' => self::TYPE_TEXT,
+                    'maxlength' => 255,
+                    'size' => 60,
+                    'transform' => 'string',
+                    'validate' => 'http_url',
+                    'default' => '',
+                ],
+                'userscripts_url' => [
+                    'type' => self::TYPE_TEXT,
+                    'maxlength' => 255,
+                    'size' => 60,
+                    'transform' => 'string',
+                    'validate' => 'http_url',
+                    'default' => '',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Basic server settings, category `discord_hooks` (Discord Webhooks).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicDiscordHooksSchema(): array
+    {
+        return [
             'discord_hooks' => [
                 'discord_logs_hook' => [
                     'type' => self::TYPE_TEXT,
@@ -199,8 +275,19 @@ class ConfigFieldSchema
                     'default' => '',
                 ],
             ],
+        ];
+    }
 
-            // Mail Settings
+    /**
+     * Basic server settings, category `smtp` (Mail Settings).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicSmtpSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'smtp' => [
                 'mail_active' => [
                     'type' => self::TYPE_CHECKBOX,
@@ -274,8 +361,19 @@ class ConfigFieldSchema
                     'default' => '',
                 ],
             ],
+        ];
+    }
 
-            // User Settings
+    /**
+     * Basic server settings, category `user_settings` (User Settings).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicUserSettingsSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'user_settings' => [
                 'del_oldstuff' => [
                     'type' => self::TYPE_NUMBER,
@@ -315,8 +413,17 @@ class ConfigFieldSchema
                     'default' => 21,
                 ],
             ],
+        ];
+    }
 
-            // Message Settings
+    /**
+     * Basic server settings, category `messages` (Message Settings).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicMessagesSchema(): array
+    {
+        return [
             'messages' => [
                 'message_delete_days' => [
                     'type' => self::TYPE_NUMBER,
@@ -327,7 +434,17 @@ class ConfigFieldSchema
                     'default' => 7,
                 ],
             ],
+        ];
+    }
 
+    /**
+     * Basic server settings, category `recaptcha`.
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicRecaptchaSchema(): array
+    {
+        return [
             'recaptcha' => [
                 'recaptcha_priv_key' => [
                     'type' => self::TYPE_TEXT,
@@ -346,8 +463,17 @@ class ConfigFieldSchema
                     'default' => '',
                 ],
             ],
+        ];
+    }
 
-            // Legal/Disclaimer
+    /**
+     * Basic server settings, category `disclaimer` (Legal/Disclaimer).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicDisclaimerSchema(): array
+    {
+        return [
             'disclaimer' => [
                 'disclamer_address' => [
                     'type' => self::TYPE_TEXTAREA,
@@ -382,8 +508,19 @@ class ConfigFieldSchema
                     'default' => '',
                 ],
             ],
+        ];
+    }
 
-            // Statistics
+    /**
+     * Basic server settings, category `statistics` (Statistics).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicStatisticsSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'statistics' => [
                 'stat_settings' => [
                     'type' => self::TYPE_NUMBER,
@@ -455,8 +592,33 @@ class ConfigFieldSchema
         }
         $LNG->includeData(['ADMIN']);
 
+        return array_merge(
+            $this->uniServerParametersSchema(),
+            $this->uniBuildlistSchema(),
+            $this->uniGalaxyParametersSchema(),
+            $this->uniColonisationConfigSchema(),
+            $this->uniPlanetParametersSchema(),
+            $this->uniBuildingsSchema(),
+            $this->uniExpeditionParametersSchema(),
+            $this->uniAttacksSchema(),
+            $this->uniPiratebaseSchema(),
+            $this->uniTraderSchema(),
+            $this->uniNewsSchema(),
+            $this->uniRefSchema(),
+            $this->uniBotsSchema(),
+        );
+    }
+
+    /**
+     * Universe settings, category `server_parameters` (Server Parameter).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniServerParametersSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
         return [
-            // Server Parameter
             'server_parameters' => [
                 'last_galaxy_pos' => [
                     'type' => self::TYPE_NONE,
@@ -677,8 +839,17 @@ class ConfigFieldSchema
                     'default' => 604800,
                 ],
             ],
+        ];
+    }
 
-            // Build List
+    /**
+     * Universe settings, category `buildlist` (Build List).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniBuildlistSchema(): array
+    {
+        return [
             'buildlist' => [
                 'max_elements_build' => [
                     'type' => self::TYPE_NUMBER,
@@ -721,8 +892,19 @@ class ConfigFieldSchema
                     'default' => 1,
                 ],
             ],
+        ];
+    }
 
-            // Galaxy Parameters
+    /**
+     * Universe settings, category `galaxy_parameters` (Galaxy Parameters).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniGalaxyParametersSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'galaxy_parameters' => [
                 'deuterium_cost_galaxy' => [
                     'type' => self::TYPE_NUMBER,
@@ -819,8 +1001,17 @@ class ConfigFieldSchema
                     'default' => 1000,
                 ],
             ],
+        ];
+    }
 
-            // Colonisation
+    /**
+     * Universe settings, category `colonisation_config` (Colonisation).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniColonisationConfigSchema(): array
+    {
+        return [
             'colonisation_config' => [
                 'max_initial_planets' => [
                     'type' => self::TYPE_NUMBER,
@@ -858,8 +1049,19 @@ class ConfigFieldSchema
                     'default' => false,
                 ],
             ],
+        ];
+    }
 
-            // Planet Parameters
+    /**
+     * Universe settings, category `planet_parameters` (Planet Parameters).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniPlanetParametersSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'planet_parameters' => [
                 'metal_start' => [
                     'type' => self::TYPE_NUMBER,
@@ -974,8 +1176,17 @@ class ConfigFieldSchema
                     'default' => 0.0,
                 ],
             ],
+        ];
+    }
 
-            // Buildings
+    /**
+     * Universe settings, category `buildings` (Buildings).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniBuildingsSchema(): array
+    {
+        return [
             'buildings' => [
                 'factor_university' => [
                     'type' => self::TYPE_NUMBER,
@@ -999,8 +1210,19 @@ class ConfigFieldSchema
                     'default' => 1,
                 ],
             ],
+        ];
+    }
 
-            // Expedition
+    /**
+     * Universe settings, category `expedition_parameters` (Expedition).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniExpeditionParametersSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'expedition_parameters' => [
                 'expo_ress_met_chance' => [
                     'type' => self::TYPE_SLIDER,
@@ -1027,8 +1249,17 @@ class ConfigFieldSchema
                     'default' => 17,
                 ],
             ],
+        ];
+    }
 
-            // Attacks
+    /**
+     * Universe settings, category `attacks` (Attacks).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniAttacksSchema(): array
+    {
+        return [
             'attacks' => [
                 'fleet_debris_percentage' => [
                     'type' => self::TYPE_NUMBER,
@@ -1128,7 +1359,19 @@ class ConfigFieldSchema
                     'min' => 0,
                 ],
             ],
+        ];
+    }
 
+    /**
+     * Universe settings, category `piratebase`.
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniPiratebaseSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'piratebase' => [
                 'piratebase_min_points' => [
                     'type' => self::TYPE_NUMBER,
@@ -1165,8 +1408,17 @@ class ConfigFieldSchema
                     'default' => 24,
                 ],
             ],
+        ];
+    }
 
-            // Trade
+    /**
+     * Universe settings, category `trader` (Trade).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniTraderSchema(): array
+    {
+        return [
             'trader' => [
                 'trade_allowed_ships' => [
                     'type' => self::TYPE_TEXT,
@@ -1180,8 +1432,19 @@ class ConfigFieldSchema
                     'default' => 30,
                 ],
             ],
+        ];
+    }
 
-            // News
+    /**
+     * Universe settings, category `news` (News).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniNewsSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'news' => [
                 'overview_news_frame' => [
                     'type' => self::TYPE_CHECKBOX,
@@ -1196,8 +1459,17 @@ class ConfigFieldSchema
                     'default' => $LNG['sql_welcome'],
                 ],
             ],
+        ];
+    }
 
-            // Referral
+    /**
+     * Universe settings, category `ref` (Referral).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniRefSchema(): array
+    {
+        return [
             'ref' => [
                 'ref_active' => [
                     'type' => self::TYPE_CHECKBOX,
@@ -1226,8 +1498,17 @@ class ConfigFieldSchema
                     'default' => 5,
                 ],
             ],
+        ];
+    }
 
-            // Bots
+    /**
+     * Universe settings, category `bots` (Bots).
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function uniBotsSchema(): array
+    {
+        return [
             'bots' => [
                 'bots_enabled' => [
                     'type' => self::TYPE_CHECKBOX,

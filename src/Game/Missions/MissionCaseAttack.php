@@ -27,7 +27,7 @@ class MissionCaseAttack extends AbstractBattleMission
 {
     protected bool $deleteAcsWhenTargetIsGone = true;
     protected bool $acsLeadIsFirstFleet = true;
-    protected string $acsFleetsOrder = 'ORDER BY `id` ASC';
+    protected bool $acsFleetsLocked = false;
     protected bool $targetUserWithSettings = true;
 
     /**

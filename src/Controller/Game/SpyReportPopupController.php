@@ -38,40 +38,7 @@ class SpyReportPopupController extends AbstractGameController
         $planet = $this->http()->_GP('planet', 0);
         $planetType = $this->http()->_GP('planettype', 1);
 
-        $db = $this->db;
-
-        $sql = "SELECT m.message_text, m.message_time
-            FROM %%MESSAGES%% m
-            INNER JOIN %%USERS_TO_MESSAGES%% um ON m.message_id = um.message_id
-            INNER JOIN %%PLANETS%% p ON m.message_group = CONCAT('m_', p.id)
-            WHERE m.message_type = :messageType
-              AND um.user_id = :userId
-              AND um.deleted_at IS NULL
-              AND p.galaxy = :galaxy
-              AND p.system = :system
-              AND p.planet = :planet
-              AND p.planet_type = :planetType
-              AND p.universe = :universe
-            ORDER BY m.message_time DESC
-            LIMIT 10;";
-
-        $rows = $db->select($sql, [
-            ':messageType' => MESSAGE_TYPE_SPY_REPORT,
-            ':userId'      => $USER['id'],
-            ':galaxy'      => $galaxy,
-            ':system'      => $system,
-            ':planet'      => $planet,
-            ':planetType'  => $planetType,
-            ':universe'    => $this->universe()->current(),
-        ]);
-
-        $spyReports = [];
-        foreach ($rows as $row) {
-            $spyReports[] = [
-                'html' => $this->spyReport()->getSpyReport($row['message_text']),
-                'date' => $this->viewHelpers()->formatDate("M D d H:i:s", $row['message_time'], $USER['timezone']),
-            ];
-        }
+        $spyReports = $this->latestSpyReports($galaxy, $system, $planet, $planetType);
 
         $config = $this->configs->get();
         $fleetIntoDebris = $config->fleet_debris_percentage;
@@ -118,5 +85,51 @@ class SpyReportPopupController extends AbstractGameController
         ]);
 
         return $this->render('game/page.spyReportPopup.default.html.twig');
+    }
+
+    /**
+     * Up to the 10 latest spy reports of the coordinates from the player's own, not deleted messages of the spy-report
+     * category, rendered as HTML with their time.
+     *
+     * @return list<array{html: mixed, date: string}>
+     */
+    private function latestSpyReports(mixed $galaxy, mixed $system, mixed $planet, mixed $planetType): array
+    {
+        $USER = $this->state->USER;
+
+        $sql = "SELECT m.message_text, m.message_time
+            FROM %%MESSAGES%% m
+            INNER JOIN %%USERS_TO_MESSAGES%% um ON m.message_id = um.message_id
+            INNER JOIN %%PLANETS%% p ON m.message_group = CONCAT('m_', p.id)
+            WHERE m.message_type = :messageType
+              AND um.user_id = :userId
+              AND um.deleted_at IS NULL
+              AND p.galaxy = :galaxy
+              AND p.system = :system
+              AND p.planet = :planet
+              AND p.planet_type = :planetType
+              AND p.universe = :universe
+            ORDER BY m.message_time DESC
+            LIMIT 10;";
+
+        $rows = $this->db->select($sql, [
+            ':messageType' => MESSAGE_TYPE_SPY_REPORT,
+            ':userId'      => $USER['id'],
+            ':galaxy'      => $galaxy,
+            ':system'      => $system,
+            ':planet'      => $planet,
+            ':planetType'  => $planetType,
+            ':universe'    => $this->universe()->current(),
+        ]);
+
+        $spyReports = [];
+        foreach ($rows as $row) {
+            $spyReports[] = [
+                'html' => $this->spyReport()->getSpyReport($row['message_text']),
+                'date' => $this->viewHelpers()->formatDate("M D d H:i:s", $row['message_time'], $USER['timezone']),
+            ];
+        }
+
+        return $spyReports;
     }
 }

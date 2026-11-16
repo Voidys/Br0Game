@@ -438,6 +438,7 @@ ma_none: Genel Duyuru
 ma_send_global_message: Genel Mesaj Gonder
 ma_subject: Konu
 ma_subject_needed: You must add the subject!
+ma_no_recipients: 'Filtreye uyan alici yok, e-posta gonderilmedi.'
 mip_ip: IP
 mip_known: Onay?
 mip_user: Oyuncu
@@ -797,6 +798,7 @@ se_del_user_manually_info: Oyuncu hesabimi sil dediginde, hesabin silinmesi icin
 se_del_user_sendmail: Hatirlatma mesaji
 se_del_user_sendmail_info: Oyuncuya inaktif oldugunu soyleyen mailin gonderilecegi gun
 se_delete_succes_p: Basariyla silindi
+se_delete_not_found: 'Hicbir sey silinmedi: oyuncu veya gezegen yok ya da silinemez.'
 se_deuterium_basic_income: Deuterium Ana Gelir
 se_deuterium_cost_galaxy: Deterium Maliyeti
 se_deuterium_cost_galaxy_info: 'Galakside goruntulemek icin gereken deut miktaru (Varsayilan: 10)'
@@ -1758,3 +1760,12 @@ supp_ticket_close: "Talep kapatıldı"
 ticket_id: "#Talep ID"
 ticket_new: "Yeni talep oluştur"
 ticket_posted: "Talep sahibi"
+se_community_links: "Topluluk bağlantıları"
+se_discord_url: "Discord davet URL'si"
+se_discord_url_info: "Discord sunucunuzun davet bağlantısı (https://...). Menüde, giriş sayfasında, e-postalarda ve metinlerde gösterilir. Boş = gizli."
+se_wiki_url: "Wiki URL'si"
+se_wiki_url_info: "Harici bir wikinin taban URL'si, sonda eğik çizgi olmadan (https://...). SSS, eğitim ve kurallardaki wiki bağlantıları bundan oluşturulur. Boş = gizli."
+se_donate_url: "Bağış URL'si"
+se_donate_url_info: "Bağış bağlantısı (https://...), menüde gösterilir. Boş = gizli."
+se_userscripts_url: "Userscript URL'si"
+se_userscripts_url_info: "Oyununuz için userscript'leri anlatan sayfa (https://...), ayarlarda bağlanır. Boş = gizli."

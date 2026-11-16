@@ -17,6 +17,8 @@
 
 namespace App\Game\Core;
 
+use Doctrine\DBAL\ArrayParameterType;
+
 /**
  * Builds the list of fleet movements shown on the overview and in the phalanx view: the player's own flights and
  * foreign flights aimed at the player (set up with setUser/setPlanet/setMissions/setPhalanxMode, then
@@ -26,6 +28,26 @@ namespace App\Game\Core;
 class FlyingFleetsTable
 {
     use \App\Game\Core\GameUtilities;
+
+    /** css style name of a mission (prefixed with own/hostile for the popup links and coordinates) */
+    private const MISSION_STYLES = [
+        MISSION_ATTACK => 'attack',
+        MISSION_ACS => 'federation',
+        MISSION_TRANSPORT => 'transport',
+        MISSION_STATION => 'deploy',
+        MISSION_HOLD => 'hold',
+        MISSION_SPY => 'espionage',
+        MISSION_COLONISATION => 'colony',
+        MISSION_RECYCLING => 'harvest',
+        MISSION_DESTRUCTION => 'destroy',
+        MISSION_MISSILE => 'missile',
+        MISSION_EXPEDITION => 'transport',
+        MISSION_TRADE => 'transport',
+        MISSION_TRANSFER => 'transport',
+        MISSION_PIRATEBASE_ATTACK => 'attack',
+        MISSION_PIRATEBASE_SPY => 'espionage',
+        MISSION_PIRATEBASE_RECYCLING => 'harvest',
+    ];
 
     protected int $userId = 0;
     protected int $planetId = 0;
@@ -85,8 +107,9 @@ class FlyingFleetsTable
             $param = [':acsId'    => $acsID];
         } elseif ($this->missions) {
             $where = '(fleet.`owner` = :userId OR (fleet.`target_owner` = :userId AND fleet.`mission` != :rec AND fleet.`mission` != :trade))'
-                . ' AND fleet.`mission` IN (' . $this->missions . ')';
+                . ' AND fleet.`mission` IN (:missions)';
             $param = [
+                ':missions' => array_map('intval', explode(',', $this->missions)),
                 ':userId'   => $this->userId,
                 ':rec'      => MISSION_RECYCLING,
                 ':trade'    => MISSION_TRADE,
@@ -100,16 +123,25 @@ class FlyingFleetsTable
             ];
         }
 
-        $sql = 'SELECT DISTINCT fleet.*, ownuser.`username` as own_username, targetuser.`username` as target_username,
-            ownplanet.`name` as own_planetname, targetplanet.`name` as target_planetname
-            FROM %%FLEETS%% fleet
-            LEFT JOIN %%USERS%% ownuser ON (ownuser.`id` = fleet.`owner`)
-            LEFT JOIN %%USERS%% targetuser ON (targetuser.`id` = fleet.`target_owner`)
-            LEFT JOIN %%PLANETS%% ownplanet ON (ownplanet.`id` = fleet.`start_id`)
-            LEFT JOIN %%PLANETS%% targetplanet ON (targetplanet.`id` = fleet.`end_id`)
-            WHERE ' . $where . ' ORDER BY fleet.`id`;';
+        $qb = $this->db->qb()
+            ->select('fleet.*', 'ownuser.`username` AS own_username', 'targetuser.`username` AS target_username', 'ownplanet.`name` AS own_planetname', 'targetplanet.`name` AS target_planetname')
+            ->distinct()
+            ->from($this->db->table('FLEETS'), 'fleet')
+            ->leftJoin('fleet', $this->db->table('USERS'), 'ownuser', 'ownuser.`id` = fleet.`owner`')
+            ->leftJoin('fleet', $this->db->table('USERS'), 'targetuser', 'targetuser.`id` = fleet.`target_owner`')
+            ->leftJoin('fleet', $this->db->table('PLANETS'), 'ownplanet', 'ownplanet.`id` = fleet.`start_id`')
+            ->leftJoin('fleet', $this->db->table('PLANETS'), 'targetplanet', 'targetplanet.`id` = fleet.`end_id`')
+            ->where($where)
+            ->orderBy('fleet.`id`');
+        foreach ($param as $name => $value) {
+            if (is_array($value)) {
+                $qb->setParameter(ltrim($name, ':'), $value, ArrayParameterType::INTEGER);
+            } else {
+                $qb->setParameter(ltrim($name, ':'), $value);
+            }
+        }
 
-        return $this->db->select($sql, $param);
+        return $this->db->fetchAll($qb);
     }
 
     /**
@@ -126,24 +158,7 @@ class FlyingFleetsTable
         $ACSDone                = [];
         $FleetData              = [];
 
-        $phalanxLogID = 0;
-        if ($isPhalanx) {
-            $USER = $this->state->USER;
-            $PLANET = $this->state->PLANET;
-            $sql = 'INSERT INTO %%PHALANX_LOG%%
-                (`owner`, `owner_planet_id`, `target`, `target_planet_id`, `phalanx_time`)
-                VALUES (:owner, :planet_id, :target, :designatedPlanetID, :timestamp);';
-
-            $db->insert($sql, [
-                ':owner'                => $USER['id'],
-                ':planet_id'            => $PLANET['id'],
-                ':target'               => $this->userId,
-                ':designatedPlanetID'   => $this->planetId,
-                ':timestamp'            => $this->state->runtime->timestamp,
-            ]);
-
-            $phalanxLogID = $db->lastInsertId();
-        }
+        $phalanxLogID = $isPhalanx ? $this->logPhalanxScan() : 0;
 
         foreach ($fleetResult as $fleetRow) {
 
@@ -217,6 +232,31 @@ class FlyingFleetsTable
     }
 
     /**
+     * Writes the scan of the phalanx to phalanx_log (scanning user and planet, scanned user and planet, time).
+     *
+     * @return int|string id of the log entry
+     */
+    private function logPhalanxScan(): int|string
+    {
+        $db = $this->db;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $sql = 'INSERT INTO %%PHALANX_LOG%%
+            (`owner`, `owner_planet_id`, `target`, `target_planet_id`, `phalanx_time`)
+            VALUES (:owner, :planet_id, :target, :designatedPlanetID, :timestamp);';
+
+        $db->insert($sql, [
+            ':owner'                => $USER['id'],
+            ':planet_id'            => $PLANET['id'],
+            ':target'               => $this->userId,
+            ':designatedPlanetID'   => $this->planetId,
+            ':timestamp'            => $this->state->runtime->timestamp,
+        ]);
+
+        return $db->lastInsertId();
+    }
+
+    /**
      * One table entry. Outward events of an ACS group list every fleet of the group, one below the other.
      * @param int $FleetState 0 = outward (arrival), 1 = return, 2 = hold end.
      */
@@ -227,14 +267,7 @@ class FlyingFleetsTable
 
         if (
             $FleetState == 0 && $this->IsPhalanx && $fleetRow['group'] != 0
-            && (
-                strpos(
-                    (
-                        isset($this->state->requestServer['HTTPS']) && $this->state->requestServer['HTTPS'] === 'on' ? "https" : "http"
-                    ) . "://$this->state->requestServer[HTTP_HOST]$this->state->requestServer[REQUEST_URI]",
-                    'page=phalanx'
-                ) !== false
-            )
+            && str_contains((string) ($this->state->requestServer['REQUEST_URI'] ?? ''), 'page=phalanx')
         ) {
             // Rebuilt the code above to eliminate possible errors with ACS without Phalanx.
             $acsResult      = $this->getFleets($fleetRow['group']);
@@ -285,29 +318,9 @@ class FlyingFleetsTable
     public function getEventData(array $fleetRow, int $Status): array
     {
         $LNG = $this->state->LNG;
-        $db = $this->db;
         $Owner          = $fleetRow['owner'] == $this->userId;
         $friendly = !$Owner && $fleetRow['target_owner'] != $this->userId;
-        $FleetStyle  = [
-            MISSION_ATTACK => 'attack',
-            MISSION_ACS => 'federation',
-            MISSION_TRANSPORT => 'transport',
-            MISSION_STATION => 'deploy',
-            MISSION_HOLD => 'hold',
-            MISSION_SPY => 'espionage',
-            MISSION_COLONISATION => 'colony',
-            MISSION_RECYCLING => 'harvest',
-            MISSION_DESTRUCTION => 'destroy',
-            MISSION_MISSILE => 'missile',
-            MISSION_EXPEDITION => 'transport',
-            MISSION_TRADE => 'transport',
-            MISSION_TRANSFER => 'transport',
-            MISSION_PIRATEBASE_ATTACK => 'attack',
-            MISSION_PIRATEBASE_SPY => 'espionage',
-            MISSION_PIRATEBASE_RECYCLING => 'harvest',
-        ];
 
-        $GoodMissions = [MISSION_TRANSPORT, MISSION_HOLD];
         $MissionType = $fleetRow['mission'];
         if ($friendly && $fleetRow['group'] != 0) {
             $MissionType = MISSION_ACS;
@@ -317,7 +330,7 @@ class FlyingFleetsTable
         if ($MissionType != MISSION_ATTACK && !$Owner && !$friendly && $fleetRow['group'] != 0) {
             $FleetPrefix = 'hostile';
         }
-        $FleetType = $FleetPrefix . $FleetStyle[$MissionType];
+        $FleetType = $FleetPrefix . self::MISSION_STYLES[$MissionType];
         if (
             !$Owner
             && ($MissionType == MISSION_ATTACK || $MissionType == MISSION_ACS)
@@ -327,173 +340,260 @@ class FlyingFleetsTable
         } else {
             $FleetName = $LNG['ov_fleet'];
         }
-        $FleetContent = $this->createFleetPopupedFleetLink(
-            $fleetRow,
-            $FleetName,
-            $FleetPrefix . $FleetStyle[$MissionType]
-        );
-        $FleetCapacity = $this->createFleetPopupedMissionLink(
-            $fleetRow,
-            $LNG['type_mission_' . $MissionType],
-            $FleetPrefix . $FleetStyle[$MissionType]
-        );
-        $FleetClass = '';
-        $StartType = $LNG['type_planet_' . $fleetRow['start_type']];
-        $TargetType = $LNG['type_planet_' . $fleetRow['end_type']];
 
         // In the phalanx the table is built for the scanned player: their fleets must not read "Your ..."
         $ownText = $Owner && !$this->IsPhalanx;
-        $textKey = function (string $own) use ($LNG, $ownText): string {
-            $other = str_replace('cff_mission_own_', 'cff_mission_other_', $own);
 
-            return !$ownText && isset($LNG[$other]) ? $other : $own;
-        };
+        $EventString = $this->eventText([
+            'row'       => $fleetRow,
+            'status'    => $Status,
+            'mission'   => $MissionType,
+            'owner'     => $Owner,
+            'fleetType' => $FleetType,
+            'content'   => $this->createFleetPopupedFleetLink($fleetRow, $FleetName, $FleetPrefix . self::MISSION_STYLES[$MissionType]),
+            'capacity'  => $this->createFleetPopupedMissionLink($fleetRow, $LNG['type_mission_' . $MissionType], $FleetPrefix . self::MISSION_STYLES[$MissionType]),
+            'start'     => $LNG['type_planet_' . $fleetRow['start_type']],
+            'target'    => $LNG['type_planet_' . $fleetRow['end_type']],
+            'textKey'   => function (string $own) use ($LNG, $ownText): string {
+                $other = str_replace('cff_mission_own_', 'cff_mission_other_', $own);
 
+                return !$ownText && isset($LNG[$other]) ? $other : $own;
+            },
+        ]);
+
+        $FleetClass = $this->eventClass($fleetRow, $MissionType, $Status, $Owner);
+
+        $EventString = '<span class="' . $FleetClass . '">' . $EventString . '</span>';
+
+        if ($Status == FLEET_OUTWARD) {
+            $Time = $fleetRow['arrival_time'];
+        } elseif ($Status == FLEET_RETURN) {
+            $Time = $fleetRow['return_time'];
+        } elseif ($Status == FLEET_HOLD) {
+            $Time = $fleetRow['stay_time'];
+        } else {
+            $Time = $this->state->runtime->timestamp;
+        }
+
+        $Rest   = $Time - $this->state->runtime->timestamp;
+        return [$Rest, $EventString, $Time];
+    }
+
+    /**
+     * The wording of an event by mission, status and viewer (own, foreign or hostile fleet).
+     *
+     * @param array<string, mixed> $c context from getEventData(): row (fleet row), status, mission (effective mission,
+     *        ACS for friendly group members), owner (viewer owns the fleet), fleetType (css class prefix + style),
+     *        content/capacity (popup links), start/target (planet type names), textKey (picks the own/other wording)
+     */
+    private function eventText(array $c): string
+    {
+        $MissionType = $c['mission'];
         if ($MissionType == MISSION_RECYCLING) {
+            return $this->recyclingEventText($c);
+        }
+        if ($MissionType == MISSION_MISSILE) {
+            return $this->missileEventText($c);
+        }
+        if ($MissionType == MISSION_EXPEDITION) {
+            return $this->expeditionEventText($c);
+        }
+
+        return $this->flightEventText($c);
+    }
+
+    /** Recycling: outward and return wording. @param array<string, mixed> $c see eventText() */
+    private function recyclingEventText(array $c): string
+    {
+        [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
+        $LNG = $this->state->LNG;
+
+        if ($Status == FLEET_OUTWARD) {
+            $EventString = $LNG->format($textKey('cff_mission_own_recy_0'),
+                $FleetContent,
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $FleetCapacity
+            );
+        } else {
+            $EventString = $LNG->format($textKey('cff_mission_own_recy_1'),
+                $FleetContent,
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $FleetCapacity
+            );
+        }
+
+        return $EventString;
+    }
+
+    /** Missile attack: own and target wording. @param array<string, mixed> $c see eventText() */
+    private function missileEventText(array $c): string
+    {
+        [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
+        $LNG = $this->state->LNG;
+
+        if ($Owner) {
+            $EventString = $LNG->format($textKey('cff_mission_own_mip'),
+                $fleetRow['ship_amount'],
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $TargetType,
+                $fleetRow['target_planetname'],
+                GetTargetAddressLink($fleetRow, $FleetType)
+            );
+        } else {
+            $EventString = $LNG->format('cff_mission_target_mip',
+                $fleetRow['ship_amount'],
+                $this->buildHostileFleetPlayerLink($fleetRow),
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $TargetType,
+                $fleetRow['target_planetname'],
+                GetTargetAddressLink($fleetRow, $FleetType)
+            );
+        }
+
+        return $EventString;
+    }
+
+    /** Expedition: outward, hold and return wording. @param array<string, mixed> $c see eventText() */
+    private function expeditionEventText(array $c): string
+    {
+        [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
+        $LNG = $this->state->LNG;
+
+        if ($Status == FLEET_OUTWARD) {
+            $EventString = $LNG->format($textKey('cff_mission_own_expo_0'),
+                $FleetContent,
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $FleetCapacity
+            );
+        } elseif ($Status == FLEET_HOLD) {
+            $EventString = $LNG->format($textKey('cff_mission_own_expo_2'),
+                $FleetContent,
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $FleetCapacity
+            );
+        } else {
+            $EventString = $LNG->format($textKey('cff_mission_own_expo_1'),
+                $FleetContent,
+                GetTargetAddressLink($fleetRow, $FleetType),
+                $StartType,
+                $fleetRow['own_planetname'],
+                GetStartAddressLink($fleetRow, $FleetType),
+                $FleetCapacity
+            );
+        }
+
+        return $EventString;
+    }
+
+    /** All other missions: own fleets by status, foreign ones as ACS call, stay, good or bad visit. @param array<string, mixed> $c see eventText() */
+    private function flightEventText(array $c): string
+    {
+        $MissionType = $c['mission'];
+        $GoodMissions = [MISSION_TRANSPORT, MISSION_HOLD];
+        [$fleetRow, $Status, $FleetType, $FleetContent, $FleetCapacity, $StartType, $TargetType, $Owner, $textKey] = [$c['row'], $c['status'], $c['fleetType'], $c['content'], $c['capacity'], $c['start'], $c['target'], $c['owner'], $c['textKey']];
+        $LNG = $this->state->LNG;
+
+        if ($Owner == true) {
             if ($Status == FLEET_OUTWARD) {
-                $EventString = $LNG->format($textKey('cff_mission_own_recy_0'),
+                $EventString  = $LNG->format($textKey('cff_mission_own_0'),
                     $FleetContent,
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
-                );
-            } else {
-                $EventString = $LNG->format($textKey('cff_mission_own_recy_1'),
-                    $FleetContent,
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
-                );
-            }
-        } elseif ($MissionType == MISSION_MISSILE) {
-            if ($Owner) {
-                $EventString = $LNG->format($textKey('cff_mission_own_mip'),
-                    $fleetRow['ship_amount'],
                     $StartType,
                     $fleetRow['own_planetname'],
                     GetStartAddressLink($fleetRow, $FleetType),
                     $TargetType,
                     $fleetRow['target_planetname'],
-                    GetTargetAddressLink($fleetRow, $FleetType)
+                    GetTargetAddressLink($fleetRow, $FleetType),
+                    $FleetCapacity
+                );
+            } elseif ($Status == FLEET_RETURN) {
+                $EventString  = $LNG->format($textKey('cff_mission_own_1'),
+                    $FleetContent,
+                    $TargetType,
+                    $fleetRow['target_planetname'],
+                    GetTargetAddressLink($fleetRow, $FleetType),
+                    $StartType,
+                    $fleetRow['own_planetname'],
+                    GetStartAddressLink($fleetRow, $FleetType),
+                    $FleetCapacity
                 );
             } else {
-                $EventString = $LNG->format('cff_mission_target_mip',
-                    $fleetRow['ship_amount'],
+                $EventString  = $LNG->format($textKey('cff_mission_own_2'),
+                    $FleetContent,
+                    $StartType,
+                    $fleetRow['own_planetname'],
+                    GetStartAddressLink($fleetRow, $FleetType),
+                    $TargetType,
+                    $fleetRow['target_planetname'],
+                    GetTargetAddressLink($fleetRow, $FleetType),
+                    $FleetCapacity
+                );
+            }
+        } else {
+            if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
+                $EventString = $LNG->format('cff_mission_acs',
+                    $FleetContent,
+                    $StartType,
+                    $fleetRow['own_planetname'],
+                    GetStartAddressLink($fleetRow, $FleetType),
+                    $TargetType,
+                    $fleetRow['target_planetname'],
+                    GetTargetAddressLink($fleetRow, $FleetType),
+                    $FleetCapacity
+                );
+            } else {
+                if ($Status == FLEET_HOLD) {
+                    $Message    = 'cff_mission_target_stay';
+                } elseif (in_array($MissionType, $GoodMissions)) {
+                    $Message    = 'cff_mission_target_good';
+                } else {
+                    $Message    = 'cff_mission_target_bad';
+                }
+
+                $EventString = $LNG->format(
+                    $Message,
+                    $FleetContent,
                     $this->buildHostileFleetPlayerLink($fleetRow),
                     $StartType,
                     $fleetRow['own_planetname'],
                     GetStartAddressLink($fleetRow, $FleetType),
                     $TargetType,
                     $fleetRow['target_planetname'],
-                    GetTargetAddressLink($fleetRow, $FleetType)
-                );
-            }
-        } elseif ($MissionType == MISSION_EXPEDITION) {
-            if ($Status == FLEET_OUTWARD) {
-                $EventString = $LNG->format($textKey('cff_mission_own_expo_0'),
-                    $FleetContent,
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
                     GetTargetAddressLink($fleetRow, $FleetType),
                     $FleetCapacity
                 );
-            } elseif ($Status == FLEET_HOLD) {
-                $EventString = $LNG->format($textKey('cff_mission_own_expo_2'),
-                    $FleetContent,
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
-                );
-            } else {
-                $EventString = $LNG->format($textKey('cff_mission_own_expo_1'),
-                    $FleetContent,
-                    GetTargetAddressLink($fleetRow, $FleetType),
-                    $StartType,
-                    $fleetRow['own_planetname'],
-                    GetStartAddressLink($fleetRow, $FleetType),
-                    $FleetCapacity
-                );
-            }
-        } else {
-            if ($Owner == true) {
-                if ($Status == FLEET_OUTWARD) {
-                    $EventString  = $LNG->format($textKey('cff_mission_own_0'),
-                        $FleetContent,
-                        $StartType,
-                        $fleetRow['own_planetname'],
-                        GetStartAddressLink($fleetRow, $FleetType),
-                        $TargetType,
-                        $fleetRow['target_planetname'],
-                        GetTargetAddressLink($fleetRow, $FleetType),
-                        $FleetCapacity
-                    );
-                } elseif ($Status == FLEET_RETURN) {
-                    $EventString  = $LNG->format($textKey('cff_mission_own_1'),
-                        $FleetContent,
-                        $TargetType,
-                        $fleetRow['target_planetname'],
-                        GetTargetAddressLink($fleetRow, $FleetType),
-                        $StartType,
-                        $fleetRow['own_planetname'],
-                        GetStartAddressLink($fleetRow, $FleetType),
-                        $FleetCapacity
-                    );
-                } else {
-                    $EventString  = $LNG->format($textKey('cff_mission_own_2'),
-                        $FleetContent,
-                        $StartType,
-                        $fleetRow['own_planetname'],
-                        GetStartAddressLink($fleetRow, $FleetType),
-                        $TargetType,
-                        $fleetRow['target_planetname'],
-                        GetTargetAddressLink($fleetRow, $FleetType),
-                        $FleetCapacity
-                    );
-                }
-            } else {
-                if (($MissionType == MISSION_ATTACK || $MissionType == MISSION_PIRATEBASE_ATTACK || $MissionType == MISSION_ACS) && $Status == FLEET_OUTWARD) {
-                    $EventString = $LNG->format('cff_mission_acs',
-                        $FleetContent,
-                        $StartType,
-                        $fleetRow['own_planetname'],
-                        GetStartAddressLink($fleetRow, $FleetType),
-                        $TargetType,
-                        $fleetRow['target_planetname'],
-                        GetTargetAddressLink($fleetRow, $FleetType),
-                        $FleetCapacity
-                    );
-                } else {
-                    if ($Status == FLEET_HOLD) {
-                        $Message    = 'cff_mission_target_stay';
-                    } elseif (in_array($MissionType, $GoodMissions)) {
-                        $Message    = 'cff_mission_target_good';
-                    } else {
-                        $Message    = 'cff_mission_target_bad';
-                    }
-
-                    $EventString = $LNG->format(
-                        $Message,
-                        $FleetContent,
-                        $this->buildHostileFleetPlayerLink($fleetRow),
-                        $StartType,
-                        $fleetRow['own_planetname'],
-                        GetStartAddressLink($fleetRow, $FleetType),
-                        $TargetType,
-                        $fleetRow['target_planetname'],
-                        GetTargetAddressLink($fleetRow, $FleetType),
-                        $FleetCapacity
-                    );
-                }
             }
         }
-        
+
+        return $EventString;
+    }
+
+    /**
+     * The css class of an event line: the mission colour (own or foreign, ACS also friend) of an outward event, the
+     * return colours for returns and holds.
+     *
+     * @param array<string, mixed> $fleetRow fleet row
+     * @param int $MissionType effective mission (ACS for friendly group members)
+     */
+    private function eventClass(array $fleetRow, int $MissionType, int $Status, bool $Owner): string
+    {
+        $db = $this->db;
+        $FleetClass = '';
         if ($Status == FLEET_OUTWARD) {
             if ($MissionType == MISSION_ACS) {
                 $sql = "SELECT count(uta.`acsID`) as count FROM %%USERS_TO_ACS%% AS uta 
@@ -543,20 +643,7 @@ class FlyingFleetsTable
             }
         }
 
-        $EventString = '<span class="' . $FleetClass . '">' . $EventString . '</span>';
-
-        if ($Status == FLEET_OUTWARD) {
-            $Time = $fleetRow['arrival_time'];
-        } elseif ($Status == FLEET_RETURN) {
-            $Time = $fleetRow['return_time'];
-        } elseif ($Status == FLEET_HOLD) {
-            $Time = $fleetRow['stay_time'];
-        } else {
-            $Time = $this->state->runtime->timestamp;
-        }
-
-        $Rest   = $Time - $this->state->runtime->timestamp;
-        return [$Rest, $EventString, $Time];
+        return $FleetClass;
     }
 
     private function buildHostileFleetPlayerLink(array $fleetRow): string

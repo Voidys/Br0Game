@@ -48,10 +48,7 @@ class FleetStep1Controller extends AbstractGameController
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
         $LNG = $this->state->LNG;
-        $resource = $this->state->resource;
         $targetGalaxy = $this->http()->_GP('galaxy', (int) $PLANET['galaxy']);
         $targetSystem = $this->http()->_GP('system', (int) $PLANET['system']);
         $targetPlanet = $this->http()->_GP('planet', (int) $PLANET['planet']);
@@ -59,18 +56,7 @@ class FleetStep1Controller extends AbstractGameController
 
         $mission = $this->http()->_GP('target_mission', -1);
 
-        $Fleet = [];
-        $FleetRoom = 0;
-        foreach ($reslist['fleet'] as $id => $ShipID) {
-            $amount = max(0, round($this->http()->_GP('ship' . $ShipID, 0.0, 0.0)));
-
-            if ($amount < 1 || $ShipID == 212) {
-                continue;
-            }
-
-            $Fleet[$ShipID] = $amount;
-            $FleetRoom += $pricelist[$ShipID]['capacity'] * $amount;
-        }
+        [$Fleet, $FleetRoom] = $this->selectedShips();
 
         if (empty($Fleet)) {
             $this->fleetFunctions()->gotoFleetPage();
@@ -91,22 +77,7 @@ class FleetStep1Controller extends AbstractGameController
             'fleetMinDuration'  => MIN_FLEET_TIME,
         ];
 
-        $token = getRandomString();
-        $session = $this->sessions()->load();
-        $fleet = $session->fleet;
-        $fleet[$token] = [
-            'ownPlanet' => $PLANET['id'],
-            'time'      => $this->state->runtime->timestamp,
-            'fleet'     => $Fleet,
-            'fleetRoom' => $FleetRoom,
-            'predefinedResources' => [
-                'met' =>  $this->http()->_GP('met_storage', ""),
-                'krist' =>  $this->http()->_GP('krist_storage', ""),
-                'deut' =>  $this->http()->_GP('deut_storage', ""),
-            ],
-        ];
-        $session->fleet = $fleet;
-        $session->save();
+        $token = $this->storeFleet($Fleet, $FleetRoom);
 
         $shortcutList = $this->GetUserShotcut();
         $colonyList = $this->GetColonyList();
@@ -119,8 +90,6 @@ class FleetStep1Controller extends AbstractGameController
         }
 
         $this->addScript('flotten.js');
-
-        $config = $this->configs->get();
 
         $pirateBase = null;
         if ($this->viewHelpers()->isModuleAvailable(MODULE_PIRATE_BASES)) {
@@ -148,30 +117,107 @@ class FleetStep1Controller extends AbstractGameController
             'speedSelect'   => FleetFunctions::$allowedSpeed,
             'typeSelect'    => [1 => $LNG['type_planet_1'], 2 => $LNG['type_planet_2'], 3 => $LNG['type_planet_3']],
             'fleetdata'     => $FleetData,
-            'config'        => [
-                'uni_type'                  => $config->uni_type,
-                'galaxy_type'               => $config->galaxy_type,
-                'max_galaxy'                => $config->max_galaxy,
-                'max_system'                => $config->max_system,
-                'max_planets'               => $config->max_planets,
-                'galaxy_distance_factor'    => $config->galaxy_distance_factor,
-                'system_distance_factor'    => $config->system_distance_factor,
-                'system_distance'           => $config->system_distance,
-                'planet_distance_factor'    => $config->planet_distance_factor,
-                'planet_distance'           => $config->planet_distance,
-            ],
+            'config'        => $this->universeGeometry(),
         ]);
 
+        $this->checkShipsAvailable($Fleet);
+        return $this->render('game/page.fleetStep1.default.html.twig');
+    }
+
+    /**
+     * The ships chosen on the fleet page (request ship<id> = counts; negative values count as 0, solar satellites are skipped)
+     * and the total cargo room of that fleet.
+     *
+     * @return array{0: array<int, int|float>, 1: int|float} ship id => count, cargo capacity
+     */
+    private function selectedShips(): array
+    {
+        $pricelist = $this->state->pricelist;
+        $Fleet = [];
+        $FleetRoom = 0;
+        foreach ($this->state->reslist['fleet'] as $id => $ShipID) {
+            $amount = max(0, round($this->http()->_GP('ship' . $ShipID, 0.0, 0.0)));
+
+            if ($amount < 1 || $ShipID == 212) {
+                continue;
+            }
+
+            $Fleet[$ShipID] = $amount;
+            $FleetRoom += $pricelist[$ShipID]['capacity'] * $amount;
+        }
+
+        return [$Fleet, $FleetRoom];
+    }
+
+    /**
+     * Stores the fleet under a fresh random token in the session (used by steps 2 and 3, with the cargo the planet page
+     * pre-filled) and returns the token.
+     *
+     * @param array<int, int|float> $Fleet ship id => count
+     */
+    private function storeFleet(array $Fleet, int|float $FleetRoom): string
+    {
+        $token = getRandomString();
+        $session = $this->sessions()->load();
+        $fleet = $session->fleet;
+        $fleet[$token] = [
+            'ownPlanet' => $this->state->PLANET['id'],
+            'time'      => $this->state->runtime->timestamp,
+            'fleet'     => $Fleet,
+            'fleetRoom' => $FleetRoom,
+            'predefinedResources' => [
+                'met' =>  $this->http()->_GP('met_storage', ""),
+                'krist' =>  $this->http()->_GP('krist_storage', ""),
+                'deut' =>  $this->http()->_GP('deut_storage', ""),
+            ],
+        ];
+        $session->fleet = $fleet;
+        $session->save();
+
+        return $token;
+    }
+
+    /**
+     * Universe geometry the form needs for the flight time preview (size and distance factors).
+     *
+     * @return array<string, mixed>
+     */
+    private function universeGeometry(): array
+    {
+        $config = $this->configs->get();
+
+        return [
+            'uni_type'                  => $config->uni_type,
+            'galaxy_type'               => $config->galaxy_type,
+            'max_galaxy'                => $config->max_galaxy,
+            'max_system'                => $config->max_system,
+            'max_planets'               => $config->max_planets,
+            'galaxy_distance_factor'    => $config->galaxy_distance_factor,
+            'system_distance_factor'    => $config->system_distance_factor,
+            'system_distance'           => $config->system_distance,
+            'planet_distance_factor'    => $config->planet_distance_factor,
+            'planet_distance'           => $config->planet_distance,
+        ];
+    }
+
+    /**
+     * Ends the request with a message when the planet no longer holds all selected ships.
+     *
+     * @param array<int, int|float> $Fleet ship id => count
+     */
+    private function checkShipsAvailable(array $Fleet): void
+    {
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
         //check if all ships are available
         foreach ($Fleet as $Ship => $Count) {
-            if ($Count > $PLANET[$resource[$Ship]]) {
+            if ($Count > $this->state->PLANET[$resource[$Ship]]) {
                 $this->printMessage($LNG['fl_not_all_ship_avalible'], [[
                     'label' => $LNG['sys_back'],
                     'url'   => 'game?page=fleetTable',
                 ]]);
             }
         }
-        return $this->render('game/page.fleetStep1.default.html.twig');
     }
 
     /**
@@ -350,8 +396,6 @@ class FleetStep1Controller extends AbstractGameController
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
-        $resource = $this->state->resource;
         $targetGalaxy = $this->http()->_GP('galaxy', 0);
         $targetSystem = $this->http()->_GP('system', 0);
         $targetPlanet = $this->http()->_GP('planet', 0);
@@ -366,88 +410,120 @@ class FleetStep1Controller extends AbstractGameController
         }
 
         if ($targetPlanet == $this->configs->get()->max_planets + 3) {
-            $db = $this->db;
-            $sql = "SELECT * FROM %%PIRATE_BASES%% 
-                WHERE `galaxy` = :galaxy AND `system` = :system AND `id_owner` = :userId";
-            $pirateBase = $db->selectSingle($sql, [
-                ':galaxy'   => $targetGalaxy,
-                ':system'   => $targetSystem,
-                ':userId'   => $USER['id'],
-            ]);
-
-            if (!isset($pirateBase)) {
-                $this->sendJSON($LNG['fl_error_not_avalible']);
-            }
-
-            if ($targetPlanetType == 2 && ($pirateBase['der_metal'] + $pirateBase['der_crystal']) == 0) {
-                $this->sendJSON($LNG['fl_error_empty_derbis']);
-            }
+            $this->checkPirateBaseTarget($targetGalaxy, $targetSystem, $targetPlanetType);
         }
         // If target is not expedition
         elseif ($targetPlanet != $this->configs->get()->max_planets + 1) {
-            $db = $this->db;
-            $sql = "SELECT u.`id`, u.`urlaubs_modus`, u.`user_lastip`, u.`authattack`,
-            	p.`destruyed`, p.`der_metal`, p.`der_crystal`, p.`tf_active`, p.`destruyed`
-                FROM %%USERS%% as u, %%PLANETS%% as p 
-                WHERE p.`universe` = :universe
-                  AND p.`galaxy` = :targetGalaxy
-                  AND p.`system` = :targetSystem
-                  AND p.`planet` = :targetPlanet
-                  AND p.`planet_type` = :targetType
-                  AND u.`id` = p.`id_owner`;";
-
-            $planetData = $db->selectSingle($sql, [
-                ':universe' => $this->universe()->current(),
-                ':targetGalaxy' => $targetGalaxy,
-                ':targetSystem' => $targetSystem,
-                ':targetPlanet' => $targetPlanet,
-                ':targetType' => (($targetPlanetType == 2) ? 1 : $targetPlanetType),
-            ]);
-
-            if ($targetPlanetType == 3 && !isset($planetData)) {
-                $this->sendJSON($LNG['fl_error_no_moon']);
-            }
-
-            if ($targetPlanetType == 1 && !isset($planetData) && !$koloShipInFleet) {
-                $this->sendJSON($LNG['fl_error_not_avalible']);
-            }
-
-            if ($targetPlanetType != 2 && !empty($planetData['urlaubs_modus'])) {
-                $this->sendJSON($LNG['fl_in_vacation_player']);
-            }
-
-            if (!empty($planetData)) {
-                if (
-                    $planetData['id'] != $USER['id'] && $this->configs->get()->adm_attack == 1
-                    && $planetData['authattack'] > $USER['authlevel']
-                ) {
-                    $this->sendJSON($LNG['fl_admin_attack']);
-                }
-            }
-
-            if (!empty($planetData)) {
-                if ($planetData['destruyed'] != 0 && $targetPlanetType != 2) {
-                    $this->sendJSON($LNG['fl_error_not_avalible']);
-                }
-            }
-
-            if ($targetPlanetType == 2 && (empty($planetData) || ($planetData['der_metal'] + $planetData['der_crystal']) == 0
-                && $planetData['tf_active'] == 0)) {
-                $this->sendJSON($LNG['fl_error_empty_derbis']);
-            }
-
+            $this->checkPlanetTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetPlanetType, $koloShipInFleet);
         } else {
-            if ($USER[$resource[124]] == 0) {
-                $this->sendJSON($LNG['fl_expedition_tech_required']);
-            }
-
-            $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], 15, true);
-
-            if ($activeExpedition >= $this->fleetFunctions()->getExpeditionLimit($USER)) {
-                $this->sendJSON($LNG['fl_no_expedition_slot']);
-            }
+            $this->checkExpeditionTarget();
         }
 
         $this->sendJSON('OK');
+    }
+
+    /**
+     * Target check for the player's own pirate base in the system: it must exist, and a debris target needs debris.
+     * Answers the error as JSON and ends the request on failure.
+     */
+    private function checkPirateBaseTarget(mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanetType): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+        $sql = "SELECT * FROM %%PIRATE_BASES%% 
+            WHERE `galaxy` = :galaxy AND `system` = :system AND `id_owner` = :userId";
+        $pirateBase = $db->selectSingle($sql, [
+            ':galaxy'   => $targetGalaxy,
+            ':system'   => $targetSystem,
+            ':userId'   => $this->state->USER['id'],
+        ]);
+
+        if (!isset($pirateBase)) {
+            $this->sendJSON($LNG['fl_error_not_avalible']);
+        }
+
+        if ($targetPlanetType == 2 && ($pirateBase['der_metal'] + $pirateBase['der_crystal']) == 0) {
+            $this->sendJSON($LNG['fl_error_empty_derbis']);
+        }
+    }
+
+    /**
+     * Target check for a normal position: the moon (or planet, which is fine for a colony ship) must exist, the owner must
+     * not be in vacation mode (not for debris), admin attack protection (`adm_attack`), no destroyed planet and debris
+     * targets need debris. Answers the error as JSON and ends the request on failure.
+     */
+    private function checkPlanetTarget(mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetPlanetType, mixed $koloShipInFleet): void
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        $db = $this->db;
+        $sql = "SELECT u.`id`, u.`urlaubs_modus`, u.`user_lastip`, u.`authattack`,
+        	p.`destruyed`, p.`der_metal`, p.`der_crystal`, p.`tf_active`, p.`destruyed`
+            FROM %%USERS%% as u, %%PLANETS%% as p 
+            WHERE p.`universe` = :universe
+              AND p.`galaxy` = :targetGalaxy
+              AND p.`system` = :targetSystem
+              AND p.`planet` = :targetPlanet
+              AND p.`planet_type` = :targetType
+              AND u.`id` = p.`id_owner`;";
+
+        $planetData = $db->selectSingle($sql, [
+            ':universe' => $this->universe()->current(),
+            ':targetGalaxy' => $targetGalaxy,
+            ':targetSystem' => $targetSystem,
+            ':targetPlanet' => $targetPlanet,
+            ':targetType' => (($targetPlanetType == 2) ? 1 : $targetPlanetType),
+        ]);
+
+        if ($targetPlanetType == 3 && !isset($planetData)) {
+            $this->sendJSON($LNG['fl_error_no_moon']);
+        }
+
+        if ($targetPlanetType == 1 && !isset($planetData) && !$koloShipInFleet) {
+            $this->sendJSON($LNG['fl_error_not_avalible']);
+        }
+
+        if ($targetPlanetType != 2 && !empty($planetData['urlaubs_modus'])) {
+            $this->sendJSON($LNG['fl_in_vacation_player']);
+        }
+
+        if (!empty($planetData)) {
+            if (
+                $planetData['id'] != $USER['id'] && $this->configs->get()->adm_attack == 1
+                && $planetData['authattack'] > $USER['authlevel']
+            ) {
+                $this->sendJSON($LNG['fl_admin_attack']);
+            }
+        }
+
+        if (!empty($planetData)) {
+            if ($planetData['destruyed'] != 0 && $targetPlanetType != 2) {
+                $this->sendJSON($LNG['fl_error_not_avalible']);
+            }
+        }
+
+        if ($targetPlanetType == 2 && (empty($planetData) || ($planetData['der_metal'] + $planetData['der_crystal']) == 0
+            && $planetData['tf_active'] == 0)) {
+            $this->sendJSON($LNG['fl_error_empty_derbis']);
+        }
+    }
+
+    /**
+     * Target check for the expedition position: the player needs expedition tech and a free expedition slot.
+     * Answers the error as JSON and ends the request on failure.
+     */
+    private function checkExpeditionTarget(): void
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        if ($USER[$this->state->resource[124]] == 0) {
+            $this->sendJSON($LNG['fl_expedition_tech_required']);
+        }
+
+        $activeExpedition = $this->fleetFunctions()->getCurrentFleets($USER['id'], 15, true);
+
+        if ($activeExpedition >= $this->fleetFunctions()->getExpeditionLimit($USER)) {
+            $this->sendJSON($LNG['fl_no_expedition_slot']);
+        }
     }
 }

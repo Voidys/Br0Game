@@ -23,6 +23,27 @@ class LinkTutorialSupport extends AbstractTutorialSupport
         parent::__construct($db, $configs, $state, $tutorialStep, $USER);
     }
 
+    /** true while the admin has set a Discord URL (config `discord_url`); otherwise the link goal is skipped */
+    private function discordConfigured(): bool
+    {
+        return trim((string) $this->configs->get()->discord_url) !== '';
+    }
+
+    /**
+     * Rewards of the step; none without a Discord URL, because the goal is then fulfilled automatically and
+     * not by the player's click.
+     */
+    public function listRewards(): array
+    {
+        return $this->discordConfigured() ? parent::listRewards() : [];
+    }
+
+    /** see listRewards() */
+    public function hasRewards(): bool
+    {
+        return $this->discordConfigured() && parent::hasRewards();
+    }
+
     /**
      * Returns the goal name/description and link functionality
      *
@@ -34,10 +55,14 @@ class LinkTutorialSupport extends AbstractTutorialSupport
         switch ($elementID) {
             case 1:
                 $text = 'Discord';
-                $link = 'https://discord.gg/jhYYN3yuat';
+                $link = trim((string) $this->configs->get()->discord_url);
+                if ($link === '') {
+                    // no community Discord configured: plain text, the goal is fulfilled automatically (listGoals())
+                    return $text;
+                }
                 $goal = $this->state->runtime->httpPath.'game?page=tutorial&mode=fullfill&goal='.$elementID;
                 // opens the link in a new tab and reports the goal as fulfilled (action "tutorial-link", scripts/game/tutorial.js)
-                return '<a class="tutorial-link" href="'.$link.'" data-action="tutorial-link" data-goal="'.htmlspecialchars($goal, ENT_QUOTES).'" target="_blank" rel="noopener">'.$text.'</a>';
+                return '<a class="tutorial-link" href="'.htmlspecialchars($link, ENT_QUOTES).'" data-action="tutorial-link" data-goal="'.htmlspecialchars($goal, ENT_QUOTES).'" target="_blank" rel="noopener">'.$text.'</a>';
 
             default:
                 return 'unknown';
@@ -86,6 +111,10 @@ class LinkTutorialSupport extends AbstractTutorialSupport
             $owned = 0;
             if ($goalRow['ammount'] == 1 && $goalRow['fullfilled'] == 1) {
                 $owned = 1;
+            }
+            // no Discord configured: there is nothing to open, the goal counts as done so players never get stuck
+            if (!$this->discordConfigured()) {
+                $owned = (int) $goalRow['ammount'];
             }
 
             $goals[$elementID] = [

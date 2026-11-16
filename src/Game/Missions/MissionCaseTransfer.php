@@ -45,6 +45,24 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             ':planetId'	=> $this->_fleet['start_id']
         ], 'name');
 
+        $fleet = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
+
+        $this->reportToOwner($startPlanetName, $targetPlanet, $fleet);
+        $this->reportToTargetOwner($startPlanetName, $targetPlanet, $fleet);
+
+        $this->StoreGoodsToPlanet();
+        $this->RestoreFleet(false);
+    }
+
+    /**
+     * The sender's transport report: what was delivered where, plus the ship list; in the sender's language.
+     *
+     * @param string|false|null $startPlanetName name of the start planet (false when it is gone)
+     * @param array<string, mixed> $targetPlanet planet row
+     * @param array<int, int|float|string> $fleet ships by element id
+     */
+    private function reportToOwner(string|false|null $startPlanetName, array $targetPlanet, array $fleet): void
+    {
         $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
 
         $Message		= $LNG->format('sys_tran_mess_owner',
@@ -62,8 +80,6 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
         );
 
 
-        $fleet = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
-
         foreach ($fleet as $elementID => $amount) {
             $Message   	.= '<br>'.$LNG['tech'][$elementID].': '.$this->viewHelpers()->prettyNumber($amount);
         }
@@ -79,7 +95,17 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             1,
             $this->_fleet['universe']
         );
+    }
 
+    /**
+     * The receiver's notice of the delivery (same content, receiver's language).
+     *
+     * @param string|false|null $startPlanetName name of the start planet (false when it is gone)
+     * @param array<string, mixed> $targetPlanet planet row
+     * @param array<int, int|float|string> $fleet ships by element id
+     */
+    private function reportToTargetOwner(string|false|null $startPlanetName, array $targetPlanet, array $fleet): void
+    {
         $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
         $Message        = $LNG->format('sys_tran_mess_user',
             $startPlanetName,
@@ -109,9 +135,6 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             1,
             $this->_fleet['universe']
         );
-
-        $this->StoreGoodsToPlanet();
-        $this->RestoreFleet(false);
     }
 
     /**

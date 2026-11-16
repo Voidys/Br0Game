@@ -27,10 +27,10 @@ Sollte es nach Angriffen mit Todessternen nicht möglich sein, die erbeuteten Re
 <h2>3.2 Abschieds-KBs</h2>
 <p>Abschieds-KBs müssen generell mit dem Moderatorenteam im Vorfeld abgeklärt werden.</p>
 
-<p><a href="https://wiki.pr0game.com/wiki/Regeln">wiki</a></p>
+<p><a href="{wiki_url}/wiki/Regeln">wiki</a></p>
 <hr>
 <h2>4. Bashing</h2>
-<p>Bashing bezeichnet mehrere Angriffe innerhalb eines Zeitraums von 24 Stunden auf denselben Spieler oder einen Planeten/Mond. Dies ist verboten, wird jedoch vom Spiel verhindert. <a href="https://wiki.pr0game.com/wiki/Universen-Übersicht">Die Einstellungen können je nach Universum variieren.</a> Angriffe mit Spionagesonden oder interplanetaren Raketen werden nicht gezählt.</p>
+<p>Bashing bezeichnet mehrere Angriffe innerhalb eines Zeitraums von 24 Stunden auf denselben Spieler oder einen Planeten/Mond. Dies ist verboten, wird jedoch vom Spiel verhindert. <a href="{wiki_url}/wiki/Universen-Übersicht">Die Einstellungen können je nach Universum variieren.</a> Angriffe mit Spionagesonden oder interplanetaren Raketen werden nicht gezählt.</p>
 <p>Die Bashregel gilt ausschließlich für aktive Spieler. Befinden sich die Parteien im Krieg, so sind weitere Angriffe erlaubt. Der Krieg muss mindestens 24 Stunden vor weiteren Angriffen im Forum erklärt werden (im Thema der Ankündigung müssen beide Allianzen bzw. der Name des kriegserklärenden Einzelspielers in korrekter Schreibweise genannt werden). Eine Kriegserklärung kann ausschließlich an Allianzen gerichtet werden, wobei die Kriegserklärung durch eine Allianz oder eine Einzelperson erfolgen kann.</p>
 <p>Eine Annahme des Krieges ist nicht erforderlich. Kriege, die offensichtlich nur der massiven Umgehung der Bashregel dienen, sind verboten. Dies zu beurteilen obliegt den zuständigen Moderatoren und Operatoren.</p>
 <hr>

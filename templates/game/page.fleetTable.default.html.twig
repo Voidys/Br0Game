@@ -109,7 +109,7 @@
       <tr>
         <td>{{ LNG.fl_ship_type }}</td>
         <td class="num">{{ LNG.fl_ship_available }}</td>
-        <td class="num"><a href="https://wiki.pr0game.com/wiki/{% if lang != 'de' and lang != 'of' and lang != 'pi' %}En/{% endif %}Expeditionen" class="tooltip url" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</a></td>
+        <td class="num">{% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|trim('/', 'right')|e('html_attr') }}/wiki/{% if lang != 'de' and lang != 'of' and lang != 'pi' %}En/{% endif %}Expeditionen" class="tooltip url" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</a>{% else %}<span class="tooltip" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</span>{% endif %}</td>
       </tr>
         {% for FleetRow in (FleetsOnPlanet)|php_iter %}
           <tr>

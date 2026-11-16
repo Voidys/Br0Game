@@ -40,7 +40,6 @@ class MessageListController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
         $page = $this->http()->_GP('side', 1);
         $type = $this->http()->_GP('type', MESSAGE_TYPE_ALL);
         $sender = $this->http()->_GP('sender', '', UTF8_SUPPORT);
@@ -48,11 +47,7 @@ class MessageListController extends AbstractAdminController
         $dateStart = $this->http()->_GP('dateStart', []);
         $dateEnd = $this->http()->_GP('dateEnd', []);
 
-        $db = $this->db;
-
         $perSide = 50;
-
-        $messageList = [];
 
         $categories = $LNG['mg_type'];
         unset($categories[999]);
@@ -60,6 +55,39 @@ class MessageListController extends AbstractAdminController
         $dateStart = array_filter($dateStart, 'is_numeric');
         $dateEnd = array_filter($dateEnd, 'is_numeric');
 
+        $filter = $this->messageFilter($type, $this->dateFilter($dateStart, $dateEnd), $sender, $receiver);
+
+        $MessageCount = $this->countMessages($filter, $sender, $receiver);
+
+        $maxPage = max(1, ceil($MessageCount / $perSide));
+        $page = max(1, min($page, $maxPage));
+
+        $messageList = $this->messageRows($filter, $page, $perSide);
+
+        $this->assign([
+            'categories'   => $categories,
+            'maxPage'      => $maxPage,
+            'page'         => $page,
+            'messageList'  => $messageList,
+            'type'         => $type,
+            'dateStart'    => $dateStart,
+            'dateEnd'      => $dateEnd,
+            'sender'       => $sender,
+            'receiver'     => $receiver,
+            'Selected'     => 0,
+        ]);
+
+        return $this->render('admin/MessageList.html.twig');
+    }
+
+    /**
+     * Date condition of the list: both dates (day, month, year each) give a range from the start of the first to the
+     * end of the last day, only a start date means "since".
+     *
+     * @return array{0: string, 1: array<string, int|false>}|null condition and bound parameters, null without date filter
+     */
+    private function dateFilter(array $dateStart, array $dateEnd): ?array
+    {
         $useDateStart = count($dateStart) == 3;
         $useDateEnd = count($dateEnd) == 3;
 
@@ -76,10 +104,17 @@ class MessageListController extends AbstractAdminController
             ]];
         }
 
-        /**
-         * Adds the shared conditions: message type (unless all types), universe, date range, sender and receiver name.
-         * The sender/receiver joins (aliases us/u) must already be on the query.
-         */
+        return $dateFilter;
+    }
+
+    /**
+     * Builds the shared condition adder: message type (unless all types), universe, date range, sender and receiver
+     * name. The sender/receiver joins (aliases us/u) must already be on the query it is applied to.
+     *
+     * @return \Closure(QueryBuilder): QueryBuilder
+     */
+    private function messageFilter(mixed $type, ?array $dateFilter, mixed $sender, mixed $receiver): \Closure
+    {
         $filter = function (QueryBuilder $qb) use ($type, $dateFilter, $sender, $receiver): QueryBuilder {
             if ($type != MESSAGE_TYPE_ALL) {
                 $qb->andWhere('m.`message_type` = :type')->setParameter('type', $type);
@@ -101,6 +136,16 @@ class MessageListController extends AbstractAdminController
             return $qb;
         };
 
+        return $filter;
+    }
+
+    /**
+     * Counts the messages matching the filter (joins the sender/receiver users only when they are filtered on).
+     */
+    private function countMessages(\Closure $filter, mixed $sender, mixed $receiver): mixed
+    {
+        $db = $this->db;
+
         $countQuery = $db->qb()
             ->select('COUNT(*) AS anz')
             ->from($db->table('MESSAGES'), 'm')
@@ -113,8 +158,21 @@ class MessageListController extends AbstractAdminController
         }
         $MessageCount = $db->fetchValue($filter($countQuery));
 
-        $maxPage = max(1, ceil($MessageCount / $perSide));
-        $page = max(1, min($page, $maxPage));
+        return $MessageCount;
+    }
+
+    /**
+     * One page of messages (newest first; the page holds `$perSide - 1` rows, long-standing behaviour of this list)
+     * with sender/receiver labels, spy reports rendered and the local time.
+     *
+     * @return array<int, array<string, mixed>> keyed by message id
+     */
+    private function messageRows(\Closure $filter, int|float $page, int $perSide): array
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        $db = $this->db;
+        $messageList = [];
 
         // the page holds $perSide - 1 rows (long-standing behaviour of this list)
         $messageRaw = $db->fetchAll(
@@ -160,19 +218,6 @@ class MessageListController extends AbstractAdminController
             ];
         }
 
-        $this->assign([
-            'categories'   => $categories,
-            'maxPage'      => $maxPage,
-            'page'         => $page,
-            'messageList'  => $messageList,
-            'type'         => $type,
-            'dateStart'    => $dateStart,
-            'dateEnd'      => $dateEnd,
-            'sender'       => $sender,
-            'receiver'     => $receiver,
-            'Selected'     => 0,
-        ]);
-
-        return $this->render('admin/MessageList.html.twig');
+        return $messageList;
     }
 }

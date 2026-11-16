@@ -41,15 +41,27 @@ class CleanerCronjob extends AbstractCronjobTask
     public function run(): void
     {
         $config = $this->configs->get(ROOT_UNI);
-        $db     = $this->db;
         $unis   = $this->universe()->availableUniverses();
 
         //Delete old messages
         $del_before     = $this->state->runtime->timestamp - ($config->del_oldstuff * 86400);
-        $del_inactive   = $this->state->runtime->timestamp - ($config->del_user_automatic * 86400);
-        $del_deleted    = $this->state->runtime->timestamp - ($config->del_user_manually * 86400);
         $del_messages   = $this->state->runtime->timestamp - ($config->message_delete_days * 86400);
 
+        $this->deleteOldMessages($del_messages);
+        $this->deleteExpiredGameData($del_before);
+        $this->deleteInactivePlayers($unis);
+        $this->deleteAccounts();
+    }
+
+    /**
+     * Deletes user messages older than the cutoff (favorites stay, except spy reports; messages marked deleted before
+     * the cutoff go too) and the message bodies no user refers to any more.
+     *
+     * @param int $del_messages cutoff timestamp
+     */
+    private function deleteOldMessages(int|float $del_messages): void
+    {
+        $db = $this->db;
         $sql = 'DELETE um FROM %%USERS_TO_MESSAGES%% um
             LEFT JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
             WHERE `deleted_at` < :time OR (um.`created_at` < :time AND (um.`message_favorite` = 0 OR m.`message_type` = :mess_type_spy));';
@@ -63,7 +75,18 @@ class CleanerCronjob extends AbstractCronjobTask
             LEFT JOIN %%USERS_TO_MESSAGES%% um ON m.message_id = um.message_id
             WHERE um.message_id IS NULL;';
         $db->delete($sql);
+    }
 
+    /**
+     * Deletes what has expired or lost its owner: empty alliances with their ranks, planets past their destruction time,
+     * expired sessions, fleet events without fleet, fleet and phalanx logs older than the cutoff, advanced-stat history
+     * older than 7 days; resets the debris field flags (tf_active).
+     *
+     * @param int $del_before cutoff timestamp of the fleet and phalanx logs (del_oldstuff days)
+     */
+    private function deleteExpiredGameData(int|float $del_before): void
+    {
+        $db = $this->db;
         // ranks of empty alliances go first, while the alliance rows still identify them
         $sql = 'DELETE r FROM %%ALLIANCE_RANK%% r JOIN %%ALLIANCE%% a ON a.`id` = r.`allianceID` WHERE a.`ally_members` = 0;';
         $db->delete($sql);
@@ -104,7 +127,17 @@ class CleanerCronjob extends AbstractCronjobTask
         $db->delete($sql, [
             ':timestamp' => $this->state->runtime->timestamp - (7 * 86400)
         ]);
+    }
 
+    /**
+     * Deletes the players (authlevel user) of every universe except registration-only ones who requested the deletion
+     * more than del_user_manually days ago or were offline longer than del_user_automatic days (0 = off).
+     *
+     * @param iterable<int> $unis available universes
+     */
+    private function deleteInactivePlayers(iterable $unis): void
+    {
+        $db = $this->db;
         foreach ($unis as $uni) {
             $config = $this->configs->get($uni);
             $status = $config->uni_status;
@@ -133,7 +166,15 @@ class CleanerCronjob extends AbstractCronjobTask
                 }
             }
         }
+    }
 
+    /**
+     * Deletes the accounts that requested their deletion, and the accounts without any player that were inactive for a
+     * month.
+     */
+    private function deleteAccounts(): void
+    {
+        $db = $this->db;
         //delete accounts set to delete
         $config = $this->configs->get();
         $del_deleted  = $this->state->runtime->timestamp - ($config->del_user_manually * 86400);

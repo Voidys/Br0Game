@@ -68,6 +68,21 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
         ]);
 
         $fleetArray = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
+        $this->refundFuel($senderUser, $fleetArray);
+
+        $this->sendArrivalMessage($senderUser, $targetPlanet, $fleetArray);
+        $this->RestoreFleet(false);
+    }
+
+    /**
+     * Refunds half of the deuterium the flight cost: the cost really paid at dispatch (fuel_cost), for old fleets without
+     * it a recomputation from the flight. The refund is added to the fleet's cargo.
+     *
+     * @param array<string, mixed> $senderUser fleet owner (users + settings)
+     * @param array<int, int|float|string> $fleetArray ships by element id
+     */
+    private function refundFuel(array $senderUser, array $fleetArray): void
+    {
         $duration = $this->_fleet['arrival_time'] - $this->_fleet['start_time'];
 
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
@@ -98,6 +113,19 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
         }
 
         $this->UpdateFleet('resource_deuterium', $this->_fleet['resource_deuterium'] + $consumption / 2);
+    }
+
+    /**
+     * Tells the target owner that a fleet is stationed on his planet (sender planet, cargo and ship list), in the
+     * language of the fleet owner.
+     *
+     * @param array<string, mixed> $senderUser fleet owner (users + settings)
+     * @param array<string, mixed> $targetPlanet planet row
+     * @param array<int, int|float|string> $fleetArray ships by element id
+     */
+    private function sendArrivalMessage(array $senderUser, array $targetPlanet, array $fleetArray): void
+    {
+        $db = $this->db;
 
         $LNG = $this->getLanguage($senderUser['lang']);
         $TargetUserID = $this->_fleet['target_owner'];
@@ -138,7 +166,6 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             1,
             $this->_fleet['universe']
         );
-        $this->RestoreFleet(false);
     }
 
     /**

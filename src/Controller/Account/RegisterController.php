@@ -130,6 +130,83 @@ class RegisterController extends AbstractAccountController
         $mission = $this->http()->_GP('missionPrios', 'default');
         $stb = $this->http()->_GP('stbSettings', 'default');
 
+        $errors = $this->newPlayerErrors($userName, $universe);
+
+        [$colorSettingsUni, $missionSettingsUni, $stbSettingsUni] = $this->settingsSourceUniverses($colors, $mission, $stb);
+
+        if (!empty($errors)) {
+            $this->abortWithErrors($errors);
+        }
+
+        $referralID = $this->validReferralId($universe);
+
+        $validationKey = bin2hex(random_bytes(16));
+
+        [$userID, $planetID] = $this->playerUtil()->createPlayer(
+            $ACCOUNT['id'],
+            $universe,
+            $userName,
+            $language,
+            null,
+            null,
+            null,
+            null,
+            $ACCOUNT['authlevel'],
+            $this->sessions()->getClientIp(),
+            $stbSettingsUni,
+            $colorSettingsUni,
+            $missionSettingsUni,
+            $timezone,
+            $imageTheme,
+            $cssTheme,
+        );
+        $this->applyReferral($referralID, $userID);
+        $this->sendWelcomeMessage($userID, $universe);
+
+        $session	= $this->sessions()->create();
+        $session->userId		= $userID;
+        $session->universe      = $universe;
+        $session->planetId      = 0;
+        $session->adminAccess	= 0;
+        $session->save();
+
+        $this->http()->redirectTo('game');
+    }
+
+    /**
+     * Ends the request with the error list as message page (back link = browser history).
+     *
+     * @param string[] $errors translated error messages
+     */
+    private function abortWithErrors(array $errors): never
+    {
+        $LNG = $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
+
+        $this->assign([
+            'accountName' => $ACCOUNT['accountname'],
+            'toplink'       => "account?page=account",
+            'topname'       => $LNG->format('Back'),
+        ]);
+        $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
+            'label' => $LNG['registerBack'],
+            'url' => '#',
+            'action' => 'history-back',
+        ]]);
+    }
+
+    /**
+     * Validates the new player's name for the universe: not empty, valid characters, not taken in the universe and the
+     * account has no active player there yet. Reads USERS and ACCOUNTS_TO_USERS.
+     *
+     * @return string[] translated error messages
+     */
+    private function newPlayerErrors(string $userName, mixed $universe): array
+    {
+        $LNG = $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
+        $db = $this->db;
+
         $errors = [];
 
         if (empty($userName)) {
@@ -140,22 +217,6 @@ class RegisterController extends AbstractAccountController
             $errors[] = $LNG['registerErrorUsernameChar'];
         }
 
-
-
-        $db = $this->db;
-        $colorSettingsUni = 'default';
-        $missionSettingsUni = 'default';
-        $stbSettingsUni = 'default';
-        // the dropdowns are keyed by universe id; PlayerUtil::createPlayer only copies from the account's own players
-        if ($colors != 'default' && (int) $colors > 0) {
-            $colorSettingsUni = (string) (int) $colors;
-        }
-        if ($mission != 'default' && (int) $mission > 0) {
-            $missionSettingsUni = (string) (int) $mission;
-        }
-        if ($stb != 'default' && (int) $stb > 0) {
-            $stbSettingsUni = (string) (int) $stb;
-        }
         $sql = "SELECT COUNT(*) as count
 				FROM %%USERS%%
 				WHERE universe = :universe
@@ -184,18 +245,43 @@ class RegisterController extends AbstractAccountController
             $errors[] = $LNG['registerErrorUsernameExist'];
         }
 
-        if (!empty($errors)) {
-            $this->assign([
-                'accountName' => $ACCOUNT['accountname'],
-                'toplink'       => "account?page=account",
-                'topname'       => $LNG->format('Back'),
-            ]);
-            $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
-                'label' => $LNG['registerBack'],
-                'url' => '#',
-                'action' => 'history-back',
-            ]]);
+        return $errors;
+    }
+
+    /**
+     * Maps the "copy settings from universe" dropdowns (colors, mission priorities, STB settings) to a universe id as
+     * string or 'default'. The dropdowns are keyed by universe id; PlayerUtil::createPlayer only copies from the
+     * account's own players.
+     *
+     * @return array{0: string, 1: string, 2: string} universe of colors, mission priorities and STB settings
+     */
+    private function settingsSourceUniverses(mixed $colors, mixed $mission, mixed $stb): array
+    {
+        $colorSettingsUni = 'default';
+        $missionSettingsUni = 'default';
+        $stbSettingsUni = 'default';
+        // the dropdowns are keyed by universe id; PlayerUtil::createPlayer only copies from the account's own players
+        if ($colors != 'default' && (int) $colors > 0) {
+            $colorSettingsUni = (string) (int) $colors;
         }
+        if ($mission != 'default' && (int) $mission > 0) {
+            $missionSettingsUni = (string) (int) $mission;
+        }
+        if ($stb != 'default' && (int) $stb > 0) {
+            $stbSettingsUni = (string) (int) $stb;
+        }
+        return [$colorSettingsUni, $missionSettingsUni, $stbSettingsUni];
+    }
+
+    /**
+     * The referral stored on the account (ACCOUNTS.referralID) only applies when referrals are active and the recruiter
+     * is a player of the target universe; otherwise 0.
+     */
+    private function validReferralId(mixed $universe): int
+    {
+        $ACCOUNT = $this->state->ACCOUNT;
+        $config = $this->configs->get($universe);
+        $db = $this->db;
 
         // referral carried over from the registration (ACCOUNTS.referralID); only valid for a player of that universe
         $referralID = (int) ($ACCOUNT['referralID'] ?? 0);
@@ -213,27 +299,18 @@ class RegisterController extends AbstractAccountController
             $referralID = 0;
         }
 
-        $validationKey = bin2hex(random_bytes(16));
+        return $referralID;
+    }
 
+    /**
+     * Marks the new player as recruited (`ref_id`, `ref_bonus`; the recruiter is rewarded later by ReferralCronjob) and
+     * clears the referral on the account. No-op without a referral.
+     */
+    private function applyReferral(int $referralID, mixed $userID): void
+    {
+        $ACCOUNT = $this->state->ACCOUNT;
+        $db = $this->db;
 
-        [$userID, $planetID] = $this->playerUtil()->createPlayer(
-            $ACCOUNT['id'],
-            $universe,
-            $userName,
-            $language,
-            null,
-            null,
-            null,
-            null,
-            $ACCOUNT['authlevel'],
-            $this->sessions()->getClientIp(),
-            $stbSettingsUni,
-            $colorSettingsUni,
-            $missionSettingsUni,
-            $timezone,
-            $imageTheme,
-            $cssTheme,
-        );
         if ($referralID > 0) {
             // the recruiter is rewarded by ReferralCronjob once this player reaches ref_minpoints
             $db->update('UPDATE %%USERS%% SET `ref_id` = :referralId, `ref_bonus` = 1 WHERE `id` = :userID;', [
@@ -242,21 +319,21 @@ class RegisterController extends AbstractAccountController
             ]);
             $db->update('UPDATE %%ACCOUNTS%% SET `referralID` = 0 WHERE `id` = :accountID;', [':accountID' => $ACCOUNT['id']]);
         }
+    }
 
-        $LNG->includeData(['PUBLIC']);
-        $senderName = $LNG['registerWelcomePMSenderName'];
-        $subject 	= $LNG['registerWelcomePMSubject'];
-        $message 	= $LNG->format('registerWelcomePMText', $config->game_name);
+    /**
+     * Sends the welcome message (sender, subject and text from the PUBLIC texts) to the new player.
+     */
+    private function sendWelcomeMessage(mixed $userID, mixed $universe): void
+    {
+        $LNG = $this->state->LNG;
+        $config = $this->configs->get($universe);
 
-        $this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
+$LNG->includeData(['PUBLIC']);
+$senderName = $LNG['registerWelcomePMSenderName'];
+$subject 	= $LNG['registerWelcomePMSubject'];
+$message 	= $LNG->format('registerWelcomePMText', $config->game_name);
 
-        $session	= $this->sessions()->create();
-        $session->userId		= $userID;
-        $session->universe      = $universe;
-        $session->planetId      = 0;
-        $session->adminAccess	= 0;
-        $session->save();
-
-        $this->http()->redirectTo('game');
+$this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
     }
 }

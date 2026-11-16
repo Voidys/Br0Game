@@ -111,12 +111,39 @@ class ConfigRegistry
      */
     private function generateInstances(): void
     {
+        [$globalConfig, $rawGlobal] = $this->loadGlobalConfig();
+        [$universeConfigs, $rawUniverse] = $this->loadUniverseConfigs();
+
+        $this->rawGlobal = $rawGlobal;
+        $this->rawUniverse = $rawUniverse;
+
+        // Load modules for each universe
+        foreach ($universeConfigs as $uni => $config) {
+            $moduls = $this->loadModules($uni);
+
+            // Merge global config with universe config
+            $configData = array_merge($globalConfig, $config);
+            $configData['moduls'] = $moduls;
+            $configData['uni'] = $uni;
+
+            $this->instances[$uni] = new Config($configData, $this);
+            (new Universe($this->state))->add($uni);
+        }
+    }
+
+    /**
+     * Reads the global key-value table `config`, converts the values by the field transforms of the schema and inserts
+     * every key the schema knows but the table lacks with its default.
+     *
+     * @return array{0: array<string, mixed>, 1: array<string, string>} converted values, raw values by key
+     */
+    private function loadGlobalConfig(): array
+    {
         $db = $this->db;
 
         // Load global config from key-value table
         $globalConfig = [];
         $rawGlobal = [];
-        $rawUniverse = [];
         $sql = 'SELECT `key`, `value` FROM %%CONFIG%%;';
         $globalConfigResult = $db->select($sql);
         foreach ($globalConfigResult as $row) {
@@ -145,6 +172,21 @@ class ConfigRegistry
             $rawGlobal[$missingKey] = (string) ($fieldConfig['default'] ?? '');
         }
 
+        return [$globalConfig, $rawGlobal];
+    }
+
+    /**
+     * Reads the per-universe key-value table `config_universe` (converted by the field transforms of the schema) and
+     * inserts every key the schema knows but a universe lacks with its default.
+     *
+     * @return array{0: array<int|string, array<string, mixed>>, 1: array<int|string, array<string, string>>} converted
+     *         and raw values by universe and key
+     */
+    private function loadUniverseConfigs(): array
+    {
+        $db = $this->db;
+        $rawUniverse = [];
+
         // Load universe configs from key-value table
         $universeConfigs = [];
         $sql = 'SELECT `uni`, `key`, `value` FROM %%CONFIG_UNIVERSE%% ORDER BY `uni`;';
@@ -165,7 +207,7 @@ class ConfigRegistry
             }
             $universeConfigs[$uni][$key] = $value;
         }
-        
+
         // Ensure all expected keys are present for each universe config
         $expectedKeys = array_keys($this->schemaUni->getAllFields());
         foreach ($universeConfigs as $uni => $configs) {
@@ -184,41 +226,41 @@ class ConfigRegistry
             }
         }
 
-        $this->rawGlobal = $rawGlobal;
-        $this->rawUniverse = $rawUniverse;
+        return [$universeConfigs, $rawUniverse];
+    }
 
-        // Load modules for each universe
-        foreach ($universeConfigs as $uni => $config) {
-            $sql = 'SELECT * FROM %%CONFIG_UNIVERSE_MODULES%% WHERE `uni` = :universe;';
-            $modulesResult = $db->select($sql, [':universe' => $uni]);
-            $moduls = [];
-            foreach ($modulesResult as $modulesRow) {
-                $moduls[$modulesRow['module']] = $modulesRow['state'];
-            }
-
-            // Ensure all modules are present
-            $modules = $this->state->modules;
-            foreach ($modules as $moduleKey => $moduleName) {
-                if (!isset($moduls[$moduleKey])) {
-                    $sql = 'INSERT INTO %%CONFIG_UNIVERSE_MODULES%% (`uni`, `module`, `module_name`, `state`)
-                        VALUES (:uni, :module, :module_name, :state)';
-                    $db->insert($sql, [
-                        ':uni' => $uni,
-                        ':module' => $moduleKey,
-                        ':module_name' => $moduleName,
-                        ':state' => 0,
-                    ]);
-                    $moduls[$moduleKey] = 0;
-                }
-            }
-
-            // Merge global config with universe config
-            $configData = array_merge($globalConfig, $config);
-            $configData['moduls'] = $moduls;
-            $configData['uni'] = $uni;
-
-            $this->instances[$uni] = new Config($configData, $this);
-            (new Universe($this->state))->add($uni);
+    /**
+     * The module states of a universe (module id => state); modules the game knows but the table lacks are inserted as
+     * disabled (0).
+     *
+     * @return array<int|string, int|string>
+     */
+    private function loadModules(int|string $uni): array
+    {
+        $db = $this->db;
+        $sql = 'SELECT * FROM %%CONFIG_UNIVERSE_MODULES%% WHERE `uni` = :universe;';
+        $modulesResult = $db->select($sql, [':universe' => $uni]);
+        $moduls = [];
+        foreach ($modulesResult as $modulesRow) {
+            $moduls[$modulesRow['module']] = $modulesRow['state'];
         }
+
+        // Ensure all modules are present
+        $modules = $this->state->modules;
+        foreach ($modules as $moduleKey => $moduleName) {
+            if (!isset($moduls[$moduleKey])) {
+                $sql = 'INSERT INTO %%CONFIG_UNIVERSE_MODULES%% (`uni`, `module`, `module_name`, `state`)
+                    VALUES (:uni, :module, :module_name, :state)';
+                $db->insert($sql, [
+                    ':uni' => $uni,
+                    ':module' => $moduleKey,
+                    ':module_name' => $moduleName,
+                    ':state' => 0,
+                ]);
+                $moduls[$moduleKey] = 0;
+            }
+        }
+
+        return $moduls;
     }
 }

@@ -44,7 +44,7 @@ class PlayerCardController extends AbstractGameController
     }
 
     /**
-     * Player card popup (request: id): player data, total points and the stats blocks below, plus achievements and the block status. Buildings need
+     * Player card popup (request: id; a missing or unknown id shows the "player does not exist" message): player data, total points and the stats blocks below, plus achievements and the block status. Buildings need
      * the viewer's spy tech level 2, techs level 4, defense/fleet/battle record/honor level 6 (PlayerUtil::spyTechAllowedFor), otherwise those blocks are
      * zeroed.
      */
@@ -54,7 +54,16 @@ class PlayerCardController extends AbstractGameController
         $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
-        $PlayerID 	= $this->http()->_GP('id', 0);
+        $PlayerID 	= (int) $this->http()->_GP('id', 0);
+
+        $exists = $this->db->selectSingle('SELECT id FROM %%USERS%% WHERE id = :playerID AND universe = :universe;', [
+            ':playerID' => $PlayerID,
+            ':universe' => $this->universe()->current(),
+        ], 'id');
+        if (!$exists) {
+            // missing or unknown id: the game's usual message page instead of an exception
+            $this->printMessage($LNG['bu_player_not_exist']);
+        }
 
         $stats = $this->get_stats($PlayerID);
         $showPlayer = true;
@@ -80,15 +89,62 @@ class PlayerCardController extends AbstractGameController
         $authlevel = $this->playerUtil()->get_authlevel($PlayerID);
         $honor_data = $this->get_honor_data($PlayerID, $stats, $showHonor);
 
-        $this->assign([
+        $this->assign(array_merge(
+            $this->identityVariables($PlayerID, $player_data),
+            $this->rankingVariables($total_data, $tech_data, $build_data, $def_data, $fleet_data),
+            $this->battleVariables($player_data, $battle_stats, $units, $real_units),
+            [
+                'achievements'	        => $this->get_achievements($PlayerID),
+                'showBuild'             => $showBuild,
+                'showTech'              => $showTech,
+                'showDef'               => $showDef,
+                'showFleet'             => $showFleet,
+                'showBattle'            => $showBattle,
+                'showHonor'             => $showHonor,
+                'blockTrade'            => $blocked['block_trade'],
+                'blockDm'               => $blocked['block_dm'],
+                'targetRights'          => $authlevel,
+            ],
+            $this->honorVariables($battle_stats, $honor_data),
+        ));
+        return $this->render('game/page.playerCard.default.html.twig');
+    }
+
+    /**
+     * Template variables that identify the card: viewed and own player id, name, home planet with coordinates and the alliance.
+     *
+     * @param array<string, mixed> $player_data from get_player_data()
+     * @return array<string, mixed>
+     */
+    private function identityVariables(int $PlayerID, array $player_data): array
+    {
+        return [
             'id'			        => $PlayerID,
-            'yourid'		        => $USER['id'],
+            'yourid'		        => $this->state->USER['id'],
             'name'			        => $player_data['username'],
             'homeplanet'	        => $player_data['planetname'],
             'galaxy'		        => $player_data['galaxy'],
             'system'		        => $player_data['system'],
             'planet'		        => $player_data['planet'],
             'allyid'		        => $player_data['ally_id'],
+            'allyname'		        => $player_data['ally_name'],
+        ];
+    }
+
+    /**
+     * Rank, points and percentage per ranking (research, buildings, defense, fleet, total), formatted for the template; a percentage of 0
+     * stays the string "0,00".
+     *
+     * @param array<string, mixed> $total_data
+     * @param array<string, mixed> $tech_data
+     * @param array<string, mixed> $build_data
+     * @param array<string, mixed> $def_data
+     * @param array<string, mixed> $fleet_data
+     * @return array<string, mixed>
+     */
+    private function rankingVariables(array $total_data, array $tech_data, array $build_data, array $def_data, array $fleet_data): array
+    {
+        return [
             'tech_rank'             => $this->viewHelpers()->prettyNumber($tech_data['tech_rank']),
             'tech_points'           => $this->viewHelpers()->prettyNumber($tech_data['tech_points']),
             'build_rank'            => $this->viewHelpers()->prettyNumber($build_data['build_rank']),
@@ -99,7 +155,28 @@ class PlayerCardController extends AbstractGameController
             'fleet_points'          => $this->viewHelpers()->prettyNumber($fleet_data['fleet_points']),
             'total_rank'            => $this->viewHelpers()->prettyNumber($total_data['total_rank']),
             'total_points'          => $this->viewHelpers()->prettyNumber($total_data['total_points']),
-            'allyname'		        => $player_data['ally_name'],
+            'tech_percent'          => $tech_data['tech_percent'] == 0 ? '0,00' : round($tech_data['tech_percent'], 2),
+            'build_percent'         => $build_data['build_percent'] == 0 ? '0,00' : round($build_data['build_percent'], 2),
+            'defs_percent'          => $def_data['defs_percent'] == 0 ? '0,00' : round($def_data['defs_percent'], 2),
+            'fleet_percent'         => $fleet_data['fleet_percent'] == 0 ? '0,00' : round($fleet_data['fleet_percent'], 2),
+        ];
+    }
+
+    /**
+     * Battle record: won/lost/drawn fights with percentages, debris and unit losses (both the counted and the real values) and the
+     * "destroyed" texts with the player name.
+     *
+     * @param array<string, mixed> $player_data
+     * @param array<string, mixed> $battle_stats
+     * @param array<string, mixed> $units
+     * @param array<string, mixed> $real_units
+     * @return array<string, mixed>
+     */
+    private function battleVariables(array $player_data, array $battle_stats, array $units, array $real_units): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'playerdestory'         => $LNG->format('pl_destroy', $player_data['username']),
             'realdestory'           => $LNG->format('pl_destroy_real', $player_data['username']),
             'wons'                  => $this->viewHelpers()->prettyNumber($battle_stats['wons']),
@@ -117,20 +194,19 @@ class PlayerCardController extends AbstractGameController
             'siegprozent'           => round($battle_stats["siegprozent"], 2),
             'loosprozent'           => round($battle_stats["loosprozent"], 2),
             'drawsprozent'          => round($battle_stats["drawsprozent"], 2),
-            'tech_percent'          => $tech_data['tech_percent'] == 0 ? '0,00' : round($tech_data['tech_percent'], 2),
-            'build_percent'         => $build_data['build_percent'] == 0 ? '0,00' : round($build_data['build_percent'], 2),
-            'defs_percent'          => $def_data['defs_percent'] == 0 ? '0,00' : round($def_data['defs_percent'], 2),
-            'fleet_percent'         => $fleet_data['fleet_percent'] == 0 ? '0,00' : round($fleet_data['fleet_percent'], 2),
-            'achievements'	        => $this->get_achievements($PlayerID),
-            'showBuild'             => $showBuild,
-            'showTech'              => $showTech,
-            'showDef'               => $showDef,
-            'showFleet'             => $showFleet,
-            'showBattle'            => $showBattle,
-            'showHonor'             => $showHonor,
-            'blockTrade'            => $blocked['block_trade'],
-            'blockDm'               => $blocked['block_dm'],
-            'targetRights'          => $authlevel,
+        ];
+    }
+
+    /**
+     * Honor block: rank, points and honorable/dishonorable/neutral fights with their percentages (neutral = all fights minus the other two).
+     *
+     * @param array<string, mixed> $battle_stats
+     * @param array<string, mixed> $honor_data
+     * @return array<string, mixed>
+     */
+    private function honorVariables(array $battle_stats, array $honor_data): array
+    {
+        return [
             'honor_rank'            => $this->viewHelpers()->prettyNumber($honor_data['honor_rank']),
             'honorpoints'           => $this->viewHelpers()->prettyNumber($honor_data['honorpoints']),
             'honorable_fights'      => $this->viewHelpers()->prettyNumber($honor_data['honorable_fights']),
@@ -139,8 +215,7 @@ class PlayerCardController extends AbstractGameController
             'honorable_percent'     => round($honor_data['honorable_percent'], 2),
             'dishonorable_percent'  => round($honor_data['dishonorable_percent'], 2),
             'neutral_percent'       => round($honor_data['neutral_percent'], 2),
-        ]);
-        return $this->render('game/page.playerCard.default.html.twig');
+        ];
     }
 
     /**

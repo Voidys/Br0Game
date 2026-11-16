@@ -47,10 +47,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function TargetEvent()
     {
-        $pricelist = $this->state->pricelist;
-        $resource = $this->state->resource;
         $db = $this->db;
-        $config = $this->configs->get($this->_fleet['universe']);
 
         $sql = "SELECT * FROM %%PIRATE_BASES%% WHERE `id` = :baseId FOR UPDATE;";
         $targetBase = $db->selectSingle($sql, [
@@ -81,6 +78,114 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         $targetFleet = $this->fleetFunctions()->unserialize($targetBase['ships']);
 
         $totalShipDefCount = 0;
+        $spyData = $this->collectSpyData($classIDs, $senderUser, $targetBase, $targetFleet, $totalShipDefCount);
+
+        $targetChance = $this->getDetectionChance($senderSpyTech, $targetSpyTech, $fleetAmount, $totalShipDefCount);
+        $spyChance = random_int(1, 100);
+
+        [$smallCargoNeeded, $largeCargoNeeded] = $this->cargoNeeded($targetBase);
+
+        // Scavengers Tool Box
+        $stbSettings = $this->playerUtil()->player_stb_settings($senderUser);
+
+        // determine if the spy report detects ships or deff
+        $danger = $this->getDangerValue($spyData);
+
+        $reportData = [
+            'targetUserName'    => $LNG['type_planet_4'],
+            'time'              => $this->_fleet['stay_time'],
+            'stbEnabled'        => $stbSettings['stb_enabled'],
+            'danger'            => $danger,
+            'dangerClass'       => $danger > 0 ? 'danger' : 'nonedanger',
+            'smallCargoNeeded'  => $smallCargoNeeded,
+            'largeCargoNeeded'  => $largeCargoNeeded,
+            'energy'            => 0, // a base has no energy to show
+            'energyClass'       => '',
+            'spyData'           => $spyData,
+            'repair_order'      => [],
+            'targetPlanet'      => [
+                'name'          => $LNG['type_planet_4'],
+                'planet_type'   => $this->_fleet['end_type'],
+                'galaxy'        => $this->_fleet['end_galaxy'],
+                'system'        => $this->_fleet['end_system'],
+                'planet'        => $this->_fleet['end_planet'],
+            ],
+            'targetChance'      => $targetChance,
+            'spyChance'         => $spyChance,
+            'totalShipDefCount' => $totalShipDefCount,
+            'isBattleSim'       => ENABLE_SIMULATOR_LINK == true && $this->viewHelpers()->isModuleAvailable(MODULE_SIMULATOR),
+        ];
+
+        $this->sendReport($reportData, $LNG);
+
+        if ($totalShipDefCount > 0 && $targetChance >= $spyChance) {
+            $this->destroyProbes($fleetAmount);
+        } else {
+            $this->setState(FLEET_RETURN);
+            $this->SaveFleet();
+        }
+    }
+
+    /**
+     * Cargo ships needed to carry the base's resources (the capacity BattleHandler::calculateMinCapacity() gives for
+     * metal, crystal and deuterium).
+     *
+     * @param array<string, mixed> $targetBase pirate base row
+     * @return array{0: float, 1: float} small and large cargos needed
+     */
+    private function cargoNeeded(array $targetBase): array
+    {
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
+
+        $capacityNeeded = $battleHandler->calculateMinCapacity([
+            'metal' => getNumber($targetBase[$resource[RESOURCE_METAL]]),
+            'crystal' => getNumber($targetBase[$resource[RESOURCE_CRYSTAL]]),
+            'deuterium' => getNumber($targetBase[$resource[RESOURCE_DEUT]]),
+        ]);
+        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
+        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
+
+        return [$smallCargoNeeded, $largeCargoNeeded];
+    }
+
+    /**
+     * Sends the spy report (JSON) to the fleet owner and sets the "first espionage" stat.
+     *
+     * @param array<string, mixed> $reportData report content
+     */
+    private function sendReport(array $reportData, \App\Game\Core\Language $LNG): void
+    {
+        $this->playerUtil()->sendMessage(
+            $this->_fleet['owner'],
+            0,
+            $LNG['sys_mess_spy_qg'],
+            MESSAGE_TYPE_SPY_REPORT,
+            $LNG['sys_mess_spy_report'],
+            json_encode($reportData),
+            $this->_fleet['arrival_time'],
+            1,
+            $this->_fleet['universe'],
+            $this->_fleet['end_id']
+        );
+
+        $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
+    }
+
+    /**
+     * Report data of the visible classes: the base's stock (resources, always), its ships (zero for types it does not
+     * have; only enabled ones), and an estimate of the research (sender's own military/shield/defence tech minus 3,
+     * not below 0). The sender's "only show what exists" setting drops zero entries.
+     *
+     * @param array<int, array<int>> $classIDs see getClassIDs()
+     * @param array<int, int|float|string> $targetFleet ships of the base by element id
+     * @param int|float $totalShipDefCount out: number of ships on the base (the counter-espionage chance depends on it)
+     * @return array<int, array<int, int|float|string>> class id => element id => amount
+     */
+    private function collectSpyData(array $classIDs, array $senderUser, array $targetBase, array $targetFleet, int|float &$totalShipDefCount): array
+    {
+        $resource = $this->state->resource;
         $spyData = [];
         foreach ($classIDs as $classID => $elementIDs) {
             if ($classID == 900) {
@@ -114,100 +219,32 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
             }
         }
 
-        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
+        return $spyData;
+    }
 
-        $targetChance = $this->getDetectionChance($senderSpyTech, $targetSpyTech, $fleetAmount, $totalShipDefCount);
-        $spyChance = random_int(1, 100);
+    /**
+     * Detected probes: their debris (fleet_debris_percentage of the probe cost) is added to the base's debris field,
+     * the destroyed-ships stat is counted (against nobody: owner 0), the fleet is deleted.
+     */
+    private function destroyProbes(int|float|string $fleetAmount): void
+    {
+        $pricelist = $this->state->pricelist;
+        $config = $this->configs->get($this->_fleet['universe']);
 
-        $sumPlanetRessources = 2 * ($targetBase[$resource[RESOURCE_METAL]] + $targetBase[$resource[RESOURCE_CRYSTAL]] + $targetBase[$resource[RESOURCE_DEUT]]);
-        $simulated = [];
-        $simulated['fleetDetail']['resource_metal'] = 0;
-        $simulated['fleetDetail']['resource_crystal'] = 0;
-        $simulated['fleetDetail']['resource_deuterium'] = 0;
-        $simulated['unit'] = [
-            '203' => ceil($sumPlanetRessources / $pricelist[SHIP_LARGE_CARGO]['capacity']),
-        ];
-        $fleetSimulate[] = $simulated;
-
-        $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetBase[$resource[RESOURCE_METAL]]),
-            'crystal' => getNumber($targetBase[$resource[RESOURCE_CRYSTAL]]),
-            'deuterium' => getNumber($targetBase[$resource[RESOURCE_DEUT]]),
-        ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity']);
-        $largeCargoNeeded = ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity']);
-
-        // Scavengers Tool Box
-        $stbSettings = $this->playerUtil()->player_stb_settings($senderUser);
-
-        // determine if the spy report detects ships or deff
-        $danger = $this->getDangerValue($spyData);
-        $dangerClass = $danger > 0 ? "danger" : "nonedanger";
-
-        // get the energy to indicate if someone is pushing to gravi
-        $energy = 0;
-        $energyClass = "";
-
-        $reportData = [
-            'targetUserName'    => $LNG['type_planet_4'],
-            'time'              => $this->_fleet['stay_time'],
-            'stbEnabled'        => $stbSettings['stb_enabled'],
-            'danger'            => $danger,
-            'dangerClass'       => $dangerClass,
-            'smallCargoNeeded'  => $smallCargoNeeded,
-            'largeCargoNeeded'  => $largeCargoNeeded,
-            'energy'            => $energy,
-            'energyClass'       => $energyClass,
-            'spyData'           => $spyData,
-            'repair_order'      => [],
-            'targetPlanet'      => [
-                'name'          => $LNG['type_planet_4'],
-                'planet_type'   => $this->_fleet['end_type'],
-                'galaxy'        => $this->_fleet['end_galaxy'],
-                'system'        => $this->_fleet['end_system'],
-                'planet'        => $this->_fleet['end_planet'],
-            ],
-            'targetChance'      => $targetChance,
-            'spyChance'         => $spyChance,
-            'totalShipDefCount' => $totalShipDefCount,
-            'isBattleSim'       => ENABLE_SIMULATOR_LINK == true && $this->viewHelpers()->isModuleAvailable(MODULE_SIMULATOR),
-        ];
-
-        $this->playerUtil()->sendMessage(
-            $this->_fleet['owner'],
-            0,
-            $LNG['sys_mess_spy_qg'],
-            MESSAGE_TYPE_SPY_REPORT,
-            $LNG['sys_mess_spy_report'],
-            json_encode($reportData),
-            $this->_fleet['arrival_time'],
-            1,
-            $this->_fleet['universe'],
-            $this->_fleet['end_id']
-        );
-
-        $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
-
-        if ($totalShipDefCount > 0 && $targetChance >= $spyChance) {
-
-            $sql = 'UPDATE %%PIRATE_BASES%% SET
+        $sql = 'UPDATE %%PIRATE_BASES%% SET
                 `der_metal`   = `der_metal` + :metal,
                 `der_crystal` = `der_crystal` + :crystal
                 WHERE `id` = :baseId;';
 
-            $db->update($sql, [
-                ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
-                ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
-                ':baseId' => $this->_fleet['end_id'],
-            ]);
+        $this->db->update($sql, [
+            ':metal'    => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] * $config->fleet_debris_percentage / 100,
+            ':crystal'  => $fleetAmount * $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL] * $config->fleet_debris_percentage / 100,
+            ':baseId' => $this->_fleet['end_id'],
+        ]);
 
-            $this->statsHandler->updateDestroyedAdvancedStats(0, $this->_fleet['owner'], SHIP_PROBE, $fleetAmount);
+        $this->statsHandler->updateDestroyedAdvancedStats(0, $this->_fleet['owner'], SHIP_PROBE, $fleetAmount);
 
-            $this->KillFleet();
-        } else {
-            $this->setState(FLEET_RETURN);
-            $this->SaveFleet();
-        }
+        $this->KillFleet();
     }
 
     /**

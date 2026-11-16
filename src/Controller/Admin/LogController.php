@@ -162,16 +162,52 @@ class LogController extends AbstractAdminController
         if (empty($result)) {
             $this->message($LNG['log_no_data']);
         }
-
         $data = StoredData::tryDecode($result['data']);
         if (!is_array($data)) {
             $data = [];
         }
 
+        [$conf_before, $conf_after] = $this->splitLogData($data);
+
+        $Wrapper = $this->logFieldLabels();
+
+        $LogArray = [];
+
+        $dbTableNames = [];
+        require_once 'src/Game/Support/tables.php';
+        $this->loopLogArray($LogArray, $Wrapper, $dbTableNames, $conf_after, $conf_before);
+
+        $this->collectNestedLogRows($LogArray, $Wrapper, $conf_before, $conf_after);
+
+        $this->assign([
+            'LogArray'     => $LogArray,
+            'admin'        => $result['admin_username'],
+            'target'       => $result['universe'],
+            'id'           => $result['id'],
+            'time'         => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $result['time'], $USER['timezone']),
+            'log_info'     => $LNG['log_info'],
+            'log_admin'    => $LNG['log_admin'],
+            'log_time'     => $LNG['log_time'],
+            'log_target'   => $LNG['log_universe'],
+            'log_id'       => $LNG['log_id'],
+            'log_element'  => $LNG['log_element'],
+            'log_old'      => $LNG['log_old'],
+            'log_new'      => $LNG['log_new'],
+        ]);
+
+        return $this->render('admin/LogDetail.html.twig');
+    }
+
+    /**
+     * Splits the stored log data into the "before" and "after" values: entries with two arrays are before/after pairs,
+     * everything else (e.g. gifts) is a flat "before" list.
+     *
+     * @return array{0: array, 1: array} before and after values
+     */
+    private function splitLogData(array $data): array
+    {
         $conf_before = [];
-        $tables_before = [];
         $conf_after = [];
-        $tables_after = [];
         // before/after pairs; other entries (e.g. gifts) only hold a flat list of values
         if (isset($data[0], $data[1]) && is_array($data[0]) && is_array($data[1])) {
             $before = $data[0];
@@ -187,7 +223,19 @@ class LogController extends AbstractAdminController
             $conf_after[$key] = $i;
         }
 
-        $Wrapper = [
+        return [$conf_before, $conf_after];
+    }
+
+    /**
+     * Display labels of the config and editor keys that appear in log entries.
+     *
+     * @return array<string, string>
+     */
+    private function logFieldLabels(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'resource_multiplier' => $LNG['se_resources_producion_speed'],
             'forum_url'           => $LNG['se_forum_link'],
 
@@ -205,13 +253,15 @@ class LogController extends AbstractAdminController
             'username'   => $LNG['adm_username'],
             'field_max'  => $LNG['qe_fields'],
         ];
+    }
 
-        $LogArray = [];
-
-        $dbTableNames = [];
-        require_once 'src/Game/Support/tables.php';
-        $this->loopLogArray($LogArray, $Wrapper, $dbTableNames, $conf_after, $conf_before);
-
+    /**
+     * Adds the rows for the nested before-values (tables with keys, up to three levels) next to their "after" values.
+     *
+     * @param array $LogArray result rows (appended to)
+     */
+    private function collectNestedLogRows(array &$LogArray, array $Wrapper, array $conf_before, array $conf_after): void
+    {
         foreach ($conf_before as $key => $val) {
             if ($key != 'universe') {
                 if (is_array($val)) {
@@ -239,27 +289,6 @@ class LogController extends AbstractAdminController
                 }
             }
         }
-
-        if (!isset($LogArray)) {
-            $LogArray = [];
-        }
-        $this->assign([
-            'LogArray'     => $LogArray,
-            'admin'        => $result['admin_username'],
-            'target'       => $result['universe'],
-            'id'           => $result['id'],
-            'time'         => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $result['time'], $USER['timezone']),
-            'log_info'     => $LNG['log_info'],
-            'log_admin'    => $LNG['log_admin'],
-            'log_time'     => $LNG['log_time'],
-            'log_target'   => $LNG['log_universe'],
-            'log_id'       => $LNG['log_id'],
-            'log_element'  => $LNG['log_element'],
-            'log_old'      => $LNG['log_old'],
-            'log_new'      => $LNG['log_new'],
-        ]);
-
-        return $this->render('admin/LogDetail.html.twig');
     }
 
     /**

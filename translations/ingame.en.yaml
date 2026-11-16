@@ -284,7 +284,7 @@ al_diplo_info: >-
   <p>On this page you can manage your alliance's diplomatic pacts.</p><p>The
   pact types are listed below. More information: <a
   href="game?page=questions">FAQ</a> or the <a
-  href="https://wiki.pr0game.com/wiki/En/Hauptseite"
+  href="{wiki_url}/wiki/En/Hauptseite"
   target="_blank">wiki</a>.</p>
 al_diplo_level:
   - Main
@@ -447,8 +447,8 @@ al_your_ally: Your alliance
 al_your_request_title: Your application
 bad_forum_url: The Forum link is incorrect!
 banned_message: >-
-  You have been banned. If you think this was a mistake, message us on Discord:
-  <a href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  You have been banned. <!--discord_url-->If you think this was a mistake, message us on Discord:
+  <a href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Current production:'
 bd_available: 'Available: '
 bd_build: Build
@@ -930,12 +930,12 @@ in_units: Unit
 kontakt: >-
   Hi!<br>On this page you will find information about the people who actively
   run, moderate and develop this project.<br>Feel free to contact us if you have
-  any questions or problems.<br><br>For a better exchange with us, but also with
+  any questions or problems.<br><br><!--discord_url-->For a better exchange with us, but also with
   the other players, we have set up a Discord server. You can find it <a
-  href="https://discord.gg/jhYYN3yuat">here</a> or via the menu.<br>On the
+  href="{discord_url}">here</a> or via the menu.<br>On the
   server you will find the latest news, as well as exciting memes between the
   alliances of the universe.<br>Ask questions about game mechanics and help with
-  your own suggestions for the further development of the game.<br><br>Of
+  your own suggestions for the further development of the game.<br><br><!--/discord_url-->Of
   course, we will also answer your in-game questions.<br>However, please bear in
   mind that we only play the game as a hobby. Answers may take a few days.<br>
 lm_administration: Administration
@@ -1444,9 +1444,9 @@ sys_closed_game: 'The game is currently not available:'
 sys_forward: Next
 sys_game_is_setup: >-
   <h1>Registration Done!</h1><br><p>We are preparing the universe for
-  you!</p><p>In the meantime, to make sure you don't miss anything, join us on
-  the</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord
-  <-</a></h3>
+  you!</p><!--discord_url--><p>In the meantime, to make sure you don't miss anything, join us on
+  the</p><h3><a href="{discord_url}" target="_blank">-> Discord
+  <-</a></h3><!--/discord_url-->
 sys_module_inactive: Inactive module
 sys_nomore_level: There's no building ( %s ) to demolish.
 sys_notenough_money: >-

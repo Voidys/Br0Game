@@ -66,178 +66,24 @@ class OverviewController extends AbstractGameController
         $LNG = $this->state->LNG;
         $PLANET = $this->state->PLANET;
         $USER = $this->state->USER;
-        $AdminsOnline = [];
-        $AllPlanets = [];
-        $Moon = [];
-        $RefLinks = [];
 
-        $db = $this->db;
+        $AllPlanets = $this->otherPlanets($USER, $PLANET);
+        $Moon = $this->moonOf($PLANET, $USER);
 
-        foreach ($USER['PLANETS'] as $ID => $CPLANET) {
-            if ($ID == $PLANET['id']) {
-                continue;
-            }
+        $buildInfo['buildings'] = (!empty($PLANET['b_building']) && !empty($PLANET['b_building_id']))
+            ? $this->buildingEntry($PLANET, $USER)
+            : false;
+        $buildInfo['fleet'] = $this->hangarEntry($PLANET, $USER);
+        $buildInfo['tech'] = $this->researchEntry($USER);
+        $buildInfo['repair'] = $this->repairEntry($PLANET, $USER);
 
-            if (!empty($CPLANET['b_building']) && !empty($CPLANET['b_building_id']) && $CPLANET['b_building'] > $this->state->runtime->timestamp) {
-                $Queue = StoredData::decode($CPLANET['b_building_id']);
-                $timeleft = $USER['urlaubs_modus'] ? ($CPLANET['b_building'] - $USER['urlaubs_start']) : ($CPLANET['b_building'] - $this->state->runtime->timestamp);
-                $BuildPlanet = [
-                    'id'        => $Queue[0][0],
-                    'level'     => $Queue[0][1],
-                    'timeleft'  => $timeleft,
-                    'time'      => $CPLANET['b_building'],
-                    'starttime' => $this->viewHelpers()->prettyTime($timeleft),
-                    'mode'      => $Queue[0][4],
-                ];
-            } else {
-                $BuildPlanet = false;
-            }
-
-            $AllPlanets[] = [
-                'id'            => $CPLANET['id'],
-                'name'          => $CPLANET['name'],
-                'image'         => $CPLANET['image'],
-                'planet_style'  => $CPLANET['planet_style'],
-                'build'         => $BuildPlanet,
-                'type'          => $CPLANET['planet_type'],
-                'galaxy'        => $CPLANET['galaxy'],
-                'system'        => $CPLANET['system'],
-                'planet'        => $CPLANET['planet'],
-            ];
-        }
-
-        if ($PLANET['id_luna'] != 0) {
-            $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id = :lunaID;";
-            $Moon = $db->selectSingle($sql, [':lunaID'   => $PLANET['id_luna']]);
-        } elseif ($PLANET['planet_type'] == 3) {
-            $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id_luna = :id;";
-            $Moon = $db->selectSingle($sql, [':id'   => $PLANET['id']]);
-        }
-        if (!empty($Moon)) {
-            if (!empty($Moon['b_building']) && !empty($Moon['b_building_id']) && $Moon['b_building'] > $this->state->runtime->timestamp) {
-                $Queue = StoredData::decode($Moon['b_building_id']);
-                $timeleft = $USER['urlaubs_modus'] ? ($Moon['b_building'] - $USER['urlaubs_start']) : ($Moon['b_building'] - $this->state->runtime->timestamp);
-                $Moon['build'] = [
-                    'id'        => $Queue[0][0],
-                    'level'     => $Queue[0][1],
-                    'timeleft'  => $timeleft,
-                    'time'      => $Moon['b_building'],
-                    'starttime' => $this->viewHelpers()->prettyTime($timeleft),
-                    'mode'      => $Queue[0][4],
-                ];
-            } else {
-                $Moon['build'] = false;
-            }
-        }
-
-        if (!empty($PLANET['b_building']) && !empty($PLANET['b_building_id'])) {
-            $Queue          = StoredData::decode($PLANET['b_building_id']);
-            $timeleft = $USER['urlaubs_modus'] ? ($PLANET['b_building'] - $USER['urlaubs_start']) : ($PLANET['b_building'] - $this->state->runtime->timestamp);
-            $buildInfo['buildings'] = [
-                'id'        => $Queue[0][0],
-                'level'     => $Queue[0][1],
-                'timeleft'  => $timeleft,
-                'time'      => $PLANET['b_building'],
-                'starttime' => $this->viewHelpers()->prettyTime($timeleft),
-                'mode'      => $Queue[0][4],
-            ];
-        } else {
-            $buildInfo['buildings'] = false;
-        }
-
-        if (!empty($PLANET['b_hangar_id'])) {
-            $Queue  = StoredData::decode($PLANET['b_hangar_id']);
-            $time   = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Queue[0][0]) * $Queue[0][1];
-            $buildInfo['fleet'] = [
-                'id'        => $Queue[0][0],
-                'level'     => $Queue[0][1],
-                'timeleft'  => $time - $PLANET['b_hangar'],
-                'time'      => $time,
-                'starttime' => $this->viewHelpers()->prettyTime($time - $PLANET['b_hangar']),
-            ];
-        } else {
-            $buildInfo['fleet'] = false;
-        }
-
-        if (!empty($USER['b_tech_id']) && !empty($USER['b_tech_queue'])) {
-            $timeleft = $USER['urlaubs_modus'] ? ($USER['b_tech'] - $USER['urlaubs_start']) : ($USER['b_tech'] - $this->state->runtime->timestamp);
-            $Queue = StoredData::decode($USER['b_tech_queue']);
-            $buildInfo['tech'] = [
-                'id'        => $Queue[0][0],
-                'level'     => $Queue[0][1],
-                'timeleft'  => $timeleft,
-                'time'      => $USER['b_tech'],
-                'starttime' => $this->viewHelpers()->prettyTime($timeleft),
-            ];
-        } else {
-            $buildInfo['tech']  = false;
-        }
-
-        $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
-        $wreckfield = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
-        if (!empty($wreckfield['repair_order'])) {
-            $repairing = $wreckfield['repair_order_end'] > $this->state->runtime->timestamp;
-            $timeleft = $USER['urlaubs_modus'] ? ($wreckfield['repair_order_end'] - $USER['urlaubs_start']) : ($wreckfield['repair_order_end'] - $this->state->runtime->timestamp);
-            $deploy_timeleft = $USER['urlaubs_modus'] ? ($wreckfield['repair_order_end'] + TIME_72_HOURS - $USER['urlaubs_start']) : ($wreckfield['repair_order_end'] + TIME_72_HOURS - $this->state->runtime->timestamp);
-            $buildInfo['repair'] = [
-                'text'          => $LNG['bd_repairing'],
-                'deploy_text'   => $LNG['bd_deployable'],
-                'timeleft'      => $timeleft + ($repairing ? 0 : TIME_72_HOURS),
-                'time'          => $wreckfield['repair_order_end'] + ($repairing ? 0 : TIME_72_HOURS),
-                'starttime'     => $this->viewHelpers()->prettyTime($repairing ? $timeleft : $deploy_timeleft),
-                'repairing'     => $repairing,
-            ];
-        } else {
-            $buildInfo['repair']  = false;
-        }
-
-        $sql = "SELECT id,username FROM %%USERS%%
-            WHERE universe = :universe AND onlinetime >= :onlinetime AND authlevel > :authlevel;";
-        $onlineAdmins = $db->select($sql, [
-            ':universe'     => $this->universe()->current(),
-            ':onlinetime'   => $this->state->runtime->timestamp - 10 * 60,
-            ':authlevel'    => AUTH_USR,
-        ]);
-
-        foreach ($onlineAdmins as $AdminRow) {
-            $AdminsOnline[$AdminRow['id']]  = $AdminRow['username'];
-        }
-
-        // known issue: deleted players no longer show up in this table
-        $sql = "SELECT u.id, u.username, s.total_points FROM %%USERS%% as u
-		    LEFT JOIN %%STATPOINTS%% as s ON s.id_owner = u.id AND s.stat_type = '1'
-            WHERE ref_id = :userID;";
-        $RefLinksRAW = $db->select($sql, [':userID'   => $USER['id']]);
+        $AdminsOnline = $this->adminsOnline();
 
         $config = $this->configs->get();
+        $RefLinks = $this->referrals($USER, $config);
+        $rankInfo = $this->rankInfo($USER, $config);
 
-        if ($config->ref_active) {
-            foreach ($RefLinksRAW as $RefRow) {
-                $RefLinks[$RefRow['id']] = [
-                    'username'  => $RefRow['username'],
-                    'points'    => min($RefRow['total_points'], $config->ref_minpoints),
-                ];
-            }
-        }
-
-        $sql    = 'SELECT total_points, total_rank FROM %%STATPOINTS%%
-		    WHERE id_owner = :userId AND stat_type = :statType';
-
-        $statData   = $db->selectSingle($sql, [
-            ':userId'   => $USER['id'],
-            ':statType' => 1,
-        ]);
-
-        // the template formats ov_userrank_info with these values (null: not ranked yet)
-        $rankInfo = null;
-        if (($statData['total_rank'] ?? 0) != 0) {
-            $rankInfo = [
-                'points'     => $this->viewHelpers()->prettyNumber($statData['total_points']),
-                'rank'       => $statData['total_rank'],
-                'usersCount' => $config->users_amount,
-            ];
-        }
-
+        $db = $this->db;
         $sql = 'SELECT COUNT(*) AS amount FROM %%USERS%%
             WHERE onlinetime >= UNIX_TIMESTAMP(NOW() - INTERVAL 15 MINUTE)';
         $usersOnline = $db->selectSingle($sql, [], 'amount');
@@ -246,14 +92,7 @@ class OverviewController extends AbstractGameController
         $fleetsOnline = $db->selectSingle($sql, [], 'amount');
         $enablePlanetStyles = $USER['enable_planet_styles'];
 
-        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
-        $outlawTime = null;
-        $outlawActivations = $statsHandler->getValue($USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
-        if ($outlawActivations > 1 && $this->state->runtime->timestamp - $USER['outlaw_time'] <= 7 * TIME_24_HOURS) {
-            $outlawTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['outlaw_time'] + 7 * TIME_24_HOURS, $USER['timezone']);
-        } elseif ($outlawActivations == 1 && $this->state->runtime->timestamp - $USER['outlaw_time'] <= 2 * TIME_24_HOURS) {
-            $outlawTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['outlaw_time'] + 2 * TIME_24_HOURS, $USER['timezone']);
-        }
+        $outlawTime = $this->outlawUntil($USER);
 
         $this->assign([
             'umode'                     => $USER['urlaubs_modus'],
@@ -294,6 +133,276 @@ class OverviewController extends AbstractGameController
         ]);
 
         return $this->render('game/page.overview.default.html.twig');
+    }
+
+    /**
+     * Template entry of the first running construction of a planet or moon row: building id, target level, time left
+     * (counted from the vacation start in vacation mode), end time, formatted time left and build mode.
+     *
+     * @param array<string, mixed> $row planet row with b_building and b_building_id
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>
+     */
+    private function buildingEntry(array $row, array $USER): array
+    {
+        $Queue = StoredData::decode($row['b_building_id']);
+        $timeleft = $USER['urlaubs_modus'] ? ($row['b_building'] - $USER['urlaubs_start']) : ($row['b_building'] - $this->state->runtime->timestamp);
+
+        return [
+            'id'        => $Queue[0][0],
+            'level'     => $Queue[0][1],
+            'timeleft'  => $timeleft,
+            'time'      => $row['b_building'],
+            'starttime' => $this->viewHelpers()->prettyTime($timeleft),
+            'mode'      => $Queue[0][4],
+        ];
+    }
+
+    /**
+     * The player's other planets and moons for the planet list, each with its running construction (false when none or
+     * already finished).
+     *
+     * @param array<string, mixed> $USER user with its PLANETS rows
+     * @param array<string, mixed> $PLANET the current planet
+     * @return list<array<string, mixed>>
+     */
+    private function otherPlanets(array $USER, array $PLANET): array
+    {
+        $AllPlanets = [];
+        foreach ($USER['PLANETS'] as $ID => $CPLANET) {
+            if ($ID == $PLANET['id']) {
+                continue;
+            }
+
+            if (!empty($CPLANET['b_building']) && !empty($CPLANET['b_building_id']) && $CPLANET['b_building'] > $this->state->runtime->timestamp) {
+                $BuildPlanet = $this->buildingEntry($CPLANET, $USER);
+            } else {
+                $BuildPlanet = false;
+            }
+
+            $AllPlanets[] = [
+                'id'            => $CPLANET['id'],
+                'name'          => $CPLANET['name'],
+                'image'         => $CPLANET['image'],
+                'planet_style'  => $CPLANET['planet_style'],
+                'build'         => $BuildPlanet,
+                'type'          => $CPLANET['planet_type'],
+                'galaxy'        => $CPLANET['galaxy'],
+                'system'        => $CPLANET['system'],
+                'planet'        => $CPLANET['planet'],
+            ];
+        }
+
+        return $AllPlanets;
+    }
+
+    /**
+     * The moon of the current planet, or the parent planet when the current one is a moon, with its running construction
+     * under 'build' (false when none). Empty array (or false from the lookup) when there is none.
+     *
+     * @param array<string, mixed> $PLANET the current planet
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>|false
+     */
+    private function moonOf(array $PLANET, array $USER): array|false
+    {
+        $db = $this->db;
+        $Moon = [];
+        if ($PLANET['id_luna'] != 0) {
+            $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id = :lunaID;";
+            $Moon = $db->selectSingle($sql, [':lunaID'   => $PLANET['id_luna']]);
+        } elseif ($PLANET['planet_type'] == 3) {
+            $sql = "SELECT id, name, image, planet_style, planet_type, b_building_id, b_building FROM %%PLANETS%% WHERE id_luna = :id;";
+            $Moon = $db->selectSingle($sql, [':id'   => $PLANET['id']]);
+        }
+        if (!empty($Moon)) {
+            if (!empty($Moon['b_building']) && !empty($Moon['b_building_id']) && $Moon['b_building'] > $this->state->runtime->timestamp) {
+                $Moon['build'] = $this->buildingEntry($Moon, $USER);
+            } else {
+                $Moon['build'] = false;
+            }
+        }
+
+        return $Moon;
+    }
+
+    /**
+     * Template entry of the first shipyard order of the planet (id, amount, time left of the whole order), false when idle.
+     *
+     * @param array<string, mixed> $PLANET
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>|false
+     */
+    private function hangarEntry(array $PLANET, array $USER): array|false
+    {
+        if (empty($PLANET['b_hangar_id'])) {
+            return false;
+        }
+
+        $Queue  = StoredData::decode($PLANET['b_hangar_id']);
+        $time   = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Queue[0][0]) * $Queue[0][1];
+
+        return [
+            'id'        => $Queue[0][0],
+            'level'     => $Queue[0][1],
+            'timeleft'  => $time - $PLANET['b_hangar'],
+            'time'      => $time,
+            'starttime' => $this->viewHelpers()->prettyTime($time - $PLANET['b_hangar']),
+        ];
+    }
+
+    /**
+     * Template entry of the running research (id, level, time left; counted from the vacation start in vacation mode), false when idle.
+     *
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>|false
+     */
+    private function researchEntry(array $USER): array|false
+    {
+        if (empty($USER['b_tech_id']) || empty($USER['b_tech_queue'])) {
+            return false;
+        }
+
+        $timeleft = $USER['urlaubs_modus'] ? ($USER['b_tech'] - $USER['urlaubs_start']) : ($USER['b_tech'] - $this->state->runtime->timestamp);
+        $Queue = StoredData::decode($USER['b_tech_queue']);
+
+        return [
+            'id'        => $Queue[0][0],
+            'level'     => $Queue[0][1],
+            'timeleft'  => $timeleft,
+            'time'      => $USER['b_tech'],
+            'starttime' => $this->viewHelpers()->prettyTime($timeleft),
+        ];
+    }
+
+    /**
+     * Wreck field repair state of the planet: while repairing the time until the repair is done, afterwards the
+     * 72 hours the repaired ships can be deployed. False when no repair was ordered.
+     *
+     * @param array<string, mixed> $PLANET
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>|false
+     */
+    private function repairEntry(array $PLANET, array $USER): array|false
+    {
+        $LNG = $this->state->LNG;
+        $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
+        $wreckfield = $this->db->selectSingle($sql, [':planetID' => $PLANET['id']]);
+        if (empty($wreckfield['repair_order'])) {
+            return false;
+        }
+
+        $repairing = $wreckfield['repair_order_end'] > $this->state->runtime->timestamp;
+        $timeleft = $USER['urlaubs_modus'] ? ($wreckfield['repair_order_end'] - $USER['urlaubs_start']) : ($wreckfield['repair_order_end'] - $this->state->runtime->timestamp);
+        $deploy_timeleft = $USER['urlaubs_modus'] ? ($wreckfield['repair_order_end'] + TIME_72_HOURS - $USER['urlaubs_start']) : ($wreckfield['repair_order_end'] + TIME_72_HOURS - $this->state->runtime->timestamp);
+
+        return [
+            'text'          => $LNG['bd_repairing'],
+            'deploy_text'   => $LNG['bd_deployable'],
+            'timeleft'      => $timeleft + ($repairing ? 0 : TIME_72_HOURS),
+            'time'          => $wreckfield['repair_order_end'] + ($repairing ? 0 : TIME_72_HOURS),
+            'starttime'     => $this->viewHelpers()->prettyTime($repairing ? $timeleft : $deploy_timeleft),
+            'repairing'     => $repairing,
+        ];
+    }
+
+    /**
+     * Staff accounts of this universe that were online in the last 10 minutes.
+     *
+     * @return array<int, string> user id => username
+     */
+    private function adminsOnline(): array
+    {
+        $sql = "SELECT id,username FROM %%USERS%%
+            WHERE universe = :universe AND onlinetime >= :onlinetime AND authlevel > :authlevel;";
+        $onlineAdmins = $this->db->select($sql, [
+            ':universe'     => $this->universe()->current(),
+            ':onlinetime'   => $this->state->runtime->timestamp - 10 * 60,
+            ':authlevel'    => AUTH_USR,
+        ]);
+
+        $AdminsOnline = [];
+        foreach ($onlineAdmins as $AdminRow) {
+            $AdminsOnline[$AdminRow['id']]  = $AdminRow['username'];
+        }
+
+        return $AdminsOnline;
+    }
+
+    /**
+     * Players recruited by the user with their points capped at the referral threshold (only with the referral system on;
+     * the query runs regardless, as before).
+     *
+     * @param array<string, mixed> $USER
+     * @return array<int, array{username: string, points: int|float}>
+     */
+    private function referrals(array $USER, object $config): array
+    {
+        $RefLinks = [];
+        // known issue: deleted players no longer show up in this table
+        $sql = "SELECT u.id, u.username, s.total_points FROM %%USERS%% as u
+		    LEFT JOIN %%STATPOINTS%% as s ON s.id_owner = u.id AND s.stat_type = '1'
+            WHERE ref_id = :userID;";
+        $RefLinksRAW = $this->db->select($sql, [':userID'   => $USER['id']]);
+
+        if ($config->ref_active) {
+            foreach ($RefLinksRAW as $RefRow) {
+                $RefLinks[$RefRow['id']] = [
+                    'username'  => $RefRow['username'],
+                    'points'    => min($RefRow['total_points'], $config->ref_minpoints),
+                ];
+            }
+        }
+
+        return $RefLinks;
+    }
+
+    /**
+     * Own points and rank for the template (it formats ov_userrank_info with them); null while the player is not ranked yet.
+     *
+     * @param array<string, mixed> $USER
+     * @return array{points: string, rank: int|string, usersCount: mixed}|null
+     */
+    private function rankInfo(array $USER, object $config): ?array
+    {
+        $sql    = 'SELECT total_points, total_rank FROM %%STATPOINTS%%
+		    WHERE id_owner = :userId AND stat_type = :statType';
+
+        $statData   = $this->db->selectSingle($sql, [
+            ':userId'   => $USER['id'],
+            ':statType' => 1,
+        ]);
+
+        if (($statData['total_rank'] ?? 0) == 0) {
+            return null;
+        }
+
+        return [
+            'points'     => $this->viewHelpers()->prettyNumber($statData['total_points']),
+            'rank'       => $statData['total_rank'],
+            'usersCount' => $config->users_amount,
+        ];
+    }
+
+    /**
+     * Formatted end of the outlaw status: 7 days after the last activation when there were several, 2 days after the
+     * only one; null when the status is over or was never active.
+     *
+     * @param array<string, mixed> $USER
+     */
+    private function outlawUntil(array $USER): ?string
+    {
+        $LNG = $this->state->LNG;
+        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
+        $outlawTime = null;
+        $outlawActivations = $statsHandler->getValue($USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
+        if ($outlawActivations > 1 && $this->state->runtime->timestamp - $USER['outlaw_time'] <= 7 * TIME_24_HOURS) {
+            $outlawTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['outlaw_time'] + 7 * TIME_24_HOURS, $USER['timezone']);
+        } elseif ($outlawActivations == 1 && $this->state->runtime->timestamp - $USER['outlaw_time'] <= 2 * TIME_24_HOURS) {
+            $outlawTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['outlaw_time'] + 2 * TIME_24_HOURS, $USER['timezone']);
+        }
+
+        return $outlawTime;
     }
 
     /**

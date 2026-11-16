@@ -336,8 +336,8 @@ final class QueryBuilderQueriesTest extends GameTestCase
         $this->assertSame("O'Brien; DROP x", $this->loadPlanet($id)['name']);
 
         // reserved words are quoted by the helper
-        $this->assertSame(1, $this->db->updateRows('PLANETS', ['system' => 7], ['id' => $id]));
-        $this->assertSame(7, (int) $this->loadPlanet($id)['system']);
+        $this->assertSame(1, $this->db->updateRows('PLANETS', ['system' => 321], ['id' => $id]), 'a value different from the generated system (1..100)');
+        $this->assertSame(321, (int) $this->loadPlanet($id)['system']);
 
         foreach ([['name` = 1, `metal' => 1], ['na me' => 1]] as $invalid) {
             try {

@@ -117,4 +117,21 @@ final class PlayerLifecycleTest extends GameTestCase
         $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%USERS_SETTINGS%% WHERE user_id = :id;', [':id' => $userId], 'c'));
         $this->assertSame(0, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%STATPOINTS%% WHERE id_owner = :id;', [':id' => $userId], 'c'));
     }
+
+    public function testDeletePlayerRemovesRowsOfBothDirectionsOfTwoColumnTables(): void
+    {
+        [$user] = $this->createPlayer();
+        [$other] = $this->createPlayer();
+        $userId = (int) $user['id'];
+        $otherId = (int) $other['id'];
+        foreach ([[$userId, $otherId], [$otherId, $userId], [$otherId, $otherId + 1000]] as [$blocking, $blocked]) {
+            $this->db->insert('INSERT INTO %%USERS_BLOCKLIST%% SET blocking_user = :a, blocked_user = :b;', [':a' => $blocking, ':b' => $blocked]);
+        }
+
+        $this->assertTrue($this->players()->deletePlayer($userId));
+
+        $left = $this->db->select('SELECT blocking_user, blocked_user FROM %%USERS_BLOCKLIST%%;');
+        $this->assertCount(1, $left, 'both entries naming the deleted player are gone, the unrelated one stays');
+        $this->assertEquals($otherId, $left[0]['blocking_user']);
+    }
 }

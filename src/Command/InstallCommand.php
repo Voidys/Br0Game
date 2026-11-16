@@ -99,7 +99,50 @@ final class InstallCommand extends Command
             return Command::FAILURE;
         }
 
-        // database
+        $database = $this->collectDatabaseSettings($input, $io, $ask, $interactive);
+        if (is_int($database)) {
+            return $database;
+        }
+        ['host' => $host, 'port' => $port, 'user' => $user, 'password' => $password, 'dbName' => $dbName, 'prefix' => $prefix] = $database;
+
+        $game = $this->collectGameSettings($input, $io, $ask, $interactive, $language);
+        if (is_int($game)) {
+            return $game;
+        }
+        $checked = $game;
+
+        $admin = $this->collectAdmin($input, $io, $ask, $interactive, $language);
+        if (is_int($admin)) {
+            return $admin;
+        }
+        ['name' => $adminName, 'mail' => $adminMail, 'password' => $adminPassword] = $admin;
+
+        // phase 1: database connection and configuration files
+        $io->section('Database');
+        $result = $this->installer->prepareDatabase(
+            ['host' => $host, 'port' => $port, 'user' => $user, 'dbname' => $dbName, 'prefix' => $prefix, 'createdb' => true],
+            (string) $password,
+            $language,
+            (string) ($input->getOption('base-url') ?? ''),
+        );
+        $this->printChecks($io, $result['checks']);
+        if (!$result['passed']) {
+            $io->error('The database step failed. Nothing was installed.');
+
+            return Command::FAILURE;
+        }
+
+        return $this->runFinishPhase($io, $output, $input, $language, $checked, $adminName, $adminMail, $adminPassword, $result['generated']);
+    }
+
+    /**
+     * Reads the database connection settings (options, then environment, then prompts, then defaults).
+     *
+     * @param callable(string, ?string=): mixed $ask prompt helper (returns the default when not interactive)
+     * @return array{host: string, port: string, user: string, password: mixed, dbName: string, prefix: string}|int the settings, or an exit code (Command::INVALID) when user or name are missing
+     */
+    private function collectDatabaseSettings(InputInterface $input, SymfonyStyle $io, callable $ask, bool $interactive): array|int
+    {
         $host = (string) ($input->getOption('db-host') ?? $ask('Database host', 'localhost'));
         $port = (string) ($input->getOption('db-port') ?? '3306');
         $user = (string) ($input->getOption('db-user') ?? $ask('Database user'));
@@ -115,7 +158,17 @@ final class InstallCommand extends Command
             return Command::INVALID;
         }
 
-        // game
+        return ['host' => $host, 'port' => $port, 'user' => $user, 'password' => $password, 'dbName' => $dbName, 'prefix' => $prefix];
+    }
+
+    /**
+     * Reads and validates the game settings (name, time zone, speed preset, registration, bots).
+     *
+     * @param callable(string, ?string=): mixed $ask
+     * @return array{error: ?string, values: array}|int the validation result, or Command::INVALID with the error printed
+     */
+    private function collectGameSettings(InputInterface $input, SymfonyStyle $io, callable $ask, bool $interactive, string $language): array|int
+    {
         $gameName = (string) ($input->getOption('game-name') ?? $ask('Game name', 'Br0Game'));
         $timezone = (string) ($input->getOption('timezone') ?? $this->installer->defaultTimezone());
         $speed = (string) ($input->getOption('speed')
@@ -139,7 +192,18 @@ final class InstallCommand extends Command
             return Command::INVALID;
         }
 
-        // administrator
+        return $checked;
+    }
+
+    /**
+     * Reads the administrator (name, e-mail, password from option, environment or hidden prompt with repetition) and
+     * validates it.
+     *
+     * @param callable(string, ?string=): mixed $ask
+     * @return array{name: string, mail: string, password: string}|int the admin, or Command::INVALID with the problems printed
+     */
+    private function collectAdmin(InputInterface $input, SymfonyStyle $io, callable $ask, bool $interactive, string $language): array|int
+    {
         $adminName = (string) ($input->getOption('admin-name') ?? $ask('Administrator user name'));
         $adminMail = (string) ($input->getOption('admin-email') ?? $ask('Administrator e-mail'));
         $adminPassword = $input->getOption('admin-password') ?? (getenv('BR0GAME_ADMIN_PASSWORD') !== false ? getenv('BR0GAME_ADMIN_PASSWORD') : null);
@@ -160,21 +224,18 @@ final class InstallCommand extends Command
             return Command::INVALID;
         }
 
-        // phase 1: database connection and configuration files
-        $io->section('Database');
-        $result = $this->installer->prepareDatabase(
-            ['host' => $host, 'port' => $port, 'user' => $user, 'dbname' => $dbName, 'prefix' => $prefix, 'createdb' => true],
-            (string) $password,
-            $language,
-            (string) ($input->getOption('base-url') ?? ''),
-        );
-        $this->printChecks($io, $result['checks']);
-        if (!$result['passed']) {
-            $io->error('The database step failed. Nothing was installed.');
+        return ['name' => $adminName, 'mail' => $adminMail, 'password' => $adminPassword];
+    }
 
-            return Command::FAILURE;
-        }
-
+    /**
+     * Phase 2: runs `app:install --finish` in a fresh process (so the game connects with the new .env.local) and passes
+     * the settings as JSON payload in the environment. A failure removes config/game.php again.
+     *
+     * @param array{error: ?string, values: array} $checked validated game settings
+     * @return int Command::SUCCESS or FAILURE
+     */
+    private function runFinishPhase(SymfonyStyle $io, OutputInterface $output, InputInterface $input, string $language, array $checked, string $adminName, string $adminMail, string $adminPassword, mixed $migrationGenerated): int
+    {
         // phase 2: fresh process, so the game's connection uses the new .env.local
         $io->section('Installing');
         $payload = json_encode([
@@ -182,7 +243,7 @@ final class InstallCommand extends Command
             'settings' => $checked['values'],
             'admin' => ['name' => $adminName, 'mail' => $adminMail, 'password' => $adminPassword],
             'baseUrl' => rtrim((string) ($input->getOption('base-url') ?? ''), '/'),
-            'migrationGenerated' => $result['generated'],
+            'migrationGenerated' => $migrationGenerated,
         ], JSON_THROW_ON_ERROR);
         $process = new Process(
             [PHP_BINARY, $this->installer->root() . 'bin/console', 'app:install', '--finish', '--no-interaction'] + ($output->isVerbose() ? [5 => '-v'] : []),

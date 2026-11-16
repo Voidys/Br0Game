@@ -122,7 +122,7 @@ class Language implements ArrayAccess
     public function getTemplate(string $templateName): string
     {
         if (file_exists('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt')) {
-            return file_get_contents('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt');
+            return $this->withCommunityLinks(file_get_contents('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt'));
         } else {
             return '### Template "'.$templateName.'" on language "'.$this->getLanguage().'" not found! ###';
         }
@@ -180,7 +180,34 @@ class Language implements ArrayAccess
         ob_end_clean();
     }
 
-    /** texts name the game by "{game_name}", filled in from the configured game name */
+    /** community tokens of a text template ({wiki_url}, ...) filled from the config; mail texts also lose their Discord sentence when none is set */
+    private function withCommunityLinks(string $text): string
+    {
+        if (!$this->configs->isLoaded()) {
+            return $text;
+        }
+        $urls = $this->communityUrls();
+
+        return CommunityLinks::fill(CommunityLinks::prepareMail($text, $urls['discord_url']), $urls);
+    }
+
+    /**
+     * The configured community links by config key (empty string = not set).
+     *
+     * @return array<string, string>
+     */
+    private function communityUrls(): array
+    {
+        $config = $this->configs->get();
+        $urls = [];
+        foreach (CommunityLinks::KEYS as $key) {
+            $urls[$key] = (string) ($config->$key ?? '');
+        }
+
+        return $urls;
+    }
+
+    /** texts name the game by "{game_name}" and the community links by tokens, both filled in from the config */
     private function withGameName(array $data): array
     {
         // the config schema loads texts while the config is built: asking for the config here would recurse
@@ -196,12 +223,21 @@ class Language implements ArrayAccess
             return $data;
         }
 
-        $replace = static function (array $items) use (&$replace, $gameName): array {
+        try {
+            $urls = $this->communityUrls();
+        } catch (\Throwable) {
+            $urls = [];
+        }
+
+        $replace = static function (array $items) use (&$replace, $gameName, $urls): array {
             foreach ($items as $key => $value) {
                 if (is_array($value)) {
                     $items[$key] = $replace($value);
-                } elseif (is_string($value) && str_contains($value, '{game_name}')) {
-                    $items[$key] = str_replace('{game_name}', $gameName, $value);
+                } elseif (is_string($value)) {
+                    if (str_contains($value, '{game_name}')) {
+                        $value = str_replace('{game_name}', $gameName, $value);
+                    }
+                    $items[$key] = CommunityLinks::fill($value, $urls);
                 }
             }
 

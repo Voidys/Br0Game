@@ -87,7 +87,7 @@ class VertifyController extends AbstractLoginController
             ], [
                 $userData['accountname'],
                 $config->game_name,
-                DISCORD_URL,
+                $this->configs->get()->discord_url,
             ], $MailRAW);
 
             try {

@@ -66,48 +66,9 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             return;
         }
 
-        $fleetAttack = [];
-        $userAttack = [];
-        $incomingFleets = $this->getIncomingFleets();
-        foreach ($incomingFleets as $fleetID => $fleetDetail) {
-            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $player = $db->selectSingle($sql, [
-                ':userId'   => $fleetDetail['owner']
-            ]);
+        [$fleetAttack, $userAttack] = $this->buildAttackers();
 
-            $fleetAttack[$fleetID] = new BattleFleet(
-                $fleetID,
-                $player,
-                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
-                $fleetDetail,
-            );
-
-            $userAttack[$player['id']] = $player['username'];
-        }
-
-        $fleetDefend = [];
-        $userDefend = [];
-        $ownTechs = $fleetAttack[$this->_fleet['id']]->techs->withBonus(-3);
-        $pirates = [
-            'id'            => 0,
-            'username'      => $LNG['type_planet_4'],
-            'military_tech' => $ownTechs->weapons,
-            'shield_tech'   => $ownTechs->shields,
-            'defence_tech'  => $ownTechs->armor,
-        ];
-        $fleetDefend[0] = new BattleFleet(
-            0,
-            $pirates,
-            $this->fleetFunctions()->unserialize($targetBase['ships']),
-            [
-                'start_galaxy'    => $this->_fleet['end_galaxy'],
-                'start_system'    => $this->_fleet['end_system'],
-                'start_planet'    => $this->_fleet['end_planet'],
-                'start_type'      => $this->_fleet['end_type'],
-            ],
-        );
-
-        $userDefend[$pirates['id']] = $pirates['username'];
+        [$fleetDefend, $userDefend] = $this->buildPirateDefenders($fleetAttack, $targetBase, $LNG);
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
@@ -137,13 +98,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             $stealResource = $battleHandler->calculateSteal($fleetAttack, $targetBase, $this->_fleet['universe']);
         }
 
-        $debris = [];
-        $planetDebris = [];
-        $debrisResource = [RESOURCE_METAL, RESOURCE_CRYSTAL];
-        foreach ($debrisResource as $elementID) {
-            $debris[$elementID] = $combatResult->debris->total($elementID);
-            $planetDebris[$elementID] = $targetBase['der_' . $resource[$elementID]] + $debris[$elementID];
-        }
+        [$debris, $planetDebris] = $this->debrisOf($targetBase, $combatResult);
 
         $reportInfo = [
             'thisFleet'             => $this->_fleet,
@@ -161,21 +116,92 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
 
         $reportData = $battleHandler->GenerateReport($combatResult, $reportInfo, PIRATE_BASE_FIGHT, $fleetAttack, $fleetDefend, $battleHandler->engine->getName());
 
-        switch ($combatResult->won) {
-            case ATTACKER:
-                // Win
-                $class = ['raportWin', 'raportLose'];
-                break;
-            case DEFENDER:
-                // Lose
-                $class = ['raportLose', 'raportWin'];
-                break;
-            default:
-                // Draw
-                $class = ['raportDraw', 'raportDraw'];
-                break;
+        $this->storeReport($battleHandler, $reportData, $reportID, $userAttack, $userDefend);
+        $this->sendReports($userAttack, $combatResult, $reportID, $stealResource, $debris);
+
+        $this->updateBase($stealResource, $planetDebris);
+
+        $this->setState(FLEET_RETURN);
+        $this->SaveFleet();
+    }
+
+    /**
+     * The attacking fleets (the lead fleet and, with ACS, the group) as battle fleets with their owners.
+     *
+     * @return array{0: array<int|string, BattleFleet>, 1: array<int|string, string>} fleets by fleet id, user id => name
+     */
+    private function buildAttackers(): array
+    {
+        $db = $this->db;
+        $fleetAttack = [];
+        $userAttack = [];
+        $incomingFleets = $this->getIncomingFleets();
+        foreach ($incomingFleets as $fleetID => $fleetDetail) {
+            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
+            $player = $db->selectSingle($sql, [
+                ':userId'   => $fleetDetail['owner']
+            ]);
+
+            $fleetAttack[$fleetID] = new BattleFleet(
+                $fleetID,
+                $player,
+                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
+                $fleetDetail,
+            );
+
+            $userAttack[$player['id']] = $player['username'];
         }
 
+        return [$fleetAttack, $userAttack];
+    }
+
+    /**
+     * The pirate base's side: its stored ships as fleet 0 of user 0 ("Pirate base"); the tech levels are those of the
+     * lead attacker minus 3 (not below 0), so the strength scales with the attacker.
+     *
+     * @param array<int|string, BattleFleet> $fleetAttack
+     * @param array<string, mixed> $targetBase pirate base row
+     * @return array{0: array<int, BattleFleet>, 1: array<int, string>} fleets, user id => name
+     */
+    private function buildPirateDefenders(array $fleetAttack, array $targetBase, \App\Game\Core\Language $LNG): array
+    {
+        $fleetDefend = [];
+        $userDefend = [];
+        $ownTechs = $fleetAttack[$this->_fleet['id']]->techs->withBonus(-3);
+        $pirates = [
+            'id'            => 0,
+            'username'      => $LNG['type_planet_4'],
+            'military_tech' => $ownTechs->weapons,
+            'shield_tech'   => $ownTechs->shields,
+            'defence_tech'  => $ownTechs->armor,
+        ];
+        $fleetDefend[0] = new BattleFleet(
+            0,
+            $pirates,
+            $this->fleetFunctions()->unserialize($targetBase['ships']),
+            [
+                'start_galaxy'    => $this->_fleet['end_galaxy'],
+                'start_system'    => $this->_fleet['end_system'],
+                'start_planet'    => $this->_fleet['end_planet'],
+                'start_type'      => $this->_fleet['end_type'],
+            ],
+        );
+
+        $userDefend[$pirates['id']] = $pirates['username'];
+
+        return [$fleetDefend, $userDefend];
+    }
+
+    /**
+     * Stores the combat report (`rw`) with the engine that produced it.
+     *
+     * @param array<string, mixed> $reportData
+     * @param array<int|string, string> $userAttack
+     * @param array<int|string, string> $userDefend
+     */
+    private function storeReport(BattleHandler $battleHandler, array $reportData, string $reportID, array $userAttack, array $userDefend): void
+    {
+        $db = $this->db;
         $sql = 'INSERT INTO %%RW%% SET
             `rid`         = :reportId,
             `raport`      = :reportData,
@@ -192,6 +218,32 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             ':defenders'    => implode(',', array_keys($userDefend)),
             ':battleengine' => $battleHandler->engine->getName()
         ]);
+    }
+
+    /**
+     * Sends the battle report message to every attacking player, in his language, with the result colours (win, lose
+     * or draw), the lost values, the loot and the debris. The pirates get no message.
+     *
+     * @param array<int|string, string> $userAttack user id => name
+     * @param array<int, int|float> $stealResource loot by resource id
+     * @param array<int, int|float> $debris debris by resource id
+     */
+    private function sendReports(array $userAttack, \App\Game\BattleEngine\BattleResult $combatResult, string $reportID, array $stealResource, array $debris): void
+    {
+        switch ($combatResult->won) {
+            case ATTACKER:
+                // Win
+                $class = ['raportWin', 'raportLose'];
+                break;
+            case DEFENDER:
+                // Lose
+                $class = ['raportLose', 'raportWin'];
+                break;
+            default:
+                // Draw
+                $class = ['raportDraw', 'raportDraw'];
+                break;
+        }
 
         $i = 0;
 
@@ -247,7 +299,12 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             }
             $i++;
         }
+    }
 
+    /** Takes the loot from the base and sets its debris fields to the old ones plus the new debris. */
+    private function updateBase(array $stealResource, array $planetDebris): void
+    {
+        $db = $this->db;
         $sql = 'UPDATE %%PIRATE_BASES%% SET
             `metal` = `metal` - :metal,
             `crystal` = `crystal` - :crystal,
@@ -264,9 +321,27 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
             ':der_crystal'  => $planetDebris[902],
             ':baseId'   => $this->_fleet['end_id'],
         ]);
+    }
 
-        $this->setState(FLEET_RETURN);
-        $this->SaveFleet();
+    /**
+     * Debris of the fight (metal and crystal of both sides) and the new debris field of the base: the old field plus the
+     * new debris.
+     *
+     * @param array<string, mixed> $targetBase pirate base row
+     * @return array{0: array<int, int|float>, 1: array<int, int|float>} debris of the fight, debris field of the base after it
+     */
+    private function debrisOf(array $targetBase, \App\Game\BattleEngine\BattleResult $combatResult): array
+    {
+        $resource = $this->state->resource;
+        $debris = [];
+        $planetDebris = [];
+        $debrisResource = [RESOURCE_METAL, RESOURCE_CRYSTAL];
+        foreach ($debrisResource as $elementID) {
+            $debris[$elementID] = $combatResult->debris->total($elementID);
+            $planetDebris[$elementID] = $targetBase['der_' . $resource[$elementID]] + $debris[$elementID];
+        }
+
+        return [$debris, $planetDebris];
     }
 
     /**

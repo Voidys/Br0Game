@@ -60,49 +60,16 @@ class ServerInfoGame
     public function game(int $universe, callable $formatDate, string $timezone): array
     {
         $db = $this->db;
-        $now = $this->state->runtime->timestamp;
-        $day = 86400;
         $tables = $this->database->tableStats();
         $prefix = $db->getTablePrefix();
 
-        $users = $db->selectSingle(
-            'SELECT COUNT(*) AS total,
-                COALESCE(SUM(onlinetime >= :on15), 0) AS online,
-                COALESCE(SUM(onlinetime >= :on24), 0) AS act24,
-                COALESCE(SUM(onlinetime >= :on7), 0) AS act7,
-                COALESCE(SUM(onlinetime >= :on30), 0) AS act30,
-                COALESCE(SUM(register_time >= :reg24), 0) AS reg24,
-                COALESCE(SUM(register_time >= :reg7), 0) AS reg7,
-                COALESCE(SUM(register_time >= :reg30), 0) AS reg30,
-                COALESCE(SUM(bana = 1), 0) AS banned,
-                COALESCE(SUM(urlaubs_modus = 1), 0) AS vacation
-             FROM %%USERS%% WHERE universe = :uni;',
-            [
-                ':on15' => $now - 900, ':on24' => $now - $day, ':on7' => $now - 7 * $day, ':on30' => $now - 30 * $day,
-                ':reg24' => $now - $day, ':reg7' => $now - 7 * $day, ':reg30' => $now - 30 * $day, ':uni' => $universe,
-            ],
-        ) ?: [];
-
-        $planets = $db->selectSingle(
-            'SELECT COALESCE(SUM(planet_type = 1), 0) AS planets, COALESCE(SUM(planet_type = 3), 0) AS moons,
-                COALESCE(SUM(metal), 0) AS metal, COALESCE(SUM(crystal), 0) AS crystal, COALESCE(SUM(deuterium), 0) AS deuterium,
-                COALESCE(SUM(der_metal > 0 OR der_crystal > 0), 0) AS debris,
-                COALESCE(SUM(der_metal), 0) AS debris_metal, COALESCE(SUM(der_crystal), 0) AS debris_crystal
-             FROM %%PLANETS%% WHERE universe = :uni AND destruyed = 0;',
-            [':uni' => $universe],
-        ) ?: [];
+        $users = $this->userStats($universe);
+        $planets = $this->planetStats($universe);
 
         $accounts = $db->selectSingle('SELECT COUNT(*) AS total, COALESCE(SUM(bana = 1), 0) AS banned FROM %%ACCOUNTS%%;') ?: [];
         $alliances = (int) $db->selectSingle('SELECT COUNT(*) AS c FROM %%ALLIANCE%% WHERE ally_universe = :uni;', [':uni' => $universe], 'c');
 
-        $fleetRows = $db->select('SELECT mission, COUNT(*) AS c FROM %%FLEETS%% WHERE universe = :uni GROUP BY mission ORDER BY mission;', [':uni' => $universe]);
-        $fleetsByMission = [];
-        $fleetsTotal = 0;
-        foreach ($fleetRows as $row) {
-            $fleetsByMission[(int) $row['mission']] = (int) $row['c'];
-            $fleetsTotal += (int) $row['c'];
-        }
-        $acs = (int) $db->selectSingle('SELECT COUNT(DISTINCT `group`) AS c FROM %%FLEETS%% WHERE universe = :uni AND `group` > 0;', [':uni' => $universe], 'c');
+        [$fleetsTotal, $fleetsByMission, $acs] = $this->fleetStats($universe);
 
         $market = (int) $db->selectSingle(
             'SELECT COUNT(*) AS c FROM %%TRADES%% t INNER JOIN %%FLEETS%% f ON f.id = t.seller_fleet_id WHERE f.universe = :uni AND t.buyer_fleet_id IS NULL;',
@@ -115,16 +82,7 @@ class ServerInfoGame
             [':uni' => $universe],
         ) ?: [];
 
-        // messages and reports have no universe index: exact counts only while the table is small
-        $messageEstimate = $tables[$prefix . 'messages']['rows'] ?? null;
-        $messages = ['total' => $messageEstimate, 'unread' => null, 'exact' => false];
-        if ($messageEstimate !== null && $messageEstimate <= 200000) {
-            $row = $db->selectSingle(
-                'SELECT COUNT(*) AS total, COALESCE(SUM(message_unread = 1), 0) AS unread FROM %%MESSAGES%% WHERE message_universe = :uni;',
-                [':uni' => $universe],
-            ) ?: [];
-            $messages = ['total' => (int) ($row['total'] ?? 0), 'unread' => (int) ($row['unread'] ?? 0), 'exact' => true];
-        }
+        $messages = $this->messageStats($universe, $tables[$prefix . 'messages']['rows'] ?? null);
         $reports = $tables[$prefix . 'raports']['rows'] ?? null;
 
         $bots = null;
@@ -157,6 +115,99 @@ class ServerInfoGame
             'registrations' => $this->registrationsPerDay($universe, $timezone),
             'universes' => $this->perUniverse(),
         ];
+    }
+
+    /**
+     * Player counts of a universe: total, online (15 minutes), active in 24 hours / 7 / 30 days, registered in 24 hours /
+     * 7 / 30 days, banned and in vacation.
+     *
+     * @return array<string, mixed> counts by key (empty when the query fails)
+     */
+    private function userStats(int $universe): array
+    {
+        $db = $this->db;
+        $now = $this->state->runtime->timestamp;
+        $day = 86400;
+
+        return $db->selectSingle(
+            'SELECT COUNT(*) AS total,
+                COALESCE(SUM(onlinetime >= :on15), 0) AS online,
+                COALESCE(SUM(onlinetime >= :on24), 0) AS act24,
+                COALESCE(SUM(onlinetime >= :on7), 0) AS act7,
+                COALESCE(SUM(onlinetime >= :on30), 0) AS act30,
+                COALESCE(SUM(register_time >= :reg24), 0) AS reg24,
+                COALESCE(SUM(register_time >= :reg7), 0) AS reg7,
+                COALESCE(SUM(register_time >= :reg30), 0) AS reg30,
+                COALESCE(SUM(bana = 1), 0) AS banned,
+                COALESCE(SUM(urlaubs_modus = 1), 0) AS vacation
+             FROM %%USERS%% WHERE universe = :uni;',
+            [
+                ':on15' => $now - 900, ':on24' => $now - $day, ':on7' => $now - 7 * $day, ':on30' => $now - 30 * $day,
+                ':reg24' => $now - $day, ':reg7' => $now - 7 * $day, ':reg30' => $now - 30 * $day, ':uni' => $universe,
+            ],
+        ) ?: [];
+    }
+
+    /**
+     * Planets, moons, stocks and debris of a universe (planets awaiting deletion not counted).
+     *
+     * @return array<string, mixed> sums by key (empty when the query fails)
+     */
+    private function planetStats(int $universe): array
+    {
+        $db = $this->db;
+
+        return $db->selectSingle(
+            'SELECT COALESCE(SUM(planet_type = 1), 0) AS planets, COALESCE(SUM(planet_type = 3), 0) AS moons,
+                COALESCE(SUM(metal), 0) AS metal, COALESCE(SUM(crystal), 0) AS crystal, COALESCE(SUM(deuterium), 0) AS deuterium,
+                COALESCE(SUM(der_metal > 0 OR der_crystal > 0), 0) AS debris,
+                COALESCE(SUM(der_metal), 0) AS debris_metal, COALESCE(SUM(der_crystal), 0) AS debris_crystal
+             FROM %%PLANETS%% WHERE universe = :uni AND destruyed = 0;',
+            [':uni' => $universe],
+        ) ?: [];
+    }
+
+    /**
+     * Flying fleets of a universe: the total, the counts per mission and the number of ACS groups.
+     *
+     * @return array{0: int, 1: array<int, int>, 2: int} total, count by mission, ACS groups
+     */
+    private function fleetStats(int $universe): array
+    {
+        $db = $this->db;
+        $fleetRows = $db->select('SELECT mission, COUNT(*) AS c FROM %%FLEETS%% WHERE universe = :uni GROUP BY mission ORDER BY mission;', [':uni' => $universe]);
+        $fleetsByMission = [];
+        $fleetsTotal = 0;
+        foreach ($fleetRows as $row) {
+            $fleetsByMission[(int) $row['mission']] = (int) $row['c'];
+            $fleetsTotal += (int) $row['c'];
+        }
+        $acs = (int) $db->selectSingle('SELECT COUNT(DISTINCT `group`) AS c FROM %%FLEETS%% WHERE universe = :uni AND `group` > 0;', [':uni' => $universe], 'c');
+
+        return [$fleetsTotal, $fleetsByMission, $acs];
+    }
+
+    /**
+     * Messages of a universe: messages have no universe index, so the exact counts (total and unread) are only taken
+     * while the table is small (an estimate of at most 200000 rows), otherwise only the estimate is given.
+     *
+     * @param int|null $messageEstimate estimated row count of the messages table
+     * @return array{total: int|null, unread: int|null, exact: bool}
+     */
+    private function messageStats(int $universe, ?int $messageEstimate): array
+    {
+        $db = $this->db;
+        // messages and reports have no universe index: exact counts only while the table is small
+        $messages = ['total' => $messageEstimate, 'unread' => null, 'exact' => false];
+        if ($messageEstimate !== null && $messageEstimate <= 200000) {
+            $row = $db->selectSingle(
+                'SELECT COUNT(*) AS total, COALESCE(SUM(message_unread = 1), 0) AS unread FROM %%MESSAGES%% WHERE message_universe = :uni;',
+                [':uni' => $universe],
+            ) ?: [];
+            $messages = ['total' => (int) ($row['total'] ?? 0), 'unread' => (int) ($row['unread'] ?? 0), 'exact' => true];
+        }
+
+        return $messages;
     }
 
     /**

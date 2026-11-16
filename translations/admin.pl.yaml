@@ -444,6 +444,7 @@ ma_none: Wiadomość ogólna
 ma_send_global_message: Wyślij wiadomość do wszystkich użytkowników
 ma_subject: Temat
 ma_subject_needed: Musisz podać temat!
+ma_no_recipients: 'Żaden odbiorca nie pasuje do filtra, nie wysłano żadnej wiadomości e-mail.'
 message_a: 'Status wiadomości:'
 message_t: 'Status wiadomości:'
 mip_ip: IP
@@ -811,6 +812,7 @@ se_del_user_manually_info: Usuń nie aktywnego użytkownika po x dniach.
 se_del_user_sendmail: Wyślij przypomnienie po
 se_del_user_sendmail_info: Wysyła przypomnienie na e-maila po x dniach nielogowania się użytkownika
 se_delete_succes_p: Skasowana
+se_delete_not_found: 'Nic nie zostało usunięte: gracz lub planeta nie istnieje albo nie można jej usunąć.'
 se_deuterium_basic_income: Podstawowa produkcja deuterium
 se_deuterium_cost_galaxy: Galaktyczny podatek
 se_deuterium_cost_galaxy_info: Koszt deuterium za przeglądanie galaktyki
@@ -1762,3 +1764,12 @@ adm_info_tz_php: "PHP"
 adm_info_tz_config: "Konfiguracja gry"
 adm_info_tz_user: "Twoje konto"
 adm_login_throttled: "Zbyt wiele prób. Spróbuj ponownie za kilka minut."
+se_community_links: "Linki społeczności"
+se_discord_url: "URL zaproszenia na Discord"
+se_discord_url_info: "Link zaproszenia na Twój serwer Discord (https://...). Wyświetlany w menu, na stronie logowania, w e-mailach i tekstach. Puste = ukryty."
+se_wiki_url: "URL wiki"
+se_wiki_url_info: "Bazowy URL zewnętrznej wiki, bez ukośnika na końcu (https://...). Linki do wiki w FAQ, samouczku i regułach powstają z niego. Puste = ukryte."
+se_donate_url: "URL darowizn"
+se_donate_url_info: "Link do darowizn (https://...), wyświetlany w menu. Puste = ukryty."
+se_userscripts_url: "URL userscriptów"
+se_userscripts_url_info: "Strona z userscriptami do Twojej gry (https://...), linkowana w ustawieniach. Puste = ukryty."

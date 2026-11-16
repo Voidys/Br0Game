@@ -474,9 +474,9 @@ al_your_ally: Tu alianza
 al_your_request_title: Tu solicitud
 bad_forum_url: No hay URL de Foro definida!
 banned_message: >-
-  Has sido expulsado. Si crees que se trata de un malentendido, escríbenos a
+  Has sido expulsado. <!--discord_url-->Si crees que se trata de un malentendido, escríbenos a
   través de Discord: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Producci&oacute;n actual:'
 bd_add_to_list: A&ntilde;adir a la cola de producci&oacute;n
 bd_available: 'Disponible: '
@@ -1010,13 +1010,13 @@ kontakt: >-
   ¡Hola!<br>En esta página encontrarás información sobre las personas que
   dirigen, moderan y desarrollan activamente este proyecto.<br>No dudes en
   ponerte en contacto con nosotros si tienes alguna pregunta o
-  problema.<br><br>Para un mejor intercambio con nosotros, pero también con los
+  problema.<br><br><!--discord_url-->Para un mejor intercambio con nosotros, pero también con los
   otros coespilers, hemos creado un servidor Discord. Puedes encontrarlo " <a
-  href="https://discord.gg/jhYYN3yuat">aquí</a> " o a través del menú.<br>En el
+  href="{discord_url}">aquí</a> " o a través del menú.<br>En el
   servidor encontrarás las últimas noticias, así como emocionantes memes entre
   las alianzas del universo.<br>Haz preguntas sobre la mecánica del juego y
   ayuda con tus propias sugerencias para el futuro desarrollo del
-  juego.<br><br>Por supuesto, también responderemos a tus quejas sobre el
+  juego.<br><br><!--/discord_url-->Por supuesto, también responderemos a tus quejas sobre el
   juego.<br>Bedenke jedoch, dass auch wir das Spiel nur als Hobby betreiben. Las
   respuestas pueden tardar unos días.<br>
 lm_administration: Administración
@@ -1546,9 +1546,9 @@ sys_catchup_tooltip: >-
 sys_closed_game: 'El universo no está disponible actualmente:'
 sys_game_is_setup: >-
   <h1>¡Registro Hecho!</h1><br><p>Estamos preparando el universo para ti ahora
-  mismo!</p><p>Mientras tanto, no te pierdas nada, únete a nosotros en
-  el</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord
-  <-</a></h3>
+  mismo!</p><!--discord_url--><p>Mientras tanto, no te pierdas nada, únete a nosotros en
+  el</p><h3><a href="{discord_url}" target="_blank">-> Discord
+  <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modulo inactivo
 sys_nomore_level: Intentas destruir un edificio que ya no tiene más ( %s ).
 sys_notenough_money: >-

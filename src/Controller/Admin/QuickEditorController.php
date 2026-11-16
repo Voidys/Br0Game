@@ -39,154 +39,165 @@ class QuickEditorController extends AbstractAdminController
      */
     public function show(): Response
     {
-        $USER = $this->state->USER;
-        $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
         $action = $this->http()->_GP('action', '');
         $edit = $this->http()->_GP('edit', '');
         $id = $this->http()->_GP('id', 0);
 
-        $db = $this->db;
-
         switch ($edit) {
             case 'planet':
-                $DataIDs = array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']);
-                // the element columns come from the game's resource table
-                $planetColumns = [];
-                foreach ($DataIDs as $ID) {
-                    $planetColumns[] = '`' . $resource[$ID] . '`';
-                }
-                $PlanetData = $db->fetchRow(
-                    $db->qb()
-                        ->select(...$planetColumns)
-                        ->addSelect('`name`', '`id_owner`', '`planet_type`', '`galaxy`', '`system`', '`planet`', '`destruyed`', '`diameter`', '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`')
-                        ->from($db->table('PLANETS'))
-                        ->where('`id` = :planetID')
-                        ->setParameter('planetID', $id)
-                );
-
-                if ($action == 'send') {
-                    $this->savePlanet((int) $id, $PlanetData, $DataIDs);
-                }
-
-                $sql = "SELECT `username` FROM %%USERS%%
-                WHERE `id` = :userID AND universe = :universe;";
-                $UserInfo = $db->selectSingle($sql, [
-                    ':userID'   => $PlanetData['id_owner'],
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-
-                $build = $defense = $fleet = [];
-
-                foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
-                    $build[] = [
-                        'type'  => $resource[$ID],
-                        'name'  => $LNG['tech'][$ID],
-                        'count' => $this->viewHelpers()->prettyNumber($PlanetData[$resource[$ID]]),
-                        'input' => $PlanetData[$resource[$ID]],
-                    ];
-                }
-
-                foreach ($reslist['fleet'] as $ID) {
-                    $fleet[] = [
-                        'type'  => $resource[$ID],
-                        'name'  => $LNG['tech'][$ID],
-                        'count' => $this->viewHelpers()->prettyNumber($PlanetData[$resource[$ID]]),
-                        'input' => $PlanetData[$resource[$ID]],
-                    ];
-                }
-
-                foreach ($reslist['defense'] as $ID) {
-                    $defense[] = [
-                        'type'  => $resource[$ID],
-                        'name'  => $LNG['tech'][$ID],
-                        'count' => $this->viewHelpers()->prettyNumber($PlanetData[$resource[$ID]]),
-                        'input' => $PlanetData[$resource[$ID]],
-                    ];
-                }
-
-                $this->assign([
-                    'build'        => $build,
-                    'fleet'        => $fleet,
-                    'defense'      => $defense,
-                    'id'           => $id,
-                    'ownerid'      => $PlanetData['id_owner'],
-                    'ownername'    => $UserInfo['username'],
-                    'name'         => $PlanetData['name'],
-                    'galaxy'       => $PlanetData['galaxy'],
-                    'system'       => $PlanetData['system'],
-                    'planet'       => $PlanetData['planet'],
-                    'field_min'    => $PlanetData['field_current'],
-                    'field_max'    => $PlanetData['field_max'],
-                    'temp_min'     => $PlanetData['temp_min'],
-                    'temp_max'     => $PlanetData['temp_max'],
-                    'metal'        => floatToString($PlanetData['metal']),
-                    'crystal'      => floatToString($PlanetData['crystal']),
-                    'deuterium'    => floatToString($PlanetData['deuterium']),
-                    'metal_c'      => $this->viewHelpers()->prettyNumber($PlanetData['metal']),
-                    'crystal_c'    => $this->viewHelpers()->prettyNumber($PlanetData['crystal']),
-                    'deuterium_c'  => $this->viewHelpers()->prettyNumber($PlanetData['deuterium']),
-                ]);
-                return $this->render('admin/QuickEditorPlanet.html.twig');
+                return $this->planetForm($action, $id);
             case 'player':
-                $DataIDs = $reslist['tech'];
-                $userColumns = [];
-                foreach ($DataIDs as $ID) {
-                    $userColumns[] = '`' . $resource[$ID] . '`';
-                }
-                $UserData = $db->fetchRow(
-                    $db->qb()
-                        ->select(...$userColumns)
-                        ->addSelect('`username`', '`authlevel`', '`galaxy`', '`system`', '`planet`', '`id_planet`', '`authattack`')
-                        ->from($db->table('USERS'))
-                        ->where('`id` = :userID')
-                        ->setParameter('userID', $id)
-                );
-                $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > $UserData['authlevel']);
-
-                if ($action == 'send') {
-                    $this->savePlayer((int) $id, $UserData, $DataIDs, $ChangePW);
-                }
-                $sql = "SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetID AND `universe` = :universe;";
-                $PlanetInfo = $db->selectSingle($sql, [
-                    ':planetID' => $UserData['id_planet'],
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-
-                $tech = [];
-
-                foreach ($reslist['tech'] as $ID) {
-                    $tech[] = [
-                        'type'  => $resource[$ID],
-                        'name'  => $LNG['tech'][$ID],
-                        'count' => $this->viewHelpers()->prettyNumber($UserData[$resource[$ID]]),
-                        'input' => $UserData[$resource[$ID]],
-                    ];
-                }
-
-                $this->assign([
-                    'tech'         => $tech,
-                    'id'           => $id,
-                    'planetid'     => $UserData['id_planet'],
-                    'planetname'   => $PlanetInfo['name'],
-                    'name'         => $UserData['username'],
-                    'galaxy'       => $UserData['galaxy'],
-                    'system'       => $UserData['system'],
-                    'planet'       => $UserData['planet'],
-                    'authlevel'    => $UserData['authlevel'],
-                    'qe_change'    => '',
-                    'authattack'   => $UserData['authattack'],
-                    'ChangePW'     => $ChangePW,
-                    'yesorno'      => [1 => $LNG['one_is_yes_1'], 0 => $LNG['one_is_yes_0']],
-                ]);
-                return $this->render('admin/QuickEditorUser.html.twig');
+                return $this->playerForm($action, $id);
         }
 
         // nothing selected to edit: empty page, as before
         return new Response();
     }
 
+    /**
+     * Planet editor: loads the planet (element columns from the resource table), saves it first on action=send (ends the
+     * request), then renders the form with owner name, resources and the building/fleet/defense lists.
+     */
+    private function planetForm(mixed $action, mixed $id): Response
+    {
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $db = $this->db;
+
+        $DataIDs = array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']);
+        // the element columns come from the game's resource table
+        $planetColumns = [];
+        foreach ($DataIDs as $ID) {
+            $planetColumns[] = '`' . $resource[$ID] . '`';
+        }
+        $PlanetData = $db->fetchRow(
+            $db->qb()
+                ->select(...$planetColumns)
+                ->addSelect('`name`', '`id_owner`', '`planet_type`', '`galaxy`', '`system`', '`planet`', '`destruyed`', '`diameter`', '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`')
+                ->from($db->table('PLANETS'))
+                ->where('`id` = :planetID')
+                ->setParameter('planetID', $id)
+        );
+
+        if ($action == 'send') {
+            $this->savePlanet((int) $id, $PlanetData, $DataIDs);
+        }
+
+        $sql = "SELECT `username` FROM %%USERS%%
+        WHERE `id` = :userID AND universe = :universe;";
+        $UserInfo = $db->selectSingle($sql, [
+            ':userID'   => $PlanetData['id_owner'],
+            ':universe' => $this->universe()->getEmulated(),
+        ]);
+
+        $build = $this->elementRows($reslist['allow'][$PlanetData['planet_type']], $PlanetData);
+        $fleet = $this->elementRows($reslist['fleet'], $PlanetData);
+        $defense = $this->elementRows($reslist['defense'], $PlanetData);
+
+        $this->assign([
+            'build'        => $build,
+            'fleet'        => $fleet,
+            'defense'      => $defense,
+            'id'           => $id,
+            'ownerid'      => $PlanetData['id_owner'],
+            'ownername'    => $UserInfo['username'],
+            'name'         => $PlanetData['name'],
+            'galaxy'       => $PlanetData['galaxy'],
+            'system'       => $PlanetData['system'],
+            'planet'       => $PlanetData['planet'],
+            'field_min'    => $PlanetData['field_current'],
+            'field_max'    => $PlanetData['field_max'],
+            'temp_min'     => $PlanetData['temp_min'],
+            'temp_max'     => $PlanetData['temp_max'],
+            'metal'        => floatToString($PlanetData['metal']),
+            'crystal'      => floatToString($PlanetData['crystal']),
+            'deuterium'    => floatToString($PlanetData['deuterium']),
+            'metal_c'      => $this->viewHelpers()->prettyNumber($PlanetData['metal']),
+            'crystal_c'    => $this->viewHelpers()->prettyNumber($PlanetData['crystal']),
+            'deuterium_c'  => $this->viewHelpers()->prettyNumber($PlanetData['deuterium']),
+        ]);
+        return $this->render('admin/QuickEditorPlanet.html.twig');
+    }
+
+    /**
+     * Player editor: loads the player (research columns from the resource table), saves on action=send (ends the
+     * request), then renders the form with the home planet name and the research list.
+     */
+    private function playerForm(mixed $action, mixed $id): Response
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $db = $this->db;
+
+        $DataIDs = $reslist['tech'];
+        $userColumns = [];
+        foreach ($DataIDs as $ID) {
+            $userColumns[] = '`' . $resource[$ID] . '`';
+        }
+        $UserData = $db->fetchRow(
+            $db->qb()
+                ->select(...$userColumns)
+                ->addSelect('`username`', '`authlevel`', '`galaxy`', '`system`', '`planet`', '`id_planet`', '`authattack`')
+                ->from($db->table('USERS'))
+                ->where('`id` = :userID')
+                ->setParameter('userID', $id)
+        );
+        $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > $UserData['authlevel']);
+
+        if ($action == 'send') {
+            $this->savePlayer((int) $id, $UserData, $DataIDs, $ChangePW);
+        }
+        $sql = "SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetID AND `universe` = :universe;";
+        $PlanetInfo = $db->selectSingle($sql, [
+            ':planetID' => $UserData['id_planet'],
+            ':universe' => $this->universe()->getEmulated(),
+        ]);
+
+        $tech = $this->elementRows($reslist['tech'], $UserData);
+
+        $this->assign([
+            'tech'         => $tech,
+            'id'           => $id,
+            'planetid'     => $UserData['id_planet'],
+            'planetname'   => $PlanetInfo['name'],
+            'name'         => $UserData['username'],
+            'galaxy'       => $UserData['galaxy'],
+            'system'       => $UserData['system'],
+            'planet'       => $UserData['planet'],
+            'authlevel'    => $UserData['authlevel'],
+            'qe_change'    => '',
+            'authattack'   => $UserData['authattack'],
+            'ChangePW'     => $ChangePW,
+            'yesorno'      => [1 => $LNG['one_is_yes_1'], 0 => $LNG['one_is_yes_0']],
+        ]);
+        return $this->render('admin/QuickEditorUser.html.twig');
+    }
+
+    /**
+     * Rows of an element list for the form: column name, translated name, formatted count and raw input value.
+     *
+     * @param int[] $ids element ids
+     * @param array<string, mixed> $row the planet/user row holding the element columns
+     * @return list<array{type: string, name: string, count: string, input: mixed}>
+     */
+    private function elementRows(array $ids, array $row): array
+    {
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+
+        $rows = [];
+        foreach ($ids as $ID) {
+            $rows[] = [
+                'type'  => $resource[$ID],
+                'name'  => $LNG['tech'][$ID],
+                'count' => $this->viewHelpers()->prettyNumber($row[$resource[$ID]]),
+                'input' => $row[$resource[$ID]],
+            ];
+        }
+        return $rows;
+    }
     /** True when the request carries a value for $name (a missing field means "leave unchanged"). */
     private function has(string $name): bool
     {

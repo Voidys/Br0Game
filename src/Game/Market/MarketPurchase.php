@@ -428,69 +428,33 @@ class MarketPurchase
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
         $db = $this->db;
-        $params = [
-            ':fleetID' => $FleetID,
-            ':target_owner' => $USER['id'],
-            ':end_id' => $isFleetTrade ? $PLANET['id'] : 0,
-            ':end_planet' => $isFleetTrade ? $PLANET['planet'] : $marketplace,
-            ':end_system' => $PLANET['system'],
-            ':end_galaxy' => $PLANET['galaxy'],
-            ':start_time' => $times['start'],
-            ':arrival_time' => $times['arrival'],
-            ':stay_time' => $times['stay'],
-            ':return_time' => $times['end'],
-            ':mission' => $fleetResult['transaction_type'] == 0 ? MISSION_TRADE : MISSION_TRANSFER,
-            ':cannotCancel' => 1,
-            ':fleetState' => FLEET_OUTWARD,
+        $route = [
+            'mission' => $fleetResult['transaction_type'] == 0 ? MISSION_TRADE : MISSION_TRANSFER,
+            'target_owner' => $USER['id'],
+            'start_time' => $times['start'],
+            'arrival_time' => $times['arrival'],
+            'stay_time' => $times['stay'],
+            'return_time' => $times['end'],
+            'end_id' => $isFleetTrade ? $PLANET['id'] : 0,
+            'end_planet' => $isFleetTrade ? $PLANET['planet'] : $marketplace,
+            'end_system' => $PLANET['system'],
+            'end_galaxy' => $PLANET['galaxy'],
         ];
-        $logParams = array_merge($params, [
-            ':start_time_formated' => $this->db->formatDate($times['start']),
-            ':arrival_time_formated' => $this->db->formatDate($times['arrival']),
-            ':stay_time_formated' => $this->db->formatDate($times['stay']),
-            ':return_time_formated' => $this->db->formatDate($times['end']),
-        ]);
-        $params = array_merge($params, [
-            ':metal' => 0,
-            ':crystal' => 0,
-            ':deuterium' => 0,
-        ]);
-        $sql = "UPDATE %%FLEETS%% SET
-            `mission` = :mission,
-            `target_owner` = :target_owner,
-            `start_time` = :start_time,
-            `arrival_time` = :arrival_time,
-            `stay_time` = :stay_time,
-            `return_time` = :return_time,
-            `end_id` = :end_id,
-            `end_planet` = :end_planet,
-            `end_system` = :end_system,
-            `end_galaxy` = :end_galaxy,
-            `resource_metal` = :metal,
-            `resource_crystal` = :crystal,
-            `resource_deuterium` = :deuterium,
-            `status` = :fleetState,
-            `cannotCancel` = :cannotCancel
-            WHERE `id` = :fleetID;";
-        $db->update($sql, $params);
-        $sql = "UPDATE %%LOG_FLEETS%% SET 
-            `mission` = :mission,
-            `target_owner` = :target_owner,
-            `start_time` = :start_time,
-            `start_time_formated` = :start_time_formated,
-            `arrival_time` = :arrival_time,
-            `arrival_time_formated` = :arrival_time_formated,
-            `stay_time` = :stay_time,
-            `stay_time_formated` = :stay_time_formated,
-            `return_time` = :return_time,
-            `return_time_formated` = :return_time_formated,
-            `end_id` = :end_id,
-            `end_planet` = :end_planet,
-            `end_system` = :end_system,
-            `end_galaxy` = :end_galaxy,
-            `status` = :fleetState,
-            `cannotCancel` = :cannotCancel
-            WHERE `id` = :fleetID;";
-        $db->update($sql, $logParams);
+        $db->updateRows('FLEETS', $route + [
+            'resource_metal' => 0,
+            'resource_crystal' => 0,
+            'resource_deuterium' => 0,
+            'status' => FLEET_OUTWARD,
+            'cannotCancel' => 1,
+        ], ['id' => $FleetID]);
+        $db->updateRows('LOG_FLEETS', $route + [
+            'start_time_formated' => $this->db->formatDate($times['start']),
+            'arrival_time_formated' => $this->db->formatDate($times['arrival']),
+            'stay_time_formated' => $this->db->formatDate($times['stay']),
+            'return_time_formated' => $this->db->formatDate($times['end']),
+            'status' => FLEET_OUTWARD,
+            'cannotCancel' => 1,
+        ], ['id' => $FleetID]);
         $sql = 'UPDATE %%FLEETS_EVENT%% SET `time` = :endTime WHERE `fleetID` = :fleetId;';
         $db->update($sql, [
             ':fleetId'  => $FleetID,

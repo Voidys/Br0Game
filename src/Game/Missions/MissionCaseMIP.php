@@ -53,23 +53,9 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         $reslist = $this->state->reslist;
         $db	= $this->db;
 
-        $sqlFields	= [];
         $elementIDs	= array_merge($reslist['defense'], $reslist['missile']);
 
-        foreach ($elementIDs as $elementID) {
-            $sqlFields[]	= 'p.`' . $resource[$elementID] . '`';
-        }
-
-        $sql = "SELECT us.`lang`, u.`defence_tech`,
-            p.`id`, p.`name`, p.`id_owner`, " . implode(', ', $sqlFields) . "
-            FROM %%PLANETS%% p
-            INNER JOIN %%USERS%% u ON p.`id_owner` = u.`id`
-            INNER JOIN %%USERS_SETTINGS%% us ON u.`id` = us.`user_id`
-            WHERE p.`id` = :planetId;";
-
-        $targetData	= $db->selectSingle($sql, [
-            ':planetId'	=> $this->_fleet['end_id']
-        ]);
+        $targetData	= $this->loadTarget($elementIDs);
 
         // kill fleet if target planet deleted
         if ($targetData == false) {
@@ -118,27 +104,72 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         $senderData['MSG'] = false;
         $targetData['MSG'] = false;
 
+        $this->resolveHit($senderData, $targetData, $targetDefensive, $primaryTarget);
+
+        $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
+        $planetName	= $this->db->selectSingle($sql, [
+            ':planetId'	=> $this->_fleet['start_id'],
+        ], 'name');
+
+        $ownerLink			= $planetName . " " . GetStartAddressLink($this->_fleet);
+        $targetLink 		= $targetData['name'] . " " . GetTargetAddressLink($this->_fleet);
+        $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $senderData['MSG'];
+        $targetData['MSG']	= $targetData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $targetData['MSG'];
+
+        $this->sendReports($senderData, $targetData);
+
+        $this->KillFleet();
+    }
+
+    /**
+     * Reads the target planet with its owner's language and defence tech and the counts of all defense and missile types.
+     *
+     * @param array<int> $elementIDs defense and missile element ids whose columns are read
+     * @return array<string, mixed>|false false when the planet is gone
+     */
+    private function loadTarget(array $elementIDs): array|false
+    {
+        $resource = $this->state->resource;
+        $db = $this->db;
+        $targetQuery = $db->qb()
+            ->select('us.`lang`', 'u.`defence_tech`', 'p.`id`', 'p.`name`', 'p.`id_owner`')
+            ->from($db->table('PLANETS'), 'p')
+            ->innerJoin('p', $db->table('USERS'), 'u', 'p.`id_owner` = u.`id`')
+            ->innerJoin('u', $db->table('USERS_SETTINGS'), 'us', 'u.`id` = us.`user_id`')
+            ->where('p.`id` = :planetId')
+            ->setParameter('planetId', $this->_fleet['end_id']);
+        foreach ($elementIDs as $elementID) {
+            $targetQuery->addSelect('p.`' . $resource[$elementID] . '`');
+        }
+
+        return $db->fetchRow($targetQuery);
+    }
+
+    /**
+     * The impact: interceptor missiles are used first (all missiles intercepted: only the interceptors are lost;
+     * otherwise they are all gone), the remaining missiles destroy the defense (primary target first, then the list
+     * order, see calculateMIPAttack). Writes the lost units to the planet, counts the stats and puts the result text
+     * into the `MSG` of both players.
+     *
+     * @param array<string, mixed> $senderData sender row part (lang, military_tech, LNG, MSG), MSG is set
+     * @param array<string, mixed> $targetData target planet/owner data (counts, defence_tech, LNG, MSG), MSG is set
+     * @param array<int, int|string> $targetDefensive defense counts without the interceptors, by element id
+     * @param int $primaryTarget element id hit first
+     */
+    private function resolveHit(array &$senderData, array &$targetData, array $targetDefensive, int $primaryTarget): void
+    {
+        $resource = $this->state->resource;
+        $db = $this->db;
+
         if ($targetData[$resource[INTERCEPTOR_MISSILE]] >= $this->_fleet['ship_amount']) {
             $senderData['MSG'] 	= $senderData['LNG']['sys_irak_no_att'];
             $targetData['MSG']	= $targetData['LNG']['sys_irak_no_att'];
-            $sql = 'UPDATE %%PLANETS%% SET ' . $resource[INTERCEPTOR_MISSILE] . ' = ' . $resource[INTERCEPTOR_MISSILE] . ' - :amount 
-                WHERE `id` = :planetId;';
-
-            $db->update($sql, [
-                ':amount'	=> $this->_fleet['ship_amount'],
-                ':planetId'	=> $targetData['id']
-            ]);
+            $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$resource[INTERCEPTOR_MISSILE] => $this->negated($this->_fleet['ship_amount'])]);
             $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $this->_fleet['ship_amount'], false);
             $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $this->_fleet['ship_amount']]);
         } else {
             if ($targetData[$resource[INTERCEPTOR_MISSILE]] > 0) {
-                $sql	= 'UPDATE %%PLANETS%% SET ' . $resource[INTERCEPTOR_MISSILE] . ' = :amount 
-                    WHERE `id` = :planetId;';
-
-                $db->update($sql, [
-                    ':amount'	=> 0,
-                    ':planetId'	=> $targetData['id']
-                ]);
+                $db->updateRows('PLANETS', [$resource[INTERCEPTOR_MISSILE] => 0], ['id' => $targetData['id']]);
 
                 $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], INTERPLANETARY_MISSILE, $targetData[$resource[INTERCEPTOR_MISSILE]], false);
                 $this->statsHandler->updateLostAdvancedStats($this->_fleet['target_owner'], [INTERCEPTOR_MISSILE => $targetData[$resource[INTERCEPTOR_MISSILE]]]);
@@ -168,12 +199,7 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                     $senderData['MSG'] 	.= sprintf('%s (- %d)<br>', $senderData['LNG']['tech'][$Element], $destroy);
                     $targetData['MSG']	.= sprintf('%s (- %d)<br>', $targetData['LNG']['tech'][$Element], $destroy);
 
-                    $sql	= 'UPDATE %%PLANETS%% SET ' . $resource[$Element] . ' = ' . $resource[$Element] . ' - :amount 
-                        WHERE `id` = :planetId;';
-                    $db->update($sql, [
-                        ':planetId' => $targetData['id'],
-                        ':amount'	=> $destroy
-                    ]);
+                    $db->updateRows('PLANETS', [], ['id' => $targetData['id']], [], [$resource[$Element] => $this->negated($destroy)]);
                     $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['owner'], $this->_fleet['target_owner'], $Element, $destroy);
                 }
                 $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], [INTERPLANETARY_MISSILE => $this->_fleet['ship_amount'] - $targetData[$resource[INTERCEPTOR_MISSILE]]]);
@@ -183,17 +209,16 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                 $targetData['MSG']	= $targetData['LNG']['sys_irak_no_def'];
             }
         }
+    }
 
-        $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
-        $planetName	= $this->db->selectSingle($sql, [
-            ':planetId'	=> $this->_fleet['start_id'],
-        ], 'name');
-
-        $ownerLink			= $planetName . " " . GetStartAddressLink($this->_fleet);
-        $targetLink 		= $targetData['name'] . " " . GetTargetAddressLink($this->_fleet);
-        $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $senderData['MSG'];
-        $targetData['MSG']	= $targetData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $targetData['MSG'];
-
+    /**
+     * Sends the missile report (battle report type) to the owner and to the target owner, each in his language.
+     *
+     * @param array<string, mixed> $senderData sender data with LNG and MSG
+     * @param array<string, mixed> $targetData target data with LNG and MSG
+     */
+    private function sendReports(array $senderData, array $targetData): void
+    {
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],
             0,
@@ -219,8 +244,6 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
             $this->_fleet['universe'],
             $this->_fleet['end_id']
         );
-
-        $this->KillFleet();
     }
 
     /**
@@ -285,4 +308,13 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         return $destroyShips;
     }
 
+    /** The amount with the opposite sign, for Database::updateRows() increments (numeric strings keep their digits). */
+    private function negated(int|float|string $amount): int|float|string
+    {
+        if (is_string($amount)) {
+            return str_starts_with($amount, '-') ? substr($amount, 1) : '-' . $amount;
+        }
+
+        return -$amount;
+    }
 }

@@ -27,10 +27,10 @@ If it is not possible to distribute the captured resources within the 24h window
 <h2>3.2 Farewell battles</h2>
 <p>Farewell battles must generally be coordinated with the moderation team in advance.</p>
 
-<p><a href="https://wiki.pr0game.com/wiki/En/Regeln">wiki</a></p>
+<p><a href="{wiki_url}/wiki/En/Regeln">wiki</a></p>
 <hr>
 <h2>4. Bashing</h2>
-<p>Bashing refers to multiple attacks within a 24-hour period on the same player or a planet/moon. This is prohibited, but the game prevents it from happening. <a href="https://wiki.pr0game.com/wiki/En/Universen-Übersicht">Settings may vary by universe.</a> Attacks using spy probes or interplanetary missiles are not counted.</p>
+<p>Bashing refers to multiple attacks within a 24-hour period on the same player or a planet/moon. This is prohibited, but the game prevents it from happening. <a href="{wiki_url}/wiki/En/Universen-Übersicht">Settings may vary by universe.</a> Attacks using spy probes or interplanetary missiles are not counted.</p>
 <p>The base rule applies exclusively to active players. If the parties are at war, further attacks are allowed. War must be declared in the forum at least 24 hours before further attacks (both alliances or the name of the individual declaring war must be correctly spelled in the topic of the announcement). A declaration of war can only be addressed to alliances, whereby the declaration of war can be made by an alliance or an individual.</p>
 <p>Acceptance of the war is not required. Wars that obviously only serve the massive circumvention of the bash rule are forbidden. It is up to the responsible moderators and operators to judge this.</p>
 <hr>

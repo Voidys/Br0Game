@@ -215,141 +215,189 @@ class BotProfiles
      */
     public function defaults(): array
     {
-        $fill = static function (array $ranges): array {
-            $a = array_fill(0, 24, 0.0);
-            foreach ($ranges as [$from, $to, $value]) {
-                for ($h = $from; $h <= $to; $h++) {
-                    $a[$h] = $value;
-                }
-            }
-            return $a;
-        };
-        $common = [
-            'pattern_shift_hours' => 0,
-            'pattern_shift_days' => 0,
-            'skill_gain_per_day' => 0.0,
-            'llm_advice' => true,
+        return [
+            'office_worker' => $this->officeWorker(),
+            'jobless' => $this->jobless(),
+            'shift_worker' => $this->shiftWorker(),
+            'lunatic' => $this->lunatic(),
+            'noob' => $this->noob(),
         ];
-        $w = static fn(int $m, int $e, int $st, int $f, int $r, int $sh, int $d): array => [
+    }
+
+    /** Settings every default profile shares (profiles override single keys). */
+    private const COMMON_SETTINGS = [
+        'pattern_shift_hours' => 0,
+        'pattern_shift_days' => 0,
+        'skill_gain_per_day' => 0.0,
+        'llm_advice' => true,
+    ];
+
+    /**
+     * Activity per hour of the day: 24 values, 0.0 where no range applies; later ranges overwrite earlier ones.
+     *
+     * @param list<array{0: int, 1: int, 2: float}> $ranges [from hour, to hour (both inclusive), value]
+     * @return list<float>
+     */
+    private function hourly(array $ranges): array
+    {
+        $a = array_fill(0, 24, 0.0);
+        foreach ($ranges as [$from, $to, $value]) {
+            for ($h = $from; $h <= $to; $h++) {
+                $a[$h] = $value;
+            }
+        }
+        return $a;
+    }
+
+    /**
+     * The category weights of the build priorities.
+     *
+     * @return array{mines: int, energy: int, storage: int, facilities: int, research: int, ships: int, defense: int}
+     */
+    private function weights(int $m, int $e, int $st, int $f, int $r, int $sh, int $d): array
+    {
+        return [
             'mines' => $m, 'energy' => $e, 'storage' => $st, 'facilities' => $f,
             'research' => $r, 'ships' => $sh, 'defense' => $d,
         ];
+    }
 
+    /** Office worker: plays before work, at lunch and in the evening. */
+    private function officeWorker(): array
+    {
+        return [
+            'name' => 'Office worker',
+            'description' => 'Plays before work, at lunch and in the evening.',
+            'settings' => [
+                'activity' => $this->hourly([[0, 5, 0.05], [6, 7, 0.6], [8, 11, 0.15], [12, 12, 0.6], [13, 16, 0.15], [17, 22, 0.7], [23, 23, 0.3]]),
+                'check_interval' => [20, 60],
+                'session_minutes' => [5, 15],
+                'actions_per_session' => [2, 5],
+                'weights' => $this->weights(42, 15, 6, 12, 17, 5, 3),
+                'expedition_chance' => 6,
+                'colonize_chance' => 30,
+                'skill_start' => 0.75,
+                'skill_max' => 0.9,
+                'mistake_chance' => 8,
+                'randomness' => 20,
+                'reply_chance' => 50,
+                'message_chance' => 3,
+                'alliance_chance' => 10,
+                'buddy_accept_chance' => 50,
+                'chat_style' => 'short, polite, businesslike, few words',
+            ] + self::COMMON_SETTINGS,
+        ];
+    }
+
+    /** Jobless: lots of time, online most of the afternoon and night. */
+    private function jobless(): array
+    {
+        return [
+            'name' => 'Jobless',
+            'description' => 'Lots of time, online most of the afternoon and night.',
+            'settings' => [
+                'activity' => $this->hourly([[0, 3, 0.6], [4, 9, 0.1], [10, 11, 0.5], [12, 23, 0.8]]),
+                'check_interval' => [10, 30],
+                'session_minutes' => [10, 40],
+                'actions_per_session' => [3, 9],
+                'weights' => $this->weights(38, 14, 6, 12, 16, 10, 4),
+                'expedition_chance' => 15,
+                'colonize_chance' => 40,
+                'skill_start' => 0.8,
+                'skill_max' => 0.92,
+                'mistake_chance' => 6,
+                'randomness' => 25,
+                'reply_chance' => 95,
+                'message_chance' => 10,
+                'alliance_chance' => 25,
+                'buddy_accept_chance' => 70,
+                'chat_style' => 'chatty, casual, relaxed, uses slang',
+            ] + self::COMMON_SETTINGS,
+        ];
+    }
+
+    /** Shift worker: the play pattern moves by 8 hours every week. */
+    private function shiftWorker(): array
+    {
         // shift worker: 8h block at 0.7 (08-15), 4h at 0.4 (16-19), rest 0.05
-        $shift = $fill([[0, 23, 0.05], [8, 15, 0.7], [16, 19, 0.4]]);
+        $shift = $this->hourly([[0, 23, 0.05], [8, 15, 0.7], [16, 19, 0.4]]);
 
         return [
-            'office_worker' => [
-                'name' => 'Office worker',
-                'description' => 'Plays before work, at lunch and in the evening.',
-                'settings' => [
-                    'activity' => $fill([[0, 5, 0.05], [6, 7, 0.6], [8, 11, 0.15], [12, 12, 0.6], [13, 16, 0.15], [17, 22, 0.7], [23, 23, 0.3]]),
-                    'check_interval' => [20, 60],
-                    'session_minutes' => [5, 15],
-                    'actions_per_session' => [2, 5],
-                    'weights' => $w(42, 15, 6, 12, 17, 5, 3),
-                    'expedition_chance' => 6,
-                    'colonize_chance' => 30,
-                    'skill_start' => 0.75,
-                    'skill_max' => 0.9,
-                    'mistake_chance' => 8,
-                    'randomness' => 20,
-                    'reply_chance' => 50,
-                    'message_chance' => 3,
-                    'alliance_chance' => 10,
-                    'buddy_accept_chance' => 50,
-                    'chat_style' => 'short, polite, businesslike, few words',
-                ] + $common,
-            ],
-            'jobless' => [
-                'name' => 'Jobless',
-                'description' => 'Lots of time, online most of the afternoon and night.',
-                'settings' => [
-                    'activity' => $fill([[0, 3, 0.6], [4, 9, 0.1], [10, 11, 0.5], [12, 23, 0.8]]),
-                    'check_interval' => [10, 30],
-                    'session_minutes' => [10, 40],
-                    'actions_per_session' => [3, 9],
-                    'weights' => $w(38, 14, 6, 12, 16, 10, 4),
-                    'expedition_chance' => 15,
-                    'colonize_chance' => 40,
-                    'skill_start' => 0.8,
-                    'skill_max' => 0.92,
-                    'mistake_chance' => 6,
-                    'randomness' => 25,
-                    'reply_chance' => 95,
-                    'message_chance' => 10,
-                    'alliance_chance' => 25,
-                    'buddy_accept_chance' => 70,
-                    'chat_style' => 'chatty, casual, relaxed, uses slang',
-                ] + $common,
-            ],
-            'shift_worker' => [
-                'name' => 'Shift worker',
-                'description' => 'Rotating shifts: the play pattern moves by 8 hours every week.',
-                'settings' => [
-                    'activity' => $shift,
-                    'check_interval' => [15, 45],
-                    'session_minutes' => [5, 25],
-                    'actions_per_session' => [2, 7],
-                    'weights' => $w(40, 15, 7, 12, 16, 6, 4),
-                    'expedition_chance' => 8,
-                    'colonize_chance' => 30,
-                    'skill_start' => 0.75,
-                    'skill_max' => 0.9,
-                    'mistake_chance' => 9,
-                    'randomness' => 25,
-                    'reply_chance' => 75,
-                    'message_chance' => 5,
-                    'alliance_chance' => 20,
-                    'buddy_accept_chance' => 60,
-                    'chat_style' => 'medium length, friendly, a bit tired',
-                ] + ['pattern_shift_hours' => 8, 'pattern_shift_days' => 7] + $common,
-            ],
-            'lunatic' => [
-                'name' => 'Lunatic',
-                'description' => 'Always online, long sessions, plays almost perfectly.',
-                'settings' => [
-                    'activity' => $fill([[0, 7, 0.7], [8, 23, 0.9]]),
-                    'check_interval' => [3, 10],
-                    'session_minutes' => [20, 60],
-                    'actions_per_session' => [5, 15],
-                    'weights' => $w(36, 13, 5, 14, 20, 9, 3),
-                    'expedition_chance' => 25,
-                    'colonize_chance' => 60,
-                    'skill_start' => 0.92,
-                    'skill_max' => 0.98,
-                    'mistake_chance' => 2,
-                    'randomness' => 10,
-                    'reply_chance' => 95,
-                    'message_chance' => 15,
-                    'alliance_chance' => 30,
-                    'buddy_accept_chance' => 80,
-                    'chat_style' => 'very chatty, enthusiastic, long messages, emojis',
-                ] + $common,
-            ],
-            'noob' => [
-                'name' => 'Noob',
-                'description' => 'Still learning: makes many mistakes, improves slowly.',
-                'settings' => [
-                    'activity' => $fill([[0, 23, 0.3], [15, 21, 0.5]]),
-                    'check_interval' => [15, 90],
-                    'session_minutes' => [3, 15],
-                    'actions_per_session' => [1, 5],
-                    'weights' => $w(25, 10, 10, 15, 10, 15, 15),
-                    'expedition_chance' => 5,
-                    'colonize_chance' => 15,
-                    'skill_start' => 0.2,
-                    'skill_max' => 0.85,
-                    'skill_gain_per_day' => 0.03,
-                    'mistake_chance' => 45,
-                    'randomness' => 40,
-                    'reply_chance' => 90,
-                    'message_chance' => 6,
-                    'alliance_chance' => 40,
-                    'buddy_accept_chance' => 85,
-                    'chat_style' => 'friendly, curious newbie, asks naive questions, typos',
-                ] + $common,
-            ],
+            'name' => 'Shift worker',
+            'description' => 'Rotating shifts: the play pattern moves by 8 hours every week.',
+            'settings' => [
+                'activity' => $shift,
+                'check_interval' => [15, 45],
+                'session_minutes' => [5, 25],
+                'actions_per_session' => [2, 7],
+                'weights' => $this->weights(40, 15, 7, 12, 16, 6, 4),
+                'expedition_chance' => 8,
+                'colonize_chance' => 30,
+                'skill_start' => 0.75,
+                'skill_max' => 0.9,
+                'mistake_chance' => 9,
+                'randomness' => 25,
+                'reply_chance' => 75,
+                'message_chance' => 5,
+                'alliance_chance' => 20,
+                'buddy_accept_chance' => 60,
+                'chat_style' => 'medium length, friendly, a bit tired',
+            ] + ['pattern_shift_hours' => 8, 'pattern_shift_days' => 7] + self::COMMON_SETTINGS,
+        ];
+    }
+
+    /** Lunatic: always online, long sessions, almost perfect play. */
+    private function lunatic(): array
+    {
+        return [
+            'name' => 'Lunatic',
+            'description' => 'Always online, long sessions, plays almost perfectly.',
+            'settings' => [
+                'activity' => $this->hourly([[0, 7, 0.7], [8, 23, 0.9]]),
+                'check_interval' => [3, 10],
+                'session_minutes' => [20, 60],
+                'actions_per_session' => [5, 15],
+                'weights' => $this->weights(36, 13, 5, 14, 20, 9, 3),
+                'expedition_chance' => 25,
+                'colonize_chance' => 60,
+                'skill_start' => 0.92,
+                'skill_max' => 0.98,
+                'mistake_chance' => 2,
+                'randomness' => 10,
+                'reply_chance' => 95,
+                'message_chance' => 15,
+                'alliance_chance' => 30,
+                'buddy_accept_chance' => 80,
+                'chat_style' => 'very chatty, enthusiastic, long messages, emojis',
+            ] + self::COMMON_SETTINGS,
+        ];
+    }
+
+    /** Noob: many mistakes, improves slowly. */
+    private function noob(): array
+    {
+        return [
+            'name' => 'Noob',
+            'description' => 'Still learning: makes many mistakes, improves slowly.',
+            'settings' => [
+                'activity' => $this->hourly([[0, 23, 0.3], [15, 21, 0.5]]),
+                'check_interval' => [15, 90],
+                'session_minutes' => [3, 15],
+                'actions_per_session' => [1, 5],
+                'weights' => $this->weights(25, 10, 10, 15, 10, 15, 15),
+                'expedition_chance' => 5,
+                'colonize_chance' => 15,
+                'skill_start' => 0.2,
+                'skill_max' => 0.85,
+                'skill_gain_per_day' => 0.03,
+                'mistake_chance' => 45,
+                'randomness' => 40,
+                'reply_chance' => 90,
+                'message_chance' => 6,
+                'alliance_chance' => 40,
+                'buddy_accept_chance' => 85,
+                'chat_style' => 'friendly, curious newbie, asks naive questions, typos',
+            ] + self::COMMON_SETTINGS,
         ];
     }
 }

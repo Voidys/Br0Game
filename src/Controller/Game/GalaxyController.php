@@ -56,8 +56,103 @@ class GalaxyController extends AbstractGameController
         $reslist = $this->state->reslist;
         $pricelist = $this->state->pricelist;
         $config			= $this->configs->get();
-        $db = $this->db;
 
+        [$galaxy, $system] = $this->requestedSystem($config);
+        $this->chargeForView($galaxy, $system, $config);
+
+        $missileSelector = $this->missileSelector();
+
+        $galaxyRows	= new GalaxyRows($this->db, $this->configs, $this->state);
+        $galaxyRows->setGalaxy($galaxy);
+        $galaxyRows->setSystem($system);
+        $Result	= $galaxyRows->getGalaxyData();
+        if (gettype($Result) == "NULL") {
+            $Result = [];
+        }
+
+        $hiddenDebris = ($pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] + $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL]) * ($config->fleet_debris_percentage / 100);
+
+        $Duration = $this->fleetFunctions()->getMIPDuration($this->state->PLANET['system'], $system);
+
+        $colonizable = $this->colonizablePositions($Result, $config);
+
+        $planetDataNew = $this->playerUtil()->getPlanetDataPlanetConfig();
+
+        require_once 'src/Game/Support/planet_data.php';
+
+        $enablePlanetStyles = $USER['enable_planet_styles'];
+
+        $recyclerCount = 0;
+        foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
+            $recyclerCount += $this->state->PLANET[$resource[$elementID]];
+        }
+
+        $pirateBase = $this->pirateBaseIn($galaxy, $system);
+
+        $this->addScript('galaxy.js');
+        $this->assign([
+            'GalaxyRows'				=> $Result,
+            'pirateBase'                => $pirateBase,
+            'colonizable'               => $colonizable,
+            'planetcount'				=> $LNG->format('gl_populed_planets', count($Result)),
+            'galaxy'					=> $galaxy,
+            'system'					=> $system,
+            'planet'					=> '',
+            'type'						=> null, // never set in this page (the former variable was undefined)
+            'maxfleetcount'				=> $this->fleetFunctions()->getCurrentFleets($USER['id']),
+            'fleetmax'					=> $this->fleetFunctions()->getMaxFleetSlots($USER),
+            'currentmip'				=> $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]],
+            'recyclers'   				=> $recyclerCount,
+            'spyprobes'   				=> $this->state->PLANET[$resource[SHIP_PROBE]],
+            'spyShips'					=> [SHIP_PROBE => $USER['spio_anz']],
+            'settings_fleetactions'		=> $USER['settings_fleetactions'],
+            'current_galaxy'			=> $this->state->PLANET['galaxy'],
+            'current_system'			=> $this->state->PLANET['system'],
+            'current_planet'			=> $this->state->PLANET['planet'],
+            'planet_type' 				=> $this->state->PLANET['planet_type'],
+            'max_planets'               => $config->max_planets,
+            'missileSelector'			=> $missileSelector,
+            'hiddenDebris'				=> $hiddenDebris,
+            'ShortStatus'				=> $this->shortStatusLabels(),
+            'duration'                  => $Duration,
+            'enablePlanetStyles'        => $enablePlanetStyles,
+            'planetDataNew'             => $planetDataNew,
+            'servertime'                => $this->viewHelpers()->formatDate("M D d H:i:s", $this->state->runtime->timestamp, $USER['timezone']),
+        ]);
+
+        return $this->render('game/page.galaxy.default.html.twig');
+    }
+
+    /**
+     * Short labels of the player status markers (vacation, banned, inactive, newbie, strong, enemy, friend, member).
+     *
+     * @return array<string, string>
+     */
+    private function shortStatusLabels(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
+            'vacation'					=> $LNG['gl_short_vacation'],
+            'banned'					=> $LNG['gl_short_ban'],
+            'inactive'					=> $LNG['gl_short_inactive'],
+            'longinactive'				=> $LNG['gl_short_long_inactive'],
+            'noob'						=> $LNG['gl_short_newbie'],
+            'strong'					=> $LNG['gl_short_strong'],
+            'enemy'						=> $LNG['gl_short_enemy'],
+            'friend'					=> $LNG['gl_short_friend'],
+            'member'					=> $LNG['gl_short_member'],
+        ];
+    }
+
+    /**
+     * The system to show: request galaxy/system (default the current planet's) clamped to the universe size, then moved one step by the arrow
+     * buttons galaxyLeft/galaxyRight/systemLeft/systemRight, wrapping around at the borders.
+     *
+     * @return array{0: int, 1: int} galaxy, system
+     */
+    private function requestedSystem(object $config): array
+    {
         $galaxyLeft		= $this->http()->_GP('galaxyLeft', '');
         $galaxyRight	= $this->http()->_GP('galaxyRight', '');
         $systemLeft		= $this->http()->_GP('systemLeft', '');
@@ -89,6 +184,18 @@ class GalaxyController extends AbstractGameController
             }
         }
 
+        return [$galaxy, $system];
+    }
+
+    /**
+     * Looking at a system other than the planet's own costs `deuterium_cost_galaxy` deuterium (removed from the planet,
+     * counted in the advanced stats). Without enough deuterium the galaxy achievements are checked and the request ends
+     * with a message.
+     */
+    private function chargeForView(int $galaxy, int $system, object $config): void
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         if ($galaxy != $this->state->PLANET['galaxy'] || $system != $this->state->PLANET['system']) {
             if ($this->state->PLANET['deuterium'] < $config->deuterium_cost_galaxy) {
                 $this->miscAchievements()->checkGalaxyAchievements($USER['id']);
@@ -103,33 +210,42 @@ class GalaxyController extends AbstractGameController
                 $statsHandler->increment($USER['id'], AdvancedStatsEnum::GALAXY_SCROLL_SPENDING, $config->deuterium_cost_galaxy);
             }
         }
+    }
 
-        $targetDefensive    = $reslist['defense'];
+    /**
+     * Options of the missile target selector: all defenses or one specific defense (including interceptor missiles).
+     *
+     * @return array<int, string> element id (0 = all) => name
+     */
+    private function missileSelector(): array
+    {
+        $LNG = $this->state->LNG;
+        $targetDefensive    = $this->state->reslist['defense'];
         $targetDefensive[]	= INTERCEPTOR_MISSILE;
         $missileSelector[0]	= $LNG['gl_all_defenses'];
         foreach ($targetDefensive as $Element) {
             $missileSelector[$Element] = $LNG['tech'][$Element];
         }
 
-        $galaxyRows	= new GalaxyRows($this->db, $this->configs, $this->state);
-        $galaxyRows->setGalaxy($galaxy);
-        $galaxyRows->setSystem($system);
-        $Result	= $galaxyRows->getGalaxyData();
-        if (gettype($Result) == "NULL") {
-            $Result = [];
-        }
+        return $missileSelector;
+    }
 
-        $hiddenDebris = ($pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] + $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL]) * ($config->fleet_debris_percentage / 100);
-
-        $Duration = $this->fleetFunctions()->getMIPDuration($this->state->PLANET['system'], $system);
-
+    /**
+     * CSS class per planet position of the system: colorPositive where a colony may be founded (the player's research allows
+     * the position and it is free), colorNegative otherwise.
+     *
+     * @param array<int, mixed> $Result occupied positions of the system
+     * @return array<int, string> position => class
+     */
+    private function colonizablePositions(array $Result, object $config): array
+    {
         $colonizable = [];
         // allowPlanetPosition() depends only on the distance to the nearest edge (1, 2, 3, or further in), so
         // each tier is asked once instead of once per position
         $allowedByTier = [];
         for ($i = 1; $i <= $config->max_planets; $i++) {
             $tier = min($i - 1, $config->max_planets - $i, 3);
-            $allowedByTier[$tier] ??= $this->playerUtil()->allowPlanetPosition($i, $USER);
+            $allowedByTier[$tier] ??= $this->playerUtil()->allowPlanetPosition($i, $this->state->USER);
             $allowPlanetPosition = $allowedByTier[$tier];
             if ($allowPlanetPosition && !isset($Result[$i])) {
                 $colonizable[$i] = 'colorPositive';
@@ -138,25 +254,26 @@ class GalaxyController extends AbstractGameController
             }
         }
 
-        $planetDataNew = $this->playerUtil()->getPlanetDataPlanetConfig();
+        return $colonizable;
+    }
 
-        require_once 'src/Game/Support/planet_data.php';
-
-        $enablePlanetStyles = $USER['enable_planet_styles'];
-
-        $recyclerCount = 0;
-        foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
-            $recyclerCount += $this->state->PLANET[$resource[$elementID]];
-        }
-
+    /**
+     * The player's own pirate base in this system (with its name, the available missions and the image), or null when the
+     * pirate base module is off or there is none (null / false).
+     *
+     * @return array<string, mixed>|false|null
+     */
+    private function pirateBaseIn(int $galaxy, int $system): array|false|null
+    {
+        $LNG = $this->state->LNG;
         $pirateBase = null;
         if ($this->viewHelpers()->isModuleAvailable(MODULE_PIRATE_BASES)) {
             $sql = "SELECT `id`, `planet_type` as 'type', `der_metal` as 'metal', `der_crystal` as 'crystal' FROM %%PIRATE_BASES%% 
                 WHERE `galaxy` = :galaxy AND `system` = :system AND `id_owner` = :userId";
-            $pirateBase = $db->selectSingle($sql, [
+            $pirateBase = $this->db->selectSingle($sql, [
                 ':galaxy'   => $galaxy,
                 ':system'   => $system,
-                ':userId'   => $USER['id'],
+                ':userId'   => $this->state->USER['id'],
             ]);
 
             if (!empty($pirateBase)) {
@@ -171,47 +288,6 @@ class GalaxyController extends AbstractGameController
             }
         }
 
-        $this->addScript('galaxy.js');
-        $this->assign([
-            'GalaxyRows'				=> $Result,
-            'pirateBase'                => $pirateBase,
-            'colonizable'               => $colonizable,
-            'planetcount'				=> $LNG->format('gl_populed_planets', count($Result)),
-            'galaxy'					=> $galaxy,
-            'system'					=> $system,
-            'planet'					=> '',
-            'type'						=> $type,
-            'maxfleetcount'				=> $this->fleetFunctions()->getCurrentFleets($USER['id']),
-            'fleetmax'					=> $this->fleetFunctions()->getMaxFleetSlots($USER),
-            'currentmip'				=> $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]],
-            'recyclers'   				=> $recyclerCount,
-            'spyprobes'   				=> $this->state->PLANET[$resource[SHIP_PROBE]],
-            'spyShips'					=> [SHIP_PROBE => $USER['spio_anz']],
-            'settings_fleetactions'		=> $USER['settings_fleetactions'],
-            'current_galaxy'			=> $this->state->PLANET['galaxy'],
-            'current_system'			=> $this->state->PLANET['system'],
-            'current_planet'			=> $this->state->PLANET['planet'],
-            'planet_type' 				=> $this->state->PLANET['planet_type'],
-            'max_planets'               => $config->max_planets,
-            'missileSelector'			=> $missileSelector,
-            'hiddenDebris'				=> $hiddenDebris,
-            'ShortStatus'				=> [
-                'vacation'					=> $LNG['gl_short_vacation'],
-                'banned'					=> $LNG['gl_short_ban'],
-                'inactive'					=> $LNG['gl_short_inactive'],
-                'longinactive'				=> $LNG['gl_short_long_inactive'],
-                'noob'						=> $LNG['gl_short_newbie'],
-                'strong'					=> $LNG['gl_short_strong'],
-                'enemy'						=> $LNG['gl_short_enemy'],
-                'friend'					=> $LNG['gl_short_friend'],
-                'member'					=> $LNG['gl_short_member'],
-            ],
-            'duration'                  => $Duration,
-            'enablePlanetStyles'        => $enablePlanetStyles,
-            'planetDataNew'             => $planetDataNew,
-            'servertime'                => $this->viewHelpers()->formatDate("M D d H:i:s", $this->state->runtime->timestamp, $USER['timezone']),
-        ]);
-
-        return $this->render('game/page.galaxy.default.html.twig');
+        return $pirateBase;
     }
 }

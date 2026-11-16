@@ -50,12 +50,7 @@ class FleetDealerController extends AbstractGameController
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);
 
         if ($USER['urlaubs_modus'] == 1) {
-            $this->printMessage($LNG['fl_vacation_mode_active'], [
-                [
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetDealer',
-                ],
-            ]);
+            $this->backToDealer($LNG['fl_vacation_mode_active']);
         }
 
         if (
@@ -63,12 +58,7 @@ class FleetDealerController extends AbstractGameController
             || empty($Count)
             || !in_array($shipID, $allowedShipIDs)
         ) {
-            $this->printMessage($LNG['tr_exchange_error'], [
-                [
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetDealer',
-                ],
-            ]);
+            $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $shipColumn = $resource[$shipID];
@@ -81,12 +71,7 @@ class FleetDealerController extends AbstractGameController
 
         if (empty($lockedPlanet) || $lockedPlanet[$shipColumn] < $Count) {
             $db->rollback();
-            $this->printMessage($LNG['tr_exchange_error'], [
-                [
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetDealer',
-                ],
-            ]);
+            $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $tradeCharge = 1 - ($this->configs->get()->trade_charge / 100);
@@ -107,21 +92,24 @@ class FleetDealerController extends AbstractGameController
 
         if ($db->rowCount() !== 1) {
             $db->rollback();
-            $this->printMessage($LNG['tr_exchange_error'], [
-                [
-                    'label' => $LNG['sys_back'],
-                    'url'   => 'game?page=fleetDealer',
-                ],
-            ]);
+            $this->backToDealer($LNG['tr_exchange_error']);
         }
 
         $this->ecoObj->addResources($this->state->PLANET['id'], $resources, $this->state->PLANET);
         $this->state->PLANET[$shipColumn] = $lockedPlanet[$shipColumn] - $Count;
         $db->commit();
 
-        $this->printMessage($LNG['tr_exchange_done'], [
+        $this->backToDealer($LNG['tr_exchange_done'], 'sys_forward');
+    }
+
+    /**
+     * Ends the request with $message and a link back to the dealer page (label sys_back, or $labelKey for the success message).
+     */
+    private function backToDealer(mixed $message, string $labelKey = 'sys_back'): never
+    {
+        $this->printMessage($message, [
             [
-                'label' => $LNG['sys_forward'],
+                'label' => $this->state->LNG[$labelKey],
                 'url'   => 'game?page=fleetDealer',
             ],
         ]);

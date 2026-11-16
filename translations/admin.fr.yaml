@@ -439,6 +439,7 @@ ma_none: Message global
 ma_send_global_message: Envoyer un message global
 ma_subject: Sujet
 ma_subject_needed: Vous devez entrer un sujet !
+ma_no_recipients: 'Aucun destinataire ne correspond au filtre, aucun e-mail n''a été envoyé.'
 message_a: 'Status du message:'
 message_t: 'Status du Ticket:'
 mip_ip: IP
@@ -820,6 +821,7 @@ se_del_user_manually_info: Supprime les utilisateurs qui ont leur compte supprim
 se_del_user_sendmail: Envoyer un rappel
 se_del_user_sendmail_info: Envoyer un rappel aux utilisateurs, après un nombre X de jours non connecté
 se_delete_succes_p: Supprimé avec succès
+se_delete_not_found: 'Rien n''a été supprimé : le joueur ou la planète n''existe pas ou ne peut pas être supprimé(e).'
 se_deuterium_basic_income: Production de base en Deutérium
 se_deuterium_cost_galaxy: Frais de galaxie
 se_deuterium_cost_galaxy_info: Coûts par clic du deutérium  dans la galaxie
@@ -1792,3 +1794,12 @@ adm_info_tz_user: "Votre compte"
 adm_login_throttled: "Trop de tentatives. Veuillez réessayer dans quelques minutes."
 bo_total_accs: "Total des comptes : "
 bo_total_accs_banned: "Comptes bannis : "
+se_community_links: "Liens communautaires"
+se_discord_url: "URL d'invitation Discord"
+se_discord_url_info: "Lien d'invitation de votre serveur Discord (https://...). Affiché dans le menu, la page de connexion, les e-mails et les textes. Vide = masqué."
+se_wiki_url: "URL du wiki"
+se_wiki_url_info: "URL de base d'un wiki externe, sans barre oblique finale (https://...). Les liens wiki de la FAQ, du tutoriel et des règles en sont déduits. Vide = masqués."
+se_donate_url: "URL de don"
+se_donate_url_info: "Lien pour les dons (https://...), affiché dans le menu. Vide = masqué."
+se_userscripts_url: "URL des userscripts"
+se_userscripts_url_info: "Page présentant des userscripts pour votre jeu (https://...), liée dans les paramètres. Vide = masqué."

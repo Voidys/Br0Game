@@ -23,7 +23,6 @@ class AnalyticsController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $db = $this->db;
 
         if (!isset($this->state->requestQuery['order'])) {
             $this->state->requestQuery['order'] = '';
@@ -33,6 +32,29 @@ class AnalyticsController extends AbstractAdminController
             $this->state->requestQuery['order2'] = '';
         }
         $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "username";
+        $this->updateTracking();
+
+        [$userSelect, $usercount, $bancount] = $this->playerLists($ORDER, $ORDER2);
+
+        $analytics = $this->visits();
+
+        $this->assign([
+            'UserSelect'      => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $userSelect),
+            'usercount'       => $usercount,
+            'bancount'        => $bancount,
+            'analytics'       => $analytics,
+            'bo_select_title' => $LNG['bo_select_title'],
+        ]);
+        return $this->render('admin/Analytics.html.twig');
+    }
+
+    /**
+     * POST: switches analytics on for the chosen player (userListSubmit) or off for an analysed player with deletion of
+     * the recorded visits (analysedUsersSubmit).
+     */
+    private function updateTracking(): void
+    {
+        $db = $this->db;
 
         if (isset($this->state->requestPost['user_name']) && isset($this->state->requestPost['userListSubmit'])) {
             $sql = 'UPDATE %%USERS%% SET `enable_analytics` = 1 WHERE `id` = :userID;';
@@ -51,6 +73,17 @@ class AnalyticsController extends AbstractAdminController
                 ]);
             }
         }
+    }
+
+    /**
+     * The two <option> lists of the page: players with authlevel 0 (marked when tracked) and the analysed players of
+     * the emulated universe, sorted by the fixed column names $ORDER / $ORDER2 (never raw request values).
+     *
+     * @return array{0: array{List: string, ListBan: string}, 1: int, 2: int} option markup, player count, analysed count
+     */
+    private function playerLists(string $ORDER, string $ORDER2): array
+    {
+        $db = $this->db;
 
         $userSelect = ['List' => '', 'ListBan' => ''];
         $usercount = 0;
@@ -85,6 +118,19 @@ class AnalyticsController extends AbstractAdminController
             $bancount++;
         }
 
+        return [$userSelect, $usercount, $bancount];
+    }
+
+    /**
+     * The recorded visits of the emulated universe (player, alliance, time, URL), newest first.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function visits(): array
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+
         $sql = 'SELECT ac.`userID`, u.`username`, a.`ally_name`, ac.`onlinetime`, ac.`url`
         FROM %%USERS_ANALYTICS%% AS ac
         LEFT JOIN %%USERS%% AS u ON u.`id` = ac.`userID`
@@ -99,13 +145,6 @@ class AnalyticsController extends AbstractAdminController
             $Data['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $Data['onlinetime']);
         }
 
-        $this->assign([
-            'UserSelect'      => array_map(static fn(string $options) => new Markup($options, 'UTF-8'), $userSelect),
-            'usercount'       => $usercount,
-            'bancount'        => $bancount,
-            'analytics'       => $analytics,
-            'bo_select_title' => $LNG['bo_select_title'],
-        ]);
-        return $this->render('admin/Analytics.html.twig');
+        return $analytics;
     }
 }

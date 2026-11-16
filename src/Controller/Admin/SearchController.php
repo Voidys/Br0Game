@@ -41,17 +41,7 @@ class SearchController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
-        if (!isset($this->state->requestQuery['delete'])) {
-            $this->state->requestQuery['delete'] = '';
-        }
-        if ($this->state->requestQuery['delete'] == 'user') {
-            $this->playerUtil()->deletePlayer((int) $this->state->requestQuery['user']);
-            $this->message($LNG['se_delete_succes_p'], '?page=search&search=users&minimize=on', 2);
-        } elseif ($this->state->requestQuery['delete'] == 'planet') {
-            $this->playerUtil()->deletePlanet((int) $this->state->requestQuery['planet']);
-            $this->message($LNG['se_delete_succes_p'], '?page=search&search=planet&minimize=on', 2);
-        }
+        $this->handleDelete();
 
         $SearchFile = $this->http()->_GP('search', '');
         $SearchFor = $this->http()->_GP('search_in', '');
@@ -66,7 +56,102 @@ class SearchController extends AbstractAdminController
             $limit = 25;
         }
 
-        $Selector = [
+        $Selector = $this->selectorOptions();
+        [$SpecifyWhere, $SpecifySearchKey] = $this->matchCondition($SearchMethod, $SearchKey);
+
+        // only the known search lists (e.g. "messages" has no search of its own)
+        $knownSearchFiles = ["users", "vacation", "admin", "inactives", "online", "planet", "moon", "p_connect", "banned", "alliance"];
+        if (!empty($SearchFile) && in_array($SearchFile, $knownSearchFiles, true)) {
+            $spec = $this->searchSpec($SearchFile, $SearchFor);
+            $OrderBYParse = $spec['orderParse'];
+
+            $RESULT = $this->MyCrazyLittleSearch(
+                $spec['items'],
+                $spec['where'],
+                $SpecifyWhere,
+                $SpecifySearchKey,
+                $spec['special'],
+                $Order,
+                $OrderBY,
+                $limit,
+                $spec['table'],
+                $Page,
+                $spec['nameLang'],
+                $spec['sec'],
+                $spec['name'],
+                $SearchFile,
+            );
+        }
+        if (!isset($OrderBYParse)) {
+            $OrderBYParse = '';
+        }
+        $RESULT ??= null;
+        $this->assign([
+            'Selector'             => $Selector,
+            'limit'                => $limit,
+            'search'               => $SearchKey,
+            'SearchFile'           => $SearchFile,
+            'SearchFor'            => $SearchFor,
+            'SearchMethod'         => $SearchMethod,
+            'Order'                => $Order,
+            'OrderBY'              => $OrderBY,
+            'OrderBYParse'         => $OrderBYParse,
+            'se_search'            => $LNG['se_search'],
+            'se_limit'             => $LNG['se_limit'],
+            'se_asc_desc'          => $LNG['se_asc_desc'],
+            'se_filter_title'      => $LNG['se_filter_title'],
+            'se_search_in'         => $LNG['se_search_in'],
+            'se_type_typee'        => $LNG['se_type_typee'],
+            'se_intro'             => $LNG['se_intro'],
+            'se_search_title'      => $LNG['se_search_title'],
+            'se_contrac'           => $LNG['se_contrac'],
+            'se_search_order'      => $LNG['se_search_order'],
+            'ac_minimize_maximize' => $LNG['ac_minimize_maximize'],
+            'result'               => $RESULT,
+        ]);
+
+        return $this->render('admin/SearchPage.html.twig');
+    }
+
+    /**
+     * Handles the delete links of the result list (`delete=user&user=<id>` / `delete=planet&planet=<id>`): deletes the
+     * player or planet and ends the request with a message. An unknown player, an unknown planet or a main planet
+     * (not deletable) ends with the "not found" message instead.
+     */
+    private function handleDelete(): void
+    {
+        $LNG = $this->state->LNG;
+        if (!isset($this->state->requestQuery['delete'])) {
+            $this->state->requestQuery['delete'] = '';
+        }
+        if ($this->state->requestQuery['delete'] == 'user') {
+            if (!$this->playerUtil()->deletePlayer((int) $this->state->requestQuery['user'])) {
+                $this->message($LNG['se_delete_not_found'], '?page=search&search=users&minimize=on', 2);
+            }
+            $this->message($LNG['se_delete_succes_p'], '?page=search&search=users&minimize=on', 2);
+        } elseif ($this->state->requestQuery['delete'] == 'planet') {
+            $planetId = (int) $this->state->requestQuery['planet'];
+            // the same condition deletePlanet() applies (it throws for unknown planets and main planets)
+            $deletable = $this->db->selectSingle(
+                'SELECT `id` FROM %%PLANETS%% WHERE `id` = :planetId AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%%);',
+                [':planetId' => $planetId],
+            );
+            if (empty($deletable)) {
+                $this->message($LNG['se_delete_not_found'], '?page=search&search=planet&minimize=on', 2);
+            }
+            $this->playerUtil()->deletePlanet($planetId);
+            $this->message($LNG['se_delete_succes_p'], '?page=search&search=planet&minimize=on', 2);
+        }
+    }
+
+    /**
+     * Option lists of the search form (list types, search in, match type, direction, page sizes), translated.
+     */
+    private function selectorOptions(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'list'   => [
                 'users'     => $LNG['se_users'],
                 'planet'    => $LNG['se_planets'],
@@ -106,8 +191,15 @@ class SearchController extends AbstractAdminController
                 '500' => '500',
             ],
         ];
-        // extra conditions of the chosen list as [column, operator, value] (column and operator are code, not input)
-        $SpecialSpecify = [];
+    }
+
+    /**
+     * Turns the match type into the SQL comparison and the search key to bind (LIKE patterns get their % wildcards).
+     *
+     * @return array{0: string, 1: string} comparison ("= :searchKey" or "LIKE :searchKey") and the bound value
+     */
+    private function matchCondition(mixed $SearchMethod, mixed $SearchKey): array
+    {
         $SpecifySearchKey = $SearchKey;
 
         switch ($SearchMethod) {
@@ -128,198 +220,242 @@ class SearchController extends AbstractAdminController
                 break;
         };
 
-        // only the known search lists (e.g. "messages" has no search of its own)
-        $knownSearchFiles = ["users", "vacation", "admin", "inactives", "online", "planet", "moon", "p_connect", "banned", "alliance"];
-        if (!empty($SearchFile) && in_array($SearchFile, $knownSearchFiles, true)) {
-            $ArrayUsers = ["users", "vacation", "admin", "inactives", "online"];
-            $ArrayPlanets = ["planet", "moon", "p_connect"];
-            $ArrayBanned = ["banned"];
-            $ArrayAlliance = ["alliance"];
-
-            if (in_array($SearchFile, $ArrayUsers)) {
-                $Table = "USERS";
-                $NameLang = [
-                    0 => $LNG['se_search_users_0'],
-                    1 => $LNG['se_search_users_1'],
-                    2 => $LNG['se_search_users_3'],
-                    3 => $LNG['se_search_users_4'],
-                    4 => $LNG['se_search_users_5'],
-                    5 => $LNG['se_search_users_6'],
-                    6 => $LNG['se_search_users_7'],
-                    7 => $LNG['se_search_users_8'],
-                ];
-                $SpecifyItems = ["id", "username", "onlinetime", "register_time", "user_lastip", "authlevel", "bana", "urlaubs_modus"];
-                $SName = $LNG['se_input_userss'];
-                if ($SearchFile == "vacation") {
-                    $SpecialSpecify[] = ['urlaubs_modus', '=', 1];
-                    $SName = $LNG['se_input_vacatii'];
-                }
-
-                if ($SearchFile == "online") {
-                    $SpecialSpecify[] = ['onlinetime', '>=', $this->state->runtime->timestamp - 15 * 60];
-                    $SName = $LNG['se_input_connect'];
-                }
-
-                if ($SearchFile == "inactives") {
-                    $SpecialSpecify[] = ['onlinetime', '<', $this->state->runtime->timestamp - 60 * 60 * 24 * 7];
-                    $SName = $LNG['se_input_inact'];
-                }
-
-                if ($SearchFile == "admin") {
-                    $SpecialSpecify[] = ['authlevel', '<=', $USER['authlevel']];
-                    $SpecialSpecify[] = ['authlevel', '>', 0];
-                    $SName = $LNG['se_input_admm'];
-                }
-
-                $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
-
-                $WhereItem = $SearchFor == "name" ? "username" : "id";
-                $ArrayOSec = [
-                    "id",
-                    "username",
-                    "onlinetime",
-                    "register_time",
-                    "user_lastip",
-                    "authlevel",
-                    "bana",
-                    "urlaubs_modus",
-                ];
-                $Array0SecCount = count($ArrayOSec);
-
-                for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
-                    $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_users_' . $OrderNum];
-                }
-            } elseif (in_array($SearchFile, $ArrayPlanets)) {
-                $Table = "PLANETS";
-                $NameLang = [
-                    0 => $LNG['se_search_planets_0'],
-                    1 => $LNG['se_search_planets_1'],
-                    2 => $LNG['se_search_planets_2'],
-                    3 => $LNG['se_search_planets_3'],
-                    4 => $LNG['se_search_planets_4'],
-                    5 => $LNG['se_search_planets_5'],
-                    6 => $LNG['se_search_planets_6'],
-                    7 => $LNG['se_search_planets_7'],
-                ];
-                $SpecifyItems = [
-                    "p.id", "p.name", "CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') AS owner", "p.last_update",
-                    "p.galaxy", "p.`system`", "p.planet", "p.id_luna",
-                ];
-
-                if ($SearchFile == "planet") {
-                    $SpecialSpecify[] = ['p.planet_type', '=', 1];
-                    $SName = $LNG['se_input_planett'];
-                } elseif ($SearchFile == "moon") {
-                    $SpecialSpecify[] = ['p.planet_type', '=', 3];
-                    $SName = $LNG['se_input_moonn'];
-                } elseif ($SearchFile == "p_connect") {
-                    $SpecialSpecify[] = ['p.last_update', '>=', $this->state->runtime->timestamp - 60 * 60];
-                    $SName = $LNG['se_input_act_pla'];
-                }
-
-                $SpecialSpecify[] = ['p.universe', '=', $this->universe()->getEmulated()];
-                $WhereItem = $SearchFor == "name" ? "p.name" : "p.id";
-
-                $ArrayOSec = ["id", "name", "id_owner", "id_luna", "last_update", "galaxy", "system", "planet"];
-                $Array0SecCount = count($ArrayOSec);
-
-                for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
-                    $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_planets_' . $OrderNum];
-                }
-            } elseif (in_array($SearchFile, $ArrayBanned)) {
-                $Table = "USERS_BANNED";
-                $NameLang = [
-                    0 => $LNG['se_search_banned_0'],
-                    1 => $LNG['se_search_banned_1'],
-                    2 => $LNG['se_search_banned_2'],
-                    3 => $LNG['se_search_banned_3'],
-                    4 => $LNG['se_search_banned_4'],
-                    5 => $LNG['se_search_banned_5'],
-                ];
-                $SpecifyItems = ["id", "who", "time", "longer", "theme", "author"];
-                $SName = $LNG['se_input_susss'];
-                $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
-
-                $WhereItem = $SearchFor == "name" ? "who" : "id";
-
-                $ArrayOSec = ["id", "who", "time", "longer", "theme", "author"];
-                $Array0SecCount = count($ArrayOSec);
-
-                for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
-                    $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_banned_' . $OrderNum];
-                }
-            } elseif (in_array($SearchFile, $ArrayAlliance)) {
-                $Table = "ALLIANCE";
-                $NameLang = [
-                    0 => $LNG['se_search_alliance_0'],
-                    1 => $LNG['se_search_alliance_1'],
-                    2 => $LNG['se_search_alliance_2'],
-                    3 => $LNG['se_search_alliance_3'],
-                    4 => $LNG['se_search_alliance_4'],
-                    5 => $LNG['se_search_alliance_5'],
-                ];
-                $SpecifyItems = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
-                $SName = $LNG['se_input_allyy'];
-                $SpecialSpecify[] = ['ally_universe', '=', $this->universe()->getEmulated()];
-
-                $WhereItem = $SearchFor == "name" ? "ally_name" : "id";
-
-                $ArrayOSec = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
-                $Array0SecCount = count($ArrayOSec);
-
-                for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
-                    $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_alliance_' . $OrderNum];
-                }
-            }
-
-            $RESULT = $this->MyCrazyLittleSearch(
-                $SpecifyItems,
-                $WhereItem,
-                $SpecifyWhere,
-                $SpecifySearchKey,
-                $SpecialSpecify,
-                $Order,
-                $OrderBY,
-                $limit,
-                $Table,
-                $Page,
-                $NameLang,
-                $ArrayOSec,
-                $SName,
-                $SearchFile,
-            );
-        }
-        if (!isset($OrderBYParse)) {
-            $OrderBYParse = '';
-        }
-        $RESULT ??= null;
-        $this->assign([
-            'Selector'             => $Selector,
-            'limit'                => $limit,
-            'search'               => $SearchKey,
-            'SearchFile'           => $SearchFile,
-            'SearchFor'            => $SearchFor,
-            'SearchMethod'         => $SearchMethod,
-            'Order'                => $Order,
-            'OrderBY'              => $OrderBY,
-            'OrderBYParse'         => $OrderBYParse,
-            'se_search'            => $LNG['se_search'],
-            'se_limit'             => $LNG['se_limit'],
-            'se_asc_desc'          => $LNG['se_asc_desc'],
-            'se_filter_title'      => $LNG['se_filter_title'],
-            'se_search_in'         => $LNG['se_search_in'],
-            'se_type_typee'        => $LNG['se_type_typee'],
-            'se_intro'             => $LNG['se_intro'],
-            'se_search_title'      => $LNG['se_search_title'],
-            'se_contrac'           => $LNG['se_contrac'],
-            'se_search_order'      => $LNG['se_search_order'],
-            'ac_minimize_maximize' => $LNG['ac_minimize_maximize'],
-            'result'               => $RESULT,
-        ]);
-
-        return $this->render('admin/SearchPage.html.twig');
+        return [$SpecifyWhere, $SpecifySearchKey];
     }
 
+    /**
+     * Picks the search definition of the chosen list (players, planets/moons, bans or alliances).
+     *
+     * @return array see userSearchSpec()
+     */
+    private function searchSpec(string $SearchFile, mixed $SearchFor): array
+    {
+        if (in_array($SearchFile, ["users", "vacation", "admin", "inactives", "online"])) {
+            return $this->userSearchSpec($SearchFile, $SearchFor);
+        }
+        if (in_array($SearchFile, ["planet", "moon", "p_connect"])) {
+            return $this->planetSearchSpec($SearchFile, $SearchFor);
+        }
+        if (in_array($SearchFile, ["banned"])) {
+            return $this->bannedSearchSpec($SearchFile, $SearchFor);
+        }
+        return $this->allianceSearchSpec($SearchFile, $SearchFor);
+    }
+
+    /**
+     * Search definition of the player lists (users, vacation, online, inactives, admin): table, column labels, select items, extra conditions (list filter and emulated universe) and the searched column.
+     *
+     * @return array{table: string, nameLang: array, items: array, name: string, special: array, where: string, sec: array, orderParse: array}
+     */
+    private function userSearchSpec(string $SearchFile, mixed $SearchFor): array
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        $SpecialSpecify = [];
+        $Table = "USERS";
+        $NameLang = [
+            0 => $LNG['se_search_users_0'],
+            1 => $LNG['se_search_users_1'],
+            2 => $LNG['se_search_users_3'],
+            3 => $LNG['se_search_users_4'],
+            4 => $LNG['se_search_users_5'],
+            5 => $LNG['se_search_users_6'],
+            6 => $LNG['se_search_users_7'],
+            7 => $LNG['se_search_users_8'],
+        ];
+        $SpecifyItems = ["id", "username", "onlinetime", "register_time", "user_lastip", "authlevel", "bana", "urlaubs_modus"];
+        $SName = $LNG['se_input_userss'];
+        if ($SearchFile == "vacation") {
+            $SpecialSpecify[] = ['urlaubs_modus', '=', 1];
+            $SName = $LNG['se_input_vacatii'];
+        }
+
+        if ($SearchFile == "online") {
+            $SpecialSpecify[] = ['onlinetime', '>=', $this->state->runtime->timestamp - 15 * 60];
+            $SName = $LNG['se_input_connect'];
+        }
+
+        if ($SearchFile == "inactives") {
+            $SpecialSpecify[] = ['onlinetime', '<', $this->state->runtime->timestamp - 60 * 60 * 24 * 7];
+            $SName = $LNG['se_input_inact'];
+        }
+
+        if ($SearchFile == "admin") {
+            $SpecialSpecify[] = ['authlevel', '<=', $USER['authlevel']];
+            $SpecialSpecify[] = ['authlevel', '>', 0];
+            $SName = $LNG['se_input_admm'];
+        }
+
+        $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
+
+        $WhereItem = $SearchFor == "name" ? "username" : "id";
+        $ArrayOSec = [
+            "id",
+            "username",
+            "onlinetime",
+            "register_time",
+            "user_lastip",
+            "authlevel",
+            "bana",
+            "urlaubs_modus",
+        ];
+        $Array0SecCount = count($ArrayOSec);
+
+        for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
+            $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_users_' . $OrderNum];
+        }
+        return [
+            'table' => $Table,
+            'nameLang' => $NameLang,
+            'items' => $SpecifyItems,
+            'name' => $SName,
+            'special' => $SpecialSpecify,
+            'where' => $WhereItem,
+            'sec' => $ArrayOSec,
+            'orderParse' => $OrderBYParse,
+        ];
+    }
+
+    /**
+     * Search definition of the planet lists (planet, moon, p_connect): PLANETS joined with the owner; see userSearchSpec().
+     *
+     * @return array{table: string, nameLang: array, items: array, name: string, special: array, where: string, sec: array, orderParse: array}
+     */
+    private function planetSearchSpec(string $SearchFile, mixed $SearchFor): array
+    {
+        $LNG = $this->state->LNG;
+        $SpecialSpecify = [];
+        $Table = "PLANETS";
+        $NameLang = [
+            0 => $LNG['se_search_planets_0'],
+            1 => $LNG['se_search_planets_1'],
+            2 => $LNG['se_search_planets_2'],
+            3 => $LNG['se_search_planets_3'],
+            4 => $LNG['se_search_planets_4'],
+            5 => $LNG['se_search_planets_5'],
+            6 => $LNG['se_search_planets_6'],
+            7 => $LNG['se_search_planets_7'],
+        ];
+        $SpecifyItems = [
+            "p.id", "p.name", "CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') AS owner", "p.last_update",
+            "p.galaxy", "p.`system`", "p.planet", "p.id_luna",
+        ];
+
+        if ($SearchFile == "planet") {
+            $SpecialSpecify[] = ['p.planet_type', '=', 1];
+            $SName = $LNG['se_input_planett'];
+        } elseif ($SearchFile == "moon") {
+            $SpecialSpecify[] = ['p.planet_type', '=', 3];
+            $SName = $LNG['se_input_moonn'];
+        } elseif ($SearchFile == "p_connect") {
+            $SpecialSpecify[] = ['p.last_update', '>=', $this->state->runtime->timestamp - 60 * 60];
+            $SName = $LNG['se_input_act_pla'];
+        }
+
+        $SpecialSpecify[] = ['p.universe', '=', $this->universe()->getEmulated()];
+        $WhereItem = $SearchFor == "name" ? "p.name" : "p.id";
+
+        $ArrayOSec = ["id", "name", "id_owner", "id_luna", "last_update", "galaxy", "system", "planet"];
+        $Array0SecCount = count($ArrayOSec);
+
+        for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
+            $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_planets_' . $OrderNum];
+        }
+        return [
+            'table' => $Table,
+            'nameLang' => $NameLang,
+            'items' => $SpecifyItems,
+            'name' => $SName,
+            'special' => $SpecialSpecify,
+            'where' => $WhereItem,
+            'sec' => $ArrayOSec,
+            'orderParse' => $OrderBYParse,
+        ];
+    }
+
+    /**
+     * Search definition of the ban list (USERS_BANNED); see userSearchSpec().
+     *
+     * @return array{table: string, nameLang: array, items: array, name: string, special: array, where: string, sec: array, orderParse: array}
+     */
+    private function bannedSearchSpec(string $SearchFile, mixed $SearchFor): array
+    {
+        $LNG = $this->state->LNG;
+        $SpecialSpecify = [];
+        $Table = "USERS_BANNED";
+        $NameLang = [
+            0 => $LNG['se_search_banned_0'],
+            1 => $LNG['se_search_banned_1'],
+            2 => $LNG['se_search_banned_2'],
+            3 => $LNG['se_search_banned_3'],
+            4 => $LNG['se_search_banned_4'],
+            5 => $LNG['se_search_banned_5'],
+        ];
+        $SpecifyItems = ["id", "who", "time", "longer", "theme", "author"];
+        $SName = $LNG['se_input_susss'];
+        $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
+
+        $WhereItem = $SearchFor == "name" ? "who" : "id";
+
+        $ArrayOSec = ["id", "who", "time", "longer", "theme", "author"];
+        $Array0SecCount = count($ArrayOSec);
+
+        for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
+            $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_banned_' . $OrderNum];
+        }
+        return [
+            'table' => $Table,
+            'nameLang' => $NameLang,
+            'items' => $SpecifyItems,
+            'name' => $SName,
+            'special' => $SpecialSpecify,
+            'where' => $WhereItem,
+            'sec' => $ArrayOSec,
+            'orderParse' => $OrderBYParse,
+        ];
+    }
+
+    /**
+     * Search definition of the alliance list (ALLIANCE); see userSearchSpec().
+     *
+     * @return array{table: string, nameLang: array, items: array, name: string, special: array, where: string, sec: array, orderParse: array}
+     */
+    private function allianceSearchSpec(string $SearchFile, mixed $SearchFor): array
+    {
+        $LNG = $this->state->LNG;
+        $SpecialSpecify = [];
+        $Table = "ALLIANCE";
+        $NameLang = [
+            0 => $LNG['se_search_alliance_0'],
+            1 => $LNG['se_search_alliance_1'],
+            2 => $LNG['se_search_alliance_2'],
+            3 => $LNG['se_search_alliance_3'],
+            4 => $LNG['se_search_alliance_4'],
+            5 => $LNG['se_search_alliance_5'],
+        ];
+        $SpecifyItems = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
+        $SName = $LNG['se_input_allyy'];
+        $SpecialSpecify[] = ['ally_universe', '=', $this->universe()->getEmulated()];
+
+        $WhereItem = $SearchFor == "name" ? "ally_name" : "id";
+
+        $ArrayOSec = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
+        $Array0SecCount = count($ArrayOSec);
+
+        for ($OrderNum = 0; $OrderNum < $Array0SecCount; $OrderNum++) {
+            $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_alliance_' . $OrderNum];
+        }
+        return [
+            'table' => $Table,
+            'nameLang' => $NameLang,
+            'items' => $SpecifyItems,
+            'name' => $SName,
+            'special' => $SpecialSpecify,
+            'where' => $WhereItem,
+            'sec' => $ArrayOSec,
+            'orderParse' => $OrderBYParse,
+        ];
+    }
     /**
      * Runs the search query and the matching count query (QueryBuilder). Callers pass trusted pieces: the game table key
      * $Table (USERS, PLANETS, USERS_BANNED, ALLIANCE; PLANETS is aliased "p" and joined with its owner "u"), the list of
@@ -362,21 +498,7 @@ class SearchController extends AbstractAdminController
 
         $CountArray = count($SpecifyItems);
 
-        // the same filter for the page and for the count: planets are listed with their owner's name
-        $filtered = function (QueryBuilder $qb) use ($db, $Table, $WhereItem, $SpecifyWhere, $SpecifySearchKey, $SpecialSpecify): QueryBuilder {
-            if ($Table === 'PLANETS') {
-                $qb->from($db->table('PLANETS'), 'p')
-                    ->leftJoin('p', $db->table('USERS'), 'u', 'u.id = p.id_owner');
-            } else {
-                $qb->from($db->table($Table));
-            }
-            $qb->where($WhereItem . ' ' . $SpecifyWhere)->setParameter('searchKey', $SpecifySearchKey);
-            foreach ($SpecialSpecify as $i => [$column, $operator, $value]) {
-                $qb->andWhere($column . ' ' . $operator . ' :special' . $i)->setParameter('special' . $i, $value);
-            }
-
-            return $qb;
-        };
+        $filtered = $this->searchFilter($Table, $WhereItem, $SpecifyWhere, $SpecifySearchKey, $SpecialSpecify);
 
         // the sort column is whitelisted (quoted: system); the direction comes from the request, only ASC/DESC may reach the query
         $orderColumn = implode('.', array_map(static fn($part) => '`' . $part . '`', explode('.', (string) $Order)));
@@ -392,79 +514,18 @@ class SearchController extends AbstractAdminController
             return ['empty' => true];
         }
 
-        $input = $this->state->requestInput;
         $NumberOfPages = (int) ceil($CountQuery['total'] / $Limit);
-        // page links keep the current search (the filter field is "fucki", see the search form)
-        $UrlForPage = '?' . http_build_query([
-            'page' => 'search',
-            'search' => $SearchFile,
-            'search_in' => $input['search_in'] ?? '',
-            'fucki' => $input['fucki'] ?? '',
-            'key_user' => $input['key_user'] ?? '',
-            'key_order' => $input['key_order'] ?? '',
-            'key_acc' => $input['key_acc'] ?? '',
-            'limit' => $Limit,
-        ]);
+        $UrlForPage = $this->searchPageUrl($SearchFile, $Limit);
 
         $columns = array_slice($NameLang, 0, $CountArray);
         $canInfo = $Table === 'USERS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
         $canEditPlanet = $Table === 'PLANETS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
         $isAdmin = $USER['authlevel'] == AUTH_ADM;
-        $yes = '<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>';
-        $no = '<span class="muted">' . $LNG['one_is_yes_0'] . '</span>';
 
         $rows = [];
         foreach ($sqlResult as $WhileResult) {
-            if ($Table === 'USERS') {
-                if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
-                    $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
-                } else {
-                    $WhileResult['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['onlinetime'], $USER['timezone']);
-                }
-                $WhileResult['register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['register_time'], $USER['timezone']);
-                $WhileResult['authlevel'] = $LNG['se_rank'][$WhileResult['authlevel']];
-                $WhileResult['bana'] = $WhileResult['bana'] == '1' ? $yes : $no;
-                $WhileResult['urlaubs_modus'] = $WhileResult['urlaubs_modus'] == '1' ? $yes : $no;
-            }
-
-            if ($Table === 'USERS_BANNED') {
-                $WhileResult['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['time'], $USER['timezone']);
-                $WhileResult['longer'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['longer'], $USER['timezone']);
-            }
-
-            if ($Table === 'ALLIANCE') {
-                $WhileResult['ally_register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['ally_register_time'], $USER['timezone']);
-            }
-
-            if ($Table === 'PLANETS') {
-                $WhileResult['last_update'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['last_update']);
-                $WhileResult['id_luna'] = $WhileResult['id_luna'] > 0 ? $yes : $no;
-            }
-
-            $actions = [];
-            if ($canInfo) {
-                $actions[] = ['type' => 'edit', 'edit' => 'player', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
-            }
-            if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
-                $actions[] = [
-                    'type' => 'delete',
-                    'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
-                    'confirm' => $LNG['ul_sure_you_want_dlte'] . ' ' . $WhileResult['username'] . '?',
-                    'label' => $LNG['button_delete'],
-                ];
-            }
-            if ($canEditPlanet) {
-                $actions[] = ['type' => 'edit', 'edit' => 'planet', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
-            }
-            if ($Table === 'PLANETS' && $isAdmin) {
-                $actions[] = [
-                    'type' => 'delete',
-                    'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
-                    'confirm' => $LNG['se_confirm_planet'] . ' ' . $WhileResult['name'],
-                    'label' => $LNG['button_delete'],
-                ];
-            }
-
+            $WhileResult = $this->formatSearchRow($Table, $WhileResult);
+            $actions = $this->searchRowActions($Table, $WhileResult, $canInfo, $canEditPlanet, $isAdmin);
             $rows[] = ['cells' => array_values($WhileResult), 'actions' => $actions];
         }
 
@@ -479,5 +540,127 @@ class SearchController extends AbstractAdminController
             'pages' => $NumberOfPages,
             'pageUrl' => $UrlForPage . '&side=',
         ];
+    }
+
+    /**
+     * Builds the filter shared by the page query and the count query: the table (planets joined with their owner for
+     * the name), the search condition with the bound key and the extra conditions (values bound).
+     *
+     * @return \Closure(QueryBuilder): QueryBuilder
+     */
+    private function searchFilter(string $Table, string $WhereItem, string $SpecifyWhere, mixed $SpecifySearchKey, array $SpecialSpecify): \Closure
+    {
+        $db = $this->db;
+
+        // the same filter for the page and for the count: planets are listed with their owner's name
+        return function (QueryBuilder $qb) use ($db, $Table, $WhereItem, $SpecifyWhere, $SpecifySearchKey, $SpecialSpecify): QueryBuilder {
+            if ($Table === 'PLANETS') {
+                $qb->from($db->table('PLANETS'), 'p')
+                    ->leftJoin('p', $db->table('USERS'), 'u', 'u.id = p.id_owner');
+            } else {
+                $qb->from($db->table($Table));
+            }
+            $qb->where($WhereItem . ' ' . $SpecifyWhere)->setParameter('searchKey', $SpecifySearchKey);
+            foreach ($SpecialSpecify as $i => [$column, $operator, $value]) {
+                $qb->andWhere($column . ' ' . $operator . ' :special' . $i)->setParameter('special' . $i, $value);
+            }
+
+            return $qb;
+        };
+    }
+
+    /**
+     * Base URL of the result pages (the page number is appended); keeps the current search (the filter field is
+     * "fucki", see the search form).
+     */
+    private function searchPageUrl(mixed $SearchFile, mixed $Limit): string
+    {
+        $input = $this->state->requestInput;
+        return '?' . http_build_query([
+            'page' => 'search',
+            'search' => $SearchFile,
+            'search_in' => $input['search_in'] ?? '',
+            'fucki' => $input['fucki'] ?? '',
+            'key_user' => $input['key_user'] ?? '',
+            'key_order' => $input['key_order'] ?? '',
+            'key_acc' => $input['key_acc'] ?? '',
+            'limit' => $Limit,
+        ]);
+    }
+
+    /**
+     * Formats one result row for display: dates, relative times, rank names and yes/no badges depending on the table
+     * (USERS, USERS_BANNED, ALLIANCE, PLANETS). Column order is kept (the template shows the cells in order).
+     */
+    private function formatSearchRow(string $Table, array $WhileResult): array
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $yes = '<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>';
+        $no = '<span class="muted">' . $LNG['one_is_yes_0'] . '</span>';
+
+    if ($Table === 'USERS') {
+        if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
+            $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
+        } else {
+            $WhileResult['onlinetime'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['onlinetime'], $USER['timezone']);
+        }
+        $WhileResult['register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['register_time'], $USER['timezone']);
+        $WhileResult['authlevel'] = $LNG['se_rank'][$WhileResult['authlevel']];
+        $WhileResult['bana'] = $WhileResult['bana'] == '1' ? $yes : $no;
+        $WhileResult['urlaubs_modus'] = $WhileResult['urlaubs_modus'] == '1' ? $yes : $no;
+    }
+
+    if ($Table === 'USERS_BANNED') {
+        $WhileResult['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['time'], $USER['timezone']);
+        $WhileResult['longer'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['longer'], $USER['timezone']);
+    }
+
+    if ($Table === 'ALLIANCE') {
+        $WhileResult['ally_register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['ally_register_time'], $USER['timezone']);
+    }
+
+    if ($Table === 'PLANETS') {
+        $WhileResult['last_update'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['last_update']);
+        $WhileResult['id_luna'] = $WhileResult['id_luna'] > 0 ? $yes : $no;
+    }
+
+        return $WhileResult;
+    }
+
+    /**
+     * Action links of one result row: edit (quick editor) for players/planets the admin may edit and delete links for
+     * players (not self, not the root user) and planets (ADM only).
+     */
+    private function searchRowActions(string $Table, array $WhileResult, bool $canInfo, bool $canEditPlanet, bool $isAdmin): array
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+
+    $actions = [];
+    if ($canInfo) {
+        $actions[] = ['type' => 'edit', 'edit' => 'player', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
+    }
+    if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
+        $actions[] = [
+            'type' => 'delete',
+            'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
+            'confirm' => $LNG['ul_sure_you_want_dlte'] . ' ' . $WhileResult['username'] . '?',
+            'label' => $LNG['button_delete'],
+        ];
+    }
+    if ($canEditPlanet) {
+        $actions[] = ['type' => 'edit', 'edit' => 'planet', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
+    }
+    if ($Table === 'PLANETS' && $isAdmin) {
+        $actions[] = [
+            'type' => 'delete',
+            'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
+            'confirm' => $LNG['se_confirm_planet'] . ' ' . $WhileResult['name'],
+            'label' => $LNG['button_delete'],
+        ];
+    }
+
+        return $actions;
     }
 }

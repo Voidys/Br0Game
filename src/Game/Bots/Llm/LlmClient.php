@@ -73,6 +73,60 @@ class LlmClient
             throw new LlmException('Invalid base URL.');
         }
 
+        [$url, $headers, $body] = $this->buildRequest($system, $prompt, $maxTokens);
+
+        try {
+            $response = $this->httpClient->request('POST', $url, [
+                'headers' => $headers,
+                'body' => json_encode($body),
+                'timeout' => 10, // connect / idle
+                'max_duration' => 30,
+                'max_redirects' => 0,
+            ]);
+            $status = $response->getStatusCode();
+            $raw = $response->getContent(false);
+        } catch (TransportExceptionInterface $e) {
+            throw new LlmException('Request failed: ' . $this->clean($e->getMessage() !== '' ? $e->getMessage() : 'transport error'));
+        }
+
+        $json = json_decode((string) $raw, true);
+
+        if ($status < 200 || $status >= 300) {
+            throw new LlmException($this->errorMessage($status, $json, (string) $raw));
+        }
+
+        if (!is_array($json)) {
+            throw new LlmException('Invalid JSON response.');
+        }
+
+        $text = '';
+        if ($this->provider === 'claude') {
+            foreach ((array) ($json['content'] ?? []) as $block) {
+                if (is_array($block) && isset($block['text'])) {
+                    $text .= $block['text'];
+                }
+            }
+        } else {
+            $text = (string) ($json['choices'][0]['message']['content'] ?? '');
+        }
+
+        $text = trim($text);
+        if ($text === '') {
+            throw new LlmException('Empty response.');
+        }
+
+        return $text;
+    }
+
+    /**
+     * The provider specific request: URL (/messages for claude, /chat/completions otherwise), headers (API key, version,
+     * session or referer headers) and body (claude: system field and max_tokens; others: system message; openai gets
+     * max_completion_tokens as its newer models only accept that).
+     *
+     * @return array{0: string, 1: array<string, string>, 2: array<string, mixed>} url, headers, body
+     */
+    private function buildRequest(string $system, string $prompt, int $maxTokens): array
+    {
         $base = rtrim($this->baseUrl, '/');
         $headers = ['Content-Type' => 'application/json', 'Accept' => 'application/json'];
 
@@ -108,55 +162,27 @@ class LlmClient
             $body[$this->provider === 'openai' ? 'max_completion_tokens' : 'max_tokens'] = $maxTokens;
         }
 
-        try {
-            $response = $this->httpClient->request('POST', $url, [
-                'headers' => $headers,
-                'body' => json_encode($body),
-                'timeout' => 10, // connect / idle
-                'max_duration' => 30,
-                'max_redirects' => 0,
-            ]);
-            $status = $response->getStatusCode();
-            $raw = $response->getContent(false);
-        } catch (TransportExceptionInterface $e) {
-            throw new LlmException('Request failed: ' . $this->clean($e->getMessage() !== '' ? $e->getMessage() : 'transport error'));
+        return [$url, $headers, $body];
+    }
+
+    /**
+     * Error text of a non-2xx answer: the provider's message (error.message, error, message) or the first 150
+     * characters of the plain body, with the HTTP status; the API key is masked.
+     *
+     * @param mixed $json decoded body (null when not JSON)
+     */
+    private function errorMessage(int $status, mixed $json, string $raw): string
+    {
+        $msg = '';
+        if (is_array($json)) {
+            $err = $json['error'] ?? $json['message'] ?? null;
+            $msg = is_array($err) ? (string) ($err['message'] ?? json_encode($err)) : (string) $err;
+        }
+        if ($msg === '') {
+            $msg = mb_substr(trim(strip_tags((string) $raw)), 0, 150);
         }
 
-        $json = json_decode((string) $raw, true);
-
-        if ($status < 200 || $status >= 300) {
-            $msg = '';
-            if (is_array($json)) {
-                $err = $json['error'] ?? $json['message'] ?? null;
-                $msg = is_array($err) ? (string) ($err['message'] ?? json_encode($err)) : (string) $err;
-            }
-            if ($msg === '') {
-                $msg = mb_substr(trim(strip_tags((string) $raw)), 0, 150);
-            }
-            throw new LlmException('HTTP ' . $status . ($msg !== '' ? ': ' . $this->clean($msg) : ''));
-        }
-
-        if (!is_array($json)) {
-            throw new LlmException('Invalid JSON response.');
-        }
-
-        $text = '';
-        if ($this->provider === 'claude') {
-            foreach ((array) ($json['content'] ?? []) as $block) {
-                if (is_array($block) && isset($block['text'])) {
-                    $text .= $block['text'];
-                }
-            }
-        } else {
-            $text = (string) ($json['choices'][0]['message']['content'] ?? '');
-        }
-
-        $text = trim($text);
-        if ($text === '') {
-            throw new LlmException('Empty response.');
-        }
-
-        return $text;
+        return 'HTTP ' . $status . ($msg !== '' ? ': ' . $this->clean($msg) : '');
     }
 
     /**

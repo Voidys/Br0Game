@@ -103,6 +103,39 @@ class RegisterController extends AbstractLoginController
 
         $referralID = $this->http()->_GP('referralID', 0);
 
+        $errors = $this->registrationErrors($userName, $password, $password2, $mailAddress, $mailAddress2, $rulesChecked, $privacyChecked);
+
+        if (!empty($errors)) {
+            $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
+                'label' => $LNG['registerBack'],
+                'url' => '#',
+                'action' => 'history-back',
+            ]]);
+        }
+
+        $referralID = $this->validReferralId($referralID);
+
+        $verifyURL = $this->storePendingRegistration($userName, $password, $mailAddress, $language, $referralID, $timezone);
+
+        if ($config->mail_active == 0 || $config->user_valid == 0) {
+            $this->redirectTo($verifyURL);
+        } else {
+            $this->sendVerificationMail($userName, $mailAddress, $verifyURL);
+            $this->printMessage($LNG['registerSendComplete']);
+        }
+    }
+
+    /**
+     * Validates the registration form and returns all error texts (name empty/invalid/taken, password length and
+     * repetition, mail invalid/disposable/empty/repeated/taken incl. pending registrations, rules and privacy accepted).
+     * Reads ACCOUNTS and ACCOUNTS_VALID.
+     *
+     * @return string[] translated error messages in display order
+     */
+    private function registrationErrors(string $userName, string $password, string $password2, string $mailAddress, string $mailAddress2, mixed $rulesChecked, mixed $privacyChecked): array
+    {
+        $LNG = $this->state->LNG;
+
         $errors = [];
 
         if (empty($userName)) {
@@ -141,6 +174,27 @@ class RegisterController extends AbstractLoginController
             $errors[] = $LNG['registerErrorDataPrivacy'];
         }
 
+        [$countUsername, $countMail] = $this->countExisting($userName, $mailAddress);
+
+        if ($countUsername != 0) {
+            $errors[] = $LNG['registerErrorUsernameExist'];
+        }
+
+        if ($countMail != 0) {
+            $errors[] = $LNG['registerErrorMailExist'];
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Counts the accounts and pending registrations that already use the name, and those that use the mail address
+     * (also as second address).
+     *
+     * @return array{0: mixed, 1: mixed} name count and mail count
+     */
+    private function countExisting(string $userName, string $mailAddress): array
+    {
         $db = $this->db;
 
         $sql = "SELECT (
@@ -174,21 +228,16 @@ class RegisterController extends AbstractLoginController
             ':mailAddress' => $mailAddress,
         ], 'count');
 
-        if ($countUsername != 0) {
-            $errors[] = $LNG['registerErrorUsernameExist'];
-        }
+        return [$countUsername, $countMail];
+    }
 
-        if ($countMail != 0) {
-            $errors[] = $LNG['registerErrorMailExist'];
-        }
-
-        if (!empty($errors)) {
-            $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
-                'label' => $LNG['registerBack'],
-                'url' => '#',
-                'action' => 'history-back',
-            ]]);
-        }
+    /**
+     * A referral id only counts when referrals are active and the recruiter exists; otherwise 0.
+     */
+    private function validReferralId(mixed $referralID): mixed
+    {
+        $config = $this->configs->get();
+        $db = $this->db;
 
         if ($config->ref_active == 1 && !empty($referralID)) {
             $sql = "SELECT COUNT(*) as state FROM %%USERS%% WHERE id = :referralID;";
@@ -202,6 +251,17 @@ class RegisterController extends AbstractLoginController
         } else {
             $referralID = 0;
         }
+
+        return $referralID;
+    }
+
+    /**
+     * Stores the pending registration (ACCOUNTS_VALID, hashed password, random validation key) and returns the
+     * relative verification link (`./?page=vertify&i=<id>&k=<key>`).
+     */
+    private function storePendingRegistration(string $userName, string $password, string $mailAddress, string $language, mixed $referralID, string $timezone): string
+    {
+        $db = $this->db;
 
         $validationKey = bin2hex(random_bytes(16));
 
@@ -235,28 +295,33 @@ class RegisterController extends AbstractLoginController
         ], 'id');
         $verifyURL = './?page=vertify&i=' . $validationID . '&k=' . $validationKey;
 
-        if ($config->mail_active == 0 || $config->user_valid == 0) {
-            $this->redirectTo($verifyURL);
-        } else {
-            $MailRAW = $LNG->getTemplate('email_vaild_reg');
-            $MailContent = str_replace([
-                '{USERNAME}',
-                '{EMAIL}',
-                '{GAMENAME}',
-                '{VERTIFYURL}',
-                '{DISCORD}',
-            ], [
-                $userName,
-                $mailAddress,
-                $config->game_name,
-                $this->canonicalUrl->forPage($this->state->runtime, $verifyURL),
-                DISCORD_URL,
-            ], $MailRAW);
+        return $verifyURL;
+    }
 
-            $subject = $LNG->format('registerMailVertifyTitle', $config->game_name);
-            $this->mailer()->send($mailAddress, $userName, $subject, $MailContent);
+    /**
+     * Sends the verification mail with the absolute verification link to the new account's address.
+     */
+    private function sendVerificationMail(string $userName, string $mailAddress, string $verifyURL): void
+    {
+        $LNG = $this->state->LNG;
+        $config = $this->configs->get();
 
-            $this->printMessage($LNG['registerSendComplete']);
-        }
+        $MailRAW = $LNG->getTemplate('email_vaild_reg');
+        $MailContent = str_replace([
+            '{USERNAME}',
+            '{EMAIL}',
+            '{GAMENAME}',
+            '{VERTIFYURL}',
+            '{DISCORD}',
+        ], [
+            $userName,
+            $mailAddress,
+            $config->game_name,
+            $this->canonicalUrl->forPage($this->state->runtime, $verifyURL),
+            $this->configs->get()->discord_url,
+        ], $MailRAW);
+
+        $subject = $LNG->format('registerMailVertifyTitle', $config->game_name);
+        $this->mailer()->send($mailAddress, $userName, $subject, $MailContent);
     }
 }

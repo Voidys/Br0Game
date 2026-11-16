@@ -54,7 +54,6 @@ class RepairdockController extends AbstractGameController
         $LNG = $this->state->LNG;
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
-        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $db = $this->db;
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
@@ -71,93 +70,9 @@ class RepairdockController extends AbstractGameController
         $ElementQueue = !empty($wreckfield['repair_order']) ? StoredData::decode($wreckfield['repair_order']) : [];
         $buildList = [];
         if (!empty($action) && $action == 'deploy' && $wreckfield['repair_order_end'] <= $this->state->runtime->timestamp) {
-            $db->startTransaction();
-            $sql = "SELECT * FROM %%PLANET_WRECKFIELD%%
-                WHERE `planetID` = :planetID FOR UPDATE;";
-            // Re-read the order under the lock: a parallel deploy request may already have consumed it.
-            $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
-            if (
-                empty($locked) || empty($locked['repair_order'])
-                || $locked['repair_order_end'] > $this->state->runtime->timestamp
-            ) {
-                $db->commit();
-                $this->redirectTo('game?page=repairdock');
-            }
-            $ships = $this->fleetFunctions()->unserialize($locked['ships']);
-            $ElementQueue = StoredData::decode($locked['repair_order']);
-            $queuedShips = $ships;
-
-            $repaired = [];
-            foreach ($ElementQueue as $elementID => $amount) {
-                $repaired[$resource[$elementID]] = $amount;
-                $statsHandler->increment($USER['id'], AdvancedStatsEnum::getRepaired($elementID), $amount);
-            }
-            $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $PLANET[$resource[REPAIR_DOCK]]);
-
-            if (!empty($repaired)) {
-                // the repaired ships return to the planet
-                $db->updateRows('PLANETS', [], ['id' => $PLANET['id']], [], $repaired);
-
-                $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `ships` = :ships, `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0
-                    WHERE `planetID` = :planetID;";
-                $db->update($sql, [
-                    ':ships' => $this->fleetFunctions()->serialize($ships),
-                    ':planetID' => $PLANET['id'],
-                ]);
-            }
-            $db->commit();
-            $this->printMessage($LNG['bd_repairdock_deploy'], [[
-                'label' => $LNG['bd_continue'],
-                'url'   => 'game?page=repairdock',
-            ]]);
+            $this->deployRepairedShips();
         } elseif (empty($ElementQueue) && !empty($buildTodo) && array_sum($buildTodo) > 0 && $USER['urlaubs_modus'] == 0) {
-            $db->startTransaction();
-            $sql = "SELECT * FROM %%PLANET_WRECKFIELD%%
-                WHERE `planetID` = :planetID FOR UPDATE;";
-            $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
-            if (empty($locked) || !empty($locked['repair_order'])) {
-                // A parallel request already queued an order.
-                $db->commit();
-                $this->redirectTo('game?page=repairdock');
-            }
-            $ships = $this->fleetFunctions()->unserialize($locked['ships']);
-            $wreckfield = $locked;
-
-            $QueueTime = 0;
-            foreach ($buildTodo as $element => $amount) {
-                if (!empty($ships[$element])) {
-                    $amount = is_numeric($amount) ? round($amount) : 0;
-                    if ($amount > 0) {
-                        $ElementQueue[$element] = max(0, min($amount, floor($ships[$element] * $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]))));
-                        $ElementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $element);
-                        $QueueTime += $ElementTime * $ElementQueue[$element];
-                    }
-                }
-            }
-            $ElementQueue = array_filter($ElementQueue);
-
-            $min = max($this->configs->get()->min_build_time, 1800 - ($this->state->runtime->timestamp - $wreckfield['created']));
-            $QueueTime = max($min, min($QueueTime, TIME_12_HOURS)); //Repair duration: min Creation + 30m, max 12h
-
-            $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = :repair_order, `repair_order_start` = :start_time, `repair_order_end` = :end_time
-                WHERE `planetID` = :planetID;";
-            $db->update($sql, [
-                ':repair_order' => StoredData::encode(array_filter($ElementQueue)),
-                ':start_time' => $this->state->runtime->timestamp,
-                ':end_time' => $this->state->runtime->timestamp + $QueueTime,
-                ':planetID' => $PLANET['id'],
-            ]);
-
-            $buildList = [
-                'ships' => $ElementQueue,
-                'time' => $this->state->runtime->timestamp,
-                'resttime' => $QueueTime,
-                'endtime' => $this->state->runtime->timestamp + $QueueTime,
-                'pretty_end_time' => $this->viewHelpers()->prettyTime($QueueTime),
-            ];
-
-            $db->commit();
-            $this->redirectTo('game?page=repairdock');
+            $this->startRepairOrder($buildTodo);
         } elseif (!empty($ElementQueue)) {
             $buildList = [
                 'ships' => $ElementQueue,
@@ -206,6 +121,118 @@ class RepairdockController extends AbstractGameController
         ]);
 
         return $this->render('game/page.repairdock.default.html.twig');
+    }
+
+    /**
+     * cmd=deploy: adds the ships of the finished repair order to the planet and clears the order. Runs in a transaction
+     * that re-reads the wreck field under lock, so a parallel request cannot deploy the order twice (it is redirected
+     * instead). Ends the request with a confirmation message.
+     */
+    private function deployRepairedShips(): never
+    {
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+        $db = $this->db;
+        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
+
+        $db->startTransaction();
+        $sql = "SELECT * FROM %%PLANET_WRECKFIELD%%
+            WHERE `planetID` = :planetID FOR UPDATE;";
+        // Re-read the order under the lock: a parallel deploy request may already have consumed it.
+        $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
+        if (
+            empty($locked) || empty($locked['repair_order'])
+            || $locked['repair_order_end'] > $this->state->runtime->timestamp
+        ) {
+            $db->commit();
+            $this->redirectTo('game?page=repairdock');
+        }
+        $ships = $this->fleetFunctions()->unserialize($locked['ships']);
+        $ElementQueue = StoredData::decode($locked['repair_order']);
+        $queuedShips = $ships;
+
+        $repaired = [];
+        foreach ($ElementQueue as $elementID => $amount) {
+            $repaired[$resource[$elementID]] = $amount;
+            $statsHandler->increment($USER['id'], AdvancedStatsEnum::getRepaired($elementID), $amount);
+        }
+        $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $PLANET[$resource[REPAIR_DOCK]]);
+
+        if (!empty($repaired)) {
+            // the repaired ships return to the planet
+            $db->updateRows('PLANETS', [], ['id' => $PLANET['id']], [], $repaired);
+
+            $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `ships` = :ships, `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0
+                WHERE `planetID` = :planetID;";
+            $db->update($sql, [
+                ':ships' => $this->fleetFunctions()->serialize($ships),
+                ':planetID' => $PLANET['id'],
+            ]);
+        }
+        $db->commit();
+        $this->printMessage($LNG['bd_repairdock_deploy'], [[
+            'label' => $LNG['bd_continue'],
+            'url'   => 'game?page=repairdock',
+        ]]);
+    }
+
+    /**
+     * Starts a repair order from the posted counts (fmenge[<ship id>]), limited to the repairable share of the wrecks. The
+     * duration follows the build time of the ships, at least until 30 minutes after the wreck field was created and at most 12
+     * hours. Runs in a transaction on the locked wreck field (a parallel order wins; this request is redirected). Ends the
+     * request with a redirect to the repair dock.
+     *
+     * @param array<int|string, mixed> $buildTodo ship id => requested count
+     */
+    private function startRepairOrder(array $buildTodo): never
+    {
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
+        $db = $this->db;
+        $ElementQueue = [];
+
+        $db->startTransaction();
+        $sql = "SELECT * FROM %%PLANET_WRECKFIELD%%
+            WHERE `planetID` = :planetID FOR UPDATE;";
+        $locked = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
+        if (empty($locked) || !empty($locked['repair_order'])) {
+            // A parallel request already queued an order.
+            $db->commit();
+            $this->redirectTo('game?page=repairdock');
+        }
+        $ships = $this->fleetFunctions()->unserialize($locked['ships']);
+        $wreckfield = $locked;
+
+        $QueueTime = 0;
+        foreach ($buildTodo as $element => $amount) {
+            if (!empty($ships[$element])) {
+                $amount = is_numeric($amount) ? round($amount) : 0;
+                if ($amount > 0) {
+                    $ElementQueue[$element] = max(0, min($amount, floor($ships[$element] * $this->getRepairRate($PLANET[$resource[REPAIR_DOCK]]))));
+                    $ElementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $element);
+                    $QueueTime += $ElementTime * $ElementQueue[$element];
+                }
+            }
+        }
+        $ElementQueue = array_filter($ElementQueue);
+
+        $min = max($this->configs->get()->min_build_time, 1800 - ($this->state->runtime->timestamp - $wreckfield['created']));
+        $QueueTime = max($min, min($QueueTime, TIME_12_HOURS)); //Repair duration: min Creation + 30m, max 12h
+
+        $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `repair_order` = :repair_order, `repair_order_start` = :start_time, `repair_order_end` = :end_time
+            WHERE `planetID` = :planetID;";
+        $db->update($sql, [
+            ':repair_order' => StoredData::encode(array_filter($ElementQueue)),
+            ':start_time' => $this->state->runtime->timestamp,
+            ':end_time' => $this->state->runtime->timestamp + $QueueTime,
+            ':planetID' => $PLANET['id'],
+        ]);
+
+        $db->commit();
+        $this->redirectTo('game?page=repairdock');
     }
 
     /**

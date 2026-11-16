@@ -63,87 +63,12 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
 
         $targetPlanetName = $targetPlanet ? (string)$targetPlanet['name'] : null;
 
-        $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
-
-
         /**
          * If target exists, deploy resources.
          * If it is a destroyed moon, avoid to call StoreGoodsToPlanet()
          */
         if ($targetPlanetName !== null) {
-            $Message		= $LNG->format('sys_tran_mess_owner',
-                $startPlanetName,
-                GetStartAddressLink($this->_fleet, ''),
-                $LNG['type_planet_' . $this->_fleet['end_type']],
-                $targetPlanetName,
-                GetTargetAddressLink($this->_fleet, ''),
-                $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
-                $LNG['tech'][RESOURCE_METAL],
-                $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
-                $LNG['tech'][RESOURCE_CRYSTAL],
-                $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-                $LNG['tech'][RESOURCE_DEUT]
-            );
-
-            $this->playerUtil()->sendMessage(
-                $this->_fleet['owner'],
-                0,
-                $LNG['sys_mess_tower'],
-                MESSAGE_TYPE_TRANSPORT,
-                $LNG['sys_mess_transport'],
-                $Message,
-                $this->_fleet['arrival_time'],
-                1,
-                $this->_fleet['universe'],
-                $this->_fleet['end_id']
-            );
-
-            if ($this->_fleet['target_owner'] != $this->_fleet['owner']) {
-                $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
-                $Message        = $LNG->format('sys_tran_mess_user',
-                    $startPlanetName,
-                    GetStartAddressLink($this->_fleet, ''),
-                    $targetPlanetName,
-                    GetTargetAddressLink($this->_fleet, ''),
-                    $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
-                    $LNG['tech'][RESOURCE_METAL],
-                    $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
-                    $LNG['tech'][RESOURCE_CRYSTAL],
-                    $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
-                    $LNG['tech'][RESOURCE_DEUT]
-                );
-
-                $new = [];
-
-                $new['startPlanet'] 		= $this->_fleet['start_id'];
-                $new['startPlanetName']	 	= $startPlanetName;
-                $new['metal'] 				= $this->_fleet['resource_metal'];
-                $new['crystal'] 			= $this->_fleet['resource_crystal'];
-                $new['deuterium'] 			= $this->_fleet['resource_deuterium'];
-                $new['targetPlanet'] 		= $this->_fleet['end_id'];
-                $new['targetPlanetName'] 	= $targetPlanetName;
-
-
-                $LOG = new Log($this->db, $this->configs, $this->state, 5);
-                $LOG->target = $this->_fleet['target_owner'];
-                $LOG->admin = $this->_fleet['owner'];
-                $LOG->old = $new;
-                $LOG->new = $new;
-                $LOG->saveTr();
-
-                $this->playerUtil()->sendMessage(
-                    $this->_fleet['target_owner'],
-                    0,
-                    $LNG['sys_mess_tower'],
-                    MESSAGE_TYPE_FOREIGN_TRANSPORT,
-                    $LNG['sys_mess_transport'],
-                    $Message,
-                    $this->_fleet['arrival_time'],
-                    1,
-                    $this->_fleet['universe'],
-                    $this->_fleet['end_id']
-                );
-            }
+            $this->reportDelivery($startPlanetName, $targetPlanetName);
 
             $this->UpdatePlanet($this->_fleet['target_owner'], $this->_fleet['end_id']);
             $this->StoreGoodsToPlanet();
@@ -168,6 +93,98 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
 
         $this->setState(FLEET_RETURN);
         $this->SaveFleet();
+    }
+
+    /**
+     * Messages of a delivery: the sender gets the transport report; a foreign receiver gets his own notice plus a
+     * transaction log entry (type 5) with the delivered amounts.
+     */
+    private function reportDelivery(string|false|null $startPlanetName, string $targetPlanetName): void
+    {
+        $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
+
+        $Message		= $LNG->format('sys_tran_mess_owner',
+            $startPlanetName,
+            GetStartAddressLink($this->_fleet, ''),
+            $LNG['type_planet_' . $this->_fleet['end_type']],
+            $targetPlanetName,
+            GetTargetAddressLink($this->_fleet, ''),
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
+            $LNG['tech'][RESOURCE_METAL],
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
+            $LNG['tech'][RESOURCE_CRYSTAL],
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
+            $LNG['tech'][RESOURCE_DEUT]
+        );
+
+        $this->playerUtil()->sendMessage(
+            $this->_fleet['owner'],
+            0,
+            $LNG['sys_mess_tower'],
+            MESSAGE_TYPE_TRANSPORT,
+            $LNG['sys_mess_transport'],
+            $Message,
+            $this->_fleet['arrival_time'],
+            1,
+            $this->_fleet['universe'],
+            $this->_fleet['end_id']
+        );
+
+        if ($this->_fleet['target_owner'] != $this->_fleet['owner']) {
+            $this->notifyReceiver($startPlanetName, $targetPlanetName);
+        }
+    }
+
+    /**
+     * The receiver of a foreign delivery: writes the transaction log (type 5) and sends the "foreign transport"
+     * notice in his language.
+     */
+    private function notifyReceiver(string|false|null $startPlanetName, string $targetPlanetName): void
+    {
+        $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
+        $Message        = $LNG->format('sys_tran_mess_user',
+            $startPlanetName,
+            GetStartAddressLink($this->_fleet, ''),
+            $targetPlanetName,
+            GetTargetAddressLink($this->_fleet, ''),
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
+            $LNG['tech'][RESOURCE_METAL],
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
+            $LNG['tech'][RESOURCE_CRYSTAL],
+            $this->viewHelpers()->prettyNumber($this->_fleet['resource_deuterium']),
+            $LNG['tech'][RESOURCE_DEUT]
+        );
+
+        $new = [];
+
+        $new['startPlanet'] 		= $this->_fleet['start_id'];
+        $new['startPlanetName']	 	= $startPlanetName;
+        $new['metal'] 				= $this->_fleet['resource_metal'];
+        $new['crystal'] 			= $this->_fleet['resource_crystal'];
+        $new['deuterium'] 			= $this->_fleet['resource_deuterium'];
+        $new['targetPlanet'] 		= $this->_fleet['end_id'];
+        $new['targetPlanetName'] 	= $targetPlanetName;
+
+
+        $LOG = new Log($this->db, $this->configs, $this->state, 5);
+        $LOG->target = $this->_fleet['target_owner'];
+        $LOG->admin = $this->_fleet['owner'];
+        $LOG->old = $new;
+        $LOG->new = $new;
+        $LOG->saveTr();
+
+        $this->playerUtil()->sendMessage(
+            $this->_fleet['target_owner'],
+            0,
+            $LNG['sys_mess_tower'],
+            MESSAGE_TYPE_FOREIGN_TRANSPORT,
+            $LNG['sys_mess_transport'],
+            $Message,
+            $this->_fleet['arrival_time'],
+            1,
+            $this->_fleet['universe'],
+            $this->_fleet['end_id']
+        );
     }
 
     /**

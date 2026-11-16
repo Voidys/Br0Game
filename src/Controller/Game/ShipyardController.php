@@ -175,7 +175,6 @@ class ShipyardController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $requeriments = $this->state->requeriments;
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
         if ($this->state->PLANET[$resource[SHIPYARD]] == 0) {
@@ -186,16 +185,7 @@ class ShipyardController extends AbstractGameController
         $buildTodo = $this->http()->_GP('fmenge', []);
         $action = $this->http()->_GP('action', '');
 
-        $NotBuilding = true;
-        if (!empty($this->state->PLANET['b_building_id'])) {
-            $CurrentQueue = !empty($this->state->PLANET['b_building_id']) ? StoredData::decode($this->state->PLANET['b_building_id']) : [];
-            foreach ($CurrentQueue as $ElementArray) {
-                if ($ElementArray[self::QUEUE_ELEMENT_ID] == SHIPYARD || $ElementArray[self::QUEUE_ELEMENT_ID] == NANITE_FACTORY) {
-                    $NotBuilding = false;
-                    break;
-                }
-            }
-        }
+        $NotBuilding = !$this->isShipyardUpgrading();
 
         $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
         if (empty($ElementQueue)) {
@@ -205,34 +195,162 @@ class ShipyardController extends AbstractGameController
         }
 
         if ($USER['urlaubs_modus'] == 0 && $NotBuilding == true) {
-            if (!empty($buildTodo)) {
-                $maxBuildQueue = $this->configs->get()->max_elements_ships;
-                if ($maxBuildQueue != 0 && $Count >= $maxBuildQueue) {
-                    $this->printMessage($LNG->format('bd_max_builds', $maxBuildQueue));
-                }
-
-                $db = $this->db;
-                $db->startTransaction();
-                $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
-                $this->buildAuftr($buildTodo);
-                $db->commit();
-                $this->redirectTo('game?page=shipyard&mode=' . $mode);
-            }
-
-            if ($action == "delete") {
-                $db = $this->db;
-                $db->startTransaction();
-                $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
-                $this->cancelAuftr();
-                $db->commit();
-                $this->redirectTo('game?page=shipyard&mode=' . $mode);
-            }
+            $this->runHangarCommand($buildTodo, $action, $mode, $Count);
         }
 
         $elementInQueue = [];
+        $buildList = $this->hangarQueueData($elementInQueue);
+
+        if ($mode == 'defense') {
+            $elementIDs = array_merge($reslist['defense'], $reslist['missile']);
+        } else {
+            $elementIDs = $reslist['fleet'];
+        }
+
+        $SolarEnergy = round((($this->state->PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
+        $elementList = $this->elementList($elementIDs, $elementInQueue);
+
+        [$civil, $military, $recycler] = $this->filterSelectors($elementList);
+
+        $hangarFilters = $this->hangarFilters()->parse($USER['hangar_filters'] ?? null);
+        $hangarShipIds = $this->hangarFilters()->shipIds($hangarFilters);
+        $hangarShipOptions = $this->unpinnedShipOptions($hangarShipIds);
+
+        $this->assign([
+            'umode'       => $USER['urlaubs_modus'],
+            'elementList' => $elementList,
+            'NotBuilding' => $NotBuilding,
+            'BuildList' => $buildList,
+            'maxlength' => strlen($this->configs->get()->max_fleet_per_build),
+            'mode' => $mode,
+            'SolarEnergy' => $SolarEnergy,
+            'civil' => $civil,
+            'military' => $military,
+            'recycler' => $recycler,
+            'hangarFiltersEnabled' => !empty($USER['hangar_filters_enabled']),
+            'hangarGroupCivil' => $this->hangarFilters()->hasGroup($hangarFilters, 'civil'),
+            'hangarGroupMilitary' => $this->hangarFilters()->hasGroup($hangarFilters, 'military'),
+            'hangarGroupRecycler' => $this->hangarFilters()->hasGroup($hangarFilters, 'recycler'),
+            'hangarGroupAll' => $this->hangarFilters()->hasGroup($hangarFilters, 'all'),
+            'hangarShipIds' => $hangarShipIds,
+            'hangarShipOptions' => $hangarShipOptions,
+            'hangarShipOrder' => array_map('intval', array_values($reslist['fleet'])),
+        ]);
+
+        return $this->render('game/page.shipyard.default.html.twig');
+    }
+
+    /**
+     * CSS selector lists ("#s202, #s203") of the civil, military and recycler ships in $elementList, used by the hangar filter buttons.
+     *
+     * @param array<int, array<string, mixed>> $elementList rows from elementList() with their 'type'
+     * @return array{0: string, 1: string, 2: string} civil, military, recycler selectors
+     */
+    private function filterSelectors(array $elementList): array
+    {
+        $civil = "";
+        $military = "";
+        $recycler = "";
+        foreach ($elementList as $Element => $ElementData) {
+            if ($ElementData['type'] == 'civil') {
+                $civil .= "#s" . $Element . ", ";
+            } elseif ($ElementData['type'] == 'military') {
+                $military .= "#s" . $Element . ", ";
+            } elseif ($ElementData['type'] == 'recycler') {
+                $recycler .= "#s" . $Element . ", ";
+            }
+        }
+
+        return [rtrim($civil, ", "), rtrim($military, ", "), rtrim($recycler, ", ")];
+    }
+
+    /**
+     * Ships that can still be pinned to the hangar filter (all ships except the already pinned ones) with their short name.
+     *
+     * @param array<int, int> $hangarShipIds ids pinned already
+     * @return array<int, string> ship id => name
+     */
+    private function unpinnedShipOptions(array $hangarShipIds): array
+    {
+        $LNG = $this->state->LNG;
+        $hangarShipOptions = [];
+        foreach ($this->state->reslist['fleet'] as $shipId) {
+            $shipId = (int) $shipId;
+            if (in_array($shipId, $hangarShipIds, true)) {
+                continue;
+            }
+            $hangarShipOptions[$shipId] = $LNG['shortNames'][$shipId] ?? $LNG['tech'][$shipId] ?? ('#' . $shipId);
+        }
+
+        return $hangarShipOptions;
+    }
+
+    /**
+     * Whether the shipyard or the nanite factory is in the planet's building queue (the shipyard is blocked then).
+     */
+    private function isShipyardUpgrading(): bool
+    {
+        if (empty($this->state->PLANET['b_building_id'])) {
+            return false;
+        }
+
+        foreach (StoredData::decode($this->state->PLANET['b_building_id']) as $ElementArray) {
+            if ($ElementArray[self::QUEUE_ELEMENT_ID] == SHIPYARD || $ElementArray[self::QUEUE_ELEMENT_ID] == NANITE_FACTORY) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Executes the order commands of the request on the locked planet row: `fmenge` (the counts to build, refused with a
+     * message when the hangar queue is full) or action=delete (cancel queue entries), then redirects back to the same
+     * mode (ends the request). Does nothing when the request carries neither.
+     *
+     * @param mixed $buildTodo request fmenge (element id => count)
+     * @param int $Count number of entries already in the hangar queue
+     */
+    private function runHangarCommand(mixed $buildTodo, mixed $action, mixed $mode, int $Count): void
+    {
+        $LNG = $this->state->LNG;
+        if (!empty($buildTodo)) {
+            $maxBuildQueue = $this->configs->get()->max_elements_ships;
+            if ($maxBuildQueue != 0 && $Count >= $maxBuildQueue) {
+                $this->printMessage($LNG->format('bd_max_builds', $maxBuildQueue));
+            }
+
+            $db = $this->db;
+            $db->startTransaction();
+            $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
+            $this->buildAuftr($buildTodo);
+            $db->commit();
+            $this->redirectTo('game?page=shipyard&mode=' . $mode);
+        }
+
+        if ($action == "delete") {
+            $db = $this->db;
+            $db->startTransaction();
+            $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
+            $this->cancelAuftr();
+            $db->commit();
+            $this->redirectTo('game?page=shipyard&mode=' . $mode);
+        }
+    }
+
+    /**
+     * Template data of the running hangar queue (entries with name, amount and build time, time already spent, remaining
+     * queue time), empty array when the queue is empty.
+     *
+     * @param array<int, bool> $elementInQueue filled with the element ids found in the queue (to block one-time elements)
+     * @return array<string, mixed>
+     */
+    private function hangarQueueData(array &$elementInQueue): array
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
         $buildList = [];
-        $elementList = [];
 
         if (!empty($ElementQueue)) {
             $Shipyard = [];
@@ -256,12 +374,25 @@ class ShipyardController extends AbstractGameController
             ];
         }
 
-        if ($mode == 'defense') {
-            $elementIDs = array_merge($reslist['defense'], $reslist['missile']);
-        } else {
-            $elementIDs = $reslist['fleet'];
-        }
+        return $buildList;
+    }
 
+    /**
+     * Template rows of the buildable ships/defenses/missiles in $elementIDs: costs, build time, affordable amount (capped
+     * by the silo capacity for missiles), requirements still missing (only when the player shows all buildable
+     * elements), "already built" for one-time elements and the display flags.
+     *
+     * @param list<int> $elementIDs elements to list
+     * @param array<int, bool> $elementInQueue element ids that are in the hangar queue
+     * @return array<int, array<string, mixed>> element id => row
+     */
+    private function elementList(array $elementIDs, array $elementInQueue): array
+    {
+        $USER = $this->state->USER;
+        $requeriments = $this->state->requeriments;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $elementList = [];
         $Missiles = [];
 
         foreach ($reslist['missile'] as $elementID) {
@@ -273,7 +404,6 @@ class ShipyardController extends AbstractGameController
         $planetModel = $this->models()->planet($this->state->PLANET);
 
         $MaxMissiles = $this->buildFunctions()->maxRocketsFor($planetModel, $Missiles);
-        $SolarEnergy = round((($this->state->PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
 
         foreach ($elementIDs as $Element) {
             if (!$this->buildFunctions()->isEnabled($Element)) {
@@ -333,55 +463,7 @@ class ShipyardController extends AbstractGameController
             ];
         }
 
-        $civil = "";
-        $military = "";
-        $recycler = "";
-        foreach ($elementList as $Element => $ElementData) {
-            if ($ElementData['type'] == 'civil') {
-                $civil .= "#s" . $Element . ", ";
-            } elseif ($ElementData['type'] == 'military') {
-                $military .= "#s" . $Element . ", ";
-            } elseif ($ElementData['type'] == 'recycler') {
-                $recycler .= "#s" . $Element . ", ";
-            }
-        }
-        $civil = rtrim($civil, ", ");
-        $military = rtrim($military, ", ");
-        $recycler = rtrim($recycler, ", ");
-
-        $hangarFilters = $this->hangarFilters()->parse($USER['hangar_filters'] ?? null);
-        $hangarShipIds = $this->hangarFilters()->shipIds($hangarFilters);
-        $hangarShipOptions = [];
-        foreach ($reslist['fleet'] as $shipId) {
-            $shipId = (int) $shipId;
-            if (in_array($shipId, $hangarShipIds, true)) {
-                continue;
-            }
-            $hangarShipOptions[$shipId] = $LNG['shortNames'][$shipId] ?? $LNG['tech'][$shipId] ?? ('#' . $shipId);
-        }
-
-        $this->assign([
-            'umode'       => $USER['urlaubs_modus'],
-            'elementList' => $elementList,
-            'NotBuilding' => $NotBuilding,
-            'BuildList' => $buildList,
-            'maxlength' => strlen($this->configs->get()->max_fleet_per_build),
-            'mode' => $mode,
-            'SolarEnergy' => $SolarEnergy,
-            'civil' => $civil,
-            'military' => $military,
-            'recycler' => $recycler,
-            'hangarFiltersEnabled' => !empty($USER['hangar_filters_enabled']),
-            'hangarGroupCivil' => $this->hangarFilters()->hasGroup($hangarFilters, 'civil'),
-            'hangarGroupMilitary' => $this->hangarFilters()->hasGroup($hangarFilters, 'military'),
-            'hangarGroupRecycler' => $this->hangarFilters()->hasGroup($hangarFilters, 'recycler'),
-            'hangarGroupAll' => $this->hangarFilters()->hasGroup($hangarFilters, 'all'),
-            'hangarShipIds' => $hangarShipIds,
-            'hangarShipOptions' => $hangarShipOptions,
-            'hangarShipOrder' => array_map('intval', array_values($reslist['fleet'])),
-        ]);
-
-        return $this->render('game/page.shipyard.default.html.twig');
+        return $elementList;
     }
 
     /**

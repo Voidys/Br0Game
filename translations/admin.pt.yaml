@@ -445,6 +445,7 @@ ma_none: Noticias Globais
 ma_send_global_message: Enviar mensagem global
 ma_subject: Assunto
 ma_subject_needed: Deves adicionar o assunto!
+ma_no_recipients: 'Nenhum destinatário corresponde ao filtro, nenhum e-mail foi enviado.'
 message_a: 'Estado da mensagem:'
 message_t: 'Estado dos Ticket:'
 mip_ip: IP
@@ -816,6 +817,7 @@ se_del_user_manually_info: Exclui os usuários que tenham a sua conta excluída 
 se_del_user_sendmail: Enviar lembrete
 se_del_user_sendmail_info: Envia um lembrete para os usuários depois X de dias sem fazer o Login.
 se_delete_succes_p: Apagado com êxito
+se_delete_not_found: 'Nada foi apagado: o jogador ou o planeta não existe ou não pode ser apagado.'
 se_deuterium_basic_income: Produção básica de Deutério
 se_deuterium_cost_galaxy: Custo de Deutério
 se_deuterium_cost_galaxy_info: 'Custo de Deutério por Sistema Solar (Defeito : 10)'
@@ -1771,3 +1773,12 @@ adm_info_tz_php: "PHP"
 adm_info_tz_config: "Configuração do jogo"
 adm_info_tz_user: "A sua conta"
 adm_login_throttled: "Demasiadas tentativas. Tente novamente dentro de alguns minutos."
+se_community_links: "Links da comunidade"
+se_discord_url: "URL de convite do Discord"
+se_discord_url_info: "Link de convite do teu servidor Discord (https://...). Mostrado no menu, na página de login, em e-mails e textos. Vazio = oculto."
+se_wiki_url: "URL da wiki"
+se_wiki_url_info: "URL base de uma wiki externa, sem barra final (https://...). Os links da wiki no FAQ, tutorial e regras são formados a partir dela. Vazio = ocultos."
+se_donate_url: "URL de doações"
+se_donate_url_info: "Link para doações (https://...), mostrado no menu. Vazio = oculto."
+se_userscripts_url: "URL de userscripts"
+se_userscripts_url_info: "Página com userscripts para o teu jogo (https://...), ligada nas definições. Vazio = oculto."

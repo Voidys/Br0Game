@@ -448,6 +448,7 @@ ma_none: Глобальное сообщение
 ma_send_global_message: Глобальное сообщение
 ma_subject: Тема
 ma_subject_needed: Вы должны указать тему глобального сообщения.
+ma_no_recipients: 'Ни один получатель не соответствует фильтру, письмо не отправлено.'
 message_a: 'Статус сообщения:'
 message_t: 'Состояние запроса:'
 mip_ip: IP
@@ -827,6 +828,7 @@ se_del_user_sendmail_info: >-
   Отправлять напоминание о неактивности аккаунта на электронную почту после X
   дней неактивности.
 se_delete_succes_p: Удалено
+se_delete_not_found: 'Ничего не удалено: игрока или планеты не существует, либо их нельзя удалить.'
 se_deuterium_basic_income: Добыча дейтерия
 se_deuterium_cost_galaxy: Переход по галактике
 se_deuterium_cost_galaxy_info: Количество дейтерия, потребляемое за один просмотр галактики.
@@ -1810,3 +1812,12 @@ adm_info_tz_php: "PHP"
 adm_info_tz_config: "Конфигурация игры"
 adm_info_tz_user: "Ваш аккаунт"
 adm_login_throttled: "Слишком много попыток. Повторите через несколько минут."
+se_community_links: "Ссылки сообщества"
+se_discord_url: "URL приглашения в Discord"
+se_discord_url_info: "Ссылка-приглашение на ваш Discord-сервер (https://...). Показывается в меню, на странице входа, в письмах и текстах. Пусто — скрыто."
+se_wiki_url: "URL вики"
+se_wiki_url_info: "Базовый URL внешней вики без завершающего слэша (https://...). Ссылки на вики в FAQ, обучении и правилах строятся из него. Пусто — скрыты."
+se_donate_url: "URL для пожертвований"
+se_donate_url_info: "Ссылка для пожертвований (https://...), показывается в меню. Пусто — скрыта."
+se_userscripts_url: "URL userscripts"
+se_userscripts_url_info: "Страница с userscripts для вашей игры (https://...), ссылка в настройках. Пусто — скрыта."

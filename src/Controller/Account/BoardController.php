@@ -61,25 +61,8 @@ class BoardController extends AbstractAccountController
         $flair = in_array($flair, self::FLAIRS, true) ? $flair : '';
         $page = max(1, (int) $this->http()->_GP('p', 1));
         $now = $this->now();
-
-        // optional filters (flair, "top of the week"), shared by the count and the page query
-        $filter = static function (\Doctrine\DBAL\Query\QueryBuilder $qb) use ($flair, $sort, $period, $now): \Doctrine\DBAL\Query\QueryBuilder {
-            $qb->where('p.deleted = 0');
-            if ($flair !== '') {
-                $qb->andWhere('p.flair = :flair')->setParameter('flair', $flair);
-            }
-            if ($sort === 'top' && $period === 'week') {
-                $qb->andWhere('p.created_at >= :since')->setParameter('since', $now - 7 * 86400);
-            }
-
-            return $qb;
-        };
-
-        $order = match ($sort) {
-            'new' => 'p.pinned DESC, p.created_at DESC',
-            'top' => 'p.score DESC, p.created_at DESC',
-            default => 'p.pinned DESC, (SIGN(p.score) * LOG10(GREATEST(ABS(p.score), 1)) + p.created_at / 45000) DESC',
-        };
+        $filter = $this->postFilter($sort, $period, $flair, $now);
+        $order = $this->postOrder($sort);
 
         $total = (int) $this->db->fetchValue(
             $filter($this->db->qb()->select('COUNT(*) AS c')->from($this->db->table('BOARD_POSTS'), 'p'))
@@ -88,54 +71,12 @@ class BoardController extends AbstractAccountController
         $page = min($page, $pages);
         $offset = ($page - 1) * self::PER_PAGE;
 
-        // $order is one of three fixed expressions (never request input); the id keeps equal rows in a stable order
-        $rows = $this->db->fetchAll(
-            $filter(
-                $this->db->qb()
-                    ->select('p.id', 'p.flair', 'p.title', 'p.score', 'p.comment_count', 'p.pinned', 'p.locked', 'p.created_at', 'a.accountname', 'v.value AS myvote')
-                    ->from($this->db->table('BOARD_POSTS'), 'p')
-                    ->leftJoin('p', $this->db->table('ACCOUNTS'), 'a', 'a.id = p.account_id')
-                    ->leftJoin('p', $this->db->table('BOARD_VOTES'), 'v', 'v.account_id = :me AND v.target_type = 1 AND v.target_id = p.id')
-                    ->setParameter('me', $this->accountId())
-            )
-                ->orderBy($order . ', p.id DESC')
-                ->setFirstResult($offset)
-                ->setMaxResults(self::PER_PAGE)
-        );
+        $rows = $this->postPage($filter, $order, $offset);
 
-        $posts = [];
-        foreach ($rows as $row) {
-            $posts[] = [
-                'id' => (int) $row['id'],
-                'url' => 'account?page=board&mode=post&id=' . (int) $row['id'],
-                'title' => $row['title'],
-                'flair' => $row['flair'],
-                'score' => (int) $row['score'],
-                'comments' => (int) $row['comment_count'],
-                'pinned' => (bool) $row['pinned'],
-                'locked' => (bool) $row['locked'],
-                'author' => $this->authorName($row['accountname']),
-                'ago' => $this->ago((int) $row['created_at']),
-                'date' => $this->fullDate((int) $row['created_at']),
-                'myvote' => (int) ($row['myvote'] ?? 0),
-            ];
-        }
+        $posts = $this->postRows($rows);
 
+        [$tabs, $periods, $chips] = $this->listControls($sort, $period, $flair);
         $state = ['sort' => $sort, 't' => $period, 'flair' => $flair];
-        $tabs = [];
-        foreach (['hot', 'new', 'top'] as $key) {
-            $tabs[] = ['key' => $key, 'url' => $this->listUrl($state, ['sort' => $key]), 'active' => $sort === $key];
-        }
-        $periods = [];
-        if ($sort === 'top') {
-            foreach (['all', 'week'] as $key) {
-                $periods[] = ['key' => $key, 'url' => $this->listUrl($state, ['t' => $key]), 'active' => $period === $key];
-            }
-        }
-        $chips = [['key' => '', 'url' => $this->listUrl($state, ['flair' => '']), 'active' => $flair === '']];
-        foreach (self::FLAIRS as $key) {
-            $chips[] = ['key' => $key, 'url' => $this->listUrl($state, ['flair' => $key]), 'active' => $flair === $key];
-        }
 
         $this->assign([
             'toplink' => 'account?page=account',
@@ -154,6 +95,122 @@ class BoardController extends AbstractAccountController
             'isGuest' => $this->isGuest(),
         ]);
         return $this->render('account/page.board.default.html.twig');
+    }
+
+    /**
+     * Builds the condition adder shared by the count and the page query: not deleted, optional flair and, for "top",
+     * the week range.
+     *
+     * @return \Closure(\Doctrine\DBAL\Query\QueryBuilder): \Doctrine\DBAL\Query\QueryBuilder
+     */
+    private function postFilter(string $sort, string $period, string $flair, int $now): \Closure
+    {
+        // optional filters (flair, "top of the week"), shared by the count and the page query
+        $filter = static function (\Doctrine\DBAL\Query\QueryBuilder $qb) use ($flair, $sort, $period, $now): \Doctrine\DBAL\Query\QueryBuilder {
+            $qb->where('p.deleted = 0');
+            if ($flair !== '') {
+                $qb->andWhere('p.flair = :flair')->setParameter('flair', $flair);
+            }
+            if ($sort === 'top' && $period === 'week') {
+                $qb->andWhere('p.created_at >= :since')->setParameter('since', $now - 7 * 86400);
+            }
+
+            return $qb;
+        };
+
+        return $filter;
+    }
+
+    /**
+     * SQL ORDER BY expression of the sort mode (one of three fixed expressions, never request input): new, top, or
+     * "hot" (pinned first, then score decayed by age).
+     */
+    private function postOrder(string $sort): string
+    {
+        return match ($sort) {
+            'new' => 'p.pinned DESC, p.created_at DESC',
+            'top' => 'p.score DESC, p.created_at DESC',
+            default => 'p.pinned DESC, (SIGN(p.score) * LOG10(GREATEST(ABS(p.score), 1)) + p.created_at / 45000) DESC',
+        };
+    }
+
+    /**
+     * Reads one page of posts (author name, viewing account's vote) with the filter and order; the id keeps equal rows
+     * in a stable order.
+     *
+     * @return array<int, array<string, mixed>> post rows
+     */
+    private function postPage(\Closure $filter, string $order, int $offset): array
+    {
+        // $order is one of three fixed expressions (never request input); the id keeps equal rows in a stable order
+        return $this->db->fetchAll(
+            $filter(
+                $this->db->qb()
+                    ->select('p.id', 'p.flair', 'p.title', 'p.score', 'p.comment_count', 'p.pinned', 'p.locked', 'p.created_at', 'a.accountname', 'v.value AS myvote')
+                    ->from($this->db->table('BOARD_POSTS'), 'p')
+                    ->leftJoin('p', $this->db->table('ACCOUNTS'), 'a', 'a.id = p.account_id')
+                    ->leftJoin('p', $this->db->table('BOARD_VOTES'), 'v', 'v.account_id = :me AND v.target_type = 1 AND v.target_id = p.id')
+                    ->setParameter('me', $this->accountId())
+            )
+                ->orderBy($order . ', p.id DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults(self::PER_PAGE)
+        );
+    }
+
+    /**
+     * Template rows of the posts (counts and flags cast, author and date formatted).
+     *
+     * @param array<int, array<string, mixed>> $rows
+     * @return list<array<string, mixed>>
+     */
+    private function postRows(array $rows): array
+    {
+        $posts = [];
+        foreach ($rows as $row) {
+            $posts[] = [
+                'id' => (int) $row['id'],
+                'url' => 'account?page=board&mode=post&id=' . (int) $row['id'],
+                'title' => $row['title'],
+                'flair' => $row['flair'],
+                'score' => (int) $row['score'],
+                'comments' => (int) $row['comment_count'],
+                'pinned' => (bool) $row['pinned'],
+                'locked' => (bool) $row['locked'],
+                'author' => $this->authorName($row['accountname']),
+                'ago' => $this->ago((int) $row['created_at']),
+                'date' => $this->fullDate((int) $row['created_at']),
+                'myvote' => (int) ($row['myvote'] ?? 0),
+            ];
+        }
+
+        return $posts;
+    }
+
+    /**
+     * Sort tabs, "top" period switch and flair chips with their links (each keeps the other list settings).
+     *
+     * @return array{0: list<array>, 1: list<array>, 2: list<array>} tabs, periods, chips
+     */
+    private function listControls(string $sort, string $period, string $flair): array
+    {
+        $state = ['sort' => $sort, 't' => $period, 'flair' => $flair];
+        $tabs = [];
+        foreach (['hot', 'new', 'top'] as $key) {
+            $tabs[] = ['key' => $key, 'url' => $this->listUrl($state, ['sort' => $key]), 'active' => $sort === $key];
+        }
+        $periods = [];
+        if ($sort === 'top') {
+            foreach (['all', 'week'] as $key) {
+                $periods[] = ['key' => $key, 'url' => $this->listUrl($state, ['t' => $key]), 'active' => $period === $key];
+            }
+        }
+        $chips = [['key' => '', 'url' => $this->listUrl($state, ['flair' => '']), 'active' => $flair === '']];
+        foreach (self::FLAIRS as $key) {
+            $chips[] = ['key' => $key, 'url' => $this->listUrl($state, ['flair' => $key]), 'active' => $flair === $key];
+        }
+
+        return [$tabs, $periods, $chips];
     }
 
     /**

@@ -479,9 +479,9 @@ al_your_ally: Votre Alliance
 al_your_request_title: Votre candidature
 bad_forum_url: Le lien vers le Forum est incorrect!
 banned_message: >-
-  Vous avez été banni. Si vous pensez qu'il s'agit d'un malentendu, écrivez-nous
+  Vous avez été banni. <!--discord_url-->Si vous pensez qu'il s'agit d'un malentendu, écrivez-nous
   via Discord: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Production actuelle:'
 bd_add_to_list: Ajouter à la queue de production
 bd_available: 'Disponible: '
@@ -1008,14 +1008,14 @@ invalid_action: Action invalidée !!
 kontakt: >-
   Salut!<br>Sur cette page, tu trouveras des informations sur les personnes qui
   gèrent, modèrent et développent activement ce projet.<br>N'hésite pas à nous
-  contacter si tu as des questions ou des problèmes.<br><br>Pour faciliter
+  contacter si tu as des questions ou des problèmes.<br><br><!--discord_url-->Pour faciliter
   l'échange avec nous, mais aussi avec les autres membres du projet, nous avons
   mis en place un serveur Discord. Tu le trouveras " <a
-  href="https://discord.gg/jhYYN3yuat">ici</a> " ou via le menu.<br>Sur le
+  href="{discord_url}">ici</a> " ou via le menu.<br>Sur le
   serveur, tu trouveras les dernières nouvelles, ainsi que des mèmes
   passionnants entre les alliances de l'univers.<br>Pose des questions sur les
   mécanismes du jeu et contribue au développement du jeu par tes propres
-  suggestions.<br><br>Bien entendu, nous te répondrons également sur les
+  suggestions.<br><br><!--/discord_url-->Bien entendu, nous te répondrons également sur les
   post-its en jeu.<br>Bedenke jedoch, dass auch wir das Spiel nur als Hobby
   betreiben. Les réponses peuvent prendre quelques jours.<br>
 lm_administration: Administration
@@ -1548,8 +1548,8 @@ sys_closed_game: 'Le jeu est actuellement pas disponible:'
 sys_forward: Suivant
 sys_game_is_setup: >-
   <h1>Enregistrement, c'est fait!</h1><br><p>nous préparons l'univers pour vous
-  !</p><p>Pour ne rien manquer en attendant, rejoignez-nous sur</p><h3><a
-  href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord <-</a></h3>
+  !</p><!--discord_url--><p>Pour ne rien manquer en attendant, rejoignez-nous sur</p><h3><a
+  href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Module inactif
 sys_nomore_level: Vous tentez de détruire un bâtiment dont vous ne diposez plus ( %s ).
 sys_notenough_money: >-

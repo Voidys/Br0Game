@@ -42,8 +42,8 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
     protected bool $deleteAcsWhenTargetIsGone = false;
     /** the attacker of an ACS is the first fleet of the group (otherwise this fleet) */
     protected bool $acsLeadIsFirstFleet = false;
-    /** SQL tail that selects the fleets of the ACS group */
-    protected string $acsFleetsOrder = 'FOR UPDATE';
+    /** row-lock the fleets of the ACS group (FOR UPDATE); false = read them ordered by id instead */
+    protected bool $acsFleetsLocked = true;
     /** load the target user together with the settings (the attack report needs them) */
     protected bool $targetUserWithSettings = false;
 

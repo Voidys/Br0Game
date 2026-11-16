@@ -452,9 +452,9 @@ al_your_ally: Bagli bulundugun ittifak
 al_your_request_title: Basvuru Basligi
 bad_forum_url: Forumda boyle bir link yok!
 banned_message: >-
-  Engellendiniz. Bir yanlış anlaşılma olduğunu düşünüyorsanız Discord'dan bize
+  Engellendiniz. <!--discord_url-->Bir yanlış anlaşılma olduğunu düşünüyorsanız Discord'dan bize
   yazın: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Mevcut Uretim:'
 bd_add_to_list: Insa listesine ekle
 bd_available: 'Uygun: '
@@ -986,13 +986,13 @@ invalid_action: Hata Olustu!!
 kontakt: >-
   Merhaba!<br>Bu sayfada, bu projeyi aktif olarak yürüten, yöneten ve geliştiren
   kişiler hakkında bilgi bulacaksınız.<br>Herhangi bir sorunuz veya sorununuz
-  varsa bizimle iletişime geçmekten çekinmeyin.<br><br>Bizimle ve aynı zamanda
+  varsa bizimle iletişime geçmekten çekinmeyin.<br><br><!--discord_url-->Bizimle ve aynı zamanda
   diğer ortak yayıncılarla daha iyi bir alışveriş için bir Discord sunucusu
-  kurduk. "<a href="https://discord.gg/jhYYN3yuat">burada</a>" veya menü
+  kurduk. "<a href="{discord_url}">burada</a>" veya menü
   aracılığıyla bulabilirsiniz.<br>Sunucuda en son haberlerin yanı sıra evrenin
   ittifakları arasındaki heyecan verici memleri bulacaksınız.<br>Oyun
   mekanikleri hakkında sorular sorun ve oyunun daha da geliştirilmesi için kendi
-  önerilerinizle yardımcı olun.<br><br>Elbette oyun içi atıp tutmalarınıza da
+  önerilerinizle yardımcı olun.<br><br><!--/discord_url-->Elbette oyun içi atıp tutmalarınıza da
   cevap vereceğiz.<br>Ancak, lütfen oyunu sadece hobi olarak oynadığımızı
   unutmayın. Cevaplar birkaç gün sürebilir.<br>
 lm_administration: Administration
@@ -1511,8 +1511,8 @@ sys_closed_game: 'Oyun su an aktif degil:'
 sys_forward: Ileri
 sys_game_is_setup: >-
   <h1>Kayıt Tamamlandı!</h1><br><p>şu anda evreni̇ si̇zi̇n i̇çi̇n
-  hazirliyoruz!</p><p>Bu arada, hiçbir şeyi kaçırmayın, bize katılın</p><h3><a
-  href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord <-</a></h3>
+  hazirliyoruz!</p><!--discord_url--><p>Bu arada, hiçbir şeyi kaçırmayın, bize katılın</p><h3><a
+  href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modul Aktif Degil
 sys_nomore_level: Mevcut olmayan bir binayi yikmaya calisiyorsun ( %s ).
 sys_notenough_money: >-

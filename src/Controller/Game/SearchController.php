@@ -66,118 +66,130 @@ class SearchController extends AbstractGameController
      */
     private function _getSearchList($searchMode, $searchText, $maxResult)
     {
-        $db = $this->db;
         $universe = $this->universe()->current();
-
-        $searchList	= [];
 
         switch ($searchMode) {
             case 'playername':
-                $searchResult = $db->fetchAll($this->matchOrder(
-                    $db->qb()
-                        ->select('a.id', 'a.username', 'a.ally_id', 'a.galaxy', 'a.`system`', 'a.planet', 'b.name', 'c.total_rank', 'd.ally_name')
-                        ->from($db->table('USERS'), 'a')
-                        ->innerJoin('a', $db->table('PLANETS'), 'b', 'b.id = a.id_planet')
-                        ->leftJoin('a', $db->table('STATPOINTS'), 'c', 'c.id_owner = a.id AND c.stat_type = 1')
-                        ->leftJoin('a', $db->table('ALLIANCE'), 'd', 'd.id = a.ally_id')
-                        ->where('a.universe = :universe'),
-                    'a.username',
-                    $universe,
-                    $searchText,
-                    $maxResult
-                ));
-
-                foreach ($searchResult as $searchRow) {
-                    $searchList[]	= [
-                        'planetname'	=> $searchRow['name'],
-                        'username' 		=> $searchRow['username'],
-                        'userid' 		=> $searchRow['id'],
-                        'allyname'	 	=> $searchRow['ally_name'],
-                        'allyid'		=> $searchRow['ally_id'],
-                        'galaxy' 		=> $searchRow['galaxy'],
-                        'system'		=> $searchRow['system'],
-                        'planet'		=> $searchRow['planet'],
-                        'rank'			=> $searchRow['total_rank'],
-                    ];
-                }
-                break;
+                return $this->searchPlayers($universe, $searchText, $maxResult);
             case 'planetname':
-
-                $searchResult = $db->fetchAll($this->matchOrder(
-                    $db->qb()
-                        ->select('a.name', 'a.galaxy', 'a.planet', 'a.`system`', 'b.id', 'b.ally_id', 'b.username', 'c.total_rank', 'd.ally_name')
-                        ->from($db->table('PLANETS'), 'a')
-                        ->innerJoin('a', $db->table('USERS'), 'b', 'b.id = a.id_owner')
-                        ->leftJoin('b', $db->table('STATPOINTS'), 'c', 'c.id_owner = b.id AND c.stat_type = 1')
-                        ->leftJoin('b', $db->table('ALLIANCE'), 'd', 'd.id = b.ally_id')
-                        ->where('a.universe = :universe')
-                        ->andWhere('a.destruyed = 0'),
-                    'a.name',
-                    $universe,
-                    $searchText,
-                    $maxResult
-                ));
-
-                foreach ($searchResult as $searchRow) {
-                    $searchList[]	= [
-                        'planetname'	=> $searchRow['name'],
-                        'username' 		=> $searchRow['username'],
-                        'userid' 		=> $searchRow['id'],
-                        'allyname'	 	=> $searchRow['ally_name'],
-                        'allyid'		=> $searchRow['ally_id'],
-                        'galaxy' 		=> $searchRow['galaxy'],
-                        'system'		=> $searchRow['system'],
-                        'planet'		=> $searchRow['planet'],
-                        'rank'			=> $searchRow['total_rank'],
-                    ];
-                }
-                break;
+                return $this->searchPlanets($universe, $searchText, $maxResult);
             case "allytag":
-                $searchResult = $db->fetchAll($this->matchOrder(
-                    $db->qb()
-                        ->select('a.id', 'a.ally_name', 'a.ally_tag', 'a.ally_members', 'c.total_points')
-                        ->from($db->table('ALLIANCE'), 'a')
-                        ->leftJoin('a', $db->table('STATPOINTS'), 'c', 'c.stat_type = 2 AND c.id_owner = a.id')
-                        ->where('a.ally_universe = :universe'),
-                    'a.ally_tag',
-                    $universe,
-                    $searchText,
-                    $maxResult
-                ));
-
-                foreach ($searchResult as $searchRow) {
-                    $searchList[]	= [
-                        'allypoints'	=> $this->viewHelpers()->prettyNumber($searchRow['total_points']),
-                        'allytag'		=> $searchRow['ally_tag'],
-                        'allymembers'	=> $searchRow['ally_members'],
-                        'allyname'		=> $searchRow['ally_name'],
-                        'allyid'		=> $searchRow['id'],
-                    ];
-                }
-                break;
+                return $this->searchAlliances('a.ally_tag', 'c', $universe, $searchText, $maxResult);
             case "allyname":
-                $searchResult = $db->fetchAll($this->matchOrder(
-                    $db->qb()
-                        ->select('a.id', 'a.ally_name', 'a.ally_tag', 'a.ally_members', 'b.total_points')
-                        ->from($db->table('ALLIANCE'), 'a')
-                        ->leftJoin('a', $db->table('STATPOINTS'), 'b', 'b.stat_type = 2 AND b.id_owner = a.id')
-                        ->where('a.ally_universe = :universe'),
-                    'a.ally_name',
-                    $universe,
-                    $searchText,
-                    $maxResult
-                ));
+                return $this->searchAlliances('a.ally_name', 'b', $universe, $searchText, $maxResult);
+        }
 
-                foreach ($searchResult as $searchRow) {
-                    $searchList[]	= [
-                        'allypoints'	=> $this->viewHelpers()->prettyNumber($searchRow['total_points']),
-                        'allytag'		=> $searchRow['ally_tag'],
-                        'allymembers'	=> $searchRow['ally_members'],
-                        'allyname'		=> $searchRow['ally_name'],
-                        'allyid'		=> $searchRow['id'],
-                    ];
-                }
-                break;
+        return [];
+    }
+
+    /**
+     * Player search: users whose name matches, with home planet name and coordinates, alliance and total rank.
+     *
+     * @return list<array<string, mixed>> template rows (see _getSearchList())
+     */
+    private function searchPlayers(mixed $universe, string $searchText, int $maxResult): array
+    {
+        $db = $this->db;
+        $searchResult = $db->fetchAll($this->matchOrder(
+            $db->qb()
+                ->select('a.id', 'a.username', 'a.ally_id', 'a.galaxy', 'a.`system`', 'a.planet', 'b.name', 'c.total_rank', 'd.ally_name')
+                ->from($db->table('USERS'), 'a')
+                ->innerJoin('a', $db->table('PLANETS'), 'b', 'b.id = a.id_planet')
+                ->leftJoin('a', $db->table('STATPOINTS'), 'c', 'c.id_owner = a.id AND c.stat_type = 1')
+                ->leftJoin('a', $db->table('ALLIANCE'), 'd', 'd.id = a.ally_id')
+                ->where('a.universe = :universe'),
+            'a.username',
+            $universe,
+            $searchText,
+            $maxResult
+        ));
+
+        return $this->planetRows($searchResult);
+    }
+
+    /**
+     * Planet search: non-destroyed planets and moons whose name matches, with owner, alliance and total rank.
+     *
+     * @return list<array<string, mixed>> template rows (see _getSearchList())
+     */
+    private function searchPlanets(mixed $universe, string $searchText, int $maxResult): array
+    {
+        $db = $this->db;
+        $searchResult = $db->fetchAll($this->matchOrder(
+            $db->qb()
+                ->select('a.name', 'a.galaxy', 'a.planet', 'a.`system`', 'b.id', 'b.ally_id', 'b.username', 'c.total_rank', 'd.ally_name')
+                ->from($db->table('PLANETS'), 'a')
+                ->innerJoin('a', $db->table('USERS'), 'b', 'b.id = a.id_owner')
+                ->leftJoin('b', $db->table('STATPOINTS'), 'c', 'c.id_owner = b.id AND c.stat_type = 1')
+                ->leftJoin('b', $db->table('ALLIANCE'), 'd', 'd.id = b.ally_id')
+                ->where('a.universe = :universe')
+                ->andWhere('a.destruyed = 0'),
+            'a.name',
+            $universe,
+            $searchText,
+            $maxResult
+        ));
+
+        return $this->planetRows($searchResult);
+    }
+
+    /**
+     * Maps player/planet search rows to the template keys.
+     *
+     * @param list<array<string, mixed>> $searchResult rows of the player or planet query
+     * @return list<array<string, mixed>>
+     */
+    private function planetRows(array $searchResult): array
+    {
+        $searchList = [];
+        foreach ($searchResult as $searchRow) {
+            $searchList[]	= [
+                'planetname'	=> $searchRow['name'],
+                'username' 		=> $searchRow['username'],
+                'userid' 		=> $searchRow['id'],
+                'allyname'	 	=> $searchRow['ally_name'],
+                'allyid'		=> $searchRow['ally_id'],
+                'galaxy' 		=> $searchRow['galaxy'],
+                'system'		=> $searchRow['system'],
+                'planet'		=> $searchRow['planet'],
+                'rank'			=> $searchRow['total_rank'],
+            ];
+        }
+
+        return $searchList;
+    }
+
+    /**
+     * Alliance search by tag or name: alliances of the universe with member count and points.
+     *
+     * @param string $column fixed column expression to match (a.ally_tag or a.ally_name)
+     * @param string $pointsAlias alias of the joined STATPOINTS table
+     * @return list<array<string, mixed>> template rows (see _getSearchList())
+     */
+    private function searchAlliances(string $column, string $pointsAlias, mixed $universe, string $searchText, int $maxResult): array
+    {
+        $db = $this->db;
+        $searchResult = $db->fetchAll($this->matchOrder(
+            $db->qb()
+                ->select('a.id', 'a.ally_name', 'a.ally_tag', 'a.ally_members', $pointsAlias . '.total_points')
+                ->from($db->table('ALLIANCE'), 'a')
+                ->leftJoin('a', $db->table('STATPOINTS'), $pointsAlias, $pointsAlias . '.stat_type = 2 AND ' . $pointsAlias . '.id_owner = a.id')
+                ->where('a.ally_universe = :universe'),
+            $column,
+            $universe,
+            $searchText,
+            $maxResult
+        ));
+
+        $searchList = [];
+        foreach ($searchResult as $searchRow) {
+            $searchList[]	= [
+                'allypoints'	=> $this->viewHelpers()->prettyNumber($searchRow['total_points']),
+                'allytag'		=> $searchRow['ally_tag'],
+                'allymembers'	=> $searchRow['ally_members'],
+                'allyname'		=> $searchRow['ally_name'],
+                'allyid'		=> $searchRow['id'],
+            ];
         }
 
         return $searchList;

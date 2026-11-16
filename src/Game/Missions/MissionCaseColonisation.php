@@ -55,6 +55,34 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
 
         $LNG = $this->getLanguage($senderUser['lang']);
 
+        $message = $this->tryColonise($senderUser, $LNG);
+
+        $this->playerUtil()->sendMessage(
+            $this->_fleet['owner'],
+            0,
+            $LNG['sys_colo_mess_from'],
+            MESSAGE_TYPE_SYSTEM,
+            $LNG['sys_colo_mess_report'],
+            $message,
+            $this->_fleet['arrival_time'],
+            1,
+            $this->_fleet['universe']
+        );
+
+        $this->setState(FLEET_RETURN);
+        $this->SaveFleet();
+    }
+
+    /**
+     * The colonisation checks in order, each failing one sets the report text: position occupied or invalid, position
+     * not allowed by the player's tech, planet limit reached, creation failed (the fleet returns whole). On success the
+     * planet is created, the stats are set, the cargo is unloaded and one colony ship is consumed.
+     *
+     * @param array<string, mixed> $senderUser fleet owner (users + settings)
+     * @return string report text for the owner
+     */
+    private function tryColonise(array $senderUser, \App\Game\Core\Language $LNG): string
+    {
         $checkPosition = $this->playerUtil()->checkPosition(
             $this->_fleet['universe'],
             $this->_fleet['end_galaxy'],
@@ -104,49 +132,45 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                         $this->_fleet['end_id'] = $NewOwnerPlanet;
                         $message = $LNG->format('sys_colo_allisok', GetTargetAddressLink($this->_fleet, ''));
                         $this->StoreGoodsToPlanet();
-                        if ($this->_fleet['ship_amount'] == 1) {
-                            $this->KillFleet();
-                        } else {
-                            $CurrentFleet = explode(";", $this->_fleet['ships']);
-                            $NewFleet = '';
-                            foreach ($CurrentFleet as $Group) {
-                                if (empty($Group)) {
-                                    continue;
-                                }
-
-                                $Class = explode(",", $Group);
-                                if ($Class[0] == SHIP_COLOSHIP && $Class[1] > 1) {
-                                    $NewFleet .= $Class[0] . "," . ($Class[1] - 1) . ";";
-                                } elseif ($Class[0] != SHIP_COLOSHIP && $Class[1] > 0) {
-                                    $NewFleet .= $Class[0] . "," . $Class[1] . ";";
-                                }
-                            }
-
-                            $this->UpdateFleet('ships', $NewFleet);
-                            $this->UpdateFleet('ship_amount', ($this->_fleet['ship_amount'] - 1));
-                            $this->UpdateFleet('resource_metal', 0);
-                            $this->UpdateFleet('resource_crystal', 0);
-                            $this->UpdateFleet('resource_deuterium', 0);
-                        }
+                        $this->consumeColonyShip();
                     }
                 }
             }
         }
 
-        $this->playerUtil()->sendMessage(
-            $this->_fleet['owner'],
-            0,
-            $LNG['sys_colo_mess_from'],
-            MESSAGE_TYPE_SYSTEM,
-            $LNG['sys_colo_mess_report'],
-            $message,
-            $this->_fleet['arrival_time'],
-            1,
-            $this->_fleet['universe']
-        );
+        return $message;
+    }
 
-        $this->setState(FLEET_RETURN);
-        $this->SaveFleet();
+    /**
+     * One colony ship is used up: the fleet is deleted when it was the only ship, otherwise it loses one colony ship
+     * and flies home with empty cargo.
+     */
+    private function consumeColonyShip(): void
+    {
+        if ($this->_fleet['ship_amount'] == 1) {
+            $this->KillFleet();
+        } else {
+            $CurrentFleet = explode(";", $this->_fleet['ships']);
+            $NewFleet = '';
+            foreach ($CurrentFleet as $Group) {
+                if (empty($Group)) {
+                    continue;
+                }
+
+                $Class = explode(",", $Group);
+                if ($Class[0] == SHIP_COLOSHIP && $Class[1] > 1) {
+                    $NewFleet .= $Class[0] . "," . ($Class[1] - 1) . ";";
+                } elseif ($Class[0] != SHIP_COLOSHIP && $Class[1] > 0) {
+                    $NewFleet .= $Class[0] . "," . $Class[1] . ";";
+                }
+            }
+
+            $this->UpdateFleet('ships', $NewFleet);
+            $this->UpdateFleet('ship_amount', ($this->_fleet['ship_amount'] - 1));
+            $this->UpdateFleet('resource_metal', 0);
+            $this->UpdateFleet('resource_crystal', 0);
+            $this->UpdateFleet('resource_deuterium', 0);
+        }
     }
 
     /**

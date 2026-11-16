@@ -38,7 +38,6 @@ class FlyingFleetController extends AbstractAdminController
      */
     public function show(): Response
     {
-        $LNG = $this->state->LNG;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);
         $massunlock = $this->http()->_GP('massunlock', 0);
@@ -61,7 +60,29 @@ class FlyingFleetController extends AbstractAdminController
             $this->returnFleet($sendFleetBack);
         }
 
-        $fleetResult = $db->select(
+        $FleetList = [];
+
+        foreach ($this->fleetsInFlight() as $fleetRow) {
+            $FleetList[] = $this->fleetListEntry($fleetRow);
+        }
+
+        $this->assign([
+            'FleetList'    => $FleetList,
+        ]);
+        return $this->render('admin/FlyingFleetPage.html.twig');
+    }
+
+    /**
+     * All fleets of the emulated universe with lock state, event count (0 = event missing) and the names of start and
+     * target planet/player and of the ACS group.
+     *
+     * @return array<int, array<string, mixed>> fleet rows
+     */
+    private function fleetsInFlight(): array
+    {
+        $db = $this->db;
+
+        return $db->select(
             "SELECT fleet.*,
             event.`lock`,
             COUNT(event.`fleetID`) as error,
@@ -84,61 +105,63 @@ class FlyingFleetController extends AbstractAdminController
                 ':universe' => $this->universe()->getEmulated(),
             ],
         );
+    }
 
-        $FleetList = [];
+    /**
+     * Template row of one fleet: parsed ship list, formatted times, start and target data and the carried resources.
+     *
+     * @param array<string, mixed> $fleetRow row from fleetsInFlight()
+     * @return array<string, mixed>
+     */
+    private function fleetListEntry(array $fleetRow): array
+    {
+        $LNG = $this->state->LNG;
 
-        foreach ($fleetResult as $fleetRow) {
-            $shipList = [];
-            $shipArray = array_filter(explode(';', $fleetRow['ships']));
-            foreach ($shipArray as $ship) {
-                $shipDetail = explode(',', $ship);
-                $shipList[$shipDetail[0]] = $shipDetail[1];
-            }
-
-            $FleetList[] = [
-                'fleetID'            => $fleetRow['id'],
-                'lock'               => !empty($fleetRow['lock']),
-                'count'              => $fleetRow['ship_amount'],
-                'error'              => !$fleetRow['error'],
-                'ships'              => $shipList,
-                'state'              => $fleetRow['status'],
-                'starttime'          => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['start_time'], $this->state->USER['timezone']),
-                'arrivaltime'        => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['arrival_time'], $this->state->USER['timezone']),
-                'stayhour'           => round(($fleetRow['stay_time'] - $fleetRow['arrival_time']) / 3600),
-                'staytime'           => $fleetRow['arrival_time'] !== $fleetRow['stay_time']
-                    ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['stay_time'], $this->state->USER['timezone']) : 0,
-                'endtime'            => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['return_time'], $this->state->USER['timezone']),
-                'missionID'          => $fleetRow['mission'],
-                'acsID'              => $fleetRow['group'],
-                'acsName'            => $fleetRow['acsName'],
-                'startUserID'        => $fleetRow['owner'],
-                'startUserName'      => $fleetRow['startUserName'],
-                'startPlanetID'      => $fleetRow['start_id'],
-                'startPlanetName'    => $fleetRow['startPlanetName'],
-                'startPlanetGalaxy'  => $fleetRow['start_galaxy'],
-                'startPlanetSystem'  => $fleetRow['start_system'],
-                'startPlanetPlanet'  => $fleetRow['start_planet'],
-                'startPlanetType'    => $fleetRow['start_type'],
-                'targetUserID'       => $fleetRow['target_owner'],
-                'targetUserName'     => $fleetRow['targetUserName'],
-                'targetPlanetID'     => $fleetRow['end_id'],
-                'targetPlanetName'   => $fleetRow['targetPlanetName'],
-                'targetPlanetGalaxy' => $fleetRow['end_galaxy'],
-                'targetPlanetSystem' => $fleetRow['end_system'],
-                'targetPlanetPlanet' => $fleetRow['end_planet'],
-                'targetPlanetType'   => $fleetRow['end_type'],
-                'resource'           => [
-                    RESOURCE_METAL => $fleetRow['resource_metal'],
-                    RESOURCE_CRYSTAL => $fleetRow['resource_crystal'],
-                    RESOURCE_DEUT => $fleetRow['resource_deuterium'],
-                ],
-            ];
+        $shipList = [];
+        $shipArray = array_filter(explode(';', $fleetRow['ships']));
+        foreach ($shipArray as $ship) {
+            $shipDetail = explode(',', $ship);
+            $shipList[$shipDetail[0]] = $shipDetail[1];
         }
 
-        $this->assign([
-            'FleetList'    => $FleetList,
-        ]);
-        return $this->render('admin/FlyingFleetPage.html.twig');
+        return [
+            'fleetID'            => $fleetRow['id'],
+            'lock'               => !empty($fleetRow['lock']),
+            'count'              => $fleetRow['ship_amount'],
+            'error'              => !$fleetRow['error'],
+            'ships'              => $shipList,
+            'state'              => $fleetRow['status'],
+            'starttime'          => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['start_time'], $this->state->USER['timezone']),
+            'arrivaltime'        => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['arrival_time'], $this->state->USER['timezone']),
+            'stayhour'           => round(($fleetRow['stay_time'] - $fleetRow['arrival_time']) / 3600),
+            'staytime'           => $fleetRow['arrival_time'] !== $fleetRow['stay_time']
+                ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['stay_time'], $this->state->USER['timezone']) : 0,
+            'endtime'            => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['return_time'], $this->state->USER['timezone']),
+            'missionID'          => $fleetRow['mission'],
+            'acsID'              => $fleetRow['group'],
+            'acsName'            => $fleetRow['acsName'],
+            'startUserID'        => $fleetRow['owner'],
+            'startUserName'      => $fleetRow['startUserName'],
+            'startPlanetID'      => $fleetRow['start_id'],
+            'startPlanetName'    => $fleetRow['startPlanetName'],
+            'startPlanetGalaxy'  => $fleetRow['start_galaxy'],
+            'startPlanetSystem'  => $fleetRow['start_system'],
+            'startPlanetPlanet'  => $fleetRow['start_planet'],
+            'startPlanetType'    => $fleetRow['start_type'],
+            'targetUserID'       => $fleetRow['target_owner'],
+            'targetUserName'     => $fleetRow['targetUserName'],
+            'targetPlanetID'     => $fleetRow['end_id'],
+            'targetPlanetName'   => $fleetRow['targetPlanetName'],
+            'targetPlanetGalaxy' => $fleetRow['end_galaxy'],
+            'targetPlanetSystem' => $fleetRow['end_system'],
+            'targetPlanetPlanet' => $fleetRow['end_planet'],
+            'targetPlanetType'   => $fleetRow['end_type'],
+            'resource'           => [
+                RESOURCE_METAL => $fleetRow['resource_metal'],
+                RESOURCE_CRYSTAL => $fleetRow['resource_crystal'],
+                RESOURCE_DEUT => $fleetRow['resource_deuterium'],
+            ],
+        ];
     }
 
     /**

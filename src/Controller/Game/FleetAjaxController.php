@@ -57,11 +57,7 @@ class FleetAjaxController extends AbstractGameController
      */
     public function show()
     {
-
-        $resource = $this->state->resource;
         $LNG = $this->state->LNG;
-        $pricelist = $this->state->pricelist;
-        $reslist = $this->state->reslist;
         $UserDeuterium = $this->state->PLANET['deuterium'];
 
         $planetID = $this->http()->_GP('planetID', 0);
@@ -87,82 +83,7 @@ class FleetAjaxController extends AbstractGameController
             $this->sendData(612, $LNG['fa_no_more_slots']);
         }
 
-        $fleetArray = [];
-
-        $db = $this->db;
-
-        switch ($targetMission) {
-            case MISSION_SPY:
-            case MISSION_PIRATEBASE_SPY:
-                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY)) {
-                    $this->sendData(699, $LNG['sys_module_inactive']);
-                }
-
-                $ships = min($this->state->USER['spio_anz'], $this->state->PLANET[$resource[SHIP_PROBE]]);
-
-                if (empty($ships)) {
-                    $this->sendData(611, $LNG['fa_no_spios']);
-                }
-
-                $fleetArray = [SHIP_PROBE => $ships];
-                $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$resource[SHIP_PROBE]] - $ships;
-                break;
-            case MISSION_RECYCLING:
-            case MISSION_PIRATEBASE_RECYCLING:
-                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE)) {
-                    $this->sendData(699, $LNG['sys_module_inactive']);
-                }
-
-                if ($targetMission == MISSION_RECYCLING) {
-                    $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PLANETS%% WHERE id = :planetID AND universe = :universe;";
-                } else {
-                    $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PIRATE_BASES%% WHERE id = :planetID AND universe = :universe;";
-                }
-                $totalDebris = $db->selectSingle($sql, [
-                    ':planetID' => $planetID,
-                    ':universe' => $this->universe()->current(),
-                ], 'sum');
-
-                $fleetArray = [];
-
-                foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
-                    $a = $pricelist[$elementID]['capacity'];
-                    $shipsNeed = min(ceil($totalDebris / $a), $this->state->PLANET[$resource[$elementID]]);
-                    $totalDebris -= ($shipsNeed * $a);
-
-                    $fleetArray[$elementID] = $shipsNeed;
-                    $this->returnData['ships'][$elementID] = $this->state->PLANET[$resource[$elementID]] - $shipsNeed;
-
-                    if ($totalDebris <= 0) {
-                        break;
-                    }
-                }
-
-                if (empty($fleetArray)) {
-                    $this->sendData(611, $LNG['fa_no_recyclers']);
-                }
-                break;
-            case MISSION_MISSILE:
-                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSILEATTACK)) {
-                    $this->sendData(699, $LNG['sys_module_inactive']);
-                }
-
-                $ships = $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]];
-                if (empty($ships)) {
-                    $this->sendData(611, $LNG['ma_no_missiles']);
-                }
-                $fleetArray = [INTERPLANETARY_MISSILE => $ships];
-                break;
-            default:
-                $this->sendData(610, $LNG['fa_not_enough_probes']);
-                break;
-        }
-
-        $fleetArray = array_filter($fleetArray);
-
-        if (empty($fleetArray)) {
-            $this->sendData(610, $LNG['fa_not_enough_probes']);
-        }
+        $fleetArray = $this->fleetForMission($targetMission, $planetID);
 
         $targetData = $this->getTargetData($targetMission, $planetID, $this->state->USER['id']);
 
@@ -171,70 +92,7 @@ class FleetAjaxController extends AbstractGameController
         }
 
         if ($targetMission == MISSION_SPY || $targetMission == MISSION_MISSILE) {
-            if ($this->configs->get()->adm_attack == 1 && $targetData['authattack'] > $this->state->USER['authlevel']) {
-                $this->sendData(619, $LNG['fa_action_not_allowed']);
-            }
-
-            if (IsVacationMode($targetData)) {
-                $this->sendData(605, $LNG['fa_vacation_mode']);
-            }
-            $sql = 'SELECT total_points
-                FROM %%STATPOINTS%%
-                WHERE id_owner = :userId AND stat_type = :statType';
-
-            try {
-                $this->state->USER += $db->selectSingle($sql, [
-                    ':userId' => $this->state->USER['id'],
-                    ':statType' => 1,
-                ]) ?: ['total_points' => 0];
-            } catch (Exception $exception) {
-            }
-
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($targetData));
-
-            if ($IsNoobProtec['NoobPlayer']) {
-                $this->sendData(603, $LNG['fa_week_player']);
-            }
-
-            if ($IsNoobProtec['StrongPlayer']) {
-                $config = $this->configs->get();
-                if (!$config->noob_protection_outlaw) {
-                    $this->sendData(604, $LNG['fa_strong_player']);
-                }
-                if (!$confirmed) {
-                    $message = $targetMission == MISSION_MISSILE
-                        ? 'fl_attack_confirm_outlaw'
-                        : 'fl_spy_confirm_outlaw';
-                    $targetPlayerData = $this->playerUtil()->getPlayerById($targetData['id_owner']);
-                    $this->sendData(
-                        602,
-                        $LNG->format(
-                            $message,
-                            $targetPlayerData['username'],
-                        ),
-                    );
-                }
-
-                if ($targetMission == MISSION_MISSILE) {
-                    // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
-                    $this->sendData(600, '');
-                }
-
-                $db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
-                    ':outlawTime'   => $this->state->runtime->timestamp,
-                    ':userId'       => $this->state->USER['id'],
-                ]);
-                $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
-            }
-
-            if ($targetMission == MISSION_MISSILE) {
-                // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
-                $this->sendData(600, '');
-            }
-
-            if ($this->state->USER['id'] == $targetData['id_owner']) {
-                $this->sendData(618, $LNG['fa_not_spy_yourself']);
-            }
+            $this->checkAttackRestrictions($targetMission, $targetData, $confirmed, $statsHandler);
         }
 
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
@@ -262,6 +120,204 @@ class FleetAjaxController extends AbstractGameController
 
         $this->returnData['slots']++;
 
+        $this->dispatchFleet($fleetArray, $targetMission, $planetID, $targetData, $Duration, $consumption);
+    }
+
+    /**
+     * Builds the fleet the shortcut sends for $targetMission: all allowed spy probes, the recyclers needed for the
+     * debris field, or all interplanetary missiles. Fills returnData['ships'] with the ships left on the planet.
+     * Answers an error code and ends the request when the module is off, the ships are missing or the mission is unknown.
+     *
+     * @return array<int, int|float> ship id => count (never empty)
+     */
+    private function fleetForMission(mixed $targetMission, mixed $planetID): array
+    {
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
+        $fleetArray = [];
+
+        switch ($targetMission) {
+            case MISSION_SPY:
+            case MISSION_PIRATEBASE_SPY:
+                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY)) {
+                    $this->sendData(699, $LNG['sys_module_inactive']);
+                }
+
+                $ships = min($this->state->USER['spio_anz'], $this->state->PLANET[$resource[SHIP_PROBE]]);
+
+                if (empty($ships)) {
+                    $this->sendData(611, $LNG['fa_no_spios']);
+                }
+
+                $fleetArray = [SHIP_PROBE => $ships];
+                $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$resource[SHIP_PROBE]] - $ships;
+                break;
+            case MISSION_RECYCLING:
+            case MISSION_PIRATEBASE_RECYCLING:
+                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE)) {
+                    $this->sendData(699, $LNG['sys_module_inactive']);
+                }
+
+                $fleetArray = $this->recyclersFor($targetMission, $planetID);
+
+                if (empty($fleetArray)) {
+                    $this->sendData(611, $LNG['fa_no_recyclers']);
+                }
+                break;
+            case MISSION_MISSILE:
+                if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSILEATTACK)) {
+                    $this->sendData(699, $LNG['sys_module_inactive']);
+                }
+
+                $ships = $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]];
+                if (empty($ships)) {
+                    $this->sendData(611, $LNG['ma_no_missiles']);
+                }
+                $fleetArray = [INTERPLANETARY_MISSILE => $ships];
+                break;
+            default:
+                $this->sendData(610, $LNG['fa_not_enough_probes']);
+                break;
+        }
+
+        $fleetArray = array_filter($fleetArray);
+
+        if (empty($fleetArray)) {
+            $this->sendData(610, $LNG['fa_not_enough_probes']);
+        }
+
+        return $fleetArray;
+    }
+
+    /**
+     * The recyclers needed to collect the debris field of the target (planet or pirate base): per recycler type as many as the
+     * debris needs, limited to what the planet holds, until the debris is covered. Fills returnData['ships'] with the recyclers left.
+     *
+     * @return array<int, int|float> ship id => count (empty when the planet has none)
+     */
+    private function recyclersFor(mixed $targetMission, mixed $planetID): array
+    {
+        $resource = $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
+
+        if ($targetMission == MISSION_RECYCLING) {
+            $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PLANETS%% WHERE id = :planetID AND universe = :universe;";
+        } else {
+            $sql = "SELECT (der_metal + der_crystal) as sum FROM %%PIRATE_BASES%% WHERE id = :planetID AND universe = :universe;";
+        }
+        $totalDebris = $this->db->selectSingle($sql, [
+            ':planetID' => $planetID,
+            ':universe' => $this->universe()->current(),
+        ], 'sum');
+
+        $fleetArray = [];
+
+        foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
+            $a = $pricelist[$elementID]['capacity'];
+            $shipsNeed = min(ceil($totalDebris / $a), $this->state->PLANET[$resource[$elementID]]);
+            $totalDebris -= ($shipsNeed * $a);
+
+            $fleetArray[$elementID] = $shipsNeed;
+            $this->returnData['ships'][$elementID] = $this->state->PLANET[$resource[$elementID]] - $shipsNeed;
+
+            if ($totalDebris <= 0) {
+                break;
+            }
+        }
+
+        return $fleetArray;
+    }
+
+    /**
+     * Target checks for spy and missile shortcuts: attack permission, vacation, newbie/strong-player protection (a
+     * strong player needs the outlaw confirmation, which also marks the sender as outlaw and counts the activation),
+     * and attacking oneself. Answers an error/confirmation code and ends the request when a check fails; for missiles
+     * it always ends with code 600 (the missile page launches them).
+     *
+     * @param array<string, mixed> $targetData row from getTargetData()
+     */
+    private function checkAttackRestrictions(mixed $targetMission, array $targetData, bool $confirmed, AdvancedStatsHandler $statsHandler): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+
+        if ($this->configs->get()->adm_attack == 1 && $targetData['authattack'] > $this->state->USER['authlevel']) {
+            $this->sendData(619, $LNG['fa_action_not_allowed']);
+        }
+
+        if (IsVacationMode($targetData)) {
+            $this->sendData(605, $LNG['fa_vacation_mode']);
+        }
+        $sql = 'SELECT total_points
+            FROM %%STATPOINTS%%
+            WHERE id_owner = :userId AND stat_type = :statType';
+
+        try {
+            $this->state->USER += $db->selectSingle($sql, [
+                ':userId' => $this->state->USER['id'],
+                ':statType' => 1,
+            ]) ?: ['total_points' => 0];
+        } catch (Exception $exception) {
+        }
+
+        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($targetData));
+
+        if ($IsNoobProtec['NoobPlayer']) {
+            $this->sendData(603, $LNG['fa_week_player']);
+        }
+
+        if ($IsNoobProtec['StrongPlayer']) {
+            $config = $this->configs->get();
+            if (!$config->noob_protection_outlaw) {
+                $this->sendData(604, $LNG['fa_strong_player']);
+            }
+            if (!$confirmed) {
+                $message = $targetMission == MISSION_MISSILE
+                    ? 'fl_attack_confirm_outlaw'
+                    : 'fl_spy_confirm_outlaw';
+                $targetPlayerData = $this->playerUtil()->getPlayerById($targetData['id_owner']);
+                $this->sendData(
+                    602,
+                    $LNG->format(
+                        $message,
+                        $targetPlayerData['username'],
+                    ),
+                );
+            }
+
+            if ($targetMission == MISSION_MISSILE) {
+                // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
+                $this->sendData(600, '');
+            }
+
+            $db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
+                ':outlawTime'   => $this->state->runtime->timestamp,
+                ':userId'       => $this->state->USER['id'],
+            ]);
+            $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
+        }
+
+        if ($targetMission == MISSION_MISSILE) {
+            // Function is used for checks only, the actual fleet will be send in ShowFleetMissilePage
+            $this->sendData(600, '');
+        }
+
+        if ($this->state->USER['id'] == $targetData['id_owner']) {
+            $this->sendData(618, $LNG['fa_not_spy_yourself']);
+        }
+    }
+
+    /**
+     * Deducts the fuel, sends the fleet (zero cargo, flight time = stay time for the outward leg) and answers with
+     * code 600 and the "sending ..." message.
+     *
+     * @param array<int, int|float> $fleetArray ship id => count
+     * @param array<string, mixed> $targetData row from getTargetData()
+     */
+    private function dispatchFleet(array $fleetArray, mixed $targetMission, mixed $planetID, array $targetData, mixed $Duration, mixed $consumption): void
+    {
+        $LNG = $this->state->LNG;
         $fleetResource = [
             901 => 0,
             902 => 0,

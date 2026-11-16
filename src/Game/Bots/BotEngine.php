@@ -224,9 +224,43 @@ class BotEngine
             $db->update('UPDATE %%USERS%% SET onlinetime = :t WHERE id = :id;', [':t' => $now, ':id' => $userId]);
         }
 
-        // --- gameplay inside one transaction ---
-        $user = null;
+        $user = $this->playSession($bot, $s, $personality, $skill, $session, $userId, $universe);
         $botRow = $bot;
+
+        // --- social behaviour, isolated from gameplay errors ---
+        if ($user !== null) {
+            try {
+                $this->social->act($botRow, $user, $profile['settings']);
+            } catch (Throwable $e) {
+                $this->log($userId, $universe, 'social_error', get_class($e) . ': ' . $e->getMessage());
+            }
+        }
+
+        $next = $now + random_int(60, 240);
+        $personality['_s'] = $session;
+        if ($session['left'] <= 0 || $next >= $sessionUntil) {
+            $personality['_s']['left'] = 0;
+            $this->save($bot, $skill, $personality, $now + $this->roll($s['check_interval']) * 60, $now);
+            $this->log($userId, $universe, 'logout', 'session finished');
+        } else {
+            $this->save($bot, $skill, $personality, $next, $sessionUntil);
+        }
+    }
+
+    /**
+     * The gameplay of one tick inside one transaction: loads the bot's user, renames default colonies to the persona's
+     * names and plays 1-3 steps (at most the actions left of the session). Any failure rolls back and is rethrown.
+     *
+     * @param array<string, mixed> $bot bot row
+     * @param array<string, mixed> $s profile settings
+     * @param array<string, mixed> $personality personality of the bot
+     * @param array<string, mixed> $session session state (`left` actions, flags), updated in place
+     * @return array<string, mixed>|null the user row after the steps
+     */
+    private function playSession(array $bot, array $s, array $personality, float $skill, array &$session, int $userId, int $universe): ?array
+    {
+        $db = $this->db;
+        $user = null;
         $db->startTransaction();
         try {
             $ctx = new BotActions($universe, $this->db, $this->configs, $this->state, $this->persona);
@@ -255,24 +289,7 @@ class BotEngine
             throw $e;
         }
 
-        // --- social behaviour, isolated from gameplay errors ---
-        if ($user !== null) {
-            try {
-                $this->social->act($botRow, $user, $profile['settings']);
-            } catch (Throwable $e) {
-                $this->log($userId, $universe, 'social_error', get_class($e) . ': ' . $e->getMessage());
-            }
-        }
-
-        $next = $now + random_int(60, 240);
-        $personality['_s'] = $session;
-        if ($session['left'] <= 0 || $next >= $sessionUntil) {
-            $personality['_s']['left'] = 0;
-            $this->save($bot, $skill, $personality, $now + $this->roll($s['check_interval']) * 60, $now);
-            $this->log($userId, $universe, 'logout', 'session finished');
-        } else {
-            $this->save($bot, $skill, $personality, $next, $sessionUntil);
-        }
+        return $user;
     }
 
     /**

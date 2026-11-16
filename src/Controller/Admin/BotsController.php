@@ -158,109 +158,177 @@ class BotsController extends AbstractAdminController
     /** runs a POST action and returns the URL to continue at */
     private function handlePost(string $action, string $tab): string
     {
-        $LNG = $this->state->LNG;
-        $post = $this->state->requestPost;
-
         switch ($action) {
             case 'save_providers':
-                $active = (string) ($post['active'] ?? 'none');
-                $rows = [];
-                foreach (LlmClient::PROVIDERS as $provider) {
-                    $row = (array) ($post['providers'][$provider] ?? []);
-                    $url = mb_substr(trim((string) ($row['base_url'] ?? '')), 0, 255);
-                    if ($url !== '' && !preg_match('~^https?://~i', $url)) {
-                        $this->flash($LNG['bot_invalid_url'], false);
-
-                        return $this->tabUrl('providers');
-                    }
-                    $rows[$provider] = [
-                        trim((string) ($row['api_key'] ?? '')),
-                        mb_substr(trim((string) ($row['model'] ?? '')), 0, 128),
-                        $url,
-                    ];
-                }
-                foreach ($rows as $provider => [$key, $model, $url]) {
-                    $this->llm->saveProvider($provider, $key === '' ? null : $key, $model, $url, $active === $provider);
-                }
-                $this->flash($LNG['bot_saved']);
-
-                return $this->tabUrl('providers');
-
+                return $this->saveProviders();
             case 'save_profile':
-                $id = (int) ($post['id'] ?? 0);
-                $name = trim((string) ($post['name'] ?? ''));
-                if ($name === '') {
-                    $this->flash($LNG['bot_name_required'], false);
-
-                    return $this->tabUrl('profiles', $id > 0 ? '&edit=' . $id : '&new=1');
-                }
-                $this->profiles->save([
-                    'id' => $id,
-                    'name' => $name,
-                    'description' => (string) ($post['description'] ?? ''),
-                    'settings' => $this->settingsFromPost($post),
-                ]);
-                $this->flash($LNG['bot_saved']);
-
-                return $this->tabUrl('profiles');
-
+                return $this->saveProfile();
             case 'delete_profile':
-                $id = (int) ($post['id'] ?? 0);
-                $profile = $this->profiles->get($id);
-                if (!$profile || $profile['is_default']) {
-                    $this->flash($LNG['bot_profile_default_locked'], false);
-                } elseif ((int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%BOT_PLAYERS%% WHERE profile_id = :id;', [':id' => $id], 'c') > 0) {
-                    $this->flash($LNG['bot_profile_in_use'], false);
-                } else {
-                    $this->profiles->delete($id);
-                    $this->flash($LNG['bot_deleted']);
-                }
-
-                return $this->tabUrl('profiles');
-
+                return $this->deleteProfile();
             case 'duplicate_profile':
-                if ($this->profiles->get((int) ($post['id'] ?? 0))) {
-                    $this->profiles->duplicate((int) $post['id']);
-                    $this->flash($LNG['bot_saved']);
-                }
-
-                return $this->tabUrl('profiles');
-
+                return $this->duplicateProfile();
             case 'restore_profiles':
-                $this->profiles->restoreDefaults();
-                $this->flash($LNG['bot_defaults_restored']);
-
-                return $this->tabUrl('profiles');
-
+                return $this->restoreProfiles();
             case 'spawn':
-                $profileId = (int) ($post['profile_id'] ?? 0);
-                $count = max(1, min(50, (int) ($post['count'] ?? 1)));
-                if (!$this->profiles->get($profileId)) {
-                    $this->flash($LNG['bot_profile_missing'], false);
-                } else {
-                    try {
-                        $ids = $this->spawner->spawn($this->universe()->getEmulated(), $profileId, $count);
-                        $this->flash($LNG->format('bot_spawned', count($ids)));
-                    } catch (\Throwable $e) {
-                        $this->flash($e->getMessage(), false);
-                    }
-                }
-
-                return $this->tabUrl('bots');
-
+                return $this->spawnBots();
             case 'remove_bot':
-                $userId = (int) ($post['user_id'] ?? 0);
-                $isBot = $this->db->selectSingle('SELECT user_id FROM %%BOT_PLAYERS%% WHERE user_id = :u;', [':u' => $userId], 'user_id');
-                if ($isBot) {
-                    $this->spawner->remove($userId);
-                    $this->flash($LNG['bot_deleted']);
-                }
-
-                return $this->tabUrl('bots');
+                return $this->removeBot();
         }
 
         return $this->tabUrl($tab);
     }
+
+    /**
+     * Action save_providers: validates the base URLs (http/https only), stores key, model and URL of every provider and marks the active one; returns the URL of the providers tab.
+     */
+    private function saveProviders(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        $active = (string) ($post['active'] ?? 'none');
+        $rows = [];
+        foreach (LlmClient::PROVIDERS as $provider) {
+            $row = (array) ($post['providers'][$provider] ?? []);
+            $url = mb_substr(trim((string) ($row['base_url'] ?? '')), 0, 255);
+            if ($url !== '' && !preg_match('~^https?://~i', $url)) {
+                $this->flash($LNG['bot_invalid_url'], false);
+
+                return $this->tabUrl('providers');
+            }
+            $rows[$provider] = [
+                trim((string) ($row['api_key'] ?? '')),
+                mb_substr(trim((string) ($row['model'] ?? '')), 0, 128),
+                $url,
+            ];
+        }
+        foreach ($rows as $provider => [$key, $model, $url]) {
+            $this->llm->saveProvider($provider, $key === '' ? null : $key, $model, $url, $active === $provider);
+        }
+        $this->flash($LNG['bot_saved']);
+
+        return $this->tabUrl('providers');
+    }
+
+    /**
+     * Action save_profile: creates or updates a behaviour profile (a name is required); returns the URL of the profiles tab (back to the form on error).
+     */
+    private function saveProfile(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        $id = (int) ($post['id'] ?? 0);
+        $name = trim((string) ($post['name'] ?? ''));
+        if ($name === '') {
+            $this->flash($LNG['bot_name_required'], false);
+
+            return $this->tabUrl('profiles', $id > 0 ? '&edit=' . $id : '&new=1');
+        }
+        $this->profiles->save([
+            'id' => $id,
+            'name' => $name,
+            'description' => (string) ($post['description'] ?? ''),
+            'settings' => $this->settingsFromPost($post),
+        ]);
+        $this->flash($LNG['bot_saved']);
+
+        return $this->tabUrl('profiles');
+    }
+
+    /**
+     * Action delete_profile: deletes a profile unless it is a default profile or still used by bots; returns the URL of the profiles tab.
+     */
+    private function deleteProfile(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        $id = (int) ($post['id'] ?? 0);
+        $profile = $this->profiles->get($id);
+        if (!$profile || $profile['is_default']) {
+            $this->flash($LNG['bot_profile_default_locked'], false);
+        } elseif ((int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%BOT_PLAYERS%% WHERE profile_id = :id;', [':id' => $id], 'c') > 0) {
+            $this->flash($LNG['bot_profile_in_use'], false);
+        } else {
+            $this->profiles->delete($id);
+            $this->flash($LNG['bot_deleted']);
+        }
+
+        return $this->tabUrl('profiles');
+    }
+
+    /**
+     * Action duplicate_profile: copies an existing profile; returns the URL of the profiles tab.
+     */
+    private function duplicateProfile(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        if ($this->profiles->get((int) ($post['id'] ?? 0))) {
+            $this->profiles->duplicate((int) $post['id']);
+            $this->flash($LNG['bot_saved']);
+        }
+
+        return $this->tabUrl('profiles');
+    }
+
+    /**
+     * Action restore_profiles: restores the default profiles; returns the URL of the profiles tab.
+     */
+    private function restoreProfiles(): string
+    {
+        $LNG = $this->state->LNG;
+
+        $this->profiles->restoreDefaults();
+        $this->flash($LNG['bot_defaults_restored']);
+
+        return $this->tabUrl('profiles');
+    }
+
+    /**
+     * Action spawn: creates 1-50 bots with the given profile in the emulated universe; returns the URL of the bots tab.
+     */
+    private function spawnBots(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        $profileId = (int) ($post['profile_id'] ?? 0);
+        $count = max(1, min(50, (int) ($post['count'] ?? 1)));
+        if (!$this->profiles->get($profileId)) {
+            $this->flash($LNG['bot_profile_missing'], false);
+        } else {
+            try {
+                $ids = $this->spawner->spawn($this->universe()->getEmulated(), $profileId, $count);
+                $this->flash($LNG->format('bot_spawned', count($ids)));
+            } catch (\Throwable $e) {
+                $this->flash($e->getMessage(), false);
+            }
+        }
+
+        return $this->tabUrl('bots');
+    }
+
+    /**
+     * Action remove_bot: removes a bot player (only real bots); returns the URL of the bots tab.
+     */
+    private function removeBot(): string
+    {
+        $LNG = $this->state->LNG;
+        $post = $this->state->requestPost;
+
+        $userId = (int) ($post['user_id'] ?? 0);
+        $isBot = $this->db->selectSingle('SELECT user_id FROM %%BOT_PLAYERS%% WHERE user_id = :u;', [':u' => $userId], 'user_id');
+        if ($isBot) {
+            $this->spawner->remove($userId);
+            $this->flash($LNG['bot_deleted']);
+        }
+
+        return $this->tabUrl('bots');
+    }
+
 
     /** raw profile settings from the form, normalized and clamped by BotProfiles::normalizeSettings() on save */
     private function settingsFromPost(array $p): array
@@ -318,91 +386,133 @@ class BotsController extends AbstractAdminController
         ];
 
         if ($tab === 'providers') {
-            $providers = [];
-            foreach ($this->llm->providers() as $row) {
-                $name = (string) $row['provider'];
-                $hint = (string) ($row['key_hint'] ?? '');
-                $providers[$name] = [
-                    'provider' => $name,
-                    'has_key' => $hint !== '',
-                    'key_hint' => $hint,
-                    'model' => (string) ($row['model'] ?? ''),
-                    'base_url' => (string) ($row['base_url'] ?? ''),
-                    'default_url' => (string) ($row['default_url'] ?? ''),
-                    'is_active' => !empty($row['is_active']),
-                    'model_hint' => (string) ($row['model_hint'] ?? (self::MODEL_HINTS[$name] ?? '')),
-                    'last_test_at' => (string) ($row['last_test_at_text'] ?? ''),
-                    'last_test_ok' => !empty($row['last_test_ok']),
-                    'last_test_message' => (string) ($row['last_test_message'] ?? ''),
-                ];
-            }
-            $ordered = [];
-            foreach (LlmClient::PROVIDERS as $name) {
-                if (isset($providers[$name])) {
-                    $ordered[] = $providers[$name];
-                }
-            }
-            $vars['providers'] = $ordered;
-            $vars['anyActive'] = (bool) array_filter($ordered, static fn(array $p): bool => $p['is_active']);
-            $vars['jsStrings'] = [
-                'testing' => $LNG['bot_testing'],
-                'failed' => $LNG['bot_failed'],
-                'ok' => 'OK',
-            ];
+            $vars += $this->providersTabVars();
         } elseif ($tab === 'profiles') {
-            $profiles = [];
-            foreach ($this->profiles->all() as $p) {
-                $s = $p['settings'];
-                $p['summary'] = sprintf(
-                    '%s %d-%d min, %s %d-%d, %s %d%%, %s %d%%',
-                    $LNG['bot_summary_session'],
-                    $s['session_minutes'][0],
-                    $s['session_minutes'][1],
-                    $LNG['bot_summary_actions'],
-                    $s['actions_per_session'][0],
-                    $s['actions_per_session'][1],
-                    $LNG['bot_skill'],
-                    round($s['skill_start'] * 100),
-                    $LNG['bot_summary_mistakes'],
-                    $s['mistake_chance'],
-                );
-                $profiles[] = $p;
-            }
-            $vars['profiles'] = $profiles;
-
-            $editForm = null;
-            $editId = (int) $this->http()->_GP('edit', 0);
-            if ($editId > 0 || $this->http()->_GP('new', 0)) {
-                $base = $editId > 0 ? $this->profiles->get($editId) : null;
-                $settings = $base['settings'] ?? $this->profiles->defaults()['office_worker']['settings'];
-                $settings['activity_csv'] = implode(', ', $settings['activity']);
-                $editForm = [
-                    'id' => (int) ($base['id'] ?? 0),
-                    'name' => (string) ($base['name'] ?? ''),
-                    'description' => (string) ($base['description'] ?? ''),
-                    'is_default' => !empty($base['is_default']),
-                    's' => $settings,
-                ];
-            }
-            $vars['editForm'] = $editForm;
-            $vars['weightKeys'] = self::WEIGHT_KEYS;
+            $vars += $this->profilesTabVars();
         } else {
-            $profiles = [];
-            foreach ($this->profiles->all() as $p) {
-                $profiles[] = ['id' => (int) $p['id'], 'name' => (string) $p['name']];
-            }
-            $bots = $this->registry->listBots($universe);
-            $log = $this->registry->recentLog($universe, 50);
-            $vars += [
-                'botsEnabled' => (bool) $this->configs->get($universe)->bots_enabled,
-                'profiles' => $profiles,
-                'bots' => $bots,
-                'botLog' => $log,
-            ];
+            $vars += $this->botsTabVars($universe);
         }
 
         $this->assign($vars);
 
         return $this->render('admin/BotsPage.html.twig');
+    }
+
+    /**
+     * Variables of the providers tab: the providers with key hint (never the key), model, URL, active flag and last test result, plus the JS strings.
+     *
+     * @return array<string, mixed> template variables of the tab
+     */
+    private function providersTabVars(): array
+    {
+        $vars = [];
+        $LNG = $this->state->LNG;
+        $providers = [];
+        foreach ($this->llm->providers() as $row) {
+            $name = (string) $row['provider'];
+            $hint = (string) ($row['key_hint'] ?? '');
+            $providers[$name] = [
+                'provider' => $name,
+                'has_key' => $hint !== '',
+                'key_hint' => $hint,
+                'model' => (string) ($row['model'] ?? ''),
+                'base_url' => (string) ($row['base_url'] ?? ''),
+                'default_url' => (string) ($row['default_url'] ?? ''),
+                'is_active' => !empty($row['is_active']),
+                'model_hint' => (string) ($row['model_hint'] ?? (self::MODEL_HINTS[$name] ?? '')),
+                'last_test_at' => (string) ($row['last_test_at_text'] ?? ''),
+                'last_test_ok' => !empty($row['last_test_ok']),
+                'last_test_message' => (string) ($row['last_test_message'] ?? ''),
+            ];
+        }
+        $ordered = [];
+        foreach (LlmClient::PROVIDERS as $name) {
+            if (isset($providers[$name])) {
+                $ordered[] = $providers[$name];
+            }
+        }
+        $vars['providers'] = $ordered;
+        $vars['anyActive'] = (bool) array_filter($ordered, static fn(array $p): bool => $p['is_active']);
+        $vars['jsStrings'] = [
+            'testing' => $LNG['bot_testing'],
+            'failed' => $LNG['bot_failed'],
+            'ok' => 'OK',
+        ];
+
+        return $vars;
+    }
+
+    /**
+     * Variables of the profiles tab: the behaviour profiles with a settings summary, plus the edit form when `edit` (profile id) or `new` is requested.
+     *
+     * @return array<string, mixed> template variables of the tab
+     */
+    private function profilesTabVars(): array
+    {
+        $vars = [];
+        $LNG = $this->state->LNG;
+        $profiles = [];
+        foreach ($this->profiles->all() as $p) {
+            $s = $p['settings'];
+            $p['summary'] = sprintf(
+                '%s %d-%d min, %s %d-%d, %s %d%%, %s %d%%',
+                $LNG['bot_summary_session'],
+                $s['session_minutes'][0],
+                $s['session_minutes'][1],
+                $LNG['bot_summary_actions'],
+                $s['actions_per_session'][0],
+                $s['actions_per_session'][1],
+                $LNG['bot_skill'],
+                round($s['skill_start'] * 100),
+                $LNG['bot_summary_mistakes'],
+                $s['mistake_chance'],
+            );
+            $profiles[] = $p;
+        }
+        $vars['profiles'] = $profiles;
+
+        $editForm = null;
+        $editId = (int) $this->http()->_GP('edit', 0);
+        if ($editId > 0 || $this->http()->_GP('new', 0)) {
+            $base = $editId > 0 ? $this->profiles->get($editId) : null;
+            $settings = $base['settings'] ?? $this->profiles->defaults()['office_worker']['settings'];
+            $settings['activity_csv'] = implode(', ', $settings['activity']);
+            $editForm = [
+                'id' => (int) ($base['id'] ?? 0),
+                'name' => (string) ($base['name'] ?? ''),
+                'description' => (string) ($base['description'] ?? ''),
+                'is_default' => !empty($base['is_default']),
+                's' => $settings,
+            ];
+        }
+        $vars['editForm'] = $editForm;
+        $vars['weightKeys'] = self::WEIGHT_KEYS;
+
+        return $vars;
+    }
+
+    /**
+     * Variables of the bots tab: the bots of the universe, the profile choices, the `bots_enabled` switch and the 50
+     * most recent log entries.
+     *
+     * @return array<string, mixed> template variables of the tab
+     */
+    private function botsTabVars(int|string $universe): array
+    {
+        $vars = [];
+        $profiles = [];
+        foreach ($this->profiles->all() as $p) {
+            $profiles[] = ['id' => (int) $p['id'], 'name' => (string) $p['name']];
+        }
+        $bots = $this->registry->listBots($universe);
+        $log = $this->registry->recentLog($universe, 50);
+        $vars += [
+            'botsEnabled' => (bool) $this->configs->get($universe)->bots_enabled,
+            'profiles' => $profiles,
+            'bots' => $bots,
+            'botLog' => $log,
+        ];
+
+        return $vars;
     }
 }

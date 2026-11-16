@@ -383,10 +383,11 @@ class PlayerDeletion
             'PHALANX_LOG'           => ['owner', 'target'],
         ];
         foreach ($perUserTables as $table => $columns) {
-            $where = implode(' OR ', array_map(static fn($column) => '`' . $column . '` = :userId', $columns));
-            $db->delete('DELETE FROM %%' . $table . '%% WHERE ' . $where . ';', [
-                ':userId'   => $userId,
-            ]);
+            $delete = $db->qb()->delete($db->table($table))->setParameter('userId', $userId);
+            foreach ($columns as $column) {
+                $delete->orWhere('`' . $column . '` = :userId');
+            }
+            $db->execute($delete);
         }
 
         $sql = 'DELETE a FROM %%TICKETS_ANSWER%% a INNER JOIN %%TICKETS%% t ON t.`ticketID` = a.`ticketID`

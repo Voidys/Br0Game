@@ -192,7 +192,12 @@ final class ContentPages
             return $this->privacyPolicy($text);
         }
 
-        return sprintf($text, $this->config->get('git_issues_link', '') ?? '');
+        $urls = [];
+        foreach (\App\Game\Core\CommunityLinks::KEYS as $key) {
+            $urls[$key] = (string) ($this->config->get($key, '') ?? '');
+        }
+
+        return sprintf(\App\Game\Core\CommunityLinks::fill($text, $urls), $this->config->get('git_issues_link', '') ?? '');
     }
 
     /**

@@ -67,19 +67,7 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         [$debris, $planetDebris] = $this->computeDebris($targetPlanet, $combatResult);
 
-        $reportInfo = [
-            'thisFleet'             => $this->_fleet,
-            'debris'                => $debris,
-            'stealResource'         => $stealResource,
-            'moonChance'            => null,
-            'additionalChance'      => 0,
-            'moonDestroy'           => true,
-            'moonName'              => null,
-            'moonDestroyChance'     => null,
-            'moonDestroySuccess'    => null,
-            'fleetDestroyChance'    => null,
-            'fleetDestroySuccess'   => false,
-        ];
+        $reportInfo = $this->initialReportInfo($debris, $stealResource);
 
         $units = $combatResult->losses->totalValue();
 
@@ -146,44 +134,7 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         $randChance = $this->roll(1, 100);
         if ($randChance <= $moonDestroyChance) {
-            $sql = 'SELECT id FROM %%PLANETS%% WHERE id_luna = :moonId;';
-            $planetID = $db->selectSingle($sql, [
-                ':moonId'   => $targetPlanet['id'],
-            ], 'id');
-
-
-            $sql = 'UPDATE %%FLEETS%% SET
-                `start_type` = :startType,
-                `start_id` = :planetId
-                WHERE `start_id` = :moonId;';
-
-            $db->update($sql, [
-                ':startType' => TYPE_PLANET,
-                ':planetId' => $planetID,
-                ':moonId'   => $targetPlanet['id'],
-            ]);
-
-            $sql = 'UPDATE %%FLEETS%% SET
-                `end_type` = :endType,
-                `end_id` = :planetId,
-                `mission` = IF(`mission` = :dest, :att, `mission`)
-                WHERE `end_id` = :moonId
-                AND `id` != :fleetId;';
-
-            $db->update($sql, [
-                ':endType'  => TYPE_PLANET,
-                ':planetId' => $planetID,
-                ':moonId'   => $targetPlanet['id'],
-                ':fleetId'  => $this->_fleet['id'],
-                ':dest'     => MISSION_DESTRUCTION,
-                ':att'      => MISSION_ATTACK,
-            ]);
-
-            $sql = "UPDATE %%AKS%% SET `target` = :planetId WHERE `target` = :moonId;";
-            $db->update($sql, [
-                ':planetId' => $planetID,
-                ':moonId'   => $targetPlanet['id'],
-            ]);
+            $this->moveFleetsToParentPlanet($targetPlanet['id']);
 
             $reportInfo['moonDestroySuccess'] = 1;
         } else {
@@ -206,5 +157,79 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         $reportInfo['moonDestroyChance'] = $moonDestroyChance;
         $reportInfo['fleetDestroyChance'] = $fleetDestroyChance;
+    }
+
+    /**
+     * Report data of the fight before the destruction rolls fill in the moon and fleet entries.
+     *
+     * @param mixed $debris debris of the fight
+     * @param array<int, int|float> $stealResource loot of the winner
+     * @return array<string, mixed>
+     */
+    private function initialReportInfo(mixed $debris, array $stealResource): array
+    {
+        return [
+            'thisFleet'             => $this->_fleet,
+            'debris'                => $debris,
+            'stealResource'         => $stealResource,
+            'moonChance'            => null,
+            'additionalChance'      => 0,
+            'moonDestroy'           => true,
+            'moonName'              => null,
+            'moonDestroyChance'     => null,
+            'moonDestroySuccess'    => null,
+            'fleetDestroyChance'    => null,
+            'fleetDestroySuccess'   => false,
+        ];
+    }
+
+    /**
+     * The moon is destroyed: every fleet that starts at it moves its start to the parent planet, fleets heading to it
+     * go to the parent planet (a destruction mission among them turns into an attack), ACS groups follow.
+     *
+     * @param int|string $moonId id of the destroyed moon
+     */
+    private function moveFleetsToParentPlanet(int|string $moonId): void
+    {
+        $db = $this->db;
+
+        $sql = 'SELECT id FROM %%PLANETS%% WHERE id_luna = :moonId;';
+        $planetID = $db->selectSingle($sql, [
+            ':moonId'   => $moonId,
+        ], 'id');
+
+
+        $sql = 'UPDATE %%FLEETS%% SET
+            `start_type` = :startType,
+            `start_id` = :planetId
+            WHERE `start_id` = :moonId;';
+
+        $db->update($sql, [
+            ':startType' => TYPE_PLANET,
+            ':planetId' => $planetID,
+            ':moonId'   => $moonId,
+        ]);
+
+        $sql = 'UPDATE %%FLEETS%% SET
+            `end_type` = :endType,
+            `end_id` = :planetId,
+            `mission` = IF(`mission` = :dest, :att, `mission`)
+            WHERE `end_id` = :moonId
+            AND `id` != :fleetId;';
+
+        $db->update($sql, [
+            ':endType'  => TYPE_PLANET,
+            ':planetId' => $planetID,
+            ':moonId'   => $moonId,
+            ':fleetId'  => $this->_fleet['id'],
+            ':dest'     => MISSION_DESTRUCTION,
+            ':att'      => MISSION_ATTACK,
+        ]);
+
+        $sql = "UPDATE %%AKS%% SET `target` = :planetId WHERE `target` = :moonId;";
+        $db->update($sql, [
+            ':planetId' => $planetID,
+            ':moonId'   => $moonId,
+        ]);
     }
 }

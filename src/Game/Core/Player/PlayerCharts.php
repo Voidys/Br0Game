@@ -57,12 +57,39 @@ class PlayerCharts
             'defence' => [],
             'ownTotal' => [],
         ];
-        $result['bars'] = [
-            'scoreRelative' => [],
-            'scoreAbsolute' => [],
-        ];
+        $ownByTimestamp = $this->ownRowsAt($statpoints, $USER);
 
-        // the viewer's own rows at the same timestamps, one query (the first row per timestamp, lowest stat_type)
+        $LNG = $this->state->LNG;
+        $viewer = $this->models()->user($USER);
+        foreach ($statpoints as $row) {
+            $result['points']['time'][] = $this->viewHelpers()->formatDate("M d Y H:i", $row['timestamp'], $USER['timezone']);
+            $result['points']['hoursAgo'][] = $this->formatChartHoursAgo((int) $row['timestamp'], $LNG);
+            $result['points']['tech'][] = ($this->protectionRules()->spyTechAllowedFor(4, $targetUserId, $viewer) ? $row['tech_points'] : 0);
+            $result['points']['build'][] = ($this->protectionRules()->spyTechAllowedFor(2, $targetUserId, $viewer) ? $row['build_points'] : 0);
+            $result['points']['defence'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['defs_points'] : 0);
+            $result['points']['fleet'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['fleet_points'] : 0);
+            $result['points']['total'][] = $row['total_points'];
+
+            $ownStatpoints = $ownByTimestamp[$row['timestamp']] ?? null;
+            $result['points']['ownTotal'][] = $ownStatpoints['total_points'] ?? 0;
+        }
+
+        $result['bars'] = $this->scoreBars($statpoints);
+
+        return $result;
+    }
+
+    /**
+     * The viewer's own history rows at the timestamps of the shown player's rows: one query, the first row per timestamp
+     * (lowest stat_type).
+     *
+     * @param list<array<string, mixed>> $statpoints history rows of the shown player
+     * @param array<string, mixed> $USER viewing user row
+     * @return array<int|string, array<string, mixed>> own row by timestamp
+     */
+    private function ownRowsAt(array $statpoints, array $USER): array
+    {
+        $db = $this->db;
         $ownByTimestamp = [];
         if (!empty($statpoints)) {
             $timestamps = array_map('intval', array_column($statpoints, 'timestamp'));
@@ -81,20 +108,22 @@ class PlayerCharts
             }
         }
 
-        $LNG = $this->state->LNG;
-        $viewer = $this->models()->user($USER);
-        foreach ($statpoints as $row) {
-            $result['points']['time'][] = $this->viewHelpers()->formatDate("M d Y H:i", $row['timestamp'], $USER['timezone']);
-            $result['points']['hoursAgo'][] = $this->formatChartHoursAgo((int) $row['timestamp'], $LNG);
-            $result['points']['tech'][] = ($this->protectionRules()->spyTechAllowedFor(4, $targetUserId, $viewer) ? $row['tech_points'] : 0);
-            $result['points']['build'][] = ($this->protectionRules()->spyTechAllowedFor(2, $targetUserId, $viewer) ? $row['build_points'] : 0);
-            $result['points']['defence'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['defs_points'] : 0);
-            $result['points']['fleet'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['fleet_points'] : 0);
-            $result['points']['total'][] = $row['total_points'];
+        return $ownByTimestamp;
+    }
 
-            $ownStatpoints = $ownByTimestamp[$row['timestamp']] ?? null;
-            $result['points']['ownTotal'][] = $ownStatpoints['total_points'] ?? 0;
-        }
+    /**
+     * Score changes between consecutive history rows: relative in percent (-100 when the score fell to 0, 100 when it
+     * rose from 0) and absolute.
+     *
+     * @param list<array<string, mixed>> $statpoints history rows, oldest first
+     * @return array{scoreRelative: list<float|int>, scoreAbsolute: list<int>}
+     */
+    private function scoreBars(array $statpoints): array
+    {
+        $bars = [
+            'scoreRelative' => [],
+            'scoreAbsolute' => [],
+        ];
 
         for ($i = 1; $i < count($statpoints); $i++) {
             $previous = (int) ($statpoints[$i - 1]['total_points'] ?? 0);
@@ -107,11 +136,11 @@ class PlayerCharts
             } else {
                 $relative = $absolute / $previous;
             }
-            $result['bars']['scoreRelative'][] = round($relative * 100, 2);
-            $result['bars']['scoreAbsolute'][] = $absolute;
+            $bars['scoreRelative'][] = round($relative * 100, 2);
+            $bars['scoreAbsolute'][] = $absolute;
         }
 
-        return $result;
+        return $bars;
     }
 
     /**

@@ -481,9 +481,9 @@ al_your_ally: Deine Allianz
 al_your_request_title: Bewerbung
 bad_forum_url: Keine Foren-URL definiert!
 banned_message: >-
-  Sie wurden gebannt. Wenn Sie glauben, dass es sich dabei um ein
+  Sie wurden gebannt. <!--discord_url-->Wenn Sie glauben, dass es sich dabei um ein
   Missverständnis handelt, schreiben Sie uns uns über Discord: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Aktuelle Produktion:'
 bd_add_to_list: Zur Bauliste hinzufügen
 bd_available: 'Vorhanden: '
@@ -1024,13 +1024,13 @@ invalid_action: Ungültige Aktion!
 kontakt: >-
   Ahoi!<br>Auf dies' Seite findest du Kunde über jene, die dieses Unterfangen
   aktiv betreiben, moderieren und fortführen.<br>Wend' dich bei Fragen und
-  Sorgen gern an uns.<br><br>Für den bess'ren Austausch mit uns und den anderen
+  Sorgen gern an uns.<br><br><!--discord_url-->Für den bess'ren Austausch mit uns und den anderen
   Kaperfahrern haben wir einen Discord-Knoten eingerichtet. Du findest ihn » <a
-  href="https://discord.gg/jhYYN3yuat">hier</a> « oder über das Menü.<br>Auf dem
+  href="{discord_url}">hier</a> « oder über das Menü.<br>Auf dem
   Knoten erblickst du die neuesten Kunde, sowie spannende Seemannsgarn zwischen
   den Allianzen des Universums.<br>Stell' Fragen zu den Spielgebräuchen und hilf
   durch eig'ne Vorschläge mit bei der Fortentwicklung des
-  Spiels.<br><br>Selbstverständlich antworten wir dir auch via
+  Spiels.<br><br><!--/discord_url-->Selbstverständlich antworten wir dir auch via
   Flaschenpost.<br>Bedenk' jedoch, dass auch wir das Spiel bloß als
   Freibeutervergnügen betreiben. Antworten können sich ein paar Tagesläufe
   hinzieh'n, je nachdem wie voll die Rum bauddel ist.<br>
@@ -1596,9 +1596,9 @@ sys_closed_game: 'Das Weltmeer ist zur Zeit nicht verfügbar:'
 sys_forward: Weiter
 sys_game_is_setup: >-
   <h1>Registrierung Geschafft!</h1><br><p>Wir bereiten gerade das Universum für
-  euch vor!</p><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
-  den</p><h3><a href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord
-  <-</a></h3>
+  euch vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
+  den</p><h3><a href="{discord_url}" target="_blank">-> Discord
+  <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modul inaktiv
 sys_nomore_level: Sie versuchen, ein Gebäude zu zerstören, was sie nicht mehr besitzen( %s ).
 sys_notenough_money: >-

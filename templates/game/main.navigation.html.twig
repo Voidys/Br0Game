@@ -91,7 +91,9 @@
   <section class="nav__group">
     <h2 class="nav__heading">{{ LNG.ui_nav_help|default('Help') }}</h2>
     <ul>
-      {{ nav.link('game?page=wikiLogin', 'book-open', 'Wiki', false, ' target="_blank" rel="noopener"') }}
+      {% if communityNav.wiki is defined %}
+        {{ nav.link(communityNav.wiki, 'book-open', 'Wiki', false, ' target="_blank" rel="noopener"') }}
+      {% endif %}
       {% if isModuleAvailable(php_const('MODULE_SUPPORT')) %}
         {{ nav.link('game?page=ticket', 'life-buoy', LNG.lm_support, currentPage == 'ticket') }}
       {% endif %}
@@ -99,9 +101,11 @@
       {% if (not noobInterface or not tutorial or tutorial['id'] > 6) %}
         {{ nav.link('game?page=team', 'users', 'Team', currentPage == 'team') }}
       {% endif %}
-      {{ nav.link('https://discord.gg/jhYYN3yuat', 'message-circle', 'Discord', false, ' target="_blank" rel="noopener"') }}
-      {% if not tutorial['id'] %}
-        {{ nav.link('https://ko-fi.com/pr0game', 'heart', LNG.donate, false, ' target="_blank" rel="noopener"') }}
+      {% if communityNav.discord is defined %}
+        {{ nav.link(communityNav.discord, 'message-circle', 'Discord', false, ' target="_blank" rel="noopener"') }}
+      {% endif %}
+      {% if communityNav.donate is defined %}
+        {{ nav.link(communityNav.donate, 'heart', LNG.donate, false, ' target="_blank" rel="noopener"') }}
       {% endif %}
     </ul>
   </section>

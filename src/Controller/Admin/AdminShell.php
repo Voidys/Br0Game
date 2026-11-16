@@ -168,47 +168,15 @@ final class AdminShell
         );
 
         $menu = [];
-        $groups = self::MENU;
-        if ($isAdmin) {
-            $groups['ad_system'] = [
-                ['mu_universe', 'server', [['universe', '', 'mu_universe', null]]],
-                ['mu_moderation_page', 'lock', [
-                    ['rights', 'mode=rights', 'mu_moderation_page', null],
-                    ['rights', 'mode=users', 'ad_authlevel_title', null],
-                ]],
-            ];
-            if ((int) $USER['id'] === 1) {
-                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', '', 're_reset_universe', null]]];
-            }
-        }
-
+        $groups = $this->menuGroups($isAdmin);
         $currentTitle = $LNG['adm_cp_index'];
         $currentTab = null;
         $tabs = [];
         foreach ($groups as $groupKey => $entries) {
             $items = [];
             foreach ($entries as [$labelKey, $icon, $entryTabs]) {
-                $allowed = [];
-                $activeTab = null;
-                foreach ($entryTabs as [$page, $query, $tabLabelKey, $right]) {
-                    // a right like "A|B" is met by either of them
-                    if ($right !== null && !array_filter(explode('|', $right), fn(string $one): bool => (bool) $this->viewHelpers()->allowedTo($one))) {
-                        continue;
-                    }
-                    parse_str($query, $params);
-                    $active = strtolower($page) === $currentPage
-                        && ($page !== 'search' || ($params['search'] ?? '') === $currentSearch)
-                        && (!isset($params['mode']) || $params['mode'] === $currentMode);
-                    $tab = [
-                        'href' => 'admin?page=' . $page . ($query !== '' ? '&' . $query : ''),
-                        'label' => $LNG[$tabLabelKey],
-                        'active' => $active,
-                    ];
-                    if ($active) {
-                        $activeTab = $tab;
-                    }
-                    $allowed[] = $tab + ['page' => $page];
-                }
+                [$allowed, $activeTab] = $this->allowedTabs($entryTabs, $currentPage, $currentSearch, $currentMode);
+
                 if ($allowed === []) {
                     continue;
                 }
@@ -236,13 +204,7 @@ final class AdminShell
             }
         }
 
-        $universes = [];
-        if ($isAdmin) {
-            foreach ($this->universe()->availableUniverses() as $uniId) {
-                $universes[$uniId] = sprintf('%s (ID %d)', $this->configs->get($uniId)->uni_name, $uniId);
-            }
-            ksort($universes);
-        }
+        $universes = $this->universeOptions($isAdmin);
 
         return [
             'adminMenu' => $menu,
@@ -255,5 +217,85 @@ final class AdminShell
             'adminAuthLevel' => (int) $USER['authlevel'],
             'adminOpenTickets' => $openTickets,
         ];
+    }
+
+    /**
+     * The menu groups: the static MENU, plus the system group (universes, rights, reset for the root user) for admins.
+     *
+     * @return array<string, list<array>> group label key => entries (label key, icon, tabs)
+     */
+    private function menuGroups(bool $isAdmin): array
+    {
+        $USER = $this->state->USER;
+
+        $groups = self::MENU;
+        if ($isAdmin) {
+            $groups['ad_system'] = [
+                ['mu_universe', 'server', [['universe', '', 'mu_universe', null]]],
+                ['mu_moderation_page', 'lock', [
+                    ['rights', 'mode=rights', 'mu_moderation_page', null],
+                    ['rights', 'mode=users', 'ad_authlevel_title', null],
+                ]],
+            ];
+            if ((int) $USER['id'] === 1) {
+                $groups['ad_system'][] = ['re_reset_universe', 'triangle-alert', [['reset', '', 're_reset_universe', null]]];
+            }
+        }
+
+        return $groups;
+    }
+
+    /**
+     * Filters the tabs of one menu entry by the admin's rights (a right like "A|B" is met by either) and marks the tab
+     * of the current page (search lists also compare the `search`, tabs with a `mode` compare the mode).
+     *
+     * @param list<array{0: string, 1: string, 2: string, 3: ?string}> $entryTabs page, query, label key, right
+     * @return array{0: list<array<string, mixed>>, 1: ?array<string, mixed>} the allowed tabs and the active one
+     */
+    private function allowedTabs(array $entryTabs, string $currentPage, string $currentSearch, string $currentMode): array
+    {
+        $LNG = $this->state->LNG;
+
+        $allowed = [];
+        $activeTab = null;
+        foreach ($entryTabs as [$page, $query, $tabLabelKey, $right]) {
+            // a right like "A|B" is met by either of them
+            if ($right !== null && !array_filter(explode('|', $right), fn(string $one): bool => (bool) $this->viewHelpers()->allowedTo($one))) {
+                continue;
+            }
+            parse_str($query, $params);
+            $active = strtolower($page) === $currentPage
+                && ($page !== 'search' || ($params['search'] ?? '') === $currentSearch)
+                && (!isset($params['mode']) || $params['mode'] === $currentMode);
+            $tab = [
+                'href' => 'admin?page=' . $page . ($query !== '' ? '&' . $query : ''),
+                'label' => $LNG[$tabLabelKey],
+                'active' => $active,
+            ];
+            if ($active) {
+                $activeTab = $tab;
+            }
+            $allowed[] = $tab + ['page' => $page];
+        }
+
+        return [$allowed, $activeTab];
+    }
+
+    /**
+     * The universe switcher options (admins only): "name (ID n)" by universe id.
+     *
+     * @return array<int, string>
+     */
+    private function universeOptions(bool $isAdmin): array
+    {
+        $universes = [];
+        if ($isAdmin) {
+            foreach ($this->universe()->availableUniverses() as $uniId) {
+                $universes[$uniId] = sprintf('%s (ID %d)', $this->configs->get($uniId)->uni_name, $uniId);
+            }
+            ksort($universes);
+        }
+
+        return $universes;
     }
 }

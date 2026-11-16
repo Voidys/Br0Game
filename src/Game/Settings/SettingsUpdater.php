@@ -117,27 +117,93 @@ class SettingsUpdater
     {
         $LNG = $this->state->LNG;
         $THEME = $this->state->THEME;
+        $form = $this->readForm();
+        $values = $form['values'];
+        $discord_id = $form['discord_id'];
+        $discord_hook = $form['discord_hook'];
+        $username = $form['username'];
+        $language = $form['language'];
+        $recordsOptIn = $values['records_optIn'];
+
+        $messagesPerPage = $form['messagesPerPage'];
+        if ($messagesPerPage > 50) {
+            $messagesPerPage = 50;
+        } elseif ($messagesPerPage < 3) {
+            $messagesPerPage = 3;
+        }
+
+        $adminprotection = $form['adminprotection'];
+        if ($this->state->USER['authlevel'] != AUTH_USR) {
+            $adminprotection = ($adminprotection == 1) ? $this->state->USER['authlevel'] : 0;
+        } else {
+            $adminprotection = 0;
+            $discord_id = '';
+            $discord_hook = '';
+        }
+
+        $spycount           = min(max(round($form['spycount']), 1), 4294967295);
+        $fleetactions       = min(max($form['fleetactions'], 1), 99);
+
+        $spyReportFreshHours  = $values['spy_report_fresh_hours'];
+        $spyReportRecentHours = $values['spy_report_recent_hours'];
+        if ($spyReportFreshHours < 1 || $spyReportRecentHours < 1
+            || $spyReportRecentHours <= $spyReportFreshHours
+            || $spyReportRecentHours > 65535) {
+            throw new SettingsRefused($LNG['op_spy_report_time_invalid']);
+        }
+
+        $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
+        $decimalSeparator = $this->decimalSeparatorFor($language, (int) $form['decimalSeparator']);
+
+        $availableImageThemes = Theme::getAvailableImageThemes();
+        $availableCssThemes = Theme::getAvailableCssThemes();
+        $imageTheme = array_key_exists($form['imageThemeInput'], $availableImageThemes) ? $form['imageThemeInput'] : $THEME->getImageThemeName();
+        $cssTheme = array_key_exists($form['cssThemeInput'], $availableCssThemes) ? $form['cssThemeInput'] : $THEME->getCssThemeName();
+
+        $db = $this->db;
+        $db->startTransaction();
+        $this->lockPlayerRows();
+        $this->changeUsername($username);
+
+        $this->writeSettings($values + [
+            'dpath' => $imageTheme,
+            'css_dpath' => $cssTheme,
+            'spio_anz' => $spycount,
+            'settings_fleetactions' => $fleetactions,
+            'lang' => $language,
+            'decimal_separator' => $decimalSeparator,
+            'hangar_filters' => $form['hangarFilters'],
+            'messages_per_page' => $messagesPerPage,
+        ], $adminprotection, $discord_id, $discord_hook);
+
+        $this->state->USER['dpath'] = $imageTheme;
+        $this->state->USER['css_dpath'] = $cssTheme;
+        $THEME->setUserTheme($imageTheme, $cssTheme);
+
+        $db->commit();
+
+        $this->miscAchievements()->checkSettingsAchievements($this->state->USER['id'], $recordsOptIn);
+    }
+
+    /**
+     * Reads the posted settings form with the defaults of each field (the form can be partial): the users_settings
+     * columns of FIELDS, the user-level fields (admin protection, discord, username), language, separator, themes,
+     * spy/fleet/message counts and the hangar filter groups merged into the stored filters (encoded).
+     *
+     * @return array<string, mixed> values (column => value), adminprotection, discord_id, discord_hook, username, language,
+     *         decimalSeparator, imageThemeInput, cssThemeInput, spycount, fleetactions, messagesPerPage, hangarFilters
+     */
+    private function readForm(): array
+    {
+        $THEME = $this->state->THEME;
         $values = [];
         foreach (self::FIELDS as $column => [$parameter, $default]) {
             $values[$column] = $this->http()->_GP($parameter, $default);
         }
-        $adminprotection    = $this->http()->_GP('adminprotection', 0);
-        $discord_id         = $this->http()->_GP('discord_id', '');
-        $discord_hook       = $this->http()->_GP('discord_hook', '');
-        $username           = $this->http()->_GP('username', $this->state->USER['username'], UTF8_SUPPORT);
-        $language           = $this->http()->_GP('language', '');
-        $decimalSeparator   = $this->http()->_GP('decimalSeparator', 0);
         $imageThemeInput    = $this->http()->_GP('imageTheme', '');
         if ($imageThemeInput === '') {
             $imageThemeInput = $this->http()->_GP('theme', $THEME->getImageThemeName());
         }
-        $cssThemeInput      = $this->http()->_GP('cssTheme', $THEME->getCssThemeName());
-        $spycount           = $this->http()->_GP('spycount', 1.0);
-        $fleetactions       = $this->http()->_GP('fleetactions', 5);
-        $messagesPerPage    = $this->http()->_GP('messagesPerPage', 10);
-        $recordsOptIn       = $values['records_optIn'];
-        $spyReportFreshHours  = $values['spy_report_fresh_hours'];
-        $spyReportRecentHours = $values['spy_report_recent_hours'];
         $hangarFilterGroups = [];
         if ($this->http()->_GP('hangarFilterCivil', 0)) {
             $hangarFilterGroups[] = 'civil';
@@ -151,41 +217,33 @@ class SettingsUpdater
         if ($this->http()->_GP('hangarFilterAll', 0)) {
             $hangarFilterGroups[] = 'all';
         }
-        $hangarFilters = $this->hangarFilters()->encode($this->hangarFilters()->mergeGroups(
-            $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
-            $hangarFilterGroups,
-        ));
 
+        return [
+            'values'          => $values,
+            'adminprotection' => $this->http()->_GP('adminprotection', 0),
+            'discord_id'      => $this->http()->_GP('discord_id', ''),
+            'discord_hook'    => $this->http()->_GP('discord_hook', ''),
+            'username'        => $this->http()->_GP('username', $this->state->USER['username'], UTF8_SUPPORT),
+            'language'        => $this->http()->_GP('language', ''),
+            'decimalSeparator' => $this->http()->_GP('decimalSeparator', 0),
+            'imageThemeInput' => $imageThemeInput,
+            'cssThemeInput'   => $this->http()->_GP('cssTheme', $THEME->getCssThemeName()),
+            'spycount'        => $this->http()->_GP('spycount', 1.0),
+            'fleetactions'    => $this->http()->_GP('fleetactions', 5),
+            'messagesPerPage' => $this->http()->_GP('messagesPerPage', 10),
+            'hangarFilters'   => $this->hangarFilters()->encode($this->hangarFilters()->mergeGroups(
+                $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
+                $hangarFilterGroups,
+            )),
+        ];
+    }
 
-        if ($messagesPerPage > 50) {
-            $messagesPerPage = 50;
-        } elseif ($messagesPerPage < 3) {
-            $messagesPerPage = 3;
-        }
-
-        if ($this->state->USER['authlevel'] != AUTH_USR) {
-            $adminprotection = ($adminprotection == 1) ? $this->state->USER['authlevel'] : 0;
-        } else {
-            $adminprotection = 0;
-            $discord_id = '';
-            $discord_hook = '';
-        }
-
-        $spycount           = min(max(round($spycount), 1), 4294967295);
-        $fleetactions       = min(max($fleetactions, 1), 99);
-
-        if ($spyReportFreshHours < 1 || $spyReportRecentHours < 1
-            || $spyReportRecentHours <= $spyReportFreshHours
-            || $spyReportRecentHours > 65535) {
-            throw new SettingsRefused($LNG['op_spy_report_time_invalid']);
-        }
-
-        $language = array_key_exists($language, $LNG->getAllowedLangs(false)) ? $language : $LNG->getLanguage();
-
-        // Follow the new language's default only when the stored separator is
-        // still that language's default. A custom override is kept when the
-        // dropdown was not changed in this save.
-        $decimalSeparator = (int) $decimalSeparator;
+    /**
+     * Follow the new language's default decimal separator only when the stored separator is still that language's
+     * default. A custom override is kept when the dropdown was not changed in this save.
+     */
+    private function decimalSeparatorFor(string $language, int $decimalSeparator): int
+    {
         $previousSeparator = (int) $this->state->USER['decimal_separator'];
         if ($language !== $this->state->USER['lang']
             && $decimalSeparator === $previousSeparator
@@ -194,14 +252,13 @@ class SettingsUpdater
             $decimalSeparator = (new NumberAbbreviation())->defaultDecimalSeparatorForLang($language);
         }
 
-        $availableImageThemes = Theme::getAvailableImageThemes();
-        $availableCssThemes = Theme::getAvailableCssThemes();
-        $imageTheme = array_key_exists($imageThemeInput, $availableImageThemes) ? $imageThemeInput : $THEME->getImageThemeName();
-        $cssTheme = array_key_exists($cssThemeInput, $availableCssThemes) ? $cssThemeInput : $THEME->getCssThemeName();
+        return $decimalSeparator;
+    }
 
+    /** Locks the user, settings and planet rows of the player (FOR UPDATE) for the rest of the transaction. */
+    private function lockPlayerRows(): void
+    {
         $db = $this->db;
-        $db->startTransaction();
-
         $sql = "SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id WHERE u.universe = :universe AND u.id = :id FOR UPDATE;";
         $db->select($sql, [
             ':universe' => $this->universe()->current(),
@@ -212,7 +269,18 @@ class SettingsUpdater
             ':universe' => $this->universe()->current(),
             ':id' => $this->state->USER['id'],
         ]);
+    }
 
+    /**
+     * Renames the player when the posted name differs: the name must be valid, unused in the universe and the last
+     * change at least USERNAME_CHANGETIME ago; the player is logged out afterwards (the session carries the name).
+     *
+     * @throws SettingsRefused with the translated reason (the open transaction is not committed then)
+     */
+    private function changeUsername(mixed $username): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
         if (!empty($username) && $this->state->USER['username'] != $username) {
             if (!$this->playerUtil()->isNameValid($username)) {
                 throw new SettingsRefused($LNG['op_user_name_no_alphanumeric']);
@@ -241,25 +309,6 @@ class SettingsUpdater
                 }
             }
         }
-
-        $this->writeSettings($values + [
-            'dpath' => $imageTheme,
-            'css_dpath' => $cssTheme,
-            'spio_anz' => $spycount,
-            'settings_fleetactions' => $fleetactions,
-            'lang' => $language,
-            'decimal_separator' => $decimalSeparator,
-            'hangar_filters' => $hangarFilters,
-            'messages_per_page' => $messagesPerPage,
-        ], $adminprotection, $discord_id, $discord_hook);
-
-        $this->state->USER['dpath'] = $imageTheme;
-        $this->state->USER['css_dpath'] = $cssTheme;
-        $THEME->setUserTheme($imageTheme, $cssTheme);
-
-        $db->commit();
-
-        $this->miscAchievements()->checkSettingsAchievements($this->state->USER['id'], $recordsOptIn);
     }
 
     /**

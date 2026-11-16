@@ -54,189 +54,266 @@ class ResetController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
-        $USER = $this->state->USER;
-        $config = $this->configs->get($this->universe()->getEmulated());
-        $db = $this->db;
 
         if ($this->state->requestPost) {
-            foreach ($reslist['build'] as $ID) {
-                $dbcol['build'][$resource[$ID]] = '0';
-            }
-
-            foreach ($reslist['tech'] as $ID) {
-                $dbcol['tech'][$resource[$ID]] = '0';
-            }
-
-            foreach ($reslist['fleet'] as $ID) {
-                $dbcol['fleet'][$resource[$ID]] = '0';
-            }
-
-            foreach ($reslist['defense'] as $ID) {
-                $dbcol['defense'][$resource[$ID]] = '0';
-            }
-
-            foreach ($reslist['resstype'][1] as $ID) {
-                if (isset($config->{$resource[$ID] . '_start'})) {
-                    $dbcol['resource_planet_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
-                }
-            }
-
-            foreach ($reslist['resstype'][3] as $ID) {
-                if (isset($config->{$resource[$ID] . '_start'})) {
-                    $dbcol['resource_user_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
-                }
-            }
-
-            // Players and Planets
-
-            if (($this->state->requestPost['players'] ?? '') === 'on') {
-                $ID = $db->selectSingle("SELECT `id_owner` FROM %%USERS%% WHERE `universe` = :universe AND `galaxy` = 1 AND `system` = 1 AND `planet` = 1;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ], 'id_owner');
-
-                $db->delete("DELETE FROM %%USERS%% WHERE `universe` = :universe AND `id` != :ownerID;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                    ':ownerID'  => $ID,
-                ]);
-
-                $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `id_owner` != :ownerID;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                    ':ownerID'  => $ID,
-                ]);
-
-            }
-
-            if (($this->state->requestPost['planets'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%% WHERE `universe` = :universe);", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-                $db->update("UPDATE %%PLANETS%% SET `id_luna` = 0 WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['moons'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `planet_type` = 3;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-
-                $db->update("UPDATE %%PLANETS%% SET `id_luna` = 0 WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            // HANGARES Y DEFENSAS
-            if (($this->state->requestPost['defenses'] ?? '') === 'on') {
-                $db->updateRows('PLANETS', $dbcol['defense'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            if (($this->state->requestPost['ships'] ?? '') === 'on') {
-                $db->updateRows('PLANETS', $dbcol['fleet'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            if (($this->state->requestPost['h_d'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET `b_hangar` = '0', `b_hangar_id` = '' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            // EDIFICIOS
-            if (($this->state->requestPost['edif_p'] ?? '') === 'on') {
-                $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            if (($this->state->requestPost['edif_l'] ?? '') === 'on') {
-                $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated(), 'planet_type' => '3']);
-            }
-
-            if (($this->state->requestPost['edif'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET `b_building` = '0', `b_building_id` = '' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-
-            }
-
-            // INVESTIGACIONES Y OFICIALES
-            if (($this->state->requestPost['inves'] ?? '') === 'on') {
-                $db->updateRows('USERS', $dbcol['tech'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            if (($this->state->requestPost['inves_c'] ?? '') === 'on') {
-                $db->update("UPDATE %%USERS%% SET `b_tech_planet` = '0', `b_tech` = '0', `b_tech_id` = '0', `b_tech_queue` = '' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            // RECURSOS
-            if (($this->state->requestPost['dark'] ?? '') === 'on') {
-                $db->updateRows('USERS', $dbcol['resource_user_start'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            if (($this->state->requestPost['resources'] ?? '') === 'on') {
-                $db->updateRows('PLANETS', $dbcol['resource_planet_start'], ['universe' => $this->universe()->getEmulated()]);
-            }
-
-            // GENERAL
-            if (($this->state->requestPost['notes'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%NOTES%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['rw'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%TOPKB%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['friends'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%BUDDY%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['alliances'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%ALLIANCE%% WHERE `ally_universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-                $db->update("UPDATE %%USERS%% SET `ally_id` = '0', `ally_register_time` = '0', `ally_rank_id` = '0' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['fleets'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%FLEETS%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['banneds'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%BANNED%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-
-                $db->update("UPDATE %%USERS%% SET `bana` = '0', `banaday` = '0' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['messages'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%MESSAGES%% WHERE `message_universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
-
-            if (($this->state->requestPost['statpoints'] ?? '') === 'on') {
-                $db->delete("DELETE FROM %%STATPOINTS%% WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
-            }
+            $dbcol = $this->resetColumns();
+            $this->resetPlayersAndPlanets();
+            $this->resetHangarsAndDefenses($dbcol);
+            $this->resetBuildings($dbcol);
+            $this->resetResearch($dbcol);
+            $this->resetResources($dbcol);
+            $this->resetGeneral();
             $this->message($LNG['re_reset_excess'], '?page=reset', 3);
         }
 
-        $this->assign([
+        $this->assign($this->formTexts());
+
+        return $this->render('admin/ResetPage.html.twig');
+    }
+
+    /**
+     * Builds the column => value maps of the reset: zero for every building, research, fleet and defense column and the
+     * configured `<resource>_start` values for planet and player resources (columns come from $reslist/$resource).
+     *
+     * @return array<string, array<string, mixed>> keys build, tech, fleet, defense, resource_planet_start, resource_user_start
+     */
+    private function resetColumns(): array
+    {
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $config = $this->configs->get($this->universe()->getEmulated());
+
+        foreach ($reslist['build'] as $ID) {
+            $dbcol['build'][$resource[$ID]] = '0';
+        }
+
+        foreach ($reslist['tech'] as $ID) {
+            $dbcol['tech'][$resource[$ID]] = '0';
+        }
+
+        foreach ($reslist['fleet'] as $ID) {
+            $dbcol['fleet'][$resource[$ID]] = '0';
+        }
+
+        foreach ($reslist['defense'] as $ID) {
+            $dbcol['defense'][$resource[$ID]] = '0';
+        }
+
+        foreach ($reslist['resstype'][1] as $ID) {
+            if (isset($config->{$resource[$ID] . '_start'})) {
+                $dbcol['resource_planet_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
+            }
+        }
+
+        foreach ($reslist['resstype'][3] as $ID) {
+            if (isset($config->{$resource[$ID] . '_start'})) {
+                $dbcol['resource_user_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
+            }
+        }
+
+        return $dbcol;
+    }
+
+    /**
+     * Checkboxes `players`, `planets`, `moons`: deletes all players (except the owner of 1:1:1) with their planets,
+     * all planets that are not a player's main planet, or all moons (the other planets lose their moon link).
+     */
+    private function resetPlayersAndPlanets(): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['players'] ?? '') === 'on') {
+            $ID = $db->selectSingle("SELECT `id_owner` FROM %%USERS%% WHERE `universe` = :universe AND `galaxy` = 1 AND `system` = 1 AND `planet` = 1;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ], 'id_owner');
+
+            $db->delete("DELETE FROM %%USERS%% WHERE `universe` = :universe AND `id` != :ownerID;", [
+                ':universe' => $this->universe()->getEmulated(),
+                ':ownerID'  => $ID,
+            ]);
+
+            $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `id_owner` != :ownerID;", [
+                ':universe' => $this->universe()->getEmulated(),
+                ':ownerID'  => $ID,
+            ]);
+
+        }
+
+        if (($this->state->requestPost['planets'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `id` NOT IN (SELECT `id_planet` FROM %%USERS%% WHERE `universe` = :universe);", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+            $db->update("UPDATE %%PLANETS%% SET `id_luna` = 0 WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['moons'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%PLANETS%% WHERE `universe` = :universe AND `planet_type` = 3;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+
+            $db->update("UPDATE %%PLANETS%% SET `id_luna` = 0 WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+    }
+
+    /**
+     * Checkboxes `defenses`, `ships`, `h_d`: zeroes defense / fleet columns on all planets, or clears the shipyard queue.
+     */
+    private function resetHangarsAndDefenses(array $dbcol): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['defenses'] ?? '') === 'on') {
+            $db->updateRows('PLANETS', $dbcol['defense'], ['universe' => $this->universe()->getEmulated()]);
+        }
+
+        if (($this->state->requestPost['ships'] ?? '') === 'on') {
+            $db->updateRows('PLANETS', $dbcol['fleet'], ['universe' => $this->universe()->getEmulated()]);
+        }
+
+        if (($this->state->requestPost['h_d'] ?? '') === 'on') {
+            $db->update("UPDATE %%PLANETS%% SET `b_hangar` = '0', `b_hangar_id` = '' WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+    }
+
+    /**
+     * Checkboxes `edif_p`, `edif_l`, `edif`: zeroes the building levels (on all planets or on moons only) or clears the
+     * building queue.
+     */
+    private function resetBuildings(array $dbcol): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['edif_p'] ?? '') === 'on') {
+            $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated()]);
+        }
+
+        if (($this->state->requestPost['edif_l'] ?? '') === 'on') {
+            $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated(), 'planet_type' => '3']);
+        }
+
+        if (($this->state->requestPost['edif'] ?? '') === 'on') {
+            $db->update("UPDATE %%PLANETS%% SET `b_building` = '0', `b_building_id` = '' WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+
+        }
+    }
+
+    /**
+     * Checkboxes `inves`, `inves_c`: zeroes the research levels of all players or clears the research queue.
+     */
+    private function resetResearch(array $dbcol): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['inves'] ?? '') === 'on') {
+            $db->updateRows('USERS', $dbcol['tech'], ['universe' => $this->universe()->getEmulated()]);
+        }
+
+        if (($this->state->requestPost['inves_c'] ?? '') === 'on') {
+            $db->update("UPDATE %%USERS%% SET `b_tech_planet` = '0', `b_tech` = '0', `b_tech_id` = '0', `b_tech_queue` = '' WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+    }
+
+    /**
+     * Checkboxes `dark`, `resources`: sets dark matter (players) / metal, crystal, deuterium (planets) back to the
+     * configured start values.
+     */
+    private function resetResources(array $dbcol): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['dark'] ?? '') === 'on') {
+            $db->updateRows('USERS', $dbcol['resource_user_start'], ['universe' => $this->universe()->getEmulated()]);
+        }
+
+        if (($this->state->requestPost['resources'] ?? '') === 'on') {
+            $db->updateRows('PLANETS', $dbcol['resource_planet_start'], ['universe' => $this->universe()->getEmulated()]);
+        }
+    }
+
+    /**
+     * Checkboxes `notes`, `rw`, `friends`, `alliances`, `fleets`, `banneds`, `messages`, `statpoints`: deletes the
+     * respective universe data (alliances and bans also reset the players' flags).
+     */
+    private function resetGeneral(): void
+    {
+        $db = $this->db;
+
+        if (($this->state->requestPost['notes'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%NOTES%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['rw'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%TOPKB%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['friends'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%BUDDY%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['alliances'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%ALLIANCE%% WHERE `ally_universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+            $db->update("UPDATE %%USERS%% SET `ally_id` = '0', `ally_register_time` = '0', `ally_rank_id` = '0' WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['fleets'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%FLEETS%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['banneds'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%BANNED%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+
+            $db->update("UPDATE %%USERS%% SET `bana` = '0', `banaday` = '0' WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['messages'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%MESSAGES%% WHERE `message_universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+
+        if (($this->state->requestPost['statpoints'] ?? '') === 'on') {
+            $db->delete("DELETE FROM %%STATPOINTS%% WHERE `universe` = :universe;", [
+                ':universe' => $this->universe()->getEmulated(),
+            ]);
+        }
+    }
+
+    /**
+     * Translated labels of the reset form.
+     *
+     * @return array<string, string>
+     */
+    private function formTexts(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
             'button_submit'                  => $LNG['button_submit'],
             're_reset_universe_confirmation' => $LNG['re_reset_universe_confirmation'],
             're_reset_all'                   => $LNG['re_reset_all'],
@@ -268,8 +345,6 @@ class ResetController extends AbstractAdminController
             're_reset_player'                => $LNG['re_reset_player'],
             're_player_and_planets'          => $LNG['re_player_and_planets'],
             're_general'                     => $LNG['re_general'],
-        ]);
-
-        return $this->render('admin/ResetPage.html.twig');
+        ];
     }
 }

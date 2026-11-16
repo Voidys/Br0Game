@@ -43,119 +43,139 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
      */
     public function TargetEvent()
     {
-        $db = $this->db;
-        $LNG		= $this->getLanguage(null, $this->_fleet['owner']);
         if ($this->_fleet['end_id'] != 0) {
-            /*
-            * Buyer fleet flies to its own market place first
-            * then gets rerouted to sellers marketplace
-            */
-            $sql = "SELECT `marketplace_system`, `marketplace_galaxy` 
-                FROM %%TRADES%% WHERE `seller_fleet_id` = :id OR `buyer_fleet_id` = :id;";
-            $target = $db->selectSingle($sql, [
-                ':id' => $this->_fleet['id']
-            ]);
-            //$this->UpdateFleet('mission', 3);
-            $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $owner = $db->selectSingle($sql, [':userId' => $this->_fleet['owner']]);
-            $config = $this->configs->get($owner['universe']);
-            $fleetArray = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
-            $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
-            $Distance = $this->fleetFunctions()->getTargetDistance(
-                [$this->_fleet['start_galaxy'], $this->_fleet['start_system'], ($config->max_planets + 2)],
-                [$target['marketplace_galaxy'], $target['marketplace_system'], ($config->max_planets + 2)]
-            );
-            $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $owner);
-            $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $owner);
-            //if trade is with another system, set start time to arrival time on own market place to remove the extra time back
-            if ($target['marketplace_system'] != $this->_fleet['start_system'] || $target['marketplace_galaxy'] != $this->_fleet['start_galaxy']) {
-                $this->UpdateFleet('start_time', $this->_fleet['arrival_time']);
-            }
-            $fleetStartTime = $Duration + $this->_fleet['arrival_time'];
-            $fleetStayTime = $fleetStartTime + TIME_6_HOURS;
-            $fleetEndTime = $fleetStayTime + $Duration;
-            $this->UpdateFleet('arrival_time', $fleetStartTime);
-            $this->UpdateFleet('stay_time', $fleetStayTime);
-            $this->UpdateFleet('return_time', $fleetEndTime);
-            $this->UpdateFleet('end_id', 0);
-            $this->UpdateFleet('end_galaxy', $target['marketplace_galaxy']);
-            $this->UpdateFleet('end_system', $target['marketplace_system']);
-            $this->UpdateFleetLog('end_galaxy', $target['marketplace_galaxy']);
-            $this->UpdateFleetLog('end_system', $target['marketplace_system']);
-            $this->UpdateFleet('resource_metal', 0);
-            $this->UpdateFleet('resource_crystal', 0);
-            $this->UpdateFleet('resource_deuterium', 0);
-            $this->setState(FLEET_OUTWARD);
+            $this->rerouteToSellerMarketPlace();
         } elseif ($this->_fleet['end_id'] == 0) {
-            /*
-            * either exchange ressources or hold at market place
-            * else is for holding(normal flight to marketplace)
-            */
-            $sql = "SELECT `seller_fleet_id`, `ex_resource_type`, `ex_resource_amount`, `buy_time` 
-                FROM %%TRADES%% WHERE `seller_fleet_id` = :id;";
-            $tradeSeller = $db->selectSingle($sql, [
-                ':id' => $this->_fleet['id']
-            ]);
-            $sql = "SELECT `buyer_fleet_id`, `resource_type`, `resource_amount`, `buy_time` 
-                FROM %%TRADES%% WHERE `buyer_fleet_id` = :id;";
-            $tradeBuyer = $db->selectSingle($sql, [
-                ':id' => $this->_fleet['id']
-            ]);
-            if (!empty($tradeSeller)) {
-                if (!empty($tradeSeller['buy_time'])) {
-                    switch ($tradeSeller['ex_resource_type']) {
-                        case 1:
-                            $ressource = 'resource_metal';
-                            break;
-                        case 2:
-                            $ressource = 'resource_crystal';
-                            break;
-                        case 3:
-                            $ressource = 'resource_deuterium';
-                            break;
-                    }
-                    $this->UpdateFleet($ressource, $tradeSeller['ex_resource_amount']);
-                    $this->UpdateFleetLog('wanted_resource', $tradeSeller['ex_resource_type']);
-                    $this->UpdateFleetLog('wanted_resource_amount', $tradeSeller['ex_resource_amount']);
-                    $this->setState(FLEET_HOLD);
-                    $this->UpdateFleet('cannotCancel', 0);
-
-                    $this->sendHoldMessage();
-                } else {
-                    $this->setState(FLEET_HOLD);
-                    $this->UpdateFleet('cannotCancel', 1);
-                }
-            } elseif (!empty($tradeBuyer)) {
-                if (!empty($tradeBuyer['buy_time'])) {
-                    switch ($tradeBuyer['resource_type']) {
-                        case 1:
-                            $ressource = 'resource_metal';
-                            break;
-                        case 2:
-                            $ressource = 'resource_crystal';
-                            break;
-                        case 3:
-                            $ressource = 'resource_deuterium';
-                            break;
-                    }
-                    $this->UpdateFleet($ressource, $tradeBuyer['resource_amount']);
-                    $this->UpdateFleetLog('wanted_resource', $tradeBuyer['resource_type']);
-                    $this->UpdateFleetLog('wanted_resource_amount', $tradeBuyer['resource_amount']);
-                    $this->setState(FLEET_HOLD);
-                    $this->UpdateFleet('cannotCancel', 0);
-
-                    $this->sendHoldMessage();
-                } else {
-                    $this->setState(FLEET_HOLD);
-                    $this->UpdateFleet('cannotCancel', 1);
-                }
-            }
+            $this->holdAtMarketPlace();
         } else {
             $this->setState(FLEET_HOLD);
             $this->UpdateFleet('cannotCancel', 1);
         }
 
         $this->SaveFleet();
+    }
+
+    /**
+     * Phase 1: the buyer fleet reached its own market place and flies on to the seller's one (10% speed leg), holds
+     * there for 6 hours and returns. The cargo is emptied, the start time of the leg is reset when the market place
+     * lies in another system (the return time is not counted twice).
+     */
+    private function rerouteToSellerMarketPlace(): void
+    {
+        $db = $this->db;
+        /*
+        * Buyer fleet flies to its own market place first
+        * then gets rerouted to sellers marketplace
+        */
+        $sql = "SELECT `marketplace_system`, `marketplace_galaxy` 
+            FROM %%TRADES%% WHERE `seller_fleet_id` = :id OR `buyer_fleet_id` = :id;";
+        $target = $db->selectSingle($sql, [
+            ':id' => $this->_fleet['id']
+        ]);
+        //$this->UpdateFleet('mission', 3);
+        $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
+        $owner = $db->selectSingle($sql, [':userId' => $this->_fleet['owner']]);
+        $config = $this->configs->get($owner['universe']);
+        $fleetArray = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
+        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $Distance = $this->fleetFunctions()->getTargetDistance(
+            [$this->_fleet['start_galaxy'], $this->_fleet['start_system'], ($config->max_planets + 2)],
+            [$target['marketplace_galaxy'], $target['marketplace_system'], ($config->max_planets + 2)]
+        );
+        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $owner);
+        $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $owner);
+        //if trade is with another system, set start time to arrival time on own market place to remove the extra time back
+        if ($target['marketplace_system'] != $this->_fleet['start_system'] || $target['marketplace_galaxy'] != $this->_fleet['start_galaxy']) {
+            $this->UpdateFleet('start_time', $this->_fleet['arrival_time']);
+        }
+        $fleetStartTime = $Duration + $this->_fleet['arrival_time'];
+        $fleetStayTime = $fleetStartTime + TIME_6_HOURS;
+        $fleetEndTime = $fleetStayTime + $Duration;
+        $this->UpdateFleet('arrival_time', $fleetStartTime);
+        $this->UpdateFleet('stay_time', $fleetStayTime);
+        $this->UpdateFleet('return_time', $fleetEndTime);
+        $this->UpdateFleet('end_id', 0);
+        $this->UpdateFleet('end_galaxy', $target['marketplace_galaxy']);
+        $this->UpdateFleet('end_system', $target['marketplace_system']);
+        $this->UpdateFleetLog('end_galaxy', $target['marketplace_galaxy']);
+        $this->UpdateFleetLog('end_system', $target['marketplace_system']);
+        $this->UpdateFleet('resource_metal', 0);
+        $this->UpdateFleet('resource_crystal', 0);
+        $this->UpdateFleet('resource_deuterium', 0);
+        $this->setState(FLEET_OUTWARD);
+    }
+
+    /**
+     * Phase 2: the fleet arrived at the market place and holds. If the trade of this fleet already has a buy_time the
+     * wanted goods are put into the cargo (seller: ex_resource_*, buyer: resource_*), logged, the fleet may be
+     * recalled (cannotCancel = 0) and the owner gets a hold message; an open offer keeps the fleet (cannotCancel = 1).
+     */
+    private function holdAtMarketPlace(): void
+    {
+        $db = $this->db;
+        /*
+        * either exchange ressources or hold at market place
+        * else is for holding(normal flight to marketplace)
+        */
+        $sql = "SELECT `seller_fleet_id`, `ex_resource_type`, `ex_resource_amount`, `buy_time` 
+            FROM %%TRADES%% WHERE `seller_fleet_id` = :id;";
+        $tradeSeller = $db->selectSingle($sql, [
+            ':id' => $this->_fleet['id']
+        ]);
+        $sql = "SELECT `buyer_fleet_id`, `resource_type`, `resource_amount`, `buy_time` 
+            FROM %%TRADES%% WHERE `buyer_fleet_id` = :id;";
+        $tradeBuyer = $db->selectSingle($sql, [
+            ':id' => $this->_fleet['id']
+        ]);
+        if (!empty($tradeSeller)) {
+            if (!empty($tradeSeller['buy_time'])) {
+                switch ($tradeSeller['ex_resource_type']) {
+                    case 1:
+                        $ressource = 'resource_metal';
+                        break;
+                    case 2:
+                        $ressource = 'resource_crystal';
+                        break;
+                    case 3:
+                        $ressource = 'resource_deuterium';
+                        break;
+                }
+                $this->UpdateFleet($ressource, $tradeSeller['ex_resource_amount']);
+                $this->UpdateFleetLog('wanted_resource', $tradeSeller['ex_resource_type']);
+                $this->UpdateFleetLog('wanted_resource_amount', $tradeSeller['ex_resource_amount']);
+                $this->setState(FLEET_HOLD);
+                $this->UpdateFleet('cannotCancel', 0);
+
+                $this->sendHoldMessage();
+            } else {
+                $this->setState(FLEET_HOLD);
+                $this->UpdateFleet('cannotCancel', 1);
+            }
+        } elseif (!empty($tradeBuyer)) {
+            if (!empty($tradeBuyer['buy_time'])) {
+                switch ($tradeBuyer['resource_type']) {
+                    case 1:
+                        $ressource = 'resource_metal';
+                        break;
+                    case 2:
+                        $ressource = 'resource_crystal';
+                        break;
+                    case 3:
+                        $ressource = 'resource_deuterium';
+                        break;
+                }
+                $this->UpdateFleet($ressource, $tradeBuyer['resource_amount']);
+                $this->UpdateFleetLog('wanted_resource', $tradeBuyer['resource_type']);
+                $this->UpdateFleetLog('wanted_resource_amount', $tradeBuyer['resource_amount']);
+                $this->setState(FLEET_HOLD);
+                $this->UpdateFleet('cannotCancel', 0);
+
+                $this->sendHoldMessage();
+            } else {
+                $this->setState(FLEET_HOLD);
+                $this->UpdateFleet('cannotCancel', 1);
+            }
+        }
     }
 
     /**

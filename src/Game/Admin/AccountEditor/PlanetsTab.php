@@ -144,7 +144,6 @@ class PlanetsTab extends AccountEditorTab
     private function collectPositionChange(array &$plan, array $beforePlanet, mixed $galaxy, mixed $system, mixed $planet): void
     {
         $LNG = $this->state->LNG;
-        $db = $this->db;
         if (
             !$this->playerUtil()->checkPosition(
                 $this->universe()->getEmulated(),
@@ -157,88 +156,115 @@ class PlanetsTab extends AccountEditorTab
         }
 
         if ($beforePlanet['planet_type'] == TYPE_PLANET) {
-            if (
-                !$this->playerUtil()->isPositionFree(
-                    $this->universe()->getEmulated(),
-                    $galaxy,
-                    $system,
-                    $planet,
-                    $beforePlanet['planet_type'],
-                )
-            ) {
-                $this->responder->message($LNG['ad_pla_error_planets3'], '?page=accountEditor&edit=planets');
-            }
-
-            $plan['values']['galaxy'] = $galaxy;
-            $plan['values']['system'] = $system;
-            $plan['values']['planet'] = $planet;
-            $plan['afterPlanet']['galaxy'] = $galaxy;
-            $plan['afterPlanet']['system'] = $system;
-            $plan['afterPlanet']['planet'] = $planet;
-
-            if ($beforePlanet['id_luna'] > 0) {
-                $sql = "SELECT * FROM %%PLANETS%%
-                    WHERE `id` = :id_luna AND `planet_type` = :type_moon;";
-                $plan['beforePlanet2'] = $db->selectSingle($sql, [
-                    ':id_luna' => $beforePlanet['id_luna'],
-                    ':type_moon' => TYPE_MOON,
-                ]);
-                $plan['afterPlanet2'] = $plan['beforePlanet2'];
-
-                $plan['values2']['galaxy'] = $galaxy;
-                $plan['values2']['system'] = $system;
-                $plan['values2']['planet'] = $planet;
-                $plan['afterPlanet2']['galaxy'] = $galaxy;
-                $plan['afterPlanet2']['system'] = $system;
-                $plan['afterPlanet2']['planet'] = $planet;
-            }
+            $this->planPlanetMove($plan, $beforePlanet, $galaxy, $system, $planet);
         } else {
+            $this->planMoonSwap($plan, $beforePlanet, $galaxy, $system, $planet);
+        }
+    }
+
+    /**
+     * A planet moves to a free position: the planet is updated and its moon (if any) moves along.
+     *
+     * @param array<string, mixed> $plan         update plan (modified)
+     * @param array<string, mixed> $beforePlanet the edited planet
+     */
+    private function planPlanetMove(array &$plan, array $beforePlanet, mixed $galaxy, mixed $system, mixed $planet): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+        if (
+            !$this->playerUtil()->isPositionFree(
+                $this->universe()->getEmulated(),
+                $galaxy,
+                $system,
+                $planet,
+                $beforePlanet['planet_type'],
+            )
+        ) {
+            $this->responder->message($LNG['ad_pla_error_planets3'], '?page=accountEditor&edit=planets');
+        }
+
+        $plan['values']['galaxy'] = $galaxy;
+        $plan['values']['system'] = $system;
+        $plan['values']['planet'] = $planet;
+        $plan['afterPlanet']['galaxy'] = $galaxy;
+        $plan['afterPlanet']['system'] = $system;
+        $plan['afterPlanet']['planet'] = $planet;
+
+        if ($beforePlanet['id_luna'] > 0) {
             $sql = "SELECT * FROM %%PLANETS%%
-                WHERE `galaxy` = :galaxy AND `system` = :system
-                AND `planet` = :planet AND `planet_type` = :type_planet
-                AND `universe` = :universe;";
+                WHERE `id` = :id_luna AND `planet_type` = :type_moon;";
             $plan['beforePlanet2'] = $db->selectSingle($sql, [
-                ':galaxy'   => $galaxy,
-                ':system'   => $system,
-                ':planet'   => $planet,
-                ':universe' => $this->universe()->getEmulated(),
-                ':type_planet' => TYPE_PLANET,
+                ':id_luna' => $beforePlanet['id_luna'],
+                ':type_moon' => TYPE_MOON,
             ]);
             $plan['afterPlanet2'] = $plan['beforePlanet2'];
 
-            if (empty($plan['beforePlanet2'])) {
-                $this->responder->message($LNG['ad_pla_error_planets5'], '?page=accountEditor&edit=planets');
-            }
-
-            if ($plan['beforePlanet2']['id_owner'] != $beforePlanet['id_owner']) {
-                $this->responder->message($LNG['ad_pla_error_planets'], '?page=accountEditor&edit=planets');
-            }
-
-            if ($plan['beforePlanet2']['id_luna'] > 0) {
-                $this->responder->message($LNG['ad_pla_error_planets4'], '?page=accountEditor&edit=planets');
-            }
-
-            $plan['values']['galaxy'] = $galaxy;
-            $plan['values']['system'] = $system;
-            $plan['values']['planet'] = $planet;
-            $plan['afterPlanet']['galaxy'] = $galaxy;
-            $plan['afterPlanet']['system'] = $system;
-            $plan['afterPlanet']['planet'] = $planet;
-
-            $plan['values2']['id_luna'] = $beforePlanet['id'];
-            $plan['afterPlanet2']['id_luna'] = $beforePlanet['id'];
-
-            $sql = "SELECT * FROM %%PLANETS%%
-                WHERE `id_luna` = :id AND `planet_type` = :type_planet;";
-            $plan['beforePlanet3'] = $db->selectSingle($sql, [
-                ':id' => $beforePlanet['id'],
-                ':type_planet' => TYPE_PLANET,
-            ]);
-            $plan['afterPlanet3'] = $plan['beforePlanet3'];
-
-            $plan['values3']['id_luna'] = 0;
-            $plan['afterPlanet3']['id_luna'] = 0;
+            $plan['values2']['galaxy'] = $galaxy;
+            $plan['values2']['system'] = $system;
+            $plan['values2']['planet'] = $planet;
+            $plan['afterPlanet2']['galaxy'] = $galaxy;
+            $plan['afterPlanet2']['system'] = $system;
+            $plan['afterPlanet2']['planet'] = $planet;
         }
+    }
+
+    /**
+     * A moon swaps to the planet at the target position of the same owner: that planet must exist, belong to the same
+     * owner and have no moon yet; it takes over the moon relation of the old planet, which loses it.
+     *
+     * @param array<string, mixed> $plan         update plan (modified)
+     * @param array<string, mixed> $beforePlanet the edited moon
+     */
+    private function planMoonSwap(array &$plan, array $beforePlanet, mixed $galaxy, mixed $system, mixed $planet): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+        $sql = "SELECT * FROM %%PLANETS%%
+            WHERE `galaxy` = :galaxy AND `system` = :system
+            AND `planet` = :planet AND `planet_type` = :type_planet
+            AND `universe` = :universe;";
+        $plan['beforePlanet2'] = $db->selectSingle($sql, [
+            ':galaxy'   => $galaxy,
+            ':system'   => $system,
+            ':planet'   => $planet,
+            ':universe' => $this->universe()->getEmulated(),
+            ':type_planet' => TYPE_PLANET,
+        ]);
+        $plan['afterPlanet2'] = $plan['beforePlanet2'];
+
+        if (empty($plan['beforePlanet2'])) {
+            $this->responder->message($LNG['ad_pla_error_planets5'], '?page=accountEditor&edit=planets');
+        }
+
+        if ($plan['beforePlanet2']['id_owner'] != $beforePlanet['id_owner']) {
+            $this->responder->message($LNG['ad_pla_error_planets'], '?page=accountEditor&edit=planets');
+        }
+
+        if ($plan['beforePlanet2']['id_luna'] > 0) {
+            $this->responder->message($LNG['ad_pla_error_planets4'], '?page=accountEditor&edit=planets');
+        }
+
+        $plan['values']['galaxy'] = $galaxy;
+        $plan['values']['system'] = $system;
+        $plan['values']['planet'] = $planet;
+        $plan['afterPlanet']['galaxy'] = $galaxy;
+        $plan['afterPlanet']['system'] = $system;
+        $plan['afterPlanet']['planet'] = $planet;
+
+        $plan['values2']['id_luna'] = $beforePlanet['id'];
+        $plan['afterPlanet2']['id_luna'] = $beforePlanet['id'];
+
+        $sql = "SELECT * FROM %%PLANETS%%
+            WHERE `id_luna` = :id AND `planet_type` = :type_planet;";
+        $plan['beforePlanet3'] = $db->selectSingle($sql, [
+            ':id' => $beforePlanet['id'],
+            ':type_planet' => TYPE_PLANET,
+        ]);
+        $plan['afterPlanet3'] = $plan['beforePlanet3'];
+
+        $plan['values3']['id_luna'] = 0;
+        $plan['afterPlanet3']['id_luna'] = 0;
     }
 
     /**

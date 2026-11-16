@@ -514,7 +514,7 @@
 				{% endfor %}
 
 				<tr>
-					<th colspan="2">Scavengers Toolbox <a href="https://codeberg.org/pr0game/userscripts#user-content-scavengers-toolbox" target="_blank">❓ FAQ ❓</a></th>
+					<th colspan="2">Scavengers Toolbox{% if game_config('userscripts_url') %} <a href="{{ game_config('userscripts_url')|e('html_attr') }}" target="_blank" rel="noopener">❓ FAQ ❓</a>{% endif %}</th>
 				</tr>
 				<tr>
 					<td>{{ LNG.stb_activ }}</td>

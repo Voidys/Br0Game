@@ -101,6 +101,56 @@ class AccountSettingsController extends AbstractAccountController
             'toplink'       => "account?page=account",
             'topname'       => $LNG->format('Back'),
         ]);
+        $this->changePassword($password, $newpassword, $newpassword2);
+
+        $this->changeEmail($email, $password);
+
+        $sql =  "UPDATE %%ACCOUNTS%% SET
+		lang				        = :lang,
+		dpath				        = :theme,
+        css_dpath                   = :cssTheme,
+		timezone				    = :timezone
+		WHERE id = :userID;";
+        $db->update($sql, [
+            ':lang'              => $language,
+            ':theme'             => $theme,
+            ':cssTheme'          => $theme,
+            ':timezone'          => $timezone,
+            ':userID'            => $this->state->ACCOUNT['id'],
+        ]);
+        $this->state->ACCOUNT['dpath'] = $theme;
+        $this->state->ACCOUNT['css_dpath'] = $theme;
+        $this->assign([
+            'Selectors'         => [
+                'timezones' => get_timezone_selector(),
+                'Skins' => Theme::getAvailableCssThemes(),
+                'lang' => $LNG->getAllowedLangs(false),
+            ],
+            'id'            => $this->state->ACCOUNT['id'],
+            'accountname'   => $this->state->ACCOUNT['accountname'],
+            'userLang'      => $this->state->ACCOUNT['lang'],
+            'theme'         => $this->state->ACCOUNT['dpath'],
+            'timezone'      => $this->state->ACCOUNT['timezone'],
+            'toplink'       => "account?page=account",
+            'topname'       => $LNG->format('Back'),
+        ]);
+        $db->commit();
+
+        $this->printMessage($LNG['op_options_changed'], [
+            [
+                'label' => $LNG['sys_forward'],
+                'url'   => 'account?page=accountSettings',
+            ],
+        ]);
+    }
+
+    /**
+     * Sets a new password when the current one is given and correct and both repetitions match: re-hashes it, revokes
+     * every session of the account and logs this one out. Otherwise nothing happens.
+     */
+    private function changePassword(mixed $password, mixed $newpassword, mixed $newpassword2): void
+    {
+        $db = $this->db;
         if (
             !empty($newpassword)
             && !empty($password)
@@ -117,6 +167,17 @@ class AccountSettingsController extends AbstractAccountController
             $this->sessions()->revokeAccountSessions((int) $this->state->ACCOUNT['id']);
             $this->state->auth->logout();
         }
+    }
+
+    /**
+     * Changes the e-mail address when it differs from the current one: needs the current password, a valid address that
+     * no other account or pending registration uses (each failure ends with a message page), stores it with
+     * `setmail` = now + 7 days and notifies the old address (email_2).
+     */
+    private function changeEmail(mixed $email, mixed $password): void
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
 
         if (!empty($email) && $email != $this->state->ACCOUNT['email']) {
             if (!password_verify($password, $this->state->ACCOUNT['password'])) {
@@ -167,7 +228,7 @@ class AccountSettingsController extends AbstractAccountController
                     ], [
                         $this->state->ACCOUNT['accountname'],
                         $config->game_name,
-                        DISCORD_URL,
+                        $this->configs->get()->discord_url,
                     ], $MailRAW);
 
                     $subject = $LNG->formatIn(['mail', 'subject', 'mail_changed'], $config->game_name);
@@ -175,44 +236,6 @@ class AccountSettingsController extends AbstractAccountController
                 }
             }
         }
-
-        $sql =  "UPDATE %%ACCOUNTS%% SET
-		lang				        = :lang,
-		dpath				        = :theme,
-        css_dpath                   = :cssTheme,
-		timezone				    = :timezone
-		WHERE id = :userID;";
-        $db->update($sql, [
-            ':lang'              => $language,
-            ':theme'             => $theme,
-            ':cssTheme'          => $theme,
-            ':timezone'          => $timezone,
-            ':userID'            => $this->state->ACCOUNT['id'],
-        ]);
-        $this->state->ACCOUNT['dpath'] = $theme;
-        $this->state->ACCOUNT['css_dpath'] = $theme;
-        $this->assign([
-            'Selectors'         => [
-                'timezones' => get_timezone_selector(),
-                'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
-            ],
-            'id'            => $this->state->ACCOUNT['id'],
-            'accountname'   => $this->state->ACCOUNT['accountname'],
-            'userLang'      => $this->state->ACCOUNT['lang'],
-            'theme'         => $this->state->ACCOUNT['dpath'],
-            'timezone'      => $this->state->ACCOUNT['timezone'],
-            'toplink'       => "account?page=account",
-            'topname'       => $LNG->format('Back'),
-        ]);
-        $db->commit();
-
-        $this->printMessage($LNG['op_options_changed'], [
-            [
-                'label' => $LNG['sys_forward'],
-                'url'   => 'account?page=accountSettings',
-            ],
-        ]);
     }
 
     /**

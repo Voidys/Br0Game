@@ -13,23 +13,8 @@ use App\Game\Core\StoredData;
  */
 class ExpeditionCombatReport extends ExpeditionEvent
 {
-    /**
-     * Generates and stores the report of the fight.
-     *
-     * Side effect: inserts the report into the rw table.
-     *
-     * @param BattleResult                  $combatResult result of the battle engine
-     * @param array<int|string, BattleFleet> $fleetAttack  attacking fleets as given to the engine
-     * @param array<int|string, BattleFleet> $fleetDefend  defending fleets as given to the engine
-     * @return array{reportID: string, msg: string, link: string} report id, message html, link html
-     */
-    public function generate(BattleResult $combatResult, BattleHandler $battleHandler, array $fleetAttack, array $fleetDefend): array
-    {
-        $LNG = $this->LNG;
-        $debris = [RESOURCE_METAL => 0, RESOURCE_CRYSTAL => 0];
-        $stealResource = [RESOURCE_METAL => 0, RESOURCE_CRYSTAL => 0, RESOURCE_DEUT => 0];
-        // test this.
-        $messageHTML = <<<HTML
+    /** Report message with the link to the full report (sprintf template; the line breaks are removed when it is used). */
+    private const MESSAGE_HTML = <<<'HTML'
 <div class="raportMessage">
     <table>
         <tr>
@@ -59,9 +44,22 @@ class ExpeditionCombatReport extends ExpeditionEvent
     </table>
 </div>
 HTML;
-        //Minize HTML
-        $messageHTML = str_replace(["\n", "\t", "\r"], "", $messageHTML);
 
+    /**
+     * Generates and stores the report of the fight.
+     *
+     * Side effect: inserts the report into the rw table.
+     *
+     * @param BattleResult                  $combatResult result of the battle engine
+     * @param array<int|string, BattleFleet> $fleetAttack  attacking fleets as given to the engine
+     * @param array<int|string, BattleFleet> $fleetDefend  defending fleets as given to the engine
+     * @return array{reportID: string, msg: string, link: string} report id, message html, link html
+     */
+    public function generate(BattleResult $combatResult, BattleHandler $battleHandler, array $fleetAttack, array $fleetDefend): array
+    {
+        $LNG = $this->LNG;
+        $debris = [RESOURCE_METAL => 0, RESOURCE_CRYSTAL => 0];
+        $stealResource = [RESOURCE_METAL => 0, RESOURCE_CRYSTAL => 0, RESOURCE_DEUT => 0];
         $reportInfo = [
             'thisFleet' => $this->fleet,
             'debris' => $debris,
@@ -80,6 +78,29 @@ HTML;
         $reportData['time']	= $this->fleet['stay_time'];
         $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
 
+        $this->storeReport($battleHandler, $reportData, $reportID);
+
+        $message = $this->buildMessage($combatResult, $reportID, $debris, $stealResource);
+
+        $result = [];
+        $result['reportID'] = $reportID;
+        $result['msg'] = $message;
+        $result['link'] = sprintf(
+            '<a href="CombatReport?raport=%s" target="_blank"> %s </a>',
+            $reportID,
+            $LNG['sys_mess_attack_report'],
+        );
+
+        return $result;
+    }
+
+    /**
+     * Inserts the report into the rw table in the format of the engine that fought.
+     *
+     * @param array<string, mixed> $reportData generated report (with the time of the fight)
+     */
+    private function storeReport(BattleHandler $battleHandler, array $reportData, string $reportID): void
+    {
         $sql = "INSERT INTO %%RW%% SET
 			`rid` = :reportId,
 			`raport` = :reportData,
@@ -94,6 +115,19 @@ HTML;
             ':attacker' => $this->fleet['owner'],
             ':battleengine' => $battleHandler->engine->getName(),
         ]);
+    }
+
+    /**
+     * The short message: link to the report in the colours of the result (win, lose, draw), the lost values, loot and
+     * debris (always zero for an expedition).
+     *
+     * @param array<int, int|float> $debris debris by resource id
+     * @param array<int, int|float> $stealResource loot by resource id
+     */
+    private function buildMessage(BattleResult $combatResult, string $reportID, array $debris, array $stealResource): string
+    {
+        $LNG = $this->LNG;
+        $messageHTML = str_replace(["\n", "\t", "\r"], "", self::MESSAGE_HTML);
 
         switch ($combatResult->won) {
             case ATTACKER:
@@ -110,7 +144,7 @@ HTML;
                 break;
         }
 
-        $message = sprintf(
+        return sprintf(
             $messageHTML,
             $reportID,
             $attackClass,
@@ -141,16 +175,5 @@ HTML;
             $LNG['tech'][RESOURCE_CRYSTAL],
             $this->viewHelpers()->prettyNumber($debris[RESOURCE_CRYSTAL]),
         );
-
-        $result = [];
-        $result['reportID'] = $reportID;
-        $result['msg'] = $message;
-        $result['link'] = sprintf(
-            '<a href="CombatReport?raport=%s" target="_blank"> %s </a>',
-            $reportID,
-            $LNG['sys_mess_attack_report'],
-        );
-
-        return $result;
     }
 }

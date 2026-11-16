@@ -194,50 +194,13 @@ abstract class AbstractGameController implements GameControllerInterface
     protected function navigationData(): array
     {
         $PLANET = $this->state->PLANET;
-        $LNG = $this->state->LNG;
         $THEME = $this->state->THEME;
         $resource = $this->state->resource;
-        $reslist = $this->state->reslist;
         $config = $this->configs->get();
         $db = $this->db;
 
-        $PlanetSelect = [];
-
-        if ($this->state->USER['bana'] == 1) {
-            throw new EndOfRequest($LNG['banned_message']);
-        }
-
-        if (!isset($this->state->USER['PLANETS'])) {
-            $this->state->USER['PLANETS'] = $this->playerUtil()->getPlanets($this->state->USER);
-        }
-
-        foreach ($this->state->USER['PLANETS'] as $PlanetQuery) {
-            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == 3) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
-        }
-
-        $resourceTable = [];
-        $resourceSpeed = $config->resource_multiplier / 2500;
-        foreach ($reslist['resstype'][1] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['current'] = floor($PLANET[$resource[$resourceID]]);
-            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID] . '_max'];
-            if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
-                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'];
-            } else {
-                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'] + $config->{$resource[$resourceID] . '_basic_income'} * $resourceSpeed;
-            }
-        }
-
-        foreach ($reslist['resstype'][2] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['used'] = $PLANET[$resource[$resourceID] . '_used'];
-            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID]];
-        }
-
-        foreach ($reslist['resstype'][3] as $resourceID) {
-            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['current'] = $this->state->USER[$resource[$resourceID]];
-        }
+        $PlanetSelect = $this->planetSelectOptions();
+        $resourceTable = $this->resourceBar($config);
 
         $themeSettings = $THEME->getStyleSettings();
 
@@ -256,46 +219,8 @@ abstract class AbstractGameController implements GameControllerInterface
             }
         }
 
-        // players without an alliance have no requests to manage (no alliance has id 0)
-        $allyApplyRequests = 0;
-        $allyDiploRequests = 0;
-        if (!empty($this->state->USER['ally_id'])) {
-            $sql = "SELECT COUNT(r.applyID) AS applies
-                FROM %%ALLIANCE_REQUEST%% r
-                JOIN %%USERS%% u ON u.ally_id = r.allianceID
-                JOIN %%ALLIANCE%% a ON a.id = u.ally_id
-                LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
-                WHERE r.allianceID = :allianceID AND u.id = :userID AND (u.id = a.ally_owner OR ra.MANAGEAPPLY = 1);";
-            $allyApplyRequests = $db->selectSingle($sql, [
-                ':allianceID' => $this->state->USER['ally_id'],
-                ':userID' => $this->state->USER['id'],
-            ], 'applies');
-
-            $sql = "SELECT COUNT(d.id) AS diplos
-                FROM %%DIPLO%% d
-                JOIN %%USERS%% u ON u.ally_id = d.owner_2
-                JOIN %%ALLIANCE%% a ON a.id = u.ally_id
-                LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
-                WHERE d.owner_2 = :allianceID AND accept = 0 AND u.id = :userID AND (u.id = a.ally_owner OR ra.DIPLOMATIC = 1);";
-            $allyDiploRequests = $db->selectSingle($sql, [
-                ':allianceID' => $this->state->USER['ally_id'],
-                ':userID' => $this->state->USER['id'],
-            ], 'diplos');
-        }
-
-        $allyrequests = $allyApplyRequests + $allyDiploRequests;
-
-        $vacation = false;
-        if ($this->state->USER['urlaubs_modus']) {
-            if ($this->state->USER['urlaubs_until'] > $this->state->runtime->timestamp) {
-                $vacation = $LNG->format('tn_vacation_mode_until', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->state->USER['urlaubs_until'], $this->state->USER['timezone']));
-            } else {
-                $vacation = $LNG['tn_vacation_mode'];
-            }
-            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $this->state->USER['universe'])) {
-                $vacation .= $LNG['tn_vacation_mode_kick'];
-            }
-        }
+        $allyrequests = $this->allianceRequestCount();
+        $vacation = $this->vacationNotice();
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID;";
         $wreckfieldData = $db->selectSingle($sql, [':planetID' => $PLANET['id']]);
@@ -306,13 +231,7 @@ abstract class AbstractGameController implements GameControllerInterface
             WHERE b.`sender` = :userID OR b.`owner` = :userID;";
         $buddyRequests = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'count');
 
-        $deletion = false;
-        $accountId = $this->accountIdOfUser((int) $this->state->USER['id']);
-        $ACCOUNT = $this->accountUtil()->get_account($accountId);
-        if ($this->state->USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
-            $timestamp = $this->state->USER['db_deaktjava'] ? $this->state->USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
-            $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config), $ACCOUNT['timezone']));
-        }
+        $deletion = $this->deletionNotice($config);
 
         $tutorialDetails = [];
         if ($this->viewHelpers()->isModuleAvailable(MODULE_TUTORIAL)) {
@@ -347,10 +266,173 @@ abstract class AbstractGameController implements GameControllerInterface
             'hasRebuildProtection' => $config->rebuild_protection == 1 && $this->state->USER['rebuild_protection'] > 0,
             'rebuildProtectionUntil' => $this->state->USER['rebuild_protection'] + TIME_24_HOURS * 2 - $this->state->runtime->timestamp,
             'hasGate' => $PLANET[$resource[43]] > 0,
-            'discordUrl' => DISCORD_URL,
+            'communityNav' => $this->communityNav(!empty($tutorialDetails['id'] ?? null)),
             'tutorial' => !$tutorialDetails || empty($tutorialDetails) ? false : $tutorialDetails,
             'noobInterface' => $this->state->USER['noob_interface'],
         ];
+    }
+
+
+    /**
+     * Options of the planet selector ("name (Moon) [g:s:p]" per planet id). Ends the request with the banned message for
+     * banned players and loads the player's planet list into the USER state on first use.
+     *
+     * @return array<int, string> planet id => label
+     */
+    private function planetSelectOptions(): array
+    {
+        $LNG = $this->state->LNG;
+        $PlanetSelect = [];
+
+        if ($this->state->USER['bana'] == 1) {
+            throw new EndOfRequest($LNG['banned_message']);
+        }
+
+        if (!isset($this->state->USER['PLANETS'])) {
+            $this->state->USER['PLANETS'] = $this->playerUtil()->getPlanets($this->state->USER);
+        }
+
+        foreach ($this->state->USER['PLANETS'] as $PlanetQuery) {
+            $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == 3) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
+        }
+
+        return $PlanetSelect;
+    }
+
+    /**
+     * The resource bar of the current planet: metal/crystal/deuterium with stock, capacity and hourly production (incl. the basic
+     * income, except in vacation mode and on moons), energy with use and capacity, and the third resource group (dark matter) with its amount.
+     *
+     * @return array<int, array<string, mixed>> resource id => name, current, max, production / used
+     */
+    private function resourceBar(object $config): array
+    {
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+
+        $resourceTable = [];
+        $resourceSpeed = $config->resource_multiplier / 2500;
+        foreach ($reslist['resstype'][1] as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
+            $resourceTable[$resourceID]['current'] = floor($PLANET[$resource[$resourceID]]);
+            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID] . '_max'];
+            if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
+                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'];
+            } else {
+                $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'] + $config->{$resource[$resourceID] . '_basic_income'} * $resourceSpeed;
+            }
+        }
+
+        foreach ($reslist['resstype'][2] as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
+            $resourceTable[$resourceID]['used'] = $PLANET[$resource[$resourceID] . '_used'];
+            $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID]];
+        }
+
+        foreach ($reslist['resstype'][3] as $resourceID) {
+            $resourceTable[$resourceID]['name'] = $resource[$resourceID];
+            $resourceTable[$resourceID]['current'] = $this->state->USER[$resource[$resourceID]];
+        }
+
+        return $resourceTable;
+    }
+
+    /**
+     * Number of open alliance matters the player may handle: applications (owner or MANAGEAPPLY right) plus pending
+     * diplomacy requests (owner or DIPLOMATIC right). Players without an alliance have none (no query).
+     */
+    private function allianceRequestCount(): int|string
+    {
+        $db = $this->db;
+        // players without an alliance have no requests to manage (no alliance has id 0)
+        $allyApplyRequests = 0;
+        $allyDiploRequests = 0;
+        if (!empty($this->state->USER['ally_id'])) {
+            $sql = "SELECT COUNT(r.applyID) AS applies
+                FROM %%ALLIANCE_REQUEST%% r
+                JOIN %%USERS%% u ON u.ally_id = r.allianceID
+                JOIN %%ALLIANCE%% a ON a.id = u.ally_id
+                LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
+                WHERE r.allianceID = :allianceID AND u.id = :userID AND (u.id = a.ally_owner OR ra.MANAGEAPPLY = 1);";
+            $allyApplyRequests = $db->selectSingle($sql, [
+                ':allianceID' => $this->state->USER['ally_id'],
+                ':userID' => $this->state->USER['id'],
+            ], 'applies');
+
+            $sql = "SELECT COUNT(d.id) AS diplos
+                FROM %%DIPLO%% d
+                JOIN %%USERS%% u ON u.ally_id = d.owner_2
+                JOIN %%ALLIANCE%% a ON a.id = u.ally_id
+                LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
+                WHERE d.owner_2 = :allianceID AND accept = 0 AND u.id = :userID AND (u.id = a.ally_owner OR ra.DIPLOMATIC = 1);";
+            $allyDiploRequests = $db->selectSingle($sql, [
+                ':allianceID' => $this->state->USER['ally_id'],
+                ':userID' => $this->state->USER['id'],
+            ], 'diplos');
+        }
+
+        return $allyApplyRequests + $allyDiploRequests;
+    }
+
+    /**
+     * Vacation mode banner text (until when, or "may end now", plus the kick hint when the module is on), false outside vacation mode.
+     */
+    private function vacationNotice(): string|false
+    {
+        $LNG = $this->state->LNG;
+        $vacation = false;
+        if ($this->state->USER['urlaubs_modus']) {
+            if ($this->state->USER['urlaubs_until'] > $this->state->runtime->timestamp) {
+                $vacation = $LNG->format('tn_vacation_mode_until', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->state->USER['urlaubs_until'], $this->state->USER['timezone']));
+            } else {
+                $vacation = $LNG['tn_vacation_mode'];
+            }
+            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $this->state->USER['universe'])) {
+                $vacation .= $LNG['tn_vacation_mode_kick'];
+            }
+        }
+
+        return $vacation;
+    }
+
+    /**
+     * Account deletion banner text with the planned deletion date (of the game account or of the whole account), false when none is pending.
+     */
+    private function deletionNotice(object $config): string|false
+    {
+        $LNG = $this->state->LNG;
+        $deletion = false;
+        $accountId = $this->accountIdOfUser((int) $this->state->USER['id']);
+        $ACCOUNT = $this->accountUtil()->get_account($accountId);
+        if ($this->state->USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
+            $timestamp = $this->state->USER['db_deaktjava'] ? $this->state->USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
+            $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config), $ACCOUNT['timezone']));
+        }
+
+        return $deletion;
+    }
+
+    /**
+     * Community entries of the navigation (Discord, wiki, donate), see CommunityLinks::navLinks(). The wiki entry
+     * keeps going through the wiki SSO route while `$wikiSsoUrl` is set in config/game.php (as WikiLoginController reads it).
+     *
+     * @return array<string, string>
+     */
+    private function communityNav(bool $tutorialActive): array
+    {
+        $wikiSsoUrl = (static function (string $rootPath): string {
+            require $rootPath . 'config/game.php';
+
+            return (string) ($wikiSsoUrl ?? '');
+        })($this->state->runtime->rootPath);
+        $config = $this->configs->get();
+        $urls = [];
+        foreach (\App\Game\Core\CommunityLinks::KEYS as $key) {
+            $urls[$key] = (string) ($config->$key ?? '');
+        }
+
+        return \App\Game\Core\CommunityLinks::navLinks($urls, !empty($wikiSsoUrl), $tutorialActive);
     }
 
     /**

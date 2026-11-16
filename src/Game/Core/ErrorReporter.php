@@ -12,6 +12,25 @@ class ErrorReporter
 {
     use \App\Game\Core\GameUtilities;
 
+    /** names of the PHP error levels in the log and the debug ticket */
+    private const ERROR_TYPES = [
+        E_ERROR => 'ERROR',
+        E_WARNING => 'WARNING',
+        E_PARSE => 'PARSING ERROR',
+        E_NOTICE => 'NOTICE',
+        E_CORE_ERROR => 'CORE ERROR',
+        E_CORE_WARNING => 'CORE WARNING',
+        E_COMPILE_ERROR => 'COMPILE ERROR',
+        E_COMPILE_WARNING => 'COMPILE WARNING',
+        E_USER_ERROR => 'USER ERROR',
+        E_USER_WARNING => 'USER WARNING',
+        E_USER_NOTICE => 'USER NOTICE',
+        E_RECOVERABLE_ERROR => 'RECOVERABLE ERROR',
+        E_DEPRECATED => 'DEPRECATED',
+        E_USER_DEPRECATED => 'USER DEPRECATED',
+        E_ALL => 'ALL',
+    ];
+
     public function __construct(
         protected Database $db,
         protected ConfigRegistry $configs,
@@ -52,24 +71,36 @@ class ErrorReporter
             $errno = E_USER_ERROR;
         }
 
-        $errorType = [
-            E_ERROR => 'ERROR',
-            E_WARNING => 'WARNING',
-            E_PARSE => 'PARSING ERROR',
-            E_NOTICE => 'NOTICE',
-            E_CORE_ERROR => 'CORE ERROR',
-            E_CORE_WARNING => 'CORE WARNING',
-            E_COMPILE_ERROR => 'COMPILE ERROR',
-            E_COMPILE_WARNING => 'COMPILE WARNING',
-            E_USER_ERROR => 'USER ERROR',
-            E_USER_WARNING => 'USER WARNING',
-            E_USER_NOTICE => 'USER NOTICE',
-            E_RECOVERABLE_ERROR => 'RECOVERABLE ERROR',
-            E_DEPRECATED => 'DEPRECATED',
-            E_USER_DEPRECATED => 'USER DEPRECATED',
-            E_ALL => 'ALL',
-        ];
+        $errorType = self::ERROR_TYPES;
 
+        [$gameName, $version] = $this->gameNameAndVersion();
+
+        ob_start();
+        echo $this->errorPage($exception, $gameName, $version);
+
+        if ($this->state->runtime->mode !== 'INSTALL') {
+            (new Discord($this->configs, $this->state))->sendException($exception);
+        }
+
+        echo str_replace(['\\', $this->state->runtime->rootPath, substr($this->state->runtime->rootPath, 0, 15)], ['/', '/', 'FILEPATH '], ob_get_clean());
+
+        $errorText = $this->logError($exception, $errorType[$errno], $version);
+
+        /* Debug via Support Ticket */
+        $config = $this->configs->get();
+        if ($config->debug) {
+            $this->openDebugTicket($errorType[$errno], $errorText);
+        }
+    }
+
+    /**
+     * Game name and version for the error page and the log: the configured ones, or `-` / the install VERSION file when
+     * the config cannot be read (install, broken database).
+     *
+     * @return array{0: string, 1: string} game name, version
+     */
+    private function gameNameAndVersion(): array
+    {
         if (file_exists($this->state->runtime->rootPath . 'install/VERSION')) {
             $version = file_get_contents($this->state->runtime->rootPath . 'install/VERSION') . ' (FILE)';
         } else {
@@ -87,10 +118,17 @@ class ErrorReporter
             }
         }
 
+        return [$gameName, $version];
+    }
 
+    /**
+     * The bilingual error page. In debug mode it carries message, file, line, URL, versions and the backtrace in an
+     * HTML comment (`--` made harmless).
+     */
+    private function errorPage(\ErrorException|\Throwable $exception, mixed $gameName, mixed $version): string
+    {
         $DIR = ($this->state->runtime->mode === 'INSTALL' || $this->state->runtime->mode === 'UPGRADE') ? '..' : '.';
-        ob_start();
-        echo '<!DOCTYPE html>
+        return '<!DOCTYPE html>
     <html lang="de">
     <head>
     	<meta charset="utf-8">
@@ -132,14 +170,17 @@ class ErrorReporter
     -->' : '') . '
     </body>
     </html>';
+    }
 
-        if ($this->state->runtime->mode !== 'INSTALL') {
-            (new Discord($this->configs, $this->state))->sendException($exception);
-        }
-
-        echo str_replace(['\\', $this->state->runtime->rootPath, substr($this->state->runtime->rootPath, 0, 15)], ['/', '/', 'FILEPATH '], ob_get_clean());
-
-        $errorText = date("[d-M-Y H:i:s]", $this->state->runtime->timestamp) . ' ' . $errorType[$errno] . ': "'
+    /**
+     * Appends the error with its stack trace to var/log/game.log (when writable).
+     *
+     * @param string $type error type name, e.g. `USER ERROR`
+     * @return string the log text (also used for the debug ticket)
+     */
+    private function logError(\ErrorException|\Throwable $exception, string $type, mixed $version): string
+    {
+        $errorText = date("[d-M-Y H:i:s]", $this->state->runtime->timestamp) . ' ' . $type . ': "'
             . strip_tags($exception->getMessage()) . "\"\r\n";
         $errorText .= 'File: ' . $exception->getFile() . ' | Line: ' . $exception->getLine() . "\r\n";
         $errorText .= 'URL: ' . $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->requestServer['REQUEST_URI'] . ' | Version: ' . $version . "\r\n";
@@ -154,22 +195,27 @@ class ErrorReporter
             file_put_contents('var/log/game.log', $errorText, FILE_APPEND);
         }
 
-        /* Debug via Support Ticket */
-        $config = $this->configs->get();
-        if ($config->debug) {
-            $USER = $this->state->USER;
-            if (isset($USER) && is_array($USER) && !empty($USER['id']) && !empty($USER['username'])) {
-                $ErrSource = $USER['id'];
-                $ErrName = $USER['username'];
-            } else {
-                $ErrSource = 0;
-                $ErrName = 'System';
-            }
+        return $errorText;
+    }
 
-            $ticketObj = new SupportTickets($this->db, $this->configs, $this->state);
-            $ticketID = $ticketObj->createTicket($ErrSource, 9, $errorType[$errno]);
-            $ticketObj->createAnswer($ticketID, $ErrSource, $ErrName, $errorType[$errno], $errorText, 0);
+    /**
+     * Debug setting on: opens a support ticket of category 9 (as the player when logged in, else as `System`) and puts
+     * the log text into its first answer.
+     */
+    private function openDebugTicket(string $type, string $errorText): void
+    {
+        $USER = $this->state->USER;
+        if (isset($USER) && is_array($USER) && !empty($USER['id']) && !empty($USER['username'])) {
+            $ErrSource = $USER['id'];
+            $ErrName = $USER['username'];
+        } else {
+            $ErrSource = 0;
+            $ErrName = 'System';
         }
+
+        $ticketObj = new SupportTickets($this->db, $this->configs, $this->state);
+        $ticketID = $ticketObj->createTicket($ErrSource, 9, $type);
+        $ticketObj->createAnswer($ticketID, $ErrSource, $ErrName, $type, $errorText, 0);
     }
 
     /** PHP errors become ErrorExceptions (only those covered by error_reporting()). */

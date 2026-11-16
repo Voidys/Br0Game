@@ -197,7 +197,6 @@ final class InstallService
      */
     public function prepareDatabase(array $form, string $password, string $locale, string $baseUrl = ''): array
     {
-        $LNG = $this->lng($locale);
         $root = $this->root;
         $form['host'] = trim((string) $form['host']);
         $form['port'] = (string) (int) ($form['port'] ?: 3306);
@@ -219,8 +218,51 @@ final class InstallService
 
             return $result(false);
         };
+        if ($failed = $this->checkDatabaseInput($form, $migrationpw, $locale, $checks, $fail)) {
+            return $failed;
+        }
 
-        // input
+        if ($failed = $this->checkServerConnection($form, $password, $locale, $checks, $fail, $pdo, $version)) {
+            return $failed;
+        }
+
+        if ($failed = $this->checkDatabaseExists($pdo, $form, $locale, $checks, $fail)) {
+            return $failed;
+        }
+
+        if ($failed = $this->checkNoGameTables($pdo, $form, $locale, $checks, $fail)) {
+            return $failed;
+        }
+
+        if ($failed = $this->writeGameConfig($form, $password, $migrationpw, $locale, $checks, $fail)) {
+            return $failed;
+        }
+
+        if ($failed = $this->writeEnvLocalFile($form, $password, $version, $baseUrl, $locale, $checks, $fail)) {
+            return $failed;
+        }
+
+        SafeFile::touch($root . 'var/log/game.log');
+        if ($generated) {
+            // shown once on the last page, then removed
+            SafeFile::write($root . self::SECRET_FILE, $migrationpw . "\n", 0600);
+        }
+
+        return $result(true);
+    }
+
+    /**
+     * Install step "input": validates the form values (host, database name and prefix format, migration password,
+     * not already installed). On success appends the OK check.
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @return array|null the failure result, null when the step passed
+     */
+    private function checkDatabaseInput(array $form, string $migrationpw, string $locale, array &$checks, \Closure $fail): ?array
+    {
+        $LNG = $this->lng($locale);
+
         $invalid = match (true) {
             $form['host'] === '' => $LNG['ins_db_no_host'],
             $form['dbname'] === '' => $LNG['step2_db_no_dbname'],
@@ -236,7 +278,22 @@ final class InstallService
         }
         $checks[] = ['label' => $LNG['ins_check_input'], 'ok' => true, 'detail' => ''];
 
-        // server
+        return null;
+    }
+
+    /**
+     * Install step "server": connects with the form values and reads the server version.
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @param PDO|null $pdo set to the connection on success (out parameter)
+     * @param string|null $version set to the server version on success (out parameter)
+     * @return array|null the failure result, null when the step passed
+     */
+    private function checkServerConnection(array $form, string $password, string $locale, array &$checks, \Closure $fail, ?PDO &$pdo = null, ?string &$version = null): ?array
+    {
+        $LNG = $this->lng($locale);
+
         try {
             $pdo = new PDO('mysql:host=' . $form['host'] . ';port=' . $form['port'] . ';charset=utf8mb4', $form['user'], $password, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -248,7 +305,20 @@ final class InstallService
         }
         $checks[] = ['label' => $LNG['ins_check_connect'], 'ok' => true, 'detail' => $version];
 
-        // database
+        return null;
+    }
+
+    /**
+     * Install step "database": the database must exist or is created when `createdb` is set.
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @return array|null the failure result, null when the step passed
+     */
+    private function checkDatabaseExists(PDO $pdo, array $form, string $locale, array &$checks, \Closure $fail): ?array
+    {
+        $LNG = $this->lng($locale);
+
         $label = $LNG->format('ins_check_database', $form['dbname']);
         $exists = $pdo->prepare('SELECT COUNT(*) FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
         $exists->execute([$form['dbname']]);
@@ -266,7 +336,20 @@ final class InstallService
             $checks[] = ['label' => $label, 'ok' => true, 'detail' => $LNG['ins_db_exists']];
         }
 
-        // free of game tables
+        return null;
+    }
+
+    /**
+     * Install step "free of game tables": no table with the prefix may exist in the database yet.
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @return array|null the failure result, null when the step passed
+     */
+    private function checkNoGameTables(PDO $pdo, array $form, string $locale, array &$checks, \Closure $fail): ?array
+    {
+        $LNG = $this->lng($locale);
+
         $label = $LNG->format('ins_check_tables', $form['prefix']);
         $tables = $pdo->prepare('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME LIKE ?');
         $tables->execute([$form['dbname'], addcslashes($form['prefix'], '_%\\') . '%']);
@@ -276,7 +359,22 @@ final class InstallService
         }
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
 
-        // config/game.php (salt, migration password, DB fallback)
+        return null;
+    }
+
+    /**
+     * Install step "config/game.php": writes the config from the sample (database fallback, migration password, random
+     * salt; mode 0640 because it holds secrets).
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @return array|null the failure result, null when the step passed
+     */
+    private function writeGameConfig(array $form, string $password, string $migrationpw, string $locale, array &$checks, \Closure $fail): ?array
+    {
+        $LNG = $this->lng($locale);
+        $root = $this->root;
+
         $salt = substr(str_shuffle('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 22);
         $php = sprintf(
             (string) file_get_contents($root . 'config/game.sample.php'),
@@ -294,6 +392,22 @@ final class InstallService
             return $fail($label, $LNG['step2_conf_op_fail']);
         }
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
+
+        return null;
+    }
+
+    /**
+     * Install step ".env.local": writes DATABASE_URL (with the server version for Doctrine), TABLE_PREFIX, the
+     * environment defaults and, when given, DEFAULT_URI. A failed write removes config/game.php again.
+     *
+     * @param list<array{label: string, ok: bool, detail: string}> $checks collected checks (appended to)
+     * @param \Closure(string, string): array $fail records a failed check and builds the failure result
+     * @return array|null the failure result, null when the step passed
+     */
+    private function writeEnvLocalFile(array $form, string $password, string $version, string $baseUrl, string $locale, array &$checks, \Closure $fail): ?array
+    {
+        $LNG = $this->lng($locale);
+        $root = $this->root;
 
         // .env.local: the game's connection (Doctrine) reads DATABASE_URL
         $serverVersion = str_contains(strtolower($version), 'mariadb')
@@ -320,13 +434,7 @@ final class InstallService
         }
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
 
-        SafeFile::touch($root . 'var/log/game.log');
-        if ($generated) {
-            // shown once on the last page, then removed
-            SafeFile::write($root . self::SECRET_FILE, $migrationpw . "\n", 0600);
-        }
-
-        return $result(true);
+        return null;
     }
 
     /**

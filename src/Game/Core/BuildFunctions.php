@@ -294,7 +294,6 @@ class BuildFunctions
     ): float
     {
         $reslist = $this->state->reslist;
-        $requeriments = $this->state->requeriments;
         $config = $this->configs->get($user->universe);
 
         $time = 0;
@@ -314,32 +313,7 @@ class BuildFunctions
         }
 
         if (in_array($element, $reslist['build'])) {
-            $maxQueueIndex = max(0, $maxQueueIndex);
-            $robo = $planet->level(ROBOT_FACTORY);
-            $nani = $planet->level(NANITE_FACTORY);
-            $CurrentQueue = $planet->buildingQueue !== '' ? StoredData::decode($planet->buildingQueue) : [];
-            if (!empty($CurrentQueue) && count($CurrentQueue) != 0) {
-                foreach ($CurrentQueue as $index => $QueueSubArray) {
-                    if ($index >= $maxQueueIndex) {
-                        break;
-                    }
-                    if ($QueueSubArray[0] == ROBOT_FACTORY) {
-                        if ($QueueSubArray[4] == 'build') {
-                            $robo++;
-                        } else {
-                            $robo--;
-                        }
-                    } elseif ($QueueSubArray[0] == NANITE_FACTORY) {
-                        if ($QueueSubArray[4] == 'build') {
-                            $nani++;
-                        } else {
-                            $nani--;
-                        }
-                    }
-                }
-            }
-            $time = $elementCost / ($config->building_speed * (1 + $robo))
-                * pow(0.5, $nani);
+            $time = $this->constructionSeconds($planet, $elementCost, $maxQueueIndex, $config);
         } elseif (
             in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
             || in_array($element, $reslist['missile'])
@@ -347,19 +321,7 @@ class BuildFunctions
             $time = $elementCost / ($config->shipyard_speed * (1 + $planet->level(SHIPYARD)))
                 * pow(0.5, $planet->level(NANITE_FACTORY));
         } elseif (in_array($element, $reslist['tech'])) {
-            if ($planet->labNetwork === null) {
-                $Level = $planet->level(RESEARCH_LABORATORY);
-            } else {
-                $Level = 0;
-                foreach ($planet->labNetwork as $Levels) {
-                    if (!isset($requeriments[$element][RESEARCH_LABORATORY]) || $Levels >= $requeriments[$element][RESEARCH_LABORATORY]) {
-                        $Level += $Levels;
-                    }
-                }
-            }
-
-            $time = $elementCost / (1000 * (1 + $Level)) / ($config->research_speed / 2500)
-                * pow(1 - $config->factor_university / 100, $planet->level(university));
+            $time = $this->researchSeconds($planet, $element, $elementCost, $config);
         }
 
         if ($forDestroy) {
@@ -369,6 +331,65 @@ class BuildFunctions
         }
 
         return max($time, $config->min_build_time);
+    }
+
+    /**
+     * Seconds (before the 3600 factor) to construct a building: cost / (building speed * (1 + robotics)) * 0.5^nanite.
+     * Queued robotics/nanite builds among the first $maxQueueIndex queue entries raise the level, queued demolitions
+     * lower it.
+     */
+    private function constructionSeconds(Planet $planet, int|float $elementCost, int $maxQueueIndex, object $config): int|float
+    {
+        $maxQueueIndex = max(0, $maxQueueIndex);
+        $robo = $planet->level(ROBOT_FACTORY);
+        $nani = $planet->level(NANITE_FACTORY);
+        $CurrentQueue = $planet->buildingQueue !== '' ? StoredData::decode($planet->buildingQueue) : [];
+        if (!empty($CurrentQueue) && count($CurrentQueue) != 0) {
+            foreach ($CurrentQueue as $index => $QueueSubArray) {
+                if ($index >= $maxQueueIndex) {
+                    break;
+                }
+                if ($QueueSubArray[0] == ROBOT_FACTORY) {
+                    if ($QueueSubArray[4] == 'build') {
+                        $robo++;
+                    } else {
+                        $robo--;
+                    }
+                } elseif ($QueueSubArray[0] == NANITE_FACTORY) {
+                    if ($QueueSubArray[4] == 'build') {
+                        $nani++;
+                    } else {
+                        $nani--;
+                    }
+                }
+            }
+        }
+
+        return $elementCost / ($config->building_speed * (1 + $robo))
+            * pow(0.5, $nani);
+    }
+
+    /**
+     * Seconds (before the 3600 factor) to research: cost / (1000 * (1 + lab level)) / (research speed / 2500), reduced
+     * by the university discount per level. The lab level is the sum of the network labs that meet the research's lab
+     * requirement (the own lab without network).
+     */
+    private function researchSeconds(Planet $planet, int $element, int|float $elementCost, object $config): int|float
+    {
+        $requeriments = $this->state->requeriments;
+        if ($planet->labNetwork === null) {
+            $Level = $planet->level(RESEARCH_LABORATORY);
+        } else {
+            $Level = 0;
+            foreach ($planet->labNetwork as $Levels) {
+                if (!isset($requeriments[$element][RESEARCH_LABORATORY]) || $Levels >= $requeriments[$element][RESEARCH_LABORATORY]) {
+                    $Level += $Levels;
+                }
+            }
+        }
+
+        return $elementCost / (1000 * (1 + $Level)) / ($config->research_speed / 2500)
+            * pow(1 - $config->factor_university / 100, $planet->level(university));
     }
 
     /**

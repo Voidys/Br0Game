@@ -207,9 +207,15 @@ class FleetMath
     /**
      * Typed version of getMissionDuration(): the player's FlyTime bonus factor (e.g. -0.1 = 10 % faster) scales the
      * duration; never below MIN_FLEET_TIME.
+     *
+     * @throws \DomainException when the chosen speed setting or the fleet's top speed is not positive (the formula divides by both)
      */
     public function missionDurationFor(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, User $user): int
     {
+        if ($SpeedFactor <= 0 || $MaxFleetSpeed <= 0) {
+            throw new \DomainException(sprintf('Flight duration needs a positive speed setting and fleet speed, got %d and %d.', $SpeedFactor, $MaxFleetSpeed));
+        }
+
         $duration = (3500 / ($SpeedFactor * 0.1));
         $duration *= pow($Distance * 10 / $MaxFleetSpeed, 0.5);
         $duration += 10;

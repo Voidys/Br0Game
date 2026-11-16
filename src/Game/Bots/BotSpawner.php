@@ -77,55 +77,10 @@ class BotSpawner
      */
     private function spawnOne(int $universe, array $profile): int
     {
-        $config = $this->configs->get($universe);
         $s = $profile['settings'];
 
-        $persona = null;
-        $name = null;
-        try {
-            $generated = $this->persona->generate($universe, $profile['row']);
-            if (!empty($generated['nickname']) && $this->names->isUsable((string) $generated['nickname'], $universe)) {
-                $name = (string) $generated['nickname'];
-                $persona = $generated['persona'] ?? null;
-            }
-        } catch (Throwable $e) {
-            error_log('BotSpawner persona: ' . $e->getMessage());
-        }
-        if ($name === null) {
-            $name = $this->names->generate($universe);
-        }
-
-        $password = bin2hex(random_bytes(16));
-        $email = 'bot-' . bin2hex(random_bytes(8)) . '@bots.invalid';
-        $lang = (string) $config->lang;
-
-        $accountId = $this->accountUtil()->createAccount(
-            $name,
-            $this->accountUtil()->cryptPassword($password),
-            $email,
-            $lang,
-            0,
-            '0.0.0.0',
-            (string) $config->timezone,
-        );
-
-        try {
-            [$userId, $planetId] = $this->playerUtil()->createPlayer(
-                $accountId,
-                $universe,
-                $name,
-                $lang,
-                null,
-                null,
-                null,
-                'Home',
-                0,
-                '0.0.0.0',
-            );
-        } catch (Throwable $e) {
-            $this->db->delete('DELETE FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $accountId]);
-            throw $e;
-        }
+        [$name, $persona] = $this->chooseIdentity($universe, $profile);
+        [$userId, $planetId] = $this->createPlayerAccount($universe, $name);
 
         $personality = ['patience' => round(0.7 + mt_rand() / mt_getrandmax() * 0.6, 2)];
         foreach (self::PERSONALITY_CATEGORIES as $cat) {
@@ -161,6 +116,77 @@ class BotSpawner
         $this->botLog->log($userId, $universe, 'spawn', substr('profile ' . $profile['row']['profile_key'] . ' as ' . $name, 0, 255));
 
         return (int) $userId;
+    }
+
+    /**
+     * Picks the nickname and persona of a new bot: the generated (LLM or local) persona when its nickname is usable,
+     * otherwise a generated name without persona. A failing persona generator is logged and ignored.
+     *
+     * @param array<string, mixed> $profile profile as returned by BotProfiles::load()
+     * @return array{0: string, 1: array<string, mixed>|null} name, persona
+     */
+    private function chooseIdentity(int $universe, array $profile): array
+    {
+        $persona = null;
+        $name = null;
+        try {
+            $generated = $this->persona->generate($universe, $profile['row']);
+            if (!empty($generated['nickname']) && $this->names->isUsable((string) $generated['nickname'], $universe)) {
+                $name = (string) $generated['nickname'];
+                $persona = $generated['persona'] ?? null;
+            }
+        } catch (Throwable $e) {
+            error_log('BotSpawner persona: ' . $e->getMessage());
+        }
+        if ($name === null) {
+            $name = $this->names->generate($universe);
+        }
+
+        return [$name, $persona];
+    }
+
+    /**
+     * Creates the account (random password, placeholder address `...@bots.invalid`, the universe's language and time
+     * zone) and the player with a home planet "Home"; the account is removed again when the player cannot be created.
+     *
+     * @return array{0: int|string, 1: int|string} user id, home planet id
+     */
+    private function createPlayerAccount(int $universe, string $name): array
+    {
+        $config = $this->configs->get($universe);
+        $password = bin2hex(random_bytes(16));
+        $email = 'bot-' . bin2hex(random_bytes(8)) . '@bots.invalid';
+        $lang = (string) $config->lang;
+
+        $accountId = $this->accountUtil()->createAccount(
+            $name,
+            $this->accountUtil()->cryptPassword($password),
+            $email,
+            $lang,
+            0,
+            '0.0.0.0',
+            (string) $config->timezone,
+        );
+
+        try {
+            [$userId, $planetId] = $this->playerUtil()->createPlayer(
+                $accountId,
+                $universe,
+                $name,
+                $lang,
+                null,
+                null,
+                null,
+                'Home',
+                0,
+                '0.0.0.0',
+            );
+        } catch (Throwable $e) {
+            $this->db->delete('DELETE FROM %%ACCOUNTS%% WHERE id = :id;', [':id' => $accountId]);
+            throw $e;
+        }
+
+        return [$userId, $planetId];
     }
 
     /**

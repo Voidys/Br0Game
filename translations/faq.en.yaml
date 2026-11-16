@@ -10,7 +10,7 @@ questions:
         <p>Metal is one of the three resources. Almost everything you build or research costs metal, so expanding this mine is a priority. Early on, keep it several levels ahead of your other mines.</p>
         <h3>Crystal Mine and Deuterium Refinery</h3>
         <p>Crystal is used in buildings, ships and research. You produce less of it than metal, which makes it more valuable; later in the game it is often fiercely contested. Deuterium fuels fleets, can be fused for energy in the Fusion Power Plant, and is required for several important buildings and researches (including the Research Lab).</p>
-        <p>More information: <a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">pr0game wiki</a>.</p>
+        <p>More information: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
       title: Step 1
     '2':
       body: |-
@@ -61,7 +61,7 @@ questions:
         <p>If they save from a moon to a debris field and send recyclers ahead, intercepting is almost impossible unless you destroy the moon. Send Death Stars with the Destroy mission. After the moon is gone, the fleet returns to the planet; phalanx that planet and slot in a few seconds behind them.</p>
         <p>All of these techniques work much better if you know the target's habits — for example a save every evening at 23:00, or coming online at noon. Study the player before you intercept.</p></li>
         </ul>
-        <p>More in the wiki: <a href="https://wiki.pr0game.com/wiki/En/Saven" target="_blank">Fleet saving</a>, <a href="https://wiki.pr0game.com/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
+        <p>More in the wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
       title: Raiding
     '2':
       body: |-
@@ -117,7 +117,7 @@ questions:
         <p>Moon destruction chance: (100 − sqrt(moon size)) × sqrt(number of Death Stars). Chance that the attacking Death Stars are destroyed: sqrt(moon size) / 2. Larger moons are riskier to destroy.</p>
         <h3>Moon chance and size</h3>
         <p>100,000 debris units give 1% moon chance. Maximum chance: 20%. After a later change, every moon has the maximum number of buildable fields (79). Previously this was FLOOR((diameter / 1000)²). Largest possible moon: 8,944 km diameter, 79 fields.</p>
-        <p>More in the wiki: <a href="https://wiki.pr0game.com/wiki/En/Mond" target="_blank">Moons</a>, <a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">pr0game wiki</a>.</p>
+        <p>More in the wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Moons</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
       title: Moons
     '4':
       body: |-
@@ -137,13 +137,13 @@ questions:
     '5':
       body: |-
         <h3>Where can I find more information?</h3>
-        <p>The pr0game wiki is the first place to look:</p>
-        <p><a href="https://wiki.pr0game.com/wiki/En/Hauptseite" target="_blank">English wiki home</a><br>
-        <a href="https://wiki.pr0game.com/wiki/En/Buildorder" target="_blank">Build order</a><br>
-        <a href="https://wiki.pr0game.com/wiki/En/%C3%96konomik" target="_blank">Playstyles (Miner, Raider, Comber)</a><br>
-        <a href="https://wiki.pr0game.com/wiki/En/Saven" target="_blank">Fleet saving</a><br>
-        <a href="https://wiki.pr0game.com/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Fleet-saving guide</a><br>
-        <a href="https://wiki.pr0game.com/wiki/En/Expoanleitung" target="_blank">Expeditions</a></p>
+        <!--wiki_url--><p>The wiki is the first place to look:</p>
+        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">English wiki home</a><br>
+        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Build order</a><br>
+        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Playstyles (Miner, Raider, Comber)</a><br>
+        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a><br>
+        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Fleet-saving guide</a><br>
+        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expeditions</a></p><!--/wiki_url-->
         <p>German (owiki):<br>
         <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Build tactics</a><br>
         <a href="https://www.owiki.de/index.php/Miner" target="_blank">Playstyle: Miner</a><br>

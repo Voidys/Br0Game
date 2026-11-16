@@ -121,6 +121,60 @@ class RaportController extends AbstractGameController
             $this->printMessage($LNG['sys_raport_not_found']);
         }
 
+        [$showDetails, $isDefender] = $this->detailAccess($reportData);
+
+        $Info = null;
+        if (!$showDetails) {
+            $reportData = $this->reducedReport($RID);
+            $Info		= [$reportData["attacker"], $reportData["defender"]];
+        }
+
+        if (empty($reportData)) {
+            $this->printMessage($LNG['sys_raport_not_found']);
+        }
+
+        if ($reportData['battleengine'] === 'rust') {
+            $combatReport = json_decode(decompressFromBase64($reportData['raport']), true);
+        } else {
+            $combatReport = StoredData::decode($reportData['raport']);
+        }
+
+        if (!$isDefender && $combatReport['result'] == DEFENDER && count($combatReport['rounds']) <= 2) {
+            $this->printMessage($LNG['sys_raport_lost_contact']);
+        }
+
+        $combatReport['time']	= $this->viewHelpers()->formatDate($LNG['php_tdformat'], $combatReport['time'], $USER['timezone']);
+        $combatReport			= $this->BCWrapperPreRev2321($combatReport, $isDefender);
+
+        if ($reportData['battleengine'] === 'rust') {
+            $combatReport = $this->sortRustRounds($combatReport);
+        }
+        $this->assign([
+            'Raport'        => $combatReport,
+            'Info'          => $Info,
+            'pageTitle'     => $LNG['sys_mess_attack_report'],
+            'recCapacity'   => $pricelist[SHIP_RECYCLER]['capacity'],
+        ]);
+
+        if ($reportData['battleengine'] === 'rust') {
+            return $this->render('game/shared.mission.raport.rust.html.twig');
+        } else {
+            return $this->render('game/shared.mission.raport.html.twig');
+        }
+    }
+
+    /**
+     * Decides what the viewer may see: participants (attacker or defender id lists, empty lists from before r2484 count as everybody),
+     * admins (also treated as defenders) and members of the alliances of any participant get the full report.
+     *
+     * @param array<string, mixed> $reportData RW row with the attacker and defender id lists
+     * @return array{0: bool, 1: bool} show the full report, view as defender
+     */
+    private function detailAccess(array $reportData): array
+    {
+        $USER = $this->state->USER;
+        $db = $this->db;
+
         // empty is BC for pre r2484
         $attackers = explode(",", $reportData['attacker']);
         $defenders = explode(",", $reportData['defender']);
@@ -157,79 +211,67 @@ class RaportController extends AbstractGameController
             }
         }
 
-        $Info = null;
-        if (!$showDetails) {
-            $sql = "SELECT
-			battleengine, raport, time,
-			(
-				SELECT
-				GROUP_CONCAT(username SEPARATOR ' & ') as attacker
-				FROM %%USERS%%
-				WHERE id IN (SELECT uid FROM %%TOPKB_USERS%% WHERE %%TOPKB_USERS%%.rid = %%RW%%.rid AND role = 1)
-			) as attacker,
-			(
-				SELECT
-				GROUP_CONCAT(username SEPARATOR ' & ') as defender
-				FROM %%USERS%%
-				WHERE id IN (SELECT uid FROM %%TOPKB_USERS%% WHERE %%TOPKB_USERS%%.rid = %%RW%%.rid AND role = 2)
-			) as defender
-			FROM %%RW%%
-			WHERE rid = :reportID;";
-            $reportData = $db->selectSingle($sql, [
-                ':reportID'	=> $RID,
-            ]);
+        return [$showDetails, $isDefender];
+    }
 
-            $Info		= [$reportData["attacker"], $reportData["defender"]];
-        }
+    /**
+     * The report row for viewers without access: the report itself plus the names of the attackers and defenders
+     * (from TOPKB_USERS) joined with " & ".
+     *
+     * @return array<string, mixed>|false|null row with battleengine, raport, time, attacker (names) and defender (names)
+     */
+    private function reducedReport(mixed $RID): array|false|null
+    {
+        $sql = "SELECT
+		battleengine, raport, time,
+		(
+			SELECT
+			GROUP_CONCAT(username SEPARATOR ' & ') as attacker
+			FROM %%USERS%%
+			WHERE id IN (SELECT uid FROM %%TOPKB_USERS%% WHERE %%TOPKB_USERS%%.rid = %%RW%%.rid AND role = 1)
+		) as attacker,
+		(
+			SELECT
+			GROUP_CONCAT(username SEPARATOR ' & ') as defender
+			FROM %%USERS%%
+			WHERE id IN (SELECT uid FROM %%TOPKB_USERS%% WHERE %%TOPKB_USERS%%.rid = %%RW%%.rid AND role = 2)
+		) as defender
+		FROM %%RW%%
+		WHERE rid = :reportID;";
 
-        if (empty($reportData)) {
-            $this->printMessage($LNG['sys_raport_not_found']);
-        }
-
-        if ($reportData['battleengine'] === 'rust') {
-            $combatReport = json_decode(decompressFromBase64($reportData['raport']), true);
-        } else {
-            $combatReport = StoredData::decode($reportData['raport']);
-        }
-
-        if (!$isDefender && $combatReport['result'] == DEFENDER && count($combatReport['rounds']) <= 2) {
-            $this->printMessage($LNG['sys_raport_lost_contact']);
-        }
-
-        $combatReport['time']	= $this->viewHelpers()->formatDate($LNG['php_tdformat'], $combatReport['time'], $USER['timezone']);
-        $combatReport			= $this->BCWrapperPreRev2321($combatReport, $isDefender);
-
-        if ($reportData['battleengine'] === 'rust') {
-            foreach ($combatReport['rounds'] as $rkey => $round) {
-                ksort($round['attacker']['Roundstats']);
-                ksort($round['defender']['Roundstats']);
-                if (isset($round['defender']['Roundstats'][0])) {
-                    $planet = $round['defender']['Roundstats'][0];
-                    unset($round['defender']['Roundstats'][0]);
-                    $round['defender']['Roundstats'][0] = $planet;
-                }
-                foreach ($round['attacker']['Roundstats'] as $key => $value) {
-                    ksort($value);
-                    $round['attacker']['Roundstats'][$key] = $value;
-                }
-                foreach ($round['defender']['Roundstats'] as $key => $value) {
-                    ksort($value);
-                    $round['defender']['Roundstats'][$key] = $value;
-                }
-                $combatReport['rounds'][$rkey] = $round;
-            }
-        }
-        $this->assign([
-            'Raport'        => $combatReport,
-            'Info'          => $Info,
-            'pageTitle'     => $LNG['sys_mess_attack_report'],
-            'recCapacity'   => $pricelist[SHIP_RECYCLER]['capacity'],
+        return $this->db->selectSingle($sql, [
+            ':reportID'	=> $RID,
         ]);
+    }
 
-        if ($reportData['battleengine'] === 'rust') {
-            return $this->render('game/shared.mission.raport.rust.html.twig');
-        } else {
-            return $this->render('game/shared.mission.raport.html.twig');
+    /**
+     * Brings the rounds of a rust engine report into the order the template expects: round stats sorted by id with the
+     * defending planet (id 0) last.
+     *
+     * @param array<string, mixed> $combatReport decoded report
+     * @return array<string, mixed>
+     */
+    private function sortRustRounds(array $combatReport): array
+    {
+        foreach ($combatReport['rounds'] as $rkey => $round) {
+            ksort($round['attacker']['Roundstats']);
+            ksort($round['defender']['Roundstats']);
+            if (isset($round['defender']['Roundstats'][0])) {
+                $planet = $round['defender']['Roundstats'][0];
+                unset($round['defender']['Roundstats'][0]);
+                $round['defender']['Roundstats'][0] = $planet;
+            }
+            foreach ($round['attacker']['Roundstats'] as $key => $value) {
+                ksort($value);
+                $round['attacker']['Roundstats'][$key] = $value;
+            }
+            foreach ($round['defender']['Roundstats'] as $key => $value) {
+                ksort($value);
+                $round['defender']['Roundstats'][$key] = $value;
+            }
+            $combatReport['rounds'][$rkey] = $round;
         }
+
+        return $combatReport;
     }
 }

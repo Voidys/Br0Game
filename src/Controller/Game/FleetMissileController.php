@@ -55,8 +55,6 @@ class FleetMissileController extends AbstractGameController
 
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
         $missileCount       = $PLANET['interplanetary_misil'];
         $targetGalaxy       = $this->http()->_GP('galaxy', 0);
         $targetSystem       = $this->http()->_GP('system', 0);
@@ -65,8 +63,43 @@ class FleetMissileController extends AbstractGameController
         $anz                = min($this->http()->_GP('SendMI', 0), $missileCount);
         $primaryTarget      = $this->http()->_GP('Target', 0);
 
-        $db = $this->db;
+        $target = $this->findTarget($targetGalaxy, $targetSystem, $targetPlanet, $targetType);
 
+        $error = $this->launchError($target, $targetGalaxy, $primaryTarget, $missileCount, $anz);
+
+        // without a target there is nothing to check protections against: report the first failing precondition
+        if (empty($target) && $error != "") {
+            $this->printMessage($error);
+        }
+
+        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
+            $error = $LNG['fl_admin_attack'];
+        } elseif ($target['urlaubs_modus']) {
+            $error = $LNG['fl_in_vacation_player'];
+        }
+
+        $this->loadOwnPoints();
+
+        $protectionError = $this->protectionError($target);
+        if ($protectionError !== null) {
+            $error = $protectionError;
+        }
+
+        if ($error != "") {
+            $this->printMessage($error);
+        }
+
+        $this->launch($target, $targetGalaxy, $targetSystem, $targetPlanet, $targetType, $primaryTarget, $anz);
+    }
+
+    /**
+     * The target planet with its owner and points (only planets whose owner has points are found), or a falsy value when
+     * there is none at these coordinates.
+     *
+     * @return array<string, mixed>|false|null
+     */
+    private function findTarget(mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType): array|false|null
+    {
         $sql = "SELECT p.`id` as planetID, p.`id_owner`, p.`galaxy`, p.`system`, p.`planet`,
                 u.`id`, u.`onlinetime`, u.`banaday`, u.`urlaubs_modus`, u.`authattack`, u.`rebuild_protection`, u.`rebuild_protection_attackers`, u.`outlaw_time`,
                 s.`total_points`
@@ -76,13 +109,27 @@ class FleetMissileController extends AbstractGameController
             WHERE p.`universe` = :universe AND p.`galaxy` = :targetGalaxy
               AND p.`system` = :targetSystem AND p.`planet` = :targetPlanet AND p.`planet_type` = :targetType;";
 
-        $target = $db->selectSingle($sql, [
+        return $this->db->selectSingle($sql, [
             ':universe' => $this->universe()->current(),
             ':targetGalaxy' => $targetGalaxy,
             ':targetSystem' => $targetSystem,
             ':targetPlanet' => $targetPlanet,
             ':targetType'   => $targetType,
         ]);
+    }
+
+    /**
+     * First failing launch precondition as message text, "" when all hold: not in vacation mode, silo level 4, impulse drive
+     * researched, same galaxy, target exists and is in missile range, valid primary target, missiles available and requested.
+     *
+     * @param array<string, mixed>|false|null $target from findTarget()
+     */
+    private function launchError(array|false|null $target, mixed $targetGalaxy, mixed $primaryTarget, mixed $missileCount, mixed $anz): string
+    {
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
 
         $error = "";
 
@@ -106,12 +153,14 @@ class FleetMissileController extends AbstractGameController
             $error = $LNG['ma_add_missile_number'];
         }
 
-        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
-            $error = $LNG['fl_admin_attack'];
-        } elseif ($target['urlaubs_modus']) {
-            $error = $LNG['fl_in_vacation_player'];
-        }
+        return $error;
+    }
 
+    /**
+     * Adds the player's own total points to the USER state (0 when unranked), needed by the newbie protection check.
+     */
+    private function loadOwnPoints(): void
+    {
         $sql = 'SELECT `total_points`
             FROM %%STATPOINTS%%
             WHERE `id_owner` = :userId AND `stat_type` = 1';
@@ -123,27 +172,49 @@ class FleetMissileController extends AbstractGameController
         } catch (Exception $exception) {
             $this->state->USER += ['total_points' => 0];
         }
+    }
 
+    /**
+     * Newbie and strong-player protection against the target: a newbie target gives the error text; a strong target gives
+     * the error text unless outlaw attacks are allowed, in which case the player is marked as outlaw now (and the activation
+     * is counted in the advanced stats). Null when the protection does not forbid the launch.
+     *
+     * @param array<string, mixed>|false|null $target from findTarget()
+     */
+    private function protectionError(array|false|null $target): ?string
+    {
+        $LNG = $this->state->LNG;
         $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($target));
 
         if ($IsNoobProtec['NoobPlayer']) {
-            $error = $LNG['fl_week_player'];
-        } elseif ($IsNoobProtec['StrongPlayer']) {
+            return $LNG['fl_week_player'];
+        }
+        if ($IsNoobProtec['StrongPlayer']) {
             if ($this->configs->get()->noob_protection_outlaw) {
-                $db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
+                $this->db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
                     ':outlawTime' => $this->state->runtime->timestamp,
                     ':userId'     => $this->state->USER['id'],
                 ]);
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
                 $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
             } else {
-                $error = $LNG['fl_strong_player'];
+                return $LNG['fl_strong_player'];
             }
         }
 
-        if ($error != "") {
-            $this->printMessage($error);
-        }
+        return null;
+    }
+
+    /**
+     * Sends the missile fleet (mission 10, not recallable) to the target and ends the request with the "missiles sent" message
+     * and a redirect to the target system after 3 seconds.
+     *
+     * @param array<string, mixed> $target from findTarget()
+     */
+    private function launch(array $target, mixed $targetGalaxy, mixed $targetSystem, mixed $targetPlanet, mixed $targetType, mixed $primaryTarget, mixed $anz): never
+    {
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
 
         $Duration       = $this->fleetFunctions()->getMIPDuration($PLANET['system'], $targetSystem);
 
@@ -193,6 +264,5 @@ class FleetMissileController extends AbstractGameController
             $url,
             3,
         ]);
-        throw new \App\Game\Core\EndOfRequest();
     }
 }

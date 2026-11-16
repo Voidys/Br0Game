@@ -159,7 +159,6 @@ class BotBrain
         $colonyOk = $planetCount < $maxPlanets && $ctx->canColonize();
 
         foreach ($ctx->planets as $pid => $planet) {
-            $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
             $income = [];
             foreach ([901 => 'metal', 902 => 'crystal', 903 => 'deuterium'] as $rid => $name) {
                 $income[$rid] = (float) $planet[$name . '_perhour']
@@ -182,134 +181,210 @@ class BotBrain
             };
             $name = $ctx->planetLabel($planet);
 
-            // ---------------- buildings ----------------
-            if ($ctx->canStartBuilding($planet)) {
-                $bal = (float) $planet['energy'] + (float) $planet['energy_used'];
-                $metal = $lv(1);
-                $crystal = $lv(2);
-                $deut = $lv(3);
-                $ref = max($metal, $crystal + 2, $deut + 4);
-                $free = (int) $this->playerUtil()->calculateMaxPlanetFields($planet) - (int) $planet['field_current'];
-
-                foreach (self::BUILDINGS as $el) {
-                    $level = $ctx->buildableLevel($planet, $el);
-                    if ($level === null) {
-                        continue;
-                    }
-                    $cost = $this->buildFunctions()->getElementPrice($user, $planet, $el, false, $level);
-
-                    switch ($el) {
-                        case 1:
-                        case 2:
-                        case 3:
-                            $target = [1 => $ref + 1, 2 => $ref - 1, 3 => $ref - 3][$el];
-                            $score = 40 + 14 * max(-2, $target - $lv($el));
-                            if ($bal < 0) {
-                                $score *= 0.3;
-                            }
-                            $cat = 'mines';
-                            break;
-                        case 4:
-                            $score = $bal < 0 ? 120 : ($bal < 15 ? 70 : 25);
-                            $cat = 'energy';
-                            break;
-                        case 12:
-                            $score = ($bal < 15 && $deut >= 8) ? 60 : 10;
-                            $cat = 'energy';
-                            break;
-                        case 22:
-                        case 23:
-                        case 24:
-                            $rid = [22 => 901, 23 => 902, 24 => 903][$el];
-                            $max = (float) ($planet[$resource[$rid] . '_max'] ?? 0);
-                            $fill = $max > 0 ? (float) $planet[$resource[$rid]] / $max : 0;
-                            $score = 12 + 110 * max(0, $fill - 0.55);
-                            $cat = 'storage';
-                            break;
-                        case 14:
-                            $target = min(10, intdiv($metal, 2));
-                            $score = $level <= 2 ? ($metal >= 4 ? 105 : 40) : ($level - 1 < $target ? 55 + 6 * ($target - $level + 1) : 10);
-                            $cat = 'facilities';
-                            break;
-                        case 21:
-                            $score = $level == 1 ? ($metal >= 6 ? 95 : 20) : max(4, 30 - 5 * ($level - 1));
-                            $cat = 'facilities';
-                            break;
-                        case 31:
-                            $score = $level == 1 ? ($metal >= 4 ? 95 : 40) : ($level <= 8 ? 48 - 5 * ($level - 1) : 6);
-                            $cat = 'facilities';
-                            break;
-                        case 15:
-                            $score = $level <= 4 ? 30 - 6 * ($level - 1) : 0;
-                            $cat = 'facilities';
-                            break;
-                        case 33:
-                            $score = $free <= 3 ? 75 : 0;
-                            $cat = 'facilities';
-                            break;
-                        default:
-                            continue 2;
-                    }
-                    if ($score <= 0) {
-                        continue;
-                    }
-                    [$ok, $factor] = $penalty($cost);
-                    $out[] = [
-                        'type' => 'build', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => $cat,
-                        'score' => $score * $wf($cat) * $factor, 'affordable' => $ok,
-                        'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
-                    ];
-                }
-            }
-
-            // ---------------- research ----------------
-            if ($lv(31) > 0 && $ctx->isResearchQueueEmpty() && !$ctx->labInConstruction()) {
-                foreach (self::RESEARCH as $el => [$base, $cap]) {
-                    $level = $ctx->researchLevel($planet, $el);
-                    if ($level === null) {
-                        continue;
-                    }
-                    $cost = $this->buildFunctions()->getElementPrice($user, $planet, $el, false, $level);
-                    [$ok, $factor] = $penalty($cost);
-                    $score = $base * $cap / ($cap + $level - 1);
-                    if ($el >= 109 && $el <= 111) {
-                        $score *= 0.6 + 0.6 * $skill;
-                    }
-                    $out[] = [
-                        'type' => 'research', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => 'research',
-                        'score' => $score * $wf('research') * $factor, 'affordable' => $ok,
-                        'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
-                    ];
-                }
-            }
-
-            // ---------------- ships & defense ----------------
-            if ($ctx->canQueueUnits($planet)) {
-                $ships = [
-                    202 => 52 * 6 / (6 + $lv(202) + $lv(203)),
-                    203 => 42 * 4 / (4 + $lv(203)),
-                    204 => (14 + 14 * $skill) * 10 / (10 + $lv(204)),
-                    205 => (14 + 14 * $skill) * 10 / (10 + $lv(205)),
-                    206 => (16 + 14 * $skill) * 10 / (10 + $lv(206)),
-                    207 => (16 + 14 * $skill) * 10 / (10 + $lv(207)),
-                    209 => $lv(209) < 3 ? 14 : 3,
-                    210 => $lv(210) < 1 ? 36 : ($lv(210) < 5 ? 12 : 3),
-                ];
-                if ($colonyOk && $lv(208) == 0) {
-                    $ships[208] = 46;
-                }
-                foreach ($ships as $el => $score) {
-                    $this->addUnits($out, $ctx, $planet, $pid, $el, $score, 'ship', 'ships', $wf('ships'), $penalty, $name);
-                }
-
-                foreach (self::DEFENSE as $el => [$base, $cap]) {
-                    $score = $base * $cap / ($cap + $lv($el));
-                    $this->addUnits($out, $ctx, $planet, $pid, $el, $score, 'defense', 'defense', $wf('defense'), $penalty, $name);
-                }
-            }
+            $this->buildingCandidates($out, $ctx, $planet, $pid, $name, $penalty, $wf);
+            $this->researchCandidates($out, $ctx, $planet, $pid, $name, $penalty, $wf, $skill);
+            $this->unitCandidates($out, $ctx, $planet, $pid, $name, $penalty, $wf, $skill, $colonyOk);
         }
 
         return $out;
+    }
+
+    /**
+     * Score and category of building an element one level higher on a planet: mines follow the reference mine level,
+     * energy buildings the energy balance, storage the fill level, facilities fixed targets (robotics up to half the
+     * metal mine, ...). Elements the bot does not build give null.
+     *
+     * @param array<string, mixed> $planet planet row
+     * @param int $level the level that would be built
+     * @param float $bal energy balance
+     * @param int $metal metal mine level
+     * @param int $crystal crystal mine level
+     * @param int $deut deuterium synthesizer level
+     * @param int $ref reference mine level the mines are balanced against
+     * @param int $free free fields on the planet
+     * @return array{0: int|float, 1: string}|null score and category
+     */
+    private function buildingScore(int $el, array $planet, int $level, float $bal, int $metal, int $crystal, int $deut, int $ref, int $free): ?array
+    {
+        $resource = $this->state->resource;
+        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+        switch ($el) {
+            case 1:
+            case 2:
+            case 3:
+                $target = [1 => $ref + 1, 2 => $ref - 1, 3 => $ref - 3][$el];
+                $score = 40 + 14 * max(-2, $target - $lv($el));
+                if ($bal < 0) {
+                    $score *= 0.3;
+                }
+                $cat = 'mines';
+                break;
+            case 4:
+                $score = $bal < 0 ? 120 : ($bal < 15 ? 70 : 25);
+                $cat = 'energy';
+                break;
+            case 12:
+                $score = ($bal < 15 && $deut >= 8) ? 60 : 10;
+                $cat = 'energy';
+                break;
+            case 22:
+            case 23:
+            case 24:
+                $rid = [22 => 901, 23 => 902, 24 => 903][$el];
+                $max = (float) ($planet[$resource[$rid] . '_max'] ?? 0);
+                $fill = $max > 0 ? (float) $planet[$resource[$rid]] / $max : 0;
+                $score = 12 + 110 * max(0, $fill - 0.55);
+                $cat = 'storage';
+                break;
+            case 14:
+                $target = min(10, intdiv($metal, 2));
+                $score = $level <= 2 ? ($metal >= 4 ? 105 : 40) : ($level - 1 < $target ? 55 + 6 * ($target - $level + 1) : 10);
+                $cat = 'facilities';
+                break;
+            case 21:
+                $score = $level == 1 ? ($metal >= 6 ? 95 : 20) : max(4, 30 - 5 * ($level - 1));
+                $cat = 'facilities';
+                break;
+            case 31:
+                $score = $level == 1 ? ($metal >= 4 ? 95 : 40) : ($level <= 8 ? 48 - 5 * ($level - 1) : 6);
+                $cat = 'facilities';
+                break;
+            case 15:
+                $score = $level <= 4 ? 30 - 6 * ($level - 1) : 0;
+                $cat = 'facilities';
+                break;
+            case 33:
+                $score = $free <= 3 ? 75 : 0;
+                $cat = 'facilities';
+                break;
+            default:
+                return null;
+        }
+
+        return [$score, $cat];
+    }
+
+    /**
+     * Building candidates of one planet (when a build slot is free): every buildable element with its score, weighted
+     * by the bot's category weights and discounted by the time to afford it.
+     *
+     * @param list<array<string, mixed>> $out candidate list, appended to
+     * @param array<string, mixed> $planet planet row
+     * @param callable(array<int, int|float>): array{0: bool, 1: float} $penalty affordability and waiting discount of a cost
+     * @param callable(string): float $wf category weight factor
+     */
+    private function buildingCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf): void
+    {
+        $resource = $this->state->resource;
+        $user = $ctx->user;
+        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+
+        if ($ctx->canStartBuilding($planet)) {
+            $bal = (float) $planet['energy'] + (float) $planet['energy_used'];
+            $metal = $lv(1);
+            $crystal = $lv(2);
+            $deut = $lv(3);
+            $ref = max($metal, $crystal + 2, $deut + 4);
+            $free = (int) $this->playerUtil()->calculateMaxPlanetFields($planet) - (int) $planet['field_current'];
+
+            foreach (self::BUILDINGS as $el) {
+                $level = $ctx->buildableLevel($planet, $el);
+                if ($level === null) {
+                    continue;
+                }
+                $cost = $this->buildFunctions()->getElementPrice($user, $planet, $el, false, $level);
+
+                $scored = $this->buildingScore($el, $planet, $level, $bal, $metal, $crystal, $deut, $ref, $free);
+                if ($scored === null) {
+                    continue;
+                }
+                [$score, $cat] = $scored;
+                if ($score <= 0) {
+                    continue;
+                }
+                [$ok, $factor] = $penalty($cost);
+                $out[] = [
+                    'type' => 'build', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => $cat,
+                    'score' => $score * $wf($cat) * $factor, 'affordable' => $ok,
+                    'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Research candidates of one planet (with a lab, an empty research queue and no lab under construction): score
+     * falls with the level, the combat techs weigh with the bot's skill.
+     *
+     * @param list<array<string, mixed>> $out candidate list, appended to
+     * @param array<string, mixed> $planet planet row
+     * @param callable(array<int, int|float>): array{0: bool, 1: float} $penalty affordability and waiting discount of a cost
+     * @param callable(string): float $wf category weight factor
+     */
+    private function researchCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill): void
+    {
+        $resource = $this->state->resource;
+        $user = $ctx->user;
+        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+
+        if ($lv(31) > 0 && $ctx->isResearchQueueEmpty() && !$ctx->labInConstruction()) {
+            foreach (self::RESEARCH as $el => [$base, $cap]) {
+                $level = $ctx->researchLevel($planet, $el);
+                if ($level === null) {
+                    continue;
+                }
+                $cost = $this->buildFunctions()->getElementPrice($user, $planet, $el, false, $level);
+                [$ok, $factor] = $penalty($cost);
+                $score = $base * $cap / ($cap + $level - 1);
+                if ($el >= 109 && $el <= 111) {
+                    $score *= 0.6 + 0.6 * $skill;
+                }
+                $out[] = [
+                    'type' => 'research', 'planet' => $pid, 'element' => $el, 'count' => 1, 'cat' => 'research',
+                    'score' => $score * $wf('research') * $factor, 'affordable' => $ok,
+                    'label' => $resource[$el] . ' ' . $level . ' on ' . $name,
+                ];
+            }
+        }
+    }
+
+    /**
+     * Ship and defense candidates of one planet (when units can be queued): ship scores follow the owned numbers and the
+     * bot's skill, a colony ship is offered while a colony is possible; the batches come from addUnits().
+     *
+     * @param list<array<string, mixed>> $out candidate list, appended to
+     * @param array<string, mixed> $planet planet row
+     * @param callable(array<int, int|float>): array{0: bool, 1: float} $penalty affordability and waiting discount of a cost
+     * @param callable(string): float $wf category weight factor
+     */
+    private function unitCandidates(array &$out, BotActions $ctx, array $planet, int|string $pid, string $name, callable $penalty, callable $wf, float $skill, bool $colonyOk): void
+    {
+        $resource = $this->state->resource;
+        $lv = static fn(int $id): int => (int) $planet[$resource[$id]];
+
+        if ($ctx->canQueueUnits($planet)) {
+            $ships = [
+                202 => 52 * 6 / (6 + $lv(202) + $lv(203)),
+                203 => 42 * 4 / (4 + $lv(203)),
+                204 => (14 + 14 * $skill) * 10 / (10 + $lv(204)),
+                205 => (14 + 14 * $skill) * 10 / (10 + $lv(205)),
+                206 => (16 + 14 * $skill) * 10 / (10 + $lv(206)),
+                207 => (16 + 14 * $skill) * 10 / (10 + $lv(207)),
+                209 => $lv(209) < 3 ? 14 : 3,
+                210 => $lv(210) < 1 ? 36 : ($lv(210) < 5 ? 12 : 3),
+            ];
+            if ($colonyOk && $lv(208) == 0) {
+                $ships[208] = 46;
+            }
+            foreach ($ships as $el => $score) {
+                $this->addUnits($out, $ctx, $planet, $pid, $el, $score, 'ship', 'ships', $wf('ships'), $penalty, $name);
+            }
+
+            foreach (self::DEFENSE as $el => [$base, $cap]) {
+                $score = $base * $cap / ($cap + $lv($el));
+                $this->addUnits($out, $ctx, $planet, $pid, $el, $score, 'defense', 'defense', $wf('defense'), $penalty, $name);
+            }
+        }
     }
 
     /**

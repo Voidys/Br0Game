@@ -61,12 +61,8 @@ class AdvancedStatsController extends AbstractGameController
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
         $advancedStats = $statsHandler->getAllStats($USER['id']);
-        $build = [];
-        $lost = [];
-        $repaired = [];
-        $destroyed = [];
-        $expo = [];
-        $first = [];
+        // key part => group of the page; a key can belong to several groups, keys of none land in "rest"
+        $groups = ['build_' => [], 'lost_' => [], 'repaired_' => [], 'destroyed_' => [], 'expo_' => [], 'first_' => []];
         $rest = [];
         foreach ($advancedStats as $key => $value) {
             if ($key == 'userId') {
@@ -74,56 +70,27 @@ class AdvancedStatsController extends AbstractGameController
             }
             $others = true;
 
-            if ($value > 0) {
-                if (str_contains($key, 'first_') && $key !== "first_moon_trys") { //Unfortunate "first_moon_trys" also starts with "first_", but its a number
-                    $value = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $value, $USER['timezone']);
-                } else {
-                    $value = $this->viewHelpers()->prettyNumber($value);
-                }
-            } else {
-                $value = '-';
-            }
+            $value = $this->formatStat($key, $value);
 
-            if (str_contains($key, 'build_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $build[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
-                }
-            }
-            if (str_contains($key, 'lost_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $lost[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
-                }
-            }
-            if (str_contains($key, 'repaired_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $repaired[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
-                }
-            }
-            if (str_contains($key, 'destroyed_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $destroyed[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
-                }
-            }
-            if (str_contains($key, 'expo_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $expo[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
-                }
-            }
-            if (str_contains($key, 'first_')) {
-                $others = false;
-                if ($this->checkAvailable($key)) {
-                    $first[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
+            foreach ($groups as $part => $entries) {
+                if (str_contains($key, $part)) {
+                    $others = false;
+                    if ($this->checkAvailable($key)) {
+                        $groups[$part][$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
+                    }
                 }
             }
             if ($others) {
                 $rest[$key] = ['text' => $statsHandler->getLangKey($key), 'value' => $value];
             }
         }
+
+        $build = $groups['build_'];
+        $lost = $groups['lost_'];
+        $repaired = $groups['repaired_'];
+        $destroyed = $groups['destroyed_'];
+        $expo = $groups['expo_'];
+        $first = $groups['first_'];
 
         $this->assign([
             'build'     => $build,
@@ -137,5 +104,23 @@ class AdvancedStatsController extends AbstractGameController
         ]);
 
         return $this->render('game/page.advancedStats.default.html.twig');
+    }
+
+    /**
+     * Display value of a counter: `-` for zero, a date for the "first_*" timestamps, otherwise a formatted number.
+     */
+    private function formatStat(string $key, mixed $value): string
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        if ($value > 0) {
+            if (str_contains($key, 'first_') && $key !== "first_moon_trys") { //Unfortunate "first_moon_trys" also starts with "first_", but its a number
+                return $this->viewHelpers()->formatDate($LNG['php_tdformat'], $value, $USER['timezone']);
+            }
+
+            return $this->viewHelpers()->prettyNumber($value);
+        }
+
+        return '-';
     }
 }

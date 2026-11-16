@@ -51,7 +51,14 @@ class ConfigFieldProcessor
         }
 
         // Apply transform
-        return self::applyTransform($value, $transform);
+        $value = self::applyTransform($value, $transform);
+
+        // 'validate' => 'http_url': links are rendered as href, only empty or absolute http(s) URLs are stored
+        if (($config['validate'] ?? '') === 'http_url') {
+            $value = \App\Game\Alliance\AllianceText::httpUrlOrEmpty((string) $value);
+        }
+
+        return $value;
     }
 
     /**

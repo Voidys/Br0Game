@@ -403,6 +403,7 @@ ma_none: Global news
 ma_send_global_message: Send global message
 ma_subject: Subject
 ma_subject_needed: A subject is required!
+ma_no_recipients: 'No recipients match the filter, no mail was sent.'
 message_a: 'Message status:'
 message_t: 'Ticket status:'
 mip_known: Approved?
@@ -740,6 +741,7 @@ se_del_user_manually_info: Deletes players who requested account deletion after 
 se_del_user_sendmail: Send reminder after
 se_del_user_sendmail_info: Sends a reminder email after X days without a login.
 se_delete_succes_p: Deleted successfully
+se_delete_not_found: 'Nothing deleted: the player or planet does not exist or cannot be deleted.'
 se_deuterium_basic_income: Base deuterium production
 se_deuterium_cost_galaxy: Galaxy deuterium cost
 se_deuterium_cost_galaxy_info: 'Deuterium cost per galaxy click (default: 10)'
@@ -1757,3 +1759,12 @@ adm_info_tz_php: "PHP"
 adm_info_tz_config: "Game config"
 adm_info_tz_user: "Your account"
 adm_login_throttled: 'Too many attempts. Please try again in a few minutes.'
+se_community_links: "Community links"
+se_discord_url: "Discord invite URL"
+se_discord_url_info: "Invite link of your Discord server (https://...). Shown in the menu, the login page, mails and texts. Empty hides it."
+se_wiki_url: "Wiki URL"
+se_wiki_url_info: "Base URL of an external wiki, without a trailing slash (https://...). Wiki links in the FAQ, tutorial and rules are built from it. Empty hides them."
+se_donate_url: "Donation URL"
+se_donate_url_info: "Link for donations (https://...), shown in the menu. Empty hides it."
+se_userscripts_url: "Userscripts URL"
+se_userscripts_url_info: "Page describing userscripts for your game (https://...), linked in the settings. Empty hides it."

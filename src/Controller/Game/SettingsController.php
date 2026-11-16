@@ -57,7 +57,6 @@ class SettingsController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $THEME = $this->state->THEME;
         if ($USER['urlaubs_modus'] == 1) {
             $this->assign([
                 'vacationUntil'         => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']),
@@ -77,92 +76,160 @@ class SettingsController extends AbstractGameController
             $missionprios = $db->selectSingle($sql, [
                 ':userID'   => $USER['id'],
             ]);
-            $hangarFilters = $this->hangarFilters()->parse($USER['hangar_filters'] ?? null);
 
-            $this->assign([
-                'Selectors'         => [
-                    'timezones' => get_timezone_selector(),
-                    'decimalSeparators' => [
-                        0 => "1.234.567,89",
-                        1 => "1,234,567.89",
-                    ],
-                    'Sort' => [
-                        0 => $LNG['op_sort_normal'],
-                        1 => $LNG['op_sort_koords'],
-                        2 => $LNG['op_sort_abc'],
-                    ],
-                    'SortUpDown' => [
-                        0 => $LNG['op_sort_up'],
-                        1 => $LNG['op_sort_down'],
-                    ],
-                    'ImageSkins' => Theme::getAvailableImageThemes(),
-                    'CssSkins' => Theme::getAvailableCssThemes(),
-                    'lang' => $LNG->getAllowedLangs(false),
-                ],
-                'adminProtection'               => $USER['authattack'],
-                'discord_id'                    => $USER['discord_id'],
-                'discord_hook'                  => $USER['discord_hook'],
-                'userAuthlevel'                 => $USER['authlevel'],
-                'changeNickTime'                => ($USER['uctime'] + USERNAME_CHANGETIME) - $this->state->runtime->timestamp,
-                'username'                      => $USER['username'],
-                'userLang'                      => $USER['lang'],
-                'decimalSeparator'              => $USER['decimal_separator'],
-                'theme'                         => $USER['dpath'],
-                'imageTheme'                    => $USER['dpath'],
-                'cssTheme'                      => $USER['css_dpath'] ?? $THEME->getCssThemeName(),
-                'planetSort'                    => $USER['planet_sort'],
-                'planetOrder'                   => $USER['planet_sort_order'],
-                'spycount'                      => $USER['spio_anz'],
-                'fleetActions'                  => $USER['settings_fleetactions'],
-                'timezone'                      => $USER['timezone'],
-                'delete'                        => $USER['db_deaktjava'],
-                'showMessageCategory'           => $USER['showMessageCategory'],
-                'enablePlanetStyles'            => $USER['enable_planet_styles'],
-                'queueMessages'                 => $USER['hof'],
-                'spyMessagesMode'               => $USER['spyMessagesMode'],
-                'spyReportsCollapsed'           => $USER['spyReportsCollapsed'],
-                'galaxySpy'                     => $USER['settings_esp'],
-                'galaxyBuddyList'               => $USER['settings_bud'],
-                'galaxyMissle'                  => $USER['settings_mis'],
-                'galaxyMessage'                 => $USER['settings_wri'],
-                'galaxySpyReport'               => $USER['settings_rep'],
-                'spyReportFreshHours'           => $USER['spy_report_fresh_hours'],
-                'spyReportRecentHours'          => $USER['spy_report_recent_hours'],
-                'blockPM'                       => $USER['settings_blockPM'],
-                'userid'                        => $USER['id'],
-                'ref_active'                    => $this->configs->get()->ref_active,
-                'SELF_URL'                      => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpRoot,
-                'colors'                        => $USER['colors'],
-                'signalColors'                  => $USER['signalColors'],
-                'defaultColors'                 => $this->playerUtil()->player_colors(),
-                'defaultSignalColors'           => $this->playerUtil()->player_signal_colors(),
-                'stb_small_ress'                => $USER['stb_small_ress'],
-                'stb_med_ress'                  => $USER['stb_med_ress'],
-                'stb_big_ress'                  => $USER['stb_big_ress'],
-                'stb_small_time'                => $USER['stb_small_time'],
-                'stb_med_time'                  => $USER['stb_med_time'],
-                'stb_big_time'                  => $USER['stb_big_time'],
-                'stb_enabled'                   => $USER['stb_enabled'],
-                'missionPrios'                  => $missionprios,
-                'recordsOptIn'                  => $USER['records_optIn'],
-                'messagesPerPage'               => $USER['messages_per_page'],
-                'publish_achievement'           => $USER['publish_achievement'],
-                'show_all_buildable_elements'   => $USER['show_all_buildable_elements'],
-                'missing_requirements_opacity'  => $USER['missing_requirements_opacity'],
-                'missing_resources_opacity'     => $USER['missing_resources_opacity'],
-                'hide_useless'                  => $USER['hide_useless'],
-                'hangarFiltersEnabled'          => $USER['hangar_filters_enabled'] ?? 0,
-                'hangarGroupCivil'              => $this->hangarFilters()->hasGroup($hangarFilters, 'civil'),
-                'hangarGroupMilitary'           => $this->hangarFilters()->hasGroup($hangarFilters, 'military'),
-                'hangarGroupRecycler'           => $this->hangarFilters()->hasGroup($hangarFilters, 'recycler'),
-                'hangarGroupAll'                => $this->hangarFilters()->hasGroup($hangarFilters, 'all'),
-                'colonyWarn'                    => $USER['colonyWarn'],
-                'noobInterface'                 => $USER['noob_interface'],
-                'accountId'                     => $this->playerUtil()->get_account_id($USER['id']),
-            ]);
+            $this->assign($this->selectorOptions());
+            $this->assign($this->accountSettings($USER));
+            $this->assign($this->galaxyAndSpySettings($USER));
+            $this->assign($this->interfaceSettings($USER));
+            $this->assign(['missionPrios' => $missionprios]);
+            $this->assign($this->hangarSettings($USER));
 
             return $this->render('game/page.settings.default.html.twig');
         }
+    }
+
+    /**
+     * Option lists of the settings form: time zones, number format, planet sorting, image and CSS themes and languages.
+     *
+     * @return array{Selectors: array<string, mixed>}
+     */
+    private function selectorOptions(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
+            'Selectors'         => [
+                'timezones' => get_timezone_selector(),
+                'decimalSeparators' => [
+                    0 => "1.234.567,89",
+                    1 => "1,234,567.89",
+                ],
+                'Sort' => [
+                    0 => $LNG['op_sort_normal'],
+                    1 => $LNG['op_sort_koords'],
+                    2 => $LNG['op_sort_abc'],
+                ],
+                'SortUpDown' => [
+                    0 => $LNG['op_sort_up'],
+                    1 => $LNG['op_sort_down'],
+                ],
+                'ImageSkins' => Theme::getAvailableImageThemes(),
+                'CssSkins' => Theme::getAvailableCssThemes(),
+                'lang' => $LNG->getAllowedLangs(false),
+            ],
+        ];
+    }
+
+    /**
+     * Account related values of the form: protection, Discord, name change timer, language, number format, themes, planet sorting,
+     * time zone, deletion state and the message display options.
+     *
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>
+     */
+    private function accountSettings(array $USER): array
+    {
+        $THEME = $this->state->THEME;
+
+        return [
+            'adminProtection'               => $USER['authattack'],
+            'discord_id'                    => $USER['discord_id'],
+            'discord_hook'                  => $USER['discord_hook'],
+            'userAuthlevel'                 => $USER['authlevel'],
+            'changeNickTime'                => ($USER['uctime'] + USERNAME_CHANGETIME) - $this->state->runtime->timestamp,
+            'username'                      => $USER['username'],
+            'userLang'                      => $USER['lang'],
+            'decimalSeparator'              => $USER['decimal_separator'],
+            'theme'                         => $USER['dpath'],
+            'imageTheme'                    => $USER['dpath'],
+            'cssTheme'                      => $USER['css_dpath'] ?? $THEME->getCssThemeName(),
+            'planetSort'                    => $USER['planet_sort'],
+            'planetOrder'                   => $USER['planet_sort_order'],
+            'spycount'                      => $USER['spio_anz'],
+            'fleetActions'                  => $USER['settings_fleetactions'],
+            'timezone'                      => $USER['timezone'],
+            'delete'                        => $USER['db_deaktjava'],
+            'showMessageCategory'           => $USER['showMessageCategory'],
+            'enablePlanetStyles'            => $USER['enable_planet_styles'],
+            'queueMessages'                 => $USER['hof'],
+            'spyMessagesMode'               => $USER['spyMessagesMode'],
+            'spyReportsCollapsed'           => $USER['spyReportsCollapsed'],
+        ];
+    }
+
+    /**
+     * Galaxy view shortcuts, spy report freshness, message blocking, own id, referral link, colors and the storage-bar thresholds.
+     *
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>
+     */
+    private function galaxyAndSpySettings(array $USER): array
+    {
+        return [
+            'galaxySpy'                     => $USER['settings_esp'],
+            'galaxyBuddyList'               => $USER['settings_bud'],
+            'galaxyMissle'                  => $USER['settings_mis'],
+            'galaxyMessage'                 => $USER['settings_wri'],
+            'galaxySpyReport'               => $USER['settings_rep'],
+            'spyReportFreshHours'           => $USER['spy_report_fresh_hours'],
+            'spyReportRecentHours'          => $USER['spy_report_recent_hours'],
+            'blockPM'                       => $USER['settings_blockPM'],
+            'userid'                        => $USER['id'],
+            'ref_active'                    => $this->configs->get()->ref_active,
+            'SELF_URL'                      => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpRoot,
+            'colors'                        => $USER['colors'],
+            'signalColors'                  => $USER['signalColors'],
+            'defaultColors'                 => $this->playerUtil()->player_colors(),
+            'defaultSignalColors'           => $this->playerUtil()->player_signal_colors(),
+            'stb_small_ress'                => $USER['stb_small_ress'],
+            'stb_med_ress'                  => $USER['stb_med_ress'],
+            'stb_big_ress'                  => $USER['stb_big_ress'],
+            'stb_small_time'                => $USER['stb_small_time'],
+            'stb_med_time'                  => $USER['stb_med_time'],
+            'stb_big_time'                  => $USER['stb_big_time'],
+            'stb_enabled'                   => $USER['stb_enabled'],
+        ];
+    }
+
+    /**
+     * Interface options: records opt-in, messages per page, achievement publishing and the building/research list display options.
+     *
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>
+     */
+    private function interfaceSettings(array $USER): array
+    {
+        return [
+            'recordsOptIn'                  => $USER['records_optIn'],
+            'messagesPerPage'               => $USER['messages_per_page'],
+            'publish_achievement'           => $USER['publish_achievement'],
+            'show_all_buildable_elements'   => $USER['show_all_buildable_elements'],
+            'missing_requirements_opacity'  => $USER['missing_requirements_opacity'],
+            'missing_resources_opacity'     => $USER['missing_resources_opacity'],
+            'hide_useless'                  => $USER['hide_useless'],
+        ];
+    }
+
+    /**
+     * Hangar filter options (enabled flag and the visible groups) plus the colony warning, newbie interface and account id.
+     *
+     * @param array<string, mixed> $USER
+     * @return array<string, mixed>
+     */
+    private function hangarSettings(array $USER): array
+    {
+        $hangarFilters = $this->hangarFilters()->parse($USER['hangar_filters'] ?? null);
+
+        return [
+            'hangarFiltersEnabled'          => $USER['hangar_filters_enabled'] ?? 0,
+            'hangarGroupCivil'              => $this->hangarFilters()->hasGroup($hangarFilters, 'civil'),
+            'hangarGroupMilitary'           => $this->hangarFilters()->hasGroup($hangarFilters, 'military'),
+            'hangarGroupRecycler'           => $this->hangarFilters()->hasGroup($hangarFilters, 'recycler'),
+            'hangarGroupAll'                => $this->hangarFilters()->hasGroup($hangarFilters, 'all'),
+            'colonyWarn'                    => $USER['colonyWarn'],
+            'noobInterface'                 => $USER['noob_interface'],
+            'accountId'                     => $this->playerUtil()->get_account_id($USER['id']),
+        ];
     }
 
     /**

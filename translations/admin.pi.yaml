@@ -452,6 +452,7 @@ ma_none: Globale Nachrichten
 ma_send_global_message: Sende Globale Nachrichten
 ma_subject: Betreff
 ma_subject_needed: Betreff wird benötigt!
+ma_no_recipients: 'Kein Empfänger entspricht dem Filter, es wurde keine Mail gesendet.'
 message_a: 'Status der Nachricht:'
 message_t: 'Status des Tickets:'
 mip_ip: IP
@@ -827,6 +828,7 @@ se_del_user_sendmail_info: >-
   Sendet eine Erinnerungs Mail an den User nach X Tagen nicht mehr eingeloggt
   haben
 se_delete_succes_p: Erfolgreich gelöscht
+se_delete_not_found: 'Nichts gelöscht: Spieler oder Planet existiert nicht oder kann nicht gelöscht werden.'
 se_deuterium_basic_income: Basisproduktion Rum
 se_deuterium_cost_galaxy: Galaxiegebühren
 se_deuterium_cost_galaxy_info: Kosten Deuterium / Klick in der Galaxy
@@ -1789,3 +1791,12 @@ modul_44: "Mission - Transferieren"
 modul_45: "Markt - Ressourcen"
 modul_46: "Markt - Flotte"
 se_piratebase_fleet_percentage_max: "Flotte: Maximaler Prozentsatz der Flotte des Spielers"
+se_community_links: "Community-Links"
+se_discord_url: "Discord-Einladungs-URL"
+se_discord_url_info: "Einladungslink deines Discord-Servers (https://...). Wird im Menü, auf der Login-Seite, in Mails und Texten angezeigt. Leer blendet ihn aus."
+se_wiki_url: "Wiki-URL"
+se_wiki_url_info: "Basis-URL eines externen Wikis ohne abschließenden Schrägstrich (https://...). Wiki-Links in FAQ, Tutorial und Regeln werden daraus gebildet. Leer blendet sie aus."
+se_donate_url: "Spenden-URL"
+se_donate_url_info: "Link für Spenden (https://...), im Menü angezeigt. Leer blendet ihn aus."
+se_userscripts_url: "Userscripts-URL"
+se_userscripts_url_info: "Seite mit Userscripts für dein Spiel (https://...), in den Einstellungen verlinkt. Leer blendet den Link aus."

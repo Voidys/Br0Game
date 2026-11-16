@@ -48,12 +48,54 @@ class RecordsController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $reslist = $this->state->reslist;
-        $resource = $this->state->resource;
         $db = $this->db;
-        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
         $universe = $this->universe()->current();
+
+        $firstTimes = $this->firstTimes($universe);
+
+        $sql = "SELECT r.elementID, r.level, r.userID, u.username, settings.records_optIn, v.name
+            FROM %%USERS%% u
+            INNER JOIN %%USERS_SETTINGS%% as settings ON settings.user_id = u.id
+            INNER JOIN %%RECORDS%% r ON r.userID = u.id
+            INNER JOIN %%VARS%% v ON v.elementID = r.elementID
+            WHERE r.universe = :universe;";
+        $recordResult = $db->select($sql, [':universe' => $universe]);
+
+        $userTechResult = $this->ownResearchLevels();
+        $userBuildResult = $this->ownBuildingMaxLevels();
+
+        [$defenseList, $fleetList, $researchList, $buildList] = $this->groupRecords($recordResult);
+
+        $this->assign([
+            'defenseList'   => $defenseList,
+            'fleetList'     => $fleetList,
+            'researchList'  => $researchList,
+            'buildList'     => $buildList,
+            'update'        => $this->viewHelpers()->formatDate(
+                $LNG['php_tdformat'],
+                $this->cronjobs()->getLastExecutionTime('statistic'),
+                $USER['timezone'],
+            ),
+            'userTech'      => $userTechResult,
+            'userBuild'     => $userBuildResult,
+            'firstTimes'    => $firstTimes,
+        ]);
+
+        return $this->render('game/page.records.default.html.twig');
+    }
+
+    /**
+     * The "first time" records of the universe (advanced stats older than one week) with the holder (`-` when he did
+     * not opt in to records), the date, and the viewer's own date for the same stat (`-` when he has none).
+     *
+     * @return array<string, array{text: mixed, name: mixed, ts: string, user_ts: string}> stat key => row
+     */
+    private function firstTimes(mixed $universe): array
+    {
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
         $sql = "SELECT advu.statkey, advu.userId, u.username AS current_name, advu.username, advu.statvalue, adv.statvalue AS uservalue, settings.records_optIn
             FROM %%ADVANCED_STATS_UNIVERSE%% advu
@@ -61,7 +103,7 @@ class RecordsController extends AbstractGameController
             LEFT JOIN %%ADVANCED_STATS%% adv ON adv.statkey = advu.statkey AND adv.userId = :userId
             LEFT JOIN %%USERS_SETTINGS%% settings ON settings.user_id = u.id
             WHERE advu.universe = :universe and advu.statvalue < :one_week_old ORDER BY `statvalue` ASC;";
-        $firstTimesResult = $db->select($sql, [
+        $firstTimesResult = $this->db->select($sql, [
             ':universe'      => $universe,
             ':one_week_old'  => $this->state->runtime->timestamp - TIME_1_WEEK,
             ':userId'        => $USER['id'],
@@ -80,41 +122,64 @@ class RecordsController extends AbstractGameController
             ];
         }
 
-        $sql = "SELECT r.elementID, r.level, r.userID, u.username, settings.records_optIn, v.name
-            FROM %%USERS%% u
-            INNER JOIN %%USERS_SETTINGS%% as settings ON settings.user_id = u.id
-            INNER JOIN %%RECORDS%% r ON r.userID = u.id
-            INNER JOIN %%VARS%% v ON v.elementID = r.elementID
-            WHERE r.universe = :universe;";
-        $recordResult = $db->select($sql, [':universe' => $universe]);
+        return $firstTimes;
+    }
 
+    /**
+     * The viewer's own research levels (one column per tech of the user row).
+     *
+     * @return array<string, mixed>|false column => level
+     */
+    private function ownResearchLevels(): array|false
+    {
         $selected_tech = [];
-        foreach ($reslist['tech'] as $Techno) {
-            $selected_tech[] = $resource[$Techno];
+        foreach ($this->state->reslist['tech'] as $Techno) {
+            $selected_tech[] = $this->state->resource[$Techno];
         }
 
+        $db = $this->db;
         // column names come from the game's resource table
-        $userTechResult = $db->fetchRow(
+        return $db->fetchRow(
             $db->qb()
                 ->select(...$selected_tech)
                 ->from($db->table('USERS'))
                 ->where('id = :userId')
-                ->setParameter('userId', $USER['id'])
+                ->setParameter('userId', $this->state->USER['id'])
         );
+    }
 
+    /**
+     * The viewer's highest level of every building over all his planets and moons.
+     *
+     * @return array<string, mixed>|false column => max level
+     */
+    private function ownBuildingMaxLevels(): array|false
+    {
         $select_buildings = [];
-        foreach ($reslist['build'] as $Building) {
-            $select_buildings[] = sprintf('max(%1$s) AS \'%1$s\'', $resource[$Building]);
+        foreach ($this->state->reslist['build'] as $Building) {
+            $select_buildings[] = sprintf('max(%1$s) AS \'%1$s\'', $this->state->resource[$Building]);
         }
 
-        $userBuildResult = $db->fetchRow(
+        $db = $this->db;
+        return $db->fetchRow(
             $db->qb()
                 ->select(...$select_buildings)
                 ->from($db->table('PLANETS'))
                 ->where('id_owner = :userId')
-                ->setParameter('userId', $USER['id'])
+                ->setParameter('userId', $this->state->USER['id'])
         );
+    }
 
+    /**
+     * Sorts the record rows into the four lists of the page (defense incl. missiles, fleet, research, buildings), keyed by
+     * element id (every enabled element of the list gets an entry, empty when nobody holds a record).
+     *
+     * @param list<array<string, mixed>> $recordResult RECORDS rows
+     * @return array{0: array, 1: array, 2: array, 3: array} defenseList, fleetList, researchList, buildList
+     */
+    private function groupRecords(array $recordResult): array
+    {
+        $reslist = $this->state->reslist;
         $defenseList = array_fill_keys($reslist['defense'], []);
         $fleetList = array_fill_keys($reslist['fleet'], []);
         $researchList = array_fill_keys($reslist['tech'], []);
@@ -137,21 +202,6 @@ class RecordsController extends AbstractGameController
             }
         }
 
-        $this->assign([
-            'defenseList'   => $defenseList,
-            'fleetList'     => $fleetList,
-            'researchList'  => $researchList,
-            'buildList'     => $buildList,
-            'update'        => $this->viewHelpers()->formatDate(
-                $LNG['php_tdformat'],
-                $this->cronjobs()->getLastExecutionTime('statistic'),
-                $USER['timezone'],
-            ),
-            'userTech'      => $userTechResult,
-            'userBuild'     => $userBuildResult,
-            'firstTimes'    => $firstTimes,
-        ]);
-
-        return $this->render('game/page.records.default.html.twig');
+        return [$defenseList, $fleetList, $researchList, $buildList];
     }
 }

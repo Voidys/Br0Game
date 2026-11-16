@@ -470,9 +470,9 @@ al_your_ally: A tua aliança
 al_your_request_title: A tua aplicação
 bad_forum_url: O link de Forum é incorreto!
 banned_message: >-
-  Foi banido. Se pensa que isto é um mal-entendido, escreva-nos através do
+  Foi banido. <!--discord_url-->Se pensa que isto é um mal-entendido, escreva-nos através do
   Discord: <a
-  href="https://discord.gg/jhYYN3yuat">https://discord.gg/jhYYN3yuat</a>
+  href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 'Produção atual:'
 bd_add_to_list: Adicionar a lista
 bd_available: 'Disponível: '
@@ -984,13 +984,13 @@ invalid_action: Ação Invalida!!
 kontakt: >-
   Hi!<br>Nesta página, encontrará informações sobre as pessoas que gerem,
   moderam e desenvolvem ativamente este projeto.<br>Não hesites em contactar-nos
-  se tiveres alguma dúvida ou problema.<br><br>Para um melhor intercâmbio
+  se tiveres alguma dúvida ou problema.<br><br><!--discord_url-->Para um melhor intercâmbio
   connosco, mas também com os outros co-especuladores, criámos um servidor
   Discord. Você pode encontrá-lo " <a
-  href="https://discord.gg/jhYYN3yuat">aqui</a> " ou através do menu.<br>No
+  href="{discord_url}">aqui</a> " ou através do menu.<br>No
   servidor encontrarás as últimas notícias, bem como memes emocionantes entre as
   alianças do universo.<br>Faz perguntas sobre a mecânica do jogo e ajuda com as
-  tuas próprias sugestões para o desenvolvimento do jogo.<br><br>Claro que
+  tuas próprias sugestões para o desenvolvimento do jogo.<br><br><!--/discord_url-->Claro que
   também responderemos às tuas perguntas no jogo.<br>No entanto, não te esqueças
   de que jogamos o jogo apenas como um passatempo. As respostas podem demorar
   alguns dias.<br>
@@ -1510,8 +1510,8 @@ sys_closed_game: 'O jogo atualmente não está disponível:'
 sys_forward: Próximo
 sys_game_is_setup: >-
   <h1>Registo feito!</h1><br><p>Estamos a preparar o universo para si neste
-  momento!</p><p>Entretanto, não percas nada, junta-te a nós no</p><h3><a
-  href="https://discord.gg/wKcBhawJ5z" target="_blank">-> Discord <-</a></h3>
+  momento!</p><!--discord_url--><p>Entretanto, não percas nada, junta-te a nós no</p><h3><a
+  href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Modulo inativo
 sys_nomore_level: Estás a tentar destruir um edifício que já não tens ( %s ).
 sys_notenough_money: >-
