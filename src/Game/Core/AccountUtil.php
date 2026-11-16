@@ -54,7 +54,7 @@ class AccountUtil
         if (function_exists('filter_var')) {
             return filter_var($address, FILTER_VALIDATE_EMAIL) !== false;
         } else {
-            return preg_match('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', $address);
+            return preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/', $address);
         }
     }
 

@@ -269,6 +269,7 @@ class ResourcePersistence
         $resource = $this->state->resource;
 
         $params = [':planetId' => $planetId];
+        $planetQuery = [];
         foreach ($resources as $resourceId => $amount) {
             if ($resourceId == RESOURCE_ENERGY) {
                 continue;

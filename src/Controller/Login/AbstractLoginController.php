@@ -217,7 +217,7 @@ abstract class AbstractLoginController implements GameControllerInterface
     /**
      * Sends $data as a JSON response and ends the request (EndOfRequest).
      */
-    protected function sendJSON($data)
+    protected function sendJSON($data): never
     {
         $this->save();
         echo json_encode($data);
@@ -227,7 +227,7 @@ abstract class AbstractLoginController implements GameControllerInterface
     /**
      * Redirects to $url and ends the request.
      */
-    protected function redirectTo($url)
+    protected function redirectTo($url): never
     {
         $this->save();
         $this->http()->redirectTo($url);

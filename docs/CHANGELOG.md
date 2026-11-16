@@ -1073,3 +1073,10 @@ Technical changes per migration step, newest last.
 - Shipyard queue count uses native `BigInt` (exact integer part of the string); `public/scripts/base/bcmath.js` and its script tag removed.
 - `CommunityLinksTest` checks the field definitions instead of grepping the schema source.
 
+## 133. PHPStan, dependency updates, test suite green
+
+- PHPStan 2.3 (`phpstan.dist.neon`, level 5, symfony + phpunit extensions, `composer phpstan`) with `phpstan-baseline.neon` for the 261 known findings; new code must pass without additions to the baseline.
+- Real bugs fixed: regex delimiters in `AccountUtil`, uninitialised `$THEMESETTINGS` (`Theme`), `$planetQuery` (`ResourcePersistence`), `$Modules` (`ModuleController`), Cronjob container type; `: never` on the request-ending controller helpers (`sendJSON`, `redirectTo`, `redirectToHome`).
+- Deps: phpmailer 7.2 (mail via SMTP verified), doctrine/dbal 4.6, doctrine-bundle 3.4.2, cron-expression 3.6, php-cs-fixer 3.95.31.
+- Tests: `MarketPurchaseTest` loads the TECH language domain, obsolete bot greeting test removed (feature removed in 122), universe schema golden values updated; 853 tests green, no warnings.
+

@@ -32,7 +32,7 @@ class Cronjob
 {
     /** Cronjob tasks as Symfony services (tag app.game_cronjob), set by App\Runtime\GameKernel. */
     /**
-     * @param ContainerInterface|null $tasks cronjob task services (container); without it the tasks are
+     * @param \Psr\Container\ContainerInterface|null $tasks cronjob task services (container); without it the tasks are
      *                                       built by hand from the same services
      */
     public function __construct(

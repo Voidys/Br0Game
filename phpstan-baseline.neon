@@ -1,0 +1,1288 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Command/BotsFastForwardCommand.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Account/AbstractAccountController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Account/BoardController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Admin/AccountDataController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Admin/AccountswapController.php
+
+		-
+			message: '#^Offset mixed on array\{\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Controller/Admin/AdminShell.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: src/Controller/Admin/BanController.php
+
+		-
+			message: '#^Call to an undefined method App\\Game\\Bots\\BotProfiles\:\:duplicate\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Admin/BotsController.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/ConfigBasicController.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/ConfigUniController.php
+
+		-
+			message: '#^Variable \$lastExecutionTimestamp in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Controller/Admin/CronjobController.php
+
+		-
+			message: '#^Class App\\Game\\Core\\ExpeditionDeckHandler constructor invoked with 3 parameters, 5 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Controller/Admin/ExpeditionDeckController.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/GiveawayController.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Controller/Admin/LogController.php
+
+		-
+			message: '#^Variable \$LogArray in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 5
+			path: src/Controller/Admin/LogController.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/MultiIPController.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Admin/QuickEditorController.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''re_reset_all'' \(''re_reset_all'', ''re_reset_all''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: src/Controller/Admin/ResetController.php
+
+		-
+			message: '#^Variable \$dbcol might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Controller/Admin/ResetController.php
+
+		-
+			message: '#^Variable \$OrderBYParse might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: src/Controller/Admin/SearchController.php
+
+		-
+			message: '#^Variable \$SName might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Controller/Admin/SearchController.php
+
+		-
+			message: '#^Method App\\Controller\\Game\\AbstractGameController\:\:allianceRequestCount\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Controller/Game/AbstractGameController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Game/AbstractGameController.php
+
+		-
+			message: '#^Variable \$tutorialDetails in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Controller/Game/AbstractGameController.php
+
+		-
+			message: '#^Parameter \#1 \$elementID of method App\\Game\\Core\\BuildFunctions\:\:isEnabled\(\) expects int, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Game/AdvancedStatsController.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Controller/Game/AllianceController.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/Controller/Game/BuildingsController.php
+
+		-
+			message: '#^Parameter &\$sumBuildings by\-ref type of method App\\Controller\\Game\\EmpireController\:\:addBuildingColumns\(\) expects array\<int, array\<int, array\{sum\: float\|int, cnt\: int\}\>\>, non\-empty\-array\<array\<array\{sum\: \(float\|int\), cnt\?\: int\}\>\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Controller/Game/EmpireController.php
+
+		-
+			message: '#^Parameter &\$sumBuildings by\-ref type of method App\\Controller\\Game\\EmpireController\:\:addBuildingColumns\(\) expects array\<int, array\<int, array\{sum\: float\|int, cnt\: int\}\>\>, non\-empty\-array\<non\-empty\-array\<array\{sum\: \(float\|int\), cnt\: int\}\>\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Controller/Game/EmpireController.php
+
+		-
+			message: '#^Parameter \#3 \$multibyte of method App\\Game\\Core\\HTTP\:\:_GP\(\) expects bool, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Game/FleetStep1Controller.php
+
+		-
+			message: '#^Parameter &\$invitedUsers by\-ref type of method App\\Controller\\Game\\FleetTableController\:\:inviteToAcs\(\) expects array\<int, string\>, array\<string\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Controller/Game/FleetTableController.php
+
+		-
+			message: '#^Method App\\Controller\\Game\\PlayerCardController\:\:get_player_data\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Controller/Game/PlayerCardController.php
+
+		-
+			message: '#^Method App\\Controller\\Game\\PlayerCardController\:\:get_total_data\(\) invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Controller/Game/PlayerCardController.php
+
+		-
+			message: '#^Method App\\Controller\\Game\\ResearchController\:\:timeToAfford\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Controller/Game/ResearchController.php
+
+		-
+			message: '#^Parameter \#2 \$needle of function str_starts_with expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Game/ShipyardController.php
+
+		-
+			message: '#^Parameter &\$elementInQueue by\-ref type of method App\\Controller\\Game\\ShipyardController\:\:hangarQueueData\(\) expects array\<int, bool\>, array\<bool\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Controller/Game/ShipyardController.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$goal$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Controller/Game/TutorialController.php
+
+		-
+			message: '#^Variable \$wikiSsoCodeStore might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Controller/Game/WikiLoginController.php
+
+		-
+			message: '#^Variable \$wikiSsoRedisUrl might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Controller/Game/WikiLoginController.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: src/Controller/Login/AbstractLoginController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Controller/Login/AbstractLoginController.php
+
+		-
+			message: '#^Method App\\DataCollector\\GameDatabaseCollector\:\:getTemplate\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/DataCollector/GameDatabaseCollector.php
+
+		-
+			message: '#^Comparison operation "\=\=" between array\<int, float\|int\> and 0 results in an error\.$#'
+			identifier: equal.invalid
+			count: 1
+			path: src/Game/Achievements/BattleAchievement.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$combatResult with type array is incompatible with native type App\\Game\\BattleEngine\\BattleResult\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: src/Game/Achievements/BattleAchievement.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$mainAttacker$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Game/Achievements/BattleAchievement.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$userID$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Game/Achievements/PlayerUtilAchievement.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$userId$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Game/Achievements/PlayerUtilAchievement.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Game/Admin/AccountEditor/AlliancesTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/BuildingsTab.php
+
+		-
+			message: '#^Variable \$INPUT might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/BuildingsTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/DefensesTab.php
+
+		-
+			message: '#^Variable \$INPUT might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/DefensesTab.php
+
+		-
+			message: '#^Variable \$fields might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/DefensesTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/PersonalTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Game/Admin/AccountEditor/PlanetsTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/ResearchTab.php
+
+		-
+			message: '#^Variable \$INPUT might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/ResearchTab.php
+
+		-
+			message: '#^Variable \$fields might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/ResearchTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/ResourcesTab.php
+
+		-
+			message: '#^Variable \$afterRess might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/ResourcesTab.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Admin/AccountEditor/ShipsTab.php
+
+		-
+			message: '#^Variable \$INPUT might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/ShipsTab.php
+
+		-
+			message: '#^Variable \$fields might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Admin/AccountEditor/ShipsTab.php
+
+		-
+			message: '#^Cannot call method formatHtml\(\) on array\<string, mixed\>\|ArrayAccess\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Game/Alliance/AllianceDiplomacyService.php
+
+		-
+			message: '#^Parameter \#2 \$lang of method App\\Game\\Alliance\\AllianceDiplomacyService\:\:treatyText\(\) expects App\\Game\\Core\\Language, array\<string, mixed\>\|ArrayAccess given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Game/Alliance/AllianceDiplomacyService.php
+
+		-
+			message: '#^Method App\\Game\\Alliance\\AllianceMemberLists\:\:idleMinutes\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Alliance/AllianceMemberLists.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{''MEMBERLIST'', ''ONLINESTATE'', ''TRANSFER'', ''SEEAPPLY'', ''MANAGEAPPLY'', ''ROUNDMAIL'', ''ADMIN'', ''KICK'', \.\.\.\}\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Game/Alliance/AllianceMembershipService.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{''MEMBERLIST'', ''ONLINESTATE'', ''TRANSFER'', ''SEEAPPLY'', ''MANAGEAPPLY'', ''ROUNDMAIL'', ''ADMIN'', ''KICK'', \.\.\.\}\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 2
+			path: src/Game/Alliance/AllianceRepository.php
+
+		-
+			message: '#^Method App\\Game\\BattleEngine\\BattleEngineSteemNova\:\:fightRounds\(\) never assigns null to &\$advancedStats so it can be removed from the by\-ref type\.$#'
+			identifier: parameterByRef.unusedType
+			count: 1
+			path: src/Game/BattleEngine/BattleEngineSteemNova.php
+
+		-
+			message: '#^Method App\\Game\\BattleEngine\\BattleHandler\:\:candidates\(\) should return array\<App\\Game\\BattleEngine\\BattleEngineInterface\> but returns array\<int, string\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/BattleEngine/BattleHandler.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 4
+			path: src/Game/Bots/BotActions.php
+
+		-
+			message: '#^Method App\\Game\\Bots\\BotEngine\:\:playSession\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Bots/BotEngine.php
+
+		-
+			message: '#^Parameter &\$personality by\-ref type of method App\\Game\\Bots\\BotEngine\:\:playSession\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Bots/BotEngine.php
+
+		-
+			message: '#^Property App\\Game\\Bots\\BotSocial\:\:\$persona is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Bots/BotSocial.php
+
+		-
+			message: '#^Parameter &\$mem by\-ref type of method App\\Game\\Bots\\Raid\\BotRaids\:\:decide\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: parameterByRef.type
+			count: 3
+			path: src/Game/Bots/Raid/BotRaids.php
+
+		-
+			message: '#^Parameter &\$personality by\-ref type of method App\\Game\\Bots\\Raid\\BotRaids\:\:decide\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Bots/Raid/BotRaids.php
+
+		-
+			message: '#^Parameter &\$planet by\-ref type of method App\\Game\\Bots\\Raid\\RaidDispatcher\:\:send\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 3
+			path: src/Game/Bots/Raid/RaidDispatcher.php
+
+		-
+			message: '#^Parameter &\$mem by\-ref type of method App\\Game\\Bots\\Raid\\RaidFollowUp\:\:settle\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: parameterByRef.type
+			count: 3
+			path: src/Game/Bots/Raid/RaidFollowUp.php
+
+		-
+			message: '#^Parameter &\$personality by\-ref type of method App\\Game\\Bots\\Raid\\RaidFollowUp\:\:settle\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Bots/Raid/RaidFollowUp.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/Game/Core/AccountUtil.php
+
+		-
+			message: '#^Call to function is_numeric\(\) with int\<min, \-1\>\|int\<1, max\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Game/Core/BattleHallFilter.php
+
+		-
+			message: '#^Loose comparison using \=\= between int\<min, \-1\>\|int\<1, max\> and 0 will always evaluate to false\.$#'
+			identifier: equal.alwaysFalse
+			count: 1
+			path: src/Game/Core/BattleHallFilter.php
+
+		-
+			message: '#^Method App\\Game\\Core\\BuildFunctions\:\:constructionSeconds\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Core/BuildFunctions.php
+
+		-
+			message: '#^Cannot call method exec\(\) on object\|resource\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Cannot call method setAttribute\(\) on object\|resource\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Empty array passed to foreach\.$#'
+			identifier: foreach.emptyArray
+			count: 1
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Offset 1 on array\{non\-empty\-string, non\-empty\-string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Parameter \#2 \$timestamp of function date expects int\|null, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Property App\\Game\\Core\\Database\:\:\$lastInsertId \(int\) does not accept string\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Game/Core/Database.php
+
+		-
+			message: '#^Variable \$content on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: src/Game/Core/Discord.php
+
+		-
+			message: '#^Variable \$data on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: src/Game/Core/Discord.php
+
+		-
+			message: '#^Variable \$webHookUrl in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Game/Core/Discord.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FleetMath\:\:expeditionLimitFor\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/FleetMath.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FleetMath\:\:getFleetRoom\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/FleetMath.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FleetMath\:\:getMIPDuration\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/FleetMath.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FleetMath\:\:getShipSpeed\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/FleetMath.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FleetMath\:\:missionDurationFor\(\) should return int but returns float\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/FleetMath.php
+
+		-
+			message: '#^Call to function is_array\(\) with list\<string\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Game/Core/FleetStatistics.php
+
+		-
+			message: '#^Variable \$fleet in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/Game/Core/FleetString.php
+
+		-
+			message: '#^Method App\\Game\\Core\\FlyingFleetsTable\:\:logPhalanxScan\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Core/FlyingFleetsTable.php
+
+		-
+			message: '#^Binary operation "\+" between string and 0 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Game/Core/FormulaEvaluator.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/Game/Core/FormulaEvaluator.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: src/Game/Core/GalaxyRows.php
+
+		-
+			message: '#^Instanceof between DirectoryIterator and SplFileInfo will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Game/Core/Maintenance.php
+
+		-
+			message: '''
+				#^PHPDoc tag @param has invalid value \(array \['metal' \=\> x, 'crystal' \=\> y, 'deuterium' \=\> z\]
+				round AND int\-cast because only int\-cast just cuts off decimals\)\: Unexpected token "\[", expected variable at offset 24 on line 2$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/MarketManager.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(array \[901, 902, 903\] mkd \*\)\: Unexpected token "\[", expected variable at offset 17 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/MarketManager.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(fleetarray optional\: check if fleet size is push\-relevant\)\: Unexpected token "optional", expected variable at offset 87 on line 3$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/MarketManager.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(int \[1, 2, 3\] mkd \- matching exp_res_type \*\)\: Unexpected token "\[", expected variable at offset 15 on line 1$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/MarketManager.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(int \| default\: MSE\. \$useScore \= true\: score\)\: Unexpected token "\:", expected TOKEN_HORIZONTAL_WS at offset 136 on line 7$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/MarketManager.php
+
+		-
+			message: '#^Parameter \#2 \$limit of method App\\Game\\AdvancedStats\\AdvancedStatsHandler\:\:getHonorList\(\) expects int, float given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Game/Core/Player/HonorPoints.php
+
+		-
+			message: '#^Method App\\Game\\Core\\Player\\PlanetManager\:\:createMoon\(\) should return int but returns false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/Player/PlanetManager.php
+
+		-
+			message: '#^Parameter \#1 \$min of function random_int expects int, float given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Game/Core/Player/PlanetPositions.php
+
+		-
+			message: '#^Parameter \#2 \$max of function random_int expects int, float given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Game/Core/Player/PlanetPositions.php
+
+		-
+			message: '#^Variable \$universe in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Game/Core/Player/PlanetReshuffle.php
+
+		-
+			message: '#^Elseif condition is always true\.$#'
+			identifier: elseif.alwaysTrue
+			count: 1
+			path: src/Game/Core/Player/PlayerRegistration.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: src/Game/Core/Player/PlayerRegistration.php
+
+		-
+			message: '#^Variable \$universe in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 2
+			path: src/Game/Core/Player/PlayerRegistration.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$save$#'
+			identifier: parameter.notFound
+			count: 1
+			path: src/Game/Core/ResearchQueueProcessor.php
+
+		-
+			message: '#^Parameter &\$PLANET by\-ref type of method App\\Game\\Core\\ResearchQueueProcessor\:\:payResearch\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Core/ResearchQueueProcessor.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoDatabase\:\:\$configs is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoDatabase.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoGame\:\:\$configs is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoGame.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoLogs\:\:\$configs is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoLogs.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoLogs\:\:\$db is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoLogs.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoSystem\:\:\$configs is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoSystem.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ServerInfo\\ServerInfoSystem\:\:\$db is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/ServerInfo/ServerInfoSystem.php
+
+		-
+			message: '#^Loose comparison using \=\= between false and true will always evaluate to false\.$#'
+			identifier: equal.alwaysFalse
+			count: 2
+			path: src/Game/Core/Session.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/Game/Core/Session.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: src/Game/Core/Session.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Game/Core/Statbuilder.php
+
+		-
+			message: '#^Parameter \#1 \$real_usage of function memory_get_peak_usage expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Core/Statbuilder.php
+
+		-
+			message: '#^Parameter \#1 \$real_usage of function memory_get_usage expects bool, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Game/Core/Statbuilder.php
+
+		-
+			message: '#^Parameter &\$allianceScores by\-ref type of method App\\Game\\Core\\Statbuilder\:\:addToAlliance\(\) expects array\<int, App\\Game\\Models\\StatPoints\>, array\<App\\Game\\Models\\StatPoints\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Core/Statbuilder.php
+
+		-
+			message: '#^Offset ''disabled'' on array\{\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Game/Core/Theme.php
+
+		-
+			message: '#^Property App\\Game\\Core\\Theme\:\:\$customtpls is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/Theme.php
+
+		-
+			message: '#^Property App\\Game\\Core\\Theme\:\:\$skininfo is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/Theme.php
+
+		-
+			message: '#^Property App\\Game\\Core\\Theme\:\:\$template is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Game/Core/Theme.php
+
+		-
+			message: '#^Call to function is_string\(\) with \*NEVER\* will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Game/Core/ThemeAssets.php
+
+		-
+			message: '#^Offset ''assetSets'' on array\{\} on left side of \?\? does not exist\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Game/Core/ThemeAssets.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: src/Game/Core/Universe.php
+
+		-
+			message: '#^Method App\\Game\\Core\\Universe\:\:exists\(\) should return int but returns bool\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Core/Universe.php
+
+		-
+			message: '#^Offset 1 on array\{non\-falsy\-string, numeric\-string\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Game/Core/Universe.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(int universe id\)\: Unexpected token "universe", expected variable at offset 107 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/Game/Core/Universe.php
+
+		-
+			message: '#^Call to function method_exists\(\) with DateTime and ''setTimestamp'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Game/Core/ViewHelpers.php
+
+		-
+			message: '#^Call to method getDel\(\) on an unknown class Predis\\ClientInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Game/Core/WikiSsoCodeStore.php
+
+		-
+			message: '#^Call to method setex\(\) on an unknown class Predis\\ClientInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Game/Core/WikiSsoCodeStore.php
+
+		-
+			message: '#^Parameter \$redis of method App\\Game\\Core\\WikiSsoCodeStore\:\:__construct\(\) has invalid type Predis\\ClientInterface\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Game/Core/WikiSsoCodeStore.php
+
+		-
+			message: '#^Property App\\Game\\Core\\WikiSsoCodeStore\:\:\$redis has unknown class Predis\\ClientInterface as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Game/Core/WikiSsoCodeStore.php
+
+		-
+			message: '#^Parameter \#1 \$string of function md5 expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Cronjob/Cronjob.php
+
+		-
+			message: '#^Parameter \#1 \$timeDifference of method App\\Game\\Core\\FleetFunctions\:\:setACSTime\(\) expects int, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Fleet/FleetDispatch.php
+
+		-
+			message: '#^Method App\\Game\\Market\\MarketPurchase\:\:buyerTripDistance\(\) never returns float so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Market/MarketPurchase.php
+
+		-
+			message: '#^Method App\\Game\\Market\\MarketPurchase\:\:sendBuyerFleet\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Game/Market/MarketPurchase.php
+
+		-
+			message: '#^Parameter &\$users by\-ref type of method App\\Game\\Missions\\AbstractBattleMission\:\:battleFleetsOf\(\) expects array\<int\|string, string\>, array\<mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Missions/AbstractBattleMission.php
+
+		-
+			message: '#^Variable \$Message might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Game/Missions/Expedition/ExpeditionResourceEvent.php
+
+		-
+			message: '#^Parameter \#2 \$max of function random_int expects int, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Missions/Expedition/ExpeditionShipEvent.php
+
+		-
+			message: '#^Binary operation "\-" between string and 1 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Game/Missions/MissionCaseColonisation.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between int and false will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Game/Missions/MissionCaseColonisation.php
+
+		-
+			message: '#^Method App\\Game\\Missions\\MissionCaseExpedition\:\:calculatePointsAndCapacity\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Game/Missions/MissionCaseExpedition.php
+
+		-
+			message: '#^Variable \$fleetArrayStart in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Game/Missions/MissionCaseExpedition.php
+
+		-
+			message: '#^Loose comparison using \=\= between true and true will always evaluate to true\.$#'
+			identifier: equal.alwaysTrue
+			count: 1
+			path: src/Game/Missions/MissionCasePiratebaseSpy.php
+
+		-
+			message: '#^Loose comparison using \=\= between true and true will always evaluate to true\.$#'
+			identifier: equal.alwaysTrue
+			count: 1
+			path: src/Game/Missions/MissionCaseSpy.php
+
+		-
+			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetDefense\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Game/Missions/MissionCaseSpy.php
+
+		-
+			message: '#^Parameter &\$spyData by\-ref type of method App\\Game\\Missions\\MissionCaseSpy\:\:addRepairDockShips\(\) expects array\<int, array\<int, float\|int\|string\>\>, array\<int, array\<float\|int\|string\>\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Game/Missions/MissionCaseSpy.php
+
+		-
+			message: '#^Variable \$ressource might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: src/Game/Missions/MissionCaseTrade.php
+
+		-
+			message: '#^Parameter \#4 \$mode of class App\\Game\\Core\\Log constructor expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Missions/MissionCaseTransport.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: src/Game/Missions/MissionCaseTransport.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/Game/Missions/MissionCaseTransport.php
+
+		-
+			message: '#^Variable \$fleetArrayStart in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/Game/Missions/MissionFunctions.php
+
+		-
+			message: '#^Call to function is_array\(\) with list\<string\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Game/Statistics/StatDataLoader.php
+
+		-
+			message: '#^Method App\\Game\\Statistics\\StatDataLoader\:\:flyingShips\(\) should return array\<int, array\<int, int\|string\>\> but returns array\<array\<string, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Game/Statistics/StatDataLoader.php
+
+		-
+			message: '#^Parameter \#2 \$y of method Doctrine\\DBAL\\Query\\Expression\\ExpressionBuilder\:\:eq\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Game/Statistics/StatRecords.php
+
+		-
+			message: '#^Variable \$database might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Game/Support/tables.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/Game/Tutorials/AbstractTutorialSupport.php
+
+		-
+			message: '#^PHPDoc tag @var for property App\\Game\\Tutorials\\AbstractTutorialSupport\:\:\$tutorialStep with type App\\Game\\Core\\Database is incompatible with native type array\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: src/Game/Tutorials/AbstractTutorialSupport.php
+
+		-
+			message: '#^Property App\\Game\\Tutorials\\AbstractTutorialSupport\:\:\$tutorialUniverse in isset\(\) is not nullable nor uninitialized\.$#'
+			identifier: isset.initializedProperty
+			count: 1
+			path: src/Game/Tutorials/AbstractTutorialSupport.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 1
+			path: src/Game/Tutorials/MissionTutorialSupport.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 3
+			path: src/Game/Tutorials/RenameTutorialSupport.php
+
+		-
+			message: '#^Parameter &\$checks by\-ref type of method App\\Runtime\\InstallService\:\:checkDatabaseExists\(\) expects list\<array\{label\: string, ok\: bool, detail\: string\}\>, non\-empty\-list\<array\{label\: string, ok\: bool, detail\: mixed\}\> given\.$#'
+			identifier: parameterByRef.type
+			count: 2
+			path: src/Runtime/InstallService.php
+
+		-
+			message: '#^Parameter &\$checks by\-ref type of method App\\Runtime\\InstallService\:\:checkDatabaseInput\(\) expects list\<array\{label\: string, ok\: bool, detail\: string\}\>, non\-empty\-list\<array\{label\: mixed, ok\: bool, detail\: string\}\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Runtime/InstallService.php
+
+		-
+			message: '#^Parameter &\$checks by\-ref type of method App\\Runtime\\InstallService\:\:checkServerConnection\(\) expects list\<array\{label\: string, ok\: bool, detail\: string\}\>, non\-empty\-list\<array\{label\: mixed, ok\: bool, detail\: string\}\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: src/Runtime/InstallService.php
+
+		-
+			message: '#^Undefined variable\: \$database$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Runtime/Installer.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Runtime/Installer.php
+
+		-
+			message: '#^Variable \$session might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Runtime/Installer.php
+
+		-
+			message: '#^Method App\\Security\\LoginFormAuthenticator\:\:onAuthenticationFailure\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Security/LoginFormAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\LoginFormAuthenticator\:\:onAuthenticationSuccess\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Security/LoginFormAuthenticator.php
+
+		-
+			message: '#^Parameter \#1 \$customCredentialsChecker of class Symfony\\Component\\Security\\Http\\Authenticator\\Passport\\Credentials\\CustomCredentials constructor expects callable\(mixed, Symfony\\Component\\Security\\Core\\User\\UserInterface\)\: bool, Closure\(string, App\\Security\\Account\)\: bool given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Security/LoginFormAuthenticator.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>LNG" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Twig/LanguageView.php
+
+		-
+			message: '#^Offset numeric\-string does not exist on list\<string\>\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/View/HtmlWhitespace.php
+
+		-
+			message: '#^Offset 0 does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
+			path: tests/Integration/AllianceDepotTest.php
+
+		-
+			message: '#^Parameter \#3 \$newRank of method App\\Game\\Alliance\\AllianceRankService\:\:create\(\) expects array\<string, mixed\>, array\<int\|string, string\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/Integration/AllianceServicesTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotFalse\(\) with array will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Integration/AuthRound2Test.php
+
+		-
+			message: '#^Method App\\Tests\\Integration\\AuthRound2Test\:\:login\(\) should return App\\Security\\Account but returns Symfony\\Component\\Security\\Core\\User\\UserInterface\.$#'
+			identifier: return.type
+			count: 1
+			path: tests/Integration/AuthRound2Test.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\BattleEngineTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/BattleEngineTest.php
+
+		-
+			message: '#^Generator expects value type array\{string, array\<string, mixed\>\}, array\{''php''\} given\.$#'
+			identifier: generator.valueType
+			count: 1
+			path: tests/Integration/BattleEngineTest.php
+
+		-
+			message: '#^Generator expects value type array\{string, array\<string, mixed\>\}, array\{''rust''\} given\.$#'
+			identifier: generator.valueType
+			count: 1
+			path: tests/Integration/BattleEngineTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\BattleMissionTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/BattleMissionTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\BuildFunctionsTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/BuildFunctionsTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\ConfigFieldSchemaTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/ConfigFieldSchemaTest.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: tests/Integration/DatabaseTransactionalTest.php
+
+		-
+			message: '#^Constructor of class App\\Tests\\Integration\\ThrowingMission has an unused parameter \$configs\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: tests/Integration/FleetEventIsolationTest.php
+
+		-
+			message: '#^Constructor of class App\\Tests\\Integration\\ThrowingMission has an unused parameter \$db\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: tests/Integration/FleetEventIsolationTest.php
+
+		-
+			message: '#^Constructor of class App\\Tests\\Integration\\ThrowingMission has an unused parameter \$fleet\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: tests/Integration/FleetEventIsolationTest.php
+
+		-
+			message: '#^Constructor of class App\\Tests\\Integration\\ThrowingMission has an unused parameter \$state\.$#'
+			identifier: constructor.unusedParameter
+			count: 1
+			path: tests/Integration/FleetEventIsolationTest.php
+
+		-
+			message: '#^Property App\\Game\\Core\\ErrorReporter@anonymous/tests/Integration/FleetEventIsolationTest\.php\:52\:\:\$reports is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: tests/Integration/FleetEventIsolationTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\FleetFunctionsTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/FleetFunctionsTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''speed 0 ends the…''\|''speed 11 ends the…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/Integration/FleetInputGuardsTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\FlyingFleetsTableTextTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/FlyingFleetsTableTextTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\MarketAndExpeditionTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/MarketAndExpeditionTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\PirateBaseSpyMissionTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/PirateBaseSpyMissionTest.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: string$#'
+			identifier: match.unhandled
+			count: 1
+			path: tests/Integration/QueryBuilderQueriesTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\QueueTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/QueueTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\ResourceProductionTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/ResourceProductionTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\SpyMissionTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/SpyMissionTest.php
+
+		-
+			message: '#^Constant App\\Tests\\Integration\\StatbuilderTest\:\:GOLDEN is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: tests/Integration/StatbuilderTest.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type Symfony\\Component\\HttpFoundation\\Response\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: tests/Unit/Security/CsrfListenerTest.php

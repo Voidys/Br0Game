@@ -90,6 +90,7 @@ class Theme
      */
     public function setStyleSettings()
     {
+        $THEMESETTINGS = [];
         if (file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg')) {
             require(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg');
         }

@@ -185,7 +185,7 @@ abstract class AbstractAccountController implements GameControllerInterface
     /**
      * Sends $data as a JSON response and ends the request (EndOfRequest).
      */
-    protected function sendJSON($data)
+    protected function sendJSON($data): never
     {
         // $this->updatePlanetTime();
         echo json_encode($data);
@@ -195,7 +195,7 @@ abstract class AbstractAccountController implements GameControllerInterface
     /**
      * Redirects to $url (relative to the game root) and ends the request.
      */
-    protected function redirectTo($url)
+    protected function redirectTo($url): never
     {
         // $this->updatePlanetTime();
         $this->http()->redirectTo($url);

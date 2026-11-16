@@ -14,6 +14,13 @@ use App\Tests\Support\GameTestCase;
  */
 final class MarketPurchaseTest extends GameTestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // the market pages run with the full language; the resource names in the trade messages come from the tech domain
+        $this->state->LNG->includeData(['TECH']);
+    }
+
     /** @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: int} seller, buyer, buyer planet, offer fleet id */
     private function offer(float $wantedMetal = 900): array
     {

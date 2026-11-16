@@ -47,6 +47,7 @@ class ModuleController extends AbstractAdminController
             $this->maintenance()->clearCache();
         }
 
+        $Modules = [];
         foreach ($module as $ID => $state) {
             $Modules[$ID] = [
                 'name'  => $LNG['modul_' . $ID],

@@ -121,7 +121,7 @@ class AllianceController extends AbstractGameController
         }
     }
 
-    private function redirectToHome()
+    private function redirectToHome(): never
     {
         $this->redirectTo('game?page=alliance');
     }

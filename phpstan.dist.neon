@@ -1,0 +1,23 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    # constants and global helpers of the game (also loaded by composer "autoload.files")
+    bootstrapFiles:
+        - src/Game/Support/game_constants.php
+        - src/Game/Support/functions.php
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    treatPhpDocTypesAsCertain: false
+    # game state / config objects are dynamic bags (magic __get, ad-hoc property writes)
+    universalObjectCratesClasses:
+        - App\Game\Core\Singleton
+        - App\Game\Core\Config
+        - App\Game\Core\Log
+        - App\Game\Core\Session
