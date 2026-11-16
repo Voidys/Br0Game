@@ -496,6 +496,13 @@ CREATE TABLE `%PREFIX%multi_to_users` (
   PRIMARY KEY (`multiID`, `userID`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE `%PREFIX%hall_of_fame` (
+  `universe` int(11) unsigned NOT NULL,
+  `data` mediumtext NOT NULL,
+  `updated_at` int(11) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`universe`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE `%PREFIX%news` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user` varchar(64) NOT NULL,

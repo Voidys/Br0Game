@@ -78,6 +78,7 @@ final class AdminShell
             ['adm_nav_content', 'file-text', [
                 ['pages', '', 'adm_tab_pages', 'ShowPagesPage'],
                 ['news', '', 'mu_news', 'ShowNewsPage'],
+                ['hallOfFame', '', 'mu_hall_of_fame', 'ShowHallOfFamePage'],
                 ['team', '', 'adm_tab_team', 'ShowTeamPage'],
             ]],
             ['mu_flying_fleets', 'send', [['flyingFleet', '', 'mu_flying_fleets', 'ShowFlyingFleetPage']]],

@@ -32,6 +32,7 @@ gameInformations: |-
 hof3_header: Hier leben die Legenden von Universum 3 weiter!
 hof4_header: Hier leben die Legenden von Universum 4 weiter!
 hof7_header: Hier leben die Legenden von Universum 7 weiter!
+hof_empty: "Noch keine Ruhmeshalle-Daten vorhanden."
 IonCannon: Ionenkanone
 least_reached_ach: Seltenste Achievements
 login_error_1: >-

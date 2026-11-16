@@ -1008,3 +1008,10 @@ Technical changes per migration step, newest last.
 - New global setting `discord_widget_guild` (community links, validated as 17-20 digit server ID via `validate => discord_guild`); box hidden while empty or the widget is unreachable, links to `discord_url` or the widget invite.
 - `i-discord` symbol in the icon sprite; start page box styles in `login.css`; rules and privacy policy text use the full card width (`rich-text--wide`).
 
+## 121. Data-driven hall of fame
+
+- New table `HALL_OF_FAME` (`universe` PK, `data` JSON, `updated_at`): migration `1794901300`, `install.sql`, `tables.php`.
+- `App\Community\HallOfFame` (find, universesWithData, import with strict validation of format v1, export, clear); the three hardcoded `page.HoF3/4/7` templates are gone (archived as JSON outside the repo), a fresh install has no hall of fame data.
+- `HofController` renders one template `page.hof.default.html.twig` from the DB (universe dropdown only for universes with data, empty-state notice `hof_empty`).
+- Admin page `hallOfFame` (`HallOfFameController`, right `ShowHallOfFamePage`, menu Content): export download, import upload (replaces), clear; CSRF-protected POSTs.
+

@@ -1,0 +1,51 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if hofFlash %}<div class="notice notice--{{ hofFlash.ok ? 'success' : 'danger' }}"{% if not hofFlash.ok %} role="alert"{% endif %}>{{ icon(hofFlash.ok ? 'circle-check' : 'circle-alert') }}<div>{{ hofFlash.message }}</div></div>{% endif %}
+
+  <section class="card">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('trophy') }}{{ LNG.hof_head }} <span class="badge badge--muted">{{ hofUni }}</span></h2>
+      <div class="card__actions">
+        {% if hofExists %}<a class="button btn--small" href="./?page=HoF&amp;universe={{ hofUni }}" target="_blank" rel="noopener">{{ icon('external-link') }}{{ LNG.hof_view }}</a>{% endif %}
+      </div>
+    </header>
+    <div class="card__body">
+      {% if hofExists %}
+      <dl class="kv">
+        <dt>{{ LNG.hof_status }}</dt><dd><span class="badge badge--ok">{{ LNG.hof_has_data }}</span></dd>
+        <dt>{{ LNG.hof_entries }}</dt><dd>{{ hofEntries }}</dd>
+        <dt>{{ LNG.hof_updated }}</dt><dd>{{ hofUpdated }}</dd>
+      </dl>
+      {% else %}
+      <div class="empty">{{ icon('trophy') }}<p>{{ LNG.hof_no_data }}</p></div>
+      {% endif %}
+    </div>
+    {% if hofExists %}
+    <footer class="card__foot">
+      <form method="POST" action="?page=hallOfFame&amp;action=export" class="inline-form">
+        <button type="submit" class="button btn--small">{{ icon('download') }}{{ LNG.hof_export }}</button>
+      </form>
+      <form method="POST" action="?page=hallOfFame&amp;action=clear" class="inline-form">
+        <button type="submit" class="btn--small btn--danger" data-confirm="{{ LNG.hof_confirm_clear|e('html_attr') }}">{{ icon('trash-2') }}{{ LNG.hof_clear }}</button>
+      </form>
+    </footer>
+    {% endif %}
+  </section>
+
+  <form method="POST" action="?page=hallOfFame&amp;action=import" class="card" enctype="multipart/form-data">
+    <header class="card__head"><h2 class="card__title">{{ icon('upload') }}{{ LNG.hof_import }}</h2></header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="hof-file">{{ LNG.hof_file }}</label>
+          <div class="field-control">
+            <input type="file" id="hof-file" name="file" accept=".json,application/json" required>
+            <p class="field-help">{{ LNG.hof_import_help }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions"><button type="submit" class="btn--primary"{% if hofExists %} data-confirm="{{ LNG.hof_confirm_import|e('html_attr') }}"{% endif %}>{{ icon('upload') }}{{ LNG.hof_import }}</button></div>
+  </form>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

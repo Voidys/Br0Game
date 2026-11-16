@@ -54,6 +54,7 @@ $dbTableNames   = [
     'LOG_FLEETS'              => $prefix . 'log_fleets',
     'LOSTPASSWORD'            => $prefix . 'lostpassword',
     'NEWS'                    => $prefix . 'news',
+    'HALL_OF_FAME'            => $prefix . 'hall_of_fame',
     'PAGES'                   => $prefix . 'pages',
     'TEAM_MEMBERS'            => $prefix . 'team_members',
     'BOARD_POSTS'             => $prefix . 'board_posts',

@@ -15,44 +15,49 @@
 
 namespace App\Controller\Login;
 
+use App\Community\HallOfFame;
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\HTTP;
+use Symfony\Contracts\Service\Attribute\Required;
 
-/** Public hall of fame: the archived final rankings of past universes (uni3, uni4, uni7). */
+/** Public hall of fame: the rankings imported per universe (admin page hallOfFame). */
 #[\App\Routing\GamePage('index.php', 'hoF')]
 #[\App\Routing\GamePage('index.php', 'hoF', uniPrefix: true)]
 class HofController extends AbstractLoginController
 {
     public static $requireModule = 0;
 
-    public function initialize(): void
-    {
-        parent::initialize();
+    private HallOfFame $hallOfFame;
 
+    #[Required]
+    public function setHallOfFame(HallOfFame $hallOfFame): void
+    {
+        $this->hallOfFame = $hallOfFame;
     }
 
     /**
-     * Archived final rankings of finished universes. Request: universe (uni3, uni4 or uni7 = default); renders the matching
-     * static HoF template.
+     * Hall of fame of one universe. Request: universe (int; default the highest universe that has data). The dropdown lists
+     * only universes with data; without any data the page shows an empty notice.
      */
     public function show(): Response
     {
-
-        $universeSelect    = ['uni3' => 'uni3', 'uni4' => 'uni4', 'uni7' => 'uni7'];
-        $universe          = $this->http()->_GP('universe', 'uni7');
-
-        $this->assign([
-            'universe'          => $universe ?? "uni7",
-            'universeSelect'    => $universeSelect,
-        ]);
-        if ($universe == 'uni3') {
-            return $this->render('login/page.HoF3.default.html.twig');
-        } elseif ($universe == 'uni4') {
-            return $this->render('login/page.HoF4.default.html.twig');
-        } else {
-            return $this->render('login/page.HoF7.default.html.twig');
+        $withData = $this->hallOfFame->universesWithData();
+        $universeSelect = [];
+        foreach ($withData as $uni) {
+            $name = $this->configs->get($uni)->uni_name ?? '';
+            $universeSelect[$uni] = $name !== '' ? $name : 'Uni ' . $uni;
         }
 
-    }
+        $universe = (int) $this->http()->_GP('universe', 0);
+        if (!in_array($universe, $withData, true)) {
+            $universe = $withData === [] ? 0 : max($withData);
+        }
 
+        $this->assign([
+            'universe' => $universe,
+            'universeSelect' => $universeSelect,
+            'hof' => $universe > 0 ? $this->hallOfFame->find($universe) : null,
+        ]);
+
+        return $this->render('login/page.hof.default.html.twig');
+    }
 }
