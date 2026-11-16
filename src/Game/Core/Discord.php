@@ -29,6 +29,18 @@ class Discord
         $this->httpClient = $httpClient ?? HttpClient::create();
     }
 
+    /** Only https://discord.com|discordapp.com (also ptb./canary.) /api/webhooks/... URLs are posted to (no SSRF via hooks). */
+    public static function isAllowedWebhook(string $url): bool
+    {
+        $parts = parse_url($url);
+        if ($parts === false || ($parts['scheme'] ?? '') !== 'https' || isset($parts['user']) || isset($parts['pass']) || isset($parts['port'])) {
+            return false;
+        }
+
+        return preg_match('/^(?:(?:ptb|canary)\.)?discord(?:app)?\.com$/i', $parts['host'] ?? '') === 1
+            && str_starts_with($parts['path'] ?? '', '/api/webhooks/');
+    }
+
     /**
      * Sends an exception (message, user, file, line, URL, backtrace) to the exceptions webhook.
      */
@@ -132,13 +144,17 @@ class Discord
     }
 
     /**
-     * POSTs the message to the webhook (redirects followed, response ignored). Failures are swallowed on purpose:
+     * POSTs the message to the webhook (only Discord webhook URLs, redirects not followed, response ignored). Failures are swallowed on purpose:
      * reporting an error must never raise another one.
      */
     private function send(string $webHookUrl, string $message): void
     {
+        if (!self::isAllowedWebhook($webHookUrl)) {
+            return;
+        }
         try {
             $this->httpClient->request('POST', $webHookUrl, [
+                'max_redirects' => 0,
                 'headers' => ['Content-type' => 'application/json'],
                 'body' => $this->buildPayload($message),
             ])->getStatusCode();

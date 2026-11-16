@@ -67,6 +67,51 @@ class AccountEditorController extends AbstractAdminController
             return $this->render('admin/AccountEditorPageMenu.html.twig');
         }
 
+        $this->guardTarget($this->state->requestQuery['edit']);
+
         return (new $tab($this->db, $this->configs, $this->state, $responder))->handle();
+    }
+
+    /**
+     * Staff boundary (as in QuickEditor): the player behind the posted/requested id must be actable by this admin
+     * (never the root user, never an equal or higher authlevel, the admin itself is fine). Planet tabs resolve the owner
+     * of the planet id, the alliance tab checks the owner, every member and the ids of leader change / member removal.
+     */
+    private function guardTarget(string $tab): void
+    {
+        $id = (int) $this->http()->_GP('id', 0);
+        $userIds = [];
+        switch ($tab) {
+            case 'researchs':
+            case 'personal':
+                $userIds[] = $id;
+                break;
+            case 'resources':
+            case 'ships':
+            case 'defenses':
+            case 'buildings':
+            case 'planets':
+                $owner = $this->db->selectSingle('SELECT `id_owner` FROM %%PLANETS%% WHERE `id` = :id;', [':id' => $id], 'id_owner');
+                if ($owner !== null && $owner !== false) {
+                    $userIds[] = (int) $owner;
+                }
+                break;
+            case 'alliances':
+                $owner = $this->db->selectSingle('SELECT `ally_owner` FROM %%ALLIANCE%% WHERE `id` = :id;', [':id' => $id], 'ally_owner');
+                if ($owner !== null && $owner !== false) {
+                    $userIds[] = (int) $owner;
+                }
+                foreach ($this->db->select('SELECT `id` FROM %%USERS%% WHERE `ally_id` = :id;', [':id' => $id]) as $member) {
+                    $userIds[] = (int) $member['id'];
+                }
+                $userIds[] = (int) $this->http()->_GP('changeleader', 0);
+                $userIds[] = (int) $this->http()->_GP('delete_u', 0);
+                break;
+        }
+        foreach ($userIds as $userId) {
+            if ($userId > 0 && !$this->mayActOn($userId, true)) {
+                $this->deny();
+            }
+        }
     }
 }

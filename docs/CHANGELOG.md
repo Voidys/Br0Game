@@ -1138,3 +1138,9 @@ Technical changes per migration step, newest last.
 - F-11: the alliance admin dispatcher uses an explicit action whitelist (empty action shows the overview instead of recursing).
 - Tests: `AbuseGuardsTest`; `GameTestCase` clears the shared game session in `setUp()` (a session left by one test made `SessionManager::create()` reuse it in the next).
 
+## 144. Audit fixes: account editor boundary, Discord webhooks, colour settings
+
+- F-10: the admin account editor applies `mayActOn()` (root user, equal/higher authlevel; self allowed like the quick editor) before every tab, resolving planets to their owner and checking alliance members.
+- F-21: Discord webhooks only go to `https://discord.com|discordapp.com/api/webhooks/…` (also ptb/canary), no redirects; validated on save (`op_discord_hook_invalid`) and in `Discord::send()`.
+- F-24: colour settings are validated as hex on save and sanitised on read (`ColorSetting`), so inline CSS only ever gets a colour.
+- Tests: `DiscordTest` allowlist, `ColorSettingTest`, `AdminAuthorizationTest` (moderator vs admin vs root in the account editor).

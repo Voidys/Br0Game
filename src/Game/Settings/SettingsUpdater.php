@@ -4,6 +4,7 @@ namespace App\Game\Settings;
 
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
+use App\Game\Core\Discord;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\NumberAbbreviation;
 use App\Game\Core\Singleton;
@@ -140,6 +141,10 @@ class SettingsUpdater
             $discord_id = '';
             $discord_hook = '';
         }
+        $discord_hook = trim((string) $discord_hook);
+        if ($discord_hook !== '' && !Discord::isAllowedWebhook($discord_hook)) {
+            throw new SettingsRefused($LNG['op_discord_hook_invalid']);
+        }
 
         $spycount           = min(max(round($form['spycount']), 1), 4294967295);
         $fleetactions       = min(max($form['fleetactions'], 1), 99);
@@ -199,6 +204,9 @@ class SettingsUpdater
         $values = [];
         foreach (self::FIELDS as $column => [$parameter, $default]) {
             $values[$column] = $this->http()->_GP($parameter, $default);
+            if (str_starts_with($column, 'color')) {
+                $values[$column] = ColorSetting::sanitize($values[$column], (string) $default);
+            }
         }
         $imageThemeInput    = $this->http()->_GP('imageTheme', '');
         if ($imageThemeInput === '') {

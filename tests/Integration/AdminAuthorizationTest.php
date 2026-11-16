@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Controller\Admin\AccountEditorController;
 use App\Controller\Admin\AccountswapController;
 use App\Controller\Admin\RightsController;
 use App\Controller\Admin\SearchController;
@@ -53,6 +54,47 @@ final class AdminAuthorizationTest extends GameTestCase
     private function exists(int $userId): bool
     {
         return !empty($this->db->selectSingle('SELECT id FROM %%USERS%% WHERE id = :id;', [':id' => $userId]));
+    }
+
+    /**
+     * @param array<string, mixed> $actor
+     * @param array<string, mixed> $post
+     */
+    private function editAccount(array $actor, string $tab, array $post): ?string
+    {
+        $this->withBrowserSession();
+        $this->asUser($actor, $post + ['add' => 1], ['page' => 'accountEditor', 'edit' => $tab]);
+
+        return $this->show((new AccountEditorController())->withGameServices($this->db, $this->configs, $this->state));
+    }
+
+    public function testAccountEditorRefusesHigherRankedAndRootTargets(): void
+    {
+        [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
+        [$admin, $adminPlanet] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        $metal = (float) $adminPlanet['metal'];
+        $name = $admin['username'];
+
+        $this->editAccount($mod, 'resources', ['id' => $adminPlanet['id'], 'metal' => 500]);
+        $this->assertSame($metal, (float) $this->loadPlanet((int) $adminPlanet['id'])['metal'], 'moderator must not change an admin planet');
+
+        $this->editAccount($mod, 'personal', ['id' => $admin['id'], 'username' => 'hijacked']);
+        $this->assertSame($name, $this->loadUser((int) $admin['id'])['username'], 'moderator must not rename an admin');
+
+        $rootName = $this->db->selectSingle('SELECT username FROM %%USERS%% WHERE id = :id;', [':id' => ROOT_USER], 'username');
+        $this->editAccount($admin, 'personal', ['id' => ROOT_USER, 'username' => 'hijacked']);
+        $this->assertSame($rootName, $this->db->selectSingle('SELECT username FROM %%USERS%% WHERE id = :id;', [':id' => ROOT_USER], 'username'), 'nobody but root edits root');
+    }
+
+    public function testAccountEditorStillEditsNormalPlayers(): void
+    {
+        [$admin] = $this->createPlayer(['authlevel' => AUTH_ADM]);
+        [$victim, $planet] = $this->createPlayer();
+        $metal = (float) $planet['metal'];
+
+        $this->editAccount($admin, 'resources', ['id' => $planet['id'], 'metal' => 500]);
+
+        $this->assertSame($metal + 500, (float) $this->loadPlanet((int) $planet['id'])['metal']);
     }
 
     public function testModeratorCannotSwapAccountsWithAnAdmin(): void

@@ -22,7 +22,7 @@ final class DiscordTest extends TestCase
     /** @var list<array{method: string, url: string, options: array<string, mixed>}> */
     private array $requests = [];
 
-    private function discord(MockResponse $response, string $hook = 'https://discord.test/hook'): Discord
+    private function discord(MockResponse $response, string $hook = 'https://discord.com/api/webhooks/1/abc'): Discord
     {
         $registry = $this->createStub(ConfigRegistry::class);
         $config = new Config(['game_name' => 'Br0Game', 'discord_logs_hook' => $hook], $registry);
@@ -42,7 +42,7 @@ final class DiscordTest extends TestCase
 
         self::assertCount(1, $this->requests);
         self::assertSame('POST', $this->requests[0]['method']);
-        self::assertSame('https://discord.test/hook', $this->requests[0]['url']);
+        self::assertSame('https://discord.com/api/webhooks/1/abc', $this->requests[0]['url']);
         self::assertContains('Content-type: application/json', $this->requests[0]['options']['headers']);
         self::assertSame(
             ['content' => "**cron**\n```successful: 1\nlist: [1,2]\n```", 'username' => 'Br0Game', 'tts' => false, 'embeds' => []],
@@ -62,5 +62,30 @@ final class DiscordTest extends TestCase
         $this->discord(new MockResponse(''), '')->sendLog('cron', ['a' => 'b']);
 
         self::assertSame([], $this->requests);
+    }
+
+    public function testNonDiscordHooksAreRefusedAndNeverRequested(): void
+    {
+        foreach (['http://127.0.0.1/x', 'https://discord.com.evil.test/api/webhooks/1', 'https://evil.test/api/webhooks/1', 'http://discord.com/api/webhooks/1', 'https://discord.com/other', 'https://user@discord.com/api/webhooks/1', 'file:///etc/passwd'] as $hook) {
+            $this->discord(new MockResponse(''), $hook)->sendLog('cron', ['a' => 'b']);
+        }
+
+        self::assertSame([], $this->requests);
+    }
+
+    public function testAllowlist(): void
+    {
+        foreach (['https://discord.com/api/webhooks/1/a', 'https://discordapp.com/api/webhooks/1/a', 'https://ptb.discord.com/api/webhooks/1/a', 'https://canary.discord.com/api/webhooks/1/a'] as $url) {
+            self::assertTrue(Discord::isAllowedWebhook($url), $url);
+        }
+        self::assertFalse(Discord::isAllowedWebhook('https://evil.discord.com.test/api/webhooks/1'));
+        self::assertFalse(Discord::isAllowedWebhook('https://discord.com:8443/api/webhooks/1'));
+    }
+
+    public function testRedirectsAreNotFollowed(): void
+    {
+        $this->discord(new MockResponse('', ['http_code' => 204]))->sendLog('cron', ['a' => 'b']);
+
+        self::assertSame(0, $this->requests[0]['options']['max_redirects']);
     }
 }

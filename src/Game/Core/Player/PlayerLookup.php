@@ -7,6 +7,7 @@ use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
 use App\Game\Core\Language;
 use App\Game\Core\GameUtilities;
+use App\Game\Settings\ColorSetting;
 
 /**
  * Read-only player queries and settings: mission/stb/signal colours, buddy and block status, auth level,
@@ -77,13 +78,10 @@ class PlayerLookup
             return self::DEFAULT_COLORS;
         }
 
-        if (isset($USER['colors'])) {
-            return $USER['colors'];
-        }
-
+        // the values end up in inline CSS: anything but a hex colour (stored by older versions) falls back to the default
         $colors = [];
-        foreach (array_keys(self::DEFAULT_COLORS) as $key) {
-            $colors[$key] = $USER[$key];
+        foreach (self::DEFAULT_COLORS as $key => $default) {
+            $colors[$key] = ColorSetting::sanitize($USER['colors'][$key] ?? $USER[$key] ?? null, $default);
         }
 
         return $colors;

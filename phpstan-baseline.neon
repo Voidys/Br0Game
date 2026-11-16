@@ -1171,18 +1171,6 @@ parameters:
 			path: src/Controller/Game/ChangelogController.php
 
 		-
-			message: '#^Parameter &\$sumBuildings by\-ref type of method App\\Controller\\Game\\EmpireController\:\:addBuildingColumns\(\) expects array\<int, array\<int, array\{sum\: float\|int, cnt\: int\}\>\>, non\-empty\-array\<array\<array\{sum\: \(float\|int\), cnt\?\: int\}\>\> given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: src/Controller/Game/EmpireController.php
-
-		-
-			message: '#^Parameter &\$sumBuildings by\-ref type of method App\\Controller\\Game\\EmpireController\:\:addBuildingColumns\(\) expects array\<int, array\<int, array\{sum\: float\|int, cnt\: int\}\>\>, non\-empty\-array\<non\-empty\-array\<array\{sum\: \(float\|int\), cnt\: int\}\>\> given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: src/Controller/Game/EmpireController.php
-
-		-
 			message: '#^Property App\\Controller\\Game\\EmpireController\:\:\$requireModule has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -8801,24 +8789,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Twig\\TemplateExtension\:\:numberFormat\(\) has parameter \$num with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Twig/TemplateExtension.php
-
-		-
-			message: '#^Method App\\Twig\\TemplateExtension\:\:optionOutput\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Twig/TemplateExtension.php
-
-		-
-			message: '#^Method App\\Twig\\TemplateExtension\:\:optionOutput\(\) has parameter \$selected with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Twig/TemplateExtension.php
-
-		-
-			message: '#^Method App\\Twig\\TemplateExtension\:\:optionOutput\(\) has parameter \$value with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Twig/TemplateExtension.php

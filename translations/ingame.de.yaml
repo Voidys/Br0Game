@@ -1713,3 +1713,4 @@ depot_err_hours: "Du kannst eine Flotte auf einmal für 1 bis %s Stunden versorg
 depot_err_fleet: "Diese Flotte hält nicht mehr an diesem Planeten."
 depot_err_max_stay: "Eine Flotte darf höchstens %s Stunden Aufenthalt übrig haben. Wähle weniger Stunden."
 depot_err_deuterium: "Nicht genug Deuterium auf diesem Planeten: %s nötig."
+op_discord_hook_invalid: "Ungültiger Discord-Webhook. Erlaubt sind nur URLs der Form https://discord.com/api/webhooks/..."
