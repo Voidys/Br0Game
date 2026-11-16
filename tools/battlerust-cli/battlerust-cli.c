@@ -2,7 +2,8 @@
  * battlerust-cli: runs the Rust battle engine (bin/libbattlerust.so) as a standalone process.
  *
  * Reads the battle JSON from stdin, calls fight_battle_rounds() of the library that sits next to this
- * executable, and writes the result JSON to stdout. PHP starts it with proc_open()
+ * executable (source: tools/battlerust/), and writes the result JSON to stdout. A library that exports
+ * battlerust_free() gets its result string handed back for release; older ones (which never freed it) work as before. PHP starts it with proc_open()
  * (App\Game\BattleEngine\BattleEngineRust), so no PHP extension (FFI) is needed.
  *
  * Exit codes: 0 ok, 2 library not found/loadable, 3 symbol missing, 4 input error, 5 engine returned nothing.
@@ -19,6 +20,7 @@
 #include <unistd.h>
 
 typedef char *(*fight_fn)(const char *input_json);
+typedef void (*free_fn)(char *result);
 
 /* the library is expected next to the executable: <dir of exe>/libbattlerust.so */
 static int library_path(char *out, size_t size)
@@ -80,6 +82,8 @@ int main(void)
         return 3;
     }
 
+    free_fn release = (free_fn) dlsym(library, "battlerust_free"); /* optional: absent in the first library */
+
     char *input = read_stdin();
     if (input == NULL || input[0] == '\0') {
         fputs("battlerust-cli: no input on stdin\n", stderr);
@@ -107,6 +111,8 @@ int main(void)
     }
     fputs(output, result);
     fclose(result);
-    /* the result string belongs to the library; the process ends here, so it is not freed */
+    if (release != NULL) {
+        release(output); /* the result string belongs to the library */
+    }
     return 0;
 }

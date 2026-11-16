@@ -11,16 +11,17 @@ use App\Tests\Support\GameTestCase;
 
 /**
  * Pins the combat engines. Two implementations exist: the PHP engine (BattleEngineSteemNova) and the Rust engine
- * (BattleEngineRust, bin/battlerust). Both are fed the same fleets (simulator mode, so nothing is written).
+ * (BattleEngineRust, bin/battlerust, source tools/battlerust). Both are fed the same fleets (simulator mode, so
+ * nothing is written).
  *
- * - Fights that are decided without luck (nothing can be damaged, or an overwhelming force against one ship) must give
- *   the identical result in both engines, equal to the golden value.
- * - The PHP engine draws its randomness from rand(), so with a fixed mt_srand() seed its full result is reproducible:
- *   golden values for a mixed fight and a multi-fleet fight pin it exactly.
- * - The Rust engine cannot be seeded: it is checked against invariants, and against the PHP engine statistically (mean
- *   losses and debris of many fights agree within a tolerance far above the sampling noise).
+ * - Both engines draw their randomness from PHP's mt_rand stream (the Rust library has its own bit-exact MT19937 and
+ *   is seeded through BattleEngineRust::useSeed()), so with the same seed they must give the SAME result, not just a
+ *   similar one: the golden inputs and a few hundred generated fleet setups are compared field by field (winner,
+ *   rounds, debris, losses per side and user, repaired defense, wreck field, surviving ships).
+ * - The PHP engine's goldens pin its behaviour for a mixed fight, a multi-fleet fight and fights decided without luck.
+ * - Invariants (ships never multiply, debris matches the losses, per-user figures add up) hold for both engines.
  *
- * Why: the legacy renewal ports the Rust engine to source in the repository (phase 5) and the PHP engine may be
+ * Why: the legacy renewal ported the Rust engine to source in the repository (phase 5) and the PHP engine may be
  * refactored; these tests prove the replacements fight the same battle.
  */
 final class BattleEngineTest extends GameTestCase
@@ -28,14 +29,11 @@ final class BattleEngineTest extends GameTestCase
     // GOLDEN-BEGIN
     private const GOLDEN = [
         'decided core [{"202":10},[0,0,0],{"202":10},[0,0,0]]' => ['won' => 'w', 'rounds' => 7, 'debris' => ['attacker' => [901 => 0.0, 902 => 0.0], 'defender' => [901 => 0.0, 902 => 0.0]], 'unitLost' => ['attacker' => 0, 'defender' => 0], 'wreckfield' => [], 'attackersLeft' => [[202 => 10]], 'defendersLeft' => [[202 => 10]]],
-        'decided per-user books, php [{"202":10},[0,0,0],{"202":10},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 0]], ['attacker' => [1001 => 0], 'defender' => [2001 => 0]]],
-        'decided per-user books, rust [{"202":10},[0,0,0],{"202":10},[0,0,0]]' => [['attacker' => [], 'defender' => []], ['attacker' => [], 'defender' => []]],
+        'decided per-user books [{"202":10},[0,0,0],{"202":10},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 0]], ['attacker' => [1001 => 0], 'defender' => [2001 => 0]]],
         'decided core [{"207":1000},[0,0,0],{"204":1},[0,0,0]]' => ['won' => 'a', 'rounds' => 2, 'debris' => ['attacker' => [901 => 0.0, 902 => 0.0], 'defender' => [901 => 900.0, 902 => 300.0]], 'unitLost' => ['attacker' => 0, 'defender' => 4000], 'wreckfield' => [], 'attackersLeft' => [[207 => 1000]], 'defendersLeft' => [[]]],
-        'decided per-user books, php [{"207":1000},[0,0,0],{"204":1},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 4000]], ['attacker' => [1001 => 0], 'defender' => [2001 => 50]]],
-        'decided per-user books, rust [{"207":1000},[0,0,0],{"204":1},[0,0,0]]' => [['attacker' => [], 'defender' => [2001 => 4000]], ['attacker' => [], 'defender' => [2001 => 50]]],
+        'decided per-user books [{"207":1000},[0,0,0],{"204":1},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 4000]], ['attacker' => [1001 => 0], 'defender' => [2001 => 50]]],
         'decided core [{"213":600},[2,2,2],{"203":10,"208":2},[0,0,0]]' => ['won' => 'a', 'rounds' => 2, 'debris' => ['attacker' => [901 => 0.0, 902 => 0.0], 'defender' => [901 => 24000.0, 902 => 30000.0]], 'unitLost' => ['attacker' => 0, 'defender' => 180000], 'wreckfield' => [], 'attackersLeft' => [[213 => 600]], 'defendersLeft' => [[]]],
-        'decided per-user books, php [{"213":600},[2,2,2],{"203":10,"208":2},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 180000]], ['attacker' => [1001 => 0], 'defender' => [2001 => 265000]]],
-        'decided per-user books, rust [{"213":600},[2,2,2],{"203":10,"208":2},[0,0,0]]' => [['attacker' => [], 'defender' => [2001 => 180000]], ['attacker' => [], 'defender' => [2001 => 265000]]],
+        'decided per-user books [{"213":600},[2,2,2],{"203":10,"208":2},[0,0,0]]' => [['attacker' => [1001 => 0], 'defender' => [2001 => 180000]], ['attacker' => [1001 => 0], 'defender' => [2001 => 265000]]],
         'php seed 42: fleet A' => ['won' => 'a', 'rounds' => 7, 'debris' => ['attacker' => [901 => 66600.0, 902 => 24600.0], 'defender' => [901 => 57000.0, 902 => 27000.0]], 'unitLost' => ['attacker' => 304000, 'defender' => 500000], 'unitLostPerSideAndUser' => ['attacker' => [1001 => 304000], 'defender' => [2001 => 280000]], 'capacityLostPerSideAndUser' => ['attacker' => [1001 => 3700], 'defender' => [2001 => 102500]], 'repaired' => [401 => ['units' => 56.0, 'percent' => 70.0], 402 => ['units' => 22.0, 'percent' => 73.33333333333333]], 'wreckfield' => [], 'attackersLeft' => [[204 => 34, 205 => 36, 207 => 10]], 'defendersLeft' => [[401 => 56.0, 402 => 22.0]]],
         'php seed 7: fleet A' => ['won' => 'a', 'rounds' => 6, 'debris' => ['attacker' => [901 => 54000.0, 902 => 19800.0], 'defender' => [901 => 57000.0, 902 => 27000.0]], 'unitLost' => ['attacker' => 246000, 'defender' => 500000], 'unitLostPerSideAndUser' => ['attacker' => [1001 => 246000], 'defender' => [2001 => 280000]], 'capacityLostPerSideAndUser' => ['attacker' => [1001 => 3000], 'defender' => [2001 => 102500]], 'repaired' => [401 => ['units' => 51.0, 'percent' => 63.74999999999999], 402 => ['units' => 24.0, 'percent' => 80.0]], 'wreckfield' => [], 'attackersLeft' => [[204 => 46, 205 => 37, 207 => 10]], 'defendersLeft' => [[401 => 51.0, 402 => 24.0]]],
         'php seed 42: fleet D' => ['won' => 'r', 'rounds' => 7, 'debris' => ['attacker' => [901 => 525000.0, 902 => 190500.0], 'defender' => [901 => 69000.0, 902 => 38400.0]], 'unitLost' => ['attacker' => 2385000, 'defender' => 950000], 'unitLostPerSideAndUser' => ['attacker' => [1001 => 2385000], 'defender' => [2001 => 358000]], 'capacityLostPerSideAndUser' => ['attacker' => [1001 => 56500], 'defender' => [2001 => 5700]], 'repaired' => [401 => ['units' => 116.0, 'percent' => 69.04761904761905], 403 => ['units' => 20.0, 'percent' => 62.5]], 'wreckfield' => [], 'attackersLeft' => [[]], 'defendersLeft' => [[205 => 15, 206 => 6, 401 => 148.0, 403 => 38.0, 404 => 5, 407 => 1]]],
@@ -80,11 +78,29 @@ final class BattleEngineTest extends GameTestCase
         [$attackUnits, $attackTech, $defendUnits, $defendTech] = $setup;
         $attackers = [$this->fleet(1001, $attackUnits, $attackTech)] + $extraAttackers;
         $defenders = [0 => $this->fleet(2001, $defendUnits, $defendTech)];
+
+        return $this->fightFleets($engine, $attackers, $defenders, $seed);
+    }
+
+    /**
+     * Runs one fight between the given fleets (by-ref like the engines take them) and returns the figures worth pinning.
+     * With a seed both engines start from the same random stream (mt_srand for PHP, useSeed for Rust).
+     *
+     * @param array<int, array<string, mixed>> $attackers
+     * @param array<int, array<string, mixed>> $defenders
+     * @return array<string, mixed>
+     */
+    private function fightFleets(string $engine, array $attackers, array $defenders, ?int $seed = null): array
+    {
+        $engineObject = $this->engine($engine);
         if ($seed !== null) {
             mt_srand($seed);
+            if ($engineObject instanceof BattleEngineRust) {
+                $engineObject->useSeed($seed);
+            }
         }
 
-        $result = $this->engine($engine)->calculateAttack($attackers, $defenders, 1, true);
+        $result = $engineObject->calculateAttack($attackers, $defenders, 1, true);
         $this->assertIsArray($result, "engine $engine returned no result");
 
         $remaining = static fn(array $fleets): array => array_map(static fn(array $fleet): array => array_filter($fleet['unit']), $fleets);
@@ -130,14 +146,11 @@ final class BattleEngineTest extends GameTestCase
         $php = $this->fight('php', $setup, 1);
         $rust = $this->fight('rust', $setup, 1);
 
-        // the repair roll of destroyed defence is luck; the per-user books differ in form (the PHP engine lists users
-        // with 0 losses, the Rust engine omits them) and are pinned per engine below
-        $core = static fn(array $fight): array => array_diff_key($fight, ['repaired' => 1, 'unitLostPerSideAndUser' => 1, 'capacityLostPerSideAndUser' => 1]);
-        $this->assertEquals($core($php), $core($rust), 'the engines decided the fight differently');
+        $this->assertEqualsWithDelta($php, $rust, 1e-6, 'the engines decided the fight differently');
         $name = json_encode($setup);
-        $this->goldenAssert('decided core ' . $name, $core($php));
-        $this->goldenAssert('decided per-user books, php ' . $name, [$php['unitLostPerSideAndUser'], $php['capacityLostPerSideAndUser']]);
-        $this->goldenAssert('decided per-user books, rust ' . $name, [$rust['unitLostPerSideAndUser'], $rust['capacityLostPerSideAndUser']]);
+        $core = array_diff_key($php, ['repaired' => 1, 'unitLostPerSideAndUser' => 1, 'capacityLostPerSideAndUser' => 1]);
+        $this->goldenAssert('decided core ' . $name, $core);
+        $this->goldenAssert('decided per-user books ' . $name, [$php['unitLostPerSideAndUser'], $php['capacityLostPerSideAndUser']]);
     }
 
     public function testPhpEngineIsReproducibleWithAFixedSeed(): void
@@ -203,24 +216,148 @@ final class BattleEngineTest extends GameTestCase
         }
     }
 
-    public function testRustEngineAgreesWithThePhpEngineStatistically(): void
+    /**
+     * Unit ids that fight (ships and defense) and exist in this installation's game data.
+     *
+     * @return array{0: array<int, int>, 1: array<int, int>}
+     */
+    private function fightingUnits(): array
+    {
+        $caps = $this->state->CombatCaps;
+        $ships = array_values(array_filter([202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215], static fn(int $id): bool => isset($caps[$id])));
+        $defence = array_values(array_filter([401, 402, 403, 404, 405, 406, 407, 408], static fn(int $id): bool => isset($caps[$id])));
+
+        return [$ships, $defence];
+    }
+
+    /**
+     * A reproducible random battle: 1-3 attacking fleets, a defending planet (ships and defense) and sometimes
+     * stationed allied fleets, random units, amounts and tech levels.
+     *
+     * @return array{0: array<int, array<string, mixed>>, 1: array<int, array<string, mixed>>}
+     */
+    private function randomBattle(int $index): array
+    {
+        [$ships, $defence] = $this->fightingUnits();
+        mt_srand(900_000 + $index);
+        $pick = static function (array $pool, int $max, int $maxAmount): array {
+            $units = [];
+            foreach (array_rand(array_flip($pool), min(count($pool), mt_rand(1, $max))) as $unit) {
+                $units[(int) $unit] = mt_rand(0, 1) ? mt_rand(1, $maxAmount) : mt_rand(1, 6);
+            }
+            ksort($units);
+
+            return $units;
+        };
+        $tech = static fn(): array => [mt_rand(0, 12), mt_rand(0, 12), mt_rand(0, 12)];
+
+        $attackers = [];
+        $attackerFleets = mt_rand(1, 3);
+        for ($i = 0; $i < $attackerFleets; $i++) {
+            $attackers[100 + $i * 7] = $this->fleet(1001 + $i, $pick($ships, 5, 150), $tech());
+        }
+        $defending = $pick($ships, 3, 80) + (mt_rand(0, 3) ? $pick($defence, 4, 120) : []);
+        $defenders = [0 => $this->fleet(2001, $defending, $tech())];
+        if (mt_rand(0, 2) === 0) {
+            $defenders[55] = $this->fleet(2002, $pick($ships, 3, 60), $tech());
+        }
+
+        return [$attackers, $defenders];
+    }
+
+    /**
+     * Same seed, same battle: the Rust library reproduces the PHP engine bit for bit. Compared over the golden
+     * fleets with several seeds and over generated battles (random units, amounts, techs, several fleets per side,
+     * rapid fire, explosions, defense rebuild), field by field.
+     */
+    public function testRustEngineMatchesThePhpEngineExactlyWithTheSameSeed(): void
     {
         $this->engine('rust');
-        foreach (['A' => [self::FLEET_A, 0.10, 0.12], 'D' => [self::FLEET_D, 0.10, 0.12]] as $name => [$setup, $attackerTolerance, $defenderTolerance]) {
-            $sums = ['php' => [0.0, 0.0, 0.0], 'rust' => [0.0, 0.0, 0.0]];
-            $runs = 60;
-            for ($run = 0; $run < $runs; $run++) {
-                foreach (['php', 'rust'] as $engine) {
-                    $result = $this->fight($engine, $setup, 5000 + $run);
-                    $sums[$engine][0] += $result['unitLost']['attacker'];
-                    $sums[$engine][1] += $result['unitLost']['defender'];
-                    $sums[$engine][2] += array_sum($result['debris']['attacker']) + array_sum($result['debris']['defender']);
-                }
-            }
+        $compared = 0;
 
-            $this->assertEqualsWithDelta($sums['php'][0], $sums['rust'][0], $sums['php'][0] * $attackerTolerance, "fleet $name: attacker losses differ between the engines");
-            $this->assertEqualsWithDelta($sums['php'][1], $sums['rust'][1], $sums['php'][1] * $defenderTolerance, "fleet $name: defender losses differ between the engines");
-            $this->assertEqualsWithDelta($sums['php'][2], $sums['rust'][2], $sums['php'][2] * 0.08, "fleet $name: debris differs between the engines");
+        $second = $this->fleet(1002, [206 => 15, 204 => 60], [6, 4, 5]);
+        foreach ([[self::FLEET_A, 42], [self::FLEET_A, 7], [self::FLEET_D, 42], [self::FLEET_D, 99], [self::FLEET_D, 5]] as [$setup, $seed]) {
+            $extra = $seed === 5 ? [1 => $second] : [];
+            $php = $this->fight('php', $setup, $seed, $extra);
+            $rust = $this->fight('rust', $setup, $seed, $extra);
+            $this->assertEqualsWithDelta($php, $rust, 1e-6, 'golden fleet, seed ' . $seed . ': the engines differ');
+            ++$compared;
         }
+
+        $runs = (int) (getenv('BATTLE_PARITY_RUNS') ?: 300); // more for a long soak: BATTLE_PARITY_RUNS=5000
+        for ($index = 0; $index < $runs; $index++) {
+            [$attackers, $defenders] = $this->randomBattle($index);
+            $seed = 31_000 + $index;
+            $php = $this->fightFleets('php', $attackers, $defenders, $seed);
+            $rust = $this->fightFleets('rust', $attackers, $defenders, $seed);
+            $this->assertEqualsWithDelta($php, $rust, 1e-6, 'generated battle ' . $index . ' (seed ' . $seed . '): the engines differ');
+            ++$compared;
+        }
+
+        $this->assertSame(5 + $runs, $compared);
+    }
+
+    /** Fleets of thousands of ships (long rapid fire chains, many explosions, several fights per round) match too. */
+    public function testRustEngineMatchesThePhpEngineOnLargeFleets(): void
+    {
+        $this->engine('rust');
+        foreach ([[self::FLEET_A, 40, 11], [self::FLEET_D, 30, 12], [self::FLEET_A, 90, 13]] as [$setup, $factor, $seed]) {
+            $scaled = [array_map(static fn(int $n): int => $n * $factor, $setup[0]), $setup[1], array_map(static fn(int $n): int => $n * $factor, $setup[2]), $setup[3]];
+            $php = $this->fight('php', $scaled, $seed);
+            $rust = $this->fight('rust', $scaled, $seed);
+            $this->assertEqualsWithDelta($php, $rust, 1e-6, "x$factor, seed $seed: the engines differ");
+        }
+    }
+
+    /** The generated battles are a mix of decided and drawn fights, otherwise the parity test proves little. */
+    public function testTheGeneratedBattlesCoverEveryOutcome(): void
+    {
+        $outcomes = [];
+        $rounds = [];
+        for ($index = 0; $index < 60; $index++) {
+            [$attackers, $defenders] = $this->randomBattle($index);
+            $result = $this->fightFleets('php', $attackers, $defenders, 31_000 + $index);
+            $outcomes[$result['won']] = true;
+            $rounds[$result['rounds']] = true;
+        }
+
+        $this->assertCount(3, $outcomes, 'attacker wins, defender wins and draws all occur');
+        $this->assertGreaterThanOrEqual(4, count($rounds), 'fights of different length occur');
+    }
+
+    /** When the library refuses or fails, the PHP engine fights instead and the report is stored as a PHP-engine report. */
+    public function testRustEngineFallsBackToThePhpEngineWhenTheLibraryFails(): void
+    {
+        $failing = new class ($this->db, $this->configs, $this->state) extends BattleEngineRust {
+            protected function runEngine(string $json): ?string
+            {
+                return null;
+            }
+        };
+        $this->assertSame('rust', $failing->getName());
+
+        $attackers = [$this->fleet(1001, self::FLEET_A[0], self::FLEET_A[1])];
+        $defenders = [0 => $this->fleet(2001, self::FLEET_A[2], self::FLEET_A[3])];
+        $log = ini_set('error_log', '/dev/null');
+        mt_srand(42);
+        $result = $failing->calculateAttack($attackers, $defenders, 1, true);
+        ini_set('error_log', (string) $log);
+
+        $this->assertIsArray($result);
+        $this->assertSame('steemnova', $failing->getName());
+        $this->assertSame($this->fight('php', self::FLEET_A, 42)['attackersLeft'], array_map(static fn(array $fleet): array => array_filter($fleet['unit']), $attackers));
+    }
+
+    /** Without a seed the Rust engine still produces a valid, differing fight (the seed comes from the OS). */
+    public function testRustEngineWithoutSeedGivesValidFights(): void
+    {
+        $outcomes = [];
+        for ($run = 0; $run < 6; $run++) {
+            $result = $this->fight('rust', self::FLEET_A);
+            $outcomes[json_encode($result['defendersLeft'])] = true;
+            $this->assertContains($result['won'], ['a', 'r', 'w']);
+        }
+
+        $this->assertGreaterThan(1, count($outcomes), 'unseeded fights are not all identical');
     }
 }

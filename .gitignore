@@ -48,3 +48,4 @@ composer.phar
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+/tools/battlerust/target/

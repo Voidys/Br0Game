@@ -9,16 +9,40 @@ use App\Game\Core\Singleton;
 
 /**
  * Rust battle engine. bin/battlerust (a small launcher built from tools/battlerust-cli/) loads
- * bin/libbattlerust.so and exchanges the battle as JSON over stdin/stdout: createRustJson() builds the input,
- * parseRustJson() applies the result. No PHP extension needed; one process start (about 2 ms) per battle.
- * Linux x86_64 only; elsewhere BattleHandler falls back to the PHP engine.
+ * bin/libbattlerust.so (source: tools/battlerust/) and exchanges the battle as JSON over stdin/stdout:
+ * createRustJson() builds the input, parseRustJson() applies the result. No PHP extension needed; one process start
+ * (about 2 ms) per battle. Linux x86_64 only; elsewhere BattleHandler falls back to the PHP engine.
+ *
+ * The library fights like BattleEngineSteemNova ship by ship with PHP's mt_rand; with useSeed() both engines produce
+ * the same fight (docs/battle-engine-contract.md), which the parity tests rely on. The rounds of the library are
+ * only the fight; losses, debris, defense rebuild and wreck field are computed here, in the order and with the
+ * random draws of the PHP engine.
  */
 class BattleEngineRust extends AbstractBattleEngine
 {
+    /** Seed handed to the library (tests and diagnostics only); null = the library seeds itself from the OS. */
+    private ?int $seed = null;
+
+    /**
+     * Makes the next fights reproducible: the library is seeded with $seed and, afterwards, PHP's generator is
+     * moved to the point where the PHP engine would stand after the same fight (mt_srand($seed) plus the draws the
+     * library consumed), so the defense rebuild rolls match the PHP engine seeded with mt_srand($seed).
+     * Pass null to go back to random fights. Not used by the game itself.
+     */
+    public function useSeed(?int $seed): void
+    {
+        $this->seed = $seed;
+    }
+    /** True once a fight fell back to the PHP engine (the library refused or failed), see calculateAttack(). */
+    private bool $fellBack = false;
+
+    /**
+     * Stored with every report: 'rust' reports are compressed and use the rust report template. After a fight that fell
+     * back to the PHP engine the name is that engine's, because the round log of the report has its format.
+     */
     public function getName(): string
     {
-        // stored with every report: 'rust' reports are compressed and use the rust report template
-        return 'rust';
+        return $this->fellBack ? 'steemnova' : 'rust';
     }
 
     /**
@@ -35,7 +59,10 @@ class BattleEngineRust extends AbstractBattleEngine
     /**
      * Serialises the fleets to JSON, runs the Rust library and converts its round log back into the result array
      * format of BattleEngineInterface (same keys as the PHP engine). By-ref fleets get their surviving units written back.
-     * @return array|false false when the engine process failed (BattleHandler then tries the next engine).
+     * When the library refuses the fight (more ships than its memory guard, 60 million) or the process fails, the
+     * fight is run by the PHP engine instead (which scales huge fleets down), so a battle is never cancelled; the engine
+     * name (getName()) then reports 'steemnova'. The failure is logged.
+     * @return array|false false only when the PHP engine fails as well.
      */
     public function calculateAttack(array &$attackers, array &$defenders, int $universe, bool $sim = false, int $simTries = 1): array|false
     {
@@ -44,8 +71,14 @@ class BattleEngineRust extends AbstractBattleEngine
         $json = $this->createRustJson($attackers, $defenders, $simTries);
         $output = $this->runEngine($json);
         if ($output === null) {
-            return false;
+            \error_log('battlerust: the Rust engine failed or refused the fight, using the PHP engine');
+            $this->fellBack = true;
+            $result = (new BattleEngineSteemNova($this->db, $this->configs, $this->state))->calculateAttack($attackers, $defenders, $universe, $sim, $simTries);
+            $this->fellBack = $result !== false;
+
+            return $result;
         }
+        $this->fellBack = false;
 
         return $this->parseRustJson($output, $attackers, $defenders, $universe, $sim, $executionTime);
     }
@@ -76,7 +109,8 @@ class BattleEngineRust extends AbstractBattleEngine
     /**
      * Builds the engine input: six rounds, per side a list of fleets with one entry per unit type (attack with
      * +10%/level weapon tech, hull = (metal+crystal)/10 with armor tech, shield with shield tech, rapid fire table,
-     * bigshield/stun flags, explode threshold 0.7 for attacking units and for defending ships (ids 2xx); defending defenses have none).
+     * bigshield/stun flags, explode threshold 0.7 for ships (ids 2xx), none for defenses). The values are NOT rounded:
+     * they are the exact numbers of the PHP engine (initCombatValues), which seeded parity depends on.
      */
     private function createRustJson(&$attackers, &$defenders, $simTries = 1): string
     {
@@ -97,12 +131,12 @@ class BattleEngineRust extends AbstractBattleEngine
             foreach ($attacker['unit'] as $unit => $amount) {
                 $unitData = [
                     'shipid'    => (int)$unit,
-                    'attack'    => round($CombatCaps[$unit]['attack'] * (1 + (0.1 * $attacker['player']['military_tech'])), 1),
-                    'hull'      => round(($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $attacker['player']['defence_tech']))),
-                    'shield'    => round($CombatCaps[$unit]['shield'] * (1 + (0.1 * $attacker['player']['shield_tech']))),
+                    'attack'    => $CombatCaps[$unit]['attack'] * (1 + (0.1 * $attacker['player']['military_tech'])),
+                    'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $attacker['player']['defence_tech'])),
+                    'shield'    => $CombatCaps[$unit]['shield'] * (1 + (0.1 * $attacker['player']['shield_tech'])),
                     'bigshield' => (bool)$CombatCaps[$unit]['bigshield'],
                     'stun'      => $CombatCaps[$unit]['stun'],
-                    'explode'   => 0.7,
+                    'explode'   => floor((int)$unit / 100) == 2 ? 0.7 : 0,
                     'amount'    => (int)$amount,
                     'rapidfire' => $CombatCaps[$unit]['sd'] ?? new \stdClass(),
                 ];
@@ -119,9 +153,9 @@ class BattleEngineRust extends AbstractBattleEngine
             foreach ($defender['unit'] as $unit => $amount) {
                 $unitData = [
                     'shipid'    => (int)$unit,
-                    'attack'    => round($CombatCaps[$unit]['attack'] * (1 + (0.1 * $defender['player']['military_tech'])), 1),
-                    'hull'      => round(($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $defender['player']['defence_tech']))),
-                    'shield'    => round($CombatCaps[$unit]['shield'] * (1 + (0.1 * $defender['player']['shield_tech']))),
+                    'attack'    => $CombatCaps[$unit]['attack'] * (1 + (0.1 * $defender['player']['military_tech'])),
+                    'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $defender['player']['defence_tech'])),
+                    'shield'    => $CombatCaps[$unit]['shield'] * (1 + (0.1 * $defender['player']['shield_tech'])),
                     'bigshield' => (bool)$CombatCaps[$unit]['bigshield'],
                     'stun'      => $CombatCaps[$unit]['stun'],
                     'explode'   => floor((int)$unit / 100) == 2 ? 0.7 : 0, //TODO: move to database
@@ -131,6 +165,10 @@ class BattleEngineRust extends AbstractBattleEngine
                 $defenderData['ships'][] = $unitData;
             }
             $data['defender'][] = $defenderData;
+        }
+
+        if ($this->seed !== null) {
+            $data['seed'] = $this->seed;
         }
 
         return json_encode($data);
@@ -151,6 +189,14 @@ class BattleEngineRust extends AbstractBattleEngine
         $config = $this->configs->get($universe);
 
         $decoded = json_decode($json, true);
+
+        if ($this->seed !== null) {
+            // continue the random stream where the PHP engine would stand after this fight (see useSeed())
+            mt_srand($this->seed);
+            for ($draw = 0, $draws = (int) ($decoded['rngDraws'] ?? 0); $draw < $draws; $draw++) {
+                mt_rand();
+            }
+        }
 
         switch ($decoded['outcome']) {
             case 1:
@@ -274,6 +320,13 @@ class BattleEngineRust extends AbstractBattleEngine
         $totalLost = ['attacker' => 0, 'defender' => 0];
         $unitsLost = ['attacker' => [], 'defender' => []];
         $capacityLost = ['attacker' => [], 'defender' => []];
+        // every participating user is listed, also without losses (as the PHP engine does)
+        foreach (['attacker' => $attackers, 'defender' => $defenders] as $side => $fleets) {
+            foreach ($fleets as $fleet) {
+                $unitsLost[$side][$fleet['player']['id']] ??= 0;
+                $capacityLost[$side][$fleet['player']['id']] ??= 0;
+            }
+        }
 
         // PlayerID for AI is 0
 
@@ -318,6 +371,19 @@ class BattleEngineRust extends AbstractBattleEngine
         $defendingPlayer = [
             'lost' => 0,
         ];
+
+        // the defense rebuild rolls in the order of the PHP engine: units in the order of the fleet, not of the first loss
+        foreach ($stats['defender'] as $fleetID => $defender) {
+            if (isset($defender['lost'], $rounds[0]['defenders'][$fleetID]['unit'])) {
+                $ordered = [];
+                foreach (array_keys($rounds[0]['defenders'][$fleetID]['unit']) as $element) {
+                    if (isset($defender['lost'][$element])) {
+                        $ordered[$element] = $defender['lost'][$element];
+                    }
+                }
+                $stats['defender'][$fleetID]['lost'] = $ordered + $defender['lost'];
+            }
+        }
 
         foreach ($stats['defender'] as $fleetID => $defender) {
             foreach ($defender['lost'] ?? [] as $element => $amount) {

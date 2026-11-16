@@ -101,30 +101,53 @@ Game routines:
 
 ## Battle engines
 
-The game now has two engines: the Rust engine and the PHP engine as fallback (`BattleHandler`). Until GB-80 (a regression from the port, not a pr0game bug) the Rust
+The game has two engines: the Rust engine and the PHP engine as fallback (`BattleHandler`). Until GB-80 (a regression from the port, not a pr0game bug) the Rust
 library was never found (wrong path), so every battle ran on the PHP engine. The Julia engine (a separate HTTP service)
 and the in-process FFI call of the Rust library were removed: the Rust engine always runs through `bin/battlerust`,
-a 16 KB launcher (`tools/battlerust-cli/`, built with `tools/battlerust-cli/build.sh` in a throwaway Ubuntu 20.04 container, glibc ≥ 2.4)
+a 16 KB launcher (`tools/battlerust-cli/`, built with `tools/battlerust-cli/build.sh` in a throwaway Ubuntu 20.04 container)
 that loads `bin/libbattlerust.so` and exchanges the battle JSON over stdin/stdout. No PHP extension is needed; Linux
-x86_64 only (elsewhere the PHP engine is used). The Rust source is not public; only the compiled library is shipped.
+x86_64 only (elsewhere the PHP engine is used).
 
-Same fights through the engines (simulation mode, techs 10/10/10, prod kernel in the web container; median). The FFI
-column is the in-process call measured before it was removed:
+**The library now has source** (phase 5 of the legacy renewal): `tools/battlerust/` (Rust, edition 2021, only serde/serde_json) is a
+port of the PHP engine with its own bit-exact `mt_rand`. With the same seed it plays exactly the fight of the PHP engine
+(`BattleEngineTest` compares 300 generated battles plus the golden fleets field by field; `BATTLE_PARITY_RUNS=5000` soaks longer).
+`sh tools/battlerust/build.sh` builds it in a pinned `rust:1.91.1-bullseye` container (glibc 2.31, so the library loads on glibc >= 2.30:
+Ubuntu 20.04+, Debian 11+, RHEL/Alma 9+; the newest symbol it needs is `GLIBC_2.30`), `build.sh test` runs `cargo test`, `build.sh check`
+rebuilds and compares the sha256 with the committed `bin/libbattlerust.so` (the build is reproducible: same bytes on another host path and
+with an empty cargo cache). Input/output formats and the differences to the first library: [battle-engine-contract.md](battle-engine-contract.md).
 
-| Fight | Units | PHP engine | Rust (FFI, removed) | Rust (launcher) | Rust speed-up |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| S: 50 light fighters + 20 cruisers vs 100 rocket launchers + 50 light lasers | 220 | 0.7 ms | 1.5 ms | 2.7 ms | – (PHP faster) |
-| M: 5k cruisers + 2k battleships vs 20k RL + 10k LL + 2k gauss | 39 000 | 318 ms | 6.1 ms | 8.3 ms | ≈ 40× |
-| L: 100k cruisers + 30k battleships vs 300k RL + 150k LL + 20k gauss | 600 000 | 6 495 ms | 57.3 ms | 58.4 ms | ≈ 110× |
-| XL: 900k cruisers + 100k battleships vs 1.5M RL + 800k LL + 100k gauss | 3 400 000 | 15 987 ms¹ | 468 ms | 504 ms | ≈ 32× |
+Same fights through the engines (simulation mode, techs 10/10/10, DDEV web container PHP 8.4 with the `ds` extension; time of
+`calculateAttack()` incl. JSON, process start and result parsing; median of 30/3/3/2 runs):
 
-¹ The PHP engine runs fights above 500 000 units on proportionally scaled counts (GB-21), so XL is an approximation
-there; without scaling it would need several GB of memory.
+| Fight | Units | PHP engine | Rust, first library | Rust, `tools/battlerust` |
+| --- | ---: | ---: | ---: | ---: |
+| S: 50 light fighters + 20 cruisers vs 100 rocket launchers + 50 light lasers | 220 | 0.6 ms | 2.3 ms | 1.1 ms |
+| M: 5k cruisers + 2k battleships vs 20k RL + 10k LL + 2k gauss | 39 000 | 178 ms | 6.1 ms | 4.8 ms |
+| L: 100k cruisers + 30k battleships vs 300k RL + 150k LL + 20k gauss | 600 000 | 5 246 ms¹ | 50 ms | 60 ms |
+| XL: 900k cruisers + 100k battleships vs 1.5M RL + 800k LL + 100k gauss | 3 400 000 | 11 634 ms¹ | 429 ms | 555 ms |
 
-Results agree: average survivors per fight differ by up to about 4 % between the engines (random battles, 3–5 runs),
-and the outcome is the same in every run. The launcher costs about 1.5–2.5 ms per battle (process start); from
-medium-sized fights on it is as fast as the in-process call. A simulator run through the web game (39 000 units) took
-90 ms including the request and stored a `rust` report that renders normally.
+¹ The PHP engine runs fights above its ship budget (at most 500 000 units) on proportionally scaled counts (GB-21), so L and XL are an
+approximation there; without scaling it would need several GB of memory.
+
+The new library is faster than the first one for small and medium fights and about 1.2x slower for fights of a few hundred thousand to a few
+million ships (it fights every ship individually like the PHP engine, so every shot is a random memory access). What closed most of the gap:
+16 bytes per ship (armor and shield; the unit type comes from the ship's position in its fleet, "destroyed" is the sign bit of the shield,
+compaction keeps the order), loops over the unit-type ranges instead of per-ship type lookups, precomputed ranges for the random draws (no
+divisions), and software prefetching of the victims of the next shots: the generator is deterministic, so the next shots' picks can be peeked
+without consuming anything (only for fights over about 1M ships; a wrong guess costs nothing but a prefetch). Raw launcher timing and peak RSS
+(`/usr/bin/time`, same input for both libraries):
+
+| Ships | first library | `tools/battlerust` |
+| ---: | ---: | ---: |
+| 7.2 million | 1.12 s, 88 MB | 1.36 s, 115 MB |
+| 36.1 million | 8.9 s, 426 MB | 8.8-9.1 s, 567 MB |
+| 59.6 million | 16.4 s, 701 MB | 15.6 s, 933 MB |
+
+So large fights are on par in time; memory is 1.3x the first library's (12 bytes per ship there, 15.7 here): both armor and shield have to be exact
+doubles for the results to equal the PHP engine's. The remaining 20-30 % at 0.6-7 million ships is per-shot bookkeeping the first library does not
+have (the statistics maps of the report, the exact rapid-fire/explosion rules). The library refuses fights above 60 million ships (`maxShips`,
+about 1 GB peak: 16 bytes x 60M = 960 MB of state, the measured 59.6 million ship fight peaked at 933 MB); the PHP engine, which scales them
+down, takes over. The launcher costs about 1-2 ms per battle (process start).
 
 ## Deployment settings (not code)
 

@@ -202,13 +202,14 @@ ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # leg
   - The test database name must end in `_test` (`.env.test`, `DATABASE_URL`); the tests refuse to run against anything else, so the dev database `db` is never touched. DDEV's `db` user may need `GRANT ALL ON db_test.*`; DDEV's root user can do that (`ddev mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS db_test; GRANT ALL ON db_test.* TO 'db'@'%';"`).
   - Every run rebuilds the schema of `db_test` from `install/install.sql` and the migrations; each test runs in a rolled-back transaction.
   - The mechanics tests compare against golden values captured from the code before the legacy renewal (prices, build times, production, queues, fleet maths, battles). A failing golden test means a result changed; only update the value (`GOLDEN_CAPTURE=1 vendor/bin/phpunit --filter <Class>` prints the new values to `var/golden/`) when the change is intended.
-  - The Rust battle engine cannot be seeded: it is checked against invariants and, statistically, against the PHP engine (the PHP engine is seeded with `mt_srand`).
+  - The Rust battle engine is checked against the PHP engine with the same seed (`mt_srand` / `BattleEngineRust::useSeed()`): results must be identical field by field, on the golden fleets and on 300 generated battles (`BATTLE_PARITY_RUNS=5000` for a longer soak). `sh tools/battlerust/build.sh test` runs the crate's own tests (RNG against PHP sequences, engine rules).
 - Errors land in `var/log/`. After changing translations or game data, clear `var/game/`.
 - Template and escaping rules are in [docs/templates.md](docs/templates.md).
 - **CI** ([`ci.yml`](.github/workflows/ci.yml)) runs on every push to `main` and on every pull request:
   - composer validate;
   - PHP syntax, Twig, YAML and container lint;
   - the PHPUnit suite against a MySQL 8.4 service container (`db_test`);
+  - the Rust battle engine: `cargo test`, a rebuild of `bin/libbattlerust.so` (must equal the committed sha256) and the battle parity tests against the fresh library;
   - `bash -n` and shellcheck for the install scripts.
 - **Releases** ([`release.yml`](.github/workflows/release.yml)):
   - bump `install/VERSION` (year scheme `1.<yy>.<patch>`, e.g. `1.26.0`) and push a tag `v1.26.0`;
@@ -220,13 +221,15 @@ ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # leg
 The game uses the first engine that is available:
 
 - **Rust (default):**
-  - 40–110× faster than the PHP engine for medium and large fights;
+  - 40–110× faster than the PHP engine for medium and large fights, and it fights exactly like the PHP engine (same rules, same random draws: with the same seed the result is identical);
   - runs through the bundled launcher `bin/battlerust`, which loads `bin/libbattlerust.so`, so there's nothing to install and no PHP extension;
   - Linux x86_64 with glibc 2.30 or newer (Ubuntu 20.04+, Debian 11+, RHEL/Alma/Rocky 9+);
+  - the source is in [`tools/battlerust/`](tools/battlerust) (Rust, builds in Docker, nothing else needed): `sh tools/battlerust/build.sh` rebuilds `bin/libbattlerust.so` reproducibly, `build.sh test` runs the crate tests, `build.sh check` compares a fresh build with the committed library; formats and details in [docs/battle-engine-contract.md](docs/battle-engine-contract.md);
   - rebuild the launcher with `sh tools/battlerust-cli/build.sh`.
 - **PHP (fallback):**
   - always available, and used on other systems (ARM, Alpine/musl, older distributions);
-  - very large fights (over 500 000 units) are computed on proportionally scaled unit counts.
+  - very large fights (over 500 000 units) are computed on proportionally scaled unit counts;
+  - also takes over when the Rust engine refuses a fight (over 60 million ships) or fails.
 
 ## Tech stack
 

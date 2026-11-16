@@ -95,6 +95,62 @@ jobs:
       - name: PHPUnit
         run: vendor/bin/phpunit
 
+  battlerust:
+    name: Rust battle engine (cargo test, reproducible build, parity)
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: db_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      APP_ENV: test
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/db_test?serverVersion=8.4.0&charset=utf8mb4
+      # more generated battles than the default 300 in the exact-parity test
+      BATTLE_PARITY_RUNS: 1000
+    steps:
+      - uses: actions/checkout@v4
+
+      # tools/battlerust/build.sh runs everything in a pinned rust:<version>-bullseye container (Docker is on the runner)
+      - name: cargo test (RNG against PHP sequences, engine rules)
+        run: sh tools/battlerust/build.sh test
+
+      - name: Remember the committed library
+        run: echo "COMMITTED_SHA=$(sha256sum bin/libbattlerust.so | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - name: Rebuild bin/libbattlerust.so from source
+        run: sh tools/battlerust/build.sh build
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, mbstring, gd, curl, ctype, json, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      # the fresh library, not the committed one: same fights as the PHP engine with the same seed, missions end to end
+      - name: Battle parity PHPUnit tests against the fresh library
+        run: vendor/bin/phpunit tests/Integration/BattleEngineTest.php tests/Integration/BattleMissionTest.php
+
+      # last, so a mismatch still shows the test results above: the committed binary must be what the source builds
+      - name: Committed bin/libbattlerust.so equals the fresh build
+        run: |
+          fresh="$(sha256sum bin/libbattlerust.so | cut -d' ' -f1)"
+          echo "committed: $COMMITTED_SHA"
+          echo "fresh:     $fresh"
+          test "$COMMITTED_SHA" = "$fresh" || { echo "::error::bin/libbattlerust.so differs from a fresh build of tools/battlerust (run: sh tools/battlerust/build.sh)"; exit 1; }
+
   shell:
     name: Shell scripts
     runs-on: ubuntu-latest
@@ -102,7 +158,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: bash -n
-        run: bash -n install.sh tools/release/build.sh
+        run: bash -n install.sh tools/release/build.sh tools/battlerust/build.sh
 
       - name: shellcheck
-        run: shellcheck --severity=warning install.sh tools/release/build.sh
+        run: shellcheck --severity=warning install.sh tools/release/build.sh tools/battlerust/build.sh
