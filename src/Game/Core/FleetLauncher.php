@@ -51,7 +51,8 @@ class FleetLauncher
      * outward duration instead), cancels the ACS group row and updates the fleet log.
      *
      * Side effects: DB updates on FLEETS/FLEETS_EVENT/LOG_FLEETS, deletes AKS/USERS_TO_ACS rows of the group.
-     * Not recallable: unknown or cannotCancel flights, foreign flights, flights already returning, missiles.
+     * Not recallable: unknown or cannotCancel flights, foreign flights, flights already returning, missiles, and
+     * outward flights whose arrival time has passed (the arrival event has not been processed yet).
      *
      * @return bool false when the recall is not allowed
      */
@@ -66,6 +67,12 @@ class FleetLauncher
         }
 
         if ($fleetResult['owner'] != $USER['id'] || $fleetResult['status'] == FLEET_RETURN) {
+            return false;
+        }
+
+        // An outward flight that reached its target has to be resolved by its arrival event first (no dodging a battle
+        // by recalling after arrival). Holding flights (FLEET_HOLD) keep their arrival time in the past by design.
+        if ($fleetResult['status'] == FLEET_OUTWARD && $fleetResult['arrival_time'] <= $this->state->runtime->timestamp) {
             return false;
         }
 

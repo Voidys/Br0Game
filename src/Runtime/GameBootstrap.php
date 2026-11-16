@@ -42,8 +42,8 @@ final class GameBootstrap
      * Common: registers the error reporter, creates the theme, sends the HTML content type, makes sure the cache and
      * session directories exist. INSTALL/UPGRADE return early; a missing config/game.php redirects to the installer
      * and pending DB migrations to the upgrade page.
-     * INGAME/ADMIN/CRON: loads the game session, loads game data (GameData), runs due fleet events (non-ajax INGAME
-     * only, module MODULE_FLEET_EVENTS), loads USER (with unread message count and points), lifts an expired ban,
+     * INGAME/ADMIN/CRON: loads the game session, loads game data (GameData), runs due fleet events (INGAME,
+     * module MODULE_FLEET_EVENTS), loads USER (with unread message count and points), lifts an expired ban,
      * applies language, theme and timezone, then gates on bans (error page), universe status (closed/registration
      * only block normal players) and, for INGAME, locks the active planet row (FOR UPDATE) and loads PLANETS.
      * Optionally logs analytics and verifies a submitted reCAPTCHA token.
@@ -167,7 +167,7 @@ final class GameBootstrap
 
         (new \App\Game\Core\GameData($this->db, $this->configs, $this->state))->load();
 
-        if (!$this->state->runtime->ajax && $this->state->runtime->mode === 'INGAME' && $this->viewHelpers()->isModuleAvailable(MODULE_FLEET_EVENTS)) {
+        if ($this->state->runtime->mode === 'INGAME' && $this->viewHelpers()->isModuleAvailable(MODULE_FLEET_EVENTS)) {
             $this->processFleetEvents();
         }
 
@@ -483,30 +483,15 @@ final class GameBootstrap
     }
 
     /**
-     * Claims the due fleet events of the current universe (sets a random lock token on all unlocked rows of
-     * fleets_event with time <= now) and runs their missions through FlyingFleetHandler; the lock is released
-     * afterwards. The claim is its own short transaction so parallel requests never process the same event twice;
-     * a MySQL deadlock (1213) while claiming is reported to Discord instead of failing the page.
+     * Claims and runs the due fleet events of the current universe (FlyingFleetHandler::processDue()), also on
+     * AJAX/fragment requests (a recall must never see an arrived fleet whose mission was not processed yet).
+     * A MySQL deadlock (1213) while claiming is reported to Discord instead of failing the page.
      * (Formerly src/Game/Support/fleet_events.php.)
      */
     private function processFleetEvents(): void
     {
-        $token = getRandomString();
-        $db = $this->db;
-        $claimedFleetCount = 0;
-
         try {
-            $claimedFleetCount = $db->transactional(function () use ($db, $token): int {
-                $db->update("UPDATE %%FLEETS_EVENT%%
-                    SET `lock` = :token
-                    WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;", [
-                    ':token' => $token,
-                    ':time' => $this->state->runtime->timestamp,
-                    ':universe' => $this->universe()->current(),
-                ]);
-
-                return $db->rowCount();
-            });
+            $this->fleetHandler->processDue((int) $this->universe()->current());
         } catch (Exception $e) {
             // still deadlocked after all attempts: the next request claims the due events; only report it
             if (Database::errorNumber($e) !== Database::ERROR_DEADLOCK) {
@@ -514,17 +499,6 @@ final class GameBootstrap
             }
             $ex = new Exception('Catched FleetHandler excepion:<br>' . $e->getMessage());
             $this->discord()->sendException($ex);
-        }
-
-        if ($claimedFleetCount > 0) {
-            try {
-                // every event runs in its own transaction and a failing one is quarantined (FlyingFleetHandler::run)
-                $this->fleetHandler->setToken($token);
-                $this->fleetHandler->run();
-            } finally {
-                // events the handler did not reach (or could not release) go back to the next request
-                $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [':token' => $token]);
-            }
         }
     }
 

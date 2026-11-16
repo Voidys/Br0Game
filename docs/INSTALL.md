@@ -94,6 +94,19 @@ cd /home/you/br0game && php bin/console app:cron:run --quiet
 Some panels want only the program and arguments, then use `/usr/bin/php8.4 /home/you/br0game/bin/console app:cron:run --quiet`.
 After a few minutes the admin panel (Information → health checks) should show the cron as running.
 
+The minute cron also runs the cronjob `fleets`, which processes due fleet events (arrivals, returns), so fleets
+advance at least once a minute without anyone loading a page. For on-time arrivals (important for PvP) a server
+you control should additionally run the fleet driver every few seconds, as a systemd service or supervisor program
+(it is safe next to the cron and page requests, event claims are atomic):
+
+```
+cd /var/www/br0game && while true; do php bin/console app:fleets:run --quiet; sleep 5; done
+```
+
+systemd: `ExecStart=/bin/sh -c 'while true; do php bin/console app:fleets:run --quiet; sleep 5; done'` with
+`WorkingDirectory=/var/www/br0game`, `Restart=always`. Shared hosting without long-running processes keeps the
+minute cron only. DDEV starts the loop by itself (daemon `fleets` in `.ddev/config.yaml`).
+
 ### 8. Turn on HTTPS
 
 Activate the certificate in the panel and, if offered, "force HTTPS". Then open `https://your-domain/` and log in with
@@ -140,7 +153,8 @@ Afterwards:
   `AllowOverride All` (the `.htaccess` in `public/` does the rewriting), PHP via PHP-FPM or `mod_php` 8.4.
 * **Permissions:** the web server's user must write to `var/`, `public/uploads/`, `public/stats/`, `stats/`,
   `config/` (until installed) and `.env.local`. For example `sudo chgrp -R www-data var public/uploads public/stats stats config .env.local`.
-* **Cron** (as the web server's user or your own): `* * * * * cd /var/www/br0game && php bin/console app:cron:run --quiet`
+* **Cron** (as the web server's user or your own): `* * * * * cd /var/www/br0game && php bin/console app:cron:run --quiet`;
+  optional fleet driver every few seconds: `while true; do php bin/console app:fleets:run --quiet; sleep 5; done` (systemd/supervisor, see step 7)
 * **HTTPS:** e.g. `certbot --nginx`.
 
 OPcache preloading saves a few milliseconds per request, see [PERFORMANCE.md](PERFORMANCE.md).

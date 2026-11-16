@@ -299,21 +299,36 @@ class InformationController extends AbstractGameController
         if (!is_array($Missle)) {
             $Missle = [];
         }
-        $this->state->PLANET[$resource[502]] -= max(0, min((int) ($Missle[502] ?? 0), (int) $this->state->PLANET[$resource[502]]));
-        $this->state->PLANET[$resource[503]] -= max(0, min((int) ($Missle[503] ?? 0), (int) $this->state->PLANET[$resource[503]]));
+        $planetId = (int) $this->state->PLANET['id'];
+        $columns = ['`' . $resource[502] . '`', '`' . $resource[503] . '`'];
 
-        $db->execute(
-            $db->qb()
-                ->update($db->table('PLANETS'))
-                ->set('`' . $resource[502] . '`', ':resource502Val')
-                ->set('`' . $resource[503] . '`', ':resource503Val')
-                ->where('id = :planetID')
-                ->setParameter('resource502Val', $this->state->PLANET[$resource[502]])
-                ->setParameter('resource503Val', $this->state->PLANET[$resource[503]])
-                ->setParameter('planetID', $this->state->PLANET['id'])
-        );
+        // The request-start PLANET copy is stale (a launch or an attack may have changed the silo meanwhile): lock the
+        // row, clamp against its current counts and deduct relatively.
+        $remaining = $db->transactional(function () use ($db, $columns, $Missle, $planetId): array {
+            $locked = $db->selectSingle(
+                'SELECT ' . $columns[0] . ' AS interceptor, ' . $columns[1] . ' AS interplanetary FROM %%PLANETS%% WHERE `id` = :planetID FOR UPDATE;',
+                [':planetID' => $planetId],
+            );
+            if (empty($locked)) {
+                return [0, 0];
+            }
 
-        $this->sendJSON([$this->state->PLANET[$resource[502]], $this->state->PLANET[$resource[503]]]);
+            $interceptor = max(0, min((int) ($Missle[502] ?? 0), (int) $locked['interceptor']));
+            $interplanetary = max(0, min((int) ($Missle[503] ?? 0), (int) $locked['interplanetary']));
+
+            $db->update(
+                'UPDATE %%PLANETS%% SET ' . $columns[0] . ' = GREATEST(0, ' . $columns[0] . ' - :interceptor), '
+                . $columns[1] . ' = GREATEST(0, ' . $columns[1] . ' - :interplanetary) WHERE `id` = :planetID;',
+                [':interceptor' => $interceptor, ':interplanetary' => $interplanetary, ':planetID' => $planetId],
+            );
+
+            return [(int) $locked['interceptor'] - $interceptor, (int) $locked['interplanetary'] - $interplanetary];
+        });
+
+        $this->state->PLANET[$resource[502]] = $remaining[0];
+        $this->state->PLANET[$resource[503]] = $remaining[1];
+
+        $this->sendJSON($remaining);
     }
 
     /**

@@ -1497,7 +1497,8 @@ INSERT INTO `%PREFIX%cronjobs` (`cronjobID`, `name`, `isActive`, `min`, `hours`,
 (NULL, 'databasedump', 0, '30', '1', '*', '*', '1', 'DumpCronjob', 0, NULL),
 (NULL, 'pirates', 0, '0', '2', '*', '*', '0', 'PirateSpawnerCronjob', 0, NULL),
 (NULL, 'disposable_email_domains', 1, '0', '3', '*', '*', '*', 'DisposableEmailDomainsCronjob', 0, NULL),
-(NULL, 'bots', 1, '*', '*', '*', '*', '*', 'BotCronjob', 0, NULL);
+(NULL, 'bots', 1, '*', '*', '*', '*', '*', 'BotCronjob', 0, NULL),
+(NULL, 'fleets', 1, '*', '*', '*', '*', '*', 'FleetEventCronjob', 0, NULL);
 
 INSERT INTO `%PREFIX%ticket_category` (`categoryID`, `name`) VALUES
 (1, 'Support'),

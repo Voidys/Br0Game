@@ -89,6 +89,44 @@ class FlyingFleetHandler
     }
 
     /**
+     * Claims the due events of a universe (sets a fresh random lock token on all unlocked `fleets_event` rows with
+     * time <= now) in a short transaction of their own, runs them (run()) and releases the events that were not
+     * reached. Atomic claims make parallel callers (page requests, the cron task, `app:fleets:run`) safe: no event is
+     * processed twice. A deadlock that outlasts the retries of Database::transactional() is thrown.
+     *
+     * @return int number of claimed events
+     */
+    public function processDue(int $universe): int
+    {
+        $token = getRandomString();
+        $db = $this->db;
+
+        $claimed = $db->transactional(function () use ($db, $token, $universe): int {
+            $db->update('UPDATE %%FLEETS_EVENT%%
+                SET `lock` = :token
+                WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;', [
+                ':token' => $token,
+                ':time' => $this->state->runtime->timestamp,
+                ':universe' => $universe,
+            ]);
+
+            return $db->rowCount();
+        });
+
+        if ($claimed > 0) {
+            try {
+                $this->setToken($token);
+                $this->run();
+            } finally {
+                // events the run did not reach (or could not release) go back to the next caller
+                $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
+            }
+        }
+
+        return $claimed;
+    }
+
+    /**
      * Handles all events locked with the token (see setToken()), ordered by event time then fleet id. Every event runs in
      * its own transaction (Database::transactional, deadlocks are repeated) and releases its lock when it is done, so a
      * failing event is rolled back, reported (game log + Discord) and quarantined (lock released, event time pushed back

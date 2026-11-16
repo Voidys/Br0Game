@@ -1102,3 +1102,9 @@ Technical changes per migration step, newest last.
 - F-04: `MarketPurchase::buy()` locks and re-reads the buyer's user row, then planet row (FleetDispatch order) before the vacation, slot, offer and payment checks — parallel purchases can no longer exceed the fleet slots.
 - Tests: `TutorialFullfillRequestTest`, `MarketPurchaseTest` (blocked public offers, stale second purchase).
 
+## 138. Audit fixes: missile duplication, combat dodge, fleets without page views
+
+- F-03: `destroyMissiles` runs in a transaction, locks the planet row and deducts relatively (`GREATEST(0, col - n)`) from the locked counts — a concurrent launch can no longer be undone by an absolute write of a stale copy.
+- F-05: outward fleets can't be recalled once their arrival time has passed (the arrival event has to run first; holds keep their rules); due fleet events are processed on AJAX/fragment requests too (`FlyingFleetHandler::processDue`).
+- Fleets advance without page views: `bin/console app:fleets:run` (one pass; DDEV daemon `fleets` loops it every 5 s) and cronjob `fleets` (every minute, migration `1794901500`); operator setup in `docs/INSTALL.md`.
+- Tests: `FleetRaceGuardsTest` (stale missile write, recall after arrival, hold recall, event driver).
