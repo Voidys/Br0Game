@@ -17,7 +17,9 @@ webimage_extra_packages: [php8.4-imap, php8.4-opcache, php8.4-ds]
 use_dns_when_possible: true
 timezone: Europe/Berlin
 composer_version: ""
-web_environment: []
+web_environment:
+    # local development runs in dev (profiler, debug pages); the checked-in .env defaults to prod
+    - APP_ENV=dev
 nodejs_version: "16"
 # Symfony Scheduler worker: runs the game cronjobs every minute (App\Schedule)
 web_extra_daemons:

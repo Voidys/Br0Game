@@ -1043,3 +1043,7 @@ Technical changes per migration step, newest last.
 - `ContentPages`: default privacy text comes from `templates/texts/<lang>/dataPrivacy_general.txt` (de, en; other languages fall back to en) when `privacy_region=other`, default rules are empty when `rules_default=0`; edited page rows still win. `/rules` shows an empty notice (`rulesEmpty`) for empty rules.
 - Board off: links removed from the game side panel, account top bar and login header; `board` pages (login, game, account) answer with the standard "page does not exist" message.
 - `InstallLegalSettingsTest` (validation, storage, default pages, step rendering); golden `basic_*` values of `ConfigFieldSchemaTest` updated.
+
+## 127. Production by default
+
+- Checked-in `.env` defaults to `APP_ENV=prod`; DDEV sets `APP_ENV=dev` via `web_environment` in `.ddev/config.yaml`, so a deploy without the installer never exposes the profiler. INSTALL.md checklist updated.

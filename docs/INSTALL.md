@@ -200,7 +200,7 @@ password `db`, name `db`), the game settings and your administrator account. The
 - [ ] Strong, unique administrator password
 - [ ] Mail configured (Admin → settings), so password resets work
 - [ ] `var/ENABLE_INSTALL_TOOL` does not exist after installing
-- [ ] Production mode: `.env.local` contains `APP_ENV=prod` and `APP_DEBUG=0` (the checked-in `.env` defaults to `dev` for development; the ZIP and the install script set prod for you, a manual `git clone` does not). In `dev` the Symfony profiler and debug pages are reachable.
+- [ ] Production mode: `APP_ENV=prod` (the checked-in `.env` defaults to `prod`, the installer also writes `APP_ENV=prod` and `APP_DEBUG=0` to `.env.local`; only DDEV switches to `dev` through `.ddev/config.yaml`). Never set `APP_ENV=dev` on a public server: in `dev` the Symfony profiler and debug pages are reachable.
 - [ ] PHP, MySQL/MariaDB and the operating system receive updates; update Br0Game when new versions appear
 - [ ] Regular backups
 - [ ] Behind a reverse proxy or load balancer: `SYMFONY_TRUSTED_PROXIES` set (see below)
