@@ -51,7 +51,7 @@ class GalaxyRows
 
     public function getGalaxyData(): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $sql = "SELECT SQL_BIG_RESULT DISTINCT
                 p.`galaxy`, p.`system`, p.`planet`, p.`id` as planet_id, p.`id_owner`, p.`name`, p.`image`, p.`planet_style`, p.`last_update`, p.`diameter`, p.`temp_min`,
@@ -124,7 +124,7 @@ class GalaxyRows
 
     private function setLastActivity(): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $lastActivity = floor(
             ($this->state->runtime->timestamp - max($this->galaxyRow['last_update'], $this->galaxyRow['m_last_update'])) / 60
@@ -133,8 +133,7 @@ class GalaxyRows
         if ($lastActivity < 15) {
             $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = $LNG['gl_activity'];
         } elseif ($lastActivity < 60) {
-            $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = sprintf(
-                $LNG['gl_activity_inactive'],
+            $this->galaxyData[$this->galaxyRow['planet']]['lastActivity'] = $LNG->format('gl_activity_inactive',
                 $lastActivity
             );
         } else {
@@ -144,16 +143,16 @@ class GalaxyRows
 
     private function checkOwnPlanet(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']  = $this->galaxyRow['id_owner'] == $USER['id'];
     }
 
     private function getAllowedMissions(): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
         $this->galaxyData[$this->galaxyRow['planet']]['missions'] = [
             1 => !$this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']
                 && $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_ATTACK),
@@ -178,7 +177,7 @@ class GalaxyRows
 
     private function getActionButtons(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         if ($this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']) {
             $this->galaxyData[$this->galaxyRow['planet']]['action'] = false;
         } else {
@@ -200,9 +199,9 @@ class GalaxyRows
 
     private function getPlayerData(): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $this->galaxyRow);
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($this->galaxyRow));
         $Class = $this->playerUtil()->userStatus($this->galaxyRow, $IsNoobProtec);
 
         $this->galaxyData[$this->galaxyRow['planet']]['user'] = [
@@ -210,8 +209,7 @@ class GalaxyRows
             'username'      => htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
             'rank'          => $this->galaxyRow['total_rank'],
             'points'        => $this->viewHelpers()->prettyNumber($this->galaxyRow['total_points']),
-            'playerrank'    => $this->viewHelpers()->isModuleAvailable(MODULE_STATISTICS) ? sprintf(
-                $LNG['gl_in_the_rank'],
+            'playerrank'    => $this->viewHelpers()->isModuleAvailable(MODULE_STATISTICS) ? $LNG->format('gl_in_the_rank',
                 htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
                 $this->galaxyRow['total_rank']
             ) : htmlspecialchars($this->galaxyRow['username'], ENT_QUOTES, "UTF-8"),
@@ -225,8 +223,8 @@ class GalaxyRows
 
     private function getAllianceData(): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         if (empty($this->galaxyRow['allyid'])) {
             $this->galaxyData[$this->galaxyRow['planet']]['alliance']   = false;
         } else {
@@ -257,8 +255,8 @@ class GalaxyRows
             $this->galaxyData[$this->galaxyRow['planet']]['alliance'] = [
                 'id'     => $this->galaxyRow['allyid'],
                 'name'   => htmlspecialchars($this->galaxyRow['ally_name'], ENT_QUOTES, "UTF-8"),
-                'member' => sprintf(
-                    ($this->galaxyRow['ally_members'] == 1) ? $LNG['gl_member_add'] : $LNG['gl_member'],
+                'member' => $LNG->format(
+                    ($this->galaxyRow['ally_members'] == 1) ? 'gl_member_add' : 'gl_member',
                     $this->galaxyRow['ally_members']
                 ),
                 'web'    => $this->galaxyRow['ally_web'],
@@ -287,8 +285,8 @@ class GalaxyRows
         if (!isset($this->galaxyRow['m_id'])) {
             $this->galaxyData[$this->galaxyRow['planet']]['moon'] = false;
         } else {
-            $USER = & $this->state->USER;
-            $THEME = & $this->state->THEME;
+            $USER = $this->state->USER;
+            $THEME = $this->state->THEME;
 
             if (!$USER['enable_planet_styles']) {
                 $image = $THEME->asset("planeten/" . $this->galaxyRow['m_image'] . ".jpg");
@@ -322,8 +320,8 @@ class GalaxyRows
 
     private function getPlanetData(): void
     {
-        $USER = & $this->state->USER;
-        $THEME = & $this->state->THEME;
+        $USER = $this->state->USER;
+        $THEME = $this->state->THEME;
 
         if (!$USER['enable_planet_styles']) {
             $image = $THEME->asset("planeten/" . $this->galaxyRow['image'] . ".jpg");
@@ -356,7 +354,7 @@ class GalaxyRows
 
     private function fetchSpyReportAges(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "SELECT p.id as planet_id, MAX(m.message_time) as latest_spy_time
@@ -390,8 +388,8 @@ class GalaxyRows
             return;
         }
 
-        $USER = & $this->state->USER;
-        $LNG  = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG  = $this->state->LNG;
 
         $freshHours  = (int) ($USER['spy_report_fresh_hours']  ?? 24);
         $recentHours = (int) ($USER['spy_report_recent_hours'] ?? 168);
@@ -408,13 +406,13 @@ class GalaxyRows
 
         if ($age < $freshHours * 3600) {
             $this->galaxyData[$this->galaxyRow['planet']]['spyReport']      = 'fresh';
-            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = sprintf($LNG['gl_spy_report_fresh'], $freshHours);
+            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = $LNG->format('gl_spy_report_fresh', $freshHours);
         } elseif ($age < $recentHours * 3600) {
             $this->galaxyData[$this->galaxyRow['planet']]['spyReport']      = 'recent';
-            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = sprintf($LNG['gl_spy_report_recent'], $recentHours);
+            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = $LNG->format('gl_spy_report_recent', $recentHours);
         } else {
             $this->galaxyData[$this->galaxyRow['planet']]['spyReport']      = 'old';
-            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = sprintf($LNG['gl_spy_report_old'], $recentHours);
+            $this->galaxyData[$this->galaxyRow['planet']]['spyReportTitle'] = $LNG->format('gl_spy_report_old', $recentHours);
         }
     }
 }

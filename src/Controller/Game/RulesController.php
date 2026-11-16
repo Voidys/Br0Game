@@ -37,7 +37,7 @@ class RulesController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $this->assign([
             // templates/texts/<lang>/rules.txt is trusted HTML shipped with the code; the link is escaped
             'rules'		=> new \Twig\Markup(sprintf($LNG->getTemplate('rules'), htmlspecialchars((string) $this->configs->get()->git_issues_link, ENT_QUOTES, double_encode: false)), 'UTF-8'),

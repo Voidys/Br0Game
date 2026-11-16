@@ -290,8 +290,8 @@ class BattleAchievement
             $fleet_points = $db->selectSingle($sql, [
                 ':id' => $planetDefender,
             ], 'fleet_points');
-            $reslist = & $this->state->reslist;
-            $pricelist = & $this->state->pricelist;
+            $reslist = $this->state->reslist;
+            $pricelist = $this->state->pricelist;
             $lostFleetPoints = 0;
 
             foreach ($reslist['fleet'] as $Fleet) {

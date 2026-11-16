@@ -34,8 +34,8 @@ class BanController extends AbstractAdminController
     public function show(): Response
     {
         $db = $this->db;
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         if (empty($this->state->requestQuery['mode'])) {
             $this->state->requestQuery['mode'] = $this->state->requestQuery['page'];

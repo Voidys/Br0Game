@@ -227,7 +227,7 @@ class BotsController extends AbstractAdminController
                 } else {
                     try {
                         $ids = $this->spawner->spawn($this->universe()->getEmulated(), $profileId, $count);
-                        $this->flash(sprintf($LNG['bot_spawned'], count($ids)));
+                        $this->flash($LNG->format('bot_spawned', count($ids)));
                     } catch (\Throwable $e) {
                         $this->flash($e->getMessage(), false);
                     }

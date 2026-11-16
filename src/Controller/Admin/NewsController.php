@@ -32,8 +32,8 @@ class NewsController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $html = new HtmlContent();
         $now = $this->state->runtime->timestamp;
@@ -164,7 +164,7 @@ class NewsController extends AbstractAdminController
                 'scheduled' => (int) $u['status'] === 1 && $u['date'] > $now,
                 'draft'     => (int) $u['status'] === 0,
                 'pinned'    => (int) $u['pinned'] === 1,
-                'confirm'   => sprintf($LNG['nws_confirm'], $u['title']),
+                'confirm'   => $LNG->format('nws_confirm', $u['title']),
             ];
         }
 
@@ -178,11 +178,11 @@ class NewsController extends AbstractAdminController
 
     private function renderEditor(int $id, array $data, ?string $error = null, ?string $notice = null): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $this->assign([
             'editor'      => true,
             'news_id'     => $id,
-            'nws_head'    => $id ? sprintf($LNG['nws_head_edit'], htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8')) : $LNG['nws_head_create'],
+            'nws_head'    => $id ? $LNG->format('nws_head_edit', htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8')) : $LNG['nws_head_create'],
             'news'        => [
                 'title'   => htmlspecialchars($data['title'], ENT_QUOTES, 'UTF-8'),
                 'summary' => htmlspecialchars($data['summary'], ENT_QUOTES, 'UTF-8'),

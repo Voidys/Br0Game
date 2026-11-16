@@ -317,8 +317,7 @@ al_diplo_war_end: La guerra terminó
 al_diplo_war_end_confirm: ¿Realmente quieres acabar con la guerra?
 al_diplo_war_end_mes: La %s de la alianza %s con la alianza %s acaba de ser declarada terminada.
 al_diplo_war_mes: >-
-  La guerra ha sido declarada entre las alianzas  -> %s <- y -> %s <-.<br>Razón:
-  %s <br><br>Información: Ambos dirigentes de las Alianzas estan de acuerdo con
+  La guerra ha sido declarada entre las alianzas -> %1$s <- y -> %2$s <-.<br>Razón: %4$s <br><br>Información: Ambos dirigentes de las Alianzas estan de acuerdo con
   la guerra. Leer las reglas sobre las Guerra entre las alianzas para que todo
   sea legal...
 al_diplo_withdraw: Se retira la solicitud de pacto
@@ -429,7 +428,7 @@ al_request_confirmation_message: >-
   rechazada por el líder o el encargado de la alianza.
 al_request_date: Fecha de solicitud
 al_request_deleted: >-
-  Tu solicitud ha sido eliminada. <br/>Ahora puedes escribir una nueva solicitud
+  Tu solicitud a la alianza <b>%s</b> ha sido eliminada. <br/>Ahora puedes escribir una nueva solicitud
   o crear tu propia alianza.
 al_request_from: Solicitud de "%s"
 al_request_from_user: Suscripción de jugadores
@@ -652,9 +651,7 @@ cr_total: Total
 cr_type: Tipo
 cr_weapons: Armas
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: '!Tu cuenta ha sido sancionada¡'
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Ir a la página de Inicio</a>

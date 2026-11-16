@@ -217,6 +217,124 @@ class Language implements ArrayAccess
         return isset($this->container[$offset]) ? $this->container[$offset] : $offset;
     }
 
+    /**
+     * When true a text whose placeholder count differs from the number of given arguments throws a
+     * LogicException (debug and tests); when false the mismatch is logged and the text is still
+     * produced (missing arguments print empty, extra ones are dropped). Set at boot from kernel.debug.
+     */
+    public static bool $strictFormat = false;
+
+    /**
+     * Fills a translation with values (printf placeholders: %s, %d, %1$s, %%) and returns the text as is.
+     *
+     * Use this instead of sprintf($LNG['key'], ...). An unknown key stays the key text (like $LNG['key']),
+     * a placeholder/argument count mismatch is reported (see $strictFormat). The arguments are NOT escaped:
+     * pass values that are already HTML-safe, or plain text for a plain-text target (mail subject, JSON
+     * message that the client prints as text). For HTML output with raw values use formatHtml().
+     */
+    public function format(string $key, mixed ...$args): string
+    {
+        return $this->fill($key, $this->text($key), $args);
+    }
+
+    /**
+     * Like format(), for a nested entry such as $LNG['mail']['subject']['mail_changed']:
+     * formatIn(['mail', 'subject', 'mail_changed'], $gameName).
+     *
+     * @param list<string|int> $path
+     */
+    public function formatIn(array $path, mixed ...$args): string
+    {
+        $label = implode('.', $path);
+        $node = $this[$path[0]];
+        foreach (array_slice($path, 1) as $step) {
+            $node = is_array($node) ? ($node[$step] ?? null) : null;
+        }
+
+        return is_string($node) ? $this->fill($label, $node, $args) : $label;
+    }
+
+    /**
+     * format() for HTML text: the arguments are HTML-escaped without double encoding (existing entities
+     * stay, so already encoded request input and stored names are not changed) unless they are
+     * Twig\Markup (trusted markup, e.g. a link built by the game). Numbers pass unchanged.
+     * Use whenever a player-controlled value (name, tag, subject, planet name) goes into a text that is
+     * printed or stored as HTML.
+     */
+    public function formatHtml(string $key, mixed ...$args): string
+    {
+        return $this->fill($key, $this->text($key), array_map(self::escapeArgument(...), $args));
+    }
+
+    /** HTML-escapes one formatHtml() argument (Markup and numbers are left alone) */
+    private static function escapeArgument(mixed $value): mixed
+    {
+        return match (true) {
+            $value instanceof \Twig\Markup => (string) $value,
+            is_string($value), $value instanceof \Stringable => \App\Twig\GameEscaping::escape((string) $value, 'UTF-8'),
+            default => $value,
+        };
+    }
+
+    /** the text of a top-level key; an unknown key gives the key itself */
+    private function text(string $key): string
+    {
+        $text = $this[$key];
+
+        return is_string($text) ? $text : throw new \UnexpectedValueException(sprintf('Language entry "%s" is not a text.', $key));
+    }
+
+    /**
+     * @param array<array-key, mixed> $args
+     */
+    private function fill(string $key, string $text, array $args): string
+    {
+        if ($text === $key) {
+            return $text; // missing translation: the key stays visible
+        }
+        $expected = self::placeholderCount($text);
+        if ($expected !== count($args)) {
+            $message = sprintf('Text "%s" (%s) has %d placeholder(s) but got %d argument(s).', $key, $this->language, $expected, count($args));
+            if (self::$strictFormat) {
+                throw new \LogicException($message);
+            }
+            error_log($message);
+            $args = array_slice(array_pad($args, $expected, ''), 0, $expected);
+        }
+
+        return sprintf($text, ...$args);
+    }
+
+    /**
+     * The conversions of a printf format as argument position => type letter: "%s of %d" gives
+     * [1 => 's', 2 => 'd'], "%2$s %1$s" gives [1 => 's', 2 => 's']. "%%" is no placeholder.
+     *
+     * @return array<int, string>
+     */
+    public static function placeholders(string $format): array
+    {
+        preg_match_all('/%(?:(\d+)\$)?(?:[-+ 0]|\'.)*\d*(?:\.\d+)?([bcdeEfFgGosuxX%])/', $format, $matches, PREG_SET_ORDER);
+        $found = [];
+        $next = 1;
+        foreach ($matches as [, $position, $type]) {
+            if ($type === '%') {
+                continue;
+            }
+            $found[$position !== '' ? (int) $position : $next++] = $type;
+        }
+        ksort($found);
+
+        return $found;
+    }
+
+    /** number of arguments a printf format needs (highest position used) */
+    public static function placeholderCount(string $format): int
+    {
+        $found = self::placeholders($format);
+
+        return $found === [] ? 0 : max(array_keys($found));
+    }
+
     /** selectable languages (code list, or code => name); see LanguageCatalog */
     public function getAllowedLangs(bool $OnlyKey = true): array
     {

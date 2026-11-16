@@ -48,7 +48,7 @@ class ResearchController extends AbstractGameController
 
     private function checkLabSettingsInQueue(): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $sql    = "SELECT * FROM %%PLANETS%% WHERE id_owner = :owner AND destruyed = 0 FOR UPDATE;";
         $planets    = $db->select($sql, [
@@ -75,7 +75,7 @@ class ResearchController extends AbstractGameController
     {
         $PLANET = & $this->state->PLANET;
         $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if (empty($CurrentQueue) || empty($USER['b_tech'])) {
             $USER['b_tech_queue']   = '';
@@ -168,8 +168,8 @@ class ResearchController extends AbstractGameController
     private function removeResearchFromQueue(int $QueueID): bool
     {
         $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
         $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
         if ($QueueID <= 1 || empty($CurrentQueue)) {
             return false;
@@ -230,9 +230,9 @@ class ResearchController extends AbstractGameController
     {
         $PLANET = & $this->state->PLANET;
         $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
         if (
             !in_array($elementId, $reslist['tech'])
             || !$this->buildFunctions()->isEnabled($elementId)
@@ -316,9 +316,9 @@ class ResearchController extends AbstractGameController
 
     private function getQueueData(): array
     {
-        $LNG = & $this->state->LNG;
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $PLANET = $this->state->PLANET;
+        $USER = $this->state->USER;
         $scriptData     = [];
         $quickinfo      = [];
 
@@ -360,11 +360,11 @@ class ResearchController extends AbstractGameController
     {
         $PLANET = & $this->state->PLANET;
         $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $requeriments = & $this->state->requeriments;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
+        $LNG = $this->state->LNG;
+        $requeriments = $this->state->requeriments;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
         $TheCommand     = '';
         $elementId      = 0;
         $ListID         = 0;
@@ -512,7 +512,7 @@ class ResearchController extends AbstractGameController
             'Queue'         => $TechQueue,
             'queueSlots'    => max((int) $this->configs->get()->max_elements_tech, count($TechQueue)),
             'isCatchUp'     => $config->catch_up,
-            'catchUp'       => sprintf($LNG['sys_catchup'], round((1 - $catchupFactor) * 100, 2)),
+            'catchUp'       => $LNG->format('sys_catchup', round((1 - $catchupFactor) * 100, 2)),
             'hide_useless'  => $USER['hide_useless'],
             'watch'         => $PLANET['watch_id'],
         ]);

@@ -32,8 +32,8 @@ class LogController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $resources = & $this->state->resources;
+        $LNG = $this->state->LNG;
+        $resources = $this->state->resources;
         $table = $this->http()->_GP('type', '');
 
         # Modes:
@@ -73,7 +73,7 @@ class LogController extends AbstractAdminController
 
     public function ShowLogOverview(): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         return $this->render('admin/LogOverview.html.twig');
     }
 
@@ -98,7 +98,7 @@ class LogController extends AbstractAdminController
 
     private function addToLogArray(&$LogArray, $Wrapper, $conf_after, $key, $val)
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         if (isset($LNG['tech'][$key])) {
             $Element = $LNG['tech'][$key];
@@ -139,8 +139,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogDetail(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $logid = $this->http()->_GP('id', 0);
         $sql = "SELECT l.*, u_a.`username` as admin_username FROM %%LOG%% AS l
         LEFT JOIN %%USERS%% AS u_a ON u_a.`id` = l.`admin`
@@ -254,8 +254,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogSettingsList(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $result = $db->select("SELECT l.id, l.admin, l.time, l.universe, l.target,u_a.username as"
             . " admin_username FROM %%LOG%% as l LEFT JOIN %%USERS%% as u_a ON  u_a.id = l.admin WHERE mode = 3"
@@ -302,8 +302,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogPlanetsList(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $result = $db->select("SELECT DISTINCT l.id, l.admin, l.target, l.time, l.universe, u_t.username
              as target_username, p.galaxy as target_galaxy, p.system as target_system, p.planet as target_planet,
@@ -343,8 +343,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogPlayersList(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $result = $db->select("SELECT DISTINCT l.id, l.admin, l.target, l.time, l.universe,u_t.username
              as target_username, u_a.username as admin_username FROM %%LOG%% as l 
@@ -385,8 +385,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogPresent(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $result = $db->select("SELECT DISTINCT l.id, l.admin, l.target, l.time, l.universe,u_a.username
              as admin_username FROM %%LOG%% as l LEFT JOIN %%USERS%% as u_a ON  u_a.id = l.admin WHERE mode = 4
@@ -422,8 +422,8 @@ class LogController extends AbstractAdminController
 
     public function ShowLogAlliance(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $sql = "SELECT DISTINCT l.`id`, u_a.`username` AS admin_username, l.`universe`, l.`time`,
         CONCAT(a.`id`, ' - ', a.`ally_name`, ' [', a.`ally_tag`, ']') AS alliance
         FROM %%LOG%% AS l

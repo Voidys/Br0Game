@@ -31,24 +31,24 @@ class RegisterController extends AbstractAccountController
     public function show(): Response
     {
         $uniId = $this->http()->_GP('uni', '0');
-        $LNG = & $this->state->LNG;
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $LNG = $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
         $LNG->includeData(['INGAME', 'ACCOUNT']);
         $accountName = "";
         $status = "";
         $config = $this->configs->get($uniId);
         if ($config->uni_status == STATUS_CLOSED && $ACCOUNT['authlevel'] < 3) {
-            $status = sprintf($LNG['uni_status_regclosed_gameclosed']);
+            $status = $LNG->format('uni_status_regclosed_gameclosed');
             (new ErrorController())->withGameServicesOf($this)->showError($LNG['uni_status_regclosed_gameclosed']);
         } elseif ($config->uni_status == STATUS_REG_ONLY && $ACCOUNT['authlevel'] < 3) {
-            $status = sprintf($LNG['uni_status_regopen_gameclosed']);
+            $status = $LNG->format('uni_status_regopen_gameclosed');
         } elseif ($config->uni_status == STATUS_LOGIN_ONLY && $ACCOUNT['authlevel'] < 3) {
-            $status = sprintf($LNG['uni_status_regclosed_gameopen']);
+            $status = $LNG->format('uni_status_regclosed_gameopen');
             (new ErrorController())->withGameServicesOf($this)->showError($LNG['uni_status_regclosed_gameopen']);
         } elseif ($config->uni_status == STATUS_OPEN && $ACCOUNT['authlevel'] < 3) {
-            $status = sprintf($LNG['uni_status_regopen_gameopen']);
+            $status = $LNG->format('uni_status_regopen_gameopen');
         } else {
-            $status = sprintf($LNG['uni_status_regopen_gameopen']);
+            $status = $LNG->format('uni_status_regopen_gameopen');
         }
 
         $db = $this->db;
@@ -74,9 +74,9 @@ class RegisterController extends AbstractAccountController
             'universe' => $config->uni_name,
             'uniId' => $uniId,
             'status' => $status,
-            'registerPasswordDesc' => sprintf($LNG['registerPasswordDesc'], 6),
+            'registerPasswordDesc' => $LNG->format('registerPasswordDesc', 6),
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
             'userLang' => $ACCOUNT['lang'],
             'timezone' => $ACCOUNT['timezone'],
             'imageTheme' => Theme::resolveDefaultTheme($config->default_theme ?? null),
@@ -90,8 +90,8 @@ class RegisterController extends AbstractAccountController
 
     public function send()
     {
-        $LNG = & $this->state->LNG;
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $LNG = $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
         $universe = $this->http()->_GP('uni', 0);
         $config = $this->configs->get($universe);
         $LNG->includeData(['INGAME', 'ACCOUNT']);
@@ -99,7 +99,7 @@ class RegisterController extends AbstractAccountController
             'accountName' => $ACCOUNT['accountname'],
             'universe' => $config->uni_name,
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
         ]);
         if ($config->uni_status == STATUS_CLOSED || $config->uni_status == STATUS_LOGIN_ONLY || $universe == 0) {
             $this->printMessage($LNG['registerErrorUniClosed'], [[
@@ -176,7 +176,7 @@ class RegisterController extends AbstractAccountController
             $this->assign([
                 'accountName' => $ACCOUNT['accountname'],
                 'toplink'       => "account?page=account",
-                'topname'       => sprintf($LNG['Back']),
+                'topname'       => $LNG->format('Back'),
             ]);
             $this->printMessage(new \Twig\Markup(implode("<br>\r\n", array_map(static fn($e) => htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8', false), $errors)), 'UTF-8'), [[
                 'label' => $LNG['registerBack'],
@@ -223,7 +223,7 @@ class RegisterController extends AbstractAccountController
         $LNG->includeData(['PUBLIC']);
         $senderName = $LNG['registerWelcomePMSenderName'];
         $subject 	= $LNG['registerWelcomePMSubject'];
-        $message 	= sprintf($LNG['registerWelcomePMText'], $config->game_name, $universe);
+        $message 	= $LNG->format('registerWelcomePMText', $config->game_name);
 
         $this->playerUtil()->sendMessage($userID, 1, $senderName, MESSAGE_TYPE_GAME, $subject, $message, $this->state->runtime->timestamp, 1, $universe);
 

@@ -184,7 +184,7 @@ class ConfigRegistry
             }
 
             // Ensure all modules are present
-            $modules =& $this->state->modules;
+            $modules = $this->state->modules;
             foreach ($modules as $moduleKey => $moduleName) {
                 if (!isset($moduls[$moduleKey])) {
                     $sql = 'INSERT INTO %%CONFIG_UNIVERSE_MODULES%% (`uni`, `module`, `module_name`, `state`)

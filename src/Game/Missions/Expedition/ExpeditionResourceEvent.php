@@ -20,7 +20,7 @@ class ExpeditionResourceEvent extends ExpeditionEvent
      */
     public function run(): string
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $LNG = $this->LNG;
         $config = $this->configs->get($this->fleet['universe']);
@@ -69,15 +69,13 @@ class ExpeditionResourceEvent extends ExpeditionEvent
 
         if ($fleetCapacity < $foundResources) {
             $foundResources = $fleetCapacity;
-            $Message .= '<br><br>' . sprintf(
-                $LNG['sys_expe_found_goods'],
+            $Message .= '<br><br>' . $LNG->format('sys_expe_found_goods',
                 $this->viewHelpers()->prettyNumber($foundResources),
                 $LNG['tech'][$resourceId],
             );
             $this->ctx->logbook = $LNG['sys_expe_found_ress_logbook_' . random_int(1, 4)] . '<br>' . $this->ctx->logbook;
         } else {
-            $Message .= '<br><br>' . sprintf(
-                $LNG['sys_expe_found_goods'],
+            $Message .= '<br><br>' . $LNG->format('sys_expe_found_goods',
                 $this->viewHelpers()->prettyNumber($foundResources),
                 $LNG['tech'][$resourceId],
             );

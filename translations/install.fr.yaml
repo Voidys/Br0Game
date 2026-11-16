@@ -24,8 +24,8 @@ intro_welcome: Bievenue dans Br0Game!
 menu_install: Install
 menu_intro: Intro
 menu_license: License
-reg_dir: Dossier
-reg_file: Fichier
+reg_dir: Le dossier &raquo;%s&laquo; est-il accessible en écriture ?
+reg_file: Le fichier &raquo;%s&laquo; est-il accessible en écriture ?
 reg_found: Trouvé
 reg_gd_need: GB-Lib disponible ?
 reg_global_need: register_globals desactivé ?

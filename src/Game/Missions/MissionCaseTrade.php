@@ -167,8 +167,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         ], 'buyer_fleet_id');
 
         if ($sellerBuy || $buyerBuy) {
-            $Message	= sprintf(
-                $LNG['sys_trade_mess_back_success'],
+            $Message	= $LNG->format('sys_trade_mess_back_success',
                 $this->_fleet['resource_metal'],
                 $this->_fleet['resource_crystal'],
                 $this->_fleet['resource_deuterium'],
@@ -176,7 +175,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
                 GetStartAddressLink($this->_fleet, '')
             );
         } else {
-            $Message	= sprintf($LNG['sys_trade_mess_back'], $planetName, GetStartAddressLink($this->_fleet, ''));
+            $Message	= $LNG->format('sys_trade_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
         }
 
         $this->playerUtil()->sendMessage(
@@ -206,8 +205,7 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         // (FleetFunctions::sendFleetBack). return_time - stay_time is only
         // the scheduled leg and is too short when both markets share a system.
         $returnFlightTime = max(0, (int) $this->_fleet['arrival_time'] - (int) $this->_fleet['start_time']);
-        $Message	= sprintf(
-            $LNG['sys_trade_mess_arr_success'],
+        $Message	= $LNG->format('sys_trade_mess_arr_success',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
             $this->_fleet['fleet_id'],

@@ -11,7 +11,7 @@ class ResourcesTab extends AccountEditorTab
     /** Shows the form, or applies the posted changes (logged) and redirects with a message. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);
         $metal = max(0, round($this->http()->_GP('metal', 0.0)));

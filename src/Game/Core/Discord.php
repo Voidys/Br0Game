@@ -32,7 +32,7 @@ class Discord
             return;
         }
 
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         if (isset($USER) && is_array($USER) && !empty($USER['id']) && !empty($USER['username'])) {
             $ErrSource = $USER['id'];
             $ErrName = $USER['username'];

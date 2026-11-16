@@ -34,8 +34,8 @@ class SendMessagesController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $ACTION = $this->http()->_GP('action', '');

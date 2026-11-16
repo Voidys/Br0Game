@@ -497,8 +497,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     private function shoot($attacker, $unit, &$defenders, &$ad, $sim, &$advancedStats)
     {
         // SHOOT
-        $CombatCaps =& $this->state->CombatCaps;
-        $pricelist =& $this->state->pricelist;
+        $CombatCaps = $this->state->CombatCaps;
+        $pricelist = $this->state->pricelist;
         $count = 0;
         foreach ($defenders as $fID => &$defender) {
             $count += count($defender['units']);
@@ -573,8 +573,8 @@ class BattleEngineSteemNova extends AbstractBattleEngine
     protected function initCombatValues(&$fleets, $firstInit = false): array
     {
         // INIT COMBAT VALUES
-        $CombatCaps =& $this->state->CombatCaps;
-        $pricelist =& $this->state->pricelist;
+        $CombatCaps = $this->state->CombatCaps;
+        $pricelist = $this->state->pricelist;
         $attackAmount = ['total' => 0];
         $attArray = [];
         foreach ($fleets as $fleetID => $attacker) {
@@ -631,7 +631,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
 
     private function restoreShields(&$fleets)
     {
-        $CombatCaps =& $this->state->CombatCaps;
+        $CombatCaps = $this->state->CombatCaps;
         foreach ($fleets as $fleetID => $attacker) {
             $shieldTech = (1 + (0.1 * $attacker['player']['shield_tech']));
             foreach ($attacker['units'] as $element => $unit) {

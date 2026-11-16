@@ -54,10 +54,10 @@ class FleetAjaxController extends AbstractGameController
     {
         $USER = & $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
         $UserDeuterium = $PLANET['deuterium'];
 
         $planetID = $this->http()->_GP('planetID', 0);
@@ -186,7 +186,7 @@ class FleetAjaxController extends AbstractGameController
             } catch (Exception $exception) {
             }
 
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $targetData);
+            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetData));
 
             if ($IsNoobProtec['NoobPlayer']) {
                 $this->sendData(603, $LNG['fa_week_player']);
@@ -199,12 +199,12 @@ class FleetAjaxController extends AbstractGameController
                 }
                 if (!$confirmed) {
                     $message = $targetMission == MISSION_MISSILE
-                        ? $LNG['fl_attack_confirm_outlaw']
-                        : $LNG['fl_spy_confirm_outlaw'];
+                        ? 'fl_attack_confirm_outlaw'
+                        : 'fl_spy_confirm_outlaw';
                     $targetPlayerData = $this->playerUtil()->getPlayerById($targetData['id_owner']);
                     $this->sendData(
                         602,
-                        sprintf(
+                        $LNG->format(
                             $message,
                             $targetPlayerData['username'],
                         ),

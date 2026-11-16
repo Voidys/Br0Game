@@ -58,18 +58,17 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
         );
 
         if (!$isPositionFree || !$checkPosition) {
-            $message = sprintf($LNG['sys_colo_notfree'], GetTargetAddressLink($this->_fleet, ''));
+            $message = $LNG->format('sys_colo_notfree', GetTargetAddressLink($this->_fleet, ''));
         } else {
             $allowPlanetPosition = $this->playerUtil()->allowPlanetPosition($this->_fleet['end_planet'], $senderUser);
             if (!$allowPlanetPosition) {
-                $message = sprintf($LNG['sys_colo_notech'], GetTargetAddressLink($this->_fleet, ''));
+                $message = $LNG->format('sys_colo_notech', GetTargetAddressLink($this->_fleet, ''));
             } else {
                 $currentPlanetCount = $this->playerUtil()->currentPlanetCount($senderUser);
                 $maxPlanetCount = $this->playerUtil()->maxPlanetCount($senderUser);
 
                 if ($currentPlanetCount >= $maxPlanetCount) {
-                    $message = sprintf(
-                        $LNG['sys_colo_maxcolo'],
+                    $message = $LNG->format('sys_colo_maxcolo',
                         GetTargetAddressLink($this->_fleet, ''),
                         $maxPlanetCount
                     );
@@ -86,13 +85,13 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
                     );
 
                     if ($NewOwnerPlanet === false) {
-                        $message = sprintf($LNG['sys_colo_badpos'], GetTargetAddressLink($this->_fleet, ''));
+                        $message = $LNG->format('sys_colo_badpos', GetTargetAddressLink($this->_fleet, ''));
                         $this->setState(FLEET_RETURN);
                     } else {
                         $this->statsHandler->increment($this->_fleet['owner'], AdvancedStatsEnum::PLANETS_CREATED, 1);
                         $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_COLONY, $this->_fleet['arrival_time']);
                         $this->_fleet['end_id'] = $NewOwnerPlanet;
-                        $message = sprintf($LNG['sys_colo_allisok'], GetTargetAddressLink($this->_fleet, ''));
+                        $message = $LNG->format('sys_colo_allisok', GetTargetAddressLink($this->_fleet, ''));
                         $this->StoreGoodsToPlanet();
                         if ($this->_fleet['ship_amount'] == 1) {
                             $this->KillFleet();
@@ -161,8 +160,7 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
             $remainingShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = sprintf(
-            $LNG['sys_fleet_return'],
+        $Message = $LNG->format('sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $startPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),

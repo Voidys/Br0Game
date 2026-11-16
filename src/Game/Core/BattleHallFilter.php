@@ -94,7 +94,7 @@ class BattleHallFilter
 
     private function assembleDiplomacyFilter(int $diplomacy): string
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         switch ($diplomacy) {
             case self::DIPLOMACY_SELF:

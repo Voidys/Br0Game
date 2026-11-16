@@ -33,8 +33,8 @@ class AchievementsController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $allAchievements    = $this->achievement()->getAchievementList();
         $userAchievements   = $this->achievement()->getUserAchievements($USER['id']);

@@ -127,7 +127,7 @@ trait FleetDispatchMissionRules
             } catch (Exception $exception) {
             }
 
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $this->targetPlayerData);
+            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($this->targetPlayerData));
 
             if ($IsNoobProtec['NoobPlayer']) {
                 $this->refuse($LNG['fl_player_is_noob'], 'game?page=fleetTable');

@@ -54,7 +54,7 @@ class PlanetQueries
      */
     public function calculateMaxPlanetFields($planet)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         return $planet['field_max'] + floor($planet[$resource[33]] * FIELDS_BY_TERRAFORMER) + ($planet[$resource[41]]
             * FIELDS_BY_MOONBASIS_LEVEL);
     }

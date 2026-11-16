@@ -65,7 +65,7 @@ class PlanetRessAchievement
             $this->achievement()->setAchievement($userId, 9);
         }
         if ($element == SHIP_RIP && !$this->achievement()->checkAchievement($userId, 52)) {
-            $reslist = & $this->state->reslist;
+            $reslist = $this->state->reslist;
             $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
             $count = 0;

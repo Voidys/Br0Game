@@ -33,7 +33,7 @@ class MarketRules
      */
     public function checkSlots(array $USER): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $ActualFleets = $this->fleetFunctions()->getCurrentFleets($USER['id']);
         if ($this->fleetFunctions()->getMaxFleetSlots($USER) <= $ActualFleets) {
             return ['result' => -1, 'message' => $LNG['fl_no_slots']];
@@ -48,8 +48,8 @@ class MarketRules
      */
     public function checkVmode(): array
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         if ($USER['urlaubs_modus'] == 1) {
             return [
                 'buyable' => false,
@@ -76,8 +76,8 @@ class MarketRules
      */
     public function checkDiplo($visibility, $level, $seller_ally, $ally, $receiverID): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $blocked = $this->playerUtil()->get_block_status($USER['id'], $receiverID);
         $blockedInverse = $this->playerUtil()->get_block_status($receiverID, $USER['id']);
         $buddy = $this->playerUtil()->get_buddy_status($USER['id'], $receiverID);

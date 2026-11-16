@@ -88,7 +88,7 @@ class ResearchQueueProcessor
      */
     public function startNext(QueueState $st)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $notifier = $this->gameUtility(QueueFailureNotifier::class);
         $LNG = $notifier->language($st->user['id']);
         if (empty($st->user['b_tech_queue'])) {
@@ -103,13 +103,15 @@ class ResearchQueueProcessor
             $isAnotherPlanet = $ListIDArray[4] != $st->planet['id'];
             $PLANET = $isAnotherPlanet ? $this->loadOtherPlanet($st, $ListIDArray[4]) : $st->planet;
 
-            $PLANET[$resource[31] . '_inter'] = $this->gameUtility(ResourceProduction::class)->getNetworkLevel($st->user, $PLANET);
+            $userModel = $this->models()->user($st->user);
+            $PLANET[$resource[31] . '_inter'] = $this->gameUtility(ResourceProduction::class)->networkLevelFor($userModel, $this->models()->planet($PLANET));
+            $planetModel = $this->models()->planet($PLANET);
 
             $Element = $ListIDArray[0];
             $Level = $ListIDArray[1];
-            $costResources = $this->buildFunctions()->getElementPrice($st->user, $PLANET, $Element, false, $Level);
-            $BuildTime = $this->buildFunctions()->getBuildingTime($st->user, $PLANET, $Element, $costResources);
-            $HaveResources = $this->buildFunctions()->isElementBuyable($st->user, $PLANET, $Element, $costResources);
+            $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $Element, false, $Level);
+            $BuildTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $Element, $costResources);
+            $HaveResources = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $Element, $costResources);
             $BuildEndTime = $st->user['b_tech'] + $BuildTime;
             $CurrentQueue[0] = [$Element, $Level, $BuildTime, $BuildEndTime, $PLANET['id'], $costResources];
 
@@ -171,7 +173,7 @@ class ResearchQueueProcessor
      */
     private function payResearch(QueueState $st, array &$PLANET, array $costResources, bool $isAnotherPlanet): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
             if (isset($costResources[$resourceId])) {
@@ -212,8 +214,10 @@ class ResearchQueueProcessor
     private function retimeQueue(QueueState $st, array $PLANET, array $queue, int|float $baseTime): array
     {
         $NewQueue = [];
+        $userModel = $this->models()->user($st->user);
+        $planetModel = $this->models()->planet($PLANET);
         foreach ($queue as $ListIDArray) {
-            $ListIDArray[2] = $this->buildFunctions()->getBuildingTime($st->user, $PLANET, $ListIDArray[0], null, false, $ListIDArray[1]);
+            $ListIDArray[2] = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $ListIDArray[0], null, false, $ListIDArray[1]);
             $baseTime += $ListIDArray[2];
             $ListIDArray[3] = $baseTime;
             $NewQueue[] = $ListIDArray;

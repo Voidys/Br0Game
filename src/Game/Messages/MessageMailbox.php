@@ -32,7 +32,7 @@ class MessageMailbox
      */
     public function toggleFavorite(mixed $favMessID): int
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "SELECT `message_favorite` FROM %%USERS_TO_MESSAGES%%
@@ -64,7 +64,7 @@ class MessageMailbox
     /** Soft-deletes one of the player's messages (sets `deleted_at` to now). */
     public function delete(mixed $delMessID): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "UPDATE %%USERS_TO_MESSAGES%% SET `deleted_at` = :timestamp 
@@ -148,7 +148,7 @@ class MessageMailbox
 
     private function markAllRead(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = "UPDATE %%USERS_TO_MESSAGES%% 
                     SET `message_unread` = 0 WHERE `user_id` = :userID;";
         $this->db->update($sql, [
@@ -158,7 +158,7 @@ class MessageMailbox
 
     private function markCategoryRead(mixed $MessCategory): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = "UPDATE %%USERS_TO_MESSAGES%% um
                     INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
                     SET um.`message_unread` = 0
@@ -176,7 +176,7 @@ class MessageMailbox
         if (empty($ids)) {
             return;
         }
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = 'UPDATE %%USERS_TO_MESSAGES%%
                     SET `message_unread` = 0 
                     WHERE `user_id` = :userID
@@ -189,7 +189,7 @@ class MessageMailbox
     /** Deletes all messages of the player except favourites. */
     private function deleteAll(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = "UPDATE %%USERS_TO_MESSAGES%%
                     SET `deleted_at` = :timestamp 
                     WHERE `user_id` = :userID
@@ -203,7 +203,7 @@ class MessageMailbox
     /** Deletes the messages of one category except favourites. */
     private function deleteCategory(mixed $MessCategory): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = "UPDATE %%USERS_TO_MESSAGES%% um
                     INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
                     SET um.`deleted_at` = :timestamp
@@ -223,7 +223,7 @@ class MessageMailbox
         if (empty($ids)) {
             return;
         }
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = 'UPDATE %%USERS_TO_MESSAGES%%
                     SET `deleted_at` = :timestamp 
                     WHERE `user_id` = :userId
@@ -245,7 +245,7 @@ class MessageMailbox
         if (empty($ids)) {
             return;
         }
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $sql = 'UPDATE %%USERS_TO_MESSAGES%% um
                     INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`

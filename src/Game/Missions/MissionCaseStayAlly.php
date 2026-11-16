@@ -62,7 +62,7 @@ class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
             ':planetId'	=> $this->_fleet['start_id'],
         ], 'name');
 
-        $Message	= sprintf($LNG['sys_tran_mess_back'], $planetName, GetStartAddressLink($this->_fleet, ''));
+        $Message	= $LNG->format('sys_tran_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],
             0,

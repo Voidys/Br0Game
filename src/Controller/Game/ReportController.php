@@ -23,7 +23,7 @@ class ReportController extends AbstractGameController
 
     public function show()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $humanInteraction = $this->http()->_GP('hi', 0);
         $uri = $this->http()->_GP('u', '');

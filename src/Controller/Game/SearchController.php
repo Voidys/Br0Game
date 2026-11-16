@@ -175,7 +175,7 @@ class SearchController extends AbstractGameController
 
     public function autocomplete()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $this->setWindow('ajax');
 
@@ -215,7 +215,7 @@ class SearchController extends AbstractGameController
 
     public function result(): Response
     {
-        $THEME = & $this->state->THEME;
+        $THEME = $this->state->THEME;
 
         $this->setWindow('ajax');
 
@@ -241,8 +241,8 @@ class SearchController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $THEME = & $this->state->THEME;
+        $LNG = $this->state->LNG;
+        $THEME = $this->state->THEME;
         $seachMode 		= $this->http()->_GP('type', 'playername');
 
         $modeSelector	= ['playername' => $LNG['sh_player_name'], 'planetname' => $LNG['sh_planet_name'], 'allytag' => $LNG['sh_alliance_tag'], 'allyname' => $LNG['sh_alliance_name']];

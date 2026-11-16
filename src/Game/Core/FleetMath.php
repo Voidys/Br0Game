@@ -2,6 +2,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Model\User;
+
 /**
  * Pure fleet mathematics: distance between coordinates, ship speed per drive tech, fleet speed (slowest ship), flight
  * duration, fuel consumption, cargo room, fleet slots, expedition limit, missile/phalanx ranges, missile flight time.
@@ -24,21 +26,21 @@ class FleetMath
      * Fuel consumption per distance unit of one ship type for the player's drive technologies, reduced by
      * 2 % per fuel efficiency level. The drive that applies is the highest one whose tech requirement is met.
      */
-    private function getShipConsumption(int $Ship, array $Player): float
+    private function getShipConsumption(int $Ship, User $Player): float
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
-        if (($pricelist[$Ship]['tech3'] > 1 && $Player['hyperspace_motor_tech'] >= $pricelist[$Ship]['tech3'])
+        if (($pricelist[$Ship]['tech3'] > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $pricelist[$Ship]['tech3'])
             || $pricelist[$Ship]['tech3'] == 1) {
             $consumption = $pricelist[$Ship]['consumption3'];
-        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player['impulse_motor_tech'] >= $pricelist[$Ship]['tech2'])
+        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $pricelist[$Ship]['tech2'])
             || $pricelist[$Ship]['tech2'] == 1) {
             $consumption = $pricelist[$Ship]['consumption2'];
         } else {
             $consumption = $pricelist[$Ship]['consumption1'];
         }
 
-        $consumption *= (1 - (0.02 * $Player['fuel_efficiency_tech']));
+        $consumption *= (1 - (0.02 * $Player->level(FUEL_EFFICIENCY_TECH)));
 
         return $consumption;
     }
@@ -47,31 +49,41 @@ class FleetMath
      * Speed of one ship type: base speed of the best available drive, multiplied by that drive tech (hyperspace +30 %,
      * impulse +20 %, combustion +10 % per level).
      */
-    private function getShipSpeed(int $Ship, array $Player): int
+    private function getShipSpeed(int $Ship, User $Player): int
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
-        if (($pricelist[$Ship]['tech3'] > 1 && $Player['hyperspace_motor_tech'] >= $pricelist[$Ship]['tech3'])
+        if (($pricelist[$Ship]['tech3'] > 1 && $Player->level(HYPERSPACE_MOTOR_TECH) >= $pricelist[$Ship]['tech3'])
             || $pricelist[$Ship]['tech3'] == 1) {
             $base_speed = $pricelist[$Ship]['speed3'];
-            $speed = $base_speed * (1 + (0.3 * $Player['hyperspace_motor_tech']));
-        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player['impulse_motor_tech'] >= $pricelist[$Ship]['tech2'])
+            $speed = $base_speed * (1 + (0.3 * $Player->level(HYPERSPACE_MOTOR_TECH)));
+        } elseif (($pricelist[$Ship]['tech2'] > 1 && $Player->level(IMPULSE_MOTOR_TECH) >= $pricelist[$Ship]['tech2'])
             || $pricelist[$Ship]['tech2'] == 1) {
             $base_speed = $pricelist[$Ship]['speed2'];
-            $speed = $base_speed * (1 + (0.2 * $Player['impulse_motor_tech']));
+            $speed = $base_speed * (1 + (0.2 * $Player->level(IMPULSE_MOTOR_TECH)));
         } else {
             $base_speed = $pricelist[$Ship]['speed1'];
-            $speed = $base_speed * (1 + (0.1 * $Player['combustion_tech']));
+            $speed = $base_speed * (1 + (0.1 * $Player->level(COMBUSTION_TECH)));
         }
 
         return $speed;
     }
 
+    /**
+     * Number of simultaneous expeditions: floor(sqrt(expedition tech level)).
+     *
+     * @param array<string, mixed> $USER player state array
+     * @deprecated use expeditionLimitFor() with a typed User
+     */
     public function getExpeditionLimit(array $USER): int
     {
-        $resource = & $this->state->resource;
+        return $this->expeditionLimitFor($this->models()->user($USER));
+    }
 
-        return floor(sqrt($USER[$resource[124]]));
+    /** Typed version of getExpeditionLimit(). */
+    public function expeditionLimitFor(User $user): int
+    {
+        return floor(sqrt($user->level(EXPEDITION_TECH)));
     }
 
     /**
@@ -186,13 +198,23 @@ class FleetMath
      */
     public function getMissionDuration(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, array $USER): int
     {
+        return $this->missionDurationFor($SpeedFactor, $MaxFleetSpeed, $Distance, $GameSpeed, $this->models()->user($USER));
+    }
+
+    /**
+     * Typed version of getMissionDuration(): the player's FlyTime bonus factor (e.g. -0.1 = 10 % faster) scales the
+     * duration; never below MIN_FLEET_TIME.
+     */
+    public function missionDurationFor(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, User $user): int
+    {
         $duration = (3500 / ($SpeedFactor * 0.1));
         $duration *= pow($Distance * 10 / $MaxFleetSpeed, 0.5);
         $duration += 10;
         $duration /= $GameSpeed;
 
-        if (isset($USER['factor']['FlyTime'])) {
-            $duration *= max(0, 1 + $USER['factor']['FlyTime']);
+        $flyTime = $user->factor('FlyTime');
+        if ($flyTime !== null) {
+            $duration *= max(0, 1 + $flyTime);
         }
 
         return floor(max($duration, MIN_FLEET_TIME));
@@ -224,15 +246,26 @@ class FleetMath
         return $this->configs->get()->fleet_speed / 2500;
     }
 
+    /**
+     * Fleet slots of a player: 1 + computer tech level.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @deprecated use maxFleetSlotsFor() with a typed User
+     */
     public function getMaxFleetSlots(array $USER): int
     {
-        $resource = & $this->state->resource;
-        return 1 + $USER[$resource[108]];
+        return $this->maxFleetSlotsFor($this->models()->user($USER));
+    }
+
+    /** Typed version of getMaxFleetSlots(). */
+    public function maxFleetSlotsFor(User $user): int
+    {
+        return 1 + $user->level(COMPUTER_TECH);
     }
 
     public function getFleetRoom(array $Fleet): int
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         $FleetRoom = 0;
         foreach ($Fleet as $ShipID => $amount) {
             $FleetRoom += $pricelist[$ShipID]['capacity'] * $amount;
@@ -244,6 +277,16 @@ class FleetMath
      * Speed of the slowest ship of the fleet (a single ship id counts as one ship of that type); 0 for an empty fleet.
      */
     public function getFleetMaxSpeed(array|int $Fleets, array $Player): int
+    {
+        return $this->fleetMaxSpeedFor($Fleets, $this->models()->user($Player));
+    }
+
+    /**
+     * Typed version of getFleetMaxSpeed().
+     *
+     * @param array<int, mixed>|int $Fleets ship id => count, or a single ship id
+     */
+    public function fleetMaxSpeedFor(array|int $Fleets, User $Player): int
     {
         if (empty($Fleets)) {
             return 0;
@@ -264,6 +307,16 @@ class FleetMath
      */
     public function getFleetConsumption(array $FleetArray, int $MissionDuration, int $MissionDistance, array $Player, int $GameSpeed): float
     {
+        return $this->fleetConsumptionFor($FleetArray, $MissionDuration, $MissionDistance, $this->models()->user($Player), $GameSpeed);
+    }
+
+    /**
+     * Typed version of getFleetConsumption(). Reads the player's honor points from the DB (fuel boost).
+     *
+     * @param array<int, mixed> $FleetArray ship id => count
+     */
+    public function fleetConsumptionFor(array $FleetArray, int $MissionDuration, int $MissionDistance, User $Player, int $GameSpeed): float
+    {
         $consumption = 0;
 
         foreach ($FleetArray as $ShipID => $Count) {
@@ -274,16 +327,27 @@ class FleetMath
             $basicConsumption = $ShipConsumption * $Count;
             $consumption += $basicConsumption * $MissionDistance / 35000 * (($spd / 10) + 1) * (($spd / 10) + 1);
         }
-        return (round($consumption * $this->playerUtil()->calculate_honorpoints_boost($Player['id'])) + 1);
+        return (round($consumption * $this->playerUtil()->calculate_honorpoints_boost($Player->id)) + 1);
     }
 
     public function getFleetShipInfo(array $FleetArray, array $Player): array
+    {
+        return $this->fleetShipInfoFor($FleetArray, $this->models()->user($Player));
+    }
+
+    /**
+     * Typed version of getFleetShipInfo().
+     *
+     * @param array<int, mixed> $FleetArray ship id => count
+     * @return array<int, array{consumption: float, speed: int, amount: string}> per ship id
+     */
+    public function fleetShipInfoFor(array $FleetArray, User $Player): array
     {
         $FleetInfo = [];
         foreach ($FleetArray as $ShipID => $Amount) {
             $FleetInfo[$ShipID] = [
                 'consumption' => $this->getShipConsumption($ShipID, $Player),
-                'speed' => $this->getFleetMaxSpeed($ShipID, $Player),
+                'speed' => $this->fleetMaxSpeedFor($ShipID, $Player),
                 'amount' => floatToString($Amount),
             ];
         }

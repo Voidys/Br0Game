@@ -15,7 +15,7 @@ class TeamController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         $message = '';
 
         if ($this->http()->_GP('action', '', true) === 'save') {

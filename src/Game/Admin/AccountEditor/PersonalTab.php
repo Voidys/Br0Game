@@ -11,7 +11,7 @@ class PersonalTab extends AccountEditorTab
     /** Shows the form, or applies the posted changes (logged) and redirects with a message. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         if ($this->state->requestPost) {
             $id = $this->http()->_GP('id', 0);

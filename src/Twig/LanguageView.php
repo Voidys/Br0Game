@@ -19,7 +19,8 @@ use Twig\Markup;
  * - Bound lazily to the game state, so it always reflects the language of the current request.
  *
  * Strings combined with other text (`LNG.x ~ y`, filters such as `|upper`) lose the mark and are
- * escaped; `format`/`sprintf` keep it (see TemplateExtension::format()).
+ * escaped. Texts with placeholders are filled with `LNG.format('key', a, b)` (see format()); the generic
+ * `format`/`sprintf` filters of TemplateExtension are for plain strings.
  */
 final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable
 {
@@ -99,6 +100,19 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * `LNG.format('key', a, b)`: a translation with printf placeholders filled in, as trusted markup.
+     * The arguments are HTML-escaped without double encoding unless they are Markup (other LNG texts,
+     * `|raw` values, icon()); numbers pass unchanged. The number of arguments must match the placeholders
+     * of the text in every language (see Language::format(); a mismatch throws in debug).
+     */
+    public function format(string $key, mixed ...$arguments): Markup
+    {
+        $language = $this->language() ?? throw new \LogicException('No language loaded.');
+
+        return new Markup($language->formatHtml($key, ...$arguments), 'UTF-8');
     }
 
     /** language methods, e.g. `LNG.getLanguage()` */

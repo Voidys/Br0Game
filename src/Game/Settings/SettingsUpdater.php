@@ -116,8 +116,8 @@ class SettingsUpdater
     public function save(): void
     {
         $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $THEME = & $this->state->THEME;
+        $LNG = $this->state->LNG;
+        $THEME = $this->state->THEME;
         $values = [];
         foreach (self::FIELDS as $column => [$parameter, $default]) {
             $values[$column] = $this->http()->_GP($parameter, $default);
@@ -229,7 +229,7 @@ class SettingsUpdater
                 ], 'count');
 
                 if (!empty($Count)) {
-                    throw new SettingsRefused(sprintf($LNG['op_change_name_exist'], $username));
+                    throw new SettingsRefused($LNG->format('op_change_name_exist', $username));
                 } else {
                     $sql = "UPDATE %%USERS%% SET username = :username, uctime = :timestamp WHERE id = :userID;";
                     $db->update($sql, [
@@ -270,7 +270,7 @@ class SettingsUpdater
      */
     private function writeSettings(array $values, mixed $adminprotection, mixed $discord_id, mixed $discord_hook): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $this->db->update("UPDATE %%USERS%% SET
 		authattack				        = :adminProtection,
 		discord_id				        = :discord_id,

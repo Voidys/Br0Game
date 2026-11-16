@@ -110,9 +110,9 @@ abstract class AbstractAccountController implements GameControllerInterface
 
     protected function layoutData(string $template): array
     {
-        $ACCOUNT = & $this->state->ACCOUNT;
-        $THEME = & $this->state->THEME;
-        $LNG = & $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
+        $THEME = $this->state->THEME;
+        $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
         $data = [];
@@ -130,7 +130,7 @@ abstract class AbstractAccountController implements GameControllerInterface
 
             $deletion = false;
             if ($ACCOUNT['db_deaktjava']) {
-                $deletion = sprintf($LNG['tn_delete_mode'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($ACCOUNT['db_deaktjava'], $config)), $ACCOUNT['timezone']);
+                $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($ACCOUNT['db_deaktjava'], $config), $ACCOUNT['timezone']));
             }
             $data = [
                 'delete' => $deletion,

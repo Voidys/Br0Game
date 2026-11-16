@@ -453,7 +453,7 @@ class PlanetPositions
      */
     private function getAstroTech(array $USER): int
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $astroTech = $USER[$resource[124]];
 
@@ -478,7 +478,7 @@ class PlanetPositions
      */
     public function maxPlanetCount(array $USER): int
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $config = $this->configs->get($USER['universe']);
 
         $planetPerTech = $config->max_additional_planets;

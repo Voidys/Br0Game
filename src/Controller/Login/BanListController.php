@@ -38,7 +38,7 @@ class BanListController extends AbstractLoginController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $db = $this->db;
 
@@ -69,7 +69,7 @@ class BanListController extends AbstractLoginController
                 'to'		=> $this->viewHelpers()->formatDate($LNG['php_tdformat'], $banRow['longer'], $this->configs->get()->timezone),
                 'admin'		=> $banRow['author'],
                 'mail'		=> $banRow['email'],
-                'info'		=> sprintf($LNG['bn_writemail'], $banRow['author']),
+                'info'		=> $LNG->format('bn_writemail', $banRow['author']),
             ];
         }
 

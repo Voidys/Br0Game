@@ -45,8 +45,8 @@ class TicketController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $sql = 'SELECT t.*, COUNT(a.`ticketID`) as answer
@@ -90,8 +90,8 @@ class TicketController extends AbstractGameController
 
     public function send()
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $config = $this->configs->get();
         $ticketID = $this->http()->_GP('id', 0);
         $categoryID = $this->http()->_GP('category', 0);
@@ -138,7 +138,7 @@ class TicketController extends AbstractGameController
             ]);
 
             if (empty($ticket)) {
-                $this->printMessage(sprintf($LNG['ti_not_exist'], $ticketID), [[
+                $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
                     'label' => $LNG['sys_back'],
                     'url' => 'game?page=ticket',
                 ]]);
@@ -164,8 +164,8 @@ class TicketController extends AbstractGameController
 
     public function view(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $db = $this->db;
 
@@ -184,7 +184,7 @@ class TicketController extends AbstractGameController
         $answerList = [];
 
         if (empty($answerResult)) {
-            $this->printMessage(sprintf($LNG['ti_not_exist'], $ticketID), [[
+            $this->printMessage($LNG->format('ti_not_exist', $ticketID), [[
                 'label' => $LNG['sys_back'],
                 'url' => 'game?page=ticket',
             ]]);

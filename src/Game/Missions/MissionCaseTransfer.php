@@ -38,8 +38,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
 
         $LNG			= $this->getLanguage(null, $this->_fleet['owner']);
 
-        $Message		= sprintf(
-            $LNG['sys_tran_mess_owner'],
+        $Message		= $LNG->format('sys_tran_mess_owner',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $targetPlanet['name'],
@@ -73,8 +72,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
         );
 
         $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
-        $Message        = sprintf(
-            $LNG['sys_tran_mess_user'],
+        $Message        = $LNG->format('sys_tran_mess_user',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $targetPlanet['name'],
@@ -129,8 +127,7 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = sprintf(
-            $LNG['sys_fleet_return'],
+        $Message = $LNG->format('sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $targetPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),

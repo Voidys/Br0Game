@@ -14,8 +14,8 @@ class SpyReport
 
     public function getSpyReportTitle(string $MessageText): string
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['FLEET']);
         $reportData = json_decode($MessageText, true);
 
@@ -24,8 +24,7 @@ class SpyReport
         }
 
         $spyTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $reportData['time'], $USER['timezone'], $LNG);
-        return sprintf(
-            $LNG['sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type']],
+        return $LNG->format('sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
             $reportData['targetPlanet']['name'],
             $reportData['targetUserName'],
             $reportData['targetPlanet']['galaxy'],
@@ -37,8 +36,8 @@ class SpyReport
 
     public function getSpyReport(string $MessageText): string
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['FLEET']);
         $reportData = json_decode($MessageText, true);
 
@@ -47,8 +46,7 @@ class SpyReport
         }
 
         $spyTime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $reportData['time'], $USER['timezone'], $LNG);
-        $title = sprintf(
-            $LNG['sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type']],
+        $title = $LNG->format('sys_mess_spy_report_details_' . $reportData['targetPlanet']['planet_type'],
             $reportData['targetPlanet']['name'],
             $reportData['targetUserName'],
             $reportData['targetPlanet']['galaxy'],

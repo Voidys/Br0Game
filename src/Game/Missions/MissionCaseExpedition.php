@@ -269,12 +269,12 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
         $planetName = $this->db->selectSingle($sql, [
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
-        $Message = sprintf(
-            $LNG['sys_expe_report_msg'] . '<br><br>',
+        $Message = $LNG->format(
+            'sys_expe_report_msg',
             $planetName,
             GetStartAddressLink($this->_fleet),
             GetTargetAddressLink($this->_fleet),
-        );
+        ) . '<br><br>';
 
         // Draw expedition event from deck
         $card = $this->drawExpeditionEvent();
@@ -344,15 +344,14 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
      */
     public function ReturnEvent(): void
     {
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
         $LNG = $this->LNG;
         $sql = 'SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetId;';
         $planetName = $this->db->selectSingle($sql, [
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
-        $Message = sprintf(
-            $LNG['sys_expe_back_home'],
+        $Message = $LNG->format('sys_expe_back_home',
             $planetName,
             GetStartAddressLink($this->_fleet),
             GetTargetAddressLink($this->_fleet),
@@ -363,8 +362,7 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             || $this->_fleet['resource_crystal'] > 0
             || $this->_fleet['resource_deuterium'] > 0
         ) {
-            $Message .= '<br><br>' . sprintf(
-                $LNG['sys_expe_back_home_ress'],
+            $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ress',
                 $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),
                 $LNG['tech'][RESOURCE_METAL],
                 $this->viewHelpers()->prettyNumber($this->_fleet['resource_crystal']),
@@ -390,13 +388,9 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
             $fleetAmmountStart = array_sum($fleetArrayStart);
             if ($fleetAmmountStart != $fleetAmmount) {
                 if ($fleetAmmountStart < $fleetAmmount) {
-                    $Message .= '<br><br>' . sprintf(
-                        $LNG['sys_expe_back_home_ships_flound']
-                    );
+                    $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ships_flound');
                 } elseif ($fleetAmmountStart > $fleetAmmount) {
-                    $Message .= '<br><br>' . sprintf(
-                        $LNG['sys_expe_back_home_ships_lost']
-                    );
+                    $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ships_lost');
                 }
                 foreach ($reslist['fleet'] as $shipId) {
                     if (isset($fleetArrayStart[$shipId]) && isset($fleetArray[$shipId])) {

@@ -175,7 +175,7 @@ class AdvancedStatsHandler
 
     public function getLangKey(string $key): string
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if (!empty($LNG['Advanced_Stats'][$key])) {
             return $LNG['Advanced_Stats'][$key];
         }
@@ -304,7 +304,7 @@ class AdvancedStatsHandler
     public function updateDestroyedAdvancedStats(int $attacker, int $defender, int $Element, int $amount = 1, bool $tf = true)
     {
         if ($attacker > 0) {
-            $pricelist = & $this->state->pricelist;
+            $pricelist = $this->state->pricelist;
 
             $units = ($pricelist[$Element]['cost'][901] + $pricelist[$Element]['cost'][902]) * $amount;
 
@@ -328,8 +328,8 @@ class AdvancedStatsHandler
             return;
         }
 
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
         $config = $this->configs->get();
 
         $debrisFactor = in_array($Element, $reslist['fleet']) ? $config->fleet_debris_percentage : $config->def_debris_percentage;
@@ -348,7 +348,7 @@ class AdvancedStatsHandler
             return;
         }
 
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
         foreach ($fleetArray as $Element => $Count) {
             $this->increment($user, AdvancedStatsEnum::getLost($Element), $Count);

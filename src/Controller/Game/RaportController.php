@@ -89,11 +89,11 @@ class RaportController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $LNG->includeData(['FLEET']);
         $this->setWindow('popup');
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
         $db = $this->db;
 

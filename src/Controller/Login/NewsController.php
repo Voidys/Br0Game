@@ -21,7 +21,7 @@ final class NewsController extends AbstractLoginController
 
     public function show(): Response
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         $html = new HtmlContent();
         $now = $this->state->runtime->timestamp;
 
@@ -68,7 +68,7 @@ final class NewsController extends AbstractLoginController
 
     private function present(array $row, HtmlContent $html): array
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
 
         return [
             'id'     => (int) $row['id'],

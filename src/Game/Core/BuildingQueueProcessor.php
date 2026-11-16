@@ -77,7 +77,7 @@ class BuildingQueueProcessor
      */
     public function startNext(QueueState $st)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $notifier = $this->gameUtility(QueueFailureNotifier::class);
         $LNG = $notifier->language($st->user['id']);
 
@@ -99,9 +99,12 @@ class BuildingQueueProcessor
             $Level = $ListIDArray[1];
             $BuildMode = $ListIDArray[4];
             $ForDestroy = ($BuildMode == 'destroy') ? true : false;
-            $costResources = $this->buildFunctions()->getElementPrice($st->user, $st->planet, $Element, $ForDestroy, $Level);
-            $BuildTime = $this->buildFunctions()->getBuildingTime($st->user, $st->planet, $Element, $costResources, $ForDestroy);
-            $HaveResources = $this->buildFunctions()->isElementBuyable($st->user, $st->planet, $Element, $costResources);
+            // snapshot per round: payFromWorkingPlanet() changes the state arrays between rounds
+            $userModel = $this->models()->user($st->user);
+            $planetModel = $this->models()->planet($st->planet);
+            $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $Element, $ForDestroy, $Level);
+            $BuildTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $Element, $costResources, $ForDestroy);
+            $HaveResources = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $Element, $costResources);
             // Only the job that is about to start occupies a field now. Later queue
             // entries are still pending, and earlier ones are already on $st->planet.
             $HaveFields = $ForDestroy || $this->buildFunctions()->getQueueFieldProjection($st->planet, [$ListIDArray])['valid'];
@@ -121,7 +124,7 @@ class BuildingQueueProcessor
             } else {
                 if ($st->user['hof'] == 1) {
                     if ($HaveNoMoreLevel) {
-                        $Message = sprintf($LNG['sys_nomore_level'], $LNG['tech'][$Element]);
+                        $Message = $LNG->format('sys_nomore_level', $LNG['tech'][$Element]);
                     } elseif ($HaveResources !== true) {
                         $Message = $notifier->notEnoughResources($LNG, $st->planet, $Element, $costResources);
                     } else {
@@ -156,7 +159,7 @@ class BuildingQueueProcessor
      */
     private function payFromWorkingPlanet(QueueState $st, array $costResources): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
             if (isset($costResources[$resourceId])) {
@@ -175,10 +178,12 @@ class BuildingQueueProcessor
     private function retimeBuildingQueue(QueueState $st, array $queue, int|float $baseTime): array
     {
         $NewQueue = [];
+        $userModel = $this->models()->user($st->user);
+        $planetModel = $this->models()->planet($st->planet);
         foreach ($queue as $ListIDArray) {
-            $ListIDArray[2] = $this->buildFunctions()->getBuildingTime(
-                $st->user,
-                $st->planet,
+            $ListIDArray[2] = $this->buildFunctions()->buildingTimeFor(
+                $userModel,
+                $planetModel,
                 $ListIDArray[0],
                 null,
                 $ListIDArray[4] == 'destroy',

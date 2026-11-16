@@ -57,7 +57,7 @@
 							{% endfor %}
 							
 							{% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
-								<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ sprintf(LNG.sys_catchup_short, Element.factor) }} %</span>
+								<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
 							{% endif %}
 						</span>
 						<br><br>

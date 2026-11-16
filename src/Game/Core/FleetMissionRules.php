@@ -30,7 +30,7 @@ class FleetMissionRules
      */
     public function getFleetMissions(array $USER, array $MisInfo, array $Planet): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $Missions = $this->getAvailableMissions($USER, $MisInfo, $Planet);
         $stayBlock = [];
         $exchange = false;
@@ -132,7 +132,7 @@ class FleetMissionRules
      */
     private function recyclingMissions(array $MissionInfo, array $GetInfoPlanet, bool $UsedPlanet, bool $YourPlanet, bool $PirateBasePosition): array
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
         $availableMissions = [];
 
         $recs = false;
@@ -217,10 +217,10 @@ class FleetMissionRules
      */
     public function allowPhalanx($toGalaxy, $toSystem, $targetUser)
     {
-        $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $USER = & $this->state->USER;
-        $checknoob = $this->playerUtil()->checkNoobProtection($USER, $targetUser);
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
+        $USER = $this->state->USER;
+        $checknoob = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetUser));
 
         if ($PLANET['galaxy'] != $toGalaxy || $PLANET[$resource[42]] == 0 || !$this->viewHelpers()->isModuleAvailable(MODULE_PHALANX) || $PLANET[$resource[903]] < PHALANX_DEUTERIUM || $USER['urlaubs_modus'] == 1 || $checknoob['NoobPlayer'] || $checknoob['StrongPlayer']) {
             return false;

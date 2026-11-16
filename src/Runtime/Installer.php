@@ -47,7 +47,7 @@ final class Installer
     public function run(): void
     {
         $mode = $this->http()->_GP('mode', '');
-        $THEME = &$this->state->THEME;
+        $THEME = $this->state->THEME;
         $configAvailable = file_exists('config/game.php') && filesize('config/game.php') !== 0;
         if ($configAvailable) {
             require 'config/game.php';

@@ -443,7 +443,7 @@ al_request_confirmation_message: >-
   abgelehnd wird.
 al_request_date: Dadum
 al_request_deleted: >-
-  Sie habne die Bewerbung gelöschd alda. <br>Sie gönnene nun eine Eigene
+  Sie habne die Bewerbung bei <b>%s</b> gelöschd alda. <br>Sie gönnene nun eine Eigene
   eröffnen oder einer Anderne beitreten.
 al_request_from: Bewerbung vonääh Schbieler *ferstellt Schdimme:* "%s"
 al_request_from_user: Bewerbung von Schbieler
@@ -659,9 +659,7 @@ cr_total: Dotal
 cr_type: Dyp
 cr_weapons: Waffne
 css_account_banned_expire: >-
-  Du bist bis zum %s gesperrt!<br>Bitte melde dich ggf. im <a style="color:
-  -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord per Ticket
-  (link)</a>
+  Du bist bis zum %1$s gesperrt!<br>Bitte melde dich ggf. <a style="color: -webkit-link;" href="%2$s">hier (link)</a>.
 css_account_banned_message: Dein Accound wurde gesberrt - hädix8!
 css_account_banned_reason: 'Grund: %s'
 css_goto_homeside: <a href="./">Zur Startseite</a>

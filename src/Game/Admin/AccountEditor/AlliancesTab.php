@@ -25,7 +25,7 @@ class AlliancesTab extends AccountEditorTab
      */
     private function save(): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);
         $delete = $this->http()->_GP('delete', '');
@@ -64,7 +64,7 @@ class AlliancesTab extends AccountEditorTab
      */
     private function deleteAlliance(array $plan, mixed $id): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $this->releaseMembers($plan, $id);
         $this->detachStatistics($plan, $id);
@@ -184,7 +184,7 @@ class AlliancesTab extends AccountEditorTab
      */
     private function changeLeader(array &$plan): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $changeleader = $this->http()->_GP('changeleader', 0);
 
@@ -222,7 +222,7 @@ class AlliancesTab extends AccountEditorTab
      */
     private function removeMember(array &$plan, mixed $id): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $delete_u = $this->http()->_GP('delete_u', '');
 

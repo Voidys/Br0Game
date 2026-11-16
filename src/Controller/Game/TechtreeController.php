@@ -35,12 +35,12 @@ class TechtreeController extends AbstractGameController
 
     public function show(): Response
     {
-        $resource = & $this->state->resource;
-        $requeriments = & $this->state->requeriments;
-        $reslist = & $this->state->reslist;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $resource = $this->state->resource;
+        $requeriments = $this->state->requeriments;
+        $reslist = $this->state->reslist;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
         $elementIDs		= array_merge(
             [0],
             $reslist['build'],

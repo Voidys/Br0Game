@@ -61,8 +61,7 @@ class ReferralCronjob extends AbstractCronjobTask
 
             $db->update($sql, [':userId' => $user['id']]);
 
-            $Message = sprintf(
-                $LNG['sys_refferal_text'],
+            $Message = $LNG->format('sys_refferal_text',
                 $user['username'],
                 $this->viewHelpers()->prettyNumber($userConfig->ref_minpoints)
             );
@@ -71,7 +70,7 @@ class ReferralCronjob extends AbstractCronjobTask
                 0,
                 $LNG['sys_refferal_from'],
                 MESSAGE_TYPE_SYSTEM,
-                sprintf($LNG['sys_refferal_title'], $user['username']),
+                $LNG->format('sys_refferal_title', $user['username']),
                 $Message,
                 $this->state->runtime->timestamp
             );

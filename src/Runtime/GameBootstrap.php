@@ -188,8 +188,8 @@ final class GameBootstrap
                 ], 'theme');
 
                 (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError("<font size=\"6px\">" . $LNG['css_account_banned_message'] . "</font><br><br>"
-                . sprintf($LNG['css_account_banned_expire'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['banaday'], $USER['timezone']), $config->forum_url) . "<br><br>"
-                . sprintf($LNG['css_account_banned_reason'], $reason) . "<br><br>"
+                . $this->bannedExpireText($LNG, $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['banaday'], $USER['timezone']), $config->forum_url) . "<br><br>"
+                . $LNG->format('css_account_banned_reason', $reason) . "<br><br>"
                 . $LNG['css_goto_homeside'], false);
             }
 
@@ -316,8 +316,8 @@ final class GameBootstrap
                 ], 'theme');
 
                 (new ShowErrorPage())->withGameServices($this->db, $this->configs, $this->state)->showError("<font size=\"6px\">" . $LNG['css_account_banned_message'] . "</font><br><br>"
-                . sprintf($LNG['css_account_banned_expire'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $ACCOUNT['banaday'], $ACCOUNT['timezone']), $this->configs->get()->forum_url) . "<br><br>"
-                . sprintf($LNG['css_account_banned_reason'], $reason) . "<br><br>"
+                . $this->bannedExpireText($LNG, $this->viewHelpers()->formatDate($LNG['php_tdformat'], $ACCOUNT['banaday'], $ACCOUNT['timezone']), $this->configs->get()->forum_url) . "<br><br>"
+                . $LNG->format('css_account_banned_reason', $reason) . "<br><br>"
                 . $LNG['css_goto_homeside'], false);
             }
         }
@@ -439,5 +439,18 @@ final class GameBootstrap
             }
         }
         $this->state->modules = $modules;
+    }
+
+    /**
+     * The "you are banned until ..." text with the contact link (the configurable forum_url setting, %2$s of
+     * css_account_banned_expire). Without a forum_url the contact sentence (everything after the first <br>
+     * of the text) is left out, so no empty link is shown.
+     */
+    private function bannedExpireText(\App\Game\Core\Language $LNG, string $until, ?string $forumUrl): string
+    {
+        $forumUrl = trim((string) $forumUrl);
+        $text = $LNG->formatHtml('css_account_banned_expire', $until, $forumUrl);
+
+        return $forumUrl === '' ? explode('<br>', $text, 2)[0] : $text;
     }
 }

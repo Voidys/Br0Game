@@ -33,8 +33,8 @@ class SearchController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         if (!isset($this->state->requestQuery['delete'])) {
             $this->state->requestQuery['delete'] = '';
         }
@@ -330,8 +330,8 @@ class SearchController extends AbstractAdminController
         $SName,
         $SearchFile,
     ) {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         if (!$Page) {

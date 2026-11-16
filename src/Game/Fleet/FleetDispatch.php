@@ -73,7 +73,7 @@ class FleetDispatch
      */
     public function dispatch(): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
 
         if (IsVacationMode($USER)) {
@@ -108,7 +108,7 @@ class FleetDispatch
      */
     private function refuse(string $message, string $url): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         throw new FleetDispatchRefused($message, [['label' => $LNG['sys_back'], 'url' => $url]]);
     }
 
@@ -173,9 +173,9 @@ class FleetDispatch
     /** Validates own planet, target coordinates, trade parameters, the resources to carry and the free fleet slots. */
     private function validateRequest(): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
         if ($this->ownPlanet != $PLANET['id']) {
             $this->refuse($LNG['fl_own_planet_error'], 'game?page=fleetStep1');
         }
@@ -242,7 +242,7 @@ class FleetDispatch
     /** Resolves the ACS group the fleet wants to join (arrival time of the group); without a valid group the mission becomes a plain attack. */
     private function resolveAcs(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $this->ACSTime = 0;
 
@@ -284,10 +284,10 @@ class FleetDispatch
     /** Loads the target planet (or pirate base) and checks that it exists, colonisation and expedition limits, the ships on the planet and that an ACS fleet flies to the ACS target. */
     private function loadTargetPlanet(): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         if ($this->targetPlanet == $this->config->max_planets + 3) {
             $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `destruyed`, 0 as `ally_deposit`
@@ -370,8 +370,8 @@ class FleetDispatch
     /** Loads the owner of the target (a neutral dummy for colonisation, expedition and trade). */
     private function loadTargetPlayer(): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $usedPlanet = isset($this->targetPlanetData['id_owner']);
         $myPlanet = $usedPlanet && $this->targetPlanetData['id_owner'] == $USER['id'];
@@ -409,14 +409,15 @@ class FleetDispatch
     /** Computes duration, consumption, stay time and cargo, checks fuel, space and tech levels, deducts the cargo and fuel from the planet (in memory) and fixes the ACS-synchronised times. */
     private function planFlight(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
-        $this->fleetMaxSpeed = $this->fleetFunctions()->getFleetMaxSpeed($this->fleetArray, $USER);
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
+        $userModel = $this->models()->user($USER);
+        $this->fleetMaxSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($this->fleetArray, $userModel);
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
-        $this->duration = $this->fleetFunctions()->getMissionDuration($this->fleetSpeed, $this->fleetMaxSpeed, $this->distance, $SpeedFactor, $USER);
-        $this->consumption = $this->fleetFunctions()->getFleetConsumption($this->fleetArray, $this->duration, $this->distance, $USER, $SpeedFactor);
+        $this->duration = $this->fleetFunctions()->missionDurationFor($this->fleetSpeed, $this->fleetMaxSpeed, $this->distance, $SpeedFactor, $userModel);
+        $this->consumption = $this->fleetFunctions()->fleetConsumptionFor($this->fleetArray, $this->duration, $this->distance, $userModel, $SpeedFactor);
 
         if ($PLANET[$resource[903]] < $this->consumption) {
             $this->refuse($LNG['fl_not_enough_deuterium'], 'game?page=fleetTable');
@@ -487,8 +488,8 @@ class FleetDispatch
     /** Sends the fleet, records a market offer for the trade mission and commits the transaction. */
     private function launch(): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $db = $this->db;
         $id = $this->fleetFunctions()->sendFleet(
             $this->fleetArray,
@@ -573,9 +574,9 @@ class FleetDispatch
      */
     private function resultVariables(): array
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
         foreach ($this->fleetArray as $Ship => $Count) {
             $fleetList[$LNG['tech'][$Ship]] = $Count;
         }

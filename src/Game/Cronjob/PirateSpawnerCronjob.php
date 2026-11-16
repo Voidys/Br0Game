@@ -124,8 +124,8 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
 
     private function getUserShips(int $userId, array $planets): array
     {
-        $resource =& $this->state->resource;
-        $reslist =& $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
 
         $sql = "SELECT `ships` FROM %%FLEETS%% WHERE `owner` = :userId;";
         $fleets = $this->db->select($sql, [

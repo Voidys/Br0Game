@@ -37,7 +37,7 @@ class WreckfieldMaintenance
         if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK)) {
             return $planet;
         }
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $db = $this->db;
 
         $sql = "SELECT * FROM %%PLANET_WRECKFIELD%% WHERE `planetID` = :planetID FOR UPDATE;";

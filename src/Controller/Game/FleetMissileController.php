@@ -49,10 +49,10 @@ class FleetMissileController extends AbstractGameController
         }
 
         $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $missileCount       = $PLANET['interplanetary_misil'];
         $targetGalaxy       = $this->http()->_GP('galaxy', 0);
         $targetSystem       = $this->http()->_GP('system', 0);
@@ -120,7 +120,7 @@ class FleetMissileController extends AbstractGameController
             $USER += ['total_points' => 0];
         }
 
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $target);
+        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($target));
 
         if ($IsNoobProtec['NoobPlayer']) {
             $error = $LNG['fl_week_player'];

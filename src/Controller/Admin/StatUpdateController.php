@@ -30,15 +30,15 @@ class StatUpdateController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         try {
             $stat = new Statbuilder($this->db, $this->configs, $this->state);
             $result = $stat->generateStats();
             $memory_p = str_replace(["%p", "%m"], $result['memory_peak'], $LNG['sb_top_memory']);
             $memory_e = str_replace(["%e", "%m"], $result['end_memory'], $LNG['sb_final_memory']);
             $memory_i = str_replace(["%i", "%m"], $result['initial_memory'], $LNG['sb_start_memory']);
-            $stats_end_time = sprintf($LNG['sb_stats_update'], $result['totaltime']);
-            $stats_sql = sprintf($LNG['sb_sql_counts'], $result['sql_count']);
+            $stats_end_time = $LNG->format('sb_stats_update', $result['totaltime']);
+            $stats_sql = $LNG->format('sb_sql_counts', $result['sql_count']);
 
             $this->discord()->sendLog('Statistik (manual)', $result);
 

@@ -37,8 +37,8 @@ class AlliancePages
      */
     public function info(array $data, bool $hasAlliance, bool $hasApply): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $diplomaticData = false;
         $diplomats = false;
@@ -70,8 +70,7 @@ class AlliancePages
                 && $data['ally_request_notallow'] == 0
                 && $data['ally_max_members'] > $data['ally_members'],
             'ally_request_min_points' => $userPoints >= $data['ally_request_min_points'],
-            'ally_request_min_points_info' => sprintf(
-                $LNG['al_requests_min_points'],
+            'ally_request_min_points_info' => $LNG->format('al_requests_min_points',
                 $this->viewHelpers()->prettyNumber($data['ally_request_min_points']),
             ),
             'show' => $stats['show'],
@@ -96,8 +95,8 @@ class AlliancePages
      */
     public function home(array $data): array
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $applyCount = $this->repository->countApplications($data['id']);
         $diploCountIn = $this->repository->countOpenDiplomacy($data['id'], true);
@@ -116,7 +115,7 @@ class AlliancePages
             'ally_description' => isset($data['ally_description']) ? AllianceText::multiline($data['ally_description']) : '',
             'ally_text' => isset($data['ally_text']) ? AllianceText::multiline($data['ally_text']) : '',
             'rankName' => $this->memberLists->ownRankName($data),
-            'requests' => sprintf($LNG['al_new_requests'], $applyCount),
+            'requests' => $LNG->format('al_new_requests', $applyCount),
             'applyCount' => $applyCount,
             'diplomats' => $this->repository->diplomats($data['id']),
             'diploRequestsIn' => $LNG['al_diplo_accept'] . ' - ' . $diploCountIn,

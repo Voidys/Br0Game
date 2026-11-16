@@ -631,9 +631,7 @@ cr_total: Total
 cr_type: Tipo
 cr_weapons: Armas
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: A tua conta foi banida!
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Ir para a página inicial</a>
@@ -1518,8 +1516,7 @@ sys_module_inactive: Modulo inativo
 sys_nomore_level: Estás a tentar destruir um edifício que já não tens ( %s ).
 sys_notenough_money: >-
   Não tens recursos desponíveis no %s <a
-  href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para a
-  construção que querias efetuar. <br>Recursos disponíveis para a construção da
+  href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para a construção de %s que querias efetuar. <br>Recursos disponíveis para a construção da
   %s %s , %s %s e %s %s. <br>O custo de construção %s %s , %s %s e %s %s.
 sys_refferal_from: Sistema
 sys_refferal_text: O jogador %s recrutado por ti atingiu %s pontos.
@@ -1626,7 +1623,7 @@ tn_vacation_mode: Encontra-se em modo de férias.
 tn_vacation_mode_kick: >-
   <br><br>PLEASE NOTA: O modo de férias é automaticamente desactivado após 4
   semanas de inactividade.
-tn_vacation_mode_until: Está em modo de férias até, pelo menos, às % horas.
+tn_vacation_mode_until: Está em modo de férias até, pelo menos, %s.
 tr_exchange_done: Troca feita com sucesso
 tr_exchange_error: O montante de recursos está errado ou são insuficientes
 tt_lvl: 'Nivel '

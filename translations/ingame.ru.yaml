@@ -313,7 +313,7 @@ al_diplo_war: Объявление войны
 al_diplo_war_end: Война закончилась
 al_diplo_war_end_confirm: Вы действительно хотите закончить войну?
 al_diplo_war_end_mes: '%s между Альянсом %s и Альянсом %s только что была объявлена оконченной.'
-al_diplo_war_mes: 'Альянс %s объявил войну альянсу %s.<br>Сообщение: %s'
+al_diplo_war_mes: 'Альянс %1$s объявил войну альянсу %2$s.<br>Сообщение: %4$s'
 al_diplo_withdraw: Запрос о заключении пакта отозван
 al_diplo_withdraw_confirm: Вы действительно хотите отозвать просьбу о заключении пакта?
 al_diplo_withdraw_mes: Запрос на заключение пакта (%s) между альянсами %s и %s был отозван
@@ -426,7 +426,7 @@ al_request: Заявка
 al_request_confirmation_message: Заявка отправлена. Вы получите сообщение о принятии или отклонении заявки.
 al_request_date: Дата заявки
 al_request_deleted: >-
-  Ваша заявка на вступление в альянс удалена. <br>Вы можете написать новую
+  Ваша заявка на вступление в альянс <b>%s</b> удалена. <br>Вы можете написать новую
   заявку или создать собственный альянс.
 al_request_from: '"%s" подал заявку'
 al_request_from_user: Заявки от игроков
@@ -504,8 +504,8 @@ bd_max_ships: макс
 bd_max_ships_long: Максимальное количество (по имеющимся ресурсам)
 bd_max_ships_repair: Максимально извлекаемые единицы
 bd_maxlevel: Достигнут максимальный уровень
-bd_more_engine: Производит <span class="colorPositive">%s</span> энергии
-bd_need_engine: Потребляет <span class="colorNegative">%s</span> энергии
+bd_more_engine: Производит ещё <span class="colorPositive">%s</span> — %s
+bd_need_engine: Потребляет ещё <span class="colorNegative">%s</span> — %s
 bd_next_level: 'Следующий уровень:'
 bd_no_lab: >-
   Никакой лабораторной строительства на этой планете вы можете только
@@ -631,9 +631,7 @@ cr_total: ИТОГО
 cr_type: Тип
 cr_weapons: Оружие
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: Ваш аккаунт заблокирован.
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Главная страница</a>

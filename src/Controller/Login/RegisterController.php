@@ -38,7 +38,7 @@ class RegisterController extends AbstractLoginController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $referralData = ['id' => 0, 'name' => ''];
         $accountName = "";
 
@@ -70,7 +70,7 @@ class RegisterController extends AbstractLoginController
 
     public function send()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $config = $this->configs->get();
 
         if (!$this->rateLimits->allowRegistration($this->sessions()->getClientIp())) {
@@ -103,7 +103,7 @@ class RegisterController extends AbstractLoginController
         }
 
         if (strlen($password) < 6) {
-            $errors[] = sprintf($LNG['registerErrorPasswordLength'], 6);
+            $errors[] = $LNG->format('registerErrorPasswordLength', 6);
         }
 
         if ($password != $password2) {
@@ -242,7 +242,7 @@ class RegisterController extends AbstractLoginController
                 DISCORD_URL,
             ], $MailRAW);
 
-            $subject = sprintf($LNG['registerMailVertifyTitle'], $config->game_name);
+            $subject = $LNG->format('registerMailVertifyTitle', $config->game_name);
             $this->mailer()->send($mailAddress, $userName, $subject, $MailContent);
 
             $this->printMessage($LNG['registerSendComplete']);

@@ -25,7 +25,7 @@ class PlanetsTab extends AccountEditorTab
      */
     private function save(): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);
         $change_pos = $this->http()->_GP('change_position', '');
@@ -69,8 +69,8 @@ class PlanetsTab extends AccountEditorTab
      */
     private function collectFieldChanges(array &$plan): void
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $name = $this->http()->_GP('name', '', UTF8_SUPPORT);
         $diameter = $this->http()->_GP('diameter', 0);
         $fields = $this->http()->_GP('fields', 0);
@@ -147,7 +147,7 @@ class PlanetsTab extends AccountEditorTab
      */
     private function collectPositionChange(array &$plan, array $beforePlanet, mixed $galaxy, mixed $system, mixed $planet): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         if (
             !$this->playerUtil()->checkPosition(

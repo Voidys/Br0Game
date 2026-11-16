@@ -51,9 +51,9 @@ class SettingsController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $THEME = & $this->state->THEME;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $THEME = $this->state->THEME;
         if ($USER['urlaubs_modus'] == 1) {
             $this->assign([
                 'vacationUntil'         => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']),
@@ -163,7 +163,7 @@ class SettingsController extends AbstractGameController
 
     public function toggleVacation()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $USER = & $this->state->USER;
         $PLANET = & $this->state->PLANET;
         if ($USER['urlaubs_modus'] == 1) {
@@ -231,8 +231,8 @@ class SettingsController extends AbstractGameController
 
     public function toggleDelete()
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $db = $this->db;
         $db->startTransaction();
@@ -282,7 +282,7 @@ class SettingsController extends AbstractGameController
     private function checkVMode()
     {
         $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $PLANET = $this->state->PLANET;
         /*
         if (!empty($USER['b_tech']) || !empty($PLANET['b_building']) || !empty($PLANET['b_hangar'])) {
             return false;
@@ -332,7 +332,7 @@ class SettingsController extends AbstractGameController
 
     public function send()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         try {
             (new SettingsUpdater($this->db, $this->configs, $this->state))->save();
         } catch (SettingsRefused $refused) {

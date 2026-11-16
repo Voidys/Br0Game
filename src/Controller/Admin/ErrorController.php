@@ -29,7 +29,7 @@ class ErrorController extends AbstractAdminController
     protected $message = '';
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $this->assign([
             'game_name'    => $this->configs->get()->game_name,
             'adm_cp_title' => $LNG['adm_cp_title'],

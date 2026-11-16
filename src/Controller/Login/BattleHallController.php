@@ -37,7 +37,7 @@ class BattleHallController extends AbstractLoginController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $universe = $this->http()->_GP('universe', $this->universe()->current());

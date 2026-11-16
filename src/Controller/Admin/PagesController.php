@@ -33,7 +33,7 @@ class PagesController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = &$this->state->LNG;
-        $USER = &$this->state->USER;
+        $USER = $this->state->USER;
         $languages = $this->contentPages->languages();
 
         $slug = (string) $this->http()->_GP('slug', '', true);

@@ -137,7 +137,7 @@ abstract class AbstractLoginController implements GameControllerInterface
 
     protected function layoutData(string $template): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $config	= $this->configs->get();
 
         $data = [];

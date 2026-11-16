@@ -94,7 +94,7 @@ class PlanetManager
         bool $isHome = false,
         int $authlevel = 0,
     ): int {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         if ($this->planetPositions()->checkPosition($universe, $galaxy, $system, $planet) === false) {
             throw new Exception(
@@ -315,7 +315,7 @@ class PlanetManager
         ?string $moonName = null,
         ?int $diameter = null,
     ): int {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $db = $this->db;
 
@@ -500,8 +500,8 @@ class PlanetManager
      */
     public function clearPlanets(array $USER): void
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
 
         $db = $this->db;
 

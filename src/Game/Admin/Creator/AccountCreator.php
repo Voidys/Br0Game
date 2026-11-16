@@ -10,8 +10,8 @@ class AccountCreator extends CreatorTab
     /** Shows the creation form, or creates the object from the posted form and shows the result. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $LNG->includeData(['PUBLIC']);
         if ($this->state->requestPost) {
             $accountName = $this->http()->_GP('name', '', UTF8_SUPPORT);
@@ -43,7 +43,7 @@ class AccountCreator extends CreatorTab
             }
 
             if (strlen($accountPass) < 6) {
-                $errors .= sprintf($LNG['registerErrorPasswordLength'], 6);
+                $errors .= $LNG->format('registerErrorPasswordLength', 6);
                 $errors .= "<br>";
             }
 
@@ -80,7 +80,7 @@ class AccountCreator extends CreatorTab
                 $authlevel,
             );
 
-            $this->responder->message(sprintf($LNG['new_account_success'], $id), '?page=creator&mode=account', 5, true);
+            $this->responder->message($LNG->format('new_account_success', $id), '?page=creator&mode=account', 5, true);
         }
 
         $AUTH = [];

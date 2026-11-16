@@ -9,8 +9,8 @@
 <section class="infos achievements" data-ach-filter="all">
   <header class="achievements__head">
     <h1 class="achievements__title">{{ LNG.Achievements }}</h1>
-    <p class="achievements__count">{{ LNG.ach_progress|format(unlockedCount, totalCount) }}</p>
-    <div class="achievements__bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ totalCount }}" aria-valuenow="{{ unlockedCount }}" aria-label="{{ LNG.ach_progress|format(unlockedCount, totalCount) }}">
+    <p class="achievements__count">{{ LNG.format('ach_progress', unlockedCount, totalCount) }}</p>
+    <div class="achievements__bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ totalCount }}" aria-valuenow="{{ unlockedCount }}" aria-label="{{ LNG.format('ach_progress', unlockedCount, totalCount) }}">
       <span style="width: {{ totalCount > 0 ? (unlockedCount * 100 / totalCount)|round(1) : 0 }}%"></span>
     </div>
     <div class="achievements__filter" role="group" aria-label="{{ LNG.Achievements }}">

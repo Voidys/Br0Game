@@ -744,7 +744,7 @@ rp_universe_error: L'univers n'est pas complètement fermé!
 sb_final_memory: 'Mémoire utilisée à la fin : %e KB / max. %m KB<br>'
 sb_sql_counts: 'Requêtes SQL : %d'
 sb_start_memory: 'Mémoire utilisée au début : %i KB / max. %m KB<br>'
-sb_stats_update: 'Stats mises à jour : %t secondes<<br>'
+sb_stats_update: 'Stats mises à jour : %s secondes<br>'
 sb_stats_updated: Statistiques mises à jour! <br>Détails :<br>
 sb_top_memory: 'Crête Mémoire: %p KB / max. %m KB <br>'
 se__before: Précédent

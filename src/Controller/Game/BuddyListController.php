@@ -41,8 +41,8 @@ class BuddyListController extends AbstractGameController
 
     public function request(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
         $id	= $this->http()->_GP('id', 0);
@@ -86,8 +86,8 @@ class BuddyListController extends AbstractGameController
 
     public function send()
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $this->setWindow('popup');
         // the result message closes its dialog after two seconds (data-auto-close, scripts/app/actions.js)
         $this->assign(['autoCloseMs' => 2000]);
@@ -159,15 +159,15 @@ class BuddyListController extends AbstractGameController
             $Friend_LNG->includeData(['INGAME']);
         }
 
-        $this->playerUtil()->sendMessage($id, $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_new_request_title'], sprintf($Friend_LNG['bu_new_request_body'], $row['username'], $USER['username']), $this->state->runtime->timestamp);
+        $this->playerUtil()->sendMessage($id, $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_new_request_title'], $Friend_LNG->formatHtml('bu_new_request_body', $row['username'], $USER['username']), $this->state->runtime->timestamp);
 
         $this->printMessage($LNG['bu_request_send']);
     }
 
     public function delete()
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $id	= $this->http()->_GP('id', 0);
         $db = $this->db;
 
@@ -197,7 +197,7 @@ class BuddyListController extends AbstractGameController
                     $Enemy_LNG->includeData(['INGAME']);
                 }
 
-                $this->playerUtil()->sendMessage($requestData['id'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Enemy_LNG['bu_rejected_request_title'], sprintf($Enemy_LNG['bu_rejected_request_body'], $requestData['username'], $USER['username']), $this->state->runtime->timestamp);
+                $this->playerUtil()->sendMessage($requestData['id'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Enemy_LNG['bu_rejected_request_title'], $Enemy_LNG->formatHtml('bu_rejected_request_body', $requestData['username'], $USER['username']), $this->state->runtime->timestamp);
             }
 
             $sql = "DELETE b.*, r.* FROM %%BUDDY%% b LEFT JOIN %%BUDDY_REQUEST%% r USING (id) WHERE b.id = :id;";
@@ -210,8 +210,8 @@ class BuddyListController extends AbstractGameController
 
     public function accept()
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $id	= $this->http()->_GP('id', 0);
         $db = $this->db;
 
@@ -244,14 +244,14 @@ class BuddyListController extends AbstractGameController
             $Friend_LNG->includeData(['INGAME']);
         }
 
-        $this->playerUtil()->sendMessage($sender['sender'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_accepted_request_title'], sprintf($Friend_LNG['bu_accepted_request_body'], $sender['username'], $USER['username']), $this->state->runtime->timestamp);
+        $this->playerUtil()->sendMessage($sender['sender'], $USER['id'], $USER['username'], MESSAGE_TYPE_SYSTEM, $Friend_LNG['bu_accepted_request_title'], $Friend_LNG->formatHtml('bu_accepted_request_body', $sender['username'], $USER['username']), $this->state->runtime->timestamp);
 
         $this->redirectTo("game?page=buddyList");
     }
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $db = $this->db;
         $sql = "SELECT a.sender, a.id as buddyid, b.id, b.username, b.onlinetime, b.galaxy, b.system, b.planet, b.ally_id, c.ally_name, d.text

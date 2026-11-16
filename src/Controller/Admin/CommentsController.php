@@ -24,7 +24,7 @@ class CommentsController extends AbstractAdminController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $sql = 'SELECT uc.user_id, u.username, a.ally_name, uc.comment, uc.info, uc.created_at 

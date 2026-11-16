@@ -419,7 +419,7 @@ al_request_confirmation_message: >-
   odrzucony.
 al_request_date: Data
 al_request_deleted: >-
-  Usunąłeś twoje podanie. <br> Możesz teraz stworzyć swój sojusz lub napisać
+  Usunąłeś twoje podanie do sojuszu <b>%s</b>. <br> Możesz teraz stworzyć swój sojusz lub napisać
   podanie do innego.
 al_request_from: Propozycja od "%s"
 al_request_from_user: Podanie gracza
@@ -621,9 +621,7 @@ cr_total: Łącznie
 cr_type: Typ
 cr_weapons: Broń
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: 'Twoje konto zostało zbanowane! '
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Strona startowa</a>

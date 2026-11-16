@@ -63,9 +63,9 @@ class MissionTutorialSupport extends AbstractTutorialSupport
      */
     protected function getGoalName(int $elementID): string
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['TUTORIAL']);
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
 
         if (in_array($elementID, $reslist['fleet'])) {
             return parent::getGoalName($elementID);
@@ -80,7 +80,7 @@ class MissionTutorialSupport extends AbstractTutorialSupport
      */
     public function isFullfilled(): bool
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
 
         $goals = $this->listGoals();
         $fullfilled = true;

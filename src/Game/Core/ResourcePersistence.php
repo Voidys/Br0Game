@@ -70,8 +70,8 @@ class ResourcePersistence
      */
     private function baseParams(array $USER, array $PLANET): array
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
 
         $currentBuildings = 0;
         foreach ($reslist['build'] as $Element) {
@@ -118,8 +118,8 @@ class ResourcePersistence
      */
     private function collectElementChanges(array $USER, array $PLANET, array $builded, array $repaired, int|float|null $time, array &$params): array
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
 
         $buildQueries = [];
         $statsUpdateBuild = [];
@@ -227,7 +227,7 @@ class ResourcePersistence
 
     public function removeResources(int $planetId, array $resources, ?array &$planet = null)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $params = [':planetId' => $planetId];
         $planetQuery = [];
@@ -253,7 +253,7 @@ class ResourcePersistence
 
     public function addResources(int $planetId, array $resources, ?array &$planet = null, float $factor = 1)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $params = [':planetId' => $planetId];
         foreach ($resources as $resourceId => $amount) {

@@ -103,7 +103,11 @@ class ResourceUpdate
      */
     public function CreateHash()
     {
-        return $this->production()->createHash($this->st->user, $this->st->planet, $this->config);
+        return $this->production()->hashFor(
+            $this->models()->user($this->st->user),
+            $this->models()->planet($this->st->planet),
+            $this->config,
+        );
     }
 
     /**
@@ -188,7 +192,7 @@ class ResourceUpdate
 
     public function getNetworkLevel($USER, $PLANET)
     {
-        return $this->production()->getNetworkLevel($USER, $PLANET);
+        return $this->production()->networkLevelFor($this->models()->user($USER), $this->models()->planet($PLANET));
     }
 
     /**
@@ -196,7 +200,11 @@ class ResourceUpdate
      */
     public function ReBuildCache()
     {
-        $this->st->planet = $this->production()->rebuild($this->st->user, $this->st->planet, $this->config);
+        $this->st->planet = array_replace($this->st->planet, $this->production()->rebuildFor(
+            $this->models()->user($this->st->user),
+            $this->models()->planet($this->st->planet),
+            $this->config,
+        ));
     }
 
     /**

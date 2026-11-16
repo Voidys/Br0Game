@@ -67,9 +67,9 @@ class FleetStatistics
     public function calculateCurrentTotalFleetState(int $userID): array
     {
         $db = $this->db;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
 
         $FlyingFleets = [];
         $sql = 'SELECT `ships` FROM %%FLEETS%% WHERE `owner` = :userID;';

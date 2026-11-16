@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Game\Alliance;
 
+use App\Game\Core\Language;
 use App\Twig\GameEscaping;
 use Twig\Markup;
 
@@ -14,16 +15,12 @@ final class AllianceText
 {
     /**
      * A translation with HTML (<b>, <br>) filled with values: the arguments are escaped (existing
-     * entities stay), the result is marked as safe HTML for the message/page templates.
+     * entities stay, Markup arguments are kept), the result is marked as safe HTML for the message/page
+     * templates. See Language::formatHtml().
      */
-    public static function html(string $format, string|int|Markup ...$arguments): Markup
+    public static function html(Language $lng, string $key, string|int|Markup ...$arguments): Markup
     {
-        $escaped = array_map(
-            static fn(string|int|Markup $argument): string => $argument instanceof Markup ? (string) $argument : GameEscaping::escape($argument),
-            $arguments,
-        );
-
-        return new Markup(sprintf($format, ...$escaped), 'UTF-8');
+        return new Markup($lng->formatHtml($key, ...$arguments), 'UTF-8');
     }
 
     /** a stored multi-line text as safe HTML: escaped (existing entities stay), line breaks as <br> */

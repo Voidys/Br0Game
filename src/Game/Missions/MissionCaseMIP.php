@@ -36,8 +36,8 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
 
     public function TargetEvent(): void
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $db	= $this->db;
 
         $sqlFields	= [];
@@ -146,8 +146,8 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
                 $result		= array_filter($result);
 
 
-                $senderData['MSG'] 	= sprintf($senderData['LNG']['sys_irak_def'], $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
-                $targetData['MSG']	= sprintf($targetData['LNG']['sys_irak_def'], $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
+                $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_def', $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
+                $targetData['MSG']	= $targetData['LNG']->format('sys_irak_def', $targetData[$resource[INTERCEPTOR_MISSILE]]) . '<br><br>';
 
                 ksort($result, SORT_NUMERIC);
 
@@ -178,8 +178,8 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
 
         $ownerLink			= $planetName . " " . GetStartAddressLink($this->_fleet);
         $targetLink 		= $targetData['name'] . " " . GetTargetAddressLink($this->_fleet);
-        $senderData['MSG'] 	= sprintf($senderData['LNG']['sys_irak_mess'], $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $senderData['MSG'];
-        $targetData['MSG']	= sprintf($targetData['LNG']['sys_irak_mess'], $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $targetData['MSG'];
+        $senderData['MSG'] 	= $senderData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $senderData['MSG'];
+        $targetData['MSG']	= $targetData['LNG']->format('sys_irak_mess', $this->_fleet['ship_amount'], $ownerLink, $targetLink) . $targetData['MSG'];
 
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],
@@ -223,8 +223,8 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
     private function calculateMIPAttack(int $TargetDefTech, int $OwnerAttTech, int $missiles, array $targetDefensive, 
         int $firstTarget, int $defenseMissles): array
     {
-        $pricelist =& $this->state->pricelist;
-        $CombatCaps =& $this->state->CombatCaps;
+        $pricelist = $this->state->pricelist;
+        $CombatCaps = $this->state->CombatCaps;
         $destroyShips = [];
         $countMissles = $missiles - $defenseMissles;
 

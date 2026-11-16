@@ -28,7 +28,7 @@ class LogoutController extends AbstractAdminController
 {
     protected function construct(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
             throw new Exception($this->state->LNG['adm_permission_error']);
         }

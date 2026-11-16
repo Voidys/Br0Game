@@ -31,7 +31,7 @@ class MarketTradeHistory
      */
     public function resourceTrades(): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $sql = 'SELECT
 			UNIX_TIMESTAMP(`buy_time`) as time_unix,
@@ -84,7 +84,7 @@ class MarketTradeHistory
      */
     public function fleetTrades(): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $sql = 'SELECT
 			seller.`ships` as fleet,
@@ -127,8 +127,8 @@ class MarketTradeHistory
      */
     private function assignTime(array &$trade): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $timestamp = (int) ($trade['time_unix'] ?? 0);
         $trade['time_unix'] = $timestamp;
         $trade['time'] = $timestamp > 0

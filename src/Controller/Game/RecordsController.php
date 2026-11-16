@@ -42,10 +42,10 @@ class RecordsController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $db = $this->db;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 

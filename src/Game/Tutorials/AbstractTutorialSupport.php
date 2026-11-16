@@ -93,7 +93,7 @@ abstract class AbstractTutorialSupport
      */
     public function listGoals(): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $goals = [];
         foreach ($this->tutorialGoals as $goalRow) {
@@ -135,7 +135,7 @@ abstract class AbstractTutorialSupport
      */
     protected function getGoalName(int $elementID): string
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         return $LNG['tech'][$elementID];
     }
 
@@ -203,8 +203,8 @@ abstract class AbstractTutorialSupport
             return [];
         }
 
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
 
         $rewards = [];
         foreach ($this->tutorialRewards as $rewardRow) {
@@ -236,7 +236,7 @@ abstract class AbstractTutorialSupport
         if (!$this->isFullfilled()) {
             return;
         }
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $sql = "UPDATE %%USERS_TUTORIAL%% SET `completed` = 1, `claimed` = 1 WHERE `userID` = :userID"
             . " AND `tutorialID` = :tutorialID AND `completed` = 0";

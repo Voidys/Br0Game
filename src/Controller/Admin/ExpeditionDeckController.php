@@ -32,7 +32,7 @@ class ExpeditionDeckController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $universe = $this->http()->_GP('uniID', $this->universe()->getEmulated());
         $action = $this->http()->_GP('action', 'show');

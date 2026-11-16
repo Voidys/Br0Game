@@ -26,7 +26,7 @@ class RebuildProtectionAjaxController extends AbstractGameController
 
     public function show()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $sql = "UPDATE %%USERS%% SET `rebuild_protection` = 0, `rebuild_protection_attackers` = ''
             WHERE `id` = :userID;";

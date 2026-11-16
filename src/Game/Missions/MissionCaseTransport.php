@@ -61,8 +61,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
          * If it is a destroyed moon, avoid to call StoreGoodsToPlanet()
          */
         if ($targetPlanetName !== null) {
-            $Message		= sprintf(
-                $LNG['sys_tran_mess_owner'],
+            $Message		= $LNG->format('sys_tran_mess_owner',
                 $startPlanetName,
                 GetStartAddressLink($this->_fleet, ''),
                 $LNG['type_planet_' . $this->_fleet['end_type']],
@@ -91,8 +90,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
 
             if ($this->_fleet['target_owner'] != $this->_fleet['owner']) {
                 $LNG			= $this->getLanguage(null, $this->_fleet['target_owner']);
-                $Message        = sprintf(
-                    $LNG['sys_tran_mess_user'],
+                $Message        = $LNG->format('sys_tran_mess_user',
                     $startPlanetName,
                     GetStartAddressLink($this->_fleet, ''),
                     $targetPlanetName,
@@ -175,7 +173,7 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
             ':planetId'	=> $this->_fleet['start_id'],
         ], 'name');
 
-        $Message	= sprintf($LNG['sys_tran_mess_back'], $planetName, GetStartAddressLink($this->_fleet, ''));
+        $Message	= $LNG->format('sys_tran_mess_back', $planetName, GetStartAddressLink($this->_fleet, ''));
 
         $this->playerUtil()->sendMessage(
             $this->_fleet['owner'],

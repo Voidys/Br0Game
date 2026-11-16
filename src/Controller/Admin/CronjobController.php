@@ -64,7 +64,7 @@ class CronjobController extends AbstractAdminController
 
     public function ShowCronjobEdit($post_id): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $post_name = $this->http()->_GP('name', '');
         $post_min = $this->checkPostData('min', 59);
@@ -215,8 +215,8 @@ class CronjobController extends AbstractAdminController
 
     public function ShowCronjobOverview(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $data = $db->select("SELECT * FROM %%CRONJOBS%%;");
         if (!$data) {
@@ -254,7 +254,7 @@ class CronjobController extends AbstractAdminController
 
     public function ShowCronjobDetail($detail, $error_msg = null): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $avalibleCrons = [];

@@ -35,7 +35,7 @@
             {% endfor %}
             &nbsp;&bull;&nbsp;<a class="colorPositive" href="game?page=ticket">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
             <br><br>
-            {{ LNG.ov_points }} {% if rankInfo %}{{ LNG.ov_userrank_info|format(rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}
+            {{ LNG.ov_points }} {% if rankInfo %}{{ LNG.format('ov_userrank_info', rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}
             {% if outlawTime %}
                 <br><span class="colorNegative">{{ LNG.ov_outlaw }} {{ outlawTime }}</span>
             {% endif %}

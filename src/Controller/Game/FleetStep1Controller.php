@@ -39,12 +39,12 @@ class FleetStep1Controller extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
         $targetGalaxy = $this->http()->_GP('galaxy', (int) $PLANET['galaxy']);
         $targetSystem = $this->http()->_GP('system', (int) $PLANET['system']);
         $targetPlanet = $this->http()->_GP('planet', (int) $PLANET['planet']);
@@ -178,8 +178,8 @@ class FleetStep1Controller extends AbstractGameController
 
     public function saveShortcuts(): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $ShortcutData = $this->state->requestInput['shortcut'] ?? [];
@@ -248,8 +248,8 @@ class FleetStep1Controller extends AbstractGameController
 
     private function GetColonyList()
     {
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $USER = $this->state->USER;
         $ColonyList = [];
 
         foreach ($USER['PLANETS'] as $CurPlanetID => $CurPlanet) {
@@ -271,7 +271,7 @@ class FleetStep1Controller extends AbstractGameController
 
     private function GetUserShotcut()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         if (!$this->viewHelpers()->isModuleAvailable(MODULE_SHORTCUTS)) {
             return [];
@@ -293,7 +293,7 @@ class FleetStep1Controller extends AbstractGameController
 
     private function GetAvalibleACS()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $db = $this->db;
 
@@ -333,10 +333,10 @@ class FleetStep1Controller extends AbstractGameController
 
     public function checkTarget(): void
     {
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        $resource = $this->state->resource;
         $targetGalaxy = $this->http()->_GP('galaxy', 0);
         $targetSystem = $this->http()->_GP('system', 0);
         $targetPlanet = $this->http()->_GP('planet', 0);

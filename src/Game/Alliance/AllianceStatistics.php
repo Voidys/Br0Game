@@ -36,7 +36,7 @@ class AllianceStatistics
      */
     public function forInfoPage(array $alliance): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $statisticData = [
             'totalfight' => 0,
             'fightwon' => 0,
@@ -79,7 +79,7 @@ class AllianceStatistics
      */
     public function forHomePage(array $alliance): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $statisticResult = $this->summedStats($alliance);
 
         if ($this->mayViewFightStats($USER)) {

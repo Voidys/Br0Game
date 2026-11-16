@@ -18,8 +18,8 @@ class AccountswapController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $action = $this->http()->_GP('action', '');

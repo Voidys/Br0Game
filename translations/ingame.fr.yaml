@@ -435,7 +435,7 @@ al_request_confirmation_message: >-
   accepté ou non.
 al_request_date: Date
 al_request_deleted: >-
-  Vous avez supprimer la candidature. <br> Vous pouvez créer vôtre Alliance ou
+  Vous avez supprimé la candidature à l'alliance <b>%s</b>. <br> Vous pouvez créer vôtre Alliance ou
   en joindre une autre.
 al_request_from: Requête de "%s"
 al_request_from_user: Candidature du joueur
@@ -644,9 +644,7 @@ cr_total: Total
 cr_type: Type
 cr_weapons: Armes
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: 'Votre compte a été suspendu ! '
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Se rendre à la page d'accueil</a>
@@ -1360,7 +1358,7 @@ ov_position: Position
 ov_principal_planet_cant_abanone: Vous ne pouvez pas abandonner votre Planète Mère !
 ov_reflink: Lien référence
 ov_rename_label: Nouveau nom
-ov_security_confirm: S'il vous plaît confirmer que la planète
+ov_security_confirm: S'il vous plaît confirmer que vous voulez détruire %s
 ov_security_request: Question de sécurité
 ov_server_time: 'Heure du Serveur '
 ov_temp_unit: °C

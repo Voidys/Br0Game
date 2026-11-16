@@ -44,8 +44,8 @@ class InformationController extends AbstractAdminController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $config = $this->configs->get();
         $info = $this->serverInfo();
         $helpers = $this->viewHelpers();

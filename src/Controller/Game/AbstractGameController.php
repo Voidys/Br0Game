@@ -128,7 +128,7 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     private function newMessagesNotice(int $count): ?array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $session = $this->sessions()->symfonySession();
         $key = 'messages_notice_' . (int) $USER['id'];
         if ($session->get($key)) {
@@ -139,12 +139,12 @@ abstract class AbstractGameController implements GameControllerInterface
             return null;
         }
 
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $category = (int) ($USER['showMessageCategory'] ?? 0) === 1 && is_numeric($USER['message_type'] ?? null)
             ? '&category=' . (int) $USER['message_type'] : '';
 
         return [
-            'text' => $count === 1 ? $LNG['ov_have_new_message'] : sprintf($LNG['ov_have_new_messages'], $count),
+            'text' => $count === 1 ? $LNG['ov_have_new_message'] : $LNG->format('ov_have_new_messages', $count),
             'url'  => 'game?page=messages' . $category,
         ];
     }
@@ -186,12 +186,12 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     protected function navigationData(): array
     {
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
         $USER = & $this->state->USER;
-        $THEME = & $this->state->THEME;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $THEME = $this->state->THEME;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $config = $this->configs->get();
         $db = $this->db;
 
@@ -282,7 +282,7 @@ abstract class AbstractGameController implements GameControllerInterface
         $vacation = false;
         if ($USER['urlaubs_modus']) {
             if ($USER['urlaubs_until'] > $this->state->runtime->timestamp) {
-                $vacation = sprintf($LNG['tn_vacation_mode_until'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']));
+                $vacation = $LNG->format('tn_vacation_mode_until', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']));
             } else {
                 $vacation = $LNG['tn_vacation_mode'];
             }
@@ -305,7 +305,7 @@ abstract class AbstractGameController implements GameControllerInterface
         $ACCOUNT = $this->accountUtil()->get_account($accountId);
         if ($USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
             $timestamp = $USER['db_deaktjava'] ? $USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
-            $deletion = sprintf($LNG['tn_delete_mode'], $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config)), $ACCOUNT['timezone']);
+            $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config), $ACCOUNT['timezone']));
         }
 
         $tutorialDetails = [];
@@ -354,8 +354,8 @@ abstract class AbstractGameController implements GameControllerInterface
      */
     protected function pageData(): array
     {
-        $USER = & $this->state->USER;
-        $THEME = & $this->state->THEME;
+        $USER = $this->state->USER;
+        $THEME = $this->state->THEME;
 
         $dateTimeServer = new DateTime("now");
         if (isset($USER['timezone'])) {
@@ -417,7 +417,7 @@ abstract class AbstractGameController implements GameControllerInterface
 
     protected function updatePlanetTime()
     {
-        $PLANET = & $this->state->PLANET;
+        $PLANET = $this->state->PLANET;
 
         if (!isset($PLANET['id'])) {
             return;
@@ -432,9 +432,9 @@ abstract class AbstractGameController implements GameControllerInterface
 
     protected function layoutData(string $template): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $USER = & $this->state->USER;
-        $THEME = & $this->state->THEME;
+        $THEME = $this->state->THEME;
 
         $data = [];
         if ($this->getWindow() === 'full') {

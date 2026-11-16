@@ -41,7 +41,7 @@ class AllianceRankService
      */
     public function permissionPage(array $alliance, array $rights): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $sql = "SELECT * FROM %%ALLIANCE_RANK%% WHERE allianceId = :allianceId;";
         $rankResult = $this->db->select($sql, [
@@ -80,7 +80,7 @@ class AllianceRankService
      */
     public function create(array $alliance, array $rights, array $newRank): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         if (!$this->playerUtil()->isNameValid($newRank['rankName']) || mb_strlen($newRank['rankName']) > 32) {
             throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], '?page=alliance&mode=admin&action=permission');
@@ -135,7 +135,7 @@ class AllianceRankService
      */
     public function update(array $alliance, array $rights, array $rankData): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         foreach ($rankData as $rankId => $rowData) {
             if (
@@ -177,7 +177,7 @@ class AllianceRankService
      */
     public function memberChoices(array $alliance, array $rights): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $rankList = [$LNG['al_new_member_rank_text']];
         $rankSelectList = $rankList;

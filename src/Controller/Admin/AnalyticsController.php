@@ -16,7 +16,7 @@ class AnalyticsController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         if (!isset($this->state->requestQuery['order'])) {

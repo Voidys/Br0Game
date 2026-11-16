@@ -339,7 +339,7 @@ al_legend_see_connected_users: Online Uye Listesi
 al_legend_see_requests: Basvurulari Goster
 al_legend_see_users_list: Uye Listesini Goster
 al_make_alliance: Ittifak Kur
-al_make_ally_insufficient_points: Ittifak kurmak icin yeterli puana sahip degilsiniz!
+al_make_ally_insufficient_points: Ittifak kurmak icin yeterli puana sahip degilsiniz!<br>En az %s puana ihtiyaciniz var, %s puaniniz eksik.
 al_make_ally_name_required: Ittifak Ismi (3-30 karakter)
 al_make_ally_tag_required: Ittifak Tagi (3-8 karakter)
 al_make_submit: Devam
@@ -633,9 +633,7 @@ cr_total: Toplam
 cr_type: Tur
 cr_weapons: Silahlar
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: Hesabiniz banlandi!
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Ana Sayfaya Git</a>
@@ -693,7 +691,7 @@ fl_arrival: Sure
 fl_arrival_time: Varis Zamani
 fl_attack_confirm_buddy: Hedef arkadaş listende. Saldırıyı gerçekten gerçekleştirmek istiyor musun?
 fl_attack_confirm_diplo: >-
-  İttifakınız ve %2$s ittifakı ile bir anlaşma (%1%s) yapıldı. Saldırıyı
+  İttifakınız ve %2$s ittifakı ile bir anlaşma (%1$s) yapıldı. Saldırıyı
   gerçekten gerçekleştirmek istiyor musunuz?
 fl_attack_confirm_outlaw: '%s''ye saldırırsanız 7 gün boyunca kanun kaçağı olursunuz.'
 fl_bash_protection: Gezegen Korumasi Aktif
@@ -1629,7 +1627,7 @@ tkb_unentschieden: <b>-Berabere- </b>
 tkb_units: Uniteler
 tkb_verlierer: <b>-Kaybeden-</b>
 tkb_week: hafta
-tn_delete_mode: 'Hesabiniz Silme Modunda Silinecegi Tarih :'
+tn_delete_mode: 'Hesabiniz Silme Modunda Silinecegi Tarih : %s'
 tn_player_title: Imparator
 tn_vacation_mode: Tatil modundasınız.
 tn_vacation_mode_kick: >-

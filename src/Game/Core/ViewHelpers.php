@@ -20,7 +20,7 @@ class ViewHelpers
         // Workaround for locale Names.
 
         if (!isset($LNG)) {
-            $LNG = & $this->state->LNG;
+            $LNG = $this->state->LNG;
         }
 
         $weekDay = date('w', $time);
@@ -44,7 +44,7 @@ class ViewHelpers
 
     public function prettyTime($seconds)
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $day = $seconds / 86400;
         $day = floor($day);
         $hour = $seconds / 3600;
@@ -76,7 +76,7 @@ class ViewHelpers
     public function prettyNumber($n, $dec = 0)
     {
         if (is_numeric($n)) {
-            $USER = & $this->state->USER;
+            $USER = $this->state->USER;
             if ($USER['decimal_separator'] == 0) {
                 return number_format($n, $dec, ',', '.');
             } else {
@@ -92,7 +92,7 @@ class ViewHelpers
         $negate = $number < 0 ? -1 : 1;
         $number = abs($number);
 
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $userLang = $USER['lang'] ?? DEFAULT_LANG;
         $unit = (new NumberAbbreviation())->suffixesForLang($userLang);
         $maxKey = count($unit) - 1;
@@ -131,7 +131,7 @@ class ViewHelpers
     public function allowedTo($side)
     {
 
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         return ($USER['authlevel'] == AUTH_ADM || (isset($USER['rights']) && isset($USER['rights'][$side]) && $USER['rights'][$side] == 1));
     }
 

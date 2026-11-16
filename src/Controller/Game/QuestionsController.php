@@ -37,7 +37,7 @@ class QuestionsController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $LNG->includeData(['FAQ']);
 
@@ -46,7 +46,7 @@ class QuestionsController extends AbstractGameController
 
     public function single(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $LNG->includeData(['FAQ']);
 

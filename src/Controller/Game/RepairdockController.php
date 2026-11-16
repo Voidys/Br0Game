@@ -42,11 +42,11 @@ class RepairdockController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $db = $this->db;
 

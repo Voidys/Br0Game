@@ -26,7 +26,7 @@ class ClearCacheController extends AbstractAdminController
 {
     public function show(): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $this->maintenance()->clearCache();
         $this->message($LNG['cc_cache_clear'], 'admin?page=maintenance', 3);
     }

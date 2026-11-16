@@ -79,7 +79,7 @@ class AllianceMemberLists
      */
     public function adminMembers(array $alliance): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $user = & $this->state->USER;
         $this->loadOwnPoints();
 
@@ -101,7 +101,7 @@ class AllianceMemberLists
                 'points' => $memberRow['total_points'],
                 'rankID' => $memberRow['ally_rank_id'],
                 'onlinetime' => $this->idleMinutes($memberRow),
-                'kickQuestion' => sprintf($LNG['al_kick_player'], $memberRow['username']),
+                'kickQuestion' => $LNG->format('al_kick_player', $memberRow['username']),
             ];
         }
 
@@ -116,8 +116,8 @@ class AllianceMemberLists
      */
     public function ownRankName(array $alliance): string
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         if ($alliance['ally_owner'] == $USER['id']) {
             $rankName = ($alliance['ally_owner_range'] != '')
@@ -132,7 +132,7 @@ class AllianceMemberLists
     /** @return array<string, string> status short names for the legend of the member lists */
     public function shortStatus(): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         return [
             'vacation' => $LNG['gl_short_vacation'],
@@ -153,7 +153,7 @@ class AllianceMemberLists
      */
     private function linkedAlliances(string $sql, array $alliance, string $headerKey, string $dataKey): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $linkedRows = $this->db->select($sql, [
             ':AllianceID' => $alliance['id'],
         ]);
@@ -163,7 +163,7 @@ class AllianceMemberLists
             $this->loadOwnPoints();
             foreach ($linkedRows as $linked) {
                 $memberList = $this->rowsOf($linked);
-                $lists[$linked['id']]['header'] = sprintf($LNG[$headerKey], count($memberList), '[' . $linked['ally_tag'] . '] ' . $linked['ally_name']);
+                $lists[$linked['id']]['header'] = $LNG->format($headerKey, count($memberList), '[' . $linked['ally_tag'] . '] ' . $linked['ally_name']);
                 $lists[$linked['id']][$dataKey] = $linked;
                 $lists[$linked['id']]['memberList'] = $memberList;
             }
@@ -179,8 +179,8 @@ class AllianceMemberLists
      */
     private function rowsOf(array $alliance): array
     {
-        $LNG = & $this->state->LNG;
-        $user = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $user = $this->state->USER;
         $rankList = $this->repository->rankNames($alliance['id']);
 
         $memberList = [];
@@ -214,7 +214,7 @@ class AllianceMemberLists
 
     private function statusClass(array $user, array $memberRow): mixed
     {
-        $isNoobProtected = $this->playerUtil()->checkNoobProtection($user, $memberRow);
+        $isNoobProtected = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($user), $this->models()->user($memberRow));
 
         return $this->playerUtil()->userStatus($memberRow, $isNoobProtected);
     }

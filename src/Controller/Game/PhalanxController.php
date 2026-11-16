@@ -33,10 +33,10 @@ class PhalanxController extends AbstractGameController
 
     public function show(): Response
     {
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
-        $USER = & $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+        $USER = $this->state->USER;
         $this->setWindow('popup');
         $this->addScript('phalanx.js');
 

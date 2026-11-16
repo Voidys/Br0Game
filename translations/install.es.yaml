@@ -42,8 +42,8 @@ menu_install: Instalar
 menu_intro: Intro
 menu_license: Licencia
 menu_upgrade: Actualizar
-reg_dir: Carpeta
-reg_file: Archivo
+reg_dir: ¿Se puede escribir en la carpeta &raquo;%s&laquo;?
+reg_file: ¿Se puede escribir en el archivo &raquo;%s&laquo;?
 reg_found: Encontrado
 reg_gd_desc: >-
   <strong>Opcional</strong> — Librería de procesamiento de gráficos

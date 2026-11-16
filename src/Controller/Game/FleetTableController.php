@@ -43,7 +43,7 @@ class FleetTableController extends AbstractGameController
 
     public function createACS($fleetID, $fleetData)
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $rand = random_int(100000, 999999999);
         $acsName = 'AG' . $rand;
@@ -97,7 +97,7 @@ class FleetTableController extends AbstractGameController
 
     public function loadACS($fleetData)
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $db = $this->db;
         $sql = "SELECT `id`, `public_id`, `name` FROM %%USERS_TO_ACS%% 
@@ -113,8 +113,8 @@ class FleetTableController extends AbstractGameController
 
     public function getACSPageData($fleetID)
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $sql = "SELECT `arrival_time`, `end_id`, `group`, `status`, `mission`
@@ -228,13 +228,13 @@ class FleetTableController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['FLEET']);
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         $acsData = [];
         $FleetID = $this->http()->_GP('fleetID', 0);
         $GetAction = $this->http()->_GP('action', "");

@@ -32,7 +32,7 @@ class ModuleController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $config = $this->configs->get($this->universe()->getEmulated());
         $module = $config->moduls;
 

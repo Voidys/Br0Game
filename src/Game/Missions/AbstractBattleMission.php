@@ -136,7 +136,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
      */
     protected function computeDebris(array &$targetPlanet, array $combatResult): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $db = $this->db;
         $debris = [];
         $planetDebris = [];

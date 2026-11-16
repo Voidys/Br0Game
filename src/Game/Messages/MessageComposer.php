@@ -43,7 +43,7 @@ class MessageComposer
      */
     public function deliverableReceivers(mixed $receiver): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $receiverList = [];
         foreach ((array) $receiver as $receiverID) {
             if (!$this->canReceiveMessages((int) $receiverID)) {
@@ -66,7 +66,7 @@ class MessageComposer
     /** Whether the message is in the current player's (not deleted) mailbox, i.e. may be forwarded by them. */
     public function ownsMessage(mixed $messageID): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = 'SELECT COUNT(*) as state FROM %%USERS_TO_MESSAGES%%
             WHERE `user_id` = :userId
               AND `message_id` = :messageId
@@ -82,7 +82,7 @@ class MessageComposer
     /** Forwards one of the player's messages to the receivers (see PlayerUtil::forwardMessage). */
     public function forward(array $receiverList, mixed $messageID): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $this->playerUtil()->forwardMessage($receiverList, $USER['id'], $messageID);
     }
 
@@ -97,7 +97,7 @@ class MessageComposer
      */
     public function send(array $receiverList, mixed $requested, string $subject, string $text, string $groupKey): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $senderName	= $USER['username'] . ' [' . $USER['galaxy'] . ':' . $USER['system'] . ':' . $USER['planet'] . ']';
         $db = $this->db;
         $config = $this->configs->get();

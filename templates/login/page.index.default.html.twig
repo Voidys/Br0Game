@@ -4,8 +4,8 @@
 <div class="home site-wrap">
   <div class="home__main">
     <section class="hero">
-      <h1 class="hero__title">{{ LNG.loginWelcome|format(gameName) }}</h1>
-      <p class="hero__text">{{ LNG.loginServerDesc|format(gameName) }}</p>
+      <h1 class="hero__title">{{ LNG.format('loginWelcome', gameName) }}</h1>
+      <p class="hero__text">{{ LNG.format('loginServerDesc', gameName) }}</p>
       <div class="hero__actions">
         <a class="button btn--primary btn-hero" href="./?page=register">{{ icon('rocket') }}{{ LNG.buttonRegister }}</a>
       </div>
@@ -35,7 +35,7 @@
         <div class="login-meta">
           {% if mailEnable %}<a href="./?page=lostPassword">{{ LNG.buttonLostPassword }}</a>{% endif %}
           {% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}
-          <span>{{ LNG.loginInfo|format(rulesLink) }}</span>
+          <span>{{ LNG.format('loginInfo', rulesLink) }}</span>
         </div>
       </div>
     </section>

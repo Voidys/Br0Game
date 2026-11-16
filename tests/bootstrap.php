@@ -39,3 +39,6 @@ if (getenv('SKIP_TEST_DB_SETUP') !== '1' && !$unitOnly) {
         exit(1);
     }
 }
+
+// texts filled with the wrong number of values fail in the tests (production only logs them)
+\App\Game\Core\Language::$strictFormat = true;

@@ -27,7 +27,7 @@ class ExpeditionFindableShipsHandler
 
     private function buildDefaultConfig(bool $findable = false): array
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
         $config = [];
 
         foreach ($reslist['fleet'] as $targetShipId) {
@@ -54,7 +54,7 @@ class ExpeditionFindableShipsHandler
 
     public function getConfigForUniverse(int $universe, bool $findable = false): array
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
         $sql = "SELECT `ship_id`, `is_findable`, `findable_by`
             FROM %%EXPEDITION_FINDABLE_SHIPS%%
             WHERE `universe` = :universe;";
@@ -80,7 +80,7 @@ class ExpeditionFindableShipsHandler
 
     public function saveConfigForUniverse(int $universe, array $submittedConfig): void
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
         $db = $this->db;
 
         $sql = 'INSERT INTO %%EXPEDITION_FINDABLE_SHIPS%% (`universe`, `ship_id`, `is_findable`, `findable_by`)

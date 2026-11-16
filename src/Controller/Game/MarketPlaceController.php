@@ -36,7 +36,7 @@ class MarketPlaceController extends AbstractGameController
     public function show(): Response
     {
         $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $GetAction = $this->http()->_GP('action', "");
 

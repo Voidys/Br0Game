@@ -30,9 +30,9 @@ class AccountSettingsController extends AbstractAccountController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['INGAME', 'ACCOUNT']);
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $ACCOUNT = $this->state->ACCOUNT;
 
         $this->assign([
             'Selectors'         => [
@@ -47,7 +47,7 @@ class AccountSettingsController extends AbstractAccountController
             'theme'         => $ACCOUNT['dpath'],
             'timezone'      => $ACCOUNT['timezone'],
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
         ]);
 
         return $this->render('account/page.accountSettings.default.html.twig');
@@ -56,9 +56,9 @@ class AccountSettingsController extends AbstractAccountController
     public function send()
     {
         $ACCOUNT = & $this->state->ACCOUNT;
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['INGAME', 'ACCOUNT']);
-        $THEME = & $this->state->THEME;
+        $THEME = $this->state->THEME;
         $password           = $this->http()->_GP('password', '');
         $newpassword        = $this->http()->_GP('newpassword', '');
         $newpassword2       = $this->http()->_GP('newpassword2', '');
@@ -89,7 +89,7 @@ class AccountSettingsController extends AbstractAccountController
             'theme'         => $ACCOUNT['dpath'],
             'timezone'      => $ACCOUNT['timezone'],
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
         ]);
         if (
             !empty($newpassword)
@@ -133,7 +133,7 @@ class AccountSettingsController extends AbstractAccountController
                 ], 'count');
 
                 if (!empty($Count)) {
-                    $this->printMessage(sprintf($LNG['op_change_mail_exist'], $email), [
+                    $this->printMessage($LNG->format('op_change_mail_exist', $email), [
                         [
                             'label' => $LNG['sys_back'],
                             'url'   => 'account?page=accountSettings',
@@ -160,7 +160,7 @@ class AccountSettingsController extends AbstractAccountController
                         DISCORD_URL,
                     ], $MailRAW);
 
-                    $subject = sprintf($LNG['mail']['subject']['mail_changed'], $config->game_name);
+                    $subject = $LNG->formatIn(['mail', 'subject', 'mail_changed'], $config->game_name);
                     $this->mailer()->send($ACCOUNT['email_2'], $ACCOUNT['accountname'], $subject, $MailContent);
                 }
             }
@@ -193,7 +193,7 @@ class AccountSettingsController extends AbstractAccountController
             'theme'         => $ACCOUNT['dpath'],
             'timezone'      => $ACCOUNT['timezone'],
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
         ]);
         $db->commit();
 
@@ -207,8 +207,8 @@ class AccountSettingsController extends AbstractAccountController
 
     public function toggleDelete()
     {
-        $LNG = & $this->state->LNG;
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $LNG = $this->state->LNG;
+        $ACCOUNT = $this->state->ACCOUNT;
 
         $db = $this->db;
         $db->startTransaction();
@@ -219,7 +219,7 @@ class AccountSettingsController extends AbstractAccountController
         ]);
         $this->assign([
             'toplink'       => "account?page=account",
-            'topname'       => sprintf($LNG['Back']),
+            'topname'       => $LNG->format('Back'),
         ]);
         if ($ACCOUNT['db_deaktjava'] === 0) {
             $sql = "UPDATE %%ACCOUNTS%% SET db_deaktjava = :timestamp WHERE id = :accountID;";

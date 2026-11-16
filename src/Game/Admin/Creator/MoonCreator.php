@@ -10,8 +10,8 @@ class MoonCreator extends CreatorTab
     /** Shows the creation form, or creates the object from the posted form and shows the result. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         if ($this->state->requestPost) {
             $db = $this->db;
 

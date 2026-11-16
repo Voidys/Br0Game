@@ -46,8 +46,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     private function getPlanetFleet($targetPlanet)
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $planetfleet = [];
         $resourceIDs = $reslist['fleet'];
 
@@ -60,8 +60,8 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
     private function getPlanetDefense($targetPlanet)
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $planetdef = [];
         $resourceIDs = $reslist['defense'];
 
@@ -74,9 +74,9 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
     public function TargetEvent()
     {
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $db = $this->db;
 
         $sql = 'SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;';
@@ -324,8 +324,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
         $LNG = $this->getLanguage($targetUser['lang']);
 
-        $sourceLink = sprintf(
-            $LNG['sys_mess_spy_link'],
+        $sourceLink = $LNG->format('sys_mess_spy_link',
             $senderPlanet['name'],
             $senderUser['username'],
             $this->_fleet['start_galaxy'],
@@ -333,8 +332,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['start_planet'],
         );
 
-        $targetLink = sprintf(
-            $LNG['sys_mess_spy_link'],
+        $targetLink = $LNG->format('sys_mess_spy_link',
             $targetPlanet['name'],
             $LNG['type_planet_short_' . $targetPlanet['planet_type']],
             $this->_fleet['end_galaxy'],
@@ -342,8 +340,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
             $this->_fleet['end_planet'],
         );
 
-        $targetMessage = sprintf(
-            $LNG['sys_mess_spy_ennemyfleet_' . $senderPlanet['planet_type']],
+        $targetMessage = $LNG->format('sys_mess_spy_ennemyfleet_' . $senderPlanet['planet_type'],
             $sourceLink,
             $targetLink,
         );
@@ -392,7 +389,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function getDangerValue($spyData)
     {
-        $CombatCaps = & $this->state->CombatCaps;
+        $CombatCaps = $this->state->CombatCaps;
         $dangerValue = 0;
 
         // ships
@@ -422,7 +419,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
      */
     public function getRecyleValue($spyData)
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
         $config = $this->configs->get($this->_fleet['universe']);
         $fleetIntoDebris = $config->fleet_debris_percentage;
@@ -451,7 +448,7 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
 
     public function estimateRecyclers($recycleValue)
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         return ceil($recycleValue / $pricelist[SHIP_RECYCLER]["capacity"]) + 1;
     }
 

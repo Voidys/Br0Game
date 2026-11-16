@@ -43,8 +43,8 @@ class EmpireController extends AbstractGameController
     public function show(): Response
     {
         $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $db = $this->db;
         $db->startTransaction();
         $u = $db->selectSingle("SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE u.id = :userID FOR UPDATE;", [':userID' => $USER['id']]);

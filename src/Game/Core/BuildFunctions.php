@@ -17,6 +17,8 @@
 
 namespace App\Game\Core;
 
+use App\Game\Model\Planet;
+use App\Game\Model\User;
 use Exception;
 
 class BuildFunctions
@@ -55,55 +57,96 @@ class BuildFunctions
         return self::$bonusList;
     }
 
+    /**
+     * Resources still missing for an element.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @return array<int, float|int> missing amount per resource id (0 when covered)
+     * @deprecated use restPriceFor() with typed User/Planet
+     */
     public function getRestPrice(array $USER, array $PLANET, int $Element, ?array $elementPrice = null): array
     {
-        $resource = & $this->state->resource;
+        return $this->restPriceFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element, $elementPrice);
+    }
 
+    /**
+     * Typed version of getRestPrice(): per resource of the price, how much the planet (or, for non-planet
+     * resources, the player) still lacks; the available stock is floored first.
+     *
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @return array<int, float|int> missing amount per resource id (0 when covered)
+     */
+    public function restPriceFor(User $user, Planet $planet, int $element, ?array $elementPrice = null): array
+    {
         if (!isset($elementPrice)) {
-            $elementPrice = $this->getElementPrice($USER, $PLANET, $Element);
+            $elementPrice = $this->elementPriceFor($user, $planet, $element);
         }
 
         $overflow = [];
 
         foreach ($elementPrice as $resType => $resPrice) {
-            $available = isset($PLANET[$resource[$resType]])
-                ? $PLANET[$resource[$resType]] : $USER[$resource[$resType]];
+            $available = $planet->has($resType) ? $planet->count($resType) : $user->level($resType);
             $overflow[$resType] = max($resPrice - floor($available), 0);
         }
 
         return $overflow;
     }
 
+    /**
+     * Resource price of an element at its current (or the given) level.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array
+     * @return array<int, float|int> price per resource id; empty when the element is unknown to player and planet
+     * @deprecated use elementPriceFor() with typed User/Planet
+     */
     public function getElementPrice(array $USER, array $PLANET, int $Element, bool $forDestroy = false, ?int $forLevel = null): array
     {
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        return $this->elementPriceFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element, $forDestroy, $forLevel);
+    }
 
-        $catchUpFactor = $this->playerUtil()->getCatchUpFactor($USER);
+    /**
+     * Typed version of getElementPrice(): base cost times factor^(level - 1), reduced by the catch-up factor for
+     * buildings and technologies (not for ships, defense, missiles, nor for energy). Ships, defense and missiles
+     * are priced for $forLevel units; demolition costs half.
+     *
+     * Reads the DB through the catch-up factor (statpoints, records).
+     *
+     * @param bool $forDestroy price of tearing the level down (half price)
+     * @param int|null $forLevel level (or unit count) to price instead of the current one
+     * @return array<int, float|int> price per resource id; empty when the element is unknown to player and planet
+     */
+    public function elementPriceFor(User $user, Planet $planet, int $element, bool $forDestroy = false, ?int $forLevel = null): array
+    {
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
+
+        $catchUpFactor = $this->playerUtil()->catchUpFactorFor($user);
         if (
-            in_array($Element, $reslist['fleet']) || in_array($Element, $reslist['defense'])
-            || in_array($Element, $reslist['missile'])
+            in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
+            || in_array($element, $reslist['missile'])
         ) {
             $elementLevel = $forLevel ?? 0;
             $catchUpFactor = 1.0; // no reduction for fleet/defence/missiles
         } elseif (isset($forLevel)) {
             $elementLevel = $forLevel;
-        } elseif (isset($PLANET[$resource[$Element]])) {
-            $elementLevel = $PLANET[$resource[$Element]];
-        } elseif (isset($USER[$resource[$Element]])) {
-            $elementLevel = $USER[$resource[$Element]];
+        } elseif ($planet->has($element)) {
+            $elementLevel = $planet->level($element);
+        } elseif ($user->has($element)) {
+            $elementLevel = $user->level($element);
         } else {
             return [];
         }
-        $catchUpFactor = $this->playerUtil()->getCatchUpFactorForElement($catchUpFactor, $Element, $elementLevel);
+        $catchUpFactor = $this->playerUtil()->getCatchUpFactorForElement($catchUpFactor, $element, $elementLevel);
 
         $price = [];
         foreach ($reslist['ressources'] as $resType) {
-            if (!isset($pricelist[$Element]['cost'][$resType])) {
+            if (!isset($pricelist[$element]['cost'][$resType])) {
                 continue;
             }
-            $ressourceAmount = $pricelist[$Element]['cost'][$resType];
+            $ressourceAmount = $pricelist[$element]['cost'][$resType];
 
             if ($ressourceAmount == 0) {
                 continue;
@@ -116,15 +159,15 @@ class BuildFunctions
             }
 
             if (
-                isset($pricelist[$Element]['factor']) && $pricelist[$Element]['factor'] != 0
-                && $pricelist[$Element]['factor'] != 1
+                isset($pricelist[$element]['factor']) && $pricelist[$element]['factor'] != 0
+                && $pricelist[$element]['factor'] != 1
             ) {
-                $price[$resType] *= pow($pricelist[$Element]['factor'], $elementLevel - 1);
+                $price[$resType] *= pow($pricelist[$element]['factor'], $elementLevel - 1);
             }
 
             if (
-                $forLevel && (in_array($Element, $reslist['fleet']) || in_array($Element, $reslist['defense'])
-                    || in_array($Element, $reslist['missile']))
+                $forLevel && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
+                    || in_array($element, $reslist['missile']))
             ) {
                 $price[$resType] *= $elementLevel;
             }
@@ -137,19 +180,34 @@ class BuildFunctions
         return $price;
     }
 
+    /**
+     * Whether the requirements of an element (tech tree) are met.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array
+     * @deprecated use isAccessibleFor() with typed User/Planet
+     */
     public function isTechnologieAccessible(array $USER, array $PLANET, int $Element): bool
     {
-        $requeriments = & $this->state->requeriments;
-        $resource = & $this->state->resource;
+        return $this->isAccessibleFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element);
+    }
 
-        if (!isset($requeriments[$Element])) {
+    /**
+     * Typed version of isTechnologieAccessible(): every required element must reach its level, looked up on the
+     * player (technologies) and on the planet (buildings); an element neither of them carries does not block.
+     */
+    public function isAccessibleFor(User $user, Planet $planet, int $element): bool
+    {
+        $requeriments = $this->state->requeriments;
+
+        if (!isset($requeriments[$element])) {
             return true;
         }
 
-        foreach ($requeriments[$Element] as $ReqElement => $EleLevel) {
+        foreach ($requeriments[$element] as $reqElement => $eleLevel) {
             if (
-                (isset($USER[$resource[$ReqElement]]) && $USER[$resource[$ReqElement]] < $EleLevel) ||
-                (isset($PLANET[$resource[$ReqElement]]) && $PLANET[$resource[$ReqElement]] < $EleLevel)
+                ($user->has($reqElement) && $user->level($reqElement) < $eleLevel) ||
+                ($planet->has($reqElement) && $planet->level($reqElement) < $eleLevel)
             ) {
                 return false;
             }
@@ -175,6 +233,14 @@ class BuildFunctions
         }
     }
 
+    /**
+     * Construction/research/shipyard time of an element in seconds.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array (research: `<lab>_inter` list of network labs)
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @deprecated use buildingTimeFor() with typed User/Planet
+     */
     public function getBuildingTime(
         array $USER,
         array $PLANET,
@@ -185,15 +251,48 @@ class BuildFunctions
         int $maxQueueIndex = 0
     ): float
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $requeriments = & $this->state->requeriments;
-        $config = $this->configs->get($USER['universe']);
+        return $this->buildingTimeFor(
+            $this->models()->user($USER),
+            $this->models()->planet($PLANET),
+            $Element,
+            $elementPrice,
+            $forDestroy,
+            $forLevel,
+            $maxQueueIndex,
+        );
+    }
+
+    /**
+     * Typed version of getBuildingTime(). Time = (metal + crystal cost) / (speed * lab/factory levels), floored to
+     * seconds, at least the universe's min_build_time.
+     *
+     * - buildings: robotics and nanite level, counting the first $maxQueueIndex queue entries of the planet
+     *   (queued robotics/nanite builds raise, demolitions lower the level);
+     * - ships, defense, missiles: shipyard and nanite level;
+     * - technologies: laboratory level (sum of the network labs that meet the research's lab requirement, or the
+     *   own lab without network) and the university discount.
+     * Demolition takes a fixed fraction (1300/3600 of the build time).
+     *
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     */
+    public function buildingTimeFor(
+        User $user,
+        Planet $planet,
+        int $element,
+        ?array $elementPrice = null,
+        bool $forDestroy = false,
+        ?int $forLevel = null,
+        int $maxQueueIndex = 0
+    ): float
+    {
+        $reslist = $this->state->reslist;
+        $requeriments = $this->state->requeriments;
+        $config = $this->configs->get($user->universe);
 
         $time = 0;
 
         if (!isset($elementPrice)) {
-            $elementPrice = $this->getElementPrice($USER, $PLANET, $Element, $forDestroy, $forLevel);
+            $elementPrice = $this->elementPriceFor($user, $planet, $element, $forDestroy, $forLevel);
         }
 
         $elementCost = 0;
@@ -206,11 +305,11 @@ class BuildFunctions
             $elementCost += $elementPrice[RESOURCE_CRYSTAL];
         }
 
-        if (in_array($Element, $reslist['build'])) {
+        if (in_array($element, $reslist['build'])) {
             $maxQueueIndex = max(0, $maxQueueIndex);
-            $robo = $PLANET[$resource[14]];
-            $nani = $PLANET[$resource[15]];
-            $CurrentQueue = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
+            $robo = $planet->level(ROBOT_FACTORY);
+            $nani = $planet->level(NANITE_FACTORY);
+            $CurrentQueue = $planet->buildingQueue !== '' ? StoredData::decode($planet->buildingQueue) : [];
             if (!empty($CurrentQueue) && count($CurrentQueue) != 0) {
                 foreach ($CurrentQueue as $index => $QueueSubArray) {
                     if ($index >= $maxQueueIndex) {
@@ -233,29 +332,26 @@ class BuildFunctions
             }
             $time = $elementCost / ($config->building_speed * (1 + $robo))
                 * pow(0.5, $nani);
-        } elseif (in_array($Element, $reslist['fleet'])) {
-            $time = $elementCost / ($config->shipyard_speed * (1 + $PLANET[$resource[SHIPYARD]]))
-                * pow(0.5, $PLANET[$resource[NANITE_FACTORY]]);
-        } elseif (in_array($Element, $reslist['defense'])) {
-            $time = $elementCost / ($config->shipyard_speed * (1 + $PLANET[$resource[SHIPYARD]]))
-                * pow(0.5, $PLANET[$resource[NANITE_FACTORY]]);
-        } elseif (in_array($Element, $reslist['missile'])) {
-            $time = $elementCost / ($config->shipyard_speed * (1 + $PLANET[$resource[SHIPYARD]]))
-                * pow(0.5, $PLANET[$resource[NANITE_FACTORY]]);
-        } elseif (in_array($Element, $reslist['tech'])) {
-            if (is_numeric($PLANET[$resource[RESEARCH_LABORATORY] . '_inter'])) {
-                $Level = $PLANET[$resource[RESEARCH_LABORATORY]];
+        } elseif (
+            in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])
+            || in_array($element, $reslist['missile'])
+        ) {
+            $time = $elementCost / ($config->shipyard_speed * (1 + $planet->level(SHIPYARD)))
+                * pow(0.5, $planet->level(NANITE_FACTORY));
+        } elseif (in_array($element, $reslist['tech'])) {
+            if ($planet->labNetwork === null) {
+                $Level = $planet->level(RESEARCH_LABORATORY);
             } else {
                 $Level = 0;
-                foreach ($PLANET[$resource[RESEARCH_LABORATORY] . '_inter'] as $Levels) {
-                    if (!isset($requeriments[$Element][RESEARCH_LABORATORY]) || $Levels >= $requeriments[$Element][RESEARCH_LABORATORY]) {
+                foreach ($planet->labNetwork as $Levels) {
+                    if (!isset($requeriments[$element][RESEARCH_LABORATORY]) || $Levels >= $requeriments[$element][RESEARCH_LABORATORY]) {
                         $Level += $Levels;
                     }
                 }
             }
 
             $time = $elementCost / (1000 * (1 + $Level)) / ($config->research_speed / 2500)
-                * pow(1 - $config->factor_university / 100, $PLANET[$resource[6]]);
+                * pow(1 - $config->factor_university / 100, $planet->level(university));
         }
 
         if ($forDestroy) {
@@ -267,6 +363,14 @@ class BuildFunctions
         return max($time, $config->min_build_time);
     }
 
+    /**
+     * Whether the planet can pay the element's price right now.
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @deprecated use isBuyableFor() with typed User/Planet
+     */
     public function isElementBuyable(
         array $USER,
         array $PLANET,
@@ -274,51 +378,99 @@ class BuildFunctions
         ?array $elementPrice = null
     ): bool
     {
-        $rest = $this->getRestPrice($USER, $PLANET, $Element, $elementPrice);
+        return $this->isBuyableFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element, $elementPrice);
+    }
+
+    /**
+     * Typed version of isElementBuyable(): true when restPriceFor() leaves nothing missing.
+     *
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     */
+    public function isBuyableFor(User $user, Planet $planet, int $element, ?array $elementPrice = null): bool
+    {
+        $rest = $this->restPriceFor($user, $planet, $element, $elementPrice);
         return count(array_filter($rest)) === 0;
     }
 
+    /**
+     * How many units of an element the planet can pay (limited by the scarcest resource, 1 for one-per-planet).
+     *
+     * @param array<string, mixed> $USER player state array
+     * @param array<string, mixed> $PLANET planet state array
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @throws Exception when the price contains a resource neither planet nor player carries
+     * @deprecated use maxConstructibleFor() with typed User/Planet
+     */
     public function getMaxConstructibleElements(array $USER, array $PLANET, int $Element, ?array $elementPrice = null): int
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        return $this->maxConstructibleFor($this->models()->user($USER), $this->models()->planet($PLANET), $Element, $elementPrice);
+    }
+
+    /**
+     * Typed version of getMaxConstructibleElements().
+     *
+     * @param array<int, float|int>|null $elementPrice price to use instead of the computed one
+     * @throws Exception when the price contains a resource neither planet nor player carries
+     */
+    public function maxConstructibleFor(User $user, Planet $planet, int $element, ?array $elementPrice = null): int
+    {
+        $reslist = $this->state->reslist;
         if (!isset($elementPrice)) {
-            $elementPrice = $this->getElementPrice($USER, $PLANET, $Element);
+            $elementPrice = $this->elementPriceFor($user, $planet, $element);
         }
 
         $maxElement = [];
 
         foreach ($elementPrice as $resourceID => $price) {
-            if (isset($PLANET[$resource[$resourceID]])) {
-                $maxElement[] = floor($PLANET[$resource[$resourceID]] / $price);
-            } elseif (isset($USER[$resource[$resourceID]])) {
-                $maxElement[] = floor($USER[$resource[$resourceID]] / $price);
+            if ($planet->has($resourceID)) {
+                $maxElement[] = floor($planet->count($resourceID) / $price);
+            } elseif ($user->has($resourceID)) {
+                $maxElement[] = floor($user->level($resourceID) / $price);
             } else {
-                throw new Exception("Unknown Ressource " . $resourceID . " at element " . $Element . ".");
+                throw new Exception("Unknown Ressource " . $resourceID . " at element " . $element . ".");
             }
         }
 
-        if (in_array($Element, $reslist['one'])) {
+        if (in_array($element, $reslist['one'])) {
             $maxElement[] = 1;
         }
 
         return min($maxElement);
     }
 
+    /**
+     * How many interceptor/interplanetary missiles still fit into the silo.
+     *
+     * @param array<string, mixed> $PLANET planet state array
+     * @param array<int, float|int>|null $Missiles missiles per element id to start from instead of the planet's stock
+     * @return array<int, float|int> room for interceptor missiles and (half of it) for interplanetary missiles
+     * @deprecated use maxRocketsFor() with a typed Planet
+     */
     public function getMaxConstructibleRockets(array $PLANET, ?array $Missiles = null): array
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        return $this->maxRocketsFor($this->models()->planet($PLANET), $Missiles);
+    }
+
+    /**
+     * Typed version of getMaxConstructibleRockets(): capacity is 10 slots per silo level (times the universe silo
+     * factor, at least 1); an interplanetary missile takes two slots; missiles in the hangar queue count as built.
+     *
+     * @param array<int, float|int>|null $Missiles missiles per element id to start from instead of the planet's stock
+     * @return array<int, float|int> room for interceptor missiles and (half of it) for interplanetary missiles
+     */
+    public function maxRocketsFor(Planet $planet, ?array $Missiles = null): array
+    {
+        $reslist = $this->state->reslist;
         if (!isset($Missiles)) {
             $Missiles = [];
 
             foreach ($reslist['missile'] as $elementID) {
-                $Missiles[$elementID] = $PLANET[$resource[$elementID]];
+                $Missiles[$elementID] = $planet->count($elementID);
             }
         }
 
-        $BuildArray = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
-        $MaxMissiles = $PLANET[$resource[SILO]] * 10 * max($this->configs->get()->silo_factor, 1);
+        $BuildArray = $planet->hangarQueue !== '' ? StoredData::decode($planet->hangarQueue) : [];
+        $MaxMissiles = $planet->level(SILO) * 10 * max($this->configs->get()->silo_factor, 1);
 
         foreach ($BuildArray as $ElementArray) {
             if (isset($Missiles[$ElementArray[0]])) {
@@ -337,7 +489,7 @@ class BuildFunctions
 
     public function getType(int $Element): string
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
 
         if (in_array($Element, $reslist['ship_type']['civil'])) {
             return "civil";
@@ -361,7 +513,7 @@ class BuildFunctions
      */
     public function getQueueFieldProjection(array $PLANET, array $queue): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $current = (int) $PLANET['field_current'];
         $projected = $PLANET;
         $valid = true;

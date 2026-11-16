@@ -28,8 +28,8 @@ class ExpeditionFleetValue
      */
     public function pointsAndCapacity(array $fleet): array
     {
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
         $expeditionPoints = [];
 
         foreach ($reslist['fleet'] as $shipId) {

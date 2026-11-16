@@ -143,12 +143,12 @@ final class InstallService
         foreach (['config/game.php', '.env.local'] as $file) {
             $exists = file_exists($this->root . $file);
             $writable = $exists ? is_writable($this->root . $file) : is_writable(dirname($this->root . $file));
-            $add(sprintf($LNG['reg_file'], $file), $writable, $writable ? $LNG['reg_writable'] : $LNG['reg_not_writable']);
+            $add($LNG->format('reg_file', $file), $writable, $writable ? $LNG['reg_writable'] : $LNG['reg_not_writable']);
         }
         foreach (['var/', 'var/game/', 'var/sessions/', 'var/backups/', 'var/log/', 'config/'] as $dir) {
             $exists = SafeFile::mkdir($this->root . $dir, 0777);
             $add(
-                sprintf($LNG['reg_dir'], $dir),
+                $LNG->format('reg_dir', $dir),
                 $exists && is_writable($this->root . $dir),
                 !$exists ? $LNG['reg_not_found'] : (is_writable($this->root . $dir) ? $LNG['reg_writable'] : $LNG['reg_not_writable']),
             );
@@ -177,7 +177,7 @@ final class InstallService
             $code === 1049 || str_contains($message, 'Unknown database') => $LNG['ins_err_unknown_db'],
             $code === 1044 => $LNG['ins_err_no_privilege'],
             $code === 2002 && str_contains($message, 'No such file') => $LNG['ins_err_socket'],
-            in_array($code, [2002, 2003, 2005, 2006], true) || str_contains($message, 'getaddrinfo') || str_contains($message, 'Connection refused') || str_contains($message, 'timed out') => sprintf($LNG['ins_err_unreachable'], $host),
+            in_array($code, [2002, 2003, 2005, 2006], true) || str_contains($message, 'getaddrinfo') || str_contains($message, 'Connection refused') || str_contains($message, 'timed out') => $LNG->format('ins_err_unreachable', $host),
             default => $LNG['step2_db_con_fail'],
         };
 
@@ -246,7 +246,7 @@ final class InstallService
         $checks[] = ['label' => $LNG['ins_check_connect'], 'ok' => true, 'detail' => $version];
 
         // database
-        $label = sprintf($LNG['ins_check_database'], $form['dbname']);
+        $label = $LNG->format('ins_check_database', $form['dbname']);
         $exists = $pdo->prepare('SELECT COUNT(*) FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?');
         $exists->execute([$form['dbname']]);
         if ((int) $exists->fetchColumn() === 0) {
@@ -264,12 +264,12 @@ final class InstallService
         }
 
         // free of game tables
-        $label = sprintf($LNG['ins_check_tables'], $form['prefix']);
+        $label = $LNG->format('ins_check_tables', $form['prefix']);
         $tables = $pdo->prepare('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME LIKE ?');
         $tables->execute([$form['dbname'], addcslashes($form['prefix'], '_%\\') . '%']);
         $tableCount = (int) $tables->fetchColumn();
         if ($tableCount > 0) {
-            return $fail($label, sprintf($LNG['ins_tables_exist'], $tableCount));
+            return $fail($label, $LNG->format('ins_tables_exist', $tableCount));
         }
         $checks[] = ['label' => $label, 'ok' => true, 'detail' => ''];
 
@@ -286,7 +286,7 @@ final class InstallService
             addcslashes($migrationpw, "'\\"),
             $salt,
         );
-        $label = sprintf($LNG['ins_check_write'], 'config/game.php');
+        $label = $LNG->format('ins_check_write', 'config/game.php');
         if (!SafeFile::write($root . 'config/game.php', $php, 0640)) { // holds the database password and the salt
             return $fail($label, $LNG['step2_conf_op_fail']);
         }
@@ -309,7 +309,7 @@ final class InstallService
         if ($baseUrl !== '') {
             $env['DEFAULT_URI'] = $baseUrl;
         }
-        $label = sprintf($LNG['ins_check_write'], '.env.local');
+        $label = $LNG->format('ins_check_write', '.env.local');
         if (!$this->writeEnvLocal($env)) {
             SafeFile::remove($root . 'config/game.php');
 
@@ -403,7 +403,7 @@ final class InstallService
         switch ($task) {
             case 'tables':
                 if ($db->selectSingle('SELECT COUNT(*) AS n FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name', [':name' => $db->getTablePrefix() . 'config'], 'n') > 0) {
-                    throw new Exception(sprintf($LNG['ins_tables_exist'], 1));
+                    throw new Exception($LNG->format('ins_tables_exist', 1));
                 }
                 $db->query(str_replace('%PREFIX%', $db->getTablePrefix(), (string) file_get_contents($this->root . 'install/install.sql')));
                 break;
@@ -531,7 +531,7 @@ final class InstallService
             $errors['email'] = $LNG['ins_admin_mail_invalid'];
         }
         if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
-            $errors['password'] = sprintf($LNG['ins_admin_pass_short'], self::MIN_PASSWORD_LENGTH);
+            $errors['password'] = $LNG->format('ins_admin_pass_short', self::MIN_PASSWORD_LENGTH);
         } elseif (strlen($password) > 64) {
             $errors['password'] = $LNG['ins_admin_pass_long'];
         } elseif ($password !== $confirm) {

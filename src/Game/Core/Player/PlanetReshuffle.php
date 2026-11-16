@@ -37,7 +37,7 @@ class PlanetReshuffle
      */
     public function reshuffleAllPlanets(int $universe): string|bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $config = $this->configs->get($universe);
         $sql = 'SELECT MAX(count) AS max FROM(SELECT count(*) AS count, `id_owner` FROM %%PLANETS%% WHERE `universe` = :uni GROUP BY `id_owner`) AS plani;';

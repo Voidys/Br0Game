@@ -446,7 +446,7 @@ al_request_confirmation_message: >-
   abgelehnt wird.
 al_request_date: Datum
 al_request_deleted: >-
-  Du hast die Bewerbung gelöscht. <br>Du kannst nun eine eigene Allianz eröffnen
+  Deine Bewerbung bei der Allianz <b>%s</b> wurde gelöscht. <br>Du kannst nun eine eigene Allianz eröffnen
   oder einer anderen Allianz beitreten.
 al_request_from: Bewerbung von Spieler "%s"
 al_request_from_user: Bewerbung von Spieler
@@ -673,8 +673,7 @@ cr_total: Total
 cr_type: Typ
 cr_weapons: Waffen
 css_account_banned_expire: >-
-  Du bist bis zum %s gesperrt!<br>Bitte melde dich ggf. im <a style="color:
-  -webkit-link;" href="%s">Discord per Ticket (link)</a>
+  Du bist bis zum %1$s gesperrt!<br>Bitte melde dich ggf. <a style="color: -webkit-link;" href="%2$s">hier (link)</a>.
 css_account_banned_message: Dein Account wurde gesperrt!
 css_account_banned_reason: 'Grund: %s'
 css_goto_homeside: <a href="./">Zur Startseite</a>

@@ -40,8 +40,8 @@ class NotesController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "SELECT * FROM %%NOTES%% WHERE owner = :userID ORDER BY priority DESC, time DESC;";
@@ -69,8 +69,8 @@ class NotesController extends AbstractGameController
 
     public function detail(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $noteID		= $this->http()->_GP('id', 0);
 
         if (!empty($noteID)) {
@@ -100,8 +100,8 @@ class NotesController extends AbstractGameController
 
     public function insert()
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $priority 	= $this->http()->_GP('priority', 1);
         $title 		= $this->http()->_GP('title', '', true);
         $text 		= $this->http()->_GP('text', '', true);
@@ -143,7 +143,7 @@ class NotesController extends AbstractGameController
 
     public function delete()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $deleteIds	= $this->http()->_GP('delmes', []);
         $deleteIds	= array_keys($deleteIds);

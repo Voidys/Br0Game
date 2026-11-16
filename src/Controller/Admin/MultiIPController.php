@@ -33,7 +33,7 @@ class MultiIPController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         if (isset($this->state->requestQuery['action'])) {
             $id = (int) $this->state->requestQuery['id'];

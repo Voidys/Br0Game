@@ -36,8 +36,8 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
     protected function initCombatValues(&$fleets): array
     {
         // INIT COMBAT VALUES
-        $CombatCaps =& $this->state->CombatCaps;
-        $pricelist =& $this->state->pricelist;
+        $CombatCaps = $this->state->CombatCaps;
+        $pricelist = $this->state->pricelist;
         $attArray = [];
         foreach ($fleets as $fleetID => $attacker) {
 

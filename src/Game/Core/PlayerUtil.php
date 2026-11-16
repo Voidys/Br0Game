@@ -289,9 +289,16 @@ class PlayerUtil
         return $this->honorPoints()->get_honor_percent($kind);
     }
 
+    /** @deprecated use catchUpFactorFor() with a typed User */
     public function getCatchUpFactor(array $USER): float
     {
         return $this->protectionRules()->getCatchUpFactor($USER);
+    }
+
+    /** Typed catch-up cost factor of a player, see ProtectionRules::catchUpFactorFor(). */
+    public function catchUpFactorFor(\App\Game\Model\User $user): float
+    {
+        return $this->protectionRules()->catchUpFactorFor($user);
     }
 
     public function getCatchUpFactorForElement(float $factor, int $elementId, int $currentLevel): float
@@ -299,9 +306,16 @@ class PlayerUtil
         return $this->protectionRules()->getCatchUpFactorForElement($factor, $elementId, $currentLevel);
     }
 
+    /** @deprecated use spyTechAllowedFor() with a typed User */
     public function spyTechAllowed(int $necessaryLevel, int $PlayerID, array $USER): bool
     {
         return $this->protectionRules()->spyTechAllowed($necessaryLevel, $PlayerID, $USER);
+    }
+
+    /** Typed spy-tech visibility check, see ProtectionRules::spyTechAllowedFor(). */
+    public function spyTechAllowedFor(int $necessaryLevel, int $PlayerID, \App\Game\Model\User $viewer): bool
+    {
+        return $this->protectionRules()->spyTechAllowedFor($necessaryLevel, $PlayerID, $viewer);
     }
 
     public function getChartPoints(int $targetUserId, array $USER, int $timespan = TIME_1_WEEK): array
@@ -349,9 +363,20 @@ class PlayerUtil
         return $this->protectionRules()->userStatus($data, $noob_protection);
     }
 
+    /** @deprecated use checkNoobProtectionFor() with typed Users */
     public function checkNoobProtection($OwnerPlayer, $TargetPlayer)
     {
         return $this->protectionRules()->checkNoobProtection($OwnerPlayer, $TargetPlayer);
+    }
+
+    /**
+     * Typed noob/strong protection between two players, see ProtectionRules::checkNoobProtectionFor().
+     *
+     * @return array{NoobPlayer: bool, StrongPlayer: bool}
+     */
+    public function checkNoobProtectionFor(\App\Game\Model\User $owner, \App\Game\Model\User $target): array
+    {
+        return $this->protectionRules()->checkNoobProtectionFor($owner, $target);
     }
 
     private function planetPositions(): PlanetPositions

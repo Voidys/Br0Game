@@ -3,13 +3,13 @@
 {% set statusBadge = {ok: 'badge--ok', warn: 'badge--warn', fail: 'badge--danger', info: 'badge--muted'} %}
 {% set dash = '–' %}
 <div class="stack">
-  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.info_information|format(git_issues_link) }}</div></div>
+  <div class="notice notice--info">{{ icon('info') }}<div>{{ LNG.format('info_information', git_issues_link) }}</div></div>
 
   {# ---------------------------------------------------------------- 1. health #}
   {% if checkCounts.fail > 0 %}
-    <div class="notice notice--danger" role="alert">{{ icon('circle-x') }}<div>{{ LNG.adm_info_summary_fail|format(checkCounts.fail, checkCounts.warn) }}</div></div>
+    <div class="notice notice--danger" role="alert">{{ icon('circle-x') }}<div>{{ LNG.format('adm_info_summary_fail', checkCounts.fail, checkCounts.warn) }}</div></div>
   {% elseif checkCounts.warn > 0 %}
-    <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.adm_info_summary_warn|format(checkCounts.warn) }}</div></div>
+    <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.format('adm_info_summary_warn', checkCounts.warn) }}</div></div>
   {% else %}
     <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.adm_info_summary_ok }}</div></div>
   {% endif %}
@@ -57,7 +57,7 @@
           <h3 class="subhead">{{ LNG.adm_info_disk }}</h3>
           {% if server.disk %}
             <div class="meter{% if server.disk.usedPct >= 90 %} meter--danger{% elseif server.disk.usedPct >= 75 %} meter--warn{% endif %}" role="img" aria-label="{{ LNG.adm_info_disk }}: {{ server.disk.usedPct }} %"><span style="width: {{ server.disk.usedPct }}%"></span></div>
-            <p class="meter__meta">{{ LNG.adm_info_free_of|format(server.disk.free, server.disk.total, server.disk.usedPct) }}</p>
+            <p class="meter__meta">{{ LNG.format('adm_info_free_of', server.disk.free, server.disk.total, server.disk.usedPct) }}</p>
           {% else %}<p class="meter__meta">{{ dash }}</p>{% endif %}
         </div>
 
@@ -65,7 +65,7 @@
           <div>
             <h3 class="subhead">{{ LNG.adm_info_memory }}</h3>
             <div class="meter{% if server.memory.usedPct >= 90 %} meter--danger{% elseif server.memory.usedPct >= 80 %} meter--warn{% endif %}" role="img" aria-label="{{ LNG.adm_info_memory }}: {{ server.memory.usedPct }} %"><span style="width: {{ server.memory.usedPct }}%"></span></div>
-            <p class="meter__meta">{{ LNG.adm_info_free_of|format(server.memory.free, server.memory.total, server.memory.usedPct) }}</p>
+            <p class="meter__meta">{{ LNG.format('adm_info_free_of', server.memory.free, server.memory.total, server.memory.usedPct) }}</p>
           </div>
         {% endif %}
 
@@ -73,7 +73,7 @@
           <div>
             <h3 class="subhead">OPcache</h3>
             <div class="meter{% if opcache.usedPct >= 95 %} meter--danger{% elseif opcache.usedPct >= 85 %} meter--warn{% endif %}" role="img" aria-label="OPcache: {{ opcache.usedPct }} %"><span style="width: {{ opcache.usedPct }}%"></span></div>
-            <p class="meter__meta">{{ LNG.adm_info_opcache_line|format(opcache.used, opcache.total, opcache.hitRate, opcache.scripts) }}</p>
+            <p class="meter__meta">{{ LNG.format('adm_info_opcache_line', opcache.used, opcache.total, opcache.hitRate, opcache.scripts) }}</p>
           </div>
         {% endif %}
 

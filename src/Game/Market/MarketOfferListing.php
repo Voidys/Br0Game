@@ -34,7 +34,7 @@ class MarketOfferListing
      */
     private function loadOffers(): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $sql = 'SELECT u.*, t.*, packts.*, f.*
 			FROM %%FLEETS%% f
 			JOIN %%USERS%% u ON f.`owner` = u.`id`
@@ -84,8 +84,8 @@ class MarketOfferListing
      */
     private function tripDurations(array $fleetsRow, array $FROM_fleet): array
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $marketplace = ($this->configs->get($USER['universe'])->max_planets + 2);
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
         //FROM
@@ -127,8 +127,8 @@ class MarketOfferListing
      */
     private function buyability(array $fleetsRow, MarketManager $pMarket): array
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $buyer = $USER['id'];
         $seller = $fleetsRow['owner'];
 
@@ -163,8 +163,8 @@ class MarketOfferListing
      */
     private function describeOffer(array $fleetsRow, MarketManager $pMarket): array
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $resourceNames = [
             1 => $LNG['tech'][RESOURCE_METAL],
             2 => $LNG['tech'][RESOURCE_CRYSTAL],

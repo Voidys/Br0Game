@@ -5,6 +5,7 @@ namespace App\Game\Alliance;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
+use App\Game\Core\Language;
 use App\Game\Core\Singleton;
 
 /**
@@ -148,7 +149,7 @@ class AllianceDiplomacyService
      */
     public function targetAlliance(int $id, bool $byAllianceId = false): array|false|null
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         if ($byAllianceId) {
@@ -185,8 +186,8 @@ class AllianceDiplomacyService
      */
     public function createFormData(int|string $diploMode, int $id): array
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $AllyList = [];
         $IdList = [];
@@ -269,7 +270,7 @@ class AllianceDiplomacyService
             $alliance['ally_tag'],
             fn(array|\ArrayAccess $lang): array => [
                 $isWar ? $lang['al_diplo_war_end'] : $lang['al_diplo_accept_yes'],
-                $this->treatyText($isWar ? $lang['al_diplo_war_end_mes'] : $lang['al_diplo_accept_yes_mes'], $lang, (int) $targetAlliance['diplo'], $alliance, $targetAlliance),
+                $this->treatyText($isWar ? 'al_diplo_war_end_mes' : 'al_diplo_accept_yes_mes', $lang, (int) $targetAlliance['diplo'], $alliance, $targetAlliance),
             ],
         );
     }
@@ -294,7 +295,7 @@ class AllianceDiplomacyService
             $alliance['ally_tag'],
             fn(array|\ArrayAccess $lang): array => [
                 $lang['al_diplo_accept_no'],
-                $this->treatyText($lang['al_diplo_accept_no_mes'], $lang, (int) $targetAlliance['diplo'], $alliance, $targetAlliance),
+                $this->treatyText('al_diplo_accept_no_mes', $lang, (int) $targetAlliance['diplo'], $alliance, $targetAlliance),
             ],
         );
 
@@ -323,7 +324,7 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_delete'],
-                    $this->treatyText($lang['al_diplo_delete_mes'], $lang, $level, $alliance, $targetAlliance),
+                    $this->treatyText('al_diplo_delete_mes', $lang, $level, $alliance, $targetAlliance),
                 ],
             );
         } else {
@@ -332,7 +333,7 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_withdraw'],
-                    $this->treatyText($lang['al_diplo_withdraw_mes'], $lang, $level, $alliance, $targetAlliance),
+                    $this->treatyText('al_diplo_withdraw_mes', $lang, $level, $alliance, $targetAlliance),
                 ],
             );
         }
@@ -355,8 +356,8 @@ class AllianceDiplomacyService
      */
     public function create(array $alliance, int|string $id, int|string $level, string $text): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $targetAlliance = $this->targetAlliance((int) $id, true);
 
@@ -368,14 +369,14 @@ class AllianceDiplomacyService
         if (empty($targetAlliance)) {
             throw AllianceException::json([
                 'error' => true,
-                'message' => sprintf($LNG['al_diplo_no_alliance'], $id),
+                'message' => $LNG->format('al_diplo_no_alliance', $id),
             ]);
         }
 
         if (!empty($targetAlliance['diplo']) && ($targetAlliance['diplo'] != DIPLO_WAR || $level != DIPLO_PEACE)) {
             throw AllianceException::json([
                 'error' => true,
-                'message' => sprintf($LNG['al_diplo_exists'], $targetAlliance['ally_name']),
+                'message' => $LNG->format('al_diplo_exists', $targetAlliance['ally_name']),
             ]);
         }
         if ($targetAlliance['id'] == $alliance['id']) {
@@ -391,8 +392,7 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_war'],
-                    sprintf(
-                        $lang['al_diplo_war_mes'],
+                    $lang->formatHtml('al_diplo_war_mes',
                         "[" . $alliance['ally_tag'] . "] " . $alliance['ally_name'],
                         "[" . $targetAlliance['ally_tag'] . "] " . $targetAlliance['ally_name'],
                         $lang['al_diplo_level'][$level],
@@ -406,8 +406,7 @@ class AllianceDiplomacyService
                 $alliance['ally_tag'],
                 fn(array|\ArrayAccess $lang): array => [
                     $lang['al_diplo_ask'],
-                    sprintf(
-                        $lang['al_diplo_ask_mes'],
+                    $lang->formatHtml('al_diplo_ask_mes',
                         $lang['al_diplo_level'][$level],
                         "[" . $alliance['ally_tag'] . "] " . $alliance['ally_name'],
                         "[" . $targetAlliance['ally_tag'] . "] " . $targetAlliance['ally_name'],
@@ -452,10 +451,10 @@ class AllianceDiplomacyService
     }
 
     /** the standard treaty message: level name, own alliance and other alliance as "[tag] name" */
-    private function treatyText(string $format, array|\ArrayAccess $lang, int $level, array $alliance, array $targetAlliance): string
+    private function treatyText(string $key, Language $lang, int $level, array $alliance, array $targetAlliance): string
     {
-        return sprintf(
-            $format,
+        return $lang->formatHtml(
+            $key,
             $lang['al_diplo_level'][$level],
             "[" . $alliance['ally_tag'] . "] " . $alliance['ally_name'],
             "[" . $targetAlliance['ally_tag'] . "] " . $targetAlliance['ally_name'],

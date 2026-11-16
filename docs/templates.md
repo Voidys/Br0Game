@@ -53,8 +53,8 @@ safe whichever way it was stored, and nothing shows up double-encoded.
 What is printed unescaped:
 
 - **Translations.** `{{ LNG.key }}` and `{{ LNG.tech[id] }}` are trusted and may contain markup.
-  They stay trusted with `LNG.key|format(a, b)` and `sprintf(LNG.key, a, b)`, which escape the
-  arguments. Concatenation (`LNG.key ~ x`) and other filters drop the trust mark.
+  Texts with placeholders are filled with `LNG.format('key', a, b)` (see "Formatted texts" below).
+  Concatenation (`LNG.key ~ x`) and other filters drop the trust mark.
 - **Helper output.** `icon()`, `html_options()` and `{% set x %}…{% endset %}` capture blocks.
 - **Code-built HTML.** Pass it as `new \Twig\Markup($html, 'UTF-8')`, and only when every dynamic
   part inside it is escaped or numeric.
@@ -69,6 +69,26 @@ Other contexts:
   `game_html`.
 
 Templates outside the game areas (Symfony bundles, the profiler) use Twig's default escaping.
+
+## Formatted texts
+
+Translations carry printf placeholders (`%s`, `%d`, `%1$s`, `%%`). Fill them with the language
+object, never with `sprintf($LNG['key'], ...)`:
+
+- `$LNG->format('key', $a, $b)` returns the text as is. Use it for plain-text targets (mail subjects,
+  JSON messages the client prints as text) or when every argument is already HTML-safe.
+- `$LNG->formatHtml('key', $a, $b)` HTML-escapes the arguments without double encoding (like
+  `game_html`), except `Twig\Markup` and numbers. Use it whenever a player-controlled value (name,
+  tag, planet name, message subject) goes into text that is printed or stored as HTML. Do not pass a
+  link built as a plain string: wrap it in `Markup` or use `format()`.
+- `$LNG->formatIn(['mail', 'subject', 'x'], ...)` for nested entries.
+- Templates: `{{ LNG.format('key', a, b) }}` (trusted Markup, arguments escaped like `formatHtml`).
+
+The number of arguments must match the placeholders. A missing key stays the key text. A mismatch
+throws a `LogicException` in debug and tests and is logged in production (missing arguments print
+empty). A text may skip a position (`%1$s ... %4$s`) but must not use a higher one than English. The unit
+test `LanguageFormatTest` scans the literal keys of all `format()` calls and checks that every language
+has the placeholders of `en`; keys chosen at run time are listed in its `DYNAMIC_KEY_PATTERNS`.
 
 ## Tables and forms (in-game)
 

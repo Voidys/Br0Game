@@ -48,8 +48,8 @@ class OverviewController extends AbstractGameController
 
     private function getFleets()
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $fleetTableObj = new FlyingFleetsTable($this->db, $this->configs, $this->state);
         $fleetTableObj->setUser($USER['id']);
         $fleetTableObj->setPlanet($PLANET['id']);
@@ -58,9 +58,9 @@ class OverviewController extends AbstractGameController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $PLANET = $this->state->PLANET;
+        $USER = $this->state->USER;
         $AdminsOnline = [];
         $AllPlanets = [];
         $Moon = [];
@@ -284,7 +284,7 @@ class OverviewController extends AbstractGameController
             'colors'                    => $USER['colors'],
             'enablePlanetStyles'        => $enablePlanetStyles,
             'isCatchUp'                 => $config->catch_up,
-            'catchUp'                   => sprintf($LNG['sys_catchup'], round((1 - $this->playerUtil()->getCatchUpFactor($USER)) * 100, 2)),
+            'catchUp'                   => $LNG->format('sys_catchup', round((1 - $this->playerUtil()->getCatchUpFactor($USER)) * 100, 2)),
             'outlawTime'                => $outlawTime,
         ]);
 
@@ -293,13 +293,13 @@ class OverviewController extends AbstractGameController
 
     public function actions(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $this->setWindow('popup');
 
         $this->assign([
-            'ov_security_confirm' => sprintf($LNG['ov_security_confirm'], $PLANET['name'] . ' ['
+            'ov_security_confirm' => $LNG->format('ov_security_confirm', $PLANET['name'] . ' ['
                 . $PLANET['galaxy'] . ':' . $PLANET['system'] . ':' . $PLANET['planet'] . ']'),
             'mainPlanet' => $USER['id_planet'],
             'currentPlanet' => $PLANET['id'],
@@ -309,13 +309,13 @@ class OverviewController extends AbstractGameController
 
     public function rename()
     {
-        $LNG = & $this->state->LNG;
-        $PLANET = & $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $PLANET = $this->state->PLANET;
         $newname        = $this->http()->_GP('name', '', UTF8_SUPPORT);
         if (!empty($newname)) {
             if (mb_strlen($newname) > 20) {
                 // PLANETS.name is varchar(20)
-                $this->sendJSON(['message' => sprintf($LNG['ov_newname_too_long'], 20), 'error' => true]);
+                $this->sendJSON(['message' => $LNG->format('ov_newname_too_long', 20), 'error' => true]);
             } elseif (!$this->playerUtil()->isNameValid($newname, true)) {
                 $this->sendJSON(['message' => $LNG['ov_newname_specialchar'], 'error' => true]);
             } else {
@@ -333,8 +333,8 @@ class OverviewController extends AbstractGameController
 
     public function delete()
     {
-        $LNG = & $this->state->LNG;
-        $PLANET = & $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $PLANET = $this->state->PLANET;
         $USER = & $this->state->USER;
         $password   = $this->http()->_GP('password', '', true);
 

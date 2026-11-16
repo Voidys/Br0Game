@@ -33,8 +33,8 @@ class MessageListController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $page = $this->http()->_GP('side', 1);
         $type = $this->http()->_GP('type', MESSAGE_TYPE_ALL);
         $sender = $this->http()->_GP('sender', '', UTF8_SUPPORT);

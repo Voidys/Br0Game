@@ -28,6 +28,8 @@ class ErrorReporter
     public function register(): void
     {
         error_reporting(E_ERROR);
+        // texts with the wrong number of arguments fail loudly in debug, are logged in production
+        Language::$strictFormat = $this->debug;
         ini_set('log_errors', '1');
         ini_set('error_log', $this->state->runtime->rootPath . 'var/log/game.log');
         set_exception_handler($this->handleException(...));
@@ -149,7 +151,7 @@ class ErrorReporter
         /* Debug via Support Ticket */
         $config = $this->configs->get();
         if ($config->debug) {
-            $USER = & $this->state->USER;
+            $USER = $this->state->USER;
             if (isset($USER) && is_array($USER) && !empty($USER['id']) && !empty($USER['username'])) {
                 $ErrSource = $USER['id'];
                 $ErrName = $USER['username'];

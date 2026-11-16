@@ -26,7 +26,7 @@ class BashRules
      */
     public function checkBash(int $Target, int $fleetGroup = 0): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $config = $this->configs->get();
         $bashPerPlanet  = $config->bash_per_planet;
         $bashPerUser    = $config->bash_per_user;

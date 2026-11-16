@@ -67,8 +67,8 @@ class BattleEngineRust extends AbstractBattleEngine
 
     private function createRustJson(&$attackers, &$defenders, $simTries = 1): string
     {
-        $pricelist =& $this->state->pricelist;
-        $CombatCaps =& $this->state->CombatCaps;
+        $pricelist = $this->state->pricelist;
+        $CombatCaps = $this->state->CombatCaps;
 
         $data = [
             'rounds'   => 6,
@@ -125,8 +125,8 @@ class BattleEngineRust extends AbstractBattleEngine
 
     private function parseRustJson($json, &$attackers, &$defenders, $universe, $sim, $executionTime)
     {
-        $pricelist =& $this->state->pricelist;
-        $reslist =& $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $config = $this->configs->get($universe);
 

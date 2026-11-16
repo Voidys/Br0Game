@@ -9,7 +9,7 @@
       <h2 class="modal__title">{{ LNG.Achievement_names[id] }}</h2>
       <p class="achievement-info__text">{{ LNG.Achievement_text[id] }}</p>
       {% if unlocked is defined %}
-        <p class="achievement-info__state">{% if unlocked %}{{ icon('circle-check') }}{{ LNG.ach_unlocked_on|format(date) }}{% else %}{{ icon('lock') }}{{ LNG.ach_locked }}{% endif %}</p>
+        <p class="achievement-info__state">{% if unlocked %}{{ icon('circle-check') }}{{ LNG.format('ach_unlocked_on', date) }}{% else %}{{ icon('lock') }}{{ LNG.ach_locked }}{% endif %}</p>
       {% endif %}
     </div>
   </div>

@@ -86,7 +86,7 @@ class AllianceApplicationService
      */
     public function applicationTarget(int|string $allianceId): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $sql = "SELECT ally_tag, ally_request, ally_request_notallow, ally_owner, ally_members, ally_max_members, ally_request_min_points
             FROM %%ALLIANCE%% WHERE id = :allianceId AND ally_universe = :universe;";
@@ -111,7 +111,7 @@ class AllianceApplicationService
             $userPoints = $this->repository->userPoints($this->state->USER['id']);
             if ($userPoints < $allianceResult['ally_request_min_points']) {
                 throw AllianceException::message(
-                    sprintf($LNG['al_alliance_min_points'], $allianceResult['ally_request_min_points']),
+                    $LNG->format('al_alliance_min_points', $allianceResult['ally_request_min_points']),
                     $LNG['sys_forward'],
                     '?page=alliance',
                 );
@@ -174,8 +174,8 @@ class AllianceApplicationService
      */
     public function listFor(array $alliance): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $sql = "SELECT applyID, u.username, r.time FROM %%ALLIANCE_REQUEST%% r INNER JOIN %%USERS%% u"
             . " ON r.userId = u.id WHERE r.allianceId = :allianceId;";
@@ -231,7 +231,7 @@ class AllianceApplicationService
      */
     public function answer(array $alliance, int|string $applyID, string $answer, string $text): ?string
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "SELECT userId FROM %%ALLIANCE_REQUEST%% WHERE applyID = :applyID AND allianceId = :allianceId;";
@@ -318,19 +318,20 @@ class AllianceApplicationService
      */
     public function detailVariables(array $applyDetail, object $playerCard): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $view = $this->viewHelpers();
 
         $targetUserId = $applyDetail['id'];
         $stats = $playerCard->get_stats($targetUserId);
         $showPlayer = true;
         $showTotal = true;
-        $showBuild = $this->playerUtil()->spyTechAllowed(2, $targetUserId, $USER);
-        $showTech = $this->playerUtil()->spyTechAllowed(4, $targetUserId, $USER);
-        $showDef = $this->playerUtil()->spyTechAllowed(6, $targetUserId, $USER);
-        $showFleet = $this->playerUtil()->spyTechAllowed(6, $targetUserId, $USER);
-        $showBattle = $this->playerUtil()->spyTechAllowed(6, $targetUserId, $USER);
+        $viewer = $this->models()->user($USER);
+        $showBuild = $this->playerUtil()->spyTechAllowedFor(2, $targetUserId, $viewer);
+        $showTech = $this->playerUtil()->spyTechAllowedFor(4, $targetUserId, $viewer);
+        $showDef = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
+        $showFleet = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
+        $showBattle = $this->playerUtil()->spyTechAllowedFor(6, $targetUserId, $viewer);
 
         $player_data = $playerCard->get_player_data($stats, $showPlayer);
         $total_data = $playerCard->get_total_data($stats, $showTotal);
@@ -354,8 +355,8 @@ class AllianceApplicationService
             'apply_time'    => $view->formatDate($LNG['php_tdformat'], $applyDetail['time'], $USER['timezone']),
             'register_time' => $view->formatDate($LNG['php_tdformat'], $applyDetail['register_time'], $USER['timezone']),
             'onlinetime'    => $view->formatDate($LNG['php_tdformat'], $applyDetail['onlinetime'], $USER['timezone']),
-            'playerdestory' => sprintf($LNG['pl_destroy'], $player_data['username']),
-            'realdestory'   => sprintf($LNG['pl_destroy_real'], $player_data['username']),
+            'playerdestory' => $LNG->format('pl_destroy', $player_data['username']),
+            'realdestory'   => $LNG->format('pl_destroy_real', $player_data['username']),
             'tech_rank'     => $view->prettyNumber($tech_data['tech_rank']),
             'tech_points'   => $view->prettyNumber($tech_data['tech_points']),
             'build_rank'    => $view->prettyNumber($build_data['build_rank']),

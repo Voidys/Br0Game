@@ -31,7 +31,7 @@ class PassEncripterController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $Password = $this->http()->_GP('md5q', '', true);
 
         $this->assign([

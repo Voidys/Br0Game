@@ -4,14 +4,14 @@
   <h2>{{ LNG.upgrade_intro_welcome }}</h2>
   {% if not empty(updates) %}
     <form action="?mode=doupgrade" method="POST">
-      <p>{{ sprintf(LNG.upgrade_available, sql_revision, file_revision) }}</p>
+      <p>{{ LNG.format('upgrade_available', sql_revision, file_revision) }}</p>
       {% for file, content in (updates)|php_iter %}
         <div><p>{{ file }}</p><div class="install-diff">{{ content }}</div></div>
       {% endfor %}
       <div class="install-actions"><button type="submit" class="btn--primary">{{ LNG.continue }}</button></div>
     </form>
   {% else %}
-    <p>{{ sprintf(LNG.upgrade_notavailable, sql_revision) }}</p>
+    <p>{{ LNG.format('upgrade_notavailable', sql_revision) }}</p>
     <div class="install-actions"><a class="button" href="./">{{ LNG.upgrade_back }}</a></div>
   {% endif %}
 {% endblock %}

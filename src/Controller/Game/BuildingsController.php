@@ -50,7 +50,7 @@ class BuildingsController extends AbstractGameController
     private function cancelBuildingFromQueue(): bool
     {
         $PLANET = &$this->state->PLANET;
-        $USER = &$this->state->USER;
+        $USER = $this->state->USER;
         $CurrentQueue  = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
         if (empty($CurrentQueue)) {
             $PLANET['b_building_id']    = '';
@@ -133,10 +133,10 @@ class BuildingsController extends AbstractGameController
     private function addBuildingToQueue(int $Element, bool $AddMode = true): void
     {
         $PLANET = &$this->state->PLANET;
-        $USER = &$this->state->USER;
-        $resource = &$this->state->resource;
-        $reslist = &$this->state->reslist;
-        $pricelist = &$this->state->pricelist;
+        $USER = $this->state->USER;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
         if (
             !in_array($Element, $reslist['allow'][$PLANET['planet_type']])
             || !$this->buildFunctions()->isEnabled($Element)
@@ -223,9 +223,9 @@ class BuildingsController extends AbstractGameController
 
     private function getQueueData(): array
     {
-        $LNG = &$this->state->LNG;
-        $PLANET = &$this->state->PLANET;
-        $USER = &$this->state->USER;
+        $LNG = $this->state->LNG;
+        $PLANET = $this->state->PLANET;
+        $USER = $this->state->USER;
         $scriptData = [];
         $quickinfo = [];
 
@@ -476,7 +476,7 @@ class BuildingsController extends AbstractGameController
             ],
             'userLang'          => $USER['lang'],
             'isCatchUp'         => $config->catch_up,
-            'catchUp'           => sprintf($LNG['sys_catchup'], round((1 - $catchupFactor) * 100, 2)),
+            'catchUp'           => $LNG->format('sys_catchup', round((1 - $catchupFactor) * 100, 2)),
             'watch'             => $PLANET['watch_id'],
             'planet_field_current' => $PLANET['field_current'],
             'planet_field_max'     => $this->playerUtil()->calculateMaxPlanetFields($PLANET),

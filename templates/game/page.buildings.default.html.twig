@@ -47,7 +47,7 @@
             <br>
             {% if Element.infoEnergy %}
               {{ LNG.bd_next_level }}<br>
-              {{ (Element.infoEnergy.consumes ? LNG.bd_need_engine : LNG.bd_more_engine)|format(Element.infoEnergy.amount, LNG.tech[911]) }}<br>
+              {{ LNG.format(Element.infoEnergy.consumes ? 'bd_need_engine' : 'bd_more_engine', Element.infoEnergy.amount, LNG.tech[911]) }}<br>
             {% endif %}
           {% endif %}
         </div>
@@ -59,7 +59,7 @@
             {% endfor %}
             
             {% if Element.factor != null and empty(Element.requirements) and Element.buyable %}
-              <span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ sprintf(LNG.sys_catchup_short, Element.factor) }} %</span>
+              <span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
             {% endif %}
           </span>
           <br><br>

@@ -43,12 +43,12 @@ class GalaxyController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
         $config			= $this->configs->get();
         $db = $this->db;
 
@@ -160,7 +160,7 @@ class GalaxyController extends AbstractGameController
                     21 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_SPY),
                     22 => $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_RECYCLE),
                 ];
-                $THEME = & $this->state->THEME;
+                $THEME = $this->state->THEME;
                 $pirateBase['image'] = $THEME->asset("planeten/pirate_base.jpg");
             }
         }
@@ -170,7 +170,7 @@ class GalaxyController extends AbstractGameController
             'GalaxyRows'				=> $Result,
             'pirateBase'                => $pirateBase,
             'colonizable'               => $colonizable,
-            'planetcount'				=> sprintf($LNG['gl_populed_planets'], count($Result)),
+            'planetcount'				=> $LNG->format('gl_populed_planets', count($Result)),
             'galaxy'					=> $galaxy,
             'system'					=> $system,
             'planet'					=> '',

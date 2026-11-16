@@ -40,7 +40,7 @@ class VertifyController extends AbstractLoginController
 
     private function _activeUser()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $validationID	= $this->http()->_GP('i', 0);
         $validationKey	= $this->http()->_GP('k', '');
@@ -72,7 +72,7 @@ class VertifyController extends AbstractLoginController
         $accountID = $this->accountUtil()->createAccount($userData['accountname'], $userData['password'], $userData['email'], $userData['language'], 0, $userData['ip'], $userData['timezone']);
 
         if ($config->mail_active == 1) {
-            $MailSubject	= sprintf($LNG['registerMailCompleteTitle'], $config->game_name);
+            $MailSubject	= $LNG->format('registerMailCompleteTitle', $config->game_name);
             $MailRAW		= $LNG->getTemplate('email_reg_done');
             $MailContent	= str_replace([
                 '{USERNAME}',
@@ -128,8 +128,8 @@ class VertifyController extends AbstractLoginController
 
     public function json()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $userData	= $this->_activeUser();
-        $this->sendJSON(sprintf($LNG['vertifyAdminMessage'], $userData['accountname']));
+        $this->sendJSON($LNG->format('vertifyAdminMessage', $userData['accountname']));
     }
 }

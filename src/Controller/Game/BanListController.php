@@ -39,8 +39,8 @@ class BanListController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $page  	= $this->http()->_GP('side', 1);
         $db 	= $this->db;
 
@@ -69,7 +69,7 @@ class BanListController extends AbstractGameController
                 'to'		=> $this->viewHelpers()->formatDate($LNG['php_tdformat'], $banRow['longer'], $USER['timezone']),
                 'admin'		=> $banRow['author'],
                 'mail'		=> $banRow['email'],
-                'info'		=> sprintf($LNG['bn_writemail'], $banRow['author']),
+                'info'		=> $LNG->format('bn_writemail', $banRow['author']),
             ];
         }
 

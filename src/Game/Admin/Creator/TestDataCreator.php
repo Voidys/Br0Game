@@ -10,7 +10,7 @@ class TestDataCreator extends CreatorTab
     /** Shows the stage form, or creates the test players and ends with a success message. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if ($this->state->requestPost) {
             $this->createTestUser();
             $this->responder->message($LNG['test_data_success'], '?page=creator', 3, true);
@@ -29,8 +29,8 @@ class TestDataCreator extends CreatorTab
 
     private function createTestUser(): void
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $db = $this->db;
         $amount = $this->http()->_GP('amount', 1);
@@ -122,7 +122,7 @@ class TestDataCreator extends CreatorTab
 
     private function setTestTechData($userId, $stageData): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $db = $this->db;
 
@@ -140,7 +140,7 @@ class TestDataCreator extends CreatorTab
 
     private function setTestPlanetData($planetId, $stageData): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $fields = [];
         $params = [];
@@ -170,7 +170,7 @@ class TestDataCreator extends CreatorTab
 
     private function setTestMoonData($moonId, $stageData): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $fields = [];
         $params = [];

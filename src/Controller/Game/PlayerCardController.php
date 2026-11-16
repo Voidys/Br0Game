@@ -45,8 +45,8 @@ class PlayerCardController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
         $PlayerID 	= $this->http()->_GP('id', 0);
@@ -54,12 +54,13 @@ class PlayerCardController extends AbstractGameController
         $stats = $this->get_stats($PlayerID);
         $showPlayer = true;
         $showTotal = true;
-        $showBuild = $this->playerUtil()->spyTechAllowed(2, $PlayerID, $USER);
-        $showTech = $this->playerUtil()->spyTechAllowed(4, $PlayerID, $USER);
-        $showDef = $this->playerUtil()->spyTechAllowed(6, $PlayerID, $USER);
-        $showFleet = $this->playerUtil()->spyTechAllowed(6, $PlayerID, $USER);
-        $showBattle = $this->playerUtil()->spyTechAllowed(6, $PlayerID, $USER);
-        $showHonor = $this->playerUtil()->spyTechAllowed(6, $PlayerID, $USER);
+        $viewer = $this->models()->user($USER);
+        $showBuild = $this->playerUtil()->spyTechAllowedFor(2, $PlayerID, $viewer);
+        $showTech = $this->playerUtil()->spyTechAllowedFor(4, $PlayerID, $viewer);
+        $showDef = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showFleet = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showBattle = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
+        $showHonor = $this->playerUtil()->spyTechAllowedFor(6, $PlayerID, $viewer);
 
         $player_data = $this->get_player_data($stats, $showPlayer);
         $total_data = $this->get_total_data($stats, $showTotal);
@@ -94,8 +95,8 @@ class PlayerCardController extends AbstractGameController
             'total_rank'            => $this->viewHelpers()->prettyNumber($total_data['total_rank']),
             'total_points'          => $this->viewHelpers()->prettyNumber($total_data['total_points']),
             'allyname'		        => $player_data['ally_name'],
-            'playerdestory'         => sprintf($LNG['pl_destroy'], $player_data['username']),
-            'realdestory'           => sprintf($LNG['pl_destroy_real'], $player_data['username']),
+            'playerdestory'         => $LNG->format('pl_destroy', $player_data['username']),
+            'realdestory'           => $LNG->format('pl_destroy_real', $player_data['username']),
             'wons'                  => $this->viewHelpers()->prettyNumber($battle_stats['wons']),
             'loos'                  => $this->viewHelpers()->prettyNumber($battle_stats['loos']),
             'draws'                 => $this->viewHelpers()->prettyNumber($battle_stats['draws']),
@@ -423,7 +424,7 @@ class PlayerCardController extends AbstractGameController
      */
     public function toggleBlock()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $this->setWindow('ajax');

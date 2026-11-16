@@ -599,9 +599,7 @@ cff_no_fleet_data: No fleet data
 cff_ships: ' units'
 colonyWarn: Warning when colonising more than 2 planets in a system
 css_account_banned_expire: >-
-  You are banned until %s!<br>In case of questions, please open a ticket on our
-  <a style="color: -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord
-  server (link)</a>
+  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
 css_account_banned_message: Your account has been banned!
 css_account_banned_reason: 'Reason: %s'
 css_goto_homeside: <a href="./">Go to the homepage</a>

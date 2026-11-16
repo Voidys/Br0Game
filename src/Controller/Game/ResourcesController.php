@@ -39,7 +39,7 @@ class ResourcesController extends AbstractGameController
 
     public function send()
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $USER = & $this->state->USER;
         $PLANET = & $this->state->PLANET;
         if ($USER['urlaubs_modus'] == 0) {
@@ -308,7 +308,7 @@ class ResourcesController extends AbstractGameController
         }
 
         $this->assign([
-            'header'                            => sprintf($LNG['rs_production_on_planet'], $PLANET['name']),
+            'header'                            => $LNG->format('rs_production_on_planet', $PLANET['name']),
             'prodSelector'                      => $prodSelector,
             'productionList'                    => $productionList,
             'basicProduction'                   => $basicProduction,

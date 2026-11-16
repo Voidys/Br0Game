@@ -25,8 +25,8 @@ class SpyReportPopupController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $this->setWindow('popup');
 
         $galaxy = $this->http()->_GP('galaxy', 0);

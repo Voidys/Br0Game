@@ -307,7 +307,7 @@ class FleetLauncher
      */
     private function takeFromStartPlanet(array $fleetArray, array $fleetResource, int $fleetStartPlanetID, float $consumption): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $fleetData = [];
 
         $params = [':planetId' => $fleetStartPlanetID];

@@ -26,6 +26,12 @@ trait GameUtilities
         return $this->gameUtilityInstances[HTTP::class] ??= new HTTP($this->state);
     }
 
+    /** factory of the typed User/Planet snapshots built from the state arrays */
+    protected function models(): \App\Game\Model\ModelFactory
+    {
+        return $this->gameUtilityInstances[\App\Game\Model\ModelFactory::class] ??= new \App\Game\Model\ModelFactory($this->state);
+    }
+
     protected function playerUtil(): PlayerUtil
     {
         return $this->gameUtility(PlayerUtil::class);

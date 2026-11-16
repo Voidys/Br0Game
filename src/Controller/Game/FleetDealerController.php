@@ -37,11 +37,11 @@ class FleetDealerController extends AbstractGameController
 
     public function send()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
+        $LNG = $this->state->LNG;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
         $shipID = $this->http()->_GP('shipID', 0);
         $Count = max(0, round($this->http()->_GP('count', 0.0)));
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);
@@ -126,11 +126,11 @@ class FleetDealerController extends AbstractGameController
 
     public function show(): Response
     {
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $Cost = [];
 
         $allowedShipIDs = explode(',', $this->configs->get()->trade_allowed_ships);

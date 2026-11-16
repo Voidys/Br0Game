@@ -2,6 +2,9 @@
 
 namespace App\Game\Core;
 
+use App\Game\Model\Planet;
+use App\Game\Model\User;
+
 /**
  * Pure production maths of a planet: eco hash, storage/energy/production-per-hour rebuild from the vars-table formulas
  * (via FormulaEvaluator) and the stock integration over a time span.
@@ -24,15 +27,27 @@ class ResourceProduction
      *
      * @param array<string, mixed> $user
      * @param array<string, mixed> $planet
+     * @deprecated use hashFor() with typed User/Planet
      */
     public function createHash(array $user, array $planet, Config $config): string
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
+
+        return $this->hashFor(User::fromState($user, $resource), Planet::fromState($planet, $resource), $config);
+    }
+
+    /**
+     * Typed version of createHash(). The hash string is identical to the array version (it is stored in
+     * `planets.eco_hash` and compared on every update).
+     */
+    public function hashFor(User $user, Planet $planet, Config $config): string
+    {
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $hash = [];
         foreach ($reslist['prod'] as $id) {
-            $hash[] = $planet[$resource[$id]];
-            $hash[] = $planet[$resource[$id] . '_porcent'];
+            $hash[] = $planet->level($id);
+            $hash[] = $planet->productionRate($id);
         }
 
         $ressource = array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]);
@@ -43,13 +58,13 @@ class ResourceProduction
         $hash[] = $config->resource_multiplier;
         $hash[] = $config->storage_multiplier;
         $hash[] = $config->energy_multiplier;
-        $hash[] = $planet[$resource[22]];
-        $hash[] = $planet[$resource[23]];
-        $hash[] = $planet[$resource[24]];
-        $hash[] = $user[$resource[113]];
-        $hash[] = $user[$resource[131]];
-        $hash[] = $user[$resource[132]];
-        $hash[] = $user[$resource[133]];
+        $hash[] = $planet->level(METAL_STORE);
+        $hash[] = $planet->level(CRYSTAL_STORE);
+        $hash[] = $planet->level(DEUTERIUM_STORE);
+        $hash[] = $user->level(ENERGY_TECH);
+        $hash[] = $user->level(METAL_PROC_TECH);
+        $hash[] = $user->level(CRYSTAL_PROC_TECH);
+        $hash[] = $user->level(DEUTERIUM_PROC_TECH);
 
         return md5(implode('::', $hash));
     }
@@ -66,49 +81,67 @@ class ResourceProduction
      * @param array<string, mixed> $planet
      * @return array<string, mixed> the planet with the recomputed fields
      * @throws FormulaException when a stored formula is invalid
+     * @deprecated use rebuildFor() with typed User/Planet
      */
     public function rebuild(array $user, array $planet, Config $config): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
+        return array_replace(
+            $planet,
+            $this->rebuildFor(User::fromState($user, $resource), Planet::fromState($planet, $resource), $config),
+        );
+    }
+
+    /**
+     * Typed version of rebuild(): returns only the recomputed planet fields (see rebuild() for the rules), keyed by
+     * column name, so the caller can merge them into the state array.
+     *
+     * @return array<string, float|int> metal_max, crystal_max, deuterium_max, energy, energy_used, metal_perhour,
+     *                                  crystal_perhour, deuterium_perhour
+     * @throws FormulaException when a stored formula is invalid
+     */
+    public function rebuildFor(User $user, Planet $planet, Config $config): array
+    {
         // Moons get no basic income: produce() returns early for them, the shared config stays untouched.
         $temp = $this->sumBuildings($user, $planet);
 
-        $planet['metal_max'] = $temp[901]['max'] * $config->storage_multiplier;
-        $planet['crystal_max'] = $temp[902]['max'] * $config->storage_multiplier;
-        $planet['deuterium_max'] = $temp[903]['max'] * $config->storage_multiplier;
+        $out = [];
+        $out['metal_max'] = $temp[901]['max'] * $config->storage_multiplier;
+        $out['crystal_max'] = $temp[902]['max'] * $config->storage_multiplier;
+        $out['deuterium_max'] = $temp[903]['max'] * $config->storage_multiplier;
 
-        $planet['energy'] = round($temp[911]['plus'] * $config->energy_multiplier);
-        $planet['energy_used'] = $temp[911]['minus'] * $config->energy_multiplier;
+        $out['energy'] = round($temp[911]['plus'] * $config->energy_multiplier);
+        $out['energy_used'] = $temp[911]['minus'] * $config->energy_multiplier;
         // Without energy consumers (all mines off) there is nothing to throttle, but the fusion plant still burns its
         // deuterium (like OGame, the reactor runs at its set level regardless of consumers), so production is not zeroed.
-        $energyUsed = abs($planet['energy_used']);
-        $prodLevel = $energyUsed > 0 ? min(1, $planet['energy'] / $energyUsed) : 1;
+        $energyUsed = abs($out['energy_used']);
+        $prodLevel = $energyUsed > 0 ? min(1, $out['energy'] / $energyUsed) : 1;
 
         $metalBonus = 1;
         $crystalBonus = 1;
         $deuteriumBonus = 1;
         if ($config->planet_ressource_bonus) {
-            $metalBonus = 1 + $planet['metal_bonus_percent'] / 100;
-            $crystalBonus = 1 + $planet['crystal_bonus_percent'] / 100;
-            $deuteriumBonus = 1 + $planet['deuterium_bonus_percent'] / 100;
+            $metalBonus = 1 + $planet->metalBonusPercent / 100;
+            $crystalBonus = 1 + $planet->crystalBonusPercent / 100;
+            $deuteriumBonus = 1 + $planet->deuteriumBonusPercent / 100;
         }
 
         // $temp[x]['plus'] regular growth, (1 + 0.02 * tech) maximiser, $prodLevel energy factor on deficit,
         // $temp[x]['minus'] consumption (deuterium), resource_multiplier economy speed
-        $planet['metal_perhour'] = (
-            ($temp[901]['plus'] * $metalBonus) * (1 + 0.02 * $user[$resource[131]]) * $prodLevel + $temp[901]['minus']
+        $out['metal_perhour'] = (
+            ($temp[901]['plus'] * $metalBonus) * (1 + 0.02 * $user->level(METAL_PROC_TECH)) * $prodLevel + $temp[901]['minus']
         ) * ($config->resource_multiplier / 2500);
 
-        $planet['crystal_perhour'] = (
-            ($temp[902]['plus'] * $crystalBonus) * (1 + 0.02 * $user[$resource[132]]) * $prodLevel + $temp[902]['minus']
+        $out['crystal_perhour'] = (
+            ($temp[902]['plus'] * $crystalBonus) * (1 + 0.02 * $user->level(CRYSTAL_PROC_TECH)) * $prodLevel + $temp[902]['minus']
         ) * ($config->resource_multiplier / 2500);
 
-        $planet['deuterium_perhour'] = (
-            ($temp[903]['plus'] * $deuteriumBonus) * (1 + 0.02 * $user[$resource[133]]) * $prodLevel + $temp[903]['minus']
+        $out['deuterium_perhour'] = (
+            ($temp[903]['plus'] * $deuteriumBonus) * (1 + 0.02 * $user->level(DEUTERIUM_PROC_TECH)) * $prodLevel + $temp[903]['minus']
         ) * ($config->resource_multiplier / 2500);
 
-        return $planet;
+        return $out;
     }
 
     /**
@@ -160,25 +193,38 @@ class ResourceProduction
      * @param array<string, mixed> $user
      * @param array<string, mixed> $planet
      * @return list<int|string>
+     * @deprecated use networkLevelFor() with typed User/Planet
      */
     public function getNetworkLevel(array $user, array $planet): array
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
-        $researchLevelList = [$planet[$resource[31]]];
-        if ($user[$resource[123]] > 0) {
+        return $this->networkLevelFor(User::fromState($user, $resource), Planet::fromState($planet, $resource));
+    }
+
+    /**
+     * Typed version of getNetworkLevel(). Reads the DB (the user's other planets, best labs first).
+     *
+     * @return list<int>
+     */
+    public function networkLevelFor(User $user, Planet $planet): array
+    {
+        $resource = $this->state->resource;
+
+        $researchLevelList = [$planet->level(RESEARCH_LABORATORY)];
+        if ($user->level(INTERGALACTIC_TECH) > 0) {
             $sql = 'SELECT ' . $resource[31]
                     . ' FROM %%PLANETS%% WHERE id != :planetId AND id_owner = :userId AND destruyed = 0 ORDER BY '
                     . $resource[31] . ' DESC LIMIT :limit;';
 
             $researchResult = $this->db->select($sql, [
-                ':limit'    => (int) $user[$resource[123]],
-                ':planetId' => $planet['id'],
-                ':userId'   => $user['id'],
+                ':limit'    => $user->level(INTERGALACTIC_TECH),
+                ':planetId' => $planet->id,
+                ':userId'   => $user->id,
             ]);
 
             foreach ($researchResult as $researchRow) {
-                $researchLevelList[] = $researchRow[$resource[31]];
+                $researchLevelList[] = (int) $researchRow[$resource[31]];
             }
         }
 
@@ -200,15 +246,14 @@ class ResourceProduction
      * Sums the storage capacity per resource and the production/consumption per resource and energy over all
      * storage and production buildings.
      *
-     * @param array<string, mixed> $user
-     * @param array<string, mixed> $planet
+     * @param User $user
+     * @param Planet $planet
      * @return array<int, array<string, float|int>> keyed by 901/902/903 (max, plus, minus) and 911 (plus, minus)
      */
-    private function sumBuildings(array $user, array $planet): array
+    private function sumBuildings(User $user, Planet $planet): array
     {
-        $ProdGrid = & $this->state->ProdGrid;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $ProdGrid = $this->state->ProdGrid;
+        $reslist = $this->state->reslist;
 
         $temp = [
             901 => ['max' => 0, 'plus' => 0, 'minus' => 0],
@@ -218,8 +263,8 @@ class ResourceProduction
         ];
 
         /* Data for the formulas */
-        $BuildTemp = $planet['temp_max'];
-        $BuildEnergy = $user[$resource[113]];
+        $BuildTemp = $planet->tempMax;
+        $BuildEnergy = $user->level(ENERGY_TECH);
 
         foreach ($reslist['storage'] as $ProdID) {
             foreach ($reslist['resstype'][1] as $ID) {
@@ -227,7 +272,7 @@ class ResourceProduction
                     continue;
                 }
 
-                $BuildLevel = $planet[$resource[$ProdID]];
+                $BuildLevel = $planet->level($ProdID);
                 $temp[$ID]['max'] += round($this->runFormula(
                     $ProdGrid[$ProdID]['storage'][$ID],
                     $BuildLevel,
@@ -241,8 +286,8 @@ class ResourceProduction
         $ressIDs = array_merge([], $reslist['resstype'][1], $reslist['resstype'][2]);
 
         foreach ($reslist['prod'] as $ProdID) {
-            $BuildLevelFactor = $planet[$resource[$ProdID] . '_porcent'];
-            $BuildLevel = $planet[$resource[$ProdID]];
+            $BuildLevelFactor = $planet->productionRate($ProdID);
+            $BuildLevel = $planet->level($ProdID);
 
             foreach ($ressIDs as $ID) {
                 if (!isset($ProdGrid[$ProdID]['production'][$ID])) {
@@ -280,7 +325,7 @@ class ResourceProduction
      */
     private function addProduction(array &$planet, array &$builded, int $resourceType, int|float $produced, int|float $storage): void
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         if ($produced < 0) {
             if ($planet[$resource[$resourceType]] + $produced < 0) {

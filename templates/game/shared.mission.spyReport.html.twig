@@ -106,7 +106,7 @@
 	{% endfor %}
 	<div class="spyRaportFooter">
 		<a href="game?page=fleetTable&amp;galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={% if targetPlanet.planet_type < 4 %}1">{{ LNG.type_mission_1 }}{% else %}20">{{ LNG.type_mission_20 }}{% endif %}</a>
-		<br>{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ sprintf(LNG.sys_mess_spy_lostproba, targetChance) }}{% endif %}
+		<br>{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ LNG.format('sys_mess_spy_lostproba', targetChance) }}{% endif %}
 		{% if isBattleSim %}<br><a target="_blank" href="game?page=battleSimulator{% for Class, elementIDs in (spyData)|php_iter %}{% for elementID, amount in (elementIDs)|php_iter %}&amp;im[{{ elementID }}]={{ amount|intval }}{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
 	</div>
 </div>

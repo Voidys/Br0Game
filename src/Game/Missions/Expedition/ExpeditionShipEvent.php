@@ -34,7 +34,7 @@ class ExpeditionShipEvent extends ExpeditionEvent
      */
     private function determineFoundShips(int $foundPoints, array $findableShips): array
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         $Found = [];
         $upperValue = 3;
 
@@ -86,7 +86,7 @@ class ExpeditionShipEvent extends ExpeditionEvent
      */
     public function run(): string
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
 
         $LNG = $this->LNG;
         $Size = 0;

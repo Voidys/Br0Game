@@ -26,7 +26,7 @@ class HangarQueueProcessor
      */
     public function process(QueueState $st)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $BuildQueue = !empty($st->planet['b_hangar_id']) ? StoredData::decode($st->planet['b_hangar_id']) : [];
         if (!$BuildQueue) {
@@ -37,8 +37,10 @@ class HangarQueueProcessor
 
         $st->planet['b_hangar']   += ($st->time - $st->planet['last_update']);
         $BuildArray = [];
+        $userModel = $this->models()->user($st->user);
+        $planetModel = $this->models()->planet($st->planet);
         foreach ($BuildQueue as $Item) {
-            $AcumTime = $this->buildFunctions()->getBuildingTime($st->user, $st->planet, $Item[0]);
+            $AcumTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $Item[0]);
             $BuildArray[] = [$Item[0], $Item[1], $AcumTime];
         }
 

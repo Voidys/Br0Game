@@ -36,8 +36,8 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
 
     public function TargetEvent()
     {
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
         $db = $this->db;
         $config = $this->configs->get($this->_fleet['universe']);
 
@@ -204,7 +204,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function getDangerValue($spyData)
     {
-        $CombatCaps = & $this->state->CombatCaps;
+        $CombatCaps = $this->state->CombatCaps;
         $dangerValue = 0;
 
         // ships
@@ -234,7 +234,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
      */
     public function getRecyleValue($spyData)
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
         $config = $this->configs->get($this->_fleet['universe']);
         $fleetIntoDebris = $config->fleet_debris_percentage;
@@ -263,7 +263,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
 
     public function estimateRecyclers($recycleValue)
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         return ceil($recycleValue / $pricelist[SHIP_RECYCLER]["capacity"]) + 1;
     }
 
@@ -294,7 +294,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
 
     private function getClassIDs($fleetAmount, $senderSpyTech, $targetSpyTech) : array
     {
-        $reslist =& $this->state->reslist;
+        $reslist = $this->state->reslist;
         $classIDs = [];
 
         $techDifference = abs($senderSpyTech - $targetSpyTech);

@@ -44,7 +44,7 @@ class ShipyardController extends AbstractGameController
 
     private function cancelAuftr(): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
         $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
 
@@ -86,10 +86,10 @@ class ShipyardController extends AbstractGameController
 
     private function buildAuftr(array $fmenge): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         // Working copy: resources already committed to earlier entries of this order are not available again
         $availablePlanet = $PLANET;
         $maxBuildQueue = $this->configs->get()->max_elements_ships;
@@ -162,12 +162,12 @@ class ShipyardController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $requeriments = & $this->state->requeriments;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $LNG = $this->state->LNG;
+        $requeriments = $this->state->requeriments;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         if ($PLANET[$resource[SHIPYARD]] == 0) {
             $this->printMessage($LNG['bd_shipyard_required']);
         }
@@ -198,7 +198,7 @@ class ShipyardController extends AbstractGameController
             if (!empty($buildTodo)) {
                 $maxBuildQueue = $this->configs->get()->max_elements_ships;
                 if ($maxBuildQueue != 0 && $Count >= $maxBuildQueue) {
-                    $this->printMessage(sprintf($LNG['bd_max_builds'], $maxBuildQueue));
+                    $this->printMessage($LNG->format('bd_max_builds', $maxBuildQueue));
                 }
 
                 $db = $this->db;

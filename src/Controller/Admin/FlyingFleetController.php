@@ -33,7 +33,7 @@ class FlyingFleetController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         $USER = &$this->state->USER;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);

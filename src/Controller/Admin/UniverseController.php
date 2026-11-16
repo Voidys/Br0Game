@@ -45,7 +45,7 @@ class UniverseController extends AbstractAdminController
 
     protected function construct(): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         if ($USER['authlevel'] != AUTH_ADM) {
             throw new Exception("Permission error!");
@@ -58,7 +58,7 @@ class UniverseController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $action = $this->http()->_GP('action', '');
@@ -271,7 +271,7 @@ class UniverseController extends AbstractAdminController
                     ]);
                 }
 
-                $modules = & $this->state->modules;
+                $modules = $this->state->modules;
                 foreach ($modules as $moduleKey => $moduleName) {
                     $sql = 'INSERT INTO %%CONFIG_UNIVERSE_MODULES%% (`uni`, `module`, `module_name`, `state`)
                     VALUES (:uni, :module, :module_name, :state)';

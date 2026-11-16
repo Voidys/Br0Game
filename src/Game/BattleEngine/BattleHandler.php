@@ -294,8 +294,8 @@ class BattleHandler
     public function calculateSteal($attackFleets, $defenderPlanet, $universe, $simulate = false)
     {
         // See: http://www.owiki.de/Beute
-        $pricelist =& $this->state->pricelist;
-        $resource =& $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
         $firstResource = RESOURCE_METAL;
         $secondResource = RESOURCE_CRYSTAL;
         $thirdResource = RESOURCE_DEUT;
@@ -479,8 +479,8 @@ class BattleHandler
 
     public function calculateMinCapacity(array $defenderPlanet): int
     {
-        $pricelist =& $this->state->pricelist;
-        $resource  =& $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $resource  = $this->state->resource;
 
         $targetResource = [
             RESOURCE_METAL   => $defenderPlanet[$resource[RESOURCE_METAL]]   / 2,

@@ -55,7 +55,7 @@ class LostPasswordController extends AbstractLoginController
 
     public function newPassword()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $accountID		= $this->http()->_GP('u', 0);
         $validationKey	= $this->http()->_GP('k', '');
 
@@ -112,7 +112,7 @@ class LostPasswordController extends AbstractLoginController
         ], $MailRAW);
 
         if ($config->mail_active && !empty($config->smtp_host)) {
-            $subject	= sprintf($LNG['passwordChangedMailTitle'], $config->game_name);
+            $subject	= $LNG->format('passwordChangedMailTitle', $config->game_name);
             $this->mailer()->send($accountData['mail'], $accountData['accountname'], $subject, $MailContent);
 
             $this->printMessage($LNG['passwordChangedMailSend'], [[
@@ -129,7 +129,7 @@ class LostPasswordController extends AbstractLoginController
 
     public function send()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $accountname	= $this->http()->_GP('username', '', UTF8_SUPPORT);
         $mail		= $this->http()->_GP('mail', '', true);
 
@@ -216,7 +216,7 @@ class LostPasswordController extends AbstractLoginController
             $this->canonicalUrl->forPage($this->state->runtime, './?page=lostPassword&mode=newPassword&u=' . $accountID . '&k=' . $validationKey),
         ], $MailRAW);
 
-        $subject	= sprintf($LNG['passwordValidMailTitle'], $config->game_name);
+        $subject	= $LNG->format('passwordValidMailTitle', $config->game_name);
         $this->mailer()->send($mail, $accountname, $subject, $MailContent);
 
         $this->printMessage($LNG['passwordValidMailSend'], [[

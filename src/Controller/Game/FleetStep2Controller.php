@@ -42,10 +42,10 @@ class FleetStep2Controller extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
         $this->addScript('flotten.js');
         $config = $this->configs->get();
 
@@ -153,13 +153,14 @@ class FleetStep2Controller extends AbstractGameController
             }
         }
         $GameSpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
-        $MaxFleetSpeed = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $USER);
+        $userModel = $this->models()->user($USER);
+        $MaxFleetSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
         $distance = $this->fleetFunctions()->getTargetDistance(
             [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
             [$targetGalaxy, $targetSystem, $targetPlanet],
         );
-        $duration = $this->fleetFunctions()->getMissionDuration($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $USER);
-        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $duration, $distance, $USER, $GameSpeedFactor);
+        $duration = $this->fleetFunctions()->missionDurationFor($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $userModel);
+        $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $duration, $distance, $userModel, $GameSpeedFactor);
 
         if ($consumption > $PLANET['deuterium']) {
             $this->printMessage($LNG['fl_not_enough_deuterium'], [[
@@ -258,29 +259,25 @@ class FleetStep2Controller extends AbstractGameController
             if ($config->noob_protection_outlaw) {
 
                 $targetPlayerData = $this->playerUtil()->getPlayerById($targetPlanetData['id_owner']);
-                $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $targetPlayerData);
+                $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetPlayerData));
 
                 if ($IsNoobProtec['StrongPlayer']) {
-                    $question = sprintf(
-                        $LNG['fl_attack_confirm_outlaw'],
+                    $question = $LNG->format('fl_attack_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
 
-                    $questionHold = sprintf(
-                        $LNG['fl_hold_confirm_outlaw'],
+                    $questionHold = $LNG->format('fl_hold_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
 
-                    $questionSpy = sprintf(
-                        $LNG['fl_spy_confirm_outlaw'],
+                    $questionSpy = $LNG->format('fl_spy_confirm_outlaw',
                         $targetPlayerData['username'],
                     );
                     $questionList[MISSION_HOLD] = $questionHold;
                     $questionList[MISSION_SPY] = $questionSpy;
                 }
             } elseif ($targetAllianceData) {
-                $question = sprintf(
-                    $LNG['fl_attack_confirm_diplo'],
+                $question = $LNG->format('fl_attack_confirm_diplo',
                     (($targetAllianceData['owner_2'] == $targetAllianceData['id'] && $targetAllianceData['level'] == 1) ? $LNG['al_diplo_level'][0] : $LNG['al_diplo_level'][$targetAllianceData['level']]),
                     '[' . $targetAllianceData['ally_tag'] . '] ' . $targetAllianceData['ally_name'],
                 );
@@ -379,9 +376,9 @@ class FleetStep2Controller extends AbstractGameController
 
     public function checkResources(): void
     {
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $targetMission = $this->http()->_GP('mission', MISSION_TRANSPORT);
         $TransportMetal = max(0, round($this->http()->_GP('metal', 0.0)));
@@ -392,10 +389,10 @@ class FleetStep2Controller extends AbstractGameController
         $markettype = $this->http()->_GP('markettype', 0); //0 = resources, 1 = ships
 
         if ($PLANET['metal'] < $TransportMetal) {
-            $this->sendJSON(sprintf($LNG['fl_not_enough'], $LNG['tech'][RESOURCE_METAL]));
+            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_METAL]));
         }
         if ($PLANET['crystal'] < $TransportCrystal) {
-            $this->sendJSON(sprintf($LNG['fl_not_enough'], $LNG['tech'][RESOURCE_CRYSTAL]));
+            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_CRYSTAL]));
         }
 
         $token = $this->http()->_GP('token', '');
@@ -412,12 +409,13 @@ class FleetStep2Controller extends AbstractGameController
         $fleetStorage = $formData['fleetRoom'];
 
         $GameSpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
-        $MaxFleetSpeed = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $USER);
-        $duration = $this->fleetFunctions()->getMissionDuration($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $USER);
-        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $duration, $distance, $USER, $GameSpeedFactor);
+        $userModel = $this->models()->user($USER);
+        $MaxFleetSpeed = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
+        $duration = $this->fleetFunctions()->missionDurationFor($fleetSpeed, $MaxFleetSpeed, $distance, $GameSpeedFactor, $userModel);
+        $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $duration, $distance, $userModel, $GameSpeedFactor);
 
         if ($PLANET['deuterium'] < $TransportDeuterium + $consumption) {
-            $this->sendJSON(sprintf($LNG['fl_not_enough'], $LNG['tech'][RESOURCE_DEUT]));
+            $this->sendJSON($LNG->format('fl_not_enough', $LNG['tech'][RESOURCE_DEUT]));
         }
 
         if ($fleetStorage < $TransportMetal + $TransportCrystal + $TransportDeuterium + $consumption || $fleetStorage < $WantedResourceAmount) {
@@ -437,11 +435,11 @@ class FleetStep2Controller extends AbstractGameController
             }
 
             if ($TransportMetal > 0 && $WantedResourceType == 1) {
-                $this->sendJSON(sprintf($LNG['fl_trade_same_resource'], $LNG['tech'][RESOURCE_METAL], $LNG['tech'][RESOURCE_METAL]));
+                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_METAL], $LNG['tech'][RESOURCE_METAL]));
             } elseif ($TransportCrystal > 0 && $WantedResourceType == 2) {
-                $this->sendJSON(sprintf($LNG['fl_trade_same_resource'], $LNG['tech'][RESOURCE_CRYSTAL], $LNG['tech'][RESOURCE_CRYSTAL]));
+                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_CRYSTAL], $LNG['tech'][RESOURCE_CRYSTAL]));
             } elseif ($TransportDeuterium > 0 && $WantedResourceType == 3) {
-                $this->sendJSON(sprintf($LNG['fl_trade_same_resource'], $LNG['tech'][RESOURCE_DEUT], $LNG['tech'][RESOURCE_DEUT]));
+                $this->sendJSON($LNG->format('fl_trade_same_resource', $LNG['tech'][RESOURCE_DEUT], $LNG['tech'][RESOURCE_DEUT]));
             }
         }
 

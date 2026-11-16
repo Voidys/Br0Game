@@ -50,8 +50,7 @@ class QueueFailureNotifier
         }
         $view = $this->viewHelpers();
 
-        return sprintf(
-            $LNG['sys_notenough_money'],
+        return $LNG->format('sys_notenough_money',
             $planet['name'],
             $planet['id'],
             $planet['galaxy'],

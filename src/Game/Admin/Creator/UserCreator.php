@@ -10,8 +10,8 @@ class UserCreator extends CreatorTab
     /** Shows the creation form, or creates the object from the posted form and shows the result. */
     public function handle(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $LNG->includeData(['PUBLIC']);
         if ($this->state->requestPost) {
             $UserName = $this->http()->_GP('name', '', UTF8_SUPPORT);
@@ -86,7 +86,7 @@ class UserCreator extends CreatorTab
                 $UserAuth,
             );
 
-            $this->responder->message(sprintf($LNG['new_user_success'], $player[0], $player[1]), '?page=creator&mode=user', 5, true);
+            $this->responder->message($LNG->format('new_user_success', $player[0], $player[1]), '?page=creator&mode=user', 5, true);
         }
 
         $AUTH = [];

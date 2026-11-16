@@ -41,9 +41,9 @@ class BattleSimulatorController extends AbstractGameController
 
     public function send()
     {
-        $reslist = & $this->state->reslist;
-        $pricelist = & $this->state->pricelist;
-        $LNG = & $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $LNG = $this->state->LNG;
         $USER = & $this->state->USER;
         if (!isset($this->state->requestInput['battleinput'])) {
             $this->sendJSON(0);
@@ -201,8 +201,7 @@ class BattleSimulatorController extends AbstractGameController
         $chanceCreateMoon = floor($debrisTotal / 100000 * $moonFactor);
         $chanceCreateMoon = min($chanceCreateMoon, $maxMoonChance);
 
-        $stealResourceInformation = sprintf(
-            $LNG['bs_steal_raport'],
+        $stealResourceInformation = $LNG->format('bs_steal_raport',
             $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_SMALL_CARGO]['capacity'])),
             $LNG['tech'][SHIP_SMALL_CARGO],
             $this->viewHelpers()->prettyNumber(ceil($capacityNeeded / $pricelist[SHIP_LARGE_CARGO]['capacity'])),
@@ -308,10 +307,10 @@ class BattleSimulatorController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $Slots = $this->http()->_GP('slots', 1);
         $action = $this->http()->_GP('action', '');
 

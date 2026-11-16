@@ -27,26 +27,26 @@ class OverviewController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $Message = [];
         if ($USER['authlevel'] >= AUTH_ADM) {
             if (file_exists($this->state->runtime->rootPath . 'update.php')) {
-                $Message[] = sprintf($LNG['ow_file_detected'], 'update.php');
+                $Message[] = $LNG->format('ow_file_detected', 'update.php');
             }
 
             if (file_exists($this->state->runtime->rootPath . 'webinstall.php')) {
-                $Message[] = sprintf($LNG['ow_file_detected'], 'webinstall.php');
+                $Message[] = $LNG->format('ow_file_detected', 'webinstall.php');
             }
 
             if (file_exists('var/ENABLE_INSTALL_TOOL')) {
-                $Message[] = sprintf($LNG['ow_file_detected'], 'var/ENABLE_INSTALL_TOOL');
+                $Message[] = $LNG->format('ow_file_detected', 'var/ENABLE_INSTALL_TOOL');
             }
 
             // runtime data lives in var/ (game caches, sessions, logs)
             foreach (['var/game', 'var/sessions', 'var/log'] as $dir) {
                 if (!is_writable($this->state->runtime->rootPath . $dir)) {
-                    $Message[] = sprintf($LNG['ow_dir_not_writable'], $dir);
+                    $Message[] = $LNG->format('ow_dir_not_writable', $dir);
                 }
             }
         }
@@ -63,7 +63,7 @@ class OverviewController extends AbstractAdminController
         $cronjobs = $db->select('SELECT name, nextTime, `lock` FROM %%CRONJOBS%% WHERE isActive = 1 ORDER BY nextTime;');
         $stuckCronjobs = array_values(array_filter($cronjobs, static fn(array $job): bool => !empty($job['lock'])));
         if ($USER['authlevel'] >= AUTH_ADM && $stuckCronjobs !== []) {
-            $Message[] = sprintf($LNG['adm_dash_cron_locked'], implode(', ', array_column($stuckCronjobs, 'name')));
+            $Message[] = $LNG->format('adm_dash_cron_locked', implode(', ', array_column($stuckCronjobs, 'name')));
         }
         $config = $this->configs->get($universe);
         $uniStatusLabels = [0 => 'se_uni_status_regopen_gameopen', 1 => 'se_uni_status_regclosed_gameclosed', 2 => 'se_uni_status_regopen_gameclosed', 3 => 'se_uni_status_regclosed_gameopen'];

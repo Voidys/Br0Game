@@ -32,7 +32,7 @@ class PlayerMessenger
      */
     public function forwardMessage(int|array $userId, int $senderId, int $messageId): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         if (!is_array($userId)) {

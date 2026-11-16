@@ -47,6 +47,9 @@ final class GameEntryController
         private readonly ConfigRegistry $configs,
         private readonly Singleton $state,
         private readonly Installer $installer,
+        // handed to error pages built here: an unknown admin page shows the admin password prompt, which rate-limits
+        private readonly \App\Security\AuthRateLimits $rateLimits,
+        private readonly \App\Runtime\CanonicalUrl $canonicalUrl,
         #[Autowire(param: 'kernel.project_dir')]
         private readonly string $projectDir,
     ) {}
@@ -96,6 +99,7 @@ final class GameEntryController
 
             $errorPage = new AdminErrorPage();
             $errorPage->setGameServices($this->db, $this->configs, $this->state);
+            $errorPage->setSecurityServices($this->rateLimits, $this->canonicalUrl);
             $errorPage->initialize();
             $errorPage->setMessage($this->state->LNG['page_doesnt_exist']);
             $errorPage->show();

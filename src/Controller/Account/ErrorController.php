@@ -29,7 +29,7 @@ class ErrorController extends AbstractAccountController
             'username'          => $ACCOUNT['accountname'],
             'authlevel'         => $ACCOUNT['authlevel'],
             'toplink'           => "account?page=account",
-            'topname'           => sprintf($LNG['Back']),
+            'topname'           => $LNG->format('Back'),
         ]);
     }
 

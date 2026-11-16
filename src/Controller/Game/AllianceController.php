@@ -71,7 +71,7 @@ class AllianceController extends AbstractGameController
 
     private function setAllianceData($allianceId)
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $this->allianceData = $this->alliance()->repository()->find($allianceId);
 
@@ -133,7 +133,7 @@ class AllianceController extends AbstractGameController
             'UTF-8',
         );
         $this->assign([
-            'request_text' => AllianceText::html($this->state->LNG['al_request_wait_message'], $link),
+            'request_text' => AllianceText::html($this->state->LNG, 'al_request_wait_message', $link),
         ]);
 
         return $this->render('game/page.alliance.applyWait.html.twig');
@@ -157,7 +157,7 @@ class AllianceController extends AbstractGameController
 
     public function apply(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if ($this->hasApply || $this->state->USER['ally_id'] != 0) {
             $this->redirectToHome();
         }
@@ -172,7 +172,7 @@ class AllianceController extends AbstractGameController
             if (!empty($text)) {
                 $applications->submit($allianceId, $text);
 
-                $this->printMessage(AllianceText::html($LNG['al_request_confirmation_message']), [[
+                $this->printMessage(AllianceText::html($LNG, 'al_request_confirmation_message'), [[
                     'label' => $LNG['al_ok'],
                     'url' => '?page=overview',
                 ]]);
@@ -184,7 +184,7 @@ class AllianceController extends AbstractGameController
         $this->assign([
             'allyid' => $allianceId,
             'applytext' => $allianceResult['ally_request'],
-            'al_write_request' => AllianceText::html($LNG['al_write_request'], $allianceResult['ally_tag']),
+            'al_write_request' => AllianceText::html($LNG, 'al_write_request', $allianceResult['ally_tag']),
         ]);
 
         return $this->render('game/page.alliance.apply.html.twig');
@@ -192,14 +192,14 @@ class AllianceController extends AbstractGameController
 
     public function cancelApply()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if (!$this->hasApply) {
             $this->redirectToHome();
         }
 
         $allyTag = $this->alliance()->applications()->cancel();
 
-        $this->printMessage(AllianceText::html($LNG['al_request_deleted'], $allyTag), [[
+        $this->printMessage(AllianceText::html($LNG, 'al_request_deleted', $allyTag), [[
             'label' => $LNG['sys_forward'],
             'url' => '?page=alliance',
         ]]);
@@ -227,7 +227,7 @@ class AllianceController extends AbstractGameController
     /** processes the founding form: confirmation message on success */
     private function createAlliance(): never
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $allianceTag = $this->http()->_GP('atag', '', UTF8_SUPPORT);
         $allianceName = $this->http()->_GP('aname', '', UTF8_SUPPORT);
 
@@ -237,7 +237,7 @@ class AllianceController extends AbstractGameController
             $this->exitWith($exit);
         }
 
-        $this->printMessage(AllianceText::html($LNG['al_created'], $label), [[
+        $this->printMessage(AllianceText::html($LNG, 'al_created', $label), [[
             'label' => $LNG['sys_forward'],
             'url' => '?page=alliance',
         ]]);
@@ -263,7 +263,7 @@ class AllianceController extends AbstractGameController
             'memberList' => $memberList,
             'mainList' => $lists->mainAlliances($this->allianceData),
             'wingList' => $lists->wingAlliances($this->allianceData),
-            'al_users_list' => sprintf($this->state->LNG['al_users_list'], count($memberList)),
+            'al_users_list' => $this->state->LNG->format('al_users_list', count($memberList)),
             'timezone' => $this->state->USER['timezone'],
             'ShortStatus' => $lists->shortStatus(),
         ]);
@@ -274,7 +274,7 @@ class AllianceController extends AbstractGameController
     /** leave the alliance (not for the leader) */
     public function close()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         if (!$this->hasAlliance || !$this->allianceData) {
             $this->redirectToHome();
@@ -286,7 +286,7 @@ class AllianceController extends AbstractGameController
             $this->exitWith($exit);
         }
 
-        $this->printMessage(AllianceText::html($LNG['al_leave_sucess'], $this->allianceData['ally_name']), [[
+        $this->printMessage(AllianceText::html($LNG, 'al_leave_sucess', $this->allianceData['ally_name']), [[
             'label' => $LNG['sys_back'],
             'url' => '?page=alliance',
         ]]);
@@ -294,7 +294,7 @@ class AllianceController extends AbstractGameController
 
     public function circular(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if (!$this->rights['ROUNDMAIL']) {
             $this->redirectToHome();
         }
@@ -343,7 +343,7 @@ class AllianceController extends AbstractGameController
             $this->redirectToHome();
         }
 
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $settings = $this->alliance()->settings();
         $textMode = $this->http()->_GP('textMode', 'external');
 
@@ -448,7 +448,7 @@ class AllianceController extends AbstractGameController
 
     protected function adminDetailApply(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $this->requireApplicationRights();
 
         $applications = $this->alliance()->applications();
@@ -485,7 +485,7 @@ class AllianceController extends AbstractGameController
 
         if ($result !== null) {
             // confirmation for the manager, in his own language
-            $LNG = & $this->state->LNG;
+            $LNG = $this->state->LNG;
             $this->printMessage($result == 'yes' ? $LNG['al_apply_accepted'] : $LNG['al_apply_declined'], [[
                 'label' => $LNG['sys_back'],
                 'url' => 'game?page=alliance&mode=admin&action=manageApply',
@@ -536,7 +536,7 @@ class AllianceController extends AbstractGameController
 
     protected function adminMembers(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if (!$this->rights['MANAGEUSERS']) {
             $this->redirectToHome();
         }
@@ -551,7 +551,7 @@ class AllianceController extends AbstractGameController
             'rankSelectList' => $choices['rankSelectList'],
             'founder' => empty($this->allianceData['ally_owner_range'])
                 ? $LNG['al_founder_rank_text'] : $this->allianceData['ally_owner_range'],
-            'al_users_list' => sprintf($LNG['al_users_list'], count($memberList)),
+            'al_users_list' => $LNG->format('al_users_list', count($memberList)),
             'canKick' => $this->rights['KICK'],
             'ShortStatus' => $lists->shortStatus(),
         ]);

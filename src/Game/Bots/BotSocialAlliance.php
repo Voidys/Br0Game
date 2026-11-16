@@ -153,7 +153,7 @@ class BotSocialAlliance
                 $l['al_alliance'],
                 MESSAGE_TYPE_ALLIANCE,
                 $l['al_request'],
-                sprintf($l['al_new_apply'], $bot, $ctx['me']['username'], $ctx['me']['username']),
+                $l->formatHtml('al_new_apply', $bot, $ctx['me']['username'], $ctx['me']['username']),
                 time(),
                 1,
                 $uni,

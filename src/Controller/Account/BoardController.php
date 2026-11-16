@@ -250,7 +250,7 @@ class BoardController extends AbstractAccountController
             't',
         );
         if ($last > $now - self::POST_COOLDOWN) {
-            $this->fail(sprintf($this->state->LNG['board_err_rate_post'], self::POST_COOLDOWN - ($now - $last)), 'account?page=board&mode=submit');
+            $this->fail($this->state->LNG->format('board_err_rate_post', self::POST_COOLDOWN - ($now - $last)), 'account?page=board&mode=submit');
         }
         if ($data['error'] !== null) {
             $this->fail($data['error'], 'account?page=board&mode=submit');
@@ -319,7 +319,7 @@ class BoardController extends AbstractAccountController
             't',
         );
         if ($last > $now - self::COMMENT_COOLDOWN) {
-            $this->fail(sprintf($this->state->LNG['board_err_rate_comment'], self::COMMENT_COOLDOWN - ($now - $last)), $back);
+            $this->fail($this->state->LNG->format('board_err_rate_comment', self::COMMENT_COOLDOWN - ($now - $last)), $back);
         }
 
         $this->db->insert(
@@ -666,9 +666,9 @@ class BoardController extends AbstractAccountController
 
         return match (true) {
             $diff < 60 => $LNG['board_ago_now'],
-            $diff < 3600 => sprintf($LNG['board_ago_min'], intdiv($diff, 60)),
-            $diff < 86400 => sprintf($LNG['board_ago_hours'], intdiv($diff, 3600)),
-            $diff < 86400 * 30 => sprintf($LNG['board_ago_days'], intdiv($diff, 86400)),
+            $diff < 3600 => $LNG->format('board_ago_min', intdiv($diff, 60)),
+            $diff < 86400 => $LNG->format('board_ago_hours', intdiv($diff, 3600)),
+            $diff < 86400 * 30 => $LNG->format('board_ago_days', intdiv($diff, 86400)),
             default => $this->fullDate($ts),
         };
     }

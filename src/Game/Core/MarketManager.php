@@ -425,7 +425,7 @@ class MarketManager
      */
     public function getFleetValue(array $fleetArray, bool $useScore = false): int
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
 
         $totalCostArray = [
                 901 => 0,

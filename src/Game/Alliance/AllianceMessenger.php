@@ -26,12 +26,11 @@ class AllianceMessenger
     /** Tells the managers (leader and MANAGEAPPLY ranks) of the alliance that the acting user applied. */
     public function applicationReceived(int|string $allianceId): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         foreach ($this->repository->messageReceivers($allianceId, $USER['ally_id'], false, true) as $receiver) {
             $lang = $this->playerUtil()->getLanguage($receiver['lang']);
 
-            $applyMessage = sprintf(
-                $lang['al_new_apply'],
+            $applyMessage = $lang->formatHtml('al_new_apply',
                 $USER['id'],
                 $USER['username'],
                 $USER['username'],
@@ -52,15 +51,14 @@ class AllianceMessenger
     /** Tells the managers of the alliance (except the acting user) that the acting user left. */
     public function memberLeft(int|string $allianceId): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         foreach ($this->repository->messageReceivers($allianceId, $USER['ally_id'], false, true) as $receiver) {
             if ($receiver['id'] == $USER['id']) {
                 continue;
             }
             $lang = $this->playerUtil()->getLanguage($receiver['lang']);
 
-            $applyMessage = sprintf(
-                $lang['al_leaving_msg'],
+            $applyMessage = $lang->formatHtml('al_leaving_msg',
                 $USER['id'],
                 $USER['username'],
                 $USER['username'],
@@ -89,8 +87,8 @@ class AllianceMessenger
      */
     public function sendCircular(array $alliance, int|string $rankId, string $subject, string $text): string
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         if (empty($text)) {
             throw AllianceException::json(['message' => $LNG['mg_empty_text'], 'error' => true]);
@@ -112,7 +110,7 @@ class AllianceMessenger
 
         $sendList = $LNG['al_circular_sended'];
         $title = $LNG['al_circular_alliance'] . $alliance['ally_tag'];
-        $text = sprintf($LNG['al_circular_front_text'], $USER['username']) . "\r\n" . $text;
+        $text = $LNG->formatHtml('al_circular_front_text', $USER['username']) . "\r\n" . $text;
 
         $receivers = [];
         foreach ($sendUsersResult as $sendUsersRow) {

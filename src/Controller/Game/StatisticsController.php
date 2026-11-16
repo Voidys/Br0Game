@@ -43,7 +43,7 @@ class StatisticsController extends AbstractGameController
     public function show(): Response
     {
         $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $who = $this->http()->_GP('who', STATS_PLAYERS);
         $type = $this->http()->_GP('type', STATS_TYPE_POINTS);
         $range = $this->http()->_GP('range', 1);
@@ -196,7 +196,7 @@ class StatisticsController extends AbstractGameController
                 }
 
                 foreach ($query as $StatRow) {
-                    $IsNoobProtec = $this->playerUtil()->checkNoobProtection($USER, $StatRow);
+                    $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($StatRow));
                     $Class = $this->playerUtil()->userStatus($StatRow, $IsNoobProtec);
                     $AllyClass = [];
                     if (!empty($StatRow['ally_id'])) {

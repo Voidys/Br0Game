@@ -102,8 +102,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $TargetMessage = sprintf(
-            $LNG['sys_stat_mess'],
+        $TargetMessage = $LNG->format('sys_stat_mess',
             $startPlanetName,
             GetStartAddressLink($this->_fleet, ''),
             $LNG['type_planet_' . $this->_fleet['end_type']],
@@ -154,8 +153,7 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
             $stationShips .= "<br>" . $LNG['tech'][$shipID] . ": " . $amount;
         }
 
-        $Message = sprintf(
-            $LNG['sys_fleet_return'],
+        $Message = $LNG->format('sys_fleet_return',
             $LNG['type_planet_' . $this->_fleet['start_type']],
             $targetPlanet['name'],
             GetStartAddressLink($this->_fleet, ''),

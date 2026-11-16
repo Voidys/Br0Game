@@ -52,7 +52,7 @@ class AllianceSettingsService
      */
     public function save(array $alliance, array $input): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $back = '?page=alliance&mode=admin';
 
@@ -135,7 +135,7 @@ class AllianceSettingsService
      */
     private function assertFree(string $column, string $placeholder, string $value): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $sql = "SELECT COUNT(*) as count FROM %%ALLIANCE%% WHERE ally_universe = :universe"
             . " AND $column = $placeholder;";
         $allianceCount = $this->db->selectSingle($sql, [
@@ -144,7 +144,7 @@ class AllianceSettingsService
         ], 'count');
 
         if ($allianceCount != 0) {
-            throw AllianceException::message(AllianceText::html($LNG['al_already_exists'], $value), $LNG['sys_back'], 'game?page=alliance&mode=admin');
+            throw AllianceException::message(AllianceText::html($LNG, 'al_already_exists', $value), $LNG['sys_back'], 'game?page=alliance&mode=admin');
         }
     }
 }

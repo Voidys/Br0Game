@@ -34,9 +34,9 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
 
     public function TargetEvent()
     {
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $resourceIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT];
         $debrisIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL];
         $resQuery = [];
@@ -129,8 +129,7 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
         $LNG->includeData(['INGAME']);
 
-        $Message = sprintf(
-            $LNG['sys_recy_gotten'],
+        $Message = $LNG->format('sys_recy_gotten',
             GetTargetAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_METAL]),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_CRYSTAL]),
@@ -140,8 +139,7 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             $LNG['tech'][RESOURCE_CRYSTAL],
         );
         $Message .= '<br>';
-        $Message .= sprintf(
-            $LNG['bs_derbis_raport'],
+        $Message .= $LNG->format('bs_derbis_raport',
             $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $pricelist[SHIP_RECYCLER]['capacity'])),
             $LNG['tech'][SHIP_RECYCLER]
         );
@@ -177,8 +175,7 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
 
-        $Message = sprintf(
-            $LNG['sys_recy_mess'],
+        $Message = $LNG->format('sys_recy_mess',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),

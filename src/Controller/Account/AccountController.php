@@ -27,9 +27,9 @@ class AccountController extends AbstractAccountController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['INGAME', 'ACCOUNT']);
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $ACCOUNT = $this->state->ACCOUNT;
         $newUniverses = $this->accountUtil()->get_non_player_universes($ACCOUNT['id']);
         $playerUniverses = $this->accountUtil()->get_player_universes($ACCOUNT['id']);
         $this->assign([
@@ -39,7 +39,7 @@ class AccountController extends AbstractAccountController
             'newUniverses'      => $newUniverses,
             'playerUniverses'   => $playerUniverses,
             'toplink'           => "account?page=accountSettings",
-            'topname'           => sprintf($LNG['Settings']),
+            'topname'           => $LNG->format('Settings'),
         ]);
 
         return $this->render('account/page.account.default.html.twig');
@@ -47,7 +47,7 @@ class AccountController extends AbstractAccountController
 
     public function send()
     {
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $ACCOUNT = $this->state->ACCOUNT;
         $userID = $this->http()->_GP('userID', 0);
         $universe = $this->http()->_GP('universe', 0);
 

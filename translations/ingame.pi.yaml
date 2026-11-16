@@ -435,7 +435,7 @@ al_request_confirmation_message: >-
   abgelehnt wird.
 al_request_date: Datum
 al_request_deleted: >-
-  Sie haben die Bewerbung gelöscht. <br>Sie können nun eine Eigene eröffnen oder
+  Sie haben die Bewerbung bei <b>%s</b> gelöscht. <br>Sie können nun eine Eigene eröffnen oder
   einer Anderen beitreten.
 al_request_from: Bewerbung von Spieler "%s"
 al_request_from_user: Bewerbung von Spieler
@@ -650,9 +650,7 @@ cr_total: Total
 cr_type: Typ
 cr_weapons: Kanonen
 css_account_banned_expire: >-
-  Du bist bis zum %s gesperrt!<br>Bitte melde dich ggf. im <a style="color:
-  -webkit-link;" href="https://discord.gg/jhYYN3yuat">Discord per Ticket
-  (link)</a>
+  Du bist bis zum %1$s gesperrt!<br>Bitte melde dich ggf. <a style="color: -webkit-link;" href="%2$s">hier (link)</a>.
 css_account_banned_message: Dein Account wurde gesperrt!
 css_account_banned_reason: 'Grund: %s'
 css_goto_homeside: <a href="./">Zur Startseite</a>

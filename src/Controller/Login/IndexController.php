@@ -34,7 +34,7 @@ class IndexController extends AbstractLoginController
 
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $referralID = $this->http()->_GP('ref', 0);
         if (!empty($referralID)) {
@@ -98,7 +98,7 @@ class IndexController extends AbstractLoginController
      */
     private function memes(): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $files = glob(ProjectPaths::ROOT . 'public/memes/*.{webp,avif,jpg,jpeg,png,gif}', GLOB_BRACE) ?: [];
         sort($files);
         $memes = [];
@@ -126,7 +126,7 @@ class IndexController extends AbstractLoginController
     /** the three newest published news for the start page teaser panel */
     private function latestNews(): array
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $items = [];
         $rows = $this->db->select("SELECT id, title, date FROM %%NEWS%% WHERE status = 1 AND date <= :now ORDER BY date DESC, id DESC LIMIT 3;", [
             ':now' => $this->state->runtime->timestamp,

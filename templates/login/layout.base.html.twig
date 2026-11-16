@@ -17,10 +17,10 @@
   {% if false %}{% block title %}{% endblock %}{% endif %}
   {% set pageTitle = block('title') is defined ? block('title')|striptags|trim : '' %}
   <title>{% if pageTitle and currentPage != 'index' %}{{ pageTitle }} · {% endif %}{{ gameName }}</title>
-  <meta name="description" content="{{ LNG.home_meta_description|format(gameName) }}">
+  <meta name="description" content="{{ LNG.format('home_meta_description', gameName) }}">
   <meta property="og:title" content="{{ gameName }}">
   <meta property="og:type" content="website">
-  <meta property="og:description" content="{{ LNG.home_meta_description|format(gameName) }}">
+  <meta property="og:description" content="{{ LNG.format('home_meta_description', gameName) }}">
   <meta property="og:image" content="{{ basepath }}memes/first-day.webp">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
@@ -37,7 +37,7 @@
     'name': gameName,
     'url': basepath,
     'image': basepath ~ 'memes/first-day.webp',
-    'description': LNG.home_meta_description|format(gameName),
+    'description': LNG.format('home_meta_description', gameName),
     'inLanguage': languages|keys,
     'genre': ['Strategy', 'Browser game', 'MMOG'],
     'gamePlatform': 'Browser',

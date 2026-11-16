@@ -73,14 +73,15 @@ class PlayerCharts
             }
         }
 
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
+        $viewer = $this->models()->user($USER);
         foreach ($statpoints as $row) {
             $result['points']['time'][] = $this->viewHelpers()->formatDate("M d Y H:i", $row['timestamp'], $USER['timezone']);
             $result['points']['hoursAgo'][] = $this->formatChartHoursAgo((int) $row['timestamp'], $LNG);
-            $result['points']['tech'][] = ($this->protectionRules()->spyTechAllowed(4, $targetUserId, $USER) ? $row['tech_points'] : 0);
-            $result['points']['build'][] = ($this->protectionRules()->spyTechAllowed(2, $targetUserId, $USER) ? $row['build_points'] : 0);
-            $result['points']['defence'][] = ($this->protectionRules()->spyTechAllowed(6, $targetUserId, $USER) ? $row['defs_points'] : 0);
-            $result['points']['fleet'][] = ($this->protectionRules()->spyTechAllowed(6, $targetUserId, $USER) ? $row['fleet_points'] : 0);
+            $result['points']['tech'][] = ($this->protectionRules()->spyTechAllowedFor(4, $targetUserId, $viewer) ? $row['tech_points'] : 0);
+            $result['points']['build'][] = ($this->protectionRules()->spyTechAllowedFor(2, $targetUserId, $viewer) ? $row['build_points'] : 0);
+            $result['points']['defence'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['defs_points'] : 0);
+            $result['points']['fleet'][] = ($this->protectionRules()->spyTechAllowedFor(6, $targetUserId, $viewer) ? $row['fleet_points'] : 0);
             $result['points']['total'][] = $row['total_points'];
 
             $ownStatpoints = $ownByTimestamp[$row['timestamp']] ?? null;
@@ -144,7 +145,7 @@ class PlayerCharts
         $timestamps = array_keys($allTimestamps);
         sort($timestamps, SORT_NUMERIC);
 
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $oldest = empty($timestamps) ? $this->state->runtime->timestamp : (int) $timestamps[0];
         $useDays = ($this->state->runtime->timestamp - $oldest) >= TIME_24_HOURS * 2;
         $timesFormated = [];

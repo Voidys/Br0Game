@@ -57,7 +57,7 @@ class MessagesController extends AbstractGameController
 
     public function favMessage()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $this->setWindow('ajax');
 
@@ -72,7 +72,7 @@ class MessagesController extends AbstractGameController
 
     public function deleteMessage()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $this->setWindow('ajax');
 
@@ -111,7 +111,7 @@ class MessagesController extends AbstractGameController
 
     public function sendForward()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $receiver   = $this->http()->_GP('to', []);
         $messageID  = $this->http()->_GP('id', 0);
         $composer = $this->composer();
@@ -137,7 +137,7 @@ class MessagesController extends AbstractGameController
 
     public function send()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $receiver   = $this->http()->_GP('to', []);
         $subject    = $this->http()->_GP('subject', $LNG['mg_no_subject'], true);
         $text       = $this->http()->_GP('text', '', true);
@@ -178,8 +178,8 @@ class MessagesController extends AbstractGameController
 
     public function write(): Response
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $this->setWindow('popup');
 
         $db = $this->db;
@@ -220,7 +220,7 @@ class MessagesController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $MessCategory = $this->http()->_GP('category', -1);
         $page = $this->http()->_GP('site', 1);
         $fav = $this->http()->_GP('fav', 0);

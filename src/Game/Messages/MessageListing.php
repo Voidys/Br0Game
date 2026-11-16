@@ -31,7 +31,7 @@ class MessageListing
      */
     public function categoryList(): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $CategoryList   = [];
         $TitleColor = [
@@ -95,7 +95,7 @@ class MessageListing
      */
     private function filter(mixed $MessCategory, mixed $fav, string $searchtext): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $conditions = "um.`user_id` = :userId AND um.`deleted_at` IS NULL";
         $params = [':userId' => $USER['id']];
 
@@ -150,7 +150,7 @@ class MessageListing
      */
     private function fetchPage(string $conditions, array $params, array $groupedArray, mixed $page, mixed $MessCategory, string $searchtext): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $grouped = '(' . implode(', ', $groupedArray) . ')';
 
@@ -226,8 +226,8 @@ class MessageListing
      */
     private function describeRow(array $MessageRow, array $groupedArray): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
         $db = $this->db;
         $receiverList = [];
         $answerTo = [];
@@ -291,7 +291,7 @@ class MessageListing
      */
     public function listPage(mixed $MessCategory, mixed $page, mixed $fav, string $searchtext, int $grp): array
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
         $MessageList    = [];
         $MessagesID     = [];

@@ -35,8 +35,8 @@ class AllianceMembershipService
      */
     public function assertMayFound(): void
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         $userPoints = $this->repository->userPoints($USER['id']);
         $min_points = $this->configs->get()->alliance_create_min_points;
@@ -44,7 +44,8 @@ class AllianceMembershipService
         if ($userPoints < $min_points) {
             $diff_points = $min_points - $userPoints;
             $messageText = AllianceText::html(
-                $LNG['al_make_ally_insufficient_points'],
+                $LNG,
+                'al_make_ally_insufficient_points',
                 $this->viewHelpers()->prettyNumber($min_points),
                 $this->viewHelpers()->prettyNumber($diff_points),
             );
@@ -62,8 +63,8 @@ class AllianceMembershipService
      */
     public function found(string $allianceTag, string $allianceName): string
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $back = '?page=alliance&mode=create';
 
         $allianceTag = preg_replace('/[^a-zA-Z0-9 (-)_äöüßÄÖÜ]/', '', $allianceTag);
@@ -97,7 +98,7 @@ class AllianceMembershipService
         ], 'count');
 
         if ($allianceCount != 0) {
-            throw AllianceException::message(AllianceText::html($LNG['al_already_exists'], $allianceName), $LNG['sys_back'], $back);
+            throw AllianceException::message(AllianceText::html($LNG, 'al_already_exists', $allianceName), $LNG['sys_back'], $back);
         }
 
         $sql = "INSERT INTO %%ALLIANCE%% SET ally_name = :allianceName, ally_tag = :allianceTag, ally_owner = :userId,"
@@ -141,7 +142,7 @@ class AllianceMembershipService
      */
     public function leave(array $alliance): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         if ($alliance['ally_owner'] == $USER['id']) {
@@ -175,7 +176,7 @@ class AllianceMembershipService
      */
     public function kick(array $alliance, array $rights, int|string $id): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         $sql = "SELECT ally_id, ally_rank_id FROM %%USERS%% WHERE id = :id;";
@@ -227,7 +228,7 @@ class AllianceMembershipService
      */
     public function transfer(array $alliance, int|string $newLeaderId): void
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $db = $this->db;
 
         if ($alliance['ally_owner'] != $USER['id']) {
@@ -300,7 +301,7 @@ class AllianceMembershipService
      */
     public function disband(array $alliance): bool
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         if ($alliance['ally_owner'] != $USER['id']) {
             return false;
         }

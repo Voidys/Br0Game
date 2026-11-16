@@ -216,7 +216,7 @@
             <br>
           {% else %}
               {# Attack win #}
-              {{ sprintf(LNG.sys_destruc_lune, "#{Raport.moon.moonDestroyChance}") }}
+              {{ LNG.format('sys_destruc_lune', "#{Raport.moon.moonDestroyChance}") }}
             <br>
               {{ LNG.sys_destruc_mess1 }}
               {% if Raport.moon.moonDestroySuccess == 1 %}
@@ -227,7 +227,7 @@
                   {{ LNG.sys_destruc_null }}
               {% endif %}
             <br>
-              {{ sprintf(LNG.sys_destruc_rip, "#{Raport.moon.fleetDestroyChance}") }}
+              {{ LNG.format('sys_destruc_rip', "#{Raport.moon.fleetDestroyChance}") }}
               {% if Raport.moon.fleetDestroySuccess == 1 %}
                   {# Fleet destroyed #}
                 <br>
@@ -244,7 +244,7 @@
       {% endif %}
 
       {% if array_sum(Raport.debris) > 0 %}
-          {{ sprintf(LNG['bs_derbis_raport'], pretty_number(ceil(array_sum(Raport.debris) / recCapacity)), LNG['tech'][php_const('SHIP_RECYCLER')]) }}
+          {{ LNG.format('bs_derbis_raport', pretty_number(ceil(array_sum(Raport.debris) / recCapacity)), LNG['tech'][php_const('SHIP_RECYCLER')]) }}
         <br>
       {% endif %}
 

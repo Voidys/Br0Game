@@ -7,6 +7,7 @@ use App\Game\Core\Database;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
 use App\Game\Core\GameUtilities;
+use App\Game\Model\User;
 
 /**
  * Protection and balancing rules: catch-up factor for slower players, noob/strong protection between two
@@ -37,20 +38,33 @@ class ProtectionRules
      *
      * @param array $USER
      * @return float
+     * @deprecated use catchUpFactorFor() with a typed User
      */
     public function getCatchUpFactor(array $USER): float
     {
-        $factor = 1;
-        $config = $this->configs->get($USER['universe']);
+        return $this->catchUpFactorFor(User::fromState($USER, $this->state->resource));
+    }
 
-        if ($config->catch_up && $USER['onlinetime'] > $this->state->runtime->timestamp - INACTIVE) {
+    /**
+     * Typed version of getCatchUpFactor(): the cost reduction factor of one player (see there for the formula).
+     * Reads statpoints (DB) for the player and the universe maximum; 1.0 when catch-up is off or the player is inactive.
+     *
+     * @param User $user the player (id, universe, onlinetime)
+     * @return float 1.0 (no reduction) down to the configured catchup_percent / 100
+     */
+    public function catchUpFactorFor(User $user): float
+    {
+        $factor = 1;
+        $config = $this->configs->get($user->universe);
+
+        if ($config->catch_up && $user->onlineTime > $this->state->runtime->timestamp - INACTIVE) {
             $db = $this->db;
 
             $sql = 'SELECT (`build_points` * 1 + `tech_points` * 0.8 + `fleet_points` * 0.6) as points
                 FROM %%STATPOINTS%%
                 WHERE `id_owner` = :userID AND `stat_type` = 1;';
             $userPoints = $db->selectSingle($sql, [
-                ':userID' => $USER['id'],
+                ':userID' => $user->id,
             ], 'points');
             $userPoints = max($userPoints, 1);
 
@@ -58,7 +72,7 @@ class ProtectionRules
                 FROM %%STATPOINTS%%
                 WHERE `universe` = :universe AND `stat_type` = 1;';
             $maxPoints = $db->selectSingle($sql, [
-                ':universe' => $USER['universe'],
+                ':universe' => $user->universe,
             ], 'max');
             $maxPoints = max($maxPoints, 1);
 
@@ -114,12 +128,25 @@ class ProtectionRules
      * @param int $PlayerID player whose data is requested
      * @param array $USER viewing user row
      * @return bool
+     * @deprecated use spyTechAllowedFor() with a typed User
      */
     public function spyTechAllowed(int $necessaryLevel, int $PlayerID, array $USER): bool
     {
+        return $this->spyTechAllowedFor($necessaryLevel, $PlayerID, User::fromState($USER, $this->state->resource));
+    }
+
+    /**
+     * Typed version of spyTechAllowed().
+     *
+     * @param int $necessaryLevel required spy tech level
+     * @param int $PlayerID player whose data is requested
+     * @param User $viewer the viewing player (id, auth level, spy tech)
+     */
+    public function spyTechAllowedFor(int $necessaryLevel, int $PlayerID, User $viewer): bool
+    {
         $allowed = true;
-        if ($this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) && $PlayerID != $USER['id']
-            && $USER['authlevel'] == 0 && $USER['spy_tech'] < $necessaryLevel) {
+        if ($this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) && $PlayerID != $viewer->id
+            && $viewer->authLevel == 0 && $viewer->level(SPY_TECH) < $necessaryLevel) {
             $allowed = false;
         }
         return $allowed;
@@ -168,22 +195,38 @@ class ProtectionRules
      * @param array $OwnerPlayer user row with total_points, rebuild_protection, ...
      * @param array $TargetPlayer user row with total_points, onlinetime, banaday, outlaw_time, ...
      * @return array{NoobPlayer: bool, StrongPlayer: bool}
+     * @deprecated use checkNoobProtectionFor() with typed Users
      */
     public function checkNoobProtection($OwnerPlayer, $TargetPlayer)
+    {
+        return $this->checkNoobProtectionFor(
+            User::fromState($OwnerPlayer, $this->state->resource),
+            User::fromState($TargetPlayer, $this->state->resource),
+        );
+    }
+
+    /**
+     * Typed version of checkNoobProtection() (same rules and side effect, see there).
+     *
+     * @param User $owner the acting player (totalPoints, rebuildProtection, ...)
+     * @param User $target the other player (totalPoints, onlineTime, banUntil, outlawTime, ...)
+     * @return array{NoobPlayer: bool, StrongPlayer: bool}
+     */
+    public function checkNoobProtectionFor(User $owner, User $target): array
     {
         $config = $this->configs->get();
         if (
             $config->noob_protection == 0
             || $config->noob_protection_time == 0
             || $config->noob_protection_multi == 0
-            || $TargetPlayer['banaday'] > $this->state->runtime->timestamp
-            || ($TargetPlayer['onlinetime'] < $this->state->runtime->timestamp - INACTIVE && $config->noob_inactives == 0)
+            || $target->banUntil > $this->state->runtime->timestamp
+            || ($target->onlineTime < $this->state->runtime->timestamp - INACTIVE && $config->noob_inactives == 0)
         ) {
             return ['NoobPlayer' => false, 'StrongPlayer' => false];
         }
 
-        $rebuildProtectionTarget = $this->rebuildProtectionActive($TargetPlayer, $OwnerPlayer, $config);
-        $rebuildProtectionOwner = $this->rebuildProtectionActive($OwnerPlayer, $TargetPlayer, $config);
+        $rebuildProtectionTarget = $this->rebuildProtectionActive($target, $owner, $config);
+        $rebuildProtectionOwner = $this->rebuildProtectionActive($owner, $target, $config);
 
         /* WAHR:
             Wenn Zielspieler im Rebuild Schutz ist ODER
@@ -191,9 +234,9 @@ class ProtectionRules
             Wenn Spieler mehr als das Y-fache der Zielspieler-Punkte hat.
         */
         $noob = $rebuildProtectionTarget || (
-            (($TargetPlayer['onlinetime'] < $this->state->runtime->timestamp - INACTIVE && $config->noob_inactives == 1)
-                    || ($TargetPlayer['total_points'] <= $config->noob_protection_time)) // Default: 5.000
-                && ($OwnerPlayer['total_points'] > $TargetPlayer['total_points'] * $config->noob_protection_multi)
+            (($target->onlineTime < $this->state->runtime->timestamp - INACTIVE && $config->noob_inactives == 1)
+                    || ($target->totalPoints <= $config->noob_protection_time)) // Default: 5.000
+                && ($owner->totalPoints > $target->totalPoints * $config->noob_protection_multi)
         );
         /* WAHR:
             Wenn Zielspieler aktiv ist UND
@@ -201,14 +244,14 @@ class ProtectionRules
             Wenn Spieler weniger als X Punkte hat UND
             Zielspieler weniger als das Y-fache der Spieler-Punkte hat
         */
-        $strong = $TargetPlayer['onlinetime'] > $this->state->runtime->timestamp - INACTIVE && (
+        $strong = $target->onlineTime > $this->state->runtime->timestamp - INACTIVE && (
             $rebuildProtectionOwner
-                || (($OwnerPlayer['total_points'] < $config->noob_protection_time) // Default: 5.000
-                    && ($OwnerPlayer['total_points'] * $config->noob_protection_multi < $TargetPlayer['total_points']))
+                || (($owner->totalPoints < $config->noob_protection_time) // Default: 5.000
+                    && ($owner->totalPoints * $config->noob_protection_multi < $target->totalPoints))
         );
 
         // the outlaw state only matters when the universe lets it lift the protection
-        if ($config->noob_protection_outlaw && $this->isOutlaw($TargetPlayer)) {
+        if ($config->noob_protection_outlaw && $this->isOutlaw($target)) {
             $noob = false;
             $strong = false;
         }
@@ -228,25 +271,25 @@ class ProtectionRules
      * active 6 hours after it started for players in the subject's recorded attackers, and 3 hours after it
      * started for everybody else.
      *
-     * @param array $subject user row of the protected player (rebuild_protection, rebuild_protection_attackers, id)
-     * @param array $other user row of the other player
+     * @param User $subject the protected player (rebuildProtection, rebuildProtectionAttackers, id)
+     * @param User $other the other player
      * @param Config $config universe configuration
      * @return bool
      */
-    private function rebuildProtectionActive(array $subject, array $other, Config $config): bool
+    private function rebuildProtectionActive(User $subject, User $other, Config $config): bool
     {
         $result = false;
-        if ($config->rebuild_protection == 1 && $other['id'] != $subject['id'] && $subject['rebuild_protection'] > 0) {
-            if (($subject['rebuild_protection'] + TIME_24_HOURS * 2) < $this->state->runtime->timestamp) {
+        if ($config->rebuild_protection == 1 && $other->id != $subject->id && $subject->rebuildProtection > 0) {
+            if (($subject->rebuildProtection + TIME_24_HOURS * 2) < $this->state->runtime->timestamp) {
                 $sql = "UPDATE %%USERS%% SET `rebuild_protection` = 0, `rebuild_protection_attackers` = ''
                     WHERE `id` = :userID;";
-                $this->db->update($sql, [':userID' => $subject['id']]);
+                $this->db->update($sql, [':userID' => $subject->id]);
             } else {
-                $attackers = json_decode($subject['rebuild_protection_attackers'] == null ? '' : $subject['rebuild_protection_attackers']);
-                if (is_array($attackers) && in_array($other['id'], $attackers)) {
-                    $result = ($subject['rebuild_protection'] + TIME_6_HOURS) <= $this->state->runtime->timestamp;
+                $attackers = json_decode($subject->rebuildProtectionAttackers);
+                if (is_array($attackers) && in_array($other->id, $attackers)) {
+                    $result = ($subject->rebuildProtection + TIME_6_HOURS) <= $this->state->runtime->timestamp;
                 } else {
-                    $result = ($subject['rebuild_protection'] + (TIME_6_HOURS / 2)) <= $this->state->runtime->timestamp;
+                    $result = ($subject->rebuildProtection + (TIME_6_HOURS / 2)) <= $this->state->runtime->timestamp;
                 }
             }
         }
@@ -258,18 +301,18 @@ class ProtectionRules
      * Outlaw state of a player: protection is lifted for 7 days after the second or later outlaw
      * activation, for 2 days after the first one.
      *
-     * @param array $player user row (id, outlaw_time)
+     * @param User $player the player (id, outlawTime)
      * @return bool
      */
-    private function isOutlaw(array $player): bool
+    private function isOutlaw(User $player): bool
     {
         $statsHandler = new \App\Game\AdvancedStats\AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $outlaw = false;
-        $outlawActivations = $statsHandler->getValue($player['id'], \App\Game\AdvancedStats\AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
+        $outlawActivations = $statsHandler->getValue($player->id, \App\Game\AdvancedStats\AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
         if ($outlawActivations > 1) {
-            $outlaw = $player['outlaw_time'] > $this->state->runtime->timestamp - 7 * TIME_24_HOURS;
+            $outlaw = $player->outlawTime > $this->state->runtime->timestamp - 7 * TIME_24_HOURS;
         } elseif ($outlawActivations == 1) {
-            $outlaw = $player['outlaw_time'] > $this->state->runtime->timestamp - 2 * TIME_24_HOURS;
+            $outlaw = $player->outlawTime > $this->state->runtime->timestamp - 2 * TIME_24_HOURS;
         }
 
         return $outlaw;

@@ -746,7 +746,7 @@ rp_universe_error: O universo não está completamente fechado!
 sb_final_memory: 'Memória consumida no final: %e KB / máx. %m KB<br>'
 sb_sql_counts: 'SQL Querys: %d'
 sb_start_memory: 'Memória consumida no início: %i KB / máx. %m KB<br>'
-sb_stats_update: 'Estatísticas atualizadas em: %t segundos<br>'
+sb_stats_update: 'Estatísticas atualizadas em: %s segundos<br>'
 sb_stats_updated: Estatísticas atualizadas. <br>Resumir:<br>
 sb_top_memory: 'Pico de memória: %p KB / máx. %m KB <br>'
 se__before: Anterior

@@ -39,7 +39,7 @@ class BattleHallController extends AbstractGameController
 
     private function assembleSelectors()
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $Selectors = [];
         $Selectors['memorial'] = [
@@ -76,8 +76,8 @@ class BattleHallController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
 
         $memorial = $this->http()->_GP('memorial', 1);

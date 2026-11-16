@@ -59,10 +59,10 @@ class InformationController extends AbstractGameController
     public function sendFleet()
     {
         $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
+        $USER = $this->state->USER;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
         $db = $this->db;
 
         if (isVacationMode($USER)) {
@@ -158,16 +158,16 @@ class InformationController extends AbstractGameController
         $PLANET['last_jump_time']   = $this->state->runtime->timestamp;
         $NextJumpTime   = $this->getNextJumpWaitTime($PLANET['last_jump_time'], $PLANET['sprungtor']);
         $this->sendJSON([
-            'message' => sprintf($LNG['in_jump_gate_done'], $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp)),
+            'message' => $LNG->format('in_jump_gate_done', $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp)),
             'error' => false,
         ]);
     }
 
     private function getAvailableFleets()
     {
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
-        $PLANET = & $this->state->PLANET;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $PLANET = $this->state->PLANET;
         $fleetList  = [];
 
         foreach ($reslist['fleet'] as $Ship) {
@@ -183,7 +183,7 @@ class InformationController extends AbstractGameController
 
     public function destroyMissiles()
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
         $PLANET = & $this->state->PLANET;
         $db = $this->db;
 
@@ -207,9 +207,9 @@ class InformationController extends AbstractGameController
 
     private function getTargetGates()
     {
-        $resource = & $this->state->resource;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $resource = $this->state->resource;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $db = $this->db;
 
         $order = $USER['planet_sort_order'] == 1 ? "DESC" : "ASC" ;

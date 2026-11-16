@@ -44,7 +44,7 @@ abstract class AbstractAdminController implements GameControllerInterface
      */
     final public function initialize(): void
     {
-        $USER = &$this->state->USER;
+        $USER = $this->state->USER;
 
         if ($USER['authlevel'] == AUTH_USR) {
             $this->http()->redirectTo('game');
@@ -118,7 +118,7 @@ abstract class AbstractAdminController implements GameControllerInterface
             throw new \Exception('Permission error for: ' . $pageName);
         }
 
-        $USER = &$this->state->USER;
+        $USER = $this->state->USER;
         if ($USER['authlevel'] == AUTH_USR) {
             throw new \Exception('Permission error!');
         }

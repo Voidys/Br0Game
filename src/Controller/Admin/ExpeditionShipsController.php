@@ -31,8 +31,8 @@ class ExpeditionShipsController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
 
         $universe = $this->http()->_GP('uniID', $this->universe()->getEmulated());
         $action = $this->http()->_GP('action', 'show');

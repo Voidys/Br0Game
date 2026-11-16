@@ -260,7 +260,7 @@ class HonorPoints
      */
     private function collectSide(array $fleets, string $side, array &$playerData, string $militarySql, array $honorDataTop, AdvancedStatsHandler $statsHandler): array
     {
-        $pricelist = & $this->state->pricelist;
+        $pricelist = $this->state->pricelist;
         $sumMilitaryPoints = 0;
         $hasBandit = false;
         $fullPoints = 0;

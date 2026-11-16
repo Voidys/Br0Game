@@ -30,7 +30,7 @@ class RenameTutorialSupport extends AbstractTutorialSupport
      */
     protected function getGoalName(int $elementID): string
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['TUTORIAL']);
 
         return $LNG['tutorial_goal']['step6'][$elementID];
@@ -76,7 +76,7 @@ class RenameTutorialSupport extends AbstractTutorialSupport
      */
     public function isFullfilled(): bool
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $goals = $this->listGoals();
         $fullfilled = true;

@@ -79,8 +79,7 @@ trait BattleReporting
                     $reportID,
                     $class[$i],
                     $LNG['sys_mess_attack_report'],
-                    sprintf(
-                        $LNG['sys_adress_planet'],
+                    $LNG->format('sys_adress_planet',
                         $this->_fleet['end_galaxy'],
                         $this->_fleet['end_system'],
                         $this->_fleet['end_planet'],
@@ -170,8 +169,7 @@ trait BattleReporting
             foreach ($data as $userID => $userName) {
                 $LNG = $this->getLanguage(null, $userID);
 
-                $message = sprintf(
-                    $LNG['sys_mess_attack_cancel'],
+                $message = $LNG->format('sys_mess_attack_cancel',
                     $targetPlanet['name'],
                     GetTargetAddressLink($this->_fleet),
                 );

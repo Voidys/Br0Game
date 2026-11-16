@@ -32,7 +32,7 @@ class AdvancedStatsController extends AbstractGameController
 
     private function checkAvailable(string $key)
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
         $result = false;
         $id = substr(strrchr($key, "_"), 1);
 
@@ -53,8 +53,8 @@ class AdvancedStatsController extends AbstractGameController
 
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
         $advancedStats = $statsHandler->getAllStats($USER['id']);

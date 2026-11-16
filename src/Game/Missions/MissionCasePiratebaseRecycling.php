@@ -33,9 +33,9 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
 
     public function TargetEvent()
     {
-        $pricelist = & $this->state->pricelist;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $pricelist = $this->state->pricelist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $db = $this->db;
         $resourceIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT];
         $debrisIDs = [RESOURCE_METAL, RESOURCE_CRYSTAL];
@@ -125,8 +125,7 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
         $LNG->includeData(['INGAME']);
 
-        $Message = sprintf(
-            $LNG['sys_recy_gotten'],
+        $Message = $LNG->format('sys_recy_gotten',
             GetTargetAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_METAL]),
             $this->viewHelpers()->prettyNumber($collectedGoods[RESOURCE_CRYSTAL]),
@@ -136,8 +135,7 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
             $LNG['tech'][RESOURCE_CRYSTAL],
         );
         $Message .= '<br>';
-        $Message .= sprintf(
-            $LNG['bs_derbis_raport'],
+        $Message .= $LNG->format('bs_derbis_raport',
             $this->viewHelpers()->prettyNumber(ceil(array_sum($remainingGoods) / $pricelist[SHIP_RECYCLER]['capacity'])),
             $LNG['tech'][SHIP_RECYCLER]
         );
@@ -173,8 +171,7 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
             ':planetId' => $this->_fleet['start_id'],
         ], 'name');
 
-        $Message = sprintf(
-            $LNG['sys_recy_mess'],
+        $Message = $LNG->format('sys_recy_mess',
             $planetName,
             GetStartAddressLink($this->_fleet, ''),
             $this->viewHelpers()->prettyNumber($this->_fleet['resource_metal']),

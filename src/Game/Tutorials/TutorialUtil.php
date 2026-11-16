@@ -27,7 +27,7 @@ class TutorialUtil
          * @var Database
          */
         $db = $this->db;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         // The missing-rows sync below only matters when an admin adds or enables tutorials or goals (or for
         // a new player); once per player and SYNC_INTERVAL seconds per session is enough.
@@ -98,9 +98,9 @@ class TutorialUtil
             return [];
         }
 
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $LNG->includeData(['TUTORIAL']);
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep)) {
@@ -137,7 +137,7 @@ class TutorialUtil
          * @var Database
          */
         $db = $this->db;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep) || $tutorialStep['skippable'] == 0) {
@@ -165,7 +165,7 @@ class TutorialUtil
          * @var Database
          */
         $db = $this->db;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep)) {
@@ -191,7 +191,7 @@ class TutorialUtil
          * @var Database
          */
         $db = $this->db;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $sql = "UPDATE %%USERS_TUTORIAL%% SET `skipped` = 1 WHERE `userID` = :userID";
         $db->update($sql, [
@@ -209,7 +209,7 @@ class TutorialUtil
      */
     public function claim()
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep)) {
             return;
@@ -235,7 +235,7 @@ class TutorialUtil
          * @var Database
          */
         $db = $this->db;
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
 
         $tutorialStep = $this->getCurrentStep($USER['id'], $USER['universe']);
         if (empty($tutorialStep)) {

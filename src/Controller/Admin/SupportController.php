@@ -87,8 +87,8 @@ class SupportController extends AbstractAdminController
 
     public function send(): never
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $config = $this->configs->get();
         $ticketID = $this->http()->_GP('id', 0);
@@ -141,8 +141,8 @@ class SupportController extends AbstractAdminController
             }
         }
 
-        $subject = sprintf($LNG['sp_answer_message_title'], $ticketID);
-        $text = sprintf($LNG['sp_answer_message'], $ticketID);
+        $subject = $LNG->format('sp_answer_message_title', $ticketID);
+        $text = $LNG->format('sp_answer_message', $ticketID);
 
         $this->playerUtil()->sendMessage(
             $ticketDetail['ownerID'],
@@ -161,8 +161,8 @@ class SupportController extends AbstractAdminController
 
     public function view(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $ticketID = $this->http()->_GP('id', 0);

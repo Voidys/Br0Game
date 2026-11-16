@@ -53,7 +53,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
 
                 $LNG			= $langObjects[$user['lang']];
 
-                $MailSubject	= sprintf($LNG['spec_mail_inactive_title'], $userConfig->game_name.' - '.$userConfig->uni_name);
+                $MailSubject	= $LNG->format('spec_mail_inactive_title', $userConfig->game_name.' - '.$userConfig->uni_name);
                 $MailRAW		= $LNG->getTemplate('email_inactive');
 
                 $MailContent	= str_replace([

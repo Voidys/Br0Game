@@ -33,9 +33,9 @@ class GiveawayController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         $db = $this->db;
         $action = $this->http()->_GP('action', '');
         if ($action == 'send') {

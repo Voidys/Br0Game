@@ -158,7 +158,7 @@ class MissionFunctions
 
     protected function RestoreFleet($onStart = true)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         $fleetData = $this->fleetFunctions()->unserialize($this->_fleet['ships']);
 
@@ -294,7 +294,7 @@ class MissionFunctions
 
     public function sendAttackReturnMessage()
     {
-        $reslist = & $this->state->reslist;
+        $reslist = $this->state->reslist;
 
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
 
@@ -308,8 +308,7 @@ class MissionFunctions
             ':planetId'	=> $this->_fleet['end_id'],
         ], 'name');
 
-        $Message = sprintf(
-            $LNG['sys_fleet_won'],
+        $Message = $LNG->format('sys_fleet_won',
             $planetNameEnd,
             GetTargetAddressLink($this->_fleet, ''),
             $planetNameStart,
@@ -330,9 +329,7 @@ class MissionFunctions
             $fleetAmmountStart = array_sum($fleetArrayStart);
             if ($fleetAmmountStart != $fleetAmmount) {
                 if ($fleetAmmountStart > $fleetAmmount) {
-                    $Message .= '<br><br>' . sprintf(
-                        $LNG['sys_expe_back_home_ships_lost']
-                    );
+                    $Message .= '<br><br>' . $LNG->format('sys_expe_back_home_ships_lost');
                 }
                 foreach ($reslist['fleet'] as $shipId) {
                     if (isset($fleetArrayStart[$shipId]) && isset($fleetArray[$shipId])) {
@@ -366,8 +363,7 @@ class MissionFunctions
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);
 
-        $message = sprintf(
-            $LNG['sys_mess_piratebase_gone'],
+        $message = $LNG->format('sys_mess_piratebase_gone',
             GetTargetAddressLink($this->_fleet, '')
         );
 

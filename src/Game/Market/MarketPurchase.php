@@ -40,8 +40,8 @@ class MarketPurchase
      */
     public function buy(): string
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
         $FleetID = $this->http()->_GP('fleetID', 0);
         $shipType = $this->http()->_GP('shipType', "");
 
@@ -86,7 +86,7 @@ class MarketPurchase
 
         $LC = $sellerFleet[202] ?? 0;
         $HC = $sellerFleet[203] ?? 0;
-        return sprintf($LNG['market_p_msg_sent'], $LC, $HC);
+        return $LNG->format('market_p_msg_sent', $LC, $HC);
     }
 
     /**
@@ -96,7 +96,7 @@ class MarketPurchase
      */
     private function loadOffer(mixed $FleetID): array|string
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $sql = "SELECT f.*, t.*, u.`ally_id` FROM %%FLEETS%% f
             JOIN %%TRADES%% t ON f.`id` = t.`seller_fleet_id`
             JOIN %%USERS%% u ON f.`owner` = u.`id`
@@ -123,8 +123,8 @@ class MarketPurchase
      */
     private function validateOffer(array $fleetResult): ?string
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
 
         // an offer cannot be bought by its seller
         if ($fleetResult['owner'] == $USER['id']) {
@@ -180,10 +180,10 @@ class MarketPurchase
      */
     private function planBuyerTrip(array $fleetResult, bool $isFleetTrade, mixed $shipType): array|string
     {
-        $USER = & $this->state->USER;
+        $USER = $this->state->USER;
         $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
 
         //if not in range 1-3
         if ($fleetResult['resource_amount'] > $fleetResult['ex_resource_amount'] || $isFleetTrade) {
@@ -215,15 +215,16 @@ class MarketPurchase
             );
         }
 
-        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $USER);
-        $Duration = $this->fleetFunctions()->getMissionDuration(10, $SpeedAllMin, $Distance, $SpeedFactor, $USER);
-        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $Duration, $Distance, $USER, $SpeedFactor);
+        $userModel = $this->models()->user($USER);
+        $SpeedAllMin = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
+        $Duration = $this->fleetFunctions()->missionDurationFor(10, $SpeedAllMin, $Distance, $SpeedFactor, $userModel);
+        $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $Duration, $Distance, $userModel, $SpeedFactor);
 
         if ($isFleetTrade) {
             $fleet = $this->fleetFunctions()->unserialize($fleetResult['ships']);
-            $fleetSpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleet, $USER);
-            $fleetDuration = $this->fleetFunctions()->getMissionDuration(10, $fleetSpeedAllMin, $Distance, $SpeedFactor, $USER);
-            $bonusConsumption = $this->fleetFunctions()->getFleetConsumption($fleet, $fleetDuration, $Distance, $USER, $SpeedFactor);
+            $fleetSpeedAllMin = $this->fleetFunctions()->fleetMaxSpeedFor($fleet, $userModel);
+            $fleetDuration = $this->fleetFunctions()->missionDurationFor(10, $fleetSpeedAllMin, $Distance, $SpeedFactor, $userModel);
+            $bonusConsumption = $this->fleetFunctions()->fleetConsumptionFor($fleet, $fleetDuration, $Distance, $userModel, $SpeedFactor);
             $consumption += $bonusConsumption;
         }
 
@@ -281,8 +282,8 @@ class MarketPurchase
      */
     private function sendBuyerFleet(array $fleetResult, bool $isFleetTrade, array $trip): mixed
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $marketplace = $trip['marketplace'];
 
         $buyerMission = $isFleetTrade ? MISSION_TRANSPORT : MISSION_TRADE;
@@ -329,7 +330,7 @@ class MarketPurchase
      */
     private function sellerFleetTimes(array $fleetResult, bool $isFleetTrade, array $sellerFleet, array $USER_2, int $marketplace): array
     {
-        $PLANET = & $this->state->PLANET;
+        $PLANET = $this->state->PLANET;
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
         $Distance = $this->fleetFunctions()->getTargetDistance(
             [$PLANET['galaxy'], $PLANET['system'], $marketplace],
@@ -371,8 +372,8 @@ class MarketPurchase
      */
     private function rerouteSellerFleet(mixed $FleetID, array $fleetResult, bool $isFleetTrade, int $marketplace, array $times, mixed $buyerfleet): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
         $db = $this->db;
         $params = [
             ':fleetID' => $FleetID,
@@ -460,17 +461,16 @@ class MarketPurchase
      */
     private function notify(array $fleetResult, bool $isFleetTrade, int $marketplace, array $fleetResource, mixed $consumption, array $USER_2): void
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
+        $USER = $this->state->USER;
+        $PLANET = $this->state->PLANET;
+        $LNG = $this->state->LNG;
         $sql = "SELECT `marketplace_galaxy`, `marketplace_system` FROM %%TRADES%% 
             WHERE `seller_fleet_id` = :fleetId;";
         $target = $this->db->selectSingle($sql, [
             ':fleetId' => $fleetResult['id'],
         ]);
         // To customer
-        $Message = sprintf(
-            $LNG['market_msg_trade_bought'],
+        $Message = $LNG->format('market_msg_trade_bought',
             sprintf(
                 '%s:%s:%s',
                 $isFleetTrade ? $fleetResult['start_galaxy'] : $target['marketplace_galaxy'],
@@ -500,8 +500,8 @@ class MarketPurchase
 
         // To salesmen
         $LNG_SALESMEN = $this->playerUtil()->getLanguage($USER_2['lang']);
-        $Message = sprintf(
-            $LNG_SALESMEN['market_msg_trade_sold'],
+        $Message = $LNG_SALESMEN->format(
+            'market_msg_trade_sold',
             $PLANET['galaxy'] . ":" . $PLANET['system'] . ":" . ($isFleetTrade ? $marketplace : $PLANET['planet']),
             $fleetResult['resource_metal'],
             $LNG_SALESMEN['tech'][RESOURCE_METAL],
@@ -533,9 +533,9 @@ class MarketPurchase
      */
     private function calculateFleetSize(array $fleetResult, mixed $shipType): array|false
     {
-        $pricelist = & $this->state->pricelist;
-        $PLANET = & $this->state->PLANET;
-        $resource = & $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $PLANET = $this->state->PLANET;
+        $resource = $this->state->resource;
         // sorry world.
         $amount = $fleetResult['ex_resource_amount'];
 

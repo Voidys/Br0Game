@@ -34,10 +34,10 @@ class QuickEditorController extends AbstractAdminController
 {
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
+        $USER = $this->state->USER;
+        $LNG = $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
         $action = $this->http()->_GP('action', '');
         $edit = $this->http()->_GP('edit', '');
         $id = $this->http()->_GP('id', 0);
@@ -109,8 +109,7 @@ class QuickEditorController extends AbstractAdminController
                     $LOG->new = $new;
                     $LOG->save();
 
-                    throw new \App\Game\Core\EndOfRequest(sprintf(
-                        $LNG['qe_edit_planet_sucess'],
+                    throw new \App\Game\Core\EndOfRequest($LNG->format('qe_edit_planet_sucess',
                         $PlanetData['name'],
                         $PlanetData['galaxy'],
                         $PlanetData['system'],
@@ -227,7 +226,7 @@ class QuickEditorController extends AbstractAdminController
                     $LOG->new = $new;
                     $LOG->save();
 
-                    throw new \App\Game\Core\EndOfRequest(sprintf($LNG['qe_edit_player_sucess'], $UserData['username'], $id));
+                    throw new \App\Game\Core\EndOfRequest($LNG->format('qe_edit_player_sucess', $UserData['username'], $id));
                 }
                 $sql = "SELECT `name` FROM %%PLANETS%% WHERE `id` = :planetID AND `universe` = :universe;";
                 $PlanetInfo = $db->selectSingle($sql, [

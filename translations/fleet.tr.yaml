@@ -430,9 +430,9 @@ sys_mess_spy_lostproba: 'Casuslugu engelleyebilme sansi :   %d %% '
 sys_mess_spy_qg: Kontrol Kulesi
 sys_mess_spy_repair_order: Gemiler şu anda onarım iskelesinde onarılıyor.
 sys_mess_spy_report: Casusluk Raporu
-sys_mess_spy_report_details_1: 1$s (%2$s) gezegeninden [%3$s:%4$s:%5$s] %6$s hakkında casus raporu
-sys_mess_spy_report_details_3: 1$s (%2$s) ayından [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu
-sys_mess_spy_report_details_4: 1$s (%2$s) konumundan [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu
+sys_mess_spy_report_details_1: '%1$s (%2$s) gezegeninden [%3$s:%4$s:%5$s] %6$s hakkında casus raporu'
+sys_mess_spy_report_details_3: '%1$s (%2$s) ayından [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu'
+sys_mess_spy_report_details_4: '%1$s (%2$s) konumundan [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu'
 sys_mess_tower: Filo Raporu
 sys_mess_transport: Nakliye Raporu
 sys_moonbuilt: >-

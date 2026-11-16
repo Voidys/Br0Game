@@ -86,10 +86,19 @@ class FleetFunctions
         return $this->gameUtility(FleetStatistics::class);
     }
 
-    /** @see FleetMath::getExpeditionLimit() */
+    /**
+     * @see FleetMath::getExpeditionLimit()
+     * @deprecated use the typed expeditionLimitFor() variant
+     */
     public function getExpeditionLimit(array $USER): int
     {
         return $this->math()->getExpeditionLimit($USER);
+    }
+
+    /** @see FleetMath::expeditionLimitFor() */
+    public function expeditionLimitFor(\App\Game\Model\User $user): int
+    {
+        return $this->math()->expeditionLimitFor($user);
     }
 
     /** @see FleetMath::inMissileRange() */
@@ -110,10 +119,19 @@ class FleetFunctions
         return $this->math()->getTargetDistance($start, $target);
     }
 
-    /** @see FleetMath::getMissionDuration() */
+    /**
+     * @see FleetMath::getMissionDuration()
+     * @deprecated use the typed missionDurationFor() variant
+     */
     public function getMissionDuration(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, array $USER): int
     {
         return $this->math()->getMissionDuration($SpeedFactor, $MaxFleetSpeed, $Distance, $GameSpeed, $USER);
+    }
+
+    /** @see FleetMath::missionDurationFor() */
+    public function missionDurationFor(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, \App\Game\Model\User $user): int
+    {
+        return $this->math()->missionDurationFor($SpeedFactor, $MaxFleetSpeed, $Distance, $GameSpeed, $user);
     }
 
     /** @see FleetMath::getMIPDuration() */
@@ -128,10 +146,19 @@ class FleetFunctions
         return $this->math()->getGameSpeedFactor();
     }
 
-    /** @see FleetMath::getMaxFleetSlots() */
+    /**
+     * @see FleetMath::getMaxFleetSlots()
+     * @deprecated use the typed maxFleetSlotsFor() variant
+     */
     public function getMaxFleetSlots(array $USER): int
     {
         return $this->math()->getMaxFleetSlots($USER);
+    }
+
+    /** @see FleetMath::maxFleetSlotsFor() */
+    public function maxFleetSlotsFor(\App\Game\Model\User $user): int
+    {
+        return $this->math()->maxFleetSlotsFor($user);
     }
 
     /** @see FleetMath::getFleetRoom() */
@@ -140,16 +167,37 @@ class FleetFunctions
         return $this->math()->getFleetRoom($Fleet);
     }
 
-    /** @see FleetMath::getFleetMaxSpeed() */
+    /**
+     * @see FleetMath::getFleetMaxSpeed()
+     * @deprecated use the typed fleetMaxSpeedFor() variant
+     */
     public function getFleetMaxSpeed(array|int $Fleets, array $Player): int
     {
         return $this->math()->getFleetMaxSpeed($Fleets, $Player);
     }
 
-    /** @see FleetMath::getFleetConsumption() */
+    /**
+     * @param array<int, mixed>|int $Fleets
+     * @see FleetMath::fleetMaxSpeedFor()
+     */
+    public function fleetMaxSpeedFor(array|int $Fleets, \App\Game\Model\User $Player): int
+    {
+        return $this->math()->fleetMaxSpeedFor($Fleets, $Player);
+    }
+
+    /**
+     * @see FleetMath::getFleetConsumption()
+     * @deprecated use the typed fleetConsumptionFor() variant
+     */
     public function getFleetConsumption(array $FleetArray, int $MissionDuration, int $MissionDistance, array $Player, int $GameSpeed): float
     {
         return $this->math()->getFleetConsumption($FleetArray, $MissionDuration, $MissionDistance, $Player, $GameSpeed);
+    }
+
+    /** @see FleetMath::fleetConsumptionFor() */
+    public function fleetConsumptionFor(array $FleetArray, int $MissionDuration, int $MissionDistance, \App\Game\Model\User $Player, int $GameSpeed): float
+    {
+        return $this->math()->fleetConsumptionFor($FleetArray, $MissionDuration, $MissionDistance, $Player, $GameSpeed);
     }
 
     /** @see FleetMath::getFleetShipInfo() */
@@ -295,7 +343,7 @@ class FleetFunctions
 
     public function gotoFleetPage($Code = 0): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         if ($this->configs->get()->debug == 1) {
             $temp = debug_backtrace();
             echo sprintf(
