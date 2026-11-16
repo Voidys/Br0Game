@@ -1694,6 +1694,20 @@ class ConfigFieldSchema
                     'min' => 0,
                     'default' => 20,
                 ],
+                'bot_reply_delay_hours' => [
+                    'type' => self::TYPE_NUMBER,
+                    'maxlength' => 3,
+                    'size' => 3,
+                    'transform' => 'int',
+                    'min' => 0,
+                    'max' => 168,
+                    'default' => 3,
+                ],
+                'bot_chatter' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => true,
+                ],
             ],
         ];
     }

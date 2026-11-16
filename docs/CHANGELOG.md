@@ -1015,3 +1015,11 @@ Technical changes per migration step, newest last.
 - `HofController` renders one template `page.hof.default.html.twig` from the DB (universe dropdown only for universes with data, empty-state notice `hof_empty`).
 - Admin page `hallOfFame` (`HallOfFameController`, right `ShowHallOfFamePage`, menu Content): export download, import upload (replaces), clear; CSRF-protected POSTs.
 
+## 122. Bots: relations, reply throttle, no unprompted contact
+
+- Removed the bots' unprompted greeting (`stepMessage`, `GREETINGS`, profile field `message_chance` and its form/translations).
+- New table `BOT_RELATIONS` (bot, player, balance -100..100, interactions, `player_contacted`, message pointer, `last_bot_message_at`) and column `bot_players.last_threat_check`: migration `1794901400`, `install.sql`, `tables.php`.
+- `App\Game\Bots\BotRelations`: event deltas (message, buddy request/accepted, spied, attacked, bot raided), `stance()` hostile/neutral/friendly; internal only.
+- `BotSocialMessaging::stepReply` answers per sender: all pending DMs in one reply once the oldest is `bot_reply_delay_hours` old (most overdue sender per turn), tone by stance (LLM prompt and canned sets).
+- New universe settings `bot_reply_delay_hours` (default 3) and `bot_chatter` (default on) in category `bots`; `bot_chatter` off still reads/counts messages but sends no replies.
+- `stepThreats` detects attacks and spy probes on a bot from `log_fleets` (mission 1/2/6/9, human sender, arrival since `last_threat_check`); attack reaction and raid taunt only go to contacted players and respect the delay.

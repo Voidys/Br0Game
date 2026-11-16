@@ -179,7 +179,6 @@ class BotProfiles
         $out['randomness'] = self::clampInt($in['randomness'] ?? $base['randomness'], 0, 100);
         $out['llm_advice'] = !empty($in['llm_advice']);
         $out['reply_chance'] = self::clampInt($in['reply_chance'] ?? 80, 0, 100);
-        $out['message_chance'] = self::clampInt($in['message_chance'] ?? 5, 0, 100);
         $out['alliance_chance'] = self::clampInt($in['alliance_chance'] ?? 20, 0, 100);
         $out['alliance_join_chance'] = self::clampInt($in['alliance_join_chance'] ?? 5, 0, 100);
         $out['fleetsave_chance'] = self::clampInt($in['fleetsave_chance'] ?? $base['fleetsave_chance'], 0, 100);
@@ -373,7 +372,6 @@ class BotProfiles
                 'mistake_chance' => 8,
                 'randomness' => 20,
                 'reply_chance' => 50,
-                'message_chance' => 3,
                 'alliance_chance' => 10,
                 'alliance_join_chance' => 3,
                 'fleetsave_chance' => 60,
@@ -404,7 +402,6 @@ class BotProfiles
                 'mistake_chance' => 6,
                 'randomness' => 25,
                 'reply_chance' => 95,
-                'message_chance' => 10,
                 'alliance_chance' => 25,
                 'alliance_join_chance' => 6,
                 'fleetsave_chance' => 85,
@@ -438,7 +435,6 @@ class BotProfiles
                 'mistake_chance' => 9,
                 'randomness' => 25,
                 'reply_chance' => 75,
-                'message_chance' => 5,
                 'alliance_chance' => 20,
                 'alliance_join_chance' => 5,
                 'fleetsave_chance' => 70,
@@ -469,7 +465,6 @@ class BotProfiles
                 'mistake_chance' => 2,
                 'randomness' => 10,
                 'reply_chance' => 95,
-                'message_chance' => 15,
                 'alliance_chance' => 30,
                 'alliance_join_chance' => 8,
                 'fleetsave_chance' => 98,
@@ -501,7 +496,6 @@ class BotProfiles
                 'mistake_chance' => 45,
                 'randomness' => 40,
                 'reply_chance' => 90,
-                'message_chance' => 6,
                 'alliance_chance' => 40,
                 'alliance_join_chance' => 4,
                 'fleetsave_chance' => 15,

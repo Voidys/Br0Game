@@ -9,8 +9,8 @@ use App\Game\Core\Singleton;
 use Throwable;
 
 /**
- * Messaging part of the bot social behaviour: answers private messages with a reply picked from the situation of the
- * message (language, topic), greets neighbours, and sends the messages (same forbidden-text rules as for players).
+ * Messaging part of the bot social behaviour: answers private messages (combined, throttled, tone by relation stance), reacts to attacks on the bot,
+ * taunts after raids and sends the messages (same forbidden-text rules as for players).
  */
 class BotSocialMessaging
 {
@@ -45,23 +45,33 @@ class BotSocialMessaging
             'de' => ['Gute Frage, ich bin da selber noch am Rumprobieren.', 'Kann ich dir gerade nicht sagen, sorry.', 'Bin mir nicht sicher, was meinst du genau?'],
             'en' => ['Good question, I am still figuring that out myself.', 'Cannot tell you right now, sorry.', 'Not sure, what do you mean exactly?'],
         ],
+        'hostile' => [
+            'de' => ['Lass mich in Ruhe.', 'Ich hab keine Lust auf dich. Das war alles.', 'Schreib mir nicht nochmal.'],
+            'en' => ['Leave me alone.', 'I am not interested in talking to you. That is all.', 'Do not write to me again.'],
+        ],
+        'friendly' => [
+            'de' => ['Hey, schoen von dir zu hoeren! Danke dir.', 'Gerne, sag Bescheid wenn ich helfen kann.', 'Super, danke dir, dir auch viel Erfolg!'],
+            'en' => ['Hey, good to hear from you! Thanks.', 'Sure, let me know if I can help.', 'Great, thanks, good luck to you too!'],
+        ],
         'default' => [
             'de' => ['Ok, danke dir.', 'Alles klar.', 'Joa, kann man so machen.', 'Verstehe, danke fuer die Info.'],
             'en' => ['Ok, thanks.', 'Alright.', 'Yeah, can do.', 'I see, thanks for the info.'],
         ],
     ];
 
-
-    private const GREETINGS = [
-        'de' => [
-            ['Hallo', 'Hi, ich bin neu in deiner Gegend. Spielst du schon lange?'],
-            ['Moin', 'Hey, wir sind Nachbarn. Falls du Tipps hast, immer her damit.'],
-            ['Hi', 'Na, auch hier unterwegs? Wuensch dir viel Erfolg!'],
+    /** Short reaction after a player attacked the bot (subject, text), by stance and language. */
+    private const ATTACK_REACTIONS = [
+        'hostile' => [
+            'de' => [['Ernsthaft?', 'Das wirst du bereuen.'], ['Hm', 'Merk dir: ich vergesse sowas nicht.']],
+            'en' => [['Seriously?', 'You will regret that.'], ['Hm', 'Remember: I do not forget things like this.']],
         ],
-        'en' => [
-            ['Hello', 'Hi, I am new in your neighbourhood. Been playing for long?'],
-            ['Hey', 'Hey, looks like we are neighbours. Any tips are welcome.'],
-            ['Hi', 'Oh, you play here as well? Good luck out there!'],
+        'neutral' => [
+            'de' => [['Hey', 'Warum greifst du mich an? Lass das bitte.'], ['Nicht nett', 'Das war nicht noetig.']],
+            'en' => [['Hey', 'Why are you attacking me? Please stop.'], ['Not nice', 'That was not necessary.']],
+        ],
+        'friendly' => [
+            'de' => [['Autsch', 'Ich dachte, wir verstehen uns? Warum der Angriff?'], ['Schade', 'Das hat weh getan. Was ist los?']],
+            'en' => [['Ouch', 'I thought we got along? Why the attack?'], ['Too bad', 'That hurt. What is going on?']],
         ],
     ];
 
@@ -87,14 +97,17 @@ class BotSocialMessaging
         private readonly Singleton $state,
         private readonly BotPersona $persona,
         private readonly BotLog $botLog,
+        private readonly BotRelations $relations,
     ) {}
 
     /**
-     * Answers the oldest unhandled private message to the bot: a player message (not from a bot or itself, not deleted, at least 30
-     * seconds old, newer than `last_message_id`). With the profile's `reply_chance` (percent) and no DM block between the
-     * two, the reply is written by the LLM (if configured and sane) or picked from canned replies by intent and
-     * language (detectLanguage(), cannedReply()). In every case the message counts as handled: the pointer
-     * `last_message_id` advances and the message is marked read. Returns true when a reply was sent.
+     * Answers the private messages to the bot, one sender per turn. Unhandled player messages (not from bots or the bot, not
+     * deleted, at least 30 seconds old, newer than the sender's relation pointer `last_handled_message_id`, or for players without a
+     * relation the bot's legacy `last_message_id`) are grouped by sender. A sender is due when their oldest unhandled message is
+     * at least `bot_reply_delay_hours` old; the most overdue one is handled: every message is recorded as a relation event, then
+     * with the profile's `reply_chance` (percent), no DM block and `bot_chatter` on, ONE reply answers all of them (LLM with the
+     * messages numbered plus the relation, else a canned reply by combined text and stance). In every case all of those
+     * messages count as handled (pointer advanced, marked read). Returns true when a reply was sent.
      *
      * @param array<string, mixed> $ctx bot context built by BotSocial::act()
      */
@@ -103,47 +116,87 @@ class BotSocialMessaging
         $db = $this->db;
         $bot = $ctx['bot'];
         $uni = $ctx['uni'];
-        $last = (int) ($ctx['row']['last_message_id'] ?? 0);
         $now = time();
+        $config = $this->configs->get($uni);
+        $delay = max(0, (int) ($config->bot_reply_delay_hours ?? 3)) * 3600;
 
         // the bot's inbox is users_to_messages (a message can have several receivers; message_owner is only the first)
-        $msg = $db->selectSingle(
+        $rows = $db->select(
             'SELECT m.message_id, m.message_group, m.message_sender, m.message_subject, m.message_text, m.message_time
              FROM %%MESSAGES%% m
              INNER JOIN %%USERS_TO_MESSAGES%% um ON um.message_id = m.message_id AND um.user_id = :bot
+             LEFT JOIN %%BOT_RELATIONS%% r ON r.bot_id = :bot4 AND r.player_id = m.message_sender
              WHERE m.message_type = :type AND m.message_universe = :uni
-               AND m.message_id > :last AND m.message_sender > 0 AND m.message_sender <> :bot2
+               AND m.message_id > COALESCE(r.last_handled_message_id, CAST(:last AS UNSIGNED)) AND m.message_sender > 0 AND m.message_sender <> :bot2
                AND um.sender_id IS NOT NULL AND um.sender_id <> :bot3
                AND um.deleted_at IS NULL AND m.message_deleted IS NULL AND m.message_time <= :minAge
                AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = m.message_sender)
-             ORDER BY m.message_id ASC LIMIT 1;',
-            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':type' => MESSAGE_TYPE_USER, ':uni' => $uni, ':last' => $last, ':minAge' => $now - 30],
+             ORDER BY m.message_id ASC LIMIT 300;',
+            [':bot' => $bot, ':bot2' => $bot, ':bot3' => $bot, ':bot4' => $bot, ':type' => MESSAGE_TYPE_USER, ':uni' => $uni, ':last' => (int) ($ctx['row']['last_message_id'] ?? 0), ':minAge' => $now - 30],
         );
-        if (empty($msg)) {
+        if (empty($rows)) {
             return false;
         }
 
-        $messageId = (int) $msg['message_id'];
-        $senderId = (int) $msg['message_sender'];
+        $bySender = [];
+        foreach ($rows as $row) {
+            $bySender[(int) $row['message_sender']][] = $row;
+        }
+        $senderId = 0;
+        $oldest = PHP_INT_MAX;
+        foreach ($bySender as $id => $list) {
+            $age = min(array_map(static fn(array $m): int => (int) $m['message_time'], $list));
+            if ($age <= $now - $delay && $age < $oldest) {
+                $oldest = $age;
+                $senderId = $id;
+            }
+        }
+        if ($senderId === 0) {
+            return false;
+        }
+        $msgs = $bySender[$senderId];
+        $lastId = (int) end($msgs)['message_id'];
+        $ids = array_map(static fn(array $m): int => (int) $m['message_id'], $msgs);
+
+        foreach ($msgs as $unused) {
+            $this->relations->record($bot, $senderId, $uni, BotRelations::EVENT_MESSAGE);
+        }
+        $relation = $this->relations->get($bot, $senderId);
+        $stance = $this->relations->stance($relation);
         $replied = false;
 
-        $settings = $ctx['profile'];
-        $chance = (int) ($settings['reply_chance'] ?? 80);
+        $chance = (int) ($ctx['profile']['reply_chance'] ?? 80);
         $blocked = $this->playerUtil()->get_block_status($bot, $senderId)['block_dm'] == 1
             || $this->playerUtil()->get_block_status($senderId, $bot)['block_dm'] == 1;
 
-        if (!$blocked && mt_rand(1, 100) <= $chance) {
-            $incoming = self::plain((string) $msg['message_text'], 600);
-            $subjectPlain = self::plain((string) $msg['message_subject'], 200);
-            $lang = self::detectLanguage($incoming, $ctx['persona']['language'] ?? 'de');
+        if (empty($config->bot_chatter)) {
+            $this->botLog->log($bot, $uni, 'reply', 'chatter off, handled ' . count($msgs) . ' msg of #' . $senderId);
+        } elseif ($blocked || mt_rand(1, 100) > $chance) {
+            $this->botLog->log($bot, $uni, 'reply', 'skipped #' . $senderId . ' (' . count($msgs) . ' msg, ' . ($blocked ? 'dm block' : 'roll') . ')');
+        } else {
+            $numbered = [];
+            $combined = '';
+            foreach ($msgs as $i => $m) {
+                $body = self::plain((string) $m['message_text'], 400);
+                $subj = self::plain((string) $m['message_subject'], 100);
+                $numbered[] = ($i + 1) . '. Subject: ' . $subj . ' | Message: ' . $body;
+                $combined .= ' ' . $body;
+            }
+            $combined = trim($combined);
+            $subjectPlain = self::plain((string) $msgs[0]['message_subject'], 200);
+            $lang = self::detectLanguage($combined, $ctx['persona']['language'] ?? 'de');
             $text = null;
 
-            $situation = $this->situation($ctx);
-            $system = self::systemPrompt($ctx, 400);
-            $prompt = "Another player wrote you a private message.\nSubject: " . $subjectPlain
-                . "\nMessage: " . $incoming . "\nYour situation: " . $situation
-                . "\nWrite your reply in " . ($lang === 'de' ? 'German' : 'English') . ', max 400 characters.';
-            $llm = $this->persona->ask($uni, $bot, $system, $prompt, 300);
+            $tone = match ($stance) {
+                'hostile' => 'You dislike this player (curt, cold, may warn them off, but no insults or real threats).',
+                'friendly' => 'You like this player (warm and friendly).',
+                default => 'You have no strong feelings about this player.',
+            };
+            $prompt = 'Another player wrote you ' . count($msgs) . " private message(s), oldest first:\n" . implode("\n", $numbered)
+                . "\nRelationship: " . $this->relations->summary($relation) . '. ' . $tone
+                . "\nYour situation: " . $this->situation($ctx)
+                . "\nWrite ONE reply that answers all messages, in " . ($lang === 'de' ? 'German' : 'English') . ', max 400 characters.';
+            $llm = $this->persona->ask($uni, $bot, self::systemPrompt($ctx, 400), $prompt, 300);
             if ($llm !== null) {
                 $clean = BotPersona::cleanText($llm, 400);
                 if (BotPersona::looksBroken($clean)) {
@@ -153,125 +206,149 @@ class BotSocialMessaging
                 }
             }
             if ($text === null) {
-                $text = self::cannedReply($incoming, $lang, $ctx['persona']);
+                $text = self::cannedReply($combined, $lang, $ctx['persona'], $stance);
             }
 
-            $subject = 'Re: ' . self::trimSubject($subjectPlain);
-            $group = !empty($msg['message_group']) ? (string) $msg['message_group'] : null;
-            $replied = $this->send($ctx, $senderId, $subject, $text, $group);
-            $this->botLog->log($bot, $uni, 'reply', ($replied ? 'to #' : 'skipped #') . $senderId . ' msg ' . $messageId . ($llm !== null ? ' llm' : ''));
+            $group = !empty($msgs[0]['message_group']) ? (string) $msgs[0]['message_group'] : null;
+            $replied = $this->send($ctx, $senderId, 'Re: ' . self::trimSubject($subjectPlain), $text, $group);
+            if ($replied) {
+                $this->relations->markBotMessage($bot, $senderId, $uni);
+            }
+            $this->botLog->log($bot, $uni, 'reply', ($replied ? 'to #' : 'skipped #') . $senderId . ' (' . count($msgs) . ' msg, ' . $stance . ')' . ($llm !== null ? ' llm' : ''));
         }
 
-        // handled: advance pointer and mark read
-        $db->update('UPDATE %%BOT_PLAYERS%% SET last_message_id = :id WHERE user_id = :bot;', [':id' => $messageId, ':bot' => $bot]);
-        $db->update('UPDATE %%MESSAGES%% SET message_unread = 0 WHERE message_id = :id AND message_owner = :bot;', [':id' => $messageId, ':bot' => $bot]);
-        $db->update('UPDATE %%USERS_TO_MESSAGES%% SET message_unread = 0 WHERE message_id = :id AND user_id = :bot;', [':id' => $messageId, ':bot' => $bot]);
+        // handled: advance the sender's pointer and mark read
+        $this->relations->markHandled($bot, $senderId, $uni, $lastId);
+        $in = implode(',', $ids);
+        $db->update('UPDATE %%MESSAGES%% SET message_unread = 0 WHERE message_id IN (' . $in . ') AND message_owner = :bot;', [':bot' => $bot]);
+        $db->update('UPDATE %%USERS_TO_MESSAGES%% SET message_unread = 0 WHERE message_id IN (' . $in . ') AND user_id = :bot;', [':bot' => $bot]);
 
         return $replied;
     }
 
     /**
-     * Unprompted greeting to a neighbour: with `message_chance` (percent), at most 5 player messages per 24 h, to one random human
-     * who was online within 30 days, plays in the same galaxy within 10 systems and was not messaged by this bot in
-     * the last 7 days. LLM text with fallback to a canned greeting; blocked players are skipped. Returns true when sent.
+     * Notices attacks and spy probes on the bot since the last check, from the fleet log (`log_fleets`: target_owner = bot,
+     * missions attack/ACS/destroy and espionage, arrival time inside the window, sender is a human). The window starts at
+     * `bot_players.last_threat_check` (at most one hour back) and ends now. Every probe/attack is a relation event; after an attack the
+     * bot reacts (see reactToAttack()). Returns true when a reaction was sent.
      *
      * @param array<string, mixed> $ctx bot context
      */
-    public function stepMessage(array $ctx): bool
+    public function stepThreats(array $ctx): bool
     {
-        $chance = (int) ($ctx['profile']['message_chance'] ?? 5);
-        if (mt_rand(1, 100) > $chance) {
-            return false;
-        }
         $db = $this->db;
         $bot = $ctx['bot'];
         $uni = $ctx['uni'];
         $now = time();
+        $from = max((int) $db->selectSingle('SELECT last_threat_check FROM %%BOT_PLAYERS%% WHERE user_id = :bot;', [':bot' => $bot], 'last_threat_check'), $now - 3600);
+        $db->update('UPDATE %%BOT_PLAYERS%% SET last_threat_check = :now WHERE user_id = :bot;', [':now' => $now, ':bot' => $bot]);
 
-        $sentToday = (int) $db->selectSingle(
-            'SELECT COUNT(*) AS c FROM %%MESSAGES%% WHERE message_sender = :bot AND message_type = :t AND message_time > :since;',
-            [':bot' => $bot, ':t' => MESSAGE_TYPE_USER, ':since' => $now - 86400],
-            'c',
+        $rows = $db->select(
+            'SELECT l.owner, l.mission FROM %%LOG_FLEETS%% l
+             WHERE l.target_owner = :bot AND l.universe = :uni AND l.owner <> :bot2 AND l.mission IN (1, 2, 6, 9)
+               AND l.arrival_time > :from AND l.arrival_time <= :now
+               AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = l.owner)
+             ORDER BY l.arrival_time ASC;',
+            [':bot' => $bot, ':bot2' => $bot, ':uni' => $uni, ':from' => $from, ':now' => $now],
         );
-        if ($sentToday >= 5) {
-            return false;
-        }
-
-        $target = $db->selectSingle(
-            'SELECT u.id, u.username, u.galaxy, u.`system`, u.planet, us.lang FROM %%USERS%% u
-             LEFT JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
-             WHERE u.universe = :uni AND u.id <> :bot AND u.galaxy = :gal AND u.`system` BETWEEN :s1 AND :s2
-               AND u.onlinetime > :online AND u.authlevel = 0 AND u.urlaubs_modus = 0 AND u.banaday < :nowban
-               AND NOT EXISTS (SELECT 1 FROM %%BOT_PLAYERS%% b WHERE b.user_id = u.id)
-               AND NOT EXISTS (SELECT 1 FROM %%MESSAGES%% m WHERE m.message_sender = :bot AND m.message_owner = u.id
-                               AND m.message_type = :t AND m.message_time > :week)
-             ORDER BY RAND() LIMIT 1;',
-            [
-                ':uni' => $uni, ':bot' => $bot, ':gal' => (int) $ctx['me']['galaxy'],
-                ':s1' => (int) $ctx['me']['system'] - 10, ':s2' => (int) $ctx['me']['system'] + 10,
-                ':online' => $now - 30 * 86400, ':nowban' => $now, ':t' => MESSAGE_TYPE_USER, ':week' => $now - 7 * 86400,
-            ],
-        );
-        if (empty($target)) {
-            return false;
-        }
-        if (
-            $this->playerUtil()->get_block_status($bot, (int) $target['id'])['block_dm'] == 1
-            || $this->playerUtil()->get_block_status((int) $target['id'], $bot)['block_dm'] == 1
-        ) {
-            return false;
-        }
-
-        $lang = in_array($target['lang'] ?? '', ['de', 'en'], true) ? $target['lang'] : 'en';
-        $text = null;
-        $subject = null;
-        $llm = $this->persona->ask(
-            $uni,
-            $bot,
-            self::systemPrompt($ctx, 250),
-            'Write a short, friendly first message (max 250 characters, in ' . ($lang === 'de' ? 'German' : 'English')
-                . ') to a neighbouring player named "' . $target['username'] . '" at ' . $target['galaxy'] . ':' . $target['system']
-                . '. Just greet them or ask something casual about the game. ' . $this->situation($ctx),
-            200,
-        );
-        if ($llm !== null) {
-            $clean = BotPersona::cleanText($llm, 250);
-            if (!BotPersona::looksBroken($clean)) {
-                $text = $clean;
-                $subject = $lang === 'de' ? 'Hallo' : 'Hello';
+        $attackers = [];
+        foreach ($rows as $row) {
+            $player = (int) $row['owner'];
+            if ((int) $row['mission'] === 6) {
+                $this->relations->record($bot, $player, $uni, BotRelations::EVENT_PLAYER_SPIED);
+            } else {
+                $this->relations->record($bot, $player, $uni, BotRelations::EVENT_PLAYER_ATTACKED);
+                $attackers[$player] = true;
             }
         }
-        if ($text === null) {
-            [$subject, $text] = self::pick(self::GREETINGS[$lang]);
-            $text = self::stylize($text, $ctx['persona']);
+
+        $sent = false;
+        foreach (array_keys($attackers) as $player) {
+            $sent = $this->reactToAttack($ctx, $player) || $sent;
         }
 
-        $ok = $this->send($ctx, (int) $target['id'], $subject, $text, null);
-        $this->botLog->log($bot, $uni, 'message', ($ok ? 'greeted #' : 'skipped #') . $target['id'] . ($llm !== null ? ' llm' : ''));
+        return $sent;
+    }
 
-        return $ok;
+    /**
+     * Short reaction to a player who attacked the bot, canned by stance and language. Sent regardless of `bot_chatter`, only if the
+     * player is contacted (always true after an attack), no DM block exists and the bot did not write to them within
+     * `bot_reply_delay_hours`. Returns true when sent.
+     *
+     * @param array<string, mixed> $ctx bot context
+     */
+    private function reactToAttack(array $ctx, int $player): bool
+    {
+        $bot = $ctx['bot'];
+        $uni = $ctx['uni'];
+        $relation = $this->relations->get($bot, $player);
+        if (empty($relation['player_contacted']) || !$this->throttleOpen($relation, $uni)) {
+            $this->botLog->log($bot, $uni, 'attack_reaction', 'none for #' . $player . ' (throttled)');
+
+            return false;
+        }
+        if ($this->dmBlocked($bot, $player)) {
+            return false;
+        }
+        $stance = $this->relations->stance($relation);
+        $targetLang = (string) $this->db->selectSingle('SELECT lang FROM %%USERS_SETTINGS%% WHERE user_id = :id;', [':id' => $player], 'lang');
+        $lang = $this->pickLanguage($ctx, self::ATTACK_REACTIONS[$stance], $targetLang);
+        [$subject, $text] = self::pick(self::ATTACK_REACTIONS[$stance][$lang]);
+        $sent = $this->send($ctx, $player, $subject, self::stylize($text, $ctx['persona']), null);
+        if ($sent) {
+            $this->relations->markBotMessage($bot, $player, $uni);
+        }
+        $this->botLog->log($bot, $uni, 'attack_reaction', ($sent ? 'reacted to #' : 'no reaction for #') . $player . ' (' . $stance . ')');
+
+        return $sent;
+    }
+
+    /** Whether the bot may write to the player again: `bot_reply_delay_hours` since its last message to them. */
+    private function throttleOpen(array $relation, int $uni): bool
+    {
+        $delay = max(0, (int) ($this->configs->get($uni)->bot_reply_delay_hours ?? 3)) * 3600;
+
+        return time() - (int) ($relation['last_bot_message_at'] ?? 0) >= $delay;
+    }
+
+    /** True when either side blocks direct messages. */
+    private function dmBlocked(int $bot, int $player): bool
+    {
+        return $this->playerUtil()->get_block_status($bot, $player)['block_dm'] == 1
+            || $this->playerUtil()->get_block_status($player, $bot)['block_dm'] == 1;
+    }
+
+    /** Persona language if the phrase set has it, else the target's, else 'de'. */
+    private function pickLanguage(array $ctx, array $set, string $targetLang): string
+    {
+        $lang = $ctx['persona']['language'] ?? $targetLang;
+
+        return isset($set[$lang]) ? $lang : (isset($set[$targetLang]) ? $targetLang : 'de');
     }
 
     /**
      * Short taunt after a successful raid, to the raided player: a canned phrase in the bot's language ('de' or 'en', else the
-     * target's, else German), styled like the persona writes. Refused DM blocks and forbidden texts return false.
+     * target's, else German), styled like the persona writes. Only goes to players who contacted the bot before (it never opens
+     * contact) and only if `bot_reply_delay_hours` passed since its last message to them. Refused DM blocks and forbidden
+     * texts return false.
      *
      * @param array<string, mixed> $ctx bot context (bot, uni, me, persona, profile; see BotSocial::act())
      */
     public function taunt(array $ctx, int $receiverId, string $targetLang): bool
     {
         $bot = (int) $ctx['bot'];
-        if (
-            $this->playerUtil()->get_block_status($bot, $receiverId)['block_dm'] == 1
-            || $this->playerUtil()->get_block_status($receiverId, $bot)['block_dm'] == 1
-        ) {
+        $relation = $this->relations->get($bot, $receiverId);
+        if (empty($relation['player_contacted']) || !$this->throttleOpen($relation, (int) $ctx['uni']) || $this->dmBlocked($bot, $receiverId)) {
             return false;
         }
-        $lang = $ctx['persona']['language'] ?? $targetLang;
-        $lang = isset(self::TAUNTS[$lang]) ? $lang : (isset(self::TAUNTS[$targetLang]) ? $targetLang : 'de');
+        $lang = $this->pickLanguage($ctx, self::TAUNTS, $targetLang);
         [$subject, $text] = self::pick(self::TAUNTS[$lang]);
+        $sent = $this->send($ctx, $receiverId, $subject, self::stylize($text, $ctx['persona']), null);
+        if ($sent) {
+            $this->relations->markBotMessage($bot, $receiverId, (int) $ctx['uni']);
+        }
 
-        return $this->send($ctx, $receiverId, $subject, self::stylize($text, $ctx['persona']), null);
+        return $sent;
     }
 
     // ------------------------------------------------------------------------------------------------
@@ -412,8 +489,8 @@ class BotSocialMessaging
         return in_array($fallback, ['de', 'en'], true) ? $fallback : 'de';
     }
 
-    /** Fixed-phrase reply chosen by keyword intent (attack, trade, alliance, question, greeting, default) in the given language, then stylized. */
-    private static function cannedReply(string $incoming, string $lang, array $persona): string
+    /** Fixed-phrase reply chosen by keyword intent (attack, trade, alliance, question, greeting, default) and stance (hostile always, friendly for small talk) in the given language, then stylized. */
+    private static function cannedReply(string $incoming, string $lang, array $persona, string $stance = 'neutral'): string
     {
         $t = mb_strtolower($incoming);
         $intent = 'default';
@@ -427,6 +504,9 @@ class BotSocialMessaging
             $intent = 'question';
         } elseif (preg_match('/^(hi|hallo|hey|moin|hello|servus|na)\b/', $t)) {
             $intent = 'greeting';
+        }
+        if ($stance === 'hostile' || ($stance === 'friendly' && in_array($intent, ['default', 'greeting', 'question'], true))) {
+            $intent = $stance;
         }
         $text = self::pick(self::REPLIES[$intent][$lang] ?? self::REPLIES[$intent]['en']);
 

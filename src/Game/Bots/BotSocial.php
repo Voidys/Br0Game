@@ -9,7 +9,7 @@ use App\Game\Core\Singleton;
 use Throwable;
 
 /**
- * Social behaviour of bots: answering private messages, buddy requests, alliances, greeting neighbours. Runs the steps of
+ * Social behaviour of bots: reacting to attacks, answering private messages, buddy requests, alliances. Bots never open contact with strangers. Runs the steps of
  * one bot turn; the messaging and alliance steps live in BotSocialMessaging and BotSocialAlliance.
  * Everything goes through the game's own tables / $this->playerUtil()->sendMessage, each step rolled by a chance.
  */
@@ -23,14 +23,14 @@ class BotSocial
         private readonly Singleton $state,
         private readonly BotPersona $persona,
         private readonly BotLog $botLog,
+        private readonly BotRelations $relations,
         private readonly BotSocialMessaging $messaging,
         private readonly BotSocialAlliance $alliance,
     ) {}
 
     /**
      * One social turn of a bot, after its gameplay actions: builds the context (own user row, decoded persona,
-     * profile settings) and runs the steps reply, buddy, alliance, message in that order. A reply or message that was
-     * sent blocks the later `message` step so a bot never sends two chat messages in one turn. Each step is isolated:
+     * profile settings) and runs the steps threats (attacks/spies on the bot), reply, buddy, alliance in that order. Each step is isolated:
      * errors are written to the bot log ('social') and the next step still runs. Returns silently if the bot's user
      * row is gone.
      *
@@ -64,21 +64,15 @@ class BotSocial
             return;
         }
 
-        $sent = false;
         $steps = [
+            'threats' => fn() => $this->messaging->stepThreats($ctx),
             'reply' => fn() => $this->messaging->stepReply($ctx),
             'buddy' => fn() => $this->stepBuddy($ctx),
             'alliance' => fn() => $this->alliance->stepAlliance($ctx),
-            'message' => function () use ($ctx, &$sent) {
-                return $sent ? false : $this->messaging->stepMessage($ctx);
-            },
         ];
         foreach ($steps as $name => $step) {
             try {
-                $result = $step();
-                if (($name === 'reply' || $name === 'message') && $result === true) {
-                    $sent = true;
-                }
+                $step();
             } catch (Throwable $e) {
                 $this->botLog->log($botId, $universe, 'social', $name . ': ' . $e->getMessage());
             }
@@ -109,6 +103,7 @@ class BotSocial
             return false;
         }
 
+        $this->relations->record($bot, (int) $req['sender'], $ctx['uni'], BotRelations::EVENT_BUDDY_REQUEST);
         $lang = $this->playerUtil()->getLanguage($req['lang'] ?: 'en');
         $accept = mt_rand(1, 100) <= (int) ($ctx['profile']['buddy_accept_chance'] ?? 60);
         if ($accept) {
@@ -124,6 +119,7 @@ class BotSocial
                 1,
                 $ctx['uni'],
             );
+            $this->relations->record($bot, (int) $req['sender'], $ctx['uni'], BotRelations::EVENT_BUDDY_ACCEPTED);
             $this->botLog->log($bot, $ctx['uni'], 'buddy', 'accepted #' . $req['sender']);
         } elseif (mt_rand(1, 100) <= 80) {
             $this->playerUtil()->sendMessage(

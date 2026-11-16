@@ -37,6 +37,7 @@ $dbTableNames   = [
     'BOT_LOG'                 => $prefix . 'bot_log',
     'BOT_PLAYERS'             => $prefix . 'bot_players',
     'BOT_PROFILES'            => $prefix . 'bot_profiles',
+    'BOT_RELATIONS'           => $prefix . 'bot_relations',
     'BUDDY'                   => $prefix . 'buddy',
     'BUDDY_REQUEST'           => $prefix . 'buddy_request',
     'CONFIG'                  => $prefix . 'config',

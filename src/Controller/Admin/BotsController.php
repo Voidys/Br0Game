@@ -355,7 +355,6 @@ class BotsController extends AbstractAdminController
             'randomness' => $p['randomness'] ?? 0,
             'llm_advice' => !empty($p['llm_advice']),
             'reply_chance' => $p['reply_chance'] ?? 0,
-            'message_chance' => $p['message_chance'] ?? 0,
             'alliance_chance' => $p['alliance_chance'] ?? 0,
             'alliance_join_chance' => $p['alliance_join_chance'] ?? 0,
             'fleetsave_chance' => $p['fleetsave_chance'] ?? 0,

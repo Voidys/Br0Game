@@ -5,6 +5,7 @@ namespace App\Game\Bots\Raid;
 use App\Game\Bots\BotActions;
 use App\Game\Bots\BotLog;
 use App\Game\Bots\BotPersona;
+use App\Game\Bots\BotRelations;
 use App\Game\Bots\BotSocialMessaging;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
@@ -41,6 +42,7 @@ class RaidFollowUp
         private readonly RaidDispatcher $dispatcher,
         private readonly BotLog $botLog,
         private readonly BotSocialMessaging $messaging,
+        private readonly BotRelations $relations,
     ) {}
 
     /**
@@ -309,6 +311,9 @@ class RaidFollowUp
         RaidMemory::farm($personality, (int) $attack['planet'], (int) $attack['user'], (string) $attack['name'], $value, $now);
         if ($value >= RaidPlanner::MIN_LOOT * self::STREAK_LOOT) {
             $this->streak($ctx, $botId, $uni, $s, $mem, $label, $now);
+        }
+        if (!$attack['is_bot']) {
+            $this->relations->record($botId, (int) $attack['user'], $uni, BotRelations::EVENT_BOT_RAIDED);
         }
         if (!$attack['is_bot'] && mt_rand(1, 100) <= 15) {
             $this->taunt($bot, $s, $attack, $botId, $uni);

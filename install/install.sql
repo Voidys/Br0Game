@@ -1439,11 +1439,26 @@ CREATE TABLE `%PREFIX%bot_players` (
   `actions_total` INT UNSIGNED NOT NULL DEFAULT 0,
   `persona` TEXT NULL,
   `last_message_id` INT UNSIGNED NOT NULL DEFAULT 0,
+  `last_threat_check` INT UNSIGNED NOT NULL DEFAULT 0,
   `llm_calls_day` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   `llm_calls_date` INT UNSIGNED NOT NULL DEFAULT 0,
   `created_at` INT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`),
   KEY `tick` (`universe`, `next_tick`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `%PREFIX%bot_relations` (
+  `bot_id` INT UNSIGNED NOT NULL,
+  `player_id` INT UNSIGNED NOT NULL,
+  `universe` TINYINT UNSIGNED NOT NULL,
+  `balance` INT NOT NULL DEFAULT 0,
+  `interactions` INT UNSIGNED NOT NULL DEFAULT 0,
+  `player_contacted` TINYINT(1) NOT NULL DEFAULT 0,
+  `last_interaction` INT UNSIGNED NOT NULL DEFAULT 0,
+  `last_handled_message_id` INT UNSIGNED NOT NULL DEFAULT 0,
+  `last_bot_message_at` INT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`bot_id`, `player_id`),
+  KEY `universe` (`universe`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `%PREFIX%bot_log` (
