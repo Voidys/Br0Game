@@ -69,6 +69,11 @@ class LinkTutorialSupport extends AbstractTutorialSupport
         }
     }
 
+    public function fullfillGoalByRequest(int $goal): void
+    {
+        $this->fullfillGoal($goal);
+    }
+
     /**
      * Fullfills the given goal for the current user
      *

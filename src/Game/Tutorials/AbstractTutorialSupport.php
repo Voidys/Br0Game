@@ -199,6 +199,16 @@ abstract class AbstractTutorialSupport
     }
 
     /**
+     * Fullfills the given goal on behalf of a player request (button/link click)
+     *
+     * Goals backed by server facts must never be fulfilled by a request, so the default is a no-op.
+     * Only steps whose completion genuinely is a click (link steps) override this.
+     */
+    public function fullfillGoalByRequest(int $goal): void
+    {
+    }
+
+    /**
      * Lists all enabled rewards
      *
      * Can be disabled by module MODULE_TUTORIAL_REWARDS

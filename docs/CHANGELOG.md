@@ -1094,3 +1094,11 @@ Technical changes per migration step, newest last.
 
 - `Singleton` declares the game state it carries (`@property`: `USER`/`PLANET` rows, `LNG` Language, `THEME`, `resource`, `reslist`, `pricelist`), so PHPStan checks their use instead of treating them as `mixed`; runtime unchanged (still the dynamic bag). Two by-ref baseline findings disappeared with the sharper types.
 - PHPStan raised to level 6: every new or changed method/property needs parameter, return and iterable value types; the 1398 existing `missingType.*` gaps are baselined (native types are added when code is touched, not in bulk, because adding return types to overridden methods can fatal subclasses).
+
+## 137. Audit fixes: tutorial rewards, market purchase races and blocks
+
+- F-01: tutorial goals can only be fulfilled by request for link steps (`AbstractTutorialSupport::fullfillGoalByRequest()`, overridden by `LinkTutorialSupport`); mission and rename goals stay derived from server facts (fleet log, planet name, buddy/alliance rows), so `mode=fullfill` + `claim` no longer pays out rewards for work not done.
+- F-07: `block_trade` (both directions) is enforced on public market offers too (`MarketPurchase::validateOffer` always runs `checkDiplo`).
+- F-04: `MarketPurchase::buy()` locks and re-reads the buyer's user row, then planet row (FleetDispatch order) before the vacation, slot, offer and payment checks — parallel purchases can no longer exceed the fleet slots.
+- Tests: `TutorialFullfillRequestTest`, `MarketPurchaseTest` (blocked public offers, stale second purchase).
+

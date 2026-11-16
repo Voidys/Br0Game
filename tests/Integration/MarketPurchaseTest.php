@@ -114,4 +114,37 @@ final class MarketPurchaseTest extends GameTestCase
 
         $this->assertSame($this->state->LNG['market_p_msg_not_found'], $this->buy($buyer, $planet, $fleetId));
     }
+
+    public function testATradeBlockRefusesPublicOffersInBothDirections(): void
+    {
+        [$seller, $buyer, $planet, $fleetId] = $this->offer();
+        $blocked = $this->state->LNG['market_buyable_no_enemies'];
+
+        // the seller blocked the buyer
+        $this->db->insert('INSERT INTO %%USERS_BLOCKLIST%% (blocked_user, blocking_user, block_dm, block_trade) VALUES (:b, :s, 0, 1);', [':b' => $buyer['id'], ':s' => $seller['id']]);
+        $this->assertSame($blocked, $this->buy($buyer, $planet, $fleetId));
+        $this->db->delete('DELETE FROM %%USERS_BLOCKLIST%%;');
+
+        // the buyer blocked the seller
+        $this->db->insert('INSERT INTO %%USERS_BLOCKLIST%% (blocked_user, blocking_user, block_dm, block_trade) VALUES (:b, :s, 0, 1);', [':b' => $seller['id'], ':s' => $buyer['id']]);
+        $this->assertSame($blocked, $this->buy($buyer, $planet, $fleetId));
+        $this->assertSame(FLEET_HOLD, (int) $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId], 'status'));
+
+        // without a block the public offer is bought
+        $this->db->delete('DELETE FROM %%USERS_BLOCKLIST%%;');
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $fleetId));
+    }
+
+    public function testTheSlotCheckRunsOnTheLockedBuyerNotOnTheStaleCopy(): void
+    {
+        [, $buyer, $planet, $first] = $this->offer();
+        [, , , $second] = $this->offer();
+        // no fleet slot beyond the first: the stale copy of the user still says computer_tech 5
+        $this->db->update('UPDATE %%USERS%% SET computer_tech = 0 WHERE id = :id;', [':id' => $buyer['id']]);
+
+        $this->assertSame(sprintf($this->state->LNG['market_p_msg_sent'], 5, 0), $this->buy($buyer, $planet, $first));
+        // the second purchase starts from the stale arrays again and must still be refused (slot used by the first)
+        $this->assertSame($this->state->LNG['fl_no_slots'], $this->buy($buyer, $planet, $second));
+        $this->assertSame(FLEET_HOLD, (int) $this->db->selectSingle('SELECT status FROM %%FLEETS%% WHERE id = :id;', [':id' => $second], 'status'));
+    }
 }

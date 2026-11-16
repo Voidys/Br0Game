@@ -40,16 +40,17 @@ class MarketPurchase
      */
     public function buy(): string
     {
-        $USER = $this->state->USER;
         $LNG = $this->state->LNG;
         $FleetID = $this->http()->_GP('fleetID', 0);
         $shipType = $this->http()->_GP('shipType', "");
+
+        $this->lockBuyer();
 
         $vmode = $this->rules->checkVmode();
         if (!$vmode['buyable']) {
             return $vmode['reason'];
         }
-        $checkResult = $this->rules->checkSlots($USER);
+        $checkResult = $this->rules->checkSlots($this->state->USER);
         if ($checkResult['result'] < 0) {
             return $checkResult['message'];
         }
@@ -87,6 +88,23 @@ class MarketPurchase
         $LC = $sellerFleet[202] ?? 0;
         $HC = $sellerFleet[203] ?? 0;
         return $LNG->format('market_p_msg_sent', $LC, $HC);
+    }
+
+    /**
+     * Serialises parallel purchases of the same buyer (like FleetDispatch::dispatch()): locks the buyer's user row, then
+     * the planet row (always in this order, before the offer row) and re-reads both, so the slot check, the cargo/fuel
+     * and the resource affordability run on the locked rows and not on the copy read at the start of the request.
+     */
+    private function lockBuyer(): void
+    {
+        $user = $this->db->selectSingle('SELECT * FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $this->state->USER['id']]);
+        if (is_array($user)) {
+            $this->state->USER = array_merge($this->state->USER, $user);
+        }
+        $planet = $this->db->selectSingle('SELECT * FROM %%PLANETS%% WHERE `id` = :planetId FOR UPDATE;', [':planetId' => $this->state->PLANET['id']]);
+        if (is_array($planet)) {
+            $this->state->PLANET = array_merge($this->state->PLANET, $planet);
+        }
     }
 
     /**
@@ -140,28 +158,27 @@ class MarketPurchase
             return $LNG['market_p_msg_wrong_resource_type'];
         }
 
-        if ($fleetResult['filter_visibility'] != 0 && $USER['id'] != $fleetResult['owner']) {
-            //Check packts
-            $sql = "SELECT * FROM %%DIPLO%% WHERE ((owner_1 = :ow AND owner_2 = :ow2) OR"
-                . " (owner_2 = :ow AND owner_1 = :ow2)) AND accept = 1;";
-            $res = $this->db->select($sql, [
-                ':ow' => $USER['ally_id'],
-                ':ow2' => $fleetResult['ally_id'],
-            ]);
-            $level = null;
-            if ($this->db->rowCount() != 0) {
-                $level = $res[0]['level'];
-            }
-            $buy = $this->rules->checkDiplo(
-                $fleetResult['filter_visibility'],
-                $level,
-                $fleetResult['ally_id'],
-                $USER['ally_id'],
-                $fleetResult['owner'],
-            );
-            if (!$buy['buyable']) {
-                return $buy['reason'];
-            }
+        // trade blocks (both directions) apply to every offer, the pact/partner filter to the offers that set one
+        // pacts between the alliances
+        $sql = "SELECT * FROM %%DIPLO%% WHERE ((owner_1 = :ow AND owner_2 = :ow2) OR"
+            . " (owner_2 = :ow AND owner_1 = :ow2)) AND accept = 1;";
+        $res = $this->db->select($sql, [
+            ':ow' => $USER['ally_id'],
+            ':ow2' => $fleetResult['ally_id'],
+        ]);
+        $level = null;
+        if ($this->db->rowCount() != 0) {
+            $level = $res[0]['level'];
+        }
+        $buy = $this->rules->checkDiplo(
+            $fleetResult['filter_visibility'],
+            $level,
+            $fleetResult['ally_id'],
+            $USER['ally_id'],
+            $fleetResult['owner'],
+        );
+        if (!$buy['buyable']) {
+            return $buy['reason'];
         }
 
         if ($this->rules->checkPush($fleetResult, $USER['id'], $fleetResult['owner'])) {

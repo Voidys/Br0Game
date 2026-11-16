@@ -251,7 +251,7 @@ class TutorialUtil
         }
 
         $supportClass = $this->getSupportClass($tutorialStep, $USER);
-        $supportClass->fullfillGoal($goal);
+        $supportClass->fullfillGoalByRequest($goal);
     }
 
     /**
