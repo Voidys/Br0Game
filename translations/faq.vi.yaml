@@ -1,0 +1,154 @@
+faq_overview: FAQ
+questions:
+  '1':
+    '1':
+      body: |-
+        <p>Phần này nói về các công trình chính: nên xây gì trước và mỗi công trình dùng để làm gì. Một đế chế hưng thịnh bắt đầu từ việc xây chúng theo thứ tự hợp lý.</p>
+        <h3>Nhà máy điện mặt trời</h3>
+        <p>Hãy xây cái này trước. Mỏ cần năng lượng để sản xuất kim loại, tinh thể và deuterium. Sau khi nhà máy xây xong, thanh tài nguyên và trang Sản xuất sẽ cho biết bạn có bao nhiêu năng lượng.</p>
+        <h3>Mỏ kim loại</h3>
+        <p>Kim loại là một trong ba tài nguyên. Hầu như mọi thứ bạn xây hay nghiên cứu đều tốn kim loại, nên mở rộng mỏ này là ưu tiên. Đầu game, hãy giữ nó cao hơn các mỏ khác vài cấp.</p>
+        <h3>Mỏ tinh thể và Nhà máy tinh chế deuterium</h3>
+        <p>Tinh thể dùng cho công trình, tàu và nghiên cứu. Bạn sản xuất ít hơn kim loại nên nó quý hơn; về cuối game nó thường bị tranh giành quyết liệt. Deuterium là nhiên liệu cho hạm đội, có thể đốt để lấy năng lượng trong Nhà máy điện nhiệt hạch, và cần cho nhiều công trình và nghiên cứu quan trọng (kể cả Phòng nghiên cứu).</p>
+        <p>Thông tin thêm: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
+      title: Bước 1
+    '2':
+      body: |-
+        <p>Để phát triển đế chế và tương tác với người chơi khác, bạn cần thêm công trình. Nghiên cứu và Xưởng đóng tàu cho phép bạn bắt đầu xây hạm đội và phòng thủ hành tinh.</p>
+        <h3>Xưởng đóng tàu</h3>
+        <p>Mọi tàu (và công trình phòng thủ) đều được đóng ở đây. Xưởng đóng tàu có sớm, nhưng nhiều loại tàu vẫn cần nghiên cứu thêm. Menu Công nghệ liệt kê yêu cầu cho từng tàu và công trình phòng thủ. Xưởng đóng tàu cấp cao đóng nhanh hơn.</p>
+        <h3>Phòng nghiên cứu</h3>
+        <p>Nghiên cứu được bắt đầu ở đây. Nó mở khóa công trình, tàu, phòng thủ và các nghiên cứu tiếp theo, và một số công nghệ còn cho bonus cho những thứ bạn đã có. Mở rộng Phòng nghiên cứu giúp nghiên cứu nhanh hơn.</p>
+        <h3>Nhà máy robot</h3>
+        <p>Nhà máy robot là thiết yếu. Cấp cao hơn giảm thời gian xây công trình và cũng đẩy nhanh việc đóng tàu. Khi thời gian xây quá dài, hãy mở rộng Nhà máy robot để kéo nó xuống.</p>
+      title: Bước 2
+    '3':
+      body: |-
+        <p>Phần này nói về việc phòng thủ hành tinh và những bước đầu của hạm đội: cách gửi hạm đội và cách đối phó với người chơi khác.</p>
+        <h3>Bản đồ Thiên hà</h3>
+        <p>Dùng nó để tìm người chơi khác. Bạn thấy thông tin chi tiết về các hành tinh khác và có thể gửi một phần hạm đội thẳng từ màn hình này. Bạn cũng có thể nhắn tin cho người chơi, hoặc do thám một hành tinh nếu có Tàu do thám.</p>
+        <h3>Gửi hạm đội</h3>
+        <p>Hạm đội có thể được gửi từ bản đồ Thiên hà hoặc từ menu Hạm đội. Trước tiên chọn số lượng tàu mỗi loại muốn gửi. Rồi đặt mục tiêu (tọa độ từ bản đồ Thiên hà) và tốc độ. Cuối cùng chọn nhiệm vụ, như Tấn công, Triển khai, Đóng quân, Tái chế hoặc Vận chuyển.</p>
+        <h3>Phòng thủ</h3>
+        <p>Khi đã có Xưởng đóng tàu, bạn cũng có thể xây công trình phòng thủ. Chúng bảo vệ hành tinh và chiến đấu cùng mọi hạm đội có mặt khi cuộc tấn công đổ bộ. Khác với tàu, khoảng 70% công trình phòng thủ bị phá hủy được sửa lại sau trận chiến.</p>
+      title: Bước 3
+    category: Mẹo cho người mới
+  '2':
+    '1':
+      body: |-
+        <h3>Cướp bóc</h3>
+        <p>Cướp bóc nghĩa là tấn công người chơi khác để lấy tài nguyên của họ. Các kiểu phổ biến:</p>
+        <ul>
+        <li>Cướp nông trại</li>
+        <li>Tấn công hạm đội</li>
+        <li>Cướp trường mảnh vỡ</li>
+        <li>Đánh chặn</li>
+        </ul>
+        <h3>Cướp nông trại</h3>
+        <p>Đây là kiểu tấn công phổ biến nhất trong một vũ trụ. Bạn do thám các hành tinh gần đó và gửi những hạm đội nhỏ có đủ sức chở và hỏa lực để phá phòng thủ nhẹ mà vẫn có lời: tài nguyên cướp được phải nhiều hơn deuterium đã dùng cộng với tổn thất của bạn.</p>
+        <h3>Tấn công hạm đội</h3>
+        <p>Đỉnh cao của cướp bóc: săn hạm đội của người chơi khác. Ngoài Tàu do thám và may mắn, Phalanx cảm biến và canh giờ chuẩn rất quan trọng. Khi đã phát hiện một hạm đội đáng săn, bạn vẫn phải bắt kịp nó và tái chế đống mảnh vỡ. Việc đó thường khó, vì hạm đội có lời có thể vượt quá sức chứa tàu tái chế của bạn — khi đó bạn phải phối hợp tàu tái chế và, nếu cần, cả đồng đội trong Hệ thống chiến đấu liên minh cùng hạm đội chiến đấu.</p>
+        <h3>Cướp trường mảnh vỡ</h3>
+        <p>Cách kiếm lời dễ nhất và ít được ưa chuộng nhất: thu hoạch các trường mảnh vỡ do người chơi khác tạo ra. Mảnh vỡ thuộc về ai thu thập nó, nên việc cướp trường mảnh vỡ thường gây thù oán.</p>
+        <h3>Đánh chặn</h3>
+        <p>Việc của chiến binh hạm đội là xây hạm đội và phá hạm đội. Không phải lúc nào bạn cũng tìm thấy tàu đang nghỉ, nên bắt người chơi giỏi thường có nghĩa là đánh chặn họ khi họ đang cất hạm đội hoặc đang bay tấn công. Việc đó không dễ; có nhiều cách để phòng thủ trước nó.</p>
+        <ul>
+        <li><p>Mặt trăng giúp đánh chặn dễ hơn, vì Phalanx cảm biến có thể quét chuyển động hạm đội trên các hành tinh trong tầm (không phải mặt trăng). Nếu tìm thấy một hạm đội đáng bắt, hãy tính thời gian bay còn lại của nó — đặc biệt là thời gian quay về sau khi đến nơi. Cấp động cơ (Đốt cháy, Xung, Siêu không gian) từ báo cáo do thám là đủ để tính, bằng tay hoặc bằng máy tính thời gian bay. Một chiếc đồng hồ chính xác sẽ giúp ích. Canh giờ để hạm đội và tàu tái chế của bạn đến muộn hơn mục tiêu khoảng 3–5 giây tại hành tinh hoặc mặt trăng của họ. Tàu tái chế cũng cần được canh giờ.</p></li>
+        <li><p>Để đánh chặn một hạm đội bay từ mặt trăng đến trường mảnh vỡ, bạn cần biết đại khái giờ xuất phát. Hãy tạo một trường mảnh vỡ nhìn thấy được ở những nơi bạn đoán họ sẽ thu hoạch (ví dụ bằng Tàu do thám). Tính xem hạm đội của họ bay đến đó mất bao lâu, theo dõi hệ đó, và làm mới cho đến khi trường biến mất. Ghi lại thời điểm đó, cộng chuyến bay về của họ, và canh giờ cho hạm đội và tàu tái chế đến chậm hơn vài giây sau lúc họ đến.</p>
+        <p><b>Lưu ý:</b> cách này không phải lúc nào cũng được. Một cách đối phó phổ biến là gửi tàu tái chế đi trước để dọn trường.</p></li>
+        <li>Một dạng đánh chặn khác là đóng quân tại hành tinh của bạn bè để bảo vệ họ, buộc kẻ tấn công phải rút lui vì hạm đội phòng thủ quá mạnh. Bạn có thể giảm nguy cơ bị bắt theo cách này bằng cách quét kiểm tra trước khi cất hạm đội.</li>
+        <li><p>Nếu một người chơi triển khai từ hành tinh này sang hành tinh khác rồi gọi về, hạm đội sẽ biến mất khỏi Phalanx cảm biến. Hãy quan sát kiểu cất hạm đội của họ (khi nào họ phóng và khi nào họ gọi về). Khi bạn đoán họ sắp gọi về, hãy quét phalanx hành tinh đó mỗi giây. Ngay khi hạm đội biến mất, ghi lại thời điểm, cộng chuyến bay về, và đến muộn hơn khoảng 4–6 giây cùng hạm đội và tàu tái chế.</p>
+        <p>Nếu họ cất hạm đội từ mặt trăng đến trường mảnh vỡ và gửi tàu tái chế đi trước, việc đánh chặn gần như không thể trừ khi bạn phá hủy mặt trăng. Hãy gửi Tử Tinh với nhiệm vụ Phá hủy. Sau khi mặt trăng mất, hạm đội quay về hành tinh; hãy quét phalanx hành tinh đó và chen vào chậm hơn họ vài giây.</p>
+        <p>Mọi kỹ thuật này hiệu quả hơn nhiều nếu bạn biết thói quen của mục tiêu — ví dụ cất hạm đội mỗi tối lúc 23:00, hoặc lên mạng vào buổi trưa. Hãy tìm hiểu người chơi trước khi đánh chặn.</p></li>
+        </ul>
+        <p>Thêm trong wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Cất hạm đội</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Phalanx cảm biến</a>.</p>
+      title: Cướp bóc
+    '2':
+      body: |-
+        <h3>Tấn công bằng ACS</h3>
+        <p>Để tấn công cùng nhau, trước tiên hãy gửi một hạm đội với nhiệm vụ Tấn công đến mục tiêu. Sau khi nó xuất phát, mở menu Hạm đội và dùng Liên đoàn để biến hạm đội đó thành nhóm ACS. Tại đó bạn có thể đổi tên nhóm và mời người chơi khác; người bắt đầu cuộc tấn công được mời tự động. Mỗi người được mời sau đó gửi tàu của riêng mình đến cùng tọa độ với nhiệm vụ Tấn công liên minh.</p>
+        <p>Nhóm luôn bay theo tốc độ của hạm đội chậm nhất tham gia. Hạm đội nhanh hơn tham gia sau không rút ngắn thời gian còn lại. Hạm đội chậm hơn kéo thời gian còn lại lên bằng thời gian bay của chính nó. Thường có tối đa 5 người chơi và 16 hạm đội tham gia một cuộc tấn công ACS (cài đặt vũ trụ có thể khác). Một hạm đội tham gia chỉ được làm tăng thời gian bay còn lại tối đa 30%. Nếu còn 100 phút, hạm đội tham gia chỉ được bay tối đa 130 phút.</p>
+        <p><b>Cảnh báo:</b> nếu người lập nhóm ACS gọi về, mọi hạm đội trong nhóm cũng bị gọi về.</p>
+        <h3>Phòng thủ bằng ACS</h3>
+        <p>Nếu bạn bị tấn công, thành viên liên minh và bạn bè có thể giúp. Họ gửi một hạm đội đến tọa độ đang bị tấn công, chọn thời gian ở lại và dùng nhiệm vụ Đóng quân. Ngoài deuterium khi bay, chi phí đóng quân thêm được tính lúc xuất phát tùy theo quy mô hạm đội và thời gian. Khi đang đóng quân, họ chiến đấu trong mọi trận trên hành tinh hoặc mặt trăng đó và xuất hiện trong báo cáo do thám như thể là tàu của bạn. Hãy canh giờ đóng quân đến ngay trước kẻ tấn công để việc quét kiểm tra khó thấy họ hơn. Người đóng quân có thể gọi về từ menu Hạm đội bất cứ lúc nào; nếu không, hạm đội chờ hết thời gian đóng quân rồi về nhà.</p>
+        <h3>Deuterium cho 1 giờ đóng quân</h3>
+        <p>Tàu vận tải nhẹ: 5<br>
+        Tàu vận tải nặng: 5<br>
+        Chiến đấu cơ nhẹ: 2<br>
+        Chiến đấu cơ nặng: 7<br>
+        Tàu tuần dương: 30<br>
+        Thiết giáp hạm: 50<br>
+        Tàu thực dân: 100<br>
+        Tàu tái chế: 30<br>
+        Tàu do thám: 1/10<br>
+        Máy bay ném bom: 100<br>
+        Tàu hủy diệt: 100<br>
+        Tử Tinh: 1/10</p>
+      title: Hệ thống chiến đấu liên minh
+    '3':
+      body: |-
+        <p>Mặt trăng có thể hình thành khi một trường mảnh vỡ từ 100.000 đơn vị trở lên được tạo ra (1% cơ hội ra mặt trăng). Cơ hội này bị chặn ở 20%, dù trường lớn đến đâu.</p>
+        <h3>Chung</h3>
+        <p>Mặt trăng có thể được đổi tên như hành tinh, nhưng “(Mặt trăng)” vẫn nằm trong tên. Mỗi hành tinh chỉ có tối đa một mặt trăng. Mặt trăng cho phép bạn cất hạm đội khuất khỏi Phalanx cảm biến, nên đáng để tạo một cái tương đối sớm. Trên mặt trăng bạn có thể xây Nhà máy robot, Xưởng đóng tàu, Kho kim loại, Kho tinh thể, Kho deuterium, Kho liên minh, Căn cứ mặt trăng, Phalanx cảm biến và Cổng nhảy.</p>
+        <h3>Moonshot</h3>
+        <p>Moonshot là cố ý phá hủy tàu để tạo trường mảnh vỡ. Chiến đấu cơ nhẹ là lựa chọn thường thấy: với 30% hạm đội và 0% phòng thủ thành mảnh vỡ, 1.667 Chiến đấu cơ nhẹ cho 20% cơ hội ra mặt trăng. Chúng rẻ nên mất cũng không tiếc và đạt rất gần mức trần. Nếu người chơi mạnh hơn phá Chiến đấu cơ nhẹ của người yếu hơn, ai cũng có thể thu hoạch mảnh vỡ. Nếu người yếu hơn tấn công người mạnh hơn bằng những tàu định sẵn để chết, chỉ người yếu hơn được thu hoạch — nếu không thì là đẩy điểm (pushing). Mặt trăng và các lần thử tạo mặt trăng thuộc quy tắc về đẩy điểm.</p>
+        <p>Trong vũ trụ mà phòng thủ cũng tạo mảnh vỡ, thường tốt hơn là xây phòng thủ và để nó bị đập nát trong nhiều đợt cho nhiều lần thử ra mặt trăng. 3.334 Bệ phóng tên lửa hoặc 3.334 Tháp laser nhẹ là lựa chọn phổ biến.</p>
+        <p>Khi mặt trăng hình thành, báo cáo chiến đấu cho biết lượng kim loại và tinh thể tự do khổng lồ kéo lại gần nhau và tạo thành một vệ tinh quanh hành tinh.</p>
+        <p>Cơ hội ra mặt trăng từ 1% đến 19%: kích thước ngẫu nhiên. Cơ hội 20%: đường kính hơn 8.000 km. Mặt trăng không bao giờ lớn hơn 8.944 km.</p>
+        <h3>Công trình</h3>
+        <p>Thường không đáng xây kho trên mặt trăng vì ở đó không sản xuất gì. Xưởng đóng tàu cũng hiếm khi hữu ích: thời gian đóng lâu, và bạn có thể đóng tàu trên hành tinh. Kho liên minh còn gây tranh cãi; nó cũng chiếm những ô quý giá.</p>
+        <p>Ba công trình chỉ có trên mặt trăng là:</p>
+        <ul>
+        <li><p><b>Căn cứ mặt trăng</b><br>Thêm ô xây dựng: 3 mỗi cấp, trong đó một ô bị chiếm bởi lần nâng cấp Căn cứ mặt trăng tiếp theo.</p></li>
+        <li><p><b>Phalanx cảm biến</b><br>Hiển thị chuyển động hạm đội tại hành tinh của kẻ địch (không phải mặt trăng). Tầm tăng theo mỗi cấp.</p></li>
+        <li><p><b>Cổng nhảy</b><br>Chuyển tàu tức thì từ mặt trăng này sang mặt trăng khác. Tài nguyên không đi cùng được. Sau mỗi lần nhảy, cổng cần thời gian hồi (thường một giờ) nếu không sẽ quá nhiệt.</p></li>
+        </ul>
+        <p>Một thứ tự xây mặt trăng phổ biến:<br>
+        <b>Chú thích:</b><br>
+        MB – Căn cứ mặt trăng<br>
+        SP – Phalanx cảm biến<br>
+        ST – Cổng nhảy<br>
+        RB – Nhà máy robot</p>
+        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
+        Sau đó bạn có thể tiếp tục nâng Phalanx cảm biến nếu đủ tài nguyên. Bạn cũng có thể phá bớt vài cấp Nhà máy robot và dùng những ô đó cho phalanx.</p>
+        <h3>Phá hủy</h3>
+        <p>Mặt trăng chỉ có thể bị phá hủy bằng Tử Tinh. Trong menu nhiệm vụ hãy chọn Phá hủy thay vì Tấn công. Mọi hạm đội trên mặt trăng phải bị tiêu diệt trước; những Tử Tinh còn sống sót vẫn có thể bị mất khi chính mặt trăng bị phá hủy. Phá hủy mặt trăng không tạo trường mảnh vỡ.</p>
+        <h3>Tử Tinh tấn công mặt trăng</h3>
+        <p>Cơ hội phá hủy mặt trăng: (100 − sqrt(kích thước mặt trăng)) × sqrt(số Tử Tinh). Cơ hội các Tử Tinh tấn công bị phá hủy: sqrt(kích thước mặt trăng) / 2. Mặt trăng càng lớn càng rủi ro để phá.</p>
+        <h3>Cơ hội ra mặt trăng và kích thước</h3>
+        <p>100.000 đơn vị mảnh vỡ cho 1% cơ hội ra mặt trăng. Cơ hội tối đa: 20%. Sau một thay đổi về sau, mọi mặt trăng đều có số ô xây dựng tối đa (79). Trước đó là FLOOR((đường kính / 1000)²). Mặt trăng lớn nhất có thể: đường kính 8.944 km, 79 ô.</p>
+        <p>Thêm trong wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Mặt trăng</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
+      title: Mặt trăng
+    '4':
+      body: |-
+        <h3>Làm sao để lập liên minh?</h3>
+        <p>Mở Liên minh ở menu bên trái, rồi chọn Tạo liên minh riêng. Nhập thẻ liên minh (chữ viết tắt ngắn) và tên liên minh. Ví dụ: liên minh tên “The Top Ally” có thể dùng thẻ “DTA”.</p>
+        <p>Chỉ được dùng chữ cái, chữ số và khoảng trắng. Sau khi nhập thẻ và tên, bấm Tạo. Nếu tên hoặc thẻ đã có người dùng, bạn sẽ nhận lỗi và phải chọn cái khác. Thành công thì bạn thấy thông báo xác nhận; Tiếp tục mở menu liên minh vẫn còn trống, bạn luôn có thể vào đó từ Liên minh ở menu bên trái. Ở trên cùng bạn thấy thẻ và tên liên minh.</p>
+        <p>Bên dưới bạn sẽ thấy:<br>
+        Thành viên: mọi thành viên cùng điểm, tọa độ hành tinh chủ, ngày gia nhập và trạng thái trực tuyến. Bấm vào tiêu đề cột để sắp xếp.<br>
+        Cấp bậc của bạn: tên cấp bậc, cùng liên kết đến quản lý liên minh.<br>
+        Tin nhắn toàn thể: gửi tin nhắn đến cả liên minh hoặc các cấp bậc được chọn.</p>
+        <h3>Quản lý liên minh</h3>
+        <p>Cấp bậc cho phép bạn đặt quyền cho từng cấp bậc, ví dụ giải tán liên minh hoặc gửi tin nhắn toàn thể. Thành viên cho phép bạn đuổi người chơi, gán cấp bậc và xem họ đã ngoại tuyến bao nhiêu ngày. Bạn cũng có thể đổi thẻ và tên liên minh.</p>
+        <p>Quản lý văn bản chỉnh sửa các văn bản của liên minh. Văn bản công khai hiển thị với mọi người chơi; văn bản nội bộ chỉ với thành viên. Văn bản đơn xin là mẫu cho những người nộp đơn.</p>
+        <p>Tùy chọn cho phép bạn liên kết ảnh biểu ngữ và diễn đàn liên minh, chọn có mở nhận đơn hay không, và đặt tên cấp bậc người sáng lập. Nếu để trống, cấp bậc là Người sáng lập.</p>
+        <p>Bạn có thể giải tán liên minh, hoặc chuyển nó cho một thành viên khác, người đó sẽ trở thành người sáng lập.</p>
+      title: Liên minh
+    '5':
+      body: |-
+        <h3>Tôi tìm thêm thông tin ở đâu?</h3>
+        <!--wiki_url--><p>Wiki là nơi đầu tiên để tìm:</p>
+        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Trang chủ wiki tiếng Anh</a><br>
+        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Thứ tự xây dựng</a><br>
+        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Lối chơi (Thợ mỏ, Kẻ cướp, Lai)</a><br>
+        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Cất hạm đội</a><br>
+        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Hướng dẫn cất hạm đội</a><br>
+        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Thám hiểm</a></p><!--/wiki_url-->
+        <p>Tiếng Đức (owiki):<br>
+        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Chiến thuật xây dựng</a><br>
+        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Lối chơi: Thợ mỏ</a><br>
+        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Lối chơi: Chiến binh hạm đội</a><br>
+        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Lối chơi: Lai</a><br>
+        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Cất hạm đội</a></p>
+      title: Liên kết
+    category: Thông tin nâng cao

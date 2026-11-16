@@ -163,7 +163,7 @@ abstract class AbstractAccountController implements GameControllerInterface
             // start page frame (account/layout.site extends login/layout.base)
             $data += [
                 'gameName'          => $config->game_name,
-                'languages'         => (new \App\Game\Core\LanguageCatalog())->getAllowedLangs(false),
+                'languages'         => $this->state->LNG->getLanguageOptions(),
                 'isMultiUniverse'   => count($this->universe()->availableUniverses()) > 1,
                 'unisWildcast'      => UNIS_WILDCAST,
                 'referralEnable'    => $config->ref_active,

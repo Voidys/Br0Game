@@ -1,0 +1,73 @@
+<p class="rules-notice"><strong>PANSININ: Maaaring magbago ang mga patakaran at obligasyon ng bawat user na manatiling updated sa kasalukuyang kalagayan nito!</strong></p>
+<h2>1. Mga Account</h2>
+<p>Ang may-ari ng isang account ay laging ang may-ari ng nakatakdang e-mail address. Isang tao lang ang puwedeng maglaro ng isang account. Ang tanging eksepsyon ay ang sitting. Kung kinakailangang bantayan ang account ng ibang tao o ilagay ito sa vacation mode, dapat munang ipaalam sa operator na may hawak nito at kumuha ng pahintulot. Para sa mga panandaliang sitting na wala pang 12 oras, sapat na ang pag-ulat sa operator. Habang may sitting, ipinagbabawal ang lahat ng galaw ng fleet; ang pag-save lang ng fleet sa mga coordinate ng sitter at ang pagpapatayo ng mga resource sa planetang kinalalagyan nila ang pinapayagan. Hanggang 72 oras lang maaaring i-sit ang isang account. Sa mga eksepsyon, dapat kumuha ng pahintulot ng operator. Ang pagpapasa ng account ay maaari lang gawin nang hindi hihigit sa isang beses kada 3 buwan at walang bayad. Iulat ang account sa operator.</p>
+<hr>
+<h2>2. Multiaccount</h2>
+<p>Isang account lang kada universe ang puwedeng laruin ng bawat manlalaro. Kung dalawa o higit pang account ang karaniwan, paminsan-minsan o permanenteng nilalaro mula sa iisang koneksyon sa internet (hal. mga paaralan, unibersidad o internet café), dapat itong iulat nang maaga sa isang admin. Sa ganitong mga kaso, ipinagbabawal sa mga account na kasangkot ang anumang pakikipag-ugnayan ng fleet habang gumagamit ng iisang koneksyon sa internet. Gayundin, ipinagbabawal ang iba pang pagkakatulad.</p>
+<hr>
+<h2>3. Pushing</h2>
+<p>Pangkalahatang ipinagbabawal ang pushing. Kasama sa pushing, halimbawa, ang lahat ng resource transport at moon shot na walang angkop na kabayaran mula sa mga account na mas mababa ang puntos papunta sa mga account na mas mataas ang puntos.<br>
+Dapat makumpleto ang isang trade sa loob ng 24 oras. Ang mga eksepsyon ay dapat aprubahan nang maaga ng mga moderator sa pamamagitan ng Discord ticket o in-game private message. <a href="./?page=team">Makikita mo ang team dito.</a>.<br>
+Ang hindi pagkuha ng pahintulot o pagbalewala sa patakaran ay maaaring humantong sa ban.</p>
+
+<h2>3.1 Trading at mga atake</h2>
+<p>Kung nais ng mga manlalarong magbenta o mamahagi ng resource sa ibang manlalaro, maaari nila itong gawin sa ratio na nasa pagitan ng 75%% at 125%% ng presyo sa market.</p>
+<p>Espesyal na kaso:<br>
+Kung hindi posibleng mamahagi ng mga nakuhang resource sa loob ng 24h na palugit pagkatapos ng mga atake gamit ang mga Death Star, karaniwang pinapayagan ito, pero dapat itong iulat sa mga moderator.</p>
+<details>
+	<summary>Mga halimbawa ng iregular na trading/atake (i-click para palawakin):</summary>
+	<ul>
+	<li>Sadyang ipinapadala ni Manlalaro A (mahina sa puntos) ang fleet niya sa pamamagitan ng atake kay Manlalaro B (malakas sa puntos) na may layuning ganap itong wasakin. Sa kasong ito, dapat magbukas ng ticket ang mas malakas na manlalaro.</li>
+	<li>Hindi hinahati ng mga manlalaro mula sa iisang ACS ang mga nakuhang resource at ang debris field ayon sa 24h na patakaran.</li>
+	<li>Ipinaaalam ni Manlalaro A sa iba na titigil na siya sa paglalaro. Para sa bawat tatanggap ng mensaheng ito, may 24h (mula sa pagtanggap ng mensahe) na pagbabawal sa pag-atake sa mga naabisuhan. Sa kasong ito, dapat ipaalam sa mga moderator.</li>
+	<li>Ibinabahagi ni Manlalaro A ang mga detalye ng fleet niya (pagdating, oras ng biyahe, laki, posisyon, atbp.) sa iba para magamit ang impormasyong ito sa pag-atake kay Manlalaro A. Ito ay hindi patas na bentahe laban sa ibang manlalaro (passive pushing). Ito ay hindi patas na bentahe laban sa ibang manlalaro at itinuturing na pagbibigay ng resource (passive pushing). Sa kasong ito, dapat ipaalam sa mga moderator.</li>
+	</ul>
+</details>
+
+<h2>3.2 Mga farewell battle</h2>
+<p>Ang mga farewell battle ay dapat karaniwang i-coordinate nang maaga sa moderation team.</p>
+
+<p><a href="{wiki_url}/wiki/En/Regeln">wiki</a></p>
+<hr>
+<h2>4. Bashing</h2>
+<p>Ang bashing ay tumutukoy sa maraming atake sa loob ng 24 oras sa iisang manlalaro o planeta/buwan. Ipinagbabawal ito, pero pinipigilan ito ng laro. <a href="{wiki_url}/wiki/En/Universen-Übersicht">Maaaring magkaiba ang mga setting sa bawat universe.</a> Hindi binibilang ang mga atake gamit ang spy probe o interplanetary missile.</p>
+<p>Eksklusibong nalalapat sa mga aktibong manlalaro ang bash rule. Kung nasa digmaan ang mga panig, pinapayagan ang karagdagang atake. Dapat ideklara ang digmaan sa forum nang hindi bababa sa 24 oras bago ang karagdagang atake (dapat tama ang baybay ng parehong alliance o ng pangalan ng indibidwal na nagdedeklara ng digmaan sa paksa ng anunsyo). Sa mga alliance lang maaaring ihayag ang deklarasyon ng digmaan, at maaari itong gawin ng isang alliance o ng isang indibidwal.</p>
+<p>Hindi kailangan ang pagtanggap sa digmaan. Ipinagbabawal ang mga digmaang halatang nagsisilbi lang sa malawakang pag-iwas sa bash rule. Nasa mga responsableng moderator at operator ang paghusga rito.</p>
+<hr>
+<h2>5. Mga Interplanetary Missile-Attack</h2>
+<p>1,000 atake lang ng Interplanetary Missile kada 24 oras ang pinapayagan. Hindi nakadepende ang bilang ng missile kada atake.</p>
+<hr>
+<h2>6. Bugusing</h2>
+<p>Ipinagbabawal ang pagsasamantala sa mga bug at pagkakamali sa programming. Dapat iulat sa lalong madaling panahon ang mga natuklasang bug sa pamamagitan ng <a href="%s" target="_blank">GIT Issue</a> o sa Discord channel na #bugs. Ipinagbabawal din ang pandaraya.</p>
+<hr>
+<h2>6.1 Mga Tool at Application</h2>
+<p>Ipinagbabawal ang paggamit ng mga external na tool at user script na hindi ganap na naaprubahan.</p>
+<p>Hindi dapat magbigay ang mga script at tool ng bentahe sa gameplay na wala sa mga manlalarong walang ganoon. Dapat makipag-ugnayan sa isang moderator/administrator para linawin ang anumang alinlangan tungkol sa pagsunod ng isang tool sa mga patakaran. Para sa prosesong ito ng pag-apruba, dapat ibigay ang tool at aprubahan para sa isang itinalagang reviewer. Kung maaprubahan ang isang tool sa pamamagitan ng review, ang mga feature nito (hindi ang tool mismo) ay ilalathala ng reviewer.</p>
+<p>Tandaan: Lubos na hinihikayat, pero hindi sapilitan, ang paglalathala at pagbibigay ng mga tool na ikaw mismo ang bumuo.</p>
+<hr>
+<h2>6.2 Pang-aabuso sa Anti-Vulture protection</h2>
+<p>Ipinagbabawal at pinaparusahan ng ban ang sadyang pang-aabuso sa anti-vulture mechanic para makakuha ng bentahe, tulad ng, halimbawa, walang-panganib na graviton research.</p>
+<hr>
+<h2>7. Mga Banta/pang-iinsulto</h2>
+<p>Ang RL blackmail at mga banta ay hahantong sa pagbabawal sa isa o lahat ng bahagi ng laro. Ang real-life blackmail at mga banta ay anumang uri ng komunikasyon na malinaw na nagpapahiwatig ng intensyong hanapin at saktan ang isang tao o malapit na ikatlong partido.</p>
+<hr>
+<h2>8. Spam at erotica</h2>
+<p>Ipinagbabawal ang spamming at ang advertising ng ikatlong partido. Ipinagbabawal ang anumang uri ng erotisismo at pornograpiya. At pinaparusahan ito ng universe-wide at panghabambuhay na ban!</p>
+<hr>
+<h2>9. Bullying</h2>
+<p>Hindi kanais-nais dito ang pag-uugaling nakasasama sa community at ang bullying!</p>
+
+<p>Para linawin ito: Ang bullying ay anumang pag-uugaling may kinalaman sa paulit-ulit, regular na emosyonal na panliligalig, pagpapahirap at pananakit.
+Maging ng mga indibidwal o ng grupo ng mga taong nasa nakatataas na posisyon.
+Ang pang-aabuso sa kapangyarihan, banta ng karahasan, pandiwang pang-aabuso, panliligalig, pagbubunyag at pagbubukod ay ilan lang sa mga halimbawa kung paano maaaring mangyari ang bullying.</p>
+
+<p>Kung ikaw mismo ay binu-bully o kung may naririnig kang ganito, malaya kang makipag-ugnayan sa amin!
+Susubukan naming humanap ng paraan para matakasan ito.
+May kahihinatnan ang bullying.</p>
+<hr>
+<h2>10. Mga pangalan ng manlalaro</h2>
+<p>Dahil sa mga isyu noong nakaraan, ipinagbabawal ang bawat character, maliban sa mga sumusunod:</p>
+<p>a-z</p>
+<p>A-Z</p>
+<p>äÄ öÖ üÜ ß</p>
+<p>" ", "-", "_"</p>

@@ -1,0 +1,181 @@
+biggest_solo: ศึกเดี่ยวที่ใหญ่ที่สุด
+build_ships: ยานที่สร้างทั้งหมด
+buttonLostPassword: "ลืมรหัสผ่าน?"
+buttonRegister: สมัครสมาชิก
+buttonScreenshot: ภาพหน้าจอ
+civil: พลเรือน
+colony: อาณานิคม
+CrystalStorage: คลังคริสตัล
+deathstar: ดาวมรณะ
+destroyed_sats: ดาวเทียมสุริยะที่ถูกทำลาย
+disclamerLabelAddress: "ที่อยู่เกม:"
+disclamerLabelMail: "อีเมลฝ่ายสนับสนุน:"
+disclamerLabelNotice: ข้อมูลเพิ่มเติม
+disclamerLabelPhone: "โทรศัพท์:"
+disclamerRecaptcha: "หน้านี้ใช้ reCAPTCHA และมีผลบังคับตาม<a href=\"https://policies.google.com/privacy\">นโยบายความเป็นส่วนตัว</a>และ<a href=\"https://policies.google.com/terms\">ข้อกำหนดการใช้งาน</a>ของ Google"
+first_fights: ศึกครั้งแรกในจักรวาล
+flown_expos: การสำรวจที่ออกเดินทางทั้งหมด
+flownDeut: ดิวทีเรียมที่ใช้ในการบินทั้งหมด
+forum: บอร์ด
+found_res: ทรัพยากรที่พบทั้งหมด
+found_ships: ยานที่พบทั้งหมด
+galaxySpendDeut: ดิวทีเรียมที่ใช้ส่องกาแล็กซี
+gameInformations: |-
+  เกมวางแผนอวกาศแบบเรียลไทม์
+  ผู้เล่นนับร้อยในทุกจักรวาล
+  ไม่ต้องดาวน์โหลด แค่มีเบราว์เซอร์ทั่วไปก็เล่นได้
+  สมัครฟรี
+hof3_header: "ตำนานแห่งจักรวาล 3 ยังคงอยู่ที่นี่!"
+hof4_header: "ตำนานแห่งจักรวาล 4 ยังคงอยู่ที่นี่!"
+hof7_header: "ตำนานแห่งจักรวาล 7 ยังคงอยู่ที่นี่!"
+IonCannon: ปืนใหญ่ไอออน
+least_reached_ach: ความสำเร็จที่หายากที่สุด
+login_error_1: "อีเมลหรือรหัสผ่านไม่ถูกต้อง! เคล็ดลับ: โปรแกรมจัดการรหัสผ่านมักกรอกชื่อผู้ใช้ให้ แต่คุณต้องเข้าสู่ระบบด้วยอีเมล"
+login_error_2: "บัญชีของคุณถูกเข้าสู่ระบบจากอุปกรณ์อื่น หรือที่อยู่ IP ของคุณเปลี่ยนไป"
+login_error_3: "เซสชันของคุณหมดอายุแล้ว โปรดเข้าสู่ระบบอีกครั้ง"
+login_error_4: "พยายามเข้าสู่ระบบบ่อยเกินไป โปรดรอ 15 นาทีแล้วลองใหม่"
+loginButton: เข้าสู่ระบบ
+loginEmail: อีเมล
+loginHeader: เข้าสู่ระบบ
+loginInfo: "การเข้าสู่ระบบถือว่าฉันยอมรับ%s"
+loginPassword: รหัสผ่าน
+loginServerDesc: "%s คือเกมวางแผนอวกาศที่ผู้เล่นนับร้อยแข่งขันกัน<strong>พร้อมกัน</strong>เพื่อเป็นที่หนึ่ง แค่มีเว็บเบราว์เซอร์ทั่วไปก็เล่นได้"
+loginWelcome: "ยินดีต้อนรับสู่ %s"
+Lowest_longterm_points: บัญชีที่ลงทะเบียนล่วงหน้าที่มีคะแนนน้อยที่สุด
+medAliens: เอเลี่ยนระดับกลาง
+menu_banlist: รายชื่อโดนแบน
+menu_battlehall: หอรบ
+menu_disclamer: ติดต่อ
+menu_index: หน้าแรก
+menu_news: ข่าวสาร
+menu_rules: กฎ
+military: การทหาร
+most_achievements: สะสมความสำเร็จมากที่สุด
+most_black_holes: พบหลุมดำมากที่สุด
+most_build: สร้างมากที่สุด
+most_build_HF: สร้างยานขับไล่หนักมากที่สุด
+most_defended_moons: ป้องกันดวงจันทร์สำเร็จมากที่สุด
+most_destroyed_moons: ทำลายดวงจันทร์มากที่สุด
+most_expo_fights: สู้กับเอเลี่ยน/โจรสลัดมากที่สุด
+most_fights: "ชนะ / แพ้ / เสมอมากที่สุด"
+most_reached_ach: ความสำเร็จที่พบบ่อยที่สุด
+most_records: สะสมสถิติมากที่สุด
+news_does_not_exist: ยังไม่มีข่าว
+news_from: "เมื่อ %s โดย %s"
+oldest_active_acc: บัญชีที่ใช้งานมานานที่สุด
+overall: โดยรวม
+passwordBack: กลับ
+passwordChangedMailSend: "รหัสผ่านใหม่ของคุณกำลังเดินทางไป คุณจะได้รับอีเมลในไม่ช้า"
+passwordChangedMailTitle: "รหัสผ่านใหม่สำหรับ %s"
+passwordErrorMailEmpty: ไม่รู้จักที่อยู่อีเมลนี้
+passwordErrorOnePerDay: "มีการขอรหัสผ่านของบัญชีนี้ไปแล้วภายใน 24 ชั่วโมงที่ผ่านมา คุณขอใหม่ได้ในอีก 24 ชั่วโมง"
+passwordErrorUnknown: ไม่พบบัญชีที่ตรงกับข้อมูลนี้
+passwordInfo: "ลืมรหัสผ่านใช่ไหม? กรอกชื่อผู้ใช้และอีเมลของบัญชี ถ้าจำไม่ได้ ให้ติดต่อผู้ดูแลระบบ"
+passwordMail: อีเมล
+passwordNext: ถัดไป
+passwordSubmit: ส่ง
+passwordUsername: ชื่อผู้ใช้
+passwordValidInValid: คำขอไม่ถูกต้อง
+passwordValidMailSend: คุณจะได้รับอีเมลแจ้งขั้นตอนต่อไปในไม่ช้า
+passwordValidMailTitle: "รีเซ็ตรหัสผ่านสำหรับ %s"
+players: ผู้เล่น
+points_amount: "คะแนน / จำนวน"
+realDesUnits: ยูนิตที่ถูกทำลายจริง
+registerBack: กลับ
+registerDataPrivacyDesc: "ฉันยอมรับ%s"
+registerEmail: อีเมล
+registerEmailDesc: โปรดกรอกที่อยู่อีเมลของคุณ
+registerEmailReplay: กรอกอีเมลอีกครั้ง
+registerEmailReplayDesc: กรอกอีเมลอีกครั้งเพื่อยืนยัน
+registerErrorDataPrivacy: โปรดยอมรับนโยบายความเป็นส่วนตัวเพื่อดำเนินการต่อ
+registerErrorMailEmpty: โปรดกรอกที่อยู่อีเมล
+registerErrorMailExist: อีเมลนี้ถูกลงทะเบียนไปแล้ว
+registerErrorMailInvalid: ดูเหมือนนี่จะไม่ใช่อีเมลที่ถูกต้อง
+registerErrorMailSame: อีเมลทั้งสองช่องไม่ตรงกัน
+registerErrorPasswordLength: "รหัสผ่านต้องยาวอย่างน้อย %s ตัวอักษร"
+registerErrorPasswordSame: รหัสผ่านทั้งสองช่องไม่ตรงกัน
+registerErrorRules: โปรดยอมรับกฎเพื่อดำเนินการต่อ
+registerErrorUniClosed: จักรวาลนี้ปิดรับสมัครแล้ว
+registerErrorUsernameChar: "ชื่อผู้ใช้ใช้ได้เฉพาะตัวอักษร ตัวเลข ช่องว่าง _ - และ ."
+registerErrorUsernameEmpty: โปรดกรอกชื่อผู้ใช้
+registerErrorUsernameExist: ชื่อผู้ใช้นี้ถูกใช้ไปแล้ว
+registerLanguage: ภาษา
+registerMailCompleteTitle: "ยินดีต้อนรับสู่ %s!"
+registerMailVertifyTitle: "เปิดใช้งานบัญชีของคุณสำหรับ %s"
+registerPassword: รหัสผ่าน
+registerPasswordDesc: "รหัสผ่านต้องยาวอย่างน้อย %s ตัวอักษร"
+registerPasswordReplay: กรอกรหัสผ่านอีกครั้ง
+registerPasswordReplayDesc: กรอกรหัสผ่านเดิมอีกครั้ง
+registerReferral: "ผู้แนะนำ:"
+registerRules: กฎ
+registerRulesDesc: "ฉันยอมรับ%s"
+registerSendComplete: "ขอบคุณที่สมัคร! ตรวจสอบอีเมลของคุณ (รวมถึงโฟลเดอร์สแปม) เพื่อทำตามขั้นตอนต่อไป"
+registerTimezone: เขตเวลา
+registerUsername: ชื่อผู้ใช้
+registerUsernameDesc: "ใช้ 3 ถึง 25 ตัวอักษร: ตัวอักษร ตัวเลข ช่องว่าง จุด ขีดกลาง และขีดล่าง"
+registerWelcomePMSenderName: ผู้ดูแลระบบ
+registerWelcomePMSubject: ยินดีต้อนรับ
+registerWelcomePMText: "ยินดีต้อนรับสู่ %s! เริ่มจากสร้างโรงไฟฟ้าพลังงานแสงอาทิตย์ก่อน เพราะต้องมีพลังงานจึงจะผลิตทรัพยากรได้ เปิดเมนู \"อาคาร\" ทางซ้าย แล้วเริ่มด้วยโรงไฟฟ้าพลังงานแสงอาทิตย์<br>เมื่อมีพลังงานแล้ว คุณก็สร้างเหมืองได้ ยังอยู่ที่หน้าอาคาร สร้างเหมืองโลหะ แล้วตามด้วยเหมืองคริสตัล<br><br>การสร้างยานต้องมีอู่ต่อยานอวกาศ เมนู \"เทคโนโลยี\" ทางซ้ายจะบอกว่าต้องมีอะไรบ้างจึงจะปลดล็อกได้<br>ถ้ามีคำถามเพิ่มเติม ดูได้ที่ FAQ วิกิ หรือเปิดทิกเก็ตขอความช่วยเหลือ<br><br>ทีมงานขอให้คุณสนุกกับการสำรวจจักรวาล!"
+second_expo_deck: เริ่มดาดฟ้าสำรวจที่สอง
+siteTitleBanList: รายชื่อโดนแบน
+siteTitleBattleHall: หอรบ
+siteTitleDataPrivacy: นโยบายความเป็นส่วนตัว
+siteTitleDisclamer: ติดต่อ
+siteTitleHOF: หอเกียรติยศ
+siteTitleIndex: หน้าแรก
+siteTitleLostPassword: "ลืมรหัสผ่าน?"
+siteTitleNews: ข่าวสาร
+siteTitleRegister: สมัครสมาชิก
+siteTitleRules: กฎ
+siteTitleScreens: ภาพหน้าจอ
+spy: หุ่นสอดแนม
+st_buildings: อาคาร
+st_defenses: การป้องกัน
+st_fleets: กองเรือ
+st_points: คะแนน
+st_researh: วิจัย
+theme: ธีม
+universe: จักรวาล
+vertifyAdminMessage: "บัญชี \"%s\" ถูกเปิดใช้งานแล้ว"
+vertifyNoUserFound: คำขอไม่ถูกต้อง
+votingPoints: คะแนนโหวต
+wonAttack: ชนะการโจมตี
+wonDefense: ชนะการป้องกัน
+chose_a_uni: เลือกจักรวาล
+menu_register: สมัครสมาชิก
+news_overview: ข่าวสาร
+passwordCaptcha: รหัสความปลอดภัย
+passwordErrorUsernameEmpty: "คุณยังไม่ได้กรอกชื่อผู้ใช้!"
+registerCaptcha: รหัสความปลอดภัย
+registerCaptchaDesc: "พิมพ์ตัวอักษรด้านล่างลงในช่องว่าง โดยไม่ต้องเว้นวรรค ไม่สนตัวพิมพ์เล็กใหญ่ ถ้าโหลดใหม่หลายครั้งแล้วยังอ่านภาพไม่ออก ให้ติดต่อผู้ดูแลเว็บไซต์"
+registerCaptchaReload: โหลดแคปช่าใหม่
+registerErrorCaptcha: "รหัสความปลอดภัยไม่ถูกต้อง!"
+registerMailVertifyError: "ส่งอีเมลไม่สำเร็จ: %s"
+registerNext: ต่อไป
+rulesHeader: กฎ
+uni_closed: " (ปิด)"
+uni_reg_closed: " (ปิดรับสมัคร)"
+uni_reg_open: " (รับสมัครเท่านั้น)"
+home_menu: เมนู
+home_meta_description: "%s – เกมเบราว์เซอร์วางแผนอวกาศสไตล์ยุค 2000 สร้างดาวเคราะห์ สร้างกองเรือ และตั้งพันธมิตร"
+home_started: "เปิดแล้ว!"
+home_starts_in: เริ่มใน
+home_team: ทีมงาน
+home_meme_caption: วันแรกของคุณ
+home_meme_alt: "มีมการ์ตูนจากดาดฟ้าบัญชาการของ {game_name}"
+home_meme_alt_deep_space_transit: "การ์ตูน: นักเรียนนายร้อยสองคนในกระสวย คนหนึ่งหมดแรงเมื่อเห็นสนามอุกกาบาต อีกคนยิ้มกว้างให้เนบิวลาเรืองแสง \"ลาดตระเวนเซกเตอร์ธรรมดา เทียบกับการค้นพบเนบิวลาอุดมทรัพยากรที่ยังไม่มีใครสำรวจ\""
+home_meme_alt_deuterium_joyride: "การ์ตูน: ผู้บัญชาการหน่วยล้าๆ บนดาดฟ้าสังเกตการณ์มองสองมือใหม่ลอยเล่นอยู่ข้างนอก \"ดูพวกมือใหม่ผลาญดิวทีเรียมหมดไปกับการขับเล่นข้างนอก ส่วนฉันรออัปเกรดเหมือง 12 ชั่วโมง\""
+home_meme_alt_enemy_fleet: "การ์ตูน: นักเรียนนายร้อยจับหัวด้วยความตื่นตระหนกขณะสัญญาณเตือนกะพริบ \"เรือพิฆาตศัตรู 1000 ลำกำลังมา?! นึกว่าเซกเตอร์นี้ปลอดภัย?!\""
+home_meme_alt_fleet_decimated: "การ์ตูน: ทหารผู้ช็อกจ้องไปข้างหน้าขณะที่ยานระเบิดอยู่นอกโดมที่แตกร้าว \"เมื่อคุณฟาร์มทรัพยากรมา 20 ชั่วโมง แล้วกองเรือของผู้เล่นท็อป 3 โผล่มาแล้วรื้อทุกอย่างภายใน 3 วินาที\""
+home_meme_alt_solo_scouting: "การ์ตูน: ผู้บัญชาการคามิโอกะยิ้มและวางมือกลไกบนไหล่นักเรียนนายร้อย \"ไม่ต้องห่วงนะนักเรียนนายร้อย กองบัญชาการ 'เชื่อมั่นเต็มที่' ในภารกิจสอดแนมเดี่ยวของคุณสู่อวกาศ\""
+home_meme_alt_this_is_fine: "การ์ตูน: สุนัขในชุดอวกาศนั่งสงบนิ่งกลางศูนย์บัญชาการที่ไฟลุก พูดว่า \"ไม่เป็นไร\" \"ไม่ต้องห่วง กองเรือฉันกลับมาช้าแค่ 4 ชั่วโมงเอง\""
+source_code: ซอร์สโค้ด
+news_back: กลับไปที่ข่าว
+lightbox_close: ปิด
+lightbox_prev: ภาพก่อนหน้า
+lightbox_next: ภาพถัดไป
+news_pinned: ปักหมุด
+news_read_more: อ่านเพิ่มเติม
+news_latest: ข่าวล่าสุด
+news_all: ข่าวทั้งหมด
+csrf_invalid: "การตรวจสอบความปลอดภัยล้มเหลว (เซสชันของคุณอาจหมดอายุ) โปรดโหลดหน้าใหม่แล้วลองอีกครั้ง"

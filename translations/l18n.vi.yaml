@@ -1,0 +1,72 @@
+dir: ltr
+js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
+months:
+- Thg 1
+- Thg 2
+- Thg 3
+- Thg 4
+- Thg 5
+- Thg 6
+- Thg 7
+- Thg 8
+- Thg 9
+- Thg 10
+- Thg 11
+- Thg 12
+php_tdformat: j M Y, H:i:s
+short_day: ng
+short_hour: g
+short_minute: p
+short_second: s
+timezones:
+  '-1': '[UTC - 1] Giờ chuẩn Azores, giờ Cape Verde, giờ Đông Greenland'
+  '-2': '[UTC - 2] Giờ Fernando de Noronha, giờ Nam Georgia &amp; quần đảo Nam Sandwich'
+  '-3': '[UTC - 3] Giờ chuẩn Amazon, giờ Trung Greenland'
+  '-3.5': '[UTC - 3:30] Giờ chuẩn Newfoundland'
+  '-4': '[UTC - 4] Giờ chuẩn Đại Tây Dương'
+  '-4.5': '[UTC - 4:30] Giờ chuẩn Venezuela'
+  '-5': '[UTC - 5] Giờ chuẩn miền Đông'
+  '-6': '[UTC - 6] Giờ chuẩn miền Trung'
+  '-7': '[UTC - 7] Giờ chuẩn miền núi'
+  '-8': '[UTC - 8] Giờ chuẩn Thái Bình Dương'
+  '-9': '[UTC - 9] Giờ chuẩn Alaska, giờ đảo Gambier'
+  '-9.5': '[UTC - 9:30] Giờ quần đảo Marquesas'
+  '-10': '[UTC - 10] Giờ chuẩn Hawaii-Aleutian, giờ quần đảo Cook'
+  '-11': '[UTC - 11] Giờ Niue, giờ chuẩn Samoa'
+  '-12': '[UTC - 12] Giờ đảo Baker'
+  '0': '[UTC] Giờ Tây Âu, giờ trung bình Greenwich'
+  '1': '[UTC + 1] Giờ Trung Âu, giờ Tây Phi'
+  '2': '[UTC + 2] Giờ Đông Âu, giờ Trung Phi'
+  '3': '[UTC + 3] Giờ chuẩn Moskva, giờ Đông Phi'
+  '3.5': '[UTC + 3:30] Giờ chuẩn Iran'
+  '4': '[UTC + 4] Giờ chuẩn Vùng Vịnh, giờ chuẩn Samara'
+  '4.5': '[UTC + 4:30] Giờ Afghanistan'
+  '5': '[UTC + 5] Giờ chuẩn Pakistan, giờ chuẩn Yekaterinburg'
+  '5.5': '[UTC + 5:30] Giờ chuẩn Ấn Độ, giờ Sri Lanka'
+  '5.75': '[UTC + 5:45] Giờ Nepal'
+  '6': '[UTC + 6] Giờ Bangladesh, giờ Bhutan, giờ chuẩn Novosibirsk'
+  '6.5': '[UTC + 6:30] Giờ quần đảo Cocos, giờ Myanmar'
+  '7': '[UTC + 7] Giờ Đông Dương, giờ chuẩn Krasnoyarsk'
+  '8': '[UTC + 8] Giờ chuẩn Trung Quốc, giờ chuẩn Tây Úc, giờ chuẩn Irkutsk'
+  '8.75': '[UTC + 8:45] Giờ chuẩn đông nam Tây Úc'
+  '9': '[UTC + 9] Giờ chuẩn Nhật Bản, giờ chuẩn Hàn Quốc, giờ chuẩn Chita'
+  '9.5': '[UTC + 9:30] Giờ chuẩn Trung Úc'
+  '10': '[UTC + 10] Giờ chuẩn Đông Úc, giờ chuẩn Vladivostok'
+  '10.5': '[UTC + 10:30] Giờ chuẩn Lord Howe'
+  '11': '[UTC + 11] Giờ quần đảo Solomon, giờ chuẩn Magadan'
+  '11.5': '[UTC + 11:30] Giờ đảo Norfolk'
+  '12': '[UTC + 12] Giờ New Zealand, giờ Fiji, giờ chuẩn Kamchatka'
+  '12.75': '[UTC + 12:45] Giờ quần đảo Chatham'
+  '13': '[UTC + 13] Giờ Tonga, giờ quần đảo Phoenix'
+  '14': '[UTC + 14] Giờ quần đảo Line'
+week_day:
+- CN
+- T2
+- T3
+- T4
+- T5
+- T6
+- T7
+php_dateformat: d/m/Y
+php_timeformat: H:i:s
+lang_group_fun: "Ngôn ngữ vui"

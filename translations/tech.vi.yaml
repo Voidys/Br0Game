@@ -1,0 +1,350 @@
+bonus:
+  Attack: Tấn công
+  BuildTime: Thời gian xây dựng
+  Defensive: Phòng thủ
+  DefensiveTime: Thời gian xây phòng thủ
+  Energy: Sản lượng năng lượng
+  Expedition: Thám hiểm
+  FleetSlots: Ô hạm đội
+  FlyTime: Thời gian bay
+  GateCoolTime: Thời gian sạc cổng nhảy
+  MoreFound: Phát hiện khi thám hiểm
+  Planets: Hành tinh
+  ResearchTime: Thời gian nghiên cứu
+  Resource: Sản lượng tài nguyên
+  ResourceStorage: Kho chứa tài nguyên
+  Shield: Khiên
+  ShipStorage: Sức chứa tàu
+  ShipTime: Thời gian đóng tàu
+  SpyPower: Sức mạnh do thám
+longDescription:
+  '1': Mỏ kim loại khai thác quặng làm nền móng cho mọi đế chế, dù mới nổi hay đã vững mạnh.
+  '2': Tinh thể là nguyên liệu then chốt cho mạch điện tử và một số hợp kim.
+  '3': Deuterium là nhiên liệu cho tàu vũ trụ, được thu hoạch từ biển sâu. Đây là chất hiếm nên khá đắt.
+  '4': Nhà máy điện mặt trời biến ánh sáng mặt trời thành năng lượng. Mỏ nào cũng cần năng lượng để vận hành.
+  '6': Theo mặc định, mỗi cấp rút ngắn thời gian nghiên cứu 8%.
+  '12': Nhà máy điện nhiệt hạch tạo năng lượng bằng cách nung chảy deuterium. Nó cho nhiều năng lượng hơn Nhà máy điện mặt trời nhưng xây tốn kém hơn. Sản lượng tăng theo Công nghệ năng lượng và theo cấp của chính nhà máy. Công thức tính năng lượng:<br> Năng lượng tạo ra = 30 x cấp Nhà máy điện nhiệt hạch x (1,05 + (0,01 * cấp Công nghệ năng lượng))^cấp Nhà máy điện nhiệt hạch
+  '14': Nhà máy robot cung cấp robot xây dựng giúp bạn nâng cấp công trình. Mỗi cấp đẩy nhanh việc nâng cấp công trình.
+  '15': Đỉnh cao của ngành robot. Mỗi cấp giảm một nửa thời gian xây công trình, tàu và phòng thủ.
+  '21': Mọi tàu và công trình phòng thủ đều được đóng tại xưởng đóng tàu của hành tinh.
+  '22': Chứa phần kim loại dư thừa.
+  '23': Chứa phần tinh thể dư thừa.
+  '24': Chứa phần deuterium dư thừa.
+  '31': Bạn cần phòng nghiên cứu để nghiên cứu công nghệ mới. Cấp phòng nghiên cứu quyết định tốc độ nghiên cứu và công nghệ nào được mở khóa. Nghiên cứu chạy tại phòng nghiên cứu của hành tinh nơi bạn bắt đầu, và kết quả áp dụng cho mọi hành tinh của bạn. Khi một nghiên cứu đang chạy, không thể nâng cấp phòng nghiên cứu nào.
+  '33': 'Máy tạo địa hình mở rộng diện tích sử dụng của hành tinh. Mỗi cấp cho thêm 5 ô, cộng thêm 1 ô ở mỗi cấp chẵn. Bản thân mỗi cấp Máy tạo địa hình chiếm 1 ô.<br>Xây nó cần năng lượng, nhưng năng lượng không bị tiêu hao: hành tinh của bạn chỉ cần sản xuất đủ (1.000 cho cấp 1, nhân đôi mỗi cấp), kể cả khi các mỏ đang dùng hết. Đã xây thì Máy tạo địa hình không bao giờ phá bỏ được.'
+  '34': 'Kho liên minh hiện chưa có tác dụng trong game này: hạm đội đồng minh vẫn đóng được tại hành tinh của bạn mà không cần nó, và không có tiếp tế nhiên liệu.'
+  '35': Ụ sửa chữa có thể sửa các tàu bị phá hủy trong trận chiến và để lại trường xác tàu. Một lần sửa mất tối đa 12 giờ và không thể xong sớm hơn 30 phút sau khi trường xác tàu xuất hiện.<br>Khi trường xác tàu xuất hiện, bạn có 3 ngày để bắt đầu sửa. Sửa xong, bạn phải tự đưa tàu trở lại hoạt động. Nếu không, tàu sẽ tự động hoạt động lại sau 3 ngày.
+  '41': Mặt trăng không có khí quyển, và mặt trăng mới chỉ đủ chỗ cho một công trình, nên hãy bắt đầu với Căn cứ mặt trăng. Mỗi cấp cho thêm 3 ô và chiếm 1 ô. Đã xây thì Căn cứ mặt trăng không bao giờ phá bỏ được.
+  '42': 'Mảng cảm biến cho phép bạn theo dõi hạm đội di chuyển. Cấp càng cao, tầm Phalanx càng xa: theo mặc định là (cấp Phalanx)^2 - 1 hệ, nên cấp 1 chỉ phủ hệ của chính mặt trăng. Mỗi lần quét tốn 5.000 deuterium, phải có sẵn trên mặt trăng. Để quét, mở bản đồ thiên hà từ mặt trăng và bấm vào hành tinh trong tầm. Không thể quét mặt trăng bằng Phalanx vì mặt trăng không có khí quyển.<br><br>Phalanx hiển thị các hạm đội xuất phát từ hoặc bay tới hành tinh bị quét: khi nào đến nơi, khi nào kết thúc đóng quân và khi nào hạm đội của chủ hành tinh về nhà. Triển khai và tên lửa không bao giờ được hiển thị, các chuyến tái chế hay buôn bán bay tới hành tinh cũng vậy.'
+  '43': 'Cổng nhảy là những máy phát khổng lồ đưa hạm đội lớn băng qua vũ trụ mà không mất chút thời gian nào. Chúng không tốn deuterium, nhưng bạn không thể chuyển tài nguyên theo cách này. Cả hai cổng phải sẵn sàng: sau mỗi lần nhảy, mỗi cổng cần thời gian hồi, mặc định là 60 phút ở cấp 1 và giảm dần theo từng cấp, xuống còn 10 phút từ cấp 15.'
+  '44': Hầm tên lửa chứa tên lửa của bạn. Theo mặc định, mỗi cấp thêm 10 chỗ. Một Tên lửa đánh chặn chiếm 1 chỗ, một Tên lửa liên hành tinh chiếm 2 chỗ.
+  '106': 'Công nghệ này giúp bạn thu thập thông tin về các hành tinh và mặt trăng khác. Khi bạn gửi tàu do thám, Công nghệ do thám của bạn được so với của mục tiêu: cấp của bạn càng cao thì báo cáo càng nhiều thông tin và tàu do thám càng ít bị phát hiện. Gửi nhiều tàu do thám hơn thì lộ nhiều chi tiết hơn nhưng nguy cơ bị phát hiện cũng cao hơn. Ở một số cấp Công nghệ do thám, bạn còn biết thêm về hạm đội lạ trên màn hình Tổng quan:<br><br><li>Cấp 0-1 chỉ thấy có hạm đội đang tiến đến hành tinh của bạn</li><li>Cấp 2-3 thấy số lượng tàu đang đến</li><li>Cấp 4-7 thấy loại tàu trong hạm đội</li><li>Từ cấp 8 thấy số lượng từng loại tàu trong hạm đội</li>'
+  '108': Máy tính tốt hơn giúp bạn chỉ huy nhiều hạm đội hơn. Mỗi cấp Công nghệ máy tính tăng số hạm đội tối đa thêm một.
+  '109': Công nghệ vũ khí giúp hệ thống vũ khí hiệu quả hơn. Mỗi cấp tăng sức mạnh vũ khí của mọi đơn vị thêm 10% giá trị gốc.
+  '110': Công nghệ khiên giúp khiên của tàu và công trình phòng thủ hiệu quả hơn. Mỗi cấp tăng sức mạnh khiên thêm 10% giá trị gốc.
+  '111': Hợp kim đặc biệt cải thiện lớp giáp của tàu và công trình phòng thủ. Mỗi cấp tăng hiệu quả giáp thêm 10%.
+  '113': Làm chủ các dạng năng lượng là chìa khóa của nhiều công nghệ mới. Mỗi cấp Công nghệ năng lượng cũng tăng sản lượng của Nhà máy điện nhiệt hạch.
+  '114': Tích hợp chiều không gian thứ 4 và thứ 5, bạn có thể nghiên cứu loại động cơ mới tiết kiệm và hiệu quả hơn.
+  '115': 'Phát triển động cơ này làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 10% tốc độ gốc. Tàu bị ảnh hưởng: Tàu vận tải nhẹ, Tàu vận tải nặng, Chiến đấu cơ nhẹ, Tàu tái chế và Tàu do thám (Tàu vận tải nhẹ và Tàu tái chế sau này chuyển sang động cơ tốt hơn).'
+  '117': 'Động cơ xung hoạt động theo nguyên lý phản lực. Phát triển thêm làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 20% tốc độ gốc: Máy bay ném bom, Tàu tuần dương, Chiến đấu cơ nặng và Tàu thực dân, cùng Tàu vận tải nhẹ và Tàu tái chế khi chúng đã chuyển sang động cơ này. Tên lửa liên hành tinh cũng bay xa hơn theo từng cấp.'
+  '118': 'Động cơ siêu không gian bẻ cong không gian quanh con tàu. Phát triển nó làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 30% tốc độ gốc: Tuần dương chiến đấu, Thiết giáp hạm, Tàu hủy diệt, Tử Tinh, Mặt Trăng Đen, Vận tải chiến đấu, Avatar và Tái chế chiến đấu, cùng Máy bay ném bom và Tàu tái chế khi chúng đã chuyển sang động cơ này. Yêu cầu Công nghệ siêu không gian (cấp 3) và Phòng nghiên cứu (cấp 7).'
+  '120': Ánh sáng hội tụ tạo thành chùm tia gây sát thương cho mọi thứ nó chạm vào. Yêu cầu Phòng nghiên cứu (cấp 1) và Công nghệ năng lượng (cấp 2).
+  '121': Một chùm ion được gia tốc chết người, gây sát thương khủng khiếp khi va chạm.
+  '122': Bước phát triển tiếp theo của công nghệ ion, gia tốc plasma năng lượng cao tạo ra từ ion được nung siêu nóng. Nó có sức tàn phá kinh hoàng khi va chạm.
+  '123': Các nhà nghiên cứu ở nhiều hành tinh liên lạc với nhau qua mạng này. Mỗi cấp cho phép thêm một phòng thí nghiệm tham gia cùng phòng nơi bạn bắt đầu nghiên cứu. Hệ thống chọn các phòng có cấp cao nhất, và phòng được nối mạng phải đủ cấp để tự chạy nghiên cứu đó. Cấp của các phòng được cộng lại để tính thời gian nghiên cứu.
+  '124': 'Nghiên cứu vật lý thiên văn mở khóa thực dân hóa và thám hiểm không gian sâu. Giới hạn thuộc địa, thời gian đóng quân và vị trí dưới đây là cài đặt mặc định; vũ trụ của bạn có thể khác.<br><br> <li>Giới hạn thuộc địa</li> Cấp 1-2 = 2 hành tinh<br> Cấp 3-4 = 3 hành tinh<br> Cấp 5-6 = 4 hành tinh<br> Cấp 7-8 = 5 hành tinh<br> Cấp 9-10 = 6 hành tinh<br> Cấp 11-12 = 7 hành tinh<br> Cấp 13-14 = 8 hành tinh<br> Cấp 15-16 = 9 hành tinh<br> Cấp 17-18 = 10 hành tinh<br> Cấp 19-20 = 11 hành tinh<br> Từ cấp 21 = 12 hành tinh<br><br> <li>Ô thám hiểm</li> Cấp 1-3 = 1 cuộc thám hiểm<br> Cấp 4-8 = 2 cuộc thám hiểm<br> Cấp 9-15 = 3 cuộc thám hiểm<br> Cấp 16-24 = 4 cuộc thám hiểm<br>(thêm một ở mỗi cấp chính phương tiếp theo: 25, 36, ...)<br><br> <li>Thời gian đóng quân khi thám hiểm</li> Cấp = Thời gian đóng quân tối đa tính bằng giờ<br><br> <li>Vị trí có thể thực dân hóa</li> Cấp 1-3 = 4-12<br> Cấp 4-5 = 3-13<br> Cấp 6-7 = 2-14<br> Từ cấp 8 = 1-15'
+  '131': Tăng sản lượng kim loại 2% mỗi cấp.
+  '132': Tăng sản lượng tinh thể 2% mỗi cấp.
+  '133': Tăng sản lượng deuterium 2% mỗi cấp.
+  '134': Giảm chi phí bay 2% mỗi cấp.
+  '199': Bắn một xung hạt graviton cô đặc tạo ra trường trọng lực nhân tạo có thể phá hủy tàu và cả mặt trăng. Yêu cầu Phòng nghiên cứu (cấp 12).
+  '202': Tàu vận tải nhẹ là con tàu nhanh nhẹn, chở tài nguyên đến các hành tinh khác thật nhanh.<br>Nó bay bằng động cơ đốt cháy cho đến khi Động cơ xung của bạn đạt cấp 5. Từ đó nó chuyển sang động cơ xung, nhân đôi tốc độ gốc.
+  '203': Tàu vận tải này chở được nhiều hơn hẳn tàu vận tải nhẹ và nhìn chung nhanh hơn nhờ động cơ cải tiến.
+  '204': Chiến hạm đầu tiên mà mọi hoàng đế đều đóng. Chiến đấu cơ nhẹ nhanh nhẹn nhưng yếu khi đơn độc; số lượng lớn thì trở thành mối đe dọa thực sự cho mọi đế chế. Chúng là những tàu đầu tiên hộ tống tàu vận tải nhẹ và nặng đến các hành tinh thù địch phòng thủ yếu.
+  '205': Chiến đấu cơ này có giáp tốt hơn và đánh mạnh hơn chiến đấu cơ nhẹ.
+  '206': Tàu tuần dương có giáp gấp gần ba lần chiến đấu cơ nặng và hỏa lực gấp hơn hai lần. Chúng cũng rất nhanh.
+  '207': Thiết giáp hạm là xương sống của hạm đội. Pháo nặng, tốc độ cao và khoang chứa lớn khiến chúng trở thành đối thủ đáng gờm.
+  '208': 'Con tàu bọc giáp dày này chinh phục những hành tinh mới, thứ mà một đế chế đang lên cần để phát triển. Tại thuộc địa mới, con tàu được tháo dỡ và toàn bộ vật liệu tái chế được dùng để xây dựng thế giới mới. Số hành tinh bạn có thể thực dân hóa phụ thuộc trực tiếp vào Nghiên cứu vật lý thiên văn: cấp đầu tiên và cứ mỗi hai cấp sau đó cho phép thêm một thuộc địa (theo mặc định).'
+  '209': Tàu tái chế thu hoạch nguyên liệu từ các trường mảnh vỡ. Sức chứa của nó là 20.000. Ban đầu nó dùng động cơ đốt cháy, chuyển sang động cơ xung khi Động cơ xung của bạn đạt cấp 17, và sang động cơ siêu không gian khi Động cơ siêu không gian đạt cấp 15.
+  '210': Tàu do thám là những drone nhỏ, nhanh nhẹn, gửi dữ liệu về hạm đội và hành tinh từ khoảng cách rất xa.
+  '211': Máy bay ném bom được chế tạo chuyên để phá hủy phòng thủ của hành tinh.<br>Nó bay bằng động cơ xung và chuyển sang động cơ siêu không gian khi Động cơ siêu không gian của bạn đạt cấp 8.
+  '212': Vệ tinh mặt trời là những giàn pin mặt trời đơn giản đặt ở quỹ đạo cao, đứng yên. Chúng thu ánh sáng mặt trời và truyền xuống trạm mặt đất bằng laser.
+  '213': 'Tàu hủy diệt là vua của các chiến hạm. Nó có hỏa lực liên thanh chống Tháp laser nhẹ: sau mỗi phát trúng, nó có 9 trên 10 khả năng bắn thêm một phát.'
+  '214': Sức công phá của Tử Tinh không gì sánh bằng, và nó có thể phá hủy mặt trăng.
+  '215': Tuần dương chiến đấu chuyên đánh chặn các hạm đội thù địch.
+  '216': 'Người kế nhiệm của Tử Tinh nổi tiếng: nhanh hơn và cứng cáp hơn nhiều, có khoang chứa khổng lồ, nhưng đánh yếu hơn đôi chút.'
+  '217': Bản phát triển của tàu vận tải nặng với sức chở lớn hơn nhiều. Nó chạy bằng động cơ siêu không gian nên ban đầu chậm hơn tàu vận tải nặng nhưng sẽ vượt lên khi Động cơ siêu không gian của bạn lên cấp.
+  '218': Kịch bản tồi tệ nhất, dù là một kịch bản rất chậm.
+  '219': Khoang chứa khổng lồ và động cơ mới giúp nó bay nhanh hơn và thu được nhiều hơn từ các trường mảnh vỡ.
+  '220': 'Cự Thép là một pháo đài thực sự giữa không gian, được che chắn bằng những lớp khiên kiên cố và giáp dày. Những đòn tấn công dữ dội nhất cũng dội lại khi nó lặng lẽ tiến lên. Nhưng ưu thế phòng thủ này phải trả giá: vũ khí gần như không đáng kể, và động cơ ì ạch khiến nó là gã khổng lồ chậm chạp. Thay vì tấn công chớp nhoáng hay cơ động linh hoạt, con tàu này dựa vào sức bền tuyệt đối. Ai muốn chặn nó cần sức chịu đựng lớn, hoặc hỏa lực áp đảo.'
+  '221': 'Lưỡi Bão là chiến đấu cơ hàng đầu: nhanh đến khó tin và trang bị vũ khí tàn nhẫn. Đối thủ chưa kịp thấy nó thì đã bị đánh trúng. Phòng thủ chỉ là thứ yếu – nó không cần chịu đòn khi có thể chạy thoát. Mục tiêu duy nhất là các hạm đội vận tải và tàu tái chế, chúng bị nghiền nát mà không kịp phản kháng. Với tốc độ chóng mặt, nó tấn công tùy ý rồi biến mất trước khi quân tiếp viện kịp đến. Ai bị Lưỡi Bão nhắm tới thì khó mà thoát.'
+  '222': Tuần dương nặng là phiên bản gia cố của tàu tuần dương thường. Với khiên cải tiến và vũ khí mạnh, nó có thể đối đầu với những kẻ địch cồng kềnh. Nó tỏa sáng khi triển khai cùng Cự Thép, Tàu hủy diệt và Máy bay ném bom, nơi hỏa lực của nó phát huy hết sức. Tuy nhiên, dù mạnh, nó vẫn chậm và kém cơ động.
+  '223': Drone Khiên mang đến một hướng đi mới cho phòng thủ hạm đội, tập trung chủ yếu vào bảo vệ thủy thủ đoàn. Công nghệ khiên tiên tiến nhưng nặng đã làm giảm đáng kể tốc độ bay và khả năng cơ động. Dù tốc độ và độ nhanh nhẹn kém, nó rất hiệu quả khi phòng thủ. Kết cấu cũ kỹ đã bị đẩy đến giới hạn để tạo ra lớp phòng thủ gần như bất khả xâm phạm.
+  '224': Vận tải tấn công cải tiến là một tàu vận tải chưa qua thử nghiệm, trang bị vũ khí tối thiểu, được chế ra riêng để quấy rối những người hàng xóm bất cẩn và không chuẩn bị. Phương tiện chắp vá này không dành cho sử dụng lâu dài mà cho những cuộc tấn công nhanh, bốc đồng, gây phản ứng tức thì. Xích mích với hàng xóm gần như chắc chắn xảy ra ngay khi nó xuất hiện. Với trang bị hạn chế và bản tính khó lường, nó là công cụ nguy hiểm để đẩy nhanh xung đột.
+  '225': Vận tải Bão là kỳ quan công nghệ thực sự, mang lại sự cân bằng hoàn hảo giữa sức chiến đấu, tốc độ và sức chở. Khả năng nhanh chóng triển khai quân và tài nguyên trong khi vẫn mang hỏa lực ấn tượng ra chiến trường đã biến nó thành thành phần thiết yếu của mọi hạm đội mạnh. Dù cho các đơn vị tấn công thần tốc hay hỗ trợ chiến dịch dài hơi, Vận tải Bão là chìa khóa của chiến tranh hiệu quả và là món không thể thiếu trong mọi hạm đội.
+  '226': Vận tải chiến đấu khổng lồ là đỉnh cao của kỹ thuật. Dù thiết kế hơi cồng kềnh khiến tốc độ bay chậm, nó là tàu vận tải chiến đấu bọc giáp dày nhất mà bất kỳ hạm đội nào từng thấy. Hỏa lực áp đảo biến nó thành lực lượng không thể ngăn cản trên chiến trường. Gã khổng lồ này dễ dàng xé toạc phòng tuyến địch trong khi bảo vệ tối đa thủy thủ đoàn. Nó hiện thân của sức mạnh và sự bền bỉ, là tài sản thiết yếu của mọi hạm đội vũ trang nặng.
+  '227': Tàu tái chế tối ưu là bản nâng cấp tiên tiến của tàu tái chế thường. Trang bị động cơ xung mạnh mẽ, nó tới các trường mảnh vỡ nhanh hơn và tiết kiệm hơn, trở thành tài sản thiết yếu của mọi hạm đội hiện đại. Thiết kế tối ưu giảm chi phí xây dựng đồng thời tăng hiệu suất thu hồi tài nguyên. Có từ giữa game, nó mang lại lợi thế chiến lược cho mọi đế chế đang mở rộng.
+  '228': 'Tàu tái chế Omega là đỉnh cao của công nghệ tái chế – nhưng với cái giá đắt. Động cơ siêu không gian mạnh mẽ giúp nó đến các trường mảnh vỡ trong thời gian kỷ lục và thu hồi tài nguyên nhanh hơn mọi con tàu khác. Tuy nhiên, tốc độ này phải đánh đổi bằng hiệu quả: chi phí xây dựng và nhiên liệu của nó rất lớn, chỉ phù hợp với các chỉ huy giàu có ở cuối game. Với ai ưu tiên tốc độ hơn chi phí, đây là Tàu tái chế tối thượng.'
+  '229': Được phát triển để phá vỡ sự thống trị của Xer, Viper là vũ khí tối thượng chống Chiến đấu cơ nhẹ, Chiến đấu cơ nặng và Tàu tuần dương. Với pháo liên thanh và công nghệ tiên tiến, nó làm thay đổi cán cân quyền lực trong vũ trụ.
+  '230': Nhanh. Chính xác. Không thể chạm tới. Tàu đánh chặn không sinh ra cho những cuộc đấu công bằng – nó được thiết kế để đánh nhanh, đánh mạnh, tạo lợi thế áp đảo trong chớp mắt.
+  '231': Behemoth là kết quả của hàng thập kỷ nghiên cứu graviton, được biến thành một nền tảng chiến đấu không khoan nhượng. Khác với Tử Tinh, nó không được thiết kế để hủy diệt hành tinh mà để đạt hiệu quả tối đa trên chiến trường. Bỏ đi các hệ thống tốn năng lượng dùng để phá mặt trăng, thiết kế của nó nhẹ đi đáng kể, cho phép động cơ mạnh hơn, linh hoạt hơn và hỏa lực lớn hơn. Khẩu pháo graviton gọn nhẹ biến nó thành cỗ máy hủy diệt di động, có thể một mình xóa sổ cả những hạm đội khổng lồ.
+  '232': 'Titan Hư Không là đỉnh cao của công nghệ graviton hiện đại. Mọi chi tiết thiết kế đều phục vụ một mục đích duy nhất: nhanh chóng hủy diệt mặt trăng của kẻ địch. Các tháp pháo thông thường bị cố ý loại bỏ để giảm khối lượng và nhường chỗ cho những bộ phát tinh thể khổng lồ. Chúng cấp năng lượng cho các cuộn gia tốc tiên tiến nhất từng được chế tạo khắp các thiên hà đã biết, mang lại cho con tàu khả năng cơ động vô song. Nhu cầu tinh thể khổng lồ khiến mỗi Titan Hư Không là một thành tựu công nghiệp đồ sộ – và biểu tượng của sức mạnh hủy diệt vô hạn.'
+  '401': Bệ phóng tên lửa là công trình phòng thủ đơn giản nhưng tiết kiệm. Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '402': Laser nhẹ là vũ khí mặt đất đơn giản. Hệ thống ngắm đặc biệt bám theo kẻ địch, và tia laser cường độ cao xuyên thủng thân tàu mục tiêu. Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '403': Tháp laser nặng là phiên bản cải tiến thực dụng của Tháp laser nhẹ. Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '404': Pháo Gauss bắn đạn kim loại mật độ cao với vận tốc cực lớn. Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '405': Pháo ion bắn các chùm ion (hạt mang điện dương hoặc âm). Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '406': Pháo plasma dùng pin nhiên liệu của một lò phản ứng hạt nhân lớn để cấp điện cho bộ gia tốc điện từ bắn ra các xung plasma (toroid). Sau trận chiến, trung bình khoảng 70% công trình phòng thủ bị phá hủy sẽ được xây lại.
+  '407': Mái che khiên nhỏ bao phủ toàn bộ hành tinh trong một trường hấp thụ lượng năng lượng khổng lồ. Mỗi hành tinh chỉ xây được một.
+  '408': Mái che khiên lớn là bản phát triển tiếp theo, cần nhiều năng lượng hơn hẳn để chịu được tấn công. Mỗi hành tinh chỉ xây được một.
+  '409': Bước tiến hóa của công nghệ mái che khiên. Nó tốn nhiều năng lượng hơn nhiều, nhưng chịu được nhiều đòn tấn công hơn mọi loại khiên khác. Mỗi hành tinh chỉ xây được một.
+  '410': Sau nhiều năm nghiên cứu trọng lực, các nhà khoa học đã chế tạo pháo graviton tạo ra trường graviton nhỏ, cô đặc và bắn nó vào kẻ địch.
+  '411': Một bệ phòng thủ bất động, không có động lực riêng, được giữ trên quỹ đạo ổn định quanh hành tinh bằng lực hấp dẫn. Khởi động quá trình này cần lượng năng lượng khổng lồ. Mỗi hành tinh chỉ xây được một.
+  '412': Boong-ke là công trình kiên cố được thiết kế để chống chịu cả những đòn tấn công mạnh nhất. Nó bảo vệ vô song cho cư dân và cơ sở hạ tầng quan trọng của hành tinh, là nền tảng của phòng thủ hành tinh.
+  '413': Laser Titan là vũ khí khổng lồ với sức hủy diệt vô song.
+  '414': Mồi nhử là hệ thống phòng thủ tinh vi nhằm đánh lừa và gây nhầm lẫn cho kẻ địch. Bằng cách ngụy trang thành Bệ phóng tên lửa, nó khiến kẻ địch chùn bước.
+  '502': Tên lửa đánh chặn phá hủy các Tên lửa liên hành tinh đang bay tới. Cần một Tên lửa đánh chặn cho mỗi Tên lửa liên hành tinh.
+  '503': Tên lửa liên hành tinh phá hủy phòng thủ của đối thủ, trừ khi bị Tên lửa đánh chặn bắn hạ. Công trình phòng thủ bị phá hủy theo cách này không được xây lại. Theo mặc định, tầm bắn (tính bằng hệ mặt trời) phụ thuộc vào cấp Động cơ xung của bạn:<br>Tầm = (5 x cấp Động cơ xung) - 1
+  '901': Kim loại là tài nguyên chính cho công trình và tàu. Đây là tài nguyên rẻ nhất nhưng cũng là thứ bạn cần nhiều nhất và, giống tinh thể, tốn ít năng lượng nhất để sản xuất. Mỏ càng lớn thì càng đào sâu vào lòng đất.
+  '902': Tinh thể là tài nguyên chính cho mạch điện tử và một số hợp kim. Nó được sản xuất trong các mỏ ngầm, nơi nguyên liệu thô được chế thành mạch ngay lập tức.
+  '903': Deuterium nằm ở những vùng biển sâu nhất và là một trong những tài nguyên hiếm nhất vũ trụ. Bạn phải xuống tận đáy biển mới lấy được, nên nó là tài nguyên đắt nhất.
+  '911': Cần có năng lượng để sản xuất mọi tài nguyên.
+secureResources: Mỗi cấp của công trình kho bảo vệ 1% sản lượng một ngày của tài nguyên đó khỏi bị cướp khi bị tấn công, tối đa 10%.
+shortDescription:
+  '1': Mỏ kim loại khai thác quặng làm nền móng cho mọi đế chế, dù mới nổi hay đã vững mạnh.
+  '2': Tinh thể là nguyên liệu then chốt cho mạch điện tử và một số hợp kim.
+  '3': Deuterium là nhiên liệu cho tàu vũ trụ, được thu hoạch từ biển sâu. Đây là chất hiếm nên khá đắt.
+  '4': Nhà máy điện mặt trời biến ánh sáng mặt trời thành năng lượng. Mỏ nào cũng cần năng lượng để vận hành.
+  '6': Theo mặc định, mỗi cấp rút ngắn thời gian nghiên cứu 8%.
+  '12': Nhà máy điện nhiệt hạch nung chảy nhiên liệu deuterium để tạo năng lượng.
+  '14': Nhà máy robot cung cấp robot xây dựng giúp bạn nâng cấp công trình. Mỗi cấp đẩy nhanh việc nâng cấp công trình.
+  '15': Đỉnh cao của ngành robot. Mỗi cấp giảm một nửa thời gian xây công trình, tàu và phòng thủ.
+  '21': Mọi tàu và công trình phòng thủ đều được đóng tại xưởng đóng tàu của hành tinh.
+  '22': Chứa phần kim loại dư thừa.
+  '23': Chứa phần tinh thể dư thừa.
+  '24': Chứa phần deuterium dư thừa.
+  '31': Bạn cần phòng nghiên cứu để nghiên cứu công nghệ mới.
+  '33': 'Máy tạo địa hình mở rộng diện tích sử dụng của hành tinh: thêm 5 ô mỗi cấp, cộng thêm 1 ô ở mỗi cấp chẵn. Bản thân mỗi cấp chiếm 1 ô.'
+  '34': Kho liên minh hiện chưa có tác dụng trong game này.
+  '35': Ụ sửa chữa phục hồi các tàu từ trường xác tàu.
+  '41': Mặt trăng không có khí quyển, và mặt trăng mới chỉ đủ chỗ cho một công trình, nên hãy bắt đầu với Căn cứ mặt trăng.
+  '42': Mảng cảm biến cho phép bạn theo dõi hạm đội di chuyển. Cấp càng cao, tầm Phalanx càng xa.
+  '43': Cổng nhảy là những máy phát khổng lồ đưa hạm đội lớn băng qua vũ trụ mà không mất chút thời gian nào.
+  '44': Hầm tên lửa chứa tên lửa của bạn.
+  '106': Công nghệ này giúp bạn thu thập thông tin về các hành tinh và mặt trăng khác.
+  '108': Máy tính tốt hơn giúp bạn chỉ huy nhiều hạm đội hơn. Mỗi cấp Công nghệ máy tính tăng số hạm đội tối đa thêm một.
+  '109': Công nghệ vũ khí giúp hệ thống vũ khí hiệu quả hơn. Mỗi cấp tăng sức mạnh vũ khí của mọi đơn vị thêm 10% giá trị gốc.
+  '110': Công nghệ khiên giúp khiên của tàu và công trình phòng thủ hiệu quả hơn. Mỗi cấp tăng sức mạnh khiên thêm 10% giá trị gốc.
+  '111': Hợp kim đặc biệt cải thiện lớp giáp của tàu và công trình phòng thủ. Mỗi cấp tăng hiệu quả giáp thêm 10%.
+  '113': Làm chủ các dạng năng lượng là chìa khóa của nhiều công nghệ mới.
+  '114': Tích hợp chiều không gian thứ 4 và thứ 5, bạn có thể nghiên cứu loại động cơ mới tiết kiệm và hiệu quả hơn.
+  '115': Phát triển động cơ này làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 10% tốc độ gốc.
+  '117': Động cơ xung hoạt động theo nguyên lý phản lực. Phát triển thêm làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 20% tốc độ gốc.
+  '118': Động cơ siêu không gian bẻ cong không gian quanh con tàu. Phát triển nó làm một số tàu nhanh hơn, nhưng mỗi cấp chỉ cộng thêm 30% tốc độ gốc.
+  '120': Ánh sáng hội tụ tạo thành chùm tia gây sát thương cho mọi thứ nó chạm vào.
+  '121': Một chùm ion được gia tốc chết người, gây sát thương khủng khiếp khi va chạm.
+  '122': Bước phát triển tiếp theo của công nghệ ion, gia tốc plasma năng lượng cao tạo ra từ ion được nung siêu nóng. Nó có sức tàn phá kinh hoàng khi va chạm.
+  '123': Các nhà nghiên cứu ở nhiều hành tinh liên lạc với nhau qua mạng này.
+  '124': Mở khóa thực dân hóa và thám hiểm không gian sâu. Thêm hành tinh ở các cấp lẻ, thêm ô thám hiểm ở các cấp chính phương, thời gian đóng quân khi thám hiểm dài hơn và nhiều vị trí hành tinh hơn trong một hệ.
+  '131': Tăng sản lượng kim loại 2% mỗi cấp.
+  '132': Tăng sản lượng tinh thể 2% mỗi cấp.
+  '133': Tăng sản lượng deuterium 2% mỗi cấp.
+  '134': Giảm chi phí bay 2% mỗi cấp.
+  '199': Bắn một xung hạt graviton cô đặc tạo ra trường trọng lực nhân tạo có thể phá hủy tàu và cả mặt trăng.
+  '202': Tàu vận tải nhẹ là con tàu nhanh nhẹn, chở tài nguyên đến các hành tinh khác thật nhanh.
+  '203': Tàu vận tải này chở được nhiều hơn hẳn tàu vận tải nhẹ và nhìn chung nhanh hơn nhờ động cơ cải tiến.
+  '204': Chiến hạm đầu tiên mà mọi hoàng đế đều đóng. Chiến đấu cơ nhẹ nhanh nhẹn nhưng yếu khi đơn độc; số lượng lớn thì trở thành mối đe dọa thực sự cho mọi đế chế. Chúng là những tàu đầu tiên hộ tống tàu vận tải nhẹ và nặng đến các hành tinh thù địch phòng thủ yếu.
+  '205': Chiến đấu cơ này có giáp tốt hơn và đánh mạnh hơn chiến đấu cơ nhẹ.
+  '206': Tàu tuần dương có giáp gấp gần ba lần chiến đấu cơ nặng và hỏa lực gấp hơn hai lần. Chúng cũng rất nhanh.
+  '207': Thiết giáp hạm là xương sống của hạm đội. Pháo nặng, tốc độ cao và khoang chứa lớn khiến chúng trở thành đối thủ đáng gờm.
+  '208': Có thể thực dân hóa các hành tinh trống bằng con tàu này.
+  '209': Tàu tái chế thu hoạch nguyên liệu từ các trường mảnh vỡ.
+  '210': Tàu do thám là những drone nhỏ, nhanh nhẹn, gửi dữ liệu về hạm đội và hành tinh từ khoảng cách rất xa.
+  '211': Máy bay ném bom được chế tạo chuyên để phá hủy phòng thủ của hành tinh.
+  '212': Vệ tinh mặt trời là những giàn pin mặt trời đơn giản đặt ở quỹ đạo cao, đứng yên. Chúng thu ánh sáng mặt trời và truyền xuống trạm mặt đất bằng laser.
+  '213': Tàu hủy diệt là vua của các chiến hạm.
+  '214': Sức công phá của Tử Tinh không gì sánh bằng, và nó có thể phá hủy mặt trăng.
+  '215': Tuần dương chiến đấu chuyên đánh chặn các hạm đội thù địch.
+  '216': 'Người kế nhiệm của Tử Tinh nổi tiếng: nhanh hơn và cứng cáp hơn nhiều, có khoang chứa khổng lồ, nhưng đánh yếu hơn đôi chút.'
+  '217': Bản phát triển của tàu vận tải nặng với sức chở lớn hơn nhiều. Nó chạy bằng động cơ siêu không gian nên ban đầu chậm hơn tàu vận tải nặng nhưng sẽ vượt lên khi Động cơ siêu không gian của bạn lên cấp.
+  '218': Kịch bản tồi tệ nhất, dù là một kịch bản rất chậm.
+  '219': Khoang chứa khổng lồ và động cơ mới giúp nó bay nhanh hơn và thu được nhiều hơn từ các trường mảnh vỡ.
+  '220': Cự Thép chịu được mọi đòn tấn công nhờ khiên khổng lồ và giáp dày, nhưng vũ khí và động cơ thì còn nhiều điều đáng tiếc.
+  '221': Lưỡi Bão là chiến đấu cơ nhanh như chớp, vũ trang tận răng. Phòng thủ? Không cần – con mồi của nó là những tàu vận tải và tàu tái chế không có khả năng tự vệ.
+  '222': Tàu tuần dương chậm nhưng vũ trang mạnh, với khiên và hỏa lực được cải tiến.
+  '223': Phiên bản thiết kế lại của chiến đấu cơ nhẹ, ưu tiên an toàn cho thủy thủ đoàn với cái giá là đặc tính bay kém.
+  '224': Tàu vận tải chưa qua thử nghiệm với vũ khí tối thiểu, sinh ra để quấy rối những người hàng xóm bất cẩn và châm ngòi xung đột tức thì.
+  '225': Con tàu kết hợp sức chiến đấu, tốc độ và sức chở, không thể thiếu trong mọi hạm đội mạnh.
+  '226': Tàu vận tải chiến đấu bọc giáp dày với dáng vẻ oai vệ, hơi cồng kềnh, hỏa lực áp đảo có thể hạ cả những đối thủ cứng đầu nhất.
+  '227': Phiên bản cải tiến của tàu tái chế cổ điển với động cơ xung, cho phép thu hồi hiệu quả hơn với chi phí thấp hơn.
+  '228': Bản nâng cấp Tàu tái chế cực nhanh nhưng kém hiệu quả, dùng động cơ siêu không gian.
+  '229': Được phát triển để phá vỡ sự thống trị của Xer, Viper là vũ khí tối thượng chống Chiến đấu cơ nhẹ, Chiến đấu cơ nặng và Tàu tuần dương. Với pháo liên thanh và công nghệ tiên tiến, nó làm thay đổi cán cân quyền lực trong vũ trụ.
+  '230': Nhanh. Chính xác. Không thể chạm tới. Tàu đánh chặn không sinh ra cho những cuộc đấu công bằng – nó được thiết kế để đánh nhanh, đánh mạnh, tạo lợi thế áp đảo trong chớp mắt.
+  '231': Một Tử Tinh nhỏ hơn, nhanh hơn, không phá được mặt trăng. Behemoth cực kỳ nguy hiểm với hạm đội.
+  '232': Nhanh hơn, nổ mạnh hơn, luôn là một bất ngờ thú vị. Titan Hư Không là nỗi kinh hoàng của các mặt trăng.
+  '401': Bệ phóng tên lửa là công trình phòng thủ đơn giản nhưng tiết kiệm.
+  '402': Laser nhẹ là vũ khí phòng thủ mặt đất đơn giản. Hệ thống ngắm đặc biệt bám theo tàu địch, và tia laser cường độ cao xuyên thủng thân tàu mục tiêu.
+  '403': Tháp laser nặng là phiên bản cải tiến của Tháp laser nhẹ.
+  '404': Pháo Gauss bắn đạn kim loại mật độ cao với vận tốc cực lớn.
+  '405': Pháo ion bắn các chùm ion (hạt mang điện dương hoặc âm).
+  '406': Pháo plasma dùng pin nhiên liệu của một lò phản ứng hạt nhân lớn để cấp điện cho bộ gia tốc điện từ bắn ra các xung plasma (toroid).
+  '407': Mái che khiên nhỏ bao phủ toàn bộ hành tinh trong một trường hấp thụ lượng năng lượng khổng lồ.
+  '408': Mái che khiên lớn có thể hấp thụ nhiều năng lượng hơn hẳn khi bị tấn công.
+  '409': Bước tiến hóa của công nghệ mái che khiên. Nó tốn nhiều năng lượng hơn nhiều, nhưng chịu được nhiều đòn tấn công hơn mọi loại khiên khác.
+  '410': Sau nhiều năm nghiên cứu trọng lực, các nhà khoa học đã chế tạo pháo graviton tạo ra trường graviton nhỏ, cô đặc và bắn nó vào kẻ địch.
+  '411': Một bệ phòng thủ bất động, không có động lực riêng, được giữ trên quỹ đạo ổn định quanh hành tinh bằng lực hấp dẫn. Khởi động quá trình này cần lượng năng lượng khổng lồ.
+  '412': Nó bảo vệ bạn! Như viên gạch Lego thời mẫu giáo.
+  '413': Laser Titan là một khẩu laser khổng lồ.
+  '414': Mồi nhử là hệ thống phòng thủ tinh vi nhằm đánh lừa và gây nhầm lẫn cho kẻ địch. Bằng cách ngụy trang thành Bệ phóng tên lửa, nó khiến kẻ địch chùn bước.
+  '502': Tên lửa đánh chặn phá hủy các Tên lửa liên hành tinh đang bay tới.
+  '503': Tên lửa liên hành tinh phá hủy phòng thủ của đối thủ.
+  '901': Kim loại là tài nguyên chính cho công trình và tàu. Đây là tài nguyên rẻ nhất nhưng cũng là thứ bạn cần nhiều nhất.
+  '902': Tinh thể là tài nguyên chính để chế tạo mạch điện tử và một số hợp kim.
+  '903': Deuterium nằm ở những vùng biển sâu nhất. Đây là tài nguyên đắt nhất và cũng cần nhiều năng lượng nhất.
+  '911': Cần có năng lượng để sản xuất mọi tài nguyên.
+shortNames:
+  '202': Vận tải nhẹ
+  '203': Vận tải nặng
+  '204': Chiến đấu cơ nhẹ
+  '205': Chiến đấu cơ nặng
+  '206': Tuần dương
+  '207': Thiết giáp hạm
+  '208': Tàu thực dân
+  '209': Tàu tái chế
+  '210': Tàu do thám
+  '211': Máy bay ném bom
+  '212': Vệ tinh mặt trời
+  '213': Tàu hủy diệt
+  '214': Tử Tinh
+  '215': Tuần dương chiến đấu
+  '216': Mặt Trăng Đen
+  '217': Vận tải chiến đấu
+  '218': Avatar
+  '219': Tái chế chiến đấu
+  '220': Cự Thép
+  '221': Lưỡi Bão
+  '222': Tuần dương nặng
+  '223': Drone Khiên
+  '224': Vận tải tấn công cải tiến
+  '225': Vận tải Bão
+  '226': Vận tải chiến đấu khổng lồ
+  '227': Tàu tái chế tối ưu
+  '228': Tàu tái chế Omega
+  '229': Viper
+  '230': Tàu đánh chặn
+  '231': Behemoth
+  '232': Titan Hư Không
+  '401': Bệ phóng tên lửa
+  '402': Tháp laser nhẹ
+  '403': Tháp laser nặng
+  '404': Pháo Gauss
+  '405': Pháo ion
+  '406': Pháo plasma
+  '407': Mái che khiên nhỏ
+  '408': Mái che khiên lớn
+  '409': Khiên khí quyển
+  '410': Pháo graviton
+  '411': Bệ phòng thủ quỹ đạo
+  '412': Boong-ke
+  '413': Laser Titan
+  '414': Mồi nhử
+spytechStatsDescription: Ở cấp 0 và 1, bạn chỉ thấy tổng điểm của người chơi khác. Từ cấp 2, bạn còn thấy điểm công trình; từ cấp 4, điểm nghiên cứu. Từ cấp 6, bạn còn thấy điểm tàu và phòng thủ, cũng như thống kê chiến đấu của họ.
+tech:
+  '0': Công trình
+  '1': Mỏ kim loại
+  '2': Mỏ tinh thể
+  '3': Nhà máy tinh chế deuterium
+  '4': Nhà máy điện mặt trời
+  '6': Đại học
+  '12': Nhà máy điện nhiệt hạch
+  '14': Nhà máy robot
+  '15': Nhà máy nanite
+  '21': Xưởng đóng tàu
+  '22': Kho kim loại
+  '23': Kho tinh thể
+  '24': Kho deuterium
+  '31': Phòng nghiên cứu
+  '33': Máy tạo địa hình
+  '34': Kho liên minh
+  '35': Ụ sửa chữa
+  '40': Công trình mặt trăng
+  '41': Căn cứ mặt trăng
+  '42': Phalanx cảm biến
+  '43': Cổng nhảy
+  '44': Hầm tên lửa
+  '100': Nghiên cứu
+  '106': Công nghệ do thám
+  '108': Công nghệ máy tính
+  '109': Công nghệ vũ khí
+  '110': Công nghệ khiên
+  '111': Công nghệ giáp
+  '113': Công nghệ năng lượng
+  '114': Công nghệ siêu không gian
+  '115': Động cơ đốt cháy
+  '117': Động cơ xung
+  '118': Động cơ siêu không gian
+  '120': Công nghệ laser
+  '121': Công nghệ ion
+  '122': Công nghệ plasma
+  '123': Mạng nghiên cứu liên thiên hà
+  '124': Nghiên cứu vật lý thiên văn
+  '131': Sản xuất kim loại
+  '132': Sản xuất tinh thể
+  '133': Sản xuất deuterium
+  '134': Hiệu suất nhiên liệu
+  '199': Nghiên cứu graviton
+  '200': Tàu
+  '202': Tàu vận tải nhẹ
+  '203': Tàu vận tải nặng
+  '204': Chiến đấu cơ nhẹ
+  '205': Chiến đấu cơ nặng
+  '206': Tàu tuần dương
+  '207': Thiết giáp hạm
+  '208': Tàu thực dân
+  '209': Tàu tái chế
+  '210': Tàu do thám
+  '211': Máy bay ném bom
+  '212': Vệ tinh mặt trời
+  '213': Tàu hủy diệt
+  '214': Tử Tinh
+  '215': Tuần dương chiến đấu
+  '216': Mặt Trăng Đen
+  '217': Vận tải chiến đấu
+  '218': Avatar
+  '219': Tái chế chiến đấu
+  '220': Cự Thép
+  '221': Lưỡi Bão
+  '222': Tuần dương nặng
+  '223': Drone Khiên
+  '224': Vận tải tấn công cải tiến
+  '225': Vận tải Bão
+  '226': Vận tải chiến đấu khổng lồ
+  '227': Tàu tái chế tối ưu
+  '228': Tàu tái chế Omega
+  '229': Viper
+  '230': Tàu đánh chặn
+  '231': Behemoth
+  '232': Titan Hư Không
+  '400': Phòng thủ hành tinh
+  '401': Bệ phóng tên lửa
+  '402': Tháp laser nhẹ
+  '403': Tháp laser nặng
+  '404': Pháo Gauss
+  '405': Pháo ion
+  '406': Pháo plasma
+  '407': Mái che khiên nhỏ
+  '408': Mái che khiên lớn
+  '409': Khiên khí quyển
+  '410': Pháo graviton
+  '411': Bệ phòng thủ quỹ đạo
+  '412': Boong-ke
+  '413': Laser Titan
+  '414': Mồi nhử
+  '500': Tên lửa
+  '502': Tên lửa đánh chặn
+  '503': Tên lửa liên hành tinh
+  '900': Tài nguyên
+  '901': Kim loại
+  '902': Tinh thể
+  '903': Deuterium
+  '911': Năng lượng

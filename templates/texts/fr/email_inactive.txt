@@ -1,8 +1,8 @@
-Bonjour {USERNAME},
+Salut {USERNAME},
 
-Vous ne vous êtes pas connecté depuis {DERNIÈRE DATE} dans {GAMENAME}. Si vous souhaitez rester membre de notre communauté, veuillez vous connecter avec les informations de votre compte, sinon votre compte sera supprimé.
+Tu ne t'es plus connecté à {GAMENAME} depuis le {LASTDATE}. Si tu veux rester membre de notre communauté, connecte-toi avec tes identifiants – sinon ton compte sera supprimé.
 
-Si vous avez oublié votre mot de passe, rendez-vous sur {HTTPPATH} et cliquez sur « Mot de passe oublié ». Vous recevrez dans les minutes qui suivent un courriel contenant votre nouveau mot de passe.
+Si tu as oublié ton mot de passe, rends-toi sur {HTTPPATH} et clique sur « Mot de passe oublié ». Tu recevras en quelques minutes un e-mail avec la marche à suivre.
 
-Regards,
-{GAMENAME} L'équipe
+À bientôt,
+L'équipe {GAMENAME}

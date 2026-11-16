@@ -41,7 +41,7 @@ class AccountSettingsController extends AbstractAccountController
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
+                'lang' => $LNG->getLanguageOptions(),
             ],
             'id'            => $ACCOUNT['id'],
             'delete'        => $ACCOUNT['db_deaktjava'],
@@ -90,7 +90,7 @@ class AccountSettingsController extends AbstractAccountController
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
+                'lang' => $LNG->getLanguageOptions(),
             ],
             'id'            => $this->state->ACCOUNT['id'],
             'delete'        => $this->state->ACCOUNT['db_deaktjava'],
@@ -124,7 +124,7 @@ class AccountSettingsController extends AbstractAccountController
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'Skins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
+                'lang' => $LNG->getLanguageOptions(),
             ],
             'id'            => $this->state->ACCOUNT['id'],
             'accountname'   => $this->state->ACCOUNT['accountname'],

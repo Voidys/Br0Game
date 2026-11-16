@@ -1,0 +1,11 @@
+Hallo {USERNAME},
+
+Het e-mailadres van je account is zojuist gewijzigd.
+De wijziging wordt over een paar dagen definitief.
+
+Heb je dit niet zelf gedaan? Maak dan een ticket aan op onze Discord:
+{DISCORD}
+
+Met vriendelijke groet,
+
+Je {GAMENAME}-team

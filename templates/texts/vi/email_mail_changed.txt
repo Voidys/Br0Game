@@ -1,0 +1,12 @@
+Xin chào {USERNAME},
+
+Địa chỉ email tài khoản của bạn vừa được thay đổi.
+Thay đổi sẽ trở thành vĩnh viễn sau vài ngày.
+
+Nếu không phải bạn làm, hãy tạo ticket trên Discord của chúng tôi:
+{DISCORD}
+
+Trân trọng,
+
+Đội ngũ {GAMENAME} của bạn
+

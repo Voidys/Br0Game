@@ -1,0 +1,81 @@
+Active_players: Активні гравці
+Back: Назад
+mail:
+  subject:
+    mail_changed: Електронну адресу твого облікового запису %s змінено
+Other_universes: Інші всесвіти
+Play: Грати
+Playername: Ім'я гравця
+Register: Реєстрація
+Settings: Налаштування
+Sitting_end: Кінець опікунства
+Sitting_request: Запит на опікунство (поки недоступно)
+uni_status_regclosed_gameclosed: Закрито
+uni_status_regclosed_gameopen: Відкрито для гри
+uni_status_regopen_gameclosed: Відкрито для реєстрації
+uni_status_regopen_gameopen: Відкрито
+Universe_end: Кінець
+Universe_start: Початок
+Universe_status: 'Статус всесвіту: '
+Universes: Всесвіти
+Your_universes: Твої всесвіти
+board_create: Новий допис
+board_edit_post: Редагувати допис
+board_sort: Сортування
+board_sort_hot: Гарячі
+board_sort_new: Нові
+board_sort_top: Топ
+board_period_all: За весь час
+board_period_week: За цей тиждень
+board_csort_best: Найкращі
+board_flair: Тема
+board_flair_all: Усі
+board_flair_general: Загальне
+board_flair_guide: Посібник
+board_flair_question: Питання
+board_flair_suggestion: Пропозиція
+board_flair_bug: Помилка
+board_flair_offtopic: Офтопік
+board_upvote: Подобається
+board_downvote: Не подобається
+board_pinned: Закріплено
+board_locked: Заблоковано
+board_by: від
+board_comments: Коментарі
+board_empty: Дописів ще немає. Напиши перший.
+board_no_comments: Коментарів ще немає.
+board_title: Заголовок
+board_body: Текст
+board_publish: Опублікувати
+board_save: Зберегти
+board_cancel: Скасувати
+board_edit: Редагувати
+board_edited: відредаговано
+board_delete: Видалити
+board_deleted: '[видалено]'
+board_deleted_user: '[видалено]'
+board_confirm_delete: Справді видалити?
+board_reply: Відповісти
+board_collapse: Згорнути гілку
+board_add_comment: Написати коментар
+board_comment_send: Коментувати
+board_mod_pin: Закріпити
+board_mod_unpin: Відкріпити
+board_mod_lock: Заблокувати
+board_mod_unlock: Розблокувати
+board_not_found: Цього допису або коментаря не існує.
+board_not_allowed: Тобі цього робити не можна.
+board_err_csrf: Не вдалося перевірити запит. Перезавантаж сторінку й спробуй ще раз.
+board_err_title: Введи заголовок.
+board_err_title_long: Заголовок може містити щонайбільше 200 символів.
+board_err_body: Введи текст (не порожній і не надто довгий).
+board_err_locked: Цей допис заблоковано — нових коментарів немає.
+board_err_rate_post: Зачекай ще %d с до наступного допису.
+board_err_rate_comment: Зачекай ще %d с до наступного коментаря.
+board_ago_now: щойно
+board_ago_min: '%d хв тому'
+board_ago_hours: '%d год тому'
+board_ago_days: '%d д тому'
+board_guest_hint: Увійди, щоб писати дописи, коментувати й голосувати.
+board_guest_login: Увійти
+board_guest_register: Реєстрація

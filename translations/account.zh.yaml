@@ -1,0 +1,81 @@
+Active_players: 活跃玩家
+Back: 返回
+mail:
+  subject:
+    mail_changed: 你的 %s 账号的邮箱地址已更改
+Other_universes: 其他宇宙
+Play: 开始游戏
+Playername: 玩家名称
+Register: 注册
+Settings: 设置
+Sitting_end: 代管结束
+Sitting_request: 申请代管（暂不可用）
+uni_status_regclosed_gameclosed: 已关闭
+uni_status_regclosed_gameopen: 开放游戏
+uni_status_regopen_gameclosed: 开放注册
+uni_status_regopen_gameopen: 开放
+Universe_end: 结束
+Universe_start: 开始
+Universe_status: 宇宙状态：
+Universes: 宇宙
+Your_universes: 你的宇宙
+board_create: 发布新帖
+board_edit_post: 编辑帖子
+board_sort: 排序
+board_sort_hot: 热门
+board_sort_new: 最新
+board_sort_top: 最高赞
+board_period_all: 全部时间
+board_period_week: 本周
+board_csort_best: 最佳
+board_flair: 标签
+board_flair_all: 全部
+board_flair_general: 综合
+board_flair_guide: 攻略
+board_flair_question: 提问
+board_flair_suggestion: 建议
+board_flair_bug: 漏洞
+board_flair_offtopic: 闲聊
+board_upvote: 点赞
+board_downvote: 点踩
+board_pinned: 置顶
+board_locked: 已锁定
+board_by: 作者
+board_comments: 评论
+board_empty: 还没有帖子，来发第一帖吧。
+board_no_comments: 还没有评论。
+board_title: 标题
+board_body: 正文
+board_publish: 发布
+board_save: 保存
+board_cancel: 取消
+board_edit: 编辑
+board_edited: 已编辑
+board_delete: 删除
+board_deleted: '[已删除]'
+board_deleted_user: '[已删除]'
+board_confirm_delete: 确定要删除吗？
+board_reply: 回复
+board_collapse: 折叠讨论串
+board_add_comment: 写评论
+board_comment_send: 评论
+board_mod_pin: 置顶
+board_mod_unpin: 取消置顶
+board_mod_lock: 锁定
+board_mod_unlock: 解锁
+board_not_found: 这个帖子或评论不存在。
+board_not_allowed: 你无权执行此操作。
+board_err_csrf: 无法验证该请求。请刷新页面后重试。
+board_err_title: 请输入标题。
+board_err_title_long: 标题最多 200 个字符。
+board_err_body: 请输入正文（不能为空，也不能太长）。
+board_err_locked: 这个帖子已被锁定，无法再发表评论。
+board_err_rate_post: 请再等待 %d 秒后再发下一帖。
+board_err_rate_comment: 请再等待 %d 秒后再发下一条评论。
+board_ago_now: 刚刚
+board_ago_min: '%d 分钟前'
+board_ago_hours: '%d 小时前'
+board_ago_days: '%d 天前'
+board_guest_hint: 登录后即可发帖、评论和投票。
+board_guest_login: 登录
+board_guest_register: 注册

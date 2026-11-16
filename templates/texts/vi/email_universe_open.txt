@@ -1,0 +1,16 @@
+Xin chào {USERNAME},
+
+thời khắc đã đến - {UNINAME} đã mở cửa vào {OPENTIME}!
+Chúng tôi rất vui vì bạn có mặt ở đây và chúc bạn chơi thật vui cùng nhiều trải nghiệm thú vị.
+
+Bạn có thể tìm thấy game tại {HTTPPATH}.
+Bạn cũng được chào đón ghé thăm Discord của chúng tôi:
+{DISCORD}
+
+Nếu bạn quên mật khẩu, chỉ cần bấm vào “Quên mật khẩu” trên trang.
+Ngay sau đó bạn sẽ nhận được email kèm mật khẩu mới.
+
+Nếu vẫn gặp vấn đề khi đăng nhập hoặc đăng ký, hãy liên hệ chúng tôi trên Discord.
+
+Trân trọng,
+Đội ngũ {GAMENAME}

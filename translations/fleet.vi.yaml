@@ -1,0 +1,238 @@
+and: và
+battle_stats_damage_done: Sát thương gây ra
+battle_stats_damage_dead: Sát thương thừa
+battle_stats_shield_hit: Số lần trúng khiên
+battle_stats_ship_destroyed: Tàu bị phá hủy
+battle_stats_shield_bounced: Sát thương bị dội lại
+battle_stats_rapid_fire_done: Bắn liên thanh
+battle_stats_explosion_triggered: Vụ nổ
+battle_stats_stunned_done: Bị vô hiệu hóa
+battle_stats_target: Mục tiêu
+battle_stats_total: Tổng
+battle_stats_total_all_targets: Tổng (mọi mục tiêu)
+battle_stats_total_all_fleets: Tổng (mọi hạm đội)
+damage: điểm sát thương.
+debree_field_1: 'Tại tọa độ này hiện có:'
+debree_field_2: ' mảnh vỡ.'
+fcp_colony: Thuộc địa
+fl_expocap_explain: Đây là lượng điểm thám hiểm tối đa đáng để gửi. Phần vượt mức này không tăng phần thưởng, nhưng vẫn có thể bị mất.
+fl_send_back: Quay về
+fl_simulate: Mô phỏng
+fleet_attack_1: Hạm đội tấn công bắn với sức mạnh
+fleet_attack_2: vào bên phòng thủ. Khiên của bên phòng thủ hấp thụ
+fleet_defs_1: Hạm đội phòng thủ bắn với sức mạnh
+fleet_defs_2: vào bên tấn công. Khiên của bên tấn công hấp thụ
+spy_best_planet: Hành tinh tốt nhất
+spy_best_resources_per_second: Tài nguyên mỗi giây tốt nhất
+spy_energy: Năng lượng
+spy_hazard_potential: Mức nguy hiểm
+spy_large_transporter: Tàu vận tải nặng
+spy_market_value: Giá trị thị trường
+spy_necessary_recycler: Tàu tái chế cần thiết
+spy_necessary_transporters: Số tàu cần
+spy_potential_recycling: Tiềm năng tái chế
+spy_potential_resources: Tài nguyên tiềm năng
+spy_small_transporter: Tàu vận tải nhẹ
+spy_summary: Tóm tắt
+spy_total_resources: Tổng tài nguyên
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: và
+sys_attack_attacker_pos: Bên tấn công
+sys_attack_defender_pos: Bên phòng thủ
+sys_attack_round: Hiệp
+sys_attack_title: 'Các hạm đội sau đối đầu nhau tại: '
+sys_attacker_lostunits: 'Tổn thất của bên tấn công:'
+sys_attacker_won: Bên tấn công đã thắng trận!
+sys_both_won: 'Trận đấu kết thúc với kết quả hòa! '
+sys_colo_allisok: Hạm đội của bạn đã đến tọa độ %s. Những người định cư đã bắt đầu khai phá hành tinh mới.
+sys_colo_badpos: Hạm đội của bạn đã đến tọa độ %s. Không thể định cư ở đó, nên những người định cư thất vọng quay về nhà.
+sys_colo_maxcolo: 'Hạm đội của bạn đã đến tọa độ %s. Không thể định cư: bạn chỉ có thể có %d hành tinh.'
+sys_colo_mess_from: Thực dân hóa
+sys_colo_mess_report: Báo cáo thực dân hóa
+sys_colo_notech: Hạm đội của bạn đã đến tọa độ %s. Những người định cư nhận ra thiết bị của họ không hợp với khí hậu và cần được cải tiến. Thất vọng, họ quay về nhà.
+sys_colo_notfree: Hạm đội của bạn đã đến tọa độ %s. Thật không may, những người định cư phát hiện hành tinh đã có người ở! Hoàn toàn nản lòng, họ quay về nhà.
+sys_debris: Trường mảnh vỡ
+sys_def_rebuild: 'Một số công trình phòng thủ đã được sửa:'
+sys_defender_lostunits: 'Tổn thất của bên phòng thủ:'
+sys_defender_won: Bên phòng thủ đã thắng trận!
+sys_destroyed: Bị phá hủy
+sys_destruc_echec: 'Động đất làm rung chuyển hành tinh, nhưng có gì đó đã hỏng: các Tử Tinh phát nổ và vỡ thành ngàn mảnh, và sóng xung kích quét sạch cả hạm đội.'
+sys_destruc_lune: 'Cơ hội phá hủy mặt trăng: %d%%'
+sys_destruc_mess1: Các Tử Tinh đã bắn năng lượng khủng khiếp của chúng vào mặt trăng.
+sys_destruc_null: Các Tử Tinh chưa kịp sạc đầy trước khi bắn.<br> Mặt trăng không bị phá hủy.
+sys_destruc_reussi: Chùm tia của các Tử Tinh đã chạm tới mặt trăng và xé nó thành từng mảnh. <br>Toàn bộ mặt trăng đã bị phá hủy!
+sys_destruc_rip: 'Cơ hội hạm đội tự hủy: %d%%'
+sys_destruc_stop: Bên phòng thủ đã chặn thành công việc phá hủy mặt trăng.
+sys_destruc_title: 'Các hạm đội sau đối đầu nhau để phá hủy mặt trăng:'
+sys_expe_attack_1_1_1: Một tên hải tặc không gian trong cơn tuyệt vọng đã cố cướp hạm đội thám hiểm của chúng ta.
+sys_expe_attack_1_1_2: Vài kẻ man rợ nguyên thủy tấn công chúng ta bằng tàu vũ trụ. Ít ra tàu của chúng cũng trong tình trạng tồi tệ. Nếu hỏa lực của chúng là mối đe dọa thực sự, chúng ta đã buộc phải đáp trả bằng của mình.
+sys_expe_attack_1_1_3: Chúng ta đã chặn được vài tin nhắn vô tuyến của một nhóm hải tặc say khướt. Có vẻ chúng ta sắp bị tấn công.
+sys_expe_attack_1_1_4: Chúng ta phải đánh nhau với vài tên hải tặc, nhưng may là chúng ta đông hơn.
+sys_expe_attack_1_1_5: Hạm đội báo cáo rằng một gã tên Moa Tikarr cùng thủy thủ đoàn yêu cầu hạm đội của chúng ta đầu hàng vô điều kiện. Nếu chúng nghiêm túc, chúng sẽ biết chúng ta tự vệ rất giỏi.
+sys_expe_attack_1_2_1: Hạm đội thám hiểm của bạn đã có cuộc chạm trán bất ngờ với vài tên hải tặc không gian.
+sys_expe_attack_1_2_2: Chúng ta bay vào ổ phục kích của bọn hải tặc sao! Thật không may, không thể tránh khỏi một trận đánh.
+sys_expe_attack_1_2_3: Lời kêu cứu của một hạm đội thám hiểm khác hóa ra là cái bẫy của vài tên hải tặc xảo quyệt. Một trận chiến là không thể tránh.
+sys_expe_attack_1_3_1: Những tín hiệu bị chặn không đến từ người ngoài hành tinh lạ, mà từ một căn cứ hải tặc bí mật! Bọn hải tặc không vui chút nào khi thấy chúng ta có mặt trong khu vực của chúng.
+sys_expe_attack_1_3_2: Hạm đội thám hiểm báo cáo những trận giao tranh ác liệt với các tàu hải tặc không rõ danh tính!
+sys_expe_attack_1_3_3: 'Chúng ta vừa nhận được tin khẩn từ chỉ huy thám hiểm: "Chúng đang lao vào chúng ta! Chúng nhảy ra từ siêu không gian, may là chỉ là hải tặc, nên ta có cơ hội, ta sẽ chiến đấu!"'
+sys_expe_attack_2_1_1: Hạm đội thám hiểm của bạn đã có lần tiếp xúc đầu tiên không mấy thân thiện với một chủng loài lạ.
+sys_expe_attack_2_1_2: Vài con tàu lạ đã tấn công hạm đội thám hiểm không báo trước!
+sys_expe_attack_2_1_3: Đoàn thám hiểm của chúng ta bị một nhóm nhỏ tàu vũ trụ không rõ danh tính tấn công!
+sys_expe_attack_2_1_4: Hạm đội thám hiểm báo cáo đã tiếp xúc với những con tàu lạ. Không giải mã được tin nhắn vô tuyến, nhưng những con tàu lạ có vẻ đang khởi động vũ khí.
+sys_expe_attack_2_2_1: Một chủng loài lạ đang tấn công đoàn thám hiểm của chúng ta!
+sys_expe_attack_2_2_2: Hạm đội thám hiểm của bạn dường như đã xâm phạm lãnh thổ của một chủng tộc ngoài hành tinh chưa từng biết nhưng cực kỳ hiếu chiến.
+sys_expe_attack_2_2_3: Liên lạc với hạm đội thám hiểm của chúng ta bị cắt đột ngột. Lần cuối nghe tin, hạm đội đang hứng hỏa lực dữ dội. Không xác định được kẻ tấn công.
+sys_expe_attack_2_3_1: Đoàn thám hiểm của bạn đã chạm trán một hạm đội xâm lược của người ngoài hành tinh và báo cáo những trận chiến quy mô lớn!
+sys_expe_attack_2_3_2: Một nhóm lớn tàu pha lê không rõ nguồn gốc đang lao thẳng vào hạm đội thám hiểm của chúng ta. Phải chuẩn bị cho điều tồi tệ nhất.
+sys_expe_attack_2_3_3: Chúng ta gặp chút khó khăn khi phát âm đúng phương ngữ của chủng tộc ngoài hành tinh. Nhà ngoại giao của chúng ta vô tình hô 'Bắn!' thay vì 'Hòa bình!'
+sys_expe_attackname_1: Hải tặc
+sys_expe_attackname_2: Người ngoài hành tinh
+sys_expe_back_home: Hạm đội của bạn đã trở về %1$s %2$s từ cuộc thám hiểm tại %3$s.
+sys_expe_back_home_ress: Nó mang về %s %s, %s %s và %s %s.
+sys_expe_back_home_ships_flound: 'Đã tìm thấy các tàu sau:'
+sys_expe_back_home_ships_lost: 'Các tàu sau đã bị mất:'
+sys_expe_blackholl_1: Hạm đội của bạn đã gặp một hố đen và bị phá hủy một phần!
+sys_expe_blackholl_2: Hạm đội của bạn đã gặp một hố đen và bị phá hủy hoàn toàn!
+sys_expe_depleted_max_1: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Nếu lúc nào thấy bất an, ta luôn có thể hợp lực với các đoàn thám hiểm khác đang bay quanh đây.'
+sys_expe_depleted_max_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Cứ thế này, ta sẽ phải đặt phao dẫn đường để xử lý hết lưu lượng này.'
+sys_expe_depleted_max_3: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Có lẽ mở một cửa hàng lưu niệm ở đây còn có ích hơn là gửi thêm một cuộc thám hiểm nữa.'
+sys_expe_depleted_med_1: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Chúng tôi thấy dấu hiệu của nhiều hạm đội thám hiểm trong khu vực. Chúng tôi đang quay về nhà.'
+sys_expe_depleted_med_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Chúng tôi đã liên lạc vô tuyến thân thiện với vài đoàn thám hiểm khác trong khu vực này.'
+sys_expe_depleted_med_3: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Chúng tôi đã ăn mừng kết thúc chuyến thám hiểm cùng thủy thủ đoàn của một hạm đội thám hiểm khác trong cùng khu vực. Họ cũng chẳng có gì mới để báo cáo.'
+sys_expe_depleted_min_1: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Có vẻ con người đã từng đến vùng này của thiên hà.'
+sys_expe_depleted_min_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Chúng tôi tìm thấy mảnh vỡ của những con tàu cũ. Chúng ta không phải những người đầu tiên đến đây.'
+sys_expe_depleted_min_3: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Chúng tôi suýt va chạm với một hạm đội thám hiểm khác. Tôi chưa từng nghĩ sẽ có ai khác ở ngoài này.'
+sys_expe_depleted_not_1: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Có vẻ vùng này của vũ trụ chưa từng được khám phá.'
+sys_expe_depleted_not_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Thật tuyệt khi là những người đầu tiên đi qua một khu vực chưa được khám phá.'
+sys_expe_feqeuence_few: Hơn 10 cuộc thám hiểm trong 24 giờ qua
+sys_expe_feqeuence_many: Hơn 50 cuộc thám hiểm trong 24 giờ qua
+sys_expe_feqeuence_medium: Hơn 25 cuộc thám hiểm trong 24 giờ qua
+sys_expe_feqeuence_no: Ít cuộc thám hiểm trong 24 giờ qua
+sys_expe_found_goods: Đã khai thác được %s %s.
+sys_expe_found_ress_1_1: Đoàn thám hiểm của bạn phát hiện một cụm tiểu hành tinh nhỏ có thể khai thác được một ít tài nguyên.
+sys_expe_found_ress_1_2: Trên một tiểu hành tinh hẻo lánh, tìm thấy vài mỏ tài nguyên dễ khai thác và đã thu được nguyên liệu thành công.
+sys_expe_found_ress_1_3: Đoàn thám hiểm của bạn tình cờ gặp xác những con tàu rất cũ từ một trận chiến đã xa. Có thể thu hồi và tái chế từng bộ phận.
+sys_expe_found_ress_1_4: Đoàn thám hiểm phát hiện một hành tinh nhiễm phóng xạ với khí quyển cực độc. Tuy nhiên, quét cho thấy hành tinh này chứa rất nhiều nguyên liệu. Các drone tự động được dùng để cố khai thác càng nhiều tài nguyên càng tốt.
+sys_expe_found_ress_2_1: 'Đoàn thám hiểm của bạn tìm thấy một đoàn tàu chở hàng cổ, chất đầy hàng nhưng không một bóng người. Có thể thu được một ít tài nguyên. '
+sys_expe_found_ress_2_2: Đoàn thám hiểm của bạn tìm thấy những mỏ nguyên liệu lớn trên một mặt trăng nhỏ có khí quyển riêng. Thủy thủ đoàn đang khai thác kho báu này.
+sys_expe_found_ress_2_3: Chúng ta đã gặp một đoàn tàu dân sự nhỏ đang rất cần lương thực và thuốc men. Đổi lại, chúng ta nhận được một lượng tài nguyên hữu ích đáng kể.
+sys_expe_found_ress_3_1: Hạm đội thám hiểm báo cáo phát hiện một xác tàu ngoài hành tinh khổng lồ. Dù không làm được gì với công nghệ của nó, con tàu có thể được tháo thành từng bộ phận, cho ra những nguyên liệu quý giá.
+sys_expe_found_ress_3_2: Vành đai tiểu hành tinh quanh một hành tinh chưa biết chứa lượng nguyên liệu khổng lồ. Hạm đội thám hiểm đã lấp đầy các khoang chứa!
+sys_expe_found_ress_logbook_1: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Chúng tôi đã dùng hết từng chút chỗ trống mà vẫn không chở hết số tài nguyên tìm được.'
+sys_expe_found_ress_logbook_2: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Giá mà có thêm vài tàu vận tải! Giờ chúng ta phải bỏ lại cả đống tài nguyên.'
+sys_expe_found_ress_logbook_3: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Chúng tôi đã vứt hết mọi thứ không cần nữa, nhưng vẫn không đủ chỗ cho số tài nguyên tìm được.'
+sys_expe_found_ress_logbook_4: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Ngay cả khi biến căng-tin và mọi phòng sinh hoạt thành kho chứa, chúng tôi vẫn không chở hết số tài nguyên tìm được.'
+sys_expe_found_ships: 'Các nhà nghiên cứu của bạn đã tìm thấy những tàu vũ trụ còn trong tình trạng hoàn hảo!<br>: '
+sys_expe_found_ships_1_1: Chúng ta đã phát hiện tàn tích của một đoàn thám hiểm tiền nhiệm! Các kỹ thuật viên đang kiểm tra xem có thể làm một số xác tàu hoạt động lại không.
+sys_expe_found_ships_1_2: Chúng ta đã tìm thấy một căn cứ hải tặc bị bỏ hoang. Vài con tàu cũ vẫn còn trong nhà chứa. Các kỹ thuật viên đang kiểm tra xem một số tàu còn dùng được không.
+sys_expe_found_ships_1_3: Đoàn thám hiểm của chúng ta tìm thấy một hành tinh gần như bị chiến tranh tàn phá hoàn toàn. Nhiều xác tàu trôi trên quỹ đạo. Các kỹ thuật viên đã thử sửa một số chiếc. Có lẽ chúng ta sẽ biết thêm chuyện gì đã xảy ra ở đây.
+sys_expe_found_ships_1_4: Đoàn thám hiểm tình cờ gặp một trạm không gian cũ có vẻ đã bị bỏ hoang từ rất lâu. Vài con tàu được tìm thấy trong nhà chứa của pháo đài. Các kỹ thuật viên đã làm một số chiếc bay lại được.
+sys_expe_found_ships_2_1: Chúng ta đã tìm thấy tàn tích của một hạm đội. Các kỹ thuật viên của đoàn thám hiểm lập tức lên những con tàu còn nguyên một phần và sửa được một số chiếc.
+sys_expe_found_ships_2_2: Đoàn thám hiểm của chúng ta phát hiện một xưởng đóng tàu tự động cũ với vài con tàu vẫn đang trong giai đoạn sản xuất. Sau khi khôi phục nguồn điện cho xưởng, các kỹ thuật viên đã làm việc để hoàn thiện chúng.
+sys_expe_found_ships_3_1: Chúng ta đã tìm thấy một nghĩa địa tàu khổng lồ. Một số kỹ thuật viên của đoàn thám hiểm đã đưa được một hai con tàu hoạt động lại.
+sys_expe_found_ships_3_2: Chúng ta đã phát hiện một hành tinh còn dấu tích của một nền văn minh. Từ ngoài không gian cũng thấy một trạm tàu khổng lồ khác vẫn còn nguyên vẹn. Một số kỹ thuật viên và phi công đã xuống bề mặt để xác định xem có thể thu hồi vài chiếc tàu không.
+sys_expe_found_ships_logbook_1: 'Ghi chép từ nhật ký của sĩ quan phòng máy: Nếu mang thêm vài con tàu, đã dễ dàng đưa vài người đẹp này về nhà rồi!'
+sys_expe_found_ships_logbook_2: 'Ghi chép từ nhật ký của sĩ quan phòng máy: Đáng tiếc, chúng tôi không đủ sức chở để mang về tất cả số tàu phát hiện được trong nhiệm vụ này.'
+sys_expe_found_ships_logbook_3: 'Ghi chép từ nhật ký của sĩ quan phòng máy: Đáng tiếc, chúng tôi không đủ sức chở để mang về tất cả số tàu tìm thấy.'
+sys_expe_found_ships_nothing: Không tìm thấy tàu nào.
+sys_expe_lost_fleet_1: 'Thứ duy nhất còn lại của đoàn thám hiểm là tin nhắn vô tuyến sau: Zzzrrt ôi trời ơi!...Krrrzzzzt cái zrrrtrzt nhìn thấy krgzzzz vâng từ cách Krzzzzzzzztzzzz...'
+sys_expe_lost_fleet_2: Thứ cuối cùng chúng ta nhận được từ đoàn thám hiểm là vài bức ảnh cận cảnh đẹp không tưởng về một hố đen đang mở ra.
+sys_expe_lost_fleet_3: Một vụ rò rỉ hạt nhân trên một tàu chỉ huy gây ra phản ứng dây chuyền, phá hủy toàn bộ đoàn thám hiểm trong một vụ nổ ngoạn mục.
+sys_expe_lost_fleet_4: Hạm đội thám hiểm đã không trở về sau cú nhảy siêu không gian. Các nhà khoa học vẫn đang vắt óc tìm hiểu chuyện gì có thể đã xảy ra, nhưng hạm đội dường như đã mất vĩnh viễn.
+sys_expe_nothing_1: Chuyến thám hiểm này không mang về gì thú vị ngoài vài con vật nhỏ kỳ lạ từ một hành tinh đầm lầy chưa biết.
+sys_expe_nothing_2: Đoàn thám hiểm của bạn đã chụp được những bức ảnh tuyệt đẹp về một siêu tân tinh. Tuy nhiên, chuyến đi này thực sự không mang lại hiểu biết mới nào. Nhưng nó có cơ hội tốt giành giải Ảnh đẹp nhất Vũ trụ năm nay.
+sys_expe_nothing_3: Một loại virus máy tính lạ đã làm tê liệt hệ thống dẫn đường ngay sau khi rời hệ mặt trời. Khiến cả hạm đội thám hiểm bay vòng vòng suốt chặng đường. Không cần nói, chuyến thám hiểm không thành công mấy.
+sys_expe_nothing_4: Một dạng sống thuần năng lượng đã khiến mọi thành viên đoàn thám hiểm nhìn chằm chằm vào những ký hiệu thôi miên trên màn hình suốt nhiều ngày. Khi hầu hết cuối cùng tỉnh táo lại, chuyến thám hiểm phải hủy vì thiếu deuterium.
+sys_expe_nothing_5: Chà, ít ra giờ chúng ta biết dị thường đỏ cấp 5 không chỉ gây hỗn loạn cho hệ thống tàu mà còn có thể gây ảo giác hàng loạt cho thủy thủ đoàn. Đáng tiếc, chuyến thám hiểm này không phát hiện thêm gì khác.
+sys_expe_nothing_6: Dù các lần quét ban đầu của khu vực này đầy hứa hẹn, đáng tiếc chúng tôi trở về tay trắng.
+sys_expe_nothing_7: Có lẽ không nên tổ chức sinh nhật thuyền trưởng trên hành tinh hẻo lánh này. Một cơn sốt xuất huyết quái ác khiến hầu hết thủy thủ đoàn phải vào bệnh xá, và tình trạng thiếu người nghiêm trọng khiến chuyến thám hiểm thất bại.
+sys_expe_nothing_8: Đoàn thám hiểm của bạn không tìm thấy gì ngoài khoảng không mênh mông. Thậm chí không có một tiểu hành tinh nhỏ, bức xạ, hạt hay bất cứ thứ gì có thể khiến chuyến thám hiểm này thú vị hơn một chút.
+sys_expe_nothing_9: Sự cố lò phản ứng trên tàu chỉ huy suýt phá hủy cả đoàn thám hiểm. May mắn là các kỹ thuật viên rất giỏi và ngăn được điều tồi tệ nhất. Tuy nhiên, việc sửa chữa tốn quá nhiều thời gian nên đoàn thám hiểm trở về mà chẳng đạt được gì.
+sys_expe_report: Báo cáo thám hiểm
+sys_expe_report_msg: 'Báo cáo thám hiểm của hạm đội %s %s tại %s:'
+sys_expe_time_fast_1: Một vòng phản hồi bất ngờ trong các cuộn năng lượng của hệ thống đẩy đã đẩy nhanh chuyến về của đoàn thám hiểm, khiến nó đến sớm hơn dự kiến. Tuy nhiên, các báo cáo ban đầu cho thấy nó không có gì khác để báo cáo.
+sys_expe_time_fast_2: Vị chỉ huy mới hơi liều đã dùng một lỗ sâu không ổn định để rút ngắn chuyến về - và thành công! Tuy nhiên, bản thân chuyến thám hiểm không mang lại hiểu biết mới nào.
+sys_expe_time_fast_3: Đoàn thám hiểm của bạn báo cáo không có dị thường nào trong khu vực đã khám phá. Tuy nhiên, hạm đội gặp một luồng gió mặt trời trong chuyến bay về, đẩy nhanh đáng kể chuyến đi. Đoàn thám hiểm của bạn sẽ về nhà sớm hơn dự kiến.
+sys_expe_time_slow_1: Một sai sót nghiêm trọng của hoa tiêu đã đưa hạm đội đến hoàn toàn sai chỗ. Do đó chuyến về mất nhiều thời gian hơn hẳn.
+sys_expe_time_slow_2: Vì những lý do vẫn chưa rõ, cú nhảy của hạm đội đã hỏng hoàn toàn. Họ suýt rơi vào lõi một ngôi sao! May mắn là họ đáp xuống một hệ đã biết, nhưng chuyến về sẽ lâu hơn dự kiến ban đầu.
+sys_expe_time_slow_3: Mô-đun dẫn đường mới dường như vẫn còn nhiều lỗi. Không chỉ hạm đội thám hiểm đi hoàn toàn sai hướng, mà còn tiêu hết sạch deuterium! Thất vọng, đoàn thám hiểm đang quay về bằng năng lượng dự phòng.
+sys_expe_time_slow_4: Đoàn thám hiểm của bạn đã vào một khu vực có bão hạt dữ dội. Điều này làm quá tải hệ thống tích trữ năng lượng, khiến các hệ thống chính của mọi tàu hỏng. Các thợ máy của bạn ngăn được điều tồi tệ nhất, nhưng đoàn thám hiểm giờ sẽ về muộn đáng kể.
+sys_expe_time_slow_5: Soái hạm của hạm đội thám hiểm đã va chạm với một con tàu ngoài hành tinh nhảy thẳng vào hạm đội không báo trước. Tàu ngoài hành tinh phát nổ, và hư hại của soái hạm rất lớn. Khi những sửa chữa nghiêm trọng nhất hoàn tất, các tàu của bạn sẽ bắt đầu chuyến về, vì đoàn thám hiểm không thể tiếp tục trong tình trạng hiện tại.
+sys_expe_time_slow_6: Gió sao của một sao khổng lồ đỏ làm lệch cú nhảy của đoàn thám hiểm, khiến hệ thống dẫn đường tính sai hoàn toàn chuyến về. Kết quả là đoàn thám hiểm đang ở giữa khoảng không mênh mông giữa những ngôi sao lạ.
+sys_fleet_return: Hạm đội của bạn trở về %s %s %s và giao %s %s, %s %s và %s %s. %s
+sys_fleet_won: Hạm đội của bạn đã trở về sau cuộc tấn công tại %s %s đến %s %s. Bạn đã cướp được %s %s, %s %s và %s %s.
+sys_gain: Lợi nhuận
+sys_honorpoints_changed: 'Điểm danh dự:'
+sys_irak_def: '%d tên lửa đã bị đánh chặn.'
+sys_irak_mess: Tên lửa liên hành tinh (%d) từ %s đã đánh trúng %s <br><br>
+sys_irak_no_att: Tất cả tên lửa đã bị đánh chặn.
+sys_irak_no_def: Hành tinh không có công trình phòng thủ.
+sys_irak_subject: Tên lửa đánh trúng
+sys_lost: Tổn thất
+sys_mess_attack_cancel: |-
+  Trận chiến tại %s %s đã bị hủy.
+  Máy chủ không thể tính toán nó.
+sys_mess_attack_report: Báo cáo tấn công
+sys_mess_fleetback: Hạm đội quay về
+sys_mess_piratebase_gone: Hạm đội của bạn đã đến %s, nhưng căn cứ hải tặc không còn ở đó. Hạm đội đang quay về nhà.
+sys_mess_spy_activity: Báo cáo phản gián
+sys_mess_spy_control: Cơ quan Tình báo Trung ương
+sys_mess_spy_destroyed: Tàu do thám của bạn đã bị phá hủy!
+sys_mess_spy_ennemyfleet_1: Tàu do thám của địch từ hành tinh %s đã được phát hiện gần %s.
+sys_mess_spy_ennemyfleet_3: Tàu do thám của địch từ mặt trăng %s đã được phát hiện gần %s.
+sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'Khả năng tàu do thám bị phát hiện là: %d%%'
+sys_mess_spy_qg: Phòng do thám
+sys_mess_spy_repair_order: Hiện đang phục hồi tàu tại ụ sửa chữa.
+sys_mess_spy_report: Báo cáo tình báo
+sys_mess_spy_report_details_1: Báo cáo do thám từ hành tinh %1$s (%2$s) [%3$s:%4$s:%5$s] lúc %6$s
+sys_mess_spy_report_details_3: Báo cáo do thám từ mặt trăng %1$s (%2$s) [%3$s:%4$s:%5$s] lúc %6$s
+sys_mess_spy_report_details_4: Báo cáo do thám từ %1$s (%2$s) [%3$s:%4$s:%5$s] lúc %6$s
+sys_mess_tower: Bộ Chỉ huy Hạm đội
+sys_mess_transport: Vận chuyển
+sys_moonbuilt: Lượng kim loại và tinh thể tự do khổng lồ hút nhau và tạo thành một vệ tinh quanh hành tinh!
+sys_moonproba: 'Cơ hội ra mặt trăng: '
+sys_raport_amount_error: Chưa chọn tàu hay phòng thủ nào, hoặc quá nhiều so với giới hạn mô phỏng.
+sys_raport_lost_contact: Mất liên lạc với hạm đội tấn công (bị bắn hạ ngay trong hiệp đầu).
+sys_raport_not_found: ID báo cáo chiến đấu không hợp lệ
+sys_recy_gotten: Tàu tái chế của bạn đã thu được %2$s %6$s và %3$s %7$s từ tổng cộng %4$s %6$s và %5$s %7$s tại tọa độ %1$s.
+sys_recy_mess: Hạm đội tái chế của bạn đã trở về %s %s với %s %s, %s %s và %s %s.
+sys_recy_report: Báo cáo tái chế
+sys_ship_armour: Giáp
+sys_ship_count: Số lượng
+sys_ship_repaired: Đã sửa
+sys_ship_shield: Khiên
+sys_ship_type: Loại
+sys_ship_weapon: Hỏa lực
+sys_spy_fleet: Hạm đội
+sys_stat_mess: Hạm đội của bạn từ %s %s đã đến %s %s %s và giao %s %s, %s %s và %s %s. %s
+sys_stat_mess_stay: Hạm đội đóng quân
+sys_stealed_ressources: Chúng cướp
+sys_trade_mess_arr_success: 'Hạm đội thương nhân của bạn sẵn sàng quay về %1$s %2$s (chuyến bay về: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_back: Hạm đội thương nhân của bạn đã trở về %s %s tay trắng.
+sys_trade_mess_back_success: Hạm đội thương nhân của bạn đã trở về %4$s %5$s thành công với %1$s kim loại, %2$s tinh thể và %3$s deuterium.
+sys_tran_mess_back: Hạm đội của bạn đã trở về %s %s.
+sys_tran_mess_owner: Hạm đội của bạn từ %s %s đã đến %s %s %s và giao %s %s, %s %s và %s %s.
+sys_tran_mess_user: Một hạm đội hòa bình từ %s %s đã đến %s %s và giao %s %s, %s %s và %s %s.
+sys_units: đơn vị
+sys_wreckfield: Một số tàu bị phá hủy của bên phòng thủ tạo thành trường xác tàu trên quỹ đạo hành tinh trong vài ngày.
+sys_wreckfield_added: 'Thêm vào trường xác tàu:'
+type_mission_1: Tấn công
+type_mission_2: Tấn công liên minh
+type_mission_3: Vận chuyển
+type_mission_4: Triển khai
+type_mission_5: Đóng quân
+type_mission_6: Do thám
+type_mission_7: Thực dân hóa
+type_mission_8: Tái chế
+type_mission_9: Phá hủy
+type_mission_15: Thám hiểm
+type_mission_16: Giao thương
+type_mission_17: Chuyển giao
+type_planet_1: Hành tinh
+type_planet_2: Mảnh vỡ
+type_planet_3: Mặt trăng
+type_planet_4: Căn cứ hải tặc
+type_planet_short_1: HT
+type_planet_short_2: MV
+type_planet_short_3: MT

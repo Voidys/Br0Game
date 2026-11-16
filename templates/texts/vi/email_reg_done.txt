@@ -1,0 +1,12 @@
+Xin chào {USERNAME},
+
+Cảm ơn bạn đã đăng ký tại {GAMENAME}
+
+Chúng tôi rất vui vì bạn chọn trở thành một phần của cộng đồng 
+và hy vọng bạn sẽ chơi thật vui!
+
+Bạn cũng có thể ghé thăm Discord của chúng tôi: 
+{DISCORD}
+
+Trân trọng,
+Đội ngũ {GAMENAME}

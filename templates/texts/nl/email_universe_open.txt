@@ -1,0 +1,16 @@
+﻿Hallo {USERNAME},
+
+het is zover - {UNINAME} heeft op {OPENTIME} zijn deuren geopend!
+We zijn blij dat je erbij bent en wensen je veel plezier en spannende avonturen.
+
+Je vindt het spel op {HTTPPATH}.
+Je bent ook van harte welkom op onze Discord:
+{DISCORD}
+
+Ben je je wachtwoord vergeten? Klik dan op de pagina gewoon op “Wachtwoord vergeten”.
+Kort daarna ontvang je een e-mail met een nieuw wachtwoord.
+
+Heb je nog steeds problemen met inloggen of registreren? Neem dan contact met ons op via Discord.
+
+Met vriendelijke groet,
+Het team van {GAMENAME}

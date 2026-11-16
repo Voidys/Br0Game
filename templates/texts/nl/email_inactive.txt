@@ -1,0 +1,8 @@
+Hallo {USERNAME},
+
+je bent sinds {LASTDATE} niet meer ingelogd bij {GAMENAME}. Wil je lid van onze community blijven, log dan in met je accountgegevens, anders wordt je account verwijderd.
+
+Ben je je wachtwoord vergeten? Ga dan naar {HTTPPATH} en klik op "Wachtwoord vergeten". Binnen enkele minuten ontvang je een e-mail met je nieuwe wachtwoord.
+
+Met vriendelijke groet,
+Het {GAMENAME}-team

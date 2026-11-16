@@ -1,0 +1,73 @@
+<p class="rules-notice"><strong>LET OP: De regels kunnen veranderen en elke gebruiker is verplicht zichzelf op de hoogte te houden van de actuele stand!</strong></p>
+<h2>1. Accounts</h2>
+<p>De eigenaar van een account is altijd de eigenaar van het vaste e-mailadres. Een account mag alleen door één persoon worden gespeeld. De enige uitzondering is sitten. Als het nodig is het account van een ander te beheren of in vakantiemodus te zetten, moet de verantwoordelijke operator vooraf worden geïnformeerd en moet toestemming worden verkregen. Voor kortdurend sitten van minder dan 12 uur is een melding aan de operator voldoende. Tijdens het sitten zijn alle vlootbewegingen verboden; toegestaan is alleen het laten stationeren van de vloot op coördinaten van de sitter en het bouwen van grondstoffen op de planeet waar ze zich bevinden. Een account mag maximaal 72 uur worden gesit. Voor uitzonderingen moet toestemming van een operator worden verkregen. Het doorgeven van een account mag maximaal elke 3 maanden gebeuren en uitsluitend kosteloos. Meld het account bij de operator.</p>
+<hr>
+<h2>2. Multiaccounts</h2>
+<p>Elke speler mag per universum maar één account spelen. Als twee of meer accounts gewoonlijk, af en toe of permanent vanaf dezelfde internetverbinding worden gespeeld (bijvoorbeeld op scholen, universiteiten of in internetcafés), moet dit vooraf bij een beheerder worden gemeld. In dat geval is het de betreffende accounts verboden vlootcontact met elkaar te hebben zolang ze dezelfde internetverbinding gebruiken. Ook verdere overeenkomsten zijn verboden.</p>
+<hr>
+<h2>3. Pushen</h2>
+<p>Pushen is in het algemeen verboden. Pushen omvat bijvoorbeeld alle grondstoffentransporten en moonshots zonder passende tegenprestatie van accounts met minder punten naar accounts met meer punten.<br>
+Een handel moet binnen 24 uur worden afgerond. Uitzonderingen moeten vooraf door de moderators worden goedgekeurd via een Discord-ticket of een privébericht in het spel. <a href="./?page=team">Het team vind je hier.</a>.<br>
+Het niet aanvragen van toestemming of het negeren van de regel kan leiden tot een ban.</p>
+
+<h2>3.1 Handel en aanvallen</h2>
+<p>Als spelers grondstoffen willen verkopen of verdelen aan andere spelers, mogen ze dat doen tegen een koers tussen 75%% en 125%% van de marktprijs.</p>
+<p>Bijzonder geval:<br>
+Als het niet mogelijk is de buitgemaakte grondstoffen binnen 24 uur te verdelen na aanvallen met Sterren des Doods, is dat in het algemeen toegestaan, maar het moet bij de moderators worden gemeld.</p>
+<details>
+	<summary>Voorbeelden van onregelmatige handel/aanvallen (klik om uit te klappen):</summary>
+	<ul>
+	<li>Speler A (zwak in punten) stuurt zijn vloot bewust met een aanval naar speler B (sterk in punten) met als doel die volledig te laten vernietigen. In dat geval moet de sterkere speler een ticket openen.</li>
+	<li>Spelers uit een gezamenlijke ACS verdelen de buitgemaakte grondstoffen en het puinveld niet volgens de 24-uursregel.</li>
+	<li>Speler A laat anderen weten dat hij stopt met het spel. Voor elke ontvanger van dit bericht geldt voor de geïnformeerden een aanvalsstop van 24 uur (vanaf ontvangst van het bericht). In dat geval moeten de moderators worden ingelicht.</li>
+	<li>Speler A deelt zijn vlootgegevens (aankomst, vliegtijden, grootte, positie, enz.) met anderen zodat die informatie kan worden gebruikt om speler A aan te vallen. Dit is een oneerlijk voordeel ten opzichte van de andere spelers (passief pushen). Dit geldt als het ter beschikking stellen van grondstoffen (passief pushen). In dat geval moeten de moderators worden ingelicht.</li>
+	</ul>
+</details>
+
+<h2>3.2 Afscheidsgevechten</h2>
+<p>Afscheidsgevechten moeten in het algemeen vooraf met het moderatieteam worden afgestemd.</p>
+
+<p><a href="{wiki_url}/wiki/En/Regeln">wiki</a></p>
+<hr>
+<h2>4. Bashen</h2>
+<p>Bashen betekent meerdere aanvallen binnen 24 uur op dezelfde speler of dezelfde planeet/maan. Dit is verboden, maar het spel voorkomt dat het gebeurt. <a href="{wiki_url}/wiki/En/Universen-Übersicht">Instellingen kunnen per universum verschillen.</a> Aanvallen met spionagesondes of interplanetaire raketten worden niet meegeteld.</p>
+<p>De bashregel geldt uitsluitend voor actieve spelers. Als de partijen in oorlog zijn, zijn verdere aanvallen toegestaan. De oorlog moet minstens 24 uur voor verdere aanvallen op het forum worden verklaard (beide allianties of de naam van degene die de oorlog verklaart moeten correct gespeld in het onderwerp van de aankondiging staan). Een oorlogsverklaring kan alleen aan allianties worden gericht, waarbij de oorlog door een alliantie of door een individu kan worden verklaard.</p>
+<p>Acceptatie van de oorlog is niet vereist. Oorlogen die kennelijk alleen dienen om de bashregel massaal te omzeilen, zijn verboden. Het is aan de verantwoordelijke moderators en operators om dit te beoordelen.</p>
+<hr>
+<h2>5. Aanvallen met interplanetaire raketten</h2>
+<p>Er zijn slechts 1.000 aanvallen met interplanetaire raketten per 24 uur toegestaan. Het aantal raketten per aanval staat daar los van.</p>
+<hr>
+<h2>6. Bugusing</h2>
+<p>Het uitbuiten van bugs en fouten in de programmering is verboden. Gevonden bugs moeten zo snel mogelijk worden gemeld via een <a href="%s" target="_blank">GIT-issue</a> of in het Discord-kanaal #bugs. Valsspelen is ook verboden.</p>
+<hr>
+<h2>6.1 Tools en toepassingen</h2>
+<p>Het gebruik van externe tools en userscripts die niet volledig zijn vrijgegeven, is verboden.</p>
+<p>Scripts en tools mogen geen spelvoordeel bieden dat spelers zonder die tools niet hebben. Bij onduidelijkheid over de regelconformiteit van een tool moet contact worden opgenomen met een moderator/beheerder. Voor dit goedkeuringsproces moet de tool beschikbaar worden gesteld en voor een aangewezen beoordelaar worden vrijgegeven. Wordt een tool via het beoordelingsproces goedgekeurd, dan worden de functies ervan (niet de tool zelf) door de beoordelaar gepubliceerd.</p>
+<p>Let op: het publiceren en beschikbaar stellen van zelf ontwikkelde tools wordt sterk aangemoedigd, maar is niet verplicht.</p>
+<hr>
+<h2>6.2 Misbruik van de anti-aasgierbescherming</h2>
+<p>Het opzettelijk misbruiken van het anti-aasgiermechanisme om een voordeel te behalen, zoals bijvoorbeeld risicoloos gravitononderzoek, is verboden en wordt bestraft met een ban.</p>
+<hr>
+<h2>7. Bedreigingen/beledigingen</h2>
+<p>Afpersing en bedreigingen in het echte leven leiden tot uitsluiting van een of alle spelonderdelen. Afpersing en bedreigingen in het echte leven zijn elke vorm van communicatie die duidelijk de bedoeling te kennen geeft een persoon of een naaste derde op te sporen en schade toe te brengen.</p>
+<hr>
+<h2>8. Spam en erotiek</h2>
+<p>Spammen en reclame voor derden is verboden. Elke vorm van erotiek en pornografie is verboden. En wordt bestraft met een universumbrede en levenslange ban!</p>
+<hr>
+<h2>9. Pesten</h2>
+<p>Gedrag dat schadelijk is voor de community en pesten zijn hier ongewenst!</p>
+
+<p>Ter verduidelijking: pesten is elk gedrag dat neerkomt op herhaalde, regelmatige emotionele intimidatie, kwelling en kwetsing.
+Zowel door individuen als door een groep mensen in een machtspositie.
+Machtsmisbruik, geweldsdreigementen, verbaal geweld, intimidatie, te kijk zetten en uitsluiting zijn slechts enkele voorbeelden van hoe pesten kan plaatsvinden.</p>
+
+<p>Word je zelf gepest of hoor je ervan, neem dan gerust contact met ons op!
+We proberen een uitweg te vinden.
+Pesten blijft niet zonder gevolgen.</p>
+<hr>
+<h2>10. Spelersnamen</h2>
+<p>Vanwege problemen in het verleden is elk teken verboden, behalve de volgende:</p>
+<p>a-z</p>
+<p>A-Z</p>
+<p>äÄ öÖ üÜ ß</p>
+<p>" ", "-", "_"</p>

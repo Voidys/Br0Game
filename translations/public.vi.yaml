@@ -1,0 +1,181 @@
+biggest_solo: Trận đơn đấu lớn nhất
+build_ships: Tổng số tàu đã đóng
+buttonLostPassword: Quên mật khẩu?
+buttonRegister: Đăng ký
+buttonScreenshot: Ảnh chụp màn hình
+civil: Dân sự
+colony: Thuộc địa
+CrystalStorage: Kho tinh thể
+deathstar: Tử Tinh
+destroyed_sats: Vệ tinh mặt trời bị phá hủy
+disclamerLabelAddress: 'Địa chỉ game:'
+disclamerLabelMail: 'Email hỗ trợ:'
+disclamerLabelNotice: Thông tin thêm
+disclamerLabelPhone: 'Điện thoại:'
+disclamerRecaptcha: Trang này dùng reCAPTCHA, và <a href="https://policies.google.com/privacy">tuyên bố quyền riêng tư</a> cùng <a href="https://policies.google.com/terms">điều khoản sử dụng</a> của Google được áp dụng.
+first_fights: Những trận đầu tiên trong vũ trụ
+flown_expos: Tổng số chuyến thám hiểm đã bay
+flownDeut: Tổng deuterium đã tiêu cho các chuyến bay
+forum: Diễn đàn
+found_res: Tổng tài nguyên tìm thấy
+found_ships: Tổng số tàu tìm thấy
+galaxySpendDeut: Deuterium tiêu khi lướt bản đồ thiên hà
+gameInformations: |-
+  Game chiến thuật không gian thời gian thực.
+  Hàng trăm người chơi trong mỗi vũ trụ.
+  Không cần tải về - chỉ cần một trình duyệt thông thường.
+  Đăng ký miễn phí
+hof3_header: Huyền thoại của Vũ trụ 3 vẫn sống mãi ở đây!
+hof4_header: Huyền thoại của Vũ trụ 4 vẫn sống mãi ở đây!
+hof7_header: Huyền thoại của Vũ trụ 7 vẫn sống mãi ở đây!
+IonCannon: Pháo ion
+least_reached_ach: Thành tựu hiếm nhất
+login_error_1: 'Sai email hoặc mật khẩu! Mẹo: trình quản lý mật khẩu thường tự điền tên người dùng, nhưng bạn phải đăng nhập bằng email.'
+login_error_2: Tài khoản của bạn đã đăng nhập từ thiết bị khác, hoặc địa chỉ IP của bạn đã thay đổi.
+login_error_3: Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại.
+login_error_4: Quá nhiều lần đăng nhập thất bại. Hãy chờ 15 phút rồi thử lại.
+loginButton: Đăng nhập
+loginEmail: Email
+loginHeader: Đăng nhập
+loginInfo: Khi đăng nhập, tôi chấp nhận %s.
+loginPassword: Mật khẩu
+loginServerDesc: '%s là game chiến thuật không gian nơi hàng trăm người chơi cùng tranh tài <strong>cùng một lúc</strong> để trở thành người giỏi nhất. Bạn chỉ cần một trình duyệt web thông thường.'
+loginWelcome: Chào mừng đến với %s
+Lowest_longterm_points: Tài khoản đăng ký sớm có ít điểm nhất
+medAliens: Người ngoài hành tinh cỡ vừa
+menu_banlist: Danh sách cấm
+menu_battlehall: Sảnh chiến đấu
+menu_disclamer: Liên hệ
+menu_index: Trang chủ
+menu_news: Tin tức
+menu_rules: Quy tắc
+military: Quân sự
+most_achievements: Thu thập nhiều thành tựu nhất
+most_black_holes: Gặp nhiều hố đen nhất
+most_build: Xây nhiều nhất
+most_build_HF: Đóng nhiều Chiến đấu cơ nặng nhất
+most_defended_moons: Bảo vệ mặt trăng thành công nhiều nhất
+most_destroyed_moons: Phá hủy nhiều mặt trăng nhất
+most_expo_fights: Đánh nhiều trận với người ngoài hành tinh/hải tặc nhất
+most_fights: Thắng / Thua / Hòa nhiều nhất
+most_reached_ach: Thành tựu phổ biến nhất
+most_records: Thu thập nhiều kỷ lục nhất
+news_does_not_exist: Chưa có tin tức nào.
+news_from: Ngày %s bởi %s
+oldest_active_acc: Tài khoản hoạt động lâu đời nhất
+overall: Tổng thể
+passwordBack: Quay lại
+passwordChangedMailSend: Mật khẩu mới đang trên đường tới. Bạn sẽ nhận được email trong giây lát.
+passwordChangedMailTitle: Mật khẩu mới cho %s
+passwordErrorMailEmpty: Chúng tôi không biết địa chỉ email này.
+passwordErrorOnePerDay: Tài khoản này đã yêu cầu mật khẩu trong 24 giờ qua. Bạn có thể yêu cầu lại sau 24 giờ.
+passwordErrorUnknown: Không tìm thấy tài khoản nào với thông tin này.
+passwordInfo: Quên mật khẩu? Hãy nhập tên người dùng và địa chỉ email của tài khoản. Nếu không nhớ, hãy liên hệ quản trị viên.
+passwordMail: Email
+passwordNext: Tiếp theo
+passwordSubmit: Gửi
+passwordUsername: Tên người dùng
+passwordValidInValid: Yêu cầu không hợp lệ.
+passwordValidMailSend: Bạn sẽ sớm nhận được email hướng dẫn các bước tiếp theo.
+passwordValidMailTitle: Đặt lại mật khẩu cho %s
+players: Người chơi
+points_amount: Điểm / Số lượng
+realDesUnits: Đơn vị thực sự bị phá hủy
+registerBack: Quay lại
+registerDataPrivacyDesc: Tôi đồng ý với %s
+registerEmail: Email
+registerEmailDesc: Hãy nhập địa chỉ email của bạn.
+registerEmailReplay: Nhập lại email
+registerEmailReplayDesc: Nhập lại địa chỉ email để xác nhận.
+registerErrorDataPrivacy: Hãy chấp nhận chính sách quyền riêng tư để tiếp tục.
+registerErrorMailEmpty: Hãy nhập địa chỉ email.
+registerErrorMailExist: Địa chỉ email này đã được đăng ký.
+registerErrorMailInvalid: Địa chỉ email này không hợp lệ.
+registerErrorMailSame: Hai địa chỉ email không khớp.
+registerErrorPasswordLength: Mật khẩu phải dài ít nhất %s ký tự.
+registerErrorPasswordSame: Hai mật khẩu không khớp.
+registerErrorRules: Hãy chấp nhận quy tắc để tiếp tục.
+registerErrorUniClosed: Vũ trụ này đã đóng đăng ký.
+registerErrorUsernameChar: Tên người dùng chỉ được chứa chữ cái, chữ số, khoảng trắng, _, - và .
+registerErrorUsernameEmpty: Hãy nhập tên người dùng.
+registerErrorUsernameExist: Tên người dùng này đã có người dùng.
+registerLanguage: Ngôn ngữ
+registerMailCompleteTitle: Chào mừng đến với %s!
+registerMailVertifyTitle: Kích hoạt tài khoản của bạn tại %s
+registerPassword: Mật khẩu
+registerPasswordDesc: Mật khẩu phải dài ít nhất %s ký tự.
+registerPasswordReplay: Nhập lại mật khẩu
+registerPasswordReplayDesc: Nhập lại đúng mật khẩu đó.
+registerReferral: 'Người giới thiệu:'
+registerRules: Quy tắc
+registerRulesDesc: Tôi đồng ý với %s
+registerSendComplete: Cảm ơn bạn đã đăng ký! Hãy kiểm tra email (kể cả thư mục spam) để biết các bước tiếp theo.
+registerTimezone: Múi giờ
+registerUsername: Tên người dùng
+registerUsernameDesc: 'Dùng từ 3 đến 25 ký tự: chữ cái, chữ số, khoảng trắng, dấu chấm, dấu gạch ngang và dấu gạch dưới.'
+registerWelcomePMSenderName: Quản trị viên
+registerWelcomePMSubject: Chào mừng
+registerWelcomePMText: Chào mừng đến với %s! Trước tiên hãy xây một Nhà máy điện mặt trời, vì cần có năng lượng để sản xuất tài nguyên. Mở Công trình ở menu bên trái và bắt đầu với Nhà máy điện mặt trời.<br>Khi đã có năng lượng, bạn có thể xây mỏ. Vẫn ở mục Công trình, hãy xây một Mỏ kim loại, rồi một Mỏ tinh thể.<br><br>Để đóng tàu, bạn cần một Xưởng đóng tàu. Menu Công nghệ bên trái cho biết cần gì để mở khóa nó.<br>Nếu còn thắc mắc, hãy xem FAQ, wiki, hoặc mở một yêu cầu hỗ trợ.<br><br>Cả đội chúc bạn khám phá vũ trụ thật vui!
+second_expo_deck: Bắt đầu Boong thám hiểm thứ hai
+siteTitleBanList: Danh sách cấm
+siteTitleBattleHall: Sảnh chiến đấu
+siteTitleDataPrivacy: Chính sách quyền riêng tư
+siteTitleDisclamer: Liên hệ
+siteTitleHOF: Đại sảnh danh vọng
+siteTitleIndex: Trang chủ
+siteTitleLostPassword: Quên mật khẩu?
+siteTitleNews: Tin tức
+siteTitleRegister: Đăng ký
+siteTitleRules: Quy tắc
+siteTitleScreens: Ảnh chụp màn hình
+spy: Tàu do thám
+st_buildings: Công trình
+st_defenses: Phòng thủ
+st_fleets: Hạm đội
+st_points: Điểm
+st_researh: Nghiên cứu
+theme: Giao diện
+universe: Vũ trụ
+vertifyAdminMessage: Tài khoản "%s" đã được kích hoạt.
+vertifyNoUserFound: Yêu cầu không hợp lệ.
+votingPoints: Điểm bình chọn
+wonAttack: Tấn công thắng
+wonDefense: Phòng thủ thắng
+chose_a_uni: Chọn vũ trụ
+menu_register: Đăng ký
+news_overview: Tin tức
+passwordCaptcha: Mã bảo mật
+passwordErrorUsernameEmpty: Bạn chưa nhập tên người dùng!
+registerCaptcha: Mã bảo mật
+registerCaptchaDesc: Nhập các ký tự bên dưới vào ô trống, không có khoảng trắng. Không phân biệt hoa thường. Nếu tải lại vài lần mà vẫn không đọc được ảnh, hãy liên hệ quản trị viên trang.
+registerCaptchaReload: Tải lại captcha
+registerErrorCaptcha: Mã bảo mật không đúng!
+registerMailVertifyError: 'Không gửi được email: %s'
+registerNext: Tiếp tục
+rulesHeader: Quy tắc
+uni_closed: ' (đã đóng)'
+uni_reg_closed: ' (đóng đăng ký)'
+uni_reg_open: ' (chỉ đăng ký)'
+home_menu: Menu
+home_meta_description: '%s – game trình duyệt chiến thuật không gian mang hơi hướng thập niên 2000: phát triển hành tinh, xây hạm đội, lập liên minh.'
+home_started: Đã chạy rồi!
+home_starts_in: Sau
+home_team: Đội ngũ
+home_meme_caption: Ngày đầu tiên của bạn
+home_meme_alt: Meme truyện tranh từ đài chỉ huy {game_name}
+home_meme_alt_deep_space_transit: 'Truyện tranh: hai học viên trên tàu con thoi – một người gục xuống khi thấy bãi thiên thạch, người kia cười toe trước một tinh vân rực sáng. “Tuần tra khu vực tiêu chuẩn vs. tìm thấy tinh vân giàu tài nguyên chưa ai khám phá.”'
+home_meme_alt_deuterium_joyride: 'Truyện tranh: một chỉ huy mệt mỏi trên đài quan sát nhìn hai tân binh bay lơ lửng bên ngoài – “Nhìn các tân binh đốt sạch Deuterium để đi dạo bên ngoài trong khi tôi chờ 12 tiếng để nâng cấp mỏ.”'
+home_meme_alt_enemy_fleet: 'Truyện tranh: một học viên ôm đầu hoảng loạn khi còi báo động nhấp nháy – “1000 tàu hủy diệt địch đang tới?! Tôi tưởng khu vực này an toàn mà?!”'
+home_meme_alt_fleet_decimated: 'Truyện tranh: một người lính choáng váng nhìn thẳng khi tàu nổ tung bên ngoài mái vòm vỡ nát – “Khi bạn cày tài nguyên 20 tiếng chỉ để hạm đội của một người top 3 nhảy tới và tháo tung mọi thứ trong 3 giây.”'
+home_meme_alt_solo_scouting: 'Truyện tranh: Chỉ huy Kamioka cười toe và đặt bàn tay robot lên vai một học viên – “Đừng lo, học viên. Bộ Chỉ huy Tối cao có niềm tin ‘tuyệt đối’ vào nhiệm vụ do thám một mình của cậu ngoài Không gian.”'
+home_meme_alt_this_is_fine: 'Truyện tranh: một chú chó mặc đồ phi hành gia ngồi điềm tĩnh giữa trung tâm chỉ huy đang cháy và nói “Ổn cả mà” – “Đừng lo. Hạm đội của tôi mới về trễ có 4 tiếng thôi.”'
+source_code: Mã nguồn
+news_back: Về trang tin tức
+lightbox_close: Đóng
+lightbox_prev: Ảnh trước
+lightbox_next: Ảnh tiếp
+news_pinned: Đã ghim
+news_read_more: Đọc tiếp
+news_latest: Tin mới nhất
+news_all: Tất cả tin tức
+csrf_invalid: Kiểm tra bảo mật không thành công (có thể phiên của bạn đã hết hạn). Hãy tải lại trang và thử lại.

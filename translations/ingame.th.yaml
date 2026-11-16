@@ -1,0 +1,1659 @@
+Account: บัญชี
+Achievement_names:
+  '1': นอนไม่หลับและอารมณ์เสีย
+  '2': เครื่องจักรกลไม่หยุดนิ่ง
+  '3': สมควรแล้ว
+  '4': "ตอนนี้จะมีประโยชน์อะไร?"
+  '5': ก็เพราะทำได้น่ะสิ
+  '6': ค่าแรงขั้นต่ำ
+  '7': การปฏิวัติฝรั่งเศส
+  '8': เซฟตอนเมา
+  '9': นั่นไม่ใช่ดวงจันทร์
+  '10': เกมลูกแก้ว
+  '11': TheLegend27
+  '12': พรของสลิปปี้
+  '13': เฉียดฉิวมาก
+  '14': คำสาปของสลิปปี้
+  '15': "เรายังเหลือ LF อยู่ไหม?"
+  '16': "เฮ้ย ดิวทีเรียมฉันอยู่ไหน?!"
+  '17': "ป้องกันขั้นเจ้าพิภพ!"
+  '18': สถานีรถไฟกลางแฟรงก์เฟิร์ต
+  '19': "หนังหนา 1"
+  '20': "หนังหนา 2"
+  '21': "หนังหนา 3"
+  '22': "หนังหนา 4"
+  '23': "หนังหนา 5"
+  '24': ยิงเลเซอร์ละนะ
+  '25': "ละเมิด GDPR"
+  '26': ทุกอย่างเพื่อความสำเร็จ
+  '27': เวลาของสมองใหญ่
+  '28': เล่นแบบทางเลือก
+  '29': แถลงการณ์คอมมิวนิสต์
+  '30': นี่คือสปาร์ตา
+  '31': ออกไปพักร้อน
+  '32': "โจรสลัด!"
+  '33': "ฉันเลิกเมื่อไรก็ได้!"
+  '34': อยู่ในเมนู
+  '35': "ใจร้ายนะ!"
+  '36': Miesernachtsmann
+  '37': ฉันไม่ใช่คนแบบนั้นนะ
+  '38': "Cornag และ Offz"
+  '39': ความหมายของชีวิต
+  '40': โคลัมบัส
+  '41': ใจบุญแห่งช่องกองเรือ
+  '42': อย่างน้อยก็ได้ขึ้นหอรบ
+  '43': หลับตาก็ทำได้
+  '44': เกิดขึ้นได้กับทุกคน
+  '45': ช่างกุญแจ
+  '46': "เกลียดสุดๆ!"
+  '47': แจ็คเดอะริปเปอร์
+  '48': ริปเดอะแจ็คเกอร์
+  '49': ทีมร็อกเก็ตพุ่งสู่ฟ้าอีกแล้ว
+  '50': อุ๊ปส์
+  '51': จนเกินกว่าจะส่อง
+  '52': บ้าอำนาจ
+  '53': ไอน์สไตน์
+  '54': "สวัสดีปีใหม่!"
+  '55': ตำนานที่มีชีวิต
+Achievement_text:
+  '1': คุณมีทั้งคืนเป็นของตัวเองแต่ไม่ยิงสักนัด
+  '2': "คุณมีกองเรือเคลื่อนที่ไม่หยุดติดต่อกัน 90 วัน"
+  '3': "คุณเสียกองเรือขณะที่ภาษาของคุณตั้งเป็น \"ฝรั่งเศส\""
+  '4': "วิจัยเทคโนโลยีไอออนถึงเลเวล 10"
+  '5': "วิจัยกราวิตอนถึงเลเวล 2 เพียงเพราะคุณทำได้"
+  '6': "การโจมตีครั้งหนึ่งของคุณกลับมาพร้อมโลหะ 1 คริสตัล 1 และดิวทีเรียม 1 เท่านั้น"
+  '7': "ปราบกองเรือโจรสลัดหรือเอเลี่ยนรวมอย่างน้อย 10,000 ลำ อวกาศเป็นของเรา!"
+  '8': "มาร่วมงาน Strammtisch (ทุกวันอังคาร 2 ทุ่มบน Discord)"
+  '9': สร้างดาวมรณะลำแรกของคุณ
+  '10': ทำลายดวงจันทร์ของผู้เล่นคนหนึ่ง
+  '11': "เล่นบนมือถืออย่างเดียว 14 วัน"
+  '12': กองเรือของคุณถูกหลุมดำทำลายในการสำรวจครั้งแรก
+  '13': "ส่งกองเรือหนีโดยเหลือเวลาไม่ถึง 5 วินาทีก่อนการโจมตีที่กำลังมาถึงจะลงมือ"
+  '14': "เสียกองเรือให้หลุมดำ 10 กอง ความว่างเปล่าหิวโหย"
+  '15': "สร้างดวงจันทร์ที่ดาวเคราะห์ไม่สำเร็จหลังลอง 10 ครั้ง โชคดีกว่านี้ในครั้งหน้า"
+  '16': "ยานรีไซเคิลของคุณกลับมามือเปล่ามากกว่า 250 ลำ"
+  '17': "เข้าคิวเครื่องยิงจรวดอย่างน้อย 5000 เครื่องในคำสั่งสร้างเดียว"
+  '18': "เผาดิวทีเรียม 5 ล้านเป็นเชื้อเพลิงบนดาวเคราะห์ดวงเดียวภายใน 24 ชั่วโมง"
+  '19': "วิจัยเทคโนโลยีเกราะถึงเลเวล 3"
+  '20': "วิจัยเทคโนโลยีเกราะถึงเลเวล 6"
+  '21': "วิจัยเทคโนโลยีเกราะถึงเลเวล 9"
+  '22': "วิจัยเทคโนโลยีเกราะถึงเลเวล 12"
+  '23': "วิจัยเทคโนโลยีเกราะถึงเลเวล 15"
+  '24': "วิจัยเทคโนโลยีเลเซอร์ถึงเลเวล 12"
+  '25': "เข้าร่วมระบบบันทึกสถิติ (Records)"
+  '26': "ลบดาวเคราะห์ที่ให้คะแนนคุณมากที่สุด (อย่างน้อย 100,000 คะแนน)"
+  '27': "วิจัยเครือข่ายวิจัยข้ามกาแล็กซีถึงเลเวล 1"
+  '28': "อัปเกรดคลังทั้งสามแห่งบนดวงจันทร์ให้ถึงเลเวล 3 ขึ้นไป"
+  '29': "รวบกองเรือของผู้เล่นที่คะแนนสูงกว่าด้วย ACS 5 ผู้เล่น"
+  '30': "ต้านทาน ACS 5 ผู้เล่นด้วยตัวคนเดียว"
+  '31': ส่งผู้เล่นเข้าโหมดพักร้อนด้วยการโจมตีของคุณ
+  '32': "ปล้นดาวเคราะห์ 1000 ดวงขณะใช้ธีม \"SetSail\" อาร์!"
+  '33': กลับมาจากโหมดพักร้อน
+  '34': "ถูกโจมตีเป็นครั้งแรก ยินดีต้อนรับสู่จักรวาล"
+  '35': "โจมตีผู้เล่นที่ยังใช้งานอยู่ซึ่งมีคะแนนน้อยกว่า 1/10 ของคุณ"
+  '36': |-
+    ได้รับข้อความที่มีคำใดคำหนึ่งต่อไปนี้:
+    "Hurensohn", "gleichstarke Ziele", "gegen Schwächere", "ehrenlos"
+  '37': "ถูก ACS 5 ผู้เล่นกวาดล้าง"
+  '38': "โจมตีสมาชิกพันธมิตรของคุณเอง ยิงพวกเดียวกันใครเอาบ้าง?"
+  '39': "โจมตีใครสักคนด้วยยานจำนวน 42 ลำพอดี"
+  '40': ตั้งอาณานิคมบนดาวเคราะห์ที่อยู่ไกลอย่างน้อยครึ่งจักรวาล
+  '41': บล็อกช่องกองเรือหนึ่งสัปดาห์ด้วยข้อเสนอตลาดที่แย่
+  '42': "เข้าหอรบ 4 ครั้งในฝ่ายที่แพ้"
+  '43': |-
+    ชนะการรบขณะที่บัญชีของคุณถูกตั้งเป็นไม่ใช้งาน
+    บนดาวเคราะห์ของคุณที่เคยมีกองเรือมาถึงซึ่งมีเวลาบินมากกว่า 7 วัน
+  '44': "ผลิตทรัพยากรบนดาวเคราะห์เกิน 7 วันขณะที่พลังงานต่ำกว่า 100%"
+  '45': "ชนะการโจมตีผู้เล่นที่อยู่ใน 5 อันดับแรกด้านการป้องกัน"
+  '46': "ทริกเกอร์การป้องกันการรุม (bash protection) ด้วยการยิงขีปนาวุธข้ามดาว"
+  '47': "ทำลายดวงจันทร์ 5 ดวง"
+  '48': "เสียดาวมรณะ 5 ลำขณะพยายามทำลายดวงจันทร์ โอ๊ย"
+  '49': รื้ออาณานิคมหลังสร้างได้ไม่นาน
+  '50': |-
+    เสียดาวเทียมสุริยะทั้งหมดบนดาวเคราะห์ที่มีพลังงานพอจะวิจัยกราวิตอน
+    โดยที่ยังไม่ได้วิจัยกราวิตอน
+  '51': ใช้ดิวทีเรียมหมดขณะส่องหน้ากาแล็กซี
+  '52': "สร้างดาวมรณะโดยไม่เคยสร้างยานรบอื่นมาก่อน (ยานขับไล่เบา ยานขับไล่หนัก เรือลาดตระเวน เรือรบ ยานทิ้งระเบิด เรือพิฆาต หรือเรือลาดตระเวนรบ)"
+  '53': "ครองเลเวลสูงสุดใน 5 งานวิจัยพร้อมกัน"
+  '54': "จับเวลาการโจมตีผู้เล่นที่ยังใช้งานอยู่ให้ลงมือตอน 01/01 00:00:00"
+  '55': ความสำเร็จพิเศษ
+ach_filter_all: ทั้งหมด
+ach_filter_locked: ล็อกอยู่
+ach_filter_unlocked: ปลดล็อกแล้ว
+ach_locked: ยังไม่ได้ปลดล็อก
+ach_progress: "ปลดล็อกแล้ว %d จาก %d"
+ach_unlocked_on: "ปลดล็อกเมื่อ %s"
+Achievements: ความสำเร็จ
+admin_access_1: คุณมีสิทธิ์แอดมินชั่วคราว
+admin_access_2: " หากไม่จำเป็นต้องใช้ทันที"
+admin_access_link: ปิดสิทธิ์
+Advanced_Stats:
+  destroy_moon_rips_lost: เสียดาวมรณะขณะพยายามทำลายดวงจันทร์
+  desunits: มีส่วนร่วมในการทำลายยูนิต
+  desunits_real: ยูนิตศัตรูที่ทำลาย
+  dishonorable_fights: การรบที่ไร้เกียรติ
+  draws: เสมอ
+  expo_aliens_large: เอเลี่ยนขนาดใหญ่
+  expo_aliens_medium: เอเลี่ยนขนาดกลาง
+  expo_aliens_small: เอเลี่ยนขนาดเล็ก
+  expo_black_hole: หลุมดำ
+  expo_count: การสำรวจ
+  expo_fast: การสำรวจที่กลับเร็ว
+  expo_first: "พบในการสำรวจเมื่อ:"
+  expo_found: "สิ่งที่พบจากการสำรวจ:"
+  expo_lost: "ความสูญเสียจากการสำรวจ:"
+  expo_nothing: การสำรวจที่ไม่ได้อะไรเลย
+  expo_pirates_large: โจรสลัดขนาดใหญ่
+  expo_pirates_medium: โจรสลัดขนาดกลาง
+  expo_pirates_small: โจรสลัดขนาดเล็ก
+  expo_res_large: พบทรัพยากรก้อนใหญ่
+  expo_res_medium: พบทรัพยากรก้อนกลาง
+  expo_res_small: พบทรัพยากรก้อนเล็ก
+  expo_ships_large: พบยานจำนวนมาก
+  expo_ships_medium: พบยานจำนวนปานกลาง
+  expo_ships_small: พบยานจำนวนน้อย
+  expo_slow: การสำรวจที่กลับช้า
+  first: "เลเวล/ชิ้นแรก:"
+  first_attack: โจมตีครั้งแรก
+  first_attack_win: โจมตีสำเร็จครั้งแรก
+  first_big_attack_win: "ชัยชนะโจมตีครั้งใหญ่ครั้งแรก (ทำลาย 1 ล้านยูนิต)"
+  first_big_defense_win: "ชัยชนะป้องกันครั้งใหญ่ครั้งแรก (ทำลาย 1 ล้านยูนิต)"
+  first_colony: อาณานิคมแรก
+  first_defense: ป้องกันครั้งแรก
+  first_defense_win: ป้องกันสำเร็จครั้งแรก
+  first_espionage: ภารกิจสอดแนมครั้งแรก
+  first_expedition: การสำรวจครั้งแรก
+  first_expo_aliens_large: พบเอเลี่ยนขนาดใหญ่ครั้งแรก
+  first_expo_aliens_medium: พบเอเลี่ยนขนาดกลางครั้งแรก
+  first_expo_aliens_small: พบเอเลี่ยนขนาดเล็กครั้งแรก
+  first_expo_black_hole: พบหลุมดำครั้งแรก
+  first_expo_fast: การสำรวจที่กลับเร็วครั้งแรก
+  first_expo_nothing: การสำรวจที่ไม่ได้อะไรเลยครั้งแรก
+  first_expo_pirates_large: พบโจรสลัดขนาดใหญ่ครั้งแรก
+  first_expo_pirates_medium: พบโจรสลัดขนาดกลางครั้งแรก
+  first_expo_pirates_small: พบโจรสลัดขนาดเล็กครั้งแรก
+  first_expo_res_large: พบทรัพยากรก้อนใหญ่ครั้งแรก
+  first_expo_res_medium: พบทรัพยากรก้อนกลางครั้งแรก
+  first_expo_res_small: พบทรัพยากรก้อนเล็กครั้งแรก
+  first_expo_ships_large: พบยานจำนวนมากครั้งแรก
+  first_expo_ships_medium: พบยานจำนวนปานกลางครั้งแรก
+  first_expo_ships_small: พบยานจำนวนน้อยครั้งแรก
+  first_expo_slow: การสำรวจที่กลับช้าครั้งแรก
+  first_moon: ดวงจันทร์ดวงแรก
+  first_moon_trys: ความพยายามสร้างดวงจันทร์ดวงแรก
+  first_recycling: ภารกิจรีไซเคิลครั้งแรก
+  first_vacation: โหมดพักร้อนครั้งแรก
+  galaxy_scroll_spending: ดิวทีเรียมที่ใช้เลื่อนดูหน้ากาแล็กซีทั้งหมด
+  honorable_fights: การรบที่มีเกียรติ
+  honorpoints: แต้มเกียรติยศ
+  kbcrystal: มีส่วนร่วมในเศษซากคริสตัล
+  kbcrystal_real: สร้างเศษซากคริสตัล
+  kbmetal: มีส่วนร่วมในเศษซากโลหะ
+  kbmetal_real: สร้างเศษซากโลหะ
+  loos: แพ้
+  lostunits: มีส่วนร่วมในการสูญเสียยูนิต
+  lostunits_real: ยูนิตของตัวเองที่สูญเสีย
+  moons_created: ดวงจันทร์ที่สร้าง
+  moons_deleted: ดวงจันทร์ที่ทิ้ง
+  moons_destroyed: ดวงจันทร์ที่ทำลาย
+  moons_lost: ดวงจันทร์ที่เสียไป
+  moons_received: ดวงจันทร์ที่ได้รับ
+  outlaw_activations: การเปิดใช้งานผู้นอกกฎหมาย
+  planets_created: ดาวเคราะห์ที่ตั้งอาณานิคม
+  planets_deleted: ดาวเคราะห์ที่ทิ้ง
+  raided_crystal: คริสตัลที่ปล้น
+  raided_deuterium: ดิวทีเรียมที่ปล้น
+  raided_metal: โลหะที่ปล้น
+  recycled_crystal: คริสตัลที่รีไซเคิล
+  recycled_metal: โลหะที่รีไซเคิล
+  set_sail_wins: "การรบที่ชนะขณะเปิดธีม SetSail"
+  stolen_crystal: คริสตัลที่ถูกขโมย
+  stolen_deuterium: ดิวทีเรียมที่ถูกขโมย
+  stolen_metal: โลหะที่ถูกขโมย
+  used_fuel: เชื้อเพลิงที่ใช้
+  wons: ชนะ
+advancedStats: สถิติขั้นสูง
+al_acept_request: ยอมรับ
+al_actions: การกระทำ
+al_all_players: ผู้เล่นทั้งหมด
+al_alliance: พันธมิตร
+al_alliance_closed: พันธมิตรนี้ไม่รับสมาชิกใหม่
+al_alliance_full: "พันธมิตรนี้เต็มแล้ว ลองพันธมิตรอื่นดู"
+al_alliance_make: สร้างพันธมิตรของคุณเอง
+al_alliance_min_points: "คุณต้องมีอย่างน้อย %d คะแนนจึงจะสมัครเข้าพันธมิตรนี้ได้"
+al_alliance_search: ค้นหาพันธมิตร
+al_ally_info_members: สมาชิก
+al_ally_info_name: ชื่อ
+al_ally_info_tag: แท็ก
+al_ally_information: ข้อมูลพันธมิตร
+al_already_exists: "มีพันธมิตรชื่อ <b>%s</b> อยู่แล้ว เลือกชื่ออื่นนะ"
+al_apply_accepted: ยอมรับใบสมัครแล้ว
+al_apply_declined: ปฏิเสธใบสมัครแล้ว
+al_apply_not_exists: ใบสมัครนั้นไม่มีอยู่แล้ว
+al_applyform_send: ส่ง
+al_back: กลับ
+al_candidate: ผู้สมัคร
+al_change_submit: เปลี่ยน
+al_change_title: เปลี่ยนชื่อยศ
+al_characters: ตัวอักษร
+al_circular_alliance: พันธมิตร
+al_circular_front_text: "สมาชิกพันธมิตร <b>%s</b> เขียนว่า:"
+al_circular_message: ข้อความพันธมิตร
+al_circular_reset: รีเซ็ต
+al_circular_send_ciruclar: ส่งข้อความหมู่
+al_circular_send_submit: ส่ง
+al_circular_sended: "ส่งข้อความถึงผู้เล่นเหล่านี้แล้ว:"
+al_click_to_send_request: เข้าร่วมพันธมิตร
+al_close_ally: "ต้องการยุบพันธมิตรจริงหรือไม่?"
+al_configura_ranks: จัดการยศ
+al_continue: ต่อไป
+al_coords: พิกัด
+al_create: สร้าง
+al_create_new_rank: สร้างยศใหม่
+al_created: "ก่อตั้งพันธมิตร <b>%s</b> แล้ว!"
+al_decline_request: ปฏิเสธ
+al_default_leader_name: หัวหน้า
+al_delete_request: ถอนใบสมัคร
+al_delete_request_confirm: "ถอนใบสมัครของคุณหรือไม่?"
+al_description_message: พันธมิตรนี้ยังไม่ได้เขียนคำอธิบาย
+al_diplo: การทูต
+al_diplo_accept: คำขอที่เข้ามา
+al_diplo_accept_no: ปฏิเสธสนธิสัญญาแล้ว
+al_diplo_accept_no_confirm: "ปฏิเสธสนธิสัญญานี้หรือไม่?"
+al_diplo_accept_no_mes: "สนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> ถูกปฏิเสธ!"
+al_diplo_accept_send: คำขอที่ส่งออก
+al_diplo_accept_yes: ลงนามสนธิสัญญาแล้ว
+al_diplo_accept_yes_confirm: "ยอมรับสนธิสัญญานี้หรือไม่?"
+al_diplo_accept_yes_mes: "สนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> ได้รับการลงนามแล้ว!"
+al_diplo_ally: พันธมิตร
+al_diplo_ask: คำขอสนธิสัญญา
+al_diplo_ask_mes: "<a href=\"?page=alliance&mode=admin&action=diplomacy\">[คำขอสนธิสัญญา]</a> (%s) ถูกส่งจาก <b>%s</b> ถึง <b>%s</b><br>เหตุผล: %s"
+al_diplo_confirm_delete: "ยกเลิกสนธิสัญญานี้หรือไม่?"
+al_diplo_create: ขอทำสนธิสัญญา
+al_diplo_create_done: ส่งคำขอสนธิสัญญาแล้ว
+al_diplo_delete: สนธิสัญญาสิ้นสุด
+al_diplo_delete_mes: "สนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> สิ้นสุดลงแล้ว"
+al_diplo_exists: "คุณมีสนธิสัญญาที่ใช้งานอยู่หรือรออยู่กับ %s แล้ว"
+al_diplo_head: จัดการการทูต
+al_diplo_info: "<p>ในหน้านี้คุณจัดการสนธิสัญญาทางการทูตของพันธมิตรได้</p><p>ประเภทของสนธิสัญญามีอยู่ด้านล่าง ข้อมูลเพิ่มเติม: <a href=\"game?page=questions\">FAQ</a> หรือ<a href=\"{wiki_url}/wiki/En/Hauptseite\" target=\"_blank\">วิกิ</a></p>"
+al_diplo_level:
+- หลัก
+- ปีก
+- พันธมิตร
+- สนธิสัญญาการค้า
+- สนธิสัญญาไม่รุกราน
+- สงคราม
+- พันธมิตรลับ
+- สันติภาพ
+al_diplo_level_des: ประเภทสนธิสัญญา
+al_diplo_no_accept: "- ไม่มีคำขอ -"
+al_diplo_no_alliance: "ไม่พบพันธมิตรที่มี ID %s"
+al_diplo_no_entry: "- ไม่มีสนธิสัญญา -"
+al_diplo_same_alliance: "คุณทำสนธิสัญญากับพันธมิตรของตัวเองไม่ได้!"
+al_diplo_text: คำขอ/เหตุผล
+al_diplo_war: ประกาศสงคราม
+al_diplo_war_end: ประกาศสันติภาพ
+al_diplo_war_end_mes: "%s ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> เพิ่งสิ้นสุดลง"
+al_diplo_war_mes: "พันธมิตร <b>%1$s</b> ประกาศ%3$s ต่อ <b>%2$s</b>! <br>เหตุผล:<br>%4$s<br><br>ข้อมูล: สงครามจะเริ่มใน <b>24 ชั่วโมง</b> และตอนนั้นกฎการรุม (Bash Rule) จะถูกระงับ<br>ดูข้อมูลเพิ่มเติมได้ที่<a href=\"./?page=rules&lang=en\" target=\"_blank\">[กฎ]</a>"
+al_diplo_withdraw: ถอนคำขอสนธิสัญญาแล้ว
+al_diplo_withdraw_confirm: "ถอนคำขอสนธิสัญญานี้หรือไม่?"
+al_diplo_withdraw_mes: "คำขอสนธิสัญญา (%s) ระหว่างพันธมิตร <b>%s</b> และ <b>%s</b> ถูกถอนแล้ว"
+al_disolve_alliance: ยุบพันธมิตร
+al_dlte: ลบ
+al_estate: ออนไลน์
+al_find_alliances: ค้นหาพันธมิตร
+al_find_no_alliances: "ไม่พบพันธมิตร ลองค้นหาด้วยคำอื่นดู"
+al_find_submit: ค้นหา
+al_find_text: ค้นหา
+al_founder_rank_text: ผู้ก่อตั้ง
+al_go_out_no: ไม่
+al_go_out_yes: ใช่
+al_has_accepted: "</b> ยอมรับใบสมัครของคุณแล้ว!<br>ข้อความ: <br>"
+al_has_declined: "</b> ปฏิเสธใบสมัครของคุณ!<br>ข้อความ: <br>"
+al_hi_the_alliance: "พันธมิตร <b>"
+al_inside_section: เฉพาะสมาชิก
+al_inside_text: คำอธิบายส่วนตัว
+al_invalid_rank_name: "ชื่อยศใช้ได้เฉพาะตัวอักษร ตัวเลข ช่องว่าง ขีดล่าง ขีดกลาง และจุด"
+al_kick_player: "เตะ %s ออกจากพันธมิตรหรือไม่?"
+al_leave_alliance: ออกจากพันธมิตร
+al_leave_ally: "ออกจากพันธมิตรหรือไม่?"
+al_leave_sucess: "คุณออกจากพันธมิตร <b>%s</b> แล้ว"
+al_leaving: ผู้เล่นออกจากพันธมิตรแล้ว
+al_leaving_msg: "ผู้เล่น <a href=\"#\" data-action=\"dialog-playercard\" data-id=\"%s\" data-name=\"%s\"><b>%s</b></a> ออกจากพันธมิตรแล้ว!"
+al_make_alliance: สร้างพันธมิตร
+al_make_ally_insufficient_points: "คุณมีคะแนนไม่พอที่จะสร้างพันธมิตร<br>คุณต้องมีอย่างน้อย %s คะแนน และยังขาดอีก %s"
+al_make_ally_name_required: "ชื่อพันธมิตร (3-30 ตัวอักษร)"
+al_make_ally_tag_required: "แท็กพันธมิตร (3-8 ตัวอักษร)"
+al_make_submit: สร้าง
+al_manage_alliance: จัดการพันธมิตร
+al_manage_diplo: การทูต
+al_manage_founder_rank: ยศหัวหน้า
+al_manage_image: รูปแบนเนอร์
+al_manage_members: สมาชิก
+al_manage_options: ตัวเลือก
+al_manage_ranks: ยศ
+al_manage_request_min_points: คะแนนขั้นต่ำ
+al_manage_requests: ใบสมัคร
+al_member: ชื่อ
+al_member_since: เข้าร่วมเมื่อ
+al_memberlist_min: นาที
+al_memberlist_off: ออฟไลน์
+al_memberlist_on: ออนไลน์
+al_message: ข้อความ
+al_name: เปลี่ยนชื่อพันธมิตร
+al_name_required: โปรดใส่ชื่อพันธมิตร
+al_name_tag_too_long: "แท็กยาวได้สูงสุด 8 ตัวอักษร และชื่อสูงสุด 30"
+al_new_apply: "พันธมิตรของคุณได้รับ<a href=\"?page=alliance&mode=admin&action=manageApply\">[ใบสมัคร]</a>จากผู้เล่น <a href=\"#\" data-action=\"dialog-playercard\" data-id=\"%s\" data-name=\"%s\"><b>%s</b></a>"
+al_new_member_rank_text: สมาชิกใหม่
+al_new_name: "เปลี่ยนชื่อ (3-30 ตัวอักษร)"
+al_new_requests: "รอดำเนินการ %d"
+al_new_tag: "เปลี่ยนแท็ก (3-8 ตัวอักษร)"
+al_newname_specialchar: "ชื่อและแท็กพันธมิตรใช้ได้เฉพาะตัวอักษร ตัวเลข ช่องว่าง ขีดล่าง ขีดกลาง และจุด"
+al_no_diplo: "-"
+al_no_ranks_defined: "ยังไม่มียศ สร้างยศแรกเลย!"
+al_no_requests: ตอนนี้ยังไม่มีใบสมัคร
+al_not_exists: ไม่มีพันธมิตรนั้น
+al_num: ID
+al_ok: ตกลง
+al_outside_text: คำอธิบายสาธารณะ
+al_points: คะแนน
+al_position: ยศ
+al_rank: ยศของคุณ
+al_rank_desc:
+  ADMIN: จัดการพันธมิตรได้
+  DIPLOMATIC: จัดการการทูตได้
+  EVENTS: ดูเหตุการณ์ได้
+  KICK: เตะสมาชิกได้
+  MANAGEAPPLY: จัดการใบสมัครได้
+  MANAGEUSERS: จัดการสมาชิกได้
+  MEMBERLIST: ดูรายชื่อสมาชิกได้
+  ONLINESTATE: เห็นว่าใครออนไลน์
+  RANKS: จัดการยศได้
+  ROUNDMAIL: ส่งข้อความหมู่ได้
+  SEEAPPLY: ดูใบสมัครได้
+  TRANSFER: เป็นหัวหน้าพันธมิตรได้
+al_rank_diplo: ผู้ทูต
+al_rank_name: ชื่อ
+al_receiver: ผู้รับ
+al_reply_to_request: ตอบกลับ
+al_request: ใบสมัคร
+al_request_confirmation_message: "ส่งใบสมัครแล้ว!<br> คุณจะได้รับข้อความเมื่อมีการยอมรับหรือปฏิเสธ"
+al_request_date: วันที่สมัคร
+al_request_deleted: "ใบสมัครเข้าพันธมิตร <b>%s</b> ของคุณถูกถอนแล้ว<br> ตอนนี้คุณส่งใบสมัครใหม่หรือสร้างพันธมิตรของตัวเองได้"
+al_request_from: "คำขอสำหรับ <b>%s</b>"
+al_request_last_onlinetime: กิจกรรมล่าสุด
+al_request_list: รายการคำขอ
+al_request_register_time: ลงทะเบียนเมื่อ
+al_request_text: แบบฟอร์มใบสมัคร
+al_request_wait_message: "ใบสมัครเข้า <b>%s</b> ของคุณยังรออยู่<br> รอคำตอบ หรือถอนแล้วไปสมัครที่อื่น"
+al_requests: คำขอ
+al_requests_allowed: เปิด
+al_requests_min_points: " %s คะแนน"
+al_requests_not_allowed: ปิด
+al_save: บันทึก
+al_saved: "บันทึกแล้ว!"
+al_send_circular_message: ส่งข้อความหมู่
+al_set_max_members: สมาชิกสูงสุด
+al_tag: เปลี่ยนแท็กพันธมิตร
+al_tag_required: โปรดใส่แท็กพันธมิตร
+al_texts: ข้อความ
+al_the_alliance: พันธมิตร
+al_transfer_alliance: โอนพันธมิตร
+al_transfer_submit: โอน
+al_transfer_to: โอนให้
+al_user_list: รายชื่อสมาชิก
+al_users_list: "สมาชิก (ทั้งหมด: %d)"
+al_users_list_main: "สมาชิกหลัก (ทั้งหมด: %d) - %s"
+al_users_list_wing: "สมาชิกปีก (ทั้งหมด: %d) - %s"
+al_view_diplo: แสดงการทูต
+al_view_stats: แสดงสถิติการรบ
+al_web_site: โฮมเพจ
+al_web_text: เว็บไซต์พันธมิตร
+al_write_request: "สมัครเข้าพันธมิตร <b>%s</b>"
+al_you_was_acceted: "คุณได้รับการยอมรับเข้าพันธมิตร "
+al_you_was_declined: "คุณถูกปฏิเสธจากพันธมิตร "
+al_your_ally: พันธมิตรของคุณ
+al_your_request_title: ใบสมัครของคุณ
+bad_forum_url: ลิงก์บอร์ดไม่ถูกต้อง
+banned_message: "คุณถูกแบน <!--discord_url-->หากคิดว่าเป็นความผิดพลาด ส่งข้อความหาเราบน Discord: <a href=\"{discord_url}\">{discord_url}</a><!--/discord_url-->"
+bd_actual_production: "การผลิตปัจจุบัน:"
+bd_available: "มีอยู่: "
+bd_build: สร้าง
+bd_build_next_level: "อัปเกรด "
+bd_build_ships: สร้าง
+bd_building_lab: วิจัยไม่ได้ขณะกำลังอัปเกรดห้องวิจัย
+bd_building_shipyard: "สร้างยานหรือสิ่งป้องกันไม่ได้ขณะกำลังอัปเกรดอู่ต่อยานอวกาศ (หรือโรงงานนาไนต์)"
+bd_buildlist_full: คิวก่อสร้างเต็ม
+bd_cancel: ยกเลิก
+bd_cancel_send: ยกเลิกการก่อสร้าง
+bd_cancel_warning: "ระวัง!<br>การยกเลิกคืนทรัพยากรเพียง 60% ของต้นทุน"
+bd_continue: ต่อไป
+bd_deploy: นำกลับเข้าประจำการ
+bd_deployable: "ซ่อมเสร็จแล้ว! จะนำกลับเข้าประจำการอัตโนมัติใน:"
+bd_destroy_time: ระยะเวลา
+bd_dismantle: รื้อถอน
+bd_jump_gate_action: กระโดด
+bd_lvl: เลเวล
+bd_max_builds: "คิวของคุณเต็ม: สั่งได้สูงสุด %d รายการ"
+bd_max_ships: สูงสุด
+bd_max_ships_long: จำนวนยูนิตสูงสุดที่สร้างได้
+bd_max_ships_repair: จำนวนยูนิตสูงสุดที่กู้คืนได้
+bd_maxlevel: ถึงเลเวลสูงสุดแล้ว
+bd_more_engine: "ผลิตเพิ่ม <font class=\"colorPositive\">%s</font> %s"
+bd_need_engine: "ใช้เพิ่ม <font class=\"colorNegative\">%s</font> %s"
+bd_next_level: "เลเวลถัดไป:"
+bd_no_lab: "ไม่มีห้องวิจัยบนดาวเคราะห์ดวงนี้ คุณดูคิวได้แต่แก้ไขไม่ได้"
+bd_no_more_fields: ดาวเคราะห์ดวงนี้ไม่มีช่องว่างเหลือแล้ว
+bd_operating: (กำลังก่อสร้าง)
+bd_paused: หยุดชั่วคราว
+bd_price_for_destroy: "ต้นทุนการรื้อถอน:"
+bd_protection_shield_only_one: "สร้างโล่ได้เพียงอันเดียว!"
+bd_remaining: ทรัพยากรที่ขาด
+bd_repair_rate: อัตราการซ่อม
+bd_repair_ships: ซ่อม
+bd_repairdock_busy: อู่ซ่อมยานกำลังทำงานอื่นอยู่
+bd_repairdock_deploy: "ซ่อมเสร็จแล้ว ยานกลับเข้าประจำการ!"
+bd_repairdock_empty: ที่นี่ไม่มีทุ่งซากยานให้ซ่อม
+bd_repairdock_required: สร้างอู่ซ่อมยานบนดาวเคราะห์ดวงนี้ก่อน
+bd_repairdock_time: เวลาที่เหลือของทุ่งซากยาน
+bd_repairing: กำลังซ่อม
+bd_requirements: ยังไม่ครบเงื่อนไข
+bd_researclist_full: คิววิจัยเต็ม
+bd_shipyard_required: สร้างอู่ต่อยานอวกาศก่อน
+bd_tech: วิจัย
+bd_tech_next_level: "วิจัย "
+bd_working: กำลังทำงาน
+bd_wreck_count: ซากในทุ่งซากยาน
+blockDm: บล็อกข้อความส่วนตัว
+blockTrade: บล็อกการค้า
+bn_by: โดย
+bn_exists: "ทั้งหมด "
+bn_from: ตั้งแต่
+bn_no_players_banned: ตอนนี้ไม่มีใครถูกแบน
+bn_player: ผู้เล่น
+bn_players_banned: " ผู้เล่นถูกแบน"
+bn_players_banned_list: รายชื่อผู้เล่นที่ถูกแบน
+bn_reason: เหตุผล
+bn_until: จนถึง
+bn_writemail: "เขียนถึง %s"
+bs_acs_slot: "ช่อง ACS"
+bs_add_acs_slot: "เพิ่มช่อง ACS"
+bs_atter: ผู้โจมตี
+bs_cancel: รีเซ็ต
+bs_deffer: ผู้ป้องกัน
+bs_derbis_raport: "ที่ต้องใช้เพื่อรีไซเคิลเศษซาก: %s %s"
+bs_load: โหลด
+bs_load_invalid: รหัสแชร์ไม่ถูกต้อง
+bs_load_no_input: ยังไม่ได้ใส่รหัสแชร์
+bs_names: ชื่อยาน
+bs_reset: รีเซ็ต
+bs_send: คำนวณ
+bs_share: แชร์
+bs_share_code: รหัสแชร์
+bs_share_copy_fail: คัดลอกไม่สำเร็จ
+bs_share_copy_prompt: "โปรดคัดลอกรหัสแชร์เอง:"
+bs_share_error: สร้างรหัสแชร์ไม่ได้
+bs_share_success: คัดลอกรหัสแชร์ไปยังคลิปบอร์ดแล้ว
+bs_steal: "ทรัพยากรของผู้ป้องกัน:"
+bs_steal_raport: "ที่ต้องใช้เพื่อยึดทรัพยากร: %s %s หรือ %s %s"
+bs_swap: สลับฝ่าย
+bs_techno: เทคโนโลยี
+bs_wait: "โปรดรอ 5 วินาทีก่อนจำลองครั้งต่อไป"
+bu_accept: ยอมรับ
+bu_accepted_request_body: "สวัสดี %s<br>%s ยอมรับคำขอเป็นเพื่อนของคุณแล้ว!"
+bu_accepted_request_title: "คำขอเป็นเพื่อนได้รับการยอมรับ!"
+bu_action: การกระทำ
+bu_alliance: พันธมิตร
+bu_buddy_list: รายชื่อเพื่อน
+bu_cancel_request: ยกเลิกคำขอ
+bu_cannot_request_yourself: คุณส่งคำขอเป็นเพื่อนถึงตัวเองไม่ได้
+bu_characters: ตัวอักษร
+bu_connected: ออนไลน์อยู่
+bu_coords: พิกัด
+bu_decline: ปฏิเสธ
+bu_delete: ลบ
+bu_disconnected: ออฟไลน์
+bu_minutes: " นาที"
+bu_my_requests: คำขอของฉัน
+bu_new_request_body: "สวัสดี %s<br>%s อยากเป็นเพื่อนกับคุณ!"
+bu_new_request_title: คำขอเป็นเพื่อนใหม่
+bu_no_buddys: "คุณยังไม่มีเพื่อน ส่งคำขอได้จากโปรไฟล์ของผู้เล่น!"
+bu_no_request: ไม่มีคำขอ
+bu_online: ออนไลน์
+bu_partners: คู่หู
+bu_player: ผู้เล่น
+bu_player_not_exist: ไม่มีผู้เล่นคนนั้น
+bu_rejected_request_body: "สวัสดี %s<br>%s ปฏิเสธคำขอเป็นเพื่อนของคุณ!"
+bu_rejected_request_title: "คำขอเป็นเพื่อนถูกปฏิเสธ!"
+bu_request_exists: "มีคำขอเป็นเพื่อนสำหรับผู้เล่นคนนี้อยู่แล้ว!"
+bu_request_message: ข้อความคำขอ
+bu_request_send: ส่งคำขอเป็นเพื่อนแล้ว
+bu_request_text: ข้อความคำขอ
+bu_requests: คำขอ
+bu_send: ส่ง
+bu_text: ข้อความ
+build: สร้าง
+cff_acs_fleet: "กองเรือใน ACS"
+cff_aproaching: "กองเรือประกอบด้วย "
+cff_mission_acs: "%s จาก %s %s %s มาถึง %s %s %s ภารกิจ: %s"
+cff_mission_other_expo_0: "%s จาก %s %s %s มาถึงตำแหน่ง %s ภารกิจ: %s"
+cff_mission_other_expo_2: "%s จาก %s %s %s กำลังสำรวจที่ตำแหน่ง %s ภารกิจ: %s"
+cff_mission_other_recy_0: "%s จาก %s %s %s มาถึงทุ่งเศษซากที่ %s ภารกิจ: %s"
+cff_mission_other_0: "%s จาก %s %s %s มาถึง %s %s %s ภารกิจ: %s"
+cff_mission_other_1: "%s กำลังกลับจาก %s %s %s ไปยัง %s %s %s ภารกิจ: %s"
+cff_mission_other_2: "%s จาก %s %s %s อยู่ในวงโคจรรอบ %s %s %s ภารกิจ: %s"
+cff_mission_other_expo_1: "%s กำลังกลับจากตำแหน่ง %s ไปยัง %s %s %s ภารกิจ: %s"
+cff_mission_other_mip: "การโจมตีด้วยขีปนาวุธ (%d) จาก %s %s %s ไปยัง %s %s %s"
+cff_mission_other_recy_1: "%s กำลังกลับจากทุ่งเศษซากที่ %s ไปยังดาวเคราะห์ %s %s %s ภารกิจ: %s"
+cff_mission_own_0: "%s ของคุณจาก %s %s %s มาถึง %s %s %s ภารกิจ: %s"
+cff_mission_own_1: "%s ของคุณกำลังกลับจาก %s %s %s ไปยัง %s %s %s ภารกิจ: %s"
+cff_mission_own_2: "%s ของคุณจาก %s %s %s อยู่ในวงโคจรรอบ %s %s %s ภารกิจ: %s"
+cff_mission_own_expo_0: "%s ของคุณจาก %s %s %s มาถึงตำแหน่ง %s ภารกิจ: %s"
+cff_mission_own_expo_1: "%s ของคุณกำลังกลับจากตำแหน่ง %s ไปยัง %s %s %s ภารกิจ: %s"
+cff_mission_own_expo_2: "%s ของคุณจาก %s %s %s กำลังสำรวจที่ตำแหน่ง %s ภารกิจ: %s"
+cff_mission_own_mip: "การโจมตีด้วยขีปนาวุธ (%d) จาก %s %s %s ไปยัง %s %s %s"
+cff_mission_own_recy_0: "%s ของคุณจาก %s %s %s มาถึงทุ่งเศษซากที่ %s ภารกิจ: %s"
+cff_mission_own_recy_1: "%s ของคุณกำลังกลับจากทุ่งเศษซากที่ %s ไปยังดาวเคราะห์ %s %s %s ภารกิจ: %s"
+cff_mission_target_bad: "%s ฝ่ายศัตรูจากผู้เล่น %s ที่ %s %s %s มาถึง %s %s %s ภารกิจ: %s"
+cff_mission_target_good: "%s ฝ่ายเดียวกันจากผู้เล่น %s ที่ %s %s %s มาถึง %s %s %s ภารกิจ: %s"
+cff_mission_target_mip: "การโจมตีด้วยขีปนาวุธ (%d) จากผู้เล่น %s ที่ %s %s %s ใส่ %s %s %s"
+cff_mission_target_stay: "%s ฝ่ายเดียวกันจากผู้เล่น %s ที่ %s %s %s อยู่ในวงโคจรรอบ %s %s %s ภารกิจ: %s"
+cff_no_fleet_data: ไม่มีข้อมูลกองเรือ
+cff_ships: " ยูนิต"
+colonyWarn: "เตือนก่อนตั้งอาณานิคมเกิน 2 ดวงในระบบเดียว"
+css_account_banned_expire: "คุณถูกแบนจนถึง %1$s!<br>หากมีคำถาม โปรด<a style=\"color: -webkit-link;\" href=\"%2$s\">ติดต่อเรา (ลิงก์)</a>"
+css_account_banned_message: บัญชีของคุณถูกแบน
+css_account_banned_reason: "เหตุผล: %s"
+css_goto_homeside: "<a href=\"./\">ไปที่หน้าแรก</a>"
+custom_fleet: กองเรือกำหนดเอง
+custom_fleet_confirm: "ลบแม่แบบกองเรือ %s หรือไม่?"
+delete_confirm_gala: "ลบข้อมูลกาแล็กซีที่บันทึกในเครื่องหรือไม่?"
+Description: คำอธิบาย
+destroyed: ถูกทำลาย
+dishonorable_fights: การรบที่ไร้เกียรติ
+donate: บริจาค
+expedition: สำรวจ
+fa_action_not_allowed: ไม่อนุญาตให้ทำ
+fa_no_fleetroom: ที่บรรทุกไม่พอสำหรับเชื้อเพลิง
+fa_no_more_slots: ไม่มีช่องกองเรือว่าง
+fa_no_recyclers: ไม่มียานรีไซเคิล
+fa_no_spios: ไม่มีหุ่นสอดแนม
+fa_not_enough_fuel: เชื้อเพลิงไม่พอ
+fa_not_enough_probes: ไม่มีหุ่นสอดแนม
+fa_not_spy_yourself: สอดแนมตัวเองไม่ได้
+fa_planet_not_exist: ไม่มีดาวเคราะห์ดวงนี้
+fa_sending: ส่ง
+fa_strong_player: ผู้เล่นแข็งแกร่งเกินไป
+fa_vacation_mode: ผู้เล่นอยู่ในโหมดพักร้อน
+fa_vacation_mode_current: คุณอยู่ในโหมดพักร้อน
+fa_week_player: ผู้เล่นอ่อนเกินไป
+fcm_info: ข้อมูล
+fcm_mainplanet: ดาวเคราะห์หลัก
+fcm_moon: ดวงจันทร์
+fcm_planet: ดาวเคราะห์
+fcm_universe: จักรวาล
+fcp_colony: อาณานิคม
+fgf_time: "เวลา: "
+fgr_time: "เวลาซ่อม: "
+first: ครั้งแรก
+fl_a: (A)
+fl_acs: ACS
+fl_acs_change: เปลี่ยน
+fl_acs_change_name: ใส่ชื่อใหม่
+fl_acs_invitation_message: " ถูกเชิญเข้า ACS"
+fl_acs_invitation_title: ACS
+fl_acs_newname_alphanum: "ชื่อ ACS ใช้ได้เฉพาะตัวอักษรและตัวเลข"
+fl_acs_title: โจมตีร่วมพันธมิตร
+fl_add_to_attack: " ถูกเพิ่มเข้าการโจมตี"
+fl_admin_attack: โจมตีแอดมินไม่ได้
+fl_all_resources: ทรัพยากรทั้งหมด
+fl_already_invited: " ถูกเชิญไปแล้ว"
+fl_ammount: ยาน
+fl_arrival: มาถึง
+fl_arrival_time: เวลามาถึง
+fl_attack_confirm_buddy: |-
+  เป้าหมายอยู่ในรายชื่อเพื่อนของคุณ
+  แน่ใจหรือว่าจะโจมตี?
+fl_attack_confirm_diplo: "คุณมีสนธิสัญญา (%s) กับ %s จะโจมตีต่อไปไหม?"
+fl_attack_confirm_outlaw: "การโจมตี %s จะทำให้คุณเป็นผู้นอกกฎหมาย 7 วัน"
+fl_bash_protection: "การทำแบบนั้นจะผิดกฎการรุม (bash rule)"
+fl_beginning: ต้นทาง
+fl_blocked: " ไม่รับคำเชิญ"
+fl_bonus: โบนัส
+fl_bonus_attack: อาวุธ
+fl_bonus_defensive: เกราะ
+fl_bonus_shield: โล่
+fl_cargo_capacity: ความจุบรรทุก
+fl_colonize_confirm: "คุณมีดาวเคราะห์มากกว่าหนึ่งดวงในระบบนี้แล้ว ระบบที่แออัดดึงดูดผู้เล่นที่แข็งแกร่ง จะตั้งอาณานิคมต่อไหม?"
+fl_continue: ต่อไป
+fl_debris_shortcut: (DF)
+fl_departure: ออกเดินทาง
+fl_destiny: ปลายทาง
+fl_distance: ระยะทาง
+fl_dlte_shortcut: ลบ
+fl_dont_exist: " ไม่มีอยู่"
+fl_empty_target: "ไม่มีภารกิจที่ทำได้ เป้าหมายมีอยู่จริงไหม?"
+fl_error: "มีบางอย่างผิดพลาด โปรดลองอีกครั้ง"
+fl_error_empty_derbis: "ไม่มีทุ่งเศษซากที่พิกัดนี้!"
+fl_error_no_moon: ไม่มีดวงจันทร์ที่พิกัดนี้
+fl_error_not_avalible: ไม่มีอะไรที่พิกัดนี้
+fl_error_same_planet: "ต้นทางและปลายทางเป็นดาวเคราะห์ดวงเดียวกัน!"
+fl_exchange: แลกเปลี่ยน
+fl_expedition_alert_message: "ระวัง: การสำรวจมีความเสี่ยง คุณอาจเสียกองเรือทั้งหมด!"
+fl_expedition_tech_required: "คุณต้องมีฟิสิกส์ดาราศาสตร์เลเวล 1 ก่อนจึงจะเริ่มการสำรวจได้"
+fl_expeditions: การสำรวจ
+fl_fleet: กองเรือ
+fl_fleet_sended: "ส่งกองเรือแล้ว!"
+fl_fleet_speed: ความเร็วกองเรือ
+fl_fleets: กองเรือ
+fl_flying_arrival: มาถึง
+fl_flying_return: กลับ
+fl_flying_time: "ระยะเวลา (เที่ยวเดียว)"
+fl_from: จาก
+fl_fuel_consumption: การใช้ดิวทีเรียม
+fl_hold_confirm_outlaw: "การตรึงกำลังที่ %s จะทำให้คุณเป็นผู้นอกกฎหมาย 7 วัน"
+fl_hold_max_fleets: "มีกองเรือมุ่งหน้าไปพิกัดนี้มากเกินไปแล้ว จึงส่งกองเรือของคุณไม่ได้"
+fl_hold_max_user: "ถึงจำนวนผู้ป้องกันสูงสุดแล้ว จึงส่งกองเรือของคุณไม่ได้"
+fl_hold_time: เวลาตรึงกำลัง
+fl_hold_time_not_exists: โปรดเลือกเวลาตรึงกำลังที่ถูกต้อง
+fl_hours: ชั่วโมง
+fl_in_vacation_player: ผู้เล่นอยู่ในโหมดพักร้อน
+fl_info_detail: รายละเอียด
+fl_invalid_mission: ภารกิจนั้นทำที่นี่ไม่ได้
+fl_invalid_target: เป้าหมายนั้นไม่ถูกต้อง
+fl_invite_members: เชิญสมาชิก
+fl_market_type: ประเภทตลาด
+fl_max: สูงสุด
+fl_max_speed: ความเร็วสูงสุด
+fl_members_invited: ถูกเชิญแล้ว
+fl_mission: ภารกิจ
+fl_modify_sac_name: "ชื่อ ACS"
+fl_moon_shortcut: (M)
+fl_mt_fleet: ตลาดกองเรือ
+fl_mt_resources: ตลาดทรัพยากร
+fl_multi_alarm: "เตือนหลายบัญชี!"
+fl_my_planets: ดาวเคราะห์ของฉัน
+fl_new_mission_title: "ภารกิจใหม่: เลือกกองเรือ"
+fl_no_colony: ไม่มีอาณานิคม
+fl_no_expedition_slot: ไม่มีช่องสำรวจว่าง
+fl_no_more_slots: ไม่มีช่องว่าง
+fl_no_noresource: "ยังไม่ได้บรรทุกทรัพยากร!"
+fl_no_noresource_exchange: ยังไม่ได้ใส่ทรัพยากรสำหรับการแลกเปลี่ยน
+fl_no_probe_expos: "การสำรวจจะมีแต่หุ่นสอดแนมอย่างเดียวไม่ได้!"
+fl_no_same_alliance: "ผู้เล่นเป้าหมายต้องอยู่ในพันธมิตรของคุณหรือรายชื่อเพื่อนของคุณ!"
+fl_no_ships: ไม่มียานให้ใช้
+fl_no_shortcuts: ไม่มีทางลัด
+fl_no_slots: ไม่มีช่องว่าง
+fl_no_target: ไม่มีดาวเคราะห์เป้าหมาย
+fl_not_all_ship_avalible: ยานบางลำใช้ไม่ได้
+fl_not_enough: "%s ไม่พอ"
+fl_not_enough_deuterium: ดิวทีเรียมไม่พอสำหรับเที่ยวบินนี้
+fl_not_enough_space: ที่บรรทุกไม่พอ
+fl_null: ไม่มี
+fl_number: ID
+fl_objective: จบใน
+fl_only_planets_colonizable: ตั้งอาณานิคมได้เฉพาะดาวเคราะห์
+fl_onway: ขาไป
+fl_order: คำสั่ง
+fl_own_planet_error: "มีบางอย่างผิดพลาด โปรดเลือกดาวเคราะห์ที่ต้องการส่งกองเรือออกไปอีกครั้ง"
+fl_planet_shortcut: (P)
+fl_planets: ดาวเคราะห์
+fl_player: "ผู้เล่น "
+fl_player_is_noob: ผู้เล่นอยู่ภายใต้การคุ้มครองมือใหม่
+fl_player_is_strong: ผู้เล่นแข็งแกร่งเกินไป
+fl_r: (R)
+fl_remove_all_ships: ไม่เลือกยาน
+fl_resources: "บรรทุกทรัพยากรแล้ว!"
+fl_resources_left: ความจุที่เหลือ
+fl_return_time: เวลากลับ
+fl_returning: กำลังกลับ
+fl_sac_of_fleet: "กองเรือ ACS"
+fl_select_all_ships: เลือกยานทั้งหมด
+fl_selected_resources: ทรัพยากรที่เลือก
+fl_send_back: เรียกกลับ
+fl_send_fleet: ส่งกองเรือ
+fl_ship_available: ยานที่มี
+fl_ship_type: ประเภทยาน
+fl_shortcut: ทางลัด
+fl_shortcut_add: เพิ่ม
+fl_shortcut_edition: แก้ไขทางลัด
+fl_shortcut_name: ชื่อ
+fl_shortcut_save: บันทึกทางลัด
+fl_shortcut_saved: "บันทึกทางลัดแล้ว!"
+fl_simulate: จำลอง
+fl_speed_title: "ความเร็ว: "
+fl_spy_confirm_outlaw: "การสอดแนม %s จะทำให้คุณเป็นผู้นอกกฎหมาย 7 วัน"
+fl_strong_player: ผู้เล่นแข็งแกร่งเกินไป
+fl_stronger_techs: "เทคโนโลยีอาวุธ เกราะ หรือโล่ของคุณต่ำเกินไป"
+fl_system_places: ตำแหน่งพิเศษ
+fl_target_exists: ดาวเคราะห์เป้าหมาย
+fl_trade_no_resource_loaded: คุณยังไม่ได้บรรทุกทรัพยากรใดๆ
+fl_trade_same_resource: "คุณขาย %s เพื่อ %s ไม่ได้"
+fl_trade_to_many_resources_loaded: คุณขายทรัพยากรได้ครั้งละประเภทเดียวเท่านั้น
+fl_transfer_alert_message: |-
+  คำเตือน!
+  กองเรือของคุณจะถูกโอนให้ผู้เล่นอื่น!
+fl_vacation_mode_active: โหมดพักร้อนทำงานอยู่
+fl_visibility: การมองเห็น
+fl_visibility_all: ทุกคน
+fl_visibility_alliance: "พันธมิตร คู่สนธิสัญญา และเพื่อน"
+fl_visibility_no_enemies: ทุกคนยกเว้นศัตรู
+fl_week_player: ผู้เล่นอยู่ภายใต้การคุ้มครองมือใหม่
+fleet_table_custom_empty_name: "ใส่ชื่อกองเรือ!"
+fleetPrio: ลำดับความสำคัญของกองเรือ
+fm_add_filter: เพิ่มตัวกรองยาน
+fm_all: ทั้งหมด
+fm_civil: พลเรือน
+fm_engines: เครื่องยนต์
+fm_imperial: จักรวรรดิ
+fm_military: การทหาร
+fm_mining: การขุด
+fm_other: อื่นๆ
+fm_recycler: รีไซเคิล
+fm_storage: การเก็บ
+foreign_colors: สีของผู้อื่น
+found: "พบ "
+ft_absenden: ส่ง
+ft_charge: อัตราพ่อค้า
+ft_count: จำนวน
+ft_empty: ว่าง
+ft_head: กองเรือพ่อค้า
+ft_max: สูงสุด
+ft_total: รวม
+general_colors: สีทั่วไป
+gl_actions: การกระทำ
+gl_activity: "(*)"
+gl_activity_inactive: "(%d นาที)"
+gl_ajax_status_fail: ล้มเหลว
+gl_ajax_status_ok: เสร็จแล้ว
+gl_all_defenses: สิ่งป้องกันทั้งหมด
+gl_alliance: พันธมิตร
+gl_alliance_page: หน้าพันธมิตร
+gl_alliance_web_page: เว็บไซต์พันธมิตร
+gl_avaible_missiles: ขีปนาวุธที่มี
+gl_avaible_recyclers: ยานรีไซเคิล
+gl_avaible_spyprobes: หุ่นสอดแนม
+gl_banned: "ถูกแบน / ระงับ"
+gl_buddy_request: คำขอเป็นเพื่อน
+gl_colonizable: ตั้งอาณานิคมได้
+gl_debris: เศษซาก
+gl_debris_field: ทุ่งเศษซาก
+gl_diameter: เส้นผ่านศูนย์กลาง
+gl_features: คุณสมบัติ
+gl_fleets: ช่องกองเรือ
+gl_galaxy: กาแล็กซี
+gl_in_the_rank: "ผู้เล่น %s อันดับ %d"
+gl_inactive_seven: "ไม่ใช้งาน 7 วัน"
+gl_inactive_twentyeight: "ไม่ใช้งาน 28 วัน"
+gl_legend: คำอธิบายสัญลักษณ์
+gl_member: "%d สมาชิก"
+gl_member_add: "%d สมาชิก"
+gl_missil_flytime: เวลาก่อนพุ่งชน
+gl_missil_launch: โจมตีด้วยขีปนาวุธ
+gl_missil_launch_action: ยิงขีปนาวุธ
+gl_missil_to_launch: "จำนวน (มี <b>%d</b> ลูก)"
+gl_missile_attack: โจมตีด้วยขีปนาวุธ
+gl_moon: ดวงจันทร์
+gl_no: ไม่
+gl_no_deuterium_to_view_galaxy: "ดิวทีเรียมไม่พอที่จะดูกาแล็กซี!"
+gl_no_spy_report: ยังไม่มีรายงานสอดแนมของดาวเคราะห์ดวงนี้
+gl_not_colonizable: "ตั้งอาณานิคมไม่ได้!"
+gl_objective: เป้าหมายหลัก
+gl_out_space: อวกาศลึก
+gl_phalanx: ฟาแลนซ์
+gl_planet: ดาวเคราะห์
+gl_planet_destroyed: ดาวเคราะห์ถูกทำลาย
+gl_player: ผู้เล่น
+gl_player_estate: "ผู้เล่น (สถานะ)"
+gl_playercard: โปรไฟล์ผู้เล่น
+gl_populed_planets: "%d ดาวเคราะห์ที่มีผู้อยู่อาศัย"
+gl_pos: ตำแหน่ง
+gl_resources: ทรัพยากร
+gl_see_on_stats: สถิติ
+gl_short_ban: B
+gl_short_inactive: i
+gl_short_long_inactive: I
+gl_short_newbie: N
+gl_short_strong: S
+gl_short_vacation: VM
+gl_show: แสดงระบบ
+gl_show_spy_report: รายงานสอดแนม
+gl_solar_system: ระบบ
+gl_spy: สอดแนม
+gl_spy_report_fresh: "รายงานสอดแนม (< %d ชม.)"
+gl_spy_report_none: ไม่มีรายงานสอดแนม
+gl_spy_report_old: "รายงานสอดแนม (> %d ชม.)"
+gl_spy_report_recent: "รายงานสอดแนม (< %d ชม.)"
+gl_strong_player: ผู้เล่นแข็งแกร่ง
+gl_sync: บันทึกข้อมูล
+gl_sync_export_csv: "ส่งออก CSV"
+gl_sync_export_json: "ส่งออก JSON"
+gl_sync_import_json: "นำเข้า JSON"
+gl_sync_reset: รีเซ็ตข้อมูล
+gl_temperature: อุณหภูมิ
+gl_to: ถึง
+gl_trade_space: ตลาด
+gl_vacation: โหมดพักร้อน
+gl_week_player: ผู้เล่นอ่อน
+honor_rank: ยศเกียรติยศ
+honor_rank_low_1: จักรพรรดิโจร
+honor_rank_low_10: ราชาโจร
+honor_rank_low_20: เจ้าพ่อโจร
+honor_rank_low_30: โจร
+honor_rank_top_1: จักรพรรดิเทพ
+honor_rank_top_10: มหาจักรพรรดิ
+honor_rank_top_20: จักรพรรดิ
+honor_rank_top_30: สตาร์ลอร์ด
+honorable_fights: การรบที่มีเกียรติ
+honorpoints: แต้มเกียรติยศ
+in_attack_pt: พลังโจมตี
+in_base_speed: ความเร็วพื้นฐาน
+in_capacity: ความจุบรรทุก
+in_consumption: การใช้เชื้อเพลิง
+in_destroy: ทำลาย
+in_difference: ผลต่าง
+in_engine: เครื่องยนต์
+in_jump_gate_already_used: "ประตูกระโดดกำลังชาร์จ พร้อมใช้ใน: "
+in_jump_gate_doesnt_have_one: คุณไม่มีประตูกระโดดอื่นให้กระโดดไป
+in_jump_gate_done: "กระโดดสำเร็จ! ประตูกระโดดพร้อมอีกครั้งใน: %s"
+in_jump_gate_error_data: "พิกัดกระโดดไม่ถูกต้อง!"
+in_jump_gate_finish_moon: ปลายทาง
+in_jump_gate_jump: กระโดด
+in_jump_gate_no_target: ไม่มีเป้าหมายให้กระโดดไป
+in_jump_gate_not_ready_target: "ประตูปลายทางยังชาร์จอยู่ พร้อมใช้ใน "
+in_jump_gate_select_ships: "ประตูกระโดด: เลือกยาน"
+in_jump_gate_start_moon: ต้นทาง
+in_jump_gate_wait_time: "กระโดดครั้งต่อไปได้ใน:"
+in_level: เลเวล
+in_missilesamount: ที่มี
+in_missilestype: ประเภทขีปนาวุธ
+in_name: ชื่อ
+in_prod_p_hour: ต่อชั่วโมง
+in_rf_again: ยิงเร็วต่อ
+in_rf_explanation: "ยิงเร็ว: ในแต่ละรอบของการรบ ยูนิตนี้อาจยิงได้หลายครั้ง ตัวเลขเปอร์เซ็นต์แสดงโอกาสที่จะได้ยิงเพิ่มอีกนัดหลังยิงโดนเป้าหมายประเภทนั้น"
+in_rf_from: ถูกยิงเร็วจาก
+in_shield_pt: พลังโล่
+in_storage: ความจุเก็บ
+in_struct_pt: ความแข็งแรงโครงสร้าง
+in_units: ยูนิต
+kontakt: "สวัสดี!<br>หน้านี้แสดงคนที่ดูแล ควบคุม และพัฒนาโปรเจกต์นี้<br>มีคำถามหรือปัญหา? ติดต่อเราได้เลย<br><br><!--discord_url-->เพื่อแลกเปลี่ยนกับเราและผู้เล่นคนอื่นให้ดียิ่งขึ้น เรามีเซิร์ฟเวอร์ Discord คุณหาได้<a href=\"{discord_url}\">ที่นี่</a>หรือผ่านเมนู<br>ที่นั่นคุณจะพบข่าวล่าสุดและมีมที่ดีที่สุดจากพันธมิตรต่างๆ ในจักรวาล<br>ถามเรื่องกลไกเกม และแชร์ไอเดียเกี่ยวกับอนาคตของเกม<br><br><!--/discord_url-->แน่นอนว่าเราตอบคำถามในเกมของคุณด้วย<br>โปรดจำไว้ว่าเราเล่นเกมนี้เป็นงานอดิเรก คำตอบจึงอาจใช้เวลาสองสามวัน<br>"
+lm_administration: การดูแลระบบ
+lm_alliance: พันธมิตร
+lm_banned: รายชื่อโดนแบน
+lm_battlesim: เครื่องจำลอง
+lm_buddylist: เพื่อน
+lm_buildings: อาคาร
+lm_changelog: บันทึกการเปลี่ยนแปลง
+lm_dataPrivacy: ความเป็นส่วนตัว
+lm_defenses: สิ่งป้องกัน
+lm_empire: จักรวรรดิ
+lm_faq: FAQ
+lm_fleet: กองเรือ
+lm_fleettrader: พ่อค้ากองเรือ
+lm_galaxy: กาแล็กซี
+lm_info: ข้อมูล
+lm_logout: ออกจากระบบ
+lm_marketplace: ตลาด
+lm_messages: ข้อความ
+lm_notes: โน้ต
+lm_options: ตัวเลือก
+lm_overview: ภาพรวม
+lm_playercard: โปรไฟล์ผู้เล่น
+lm_records: สถิติ
+lm_repairdock: อู่ซ่อมยาน
+lm_research: วิจัย
+lm_resources: ทรัพยากร
+lm_rules: กฎ
+lm_search: ค้นหา
+lm_shipshard: อู่ต่อยาน
+lm_statistics: สถิติ
+lm_support: ช่วยเหลือ
+lm_technology: เทคโนโลยี
+lm_topkb: หอเกียรติยศ
+lo_continue: คลิกเพื่อดำเนินการต่อ
+lo_logout: "คุณออกจากระบบแล้ว แล้วเจอกันใหม่!"
+lo_notify: "จะเปลี่ยนหน้าใน <span id=\"seconds\">5</span> วินาที"
+lo_redirect: เปลี่ยนหน้า
+lo_title: ออกจากระบบแล้ว
+loading: "กำลังโหลด ..."
+lost: สูญเสีย
+lv_buildable: สร้างได้
+lv_buildings: อาคาร
+lv_coords: พิกัด
+lv_defenses: สิ่งป้องกัน
+lv_fields: ช่อง
+lv_highlight: "ไฮไลต์: "
+lv_imperium_title: จักรวรรดิ
+lv_name: ชื่อ
+lv_planet: ดาวเคราะห์
+lv_prodPerHour: การผลิตต่อชั่วโมง
+lv_resources: ทรัพยากร
+lv_ships: ยาน
+lv_show: "แสดง: "
+lv_storageFilled: ชั่วโมงจนกว่าจะเต็ม
+lv_technology: เทคโนโลยี
+lv_total: รวม
+lv_unbuildable: สร้างไม่ได้
+ma_add_missile_number: "ใส่จำนวนขีปนาวุธ! "
+ma_all: ทั้งหมด
+ma_impulse_drive_required: ต้องมีเครื่องยนต์อิมพัลส์
+ma_missiles_sended: " ลูกถูกยิงแล้ว เป้าหมาย: "
+ma_no_missiles: ไม่มีขีปนาวุธ
+ma_no_range: เป้าหมายอยู่นอกระยะขีปนาวุธของคุณ
+ma_not_send_other_galaxy: "คุณส่งขีปนาวุธไปกาแล็กซีอื่นไม่ได้ "
+ma_planet_doesnt_exists: "ไม่มีดาวเคราะห์ดวงนั้น "
+ma_silo_level: "ต้องมีไซโลเลเวล 4! "
+ma_wrong_target: เป้าหมายไม่ถูกต้อง
+market_buyable_no_enemies: ไม่มีศัตรู
+market_buyable_no_tech: อ่อนเกินไป
+market_buyable_only_trade_partners: เฉพาะคู่ค้า
+market_confirm_are_you_sure: "แน่ใจหรือไม่?"
+market_fleet: กองเรือ
+market_info_description: "ฝั่งซ้าย: ข้อเสนอขาย | ฝั่งขวา: ราคาที่ขอ<br><br>&bull; ข้อเสนอที่ยอมรับแล้วยกเลิกไม่ได้ &bull;<br>&bull; ข้อเสนอบางอย่างยอมรับไม่ได้เพราะกฎการพุช &bull;<br>&bull; ผู้ซื้อจ่ายค่าเชื้อเพลิงของกองเรือที่ซื้อ &bull;"
+market_info_header: ตลาด
+market_info_no_return: "ข้อเสนอในตลาดยกเลิกไม่ได้!"
+market_msg_trade_bought: "กองเรือของคุณกำลังบินไปยัง %s พร้อม %s %s, %s %s, %s %s และมีราคา %s %s"
+market_msg_trade_from: ตลาด
+market_msg_trade_sold: "กองเรือของคุณกำลังบินไปยัง %s พร้อม %s %s, %s %s, %s %s"
+market_msg_trade_topic: สถานะการค้า
+market_p_buy: ซื้อ
+market_p_cost_amount: จำนวน
+market_p_cost_type: ประเภทราคา
+market_p_end: สิ้นสุด
+market_p_from_duration: บินจาก
+market_p_msg_more_ships_is_needed: คุณต้องมียานเพิ่มสำหรับข้อเสนอนี้
+market_p_msg_not_found: ข้อเสนอนั้นหายไปแล้ว
+market_p_msg_own_offer: คุณซื้อข้อเสนอของตัวเองไม่ได้
+market_p_msg_purchase_failed: "การซื้อไม่สำเร็จ โปรดลองอีกครั้ง"
+market_p_msg_resources_error: คุณมีทรัพยากรไม่พอ
+market_p_msg_sent: "ส่งยานขนส่งเล็ก %s ลำ ยานขนส่งใหญ่ %s ลำ"
+market_p_msg_wrong_resource_type: ข้อเสนอนี้ขอทรัพยากรที่ไม่ถูกต้อง
+market_p_offer_type: ประเภทข้อเสนอ
+market_p_ratio: อัตราส่วน
+market_p_submit: "ซื้อเลย!"
+market_p_to_duration: บินไป
+market_ship_as_first: "เลือกประเภทยานสำหรับการค้า:"
+Messages: ข้อความ
+messagesPerPage: "ข้อความต่อหน้า (3-50)"
+mg_answer_to: ตอบกลับถึง
+mg_blocked: ผู้เล่นคนนี้ไม่รับข้อความ
+mg_characters: ตัวอักษร
+mg_confirm: ยืนยัน
+mg_delete: ลบข้อความ
+mg_delete_all: ลบข้อความทั้งหมด
+mg_delete_marked: ลบข้อความที่ทำเครื่องหมาย
+mg_delete_type_all: ลบข้อความทั้งหมดของประเภทนี้
+mg_delete_unmarked: ลบข้อความที่ไม่ได้ทำเครื่องหมายของประเภทนี้
+mg_deleted: ลบข้อความแล้ว
+mg_empty_text: โปรดใส่ข้อความ
+mg_error: "ไม่พบผู้รับ!"
+mg_favorite: ทำเครื่องหมายเป็นรายการโปรด
+mg_favorite_filter_off: แสดงทั้งหมด
+mg_favorite_filter_on: แสดงเฉพาะรายการโปรด
+mg_forward: ส่งต่อข้อความ
+mg_grouping_off: แสดงข้อความแบบไม่จัดกลุ่ม
+mg_grouping_on: แสดงข้อความแบบจัดกลุ่ม
+mg_message: ข้อความ
+mg_message_send: "ส่งข้อความแล้ว!"
+mg_message_title: ข้อความ
+mg_min_3_chars: "ใส่อย่างน้อย 3 ตัวอักษรเพื่อค้นหา"
+mg_new: ใหม่
+mg_no_subject: ไม่มีหัวข้อ
+mg_no_user: ไม่พบผู้เล่น
+mg_overview: จัดการข้อความ
+mg_open_all: "เปิดหมวด \"ข้อความทั้งหมด\" เสมอ"
+mg_page: หน้า
+mg_read_all: ทำเครื่องหมายข้อความทั้งหมดว่าอ่านแล้ว
+mg_read_marked: ทำเครื่องหมายข้อความที่เลือกว่าอ่านแล้ว
+mg_read_type_all: ทำเครื่องหมายข้อความทั้งหมดของประเภทนี้ว่าอ่านแล้ว
+mg_search: ค้นหา
+mg_search_placeholder: ใส่คำค้นหา
+mg_send: ส่ง
+mg_send_new: เขียนข้อความ
+mg_send_to: ส่งถึง
+mg_subject: หัวข้อ
+mg_remember_last_category: จำหมวดข้อความล่าสุด
+mg_select_all: เลือกทั้งหมด
+mg_type:
+  '0': รายงานสอดแนม
+  '1': ข้อความจากผู้เล่น
+  '2': ข้อความพันธมิตร
+  '3': รายงานการรบ
+  '4': ข้อความระบบ
+  '5': ขนส่ง
+  '6': ขนส่งจากผู้อื่น
+  '7': ต่อต้านการสอดแนม
+  '15': รายงานการสำรวจ
+  '50': ข้อความเกม
+  '99': การก่อสร้าง
+  '100': ข้อความทั้งหมด
+  '998': รายการโปรด
+  '999': ค้นหาข้อความ
+negativ: ลบ
+neutral: เป็นกลาง
+neutral_fights: การรบที่เป็นกลาง
+noob_interface: "โหมดมือใหม่เปิดอยู่ นี่คือเกมแบบย่อสำหรับเริ่มเล่นได้ง่ายและเร็ว และเมนูจะปลดล็อกเมื่อคุณเรียนบทเรียนไปเรื่อยๆ คุณปิดได้ทุกเมื่อในตัวเลือก"
+nt_back: กลับ
+nt_characters: ตัวอักษร
+nt_create_new_note: สร้างโน้ตใหม่
+nt_create_note: สร้างโน้ต
+nt_date_note: วันที่
+nt_dlte_note: ลบ
+nt_edit_note: แก้ไขโน้ต
+nt_important: สูง
+nt_no_text: ไม่มีข้อความ
+nt_no_title: ไม่มีหัวข้อ
+nt_normal: ปกติ
+nt_note: โน้ต
+nt_notes: โน้ต
+nt_priority: ความสำคัญ
+nt_reset: รีเซ็ต
+nt_save: บันทึก
+nt_size_note: ขนาด
+nt_subject_note: หัวข้อ
+nt_unimportant: ต่ำ
+nt_you_dont_have_notes: คุณยังไม่มีโน้ต
+op_activate_vacation_mode: เปิดโหมดพักร้อน
+op_activate_vacation_mode_confirm: "คุณจะปิดโหมดพักร้อนไม่ได้เป็นเวลา 48 ชั่วโมง แน่ใจหรือไม่?"
+op_activate_vacation_mode_descrip: "โหมดพักร้อนปกป้องคุณเมื่อต้องห่างหายไปนาน เปิดได้เฉพาะตอนที่ไม่มีกองเรือของคุณกำลังเคลื่อนที่ เมื่อเปิดแล้วจะป้องกันคุณจากการโจมตีใหม่ แต่การโจมตีที่เริ่มไปแล้วจะดำเนินต่อ และกองเรือฝ่ายเดียวกันที่ตรึงกำลังอยู่จะถูกส่งกลับ! การผลิตทรัพยากร การก่อสร้างอาคาร คำสั่งสร้างในอู่ต่อยาน และการวิจัยจะหยุดชั่วคราวในช่วงนี้และดำเนินต่อหลังจากนั้น ปิดโหมดพักร้อนไม่ได้ใน 48 ชั่วโมงแรก!"
+op_active_build_messages: เปิดข้อความการก่อสร้าง
+op_active_spy_messages_mode: เปิดรายงานสอดแนมแบบสรุป
+op_add_to_buddy_list: ส่งคำขอเป็นเพื่อน
+op_admin_discord_hook: "Discord webhook สำหรับข้อความส่วนตัว"
+op_admin_discord_id: "Discord user ID สำหรับแจ้งเตือนข้อความส่วนตัว"
+op_admin_planets_protection: เปิดการป้องกันดาวเคราะห์ของแอดมิน
+op_admin_title_options: ตัวเลือกแอดมิน
+op_block_pm: บล็อกข้อความส่วนตัว
+op_build_pages: "อาคาร / วิจัย"
+op_cant_activate_vacation_mode: คุณเปิดโหมดพักร้อนไม่ได้ขณะที่กองเรือของคุณกำลังเคลื่อนที่
+op_cant_deactivate_vacation_mode: ยังปิดโหมดพักร้อนไม่ได้
+op_change_mail_exist: "อีเมล %s ถูกใช้ไปแล้ว"
+op_change_name_exist: "ชื่อผู้ใช้ %s ถูกใช้ไปแล้ว"
+op_change_name_pro_week: "คุณเปลี่ยนชื่อผู้ใช้ได้เพียงครั้งเดียวทุก 7 วัน!"
+op_collapse_spy_reports: แสดงรายงานสอดแนมแบบย่อเป็นค่าเริ่มต้น
+op_decimal_separator: ตัวคั่นทศนิยม
+op_dlte_account: ลบบัญชี
+op_dlte_account_descrip: "บัญชีของคุณจะถูกลบทั้งหมดหลังผ่านไปอย่างน้อย 7 วัน เวลาที่แน่นอนขึ้นกับว่างานลบรันเมื่อไร จึงอาจใช้เวลาอีกสองสามวัน คุณยกเลิกการลบได้ตราบใดที่ยังไม่ถูกดำเนินการ คือตราบใดที่คุณยังเข้าสู่ระบบบัญชีได้"
+op_email_adress: อีเมล
+op_enable_planet_styles: แสดงเอฟเฟกต์โฮโลบนดาวเคราะห์ที่มี
+op_end_vacation_mode: ปิดโหมดพักร้อน
+op_galaxy_settings: กาแล็กซี
+op_general_settings: ทั่วไป
+op_hangar_filters: แสดงตัวกรองเพิ่มเติมในอู่ต่อยาน
+op_hangar_group_filters: ตัวกรองกลุ่มในอู่ต่อยาน
+op_hide_useless: ซ่อนงานวิจัยพื้นฐานเมื่อถึงเลเวลสูงสุดที่มีประโยชน์
+op_lang: ภาษา
+op_max_fleets_messages: ข้อความกองเรือสูงสุด
+op_missile_attack: โจมตีด้วยขีปนาวุธ
+op_missing_requirements_opacity: ทำให้รายการที่ยังไม่ครบเงื่อนไขจางลง
+op_missing_resources_opacity: ทำให้รายการที่คุณซื้อไม่ไหวจางลง
+op_need_pass_mail: ใส่รหัสผ่านของคุณเพื่อเปลี่ยนอีเมล
+op_new_pass: "รหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)"
+op_noob_interface: โหมดมือใหม่
+op_not_vaild_mail: อีเมลนั้นดูไม่ถูกต้อง
+op_old_pass: รหัสผ่านปัจจุบัน
+op_options_changed: บันทึกการตั้งค่าแล้ว
+op_options_deletion_activated: "เปิดการลบบัญชีแล้ว!"
+op_options_deletion_deactivated: "ปิดการลบบัญชีแล้ว!"
+op_options_no_other_settings_changed: ไม่มีการเปลี่ยนแปลงอื่น
+op_options_vacation_activated: "โหมดพักร้อนเปิดอยู่ พักผ่อนให้สบายนะ!"
+op_options_vacation_deactivated: "โหมดพักร้อนปิดแล้ว ยินดีต้อนรับกลับ!"
+op_repeat_new_pass: "รหัสผ่านใหม่ (ยืนยัน)"
+op_save_changes: บันทึกการเปลี่ยนแปลง
+op_shortcut: ทางลัด
+op_show: มุมมอง
+op_show_all_buildable_elements: แสดงรายการที่ยังไม่ครบเงื่อนไขด้วย
+op_show_message_category: ข้ามไปหมวดข้อความที่ตรงกันทันที
+op_skin_example: ธีม
+op_sort_abc: ตามตัวอักษร
+op_sort_down: จากมากไปน้อย
+op_sort_kind: ลำดับการเรียง
+op_sort_koords: พิกัด
+op_sort_normal: ตามลำดับการตั้งอาณานิคม
+op_sort_planets_by: เรียงดาวเคราะห์ตาม
+op_sort_up: จากน้อยไปมาก
+op_spy: สอดแนม
+op_spy_probes_number: หุ่นสอดแนมต่อภารกิจ
+op_spy_probes_number_descrip: จำนวนหุ่นที่ส่งจากหน้ากาแล็กซี
+op_spy_report: รายงานสอดแนม
+op_spy_report_fresh_time: "รายงานสอดแนมที่ยังสด (จุดเขียว) ไม่เกิน"
+op_spy_report_fresh_time_tooltip: รายงานสอดแนมที่ใหม่กว่าจำนวนชั่วโมงที่กำหนดจะแสดงจุดเขียวในหน้ากาแล็กซี
+op_spy_report_recent_time: "รายงานสอดแนมที่เพิ่งได้ (จุดเหลือง) ไม่เกิน"
+op_spy_report_recent_time_tooltip: "รายงานสอดแนมที่ใหม่กว่าจำนวนชั่วโมงที่กำหนดจะแสดงจุดเหลือง รายงานที่เก่ากว่าจะแสดงจุดแดง"
+op_spy_report_time_invalid: "เวลารายงานสอดแนมไม่ถูกต้อง ทั้งสองค่าต้องอย่างน้อย 1 ชั่วโมง และค่าของ \"เพิ่งได้\" ต้องมากกว่าค่าของ \"ยังสด\""
+op_stop_dlte_account: ยกเลิกการลบบัญชี
+op_timezone: เขตเวลา
+op_user_data: ข้อมูลผู้ใช้
+op_user_name_no_alphanumeric: "ชื่อผู้ใช้ใช้ได้เฉพาะตัวอักษรและตัวเลข!"
+op_username: ชื่อผู้ใช้
+op_vacation_delete_mode: โซนอันตราย
+op_vacation_mode_active_message: "ปิดโหมดพักร้อนไม่ได้จนถึง: "
+op_write_message: เขียนข้อความ
+other: อื่นๆ
+ov_abandon_planet_not_possible: คุณลบอาณานิคมนี้ไม่ได้ขณะที่มีกองเรือกำลังบินไปหรือมาจากที่นั่น
+ov_admins_online: แอดมินที่ออนไลน์
+ov_aprox: ประมาณ
+ov_checknews_hide: ซ่อนข่าว
+ov_checknews_show: แสดงข่าว
+ov_closed: "จักรวาลนี้ปิดอยู่ในขณะนี้!"
+ov_delete_planet: ลบดาวเคราะห์
+ov_developed_fields: ช่องที่ใช้แล้ว
+ov_diameter: เส้นผ่านศูนย์กลาง
+ov_distance_unit: กม.
+ov_events: เหตุการณ์
+ov_fields: ช่อง
+ov_fleet: กองเรือ
+ov_fleetbutton_hide: ซ่อน
+ov_fleetbutton_show: แสดง
+ov_free: ว่าง
+ov_have_new_message: คุณมีข้อความใหม่
+ov_have_new_messages: "คุณมีข้อความใหม่ %d ข้อความ"
+ov_max_developed_fields: ช่องทั้งหมด
+ov_moon: ดวงจันทร์
+ov_newname_done: "เปลี่ยนชื่อดาวเคราะห์แล้ว!"
+ov_newname_specialchar: "ชื่อดาวเคราะห์ใช้ได้เฉพาะตัวเลข ตัวอักษร ช่องว่าง ขีดล่าง ขีดกลาง และจุด!"
+ov_newname_too_long: "ชื่อดาวเคราะห์ยาวได้สูงสุด %d ตัวอักษร"
+ov_news: ข่าวสาร
+ov_of: จาก
+ov_outlaw: "ผู้นอกกฎหมายจนถึง:"
+ov_password: รหัสผ่าน
+ov_place: ตำแหน่ง
+ov_planet: ดาวเคราะห์
+ov_planet_abandoned: ลบดาวเคราะห์แล้ว
+ov_planet_rename: เปลี่ยนชื่อดาวเคราะห์
+ov_planetmenu: เปลี่ยนชื่อหรือลบ
+ov_planets: ดาวเคราะห์และดวงจันทร์
+ov_points: คะแนน
+ov_position: ตำแหน่ง
+ov_principal_planet_cant_abanone: "คุณลบดาวเคราะห์บ้านของคุณไม่ได้!"
+ov_rename_label: ชื่อใหม่
+ov_rules: กฎ
+ov_rulesnotify: โปรดปฏิบัติตาม
+ov_security_confirm: "แน่ใจหรือไม่ว่าต้องการทำลาย %s?"
+ov_security_request: คำถามความปลอดภัย
+ov_server_time: เวลาเซิร์ฟเวอร์
+ov_temp_unit: °C
+ov_temperature: อุณหภูมิ
+ov_ticketbot: ทิกเก็ตบอท
+ov_to: ถึง
+ov_userrank_info: "%s (%s <a href=\"game?page=statistics&amp;range=%d\">%d</a> %s %s)"
+ov_wrong_name: "ชื่อไม่ถูกต้อง!"
+ov_wrong_pass: "รหัสผ่านไม่ถูกต้อง!"
+own: ของตัวเอง
+own_colors: สีของตัวเอง
+page_doesnt_exist: ไม่พบหน้าที่ขอ
+pl_ally: พันธมิตร
+pl_buddy: เพื่อน
+pl_builds: อาคาร
+pl_def: การป้องกัน
+pl_dercrystal: คริสตัลที่รีไซเคิล
+pl_dermetal: โลหะที่รีไซเคิล
+pl_destroy: "%s มีส่วนร่วมใน"
+pl_destroy_real: "%s มีส่วนร่วมด้วยตัวเองใน"
+pl_etc: "ฯลฯ "
+pl_fightdraw: เสมอ
+pl_fightlose: แพ้
+pl_fights: การรบ
+pl_fightstats: สถิติการรบ
+pl_fightwon: ชนะ
+pl_fleet: กองเรือ
+pl_fprocent: เปอร์เซ็นต์
+pl_homeplanet: ดาวเคราะห์บ้าน
+pl_message: ข้อความ
+pl_name: ชื่อผู้ใช้
+pl_overview: โปรไฟล์ผู้เล่น
+pl_points: คะแนน
+pl_range: อันดับ
+pl_tech: วิจัย
+pl_total: รวม
+pl_totalfight: การรบทั้งหมด
+pl_unitslose: ยูนิตที่สูญเสีย
+pl_unitsshot: ยูนิตที่ทำลาย
+PM: "[PM]"
+positiv: บวก
+px_fleet_movement: กองเรือที่กำลังเคลื่อนที่
+px_no_deuterium: ดิวทีเรียมไม่พอ
+px_no_fleet: ตอนนี้ไม่มีกองเรือที่กำลังเคลื่อนที่
+px_out_of_range: อยู่นอกระยะ
+px_scan_position: สแกนตำแหน่ง
+ready: พร้อม
+rebuild_proteciton_link: ปิดก่อนกำหนดได้ที่นี่
+rebuild_proteciton_mode: "บัญชีของคุณอยู่ในการคุ้มครองระหว่างฟื้นฟู ซึ่งช่วยปกป้องคุณจากการโจมตีได้"
+rec_count: จำนวน
+rec_last_update_on: "อัปเดตล่าสุดเมื่อ "
+rec_level: เลเวล
+rec_players: ผู้เล่น
+rec_time: วันที่/เวลา
+recordsOptIn: แสดงสถิติของคุณให้ผู้เล่นทุกคนเห็น
+repaired: ซ่อมแล้ว
+rs_amount: จำนวน
+rs_basic_income: การผลิตพื้นฐาน
+rs_calculate: บันทึกการเปลี่ยนแปลง
+rs_daily: การผลิตรายวัน
+rs_lvl: เลเวล
+rs_production_on_planet: "ทรัพยากรที่ผลิตบน \"%s\""
+rs_ramp_up: เปิดเต็มกำลัง
+rs_ress_bonus: "โบนัส (จากการวิจัย)"
+rs_ress_bonus_position: "โบนัส (จากตำแหน่งดาวเคราะห์)"
+rs_shut_down: ปิด
+rs_storage_capacity: ความจุเก็บ
+rs_sum: การผลิตรายชั่วโมง
+rs_weekly: การผลิตรายสัปดาห์
+sh_alliance: พันธมิตร
+sh_alliance_name: ชื่อพันธมิตร
+sh_alliance_tag: แท็กพันธมิตร
+sh_buddy_request: คำขอเป็นเพื่อน
+sh_coords: ตำแหน่ง
+sh_loading: "(กำลังโหลด ...)"
+sh_members: สมาชิก
+sh_name: ชื่อ
+sh_planet: ดาวเคราะห์
+sh_planet_name: ชื่อดาวเคราะห์
+sh_player_name: ชื่อผู้เล่น
+sh_points: คะแนน
+sh_position: อันดับ
+sh_search: ค้นหา
+sh_search_in_the_universe: ค้นหาในจักรวาล
+sh_tag: แท็ก
+sh_write_message: ข้อความส่วนตัว
+spec_mail_inactive_title: "%s - แจ้งเตือน"
+spytech_playercard:
+  level2: "ดูได้ตั้งแต่เทคโนโลยีสอดแนมเลเวล 2!"
+  level4: "ดูได้ตั้งแต่เทคโนโลยีสอดแนมเลเวล 4!"
+  level6: "ดูได้ตั้งแต่เทคโนโลยีสอดแนมเลเวล 6!"
+st_alliance: พันธมิตร
+st_buildings: อาคาร
+st_defenses: สิ่งป้องกัน
+st_fleets: กองเรือ
+st_honor: แต้มเกียรติยศ
+st_in_the_positions: ในอันดับ
+st_members: สมาชิก
+st_per: โดย
+st_per_member: ต่อสมาชิก
+st_player: ผู้เล่น
+st_points: คะแนน
+st_position: อันดับ
+st_researh: วิจัย
+st_show: แสดง
+st_statistics: สถิติ
+st_units: ยูนิต
+st_updated: อัปเดตเมื่อ
+st_write_message: ข้อความส่วนตัว
+StaticTimer: เวลามาถึง
+stats:
+  '202': ยานขนส่งเล็ก
+  '203': ยานขนส่งใหญ่
+  '204': ยานขับไล่เบา
+  '205': ยานขับไล่หนัก
+  '206': เรือลาดตระเวน
+  '207': เรือรบ
+  '208': ยานอาณานิคม
+  '209': ยานรีไซเคิล
+  '210': หุ่นสอดแนม
+  '211': ยานทิ้งระเบิด
+  '212': ดาวเทียมสุริยะ
+  '213': เรือพิฆาต
+  '214': ดาวมรณะ
+  '215': เรือลาดตระเวนรบ
+  '216': จันทร์ดำ
+  '217': ยานขนส่งรบ
+  '218': อวตาร
+  '219': ยานรีไซเคิลรบ
+  '401': เครื่องยิงจรวด
+  '402': ป้อมเลเซอร์เบา
+  '403': ป้อมเลเซอร์หนัก
+  '404': ปืนเกาส์
+  '405': ปืนใหญ่ไอออน
+  '406': ปืนใหญ่พลาสมา
+  '407': โดมโล่เล็ก
+  '408': โดมโล่ใหญ่
+  '409': โล่ชั้นบรรยากาศ
+  '410': ปืนใหญ่กราวิตอน
+  '411': แท่นป้องกันวงโคจร
+  '412': บังเกอร์
+  '413': เลเซอร์ไททัน
+  '414': ตัวล่อ
+  '502': ขีปนาวุธสกัดกั้น
+  '503': ขีปนาวุธข้ามดาว
+  '901': โลหะ
+  '902': คริสตัล
+  '903': ดิวทีเรียม
+stb_activ: "เปิดรายงานสอดแนมแบบละเอียด (Scavengers Toolbox)"
+stb_big_ress: "ทรัพยากรมาก (น้อยกว่า)"
+stb_big_ress_tooltip: "หากดาวเคราะห์มีทรัพยากรน้อยกว่าค่านี้ รายงานสอดแนมจะถูกทำเครื่องหมายเขียวอ่อน (ดี) รายงานที่มีทรัพยากรมากกว่าค่านี้จะแสดงเป็นฟ้าอ่อน (ดีที่สุด)"
+stb_big_time: "ทรัพยากรต่อวินาทีมาก (น้อยกว่า)"
+stb_big_time_tooltip: "ผลตอบแทนทรัพยากรต่อวินาทีที่ดีที่สุดที่เป็นไปได้ ปัดเป็นทศนิยมสองตำแหน่ง อัตราส่วนที่ต่ำกว่าค่านี้นับว่าดี (เขียวอ่อน) ส่วนที่สูงกว่าค่านี้นับว่าดีที่สุด (ฟ้าอ่อน)"
+stb_low_ress: "ทรัพยากรน้อย (น้อยกว่า)"
+stb_low_ress_tooltip: "หากดาวเคราะห์มีทรัพยากรน้อยกว่าค่านี้ รายงานสอดแนมจะถูกทำเครื่องหมายแดงสด (แย่)"
+stb_med_time: "ทรัพยากรต่อวินาทีปานกลาง (น้อยกว่า)"
+stb_med_time_tooltip: "ผลตอบแทนทรัพยากรต่อวินาทีที่ดีที่สุดที่เป็นไปได้ ปัดเป็นทศนิยมสองตำแหน่ง อัตราส่วนที่ต่ำกว่าค่านี้นับว่าปานกลาง (ส้มอ่อน)"
+stb_mid_ress: "ทรัพยากรปานกลาง (น้อยกว่า)"
+stb_mid_ress_tooltip: "หากดาวเคราะห์มีทรัพยากรน้อยกว่าค่านี้ รายงานสอดแนมจะถูกทำเครื่องหมายส้มอ่อน (ปานกลาง)"
+stb_small_time: "ทรัพยากรต่อวินาทีน้อย (น้อยกว่า)"
+stb_small_time_tooltip: "ผลตอบแทนทรัพยากรต่อวินาทีที่ดีที่สุดที่เป็นไปได้ ปัดเป็นทศนิยมสองตำแหน่ง อัตราส่วนที่ต่ำกว่าค่านี้นับว่าแย่ (แดงอ่อน)"
+stb_title: "Scavengers Toolbox"
+sys_back: กลับ
+sys_buildlist: คิวก่อสร้าง
+sys_buildlist_fail: การก่อสร้างล้มเหลว
+sys_catchup: "โบนัสต้นทุนและเวลาก่อสร้าง: %01.2f"
+sys_catchup_short: "โบนัส: %01.2f"
+sys_catchup_tooltip: "โบนัสไล่ตาม: ลดเวลาและต้นทุน โดยอิงจากเลเวลสถิติสูงสุดของอาคาร/งานวิจัยนี้"
+sys_closed_game: "ตอนนี้เกมปิดอยู่:"
+sys_forward: ถัดไป
+sys_game_is_setup: "<h1>สมัครเสร็จแล้ว!</h1><br><p>เรากำลังเตรียมจักรวาลของคุณ!</p><!--discord_url--><p>ระหว่างนี้ เพื่อไม่ให้พลาดอะไร มาเจอกันที่</p><h3><a href=\"{discord_url}\" target=\"_blank\">-> Discord <-</a></h3><!--/discord_url-->"
+sys_module_inactive: โมดูลนี้ปิดใช้งาน
+sys_nomore_level: "คุณไม่มี %s ให้รื้อถอน"
+sys_notenough_money: "ทรัพยากรบน %s <a href=\"./game?page=buildings&amp;cp=%d&amp;re=0\">[%d:%d:%d]</a> ไม่พอที่จะสร้าง %s <br>คุณมี: %s %s, %s %s และ %s %s <br>ต้นทุน: %s %s, %s %s และ %s %s"
+sys_refferal_from: ระบบ
+sys_refferal_text: "ผู้เล่น %s ที่คุณชวนมา ถึง %s คะแนนแล้ว"
+sys_refferal_title: "โบนัสผู้เล่น %s"
+sys_techlist: คิววิจัย
+team: ทีมงาน
+teamAdmin: แอดมิน
+teamAdminLong: ใช้เครื่องมือพิเศษเพื่อดูแลเกมได้
+teamAktiv: ใช้งานอยู่
+teamAlumni: "อดีต / สมาชิกทีมที่ไม่ได้ใช้งานแล้ว"
+teamAlumniLong: ขอขอบคุณ
+teamCommunity: ฝ่ายสนับสนุนชุมชน
+teamCommunityLong: "พวกเขาอยู่ตรงนี้เมื่อคุณต้องการความช่วยเหลือ<br>ไม่ว่าจะเรื่องอะไร ติดต่อมาได้เลย!<br>เราจะพยายามหาทางแก้ให้ดีที่สุด<br>มีคำถาม หรืออยากระบายอะไรสักอย่าง แม้แบบไม่ระบุตัวตน? มาคุยกับเรา<br>เรายังเป็นตัวกลางระหว่างผู้เล่นกับม็อดด้วย"
+teamContributor: ผู้ร่วมพัฒนา
+teamContributorLong: ช่วยสร้างโปรเจกต์
+teamDatabase: เข้าถึงฐานข้อมูล
+teamDev: นักพัฒนา
+teamDevLong: "ดูแลและพัฒนาโปรเจกต์<br>เข้าถึงส่วน Discord สำหรับหารือเรื่องการพัฒนาได้"
+teamDiscordName: "ชื่อ Discord"
+teamEmergency: ทีมฉุกเฉิน
+teamEmergencyLong: "ถูกผู้ใช้เรียกผ่าน Discord \"@Emergency Response Team\" เมื่อเซิร์ฟเวอร์ล่ม"
+teamIngameName: ชื่อในเกม
+teamLegend: อธิบายบทบาทและสิทธิ์
+teamMod: ม็อดเดอเรเตอร์
+teamModLong: "จัดการเรื่องและปัญหาของคุณ<br>ดูแลให้เกมยุติธรรมสำหรับทุกคน<br>รับผิดชอบเรื่องการลงโทษ<br>เข้าถึงส่วน Discord สำหรับหารือของม็อดได้<br>เข้าถึงส่วน Discord สำหรับหารือเรื่องการพัฒนาได้<br>เข้าถึงส่วน Discord สำหรับประชุมทิกเก็ตกับนักพัฒนาได้"
+teamNo: ไม่
+teamPlayer: ผู้เล่น
+teamRole: บทบาท
+teamScripte: ตรวจสอบสคริปต์
+teamScripteLong: "ตรวจสอบสคริปต์ที่ผู้เล่นสร้าง เพื่อให้ทีม<br>ตัดสินใจได้ว่าจะอนุญาตหรือไม่"
+teamTickets: เข้าถึงทิกเก็ต
+teamTicketsLong: อ่านทิกเก็ตที่เปิดอยู่ได้ทั้งหมด
+teamYes: ใช่
+ti_admin_close: "ปิดทิกเก็ตแล้ว!"
+ti_admin_open: "เปิดทิกเก็ตแล้ว!"
+ti_answer: ตอบ
+ti_answers: ตอบกลับ
+ti_category: หมวดหมู่
+ti_close: ทิกเก็ตปิดแล้ว
+ti_create: "สร้างทิกเก็ตเมื่อ "
+ti_create_head: สร้างทิกเก็ต
+ti_create_info: |-
+  <p>เมื่อสร้างทิกเก็ตขอความช่วยเหลือ โปรดอธิบายปัญหาให้ละเอียดที่สุด!</p>
+  <p>คำอธิบายที่ละเอียดช่วยให้แก้ปัญหาได้เร็วขึ้นและไม่ต้องถามตอบวนไปมาเสียเวลา</p>
+  <p>สำหรับปัญหาเกี่ยวกับบัญชี การให้รายละเอียดบัญชีที่เกี่ยวข้องช่วยในการมอบหมายทิกเก็ตและลดเวลาดำเนินการ</p>
+ti_date: วันที่
+ti_error_closed: "ทิกเก็ตนี้ปิดไปแล้ว จึงตอบกลับไม่ได้"
+ti_error_no_subject: โปรดใส่หัวข้อ
+ti_from: โดย
+ti_header: ระบบช่วยเหลือ
+ti_id: ทิกเก็ต
+ti_message: ข้อความ
+ti_msgtime: ข้อความโพสต์เมื่อ
+ti_new: ทิกเก็ตใหม่
+ti_not_exist: "ไม่พบทิกเก็ต #%d"
+ti_open: เปิดทิกเก็ต
+ti_overview: กลับ
+ti_re: "Re:"
+ti_read: ทิกเก็ตที่ต้องอ่าน
+ti_responded: "ตอบทิกเก็ตเมื่อ "
+ti_status: สถานะ
+ti_status_answer: ตอบกลับแล้ว
+ti_status_closed: ปิด
+ti_status_open: เปิด
+ti_subject: หัวข้อ
+ti_submit: ส่ง
+ti_username: ผู้เล่น
+tkb_all: ทั้งหมด
+tkb_datum: วันที่
+tkb_day: วัน
+tkb_diplomacy: การทูต
+tkb_exclude: ไม่รวม
+tkb_galaxy: กาแล็กซี
+tkb_gewinner: "<b>-ผู้ชนะ-</b>"
+tkb_gratz: "ทีมงานทุกคนขอแสดงความยินดีกับ 100 อันดับแรก "
+tkb_legende: "<b>คำอธิบาย: </b>"
+tkb_memorial: อนุสรณ์
+tkb_month: เดือน
+tkb_only: เท่านั้น
+tkb_owners: ผู้ใช้ที่เกี่ยวข้อง
+tkb_platz: อันดับ
+tkb_self: เฉพาะของตัวเอง
+tkb_timeframe: ช่วงเวลา
+tkb_top: หอเกียรติยศ
+tkb_units: ยูนิต
+tkb_verlierer: "<b>-ผู้แพ้-</b>"
+tkb_week: สัปดาห์
+tn_delete_mode: "บัญชีของคุณจะถูกลบเมื่อ %s"
+tn_player_title: จักรพรรดิ
+tn_vacation_mode: บัญชีของคุณอยู่ในโหมดพักร้อน
+tn_vacation_mode_kick: "<br><br>โปรดทราบ: โหมดพักร้อนจะถูกปิดอัตโนมัติหลังไม่ได้ใช้งาน 4 สัปดาห์"
+tn_vacation_mode_until: "บัญชีของคุณอยู่ในโหมดพักร้อนจนถึงอย่างน้อย %s"
+tr_exchange_done: "ซื้อขายเสร็จแล้ว!"
+tr_exchange_error: จำนวนทรัพยากรไม่ถูกต้องหรือไม่เพียงพอ
+tt_lvl: "เลเวล "
+tt_lv_short: Lv
+tt_requirements: เงื่อนไข
+tt_unlocks: ปลดล็อก
+tt_status_owned: สร้างแล้ว
+tt_status_available: พร้อมใช้
+tt_status_locked: ล็อกอยู่
+tt_hint: "วางเมาส์หรือเลือกเทคโนโลยีเพื่อดูเงื่อนไข (ด้านบน) และสิ่งที่มันปลดล็อก (ด้านล่าง) คลิกเพื่อปักหมุด กด Esc เพื่อล้าง"
+tt_foreign: "จำเป็นสำหรับหมวดนี้ แต่เป็นของหมวดอื่น"
+tt_none: ไม่มี
+tt_graph: ผังเทคโนโลยี
+type_mission_1: โจมตี
+type_mission_1_foreign: การโจมตีจากผู้อื่น
+type_mission_1_own: การโจมตีของตัวเอง
+type_mission_2: โจมตีร่วม
+type_mission_2_foreign: "กองเรือโจมตี ACS ของผู้อื่น"
+type_mission_2_friend: "กองเรือโจมตี ACS ฝ่ายเดียวกัน"
+type_mission_2_own: "กองเรือโจมตี ACS ของตัวเอง"
+type_mission_3: ขนส่ง
+type_mission_3_foreign: การขนส่งของผู้อื่น
+type_mission_3_own: การขนส่งของตัวเอง
+type_mission_4: ส่งประจำการ
+type_mission_4_foreign: การส่งประจำการของผู้อื่น
+type_mission_4_own: การส่งประจำการของตัวเอง
+type_mission_5: ตรึงกำลัง
+type_mission_5_foreign: การตรึงกำลังของผู้อื่น
+type_mission_5_own: การตรึงกำลังของตัวเอง
+type_mission_6: สอดแนม
+type_mission_6_foreign: การสอดแนมจากผู้อื่น
+type_mission_6_own: การสอดแนมของตัวเอง
+type_mission_7: ตั้งอาณานิคม
+type_mission_7_foreign: การตั้งอาณานิคมของผู้อื่น
+type_mission_7_own: การตั้งอาณานิคมของตัวเอง
+type_mission_7_own_return: การตั้งอาณานิคมของตัวเองขากลับ
+type_mission_8: รีไซเคิล
+type_mission_8_foreign: การรีไซเคิลของผู้อื่น
+type_mission_8_own: การรีไซเคิลของตัวเอง
+type_mission_9: ทำลาย
+type_mission_9_foreign: การทำลายของผู้อื่น
+type_mission_9_own: การทำลายของตัวเอง
+type_mission_10: โจมตีด้วยขีปนาวุธ
+type_mission_10_foreign: การโจมตีด้วยขีปนาวุธจากผู้อื่น
+type_mission_10_own: การโจมตีด้วยขีปนาวุธของตัวเอง
+type_mission_15: สำรวจ
+type_mission_15_foreign: การสำรวจของผู้อื่น
+type_mission_15_own: การสำรวจของตัวเอง
+type_mission_16: ค้าขาย
+type_mission_16_foreign: กองเรือตลาดของผู้อื่น
+type_mission_16_own: กองเรือตลาดของตัวเอง
+type_mission_17: โอน
+type_mission_17_foreign: การโอนจากผู้อื่น
+type_mission_17_own: การโอนของตัวเอง
+type_mission_20: โจมตี
+type_mission_21: สอดแนม
+type_mission_22: รีไซเคิล
+type_mission_return_foreign: การกลับของผู้อื่น
+type_mission_return_own: การกลับของตัวเอง
+type_planet_1: ดาวเคราะห์
+type_planet_2: ทุ่งเศษซาก
+type_planet_3: ดวงจันทร์
+type_planet_4: ฐานโจรสลัด
+type_planet_short_1: P
+type_planet_short_2: D
+type_planet_short_3: M
+type_planet_short_4: Pb
+user_level_0: ผู้เล่น
+user_level_1: ม็อดเดอเรเตอร์
+user_level_2: ผู้ปฏิบัติการ
+user_level_3: ผู้ดูแลระบบ
+whenbuildable: สร้างได้ใน
+write_message: เขียนข้อความ
+fl_cargo_options: ตัวเลือกการบรรทุก
+fl_cargo_preset: ค่าที่ตั้งไว้
+fl_cargo_needed: ที่ต้องใช้
+fl_cargo_select: เลือก
+fl_cargo_current_planet: ดาวเคราะห์ปัจจุบัน
+ui_skip_to_content: ข้ามไปที่เนื้อหา
+ui_menu: เมนู
+ui_rank: อันดับ
+ui_queue: คิว
+ui_queue_free: ช่องว่าง
+ui_points: คะแนน
+ui_close: ปิด
+ui_messages: ข้อความ
+ui_server_time: เวลาเซิร์ฟเวอร์
+ui_planet: ดาวเคราะห์
+ui_nav_empire: จักรวรรดิ
+ui_nav_universe: จักรวาล
+ui_nav_community: ชุมชน
+ui_nav_help: ช่วยเหลือ
+ui_nav_personal: ส่วนตัว
+al_applyform_reload: โหลดใหม่
+al_default_request_text: ผู้เล่นคนนี้ไม่ได้ทิ้งข้อความไว้
+al_diplo_ground: "เหตุผล:"
+al_diplo_war_end_confirm: "ต้องการยุติสงครามจริงหรือไม่?"
+al_do_you_really_want_to_go_out: "ต้องการออกจาก %s จริงหรือไม่?"
+al_events: เหตุการณ์
+al_founder_cant_leave_alliance: "ผู้ก่อตั้งจะเดินจากพันธมิตรไปเฉยๆ ไม่ได้"
+al_legend: คำอธิบาย
+al_legend_admin_alliance: จัดการพันธมิตร
+al_legend_check_requests: ดำเนินการใบสมัคร
+al_legend_create_circular: ส่งข้อความหมู่
+al_legend_disolve_alliance: ยุบพันธมิตร
+al_legend_kick_users: นำสมาชิกออก
+al_legend_right_hand: มือขวา
+al_legend_see_connected_users: ดูสถานะออนไลน์
+al_legend_see_requests: ดูใบสมัคร
+al_legend_see_users_list: ดูรายชื่อสมาชิก
+al_manage_change_name: เปลี่ยนชื่อพันธมิตร
+al_manage_change_tag: เปลี่ยนแท็กพันธมิตร
+al_no_events: "ยังไม่มีเหตุการณ์ใดๆ เกิดขึ้น"
+al_no_request_pending: "มีใบสมัครทั้งหมด %d ใบ"
+al_request_from_user: ใบสมัครจากผู้เล่น
+al_tfkristall: คริสตัลในทุ่งเศษซากรวม
+al_tfmetall: โลหะในทุ่งเศษซากรวม
+al_unitsloos: ยูนิตที่สูญเสีย
+al_unitsshut: ยูนิตที่ทำลาย
+al_view_events: แสดงเหตุการณ์
+bd_add_to_list: เพิ่มเข้าคิวก่อสร้าง
+bd_build_defenses: สร้าง
+bd_completed: เสร็จแล้ว
+bd_finished: เสร็จแล้ว
+bd_lab_required: สร้างห้องวิจัยบนดาวเคราะห์ดวงนี้ก่อน
+bd_max_lvl: "เลเวลสูงสุด:"
+bd_on: บน
+bd_ready: เสร็จแล้ว
+bd_research: วิจัย
+bu_back: กลับ
+cff_fleet_own: กองเรือ
+cff_fleet_target: กองเรือ
+cr_armor: เกราะ
+cr_destroyed: "ถูกทำลาย!"
+cr_first_round: "(กองเรือถูกทำลายในรอบที่ 1)"
+cr_lost_contact: ขาดการติดต่อกับกองเรือของคุณ
+cr_shields: โล่
+cr_total: รวม
+cr_type: ประเภท
+cr_weapons: อาวุธ
+css_server_maintrace: "เซิร์ฟเวอร์อยู่ระหว่างการบำรุงรักษา<br><br>ตอนนี้เกมปิดอยู่<br><br>เหตุผล: %s"
+fa_galaxy_not_exist: ไม่มีกาแล็กซีนี้
+fa_mission_not_available: ภารกิจนี้ใช้ไม่ได้
+fa_not_attack_yourself: โจมตีตัวเองไม่ได้
+fa_system_not_exist: ไม่มีระบบนี้
+fgp_require: ต้องมี
+fl_deploy_only_your_planets: ส่งประจำการได้เฉพาะดาวเคราะห์ของคุณเอง
+fl_expedition_fleets_limit: คุณถึงขีดจำกัดการสำรวจแล้ว
+fl_no_empty_derbis: "ไม่มีทุ่งเศษซากที่นั่น!"
+fl_no_hold_depot: เป้าหมายไม่มีคลังพันธมิตร
+fl_not_ally_deposit: เป้าหมายไม่มีคลังพันธมิตร
+fl_planet_populed: "ตั้งอาณานิคมบนดาวเคราะห์แล้ว!"
+fl_register_shorcut: สร้าง
+fl_shortcuts: ทางลัด
+fl_target_not_exists: ไม่มีดาวเคราะห์เป้าหมาย
+gl_avaible_grecyclers: ยานรีไซเคิลยักษ์
+gl_collect: เก็บเกี่ยว
+gl_free: ว่าง
+gl_free_desc: "ดาวเคราะห์ขนาดใหญ่ที่ไม่มีคนอยู่ เป็นทำเลที่เหมาะสำหรับอาณานิคมใหม่"
+gl_name_activity: "ชื่อ (กิจกรรม)"
+gl_points: คะแนน
+gl_with: " ด้วย "
+gl_wreckfield: ทุ่งซากยาน
+gl_wreckfield_short: WF
+gl_yes: ใช่
+in_bonus: "โบนัส:"
+in_dest_durati: ระยะเวลา
+in_jump_gate_available: จำนวน
+in_needed: ที่ต้องมี
+in_range: ระยะเซนเซอร์
+in_title_head: ข้อมูลของ
+invalid_action: "การกระทำไม่ถูกต้อง!"
+lm_disclamer: ข้อมูลผู้จัดทำ
+lm_forums: บอร์ด
+lm_queue: คิว
+ma_big_laser: ป้อมเลเซอร์หนัก
+ma_big_protection_shield: โดมโล่ใหญ่
+ma_buster_canyon: ป้อมพลาสมา
+ma_gauss_canyon: ปืนเกาส์
+ma_ionic_canyon: ปืนใหญ่ไอออน
+ma_misil_launcher: เครื่องยิงจรวด
+ma_small_laser: ป้อมเลเซอร์เบา
+ma_small_protection_shield: โดมโล่เล็ก
+mg_action: การกระทำ
+mg_date: วันที่
+mg_from: จาก
+mg_game_message: ข้อความเกม
+mg_game_operators: ผู้ดูแลเกม
+mg_message_type: ประเภทข้อความ
+mg_msg_sended: "ส่งข้อความแล้ว!"
+mg_no_text: โปรดเขียนข้อความก่อน
+mg_receiver_block_pm: ผู้เล่นคนนี้บล็อกข้อความส่วนตัว
+mg_show_only_header_spy_reports: แสดงรายงานสอดแนมเพียงบางส่วน
+mg_to: ถึง
+mg_total: รวม
+mg_write_mail_to_ops: เขียนอีเมลถึง
+op_deactivate_ipcheck: "ปิดการตรวจสอบ IP"
+op_deactivate_ipcheck_descrip: "การตรวจสอบ IP จะออกจากระบบให้อัตโนมัติเพื่อความปลอดภัยหาก IP ของคุณเปลี่ยน หรือมีสองคนใช้บัญชีเดียวกันจาก IP ต่างกันพร้อมกัน การปิดจะลดความปลอดภัยของบัญชีคุณ!"
+op_email_adress_descrip: "คุณเปลี่ยนอีเมลนี้ได้ทุกเมื่อ หากคุณไม่เปลี่ยนอีก 7 วัน อีเมลนั้นจะกลายเป็นอีเมลถาวรของคุณ"
+op_error: ข้อผิดพลาด
+op_password_changed: เปลี่ยนรหัสผ่านแล้ว
+op_permanent_email_adress: อีเมลถาวร
+op_seconds: วินาที
+op_send_report: รายงานสอดแนม
+op_show_planetmenu: แสดงเมนูดาวเคราะห์
+op_show_skin: แสดงสกิน
+op_toolt_data: แสดงทูลทิปสำหรับ
+op_username_changed: เปลี่ยนชื่อผู้ใช้แล้ว
+ov_moving_fleets: กองเรือที่กำลังเคลื่อนที่
+ov_no_admins_online: "ตอนนี้ไม่มีแอดมินออนไลน์!"
+ov_noreflink: คุณยังไม่ได้ชวนผู้ใช้คนไหนมาเล่น
+ov_online: ออนไลน์
+ov_players: ผู้เล่น
+ov_reflink: ลิงก์ชวนเพื่อน
+tkb_missing: "<br>สูญหายในการรบ: บัญชีผู้ใช้ไม่มีอยู่แล้ว"
+tkb_unentschieden: "<b>-เสมอ-</b>"
+source_code: ซอร์สโค้ด
+teamMemberName: ชื่อ
+teamMemberContact: ติดต่อ
+teamMemberAbout: เกี่ยวกับ
+teamEmpty: ยังไม่มีการเพิ่มสมาชิกทีม
+lm_board: บอร์ด

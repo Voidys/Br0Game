@@ -1,0 +1,23 @@
+Hallo {USERNAME},
+
+Bedankt voor je registratie bij {GAMENAME}
+
+Voordat we je account kunnen activeren, is nog één stap nodig.
+Let op: deze stap is verplicht om een geregistreerde gebruiker 
+te worden. Je hoeft maar één keer op de onderstaande link te klikken 
+om je identiteit te bevestigen.
+
+Klik op de volgende activeringslink om je registratie 
+te voltooien:
+
+{VERTIFYURL}
+
+Je inloggegevens:
+
+E-mail : {EMAIL}
+
+Heb je problemen met de automatische registratie? Maak dan een ticket aan op onze Discord: 
+{DISCORD}
+
+Met vriendelijke groet,
+{GAMENAME} Team

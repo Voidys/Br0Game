@@ -300,8 +300,7 @@ al_diplo_text: Demande / motif
 al_diplo_war: Déclaration de guerre
 al_diplo_war_end: Déclaration de paix
 al_diplo_war_end_confirm: Vraiment mettre fin à la guerre ?
-al_diplo_war_end_mes: Le pacte « %s » entre les alliances <b>%s</b> et <b>%s</b>
-  vient de prendre fin.
+al_diplo_war_end_mes: Fin du traité (%s) entre les alliances <b>%s</b> et <b>%s</b>.
 al_diplo_war_mes: 'L''alliance <b>%1$s</b> a déclaré « %3$s » à <b>%2$s</b> ! <br>Motif :<br>%4$s<br><br>Information :
   la guerre débutera dans <b>24 heures</b> ; la règle anti-bash sera alors suspendue.<br>Pour
   en savoir plus, consulte le <a href="./?page=rules" target="_blank">[Règlement]</a>.'

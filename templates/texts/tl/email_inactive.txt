@@ -1,0 +1,8 @@
+Kumusta {USERNAME},
+
+Hindi ka pa nakakapag-log in sa {GAMENAME} mula noong {LASTDATE}. Kung gusto mo pa ring manatiling miyembro ng aming community, mag-log in gamit ang impormasyon ng account mo, kung hindi ay mabubura ang account mo.
+
+Kung nakalimutan mo ang password mo, pumunta sa {HTTPPATH} at i-click ang "Nakalimutan ang password". Makakatanggap ka sa loob ng ilang minuto ng email na may bago mong password.
+
+Mabuhay,
+Team ng {GAMENAME}

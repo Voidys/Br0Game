@@ -289,7 +289,7 @@ al_diplo_text: İstek / gerekçe
 al_diplo_war: Savaş ilanı
 al_diplo_war_end: Barış ilanı
 al_diplo_war_end_confirm: Gerçekten savaşı bitirmek istiyor musun?
-al_diplo_war_end_mes: <b>%s</b> ve <b>%s</b> ittifakları arasındaki %s az önce sona erdi.
+al_diplo_war_end_mes: <b>%2$s</b> ve <b>%3$s</b> ittifakları arasındaki %1$s az önce sona erdi.
 al_diplo_war_mes: '<b>%1$s</b> ittifakı <b>%2$s</b> ittifakına %3$s ilan etti! <br>Gerekçe:<br>%4$s<br><br>Bilgi: Savaş <b>24 saat</b> sonra başlar; o andan itibaren Bash kuralı askıya alınır.<br>Daha fazla bilgi için <a href="./?page=rules" target="_blank">Kurallar</a> sayfasına bak.'
 al_diplo_withdraw: Anlaşma isteği geri çekildi.
 al_diplo_withdraw_confirm: Bu anlaşma isteğini geri çekmek istiyor musun?
@@ -572,10 +572,10 @@ cff_mission_own_expo_2: 'Sana ait %s, %s %s %s konumundan çıkıp %s konumunda 
 cff_mission_own_mip: '%d roketlik saldırı: %s %s %s konumundan %s %s %s konumuna.'
 cff_mission_own_recy_0: 'Sana ait %s, %s %s %s konumundan çıkıp %s konumundaki enkaz alanına ulaştı. Görev: %s'
 cff_mission_own_recy_1: 'Sana ait %s, %s konumundaki enkaz alanından %s %s %s gezegenine dönüyor. Görev: %s'
-cff_mission_target_bad: '%s oyuncusuna ait düşman %s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
-cff_mission_target_good: '%s oyuncusuna ait dost %s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_target_bad: '%2$s oyuncusuna ait düşman %1$s, %3$s %4$s %5$s konumundan çıkıp %6$s %7$s %8$s konumuna ulaştı. Görev: %9$s'
+cff_mission_target_good: '%2$s oyuncusuna ait dost %1$s, %3$s %4$s %5$s konumundan çıkıp %6$s %7$s %8$s konumuna ulaştı. Görev: %9$s'
 cff_mission_target_mip: 'Roket saldırısı (%d): %s oyuncusunun %s %s %s konumundan %s %s %s konumuna.'
-cff_mission_target_stay: '%s oyuncusuna ait dost %s, %s %s %s konumundan çıkıp %s %s %s yörüngesinde bekliyor. Görev: %s'
+cff_mission_target_stay: '%2$s oyuncusuna ait dost %1$s, %3$s %4$s %5$s konumundan çıkıp %6$s %7$s %8$s yörüngesinde bekliyor. Görev: %9$s'
 cff_no_fleet_data: Filo verisi yok
 cff_ships: ' birim'
 colonyWarn: Bir sistemde 2'den fazla gezegen kolonileştirmeden önce uyar
@@ -588,9 +588,9 @@ cr_total: Toplam
 cr_type: Tür
 cr_weapons: Silahlar
 css_account_banned_expire: >-
-  You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
+  %1$s tarihine kadar banlandın!<br>Soruların varsa <a style="color: -webkit-link;" href="%2$s">bize ulaş (bağlantı)</a>.
 css_account_banned_message: Hesabın banlandı.
-css_account_banned_reason: 'Reason: %s'
+css_account_banned_reason: 'Sebep: %s'
 css_goto_homeside: <a href="./">Ana sayfaya git</a>
 css_server_maintrace: 'Sunucu bakımda<br><br>Oyun şu an kapalı.<br><br>Sebep: %s'
 custom_fleet: Özel filolar
@@ -1605,9 +1605,9 @@ market_confirm_are_you_sure: "Emin misin?"
 market_info_description: 'Sol taraf: satış teklifleri | Sağ taraf: istenen fiyat<br><br>&bull; Kabul edilen teklifler iptal edilemez &bull;<br>&bull; Bazı teklifler push kuralı yüzünden kabul edilemez &bull;<br>&bull; Satın alınan filonun yakıtını alıcı öder &bull;'
 market_info_header: "Pazar yeri"
 market_info_no_return: "Pazar yeri teklifleri iptal edilemez!"
-market_msg_trade_bought: Filon %s %s, %s %s, %s %s ile %s konumuna uçuyor ve maliyeti %s %s.
+market_msg_trade_bought: Filon %2$s %3$s, %4$s %5$s, %6$s %7$s ile %1$s konumuna uçuyor ve maliyeti %8$s %9$s.
 market_msg_trade_from: "Pazar yeri"
-market_msg_trade_sold: Filon %s %s, %s %s, %s %s ile %s konumuna uçuyor.
+market_msg_trade_sold: Filon %2$s %3$s, %4$s %5$s, %6$s %7$s ile %1$s konumuna uçuyor.
 market_msg_trade_topic: "Ticaret durumu"
 market_p_buy: "Satın al"
 market_p_cost_amount: "Miktar"

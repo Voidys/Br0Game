@@ -1,0 +1,72 @@
+dir: ltr
+js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
+months:
+- jan
+- feb
+- mrt
+- apr
+- mei
+- jun
+- jul
+- aug
+- sep
+- okt
+- nov
+- dec
+php_tdformat: d-m-Y, H:i:s
+short_day: d
+short_hour: u
+short_minute: m
+short_second: s
+timezones:
+  '-1': '[UTC - 1] Azoren-standaardtijd, Kaapverdische tijd, Oost-Groenlandse tijd'
+  '-2': '[UTC - 2] Fernando de Noronha-tijd, Zuid-Georgia en de Zuidelijke Sandwicheilanden-tijd'
+  '-3': '[UTC - 3] Amazone-standaardtijd, Centraal-Groenlandse tijd'
+  '-3.5': '[UTC - 3:30] Newfoundland-standaardtijd'
+  '-4': '[UTC - 4] Atlantische standaardtijd'
+  '-4.5': '[UTC - 4:30] Venezolaanse standaardtijd'
+  '-5': '[UTC - 5] Eastern Standard Time (Oostkust VS)'
+  '-6': '[UTC - 6] Central Standard Time (Midden-VS)'
+  '-7': '[UTC - 7] Mountain Standard Time (Rocky Mountains)'
+  '-8': '[UTC - 8] Pacific Standard Time (Westkust VS)'
+  '-9': '[UTC - 9] Alaska-standaardtijd, Gambiereilanden-tijd'
+  '-9.5': '[UTC - 9:30] Marquesaseilanden-tijd'
+  '-10': '[UTC - 10] Hawaii-Aleoetische standaardtijd, Cookeilanden-tijd'
+  '-11': '[UTC - 11] Niue-tijd, Samoa-standaardtijd'
+  '-12': '[UTC - 12] Bakereiland-tijd'
+  '0': '[UTC] Westeuropese tijd, Greenwich Mean Time'
+  '1': '[UTC + 1] Midden-Europese tijd, West-Afrikaanse tijd'
+  '2': '[UTC + 2] Oost-Europese tijd, Centraal-Afrikaanse tijd'
+  '3': '[UTC + 3] Moskou-standaardtijd, Oost-Afrikaanse tijd'
+  '3.5': '[UTC + 3:30] Iraanse standaardtijd'
+  '4': '[UTC + 4] Golf-standaardtijd, Samara-standaardtijd'
+  '4.5': '[UTC + 4:30] Afghaanse tijd'
+  '5': '[UTC + 5] Pakistaanse standaardtijd, Jekaterinburg-standaardtijd'
+  '5.5': '[UTC + 5:30] Indiase standaardtijd, Sri Lankaanse tijd'
+  '5.75': '[UTC + 5:45] Nepalese tijd'
+  '6': '[UTC + 6] Bengalese tijd, Bhutaanse tijd, Novosibirsk-standaardtijd'
+  '6.5': '[UTC + 6:30] Cocoseilanden-tijd, Myanmarese tijd'
+  '7': '[UTC + 7] Indochinese tijd, Krasnojarsk-standaardtijd'
+  '8': '[UTC + 8] Chinese standaardtijd, West-Australische standaardtijd, Irkoetsk-standaardtijd'
+  '8.75': '[UTC + 8:45] Zuidoost-West-Australische standaardtijd'
+  '9': '[UTC + 9] Japanse standaardtijd, Koreaanse standaardtijd, Chita-standaardtijd'
+  '9.5': '[UTC + 9:30] Centraal-Australische standaardtijd'
+  '10': '[UTC + 10] Oost-Australische standaardtijd, Vladivostok-standaardtijd'
+  '10.5': '[UTC + 10:30] Lord Howe-standaardtijd'
+  '11': '[UTC + 11] Salomonseilanden-tijd, Magadan-standaardtijd'
+  '11.5': '[UTC + 11:30] Norfolkeiland-tijd'
+  '12': '[UTC + 12] Nieuw-Zeelandse tijd, Fijische tijd, Kamtsjatka-standaardtijd'
+  '12.75': '[UTC + 12:45] Chathameilanden-tijd'
+  '13': '[UTC + 13] Tongaanse tijd, Phoenixeilanden-tijd'
+  '14': '[UTC + 14] Line-eilanden-tijd'
+week_day:
+- zo
+- ma
+- di
+- wo
+- do
+- vr
+- za
+php_dateformat: d-m-Y
+php_timeformat: H:i:s
+lang_group_fun: "Fun-talen"

@@ -73,7 +73,7 @@ class RegisterController extends AbstractAccountController
                 'timezones' => get_timezone_selector(),
                 'ImageSkins' => Theme::getAvailableImageThemes(),
                 'CssSkins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
+                'lang' => $LNG->getLanguageOptions(),
             ],
             'accountName' => $accountName,
             'universe' => $config->uni_name,

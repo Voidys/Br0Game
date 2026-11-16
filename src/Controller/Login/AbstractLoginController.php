@@ -166,7 +166,7 @@ abstract class AbstractLoginController implements GameControllerInterface
                 'UNI'					=> $this->universe()->current(),
                 'version'				=> $config->version,
                 'REV'					=> substr($config->version, -4),
-                'languages'				=> (new \App\Game\Core\LanguageCatalog())->getAllowedLangs(false),
+                'languages'				=> $LNG->getLanguageOptions(),
             ];
         }
 

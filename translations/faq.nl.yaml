@@ -1,0 +1,262 @@
+faq_overview: FAQ
+questions:
+  '1':
+    '1':
+      body: '<p>In dit onderdeel behandelen we de belangrijkste gebouwen: wat je eerst bouwt en waar elk gebouw voor dient. Een bloeiend rijk begint met het in een verstandige volgorde bouwen ervan.</p>
+
+        <h3>Zonne-energiecentrale</h3>
+
+        <p>Bouw deze als eerste. Mijnen hebben energie nodig om metaal, kristal en deuterium te produceren. Als de centrale klaar is, laten de grondstoffenbalk en de pagina Productie zien hoeveel energie je hebt.</p>
+
+        <h3>Metaalmijn</h3>
+
+        <p>Metaal is een van de drie grondstoffen. Bijna alles wat je bouwt of onderzoekt kost metaal, dus deze mijn uitbreiden is een prioriteit. Houd hem in het begin enkele niveaus voor op je andere mijnen.</p>
+
+        <h3>Kristalmijn en deuteriumsynthesizer</h3>
+
+        <p>Kristal wordt gebruikt voor gebouwen, schepen en onderzoek. Je produceert er minder van dan van metaal, waardoor het waardevoller is; later in het spel is er vaak felle concurrentie om. Deuterium is brandstof voor je vloten, kan worden verbrand voor energie in de fusiecentrale en is nodig voor verschillende belangrijke gebouwen en onderzoeken (waaronder het onderzoekslab).</p>
+
+        <p>Meer informatie: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+      title: Stap 1
+    '2':
+      body: '<p>Om je rijk te laten groeien en met andere spelers om te gaan, heb je meer gebouwen nodig. Met onderzoek en een werf kun je een vloot en planetaire verdediging opbouwen.</p>
+
+        <h3>Werf</h3>
+
+        <p>Alle schepen (en verdedigingen) worden hier gebouwd. De werf is al vroeg beschikbaar, maar veel scheepsklassen vereisen nog extra onderzoek. Het menu Technologieën toont de vereisten voor elk schip en elke verdediging. Hogere niveaus van de werf bouwen sneller.</p>
+
+        <h3>Onderzoekslab</h3>
+
+        <p>Hier start je onderzoek. Het ontgrendelt gebouwen, schepen, verdedigingen en verder onderzoek, en sommige technologieën geven ook bonussen op dingen die je al hebt. Het onderzoekslab uitbreiden versnelt onderzoek.</p>
+
+        <h3>Robotfabriek</h3>
+
+        <p>De robotfabriek is onmisbaar. Hogere niveaus verkorten de bouwtijd van gebouwen en versnellen ook de scheepsproductie. Worden de bouwtijden lang, breid dan de robotfabriek uit om ze weer te verkorten.</p>'
+      title: Stap 2
+    '3':
+      body: '<p>In dit onderdeel gaat het over de verdediging van je planeet en je eerste vlootbewegingen: hoe je vloten verstuurt en hoe je met andere spelers omgaat.</p>
+
+        <h3>Melkwegoverzicht</h3>
+
+        <p>Gebruik het om andere spelers te vinden. Je ziet details over andere planeten en kunt vanuit dit overzicht delen van je vloot direct versturen. Je kunt ook spelers een bericht sturen, of een planeet bespioneren als je spionagesondes beschikbaar hebt.</p>
+
+        <h3>Vloten versturen</h3>
+
+        <p>Vloten kun je versturen vanuit het melkwegoverzicht of vanuit het menu Vloot. Kies eerst hoeveel schepen van elk type je stuurt. Stel dan het doel in (coördinaten uit het melkwegoverzicht) en de snelheid. Kies tot slot de missie, zoals Aanvallen, Stationeren, Vasthouden, Recyclen of Transport.</p>
+
+        <h3>Verdediging</h3>
+
+        <p>Zodra je een werf hebt, kun je ook verdedigingen bouwen. Ze beschermen de planeet en vechten samen met elke vloot die aanwezig is wanneer een aanval aankomt. In tegenstelling tot schepen wordt ongeveer 70% van de vernietigde verdedigingen na het gevecht gerepareerd.</p>'
+      title: Stap 3
+    category: Tips voor beginners
+  '2':
+    '1':
+      body: '<h3>Raiden</h3>
+
+        <p>Raiden betekent andere spelers aanvallen om hun grondstoffen te nemen. Veelvoorkomende typen:</p>
+
+        <ul>
+
+        <li>Farmraid</li>
+
+        <li>Vlootaanval</li>
+
+        <li>Puinveldraid</li>
+
+        <li>Onderscheppen</li>
+
+        </ul>
+
+        <h3>Farmraid</h3>
+
+        <p>Dit zijn de meest voorkomende aanvallen in een universum. Je bespioneert planeten in de buurt en stuurt kleine vloten met genoeg laadruimte en vuurkracht om lichte verdediging te doorbreken en toch winst te maken: de buitgemaakte grondstoffen moeten groter zijn dan het verbruikte deuterium plus je eigen verliezen.</p>
+
+        <h3>Vlootaanval</h3>
+
+        <p>De hoogste klasse van het raiden: jagen op de vloten van andere spelers. Naast spionagesondes en geluk tellen een sensor phalanx en goede timing mee. Als je een vloot spot die de moeite waard is, moet je hem nog steeds te pakken krijgen en het puin recyclen. Dat is vaak lastig, want winstgevende vloten kunnen je recycler-capaciteit overschrijden — dan moet je naast de gevechtsvloot ook recyclers en eventueel ACS-partners coördineren.</p>
+
+        <h3>Puinveldraid</h3>
+
+        <p>De makkelijkste en minst populaire manier om winst te maken: puinvelden oogsten die andere spelers hebben gemaakt. Puin is van wie het inzamelt, dus velden stelen is een veelvoorkomende bron van wrok.</p>
+
+        <h3>Onderscheppen</h3>
+
+        <p>De taak van een fleeter is vloot bouwen en vloot vernietigen. Je vindt niet altijd stilstaande schepen, dus goede spelers pakken betekent vaak ze onderscheppen terwijl ze hun vloot saven of een aanval vliegen. Dat is niet makkelijk; er zijn manieren om je ertegen te verdedigen.</p>
+
+        <ul>
+
+        <li><p>Een maan maakt onderscheppen makkelijker, omdat een sensor phalanx vlootbewegingen op planeten binnen bereik kan scannen (geen manen). Vind je een vloot die het vangen waard is, bereken dan zijn resterende vliegtijd — vooral de terugvliegtijd na aankomst. De motorniveaus (verbrandingsmotor, impulsaandrijving, hyperruimteaandrijving) uit een spionagerapport zijn genoeg om dit uit te rekenen, met de hand of met een vliegtijdcalculator. Een nauwkeurige klok helpt. Time je vloot en recyclers zo dat ze ongeveer 3–5 seconden na het doelwit op hun planeet of maan aankomen. Ook recyclers moeten getimed worden.</p></li>
+
+        <li><p>Om een vloot te onderscheppen die van een maan naar een puinveld vliegt, heb je een ruwe lanceertijd nodig. Maak een zichtbaar puinveld op de plekken waar je denkt dat ze gaan oogsten (bijvoorbeeld met spionagesondes). Bereken hoe lang hun vloot erheen doet, houd het stelsel in de gaten en ververs tot het veld verdwijnt. Noteer die tijd, tel hun terugvlucht erbij op en time je vloot en recyclers een paar seconden na die aankomst.</p>
+
+        <p><b>Let op:</b> dit werkt niet altijd. Een recycler die vooruit wordt gestuurd om het veld eerst leeg te halen is een veelgebruikte tegenmaatregel.</p></li>
+
+        <li>Een andere vorm van onderscheppen is vasthouden op de planeet van een vriend om hem te beschermen, zodat aanvallers moeten terugroepen omdat de verdedigende vloot te sterk zou zijn. Het risico om zo gepakt te worden kun je verkleinen met een savescan.</li>
+
+        <li><p>Stationeert een speler van de ene planeet naar de andere en roept hij daarna terug, dan verdwijnt de vloot van de sensor phalanx. Let op zijn savepatroon (wanneer hij lanceert en wanneer hij terugroept). Verwacht je een terugroep, phalanx de planeet dan elke seconde. Zodra de vloot verdwijnt, noteer je de tijd, tel je de terugvlucht erbij op en kom je ongeveer 4–6 seconden later aan met vloot en recyclers.</p>
+
+        <p>Saven ze van een maan naar een puinveld en sturen ze recyclers vooruit, dan is onderscheppen bijna onmogelijk tenzij je de maan vernietigt. Stuur sterrenjagers met de missie Vernietigen. Is de maan weg, dan keert de vloot terug naar de planeet; phalanx die planeet en plan jezelf een paar seconden achter hen.</p>
+
+        <p>Al deze technieken werken veel beter als je de gewoontes van het doelwit kent — bijvoorbeeld een save elke avond om 23:00, of online komen om 12:00. Bestudeer de speler voordat je gaat onderscheppen.</p></li>
+
+        </ul>
+
+        <p>Meer in de wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Vloot saven</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor phalanx</a>.</p>'
+      title: Raiden
+    '2':
+      body: '<h3>Aanvallen met ACS</h3>
+
+        <p>Om samen aan te vallen, stuur je eerst een vloot met de missie Aanvallen naar het doel. Open na de lancering het menu Vloot en gebruik ACS om die vloot om te zetten in een ACS-groep. Daar kun je de groep hernoemen en andere spelers uitnodigen; de speler die de aanval is gestart wordt automatisch uitgenodigd. Elke uitgenodigde speler stuurt vervolgens zijn eigen schepen naar dezelfde coördinaten met de missie Alliantie-aanval.</p>
+
+        <p>De groep vliegt altijd zo lang als de langzaamste deelnemende vloot. Snellere vloten die later aansluiten verkorten de resterende tijd niet. Tragere vloten verlengen de resterende tijd tot hun eigen vliegtijd. Meestal kunnen maximaal 5 spelers en 16 vloten meedoen aan één ACS-aanval (universuminstellingen kunnen afwijken). Een aansluitende vloot mag de resterende vliegtijd met hoogstens 30% verlengen. Resteren er 100 minuten, dan mag een aansluitende vloot er maximaal 130 minuten over doen.</p>
+
+        <p><b>Waarschuwing:</b> als de oprichter van de ACS terugroept, wordt elke vloot in de groep ook teruggeroepen.</p>
+
+        <h3>Verdedigen met ACS</h3>
+
+        <p>Word je aangevallen, dan kunnen alliantieleden en vrienden helpen. Zij sturen een vloot naar de coördinaten die worden aangevallen, kiezen hoe lang ze blijven en gebruiken de missie Vasthouden. Naast het vluchtdeuterium worden bij de lancering extra vasthoudkosten berekend, afhankelijk van vlootgrootte en duur. Zolang ze vasthouden, vechten ze mee in elk gevecht op die planeet of maan en verschijnen ze in spionagerapporten alsof het jouw schepen zijn. Time het vasthouden zo dat ze kort vóór de aanvaller aankomen, zodat een savescan ze minder snel ziet. Spelers die vasthouden kunnen op elk moment terugroepen via het menu Vloot; anders wacht de vloot de vasthoudtijd af en keert terug naar huis.</p>
+
+        <h3>Deuterium per 1 uur vasthouden</h3>
+
+        <p>Klein vrachtschip: 5<br>
+
+        Groot vrachtschip: 5<br>
+
+        Licht gevechtsschip: 2<br>
+
+        Zwaar gevechtsschip: 7<br>
+
+        Kruiser: 30<br>
+
+        Slagschip: 50<br>
+
+        Kolonisatieschip: 100<br>
+
+        Recycler: 30<br>
+
+        Spionagesonde: 1/10<br>
+
+        Bommenwerper: 100<br>
+
+        Vernietiger: 100<br>
+
+        Sterrenjager: 1/10</p>'
+      title: Alliantiegevecht (ACS)
+    '3':
+      body: '<p>Een maan kan ontstaan wanneer er een puinveld van minstens 100.000 eenheden wordt gemaakt (1% kans op een maan). De kans is begrensd op 20%, hoe groot het veld ook is.</p>
+
+        <h3>Algemeen</h3>
+
+        <p>Manen kun je net als planeten hernoemen, maar “(Maan)” blijft in de naam staan. Je kunt maximaal één maan per planeet hebben. Met een maan kun je je vloot saven buiten het zicht van een sensor phalanx, dus het is de moeite waard er relatief vroeg een te maken. Op een maan kun je robotfabriek, werf, metaalopslag, kristalopslag, deuteriumtank, alliantiedepot, maanbasis, sensor phalanx en sprongpoort bouwen.</p>
+
+        <h3>Moonshot</h3>
+
+        <p>Een moonshot is het bewust vernietigen van schepen om een puinveld te maken. Lichte gevechtsschepen zijn de gebruikelijke keuze: bij 30% van de vloot en 0% van de verdediging naar puin leveren 1.667 lichte gevechtsschepen een maankans van 20% op. Ze zijn goedkoop om te verliezen en komen heel dicht bij het maximum. Als een sterkere speler lichte gevechtsschepen van een zwakkere vernietigt, mag iedereen het puin oogsten. Valt een zwakkere speler een sterkere aan met schepen die bedoeld zijn om te sneuvelen, dan mag alleen de zwakkere oogsten — anders is het pushen. Manen en maanpogingen vallen onder de pushregels.</p>
+
+        <p>In een universum waar ook verdediging puin oplevert, is het vaak beter om verdediging te bouwen en die in meerdere golven te laten kapotschieten voor meerdere maanpogingen. 3.334 raketwerpers of 3.334 kleine lasers is een gebruikelijke keuze.</p>
+
+        <p>Wanneer een maan ontstaat, meldt het gevechtsrapport dat de enorme hoeveelheden vrij metaal en kristal samenklonteren en een satelliet rond de planeet vormen.</p>
+
+        <p>Maankans tussen 1% en 19%: willekeurige grootte. Maankans van 20%: meer dan 8.000 km diameter. Een maan is nooit groter dan 8.944 km.</p>
+
+        <h3>Gebouwen</h3>
+
+        <p>Opslagen zijn op een maan meestal niet de moeite waard omdat er niets wordt geproduceerd. Een werf is ook zelden nuttig: de bouwtijden zijn lang en je kunt schepen op de planeet bouwen. Een alliantiedepot is omstreden; het neemt ook waardevolle velden in beslag.</p>
+
+        <p>De drie gebouwen die alleen op manen kunnen:</p>
+
+        <ul>
+
+        <li><p><b>Maanbasis</b><br>Voegt bouwbare velden toe: 3 per niveau, waarvan er één wordt ingenomen door de volgende upgrade van de maanbasis.</p></li>
+
+        <li><p><b>Sensor phalanx</b><br>Toont vlootbewegingen op vijandelijke planeten (geen manen). Het bereik neemt met elk niveau toe.</p></li>
+
+        <li><p><b>Sprongpoort</b><br>Verplaatst schepen onmiddellijk van de ene maan naar de andere. Grondstoffen kunnen niet mee. Na een sprong heeft de poort tijd nodig om af te koelen (meestal een uur), anders oververhit hij.</p></li>
+
+        </ul>
+
+        <p>Een gebruikelijke bouwvolgorde voor manen:<br>
+
+        <b>Legenda:</b><br>
+
+        MB – maanbasis<br>
+
+        SP – sensor phalanx<br>
+
+        ST – sprongpoort<br>
+
+        RB – robotfabriek</p>
+
+        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
+
+        Daarna kun je de sensor phalanx blijven uitbreiden als je de grondstoffen hebt. Je kunt ook enkele niveaus van de robotfabriek afbreken en die velden aan de phalanx geven.</p>
+
+        <h3>Vernietiging</h3>
+
+        <p>Een maan kan alleen met sterrenjagers worden vernietigd. Kies in het missiemenu Vernietigen in plaats van Aanvallen. Elke vloot op de maan moet eerst worden vernietigd; overlevende sterrenjagers kunnen alsnog verloren gaan wanneer de maan zelf wordt vernietigd. Het vernietigen van een maan levert geen puinveld op.</p>
+
+        <h3>Maanaanvallen met sterrenjagers</h3>
+
+        <p>Kans op maanvernietiging: (100 − sqrt(maangrootte)) × sqrt(aantal sterrenjagers). Kans dat de aanvallende sterrenjagers worden vernietigd: sqrt(maangrootte) / 2. Grotere manen zijn riskanter om te vernietigen.</p>
+
+        <h3>Maankans en grootte</h3>
+
+        <p>100.000 puineenheden geven 1% maankans. Maximale kans: 20%. Na een latere wijziging heeft elke maan het maximale aantal bouwbare velden (79). Eerder was dit FLOOR((diameter / 1000)²). Grootst mogelijke maan: 8.944 km diameter, 79 velden.</p>
+
+        <p>Meer in de wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Manen</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+      title: Manen
+    '4':
+      body: '<h3>Hoe richt ik een alliantie op?</h3>
+
+        <p>Open Alliantie in het linkermenu en kies dan Richt je eigen alliantie op. Voer een alliantietag (de korte afkorting) en een alliantienaam in. Voorbeeld: een alliantie met de naam “The Top Ally” zou de tag “DTA” kunnen gebruiken.</p>
+
+        <p>Alleen letters, cijfers en spaties zijn toegestaan. Na het invoeren van tag en naam klik je op Aanmaken. Is die naam of tag al bezet, dan krijg je een foutmelding en moet je iets anders kiezen. Bij succes zie je een bevestiging; Doorgaan opent je nog lege alliantiemenu, dat je altijd kunt bereiken via Alliantie in het linkermenu. Bovenaan zie je je tag en naam.</p>
+
+        <p>Daaronder vind je:<br>
+
+        Leden: elk lid met punten, coördinaten van de thuisplaneet, datum van toetreding en online-status. Klik op de kolomkoppen om te sorteren.<br>
+
+        Jouw rang: de naam van je rang, plus een link naar alliantiebeheer.<br>
+
+        Rondschrijven: stuur een bericht naar de hele alliantie of naar geselecteerde rangen.</p>
+
+        <h3>Alliantiebeheer</h3>
+
+        <p>Met Rangen stel je rechten per rang in, bijvoorbeeld het opheffen van de alliantie of het versturen van rondschrijven. Met Leden kun je spelers verwijderen, rangen toewijzen en zien hoeveel dagen ze offline zijn. Je kunt ook de alliantietag en -naam wijzigen.</p>
+
+        <p>Tekstbeheer bewerkt de alliantieteksten. De externe tekst is zichtbaar voor elke speler; de interne tekst alleen voor leden. De sollicitatietekst is een sjabloon voor mensen die solliciteren.</p>
+
+        <p>Met Opties kun je een bannerafbeelding en een alliantieforum koppelen, kiezen of sollicitaties open zijn en de naam van de rang van de oprichter instellen. Laat je dat leeg, dan heet de rang Oprichter.</p>
+
+        <p>Je kunt de alliantie opheffen, of overdragen aan een ander lid, dat dan de oprichter wordt.</p>'
+      title: Allianties
+    '5':
+      body: '<h3>Waar vind ik meer informatie?</h3>
+
+        <!--wiki_url--><p>De wiki is de eerste plek om te kijken:</p>
+
+        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Startpagina van de Engelse wiki</a><br>
+
+        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Bouwvolgorde</a><br>
+
+        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Speelstijlen (Miner, Raider, Comber)</a><br>
+
+        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Vloot saven</a><br>
+
+        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Gids voor het saven van je vloot</a><br>
+
+        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expedities</a></p><!--/wiki_url-->
+
+        <p>Duits (owiki):<br>
+
+        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Opbouwtactiek</a><br>
+
+        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Speelstijl: Miner</a><br>
+
+        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Speelstijl: Fleeter</a><br>
+
+        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Speelstijl: Comber</a><br>
+
+        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Vloot saven</a></p>'
+      title: Links
+    category: Geavanceerde informatie

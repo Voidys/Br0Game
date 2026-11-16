@@ -1,0 +1,81 @@
+Active_players: Người chơi hoạt động
+Back: Quay lại
+mail:
+  subject:
+    mail_changed: Địa chỉ email của tài khoản %s đã được thay đổi
+Other_universes: Vũ trụ khác
+Play: Chơi
+Playername: Tên người chơi
+Register: Đăng ký
+Settings: Cài đặt
+Sitting_end: Kết thúc trông hộ
+Sitting_request: Yêu cầu trông hộ (chưa khả dụng)
+uni_status_regclosed_gameclosed: Đã đóng
+uni_status_regclosed_gameopen: Mở để chơi
+uni_status_regopen_gameclosed: Mở đăng ký
+uni_status_regopen_gameopen: Đang mở
+Universe_end: Kết thúc
+Universe_start: Bắt đầu
+Universe_status: 'Trạng thái vũ trụ: '
+Universes: Vũ trụ
+Your_universes: Vũ trụ của bạn
+board_create: Bài mới
+board_edit_post: Sửa bài
+board_sort: Sắp xếp
+board_sort_hot: Nổi bật
+board_sort_new: Mới
+board_sort_top: Hàng đầu
+board_period_all: Mọi lúc
+board_period_week: Tuần này
+board_csort_best: Hay nhất
+board_flair: Nhãn
+board_flair_all: Tất cả
+board_flair_general: Chung
+board_flair_guide: Hướng dẫn
+board_flair_question: Câu hỏi
+board_flair_suggestion: Đề xuất
+board_flair_bug: Lỗi
+board_flair_offtopic: Lạc đề
+board_upvote: Bình chọn lên
+board_downvote: Bình chọn xuống
+board_pinned: Đã ghim
+board_locked: Đã khóa
+board_by: bởi
+board_comments: Bình luận
+board_empty: Chưa có bài nào. Hãy là người đầu tiên viết một bài.
+board_no_comments: Chưa có bình luận nào.
+board_title: Tiêu đề
+board_body: Nội dung
+board_publish: Đăng
+board_save: Lưu
+board_cancel: Hủy
+board_edit: Sửa
+board_edited: đã sửa
+board_delete: Xóa
+board_deleted: '[đã xóa]'
+board_deleted_user: '[đã xóa]'
+board_confirm_delete: Bạn có chắc muốn xóa không?
+board_reply: Trả lời
+board_collapse: Thu gọn chuỗi
+board_add_comment: Viết bình luận
+board_comment_send: Bình luận
+board_mod_pin: Ghim
+board_mod_unpin: Bỏ ghim
+board_mod_lock: Khóa
+board_mod_unlock: Mở khóa
+board_not_found: Bài viết hoặc bình luận này không tồn tại.
+board_not_allowed: Bạn không có quyền làm điều đó.
+board_err_csrf: Không xác minh được yêu cầu. Hãy tải lại trang và thử lại.
+board_err_title: Hãy nhập tiêu đề.
+board_err_title_long: Tiêu đề dài tối đa 200 ký tự.
+board_err_body: Hãy nhập nội dung (không để trống, không quá dài).
+board_err_locked: Bài viết này đã bị khóa - không thể bình luận thêm.
+board_err_rate_post: Hãy chờ thêm %d giây trước khi đăng bài tiếp theo.
+board_err_rate_comment: Hãy chờ thêm %d giây trước khi bình luận tiếp theo.
+board_ago_now: vừa xong
+board_ago_min: '%d phút trước'
+board_ago_hours: '%d giờ trước'
+board_ago_days: '%d ngày trước'
+board_guest_hint: Đăng nhập để đăng bài, bình luận và bình chọn.
+board_guest_login: Đăng nhập
+board_guest_register: Đăng ký

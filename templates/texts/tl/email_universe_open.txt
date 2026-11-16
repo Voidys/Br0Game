@@ -1,0 +1,16 @@
+﻿Kumusta {USERNAME},
+
+dumating na ang oras - binuksan na ng {UNINAME} ang mga pinto nito noong {OPENTIME}!
+Natutuwa kaming nandito ka at nais namin sa iyo ng maraming saya at kapana-panabik na karanasan.
+
+Makikita mo ang laro sa {HTTPPATH}.
+Malugod ka ring inaanyayahang bumisita sa aming Discord:
+{DISCORD}
+
+Kung nakalimutan mo ang password mo, i-click lang ang “Nakalimutan ang password” sa page.
+Maya-maya ay makakatanggap ka ng e-mail na may bagong password.
+
+Kung patuloy kang nahihirapang mag-log in o magrehistro, makipag-ugnayan sa amin sa Discord.
+
+Gumagalang,
+Ang team ng {GAMENAME}

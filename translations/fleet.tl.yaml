@@ -1,0 +1,483 @@
+and: at
+battle_stats_damage_done: Pinsalang naibigay
+battle_stats_damage_dead: Sobrang pinsala
+battle_stats_shield_hit: Tama sa kalasag
+battle_stats_ship_destroyed: Mga barkong nawasak
+battle_stats_shield_bounced: Pinsalang naitaboy
+battle_stats_rapid_fire_done: Rapid fire
+battle_stats_explosion_triggered: Mga pagsabog
+battle_stats_stunned_done: Na-disable
+battle_stats_target: Target
+battle_stats_total: Kabuuan
+battle_stats_total_all_targets: Kabuuan (lahat ng target)
+battle_stats_total_all_fleets: Kabuuan (lahat ng fleet)
+damage: puntos ng pinsala.
+debree_field_1: 'Ang mga coordinate na ito ay naglalaman na ngayon ng:'
+debree_field_2: ' ng debris.'
+fcp_colony: Kolonya
+fl_expocap_explain: >-
+  Ito ang maximum na halaga ng expedition points na sulit ipadala. Hindi
+  magpapataas ng reward mo ang anumang lampas sa cap na ito, pero puwede pa rin
+  itong mawala.
+fl_send_back: Pabalikin
+fl_simulate: I-simulate
+fleet_attack_1: Ang umaatakeng fleet ay nagpapaputok na may lakas na
+fleet_attack_2: sa depensor. Sinisipsip ng mga kalasag ng depensor ang
+fleet_defs_1: Ang nagdedepensang fleet ay nagpapaputok na may lakas na
+fleet_defs_2: sa umaatake. Sinisipsip ng mga kalasag ng umaatake ang
+spy_best_planet: Pinakamagandang planeta
+spy_best_resources_per_second: Pinakamaraming resource kada segundo
+spy_energy: Energy
+spy_hazard_potential: Potensyal na panganib
+spy_large_transporter: Mabigat na Cargo
+spy_market_value: Halaga sa market
+spy_necessary_recycler: Kailangang recycler
+spy_necessary_transporters: Kailangang barko
+spy_potential_recycling: Potensyal sa recycling
+spy_potential_resources: Potensyal na resource
+spy_small_transporter: Magaan na Cargo
+spy_summary: Buod
+spy_total_resources: Kabuuang Resource
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: at
+sys_attack_attacker_pos: Umaatake
+sys_attack_defender_pos: Depensor
+sys_attack_round: Round
+sys_attack_title: 'Magkaharap ang mga sumusunod na fleet sa: '
+sys_attacker_lostunits: 'Mga pagkalugi ng umaatake:'
+sys_attacker_won: Nanalo ang umaatake sa laban!
+sys_both_won: 'Tabla ang laban! '
+sys_colo_allisok: >-
+  Dumating ang fleet mo sa mga coordinate na %s. Sinimulan na ng mga settler
+  ang pag-colonize sa bagong planeta.
+sys_colo_badpos: >-
+  Dumating ang fleet mo sa mga coordinate na %s. Hindi posibleng manirahan
+  doon, kaya bumalik na bigo ang mga settler.
+sys_colo_maxcolo: >-
+  Dumating ang fleet mo sa mga coordinate na %s. Hindi posibleng manirahan:
+  hanggang %d planeta lang ang puwede mong magkaroon.
+sys_colo_mess_from: Colonization
+sys_colo_mess_report: Colonization report
+sys_colo_notech: >-
+  Dumating ang fleet mo sa mga coordinate na %s. Natuklasan ng mga settler na
+  hindi angkop sa klima ang kanilang kagamitan at kailangan itong pagbutihin.
+  Bigo silang bumalik.
+sys_colo_notfree: >-
+  Dumating ang fleet mo sa mga coordinate na %s. Sa kasamaang-palad, natuklasan
+  ng mga settler na may nakatira na sa planeta! Lubos na nawalan ng gana,
+  bumalik sila.
+sys_debris: Debris field
+sys_def_rebuild: 'Naayos ang ilan sa mga depensa:'
+sys_defender_lostunits: 'Mga pagkalugi ng depensor:'
+sys_defender_won: Nanalo ang depensor sa laban!
+sys_destroyed: Nawasak
+sys_destruc_echec: >-
+  Niyanig ng mga lindol ang planeta, pero may nagkamali: sumabog ang mga Death
+  Star at nagkapira-piraso, at tinangay ng mga shockwave ang buong fleet.
+sys_destruc_lune: 'Tsansa na mawasak ang buwan: %d%%'
+sys_destruc_mess1: 'Pinaputok ng mga Death Star ang napakalaki nilang energy sa buwan.'
+sys_destruc_null: >-
+  Hindi lubusang nakapag-charge ang mga Death Star bago magpaputok.<br> Hindi
+  nawasak ang buwan.
+sys_destruc_reussi: >-
+  Umabot sa buwan ang mga sinag ng mga Death Star at pinagpira-piraso ito.
+  <br>Nawasak ang buong buwan!
+sys_destruc_rip: 'Tsansa na masira ng fleet ang sarili nito: %d%%'
+sys_destruc_stop: 'Matagumpay na hinarang ng depensor ang pagwasak sa buwan.'
+sys_destruc_title: 'Magkaharap ang mga sumusunod na fleet para sa pagwasak ng buwan:'
+sys_expe_attack_1_1_1: Isang desperadong space pirate ang nagtangkang agawin ang expedition fleet natin.
+sys_expe_attack_1_1_2: >-
+  Inatake kami ng ilang primitibong barbaro gamit ang mga spaceship. Pero
+  kahindik-hindik ang kondisyon ng mga barko nila. Kung seryosong banta ang
+  firepower nila, napilitan sana kaming gumanti ng sarili naming putok.
+sys_expe_attack_1_1_3: >-
+  Naharang namin ang ilang radio message ng mga lasing na lasing na pirata.
+  Mukhang aatakihin tayo.
+sys_expe_attack_1_1_4: >-
+  Kinailangan naming labanan ang ilang pirata, pero buti na lang mas marami
+  kami.
+sys_expe_attack_1_1_5: >-
+  Iniulat ng fleet natin na may isang Moa Tikarr at ang kanyang crew na
+  humiling ng walang kondisyong pagsuko ng fleet natin. Kung seryoso sila,
+  malalaman nilang napakahusay naming ipagtanggol ang sarili.
+sys_expe_attack_1_2_1: Hindi inaasahang nakasagupa ng expedition fleet mo ang ilang space pirate.
+sys_expe_attack_1_2_2: >-
+  Napasok kami sa ambush ng ilang star pirate! Sa kasamaang-palad, hindi
+  maiiwasan ang laban.
+sys_expe_attack_1_2_3: >-
+  Naging patibong pala ng ilang tusong pirata ang paghingi ng tulong ng
+  ibang expedition fleet. Hindi maiiwasan ang laban.
+sys_expe_attack_1_3_1: >-
+  Hindi galing sa mga hindi kilalang alien ang mga naharang na signal, kundi sa
+  isang lihim na base ng pirata! Hindi natuwa ang mga pirata sa presensya namin
+  sa sector nila.
+sys_expe_attack_1_3_2: Iniulat ng expedition fleet ang matinding laban sa mga hindi kilalang barko ng pirata!
+sys_expe_attack_1_3_3: >-
+  May natanggap lang kaming agarang mensahe mula sa expedition commander:
+  "Sinusugod nila tayo! Lumundag sila palabas ng hyperspace, buti na lang mga
+  pirata lang sila, kaya may tsansa tayo, lalaban tayo!"
+sys_expe_attack_2_1_1: Hindi magandang unang pakikipag-ugnayan ang naranasan ng expedition fleet mo sa isang hindi kilalang species.
+sys_expe_attack_2_1_2: Inatake ng ilang kakaibang barko ang expedition fleet nang walang babala!
+sys_expe_attack_2_1_3: Inatake ang expedition natin ng maliit na grupo ng mga hindi kilalang spacecraft!
+sys_expe_attack_2_1_4: >-
+  Iniulat ng expedition fleet ang pakikipag-ugnayan sa mga hindi kilalang
+  barko. Hindi ma-decode ang mga radio message, pero mukhang
+  pinapagana na ng mga kakaibang barko ang mga armas nila.
+sys_expe_attack_2_2_1: Inaatake ng isang hindi kilalang species ang expedition natin!
+sys_expe_attack_2_2_2: >-
+  Mukhang nilabag ng expedition fleet mo ang teritoryo ng isang dating hindi
+  kilalang pero lubhang agresibong lahi ng alien.
+sys_expe_attack_2_2_3: >-
+  Bigla na lang naputol ang koneksyon sa expedition fleet natin. Ang huli
+  naming narinig, malakas ang pagbabarilan sa fleet. Hindi nakilala ang mga
+  umatake.
+sys_expe_attack_2_3_1: >-
+  Nakasalubong ng expedition mo ang isang alien invasion fleet at nag-uulat ito
+  ng matitinding laban!
+sys_expe_attack_2_3_2: >-
+  Isang malaking grupo ng mga crystalline na barko na hindi alam ang pinagmulan
+  ang direktang tumatama sa landas ng expedition fleet natin. Dapat tayong
+  maghanda sa pinakamasama.
+sys_expe_attack_2_3_3: >-
+  Nahirapan kami nang kaunti sa tamang pagbigkas ng diyalekto ng lahing alien.
+  Aksidenteng sumigaw ang diplomat natin ng 'Fire!' sa halip na 'Peace!'
+sys_expe_attackname_1: Mga Pirata
+sys_expe_attackname_2: Mga Alien
+sys_expe_back_home: Bumalik ang fleet mo sa %1$s %2$s mula sa expedition sa %3$s.
+sys_expe_back_home_ress: Nagdala ito ng %s %s, %s %s, at %s %s.
+sys_expe_back_home_ships_flound: 'Natagpuan ang mga sumusunod na barko:'
+sys_expe_back_home_ships_lost: 'Nawala ang mga sumusunod na barko:'
+sys_expe_blackholl_1: >-
+  Nasalubong ng fleet mo ang isang black hole at bahagyang nawasak!
+sys_expe_blackholl_2: >-
+  Nasalubong ng fleet mo ang isang black hole at tuluyang nawasak!
+sys_expe_depleted_max_1: >-
+  Entry mula sa logbook ng communications officer: Kung sakaling makaramdam
+  kami ng panganib, puwede kaming laging makipagsanib-puwersa sa ibang mga
+  expedition na lumilipad dito.
+sys_expe_depleted_max_2: >-
+  Entry mula sa logbook ng communications officer: Kung magpapatuloy ito,
+  kakailanganin na naming maglagay ng mga navigation buoy para mapamahalaan ang
+  trapikong ito.
+sys_expe_depleted_max_3: >-
+  Entry mula sa logbook ng communications officer: Baka mas makabubuting
+  magbukas na lang ng souvenir shop dito kaysa magpadala pa ng isa pang
+  expedition.
+sys_expe_depleted_med_1: >-
+  Entry mula sa logbook ng communications officer: Nakakita kami ng mga bakas
+  ng ilang expedition fleet sa lugar. Pauwi na kami.
+sys_expe_depleted_med_2: >-
+  Entry mula sa logbook ng communications officer: Nakipag-ugnayan kami nang
+  magiliw sa radyo sa ilang ibang expedition sa sector na ito.
+sys_expe_depleted_med_3: >-
+  Entry mula sa logbook ng communications officer: Ipinagdiwang namin ang
+  pagtatapos ng expedition kasama ang crew ng isa pang expedition fleet na
+  naglalakbay sa parehong sector. Wala rin silang bagong maiulat.
+sys_expe_depleted_min_1: >-
+  Entry mula sa logbook ng communications officer: Mukhang may mga tao nang
+  nakarating sa bahaging ito ng galaxy.
+sys_expe_depleted_min_2: >-
+  Entry mula sa logbook ng communications officer: Nakakita kami ng mga labi
+  ng lumang spaceship. Hindi kami ang unang narito.
+sys_expe_depleted_min_3: >-
+  Entry mula sa logbook ng communications officer: Muntik na kaming makabanggaan
+  ng isa pang expedition fleet. Hindi ko akalaing may iba pang tao rito.
+sys_expe_depleted_not_1: >-
+  Entry mula sa logbook ng communications officer: Mukhang hindi pa
+  nasasaliksik ang bahaging ito ng universe.
+sys_expe_depleted_not_2: >-
+  Entry mula sa logbook ng communications officer: Napakagandang pakiramdam
+  maging unang naglalakbay sa isang hindi pa nasasaliksik na sector.
+sys_expe_feqeuence_few: Mahigit 10 expedition sa nakaraang 24 oras
+sys_expe_feqeuence_many: Mahigit 50 expedition sa nakaraang 24 oras
+sys_expe_feqeuence_medium: Mahigit 25 expedition sa nakaraang 24 oras
+sys_expe_feqeuence_no: 'Kaunting expedition sa nakaraang 24 oras'
+sys_expe_found_goods: '%s %s ang namina.'
+sys_expe_found_ress_1_1: >-
+  Nakatuklas ang expedition mo ng maliit na asteroid cluster na may mga
+  resource na puwedeng kunin.
+sys_expe_found_ress_1_2: >-
+  Sa isang malayong planetoid, may natagpuang ilang madaling abutin na resource
+  field at matagumpay na nakuha ang mga raw material.
+sys_expe_found_ress_1_3: >-
+  Natisod ng expedition mo ang napakaluma nang mga labi ng spaceship mula sa
+  isang matagal nang labanan. May ilang piyesang nailigtas at na-recycle.
+sys_expe_found_ress_1_4: >-
+  Nakatuklas ang expedition ng planetang kontaminado ng radiation na may
+  lubhang nakalalasong atmosphere. Gayunpaman, ipinakita ng mga scan na
+  maraming raw material ang planetang ito. Gumamit ng mga automated drone para
+  subukang makakuha ng pinakamaraming resource hangga't kaya.
+sys_expe_found_ress_2_1: >-
+  Nakahanap ang expedition mo ng sinaunang freighter convoy na puno ang karga
+  pero walang tao. May ilang resource na nakuha.
+sys_expe_found_ress_2_2: >-
+  Nakahanap ang expedition mo ng malalaking deposito ng raw material sa isang
+  maliit na buwan na may sarili nitong atmosphere. Kasalukuyang kinukuha ng crew
+  ang kayamanang ito.
+sys_expe_found_ress_2_3: >-
+  Nakasalubong namin ang maliit na convoy ng mga sibilyang barko na lubhang
+  nangangailangan ng pagkain at gamot. Kapalit nito, nakatanggap kami ng
+  malaking halaga ng kapaki-pakinabang na resource.
+sys_expe_found_ress_3_1: >-
+  Iniulat ng expedition fleet mo ang pagkatuklas ng malaking labi ng alien
+  na barko. Bagaman wala silang magawa sa teknolohiya nito, nabuwag ang barko
+  sa magkakahiwalay na bahagi, na nagbigay ng mahahalagang raw material.
+sys_expe_found_ress_3_2: >-
+  Naglalaman ng napakaraming raw material ang asteroid belt sa paligid ng
+  isang hindi kilalang planeta. Napuno ng expedition fleet ang mga
+  imbakan nito!
+sys_expe_found_ress_logbook_1: >-
+  Entry mula sa logbook ng first officer: Ginamit namin ang bawat bakanteng
+  espasyo, pero hindi pa rin namin nadala ang lahat ng resource na nakita namin.
+sys_expe_found_ress_logbook_2: >-
+  Entry mula sa logbook ng first officer: Kung may ilan pa sana kaming cargo
+  ship! Ngayon, kailangan naming iwan ang napakaraming resource.
+sys_expe_found_ress_logbook_3: >-
+  Entry mula sa logbook ng first officer: Itinapon na namin ang lahat ng hindi
+  na namin kailangan, pero hindi pa rin kami makagawa ng sapat na espasyo para
+  sa lahat ng resource na nakita namin.
+sys_expe_found_ress_logbook_4: >-
+  Entry mula sa logbook ng first officer: Kahit ginawa na naming imbakan ang
+  cafeteria at lahat ng lounge, hindi pa rin namin madala ang lahat ng
+  resource na nakita namin.
+sys_expe_found_ships: 'Nakatagpo ang mga researcher mo ng mga spaceship na nasa perpektong kondisyon!<br>: '
+sys_expe_found_ships_1_1: >-
+  Natuklasan namin ang mga labi ng naunang expedition! Sinusuri ng mga technician
+  namin kung may mga wreck na maibabalik sa paggana.
+sys_expe_found_ships_1_2: >-
+  May nakita kaming abandonadong base ng pirata. May ilang lumang barko pa sa
+  hangar. Sinusuri ng mga technician namin kung magagamit pa ang ilan sa mga
+  barko.
+sys_expe_found_ships_1_3: >-
+  Nakahanap ang expedition namin ng planetang halos tuluyang nawasak ng mga
+  digmaan. Naglutangan sa orbit ang iba't ibang labi ng barko. Sinubukang
+  ayusin ng mga technician ang ilan sa mga ito. Baka may matutunan pa kami
+  tungkol sa nangyari rito.
+sys_expe_found_ships_1_4: >-
+  Natisod ng expedition ang lumang starbase na mukhang matagal nang
+  inabandona. May ilang barkong natagpuan sa hangar ng kuta. Nagawa ng mga
+  technician na paliparin ulit ang ilan sa mga ito.
+sys_expe_found_ships_2_1: >-
+  Nakita namin ang mga labi ng isang armada. Agad na sumakay ang mga
+  technician ng expedition sa mga barkong bahagyang buo pa at naayos nila ang
+  ilan sa mga ito.
+sys_expe_found_ships_2_2: >-
+  Natuklasan ng expedition namin ang isang lumang automatic shipyard na may
+  ilang barkong nasa production phase pa. Matapos maibalik ang suplay ng energy
+  ng shipyard, nagtrabaho ang mga technician namin para tapusin ang pagtatayo
+  ng mga ito.
+sys_expe_found_ships_3_1: >-
+  Nakahanap kami ng napakalaking sementeryo ng mga barko. Nagawa ng ilang
+  technician ng expedition na paandarin ulit ang isa o dalawang barko.
+sys_expe_found_ships_3_2: >-
+  Natuklasan namin ang isang planetang may mga labi ng sibilisasyon. May isa
+  pang napakalaking ship station na buo pa na namataan mula sa kalawakan.
+  Bumaba sa ibabaw ang ilan sa mga technician at piloto namin para alamin kung
+  may ilang barkong maisasalba.
+sys_expe_found_ships_logbook_1: >-
+  Entry mula sa logbook ng engine room officer: Kung may dinala pa sana kaming
+  ilang barko, madali sana naming naiuwi ang ilan sa mga gandang iyon!
+sys_expe_found_ships_logbook_2: >-
+  Entry mula sa logbook ng engine room officer: Sa kasamaang-palad, wala kaming
+  kapasidad para maibalik ang lahat ng barkong natuklasan namin sa misyong ito.
+sys_expe_found_ships_logbook_3: >-
+  Entry mula sa logbook ng engine room officer: Sa kasamaang-palad, wala kaming
+  sapat na kapasidad para maiuwi ang lahat ng barkong nahanap namin.
+sys_expe_found_ships_nothing: Walang barkong natagpuan.
+sys_expe_lost_fleet_1: >-
+  Ang tanging natira sa expedition ay ang sumusunod na radio message: Zzzrrt
+  Diyos ko!...Krrrzzzzt ang zrrrtrzt nakikita krgzzzz oo mula sa paano
+  Krzzzzzzzztzzzz...
+sys_expe_lost_fleet_2: >-
+  Ang huling natanggap namin mula sa expedition ay ilang hindi kapani-paniwalang
+  magagandang close-up ng nagbubukas na black hole.
+sys_expe_lost_fleet_3: >-
+  Isang nuclear breach sa isa sa mga command ship ang nagdulot ng chain
+  reaction na sumira sa buong expedition sa isang nakamamanghang pagsabog.
+sys_expe_lost_fleet_4: >-
+  Hindi bumalik ang expedition fleet mula sa hyperspace jump nila. Pinag-iisipan
+  pa rin ng mga scientist natin kung ano ang maaaring nangyari, pero mukhang
+  tuluyan nang nawala ang fleet.
+sys_expe_nothing_1: >-
+  Walang kapana-panabik na naiuwi ang expedition na ito maliban sa ilang
+  kakaibang maliliit na hayop mula sa isang hindi kilalang planetang latian.
+sys_expe_nothing_2: >-
+  Nakakuha ang expedition mo ng magagandang larawan ng isang supernova. Pero
+  wala talagang bagong natuklasan sa expedition na ito. Ngunit malaki ang
+  tsansa nitong manalo ng Best Picture in the Universe competition ngayong
+  taon.
+sys_expe_nothing_3: >-
+  Isang kakaibang computer virus ang nagpahina sa navigation pagkaalis sa solar
+  system. Dahil dito, paikot-ikot na lumipad ang buong expedition fleet sa
+  buong oras. Hindi na kailangang sabihin, hindi masyadong matagumpay ang
+  expedition.
+sys_expe_nothing_4: >-
+  Isang life form na purong energy ang nagpatitig sa lahat ng miyembro ng
+  expedition sa mga nakakahipnotismong simbolo sa kanilang screen sa loob ng ilang
+  araw. Nang malinaw na ulit ang isip ng karamihan, kinailangang
+  ikansela ang expedition dahil sa kakulangan ng deuterium.
+sys_expe_nothing_5: >-
+  Well, alam na namin ngayon na ang mga Class 5 na pulang anomalya ay hindi
+  lang nagdudulot ng magulong epekto sa mga sistema ng barko, kundi puwede ring
+  magdulot ng malawakang hallucination sa crew. Sa kasamaang-palad, wala nang
+  ibang natuklasan sa expedition na ito.
+sys_expe_nothing_6: >-
+  Sa kabila ng pangako sa simula ng mga scan sa sector na ito, sa
+  kasamaang-palad, bumalik kaming walang dala.
+sys_expe_nothing_7: >-
+  Marahil hindi dapat ipinagdiwang ang kaarawan ng kapitan sa malayong planetang
+  ito. Isang masamang hemorrhagic fever ang nagpadala sa karamihan ng crew sa
+  sickbay, at dahil sa matinding kakulangan ng tauhan, nabigo ang expedition.
+sys_expe_nothing_8: >-
+  Wala nang ibang natagpuan ang expedition mo kundi ang napakalawak na kawalan
+  ng kalawakan. Walang kahit maliit na asteroid, o radiation, o particle, o
+  anupaman na magpapaganda man lang nang kaunti sa expedition na ito.
+sys_expe_nothing_9: >-
+  Halos wasakin ng reactor malfunction sa command ship ang buong expedition.
+  Buti na lang, mahuhusay ang mga technician at napigilan ang pinakamasama.
+  Gayunpaman, napakatagal ng repair kaya bumalik ang expedition nang walang
+  nakamit.
+sys_expe_report: Expedition report
+sys_expe_report_msg: 'Expedition report ng fleet ng %s %s sa %s:'
+sys_expe_time_fast_1: >-
+  Isang hindi inaasahang feedback loop sa mga energy coil ng propulsion system
+  ang nagpabilis sa pagbalik ng expedition, kaya mas maaga itong dumating kaysa
+  inaasahan. Gayunpaman, ipinapakita ng mga paunang ulat na wala itong ibang
+  maiulat.
+sys_expe_time_fast_2: >-
+  Ginamit ng medyo matapang na bagong commander ang isang hindi matatag na
+  wormhole para paikliin ang pagbalik - at nagtagumpay! Gayunpaman, walang
+  bagong natuklasan sa expedition mismo.
+sys_expe_time_fast_3: >-
+  Walang iniulat na anomalya ang expedition mo sa sector na sinaliksik. Pero
+  nakasalubong ng fleet ang solar wind sa pagbalik, na lubhang nagpabilis sa
+  biyahe. Uuwi na ngayon ang expedition mo nang bahagyang mas maaga kaysa
+  inaasahan.
+sys_expe_time_slow_1: >-
+  Isang malaking pagkakamali ng navigator ang nagdala sa fleet sa maling lugar
+  nang tuluyan. Dahil dito, mas natagalan ang pagbalik.
+sys_expe_time_slow_2: >-
+  Sa mga dahilang hindi pa rin alam, tuluyang nagkamali ang jump ng fleet.
+  Halos mapunta sila sa puso ng isang bituin! Buti na lang, napunta sila sa
+  kilalang system, pero mas matatagalan ang pagbalik kaysa sa orihinal na
+  plano.
+sys_expe_time_slow_3: >-
+  Mukhang binabagabag pa rin ng ilang bug ang bagong navigation module. Hindi
+  lang tuluyang maling direksyon ang tinahak ng expedition fleet, naubos pa
+  nito ang lahat ng deuterium! Bigo, pauwi na ngayon ang expedition gamit ang
+  reserbang lakas.
+sys_expe_time_slow_4: >-
+  Pumasok ang expedition mo sa sector na may matitinding particle storm. Na-overload
+  nito ang mga energy storage system, kaya pumalya ang mga pangunahing sistema
+  ng lahat ng barko. Nagawa ng mga mekaniko mo na pigilan ang pinakamasama,
+  pero bibiyahe na ngayon pabalik ang expedition nang may malaking
+  pagkaantala.
+sys_expe_time_slow_5: >-
+  Nabangga ng flagship ng expedition fleet mo ang isang alien na sasakyan na
+  biglang lumundag sa fleet nang walang babala. Sumabog ang alien na barko, at
+  malaki ang pinsala sa flagship. Kapag natapos na ang pinakamabibigat na
+  repair, magsisimula nang bumalik ang mga barko mo, dahil hindi
+  maipagpapatuloy ang expedition sa kasalukuyan nitong kondisyon.
+sys_expe_time_slow_6: >-
+  Binaluktot ng stellar wind ng isang red giant ang jump ng expedition, kaya
+  tuluyang nagkamali ang mga navigation system sa pagkalkula ng pagbalik.
+  Dahil dito, napunta ang expedition sa napakalawak na kawalan sa pagitan ng mga
+  hindi pamilyar na bituin.
+sys_fleet_return: Ang fleet mo ay bumabalik sa %s %s %s at naghahatid ng %s %s, %s %s, at %s %s. %s
+sys_fleet_won: >-
+  Bumalik ang fleet mo mula sa atake sa %s %s papunta sa %s %s. Nakuha mo ang %s %s, %s %s, at %s %s.
+sys_gain: Kita
+sys_honorpoints_changed: 'Honor points:'
+sys_irak_def: '%d missile ang naharang.'
+sys_irak_mess: Ang mga Interplanetary missile (%d) mula sa %s ay tumama sa %s <br><br>
+sys_irak_no_att: Lahat ng missile ay naharang.
+sys_irak_no_def: Walang depensa ang planeta.
+sys_irak_subject: Pagtama ng missile
+sys_lost: Mga Pagkalugi
+sys_mess_attack_cancel: |-
+  Nakansela ang laban sa %s %s.
+  Hindi ito nakalkula ng server.
+sys_mess_attack_report: Attack report
+sys_mess_fleetback: Pagbalik ng fleet
+sys_mess_piratebase_gone: 'Dumating ang fleet mo sa %s, pero wala na roon ang base ng pirata. Pauwi na ang fleet.'
+sys_mess_spy_activity: Counterintelligence report
+sys_mess_spy_control: Central Intelligence
+sys_mess_spy_destroyed: Nawasak ang mga spy probe mo!
+sys_mess_spy_ennemyfleet_1: May namataang mga spy probe ng kaaway mula sa planetang %s malapit sa %s.
+sys_mess_spy_ennemyfleet_3: May namataang mga spy probe ng kaaway mula sa buwang %s malapit sa %s.
+sys_mess_spy_link: >-
+  <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
+  [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'Ang tsansang matuklasan ang mga spy probe ay: %d%%'
+sys_mess_spy_qg: Spying department
+sys_mess_spy_repair_order: Kasalukuyang inaayos ang mga barko sa repair dock.
+sys_mess_spy_report: Intelligence report
+sys_mess_spy_report_details_1: Spy report mula sa planetang %1$s (%2$s) [%3$s:%4$s:%5$s] noong %6$s
+sys_mess_spy_report_details_3: Spy report mula sa buwang %1$s (%2$s) [%3$s:%4$s:%5$s] noong %6$s
+sys_mess_spy_report_details_4: Spy report mula sa %1$s (%2$s) [%3$s:%4$s:%5$s] noong %6$s
+sys_mess_tower: Fleet Command
+sys_mess_transport: Transport
+sys_moonbuilt: >-
+  Ang napakaraming libreng metal at crystal ay nagkakaakitan at bumubuo ng
+  satellite sa paligid ng planeta!
+sys_moonproba: 'Moon Chance: '
+sys_raport_amount_error: >-
+  Walang napiling barko o depensa, o masyadong marami para sa simulation.
+sys_raport_lost_contact: >-
+  Nawalan ng contact sa umaatakeng fleet (pinabagsak ito sa unang round).
+sys_raport_not_found: 'Hindi valid na combat report ID'
+sys_recy_gotten: >-
+  Nakolekta ng mga recycler mo ang %2$s %6$s at %3$s %7$s mula sa kabuuang %4$s
+  %6$s at %5$s %7$s sa mga coordinate na %1$s.
+sys_recy_mess: Bumalik ang recycler fleet mo sa %s %s na may dalang %s %s, %s %s, at %s %s.
+sys_recy_report: 'Recycling report'
+sys_ship_armour: Armor
+sys_ship_count: Dami
+sys_ship_repaired: Naayos
+sys_ship_shield: Kalasag
+sys_ship_type: Uri
+sys_ship_weapon: Firepower
+sys_spy_fleet: Fleet
+sys_stat_mess: >-
+  Dumating ang fleet mo mula sa %s %s sa %s %s %s at naghatid ng %s %s, %s %s, at %s
+  %s. %s
+sys_stat_mess_stay: Naka-istasyon na fleet
+sys_stealed_ressources: Nandambong sila ng
+sys_trade_mess_arr_success: >-
+  Handa nang bumalik ang merchant fleet mo sa %1$s %2$s (oras ng pagbalik: %5$s). <form
+  action="game?page=fleetTable&amp;action=sendfleetback"
+  method="post"><input name="fleetID" value="%3$s" type="hidden"><input
+  value="%4$s" type="submit"></form>
+sys_trade_mess_back: Bumalik ang merchant fleet mo sa %s %s nang walang tagumpay.
+sys_trade_mess_back_success: >-
+  Matagumpay na bumalik ang merchant fleet mo sa %4$s %5$s na may dalang
+  %1$s metal, %2$s crystal, at %3$s deuterium.
+sys_tran_mess_back: Bumalik ang fleet mo sa %s %s.
+sys_tran_mess_owner: >-
+  Dumating ang fleet mo mula sa %s %s sa %s %s %s at naghatid ng %s %s, %s %s,
+  at %s %s.
+sys_tran_mess_user: Dumating ang isang mapayapang fleet mula sa %s %s sa %s %s at naghatid ng %s %s, %s %s, at %s %s.
+sys_units: unit
+sys_wreckfield: >-
+  Ang ilan sa mga nawasak na barko ng depensor ay bumubuo ng wreck field sa
+  orbit ng planeta sa loob ng ilang araw.
+sys_wreckfield_added: 'Idinagdag sa wreck field:'
+type_mission_1: Atake
+type_mission_2: Alliance Attack
+type_mission_3: Transport
+type_mission_4: Istasyon
+type_mission_5: Hold
+type_mission_6: Espiya
+type_mission_7: Mag-colonize
+type_mission_8: Mag-recycle
+type_mission_9: Wasakin
+type_mission_15: Expedition
+type_mission_16: Trade
+type_mission_17: Transfer
+type_planet_1: Planeta
+type_planet_2: Debris
+type_planet_3: Buwan
+type_planet_4: Base ng pirata
+type_planet_short_1: P
+type_planet_short_2: D
+type_planet_short_3: B

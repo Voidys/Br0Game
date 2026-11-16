@@ -1,0 +1,183 @@
+biggest_solo: 最大单人战役
+build_ships: 舰船建造总数
+buttonLostPassword: 忘记密码？
+buttonRegister: 注册
+buttonScreenshot: 截图
+civil: 民用
+colony: 殖民地
+CrystalStorage: 晶体仓库
+deathstar: 死星
+destroyed_sats: 被摧毁的太阳能卫星
+disclamerLabelAddress: 游戏地址：
+disclamerLabelMail: 客服邮箱：
+disclamerLabelNotice: 更多信息
+disclamerLabelPhone: 电话：
+disclamerRecaptcha: 本页面使用 reCAPTCHA，并适用 Google 的<a href="https://policies.google.com/privacy">隐私声明</a>和<a href="https://policies.google.com/terms">服务条款</a>。
+first_fights: 宇宙中的首批战斗
+flown_expos: 远征飞行总数
+flownDeut: 飞行消耗的重氢总量
+forum: 论坛
+found_res: 发现的资源总量
+found_ships: 发现的舰船总数
+galaxySpendDeut: 浏览星系消耗的重氢
+gameInformations: '实时太空策略游戏。
+
+  每个宇宙都有数百名玩家。
+
+  无需下载，普通浏览器即可畅玩。
+
+  免费注册'
+hof3_header: 3 号宇宙的传奇在此流传！
+hof4_header: 4 号宇宙的传奇在此流传！
+hof7_header: 7 号宇宙的传奇在此流传！
+IonCannon: 离子炮
+least_reached_ach: 最稀有的成就
+login_error_1: 邮箱或密码错误！提示：密码管理器常常会自动填入用户名，但你需要用邮箱登录。
+login_error_2: 你的账号在另一台设备上登录了，或者你的 IP 地址已更改。
+login_error_3: 你的会话已过期，请重新登录。
+login_error_4: 登录尝试次数过多，请等待 15 分钟后再试。
+loginButton: 登录
+loginEmail: 邮箱
+loginHeader: 登录
+loginInfo: 登录即表示我接受%s。
+loginPassword: 密码
+loginServerDesc: '%s 是一款太空策略游戏，数百名玩家<strong>同时</strong>竞逐榜首。你只需要一个普通的浏览器。'
+loginWelcome: 欢迎来到 %s
+Lowest_longterm_points: 积分最低的预注册账号
+medAliens: 中型外星人
+menu_banlist: 封禁名单
+menu_battlehall: 战斗大厅
+menu_disclamer: 联系我们
+menu_index: 首页
+menu_news: 新闻
+menu_rules: 规则
+military: 军事
+most_achievements: 收集成就最多
+most_black_holes: 遭遇黑洞最多
+most_build: 建造最多
+most_build_HF: 建造重型战斗机最多
+most_defended_moons: 成功防守月球最多
+most_destroyed_moons: 摧毁月球最多
+most_expo_fights: 对战外星人/海盗最多
+most_fights: 胜 / 负 / 平 最多
+most_reached_ach: 最常见的成就
+most_records: 收集纪录最多
+news_does_not_exist: 暂无新闻。
+news_from: '%s，作者 %s'
+oldest_active_acc: 最老的活跃账号
+overall: 总榜
+passwordBack: 返回
+passwordChangedMailSend: 你的新密码已在路上，很快就会收到邮件。
+passwordChangedMailTitle: '%s 的新密码'
+passwordErrorMailEmpty: 我们不认识这个邮箱地址。
+passwordErrorOnePerDay: 过去 24 小时内已申请过该账号的密码。请 24 小时后再申请。
+passwordErrorUnknown: 找不到与这些信息匹配的账号。
+passwordInfo: 忘记密码了？请输入你账号的用户名和邮箱地址。如果你记不起来了，请联系管理员。
+passwordMail: 邮箱
+passwordNext: 下一步
+passwordSubmit: 提交
+passwordUsername: 用户名
+passwordValidInValid: 无效的请求。
+passwordValidMailSend: 你很快会收到一封邮件，里面有后续步骤。
+passwordValidMailTitle: 重置 %s 的密码
+players: 玩家
+points_amount: 积分 / 数量
+realDesUnits: 实际被摧毁的单位
+registerBack: 返回
+registerDataPrivacyDesc: 我同意%s
+registerEmail: 邮箱
+registerEmailDesc: 请输入你的邮箱地址。
+registerEmailReplay: 重复邮箱
+registerEmailReplayDesc: 再次输入邮箱地址以确认。
+registerErrorDataPrivacy: 请先接受隐私政策才能继续。
+registerErrorMailEmpty: 请输入邮箱地址。
+registerErrorMailExist: 这个邮箱地址已被注册。
+registerErrorMailInvalid: 这看起来不是有效的邮箱地址。
+registerErrorMailSame: 两次输入的邮箱地址不一致。
+registerErrorPasswordLength: 密码至少需要 %s 个字符。
+registerErrorPasswordSame: 两次输入的密码不一致。
+registerErrorRules: 请先接受规则才能继续。
+registerErrorUniClosed: 这个宇宙已关闭注册。
+registerErrorUsernameChar: 用户名只能包含字母、数字、空格、_、- 和 .
+registerErrorUsernameEmpty: 请输入用户名。
+registerErrorUsernameExist: 这个用户名已被占用。
+registerLanguage: 语言
+registerMailCompleteTitle: 欢迎来到 %s！
+registerMailVertifyTitle: 激活你的 %s 账号
+registerPassword: 密码
+registerPasswordDesc: 密码至少需要 %s 个字符。
+registerPasswordReplay: 重复密码
+registerPasswordReplayDesc: 再次输入相同的密码。
+registerReferral: 推荐人：
+registerRules: 规则
+registerRulesDesc: 我同意%s
+registerSendComplete: 感谢注册！请查看你的邮箱（包括垃圾邮件文件夹），按提示完成后续步骤。
+registerTimezone: 时区
+registerUsername: 用户名
+registerUsernameDesc: 请使用 3 到 25 个字符：字母、数字、空格、句点、连字符和下划线。
+registerWelcomePMSenderName: 管理员
+registerWelcomePMSubject: 欢迎
+registerWelcomePMText: 欢迎来到 %s！首先建造一座太阳能电站，因为生产资源需要能量。点击左侧菜单的“建筑”，从太阳能电站开始。<br>有了能量，就可以建造矿场了。继续留在“建筑”页面，先建金属矿，再建晶体矿。<br><br>建造舰船需要造船厂。左侧的“科技”菜单会告诉你解锁它需要满足哪些条件。<br>如果还有其他疑问，请查看常见问题、维基，或者提交客服工单。<br><br>团队祝你在宇宙中探索愉快！
+second_expo_deck: 开启了第二个远征甲板
+siteTitleBanList: 封禁名单
+siteTitleBattleHall: 战斗大厅
+siteTitleDataPrivacy: 隐私政策
+siteTitleDisclamer: 联系我们
+siteTitleHOF: 名人堂
+siteTitleIndex: 首页
+siteTitleLostPassword: 忘记密码？
+siteTitleNews: 新闻
+siteTitleRegister: 注册
+siteTitleRules: 规则
+siteTitleScreens: 截图
+spy: 间谍探测器
+st_buildings: 建筑
+st_defenses: 防御
+st_fleets: 舰队
+st_points: 积分
+st_researh: 研究
+theme: 主题
+universe: 宇宙
+vertifyAdminMessage: 账号“%s”已激活。
+vertifyNoUserFound: 无效的请求。
+votingPoints: 投票积分
+wonAttack: 进攻获胜
+wonDefense: 防守获胜
+chose_a_uni: 选择宇宙
+menu_register: 注册
+news_overview: 新闻
+passwordCaptcha: 验证码
+passwordErrorUsernameEmpty: 你还没有输入用户名！
+registerCaptcha: 验证码
+registerCaptchaDesc: 请把下方图片中的字符输入空白栏，不要加空格，不区分大小写。如果刷新几次后仍然看不清图片，请联系网站管理员。
+registerCaptchaReload: 刷新验证码
+registerErrorCaptcha: 验证码不正确！
+registerMailVertifyError: 邮件发送失败：%s
+registerNext: 继续
+rulesHeader: 规则
+uni_closed: （已关闭）
+uni_reg_closed: （已关闭注册）
+uni_reg_open: （仅开放注册）
+home_menu: 菜单
+home_meta_description: '%s——带着 2000 年代情怀的太空策略网页游戏：发展星球、建造舰队、结成联盟。'
+home_started: 已经开服！
+home_starts_in: 倒计时
+home_team: 团队
+home_meme_caption: 你的第一天
+home_meme_alt: 来自 {game_name} 指挥甲板的漫画梗图
+home_meme_alt_deep_space_transit: 漫画：两名学员坐在穿梭机里——一个看到小行星带瘫倒在座位上，另一个对着发光的星云咧嘴大笑。“日常星区巡逻 vs. 发现一片未探索的富资源星云。”
+home_meme_alt_deuterium_joyride: 漫画：一位疲惫的指挥官站在观景台上，看着两名新兵在外面漂来漂去——“看着新兵们在外面兜风把重氢烧光，而我还在等 12 小时的矿场升级。”
+home_meme_alt_enemy_fleet: 漫画：警报闪烁，一名学员抱头惊慌失措——“1000 艘敌方毁灭者正在逼近？！不是说这个星区很安全吗？！”
+home_meme_alt_fleet_decimated: 漫画：一名受惊的士兵呆呆地望着前方，破碎的穹顶外舰船接连爆炸——“当你花了 20 小时采集资源，结果前三名玩家的舰队跳过来，3 秒钟就把一切拆了。”
+home_meme_alt_solo_scouting: 漫画：神冈指挥官咧嘴一笑，把机械手搭在一名学员肩上——“别担心，学员。最高指挥部对你单人深入太空的侦察任务‘充满’信心。”
+home_meme_alt_this_is_fine: 漫画：一只穿着太空服的狗平静地坐在燃烧的指挥中枢里说“这没事”——“别担心，我的舰队只是晚了 4 小时才返航。”
+source_code: 源代码
+news_back: 返回新闻
+lightbox_close: 关闭
+lightbox_prev: 上一张
+lightbox_next: 下一张
+news_pinned: 置顶
+news_read_more: 阅读更多
+news_latest: 最新新闻
+news_all: 全部新闻
+csrf_invalid: 安全检查失败（你的会话可能已过期）。请刷新页面后重试。

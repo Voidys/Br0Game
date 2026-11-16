@@ -1,0 +1,1654 @@
+Account: Account
+Achievement_names:
+  '1': Slapeloos en slecht gehumeurd
+  '2': Perpetuum mobile
+  '3': Verdiend
+  '4': Wat heeft het nu nog voor zin?
+  '5': Omdat het kan
+  '6': Minimumloon
+  '7': Franse Revolutie
+  '8': Dronken saven
+  '9': Dat is geen maan
+  '10': Knikkerspel
+  '11': TheLegend27
+  '12': Slippy's zegen
+  '13': Dat scheelde weinig
+  '14': Slippy's vloek
+  '15': Hebben we nog LG's?
+  '16': Hé man, waar is mijn ZG?!
+  '17': Overlord Defense!
+  '18': Frankfurt Centraal
+  '19': Dikke huid 1
+  '20': Dikke huid 2
+  '21': Dikke huid 3
+  '22': Dikke huid 4
+  '23': Dikke huid 5
+  '24': Ik vuur mijn laz0r af
+  '25': AVG-schending
+  '26': Alles voor de prestaties
+  '27': Big Brain Time
+  '28': Alternatieve spelstijl
+  '29': Communistisch Manifest
+  '30': Dit is Sparta
+  '31': Op vakantie
+  '32': Boekanier!
+  '33': Ik kan stoppen als ik wil!
+  '34': Op het menu
+  '35': Dat is niet leuk!
+  '36': Miesernachtsmann
+  '37': Zo'n type ben ik niet
+  '38': Cornag en Offz
+  '39': De zin van het leven
+  '40': Columbus
+  '41': Vlootslot-filantroop
+  '42': Ik haalde tenminste de Gevechtshal
+  '43': Met mijn ogen dicht
+  '44': Overkomt iedereen
+  '45': Slotenmaker
+  '46': Pure haat!
+  '47': Jack the Ripper
+  '48': Rip the Jacker
+  '49': Team Rocket blast weer af
+  '50': Oeps
+  '51': Te arm om te browsen
+  '52': Grootheidswaan
+  '53': Einstein
+  '54': Gelukkig nieuwjaar!
+  '55': Levende legende
+Achievement_text:
+  '1': Je had een hele nacht voor jezelf en hebt geen enkel schot gelost.
+  '2': Je had 90 dagen lang non-stop vloten onderweg.
+  '3': Je verloor je vloot terwijl je taal op "Frans" stond.
+  '4': Onderzoek Iontechniek 10.
+  '5': Onderzoek Gravitononderzoek 2, gewoon omdat het kan.
+  '6': Een van je aanvallen kwam terug met slechts 1 metaal, 1 kristal en 1 deuterium.
+  '7': Versla een vloot piraten- of alienschepen van minstens 10.000 schepen. De ruimte is van ons!
+  '8': Kom naar de Strammtisch (dinsdag om 20:00 uur op Discord).
+  '9': Bouw je eerste Ster des Doods.
+  '10': Vernietig de maan van een speler.
+  '11': Speel 14 dagen uitsluitend op mobiel.
+  '12': Je vloot werd tijdens je eerste expeditie door een zwart gat vernietigd.
+  '13': Stuur je vloot weg met minder dan 5 seconden voordat een binnenkomende aanval aankomt.
+  '14': Verlies 10 vloten aan zwarte gaten. De leegte heeft honger.
+  '15': Slaag er na 10 pogingen niet in een maan bij een planeet te maken. Volgende keer meer geluk.
+  '16': Meer dan 250 van je recyclers kwamen leeg terug.
+  '17': Zet minstens 5000 raketwerpers in één bouwopdracht in de wachtrij.
+  '18': Verstook 5 miljoen deuterium als brandstof op één planeet binnen 24 uur.
+  '19': Onderzoek Pantsertechniek 3.
+  '20': Onderzoek Pantsertechniek 6.
+  '21': Onderzoek Pantsertechniek 9.
+  '22': Onderzoek Pantsertechniek 12.
+  '23': Onderzoek Pantsertechniek 15.
+  '24': Onderzoek Lasertechniek 12.
+  '25': Doe mee aan de Records.
+  '26': Verwijder de planeet die je de meeste punten oplevert (minstens 100.000 punten).
+  '27': Onderzoek Intergalactisch onderzoeksnetwerk 1.
+  '28': Upgrade alle drie de opslagen op een maan naar minstens niveau 3.
+  '29': Collectiviseer de vloot van een speler met een hogere score met een ACS van 5 spelers.
+  '30': Sla in je eentje een ACS van 5 spelers af.
+  '31': Stuur een speler met je aanval in vakantiemodus.
+  '32': Raid 1000 planeten met het thema "SetSail". Arr!
+  '33': Kom terug uit de vakantiemodus.
+  '34': Word voor het eerst aangevallen. Welkom in het universum.
+  '35': Val een actieve speler aan die minder dan 1/10 van jouw punten heeft.
+  '36': "Ontvang een bericht dat een van de volgende blokken bevat:\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
+  '37': Word weggevaagd door een ACS van 5 spelers.
+  '38': Val leden van je eigen alliantie aan. Friendly fire, iemand?
+  '39': Val iemand aan met precies 42 schepen.
+  '40': Koloniseer een planeet minstens een half universum verderop.
+  '41': Blokkeer een week lang een vlootslot met een slecht marktaanbod.
+  '42': Sluit je 4 keer aan bij de Gevechtshal aan de verliezende kant.
+  '43': "Win een gevecht terwijl je account als inactief staat gemarkeerd,\n            op een van je planeten waar eerder een vloot is aangekomen met een vliegtijd van meer dan 7 dagen."
+  '44': Produceer meer dan 7 dagen lang een grondstof op een planeet terwijl je energie onder de 100% zit.
+  '45': Win een aanval tegen een speler die in de top 5 voor verdediging staat.
+  '46': Activeer bashbescherming door interplanetaire raketten af te vuren.
+  '47': Vernietig 5 manen.
+  '48': Verlies 5 Sterren des Doods bij pogingen manen te vernietigen. Au.
+  '49': Sloop een kolonie kort na het aanmaken.
+  '50': "Verlies al je zonne-energiesatellieten op een planeet met genoeg\n            energie om Gravitononderzoek te doen, zonder Gravitononderzoek te hebben onderzocht."
+  '51': Gebruik al je deuterium op tijdens het browsen in het melkwegoverzicht.
+  '52': Bouw een Ster des Doods zonder eerst andere gevechtsschepen te hebben gebouwd (licht gevechtsschip, zwaar gevechtsschip, kruiser, slagschip, bommenwerper, vernietiger of slagkruiser).
+  '53': Houd tegelijk het hoogste niveau in 5 onderzoeken.
+  '54': Time een aanval op een actieve speler zo dat hij op 01/01 00:00:00 aankomt.
+  '55': Speciale prestatie
+ach_filter_all: Alles
+ach_filter_locked: Vergrendeld
+ach_filter_unlocked: Ontgrendeld
+ach_locked: Nog niet ontgrendeld
+ach_progress: '%d van %d ontgrendeld'
+ach_unlocked_on: Ontgrendeld op %s
+Achievements: Prestaties
+admin_access_1: Je hebt tijdelijke beheerdersrechten.
+admin_access_2: ' als ze niet direct nodig zijn.'
+admin_access_link: RECHTEN UITSCHAKELEN
+Advanced_Stats:
+  destroy_moon_rips_lost: Verloren Sterren des Doods bij pogingen manen te vernietigen
+  desunits: Betrokken bij vernietiging van eenheden
+  desunits_real: Vijandelijke eenheden vernietigd
+  dishonorable_fights: Oneervolle gevechten
+  draws: Gelijkspel
+  expo_aliens_large: Grote aliens
+  expo_aliens_medium: Gemiddelde aliens
+  expo_aliens_small: Kleine aliens
+  expo_black_hole: Zwarte gaten
+  expo_count: Expedities
+  expo_fast: Snelle expedities
+  expo_first: 'Gevonden op expeditie op:'
+  expo_found: 'Expeditievondsten:'
+  expo_lost: 'Expeditieverliezen:'
+  expo_nothing: Expedities met lege handen
+  expo_pirates_large: Grote piraten
+  expo_pirates_medium: Gemiddelde piraten
+  expo_pirates_small: Kleine piraten
+  expo_res_large: Grote grondstofvondsten
+  expo_res_medium: Gemiddelde grondstofvondsten
+  expo_res_small: Kleine grondstofvondsten
+  expo_ships_large: Grote scheepsvondsten
+  expo_ships_medium: Gemiddelde scheepsvondsten
+  expo_ships_small: Kleine scheepsvondsten
+  expo_slow: Trage expedities
+  first: 'Eerste niveau/stuk:'
+  first_attack: Eerste aanval
+  first_attack_win: Eerste succesvolle aanval
+  first_big_attack_win: Eerste grote aanvalsoverwinning (1 mln eenheden vernietigd)
+  first_big_defense_win: Eerste grote verdedigingsoverwinning (1 mln eenheden vernietigd)
+  first_colony: Eerste kolonie
+  first_defense: Eerste verdediging
+  first_defense_win: Eerste succesvolle verdediging
+  first_espionage: Eerste spionagemissie
+  first_expedition: Eerste expeditie
+  first_expo_aliens_large: Eerste ontmoeting met grote aliens
+  first_expo_aliens_medium: Eerste ontmoeting met gemiddelde aliens
+  first_expo_aliens_small: Eerste ontmoeting met kleine aliens
+  first_expo_black_hole: Eerste ontmoeting met een zwart gat
+  first_expo_fast: Eerste snelle expeditie
+  first_expo_nothing: Eerste expeditie met lege handen
+  first_expo_pirates_large: Eerste ontmoeting met grote piraten
+  first_expo_pirates_medium: Eerste ontmoeting met gemiddelde piraten
+  first_expo_pirates_small: Eerste ontmoeting met kleine piraten
+  first_expo_res_large: Eerste grote grondstofvondst
+  first_expo_res_medium: Eerste gemiddelde grondstofvondst
+  first_expo_res_small: Eerste kleine grondstofvondst
+  first_expo_ships_large: Eerste grote scheepsvondst
+  first_expo_ships_medium: Eerste gemiddelde scheepsvondst
+  first_expo_ships_small: Eerste kleine scheepsvondst
+  first_expo_slow: Eerste trage expeditie
+  first_moon: Eerste maan
+  first_moon_trys: Pogingen voor eerste maan
+  first_recycling: Eerste recyclingmissie
+  first_vacation: Eerste vakantiemodus
+  galaxy_scroll_spending: Totaal deuterium besteed aan scrollen door het melkwegoverzicht
+  honorable_fights: Eervolle gevechten
+  honorpoints: Eerepunten
+  kbcrystal: Betrokken bij kristalpuin
+  kbcrystal_real: Kristalpuin veroorzaakt
+  kbmetal: Betrokken bij metaalpuin
+  kbmetal_real: Metaalpuin veroorzaakt
+  loos: Verloren
+  lostunits: Betrokken bij eenheidsverliezen
+  lostunits_real: Eigen eenheidsverliezen
+  moons_created: Manen gemaakt
+  moons_deleted: Manen verlaten
+  moons_destroyed: Manen vernietigd
+  moons_lost: Manen verloren
+  moons_received: Manen ontvangen
+  outlaw_activations: Vogelvrij-activeringen
+  planets_created: Planeten gekoloniseerd
+  planets_deleted: Planeten verlaten
+  raided_crystal: Kristal geplunderd
+  raided_deuterium: Deuterium geplunderd
+  raided_metal: Metaal geplunderd
+  recycled_crystal: Kristal gerecycled
+  recycled_metal: Metaal gerecycled
+  set_sail_wins: Gevechten gewonnen met actief SetSail-thema
+  stolen_crystal: Gestolen kristal
+  stolen_deuterium: Gestolen deuterium
+  stolen_metal: Gestolen metaal
+  used_fuel: Verbruikte brandstof
+  wons: Gewonnen
+advancedStats: Uitgebreide statistieken
+al_acept_request: Accepteren
+al_actions: Acties
+al_all_players: Alle spelers
+al_alliance: Alliantie
+al_alliance_closed: Deze alliantie neemt geen nieuwe leden aan.
+al_alliance_full: Deze alliantie is vol. Probeer een andere.
+al_alliance_make: Richt je eigen alliantie op
+al_alliance_min_points: Je hebt minstens %d punten nodig om bij deze alliantie te solliciteren.
+al_alliance_search: Allianties zoeken
+al_ally_info_members: Leden
+al_ally_info_name: Naam
+al_ally_info_tag: Tag
+al_ally_information: Alliantie-informatie
+al_already_exists: Er bestaat al een alliantie met de naam <b>%s</b>. Kies een andere naam.
+al_apply_accepted: Sollicitatie geaccepteerd.
+al_apply_declined: Sollicitatie afgewezen.
+al_apply_not_exists: Die sollicitatie bestaat niet meer.
+al_applyform_send: Versturen
+al_back: Terug
+al_candidate: Kandidaat
+al_change_submit: Wijzigen
+al_change_title: Titel wijzigen
+al_characters: tekens
+al_circular_alliance: 'Alliantie '
+al_circular_front_text: 'Alliantielid <b>%s</b> schreef:'
+al_circular_message: Alliantieberichten
+al_circular_reset: Herstellen
+al_circular_send_ciruclar: Rondschrijven versturen
+al_circular_send_submit: Versturen
+al_circular_sended: 'Bericht verstuurd naar deze spelers:'
+al_click_to_send_request: Lid worden van alliantie
+al_close_ally: Wil je de alliantie echt opheffen?
+al_configura_ranks: Rangen beheren
+al_continue: Doorgaan
+al_coords: Coördinaten
+al_create: Aanmaken
+al_create_new_rank: Nieuwe rang aanmaken
+al_created: Alliantie <b>%s</b> opgericht!
+al_decline_request: Afwijzen
+al_default_leader_name: Leider
+al_delete_request: Sollicitatie intrekken
+al_delete_request_confirm: Je sollicitatie intrekken?
+al_description_message: Deze alliantie heeft nog geen beschrijving geschreven.
+al_diplo: Diplomatie
+al_diplo_accept: Binnenkomende verzoeken
+al_diplo_accept_no: Verdrag afgewezen.
+al_diplo_accept_no_confirm: Dit verdrag afwijzen?
+al_diplo_accept_no_mes: Het verdrag (%s) tussen de allianties <b>%s</b> en <b>%s</b> is afgewezen!
+al_diplo_accept_send: Uitgaande verzoeken
+al_diplo_accept_yes: Verdrag ondertekend.
+al_diplo_accept_yes_confirm: Dit verdrag accepteren?
+al_diplo_accept_yes_mes: Het verdrag (%s) tussen de allianties <b>%s</b> en <b>%s</b> is ondertekend!
+al_diplo_ally: Alliantie
+al_diplo_ask: Verdragsverzoek
+al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Een verdragsverzoek]</a> (%s) is verstuurd van <b>%s</b> naar <b>%s</b>.<br>Reden: %s'
+al_diplo_confirm_delete: Dit verdrag beëindigen?
+al_diplo_create: Verdrag aanvragen
+al_diplo_create_done: Verdragsverzoek verstuurd.
+al_diplo_delete: Verdrag beëindigd
+al_diplo_delete_mes: Het verdrag (%s) tussen de allianties <b>%s</b> en <b>%s</b> is beëindigd.
+al_diplo_exists: Je hebt al een actief of lopend verdrag met %s.
+al_diplo_head: Diplomatiebeheer
+al_diplo_info: '<p>Op deze pagina beheer je de diplomatieke verdragen van je alliantie.</p><p>De soorten verdragen staan hieronder. Meer informatie: <a href="game?page=questions">FAQ</a> of de <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
+al_diplo_level:
+- Hoofd
+- Vleugel
+- Alliantie
+- Handelsverdrag
+- Non-agressiepact
+- Oorlog
+- Geheime alliantie
+- Vrede
+al_diplo_level_des: Soorten verdragen
+al_diplo_no_accept: '- Geen verzoeken -'
+al_diplo_no_alliance: Geen alliantie met ID %s gevonden.
+al_diplo_no_entry: '- Geen verdragen -'
+al_diplo_same_alliance: Je kunt geen verdrag sluiten met je eigen alliantie!
+al_diplo_text: Verzoek/reden
+al_diplo_war: Oorlogsverklaring
+al_diplo_war_end: Vredesverklaring
+al_diplo_war_end_mes: De %s tussen de allianties <b>%s</b> en <b>%s</b> is zojuist beëindigd.
+al_diplo_war_mes: 'De alliantie <b>%1$s</b> heeft %3$s verklaard aan <b>%2$s</b>! <br>Reden:<br>%4$s<br><br>Informatie: De oorlog begint over <b>24 uur</b>, waarna de bashregel wordt opgeschort.<br>Raadpleeg voor meer informatie de <a href="./?page=rules&lang=en" target="_blank">[Regels]</a>.'
+al_diplo_withdraw: Verdragsverzoek ingetrokken.
+al_diplo_withdraw_confirm: Dit verdragsverzoek intrekken?
+al_diplo_withdraw_mes: Het verdragsverzoek (%s) tussen de allianties <b>%s</b> en <b>%s</b> is ingetrokken.
+al_disolve_alliance: Alliantie opheffen
+al_dlte: Verwijderen
+al_estate: Online
+al_find_alliances: Allianties zoeken
+al_find_no_alliances: Geen allianties gevonden. Probeer een andere zoekopdracht.
+al_find_submit: Zoeken
+al_find_text: Zoeken naar
+al_founder_rank_text: Oprichter
+al_go_out_no: Nee
+al_go_out_yes: Ja
+al_has_accepted: '</b> heeft je sollicitatie geaccepteerd!<br>Bericht: <br>'
+al_has_declined: '</b> heeft je sollicitatie afgewezen!<br>Bericht: <br>'
+al_hi_the_alliance: De alliantie <b>
+al_inside_section: Alleen voor leden
+al_inside_text: Privébeschrijving
+al_invalid_rank_name: Rangnamen mogen alleen letters, cijfers, spaties, underscores, streepjes en punten bevatten.
+al_kick_player: '%s uit de alliantie zetten?'
+al_leave_alliance: Alliantie verlaten
+al_leave_ally: De alliantie verlaten?
+al_leave_sucess: Je hebt de alliantie <b>%s</b> verlaten.
+al_leaving: Speler heeft de alliantie verlaten
+al_leaving_msg: De speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> heeft de alliantie verlaten!
+al_make_alliance: Alliantie oprichten
+al_make_ally_insufficient_points: Je hebt niet genoeg punten om een alliantie op te richten.<br>Je hebt minstens %s punten nodig en mist er nog %s.
+al_make_ally_name_required: Alliantienaam (3-30 tekens)
+al_make_ally_tag_required: Alliantietag (3-8 tekens)
+al_make_submit: Aanmaken
+al_manage_alliance: Alliantie beheren
+al_manage_diplo: Diplomatie
+al_manage_founder_rank: Leiderrang
+al_manage_image: Bannerafbeelding
+al_manage_members: Leden
+al_manage_options: Opties
+al_manage_ranks: Rangen
+al_manage_request_min_points: Min. punten
+al_manage_requests: Sollicitaties
+al_member: Naam
+al_member_since: Lid sinds
+al_memberlist_min: min
+al_memberlist_off: Offline
+al_memberlist_on: Online
+al_message: Bericht
+al_name: Alliantienaam wijzigen
+al_name_required: Voer een alliantienaam in.
+al_name_tag_too_long: De tag mag maximaal 8 tekens hebben en de naam 30.
+al_new_apply: Je alliantie heeft <a href="?page=alliance&mode=admin&action=manageApply">[een sollicitatie]</a> ontvangen van speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_member_rank_text: Nieuw lid
+al_new_name: Naam wijzigen (3-30 tekens)
+al_new_requests: '%d in behandeling'
+al_new_tag: Tag wijzigen (3-8 tekens)
+al_newname_specialchar: Alliantienamen en -tags mogen alleen letters, cijfers, spaties, underscores, streepjes en punten bevatten.
+al_no_diplo: '-'
+al_no_ranks_defined: Nog geen rangen. Maak de eerste aan!
+al_no_requests: Op dit moment geen sollicitaties.
+al_not_exists: Die alliantie bestaat niet.
+al_num: ID
+al_ok: OK
+al_outside_text: Openbare beschrijving
+al_points: Punten
+al_position: Rang
+al_rank: Jouw rang
+al_rank_desc:
+  ADMIN: Mag de alliantie beheren
+  DIPLOMATIC: Mag diplomatie beheren
+  EVENTS: Mag gebeurtenissen bekijken
+  KICK: Mag leden verwijderen
+  MANAGEAPPLY: Mag sollicitaties beheren
+  MANAGEUSERS: Mag leden beheren
+  MEMBERLIST: Mag de ledenlijst zien
+  ONLINESTATE: Mag zien wie online is
+  RANKS: Mag rangen beheren
+  ROUNDMAIL: Mag rondschrijven versturen
+  SEEAPPLY: Mag sollicitaties bekijken
+  TRANSFER: Kan alliantieleider worden
+al_rank_diplo: Diplomaat
+al_rank_name: Naam
+al_receiver: Ontvanger
+al_reply_to_request: Antwoorden
+al_request: Sollicitatie
+al_request_confirmation_message: Sollicitatie verstuurd!<br> Je krijgt een bericht zodra die wordt geaccepteerd of afgewezen.
+al_request_date: Datum van sollicitatie
+al_request_deleted: Je sollicitatie bij alliantie <b>%s</b> is ingetrokken.<br> Je kunt nu een nieuwe sollicitatie indienen of je eigen alliantie oprichten.
+al_request_from: Verzoek voor <b>%s</b>
+al_request_last_onlinetime: Laatste activiteit
+al_request_list: Verzoekenlijst
+al_request_register_time: Geregistreerd
+al_request_text: Sollicitatieformulier
+al_request_wait_message: Je sollicitatie bij <b>%s</b> is nog in behandeling.<br> Wacht op een antwoord, of trek hem in en solliciteer elders.
+al_requests: Verzoeken
+al_requests_allowed: Open
+al_requests_min_points: ' %s punten'
+al_requests_not_allowed: Gesloten
+al_save: Opslaan
+al_saved: Opgeslagen!
+al_send_circular_message: Rondschrijven versturen
+al_set_max_members: Max. leden
+al_tag: Alliantietag wijzigen
+al_tag_required: Voer een alliantietag in.
+al_texts: Teksten
+al_the_alliance: De alliantie
+al_transfer_alliance: Alliantie overdragen
+al_transfer_submit: Overdragen
+al_transfer_to: Overdragen aan
+al_user_list: Ledenlijst
+al_users_list: 'Leden (totaal: %d)'
+al_users_list_main: 'Hoofdleden (totaal: %d) - %s'
+al_users_list_wing: 'Vleugelleden (totaal: %d) - %s'
+al_view_diplo: Diplomatie tonen
+al_view_stats: Gevechtsstatistieken tonen
+al_web_site: Homepage
+al_web_text: Alliantiewebsite
+al_write_request: Solliciteer bij alliantie <b>%s</b>
+al_you_was_acceted: 'Je bent geaccepteerd bij '
+al_you_was_declined: 'Je bent afgewezen bij '
+al_your_ally: Jouw alliantie
+al_your_request_title: Jouw sollicitatie
+bad_forum_url: De forumlink is ongeldig.
+banned_message: 'Je bent verbannen. <!--discord_url-->Denk je dat dit een vergissing is, stuur ons dan een bericht op Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
+bd_actual_production: 'Huidige productie:'
+bd_available: 'Beschikbaar: '
+bd_build: Bouwen
+bd_build_next_level: 'Upgraden '
+bd_build_ships: Bouwen
+bd_building_lab: Onderzoeken kan niet terwijl het onderzoekslab wordt geüpgraded.
+bd_building_shipyard: Schepen of verdedigingen bouwen kan niet terwijl de werf (of nanorobotfabriek) wordt geüpgraded.
+bd_buildlist_full: De bouwwachtrij is vol.
+bd_cancel: Annuleren
+bd_cancel_send: Bouw annuleren
+bd_cancel_warning: Let op!<br>Bij annuleren krijg je slechts 60% van de kosten terug.
+bd_continue: Doorgaan
+bd_deploy: Inzetten
+bd_deployable: 'Reparatie voltooid! Automatisch weer in dienst over:'
+bd_destroy_time: Duur
+bd_dismantle: Slopen
+bd_jump_gate_action: Springen
+bd_lvl: Niveau
+bd_max_builds: 'Je wachtrij is vol: maximaal %d opdrachten.'
+bd_max_ships: max
+bd_max_ships_long: Maximaal aantal eenheden dat je kunt bouwen
+bd_max_ships_repair: Maximaal aantal eenheden dat je kunt herstellen
+bd_maxlevel: Maximaal niveau bereikt
+bd_more_engine: Produceert <font class="colorPositive">%s</font> meer %s
+bd_need_engine: Verbruikt <font class="colorNegative">%s</font> meer %s
+bd_next_level: 'Volgend niveau:'
+bd_no_lab: Geen onderzoekslab op deze planeet. Je kunt de wachtrij bekijken maar niet wijzigen.
+bd_no_more_fields: Geen vrije velden meer op deze planeet.
+bd_operating: (In aanbouw)
+bd_paused: gepauzeerd
+bd_price_for_destroy: 'Kosten om te slopen:'
+bd_protection_shield_only_one: Je kunt maar één schild bouwen!
+bd_remaining: Ontbrekende grondstoffen
+bd_repair_rate: Herstelpercentage
+bd_repair_ships: Herstellen
+bd_repairdock_busy: Het reparatiedok is bezig met een andere klus.
+bd_repairdock_deploy: Reparaties klaar. De schepen zijn weer in dienst!
+bd_repairdock_empty: Hier is geen wrakveld om te repareren.
+bd_repairdock_required: Bouw eerst een reparatiedok op deze planeet.
+bd_repairdock_time: Resterende tijd van het wrakveld
+bd_repairing: Reparatie bezig
+bd_requirements: Vereisten ontbreken
+bd_researclist_full: De onderzoekswachtrij is vol.
+bd_shipyard_required: Bouw eerst een werf.
+bd_tech: Onderzoek
+bd_tech_next_level: 'Onderzoeken '
+bd_working: Bezig
+bd_wreck_count: Wrakken in het wrakveld
+blockDm: Directe berichten blokkeren
+blockTrade: Handel blokkeren
+bn_by: Door
+bn_exists: 'Totaal '
+bn_from: Van
+bn_no_players_banned: Op dit moment is er niemand verbannen.
+bn_player: Speler
+bn_players_banned: ' spelers verbannen'
+bn_players_banned_list: Lijst van verbannen spelers
+bn_reason: Reden
+bn_until: Tot
+bn_writemail: Schrijf naar %s
+bs_acs_slot: ACS-slot
+bs_add_acs_slot: ACS-slot toevoegen
+bs_atter: Aanvaller
+bs_cancel: Herstellen
+bs_deffer: Verdediger
+bs_derbis_raport: 'Nodig om het puin te recyclen: %s %s.'
+bs_load: Laden
+bs_load_invalid: Ongeldige deelcode
+bs_load_no_input: Geen deelcode ingevoerd
+bs_names: Scheepsnaam
+bs_reset: Resetten
+bs_send: Berekenen
+bs_share: Delen
+bs_share_code: Deelcode
+bs_share_copy_fail: Kopiëren mislukt
+bs_share_copy_prompt: 'Kopieer de deelcode handmatig:'
+bs_share_error: Kon de deelcode niet genereren
+bs_share_success: Deelcode naar klembord gekopieerd
+bs_steal: 'Grondstoffen van de verdediger:'
+bs_steal_raport: 'Nodig om grondstoffen buit te maken: %s %s of %s %s.'
+bs_swap: Kanten wisselen
+bs_techno: Technologie
+bs_wait: Wacht 5 seconden voor de volgende simulatie
+bu_accept: Accepteren
+bu_accepted_request_body: Hallo %s,<br>%s heeft je vriendschapsverzoek geaccepteerd!
+bu_accepted_request_title: Vriendschapsverzoek geaccepteerd!
+bu_action: Actie
+bu_alliance: Alliantie
+bu_buddy_list: Vriendenlijst
+bu_cancel_request: Verzoek annuleren
+bu_cannot_request_yourself: Je kunt jezelf geen vriendschapsverzoek sturen
+bu_characters: Tekens
+bu_connected: Verbonden
+bu_coords: Coördinaten
+bu_decline: Weigeren
+bu_delete: Verwijderen
+bu_disconnected: Offline
+bu_minutes: ' min'
+bu_my_requests: Mijn verzoeken
+bu_new_request_body: Hallo %s,<br>%s wil je vriend worden!
+bu_new_request_title: Nieuw vriendschapsverzoek
+bu_no_buddys: Je hebt nog geen vrienden. Stuur een verzoek via het profiel van een speler!
+bu_no_request: Geen verzoeken.
+bu_online: Online
+bu_partners: Partners
+bu_player: Speler
+bu_player_not_exist: Die speler bestaat niet.
+bu_rejected_request_body: Hallo %s,<br>%s heeft je vriendschapsverzoek geweigerd!
+bu_rejected_request_title: Vriendschapsverzoek geweigerd!
+bu_request_exists: Er is al een vriendschapsverzoek voor deze speler!
+bu_request_message: Verzoekbericht
+bu_request_send: Vriendschapsverzoek verstuurd.
+bu_request_text: Verzoektekst
+bu_requests: Verzoeken
+bu_send: Versturen
+bu_text: Tekst
+build: Bouwen
+cff_acs_fleet: Vloot in ACS
+cff_aproaching: 'De vloot bestaat uit '
+cff_mission_acs: 'Een %s van %s %s %s is aangekomen op %s %s %s. Missie: %s'
+cff_mission_other_expo_0: 'Een %s van %s %s %s is aangekomen op positie %s. Missie: %s'
+cff_mission_other_expo_2: 'Een %s van %s %s %s is op expeditie op positie %s. Missie: %s'
+cff_mission_other_recy_0: 'Een %s van %s %s %s is aangekomen bij het puinveld op %s. Missie: %s'
+cff_mission_other_0: 'Een %s van %s %s %s is aangekomen op %s %s %s. Missie: %s'
+cff_mission_other_1: 'Een %s keert terug van %s %s %s naar %s %s %s. Missie: %s'
+cff_mission_other_2: 'Een %s van %s %s %s staat in een baan om %s %s %s. Missie: %s'
+cff_mission_other_expo_1: 'Een %s keert terug van positie %s naar %s %s %s. Missie: %s'
+cff_mission_other_mip: Raketaanval (%d) van %s %s %s naar %s %s %s.
+cff_mission_other_recy_1: 'Een %s keert terug van het puinveld op %s naar planeet %s %s %s. Missie: %s'
+cff_mission_own_0: 'Je %s van %s %s %s is aangekomen op %s %s %s. Missie: %s'
+cff_mission_own_1: 'Je %s keert terug van %s %s %s naar %s %s %s. Missie: %s'
+cff_mission_own_2: 'Je %s van %s %s %s staat in een baan om %s %s %s. Missie: %s'
+cff_mission_own_expo_0: 'Je %s van %s %s %s is aangekomen op positie %s. Missie: %s'
+cff_mission_own_expo_1: 'Je %s keert terug van positie %s naar %s %s %s. Missie: %s'
+cff_mission_own_expo_2: 'Je %s van %s %s %s is op expeditie op positie %s. Missie: %s'
+cff_mission_own_mip: Raketaanval (%d) van %s %s %s naar %s %s %s.
+cff_mission_own_recy_0: 'Je %s van %s %s %s is aangekomen bij het puinveld op %s. Missie: %s'
+cff_mission_own_recy_1: 'Je %s keert terug van het puinveld op %s naar planeet %s %s %s. Missie: %s'
+cff_mission_target_bad: 'Een vijandige %s van speler %s op %s %s %s is aangekomen op %s %s %s. Missie: %s'
+cff_mission_target_good: 'Een bevriende %s van speler %s op %s %s %s is aangekomen op %s %s %s. Missie: %s'
+cff_mission_target_mip: Raketaanval (%d) van speler %s op %s %s %s naar %s %s %s.
+cff_mission_target_stay: 'Een bevriende %s van speler %s op %s %s %s staat in een baan om %s %s %s. Missie: %s'
+cff_no_fleet_data: Geen vlootgegevens
+cff_ships: ' eenheden'
+colonyWarn: Waarschuwen voordat je meer dan 2 planeten in één stelsel koloniseert
+css_account_banned_expire: 'Je bent verbannen tot %1$s!<br>Heb je vragen? <a style="color: -webkit-link;" href="%2$s">Neem contact met ons op (link)</a>.'
+css_account_banned_message: Je account is verbannen.
+css_account_banned_reason: 'Reden: %s'
+css_goto_homeside: <a href="./">Naar de homepage</a>
+custom_fleet: Eigen vloten
+custom_fleet_confirm: Vlootsjabloon %s verwijderen?
+delete_confirm_gala: Lokaal opgeslagen melkweggegevens verwijderen?
+Description: Beschrijving
+destroyed: Vernietigd
+dishonorable_fights: Oneervolle gevechten
+donate: Doneren
+expedition: Expeditie
+fa_action_not_allowed: Actie niet toegestaan
+fa_no_fleetroom: Niet genoeg laadruimte voor de brandstof
+fa_no_more_slots: Geen vrije vlootslots
+fa_no_recyclers: Geen recyclers beschikbaar
+fa_no_spios: Geen sondes beschikbaar
+fa_not_enough_fuel: Niet genoeg brandstof
+fa_not_enough_probes: Geen sondes beschikbaar
+fa_not_spy_yourself: Je kunt jezelf niet bespioneren
+fa_planet_not_exist: Planeet bestaat niet
+fa_sending: Versturen
+fa_strong_player: Speler is te sterk
+fa_vacation_mode: Speler is in vakantiemodus
+fa_vacation_mode_current: Je bent in vakantiemodus
+fa_week_player: Speler is te zwak
+fcm_info: Info
+fcm_mainplanet: Hoofdplaneet
+fcm_moon: Maan
+fcm_planet: Planeet
+fcm_universe: Universum
+fcp_colony: Kolonie
+fgf_time: 'Tijd: '
+fgr_time: 'Reparatietijd: '
+first: Primeurs
+fl_a: (A)
+fl_acs: ACS
+fl_acs_change: Wijzigen
+fl_acs_change_name: Voer een nieuwe naam in
+fl_acs_invitation_message: ' uitgenodigd voor ACS.'
+fl_acs_invitation_title: ACS
+fl_acs_newname_alphanum: De ACS-naam mag alleen letters en cijfers bevatten
+fl_acs_title: Alliantie-aanval
+fl_add_to_attack: ' aan aanval toegevoegd.'
+fl_admin_attack: Beheerders kunnen niet worden aangevallen.
+fl_all_resources: Alle grondstoffen
+fl_already_invited: ' is al uitgenodigd.'
+fl_ammount: Schepen
+fl_arrival: Aankomst
+fl_arrival_time: Aankomsttijd
+fl_attack_confirm_buddy: 'Het doelwit staat op je vriendenlijst.
+
+  Weet je zeker dat je wilt aanvallen?'
+fl_attack_confirm_diplo: Je hebt een verdrag (%s) met %s. Toch aanvallen?
+fl_attack_confirm_outlaw: Als je %s aanvalt, word je 7 dagen vogelvrij.
+fl_bash_protection: Dat zou de bashregel overtreden.
+fl_beginning: Herkomst
+fl_blocked: ' accepteert geen uitnodigingen.'
+fl_bonus: Bonus
+fl_bonus_attack: Wapens
+fl_bonus_defensive: Pantser
+fl_bonus_shield: Schilden
+fl_cargo_capacity: Laadcapaciteit
+fl_colonize_confirm: Je hebt al meer dan één planeet in dit stelsel. Drukke stelsels trekken sterke spelers aan. Toch koloniseren?
+fl_continue: Doorgaan
+fl_debris_shortcut: (V)
+fl_departure: Vertrek
+fl_destiny: Bestemming
+fl_distance: Afstand
+fl_dlte_shortcut: Verwijderen
+fl_dont_exist: ' bestaat niet.'
+fl_empty_target: Geen missie beschikbaar. Bestaat het doelwit wel?
+fl_error: Er ging iets mis. Probeer het opnieuw.
+fl_error_empty_derbis: Geen puinveld op deze coördinaten!
+fl_error_no_moon: Er is geen maan op deze coördinaten.
+fl_error_not_avalible: Er is niets op deze coördinaten.
+fl_error_same_planet: Start en bestemming zijn dezelfde planeet!
+fl_exchange: Ruilen
+fl_expedition_alert_message: 'Pas op: expedities zijn riskant. Je kunt je hele vloot verliezen!'
+fl_expedition_tech_required: Je hebt Astrofysica niveau 1 nodig voordat je een expeditie kunt starten.
+fl_expeditions: Expedities
+fl_fleet: Vloot
+fl_fleet_sended: Vloot verstuurd!
+fl_fleet_speed: Vlootsnelheid
+fl_fleets: Vloot
+fl_flying_arrival: Aankomst
+fl_flying_return: Terugkeer
+fl_flying_time: Duur (enkele reis)
+fl_from: Van
+fl_fuel_consumption: Deuteriumverbruik
+fl_hold_confirm_outlaw: Als je vasthoudt bij %s, word je 7 dagen vogelvrij.
+fl_hold_max_fleets: Er zijn al te veel vloten onderweg naar deze coördinaten, dus je vloot kon niet worden verstuurd.
+fl_hold_max_user: Het maximale aantal verdedigers is bereikt, dus je vloot kon niet worden verstuurd.
+fl_hold_time: Vasthoudtijd
+fl_hold_time_not_exists: Kies een geldige vasthoudtijd.
+fl_hours: Uren
+fl_in_vacation_player: Speler is in vakantiemodus
+fl_info_detail: Details
+fl_invalid_mission: Die missie is hier niet mogelijk.
+fl_invalid_target: Dat doelwit is niet geldig.
+fl_invite_members: Leden uitnodigen
+fl_market_type: Markttype
+fl_max: max
+fl_max_speed: Max. snelheid
+fl_members_invited: Uitgenodigd
+fl_mission: Missie
+fl_modify_sac_name: ACS-naam
+fl_moon_shortcut: (M)
+fl_mt_fleet: Vlootmarkt
+fl_mt_resources: Grondstoffenmarkt
+fl_multi_alarm: Multi-alarm!
+fl_my_planets: Mijn planeten
+fl_new_mission_title: 'Nieuwe missie: kies vloot'
+fl_no_colony: Er is geen kolonie
+fl_no_expedition_slot: Geen expeditieslots vrij.
+fl_no_more_slots: Geen vrije slots
+fl_no_noresource: Geen grondstoffen geladen!
+fl_no_noresource_exchange: Geen grondstoffen ingevoerd voor de ruil
+fl_no_probe_expos: Een expeditie kan niet alleen uit spionagesondes bestaan!
+fl_no_same_alliance: De doelspeler moet in je alliantie zitten of op je vriendenlijst staan!
+fl_no_ships: Geen schepen beschikbaar
+fl_no_shortcuts: Geen snelkoppelingen
+fl_no_slots: Geen slots beschikbaar
+fl_no_target: Geen doelplaneet beschikbaar
+fl_not_all_ship_avalible: Niet alle schepen zijn beschikbaar.
+fl_not_enough: Niet genoeg %s.
+fl_not_enough_deuterium: Niet genoeg deuterium voor deze vlucht.
+fl_not_enough_space: Niet genoeg laadruimte.
+fl_null: geen
+fl_number: ID
+fl_objective: Eindigt over
+fl_only_planets_colonizable: Alleen planeten kunnen worden gekoloniseerd.
+fl_onway: Heenreis
+fl_order: Volgorde
+fl_own_planet_error: Er ging iets mis. Kies de planeet waarvan je de vloot wilt versturen opnieuw.
+fl_planet_shortcut: (P)
+fl_planets: Planeten
+fl_player: 'Speler '
+fl_player_is_noob: Speler staat onder noobbescherming.
+fl_player_is_strong: Speler is te sterk.
+fl_r: (R)
+fl_remove_all_ships: Geen schepen
+fl_resources: Grondstoffen geladen!
+fl_resources_left: Beschikbare capaciteit
+fl_return_time: Terugkeertijd
+fl_returning: Terugkerend
+fl_sac_of_fleet: ACS-vloot
+fl_select_all_ships: Alle schepen
+fl_selected_resources: Geselecteerde grondstoffen
+fl_send_back: Terugroepen
+fl_send_fleet: Vloot versturen
+fl_ship_available: Beschikbare schepen
+fl_ship_type: Scheepstype
+fl_shortcut: Snelkoppelingen
+fl_shortcut_add: Toevoegen
+fl_shortcut_edition: Snelkoppeling bewerken
+fl_shortcut_name: Naam
+fl_shortcut_save: Snelkoppeling opslaan
+fl_shortcut_saved: Snelkoppeling opgeslagen!
+fl_simulate: Simuleren
+fl_speed_title: 'Snelheid: '
+fl_spy_confirm_outlaw: Als je %s bespioneert, word je 7 dagen vogelvrij.
+fl_strong_player: Speler is te sterk.
+fl_stronger_techs: Je wapen-, pantser- of schildtechniek is te laag.
+fl_system_places: Speciale locaties
+fl_target_exists: Doelplaneet
+fl_trade_no_resource_loaded: Je hebt geen grondstoffen geladen.
+fl_trade_same_resource: Je kunt %s niet verkopen voor %s.
+fl_trade_to_many_resources_loaded: Je kunt maar één soort grondstof verkopen.
+fl_transfer_alert_message: 'Waarschuwing!
+
+  Je vloot wordt overgedragen aan een andere speler!'
+fl_vacation_mode_active: Vakantiemodus actief
+fl_visibility: Zichtbaarheid
+fl_visibility_all: Alles
+fl_visibility_alliance: Alliantie, verdragspartners en vrienden
+fl_visibility_no_enemies: Iedereen behalve vijanden
+fl_week_player: Speler staat onder noobbescherming
+fleet_table_custom_empty_name: Voer een vlootnaam in!
+fleetPrio: Prioriteit van vlootvolgorde
+fm_add_filter: Scheepsfilter toevoegen
+fm_all: Alles
+fm_civil: Civiel
+fm_engines: Motoren
+fm_imperial: Imperiaal
+fm_military: Militair
+fm_mining: Mijnbouw
+fm_other: Overig
+fm_recycler: Recycler
+fm_storage: Opslag
+foreign_colors: Kleuren voor anderen
+found: 'Gevonden '
+ft_absenden: Versturen
+ft_charge: Handelskoers
+ft_count: Aantal
+ft_empty: Leeg
+ft_head: Handelsvloten
+ft_max: max
+ft_total: Totaal
+general_colors: Algemene kleuren
+gl_actions: Acties
+gl_activity: (*)
+gl_activity_inactive: (%d min)
+gl_ajax_status_fail: Mislukt
+gl_ajax_status_ok: Klaar
+gl_all_defenses: Alle verdedigingen
+gl_alliance: Alliantie
+gl_alliance_page: Alliantiepagina
+gl_alliance_web_page: Alliantiewebsite
+gl_avaible_missiles: Beschikbare raketten
+gl_avaible_recyclers: Recyclers
+gl_avaible_spyprobes: Spionagesondes
+gl_banned: Verbannen / geschorst
+gl_buddy_request: Vriendschapsverzoek
+gl_colonizable: Koloniseerbaar
+gl_debris: Puin
+gl_debris_field: Puinveld
+gl_diameter: Diameter
+gl_features: Eigenschappen
+gl_fleets: Vlootslots
+gl_galaxy: Melkweg
+gl_in_the_rank: Speler %s, rang %d
+gl_inactive_seven: 7 dagen inactief
+gl_inactive_twentyeight: 28 dagen inactief
+gl_legend: Legenda
+gl_member: '%d leden'
+gl_member_add: '%d lid'
+gl_missil_flytime: Tijd tot inslag
+gl_missil_launch: Raketaanval
+gl_missil_launch_action: Raketten lanceren
+gl_missil_to_launch: Aantal (<b>%d</b> beschikbaar)
+gl_missile_attack: Raketaanval
+gl_moon: Maan
+gl_no: Nee
+gl_no_deuterium_to_view_galaxy: Niet genoeg deuterium om de melkweg te bekijken!
+gl_no_spy_report: Nog geen spionagerapport voor deze planeet.
+gl_not_colonizable: Niet koloniseerbaar!
+gl_objective: Hoofddoel
+gl_out_space: Diepe ruimte
+gl_phalanx: Phalanx
+gl_planet: Planeet
+gl_planet_destroyed: Planeet vernietigd
+gl_player: Speler
+gl_player_estate: Speler (status)
+gl_playercard: Spelersprofiel
+gl_populed_planets: '%d bewoonde planeten'
+gl_pos: Pos.
+gl_resources: Grondstoffen
+gl_see_on_stats: Stats
+gl_short_ban: B
+gl_short_inactive: i
+gl_short_long_inactive: I
+gl_short_newbie: N
+gl_short_strong: S
+gl_short_vacation: VM
+gl_show: Stelsel tonen
+gl_show_spy_report: Spionagerapport
+gl_solar_system: Stelsel
+gl_spy: Spioneren
+gl_spy_report_fresh: Spionagerapport (< %du)
+gl_spy_report_none: Geen spionagerapport
+gl_spy_report_old: Spionagerapport (> %du)
+gl_spy_report_recent: Spionagerapport (< %du)
+gl_strong_player: Sterke speler
+gl_sync: Gegevens opslaan
+gl_sync_export_csv: CSV exporteren
+gl_sync_export_json: JSON exporteren
+gl_sync_import_json: JSON importeren
+gl_sync_reset: Gegevens resetten
+gl_temperature: Temperatuur
+gl_to: tot
+gl_trade_space: Marktplaats
+gl_vacation: Vakantiemodus
+gl_week_player: Zwakke speler
+honor_rank: Eerrang
+honor_rank_low_1: Bandietenkeizer
+honor_rank_low_10: Koning der bandieten
+honor_rank_low_20: Bandietenheer
+honor_rank_low_30: Bandiet
+honor_rank_top_1: Godkeizer
+honor_rank_top_10: Grootkeizer
+honor_rank_top_20: Keizer
+honor_rank_top_30: Sterrenheer
+honorable_fights: Eervolle gevechten
+honorpoints: Eerepunten
+in_attack_pt: Aanvalskracht
+in_base_speed: Basissnelheid
+in_capacity: Laadcapaciteit
+in_consumption: Brandstofverbruik
+in_destroy: Vernietigen
+in_difference: Verschil
+in_engine: Motor
+in_jump_gate_already_used: 'De sprongpoort laadt op. Klaar over: '
+in_jump_gate_doesnt_have_one: Je hebt geen andere sprongpoort om naartoe te springen.
+in_jump_gate_done: 'Sprong geslaagd! Sprongpoort weer klaar over: %s'
+in_jump_gate_error_data: Ongeldige sprongcoördinaten!
+in_jump_gate_finish_moon: Bestemming
+in_jump_gate_jump: Springen
+in_jump_gate_no_target: Geen sprongdoel beschikbaar.
+in_jump_gate_not_ready_target: 'De poort van de bestemming laadt nog op. Klaar over '
+in_jump_gate_select_ships: 'Sprongpoort: kies schepen'
+in_jump_gate_start_moon: Herkomst
+in_jump_gate_wait_time: 'Volgende sprong mogelijk over:'
+in_level: Niveau
+in_missilesamount: Beschikbaar
+in_missilestype: Raketsoort
+in_name: Naam
+in_prod_p_hour: Per uur
+in_rf_again: Snelvuur tegen
+in_rf_explanation: 'Snelvuur: Elke gevechtsronde kan deze eenheid meerdere keren vuren. Het percentage toont de kans op een extra schot na een treffer op een doel van dat type.'
+in_rf_from: Snelvuur van
+in_shield_pt: Schildkracht
+in_storage: Opslag
+in_struct_pt: Structurele integriteit
+in_units: Eenheid
+kontakt: Hoi!<br>Op deze pagina zie je de mensen die dit project runnen, modereren en ontwikkelen.<br>Vragen of problemen? Neem contact op.<br><br><!--discord_url-->Voor een betere uitwisseling met ons en met andere spelers hebben we een Discord-server. Je vindt hem <a href="{discord_url}">hier</a> of via het menu.<br>Daar vind je het laatste nieuws plus de beste memes uit de allianties van het universum.<br>Vraag naar spelmechanismen en deel je ideeën voor de toekomst van het spel.<br><br><!--/discord_url-->Natuurlijk beantwoorden we ook je vragen over het spel.<br>Houd er rekening mee dat we het spel als hobby spelen, dus antwoorden kunnen een paar dagen duren.<br>
+lm_administration: Beheer
+lm_alliance: Alliantie
+lm_banned: Verbannen
+lm_battlesim: Simulator
+lm_buddylist: Vrienden
+lm_buildings: Gebouwen
+lm_changelog: Changelog
+lm_dataPrivacy: Privacy
+lm_defenses: Verdedigingen
+lm_empire: Rijk
+lm_faq: FAQ
+lm_fleet: Vloot
+lm_fleettrader: Vlootmarkt
+lm_galaxy: Melkweg
+lm_info: Info
+lm_logout: Uitloggen
+lm_marketplace: Marktplaats
+lm_messages: Berichten
+lm_notes: Notities
+lm_options: Opties
+lm_overview: Overzicht
+lm_playercard: Spelersprofiel
+lm_records: Records
+lm_repairdock: Reparatiedok
+lm_research: Onderzoek
+lm_resources: Grondstoffen
+lm_rules: Regels
+lm_search: Zoeken
+lm_shipshard: Werf
+lm_statistics: Statistieken
+lm_support: Support
+lm_technology: Technologieën
+lm_topkb: Hall of Fame
+lo_continue: Klik om door te gaan.
+lo_logout: Je bent uitgelogd. Tot snel!
+lo_notify: Doorverwijzing over <span id="seconds">5</span> seconden
+lo_redirect: Doorverwijzen
+lo_title: Uitgelogd
+loading: Laden ...
+lost: Verloren
+lv_buildable: Bouwbaar
+lv_buildings: Gebouwen
+lv_coords: Coördinaten
+lv_defenses: Verdedigingen
+lv_fields: Velden
+lv_highlight: 'Markeer: '
+lv_imperium_title: Rijk
+lv_name: Naam
+lv_planet: Planeet
+lv_prodPerHour: Productie per uur
+lv_resources: Grondstoffen
+lv_ships: Schepen
+lv_show: 'Toon: '
+lv_storageFilled: Uren tot vol
+lv_technology: Technologieën
+lv_total: Totaal
+lv_unbuildable: Niet bouwbaar
+ma_add_missile_number: 'Voer het aantal raketten in! '
+ma_all: Alles
+ma_impulse_drive_required: Impulsaandrijving vereist
+ma_missiles_sended: ' raketten gelanceerd. Doel: '
+ma_no_missiles: Geen raketten
+ma_no_range: Het doel ligt buiten het bereik van je raketten.
+ma_not_send_other_galaxy: 'Je kunt geen raketten naar een andere melkweg sturen. '
+ma_planet_doesnt_exists: 'Die planeet bestaat niet. '
+ma_silo_level: 'Silo niveau 4 vereist! '
+ma_wrong_target: Verkeerd doel
+market_buyable_no_enemies: Geen vijanden
+market_buyable_no_tech: Te zwak
+market_buyable_only_trade_partners: Alleen partners
+market_confirm_are_you_sure: Weet je het zeker?
+market_fleet: Vloot
+market_info_description: 'Linkerkant: aanbiedingen | Rechterkant: vraagprijs<br><br>&bull; Geaccepteerde aanbiedingen kunnen niet worden geannuleerd &bull;<br>&bull; Sommige aanbiedingen kunnen vanwege de pushregel niet worden geaccepteerd &bull;<br>&bull; De koper betaalt de brandstof voor een gekochte vloot &bull;'
+market_info_header: Marktplaats
+market_info_no_return: Aanbiedingen op de marktplaats kunnen niet worden geannuleerd!
+market_msg_trade_bought: Je vloot vliegt naar %s met %s %s, %s %s, %s %s en kost %s %s.
+market_msg_trade_from: Marktplaats
+market_msg_trade_sold: Je vloot vliegt naar %s met %s %s, %s %s, %s %s.
+market_msg_trade_topic: Handelsstatus
+market_p_buy: Kopen
+market_p_cost_amount: Hoeveelheid
+market_p_cost_type: Kostensoort
+market_p_end: Einde
+market_p_from_duration: Vlucht vanaf
+market_p_msg_more_ships_is_needed: Je hebt meer schepen nodig voor deze aanbieding.
+market_p_msg_not_found: Die aanbieding is weg.
+market_p_msg_own_offer: Je kunt je eigen aanbieding niet kopen.
+market_p_msg_purchase_failed: De aankoop is niet doorgegaan. Probeer het opnieuw.
+market_p_msg_resources_error: Je hebt niet genoeg grondstoffen.
+market_p_msg_sent: '%s kleine vrachtschepen, %s grote vrachtschepen verstuurd'
+market_p_msg_wrong_resource_type: Deze aanbieding vraagt om een ongeldige grondstof.
+market_p_offer_type: Aanbiedingstype
+market_p_ratio: Verhouding
+market_p_submit: Nu kopen!
+market_p_to_duration: Vlucht naar
+market_ship_as_first: 'Kies het scheepstype voor de handel:'
+Messages: Berichten
+messagesPerPage: Berichten per pagina (3-50)
+mg_answer_to: Antwoorden aan
+mg_blocked: Deze speler accepteert geen berichten.
+mg_characters: Tekens
+mg_confirm: Bevestigen
+mg_delete: Bericht verwijderen
+mg_delete_all: Alle berichten verwijderen
+mg_delete_marked: Gemarkeerde berichten verwijderen
+mg_delete_type_all: Alle berichten van dit type verwijderen
+mg_delete_unmarked: Niet-gemarkeerde berichten van dit type verwijderen
+mg_deleted: Bericht verwijderd.
+mg_empty_text: Voer een tekst in
+mg_error: Ontvanger niet gevonden!
+mg_favorite: Als favoriet markeren
+mg_favorite_filter_off: Alles tonen
+mg_favorite_filter_on: Alleen favorieten tonen
+mg_forward: Bericht doorsturen
+mg_grouping_off: Berichten niet gegroepeerd tonen
+mg_grouping_on: Berichten gegroepeerd tonen
+mg_message: Bericht
+mg_message_send: Bericht verstuurd!
+mg_message_title: Berichten
+mg_min_3_chars: Voer minstens 3 tekens in om te zoeken
+mg_new: Nieuw
+mg_no_subject: Geen onderwerp
+mg_no_user: Geen spelers gevonden
+mg_overview: Berichtenbeheer
+mg_open_all: Categorie "Alle berichten" altijd openen
+mg_page: Pagina
+mg_read_all: Alle berichten als gelezen markeren
+mg_read_marked: Geselecteerde berichten als gelezen markeren
+mg_read_type_all: Alle berichten van dit type als gelezen markeren
+mg_search: Zoeken
+mg_search_placeholder: Voer zoekterm in
+mg_send: Versturen
+mg_send_new: Bericht schrijven
+mg_send_to: Versturen naar
+mg_subject: Onderwerp
+mg_remember_last_category: Laatst gebruikte berichtcategorie onthouden
+mg_select_all: Alles selecteren
+mg_type:
+  '0': Spionagerapporten
+  '1': Spelersberichten
+  '2': Alliantieberichten
+  '3': Gevechtsrapporten
+  '4': Systeemberichten
+  '5': Transport
+  '6': Vreemd transport
+  '7': Contraspionage
+  '15': Expeditierapporten
+  '50': Spelberichten
+  '99': Bouw
+  '100': Alle berichten
+  '998': Favorieten
+  '999': Berichten zoeken
+negativ: Negatief
+neutral: Neutraal
+neutral_fights: Neutrale gevechten
+noob_interface: De beginnersinterface staat aan. Dit is een vereenvoudigde versie van het spel voor een snelle, makkelijke start, en menu-items worden ontgrendeld naarmate je het tutorial doorloopt. Je kunt hem op elk moment uitschakelen in de opties.
+nt_back: Terug
+nt_characters: tekens
+nt_create_new_note: Nieuwe notitie maken
+nt_create_note: Notitie maken
+nt_date_note: Datum
+nt_dlte_note: Verwijderen
+nt_edit_note: Notitie bewerken
+nt_important: Hoog
+nt_no_text: Geen tekst
+nt_no_title: Geen titel
+nt_normal: Normaal
+nt_note: Notitie
+nt_notes: Notities
+nt_priority: Prioriteit
+nt_reset: Herstellen
+nt_save: Opslaan
+nt_size_note: Grootte
+nt_subject_note: Onderwerp
+nt_unimportant: Laag
+nt_you_dont_have_notes: Je hebt nog geen notities
+op_activate_vacation_mode: Vakantiemodus activeren
+op_activate_vacation_mode_confirm: Je kunt de vakantiemodus 48 uur lang niet uitschakelen. Weet je het zeker?
+op_activate_vacation_mode_descrip: De vakantiemodus beschermt je tijdens langere afwezigheid. Hij kan alleen worden geactiveerd als geen van je vloten onderweg is. Eenmaal actief beschermt hij je tegen nieuwe aanvallen. Aanvallen die al zijn begonnen gaan echter door, en bevriende vloten die vasthouden worden teruggestuurd! Grondstoffenproductie, gebouwen, werforders en onderzoek staan in die tijd stil en gaan daarna weer verder. De vakantiemodus kan de eerste 48 uur niet worden uitgeschakeld!
+op_active_build_messages: Bouwberichten inschakelen
+op_active_spy_messages_mode: Samengevatte spionagerapporten inschakelen
+op_add_to_buddy_list: Vriendschapsverzoek sturen
+op_admin_discord_hook: Discord-webhook voor privéberichten
+op_admin_discord_id: Discord-gebruikers-ID voor pings bij privéberichten
+op_admin_planets_protection: Planeetbescherming voor beheerders inschakelen
+op_admin_title_options: Beheerdersopties
+op_block_pm: Privéberichten blokkeren
+op_build_pages: Gebouwen / Onderzoek
+op_cant_activate_vacation_mode: Je kunt de vakantiemodus niet starten zolang je vloten onderweg zijn.
+op_cant_deactivate_vacation_mode: De vakantiemodus kan nog niet worden beëindigd.
+op_change_mail_exist: Het e-mailadres %s is al in gebruik.
+op_change_name_exist: De gebruikersnaam %s is al bezet.
+op_change_name_pro_week: Je kunt je gebruikersnaam maar één keer per 7 dagen wijzigen!
+op_collapse_spy_reports: Spionagerapporten standaard ingeklapt tonen
+op_decimal_separator: Decimaalteken
+op_dlte_account: Account verwijderen
+op_dlte_account_descrip: Je account wordt na minstens 7 dagen volledig verwijderd. Het exacte moment hangt af van wanneer de verwijdertaak draait, dus het kan nog een paar dagen langer duren. Je kunt de verwijdering annuleren zolang die nog niet is uitgevoerd, dus zolang je nog kunt inloggen op het account.
+op_email_adress: E-mailadres
+op_enable_planet_styles: Holo-effecten tonen op planeten die er een hebben
+op_end_vacation_mode: Vakantiemodus uitschakelen
+op_galaxy_settings: Melkweg
+op_general_settings: Algemeen
+op_hangar_filters: Extra filters tonen in de werf
+op_hangar_group_filters: Groepsfilters van de werf
+op_hide_useless: Basisonderzoek verbergen zodra het zijn maximaal nuttige niveau bereikt
+op_lang: Taal
+op_max_fleets_messages: Maximaal aantal vlootberichten
+op_missile_attack: Raketaanval
+op_missing_requirements_opacity: Items dimmen waarvan de vereisten ontbreken
+op_missing_resources_opacity: Items dimmen die je niet kunt betalen
+op_need_pass_mail: Voer je wachtwoord in om je e-mailadres te wijzigen.
+op_new_pass: Nieuw wachtwoord (min. 8 tekens)
+op_noob_interface: Beginnersinterface
+op_not_vaild_mail: Dat e-mailadres lijkt niet geldig.
+op_old_pass: Huidig wachtwoord
+op_options_changed: Instellingen opgeslagen.
+op_options_deletion_activated: Accountverwijdering geactiveerd!
+op_options_deletion_deactivated: Accountverwijdering gedeactiveerd!
+op_options_no_other_settings_changed: Verder is niets gewijzigd.
+op_options_vacation_activated: Vakantiemodus staat aan. Geniet van je pauze!
+op_options_vacation_deactivated: Vakantiemodus staat uit. Welkom terug!
+op_repeat_new_pass: Nieuw wachtwoord (herhalen)
+op_save_changes: Wijzigingen opslaan
+op_shortcut: Snelkoppeling
+op_show: Weergave
+op_show_all_buildable_elements: Ook items tonen waarvan de vereisten ontbreken
+op_show_message_category: Direct naar de bijbehorende berichtcategorie gaan
+op_skin_example: Thema
+op_sort_abc: Alfabetisch
+op_sort_down: Aflopend
+op_sort_kind: Sorteervolgorde
+op_sort_koords: Coördinaten
+op_sort_normal: Volgorde van kolonisatie
+op_sort_planets_by: Planeten sorteren op
+op_sort_up: Oplopend
+op_spy: Spioneren
+op_spy_probes_number: Spionagesondes per missie
+op_spy_probes_number_descrip: Aantal sondes dat vanuit het melkwegoverzicht wordt verstuurd.
+op_spy_report: Spionagerapport
+op_spy_report_fresh_time: Vers spionagerapport (groene stip), tot
+op_spy_report_fresh_time_tooltip: Spionagerapporten die nieuwer zijn dan het opgegeven aantal uren krijgen een groene stip in het melkwegoverzicht.
+op_spy_report_recent_time: Recent spionagerapport (gele stip), tot
+op_spy_report_recent_time_tooltip: Spionagerapporten die nieuwer zijn dan het opgegeven aantal uren krijgen een gele stip; oudere rapporten krijgen een rode stip.
+op_spy_report_time_invalid: Ongeldige tijden voor spionagerapporten. Beide waarden moeten minstens 1 uur zijn, en de waarde voor recent moet hoger zijn dan die voor vers.
+op_stop_dlte_account: Accountverwijdering annuleren
+op_timezone: Tijdzone
+op_user_data: Gebruikersgegevens
+op_user_name_no_alphanumeric: Je gebruikersnaam mag alleen letters en cijfers bevatten!
+op_username: Gebruikersnaam
+op_vacation_delete_mode: Gevarenzone
+op_vacation_mode_active_message: 'De vakantiemodus kan pas worden uitgeschakeld op: '
+op_write_message: Bericht schrijven
+other: Overig
+ov_abandon_planet_not_possible: Je kunt deze kolonie niet verwijderen zolang er vloten naar of van vliegen.
+ov_admins_online: Actieve beheerders
+ov_aprox: Ongeveer
+ov_checknews_hide: Nieuws verbergen
+ov_checknews_show: Nieuws tonen
+ov_closed: Dit universum is momenteel gesloten!
+ov_delete_planet: Planeet verwijderen
+ov_developed_fields: Gebruikte velden
+ov_diameter: Diameter
+ov_distance_unit: km
+ov_events: Gebeurtenissen
+ov_fields: Velden
+ov_fleet: Vloten
+ov_fleetbutton_hide: Verbergen
+ov_fleetbutton_show: Tonen
+ov_free: Vrij
+ov_have_new_message: Je hebt een nieuw bericht
+ov_have_new_messages: Je hebt %d nieuwe berichten
+ov_max_developed_fields: Totaal aantal velden
+ov_moon: Maan
+ov_newname_done: Planeet hernoemd!
+ov_newname_specialchar: Planeetnamen mogen alleen cijfers, letters, spaties, underscores, streepjes en punten bevatten!
+ov_newname_too_long: De planeetnaam mag maximaal %d tekens hebben.
+ov_news: Nieuws
+ov_of: van
+ov_outlaw: 'Vogelvrij tot:'
+ov_password: Wachtwoord
+ov_place: Positie
+ov_planet: Planeet
+ov_planet_abandoned: Planeet verwijderd.
+ov_planet_rename: Planeet hernoemen
+ov_planetmenu: Hernoemen of verwijderen
+ov_planets: Planeten en manen
+ov_points: Punten
+ov_position: Positie
+ov_principal_planet_cant_abanone: Je kunt je thuisplaneet niet verwijderen!
+ov_rename_label: Nieuwe naam
+ov_rules: Regels
+ov_rulesnotify: Volg de
+ov_security_confirm: Weet je zeker dat je %s wilt vernietigen?
+ov_security_request: Beveiligingsvraag
+ov_server_time: Servertijd
+ov_temp_unit: °C
+ov_temperature: Temperatuur
+ov_ticketbot: Ticketbot
+ov_to: tot
+ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
+ov_wrong_name: Verkeerde naam!
+ov_wrong_pass: Verkeerd wachtwoord!
+own: Eigen
+own_colors: Eigen kleuren
+page_doesnt_exist: De gevraagde pagina bestaat niet.
+pl_ally: Alliantie
+pl_buddy: Vriend
+pl_builds: Gebouwen
+pl_def: Verdediging
+pl_dercrystal: Gerecycled kristal
+pl_dermetal: Gerecycled metaal
+pl_destroy: '%s was betrokken bij'
+pl_destroy_real: '%s was persoonlijk betrokken bij'
+pl_etc: 'Enz. '
+pl_fightdraw: Gelijkspel
+pl_fightlose: Verloren
+pl_fights: Gevechten
+pl_fightstats: Gevechtsstatistieken
+pl_fightwon: Gewonnen
+pl_fleet: Vloot
+pl_fprocent: Percentage
+pl_homeplanet: Thuisplaneet
+pl_message: Bericht
+pl_name: Gebruikersnaam
+pl_overview: Spelersprofiel
+pl_points: Punten
+pl_range: Rang
+pl_tech: Onderzoek
+pl_total: Totaal
+pl_totalfight: Totaal aantal gevechten
+pl_unitslose: Verloren eenheden
+pl_unitsshot: Vernietigde eenheden
+PM: '[PB]'
+positiv: Positief
+px_fleet_movement: Vloot onderweg
+px_no_deuterium: Niet genoeg deuterium.
+px_no_fleet: Op dit moment geen vloten onderweg.
+px_out_of_range: Buiten bereik
+px_scan_position: Scanpositie
+ready: Klaar
+rebuild_proteciton_link: Deactiveer hem hier vroegtijdig.
+rebuild_proteciton_mode: Je account heeft wederopbouwbescherming, die je tegen aanvallen kan beschermen.
+rec_count: Aantal
+rec_last_update_on: 'Laatste update op '
+rec_level: Niveau
+rec_players: Speler
+rec_time: Datum/tijd
+recordsOptIn: Je records aan alle spelers tonen
+repaired: Hersteld
+rs_amount: Aantal
+rs_basic_income: Basisproductie
+rs_calculate: Wijzigingen opslaan
+rs_daily: Dagproductie
+rs_lvl: Niveau
+rs_production_on_planet: Op "%s" geproduceerde grondstoffen
+rs_ramp_up: Opstarten
+rs_ress_bonus: Bonus (door onderzoek)
+rs_ress_bonus_position: Bonus (door planeetpositie)
+rs_shut_down: Uitschakelen
+rs_storage_capacity: Opslagcapaciteit
+rs_sum: Productie per uur
+rs_weekly: Weekproductie
+sh_alliance: Alliantie
+sh_alliance_name: Alliantienaam
+sh_alliance_tag: Alliantietag
+sh_buddy_request: Vriendschapsverzoek
+sh_coords: Positie
+sh_loading: (Laden ...)
+sh_members: Leden
+sh_name: Naam
+sh_planet: Planeet
+sh_planet_name: Planeetnaam
+sh_player_name: Spelersnaam
+sh_points: Punten
+sh_position: Rang
+sh_search: Zoeken
+sh_search_in_the_universe: Universum doorzoeken
+sh_tag: Tag
+sh_write_message: Privébericht
+spec_mail_inactive_title: '%s - Herinnering'
+spytech_playercard:
+  level2: Zichtbaar vanaf Spionagetechniek 2!
+  level4: Zichtbaar vanaf Spionagetechniek 4!
+  level6: Zichtbaar vanaf Spionagetechniek 6!
+st_alliance: Alliantie
+st_buildings: Gebouwen
+st_defenses: Verdedigingen
+st_fleets: Vloot
+st_honor: Eerepunten
+st_in_the_positions: in de rangen
+st_members: Leden
+st_per: per
+st_per_member: Per lid
+st_player: Speler
+st_points: Punten
+st_position: Rang
+st_researh: Onderzoek
+st_show: Tonen
+st_statistics: Statistieken
+st_units: Eenheden
+st_updated: Bijgewerkt
+st_write_message: Privébericht
+StaticTimer: Aankomsttijd
+stats:
+  '202': Kleine vrachtschepen
+  '203': Grote vrachtschepen
+  '204': Lichte gevechtsschepen
+  '205': Zware gevechtsschepen
+  '206': Kruisers
+  '207': Slagschepen
+  '208': Kolonisatieschepen
+  '209': Recyclers
+  '210': Spionagesondes
+  '211': Bommenwerpers
+  '212': Zonne-energiesatellieten
+  '213': Vernietigers
+  '214': Sterren des Doods
+  '215': Slagkruisers
+  '216': Zwarte Manen
+  '217': Gevechtstransporters
+  '218': Avatars
+  '219': Gevechtsrecyclers
+  '401': Raketwerpers
+  '402': Kleine lasers
+  '403': Grote lasers
+  '404': Gausskanonnen
+  '405': Ioncanons
+  '406': Plasmawerpers
+  '407': Kleine planetaire schildkoepels
+  '408': Grote planetaire schildkoepels
+  '409': Atmosferische schilden
+  '410': Gravitonkanonnen
+  '411': Orbitale verdedigingsplatforms
+  '412': Bunkers
+  '413': Titanlasers
+  '414': Lokdoelen
+  '502': Onderscheppingsraketten
+  '503': Interplanetaire raketten
+  '901': Metaal
+  '902': Kristal
+  '903': Deuterium
+stb_activ: Gedetailleerde spionagerapporten (Scavengers Toolbox) ingeschakeld
+stb_big_ress: Veel grondstoffen (minder dan)
+stb_big_ress_tooltip: Als de planeet minder grondstoffen heeft dan deze waarde, wordt het spionagerapport lichtgroen gemarkeerd (goed). Spionagerapporten met meer grondstoffen dan deze waarde worden lichtblauw getoond (optimaal).
+stb_big_time: Veel grondstoffen per seconde (minder dan)
+stb_big_time_tooltip: De best mogelijke grondstoffenopbrengst per seconde, afgerond op twee decimalen. Een verhouding onder deze waarde telt als goed (lichtgroen), een waarde erboven als optimaal (lichtblauw).
+stb_low_ress: Weinig grondstoffen (minder dan)
+stb_low_ress_tooltip: Als de planeet minder grondstoffen heeft dan deze waarde, wordt het spionagerapport helderrood gemarkeerd (slecht).
+stb_med_time: Matige grondstoffen per seconde (minder dan)
+stb_med_time_tooltip: De best mogelijke grondstoffenopbrengst per seconde, afgerond op twee decimalen. Een verhouding onder deze waarde telt als gemiddeld (lichtoranje).
+stb_mid_ress: Matige grondstoffen (minder dan)
+stb_mid_ress_tooltip: Als de planeet minder grondstoffen heeft dan deze waarde, wordt het spionagerapport lichtoranje gemarkeerd (gemiddeld).
+stb_small_time: Weinig grondstoffen per seconde (minder dan)
+stb_small_time_tooltip: De best mogelijke grondstoffenopbrengst per seconde, afgerond op twee decimalen. Een verhouding onder deze waarde telt als slecht (lichtrood).
+stb_title: Scavengers Toolbox
+sys_back: Terug
+sys_buildlist: Bouwwachtrij
+sys_buildlist_fail: Bouw mislukt
+sys_catchup: 'Bonus op kosten en bouwtijd: %01.2f'
+sys_catchup_short: 'Bonus: %01.2f'
+sys_catchup_tooltip: 'Inhaalbonus: kortere tijd en lagere kosten, gebaseerd op het recordniveau van dit gebouw/onderzoek'
+sys_closed_game: 'Het spel is voorlopig gesloten:'
+sys_forward: Volgende
+sys_game_is_setup: <h1>Registratie voltooid!</h1><br><p>We bereiden je universum voor!</p><!--discord_url--><p>Kom ondertussen naar onze Discord, zodat je niets mist:</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
+sys_module_inactive: Deze module is inactief
+sys_nomore_level: Je hebt geen %s om te slopen.
+sys_notenough_money: 'Niet genoeg grondstoffen op %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> om %s te bouwen. <br>Je hebt: %s %s, %s %s en %s %s. <br>Het kost: %s %s, %s %s en %s %s.'
+sys_refferal_from: Systeem
+sys_refferal_text: De speler %s, door jou geronseld, heeft %s punten bereikt.
+sys_refferal_title: Spelersbonus %s
+sys_techlist: Onderzoekswachtrij
+team: Het team
+teamAdmin: Beheerder
+teamAdminLong: Kan speciale tools gebruiken om het spel te runnen
+teamAktiv: Actief
+teamAlumni: Voormalige / inactieve teamleden
+teamAlumniLong: Onze dank gaat uit naar
+teamCommunity: Communitysupport
+teamCommunityLong: Zij zijn er voor je wanneer je hulp nodig hebt.<br>Wat het probleem ook is, neem gewoon contact op!<br>We doen ons best om een oplossing te vinden.<br>Vragen, of iets van je hart te schrijven, ook anoniem? Kom met ons praten.<br>We zijn ook de schakel tussen spelers en de mods.
+teamContributor: Bijdrager
+teamContributorLong: Helpt mee aan het project.
+teamDatabase: Toegang tot database
+teamDev: Ontwikkelaar
+teamDevLong: Onderhoudt en ontwikkelt het project<br>Heeft toegang tot het Discord-gedeelte voor ontwikkelaarsoverleg
+teamDiscordName: Discord-naam
+teamEmergency: Noodteam
+teamEmergencyLong: Wordt door gebruikers via onze Discord "@Emergency Response Team" gepingd wanneer servers uitvallen
+teamIngameName: Naam in het spel
+teamLegend: Rollen en rechten uitgelegd
+teamMod: Moderator
+teamModLong: Behandelt je zaken en problemen<br>Zorgt voor een eerlijk spel voor iedereen<br>Verantwoordelijk voor straffen<br>Heeft toegang tot het Discord-gedeelte voor modoverleg<br>Heeft toegang tot het Discord-gedeelte voor ontwikkelaarsoverleg<br>Heeft toegang tot het Discord-gedeelte voor ticketoverleg met ontwikkelaars
+teamNo: Nee
+teamPlayer: Speler
+teamRole: Rol
+teamScripte: Scriptcontrole
+teamScripteLong: Controleert door spelers gemaakte scripts zodat het team<br>kan beslissen of ze worden toegestaan
+teamTickets: Toegang tot tickets
+teamTicketsLong: Kan meelezen op alle openstaande tickets
+teamYes: Ja
+ti_admin_close: Ticket gesloten!
+ti_admin_open: Ticket geopend!
+ti_answer: Beantwoorden
+ti_answers: Antwoord
+ti_category: Categorie
+ti_close: Ticket gesloten
+ti_create: 'Ticket aangemaakt op '
+ti_create_head: Ticket aanmaken
+ti_create_info: '<p>Beschrijf je probleem zo gedetailleerd mogelijk wanneer je een supportticket aanmaakt!</p>
+
+  <p>Een uitgebreide beschrijving verkort de tijd tot een oplossing en voorkomt tijdrovend heen-en-weer gepraat.</p>
+
+  <p>Bij problemen met accounts helpen relevante accountgegevens bij het toewijzen van het ticket en verkorten ze de afhandeltijd.</p>'
+ti_date: Datum
+ti_error_closed: Dit ticket is al gesloten, dus het kan niet meer worden beantwoord.
+ti_error_no_subject: Voer een onderwerp in.
+ti_from: door
+ti_header: Supportsysteem
+ti_id: Ticket
+ti_message: Bericht
+ti_msgtime: Bericht geplaatst op
+ti_new: Nieuw ticket
+ti_not_exist: 'Ticket #%d niet gevonden.'
+ti_open: Ticket openen
+ti_overview: Terug
+ti_re: 'Re:'
+ti_read: Ticket om te lezen
+ti_responded: 'Ticket beantwoord op '
+ti_status: Status
+ti_status_answer: Antwoord
+ti_status_closed: Gesloten
+ti_status_open: Open
+ti_subject: Onderwerp
+ti_submit: Versturen
+ti_username: Speler
+tkb_all: alles
+tkb_datum: Datum
+tkb_day: dag
+tkb_diplomacy: Diplomatie
+tkb_exclude: uitsluiten
+tkb_galaxy: Melkweg
+tkb_gewinner: <b>-Winnaar-</b>
+tkb_gratz: 'Het hele team feliciteert de top 100 '
+tkb_legende: '<b>Legenda: </b>'
+tkb_memorial: Gedenktekens
+tkb_month: maand
+tkb_only: alleen
+tkb_owners: Betrokken gebruikers
+tkb_platz: Rang
+tkb_self: alleen eigen
+tkb_timeframe: Periode
+tkb_top: Hall of Fame
+tkb_units: Eenheden
+tkb_verlierer: <b>-Verliezer-</b>
+tkb_week: week
+tn_delete_mode: Je account wordt verwijderd op %s.
+tn_player_title: Keizer
+tn_vacation_mode: Je account staat in vakantiemodus.
+tn_vacation_mode_kick: '<br><br>LET OP: De vakantiemodus wordt automatisch uitgeschakeld na 4 weken inactiviteit.'
+tn_vacation_mode_until: Je account staat in vakantiemodus tot minstens %s.
+tr_exchange_done: Handel voltooid!
+tr_exchange_error: De hoeveelheid grondstoffen is ongeldig of ontoereikend
+tt_lvl: 'Niveau '
+tt_lv_short: Nv
+tt_requirements: Vereisten
+tt_unlocks: Ontgrendelt
+tt_status_owned: Gebouwd
+tt_status_available: Beschikbaar
+tt_status_locked: Vergrendeld
+tt_hint: Beweeg de muis over een technologie of selecteer er een om de vereisten (boven) en wat ze ontgrendelt (onder) te volgen. Klik om vast te zetten, Esc om te wissen.
+tt_foreign: Vereist door deze categorie, hoort bij een andere
+tt_none: geen
+tt_graph: Technologieboom
+type_mission_1: Aanvallen
+type_mission_1_foreign: Vreemde aanval
+type_mission_1_own: Eigen aanval
+type_mission_2: Alliantie-aanval
+type_mission_2_foreign: Vreemde ACS-aanvalsvloot
+type_mission_2_friend: Bevriende ACS-aanvalsvloot
+type_mission_2_own: Eigen ACS-aanvalsvloot
+type_mission_3: Transport
+type_mission_3_foreign: Vreemd transport
+type_mission_3_own: Eigen transport
+type_mission_4: Stationeren
+type_mission_4_foreign: Vreemde stationering
+type_mission_4_own: Eigen stationering
+type_mission_5: Vasthouden
+type_mission_5_foreign: Vreemd vasthouden
+type_mission_5_own: Eigen vasthouden
+type_mission_6: Spioneren
+type_mission_6_foreign: Vreemde spionage
+type_mission_6_own: Eigen spionage
+type_mission_7: Koloniseren
+type_mission_7_foreign: Vreemde kolonisatie
+type_mission_7_own: Eigen kolonisatie
+type_mission_7_own_return: Terugkeer eigen kolonisatie
+type_mission_8: Recyclen
+type_mission_8_foreign: Vreemd recyclen
+type_mission_8_own: Eigen recyclen
+type_mission_9: Vernietigen
+type_mission_9_foreign: Vreemde vernietiging
+type_mission_9_own: Eigen vernietiging
+type_mission_10: Raketaanval
+type_mission_10_foreign: Vreemde raketaanval
+type_mission_10_own: Eigen raketaanval
+type_mission_15: Expeditie
+type_mission_15_foreign: Vreemde expeditie
+type_mission_15_own: Eigen expeditie
+type_mission_16: Handel
+type_mission_16_foreign: Vreemde marktplaatsvloot
+type_mission_16_own: Eigen marktplaatsvloot
+type_mission_17: Overdracht
+type_mission_17_foreign: Vreemde overdracht
+type_mission_17_own: Eigen overdracht
+type_mission_20: Aanvallen
+type_mission_21: Spioneren
+type_mission_22: Recyclen
+type_mission_return_foreign: Vreemde terugkeer
+type_mission_return_own: Eigen terugkeer
+type_planet_1: Planeet
+type_planet_2: Puinveld
+type_planet_3: Maan
+type_planet_4: Piratenbasis
+type_planet_short_1: P
+type_planet_short_2: V
+type_planet_short_3: M
+type_planet_short_4: Pb
+user_level_0: Speler
+user_level_1: Moderator
+user_level_2: Operator
+user_level_3: Beheerder
+whenbuildable: Bouwbaar over
+write_message: Bericht schrijven
+fl_cargo_options: Ladingopties
+fl_cargo_preset: Voorinstelling
+fl_cargo_needed: nodig
+fl_cargo_select: kiezen
+fl_cargo_current_planet: Huidige planeet
+ui_skip_to_content: Naar de inhoud
+ui_menu: Menu
+ui_rank: Rang
+ui_queue: Wachtrij
+ui_queue_free: vrij slot
+ui_points: Punten
+ui_close: Sluiten
+ui_messages: Berichten
+ui_server_time: Servertijd
+ui_planet: Planeet
+ui_nav_empire: Rijk
+ui_nav_universe: Universum
+ui_nav_community: Community
+ui_nav_help: Hulp
+ui_nav_personal: Persoonlijk
+al_applyform_reload: Opnieuw laden
+al_default_request_text: Deze speler heeft geen bericht achtergelaten.
+al_diplo_ground: 'Reden:'
+al_diplo_war_end_confirm: Wil je de oorlog echt beëindigen?
+al_do_you_really_want_to_go_out: Wil je %s echt verlaten?
+al_events: Gebeurtenissen
+al_founder_cant_leave_alliance: De oprichter kan niet zomaar bij de alliantie weglopen.
+al_legend: Beschrijving
+al_legend_admin_alliance: Alliantie beheren
+al_legend_check_requests: Sollicitaties verwerken
+al_legend_create_circular: Rondschrijven versturen
+al_legend_disolve_alliance: Alliantie opheffen
+al_legend_kick_users: Leden verwijderen
+al_legend_right_hand: Rechterhand
+al_legend_see_connected_users: Online-status zien
+al_legend_see_requests: Sollicitaties bekijken
+al_legend_see_users_list: Ledenlijst bekijken
+al_manage_change_name: Alliantienaam wijzigen
+al_manage_change_tag: Alliantietag wijzigen
+al_no_events: Er is nog niets gebeurd.
+al_no_request_pending: Er zijn in totaal %d sollicitatie(s)
+al_request_from_user: Sollicitatie van speler
+al_tfkristall: Totaal kristal in puinvelden
+al_tfmetall: Totaal metaal in puinvelden
+al_unitsloos: Verloren eenheden
+al_unitsshut: Neergeschoten eenheden
+al_view_events: Gebeurtenissen tonen
+bd_add_to_list: Aan bouwwachtrij toevoegen
+bd_build_defenses: Bouwen
+bd_completed: Klaar
+bd_finished: Klaar
+bd_lab_required: Bouw eerst een onderzoekslab op deze planeet.
+bd_max_lvl: 'Max. niveau:'
+bd_on: op
+bd_ready: Klaar
+bd_research: Onderzoek
+bu_back: Terug
+cff_fleet_own: Vloot
+cff_fleet_target: Vloten
+cr_armor: Pantser
+cr_destroyed: Vernietigd!
+cr_first_round: (De vloot werd in ronde 1 vernietigd)
+cr_lost_contact: Het contact met je vloot is verbroken.
+cr_shields: Schilden
+cr_total: Totaal
+cr_type: Type
+cr_weapons: Wapens
+css_server_maintrace: 'Serveronderhoud<br><br>Het spel is momenteel gesloten.<br><br>Reden: %s'
+fa_galaxy_not_exist: Melkweg bestaat niet
+fa_mission_not_available: Missie niet beschikbaar
+fa_not_attack_yourself: Je kunt jezelf niet aanvallen
+fa_system_not_exist: Stelsel bestaat niet
+fgp_require: Vereist
+fl_deploy_only_your_planets: Je kunt alleen stationeren op je eigen planeten.
+fl_expedition_fleets_limit: Je hebt je expeditielimiet bereikt.
+fl_no_empty_derbis: Daar is geen puinveld!
+fl_no_hold_depot: Er is geen alliantiedepot bij het doel.
+fl_not_ally_deposit: Er is geen alliantiedepot bij het doel.
+fl_planet_populed: Planeet gekoloniseerd!
+fl_register_shorcut: Aanmaken
+fl_shortcuts: Snelkoppelingen
+fl_target_not_exists: De doelplaneet bestaat niet.
+gl_avaible_grecyclers: Gigarecycler
+gl_collect: Oogsten
+gl_free: Vrij
+gl_free_desc: Een grote onbewoonde planeet, een ideale plek voor een nieuwe kolonie.
+gl_name_activity: Naam (activiteit)
+gl_points: Punten
+gl_with: ' met '
+gl_wreckfield: Wrakveld
+gl_wreckfield_short: WV
+gl_yes: Ja
+in_bonus: 'Bonus:'
+in_dest_durati: Duur
+in_jump_gate_available: Aantal
+in_needed: Vereist
+in_range: Sensorbereik
+in_title_head: Informatie over
+invalid_action: Ongeldige actie!
+lm_disclamer: Colofon
+lm_forums: Forum
+lm_queue: Wachtrijen
+ma_big_laser: Grote laser
+ma_big_protection_shield: Grote planetaire schildkoepel
+ma_buster_canyon: Plasmawerper
+ma_gauss_canyon: Gausskanon
+ma_ionic_canyon: Ioncanon
+ma_misil_launcher: Raketwerper
+ma_small_laser: Kleine laser
+ma_small_protection_shield: Kleine planetaire schildkoepel
+mg_action: Actie
+mg_date: Datum
+mg_from: Van
+mg_game_message: Spelbericht
+mg_game_operators: Spelbeheerders
+mg_message_type: Berichttype
+mg_msg_sended: Bericht verstuurd!
+mg_no_text: Schrijf eerst een bericht.
+mg_receiver_block_pm: Deze speler blokkeert privéberichten.
+mg_show_only_header_spy_reports: Spionagerapporten maar gedeeltelijk tonen
+mg_to: Aan
+mg_total: Totaal
+mg_write_mail_to_ops: Schrijf een e-mail naar
+op_deactivate_ipcheck: IP-controle uitschakelen
+op_deactivate_ipcheck_descrip: De IP-controle logt je voor de veiligheid automatisch uit als je IP-adres verandert, of als twee mensen tegelijk met verschillende IP-adressen één account gebruiken. Uitschakelen verlaagt de beveiliging van je account!
+op_email_adress_descrip: Je kunt dit e-mailadres op elk moment wijzigen. Laat je het 7 dagen ongewijzigd, dan wordt het je permanente adres.
+op_error: Fout
+op_password_changed: Wachtwoord gewijzigd.
+op_permanent_email_adress: Permanent e-mailadres
+op_seconds: Seconden
+op_send_report: Spionagerapport
+op_show_planetmenu: Planeetmenu tonen
+op_show_skin: Skin tonen
+op_toolt_data: Tooltip tonen voor
+op_username_changed: Gebruikersnaam gewijzigd.
+ov_moving_fleets: Vloten onderweg
+ov_no_admins_online: Op dit moment geen beheerders online!
+ov_noreflink: Je hebt nog geen gebruikers geronseld.
+ov_online: Online
+ov_players: Spelers
+ov_reflink: Verwijzingslink
+tkb_missing: '<br>Vermist: het gebruikersaccount bestaat niet meer.'
+tkb_unentschieden: <b>-Gelijkspel-</b>
+source_code: Broncode
+teamMemberName: Naam
+teamMemberContact: Contact
+teamMemberAbout: Over
+teamEmpty: Er zijn nog geen teamleden toegevoegd.
+lm_board: Forum

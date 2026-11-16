@@ -1,0 +1,8 @@
+Xin chào {USERNAME},
+
+Bạn chưa đăng nhập vào {GAMENAME} kể từ {LASTDATE}. Nếu vẫn muốn ở lại cộng đồng của chúng tôi, hãy đăng nhập bằng thông tin tài khoản của bạn, nếu không tài khoản sẽ bị xóa.
+
+Nếu bạn quên mật khẩu, hãy vào {HTTPPATH} và bấm "Quên mật khẩu". Trong vài phút bạn sẽ nhận được email kèm mật khẩu mới.
+
+Trân trọng,
+Đội ngũ {GAMENAME}

@@ -1,0 +1,12 @@
+你好 {USERNAME}，
+
+感谢你注册 {GAMENAME}。
+
+我们很高兴你选择成为我们社区的一员，
+希望你玩得开心！
+
+你也可以来我们的 Discord 看看：
+{DISCORD}
+
+此致
+{GAMENAME} 团队

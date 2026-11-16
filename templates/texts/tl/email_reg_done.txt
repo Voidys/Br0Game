@@ -1,0 +1,12 @@
+Kumusta {USERNAME},
+
+Salamat sa pagrehistro sa {GAMENAME}
+
+Natutuwa kami na pinili mong maging bahagi ng aming community 
+at sana ay mag-enjoy ka!
+
+Puwede mo rin tingnan ang aming Discord: 
+{DISCORD}
+
+Mabuhay,
+{GAMENAME} - Team

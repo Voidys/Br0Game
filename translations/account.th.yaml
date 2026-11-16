@@ -1,0 +1,81 @@
+Active_players: ผู้เล่นที่ใช้งานอยู่
+Back: กลับ
+mail:
+  subject:
+    mail_changed: "อีเมลของบัญชี %s ถูกเปลี่ยนแล้ว"
+Other_universes: จักรวาลอื่น
+Play: เล่น
+Playername: ชื่อผู้เล่น
+Register: สมัครสมาชิก
+Settings: ตั้งค่า
+Sitting_end: สิ้นสุดการดูแลบัญชี
+Sitting_request: "ขอให้ดูแลบัญชี (ยังไม่เปิดให้ใช้)"
+uni_status_regclosed_gameclosed: ปิด
+uni_status_regclosed_gameopen: เปิดให้เล่น
+uni_status_regopen_gameclosed: เปิดรับสมัคร
+uni_status_regopen_gameopen: เปิด
+Universe_end: สิ้นสุด
+Universe_start: เริ่ม
+Universe_status: "สถานะจักรวาล: "
+Universes: จักรวาล
+Your_universes: จักรวาลของคุณ
+board_create: โพสต์ใหม่
+board_edit_post: แก้ไขโพสต์
+board_sort: เรียงลำดับ
+board_sort_hot: มาแรง
+board_sort_new: ใหม่
+board_sort_top: ยอดนิยม
+board_period_all: ตลอดกาล
+board_period_week: สัปดาห์นี้
+board_csort_best: ดีที่สุด
+board_flair: แท็ก
+board_flair_all: ทั้งหมด
+board_flair_general: ทั่วไป
+board_flair_guide: คู่มือ
+board_flair_question: คำถาม
+board_flair_suggestion: ข้อเสนอแนะ
+board_flair_bug: บั๊ก
+board_flair_offtopic: นอกเรื่อง
+board_upvote: โหวตขึ้น
+board_downvote: โหวตลง
+board_pinned: ปักหมุด
+board_locked: ล็อกแล้ว
+board_by: โดย
+board_comments: ความคิดเห็น
+board_empty: "ยังไม่มีโพสต์ มาเป็นคนแรกที่เขียนกันเถอะ"
+board_no_comments: ยังไม่มีความคิดเห็น
+board_title: หัวข้อ
+board_body: ข้อความ
+board_publish: เผยแพร่
+board_save: บันทึก
+board_cancel: ยกเลิก
+board_edit: แก้ไข
+board_edited: แก้ไขแล้ว
+board_delete: ลบ
+board_deleted: "[ลบแล้ว]"
+board_deleted_user: "[ลบแล้ว]"
+board_confirm_delete: "ต้องการลบรายการนี้จริงหรือไม่?"
+board_reply: ตอบกลับ
+board_collapse: ซ่อนเธรด
+board_add_comment: เขียนความคิดเห็น
+board_comment_send: ส่งความคิดเห็น
+board_mod_pin: ปักหมุด
+board_mod_unpin: เลิกปักหมุด
+board_mod_lock: ล็อก
+board_mod_unlock: ปลดล็อก
+board_not_found: ไม่พบโพสต์หรือความคิดเห็นนี้
+board_not_allowed: คุณไม่มีสิทธิ์ทำสิ่งนี้
+board_err_csrf: "ไม่สามารถยืนยันคำขอได้ โปรดโหลดหน้าใหม่แล้วลองอีกครั้ง"
+board_err_title: โปรดใส่หัวข้อ
+board_err_title_long: "หัวข้อยาวได้ไม่เกิน 200 ตัวอักษร"
+board_err_body: "โปรดใส่ข้อความ (ห้ามว่างและห้ามยาวเกินไป)"
+board_err_locked: "โพสต์นี้ถูกล็อก ไม่สามารถแสดงความคิดเห็นเพิ่มได้"
+board_err_rate_post: "โปรดรออีก %d วินาทีก่อนโพสต์ครั้งต่อไป"
+board_err_rate_comment: "โปรดรออีก %d วินาทีก่อนแสดงความคิดเห็นครั้งต่อไป"
+board_ago_now: เมื่อสักครู่
+board_ago_min: "%d นาทีที่แล้ว"
+board_ago_hours: "%d ชม. ที่แล้ว"
+board_ago_days: "%d วันที่แล้ว"
+board_guest_hint: "เข้าสู่ระบบเพื่อโพสต์ แสดงความคิดเห็น และโหวต"
+board_guest_login: เข้าสู่ระบบ
+board_guest_register: สมัครสมาชิก

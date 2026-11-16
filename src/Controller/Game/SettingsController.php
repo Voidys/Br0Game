@@ -115,7 +115,7 @@ class SettingsController extends AbstractGameController
                 ],
                 'ImageSkins' => Theme::getAvailableImageThemes(),
                 'CssSkins' => Theme::getAvailableCssThemes(),
-                'lang' => $LNG->getAllowedLangs(false),
+                'lang' => $LNG->getLanguageOptions(),
             ],
         ];
     }

@@ -1,0 +1,73 @@
+<p class="rules-notice"><strong>CHÚ Ý: Quy tắc có thể thay đổi và mọi người dùng có nghĩa vụ tự cập nhật tình trạng của chúng!</strong></p>
+<h2>1. Tài khoản</h2>
+<p>Chủ sở hữu của một tài khoản luôn là chủ sở hữu của địa chỉ email đã đăng ký. Một tài khoản chỉ được một người chơi. Ngoại lệ duy nhất là trông hộ (sitting). Nếu cần theo dõi tài khoản của người khác hoặc đưa nó vào chế độ nghỉ phép, phải báo trước cho nhà vận hành phụ trách và xin phép. Với việc trông hộ ngắn hạn dưới 12 giờ, chỉ cần báo cho nhà vận hành. Trong khi trông hộ, mọi di chuyển hạm đội đều bị cấm, chỉ được phép đóng quân hạm đội tại tọa độ của người trông hộ và xây dựng tài nguyên trên hành tinh mà họ đang ở. Một tài khoản chỉ được trông hộ tối đa 72 giờ. Trường hợp ngoại lệ phải được nhà vận hành cho phép. Việc chuyển giao tài khoản chỉ được thực hiện tối đa 3 tháng một lần và hoàn toàn miễn phí. Hãy báo tài khoản cho nhà vận hành.</p>
+<hr>
+<h2>2. Đa tài khoản</h2>
+<p>Mỗi người chơi chỉ được chơi một tài khoản trong mỗi vũ trụ. Nếu hai hay nhiều tài khoản thường xuyên, thỉnh thoảng hoặc thường trực được chơi từ cùng một kết nối internet (ví dụ trường học, đại học hoặc quán net), phải báo trước cho admin. Trong những trường hợp đó, các tài khoản liên quan bị cấm có bất kỳ tiếp xúc hạm đội nào khi dùng chung kết nối internet. Tương tự, các điểm chung khác cũng bị cấm.</p>
+<hr>
+<h2>3. Đẩy điểm (Pushing)</h2>
+<p>Đẩy điểm nói chung bị cấm. Đẩy điểm bao gồm, ví dụ, mọi vận chuyển tài nguyên và moonshot không có bồi hoàn tương xứng từ tài khoản điểm thấp hơn sang tài khoản điểm cao hơn.<br>
+Một giao dịch phải hoàn tất trong 24 giờ. Ngoại lệ phải được điều hành viên chấp thuận trước qua ticket Discord hoặc tin nhắn riêng trong game. <a href="./?page=team">Bạn có thể xem đội ngũ tại đây.</a>.<br>
+Không xin phép hoặc bỏ qua quy tắc có thể dẫn đến bị cấm.</p>
+
+<h2>3.1 Giao dịch và tấn công</h2>
+<p>Nếu người chơi muốn bán hoặc phân phối tài nguyên cho người chơi khác, họ có thể làm vậy với tỷ lệ từ 75%% đến 125%% giá thị trường.</p>
+<p>Trường hợp đặc biệt:<br>
+Nếu không thể phân phối tài nguyên đã cướp trong khoảng 24 giờ sau các cuộc tấn công bằng Tử Tinh, điều này nói chung được phép, nhưng phải báo cho điều hành viên.</p>
+<details>
+	<summary>Ví dụ về giao dịch/tấn công bất thường (bấm để mở rộng):</summary>
+	<ul>
+	<li>Người chơi A (điểm thấp) cố tình gửi hạm đội của mình tấn công người chơi B (điểm cao) với mục đích bị tiêu diệt hoàn toàn. Trong trường hợp này, người chơi mạnh hơn phải mở ticket.</li>
+	<li>Người chơi trong cùng một ACS không chia tài nguyên đã cướp và trường mảnh vỡ theo quy tắc 24 giờ.</li>
+	<li>Người chơi A thông báo cho người khác rằng mình sẽ bỏ game. Với mỗi người nhận thông báo này, áp dụng lệnh ngừng tấn công 24 giờ (kể từ khi nhận tin nhắn) đối với những người được thông báo. Trong trường hợp này, phải báo cho điều hành viên.</li>
+	<li>Người chơi A chia sẻ thông tin hạm đội của mình (thời điểm đến, thời gian bay, quy mô, vị trí, v.v.) với người khác để họ dùng thông tin này tấn công người chơi A. Đây là lợi thế không công bằng so với những người chơi khác (đẩy điểm thụ động). Điều này là lợi thế không công bằng so với những người chơi khác và được coi là cung cấp tài nguyên (đẩy điểm thụ động). Trong trường hợp này, phải báo cho điều hành viên.</li>
+	</ul>
+</details>
+
+<h2>3.2 Trận chia tay</h2>
+<p>Các trận chia tay nói chung phải được phối hợp trước với đội điều hành.</p>
+
+<p><a href="{wiki_url}/wiki/En/Regeln">wiki</a></p>
+<hr>
+<h2>4. Bashing</h2>
+<p>Bashing là nhiều cuộc tấn công trong khoảng 24 giờ vào cùng một người chơi hoặc một hành tinh/mặt trăng. Điều này bị cấm, nhưng game ngăn nó xảy ra. <a href="{wiki_url}/wiki/En/Universen-Übersicht">Cài đặt có thể khác nhau tùy vũ trụ.</a> Các cuộc tấn công bằng tàu do thám hoặc tên lửa liên hành tinh không được tính.</p>
+<p>Quy tắc bash chỉ áp dụng cho người chơi đang hoạt động. Nếu các bên đang có chiến tranh, được phép tấn công thêm. Chiến tranh phải được tuyên bố trên diễn đàn ít nhất 24 giờ trước các cuộc tấn công tiếp theo (cả hai liên minh hoặc tên của cá nhân tuyên chiến phải được viết đúng trong chủ đề của thông báo). Lời tuyên chiến chỉ có thể gửi đến các liên minh, trong đó lời tuyên chiến có thể do một liên minh hoặc một cá nhân đưa ra.</p>
+<p>Không cần chấp nhận chiến tranh. Các cuộc chiến rõ ràng chỉ phục vụ việc lách quy tắc bash trên quy mô lớn bị cấm. Việc đánh giá điều này thuộc về các điều hành viên và nhà vận hành phụ trách.</p>
+<hr>
+<h2>5. Tấn công tên lửa liên hành tinh</h2>
+<p>Chỉ được phép 1.000 cuộc tấn công tên lửa liên hành tinh mỗi 24 giờ. Số tên lửa mỗi cuộc tấn công thì độc lập.</p>
+<hr>
+<h2>6. Lợi dụng lỗi (Bugusing)</h2>
+<p>Khai thác lỗi và sai sót trong lập trình bị cấm. Lỗi phát hiện được nên báo cáo càng sớm càng tốt qua <a href="%s" target="_blank">GIT Issue</a> hoặc trong kênh Discord #bugs. Gian lận cũng bị cấm.</p>
+<hr>
+<h2>6.1 Công cụ và ứng dụng</h2>
+<p>Cấm sử dụng công cụ bên ngoài và user script chưa được cho phép đầy đủ.</p>
+<p>Script và công cụ không được mang lại lợi thế chơi mà người chơi không có chúng không có. Phải liên hệ điều hành viên/quản trị viên để làm rõ mọi điểm chưa rõ về việc một công cụ có tuân thủ quy tắc hay không.  Với quy trình duyệt này, công cụ phải được cung cấp và được chấp thuận cho một người duyệt chỉ định. Nếu một công cụ được chấp thuận qua quy trình duyệt, các tính năng của nó (không phải bản thân công cụ) sẽ được người duyệt công bố.</p>
+<p>Lưu ý: Rất khuyến khích công bố và cung cấp các công cụ tự phát triển, nhưng không bắt buộc.</p>
+<hr>
+<h2>6.2 Lạm dụng cơ chế bảo vệ chống kền kền (Anti-Vulture)</h2>
+<p>Cố ý lạm dụng cơ chế chống kền kền để giành lợi thế, ví dụ như nghiên cứu graviton không rủi ro, bị cấm và sẽ bị phạt bằng lệnh cấm.</p>
+<hr>
+<h2>7. Đe dọa/xúc phạm</h2>
+<p>Tống tiền và đe dọa ngoài đời thực sẽ dẫn đến bị loại khỏi một hoặc tất cả khu vực của game. Tống tiền và đe dọa ngoài đời thực là mọi hình thức giao tiếp thể hiện rõ ý định xác định vị trí và gây hại cho một người hoặc một bên thứ ba thân thiết.</p>
+<hr>
+<h2>8. Spam và nội dung khiêu dâm</h2>
+<p>Spam và quảng cáo của bên thứ ba bị cấm. Mọi hình thức khiêu dâm và nội dung đồi trụy đều bị cấm. Và sẽ bị phạt bằng lệnh cấm trên toàn vũ trụ và vĩnh viễn!</p>
+<hr>
+<h2>9. Bắt nạt</h2>
+<p>Hành vi gây hại cho cộng đồng và bắt nạt không được chào đón ở đây!</p>
+
+<p>Để định nghĩa: Bắt nạt là mọi hành vi liên quan đến quấy rối, hành hạ và gây tổn thương về mặt cảm xúc lặp đi lặp lại, thường xuyên.
+Dù do cá nhân hay do một nhóm người ở vị thế mạnh hơn thực hiện.
+Lạm quyền, đe dọa bạo lực, lăng mạ, quấy rối, bêu riếu và cô lập chỉ là một vài ví dụ về cách bắt nạt có thể diễn ra.</p>
+
+<p>Nếu bạn đang bị bắt nạt hoặc nghe nói về việc đó, hãy liên hệ chúng tôi!
+Chúng tôi sẽ cố gắng tìm lối thoát.
+Bắt nạt không phải không có hậu quả.</p>
+<hr>
+<h2>10. Tên người chơi</h2>
+<p>Do các vấn đề trong quá khứ, mọi ký tự, ngoại trừ những ký tự sau, đều bị cấm:</p>
+<p>a-z</p>
+<p>A-Z</p>
+<p>äÄ öÖ üÜ ß</p>
+<p>" ", "-", "_"</p>

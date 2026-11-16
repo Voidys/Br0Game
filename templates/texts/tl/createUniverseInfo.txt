@@ -1,0 +1,12 @@
+<div class="left">
+<h2>Impormasyon sa suporta para sa multi universe</h2>
+<p>Kayang suportahan nang maayos ng Br0Game ang multiuniverse, pero dapat mong i-configure ang Web server ayon sa mga hinihingi.</p>
+<p>Malalaman mo kung ano ang kayang suportahan ng server mo sa button na "Information". Kung hindi ka sigurado, pinakamabuting magtanong sa mga kakilala sa hosting company mo.</p>
+<h3>Apache</h3>
+<p>Kung Apache Server ang gamit mo, dapat mo lang alisin ang mga linya 48-51 sa .htacces file sa main directory (alisin ang route).<br>
+Bukod dito, kailangan ang mod_rewrite.</p>
+<h3>nginx</h3>
+<p>Kung nginx Server ang gagamitin, ang configuration ng vhost ay direktang dapat palawakin ng rewrite rule:</p>
+<p><code>{NGINX-CODE}</code></p>
+<p>Madaling i-paste ang code snippet sa ibaba ng linyang may "server_name".</p>
+</div>

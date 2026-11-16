@@ -1,0 +1,88 @@
+<p>Ipinapaliwanag ng privacy policy na ito kung anong personal na datos ang pinoproseso ng {game_name}, bakit, sa anong legal na batayan at gaano katagal, at kung anong mga karapatan ang mayroon ka sa ilalim ng General Data Protection Regulation (GDPR). Ang mga terminong gaya ng "personal na datos" at "pagproseso" ay ginagamit ayon sa kahulugan sa Art. 4 GDPR.</p>
+
+<h2>Controller</h2>
+<p>Ang controller ayon sa kahulugan ng Art. 4(7) GDPR ay ang operator ng website na ito. Nakalista ang pangalan at postal address ng operator sa <a href="{contacts_url}">contact page</a>.<!--mail--> Maaabot mo kami sa pamamagitan ng email sa {contact_mail}.<!--/mail--></p>
+
+<h2>Pagbisita sa website</h2>
+<p>Sa tuwing magbubukas ka ng page, awtomatikong itinatala ng web server ang:</p>
+<ul>
+<li>IP address mo,</li>
+<li>petsa at oras ng request,</li>
+<li>hiniling na address at ang referring page,</li>
+<li>browser at operating system (user agent),</li>
+<li>status code at dami ng datos na inilipat.</li>
+</ul>
+<p>Kailangan namin ang datos na ito para maihatid ang website at mapanatili itong matatag at ligtas, halimbawa para matukoy at maitaboy ang mga atake. Ang legal na batayan ay Art. 6(1)(f) GDPR (ang lehitimong interes namin sa isang ligtas at gumaganang serbisyo). Binubura ang mga server log file sa loob ng 7 araw sa pinakamatagal, maliban kung kailangan ang mga ito bilang ebidensya ng isang tiyak na insidente sa seguridad. Sa ganoong kaso, itinatago ang mga ito hanggang sa malutas ang insidente.</p>
+
+<h2>Datos ng account at manlalaro</h2>
+<p>Para maglaro, kailangan mo ng account. Kapag nagrehistro ka at naglaro, pinoproseso namin ang:</p>
+<ul>
+<li>pangalan ng account, email address at password (iniimbak lang bilang salted hash, hindi kailanman bilang plain text),</li>
+<li>wika, time zone at mga setting ng display,</li>
+<li>oras ng pagrehistro, IP address sa pagrehistro, oras at IP address ng huling pag-login, at mga nabigong login attempt,</li>
+<li>isang manlalaro kada universe: pangalan ng manlalaro at datos ng laro tulad ng mga planeta, gusali, research, fleet, resource, puntos, achievement, combat at espionage report.</li>
+</ul>
+<p>Ang legal na batayan ay Art. 6(1)(b) GDPR: kailangan ang datos na ito para maibigay ang larong sinalihan mo. Kung walang email address at password, hindi makakagawa ng account.</p>
+<p>Dahil sa katangian ng laro, nakikita ng ibang manlalaro ang ilang datos: pangalan ng manlalaro, coordinate ng mga planeta mo, alliance, puntos at rankings (statistics, hall of fame), at ang nilalamang pinili mong ilathala (mga teksto ng alliance, mga post sa board).</p>
+
+<h2>Komunikasyon sa loob ng laro</h2>
+<p>Kapag ginamit mo ang mga feature ng komunikasyon, iniimbak namin ang nilalaman ng mga ito kasama ang nagpadala, mga tatanggap at oras: mga pribado at alliance na mensahe, buddy request, tala, support ticket, at mga post, komento at boto sa board. Ginagawa ito para gumana ang mga feature (Art. 6(1)(b) GDPR). Mababasa ng mga moderator ang mga support ticket at, kung pinaghihinalaang may paglabag sa mga patakaran, ang iniulat na nilalaman.<!--messages--> Awtomatikong binubura ang mga mensahe pagkatapos ng {message_days} araw.<!--/messages--></p>
+
+<h2>Patas na laro at proteksyon laban sa pang-aabuso</h2>
+<p>Para mapanatiling patas ang laro at maipatupad ang mga patakaran (halimbawa ang pagbabawal sa multi-accounting at account pushing), pinoproseso namin ang:</p>
+<ul>
+<li>mga IP address ng mga aktibong session at login, na ikinukumpara sa pagitan ng mga account para matukoy ang ilang account na nilalaro mula sa iisang koneksyon,</li>
+<li>mga tala ng session (session ID, IP address, huling aktibidad), na binubura pagkatapos mag-expire ang session,</li>
+<li>mga tala ng game team sa mga indibidwal na account, at mga tala ng ban kasama ang dahilan at tagal ng mga ito,</li>
+<li>kung may tiyak na hinala ng paglabag sa mga patakaran para sa isang account, isang tala ng mga page na hiniling ng account na iyon kasama ang oras ng bawat request. Binubura ang talang ito kapag natapos na ang imbestigasyon.</li>
+</ul>
+<p>Kapag nagrehistro ka, sinusuri namin ang domain ng email address mo laban sa pampublikong listahan ng mga disposable email provider. Dina-download sa server namin ang listahan, at hindi ipinapadala kahit saan ang address mo.</p>
+<p>Ang legal na batayan ay Art. 6(1)(f) GDPR (ang lehitimong interes namin, at ng lahat ng manlalaro, sa patas na laro at sa pag-iwas sa pang-aabuso). Ang mga hakbang tulad ng mga ban ay pinapasya ng mga miyembro ng game team, hindi ng awtomatikong proseso.</p>
+
+<h2>Mga Email</h2>
+<p>Nagpapadala kami ng mga email sa address na ginamit mo sa pagrehistro kapag kailangan ang mga ito sa pagpapatakbo ng account mo: pag-activate ng account mo, pag-reset ng password mo, pagkumpirma ng pagpalit ng email address mo, mga babala bago burahin ang hindi aktibong account, at mahahalagang abiso tungkol sa laro (halimbawa ang pagsisimula ng bagong universe). Ang legal na batayan ay Art. 6(1)(b) GDPR. Hindi kami nagpapadala ng mga newsletter o advertising.</p>
+
+<!--recaptcha--><h2>Proteksyon laban sa bot (Google reCAPTCHA)</h2>
+<p>Ang ilang form (halimbawa ang pagrehistro) ay pinoprotektahan laban sa awtomatikong pang-aabuso gamit ang Google reCAPTCHA, isang serbisyo ng Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. Nilo-load lang ang reCAPTCHA kapag nagsumite ka ng protektadong form. Pagkatapos ay ipinapadala nito sa Google ang IP address mo, impormasyon ng browser at datos ng interaksyon, na tumutukoy kung tao ang pinagmulan ng request. Maaari ring iproseso ng Google ang datos na ito sa USA. Ang Google LLC ay sertipikado sa ilalim ng EU-U.S. Data Privacy Framework, batay sa adequacy decision ng European Commission (Art. 45 GDPR). Ang legal na batayan ay Art. 6(1)(f) GDPR (proteksyon ng mga form namin laban sa spam at awtomatikong paggawa ng account). Makukuha ang karagdagang impormasyon sa privacy policy ng Google sa https://policies.google.com/privacy.</p>
+
+<!--/recaptcha--><h2>Mga cookie at local storage</h2>
+<p>Gumagamit lang kami ng mga cookie at browser storage na teknikal na kinakailangan para maibigay ang serbisyong hinihiling mo (§ 25(2) no. 2 TDDDG, Art. 6(1)(b) at (f) GDPR):</p>
+<ul>
+<li><strong>2Moons</strong>: session cookie na nagpapanatili sa iyong naka-log in. Nag-e-expire ito 12 oras pagkatapos ng huli mong aktibidad, o kapag nag-log out ka.</li>
+<li><strong>lang</strong>: naaalala ang wikang pinili mo.</li>
+<li><strong>account</strong>: naaalala na ginamit ang browser na ito sa pag-log in, para maipakita muna ng start page ang login. Wala itong personal na datos.</li>
+<li>Local storage: mga kagustuhan sa display ng interface ng laro (halimbawa ang huling binuksang kategorya ng mensahe). Nananatili ang mga ito sa browser mo at hindi ipinapadala sa amin.</li>
+</ul>
+<p>Hindi kami gumagamit ng tracking, analytics o advertising cookie, at hindi kami gumagawa ng mga user profile para sa marketing.</p>
+
+<h2>Mga tatanggap</h2>
+<p>Pinoproseso ng mga miyembro ng game team (mga administrator at moderator) ang datos mo hanggang sa kailangan ng kanilang mga gawain. Ang mga technical service provider ay kumikilos sa ngalan namin at ayon lang sa mga tagubilin namin (Art. 28 GDPR): ang hosting provider ng mga server at, kung naaangkop, ang email delivery service. Nakikita ng ibang manlalaro ang datos na inilalarawan sa ilalim ng "Datos ng account at manlalaro" at "Komunikasyon sa loob ng laro". Nagbibigay lang kami ng datos sa mga awtoridad kung legal kaming obligado. Hindi kami nagbebenta ng personal na datos.<!--recaptcha--> Maliban sa Google reCAPTCHA (tingnan ang "Proteksyon laban sa bot"), walang datos na inililipat sa mga bansang nasa labas ng EU/EEA.<!--/recaptcha--></p>
+<p>Ang mga link sa mga external na serbisyo (halimbawa ang Discord o ang wiki) ay dadalhin ka lang sa mga serbisyong iyon. Pinoproseso lang doon ang datos kapag binuksan mo ang link, ayon sa privacy policy ng kani-kanilang provider.</p>
+
+<h2>Panahon ng pag-iimbak</h2>
+<ul>
+<li>Puwede mong burahin ang account mo sa mga setting ng account. Aalisin ito pagkatapos ng panahon ng paghihintay na {deletion_days} araw, kung kailan puwede mong kanselahin ang pagbura.</li>
+<!--inactive--><li>Awtomatikong binubura ang mga manlalarong hindi naging aktibo sa loob ng {inactive_days} araw. Kung saan nagpapadala ang laro ng mga babalang email, makakatanggap ka ng isa bago ang pagbura.</li>
+<!--/inactive--><li>Binubura ang mga account na walang anumang manlalaro pagkatapos ng 30 araw na walang aktibidad.</li>
+<li>Mga server log file: hindi lalampas sa 7 araw, tingnan ang "Pagbisita sa website".</li>
+<li>Ang datos na kailangan naming itago dahil sa mga legal na dahilan, o kailangan para itatag, gamitin o ipagtanggol ang mga legal na claim, ay nililimitahan sa halip na binubura at itinatago lang hangga't kinakailangan.</li>
+<li>Naglalaman ang mga database backup ng datos sa oras ng backup. Itinatago ang mga ito sa limitadong panahon at pinapalitan nang paikot.</li>
+</ul>
+
+<h2>Ang mga karapatan mo</h2>
+<p>Mayroon kang mga sumusunod na karapatan tungkol sa personal mong datos:</p>
+<ul>
+<li>access sa datos mo at kopya nito (Art. 15 GDPR),</li>
+<li>pagwawasto ng maling datos (Art. 16 GDPR),</li>
+<li>pagbura (Art. 17 GDPR) at paghihigpit sa pagproseso (Art. 18 GDPR),</li>
+<li>data portability sa isang structured, karaniwang ginagamit, machine-readable na format (Art. 20 GDPR),</li>
+<li>pagbawi ng pahintulot na ibinigay mo, na may bisa para sa hinaharap (Art. 7(3) GDPR).</li>
+</ul>
+<p><strong>Karapatang tumutol (Art. 21 GDPR):</strong> kung saan pinoproseso namin ang datos mo batay sa Art. 6(1)(f) GDPR, may karapatan kang tumutol anumang oras, sa mga dahilang may kaugnayan sa partikular mong sitwasyon. Ititigil namin ang pagproseso maliban kung maipapakita naming may mga nakakukumbinsing lehitimong dahilan na nangingibabaw sa mga interes, karapatan at kalayaan mo, o kung ang pagproseso ay nagsisilbi sa pagtatatag, paggamit o pagtatanggol ng mga legal na claim.</p>
+<p>Para magamit ang mga karapatan mo, makipag-ugnayan sa amin gamit ang mga detalye sa <a href="{contacts_url}">contact page</a><!--mail--> o sa pamamagitan ng email sa {contact_mail}<!--/mail-->. May karapatan ka ring maghain ng reklamo sa isang data protection supervisory authority, lalo na sa EU member state ng tirahan mo, lugar ng trabaho mo o lugar ng diumano'y paglabag (Art. 77 GDPR).</p>
+
+<h2>Mga awtomatikong desisyon at seguridad</h2>
+<p>Hindi kami gumagawa ng mga desisyong nakabatay lang sa awtomatikong pagproseso, kasama ang profiling, na may legal na epekto sa iyo o katulad na malaking epekto sa iyo (Art. 22 GDPR). Naka-encrypt (TLS) ang lahat ng koneksyon sa website na ito, iniimbak lang bilang hash ang mga password, at limitado ang access sa personal na datos sa mga miyembro ng game team na nangangailangan nito.</p>
+
+<h2>Mga pagbabago</h2>
+<p>Ina-update namin ang privacy policy na ito kapag nagbago ang website o ang mga legal na kinakailangan. Ang bersyong nakalathala sa page na ito ang nalalapat.</p>

@@ -1,0 +1,82 @@
+Active_players: Mga Aktibong Manlalaro
+Back: Bumalik
+mail:
+  subject:
+    mail_changed: 'Napalitan na ang email address ng iyong %s account'
+Other_universes: Iba pang Universe
+Play: Maglaro
+Playername: Pangalan ng manlalaro
+Register: Magrehistro
+Settings: Settings
+Sitting_end: Katapusan ng sitting
+Sitting_request: Humiling ng sitting (hindi pa available)
+uni_status_regclosed_gameclosed: Sarado
+uni_status_regclosed_gameopen: Bukas para maglaro
+uni_status_regopen_gameclosed: Bukas para magrehistro
+uni_status_regopen_gameopen: Bukas
+Universe_end: Katapusan
+Universe_start: Simula
+Universe_status: 'Status ng universe: '
+Universes: Mga Universe
+Your_universes: Iyong mga Universe
+
+board_create: Bagong post
+board_edit_post: I-edit ang post
+board_sort: Ayusin
+board_sort_hot: Patok
+board_sort_new: Bago
+board_sort_top: Nangunguna
+board_period_all: Lahat ng panahon
+board_period_week: Ngayong linggo
+board_csort_best: Pinakamahusay
+board_flair: Flair
+board_flair_all: Lahat
+board_flair_general: Pangkalahatan
+board_flair_guide: Gabay
+board_flair_question: Tanong
+board_flair_suggestion: Mungkahi
+board_flair_bug: Bug
+board_flair_offtopic: Off-topic
+board_upvote: I-upvote
+board_downvote: I-downvote
+board_pinned: Naka-pin
+board_locked: Naka-lock
+board_by: ni
+board_comments: Mga Komento
+board_empty: Wala pang post. Ikaw na ang mauna.
+board_no_comments: Wala pang komento.
+board_title: Pamagat
+board_body: Teksto
+board_publish: I-publish
+board_save: I-save
+board_cancel: Kanselahin
+board_edit: I-edit
+board_edited: na-edit
+board_delete: Burahin
+board_deleted: "[nabura]"
+board_deleted_user: "[nabura]"
+board_confirm_delete: Sigurado ka bang buburahin ito?
+board_reply: Sumagot
+board_collapse: I-collapse ang thread
+board_add_comment: Magsulat ng komento
+board_comment_send: Mag-komento
+board_mod_pin: I-pin
+board_mod_unpin: I-unpin
+board_mod_lock: I-lock
+board_mod_unlock: I-unlock
+board_not_found: Wala nang ganitong post o komento.
+board_not_allowed: Hindi mo ito puwedeng gawin.
+board_err_csrf: Hindi ma-verify ang request. I-reload ang page at subukan ulit.
+board_err_title: Maglagay ng pamagat.
+board_err_title_long: Hanggang 200 character lang ang pamagat.
+board_err_body: Maglagay ng teksto (hindi blangko at hindi masyadong mahaba).
+board_err_locked: Naka-lock ang post na ito - bawal nang mag-komento.
+board_err_rate_post: "Maghintay pa ng %d segundo bago mag-post ulit."
+board_err_rate_comment: "Maghintay pa ng %d segundo bago mag-komento ulit."
+board_ago_now: ngayon lang
+board_ago_min: "%d min ang nakalipas"
+board_ago_hours: "%d oras ang nakalipas"
+board_ago_days: "%d araw ang nakalipas"
+board_guest_hint: Mag-log in para mag-post, mag-komento at bumoto.
+board_guest_login: Mag-log in
+board_guest_register: Magrehistro

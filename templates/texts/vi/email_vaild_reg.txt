@@ -1,0 +1,23 @@
+Xin chào {USERNAME},
+
+Cảm ơn bạn đã đăng ký tại {GAMENAME}
+
+Trước khi kích hoạt tài khoản của bạn, cần thêm một bước nữa.
+Xin lưu ý rằng bước này là bắt buộc để trở thành 
+người dùng đã đăng ký. Bạn chỉ cần bấm vào liên kết bên dưới một lần 
+để xác minh danh tính.
+
+Để hoàn tất đăng ký, hãy bấm vào 
+liên kết kích hoạt sau:
+
+{VERTIFYURL}
+
+Thông tin đăng nhập của bạn:
+
+Email : {EMAIL}
+
+Nếu bạn gặp bất kỳ vấn đề nào với đăng ký tự động, hãy tạo ticket trên Discord của chúng tôi: 
+{DISCORD}
+
+Trân trọng,
+Đội ngũ {GAMENAME}

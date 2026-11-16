@@ -1,0 +1,112 @@
+tutorial_buttons_claim: Beloning ophalen
+tutorial_buttons_continue: Doorgaan
+tutorial_buttons_finalize: Tutorial afronden
+tutorial_buttons_skip: Overslaan
+tutorial_buttons_skipAll: Tutorial overslaan
+tutorial_buttons_skipAll_confirm: De rest van het tutorial overslaan? Je kunt het daarna niet opnieuw starten.
+tutorial_goal:
+  mission:
+    '1': Val een andere speler aan
+    '6': Stuur een spionagesonde naar een andere speler
+    '7': Koloniseer een nieuwe planeet
+    '8': Recycle een puinveld
+    '15': Stuur een expeditievloot
+  step6:
+    '1': Geef je planeet een nieuwe naam
+    '2': Stuur een vriendschapsverzoek naar een andere speler
+    '3': Stuur een alliantiesollicitatie
+tutorial_goals_header: 'Doelen:'
+tutorial_goals_ignore: (negeren)
+tutorial_rewards_header: 'Beloningen:'
+tutorial_text:
+  step0: 'Welkom bij {game_name}!<br><br>
+
+    Dit korte tutorial leidt je door de basis.<br>
+
+    We verwijzen vaak naar onze wiki, want niet alles past in een tutorial. Je kunt de wiki op elk moment openen via het menu links.<br>
+
+    Je kunt het tutorial overslaan wanneer je wilt, maar je kunt het later niet opnieuw starten.<br><br>
+
+    Veel succes, Imperator!'
+  step1: "Je doel: zoveel mogelijk punten scoren. Je krijgt één punt voor elke 1.000 grondstoffen die je uitgeeft, en de beste bron van grondstoffen zijn je eigen mijnen.<br>\nBegin met je basisvoorraad: je hebt metaal en kristal uit hun mijnen nodig, plus energie uit de zonne-energiecentrale om ze draaiende te houden. Raakt de energie op, dan produceren je mijnen onder de 100%.<br>\nUpgrade deze gebouwen in het menu <b>Gebouwen</b>. Klik op de naam van een gebouw om te zien wat het volgende level oplevert en hoeveel energie het gaat gebruiken.<br><br>\nMeer weten? Kijk in de <b>Wiki</b>: \n<a href=\"{wiki_url}/wiki/En/Rohstoffe\" target=\"_blank\">Grondstoffen</a>"
+  step2: 'Samen spelen is leuker. De meeste spelers hangen rond op onze Discord, waar je antwoorden krijgt en medespelers vindt.<br>
+
+    Kom je er nog niet uit? Dan kun je hier ook een supportticket openen.'
+  step3: "Andere spelers plunderen is een tweede manier om aan grondstoffen te komen - en het kan jou ook overkomen. Bouw dus je eerste verdediging!<br>\nZelfs een kleine verdediging beschermt je productie 's nachts.<br><br>\nAantallen alleen beslissen een gevecht niet; de samenstelling van de aanvallende vloot telt ook mee.<br>\nAanvallers moeten door je verdediging heen voordat ze kunnen plunderen, en elk schip dat ze daarvoor moeten sturen verlaagt hun winst en kan ze meer schepen kosten.<br>\nBouw verdediging in het menu <b>Verdediging</b>. Je hebt een werf nodig (die op haar beurt een robotfabriek vereist) en wat deuterium.<br><br>\nHier is het bijbehorende artikel in de wiki: \n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Verdedigingsinstallaties</a>"
+  step4: 'Houd je voorraad op peil door je mijnen uit te breiden!<br>
+
+    Gebouwen, schepen, verdediging en onderzoek worden na verloop van tijd duurder, dus je productie moet meegroeien. Open nu Gebouwen en upgrade je mijnen zodra je de grondstoffen hebt.'
+  step5: "Bouw jezelf een klein vrachtschip!<br>\nKleine vrachtschepen zijn snelle, handige transporters.<br>\nMet de impulsaandrijving zijn ze over langere afstanden sneller dan het grote vrachtschip.<br>\nGebruik ze om grondstoffen tussen je planeten te verplaatsen, om te handelen met andere spelers of om ze te plunderen.<br><br>\nMeer in de wiki: \n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Schepen</a>"
+  step6: 'Geef je planeet een naam om hem makkelijk terug te vinden. Klik in het Overzicht op de planeetnaam in de kop van het puntenoverzicht. Ga je gang, probeer het nu.<br><br>
+
+    Je kunt ook vriendschapsverzoeken sturen naar andere spelers. Zodra ze accepteren, kun je makkelijker chatten en elkaars online-status zien. Daarvoor hoef je niet in dezelfde alliantie te zitten. Vrienden kunnen ook vloten op elkaars planeten laten wachten (Vasthouden), zodat je samen kunt verdedigen zonder alliantie.<br><br>
+
+    Of sluit je aan bij een alliantie en speel als team. Dan heb je geen aparte vriendschapsverzoeken meer nodig om vloten vast te houden. Binnen de alliantie kun je rondschrijven en, afhankelijk van je alliantierang, de online-status en score van andere leden zien.'
+  step7: 'Om te weten te komen welke grondstoffen, gebouwen, onderzoeken, schepen en verdedigingen een andere speler heeft, moet je hem bespioneren. Stuur een spionagesonde naar een speler via het menu Vloot of via het melkwegoverzicht.<br>
+
+    Houd er rekening mee dat andere spelers jou ook kunnen bespioneren!'
+  step8: "Een expeditie kan grondstoffen, schepen, speciale gebeurtenissen of verliezen opleveren. Om er een te proberen, neem je een schip, kies je planeetpositie 16 als doel en de missie \"Expeditie\" in het menu Vloot.<br>\nElk scheepstype draagt bij aan de grootte van je expeditievloot, tot een grens waarop de maximale gebeurtenisgrootte is bereikt.<br><br>\nDe wiki legt uit wat je kunt aanpassen om je winst te maximaliseren: \n<a href=\"{wiki_url}/wiki/En/Expoanleitung\" target=\"_blank\">Expedities</a>"
+  step9: "Hoe meer planeten je koloniseert, hoe sneller je groeit: je kunt op meerdere planeten tegelijk grondstoffen produceren en schepen bouwen. Let op: de binnenste en buitenste rand van een stelsel kun je alleen bewonen als je astrofysica-level hoog genoeg is. Het kolonisatieschip zelf kun je zonder astrofysica bouwen, maar voor je eerste kolonie heb je het nodig!<br><br>\nKoloniseren in je eigen stelsel of direct ernaast houdt transportroutes kort. De keerzijde: later in het spel kunnen spelers een kolonie in jouw stelsel plaatsen, niet voor de mijnen maar als tijdelijke vlootbasis - een zogeheten raidkolonie.<br><br>\nMeer in de wiki: \n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Astrofysica</a>"
+  step10: "Wil je sneller grondstoffen? Val andere spelers aan. Weeg kosten en baten af zodat je aanval loont, en gebruik spionagerapporten en de gevechtssimulator om hem te plannen.<br><br>\nPas op! Andere spelers kunnen veel vlootmissies op verschillende manieren volgen.<br>\nJe zuurverdiende vloot niet kwijtraken is een van de belangrijkste onderdelen van het spel.<br><br>\nLees dus zeker deze wikionderwerpen: \n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Vloot veiligstellen</a> - \n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensor phalanx</a>"
+  step10_u6: 'Wil je sneller grondstoffen? Val andere spelers aan. Weeg kosten en baten af zodat je aanval loont, en gebruik spionagerapporten en de gevechtssimulator om hem te plannen.<br><br>
+
+    Pas op! Andere spelers kunnen veel vlootmissies op verschillende manieren volgen.<br>
+
+    Je zuurverdiende vloot niet kwijtraken is een van de belangrijkste onderdelen van het spel.<br><br>
+
+    Lees dus zeker deze wikionderwerpen:
+
+    <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Vloot veiligstellen</a>'
+  step11: 'Wanneer vloten worden vernietigd, laten ze een puinveld achter dat je kunt oogsten. Daarvoor heb je recyclers nodig, elk met een laadruimte van 20.000. Een grote vloot uitroeien kan een lucratieve bron van grondstoffen zijn.<br><br>
+
+    Je kunt recyclers ook direct vanuit het melkwegoverzicht sturen door op een puinveld te klikken, in plaats van het menu Vloot te gebruiken.'
+  step12: 'Gefeliciteerd, je hebt het tutorial afgerond!<br><br>
+
+    Het spel heeft nog veel meer te bieden.<br>
+
+    Zo zijn er grofweg drie speelstijlen, die ook verschillen in de tijd die ze vragen:<br>
+
+    <ul>
+
+    <li>Miner: breidt mijnen uit op veel kolonies en vliegt vooral met transporters</li>
+
+    <li>Fleeter: steekt de meeste punten in oorlogsschepen, heeft nauwelijks eigen productie en leeft van het plunderen van andere spelers</li>
+
+    <li>Comber: een mix van beide</li>
+
+    </ul>
+
+    Manen worden later in het spel belangrijk, en inmiddels ben je de sensor phalanx vast tegengekomen.<br><br>
+
+    Nog vragen? Lees de wiki of vraag het de community op Discord.'
+  step12_u6: 'Gefeliciteerd, je hebt het tutorial afgerond!<br><br>
+
+    Het spel heeft nog veel meer te bieden.<br>
+
+    Zo zijn er grofweg drie speelstijlen, die ook verschillen in de tijd die ze vragen:<br>
+
+    <ul>
+
+    <li>Miner: breidt mijnen uit op veel kolonies en vliegt vooral met transporters</li>
+
+    <li>Fleeter: steekt de meeste punten in oorlogsschepen, heeft nauwelijks eigen productie en leeft van het plunderen van andere spelers</li>
+
+    <li>Comber: een mix van beide</li>
+
+    </ul>
+
+    Nog vragen? Lees de wiki of vraag het de community op Discord.'
+tutorial_title:
+  step0: Welkom, Imperator!
+  step1: Tijd om te gaan minen!
+  step2: Kom mensen ontmoeten!
+  step3: Laat je planeet niet onverdedigd achter!
+  step4: Denk vooruit!
+  step5: Schepen, we hebben schepen nodig!
+  step6: Geef je planeet een naam en maak vrienden!
+  step7: Kijk wat de anderen hebben!
+  step8: Het onbekende in!
+  step9: Eén planeet is nooit genoeg!
+  step10: Moe van het wachten op je mijnen?
+  step11: Tijd om de rommel op te ruimen!
+  step12: Het is je gelukt!

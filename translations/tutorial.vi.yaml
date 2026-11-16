@@ -1,0 +1,90 @@
+tutorial_buttons_claim: Nhận thưởng
+tutorial_buttons_continue: Tiếp tục
+tutorial_buttons_finalize: Hoàn thành hướng dẫn
+tutorial_buttons_skip: Bỏ qua
+tutorial_buttons_skipAll: Bỏ qua hướng dẫn
+tutorial_buttons_skipAll_confirm: Bỏ qua phần còn lại của hướng dẫn? Bạn sẽ không thể bắt đầu lại.
+tutorial_goal:
+  mission:
+    '1': Tấn công người chơi khác
+    '6': Gửi Tàu do thám đến người chơi khác
+    '7': Thực dân hóa một hành tinh mới
+    '8': Tái chế một trường mảnh vỡ
+    '15': Gửi một hạm đội thám hiểm
+  step6:
+    '1': Đổi tên hành tinh của bạn
+    '2': Gửi lời mời kết bạn đến người chơi khác
+    '3': Gửi đơn xin gia nhập liên minh
+tutorial_goals_header: 'Mục tiêu:'
+tutorial_goals_ignore: (bỏ qua)
+tutorial_rewards_header: 'Phần thưởng:'
+tutorial_text:
+  step0: |-
+    Chào mừng đến với {game_name}!<br><br>
+    Hướng dẫn ngắn này sẽ đưa bạn đi qua những điều cơ bản.<br>
+    Chúng tôi liên kết đến wiki khá nhiều, vì không phải gì cũng nhét vừa trong hướng dẫn. Bạn có thể mở nó bất cứ lúc nào từ menu bên trái.<br>
+    Bạn có thể bỏ qua hướng dẫn bất cứ lúc nào, nhưng sẽ không thể bắt đầu lại.<br><br>
+    Chúc may mắn, Imperator!
+  step1: "Mục tiêu của bạn: kiếm càng nhiều điểm càng tốt. Cứ mỗi 1.000 tài nguyên bạn tiêu, bạn được 1 điểm, và nguồn tài nguyên tốt nhất là mỏ của chính bạn.<br>\nHãy bắt đầu với nguồn cung cơ bản: bạn cần Kim loại và Tinh thể từ các mỏ, cùng Năng lượng từ Nhà máy điện mặt trời để giữ cho chúng hoạt động. Nếu thiếu Năng lượng, mỏ của bạn sẽ sản xuất dưới 100%.<br>\nNâng cấp các công trình này trong menu <b>Công trình</b>. Bấm vào tên công trình để xem cấp tiếp theo mang lại gì và tốn bao nhiêu Năng lượng.<br><br>\nMuốn biết thêm? Hãy xem <b>Wiki</b>: \n<a href=\"{wiki_url}/wiki/En/Rohstoffe\" target=\"_blank\">Tài nguyên</a>"
+  step2: |-
+    Chơi cùng nhau vui hơn. Hầu hết người chơi tụ tập trên Discord của chúng tôi, nơi bạn có thể được giải đáp và tìm người chơi cùng.<br>
+    Vẫn bí? Bạn cũng có thể mở một yêu cầu hỗ trợ tại đây.
+  step3: "Cướp hành tinh của người chơi khác là một cách khác để kiếm tài nguyên - và bạn cũng có thể bị cướp. Vì vậy hãy xây phòng thủ đầu tiên của bạn!<br>\nDù chỉ là phòng thủ nhỏ cũng bảo vệ sản lượng của bạn qua đêm.<br><br>\nChỉ riêng con số không quyết định trận đánh; thành phần của hạm đội tấn công cũng quan trọng.<br>\nKẻ tấn công phải vượt qua phòng thủ của bạn mới cướp được, và mỗi con tàu họ phải gửi đều cắt giảm lợi nhuận và có thể khiến họ mất thêm tàu.<br>\nXây phòng thủ trong menu <b>Phòng thủ</b>. Bạn cần một Xưởng đóng tàu (mà muốn có lại cần Nhà máy robot) và một ít Deuterium.<br><br>\nĐây là bài viết tương ứng trong wiki: \n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Công trình phòng thủ</a>"
+  step4: |-
+    Giữ cho nguồn cung luôn chảy bằng cách mở rộng mỏ!<br>
+    Công trình, tàu, phòng thủ và nghiên cứu ngày càng đắt, nên sản lượng của bạn phải tăng theo. Hãy mở Công trình ngay và nâng cấp mỏ mỗi khi đủ tài nguyên.
+  step5: "Hãy đóng cho mình một Tàu vận tải nhẹ!<br>\nTàu vận tải nhẹ là phương tiện vận chuyển nhanh và tiện dụng.<br>\nVới Động cơ xung, chúng nhanh hơn Tàu vận tải nặng trên quãng đường dài.<br>\nDùng chúng để chuyển tài nguyên giữa các hành tinh của bạn, giao dịch với người chơi khác, hoặc cướp họ.<br><br>\nThêm trong wiki: \n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Tàu</a>"
+  step6: |-
+    Hãy đặt tên cho hành tinh để dễ theo dõi. Trong Tổng quan, bấm vào tên hành tinh ở phần đầu bảng điểm. Thử ngay đi nào.<br><br>
+    Bạn cũng có thể gửi lời mời kết bạn đến người chơi khác. Khi họ chấp nhận, bạn có thể trò chuyện dễ hơn và thấy trạng thái trực tuyến của nhau. Không cần chung liên minh. Bạn bè cũng có thể đóng quân hạm đội tại hành tinh của nhau, nên có thể cùng phòng thủ ngoài liên minh.<br><br>
+    Hoặc gia nhập một liên minh và chơi theo đội. Bạn không cần lời mời kết bạn riêng để đóng quân nữa. Trong liên minh, bạn có thể gửi tin nhắn toàn thể và xem trạng thái trực tuyến cùng điểm của các thành viên khác, tùy theo cấp bậc của bạn.
+  step7: |-
+    Để biết người chơi khác có tài nguyên, công trình, nghiên cứu, tàu và phòng thủ gì, bạn phải do thám họ. Gửi Tàu do thám đến người chơi từ menu Hạm đội hoặc từ bản đồ Thiên hà.<br>
+    Nhớ rằng người chơi khác cũng có thể do thám bạn!
+  step8: "Một cuộc thám hiểm có thể mang về tài nguyên, tàu, sự kiện đặc biệt hoặc tổn thất. Để thử, hãy lấy một con tàu, chọn vị trí hành tinh 16 làm mục tiêu và nhiệm vụ \"Thám hiểm\" trong menu Hạm đội.<br>\nMỗi loại tàu đều góp vào quy mô hạm đội thám hiểm của bạn, cho đến giới hạn mà quy mô sự kiện tối đa đạt được.<br><br>\nWiki giải thích bạn có thể thay đổi gì để tối đa hóa lợi nhuận: \n<a href=\"{wiki_url}/wiki/En/Expoanleitung\" target=\"_blank\">Thám hiểm</a>"
+  step9: "Bạn thực dân hóa càng nhiều hành tinh thì phát triển càng nhanh: bạn có thể sản xuất tài nguyên và đóng tàu trên nhiều hành tinh cùng lúc. Lưu ý rằng bạn chỉ có thể định cư ở rìa trong hoặc rìa ngoài của một hệ nếu cấp Vật lý thiên văn đủ cao. Tàu thực dân có thể đóng mà không cần Vật lý thiên văn, nhưng thuộc địa đầu tiên của bạn thì cần nó!<br><br>\nThực dân hóa trong hệ của bạn hoặc ngay bên cạnh giúp các tuyến vận chuyển ngắn. Mặt trái: về sau trong game, người chơi có thể đặt thuộc địa trong hệ của bạn không phải vì mỏ mà làm căn cứ hạm đội tạm thời - gọi là thuộc địa cướp bóc.<br><br>\nThêm trong wiki: \n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Vật lý thiên văn</a>"
+  step10: "Muốn có tài nguyên nhanh hơn? Hãy tấn công người chơi khác. Cân nhắc chi phí và lợi ích để cuộc tấn công đáng giá, và dùng báo cáo do thám cùng trình mô phỏng chiến đấu để lên kế hoạch.<br><br>\nCẩn thận! Người chơi khác có thể theo dõi nhiều nhiệm vụ của hạm đội bằng nhiều cách.<br>\nKhông để mất hạm đội mà bạn vất vả gây dựng là một trong những phần quan trọng nhất của game.<br><br>\nVì vậy hãy đọc các chủ đề wiki này: \n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Cất hạm đội</a> - \n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Phalanx cảm biến</a>"
+  step10_u6: |-
+    Muốn có tài nguyên nhanh hơn? Hãy tấn công người chơi khác. Cân nhắc chi phí và lợi ích để cuộc tấn công đáng giá, và dùng báo cáo do thám cùng trình mô phỏng chiến đấu để lên kế hoạch.<br><br>
+    Cẩn thận! Người chơi khác có thể theo dõi nhiều nhiệm vụ của hạm đội bằng nhiều cách.<br>
+    Không để mất hạm đội mà bạn vất vả gây dựng là một trong những phần quan trọng nhất của game.<br><br>
+    Vì vậy hãy đọc các chủ đề wiki này:
+    <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Cất hạm đội</a>
+  step11: |-
+    Khi hạm đội bị phá hủy, chúng để lại một trường mảnh vỡ mà bạn có thể thu hoạch. Để làm vậy bạn cần Tàu tái chế, mỗi chiếc chở được 20.000. Xóa sổ một hạm đội lớn có thể là nguồn tài nguyên béo bở.<br><br>
+    Bạn cũng có thể gửi Tàu tái chế thẳng từ bản đồ Thiên hà bằng cách bấm vào trường mảnh vỡ, thay vì dùng menu Hạm đội.
+  step12: |-
+    Chúc mừng, bạn đã hoàn thành hướng dẫn!<br><br>
+    Game còn rất nhiều điều để khám phá.<br>
+    Ví dụ, có khoảng ba lối chơi, cũng khác nhau về thời gian đòi hỏi:<br>
+    <ul>
+    <li>Thợ mỏ: mở rộng mỏ trên nhiều thuộc địa và chủ yếu bay tàu vận tải</li>
+    <li>Chiến binh hạm đội: dồn phần lớn điểm vào chiến hạm, hầu như không tự sản xuất và sống nhờ cướp người chơi khác</li>
+    <li>Lai: kết hợp cả hai</li>
+    </ul>
+    Mặt trăng trở nên quan trọng về sau trong game, và đến giờ bạn hẳn đã biết đến Phalanx cảm biến.<br><br>
+    Vẫn còn thắc mắc? Hãy đọc wiki hoặc hỏi cộng đồng trên Discord.
+  step12_u6: |-
+    Chúc mừng, bạn đã hoàn thành hướng dẫn!<br><br>
+    Game còn rất nhiều điều để khám phá.<br>
+    Ví dụ, có khoảng ba lối chơi, cũng khác nhau về thời gian đòi hỏi:<br>
+    <ul>
+    <li>Thợ mỏ: mở rộng mỏ trên nhiều thuộc địa và chủ yếu bay tàu vận tải</li>
+    <li>Chiến binh hạm đội: dồn phần lớn điểm vào chiến hạm, hầu như không tự sản xuất và sống nhờ cướp người chơi khác</li>
+    <li>Lai: kết hợp cả hai</li>
+    </ul>
+    Vẫn còn thắc mắc? Hãy đọc wiki hoặc hỏi cộng đồng trên Discord.
+tutorial_title:
+  step0: Chào mừng, Imperator!
+  step1: Đến giờ khai thác rồi!
+  step2: Hãy đến gặp mọi người!
+  step3: Đừng để hành tinh không có phòng thủ!
+  step4: Hãy nhìn xa hơn!
+  step5: Tàu, chúng ta cần tàu!
+  step6: Đặt tên hành tinh và tìm bạn!
+  step7: Xem người khác có gì!
+  step8: Tiến vào vùng chưa biết!
+  step9: Một hành tinh là không bao giờ đủ!
+  step10: Chán chờ mỏ rồi à?
+  step11: Đến giờ dọn rác!
+  step12: Bạn làm được rồi!

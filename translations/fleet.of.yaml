@@ -438,7 +438,7 @@ sys_expe_time_slow_6: >-
   abgesehen gab es in dem Sektor, in dem die Exbedition herausgam, nichds außer
   der Leere zwischne den Schdernene.
 sys_fleet_return: >-
-  Deine Flodde gehrd uff den s% s% s% dsurügg und lieferd  %s %s, %s %s und %s
+  Deine Flodde gehrd uff den %s %s %s dsurügg und lieferd %s %s, %s %s und %s
   %s. %s
 sys_fleet_won: >-
   Eine deiner Floddne gehrt wom Angriff beim Blanetne %s %s zurügg zu %s %s. Sie
@@ -467,7 +467,7 @@ sys_mess_spy_ennemyfleet_1: >-
   Feindliche Schbionagesondne fom Blanedne %s wurde in der Nähe fonääh %s
   gesichded.
 sys_mess_spy_ennemyfleet_3: >-
-  Feindliche Schbionagesondne fom Mond %ss wurde in der Nähe fonääh %s
+  Feindliche Schbionagesondne fom Mond %s wurde in der Nähe fonääh %s
   gesichded.
 sys_mess_spy_link: >-
   <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)

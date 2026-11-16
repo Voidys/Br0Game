@@ -1,0 +1,81 @@
+Active_players: Actieve spelers
+Back: Terug
+mail:
+  subject:
+    mail_changed: Het e-mailadres van je %s-account is gewijzigd
+Other_universes: Andere universums
+Play: Spelen
+Playername: Spelersnaam
+Register: Registreren
+Settings: Instellingen
+Sitting_end: Einde sitten
+Sitting_request: Sitten aanvragen (nog niet beschikbaar)
+uni_status_regclosed_gameclosed: Gesloten
+uni_status_regclosed_gameopen: Open om te spelen
+uni_status_regopen_gameclosed: Open voor registratie
+uni_status_regopen_gameopen: Open
+Universe_end: Einde
+Universe_start: Start
+Universe_status: 'Status van het universum: '
+Universes: Universums
+Your_universes: Jouw universums
+board_create: Nieuw bericht
+board_edit_post: Bericht bewerken
+board_sort: Sorteren
+board_sort_hot: Populair
+board_sort_new: Nieuw
+board_sort_top: Top
+board_period_all: Alle tijden
+board_period_week: Deze week
+board_csort_best: Beste
+board_flair: Label
+board_flair_all: Alles
+board_flair_general: Algemeen
+board_flair_guide: Gids
+board_flair_question: Vraag
+board_flair_suggestion: Suggestie
+board_flair_bug: Bug
+board_flair_offtopic: Off-topic
+board_upvote: Upvoten
+board_downvote: Downvoten
+board_pinned: Vastgepind
+board_locked: Vergrendeld
+board_by: door
+board_comments: Reacties
+board_empty: Nog geen berichten. Wees de eerste die er een schrijft.
+board_no_comments: Nog geen reacties.
+board_title: Titel
+board_body: Tekst
+board_publish: Publiceren
+board_save: Opslaan
+board_cancel: Annuleren
+board_edit: Bewerken
+board_edited: bewerkt
+board_delete: Verwijderen
+board_deleted: '[verwijderd]'
+board_deleted_user: '[verwijderd]'
+board_confirm_delete: Dit echt verwijderen?
+board_reply: Reageren
+board_collapse: Discussie samenvouwen
+board_add_comment: Schrijf een reactie
+board_comment_send: Reageren
+board_mod_pin: Vastpinnen
+board_mod_unpin: Losmaken
+board_mod_lock: Vergrendelen
+board_mod_unlock: Ontgrendelen
+board_not_found: Dit bericht of deze reactie bestaat niet.
+board_not_allowed: Dat mag je niet doen.
+board_err_csrf: De aanvraag kon niet worden geverifieerd. Laad de pagina opnieuw en probeer het nog eens.
+board_err_title: Voer een titel in.
+board_err_title_long: De titel mag maximaal 200 tekens lang zijn.
+board_err_body: Voer wat tekst in (niet leeg, niet te lang).
+board_err_locked: Dit bericht is vergrendeld - geen nieuwe reacties mogelijk.
+board_err_rate_post: Wacht nog %d seconde(n) voor je het volgende bericht plaatst.
+board_err_rate_comment: Wacht nog %d seconde(n) voor je de volgende reactie plaatst.
+board_ago_now: zojuist
+board_ago_min: '%d min geleden'
+board_ago_hours: '%d u geleden'
+board_ago_days: '%d d geleden'
+board_guest_hint: Log in om te posten, te reageren en te stemmen.
+board_guest_login: Inloggen
+board_guest_register: Registreren

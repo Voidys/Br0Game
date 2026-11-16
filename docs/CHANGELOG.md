@@ -882,3 +882,10 @@ Technical changes per migration step, newest last.
 - es, fr, pl, pt, ru, tr reworked against the en/de baseline: informal address everywhere (tú, tu, ty, ты, sen), missing keys added, German/English leftovers translated, wrong meanings fixed (swapped fleet table columns, cancel refund 60 %, name change limit, dissolve vs leave alliance); pt unified to European Portuguese, tr with proper Turkish letters, fr with non-breaking spaces before `: ; ! ?`.
 - Label fixes: fleet table columns (origin/departure/arrival), jump gate ship selection, arrival time in fleet step 3, missile launch message, market visibility option ("alliance, pact partners and buddies").
 - pi and of untouched except new feature keys.
+
+## 111. Six new languages, grouped language selector
+
+- New packs in `config/languages.yaml`: nl (Nederlands), th (ไทย), tl (Filipino, two-letter code because lang columns are varchar(2); html tag `fil`, Accept-Language `fil` maps to `tl`), uk (Українська), vi (Tiếng Việt), zh (简体中文, Simplified); each with number format settings, the player-facing domains (ingame, fleet, tech, public, account, tutorial, faq), l18n locale data and all `templates/texts/<locale>/` files; admin/install fall back to English.
+- Placeholder order: translations that move values use numbered placeholders (`%3$s`); swapped values fixed in tr (diplomacy end, fleet mission targets, market messages) and pl (enemy spy probe messages); broken `s%`/`%ss` placeholders in of fixed; fr inactivity mail had a translated `{LASTDATE}` placeholder.
+- Language selectors: joke languages (`fun: true`: SetSails, Ogerfränkisch) are listed last in their own option group (`LanguageCatalog::getLanguageOptions()`, `Language::getLanguageOptions()`, label `lang_group_fun`), real languages sorted by code with native names (Español, Français, Polski, Türkçe).
+- ConfigFieldSchemaTest: universe schema golden hash updated (language list).

@@ -1,0 +1,23 @@
+Kumusta {USERNAME},
+
+Salamat sa pagrehistro sa {GAMENAME}
+
+Bago namin ma-activate ang account mo, kailangan pa ng isang hakbang.
+Pakitandaan na sapilitan ang hakbang na ito para maging 
+rehistradong user. Isang beses mo lang kailangang pindutin ang link sa ibaba para 
+mapatunayan ang pagkakakilanlan mo.
+
+Para makumpleto ang pagrehistro mo, i-click ang 
+sumusunod na activation link:
+
+{VERTIFYURL}
+
+Ang iyong login data:
+
+Email : {EMAIL}
+
+Kung nahihirapan ka sa awtomatikong pagrehistro, gumawa ng ticket sa aming Discord: 
+{DISCORD}
+
+Mabuhay,
+Team ng {GAMENAME}

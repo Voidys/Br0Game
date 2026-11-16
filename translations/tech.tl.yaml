@@ -1,0 +1,848 @@
+bonus:
+  Attack: Atake
+  BuildTime: 'Oras ng pagtatayo'
+  Defensive: Depensa
+  DefensiveTime: 'Oras ng pagtatayo ng depensa'
+  Energy: 'Produksyon ng energy'
+  Expedition: Mga Expedition
+  FleetSlots: 'Fleet slot'
+  FlyTime: 'Oras ng biyahe'
+  GateCoolTime: Oras ng pag-charge ng Jump Gate
+  MoreFound: 'Mga natutuklasan sa expedition'
+  Planets: Mga Planeta
+  ResearchTime: Oras ng research
+  Resource: 'Produksyon ng resource'
+  ResourceStorage: Imbakan ng resource
+  Shield: Kalasag
+  ShipStorage: 'Imbakan ng barko'
+  ShipTime: 'Oras ng pagtatayo ng barko'
+  SpyPower: Lakas ng espiya
+longDescription:
+  '1': >-
+    Kumukuha ng ore ang mga Metal Mine, ang pundasyon ng bawat bago at
+    matatag na imperyo.
+  '2': >-
+    Ang Crystal ang pangunahing sangkap sa mga electronic circuit at ilang
+    alloy.
+  '3': >-
+    Ang Deuterium ang nagpapatakbo sa mga spaceship mo at kinukuha ito mula sa
+    kailaliman ng dagat. Bihira ito, kaya medyo mahal.
+  '4': >-
+    Ginagawang energy ng mga Solar Power Plant ang sikat ng araw. Kailangan ng
+    energy ng bawat mine para tumakbo.
+  '6': >-
+    Bilang default, binabawasan ng bawat level ang oras ng research nang 8%.
+  '12': >-
+    Gumagawa ng energy ang Fusion Power Plant sa pamamagitan ng pagsasanib ng
+    deuterium. Mas malaki ang energy na naibibigay nito kaysa sa Solar Power
+    Plant, pero mas mahal itong itayo. Tumataas ang output sa Energy Technology
+    at sa sariling level ng plant. Ito ang formula ng produksyon ng
+    energy:<br>
+    Energy na nagawa = 30 x level ng Fusion Power Plant x (1.05 + (0.01 * level
+    ng Energy Technology))^level ng Fusion Power Plant
+  '14': >-
+    Nagbibigay ang Robot Factory ng mga construction robot na tumutulong sa
+    pagtatayo ng mga gusali mo. Pinapabilis ng bawat level ang pag-upgrade ng
+    mga gusali.
+  '15': >-
+    Ang pinakamataas na antas ng robotics. Hinahati ng bawat level ang oras ng
+    pagtatayo ng mga gusali, barko at depensa.
+  '21': 'Lahat ng barko at depensa ay itinatayo sa shipyard ng planeta.'
+  '22': Nag-iimbak ng sobrang Metal.
+  '23': Nag-iimbak ng sobrang Crystal.
+  '24': 'Nag-iimbak ng sobrang Deuterium.'
+  '31': >-
+    Kailangan mo ng research lab para mag-research ng mga bagong teknolohiya.
+    Ang level ng lab ang nagtatakda kung gaano kabilis ang research mo at kung
+    aling mga teknolohiya ang mabubuksan. Ginagawa ang research sa lab ng
+    planetang pinagsimulan nito, at para sa lahat ng planeta mo ang resulta.
+    Habang may tumatakbong research, hindi puwedeng i-upgrade ang anumang
+    research lab.
+  '33': >-
+    Pinalalawak ng Terraformer ang magagamit na lugar ng planeta. Bawat level ay
+    nagbibigay ng 5 karagdagang field, dagdag ang isa pang field sa bawat even
+    na level. Isang field din ang inookupahan ng bawat level ng
+    Terraformer.<br>Nangangailangan ng energy ang pagtatayo nito, pero hindi ito
+    nauubos: kailangan lang na makagawa ng sapat nito ang planeta mo (1,000
+    para sa level 1, dumodoble sa bawat level), kahit ginagamit na ito ng mga
+    mine mo. Kapag naitayo na, hindi na maaaring gibain ang Terraformer.
+  '34': >-
+    Wala pang epekto sa larong ito ang Alliance Depot: puwedeng manatili ang mga
+    friendly na fleet sa planeta mo kahit wala nito, at walang fuel resupply.
+  '35': >-
+    Kayang ayusin ng repair dock ang mga barkong nawasak sa laban at nag-iwan
+    ng wreck field. Hindi hihigit sa 12 oras ang isang repair, at hindi ito
+    matatapos nang mas maaga sa 30 minuto matapos lumitaw ang wreck
+    field.<br>Kapag lumitaw ang wreck field, may 3 araw ka para simulan ang
+    repair. Kapag tapos na ang repair, ikaw mismo ang kailangang magbalik ng
+    mga barko sa serbisyo. Kung hindi, kusa silang babalik sa serbisyo
+    pagkalipas ng 3 araw.
+  '41': >-
+    Walang atmosphere ang buwan, at isang gusali lang ang kasya sa bagong buwan,
+    kaya magsimula sa Moon Base. Bawat level ay nagbibigay ng 3 dagdag na field
+    at isang field ang inookupahan nito. Kapag naitayo na, hindi na maaaring
+    gibain ang Moon Base.
+  '42': >-
+    Hinahayaan ka ng sensor array na bantayan ang mga galaw ng fleet. Habang
+    tumataas ang level, lumalawak ang saklaw ng Phalanx: (level ng Phalanx)^2 -
+    1 system bilang default, kaya sakop lang ng level 1 ang sariling system ng
+    buwan. Nagkakahalaga ng 5,000 deuterium ang isang scan, na dapat ay nasa
+    buwan. Para mag-scan, buksan ang galaxy view mula sa buwan at i-click ang
+    planetang nasa saklaw. Hindi puwedeng i-scan ng Phalanx ang mga buwan
+    mismo, dahil wala silang atmosphere.<br><br>Ipinapakita ng Phalanx ang mga
+    fleet na umaalis mula sa o papunta sa na-scan na planeta: kung kailan sila
+    darating, kung kailan matatapos ang hold, at kung kailan uuwi ang mga
+    fleet ng may-ari. Hindi kailanman ipinapakita ang mga deployment at
+    missile, pati ang mga recycling o trade flight na papunta sa planeta.
+  '43': >-
+    Ang mga jump gate ay malalaking transmitter na nagpapadala ng malalaking
+    fleet sa buong universe nang walang nawawalang oras. Walang deuterium na
+    nauubos, pero hindi ka makakapaglipat ng resource sa paraang ito. Dapat
+    handa ang dalawang gate: pagkatapos ng jump, kailangan ng cooldown ng
+    bawat gate, na bilang default ay 60 minuto sa level 1 at paiikli sa bawat
+    level, hanggang 10 minuto mula level 15.
+  '44': >-
+    Iniimbak ng mga missile silo ang mga missile mo. Bilang default, nagdaragdag
+    ang bawat level ng 10 slot. Isang slot ang kinukuha ng Interceptor
+    missile, at dalawa ang kinukuha ng Interplanetary missile.
+  '106': >-
+    Pinapayagan ka ng teknolohiyang ito na mangalap ng impormasyon tungkol sa
+    ibang planeta at buwan. Kapag nagpadala ka ng mga probe, ikinukumpara ang
+    Spy Technology mo sa Spy Technology ng target: habang mas mataas ang level
+    mo, mas maraming impormasyon sa report at mas maliit ang tsansang
+    matuklasan ang mga probe mo. Mas maraming probe, mas maraming detalye
+    ang lalabas, pero tataas din ang panganib na matuklasan. Sa ilang level ng
+    Spy Technology, mas marami ka ring malalaman tungkol sa mga dayuhang fleet
+    sa Overview screen mo:<br><br><li>Sa level 0-1, makikita mo lang na may
+    fleet na papalapit sa planeta mo</li><li>Sa level 2-3, makikita mo kung
+    ilang barko ang papalapit</li><li>Sa level 4-7, makikita mo kung anong mga
+    uri ng barko ang nasa fleet</li><li>Sa level 8+, makikita mo kung ilang
+    barko ng bawat uri ang nasa fleet</li>
+  '108': >-
+    Dahil sa mas magagandang computer, mas marami kang fleet na mapapamunuan.
+    Bawat level ng Computer Technology ay nagdaragdag ng isa sa maximum na
+    bilang ng mga fleet mo.
+  '109': >-
+    Pinapaepektibo ng Weapons Technology ang mga weapon system. Bawat level ay
+    nagdaragdag ng 10% ng base value sa lakas ng armas ng lahat ng unit.
+  '110': >-
+    Pinapaepektibo ng Shield Technology ang mga kalasag ng mga barko at
+    depensa. Bawat level ay nagdaragdag ng 10% ng base value sa lakas ng
+    kalasag.
+  '111': >-
+    Pinagbubuti ng mga espesyal na alloy ang armor ng mga barko at depensa.
+    Bawat level ay nagdaragdag ng 10% sa bisa ng armor.
+  '113': >-
+    Ang pag-master sa iba't ibang uri ng energy ang susi sa maraming bagong
+    teknolohiya. Dinadagdagan din ng bawat level ng Energy Technology ang
+    energy output ng Fusion Power Plant.
+  '114': >-
+    Sa pagsasama ng ika-4 at ika-5 dimensyon, makakapag-research ka ng bagong
+    uri ng drive na mas matipid at mas episyente.
+  '115': >-
+    Pinapabilis ng pagpapaunlad ng drive na ito ang ilang barko, pero 10% lang
+    ng base speed ang dagdag ng bawat level. Mga apektadong barko: Light Cargo,
+    Heavy Cargo, Light Fighter, Recycler at Spy Probe (lilipat ang Light Cargo
+    at Recycler sa mas magagandang drive sa kalaunan).
+  '117': >-
+    Gumagana ang impulse drive sa reaction principle. Pinapabilis ng
+    pagpapaunlad nito ang ilang barko, pero 20% lang ng base speed ang dagdag
+    ng bawat level: Bomber, Cruiser, Heavy Fighter at Colony Ship, pati ang
+    Light Cargo at Recycler kapag lumipat na sila sa drive na ito. Mas lumalayo
+    rin ang lipad ng mga Interplanetary missile sa bawat level.
+  '118': >-
+    Binabaluktot ng hyperspace drive ang espasyo sa paligid ng barko.
+    Pinapabilis ng pagpapaunlad nito ang ilang barko, pero 30% lang ng base
+    speed ang dagdag ng bawat level: Battle Cruiser, Battleship, Destroyer,
+    Death Star, Black Moon, Battle Transporter, Avatar at Battle Recycler,
+    pati ang Bomber at Recycler kapag lumipat na sila sa drive na ito.
+    Kailangan ng Hyperspace Technology (level 3) at Research Lab (level 7).
+  '120': >-
+    Ang nakatutok na liwanag ay gumagawa ng sinag na sumisira sa anumang
+    tamaan. Kailangan ng Research Lab (level 1) at Energy Technology (level 2).
+  '121': 'Isang nakamamatay na sinag ng pinabilis na mga ion na gumagawa ng malaking pinsala sa pagtama.'
+  '122': >-
+    Karagdagang pag-unlad ng ion technology na nagpapabilis ng high-energy
+    plasma, na nabubuo sa sobrang pag-init ng mga ion. Mapaminsala ang epekto
+    nito sa pagtama.
+  '123': >-
+    Nag-uusap ang mga researcher sa iba't ibang planeta sa pamamagitan ng
+    network na ito. Bawat level ay nagpapahintulot sa isa pang lab na sumali sa
+    lab kung saan ka magsisimula ng research. Pinipili ang mga lab na may
+    pinakamataas na level, at dapat sapat ang pagiging advanced ng isang
+    naka-network na lab para patakbuhin ang research na iyon nang mag-isa.
+    Pinagsasama ang mga level nila para kalkulahin ang oras ng research.
+  '124': >-
+    Binubuksan ng Astrophysics Research ang kolonisasyon at mga expedition sa
+    deep space. Ang colony limit, hold time at mga posisyon sa ibaba ay mga
+    default na setting; maaaring iba ito sa universe mo.<br><br> <li>Colony
+    limit</li> Level 1-2 = 2 planeta<br> Level 3-4 = 3 planeta<br> Level 5-6 =
+    4 na planeta<br> Level 7-8 = 5 planeta<br> Level 9-10 = 6 na planeta<br>
+    Level 11-12 = 7 planeta<br> Level 13-14 = 8 planeta<br> Level 15-16 = 9
+    na planeta<br> Level 17-18 = 10 planeta<br> Level 19-20 = 11 planeta<br>
+    Level 21+ = 12 planeta<br><br> <li>Mga expedition slot</li> Level 1-3 = 1
+    expedition<br> Level 4-8 = 2 expedition<br> Level 9-15 = 3 expedition<br>
+    Level 16-24 = 4 na expedition<br>(isa pa sa bawat susunod na square level:
+    25, 36, ...)<br><br> <li>Hold time ng expedition</li> Level = Max hold time
+    sa oras<br><br> <li>Mga puwedeng kolonisahin na posisyon</li> Level 1-3 =
+    4-12<br> Level 4-5 = 3-13<br> Level 6-7 = 2-14<br> Level 8+ = 1-15
+  '131': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Metal.
+  '132': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Crystal.
+  '133': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Deuterium.
+  '134': >-
+    Binabawasan ng 2% kada level ang gastos sa biyahe.
+  '199': >-
+    Ang pagpapaputok ng nakatutok na singil ng mga graviton particle ay
+    lumilikha ng artipisyal na gravity field na kayang sumira ng mga barko at
+    maging ng mga buwan. Kailangan ng Research Lab (level 12).
+  '202': >-
+    Ang Light Cargo ay maliksing barkong mabilis na naghahatid ng resource sa
+    ibang planeta.<br>Gumagamit ito ng combustion drive hanggang umabot sa
+    level 5 ang Impulse Engine mo. Mula roon, lilipat ito sa impulse drive, na
+    dumodoble sa base speed nito.
+  '203': >-
+    Mas marami ang kayang dalhin ng cargo ship na ito kaysa sa Light Cargo at
+    karaniwang mas mabilis dahil sa mas magandang drive.
+  '204': >-
+    Ang unang barkong panlaban na itinatayo ng bawat emperador. Maliksi pero
+    marupok ang Light Fighter kapag nag-iisa; kapag marami, nagiging tunay
+    itong banta sa anumang imperyo. Ang mga Light Fighter ang unang
+    sumasabay sa mga Light at Heavy Cargo papunta sa mga planetang kaaway na
+    mahina ang depensa.
+  '205': 'Mas matibay ang armor ng fighter na ito at mas malakas pumalo kaysa sa Light Fighter.'
+  '206': >-
+    Halos tatlong beses ang armor ng mga Cruiser kaysa sa Heavy Fighter at
+    mahigit dalawang beses ang firepower. Napakabilis din nila.
+  '207': >-
+    Ang mga Battleship ang gulugod ng isang fleet. Dahil sa mabibigat na
+    kanyon, mataas na bilis at malalaking cargo hold, mga kalabang dapat
+    seryosohin ang mga ito.
+  '208': >-
+    Sinasakop ng barkong ito, na may magandang armor, ang mga bagong planeta
+    na kailangan ng umuusbong na imperyo para lumago. Sa bagong kolonya,
+    binubuwag ang barko at ang lahat ng recyclable na materyal ay gagamitin sa
+    pagpapaunlad ng bagong mundo. Direktang nakadepende sa Astrophysics
+    Research kung ilang planeta ang puwede mong kolonisahin: ang unang level
+    at bawat ikalawang level pagkatapos nito ay nagbibigay ng isa pang
+    kolonya (bilang default).
+  '209': >-
+    Kumukuha ang Recycler ng raw material mula sa mga debris field. 20,000 ang
+    kapasidad nito sa pagdadala. Nagsisimula ito sa combustion drive, lilipat sa
+    impulse drive kapag umabot sa level 17 ang Impulse Engine mo, at sa
+    hyperspace drive kapag umabot sa level 15 ang Hyperspace Engine mo.
+  '210': >-
+    Ang mga Spy Probe ay maliliit at maliksing drone na nagdadala ng datos
+    tungkol sa mga fleet at planeta mula sa malalayong distansya.
+  '211': >-
+    Ginawa ang Bomber partikular para wasakin ang depensa ng isang
+    planeta.<br>Gumagamit ito ng impulse drive at lilipat sa hyperspace drive
+    kapag umabot sa level 8 ang Hyperspace Engine mo.
+  '212': >-
+    Ang mga Solar Satellite ay simpleng platform ng mga solar cell sa mataas at
+    nakapirming orbit. Nangongolekta sila ng sikat ng araw at ipinapadala ito
+    pababa sa ground station sa pamamagitan ng laser.
+  '213': >-
+    Ang Destroyer ang hari ng mga barkong pandigma. Laban sa Light Laser
+    Turret, may rapid fire ito: pagkatapos ng bawat tama, may isa pa itong
+    putok sa 9 sa bawat 10 pagkakataon.
+  '214': >-
+    Walang tatalo sa lakas ng pagwasak ng Death Star, at kaya nitong sirain
+    ang mga buwan.
+  '215': 'Dalubhasa ang Battle Cruiser sa pagharang sa mga fleet ng kaaway.'
+  '216': >-
+    Ang kahalili ng sikat na Death Star: mas mabilis at mas matibay, may
+    malaking cargo hold, pero medyo mas mahina ang tama.
+  '217': >-
+    Pag-unlad ng Heavy Cargo na may mas malaking kapasidad sa pagdadala.
+    Tumatakbo ito sa hyperspace drive, kaya mas mabagal ito sa simula kaysa sa
+    Heavy Cargo pero nauuna na habang tumataas ang level ng Hyperspace Engine
+    mo.
+  '218': 'Ang pinakamasamang posibleng sitwasyon, bagaman napakabagal.'
+  '219': >-
+    Dahil sa malaking cargo space at bagong mga makina, mas mabilis itong
+    lumilipad at mas marami itong nakokolekta mula sa mga debris field.
+  '220': >-
+    Ang Steel Colossus ay isang tunay na kuta sa kalawakan, protektado ng
+    mga hindi matitinag na kalasag at makapal na armor. Kahit ang
+    pinakamabagsik na atake ay tumatalbog habang walang humpay itong sumusulong.
+    Pero may kapalit ang depensibong kahusayang ito: halos hindi mapag-usapan
+    ang armas nito, at dahil sa mabagal na makina, isa itong mabagal na higante.
+    Sa halip na mga biglaang atake o maliksing maniobra, umaasa ang barkong ito
+    sa purong tibay. Ang gustong pumigil dito ay dapat may mahabang tiis -
+    o napakalakas na firepower.
+  '221': >-
+    Ang Stormblade ay isang top-tier na fighter: nakakagulat ang bilis at
+    walang awa ang armas. Halos hindi pa ito nakikita ng mga kalaban bago
+    pa man ito tumama. Pangalawang usapin ang depensa – hindi na nito kailangang
+    tiisin ang kaya naman nitong takasan. Nakatuon lang ito sa mga transporter
+    at recycler fleet, na pinupulbos nang walang laban. Sa nag-aapoy nitong
+    bilis, puwede itong umatake kahit kailan at maglaho bago dumating ang mga
+    reinforcement. Halos walang tsansang makatakas ang sinumang target ng
+    Stormblade.
+  '222': >-
+    Ang Heavy Cruiser ay pinatibay na ebolusyon ng karaniwang Cruiser. Dahil sa
+    pinahusay na kalasag at malalakas na armas, kaya nitong lumaban sa mga
+    mabagal na kalaban. Litaw ang galing nito kapag kasama ng mga Steel
+    Colossus, Destroyer at Bomber, kung saan tunay na kumikinang ang firepower
+    nito. Pero sa kabila ng lakas, mabagal pa rin ito at hindi gaanong
+    maliksi.
+  '223': >-
+    Ang Shield Drone ay bagong pamamaraan sa depensa ng fleet, na
+    pangunahing nakatuon sa proteksyon ng crew. Dahil sa makabago pero
+    mabigat na shielding technology, malaki ang ibinaba ng bilis ng lipad at
+    kakayahang gumalaw. Kahit mahina ang bilis at liksi, napakaepektibo nito
+    sa depensa. Itinulak sa limitasyon ang lumang istruktura para magbigay ng
+    halos hindi mapasok na depensa.
+  '224': >-
+    Ang Improvised Assault Transport ay hindi pa nasusubukang transport craft
+    na may kaunting armas, partikular na ginawa para guluhin ang mga pabaya at
+    hindi handang kapitbahay. Hindi dinisenyo ang pansamantalang sasakyang ito
+    para sa pangmatagalang gamit, kundi para sa mabilis at padalos-dalos na
+    pag-atake na magdudulot ng agarang reaksyon. Halos tiyak ang away ng
+    magkakapitbahay kapag ginamit ito. Dahil sa limitadong kagamitan at
+    hindi mahulaang kalikasan, nagiging mapanganib itong kasangkapan para
+    mabilis na palalain ang gulo.
+  '225': >-
+    Ang Storm Transporter ay tunay na kamangha-mangha sa teknolohiya, na
+    nag-aalok ng perpektong balanse ng lakas sa laban, bilis at kapasidad sa
+    pagdadala. Dahil sa kakayahan nitong mabilis na magdala ng tropa at resource
+    habang naghahatid ng kahanga-hangang firepower sa larangan, naging
+    mahalagang bahagi ito ng anumang malakas na fleet. Para man sa mabilis na
+    assault unit o pagsuporta sa pangmatagalang operasyon, ang Storm
+    Transporter ang susi sa epektibong digmaan at isang tiyak na kailangan sa
+    anumang fleet.
+  '226': >-
+    Ang Colossal Battle Transporter ang rurok ng inhenyeriya. Sa kabila ng
+    medyo malaki nitong disenyo at mabagal na bilis ng lipad dahil dito, ito ang
+    pinakamakapal ang armor na battle transporter na nakita ng anumang fleet.
+    Dahil sa nakakatakot nitong firepower, isa itong hindi mapipigilang puwersa
+    sa larangan. Madali nitong nasisira ang linya ng kaaway habang binibigyan
+    ng pinakamataas na proteksyon ang crew. Sagisag ito ng lakas at tibay, kaya
+    mahalagang asset ito ng anumang mabigat ang armas na fleet.
+  '227': >-
+    Ang Optimized Recycler ay makabagong upgrade ng karaniwang Recycler.
+    Dahil sa malakas na impulse engine, mas mabilis at mas matipid itong
+    nakakarating sa mga debris field, kaya mahalagang asset ito ng anumang
+    advanced na fleet. Binabawasan ng optimized na disenyo nito ang gastos sa
+    pagtatayo habang pinapataas ang episyensya ng pagbawi ng resource. Available
+    ito mula sa midgame at nagbibigay ng estratehikong bentahe sa anumang
+    lumalagong imperyo.
+  '228': >-
+    Ang Omega Recycler ang rurok ng recycling technology—pero mataas ang
+    kapalit. Dahil sa malakas nitong hyperspace drive, nakakarating ito sa mga
+    debris field sa record time at mas mabilis na nakakakuha ng resource kaysa
+    sa anumang ibang barko. Gayunpaman, kapalit ng bilis na ito ang episyensya:
+    napakamahal ng gastos nito sa pagtatayo at fuel, kaya opsyon lang ito para
+    sa mayayamang commander sa late game. Para sa mga inuuna ang bilis kaysa
+    gastos, ito ang pinakamataas na Recycler.
+  '229': >-
+    Binuo para wakasan ang pamamayani ng Xer, ang Viper ang pinakamatinding
+    sandata laban sa mga Light Fighter, Heavy Fighter at Cruiser. Dahil sa
+    mga rapid-fire na kanyon at advanced na teknolohiya nito, nababago nito
+    ang balanse ng kapangyarihan sa universe.
+  '230': >-
+    Mabilis. Tumpak. Hindi matitinag. Hindi ginawa ang Interceptor para sa
+    patas na laban – dinisenyo itong umatake nang mabilis at malakas, at
+    lumikha ng napakalaking bentahe sa isang kisap-mata.
+  '231': >-
+    Ang Behemoth ay bunga ng mga dekada ng graviton research, na ginawang
+    walang humpay na combat platform. Hindi tulad ng mga Death Star, hindi ito
+    dinisenyo para wasakin ang planeta kundi para sa pinakamataas na episyensya
+    sa larangan ng laban. Dahil sa pag-alis ng mga energy-intensive na sistemang
+    kailangan sa pagsira ng buwan, gumaan nang husto ang disenyo nito, kaya
+    nagkaroon ng mas malalakas na makina, mas mahusay na liksi at dagdag na
+    firepower. Dahil sa compact nitong graviton cannon, isa itong mobile na
+    makinang pangwasak na kayang pulbusin kahit ang malalaking fleet nang
+    mag-isa.
+  '232': >-
+    Ang Void Titan ang rurok ng modernong graviton technology. Iisa ang
+    layunin ng bawat bahagi ng disenyo nito: ang mabilis na pagwasak sa mga
+    buwan ng kaaway. Sadyang inalis ang mga karaniwang weapon turret para
+    magaan ito at magkaroon ng puwang para sa malalaking crystal generator.
+    Pinapagana ng mga ito ang pinakamodernong acceleration coil na naitayo
+    sa kilalang mga galaxy, kaya walang kapantay ang kakayahan nitong gumalaw.
+    Dahil sa napakalaking pangangailangan sa crystal, bawat Void Titan ay
+    isang napakalaking tagumpay sa industriya – at simbolo ng walang hanggang
+    lakas ng pagwasak.
+  '401': >-
+    Ang Missile Launcher ay simple pero matipid na depensa. Pagkatapos ng
+    laban, humigit-kumulang 70% ng mga nasirang depensa ang naibabalik sa
+    karaniwan.
+  '402': >-
+    Ang mga light laser ay simpleng sandatang nakatayo sa lupa. Sinusundan ng
+    mga espesyal na targeting system ang kalaban, at tinatagos ng high-intensity
+    laser ang katawan ng target. Pagkatapos ng laban, humigit-kumulang 70% ng
+    mga nasirang depensa ang naibabalik sa karaniwan.
+  '403': >-
+    Ang Heavy Laser ay praktikal at pinahusay na bersyon ng Light Laser.
+    Pagkatapos ng laban, humigit-kumulang 70% ng mga nasirang depensa ang
+    naibabalik sa karaniwan.
+  '404': >-
+    Nagpapaputok ang Gauss Cannon ng mga metal na proyektil na mataas ang
+    density sa napakabilis na bilis. Pagkatapos ng laban, humigit-kumulang 70%
+    ng mga nasirang depensa ang naibabalik sa karaniwan.
+  '405': >-
+    Nagpapaputok ang ion cannon ng mga sinag ng ion (mga particle na may
+    positibo o negatibong karga). Pagkatapos ng laban, humigit-kumulang 70% ng
+    mga nasirang depensa ang naibabalik sa karaniwan.
+  '406': >-
+    Gumagamit ang Plasma Turret ng malaking fuel cell ng nuclear reactor para
+    paganahin ang electromagnetic accelerator na nagpapaputok ng mga pulso
+    (toroid) ng plasma. Pagkatapos ng laban, humigit-kumulang 70% ng mga
+    nasirang depensa ang naibabalik sa karaniwan.
+  '407': >-
+    Binabalot ng Small Shield Dome ang buong planeta sa isang field na
+    sumisipsip ng napakalaking dami ng energy. Isa lang ang puwedeng itayo sa
+    bawat planeta.
+  '408': >-
+    Ang Large Shield Dome ay karagdagang pag-unlad na nangangailangan ng mas
+    maraming energy para makayanan ang mga atake. Isa lang ang puwedeng itayo
+    sa bawat planeta.
+  '409': >-
+    Ebolusyon ng shield dome technology. Mas marami itong energy na ginagamit,
+    pero mas maraming atake ang natitiis nito kaysa sa anumang ibang kalasag.
+    Isa lang ang puwedeng itayo sa bawat planeta.
+  '410': >-
+    Matapos ang mga taon ng pananaliksik sa gravity, nakabuo ang mga scientist
+    ng graviton cannon na lumilikha ng maliit at nakatutok na graviton field at
+    ipinapaputok ito sa kaaway.
+  '411': >-
+    Isang hindi gumagalaw na defense platform na walang sariling lakas, na
+    pinananatili sa matatag na orbit sa paligid ng planeta ng gravity.
+    Nangangailangan ng napakaraming energy ang pagsisimula ng prosesong ito.
+    Isa lang ang puwedeng itayo sa bawat planeta.
+  '412': >-
+    Ang Bunker ay isang mahigpit na pinatibay na istruktura na dinisenyo para
+    makayanan kahit ang pinakamalalakas na atake. Nagbibigay ito ng walang
+    kapantay na proteksyon sa mga naninirahan sa planeta at sa mahahalagang
+    imprastraktura, kaya pundasyon ito ng depensa ng planeta.
+  '413': >-
+    Ang Titan Laser ay isang napakalaking sandata na walang kapantay ang lakas
+    ng pagwasak.
+  '414': >-
+    Ang Decoy ay sopistikadong depensibong sistema na dinisenyo para linlangin
+    at lituhin ang mga puwersa ng kaaway. Dahil nagbabalatkayo ito bilang
+    Missile Launcher, napipigilan nito ang mga atake.
+  '502': >-
+    Winawasak ng mga Interceptor missile ang mga paparating na Interplanetary
+    missile. Isang Interceptor missile ang kailangan sa bawat Interplanetary
+    missile.
+  '503': >-
+    Winawasak ng mga Interplanetary missile ang depensa ng kalaban, maliban
+    kung pabagsakin sila ng mga Interceptor missile. Hindi na naibabalik ang
+    mga depensang nawasak sa ganitong paraan. Bilang default, nakadepende ang
+    saklaw nila (sa mga solar system) sa level ng Impulse Engine
+    mo:<br>Saklaw = (5 x level ng Impulse Engine) - 1
+  '901': >-
+    Ang Metal ang pangunahing resource para sa mga gusali at barko. Ito ang
+    pinakamurang resource, pero ito rin ang pinakakailangan mo, at tulad ng
+    crystal, ito ang pinakakaunting energy ang kailangan sa produksyon.
+    Habang lumalaki ang mga mine, mas lumalalim ang hukay nila sa lupa.
+  '902': >-
+    Ang Crystal ang pangunahing resource para sa mga electronic circuit at
+    ilang alloy. Ginagawa ito sa mga underground mine, kung saan agad na
+    ginagawang circuit ang raw material.
+  '903': >-
+    Matatagpuan ang Deuterium sa pinakamalalim na dagat at isa ito sa
+    pinakabihirang resource sa universe. Kailangan mong abutin ang sahig ng
+    dagat para makuha ito, kaya ito ang pinakamahal na resource.
+  '911': 'Kailangan ang energy sa paggawa ng bawat resource.'
+secureResources: >-
+  Bawat level ng storage building ay pinoprotektahan ang 1% ng araw-araw na
+  produksyon ng resource na iyon laban sa pandarambong sa mga atake, hanggang
+  maximum na 10%.
+shortDescription:
+  '1': >-
+    Kumukuha ng ore ang mga Metal Mine, ang pundasyon ng bawat bago at
+    matatag na imperyo.
+  '2': >-
+    Ang Crystal ang pangunahing sangkap sa mga electronic circuit at ilang
+    alloy.
+  '3': >-
+    Ang Deuterium ang nagpapatakbo sa mga spaceship mo at kinukuha ito mula sa
+    kailaliman ng dagat. Bihira ito, kaya medyo mahal.
+  '4': >-
+    Ginagawang energy ng mga Solar Power Plant ang sikat ng araw. Kailangan ng
+    energy ng bawat mine para tumakbo.
+  '6': >-
+    Bilang default, binabawasan ng bawat level ang oras ng research nang 8%.
+  '12': Gumagawa ng energy ang Fusion Power Plant sa pamamagitan ng pagsasanib ng deuterium fuel.
+  '14': >-
+    Nagbibigay ang Robot Factory ng mga construction robot na tumutulong sa
+    pagtatayo ng mga gusali mo. Pinapabilis ng bawat level ang pag-upgrade ng
+    mga gusali.
+  '15': >-
+    Ang pinakamataas na antas ng robotics. Hinahati ng bawat level ang oras ng
+    pagtatayo ng mga gusali, barko at depensa.
+  '21': 'Lahat ng barko at depensa ay itinatayo sa shipyard ng planeta.'
+  '22': Nag-iimbak ng sobrang Metal.
+  '23': Nag-iimbak ng sobrang Crystal.
+  '24': 'Nag-iimbak ng sobrang Deuterium.'
+  '31': 'Kailangan mo ng research lab para mag-research ng mga bagong teknolohiya.'
+  '33': >-
+    Pinalalawak ng Terraformer ang magagamit na lugar ng planeta: 5 karagdagang
+    field kada level, dagdag ang isa pa sa bawat even na level. Isang field din
+    ang inookupahan ng bawat level.
+  '34': >-
+    Wala pang epekto sa larong ito ang Alliance Depot.
+  '35': 'Ibinabalik ng repair dock ang mga barko mula sa wreck field.'
+  '41': >-
+    Walang atmosphere ang buwan, at isang gusali lang ang kasya sa bagong buwan,
+    kaya magsimula sa Moon Base.
+  '42': >-
+    Hinahayaan ka ng sensor array na bantayan ang mga galaw ng fleet. Habang
+    tumataas ang level, lumalawak ang saklaw ng Phalanx.
+  '43': >-
+    Ang mga jump gate ay malalaking transmitter na nagpapadala ng malalaking
+    fleet sa buong universe nang walang nawawalang oras.
+  '44': 'Iniimbak ng mga missile silo ang mga missile mo.'
+  '106': >-
+    Pinapayagan ka ng teknolohiyang ito na mangalap ng impormasyon tungkol sa
+    ibang planeta at buwan.
+  '108': >-
+    Dahil sa mas magagandang computer, mas marami kang fleet na mapapamunuan.
+    Bawat level ng Computer Technology ay nagdaragdag ng isa sa maximum na
+    bilang ng mga fleet mo.
+  '109': >-
+    Pinapaepektibo ng Weapons Technology ang mga weapon system. Bawat level ay
+    nagdaragdag ng 10% ng base value sa lakas ng armas ng lahat ng unit.
+  '110': >-
+    Pinapaepektibo ng Shield Technology ang mga kalasag ng mga barko at
+    depensa. Bawat level ay nagdaragdag ng 10% ng base value sa lakas ng
+    kalasag.
+  '111': >-
+    Pinagbubuti ng mga espesyal na alloy ang armor ng mga barko at depensa.
+    Bawat level ay nagdaragdag ng 10% sa bisa ng armor.
+  '113': >-
+    Ang pag-master sa iba't ibang uri ng energy ang susi sa maraming bagong
+    teknolohiya.
+  '114': >-
+    Sa pagsasama ng ika-4 at ika-5 dimensyon, makakapag-research ka ng bagong
+    uri ng drive na mas matipid at mas episyente.
+  '115': >-
+    Pinapabilis ng pagpapaunlad ng drive na ito ang ilang barko, pero 10% lang
+    ng base speed ang dagdag ng bawat level.
+  '117': >-
+    Gumagana ang impulse drive sa reaction principle. Pinapabilis ng
+    pagpapaunlad nito ang ilang barko, pero 20% lang ng base speed ang dagdag
+    ng bawat level.
+  '118': >-
+    Binabaluktot ng hyperspace drive ang espasyo sa paligid ng barko.
+    Pinapabilis ng pagpapaunlad nito ang ilang barko, pero 30% lang ng base
+    speed ang dagdag ng bawat level.
+  '120': 'Ang nakatutok na liwanag ay gumagawa ng sinag na sumisira sa anumang tamaan.'
+  '121': 'Isang nakamamatay na sinag ng pinabilis na mga ion na gumagawa ng malaking pinsala sa pagtama.'
+  '122': >-
+    Karagdagang pag-unlad ng ion technology na nagpapabilis ng high-energy
+    plasma, na nabubuo sa sobrang pag-init ng mga ion. Mapaminsala ang epekto
+    nito sa pagtama.
+  '123': Nag-uusap ang mga researcher sa iba't ibang planeta sa pamamagitan ng network na ito.
+  '124': >-
+    Binubuksan ang kolonisasyon at mga expedition sa deep space. May dagdag na
+    planeta sa mga odd na level, dagdag na expedition slot sa mga square level,
+    mas mahabang expedition hold, at mas maraming posisyon ng planeta sa isang
+    system.
+  '131': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Metal.
+  '132': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Crystal.
+  '133': >-
+    Dinadagdagan ng 2% kada level ang produksyon ng Deuterium.
+  '134': >-
+    Binabawasan ng 2% kada level ang gastos sa biyahe.
+  '199': >-
+    Ang pagpapaputok ng nakatutok na singil ng mga graviton particle ay
+    lumilikha ng artipisyal na gravity field na kayang sumira ng mga barko at
+    maging ng mga buwan.
+  '202': >-
+    Ang Light Cargo ay maliksing barkong mabilis na naghahatid ng resource sa
+    ibang planeta.
+  '203': >-
+    Mas marami ang kayang dalhin ng cargo ship na ito kaysa sa Light Cargo at
+    karaniwang mas mabilis dahil sa mas magandang drive.
+  '204': >-
+    Ang unang barkong panlaban na itinatayo ng bawat emperador. Maliksi pero
+    marupok ang Light Fighter kapag nag-iisa; kapag marami, nagiging tunay
+    itong banta sa anumang imperyo. Ang mga Light Fighter ang unang
+    sumasabay sa mga Light at Heavy Cargo papunta sa mga planetang kaaway na
+    mahina ang depensa.
+  '205': 'Mas matibay ang armor ng fighter na ito at mas malakas pumalo kaysa sa Light Fighter.'
+  '206': >-
+    Halos tatlong beses ang armor ng mga Cruiser kaysa sa Heavy Fighter at
+    mahigit dalawang beses ang firepower. Napakabilis din nila.
+  '207': >-
+    Ang mga Battleship ang gulugod ng isang fleet. Dahil sa mabibigat na
+    kanyon, mataas na bilis at malalaking cargo hold, mga kalabang dapat
+    seryosohin ang mga ito.
+  '208': 'Puwedeng kolonisahin ang mga bakanteng planeta gamit ang barkong ito.'
+  '209': 'Kumukuha ang Recycler ng raw material mula sa mga debris field.'
+  '210': >-
+    Ang mga Spy Probe ay maliliit at maliksing drone na nagdadala ng datos
+    tungkol sa mga fleet at planeta mula sa malalayong distansya.
+  '211': 'Ginawa ang Bomber partikular para wasakin ang depensa ng isang planeta.'
+  '212': >-
+    Ang mga Solar Satellite ay simpleng platform ng mga solar cell sa mataas at
+    nakapirming orbit. Nangongolekta sila ng sikat ng araw at ipinapadala ito
+    pababa sa ground station sa pamamagitan ng laser.
+  '213': 'Ang Destroyer ang hari ng mga barkong pandigma.'
+  '214': >-
+    Walang tatalo sa lakas ng pagwasak ng Death Star, at kaya nitong sirain
+    ang mga buwan.
+  '215': 'Dalubhasa ang Battle Cruiser sa pagharang sa mga fleet ng kaaway.'
+  '216': >-
+    Ang kahalili ng sikat na Death Star: mas mabilis at mas matibay, may
+    malaking cargo hold, pero medyo mas mahina ang tama.
+  '217': >-
+    Pag-unlad ng Heavy Cargo na may mas malaking kapasidad sa pagdadala.
+    Tumatakbo ito sa hyperspace drive, kaya mas mabagal ito sa simula kaysa sa
+    Heavy Cargo pero nauuna na habang tumataas ang level ng Hyperspace Engine
+    mo.
+  '218': 'Ang pinakamasamang posibleng sitwasyon, bagaman napakabagal.'
+  '219': >-
+    Dahil sa malaking cargo space at bagong mga makina, mas mabilis itong
+    lumilipad at mas marami itong nakokolekta mula sa mga debris field.
+  '220': >-
+    Nakakayanan ng Steel Colossus ang anumang atake dahil sa malalaking kalasag
+    at makapal na armor, pero kulang na kulang ang armas at makina nito.
+  '221': >-
+    Ang Stormblade ay sobrang bilis na fighter, armado hanggang ngipin.
+    Depensa? Hindi na kailangan – mga walang laban na transporter at recycler
+    ang biktima nito.
+  '222': >-
+    Mabagal pero mabigat ang armas na cruiser na may pinahusay na kalasag at
+    kakayahang umatake.
+  '223': >-
+    Muling disenyo ng Light Fighter na inuuna ang kaligtasan ng crew kapalit ng
+    mahinang flight characteristics.
+  '224': >-
+    Hindi pa nasusubukang transport craft na may kaunting armas, dinisenyo para
+    guluhin ang mga pabayang kapitbahay at agad na magsimula ng away.
+  '225': >-
+    Barkong pinagsasama ang lakas sa laban, bilis at kapasidad sa pagdadala,
+    kaya kailangang-kailangan ito ng anumang malakas na fleet.
+  '226': >-
+    Isang mabigat ang armor na battle transporter na may nakakatakot at medyo
+    malaking disenyo, na ang nakakapangilabot na firepower ay kayang talunin
+    kahit ang pinakamatitigas na kalaban.
+  '227': >-
+    Pinahusay na bersyon ng klasikong Recycler na may mga impulse engine,
+    para sa mas episyenteng salvage mission sa mas mababang gastos.
+  '228': Sobrang bilis pero hindi episyenteng upgrade ng Recycler na may hyperspace drive.
+  '229': >-
+    Binuo para wakasan ang pamamayani ng Xer, ang Viper ang pinakamatinding
+    sandata laban sa mga Light Fighter, Heavy Fighter at Cruiser. Dahil sa
+    mga rapid-fire na kanyon at advanced na teknolohiya nito, nababago nito
+    ang balanse ng kapangyarihan sa universe.
+  '230': >-
+    Mabilis. Tumpak. Hindi matitinag. Hindi ginawa ang Interceptor para sa
+    patas na laban – dinisenyo itong umatake nang mabilis at malakas, at
+    lumikha ng napakalaking bentahe sa isang kisap-mata.
+  '231': >-
+    Mas maliit at mas mabilis na Death Star na hindi kayang sirain ang mga
+    buwan. Nakamamatay ang Behemoth laban sa mga fleet.
+  '232': >-
+    Mas mabilis, mas pasabog, laging magandang sorpresa.
+    Ang Void Titan ang sindak ng mga buwan.
+  '401': Ang Missile Launcher ay simple pero matipid na depensa.
+  '402': >-
+    Ang mga light laser ay simpleng sandatang pandepensa na nakatayo sa lupa.
+    Sinusundan ng mga espesyal na targeting system ang mga barko ng kaaway, at
+    tinatagos ng high-intensity laser ang katawan ng target.
+  '403': Ang Heavy Laser ay pinahusay na bersyon ng Light Laser.
+  '404': >-
+    Nagpapaputok ang Gauss Cannon ng mga metal na proyektil na mataas ang
+    density sa napakabilis na bilis.
+  '405': >-
+    Nagpapaputok ang ion cannon ng mga sinag ng ion (mga particle na may
+    positibo o negatibong karga).
+  '406': >-
+    Gumagamit ang Plasma Turret ng malaking fuel cell ng nuclear reactor para
+    paganahin ang electromagnetic accelerator na nagpapaputok ng mga pulso
+    (toroid) ng plasma.
+  '407': >-
+    Binabalot ng Small Shield Dome ang buong planeta sa isang field na
+    sumisipsip ng napakalaking dami ng energy.
+  '408': >-
+    Mas maraming energy ang kayang sipsipin ng Large Shield Dome sa mga atake.
+  '409': >-
+    Ebolusyon ng shield dome technology. Mas marami itong energy na ginagamit,
+    pero mas maraming atake ang natitiis nito kaysa sa anumang ibang kalasag.
+  '410': >-
+    Matapos ang mga taon ng pananaliksik sa gravity, nakabuo ang mga scientist
+    ng graviton cannon na lumilikha ng maliit at nakatutok na graviton field at
+    ipinapaputok ito sa kaaway.
+  '411': >-
+    Isang hindi gumagalaw na defense platform na walang sariling lakas, na
+    pinananatili sa matatag na orbit sa paligid ng planeta ng gravity.
+    Nangangailangan ng napakaraming energy ang pagsisimula ng prosesong ito.
+  '412': 'Nagpoprotekta ito! Parang Lego brick sa Kindergarten TD.'
+  '413': 'Ang Titan Laser ay isang napakalaking laser.'
+  '414': >-
+    Ang Decoy ay sopistikadong depensibong sistema na dinisenyo para linlangin
+    at lituhin ang mga puwersa ng kaaway. Dahil nagbabalatkayo ito bilang
+    Missile Launcher, napipigilan nito ang mga atake.
+  '502': 'Winawasak ng mga Interceptor missile ang mga paparating na Interplanetary missile.'
+  '503': 'Winawasak ng mga Interplanetary missile ang depensa ng kalaban.'
+  '901': >-
+    Ang Metal ang pangunahing resource para sa mga gusali at barko. Ito ang
+    pinakamurang resource, pero ito rin ang pinakakailangan mo.
+  '902': >-
+    Ang mga Crystal ang pangunahing resource sa paggawa ng mga electronic
+    circuit at ilang alloy compound.
+  '903': >-
+    Matatagpuan ang Deuterium sa pinakamalalim na dagat. Ito ang
+    pinakamahal na resource at pinakamaraming energy din ang kailangan.
+  '911': 'Kailangan ang energy sa paggawa ng bawat resource.'
+shortNames:
+  '202': Magaan na Cargo
+  '203': Mabigat na Cargo
+  '204': Magaan na Fighter
+  '205': Mabigat na Fighter
+  '206': Cruiser
+  '207': Battleship
+  '208': Colony Ship
+  '209': Recycler
+  '210': Spy Probe
+  '211': Bomber
+  '212': Solar Satellite
+  '213': Destroyer
+  '214': Death Star
+  '215': Battle Cruiser
+  '216': Black Moon
+  '217': Battle Transporter
+  '218': Avatar
+  '219': Battle Recycler
+  '220': Steel Colossus
+  '221': Stormblade
+  '222': Mabigat na Cruiser
+  '223': Shield Drone
+  '224': Improvised Assault Transport
+  '225': Storm Transporter
+  '226': Colossal Battle Transporter
+  '227': Optimized Recycler
+  '228': Omega Recycler
+  '229': Viper
+  '230': Interceptor
+  '231': Behemoth
+  '232': Void Titan
+  '401': Missile Launcher
+  '402': Magaang Laser Turret
+  '403': Mabigat na Laser Turret
+  '404': Gauss Cannon
+  '405': Ion Cannon
+  '406': Plasma Cannon
+  '407': Maliit na Shield Dome
+  '408': Malaking Shield Dome
+  '409': Atmospheric Shield
+  '410': 'Graviton Cannon'
+  '411': Orbital Defence Platform
+  '412': Bunker
+  '413': Titan Laser
+  '414': Decoy
+spytechStatsDescription: >-
+  Sa level 0 at 1, kabuuang puntos lang ng ibang manlalaro ang makikita mo.
+  Mula level 2, makikita mo rin ang puntos nila sa mga gusali; mula level 4,
+  ang puntos nila sa research. Mula level 6, makikita mo rin ang puntos nila
+  sa mga barko at depensa, pati ang kanilang battle statistics.
+tech:
+  '0': Mga Gusali
+  '1': Metal Mine
+  '2': Crystal Mine
+  '3': Deuterium Refinery
+  '4': 'Solar Power Plant'
+  '6': University
+  '12': Fusion Power Plant
+  '14': Robot Factory
+  '15': Nanite Factory
+  '21': Shipyard
+  '22': Imbakan ng Metal
+  '23': Imbakan ng Crystal
+  '24': Imbakan ng Deuterium
+  '31': Research Lab
+  '33': Terraformer
+  '34': Alliance Depot
+  '35': 'Repair Dock'
+  '40': Mga Gusali sa Buwan
+  '41': 'Moon Base'
+  '42': Sensor Phalanx
+  '43': Jumpgate
+  '44': Missile Silo
+  '100': Research
+  '106': Spy Technology
+  '108': Computer Technology
+  '109': Weapons Technology
+  '110': Shield Technology
+  '111': Armour Technology
+  '113': Energy Technology
+  '114': Hyperspace Technology
+  '115': Combustion Engine
+  '117': Impulse Engine
+  '118': Hyperspace Engine
+  '120': Laser Technology
+  '121': Ion Technology
+  '122': Plasma Technology
+  '123': Intergalactic Research Network
+  '124': Astrophysics Research
+  '131': Produksyon ng Metal
+  '132': Produksyon ng Crystal
+  '133': Produksyon ng Deuterium
+  '134': Fuel Efficiency
+  '199': Graviton Research
+  '200': Mga Barko
+  '202': Magaan na Cargo
+  '203': Mabigat na Cargo
+  '204': Magaan na Fighter
+  '205': Mabigat na Fighter
+  '206': Cruiser
+  '207': Battleship
+  '208': Colony Ship
+  '209': Recycler
+  '210': Spy Probe
+  '211': Bomber
+  '212': Solar Satellite
+  '213': Destroyer
+  '214': Death Star
+  '215': Battle Cruiser
+  '216': Black Moon
+  '217': Battle Transporter
+  '218': Avatar
+  '219': Battle Recycler
+  '220': Steel Colossus
+  '221': Stormblade
+  '222': Mabigat na Cruiser
+  '223': Shield Drone
+  '224': Improvised Assault Transport
+  '225': Storm Transporter
+  '226': Colossal Battle Transporter
+  '227': Optimized Recycler
+  '228': Omega Recycler
+  '229': Viper
+  '230': Interceptor
+  '231': Behemoth
+  '232': Void Titan
+  '400': Depensa ng Planeta
+  '401': Missile Launcher
+  '402': Magaang Laser Turret
+  '403': Mabigat na Laser Turret
+  '404': Gauss Cannon
+  '405': Ion Cannon
+  '406': Plasma Cannon
+  '407': Maliit na Shield Dome
+  '408': Malaking Shield Dome
+  '409': Atmospheric Shield
+  '410': 'Graviton Cannon'
+  '411': Orbital Defence Platform
+  '412': Bunker
+  '413': Titan Laser
+  '414': Decoy
+  '500': Mga Missile
+  '502': Interceptor
+  '503': Interplanetary missiles
+  '900': Mga Resource
+  '901': Metal
+  '902': Crystal
+  '903': Deuterium
+  '911': Energy

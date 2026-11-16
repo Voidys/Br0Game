@@ -1,0 +1,12 @@
+<div class="left">
+<h2>Thông tin hỗ trợ đa vũ trụ</h2>
+<p>Br0Game có thể hỗ trợ nhiều vũ trụ ổn định, bạn phải cấu hình máy chủ web theo yêu cầu.</p>
+<p>Bạn có thể xem máy chủ của mình hỗ trợ những gì ở nút "Thông tin". Nếu không chắc, tốt nhất hãy hỏi bạn bè ở công ty hosting của bạn.</p>
+<h3>Apache</h3>
+<p>Nếu bạn chạy Apache Server, bạn chỉ cần bỏ các dòng 48-51 trong tệp .htacces ở thư mục chính (xóa đường dẫn).<br>
+Ngoài ra, cần có mod_rewrite.</p>
+<h3>nginx</h3>
+<p>Nếu bạn chạy nginx Server, cấu hình vhost cần được mở rộng trực tiếp bằng quy tắc rewrite:</p>
+<p><code>{NGINX-CODE}</code></p>
+<p>Chỉ cần dán đoạn mã bên dưới dòng có "server_name".</p>
+</div>

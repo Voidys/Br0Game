@@ -1,0 +1,238 @@
+and: en
+battle_stats_damage_done: Toegebrachte schade
+battle_stats_damage_dead: Overkill-schade
+battle_stats_shield_hit: Schildtreffers
+battle_stats_ship_destroyed: Vernietigde schepen
+battle_stats_shield_bounced: Afgeweerde schade
+battle_stats_rapid_fire_done: Snelvuur
+battle_stats_explosion_triggered: Explosies
+battle_stats_stunned_done: Uitgeschakeld
+battle_stats_target: Doelwit
+battle_stats_total: Totaal
+battle_stats_total_all_targets: Totaal (alle doelwitten)
+battle_stats_total_all_fleets: Totaal (alle vloten)
+damage: schadepunten.
+debree_field_1: 'Op deze coördinaten ligt nu:'
+debree_field_2: ' aan puin.'
+fcp_colony: Kolonie
+fl_expocap_explain: Dit is de maximale hoeveelheid expeditiepunten die het waard is te sturen. Alles daarboven verhoogt je beloning niet, maar kan nog wel verloren gaan.
+fl_send_back: Terugroepen
+fl_simulate: Simuleren
+fleet_attack_1: De aanvallende vloot vuurt met een kracht van
+fleet_attack_2: op de verdediger. De schilden van de verdediger absorberen
+fleet_defs_1: De verdedigende vloot vuurt met een kracht van
+fleet_defs_2: op de aanvaller. De schilden van de aanvaller absorberen
+spy_best_planet: Beste planeet
+spy_best_resources_per_second: Beste grondstoffen per seconde
+spy_energy: Energie
+spy_hazard_potential: Gevarenpotentieel
+spy_large_transporter: Groot vrachtschip
+spy_market_value: Marktwaarde
+spy_necessary_recycler: Benodigde recyclers
+spy_necessary_transporters: Benodigde schepen
+spy_potential_recycling: Recyclingpotentieel
+spy_potential_resources: Potentiële grondstoffen
+spy_small_transporter: Klein vrachtschip
+spy_summary: Samenvatting
+spy_total_resources: Totaal aan grondstoffen
+sys_adress_planet: '[%s:%s:%s]'
+sys_and: en
+sys_attack_attacker_pos: Aanvaller
+sys_attack_defender_pos: Verdediger
+sys_attack_round: Ronde
+sys_attack_title: 'De volgende vloten staan tegenover elkaar op: '
+sys_attacker_lostunits: 'Verliezen van de aanvaller:'
+sys_attacker_won: De aanvaller heeft het gevecht gewonnen!
+sys_both_won: 'Het gevecht eindigt in een gelijkspel! '
+sys_colo_allisok: Je vloot is aangekomen op de coördinaten %s. De kolonisten zijn begonnen met het koloniseren van de nieuwe planeet.
+sys_colo_badpos: Je vloot is aangekomen op de coördinaten %s. Vestiging is daar niet mogelijk, dus de kolonisten keerden teleurgesteld terug naar huis.
+sys_colo_maxcolo: 'Je vloot is aangekomen op de coördinaten %s. Vestiging is niet mogelijk: je kunt maximaal %d planeten hebben.'
+sys_colo_mess_from: Kolonisatie
+sys_colo_mess_report: Kolonisatierapport
+sys_colo_notech: Je vloot is aangekomen op de coördinaten %s. De kolonisten merkten dat hun uitrusting niet geschikt was voor het klimaat en verbeterd moet worden. Teleurgesteld keerden ze terug naar huis.
+sys_colo_notfree: Je vloot is aangekomen op de coördinaten %s. Helaas ontdekten de kolonisten dat de planeet al bewoond is! Volledig gedemoraliseerd keerden ze terug naar huis.
+sys_debris: Puinveld
+sys_def_rebuild: 'Een deel van de verdedigingen kon worden gerepareerd:'
+sys_defender_lostunits: 'Verliezen van de verdediger:'
+sys_defender_won: De verdediger heeft het gevecht gewonnen!
+sys_destroyed: Vernietigd
+sys_destruc_echec: 'Aardbevingen deden de planeet schudden, maar er ging iets mis: de Sterren des Doods ontploften en vielen uiteen in duizend stukken, en de schokgolven namen de hele vloot mee.'
+sys_destruc_lune: 'Kans om de maan te vernietigen: %d%%'
+sys_destruc_mess1: De Sterren des Doods vuurden hun enorme energie af op de maan.
+sys_destruc_null: De Sterren des Doods konden niet volledig opladen voordat ze vuurden.<br> De maan is niet vernietigd.
+sys_destruc_reussi: De stralen van de Sterren des Doods bereikten de maan en scheurden hem aan stukken. <br>De hele maan is vernietigd!
+sys_destruc_rip: 'Kans dat de vloot zichzelf vernietigt: %d%%'
+sys_destruc_stop: De verdediger heeft de vernietiging van de maan met succes geblokkeerd.
+sys_destruc_title: 'De volgende vloten staan tegenover elkaar voor een maanvernietiging:'
+sys_expe_attack_1_1_1: Een wanhopige ruimtepiraat probeerde onze expeditievloot te kapen.
+sys_expe_attack_1_1_2: Een paar primitieve barbaren vielen ons aan met ruimteschepen. Hun schepen waren in elk geval in een verschrikkelijke staat. Als hun vuurkracht een serieuze bedreiging was geweest, hadden we met onze eigen moeten antwoorden.
+sys_expe_attack_1_1_3: We hebben een paar radioberichten van behoorlijk dronken piraten onderschept. We worden blijkbaar aangevallen.
+sys_expe_attack_1_1_4: We moesten vechten tegen een paar piraten, maar gelukkig waren we ze in aantal de baas.
+sys_expe_attack_1_1_5: Onze vloot meldt dat ene Moa Tikarr en zijn bemanning de onvoorwaardelijke overgave van onze vloot eisten. Als ze het menen, zullen ze merken dat we ons uitstekend kunnen verdedigen.
+sys_expe_attack_1_2_1: Je expeditievloot had een onverwachte ontmoeting met een paar ruimtepiraten.
+sys_expe_attack_1_2_2: We vlogen in een hinderlaag van een stel sterpiraten! Helaas was een gevecht onvermijdelijk.
+sys_expe_attack_1_2_3: De noodoproep van een andere expeditievloot bleek een valstrik van sluwe piraten. Een gevecht was onvermijdelijk.
+sys_expe_attack_1_3_1: De onderschepte signalen kwamen niet van onbekende aliens, maar van een geheime piratenbasis! De piraten waren niet erg blij met onze aanwezigheid in hun sector.
+sys_expe_attack_1_3_2: De expeditievloot meldde hevige gevechten met niet-geïdentificeerde piratenschepen!
+sys_expe_attack_1_3_3: 'We hebben zojuist een dringend bericht van de expeditiecommandant ontvangen: "Ze komen op ons af! Ze sprongen uit de hyperruimte, gelukkig zijn het maar piraten, dus we maken een kans, we vechten!"'
+sys_expe_attack_2_1_1: Je expeditievloot had een onvriendelijk eerste contact met een onbekende soort.
+sys_expe_attack_2_1_2: Een paar vreemde schepen hebben de expeditievloot zonder waarschuwing aangevallen!
+sys_expe_attack_2_1_3: Onze expeditie werd aangevallen door een kleine groep niet-geïdentificeerde ruimtevaartuigen!
+sys_expe_attack_2_1_4: De expeditievloot meldt contact met onbekende schepen. De radioberichten kunnen niet worden ontcijferd, maar de vreemde schepen lijken hun wapens op te laden.
+sys_expe_attack_2_2_1: Een onbekende soort valt onze expeditie aan!
+sys_expe_attack_2_2_2: Je expeditievloot heeft blijkbaar het grondgebied geschonden van een tot nu toe onbekend maar zeer agressief buitenaards ras.
+sys_expe_attack_2_2_3: De verbinding met onze expeditievloot werd abrupt verbroken. Het laatste wat we hoorden, was dat de vloot zwaar onder vuur lag. De aanvallers konden niet worden geïdentificeerd.
+sys_expe_attack_2_3_1: Je expeditie is een buitenaardse invasievloot tegengekomen en meldt massale gevechten!
+sys_expe_attack_2_3_2: Een grote groep kristallijnen schepen van onbekende oorsprong zit op directe botsingskoers met onze expeditievloot. We moeten ons op het ergste voorbereiden.
+sys_expe_attack_2_3_3: We hadden wat moeite om het dialect van het buitenaardse ras goed uit te spreken. Onze diplomaat riep per ongeluk 'Vuur!' in plaats van 'Vrede!'
+sys_expe_attackname_1: Piraten
+sys_expe_attackname_2: Aliens
+sys_expe_back_home: Je vloot is van de expeditie op %3$s teruggekeerd naar %1$s %2$s.
+sys_expe_back_home_ress: Hij levert %s %s, %s %s en %s %s af.
+sys_expe_back_home_ships_flound: 'De volgende schepen werden gevonden:'
+sys_expe_back_home_ships_lost: 'De volgende schepen gingen verloren:'
+sys_expe_blackholl_1: Je vloot kwam een zwart gat tegen en is gedeeltelijk vernietigd!
+sys_expe_blackholl_2: Je vloot kwam een zwart gat tegen en is volledig vernietigd!
+sys_expe_depleted_max_1: 'Aantekening uit het logboek van de communicatieofficier: Als we ons ooit onveilig voelen, kunnen we altijd de krachten bundelen met de andere expedities die hier rondvliegen.'
+sys_expe_depleted_max_2: 'Aantekening uit het logboek van de communicatieofficier: Als dit zo doorgaat, moeten we navigatieboeien plaatsen om al dit verkeer aan te kunnen.'
+sys_expe_depleted_max_3: 'Aantekening uit het logboek van de communicatieofficier: Misschien is het nuttiger om hier een souvenirwinkel te openen dan weer een expeditie te sturen.'
+sys_expe_depleted_med_1: 'Aantekening uit het logboek van de communicatieofficier: We vonden sporen van meerdere expeditievloten in de buurt. We keren terug naar huis.'
+sys_expe_depleted_med_2: 'Aantekening uit het logboek van de communicatieofficier: We hebben vriendelijk radiocontact gelegd met een paar andere expedities in deze sector.'
+sys_expe_depleted_med_3: 'Aantekening uit het logboek van de communicatieofficier: We hebben het einde van de expeditie gevierd met de bemanning van een andere expeditievloot in dezelfde sector. Zij hebben ook niets nieuws te melden.'
+sys_expe_depleted_min_1: 'Aantekening uit het logboek van de communicatieofficier: Het lijkt erop dat mensen al eens in dit deel van de melkweg zijn geweest.'
+sys_expe_depleted_min_2: 'Aantekening uit het logboek van de communicatieofficier: We vonden brokstukken van oude ruimteschepen. We zijn niet de eersten hier.'
+sys_expe_depleted_min_3: 'Aantekening uit het logboek van de communicatieofficier: We zijn bijna in botsing gekomen met een andere expeditievloot. Ik had nooit gedacht dat er hier nog iemand zou zijn.'
+sys_expe_depleted_not_1: 'Aantekening uit het logboek van de communicatieofficier: Dit deel van het universum lijkt nog niet verkend te zijn.'
+sys_expe_depleted_not_2: 'Aantekening uit het logboek van de communicatieofficier: Wat een geweldig gevoel om als eersten door een onontdekte sector te reizen.'
+sys_expe_feqeuence_few: Meer dan 10 expedities in de afgelopen 24 uur
+sys_expe_feqeuence_many: Meer dan 50 expedities in de afgelopen 24 uur
+sys_expe_feqeuence_medium: Meer dan 25 expedities in de afgelopen 24 uur
+sys_expe_feqeuence_no: Weinig expedities in de afgelopen 24 uur
+sys_expe_found_goods: '%s %s zijn gewonnen.'
+sys_expe_found_ress_1_1: Je expeditie heeft een kleine asteroïdecluster ontdekt waaruit wat grondstoffen konden worden gewonnen.
+sys_expe_found_ress_1_2: Op een afgelegen planetoïde werden meerdere makkelijk bereikbare grondstofvelden gevonden en er werden met succes grondstoffen gewonnen.
+sys_expe_found_ress_1_3: Je expeditie stuitte op zeer oude wrakken van ruimteschepen uit een lang vervlogen gevecht. Afzonderlijke onderdelen konden worden geborgen en gerecycled.
+sys_expe_found_ress_1_4: De expeditie ontdekte een door straling verontreinigde planeet met een zeer giftige atmosfeer. Scans toonden echter aan dat deze planeet veel grondstoffen bevat. Geautomatiseerde drones werden ingezet om zoveel mogelijk grondstoffen te winnen.
+sys_expe_found_ress_2_1: 'Je expeditie vond een eeuwenoud vrachtschipconvooi dat volledig geladen maar verlaten was. Er konden wat grondstoffen worden buitgemaakt. '
+sys_expe_found_ress_2_2: Je expeditie vond grote grondstofafzettingen op een kleine maan met een eigen atmosfeer. De bemanning is momenteel bezig deze schat te winnen.
+sys_expe_found_ress_2_3: We zijn een klein convooi van burgerschepen tegengekomen dat dringend voedsel en medicijnen nodig had. In ruil daarvoor kregen we een flinke hoeveelheid nuttige grondstoffen.
+sys_expe_found_ress_3_1: Je expeditievloot meldt de ontdekking van een enorm buitenaards scheepswrak. Hoewel ze niets met de technologie konden beginnen, kon het schip worden gesloopt tot afzonderlijke onderdelen, wat waardevolle grondstoffen opleverde.
+sys_expe_found_ress_3_2: De asteroïdengordel rond een onbekende planeet bevatte enorme hoeveelheden grondstoffen. De expeditievloot vulde zijn opslagruimtes!
+sys_expe_found_ress_logbook_1: 'Aantekening uit het logboek van de eerste officier: We hebben elk beetje vrije ruimte gebruikt, maar we konden toch niet alle gevonden grondstoffen meenemen.'
+sys_expe_found_ress_logbook_2: 'Aantekening uit het logboek van de eerste officier: Hadden we maar een paar vrachtschepen meer! Nu moeten we een hoop grondstoffen achterlaten.'
+sys_expe_found_ress_logbook_3: 'Aantekening uit het logboek van de eerste officier: We hebben alles overboord gegooid wat we niet meer nodig hebben, maar we kunnen nog steeds niet genoeg ruimte maken voor alle gevonden grondstoffen.'
+sys_expe_found_ress_logbook_4: 'Aantekening uit het logboek van de eerste officier: Zelfs toen we de kantine en alle lounges tot opslagruimtes ombouwden, konden we nog steeds niet alle gevonden grondstoffen vervoeren.'
+sys_expe_found_ships: 'Je onderzoekers hebben ruimteschepen gevonden die in perfecte staat waren!<br>: '
+sys_expe_found_ships_1_1: We hebben de resten van een eerdere expeditie ontdekt! Onze technici controleren of ze een paar van de wrakken weer aan de praat kunnen krijgen.
+sys_expe_found_ships_1_2: We hebben een verlaten piratenbasis gevonden. Een paar oude schepen staan nog in de hangar. Onze technici controleren of sommige schepen nog bruikbaar zijn.
+sys_expe_found_ships_1_3: Onze expeditie vond een planeet die bijna volledig door oorlogen verwoest was. In de baan dreven verschillende scheepswrakken. De technici probeerden er een paar te repareren. Misschien komen we meer te weten over wat hier is gebeurd.
+sys_expe_found_ships_1_4: De expeditie stuitte op een oude sterbasis die al een eeuwigheid verlaten lijkt. In de hangar van het fort stonden een paar schepen. De technici kregen er een paar weer aan het vliegen.
+sys_expe_found_ships_2_1: We hebben de resten van een armada gevonden. De technici van de expeditie zijn meteen aan boord gegaan van de deels intacte schepen en konden er een aantal repareren.
+sys_expe_found_ships_2_2: Onze expeditie ontdekte een oude automatische scheepswerf waar nog een paar schepen in de productiefase stonden. Nadat de energievoorziening van de werf was hersteld, werkten onze technici aan de voltooiing ervan.
+sys_expe_found_ships_3_1: We hebben een gigantisch scheepskerkhof gevonden. Een paar technici van de expeditie hebben een of twee schepen weer in gebruik kunnen nemen.
+sys_expe_found_ships_3_2: We hebben een planeet ontdekt met resten van een beschaving. Vanuit de ruimte is nog een gigantisch, intact scheepsstation gespot. Een paar van onze technici en piloten zijn naar het oppervlak gegaan om vast te stellen of een paar van de schepen kunnen worden teruggehaald.
+sys_expe_found_ships_logbook_1: 'Aantekening uit het logboek van de machinekamerofficier: Als we een paar schepen meer hadden meegenomen, hadden we makkelijk een paar van die schoonheden mee naar huis kunnen nemen!'
+sys_expe_found_ships_logbook_2: 'Aantekening uit het logboek van de machinekamerofficier: Helaas hadden we niet de capaciteit om alle schepen die we tijdens deze missie ontdekten mee terug te nemen.'
+sys_expe_found_ships_logbook_3: 'Aantekening uit het logboek van de machinekamerofficier: Helaas hebben we niet genoeg capaciteit om alle gevonden schepen mee terug te nemen.'
+sys_expe_found_ships_nothing: Er konden geen schepen worden gevonden.
+sys_expe_lost_fleet_1: 'Het enige wat van de expeditie rest, is het volgende radiobericht: Zzzrrt o God!...Krrrzzzzt de zrrrtrzt ziet krgzzzz ja van hoe Krzzzzzzzztzzzz...'
+sys_expe_lost_fleet_2: Het laatste wat we van de expeditie ontvingen, waren een paar ongelooflijk goede close-ups van een opengaand zwart gat.
+sys_expe_lost_fleet_3: Een kernlek op een van de commandoschepen leidde tot een kettingreactie die de hele expeditie in een spectaculaire explosie vernietigde.
+sys_expe_lost_fleet_4: De expeditievloot is niet teruggekeerd van hun hyperruimtesprong. Onze wetenschappers breken zich nog het hoofd over wat er gebeurd kan zijn, maar de vloot lijkt voorgoed verloren.
+sys_expe_nothing_1: Deze expeditie brengt niets spannends mee, behalve een paar nieuwsgierige diertjes van een onbekende moerasplaneet.
+sys_expe_nothing_2: Je expeditie maakte prachtige foto's van een supernova. Echt nieuwe inzichten leverde deze expeditie echter niet op. Maar de kans is groot dat hij dit jaar de wedstrijd om Beste Foto van het Universum wint.
+sys_expe_nothing_3: Een vreemd computervirus legde de navigatie lam kort nadat het zonnestelsel was verlaten. Daardoor vloog de hele expeditievloot de hele tijd rondjes. Onnodig te zeggen dat de expeditie niet bijzonder succesvol was.
+sys_expe_nothing_4: Een levensvorm van pure energie liet alle expeditieleden dagenlang naar hypnotiserende symbolen op hun schermen staren. Toen de meesten eindelijk weer helder waren, moest de expeditie worden afgebroken vanwege een tekort aan deuterium.
+sys_expe_nothing_5: Nou, we weten nu in elk geval dat rode anomalieën van klasse 5 niet alleen chaotische effecten hebben op de systemen van het schip, maar ook massale hallucinaties bij de bemanning kunnen veroorzaken. Helaas is er op deze expeditie verder niets ontdekt.
+sys_expe_nothing_6: Ondanks de aanvankelijk veelbelovende scans van deze sector kwamen we helaas met lege handen terug.
+sys_expe_nothing_7: Misschien had de verjaardag van de kapitein niet op deze afgelegen planeet gevierd moeten worden. Een nare bloedingskoorts stuurde het grootste deel van de bemanning naar de ziekenboeg, en het acute personeelstekort deed de expeditie mislukken.
+sys_expe_nothing_8: Je expeditie heeft niets gevonden dan de uitgestrekte leegte van de ruimte. Er was zelfs geen asteroïdje, straling of deeltjes, of wat dan ook waardoor deze expeditie een beetje spannend had kunnen zijn.
+sys_expe_nothing_9: Een reactorstoring op het commandoschip heeft bijna de hele expeditie vernietigd. Gelukkig waren de technici meer dan bekwaam en konden ze het ergste voorkomen. De reparatie kostte echter zoveel tijd dat de expeditie terugkeerde zonder iets te hebben bereikt.
+sys_expe_report: Expeditierapport
+sys_expe_report_msg: 'Expeditierapport van de vloot van %s %s bij %s:'
+sys_expe_time_fast_1: Een onverwachte terugkoppelingslus in de energiespoelen van de aandrijving versnelde de terugkeer van de expeditie, waardoor die eerder aankwam dan verwacht. Eerste rapporten wijzen er echter op dat er verder niets te melden valt.
+sys_expe_time_fast_2: De nogal gedurfde nieuwe commandant gebruikte een instabiel wormgat om de terugreis te verkorten - met succes! De expeditie zelf leverde echter geen nieuwe inzichten op.
+sys_expe_time_fast_3: Je expeditie meldde geen afwijkingen in de verkende sector. Tijdens de terugvlucht kwam de vloot echter een zonnewind tegen, die de reis aanzienlijk versnelde. Je expeditie keert nu iets eerder dan verwacht terug naar huis.
+sys_expe_time_slow_1: Een ernstige blunder van de navigator zette de vloot op een heel verkeerde plek af. De terugreis duurde daardoor aanzienlijk langer.
+sys_expe_time_slow_2: Om nog onbekende redenen ging de sprong van de vloot compleet mis. Ze kwamen bijna midden in een ster terecht! Gelukkig belandden ze in een bekend stelsel, maar de terugreis duurt langer dan oorspronkelijk gepland.
+sys_expe_time_slow_3: De nieuwe navigatiemodule lijkt nog steeds last te hebben van wat bugs. De expeditievloot vloog niet alleen helemaal de verkeerde kant op, maar verbruikte ook al zijn deuterium! Teleurgesteld keert de expeditie nu terug op reservevermogen.
+sys_expe_time_slow_4: Je expeditie vloog een sector in met verhevigde deeltjesstormen. Daardoor raakten de energieopslagsystemen overbelast en vielen de hoofdsystemen van alle schepen uit. Je monteurs konden het ergste voorkomen, maar de expeditie keert nu met aanzienlijke vertraging terug.
+sys_expe_time_slow_5: Het vlaggenschip van je expeditievloot botste tegen een buitenaards vaartuig dat zonder waarschuwing rechtstreeks de vloot in sprong. Het buitenaardse schip ontplofte en de schade aan het vlaggenschip was aanzienlijk. Zodra de ergste reparaties klaar zijn, beginnen je schepen aan hun terugreis, want in de huidige staat kan de expeditie niet doorgaan.
+sys_expe_time_slow_6: De sterrenwind van een rode reus verstoorde de sprong van de expeditie, waardoor de navigatiesystemen de terugreis volledig verkeerd berekenden. Daardoor bevindt de expeditie zich in de uitgestrekte leegte tussen onbekende sterren.
+sys_fleet_return: Je vloot keert terug naar %s %s %s en levert %s %s, %s %s en %s %s af. %s
+sys_fleet_won: Je vloot is teruggekeerd van een aanval op %s %s naar %s %s. Je hebt %s %s, %s %s en %s %s buitgemaakt.
+sys_gain: Winst
+sys_honorpoints_changed: 'Eerepunten:'
+sys_irak_def: '%d raketten werden onderschept.'
+sys_irak_mess: Interplanetaire raketten (%d) van %s zijn ingeslagen op %s <br><br>
+sys_irak_no_att: Alle raketten werden onderschept.
+sys_irak_no_def: De planeet heeft geen verdediging.
+sys_irak_subject: Raketinslag
+sys_lost: Verliezen
+sys_mess_attack_cancel: 'Het gevecht bij %s %s is geannuleerd.
+
+  De server kon het niet berekenen.'
+sys_mess_attack_report: Aanvalsrapport
+sys_mess_fleetback: Vloot keert terug
+sys_mess_piratebase_gone: Je vloot is aangekomen bij %s, maar de piratenbasis is er niet meer. De vloot keert terug naar huis.
+sys_mess_spy_activity: Contraspionagerapport
+sys_mess_spy_control: Centrale inlichtingendienst
+sys_mess_spy_destroyed: Je spionagesondes zijn vernietigd!
+sys_mess_spy_ennemyfleet_1: Vijandelijke spionagesondes van planeet %s zijn waargenomen bij %s.
+sys_mess_spy_ennemyfleet_3: Vijandelijke spionagesondes van maan %s zijn waargenomen bij %s.
+sys_mess_spy_link: <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s) [%3$s:%4$s:%5$s]</a>
+sys_mess_spy_lostproba: 'De kans dat de spionagesondes werden ontdekt was: %d%%'
+sys_mess_spy_qg: Spionageafdeling
+sys_mess_spy_repair_order: Er worden momenteel schepen hersteld in het reparatiedok.
+sys_mess_spy_report: Inlichtingenrapport
+sys_mess_spy_report_details_1: Spionagerapport van planeet %1$s (%2$s) [%3$s:%4$s:%5$s] op %6$s
+sys_mess_spy_report_details_3: Spionagerapport van maan %1$s (%2$s) [%3$s:%4$s:%5$s] op %6$s
+sys_mess_spy_report_details_4: Spionagerapport van %1$s (%2$s) [%3$s:%4$s:%5$s] op %6$s
+sys_mess_tower: Vlootcommando
+sys_mess_transport: Transport
+sys_moonbuilt: De enorme hoeveelheden vrij metaal en kristal trekken elkaar aan en vormen een satelliet rond de planeet!
+sys_moonproba: 'Maankans: '
+sys_raport_amount_error: Geen schepen of verdedigingen geselecteerd, of te veel voor de simulatie.
+sys_raport_lost_contact: Het contact met de aanvallende vloot is verbroken (hij werd in de eerste ronde neergeschoten).
+sys_raport_not_found: Ongeldig gevechtsrapport-ID
+sys_recy_gotten: Je recyclers hebben %2$s %6$s en %3$s %7$s verzameld van in totaal %4$s %6$s en %5$s %7$s op coördinaten %1$s.
+sys_recy_mess: Je recyclervloot is teruggekeerd naar %s %s met %s %s, %s %s en %s %s.
+sys_recy_report: Recyclingrapport
+sys_ship_armour: Pantser
+sys_ship_count: Aantal
+sys_ship_repaired: Hersteld
+sys_ship_shield: Schilden
+sys_ship_type: Type
+sys_ship_weapon: Vuurkracht
+sys_spy_fleet: Vloot
+sys_stat_mess: Je vloot van %s %s is aangekomen op %s %s %s en leverde %s %s, %s %s en %s %s af. %s
+sys_stat_mess_stay: Gestationeerde vloot
+sys_stealed_ressources: Ze plunderen
+sys_trade_mess_arr_success: 'Je handelsvloot is klaar om terug te keren naar %1$s %2$s (terugvlucht: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_back: Je handelsvloot is zonder succes teruggekeerd naar %s %s.
+sys_trade_mess_back_success: Je handelsvloot is met succes teruggekeerd naar %4$s %5$s met %1$s metaal, %2$s kristal en %3$s deuterium.
+sys_tran_mess_back: Je vloot is teruggekeerd naar %s %s.
+sys_tran_mess_owner: Je vloot van %s %s is aangekomen op %s %s %s en leverde %s %s, %s %s en %s %s af.
+sys_tran_mess_user: Een vredelievende vloot van %s %s is aangekomen op %s %s en leverde %s %s, %s %s en %s %s af.
+sys_units: eenheden
+sys_wreckfield: Een deel van de vernietigde schepen van de verdediger vormt een paar dagen een wrakveld in de baan van de planeet.
+sys_wreckfield_added: 'Toegevoegd aan wrakveld:'
+type_mission_1: Aanvallen
+type_mission_2: Alliantie-aanval
+type_mission_3: Transport
+type_mission_4: Stationeren
+type_mission_5: Vasthouden
+type_mission_6: Spioneren
+type_mission_7: Koloniseren
+type_mission_8: Recyclen
+type_mission_9: Vernietigen
+type_mission_15: Expeditie
+type_mission_16: Handel
+type_mission_17: Overdracht
+type_planet_1: Planeet
+type_planet_2: Puin
+type_planet_3: Maan
+type_planet_4: Piratenbasis
+type_planet_short_1: P
+type_planet_short_2: V
+type_planet_short_3: M

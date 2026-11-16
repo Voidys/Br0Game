@@ -18,7 +18,7 @@ class LanguageCatalog
     {
         if (empty(self::$allLanguages)) {
             $cache	= new Cache(); // the language cache reads files only
-            self::$allLanguages = $cache->getData('language');
+            self::$allLanguages = $this->sorted((array) $cache->getData('language'));
         }
 
         if ($OnlyKey) {
@@ -33,6 +33,49 @@ class LanguageCatalog
         }
 
         return $names;
+    }
+
+    /**
+     * Language selector options: real languages as code => name, the fun languages (pack flag `fun`) as an
+     * option group under `$funLabel` at the end (rendered as <optgroup> by html_options and the start page).
+     *
+     * @return array<string, string|array<string, string>>
+     */
+    public function getLanguageOptions(string $funLabel): array
+    {
+        $options = [];
+        $fun = [];
+        foreach ($this->getAllowedLangs(false) as $code => $name) {
+            if ($this->isFun($code)) {
+                $fun[$code] = $name;
+            } else {
+                $options[$code] = $name;
+            }
+        }
+        if ($fun !== []) {
+            $options[$funLabel] = $fun;
+        }
+
+        return $options;
+    }
+
+    /** Whether the pack is a joke language (flag `fun` in config/languages.yaml). */
+    public function isFun(string $code): bool
+    {
+        return !empty($this->getPackConfig($code)['fun']);
+    }
+
+    /**
+     * Language list order: real languages by code, fun languages last.
+     *
+     * @param array<string, mixed> $languages code => metadata
+     * @return array<string, mixed>
+     */
+    private function sorted(array $languages): array
+    {
+        uksort($languages, fn (string $a, string $b): int => [$this->isFun($a), $a] <=> [$this->isFun($b), $b]);
+
+        return $languages;
     }
 
     /**

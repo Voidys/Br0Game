@@ -1,0 +1,12 @@
+Hallo {USERNAME},
+
+Bedankt voor je registratie bij {GAMENAME}
+
+We zijn blij dat je deel wilt uitmaken van onze community 
+en hopen dat je veel plezier zult hebben!
+
+Je kunt ook eens een kijkje nemen op onze Discord: 
+{DISCORD}
+
+Met vriendelijke groet,
+{GAMENAME} - Team

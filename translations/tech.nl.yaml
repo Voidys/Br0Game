@@ -1,0 +1,350 @@
+bonus:
+  Attack: Aanval
+  BuildTime: Bouwtijd
+  Defensive: Verdediging
+  DefensiveTime: Bouwtijd verdediging
+  Energy: Energieproductie
+  Expedition: Expedities
+  FleetSlots: Vlootslots
+  FlyTime: Vliegtijd
+  GateCoolTime: Oplaadtijd sprongpoort
+  MoreFound: Expeditievondsten
+  Planets: Planeten
+  ResearchTime: Onderzoekstijd
+  Resource: Grondstoffenproductie
+  ResourceStorage: Grondstoffenopslag
+  Shield: Schild
+  ShipStorage: Scheepsopslag
+  ShipTime: Scheepsbouwtijd
+  SpyPower: Spionagekracht
+longDescription:
+  '1': Metaalmijnen delven het erts waarop elk opkomend en gevestigd rijk is gebouwd.
+  '2': Kristal is het sleutelingrediënt voor elektronische schakelingen en bepaalde legeringen.
+  '3': Deuterium is de brandstof van je ruimteschepen en wordt uit de diepzee gewonnen. Het is een zeldzame stof en dus relatief duur.
+  '4': Zonne-energiecentrales zetten zonlicht om in energie. Elke mijn heeft energie nodig om te draaien.
+  '6': Standaard verkort elk niveau de onderzoekstijd met 8%.
+  '12': De fusiecentrale produceert energie door deuterium te laten fuseren. Ze levert meer energie dan een zonne-energiecentrale, maar is duurder om te bouwen. De opbrengst stijgt met Energietechniek en met het niveau van de centrale zelf. De formule voor de energieproductie is:<br> Geproduceerde energie = 30 x niveau fusiecentrale x (1,05 + (0,01 * niveau Energietechniek))^niveau fusiecentrale
+  '14': Robotfabrieken leveren bouwrobots die helpen bij het bouwen van je gebouwen. Elk niveau versnelt gebouwupgrades.
+  '15': De top van de robotica. Elk niveau halveert de bouwtijd van gebouwen, schepen en verdedigingen.
+  '21': Alle schepen en verdedigingen worden gebouwd op de planetaire werf.
+  '22': Biedt opslag voor overtollig metaal.
+  '23': Biedt opslag voor overtollig kristal.
+  '24': Biedt opslag voor overtollig deuterium.
+  '31': Je hebt een onderzoekslab nodig om nieuwe technologieën te onderzoeken. Het niveau van het lab bepaalt hoe snel je onderzoekt en welke technologieën je kunt ontgrendelen. Onderzoek loopt in het lab van de planeet waar je het start, en het resultaat geldt voor al je planeten. Zolang er onderzoek loopt, kan geen enkel onderzoekslab worden geüpgraded.
+  '33': 'De terraformer vergroot het bruikbare oppervlak van de planeet. Elk niveau geeft je 5 extra velden, plus één extra veld op elk even niveau. Elk niveau van de terraformer neemt zelf één veld in beslag.<br>Het bouwen kost energie, maar die energie wordt niet opgebruikt: je planeet hoeft er alleen genoeg van te produceren (1.000 voor niveau 1, bij elk niveau verdubbelend), ook als je mijnen die energie al gebruiken. Eenmaal gebouwd kan de terraformer nooit meer worden gesloopt.'
+  '34': 'Het alliantiedepot heeft momenteel geen effect in dit spel: bevriende vloten kunnen ook zonder op je planeet worden vastgehouden en er is geen brandstofbevoorrading.'
+  '35': Het reparatiedok kan schepen repareren die in een gevecht zijn vernietigd en een wrakveld hebben achtergelaten. Een reparatie duurt maximaal 12 uur en kan pas 30 minuten nadat het wrakveld is verschenen klaar zijn.<br>Zodra het wrakveld verschijnt, heb je 3 dagen om de reparatie te starten. Is de reparatie klaar, dan moet je de schepen zelf weer in dienst nemen. Doe je dat niet, dan komen ze na 3 dagen automatisch weer in dienst.
+  '41': De maan heeft geen atmosfeer en een verse maan heeft ruimte voor slechts één gebouw, dus begin met de maanbasis. Elk niveau geeft 3 extra velden en neemt zelf één veld in beslag. Eenmaal gebouwd kan de maanbasis nooit meer worden afgebroken.
+  '42': 'De sensor phalanx laat je vlootbewegingen volgen. Hoe hoger het niveau, hoe groter het bereik van de phalanx: standaard (niveau phalanx)^2 - 1 stelsels, dus niveau 1 dekt alleen het eigen stelsel van de maan. Eén scan kost 5.000 deuterium, dat op de maan aanwezig moet zijn. Om te scannen open je het melkwegoverzicht vanaf de maan en klik je op een planeet binnen bereik. Manen zelf kunnen niet met de phalanx worden gescand, omdat ze geen atmosfeer hebben.<br><br>De phalanx toont vloten die vanaf de gescande planeet vertrekken of ernaartoe vliegen: wanneer ze aankomen, wanneer het vasthouden eindigt en wanneer de vloten van de eigenaar thuiskomen. Stationeringen en raketten worden nooit getoond, evenmin als recycle- of handelsvluchten naar de planeet.'
+  '43': 'Sprongpoorten zijn enorme zenders die grote vloten zonder tijdverlies door het universum sturen. Ze gebruiken geen deuterium, maar je kunt op deze manier geen grondstoffen overbrengen. Beide poorten moeten gereed zijn: na een sprong heeft elke poort een afkoeltijd, die standaard 60 minuten is op niveau 1 en bij elk niveau korter wordt, tot 10 minuten vanaf niveau 15.'
+  '44': Raketsilo's bergen je raketten op. Standaard voegt elk niveau 10 plekken toe. Een onderscheppingsraket neemt 1 plek in, een interplanetaire raket neemt er 2 in.
+  '106': 'Met deze technologie verzamel je informatie over andere planeten en manen. Wanneer je sondes stuurt, wordt jouw spionagetechniek vergeleken met die van het doelwit: hoe hoger je niveau, hoe meer informatie in het rapport en hoe kleiner de kans dat je sondes worden opgemerkt. Meer sondes onthullen meer details, maar vergroten het risico op ontdekking. Op bepaalde niveaus van Spionagetechniek krijg je ook meer te weten over vreemde vloten op je Overzichtsscherm:<br><br><li>Op niveau 0-1 zie je alleen dat er een vloot je planeet nadert</li><li>Op niveau 2-3 zie je hoeveel schepen er naderen</li><li>Op niveau 4-7 zie je welke typen schepen in de vloot zitten</li><li>Op niveau 8+ zie je hoeveel schepen van elk type in de vloot zitten</li>'
+  '108': Betere computers laten je meer vloten aansturen. Elk niveau van Computertechniek verhoogt je maximale aantal vloten met één.
+  '109': Wapentechniek maakt wapensystemen effectiever. Elk niveau verhoogt de wapenkracht van alle eenheden met 10% van de basiswaarde.
+  '110': Schildtechniek maakt de schilden van schepen en verdedigingsstructuren effectiever. Elk niveau verhoogt de schildsterkte met 10% van de basiswaarde.
+  '111': Speciale legeringen verbeteren het pantser van schepen en verdedigingsstructuren. Elk niveau verhoogt de effectiviteit van het pantser met 10%.
+  '113': Het beheersen van verschillende soorten energie is de sleutel tot veel nieuwe technologieën. Elk niveau van Energietechniek verhoogt ook de energieopbrengst van de fusiecentrale.
+  '114': Door de 4e en 5e dimensie te integreren kun je een nieuw soort aandrijving onderzoeken die zuiniger en efficiënter is.
+  '115': 'Het ontwikkelen van deze aandrijving maakt sommige schepen sneller, maar elk niveau voegt slechts 10% van de basissnelheid toe. Betrokken schepen: klein vrachtschip, groot vrachtschip, licht gevechtsschip, recycler en spionagesonde (klein vrachtschip en recycler stappen later over op betere aandrijvingen).'
+  '117': 'De impulsaandrijving werkt volgens het reactieprincipe. Verdere ontwikkeling maakt sommige schepen sneller, maar elk niveau voegt slechts 20% van de basissnelheid toe: bommenwerper, kruiser, zwaar gevechtsschip en kolonisatieschip, plus klein vrachtschip en recycler zodra die op deze aandrijving overstappen. Interplanetaire raketten vliegen met elk niveau ook verder.'
+  '118': 'De hyperruimteaandrijving kromt de ruimte rond een schip. Verdere ontwikkeling maakt sommige schepen sneller, maar elk niveau voegt slechts 30% van de basissnelheid toe: slagkruiser, slagschip, vernietiger, Ster des Doods, Zwarte Maan, gevechtstransporter, Avatar en gevechtsrecycler, plus bommenwerper en recycler zodra die op deze aandrijving overstappen. Vereist Hyperruimtetechniek (niveau 3) en een onderzoekslab (niveau 7).'
+  '120': Gebundeld licht produceert een straal die beschadigt wat hij raakt. Vereist een onderzoekslab (niveau 1) en Energietechniek (niveau 2).
+  '121': Een dodelijke straal van versnelde ionen die bij inslag enorme schade aanricht.
+  '122': Een doorontwikkeling van iontechnologie die energierijk plasma versnelt, ontstaan door ionen extreem te verhitten. Het heeft bij inslag een verwoestend effect.
+  '123': Onderzoekers op verschillende planeten communiceren via dit netwerk. Elk niveau laat één extra lab aansluiten op het lab waar je een onderzoek start. De labs met de hoogste niveaus worden gekozen, en een gekoppeld lab moet ver genoeg zijn om dat onderzoek zelf uit te voeren. Hun niveaus worden opgeteld om de onderzoekstijd te berekenen.
+  '124': 'Astrofysica ontgrendelt kolonisatie en expedities de diepe ruimte in. De kolonielimiet, vasthoudtijd en posities hieronder zijn de standaardinstellingen; jouw universum kan afwijken.<br><br> <li>Kolonielimiet</li> Niveau 1-2 = 2 planeten<br> Niveau 3-4 = 3 planeten<br> Niveau 5-6 = 4 planeten<br> Niveau 7-8 = 5 planeten<br> Niveau 9-10 = 6 planeten<br> Niveau 11-12 = 7 planeten<br> Niveau 13-14 = 8 planeten<br> Niveau 15-16 = 9 planeten<br> Niveau 17-18 = 10 planeten<br> Niveau 19-20 = 11 planeten<br> Niveau 21+ = 12 planeten<br><br> <li>Expeditieslots</li> Niveau 1-3 = 1 expeditie<br> Niveau 4-8 = 2 expedities<br> Niveau 9-15 = 3 expedities<br> Niveau 16-24 = 4 expedities<br>(één extra bij elk volgend kwadraat: 25, 36, ...)<br><br> <li>Vasthoudtijd expeditie</li> Niveau = maximale vasthoudtijd in uren<br><br> <li>Koloniseerbare posities</li> Niveau 1-3 = 4-12<br> Niveau 4-5 = 3-13<br> Niveau 6-7 = 2-14<br> Niveau 8+ = 1-15'
+  '131': Verhoogt de metaalproductie met 2% per niveau.
+  '132': Verhoogt de kristalproductie met 2% per niveau.
+  '133': Verhoogt de deuteriumproductie met 2% per niveau.
+  '134': Verlaagt de vluchtkosten met 2% per niveau.
+  '199': Het afvuren van een geconcentreerde lading gravitondeeltjes creëert een kunstmatig zwaartekrachtveld dat schepen en zelfs manen kan vernietigen. Vereist een onderzoekslab (niveau 12).
+  '202': Het kleine vrachtschip is een wendbaar schip dat snel grondstoffen naar andere planeten brengt.<br>Het vliegt op de verbrandingsmotor totdat je Impulsaandrijving niveau 5 bereikt. Vanaf dan stapt het over op de impulsaandrijving, wat de basissnelheid verdubbelt.
+  '203': Dit vrachtschip vervoert veel meer dan het kleine vrachtschip en is dankzij een betere aandrijving over het algemeen sneller.
+  '204': Het eerste gevechtsschip dat elke keizer bouwt. Het lichte gevechtsschip is wendbaar maar alleen kwetsbaar; in grote aantallen vormt het een echte bedreiging voor elk rijk. Lichte gevechtsschepen zijn de eersten die kleine en grote vrachtschepen escorteren naar vijandelijke planeten met zwakke verdediging.
+  '205': Dit gevechtsschip heeft beter pantser en slaat harder toe dan het lichte gevechtsschip.
+  '206': Kruisers hebben bijna drie keer zoveel pantser als zware gevechtsschepen en meer dan twee keer zoveel vuurkracht. Ze zijn ook erg snel.
+  '207': Slagschepen vormen de ruggengraat van een vloot. Zware kanonnen, hoge snelheid en grote laadruimtes maken ze tot tegenstanders die je serieus moet nemen.
+  '208': 'Dit goed gepantserde schip verovert nieuwe planeten, die een opkomend rijk nodig heeft om te groeien. Bij de nieuwe kolonie wordt het schip gedemonteerd en gaat al het recyclebare materiaal naar de ontwikkeling van de nieuwe wereld. Hoeveel planeten je kunt koloniseren hangt direct af van Astrofysica: het eerste niveau en elk tweede niveau daarna geven (standaard) een extra kolonie.'
+  '209': De recycler oogst grondstoffen uit puinvelden. Zijn laadcapaciteit is 20.000. Hij begint met de verbrandingsmotor, stapt over op de impulsaandrijving zodra je Impulsaandrijving niveau 17 bereikt, en op de hyperruimteaandrijving zodra je Hyperruimteaandrijving niveau 15 bereikt.
+  '210': Spionagesondes zijn kleine, wendbare drones die over grote afstanden gegevens over vloten en planeten leveren.
+  '211': De bommenwerper is speciaal gebouwd om de verdediging van een planeet te vernietigen.<br>Hij vliegt op de impulsaandrijving en stapt over op de hyperruimteaandrijving zodra je Hyperruimteaandrijving niveau 8 bereikt.
+  '212': Zonne-energiesatellieten zijn eenvoudige platforms van zonnecellen in een hoge, stationaire baan. Ze vangen zonlicht op en stralen het met een laser naar het grondstation.
+  '213': 'De vernietiger is de koning van de oorlogsschepen. Tegen kleine lasers heeft hij snelvuur: na elke treffer krijgt hij in 9 van de 10 gevallen nog een schot.'
+  '214': De vernietigingskracht van de Ster des Doods is ongeëvenaard, en hij kan manen vernietigen.
+  '215': De slagkruiser is gespecialiseerd in het onderscheppen van vijandelijke vloten.
+  '216': 'De opvolger van de populaire Ster des Doods: veel sneller en steviger, met een enorme laadruimte, maar hij slaat iets minder hard toe.'
+  '217': Een doorontwikkeling van het grote vrachtschip met veel meer laadvermogen. Hij vliegt op de hyperruimteaandrijving, dus hij is aanvankelijk langzamer dan het grote vrachtschip, maar loopt uit naarmate je Hyperruimteaandrijving stijgt.
+  '218': Het absolute worstcasescenario, zij het een heel traag.
+  '219': Enorme laadruimte en nieuwe motoren laten hem sneller vliegen en meer uit puinvelden halen.
+  '220': 'De Staalkolos is een echte vesting in de ruimte, beschermd door onwrikbare barrières en massief pantser. Zelfs de felste aanvallen ketsen af terwijl hij onverstoorbaar vooruitrukt. Maar die verdedigende overmacht heeft een prijs: zijn bewapening is nauwelijks de moeite waard en zijn trage motoren maken hem een langzame reus. In plaats van bliksemaanvallen of wendbare manoeuvres vertrouwt dit schip op pure veerkracht. Wie hem wil stoppen, heeft veel uithoudingsvermogen nodig – of overweldigende vuurkracht.'
+  '221': 'Het Stormblad is een gevechtsschip van topklasse: ongelooflijk snel en meedogenloos bewapend. Tegenstanders zien het amper voordat het toeslaat. Verdediging is bijzaak – het hoeft niet te doorstaan wat het simpelweg kan ontlopen. Het richt zich uitsluitend op transporters en recyclervloten, die zonder verzet worden weggevaagd. Met zijn verzengende snelheid kan het toeslaan wanneer het wil en verdwijnen voordat er versterking arriveert. Wie het doelwit is van het Stormblad, heeft weinig kans om te ontkomen.'
+  '222': De zware kruiser is een versterkte evolutie van de standaardkruiser. Met verbeterde schilden en krachtige bewapening houdt hij stand tegen logge vijanden. Hij komt het best tot zijn recht naast Staalkolossen, vernietigers en bommenwerpers, waar zijn vuurkracht echt schittert. Ondanks zijn kracht blijft hij echter traag en minder wendbaar.
+  '223': De Schilddrone vertegenwoordigt een nieuwe aanpak in vlootverdediging, met de nadruk op bescherming van de bemanning. Innovatieve maar zware schildtechnologieën hebben de vliegsnelheid en wendbaarheid sterk verlaagd. Ondanks de povere snelheid en wendbaarheid is hij zeer effectief in de verdediging. De verouderde constructie is tot het uiterste gedreven om een bijna ondoordringbare verdediging te bieden.
+  '224': Het geïmproviseerde aanvalstransport is een onbeproefd transportvaartuig met minimale bewapening, speciaal gemaakt om onvoorzichtige en onvoorbereide buren lastig te vallen. Dit geïmproviseerde voertuig is niet bedoeld voor langdurig gebruik, maar voor snelle, impulsieve aanvallen die direct reacties uitlokken. Een burenruzie is vrijwel gegarandeerd zodra het wordt ingezet. Met zijn beperkte uitrusting en onvoorspelbare aard wordt het een gevaarlijk instrument voor snelle escalatie van conflicten.
+  '225': De Stormtransporter is een waar technisch wonder en biedt de perfecte balans tussen gevechtskracht, snelheid en transportcapaciteit. Zijn vermogen om snel troepen en grondstoffen in te zetten en tegelijk indrukwekkende vuurkracht naar het slagveld te brengen, heeft hem tot een onmisbaar onderdeel van elke krachtige vloot gemaakt. Of het nu gaat om snelle aanvalseenheden of het ondersteunen van langdurige operaties, de Stormtransporter is de sleutel tot effectieve oorlogvoering en een absolute must in elke vloot.
+  '226': Het Kolossaal gevechtstransport is het toppunt van techniek. Ondanks zijn wat logge ontwerp en de daaruit voortvloeiende lage vliegsnelheid is het het zwaarst gepantserde gevechtstransport dat een vloot ooit heeft gezien. Zijn overweldigende vuurkracht maakt het tot een onstuitbare kracht op het slagveld. Dit gedrocht doorbreekt moeiteloos vijandelijke linies en biedt zijn bemanning maximale bescherming. Het belichaamt kracht en veerkracht en is daarmee een onmisbaar bezit voor elke zwaarbewapende vloot.
+  '227': De Geoptimaliseerde recycler is een geavanceerde upgrade van de standaardrecycler. Uitgerust met een krachtige impulsmotor bereikt hij puinvelden sneller en voordeliger, waardoor hij onmisbaar is voor elke geavanceerde vloot. Het geoptimaliseerde ontwerp verlaagt de bouwkosten en verhoogt de efficiëntie van de grondstoffenwinning. Beschikbaar vanaf het midden van het spel biedt hij een strategisch voordeel voor elk groeiend rijk.
+  '228': 'De Omega-recycler is het toppunt van recyclingtechnologie – maar tegen een hoge prijs. Zijn krachtige hyperruimteaandrijving brengt hem in recordtijd bij puinvelden en laat hem sneller grondstoffen bergen dan elk ander schip. Die snelheid gaat echter ten koste van de efficiëntie: zijn bouw- en brandstofkosten zijn enorm, waardoor hij alleen een optie is voor rijke commandanten laat in het spel. Voor wie snelheid boven kosten stelt, is dit de ultieme recycler.'
+  '229': Ontwikkeld om de dominantie van de Xer te doorbreken is de Viper het ultieme wapen tegen lichte gevechtsschepen, zware gevechtsschepen en kruisers. Met zijn snelvuurkanonnen en geavanceerde technologie verschuift hij de machtsverhoudingen in het universum.
+  '230': Snel. Precies. Onaantastbaar. De Interceptor is niet gebouwd voor eerlijke gevechten – hij is ontworpen om snel en hard toe te slaan en in een oogwenk een overweldigend voordeel te creëren.
+  '231': De Behemoth is het resultaat van tientallen jaren gravitononderzoek, omgebouwd tot een meedogenloos gevechtsplatform. In tegenstelling tot Sterren des Doods is hij niet ontworpen voor planetaire vernietiging, maar voor maximale slagveldefficiëntie. Door de energieverslindende systemen voor maanvernietiging weg te laten, is zijn ontwerp aanzienlijk lichter geworden, wat sterkere motoren, meer wendbaarheid en extra vuurkracht mogelijk maakt. Zijn compacte gravitonkanon maakt hem tot een mobiele vernietigingsmachine die zelfs enorme vloten in zijn eentje kan wegvagen.
+  '232': 'De Leegtetitan is het toppunt van moderne gravitontechnologie. Elk aspect van zijn ontwerp dient één doel: het snel wegvagen van vijandelijke manen. Conventionele wapentorens zijn bewust weggelaten om massa te besparen en ruimte te maken voor kolossale kristalgeneratoren. Die voeden de meest geavanceerde versnellingsspoelen ooit gebouwd in de bekende sterrenstelsels, wat het schip een ongeëvenaarde wendbaarheid geeft. De enorme kristalbehoefte maakt van elke Leegtetitan een monumentale industriële prestatie – en een symbool van grenzeloze vernietigingskracht.'
+  '401': De raketwerper is een eenvoudige maar kosteneffectieve verdediging. Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '402': Kleine lasers zijn eenvoudige grondwapens. Speciale richtsystemen volgen de vijand en een laser met hoge intensiteit snijdt door de romp van het doelwit. Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '403': De grote laser is een praktische, verbeterde versie van de kleine laser. Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '404': Het gausskanon vuurt metalen projectielen met hoge dichtheid af met extreem hoge snelheid. Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '405': Een ioncanon vuurt stralen van ionen af (positief of negatief geladen deeltjes). Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '406': De plasmawerper gebruikt een grote brandstofcel van een kernreactor om een elektromagnetische versneller aan te drijven die pulsen (toroïden) plasma afvuurt. Na een gevecht wordt gemiddeld ongeveer 70% van de vernietigde verdedigingen herbouwd.
+  '407': De kleine planetaire schildkoepel omhult de hele planeet met een veld dat enorme hoeveelheden energie absorbeert. Er kan er maar één per planeet worden gebouwd.
+  '408': De grote planetaire schildkoepel is een doorontwikkeling die aanzienlijk meer energie nodig heeft om aanvallen te weerstaan. Er kan er maar één per planeet worden gebouwd.
+  '409': De evolutie van de schildkoepeltechnologie. Hij gebruikt veel meer energie, maar doorstaat meer aanvallen dan welk ander schild ook. Er kan er maar één per planeet worden gebouwd.
+  '410': Na jaren onderzoek naar zwaartekracht ontwikkelden wetenschappers een gravitonkanon dat een klein, geconcentreerd gravitonveld opwekt en dat op de vijand afvuurt.
+  '411': Een onbeweeglijk verdedigingsplatform zonder eigen aandrijving, door de zwaartekracht in een stabiele baan om de planeet gehouden. Het op gang brengen van dit proces kost enorme hoeveelheden energie. Er kan er maar één per planeet worden gebouwd.
+  '412': De bunker is een zwaar versterkte constructie, ontworpen om zelfs de krachtigste aanvallen te doorstaan. Hij biedt ongeëvenaarde bescherming voor de bewoners en de kritieke infrastructuur van de planeet en is een hoeksteen van de planetaire verdediging.
+  '413': De titanlaser is een kolossaal wapen met ongeëvenaarde vernietigingskracht.
+  '414': Het lokdoel is een geraffineerd verdedigingssysteem dat is ontworpen om vijandelijke troepen te misleiden en te verwarren. Doordat het zich voordoet als een raketwerper, schrikt het aanvallen af.
+  '502': Onderscheppingsraketten vernietigen binnenkomende interplanetaire raketten. Per interplanetaire raket is één onderscheppingsraket nodig.
+  '503': Interplanetaire raketten vernietigen de verdediging van de tegenstander, tenzij onderscheppingsraketten ze neerhalen. Zo vernietigde verdedigingen worden niet herbouwd. Standaard hangt hun bereik (in zonnestelsels) af van je Impulsaandrijving-niveau:<br>Bereik = (5 x niveau Impulsaandrijving) - 1
+  '901': Metaal is de belangrijkste grondstof voor gebouwen en schepen. Het is de goedkoopste grondstof, maar ook degene die je het meest nodig hebt en, net als kristal, kost het de minste energie om te produceren. Hoe groter de mijnen, hoe dieper ze in de aarde graven.
+  '902': Kristal is de belangrijkste grondstof voor elektronische schakelingen en bepaalde legeringen. Het wordt gewonnen in ondergrondse mijnen, waar het ruwe materiaal meteen tot schakelingen wordt verwerkt.
+  '903': Deuterium vind je in de diepste zeeën en het is een van de zeldzaamste grondstoffen in het universum. Je moet de zeebodem bereiken om het te winnen, wat het de duurste grondstof maakt.
+  '911': Energie is nodig om elke grondstof te produceren.
+secureResources: Elk niveau van een opslaggebouw beschermt 1% van de dagproductie van die grondstof tegen plundering bij aanvallen, tot een maximum van 10%.
+shortDescription:
+  '1': Metaalmijnen delven het erts waarop elk opkomend en gevestigd rijk is gebouwd.
+  '2': Kristal is het sleutelingrediënt voor elektronische schakelingen en bepaalde legeringen.
+  '3': Deuterium is de brandstof van je ruimteschepen en wordt uit de diepzee gewonnen. Het is een zeldzame stof en dus relatief duur.
+  '4': Zonne-energiecentrales zetten zonlicht om in energie. Elke mijn heeft energie nodig om te draaien.
+  '6': Standaard verkort elk niveau de onderzoekstijd met 8%.
+  '12': De fusiecentrale laat deuterium fuseren om energie te produceren.
+  '14': Robotfabrieken leveren bouwrobots die helpen bij het bouwen van je gebouwen. Elk niveau versnelt gebouwupgrades.
+  '15': De top van de robotica. Elk niveau halveert de bouwtijd van gebouwen, schepen en verdedigingen.
+  '21': Alle schepen en verdedigingen worden gebouwd op de planetaire werf.
+  '22': Biedt opslag voor overtollig metaal.
+  '23': Biedt opslag voor overtollig kristal.
+  '24': Biedt opslag voor overtollig deuterium.
+  '31': Je hebt een onderzoekslab nodig om nieuwe technologieën te onderzoeken.
+  '33': 'De terraformer vergroot het bruikbare oppervlak van de planeet: 5 extra velden per niveau, plus één extra op elk even niveau. Elk niveau neemt zelf één veld in beslag.'
+  '34': Het alliantiedepot heeft momenteel geen effect in dit spel.
+  '35': Het reparatiedok herstelt schepen uit een wrakveld.
+  '41': De maan heeft geen atmosfeer en een verse maan heeft ruimte voor slechts één gebouw, dus begin met de maanbasis.
+  '42': De sensor phalanx laat je vlootbewegingen volgen. Hoe hoger het niveau, hoe groter het bereik van de phalanx.
+  '43': Sprongpoorten zijn enorme zenders die grote vloten zonder tijdverlies door het universum sturen.
+  '44': Raketsilo's bergen je raketten op.
+  '106': Met deze technologie verzamel je informatie over andere planeten en manen.
+  '108': Betere computers laten je meer vloten aansturen. Elk niveau van Computertechniek verhoogt je maximale aantal vloten met één.
+  '109': Wapentechniek maakt wapensystemen effectiever. Elk niveau verhoogt de wapenkracht van alle eenheden met 10% van de basiswaarde.
+  '110': Schildtechniek maakt de schilden van schepen en verdedigingsstructuren effectiever. Elk niveau verhoogt de schildsterkte met 10% van de basiswaarde.
+  '111': Speciale legeringen verbeteren het pantser van schepen en verdedigingsstructuren. Elk niveau verhoogt de effectiviteit van het pantser met 10%.
+  '113': Het beheersen van verschillende soorten energie is de sleutel tot veel nieuwe technologieën.
+  '114': Door de 4e en 5e dimensie te integreren kun je een nieuw soort aandrijving onderzoeken die zuiniger en efficiënter is.
+  '115': Het ontwikkelen van deze aandrijving maakt sommige schepen sneller, maar elk niveau voegt slechts 10% van de basissnelheid toe.
+  '117': De impulsaandrijving werkt volgens het reactieprincipe. Verdere ontwikkeling maakt sommige schepen sneller, maar elk niveau voegt slechts 20% van de basissnelheid toe.
+  '118': De hyperruimteaandrijving kromt de ruimte rond een schip. Verdere ontwikkeling maakt sommige schepen sneller, maar elk niveau voegt slechts 30% van de basissnelheid toe.
+  '120': Gebundeld licht produceert een straal die beschadigt wat hij raakt.
+  '121': Een dodelijke straal van versnelde ionen die bij inslag enorme schade aanricht.
+  '122': Een doorontwikkeling van iontechnologie die energierijk plasma versnelt, ontstaan door ionen extreem te verhitten. Het heeft bij inslag een verwoestend effect.
+  '123': Onderzoekers op verschillende planeten communiceren via dit netwerk.
+  '124': Ontgrendelt kolonisatie en expedities de diepe ruimte in. Extra planeten op oneven niveaus, extra expeditieslots op kwadraatniveaus, langere expeditie-vasthoudtijd en meer planeetposities in een stelsel.
+  '131': Verhoogt de metaalproductie met 2% per niveau.
+  '132': Verhoogt de kristalproductie met 2% per niveau.
+  '133': Verhoogt de deuteriumproductie met 2% per niveau.
+  '134': Verlaagt de vluchtkosten met 2% per niveau.
+  '199': Het afvuren van een geconcentreerde lading gravitondeeltjes creëert een kunstmatig zwaartekrachtveld dat schepen en zelfs manen kan vernietigen.
+  '202': Het kleine vrachtschip is een wendbaar schip dat snel grondstoffen naar andere planeten brengt.
+  '203': Dit vrachtschip vervoert veel meer dan het kleine vrachtschip en is dankzij een betere aandrijving over het algemeen sneller.
+  '204': Het eerste gevechtsschip dat elke keizer bouwt. Het lichte gevechtsschip is wendbaar maar alleen kwetsbaar; in grote aantallen vormt het een echte bedreiging voor elk rijk. Lichte gevechtsschepen zijn de eersten die kleine en grote vrachtschepen escorteren naar vijandelijke planeten met zwakke verdediging.
+  '205': Dit gevechtsschip heeft beter pantser en slaat harder toe dan het lichte gevechtsschip.
+  '206': Kruisers hebben bijna drie keer zoveel pantser als zware gevechtsschepen en meer dan twee keer zoveel vuurkracht. Ze zijn ook erg snel.
+  '207': Slagschepen vormen de ruggengraat van een vloot. Zware kanonnen, hoge snelheid en grote laadruimtes maken ze tot tegenstanders die je serieus moet nemen.
+  '208': Met dit schip kun je lege planeten koloniseren.
+  '209': De recycler oogst grondstoffen uit puinvelden.
+  '210': Spionagesondes zijn kleine, wendbare drones die over grote afstanden gegevens over vloten en planeten leveren.
+  '211': De bommenwerper is speciaal gebouwd om de verdediging van een planeet te vernietigen.
+  '212': Zonne-energiesatellieten zijn eenvoudige platforms van zonnecellen in een hoge, stationaire baan. Ze vangen zonlicht op en stralen het met een laser naar het grondstation.
+  '213': De vernietiger is de koning van de oorlogsschepen.
+  '214': De vernietigingskracht van de Ster des Doods is ongeëvenaard, en hij kan manen vernietigen.
+  '215': De slagkruiser is gespecialiseerd in het onderscheppen van vijandelijke vloten.
+  '216': 'De opvolger van de populaire Ster des Doods: veel sneller en steviger, met een enorme laadruimte, maar hij slaat iets minder hard toe.'
+  '217': Een doorontwikkeling van het grote vrachtschip met veel meer laadvermogen. Hij vliegt op de hyperruimteaandrijving, dus hij is aanvankelijk langzamer dan het grote vrachtschip, maar loopt uit naarmate je Hyperruimteaandrijving stijgt.
+  '218': Het absolute worstcasescenario, zij het een heel traag.
+  '219': Enorme laadruimte en nieuwe motoren laten hem sneller vliegen en meer uit puinvelden halen.
+  '220': De Staalkolos doorstaat elke aanval met massieve schilden en dik pantser, maar zijn wapens en motoren laten te wensen over.
+  '221': Het Stormblad is een bliksemsnel gevechtsschip, tot de tanden bewapend. Verdediging? Niet nodig – zijn prooi bestaat uit weerloze transporters en recyclers.
+  '222': Een trage maar zwaarbewapende kruiser met verbeterde schilden en aanvalskracht.
+  '223': Een herontwerp van het lichte gevechtsschip dat de veiligheid van de bemanning vooropstelt, ten koste van povere vliegeigenschappen.
+  '224': Een onbeproefd transportvaartuig met minimale bewapening, ontworpen om onvoorzichtige buren lastig te vallen en direct conflict uit te lokken.
+  '225': Een schip dat gevechtskracht, snelheid en transportcapaciteit combineert en daardoor onmisbaar is voor elke krachtige vloot.
+  '226': Een zwaar gepantserd gevechtstransport met een imponerend, wat log ontwerp, waarvan de overweldigende vuurkracht zelfs de taaiste tegenstanders kan verslaan.
+  '227': Een verbeterde versie van de klassieke recycler met impulsmotoren, die efficiëntere bergingsmissies tegen lagere kosten mogelijk maakt.
+  '228': Een extreem snelle maar inefficiënte recycler-upgrade met hyperruimteaandrijving.
+  '229': Ontwikkeld om de dominantie van de Xer te doorbreken is de Viper het ultieme wapen tegen lichte gevechtsschepen, zware gevechtsschepen en kruisers. Met zijn snelvuurkanonnen en geavanceerde technologie verschuift hij de machtsverhoudingen in het universum.
+  '230': Snel. Precies. Onaantastbaar. De Interceptor is niet gebouwd voor eerlijke gevechten – hij is ontworpen om snel en hard toe te slaan en in een oogwenk een overweldigend voordeel te creëren.
+  '231': Een kleinere, snellere Ster des Doods die geen manen kan vernietigen. De Behemoth is dodelijk voor vloten.
+  '232': Sneller, explosiever, altijd een goede verrassing. De Leegtetitan is de schrik van de manen.
+  '401': De raketwerper is een eenvoudige maar kosteneffectieve verdediging.
+  '402': Kleine lasers zijn eenvoudige grondgebonden verdedigingswapens. Speciale richtsystemen volgen vijandelijke schepen en een laser met hoge intensiteit snijdt door de romp van het doelwit.
+  '403': De grote laser is een verbeterde versie van de kleine laser.
+  '404': Het gausskanon vuurt metalen projectielen met hoge dichtheid af met extreem hoge snelheid.
+  '405': Een ioncanon vuurt stralen van ionen af (positief of negatief geladen deeltjes).
+  '406': De plasmawerper gebruikt een grote brandstofcel van een kernreactor om een elektromagnetische versneller aan te drijven die pulsen (toroïden) plasma afvuurt.
+  '407': De kleine planetaire schildkoepel omhult de hele planeet met een veld dat enorme hoeveelheden energie absorbeert.
+  '408': De grote planetaire schildkoepel kan tijdens aanvallen aanzienlijk meer energie absorberen.
+  '409': De evolutie van de schildkoepeltechnologie. Hij gebruikt veel meer energie, maar doorstaat meer aanvallen dan welk ander schild ook.
+  '410': Na jaren onderzoek naar zwaartekracht ontwikkelden wetenschappers een gravitonkanon dat een klein, geconcentreerd gravitonveld opwekt en dat op de vijand afvuurt.
+  '411': Een onbeweeglijk verdedigingsplatform zonder eigen aandrijving, door de zwaartekracht in een stabiele baan om de planeet gehouden. Het op gang brengen van dit proces kost enorme hoeveelheden energie.
+  '412': Hij beschermt! Net als het Lego-blokje in Kindergarten TD.
+  '413': De titanlaser is een kolossale laser.
+  '414': Het lokdoel is een geraffineerd verdedigingssysteem dat is ontworpen om vijandelijke troepen te misleiden en te verwarren. Doordat het zich voordoet als een raketwerper, schrikt het aanvallen af.
+  '502': Onderscheppingsraketten vernietigen binnenkomende interplanetaire raketten.
+  '503': Interplanetaire raketten vernietigen de verdediging van de tegenstander.
+  '901': Metaal is de belangrijkste grondstof voor gebouwen en schepen. Het is de goedkoopste grondstof, maar ook degene die je het meest nodig hebt.
+  '902': Kristal is de belangrijkste grondstof voor elektronische schakelingen en bepaalde legeringen.
+  '903': Deuterium vind je in de diepste zeeën. Het is de duurste grondstof en heeft ook de meeste energie nodig.
+  '911': Energie is nodig om elke grondstof te produceren.
+shortNames:
+  '202': Klein vrachtschip
+  '203': Groot vrachtschip
+  '204': Licht gevechtsschip
+  '205': Zwaar gevechtsschip
+  '206': Kruiser
+  '207': Slagschip
+  '208': Kolonisatieschip
+  '209': Recycler
+  '210': Spionagesonde
+  '211': Bommenwerper
+  '212': Zonne-energiesatelliet
+  '213': Vernietiger
+  '214': Ster des Doods
+  '215': Slagkruiser
+  '216': Zwarte Maan
+  '217': Gevechtstransporter
+  '218': Avatar
+  '219': Gevechtsrecycler
+  '220': Staalkolos
+  '221': Stormblad
+  '222': Zware kruiser
+  '223': Schilddrone
+  '224': Geïmproviseerd aanvalstransport
+  '225': Stormtransporter
+  '226': Kolossaal gevechtstransport
+  '227': Geoptimaliseerde recycler
+  '228': Omega-recycler
+  '229': Viper
+  '230': Interceptor
+  '231': Behemoth
+  '232': Leegtetitan
+  '401': Raketwerper
+  '402': Kleine laser
+  '403': Grote laser
+  '404': Gausskanon
+  '405': Ioncanon
+  '406': Plasmawerper
+  '407': Kleine planetaire schildkoepel
+  '408': Grote planetaire schildkoepel
+  '409': Atmosferisch schild
+  '410': Gravitonkanon
+  '411': Orbitaal verdedigingsplatform
+  '412': Bunker
+  '413': Titanlaser
+  '414': Lokdoel
+spytechStatsDescription: Op niveau 0 en 1 zie je alleen de totale punten van andere spelers. Vanaf niveau 2 zie je ook hun gebouwpunten, vanaf niveau 4 hun onderzoekspunten. Vanaf niveau 6 zie je ook hun schip- en verdedigingspunten, plus hun gevechtsstatistieken.
+tech:
+  '0': Gebouwen
+  '1': Metaalmijn
+  '2': Kristalmijn
+  '3': Deuteriumsynthesizer
+  '4': Zonne-energiecentrale
+  '6': Universiteit
+  '12': Fusiecentrale
+  '14': Robotfabriek
+  '15': Nanorobotfabriek
+  '21': Werf
+  '22': Metaalopslag
+  '23': Kristalopslag
+  '24': Deuteriumtank
+  '31': Onderzoekslab
+  '33': Terraformer
+  '34': Alliantiedepot
+  '35': Reparatiedok
+  '40': Maangebouwen
+  '41': Maanbasis
+  '42': Sensor phalanx
+  '43': Sprongpoort
+  '44': Raketsilo
+  '100': Onderzoek
+  '106': Spionagetechniek
+  '108': Computertechniek
+  '109': Wapentechniek
+  '110': Schildtechniek
+  '111': Pantsertechniek
+  '113': Energietechniek
+  '114': Hyperruimtetechniek
+  '115': Verbrandingsmotor
+  '117': Impulsaandrijving
+  '118': Hyperruimteaandrijving
+  '120': Lasertechniek
+  '121': Iontechniek
+  '122': Plasmatechniek
+  '123': Intergalactisch onderzoeksnetwerk
+  '124': Astrofysica
+  '131': Metaalproductie
+  '132': Kristalproductie
+  '133': Deuteriumproductie
+  '134': Brandstofefficiëntie
+  '199': Gravitononderzoek
+  '200': Schepen
+  '202': Klein vrachtschip
+  '203': Groot vrachtschip
+  '204': Licht gevechtsschip
+  '205': Zwaar gevechtsschip
+  '206': Kruiser
+  '207': Slagschip
+  '208': Kolonisatieschip
+  '209': Recycler
+  '210': Spionagesonde
+  '211': Bommenwerper
+  '212': Zonne-energiesatelliet
+  '213': Vernietiger
+  '214': Ster des Doods
+  '215': Slagkruiser
+  '216': Zwarte Maan
+  '217': Gevechtstransporter
+  '218': Avatar
+  '219': Gevechtsrecycler
+  '220': Staalkolos
+  '221': Stormblad
+  '222': Zware kruiser
+  '223': Schilddrone
+  '224': Geïmproviseerd aanvalstransport
+  '225': Stormtransporter
+  '226': Kolossaal gevechtstransport
+  '227': Geoptimaliseerde recycler
+  '228': Omega-recycler
+  '229': Viper
+  '230': Interceptor
+  '231': Behemoth
+  '232': Leegtetitan
+  '400': Planetaire verdediging
+  '401': Raketwerper
+  '402': Kleine laser
+  '403': Grote laser
+  '404': Gausskanon
+  '405': Ioncanon
+  '406': Plasmawerper
+  '407': Kleine planetaire schildkoepel
+  '408': Grote planetaire schildkoepel
+  '409': Atmosferisch schild
+  '410': Gravitonkanon
+  '411': Orbitaal verdedigingsplatform
+  '412': Bunker
+  '413': Titanlaser
+  '414': Lokdoel
+  '500': Raketten
+  '502': Onderscheppingsraket
+  '503': Interplanetaire raketten
+  '900': Grondstoffen
+  '901': Metaal
+  '902': Kristal
+  '903': Deuterium
+  '911': Energie

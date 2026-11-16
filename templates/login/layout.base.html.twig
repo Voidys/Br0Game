@@ -62,7 +62,10 @@
         {% if languages|length > 1 %}
           <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.registerLanguage }}</span>
             <select data-language-select>
-              {% for langKey, langName in languages %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endfor %}
+              {% for langKey, langName in languages %}
+                {% if langName is iterable %}<optgroup label="{{ langKey }}">{% for subKey, subName in langName %}<option value="{{ subKey }}"{% if subKey == lang %} selected{% endif %}>{{ subName }}</option>{% endfor %}</optgroup>
+                {% else %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endif %}
+              {% endfor %}
             </select>
           </label>
         {% endif %}

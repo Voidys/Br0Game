@@ -1,0 +1,181 @@
+biggest_solo: Найбільші одиночні бої
+build_ships: Усього побудовано кораблів
+buttonLostPassword: Забув пароль?
+buttonRegister: Реєстрація
+buttonScreenshot: Скріншоти
+civil: Цивільні
+colony: Колонія
+CrystalStorage: Сховище кристалу
+deathstar: Зірка смерті
+destroyed_sats: Знищено сонячних супутників
+disclamerLabelAddress: 'Адреса гри:'
+disclamerLabelMail: 'Електронна пошта підтримки:'
+disclamerLabelNotice: Докладніше
+disclamerLabelPhone: 'Телефон:'
+disclamerRecaptcha: Ця сторінка використовує reCAPTCHA, на неї поширюються <a href="https://policies.google.com/privacy">політика конфіденційності</a> та <a href="https://policies.google.com/terms">умови використання</a> Google.
+first_fights: Перші бої у всесвіті
+flown_expos: Усього здійснено експедицій
+flownDeut: Усього дейтерію витрачено на польоти
+forum: Форум
+found_res: Усього знайдено ресурсів
+found_ships: Усього знайдено кораблів
+galaxySpendDeut: Дейтерію витрачено на перегляд галактики
+gameInformations: |-
+  Космічна стратегія в реальному часі.
+  Сотні гравців у кожному всесвіті.
+  Без завантаження — потрібен лише звичайний браузер.
+  Безкоштовна реєстрація
+hof3_header: Легенди Всесвіту 3 живуть тут!
+hof4_header: Легенди Всесвіту 4 живуть тут!
+hof7_header: Легенди Всесвіту 7 живуть тут!
+IonCannon: Іонна гармата
+least_reached_ach: Найрідкісніші досягнення
+login_error_1: 'Неправильна електронна адреса або пароль! Підказка: менеджери паролів часто підставляють ім''я користувача, а входити потрібно за електронною адресою.'
+login_error_2: У твій обліковий запис увійшли з іншого пристрою, або змінилася твоя IP-адреса.
+login_error_3: Сеанс завершився. Увійди знову.
+login_error_4: Забагато спроб входу. Зачекай 15 хвилин і спробуй ще раз.
+loginButton: Увійти
+loginEmail: Електронна пошта
+loginHeader: Вхід
+loginInfo: Входячи, я приймаю %s.
+loginPassword: Пароль
+loginServerDesc: '%s — космічна стратегія, де сотні гравців змагаються <strong>одночасно</strong>, щоб стати найкращими. Усе, що потрібно, — звичайний вебпереглядач.'
+loginWelcome: Ласкаво просимо до %s
+Lowest_longterm_points: Попередньо зареєстровані облікові записи з найменшою кількістю очок
+medAliens: Середні прибульці
+menu_banlist: Ганебний стовп
+menu_battlehall: Зала битв
+menu_disclamer: Контакти
+menu_index: Головна
+menu_news: Новини
+menu_rules: Правила
+military: Військові
+most_achievements: Найбільше зібраних досягнень
+most_black_holes: Найбільше зустрінутих чорних дір
+most_build: Найбільше побудовано
+most_build_HF: Найбільше побудованих важких винищувачів
+most_defended_moons: Найбільше успішних захистів Місяців
+most_destroyed_moons: Найбільше знищених Місяців
+most_expo_fights: Найбільше боїв із прибульцями/піратами
+most_fights: Найбільше перемог / поразок / нічиїх
+most_reached_ach: Найпоширеніші досягнення
+most_records: Найбільше зібраних рекордів
+news_does_not_exist: Новин немає.
+news_from: '%s, від %s'
+oldest_active_acc: Найстаріші активні облікові записи
+overall: Загалом
+passwordBack: Назад
+passwordChangedMailSend: Твій новий пароль уже в дорозі. Незабаром ти отримаєш лист.
+passwordChangedMailTitle: Новий пароль для %s
+passwordErrorMailEmpty: Ми не знаємо такої електронної адреси.
+passwordErrorOnePerDay: Пароль для цього облікового запису вже запитували протягом останніх 24 годин. Наступний запит можна надіслати через 24 години.
+passwordErrorUnknown: Облікового запису за цими даними не знайдено.
+passwordInfo: Забув пароль? Введи ім'я користувача й електронну адресу свого облікового запису. Якщо не пам'ятаєш їх, звернися до адміністратора.
+passwordMail: Електронна пошта
+passwordNext: Далі
+passwordSubmit: Надіслати
+passwordUsername: Ім'я користувача
+passwordValidInValid: Недійсний запит.
+passwordValidMailSend: Незабаром ти отримаєш лист із подальшими кроками.
+passwordValidMailTitle: Скидання пароля для %s
+players: Гравці
+points_amount: Очки / кількість
+realDesUnits: Реально знищені одиниці
+registerBack: Назад
+registerDataPrivacyDesc: Я погоджуюсь із %s
+registerEmail: Електронна пошта
+registerEmailDesc: Введи свою електронну адресу.
+registerEmailReplay: Повтори електронну адресу
+registerEmailReplayDesc: Введи електронну адресу ще раз для підтвердження.
+registerErrorDataPrivacy: Щоб продовжити, прийми політику конфіденційності.
+registerErrorMailEmpty: Введи електронну адресу.
+registerErrorMailExist: Ця електронна адреса вже зареєстрована.
+registerErrorMailInvalid: Це не схоже на дійсну електронну адресу.
+registerErrorMailSame: Електронні адреси не збігаються.
+registerErrorPasswordLength: Пароль має містити щонайменше %s символів.
+registerErrorPasswordSame: Паролі не збігаються.
+registerErrorRules: Щоб продовжити, прийми правила.
+registerErrorUniClosed: У цьому всесвіті реєстрацію закрито.
+registerErrorUsernameChar: Ім'я користувача може містити лише літери, цифри, пробіли, _, - та .
+registerErrorUsernameEmpty: Введи ім'я користувача.
+registerErrorUsernameExist: Це ім'я користувача вже зайняте.
+registerLanguage: Мова
+registerMailCompleteTitle: Ласкаво просимо до %s!
+registerMailVertifyTitle: Активуй свій обліковий запис для %s
+registerPassword: Пароль
+registerPasswordDesc: Пароль має містити щонайменше %s символів.
+registerPasswordReplay: Повтори пароль
+registerPasswordReplayDesc: Введи той самий пароль ще раз.
+registerReferral: 'Запрошення від:'
+registerRules: Правила
+registerRulesDesc: Я погоджуюсь із %s
+registerSendComplete: Дякуємо за реєстрацію! Перевір електронну пошту (разом із папкою «Спам»), щоб дізнатися про наступні кроки.
+registerTimezone: Часовий пояс
+registerUsername: Ім'я користувача
+registerUsernameDesc: 'Від 3 до 25 символів: літери, цифри, пробіли, крапки, дефіси й підкреслення.'
+registerWelcomePMSenderName: Адміністратор
+registerWelcomePMSubject: Ласкаво просимо
+registerWelcomePMText: Ласкаво просимо до %s! Спершу збудуй сонячну електростанцію, адже для виробництва ресурсів потрібна енергія. Відкрий «Споруди» в меню ліворуч і почни з сонячної електростанції.<br>Щойно з'явиться енергія, можна будувати шахти. Залишайся в «Спорудах» і збудуй шахту металу, а потім шахту кристалу.<br><br>Щоб будувати кораблі, потрібна верф. У меню «Технології» ліворуч видно, що потрібно, щоб її розблокувати.<br>Якщо виникнуть запитання, зазирни до FAQ, вікі або створи запит до підтримки.<br><br>Команда бажає тобі багато задоволення від вивчення всесвіту!
+second_expo_deck: Розпочали другу експедиційну палубу
+siteTitleBanList: Ганебний стовп
+siteTitleBattleHall: Зала битв
+siteTitleDataPrivacy: Політика конфіденційності
+siteTitleDisclamer: Контакти
+siteTitleHOF: Зала слави
+siteTitleIndex: Головна
+siteTitleLostPassword: Забув пароль?
+siteTitleNews: Новини
+siteTitleRegister: Реєстрація
+siteTitleRules: Правила
+siteTitleScreens: Скріншоти
+spy: Шпигунські зонди
+st_buildings: Споруди
+st_defenses: Оборона
+st_fleets: Флот
+st_points: Очки
+st_researh: Дослідження
+theme: Тема
+universe: Всесвіт
+vertifyAdminMessage: Обліковий запис «%s» активовано.
+vertifyNoUserFound: Недійсний запит.
+votingPoints: Очки голосування
+wonAttack: Виграні атаки
+wonDefense: Виграні захисти
+chose_a_uni: Обери всесвіт
+menu_register: Реєстрація
+news_overview: Новини
+passwordCaptcha: Код безпеки
+passwordErrorUsernameEmpty: Ім'я користувача не введено!
+registerCaptcha: Код безпеки
+registerCaptchaDesc: Введи символи з картинки в порожнє поле без пробілів. Регістр не має значення. Якщо після кількох перезавантажень зображення все одно не вдається прочитати, звернися до адміністратора сайту.
+registerCaptchaReload: Оновити капчу
+registerErrorCaptcha: Код безпеки неправильний!
+registerMailVertifyError: 'Не вдалося надіслати лист: %s'
+registerNext: Продовжити
+rulesHeader: Правила
+uni_closed: ' (закрито)'
+uni_reg_closed: ' (реєстрацію закрито)'
+uni_reg_open: ' (лише реєстрація)'
+home_menu: Меню
+home_meta_description: '%s – браузерна космічна стратегія з ретро-шармом нульових: розвивай планети, будуй флоти, куй альянси.'
+home_started: Уже працює!
+home_starts_in: Через
+home_team: Команда
+home_meme_caption: Твій перший день
+home_meme_alt: Комікс-мем із командної палуби {game_name}
+home_meme_alt_deep_space_transit: 'Комікс: двоє кадетів у шатлі — один обм''якає, побачивши поле астероїдів, інший шкірить зуби, дивлячись на сяючу туманність. «Стандартні патрулі секторів проти знахідки недослідженої туманності, багатої на ресурси.»'
+home_meme_alt_deuterium_joyride: 'Комікс: втомлений командир на оглядовій палубі дивиться, як двоє новобранців літають надворі, — «Дивлюся, як новачки марнують весь свій дейтерій на катання надворі, поки я чекаю 12 годин на покращення шахт.»'
+home_meme_alt_enemy_fleet: 'Комікс: кадет у паніці хапається за голову, поки спалахують сигнали тривоги — «1000 ворожих знищувачів на підльоті?! А я думав, цей сектор безпечний?!»'
+home_meme_alt_fleet_decimated: 'Комікс: солдат у шоці дивиться перед собою, поки за розбитим куполом вибухають кораблі — «Коли 20 годин фармиш ресурси, а потім флот гравця з топ-3 заскакує й розбирає все за 3 секунди.»'
+home_meme_alt_solo_scouting: 'Комікс: командир Каміока шкіриться й кладе роботизовану руку на плече кадета — «Не хвилюйся, кадете. Верховне командування має «повну» довіру до твоєї одиночної розвідувальної місії в Космос.»'
+home_meme_alt_this_is_fine: 'Комікс: пес у скафандрі спокійно сидить у палаючому командному центрі й каже «Усе нормально» — «Не хвилюйся. Мій флот просто на 4 години запізнюється з повернення.»'
+source_code: Вихідний код
+news_back: Назад до новин
+lightbox_close: Закрити
+lightbox_prev: Попереднє зображення
+lightbox_next: Наступне зображення
+news_pinned: Закріплено
+news_read_more: Читати далі
+news_latest: Останні новини
+news_all: Усі новини
+csrf_invalid: Перевірка безпеки не пройдена (можливо, твій сеанс завершився). Перезавантаж сторінку й спробуй ще раз.

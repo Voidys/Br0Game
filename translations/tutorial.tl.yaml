@@ -1,0 +1,97 @@
+tutorial_buttons_claim: Kunin ang reward
+tutorial_buttons_continue: Magpatuloy
+tutorial_buttons_finalize: Tapusin ang tutorial
+tutorial_buttons_skip: Laktawan
+tutorial_buttons_skipAll: Laktawan ang tutorial
+tutorial_buttons_skipAll_confirm: Laktawan ang natitirang bahagi ng tutorial? Hindi mo na ito mauulit.
+tutorial_goal:
+  mission:
+    '1': Umatake sa ibang manlalaro
+    '6': Magpadala ng Spy Probe sa ibang manlalaro
+    '7': Mag-colonize ng bagong planeta
+    '8': Mag-recycle ng debris field
+    '15': Magpadala ng expedition fleet
+  step6:
+    '1': Palitan ang pangalan ng planeta mo
+    '2': Magpadala ng buddy request sa ibang manlalaro
+    '3': Magpadala ng alliance application
+tutorial_goals_header: 'Mga Layunin:'
+tutorial_goals_ignore: (huwag pansinin)
+tutorial_rewards_header: 'Mga Reward:'
+tutorial_text:
+  step0: "Maligayang pagdating sa {game_name}!<br><br>\r\nIpapakita sa iyo ng maikling tutorial na ito ang mga pangunahing kaalaman.<br>\r\nMadalas kaming magbigay ng link sa wiki namin, dahil hindi lahat ay kasya sa isang tutorial. Mabubuksan mo ito anumang oras mula sa menu sa kaliwa.<br>\r\nMaaari mong laktawan ang tutorial kahit kailan mo gusto, pero hindi mo na ito mauulit pagkatapos.<br><br>\r\nSwerte, Imperator!"
+  step1: "Ang layunin mo: makakuha ng pinakamaraming puntos hangga't kaya mo. Isang puntos ang kikitain mo sa bawat 1,000 resource na ginastos mo, at ang pinakamagandang pinagmumulan ng resource ay ang sarili mong mga mine.<br>\r\nSimulan sa mga pangunahing supply mo: kailangan mo ng Metal at Crystal mula sa kani-kanilang mine, at Energy mula sa Solar Power Plant para patuloy silang tumakbo. Kapag kulang ang Energy, bababa sa 100% ang produksyon ng mga mine mo.<br>\r\nI-upgrade ang mga gusaling ito sa <b>Buildings</b> menu. I-click ang pangalan ng gusali para makita kung ano ang ibibigay ng susunod na level, at kung gaano karaming Energy ang gagamitin nito.<br><br>\r\nGusto pang matuto? Silipin ang <b>Wiki</b>: \r\n<a href=\"{wiki_url}/wiki/En/Rohstoffe\" target=\"_blank\">Mga Resource</a>"
+  step2: "Mas masaya ang maglaro nang magkakasama. Karamihan sa mga manlalaro ay nasa Discord namin, kung saan makakakuha ka ng sagot at makakahanap ng makakalarong kasama.<br>\r\nNahihirapan pa rin? Puwede ka ring magbukas ng support ticket dito."
+  step3: "Isa pang paraan para makakuha ng resource ang pagsalakay sa mga planeta ng ibang manlalaro - at puwede rin itong mangyari sa iyo. Kaya itayo na ang una mong depensa!<br>\r\nKahit maliit na depensa ay pinoprotektahan ang produksyon mo sa magdamag.<br><br>\r\nHindi lang dami ang nagpapasya sa laban; mahalaga rin ang komposisyon ng umaatakeng fleet.<br>\r\nKailangang lampasan muna ng mga umaatake ang depensa mo bago sila makapandambong, at bawat barkong ipapadala nila ay nagbabawas ng kita nila at maaaring magpawala sa kanila ng mas maraming barko.<br>\r\nMagtayo ng depensa sa <b>Defense</b> menu. Kailangan mo ng Shipyard (na nangangailangan naman ng Robot Factory) at kaunting Deuterium.<br><br>\r\nNarito ang kaukulang artikulo sa wiki: \r\n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Mga pasilidad sa depensa</a>"
+  step4: "Panatilihing tuloy-tuloy ang supply mo sa pamamagitan ng pagpapalawak ng mga mine!<br>\r\nUmaakyat ang presyo ng mga gusali, barko, depensa at research habang tumatagal, kaya dapat lumago rin ang produksyon mo. Buksan ang Buildings ngayon at i-upgrade ang mga mine mo tuwing may sapat kang resource."
+  step5: "Magtayo ka ng Light Cargo para sa sarili mo!<br>\r\nAng mga Light Cargo ay mabibilis at madaling gamiting transporter.<br>\r\nKapag may Impulse Engine, mas mabilis sila kaysa sa Heavy Cargo sa mas malalayong distansya.<br>\r\nGamitin sila para maglipat ng resource sa pagitan ng mga planeta mo, makipag-trade sa ibang manlalaro, o sumalakay sa kanila.<br><br>\r\nIba pa sa wiki: \r\n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Mga Barko</a>"
+  step6: "Bigyan ng pangalan ang planeta mo para madali mo itong masubaybayan. Sa Overview, i-click ang pangalan ng planeta sa header ng points display. Sige, subukan mo na ngayon.<br><br>\r\nPuwede ka ring magpadala ng buddy request sa ibang manlalaro. Kapag tinanggap nila, mas madali na kayong makapag-chat at makikita ninyo ang online status ng isa't isa. Hindi kailangang magkasama kayo sa alliance para dito. Puwede ring magpahinga ng fleet ang mga buddy sa planeta ng isa't isa, kaya makakapagtanggol kayo nang magkasama kahit walang alliance.<br><br>\r\nO sumali sa isang alliance at maglaro bilang team. Hindi mo na kailangan ng hiwalay na buddy request para magpahinga ng fleet. Sa loob ng alliance, makakapagpadala ka ng mass message at makikita mo ang online status at score ng ibang miyembro, depende sa alliance rank mo."
+  step7: "Para malaman kung anong resource, gusali, research, barko at depensa ang meron ang ibang manlalaro, kailangan mo siyang espiyahan. Magpadala ng Spy Probe sa isang manlalaro mula sa Fleet menu o sa Galaxy view.<br>\r\nTandaan na puwede ka ring espiyahan ng ibang manlalaro!"
+  step8: >-
+    Ang expedition ay puwedeng magdala ng resource, barko, espesyal na event o
+    pagkalugi. Para subukan ito, kumuha ng isang barko, piliin ang planet
+    position 16 bilang target at ang mission na "Expedition" sa Fleet menu.<br>
+
+    Bawat uri ng barko ay nagdaragdag sa laki ng expedition fleet mo, hanggang
+    sa limitasyon kung saan naaabot ang maximum na laki ng event.<br><br>
+
+    Ipinapaliwanag ng wiki kung ano ang puwede mong baguhin para mapalaki ang
+    kita mo: 
+
+    <a href="{wiki_url}/wiki/En/Expoanleitung"
+    target="_blank">Mga Expedition</a>
+  step9: "Habang mas marami kang kolonyang naitatayo, mas mabilis kang lumalago: makakagawa ka ng resource at makakapagtayo ng barko sa maraming planeta nang sabay. Tandaan na makakapagtayo ka lang ng kolonya sa panloob o panlabas na gilid ng system kung sapat ang Astrophysics level mo. Maitatayo ang Colony Ship mismo kahit walang Astrophysics, pero kailangan ito ng una mong kolonya!<br><br>\r\nAng pagko-colonize sa sarili mong system o sa katabing system ay nagpapaikli ng mga ruta ng transport. Ang downside: sa mas huling bahagi ng laro, maaaring maglagay ang ibang manlalaro ng kolonya sa system mo hindi para sa mga mine nito kundi bilang pansamantalang fleet base - isang tinatawag na raid colony.<br><br>\r\nIba pa sa wiki: \r\n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Astrophysics</a>"
+  step10: "Gusto ng resource nang mas mabilis? Umatake sa ibang manlalaro. Timbangin ang gastos laban sa kikitain para sulit ang atake mo, at gamitin ang mga spy report at combat simulator sa pagpaplano.<br><br>\r\nMag-ingat! Nasusubaybayan ng ibang manlalaro ang maraming fleet mission sa iba't ibang paraan.<br>\r\nIsa sa pinakamahalagang bahagi ng laro ang hindi pagkawala ng pinaghirapan mong fleet.<br><br>\r\nKaya siguraduhing basahin ang mga paksang ito sa wiki: \r\n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Fleet saving</a> - \r\n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensor Phalanx</a>"
+  step10_u6: >-
+    Gusto ng resource nang mas mabilis? Umatake sa ibang manlalaro. Timbangin
+    ang gastos laban sa kikitain para sulit ang atake mo, at gamitin ang mga
+    spy report at combat simulator sa pagpaplano.<br><br>
+
+    Mag-ingat! Nasusubaybayan ng ibang manlalaro ang maraming fleet mission sa
+    iba't ibang paraan.<br>
+
+    Isa sa pinakamahalagang bahagi ng laro ang hindi pagkawala ng pinaghirapan
+    mong fleet.<br><br>
+
+    Kaya siguraduhing basahin ang mga paksang ito sa wiki:
+
+    <a
+    href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden"
+    target="_blank">Fleet saving</a>
+  step11: "Kapag nawasak ang mga fleet, nag-iiwan sila ng debris field na puwede mong anihin. Para dito, kailangan mo ng mga Recycler, na may cargo capacity na 20,000 bawat isa. Ang pagwasak sa malaking fleet ay puwedeng maging mapagkakakitaang pinagmumulan ng resource.<br><br>\r\nPuwede ka ring magpadala ng mga Recycler nang diretso mula sa Galaxy view sa pamamagitan ng pag-click sa debris field, sa halip na gamitin ang Fleet menu."
+  step12: "Congratulations, natapos mo na ang tutorial!<br><br>\r\nMarami pang maiaalok ang laro.<br>\r\nHalimbawa, may tatlong pangunahing istilo ng paglalaro, na magkakaiba rin sa oras na hinihingi nila:<br>\r\n<ul>\r\n<li>Miner: nagpapalawak ng mga mine sa maraming kolonya at pangunahing nagpapalipad ng mga transporter</li>\r\n<li>Fleeter: karamihan ng puntos ay nasa mga barkong pandigma, halos walang sariling produksyon at nabubuhay sa pagsalakay sa ibang manlalaro</li>\r\n<li>Comber: halo ng dalawa</li>\r\n</ul>\r\nMagiging mahalaga ang mga buwan sa mas huling bahagi ng laro, at sa ngayon ay dapat nakilala mo na ang Sensor Phalanx.<br><br>\r\nMay mga tanong pa? Basahin ang wiki o magtanong sa community sa Discord."
+  step12_u6: >-
+    Congratulations, natapos mo na ang tutorial!<br><br>
+
+    Marami pang maiaalok ang laro.<br>
+
+    Halimbawa, may tatlong pangunahing istilo ng paglalaro, na magkakaiba rin
+    sa oras na hinihingi nila:<br>
+
+    <ul>
+
+    <li>Miner: nagpapalawak ng mga mine sa maraming kolonya at pangunahing
+    nagpapalipad ng mga transporter</li>
+
+    <li>Fleeter: karamihan ng puntos ay nasa mga barkong pandigma, halos walang
+    sariling produksyon at nabubuhay sa pagsalakay sa ibang manlalaro</li>
+
+    <li>Comber: halo ng dalawa</li>
+
+    </ul>
+
+    May mga tanong pa? Basahin ang wiki o magtanong sa community sa Discord.
+tutorial_title:
+  step0: "Maligayang pagdating, Imperator!"
+  step1: Oras na para magmina!
+  step2: Halika at makipagkilala!
+  step3: "Huwag iwanang walang depensa ang planeta mo!"
+  step4: "Magplano nang maaga!"
+  step5: Mga barko, kailangan natin ng mga barko!
+  step6: "Pangalanan ang planeta mo at humanap ng mga kaibigan!"
+  step7: "Alamin kung ano ang meron ang iba!"
+  step8: "Patungo sa hindi alam!"
+  step9: "Hindi sapat ang isang planeta!"
+  step10: Pagod ka na bang maghintay sa mga mine mo?
+  step11: "Oras na para magtapon ng basura!"
+  step12: "Nagawa mo!"

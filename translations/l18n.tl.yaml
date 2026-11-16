@@ -1,0 +1,76 @@
+dir: ltr
+js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
+months:
+  - Ene
+  - Peb
+  - Mar
+  - Abr
+  - May
+  - Hun
+  - Hul
+  - Ago
+  - Set
+  - Okt
+  - Nob
+  - Dis
+php_tdformat: 'j M Y, H:i:s'
+short_day: a
+short_hour: o
+short_minute: m
+short_second: s
+timezones:
+  '-1': '[UTC - 1] Oras ng Azores, Oras ng Cape Verde, Oras ng Silangang Greenland'
+  '-2': >-
+    [UTC - 2] Oras ng Fernando de Noronha, Oras ng South Georgia &amp; South
+    Sandwich Islands
+  '-3': '[UTC - 3] Karaniwang Oras ng Amazon, Oras ng Gitnang Greenland'
+  '-3.5': '[UTC - 3:30] Karaniwang Oras ng Newfoundland'
+  '-4': '[UTC - 4] Karaniwang Oras ng Atlantic'
+  '-4.5': '[UTC - 4:30] Karaniwang Oras ng Venezuela'
+  '-5': '[UTC - 5] Karaniwang Oras ng Eastern'
+  '-6': '[UTC - 6] Karaniwang Oras ng Central'
+  '-7': '[UTC - 7] Karaniwang Oras ng Mountain'
+  '-8': '[UTC - 8] Karaniwang Oras ng Pacific'
+  '-9': '[UTC - 9] Karaniwang Oras ng Alaska, Oras ng Gambier Island'
+  '-9.5': '[UTC - 9:30] Oras ng Marquesas Islands'
+  '-10': '[UTC - 10] Karaniwang Oras ng Hawaii-Aleutian, Oras ng Cook Island'
+  '-11': '[UTC - 11] Oras ng Niue, Karaniwang Oras ng Samoa'
+  '-12': '[UTC - 12] Oras ng Baker Island'
+  '0': '[UTC] Oras ng Kanlurang Europa, Greenwich Mean Time'
+  '1': '[UTC + 1] Oras ng Gitnang Europa, Oras ng Kanlurang Africa'
+  '2': '[UTC + 2] Oras ng Silangang Europa, Oras ng Gitnang Africa'
+  '3': '[UTC + 3] Karaniwang Oras ng Moscow, Oras ng Silangang Africa'
+  '3.5': '[UTC + 3:30] Karaniwang Oras ng Iran'
+  '4': '[UTC + 4] Karaniwang Oras ng Gulf, Karaniwang Oras ng Samara'
+  '4.5': '[UTC + 4:30] Oras ng Afghanistan'
+  '5': '[UTC + 5] Karaniwang Oras ng Pakistan, Karaniwang Oras ng Yekaterinburg'
+  '5.5': '[UTC + 5:30] Karaniwang Oras ng India, Oras ng Sri Lanka'
+  '5.75': '[UTC + 5:45] Oras ng Nepal'
+  '6': '[UTC + 6] Oras ng Bangladesh, Oras ng Bhutan, Karaniwang Oras ng Novosibirsk'
+  '6.5': '[UTC + 6:30] Oras ng Cocos Islands, Oras ng Myanmar'
+  '7': '[UTC + 7] Oras ng Indochina, Karaniwang Oras ng Krasnoyarsk'
+  '8': >-
+    [UTC + 8] Karaniwang Oras ng Pilipinas at China, Karaniwang Oras ng
+    Kanlurang Australia, Karaniwang Oras ng Irkutsk
+  '8.75': '[UTC + 8:45] Karaniwang Oras ng Timog-silangang Kanlurang Australia'
+  '9': '[UTC + 9] Karaniwang Oras ng Japan, Karaniwang Oras ng Korea, Karaniwang Oras ng Chita'
+  '9.5': '[UTC + 9:30] Karaniwang Oras ng Gitnang Australia'
+  '10': '[UTC + 10] Karaniwang Oras ng Silangang Australia, Karaniwang Oras ng Vladivostok'
+  '10.5': '[UTC + 10:30] Karaniwang Oras ng Lord Howe'
+  '11': '[UTC + 11] Oras ng Solomon Islands, Karaniwang Oras ng Magadan'
+  '11.5': '[UTC + 11:30] Oras ng Norfolk Island'
+  '12': '[UTC + 12] Oras ng New Zealand, Oras ng Fiji, Karaniwang Oras ng Kamchatka'
+  '12.75': '[UTC + 12:45] Oras ng Chatham Islands'
+  '13': '[UTC + 13] Oras ng Tonga, Oras ng Phoenix Islands'
+  '14': '[UTC + 14] Oras ng Line Islands'
+week_day:
+  - Lin
+  - Lun
+  - Mar
+  - Miy
+  - Huw
+  - Biy
+  - Sab
+php_dateformat: M d, Y
+php_timeformat: h:i:s A
+lang_group_fun: "Pang-katuwaang wika"

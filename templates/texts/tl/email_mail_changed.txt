@@ -1,0 +1,11 @@
+Kumusta {USERNAME},
+
+Kababago lang ng email address ng account mo.
+Magiging permanente ang pagbabago sa loob ng ilang araw.
+
+Kung hindi ikaw ang gumawa nito, gumawa ng ticket sa aming Discord:
+{DISCORD}
+
+Gumagalang,
+
+Ang iyong team ng {GAMENAME}
