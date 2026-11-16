@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for uniID, uniRow in (uniList)|php_iter %}
+          {% for uniID, uniRow in uniList %}
             <tr>
               <td class="num">{{ uniID }}</td>
               <td><strong>{{ uniRow.uni_name }}</strong></td>

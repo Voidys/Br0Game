@@ -18,19 +18,19 @@
           </tr>
         </thead>
         <tbody>
-        {% for CronjobInfo in (CronjobArray)|php_iter %}
+        {% for CronjobInfo in CronjobArray %}
           {% if CronjobInfo.month == '*' %}
             {% set monthText = '*' %}
           {% else %}
             {% set monthParts = [] %}
-            {% for month in (CronjobInfo.month)|php_iter %}{% set monthParts = monthParts|merge([LNG.months[month-1]]) %}{% endfor %}
+            {% for month in CronjobInfo.month %}{% set monthParts = monthParts|merge([LNG.months[month-1]]) %}{% endfor %}
             {% set monthText = monthParts|join(',') %}
           {% endif %}
           {% if CronjobInfo.dow == '*' %}
             {% set dowText = '*' %}
           {% else %}
             {% set dowParts = [] %}
-            {% for d in (CronjobInfo.dow)|php_iter %}{% set dowParts = dowParts|merge([LNG.week_day[d]]) %}{% endfor %}
+            {% for d in CronjobInfo.dow %}{% set dowParts = dowParts|merge([LNG.week_day[d]]) %}{% endfor %}
             {% set dowText = dowParts|join(',') %}
           {% endif %}
           <tr>

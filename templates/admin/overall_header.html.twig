@@ -26,7 +26,7 @@
   <script type="module" src="./scripts/admin/main.js?v={{ asset_version }}"></script>
   <script type="module" src="./scripts/app/rte.js?v={{ asset_version }}"></script>
   {# classic page scripts (game/, base/) #}
-  {% for scriptname in (scripts)|php_iter %}
+  {% for scriptname in scripts %}
     <script src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
   {% endfor %}
 </head>

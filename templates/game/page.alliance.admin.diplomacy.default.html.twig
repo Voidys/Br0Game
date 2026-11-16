@@ -8,11 +8,11 @@
 	<tr>
 		<td colspan="2">{{ LNG.al_diplo_info }}</td>
 	</tr>
-	{% for diploMode, diploAlliances in (diploList[0])|php_iter %}	
+	{% for diploMode, diploAlliances in diploList[0] %}	
 	<tr>
 		<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 	</tr>
-		{% for diploID, diploName in (diploAlliances)|php_iter %}
+		{% for diploID, diploName in diploAlliances %}
 		<tr>
 			<td>{{ diploName }}</td>
 			<td class="act">
@@ -42,12 +42,12 @@
 		<th colspan="2">{{ LNG.al_diplo_accept }}</th>
 	</tr>
 	{% if array_filter(diploList[1]) %}
-		{% for diploMode, diploAlliances in (diploList[1])|php_iter %}	
+		{% for diploMode, diploAlliances in diploList[1] %}	
 		{% if not empty(diploAlliances) %}
 		<tr>
 			<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 		</tr>
-		{% for diploID, diploName in (diploAlliances)|php_iter %}
+		{% for diploID, diploName in diploAlliances %}
 		<tr>
 			<td>{{ diploName }}</td>
 			<td class="act">
@@ -69,12 +69,12 @@
 		<th colspan="2">{{ LNG.al_diplo_accept_send }}</th>
 	</tr>
 	{% if array_filter(diploList[2]) %}
-		{% for diploMode, diploAlliances in (diploList[2])|php_iter %}	
+		{% for diploMode, diploAlliances in diploList[2] %}	
 		{% if not empty(diploAlliances) %}
 		<tr>
 			<th colspan="2">{{ LNG.al_diplo_level[diploMode] }}</th>
 		</tr>
-		{% for diploID, diploName in (diploAlliances)|php_iter %}
+		{% for diploID, diploName in diploAlliances %}
 		<tr>
 			<td>{{ diploName }}</td>
 			<td class="act">

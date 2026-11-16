@@ -29,7 +29,7 @@
             {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
             <br>
             {{ LNG.ov_admins_online }}
-            {% for ID, Name in (AdminsOnline)|php_iter %}
+            {% for ID, Name in AdminsOnline %}
                 &nbsp;&bull;&nbsp;
                 <a class="colorPositive" href="#" data-action="dialog-pm" data-id="{{ ID }}">{{ Name }}</a>
             {% endfor %}
@@ -73,7 +73,7 @@
             </div>
 
             <ul class="event-list" id="hidden-div2">
-                {% for index, fleet in (fleets)|php_iter %}
+                {% for index, fleet in fleets %}
                     <li>
                       <span data-time="{{ fleet.returntime }}" class="statictimer"></span> |
                       <span id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">
@@ -210,7 +210,7 @@
                 <div class="planeto">
                     {{ LNG.ov_planets }}
                 </div>
-                {% for PlanetRow in (AllPlanets)|php_iter %}
+                {% for PlanetRow in AllPlanets %}
                     {% if (loop.index % themeSettings.PLANET_ROWS_ON_OVERVIEW) == 1 %}{% endif %}
                     <div class="planetl">
                         <a href="game?page=overview&amp;cp={{ PlanetRow.id }}" title="{{ PlanetRow.name }}">

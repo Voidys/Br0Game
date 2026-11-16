@@ -4,7 +4,7 @@
 <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ message }}</div></div>
 {% if not empty(redirectButtons) %}
   <div class="form__actions">
-    {% for button in (redirectButtons)|php_iter %}<a class="button btn--primary" href="{{ button.url }}"{% if button.action is defined %} data-action="{{ button.action }}"{% endif %}>{{ button.label }}</a>{% endfor %}
+    {% for button in redirectButtons|default([]) %}<a class="button btn--primary" href="{{ button.url }}"{% if button.action is defined %} data-action="{{ button.action }}"{% endif %}>{{ button.label }}</a>{% endfor %}
   </div>
 {% endif %}
 {% endblock %}

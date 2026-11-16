@@ -51,15 +51,15 @@
 	<td colspan="3">
 	{% if diplomats %}
 		<b><u>{{ LNG.al_rank_diplo }}</u></b><br><br>
-		{% for diplomat in (diplomats)|php_iter %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" data-action="dialog-pm" data-id="{{ diplomat.id }}"><img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
+		{% for diplomat in diplomats %}{{ diplomat.username }} - {{ diplomat.rankName }} <a href="#" data-action="dialog-pm" data-id="{{ diplomat.id }}"><img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt=""></a><br>{% endfor %}
 		<br>
 	{% endif %}
 	{% if diplomaticData and (not empty(diplomaticData[0]) or not empty(diplomaticData[1]) or not empty(diplomaticData[2]) or not empty(diplomaticData[3]) or not empty(diplomaticData[4])) %}
-		{% if not empty(diplomaticData[0]) %}<b><u>{{ LNG.al_diplo_level[0] }}</u></b><br><br>{% for PaktInfo in (diplomaticData[0])|php_iter %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
-		{% if not empty(diplomaticData[1]) %}<b><u>{{ LNG.al_diplo_level[1] }}</u></b><br><br>{% for PaktInfo in (diplomaticData[1])|php_iter %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
-		{% if not empty(diplomaticData[2]) %}<b><u>{{ LNG.al_diplo_level[2] }}</u></b><br><br>{% for PaktInfo in (diplomaticData[2])|php_iter %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
-		{% if not empty(diplomaticData[3]) %}<b><u>{{ LNG.al_diplo_level[3] }}</u></b><br><br>{% for PaktInfo in (diplomaticData[3])|php_iter %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
-		{% if not empty(diplomaticData[4]) %}<b><u>{{ LNG.al_diplo_level[4] }}</u></b><br><br>{% for PaktInfo in (diplomaticData[4])|php_iter %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
+		{% if not empty(diplomaticData[0]) %}<b><u>{{ LNG.al_diplo_level[0] }}</u></b><br><br>{% for PaktInfo in diplomaticData[0] %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
+		{% if not empty(diplomaticData[1]) %}<b><u>{{ LNG.al_diplo_level[1] }}</u></b><br><br>{% for PaktInfo in diplomaticData[1] %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
+		{% if not empty(diplomaticData[2]) %}<b><u>{{ LNG.al_diplo_level[2] }}</u></b><br><br>{% for PaktInfo in diplomaticData[2] %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
+		{% if not empty(diplomaticData[3]) %}<b><u>{{ LNG.al_diplo_level[3] }}</u></b><br><br>{% for PaktInfo in diplomaticData[3] %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
+		{% if not empty(diplomaticData[4]) %}<b><u>{{ LNG.al_diplo_level[4] }}</u></b><br><br>{% for PaktInfo in diplomaticData[4] %}<a href="?page=alliance&mode=info&amp;id={{ PaktInfo[1] }}">{{ PaktInfo[0] }}</a><br>{% endfor %}<br>{% endif %}
 	{% else %}
 		{{ LNG.al_no_diplo }}
 	{% endif %}

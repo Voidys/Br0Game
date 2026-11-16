@@ -67,7 +67,7 @@
 
   <script type="module" src="./scripts/app/main.js?v={{ asset_version }}"></script>
   {# page scripts are ES modules; vendor libraries (../base/...) stay classic, deferred keeps the order #}
-  {% for scriptname in (scripts)|php_iter %}
+  {% for scriptname in scripts %}
     {% if scriptname starts with '../' %}
       <script defer src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
     {% else %}

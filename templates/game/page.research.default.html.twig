@@ -13,7 +13,7 @@
 			{% endif %}
 		</div>
 
-		{% for ID, Element in (ResearchList)|php_iter %}
+		{% for ID, Element in ResearchList %}
 			{% if hide_useless == 0 or Element['max_useful_level'] == 0 or Element['level'] < Element['max_useful_level'] %}
 				<div class="infos {% if Element.fade %}unavailable{% endif %}" id="t{{ ID }}">
 					<div class="buildn relative">
@@ -34,7 +34,7 @@
 						</a>
 						{% if not empty(Element.requirements) %}
 							{{ LNG.tt_requirements }}: </br>
-							{% for requireID, NeedLevel in (Element.requirements)|php_iter %}
+							{% for requireID, NeedLevel in Element.requirements %}
 								<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
 								<span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
 									{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
@@ -43,7 +43,7 @@
 							{% endfor %}
 						{% else %}
 							{{ LNG.bd_remaining }}:<br>
-							{% for ResType, ResCount in (Element.costOverflow)|php_iter %}
+							{% for ResType, ResCount in Element.costOverflow %}
 								<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: ResType})|e('html_attr') }}">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
 							{% endfor %}
 							{% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
@@ -52,7 +52,7 @@
 
 					<div class="buildl">
 						<span>
-							{% for RessID, RessAmount in (Element.costResources)|php_iter %}
+							{% for RessID, RessAmount in Element.costResources %}
 								<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: RessID})|e('html_attr') }}">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
 							{% endfor %}
 							

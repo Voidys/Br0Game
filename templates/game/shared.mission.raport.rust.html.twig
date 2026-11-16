@@ -15,7 +15,7 @@
       {% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} {{ Raport.time }}{% if isset(Raport.duration) %} ({{ round(Raport.duration, 4) }} s){% endif %}
     </div>
     <div id="arrow-stat-selector"></div>
-    {% for Round, RoundInfo in (Raport.rounds)|php_iter %}
+    {% for Round, RoundInfo in Raport.rounds %}
       {% if not loop.first and (not isset(Info) or Round == 1) %}
         <div class="text-center mb-2">
             {{ LNG.fleet_attack_1 }} {{ pretty_number(RoundInfo.attacker.Statistics.damage_done.sum+RoundInfo.attacker.Statistics.damage_dead.sum+RoundInfo.attacker.Statistics.shield_hit.sum+RoundInfo.attacker.Statistics.shield_bounced.sum) }} {{ LNG.fleet_attack_2 }} {{ pretty_number(RoundInfo.attacker.Statistics.shield_bounced.sum+RoundInfo.attacker.Statistics.shield_hit.sum) }} {{ LNG.damage }}
@@ -30,7 +30,7 @@
       <div class="scrollable-content">
         <div class="round-container" data-round="{{ Round }}">
           <div class="flex justify-center mb-4" data-side="attacker" data-round="{{ Round }}">
-            {% for fleetId, ships in (RoundInfo.attacker.Roundstats)|php_iter %}
+            {% for fleetId, ships in RoundInfo.attacker.Roundstats %}
                 {% set PlayerInfo = Raport.rounds[0].attackers[fleetId].player %}
                 {% set fleetDetail = Raport.rounds[0].attackers[fleetId].fleetDetail %}
               <div class="fleet-box mx-4 p-4 bg-[#0d1014f2] box-content" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
@@ -47,7 +47,7 @@
                   >
                       {# Header row: Type + Ship names #}
                     <div class="font-medium whitespace-nowrap">{{ LNG.sys_ship_type }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="ship-box text-center font-medium whitespace-nowrap" data-shipid="{{ shipId }}" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
                             {{ LNG.shortNames[shipId] }}
                         </div>
@@ -55,7 +55,7 @@
 
                       {# Row: Count #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_count }}<br></div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
 
                           <div class="{% if shipData['lost'] <= 0 %}row-span-2 flex items-center justify-center{% else %}flex items-end justify-center{% endif %}">
@@ -80,7 +80,7 @@
                       {% if not isset(Info) %}
                       {# Row: Weapon #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_weapon }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['attack']) }}
                         </div>
@@ -88,7 +88,7 @@
 
                       {# Row: Shield #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_shield }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['shield']) }}
                         </div>
@@ -96,7 +96,7 @@
 
                       {# Row: Armour #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_armour }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['hull']) }}
                         </div>
@@ -109,7 +109,7 @@
             {% endfor %}
           </div>
           <div class="flex justify-center mb-4" data-side="defender" data-round="{{ Round }}">
-            {% for fleetId, ships in (RoundInfo.defender.Roundstats)|php_iter %}
+            {% for fleetId, ships in RoundInfo.defender.Roundstats %}
                 {% set PlayerInfo = Raport.rounds[0].defenders[fleetId].player %}
                 {% set fleetDetail = Raport.rounds[0].defenders[fleetId].fleetDetail %}
               <div class="fleet-box mx-4 p-4 bg-[#0d1014f2] box-content" data-fleetid="{{ fleetId }}" data-side="defender" data-round="{{ Round }}">
@@ -126,7 +126,7 @@
                   >
                       {# Header row: Type + Ship names #}
                     <div class="font-medium whitespace-nowrap">{{ LNG.sys_ship_type }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="ship-box text-center font-medium whitespace-nowrap" data-shipid="{{ shipId }}" data-fleetid="{{ fleetId }}" data-side="attacker" data-round="{{ Round }}">
                             {{ LNG.shortNames[shipId] }}
                         </div>
@@ -134,7 +134,7 @@
 
                       {# Row: Count #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_count }}<br></div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
 
                           <div class="{% if shipData['lost'] <= 0 %}row-span-2 flex items-center justify-center{% else %}flex items-end justify-center{% endif %}">
@@ -158,7 +158,7 @@
                       {% if not isset(Info) %}
                       {# Row: Weapon #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_weapon }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['attack']) }}
                         </div>
@@ -166,7 +166,7 @@
 
                       {# Row: Shield #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_shield }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['shield']) }}
                         </div>
@@ -174,7 +174,7 @@
 
                       {# Row: Armour #}
                     <div class="whitespace-nowrap">{{ LNG.sys_ship_armour }}</div>
-                      {% for shipId, shipData in (ships)|php_iter %}
+                      {% for shipId, shipData in ships %}
                         <div class="text-center whitespace-nowrap" data-ship="{{ shipId }}">
                             {{ pretty_number(shipData['hull']) }}
                         </div>
@@ -198,7 +198,7 @@
       {% if Raport.result == php_const('ATTACKER') %}
         {{ LNG.sys_attacker_won }}
         <br>
-        {{ LNG.sys_stealed_ressources }} {% for elementID, amount in (Raport.steal)|php_iter %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.steal) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
+        {{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.steal) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
       {% elseif Raport.result == php_const('DEFENDER') %}
           {{ LNG.sys_defender_won }}
       {% else %}
@@ -207,7 +207,7 @@
       <br><br>
       {{ LNG.sys_attacker_lostunits }} {{ pretty_number(Raport['units'][0]) }} {{ LNG.sys_units }}<br>
       {{ LNG.sys_defender_lostunits }} {{ pretty_number(Raport['units'][1]) }} {{ LNG.sys_units }}<br>
-      {{ LNG.debree_field_1 }} {% for elementID, amount in (Raport.debris)|php_iter %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.debris) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+      {{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.debris) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
       {% if Raport.mode == 1 %}
           {# Destruction #}
           {% if Raport.moon.moonDestroySuccess == -1 %}
@@ -274,7 +274,7 @@
                   <th class="transparent num">%</th>
                   <th class="transparent num">{{ LNG.sys_destroyed }}</th>
                 </tr>
-                  {% for ShipID, ShipData in (Raport.repaired)|php_iter %}
+                  {% for ShipID, ShipData in Raport.repaired %}
                     <tr>
                       <td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
                       <td class="transparent num">{{ ShipData.units }} /
@@ -315,7 +315,7 @@
                 <tr>
                   <th colspan="2" class="transparent">{{ LNG.sys_wreckfield_added }}</th>
                 </tr>
-                  {% for ShipID, amount in (Raport.wreckfield)|php_iter %}
+                  {% for ShipID, amount in Raport.wreckfield %}
                     <tr>
                       <td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
                       <td class="transparent num">{{ amount }}</td>
@@ -336,13 +336,13 @@
                 <tr>
                   <th colspan="2" class="transparent">{{ LNG.sys_honorpoints_changed }}</th>
                 </tr>
-                  {% for username, honorpointsChange in (Raport.honorpoints.attackersH)|php_iter %}
+                  {% for username, honorpointsChange in Raport.honorpoints.attackersH %}
                     <tr>
                       <td class="transparent">{{ username }}</td>
                       <td class="transparent num">{{ honorpointsChange }}</td>
                     </tr>
                   {% endfor %}
-                  {% for username, honorpointsChange in (Raport.honorpoints.defendersH)|php_iter %}
+                  {% for username, honorpointsChange in Raport.honorpoints.defendersH %}
                     <tr>
                       <td class="transparent">{{ username }}</td>
                       <td class="transparent num">{{ honorpointsChange }}</td>

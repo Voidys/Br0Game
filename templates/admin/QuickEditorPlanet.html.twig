@@ -29,7 +29,7 @@
     <header class="card__head"><h2 class="card__title">{{ icon('building-2') }}{{ LNG.qe_build }}</h2></header>
     <div class="card__body">
       <div class="fields">
-        {% for Element in (build)|php_iter %}
+        {% for Element in build %}
         <div class="field">
           <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_level }} {{ Element.count }})</span></label>
           <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
@@ -42,7 +42,7 @@
     <header class="card__head"><h2 class="card__title">{{ icon('rocket') }}{{ LNG.qe_fleet }}</h2></header>
     <div class="card__body">
       <div class="fields">
-        {% for Element in (fleet)|php_iter %}
+        {% for Element in fleet %}
         <div class="field">
           <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_count }} {{ Element.count }})</span></label>
           <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">
@@ -55,7 +55,7 @@
     <header class="card__head"><h2 class="card__title">{{ icon('shield') }}{{ LNG.qe_defensive }}</h2></header>
     <div class="card__body">
       <div class="fields">
-        {% for Element in (defense)|php_iter %}
+        {% for Element in defense %}
         <div class="field">
           <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_count }} {{ Element.count }})</span></label>
           <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">

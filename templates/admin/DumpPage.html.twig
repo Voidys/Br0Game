@@ -11,7 +11,7 @@
     </header>
     <div class="card__body">
       <div class="grid" id="dbtables">
-        {% for table in (dumpData.sqlTables)|php_iter %}
+        {% for table in dumpData.sqlTables %}
           <label class="dump-table"><input type="checkbox" name="dbtables[]" value="{{ table }}"> <span class="mono small">{{ table }}</span></label>
         {% endfor %}
       </div>

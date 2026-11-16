@@ -4,7 +4,7 @@
 #}
 {% block content %}{% endblock %}
 {% block script %}{% endblock %}
-{% for scriptname in (scripts)|php_iter %}
+{% for scriptname in scripts %}
   {% if scriptname starts with '../' %}
     <script src="./scripts/game/{{ scriptname }}?v={{ asset_version }}"></script>
   {% else %}

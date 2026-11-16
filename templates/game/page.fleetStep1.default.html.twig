@@ -89,7 +89,7 @@
     <tr class="shortcut-row">
       <td colspan="2">
         <div class="shortcut-container" >
-          {% for shortcutID, shortcutRow in (shortcutList)|php_iter %}
+          {% for shortcutID, shortcutRow in shortcutList %}
             <div class="shortcut-colum shortcut-isset">
               <div class="shortcut-link">
                 <a href="#" data-action="set-target" data-galaxy="{{ shortcutRow.galaxy }}" data-system="{{ shortcutRow.system }}" data-planet="{{ shortcutRow.planet }}" data-type="{{ shortcutRow.type }}">{{ shortcutRow.name }}{% if shortcutRow.type == 1 %}{{ LNG.fl_planet_shortcut }}{% elseif shortcutRow.type == 2 %}{{ LNG.fl_debris_shortcut }}{% elseif shortcutRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ shortcutRow.galaxy }}:{{ shortcutRow.system }}:{{ shortcutRow.planet }}]</a>
@@ -144,7 +144,7 @@
 		<tr>
 			<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_my_planets }}</th>
 		</tr>
-		{% for ColonyRow in (colonyList)|php_iter %}
+		{% for ColonyRow in colonyList %}
 			{% if (loop.index % themeSettings.COLONY_ROWS_ON_FLEET1) == 1 %}<tr>{% endif %}
 			<td>
 				<a href="#" data-action="set-target" data-galaxy="{{ ColonyRow.galaxy }}" data-system="{{ ColonyRow.system }}" data-planet="{{ ColonyRow.planet }}" data-type="{{ ColonyRow.type }}">{{ ColonyRow.name }}{% if ColonyRow.type == 3 %}{{ LNG.fl_moon_shortcut }}{% endif %} [{{ ColonyRow.galaxy }}:{{ ColonyRow.system }}:{{ ColonyRow.planet }}]</a>
@@ -165,7 +165,7 @@
 		<tr>
 			<th colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}">{{ LNG.fl_acs_title }}</th>
 		</tr>
-		{% for ACSRow in (ACSList)|php_iter %}
+		{% for ACSRow in ACSList %}
 			<tr>
 				<td colspan="{{ themeSettings.COLONY_ROWS_ON_FLEET1 }}"><a href="#" data-action="set-acs-target" data-galaxy="{{ ACSRow.galaxy }}" data-system="{{ ACSRow.system }}" data-planet="{{ ACSRow.planet }}" data-type="{{ ACSRow.planet_type }}" data-acs="{{ ACSRow.public_id }}">{{ ACSRow.name }} - [{{ ACSRow.galaxy }}:{{ ACSRow.system }}:{{ ACSRow.planet }}]</a></td>
 			</tr>

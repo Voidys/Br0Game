@@ -3,7 +3,7 @@
   <input type="hidden" name="id" value="{{ ticketID }}">
   <div class="page-actions"><a class="button btn--small" href="admin?page=support">{{ icon('arrow-left') }}{{ LNG.ti_overview }}</a></div>
 
-  {% for answerID, answerRow in (answerList)|php_iter %}
+  {% for answerID, answerRow in answerList %}
   {% if loop.first %}
   <section class="card">
     <header class="card__head">

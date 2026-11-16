@@ -1084,3 +1084,8 @@ Technical changes per migration step, newest last.
 
 - Tooltip markup is built in `{% set %}`/include blocks and printed with `|e('html_attr')` everywhere (~40 sites; new `game/tooltip.element.html.twig` for the element name/image/description tooltip); `|tooltip_text` dropped from templates (it double-encoded under html_attr). All 406 tooltips render identical content; names with `"`, `&`, `<` stay literal.
 - `|raw` audit: 18 uses replaced by `Twig\Markup` built in controllers (sanitised CMS/news/board HTML, tutorial, questions, search badges, vacation/delete notices) or by plain escaping (`|nl2br` in tickets); the remaining 7 carry a `{# raw: why #}` comment. `docs/templates.md` updated.
+
+## 135. Smarty leftovers: `php_iter` gone
+
+- All ~270 `|php_iter` uses removed from the templates (Twig's `for` already iterates nothing for null/undefined); `|default([])` where a value can be null/false (repairdock ships, cronjob error, redirect buttons, mission priorities); the cronjob overview controller wraps single month/weekday values in a list (`overviewTimes()`), the only scalar the filter ever received (proved with a logging probe over the full page crawl). The filter itself is deleted from `TemplateExtension`.
+- Legacy table attributes in tooltip and fleet-step markup replaced (`w-100`, no `border/cellpadding/cellspacing`). Remaining inline `style` attributes are JS-owned visibility state or dynamic values (custom properties, bar sizes) and stay on purpose.

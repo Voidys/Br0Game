@@ -28,7 +28,7 @@
     <header class="card__head"><h2 class="card__title">{{ icon('flask-conical') }}{{ LNG.qe_tech }}</h2></header>
     <div class="card__body">
       <div class="fields">
-        {% for Element in (tech)|php_iter %}
+        {% for Element in tech %}
         <div class="field">
           <label for="qe-{{ Element.type }}">{{ Element.name }} <span class="muted small">({{ LNG.qe_level }} {{ Element.count }})</span></label>
           <input id="qe-{{ Element.type }}" class="num" name="{{ Element.type }}" type="text" inputmode="numeric" value="{{ Element.input }}">

@@ -23,7 +23,7 @@
     <tr>
       <td class="empire-col">{{ LNG.lv_planet }} ({{ currentPlanetCount }} / {{ maxPlanetCount }})</td>
       <td class="num empire-col empire-sigma">&Sigma;</td>
-        {% for image in (planetList.image)|php_iter %}
+        {% for image in planetList.image %}
           <td class="num empire-col">
             <a href="game?page=overview&amp;cp={{ image.id }}">
               {% if enablePlanetStyles == 0 %}
@@ -49,35 +49,35 @@
     <tr>
       <td>{{ LNG.lv_name }}</td>
       <td class="num">{{ LNG.lv_total }}</td>
-        {% for name in (planetList.name)|php_iter %}
+        {% for name in planetList.name %}
           <td class="num">{{ name }}</td>
         {% endfor %}
     </tr>
     <tr>
       <td>{{ LNG.lv_coords }}</td>
       <td class="num">-</td>
-        {% for coords in (planetList.coords)|php_iter %}
+        {% for coords in planetList.coords %}
           <td class="num"><a href="game?page=galaxy&amp;galaxy={{ coords.galaxy }}&amp;system={{ coords.system }}">[{{ coords.galaxy }}:{{ coords.system }}:{{ coords.planet }}]</a></td>
         {% endfor %}
     </tr>
     <tr>
       <td>{{ LNG.lv_fields }}</td>
       <td class="num">-</td>
-        {% for field in (planetList.field)|php_iter %}
+        {% for field in planetList.field %}
           <td class="num">{{ field.current }} / {{ field.max }}</td>
         {% endfor %}
     </tr>
     <tr>
       <td>{{ LNG.ov_temperature }}</td>
       <td class="num">-</td>
-        {% for temp in (planetList.temp)|php_iter %}
+        {% for temp in planetList.temp %}
           <td class="num">{{ temp.max }} °C</td>
         {% endfor %}
     </tr>
     <tr>
       <td>{{ LNG.ov_points }}</td>
       <td class="num">{{ pretty_number(array_sum(planetList.points)) }}</td>
-        {% for planetID, points in (planetList.points)|php_iter %}
+        {% for planetID, points in planetList.points %}
           <td class="num">{{ pretty_number(points) }}</td>
         {% endfor %}
     </tr>
@@ -90,7 +90,7 @@
         </span>
       </th>
     </tr>
-    {% for elementID, resourceArray in (planetList.resource)|php_iter %}
+    {% for elementID, resourceArray in planetList.resource %}
       <tr class="ressources" data-info="r_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
@@ -116,7 +116,7 @@
             {% endif %}
           {% endif %}
         </td>
-        {% for planetID, resource in (resourceArray)|php_iter %}
+        {% for planetID, resource in resourceArray %}
           <td class="num">
             {{ pretty_number(resource) }}
             {% if in_array(elementID, php_array(901, 902, 903)) %}
@@ -155,13 +155,13 @@
         </span>
       </th>
     </tr>
-    {% for elementID, buildArray in (planetList.build)|php_iter %}
+    {% for elementID, buildArray in planetList.build %}
       <tr class="buildings" data-info="b_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
         </td>
         <td class="num">{{ pretty_number(avgBuildings[elementID], 1) }}</td>
-        {% for planetID, build in (buildArray)|php_iter %}
+        {% for planetID, build in buildArray %}
           <td class="num">
             <span {% if planetList.buildable[elementID][planetID] %}class="{% if enableHiglightBuildable == "true" %}colorPositive{% endif %}"{% else %}class="{% if enableHiglightNonBuildable == "true" %}colorNegative{% endif %}"{% endif %}>{{ pretty_number(build) }}</span>
             {% if planetList.currentBuilding[planetID]==elementID %}
@@ -174,7 +174,7 @@
     <tr>
       <th colspan="{{ colspan }}" data-toggle-rows="technology"><span id="technology-toggle">▲</span> {{ LNG.lv_technology }}</th>
     </tr>
-    {% for elementID, techArray in (planetList.tech)|php_iter %}
+    {% for elementID, techArray in planetList.tech %}
       <tr class="technology" data-info="t_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
@@ -183,7 +183,7 @@
           {{ pretty_number(max(max(techArray), 0)) }}
           {% if elementID== researchq_id %}<span class="colorNeutral"> ⬆ {{ researchq_lvl }}</span>{% endif %}
         </td>
-        {% for planetID, tech in (techArray)|php_iter %}
+        {% for planetID, tech in techArray %}
           {% if planetList.tech[elementID][planetID] >= 0 %}
             <td class="num">
               <span {% if planetList.buildable[elementID][planetID] %}class="{% if enableHiglightBuildable == "true" %}colorPositive{% endif %}"{% else %}class="{% if enableHiglightNonBuildable == "true" %}colorNegative{% endif %}"{% endif %}>{{ pretty_number(tech) }}</span>
@@ -198,7 +198,7 @@
     <tr>
       <th colspan="{{ colspan }}" data-toggle-rows="ships"><span id="ships-toggle">▲</span> {{ LNG.lv_ships }}</th>
     </tr>
-    {% for elementID, fleetArray in (planetList.fleet)|php_iter %}
+    {% for elementID, fleetArray in planetList.fleet %}
       <tr class="ships" data-info="f_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
@@ -212,7 +212,7 @@
             <span class="colorNeutral"><br>✈ {{ pretty_number(array_sum(planetList.currentFlying[elementID])) }}</span>
           {% endif %}
         </td>
-        {% for planetID, fleet in (fleetArray)|php_iter %}
+        {% for planetID, fleet in fleetArray %}
           <td class="num">
             <span {% if planetList.buildable[elementID][planetID] %}class="{% if enableHiglightBuildable == "true" %}colorPositive{% endif %}"{% else %}class="{% if enableHiglightNonBuildable == "true" %}colorNegative{% endif %}"{% endif %}>{{ pretty_number(fleet) }}</span>
             {% if planetList.currentShipyard[elementID][planetID]!=0 %}
@@ -228,7 +228,7 @@
     <tr>
       <th colspan="{{ colspan }}" data-toggle-rows="defenses"><span id="defenses-toggle">▲</span> {{ LNG.lv_defenses }}</th>
     </tr>
-    {% for elementID, defenceArray in (planetList.defense)|php_iter %}
+    {% for elementID, defenceArray in planetList.defense %}
       <tr class="defenses" data-info="d_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
@@ -239,7 +239,7 @@
             <span class="colorNeutral"> ⬆ {{ pretty_number(array_sum(planetList.currentShipyard[elementID])) }}</span>
           {% endif %}
         </td>
-        {% for planetID, defence in (defenceArray)|php_iter %}
+        {% for planetID, defence in defenceArray %}
           <td class="num">
             <span {% if planetList.buildable[elementID][planetID] %}class="{% if enableHiglightBuildable == "true" %}colorPositive{% endif %}"{% else %}class="{% if enableHiglightNonBuildable == "true" %}colorNegative{% endif %}"{% endif %}>{{ pretty_number(defence) }}</span>
             {% if planetList.currentShipyard[elementID][planetID]!=0 %}
@@ -252,7 +252,7 @@
     <tr>
       <th colspan="{{ colspan }}" data-toggle-rows="missile"><span id="missile-toggle">▲</span> {{ LNG.tech[500] }}</th>
     </tr>
-    {% for elementID, missileArray in (planetList.missiles)|php_iter %}
+    {% for elementID, missileArray in planetList.missiles %}
       <tr class="missile" data-info="d_{{ elementID }}">
         <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip'
                data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
@@ -266,7 +266,7 @@
             <span class="colorNeutral"><br>✈ {{ pretty_number(array_sum(planetList.currentFlying[elementID])) }}</span>
           {% endif %}
         </td>
-        {% for planetID, missile in (missileArray)|php_iter %}
+        {% for planetID, missile in missileArray %}
           <td class="num">
             <span {% if planetList.buildable[elementID][planetID] %}class="{% if enableHiglightBuildable == "true" %}colorPositive{% endif %}"{% else %}class="{% if enableHiglightNonBuildable == "true" %}colorNegative{% endif %}"{% endif %}>{{ pretty_number(missile) }}</span>
             {% if planetList.currentShipyard[elementID][planetID]!=0 %}

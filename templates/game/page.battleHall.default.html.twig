@@ -26,7 +26,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in (TopKBList)|php_iter %}
+      {% for row in TopKBList %}
         {% set attackerClass = row.result == 'a' ? 'colorPositive' : (row.result == 'r' ? 'colorNegative' : '') %}
         {% set defenderClass = row.result == 'a' ? 'colorNegative' : (row.result == 'r' ? 'colorPositive' : '') %}
         <tr>

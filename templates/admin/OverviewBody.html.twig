@@ -6,7 +6,7 @@
       <div>
         <strong>{{ LNG.adm_dash_attention }}</strong>
         <ul>
-          {% for Message in (Messages)|php_iter %}<li>{{ Message }}</li>{% endfor %}
+          {% for Message in Messages %}<li>{{ Message }}</li>{% endfor %}
         </ul>
       </div>
     </div>

@@ -40,7 +40,7 @@
     <tr>
         <th colspan="2">{{ LNG.fl_fleet }}</th>
     </tr>
-	{% for ShipID, ShipCount in (FleetList)|php_iter %}
+	{% for ShipID, ShipCount in FleetList %}
 	<tr>
 		<td>{{ LNG.tech[ShipID] }}</td>
 		<td class="num">{{ pretty_number(ShipCount) }}</td>

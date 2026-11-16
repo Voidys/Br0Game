@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for Element in (planet_data)|php_iter %}
+          {% for Element in planet_data %}
             {% set pos = Element.planet_position %}
             <tr>
               <th scope="row" class="num">{{ pos }}</th>

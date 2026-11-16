@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for LogInfo in (LogArray)|php_iter %}
+            {% for LogInfo in LogArray %}
             {% if LogInfo.old != LogInfo.new %}
             <tr>
               <td>{{ LogInfo.Element }}</td>

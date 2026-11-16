@@ -506,7 +506,7 @@
 				<tr>
 					<th colspan="2" data-action="toggle-rows" data-target="custom-mission-prio" class="clickable"><span id="custom-mission-prio-toggle">▲</span> {{ LNG.fleetPrio }}</th>
 				</tr>
-				{% for ID, score in (missionPrios)|php_iter %}
+				{% for ID, score in missionPrios|default([]) %}
 					<tr class="hidden custom-mission-prio">
 						<td>{{ LNG[ID] }}</td>
 						<td><input min="0" max="99" type="number" name="{{ ID }}" value="{{ score }}"></td>

@@ -14,7 +14,7 @@
             <div class="select-box"></div>
           </div>
           <div id="receiver-list">
-            {% for receiver in (receiverList)|php_iter %}
+            {% for receiver in receiverList %}
               <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <span data-action="msg-remove-user" data-id="{{ receiver.id }}">X</span></div>
             {% endfor %}
           </div>

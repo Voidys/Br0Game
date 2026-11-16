@@ -10,7 +10,7 @@
   <section class="acc-section" aria-labelledby="your-universes">
     <h1 class="acc-title" id="your-universes">{{ LNG["Your_universes"] }}</h1>
     <div class="universe-grid">
-    {% for universe in (playerUniverses)|php_iter %}
+    {% for universe in playerUniverses %}
       <article class="panel universe-card">
         <h2 class="universe-card__title">{{ icon('globe') }}{{ universe["uni_name"] }}</h2>
         <dl class="universe-card__facts">
@@ -43,7 +43,7 @@
   <section class="acc-section" aria-labelledby="other-universes">
     <h1 class="acc-title" id="other-universes">{{ LNG["Other_universes"] }}</h1>
     <div class="universe-grid">
-    {% for universe in (newUniverses)|php_iter %}
+    {% for universe in newUniverses %}
       <article class="panel universe-card">
         <h2 class="universe-card__title">{{ icon('globe') }}{{ universe["uni_name"] }}</h2>
         <dl class="universe-card__facts">

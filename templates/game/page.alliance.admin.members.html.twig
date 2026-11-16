@@ -21,10 +21,10 @@
             </tr>
             </thead>
             <tbody>
-            {% for userID, memberListRow in (memberList)|php_iter %}
+            {% for userID, memberListRow in memberList %}
                 <tr>
                     <td class="ctr">{{ loop.index }}</td>
-                    <td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+                    <td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
                     <td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
                     <td>{% if memberListRow.rankID == -1 %}{{ founder }}{% elseif not empty(rankSelectList) %}{{ html_options({'class': "rankSelect", 'name': "rank[#{userID}]", 'options': rankSelectList, 'selected': memberListRow.rankID}) }}{% else %}{{ rankList[memberListRow.rankID] }}{% endif %}</td>
                     <td class="num" data-sort="{{ memberListRow.points }}"><span title="{{ pretty_number(memberListRow.points) }}">{{ shortly_number(memberListRow.points) }}</span></td>

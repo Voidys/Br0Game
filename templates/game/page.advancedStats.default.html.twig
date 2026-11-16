@@ -20,7 +20,7 @@
     <section class="tabs__panel" role="tabpanel" id="as-panel-{{ group.key }}" aria-labelledby="as-tab-{{ group.key }}" data-tab="{{ group.key }}" tabindex="0"{% if not loop.first %} hidden{% endif %}>
       <table class="advanced-stats__table">
         <tbody>
-          {% for elementID, elementRow in (group.rows)|php_iter %}
+          {% for elementID, elementRow in group.rows %}
             <tr id="{{ elementID }}">
               <td>{{ elementRow.text }}</td>
               <td class="num">{{ elementRow.value }}</td>

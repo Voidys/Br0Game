@@ -106,7 +106,7 @@
 <tr>
     <th colspan="3">{{ LNG.px_fleet_movement }}</th>
 </tr>
-	{% for index, fleet in (fleetTable)|php_iter %}
+	{% for index, fleet in fleetTable %}
 	<tr>
     <td data-time="{{ fleet.returntime }}" class="statictimer ctr"></td>
 		<td id="fleettime_{{ index }}" class="fleets ctr" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">00:00:00</td>

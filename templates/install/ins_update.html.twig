@@ -5,7 +5,7 @@
   {% if not empty(updates) %}
     <form action="?mode=doupgrade" method="POST">
       <p>{{ LNG.format('upgrade_available', sql_revision, file_revision) }}</p>
-      {% for file, content in (updates)|php_iter %}
+      {% for file, content in updates %}
         <div><p>{{ file }}</p><div class="install-diff">{{ content }}</div></div>
       {% endfor %}
       <div class="install-actions"><button type="submit" class="btn--primary">{{ LNG.continue }}</button></div>

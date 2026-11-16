@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for ship in (findableShips)|php_iter %}
+            {% for ship in findableShips %}
             <tr>
               <td>{{ ship.label|e('html') }}</td>
               <td class="text-center">
@@ -34,7 +34,7 @@
                 <details>
                   <summary>{{ LNG.exp_ships_select_finders }}</summary>
                   <div class="fields">
-                    {% for finder in (ship.finders)|php_iter %}
+                    {% for finder in ship.finders %}
                     <label class="nowrap">
                       <input type="checkbox" name="findable_ships[{{ ship.ship_id }}][findable_by][]" value="{{ finder.id }}" {% if finder.selected %}checked{% endif %}>
                       {{ finder.label|e('html') }}

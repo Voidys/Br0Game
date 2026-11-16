@@ -6,9 +6,9 @@
 		<th>{{ LNG.faq_overview }}</th>
 	</tr>
 	<tr>
-		<td class="left faq-content">{% for categoryID, categoryRow in (LNG.questions)|php_iter %}<h2>{{ categoryRow.category }}</h2>
+		<td class="left faq-content">{% for categoryID, categoryRow in LNG.questions %}<h2>{{ categoryRow.category }}</h2>
 		<ul>
-		{% for questionID, questionRow in (categoryRow)|php_iter %}
+		{% for questionID, questionRow in categoryRow %}
 		{% if is_numeric(questionID) %}
 			<li><a href="game?page=questions&amp;mode=single&amp;categoryID={{ categoryID }}&amp;questionID={{ questionID }}">{{ questionRow.title }}</a></li>
 		{% endif %}

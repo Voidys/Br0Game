@@ -15,7 +15,7 @@
 			<th>{{ LNG.nt_subject_note }}</th>
 			<th class="num">{{ LNG.nt_size_note }}</th>
 		</tr>
-		{% for notesID, notesRow in (notesList)|php_iter %}
+		{% for notesID, notesRow in notesList %}
 		<tr>
 			<td class="ctr"><input name="delmes[{{ notesID }}]" type="checkbox"></td>
 			<td>{{ notesRow.time }}</td>

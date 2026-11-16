@@ -3,7 +3,7 @@
 {% block content %}
   {# experience points and cargo capacity per ship type for the live sums (scripts/game/fleetTable.js) #}
   {% set ships = [] %}
-  {% for elementID, fleetArray in (shiptypes)|php_iter %}
+  {% for elementID, fleetArray in shiptypes %}
     {% set ships = ships|merge([{id: fleetArray.id, expo: fleetArray.expo, capacity: fleetArray.capacity}]) %}
   {% endfor %}
   {{ data_island('fleet-table-data', {ships: ships}) }}
@@ -29,7 +29,7 @@
       <td class="act">{{ LNG.fl_order }}</td>
     </tr>
     {% endif %}
-      {% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
+      {% for FlyingFleetRow in FlyingFleetList %}
         <tr>
           <td class="fleet-col-id ctr">{{ loop.index }}</td>
           <td class="fleet-col-mission ctr">
@@ -47,7 +47,7 @@
                 <a title="{{ LNG.fl_onway }}">{{ LNG.fl_a }}</a>
               {% endif %}
           </td>
-          {% set tt_ships %}<table><tr><th colspan='2' class='text-center'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in (FlyingFleetRow.FleetList)|php_iter %}<tr><td class='transparent'>{{ LNG.tech[shipID] }}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>{% endset %}
+          {% set tt_ships %}<table><tr><th colspan='2' class='text-center'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in FlyingFleetRow.FleetList %}<tr><td class='transparent'>{{ LNG.tech[shipID] }}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>{% endset %}
           <td class="num"><a class="tooltip_sticky"
                  data-tooltip-content="{{ tt_ships|e('html_attr') }}">{{ FlyingFleetRow.amount }}</a>
           </td>
@@ -113,7 +113,7 @@
         <td class="num">{{ LNG.fl_ship_available }}</td>
         <td class="num">{% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|trim('/', 'right')|e('html_attr') }}/wiki/{% if lang != 'de' and lang != 'of' and lang != 'pi' %}En/{% endif %}Expeditionen" class="tooltip url" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</a>{% else %}<span class="tooltip" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</span>{% endif %}</td>
       </tr>
-        {% for FleetRow in (FleetsOnPlanet)|php_iter %}
+        {% for FleetRow in FleetsOnPlanet %}
           <tr>
             <td>{% if FleetRow.speed != 0 %}{% set tt_speed %}<table><tr><td>{{ LNG.fl_speed_title }}</td><td>{{ FleetRow.speed }}</td></tr></table>{% endset %} <a class='tooltip'
                                              data-tooltip-content="{{ tt_speed|e('html_attr') }}">{{ LNG.tech[FleetRow.id] }}</a>{% else %}{{ LNG.tech[FleetRow.id] }}{% endif %}
@@ -193,7 +193,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for key, entry in (watchList)|php_iter %}
+      {% for key, entry in watchList %}
           <tr>
             <td>{% if key==0 %}{{ entry.name }}{% else %}{{ entry.coords }} {{ entry.name }} ({{ entry.level }}){% endif %}</td>
             <td class="num {{ (resourceTable[901].current>=entry.metal) ? 'colorPositive':'colorNegative' }}">{{ php_number_format(entry.metal, 0, ",", ".") }}</td>
@@ -264,7 +264,7 @@
       <th colspan="2">{{ LNG.tech[200] }}</th>
       <th colspan="1" class="num">{{ LNG['rec_count'] }}</th>
     </tr>
-      {% for elementID, fleetArray in (shiptypes)|php_iter %}
+      {% for elementID, fleetArray in shiptypes %}
         <tr>
           <td colspan="2">{{ LNG.tech[fleetArray.id] }}</td>
           <td colspan="1" class="num"><input id="ship_{{ fleetArray.id }}" type="number" value="0"></td>

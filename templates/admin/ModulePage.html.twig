@@ -9,7 +9,7 @@
     <div class="table-wrap">
       <table class="data" id="module-table">
         <tbody>
-        {% for ID, Info in (Modules)|php_iter %}
+        {% for ID, Info in Modules %}
           {% if Info.state == 1 %}
             {% set toggleUrl = '?page=module&mode=deaktiv&id=' ~ ID %}
           {% else %}

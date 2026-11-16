@@ -63,7 +63,7 @@
     <div id="tabs-{{ slot }}" class="sim-grid">
       <table class="sim-table">
         {{ _self.sectionHead(LNG.tech[200], slot) }}
-        {% for id in (fleetList)|php_iter %}
+        {% for id in fleetList %}
           <tr>
             <td>{{ _self.unit(id) }}</td>
             {% if id == php_const('SHIP_SOLSAT') %}
@@ -92,7 +92,7 @@
           {# defender only: the attacker column keeps hidden fields so the posted array stays complete #}
           <table class="sim-table" data-first-slot-only>
             {{ _self.sectionHead(LNG.tech[400], slot, false) }}
-            {% for id in (defensiveList)|php_iter %}
+            {% for id in defensiveList %}
               <tr>
                 <td>{{ _self.unit(id) }}</td>
                 <td class="num">–<input type="hidden" value="{{ _self.value(battleinput, slot, 0, id) }}" name="battleinput[{{ slot }}][0][{{ id }}]"></td>

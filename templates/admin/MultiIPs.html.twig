@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  {% for multiID, multiEntry in (multiGroups)|php_iter %}
+  {% for multiID, multiEntry in multiGroups %}
     <section class="card card--flush {% if multiEntry.allAllowed %}allAllowed{% endif %} {% if multiEntry.allBanned %}allBanned{% endif %} {% if multiEntry.allAllowed or multiEntry.allBanned %}hidden{% endif %}">
       <header class="card__head">
         <h2 class="card__title">{{ icon('network') }}<span class="mono">{{ multiEntry.multi_ip }}</span></h2>
@@ -41,7 +41,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for ID, User in (multiEntry.users)|php_iter %}
+              {% for ID, User in multiEntry.users %}
               <tr>
                 <td>
                   {% if User.allowed != 0 %}

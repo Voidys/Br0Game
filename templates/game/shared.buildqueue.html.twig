@@ -8,7 +8,7 @@
 {% if queueSlots > 0 %}
   <ol id="buildlist" class="build-queue" aria-label="{{ LNG.ui_queue|default('Queue') }}">
     {% set ctime = 0 %}
-    {% for List in (Queue)|php_iter %}
+    {% for List in Queue %}
       {% set ID = List.element %}
       {% if queuePage == 'research' %}
         {% set CQueue = ResearchList[ID] ?? null %}

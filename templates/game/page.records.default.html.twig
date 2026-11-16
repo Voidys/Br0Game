@@ -12,14 +12,14 @@
             <th class="num">{{ LNG.rec_level }}</th>
             <th class="num">{{ LNG.own }}</th>
         </tr>
-        {% for elementID, elementRow in (buildList)|php_iter %}
+        {% for elementID, elementRow in buildList %}
         <tr>
             <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a>
             </td>
             {% if not empty(elementRow) and count(elementRow) <= 3 %}
                 <td>
                     {% set test = 0 %}
-                    {% for user in (elementRow)|php_iter %}
+                    {% for user in elementRow %}
                         {% if user.records_optIn == 1 %}
                         {% if test != 0 %}<br>{% endif %}
                             <a href='#' data-action="dialog-playercard" data-id="{{ user.userID }}">{{ user.username }}</a>
@@ -64,13 +64,13 @@
             <th class="num">{{ LNG.rec_level }}</th>
             <th class="num">{{ LNG.own }}</th>
         </tr>
-        {% for elementID, elementRow in (researchList)|php_iter %}
+        {% for elementID, elementRow in researchList %}
         <tr>
             <td><a href='#' data-action="dialog-info" data-id="{{ elementID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: elementID})|e('html_attr') }}">{{ LNG.tech[elementID] }}</a></td>
             {% if not empty(elementRow) and count(elementRow) <= 3 %}
                 <td>
                     {% set test = 0 %}
-                    {% for user in (elementRow)|php_iter %}
+                    {% for user in elementRow %}
                         {% if user.records_optIn == 1 %}
                             {% if test != 0 %}<br>{% endif %}
                             <a href='#' data-action="dialog-playercard" data-id="{{ user.userID }}">{{ user.username }}</a>
@@ -115,7 +115,7 @@
             <th class="num">{{ LNG.rec_time }}</th>
             <th class="num">{{ LNG.own }}</th>
         </tr>
-        {% for statkey, row in (firstTimes)|php_iter %}
+        {% for statkey, row in firstTimes %}
             <tr>
                 <td>{{ row.text }}</td>
                 <td>{{ row.name }}</td>

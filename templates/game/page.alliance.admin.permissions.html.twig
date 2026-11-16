@@ -12,15 +12,15 @@
 	<tr>
 		<td class="ctr">{{ LNG.al_dlte }}</td>
 		<td>{{ LNG.al_rank_name }}</td>
-		{% for rankName in (availableRanks)|php_iter %}
+		{% for rankName in availableRanks %}
 		<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
 		{% endfor %}
 	</tr>
-	{% for rowId, rankRow in (rankList)|php_iter %}
+	{% for rowId, rankRow in rankList %}
 	<tr>
 		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="game?page=alliance&amp;mode=admin&amp;action=permissionsSend&amp;deleteRank={{ rowId }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
 		<td><input type="text" class="control-wide" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
-		{% for rankId, rankName in (availableRanks)|php_iter %}
+		{% for rankId, rankName in availableRanks %}
 		<td class="ctr"><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
 		{% endfor %}
 	</tr>
@@ -35,7 +35,7 @@
 	<tr>
 			<th colspan="{{ countRank + 2 }}">{{ LNG.gl_legend }}</th>
 	</tr>
-		{% for rankName in (availableRanks)|php_iter %}
+		{% for rankName in availableRanks %}
 	<tr>
 			<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
 			<td colspan="{{ countRank + 1 }}">{{ LNG.al_rank_desc[rankName] }}</td>
@@ -58,7 +58,7 @@
 			<tr>
 				<th colspan="2">&nbsp;</th>
 			</tr>
-	{% for rankId, rankName in (availableRanks)|php_iter %}
+	{% for rankId, rankName in availableRanks %}
 	<tr>
 		<td><img src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ rankName }}" width="16" height="16">&nbsp;<label for="rank_{{ rankId }}">{{ LNG.al_rank_desc[rankName] }}</label></td>
 		<td><input type="checkbox" name="newrank[{{ rankId }}]" value="1" id="rank_{{ rankId }}" title="{{ LNG.al_rank_desc[rankName] }}"></td>

@@ -375,7 +375,7 @@
 		<td colspan="5">
 			{% if achievements %}
 				{% set i = 0 %}
-				{% for achievement in (achievements)|php_iter %}
+				{% for achievement in achievements %}
 					{#if $i % 5 == 0}
 						</td></tr><tr><td colspan="4">
 					{/if#}

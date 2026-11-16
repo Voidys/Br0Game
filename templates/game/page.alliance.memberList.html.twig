@@ -19,10 +19,10 @@
 		</tr>
 	</thead>
 	<tbody>
-	{% for userID, memberListRow in (memberList)|php_iter %}
+	{% for userID, memberListRow in memberList %}
 	<tr>
 		<td class="ctr">{{ loop.index }}</td>
-		<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+		<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 		<td>{{ memberListRow.rankName }}</td>
 		<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
@@ -38,7 +38,7 @@
 </table>
 </div>
 {% if not empty(mainList) %}
-{% for mainId, main in (mainList)|php_iter %}
+{% for mainId, main in mainList %}
 	<br>
 	<div class="table-scroll">
 	<table id="mainList" data-sortable>
@@ -58,10 +58,10 @@
 			</tr>
 		</thead>
 		<tbody>
-		{% for userID, memberListRow in (main['memberList'])|php_iter %}
+		{% for userID, memberListRow in main['memberList'] %}
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
-			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>
@@ -76,7 +76,7 @@
 {% endfor %}
 {% endif %}
 {% if not empty(wingList) %}
-{% for wingId, wing in (wingList)|php_iter %}
+{% for wingId, wing in wingList %}
 	<br>
 	<div class="table-scroll">
 	<table id="wingList" data-sortable>
@@ -96,10 +96,10 @@
 			</tr>
 		</thead>
 		<tbody>
-		{% for userID, memberListRow in (wing['memberList'])|php_iter %}
+		{% for userID, memberListRow in wing['memberList'] %}
 		<tr>
 			<td class="ctr">{{ loop.index }}</td>
-			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in (memberListRow.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
+			<td><a href="#" data-action="dialog-playercard" data-id="{{ userID }}">{{ memberListRow.username }}</a> {% if not empty(memberListRow.class) %}{% for class in memberListRow.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %}{% endif %}</td>
 			<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ userID }}"><img src="{{ theme_asset('img/m.gif') }}" border="0" title="{{ LNG.write_message }}"></a></td>
 			<td>{{ memberListRow.rankName }}</td>
 			<td class="num points" data-sort="{{ memberListRow.points }}" data-points="{{ memberListRow.points }}">{{ memberListRow.points }}</td>

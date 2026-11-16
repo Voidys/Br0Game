@@ -28,7 +28,7 @@
     '><select id="planetSelector" hidden>
 		{{ html_options({'options': PlanetSelect, 'selected': current_pid}) }}
 	</select></div>
-    {% for report in (spyReports)|php_iter %}
+    {% for report in spyReports %}
         <details class="spy-report-collapsible" {% if loop.first %}open{% endif %}>
             <summary class="spy-report-summary">{{ report.date }}</summary>
             {# raw: HTML of a spy report rendered by game/shared.mission.spyReport (escaped there) or an old-format stored message #}{{ report.html|raw }}

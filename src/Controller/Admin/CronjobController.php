@@ -265,8 +265,8 @@ class CronjobController extends AbstractAdminController
                 'min'           => $CronjobRow['min'],
                 'hours'         => $CronjobRow['hours'],
                 'dom'           => $CronjobRow['dom'],
-                'month'         => $this->getCronjobTimes($CronjobRow['month'], 12),
-                'dow'           => $this->getCronjobTimes($CronjobRow['dow'], 6),
+                'month'         => $this->overviewTimes($CronjobRow['month'], 12),
+                'dow'           => $this->overviewTimes($CronjobRow['dow'], 6),
                 'class'         => $CronjobRow['class'],
                 'lastExecution' => $lastExecutionTimestamp,
                 'nextTime'      => $CronjobRow['nextTime'],
@@ -341,6 +341,18 @@ class CronjobController extends AbstractAdminController
             ]);
         }
         return $this->render('admin/CronjobDetail.html.twig');
+    }
+
+    /**
+     * Schedule column for the overview: `*` stays a string, everything else is a list of values.
+     *
+     * @return list<int|string>|string
+     */
+    private function overviewTimes($row, $max): array|string
+    {
+        $times = $this->getCronjobTimes($row, $max);
+
+        return is_string($times) && $times !== '*' ? [$times] : $times;
     }
 
     private function getCronjobTimes($row, $max): array|string

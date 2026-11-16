@@ -44,7 +44,7 @@
 			{% if hangarGroupMilitary %}{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}<button type="button" class="hangar-group-filter" id="ship2" data-filter-selector="{{ military }}">{{ LNG.fm_military }}</button>{% set hangarHasButton = true %}{% endif %}
 			{% if hangarGroupRecycler %}{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}<button type="button" class="hangar-group-filter" id="ship4" data-filter-selector="{{ recycler }}">{{ LNG.fm_recycler }}</button>{% set hangarHasButton = true %}{% endif %}
 			{% if hangarGroupAll %}{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}<button type="button" class="hangar-group-filter selected" id="ship3">{{ LNG.fm_all }}</button>{% set hangarHasButton = true %}{% endif %}
-			{% for shipId in (hangarShipIds)|php_iter %}
+			{% for shipId in hangarShipIds %}
 				{% if hangarHasButton %}<span class="hangar-filter-sep"> | </span>{% endif %}
 				<button type="button" class="hangar-ship-filter" id="ship-{{ shipId }}" data-ship-id="{{ shipId }}">{{ LNG.shortNames[shipId] }} <span class="hangar-filter-remove" data-ship-id="{{ shipId }}">×</span></button>
 				{% set hangarHasButton = true %}
@@ -53,7 +53,7 @@
 			<span class="hangar-filter-add-wrap">
 				<button type="button" id="hangar-filter-add" title="{{ LNG.fm_add_filter }}">+</button>
 				<div id="hangar-filter-menu" class="hangar-filter-menu" hidden data-ship-order="{{ hangarShipOrder|json_encode }}">
-					{% for shipId, shipName in (hangarShipOptions)|php_iter %}
+					{% for shipId, shipName in hangarShipOptions %}
 						<button type="button" class="hangar-filter-option" data-ship-id="{{ shipId }}">{{ shipName }}</button>
 					{% endfor %}
 				</div>
@@ -66,7 +66,7 @@
 		{% endif %}
 	{% endif %}
 
-	{% for ID, Element in (elementList)|php_iter %}
+	{% for ID, Element in elementList %}
 		<div class="infos {% if Element.fade %}unavailable{% endif %}" id="s{{ ID }}">
 			<div class="buildn"><a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>
 				<span id="val_{{ ID }}">{% if Element.available != 0 %} ({{ LNG.bd_available }} {{ pretty_number(Element.available) }}){% endif %}</span>
@@ -77,7 +77,7 @@
 				</a>
 				{% if not empty(Element.requirements) %}
 					{{ LNG.tt_requirements }}: </br>
-					{% for requireID, NeedLevel in (Element.requirements)|php_iter %}
+					{% for requireID, NeedLevel in Element.requirements %}
 						<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
 						<span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
 							{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
@@ -86,7 +86,7 @@
 					{% endfor %}
 				{% else %}
 					{{ LNG.bd_remaining }}:<br>
-					{% for ResType, ResCount in (Element.costOverflow)|php_iter %}
+					{% for ResType, ResCount in Element.costOverflow %}
 						<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="
 							<table>
 								<tr><th>{{ LNG.tech[ResType] }}</th></tr>
@@ -105,7 +105,7 @@
 			</div>
 			<div class="buildl">
 				<span>
-					{% for RessID, RessAmount in (Element.costResources)|php_iter %}
+					{% for RessID, RessAmount in Element.costResources %}
 						<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="
 						<table>
 							<tr><th>{{ LNG.tech[RessID] }}</th></tr>

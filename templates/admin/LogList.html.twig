@@ -22,7 +22,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for LogInfo in (LogArray)|php_iter %}
+            {% for LogInfo in LogArray %}
             <tr>
               <td class="num">{{ LogInfo.id }}</td>
               <td>{{ LogInfo.admin }}</td>

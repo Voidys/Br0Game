@@ -1,6 +1,6 @@
 {% include 'admin/overall_header.html.twig' %}
 {% macro rows(ticketList, withCategory, closed, LNG) %}
-  {% for TicketID, TicketInfo in (ticketList)|php_iter %}
+  {% for TicketID, TicketInfo in ticketList %}
     {% if (closed and TicketInfo.status == 2) or (not closed and TicketInfo.status < 2) %}
     <tr{% if withCategory %} data-category="{{ TicketInfo.categoryID }}"{% endif %}>
       <td class="num"><a href="admin?page=support&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>

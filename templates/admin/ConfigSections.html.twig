@@ -11,17 +11,17 @@
   {% if configSchema|length > 2 %}
     <nav class="jumplist" aria-label="{{ LNG.adm_sections }}">
       <span class="jumplist__label">{{ LNG.adm_sections }}</span>
-      {% for categoryName, fields in (configSchema)|php_iter %}
+      {% for categoryName, fields in configSchema %}
         <a href="#section-{{ categoryName }}">{{ LNG[('se_' ~ categoryName)] }}</a>
       {% endfor %}
     </nav>
   {% endif %}
 
-  {% for categoryName, fields in (configSchema)|php_iter %}
+  {% for categoryName, fields in configSchema %}
     <section class="card" id="section-{{ categoryName }}">
       <header class="card__head"><h2 class="card__title">{{ LNG[('se_' ~ categoryName)] }}</h2></header>
       <div class="card__body form-grid">
-        {% for fieldName, fieldConfig in (fields)|php_iter %}
+        {% for fieldName, fieldConfig in fields %}
           {% include 'admin/ConfigFieldInclude.html.twig' with {'fieldName': fieldName, 'fieldConfig': fieldConfig} %}
         {% endfor %}
       </div>

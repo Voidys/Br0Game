@@ -29,7 +29,7 @@
         </thead>
         {% for group in adminMenu %}
           {% set rows = [] %}
-          {% for File in (Files)|php_iter %}
+          {% for File in Files %}
             {% set key = File|replace({'Show': '', 'Page': ''})|lower %}
             {% if pageInfo[key] is defined and pageInfo[key].group == group.label %}
               {% set rows = rows|merge([File]) %}
@@ -51,7 +51,7 @@
           {% endif %}
         {% endfor %}
         {% set otherFiles = [] %}
-        {% for File in (Files)|php_iter %}
+        {% for File in Files %}
           {% if File not in known %}{% set otherFiles = otherFiles|merge([File]) %}{% endif %}
         {% endfor %}
         {% if otherFiles %}

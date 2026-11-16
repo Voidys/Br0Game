@@ -11,7 +11,7 @@
       <input type="hidden" name="messcat" value="{{ MessID }}">
       <input type="hidden" name="site" value="{{ page }}">
       {% if MessID != php_const('MESSAGE_TYPE_FAVORITES') %}
-        {% for Message in (MessageList)|php_iter %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox" hidden>{% endfor %}
+        {% for Message in MessageList %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox" hidden>{% endfor %}
       {% endif %}
       <select name="action" aria-label="{{ LNG.mg_action }}">
         <option value="readmarked">{{ LNG.mg_read_marked }}</option>
@@ -43,7 +43,7 @@
   <section class="msg-nav">
     <h2 class="msg-title">{{ LNG.mg_overview }}<span id="loading" hidden> ({{ LNG.loading }})</span></h2>
     <nav class="msg-cats" aria-label="{{ LNG.mg_message_type }}">
-      {% for CategoryID, CategoryRow in (CategoryList)|php_iter %}
+      {% for CategoryID, CategoryRow in CategoryList %}
         <a href="game?page=messages&category={{ CategoryID }}" data-message-category="{{ CategoryID }}"
            class="msg-cat{% if CategoryID == MessID %} active{% endif %}{% if CategoryRow.unread > 0 %} has-unread{% elseif CategoryRow.total == 0 and CategoryID != php_const('MESSAGE_TYPE_SEARCH') %} is-empty{% endif %}"
            title="{{ LNG.mg_type[CategoryID] }}" style="--cat: {{ CategoryRow.color }}"{% if CategoryID == MessID %} aria-current="page"{% endif %}>
@@ -102,7 +102,7 @@
 
   <div class="messages-container">
     {% set currentGroup = null %}
-    {% for Message in (MessageList)|php_iter %}
+    {% for Message in MessageList %}
       {% set groupId = Message.grp_id == null ? Message.id : Message.grp_id %}
       {% if currentGroup != Message.grp_id %}
         {% if currentGroup != null %}</div>{% endif %}
@@ -135,7 +135,7 @@
             <a href="#" class="msg-act msg-act--delete" data-action="msg-delete" data-id="{{ Message.id }}" data-group="group_{{ groupId }}" title="{{ LNG.mg_delete }}">{{ icon('trash-2') }}</a>
           </span>
           {% if Message.type == php_const('MESSAGE_TYPE_USER') %}
-            <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in (Message.receiver)|php_iter %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
+            <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in Message.receiver %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
           {% endif %}
         </header>
         <div class="message-content" id="msgcontent_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>

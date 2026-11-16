@@ -12,7 +12,7 @@
 				<div class="transparent text-left float-left"><img id="img" alt=""></div>
 				<div class="transparent text-right float-right fleet-dealer-pick">
 					<select name="shipID" id="shipID" data-on-change="trader-update">
-						{% for shipID in (shipIDs)|php_iter %}
+						{% for shipID in shipIDs %}
 						<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
 						{% endfor %}
 					</select>

@@ -4,7 +4,7 @@
 <form action="game?page=ticket&mode=send" method="post" id="form">
 <input type="hidden" name="id" value="{{ ticketID }}">
 <table class="form-table">
-	{% for answerID, answerRow in (answerList)|php_iter %}	
+	{% for answerID, answerRow in answerList %}	
 	{% if loop.first %}
 	<tr>
 		<th colspan="2">{{ LNG.ti_read }} :: {{ answerRow.subject }}</th>

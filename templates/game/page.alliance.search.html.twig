@@ -22,7 +22,7 @@
 		<th>{{ LNG.al_ally_info_name }}</th>
 		<th class="num">{{ LNG.al_ally_info_members }}</th>
 	</tr>
-	{% for seachRow in (searchList)|php_iter %}
+	{% for seachRow in searchList %}
 	<tr>
 		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.tag }}</a></td>
 		<td><a href="game?page=alliance&amp;mode=apply&amp;id={{ seachRow.id }}">{{ seachRow.name }}</a></td>

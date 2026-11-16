@@ -35,7 +35,7 @@
 					<td class="num res-energy">{{ pretty_number(basicProduction[911]) }}</td>
 					<td class="act"></td>
 				</tr>
-				{% for productionID, productionRow in (productionList)|php_iter %}
+				{% for productionID, productionRow in productionList %}
 					<tr class="prod-row">
 						<td>{{ _self.tip(productionID, (productionID >=600 and productionID <= 699) ? 'jpg' : 'gif') }}
 							<span class="prod-level">({% if productionID > 200 %}{{ LNG.rs_amount }}{% else %}{{ LNG.rs_lvl }}{% endif %} {{ productionRow.elementLevel }})</span>

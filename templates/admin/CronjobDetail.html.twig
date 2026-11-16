@@ -5,7 +5,7 @@
       {{ icon('circle-alert') }}
       <div>
         <ul>
-          {% for error in (error_msg)|php_iter %}<li>{{ error }}</li>{% endfor %}
+          {% for error in error_msg|default([]) %}<li>{{ error }}</li>{% endfor %}
         </ul>
       </div>
     </div>

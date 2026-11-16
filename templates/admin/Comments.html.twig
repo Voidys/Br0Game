@@ -20,7 +20,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for Users in (comments)|php_iter %}
+            {% for Users in comments %}
             <tr>
               <td class="num">{{ Users.user_id }}</td>
               <td><a href="admin?page=accountData&amp;id_u={{ Users.user_id }}">{{ Users.username }}</a></td>

@@ -30,7 +30,7 @@
           <table class="data data--compact">
             <thead><tr><th class="num">{{ LNG.ad_number }}</th><th>{{ LNG.ad_research }}</th><th class="num">{{ LNG.ad_count }}</th></tr></thead>
             <tbody>
-              {% for id, input in (inputlist)|php_iter %}
+              {% for id, input in inputlist %}
               <tr>
                 <td class="num muted">{{ id }}</td>
                 <td><label for="ae-{{ input.type }}">{{ LNG.tech[id] }}</label></td>

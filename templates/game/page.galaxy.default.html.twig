@@ -60,7 +60,7 @@
       <div class="galaxy-grid-header galaxy-actions" data-small-text="{{ LNG.gl_actions }}">{{ LNG.gl_actions }}</div>
     </div>
 
-    {% for planet in (planetDataNew)|php_iter %}
+    {% for planet in planetDataNew %}
       {% set currentPlanet = GalaxyRows[planet.planet_position] %}
       {% if not isset(currentPlanet) %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
@@ -113,18 +113,18 @@
           </div>
           <div class="galaxy-grid-item galaxy-player">
             <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.player.html.twig')|e('html_attr') }}">
-              <span playerid='{{ currentPlanet.user.id }}' class="{% for class in (currentPlanet.user.class)|php_iter %}{% if not loop.first %} {% endif %}galaxy-username-{{ class }}{% endfor %} galaxy-username{% if currentPlanet.user.isBuddy %} galaxy-friend{% endif %}">{{ currentPlanet.user.username }}</span>
+              <span playerid='{{ currentPlanet.user.id }}' class="{% for class in currentPlanet.user.class %}{% if not loop.first %} {% endif %}galaxy-username-{{ class }}{% endfor %} galaxy-username{% if currentPlanet.user.isBuddy %} galaxy-friend{% endif %}">{{ currentPlanet.user.username }}</span>
             </a>
-            {% if currentPlanet.user.is_leader %}{% set tt_rank %}<table width='100%'><tr><th colspan='2' class='text-center'>{{ currentPlanet.user.ally_owner_range }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-leader" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('trophy') }}</a>{% endif %}
-            {% if currentPlanet.user.is_diplo %}{% set tt_rank %}<table width='100%'><tr><th colspan='2' class='text-center'>{{ LNG.al_rank_diplo }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-diplo" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('handshake') }}</a>{% endif %}
+            {% if currentPlanet.user.is_leader %}{% set tt_rank %}<table class='w-100'><tr><th colspan='2' class='text-center'>{{ currentPlanet.user.ally_owner_range }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-leader" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('trophy') }}</a>{% endif %}
+            {% if currentPlanet.user.is_diplo %}{% set tt_rank %}<table class='w-100'><tr><th colspan='2' class='text-center'>{{ LNG.al_rank_diplo }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name }}</td></tr></table>{% endset %}<a class="tooltip galaxy-rank-diplo" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ icon('handshake') }}</a>{% endif %}
             {% if not empty(currentPlanet.user.class) %}
               <div>{# Do not format next line. It will break layout. #}
-                ({% for class in (currentPlanet.user.class)|php_iter %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %})
+                ({% for class in currentPlanet.user.class %}{% if not loop.first %}&nbsp;{% endif %}<span class="galaxy-short-{{ class }} galaxy-short">{{ ShortStatus[class] }}</span>{% endfor %})
               </div>
             {% endif %}
             {% if currentPlanet.alliance %}
               <a allyid={{ currentPlanet.alliance.id }} class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.alliance.html.twig')|e('html_attr') }}">
-                <span class="{% for class in (currentPlanet.alliance.class)|php_iter %}{% if not loop.first %} {% endif %}galaxy-alliance-{{ class }}{% endfor %} galaxy-alliance">[{{ currentPlanet.alliance.tag }}]</span>
+                <span class="{% for class in currentPlanet.alliance.class %}{% if not loop.first %} {% endif %}galaxy-alliance-{{ class }}{% endfor %} galaxy-alliance">[{{ currentPlanet.alliance.tag }}]</span>
               </a>
             {% endif %}
           </div>
@@ -271,7 +271,7 @@
     {% if row is null or row.destroyed == true %}
       {% set systemRows = systemRows|merge([{position: planet, data: null}]) %}
     {% else %}
-      {% set special %}{% if not empty(row.user.class) %}{% for class in (row.user.class)|php_iter %}{{ ShortStatus[class] }}{% endfor %}{% endif %}{% endset %}
+      {% set special %}{% if not empty(row.user.class) %}{% for class in row.user.class %}{{ ShortStatus[class] }}{% endfor %}{% endif %}{% endset %}
       {% set systemRows = systemRows|merge([{position: planet, data: {
         planetname: row.planet.name,
         hasmoon: row.moon ? true : false,

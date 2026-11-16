@@ -10,7 +10,7 @@
     <p class="news-article__back"><a href="./?page=news">{{ icon('arrow-left') }}{{ LNG.news_back }}</a></p>
   </article>
 {% else %}
-{% for item in (newsList)|php_iter %}
+{% for item in newsList %}
   <article class="news-item news-card{% if item.pinned %} news-card--pinned{% endif %}">
     {% if item.image %}<a class="news-card__image" href="./?page=news&amp;id={{ item.id }}" tabindex="-1" aria-hidden="true"><img src="{{ item.image.src }}"{% if item.image.srcset %} srcset="{{ item.image.srcset }}" sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"{% endif %} width="{{ item.image.width }}" height="{{ item.image.height }}" alt="" loading="lazy" decoding="async"></a>{% endif %}
     <h2><a href="./?page=news&amp;id={{ item.id }}">{{ item.title }}</a>{% if item.pinned %} <span class="news-card__pin">{{ LNG.news_pinned }}</span>{% endif %}</h2>

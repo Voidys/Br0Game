@@ -11,7 +11,7 @@
           &middot; {{ catchUp }} %
       {% endif %}</span>
     </div>
-    {% for ID, Element in (BuildInfoList)|php_iter %}
+    {% for ID, Element in BuildInfoList %}
       <div class="infos {{ Element.filterClass }} {% if Element.fade %}unavailable{% endif %}" >
         <div class="buildn relative">
           <a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level > 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
@@ -31,7 +31,7 @@
           </a>
           {% if not empty(Element.requirements) %}
             {{ LNG.tt_requirements }}: </br>
-            {% for requireID, NeedLevel in (Element.requirements)|php_iter %}
+            {% for requireID, NeedLevel in Element.requirements %}
               <a href="#" data-action="dialog-info" data-id="{{ requireID }}">
                 <span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
                   {{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
@@ -40,7 +40,7 @@
             {% endfor %}
           {% else %}
             {{ LNG.bd_remaining }}:<br>
-            {% for ResType, ResCount in (Element.costOverflow)|php_iter %}
+            {% for ResType, ResCount in Element.costOverflow %}
               <a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: ResType, image: false})|e('html_attr') }}">{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
             {% endfor %}
             {% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
@@ -54,7 +54,7 @@
 
         <div class="buildl">
           <span>
-            {% for RessID, RessAmount in (Element.costResources)|php_iter %}
+            {% for RessID, RessAmount in Element.costResources %}
               <a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' data-tooltip-content="{{ include('game/tooltip.element.html.twig', {id: RessID})|e('html_attr') }}">{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
             {% endfor %}
             
@@ -101,7 +101,7 @@
               <tr>
                 <th colspan='2'>{{ LNG.bd_price_for_destroy }} {{ LNG.tech[ID] }} {{ Element.levelToDestroy }}</th>
               </tr>
-              {% for ResType, ResCount in (Element.destroyResources)|php_iter %}
+              {% for ResType, ResCount in Element.destroyResources %}
               <tr>
                 <td>{{ LNG.tech[ResType] }}</td>
                 <td><span class='{% if empty(Element.destroyOverflow[ResType]) %}colorPositive{% else %}colorNeutral{% endif %}'>{{ pretty_number(ResCount) }}</span></td>

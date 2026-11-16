@@ -15,7 +15,7 @@
 		<th>{{ LNG.ti_date }}</th>
 		<th class="ctr">{{ LNG.ti_status }}</th>
 	</tr>
-	{% for TicketID, TicketInfo in (ticketList)|php_iter %}	
+	{% for TicketID, TicketInfo in ticketList %}	
 	<tr>
 		<td class="num"><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">#{{ TicketID }}</a></td>
 		<td><a href="game?page=ticket&amp;mode=view&amp;id={{ TicketID }}">{{ TicketInfo.subject }}</a></td>

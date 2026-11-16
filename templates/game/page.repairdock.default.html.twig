@@ -12,7 +12,7 @@
       <div id="repairlist" class="infos1">
         {% set ctime = 0 %}
         <div class="repairb">
-          {% for shipID, amount in (List.ships)|php_iter %}
+          {% for shipID, amount in List.ships|default([]) %}
             {{ LNG.tech[shipID] }} {{ amount }}<br>
           {% endfor %}
           {% set ctime = List.resttime+ ctime %}
@@ -48,7 +48,7 @@
             <input class="b colorPositive" type="submit" value="{{ LNG.bd_repair_ships }}">
           </div>
         {% endif %}
-        {% for ID, Element in (elementList)|php_iter %}
+        {% for ID, Element in elementList %}
           <div class="infos" id="s{{ ID }}">
             <div class="repairShipHeader">
               <a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>

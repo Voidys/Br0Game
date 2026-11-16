@@ -20,7 +20,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for account in (accounts)|php_iter %}
+            {% for account in accounts %}
             <tr>
               <td class="num">{{ account.validationID }}</td>
               <td>{{ account.accountname }}</td>

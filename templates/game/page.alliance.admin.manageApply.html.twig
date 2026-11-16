@@ -9,7 +9,7 @@
 		<th>{{ LNG.al_candidate }}</th>
 		<th>{{ LNG.al_request_date }}</th>
 	</tr>
-	{% for applyRow in (applyList)|php_iter %}
+	{% for applyRow in applyList %}
 	<tr>
 		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.username }}</a></td>
 		<td><a href="game?page=alliance&amp;mode=admin&amp;action=detailApply&amp;id={{ applyRow.id }}">{{ applyRow.time }}</a></td>

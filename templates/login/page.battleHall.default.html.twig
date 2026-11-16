@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for hallRow in (hallList)|php_iter %}
+      {% for hallRow in hallList %}
         <tr>
           <td>{{ loop.index }}</td>
           <td><a href="game?page=raport&amp;raport={{ hallRow.rid }}" target="_blank" rel="noopener">

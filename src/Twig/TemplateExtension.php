@@ -85,7 +85,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $functions;
     }
 
-    /** @return list<TwigFilter> the same passthroughs and view helpers as filters, plus escape-aware format/sprintf/nl2br, legacy_markup, php_iter, php_date, count_characters, ... */
+    /** @return list<TwigFilter> the same passthroughs and view helpers as filters, plus escape-aware format/sprintf/nl2br, legacy_markup, php_date, count_characters, ... */
     public function getFilters(): array
     {
         $filters = [];
@@ -104,7 +104,6 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         $filters[] = new TwigFilter('php_date', 'date');
         $filters[] = new TwigFilter('php_number_format', [self::class, 'numberFormat']);
         // {foreach} semantics: null -> nothing, iterable -> as is, anything else -> one element
-        $filters[] = new TwigFilter('php_iter', static fn($v) => $v === null ? [] : (is_iterable($v) ? $v : (is_object($v) ? get_object_vars($v) : [$v])));
         $filters[] = new TwigFilter('min', 'min');
         $filters[] = new TwigFilter('max', 'max');
         $filters[] = new TwigFilter('range', 'range');

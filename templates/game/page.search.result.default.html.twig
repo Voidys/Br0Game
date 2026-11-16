@@ -9,7 +9,7 @@
 		<th class="ctr">{{ LNG.sh_coords }}</th>
 		<th class="num">{{ LNG.sh_position }}</th>
 	</tr>
-	{% for searchRow in (searchList)|php_iter %}
+	{% for searchRow in searchList %}
 	<tr>
 		<td><a href="#" data-action="dialog-playercard" data-id="{{ searchRow.userid }}">{{ searchRow.username }}</a></td>
 		<td class="ctr"><a href="#" data-action="dialog-pm" data-id="{{ searchRow.userid }}" title="{{ LNG.sh_write_message }}"><img class="inline" src="{{ theme_asset('img/m.gif') }}"/></a>&nbsp;<a href="#" data-action="dialog-buddy" data-id="{{ searchRow.userid }}" title="{{ LNG.sh_buddy_request }}"><img class="inline" src="{{ theme_asset('img/b.gif') }}" border="0"></a></td>

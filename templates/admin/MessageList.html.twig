@@ -74,7 +74,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for messageID, messageRow in (messageList)|php_iter %}
+            {% for messageID, messageRow in messageList %}
             <tr data-messageID="{{ messageID }}">
               <td class="num"><a href="#" class="toggle">{{ messageID }}</a></td>
               {% if Selected == 100 %}<td><a href="#" class="toggle">{{ LNG.mg_type[messageRow.type] }}</a></td>{% endif %}

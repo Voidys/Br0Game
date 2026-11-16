@@ -10,7 +10,7 @@
             {% if not empty(tutorial.goals) %}
                 <b>{{ LNG.tutorial_goals_header }}</b><br>
                 <ul>
-                    {% for elementID, goal in (tutorial.goals)|php_iter %}
+                    {% for elementID, goal in tutorial.goals %}
                         <li>{{ goal.name }}&nbsp;:&nbsp;{{ goal.owned }}/{{ goal.ammount }}{% if goal.skippable %} <a data-method="post" href="?page=tutorial&amp;mode=skip&amp;goal={{ elementID }}">{{ LNG.tutorial_goals_ignore }}</a>{% endif %}</li>
                     {% endfor %}
                 </ul>
@@ -18,7 +18,7 @@
             {% if not empty(tutorial.rewards) %}
                 <b>{{ LNG.tutorial_rewards_header }}</b><br>
                 <ul>
-                    {% for elementID, reward in (tutorial.rewards)|php_iter %}
+                    {% for elementID, reward in tutorial.rewards %}
                         <li>{{ reward.name }}&nbsp;:&nbsp;{{ reward.ammount }}</li>
                     {% endfor %}
                 </ul>

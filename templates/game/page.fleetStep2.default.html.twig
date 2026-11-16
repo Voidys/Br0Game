@@ -19,7 +19,7 @@
 		<tr>
 			<td class="left top w-50 p-0"{% if not empty(StaySelector) %} rowspan="{% if Exchange %}6{% else %}5{% endif %}"{% endif %}>
         <div class="mission-list">
-          {% for MissionID in (MissionSelector)|php_iter %}
+          {% for MissionID in MissionSelector %}
           <div class="mission-option">
             <input id="radio_{{ MissionID }}" type="radio" name="mission" value="{{ MissionID }}" {% if mission == MissionID or loop.length == 1 %}checked="checked"{% endif %} data-on-change="check-hold" data-mission="{{ MissionID }}" class="fleet-radio"><label for="radio_{{ MissionID }}">{{ LNG["type_mission_#{MissionID}"] }}</label>
             {% if MissionID == 17 %}<div class="fleet-alert">{{ LNG.fl_transfer_alert_message }}</div>{% endif %}
@@ -32,7 +32,7 @@
         </div>
       </td>
       <td class="top">
-				<table border="0" cellpadding="0" cellspacing="0">
+				<table>
           {% if Exchange %}
           <tr id="tradeOfferRow">
             <td class="transparent">

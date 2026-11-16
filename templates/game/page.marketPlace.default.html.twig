@@ -102,7 +102,7 @@
 	</thead>
 	<tbody>
 
-	{% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
+	{% for FlyingFleetRow in FlyingFleetList %}
 	{% if FlyingFleetRow.type == 0 %}
 	<tr class='{% if FlyingFleetRow.diplo == 5 %}
 	 trade-enemy
@@ -170,7 +170,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for row in (resourceHistory)|php_iter %}
+		{% for row in resourceHistory %}
 		<tr>
 			<td data-seconds="{{ row.time_unix }}">{{ row.time }}</td>
 			<td class="num">{{ pretty_number(row.offer_amount) }}</td>
@@ -222,7 +222,7 @@
 	</thead>
 	<tbody>
 
-	{% for FlyingFleetRow in (FlyingFleetList)|php_iter %}
+	{% for FlyingFleetRow in FlyingFleetList %}
 	{% if FlyingFleetRow.type == 1 %}
 	<tr class='{% if FlyingFleetRow.diplo == 5 %}
 	 trade-enemy
@@ -279,7 +279,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for row in (fleetHistory)|php_iter %}
+		{% for row in fleetHistory %}
 		<tr>
 			<td data-seconds="{{ row.time_unix }}">{{ row.time }}</td>
 			<td>{{ row.fleet_str }}</td>
