@@ -25,6 +25,9 @@ class BoardController extends AbstractLoginController
     public function initialize(): void
     {
         parent::initialize();
+        if (!$this->configs->get()->board_enabled) {
+            $this->printPageError($this->state->LNG['page_doesnt_exist']);
+        }
     }
 
     /** the external forum is replaced by the built-in board (account area) */

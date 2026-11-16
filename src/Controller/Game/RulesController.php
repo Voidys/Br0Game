@@ -35,15 +35,30 @@ class RulesController extends AbstractGameController
         parent::initialize();
     }
 
+    private \App\Content\ContentPages $contentPages;
+    private \App\Content\HtmlContent $htmlContent;
+
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setContentPages(\App\Content\ContentPages $contentPages, \App\Content\HtmlContent $htmlContent): void
+    {
+        $this->contentPages = $contentPages;
+        $this->htmlContent = $htmlContent;
+    }
+
     /**
-     * Rules page: the localized text templates/texts/<lang>/rules.txt (trusted HTML) with the issue tracker link of the config filled in.
+     * Rules page: the same CMS page as the public /rules (edited row, else the default text unless blank rules were
+     * chosen) in the player's language; empty rules show a notice.
      */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
+        $LNG->includeData(['PUBLIC']);
+        $page = $this->contentPages->find('rules', $LNG->getLanguage());
+        $empty = $this->htmlContent->isEmpty($page['content']);
         $this->assign([
-            // templates/texts/<lang>/rules.txt is trusted HTML shipped with the code; the link is escaped
-            'rules'		=> new \Twig\Markup(sprintf($LNG->getTemplate('rules'), htmlspecialchars((string) $this->configs->get()->git_issues_link, ENT_QUOTES, double_encode: false)), 'UTF-8'),
+            // sanitized CMS HTML (ContentPages) or the trusted default template
+            'rules' => $empty ? '' : new \Twig\Markup($page['content'], 'UTF-8'),
+            'rulesEmpty' => $empty,
         ]);
 
         return $this->render('game/page.rules.default.html.twig');

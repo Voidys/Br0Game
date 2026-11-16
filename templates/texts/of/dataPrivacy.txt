@@ -23,10 +23,10 @@
 <li>je Universum einen Spieler: Spielername und Spieldaten wie Planeten, Gebäude, Forschung, Flotten, Rohstoffe, Punkte, Erfolge, Kampf- und Spionageberichte.</li>
 </ul>
 <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO: Diese Daten sind nötig, um das Spiel bereitzustellen, für das Sie sich angemeldet haben. Ohne E-Mail-Adresse und Passwort kann kein Konto angelegt werden.</p>
-<p>Spielbedingt sind einige Daten für andere Spieler sichtbar: Spielername, Koordinaten Ihrer Planeten, Allianz, Punkte und Platzierungen (Statistik, Hall of Fame) sowie Inhalte, die Sie selbst veröffentlichen (Allianztexte, Beiträge im Board).</p>
+<p>Spielbedingt sind einige Daten für andere Spieler sichtbar: Spielername, Koordinaten Ihrer Planeten, Allianz, Punkte und Platzierungen (Statistik, Hall of Fame) sowie Inhalte, die Sie selbst veröffentlichen (Allianztexte<!--board-->, Beiträge im Board<!--/board-->).</p>
 
 <h2>Kommunikation im Spiel</h2>
-<p>Wenn Sie die Kommunikationsfunktionen nutzen, speichern wir deren Inhalt zusammen mit Absender, Empfängern und Zeitpunkt: private und Allianznachrichten, Buddy-Anfragen, Notizen, Support-Tickets sowie Beiträge, Kommentare und Bewertungen im Board. Das geschieht, damit diese Funktionen funktionieren (Art. 6 Abs. 1 lit. b DSGVO). Moderatoren können Support-Tickets lesen und, bei Verdacht auf einen Regelverstoß, die gemeldeten Inhalte.<!--messages--> Nachrichten werden nach {message_days} Tagen automatisch gelöscht.<!--/messages--></p>
+<p>Wenn Sie die Kommunikationsfunktionen nutzen, speichern wir deren Inhalt zusammen mit Absender, Empfängern und Zeitpunkt: private und Allianznachrichten, Buddy-Anfragen, Notizen, Support-Tickets<!--board--> sowie Beiträge, Kommentare und Bewertungen im Board<!--/board-->. Das geschieht, damit diese Funktionen funktionieren (Art. 6 Abs. 1 lit. b DSGVO). Moderatoren können Support-Tickets lesen und, bei Verdacht auf einen Regelverstoß, die gemeldeten Inhalte.<!--messages--> Nachrichten werden nach {message_days} Tagen automatisch gelöscht.<!--/messages--></p>
 
 <h2>Fairplay und Schutz vor Missbrauch</h2>
 <p>Damit das Spiel fair bleibt und die Regeln durchgesetzt werden können (etwa das Verbot von Multi-Accounts und Pushing), verarbeiten wir:</p>

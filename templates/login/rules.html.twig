@@ -3,5 +3,9 @@
 {% block page_id %}rules{% endblock %}
 {% block title %}{{ page_title|e }}{% endblock %}
 {% block content %}
-<div class="rich-text rich-text--wide">{{ rules|raw }}</div>
+{% if rules_empty %}
+  <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ rules_empty_text }}</div></div>
+{% else %}
+  <div class="rich-text rich-text--wide">{{ rules|raw }}</div>
+{% endif %}
 {% endblock %}

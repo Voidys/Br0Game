@@ -97,6 +97,7 @@ class ConfigFieldSchema
             $this->basicMessagesSchema(),
             $this->basicRecaptchaSchema(),
             $this->basicDisclaimerSchema(),
+            $this->basicLegalSchema(),
             $this->basicStatisticsSchema(),
         );
     }
@@ -539,6 +540,41 @@ class ConfigFieldSchema
                     'transform' => 'string',
                     'sanitize' => true,
                     'default' => '',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Basic server settings, category `legal` (hosting region, default rules, community board).
+     * Missing keys (existing installations) fall back to these defaults, which keep the former behaviour.
+     *
+     * @return array<string, array<string, array<string, mixed>>> the category with its field definitions
+     */
+    private function basicLegalSchema(): array
+    {
+        $LNG = $this->state->LNG;
+
+        return [
+            'legal' => [
+                'privacy_region' => [
+                    'type' => self::TYPE_SELECT,
+                    'transform' => 'string',
+                    'options' => [
+                        'eu' => $LNG['se_privacy_region_sel']['eu'],
+                        'other' => $LNG['se_privacy_region_sel']['other'],
+                    ],
+                    'default' => 'eu',
+                ],
+                'rules_default' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => true,
+                ],
+                'board_enabled' => [
+                    'type' => self::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => true,
                 ],
             ],
         ];

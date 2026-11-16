@@ -805,6 +805,8 @@ se_bash_per_user_info: >-
   Wie oft ein Spieler einen anderen Spieler pro 24h angreifen darf  (Alle
   Planeten zusammen). 0 = ausgeschaltet
 se_block_planet_creation: Block
+se_board_enabled: Community-Board aktivieren
+se_board_enabled_info: "Aus: Alle Board-Links werden ausgeblendet und die Board-Seiten sind nicht erreichbar."
 se_building_speed: Bauspeed
 se_buildings: Gebäudeeinstellungen
 se_buildlist: Bauliste Einstellungen
@@ -915,6 +917,14 @@ se_galaxy_type_info: >-
   anderen.</td></tr></TABLE>
 se_default_theme: Standard-Design
 se_default_theme_info: Design für neue Accounts und Besucher
+se_legal: Rechtliches und Community
+se_privacy_region: Hosting-Region (Datenschutzerklärung)
+se_privacy_region_info: "Bestimmt die Standard-Datenschutzerklärung: DSGVO-Fassung (EU/EWR) oder allgemeine Fassung. Bereits bearbeitete Seiten bleiben unverändert; der Betreiber ist für die rechtlichen Texte selbst verantwortlich."
+se_privacy_region_sel:
+  eu: EU / EWR - DSGVO-Datenschutzerklärung
+  other: Außerhalb der EU - allgemeine Datenschutzerklärung
+se_rules_default: Standardregeln verwenden
+se_rules_default_info: "Aus: Die Regelseite bleibt leer, bis du eigene Regeln unter Seiten schreibst. Bereits bearbeitete Regeln bleiben erhalten."
 se_source_url: Quellcode-URL
 se_source_url_info: 'Öffentliches Repository des Codes, den dieser Server ausführt; im Footer als „Quellcode“ verlinkt (die AGPL verlangt, Spielern deine Änderungen anzubieten). Leer blendet den Link aus.'
 se_game_name: Name (Game)

@@ -696,6 +696,8 @@ se_bash_per_user_info: >-
   How often a player can attack another player per 24 hours (across all
   planets). 0 = off
 se_block_planet_creation: Block
+se_board_enabled: Enable community board
+se_board_enabled_info: "Off: all board links are hidden and the board pages are not available."
 se_building_speed: Building speed
 se_buildings: Building settings
 se_buildlist: Queue settings
@@ -795,6 +797,14 @@ se_galaxy_type_info: >-
   the same galaxy is equally distant from the others.</td></tr></TABLE>
 se_default_theme: Default theme
 se_default_theme_info: Theme for new accounts and visitors
+se_legal: Legal and community
+se_privacy_region: Hosting region (privacy policy)
+se_privacy_region_info: "Selects the default privacy policy: GDPR version (EU/EEA) or general version. Pages that were already edited stay unchanged; the operator is responsible for the legal texts."
+se_privacy_region_sel:
+  eu: EU / EEA - GDPR privacy policy
+  other: Outside the EU - general privacy policy
+se_rules_default: Use default rules
+se_rules_default_info: "Off: the rules page stays empty until you write your own rules under Pages. Rules that were already edited are kept."
 se_source_url: Source code URL
 se_source_url_info: 'Public repository of the code this server runs, linked as "Source code" in the footers (the AGPL asks you to offer your changes to players). Empty hides the link.'
 se_game_name: Game name

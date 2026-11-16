@@ -1,0 +1,41 @@
+{% extends 'install/ins_layout.html.twig' %}
+{% block heading %}{{ LNG.ins_step_legal }}{% endblock %}
+{% block panel %}
+  <p>{{ LNG.ins_legal_desc }}</p>
+  {% if error is defined and error %}
+    <div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ error }}</div></div>
+  {% endif %}
+  <form class="install-form" action="./?mode=install&amp;step=7" method="post">
+    <input type="hidden" name="post" value="1">
+    <input type="hidden" name="bots" value="{{ bots|default(0) }}">
+    <fieldset>
+      <legend>{{ LNG.ins_group_privacy }}</legend>
+      <p class="install-field--wide install-hint">{{ LNG.ins_privacy_info }}</p>
+      <label class="install-check install-field--wide">
+        <input type="radio" name="privacy_region" value="eu"{% if values.privacy_region == 'eu' %} checked{% endif %}>
+        <span><strong>{{ LNG.ins_privacy_eu }}</strong><small class="install-hint">{{ LNG.ins_privacy_eu_info }}</small></span>
+      </label>
+      <label class="install-check install-field--wide">
+        <input type="radio" name="privacy_region" value="other"{% if values.privacy_region == 'other' %} checked{% endif %}>
+        <span><strong>{{ LNG.ins_privacy_other }}</strong><small class="install-hint">{{ LNG.ins_privacy_other_info }}</small></span>
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>{{ LNG.ins_group_rules }}</legend>
+      <label class="install-check install-field--wide">
+        <input type="radio" name="rules_default" value="default"{% if values.rules_default == 'default' %} checked{% endif %}>
+        <span><strong>{{ LNG.ins_rules_default }}</strong><small class="install-hint">{{ LNG.ins_rules_default_info }}</small></span>
+      </label>
+      <label class="install-check install-field--wide">
+        <input type="radio" name="rules_default" value="blank"{% if values.rules_default == 'blank' %} checked{% endif %}>
+        <span><strong>{{ LNG.ins_rules_blank }}</strong><small class="install-hint">{{ LNG.ins_rules_blank_info }}</small></span>
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend>{{ LNG.ins_group_community }}</legend>
+      <label class="install-check install-field--wide"><input type="checkbox" name="board_enabled" value="1"{% if values.board_enabled %} checked{% endif %}> <span>{{ LNG.ins_board }}<small class="install-hint">{{ LNG.ins_board_info }}</small></span></label>
+    </fieldset>
+    <p class="install-hint">{{ LNG.ins_legal_note }}</p>
+    <div class="install-actions"><button type="submit" class="btn--primary">{{ LNG.continue }}</button></div>
+  </form>
+{% endblock %}

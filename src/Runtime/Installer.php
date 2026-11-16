@@ -376,7 +376,8 @@ final class Installer
      * Fresh install, one step per request (the steps themselves are App\Runtime\InstallService, shared with
      * `bin/console app:install`):
      * 1 licence, 2 requirements, 3 database form, 4 connect + create the database + write the settings,
-     * 5 build the tables (task by task), 6 game settings, 7 administrator form, 8 create the administrator, done.
+     * 5 build the tables (task by task), 6 game settings, 7 legal settings (hosting region, rules, board),
+     * 8 administrator form, 9 create the administrator, done.
      */
     private function install(Language $LNG, string $enableInstallToolFile): void
     {
@@ -393,8 +394,9 @@ final class Installer
             4 => $this->stepDatabase($LNG),
             5 => $this->stepBuild($LNG),
             6 => $this->stepGame($LNG),
-            7 => $this->stepAdminForm(),
-            8 => $this->stepAdmin($LNG),
+            7 => $this->stepLegal($LNG),
+            8 => $this->stepAdminForm(),
+            9 => $this->stepAdmin($LNG),
             default => $this->http()->redirectTo('./'),
         };
     }
@@ -547,7 +549,37 @@ final class Installer
         $this->show('ins_game');
     }
 
-    /** Step 7: administrator form (name, password, e-mail, number of bots to create, 0-50). */
+    /**
+     * Step 7: hosting region (privacy policy), default or blank rules, community board. Passes the bots count and
+     * language of the game step on to the administrator form.
+     */
+    private function stepLegal(Language $LNG): void
+    {
+        $locale = $LNG->getLanguage();
+        $post = $this->state->requestPost;
+        $query = $this->state->requestQuery;
+        $values = [
+            'privacy_region' => $post['privacy_region'] ?? 'eu',
+            'rules_default' => $post['rules_default'] ?? 'default',
+            'board_enabled' => isset($post['post']) ? !empty($post['board_enabled']) : true,
+        ];
+        $bots = max(0, min(50, (int) ($post['bots'] ?? $query['bots'] ?? 0)));
+
+        if (isset($post['post'])) {
+            $checked = $this->installer->validateLegalSettings($values, $locale);
+            $values = $checked['values'];
+            if ($checked['error'] === null) {
+                $this->installer->applyLegalSettings($values);
+                $this->http()->redirectTo('./?mode=install&step=8&bots=' . $bots . '&lang=' . $locale);
+            }
+            $this->assign(['error' => $checked['error']]);
+        }
+
+        $this->assign(['values' => $values, 'bots' => $bots]);
+        $this->show('ins_legal');
+    }
+
+    /** Step 8: administrator form (name, password, e-mail, number of bots to create, 0-50). */
     private function stepAdminForm(): void
     {
         $this->assign([
@@ -561,7 +593,7 @@ final class Installer
     }
 
     /**
-     * Step 8: validates and creates the admin account, logs it in (Symfony login plus a game session with admin
+     * Step 9: validates and creates the admin account, logs it in (Symfony login plus a game session with admin
      * access), optionally spawns bots (a failure only sets a flag), locks the installer and shows the summary with the
      * cron line and the generated migration password.
      */
@@ -583,7 +615,7 @@ final class Installer
                 'mail' => $mail,
                 'bots' => $bots,
                 'minLength' => InstallService::MIN_PASSWORD_LENGTH,
-                'currentStep' => 7,
+                'currentStep' => 8,
             ]);
             $this->show('ins_acc');
         }

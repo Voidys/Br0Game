@@ -1035,3 +1035,11 @@ Technical changes per migration step, newest last.
 ## 125. Board link opens in a new tab
 
 - Game side panel: the board entry (account area) opens with `target="_blank" rel="noopener"`, like the other community links.
+
+## 126. Installer legal step: hosting region, rules, board
+
+- New global config category `legal` (`ConfigFieldSchema::basicLegalSchema()`): `privacy_region` (`eu`|`other`, default `eu`), `rules_default` (checkbox, default on), `board_enabled` (checkbox, default on); existing installs keep today's behaviour, all three are in the admin basic settings (`se_privacy_region*`, `se_rules_default*`, `se_board_enabled*`, de/en).
+- Installer: new step 7 `Installer::stepLegal()` + `ins_legal.html.twig` (`InstallService::validateLegalSettings()/applyLegalSettings()`); admin form is now step 8, admin creation step 9 (progress list, form actions, `currentStep` of the admin error re-render, bots/lang still passed on).
+- `ContentPages`: default privacy text comes from `templates/texts/<lang>/dataPrivacy_general.txt` (de, en; other languages fall back to en) when `privacy_region=other`, default rules are empty when `rules_default=0`; edited page rows still win. `/rules` shows an empty notice (`rulesEmpty`) for empty rules.
+- Board off: links removed from the game side panel, account top bar and login header; `board` pages (login, game, account) answer with the standard "page does not exist" message.
+- `InstallLegalSettingsTest` (validation, storage, default pages, step rendering); golden `basic_*` values of `ConfigFieldSchemaTest` updated.

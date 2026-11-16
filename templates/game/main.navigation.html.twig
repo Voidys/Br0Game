@@ -70,7 +70,9 @@
       {% if isModuleAvailable(php_const('MODULE_STATISTICS')) %}
         {{ nav.link('game?page=statistics', 'trophy', LNG.lm_statistics, currentPage == 'statistics') }}
       {% endif %}
-      {{ nav.link('account?page=board', 'messages-square', LNG.lm_board, false, ' target="_blank" rel="noopener"') }}
+      {% if game_config('board_enabled', '1') != '0' %}
+        {{ nav.link('account?page=board', 'messages-square', LNG.lm_board, false, ' target="_blank" rel="noopener"') }}
+      {% endif %}
       {{ nav.link('game?page=battleHall', 'skull', LNG.lm_topkb, currentPage == 'battlehall') }}
       {% if isModuleAvailable(php_const('MODULE_RECORDS')) %}
         {{ nav.link('game?page=records', 'medal', LNG.lm_records, currentPage == 'records') }}

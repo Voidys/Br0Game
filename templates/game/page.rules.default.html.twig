@@ -3,6 +3,10 @@
 {% block content %}
   <section class="rules">
     <h1>{{ LNG.lm_rules }}</h1>
-    <div class="rich-text">{{ rules }}</div>
+    {% if rulesEmpty %}
+      <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ LNG.rulesEmpty }}</div></div>
+    {% else %}
+      <div class="rich-text">{{ rules }}</div>
+    {% endif %}
   </section>
 {% endblock %}

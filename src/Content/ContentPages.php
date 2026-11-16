@@ -187,7 +187,15 @@ final class ContentPages
                 . ($this->html->isEmpty($notice) ? '' : '<h2>' . $e($t('disclamerLabelNotice')) . '</h2>' . $notice);
         }
 
-        $text = $this->languagePacks->getTemplate(self::SLUGS[$slug], $lang);
+        if ($slug === 'rules' && (int) $this->config->get('rules_default', '1') === 0) {
+            return ''; // blank rules chosen in the installer / settings: the operator writes their own
+        }
+
+        $template = self::SLUGS[$slug];
+        if ($slug === 'dataPrivacy' && $this->config->get('privacy_region', 'eu') === 'other') {
+            $template = 'dataPrivacy_general';
+        }
+        $text = $this->languagePacks->getTemplate($template, $lang);
         if ($slug === 'dataPrivacy') {
             return $this->privacyPolicy($text);
         }
@@ -207,7 +215,7 @@ final class ContentPages
      * deletion waiting period), {inactive_days} (automatic deletion of inactive players),
      * {message_days} (message expiry). Optional parts between <!--name--> and <!--/name--> are kept
      * only while the feature is in use: "mail" (a contact address is set), "recaptcha" (reCAPTCHA
-     * keys are configured), "inactive" and "messages" (the period is greater than zero).
+     * keys are configured), "inactive" and "messages" (the period is greater than zero), "board" (the community board is enabled).
      */
     private function privacyPolicy(string $text): string
     {
@@ -220,6 +228,7 @@ final class ContentPages
             'recaptcha' => trim((string) $this->config->get('recaptcha_pub_key', '')) !== '',
             'inactive' => $days('del_user_automatic') > 0,
             'messages' => $days('message_delete_days') > 0,
+            'board' => (int) $this->config->get('board_enabled', '1') !== 0,
         ];
         foreach ($features as $name => $active) {
             $text = (string) preg_replace('#<!--' . $name . '-->(.*?)<!--/' . $name . '-->#s', $active ? '$1' : '', $text);

@@ -23,10 +23,10 @@
 <li>one player per universe: player name and game data such as planets, buildings, research, fleets, resources, points, achievements, combat and espionage reports.</li>
 </ul>
 <p>The legal basis is Art. 6(1)(b) GDPR: this data is needed to provide the game you signed up for. Without an email address and a password, no account can be created.</p>
-<p>The nature of the game makes some data visible to other players: player name, coordinates of your planets, alliance, points and rankings (statistics, hall of fame), and the content you choose to publish (alliance texts, board posts).</p>
+<p>The nature of the game makes some data visible to other players: player name, coordinates of your planets, alliance, points and rankings (statistics, hall of fame), and the content you choose to publish (alliance texts<!--board-->, board posts<!--/board-->).</p>
 
 <h2>Communication within the game</h2>
-<p>When you use the communication features, we store their content together with the sender, the recipients and the time: private and alliance messages, buddy requests, notes, support tickets, and posts, comments and votes on the board. This is done so that the features work (Art. 6(1)(b) GDPR). Moderators can read support tickets and, if a breach of the rules is suspected, the reported content.<!--messages--> Messages are deleted automatically after {message_days} days.<!--/messages--></p>
+<p>When you use the communication features, we store their content together with the sender, the recipients and the time: private and alliance messages, buddy requests, notes, support tickets<!--board-->, and posts, comments and votes on the board<!--/board-->. This is done so that the features work (Art. 6(1)(b) GDPR). Moderators can read support tickets and, if a breach of the rules is suspected, the reported content.<!--messages--> Messages are deleted automatically after {message_days} days.<!--/messages--></p>
 
 <h2>Fair play and protection against abuse</h2>
 <p>To keep the game fair and to enforce the rules (for example the ban on multi-accounting and account pushing), we process:</p>

@@ -643,6 +643,43 @@ final class InstallService
         }
     }
 
+    /**
+     * Validates the legal step. Keys of $input: privacy_region (eu|other), rules_default (default|blank),
+     * board_enabled (bool).
+     *
+     * @param array<string, mixed> $input
+     * @return array{error: ?string, values: array<string, mixed>}
+     */
+    public function validateLegalSettings(array $input, string $locale): array
+    {
+        $LNG = $this->lng($locale);
+        $values = [
+            'privacy_region' => (string) ($input['privacy_region'] ?? 'eu'),
+            'rules_default' => (string) ($input['rules_default'] ?? 'default'),
+            'board_enabled' => !empty($input['board_enabled']),
+        ];
+
+        $error = match (true) {
+            !in_array($values['privacy_region'], ['eu', 'other'], true) => $LNG['ins_legal_region_invalid'],
+            !in_array($values['rules_default'], ['default', 'blank'], true) => $LNG['ins_legal_rules_invalid'],
+            default => null,
+        };
+
+        return ['error' => $error, 'values' => $values];
+    }
+
+    /** Writes validated legal settings (see validateLegalSettings()) to the global configuration. */
+    public function applyLegalSettings(array $values): void
+    {
+        $global = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);';
+        $this->db->insert($global, [':key' => 'privacy_region', ':value' => $values['privacy_region']]);
+        $this->db->insert($global, [':key' => 'rules_default', ':value' => $values['rules_default'] === 'default' ? '1' : '0']);
+        $this->db->insert($global, [':key' => 'board_enabled', ':value' => $values['board_enabled'] ? '1' : '0']);
+        if ($this->configs->isLoaded()) {
+            $this->configs->reload();
+        }
+    }
+
     /** @return array<string, string> empty when valid, else field => message */
     public function validateAdmin(string $username, string $password, string $confirm, string $mail, string $locale): array
     {

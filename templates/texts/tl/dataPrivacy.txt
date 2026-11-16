@@ -23,10 +23,10 @@
 <li>isang manlalaro kada universe: pangalan ng manlalaro at datos ng laro tulad ng mga planeta, gusali, research, fleet, resource, puntos, achievement, combat at espionage report.</li>
 </ul>
 <p>Ang legal na batayan ay Art. 6(1)(b) GDPR: kailangan ang datos na ito para maibigay ang larong sinalihan mo. Kung walang email address at password, hindi makakagawa ng account.</p>
-<p>Dahil sa katangian ng laro, nakikita ng ibang manlalaro ang ilang datos: pangalan ng manlalaro, coordinate ng mga planeta mo, alliance, puntos at rankings (statistics, hall of fame), at ang nilalamang pinili mong ilathala (mga teksto ng alliance, mga post sa board).</p>
+<p>Dahil sa katangian ng laro, nakikita ng ibang manlalaro ang ilang datos: pangalan ng manlalaro, coordinate ng mga planeta mo, alliance, puntos at rankings (statistics, hall of fame), at ang nilalamang pinili mong ilathala (mga teksto ng alliance<!--board-->, mga post sa board<!--/board-->).</p>
 
 <h2>Komunikasyon sa loob ng laro</h2>
-<p>Kapag ginamit mo ang mga feature ng komunikasyon, iniimbak namin ang nilalaman ng mga ito kasama ang nagpadala, mga tatanggap at oras: mga pribado at alliance na mensahe, buddy request, tala, support ticket, at mga post, komento at boto sa board. Ginagawa ito para gumana ang mga feature (Art. 6(1)(b) GDPR). Mababasa ng mga moderator ang mga support ticket at, kung pinaghihinalaang may paglabag sa mga patakaran, ang iniulat na nilalaman.<!--messages--> Awtomatikong binubura ang mga mensahe pagkatapos ng {message_days} araw.<!--/messages--></p>
+<p>Kapag ginamit mo ang mga feature ng komunikasyon, iniimbak namin ang nilalaman ng mga ito kasama ang nagpadala, mga tatanggap at oras: mga pribado at alliance na mensahe, buddy request, tala, support ticket<!--board-->, at mga post, komento at boto sa board<!--/board-->. Ginagawa ito para gumana ang mga feature (Art. 6(1)(b) GDPR). Mababasa ng mga moderator ang mga support ticket at, kung pinaghihinalaang may paglabag sa mga patakaran, ang iniulat na nilalaman.<!--messages--> Awtomatikong binubura ang mga mensahe pagkatapos ng {message_days} araw.<!--/messages--></p>
 
 <h2>Patas na laro at proteksyon laban sa pang-aabuso</h2>
 <p>Para mapanatiling patas ang laro at maipatupad ang mga patakaran (halimbawa ang pagbabawal sa multi-accounting at account pushing), pinoproseso namin ang:</p>

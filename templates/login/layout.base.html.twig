@@ -57,7 +57,9 @@
           <a href="./?page=battleHall"{% if currentPage == 'battlehall' %} aria-current="page"{% endif %}>{{ LNG.menu_battlehall }}</a>
           <a href="./?page=screens"{% if currentPage == 'screens' %} aria-current="page"{% endif %}>{{ LNG.buttonScreenshot }}</a>
           <a href="./?page=rules"{% if currentPage == 'rules' %} aria-current="page"{% endif %}>{{ LNG.menu_rules }}</a>
-          <a href="account?page=board"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
+          {% if game_config('board_enabled', '1') != '0' %}
+            <a href="account?page=board"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
+          {% endif %}
         </nav>
         {% if loginAccountName is defined and loginAccountName is not null and currentPage != 'index' %}
           <nav class="site-account" aria-label="{{ loginAccountName }}">

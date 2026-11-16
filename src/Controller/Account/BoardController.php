@@ -45,6 +45,9 @@ class BoardController extends AbstractAccountController
             // visitors get the start page frame (account/layout.site)
             $this->setWindow('site');
         }
+        if (!$this->configs->get()->board_enabled) {
+            $this->printPageError($this->state->LNG['page_doesnt_exist']);
+        }
     }
 
     // ------------------------------------------------------------------ views
