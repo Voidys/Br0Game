@@ -320,6 +320,11 @@ class FleetStep1Controller extends AbstractGameController
         return $ColonyList;
     }
 
+    /**
+     * Saved fleet target shortcuts of the player (empty when the shortcuts module is off).
+     *
+     * @return array<int, array<string, mixed>> shortcut rows keyed by shortcutID
+     */
     private function GetUserShotcut()
     {
         $USER = $this->state->USER;

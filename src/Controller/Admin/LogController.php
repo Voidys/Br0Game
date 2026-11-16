@@ -80,6 +80,12 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogOverview.html.twig');
     }
 
+    /**
+     * Flattens one stored admin-log change set (nested arrays of old/new values) into display rows: nested keys that
+     * are table names start a table section, scalar values become rows via addToLogArray(); the universe key is skipped.
+     *
+     * @param array<int, array<string, mixed>> $LogArray rows collected so far (appended in place)
+     */
     private function loopLogArray(&$LogArray, $Wrapper, $dbTableNames, $conf_after, $array)
     {
         foreach ($array as $key => $val) {

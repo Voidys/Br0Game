@@ -223,6 +223,12 @@ class InformationController extends AbstractGameController
         );
     }
 
+    /**
+     * Ships on the current planet that can use the jump gate: every fleet unit with a count above 0 except solar
+     * satellites (212), which can't fly.
+     *
+     * @return array<int, float> element id => count
+     */
     private function getAvailableFleets()
     {
         $reslist = $this->state->reslist;

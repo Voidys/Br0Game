@@ -52,6 +52,10 @@ trait PageModeDispatch
         throw new EndOfRequest();
     }
 
+    /**
+     * Whether `mode` may be dispatched to a method of this controller: a public, non-static method declared by the
+     * controller itself (not inherited helpers, not magic `__` methods), so the URL can't call arbitrary methods.
+     */
     private function isPageMode(string $mode): bool
     {
         if ($mode === '' || str_starts_with($mode, '__') || !method_exists($this, $mode)) {

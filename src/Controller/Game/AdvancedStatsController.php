@@ -30,6 +30,11 @@ class AdvancedStatsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Whether an advanced-statistics key is shown: keys ending in an element id (e.g. `destroyed_202`) only for
+     * buildings, research, ships, defense, missiles or the three resources that are enabled in this universe;
+     * keys without an id are always shown.
+     */
     private function checkAvailable(string $key)
     {
         $reslist = $this->state->reslist;

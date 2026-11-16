@@ -133,6 +133,10 @@ class GalaxyRows
         return $this->galaxyData;
     }
 
+    /**
+     * Activity marker of the current galaxy row from the newer of planet and moon update times: "(*)" under 15 minutes,
+     * the minutes under an hour, nothing after that.
+     */
     private function setLastActivity(): void
     {
         $LNG = $this->state->LNG;

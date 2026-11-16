@@ -13,6 +13,15 @@ use App\Game\Core\WikiSsoCodeStore;
 #[\App\Routing\GamePage('game.php', 'wikiLogin', uniPrefix: true)]
 class WikiLoginController extends AbstractGameController
 {
+    private ?\App\Security\CspNonce $cspNonce = null;
+
+    /** the response's CSP nonce: the hand-off page needs a nonce for its auto-submit script and the wiki as form target */
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setCspNonce(\App\Security\CspNonce $cspNonce): void
+    {
+        $this->cspNonce = $cspNonce;
+    }
+
     public static $requireModule = 0;
 
     protected $disableEcoSystem = true;
@@ -63,10 +72,24 @@ class WikiLoginController extends AbstractGameController
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 
+    /**
+     * Prints the hand-off page of the wiki single sign-on: a form that POSTs the one-time code to the configured
+     * wiki URL and submits itself. The Content-Security-Policy normally only allows forms to this site and nonce
+     * scripts, so the wiki origin is opened as form target for this response and the script carries the nonce;
+     * the submit button stays visible as fallback when the script does not run.
+     *
+     * @param string $code       one-time code stored in WikiSsoCodeStore, redeemed by the wiki through internal_sso_resolve
+     * @param string $wikiSsoUrl the wiki's SSO endpoint (config/game.php $wikiSsoUrl)
+     */
     private function renderAutoSubmitForm($code, $wikiSsoUrl)
     {
         $url = htmlspecialchars($wikiSsoUrl, ENT_QUOTES);
         $codeEscaped = htmlspecialchars($code, ENT_QUOTES);
+        $nonce = '';
+        if ($this->cspNonce !== null) {
+            $this->cspNonce->allowSource('form-action', $wikiSsoUrl);
+            $nonce = htmlspecialchars($this->cspNonce->value(), ENT_QUOTES);
+        }
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -75,9 +98,9 @@ class WikiLoginController extends AbstractGameController
 <body>
     <form id="wikiSsoForm" method="post" action="{$url}">
         <input type="hidden" name="code" value="{$codeEscaped}">
-        <noscript><button type="submit">Weiter zum Wiki</button></noscript>
+        <button type="submit">Weiter zum Wiki</button>
     </form>
-    <script>document.getElementById('wikiSsoForm').submit();</script>
+    <script nonce="{$nonce}">document.getElementById('wikiSsoForm').submit();</script>
 </body>
 </html>
 HTML;

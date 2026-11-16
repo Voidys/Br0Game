@@ -57,4 +57,23 @@ final class ContentSecurityPolicyTest extends TestCase
         self::assertStringContainsString("frame-src 'self' https://www.google.com", $policy);
         self::assertStringContainsString("connect-src 'self' https://www.google.com", $policy);
     }
+
+    /** the wiki SSO hand-off opens exactly the wiki origin as form target, for that response only */
+    public function testExtraSourcesAreMergedPerResponse(): void
+    {
+        $nonce = new \App\Security\CspNonce();
+        $nonce->allowSource('form-action', 'https://wiki.example.org:8443/sso/login?x=1');
+        $nonce->allowSource('form-action', 'javascript:alert(1)');
+        $nonce->allowSource('form-action', 'ftp://files.example.org/');
+
+        self::assertSame(['form-action' => ['https://wiki.example.org:8443']], $nonce->sources());
+
+        $policy = (new ContentSecurityPolicy())->build('n', [], $nonce->sources());
+        self::assertStringContainsString("form-action 'self' https://wiki.example.org:8443;", $policy);
+        self::assertStringContainsString("script-src 'self' 'nonce-n';", $policy);
+
+        $nonce->reset();
+        self::assertSame([], $nonce->sources());
+        self::assertStringContainsString("form-action 'self';", (new ContentSecurityPolicy())->build('n', [], $nonce->sources()));
+    }
 }

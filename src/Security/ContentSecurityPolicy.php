@@ -60,8 +60,9 @@ final class ContentSecurityPolicy
      * the policy string for a response whose inline scripts carry $nonce
      *
      * @param list<string> $features optional third-party features the page uses (keys of FEATURES)
+     * @param array<string, list<string>> $extraSources extra per-response sources (directive => origins, see CspNonce::allowSource())
      */
-    public function build(string $nonce, array $features = []): string
+    public function build(string $nonce, array $features = [], array $extraSources = []): string
     {
         $directives = [
             'default-src' => ["'self'"],
@@ -79,6 +80,9 @@ final class ContentSecurityPolicy
             foreach (self::FEATURES[$feature] ?? [] as $directive => $sources) {
                 $directives[$directive] = [...($directives[$directive] ?? ["'self'"]), ...$sources];
             }
+        }
+        foreach ($extraSources as $directive => $origins) {
+            $directives[$directive] = [...($directives[$directive] ?? ["'self'"]), ...$origins];
         }
         $parts = [];
         foreach ($directives as $directive => $sources) {

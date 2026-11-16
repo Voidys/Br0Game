@@ -84,6 +84,12 @@ class DisposableEmailDomainBlocklist
         return true;
     }
 
+    /**
+     * Blocked domains as a lookup set: the built-in fallback list plus the cached public list written by the
+     * disposable-domains cronjob (var/game cache file), normalised; memoised for the request.
+     *
+     * @return array<string, true>
+     */
     private static function domains(): array
     {
         if (self::$domains !== null) {
@@ -130,6 +136,10 @@ class DisposableEmailDomainBlocklist
         return $domains === [] ? null : array_keys($domains);
     }
 
+    /**
+     * Lower-cased, IDN-to-ASCII (punycode) form of a domain, or null when it isn't a syntactically valid
+     * host name (labels of 1–63 chars, total ≤ 253), so list entries and e-mail domains compare the same way.
+     */
     private static function normalizeDomain(string $domain): ?string
     {
         $domain = strtolower(trim($domain));

@@ -52,6 +52,12 @@ jobs:
       - name: Service container
         run: php bin/console lint:container
 
+      - name: Every complex function and class has a docblock
+        run: php tools/ci/docblock-check.php src
+
+      - name: No method longer than 80 lines
+        run: php tools/ci/long-methods-check.php src
+
   tests:
     name: PHPUnit (unit + integration)
     runs-on: ubuntu-latest

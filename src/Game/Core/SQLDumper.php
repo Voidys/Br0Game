@@ -54,6 +54,14 @@ class SQLDumper
         return function_exists('shell_exec') && function_exists('escapeshellarg') && shell_exec("which " . $command) !== "";
     }
 
+    /**
+     * Dumps the given tables with the mysqldump binary into $filePath (structure + complete inserts, primary-key
+     * order, hex blobs). The password goes through MYSQL_PWD for MySQL ≥ 5.5 so it doesn't appear in the process list;
+     * all arguments are shell-escaped.
+     *
+     * @param list<string> $dbTables prefixed table names
+     * @throws \Exception with mysqldump's error output when the dump fails
+     */
     private function nativeDumpToFile($dbTables, $filePath)
     {
         $database	= [];

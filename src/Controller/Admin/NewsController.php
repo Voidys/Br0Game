@@ -252,6 +252,12 @@ class NewsController extends AbstractAdminController
         return $this->render('admin/NewsPage.html.twig');
     }
 
+    /**
+     * Renders the news editor form for a new ($id 0) or existing item, refilled with $data after a failed save.
+     * All text values are HTML-escaped for the form fields; the publish date is shown as a datetime-local value.
+     *
+     * @param array{title:string, summary:string, text:string, status:mixed, pinned:mixed, date:int, image?:string} $data
+     */
     private function renderEditor(int $id, array $data, ?string $error = null, ?string $notice = null): Response
     {
         $LNG = $this->state->LNG;

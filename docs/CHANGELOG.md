@@ -834,3 +834,8 @@ Technical changes per migration step, newest last.
 - `tests/Unit/Game/CommunityLinksTest.php`: field validation, token set/empty, all shipped FAQ/tutorial/ingame/tech/rules/mail texts with empty and set links, `Language::getTemplate()` from the config.
 - Tutorial Discord step (`LinkTutorialSupport`): without a Discord URL the goal counts as fulfilled automatically (plain text, no link) and the step grants no reward; with a URL the click/reward flow is unchanged. `tests/Integration/LinkTutorialTest.php` covers both branches, `CommunityLinksTest` the nav conditions.
 - PHP battle engine: the php-ds fast path is used only when the `Ds\Vector`/`Ds\Map` classes exist (a runner reported the extension loaded without them and every PHP fight crashed); the array path gives identical results.
+
+## 105. Documentation and length checks enforced
+
+- `tools/ci/docblock-check.php` (every class and every complex function — ≥ 15 lines, ≥ 4 branches or a non-trivial public/protected method — has a docblock) and `tools/ci/long-methods-check.php` (no method over 80 lines) run in CI; the last 17 undocumented helpers got docblocks, the five long settings-category methods are split into ordered parts (schema pinned identical by `ConfigFieldSchemaTest`).
+- Wiki SSO hand-off works under the CSP: `CspNonce::allowSource()` opens the configured wiki origin as `form-action` for that response only, the auto-submit script carries the nonce and the submit button stays visible as fallback.

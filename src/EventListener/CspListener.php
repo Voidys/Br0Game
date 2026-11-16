@@ -42,6 +42,6 @@ final class CspListener
         if ($header === null) {
             return;
         }
-        $response->headers->set($header, $this->policy->build($this->nonce->value(), $this->nonce->features()));
+        $response->headers->set($header, $this->policy->build($this->nonce->value(), $this->nonce->features(), $this->nonce->sources()));
     }
 }

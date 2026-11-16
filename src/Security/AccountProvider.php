@@ -51,6 +51,12 @@ final class AccountProvider implements UserProviderInterface, PasswordUpgraderIn
         );
     }
 
+    /**
+     * Reloads the logged-in account from the database on every request so bans, deletions and password changes
+     * take effect immediately.
+     *
+     * @throws UnsupportedUserException for users of other providers
+     */
     public function refreshUser(UserInterface $user): Account
     {
         if (!$user instanceof Account) {

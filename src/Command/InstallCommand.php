@@ -35,6 +35,11 @@ final class InstallCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Options of `bin/console app:install`; every option is optional and asked interactively when missing
+     * (--no-interaction uses defaults or fails for required values). Secrets can also come from the environment
+     * (BR0GAME_DB_PASSWORD, BR0GAME_ADMIN_PASSWORD); --finish is the internal second phase run after the database step.
+     */
     protected function configure(): void
     {
         $this

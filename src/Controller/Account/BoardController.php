@@ -608,6 +608,10 @@ class BoardController extends AbstractAccountController
         return $token;
     }
 
+    /**
+     * Board-specific CSRF check (second layer next to the global CsrfListener): the posted `csrf` value must match
+     * the token stored in the session; guests never pass.
+     */
     private function checkCsrf(): bool
     {
         if ($this->isGuest()) {
@@ -743,6 +747,13 @@ class BoardController extends AbstractAccountController
         return $name !== null && $name !== '' ? $name : $this->state->LNG['board_deleted_user'];
     }
 
+    /**
+     * URL of the board list for the current filter state with some values overridden: drops defaults (page 1,
+     * "hot" sort, "all" filters, empty values) and the time range unless sorting by top, so links stay short and canonical.
+     *
+     * @param array<string, mixed> $state    current list parameters
+     * @param array<string, mixed> $override parameters to change for the link
+     */
     private function listUrl(array $state, array $override): string
     {
         $q = array_merge($state, $override);

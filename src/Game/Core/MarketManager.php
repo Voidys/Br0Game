@@ -111,6 +111,10 @@ class MarketManager
         return $this->clampRatio($numerator / $denominator);
     }
 
+    /**
+     * Stores the freshly computed metal/deuterium and crystal/deuterium market ratios for the universe once per
+     * request, so the marketplace page and later push checks read the same values.
+     */
     private function persistComputedRatios(): void
     {
         if ($this->_ratiosPersisted || !isset($this->_pairRatios['md'], $this->_pairRatios['cd'])) {

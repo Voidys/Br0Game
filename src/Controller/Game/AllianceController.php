@@ -71,6 +71,10 @@ class AllianceController extends AbstractGameController
         };
     }
 
+    /**
+     * Loads the alliance shown by this request into $this->allianceData (message page if it doesn't exist) and,
+     * when it's the player's own alliance, the player's rank rights; assigns `rights` and `AllianceOwner` for the templates.
+     */
     private function setAllianceData($allianceId)
     {
         $USER = $this->state->USER;
@@ -127,6 +131,10 @@ class AllianceController extends AbstractGameController
         return $this->http()->_GP('action', '');
     }
 
+    /**
+     * Page shown while the player's application is pending: the waiting text with a link to the alliance's info page
+     * (tag and name escaped; a missing tag shows as 0 like before).
+     */
     private function applyWaitScreen(): Response
     {
         $allianceResult = $this->alliance()->applications()->pendingTarget();
