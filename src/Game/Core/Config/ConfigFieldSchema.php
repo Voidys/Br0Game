@@ -236,6 +236,14 @@ class ConfigFieldSchema
                     'validate' => 'http_url',
                     'default' => '',
                 ],
+                'discord_widget_guild' => [
+                    'type' => self::TYPE_TEXT,
+                    'maxlength' => 20,
+                    'size' => 24,
+                    'transform' => 'string',
+                    'validate' => 'discord_guild',
+                    'default' => '',
+                ],
                 'wiki_url' => [
                     'type' => self::TYPE_TEXT,
                     'maxlength' => 255,

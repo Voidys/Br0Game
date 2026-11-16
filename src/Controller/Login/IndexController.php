@@ -27,6 +27,14 @@ use App\Runtime\ProjectPaths;
 #[\App\Routing\GamePage('index.php', 'index', default: true, uniPrefix: true)]
 class IndexController extends AbstractLoginController
 {
+    private \App\Community\DiscordWidget $discordWidget;
+
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setDiscordWidget(\App\Community\DiscordWidget $discordWidget): void
+    {
+        $this->discordWidget = $discordWidget;
+    }
+
     public function initialize(): void
     {
         parent::initialize();
@@ -92,7 +100,7 @@ class IndexController extends AbstractLoginController
             'rulesUrl'          => './?page=rules&lang=' . ($this->state->requestCookies['lang'] ?? 'de'),
             'countcaptchakey'   => $countcaptchakey,
             'universeStarts'    => $universeStarts,
-        ] + $this->memes() + $this->latestNews());
+        ] + $this->memes() + $this->latestNews() + $this->discordWidgetData());
 
         return $this->render('login/page.index.default.html.twig');
     }
@@ -131,6 +139,25 @@ class IndexController extends AbstractLoginController
         return [
             'meme' => $memes === [] ? null : $memes[intdiv($this->state->runtime->timestamp, 3600) % count($memes)],
         ];
+    }
+
+    /**
+     * Discord box: online count of the server set in `discord_widget_guild` (cached by DiscordWidget), linked to
+     * `discord_url` or else the widget's own invite. Null hides the box (no ID, widget disabled, Discord unreachable).
+     */
+    private function discordWidgetData(): array
+    {
+        $config = $this->configs->get();
+        $widget = $this->discordWidget->fetch((string) ($config->discord_widget_guild ?? ''));
+        if ($widget === null) {
+            return ['discordWidget' => null];
+        }
+        $url = trim((string) ($config->discord_url ?? ''));
+
+        return ['discordWidget' => [
+            'online' => $widget['online'],
+            'url' => $url !== '' ? $url : $widget['invite'],
+        ]];
     }
 
     /** the three newest published news for the start page teaser panel */

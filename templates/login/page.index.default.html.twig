@@ -75,10 +75,21 @@
       </figure>
     {% endif %}
 
+    {% if discordWidget %}
+    {% set discordInner %}{{ icon('discord', null, 'discord-box__logo') }}<span class="discord-box__text"><span class="discord-box__count"><span class="discord-box__dot" aria-hidden="true"></span>{{ LNG.home_discord_online }} <strong>{{ discordWidget.online|number_format(0, ',', '.') }}</strong></span>{% if discordWidget.url %}<span class="discord-box__join">{{ LNG.home_discord_join }}</span>{% endif %}</span>{% endset %}
+    <section class="panel panel--discord" aria-label="Discord">
+      {% if discordWidget.url %}
+        <a class="discord-box" href="{{ discordWidget.url|e('html_attr') }}" target="_blank" rel="noopener">{{ discordInner }}{{ icon('chevron-right', null, 'discord-box__chevron') }}</a>
+      {% else %}
+        <div class="discord-box">{{ discordInner }}</div>
+      {% endif %}
+    </section>
+    {% endif %}
+
     <section class="panel panel--links">
       <div class="panel__body">
         <div class="links">
-          {% if game_config('discord_url') %}<a href="{{ game_config('discord_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('message-circle') }}Discord</a>{% endif %}
+          {% if game_config('discord_url') and not discordWidget %}<a href="{{ game_config('discord_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('message-circle') }}Discord</a>{% endif %}
           {% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('book-open') }}Wiki</a>{% endif %}
           <a href="./?page=HoF">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
           <a href="./?page=battleHall">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>

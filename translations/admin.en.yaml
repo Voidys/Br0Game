@@ -1779,6 +1779,8 @@ adm_login_throttled: 'Too many attempts. Please try again in a few minutes.'
 se_community_links: "Community links"
 se_discord_url: "Discord invite URL"
 se_discord_url_info: "Invite link of your Discord server (https://...). Shown in the menu, the login page, mails and texts. Empty hides it."
+se_discord_widget_guild: "Discord server ID (online widget)"
+se_discord_widget_guild_info: "ID of your Discord server (17-20 digits; Server Settings → Widget, \"Enable Server Widget\" must be on). Shows a box with the online count on the start page, refreshed every 5 minutes. Empty hides it."
 se_wiki_url: "Wiki URL"
 se_wiki_url_info: "Base URL of an external wiki, without a trailing slash (https://...). Wiki links in the FAQ, tutorial and rules are built from it. Empty hides them."
 se_donate_url: "Donation URL"

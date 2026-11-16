@@ -204,6 +204,8 @@ lightbox_next: "Next image"
 news_pinned: Pinned
 news_read_more: Read more
 news_latest: Latest news
+home_discord_online: "Online"
+home_discord_join: "Join our Discord"
 news_all: All news
 csrf_invalid: 'The security check failed (your session may have expired). Please reload the page and try again.'
 home_logged_in_head: "Your account"

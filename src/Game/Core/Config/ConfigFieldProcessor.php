@@ -62,6 +62,12 @@ class ConfigFieldProcessor
             $value = \App\Game\Alliance\AllianceText::httpUrlOrEmpty((string) $value);
         }
 
+        // 'validate' => 'discord_guild': a Discord server ID (17-20 digits) or empty
+        if (($config['validate'] ?? '') === 'discord_guild') {
+            $value = trim((string) $value);
+            $value = \App\Community\DiscordWidget::isValidGuildId($value) ? $value : '';
+        }
+
         return $value;
     }
 

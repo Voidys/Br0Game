@@ -208,6 +208,8 @@ lightbox_next: "Nächstes Bild"
 news_pinned: Angepinnt
 news_read_more: Weiterlesen
 news_latest: Neueste News
+home_discord_online: "Online"
+home_discord_join: "Tritt unserem Discord bei"
 news_all: Alle News
 csrf_invalid: 'Die Sicherheitsprüfung ist fehlgeschlagen (vielleicht ist deine Sitzung abgelaufen). Bitte lade die Seite neu und versuche es noch einmal.'
 home_logged_in_head: "Dein Konto"

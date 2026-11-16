@@ -1835,6 +1835,8 @@ adm_login_throttled: 'Zu viele Versuche. Bitte in ein paar Minuten erneut versuc
 se_community_links: "Community-Links"
 se_discord_url: "Discord-Einladungs-URL"
 se_discord_url_info: "Einladungslink deines Discord-Servers (https://...). Wird im Menü, auf der Login-Seite, in Mails und Texten angezeigt. Leer blendet ihn aus."
+se_discord_widget_guild: "Discord-Server-ID (Online-Widget)"
+se_discord_widget_guild_info: "ID deines Discord-Servers (17-20 Ziffern; Servereinstellungen → Widget, \"Server-Widget aktivieren\" muss an sein). Zeigt auf der Startseite eine Box mit der Anzahl der Online-Nutzer, alle 5 Minuten aktualisiert. Leer blendet sie aus."
 se_wiki_url: "Wiki-URL"
 se_wiki_url_info: "Basis-URL eines externen Wikis ohne abschließenden Schrägstrich (https://...). Wiki-Links in FAQ, Tutorial und Regeln werden daraus gebildet. Leer blendet sie aus."
 se_donate_url: "Spenden-URL"

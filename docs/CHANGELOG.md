@@ -1001,3 +1001,10 @@ Technical changes per migration step, newest last.
 ## 119. Release 1.26.1
 
 - `install/VERSION` 1.26.1 (tag `v1.26.1`): languages nl/th/tl/uk/vi/zh, translation overhaul, alliance depot, raiding and smarter bots, database concurrency (read committed + retries), session-aware start page and the round-2 security and bug fixes (steps 105–118).
+
+## 120. Discord online box on the start page
+
+- `App\Community\DiscordWidget`: online count from the public server widget (`/api/guilds/<id>/widget.json`), cached in `cache.app` (5 min, failures 2 min), 2 s timeout.
+- New global setting `discord_widget_guild` (community links, validated as 17-20 digit server ID via `validate => discord_guild`); box hidden while empty or the widget is unreachable, links to `discord_url` or the widget invite.
+- `i-discord` symbol in the icon sprite; start page box styles in `login.css`; rules and privacy policy text use the full card width (`rich-text--wide`).
+
