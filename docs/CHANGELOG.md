@@ -1055,3 +1055,7 @@ Technical changes per migration step, newest last.
 
 - `page.advancedStats` shows its seven groups (expedition, build, lost, destroyed, repaired, firsts, other) as ARIA tabs instead of one table with toggled rows; page title fixed (was "Records").
 - Generic tab component: `public/scripts/app/tabs.js` (`[data-tabs]`, `.tabs__tab`/`.tabs__panel`, arrow keys, last tab remembered, `#tab-<key>` hash) and tab-strip styles in `base.css` (components layer, shared with the tech tree tabs, which lost against the button rule in the legacy layer).
+
+## 131. In-game hall of fame (battle hall) redesign
+
+- `page.battleHall`: heading with the top-100 line, the four filters as one labelled filter card (4 columns, 2 on phones, auto-submit, noscript button), listing with gold/silver/bronze place badges, attacker ⚔ defender in win/loss colours, zebra + hover rows, date folded under the names on phones, legend as colour chips; styles `.bh*` in `game.css`.
