@@ -7,6 +7,20 @@
       <footer class="card__foot"><a data-method="post" class="button btn--primary" href="admin?page=clearCache">{{ icon('eraser') }}{{ LNG.mu_clear_cache }}</a></footer>
     </section>
   {% endif %}
+  {% if canClearCache %}
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('file-text') }}{{ LNG.adm_maint_log_head }}</h2></header>
+      <div class="card__body">
+        <p class="muted">{{ LNG.adm_maint_log_text }}</p>
+        {% if gameLog %}
+          <p>{{ LNG.adm_maint_log_size }}: <strong>{{ (gameLog.size / 1048576)|number_format(gameLog.size < 10485760 ? 2 : 0, ',', '.') }} MB</strong> · {{ LNG.adm_maint_log_changed }}: {{ gameLog.mtime|date('d.m.Y H:i') }}</p>
+        {% else %}
+          <p>{{ LNG.adm_maint_log_missing }}</p>
+        {% endif %}
+      </div>
+      <footer class="card__foot"><a data-method="post" class="button btn--primary" href="admin?page=clearLog" data-confirm="{{ LNG.adm_maint_log_confirm|e('html_attr') }}">{{ icon('eraser') }}{{ LNG.adm_maint_log_clear }}</a></footer>
+    </section>
+  {% endif %}
   {% if canUpdateStats %}
     <section class="card">
       <header class="card__head"><h2 class="card__title">{{ icon('refresh-cw') }}{{ LNG.mu_manual_points_update }}</h2></header>

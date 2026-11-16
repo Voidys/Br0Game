@@ -1047,3 +1047,7 @@ Technical changes per migration step, newest last.
 ## 127. Production by default
 
 - Checked-in `.env` defaults to `APP_ENV=prod`; DDEV sets `APP_ENV=dev` via `web_environment` in `.ddev/config.yaml`, so a deploy without the installer never exposes the profiler. INSTALL.md checklist updated.
+
+## 128. Clear the game log from the admin area
+
+- `ClearLogController` (`admin?page=clearLog`, POST only via `CsrfPolicy`, right `ShowClearCachePage`) truncates `var/log/game.log`; the maintenance page shows its size and last change in a new card with a confirm button.

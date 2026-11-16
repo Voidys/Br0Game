@@ -79,6 +79,7 @@ final class CsrfPolicy
         ['area' => 'admin', 'page' => 'logout'],
         ['area' => 'admin', 'page' => 'module', 'has' => ['mode']],
         ['area' => 'admin', 'page' => 'clearCache'],
+        ['area' => 'admin', 'page' => 'clearLog'],
         ['area' => 'admin', 'page' => 'statUpdate'],
         ['area' => 'admin', 'page' => 'flyingFleet', 'has' => ['sendfleetback', 'sendfleetsback', 'lock', 'massunlock']],
         ['area' => 'admin', 'page' => 'search', 'has' => ['delete']],

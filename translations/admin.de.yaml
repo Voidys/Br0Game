@@ -1529,6 +1529,15 @@ adm_tab_server: Server
 adm_tab_swap: Tausch
 adm_tab_universe: Universum
 adm_maint_cache_text: Leert die Spiel-Caches (Sprachen, Templates, Spieldaten) und berechnet die Cronjob-Zeiten neu. Hilft, wenn Änderungen an Einstellungen oder Texten nicht sichtbar werden.
+adm_maint_log_head: "Spiel-Log"
+adm_maint_log_text: "Fehlerprotokoll des Spiels (var/log/game.log). Leeren setzt die Datei auf null; neue Fehler werden sofort wieder geschrieben."
+adm_maint_log_size: "Größe"
+adm_maint_log_changed: "Zuletzt geändert"
+adm_maint_log_missing: "Die Log-Datei existiert noch nicht."
+adm_maint_log_clear: "Spiel-Log leeren"
+adm_maint_log_confirm: "var/log/game.log leeren? Das kann nicht rückgängig gemacht werden."
+adm_maint_log_cleared: "Das Spiel-Log wurde geleert."
+adm_maint_log_failed: "Das Spiel-Log konnte nicht geleert werden (Datei nicht beschreibbar)."
 adm_maint_points_text: Berechnet die Punkte und die Rangliste sofort neu. Läuft sonst automatisch über den Statistik-Cronjob und kann bei vielen Spielern einen Moment dauern.
 adm_nav_maintenance: Wartung
 adm_nav_content: Inhalte

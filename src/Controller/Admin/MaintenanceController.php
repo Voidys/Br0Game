@@ -34,6 +34,7 @@ class MaintenanceController extends AbstractAdminController
         $this->assign([
             'canClearCache' => $this->viewHelpers()->allowedTo('ShowClearCachePage'),
             'canUpdateStats' => $this->viewHelpers()->allowedTo('ShowStatUpdatePage'),
+            'gameLog' => ClearLogController::logInfo(),
         ]);
         return $this->render('admin/MaintenancePage.html.twig');
     }

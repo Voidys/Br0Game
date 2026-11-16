@@ -1473,6 +1473,15 @@ adm_tab_server: Server
 adm_tab_swap: Swap
 adm_tab_universe: Universe
 adm_maint_cache_text: Clears the game caches (languages, templates, game data) and recalculates the cron job times. Helps when changes to settings or texts do not show up.
+adm_maint_log_head: "Game log"
+adm_maint_log_text: "Error log of the game (var/log/game.log). Clearing empties the file; new errors are written again right away."
+adm_maint_log_size: "Size"
+adm_maint_log_changed: "Last change"
+adm_maint_log_missing: "The log file does not exist yet."
+adm_maint_log_clear: "Clear game log"
+adm_maint_log_confirm: "Empty var/log/game.log? This cannot be undone."
+adm_maint_log_cleared: "The game log was cleared."
+adm_maint_log_failed: "The game log could not be cleared (file not writable)."
 adm_maint_points_text: Recalculates points and the ranking right away. Otherwise this runs automatically via the statistics cron job and can take a moment with many players.
 adm_nav_maintenance: Maintenance
 adm_nav_content: Content
