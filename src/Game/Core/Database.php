@@ -35,6 +35,18 @@ class Database
     /** Connection setup of the game (charset + sql_mode without ONLY_FULL_GROUP_BY etc.). */
     public const INIT_COMMAND = "SET CHARACTER SET utf8mb4, NAMES utf8mb4, sql_mode = 'STRICT_ALL_TABLES'";
 
+    /**
+     * Isolation level of the game's connection, set right after connecting: READ COMMITTED takes no gap/next-key locks on
+     * range scans (the cause of most deadlocks between page requests and fleet events). Own statement because it has no
+     * system variable that both MySQL 8 and MariaDB 10.11 know. Needs binlog_format=ROW when binary logging is on
+     * (docs/database-concurrency.md).
+     */
+    public const ISOLATION_COMMAND = 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED';
+
+    /** MySQL error numbers worth repeating a transaction for: deadlock victim and lock wait timeout. */
+    public const ERROR_DEADLOCK = 1213;
+    public const ERROR_LOCK_WAIT_TIMEOUT = 1205;
+
     private PDO $dbHandle;
     private array $dbTableNames = [];
     /** connection settings this instance was created with (host, port, user, userpw, databasename, ...) */
@@ -89,6 +101,7 @@ class Database
         //error behaviour
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        $db->exec(self::ISOLATION_COMMAND);
         // $db->query("set character set utf8");
         // $db->query("set names utf8");
         // $db->query("SET sql_mode = 'STRICT_ALL_TABLES'");
@@ -457,6 +470,75 @@ class Database
     public function rollback(): void
     {
         $this->query("ROLLBACK");
+    }
+
+    /**
+     * Runs $fn in a transaction (commit afterwards) and repeats the whole closure when MySQL picked the transaction as a
+     * deadlock victim (1213) or the lock wait timed out (1205): rollback, short jittered back-off, next attempt. Any other
+     * exception rolls back and is rethrown at once; so is the retryable one after the last attempt.
+     *
+     * The closure runs again from the start, so it may only touch the database (no mails, output, files, session writes) and
+     * must reset in-memory state it changes itself. Nested transactions are not supported (like startTransaction()).
+     *
+     * @template T
+     * @param callable(int): T $fn receives the attempt number (1 = first run)
+     * @param int $attempts maximum number of runs, at least 1
+     * @param int $backoffMs base of the pause before a retry: attempt number times this, randomised by +-50% (0 = no pause)
+     * @return T the return value of $fn
+     * @throws \Throwable what $fn threw
+     */
+    public function transactional(callable $fn, int $attempts = 3, int $backoffMs = 25): mixed
+    {
+        for ($attempt = 1; ; $attempt++) {
+            $this->startTransaction();
+            try {
+                $result = $fn($attempt);
+                $this->commit();
+
+                return $result;
+            } catch (\Throwable $e) {
+                try {
+                    $this->rollback();
+                } catch (\Throwable) {
+                    // the connection may be gone; the original error is the one that matters
+                }
+                if ($attempt >= $attempts || !self::isRetryable($e)) {
+                    throw $e;
+                }
+                if ($backoffMs > 0) {
+                    usleep(random_int($backoffMs * 500, $backoffMs * 1500) * $attempt);
+                }
+            }
+        }
+    }
+
+    /**
+     * MySQL error number behind an exception (own Exception with the PDO error as code/previous, Doctrine exceptions
+     * and PDOException itself), 0 when there is none.
+     */
+    public static function errorNumber(\Throwable $e): int
+    {
+        for ($t = $e; $t !== null; $t = $t->getPrevious()) {
+            if ($t instanceof PDOException && isset($t->errorInfo[1])) {
+                return (int) $t->errorInfo[1];
+            }
+            if ($t instanceof \Doctrine\DBAL\Exception\DeadlockException) {
+                return self::ERROR_DEADLOCK;
+            }
+            if ($t instanceof \Doctrine\DBAL\Exception\LockWaitTimeoutException) {
+                return self::ERROR_LOCK_WAIT_TIMEOUT;
+            }
+        }
+
+        return 0;
+    }
+
+    /** Is it a deadlock (1213) or lock wait timeout (1205), i.e. will the same transaction probably succeed when repeated? */
+    public static function isRetryable(\Throwable $e): bool
+    {
+        $number = self::errorNumber($e);
+
+        return $number === self::ERROR_DEADLOCK || $number === self::ERROR_LOCK_WAIT_TIMEOUT;
     }
 
     /**

@@ -143,29 +143,25 @@ class BotEngine
         }
 
         $token = getRandomString();
-        $db->startTransaction();
-        try {
+        // deadlocks / lock wait timeouts repeat the transaction (Database::transactional), other errors are thrown
+        $claimed = $db->transactional(function () use ($db, $token, $universe): int {
             $db->update(
                 'UPDATE %%FLEETS_EVENT%% SET `lock` = :token
                 WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;',
                 [':token' => $token, ':time' => time(), ':universe' => $universe],
             );
-            $claimed = $db->rowCount();
-            $db->commit();
-        } catch (Throwable $e) {
-            $db->rollback();
-            throw $e;
-        }
+
+            return $db->rowCount();
+        });
 
         if ($claimed > 0) {
-            $db->startTransaction();
             try {
-                $this->fleetHandler->setToken($token);
-                $this->fleetHandler->run();
-                $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
-                $db->commit();
+                $db->transactional(function () use ($db, $token): void {
+                    $this->fleetHandler->setToken($token);
+                    $this->fleetHandler->run();
+                    $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
+                });
             } catch (Throwable $e) {
-                $db->rollback();
                 $db->update('UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;', [':token' => $token]);
                 throw $e;
             }

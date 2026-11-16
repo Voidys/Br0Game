@@ -50,3 +50,8 @@ Column names must be plain identifiers (letters, digits, underscore) or it throw
 
 Tests for the converted families (`tests/Integration/QueryBuilderQueriesTest.php`) keep the old SQL as oracle and compare rows,
 order of ties and paging.
+
+## Concurrency
+
+The connection runs in READ COMMITTED and `Database::transactional()` repeats a transaction that was a deadlock victim; see
+[database-concurrency.md](database-concurrency.md) (including the `binlog_format=ROW` requirement).

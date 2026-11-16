@@ -80,22 +80,36 @@ class FleetDispatch
         }
 
         $db = $this->db;
-        $db->startTransaction();
-        // Serialise parallel dispatches of the same player, so the slot and expedition limits cannot be raced
-        // from several planets/sessions (the user row is locked before the planet row, always in this order).
-        $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $USER['id']]);
-        // reloading global $PLANET for database lock support.
-        // not pretty, but not using the global dupes resources
-        $this->lockPlanet($this->state->PLANET['id']);
-
+        // the form token is consumed from the session (no database), so this must not be repeated with the transaction
         $this->loadForm();
-        $this->validateRequest();
-        $this->resolveAcs();
-        $this->loadTargetPlanet();
-        $this->loadTargetPlayer();
-        $this->checkMission();
-        $this->planFlight();
-        $this->launch();
+
+        // a repeated attempt (deadlock) starts from the state the first one started with
+        $planet = $this->state->PLANET;
+        $storage = $this->fleetStorage;
+        $mission = $this->targetMission;
+        $group = $this->fleetGroup;
+
+        $db->transactional(function () use ($db, $USER, $planet, $storage, $mission, $group): void {
+            $this->state->PLANET = $planet;
+            $this->fleetStorage = $storage;
+            $this->targetMission = $mission;
+            $this->fleetGroup = $group;
+
+            // Serialise parallel dispatches of the same player, so the slot and expedition limits cannot be raced
+            // from several planets/sessions (the user row is locked before the planet row, always in this order).
+            $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $USER['id']]);
+            // reloading global $PLANET for database lock support.
+            // not pretty, but not using the global dupes resources
+            $this->lockPlanet($this->state->PLANET['id']);
+
+            $this->validateRequest();
+            $this->resolveAcs();
+            $this->loadTargetPlanet();
+            $this->loadTargetPlayer();
+            $this->checkMission();
+            $this->planFlight();
+            $this->launch();
+        });
 
         return $this->resultVariables();
     }
@@ -506,12 +520,11 @@ class FleetDispatch
         $this->fleetEndTime = floor($this->fleetStayTime + $this->duration);
     }
 
-    /** Sends the fleet, records a market offer for the trade mission and commits the transaction. */
+    /** Sends the fleet and records a market offer for the trade mission (inside the dispatch transaction). */
     private function launch(): void
     {
         $USER = $this->state->USER;
         $PLANET = $this->state->PLANET;
-        $db = $this->db;
         $id = $this->fleetFunctions()->sendFleet(
             $this->fleetArray,
             $this->targetMission,
@@ -538,8 +551,6 @@ class FleetDispatch
         );
 
         $this->recordTradeOffer($id);
-
-        $db->commit();
     }
 
     /** Records the market offer (table trades) of a trade mission fleet: what it carries and what it wants in return. */

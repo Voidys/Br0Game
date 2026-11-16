@@ -491,41 +491,47 @@ final class GameBootstrap
         $token = getRandomString();
         $db = $this->db;
         $claimedFleetCount = 0;
-        $db->startTransaction();
 
         try {
-            $db->update("UPDATE %%FLEETS_EVENT%%
-                SET `lock` = :token
-                WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;", [
-                ':token' => $token,
-                ':time' => $this->state->runtime->timestamp,
-                ':universe' => $this->universe()->current(),
-            ]);
-            $claimedFleetCount = $db->rowCount();
-            $db->commit();
+            $claimedFleetCount = $db->transactional(function () use ($db, $token): int {
+                $db->update("UPDATE %%FLEETS_EVENT%%
+                    SET `lock` = :token
+                    WHERE `lock` IS NULL AND `time` <= :time AND `universe` = :universe;", [
+                    ':token' => $token,
+                    ':time' => $this->state->runtime->timestamp,
+                    ':universe' => $this->universe()->current(),
+                ]);
+
+                return $db->rowCount();
+            });
         } catch (Exception $e) {
-            $claimedFleetCount = 0;
-            $db->rollback();
-            $previous = $e->getPrevious();
-            if ($previous instanceof \PDOException && isset($previous->errorInfo[1]) && (int) $previous->errorInfo[1] === 1213) {
-                $ex = new Exception('Catched FleetHandler excepion:<br>' . $e->getMessage());
-                $this->discord()->sendException($ex);
-            } else {
+            // still deadlocked after all attempts: the next request claims the due events; only report it
+            if (Database::errorNumber($e) !== Database::ERROR_DEADLOCK) {
                 throw $e;
             }
+            $ex = new Exception('Catched FleetHandler excepion:<br>' . $e->getMessage());
+            $this->discord()->sendException($ex);
         }
 
         if ($claimedFleetCount > 0) {
-            $db->startTransaction();
+            try {
+                $db->transactional(function () use ($db, $token): void {
+                    $this->fleetHandler->setToken($token);
+                    $this->fleetHandler->run();
 
-            $this->fleetHandler->setToken($token);
-            $this->fleetHandler->run();
-
-            $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [
-                ':token' => $token,
-            ]);
-
-            $db->commit();
+                    $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [
+                        ':token' => $token,
+                    ]);
+                });
+            } catch (\Throwable $e) {
+                // the claim is committed: hand the events back, or no request would ever process them
+                try {
+                    $db->update("UPDATE %%FLEETS_EVENT%% SET `lock` = NULL WHERE `lock` = :token;", [':token' => $token]);
+                } catch (\Throwable) {
+                    // reported below with the original error
+                }
+                throw $e;
+            }
         }
     }
 

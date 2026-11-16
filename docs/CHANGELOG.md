@@ -896,3 +896,11 @@ Technical changes per migration step, newest last.
 - Screenshot gallery retaken in the Br0Game theme (10 shots incl. the tech tree with a highlighted chain); old set and its variants removed.
 - Start page memes rendered at 1600 px from the originals (variants 480/720/1080, quality 85) and no longer tilted (rotating a bitmap blurred the comic text; only the caption sticker stays tilted).
 - Language selectors (start page, public layout, installer) use the Lucide `languages` icon (added to the sprite) instead of the globe.
+
+## 113. Database concurrency (stage 1)
+
+- `Database` sets `SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED` right after connecting (shared DBAL connection included): no gap/next-key locks on range scans, which removes the deadlock between fleet dispatch (user row, then `INSERT fleets`) and the fleet handler (`SELECT ... FROM fleets FOR UPDATE`, then user rows). Needs `binlog_format=ROW` when binary logging is on (docs/database-concurrency.md).
+- `Database::transactional($fn, $attempts = 3, $backoffMs = 25)`: transaction around a closure, rollback + jittered back-off + rerun on deadlock (1213) / lock wait timeout (1205), other errors roll back and rethrow; `Database::errorNumber()` / `isRetryable()` classify exceptions.
+- Used by the fleet event claim and the fleet handler run in `GameBootstrap::processFleetEvents()` and `BotEngine::processFleetEvents()` (event locks are released when every attempt failed; a claim that stays deadlocked is still reported to Discord) and by `FleetDispatch::dispatch()` (form token read before the transaction, planet row / storage / mission / ACS group reset per attempt, `launch()` no longer commits itself).
+- `tools/loadtest/` (seed.php, loadtest.mjs, run.sh, README): 60 test players, 600 short flights falling due in clusters, 60 concurrent sessions for 200 s; baseline 8 deadlocks and 6 HTTP 503 -> 0 deadlocks and 0 errors.
+- `DatabaseTransactionalTest`: commit, retry, give up, no retry for other errors, real lock wait timeouts via a second connection.
