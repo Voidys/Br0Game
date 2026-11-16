@@ -151,7 +151,6 @@
 {% block script %}{{ parent() }}
 	{% if not empty(BuildList) %}
 	{{ data_island('shipyard-data', {data: BuildList, bdOperating: LNG.bd_operating, bdAvailable: LNG.bd_available}) }}
-	<script src="scripts/base/bcmath.js?v={{ asset_version }}"></script>
 	<script type="module" src="./scripts/game/shipyard.js?v={{ asset_version }}"></script>
 	{% endif %}
 	{% if mode == "fleet" and hangarFiltersEnabled %}

@@ -67,9 +67,12 @@ final class CommunityLinksTest extends TestCase
 
     public function testSchemaDeclaresTheFourFieldsWithEmptyDefaults(): void
     {
-        $source = (string) file_get_contents(dirname(__DIR__, 3) . '/src/Game/Core/Config/ConfigFieldSchema.php');
+        // the field definitions themselves (not the source text, which moves when the schema is reorganised)
+        $fields = (new \App\Game\Core\Config\Schema\BasicCommunityLinksFields())->fields($this->createStub(Language::class))['community_links'];
         foreach (CommunityLinks::KEYS as $key) {
-            self::assertMatchesRegularExpression("#'" . $key . "' => \[[^\]]*'validate' => 'http_url',\s*'default' => '',#s", $source, $key);
+            self::assertArrayHasKey($key, $fields, $key);
+            self::assertSame('http_url', $fields[$key]['validate'] ?? null, $key);
+            self::assertSame('', $fields[$key]['default'] ?? null, $key);
         }
     }
 

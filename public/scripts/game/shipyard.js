@@ -160,7 +160,9 @@ function BuildlistShipyard() {
         return;
     }
 
-    Amount = new window.DecimalNumber(state.remaining[0][1], 0);
+    // exact integer part as BigInt (large queue counts keep every digit, like the former bcmath)
+    const digits = /^-?\d+/.exec(String(state.remaining[0][1]).trim());
+    Amount = digits ? BigInt(digits[0]) : 0n;
     if (lastQueueLength !== state.remaining.length) {
         ShipyardList();
         lastQueueLength = state.remaining.length;

@@ -1066,3 +1066,10 @@ Technical changes per migration step, newest last.
 ## 131. In-game hall of fame (battle hall) redesign
 
 - `page.battleHall`: heading with the top-100 line, the four filters as one labelled filter card (4 columns, 2 on phones, auto-submit, noscript button), listing with gold/silver/bronze place badges, attacker ⚔ defender in win/loss colours, zebra + hover rows, date folded under the names on phones, legend as colour chips; styles `.bh*` in `game.css`.
+
+## 132. Config schema split, bcmath gone
+
+- `ConfigFieldSchema` (1778 → 187 lines) delegates to 23 per-category field classes in `src/Game/Core/Config/Schema/` (`Basic*Fields`, `Uni*Fields`, each `fields(Language)`); output byte-identical (var_export dump before/after), public API unchanged.
+- Shipyard queue count uses native `BigInt` (exact integer part of the string); `public/scripts/base/bcmath.js` and its script tag removed.
+- `CommunityLinksTest` checks the field definitions instead of grepping the schema source.
+
