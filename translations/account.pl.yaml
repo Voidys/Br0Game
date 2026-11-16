@@ -2,28 +2,28 @@ Active_players: Aktywni gracze
 Back: Powrót
 mail:
   subject:
-    mail_changed: '%s Adres e-mail konta został zmieniony'
-Other_universes: Inne wszechświaty
-Play: Grać
+    mail_changed: "Adres e-mail twojego konta %s został zmieniony"
+Other_universes: "Inne uniwersa"
+Play: "Graj"
 Playername: Nazwa gracza
-Register: Rejestr
+Register: "Zarejestruj się"
 Settings: Ustawienia
-Sitting_cancel: Przerwij siedzenie
-Sitting_end: Koniec siedzenia
-Sitting_request: Żądanie siedzenia (nie zaprogramowane)
+Sitting_cancel: "Zakończ opiekę"
+Sitting_end: "Koniec opieki nad kontem"
+Sitting_request: "Poproś o opiekę nad kontem (jeszcze niedostępne)"
 uni_status_regclosed_gameclosed: Zamknięte
-uni_status_regclosed_gameopen: Otwarty do gry
-uni_status_regopen_gameclosed: Rejestracja otwarta
-uni_status_regopen_gameopen: Otwarty
+uni_status_regclosed_gameopen: "Otwarty dla graczy"
+uni_status_regopen_gameclosed: "Otwarta rejestracja"
+uni_status_regopen_gameopen: "Otwarty"
 Universe_end: Koniec
 Universe_start: Start
-Universe_status: 'Status wszechświatów: '
-Universes: Wszechświaty
-Your_universes: Twoje wszechświaty
+Universe_status: "Status uniwersum: "
+Universes: "Uniwersa"
+Your_universes: "Twoje uniwersa"
 board_create: "Nowy wpis"
 board_edit_post: "Edytuj wpis"
 board_sort: "Sortuj"
-board_sort_hot: "Gorące"
+board_sort_hot: "Na czasie"
 board_sort_new: "Nowe"
 board_sort_top: "Najlepsze"
 board_period_all: "Cały czas"
@@ -34,7 +34,7 @@ board_flair_all: "Wszystkie"
 board_flair_general: "Ogólne"
 board_flair_guide: "Poradnik"
 board_flair_question: "Pytanie"
-board_flair_suggestion: "Sugestia"
+board_flair_suggestion: "Propozycja"
 board_flair_bug: "Błąd"
 board_flair_offtopic: "Off-topic"
 board_upvote: "Głos za"
@@ -43,7 +43,7 @@ board_pinned: "Przypięty"
 board_locked: "Zablokowany"
 board_by: "od"
 board_comments: "Komentarze"
-board_empty: "Brak wpisów. Napisz pierwszy."
+board_empty: "Brak wpisów. Napisz pierwszy!"
 board_no_comments: "Brak komentarzy."
 board_title: "Tytuł"
 board_body: "Tekst"
@@ -55,7 +55,7 @@ board_edited: "edytowano"
 board_delete: "Usuń"
 board_deleted: "[usunięto]"
 board_deleted_user: "[usunięto]"
-board_confirm_delete: "Na pewno usunąć?"
+board_confirm_delete: "Na pewno to usunąć?"
 board_reply: "Odpowiedz"
 board_collapse: "Zwiń wątek"
 board_add_comment: "Napisz komentarz"
@@ -69,8 +69,8 @@ board_not_allowed: "Nie masz uprawnień do tej czynności."
 board_err_csrf: "Nie udało się zweryfikować żądania. Odśwież stronę i spróbuj ponownie."
 board_err_title: "Podaj tytuł."
 board_err_title_long: "Tytuł może mieć maksymalnie 200 znaków."
-board_err_body: "Podaj tekst (nie może być pusty ani zbyt długi)."
-board_err_locked: "Ten wpis jest zablokowany, nie można dodawać komentarzy."
+board_err_body: "Wpisz jakiś tekst (nie może być pusty ani zbyt długi)."
+board_err_locked: "Ten wpis jest zablokowany – nie można dodawać komentarzy."
 board_err_rate_post: "Poczekaj jeszcze %d s przed kolejnym wpisem."
 board_err_rate_comment: "Poczekaj jeszcze %d s przed kolejnym komentarzem."
 board_ago_now: "przed chwilą"

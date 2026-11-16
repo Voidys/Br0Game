@@ -2,221 +2,225 @@ bonus:
   Attack: Attaque
   BuildTime: Temps de construction
   Defensive: Défense
-  DefensiveTime: Temps d'achat défense
+  DefensiveTime: Temps de construction des défenses
   Energy: Production d'énergie
   Expedition: Expéditions
-  FleetSlots: Slot vaisseaux
+  FleetSlots: Slots de flotte
   FlyTime: Temps de vol
   GateCoolTime: Temps de chargement du portail de saut
-  MoreFound: Expédition trouvée
-  Planets: Planéte
+  MoreFound: Trouvailles d'expédition
+  Planets: Planètes
   ResearchTime: Temps de recherche
   Resource: Production de ressources
   ResourceStorage: Stockage de ressources
   Shield: Bouclier
   ShipStorage: Stockage de vaisseaux
-  ShipTime: Temps d'achat vaisseaux
-  SpyPower: Niveaux d'espionnage
+  ShipTime: Temps de construction des vaisseaux
+  SpyPower: Puissance d'espionnage
 longDescription:
-  '1': >-
-    Utilisé dans l'extraction du metal, les mines de metals sont d'une
-    importance capitale pour tous les Empires émergents.
-  '2': >-
-    Le cristal est la principale ressource utilisé dans la construction des
-    circuits éléctroniques et intervient dans la fabrication de certains
-    alliages.
-  '3': >-
-    Le deutérium est utilisé comme combustible pour les vaisseaux spatiaux et
-    est récolté en eau profonde. Le deutérium est une substance rare et est donc
-    relativement coûteux.
-  '4': >-
-    Les centrales solaires absorbent l'énergie du rayonnement solaire. Tous les
-    mineurs ont besoin d'énergie pour fonctionner.
-  '6': Réduit le temps de recherche de chaque niveau de 8%.
-  '12': Le réacteur de fusion utilise le deutérium pour produire de l'énergie.
-  '14': >-
-    Les usines robotisées fabriquent les robots de construction pour aider à la
-    construction de bâtiments. Chaque niveau augmente la vitesse de la mise à
-    niveau des bâtiments
-  '15': >-
-    Ceci est le summum de la technologie robotique. Chaque niveau réduit le
-    temps de construction de bâtiments, les vaisseauxs, et les défenses
-  '21': >-
-    Tous les types de vaisseauxs et des installations défensives sont construits
-    dans le chantier naval planétaire.
+  '1': Les mines de métal extraient le minerai sur lequel repose tout empire, naissant
+    ou établi.
+  '2': Le cristal est l'ingrédient clé des circuits électroniques et de certains alliages.
+  '3': Le deutérium alimente tes vaisseaux spatiaux. Il est extrait des profondeurs
+    marines et, comme c'est une substance rare, il coûte relativement cher.
+  '4': Les centrales solaires transforment la lumière du soleil en énergie. Chaque
+    mine a besoin d'énergie pour fonctionner.
+  '6': Par défaut, chaque niveau réduit le temps de recherche de 8 %.
+  '12': La centrale de fusion produit de l'énergie en fusionnant du deutérium. Elle
+    fournit plus d'énergie qu'une centrale solaire, mais coûte plus cher à construire.
+    Sa production augmente avec la technologie Énergie et avec son propre niveau.
+    La formule de production d'énergie est :<br> Énergie produite = 30 x niveau de
+    la centrale de fusion x (1,05 + (0,01 * niveau de la technologie Énergie))^niveau
+    de la centrale de fusion
+  '14': Les usines de robots fournissent des robots de construction qui aident à bâtir
+    tes bâtiments. Chaque niveau accélère l'amélioration des bâtiments.
+  '15': Le summum de la robotique. Chaque niveau divise par deux le temps de construction
+    des bâtiments, des vaisseaux et des défenses.
+  '21': Tous les vaisseaux et toutes les défenses sont construits dans le chantier
+    spatial de la planète.
   '22': Permet de stocker l'excédent de métal.
-  '23': Permet de stocker l'excédent de crystal.
-  '24': Permet de stocker l'excédent de deuterieum
-  '31': >-
-    Un laboratoire de recherche est nécessaire afin de mener des recherches sur
-    les nouvelles technologies.
-  '33': Le terraformeur augmente la surface exploitable de la planète.
-  '34': >-
-    L'Alliance Dépot offre la possibilité de fournir du carburant aux flottes
-    alliés en orbite.
-  '35': >-
-    Le quai de réparation offre la possibilité de réparer les navires détruits
-    qui ont quitté un champ d'épaves à la suite d'un combat. Le temps de
-    réparation est de 12 heures maximum, mais il faut au moins 30 minutes
-    jusqu'à ce que les navires puissent être mis en service.<br>A partir du
-    moment où le champ d'épave est créé, il reste 3 jours pour commencer les
-    réparations. Les navires réparés doivent être activement remis en service
-    une fois la réparation terminée. Si cela ne se produit pas, ils seront
-    automatiquement remis en service au bout de 3 jours.
-  '41': >-
-    La lune n'a pas d'atmosphère donc une base lunaire doit être construite
-    avant la construction d'autres bâtiments.
-  '42': >-
-    Le réseau de capteurs permet de surveiller les mouvements de la flotte. Plus
-    le niveau est haut, plus la portée de la gamme de la phalange est grande .
-  '43': >-
-    Les portails de saut sont d'énormes émetteurs qui sont en mesure d'envoyer
-    de grandes flottes sans perdre de temps à travers l'univers.
-  '44': Silos de missiles utilisés pour le stockage de roquettes.
-  '106': >-
-    Informations sur d'autres planètes et lunes peut être obtenues en utilisant
-    cette technologie.
-  '108': >-
-    Plus de flottes peuvent être commandés par l'augmentation des capacités
-    informatiques. Chaque niveau de l'informatique augmente le nombre maximal de
-    flottes par une.
-  '109': >-
-    La technologie des armes rend les systèmes d'armes plus efficaces. Chaque
-    niveau de la technologie des armes augmente la force de l'arme d'unités de
-    10% de la valeur de base.
-  '110': >-
-    La technologie de blindage rend les boucliers à des vaisseaux et des
-    installations de défense plus efficaces. Chaque niveau de la technologie de
-    protection augmente la résistance des boucliers de 10% de la valeur de base.
-  '111': >-
-    L'alliages spéciaux permet d'améliorer l'armure sur les vaisseaux et les
-    structures défensives. L'efficacité de l'armure peut être augmenté de 10%
-    par niveau.
-  '113': >-
-    La commande des différents types d'énergie est nécessaire pour de nombreuses
-    nouvelles technologies.
-  '114': >-
-    En intégrant la 4e et 5e dimensions, il est désormais possible de rechercher
-    un nouveau type de propultion qui est plus économique et efficace.
-  '115': >-
-    Le développement de cette propultion fait que les vaisseaux sont plus
-    rapides, bien que chaque niveau augmente la vitesse de seulement 10% de la
+  '23': Permet de stocker l'excédent de cristal.
+  '24': Permet de stocker l'excédent de deutérium.
+  '31': Il te faut un laboratoire de recherche pour étudier de nouvelles technologies.
+    Le niveau du laboratoire détermine la vitesse de tes recherches et les technologies
+    que tu peux débloquer. Une recherche se déroule dans le laboratoire de la planète
+    où tu la lances, et son résultat profite à toutes tes planètes. Tant qu'une recherche
+    est en cours, aucun laboratoire de recherche ne peut être amélioré.
+  '33': 'Le terraformeur agrandit la surface exploitable de la planète. Chaque niveau
+    te donne 5 cases supplémentaires, plus une case en bonus à chaque niveau pair.
+    Chaque niveau du terraformeur occupe lui-même une case.<br>Sa construction demande
+    de l''énergie, mais celle-ci n''est pas consommée : ta planète doit simplement
+    en produire assez (1 000 pour le niveau 1, le double à chaque niveau), même si
+    tes mines l''utilisent déjà. Une fois construit, le terraformeur ne peut plus
+    jamais être démoli.'
+  '34': 'Le dépôt d''alliance n''a actuellement aucun effet dans ce jeu : les flottes
+    amies peuvent stationner sur ta planète sans lui, et il n''y a pas de ravitaillement
+    en carburant.'
+  '35': Le dock de réparation peut réparer les vaisseaux détruits au combat qui ont
+    laissé un champ d'épaves. Une réparation dure 12 heures au maximum, et elle ne
+    peut pas se terminer moins de 30 minutes après l'apparition du champ d'épaves.<br>Une
+    fois le champ d'épaves apparu, tu as 3 jours pour lancer la réparation. Quand
+    la réparation est terminée, tu dois remettre toi-même les vaisseaux en service.
+    Sinon, ils reprennent le service automatiquement au bout de 3 jours.
+  '41': 'La lune n''a pas d''atmosphère, et une lune toute neuve n''a de place que
+    pour un seul bâtiment : commence donc par la base lunaire. Chaque niveau donne
+    3 cases supplémentaires et occupe lui-même une case. Une fois construite, la base
+    lunaire ne peut plus jamais être démantelée.'
+  '42': 'La phalange de capteurs permet de surveiller les mouvements de flottes. Plus
+    son niveau est élevé, plus sa portée est grande : (niveau de la phalange)^2 -
+    1 systèmes par défaut, donc le niveau 1 ne couvre que le système de la lune elle-même.
+    Un scan coûte 5 000 deutérium, qui doivent se trouver sur la lune. Pour scanner,
+    ouvre la vue Galaxie depuis la lune et clique sur une planète à portée. Les lunes
+    elles-mêmes ne peuvent pas être scannées avec la phalange, car elles n''ont pas
+    d''atmosphère.<br><br>La phalange montre les flottes qui partent de la planète
+    scannée ou qui s''y rendent : quand elles arrivent, quand un stationnement prend
+    fin et quand les flottes du propriétaire rentrent. Les déploiements et les missiles
+    ne sont jamais affichés, pas plus que les vols de recyclage ou de commerce à destination
+    de la planète.'
+  '43': 'Les portes de saut sont d''énormes émetteurs qui envoient de grandes flottes
+    à travers l''univers sans perdre de temps. Elles ne consomment pas de deutérium,
+    mais on ne peut pas transférer de ressources de cette façon. Les deux portes doivent
+    être prêtes : après un saut, chaque porte a besoin d''un temps de recharge, qui
+    est par défaut de 60 minutes au niveau 1 et diminue à chaque niveau, jusqu''à
+    10 minutes à partir du niveau 15.'
+  '44': Les silos de missiles stockent tes missiles. Par défaut, chaque niveau ajoute
+    10 emplacements. Un missile d'interception occupe 1 emplacement, un missile interplanétaire
+    en occupe 2.
+  '106': 'Cette technologie permet de recueillir des informations sur d''autres planètes
+    et lunes. Quand tu envoies des sondes, ta technologie d''espionnage est comparée
+    à celle de la cible : plus ton niveau est élevé, plus le rapport contient d''informations
+    et moins tes sondes risquent d''être détectées. Plus de sondes révèlent plus de
+    détails, mais augmentent le risque de détection. À certains niveaux de technologie
+    d''espionnage, tu en apprends aussi davantage sur les flottes étrangères dans
+    ta vue d''ensemble :<br><br><li>Aux niveaux 0-1, tu vois seulement qu''une flotte
+    approche de ta planète</li><li>Aux niveaux 2-3, tu vois combien de vaisseaux approchent</li><li>Aux
+    niveaux 4-7, tu vois quels types de vaisseaux composent la flotte</li><li>À partir
+    du niveau 8, tu vois combien de vaisseaux de chaque type composent la flotte</li>'
+  '108': De meilleurs ordinateurs permettent de commander plus de flottes. Chaque
+    niveau de la technologie Ordinateur augmente d'une unité ton nombre maximal de
+    flottes.
+  '109': La technologie Armes rend les systèmes d'armes plus efficaces. Chaque niveau
+    augmente la puissance d'armement de toutes les unités de 10 % de la valeur de
+    base.
+  '110': La technologie Bouclier rend les boucliers des vaisseaux et des défenses
+    plus efficaces. Chaque niveau augmente la puissance des boucliers de 10 % de la
     valeur de base.
-  '117': >-
-    La propultion a impulsion est basée sur le principe de la réaction. Le
-    développement de cette propultion rend les vaisseaux plus rapides, bien que
-    chaque niveau augmente la vitesse de seulement 20% de la valeur de base.
-  '118': >-
-    L'Hyperspace déforme l'espace temps autour des vaisseaux. Le développement
-    de cette propultion fait que les vaisseaux sont plus rapides, bien que
-    chaque niveau augmente la vitesse de seulement 30% de la valeur de base.
-  '120': >-
-    Focaliser la lumière produit un faisceau qui cause des dommages quand elle
-    frappe un objet.
-  '121': >-
-    Un faisceau d'ions accélérés mortelle. Cela provoque d'énormes dégâts lors
-    de la frappe d'un objet.
-  '122': >-
-    Un autre développement de la technologie d'ions qui accélère avec une haute
-    énergie plasma, à la suite d'une surchauffe d'ions, cela a un effet
-    dévastateur lors de la frappe d'un objet.
-  '123': Les chercheurs sur différentes planètes communiquent via ce réseau.
-  '124': >-
-    Avec un module de recherche en astrophysique, les vaisseaux peuvent
-    entreprendre de longues expéditions. Chaque deux niveaux de cette
-    technologie (à partir du niveau 1) permettra de coloniser une planète
-    supplémentaire. Vous pouvez également envoyer plus d'expéditions dans
-    l'espace profond.<br><br><li>Niveau 1-3 - 1 expédition</li><li>Niveau 4-8 -
-    2 expéditions</li><li>Niveau 9-15 - 3 expéditions</li><li>Niveau 16-24 - 4
-    expéditions</li>
-  '131': Augmente la production de Métal de 2%
-  '132': Augmente la production de Crystal de 2%
-  '133': Augmente la production de Deuterium de 2%
-  '134': Réduit les coûts de vol de 2%
-  '199': >-
-    Un tir concentrée de particules de graviton peut créer un champ de gravité
-    artificielle, qui peut détruire les vaisseaux ou même des lunes.
-  '202': >-
-    Le cargo léger est un vaisseau agile qui peut transporter rapidement des
-    ressources vers d'autres planètes.
-  '203': >-
-    Ce cargo a une capacité de chargement beaucoup plus grande que celle du
-    cargo léger, et est généralement plus rapide grâce à un entraînement
-    amélioré.
-  '204': >-
-    C'est le premier vaisseau de combat que tous les empereurs vont construire.
-    Le chasseur léger est un vaisseau agile, mais vulnérable. En grande
-    quantité, ils peuvent devenir une grande menace pour tout empire. Ils sont
-    les premiers à accompagner les petites et grandes cargaisons vers les
-    planètes hostiles à faibles défenses. 
-  '205': >-
-    Ce combattant est mieux armé et a une force d'attaque plus élevée que le
-    chasseur léger.
-  '206': >-
-    Les croiseurs sont trois fois plus blindés que les combattants lourds et ont
-    plus de deux fois leur puissance de feu. En outre, ils sont très rapides. 
-  '207': >-
-    Les vaisseaux de combat forment l'épine dorsale d'une flotte. Leurs canons
-    lourds, à haute vitesse, et leurs grandes cales en font des adversaires à
-    prendre au sérieux.
-  '208': >-
-    Ce vaisseau bien blind&eacute; sert &agrave; conqu&eacute;rir de nouvelles
-    plan&egrave;tes, ce qui est essentiel pour un empire en plein essor. Sur la
-    nouvelle colonie, le vaisseau est utilis&eacute; comme fournisseur de
-    mati&egrave;res premi&egrave;res : il est d&eacute;mont&eacute; et tous les
-    mat&eacute;riaux recyclables sont utilis&eacute;s pour l'exploration du
-    nouveau monde. Le nombre de plan&egrave;tes colonisables par empire
-    d&eacute;pend directement de la recherche en astrophysique. Le premier
-    niveau, ainsi que chaque deuxi&egrave;me niveau suppl&eacute;mentaire,
-    permettent de poursuivre la colonisation.
-  '209': >-
-    Le recycleur peut obtenir des matières premières à partir de champs de
-    débris.
-  '210': >-
-    Les sondes d'espionnage sont de petits drones agiles, qui fournissent des
-    données sur de longues distances sur les flottes et les planètes.
-  '211': >-
-    Le destructeur a été spécialement conçu pour détruire les défenses d'une
-    planète.
-  '212': >-
-    Les satellites solaires sont de simples plates-formes de paneaux solaires
-    qui sont situées sur une orbite stationnaire élevée. Ils recueillent la
-    lumière du soleil et la transmettent à la station au sol par laser.
-  '213': Le destroyer est le roi des vaisseaux de guerre.
-  '214': >-
-    Le pouvoir destructeur de l'Etoile de la Mort est à nulle autre pareille et
+  '111': Des alliages spéciaux améliorent le blindage des vaisseaux et des défenses.
+    Chaque niveau augmente l'efficacité du blindage de 10 %.
+  '113': Maîtriser les différents types d'énergie est la clé de nombreuses nouvelles
+    technologies. Chaque niveau de la technologie Énergie augmente aussi la production
+    d'énergie de la centrale de fusion.
+  '114': En intégrant les 4e et 5e dimensions, tu peux rechercher un nouveau type
+    de propulsion, plus économique et plus efficace.
+  '115': 'Développer ce réacteur rend certains vaisseaux plus rapides, mais chaque
+    niveau n''ajoute que 10 % de la vitesse de base. Vaisseaux concernés : petit transporteur,
+    grand transporteur, chasseur léger, recycleur et sonde d''espionnage (le petit
+    transporteur et le recycleur passent plus tard à de meilleurs réacteurs).'
+  '117': 'Le réacteur à impulsion repose sur le principe de réaction. Le développer
+    rend certains vaisseaux plus rapides, mais chaque niveau n''ajoute que 20 % de
+    la vitesse de base : bombardier, croiseur, chasseur lourd et vaisseau de colonisation,
+    ainsi que le petit transporteur et le recycleur une fois passés à ce réacteur.
+    Les missiles interplanétaires volent aussi plus loin à chaque niveau.'
+  '118': 'La propulsion hyperespace déforme l''espace autour d''un vaisseau. La développer
+    rend certains vaisseaux plus rapides, mais chaque niveau n''ajoute que 30 % de
+    la vitesse de base : traqueur, vaisseau de bataille, destructeur, étoile de la
+    mort, lune noire, transporteur ultime, avatar et recycleur ultime, ainsi que le
+    bombardier et le recycleur une fois passés à ce réacteur. Requiert la technologie
+    Hyperespace (niveau 3) et un laboratoire de recherche (niveau 7).'
+  '120': La lumière focalisée produit un faisceau qui endommage tout ce qu'il touche.
+    Requiert un laboratoire de recherche (niveau 1) et la technologie Énergie (niveau
+    2).
+  '121': Un faisceau mortel d'ions accélérés qui inflige d'énormes dégâts à l'impact.
+  '122': Un développement plus poussé de la technologie ionique, qui accélère du plasma
+    à haute énergie obtenu en surchauffant des ions. L'effet à l'impact est dévastateur.
+  '123': Les chercheurs de différentes planètes communiquent via ce réseau. Chaque
+    niveau permet à un laboratoire de plus de se joindre à celui où tu lances une
+    recherche. Les laboratoires de plus haut niveau sont choisis, et un laboratoire
+    connecté doit être assez avancé pour mener cette recherche seul. Leurs niveaux
+    sont additionnés pour calculer le temps de recherche.
+  '124': 'L''astrophysique débloque la colonisation et les expéditions dans l''espace
+    profond. La limite de colonies, la durée de stationnement et les positions ci-dessous
+    sont les réglages par défaut ; ton univers peut différer.<br><br> <li>Limite de
+    colonies</li> Niveau 1-2 = 2 planètes<br> Niveau 3-4 = 3 planètes<br> Niveau 5-6
+    = 4 planètes<br> Niveau 7-8 = 5 planètes<br> Niveau 9-10 = 6 planètes<br> Niveau
+    11-12 = 7 planètes<br> Niveau 13-14 = 8 planètes<br> Niveau 15-16 = 9 planètes<br>
+    Niveau 17-18 = 10 planètes<br> Niveau 19-20 = 11 planètes<br> Niveau 21+ = 12
+    planètes<br><br> <li>Slots d''expédition</li> Niveau 1-3 = 1 expédition<br> Niveau
+    4-8 = 2 expéditions<br> Niveau 9-15 = 3 expéditions<br> Niveau 16-24 = 4 expéditions<br>(une
+    de plus à chaque niveau carré suivant : 25, 36, ...)<br><br> <li>Durée de stationnement
+    en expédition</li> Niveau = durée maximale en heures<br><br> <li>Positions colonisables</li>
+    Niveau 1-3 = 4-12<br> Niveau 4-5 = 3-13<br> Niveau 6-7 = 2-14<br> Niveau 8+ =
+    1-15'
+  '131': Augmente la production de métal de 2 % par niveau.
+  '132': Augmente la production de cristal de 2 % par niveau.
+  '133': Augmente la production de deutérium de 2 % par niveau.
+  '134': Réduit les coûts de vol de 2 % par niveau.
+  '199': Tirer une charge concentrée de particules de graviton crée un champ de gravité
+    artificiel capable de détruire des vaisseaux, et même des lunes. Requiert un laboratoire
+    de recherche (niveau 12).
+  '202': Le petit transporteur est un vaisseau agile qui achemine rapidement des ressources
+    vers d'autres planètes.<br>Il vole avec le réacteur à combustion jusqu'à ce que
+    ton réacteur à impulsion atteigne le niveau 5. À partir de là, il passe au réacteur
+    à impulsion, ce qui double sa vitesse de base.
+  '203': Ce cargo transporte bien plus que le petit transporteur et est généralement
+    plus rapide grâce à un réacteur amélioré.
+  '204': Le premier vaisseau de combat que tout empereur construit. Le chasseur léger
+    est agile, mais vulnérable seul ; en grand nombre, il devient une vraie menace
+    pour n'importe quel empire. Les chasseurs légers sont les premiers à escorter
+    les petits et grands transporteurs vers des planètes hostiles faiblement défendues.
+  '205': Ce chasseur a un meilleur blindage et frappe plus fort que le chasseur léger.
+  '206': Les croiseurs ont presque trois fois le blindage des chasseurs lourds et
+    plus de deux fois leur puissance de feu. Ils sont aussi très rapides.
+  '207': 'Les vaisseaux de bataille sont l''épine dorsale d''une flotte. Canons lourds,
+    grande vitesse et vastes soutes : des adversaires à prendre très au sérieux.'
+  '208': 'Ce vaisseau bien blindé conquiert de nouvelles planètes, dont un empire
+    en plein essor a besoin pour grandir. Sur la nouvelle colonie, le vaisseau est
+    démonté et tout le matériau recyclable sert à développer ce nouveau monde. Le
+    nombre de planètes que tu peux coloniser dépend directement de l''astrophysique :
+    le premier niveau, puis un niveau sur deux, permettent une colonie de plus (par
+    défaut).'
+  '209': Le recycleur récolte des matières premières dans les champs de débris. Sa
+    capacité de chargement est de 20 000. Il part avec le réacteur à combustion, passe
+    au réacteur à impulsion quand ton réacteur à impulsion atteint le niveau 17, puis
+    à la propulsion hyperespace quand ta propulsion hyperespace atteint le niveau
+    15.
+  '210': Les sondes d'espionnage sont de petits drones agiles qui transmettent des
+    données sur les flottes et les planètes, même à grande distance.
+  '211': Le bombardier a été conçu spécialement pour détruire les défenses d'une planète.<br>Il
+    vole avec le réacteur à impulsion et passe à la propulsion hyperespace quand ta
+    propulsion hyperespace atteint le niveau 8.
+  '212': Les satellites solaires sont de simples plateformes de cellules solaires
+    placées sur une haute orbite stationnaire. Ils captent la lumière du soleil et
+    la renvoient par laser vers la station au sol.
+  '213': 'Le destructeur est le roi des vaisseaux de guerre. Contre les canons laser
+    légers, il dispose du tir rapide : après chaque tir réussi, il tire à nouveau
+    dans 9 cas sur 10.'
+  '214': La puissance destructrice de l'étoile de la mort n'a pas d'égale, et elle
     peut détruire des lunes.
-  '215': >-
-    Le croiseur de combat est spécialisé dans l'interception des flottes
-    ennemies.
-  '216': >-
-    Le successeur de la fameuse étoile de la mort, plus rapide, mais pas aussi
-    fort.
-  '217': >-
-    C'est une amélioration du cargo lourd, il a plus de capacité de transport et
-    vole plus grâce à la techonologie.
-  '218': Le pire de tous, bien que très lent.
-  '219': >-
-    C'est un immense cargo de recyclage, avec de nouveaux moteurs, qui lui
-    permettent de voler plus vite et de recueillir plus de débris.
-  '220': >-
-    Le Colosse d'Acier est une véritable forteresse spatiale, protégée par des
-    boucliers impénétrables et un blindage massif. Même les assauts les plus
-    violents rebondissent alors qu’il avance inexorablement. Mais cette
-    supériorité défensive a un prix : son armement est dérisoire et ses moteurs
-    lents en font un géant maladroit. Au lieu d’attaques éclairs ou de manœuvres
-    agiles, le Colosse d'Acier mise sur sa pure résistance. Ceux qui souhaitent
-    l’arrêter devront faire preuve d’une endurance sans faille – ou d’une
-    puissance de feu écrasante.
-  '221': >-
-    Lame de Tempête est un chasseur d’élite : incroyablement rapide et armé sans
-    pitié. Ses ennemis ont à peine le temps de la voir avant qu’elle ne frappe.
-    La défense est une préoccupation secondaire – elle n’a pas besoin
-    d’encaisser ce qu’elle peut simplement éviter. Son seul objectif : les
-    transporteurs et les flottes de recycleurs, anéantis sans résistance. Grâce
-    à sa vitesse fulgurante, elle peut frapper à tout moment et disparaître
-    avant l’arrivée des renforts. Quiconque est pris pour cible par la
-    Stormblade a peu de chances de s’enfuir.
+  '215': Le traqueur est spécialisé dans l'interception des flottes ennemies.
+  '216': 'Le successeur de la célèbre étoile de la mort : bien plus rapide et plus
+    robuste, avec une immense soute, mais elle frappe un peu moins fort.'
+  '217': 'Une évolution du grand transporteur, avec une capacité de transport bien
+    supérieure. Il fonctionne avec la propulsion hyperespace : il démarre donc plus
+    lentement que le grand transporteur, mais prend de l''avance à mesure que ta propulsion
+    hyperespace progresse.'
+  '218': Le pire scénario imaginable, même s'il est très lent.
+  '219': Un immense espace de chargement et de nouveaux moteurs lui permettent de
+    voler plus vite et de récolter davantage dans les champs de débris.
+  '220': 'Le Colosse d''Acier est une véritable forteresse spatiale, protégée par
+    des boucliers impénétrables et un blindage massif. Même les assauts les plus violents
+    rebondissent alors qu’il avance inexorablement. Mais cette supériorité défensive
+    a un prix : son armement est dérisoire et ses moteurs lents en font un géant maladroit.
+    Au lieu d’attaques éclairs ou de manœuvres agiles, le Colosse d''Acier mise sur
+    sa pure résistance. Ceux qui souhaitent l’arrêter devront faire preuve d’une endurance
+    sans faille – ou d’une puissance de feu écrasante.'
+  '221': 'Lame de Tempête est un chasseur d’élite : incroyablement rapide et armé
+    sans pitié. Ses ennemis ont à peine le temps de la voir avant qu’elle ne frappe.
+    La défense est une préoccupation secondaire – elle n’a pas besoin d’encaisser
+    ce qu’elle peut simplement éviter. Son seul objectif : les transporteurs et les
+    flottes de recycleurs, anéantis sans résistance. Grâce à sa vitesse fulgurante,
+    elle peut frapper à tout moment et disparaître avant l’arrivée des renforts. Quiconque
+    est pris pour cible par la Lame de Tempête a peu de chances de s’enfuir.'
   '222': >-
     Le Croiseur Lourd est une évolution renforcée du croiseur standard. Avec des
     boucliers améliorés et une puissance de feu considérable, il peut tenir tête
@@ -263,49 +267,44 @@ longDescription:
     construction tout en augmentant l’efficacité de récupération des ressources.
     Disponible à partir du midgame, il offre un avantage stratégique crucial
     pour tout empire en expansion.
-  '228': >-
-    Le Récupérateur Oméga représente l’apogée de la technologie de récupération,
-    mais à un prix élevé. Son puissant moteur hyperspatial lui permet
-    d’atteindre les champs de débris en un temps record et de collecter les
-    ressources plus vite que n’importe quel autre vaisseau. Cependant, cette
-    vitesse se fait au détriment de l’efficacité : ses coûts de construction et
-    de carburant sont colossaux, ce qui en fait une option viable uniquement
-    pour les commandants fortunés en fin de partie. Pour ceux qui privilégient
-    la vitesse aux économies, voici le récupérateur ultime.
-  '401': Le lance-roquettes est une défense simple mais rentable.
-  '402': >-
-    Les Lasers légers sont des armes simples basés au sol qui utilisent des
-    systèmes spéciaux de ciblage pour suivre l'ennemi et tirer un laser de haute
-    intensité conçu pour transpercer la coque de la cible.
-  '403': Le laser lourd est une version améliorée du laser léger.
-  '404': >-
-    Le canon de Gauss tire des projectiles métalliques de haute densité à très
-    grande vitesse.
-  '405': >-
-    Un canon à ions est une arme qui tire des faisceaux d'ions (particules
-    chargées positivement ou négativement).
-  '406': >-
-    la tourelle plasma utilise une grande pile à combustible d'un réacteur
-    nucléaire pour alimenter un accélérateur électromagnétique qui déclenche une
-    impulsion de plasma.
-  '407': >-
-    Le Petit bouclier enveloppe toute la planète dans un champ, qui peut
-    absorber des quantités énormes d'énergie.
-  '408': >-
-    Le développement du Grand Bouclier Dome nécessite beaucoup plus d'énergie
-    pour résister aux attaques.
-  '409': >-
-    C'est l'évolution de la technologie du grand bouclier Dome. Il utilise
-    beaucoup plus d'énergie, mais peut endurer bien plus d'attaques que tout
-    autre bouclier.
-  '410': >-
-    Après des années de recherche sur la force de gravitation, les chercheurs
-    sont capables de développer un canon gravitationnel qui génère un petit
-    champ de Gravition concentré, qui peut être tirer sur l'ennemi.
-  '411': >-
-    C'est une plate-forme de défense mobile. Il n'a pas d'énergie directement,
-    et est maintenu par gravité dans une orbite stable de la planète. Le début
-    de ce processus nécessite beaucoup d'énergie.
+  '228': 'Le Récupérateur Oméga représente l’apogée de la technologie de récupération,
+    mais à un prix élevé. Son puissant moteur hyperspatial lui permet d’atteindre
+    les champs de débris en un temps record et de collecter les ressources plus vite
+    que n’importe quel autre vaisseau. Cependant, cette vitesse se fait au détriment
+    de l’efficacité : ses coûts de construction et de carburant sont colossaux, ce
+    qui en fait une option viable uniquement pour les commandants fortunés en fin
+    de partie. Pour ceux qui privilégient la vitesse aux économies, voici le récupérateur
+    ultime.'
+  '401': Le lanceur de missiles est une défense simple mais économique. Après un combat,
+    environ 70 % des défenses détruites sont en moyenne reconstruites.
+  '402': Les lasers légers sont de simples armes au sol. Des systèmes de ciblage spéciaux
+    suivent l'ennemi, et un laser de haute intensité perce la coque de la cible. Après
+    un combat, environ 70 % des défenses détruites sont en moyenne reconstruites.
+  '403': Le laser lourd est une version améliorée, plus pratique, du laser léger.
+    Après un combat, environ 70 % des défenses détruites sont en moyenne reconstruites.
+  '404': Le canon de Gauss tire des projectiles métalliques de haute densité à très
+    grande vitesse. Après un combat, environ 70 % des défenses détruites sont en moyenne
+    reconstruites.
+  '405': Un canon à ions tire des faisceaux d'ions (particules chargées positivement
+    ou négativement). Après un combat, environ 70 % des défenses détruites sont en
+    moyenne reconstruites.
+  '406': La tourelle à plasma utilise la pile à combustible d'un grand réacteur nucléaire
+    pour alimenter un accélérateur électromagnétique qui tire des impulsions (tores)
+    de plasma. Après un combat, environ 70 % des défenses détruites sont en moyenne
+    reconstruites.
+  '407': Le petit bouclier enveloppe toute la planète d'un champ qui absorbe d'énormes
+    quantités d'énergie. Un seul peut être construit par planète.
+  '408': Le grand bouclier est une évolution qui demande nettement plus d'énergie
+    pour résister aux attaques. Un seul peut être construit par planète.
+  '409': L'évolution de la technologie des boucliers planétaires. Il consomme beaucoup
+    plus d'énergie, mais encaisse plus d'attaques que tout autre bouclier. Un seul
+    peut être construit par planète.
+  '410': Après des années de recherche sur la gravité, les scientifiques ont mis au
+    point un canon à gravitons qui génère un petit champ de gravitons concentré et
+    le tire sur l'ennemi.
+  '411': Une plateforme de défense immobile, sans énergie propre, maintenue par la
+    gravité sur une orbite stable autour de la planète. Lancer ce processus demande
+    d'énormes quantités d'énergie. Une seule peut être construite par planète.
   '412': >-
     Le Bunker est une structure fortement fortifiée, conçue pour résister même
     aux attaques les plus puissantes. Il offre une protection inégalée aux
@@ -318,299 +317,218 @@ longDescription:
     Le « Decoy » est un système défensif sophistiqué conçu pour induire en
     erreur et désorienter les forces ennemies. En se faisant passer pour un
     lance-missiles, il dissuade les attaques.
-  '502': >-
-    Les missiles intercepteurs sont utilisés pour détruire attaquer missiles
-    interplanétaires.
-  '503': >-
-    Les missiles interplanétaires sont utilisés pour détruire les adversaires
-    défenses.
-  '901': >-
-    Le métal est la principale ressource nécessaire à la construction des
-    bâtiments et des vaisseaux. C'est la ressource la moins coûteuse en énergie
-    mais c'est aussi la plus utilisée. Plus le niveau de la mine augmente, plus
-    la mine est profonde et prend de la place sur la planète.
-  '902': >-
-    Le cristal est la ressource principale dans la fabrication des circuits
-    électroniques et de certains alliages.
-  '903': >-
-    Le deutérium est récupéré dans les profondeurs marines. C'est la ressource
-    la plus rare dans l'univers car il faut creuser les fonds marins pour
-    l'obtenir, ce qui en fait également la ressource la plus coûteuse.
-  '911': De l'énergie est nécessaire à la production de chacune des ressources.
+  '502': Les missiles d'interception détruisent les missiles interplanétaires entrants.
+    Il faut un missile d'interception par missile interplanétaire.
+  '503': Les missiles interplanétaires détruisent les défenses de l'adversaire, sauf
+    si des missiles d'interception les abattent. Les défenses ainsi détruites ne sont
+    pas reconstruites. Par défaut, leur portée (en systèmes solaires) dépend du niveau
+    de ton réacteur à impulsion :<br>Portée = (5 x niveau du réacteur à impulsion)
+    - 1
+  '901': Le métal est la ressource principale des bâtiments et des vaisseaux. C'est
+    la ressource la moins chère, mais aussi celle dont tu as le plus besoin et, comme
+    le cristal, c'est celle qui demande le moins d'énergie à produire. Plus les mines
+    sont grandes, plus elles creusent profondément dans le sol.
+  '902': Le cristal est la ressource principale des circuits électroniques et de certains
+    alliages. Il est produit dans des mines souterraines, où la matière première est
+    transformée en circuits sur place.
+  '903': Le deutérium se trouve dans les mers les plus profondes et c'est l'une des
+    ressources les plus rares de l'univers. Il faut atteindre le fond marin pour l'obtenir,
+    ce qui en fait la ressource la plus chère.
+  '911': L'énergie est nécessaire pour produire chaque ressource.
   "229": "Développée pour briser la domination des Xer, la Vipère est l'arme ultime contre les chasseurs légers, les chasseurs lourds et les croiseurs. Avec ses canons à tir rapide et sa technologie avancée, elle fait basculer l'équilibre des forces dans l'univers."
-  "230": "Rapide. Précis. Intouchable. L'Intercepteur n'est pas fait pour les combats équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant en un clin d'œil."
+  '230': 'Rapide. Précis. Intouchable. L''Intercepteur n''est pas fait pour les combats
+    équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant
+    en un clin d''œil.'
   "231": "Le Béhémoth est le fruit de décennies de recherche sur les gravitons, réunissant cette technologie dans une plateforme de combat implacable. Contrairement aux Étoiles de la mort, il n'a pas été conçu pour la destruction planétaire, mais pour une efficacité maximale sur le champ de bataille. En abandonnant les systèmes énergivores nécessaires à la destruction des lunes, sa conception a été considérablement allégée, permettant des moteurs plus puissants, une plus grande agilité et une puissance de feu accrue. Son canon à gravitons compact en fait une machine de destruction mobile, capable d'anéantir seule même de vastes flottes."
-  "232": "Le Titan du Vide représente le sommet de la technologie moderne des gravitons. Chaque aspect de sa conception sert un seul but : l'anéantissement rapide des lunes ennemies. Les tourelles d'armes conventionnelles ont été délibérément omises pour réduire la masse et faire place à de colossaux générateurs de cristal. Ceux-ci alimentent les bobines d'accélération les plus avancées jamais construites dans les galaxies connues, offrant au vaisseau une mobilité inégalée. Les besoins immenses en cristal font de chaque Titan du Vide un exploit industriel monumental – et un symbole de puissance destructrice illimitée."
-secureResources: >-
-  Selon le niveau d'amélioration, 1 % de la production quotidienne, jusqu'à un
-  maximum de 10 %, est protégé contre le pillage pendant les attaques.
+  '232': 'Le Titan du Vide représente le sommet de la technologie moderne des gravitons.
+    Chaque aspect de sa conception sert un seul but : l''anéantissement rapide des
+    lunes ennemies. Les tourelles d''armes conventionnelles ont été délibérément omises
+    pour réduire la masse et faire place à de colossaux générateurs de cristal. Ceux-ci
+    alimentent les bobines d''accélération les plus avancées jamais construites dans
+    les galaxies connues, offrant au vaisseau une mobilité inégalée. Les besoins immenses
+    en cristal font de chaque Titan du Vide un exploit industriel monumental – et
+    un symbole de puissance destructrice illimitée.'
+secureResources: Chaque niveau d'un entrepôt protège 1 % de la production quotidienne
+  de cette ressource contre le pillage lors des attaques, jusqu'à un maximum de
+  10 %.
 shortDescription:
-  '1': >-
-    Principal fournisseur de matières premières pour la construction des
-    structures porteuses des bâtiments et des vaisseaux.
-  '2': >-
-    Principal fournisseur de matières premières pour les composants
-    électroniques et les alliages.
-  '3': Extrait la petite quantité de deutérium de l'aportium d'une planète..
-  '4': >-
-    Les centrales électriques solaires transforment les rayons des étoiles en
-    énergie. Presque tous les bâtiments ont besoin d'énergie pour fonctionner.
-  '6': Chaque niveau réduit le temps de recherche de 8%.
-  '12': >-
-    La centrale de fusion produit de l'énergie à partir de barres de combustible
-    en deutérium.
-  '14': >-
-    L\usine de robots produit des travailleurs automatisés qualifiés, qui sont
-    utilisés dans la construction de l'infrastructure planétaire. Chaque niveau
-    augmente la vitesse de l'expansion des bâtiments.
-  '15': >-
-    La taille microscopique des nanomachines se traduit par une vitesse de
-    fonctionnement plus élevée. Cette usine produit des nanomachines qui sont
-    l'ultime évolution de la technologie robotique. Une fois construit, chaque
-    niveau diminue de manière significative le temps de production pour les
-    bâtiments, des vaisseaux et des structures défensives.
-  '21': >-
-    Le chantier spatial permet la construction de vaisseaux spatiaux et de
-    défenses. Plus le niveau de cette structure augmente, plus elle peut
-    produire une grande variété de vaisseaux et défenses à un rythme beaucoup
-    plus élevé. Si une usine de nanites est présente sur la planète, la vitesse
-    à laquelle les vaisseaux et défenses sont construits est décuplé.
-  '22': Immense hangar de stockage de minerais métalliques brutes avant traitement.
-  '23': Immense hangar de stockage de cristal brut avant traitement.
-  '24': Énormes réservoirs pour le stockage du deutérium nouvellement acquis.
-  '31': >-
-    Le laboratoire de recherche est nécessaire pour développer de nouvelles
-    technologies.
-  '33': Le terraformeur augmente la surface utilisable de la planète.
-  '34': >-
-    Le dépôt d'alliance offre la possibilité de fournir du carburant aux flottes
-    amicales en orbite.
-  '35': >-
-    Le dock de réparation permet de restaurer des navires à partir d'un champ
-    d'épaves.
-  '41': >-
-    Une lune n'a pas d'atmosphère donc une base lunaire doit être construite
-    avant le développement des autres bâtiments.
-  '42': >-
-    Le réseau de capteurs permet de surveiller les mouvements de la flotte. Plus
-    le stade est élevé, plus la gamme de la phalange.
-  '43': >-
-    Les portes de sauts sont des émetteurs géants qui sont en mesure d'envoyer
-    de grandes flottes, sans perte de temps, d'une lune à une autre à travers
-    l\univers.
-  '44': Silos de missiles utilisés pour le stockage des missiles.
-  '106': >-
-    En utilisant cette technologie, des informations sont acquises sur d'autres
-    planètes ou lunes.
-  '108': >-
-    Avec l'augmentation de la capacité des ordinateur vous pouvez commander de
-    plus en plus de flottes. Chaque niveau de technologie informatique
-    augmentate le nombre maximum de flotte par un.
-  '109': >-
-    La technologie armes rend plus efficaces les systèmes d'armements. Chaque
-    niveau de technologie armes augmente la résistance des vaisseaux et des
-    unités de défense de 10% de sa valeur de base.
-  '110': >-
-    la technologie bouclier augmente l'efficacité des boucliers des vaisseaux et
-    des défenses. Chaque niveau de technologie bouclier l'augmente de 10% de sa
+  '1': Les mines de métal extraient le minerai sur lequel repose tout empire, naissant
+    ou établi.
+  '2': Le cristal est l'ingrédient clé des circuits électroniques et de certains alliages.
+  '3': Le deutérium alimente tes vaisseaux spatiaux. Il est extrait des profondeurs
+    marines et, comme c'est une substance rare, il coûte relativement cher.
+  '4': Les centrales solaires transforment la lumière du soleil en énergie. Chaque
+    mine a besoin d'énergie pour fonctionner.
+  '6': Par défaut, chaque niveau réduit le temps de recherche de 8 %.
+  '12': La centrale de fusion fusionne du deutérium pour produire de l'énergie.
+  '14': Les usines de robots fournissent des robots de construction qui aident à bâtir
+    tes bâtiments. Chaque niveau accélère l'amélioration des bâtiments.
+  '15': Le summum de la robotique. Chaque niveau divise par deux le temps de construction
+    des bâtiments, des vaisseaux et des défenses.
+  '21': Tous les vaisseaux et toutes les défenses sont construits dans le chantier
+    spatial de la planète.
+  '22': Permet de stocker l'excédent de métal.
+  '23': Permet de stocker l'excédent de cristal.
+  '24': Permet de stocker l'excédent de deutérium.
+  '31': Il te faut un laboratoire de recherche pour étudier de nouvelles technologies.
+  '33': 'Le terraformeur agrandit la surface exploitable de la planète : 5 cases supplémentaires
+    par niveau, plus une en bonus à chaque niveau pair. Chaque niveau occupe lui-même
+    une case.'
+  '34': Le dépôt d'alliance n'a actuellement aucun effet dans ce jeu.
+  '35': Le dock de réparation remet en état des vaisseaux d'un champ d'épaves.
+  '41': 'La lune n''a pas d''atmosphère, et une lune toute neuve n''a de place que
+    pour un seul bâtiment : commence donc par la base lunaire.'
+  '42': La phalange de capteurs permet de surveiller les mouvements de flottes. Plus
+    son niveau est élevé, plus sa portée est grande.
+  '43': Les portes de saut sont d'énormes émetteurs qui envoient de grandes flottes
+    à travers l'univers sans perdre de temps.
+  '44': Les silos de missiles stockent tes missiles.
+  '106': Cette technologie permet de recueillir des informations sur d'autres planètes
+    et lunes.
+  '108': De meilleurs ordinateurs permettent de commander plus de flottes. Chaque
+    niveau de la technologie Ordinateur augmente d'une unité ton nombre maximal de
+    flottes.
+  '109': La technologie Armes rend les systèmes d'armes plus efficaces. Chaque niveau
+    augmente la puissance d'armement de toutes les unités de 10 % de la valeur de
+    base.
+  '110': La technologie Bouclier rend les boucliers des vaisseaux et des défenses
+    plus efficaces. Chaque niveau augmente la puissance des boucliers de 10 % de la
     valeur de base.
-  '111': >-
-    Des alliages spéciaux confèrent aux vaisseaux un blindage de plus en plus
-    efficace. L'efficacité du blindage peut donc être augmentée de 10% par
-    niveau.
-  '113': >-
-    Le contrôle des différents types d'énergie est indispensable pour de
-    nombreuses nouvelles technologies.
-  '114': >-
-    En intégrant les dimensions 4 et 5, il est désormais possible, grâce à cette
-    technologie, de se déplacer de façon plus économique et efficace.
-  '115': >-
-    Le développement de ces moteurs permet aux vaisseaux d'être plus rapides,
-    mais chaque niveau n'augmente leur vitesse que de 10% de leur valeur de
-    base.
-  '117': >-
-    Le réacteur à impulsion est essentiellement une fusion augmentée,
-    habituellement constitué d'un réacteur de fusion, un
-    accélérateur-générateur, un ensemble de bobines conductrices et une buse
-    d'échappement à poussée vectorielle directe du plasma. Le développement de
-    ces moteurs permet aux vaisseaux d'être plus rapides, mais chaque niveau
-    n'augmente leur vitesse que de 20% de leur valeur de base.
-  '118': >-
-    Le développement de ces moteurs permet aux vaisseaux d'être plus rapides,
-    mais chaque niveau n'augmente leur vitesse que de 30% de leur valeur de
-    base.
-  '120': >-
-    En combinant les rayons de lumière concentrée, Le faisceau créé cause des
-    dommages lors de la frappe d'un objet.
-  '121': >-
-    Faisceau d'ions accélérés, lorsqu'il frappe un objet, il cause des dommages
-    énormes.
-  '122': >-
-    C'est le prolongement de la technologie ions. Il ne s'agit pas ici que
-    d'accélerer des ions, mais du plasma à haute énergie. Cela a un effet
-    dévastateur.
-  '123': >-
-    Pour évoluer, chaque colonie doit être en mesure de procéder à la recherche
-    de façon autonome. Avec le RRI, les temps de recherche sont plus rapides en
-    associant le plus grand des laboratoires de recherche à un niveau égal au
-    niveau du RRI développé.
-  '124': >-
-    D'autres découvertes dans l'astrophysique permettent la construction de
-    laboratoires, dont plusieurs vaisseaux peuvent être équipés. De longues
-    expéditions sont possibles dans des les espaces inexplorés. En outre, les
-    progrès permettent la colonisation d'autres planètes de l'Univers. Deux
-    niveaux développés de cette technologie peuvent donc être mis à profit pour
-    coloniser une autre planète.
-  '131': Augmente la production de métal de 2%
-  '132': Augmente la production de cristal de 2%
-  '133': Augmente la production de deutérium de 2%
-  '134': Réduit les coûts de vol de 2%
+  '111': Des alliages spéciaux améliorent le blindage des vaisseaux et des défenses.
+    Chaque niveau augmente l'efficacité du blindage de 10 %.
+  '113': Maîtriser les différents types d'énergie est la clé de nombreuses nouvelles
+    technologies.
+  '114': En intégrant les 4e et 5e dimensions, tu peux rechercher un nouveau type
+    de propulsion, plus économique et plus efficace.
+  '115': Développer ce réacteur rend certains vaisseaux plus rapides, mais chaque
+    niveau n'ajoute que 10 % de la vitesse de base.
+  '117': Le réacteur à impulsion repose sur le principe de réaction. Le développer
+    rend certains vaisseaux plus rapides, mais chaque niveau n'ajoute que 20 % de
+    la vitesse de base.
+  '118': La propulsion hyperespace déforme l'espace autour d'un vaisseau. La développer
+    rend certains vaisseaux plus rapides, mais chaque niveau n'ajoute que 30 % de
+    la vitesse de base.
+  '120': La lumière focalisée produit un faisceau qui endommage tout ce qu'il touche.
+  '121': Un faisceau mortel d'ions accélérés qui inflige d'énormes dégâts à l'impact.
+  '122': Un développement plus poussé de la technologie ionique, qui accélère du plasma
+    à haute énergie obtenu en surchauffant des ions. L'effet à l'impact est dévastateur.
+  '123': Les chercheurs de différentes planètes communiquent via ce réseau.
+  '124': Débloque la colonisation et les expéditions dans l'espace profond. Des planètes
+    en plus aux niveaux impairs, des slots d'expédition en plus aux niveaux carrés,
+    des stationnements d'expédition plus longs et plus de positions dans un système.
+  '131': Augmente la production de métal de 2 % par niveau.
+  '132': Augmente la production de cristal de 2 % par niveau.
+  '133': Augmente la production de deutérium de 2 % par niveau.
+  '134': Réduit les coûts de vol de 2 % par niveau.
   '199': >-
     En lançant une charge concentrée de particules Gravitons un champ de
     pesanteur artificielle peut être construit, où les vaisseaux ou même les
     lunes peuvent être anéantis.
-  '202': >-
-    Le petit transporteur est un vaisseau très maniable qui peut transporter des
-    matériaux rapidement sur d'autres planètes.
-  '203': >-
-    Le grand transporteur a une plus grande capacité de chargement et est encore
-    plus rapide que le chasseur léger.
-  '204': >-
-    Très agile, vaisseau de combat léger qui se trouve sur presque toutes les
-    planètes. Les coûts ne sont pas particulièrement élevés, la force d'attaque
-    et le blindage sont très faibles.
-  '205': >-
-    Développement du chasseur léger, le chasseur lourd est mieux blindé et a une
-    puissance supérieure en attaque.
-  '206': >-
-    Le blindage des croiseurs est presque trois fois plus important que celui
-    des chasseurs lourds et leur puissance d'attaque est deux fois supérieure.
-    En outre, ils sont très rapides.
-  '207': >-
-    Les vaisseaux de bataille forment l'épine dorsale de la flotte. Leur
-    artillerie lourde, leur grande vitesse et leur espace de chargement
-    important, font de ces vaisseaux de sérieux rivaux.
-  '208': Les autres planètes peuvent être colonisées par ce vaisseau.
-  '209': >-
-    Le recycleur peut recycler des matières premières à partir des champs de
-    débris.
-  '210': >-
-    Les sondes d'espionnage sont de petits drones agiles, qui fournissent des
-    données sur de longues distances sur les flottes et les planètes.
+  '202': Le petit transporteur est un vaisseau agile qui achemine rapidement des ressources
+    vers d'autres planètes.
+  '203': Ce cargo transporte bien plus que le petit transporteur et est généralement
+    plus rapide grâce à un réacteur amélioré.
+  '204': Le premier vaisseau de combat que tout empereur construit. Le chasseur léger
+    est agile, mais vulnérable seul ; en grand nombre, il devient une vraie menace
+    pour n'importe quel empire. Les chasseurs légers sont les premiers à escorter
+    les petits et grands transporteurs vers des planètes hostiles faiblement défendues.
+  '205': Ce chasseur a un meilleur blindage et frappe plus fort que le chasseur léger.
+  '206': Les croiseurs ont presque trois fois le blindage des chasseurs lourds et
+    plus de deux fois leur puissance de feu. Ils sont aussi très rapides.
+  '207': 'Les vaisseaux de bataille sont l''épine dorsale d''une flotte. Canons lourds,
+    grande vitesse et vastes soutes : des adversaires à prendre très au sérieux.'
+  '208': Ce vaisseau permet de coloniser les planètes libres.
+  '209': Le recycleur récolte des matières premières dans les champs de débris.
+  '210': Les sondes d'espionnage sont de petits drones agiles qui transmettent des
+    données sur les flottes et les planètes, même à grande distance.
   '211': >-
     Le bombardier a été spécialement conçu pour détruire les défenses
     planétaires.
-  '212': >-
-    Les satellites solaires sont des plates-formes simples de cellules solaires
-    qui sont situés sur une orbite élevée et stationnaire. Ils recueillent la
-    lumière de l'étoile et la transmettent à la station au sol par laser.
-  '213': Le destructeur est le roi des vaisseau de guerre.
-  '214': >-
-    La puissance destructrice de l'étoile de la mort est sans pareil et peut
-    détruire des lunes.
+  '212': Les satellites solaires sont de simples plateformes de cellules solaires
+    placées sur une haute orbite stationnaire. Ils captent la lumière du soleil et
+    la renvoient par laser vers la station au sol.
+  '213': Le destructeur est le roi des vaisseaux de guerre.
+  '214': La puissance destructrice de l'étoile de la mort n'a pas d'égale, et elle
+    peut détruire des lunes.
   '215': Le traqueur est spécialisé dans l'interception des flottes ennemies.
-  '216': >-
-    Le successeur de l'étoile de la mort est très populaire, plus rapide, mais
-    pas aussi forte.
-  '217': >-
-    Le transporteur ultime est un développement du transporteur ultime, il a une
-    capacité de chargement très supérieure et se déplace plus vite grâce aux
-    technologies appropriées.
-  '218': Il vous procurera le pire des scénarios, bien que très lent.
-  '219': >-
-    Le recycleur ultime dispose d'une capacité de chargement énorme et de
-    nouveaux moteurs qui lui permettent de voler plus vite et de recueillir
-    davantage dans les champs de débris.
-  '220': >-
-    Le Colosse d'Acier résiste à toutes les attaques avec ses boucliers massifs
-    et son épaisse armure, mais ses armes et moteurs laissent à désirer.
-  '221': >-
-    Lame de Tempête est un chasseur ultra-rapide, armé jusqu’aux dents. Défense
-    ? Inutile – ses proies sont des transporteurs et recycleurs sans défense.
-  '222': >-
-    Un croiseur lent mais lourdement armé, avec des boucliers et des capacités
-    offensives améliorées.
-  '223': >-
-    Une nouvelle version du chasseur léger, mettant l'accent sur la sécurité de
-    l'équipage, mais avec des caractéristiques de vol médiocres.
-  '224': >-
-    Un vaisseau de transport non testé avec une armement minimal, conçu pour
-    déranger les voisins imprudents et provoquer immédiatement un conflit.
-  '225': >-
-    Un vaisseau qui allie puissance de combat, vitesse et capacité de transport,
-    le rendant indispensable à toute flotte puissante.
-  '226': >-
-    Un transporteur de bataille massivement blindé avec un design imposant et
-    légèrement volumineux, dont la puissance de feu écrasante peut vaincre même
-    les adversaires les plus coriaces.
-  '227': >-
-    Une version améliorée du recycleur classique avec un moteur à impulsion,
-    permettant des missions de récupération plus efficaces et économiques.
-  '228': >-
-    Une version extrêmement rapide mais inefficace du Récupérateur avec moteur
-    hyperspatial.
-  '231': >-
-    Une Étoile de la Mort plus petite et plus rapide, incapable toutefois de
-    détruire des lunes. « Redoutable face aux flottes » : voilà ce qui décrit le
-    mieux le Behemoth.
-  '401': Le lanceur de missiles est un moyen de défense simple mais rentable.
-  '402': >-
-    Le canon laser léger est une arme au sol simple qui utilise des systèmes
-    spéciaux de ciblage pour suivre l'ennemi et tirer un faisceau laser de haute
-    intensité conçu pour percer la coque de la cible.
-  '403': Le canon laser lourd est une version améliorée du canon laser léger.
+  '216': 'Le successeur de la célèbre étoile de la mort : bien plus rapide et plus
+    robuste, avec une immense soute, mais elle frappe un peu moins fort.'
+  '217': 'Une évolution du grand transporteur, avec une capacité de transport bien
+    supérieure. Il fonctionne avec la propulsion hyperespace : il démarre donc plus
+    lentement que le grand transporteur, mais prend de l''avance à mesure que ta propulsion
+    hyperespace progresse.'
+  '218': Le pire scénario imaginable, même s'il est très lent.
+  '219': Un immense espace de chargement et de nouveaux moteurs lui permettent de
+    voler plus vite et de récolter davantage dans les champs de débris.
+  '220': Le Colosse d'Acier résiste à toutes les attaques grâce à ses boucliers massifs
+    et à son épais blindage, mais ses armes et ses moteurs laissent à désirer.
+  '221': 'La Lame de Tempête est un chasseur fulgurant, armé jusqu''aux dents. Défense ?
+    Inutile : ses proies sont des transporteurs et des recycleurs sans défense.'
+  '222': Un croiseur lent mais lourdement armé, aux boucliers et aux capacités offensives
+    améliorés.
+  '223': Une refonte du chasseur léger, qui privilégie la sécurité de l'équipage au
+    prix de mauvaises performances de vol.
+  '224': Un vaisseau de transport non testé, à l'armement minimal, conçu pour embêter
+    les voisins imprudents et déclencher un conflit immédiat.
+  '225': Un vaisseau qui allie puissance de combat, vitesse et capacité de transport,
+    et devient indispensable à toute flotte puissante.
+  '226': Un transporteur de bataille très blindé, à l'allure imposante et un peu massive,
+    dont la puissance de feu écrasante vient à bout des adversaires les plus coriaces.
+  '227': Une version améliorée du recycleur classique, dotée de moteurs à impulsion,
+    pour des missions de récupération plus efficaces et moins coûteuses.
+  '228': Une version du recycleur extrêmement rapide mais peu rentable, dotée de la
+    propulsion hyperespace.
+  '231': Une étoile de la mort plus petite et plus rapide, incapable de détruire des
+    lunes. Le Béhémoth est redoutable face aux flottes.
+  '401': Le lanceur de missiles est une défense simple mais économique.
+  '402': Les lasers légers sont de simples armes de défense au sol. Des systèmes de
+    ciblage spéciaux suivent les vaisseaux ennemis, et un laser de haute intensité
+    perce la coque de la cible.
+  '403': Le laser lourd est une version améliorée du laser léger.
   '404': >-
     Le canon de Gauss tire des projectiles en métal de haute densité à très
     grande vitesse.
   '405': >-
     Un canon à ions est une arme qui tire des faisceaux d'ions (particules
     chargées positivement ou négativement).
-  '406': >-
-    Le lanceur de plasma allie une grande cellule de combustible d'un réacteur
-    nucléaire à la puissance d'un accélérateur électromagnétique qui déclenche
-    une impulsion, ou tore, de plasma.
-  '407': >-
-    Le petit bouclier enveloppe toute la planète d'un dôme, qui peuvent absorber
-    des quantités énormes d'énergie.
-  '408': >-
-    Le développement du petit bouclier a besoin de plus d'énergie pour endurer
-    les attaques.
-  '409': >-
-    C'est l'évolution du grand bouclier. Il utilise beaucoup plus d'énergie mais
-    peut endurer les attaques de davantage de vaisseaux.
-  '410': >-
-    Après des années de recherche sur la force gravitationnelle, les chercheurs
-    sont en mesure de développer un canon de gravitons qui génère un petit champ
-    gravitionnel concentré qui peut viser l'ennemi.
+  '406': La tourelle à plasma utilise la pile à combustible d'un grand réacteur nucléaire
+    pour alimenter un accélérateur électromagnétique qui tire des impulsions (tores)
+    de plasma.
+  '407': Le petit bouclier enveloppe toute la planète d'un champ qui absorbe d'énormes
+    quantités d'énergie.
+  '408': Le grand bouclier peut absorber nettement plus d'énergie lors des attaques.
+  '409': L'évolution de la technologie des boucliers planétaires. Il consomme beaucoup
+    plus d'énergie, mais encaisse plus d'attaques que tout autre bouclier.
+  '410': Après des années de recherche sur la gravité, les scientifiques ont mis au
+    point un canon à gravitons qui génère un petit champ de gravitons concentré et
+    le tire sur l'ennemi.
   '411': >-
     Il s'agit une plateforme défensive. Elle n'a aucun pouvoir direct, et elle
     est maintenue par gravité dans une orbite stable de la planète. Ce processus
     exige une quantité élevée d'énergie. 
-  '412': Ça protège ! Comme la brique Lego à la maternelle TD
-  '413': Le Titan Laser est un laser gigantesque.
-  '414': Le leurre se fait passer pour un lance-missiles.
-  '502': >-
-    Les missiles d'interception sont utilisés pour détruire les missiles
-    interplanétaires assaillants.
-  '503': >-
-    Les missiles interplanétaires sont utilisés pour détruire les défenses
-    adversaires.
-  '901': >-
-    Le métal est la principale ressource nécessaire à la construction des
-    bâtiments et des vaisseaux. C'est la ressource la moins coûteuse en énergie
-    mais c'est aussi la plus utilisée. Plus le niveau de la mine augmente, plus
-    la mine est profonde et prend de la place sur la planète.
-  '902': >-
-    Le cristal est la ressource principale dans la fabrication des circuits
-    électroniques et de certains alliages.
-  '903': >-
-    Le deutérium est récupéré dans les profondeurs marines. C'est la ressource
-    la plus rare dans l'univers car il faut creuser les fonds marins pour
-    l'obtenir, ce qui en fait également la ressource la plus coûteuse.
-  '911': De l'énergie est nécessaire à la production de chacune des ressources.
-  "229": "Développée pour briser la domination des Xer, la Vipère est l'arme ultime contre les chasseurs légers, les chasseurs lourds et les croiseurs. Avec ses canons à tir rapide et sa technologie avancée, elle fait basculer l'équilibre des forces dans l'univers."
-  "230": "Rapide. Précis. Intouchable. L'Intercepteur n'est pas fait pour les combats équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant en un clin d'œil."
-  "232": "Plus rapide, plus explosif, toujours une bonne surprise. Le Titan du Vide est la terreur des lunes."
+  '412': Ça protège ! Comme la brique Lego dans Kindergarten TD.
+  '413': Le Titan Laser est un laser colossal.
+  '414': Le leurre est un système défensif sophistiqué conçu pour tromper et désorienter
+    les forces ennemies. En se faisant passer pour un lanceur de missiles, il dissuade
+    les attaques.
+  '502': Les missiles d'interception détruisent les missiles interplanétaires entrants.
+  '503': Les missiles interplanétaires détruisent les défenses de l'adversaire.
+  '901': Le métal est la ressource principale des bâtiments et des vaisseaux. C'est
+    la ressource la moins chère, mais aussi celle dont tu as le plus besoin.
+  '902': Le cristal est la ressource principale des circuits électroniques et de certains
+    alliages.
+  '903': Le deutérium se trouve dans les mers les plus profondes. C'est la ressource
+    la plus chère, et aussi celle qui demande le plus d'énergie.
+  '911': L'énergie est nécessaire pour produire chaque ressource.
+  '229': Développée pour briser la domination des Xer, la Vipère est l'arme ultime
+    contre les chasseurs légers, les chasseurs lourds et les croiseurs. Avec ses canons
+    à tir rapide et sa technologie avancée, elle fait basculer l'équilibre des forces
+    dans l'univers.
+  '230': 'Rapide. Précis. Intouchable. L''Intercepteur n''est pas fait pour les combats
+    équitables : il est conçu pour frapper vite et fort, créant un avantage écrasant
+    en un clin d''œil.'
+  '232': Plus rapide, plus explosif, toujours une bonne surprise. Le Titan du Vide
+    est la terreur des lunes.
 shortNames:
   '202': Petit transporteur
   '203': Grand transporteur
@@ -641,7 +559,7 @@ shortNames:
   '228': Récupérateur Oméga
   '401': Lanceur de missiles
   '402': Canon laser léger
-  '403': Canon laser lourd
+  '403': Canon laser puissant
   '404': Canon de Gauss
   '405': Artillerie à Ions
   '406': Lanceur de Plasma
@@ -657,18 +575,17 @@ shortNames:
   "230": "Intercepteur"
   "231": "Béhémoth"
   "232": "Titan du Vide"
-spytechStatsDescription: >-
-  Aux niveaux 0 et 1, seuls les points totaux des autres joueurs sont visibles.
-  À partir du niveau 2, les points de construction des autres joueurs sont
-  également visibles. À partir du niveau 4, les points de recherche sont
-  également affichés. A partir du niveau 6, les navires et les points de défense
-  sont affichés ainsi que les statistiques de la bataille.
+spytechStatsDescription: Aux niveaux 0 et 1, tu ne vois que le total de points des
+  autres joueurs. À partir du niveau 2, tu vois aussi leurs points de bâtiments ;
+  à partir du niveau 4, leurs points de recherche. À partir du niveau 6, tu vois
+  en plus leurs points de vaisseaux et de défenses, ainsi que leurs statistiques
+  de combat.
 tech:
   '0': Bâtiments
   '1': Mine de Métal
   '2': Mine de Cristal
   '3': Synthétiseur de Deutérium
-  '4': Centrale éléctrique Solaire
+  '4': Centrale électrique solaire
   '6': Université
   '12': Centrale de fusion
   '14': Usine de Robots
@@ -705,7 +622,7 @@ tech:
   '131': Optimisation de la production en Métal
   '132': Optimisation de la production en Cristal
   '133': Optimisation de la production en Deutérium
-  '134': Efficacité énergétique
+  '134': Efficacité du carburant
   '199': Technologie Graviton
   '200': Vaisseaux
   '202': Petit transporteur
@@ -755,8 +672,8 @@ tech:
   '503': Missiles Interplanétaires
   '900': Ressources
   '901': Métal
-  '902': Crystal
-  '903': Deuterium
+  '902': Cristal
+  '903': Deutérium
   '911': Énergie
   "229": "Vipère"
   "230": "Intercepteur"

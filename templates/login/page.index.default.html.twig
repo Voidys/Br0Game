@@ -58,7 +58,7 @@
   <div class="home__side">
     {% if meme %}
       <figure class="hero__art">
-        <img src="{{ meme.src }}" width="{{ meme.width }}" height="{{ meme.height }}" alt="{{ meme.alt|e('html_attr') }}" fetchpriority="high" decoding="async">
+        <img src="{{ meme.src }}"{% if meme.srcset %} srcset="{{ meme.srcset }}" sizes="(max-width: 60rem) min(calc(100vw - 2rem), 40rem), min(50vw, 37rem)"{% endif %} width="{{ meme.width }}" height="{{ meme.height }}" alt="{{ meme.alt|e('html_attr') }}" fetchpriority="high" decoding="async">
         <figcaption>{{ LNG.home_meme_caption }}</figcaption>
       </figure>
     {% endif %}

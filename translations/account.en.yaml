@@ -2,21 +2,21 @@ Active_players: Active Players
 Back: Back
 mail:
   subject:
-    mail_changed: '%s account email address has been changed'
+    mail_changed: 'The email address of your %s account has been changed'
 Other_universes: Other Universes
 Play: Play
 Playername: Player name
 Register: Register
 Settings: Settings
 Sitting_end: Sitting end
-Sitting_request: Request Sitting (not programmed)
+Sitting_request: Request sitting (not available yet)
 uni_status_regclosed_gameclosed: Closed
 uni_status_regclosed_gameopen: Open to play
 uni_status_regopen_gameclosed: Open to register
 uni_status_regopen_gameopen: Open
 Universe_end: End
 Universe_start: Start
-Universe_status: 'Universes status: '
+Universe_status: 'Universe status: '
 Universes: Universes
 Your_universes: Your Universes
 
@@ -68,9 +68,9 @@ board_not_found: This post or comment does not exist.
 board_not_allowed: You are not allowed to do that.
 board_err_csrf: The request could not be verified. Please reload the page and try again.
 board_err_title: Please enter a title.
-board_err_title_long: The title may have at most 200 characters.
-board_err_body: Please enter a text (it may not be empty or too long).
-board_err_locked: This post is locked, no new comments.
+board_err_title_long: The title can be at most 200 characters long.
+board_err_body: Please enter some text (not empty, not too long).
+board_err_locked: This post is locked - no new comments.
 board_err_rate_post: "Please wait %d more second(s) before the next post."
 board_err_rate_comment: "Please wait %d more second(s) before the next comment."
 board_ago_now: just now

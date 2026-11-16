@@ -16,6 +16,7 @@
 namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Content\ImageProcessor;
 use App\Runtime\SafeFile;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -99,12 +100,15 @@ class IndexController extends AbstractLoginController
     /**
      * Start page meme: the images in public/memes/ (drop a file in to add one) take turns, one per hour, in
      * file name order. Alt text: `home_meme_alt_<name>` (dashes become underscores), falling back to the
-     * generic `home_meme_alt`.
+     * generic `home_meme_alt`. Width variants for `srcset` (`<name>-480w.webp`, `<name>-720w.webp`, next to the original as
+     * the largest candidate) come from `bin/console app:images:variants memes --widths=480,720`; run it after dropping a new
+     * meme in. Variants are never memes of their own (the glob skips `*-<w>w.*`).
      */
     private function memes(): array
     {
         $LNG = $this->state->LNG;
         $files = glob(ProjectPaths::ROOT . 'public/memes/*.{webp,avif,jpg,jpeg,png,gif}', GLOB_BRACE) ?: [];
+        $files = array_filter($files, fn(string $file): bool => !ImageProcessor::isVariant($file));
         sort($files);
         $memes = [];
         foreach ($files as $file) {
@@ -119,6 +123,7 @@ class IndexController extends AbstractLoginController
                 'src' => 'memes/' . rawurlencode(basename($file)) . '?v=' . filemtime($file),
                 'width' => $size[0],
                 'height' => $size[1],
+                'srcset' => ImageProcessor::srcset($file, 'memes/' . rawurlencode(basename($file)), $size[0]),
                 'alt' => isset($LNG[$altKey]) ? $LNG[$altKey] : $LNG['home_meme_alt'],
             ];
         }

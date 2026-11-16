@@ -17,6 +17,8 @@
 
 namespace App\Controller\Login;
 
+use App\Content\ImageProcessor;
+use App\Runtime\SafeFile;
 use Symfony\Component\HttpFoundation\Response;
 use DirectoryIterator;
 
@@ -33,26 +35,26 @@ class ScreensController extends AbstractLoginController
     }
 
     /**
-     * Gallery of the screenshot files in public/styles/resource/images/login/screens/ (with the thumbnail from `thumbnails/` when one exists), sorted by path.
+     * Gallery of the screenshot files in public/styles/resource/images/login/screens/, sorted by path. The grid shows the
+     * `-<w>w.webp` width variants through srcset (`bin/console app:images:variants styles/resource/images/login/screens
+     * --widths=320,480,720`, run after replacing a screenshot); the link goes to the full-size file for the lightbox.
      */
     public function show(): Response
     {
-        $screenshots	= [];
-        $directoryIterator = new DirectoryIterator('public/styles/resource/images/login/screens/');
-        foreach ($directoryIterator as $fileInfo) {
+        $dir = 'public/styles/resource/images/login/screens/';
+        $screenshots = [];
+        foreach (new DirectoryIterator($dir) as $fileInfo) {
             /** @var DirectoryIterator $fileInfo */
-            if (!$fileInfo->isFile()) {
+            if (!$fileInfo->isFile() || ImageProcessor::isVariant($fileInfo->getFilename()) || ($size = SafeFile::imageSize($dir . $fileInfo->getFilename())) === false) {
                 continue;
             }
 
-            $thumbnail = 'styles/resource/images/login/screens/' . $fileInfo->getFilename();
-            if (file_exists('public/styles/resource/images/login/screens/thumbnails/' . $fileInfo->getFilename())) {
-                $thumbnail = 'styles/resource/images/login/screens/thumbnails/' . $fileInfo->getFilename();
-            }
-
-            $screenshots[]	= [
-                'path' 		=> 'styles/resource/images/login/screens/' . $fileInfo->getFilename(),
-                'thumbnail' => $thumbnail,
+            $url = 'styles/resource/images/login/screens/' . $fileInfo->getFilename();
+            $screenshots[] = [
+                'path'   => $url,
+                'srcset' => ImageProcessor::srcset($dir . $fileInfo->getFilename(), $url, $size[0]),
+                'width'  => $size[0],
+                'height' => $size[1],
             ];
         }
 

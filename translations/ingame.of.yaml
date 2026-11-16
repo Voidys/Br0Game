@@ -1464,8 +1464,10 @@ rs_calculate: Berechnen
 rs_daily: Bro Dag
 rs_lvl: Schdufe
 rs_production_on_planet: Rohstoffprodugtion uff Blanet "%s"
+rs_ramp_up: Alles hochfahren
 rs_ress_bonus: Bonus (durch Forschung)
 rs_ress_bonus_position: Bonus (durch Planetenposition)
+rs_shut_down: Alles herunterfahren
 rs_storage_capacity: Lagergapazität
 rs_sum: Bro Schdunde
 rs_weekly: Bro  Woche
@@ -1714,7 +1716,16 @@ tn_vacation_mode_until: Sie sind bis mindeschdens %s Uhr im Urlaubsmodus.
 tr_exchange_done: Erfolgreich umgedauschd
 tr_exchange_error: Zu a weng werfügbare Einheidne oder falscher Dyp
 tt_lvl: 'Schdufe '
+tt_lv_short: 'St.'
 tt_requirements: Benödigd
+tt_unlocks: 'Schaltet frei'
+tt_status_owned: 'Vorhanden'
+tt_status_available: 'Verfügbar'
+tt_status_locked: 'Gesperrt'
+tt_hint: 'Technologie überfahren oder wählen, um Voraussetzungen (oben) und Freischaltungen (unten) zu verfolgen. Klick fixiert, Esc hebt auf.'
+tt_foreign: 'Wird von dieser Kategorie benötigt, gehört zu einer anderen'
+tt_none: 'keine'
+tt_graph: 'Technologiebaum'
 type_mission_1: 'Angreifne '
 type_mission_1_foreign: Fremder Angriff
 type_mission_1_own: Eigener Angriff

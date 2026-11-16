@@ -5,6 +5,7 @@ namespace App\Controller\Login;
 use Symfony\Component\HttpFoundation\Response;
 use App\Runtime\SafeFile;
 use App\Content\HtmlContent;
+use App\Content\ImageProcessor;
 use App\Routing\GamePage;
 use App\Runtime\ProjectPaths;
 
@@ -96,7 +97,7 @@ final class NewsController extends AbstractLoginController
         ];
     }
 
-    /** @return array{src: string, width: int, height: int}|null */
+    /** @return array{src: string, srcset: ?string, width: int, height: int}|null srcset lists the width variants made on upload (null for older uploads: `app:images:variants uploads/news --widths=480,800,1200` backfills them) */
     private function image(array $row): ?array
     {
         $name = basename((string) ($row['image'] ?? ''));
@@ -105,6 +106,6 @@ final class NewsController extends AbstractLoginController
             return null;
         }
 
-        return ['src' => 'uploads/news/' . rawurlencode($name), 'width' => $size[0], 'height' => $size[1]];
+        return ['src' => 'uploads/news/' . rawurlencode($name), 'srcset' => ImageProcessor::srcset($path, 'uploads/news/' . rawurlencode($name), $size[0]), 'width' => $size[0], 'height' => $size[1]];
     }
 }

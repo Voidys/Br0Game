@@ -8,7 +8,7 @@ Achievement_names:
   '6': Geringverdiener
   '7': Französische Revolution
   '8': Betrunken am Saven
-  '9': Thats no moon
+  '9': That’s no moon
   '10': Murmelspiel
   '11': TheLegend27
   '12': Slippys Segen
@@ -42,8 +42,8 @@ Achievement_names:
   '40': Kolumbus
   '41': Flottenslotgönner
   '42': Hauptsache Battlehall
-  '43': With my Eyes closed
-  '44': Passiert jedem ausversehen
+  '43': With my eyes closed
+  '44': Passiert jedem mal aus Versehen
   '45': Schlüsseldienst
   '46': Purer Hass!
   '47': Jack the Ripper
@@ -56,56 +56,46 @@ Achievement_names:
   '54': Frohes neues!
   '55': Lebende Legende
 Achievement_text:
-  '1': Du hast dir eine Nacht um die Ohren geschlagen und keinen Schuss gelandet.
+  '1': Du hast dir eine Nacht um die Ohren geschlagen und keinen einzigen Schuss gelandet.
   '2': Du hattest die letzten 90 Tage permanent laufende Flottenbewegungen.
-  '3': >-
-    Du hast deine Flotte verloren, während deine Spracheinstellungen auf
-    "Französisch" eingestellt waren.
+  '3': Du hast deine Flotte verloren, während deine Sprache auf „Französisch“ eingestellt war.
   '4': Erforsche Ionentechnik 10.
-  '5': Erforsche Gravitonforschung 2.
+  '5': Erforsche Gravitonforschung 2 – einfach, weil du es kannst.
   '6': Einer deiner Angriffe kam mit 1 Metall, 1 Kristall, 1 Deuterium zurück.
-  '7': >-
-    Besiege eine Flotte Piraten- oder Alienschiffe mit einer Gesamtmenge von
-    mindestens 10.000 Schiffen.
-  '8': Nehme am Strammtisch teil (Dienstags ab 20 Uhr auf Discord).
+  '7': Besiege eine Flotte aus Piraten- oder Alienschiffen mit insgesamt mindestens 10.000 Schiffen. Der Weltraum gehört uns!
+  '8': Komm zum Strammtisch (dienstags ab 20 Uhr auf Discord).
   '9': Baue deinen ersten Todesstern.
   '10': Zerstöre den Mond eines Spielers.
   '11': Spiele 14 Tage ausschließlich am Handy.
   '12': >-
     Deine Flotte wurde in deiner ersten Expedition durch ein schwarzes Loch
     zerstört.
-  '13': >-
-    Sende deine Flotte weg während ein einfliegender Angriff weniger als 5
-    Sekunden Restzeit hat.
-  '14': Du hast 10 Flotten an schwarze Löcher verloren.
-  '15': Verbrate 10 MVs auf einen Planeten ohne einen Mond zu bekommen
-  '16': Mehr als 250 deiner Recycler sind ohne Ladung zurückgekehrt
-  '17': Gebe mit einem Bauauftrag mindestens 5000 Raketenwerfer in Produktion.
-  '18': >-
-    Ver(b)rauche innerhalb von 24h 5 Millionen Deuterium auf einem Planeten in
-    Form von Treibstoffkosten.
+  '13': Schick deine Flotte weg, wenn ein anfliegender Angriff nur noch weniger als 5 Sekunden entfernt ist.
+  '14': Du hast 10 Flotten an schwarze Löcher verloren. Die Leere hat Hunger.
+  '15': Erzeuge auch nach 10 Versuchen an einem Planeten keinen Mond. Beim nächsten Mal klappt’s.
+  '16': Mehr als 250 deiner Recycler sind leer zurückgekehrt.
+  '17': Gib in einem einzigen Bauauftrag mindestens 5000 Raketenwerfer in Auftrag.
+  '18': Verbrenne innerhalb von 24 Stunden 5 Millionen Deuterium als Treibstoff auf einem einzigen Planeten.
   '19': Erforsche Raumschiffpanzerung 3.
   '20': Erforsche Raumschiffpanzerung 6.
   '21': Erforsche Raumschiffpanzerung 9.
   '22': Erforsche Raumschiffpanzerung 12.
   '23': Erforsche Raumschiffpanzerung 15.
   '24': Erforsche Lasertechnik 12.
-  '25': Du hast dem Opt-In in die Rekorde zugestimmt
-  '26': >-
-    Lösche den Planeten, der dir am meisten Punkte bringt. (Mindestens 100.000
-    Punkte)
+  '25': Stimme dem Opt-in für die Rekorde zu.
+  '26': Lösche den Planeten, der dir die meisten Punkte bringt (mindestens 100.000 Punkte).
   '27': Erforsche Intergalaktisches Forschungsnetzwerk 1.
-  '28': Baue alle drei Ressourcenlager auf einem Mond auf mindestens Stufe 3 aus.
-  '29': Kollektiviere die Flotte eines punkstärkeren Spielers mit einem 5-Mann AKS
-  '30': Wehre einen 5 Mann AKS alleine ab
+  '28': Baue alle drei Rohstofflager auf einem Mond auf mindestens Stufe 3 aus.
+  '29': Kollektiviere die Flotte eines punktestärkeren Spielers mit einem 5-Spieler-Verbandsangriff.
+  '30': Wehre einen 5-Spieler-Verbandsangriff ganz allein ab.
   '31': Du hast einen Spieler durch deinen Angriff in den Urlaubsmodus befördert.
-  '32': Raide 1000 Planeten während dem das Theme "SetSail" aktiviert ist.
-  '33': Komme aus dem U-Mode zurück.
-  '34': Werde einmal angegriffen.
-  '35': Greife einen aktiven Spieler an, der weniger als 1/10 deiner Punkte hat
-  '36': "Erhalte eine Nachricht die eine der folgenden Bausteine enthält:\r\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
-  '37': Deine Flotte wurde von einem AKS mit 5 Beteiligten zerstört.
-  '38': Greife deine eigenen Allianzmitglieder an.
+  '32': Raide 1000 Planeten, während das Theme „SetSail“ aktiv ist. Arr!
+  '33': Komm aus dem Urlaubsmodus zurück.
+  '34': Werde zum ersten Mal angegriffen. Willkommen im Universum.
+  '35': Greife einen aktiven Spieler an, der weniger als ein Zehntel deiner Punkte hat.
+  '36': "Erhalte eine Nachricht, die einen der folgenden Bausteine enthält:\r\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
+  '37': Deine Flotte wurde von einem Verbandsangriff mit 5 Beteiligten ausgelöscht.
+  '38': Greife Mitglieder deiner eigenen Allianz an. Friendly Fire, jemand?
   '39': Greife jemanden mit genau 42 Schiffen an.
   '40': >-
     Kolonisiere einen Planeten, der mindestens ein halbes Universum entfernt
@@ -113,26 +103,19 @@ Achievement_text:
   '41': >-
     Blockiere einen Flottenslot für eine Woche mit einem schlechten
     Marktplatzangebot.
-  '42': Tritt 4 Mal in der Battlehall als Verlierer auf.
-  '43': "Gewinne einen Kampf während dem dein Account als Inaktiv geflagged ist,\r\n                        auf einem deiner Planeten an dem vorher eine Flotten angekommen, ist die eine Flugzeit von mehr als 7 Tagen hatte."
-  '44': >-
-    Produziere auf einem Planeten für mehr als 7 Tage eine Ressource mit weniger
-    als 100% Energienutzen.
-  '45': >-
-    Gewinne einen Angriff auf einen Spieler, der in den Top 5 der Verteidigung
-    steht.
-  '46': Triggere den Bash-Schutz durch Verschießen von Interplanetarraketen.
+  '42': Tritt 4-mal als Verlierer in der Battlehall auf.
+  '43': Gewinne einen Kampf, während dein Account als inaktiv markiert ist – auf einem deiner Planeten, auf dem zuvor eine Flotte mit mehr als 7 Tagen Flugzeit angekommen ist.
+  '44': Produziere auf einem Planeten mehr als 7 Tage lang einen Rohstoff bei weniger als 100% Energieversorgung.
+  '45': Gewinne einen Angriff gegen einen Spieler aus den Top 5 der Verteidigung.
+  '46': Löse den Bash-Schutz aus, indem du Interplanetarraketen abfeuerst.
   '47': Zerstöre 5 Monde.
-  '48': Verliere 5 Todessterne beim Versuch Monde zu zerstören.
-  '49': Reiße eine Kolo kurz nach der Entstehung ab.
-  '50': "Verliere alle deine Solarsatteliten auf einem Planeten mit ausreichend\r\n                        Energie um Gravi zu forschen, ohne dass du Gravi geforscht hast."
-  '51': Verbrauche all dein Deuterium in der Galaansicht.
-  '52': >-
-    Baue einen Todesstern ohne vorher andere Kampfschiffe (Leichter Jäger,
-    Schwerer Jäger, Kreuzer, Schlachtschiff, Bomber, Zerstörer &
-    Schlachtkreuzer) gebaut zu haben.
+  '48': Verliere 5 Todessterne beim Versuch, Monde zu zerstören. Autsch.
+  '49': Reiße eine Kolonie kurz nach der Gründung ab.
+  '50': Verliere auf einem Planeten alle deine Solarsatelliten, obwohl dessen Energie für die Gravitonforschung gereicht hätte – ohne sie je erforscht zu haben.
+  '51': Verbrauche dein gesamtes Deuterium in der Galaxieansicht.
+  '52': Baue einen Todesstern, ohne vorher andere Kampfschiffe (Leichter Jäger, Schwerer Jäger, Kreuzer, Schlachtschiff, Bomber, Zerstörer oder Schlachtkreuzer) gebaut zu haben.
   '53': Habe in 5 Forschungen gleichzeitig die höchste Stufe.
-  '54': Time einen Angriff auf einen aktiven Spieler auf den 01.01. 00:00:00
+  '54': Lass einen Angriff auf einen aktiven Spieler genau am 01.01. um 00:00:00 einschlagen.
   '55': Sonderachievement
 ach_filter_all: Alle
 ach_filter_locked: Gesperrt
@@ -141,13 +124,13 @@ ach_locked: Noch nicht freigeschaltet
 ach_progress: '%d von %d freigeschaltet'
 ach_unlocked_on: 'Freigeschaltet am %s'
 Achievements: Achievements
-admin_access_1: Du hast temporären Zugriff auf administrative Funktionen.
-admin_access_2: ', wenn du ihn nicht länger benötigen.'
-admin_access_link: Deaktiviere diesen Zugriff
+admin_access_1: Du hast temporäre Admin-Rechte.
+admin_access_2: ', wenn du sie nicht dringend brauchst.'
+admin_access_link: Rechte deaktivieren
 Advanced_Stats:
-  destroy_moon_rips_lost: Verlorene Rips bei Mondzerstörungen
-  desunits: Beteiligung an Zerstörten Units
-  desunits_real: Feindliche Units zerstört
+  destroy_moon_rips_lost: Todessterne bei Mondzerstörungen verloren
+  desunits: Beteiligung an zerstörten Einheiten
+  desunits_real: Feindliche Einheiten zerstört
   dishonorable_fights: Unehrenhafte Kämpfe
   draws: Unentschieden
   expo_aliens_large: Große Aliens
@@ -163,9 +146,9 @@ Advanced_Stats:
   expo_pirates_large: Große Piraten
   expo_pirates_medium: Mittlere Piraten
   expo_pirates_small: Kleine Piraten
-  expo_res_large: Große Ressourcenfunde
-  expo_res_medium: Mittlere Ressourcenfunde
-  expo_res_small: Kleine Ressourcenfunde
+  expo_res_large: Große Rohstofffunde
+  expo_res_medium: Mittlere Rohstofffunde
+  expo_res_small: Kleine Rohstofffunde
   expo_ships_large: Große Schiffsfunde
   expo_ships_medium: Mittlere Schiffsfunde
   expo_ships_small: Kleine Schiffsfunde
@@ -173,8 +156,8 @@ Advanced_Stats:
   first: 'Erste Stufe/Stück:'
   first_attack: Erster Angriff
   first_attack_win: Erster erfolgreicher Angriff
-  first_big_attack_win: Erster großer Sieg (1kk Units zerstört)
-  first_big_defense_win: Erste große Verteidigung (1kk Units zerstört)
+  first_big_attack_win: Erster großer Angriffssieg (1 Mio. Einheiten zerstört)
+  first_big_defense_win: Erster großer Verteidigungssieg (1 Mio. Einheiten zerstört)
   first_colony: Erste Kolonie
   first_defense: Erste Verteidigung
   first_defense_win: Erste erfolgreiche Verteidigung
@@ -183,24 +166,24 @@ Advanced_Stats:
   first_expo_aliens_large: Erste große Alienbegegnung
   first_expo_aliens_medium: Erste mittlere Alienbegegnung
   first_expo_aliens_small: Erste kleine Alienbegegnung
-  first_expo_black_hole: Erstes Schwarzes Loch entdeckt
+  first_expo_black_hole: Erstes Schwarzes Loch
   first_expo_fast: Erste schnelle Expedition
   first_expo_nothing: Erste Expedition ohne Funde
   first_expo_pirates_large: Erste große Piratenbegegnung
   first_expo_pirates_medium: Erste mittlere Piratenbegegnung
   first_expo_pirates_small: Erste kleine Piratenbegegnung
-  first_expo_res_large: Erster großer Ressourcenfund
-  first_expo_res_medium: Erster mittlerer Ressourcenfund
-  first_expo_res_small: Erster kleiner Ressourcenfund
+  first_expo_res_large: Erster großer Rohstofffund
+  first_expo_res_medium: Erster mittlerer Rohstofffund
+  first_expo_res_small: Erster kleiner Rohstofffund
   first_expo_ships_large: Erster großer Schiffsfund
   first_expo_ships_medium: Erster mittlerer Schiffsfund
   first_expo_ships_small: Erster kleiner Schiffsfund
   first_expo_slow: Erste langsame Expedition
   first_moon: Erster Mond
   first_moon_trys: Versuche für den ersten Mond
-  first_recycling: Erste Recycler-Mission
-  first_vacation: Urlaubsmodus zum ersten Mal aktiviert
-  galaxy_scroll_spending: Gesamtverbrauch an Deuterium zum Scrollen in der Galaxienansicht
+  first_recycling: Erste Recycling-Mission
+  first_vacation: Erster Urlaubsmodus
+  galaxy_scroll_spending: Deuterium, das du beim Scrollen in der Galaxieansicht verbraucht hast
   honorable_fights: Ehrenhafte Kämpfe
   honorpoints: Ehrenpunkte
   kbcrystal: Beteiligt an Kristalltrümmern
@@ -208,23 +191,23 @@ Advanced_Stats:
   kbmetal: Beteiligt an Metalltrümmern
   kbmetal_real: Metalltrümmer erzeugt
   loos: Verloren
-  lostunits: Beteiligung an verlorenen Units
-  lostunits_real: Eigene Units verloren
-  moons_created: Geschossene Monde
+  lostunits: Beteiligung an verlorenen Einheiten
+  lostunits_real: Eigene Einheiten verloren
+  moons_created: Entstandene Monde
   moons_deleted: Monde aufgegeben
   moons_destroyed: Zerstörte Monde
   moons_lost: Monde verloren
   moons_received: Erhaltene Monde
-  outlaw_activations: Vogelfrei Aktivierungen
+  outlaw_activations: Vogelfrei-Aktivierungen
   planets_created: Planeten kolonisiert
   planets_deleted: Planeten aufgegeben
-  raided_crystal: Geplündertes Kristall
+  raided_crystal: Geplünderter Kristall
   raided_deuterium: Geplündertes Deuterium
   raided_metal: Geplündertes Metall
-  recycled_crystal: Recyceltes Kristall
+  recycled_crystal: Recycelter Kristall
   recycled_metal: Recyceltes Metall
-  set_sail_wins: Gewonnene Kämpfe mit SetSails Theme
-  stolen_crystal: Gestohlenes Kristall
+  set_sail_wins: Siege mit aktivem SetSail-Theme
+  stolen_crystal: Gestohlener Kristall
   stolen_deuterium: Gestohlenes Deuterium
   stolen_metal: Gestohlenes Metall
   used_fuel: Treibstoff verbraucht
@@ -233,159 +216,138 @@ advancedStats: Erweiterte Statistiken
 al_acept_request: Annehmen
 al_actions: Aktionen
 al_all_players: Alle Spieler
-al_alliance: Allianzen
+al_alliance: Allianz
 al_alliance_closed: Diese Allianz nimmt keine neuen Mitglieder auf.
-al_alliance_full: Die Allianz hat ihre maximale Mitgliederzahl erreicht.
+al_alliance_full: Diese Allianz ist voll. Versuch es bei einer anderen.
 al_alliance_make: Eigene Allianz gründen
-al_alliance_min_points: >-
-  Sie verfügen nicht über die Mindestpunktzahl, um sich für diese Allianz zu
-  bewerben: %d
-al_alliance_search: Suche Allianz
+al_alliance_min_points: Du brauchst mindestens %d Punkte, um dich bei dieser Allianz zu bewerben.
+al_alliance_search: Allianz suchen
 al_ally_info_members: Mitglieder
 al_ally_info_name: Name
 al_ally_info_tag: Tag
-al_ally_information: Information über die Allianz
-al_already_exists: Allianz %s existiert bereits.
+al_ally_information: Allianzinformationen
+al_already_exists: Es gibt bereits eine Allianz namens <b>%s</b>. Such dir einen anderen Namen aus.
 al_apply_accepted: Bewerbung angenommen.
 al_apply_declined: Bewerbung abgelehnt.
-al_apply_not_exists: Die Bewerbung existiert nicht.
-al_applyform_reload: Neuladen
+al_apply_not_exists: Diese Bewerbung gibt es nicht mehr.
+al_applyform_reload: Neu laden
 al_applyform_send: Senden
 al_back: Zurück
-al_candidate: Name
-al_change_submit: Absenden
-al_change_title: ändern
+al_candidate: Bewerber
+al_change_submit: Ändern
+al_change_title: Titel ändern
 al_characters: Zeichen
 al_circular_alliance: 'Allianz '
-al_circular_front_text: 'Der Spieler %s schreibt folgendes:'
-al_circular_message: Rundmail
-al_circular_reset: Zurücksetzten
-al_circular_send_ciruclar: Rundmail schreiben
+al_circular_front_text: 'Allianzmitglied <b>%s</b> schreibt:'
+al_circular_message: Rundnachrichten
+al_circular_reset: Zurücksetzen
+al_circular_send_ciruclar: Rundnachricht senden
 al_circular_send_submit: Senden
-al_circular_sended: |-
-  Nachricht gesendet.
-  Folgenden Spielern wurde die Mail gesendet:
-al_click_to_send_request: Hier klicken, um sich bei der Allianz zu bewerben
-al_close_ally: Möchtest du wirklich die Allianz aufgeben?
-al_configura_ranks: Rechte einstellen
+al_circular_sended: 'Nachricht an diese Spieler gesendet:'
+al_click_to_send_request: Bei der Allianz bewerben
+al_close_ally: Möchtest du die Allianz wirklich auflösen?
+al_configura_ranks: Ränge verwalten
 al_continue: Weiter
-al_coords: Koords
+al_coords: Koordinaten
 al_create: Erstellen
-al_create_new_rank: neuen Rang erstellen
-al_created: Die Allianz %s wurde gegründet!
+al_create_new_rank: Neuen Rang erstellen
+al_created: Allianz <b>%s</b> gegründet!
 al_decline_request: Ablehnen
-al_default_leader_name: Leader
-al_default_request_text: Der Spieler hat keinen Text hinterlassen.
+al_default_leader_name: Anführer
+al_default_request_text: Dieser Spieler hat keine Nachricht hinterlassen.
 al_delete_request: Bewerbung zurückziehen
-al_delete_request_confirm: Möchtest Du die Bewerbung wirklich zurückziehen?
-al_description_message: Für die Allianz wurde keine Beschreibung hinterlegt.
+al_delete_request_confirm: Bewerbung wirklich zurückziehen?
+al_description_message: Diese Allianz hat noch keine Beschreibung geschrieben.
 al_diplo: Diplomatie
 al_diplo_accept: Eingehende Anfragen
-al_diplo_accept_no: Pakt abgelehnt
-al_diplo_accept_no_confirm: Möchtest Du den Pakt wirklich ablehnen?
-al_diplo_accept_no_mes: Die Paktanfrage (%s) zwischen den Allianzen %s und %s wurde abgelehnt!
+al_diplo_accept_no: Pakt abgelehnt.
+al_diplo_accept_no_confirm: Diesen Pakt ablehnen?
+al_diplo_accept_no_mes: Der Pakt (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde abgelehnt!
 al_diplo_accept_send: Ausgehende Anfragen
-al_diplo_accept_yes: Pakt geschlossen
-al_diplo_accept_yes_confirm: Möchtest Du den Pakt wirklich annehmen?
-al_diplo_accept_yes_mes: Es wurde ein Pakt (%s) zwischen den Allianzen %s und %s geschlossen!
+al_diplo_accept_yes: Pakt geschlossen.
+al_diplo_accept_yes_confirm: Diesen Pakt annehmen?
+al_diplo_accept_yes_mes: Der Pakt (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde geschlossen!
 al_diplo_ally: Allianzname
 al_diplo_ask: Paktanfrage
-al_diplo_ask_mes: >-
-  Es besteht eine <a
-  href="?page=alliance&mode=admin&action=diplomacy">Paktanfrage</a> (%s) der
-  Allianz %s und %s.<br>Begründung: %s
-al_diplo_confirm_delete: Möchtest Du den Pakt wirklich aufheben?
-al_diplo_create: Einen neuen Pakt erstellen
-al_diplo_create_done: Paktanfrage erfolgreich erstellt.
-al_diplo_delete: Pakt aufgehoben
-al_diplo_delete_mes: Der Pakt (%s) zwischen den Allianzen %s und %s wurde aufgehoben!
-al_diplo_exists: >-
-  Es existiert bereits eine gültige oder noch nicht akzeptierte diplomatische
-  Beziehung mit der Allianz "%s"!
+al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">Paktanfrage</a> (%s) von <b>%s</b> an <b>%s</b> gesendet.<br>Begründung: %s'
+al_diplo_confirm_delete: Diesen Pakt aufheben?
+al_diplo_create: Pakt anfragen
+al_diplo_create_done: Paktanfrage gesendet.
+al_diplo_delete: Pakt aufgehoben.
+al_diplo_delete_mes: Der Pakt (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde aufgehoben.
+al_diplo_exists: Mit %s besteht bereits ein aktiver oder ausstehender Pakt.
 al_diplo_ground: 'Begründung:'
-al_diplo_head: Diplomatieverwaltung
-al_diplo_info: >-
-  <p>Auf dieser Seite können die Bündnisse der Allianz verwaltet
-  werden.</p><p>Hier findest du die Erklärung der einzelnen Bündnisarten. [TODO:
-  Link zu FAQ]</p>
+al_diplo_head: Diplomatie verwalten
+al_diplo_info: '<p>Hier verwaltest du die diplomatischen Pakte deiner Allianz.</p><p>Die Paktarten findest du unten. Mehr Infos: <a href="game?page=questions">FAQ</a> oder im <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>'
 al_diplo_level:
   - Main
   - Wing
   - Bündnis
   - Handelsbündnis
-  - Nicht Angriffs Pakt
+  - Nichtangriffspakt
   - Krieg
   - Geheimbündnis
   - Frieden
-al_diplo_level_des: Art des Paktes
-al_diplo_no_accept: '- Keine Anfragen vorhanden -'
-al_diplo_no_alliance: Es existiert keine Allianz mit der ID %s!
-al_diplo_no_entry: '- Kein Pakt vorhanden -'
-al_diplo_same_alliance: Du kannst keinen Pakt mit dir selbst schließen!
-al_diplo_text: Anfragetext/Begründung
+al_diplo_level_des: Paktarten
+al_diplo_no_accept: '- Keine Anfragen -'
+al_diplo_no_alliance: Keine Allianz mit der ID %s gefunden.
+al_diplo_no_entry: '- Keine Pakte -'
+al_diplo_same_alliance: Du kannst keinen Pakt mit deiner eigenen Allianz schließen.
+al_diplo_text: Anfrage/Begründung
 al_diplo_war: Kriegserklärung
-al_diplo_war_end: Krieg beendet
-al_diplo_war_end_confirm: Möchtest du wirklich den Krieg beenden?
-al_diplo_war_end_mes: Der %s von der Allianz %s mit der Allianz %s wurde soeben für beendet erklärt.
-al_diplo_war_mes: >-
-  Die Allianz %s hat der Allianz %s soeben den %s
-  erklärt.<br>Begründung:<br>%s<br><br>Informationen: Der Krieg ist in 24
-  Stunden gültig. Erst nach den 24 Stunden entfällt die Bashregel. <br>Weitere
-  Informationen findest du in den <a href="./?page=rules&lang=de"
-  target="_blank">Regeln</a>.
-al_diplo_withdraw: Paktanfrage zurückgezogen
-al_diplo_withdraw_confirm: Möchtest du die Paktanfrage wirklich zurückziehen?
-al_diplo_withdraw_mes: Die Paktanfrage (%s) zwischen den Allianzen %s und %s wurde zurückgezogen
+al_diplo_war_end: Friedenserklärung
+al_diplo_war_end_confirm: Willst du den Krieg wirklich beenden?
+al_diplo_war_end_mes: Der %s zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde soeben beendet.
+al_diplo_war_mes: 'Die Allianz <b>%s</b> hat der Allianz <b>%s</b> den %s erklärt!<br>Begründung:<br>%s<br><br>Info: Der Krieg beginnt in <b>24 Stunden</b>, ab dann entfällt die Bash-Regel.<br>Mehr dazu findest du in den <a href="./?page=rules&lang=de" target="_blank">Regeln</a>.'
+al_diplo_withdraw: Paktanfrage zurückgezogen.
+al_diplo_withdraw_confirm: Paktanfrage wirklich zurückziehen?
+al_diplo_withdraw_mes: Die Paktanfrage (%s) zwischen den Allianzen <b>%s</b> und <b>%s</b> wurde zurückgezogen.
 al_disolve_alliance: Allianz auflösen
 al_dlte: Löschen
-al_do_you_really_want_to_go_out: Willst du wirklich aus %s austreten?
+al_do_you_really_want_to_go_out: Willst du %s wirklich verlassen?
 al_estate: Online
 al_events: Ereignisse
 al_find_alliances: Allianz suchen
-al_find_no_alliances: Keine Allianz gefunden!
-al_find_submit: Suche
+al_find_no_alliances: Keine Allianz gefunden. Probier es mit einer anderen Suche.
+al_find_submit: Suchen
 al_find_text: Suche nach
-al_founder_cant_leave_alliance: Der Gründer darf die Allianz nicht einfach so im Stich lassen.
+al_founder_cant_leave_alliance: Der Gründer kann die Allianz nicht einfach im Stich lassen.
 al_founder_rank_text: Gründer
 al_go_out_no: Nein
 al_go_out_yes: Ja
-al_has_accepted: '</b> hat deine Bewerbung akzeptiert.<br>Begründung: <br>'
-al_has_declined: '</b> hat deine Bewerbung abgelehnt!<br>Begründung: <br>'
+al_has_accepted: '</b> hat deine Bewerbung angenommen!<br>Nachricht: <br>'
+al_has_declined: '</b> hat deine Bewerbung abgelehnt!<br>Nachricht: <br>'
 al_hi_the_alliance: Hallo!<br>Die Allianz <b>
-al_inside_section: Interner Bereich
-al_inside_text: Interner Text
-al_invalid_rank_name: Im Rangnamen sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
-al_kick_player: Möchtest du wirklich den Spieler %s aus der Allianz entfernen?
-al_leave_alliance: Diese Allianz verlassen
-al_leave_ally: Möchtest du wirklich die Allianz verlassen?
-al_leave_sucess: Erfolgreich aus der Allianz %s ausgetreten.
-al_leaving: Spieler ist aus der Allianz ausgetreten
-al_leaving_msg: >-
-  Der Spieler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
-  ist aus der Allianz ausgetreten.
+al_inside_section: Nur für Mitglieder
+al_inside_text: Interne Beschreibung
+al_invalid_rank_name: Rangnamen dürfen nur Buchstaben, Zahlen, Leerzeichen, Unterstriche, Bindestriche und Punkte enthalten.
+al_kick_player: Spieler %s wirklich aus der Allianz werfen?
+al_leave_alliance: Allianz verlassen
+al_leave_ally: Allianz wirklich verlassen?
+al_leave_sucess: Du hast die Allianz <b>%s</b> verlassen.
+al_leaving: Spieler hat die Allianz verlassen
+al_leaving_msg: Der Spieler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> hat die Allianz verlassen!
 al_legend: Beschreibung
 al_legend_admin_alliance: Allianz verwalten
 al_legend_check_requests: Bewerbungen bearbeiten
-al_legend_create_circular: Rundmails schreiben
+al_legend_create_circular: Rundnachrichten schreiben
 al_legend_disolve_alliance: Allianz auflösen
 al_legend_kick_users: Mitglieder entfernen
 al_legend_right_hand: Rechte Hand
 al_legend_see_connected_users: Online-Status sehen
 al_legend_see_requests: Bewerbungen sehen
 al_legend_see_users_list: Mitgliederliste sehen
-al_make_alliance: Eine Allianz gründen
-al_make_ally_insufficient_points: >-
-  Du hast nicht genug Punkte, um eine Allianz zu gründen.<br>Du benötigst
-  mindestenst %s Punkte, dir fehlen %s Punkte.
-al_make_ally_name_required: Allianz Name (3-30 Zeichen)
-al_make_ally_tag_required: Allianz Tag (3-8 Zeichen)
+al_make_alliance: Allianz gründen
+al_make_ally_insufficient_points: Du hast nicht genug Punkte, um eine Allianz zu gründen.<br>Du brauchst mindestens %s Punkte, dir fehlen noch %s.
+al_make_ally_name_required: Allianzname (3-30 Zeichen)
+al_make_ally_tag_required: Allianz-Tag (3-8 Zeichen)
 al_make_submit: Gründen
 al_manage_alliance: Allianz verwalten
 al_manage_change_name: Allianznamen ändern
 al_manage_change_tag: Allianztag ändern
 al_manage_diplo: Diplomatie
-al_manage_founder_rank: Gründername
-al_manage_image: Allianzlogo
+al_manage_founder_rank: Gründerrang
+al_manage_image: Allianzbanner
 al_manage_members: Mitglieder verwalten
 al_manage_options: Optionen
 al_manage_ranks: Ränge verwalten
@@ -398,116 +360,102 @@ al_memberlist_off: Offline
 al_memberlist_on: Online
 al_message: Nachricht
 al_name: Allianzname
-al_name_required: Du hast keinen Allianznamen angegeben.
-al_name_tag_too_long: Das Allianz-Tag darf höchstens 8 und der Name höchstens 30 Zeichen lang sein!
-al_new_apply: >-
-  Ihre Allianz hat eine neue <a
-  href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> erhalten von
-  - <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
+al_name_required: Bitte gib einen Allianznamen ein.
+al_name_tag_too_long: Das Tag darf höchstens 8 Zeichen lang sein, der Name höchstens 30.
+al_new_apply: Deine Allianz hat eine <a href="?page=alliance&mode=admin&action=manageApply">Bewerbung</a> von <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> erhalten.
 al_new_member_rank_text: Neuling
-al_new_name: 'Neuer Allianz Name (3-30 Zeichen):'
-al_new_requests: '%d neue Bewerbung(en)'
-al_new_tag: 'Neuer Allianz Tag (3-8 Zeichen):'
-al_newname_specialchar: >-
-  Im Allianzname und -tag sind nur Zahlen, Buchstaben, Leerzeichen, _, -, .
-  erlaubt!
+al_new_name: 'Neuer Name (3-30 Zeichen):'
+al_new_requests: '%d ausstehend'
+al_new_tag: 'Neues Tag (3-8 Zeichen):'
+al_newname_specialchar: Allianznamen und -tags dürfen nur Buchstaben, Zahlen, Leerzeichen, Unterstriche, Bindestriche und Punkte enthalten.
 al_no_diplo: '-'
-al_no_events: Derzeit gibt es keine Ereignisse
-al_no_ranks_defined: Keine definierten Ränge.
-al_no_request_pending: Insgesamt gibt es %d Bewerbung(en)
-al_no_requests: Keine Bewerbungen vorhanden.
-al_not_exists: Die Allianz existiert nicht.
+al_no_events: Bisher ist nichts passiert.
+al_no_ranks_defined: Noch keine Ränge. Leg den ersten an!
+al_no_request_pending: Insgesamt %d Bewerbung(en)
+al_no_requests: Gerade keine Bewerbungen.
+al_not_exists: Diese Allianz gibt es nicht.
 al_num: ID
 al_ok: OK
-al_outside_text: Externer Text
+al_outside_text: Öffentliche Beschreibung
 al_points: Punkte
 al_position: Rang
-al_rank: Rank
+al_rank: Dein Rang
 al_rank_desc:
-  ADMIN: Kann Allianz editieren
-  DIPLOMATIC: Kann Diplomatie verwalten
-  EVENTS: Kann Ereignisse im internen Bereich sehen
-  KICK: Kann Mitglieder entfernen
-  MANAGEAPPLY: Bewerbungen bearbeiten
-  MANAGEUSERS: Kann Mitglieder verwalten
-  MEMBERLIST: Mitgliederliste sehen
-  ONLINESTATE: Online-Status sehen
-  RANKS: Rangverwaltung
-  ROUNDMAIL: Rundnachricht versenden
-  SEEAPPLY: Bewerbungen sehen
-  TRANSFER: Kann Leader werden
+  ADMIN: Darf die Allianz verwalten
+  DIPLOMATIC: Darf die Diplomatie verwalten
+  EVENTS: Darf Ereignisse sehen
+  KICK: Darf Mitglieder entfernen
+  MANAGEAPPLY: Darf Bewerbungen bearbeiten
+  MANAGEUSERS: Darf Mitglieder verwalten
+  MEMBERLIST: Darf die Mitgliederliste sehen
+  ONLINESTATE: Darf sehen, wer online ist
+  RANKS: Darf Ränge verwalten
+  ROUNDMAIL: Darf Rundnachrichten senden
+  SEEAPPLY: Darf Bewerbungen sehen
+  TRANSFER: Kann Allianzanführer werden
 al_rank_diplo: Diplomat
 al_rank_name: Name
-al_receiver: An Spieler
-al_reply_to_request: Begründung
+al_receiver: Empfänger
+al_reply_to_request: Antwort
 al_request: Bewerbung
-al_request_confirmation_message: >-
-  Bewerbung abgeschickt. Du erhältst eine Nachricht, wenn sie angenommen, oder
-  abgelehnt wird.
-al_request_date: Datum
-al_request_deleted: >-
-  Deine Bewerbung bei der Allianz <b>%s</b> wurde gelöscht. <br>Du kannst nun eine eigene Allianz eröffnen
-  oder einer anderen Allianz beitreten.
+al_request_confirmation_message: Bewerbung abgeschickt!<br>Du bekommst eine Nachricht, sobald sie angenommen oder abgelehnt wurde.
+al_request_date: Bewerbungsdatum
+al_request_deleted: Deine Bewerbung bei der Allianz <b>%s</b> wurde zurückgezogen.<br>Du kannst jetzt eine neue Bewerbung abschicken oder eine eigene Allianz gründen.
 al_request_from: Bewerbung von Spieler "%s"
 al_request_from_user: Bewerbung von Spieler
 al_request_last_onlinetime: Letzte Aktivität
 al_request_list: Bewerbungsliste
 al_request_register_time: Registriert am
 al_request_text: Bewerbungstext
-al_request_wait_message: >-
-  Du hast dich bei der Allianz %s beworben. <br>Warte auf eine Antwort, oder
-  lösche die Bewerbung.
+al_request_wait_message: Deine Bewerbung bei <b>%s</b> ist noch offen.<br>Warte auf eine Antwort oder zieh sie zurück und bewirb dich woanders.
 al_requests: Bewerbungen
-al_requests_allowed: Bewerbungen erlauben
+al_requests_allowed: Offen
 al_requests_min_points: ab %s Punkte
-al_requests_not_allowed: Bewerbungen nicht erlauben
+al_requests_not_allowed: Geschlossen
 al_save: Speichern
 al_saved: Gespeichert!
-al_send_circular_message: Rundmail schreiben
+al_send_circular_message: Rundnachricht senden
 al_set_max_members: Maximale Mitgliederanzahl
 al_tag: Allianztag
-al_tag_required: Du hast keinen Allianztag angegeben.
-al_texts: Text Management
-al_tfkristall: Gesamtes Trümmerfeld Kristall
-al_tfmetall: Gesamtes Trümmerfeld Metall
+al_tag_required: Bitte gib ein Allianz-Tag ein.
+al_texts: Textverwaltung
+al_tfkristall: 'Trümmerfeld gesamt: Kristall'
+al_tfmetall: 'Trümmerfeld gesamt: Metall'
 al_the_alliance: Allianz
 al_transfer_alliance: Allianz übertragen
-al_transfer_submit: Absenden
+al_transfer_submit: Übertragen
 al_transfer_to: Übertragen an
-al_unitsloos: Verlorene Units
-al_unitsshut: Geschossene Units
-al_user_list: Memberliste
-al_users_list: 'Memberliste (Spieler: %d)'
-al_users_list_main: 'Main-Memberliste (Spieler: %d) - %s'
-al_users_list_wing: 'Wing-Memberliste (Spieler: %d) - %s'
+al_unitsloos: Verlorene Einheiten
+al_unitsshut: Abgeschossene Einheiten
+al_user_list: Mitgliederliste
+al_users_list: 'Mitgliederliste (insgesamt: %d)'
+al_users_list_main: 'Main-Mitglieder (insgesamt: %d) - %s'
+al_users_list_wing: 'Wing-Mitglieder (insgesamt: %d) - %s'
 al_view_diplo: Diplomatie öffentlich?
 al_view_events: Ereignisse anzeigen
 al_view_stats: Kampfstatistik öffentlich?
 al_web_site: Homepage
-al_web_text: Homepage
-al_write_request: Bewerbung schreiben an die Allianz %s
+al_web_text: Website der Allianz
+al_write_request: Bewerbung an die Allianz <b>%s</b> schreiben
 al_you_was_acceted: 'Du wurdest aufgenommen bei '
 al_you_was_declined: 'Du wurdest abgelehnt bei '
 al_your_ally: Deine Allianz
-al_your_request_title: Bewerbung
-bad_forum_url: Keine Foren-URL definiert!
-banned_message: >-
-  Du wurdest gebannt. <!--discord_url-->Wenn du glaubst, dass es sich dabei um ein Missverständnis
-  handelt, schreibe uns über Discord: <a
-  href="{discord_url}">{discord_url}</a><!--/discord_url-->
+al_your_request_title: Deine Bewerbung
+bad_forum_url: Der Forum-Link ist ungültig.
+banned_message: 'Du wurdest gebannt. <!--discord_url-->Wenn du glaubst, dass das ein Irrtum ist, schreib uns auf Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
 bd_actual_production: 'Aktuelle Produktion:'
-bd_add_to_list: Zur Bauliste hinzufügen
+bd_add_to_list: Zur Bauschleife hinzufügen
 bd_available: 'Vorhanden: '
 bd_build: Bauen
-bd_build_defenses: Absenden
+bd_build_defenses: Bauen
 bd_build_next_level: 'Ausbauen auf Stufe '
-bd_build_ships: Absenden
-bd_building_lab: Das Forschungslabor wird zurzeit ausgebaut!
-bd_building_shipyard: Die Nanitenfabrik oder Raumschiffwerft wird zurzeit ausgebaut!
-bd_buildlist_full: Bauliste ist voll
+bd_build_ships: Bauen
+bd_building_lab: Forschen ist nicht möglich, solange das Forschungslabor ausgebaut wird.
+bd_building_shipyard: Schiffe und Verteidigung können nicht gebaut werden, solange Schiffswerft oder Nanitenfabrik ausgebaut werden.
+bd_buildlist_full: Die Bauschleife ist voll.
 bd_cancel: Abbrechen
-bd_cancel_send: Markierte - Löschen
-bd_cancel_warning: Bei Abbruch werden nur 60% der Ressourcen wiederhergestellt!
+bd_cancel_send: Bau abbrechen
+bd_cancel_warning: Achtung!<br>Beim Abbrechen bekommst du nur 60% der Kosten zurück.
 bd_completed: Fertig
 bd_continue: Weiter
 bd_deploy: Einsetzen
@@ -516,40 +464,38 @@ bd_destroy_time: Dauer
 bd_dismantle: Abreißen
 bd_finished: Fertig
 bd_jump_gate_action: Springen
-bd_lab_required: Du musst zuerst ein Forschungslabor auf diesem Planeten bauen!
+bd_lab_required: Bau zuerst ein Forschungslabor auf diesem Planeten.
 bd_lvl: Stufe
-bd_max_builds: Du kannst max. %d Aufträge versenden!
-bd_max_lvl: 'Max. Level:'
+bd_max_builds: 'Deine Bauschleife ist voll: höchstens %d Aufträge.'
+bd_max_lvl: 'Max. Stufe:'
 bd_max_ships: max
 bd_max_ships_long: Maximal baubare Einheiten
 bd_max_ships_repair: Maximal wiederherstellbare Einheiten
 bd_maxlevel: Maximale Stufe erreicht
 bd_more_engine: Produziert <span class="colorPositive">%s</span> %s mehr
 bd_need_engine: Verbraucht <span class="colorNegative">%s</span> %s mehr
-bd_next_level: 'Next Level:'
-bd_no_lab: >-
-  Auf diesem Planeten ist kein Labor vorhanden, du kannst dir die Queue nur
-  anschauen und sie nicht verändern.
-bd_no_more_fields: Planet ausgebaut!
+bd_next_level: 'Nächste Stufe:'
+bd_no_lab: Auf diesem Planeten gibt es kein Forschungslabor. Du kannst die Schleife nur ansehen, aber nicht ändern.
+bd_no_more_fields: Auf diesem Planeten sind keine Felder mehr frei.
 bd_on: auf
-bd_operating: in Arbeit
+bd_operating: (im Bau)
 bd_paused: pausiert
-bd_price_for_destroy: 'Kosten für Abriss:'
-bd_protection_shield_only_one: Du kannst nur eine Schildkuppel bauen!
+bd_price_for_destroy: 'Abrisskosten:'
+bd_protection_shield_only_one: Du kannst nur eine Schildkuppel bauen.
 bd_ready: Fertig
 bd_remaining: Fehlende Rohstoffe
 bd_repair_rate: Reparaturrate
 bd_repair_ships: Reparieren
-bd_repairdock_busy: Das Reparaturdock arbeitet bereits an einem Auftrag!
-bd_repairdock_deploy: Die Schiffe wurden wieder in Dienst gestellt!
-bd_repairdock_empty: Es ist kein Wrackfeld vorhanden!
-bd_repairdock_required: Du musst zuerst ein Reparaturdock auf diesem Planeten bauen!
+bd_repairdock_busy: Das Reparaturdock ist mit einem anderen Auftrag beschäftigt.
+bd_repairdock_deploy: Reparatur abgeschlossen. Die Schiffe sind wieder im Dienst!
+bd_repairdock_empty: Hier gibt es kein Wrackfeld zu reparieren.
+bd_repairdock_required: Bau zuerst ein Reparaturdock auf diesem Planeten.
 bd_repairdock_time: Verbleibende Wrackfeldzeit
 bd_repairing: Reparatur in Arbeit
 bd_requirements: Voraussetzungen nicht erfüllt
 bd_research: Forschung
-bd_researclist_full: Forschungsliste ist voll
-bd_shipyard_required: Du musst zuerst eine Schiffswerft auf diesem Planeten bauen!
+bd_researclist_full: Die Forschungsschleife ist voll.
+bd_shipyard_required: Bau zuerst eine Raumschiffwerft auf diesem Planeten.
 bd_tech: Forschen
 bd_tech_next_level: 'Forschen auf Stufe '
 bd_working: Beschäftigt
@@ -559,36 +505,36 @@ blockTrade: Handel blockieren
 bn_by: Adminname
 bn_exists: 'Es existieren '
 bn_from: Sperrdatum
-bn_no_players_banned: Zurzeit ist kein Spieler gesperrt
+bn_no_players_banned: Zurzeit ist niemand gesperrt.
 bn_player: 'Spielername '
 bn_players_banned: ' gebannte Spieler'
 bn_players_banned_list: Pranger
 bn_reason: Grund
 bn_until: Gesperrt bis
-bn_writemail: Mail an %s schreiben
-bs_acs_slot: AKS-Slot
-bs_add_acs_slot: Add AKS-Slot
+bn_writemail: An %s schreiben
+bs_acs_slot: Verbandsslot
+bs_add_acs_slot: Verbandsslot hinzufügen
 bs_atter: Angreifer
 bs_cancel: Zurücksetzen
 bs_deffer: Verteidiger
-bs_derbis_raport: Es werden %s %s für das Trümmerfeld benötigt.
+bs_derbis_raport: Zum Recyceln des Trümmerfelds werden %s %s benötigt.
 bs_load: Laden
-bs_load_invalid: Ungültige Zeichenfolge
-bs_load_no_input: Keine Zeichenfolge eingegeben
-bs_names: Schiffname
-bs_reset: Reset
-bs_send: Absenden
+bs_load_invalid: Ungültiger Teilen-Code
+bs_load_no_input: Kein Teilen-Code eingegeben
+bs_names: Schiffsname
+bs_reset: Zurücksetzen
+bs_send: Berechnen
 bs_share: Teilen
 bs_share_code: Teilen-Code
 bs_share_copy_fail: Das Kopieren ist fehlgeschlagen
-bs_share_copy_prompt: 'Bitte kopiere Zeichenfolge manuell:'
-bs_share_error: Fehler beim Generieren der Zeichenfolge
-bs_share_success: Zeichenfolge in die Zwischenablage kopiert
-bs_steal: 'Rohstoffe (für Steal):'
+bs_share_copy_prompt: 'Bitte kopiere den Teilen-Code manuell:'
+bs_share_error: Teilen-Code konnte nicht erstellt werden
+bs_share_success: Teilen-Code in die Zwischenablage kopiert
+bs_steal: 'Rohstoffe des Verteidigers:'
 bs_steal_raport: Für die Beute werden %s %s oder %s %s benötigt.
 bs_swap: Seiten tauschen
-bs_techno: Techniken
-bs_wait: Warte 5 Sekunden für die nächste Simulation
+bs_techno: Technologien
+bs_wait: Bitte warte 5 Sekunden bis zur nächsten Simulation.
 bu_accept: Annehmen
 bu_accepted_request_body: Hallo %s,<br>%s hat deine Buddylistanfrage angenommen!
 bu_accepted_request_title: Buddylist-Anfrage akzeptiert!
@@ -596,8 +542,8 @@ bu_action: Aktion
 bu_alliance: Allianz
 bu_back: Zurück
 bu_buddy_list: Buddyliste
-bu_cancel_request: Zurücknehmen
-bu_cannot_request_yourself: Du kannst dich nicht selbst der Buddyliste hinzufügen!
+bu_cancel_request: Anfrage zurücknehmen
+bu_cannot_request_yourself: Du kannst dich nicht selbst als Buddy hinzufügen.
 bu_characters: Zeichen
 bu_connected: Online
 bu_coords: Koordinaten
@@ -608,18 +554,18 @@ bu_minutes: ' min'
 bu_my_requests: Meine Anfragen
 bu_new_request_body: Hallo %s,<br>%s hat dir eine Buddylistanfrage gesendet!
 bu_new_request_title: Neue Buddylist-Anfrage!
-bu_no_buddys: Keine Buddys vorhanden!
-bu_no_request: Keine Anfragen vorhanden!
+bu_no_buddys: Du hast noch keine Buddys. Schick einem Spieler über sein Profil eine Anfrage!
+bu_no_request: Keine Anfragen.
 bu_online: Online
 bu_partners: Buddys
 bu_player: Spieler
-bu_player_not_exist: Dieser Spieler existiert nicht!
+bu_player_not_exist: Diesen Spieler gibt es nicht.
 bu_rejected_request_body: Hallo %s,<br>%s hat deine Buddylistanfrage abgelehnt!
 bu_rejected_request_title: Buddylist-Anfrage abgelehnt!
-bu_request_exists: Spieler ist bereits in der Buddyliste!
+bu_request_exists: Für diesen Spieler gibt es bereits eine Buddylist-Anfrage.
 bu_request_message: Anfragetext
-bu_request_send: Anfrage gesendet!
-bu_request_text: Begründung
+bu_request_send: Anfrage gesendet.
+bu_request_text: Nachricht
 bu_requests: Anfragen
 bu_send: Senden
 bu_text: Text
@@ -634,13 +580,13 @@ cff_mission_other_expo_2: 'Eine %s vom %s %s %s ist auf einer Expedition bei Pos
 cff_mission_other_recy_0: 'Eine %s vom %s %s %s erreicht das Trümmerfeld %s. Mission: %s'
 cff_mission_other_0: 'Eine %s vom %s %s %s erreicht den %s %s %s. Mission: %s'
 cff_mission_other_1: 'Eine %s kehrt vom %s %s %s zurück zum %s %s %s. Mission: %s'
-cff_mission_other_2: 'Eine %s vom %s %s %s ist im Orbit von dem %s %s %s. Mission: %s'
+cff_mission_other_2: 'Eine %s vom %s %s %s ist im Orbit um den %s %s %s. Mission: %s'
 cff_mission_other_expo_1: 'Eine %s kehrt von der Position %s zurück zum %s %s %s. Mission: %s'
 cff_mission_other_mip: 'Raketenangriff (%d) vom %s %s %s auf den %s %s %s.'
 cff_mission_other_recy_1: 'Eine %s kehrt vom Trümmerfeld %s zurück zum Planeten %s %s %s. Mission: %s'
 cff_mission_own_0: 'Eine deiner %s vom %s %s %s erreicht den %s %s %s. Mission: %s'
 cff_mission_own_1: 'Eine deiner %s kehrt vom %s %s %s zurück zum %s %s %s. Mission: %s'
-cff_mission_own_2: 'Eine deiner %s vom %s %s %s sind im Orbit von dem %s %s %s. Mission: %s'
+cff_mission_own_2: 'Eine deiner %s vom %s %s %s ist im Orbit um den %s %s %s. Mission: %s'
 cff_mission_own_expo_0: 'Eine deiner %s vom %s %s %s erreicht die Position %s. Mission: %s'
 cff_mission_own_expo_1: 'Eine deiner %s kehrt von der Position %s zurück zum %s %s %s. Mission: %s'
 cff_mission_own_expo_2: >-
@@ -658,52 +604,49 @@ cff_mission_target_good: >-
   Eine friedliche %s vom Spieler %s vom %s %s %s erreicht den %s %s %s. Mission:
   %s
 cff_mission_target_mip: Raketenangriff (%d) vom Spieler %s vom %s %s %s auf den %s %s %s.
-cff_mission_target_stay: >-
-  Eine friedliche %s vom Spieler %s vom %s %s %s ist im Orbit von dem %s %s %s.
-  Mission: %s
+cff_mission_target_stay: 'Eine friedliche %s vom Spieler %s vom %s %s %s ist im Orbit um den %s %s %s. Mission: %s'
 cff_no_fleet_data: Keine Schiffsinformationen
 cff_ships: ' Einheiten.'
-colonyWarn: Warnung beim Kolonisieren von mehr als 2 Planeten in einem System
+colonyWarn: Vor dem Kolonisieren von mehr als 2 Planeten in einem System warnen
 cr_armor: Panzerung
 cr_destroyed: Zerstört!
 cr_first_round: (Die Flotte wurde in der 1. Runde zerstört)
 cr_lost_contact: Der Kontakt zu deiner Flotte ist verloren gegangen.
-cr_shields: Schild
-cr_total: Total
+cr_shields: Schilde
+cr_total: Gesamt
 cr_type: Typ
 cr_weapons: Waffen
-css_account_banned_expire: >-
-  Du bist bis zum %1$s gesperrt!<br>Bitte melde dich ggf. <a style="color: -webkit-link;" href="%2$s">hier (link)</a>.
-css_account_banned_message: Dein Account wurde gesperrt!
+css_account_banned_expire: 'Du bist bis zum %1$s gesperrt!<br>Bei Fragen melde dich bei uns: <a style="color: -webkit-link;" href="%2$s">Kontakt (Link)</a>.'
+css_account_banned_message: Dein Account wurde gesperrt.
 css_account_banned_reason: 'Grund: %s'
 css_goto_homeside: <a href="./">Zur Startseite</a>
-css_server_maintrace: 'Server Maintenance<br><br>Spiel zurzeit geschlossen.<br><br>Grund: %s'
+css_server_maintrace: 'Wartungsarbeiten<br><br>Das Spiel ist zurzeit geschlossen.<br><br>Grund: %s'
 custom_fleet: Benutzerdefinierte Flotten
 custom_fleet_confirm: Flottenvorlage %s entfernen?
-delete_confirm_gala: Lokale Universumsdaten löschen?
+delete_confirm_gala: Lokal gespeicherte Galaxiedaten löschen?
 Description: Beschreibung
 destroyed: Zerstört
 dishonorable_fights: Unehrenhafte Kämpfe
 donate: Spenden
 expedition: Expedition
-fa_action_not_allowed: Fehler, Systemfehler
-fa_galaxy_not_exist: Fehler, Galaxie nicht vorhanden
-fa_mission_not_available: Fehler, Mission nicht verfügbar
-fa_no_fleetroom: Fehler, Deuteriumverbrauch größer als Transportkapazität
-fa_no_more_slots: Fehler, keine Slots verfügbar
-fa_no_recyclers: Fehler, keine Recycler vorhanden
-fa_no_spios: Fehler, keine Sonden vorhanden
-fa_not_attack_yourself: Fehler, Sie können sich nicht selber angreifen
-fa_not_enough_fuel: Fehler, nicht genügend Deuterium vorhanden
-fa_not_enough_probes: Fehler, keine Sonden vorhanden
-fa_not_spy_yourself: Fehler, Sie können sich nicht selber spionieren
-fa_planet_not_exist: Fehler, Planet nicht vorhanden
+fa_action_not_allowed: Aktion nicht erlaubt.
+fa_galaxy_not_exist: Diese Galaxie gibt es nicht.
+fa_mission_not_available: Dieser Auftrag ist nicht verfügbar.
+fa_no_fleetroom: Nicht genug Laderaum für den Treibstoff.
+fa_no_more_slots: Keine freien Flottenslots.
+fa_no_recyclers: Keine Recycler verfügbar.
+fa_no_spios: Keine Sonden verfügbar.
+fa_not_attack_yourself: Du kannst dich nicht selbst angreifen.
+fa_not_enough_fuel: Nicht genug Treibstoff.
+fa_not_enough_probes: Keine Sonden verfügbar.
+fa_not_spy_yourself: Du kannst dich nicht selbst ausspionieren.
+fa_planet_not_exist: Diesen Planeten gibt es nicht.
 fa_sending: Gesendet
-fa_strong_player: Fehler, Spieler ist zu stark
-fa_system_not_exist: Fehler, System nicht vorhanden
-fa_vacation_mode: Fehler, Spieler befindet sich im Urlaubsmodus
-fa_vacation_mode_current: Fehler, Sie befinden sich im Urlaubsmodus
-fa_week_player: Fehler, Spieler ist zu schwach
+fa_strong_player: Der Spieler ist zu stark.
+fa_system_not_exist: Dieses System gibt es nicht.
+fa_vacation_mode: Der Spieler ist im Urlaubsmodus.
+fa_vacation_mode_current: Du bist im Urlaubsmodus.
+fa_week_player: Der Spieler ist zu schwach.
 fcm_info: Information
 fcm_mainplanet: Hauptplanet
 fcm_moon: Mond
@@ -713,35 +656,31 @@ fcp_colony: Kolonie
 fgf_time: Bauzeit
 fgp_require: Benötigt
 fgr_time: Reparaturzeit
-first: Zum ersten Mal
+first: Premieren
 fl_a: (A)
 fl_acs: Verband
 fl_acs_change: Ändern
 fl_acs_change_name: Gib einen neuen Namen ein
-fl_acs_invitation_message: ' lädt dich zu einem AKS ein.'
-fl_acs_invitation_title: AKS Einladung
-fl_acs_newname_alphanum: Der Name darf nur aus alphanumerischen Zeichen bestehen.
+fl_acs_invitation_message: ' lädt dich zu einem Verbandsangriff ein.'
+fl_acs_invitation_title: Verbandsangriff-Einladung
+fl_acs_newname_alphanum: Der Name darf nur Buchstaben und Zahlen enthalten.
 fl_acs_title: Verbandsangriffe
 fl_add_to_attack: ' wurde eingeladen.'
-fl_admin_attack: Du kannst keine Administratoren angreifen
-fl_all_resources: Max Rohstoffe Laden
+fl_admin_attack: Admins kannst du nicht angreifen.
+fl_all_resources: Alle Rohstoffe laden
 fl_already_invited: ' wurde bereits eingeladen.'
 fl_ammount: Anzahl
-fl_arrival: Ankunft(Zurück)
+fl_arrival: Ankunft
 fl_arrival_time: Ankunftszeit
-fl_attack_confirm_buddy: >-
-  Das Ziel ist auf deiner Buddy-Liste. Möchtest du den Angriff wirklich
-  durchführen?
-fl_attack_confirm_diplo: >-
-  Es wurde ein Pakt (%s) mit der Allianz %s und deiner Allianz geschlossen.
-  Möchtest du den Angriff wirklich durchführen?
+fl_attack_confirm_buddy: Das Ziel steht auf deiner Buddyliste. Willst du wirklich angreifen?
+fl_attack_confirm_diplo: Du hast einen Pakt (%s) mit %s. Trotzdem angreifen?
 fl_attack_confirm_outlaw: Wenn du %s angreifst, wirst du für 7 Tage zum Gesetzlosen.
-fl_bash_protection: Bash-Schutz
-fl_beginning: Start
-fl_blocked: ' akzeptiert keine Einladung.'
+fl_bash_protection: Das würde die Bash-Regel verletzen.
+fl_beginning: Herkunft
+fl_blocked: ' nimmt keine Einladungen an.'
 fl_bonus: Bonus
-fl_bonus_attack: Angriff
-fl_bonus_defensive: Verteidigung
+fl_bonus_attack: Waffen
+fl_bonus_defensive: Panzerung
 fl_bonus_shield: Schild
 fl_cargo_capacity: Laderaumkapazität
 fl_cargo_current_planet: Aktueller Planet
@@ -754,140 +693,128 @@ fl_colonize_confirm: >-
   locken starke Spieler an. Möchtest du trotzdem kolonisieren?
 fl_continue: Weiter
 fl_debris_shortcut: (T)
-fl_departure: Ankunft(Ziel)
-fl_deploy_only_your_planets: Du kannst nur Flotten auf deinen eigenen Planeten stationieren!
+fl_departure: Abflug
+fl_deploy_only_your_planets: Du kannst nur auf deinen eigenen Planeten stationieren.
 fl_destiny: Ziel
 fl_distance: Entfernung
 fl_dlte_shortcut: Löschen
 fl_dont_exist: ' existiert nicht.'
-fl_empty_target: Keine Missionen vorhanden (Planet vorhanden?)
-fl_error: Etwas ging schief. Versuchen Sie es erneut.
-fl_error_empty_derbis: Kein Trümmerfeld vorhanden!
-fl_error_no_moon: Kein Mond vorhanden!
-fl_error_not_avalible: Auf diesen Koordinaten befindet sich kein Planet!
-fl_error_same_planet: Start- und Zielplanet sind identisch!
+fl_empty_target: Kein Auftrag verfügbar. Gibt es das Ziel überhaupt?
+fl_error: Etwas ist schiefgelaufen. Versuch es bitte noch einmal.
+fl_error_empty_derbis: An diesen Koordinaten gibt es kein Trümmerfeld.
+fl_error_no_moon: An diesen Koordinaten gibt es keinen Mond.
+fl_error_not_avalible: An diesen Koordinaten ist nichts.
+fl_error_same_planet: Start- und Zielplanet sind identisch.
 fl_exchange: Handel
-fl_expedition_alert_message: >-
-  Achtung die Expedition bringt Gefahren mit sich, du kannst bei der Expedition
-  deine gesamte Flotte verlieren!
-fl_expedition_fleets_limit: Du kannst nicht noch mehr Expeditionen starten!
-fl_expedition_tech_required: >-
-  Es wird die Forschung "Astrophysik" (Stufe 1 oder höher) benötigt, um eine
-  Expedition zu starten.
+fl_expedition_alert_message: Vorsicht, Expeditionen sind riskant. Du kannst deine gesamte Flotte verlieren!
+fl_expedition_fleets_limit: Du hast dein Expeditionslimit erreicht.
+fl_expedition_tech_required: Du brauchst Astrophysik Stufe 1, um eine Expedition zu starten.
 fl_expeditions: Expeditionen
 fl_fleet: Flotte
-fl_fleet_sended: Flotte verschickt
+fl_fleet_sended: Flotte verschickt!
 fl_fleet_speed: Geschwindigkeit
 fl_fleets: Flotte
 fl_flying_arrival: Ankunft
 fl_flying_return: Rückkehr
 fl_flying_time: Dauer (einer Strecke)
 fl_from: Von
-fl_fuel_consumption: Treibstoffverbrauch
-fl_hold_confirm_outlaw: Wenn du bei %s hälst wirst du für 7 Tage zum Gesetzlosen.
+fl_fuel_consumption: Deuteriumverbrauch
+fl_hold_confirm_outlaw: Wenn du bei %s hältst, wirst du für 7 Tage zum Gesetzlosen.
 fl_hold_max_fleets: >-
   Es sind bereits zu viele Flotten zu diesen Koordinaten unterwegs. Die Flotte
   konnte nicht gesendet werden.
-fl_hold_max_user: >-
-  Die maximale Anzahl verteidigender Imperien ist bereits erreicht. Die Flotte
-  konnte nicht gesendet werden.
+fl_hold_max_user: Die maximale Anzahl an Verteidigern ist bereits erreicht. Die Flotte konnte nicht gesendet werden.
 fl_hold_time: Haltezeit
-fl_hold_time_not_exists: Ungültige Haltezeit.
+fl_hold_time_not_exists: Bitte wähle eine gültige Haltezeit.
 fl_hours: Stunde(n)
 fl_in_vacation_player: Spieler befindet sich im Urlaubsmodus
 fl_info_detail: Flotten-Details
-fl_invalid_mission: Ungültige Mission
-fl_invalid_target: Kein gültiges Ziel
+fl_invalid_mission: Dieser Auftrag ist hier nicht möglich.
+fl_invalid_target: Dieses Ziel ist ungültig.
 fl_invite_members: Einladen
 fl_market_type: Markttyp
 fl_max: max
-fl_max_speed: Maximale Geschwindigkeit
+fl_max_speed: Max. Geschwindigkeit
 fl_members_invited: Eingeladen
 fl_mission: Auftrag
-fl_modify_sac_name: AKS-Name
+fl_modify_sac_name: Verbandsname
 fl_moon_shortcut: (M)
 fl_mt_fleet: Flottenmarkt
-fl_mt_resources: Ressourcenmarkt
+fl_mt_resources: Rohstoffmarkt
 fl_multi_alarm: Multi-Alarm!
 fl_my_planets: Meine Planeten
 fl_new_mission_title: 'Neuer Auftrag: Flotte wählen'
 fl_no_colony: Keine Kolonien vorhanden
-fl_no_empty_derbis: Trümmerfeld existiert nicht!
-fl_no_expedition_slot: Du kannst nicht noch mehr Expeditionen starten!
-fl_no_hold_depot: Am Ziel befindet sich kein Allianzdepot.
-fl_no_more_slots: Keine weiteren Slots verfügbar
+fl_no_empty_derbis: Dort gibt es kein Trümmerfeld!
+fl_no_expedition_slot: Keine freien Expeditionsslots.
+fl_no_hold_depot: Am Ziel gibt es kein Allianzdepot.
+fl_no_more_slots: Keine freien Slots
 fl_no_noresource: Keine Rohstoffe geladen!
-fl_no_noresource_exchange: Keine Ressourcen im Austauschfeld
-fl_no_probe_expos: >-
-  Du kannst Expos nicht nur mit Spionagesonden fliegen, bitte füge noch weitere
-  Schiffstypen hinzu.
-fl_no_same_alliance: Der Spieler vom Zielplanet muss in deiner Allianz oder Buddyliste sein!
+fl_no_noresource_exchange: Keine Rohstoffe zum Tauschen eingegeben
+fl_no_probe_expos: Eine Expedition darf nicht nur aus Spionagesonden bestehen. Füg noch andere Schiffstypen hinzu.
+fl_no_same_alliance: Der Zielspieler muss in deiner Allianz oder auf deiner Buddyliste sein!
 fl_no_ships: Keine Schiffe vorhanden
 fl_no_shortcuts: Keine Shortcuts vorhanden
 fl_no_slots: Keine Slots mehr verfügbar!
 fl_no_target: Kein Zielplanet vorhanden
-fl_not_all_ship_avalible: Nicht alle Schiffe vorhanden.
-fl_not_ally_deposit: Am Ziel befindet sich kein Allianzdepot
+fl_not_all_ship_avalible: Nicht alle Schiffe sind verfügbar.
+fl_not_ally_deposit: Am Ziel gibt es kein Allianzdepot.
 fl_not_enough: Nicht genügend %s vorhanden.
-fl_not_enough_deuterium: Nicht genügend Deuterium vorhanden.
-fl_not_enough_space: Es ist nicht genügend Laderaum vorhanden.
+fl_not_enough_deuterium: Nicht genug Deuterium für diesen Flug.
+fl_not_enough_space: Nicht genug Laderaum.
 fl_null: keine
 fl_number: ID
-fl_objective: Zurück in
-fl_only_planets_colonizable: Nur Planeten können kolonisiert werden!
-fl_onway: Flotte zu Planet
+fl_objective: Endet in
+fl_only_planets_colonizable: Nur Planeten können kolonisiert werden.
+fl_onway: Hinflug
 fl_order: Befehl
-fl_own_planet_error: >-
-  Fehler! Bitte wähle erneut den Planeten aus, von dem aus du die Flotte senden
-  möchten.
+fl_own_planet_error: Etwas ist schiefgelaufen. Wähle bitte noch einmal den Planeten aus, von dem du die Flotte senden willst.
 fl_planet_populed: Planet besiedelt!
 fl_planet_shortcut: (P)
 fl_planets: Planeten
 fl_player: 'Der Spieler '
-fl_player_is_noob: Spieler befindet sich im Noobschutz!
-fl_player_is_strong: Spieler ist zu stark!
+fl_player_is_noob: Der Spieler steht unter Noobschutz.
+fl_player_is_strong: Der Spieler ist zu stark.
 fl_r: (R)
 fl_register_shorcut: Erstellen
 fl_remove_all_ships: Keine Schiffe
 fl_resources: Rohstoffe
-fl_resources_left: Verbleiben
+fl_resources_left: Freie Kapazität
 fl_return_time: Rückkehrzeit
-fl_returning: Flotte auf Planet
-fl_sac_of_fleet: Flotten-AKS
+fl_returning: Rückflug
+fl_sac_of_fleet: Verbandsflotte
 fl_select_all_ships: Alle Schiffe
 fl_selected_resources: Ausgewählte Rohstoffe Laden
-fl_send_back: Zurück
+fl_send_back: Zurückrufen
 fl_send_fleet: Flotte verschicken
 fl_ship_available: Verfügbar
 fl_ship_type: Schiffstyp
 fl_shortcut: Shortcut
 fl_shortcut_add: Hinzufügen
-fl_shortcut_edition: Shortcut editieren
+fl_shortcut_edition: Shortcut bearbeiten
 fl_shortcut_name: Name
 fl_shortcut_save: Shortcut speichern
-fl_shortcut_saved: Gespeichert!
+fl_shortcut_saved: Shortcut gespeichert!
 fl_shortcuts: Shortcuts
 fl_simulate: Simulieren
 fl_speed_title: 'Geschwindigkeit: '
 fl_spy_confirm_outlaw: Wenn du %s ausspionierst, wirst du für 7 Tage zum Gesetzlosen.
-fl_strong_player: Spieler ist zu stark für dich!
-fl_stronger_techs: Deine Angriffsstärke/Verteidigung/Schilde sind zu niedrig.
+fl_strong_player: Der Spieler ist zu stark für dich.
+fl_stronger_techs: Deine Waffen-, Panzerungs- oder Schildtechnik ist zu niedrig.
 fl_system_places: Besondere Orte
-fl_target_exists: Zielplanet existiert
-fl_target_not_exists: Zielplanet existiert nicht!
-fl_trade_no_resource_loaded: Du hast keine Ressource geladen.
+fl_target_exists: Zielplanet
+fl_target_not_exists: Der Zielplanet existiert nicht.
+fl_trade_no_resource_loaded: Du hast keine Rohstoffe geladen.
 fl_trade_same_resource: Du kannst nicht %s gegen %s verkaufen.
-fl_trade_to_many_resources_loaded: Du kannst nur eine Ressource verkaufen.
-fl_transfer_alert_message: |-
-  Achtung!
-  Ihre Flotte wird an einen anderen Benutzer übertragen!
+fl_trade_to_many_resources_loaded: Du kannst nur eine Rohstoffart verkaufen.
+fl_transfer_alert_message: "Achtung!\nDeine Flotte wird an einen anderen Spieler übertragen!"
 fl_vacation_mode_active: Du befindest dich im Urlaubsmodus
 fl_visibility: Sichtbarkeit
 fl_visibility_all: Jeder
-fl_visibility_alliance: Nur Allianzmitglieder und Freunde
+fl_visibility_alliance: Allianz, Paktpartner und Buddys
 fl_visibility_no_enemies: Jeder außer Gegner
-fl_week_player: Spieler ist zu schwach für dich!
-fleet_table_custom_empty_name: Bitte einen Flottennamen eingeben!
+fl_week_player: Der Spieler steht unter Noobschutz.
+fleet_table_custom_empty_name: Gib einen Flottennamen ein!
 fleetPrio: 'Priorität Flottenauftrag '
 fm_add_filter: Schiff-Filter hinzufügen
 fm_all: Alle
@@ -901,23 +828,23 @@ fm_recycler: Recycler
 fm_storage: Lagerung
 foreign_colors: Gegnerische Farben
 found: 'Gefundene '
-ft_absenden: Absenden
+ft_absenden: Senden
 ft_charge: Händlergebühr
 ft_count: Anzahl
-ft_empty: Der Schrotthändler kauft zur Zeit keine Schiffe!
-ft_head: Schrotthandler
+ft_empty: Der Schrotthändler kauft zurzeit keine Schiffe!
+ft_head: Schrotthändler
 ft_max: max
-ft_total: TOTAL
-general_colors: Generelle Farben
-gl_actions: Aktion
+ft_total: Gesamt
+general_colors: Allgemeine Farben
+gl_actions: Aktionen
 gl_activity: (*)
 gl_activity_inactive: (%d min)
-gl_ajax_status_fail: Error
-gl_ajax_status_ok: Done
+gl_ajax_status_fail: Fehler
+gl_ajax_status_ok: Erledigt
 gl_all_defenses: Alle
 gl_alliance: Allianz
 gl_alliance_page: Allianzseite
-gl_alliance_web_page: Allianz Homepage
+gl_alliance_web_page: Allianz-Homepage
 gl_avaible_grecyclers: Gigarecycler
 gl_avaible_missiles: Interplanetarraketen
 gl_avaible_recyclers: Recycler
@@ -935,7 +862,7 @@ gl_free: Frei
 gl_free_desc: >-
   Ein großer unbesiedelter Planet. Hier wäre ein idealer Ort, um eine neue
   Kolonie zu gründen.
-gl_galaxy: Galaxy
+gl_galaxy: Galaxie
 gl_in_the_rank: Spieler %s auf Platz %d
 gl_inactive_seven: 7 Tage inaktiv
 gl_inactive_twentyeight: 28 Tage inaktiv
@@ -944,26 +871,26 @@ gl_member: '%d Mitgliedern'
 gl_member_add: '%d Mitglied'
 gl_missil_flytime: Flugzeit
 gl_missil_launch: Raketenangriff
-gl_missil_launch_action: Abschicken
+gl_missil_launch_action: Raketen abfeuern
 gl_missil_to_launch: 'Anzahl an Raketen (<b>%d</b> übrig):'
 gl_missile_attack: Raketenangriff
 gl_moon: Mond
 gl_name_activity: Name (Aktivität)
 gl_no: Nein
-gl_no_deuterium_to_view_galaxy: Du hast nicht genügend Deuterium!
+gl_no_deuterium_to_view_galaxy: Du hast nicht genug Deuterium, um die Galaxie anzusehen!
 gl_no_spy_report: Für diesen Planeten liegt kein Spionagebericht vor.
 gl_not_colonizable: Nicht kolonisierbar
-gl_objective: Primäres Ziel
+gl_objective: Hauptziel
 gl_out_space: Die unendlichen Weiten des Universums
 gl_phalanx: Phalanx
 gl_planet: Planet
 gl_planet_destroyed: Zerstörter Planet
 gl_player: Spieler
 gl_player_estate: Spieler (Status)
-gl_playercard: Playercard
+gl_playercard: Spielerprofil
 gl_points: Punkte
 gl_populed_planets: '%d Planeten besiedelt'
-gl_pos: Pos
+gl_pos: Pos.
 gl_resources: Rohstoffe
 gl_see_on_stats: Statistiken
 gl_short_ban: g
@@ -972,7 +899,7 @@ gl_short_long_inactive: I
 gl_short_newbie: 'n'
 gl_short_strong: s
 gl_short_vacation: u
-gl_show: Anzeigen
+gl_show: System anzeigen
 gl_show_spy_report: Spionagebericht
 gl_solar_system: System
 gl_spy: Spionieren
@@ -981,21 +908,21 @@ gl_spy_report_none: Kein Spionagebericht
 gl_spy_report_old: Spionagebericht (> %dh)
 gl_spy_report_recent: Spionagebericht (< %dh)
 gl_strong_player: Starker Spieler
-gl_sync: Synchronisieren
+gl_sync: Daten speichern
 gl_sync_export_csv: CSV exportieren
 gl_sync_export_json: JSON exportieren
 gl_sync_import_json: JSON importieren
 gl_sync_reset: Daten zurücksetzen
 gl_temperature: Temperatur
 gl_to: nach
-gl_trade_space: Handelszone
+gl_trade_space: Marktplatz
 gl_vacation: Urlaubsmodus
 gl_week_player: Schwacher Spieler
 gl_with: ' mit '
 gl_wreckfield: Wrackfeld
 gl_wreckfield_short: WF
 gl_yes: Ja
-honor_rank: Ehrenpunkte Rang
+honor_rank: Ehrenrang
 honor_rank_low_1: Banditen-Imperator
 honor_rank_low_10: Banditenkönig
 honor_rank_low_20: Banditenlord
@@ -1007,7 +934,7 @@ honor_rank_top_30: Starlord
 honorable_fights: Ehrenhafte Kämpfe
 honorpoints: Ehrenpunkte
 in_attack_pt: Angriffswert
-in_base_speed: Geschwindigkeit
+in_base_speed: Basisgeschwindigkeit
 in_bonus: 'Bonus:'
 in_capacity: Ladekapazität
 in_consumption: Deuteriumverbrauch
@@ -1015,27 +942,25 @@ in_dest_durati: Dauer
 in_destroy: Abreißen
 in_difference: Differenz
 in_engine: Antrieb
-in_jump_gate_already_used: 'Dieses Sprungtor ist noch nicht bereit: '
+in_jump_gate_already_used: 'Das Sprungtor lädt noch. Wieder bereit in: '
 in_jump_gate_available: Anzahl
-in_jump_gate_doesnt_have_one: Du hast kein Sprungtor
-in_jump_gate_done: >-
-  Flotten erfolgreich verschickt. Du kannst dieses Sprungtor wieder in %s
-  nutzen.
-in_jump_gate_error_data: Fehler, Daten sind inkorrekt!
+in_jump_gate_doesnt_have_one: Du hast kein weiteres Sprungtor, zu dem du springen könntest.
+in_jump_gate_done: Sprung erfolgreich! Du kannst dieses Sprungtor in %s wieder nutzen.
+in_jump_gate_error_data: Ungültige Sprungkoordinaten!
 in_jump_gate_finish_moon: Reiseziel Mond
-in_jump_gate_jump: Aufladen
+in_jump_gate_jump: Springen
 in_jump_gate_no_target: Kein Zielsprungtor vorhanden.
-in_jump_gate_not_ready_target: 'Das Zielsprungtor ist noch nicht bereit: '
-in_jump_gate_select_ships: 'Verwenden des Sprungtores: Anzahl der Schiffe'
-in_jump_gate_start_moon: Ausgangspunkt Mond
-in_jump_gate_wait_time: 'Nächstmögliche Nutzung:'
+in_jump_gate_not_ready_target: 'Das Zieltor lädt noch. Wieder bereit in: '
+in_jump_gate_select_ships: 'Sprungtor: Schiffe auswählen'
+in_jump_gate_start_moon: Startmond
+in_jump_gate_wait_time: 'Nächster Sprung möglich in:'
 in_level: Stufe
-in_missilesamount: Vorhanden
+in_missilesamount: Verfügbar
 in_missilestype: Raketentyp
 in_name: Name
 in_needed: Benötigt
-in_prod_p_hour: Prod./Bedarf pro h
-in_range: Reichweite der Sensoren
+in_prod_p_hour: Pro Stunde
+in_range: Sensorreichweite
 in_rf_again: Rapidfire gegen
 in_rf_explanation: >-
   Rapidfire: In jeder Kampfrunde kann diese Einheit mehrmals feuern. Der
@@ -1045,27 +970,15 @@ in_rf_from: Rapidfire von
 in_shield_pt: Schildstärke
 in_storage: Speicher
 in_struct_pt: Strukturpunkte
-in_title_head: Information von
+in_title_head: Informationen zu
 in_units: Einheiten
 invalid_action: Ungültige Aktion!
-kontakt: >-
-  Hi!<br>Auf dieser Seite findest du Informationen zu den Leuten, die dieses
-  Projekt aktiv betreiben, moderieren und weiterentwickeln.<br>Wende dich bei
-  Fragen und Problemen gern an uns.<br><br><!--discord_url-->Für den besseren Austausch mit uns,
-  aber auch mit den anderen Mitspielern, haben wir einen Discord-Server
-  eingerichtet. Du findest ihn » <a
-  href="{discord_url}">hier</a> « oder über das Menü.<br>Auf dem
-  Server findest du die aktuellsten News, sowie spannende Memes zwischen den
-  Allianzen des Universums.<br>Stelle Fragen zu Spielmechaniken und hilf durch
-  eigene Vorschläge mit bei der Weiterentwicklung des Spiels.<br><br><!--/discord_url-->Natürlich
-  antworten wir dir dennoch auch bei Ingame-Nachriten.<br>Bedenke jedoch, dass
-  auch wir das Spiel nur als Hobby betreiben. Antworten können sich einige Tage
-  hinziehen.<br>
+kontakt: Hi!<br>Hier findest du die Leute, die dieses Projekt betreiben, moderieren und weiterentwickeln.<br>Hast du Fragen oder Probleme? Melde dich gern bei uns.<br><br><!--discord_url-->Für den Austausch mit uns und den anderen Spielern gibt es einen Discord-Server. Du findest ihn <a href="{discord_url}">hier</a> oder über das Menü.<br>Dort gibt es die aktuellsten News und die besten Memes aus den Allianzen des Universums.<br>Stell Fragen zu den Spielmechaniken und bring deine Ideen für die Zukunft des Spiels ein.<br><br><!--/discord_url-->Natürlich beantworten wir auch Fragen per Ingame-Nachricht.<br>Bedenke bitte, dass wir das Spiel als Hobby betreiben – Antworten können ein paar Tage dauern.<br>
 lm_administration: Administration
 lm_alliance: Allianz
 lm_banned: Pranger
 lm_battlesim: Kampfsimulator
-lm_buddylist: Buddylist
+lm_buddylist: Buddyliste
 lm_buildings: Gebäude
 lm_changelog: Changelog
 lm_dataPrivacy: Datenschutz
@@ -1077,34 +990,34 @@ lm_fleet: Flotte
 lm_fleettrader: Schrotthändler
 lm_forums: Forum
 lm_galaxy: Galaxie
-lm_info: Informationen
-lm_logout: Logout
+lm_info: Info
+lm_logout: Abmelden
 lm_marketplace: Marktplatz
 lm_messages: Nachrichten
 lm_notes: Notizen
 lm_options: Einstellungen
 lm_overview: Übersicht
-lm_playercard: Spielerinformationen
-lm_queue: Queues
+lm_playercard: Spielerprofil
+lm_queue: Schleifen
 lm_records: Rekorde
 lm_repairdock: Reparaturdock
 lm_research: Forschung
 lm_resources: Rohstoffe
 lm_rules: Regeln
 lm_search: Suche
-lm_shipshard: Schiffswerft
+lm_shipshard: Raumschiffwerft
 lm_statistics: Statistik
 lm_support: Support
-lm_technology: Technologie
+lm_technology: Technologien
 lm_topkb: Battle Hall
-lo_continue: Klicke hier, um nicht zu warten
-lo_logout: Session wurde beendet
-lo_notify: Du wirst in <span id="seconds">5</span>s weitergeleitet
+lo_continue: Klick hier, um sofort weiterzugehen.
+lo_logout: Du wurdest abgemeldet. Bis bald!
+lo_notify: Weiterleitung in <span id="seconds">5</span> s
 lo_redirect: Weiterleitung
-lo_title: Logout erfolgreich! Bis bald
+lo_title: Abgemeldet
 loading: Lade ...
 lost: Verloren
-lv_buildable: baubare Elemente
+lv_buildable: Baubar
 lv_buildings: Gebäude
 lv_coords: Koordinaten
 lv_defenses: Verteidigung
@@ -1117,41 +1030,37 @@ lv_prodPerHour: Produktion /h
 lv_resources: Rohstoffe
 lv_ships: Schiffe
 lv_show: 'Anzeigen: '
-lv_storageFilled: Lager voll in h
+lv_storageFilled: Stunden bis voll
 lv_technology: Forschungen
-lv_total: Total
-lv_unbuildable: nicht baubare Elemente
-ma_add_missile_number: Du musst eine Zahl eingeben!
+lv_total: Gesamt
+lv_unbuildable: Nicht baubar
+ma_add_missile_number: Gib die Anzahl der Raketen ein!
 ma_all: Alle
 ma_big_laser: Schweres Lasergeschütz
 ma_big_protection_shield: Große Schildkuppel
 ma_buster_canyon: Plasmawerfer
 ma_gauss_canyon: Gaußkanone
 ma_impulse_drive_required: Du musst zuerst das Impulstriebwerk erforschen
-ma_ionic_canyon: Ionenkanone
+ma_ionic_canyon: Ionengeschütz
 ma_misil_launcher: Raketenwerfer
-ma_missiles_sended: ' Interplanetarraketen gesendet. Zerstörte Objekte: '
-ma_no_missiles: Du hast keine Interplanetarraketen
+ma_missiles_sended: ' Interplanetarraketen abgefeuert. Ziel: '
+ma_no_missiles: Du hast keine Interplanetarraketen.
 ma_no_range: Das Ziel ist nicht in Reichweite deiner Raketen.
 ma_not_send_other_galaxy: Du kannst keine Raketen in eine andere Galaxie schicken.
-ma_planet_doesnt_exists: Planet existiert nicht.
+ma_planet_doesnt_exists: Diesen Planeten gibt es nicht.
 ma_silo_level: Du benötigst Raketensilo Stufe 4!
 ma_small_laser: Leichtes Lasergeschütz
 ma_small_protection_shield: Kleine Schildkuppel
-ma_wrong_target: Kein Ziel
+ma_wrong_target: Falsches Ziel
 market_buyable_no_enemies: Keine Feinde
 market_buyable_no_tech: Zu schwach
 market_buyable_only_trade_partners: Nur Partner
 market_confirm_are_you_sure: Bist du sicher?
 market_fleet: Flotte
-market_info_description: >-
-  Linke Seite - Martplatzangebot | Rechte Seite - Kaufbetrag<br><br>&bull;
-  Angenommene Marktplatzangebote können nicht storniert werden. &bull;<br>&bull;
-  Manche Angebote können wegen der Push-Regel nicht angenommen werden.
-  &bull;<br>&bull; Deut für gekaufte Flotte wird vom Käufer bezahlt.&bull;
+market_info_description: 'Linke Seite: Verkaufsangebote | Rechte Seite: Preis<br><br>&bull; Angenommene Angebote können nicht storniert werden &bull;<br>&bull; Manche Angebote können wegen der Push-Regel nicht angenommen werden &bull;<br>&bull; Den Treibstoff für eine gekaufte Flotte zahlt der Käufer &bull;'
 market_info_header: Marktplatz
 market_info_no_return: Erstellte Marktplatzangebote können nicht storniert werden!
-market_msg_trade_bought: Deine Flotte fliegt zu %s mit %s %s, %s %s, %s %s und es kostet %s %s
+market_msg_trade_bought: Deine Flotte fliegt zu %s mit %s %s, %s %s, %s %s und sie kostet %s %s.
 market_msg_trade_from: '{game_name} Marktplatz'
 market_msg_trade_sold: Deine Flotte fliegt zu %s mit %s %s, %s %s, %s %s.
 market_msg_trade_topic: Handelsstatus
@@ -1160,25 +1069,25 @@ market_p_cost_amount: Menge
 market_p_cost_type: Art der Kosten
 market_p_end: Ende
 market_p_from_duration: Flug von
-market_p_msg_more_ships_is_needed: Es werden weitere Schiffe benötigt.
-market_p_msg_not_found: Angebot nicht gefunden.
+market_p_msg_more_ships_is_needed: Für dieses Angebot brauchst du mehr Schiffe.
+market_p_msg_not_found: Dieses Angebot gibt es nicht mehr.
 market_p_msg_own_offer: Du kannst dein eigenes Angebot nicht kaufen.
-market_p_msg_purchase_failed: Der Kauf konnte nicht abgeschlossen werden. Bitte versuche es erneut.
-market_p_msg_resources_error: Nicht genug Ressourcen vorhanden.
-market_p_msg_sent: Sende %s Kleine Transporter, %s Große Transporter
-market_p_msg_wrong_resource_type: Dieses Angebot verlangt eine ungültige Ressource.
+market_p_msg_purchase_failed: Der Kauf hat nicht geklappt. Versuch es bitte noch einmal.
+market_p_msg_resources_error: Du hast nicht genug Rohstoffe.
+market_p_msg_sent: 'Gesendet: %s Kleine Transporter, %s Große Transporter'
+market_p_msg_wrong_resource_type: Dieses Angebot verlangt einen ungültigen Rohstoff.
 market_p_offer_type: Art des Angebots
 market_p_ratio: Wechselkurs
-market_p_submit: Handel annehmen!
+market_p_submit: Jetzt kaufen!
 market_p_to_duration: Flug nach
-market_ship_as_first: Schiffstyp für den Handel wählen
+market_ship_as_first: 'Schiffstyp für den Handel wählen:'
 Messages: Nachrichten
-messagesPerPage: Nachrichten pro Seite, min 3 & max 50
-mg_action: Action
+messagesPerPage: Nachrichten pro Seite (3-50)
+mg_action: Aktion
 mg_answer_to: 'Antwort an:'
-mg_blocked: Empfänger akzeptiert keine Nachrichten!
+mg_blocked: Dieser Spieler nimmt keine Nachrichten an.
 mg_characters: Zeichen
-mg_confirm: Ausführen
+mg_confirm: Bestätigen
 mg_date: Datum
 mg_delete: Nachricht löschen
 mg_delete_all: Alle Nachrichten löschen
@@ -1186,40 +1095,40 @@ mg_delete_marked: Markierte Nachrichten löschen
 mg_delete_type_all: Alle Nachrichten dieses Typs löschen
 mg_delete_unmarked: Nicht markierte Nachrichten dieses Typs löschen
 mg_deleted: Die Nachricht wurde gelöscht.
-mg_empty_text: Gebe ein Text ein!
+mg_empty_text: Gib einen Text ein!
 mg_error: Empfänger nicht gefunden!
 mg_favorite: Als Favorit markieren
 mg_favorite_filter_off: Alle anzeigen
 mg_favorite_filter_on: Nur Favoriten anzeigen
 mg_forward: Nachricht weiterleiten
 mg_from: Von
-mg_game_message: Game Message
-mg_game_operators: Game Operatoren
+mg_game_message: Spielnachricht
+mg_game_operators: Spielleitung
 mg_grouping_off: Nachrichten nicht gruppiert anzeigen
 mg_grouping_on: Nachrichten gruppiert anzeigen
 mg_message: Nachricht
 mg_message_send: Nachricht gesendet!
 mg_message_title: Nachrichten
 mg_message_type: Nachrichtentyp
-mg_min_3_chars: Die Suche beginnt bei 3 Buchstaben
+mg_min_3_chars: Gib mindestens 3 Zeichen ein, um zu suchen
 mg_msg_sended: Nachricht gesendet!
 mg_new: Neu
 mg_no_subject: Kein Betreff
-mg_no_text: Kein Text angegeben
-mg_no_user: Kein Benutzer gefunden
-mg_open_all: Immer "alle Nachrichten"-Kategorie öffnen
+mg_no_text: Schreib zuerst eine Nachricht.
+mg_no_user: Kein Spieler gefunden
+mg_open_all: Immer die Kategorie „Alle Nachrichten“ öffnen
 mg_overview: Nachrichtenverwaltung
 mg_page: Seite
 mg_read_all: Alle Nachrichten als gelesen markieren
 mg_read_marked: Markierte Nachrichten als gelesen markieren
 mg_read_type_all: Alle Nachrichten dieses Typs als gelesen markieren
-mg_receiver_block_pm: Der Empfänger blockiert Private Nachrichten.
+mg_receiver_block_pm: Dieser Spieler blockiert private Nachrichten.
 mg_remember_last_category: Letzte Nachrichtenkategorie speichern
 mg_select_all: Alle auswählen
 mg_search: Suchen
 mg_search_placeholder: Suchbegriff eingeben
-mg_send: Absenden
-mg_send_new: Eine Nachricht schreiben
+mg_send: Senden
+mg_send_new: Nachricht schreiben
 mg_send_to: Empfänger
 mg_show_only_header_spy_reports: Spionageberichte nur teilweise anzeigen
 mg_subject: Betreff
@@ -1227,35 +1136,31 @@ mg_to: An
 mg_total: Insgesamt
 mg_type:
   '0': Spionageberichte
-  '1': Spieler Nachrichten
-  '2': Allianz Nachrichten
+  '1': Spielernachrichten
+  '2': Allianznachrichten
   '3': Kampfberichte
-  '4': System Nachrichten
+  '4': Systemnachrichten
   '5': Transport
   '6': Fremdtransport
   '7': Spionageabwehr
-  '15': Expeditionberichte
-  '50': Game Nachrichten
+  '15': Expeditionsberichte
+  '50': Spielnachrichten
   '99': Bauschleife
   '100': Alle Nachrichten
   '998': Favoriten
   '999': Nachrichten durchsuchen
-mg_write_mail_to_ops: Schreibe eine E-Mail an
+mg_write_mail_to_ops: Schreib eine E-Mail an
 negativ: Negativ
 neutral: Neutral
 neutral_fights: Neutrale Kämpfe
-noob_interface: >-
-  Die Anfängeransicht ist aktiviert. Sie ist eine vereinfachte Version des
-  Spiels, die es dir ermöglicht, schnell und einfach zu starten. Du entsperrst
-  Menüeinträge, während du das Tutorial absolvierst. Die Anfängeransicht kann
-  jederzeit in den Optionen deaktiviert werden.
+noob_interface: Die Anfängeransicht ist aktiv. Sie ist eine vereinfachte Version des Spiels für einen schnellen, einfachen Start, und Menüpunkte schaltest du frei, während du das Tutorial durchspielst. Du kannst sie jederzeit in den Optionen ausschalten.
 nt_back: Zurück
 nt_characters: Zeichen
-nt_create_new_note: Erstelle eine neue Notiz
+nt_create_new_note: Neue Notiz erstellen
 nt_create_note: Erstellen
 nt_date_note: Datum
 nt_dlte_note: Löschen
-nt_edit_note: Editiere Notiz
+nt_edit_note: Notiz bearbeiten
 nt_important: Wichtig
 nt_no_text: Kein Text
 nt_no_title: Kein Titel
@@ -1263,109 +1168,84 @@ nt_normal: Normal
 nt_note: Notiz
 nt_notes: Notizen
 nt_priority: Priorität
-nt_reset: Reset
+nt_reset: Zurücksetzen
 nt_save: Speichern
 nt_size_note: Größe
 nt_subject_note: Betreff
 nt_unimportant: Unwichtig
-nt_you_dont_have_notes: Kein Notizen vorhanden
-op_activate_vacation_mode: Urlaubsmodus aktiveren
-op_activate_vacation_mode_confirm: >-
-  Der Urlaubsmodus kann für 48h nicht wieder deaktiviert werden. Bist du dir
-  sicher?
-op_activate_vacation_mode_descrip: >-
-  Der Urlaubsmodus soll dich während längerer Abwesenheit schützen. Er kann nur
-  aktiviert werden, wenn keine eigenen Flotten unterwegs sind. Wenn er aktiviert
-  ist, schützt er dich vor neuen Angriffen. Bereits begonnene Angriffe werden
-  jedoch fortgesetzt und haltende befreundete Flotten werden zurückgeschickt!
-  Die Produktion von Ressourcen, der Bau von Gebäuden und Werftaufträgen, sowie
-  die Forschung ist in dieser Zeit pausiert und wird anschließend fortgesetzt.
-  Der Urlaubsmodus hält mindestens 48 Stunden an, danach kannst du ihn wieder
-  deaktivieren.
-op_active_build_messages: Baulistennachrichten aktivieren
-op_active_spy_messages_mode: Spioangeberichte zusammenfassen
+nt_you_dont_have_notes: Du hast noch keine Notizen
+op_activate_vacation_mode: Urlaubsmodus aktivieren
+op_activate_vacation_mode_confirm: Du kannst den Urlaubsmodus 48 Stunden lang nicht beenden. Sicher?
+op_activate_vacation_mode_descrip: Der Urlaubsmodus schützt dich bei längerer Abwesenheit. Du kannst ihn nur aktivieren, wenn keine deiner Flotten unterwegs ist. Ist er aktiv, schützt er dich vor neuen Angriffen. Bereits gestartete Angriffe laufen jedoch weiter, und haltende befreundete Flotten werden zurückgeschickt! Rohstoffproduktion, Gebäudebau, Werftaufträge und Forschung ruhen in dieser Zeit und gehen danach weiter. In den ersten 48 Stunden lässt sich der Urlaubsmodus nicht beenden!
+op_active_build_messages: Nachrichten zur Bauschleife aktivieren
+op_active_spy_messages_mode: Spionageberichte zusammenfassen
 op_add_to_buddy_list: Zur Buddyliste hinzufügen
 op_admin_discord_hook: Discord-Webhook für Nachricht bei PN
 op_admin_discord_id: Eigene Discord-UserID für Ping bei PN
-op_admin_planets_protection: Adminschutz aktiveren
-op_admin_title_options: Administrator Optionen
+op_admin_planets_protection: Adminschutz aktivieren
+op_admin_title_options: Admin-Optionen
 op_block_pm: Private Nachrichten blockieren
-op_build_pages: Bau- und Forschungsseiten-Einstellungen
-op_cant_activate_vacation_mode: Du kannst den Urlaubsmodus nicht aktivieren während die Flotte bewegt wird.
-op_cant_deactivate_vacation_mode: Du kannst den Urlaubsmodus noch nicht verlassen.
-op_change_mail_exist: Die angegebene E-Mail-Adresse %s wird bereits verwendet!
-op_change_name_exist: Der Name %s existiert bereits
-op_change_name_pro_week: Du kannst deinen Usernamen nur 1x pro Woche ändern
+op_build_pages: Gebäude / Forschung
+op_cant_activate_vacation_mode: Du kannst den Urlaubsmodus nicht starten, solange Flotten unterwegs sind.
+op_cant_deactivate_vacation_mode: Der Urlaubsmodus lässt sich noch nicht beenden.
+op_change_mail_exist: Die E-Mail-Adresse %s wird bereits verwendet.
+op_change_name_exist: Der Name %s ist bereits vergeben.
+op_change_name_pro_week: Du kannst deinen Benutzernamen nur einmal alle 7 Tage ändern!
 op_collapse_spy_reports: Spionageberichte standardmäßig ausblenden
 op_deactivate_ipcheck: IP-Check deaktivieren
-op_deactivate_ipcheck_descrip: >-
-  IP-Check bedeutet, dass automatisch ein Sicherheitslogout erfolgt, wenn die IP
-  gewechselt wird oder zwei Leute gleichzeitig unter verschiedenen IPs in einem
-  Account eingeloggt sind. Den IP-Check zu deaktivieren kann ein
-  Sicherheitsrisiko darstellen!
+op_deactivate_ipcheck_descrip: Der IP-Check meldet dich aus Sicherheitsgründen automatisch ab, wenn sich deine IP ändert oder zwei Personen gleichzeitig mit verschiedenen IPs denselben Account nutzen. Wenn du ihn ausschaltest, sinkt die Sicherheit deines Accounts!
 op_decimal_separator: Dezimaltrennzeichen
 op_dlte_account: Account löschen
-op_dlte_account_descrip: >-
-  Hiermit wird dein Konto nach mindestens 7 Tagen automatisch vollständig
-  gelöscht. Die endgültige Löschung hängt von der Ausführungszeit des
-  Lösch-Cronjobs ab und kann noch ein paar Tage dauern. Die Löschung kann
-  gestoppt werden, solange sie noch nicht durchgeführt wurde, d.h. solange du
-  dich noch in das Konto einloggen kannst.
-op_email_adress: E-Mail Adresse
-op_email_adress_descrip: >-
-  Diese Mailadresse kann jederzeit von dir geändert werden. Nach 7 Tagen ohne
-  Änderung wird diese als permanente Adresse eingetragen.
-op_enable_planet_styles: Zeige die Holoeffekte für Planeten an, falls der Planet einen besitzt
+op_dlte_account_descrip: Dein Account wird nach mindestens 7 Tagen komplett gelöscht. Der genaue Zeitpunkt hängt vom Lösch-Cronjob ab und kann noch ein paar Tage dauern. Du kannst die Löschung abbrechen, solange sie noch nicht ausgeführt wurde, also solange du dich noch einloggen kannst.
+op_email_adress: E-Mail-Adresse
+op_email_adress_descrip: Du kannst diese E-Mail-Adresse jederzeit ändern. Bleibt sie 7 Tage unverändert, wird sie zu deiner permanenten Adresse.
+op_enable_planet_styles: Holoeffekte auf Planeten anzeigen, die einen haben
 op_end_vacation_mode: Urlaubsmodus beenden
 op_error: Fehler
-op_galaxy_settings: Galaxieansicht Einstellungen
-op_general_settings: Generelle Einstellungen
-op_hangar_filters: Erweiterte Hangar-Filter aktivieren
-op_hangar_group_filters: Hangar-Gruppenfilter
-op_hide_useless: >-
-  Grundlagenforschungen nicht mehr anzeigen sobald das höchste nützliche Level
-  erreicht wurde
+op_galaxy_settings: Galaxieansicht
+op_general_settings: Allgemein
+op_hangar_filters: Erweiterte Filter in der Werft anzeigen
+op_hangar_group_filters: Werft-Gruppenfilter
+op_hide_useless: Grundlagenforschungen ausblenden, sobald ihre höchste nützliche Stufe erreicht ist
 op_lang: Sprache
 op_max_fleets_messages: Maximale Flottennachrichten
 op_missile_attack: Raketenangriff
-op_missing_requirements_opacity: Bei fehlenden Anforderungen verblassen
-op_missing_resources_opacity: Bei fehlenden Ressourcen verblassen
-op_need_pass_mail: Um deine E-Mail-Adresse zu ändern, musst du dein Passwort eingeben!
-op_new_pass: neues Passwort (min. 8 Zeichen)
-op_noob_interface: Anfängerinterface
-op_not_vaild_mail: Du hast keine gültige E-Mail Adresse angegeben!
-op_old_pass: Altes Passwort
+op_missing_requirements_opacity: Elemente mit fehlenden Voraussetzungen abdunkeln
+op_missing_resources_opacity: Elemente, die du dir nicht leisten kannst, abdunkeln
+op_need_pass_mail: Gib dein Passwort ein, um deine E-Mail-Adresse zu ändern.
+op_new_pass: Neues Passwort (mind. 8 Zeichen)
+op_noob_interface: Anfängeransicht
+op_not_vaild_mail: Diese E-Mail-Adresse sieht ungültig aus.
+op_old_pass: Aktuelles Passwort
 op_options_changed: Einstellungen gespeichert.
 op_options_deletion_activated: Account-Löschung aktiviert.
 op_options_deletion_deactivated: Account-Löschung deaktiviert.
-op_options_no_other_settings_changed: Es wurden keine anderen Einstellungen geändert.
-op_options_vacation_activated: Urlaubsmodus aktiviert.
-op_options_vacation_deactivated: Urlaubsmodus deaktiviert.
-op_password_changed: Passwort wurde geändert
-op_permanent_email_adress: Permanente E-Mail Adresse
-op_repeat_new_pass: neues Passwort (wiederholen)
-op_save_changes: Einstellungen speichern
+op_options_no_other_settings_changed: Sonst wurde nichts geändert.
+op_options_vacation_activated: Urlaubsmodus aktiv. Gute Erholung!
+op_options_vacation_deactivated: Urlaubsmodus beendet. Willkommen zurück!
+op_password_changed: Passwort geändert.
+op_permanent_email_adress: Permanente E-Mail-Adresse
+op_repeat_new_pass: Neues Passwort (wiederholen)
+op_save_changes: Änderungen speichern
 op_seconds: Sekunden
-op_send_report: Spionagereport
+op_send_report: Spionagebericht
 op_shortcut: Shortcut
 op_show: Anzeigen
-op_show_all_buildable_elements: Elemente mit fehlenden Anforderungen anzeigen
-op_show_message_category: Direkt passende Nachrichtenkategorie anzeigen
+op_show_all_buildable_elements: Auch Elemente mit fehlenden Voraussetzungen anzeigen
+op_show_message_category: Direkt zur passenden Nachrichtenkategorie springen
 op_show_planetmenu: Planetenmenü anzeigen
 op_show_skin: Skin anzeigen
 op_skin_example: Theme
-op_sort_abc: Alphabet
+op_sort_abc: Alphabetisch
 op_sort_down: absteigend
-op_sort_kind: Sortierungsreihenfolge
+op_sort_kind: Sortierreihenfolge
 op_sort_koords: Koordinaten
-op_sort_normal: Reihenfolge der Entstehung
+op_sort_normal: Reihenfolge der Kolonisierung
 op_sort_planets_by: Planeten sortieren nach
 op_sort_up: aufsteigend
 op_spy: Spionieren
-op_spy_probes_number: Spionagesonden Anzahl
-op_spy_probes_number_descrip: >-
-  Anzahl der Spionagesonden, die bei jedem Scan aus dem Galaxiemenu direkt
-  versendet werden.
+op_spy_probes_number: Spionagesonden pro Mission
+op_spy_probes_number_descrip: Anzahl der Spionagesonden, die aus der Galaxieansicht direkt verschickt werden.
 op_spy_report: Spionagebericht
 op_spy_report_fresh_time: Frischer Spionagebericht (grüner Punkt), bis zu
 op_spy_report_fresh_time_tooltip: >-
@@ -1381,25 +1261,23 @@ op_spy_report_time_invalid: >-
   sein.
 op_stop_dlte_account: Account-Löschung abbrechen
 op_timezone: Zeitzone
-op_toolt_data: Zeige Tooltip für
+op_toolt_data: Tooltip anzeigen für
 op_user_data: Benutzerdaten
-op_user_name_no_alphanumeric: Bitte beim Username nur alphanumerische Zeichen eingeben!
-op_username: Username
-op_username_changed: Username geändert
+op_user_name_no_alphanumeric: Dein Benutzername darf nur Buchstaben und Zahlen enthalten!
+op_username: Benutzername
+op_username_changed: Benutzername geändert.
 op_vacation_delete_mode: Urlaubsmodus / Account löschen
-op_vacation_mode_active_message: 'Urlaubsmodus aktiviert. Urlaubsmodus mindestens bis: '
+op_vacation_mode_active_message: 'Urlaubsmodus aktiv. Beenden möglich ab: '
 op_write_message: Nachricht schreiben
-other: Anderes
-ov_abandon_planet_not_possible: >-
-  Kolonie nicht löschbar, wenn Flottenaktivitäten zu oder von dieser Kolonie
-  stattfinden!
-ov_admins_online: 'Admins(Online):'
+other: Sonstiges
+ov_abandon_planet_not_possible: Du kannst diese Kolonie nicht löschen, solange Flotten dorthin oder von dort unterwegs sind.
+ov_admins_online: 'Admins (online):'
 ov_aprox: ca. von
 ov_checknews_hide: Neuigkeiten ausblenden
 ov_checknews_show: Neuigkeiten einblenden
-ov_closed: Spiel ist zurzeit deaktiviert!
-ov_delete_planet: Aufgeben
-ov_developed_fields: bebaute Felder
+ov_closed: Dieses Universum ist zurzeit geschlossen!
+ov_delete_planet: Planet aufgeben
+ov_developed_fields: Bebaute Felder
 ov_diameter: Durchmesser
 ov_distance_unit: km
 ov_events: Ereignisse
@@ -1410,24 +1288,24 @@ ov_fleetbutton_show: Einblenden
 ov_free: Frei
 ov_have_new_message: Du hast eine neue Nachricht
 ov_have_new_messages: Du hast %d neue Nachrichten
-ov_max_developed_fields: max. bebaubare Felder
+ov_max_developed_fields: Felder gesamt
 ov_moon: Mond
 ov_moving_fleets: Flotten in Bewegung
-ov_newname_done: Planet erfolgreich umbenannt!
-ov_newname_specialchar: Im Planetennamen sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
+ov_newname_done: Planet umbenannt!
+ov_newname_specialchar: Planetennamen dürfen nur Buchstaben, Zahlen, Leerzeichen, Unterstriche, Bindestriche und Punkte enthalten!
 ov_newname_too_long: 'Der Planetenname darf höchstens %d Zeichen lang sein.'
 ov_news: News
-ov_no_admins_online: Zurzeit kein Admin online!
-ov_noreflink: Du hast keine User angeworben.
+ov_no_admins_online: Gerade ist kein Admin online!
+ov_noreflink: Du hast noch keine Spieler angeworben.
 ov_of: von
 ov_online: Online
 ov_outlaw: 'Gesetzloser bis:'
 ov_password: Passwort
 ov_place: Platz
 ov_planet: Planet
-ov_planet_abandoned: Planet erfolgreich aufgegeben!
+ov_planet_abandoned: Planet aufgegeben.
 ov_planet_rename: Umbenennen
-ov_planetmenu: Name ändern/Löschen
+ov_planetmenu: Umbenennen oder aufgeben
 ov_planets: Planeten und Monde
 ov_players: Spieler
 ov_points: Punkte
@@ -1436,8 +1314,8 @@ ov_principal_planet_cant_abanone: Du kannst deinen Hauptplaneten nicht löschen!
 ov_reflink: Reflink
 ov_rename_label: Neuer Name
 ov_rules: Regeln
-ov_rulesnotify: Bitte beachtet die
-ov_security_confirm: Bitte bestätige, dass du den Planet %s aufgeben willst.
+ov_rulesnotify: Bitte beachte die
+ov_security_confirm: Willst du %s wirklich aufgeben?
 ov_security_request: Sicherheitsfrage
 ov_server_time: 'Serverzeit '
 ov_temp_unit: °C
@@ -1445,19 +1323,19 @@ ov_temperature: Temperatur
 ov_ticketbot: Ticketbot
 ov_to: bis
 ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
-ov_wrong_name: Falscher Name. Versuche es noch einmal!
-ov_wrong_pass: Falsches Passwort. Versuche es noch einmal!
+ov_wrong_name: Falscher Name. Versuch es noch einmal!
+ov_wrong_pass: Falsches Passwort. Versuch es noch einmal!
 own: Eigene
 own_colors: Eigene Farben
-page_doesnt_exist: Die aufgerufene Seite existiert nicht
+page_doesnt_exist: Diese Seite gibt es nicht.
 pl_ally: Allianz
 pl_buddy: Freundschaftsanfrage stellen
 pl_builds: Gebäude
-pl_def: Defensive
-pl_dercrystal: Gesamt Trümmerfeld Kristall
-pl_dermetal: Gesamt Trümmerfeld Metall
+pl_def: Verteidigung
+pl_dercrystal: Recycelter Kristall
+pl_dermetal: Recyceltes Metall
 pl_destroy: '%s war an folgenden Zerstörungen beteiligt'
-pl_destroy_real: '%s hat real folgendes selbst zerstört'
+pl_destroy_real: '%s hat persönlich zerstört'
 pl_etc: Kontakt
 pl_fightdraw: Unentschieden
 pl_fightlose: Verloren
@@ -1468,42 +1346,44 @@ pl_fleet: Flotte
 pl_fprocent: Kampfquote
 pl_homeplanet: Heimatplanet
 pl_message: Private Nachricht
-pl_name: Username
-pl_overview: Playercard
+pl_name: Benutzername
+pl_overview: Spielerprofil
 pl_points: Punkte
-pl_range: Rank
+pl_range: Rang
 pl_tech: Forschung
 pl_total: Gesamt
 pl_totalfight: Gesamtkämpfe
-pl_unitslose: Verlorene Units
-pl_unitsshot: Geschossene Units
+pl_unitslose: Verlorene Einheiten
+pl_unitsshot: Abgeschossene Einheiten
 PM: '[PN]'
 positiv: Positiv
 px_fleet_movement: Momentane Flottenbewegungen
-px_no_deuterium: Du hast nicht genügend Deuterium!
+px_no_deuterium: Nicht genug Deuterium!
 px_no_fleet: Keine Flottenbewegungen vorhanden.
 px_out_of_range: Außerhalb der Reichweite
-px_scan_position: Scan Position
+px_scan_position: Scan-Position
 ready: Fertig
 rebuild_proteciton_link: Deaktiviere diesen Modus hier vorzeitig.
 rebuild_proteciton_mode: >-
   Dein Account befindet sich im Wiederaufbau-Schutzmodus, der dich vor Angriffen
   schützen kann.
 rec_count: Anzahl
-rec_last_update_on: Letztes Update um
-rec_level: Level
+rec_last_update_on: 'Letztes Update am '
+rec_level: Stufe
 rec_players: Spieler
 rec_time: Datum/Uhrzeit
 recordsOptIn: Deine Rekorde allen Spielern anzeigen
 repaired: Repariert
 rs_amount: Anzahl
 rs_basic_income: Basiseinkommen
-rs_calculate: Berechnen
+rs_calculate: Speichern
 rs_daily: Pro Tag
 rs_lvl: Stufe
 rs_production_on_planet: Rohstoffproduktion auf Planet "%s"
+rs_ramp_up: Alles hochfahren
 rs_ress_bonus: Bonus (durch Forschung)
 rs_ress_bonus_position: Bonus (durch Planetenposition)
+rs_shut_down: Alles herunterfahren
 rs_storage_capacity: Lagerkapazität
 rs_sum: Pro Stunde
 rs_weekly: Pro Woche
@@ -1517,11 +1397,11 @@ sh_members: Mitglieder
 sh_name: Name
 sh_planet: Planet
 sh_planet_name: Planetenname
-sh_player_name: Spieler
+sh_player_name: Spielername
 sh_points: Punkte
-sh_position: Rank
-sh_search: Suche
-sh_search_in_the_universe: Suche im Universum
+sh_position: Rang
+sh_search: Suchen
+sh_search_in_the_universe: Im Universum suchen
 sh_tag: Tag
 sh_write_message: Private Nachricht
 spec_mail_inactive_title: '%s - Erinnerung'
@@ -1540,11 +1420,11 @@ st_per: von
 st_per_member: Pro Mitglied
 st_player: Spieler
 st_points: Punkte
-st_position: Rank
+st_position: Rang
 st_researh: Forschung
 st_show: Anzeigen
 st_statistics: Statistiken
-st_units: Units
+st_units: Einheiten
 st_updated: Aktualisiert am
 st_write_message: Private Nachricht
 StaticTimer: Ankunftszeit
@@ -1568,8 +1448,8 @@ stats:
   '218': Avatare
   '219': Gigarecycler
   '401': Raketenwerfer
-  '402': Leichtes Lasergeschütze
-  '403': Schweres Lasergeschütze
+  '402': Leichte Lasergeschütze
+  '403': Schwere Lasergeschütze
   '404': Gaußkanonen
   '405': Ionengeschütze
   '406': Plasmawerfer
@@ -1586,39 +1466,22 @@ stats:
   '901': Metall
   '902': Kristall
   '903': Deuterium
-stb_activ: Erweiterter Spionagebericht (Scavengers Toolbox) aktivieren
-stb_big_ress: 'Viele Ressourcen am Ziel, kleiner als:'
-stb_big_ress_tooltip: >-
-  Wenn weniger Ressoucen als eingegeben auf dem Planeten sind, wird der der
-  Spionagebericht hellgrün (gut) gekennzeichnet. Spionageberichte mit Ressourcen
-  oberhalb dieses Wertes werden hellblau (optimal) angezeigt.
-stb_big_time: Gutes Ressourcen pro Zeit Verhältniss
-stb_big_time_tooltip: >-
-  Beschreibt die bestmögliche Ressourchenausbeute pro Sekunde, gerundet auf zwei
-  Stellen hinter dem Komma. Eine Verhältniss kleiner als der eingetragene Wert
-  wird als gut (hellgrün) interpretiert, ein Wert obehalb als optimal
-  (hellblau).
-stb_low_ress: 'Wenig Ressourcen am Ziel, kleiner als:'
-stb_low_ress_tooltip: >-
-  Wenn weniger Ressoucen als eingegeben auf dem Planeten sind, wird der der
-  Spionagebericht hellrot (schlecht) gekennzeichnet.
-stb_med_time: Mittleres Ressourcen pro Zeit Verhältniss
-stb_med_time_tooltip: >-
-  Beschreibt die bestmögliche Ressourchenausbeute pro Sekunde, gerundet auf zwei
-  Stellen hinter dem Komma. Eine Verhältniss kleiner als der eingetragene Wert
-  wird als mittel (hellorange) interpretiert.
-stb_mid_ress: 'Mittel Ressourcen am Ziel, kleiner als:'
-stb_mid_ress_tooltip: >-
-  Wenn weniger Ressoucen als eingegeben auf dem Planeten sind, wird der der
-  Spionagebericht hellorange (mittel) gekennzeichnet.
-stb_small_time: Niedriges Ressourcen pro Zeit Verhältniss
-stb_small_time_tooltip: >-
-  Beschreibt die bestmögliche Ressourchenausbeute pro Sekunde, gerundet auf zwei
-  Stellen hinter dem Komma. Eine Verhältniss kleiner als der eingetragene Wert
-  wird als schlecht (hellrot) interpretiert.
+stb_activ: Erweiterte Spionageberichte (Scavengers Toolbox) aktivieren
+stb_big_ress: 'Viele Rohstoffe am Ziel, weniger als:'
+stb_big_ress_tooltip: Liegen auf dem Planeten weniger Rohstoffe als dieser Wert, wird der Spionagebericht hellgrün (gut) markiert. Berichte mit mehr Rohstoffen als diesem Wert erscheinen hellblau (optimal).
+stb_big_time: Gutes Verhältnis Rohstoffe pro Sekunde (weniger als)
+stb_big_time_tooltip: Die bestmögliche Rohstoffausbeute pro Sekunde, auf zwei Nachkommastellen gerundet. Ein Verhältnis unter diesem Wert gilt als gut (hellgrün), ein Wert darüber als optimal (hellblau).
+stb_low_ress: 'Wenig Rohstoffe am Ziel, weniger als:'
+stb_low_ress_tooltip: Liegen auf dem Planeten weniger Rohstoffe als dieser Wert, wird der Spionagebericht hellrot (schlecht) markiert.
+stb_med_time: Mittleres Verhältnis Rohstoffe pro Sekunde (weniger als)
+stb_med_time_tooltip: Die bestmögliche Rohstoffausbeute pro Sekunde, auf zwei Nachkommastellen gerundet. Ein Verhältnis unter diesem Wert gilt als mittel (hellorange).
+stb_mid_ress: 'Mittlere Rohstoffe am Ziel, weniger als:'
+stb_mid_ress_tooltip: Liegen auf dem Planeten weniger Rohstoffe als dieser Wert, wird der Spionagebericht hellorange (mittel) markiert.
+stb_small_time: Niedriges Verhältnis Rohstoffe pro Sekunde (weniger als)
+stb_small_time_tooltip: Die bestmögliche Rohstoffausbeute pro Sekunde, auf zwei Nachkommastellen gerundet. Ein Verhältnis unter diesem Wert gilt als schlecht (hellrot).
 stb_title: Scavengers Toolbox
 sys_back: Zurück
-sys_buildlist: Bauliste
+sys_buildlist: Bauschleife
 sys_buildlist_fail: Bau nicht möglich
 sys_catchup: 'Kosten- und Bauzeit-Bonus: %01.2f'
 sys_catchup_short: 'Bonus: %01.2f'
@@ -1627,35 +1490,22 @@ sys_catchup_tooltip: >-
   Forschung
 sys_closed_game: 'Das Universum ist zur Zeit nicht verfügbar:'
 sys_forward: Weiter
-sys_game_is_setup: >-
-  <h1>Registrierung geschafft!</h1><br><p>Wir bereiten gerade das Universum für
-  euch vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf
-  den</p><h3><a href="{discord_url}" target="_blank">-> Discord
-  <-</a></h3><!--/discord_url-->
-sys_module_inactive: Modul inaktiv
-sys_nomore_level: Du versuchst, ein Gebäude zu zerstören, was du nicht mehr besitzt( %s ).
-sys_notenough_money: >-
-  Du verfügst auf Planet %s <a
-  href="?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> nicht über genügend
-  Ressourcen, um mit dem Bau von %s zu beginnen. <br>Du verfügst über %s %s , %s
-  %s und %s %s. <br>Die Baukosten betragen %s %s , %s %s und %s %s.
+sys_game_is_setup: <h1>Registrierung geschafft!</h1><br><p>Wir bereiten gerade dein Universum vor!</p><!--discord_url--><p>Um in der Zwischenzeit nichts zu verpassen, komm zu uns auf den</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
+sys_module_inactive: Dieses Modul ist inaktiv.
+sys_nomore_level: Du hast keine Stufe von %s mehr, die du abreißen könntest.
+sys_notenough_money: 'Auf Planet %s <a href="?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> fehlen dir Rohstoffe, um %s zu bauen. <br>Du hast: %s %s, %s %s und %s %s. <br>Kosten: %s %s, %s %s und %s %s.'
 sys_refferal_from: System
 sys_refferal_text: Der von dir geworbene Spieler %s hat nun %s Punkte erreicht.
 sys_refferal_title: Bonus für Spieler %s
-sys_techlist: Forschungsliste
+sys_techlist: Forschungsschleife
 team: Das Team
-teamAdmin: Game - Admin
+teamAdmin: Admin
 teamAdminLong: Hat Zugriff auf Sonderfeatures zum Administrieren des Spiels
 teamAktiv: Aktiv
 teamAlumni: Ehemalige / Inaktive / Gelegentliche Teammitglieder
-teamAlumniLong: Wir bedanken uns ganz herzlich bei
+teamAlumniLong: Ein herzliches Dankeschön geht an
 teamCommunity: Community Support
-teamCommunityLong: >-
-  Sie sind für euch da, wenn ihr Support benötigt.<br>Egal welches Anliegen ihr
-  habt, meldet euch einfach bei uns!<br>Wir geben unser Bestes, um eine Lösung
-  zu finden.<br>Habt ihr Fragen oder möchtet ihr etwas loswerden?<br>Auch anonym
-  könnt ihr euch jederzeit an uns wenden!<br>Auch verantwortlich für das
-  Vermitteln zwischen Spielern und den Mods.
+teamCommunityLong: 'Sie sind für dich da, wenn du Support brauchst.<br>Egal, worum es geht: Melde dich einfach bei uns!<br>Wir geben unser Bestes, eine Lösung zu finden.<br>Du hast Fragen oder willst etwas loswerden – auch anonym? Sprich uns an.<br>Wir vermitteln außerdem zwischen Spielern und den Mods.'
 teamContributor: Mitwirkender
 teamContributorLong: Trägt zur Entwicklung des Projekts bei.
 teamDatabase: Datenbankzugang
@@ -1663,27 +1513,18 @@ teamDev: Entwickler
 teamDevLong: >-
   Pflegt und entwickelt das Projekt weiter<br>Hat Zugriff auf Discord-Bereich
   für Dev-Diskussionen
-teamDiscordName: Discord Name
+teamDiscordName: Discord-Name
 teamEmergency: Notfallteam
-teamEmergencyLong: >-
-  Erhält von den Usern im Discord über "@Emergency Response Team" einen Ping,
-  wenn es zu Serverausfällen kommt
-teamIngameName: Ingame Name
-teamLegend: Legende, Erklärung der Rollen / Rechte
+teamEmergencyLong: Wird von Usern im Discord über „@Emergency Response Team“ gepingt, wenn Server ausfallen
+teamIngameName: Ingame-Name
+teamLegend: Rollen und Rechte erklärt
 teamMod: Moderator
-teamModLong: >-
-  Bearbeitet eure Fälle/Probleme<br>Versucht für ein faires Spielerlebnis zu
-  sorgen<br>Trägt bei Bestrafungen die Verantwortung<br>Hat Zugriff auf
-  Discord-Bereich für Mod-Diskussionen<br>Hat Zugriff auf Discord-Bereich für
-  Dev-Diskussionen<br>Hat Zugriff auf Discord-Bereich für Ticketbesprechungen
-  mit Devs
+teamModLong: Kümmert sich um deine Fälle und Probleme<br>Sorgt für ein faires Spiel für alle<br>Verantwortlich für Strafen<br>Hat Zugriff auf den Discord-Bereich für Mod-Diskussionen<br>Hat Zugriff auf den Discord-Bereich für Dev-Diskussionen<br>Hat Zugriff auf den Discord-Bereich für Ticketbesprechungen mit Devs
 teamNo: Nein
 teamPlayer: Spieler
 teamRole: Rolle
-teamScripte: Skripte überprüfen
-teamScripteLong: >-
-  Bewertet die von den Spielern erstellten Skripte, damit das
-  Team<br>entscheiden kann, ob das Skript mit den Features erlaubt werden darf
+teamScripte: Skripte prüfen
+teamScripteLong: Prüft von Spielern erstellte Skripte, damit das Team<br>entscheiden kann, ob sie erlaubt werden
 teamTickets: Ticketzugang
 teamTicketsLong: Kann bei allen eröffneten Tickets mitlesen
 teamYes: Ja
@@ -1693,39 +1534,30 @@ ti_answer: Antwort schreiben
 ti_answers: Antworten
 ti_category: Kategorie
 ti_close: Ticket schließen
-ti_create: Ticket erstellt am
+ti_create: 'Ticket erstellt am '
 ti_create_head: Neues Ticket
-ti_create_info: >-
-  <p>Bitte vergebib beim Erstellen einer neuen Anfrage einen möglichst
-  aussagekräftigen Betreff und schildere dein Anliegen so detailliert wie
-  möglich.</p><p>Eine genaue Beschreibung deiner Anfrage ermöglicht kurze
-  Bearbeitungszeiten und vermeidet zeitaufwendige Rückfragen auf beiden
-  Seiten.</p><p>Bei accountbezogenen Fragen erleichtert die Angabe des
-  entsprechenden Accounts die Zuordnung und verkürzt ebenfalls die
-  Bearbeitungsdauer.</p>
+ti_create_info: <p>Beschreibe dein Anliegen beim Erstellen eines Tickets bitte so genau wie möglich und wähle einen aussagekräftigen Betreff.</p><p>Eine genaue Beschreibung verkürzt die Bearbeitung und erspart beiden Seiten zeitaufwendige Rückfragen.</p><p>Bei Fragen zu deinem Account hilft die Angabe des betroffenen Accounts bei der Zuordnung und beschleunigt die Bearbeitung ebenfalls.</p>
 ti_date: Datum
-ti_error_closed: >-
-  Auf dieses Ticket kann keine Antwort erstellt werden, da es bereits
-  geschlossen wurde!
-ti_error_no_subject: Du musst einen Betreff eingeben!
+ti_error_closed: Dieses Ticket ist bereits geschlossen, du kannst nicht mehr darauf antworten.
+ti_error_no_subject: Bitte gib einen Betreff ein.
 ti_from: von
 ti_header: Support-System
 ti_id: Ticket
 ti_message: Nachricht
 ti_msgtime: Nachricht geschrieben am
 ti_new: Neues Ticket erstellen
-ti_not_exist: 'Das Ticket #%d existiert nicht!'
+ti_not_exist: 'Ticket #%d gibt es nicht.'
 ti_open: Ticket öffnen
 ti_overview: Zurück zur Übersicht
 ti_re: 'RE:'
 ti_read: Ticket lesen
-ti_responded: 'Ticket antworteten am '
+ti_responded: 'Ticket beantwortet am '
 ti_status: Status
 ti_status_answer: Beantwortet
 ti_status_closed: Geschlossen
 ti_status_open: Offen
 ti_subject: Betreff
-ti_submit: Absenden
+ti_submit: Senden
 ti_username: Spieler
 tkb_all: alle
 tkb_datum: Datum
@@ -1736,8 +1568,8 @@ tkb_galaxy: Galaxie
 tkb_gewinner: <b>-Gewinner-</b>
 tkb_gratz: Das ganze Team gratuliert den Top 100
 tkb_legende: '<b>Legende: </b>'
-tkb_memorial: Abschiede
-tkb_missing: '<br>Missing in Action: Der Useraccount existiert nicht mehr.'
+tkb_memorial: Gedenkstätte
+tkb_missing: '<br>Missing in Action: Der Account existiert nicht mehr.'
 tkb_month: Monat
 tkb_only: anzeigen
 tkb_owners: Beteiligte
@@ -1745,21 +1577,30 @@ tkb_platz: Platz
 tkb_self: eigene
 tkb_timeframe: Zeitfenster
 tkb_top: Hall of Fame
-tkb_unentschieden: <b>-Beide Weiß, unentschieden- </b>
-tkb_units: Units
+tkb_unentschieden: <b>-Unentschieden-</b>
+tkb_units: Einheiten
 tkb_verlierer: <b>-Verlierer-</b>
 tkb_week: Woche
-tn_delete_mode: Dein Account wird am %s automatisch gelöscht!
+tn_delete_mode: Dein Account wird am %s gelöscht.
 tn_player_title: Imperator
 tn_vacation_mode: Du bist im Urlaubsmodus.
 tn_vacation_mode_kick: >-
   <br><br>ACHTUNG: Der Urlaubsmodus wird nach 4 Wochen Inaktivität automatisch
   deaktiviert.
 tn_vacation_mode_until: Du bist bis mindestens %s Uhr im Urlaubsmodus.
-tr_exchange_done: Erfolgreich umgetauscht
-tr_exchange_error: Zu wenig verfügbare Einheiten oder falscher Typ
+tr_exchange_done: Handel abgeschlossen!
+tr_exchange_error: Die Menge der Rohstoffe ist ungültig oder reicht nicht aus
 tt_lvl: 'Stufe '
+tt_lv_short: 'St.'
 tt_requirements: Benötigt
+tt_unlocks: 'Schaltet frei'
+tt_status_owned: 'Vorhanden'
+tt_status_available: 'Verfügbar'
+tt_status_locked: 'Gesperrt'
+tt_hint: 'Technologie überfahren oder wählen, um Voraussetzungen (oben) und Freischaltungen (unten) zu verfolgen. Klick fixiert, Esc hebt auf.'
+tt_foreign: 'Wird von dieser Kategorie benötigt, gehört zu einer anderen'
+tt_none: 'keine'
+tt_graph: 'Technologiebaum'
 type_mission_1: Angreifen
 type_mission_1_foreign: Fremder Angriff
 type_mission_1_own: Eigener Angriff
@@ -1819,11 +1660,11 @@ user_level_1: Moderator
 user_level_2: Operator
 user_level_3: Administrator
 whenbuildable: Möglich in
-write_message: Schreibe eine Nachricht
+write_message: Nachricht schreiben
 ui_skip_to_content: Zum Inhalt springen
 ui_menu: Menü
 ui_rank: Platz
-ui_queue: Bauliste
+ui_queue: Bauschleife
 ui_queue_free: freier Platz
 ui_points: Punkte
 ui_close: Schließen
@@ -1832,7 +1673,7 @@ ui_server_time: Serverzeit
 ui_planet: Planet
 ui_nav_empire: Imperium
 ui_nav_universe: Universum
-ui_nav_community: Gemeinschaft
+ui_nav_community: Community
 ui_nav_help: Hilfe
 ui_nav_personal: Persönlich
 source_code: Quellcode

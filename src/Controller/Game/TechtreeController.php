@@ -18,8 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\BuildFunctions;
-use App\Game\Core\Singleton;
+use App\Game\Core\TechTree;
 
 /** Technology tree: requirements of every building, research, ship and defence. */
 #[\App\Routing\GamePage('game.php', 'techtree')]
@@ -34,53 +33,32 @@ class TechtreeController extends AbstractGameController
     }
 
     /**
-     * Technology tree: for every enabled building, research, ship, defense and missile its requirements with the level needed and the player's own level
-     * (read from the current planet, or from the user for research); headline rows (ids 0, 100, 200, 400, 500) separate the groups.
+     * Technology tree: a tab per category (buildings, research, ships, defence, missiles) with the elements and their
+     * requirement chain as a graph; the player's levels come from the current planet, or from the user for research.
      */
     public function show(): Response
     {
         $resource = $this->state->resource;
-        $requeriments = $this->state->requeriments;
         $reslist = $this->state->reslist;
-        $USER = $this->state->USER;
-        $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $elementIDs		= array_merge(
-            [0],
-            $reslist['build'],
-            [100],
-            $reslist['tech'],
-            [200],
-            $reslist['fleet'],
-            [400],
-            $reslist['defense'],
-            [500],
-            $reslist['missile'],
-        );
 
-        $techTreeList = [];
-        foreach ($elementIDs as $elementId) {
-            if (!$this->buildFunctions()->isEnabled($elementId)) {
-                continue;
-            } elseif (!isset($resource[$elementId])) {
-                $techTreeList[$elementId]	= $elementId;
-            } else {
-                $requirementsList	= [];
-                if (isset($requeriments[$elementId])) {
-                    foreach ($requeriments[$elementId] as $requireID => $RedCount) {
-                        $requirementsList[$requireID]	= [
-                            'count' => $RedCount,
-                            'own'   => isset($PLANET[$resource[$requireID]]) ? $PLANET[$resource[$requireID]] : $USER[$resource[$requireID]],
-                        ];
-                    }
-                }
-
-                $techTreeList[$elementId]	= $requirementsList;
+        $groups = [];
+        $levels = [];
+        $names = [];
+        foreach (array_keys(TechTree::HEADLINES) as $group) {
+            $groups[$group] = array_values(array_filter(
+                $reslist[$group] ?? [],
+                fn($id) => isset($resource[$id]) && $this->buildFunctions()->isEnabled((int) $id),
+            ));
+            foreach ($groups[$group] as $id) {
+                $names[$id] = $LNG['tech'][$id] ?? (string) $id;
+                $levels[$id] = $this->state->PLANET[$resource[$id]] ?? $this->state->USER[$resource[$id]] ?? 0;
             }
         }
 
         $this->assign([
-            'TechTreeList'		=> $techTreeList,
+            'TechTree' => (new TechTree())->build($groups, $this->state->requeriments, $levels, $names),
+            'Headlines' => array_map(static fn(int $id): string => $LNG['tech'][$id] ?? '', TechTree::HEADLINES),
         ]);
 
         return $this->render('game/page.techTree.default.html.twig');

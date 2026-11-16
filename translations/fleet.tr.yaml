@@ -1,504 +1,249 @@
 and: ve
 battle_stats_damage_done: Verilen hasar
-battle_stats_damage_dead: Fazladan hasar
-battle_stats_shield_hit: Kalkan isabetleri
+battle_stats_damage_dead: Fazla hasar
+battle_stats_shield_hit: Kalkana isabet
 battle_stats_ship_destroyed: Yok edilen gemiler
-battle_stats_shield_bounced: Saptırılan hasar
-battle_stats_rapid_fire_done: Seri ateş
+battle_stats_shield_bounced: Savuşturulan hasar
+battle_stats_rapid_fire_done: Seri atış
 battle_stats_explosion_triggered: Patlamalar
-battle_stats_stunned_done: Devre dışı
+battle_stats_stunned_done: Etkisiz hale getirilen
 battle_stats_target: Hedef
 battle_stats_total: Toplam
 battle_stats_total_all_targets: Toplam (tüm hedefler)
 battle_stats_total_all_fleets: Toplam (tüm filolar)
-damage: zarar puani.
-debree_field_1: 'Su an bu alan koordinatlarinda bulunan:'
-debree_field_2: .
+damage: hasar puanı.
+debree_field_1: 'Bu koordinatlarda şu an şunlar var:'
+debree_field_2: ' enkaz.'
 fcp_colony: Koloni
-fl_expocap_explain: >-
-  Bu, göndermeniz gereken maksimum keşif puanıdır.
-
-  Bu kapak üzerindeki herhangi bir şey ödüllerinizi artırmayacak, ancak yine de
-  kaybolabilir.
-fl_send_back: Geri Cagir
-fl_simulate: Simulasyon
-fleet_attack_1: >-
-  Saldiri filosunun ayni anda tum gucuyle ates halinde yararlanabilecegi atis
-  gucu
-fleet_attack_2: . Savunma kalkanlarinin reflekte ettigi zarar puani
-fleet_defs_1: Savunan filonun ayni anda tum gucuyle ates halinde yararlanabilecegi, yani
-fleet_defs_2: 'Saldiranin savunma kalkanlarinin reflekte ettigi zarar puani:'
+fl_expocap_explain: Göndermeye değecek en yüksek keşif puanı budur. Bu sınırın üzerindeki kısım ödülünü artırmaz ama yine de kaybedilebilir.
+fl_send_back: Geri çağır
+fl_simulate: Simüle et
+fleet_attack_1: 'Saldıran filo, savunana şu güçle ateş ediyor:'
+fleet_attack_2: '. Savunanın kalkanları şu kadar hasarı emiyor:'
+fleet_defs_1: 'Savunan filo, saldırana şu güçle ateş ediyor:'
+fleet_defs_2: '. Saldıranın kalkanları şu kadar hasarı emiyor:'
 spy_attack_with: İle saldır
-spy_best_planet: en iyi gezegen
-spy_best_resources_per_second: saniyede en iyi ress
+spy_best_planet: En iyi gezegen
+spy_best_resources_per_second: Saniyedeki en iyi kaynak
 spy_energy: Enerji
 spy_hazard_potential: Tehlike potansiyeli
-spy_large_transporter: büyük taşıyıcı
+spy_large_transporter: Büyük Nakliye
 spy_market_value: Piyasa değeri
-spy_necessary_recycler: Gerekli geri dönüştürücüler
-spy_necessary_transporters: Gerekli taşıyıcılar
-spy_potential_recycling: Geri dönüşüm potenzial
+spy_necessary_recycler: Gereken Geri Dönüşümcüler
+spy_necessary_transporters: Gereken gemiler
+spy_potential_recycling: Geri dönüşüm potansiyeli
 spy_potential_resources: Potansiyel kaynaklar
-spy_small_transporter: küçük taşıyıcı
+spy_small_transporter: Küçük Nakliye
 spy_summary: Özet
-spy_total_resources: Toplam Kaynaklar
+spy_total_resources: Toplam kaynaklar
 sys_adress_planet: '[%s:%s:%s]'
 sys_and: ve
-sys_attack_attacker_pos: Saldiran
+sys_attack_attacker_pos: Saldıran
 sys_attack_defender_pos: Savunan
-sys_attack_round: Round
-sys_attack_techologies: 'Silahlar: %d %% Kalkanlar: %d %% Zirh: %d %% '
-sys_attack_title: 'Bu Filolar: '
-sys_attacker_lostunits: 'Saldiran taraf toplam:'
-sys_attacker_won: Savasi saldiran taraf kazandi!
-sys_both_won: 'Savasi Kazanan Olmadi Filolar geldikleri gezegene geri donuyorlar! '
-sys_colo_allisok: >-
-  Filolariniz kolonilestirme islemi  icin %s koordinatlarina ulasti!
-  Imparatorlugunuzun yeni gezegeni olusturuluyor...
-sys_colo_badpos: >-
-  Filolariniz kolonilestirme islemi  icin %s koordinatlarina ulasti. Ancak
-  kasifler bu yorungenin kullanilabilir olmadigina karar verdiler. Hayal
-  kirikligi ile geri donuyorlar...
-sys_colo_defaultname: Colony
-sys_colo_maxcolo: >-
-  Filolarınızdan biri %s koordinatlarına ulaştı. Yerleşim mümkün değil çünkü
-  %d'den fazla gezegeniniz olamaz.
-sys_colo_mess_from: Kolonilestirmek
-sys_colo_mess_report: Colonisation report
-sys_colo_notech: >-
-  Filolariniz kolonilestirme islemi icin %s koordinatlarina ulasti. Ancak
-  Kasifler bu yorungenin kullanilabilir olmadigina karar verdiler. Hayal
-  kirikligi ile geri donuyorlar...
-sys_colo_notfree: >-
-  Filolariniz kolonilestirme islemi  icin %s koordinatlarina ulasti. Ancak
-  mevcut gezegende zaten mevcut kolonilestirme islemi oldugunu gorup buyuk bir
-  moral bozuklugu ile geldikleri gezegene geri donuyorlar.
-sys_debris: Harabe Alani
-sys_def_rebuild: 'Savunma tesisleri kısmen onarılabilir:'
-sys_defender_lostunits: 'Savunan taraf toplam:'
-sys_defender_won: Savasi savunan taraf kazandi!
+sys_attack_round: Tur
+sys_attack_techologies: 'Silahlar: %d %% Kalkanlar: %d %% Zırh: %d %% '
+sys_attack_title: 'Şu filolar karşı karşıya geldi: '
+sys_attacker_lostunits: 'Saldıranın kayıpları:'
+sys_attacker_won: Saldıran savaşı kazandı!
+sys_both_won: 'Savaş berabere bitti! '
+sys_colo_allisok: Filon %s koordinatlarına ulaştı. Yerleşimciler yeni gezegeni kolonileştirmeye başladı.
+sys_colo_badpos: Filon %s koordinatlarına ulaştı. Orada yerleşim mümkün değil, yerleşimciler hayal kırıklığıyla eve döndü.
+sys_colo_defaultname: Koloni
+sys_colo_maxcolo: 'Filon %s koordinatlarına ulaştı. Yerleşim mümkün değil: en fazla %d gezegenin olabilir.'
+sys_colo_mess_from: Kolonileştirme
+sys_colo_mess_report: Kolonileştirme raporu
+sys_colo_notech: Filon %s koordinatlarına ulaştı. Yerleşimciler, ekipmanlarının buranın iklimine uygun olmadığını ve geliştirilmesi gerektiğini fark etti. Hayal kırıklığıyla eve döndüler.
+sys_colo_notfree: Filon %s koordinatlarına ulaştı. Ne yazık ki yerleşimciler gezegenin zaten yerleşim altında olduğunu gördü! Moralleri bozuk, eve döndüler.
+sys_debris: Enkaz alanı
+sys_def_rebuild: 'Savunma yapılarının bir kısmı onarılabildi:'
+sys_defender_lostunits: 'Savunanın kayıpları:'
+sys_defender_won: Savunan savaşı kazandı!
 sys_destroyed: yok edildi
-sys_destruc_echec: >-
-  ve bu soklar birlesince sonunda uyduyu yirtip atacak inanilmaz bir deprem
-  yaratiyorlar. Ay uzerindeki tum binalar yok ediliyor ancak bir terslik var.
-  Olum yildizinda bir sure sonra sarsilma basliyor. Filon radar kayitlarindan
-  kayboluyor.<br> Gravitasyonun sok etkisi olum yildizi  ve yanindaki filonu
-  milyonlarca parcalara ayiriyor ..
-sys_destruc_lune: 'Ayin yok olma yuzdesi : %d%% '
-sys_destruc_mess1: >-
-  Olum yildizinin silahlari Ay a inanilmaz kuvvetli alternatif bir gravitasyon
-  soku gonderiyorlar
-sys_destruc_null: >-
-  Ay Yok etme Basarisizlikla Sonuclaniyor. Filolar Geldigi Gezegene Geri
-  Donuyor.
-sys_destruc_reussi: >-
-  ve bu soklar birlesince sonunda uyduyu yirtip atacak inanilmaz bir deprem
-  yaratiyorlar. Ay uzerindeki tum binalar yok ediliyor ve filon gezegenine geri
-  donuyor.
-sys_destruc_rip: 'Filonun imha olma yuzdesi : %d%%'
-sys_destruc_stop: >-
-  Olum yildizlarin ay yok etme saldirisi sirasinda hesaba katilmayan bir sorun
-  cikti. <br> SAVUNMA GUCLERI <br> Filolarin ay uzerindeki savunma filosu
-  tarafindan yok edildiler...
-sys_destruc_title: Asagidaki filolar Ay Yoketme Savasinda karsilastilar
-sys_expe_attack_1_1_1: >-
-  Filo Komutani Bildiriyor : Kesif filolarimiz Griler irki ve onun gemileri ile
-  karsilasti. Onlar kayitsiz sartsiz filomuzu teslim etmeyi talep ettiler.
-  Lutfen ciddi olun. Onlar bizim gemilerimizi alamazlar efendim. Savasmamiz
-  gerek.
-sys_expe_attack_1_1_2: >-
-  Ilkel bir barbar kabilesi filomuza saldirdi. Ama endise edecek birsey yok,
-  ilkel silahlari ile hicbir zarar veremediler. karsi ates acma ihtiyaci bile
-  hissetmedik.
-sys_expe_attack_1_1_3: >-
-  Sarhos uzay korsanlarina ait oldugunu dusundugumuz bazi sinyaller yakaladik.
-  Gorunuse gore savasmak zorunda kalacagiz.
-sys_expe_attack_1_1_4: Bazi korsanlara karsi savastik. Cok sukur sayica bizden cok azlardi.
-sys_expe_attack_1_1_5: >-
-  Kendine Taksim Korsanlari diyen bir gurup kosulsuz olarak teslim olmamimizi
-  istedi. Eger tehlike arzettiklerini dusunsek ates acardik ve kendimizi ne
-  kadar iyi savunabildigimizi gorurlerdi..
-sys_expe_attack_1_2_1: Kesif filomuzun onu uzay korsanlari tarafindan kesildi. Savasmak zorundayiz
-sys_expe_attack_1_2_2: Filomuz bazi uyzay korsanlari tarafindan pusuya dusuruldu. Savas kacinilmaz
-sys_expe_attack_1_2_3: Diger kesif filosundan gelen yardim cagrisi bir tuzakmis. Savasmak zorundayiz
-sys_expe_attack_1_3_1: >-
-  Yakaladigimiz sinyaller meger bilinmeyen bir turden gelmiyormus. Bir korsan
-  ussunden geliyormus. Tabi ki korsanlar bolgelerinde bizi gormekten pek hosnut
-  olmadilar.
-sys_expe_attack_1_3_2: Bazi korsanlara karsi savastik. Cok sukur sayica bizden cok azlardi.
-sys_expe_attack_1_3_3: >-
-  Keşif Komutanından acil bir mesaj aldık: "Bir cisim yaklaşıyor! Uzay
-  boşluğundan fırlayarak geldiler. Ohh Neyseki sadece lanet uzay korsanlarıymış.
-  Şansımızı denemeliyiz, savaşacağız!
-sys_expe_attack_2_1_1: Tanimlanamayan bir cisim uyari bile gondermeden filomuza saldirdi.
-sys_expe_attack_2_1_2: Tanimlanamayan bir cisim uyari bile gondermeden filomuza saldirdi.!
-sys_expe_attack_2_1_3: Filomuz ufak bir savas filosu tarafindan saldiriya ugradi
-sys_expe_attack_2_1_4: Tanimlanamayan bir cisim uyari bile gondermeden filomuza saldirdi.
-sys_expe_attack_2_2_1: Bilinmeyen bir tur tarafindan saldiriya ugradik!
-sys_expe_attack_2_2_2: >-
-  Sanirim yanlislikla bilinmeyen bir uzayli gurubun bolgesine girdik ve bize pek
-  dostca bakmiyorlar..
-sys_expe_attack_2_2_3: Uzayli yaratiklarla cok cetin bir savasa girdik
-sys_expe_attack_2_3_1: Uzayli yaratiklarla cok cetin bir savasa girdik
-sys_expe_attack_2_3_2: >-
-  Buyuk bir savas filosu bize dogru geliyor. Pek dost gozukmuyorlar. Savasa
-  hazirlansak iyi olur.
-sys_expe_attack_2_3_3: >-
-  Bizim diplomat, bu yabancı topraklarda uzaylı ırkının dilini telaffuz etmede
-  zorlandı. Şapşal, "Barış!" diyeceğine "Ateş!" dedi.
-sys_expe_attackname_1: Uzay Korsanlari
-sys_expe_attackname_2: Uzayli Yaratiklar
+sys_destruc_echec: 'Depremler gezegeni salladı ama bir şeyler ters gitti: Ölüm Yıldızları patladı, binlerce parçaya ayrıldı ve şok dalgaları tüm filoyu yok etti.'
+sys_destruc_lune: 'Ayı yok etme şansı: %d%%'
+sys_destruc_mess1: Ölüm Yıldızları muazzam enerjilerini aya doğru ateşledi.
+sys_destruc_null: Ölüm Yıldızları ateşlemeden önce tam şarj olamadı.<br> Ay yok edilemedi.
+sys_destruc_reussi: Ölüm Yıldızlarının ışınları aya ulaştı ve onu parçaladı. <br>Ayın tamamı yok edildi!
+sys_destruc_rip: 'Filonun kendini yok etme şansı: %d%%'
+sys_destruc_stop: Savunan, ayın yok edilmesini başarıyla engelledi.
+sys_destruc_title: 'Şu filolar ay yok etme savaşında karşı karşıya geldi:'
+sys_expe_attack_1_1_1: Umutsuz bir uzay korsanı keşif filomuza el koymaya çalıştı.
+sys_expe_attack_1_1_2: İlkel barbarlar uzay gemileriyle bize saldırdı. En azından gemileri berbat durumdaydı. Silahları ciddi bir tehdit olsaydı, biz de karşılık vermek zorunda kalırdık.
+sys_expe_attack_1_1_3: Çok sarhoş bazı korsanların telsiz mesajlarını yakaladık. Anlaşılan bize saldıracaklar.
+sys_expe_attack_1_1_4: Bir grup korsanla dövüşmek zorunda kaldık ama neyse ki sayıca üstündük.
+sys_expe_attack_1_1_5: Filomuz, Moa Tikarr adlı birinin ve ekibinin filomuzun koşulsuz teslim olmasını istediğini bildiriyor. Ciddilerse, kendimizi gayet iyi savunabildiğimizi görecekler.
+sys_expe_attack_1_2_1: Keşif filon, uzay korsanlarıyla beklenmedik bir karşılaşma yaşadı.
+sys_expe_attack_1_2_2: Yıldız korsanlarının pususuna düştük! Ne yazık ki çatışma kaçınılmazdı.
+sys_expe_attack_1_2_3: Başka bir keşif filosundan gelen yardım çağrısı, sinsi korsanların tuzağı çıktı. Savaş kaçınılmazdı.
+sys_expe_attack_1_3_1: Yakaladığımız sinyaller bilinmeyen uzaylılardan değil, gizli bir korsan üssünden geliyormuş! Korsanlar bölgelerinde bizi görmekten pek memnun olmadı.
+sys_expe_attack_1_3_2: Keşif filosu, kimliği belirsiz korsan gemileriyle şiddetli çatışmalar bildiriyor!
+sys_expe_attack_1_3_3: 'Keşif komutanından az önce acil bir mesaj aldık: “Üstümüze geliyorlar! Hiperuzaydan fırlayıp çıktılar. Neyse ki sadece korsanlar, yani şansımız var, savaşacağız!”'
+sys_expe_attack_2_1_1: Keşif filon, bilinmeyen bir türle pek hoş olmayan bir ilk temas yaşadı.
+sys_expe_attack_2_1_2: Bazı garip gemiler keşif filosuna uyarı vermeden saldırdı!
+sys_expe_attack_2_1_3: Keşif filomuz, kimliği belirsiz küçük bir uzay aracı grubunun saldırısına uğradı!
+sys_expe_attack_2_1_4: Keşif filosu bilinmeyen gemilerle temas bildiriyor. Telsiz mesajları çözülemiyor ama garip gemiler silahlarını hazırlıyor gibi görünüyor.
+sys_expe_attack_2_2_1: Bilinmeyen bir tür keşif filomuza saldırıyor!
+sys_expe_attack_2_2_2: Keşif filon, daha önce bilinmeyen ama son derece saldırgan bir uzaylı ırkının topraklarına girmiş gibi görünüyor.
+sys_expe_attack_2_2_3: Keşif filomuzla bağlantı aniden koptu. Son duyduğumuza göre filo ağır ateş altındaydı. Saldıranlar tespit edilemedi.
+sys_expe_attack_2_3_1: Keşif filon bir uzaylı istila filosuyla karşılaştı ve büyük çatışmalar bildiriyor!
+sys_expe_attack_2_3_2: Kökeni bilinmeyen büyük bir kristal gemi grubu, keşif filomuzla doğrudan çarpışma rotasında. En kötüsüne hazırlanmalıyız.
+sys_expe_attack_2_3_3: Uzaylı ırkının lehçesini doğru telaffuz etmekte biraz zorlandık. Diplomatımız yanlışlıkla “Barış!” yerine “Ateş!” diye bağırdı.
+sys_expe_attackname_1: Korsanlar
+sys_expe_attackname_2: Uzaylılar
 sys_expe_back_home: Filonuz %3$s'deki seferden %1$s %2$s'ye geri döndü.
-sys_expe_back_home_ress: Aktariliyor %s %s, %s %s ve %s %s.
-sys_expe_back_home_ships_flound: 'Aşağıdaki gemiler bulundu:'
-sys_expe_back_home_ships_lost: 'Aşağıdaki gemiler kayboldu:'
-sys_expe_blackholl_1: >-
-  Kesif filonuz kara delige yakalandi ve kara delik filonuzun bir kismini icine
-  cekti. Malesef kaybolan filo ile irtibat kesildi.!
-sys_expe_blackholl_2: >-
-  Kesif ekibiniz belirledigi bolgeye hareket etti fakat hic yolunda gitmeyen
-  seyler vardi. Ne oldugu tam saptanamayan nedenlerden dolayi filolarinizdan
-  haber alinamiyor!
-sys_expe_depleted_max_1: >-
-  İletişim subayının seyir defterinden bir kayıt: Eğer kendimizi tehlikede
-  hissedersek, buralarda uçan diğer keşif gemileriyle birlikte geri dönebiliriz.
-sys_expe_depleted_max_2: >-
-  İletişim memurunun seyir defterinden bir kayıt: Bu şekilde devam ederse, tüm
-  bu trafiği idare etmek için navigasyon şamandıraları yerleştirmemiz gerekecek.
-sys_expe_depleted_max_3: >-
-  İletişim subayının seyir defteri kaydı: Belki de burada bir hediyelik eşya
-  dükkânı açmak, yeni bir keşif gezisi düzenlemekten daha faydalı olacaktır.
-sys_expe_depleted_med_1: >-
-  İletişim subayının seyir defterinden bir kayıt: Bölgede birden fazla keşif
-  filosunun varlığına işaret eden kanıtlar bulduk. Eve dönüyoruz.
-sys_expe_depleted_med_2: >-
-  İletişim subayının seyir defterinden bir kayıt: Bu sektördeki diğer bazı keşif
-  gezileriyle dostane telsiz teması kurduk.
-sys_expe_depleted_med_3: >-
-  İletişim subayının seyir defterinden bir kayıt: Aynı sektöre doğru yola çıkan
-  başka bir keşif filosunun mürettebatıyla keşif gezisinin tamamlanmasını
-  kutladık. Rapor edecekleri yeni bir şey yok.
-sys_expe_depleted_min_1: >-
-  İletişim subayının seyir defterinden bir kayıt: Görünüşe göre insanlar
-  galaksinin bu kısmında daha önce de bulunmuşlar.
-sys_expe_depleted_min_2: >-
-  İletişim subayının seyir defterinden bir kayıt: Eski uzay gemilerinin enkazını
-  bulduk. Buraya ilk gelenler biz değiliz.
-sys_expe_depleted_min_3: >-
-  İletişim subayının seyir defteri eklemesi: Neredeyse başka bir keşif filosuyla
-  çarpışıyorduk. Buralarda başkalarının da olabileceğine inanmıyordum.
-sys_expe_depleted_not_1: >-
-  İletişim subayının seyir defterinden bir kayıt: Görünüşe göre evrenin bu kısmı
-  henüz keşfedilmemiş.
-sys_expe_depleted_not_2: >-
-  İletişim subayının seyir defterinden bir kayıt: Keşfedilmemiş bir sektörde
-  seyahat eden ilk kişiler olmak harika bir duygu.
-sys_expe_feqeuence_few: Son 24 saat içinde 10'dan fazla keşif gezisi
-sys_expe_feqeuence_many: Son 24 saat içinde 25'ten fazla keşif gezisi
-sys_expe_feqeuence_medium: Son 24 saat içinde 25'ten fazla keşif gezisi
-sys_expe_feqeuence_no: 24 saat içinde birkaç sefer
-sys_expe_found_goods: '%s %s temizlendi.'
-sys_expe_found_ress_1_1: >-
-  Kesif filonuz ufak tefek gok cisimleri buldu. Kaptan Yahya bunlardan bazi
-  madenler elde edebilecegini dusunuyor.
-sys_expe_found_ress_1_2: >-
-  Bazi ufak gezegenler gorduk ve bunlarda cok rahat bir sekilde maden elde ettik
-  .
-sys_expe_found_ress_1_3: >-
-  Kesif bolgesinde gozden uzak bir yerde islenmeye deger madenler buldular,
-  kesifte bulunan madenler  %s ve %s, %s ve %s ve %s ve %s toplayip gezegenine
-  getirdiler <br> Komutanin seyir defterinden : Inanin bu kaynaklar tekrar
-  gorulemeyecek kadar coktu, ancak yeterli kapasitemiz yoktu :( teknisyenler
-  kitaplarini bile orada biraktilar, hatta ben ufak sise rakimi bile orada
-  birakmak zorunda kaldim.
-sys_expe_found_ress_1_4: >-
-  Kesif Filonuz bir radyoaktif ve yuksek atmosfer asteroit toksit kirlenmesine
-  rastladi. Ancak taramalar bu asteroidin kaynak olarak zengin oldugunu
-  gostermistir. Oto gemiyi kullarak maden elde etmeye calistik.
-sys_expe_found_ress_2_1: >-
-  Kesif filonuz antik bir nakliye filosu buldu. Konvoy tamamen dolu gibi ama
-  madenlerin cogu tahrip olmus. Kurtabildiklerimizi alip donuyoruz.
-sys_expe_found_ress_2_2: >-
-  Bataklik ve karanligin hukum surdugu bir gezegene indik. Gezegeni tam
-  tarayamasakda bazi kolayca erisilebilir madenler bulduk.
-sys_expe_found_ress_2_3: >-
-  Kucuk bir askeri olmayan konvoyla karsilastik. Acil olarak ilac ve yiyecek
-  ihtiyaclari oldugunu soylediler. Bizde onlara biz Kizilay degiliz dedik ve
-  maden karsiligi istediklerini verdik.
-sys_expe_found_ress_3_1: >-
-  Kesif filon biraz utangac bir alien irkina rastliyor. Acikcasi bu kadar
-  cekingen alien ile de ilk kez karsilasiyorsun ve seninkiler de olaylari
-  yavastan aliyorlar. Bir sure iletisim kurduktan sonra, aralarindan bir
-  temsilciyi degis tokus edilebilecek mallarla dunyana gondermeyi oneriyorlar.
-sys_expe_found_ress_3_2: >-
-  Kendi atmosferine sahip ufak bir Ay`da, kesif filon yuksek miktarda islenmemis
-  hammadde istifi buldu. Ay uzerinde calisan Murettebat hala bu dogal hazineleri
-  kaldirip, yuklemeye calisiyor.
-sys_expe_found_ress_logbook_1: >-
-  Birinci subayın seyir defterinden bir kayıt: Tüm boş alanı kullandık ancak
-  yine de bulunan tüm kaynakları yanımıza alamadık.
-sys_expe_found_ress_logbook_2: >-
-  Birinci subayın seyir defterinden bir kayıt: Keşke birkaç kargo gemimiz daha
-  olsaydı! Şimdi geride bir sürü kaynak bırakmak zorunda kalacağız.
-sys_expe_found_ress_logbook_3: >-
-  Birinci subayın seyir defterinden bir kayıt: Artık gerçekten ihtiyacımız
-  olmayan her şeyi zaten attık ama yine de bulunan tüm kaynaklar için yeterli
-  alan yaratamıyoruz.
-sys_expe_found_ress_logbook_4: >-
-  Birinci subay seyir defterinden bir kayıt: Kafeteryayı ve tüm salonları depoya
-  dönüştürdüğümüzde bile bulduğumuz tüm kaynakları hala taşıyamıyoruz.
-sys_expe_found_ships: >-
-  Kesif filonuz bazi terkedilmis uzay gemileri buldu.<br> Komutanin seyir
-  defterinden : Gemiler neredeyse hic kullanilmamis, hangi akla hizmet bu
-  gemileri birakip gitmisler cozemedim!.<br>:
-sys_expe_found_ships_1_1: >-
-  Kesif ekibimiz enerjiye dayali tershane uretim merkezine geldi. Bazi gemiler
-  halen uretim asamasinda ve biz bu araclari buradan kacirmaya calisiyoruz
-sys_expe_found_ships_1_2: >-
-  Kesif ekibimiz bir yildiz kalesi ile karsilasti.. Kalede bir kac damar hangar
-  tespit edildi. Teknisyenlerimizin bazilari onu tamir edebilir.
-sys_expe_found_ships_1_3: >-
-  Kesif ekibimiz muhtemelen halen devam eden bir savastan geriye kalmis bir
-  gezegen buldu. Yorungede bir cok batik gemi bulunuyor. Teknisyenlerimiz
-  bazilarini onarmaya calisiyor. Belki o zaman burada ne oldugu hakkinda daha
-  fazla bilgi edinebiliriz.
-sys_expe_found_ships_1_4: >-
-  Kesif ekibin terkedilmis yildiz kalesi buldu. Kalede kimse yasamiyor ama
-  icinde hala birkac gemi var. Geriye bu gemilerin calisir durumda olup
-  olmadigini anlamak kaliyor.
-sys_expe_found_ships_2_1: >-
-  Kesif filonun dikkatini bir gezegen cekiyor. Cok buyuk isiklandirma
-  sistemlerine sahip gezegen murettebati huzursuzlandiriyor. Kaptanin endiseli
-  de olsa yaklasma emri veriyor. Gezegene inis yapildiginda murettebatin
-  teknolojisi gelismis bir alien irkina rastliyor. Bir tersane gorevlisi
-  kullanmadiklari birkac gemiyi hediye etmeyi teklif ediyor.
-sys_expe_found_ships_2_2: >-
-  Bir onceki kesif filosunun kalintisina ulastik! Bu kalintilar icinde isimize
-  yarayacak gemi olup olmadigina karar vermeye calisiyoruz.
-sys_expe_found_ships_3_1: >-
-  Kesif ekibin terkedilmis yildiz kalesi buldu. Kalede kimse yasamiyor ama
-  icinde hala birkac gemi var. Geriye bu gemilerin calisir durumda olup
-  olmadigini anlamak kaliyor.
-sys_expe_found_ships_3_2: >-
-  Icinde zamaninda gelismis bir uygarlik barindirmis olan bir gezegen bulduk.
-  Koca gezegende geriye sadece uzaydan da gorebilen devasa bir uzay gemisi
-  istasyonu kalmis. Pilot ve uzmanlarimiz gezegene gidip bu uzay gemisi
-  istasyonunda isimize yarayabilecek gemi olup olmadigini kontrol edecekler.
-sys_expe_found_ships_logbook_1: >-
-  Makine subaylarının seyir defterinden bir kayıt: Yanımızda birkaç gemi daha
-  getirmiş olsaydık, bu güzelliklerden bazılarını yanımıza almak kolay olurdu!
-sys_expe_found_ships_logbook_2: >-
-  Makine subaylarının seyir defterinden bir kayıt: Ne yazık ki, görevimizde
-  keşfedilen tüm gemileri geri getirecek kapasitemiz yoktu.
-sys_expe_found_ships_logbook_3: >-
-  Makine subaylarının seyir defterinden bir kayıt: Maalesef bulunan tüm gemileri
-  geri getirmek için yeterli kapasitemiz yok.
-sys_expe_found_ships_nothing: Gemi bulunamadi.
-sys_expe_lost_fleet_1: >-
-  Kesif ekibimize birsey oldu efendim! Bir telsiz mesaji birakmislar: Bu da ne
-  boyle ! Zzzrrt Aman Tanrim! Krrrzzzzt zrrrtrzt Yardim Edinnnnn !! krgzzzz
-  Krzzzzzzzztzzzz benziyor ...
-sys_expe_lost_fleet_2: >-
-  Kesif filosundan son aldigimiz bilgilere gore, cok guzel gorunen bir
-  karadeligi daha yakindan gormek istedikleri idi..
-sys_expe_lost_fleet_3: >-
-  Efendim bu duyacaklariniza inanmayacaksiniz! Super bir gezegen bulduk, gemiyi
-  agzina kadar maden ve karanlik madde ile doldurduk. Hakettigimizi dusunerek
-  eglenmeye basladik. Hepimiz deliler gibi sarhos olmusuz. Sabah kalktigimizda
-  ne gorelim. Bizim filonun yerinde yeller esiyor. Sadece bir not : Madenler,
-  Karanlik madde ve gemiler icin tesekkurler. Dost bir filo murettebati geri
-  getiriyor.
-sys_expe_lost_fleet_4: >-
-  Kesif ekibi hazirliksiz durumda kesfe yollandi. Bilim adamlarimiz halen saskin
-  ancak Tum ekip yok olacak gibi gorunuyor...
-sys_expe_nothing_1: >-
-  Kesif filon Supernovanin cok guzel resimlerini cekmis ama bunun haricinde
-  onemli bir kesifte bulunamadi. Yine de moralini bozma, en azindan bu resimler
-  Evrenin En Iyi Resimleri Yarismasinda basarili olacaktir.
-sys_expe_nothing_2: >-
-  Saf ve enerjik yasamlar ve malzeme umudu ile kesiflere baslanmisti. Ancak
-  deuterium sikintisi bu durumun kotulesmesini sagladi ve kesif gorevi iptal
-  edildi.
-sys_expe_nothing_3: >-
-  Galiba kaptanin dogumgununun bu bilinmedik gezegende kutlanmasi hic iyi bir
-  fikir degildi. Garip bir hastalik ve beraberinde getirdigi agir ates yuzunden
-  murettabatin yarisi yorgan dosek hastahanede yatiyor. Bu sorun yuzunden kesif
-  de basarisizlikla yarida kesilmek zorunda kaldi.
-sys_expe_nothing_4: >-
-  Korsanlariyla unlu bir sisteme giris yapan murettebatin cikan bir tartisma
-  sonucu bir korsan gemisi kaptanindan dayak yedi. Saglik her seyden once
-  geldigi icin kesif yarida kesilmek zorunda kaldi. Bu kesiften de elin bos
-  donuyorsun.
-sys_expe_nothing_5: >-
-  Eh, en azindan simdi herkes 5. siniftan kirmizi anemalinin gemi sistemleri
-  uzerindeki garip etkilerinin yani sira murettebat uzerinde de olumsuz
-  psikolojik etkileri oldugunu biliyor. Bu kesif sonucunda baska bir sey de
-  ogrenilemedi!
-sys_expe_nothing_6: >-
-  Kesif filon bir sekilde notron yildizlarindan birinin merkez cekim kuvvetinin
-  yakinlarina girdi. Bu cekim kuvvetinden cikmasi kolay olmadi, kendini ancak
-  agir bir mucadelenin sonucunda kurtarabildi. Tabii bu mucadele sirasinda
-  ekstra deuterium tuketimi zorunluydu ve dolayisiyla filon verilen gorevi
-  yerine getiremeden, yakit yetersizligi sebebiyle erkenden eve donmek zorunda
-  kaldi.
-sys_expe_nothing_7: >-
-  Kesif filon acil durum sinyali yakaladi! Sinyali gonderen, yakinindaki
-  gezegenin cekim gucunden cikamayan dev bir nakliye gemisiydi. Basarili bir
-  kurtarma operasyonundan sonra nakliye gemisinin kaptani kurtaricilari onuruna
-  bir solen duzenleyip, isimlerini ozel musteri defterine ekledi.
-sys_expe_nothing_8: >-
-  Bu kesif seni kelimenin tam anlamiyla evrenin bosluklariyla tanistirdi. Bosluk
-  disinda hic bir seye rastlamadin, ne kucuk bir gezegen ne bir goktasi ne bir
-  tanecik...hicbir sey!
-sys_expe_nothing_9: >-
-  Evrenin tum yonbulma sistemleri garip bir bilgisayar virusu yuzunden agir
-  sorunlar yasadilar. Bunun sonucunda gonderilen kesif filosu tum sure boyunca
-  kendi etrafinda turlamis ve donup dolasip ayni yere gelmis. Herhalde bu kesif
-  yolculugunun olumlu bir katkisi olmadigini bir daha soylemem gerekmiyor.
-sys_expe_report: Kesif Raporu
-sys_expe_report_msg: '%s %s filosunun %s''deki keşif raporu:'
-sys_expe_time_fast_1: >-
-  Kesif ekibimiz yolda dost bir filo ile karsilasti. Yeni bulduklari bir yakiti
-  bizle paylastilar. Bu yeni yakit bizi normalden hizli goturuyor. Eve erken
-  donuyoruz.
-sys_expe_time_fast_2: >-
-  Rota kaptaninin hastalanmasi sonucu, rota idaresini 2. rota kaptani aldi.
-  Belki inanmayacaksiniz ama yaptigi degisik hiper uzay hesaplari ve rota
-  sayesinden beklenenden erken donecegiz.
-sys_expe_time_fast_3: >-
-  Geminin yeni komutani oldukca cesur cikti, cesur olmasinin yanisira bir o
-  kadar da yetenekli oldugunu iddia edebiliriz. Tam oturmamis bir solucan deligi
-  bulup kullanarak, filonun eve geri donusunu hizlandirdi! Her ne kadar filo
-  erken donmus olsa da, bu kesif sonunda herhangi bir bulgu bulunamadigi
-  gercegini degistirmiyor.
-sys_expe_time_slow_1: >-
-  Bilinmeyen bir nedenden dolayi kesif ekibinin atlama islemi hata ile
-  sonuclandi. Neredeyse bir gunesin icinde yok olunuyordu. Neyse ki bu bilinen
-  bir sistem ama karaya donmek uzun zaman alacak gibi gorunuyor.
-sys_expe_time_slow_2: >-
-  Kirmizi dev ruzgari nedeniyle atlama bozuldu. Bunun disinda herhangi bir kesif
-  hatasi yok. Ancak Yildizlar arasinda bosluk mevcut. Bu bizi
-  yavaslatacaktir.Kirmizi dev ruzgari ilk defa duyuyorum
-sys_expe_time_slow_3: >-
-  Efendim hic bir sey bulamadik, hic bir sey, ekibin morali bozuk, biz biraz bi
-  yerde duraklayip demlenecegiz. Beklenenden biraz daha gec gelecegiz
-sys_expe_time_slow_4: >-
-  Garip bir radyoaktif serpinti gunes sistemindeyken kesif filosunu felc etti.
-  Asil garip olan filo sistemlerimize olan virus etkisi oldu. Bu durum zaman
-  malesef ki zaman kaybi.
-sys_expe_time_slow_5: >-
-  Yeni navigasyon modulu buyuk bir basarisizlikla sonuclandi. Kesif ekibi yanlis
-  bir yola girdi. Hatta tum deuterium gereksiz yere atlama icin harcandi. Simdi
-  hayal kirikligi ile geri donuluyor. Bu durum biraz zaman alabilir
-sys_expe_time_slow_6: >-
-  Kirmizi devin yildiz ruzgari yuzunden kesif filonun sicramasi o derece
-  etkileniyor ki, geri donusun sadece hesaplanmasi bile inanilmaz zaman aliyor.
-  Ayrica kesfin yapildigi yerde yildizlar arasindaki bosluktan baska bir sey
-  yoktu.
-sys_fleet_return: |-
-  Filonunuz %s %s %s'ye döner ve %s %s, %s %s ve %s %s sağlar.
-  %s
-sys_fleet_won: >-
-  Filolarınızdan biri %s %s gezegenindeki bir saldırıdan %s %s'ye geri döndü. %s
-  %s, %s %s ve %s %s yakaladınız
-sys_gain: Ele geciriliyor
+sys_expe_back_home_ress: 'Şunları getiriyor: %s %s, %s %s ve %s %s.'
+sys_expe_back_home_ships_flound: 'Şu gemiler bulundu:'
+sys_expe_back_home_ships_lost: 'Şu gemiler kayboldu:'
+sys_expe_blackholl_1: Filon bir kara delikle karşılaştı ve kısmen yok oldu!
+sys_expe_blackholl_2: Filon bir kara delikle karşılaştı ve tamamen yok oldu!
+sys_expe_depleted_max_1: 'İletişim subayının seyir defterinden: Kendimizi güvende hissetmezsek, buralarda uçan diğer keşif filolarıyla her zaman güçlerimizi birleştirebiliriz.'
+sys_expe_depleted_max_2: 'İletişim subayının seyir defterinden: Böyle devam ederse, tüm bu trafiği yönetmek için seyrüsefer şamandıraları koymamız gerekecek.'
+sys_expe_depleted_max_3: 'İletişim subayının seyir defterinden: Belki bir keşif seferi daha göndermektense burada bir hediyelik eşya dükkânı açmak daha mantıklı olur.'
+sys_expe_depleted_med_1: 'İletişim subayının seyir defterinden: Bölgede birden fazla keşif filosunun izlerini bulduk. Eve dönüyoruz.'
+sys_expe_depleted_med_2: 'İletişim subayının seyir defterinden: Bu sektördeki başka keşif filolarıyla dostane bir telsiz teması kurduk.'
+sys_expe_depleted_med_3: 'İletişim subayının seyir defterinden: Seferin bitişini, aynı sektörde dolaşan başka bir keşif filosunun mürettebatıyla birlikte kutladık. Onların da bildirecek yeni bir şeyi yok.'
+sys_expe_depleted_min_1: 'İletişim subayının seyir defterinden: Görünüşe göre insanlar galaksinin bu köşesine daha önce de gelmiş.'
+sys_expe_depleted_min_2: 'İletişim subayının seyir defterinden: Eski uzay gemilerinin enkazını bulduk. Buraya ilk gelenler biz değiliz.'
+sys_expe_depleted_min_3: 'İletişim subayının seyir defterinden: Başka bir keşif filosuyla neredeyse çarpışıyorduk. Buralarda bizden başka kimsenin olacağını hiç düşünmemiştim.'
+sys_expe_depleted_not_1: 'İletişim subayının seyir defterinden: Görünüşe göre evrenin bu kısmı henüz keşfedilmemiş.'
+sys_expe_depleted_not_2: 'İletişim subayının seyir defterinden: Keşfedilmemiş bir sektörden geçen ilk kişiler olmak harika bir his.'
+sys_expe_feqeuence_few: Son 24 saatte 10'dan fazla keşif
+sys_expe_feqeuence_many: Son 24 saatte 50'den fazla keşif
+sys_expe_feqeuence_medium: Son 24 saatte 25'ten fazla keşif
+sys_expe_feqeuence_no: Son 24 saatte az sayıda keşif
+sys_expe_found_goods: '%s %s çıkarıldı.'
+sys_expe_found_ress_1_1: Keşif filon küçük bir asteroit kümesi buldu; buradan bir miktar kaynak çıkarılabildi.
+sys_expe_found_ress_1_2: Uzak bir gezegencikte kolay ulaşılabilen birkaç kaynak sahası bulundu ve hammadde başarıyla çıkarıldı.
+sys_expe_found_ress_1_3: Keşif filon, çoktan bitmiş bir savaştan kalma çok eski uzay gemisi enkazlarına rastladı. Bazı parçalar kurtarılıp geri dönüştürülebildi.
+sys_expe_found_ress_1_4: Keşif filon radyasyonla kirlenmiş, atmosferi çok zehirli bir gezegen keşfetti. Ancak taramalar bu gezegenin bol hammadde içerdiğini gösterdi. Otomatik dronlarla mümkün olduğunca çok kaynak çıkarmaya çalışıldı.
+sys_expe_found_ress_2_1: Keşif filon, tamamen dolu ama terk edilmiş eski bir yük gemisi konvoyu buldu. Bir miktar kaynak elde edilebildi.
+sys_expe_found_ress_2_2: Keşif filon, kendi atmosferi olan küçük bir ayda büyük hammadde yatakları buldu. Mürettebat şu anda bu hazineyi çıkarıyor.
+sys_expe_found_ress_2_3: Acilen yiyecek ve ilaca ihtiyacı olan küçük bir sivil gemi konvoyuyla karşılaştık. Karşılığında epey faydalı kaynak aldık.
+sys_expe_found_ress_3_1: Keşif filon devasa bir uzaylı gemisi enkazı buldu. Teknolojisinden bir şey anlaşılamadı ama gemi parçalarına ayrılarak değerli hammadde elde edildi.
+sys_expe_found_ress_3_2: Bilinmeyen bir gezegenin çevresindeki asteroit kuşağı çok miktarda hammadde barındırıyordu. Keşif filosu depolarını doldurdu!
+sys_expe_found_ress_logbook_1: 'Birinci subayın seyir defterinden: Boş kalan her köşeyi kullandık ama bulduğumuz kaynakların hepsini yine de alamadık.'
+sys_expe_found_ress_logbook_2: 'Birinci subayın seyir defterinden: Keşke birkaç nakliye gemimiz daha olsaydı! Şimdi bir sürü kaynağı geride bırakmak zorundayız.'
+sys_expe_found_ress_logbook_3: 'Birinci subayın seyir defterinden: Artık ihtiyacımız olmayan her şeyi zaten dışarı attık ama bulduğumuz kaynaklara yine de yeterince yer açamıyoruz.'
+sys_expe_found_ress_logbook_4: 'Birinci subayın seyir defterinden: Kafeteryayı ve tüm dinlenme salonlarını depoya çevirdik, yine de bulduğumuz kaynakların hepsini taşıyamadık.'
+sys_expe_found_ships: 'Araştırmacılar mükemmel durumda uzay gemileri buldu!<br>: '
+sys_expe_found_ships_1_1: Önceki bir keşif filosunun kalıntılarını bulduk! Teknisyenlerimiz enkazlardan bazılarını yeniden çalıştırıp çalıştıramayacaklarını kontrol ediyor.
+sys_expe_found_ships_1_2: Terk edilmiş bir korsan üssü bulduk. Hangarda hâlâ birkaç eski gemi duruyor. Teknisyenlerimiz bazılarının kullanılabilir olup olmadığını kontrol ediyor.
+sys_expe_found_ships_1_3: Keşif filon, savaşlarla neredeyse tamamen harap olmuş bir gezegen buldu. Yörüngede çeşitli gemi enkazları sürükleniyordu. Teknisyenler bazılarını onarmaya çalıştı. Belki burada ne olduğunu daha iyi anlarız.
+sys_expe_found_ships_1_4: Keşif filon, sonsuzluktur terk edilmiş gibi görünen eski bir yıldız üssüne rastladı. Kalenin hangarında birkaç gemi vardı. Teknisyenler bazılarını yeniden uçurmayı başardı.
+sys_expe_found_ships_2_1: Bir armadanın kalıntılarını bulduk. Keşif filosunun teknisyenleri hemen kısmen sağlam gemilere geçti ve bazılarını onarmayı başardı.
+sys_expe_found_ships_2_2: Keşif filon, bazı gemilerin hâlâ üretim aşamasında olduğu eski bir otomatik tersane buldu. Tersanenin enerji kaynağı yeniden çalıştırıldıktan sonra teknisyenler gemilerin yapımını tamamladı.
+sys_expe_found_ships_3_1: Devasa bir gemi mezarlığı bulduk. Keşif filosunun bazı teknisyenleri bir iki gemiyi yeniden çalıştırmayı başardı.
+sys_expe_found_ships_3_2: Bir medeniyetin kalıntılarını taşıyan bir gezegen keşfettik. Dışarıdan, hâlâ sağlam duran devasa bir gemi istasyonu daha görüldü. Teknisyenlerimizden ve pilotlarımızdan bir kısmı, birkaç geminin kurtarılıp kurtarılamayacağını belirlemek için yüzeye indi.
+sys_expe_found_ships_logbook_1: 'Makine dairesi subayının seyir defterinden: Yanımızda birkaç gemi daha getirmiş olsaydık, bu güzellerden bazılarını eve götürmek çok kolay olurdu!'
+sys_expe_found_ships_logbook_2: 'Makine dairesi subayının seyir defterinden: Ne yazık ki bu seferde keşfettiğimiz gemilerin hepsini geri getirecek kapasitemiz yoktu.'
+sys_expe_found_ships_logbook_3: 'Makine dairesi subayının seyir defterinden: Ne yazık ki bulduğumuz gemilerin hepsini geri getirecek kapasitemiz yok.'
+sys_expe_found_ships_nothing: Hiç gemi bulunamadı.
+sys_expe_lost_fleet_1: 'Keşif filosundan geriye kalan tek şey şu telsiz mesajı: Zzzrrt aman Tanrım!...Krrrzzzzt şu zrrrtrzt görüyor krgzzzz evet nasıl da Krzzzzzzzztzzzz...'
+sys_expe_lost_fleet_2: Keşif filosundan aldığımız son şey, açılmakta olan bir kara deliğin inanılmaz güzel yakın çekimleri oldu.
+sys_expe_lost_fleet_3: Komuta gemilerinden birindeki nükleer sızıntı bir zincir reaksiyona yol açtı ve tüm keşif filosunu görkemli bir patlamayla yok etti.
+sys_expe_lost_fleet_4: Keşif filosu hiperuzay atlayışından geri dönmedi. Bilim insanlarımız ne olduğunu hâlâ çözmeye çalışıyor ama filo sonsuza dek kaybolmuş görünüyor.
+sys_expe_nothing_1: Bu keşif, bilinmeyen bir bataklık gezegenden getirilen birkaç tuhaf küçük hayvan dışında heyecan verici hiçbir şey getirmedi.
+sys_expe_nothing_2: Keşif filon bir süpernovanın harika fotoğraflarını çekti. Ancak sefer gerçekten yeni bir bilgi kazandırmadı. Yine de bu yılın Evrenin En İyi Fotoğrafı yarışmasını kazanma şansı yüksek.
+sys_expe_nothing_3: Garip bir bilgisayar virüsü, güneş sisteminden ayrıldıktan kısa süre sonra navigasyonu çökertti. Bu yüzden tüm keşif filosu boyunca daireler çizerek uçtu. Seferin pek başarılı olmadığını söylemeye gerek yok.
+sys_expe_nothing_4: Saf enerjiden bir yaşam formu, tüm keşif ekibini günlerce ekranlarındaki hipnotik sembollere baktırdı. Çoğunun kafası sonunda toparlandığında, deuterium yetersizliği yüzünden sefer iptal edilmek zorunda kaldı.
+sys_expe_nothing_5: Peki, en azından artık 5. sınıf kırmızı anomalilerin gemi sistemleri üzerinde yalnızca kaotik etkiler yaratmadığını, mürettebatta kitlesel halüsinasyonları da tetikleyebildiğini biliyoruz. Ne yazık ki bu seferde başka hiçbir şey keşfedilmedi.
+sys_expe_nothing_6: Bu sektörün ilk taramaları umut verici görünse de ne yazık ki eli boş döndük.
+sys_expe_nothing_7: Belki kaptanın doğum günü bu ücra gezegende kutlanmamalıydı. Kötü bir kanamalı ateş mürettebatın çoğunu revire yolladı ve ani personel sıkıntısı seferin başarısız olmasına yol açtı.
+sys_expe_nothing_8: Keşif filon uzayın uçsuz bucaksız boşluğundan başka hiçbir şey bulamadı. Seferi biraz olsun heyecanlı yapacak küçük bir asteroit, radyasyon ya da parçacık bile yoktu.
+sys_expe_nothing_9: Komuta gemisindeki bir reaktör arızası tüm keşif filosunu neredeyse yok ediyordu. Neyse ki teknisyenler işinin ehliydi ve en kötüsünü önledi. Ancak onarım o kadar uzun sürdü ki sefer hiçbir şey elde etmeden döndü.
+sys_expe_report: Keşif raporu
+sys_expe_report_msg: '%s %s filosunun %s konumundaki keşif raporu:'
+sys_expe_time_fast_1: Tahrik sistemi enerji bobinlerindeki öngörülemeyen bir geri besleme döngüsü seferin dönüşünü hızlandırdı ve filo beklenenden erken geldi. İlk raporlara göre bildirilecek başka bir şey yok.
+sys_expe_time_fast_2: Biraz gözü pek yeni komutan, dönüş yolunu kısaltmak için kararsız bir solucan deliği kullandı - ve başardı! Ancak seferin kendisi yeni bir bilgi kazandırmadı.
+sys_expe_time_fast_3: Keşif filon, taranan sektörde hiçbir anormallik bildirmedi. Ancak filo dönüş uçuşunda bir güneş rüzgârına yakalandı ve yolculuk epey hızlandı. Keşif filon beklenenden biraz erken eve dönecek.
+sys_expe_time_slow_1: Navigatörün ciddi bir hatası filoyu tamamen yanlış bir yere indirdi. Bu yüzden dönüş yolculuğu hayli uzun sürdü.
+sys_expe_time_slow_2: Hâlâ bilinmeyen nedenlerle filonun atlayışı tamamen ters gitti. Neredeyse bir yıldızın tam kalbine düşüyorlardı! Neyse ki bilinen bir sisteme indiler ama dönüş yolculuğu ilk planlanandan uzun sürecek.
+sys_expe_time_slow_3: Yeni navigasyon modülü hâlâ bazı hatalarla boğuşuyor gibi. Keşif filosu yalnızca tamamen yanlış yöne gitmekle kalmadı, tüm deuteriumunu da tüketti! Hayal kırıklığına uğrayan filo şimdi yedek güçle dönüyor.
+sys_expe_time_slow_4: Keşif filon yoğun parçacık fırtınalı bir sektöre girdi. Bu, enerji depolama sistemlerini aşırı yükledi ve tüm gemilerin ana sistemleri devre dışı kaldı. Teknisyenler en kötüsünü önlemeyi başardı ama keşif filon şimdi epey gecikmeyle dönecek.
+sys_expe_time_slow_5: Keşif filosunun amiral gemisi, uyarı vermeden doğrudan filonun içine atlayan bir uzaylı aracıyla çarpıştı. Uzaylı gemisi patladı ve amiral gemisinin hasarı ağır oldu. En ciddi onarımlar bitince gemilerin dönüş yolculuğuna başlayacak, çünkü sefer bu durumda devam edemez.
+sys_expe_time_slow_6: Bir kırmızı devin yıldız rüzgârı filonun atlayışını bozdu ve navigasyon sistemleri dönüş yolunu tamamen yanlış hesapladı. Sonuç olarak keşif filosu, tanımadığı yıldızlar arasındaki uçsuz bucaksız boşlukta kendini buldu.
+sys_fleet_return: Filon %s %s %s konumuna dönüyor ve %s %s, %s %s ve %s %s getiriyor. %s
+sys_fleet_won: Filon, %s %s konumundaki saldırıdan %s %s konumuna döndü. %s %s, %s %s ve %s %s ele geçirdin.
+sys_gain: Kazanç
 sys_honorpoints_changed: 'Onur puanları:'
-sys_irak_def: '%d Roketler durduruldu.'
-sys_irak_mess: >-
-  Gezegenler arasi (%d) adet roket  %s kordinatindan %s kordinatina firlatildi
-  <br><br>
-sys_irak_no_att: Tüm roketler durduruldu.
-sys_irak_no_def: Gezegende Mevcut Savunma Yok!
-sys_irak_subject: Roket Saldirisi
-sys_lost: Kayiplar
+sys_irak_def: '%d roket önlendi.'
+sys_irak_mess: Gezegenlerarası roketler (%d), %s konumundan gelip %s konumuna isabet etti. <br><br>
+sys_irak_no_att: Tüm roketler önlendi.
+sys_irak_no_def: Gezegenin savunması yok.
+sys_irak_subject: Roket saldırısı
+sys_lost: Kayıplar
 sys_mess_attack_cancel: |-
-  %s %s'deki savaş iptal edildi.
-  Sunucu hesaplayamadı.
-sys_mess_attack_report: Savas Raporu
+  %s %s konumundaki savaş iptal edildi.
+  Sunucu savaşı hesaplayamadı.
+sys_mess_attack_report: Savaş raporu
 sys_mess_destruc_report: Ay Yoketme Raporu
-sys_mess_fleetback: Geri Donen Filo
-sys_mess_piratebase_gone: 'Filonuz %s ye ulaştı, ancak korsan üssü artık orada değil. Filo eve dönüyor.'
-sys_mess_spy_activity: Casusluk Raporu
-sys_mess_spy_control: Kontrol Kulesi
-sys_mess_spy_destroyed: Casus sondaniz ile baglanti kurulamiyor!
-sys_mess_spy_ennemyfleet_1: Gezegen %s'den gelen düşman casus sondaları %s yakınlarında görüldü.
-sys_mess_spy_ennemyfleet_3: Ay %s'den gelen düşman casus sondaları %s yakınlarında görüldü.
+sys_mess_fleetback: Filo dönüşü
+sys_mess_piratebase_gone: Filon %s konumuna ulaştı ama korsan üssü artık orada değil. Filo eve dönüyor.
+sys_mess_spy_activity: Karşı istihbarat raporu
+sys_mess_spy_control: Merkezi istihbarat
+sys_mess_spy_destroyed: Casus sondaların yok edildi!
+sys_mess_spy_ennemyfleet_1: '%s gezegeninden gelen düşman casus sondaları %s yakınında görüldü.'
+sys_mess_spy_ennemyfleet_3: '%s ayından gelen düşman casus sondaları %s yakınında görüldü.'
 sys_mess_spy_link: >-
   <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
-sys_mess_spy_lostproba: 'Casuslugu engelleyebilme sansi :   %d %% '
-sys_mess_spy_qg: Kontrol Kulesi
-sys_mess_spy_repair_order: Gemiler şu anda onarım iskelesinde onarılıyor.
-sys_mess_spy_report: Casusluk Raporu
-sys_mess_spy_report_details_1: '%1$s (%2$s) gezegeninden [%3$s:%4$s:%5$s] %6$s hakkında casus raporu'
-sys_mess_spy_report_details_3: '%1$s (%2$s) ayından [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu'
-sys_mess_spy_report_details_4: '%1$s (%2$s) konumundan [%3$s:%4$s:%5$s] %6$s tarihinde casus raporu'
-sys_mess_tower: Filo Raporu
-sys_mess_transport: Nakliye Raporu
-sys_moonbuilt: >-
-  Muazzam miktarda serbest metal ve kristal gezegenin etrafında bir uydu
-  oluşturur ve çeker!
-sys_moonproba: 'Bir Ayin ortaya Cikma sansi: '
-sys_raport_amount_error: Simülasyon için gemi/savunma yok veya çok fazla
-sys_raport_lost_contact: >-
-  Saldiriya gonderdigin filo ile tum baglanti kesildi (bunun anlami filon ilk
-  atesle yokedildi)
-sys_raport_not_found: Yanlis rapor kodu
-sys_recy_gotten: >-
-  Geri dönüşümcüleriniz %1$s koordinatlarındaki toplam %4$s %6$s ve %5$s %7$s
-  %2$s %6$s ve %3$s %7$s topladı. gezegeninize getiriliyor.
-sys_recy_mess: Geri dönüşüm filolarınızdan biri %s'e %s %s %s, %s %s ve %s %s ile dönüyor.
-sys_recy_report: Geri Donusum Raporu
-sys_ship_armour: Zirh
+sys_mess_spy_lostproba: 'Casus sondaların fark edilme şansı: %%%d'
+sys_mess_spy_qg: Casusluk dairesi
+sys_mess_spy_repair_order: Gemiler şu anda onarım rıhtımında onarılıyor.
+sys_mess_spy_report: İstihbarat raporu
+sys_mess_spy_report_details_1: '%1$s (%2$s) [%3$s:%4$s:%5$s] gezegeninin casus raporu, %6$s'
+sys_mess_spy_report_details_3: '%1$s (%2$s) [%3$s:%4$s:%5$s] ayının casus raporu, %6$s'
+sys_mess_spy_report_details_4: '%1$s (%2$s) [%3$s:%4$s:%5$s] casus raporu, %6$s'
+sys_mess_tower: Filo Komutanlığı
+sys_mess_transport: Nakliye
+sys_moonbuilt: Muazzam miktardaki serbest metal ve kristal birbirini çekiyor ve gezegenin çevresinde bir uydu oluşturuyor!
+sys_moonproba: 'Ay şansı: '
+sys_raport_amount_error: Hiç gemi ya da savunma seçilmedi ya da simülasyon için çok fazla.
+sys_raport_lost_contact: Saldıran filoyla bağlantı kesildi (ilk turda düşürüldü).
+sys_raport_not_found: Geçersiz savaş raporu kimliği
+sys_recy_gotten: Geri Dönüşümcülerin %1$s koordinatlarındaki toplam %4$s %6$s ve %5$s %7$s enkazdan %2$s %6$s ve %3$s %7$s topladı.
+sys_recy_mess: Geri Dönüşümcü filon %s %s konumuna %s %s, %s %s ve %s %s ile döndü.
+sys_recy_report: Geri dönüşüm raporu
+sys_ship_armour: Zırh
 sys_ship_count: Adet
 sys_ship_repaired: Onarıldı
 sys_ship_shield: Kalkanlar
-sys_ship_type: Gemi Tipi
+sys_ship_type: Gemi türü
 sys_ship_weapon: Silahlar
 sys_spy_defenses: Savunma
 sys_spy_fleet: Filo
-sys_stat_mess: >-
-  Filonuz %s %s'den %s %s %s'e ulaşıyor ve %s %s, %s %s ve %s %s'i teslim
-  ediyor. %s
-sys_stat_mess_stay: Filo Konuslandirma
-sys_stealed_ressources: Ele geciriliyor
+sys_stat_mess: '%s %s konumundan çıkan filon %s %s %s konumuna ulaştı ve %s %s, %s %s ve %s %s teslim etti. %s'
+sys_stat_mess_stay: Konuşlanan filo
+sys_stealed_ressources: Yağmaladıkları
 sys_trade_mess_arr_success: >-
-  Ticaret filolarınızdan biri gezegene dönmeye hazır %1$s %2$s (dönüş uçuşu: %5$s). <form
+  Ticaret filon şuraya dönmeye hazır: %1$s %2$s (dönüş uçuşu: %5$s). <form
   action="game?page=fleetTable&amp;action=sendfleetback"
   method="post"><input name="fleetID" value="%3$s" type="hidden"><input
   value="%4$s" type="submit"></form>
-sys_trade_mess_back: Ticaret filolarınızdan biri %s %s gezegenine başarılı olamadan geri döndü.
-sys_trade_mess_back_success: >-
-  Ticaret filolarınızdan biri %4$s %5$s gezegenine %1$s metal, %2$s kristal ve
-  %3$s döteryum ile başarıyla döndü.
-sys_tran_mess_back: Filolarinizdan biri %s %s.koordinatlarina geri dondu.
-sys_tran_mess_owner: >-
-  %s %s filolarınızdan biri %s %s %s ulaştı ve %s %s, %s %s ve %s %s'yi teslim
-  etti.
-sys_tran_mess_user: >-
-  Dost Nakliye Filosu %s %s koordinatindan %s %s koordinatina ulasiyor.
-  Getirdigi madenler %s %s, %s %s ve %s %s.
-sys_units: unite kaybetti
-sys_wreckfield: >-
-  Savunmanın yok edilen gemilerinden bazıları, birkaç gün boyunca gezegenin
-  yörüngesinde bir enkaz alanı oluşturur.
-sys_wreckfield_added: 'Enkaz alanına eklendi:'
-type_mission_1: Saldir
-type_mission_2: Ittifak Saldirisi
+sys_trade_mess_back: Ticaret filon %s %s konumuna eli boş döndü.
+sys_trade_mess_back_success: Ticaret filon %4$s %5$s konumuna %1$s metal, %2$s kristal ve %3$s deuterium ile başarıyla döndü.
+sys_tran_mess_back: Filon %s %s konumuna döndü.
+sys_tran_mess_owner: '%s %s konumundan çıkan filon %s %s %s konumuna ulaştı ve %s %s, %s %s ve %s %s teslim etti.'
+sys_tran_mess_user: '%s %s konumundan barışçıl bir filo %s %s konumuna ulaştı ve %s %s, %s %s ve %s %s teslim etti.'
+sys_units: birim
+sys_wreckfield: Savunanın yok edilen gemilerinden bazıları birkaç gün boyunca gezegenin yörüngesinde bir hurda alanı oluşturur.
+sys_wreckfield_added: 'Hurda alanına eklenen:'
+type_mission_1: Saldır
+type_mission_2: İttifak Saldırısı
 type_mission_3: Nakliye
-type_mission_4: Konuslanmak
-type_mission_5: Durmak
+type_mission_4: Konuşlan
+type_mission_5: Bekle
 type_mission_6: Casusluk
-type_mission_7: Kolonilestirmek
-type_mission_8: Sokmek
-type_mission_9: Yoketmek
-type_mission_15: Kesif Ucusu
+type_mission_7: Kolonileştir
+type_mission_8: Geri dönüştür
+type_mission_9: Yok et
+type_mission_15: Keşif
 type_mission_16: Ticaret
 type_mission_17: Aktarım
 type_planet_1: Gezegen
-type_planet_2: Harabe
+type_planet_2: Enkaz
 type_planet_3: Ay
 type_planet_4: Korsan üssü
 type_planet_short_1: G
-type_planet_short_2: HA
+type_planet_short_2: EA
 type_planet_short_3: A

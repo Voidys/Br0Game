@@ -1,99 +1,122 @@
-tutorial_buttons_claim: Recompensa de reivindicação
+tutorial_buttons_claim: Receber recompensa
 tutorial_buttons_continue: Continuar
-tutorial_buttons_finalize: Completar o tutorial
-tutorial_buttons_skip: Pular
-tutorial_buttons_skipAll: Pule o tutorial
-tutorial_buttons_skipAll_confirm: |-
-  Você realmente quer pular o resto do tutorial? 
-  Você não pode reativar isso!
+tutorial_buttons_finalize: Concluir o tutorial
+tutorial_buttons_skip: Saltar
+tutorial_buttons_skipAll: Saltar o tutorial
+tutorial_buttons_skipAll_confirm: Saltar o resto do tutorial? Não será possível recomeçá-lo.
 tutorial_goal:
   mission:
-    '1': Ataque outro jogador
-    '6': Envie uma sonda de espionagem a outro jogador.
-    '7': Colonize um novo planeta
-    '8': Recicle um campo de destroços
-    '15': Envie uma frota para uma expedição
+    '1': Ataca outro jogador
+    '6': Envia uma Sonda de Espionagem a outro jogador
+    '7': Coloniza um novo planeta
+    '8': Recicla um campo de destroços
+    '15': Envia uma frota em expedição
   step6:
-    "1": "Mude o nome do seu planeta"
-    "2": "Envie um pedido de amizade a outro jogador"
-    "3": "Faça um pedido de aliança"
-tutorial_goals_header: 'Metas:'
+    '1': Muda o nome do teu planeta
+    '2': Envia um pedido de amizade a outro jogador
+    '3': Envia uma candidatura a uma aliança
+tutorial_goals_header: 'Objetivos:'
 tutorial_goals_ignore: (ignorar)
 tutorial_rewards_header: 'Recompensas:'
 tutorial_text:
-  step0: "Bem-vindo ao jogo! Este tutorial irá guiá-lo pelos conceitos básicos para que você possa começar a jogar e crescer rapidamente.\r\nVocê verá metas e dicas que o ajudarão a progredir em vários aspectos do jogo, desde a construção de minas até a expansão do seu império.<br><br>\r\nVamos começar com o básico para que você possa configurar sua produção de recursos e se preparar para futuras aventuras.\r\nBoa sorte e divirta-se!"
-  step1: "O objetivo deste jogo é acumular o máximo de pontos possível. Você ganha um ponto para cada 1.000 recursos gastos.\r\nExistem várias maneiras de obter recursos, sendo a produção de suas próprias minas a mais importante.<br>\r\nPara começar, certifique-se de estabelecer uma produção básica. Você precisará de metal e cristal, que são produzidos em minas específicas. Para fazer as minas funcionarem, é necessário ter energia proveniente da usina solar.\r\nSe a energia não for suficiente, a produção não será de 100%.<br>\r\nVocê pode construir esses edifícios através do menu <b>Construções</b>. Clicando no nome do edifício, você pode ver o que a próxima expansão oferece em termos de recursos e quanta energia será consumida na próxima fase.<br><br>\r\nPara mais informações, consulte o <b>Wiki</b>: \r\n<a href=\"{wiki_url}/wiki/EN/Rohstoffe\" target=\"_blank\">Raw material production</a>"
-  step2: "Jogar é muito mais divertido quando você interage com outros jogadores.\r\nA maioria organiza-se no nosso Discord, onde você pode obter respostas para suas dúvidas e encontrar outros jogadores para formar parcerias.<br>\r\nSe tiver dúvidas, você também pode abrir tickets lá."
-  step3: "Outra maneira de obter recursos é atacando planetas de outros jogadores.<br>\r\nMas isso também pode acontecer com você, então é melhor construir uma defesa inicial!<br>\r\nTer uma defesa é importante para proteger ao menos a produção durante a noite.<br>\r\nA quantidade não é o mais importante; a composição da frota de ataque também conta.<br>\r\nAntes de saquear, o atacante precisa superar sua defesa. Cada nave que o atacante precisa enviar reduz seu lucro e aumenta suas perdas em caso de destruição.<br>\r\nVocê pode construir defesas no menu <b>Defesa</b> usando um estaleiro, que requer uma fábrica de robôs e deutério para construção.<br><br>\r\nPara mais informações, consulte o Wiki: \r\n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Defense facilities</a>"
-  step4: "Garanta sua produção de recursos expandindo suas minas!<br>\r\nCom o tempo, a construção de edifícios, naves e defesas, além de pesquisas, ficam mais caras.\r\nEntão, aumente sua produção para acompanhar a demanda de recursos no seu planeta.\r\nClique em Construções e expanda os edifícios conforme tiver recursos suficientes."
-  step5: "Construa um pequeno transportador!<br>\r\nTransportadores pequenos são uma opção rápida para transporte no jogo mais avançado.<br>\r\nCom um motor de impulso, são mais rápidos que transportadores grandes em viagens longas.<br>\r\nEles são usados para transportar recursos entre planetas, negociar com outros jogadores, ou atacar.<br><br>\r\nMais informações no Wiki: \r\n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Ships</a>"
-  step6: "Para organizar melhor seus planetas, você pode renomeá-los. Clique no nome do planeta na barra superior e tente renomeá-lo agora.<br><br>\r\nVocê também pode enviar pedidos de amizade para outros jogadores. Quando aceitos, fica mais fácil se comunicar e ver o status online um do outro.\r\nEsse recurso funciona mesmo fora de alianças.<br><br>\r\nJuntar-se a uma aliança permite que você jogue com mais pessoas e envie mensagens coletivas, além de ver o status de atividade e pontuação dos membros, dependendo do cargo.<br><br>\r\nObjetivos:\r\n<ul>\r\n<li>Renomeie seu planeta</li>\r\n<li>Envie um pedido de amizade</li>\r\n<li>Envie um pedido para uma aliança</li>\r\n</ul>"
-  step7: "Para ver quais recursos, edifícios, pesquisas, naves e defesas outros jogadores têm, você pode espioná-los. \r\nEnvie uma sonda de espionagem pelo menu da frota ou pela galáxia.<br>\r\nLembre-se de que outros jogadores também podem espionar você!"
-  step8: >-
-    Uma expedição pode trazer recursos, naves, eventos ou perdas. Para
-    experimentar, pegue uma nave e voe numa expedição clicando nas coordenadas
-    do planeta 16 e na missão «Expedição» no menu da frota.<br>
-
-    Cada tipo de nave adicionará pontos ao tamanho da frota da expedição até um
-    limite em que o tamanho máximo do evento é atingido.<br><br>
-
-    Mais informações no Wiki: 
-
-    <a href="{wiki_url}/wiki/En/Expoanleitung"
-    target="_blank">Expeditions</a>
-  step9: "Para aumentar a produção, colonize novos planetas e produza ou construa naves simultaneamente.\r\nObserve que para colonizar nas bordas do sistema, você precisa de um nível avançado de Astrofísica.\r\nUm transporte curto economiza tempo, mas o deixa vulnerável a jogadores com colônias de ataque temporárias.<br><br>\r\nPara mais informações, consulte o Wiki: \r\n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Astrophysics</a>"
-  step10: "Para obter recursos mais rapidamente, você pode atacar outros jogadores.\r\nAvalie o custo-benefício para garantir que o ataque compense e utilize os relatórios de espionagem e simulador de combate.<br><br>\r\nAtenção! Muitas missões de frota podem ser rastreadas por outros jogadores.<br>\r\nProteger sua frota é um dos aspectos mais importantes do jogo.<br><br>\r\nLeia sobre esses tópicos no Wiki: \r\n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Saven</a> - \r\n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensorphalanx</a>"
-  step10_u6: >-
-    Para obter recursos mais rapidamente, você pode atacar outros jogadores.
-
-    Avalie o custo-benefício para garantir que o ataque compense e utilize os
-    relatórios de espionagem e simulador de combate.<br><br>
-
-    Atenção! Muitas missões de frota podem ser rastreadas por outros
-    jogadores.<br>
-
-    Proteger sua frota é um dos aspectos mais importantes do jogo.<br><br>
-
-    Leia sobre esses tópicos no Wiki: 
-
-    <a
-    href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden"
-    target="_blank">Saven</a>
-  step11: "Quando frotas são destruídas, um campo de destroços é formado e pode ser reciclado.\r\nPara isso, você precisa de um reciclador, que é capaz de coletar até 20.000 recursos do campo de destroços.\r\nDestruir uma frota grande pode ser uma fonte lucrativa de recursos.<br><br>\r\nAlém de enviá-los pelo menu de frotas, recicladores também podem ser enviados diretamente através do menu da galáxia, clicando em um campo de destroços e selecionando a quantidade apropriada."
-  step12: "Parabéns, você concluiu o tutorial!<br><br>\r\nExistem ainda muitas outras mecânicas que este jogo oferece.<br>\r\nPor exemplo, existem essencialmente três estilos de jogo, que diferem em esforço e estratégia:<br>\r\n<ul>\r\n<li>Minerador: foca em expandir as minas em várias colônias, usando principalmente transportadores</li>\r\n<li>Frotista: investe fortemente em naves de combate, com pouca produção própria, sobrevivendo ao saquear outros jogadores</li>\r\n<li>Combinado: uma combinação de ambos os estilos</li>\r\n</ul>\r\nMais tarde, as luas se tornam importantes no jogo, e você já deve ter conhecido a falange sensorial.<br><br>\r\nSe tiver mais perguntas, consulte o Wiki ou peça ajuda à comunidade no Discord."
-  step12_u6: >-
-    Parabéns, você concluiu o tutorial!<br><br>
-
-    Existem ainda muitas outras mecânicas que este jogo oferece.<br>
-
-    Por exemplo, existem essencialmente três estilos de jogo, que diferem em
-    esforço e estratégia:<br>
-
+  step0: |-
+    Bem-vindo a {game_name}!<br><br>
+    Este pequeno tutorial mostra-te o essencial.<br>
+    Ligamos muitas vezes à nossa wiki, porque nem tudo cabe num tutorial. Podes abri-la a qualquer momento no menu da esquerda.<br>
+    Podes saltar o tutorial quando quiseres, mas não o poderás recomeçar mais tarde.<br><br>
+    Boa sorte, Imperador!
+  step1: |-
+    O teu objetivo: fazer o máximo de pontos possível. Ganhas um ponto por cada 1000 recursos que gastares, e a melhor fonte de recursos são as tuas próprias minas.<br>
+    Começa pelo abastecimento básico: precisas de metal e cristal das respetivas minas, mais energia da Planta de Energia Solar para as manter a funcionar. Se faltar energia, as minas produzem abaixo dos 100%.<br>
+    Melhora estes edifícios no menu <b>Edifícios</b>. Clica no nome de um edifício para veres o que o próximo nível te dá e quanta energia vai consumir.<br><br>
+    Queres saber mais? Dá uma vista de olhos à <b>Wiki</b>: 
+    <a href="{wiki_url}/wiki/En/Rohstoffe" target="_blank">Recursos</a>
+  step2: |-
+    Jogar é mais divertido em conjunto. A maioria dos jogadores está no nosso Discord, onde podes obter respostas e encontrar gente para jogar.<br>
+    Ainda estás com dúvidas? Também podes abrir aqui um pedido de suporte.
+  step3: |-
+    Pilhar os planetas de outros jogadores é outra forma de obter recursos – e também te pode acontecer a ti. Por isso, constrói a tua primeira defesa!<br>
+    Mesmo uma defesa pequena protege a tua produção durante a noite.<br><br>
+    Os números sozinhos não decidem uma batalha; a composição da frota atacante também conta.<br>
+    Os atacantes têm de ultrapassar a tua defesa antes de pilharem, e cada nave que tenham de enviar reduz o lucro e pode custar-lhes mais naves.<br>
+    Constrói defesas no menu <b>Defesas</b>. Precisas de um Hangar (que por sua vez precisa de uma Fábrica de Robots) e de algum deutério.<br><br>
+    Aqui tens o artigo correspondente na wiki: 
+    <a href="{wiki_url}/wiki/En/Verteidigung" target="_blank">Instalações de defesa</a>
+  step4: |-
+    Mantém os recursos a fluir expandindo as tuas minas!<br>
+    Edifícios, naves, defesas e pesquisas ficam mais caros com o tempo, por isso a tua produção tem de crescer a par. Abre agora Edifícios e melhora as minas sempre que tiveres recursos.
+  step5: |-
+    Constrói um Cargueiro Pequeno!<br>
+    Os Cargueiros Pequenos são transportadores rápidos e práticos.<br>
+    Com o Motor de Impulsão, são mais rápidos do que os Cargueiros Grandes em distâncias maiores.<br>
+    Usa-os para mover recursos entre os teus planetas, para trocar com outros jogadores ou para os atacar.<br><br>
+    Mais na wiki: 
+    <a href="{wiki_url}/wiki/En/Schiffe" target="_blank">Naves</a>
+  step6: |-
+    Dá um nome ao teu planeta para o identificares facilmente. Na Vista Geral, clica no nome do planeta no cabeçalho do painel de pontos. Experimenta agora.<br><br>
+    Também podes enviar pedidos de amizade a outros jogadores. Quando os aceitarem, é mais fácil conversar e ver o estado online uns dos outros. Para isso não precisam de partilhar uma aliança. Os amigos também podem estacionar frotas nos planetas uns dos outros, para defenderem em conjunto fora de uma aliança.<br><br>
+    Ou junta-te a uma aliança e joga em equipa. Deixas de precisar de pedidos de amizade separados para estacionar frotas. Dentro da aliança podes enviar mensagens gerais e ver o estado online e a pontuação dos outros membros, consoante o teu cargo na aliança.
+  step7: |-
+    Para descobrires que recursos, edifícios, pesquisas, naves e defesas tem outro jogador, tens de o espiar. Envia uma Sonda de Espionagem a um jogador a partir do menu Frota ou da vista Galáxia.<br>
+    Lembra-te: os outros jogadores também te podem espiar!
+  step8: |-
+    Uma expedição pode trazer recursos, naves, eventos especiais ou perdas. Para experimentares, pega numa nave, escolhe a posição de planeta 16 como destino e a missão «Expedição» no menu Frota.<br>
+    Cada tipo de nave contribui para o tamanho da tua frota de expedição, até um limite em que se atinge o tamanho máximo do evento.<br><br>
+    A wiki explica o que podes alterar para maximizar o lucro: 
+    <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expedições</a>
+  step9: |-
+    Quantos mais planetas colonizares, mais depressa cresces: podes produzir recursos e construir naves em vários planetas ao mesmo tempo. Repara que só podes colonizar a margem interior ou exterior de um sistema se o teu nível de Astrofísica for suficientemente alto. A Nave de Colonização em si pode ser construída sem Astrofísica, mas a tua primeira colónia precisa dela!<br><br>
+    Colonizar no teu próprio sistema ou mesmo ao lado mantém as rotas de transporte curtas. A desvantagem: mais tarde no jogo, outros jogadores podem colocar uma colónia no teu sistema, não pelas minas, mas como base de frota temporária – uma chamada colónia de raide.<br><br>
+    Mais na wiki: 
+    <a href="{wiki_url}/wiki/En/Astrophysik" target="_blank">Astrofísica</a>
+  step10: |-
+    Queres recursos mais depressa? Ataca outros jogadores. Pesa o custo e o benefício para que o ataque compense, e usa relatórios de espionagem e o simulador de combate para o planear.<br><br>
+    Cuidado! Os outros jogadores conseguem seguir muitas missões de frota de várias formas.<br>
+    Não perder a frota que tanto custou a construir é uma das partes mais importantes do jogo.<br><br>
+    Por isso, lê estes tópicos da wiki: 
+    <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Salvar frotas</a> - 
+    <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>
+  step10_u6: |-
+    Queres recursos mais depressa? Ataca outros jogadores. Pesa o custo e o benefício para que o ataque compense, e usa relatórios de espionagem e o simulador de combate para o planear.<br><br>
+    Cuidado! Os outros jogadores conseguem seguir muitas missões de frota de várias formas.<br>
+    Não perder a frota que tanto custou a construir é uma das partes mais importantes do jogo.<br><br>
+    Por isso, lê estes tópicos da wiki:
+    <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Salvar frotas</a>
+  step11: |-
+    Quando as frotas são destruídas, deixam um campo de destroços que podes recolher. Para isso precisas de Recicladores, com uma capacidade de carga de 20 000 cada. Aniquilar uma frota grande pode ser uma fonte de recursos muito lucrativa.<br><br>
+    Também podes enviar Recicladores diretamente da vista Galáxia, clicando num campo de destroços, em vez de usares o menu Frota.
+  step12: |-
+    Parabéns, concluíste o tutorial!<br><br>
+    O jogo tem muito mais para oferecer.<br>
+    Por exemplo, há mais ou menos três estilos de jogo, que também diferem no tempo que exigem:<br>
     <ul>
-
-    <li>Minerador: foca em expandir as minas em várias colônias, usando
-    principalmente transportadores</li>
-
-    <li>Frotista: investe fortemente em naves de combate, com pouca produção
-    própria, sobrevivendo ao saquear outros jogadores</li>
-
-    <li>Combinado: uma combinação de ambos os estilos</li>
-
+    <li>Mineiro: expande minas em muitas colónias e voa sobretudo com transportadores</li>
+    <li>Fleeter: investe a maior parte dos pontos em naves de guerra, quase não tem produção própria e vive de atacar outros jogadores</li>
+    <li>Comber: uma mistura dos dois</li>
     </ul>
-
-    Se tiver mais perguntas, consulte o Wiki ou peça ajuda à comunidade no
-    Discord.
+    As luas tornam-se importantes mais tarde no jogo, e a esta altura já deves ter conhecido o Sensor Phalanx.<br><br>
+    Ainda tens perguntas? Lê a wiki ou pergunta à comunidade no Discord.
+  step12_u6: |-
+    Parabéns, concluíste o tutorial!<br><br>
+    O jogo tem muito mais para oferecer.<br>
+    Por exemplo, há mais ou menos três estilos de jogo, que também diferem no tempo que exigem:<br>
+    <ul>
+    <li>Mineiro: expande minas em muitas colónias e voa sobretudo com transportadores</li>
+    <li>Fleeter: investe a maior parte dos pontos em naves de guerra, quase não tem produção própria e vive de atacar outros jogadores</li>
+    <li>Comber: uma mistura dos dois</li>
+    </ul>
+    Ainda tens perguntas? Lê a wiki ou pergunta à comunidade no Discord.
 tutorial_title:
-  step0: Bem-vindo ao Tutorial!
-  step1: Comece a ganhar recursos!
-  step2: Interaja com outros jogadores!
-  step3: Defenda-se!
-  step4: Planeje seu crescimento!
-  step5: Construa naves!
-  step6: Nomeie e faça amigos!
-  step7: Observe os outros!
-  step8: Explore o desconhecido!
-  step9: Expanda com novos planetas!
-  step10: Não dependa apenas de produção própria!
-  step11: Experimente ser um reciclador!
-  step12: Você conseguiu
+  step0: Bem-vindo, Imperador!
+  step1: Hora de começar a minerar!
+  step2: Vem conhecer gente!
+  step3: Não deixes o planeta sem defesa!
+  step4: Pensa no futuro!
+  step5: Naves, precisamos de naves!
+  step6: Dá um nome ao planeta e faz amigos!
+  step7: Vê o que os outros têm!
+  step8: Rumo ao desconhecido!
+  step9: Um planeta nunca chega!
+  step10: Cansado de esperar pelas minas?
+  step11: Hora de tirar o lixo!
+  step12: Conseguiste!

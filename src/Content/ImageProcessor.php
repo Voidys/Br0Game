@@ -12,6 +12,8 @@ use App\Runtime\SafeFile;
  *
  * - storeUpload(): an uploaded JPEG/PNG/GIF/WebP becomes `<dir>/<name>.webp` (scaled down to maxWidth);
  *   animated GIF/WebP/PNG are stored unchanged, so they keep moving.
+ * - variants(): width variants `<name>-<w>w.webp` next to a WebP original for `srcset` (see srcset()); storeUpload() creates
+ *   them when it gets widths, app:images:variants backfills a folder.
  * - webpSibling(): `foo.png` → `foo.png.webp` next to it (app:images:webp; the web server hands it out to
  *   browsers that accept WebP, see public/.htaccess).
  */
@@ -22,10 +24,11 @@ final class ImageProcessor
     private const MIME = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif', 'image/webp' => 'webp'];
 
     /**
+     * @param list<int> $variantWidths widths for the `-<w>w.webp` variants of a (not animated) stored image, [] = none
      * @return string the stored file name (inside $dir)
      * @throws \RuntimeException with a short reason (too large, not an image, …)
      */
-    public function storeUpload(UploadedFile $file, string $dir, string $name, int $maxWidth = 1600): string
+    public function storeUpload(UploadedFile $file, string $dir, string $name, int $maxWidth = 1600, array $variantWidths = []): string
     {
         if (!$file->isValid()) {
             throw new \RuntimeException($file->getErrorMessage());
@@ -54,8 +57,108 @@ final class ImageProcessor
         if (!$this->convert($file->getPathname(), $dir . '/' . $target, $maxWidth)) {
             throw new \RuntimeException('The image could not be converted.');
         }
+        $this->variants($dir . '/' . $target, $variantWidths);
 
         return $target;
+    }
+
+    /**
+     * Writes `<name>-<w>w.webp` next to the WebP file `$path` for every width below the image width (existing up-to-date
+     * variants are kept unless `$force`). Animated images and variants themselves are skipped.
+     *
+     * @param list<int> $widths
+     * @return int number of variants written
+     */
+    public function variants(string $path, array $widths, bool $force = false): int
+    {
+        $info = SafeFile::imageSize($path);
+        if (self::isVariant($path) || $info === false || ($info['mime'] ?? '') !== 'image/webp' || $this->isAnimated($path, 'image/webp')) {
+            return 0;
+        }
+        $written = 0;
+        foreach ($widths as $width) {
+            $target = self::variantPath($path, $width);
+            if ($width >= $info[0] || $width <= 0) {
+                continue;
+            }
+            if (!$force && is_file($target) && filemtime($target) >= filemtime($path)) {
+                continue;
+            }
+            $written += (int) $this->convert($path, $target, $width);
+        }
+
+        return $written;
+    }
+
+    /** @param list<int> $widths @return array{files: int, variants: int, bytes: int} variants() for every WebP below `$root` */
+    public function variantTree(string $root, array $widths, bool $force = false): array
+    {
+        $stats = ['files' => 0, 'variants' => 0, 'bytes' => 0];
+        $files = new \RegexIterator(
+            new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS)),
+            '/\.webp$/i',
+        );
+        foreach ($files as $file) {
+            $path = $file->getPathname();
+            if (self::isVariant($path) || preg_match('/\.(png|jpe?g|gif)\.webp$/i', $path)) {
+                continue;
+            }
+            $stats['files']++;
+            $stats['variants'] += $this->variants($path, $widths, $force);
+        }
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS)) as $file) {
+            if (self::isVariant($file->getPathname())) {
+                $stats['bytes'] += (int) $file->getSize();
+            }
+        }
+
+        return $stats;
+    }
+
+    /** `dir/foo.webp` + 480 → `dir/foo-480w.webp` */
+    public static function variantPath(string $path, int $width): string
+    {
+        return preg_replace('/\.webp$/i', '-' . $width . 'w.webp', $path) ?? $path;
+    }
+
+    public static function isVariant(string $path): bool
+    {
+        return (bool) preg_match('/-\d+w\.webp$/i', $path);
+    }
+
+    /** removes the variants of `$path` (`-<w>w.webp` files next to it) */
+    public static function removeVariants(string $path): void
+    {
+        foreach (glob(preg_replace('/\.webp$/i', '', $path) . '-*w.webp') ?: [] as $variant) {
+            if (self::isVariant($variant)) {
+                SafeFile::remove($variant);
+            }
+        }
+    }
+
+    /**
+     * `srcset` value of an image: its existing variants plus the original (`$url` = public URL of the original without query, `$path` its
+     * file, `$width` its pixel width). Null when there is no variant (single candidate: no srcset needed).
+     */
+    public static function srcset(string $path, string $url, int $width): ?string
+    {
+        $candidates = [];
+        foreach (glob(preg_replace('/\.webp$/i', '', $path) . '-*w.webp') ?: [] as $variant) {
+            if (self::isVariant($variant) && preg_match('/-(\d+)w\.webp$/i', $variant, $m)) {
+                $candidates[(int) $m[1]] = preg_replace('/\.webp$/i', '', $url) . '-' . $m[1] . 'w.webp?v=' . filemtime($variant);
+            }
+        }
+        if ($candidates === []) {
+            return null;
+        }
+        $candidates[$width] = $url . '?v=' . filemtime($path);
+        ksort($candidates);
+        $parts = [];
+        foreach ($candidates as $w => $u) {
+            $parts[] = $u . ' ' . $w . 'w';
+        }
+
+        return implode(', ', $parts);
     }
 
     /** writes `<path>.webp`; false when skipped (animated, unsupported, not smaller than the original) */

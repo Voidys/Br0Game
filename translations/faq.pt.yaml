@@ -2,29 +2,153 @@ faq_overview: FAQ
 questions:
   '1':
     '1':
-      body: "<p>Nesta parte do Tutorial, é descrito os edificios principais do jogo. Este explica como estes devem ser construidos no inicio e o que é necessário para construir um império de sucesso.</p>\r\n<h3>Planta de Energia Solar:</h3>\r\n<p>A fim de produzir os recursos que precisas, precisas de construir a Planta de Energia Solar, que é necessário para uma produção positiva de recursos, de modo que a produção não fique negativa ou que tenhas os recursos produzidos por completo</p>\r\n<h3>Mina de Metal:</h3>\r\n<p>O metal é um dos três recursos que estarão disponíveis no jogo. O metal é usado para quase qualquer coisa que podes construir ou de pesquisas. Portanto, uma boa expansão desta mina é aconselhável.</p>\r\n<h3>Mina de Cristal e Sintetizador de Deutério:</h3>\r\n<p>O Cristal é um recurso importante para edifícios, naves, e de pesquisas. É produzido em menor extensão do que o metal, o que torna assim mais caro.No decorrer do jogo, tu verás o quão o cristal é necessário. O deutério é uma fonte de energia, é a base de combustível de recursos e de uma pesquisa importante (laboratório de pesquisa).</p>"
+      body: |-
+        <p>Esta secção apresenta os edifícios principais: o que construir primeiro e para que serve cada um. Um império próspero começa por construí-los por uma ordem sensata.</p>
+        <h3>Planta de Energia Solar</h3>
+        <p>Constrói esta primeiro. As minas precisam de energia para produzir metal, cristal e deutério. Depois de a planta estar pronta, a barra de recursos e a página Produção mostram quanta energia tens.</p>
+        <h3>Mina de Metal</h3>
+        <p>O metal é um dos três recursos. Quase tudo o que constróis ou pesquisas custa metal, por isso expandir esta mina é prioridade. No início, mantém-na vários níveis à frente das outras minas.</p>
+        <h3>Mina de Cristal e Extrator de Deutério</h3>
+        <p>O cristal é usado em edifícios, naves e pesquisas. Produzes menos do que de metal, o que o torna mais valioso; mais tarde no jogo é muitas vezes alvo de feroz disputa. O deutério abastece as tuas frotas, pode ser queimado para produzir energia na Planta de Fusão e é necessário para vários edifícios e pesquisas importantes (incluindo o Laboratório de Pesquisas).</p>
+        <p>Mais informações: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
       title: Passo 1
     '2':
-      body: "<p>Para expandir o teu império e competires com outros jogadores ou precisares interagir com outros edifícios. Através da pesquisa e da construção de um Hangar começa a construção da tua frota e da defesa planetária. Detalhes podem ser encontrados aqui:</p>\r\n<h3>O Hangar:</h3>\r\n<p>Aqui estão todas as naves que tu tens disponível neste jogo. Algumas naves serão necessárias uma elevada quantidade de requesitos de modo a que estes possam ser construidos. Uma visão geral das naves ou da defesa que tem requisitos técnicos, podem ser encontrados sob o título \"Tecnologia\", no menu. Quanto maior o Hangar, mais rápido pode ser construída.</p>\r\n<h3>O Laboratório de Pesquisas:</h3>\r\n<p>Estes são utilizados para construir novos edifícios, naves e defesa. Também as pesquisas podem ser usadas para conseguir alguns bonus. A pesquisa pode ser acelerada através da expansão do Laboratório de Pesquisas</p>\r\n<h3>Fábrica de Robots:</h3>\r\n<p>A fábrica de robots é um componente essencial. Através da sua expansão, o tempo de produção de sondas pode ser reduzido, bem como a construção de edifícios.</p>"
+      body: |-
+        <p>Para fazer crescer o teu império e interagir com outros jogadores, precisas de mais edifícios. A pesquisa e um Hangar permitem-te começar uma frota e a defesa planetária.</p>
+        <h3>Hangar</h3>
+        <p>É aqui que se constroem todas as naves (e defesas). O Hangar fica disponível cedo, mas muitas classes de naves ainda exigem pesquisas adicionais. O menu Tecnologias lista os requisitos de cada nave e defesa. Níveis mais altos do Hangar constroem mais depressa.</p>
+        <h3>Laboratório de Pesquisas</h3>
+        <p>As pesquisas começam aqui. Desbloqueiam edifícios, naves, defesas e novas pesquisas, e algumas tecnologias dão ainda bónus ao que já tens. Expandir o Laboratório de Pesquisas acelera as pesquisas.</p>
+        <h3>Fábrica de Robots</h3>
+        <p>A Fábrica de Robots é essencial. Níveis mais altos reduzem o tempo de construção dos edifícios e aceleram também a produção de naves. Quando os tempos de construção ficarem longos, expande a Fábrica de Robots para os voltar a baixar.</p>
       title: Passo 2
     '3':
-      body: "<p>Esta parte do tutorial é dedicada à defesa do planeta, como as primeiras ações com a tua própria frota.</p>\r\n<h3>A Galáxia:</h3>\r\n<p>É usado para localizar os outros jogadores. Tu encontrarás informações detalhadas sobre os outros planetas, e também pode enviar um pouco da tua frota diretamente a partir deste ponto de vista. Além disso, tu podes verificar neste ponto de vista também, o contacto com outros jogadores, ou espiar em outro planeta, se possuires as Sondas de Espionagem</p>\r\n<h3>Envio de Frotas:</h3>\r\n<p>As Frotas pode visualizar a galáxia, ou estão além do ponto \"frota\" enviado. Primeiro, seleciona o número de navess de um certo tipo de nave está programado para voar. Ele deve ser definido o alvo (coordenadas, que são obtidos na vista galáxia), bem como a velocidade com que esta deve ser feita. Além disso, o tipo de missão como \"Atacar\", \"Colonizar\", \"Transferir\", \"Destruir\" ou \"Manter Posições\" é determinado.</p>\r\n<h3>A Defesa:</h3>\r\n<p>Para ser capaz de proteger o teu próprio planeta com a construção do Hangar, é também a construção de defesa. Estes oferecem alguma proteção contra os inimigos com a tua própria frota no momento do ataque dos teus adervesários. Em contraste com a frota, 70% da defesa continua existente no planeta</p>"
+      body: |-
+        <p>Esta secção trata da defesa do teu planeta e dos primeiros movimentos da tua frota: como enviar frotas e como lidar com os outros jogadores.</p>
+        <h3>Vista Galáxia</h3>
+        <p>Usa-a para encontrar outros jogadores. Vês detalhes sobre outros planetas e podes enviar parte da tua frota diretamente a partir desta vista. Também podes enviar mensagens a jogadores ou espiar um planeta, se tiveres Sondas de Espionagem disponíveis.</p>
+        <h3>Enviar frotas</h3>
+        <p>As frotas podem ser enviadas a partir da vista Galáxia ou do menu Frota. Primeiro, escolhe quantas naves de cada tipo queres enviar. Depois define o destino (coordenadas da vista Galáxia) e a velocidade. Por fim, escolhe a missão, como Atacar, Estacionar, Manter posição, Reciclar ou Transportar.</p>
+        <h3>Defesa</h3>
+        <p>Quando tiveres um Hangar, também podes construir defesas. Protegem o planeta e combatem juntamente com qualquer frota presente quando um ataque chega. Ao contrário das naves, cerca de 70% das defesas destruídas são reparadas depois do combate.</p>
       title: Passo 3
-    category: Dicas para Iniciantes
+    category: Dicas para iniciantes
   '2':
     '1':
-      body: "<h3>Raid:</h3>\r\n<p>É o ataque contra outros jogadores para tomares posse dos recursos deles. Existe varios tipos de ataques como:</p>\r\n<ul>\r\n\t<li>\"Farmar\"</li>\r\n\t<li>ACS</li>\r\n\t<li>Raid (ou Guerra)</li>\r\n\t<li>Interceptar</li>\r\n</ul>\r\n<h3>Farmraid:</h3>\r\n<p>Estes são escaneados para os planetas ao teu redor, e envia pequenas frotas que têm suficiente capacidade de transporte e poder de fogo para abrir caminho, assim para uma menor perda e um lucro maior (a soma de recursos roubados exceder o consumo)</p>\r\n<h3>ACS:</h3>\r\n<p>O auge do Raid.<br>\r\nAqui são caçados especificamente das frotas inimigas.<br>\r\nÉ, portanto, a categoria rainha, exceto como espionagem e uma boa dose de sorte e boa equipa. Se uma frota inimiga viu pela primeira vez este só deve ser capturado e reciclado. Isto em si não é geralmente fácil, uma vez que as frotas que trazem lucro realmente mover muitas vezes fora da sua própria capacidade de reciclagem. Em seguida, fora da frota própria, o reciclador deve ter dado aos seus parceiros os recursos de destroços.</p>\r\n<h3>Raid:</h3>\r\n<p>É o mais fácil de fazer, mas também a maneira menos popular para vencer.\r\nCom o desenvolvimento de destroços aos \"derrotados\", e como ninguem pode manter estes na galaxa, é encontrado e recolhido.. As vezes é um grande incomodo para quem sofreu o ataque. </p>\r\n<h3>Intercepção</h3>\r\n<p>O conteúdo de uma vida de Fleeter é construir frota e destruir. Desde que tu não podes sempre estar em torno de frotas, tens que às vezes, especialmente para chegar a bons jogadores, esforçar-te mais. Isso geralmente não é tão fácil, porque existem maneiras de se proteger.</p>\r\n"
-      title: Raid
+      body: |-
+        <h3>Raides</h3>
+        <p>Um raide é atacar outros jogadores para lhes roubar os recursos. Tipos mais comuns:</p>
+        <ul>
+        <li>Raide de farm</li>
+        <li>Ataque de frota</li>
+        <li>Raide a campos de destroços</li>
+        <li>Intercetar</li>
+        </ul>
+        <h3>Raide de farm</h3>
+        <p>São os ataques mais comuns num universo. Espias planetas próximos e envias frotas pequenas com capacidade de carga e poder de fogo suficientes para vencer defesas fracas e ainda ter lucro: os recursos roubados devem superar o deutério gasto mais as tuas próprias perdas.</p>
+        <h3>Ataque de frota</h3>
+        <p>O topo dos raides: caçar as frotas de outros jogadores. Além de Sondas de Espionagem e sorte, contam um Sensor Phalanx e um bom timing. Quando encontras uma frota que valha a pena, ainda tens de a apanhar e reciclar os destroços. Muitas vezes é difícil, porque frotas lucrativas podem exceder a tua capacidade de reciclagem – então tens de coordenar recicladores e, se for preciso, parceiros de ataque de aliança (ACS), além da frota de combate.</p>
+        <h3>Raide a campos de destroços</h3>
+        <p>A forma mais fácil, e menos popular, de ter lucro: recolher campos de destroços criados por outros jogadores. Os destroços pertencem a quem os recolhe, por isso roubar campos é uma fonte frequente de más relações.</p>
+        <h3>Intercetar</h3>
+        <p>O trabalho de um fleeter é construir frota e destruir frota. Nem sempre vais encontrar naves paradas, por isso apanhar bons jogadores significa muitas vezes intercetá-los enquanto salvam a frota ou enquanto voam num ataque. Não é fácil; há maneiras de se defender.</p>
+        <ul>
+        <li><p>Uma lua facilita a interceção, porque um Sensor Phalanx consegue ver os movimentos de frotas em planetas ao alcance (não em luas). Se encontrares uma frota que valha a pena apanhar, calcula o tempo de voo que lhe falta – sobretudo o regresso depois de chegar. Os níveis dos motores (Combustão, Impulsão, Hiperespaço) de um relatório de espionagem chegam para o calcular, à mão ou com uma calculadora de tempos de voo. Um relógio preciso ajuda. Cronometra a tua frota e os recicladores para chegarem cerca de 3–5 segundos depois do alvo ao planeta ou lua dele. Os recicladores também têm de ser cronometrados.</p></li>
+        <li><p>Para intercetar uma frota que voa de uma lua para um campo de destroços, precisas de uma hora de partida aproximada. Cria um campo de destroços visível nos sítios onde achas que vão recolher (por exemplo, com Sondas de Espionagem). Calcula quanto tempo a frota deles demora a chegar lá, vigia o sistema e atualiza a página até o campo desaparecer. Anota essa hora, soma o voo de regresso deles e cronometra a tua frota e os recicladores para uns segundos depois dessa chegada.</p>
+        <p><b>Nota:</b> isto nem sempre funciona. Um reciclador enviado à frente para limpar primeiro o campo é uma resposta comum.</p></li>
+        <li>Outra forma de intercetar é estacionar no planeta de um amigo para o proteger, obrigando os atacantes a recolher porque a frota defensora seria forte demais. Podes reduzir o risco de seres apanhado assim com um scan de segurança.</li>
+        <li><p>Se um jogador estaciona de um planeta para outro e depois recolhe a frota, esta desaparece do Sensor Phalanx. Observa o padrão de salvamento dele (quando lança e quando recolhe). Quando esperares uma recolha, faz phalanx ao planeta a cada segundo. No momento em que a frota desaparecer, anota a hora, soma o voo de regresso e chega cerca de 4–6 segundos depois com a frota e os recicladores.</p>
+        <p>Se ele salva de uma lua para um campo de destroços e envia recicladores à frente, intercetar é quase impossível a menos que destruas a lua. Envia Estrelas da Morte com a missão Destruir. Depois de a lua desaparecer, a frota regressa ao planeta; faz phalanx a esse planeta e encaixa-te uns segundos atrás dela.</p>
+        <p>Todas estas técnicas funcionam muito melhor se conheceres os hábitos do alvo – por exemplo, salvar a frota todas as noites às 23:00, ou ligar-se ao meio-dia. Estuda o jogador antes de o intercetares.</p></li>
+        </ul>
+        <p>Mais na wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Salvar frotas</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
+      title: Raides
     '2':
-      body: "<h3>Como posso proteger-me</h3>\r\n<p>Um grande número de armas de defesa assusta alguns jogadores já infelizmente, e são atraídos por outros. Como resultado, tu perdes um monte de recursos, uma vez que as defesas, nada vai para o campo de destroços, quando são destruídos. A única exceção é a chamada Destroços de Defesas, em que o atacante quando te ataca, cria destroços de defesas no campo de destroços (A perda de 7% da defesa não conta nos destroços, conta é a perda total da defesa no combate).\r\n</p>\r\n<p>Além disso, existe os Misseis Interplanetários, cujo único objectivo é destruir a defesa. Em contraste com o ataque normal, os misseis não são novamente construidos. Um ataque bem planeado, com misseis interplanetários reduz o perigo à tua própria frota consideravelmente.</p>\r\n<p>O aumento da pesquisa de Espionagem permite um aumento de poderes ver o conteudo dos outros jogadores. Sendo assim, enquanto elevado for o numero deste, terás acesso às naves, defesa, edificios ou pesquisas do inimigo</p>\r\n<p>A melhor maneira de proteção é nenhum jogador ver o que tens na realidade, durante o tempo que não tens acesso à Internet e em que estas a executar um fleet. Se o inimigo atacar, roubará apenas os recursos produzidos que não foi levados pelo fleet, o que contribui para o inimigo julgar que és fraco e assim evita a probabilidade de ele atacar-te</p>\r\n<h3>Br0Game \"Fleet Save\"</h3>\r\n<p>O Fleetsave da frota é um componente chave do Br0Game, mas infelizmente muitos jogadores não dominam a Fleetsave. Então aqui vai uma explicação: Há muitas maneiras aos seus recursos e sua frota de mais ou menos seguro para proteger contra os ataques das frotas inimigas. Aqui estão algumas das quase 100% de certeza, mas outros são muito incertas.<br>\r\nO primeiro método de Fleetsaves é a \"localização callback\". Isso envia frota do jogador para um planeta em sua própria área com a missão de transferir. Este vôo vai então parar após algum tempo. Nisto é usado os calculos de Phalanx em que o jogador faz contas relacionadas com o tempo de frota do inimigo, com o seu tempo de combate. Este método não é 100% certo, mas se tu não quebrares no último momento, mas um par de horas antes, só com um esforço enorme para interceptar.<br> Nota - Muitos jogadores \"inteligentes\" não conseguem derivado ao defensor aparecer on, ou regressar a frota em voo! </p>\r\n<p>Um método muito comum de Fleetsave é enviares recuros de uma frota e de uma lua, e enviares para um campo de destroços distante. Neste não conta a quantidade de destroços, mas sim se existe destroços. As naves vão e regressam, com os destroços recolhidos e com tudo salvo</p>\r\n<p>Outro metodo de fazer fleet facilmente, é fazer fleetsave de lua a lua, em que os Inimigos não podem fazer phalanx a luas (Porque estas é que possuem o sensor!)</p>"
-      title: Fleetsave
+      body: |-
+        <h3>Atacar com ACS</h3>
+        <p>Para atacar em conjunto, envia primeiro uma frota com a missão Atacar para o alvo. Depois de ela partir, abre o menu Frota e usa ACS para transformar essa frota num grupo ACS. Aí podes mudar o nome do grupo e convidar outros jogadores; o jogador que iniciou o ataque é convidado automaticamente. Cada jogador convidado envia depois as suas próprias naves para as mesmas coordenadas com a missão Ataque de Aliança.</p>
+        <p>O grupo voa sempre ao ritmo da frota participante mais lenta. Frotas mais rápidas que se juntem mais tarde não encurtam o tempo restante. Frotas mais lentas aumentam o tempo restante para o seu próprio tempo de voo. Normalmente, um ataque ACS aceita no máximo 5 jogadores e 16 frotas (as definições do universo podem diferir). Uma frota que se junte pode aumentar o tempo de voo restante em no máximo 30%. Se faltarem 100 minutos, uma frota que se junte pode demorar no máximo 130 minutos.</p>
+        <p><b>Aviso:</b> se o fundador do ACS recolher a frota, todas as frotas do grupo são também recolhidas.</p>
+        <h3>Defender com ACS</h3>
+        <p>Se estás a ser atacado, os membros da aliança e os amigos podem ajudar. Enviam uma frota para as coordenadas atacadas, escolhem quanto tempo ficam e usam a missão Manter posição. Além do deutério do voo, são cobrados à partida custos extra de permanência, consoante o tamanho da frota e a duração. Enquanto estão em posição, combatem em todas as batalhas nesse planeta ou lua e aparecem nos relatórios de espionagem como se fossem naves tuas. Cronometra as permanências para chegarem pouco antes do atacante, para que um scan de segurança as veja com menos probabilidade. Os jogadores em posição podem recolher a frota no menu Frota a qualquer momento; caso contrário, a frota espera o tempo da permanência e regressa a casa.</p>
+        <h3>Deutério por 1 hora de permanência</h3>
+        <p>Cargueiro Pequeno: 5<br>
+        Cargueiro Grande: 5<br>
+        Caça Ligeiro: 2<br>
+        Caça Pesado: 7<br>
+        Cruzador: 30<br>
+        Nave de Batalha: 50<br>
+        Nave de Colonização: 100<br>
+        Reciclador: 30<br>
+        Sonda de Espionagem: 1/10<br>
+        Bombardeiro: 100<br>
+        Destruidor: 100<br>
+        Estrela da Morte: 1/10</p>
+      title: Sistema de Combate de Aliança
     '3':
-      body: "<p>Uma lua pode ocorrer quando um campo de destoços tem pelo menos cerca de 100.000 unidades, o que é, então, uma oportunidade lua 1% acaso. Máxima é de apenas 20% de chance não importa o quão grande é a lua.\r\n</p>\r\n<h3>Geral</h3>\r\n<p>As luas podem ter nomes como Planetas mas normalmente o nome por defeito é \"Moon\". Podes ter mais de uma lua, mas uma lua por planeta. Os satélites têm a vantagem de que um deles invisíveis para o Fleetsave. Na lua, podes construir Armazens, Tanque de Deutério, Fabrica de Robots ou Nanites, Base Lunar, Sensor Phalanx e o Portal Salto Quantico</p>\r\n<h3>Tamanhos de Luas</h3>\r\n<p>A lua pode ser feita depende do numero de destroços que são feitos.A maior hipotese de criação de uma lua simples é de 1667 Caças Ligeiros, em que cria uma hipotese de 20% de lua. Usas Caças Ligeiros porque eles são faceis de serem destruidos.</p><p>De outra maneira, para que exista hipotese de lua, é necessário ter defesas no planeta. É recomendado construir 3334 Lançadores de Misseis ou Lasers Ligeiros</p><p>As enormes quantidades que poderá ser feitas de destroços, irá determinar a formação da lua em torno do teu planeta</p><p>Probabilidade de Lua entre 1% e 19% é de tamanho aleatório e probabilidade de 20% a Lua terá 8000 KM de Diâmetro <br> Luas normais nunca são superiores a 8944 km de diâmetro.</p>\r\n<h3>Construção</h3>\r\n<p>Os edificios podem ser Armazens, Tanque de Deutério, Fabrica de Robots ou Nanites, Hangar, Deposito de Aliança, Base Lunar, Sensor Phalanx e o Portal Salto Quantico. O Hangar é inutil ser construido se transferes do proprio planeta para a lua naves. O Depósito de Aliança poderá ser util para defender a Lua de ataques<br>\r\nOs três edifícios específicos sobre a Lua são:</p>\r\n<ul><li><p><b>Base Lunar</b><br>Ele é usado para criar novos campos​​, em que são adicionados 3 novos campos por cada nivel</p></li>\r\n<li><p><b>Sensor Phalanx</b><br>É usado para ver as actividades de frota para o planeta inimigo, mas este não consegue ver os das luas. Tem um alcance limitado de galáxias, em que são aumentadas por nivel</p></li>\r\n<li><p><b>Portal de Salto Quântico</b><br>Este é usado para transferência de frota de uma lua para a outra instantâneamente! Mas este não transporta recursos e o tempo de saltos entre a transferência de frota isntantânea é de 1 hora</p></li></ul>\r\n<p>Aqui está uma lista de o desenvolvimento ideal de uma lua:<br>\r\n<b>Legenda:</b><br>\r\nMB – Lua<br>\r\nSP – Phalanx<br>\r\nST – Portal<br>\r\nRB – Fábrica de Robots</p>\r\n<p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>\r\nEsta ordem é apenas sugerida se fores novato, pois claro jogadores mais experientes têm a sua ideia de desenvolvimento</p>\r\n<h3>Destruição de Lua</h3>\r\n<p>A lua também pode ser destruída novamente, o qual só é permitido com naves especificas.</p>\r\n<p>No menu de Fleet, selecionas as naves chamadas \"Estrela da Morte\" ou \"Estrela Destruidora\". Quando chegar ao momento de escolher a missão para a Lua, escolhes \"Destruir\". Estas missões nem sempre são bem sucedidas, a lua poderá ser destruida como tambem não pode. Nestas batalhas não existe destroços! Quanto maior for a lua para ser destruida, mais Estrelas da morte serão necessárias e mais arriscado é a tentativa de destruição deste!</p>\r\n<h3>Tamanho de Lua:</h3>\r\n<p>Destroços de 100 000 unidades pode render uma lua de 1% de probabilidade. A probabilidade máxima é de 20%. <p>"
+      body: |-
+        <p>Pode formar-se uma lua quando é criado um campo de destroços de pelo menos 100 000 unidades (probabilidade de lua: 1%). A probabilidade tem um teto de 20%, por maior que seja o campo.</p>
+        <h3>Geral</h3>
+        <p>As luas podem ser renomeadas como os planetas, mas «(Moon)» fica sempre no nome. Podes ter no máximo uma lua por planeta. Uma lua permite-te salvar a frota fora da vista de um Sensor Phalanx, por isso compensa criar uma relativamente cedo. Numa lua podes construir Fábrica de Robots, Hangar, Armazém de Metal, Armazém de Cristal, Tanque de Deutério, Depósito da Aliança, Base Lunar, Sensor Phalanx e Portal de Salto Quântico.</p>
+        <h3>Moonshot</h3>
+        <p>Um moonshot é a destruição deliberada de naves para criar um campo de destroços. Os Caças Ligeiros são a escolha habitual: se 30% forem da frota e 0% da defesa para destroços, 1667 Caças Ligeiros dão uma probabilidade de lua de 20%. São baratos de perder e ficam muito perto do teto. Se um jogador mais forte destrói Caças Ligeiros de um mais fraco, qualquer um pode recolher os destroços. Se um jogador mais fraco ataca um mais forte com naves feitas para morrer, só o mais fraco os pode recolher – caso contrário é pushing. As luas e as tentativas de lua estão sujeitas às regras de pushing.</p>
+        <p>Num universo em que a defesa também gera destroços, muitas vezes é melhor construir defesa e deixá-la ser destruída em várias vagas, para várias tentativas de lua. 3334 Lançadores de Mísseis ou 3334 Lasers Ligeiros são uma escolha comum.</p>
+        <p>Quando se forma uma lua, o relatório de combate diz que as enormes quantidades de metal e cristal livres se atraem e formam um satélite à volta do planeta.</p>
+        <p>Probabilidade de lua entre 1% e 19%: tamanho aleatório. Probabilidade de lua de 20%: mais de 8000 km de diâmetro. Uma lua nunca é maior do que 8944 km.</p>
+        <h3>Edifícios</h3>
+        <p>Normalmente não compensa construir armazéns numa lua, porque lá não se produz nada. Um Hangar também raramente é útil: os tempos de construção são longos e podes construir naves no planeta. Um Depósito da Aliança é discutível; também ocupa campos valiosos.</p>
+        <p>Os três edifícios exclusivos da lua são:</p>
+        <ul>
+        <li><p><b>Base Lunar</b><br>Acrescenta campos construíveis: 3 por nível, um dos quais é ocupado pela melhoria seguinte da Base Lunar.</p></li>
+        <li><p><b>Sensor Phalanx</b><br>Mostra movimentos de frotas em planetas inimigos (não em luas). O alcance aumenta a cada nível.</p></li>
+        <li><p><b>Portal de Salto Quântico</b><br>Move naves instantaneamente de uma lua para outra. Os recursos não podem ir com elas. Depois de um salto, o portal precisa de tempo para arrefecer (normalmente uma hora) ou sobreaquece.</p></li>
+        </ul>
+        <p>Uma ordem de construção comum para a lua:<br>
+        <b>Legenda:</b><br>
+        MB – Base Lunar<br>
+        SP – Sensor Phalanx<br>
+        ST – Portal de Salto Quântico<br>
+        RB – Fábrica de Robots</p>
+        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
+        Depois disso podes continuar a expandir o Sensor Phalanx, se tiveres os recursos. Também podes demolir alguns níveis da Fábrica de Robots e passar esses campos para o phalanx.</p>
+        <h3>Destruição</h3>
+        <p>Uma lua só pode ser destruída com Estrelas da Morte. No menu de missões escolhe Destruir em vez de Atacar. Qualquer frota na lua tem de ser destruída primeiro; as Estrelas da Morte sobreviventes ainda podem perder-se quando a própria lua é destruída. A destruição de uma lua não cria campo de destroços.</p>
+        <h3>Ataques de Estrelas da Morte a luas</h3>
+        <p>Probabilidade de destruir a lua: (100 − raiz(tamanho da lua)) × raiz(número de Estrelas da Morte). Probabilidade de as Estrelas da Morte atacantes serem destruídas: raiz(tamanho da lua) / 2. Luas maiores são mais arriscadas de destruir.</p>
+        <h3>Probabilidade e tamanho da lua</h3>
+        <p>100 000 unidades de destroços dão uma probabilidade de lua de 1%. Probabilidade máxima: 20%. Depois de uma alteração posterior, todas as luas têm o número máximo de campos construíveis (79). Antes era FLOOR((diâmetro / 1000)²). Maior lua possível: 8944 km de diâmetro, 79 campos.</p>
+        <p>Mais na wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Luas</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
       title: Luas
     '4':
-      body: "<h3>Como faço para formar uma Aliança</h3>\r\n<p>Vais ao menu \"Aliança\" e selecionas \"Criar Aliança\". Neste pões a TAG (Sigla) da aliança e o nome desta. Após estes passos executados, fundaste uma aliança</p>\r\n<p>Abaixo tu encontrarás os seguintes links:<br>\r\n\"Membros\": Aqui poderás ver a lista de todos os membros<br>\r\n\"Teu rank\": Aqui encontarás a tua \"patente\" ou rank da Aliança. Se neste és administrador, ao lado encontraráas o menu de administração<br>\r\n\"Mensagem Global\": Nesta função poderás enviar uma mensagem geral a todos os jogadores existentes na aliança</p>\r\n<h3>Gestão de Aliança</h3>\r\n<p>Neste menu poderás editar a descrição da Aliança, se a desejas apagar, se queres editar as \"patentes\" ou ranks, os pactos e ainda editar os membros<br>\r\nO texto externo é uma breve descrição da tua aliança para todos os membros que visitarem a página da aliança, como também o texto interno serve para conteudo exclusivo apenas dos membros da aliança, como coordenadas inimigas, coordenadadas aliadas, etc.<br>\r\nTambém nas configurações, poderás editar a imagem que é exibida da Aliança e tambem poderás especificar o texto de aplicação. Também podes mudar o nome da posição de administrador, que normalmente é \"Leader\" ou \"Fundador\"<br>\r\n\"Dissolver Aliança\" é a função que faz apagar por completo a aliança. Se queres abandonar a aliança mas não desejas apagar, ai fazes Abdicar / Aceitar aliança</p>"
-      title: Aliança
+      body: |-
+        <h3>Como fundo uma aliança?</h3>
+        <p>Abre Aliança no menu da esquerda e depois Criar a tua própria aliança. Escreve uma tag de aliança (a abreviatura) e um nome de aliança. Exemplo: uma aliança chamada «The Top Ally» pode usar a tag «DTA».</p>
+        <p>Só são permitidas letras, números e espaços. Depois de escreveres a tag e o nome, clica em Criar. Se esse nome ou tag já estiver em uso, aparece um erro e tens de escolher outro. Se correr bem, vês uma confirmação; Continuar abre o menu ainda vazio da tua aliança, a que podes sempre voltar em Aliança, no menu da esquerda. No topo vês a tua tag e o teu nome.</p>
+        <p>Por baixo encontras:<br>
+        Membros: todos os membros com pontos, coordenadas do planeta principal, data de entrada e estado online. Clica nos cabeçalhos das colunas para ordenar.<br>
+        O teu cargo: o nome do teu cargo, mais uma ligação para a gestão da aliança.<br>
+        Mensagens gerais: envia uma mensagem a toda a aliança ou a cargos selecionados.</p>
+        <h3>Gestão da aliança</h3>
+        <p>Em Cargos defines os direitos de cada cargo, por exemplo dissolver a aliança ou enviar mensagens gerais. Em Membros podes expulsar jogadores, atribuir cargos e ver há quantos dias estão offline. Também podes mudar a tag e o nome da aliança.</p>
+        <p>Gestão de textos edita os textos da aliança. O texto externo é visível para todos os jogadores; o texto interno só para os membros. O texto de candidatura é um modelo para quem se candidata.</p>
+        <p>Em Opções podes ligar uma imagem de banner e um fórum da aliança, escolher se as candidaturas estão abertas e definir o nome do cargo de fundador. Se o deixares vazio, o cargo é Fundador.</p>
+        <p>Podes dissolver a aliança ou transferi-la para outro membro, que passa a ser o fundador.</p>
+      title: Alianças
     '5':
-      body: "<h3>Onde posso encontrar mais informações?</h3>\r\n<p>Alemão:<br>\r\n<a href=\"https://www.owiki.de/index.php/Aufbautaktik\" target=\"_blank\">Guia de partidao (alemão)</a> <br>\r\n<a href=\"https://www.owiki.de/index.php/Raideraccount\" target=\"_blank\">Estilo de jogo: Fleeter (alemão)</a> <br>\r\n<a href=\"https://www.owiki.de/index.php/Comber\" target=\"_blank\">Estilo de jogo: Comber (alemão)</a> <br>\r\n<a href=\"https://www.owiki.de/index.php/Saven\" target=\"_blank\">Poupança (alemão)</a></p>\r\n<p>Ingles:<br>\r\n<a href=\"https://ogame.fandom.com/wiki/Quick_Start_Guide\" target=\"_blank\">Guia de início rápido (ingles)</a><br>\r\n<a href=\"https://ogame.fandom.com/wiki/Playing_Styles\" target=\"_blank\">Estilos de jogo (Mineiro, Fleeter, Comber)(ingles)</a><br>\r\n<a href=\"https://ogame.fandom.com/wiki/Fleetsaving\" target=\"_blank\">Poupança (ingles)</a></p>"
+      body: |-
+        <h3>Onde posso encontrar mais informações?</h3>
+        <!--wiki_url--><p>A wiki é o primeiro sítio onde procurar:</p>
+        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Página inicial da wiki em inglês</a><br>
+        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Ordem de construção</a><br>
+        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Estilos de jogo (Mineiro, Raider, Comber)</a><br>
+        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Salvar frotas</a><br>
+        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Guia para salvar frotas</a><br>
+        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expedições</a></p><!--/wiki_url-->
+        <p>Alemão (owiki):<br>
+        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Táticas de construção</a><br>
+        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Estilo de jogo: Mineiro</a><br>
+        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Estilo de jogo: Fleeter</a><br>
+        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Estilo de jogo: Comber</a><br>
+        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Salvar frotas</a></p>
       title: Ligações
-    category: Informação Avançada
+    category: Informação avançada

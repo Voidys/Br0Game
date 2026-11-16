@@ -1,25 +1,25 @@
-Active_players: Aktif Oyuncular
+Active_players: Aktif oyuncular
 Back: Geri
 mail:
   subject:
-    mail_changed: '%s hesap e-posta adresi değiştirildi'
-Other_universes: Diğer Evrenler
-Play: Oyun
-Playername: Oyuncu Adı
-Register: Kayıt Olun
+    mail_changed: '%s hesabının e-posta adresi değiştirildi'
+Other_universes: Diğer evrenler
+Play: Oyna
+Playername: Oyuncu adı
+Register: Kayıt ol
 Settings: Ayarlar
-Sitting_cancel: Oturmayı İptal Et
-Sitting_end: Oturma ucu
-Sitting_request: Oturma Talebi (programlanmamış)
+Sitting_cancel: Oturmayı iptal et
+Sitting_end: Oturma sonu
+Sitting_request: Oturma talebi (henüz yok)
 uni_status_regclosed_gameclosed: Kapalı
 uni_status_regclosed_gameopen: Oynamaya açık
 uni_status_regopen_gameclosed: Kayıt için açık
 uni_status_regopen_gameopen: Açık
 Universe_end: Bitiş
 Universe_start: Başlangıç
-Universe_status: 'Evrenlerin durumu: '
+Universe_status: 'Evren durumu: '
 Universes: Evrenler
-Your_universes: Evrenleriniz
+Your_universes: Evrenlerin
 board_create: "Yeni gönderi"
 board_edit_post: "Gönderiyi düzenle"
 board_sort: "Sırala"
@@ -55,7 +55,7 @@ board_edited: "düzenlendi"
 board_delete: "Sil"
 board_deleted: "[silindi]"
 board_deleted_user: "[silindi]"
-board_confirm_delete: "Bunu gerçekten silmek istiyor musun?"
+board_confirm_delete: Bunu gerçekten silmek istiyor musun?
 board_reply: "Yanıtla"
 board_collapse: "Konuyu daralt"
 board_add_comment: "Yorum yaz"
@@ -65,8 +65,8 @@ board_mod_unpin: "Sabitlemeyi kaldır"
 board_mod_lock: "Kilitle"
 board_mod_unlock: "Kilidi aç"
 board_not_found: "Bu gönderi veya yorum mevcut değil."
-board_not_allowed: "Bunu yapmaya yetkin yok."
-board_err_csrf: "İstek doğrulanamadı. Lütfen sayfayı yenileyip tekrar dene."
+board_not_allowed: Bunu yapma iznin yok.
+board_err_csrf: İstek doğrulanamadı. Sayfayı yenileyip tekrar dene.
 board_err_title: "Lütfen bir başlık gir."
 board_err_title_long: "Başlık en fazla 200 karakter olabilir."
 board_err_body: "Lütfen bir metin gir (boş veya çok uzun olamaz)."

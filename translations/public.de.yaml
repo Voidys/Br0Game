@@ -1,4 +1,4 @@
-biggest_solo: Größter Solo KB
+biggest_solo: Größte Solo-Kämpfe
 build_ships: Insgesamt gebaute Schiffe
 buttonLostPassword: Passwort vergessen?
 buttonRegister: Registrieren
@@ -9,169 +9,168 @@ colony: Kolonie
 CrystalStorage: Kristallspeicher
 deathstar: Todesstern
 destroyed_sats: Zerstörte Solarsatelliten
-disclamerLabelAddress: 'Adresse:'
-disclamerLabelMail: 'E-Mail Adresse:'
+disclamerLabelAddress: 'Spieladresse:'
+disclamerLabelMail: 'E-Mail:'
 disclamerLabelNotice: Weitere Informationen
-disclamerLabelPhone: 'Telefon Nr.:'
+disclamerLabelPhone: 'Telefon:'
 disclamerRecaptcha: >-
-  Diese Seite nutzt reCAPTCHA und die Google <a
-  href="https://policies.google.com/privacy">Datenschutzerklärung</a> und <a
-  href="https://policies.google.com/terms">Nutzungsbedingungen</a> gelten.
-first_fights: Erste KB's des Unis
+  Diese Seite nutzt reCAPTCHA. Es gelten die <a
+  href="https://policies.google.com/privacy">Datenschutzerklärung</a> und die <a
+  href="https://policies.google.com/terms">Nutzungsbedingungen</a> von Google.
+first_fights: Erste Kämpfe im Universum
 flown_expos: Insgesamt geflogene Expeditionen
 forum: Board
-found_res: Insgesamt gefundene Ressourcen
+found_res: Insgesamt gefundene Rohstoffe
 found_ships: Insgesamt gefundene Schiffe
-flownDeut: Insgesamt verbrauchtes Deuterium beim Fliegen
-galaxySpendDeut: Verbracuhtes Deut beim durchklicken der Galaxie
+flownDeut: Insgesamt für Flüge verbrauchtes Deuterium
+galaxySpendDeut: Deuterium fürs Durchklicken der Galaxie
 gameInformations: |-
   Ein Weltraum-Strategiespiel in Echtzeit.
-  Spiele zusammen mit hunderten Usern.
-  Kein Download, es wird nur ein Standardbrowser benötigt.
-  Kostenlose Registrierung
-hof3_header: Hier sind die Legenden von Uni 3 verewigt!
-hof4_header: Hier sind die Legenden von Uni 4 verewigt!
-hof7_header: Hier sind die Legenden von Uni 7 verewigt!
+  Hunderte Spieler in jedem Universum.
+  Kein Download – du brauchst nur einen normalen Browser.
+  Kostenlos registrieren
+hof3_header: Hier leben die Legenden von Universum 3 weiter!
+hof4_header: Hier leben die Legenden von Universum 4 weiter!
+hof7_header: Hier leben die Legenden von Universum 7 weiter!
 IonCannon: Ionenkanone
 least_reached_ach: Seltenste Achievements
 login_error_1: >-
-  Falsche E-Mail oder Passwort! Tipp: Passworttresore speichern oft den
-  Usernamen, du musst dich aber mit deiner E-Mail anmelden.
-login_error_2: Jemand hat sich von einem anderem PC in deinem Account eingeloggt!
-login_error_3: Deine Session ist abgelaufen!
-login_error_4: 'Es gab zu viele Anmeldeversuche. Bitte warte 15 Minuten und versuche es dann erneut.'
-loginButton: Login
+  Falsche E-Mail oder falsches Passwort! Tipp: Passwortmanager tragen oft den
+  Benutzernamen ein, du musst dich aber mit deiner E-Mail anmelden.
+login_error_2: >-
+  Dein Account wurde von einem anderen Gerät aus angemeldet, oder deine
+  IP-Adresse hat sich geändert.
+login_error_3: Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.
+login_error_4: 'Zu viele Anmeldeversuche. Bitte warte 15 Minuten und versuche es dann erneut.'
+loginButton: Anmelden
 loginEmail: E-Mail
 loginHeader: Login
-loginInfo: Mit dem Login akzeptiere ich die %s.
+loginInfo: Mit der Anmeldung akzeptiere ich die %s.
 loginPassword: Passwort
 loginServerDesc: >-
-  %s ist ein Weltraum-Strategiespiel mit hunderten Spielern die erdumgreifend
-  <strong>gleichzeitig</strong> versuchen der/die Beste zu werden. Alles was ihr
-  zum spielen braucht ist ein Standardwebbrowser.
+  %s ist ein Weltraum-Strategiespiel, in dem hunderte Spieler
+  <strong>gleichzeitig</strong> darum kämpfen, die Besten zu werden. Alles, was
+  du dafür brauchst, ist ein normaler Webbrowser.
 loginWelcome: Willkommen bei %s
-Lowest_longterm_points: Vorregistrierte Accounts mit den geringsten Punkten
+Lowest_longterm_points: Vorregistrierte Accounts mit den wenigsten Punkten
 medAliens: Medium Aliens
 menu_banlist: Pranger
 menu_battlehall: Battle Hall
 menu_disclamer: Impressum
-menu_index: IndeX
+menu_index: Startseite
 menu_news: News
-menu_register: Registration
+menu_register: Registrierung
 menu_rules: Regeln
 military: Militär
-most_achievements: Am meistes gesammelte Achievements
-most_black_holes: Am meisten gefundene schwarze Löcher
-most_build: Am meisten gebaute
+most_achievements: Meiste gesammelte Achievements
+most_black_holes: Meiste gefundene schwarze Löcher
+most_build: Am meisten gebaut
 most_build_HF: Meiste gebaute Schwere Jäger
-most_defended_moons: Meiste erfolgreiche Mondverteidigungen
+most_defended_moons: Meiste erfolgreich verteidigte Monde
 most_destroyed_moons: Meiste zerstörte Monde
-most_expo_fights: Am meisten bekämpfte Aliens/Piraten
-most_fights: Meisten Siege / Niederlagen / Unentschieden
-most_reached_ach: Meistvergebene Achievements
-most_records: Am meisten gesammelte Rekorde
-news_does_not_exist: Keine News vorhanden!
+most_expo_fights: Meiste Kämpfe gegen Aliens/Piraten
+most_fights: Meiste Siege / Niederlagen / Unentschieden
+most_reached_ach: Häufigste Achievements
+most_records: Meiste gesammelte Rekorde
+news_does_not_exist: Keine News vorhanden.
 news_from: Am %s von %s
 news_overview: News
 oldest_active_acc: Älteste aktive Accounts
 overall: Gesamt
 passwordBack: Zurück
 passwordCaptcha: Sicherheitscode
-passwordChangedMailSend: Du erhältst in Kürze eine E-Mail mit deinem neuen Kennwort.
-passwordChangedMailTitle: 'Neues Kennwort auf der Website: %s'
-passwordErrorMailEmpty: Du hast keine E-Mail-Adresse angegeben!
+passwordChangedMailSend: Dein neues Passwort ist unterwegs. Du bekommst gleich eine E-Mail.
+passwordChangedMailTitle: 'Neues Passwort für %s'
+passwordErrorMailEmpty: Diese E-Mail-Adresse kennen wir nicht.
 passwordErrorOnePerDay: >-
-  Das Kennwort für dieses Benutzerkonto wurde in den letzten 24 Stunden bereits
-  einmal angefordert. Aus Sicherheitsgründen kann das Kennwort eines Benutzers
-  nur einmal pro Tag angefordert werden. Sie können das Kennwort für dieses
-  Benutzerkonto in 24 Stunde(n) erneut anfordern. 
-passwordErrorUnknown: Es konnte kein Benutzerkonto mit diesen Daten gefunden werden.
-passwordErrorUsernameEmpty: Du hast keinen Benutzernamen angegeben!
+  Für diesen Account wurde in den letzten 24 Stunden bereits ein Passwort
+  angefordert. Du kannst in 24 Stunden ein neues anfordern.
+passwordErrorUnknown: Mit diesen Angaben wurde kein Account gefunden.
+passwordErrorUsernameEmpty: Bitte gib einen Benutzernamen ein.
 passwordInfo: >-
-  Wenn du dein Kennwort vergessen hast, musst du den Benutzernamen und die
-  E-Mail-Adresse angeben, die du in deinem Profil hinterlegt hast. Wenn du die
-  Daten nicht mehr weißt, wende dich an den Administrator.
+  Passwort vergessen? Gib den Benutzernamen und die E-Mail-Adresse deines
+  Accounts ein. Wenn du sie nicht mehr weißt, wende dich an einen
+  Administrator.
 passwordMail: E-Mail
 passwordNext: Weiter
 passwordSubmit: Absenden
-passwordUsername: Benutzernamen
-passwordValidInValid: Ungültige Anfrage!
-passwordValidMailSend: Du erhältst in Kürze eine E-Mail mit weiteren Informationen.
-passwordValidMailTitle: 'Kennwort vergessen auf der Website: %s'
+passwordUsername: Benutzername
+passwordValidInValid: Ungültige Anfrage.
+passwordValidMailSend: Du bekommst gleich eine E-Mail mit den nächsten Schritten.
+passwordValidMailTitle: 'Passwort zurücksetzen für %s'
 players: Spieler
 points_amount: Punkte / Anzahl
-realDesUnits: Wirklich zerstörte Units
+realDesUnits: Tatsächlich zerstörte Einheiten
 registerBack: Zurück
 registerCaptcha: Sicherheitscode
 registerCaptchaDesc: >-
-  Bitte gebe die untenstehenden Zeichen ohne Leerstellen in das leere Feld ein.
-  Groß- und Kleinschreibung müssen nicht beachtet werden. Solltest du das Bild
-  auch nach mehrfachem Neuladen nicht entziffern können, wende dich an den
-  Administrator dieser Seite.
-registerCaptchaReload: Captcha neuladen.
-registerDataPrivacyDesc: Ich bin mit der %s einverstanden.
+  Gib die Zeichen unten ohne Leerzeichen in das leere Feld ein. Groß- und
+  Kleinschreibung spielen keine Rolle. Wenn du das Bild auch nach mehrmaligem
+  Neuladen nicht lesen kannst, wende dich an den Administrator dieser Seite.
+registerCaptchaReload: Captcha neu laden
+registerDataPrivacyDesc: Ich stimme der %s zu
 registerEmail: E-Mail
-registerEmailDesc: Bitte geben deine E-Mail-Adresse ein!
-registerEmailReplay: E-Mail wiederhohlen
-registerEmailReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deiner E-Mail-Adresse!
-registerErrorCaptcha: Der Sicherheitscode ist falsch!
-registerErrorDataPrivacy: Du musst die Datenschutzbestimmungen bestätigen!
-registerErrorMailEmpty: Du musst eine E-Mail-Adresse angeben!
-registerErrorMailExist: Die E-Mail-Adresse ist bereits registriert!
-registerErrorMailInvalid: Ungültige E-Mail-Adresse!
-registerErrorMailSame: Du hast 2 unterschiedliche E-Mail-Adressen angegeben!
-registerErrorPasswordLength: Das Passwort muss mindestens %s Zeichen lang sein!
-registerErrorPasswordSame: Du hast 2 unterschiedliche Passwörter eingegeben!
-registerErrorRules: Du musst die Regeln akzeptieren!
-registerErrorUniClosed: Die Registrierung ist in diesem Universum geschlossen. Das tut uns Leid!
-registerErrorUsernameChar: Im Username sind nur Zahlen, Buchstaben, Leerzeichen, _, -, . erlaubt!
-registerErrorUsernameEmpty: Du hast keinen Usernamen eingegeben!
-registerErrorUsernameExist: Der Username ist bereits vergeben!
+registerEmailDesc: Bitte gib deine E-Mail-Adresse ein.
+registerEmailReplay: E-Mail wiederholen
+registerEmailReplayDesc: Gib deine E-Mail-Adresse zur Bestätigung noch einmal ein.
+registerErrorCaptcha: Der Sicherheitscode ist falsch.
+registerErrorDataPrivacy: Bitte akzeptiere die Datenschutzerklärung, um fortzufahren.
+registerErrorMailEmpty: Bitte gib eine E-Mail-Adresse ein.
+registerErrorMailExist: Diese E-Mail-Adresse ist bereits registriert.
+registerErrorMailInvalid: Das sieht nicht nach einer gültigen E-Mail-Adresse aus.
+registerErrorMailSame: Die beiden E-Mail-Adressen stimmen nicht überein.
+registerErrorPasswordLength: Dein Passwort muss mindestens %s Zeichen lang sein.
+registerErrorPasswordSame: Die beiden Passwörter stimmen nicht überein.
+registerErrorRules: Bitte akzeptiere die Regeln, um fortzufahren.
+registerErrorUniClosed: In diesem Universum ist die Registrierung geschlossen.
+registerErrorUsernameChar: Dein Benutzername darf nur Buchstaben, Zahlen, Leerzeichen, _, - und . enthalten.
+registerErrorUsernameEmpty: Bitte gib einen Benutzernamen ein.
+registerErrorUsernameExist: Dieser Benutzername ist bereits vergeben.
 registerLanguage: Sprache
 registerMailCompleteTitle: Willkommen bei %s!
-registerMailVertifyError: 'Fehler beim Versenden der Mail: %s'
-registerMailVertifyTitle: 'Aktivierung der Registrierung auf der Website: %s'
+registerMailVertifyError: 'Die E-Mail konnte nicht gesendet werden: %s'
+registerMailVertifyTitle: 'Aktiviere deinen Account für %s'
 registerNext: Weiter
 registerPassword: Passwort
-registerPasswordDesc: Das Passwort muss mindestens %s Zeichen lang sein.
+registerPasswordDesc: Dein Passwort muss mindestens %s Zeichen lang sein.
 registerPasswordReplay: Passwort wiederholen
-registerPasswordReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deines Paswortes!
+registerPasswordReplayDesc: Gib dasselbe Passwort noch einmal ein.
 registerReferral: 'Geworben von:'
 registerRules: Regeln
-registerRulesDesc: Ich bin mit den %s einverstanden.
+registerRulesDesc: Ich stimme den %s zu
 registerSendComplete: >-
-  Vielen Dank für deine Registrierung. Du erhältst in Kürze eine E-Mail mit
-  weiteren Informationen.
+  Danke für deine Registrierung! Schau in deinem E-Mail-Postfach (auch im
+  Spam-Ordner) nach den nächsten Schritten.
 registerTimezone: Zeitzone
-registerUsername: Username
+registerUsername: Benutzername
 registerUsernameDesc: >-
-  Der Username muss mindestens 3 und darf maximal 25 Zeichen und darf nur aus
-  Zahlen, Buchstaben, Punkte, Binde- und Unterstriche und Leerzeichen bestehen
+  3 bis 25 Zeichen: Buchstaben, Zahlen, Leerzeichen, Punkte, Binde- und
+  Unterstriche.
 registerWelcomePMSenderName: Administrator
 registerWelcomePMSubject: Willkommen
 registerWelcomePMText: >-
-  Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die
-  spätere Rohstoffproduktion benötigt. Um diese zu bauen, klicke links im Menu
-  auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast,
-  kannst du anfangen Minen zu bauen. Gehe dazu wieder im Menü auf Gebäude und
-  baue eine Metallmine, danach wieder eine Kristallmine. Um Schiffe bauen zu
-  können musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt
-  wird findest du links im Menüpunkt Technologie. Das Team wünscht dir viel Spaß
-  beim Erkunden des Universums!
-rulesHeader: Regelwerk
-second_expo_deck: Haben ihr zweites Expeditions-Deck gestartet
+  Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn ohne Energie
+  produzieren deine Minen nichts. Öffne links im Menü „Gebäude“ und starte mit
+  dem Solarkraftwerk.<br>Sobald du Energie hast, kannst du Minen bauen. Bleib
+  dafür bei „Gebäude“ und baue eine Metallmine, danach eine Kristallmine.<br><br>Für
+  Schiffe brauchst du eine Raumschiffwerft. Was dafür nötig ist, zeigt dir das
+  Menü „Technologie“ links.<br>Wenn du weitere Fragen hast, wirf einen Blick in
+  die FAQ oder ins Wiki, oder eröffne ein Support-Ticket.<br><br>Das Team
+  wünscht dir viel Spaß beim Erkunden des Universums!
+rulesHeader: Regeln
+second_expo_deck: Haben ihr zweites Expeditionsdeck gestartet
 siteTitleBanList: Pranger
-siteTitleBattleHall: BattleHall
+siteTitleBattleHall: Battle Hall
 siteTitleDataPrivacy: Datenschutzerklärung
 siteTitleDisclamer: Impressum
 siteTitleHOF: Ruhmeshalle
-siteTitleIndex: Index
+siteTitleIndex: Startseite
 siteTitleLostPassword: Passwort vergessen?
 siteTitleNews: News
 siteTitleRegister: Registrieren
 siteTitleRules: Regeln
 siteTitleScreens: Screenshots
-spy: Spiosonden
+spy: Spionagesonden
 st_buildings: Gebäude
 st_defenses: Verteidigung
 st_fleets: Flotte
@@ -182,12 +181,11 @@ uni_closed: ' (geschlossen)'
 uni_reg_closed: ' (Registrierung geschlossen)'
 uni_reg_open: ' (nur Registrierung)'
 universe: Universum
-vertifyAdminMessage: Der Username "%s" wurder aktiviert!
-vertifyNoUserFound: Ungültiger Anfrage!
+vertifyAdminMessage: Der Account „%s“ wurde aktiviert.
+vertifyNoUserFound: Ungültige Anfrage.
 votingPoints: Abstimmungspunkte
-wonAttack: Gewonnener Angriffe
-wonDefense: Gewonnene Verteidigung
-home_meme_alt_first_day: 'Comic: Commander Vane legt einem nervösen Kadetten die Roboterhand auf die Schulter – „Keine Sorge, Kadett. Das Oberkommando hat volles Vertrauen in deine Solo-Aufklärungsmission ins All.“'
+wonAttack: Gewonnene Angriffe
+wonDefense: Gewonnene Verteidigungen
 home_menu: Menü
 home_meta_description: '%s – das Weltraumstrategie-Browsergame mit 2000er-Charme: Planeten ausbauen, Flotten bauen, Allianzen schmieden.'
 home_started: Läuft bereits!
@@ -195,12 +193,19 @@ home_starts_in: Noch
 home_team: Team
 home_meme_caption: Dein erster Tag
 home_meme_alt: 'Comic-Meme vom {game_name}-Kommandodeck'
-home_meme_alt_deuterium_faith: 'Comic: Commander Kamioka grinst und legt einem Kadetten die Roboterhand auf die Schulter – „Wie es aussieht, hast du das Deuterium nicht zurückgebracht, und dein Schiff brennt. Keine Sorge, Kadett. Wir haben immer noch… ‚volles‘ Vertrauen in dich.“'
-home_meme_alt_this_is_fine: 'Comic: Ein Hund im Raumanzug sitzt mit einer Tasse Kaffee seelenruhig in der brennenden Kommandozentrale – „This is fine.“ Der Kadett sagt: „Keine Sorge. Meine Flotte ist nur 4 Stunden zu spät.“'
+home_meme_alt_deep_space_transit: "Comic: Zwei Kadetten in einem Shuttle – der eine sackt beim Anblick eines Asteroidenfelds zusammen, der andere strahlt einen leuchtenden Nebel an. „Normale Sektorpatrouille vs. einen unerforschten, rohstoffreichen Nebel finden.“"
+home_meme_alt_deuterium_joyride: "Comic: Ein müder Kommandant auf dem Beobachtungsdeck sieht zwei Rekruten draußen herumschweben – „Zusehen, wie die neuen Rekruten ihr ganzes Deuterium bei Spritztouren verbraten, während ich 12 Stunden auf meine Minen-Upgrades warte.“"
+home_meme_alt_enemy_fleet: "Comic: Ein Kadett greift sich panisch an den Kopf, während die Alarme blinken – „1000 feindliche Zerstörer im Anflug?! Ich dachte, dieser Sektor wäre sicher?!“"
+home_meme_alt_fleet_decimated: "Comic: Ein geschockter Soldat starrt ins Leere, während draußen hinter der zerborstenen Kuppel Schiffe explodieren – „Wenn du 20 Stunden Rohstoffe farmst und dann die Flotte eines Top-3-Spielers auftaucht und in 3 Sekunden alles zerlegt.“"
+home_meme_alt_solo_scouting: "Comic: Commander Kamioka grinst und legt einem Kadetten die Roboterhand auf die Schulter – „Keine Sorge, Kadett. Das Oberkommando hat ‚vollstes‘ Vertrauen in deine Solo-Aufklärungsmission ins All.“"
+home_meme_alt_this_is_fine: "Comic: Ein Hund im Raumanzug sitzt seelenruhig in der brennenden Kommandozentrale und sagt „This is fine“ – „Keine Sorge. Meine Flotte kommt nur 4 Stunden zu spät zurück.“"
 source_code: Quellcode
 news_back: Zurück zu den News
+lightbox_close: "Schließen"
+lightbox_prev: "Vorheriges Bild"
+lightbox_next: "Nächstes Bild"
 news_pinned: Angepinnt
 news_read_more: Weiterlesen
 news_latest: Neueste News
 news_all: Alle News
-csrf_invalid: 'Die Sicherheitsprüfung der Anfrage ist fehlgeschlagen (Sitzung abgelaufen?). Bitte die Seite neu laden und es noch einmal versuchen.'
+csrf_invalid: 'Die Sicherheitsprüfung ist fehlgeschlagen (vielleicht ist deine Sitzung abgelaufen). Bitte lade die Seite neu und versuche es noch einmal.'

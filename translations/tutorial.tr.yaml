@@ -3,95 +3,110 @@ tutorial_buttons_continue: Devam et
 tutorial_buttons_finalize: Öğreticiyi tamamla
 tutorial_buttons_skip: Atla
 tutorial_buttons_skipAll: Öğreticiyi atla
-tutorial_buttons_skipAll_confirm: >-
-  Gerçekten eğitimin geri kalanını atlamak istiyor musunuz? Yeniden
-  etkinleştiremezsiniz!
+tutorial_buttons_skipAll_confirm: Eğitimin geri kalanını atlamak istiyor musun? Sonradan yeniden başlatamazsın.
 tutorial_goal:
   mission:
-    '6': Bir oyuncuya casus sondası gönder.
-    '7': Başka bir oyuncunun gezegenini yağmala
+    '6': Başka bir oyuncuya Casus Sondası gönder
+    '7': Yeni bir gezegen kolonileştir
     '8': Bir enkaz alanını geri dönüştür
     '15': Bir keşif filosu gönder
     "1": "Başka bir oyuncuya saldır"
   step6:
     '1': Gezegenini yeniden adlandır
-    '2': Bir oyuncuya dostluk isteği gönder
-    '3': Bir ittifaka katıl
+    '2': Başka bir oyuncuya arkadaşlık isteği gönder
+    '3': Bir ittifaka başvur
 tutorial_goals_header: 'Hedefler:'
-tutorial_goals_ignore: (görmezden gel)
+tutorial_goals_ignore: (yok say)
 tutorial_rewards_header: 'Ödüller:'
 tutorial_text:
-  step0: "{game_name}'e hoş geldin!<br><br>\r\nBu eğitimde, oyunun temel bilgileri gösterilecektir.<br>\r\nEk bilgi için sık sık wiki'ye başvurulacak, çünkü oyunun tüm yönleri eğitimde açıklanamaz. \r\nWiki’ye sol menüden istediğin zaman erişebilirsin.<br>\r\nEğitimi istediğin zaman atlayabilirsin ancak tekrar başlatılamaz.<br><br>\r\nBol şanslar, İmparator!"
-  step1: "Bu oyunun amacı, mümkün olduğunca çok puan kazanmaktır. Harcadığın her 1.000 kaynak için bir puan kazanırsın.\r\nBu kaynaklara farklı yollarla ulaşılabilir. En önemlisi ise madenlerin kendi üretimidir.<br>\r\nÖncelikle temel kaynak üretimini sağla. Bunun için, Metal ve Kristal madenlerinden kaynak elde etmelisin. Madenlerin çalışması için de Güneş Enerji Santrali’nden enerji gereklidir.\r\nYeterli enerji sağlanmadığında %100 üretim sağlanamaz.<br>\r\nBu binaları <b>Binalar</b> menüsünden genişletebilirsin. Binanın adının üzerine tıklayarak, yükseltmenin kaynak değerini görebilirsin. \r\nAyrıca, bir sonraki seviyenin ne kadar enerji tükettiğini de göreceksin.<br><br>\r\nDaha fazla bilgi için wiki'ye bakabilirsin: \r\n<a href=\"{wiki_url}/wiki/EN/Rohstoffe\" target=\"_blank\">Raw material production</a>"
-  step2: "Diğer oyuncularla etkileşimde bulunmak oyunu daha eğlenceli hale getirir.\r\nÇoğu oyuncu Discord sunucumuzda organize olur. \r\nToplulukta sorularına yanıt alabilir ve birlikte oynayacak diğer oyuncuları bulabilirsin.<br>\r\nBelirsizlik durumlarında burada destek bileti açabilirsin."
-  step3: "Kaynak elde etmenin bir diğer yolu, diğer oyuncuların gezegenlerini yağmalamaktır.<br>\r\nAncak bu sana da yapılabilir - bu yüzden ilk savunmanı inşa et!<br>\r\nEn azından gece üretimini korumak için bir savunmaya sahip olmak önemlidir.<br>\r\nAncak yalnızca savunma miktarı değil, saldırı filolarının kompozisyonu da önemlidir.<br>\r\nYağmalamadan önce saldırganın savunmanı aşması gerekir. Saldırganın göndermek zorunda kaldığı her gemi, kazancını azaltır ve gemilerinin zarar görme riskini artırır.<br>\r\nSavunma yapıları <b>Savunma</b> menüsünde Gemi Tersanesi ile inşa edilir. Bu da bir Robot Fabrikası ve Deuterium gerektirir.<br><br>\r\nWiki'de savunma hakkında daha fazla bilgi bulabilirsin: \r\n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Defense facilities</a>"
-  step4: "Kaynak üretimini artırarak sağlama al!<br>\r\nBinaların, gemilerin, savunman ve araştırmalar zamanla daha pahalı hale gelir.\r\nBu nedenle, üretimini artırarak gezegeninin kaynak ihtiyaçlarını karşılamaya çalışmalısın.\r\nYeterli kaynak olduğunda binalarını genişletmek için <b>Binalar</b> menüsüne tıkla ve gerekli yükseltmeleri yap."
-  step5: "Küçük bir taşıyıcı inşa et!<br>\r\nKüçük taşıyıcılar, oyunun ilerleyen safhalarında hızlı bir taşıma aracıdır.<br>\r\nEğer itme motoruyla donatılırsa, büyük taşıyıcılardan uzun süre daha hızlı olabilirler.<br>\r\nBu taşıyıcılar, gezegenler arasında kaynak taşımak, diğer oyuncularla ticaret yapmak veya yağmalamak için kullanılır.<br><br>\r\nWiki'de daha fazla bilgi bulabilirsin: \r\n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Ships</a>"
-  step6: "Gezegenleri daha iyi yönetmek için yeniden adlandırabilirsin. Üst menüdeki puan gösterge alanında gezegen adını tıklayarak isim değiştirebilirsin.<br><br>\r\nAyrıca diğer oyunculara dostluk isteği gönderebilirsin. İstek kabul edilirse daha kolay iletişim kurabilir ve birbirinizin çevrim içi durumunu görebilirsiniz. \r\nAynı ittifakta olmanıza gerek yoktur. \r\nDost oyunculara filo desteği verebilir, birlikte savunma yapabilirsiniz.<br><br>\r\nAyrıca bir ittifaka katılarak daha fazla oyuncu ile birlikte oynayabilirsin. \r\nİttifakta dostluk isteğine gerek olmadan filo desteği sağlanabilir. \r\nİttifak içinde grup mesajları gönderilebilir, çevrim içi durumu ve puan durumu görebilirsiniz - ittifak rütbesine bağlı olarak."
-  step7: "Diğer oyuncuların kaynaklarını, binalarını, araştırmalarını, gemilerini ve savunmalarını görmek için onları casuslayabilirsin. \r\nBir casus probunu diğer bir oyuncuya göndermek için Filo menüsünden veya Galaksi menüsünden yola çıkabilirsin.<br>\r\nAncak, diğer oyuncular da seni casuslayabilir!"
-  step8: >-
-    Bir keşif gezisi kaynaklar, gemiler, olaylar veya kayıplar getirebilir. Bunu
-    denemek için, bir gemi seçin ve filo menüsünde gezegen koordinatı 16'ya ve
-    “Keşif” görevine tıklayarak bir keşif gezisine çıkın.<br>
-
-    Her gemi türü, maksimum olay boyutuna ulaşılana kadar keşif filosunun
-    boyutuna puan ekleyecektir.<br><br>
-
-    Wiki'de daha fazla bilgiye erişebilirsin: 
-
-    <a href="{wiki_url}/wiki/En/Expoanleitung"
-    target="_blank">Expeditions</a>
-  step9: "Hızlı bir üretim için daha fazla gezegen kolonileştir. \r\nBu şekilde, aynı anda iki veya daha fazla gezegende üretim yapabilir ya da gemi inşa edebilirsin.\r\nSistemin iç kısmında veya dış kısmında koloni kurmak için yeterince yüksek bir Astrofizik seviyesi gereklidir.\r\nKoloni gemisi Astrofizik olmadan inşa edilebilir, ancak ilk koloni Astrofizik gerektirir!<br><br>\r\nBir sistemde ya da komşu sistemlerde kolonileşmek, nakliye yollarını kısa tutar ancak daha sonra oyunda, saldırgan oyuncular için kolay bir hedef olabilirsin.<br><br>\r\nDaha fazla bilgi için Wiki'ye göz atabilirsin: \r\n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Astrophysics</a>"
-  step10: "Kaynaklara daha hızlı ulaşmak istiyorsan başka oyunculara saldırabilir ya da kaynak transfer edebilirsin.<br>\r\nAncak dikkat et: diğer oyuncuların kaynaklarını almak ya da onların seni yağmalamasını engellemek için iyi bir stratejiye ihtiyacın var! \r\nBaşlangıç için küçük taşıyıcıları diğer oyuncuların gezegenlerine gönderip kaynaklarını yağmalayabilirsin.\r\nYağmalama esnasında dikkat edilmesi gereken temel şeyler için Wiki'yi inceleyebilirsin: \r\n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Saven</a> - \r\n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Sensorphalanx</a>"
-  step10_u6: >-
-    Kaynaklara daha hızlı ulaşmak istiyorsan başka oyunculara saldırabilir ya da
-    kaynak transfer edebilirsin.<br>
-
-    Ancak dikkat et: diğer oyuncuların kaynaklarını almak ya da onların seni
-    yağmalamasını engellemek için iyi bir stratejiye ihtiyacın var! 
-
-    Başlangıç için küçük taşıyıcıları diğer oyuncuların gezegenlerine gönderip
-    kaynaklarını yağmalayabilirsin.
-
-    Yağmalama esnasında dikkat edilmesi gereken temel şeyler için Wiki'yi
-    inceleyebilirsin: 
-
-    <a
-    href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden"
-    target="_blank">Saven</a>
-  step11: "Filolar yok edildiğinde, bir enkaz alanı oluşur ve bu alan kaynaklarla doludur.\r\nBu enkazı toplamak için bir geri dönüştürücüye ihtiyacın var. Bu gemiler, enkaz alanından 20.000’e kadar kaynak toplayabilirler.\r\nBüyük bir filoyu yok etmek, yüksek miktarda kaynak kazancı sağlayabilir.<br><br>\r\nGeri dönüştürücüleri, filo menüsünden göndermek yerine galaksi menüsünden doğrudan enkaz alanına tıklayarak da yollayabilirsin."
-  step12: "Tebrikler, eğitimi tamamladın!<br><br>\r\nBu oyun daha pek çok mekanik sunuyor. Örneğin, zaman ve çaba gereksinimleri açısından farklılık gösteren üç ana oyun tarzı var:<br>\r\n<ul>\r\n<li>Madenci: Kolonilerde madenleri geliştirir, çoğunlukla taşıyıcı kullanır</li>\r\n<li>Filocu: Puanlarının çoğunu savaş gemilerinden elde eder, kendi üretimi azdır, diğer oyuncuları yağmalar</li>\r\n<li>Komber: Her iki tarzın bir kombinasyonudur</li>\r\n</ul>\r\nOyunun ilerleyen aşamalarında, aylar önemli hale gelir ve sensor filoları gibi özellikleri keşfetmiş olmalısın.<br><br>\r\nDaha fazla soruların varsa, wiki'yi okuyabilir veya Discord’da topluluktan yardım isteyebilirsin."
-  step12_u6: >-
-    Tebrikler, eğitimi tamamladın!<br><br>
-
-    Bu oyun daha pek çok mekanik sunuyor. Örneğin, zaman ve çaba gereksinimleri
-    açısından farklılık gösteren üç ana oyun tarzı var:<br>
-
+  step0: '{game_name}''e hoş geldin!<br><br>
+  
+    Bu kısa eğitim sana oyunun temellerini gösterecek.<br>
+  
+    Wiki''ye sık sık bağlantı veriyoruz, çünkü her şey eğitime sığmıyor. Wiki''ye istediğin zaman soldaki menüden ulaşabilirsin.<br>
+  
+    Eğitimi istediğin zaman atlayabilirsin ama sonradan yeniden başlatamazsın.<br><br>
+  
+    Bol şans, İmparator!'
+  step1: "Hedefin: olabildiğince çok puan toplamak. Harcadığın her 1.000 kaynak için bir puan kazanırsın ve en iyi kaynak, kendi madenlerindir.<br>\nTemel kaynaklarla başla: Metal ve Kristal'i madenlerden alırsın, madenlerin çalışması için de Solar Enerji Santrali'nden Enerji gerekir. Enerji yetmezse madenlerin %100'ün altında üretir.<br>\nBu binaları <b>Binalar</b> menüsünden yükselt. Bir binanın adına tıklarsan bir sonraki seviyenin ne kazandırdığını ve ne kadar Enerji harcayacağını görürsün.<br><br>\nDaha fazlasını öğrenmek ister misin? <b>Wiki</b>'ye göz at: \n<a href=\"{wiki_url}/wiki/En/Rohstoffe\" target=\"_blank\">Kaynaklar</a>"
+  step2: 'Birlikte oynamak daha eğlenceli. Çoğu oyuncu Discord sunucumuzda takılıyor; orada sorularına cevap bulabilir ve birlikte oynayacak insanlar tanıyabilirsin.<br>
+  
+    Hâlâ takıldın mı? Buradan destek bileti de açabilirsin.'
+  step3: "Başka oyuncuların gezegenlerini yağmalamak kaynak kazanmanın bir yolu daha - ve aynısı sana da yapılabilir. O yüzden ilk savunmanı kur!<br>\nKüçük bir savunma bile üretimini gece boyunca korur.<br><br>\nSavaşı yalnızca sayılar belirlemez; saldıran filonun bileşimi de önemlidir.<br>\nSaldırganlar yağmalamadan önce savunmanı aşmak zorundadır; göndermek zorunda kaldıkları her gemi kazançlarını azaltır ve daha fazla gemi kaybetmelerine yol açabilir.<br>\nSavunma yapılarını <b>Savunma</b> menüsünden kurarsın. Bunun için bir Tersane (o da Robot Fabrikası ister) ve biraz Deuterium gerekir.<br><br>\nWiki'deki ilgili makale: \n<a href=\"{wiki_url}/wiki/En/Verteidigung\" target=\"_blank\">Savunma yapıları</a>"
+  step4: 'Madenlerini geliştirerek kaynak akışını canlı tut!<br>
+  
+    Binalar, gemiler, savunmalar ve araştırmalar zamanla pahalılaşır; bu yüzden üretiminin de onlarla birlikte büyümesi gerekir. Şimdi Binalar menüsünü aç ve kaynakların yettiği her an madenlerini yükselt.'
+  step5: "Kendine bir Küçük Nakliye yap!<br>\nKüçük Nakliyeler hızlı ve kullanışlı taşıyıcılardır.<br>\nİmpuls Motoru ile uzun mesafelerde Büyük Nakliye'den bile hızlıdırlar.<br>\nKaynakları gezegenlerin arasında taşımak, diğer oyuncularla ticaret yapmak ya da onları yağmalamak için kullan.<br><br>\nWiki'de daha fazlası: \n<a href=\"{wiki_url}/wiki/En/Schiffe\" target=\"_blank\">Gemiler</a>"
+  step6: 'Gezegenine bir isim ver, karışmasın. Genel Bakış''ta puan göstergesinin başlığındaki gezegen adına tıkla. Hadi, şimdi dene.<br><br>
+  
+    Diğer oyunculara arkadaşlık isteği de gönderebilirsin. Kabul ederlerse onlarla daha kolay sohbet edebilir ve çevrim içi durumlarını görebilirsin. Bunun için aynı ittifakta olmanız gerekmez. Arkadaşlar birbirlerinin gezegenlerinde filo da bekletebilir; böylece ittifak olmadan da birlikte savunma yapabilirsiniz.<br><br>
+  
+    Ya da bir ittifaka katıl ve takım olarak oyna. Filo bekletmek için artık ayrı arkadaşlık isteklerine gerek kalmaz. İttifak içinde toplu mesaj gönderebilir, ittifak rütbene göre diğer üyelerin çevrim içi durumunu ve puanını görebilirsin.'
+  step7: 'Başka bir oyuncunun hangi kaynaklara, binalara, araştırmalara, gemilere ve savunmalara sahip olduğunu öğrenmek için onu casuslaman gerekir. Filo menüsünden ya da Galaksi görünümünden bir oyuncuya Casus Sondası gönder.<br>
+  
+    Unutma: diğer oyuncular da seni casuslayabilir!'
+  step8: "Bir keşif seferi kaynak, gemi, özel olaylar ya da kayıp getirebilir. Denemek için bir gemi al, Filo menüsünde hedef olarak gezegen konumu 16'yı, görev olarak da \"Keşif\"i seç.<br>\nHer gemi türü keşif filonun büyüklüğüne katkı yapar; en büyük olay boyutuna ulaşılınca bu katkı sınırlanır.<br><br>\nWiki, kazancını artırmak için nelerin değiştirilebileceğini anlatıyor: \n<a href=\"{wiki_url}/wiki/En/Expoanleitung\" target=\"_blank\">Keşifler</a>"
+  step9: "Ne kadar çok gezegen kolonileştirirsen o kadar hızlı büyürsün: aynı anda birden fazla gezegende kaynak üretebilir ve gemi inşa edebilirsin. Bir sistemin iç ya da dış kenarına yerleşebilmek için Astrofizik seviyenin yeterince yüksek olması gerekir. Koloni Gemisi Astrofizik olmadan da yapılabilir ama ilk kolonin Astrofizik ister!<br><br>\nKendi sisteminde ya da hemen yanındaki sistemde kolonileşmek taşıma yollarını kısa tutar. Bedeli şu: oyunun ilerleyen aşamalarında oyuncular senin sistemine madenleri için değil, geçici bir filo üssü olarak koloni kurabilir - buna baskın kolonisi denir.<br><br>\nWiki'de daha fazlası: \n<a href=\"{wiki_url}/wiki/En/Astrophysik\" target=\"_blank\">Astrofizik</a>"
+  step10: "Kaynaklara daha hızlı mı ulaşmak istiyorsun? Diğer oyunculara saldır. Saldırının karşılığını vermesi için maliyet ve kazancı tart; planlarken casus raporlarından ve savaş simülatöründen yararlan.<br><br>\nDikkat! Diğer oyuncular birçok filo görevini çeşitli yollarla takip edebilir.<br>\nEmek verip kurduğun filoyu kaybetmemek oyunun en önemli parçalarından biridir.<br><br>\nBu yüzden şu wiki konularını mutlaka oku: \n<a href=\"{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden\" target=\"_blank\">Filo kurtarma</a> - \n<a href=\"{wiki_url}/wiki/En/Sensorenphalanx\" target=\"_blank\">Radar İstasyonu</a>"
+  step10_u6: 'Kaynaklara daha hızlı mı ulaşmak istiyorsun? Diğer oyunculara saldır. Saldırının karşılığını vermesi için maliyet ve kazancı tart; planlarken casus raporlarından ve savaş simülatöründen yararlan.<br><br>
+  
+    Dikkat! Diğer oyuncular birçok filo görevini çeşitli yollarla takip edebilir.<br>
+  
+    Emek verip kurduğun filoyu kaybetmemek oyunun en önemli parçalarından biridir.<br><br>
+  
+    Bu yüzden şu wiki konularını mutlaka oku:
+  
+    <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Filo kurtarma</a>'
+  step11: 'Filolar yok edildiğinde geride toplayabileceğin bir enkaz alanı bırakır. Bunun için her biri 20.000 yük kapasiteli Geri Dönüşümcüler gerekir. Büyük bir filoyu yok etmek kârlı bir kaynak olabilir.<br><br>
+  
+    Filo menüsü yerine Galaksi görünümünde enkaz alanına tıklayarak Geri Dönüşümcüleri doğrudan da gönderebilirsin.'
+  step12: 'Tebrikler, eğitimi tamamladın!<br><br>
+  
+    Oyunda daha çok şey seni bekliyor.<br>
+  
+    Örneğin kabaca üç oyun tarzı var ve bunlar harcadıkları zamanda da farklılaşıyor:<br>
+  
     <ul>
-
-    <li>Madenci: Kolonilerde madenleri geliştirir, çoğunlukla taşıyıcı
-    kullanır</li>
-
-    <li>Filocu: Puanlarının çoğunu savaş gemilerinden elde eder, kendi üretimi
-    azdır, diğer oyuncuları yağmalar</li>
-
-    <li>Komber: Her iki tarzın bir kombinasyonudur</li>
-
+  
+    <li>Madenci: birçok kolonide madenlerini geliştirir ve çoğunlukla nakliye uçurur</li>
+  
+    <li>Filocu: puanlarının çoğunu savaş gemilerine yatırır, neredeyse hiç kendi üretimi yoktur ve diğer oyuncuları yağmalayarak yaşar</li>
+  
+    <li>Karma: ikisinin karışımı</li>
+  
     </ul>
-
-    Daha fazla soruların varsa, wiki'yi okuyabilir veya Discord’da topluluktan
-    yardım isteyebilirsin.
+  
+    Aylar oyunun ilerleyen aşamalarında önem kazanır ve şimdiye kadar Radar İstasyonu ile tanışmış olmalısın.<br><br>
+  
+    Hâlâ sorun mu var? Wiki''yi oku ya da topluluğa Discord''da sor.'
+  step12_u6: 'Tebrikler, eğitimi tamamladın!<br><br>
+  
+    Oyunda daha çok şey seni bekliyor.<br>
+  
+    Örneğin kabaca üç oyun tarzı var ve bunlar harcadıkları zamanda da farklılaşıyor:<br>
+  
+    <ul>
+  
+    <li>Madenci: birçok kolonide madenlerini geliştirir ve çoğunlukla nakliye uçurur</li>
+  
+    <li>Filocu: puanlarının çoğunu savaş gemilerine yatırır, neredeyse hiç kendi üretimi yoktur ve diğer oyuncuları yağmalayarak yaşar</li>
+  
+    <li>Karma: ikisinin karışımı</li>
+  
+    </ul>
+  
+    Hâlâ sorun mu var? Wiki''yi oku ya da topluluğa Discord''da sor.'
 tutorial_title:
-  step0: Bu ne tür bir oyun?
-  step1: Bir şeyler kazan!
-  step2: İnsanlarla kaynaş!
-  step3: Savunmasız kalma!
-  step4: Uzun vadeli düşün!
-  step5: Gemiye ihtiyacımız var!
-  step6: Gezegenine isim ver ve dostlar bul!
-  step7: Diğerlerinin neye sahip olduğunu öğren!
-  step8: Bilinmeze yolculuk!
-  step9: Tek bir gezegenle yetinemezsin!
-  step10: Gerçekten sadece kendi üretiminle mi yetineceksin?
-  step11: Çöpçü modunu dene!
-  step12: Başarıya ulaştın
+  step0: Hoş geldin, İmparator!
+  step1: Madenciliğe başlama vakti!
+  step2: Gel, insanlarla tanış!
+  step3: Gezegenini savunmasız bırakma!
+  step4: İleriyi düşün!
+  step5: Gemi lazım, gemi!
+  step6: Gezegenine isim ver, arkadaş edin!
+  step7: Diğerlerinde neler var, gör!
+  step8: Bilinmeyene doğru!
+  step9: Tek gezegen asla yetmez!
+  step10: Madenlerini beklemekten bıktın mı?
+  step11: Çöpleri toplama vakti!
+  step12: Başardın!

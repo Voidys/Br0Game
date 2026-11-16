@@ -428,27 +428,6 @@ img {
   }
 }
 
-.techb {
-  background: #7edfff29;
-  padding: 0.3125rem;
-  overflow: hidden;
-  text-align: left;
-  width: 100%;
-}
-
-.techi {
-  margin: 0.3125rem 0 0 0.3125rem;
-  min-height: 15rem;
-  min-width: 10.75rem;
-  float: left;
-  width: 32.5%;
-  padding: 0.1875rem;
-  box-shadow: 0 0 0.625rem 0.125rem rgb(255 255 255 / 10%);
-  backdrop-filter: blur(0.0312rem);
-  -webkit-backdrop-filter: blur(0.0312rem);
-  border: 0.0625rem solid var(--theme-line);
-}
-
 .ship {
   margin: 0 auto;
   max-width: 25rem;

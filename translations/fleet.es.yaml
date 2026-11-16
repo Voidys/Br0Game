@@ -12,32 +12,28 @@ battle_stats_total: Total
 battle_stats_total_all_targets: Total (todos los objetivos)
 battle_stats_total_all_fleets: Total (todas las flotas)
 damage: puntos de daño.
-debree_field_1: Un campo de escombros de
-debree_field_2: flotan en la orbita del planeta.
+debree_field_1: En estas coordenadas flota un campo de escombros de
+debree_field_2: ' de escombros.'
 fcp_colony: Colonia
-fl_expocap_explain: >-
-  Esta es la cantidad máxima de puntos de expedición que debe enviar.
-
-  Cualquier cosa sobre este límite no aumentará sus recompensas, pero aún se
-  puede perder.
-fl_send_back: Volver
+fl_expocap_explain: Esta es la cantidad máxima de puntos de expedición que merece la pena enviar. Lo que supere este límite no aumentará tus recompensas, pero sí se puede perder.
+fl_send_back: Retirar
 fl_simulate: Simular
 fleet_attack_1: La flota atacante dispara con una fuerza total de
-fleet_attack_2: sobre el defensor. Los escudos del defensor absorven
+fleet_attack_2: sobre el defensor. Los escudos del defensor absorben
 fleet_defs_1: La flota defensora dispara con una fuerza total de
-fleet_defs_2: sobre el atacante. Los escudos del atacante absorven
+fleet_defs_2: sobre el atacante. Los escudos del atacante absorben
 spy_attack_with: Ataque con
-spy_best_planet: Mejor Planeta
-spy_best_resources_per_second: Mejor ress por segundo
+spy_best_planet: Mejor planeta
+spy_best_resources_per_second: Mejores recursos por segundo
 spy_energy: Energía
 spy_hazard_potential: Potencial de peligro
-spy_large_transporter: Transportador grande
+spy_large_transporter: Nave grande de carga
 spy_market_value: Valor de mercado
 spy_necessary_recycler: Recicladores necesarios
-spy_necessary_transporters: Transportadores necesarios
+spy_necessary_transporters: Naves necesarias
 spy_potential_recycling: Potencial de reciclaje
 spy_potential_resources: Recursos potenciales
-spy_small_transporter: Transportador pequeño
+spy_small_transporter: Nave pequeña de carga
 spy_summary: Resumen
 spy_total_resources: Recursos totales
 sys_adress_planet: '[%s:%s:%s]'
@@ -46,414 +42,170 @@ sys_attack_attacker_pos: Atacante
 sys_attack_defender_pos: Defensor
 sys_attack_round: Ronda
 sys_attack_techologies: 'Armas: %d %% Escudo: %d %% Blindaje: %d %% '
-sys_attack_title: 'Las flotas se enfrentan en '
-sys_attacker_lostunits: El atacante ha perdido un total de
-sys_attacker_won: El atacante ha ganado la batalla
-sys_both_won: La batalla terminó en empate
-sys_colo_allisok: >-
-  El colonizador llega a las coordenadas %s. Los colonizadores están comenzando
-  a construir una nueva colonia.
-sys_colo_badpos: >-
-  El colonizador llega a las coordenadas %s. No es posible colonizar aquí, tus
-  coloniazdores, descepcionados, emprenden el viaje de retorno.
+sys_attack_title: 'Las siguientes flotas se enfrentan en: '
+sys_attacker_lostunits: 'Pérdidas del atacante:'
+sys_attacker_won: ¡El atacante ha ganado la batalla!
+sys_both_won: '¡La batalla termina en empate! '
+sys_colo_allisok: Tu flota ha llegado a las coordenadas %s. Los colonos han empezado a construir la nueva colonia.
+sys_colo_badpos: Tu flota ha llegado a las coordenadas %s. Aquí no se puede colonizar, así que los colonos han vuelto a casa decepcionados.
 sys_colo_defaultname: Colonia
-sys_colo_maxcolo: >-
-  El colonizador llega a las coordenadas %s. Por desgracia, es imposible
-  colonizar, no puedes tener más de %d planetas.
+sys_colo_maxcolo: 'Tu flota ha llegado a las coordenadas %s. No se puede colonizar: solo puedes tener %d planetas.'
 sys_colo_mess_from: Colonización
 sys_colo_mess_report: Informe de colonización
-sys_colo_notech: >-
-  El colonizador llega a las coordenadas %s. Cuando los colonos se acercaron al
-  planeta, encontraron que su equipo no es el adecuado para las condiciones
-  climáticas imperantes y primero tendrian que evolucionar las Tecnologías.
-  Decepcionados, los colonos emprenden el viaje de retorno.
-sys_colo_notfree: >-
-  El colonizador llega a las coordenadas %s. Cuando tus coloniazadores llegaron
-  a las cordenadas se encontraron con otra colonia ya desarrollada. Totalmente
-  desmoralizados emprenden el viaje de retorno.
+sys_colo_notech: Tu flota ha llegado a las coordenadas %s. Los colonos han visto que su equipo no es adecuado para el clima de este planeta y que necesita mejoras. Decepcionados, han regresado a casa.
+sys_colo_notfree: Tu flota ha llegado a las coordenadas %s. ¡Por desgracia, los colonos han descubierto que el planeta ya está habitado! Totalmente desmoralizados, han regresado a casa.
 sys_debris: Escombros
-sys_def_rebuild: 'Las instalaciones de defensa pudieron ser parcialmente reparadas:'
-sys_defender_lostunits: El defensor ha perdido un total de
-sys_defender_won: El defensor ha ganado la batalla
+sys_def_rebuild: 'Parte de las defensas se ha podido reparar:'
+sys_defender_lostunits: 'Pérdidas del defensor:'
+sys_defender_won: ¡El defensor ha ganado la batalla!
 sys_destroyed: Destruido
-sys_destruc_echec: >-
-  Los temblores sacuden la luna. Pero algo sale mal, las estrellas de la muerte
-  explotan y se desintengran en millones de pedazos. <br>La onda expansiva
-  elimina toda la fola por completo.
-sys_destruc_lune: 'La probabilidad de destruir la luna es de: %d %% '
-sys_destruc_mess1: Las estrellas de la muerte disparan el graviton a la luna
-sys_destruc_null: >-
-  Las estrellas de la muerten no generan el poder necesario, la mision falla y
-  las naves vuelven de regreso.
-sys_destruc_reussi: >-
-  Los temblores empiezan a sacudir la superficie de la luna, despues de unos
-  instantes la luna no soporta mas y vuela en mil pedazos, mision cumplida, la
-  flota vuelve al planeta de origen.
-sys_destruc_rip: 'La probabilidad de autodestrucción de la flota es de: %d %% '
-sys_destruc_stop: El defensor ha conseguido detener la destrucción de la luna
-sys_destruc_title: 'Las siguientes flotas contrastan la destrucción de la luna:'
-sys_expe_attack_1_1_1: >-
-  Algunos piratas espaciales, aparentemente muy desesperados por tratar de
-  secuestrar nuestra flota de expedición.
-sys_expe_attack_1_1_2: >-
-  Algunos bárbaros primitivos nos han atacando con naves espaciales, por
-  llamarlas de aluna forma. Si el bombardeo adquiere proporciones graves, nos
-  veremos obligados a responder.
-sys_expe_attack_1_1_3: >-
-  Hemos recogido algunos mensajes de radio de piratas que parecian estar muy
-  borrachos. Al parecer vamos a ser atacados.
-sys_expe_attack_1_1_4: >-
-  Tuvimos que defendernos contra unos piratas, que afortunadamente no fueron muy
-  numerosos.
-sys_expe_attack_1_1_5: >-
-  Nuestros informes de flota de expedición que se encontraron con un tal Moa
-  Tikarr y su manada salvaje, que exigen la rendición incondicional de nuestra
-  flota. Si se ponen serios, tendrán que darse cuenta de que nuestras naves
-  saben defenderse bien.
-sys_expe_attack_1_2_1: >-
-  Tu flota de expedición ha tenido un desagradable encuentro con unos piratas
-  del espacio.
-sys_expe_attack_1_2_2: >-
-  ¡Estamos en una emboscada de algunos piratas espaciales! La batalla, por
-  desgracia, es inevitable.
-sys_expe_attack_1_2_3: >-
-  El grito de ayuda, que siguio la expedición, resultó ser de algunos
-  malintencionados piratas espaciales. La batalla fue inevitable.
-sys_expe_attack_1_3_1: >-
-  Las señales de recogida no se originaron a partir de una naturaleza extraña,
-  sino ¡por una base pirata secreta! Los piratas eran conscientes de nuestra
-  presencia en su sector y no estaban particularmente entusiasmados.
-sys_expe_attack_1_3_2: >-
-  ¡La flota de expedición informó de fuertes combates con barcos piratas no
-  identificados!
-sys_expe_attack_1_3_3: >-
-  Hemos recibido un mensaje urgente del comandante de la expedición: "¡Vienen
-  hacia nosotros! Han salido de un salto hiperespacial, afortunadamente sólo son
-  piratas, por lo que tenemos una oportunidad, ¡entonces pelearemos!
-sys_expe_attack_2_1_1: >-
-  Su flota de expedición tuvo un primer contacto no muy amigo con una especie
-  desconocida.
-sys_expe_attack_2_1_2: ¡Algunos buques de extraño aspecto han atacado sin previo aviso!
+sys_destruc_echec: 'Temblores sacuden la luna, pero algo sale mal: las Estrellas de la muerte explotan y se hacen pedazos, y las ondas expansivas destruyen toda la flota.'
+sys_destruc_lune: 'Probabilidad de destruir la luna: %d%%'
+sys_destruc_mess1: Las Estrellas de la muerte han disparado su descomunal energía contra la luna.
+sys_destruc_null: Las Estrellas de la muerte no han podido cargarse del todo antes de disparar.<br> La luna no ha sido destruida.
+sys_destruc_reussi: Los rayos de las Estrellas de la muerte han alcanzado la luna y la han despedazado. <br>¡La luna ha quedado completamente destruida!
+sys_destruc_rip: 'Probabilidad de que la flota se autodestruya: %d%%'
+sys_destruc_stop: El defensor ha conseguido frenar la destrucción de la luna.
+sys_destruc_title: 'Las siguientes flotas se enfrentan para destruir una luna:'
+sys_expe_attack_1_1_1: Un pirata espacial desesperado ha intentado apoderarse de nuestra flota de expedición.
+sys_expe_attack_1_1_2: Unos bárbaros primitivos nos han atacado con naves espaciales, por llamarlas de alguna manera. Si su potencia de fuego llega a ser una amenaza seria, tendremos que responder con la nuestra.
+sys_expe_attack_1_1_3: Hemos interceptado un par de mensajes de radio de unos piratas muy borrachos. Parece que nos van a atacar.
+sys_expe_attack_1_1_4: Hemos tenido que luchar contra unos piratas, pero por suerte les superábamos en número.
+sys_expe_attack_1_1_5: Nuestra flota informa de que un tal Moa Tikarr y su tripulación han exigido la rendición incondicional. Si van en serio, descubrirán que sabemos defendernos muy bien.
+sys_expe_attack_1_2_1: Tu flota de expedición ha tenido un encuentro imprevisto con unos piratas espaciales.
+sys_expe_attack_1_2_2: ¡Hemos caído en una emboscada de unos piratas estelares! Por desgracia, no se pudo evitar el combate.
+sys_expe_attack_1_2_3: La petición de auxilio de otra flota de expedición resultó ser una trampa de unos piratas astutos. El combate fue inevitable.
+sys_expe_attack_1_3_1: Las señales interceptadas no venían de alienígenas desconocidos, ¡sino de una base pirata secreta! Los piratas no se alegraron nada de nuestra presencia en su sector.
+sys_expe_attack_1_3_2: La flota de expedición informa de combates intensos con naves piratas no identificadas.
+sys_expe_attack_1_3_3: 'Acabamos de recibir un mensaje urgente del comandante de la expedición: «¡Vienen a por nosotros! Han salido del hiperespacio. Por suerte solo son piratas, así que tenemos una oportunidad: ¡lucharemos!»'
+sys_expe_attack_2_1_1: Tu flota de expedición ha tenido un primer contacto poco amistoso con una especie desconocida.
+sys_expe_attack_2_1_2: ¡Unas naves extrañas han atacado a la flota de expedición sin previo aviso!
 sys_expe_attack_2_1_3: ¡Nuestra expedición fue atacada por un pequeño grupo de naves desconocidas!
-sys_expe_attack_2_1_4: >-
-  La flota de expedición informo haber tenido contacto con naves desconocidas.
-  Los mensajes de radio no se pudieron decodificar, sin embargo parece que los
-  buques extranjeros han activado sus armas.
-sys_expe_attack_2_2_1: ¡Una especie desconocida está atacando a nuestra expedición!
-sys_expe_attack_2_2_2: >-
-  Tu flota de expedición, al parecer, violó el territorio de la hasta ahora
-  desconocida, pero muy agresiva amiga de la guerra, especie alienígena.
-sys_expe_attack_2_2_3: >-
-  El enlace a nuestra flota de expedición fue interrumpido. Por lo que hemos
-  sabido sobre el último mensaje, la flota se encuentra bajo un fuerte fuego -
-  los agresores no pudieron ser identificados.
-sys_expe_attack_2_3_1: >-
-  ¡Tu expedición ha encontrado una flota de invasión extraterrestre y reportaron
-  intensos combates!
-sys_expe_attack_2_3_2: >-
-  Una asociación de gran cantidad de naves cristalinas de origen desconocido
-  tiene rumbo de colisión directa con nuestra flota de expedición. Ahora tenemos
-  que asumir lo peor.
-sys_expe_attack_2_3_3: >-
-  Tuvimos dificultades pronunciando el dialecto de la raza alienígena
-  correctamente. Nuestro diplomático dijo 'Fuego!' en lugar de 'Paz!'
+sys_expe_attack_2_1_4: La flota de expedición informa de contacto con naves desconocidas. No se pueden descifrar los mensajes de radio, pero las naves extrañas parecen estar cargando sus armas.
+sys_expe_attack_2_2_1: ¡Una especie desconocida ataca a nuestra expedición!
+sys_expe_attack_2_2_2: Al parecer, tu flota de expedición ha violado el territorio de una raza alienígena hasta ahora desconocida pero muy agresiva.
+sys_expe_attack_2_2_3: Se ha cortado de golpe la conexión con nuestra flota de expedición. Lo último que supimos es que la flota recibía fuego intenso. No se ha podido identificar a los atacantes.
+sys_expe_attack_2_3_1: ¡Tu expedición se ha topado con una flota de invasión alienígena y informa de combates masivos!
+sys_expe_attack_2_3_2: Un gran grupo de naves cristalinas de origen desconocido va en rumbo de colisión directo con nuestra flota de expedición. Hay que prepararse para lo peor.
+sys_expe_attack_2_3_3: Tuvimos algo de dificultad para pronunciar bien el dialecto de la raza alienígena. Nuestro diplomático gritó sin querer «¡Fuego!» en lugar de «¡Paz!».
 sys_expe_attackname_1: Piratas
-sys_expe_attackname_2: Aliens
-sys_expe_back_home: Su flota ha regresado a %1$s %2$s desde la expedición en %3$s.
-sys_expe_back_home_ress: Han traído %s %s, %s %s y %s %s .
-sys_expe_back_home_ships_flound: 'Se encontraron las siguientes embarcaciones:'
-sys_expe_back_home_ships_lost: 'Los siguientes barcos se perdieron:'
-sys_expe_blackholl_1: >-
-  La flota fue arrastrada hacia un agujero negro, y ésta fue parcialmente
-  destruida.
-sys_expe_blackholl_2: La flota fue arrastrada hacia un agujero negro, y fue completamente destruida!
-sys_expe_depleted_max_1: >-
-  Entrada del diario de los oficiales de comunicaciones: Si nos sintiéramos en
-  peligro podríamos volver con todas las otras expediciones que vuelan por aquí.
-sys_expe_depleted_max_2: >-
-  Entrada del diario de los oficiales de comunicación: Si sigue así tendremos
-  que colocar boyas de navegación para manejar todo este tráfico.
-sys_expe_depleted_max_3: >-
-  Entrada en el cuaderno de bitácora del oficial de comunicaciones: Tal vez
-  sería más útil abrir una tienda de recuerdos aquí que enviar otra expedición.
-sys_expe_depleted_med_1: >-
-  Entrada del diario de los oficiales de comunicaciones: Encontramos pruebas que
-  indican la presencia de múltiples flotas de expedición en la zona. Regresamos
-  a casa.
-sys_expe_depleted_med_2: >-
-  Entrada del diario de los oficiales de comunicaciones: Establecimos contacto
-  amistoso por radio con otras expediciones en este sector.
-sys_expe_depleted_med_3: >-
-  Entrada del diario de los oficiales de comunicaciones: Celebramos la
-  culminación de la expedición con los miembros de la tripulación de otra flota
-  de expedición que se dirigía al mismo sector. No tienen nada nuevo que
-  comunicar.
-sys_expe_depleted_min_1: >-
-  Entrada del diario de los oficiales de comunicaciones: Parece que los humanos
-  han estado en esta parte de la galaxia antes.
-sys_expe_depleted_min_2: >-
-  Entrada del diario de los oficiales de comunicaciones: Encontramos restos de
-  antiguas naves espaciales. No somos los primeros en llegar.
-sys_expe_depleted_min_3: >-
-  Cuaderno de bitácora del oficial de comunicaciones: Casi tuvimos una colisión
-  con otra flota de expedición. No creía que hubiera otras por aquí.
-sys_expe_depleted_not_1: >-
-  Entrada del diario de los oficiales de comunicaciones: Parece que esta parte
-  del universo aún no ha sido explorada.
-sys_expe_depleted_not_2: >-
-  Entrada del diario de los oficiales de comunicaciones: Se siente muy bien ser
-  los primeros en viajar por un sector inexplorado.
+sys_expe_attackname_2: Alienígenas
+sys_expe_back_home: Tu flota ha regresado a %1$s %2$s de la expedición a %3$s.
+sys_expe_back_home_ress: Trae %s %s, %s %s y %s %s.
+sys_expe_back_home_ships_flound: 'Se han encontrado las siguientes naves:'
+sys_expe_back_home_ships_lost: 'Se han perdido las siguientes naves:'
+sys_expe_blackholl_1: ¡Tu flota ha encontrado un agujero negro y ha quedado parcialmente destruida!
+sys_expe_blackholl_2: ¡Tu flota ha encontrado un agujero negro y ha quedado completamente destruida!
+sys_expe_depleted_max_1: 'Entrada del diario del oficial de comunicaciones: Si alguna vez nos sentimos inseguros, siempre podemos unir fuerzas con las otras expediciones que vuelan por aquí.'
+sys_expe_depleted_max_2: 'Entrada del diario del oficial de comunicaciones: Si esto sigue así, tendremos que instalar boyas de navegación para gestionar tanto tráfico.'
+sys_expe_depleted_max_3: 'Entrada del diario del oficial de comunicaciones: Quizá sería más útil abrir aquí una tienda de recuerdos que enviar otra expedición más.'
+sys_expe_depleted_med_1: 'Entrada del diario del oficial de comunicaciones: Hemos encontrado señales de varias flotas de expedición en la zona. Volvemos a casa.'
+sys_expe_depleted_med_2: 'Entrada del diario del oficial de comunicaciones: Hemos establecido contacto de radio amistoso con otras expediciones de este sector.'
+sys_expe_depleted_med_3: 'Entrada del diario del oficial de comunicaciones: Hemos celebrado el final de la expedición con la tripulación de otra flota de expedición que viajaba por el mismo sector. Tampoco tienen nada nuevo que contar.'
+sys_expe_depleted_min_1: 'Entrada del diario del oficial de comunicaciones: Parece que ya ha habido humanos antes en esta parte de la galaxia.'
+sys_expe_depleted_min_2: 'Entrada del diario del oficial de comunicaciones: Hemos encontrado restos de naves antiguas. No somos los primeros en llegar.'
+sys_expe_depleted_min_3: 'Entrada del diario del oficial de comunicaciones: Casi chocamos con otra flota de expedición. Nunca pensé que hubiera nadie más por aquí.'
+sys_expe_depleted_not_1: 'Entrada del diario del oficial de comunicaciones: Parece que esta parte del universo aún no ha sido explorada.'
+sys_expe_depleted_not_2: 'Entrada del diario del oficial de comunicaciones: Da gusto ser los primeros en cruzar un sector inexplorado.'
 sys_expe_feqeuence_few: Más de 10 expediciones en las últimas 24 horas
 sys_expe_feqeuence_many: Más de 50 expediciones en las últimas 24 horas
 sys_expe_feqeuence_medium: Más de 25 expediciones en las últimas 24 horas
-sys_expe_feqeuence_no: Pocas expediciones en 24 horas
-sys_expe_found_goods: '%s %s fueron minados.'
-sys_expe_found_ress_1_1: >-
-  Tu expedición ha descubierto un pequeño grupo de asteroides, de los que se han
-  obtenidos algunos recursos.
-sys_expe_found_ress_1_2: En un planetoide remoto de fácil acceso se encontraron materias primas.
-sys_expe_found_ress_1_3: >-
-  Su expedición se encontró con restos de naves muy antiguos, luchando una larga
-  batalla contra el olvido. Los componentes individuales pueden reciclar y
-  recuperar.
-sys_expe_found_ress_1_4: >-
-  La expedición se encontró con una contaminación radioactiva y muy tóxica para
-  la atmósfera. Sin embargo, los escáneres mostraron que este asteroide es muy
-  rico en recursos. Se usaron naves no trupuladas para obtener las materias
-  primas.
-sys_expe_found_ress_2_1: >-
-  Tu expedición descubrió una antigua hiper nave de carga desierta, al parecer,
-  ha sido destrozada en alguna batalla. Algunos recursos pudieron ser salvados.
-sys_expe_found_ress_2_2: >-
-  En una pequeña luna con una atmósfera a su propia expedición encontraron
-  grandes yacimientos minerales. El personal de tierra está allí para reunir
-  esos tesoros naturales.
-sys_expe_found_ress_2_3: >-
-  Hemos encontrado un pequeño convoy de naves civiles en necesidad de alimentos
-  y medicamentos de urgencia. A cambio, recibimos una gran cantidad de recursos
-  útiles.
-sys_expe_found_ress_3_1: >-
-  Tu flota de expedición descubrió una nave alienígena gigante. Con la
-  tecnología de la nave no pudieron hacer nada, pero la nave pudo ser
-  descompuesta en sus componentes, a través de los cuales se pudo obtener
-  valiosas materias primas.
-sys_expe_found_ress_3_2: >-
-  Un cinturón de minerales alrededor de un planeta desconocido, figura grandes
-  cantidades de materias primas. ¡La flota de expedición muestra informes de
-  carga completa!
-sys_expe_found_ress_logbook_1: >-
-  Anotación del cuaderno de bitácora de los primeros oficiales: Usamos todo el
-  espacio libre pero aún no pudimos llevarnos todos los recursos encontrados.
-sys_expe_found_ress_logbook_2: >-
-  Anotación del cuaderno de bitácora de los primeros oficiales: ¡Si sólo
-  tuviéramos algunos cargueros más! Ahora tendremos que dejar atrás montones de
-  recursos.
-sys_expe_found_ress_logbook_3: >-
-  Anotación del cuaderno de bitácora de los primeros oficiales: Ya hemos tirado
-  todo lo que realmente ya no necesitamos pero aún no somos capaces de hacer
-  suficiente espacio para todos los recursos encontrados.
-sys_expe_found_ress_logbook_4: >-
-  Anotación del cuaderno de bitácora de los primeros oficiales: Incluso cuando
-  transformamos la cafetería y todos los salones en almacenes seguimos sin poder
-  transportar todos los recursos que encontramos.
-sys_expe_found_ships: >-
-  Tus exploradores han encontrado un escuadrón abandonado pero en buen
-  estado.<br>:
-sys_expe_found_ships_1_1: >-
-  ¡Nos hemos encontrado con los restos de una expedición anterior! Nuestros
-  técnicos miran si algunas de las naves pueden volver a volar.
-sys_expe_found_ships_1_2: >-
-  Hemos encontrado una base abandonada de piratas. En el hangar habían algunas
-  naves viejas. Nuestros técnicos van a comprobar si todavía son capaces de
-  utilizarlas.
-sys_expe_found_ships_1_3: >-
-  Nuestra expedición encontró un planeta que fue probablemente destruido por las
-  guerras. En órbita hay varias naves naufragadas. Los técnicos tratan de
-  reparar algunas de ellas. Tal vez entonces también tengan la posibilidad de
-  obtener información sobre lo que ha sucedido aquí.
-sys_expe_found_ships_1_4: >-
-  Tu expedición ha encontrado una vieja estrella de la muerte, que probablemente
-  dejó de funcionar hace mucho tiempo. En el hangar de la fortaleza se
-  encontraron unas cuantas naves. Los teócnicos analizarán si algunas de ellas
-  pueden ser reparadas o no.
-sys_expe_found_ships_2_1: >-
-  Hemos encontrado los restos de una Armada. Los técnicos de la flota de
-  expedición han ido inmediatamente a las semi-intactas y tratan de arreglarla
-  de nuevo.
-sys_expe_found_ships_2_2: >-
-  Nuestra expedición se topó con un viejo hangar automático. Algunas naves se
-  encuentran aún en fase de producción, y nuestros ingenieros están tratando de
-  restablecer la energía en la planta.
-sys_expe_found_ships_3_1: >-
-  Hemos encontrado un cementerio gigante de naves espaciales. Algunos técnicos
-  de la flota de la expedición han logrado poner una o más naves de nuevo en
-  funcionamiento.
-sys_expe_found_ships_3_2: >-
-  Hemos descubierto un planeta con los restos de una civilización. Desde la
-  órbita sólo se reconoce un único edificio que sigue intacto. Algunos de
-  nuestros técnicos y los pilotos han ido a la superficie para ver si algunas de
-  las naves estacionadas allí todavía son capaces de ser utilizadas.
-sys_expe_found_ships_logbook_1: >-
-  Anotación del cuaderno de bitácora de los oficiales de máquinas: ¡Si
-  hubiéramos traído más barcos, habría sido fácil llevarnos algunas de esas
-  bellezas!
-sys_expe_found_ships_logbook_2: >-
-  Anotación del cuaderno de bitácora de los oficiales de máquinas:
-  Desafortunadamente, no tuvimos la capacidad de traer de vuelta todas las naves
-  descubiertas en nuestra misión.
-sys_expe_found_ships_logbook_3: >-
-  Anotación del cuaderno de bitácora de los oficiales de máquinas:
-  Desafortunadamente no tenemos suficiente capacidad para traer de vuelta todas
-  las naves encontradas.
-sys_expe_found_ships_nothing: '- No habían naves que se pudieran reparar.'
-sys_expe_lost_fleet_1: >-
-  De la expedición, sólo llegó un mensaje de radio;: Zzzrrt Oh Dios! Krrrzzzzt
-  la zrrrtrzt krgzzzz sí parece Krzzzzzzzztzzzz auxiliooKrzZZzzzz ...
-sys_expe_lost_fleet_2: >-
-  Lo último que se envió por la expedición tenía algunos planos de la apertura
-  de ........ un agujero negro.
-sys_expe_lost_fleet_3: >-
-  El el núcleo de una de las naves se produjo una reacción en cadena que explotó
-  y se llevó a toda la flota con ella.
-sys_expe_lost_fleet_4: >-
-  La flota de expedición no pudo dar el salto hacia el espacio normal. Nuestros
-  científicos siguen desconcertados en cuanto a lo que podría haber ocurrido,
-  pero la flota parece haberse perdido permanentemente.
-sys_expe_nothing_1: >-
-  Aparte de algunas criaturas extrañas, esta expedición vuelve sin nada
-  interesante de su viaje.
-sys_expe_nothing_2: >-
-  Su expedición ha hecho bellas imágenes de una supernova. Realmente no hay
-  nuevos hallazgos en esta expedición. Pero tenemos buenas posibilidades para
-  concurso de mejor película-de-Universo de este año.
-sys_expe_nothing_3: >-
-  Un virus informático extraño paralizó la nave después de salir del sistema
-  solar. Esto significaba que la flota de expedición entera voló todo el tiempo
-  en círculo. Sin más nada que decir, la expedición no tuvo mucho éxito.
-sys_expe_nothing_4: >-
-  Una vida de pura energía a la que todos los miembros de la expedición se
-  habían quedado mirando los patrones hipnóticos en las pantallas durante varios
-  días. Cuando por fin la mayoría ha despertado, en la expedición había una
-  grave escasez de deuterio, y la misión tuvo que ser cancelada.
-sys_expe_nothing_5: >-
-  Bueno, al menos ahora sabemos que tienen anomalías de color rojo en la clase 5
-  no son los únicos efectos caóticos sobre los sistemas de navegación, pero
-  también puede provocar alucinaciones masivas en la tripulación. Además de eso
-  no mucho se consiguió de esta expedición.
-sys_expe_nothing_6: >-
-  A pesar de las exploraciones prometedoras de este sector, por desgracia,
-  volvemos con las manos vacías.
-sys_expe_nothing_7: >-
-  Tal vez no deberíamos celebrar el cumpleaños de los Capitanes en este planeta
-  remoto. Una fiebre de la selva desagradable ha acompañado a gran parte de la
-  tripulación obligándolos a ir a la enfermería. No cabe decir que la expedición
-  ha fallado.
-sys_expe_nothing_8: >-
-  Tu expedición, literalmente, hizo amistad con el vacío del universo. Ni
-  siquiera había un pequeño asteroide, o radiación, o partículas, o cualquier
-  cosa que hubiera hecho esta expedición emocionante.
-sys_expe_nothing_9: >-
-  Un fallo del núcleo del reactor habría destruido casi toda la expedición.
-  Afortunadamente, los ingenieros eran más que capaces y pudieron evitar lo
-  peor. Sin embargo, la reparación tardó tanto tiempo, que la expedición regresó
-  con las manos vacías.
-sys_expe_report: Reporte de expedición
-sys_expe_report_msg: 'Informe de expedición de la flota %s %s en %s:'
-sys_expe_time_fast_1: >-
-  Una retroalimentación imprevista en la bobina de alimentaciín de las unidades
-  de conducción, aceleró el regreso de la expedición, y ahora vuelve antes de lo
-  esperado. En primer lugar informó que ella no tiene nada interesante que
-  informar.
-sys_expe_time_fast_2: >-
-  El nuevo comandante se aprovechó de algunos agujeros de gusano inestables para
-  acortar el vuelo de vuelta con éxito! Sin embargo, la propia expedición no ha
-  traído ninguna prueba de ello.
-sys_expe_time_fast_3: >-
-  Tu expedición no encontró nada nuevo en el sector que investigó. Sin embargo,
-  la flota se encontró adentro del viento solar durante la reentrada. Así, el
-  salto fue acelerado. Tu expedición ahora vuelve a casa un poco temprano.
-sys_expe_time_slow_1: >-
-  Un error llevó a un cálculo erróneo del Navegador con el salto de la
-  expedición. No sólo la flota desembarcó en un lugar completamente equivocado,
-  sino que incluso la via de vuelta tomó mucho más tiempo.
-sys_expe_time_slow_2: >-
-  Por razones desconocidas, el salto de la flota de la expedición, simplemente
-  salió mal. Casi sale en el corazón de un sol. Afortunadamente, aterrizó en un
-  sistema conocido, pero el retorno llevará más tiempo del inicialmente pensado.
-sys_expe_time_slow_3: >-
-  El módulo de navegación nuevo probablemente tuvo que luchar con algunos
-  errores. No sólo la trayectoria de la flota de la expedición fue totalmente en
-  la dirección equivocada, sino que el deuterio se consumió en su totalidad. La
-  flota terminó el salto justo en una luna. Un poco decepcionados ahora, la
-  expedición regresa a casa. Este regreso se retrasa probablemente un poco.
-sys_expe_time_slow_4: >-
-  Su expedición se encontró en un sector con tormentas de partículas
-  amplificadas. Esta sobrecarga la energía de la flota, para todas las naves,
-  provoco que los sistemas más importantes se cancelaran. Su mecánico pudo
-  evitar lo peor, pero la expedición regresa de vuelta con algo de retraso.
-sys_expe_time_slow_5: >-
-  La nave que mandó de la expedición chocó con una nave extraña que saltó en
-  pleno vuelo sin previo aviso delante de la flota. La nave alienígena explotó y
-  los daños a las naves han sido considerables. Una vez que las reparaciones se
-  hayan completado, tus naves estarán de regreso, porque en este estado, la
-  expedición no puede continuar.
-sys_expe_time_slow_6: >-
-  El viento estelar de una gigante roja ha distorsionado el salto de la
-  expedición tanto que se tomó algo de tiempo para calcular la reentrada. Aparte
-  de que el sector en el que la expedición salió, no es más que el vacío entre
-  las estrellas.
-sys_fleet_return: |-
-  Su flota regresa al %s %s %s y ofrece %s %s, %s %s y %s %s.
-  %s
-sys_fleet_won: >-
-  Una de tus flotas regresa de un ataque al planeta %s %s a %s %s. Ha capturado
-  %s %s, %s %s y  %s %s
-sys_gain: Beneficios
+sys_expe_feqeuence_no: Pocas expediciones en las últimas 24 horas
+sys_expe_found_goods: Se han extraído %s %s.
+sys_expe_found_ress_1_1: Tu expedición ha descubierto un pequeño cúmulo de asteroides del que se han podido extraer algunos recursos.
+sys_expe_found_ress_1_2: En un planetoide remoto se han encontrado varios campos de recursos de fácil acceso y se han extraído materias primas con éxito.
+sys_expe_found_ress_1_3: Tu expedición ha dado con restos de naves muy antiguas de una batalla lejana. Se han podido recuperar y reciclar algunos componentes.
+sys_expe_found_ress_1_4: La expedición ha descubierto un planeta contaminado por radiación y con una atmósfera muy tóxica. Sin embargo, los escáneres mostraron que contiene muchas materias primas. Se enviaron drones automáticos para extraer todos los recursos posibles.
+sys_expe_found_ress_2_1: 'Tu expedición ha encontrado un antiguo convoy de carga, lleno pero abandonado. Se han podido obtener algunos recursos. '
+sys_expe_found_ress_2_2: Tu expedición ha encontrado grandes yacimientos de materias primas en una pequeña luna con atmósfera propia. La tripulación está extrayendo ese tesoro ahora mismo.
+sys_expe_found_ress_2_3: Nos hemos cruzado con un pequeño convoy de naves civiles que necesitaba con urgencia alimentos y medicinas. A cambio, hemos recibido una buena cantidad de recursos útiles.
+sys_expe_found_ress_3_1: Tu flota de expedición informa del descubrimiento de un enorme naufragio alienígena. Aunque no pudieron hacer nada con su tecnología, la nave se pudo desmontar en piezas sueltas y se obtuvieron valiosas materias primas.
+sys_expe_found_ress_3_2: El cinturón de asteroides de un planeta desconocido contenía enormes cantidades de materias primas. ¡La flota de expedición ha llenado sus bodegas!
+sys_expe_found_ress_logbook_1: 'Entrada del diario del primer oficial: Hemos aprovechado hasta el último rincón libre, pero aun así no hemos podido llevarnos todos los recursos que encontramos.'
+sys_expe_found_ress_logbook_2: 'Entrada del diario del primer oficial: ¡Si tuviéramos unos cuantos cargueros más! Ahora tendremos que dejar atrás montones de recursos.'
+sys_expe_found_ress_logbook_3: 'Entrada del diario del primer oficial: Ya hemos tirado todo lo que no necesitamos, pero aun así no conseguimos hacer sitio para todos los recursos que hemos encontrado.'
+sys_expe_found_ress_logbook_4: 'Entrada del diario del primer oficial: Incluso después de convertir la cafetería y todas las salas de descanso en bodegas, no hemos podido transportar todos los recursos que encontramos.'
+sys_expe_found_ships: '¡Tus investigadores han encontrado naves en perfecto estado!<br>: '
+sys_expe_found_ships_1_1: ¡Hemos descubierto los restos de una expedición anterior! Nuestros técnicos están comprobando si pueden volver a poner en marcha algunos de los restos.
+sys_expe_found_ships_1_2: Hemos encontrado una base pirata abandonada. En el hangar todavía hay algunas naves viejas. Nuestros técnicos están comprobando si siguen siendo utilizables.
+sys_expe_found_ships_1_3: Nuestra expedición ha encontrado un planeta casi completamente arrasado por las guerras. En órbita flotaban varios restos de naves. Los técnicos intentaron reparar algunos. Quizá podamos averiguar más de lo que pasó aquí.
+sys_expe_found_ships_1_4: La expedición ha dado con una vieja base estelar que parece abandonada desde hace una eternidad. En el hangar de la fortaleza se han encontrado algunas naves. Los técnicos han conseguido que algunas vuelvan a volar.
+sys_expe_found_ships_2_1: Hemos encontrado los restos de una armada. Los técnicos de la expedición subieron enseguida a las naves, en parte intactas, y han conseguido reparar algunas.
+sys_expe_found_ships_2_2: Nuestra expedición ha descubierto un viejo astillero automático con algunas naves todavía en fase de producción. Tras restablecer el suministro de energía del astillero, nuestros técnicos se pusieron manos a la obra para terminarlas.
+sys_expe_found_ships_3_1: Hemos encontrado un gigantesco cementerio de naves. Algunos técnicos de la expedición han conseguido poner en marcha una o dos naves de nuevo.
+sys_expe_found_ships_3_2: Hemos descubierto un planeta con restos de una civilización. Desde el espacio se ha divisado otra gigantesca estación de naves que sigue intacta. Algunos de nuestros técnicos y pilotos han bajado a la superficie para ver si se pueden recuperar un par de naves.
+sys_expe_found_ships_logbook_1: 'Entrada del diario del oficial de máquinas: Si hubiéramos traído algunas naves más, ¡habría sido fácil llevarnos a casa unas cuantas de esas bellezas!'
+sys_expe_found_ships_logbook_2: 'Entrada del diario del oficial de máquinas: Por desgracia, no teníamos capacidad para traer de vuelta todas las naves que descubrimos en esta misión.'
+sys_expe_found_ships_logbook_3: 'Entrada del diario del oficial de máquinas: Por desgracia, no tenemos capacidad suficiente para traer de vuelta todas las naves que hemos encontrado.'
+sys_expe_found_ships_nothing: No se ha encontrado ninguna nave.
+sys_expe_lost_fleet_1: 'Lo único que queda de la expedición es el siguiente mensaje de radio: ¡Zzzrrt, oh Dios!... Krrrzzzzt el zrrrtrzt ve krgzzzz sí, cómo Krzzzzzzzztzzzz...'
+sys_expe_lost_fleet_2: Lo último que recibimos de la expedición fueron unos primeros planos increíbles de un agujero negro que se abría.
+sys_expe_lost_fleet_3: Una fuga nuclear en una de las naves de mando provocó una reacción en cadena que destruyó toda la expedición en una explosión espectacular.
+sys_expe_lost_fleet_4: La flota de expedición no ha vuelto de su salto hiperespacial. Nuestros científicos siguen sin entender qué ha podido pasar, pero la flota parece perdida para siempre.
+sys_expe_nothing_1: Esta expedición no trae nada emocionante, salvo unos curiosos animalillos de un planeta pantanoso desconocido.
+sys_expe_nothing_2: Tu expedición ha tomado unas fotos preciosas de una supernova. Aun así, no ha aportado ningún descubrimiento nuevo. Pero tiene muchas papeletas de ganar este año el concurso a la Mejor Imagen del Universo.
+sys_expe_nothing_3: Un extraño virus informático dejó inutilizada la navegación poco después de salir del sistema solar. Como resultado, toda la flota de expedición estuvo volando en círculos todo el tiempo. Ni que decir tiene que la expedición no tuvo mucho éxito.
+sys_expe_nothing_4: Una forma de vida de pura energía hizo que todos los miembros de la expedición se quedaran mirando durante varios días unos símbolos hipnóticos en sus pantallas. Cuando por fin la mayoría recuperó la claridad, la expedición tuvo que cancelarse por falta de deuterio.
+sys_expe_nothing_5: Bueno, al menos ahora sabemos que las anomalías rojas de clase 5 no solo tienen efectos caóticos en los sistemas de la nave, sino que también pueden provocar alucinaciones masivas en la tripulación. Por desgracia, no se descubrió nada más en esta expedición.
+sys_expe_nothing_6: A pesar de que los escáneres de este sector parecían prometedores, por desgracia hemos vuelto con las manos vacías.
+sys_expe_nothing_7: Quizá no debimos celebrar el cumpleaños del capitán en este planeta remoto. Una desagradable fiebre hemorrágica mandó a la enfermería a gran parte de la tripulación, y la falta aguda de personal hizo fracasar la expedición.
+sys_expe_nothing_8: Tu expedición no ha encontrado más que el inmenso vacío del espacio. Ni siquiera había un asteroide, radiación, partículas o cualquier otra cosa que hiciera la expedición un poco emocionante.
+sys_expe_nothing_9: Un fallo del reactor de la nave de mando estuvo a punto de destruir toda la expedición. Por suerte, los técnicos fueron más que competentes y evitaron lo peor. Sin embargo, la reparación llevó tanto tiempo que la expedición volvió sin haber conseguido nada.
+sys_expe_report: Informe de expedición
+sys_expe_report_msg: 'Informe de expedición de la flota de %s %s en %s:'
+sys_expe_time_fast_1: Un bucle de retroalimentación imprevisto en las bobinas de energía del sistema de propulsión aceleró el regreso de la expedición, que llega antes de lo esperado. Los primeros informes indican, sin embargo, que no hay nada más que contar.
+sys_expe_time_fast_2: El nuevo comandante, algo temerario, usó un agujero de gusano inestable para acortar el viaje de vuelta, ¡y le salió bien! Eso sí, la expedición en sí no aportó ningún descubrimiento nuevo.
+sys_expe_time_fast_3: Tu expedición no informó de anomalías en el sector explorado. Sin embargo, durante el vuelo de regreso la flota se topó con un viento solar que aceleró el trayecto de forma notable. Tu expedición volverá a casa algo antes de lo previsto.
+sys_expe_time_slow_1: Un grave error del navegador dejó a la flota en un lugar completamente equivocado. Como consecuencia, el viaje de vuelta duró bastante más.
+sys_expe_time_slow_2: Por razones aún desconocidas, el salto de la flota salió del todo mal. ¡Casi acaban en el corazón de una estrella! Por suerte aterrizaron en un sistema conocido, pero el viaje de vuelta durará más de lo previsto.
+sys_expe_time_slow_3: El nuevo módulo de navegación parece seguir plagado de errores. La flota de expedición no solo voló en dirección completamente equivocada, ¡sino que además consumió todo su deuterio! Decepcionada, la expedición regresa ahora con la energía de reserva.
+sys_expe_time_slow_4: Tu expedición entró en un sector con tormentas de partículas intensificadas. Esto sobrecargó los sistemas de almacenamiento de energía y los sistemas principales de todas las naves fallaron. Tus mecánicos lograron evitar lo peor, pero la expedición volverá con un retraso considerable.
+sys_expe_time_slow_5: La nave insignia de tu flota de expedición chocó con una nave alienígena que saltó sin previo aviso justo encima de la flota. La nave alienígena explotó y los daños en la insignia fueron considerables. Cuando terminen las reparaciones más graves, tus naves emprenderán el regreso, porque la expedición no puede continuar en este estado.
+sys_expe_time_slow_6: El viento estelar de una gigante roja distorsionó el salto de la expedición y los sistemas de navegación calcularon del todo mal el viaje de vuelta. Como resultado, la expedición se encuentra en el inmenso vacío entre estrellas desconocidas.
+sys_fleet_return: Tu flota regresa a %s %s %s y entrega %s %s, %s %s y %s %s. %s
+sys_fleet_won: Tu flota ha vuelto de un ataque a %s %s hacia %s %s. Has capturado %s %s, %s %s y %s %s.
+sys_gain: Botín
 sys_honorpoints_changed: 'Puntos de honor:'
-sys_irak_def: '%d cohetes fueron interceptados.'
-sys_irak_mess: Los misiles interplanetarios (%d) de %s están en el planeta %s <br><br>
-sys_irak_no_att: Todos los cohetes fueron interceptados.
-sys_irak_no_def: El planeta no tiene defensa
+sys_irak_def: Se han interceptado %d misiles.
+sys_irak_mess: Misiles interplanetarios (%d) de %s han impactado en %s <br><br>
+sys_irak_no_att: Se han interceptado todos los misiles.
+sys_irak_no_def: El planeta no tiene defensas.
 sys_irak_subject: Impacto de misiles
 sys_lost: Pérdidas
-sys_mess_attack_cancel: |-
-  La batalla a %s %s ha sido cancelada.
-  El servidor no pudo calcularlo.
-sys_mess_attack_report: Reporte de batalla
+sys_mess_attack_cancel: 'La batalla en %s %s ha sido cancelada.
+
+  El servidor no pudo calcularla.'
+sys_mess_attack_report: Informe de ataque
 sys_mess_destruc_report: 'Reporte: Destrucción de la luna'
-sys_mess_fleetback: Retorno de la flota
+sys_mess_fleetback: Regreso de flota
 sys_mess_piratebase_gone: 'Tu flota ha llegado a %s, pero la base pirata ya no está allí. La flota regresa a casa.'
-sys_mess_spy_activity: Actividad de espionaje
-sys_mess_spy_control: Control Espacial
-sys_mess_spy_destroyed: ¡Tu sonda de espionaje ha sido destruida!
-sys_mess_spy_ennemyfleet_1: Sondas espías enemigas del planeta %s han sido avistadas cerca de %s.
-sys_mess_spy_ennemyfleet_3: Sondas espías enemigas de la luna %s han sido avistadas cerca de %s.
+sys_mess_spy_activity: Informe de contraespionaje
+sys_mess_spy_control: Inteligencia central
+sys_mess_spy_destroyed: ¡Tus sondas de espionaje han sido destruidas!
+sys_mess_spy_ennemyfleet_1: Se han avistado sondas de espionaje enemigas del planeta %s cerca de %s.
+sys_mess_spy_ennemyfleet_3: Se han avistado sondas de espionaje enemigas de la luna %s cerca de %s.
 sys_mess_spy_link: >-
   <a href="game?page=galaxy&amp;galaxy=%3$s&amp;system=%4$s">%1$s (%2$s)
   [%3$s:%4$s:%5$s]</a>
-sys_mess_spy_lostproba: 'Probabilidad de detección de la flota de espionaje : %d %% '
+sys_mess_spy_lostproba: 'Probabilidad de que detectaran tus sondas de espionaje: %d%%'
 sys_mess_spy_qg: Departamento de espionaje
-sys_mess_spy_repair_order: Los barcos se están restaurando actualmente en el muelle de reparación.
-sys_mess_spy_report: Reporte de espionaje
-sys_mess_spy_report_details_1: Informe espía del planeta %1$s (%2$s) [%3$s:%4$s:%5$s] en %6$s
-sys_mess_spy_report_details_3: Informe espía de la luna %1$s (%2$s) [%3$s:%4$s:%5$s] en %6$s
-sys_mess_spy_report_details_4: Informe espía de %1$s (%2$s) [%3$s:%4$s:%5$s] en %6$s
-sys_mess_tower: Torre de control
+sys_mess_spy_repair_order: Se están reparando naves en el muelle de reparación.
+sys_mess_spy_report: Informe de espionaje
+sys_mess_spy_report_details_1: Informe de espionaje del planeta %1$s (%2$s) [%3$s:%4$s:%5$s] el %6$s
+sys_mess_spy_report_details_3: Informe de espionaje de la luna %1$s (%2$s) [%3$s:%4$s:%5$s] el %6$s
+sys_mess_spy_report_details_4: Informe de espionaje de %1$s (%2$s) [%3$s:%4$s:%5$s] el %6$s
+sys_mess_tower: Mando de flotas
 sys_mess_transport: Informe de transporte
-sys_moonbuilt: >-
-  Las enormes cantidades de metal y cristal libres se atraen y forman un
-  satélite alrededor del planeta !
-sys_moonproba: 'La probabilidad de que surja una luna de los escombros es de:'
-sys_raport_amount_error: No hay o hay demasiados barcos/defensas para la simulación
-sys_raport_lost_contact: >-
-  El contacto con la flota atacante se perdió (lo que significa que fue
-  totalmente destruida en la primera ronda.)
-sys_raport_not_found: ID de Informe de batalla no válido
+sys_moonbuilt: Las enormes cantidades de metal y cristal libres se atraen y forman un satélite alrededor del planeta.
+sys_moonproba: 'Probabilidad de luna: '
+sys_raport_amount_error: No hay naves ni defensas seleccionadas, o hay demasiadas para la simulación.
+sys_raport_lost_contact: Se perdió el contacto con la flota atacante (fue derribada en la primera ronda).
+sys_raport_not_found: ID de informe de combate no válida
 sys_recy_gotten: >-
   Tus recicladores han recogido %2$s %6$s y %3$s %7$s de un total de %4$s %6$s y
   %5$s %7$s en las coordenadas %1$s.
-sys_recy_mess: Una de sus flotas de recicladores regresa a %s %s con %s %s, %s %s y %s %s.
-sys_recy_report: Reporte de reciclaje
+sys_recy_mess: Tu flota de recicladores ha regresado a %s %s con %s %s, %s %s y %s %s.
+sys_recy_report: Informe de reciclaje
 sys_ship_armour: Blindaje
 sys_ship_count: Cantidad
 sys_ship_repaired: Reparado
@@ -462,30 +214,20 @@ sys_ship_type: Tipo
 sys_ship_weapon: Armas
 sys_spy_defenses: defensas
 sys_spy_fleet: Flota
-sys_stat_mess: Su flota de %s %s alcanza el %s %s %s y entrega %s %s, %s %s y %s %s. %s
+sys_stat_mess: Tu flota de %s %s ha llegado a %s %s %s y ha entregado %s %s, %s %s y %s %s. %s
 sys_stat_mess_stay: Flota estacionada
-sys_stealed_ressources: Obteniendo
-sys_trade_mess_arr_success: >-
-  Una de sus flotas mercantes está lista para volver al planeta %1$s %2$s (vuelo de retorno: %5$s). <form
-  action="game?page=fleetTable&amp;action=sendfleetback"
-  method="post"><input name="fleetID" value="%3$s" type="hidden"><input
-  value="%4$s" type="submit"></form>
-sys_trade_mess_back: Una de sus flotas comerciales regresa al planeta %s %s sin éxito.
-sys_trade_mess_back_success: >-
-  Una de sus flotas mercantes regresó con éxito al planeta %4$s %5$s con %1$s de
-  metal, %2$s de cristal y %3$s de deuterio.
-sys_tran_mess_back: Una flota regreso al planeta %s %s.
-sys_tran_mess_owner: >-
-  Una de tus flotas de %s %s ha llegado sin interrupciones al %s %s %s y ha
-  entregado %s %s, %s %s y %s %s.
-sys_tran_mess_user: Una flota pacífica de %s %s alcanzado %s %s y entrega %s %s, %s %s y %s %s.
+sys_stealed_ressources: Saquean
+sys_trade_mess_arr_success: 'Tu flota mercante está lista para volver a %1$s %2$s (vuelo de regreso: %5$s). <form action="game?page=fleetTable&amp;action=sendfleetback" method="post"><input name="fleetID" value="%3$s" type="hidden"><input value="%4$s" type="submit"></form>'
+sys_trade_mess_back: Tu flota mercante ha vuelto a %s %s sin éxito.
+sys_trade_mess_back_success: Tu flota mercante ha vuelto con éxito a %4$s %5$s con %1$s de metal, %2$s de cristal y %3$s de deuterio.
+sys_tran_mess_back: Tu flota ha regresado a %s %s.
+sys_tran_mess_owner: Tu flota de %s %s ha llegado a %s %s %s y ha entregado %s %s, %s %s y %s %s.
+sys_tran_mess_user: Una flota pacífica de %s %s ha llegado a %s %s y ha entregado %s %s, %s %s y %s %s.
 sys_units: unidades
-sys_wreckfield: >-
-  Algunas de las naves destruidas del defensor forman un campo de restos en la
-  órbita del planeta durante unos días.
-sys_wreckfield_added: 'Agregado a wreckfield:'
+sys_wreckfield: Parte de las naves destruidas del defensor forma un campo de restos en la órbita del planeta durante unos días.
+sys_wreckfield_added: 'Añadido al campo de restos:'
 type_mission_1: Atacar
-type_mission_2: Ataque grupal (SAC)
+type_mission_2: Ataque grupal
 type_mission_3: Transporte
 type_mission_4: Desplegar
 type_mission_5: Mantener
@@ -497,9 +239,9 @@ type_mission_15: Expedición
 type_mission_16: Comercio
 type_mission_17: Transferir
 type_planet_1: Planeta
-type_planet_2: Campo de Escombros
+type_planet_2: Campo de escombros
 type_planet_3: Luna
-type_planet_4: base pirata
+type_planet_4: Base pirata
 type_planet_short_1: P
-type_planet_short_2: C.E
+type_planet_short_2: CE
 type_planet_short_3: M

@@ -1,155 +1,118 @@
-buttonLostPassword: Recuperar contraseña?
-buttonRegister: Registrate Ahora!
-buttonScreenshot: Imagenes del Juego
-chose_a_uni: Elige el Universo
-disclamerLabelAddress: 'Dirección:'
-disclamerLabelMail: 'Dirección de E-Mail:'
-disclamerLabelNotice: Información de Contacto
-disclamerLabelPhone: 'Nr. de Teléfono:'
+buttonLostPassword: ¿Olvidaste tu contraseña?
+buttonRegister: ¡Regístrate ahora!
+buttonScreenshot: Capturas
+chose_a_uni: Elige un universo
+disclamerLabelAddress: 'Dirección del juego:'
+disclamerLabelMail: 'Correo de soporte:'
+disclamerLabelNotice: Más información
+disclamerLabelPhone: 'Teléfono:'
 disclamerRecaptcha: >-
   Esta página utiliza reCAPTCHA y se aplican la <a
   href="https://policies.google.com/privacy">declaración de privacidad</a> y las
   <a href="https://policies.google.com/terms">condiciones de uso</a> de Google.
 forum: Foro
-gameInformations: |-
-  Un juego de estrategia espacial en tiempo real.
-  Juega junto con cientos de jugadores.
-  Nada de descarga, s&oacute;lo se requiere un navegador est&aacute;ndar.
-  Registro Gratuito
-login_error_1: >-
-  Correo electrónico o contraseña incorrectos Consejo: las cajas fuertes de
-  contraseñas suelen guardar el nombre de usuario, pero tienes que iniciar
-  sesión con tu correo electrónico.
-login_error_2: >-
-  Alguien se ha conectado desde otro PC en su cuenta, o su dirección IP es
-  diferente!
-login_error_3: Tu sesión ha expirado!
-login_error_4: >-
-  Ha habido demasiados intentos de inicio de sesión. Ponte en contacto con un
-  administrador a través de Discord para obtener nuevos datos de acceso. Ten
-  preparada tu dirección de correo electrónico para la verificación.
-loginButton: Iniciar Sesión
-loginEmail: Email
-loginHeader: Iniciar Sesión
-loginInfo: Con el Inicio de Sesión acepto las %s.
+gameInformations: 'Un juego de estrategia espacial en tiempo real.
+
+  Cientos de jugadores en cada universo.
+
+  Sin descargas: solo necesitas un navegador normal.
+
+  Registro gratuito'
+login_error_1: '¡Correo o contraseña incorrectos! Consejo: los gestores de contraseñas suelen rellenar tu nombre de usuario, pero para iniciar sesión tienes que usar tu correo.'
+login_error_2: Tu cuenta ha iniciado sesión desde otro dispositivo, o tu dirección IP ha cambiado.
+login_error_3: Tu sesión ha caducado. Inicia sesión de nuevo.
+login_error_4: Demasiados intentos de inicio de sesión. Espera 15 minutos e inténtalo de nuevo.
+loginButton: Iniciar sesión
+loginEmail: Correo electrónico
+loginHeader: Iniciar sesión
+loginInfo: Al iniciar sesión, acepto las %s.
 loginPassword: Contraseña
-loginServerDesc: >-
-  %s es un juego de estrategia espacial con cientos de jugadores jugando juntos
-  <strong>al mismo tiempo</strong> tratando de ser el mejor. Todo lo que
-  necesitas para jugar es un navegador estándar.
+loginServerDesc: '%s es un juego de estrategia espacial en el que cientos de jugadores compiten <strong>al mismo tiempo</strong> por ser los mejores. Solo necesitas un navegador web normal.'
 loginWelcome: Bienvenido a %s
-menu_banlist: Baneados
+menu_banlist: Lista de baneos
 menu_battlehall: Salón de la Fama
-menu_disclamer: Contactar
-menu_index: Indice
+menu_disclamer: Contacto
+menu_index: Inicio
 menu_news: Noticias
-menu_register: Registrar
+menu_register: Registro
 menu_rules: Reglas
-news_does_not_exist: No hay Noticias Disponibles!
+news_does_not_exist: No hay noticias.
 news_from: El %s por %s
 news_overview: Noticias
-passwordBack: Anterior
-passwordCaptcha: Codigo de Seguridad
-passwordChangedMailSend: Recibirás un correo electrónico en breve con tu nueva contraseña.
-passwordChangedMailTitle: 'Nueva contraseña en el juego: %s'
-passwordErrorMailEmpty: Ha introducido una dirección de e-mail desconocida!
-passwordErrorOnePerDay: >-
-  Contraseña para esta cuenta de usuario solicitada en las últimas 24. Sólo se
-  puede solicitar la contraseña para esta cuenta de usuario cada 24 horas. 
-passwordErrorUnknown: No se pudo encontrar con los datos de la cuenta.
-passwordErrorUsernameEmpty: No has especificado el nombre de usuario!
-passwordInfo: >-
-  Si ha olvidado su contraseña, debe especificar el nombre de usuario y la
-  dirección de E-Mail que consta en su cuenta.
-passwordMail: E-Mail
+passwordBack: Atrás
+passwordCaptcha: Código de seguridad
+passwordChangedMailSend: Tu nueva contraseña está en camino. Recibirás un correo en breve.
+passwordChangedMailTitle: Nueva contraseña para %s
+passwordErrorMailEmpty: No conocemos esa dirección de correo.
+passwordErrorOnePerDay: En las últimas 24 horas ya se solicitó una contraseña para esta cuenta. Podrás pedir otra dentro de 24 horas.
+passwordErrorUnknown: No se ha encontrado ninguna cuenta con esos datos.
+passwordErrorUsernameEmpty: ¡No has introducido un nombre de usuario!
+passwordInfo: ¿Has olvidado tu contraseña? Introduce el nombre de usuario y el correo de tu cuenta. Si no los recuerdas, ponte en contacto con un administrador.
+passwordMail: Correo electrónico
 passwordNext: Siguiente
 passwordSubmit: Enviar
 passwordUsername: Usuario
-passwordValidInValid: Solicitud no valida!
-passwordValidMailSend: Recibirás un correo electrónico en breve con información adicional.
-passwordValidMailTitle: 'Olvidó su contraseña en el juego: %s'
-registerBack: Atras
+passwordValidInValid: Solicitud no válida.
+passwordValidMailSend: En breve recibirás un correo con los siguientes pasos.
+passwordValidMailTitle: Restablecer la contraseña de %s
+registerBack: Atrás
 registerCaptcha: Código de Seguridad
-registerCaptchaDesc: >-
-  Por favor ingrese los caracteres de la imagen en el campo vacío. No tiene
-  mayúsculas y minúsculas
-registerCaptchaReload: Recargar Captcha.
-registerEmail: E-Mail
-registerEmailDesc: >-
-  Por Favor introduce tu direccion de E-Mail (Necesaria para confirmacion de
-  cuenta)!
-registerEmailReplay: Repetir E-Mail
-registerEmailReplayDesc: >-
-  Por favor, introduzca su dirección de correo electrónico de nuevo para
-  confirmación de seguridad!
-registerErrorCaptcha: El Codigo de seguridad no es correcto!
-registerErrorDataPrivacy: ¡Debe confirmar la política de privacidad!
-registerErrorMailEmpty: Tienes que especificar una dirección de E-Mail!
-registerErrorMailExist: La dirección de E-Mail ya esta en uso!
-registerErrorMailInvalid: Dirección de E-Mail invalida!
-registerErrorMailSame: Has introducido 2 direcciones de email diferentes!
-registerErrorPasswordLength: La contraseña debe tener al menos %s caracteres de longitud!
-registerErrorPasswordSame: Introducidas 2 contraseñas diferentes!
-registerErrorRules: Tienes que aceptar las Reglas!
-registerErrorUniClosed: El registro está cerrado en este Universo.!
-registerErrorUsernameChar: >-
-  Su nombre de usuario debe consistir sólo en números, letras, espacios, _, -,
-  .!
-registerErrorUsernameEmpty: Tienes que introducir un nombre de Usuario!
-registerErrorUsernameExist: El nombre de usuario ya está en uso!
+registerCaptchaDesc: Escribe los caracteres de la imagen en el campo vacío, sin espacios. No distingue entre mayúsculas y minúsculas. Si después de recargar varias veces sigues sin poder leer la imagen, ponte en contacto con el administrador.
+registerCaptchaReload: Recargar captcha
+registerEmail: Correo electrónico
+registerEmailDesc: Introduce tu dirección de correo electrónico.
+registerEmailReplay: Repetir correo
+registerEmailReplayDesc: Escribe tu correo otra vez para confirmarlo.
+registerErrorCaptcha: ¡El código de seguridad no es correcto!
+registerErrorDataPrivacy: Acepta la política de privacidad para continuar.
+registerErrorMailEmpty: Introduce una dirección de correo electrónico.
+registerErrorMailExist: Esta dirección de correo ya está registrada.
+registerErrorMailInvalid: Eso no parece una dirección de correo válida.
+registerErrorMailSame: Las dos direcciones de correo no coinciden.
+registerErrorPasswordLength: Tu contraseña debe tener al menos %s caracteres.
+registerErrorPasswordSame: Las dos contraseñas no coinciden.
+registerErrorRules: Acepta las reglas para continuar.
+registerErrorUniClosed: El registro está cerrado en este universo.
+registerErrorUsernameChar: Tu nombre de usuario solo puede contener letras, números, espacios, _, - y .
+registerErrorUsernameEmpty: Introduce un nombre de usuario.
+registerErrorUsernameExist: Ese nombre de usuario ya está en uso.
 registerLanguage: Idioma
-registerMailCompleteTitle: Bienvenido a %s!
-registerMailVertifyError: 'Fallo en el envio del mail: %s'
-registerMailVertifyTitle: 'La activación del registro en el juego: %s'
-registerNext: Siguiente
+registerMailCompleteTitle: ¡Bienvenido a %s!
+registerMailVertifyError: 'No se pudo enviar el correo: %s'
+registerMailVertifyTitle: Activa tu cuenta de %s
+registerNext: Continuar
 registerPassword: Contraseña
-registerPasswordDesc: La Contraseña debe tener por lo menos %s caracteres de longitud.
-registerPasswordReplay: Repetir Contraseña
-registerPasswordReplayDesc: Por Favor ingrese la misma contraseña.
+registerPasswordDesc: Tu contraseña debe tener al menos %s caracteres.
+registerPasswordReplay: Repetir contraseña
+registerPasswordReplayDesc: Escribe la misma contraseña otra vez.
 registerReferral: 'Invitado por:'
 registerRules: Reglas
-registerRulesDesc: Estoy deacuerdo con las %s
-registerSendComplete: >-
-  Gracias por tu registro. Debes consultar tu correo electrónico (atención con
-  el SPAM) para más información.
+registerRulesDesc: Acepto las %s
+registerSendComplete: ¡Gracias por registrarte! Revisa tu correo (también la carpeta de spam) para ver los siguientes pasos.
 registerTimezone: Zona horaria
 registerUsername: Usuario
-registerUsernameDesc: >-
-  El nombre de usuario debe tener por lo menos 3 y un máximo de 25 caracteres y
-  puntos, y pueden consistir en números, letras, guiones y espacios
+registerUsernameDesc: 'Usa de 3 a 25 caracteres: letras, números, espacios, puntos, guiones y guiones bajos.'
 registerWelcomePMSenderName: Administrador
 registerWelcomePMSubject: Bienvenido
-registerWelcomePMText: >-
-  Bienvenido a %s! En primer lugar tienes que construir una planta de energía
-  solar, ya que es el edificio que genera la energía que se necesita para la
-  producción de materias primas. Para crear una, haga clic izquierdo en el menú
-  de "edificios". Entonces construya el cuarto edificio contando apartir de la
-  parte superior. </br> Cuando tengas construida la planta de energía, podrás
-  comenzar a construir las minas. Ir a los edificios en el menú y construir una
-  mina de metal, seguido de una mina de cristal. </br></br>Con el fin de poder
-  construir tus propias flotas, debes tener un Hangar. Para ver lo que se
-  necesita para desbloquear ese edificio se puede echar un vistazo al apartado
-  "Tecnologías" en el menú de la izquierda.</br>Si tienes más preguntas puedes
-  mirar en la guía de principiantes, nuestro foro o abrir un ticket de soporte.
-  </br></br> El equipo te desea mucha diversión explorando el universo!
+registerWelcomePMText: ¡Bienvenido a %s! Lo primero es construir una planta de energía solar, porque hace falta energía para producir recursos. Abre Edificios en el menú de la izquierda y empieza por la planta de energía solar.<br>Cuando tengas energía, ya puedes construir minas. Sigue en Edificios y levanta una mina de metal y después una de cristal.<br><br>Para construir naves necesitas un hangar. El menú Tecnología de la izquierda te muestra qué hace falta para desbloquearlo.<br>Si tienes más dudas, echa un vistazo a las FAQ, a la wiki o abre un ticket de soporte.<br><br>¡El equipo te desea mucha diversión explorando el universo!
 rulesHeader: Reglas
-siteTitleBanList: Baneados
+siteTitleBanList: Lista de baneos
 siteTitleBattleHall: Salón de la Fama
-siteTitleDataPrivacy: Protección de datos
-siteTitleDisclamer: Contactar
+siteTitleDataPrivacy: Política de privacidad
+siteTitleDisclamer: Contacto
 siteTitleHOF: Salón de la Fama
-siteTitleIndex: Indice
-siteTitleLostPassword: Olvidaste tu contraseña?
+siteTitleIndex: Inicio
+siteTitleLostPassword: ¿Olvidaste tu contraseña?
 siteTitleNews: Noticias
 siteTitleRegister: Registro
 siteTitleRules: Reglas
-siteTitleScreens: Imagenes del Juego
+siteTitleScreens: Capturas
 uni_closed: ' (cerrado)'
-uni_reg_closed: ' (Registro cerrado)'
-uni_reg_open: ' (Sólo registro)'
+uni_reg_closed: ' (registro cerrado)'
+uni_reg_open: ' (solo registro)'
 universe: Universo
-vertifyAdminMessage: El Usuario "%s" ha sido activado!
-vertifyNoUserFound: Solicitud no válida!
+vertifyAdminMessage: La cuenta «%s» ha sido activada.
+vertifyNoUserFound: Solicitud no válida.
 biggest_solo: "Mayores combates en solitario"
 build_ships: "Naves construidas en total"
 civil: "Civil"
@@ -159,16 +122,16 @@ deathstar: "Estrella de la muerte"
 destroyed_sats: "Satélites solares destruidos"
 first_fights: "Primeros combates del universo"
 flown_expos: "Expediciones enviadas en total"
-flownDeut: "Deuterio gastado en total volando"
+flownDeut: Deuterio gastado en vuelos
 found_res: "Recursos encontrados en total"
 found_ships: "Naves encontradas en total"
-galaxySpendDeut: "Deuterio gastado navegando por la galaxia"
+galaxySpendDeut: Deuterio gastado explorando la galaxia
 hof3_header: "¡Las leyendas del Uni 3 quedan inmortalizadas aquí!"
 hof4_header: "¡Las leyendas del Uni 4 quedan inmortalizadas aquí!"
 hof7_header: "¡Las leyendas del Uni 7 quedan inmortalizadas aquí!"
 IonCannon: "Cañón iónico"
 least_reached_ach: "Logros más raros"
-Lowest_longterm_points: "Cuentas preinscritas con menos puntos"
+Lowest_longterm_points: Cuentas preinscritas con menos puntos
 medAliens: "Alienígenas medios"
 military: "Militar"
 most_achievements: "Más logros conseguidos"
@@ -186,8 +149,8 @@ overall: "Total"
 players: "Jugadores"
 points_amount: "Puntos / Cantidad"
 realDesUnits: "Unidades destruidas reales"
-registerDataPrivacyDesc: "Acepto la %s"
-second_expo_deck: "Empezaron su segundo mazo de expedición"
+registerDataPrivacyDesc: Acepto la %s
+second_expo_deck: Empezaron su segunda cubierta de expedición
 spy: "Sondas de espionaje"
 st_buildings: "Edificios"
 st_defenses: "Defensa"
@@ -198,7 +161,6 @@ theme: "Tema"
 votingPoints: "Puntos de votación"
 wonAttack: "Ataque ganado"
 wonDefense: "Defensa ganada"
-home_meme_alt_first_day: "Cómic: el comandante Vane apoya una mano robótica en el hombro de un cadete nervioso – \"Tranquilo, cadete. El Alto Mando confía plenamente en tu misión de reconocimiento en solitario por el espacio.\""
 home_menu: "Menú"
 home_meta_description: "%s – el juego de estrategia espacial de navegador con el encanto de los 2000: haz crecer planetas, construye flotas, forja alianzas."
 home_started: "¡Ya está en marcha!"
@@ -206,10 +168,17 @@ home_starts_in: "En"
 home_team: "Equipo"
 home_meme_caption: "Tu primer día"
 home_meme_alt: "Meme en cómic desde el puente de mando de {game_name}"
-home_meme_alt_deuterium_faith: "Cómic: el comandante Kamioka sonríe y apoya una mano robótica en el hombro de un cadete – \"Parece que no lograste traer el deuterio y tu nave está en llamas. Tranquilo, cadete. Todavía tenemos… una fe 'completa' en ti.\""
-home_meme_alt_this_is_fine: "Cómic: un perro con traje espacial está sentado con calma con una taza de café en un centro de mando en llamas – \"Todo va bien.\" El cadete dice: \"Tranquilo. Mi flota solo lleva 4 horas de retraso en volver.\""
+home_meme_alt_deep_space_transit: "Cómic: dos cadetes en una lanzadera – uno se hunde al ver un campo de asteroides, el otro sonríe ante una nebulosa brillante. «Patrullas de sector rutinarias vs. encontrar una nebulosa inexplorada y rica en recursos.»"
+home_meme_alt_deuterium_joyride: "Cómic: un comandante cansado en la cubierta de observación mira a dos reclutas flotando fuera – «Ver a los nuevos reclutas malgastar todo su deuterio dando vueltas mientras yo espero 12 horas a las mejoras de mis minas.»"
+home_meme_alt_enemy_fleet: "Cómic: un cadete se lleva las manos a la cabeza mientras parpadean las alarmas – «¡¿1000 destructores enemigos en camino?! ¡¿No era este sector seguro?!»"
+home_meme_alt_fleet_decimated: "Cómic: un soldado en estado de shock mira al frente mientras explotan naves tras la cúpula destrozada – «Cuando pasas 20 horas recolectando recursos y la flota de un jugador del top 3 llega y lo desmonta todo en 3 segundos.»"
+home_meme_alt_solo_scouting: "Cómic: el comandante Kamioka sonríe y apoya una mano robótica en el hombro de un cadete – «Tranquilo, cadete. El Alto Mando tiene una confianza ‘total’ en tu misión de reconocimiento en solitario por el espacio.»"
+home_meme_alt_this_is_fine: 'Cómic: un perro con traje espacial está sentado tan tranquilo en un centro de mando en llamas y dice «This is fine» – «Tranquilo. Mi flota solo vuelve con 4 horas de retraso.»'
 source_code: "Código fuente"
 news_back: "Volver a las noticias"
+lightbox_close: "Cerrar"
+lightbox_prev: "Imagen anterior"
+lightbox_next: "Imagen siguiente"
 news_pinned: "Fijada"
 news_read_more: "Leer más"
 news_latest: "Últimas noticias"

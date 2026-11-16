@@ -13,6 +13,32 @@
  */
 @layer reset, base, legacy, components, utilities;
 
+@font-face {
+  font-family: "Michroma";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  /* same subset as the public site (login.css) */
+  src: url("../../fonts/michroma/michroma-eu.woff2") format("woff2");
+  unicode-range: U+0020-007E, U+00A0-00FF, U+0104-0107, U+0118-0119, U+011E-011F, U+0130-0131, U+0141-0144, U+0152-0153, U+015A-015B, U+015E-015F, U+0178-017C, U+2013-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2039-203A, U+20AC, U+2122;
+}
+
+@layer components {
+  /* Br0Game wordmark (game top bar, account lobby, admin): the brand name in Michroma, "0" in the accent colour */
+  .wordmark {
+    font-family: "Michroma", system-ui, sans-serif;
+    font-weight: 400;
+    font-synthesis: none;
+    font-size: 1.05rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .wordmark b { font-weight: 400; color: var(--theme-accent, #2fbf71); }
+  a:hover > .wordmark, a:focus-visible > .wordmark { color: #fff; }
+}
+
 /* tokens sit in the base layer so a theme (legacy layer) can override them */
 @layer base {
   :root {

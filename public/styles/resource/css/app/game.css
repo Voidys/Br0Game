@@ -83,8 +83,8 @@ html:has(> body.layout--full) { overflow-y: scroll; } /* not in popups and dialo
 
 .topbar__menu { display: none; }
 
-.topbar__brand { flex: none; display: flex; }
-.topbar__brand img { height: var(--brand-h, 1.75rem); width: auto; border-radius: 0; box-shadow: none; }
+.topbar__brand { flex: none; display: flex; align-items: center; text-decoration: none; }
+.topbar__brand:hover { text-decoration: none; }
 
 .planet-switch {
   flex: none;

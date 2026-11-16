@@ -3,13 +3,13 @@ questions:
   '1':
     '1':
       body: |-
-        <p>This part of the tutorial covers the main buildings: what to build first, and what each one is for. A working empire depends on building them in a sensible order.</p>
+        <p>This section covers the main buildings: what to build first and what each one is for. A thriving empire starts with building them in a sensible order.</p>
         <h3>Solar Power Plant</h3>
         <p>Build this first. Mines need energy to produce metal, crystal and deuterium. After the plant finishes, the resource bar and the Production page show how much energy you have.</p>
         <h3>Metal Mine</h3>
         <p>Metal is one of the three resources. Almost everything you build or research costs metal, so expanding this mine is a priority. Early on, keep it several levels ahead of your other mines.</p>
         <h3>Crystal Mine and Deuterium Refinery</h3>
-        <p>Crystal is used in buildings, ships and research. You produce less of it than metal, which makes it more valuable; later in the game it is often fiercely contested. Deuterium fuels fleets, can be fused for energy in the Fusion Power Plant, and is required for several important buildings and researches (including the Research Lab).</p>
+        <p>Crystal is used in buildings, ships and research. You produce less of it than metal, which makes it more valuable; later in the game it is often fiercely contested. Deuterium fuels your fleets, can be burned for energy in the Fusion Power Plant, and is required for several important buildings and researches (including the Research Lab).</p>
         <p>More information: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
       title: Step 1
     '2':
@@ -24,11 +24,11 @@ questions:
       title: Step 2
     '3':
       body: |-
-        <p>This part covers defending your planet and your first fleet actions: how to send fleets and how to interact with other players.</p>
+        <p>This section covers defending your planet and your first fleet moves: how to send fleets and how to deal with other players.</p>
         <h3>Galaxy view</h3>
-        <p>Use it to find other players. You see details about other planets and can send parts of your fleet directly from this view. You can also contact players or spy on a planet if you can already build Spy Probes and have some available.</p>
+        <p>Use it to find other players. You see details about other planets and can send parts of your fleet directly from this view. You can also message players, or spy on a planet if you have Spy Probes available.</p>
         <h3>Sending fleets</h3>
-        <p>Fleets can be sent from the Galaxy view or from the Fleets menu. First choose how many ships of each type to send. Then set the target (coordinates from the Galaxy view) and the speed. Finally choose the mission, such as Attack, Deploy, Hold, Recycle or Transport.</p>
+        <p>Fleets can be sent from the Galaxy view or from the Fleets menu. First choose how many ships of each type to send. Then set the target (coordinates from the Galaxy view) and the speed. Finally pick the mission, such as Attack, Deploy, Hold, Recycle or Transport.</p>
         <h3>Defense</h3>
         <p>Once you have a Shipyard, you can also build defenses. They protect the planet and fight together with any fleet that is present when an attack lands. Unlike ships, about 70% of destroyed defenses are repaired after combat.</p>
       title: Step 3
@@ -67,7 +67,7 @@ questions:
       body: |-
         <h3>Attacking with ACS</h3>
         <p>To attack together, first send a fleet with the mission Attack to the target. After it has launched, open the Fleets menu and use Federation to turn that fleet into an ACS group. There you can rename the group and invite other players; the player who started the attack is invited automatically. Each invited player then sends their own ships to the same coordinates with the mission Alliance Attack.</p>
-        <p>The group always flies as long as the slowest participating fleet. Faster fleets joining later do not shorten the remaining time. Slower fleets increase remaining time to their own flight time. Typically at most 5 players and 16 fleets can share one ACS attack (universe settings may differ). A joining fleet may increase remaining flight time by at most 30%. If 100 minutes remain, a joining fleet may take at most 130 minutes.</p>
+        <p>The group always flies as long as the slowest participating fleet. Faster fleets joining later do not shorten the remaining time. Slower fleets increase remaining time to their own flight time. Usually at most 5 players and 16 fleets can join one ACS attack (universe settings may differ). A joining fleet may increase remaining flight time by at most 30%. If 100 minutes remain, a joining fleet may take at most 130 minutes.</p>
         <p><b>Warning:</b> if the ACS founder recalls, every fleet in the group is recalled as well.</p>
         <h3>Defending with ACS</h3>
         <p>If you are under attack, alliance members and buddies can help. They send a fleet to the coordinates being attacked, choose how long to stay, and use the mission Hold. Besides flight deuterium, extra hold costs are charged at launch depending on fleet size and duration. While they are holding, they fight in every battle on that planet or moon and appear on spy reports as if they were your ships. Time holds to arrive shortly before the attacker so a save scan is less likely to see them. Holding players can recall from the Fleets menu at any time; otherwise the fleet waits out the hold and returns home.</p>
@@ -123,7 +123,7 @@ questions:
       body: |-
         <h3>How do I found an alliance?</h3>
         <p>Open Alliance in the left menu, then Create your own Alliance. Enter an alliance tag (the short abbreviation) and an alliance name. Example: an alliance named “The Top Ally” might use the tag “DTA”.</p>
-        <p>Only letters, digits and spaces are allowed. After you enter tag and name, click Create. If that name or tag is already taken, you get an error and must choose another. On success you are shown a confirmation; Continue opens the still-empty alliance menu, which you can always reach from Alliance in the left menu. At the top you see your tag and name.</p>
+        <p>Only letters, numbers and spaces are allowed. After you enter tag and name, click Create. If that name or tag is already taken, you get an error and must choose another. On success you see a confirmation; Continue opens your still-empty alliance menu, which you can always reach from Alliance in the left menu. At the top you see your tag and name.</p>
         <p>Below that you will find:<br>
         Members: every member with points, home-planet coordinates, join date and online status. Click column headers to sort.<br>
         Your Rank: your rank name, plus a link to alliance management.<br>

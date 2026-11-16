@@ -1,145 +1,137 @@
-buttonLostPassword: Mot de passe perdu ?
-buttonRegister: S'enregistrer maintenant!
-buttonScreenshot: Capture d'écran
+buttonLostPassword: Mot de passe perdu ?
+buttonRegister: S’inscrire maintenant !
+buttonScreenshot: Captures d’écran
 chose_a_uni: Choisir un univers
-disclamerLabelAddress: 'Adresse du jeu:'
-disclamerLabelMail: 'Email support:'
+disclamerLabelAddress: 'Adresse du jeu :'
+disclamerLabelMail: 'E-mail du support :'
 disclamerLabelNotice: Plus d'informations
-disclamerLabelPhone: 'Num. de téléphone:'
-disclamerRecaptcha: >-
-  Ce site utilise reCAPTCHA et les <a
-  href="https://policies.google.com/privacy">Conditions de confidentialité</a>
-  et <a href="https://policies.google.com/terms">Conditions d'utilisation</a> de
-  Google s'appliquent.
+disclamerLabelPhone: 'Téléphone :'
+disclamerRecaptcha: Cette page utilise reCAPTCHA ; la <a href="https://policies.google.com/privacy">politique
+  de confidentialité</a> et les <a href="https://policies.google.com/terms">conditions
+  d’utilisation</a> de Google s’appliquent.
 forum: Forum
 gameInformations: |-
-  Un jeu de conquête spatial en temps réel.
-  Jeu connu et joué par des milliers d'utilisateurs par univers.
-  Pas de téléchargement requis (hors application) juste un navigateur internet.
-  S'enregistrer gratuitement
-login_error_1: >-
-  Mauvaise adresse e-mail ou mauvais mot de passe ! Conseil : les coffres-forts
-  pour mots de passe enregistrent souvent le nom d'utilisateur, mais tu dois te
-  connecter avec ton e-mail.
-login_error_2: >-
-  Quelqu'un est connecté à partir d'un autre PC sur votre compte ou bien votre
-  adresse IP est différente!
-login_error_3: Votre session a expirée !
-login_error_4: >-
-  Il y a eu trop de tentatives de connexion. Veuillez contacter un
-  administrateur via Discord pour obtenir de nouveaux détails de connexion.
-  Préparez votre adresse e-mail pour la vérification.
+  Un jeu de stratégie spatiale en temps réel.
+  Des centaines de joueurs dans chaque univers.
+  Aucun téléchargement : un navigateur classique suffit.
+  Inscription gratuite
+login_error_1: 'Adresse e-mail ou mot de passe incorrect ! Astuce : les gestionnaires
+  de mots de passe remplissent souvent le nom d’utilisateur, mais tu dois te connecter
+  avec ton adresse e-mail.'
+login_error_2: Ton compte a été connecté depuis un autre appareil, ou ton adresse
+  IP a changé.
+login_error_3: Ta session a expiré. Reconnecte-toi.
+login_error_4: Trop de tentatives de connexion. Patiente 15 minutes puis réessaie.
 loginButton: Se connecter
-loginEmail: Email
+loginEmail: E-mail
 loginHeader: Connexion
-loginInfo: En me connectant j'accepte les %s.
+loginInfo: En me connectant, j’accepte les %s.
 loginPassword: Mot de passe
-loginServerDesc: >-
-  %s est un jeu de stratégie spatial regroupant des milliers d'utilisateurs par
-  univers <strong>en meme temps</strong> essayez d'être le meilleur, d'etre le
-  maître de votre univers. La seule chose dont vous avez besoin c'est un
-  navigateur internet (ou application du PlayStore).
+loginServerDesc: '%s est un jeu de stratégie spatiale où des centaines de joueurs
+  s’affrontent <strong>en même temps</strong> pour devenir les meilleurs. Il te
+  suffit d’un navigateur web classique.'
 loginWelcome: Bienvenue sur %s
 menu_banlist: Bannis
-menu_battlehall: Hall of Fame
-menu_disclamer: Contacter un administrateur
+menu_battlehall: Hall des batailles
+menu_disclamer: Contact
 menu_index: Accueil
 menu_news: News
-menu_register: S'enregistrer
+menu_register: Inscription
 menu_rules: Règles
-news_does_not_exist: Pas de news disponible!
-news_from: Sur %s par %s
+news_does_not_exist: Aucune actualité disponible.
+news_from: Le %s par %s
 news_overview: News
 passwordBack: Retour
 passwordCaptcha: Code de sécurité
-passwordChangedMailSend: Vous recevrez sous peu un e-mail contenant votre mot de passe.
-passwordChangedMailTitle: 'Votre nouveau mot de passe: %s'
-passwordErrorMailEmpty: Vous avez spécifié une adresse électronique inconnue!
-passwordErrorOnePerDay: >-
-  Le mot de passe de ce compte a été demandé 24 heures avant. Vous ne pouvez
-  donc pas demander de mot de passe pour ce compte pendant les prochaines 24
-  heures.
-passwordErrorUnknown: >-
-  Votre compte n'a pas pu être trouvé avec les donnéces fournies (veuillez
-  contrôller les champs renseignécs).
-passwordErrorUsernameEmpty: Vous n'avez pas spécifié le login!
-passwordInfo: >-
-  Si vous avez oublié votre mot de passe, vous devez spécifier le login et
-  l'adresse e-Mail que vous avez renseigné lors de la création de votre compte.
-passwordMail: E-Mail
+passwordChangedMailSend: Ton nouveau mot de passe est en route. Tu vas recevoir
+  un e-mail sous peu.
+passwordChangedMailTitle: Nouveau mot de passe pour %s
+passwordErrorMailEmpty: Cette adresse e-mail nous est inconnue.
+passwordErrorOnePerDay: Un mot de passe a déjà été demandé pour ce compte au cours
+  des dernières 24 heures. Tu pourras en demander un autre dans 24 heures.
+passwordErrorUnknown: Aucun compte ne correspond à ces informations. Vérifie les
+  champs saisis.
+passwordErrorUsernameEmpty: Tu n’as pas saisi de nom d’utilisateur !
+passwordInfo: Mot de passe oublié ? Saisis le nom d’utilisateur et l’adresse e-mail
+  de ton compte. Si tu ne les connais plus, contacte un administrateur.
+passwordMail: E-mail
 passwordNext: Suivant
 passwordSubmit: Envoyer
-passwordUsername: login
-passwordValidInValid: Requête invalide!
-passwordValidMailSend: Vous recevrez sous peu un e-mail contenant des informations complémentaires.
-passwordValidMailTitle: 'J''ai oublié mon mot de passe: %s'
+passwordUsername: Nom d’utilisateur
+passwordValidInValid: Requête invalide.
+passwordValidMailSend: Tu vas recevoir sous peu un e-mail avec la suite des étapes.
+passwordValidMailTitle: Réinitialisation du mot de passe pour %s
 registerBack: Retour
-registerCaptcha: 'Code de sècuritè:'
-registerCaptchaDesc: >-
-  S'il vous plaît entrez les caractères ci-dessous dans le champ vide. Il n'y a
-  pas de sensibilitè à la casse
-registerCaptchaReload: Recharger Captcha.
-registerEmail: E-Mail
-registerEmailDesc: Entrer votre adresse e-Mail s'il vous plaît!
-registerEmailReplay: Répéter l'adresse e-Mail
-registerEmailReplayDesc: S'il vous plaît entrez une seconde fois l'adresse e-Mail!
-registerErrorCaptcha: Le code de sècuritè est incorrect!
-registerErrorDataPrivacy: Vous devez confirmer la politique de confidentialité !
-registerErrorMailEmpty: Vous devez spècifier une adresse e-mail!
-registerErrorMailExist: L'adresse e-mail est dèjà enregistrè!
-registerErrorMailInvalid: Adresse e-Mail invalide!
-registerErrorMailSame: Les deux adresses e-Mail renseignèes ne sont pas les mêmes!
-registerErrorPasswordLength: Le mot de passe doit comporter au moins %s caractères!
-registerErrorPasswordSame: Les deux mots de passe entrès ne sont pas les mêmes!
-registerErrorRules: Vous devez accepter les règles!
-registerErrorUniClosed: Les enregistrements sont fermèes sur cet univers.!
-registerErrorUsernameChar: >-
-  Votre login peut seulement contenir des nombres, lettres, espaces, _, -, .
-  Seulement!
-registerErrorUsernameEmpty: Vous devez renseignez un login!
-registerErrorUsernameExist: Le login est dèjà pris!
+registerCaptcha: Code de sécurité
+registerCaptchaDesc: Saisis les caractères ci-dessous dans le champ vide, sans espaces.
+  La casse n’a pas d’importance. Si tu n’arrives toujours pas à lire l’image après
+  plusieurs rechargements, contacte l’administrateur du site.
+registerCaptchaReload: Recharger le captcha
+registerEmail: E-mail
+registerEmailDesc: Saisis ton adresse e-mail.
+registerEmailReplay: Répéter l’e-mail
+registerEmailReplayDesc: Saisis à nouveau ton adresse e-mail pour la confirmer.
+registerErrorCaptcha: Le code de sécurité est incorrect !
+registerErrorDataPrivacy: Accepte la politique de confidentialité pour continuer.
+registerErrorMailEmpty: Saisis une adresse e-mail.
+registerErrorMailExist: Cette adresse e-mail est déjà enregistrée.
+registerErrorMailInvalid: Cette adresse e-mail ne semble pas valide.
+registerErrorMailSame: Les deux adresses e-mail ne correspondent pas.
+registerErrorPasswordLength: Ton mot de passe doit contenir au moins %s caractères.
+registerErrorPasswordSame: Les deux mots de passe ne correspondent pas.
+registerErrorRules: Accepte le règlement pour continuer.
+registerErrorUniClosed: Les inscriptions sont fermées dans cet univers.
+registerErrorUsernameChar: Ton nom d’utilisateur ne peut contenir que des lettres,
+  des chiffres, des espaces, _, - et .
+registerErrorUsernameEmpty: Saisis un nom d’utilisateur.
+registerErrorUsernameExist: Ce nom d’utilisateur est déjà pris.
 registerLanguage: Langue
-registerMailCompleteTitle: Bienvenue sur %s!
-registerMailVertifyError: 'Impossible d''envoyer l''e-Mail: %s'
-registerMailVertifyTitle: 'Activation de l''enregistrement sur le jeu: %s'
+registerMailCompleteTitle: Bienvenue sur %s !
+registerMailVertifyError: 'L’e-mail n’a pas pu être envoyé : %s'
+registerMailVertifyTitle: Active ton compte sur %s
 registerNext: Suivant
 registerPassword: Mot de passe
-registerPasswordDesc: Le mot de passe doit comporter au moins %s caractéres.
+registerPasswordDesc: Ton mot de passe doit contenir au moins %s caractères.
 registerPasswordReplay: Répéter le mot de passe
-registerPasswordReplayDesc: S'il vous plaît entrez une seconde fois le mot de passe.
-registerReferral: 'Parrain du joueur:'
+registerPasswordReplayDesc: Saisis à nouveau le même mot de passe.
+registerReferral: 'Parrainé par :'
 registerRules: Règles
-registerRulesDesc: Je suis d'accord avec les %s
-registerSendComplete: >-
-  Merci pour votre enregistrement. Vous devez consulter vos e-Mail (Attention
-  peut-etre dans les SPAM) avec plus d'informations.
+registerRulesDesc: J’accepte le %s
+registerSendComplete: Merci pour ton inscription ! Consulte ta boîte mail (spams
+  compris) pour la suite des étapes.
 registerTimezone: Fuseau horaire
-registerUsername: Login
-registerUsernameDesc: >-
-  Le login doit contenir au moins 3 et au maximum 25 caractères et points, et
-  peut se composer de chiffres, lettres, underscores et espace
+registerUsername: Nom d’utilisateur
+registerUsernameDesc: '3 à 25 caractères : lettres, chiffres, espaces, points, tirets
+  et tirets bas.'
 registerWelcomePMSenderName: Administrateur
 registerWelcomePMSubject: Bienvenue
-registerWelcomePMText: "Bienvenue sur %s! D'abord vous devez construire une centrale solaire, parce que l'ènergie est nècessaire pour la production de matières premières. Pour en construire une, clic gauche dans le menu «bâtiments». Puis construire le 4e bâtiment à partir du haut. </br>Lorsque vous avez de l'énergie, vous pouvez commencer \tà construire des mines. Aller aux bâtiments dans le menu et de construire une mine de métal, suivie d'une mine de cristal.</br></br>Afin d'être en mesure de construire des vaisseaux, vous devez avoir un chantier naval. Pour voir ce qui est nécessaire pour débloquer la construction vous pouvez jeter un oeil à Technologies dans le menu de gauche.</br>Si vous avez plus de questions, vous pouvez consulter le guide des débutants, notre forum ou ouvrir un ticket de support.</br></br>L'équipe vous souhaite beaucoup de plaisir à explorez l'univers!"
+registerWelcomePMText: 'Bienvenue sur %s ! Construis d’abord une centrale solaire :
+  il faut de l’énergie pour produire des ressources. Ouvre Bâtiments dans le menu
+  de gauche et commence par la centrale solaire.<br>Une fois l’énergie assurée,
+  tu peux construire des mines. Reste dans Bâtiments et construis une mine de métal,
+  puis une mine de cristal.<br><br>Pour construire des vaisseaux, il te faut un
+  chantier spatial. Le menu Technologie à gauche indique ce qu’il faut pour le débloquer.<br>Si
+  tu as d’autres questions, consulte la FAQ, le wiki, ou ouvre un ticket de support.<br><br>L’équipe
+  te souhaite beaucoup de plaisir à explorer l’univers !'
 rulesHeader: Règles
 siteTitleBanList: Bannis
-siteTitleBattleHall: Hall of Fame
-siteTitleDataPrivacy: Confidentialité des données
-siteTitleDisclamer: Contacter un administrateur
-siteTitleHOF: Temple de la renommée
+siteTitleBattleHall: Hall des batailles
+siteTitleDataPrivacy: Politique de confidentialité
+siteTitleDisclamer: Contact
+siteTitleHOF: Hall of Fame
 siteTitleIndex: Accueil
-siteTitleLostPassword: Mot de passe perdu ?
+siteTitleLostPassword: Mot de passe perdu ?
 siteTitleNews: News
-siteTitleRegister: S'enregistrer
+siteTitleRegister: S’inscrire
 siteTitleRules: Règles
-siteTitleScreens: Capture d'écran
+siteTitleScreens: Captures d’écran
 uni_closed: ' (fermée)'
-uni_reg_closed: ' (Enregistrement fermé)'
-uni_reg_open: ' (Enregistrement seulement)'
+uni_reg_closed: ' (inscriptions fermées)'
+uni_reg_open: ' (inscriptions uniquement)'
 universe: Univers
-vertifyAdminMessage: Le login "%s" est actif!
-vertifyNoUserFound: Requête invalide!
-biggest_solo: "Plus grands combats en solo"
+vertifyAdminMessage: Le compte « %s » a été activé.
+vertifyNoUserFound: Requête invalide.
+biggest_solo: Plus gros combats en solo
 build_ships: "Vaisseaux construits au total"
 civil: "Civil"
 colony: "Colonie"
@@ -148,16 +140,16 @@ deathstar: "Étoile de la mort"
 destroyed_sats: "Satellites solaires détruits"
 first_fights: "Premiers combats de l'univers"
 flown_expos: "Expéditions envoyées au total"
-flownDeut: "Deutérium dépensé au total en vol"
+flownDeut: Deutérium total dépensé en vols
 found_res: "Ressources trouvées au total"
 found_ships: "Vaisseaux trouvés au total"
-galaxySpendDeut: "Deutérium dépensé en parcourant la galaxie"
-hof3_header: "Les légendes de l'Uni 3 sont immortalisées ici !"
-hof4_header: "Les légendes de l'Uni 4 sont immortalisées ici !"
-hof7_header: "Les légendes de l'Uni 7 sont immortalisées ici !"
+galaxySpendDeut: Deutérium dépensé à explorer la galaxie
+hof3_header: Les légendes de l'Uni 3 sont immortalisées ici !
+hof4_header: Les légendes de l'Uni 4 sont immortalisées ici !
+hof7_header: Les légendes de l'Uni 7 sont immortalisées ici !
 IonCannon: "Canon à ions"
 least_reached_ach: "Succès les plus rares"
-Lowest_longterm_points: "Comptes préinscrits avec le moins de points"
+Lowest_longterm_points: Comptes préinscrits avec le moins de points
 medAliens: "Aliens moyens"
 military: "Militaire"
 most_achievements: "Plus de succès obtenus"
@@ -170,13 +162,13 @@ most_expo_fights: "Plus de combats contre des aliens/pirates"
 most_fights: "Plus de victoires / défaites / nuls"
 most_reached_ach: "Succès les plus courants"
 most_records: "Plus de records obtenus"
-oldest_active_acc: "Plus anciens comptes actifs"
+oldest_active_acc: Comptes actifs les plus anciens
 overall: "Total"
 players: "Joueurs"
 points_amount: "Points / Quantité"
 realDesUnits: "Unités réellement détruites"
-registerDataPrivacyDesc: "J'accepte la %s"
-second_expo_deck: "Ont commencé leur deuxième deck d'expédition"
+registerDataPrivacyDesc: J’accepte la %s
+second_expo_deck: Ont commencé leur deuxième deck d’expédition
 spy: "Sondes d'espionnage"
 st_buildings: "Bâtiments"
 st_defenses: "Défense"
@@ -184,23 +176,48 @@ st_fleets: "Flotte"
 st_points: "Points"
 st_researh: "Recherche"
 theme: "Thème"
-votingPoints: "Points de vote"
+votingPoints: Points de vote
 wonAttack: "Attaque gagnée"
 wonDefense: "Défense gagnée"
-home_meme_alt_first_day: "BD : le commandant Vane pose une main robotique sur l'épaule d'un cadet nerveux – « Ne vous inquiétez pas, cadet. Le haut commandement a pleinement confiance en votre mission de reconnaissance en solo dans l'espace. »"
 home_menu: "Menu"
-home_meta_description: "%s – le jeu de stratégie spatiale par navigateur avec le charme des années 2000 : développez des planètes, construisez des flottes, forgez des alliances."
-home_started: "Déjà lancé !"
+home_meta_description: '%s – le jeu de stratégie spatiale par navigateur avec le
+  charme des années 2000 : développe des planètes, construis des flottes, forge
+  des alliances.'
+home_started: Déjà lancé !
 home_starts_in: "Dans"
 home_team: "Équipe"
-home_meme_caption: "Votre premier jour"
+home_meme_caption: Ton premier jour
 home_meme_alt: "Mème BD du poste de commandement de {game_name}"
-home_meme_alt_deuterium_faith: "BD : le commandant Kamioka sourit et pose une main robotique sur l'épaule d'un cadet – « Il semble que vous n'ayez pas ramené le deutérium et que votre vaisseau soit en feu. Ne vous inquiétez pas, cadet. Nous avons toujours… une confiance \"totale\" en vous. »"
-home_meme_alt_this_is_fine: "BD : un chien en combinaison spatiale est assis calmement avec une tasse de café dans un centre de commandement en flammes – « Tout va bien. » Le cadet dit : « Ne vous inquiétez pas. Ma flotte n'a que 4 heures de retard pour rentrer. »"
+home_meme_alt_deep_space_transit: 'BD : deux cadets dans une navette – l’un s’effondre
+  devant un champ d’astéroïdes, l’autre sourit face à une nébuleuse lumineuse. «
+  Patrouilles de secteur ordinaires vs. découvrir une nébuleuse inexplorée riche
+  en ressources. »'
+home_meme_alt_deuterium_joyride: 'BD : un commandant fatigué sur le pont d’observation
+  regarde deux recrues flotter dehors – « Regarder les nouvelles recrues gaspiller
+  tout leur deutérium en balades pendant que j’attends 12 heures mes améliorations
+  de mines. »'
+home_meme_alt_enemy_fleet: 'BD : un cadet se tient la tête, paniqué, sous les alarmes
+  clignotantes – « 1000 destroyers ennemis en approche ?! Je croyais ce secteur
+  sûr ?! »'
+home_meme_alt_fleet_decimated: 'BD : un soldat sous le choc fixe le vide tandis
+  que des vaisseaux explosent derrière le dôme brisé – « Quand tu passes 20 heures
+  à farmer des ressources et que la flotte d’un joueur du top 3 débarque et démonte
+  tout en 3 secondes. »'
+home_meme_alt_solo_scouting: 'BD : le commandant Kamioka sourit et pose une main
+  robotique sur l’épaule d’un cadet – « Ne t’inquiète pas, cadet. Le Haut Commandement
+  a une confiance “totale” en ta mission de reconnaissance en solo dans l’espace.
+  »'
+home_meme_alt_this_is_fine: 'BD : un chien en combinaison spatiale est assis calmement
+  dans un poste de commandement en feu et dit « This is fine » – « Pas d’inquiétude.
+  Ma flotte n’a que 4 heures de retard. »'
 source_code: "Code source"
 news_back: "Retour aux actualités"
+lightbox_close: "Fermer"
+lightbox_prev: "Image précédente"
+lightbox_next: "Image suivante"
 news_pinned: "Épinglée"
 news_read_more: "Lire la suite"
 news_latest: "Dernières actualités"
 news_all: "Toutes les actualités"
-csrf_invalid: "La vérification de sécurité de la requête a échoué (session expirée ?). Veuillez recharger la page et réessayer."
+csrf_invalid: La vérification de sécurité a échoué (ta session a peut-être expiré).
+  Recharge la page et réessaie.

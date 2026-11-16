@@ -62,7 +62,8 @@ final class FleetInputGuardsTest extends GameTestCase
         $out = $this->callShow(FleetMissileController::class, $user, $planet, [
             'galaxy' => $planet['galaxy'], 'system' => 499, 'planet' => 3, 'type' => 1, 'SendMI' => 1, 'Target' => 0,
         ]);
-        $this->assertStringContainsString($this->lng['ma_planet_doesnt_exists'], $out);
+        // the message is HTML-escaped in the page (apostrophes become &#039;)
+        $this->assertStringContainsString(htmlspecialchars($this->lng['ma_planet_doesnt_exists'], ENT_QUOTES), $out);
     }
 
     public function testStepTwoWithADisallowedSpeedGoesBackToTheFleetPage(): void

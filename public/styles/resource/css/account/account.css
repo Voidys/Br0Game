@@ -33,7 +33,9 @@
   .acc-topbar__brand {
     flex: none;
     display: flex;
-    img { height: 2.25rem; width: auto; border-radius: 0; }
+    align-items: center;
+    text-decoration: none;
+    .wordmark { font-size: 1.15rem; }
   }
   .acc-topbar__nav {
     display: flex;

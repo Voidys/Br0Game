@@ -839,3 +839,46 @@ Technical changes per migration step, newest last.
 
 - `tools/ci/docblock-check.php` (every class and every complex function — ≥ 15 lines, ≥ 4 branches or a non-trivial public/protected method — has a docblock) and `tools/ci/long-methods-check.php` (no method over 80 lines) run in CI; the last 17 undocumented helpers got docblocks, the five long settings-category methods are split into ordered parts (schema pinned identical by `ConfigFieldSchemaTest`).
 - Wiki SSO hand-off works under the CSP: `CspNonce::allowSource()` opens the configured wiki origin as `form-action` for that response only, the auto-submit script carries the nonce and the submit button stays visible as fallback.
+
+## 106. Responsive images
+
+- `ImageProcessor::variants()/variantTree()/srcset()/removeVariants()`: width variants `<name>-<w>w.webp` next to a WebP original; `srcset()` lists the variants plus the original (cache-busted with the file mtime), null without variants.
+- New `bin/console app:images:variants <folder below public/> [--widths=480,720] [--force] [--clean]` (backfill after dropping a file in; variants are skipped as images of their own).
+- Start page memes: variants 480/720 (+960 original), `srcset` + `sizes="(max-width: 60rem) min(calc(100vw - 2rem), 40rem), min(50vw, 37rem)"`; `IndexController::memes()` ignores variant files. LCP hints (`fetchpriority=high`, width/height) unchanged.
+- Screenshot gallery: variants 320/480/720 (+ full size) with `sizes="(max-width: 30rem) calc(100vw - 4.25rem), 20rem"`, `loading=lazy`; the separate `thumbnails/` folder is gone. Screenshots retaken in the Br0Game theme (1440x900, WebP Q82).
+- Screenshot lightbox: own `<dialog class="lightbox">` (`public/scripts/login/lightbox.js`, styles at the end of `login.css`): near full viewport, full-size image, close/Esc/backdrop, prev/next buttons, arrow keys, swipe, `n / total` caption, focus returns to the thumbnail; labels `lightbox_close/prev/next` in `translations/public.*`. Replaces the unstyled `modal--image` dialog in `login/main.js`.
+- News images: `storeUpload()` takes variant widths, admin uploads get 480/800/1200 variants (removed together with the image); list and article use `srcset` + `sizes="(max-width: 1200px) calc(100vw - 4.25rem), 1100px"`. Older uploads: `app:images:variants uploads/news --widths=480,800,1200`.
+- Start page background: `--site-art` custom property, 1080 px wide copy (`background-1080w.webp`, 39 KB instead of 141 KB) up to 48rem viewport width; overlay, stars and position unchanged.
+- Empire page planet images: `loading=lazy decoding=async`.
+
+## 107. Tech tree
+
+- Technologies page rebuilt as a graph: `App\Game\Core\TechTree` (pure, unit-testable) builds nodes (own level, requirements with met flag, status owned/available/locked, depth = longest requirement path) and one tab per category whose rows are the depth, with the transitive requirements of other categories as ghost cards and barycenter ordering against crossings; `TechtreeController::show()` only gathers levels/names.
+- `public/scripts/game/techtree.js`: tabs (last one in localStorage), SVG bezier connectors behind the cards (redrawn via ResizeObserver, attachment points spread per card, level label at the lower end), hover/focus highlights the whole ancestor and descendant chain and dims the rest, click/Enter pins (Esc or click outside clears), detail panel (requirements own/needed, unlocks, info dialog link); data via the `techtree-data` island.
+- CSS: new "tech tree" section in `content.css` on theme tokens with fallbacks (cards, edge colours, reduced motion, phones scroll the graph inside its container); the old collapsible `.techb/.techi` markup, JS and per-theme rules are gone. New `tt_*` keys (`tt_unlocks`, `tt_status_*`, `tt_hint`, `tt_foreign`, `tt_none`, `tt_graph`) in all `ingame.*` locales (de real, others en/de).
+- Graph readability: cards are opaque and stacked above the SVG layer; idle edges are 1px and faint without labels, the highlighted chain is 2px with level pills; edges are drawn as a transitive reduction (chains are still traced on the full graph); edges that skip rows run through the gap columns between cards; foreign cards in a tab are limited to direct requirements of the category (plus nodes connecting two visible ones) and rendered compact.
+- Compact layout, no horizontal scrolling: cards 5rem wide (36px image, 2-line name, "Lv N" badge on the image from the new `tt_lv_short` key, full name in title/aria-label), depth rows wrap into several lines (CSS flex-wrap), edge routing groups the cards by visual line and re-runs on resize; ghost cards smaller.
+
+## 108. Resources page
+
+- `game?page=resources` restyled: header with planet name and actions, per-resource column tints (metal/crystal/deuterium/energy), `+`/`-` marked production, tabular numbers, separated totals rows, energy deficit in the hourly total flagged (outline + warning sign), sticky first column in a `.table-scroll` (no page-wide horizontal scroll on phones); styles in `content.css` (`.prod-*`), table markup now `thead` + macros (`tip`, `val`) in `page.resources.default.html.twig`.
+- New buttons "Ramp up" / "Shut down" (`public/scripts/game/resources.js`): set every `prod[<id>]` selector to 100 % / 0 % and `requestSubmit()` the normal `send()` form; keys `rs_ramp_up`/`rs_shut_down` in `translations/ingame.*`. "Save changes" moved from the bonus row to the header.
+
+## 109. Start page, brand, charts, popups
+
+- Default theme: migration `1794900500` switches `default_theme` from the old default (`nova`/empty) to `br0game`; players keep their own theme.
+- Start page: corner glows removed; painted artwork `images/login/background.webp` (1920 px, 141 KB, from the old start screen) under a dark gradient and the star layer, intro text with a soft shadow; same background on all public pages.
+- Start page memes replaced by six new comic panels (`public/memes/*.webp`, 960 px, quality 82) with per-image alt texts in every locale; `og:image` points to `memes/solo-scouting.webp`.
+- Screenshot gallery retaken in the Br0Game theme (1440×900, WebP).
+- Wordmark: the old `pr0game.webp` logo image is replaced by a text wordmark `Br<b>0</b>Game` (`.wordmark` in `base.css`, Michroma, "0" in the theme accent) in the game top bar, account lobby and admin header.
+- Charts (`app/charts.js` `applyPageTheme()`): faint horizontal grid only, no axis borders, muted ticks, round legend markers, dotless lines (point on hover), dark padded tooltip; empire charts use one palette, solid category lines, rounded change bars; on phones the charts stay at the visible width (`container-type` on the empire table wrapper, sticky chart box).
+- Sticky tooltips (`app/tooltip.js`): anchored under the trigger without a gap (flips above, clamped to the viewport), 250 ms close delay so the pointer can move in, click/tap pins, Esc/outside click closes, keyboard focusable; fixes the unreachable demolish confirm (galaxy, overview and fleet table popups use the same path). `.statictime` durations inside injected tooltip content are rendered.
+- Demolish popup compact (`#tooltip .tt-destroy`: auto width, tight rows, right-aligned values, full-width button).
+
+## 110. Translation overhaul
+
+- Player-facing domains (ingame, fleet, tech, public, account, tutorial, faq) reworded in en and de: errors say what happened and what to do, short confirmations, friendly empty states, some flavour in achievements, plain-language settings; one term per concept; en uses US spelling in running text (object names keep their spelling); de always uses "du".
+- Tech descriptions fact-checked against the game data and code (drive switch levels, jump gate cooldown, defense rebuild ~70 %, university bonus by default, alliance depot has no effect, Battle Transporter speed, rapid fire) and identical in en and de.
+- es, fr, pl, pt, ru, tr reworked against the en/de baseline: informal address everywhere (tú, tu, ty, ты, sen), missing keys added, German/English leftovers translated, wrong meanings fixed (swapped fleet table columns, cancel refund 60 %, name change limit, dissolve vs leave alliance); pt unified to European Portuguese, tr with proper Turkish letters, fr with non-breaking spaces before `: ; ! ?`.
+- Label fixes: fleet table columns (origin/departure/arrival), jump gate ship selection, arrival time in fleet step 3, missile launch message, market visibility option ("alliance, pact partners and buddies").
+- pi and of untouched except new feature keys.

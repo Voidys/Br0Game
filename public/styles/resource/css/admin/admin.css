@@ -103,7 +103,7 @@ body.admin {
   white-space: nowrap;
 }
 .admin .admin-brand:hover { text-decoration: none; color: #fff; }
-.admin-brand img { height: 1.5rem; width: auto; }
+.admin-brand .wordmark { font-size: 0.95rem; }
 
 .admin-universe {
   display: flex;
@@ -659,7 +659,7 @@ details.disclosure[open] > summary::after { content: "–"; }
   }
   .admin-topbar { gap: var(--space-2); padding: 0 var(--space-2); }
   .admin-topbar__menu { display: inline-flex; }
-  .admin-brand span,
+  .admin-brand span:not(.wordmark),
   .admin-topbar__item span,
   .admin-topbar__user { display: none; }
   .admin-universe select { min-width: 0; max-width: 11rem; }

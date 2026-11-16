@@ -1,11 +1,12 @@
 /**
  * Start page: language select, menu toggle (narrow screens), universe start countdowns, universe
- * based form urls, screenshot viewer, auto-submitting selects ([data-autosubmit]), browser time zone
+ * based form urls, screenshot lightbox (lightbox.js), auto-submitting selects ([data-autosubmit]), browser time zone
  * preselection on the register form. Native ES module; the configuration comes from the JSON island
  * #login-config ({isMultiUniverse, unisWildcast, referralEnable, basePath}) of the layout.
  */
 import '../app/csrf.js';
 import { qs, qsa, on, ready, cookie } from '../app/core.js';
+import { initLightbox } from './lightbox.js';
 import { readPageData } from '../page/config.js';
 
 const config = readPageData('login-config') ?? {};
@@ -28,32 +29,6 @@ function updateUrls(select) {
   for (const link of fbLinks()) {
     link.setAttribute('href', base + link.dataset.href);
   }
-}
-
-/** minimal image viewer for the screenshots page (native <dialog>) */
-function openGallery(links, index) {
-  const dialog = document.createElement('dialog');
-  dialog.className = 'modal modal--image';
-  dialog.innerHTML = `
-    <button type="button" class="modal__close" data-dialog-close aria-label="Close">&times;</button>
-    <button type="button" class="modal__nav modal__nav--prev" aria-label="Previous">&lsaquo;</button>
-    <img class="modal__image" alt="">
-    <button type="button" class="modal__nav modal__nav--next" aria-label="Next">&rsaquo;</button>`;
-  const img = qs('img', dialog);
-  let current = index;
-  const render = () => { img.src = links[current].href; };
-  const step = (delta) => { current = (current + delta + links.length) % links.length; render(); };
-  qs('.modal__nav--prev', dialog).addEventListener('click', () => step(-1));
-  qs('.modal__nav--next', dialog).addEventListener('click', () => step(1));
-  dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
-  dialog.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') step(-1);
-    if (event.key === 'ArrowRight') step(1);
-  });
-  dialog.addEventListener('close', () => dialog.remove());
-  document.body.append(dialog);
-  render();
-  dialog.showModal();
 }
 
 /** "In: 3d 04h 12m 09s" until the universe opens (texts from data attributes) */
@@ -111,11 +86,7 @@ ready(() => {
 
   countdowns();
 
-  on(document, 'click', 'a.gallery', (event, link) => {
-    event.preventDefault();
-    const links = qsa('a.gallery');
-    openGallery(links, links.indexOf(link));
-  });
+  initLightbox();
 
   if (config.isMultiUniverse) {
     for (const select of qsa('.changeAction')) {

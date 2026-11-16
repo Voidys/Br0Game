@@ -4,30 +4,49 @@
 {{ LNG.lm_technology }}{{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="infos"> 
-{% for elementID, requireList in (TechTreeList)|php_iter %}
-{% if not is_array(requireList) %}
-
-<div class="techb" id="{{ requireList }}"> <button> <span class="plus" id="{{ requireList }}s">{{ icon('plus') }}</span>
-  <span class="minus" id="{{ requireList }}h">{{ icon('minus') }}</span></button> {{ LNG.tech[requireList] }}</div>
-	
-{% else %}{% if requireList %}
-<div class="techi" id="h{{ elementID }}">
-<span class="achievement-name"><a href="#" data-action="dialog-info" data-id="{{ elementID }}">{{ LNG.tech[elementID] }}</a></span>
-<a href="#" data-action="dialog-info" data-id="{{ elementID }}"><img class="inline" src="{{ theme_asset('gebaeude/' ~ elementID ~ '.' ~ ((elementID >=600 and elementID <= 699) ? 'jpg' : 'gif')) }}" width="89"></a>
-</br>
-{{ LNG.tt_requirements }}: </br>
-{% for requireID, NeedLevel in (requireList)|php_iter %}
-<a href="#" data-action="dialog-info" data-id="{{ requireID }}"><span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})</span></a>{% if not loop.last %}<br>{% endif %}
-
-{% endfor %}
+<div class="tt" id="tt-root">
+  <div class="tt-tabs" role="tablist" aria-label="{{ LNG.tt_graph }}">
+    {% for tab in TechTree.tabs %}
+    <button type="button" class="tt-tab" role="tab" id="tt-tab-{{ tab.group }}" data-group="{{ tab.group }}" aria-controls="tt-panel-{{ tab.group }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}">{{ Headlines[tab.group] }}</button>
+    {% endfor %}
+  </div>
+  {% for tab in TechTree.tabs %}
+  <section class="tt-panel" role="tabpanel" id="tt-panel-{{ tab.group }}" aria-labelledby="tt-tab-{{ tab.group }}" data-group="{{ tab.group }}"{% if not loop.first %} hidden{% endif %}>
+    <div class="tt-scroll">
+      <div class="tt-canvas">
+        {% for row in tab.rows %}
+        <div class="tt-row">
+          {% for id in row %}
+          {% set node = TechTree.nodes[id] %}
+          <div class="tt-cell tt-{{ node.status }}{% if node.group != tab.group %} tt-ghost{% endif %}" data-id="{{ id }}">
+            <div class="tt-node" role="button" tabindex="0" data-id="{{ id }}" aria-pressed="false" aria-label="{{ node.name }}" title="{{ node.name }}{% if node.group != tab.group %} ({{ LNG.tt_foreign }}: {{ Headlines[node.group] }}){% endif %}">
+              <span class="tt-img"><img src="{{ theme_asset(node.image) }}" width="36" height="36" alt="" loading="lazy">{% if node.level > 0 %}<span class="tt-lv" title="{{ LNG.tt_lvl|trim }} {{ node.level }}">{{ LNG.tt_lv_short }} {{ node.level }}</span>{% endif %}</span>
+              <span class="tt-name">{{ node.name }}</span>
+            </div>
+            <a href="#" class="tt-info" data-action="dialog-info" data-id="{{ id }}" aria-label="{{ node.name }}">{{ icon('info') }}</a>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+  <div class="tt-detail" id="tt-detail" aria-live="polite"><p class="tt-hint">{{ LNG.tt_hint }}</p></div>
 </div>
-
-{% endif %}
-
-{% endif %}
-{% endfor %}</div>
 {% endblock %}
 {% block script %}{{ parent() }}
+  {# graph data for scripts/game/techtree.js #}
+  {{ data_island('techtree-data', {
+    nodes: TechTree.nodes,
+    labels: {
+      requirements: LNG.tt_requirements,
+      unlocks: LNG.tt_unlocks,
+      level: LNG.tt_lvl|trim,
+      none: LNG.tt_none,
+      hint: LNG.tt_hint,
+      status: { owned: LNG.tt_status_owned, available: LNG.tt_status_available, locked: LNG.tt_status_locked },
+    },
+  }) }}
 <script type="module" src="./scripts/game/techtree.js?v={{ asset_version }}"></script>
 {% endblock %}

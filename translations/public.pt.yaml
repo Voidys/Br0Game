@@ -1,163 +1,130 @@
-buttonLostPassword: Perdeste a Password?
-buttonRegister: Regista Agora!
-buttonScreenshot: Screenshots
+buttonLostPassword: Esqueceste-te da palavra-passe?
+buttonRegister: Regista-te agora!
+buttonScreenshot: Capturas de ecrã
 chose_a_uni: Escolhe o universo
-disclamerLabelAddress: 'Game Address:'
-disclamerLabelMail: 'Support Adress:'
-disclamerLabelNotice: More information
-disclamerLabelPhone: 'Telephone Nr.:'
-disclamerRecaptcha: >-
-  Esta página utiliza reCAPTCHA e o Google <a
-  href="https://policies.google.com/privacy">provacy statement</a> e <a
-  href="https://policies.google.com/terms">terms of use</a> apply.
+disclamerLabelAddress: 'Endereço do jogo:'
+disclamerLabelMail: 'Email de suporte:'
+disclamerLabelNotice: Mais informações
+disclamerLabelPhone: 'Telefone:'
+disclamerRecaptcha: Esta página utiliza reCAPTCHA; aplicam-se a <a href="https://policies.google.com/privacy">política de privacidade</a> e os <a href="https://policies.google.com/terms">termos de utilização</a> da Google.
 forum: Fórum
 gameInformations: |-
-  Um jogo de estratégia em tempo real.
-  Jogo com centenas de imperadores.
-  Nenhum download, requer apenas um navegador padrão.
-  Inscrição gratuita
-login_error_1: >-
-  E-mail ou palavra-passe errados! Sugestão: Os cofres de senhas guardam
-  frequentemente o nome de utilizador, mas tem de iniciar sessão com o seu
-  e-mail.
-login_error_2: >-
-  Alguém iniciou sessão a partir de um PC diferente na sua conta, ou o seu IP é
-  diferente!
-login_error_3: A sua sessão expirou!
-login_error_4: >-
-  Houve demasiadas tentativas de início de sessão. Contacta um administrador
-  através do Discord para obteres novos detalhes de início de sessão. Tem o teu
-  endereço de e-mail pronto para verificação.
-loginButton: Login
+  Um jogo de estratégia espacial em tempo real.
+  Centenas de jogadores em cada universo.
+  Sem downloads – basta um browser normal.
+  Registo gratuito
+login_error_1: 'Email ou palavra-passe errados! Dica: os gestores de palavras-passe costumam preencher o nome de utilizador, mas o início de sessão é feito com o email.'
+login_error_2: A tua conta iniciou sessão noutro dispositivo, ou o teu endereço IP mudou.
+login_error_3: A tua sessão expirou. Inicia sessão novamente.
+login_error_4: Demasiadas tentativas de início de sessão. Espera 15 minutos e tenta novamente.
+loginButton: Iniciar sessão
 loginEmail: Email
-loginHeader: Login
-loginInfo: Com o login eu aceito os %s.
-loginPassword: Password
-loginServerDesc: >-
-  %s é um jogo de estratégia espacial com milhares de jogadores a jogar juntos
-  <strong>ao mesmo tempo</strong> a tentar ser o melhor do Universo. Tudo que
-  precisas para o jogo é um navegador padrão.
-loginWelcome: Bem-vindo ao %s
+loginHeader: Início de sessão
+loginInfo: Ao iniciar sessão, aceito os %s.
+loginPassword: Palavra-passe
+loginServerDesc: '%s é um jogo de estratégia espacial em que centenas de jogadores competem <strong>ao mesmo tempo</strong> para ser os melhores. Só precisas de um browser normal.'
+loginWelcome: Bem-vindo a %s
 menu_banlist: Muro da Vergonha
 menu_battlehall: Muro da Batalha
-menu_disclamer: Contatos
-menu_index: Página Inicial
+menu_disclamer: Contactos
+menu_index: Página inicial
 menu_news: Notícias
 menu_register: Registo
 menu_rules: Regras
-news_does_not_exist: No news available!
-news_from: On %s bt %s
-news_overview: News
-passwordBack: Back
-passwordCaptcha: Security code
-passwordChangedMailSend: You will receive an email shortly with your new password.
-passwordChangedMailTitle: 'New password on the website: %s'
-passwordErrorMailEmpty: You have specified an unknown email address!
-passwordErrorOnePerDay: >-
-  Password for this user account in the last 24 hours previously requested. You
-  can only request the password for this user account in  next 24 hours. 
-passwordErrorUnknown: It could not be found with the account data.
-passwordErrorUsernameEmpty: You have no specified the Username!
-passwordInfo: >-
-  If you have forgotten your password, you must specify the user name and the
-  E-Mail address that you have entered in your account.
-passwordMail: E-Mail
-passwordNext: Next
-passwordSubmit: Submit
-passwordUsername: Username
-passwordValidInValid: Invalid Request!
-passwordValidMailSend: You will receive an email shortly with further information.
-passwordValidMailTitle: 'Forgot my password on the website: %s'
+news_does_not_exist: Sem notícias disponíveis.
+news_from: Em %s por %s
+news_overview: Notícias
+passwordBack: Voltar
+passwordCaptcha: Código de segurança
+passwordChangedMailSend: A tua nova palavra-passe está a caminho. Vais receber um email dentro de momentos.
+passwordChangedMailTitle: Nova palavra-passe para %s
+passwordErrorMailEmpty: Não conhecemos esse endereço de email.
+passwordErrorOnePerDay: Já pediste uma palavra-passe para esta conta nas últimas 24 horas. Podes pedir outra daqui a 24 horas.
+passwordErrorUnknown: Não foi encontrada nenhuma conta com esses dados.
+passwordErrorUsernameEmpty: Não indicaste um nome de utilizador!
+passwordInfo: Esqueceste-te da palavra-passe? Indica o nome de utilizador e o endereço de email da tua conta. Se não te lembrares deles, contacta um administrador.
+passwordMail: Email
+passwordNext: Seguinte
+passwordSubmit: Enviar
+passwordUsername: Nome de utilizador
+passwordValidInValid: Pedido inválido.
+passwordValidMailSend: Vais receber um email dentro de momentos com os próximos passos.
+passwordValidMailTitle: Repor a palavra-passe de %s
 registerBack: Voltar
 registerCaptcha: Código de segurança
-registerCaptchaDesc: >-
-  Por favor, insere os caracteres abaixo no campo vazio. Não tem diferença
-  maiúsculas de minúsculas
-registerCaptchaReload: Recarregar Captcha.
-registerEmail: E-Mail
-registerEmailDesc: Por favor, digita o teu endereço de E-Mail!
-registerEmailReplay: Repetir E-Mail
-registerEmailReplayDesc: Por favor, insere o teu endereço de e-mail mais uma vez!
+registerCaptchaDesc: Escreve os caracteres abaixo no campo vazio, sem espaços. Maiúsculas e minúsculas não importam. Se continuares sem conseguir ler a imagem depois de a recarregares algumas vezes, contacta o administrador do site.
+registerCaptchaReload: Recarregar captcha
+registerEmail: Email
+registerEmailDesc: Indica o teu endereço de email.
+registerEmailReplay: Repetir email
+registerEmailReplayDesc: Volta a escrever o teu endereço de email para o confirmares.
 registerErrorCaptcha: O código de segurança está errado!
-registerErrorDataPrivacy: É necessário confirmar a política de privacidade!
-registerErrorMailEmpty: Deves especificar um endereço de email!
-registerErrorMailExist: O endereço de E-Mail já está registado!
-registerErrorMailInvalid: Endereço de E-Mail inválido!
-registerErrorMailSame: Inseriste 2 endereços de email diferentes!
-registerErrorPasswordLength: A Password deve ter pelo menos %s caracteres!
-registerErrorPasswordSame: Inseriste 2 Passwords diferentes!
-registerErrorRules: Tens que aceitar as regras!
-registerErrorUniClosed: O registro é fechado neste universo!
-registerErrorUsernameChar: O Username deve consistir em números, letras, espaços, _, -, . apenas!
-registerErrorUsernameEmpty: Deves digitar um username!
-registerErrorUsernameExist: O Username já está em uso!
-registerLanguage: Língua
-registerMailCompleteTitle: Welcome to %s!
-registerMailVertifyError: 'Fehler beim Versenden der Mail: %s'
-registerMailVertifyTitle: 'Aktivierung der Registrierung auf der Website: %s'
-registerNext: Próximo
-registerPassword: Password
-registerPasswordDesc: A Password deve ter pelo menos %s caracteres.
-registerPasswordReplay: Repetir Password
-registerPasswordReplayDesc: Por favor, digita a mesma password.
-registerReferral: 'Anunciado por:'
+registerErrorDataPrivacy: Aceita a política de privacidade para continuar.
+registerErrorMailEmpty: Indica um endereço de email.
+registerErrorMailExist: Este endereço de email já está registado.
+registerErrorMailInvalid: Isto não parece um endereço de email válido.
+registerErrorMailSame: Os dois endereços de email não coincidem.
+registerErrorPasswordLength: A tua palavra-passe tem de ter pelo menos %s caracteres.
+registerErrorPasswordSame: As duas palavras-passe não coincidem.
+registerErrorRules: Aceita as regras para continuar.
+registerErrorUniClosed: O registo está fechado neste universo.
+registerErrorUsernameChar: O nome de utilizador só pode conter letras, números, espaços, _, - e .
+registerErrorUsernameEmpty: Indica um nome de utilizador.
+registerErrorUsernameExist: Esse nome de utilizador já está em uso.
+registerLanguage: Idioma
+registerMailCompleteTitle: Bem-vindo a %s!
+registerMailVertifyError: 'Não foi possível enviar o email: %s'
+registerMailVertifyTitle: Ativa a tua conta em %s
+registerNext: Continuar
+registerPassword: Palavra-passe
+registerPasswordDesc: A tua palavra-passe tem de ter pelo menos %s caracteres.
+registerPasswordReplay: Repetir palavra-passe
+registerPasswordReplayDesc: Escreve a mesma palavra-passe outra vez.
+registerReferral: 'Convidado por:'
 registerRules: Regras
 registerRulesDesc: Concordo com o %s
-registerSendComplete: >-
-  Thank you for the registration. You must check your email (Attention with the
-  SPAM) with further information.
+registerSendComplete: Obrigado pelo registo! Consulta o teu email (inclui a pasta de spam) para os próximos passos.
 registerTimezone: Fuso horário
-registerUsername: Username
-registerUsernameDesc: >-
-  O Username deve ser no mínimo 3 e máximo de 25 caracteres e pontos e pode
-  consistir em números, letras, sublinhados e espaços
-registerWelcomePMSenderName: Administrator
-registerWelcomePMSubject: Welcome
-registerWelcomePMText: >-
-  Welcome to %s! First build a solar power plant,because energy is needed for
-  the production of raw materials. To build one, left click in the menu on
-  "buildings". Then build the 4th Building from the top. </br> When you have
-  energy, you can begin to build mines. Go to buildings on the menu and build a
-  metal mine, followed by a crystal mine. </br></br>In order to be able to build
-  ships you need to have a shipyard. To see what is needed to unlock that
-  building you can take a look at "Technologies" at the left menu.</br>If you
-  more questions you can look at the beginnersguide, our forum or open a support
-  ticket. </br></br> The team wishes you much fun exploring the universe!
-rulesHeader: Rules
+registerUsername: Nome de utilizador
+registerUsernameDesc: 'Usa entre 3 e 25 caracteres: letras, números, espaços, pontos, hífenes e sublinhados.'
+registerWelcomePMSenderName: Administrador
+registerWelcomePMSubject: Bem-vindo
+registerWelcomePMText: Bem-vindo a %s! Começa por construir uma Planta de Energia Solar, porque é preciso energia para produzir recursos. Abre Edifícios no menu da esquerda e começa pela Planta de Energia Solar.<br>Quando tiveres energia, podes construir minas. Continua em Edifícios e constrói uma Mina de Metal e depois uma Mina de Cristal.<br><br>Para construir naves precisas de um Hangar. O menu Tecnologias, à esquerda, mostra o que é preciso para o desbloquear.<br>Se tiveres mais dúvidas, consulta a FAQ, a wiki, ou abre um pedido de suporte.<br><br>A equipa deseja-te muita diversão a explorar o universo!
+rulesHeader: Regras
 siteTitleBanList: Muro da Vergonha
 siteTitleBattleHall: Muro da Batalha
 siteTitleDataPrivacy: Privacidade dos dados
-siteTitleDisclamer: Contatos
-siteTitleHOF: Galeria de Fama
-siteTitleIndex: Página Inicial
-siteTitleLostPassword: Senha perdida?
+siteTitleDisclamer: Contactos
+siteTitleHOF: Hall da Fama
+siteTitleIndex: Página inicial
+siteTitleLostPassword: Esqueceste-te da palavra-passe?
 siteTitleNews: Notícias
 siteTitleRegister: Registar
 siteTitleRules: Regras
-siteTitleScreens: Screenshots
+siteTitleScreens: Capturas de ecrã
 uni_closed: ' (fechado)'
-uni_reg_closed: ' (Registo encerrado)'
-uni_reg_open: ' (Apenas registo)'
+uni_reg_closed: ' (registo encerrado)'
+uni_reg_open: ' (apenas registo)'
 universe: Universo
-vertifyAdminMessage: The username "%s" has enabled!
-vertifyNoUserFound: Invalid Request!
+vertifyAdminMessage: A conta "%s" foi ativada.
+vertifyNoUserFound: Pedido inválido.
 biggest_solo: "Maiores combates a solo"
-build_ships: "Naves construídas no total"
+build_ships: Total de naves construídas
 civil: "Civil"
 colony: "Colónia"
 CrystalStorage: "Armazém de Cristal"
 deathstar: "Estrela da morte"
 destroyed_sats: "Satélites solares destruídos"
 first_fights: "Primeiros combates do universo"
-flown_expos: "Expedições enviadas no total"
-flownDeut: "Deutério gasto no total a voar"
-found_res: "Recursos encontrados no total"
-found_ships: "Naves encontradas no total"
-galaxySpendDeut: "Deutério gasto a navegar pela galáxia"
+flown_expos: Total de expedições enviadas
+flownDeut: Deutério gasto em voos
+found_res: Total de recursos encontrados
+found_ships: Total de naves encontradas
+galaxySpendDeut: Deutério gasto a explorar a galáxia
 hof3_header: "As lendas do Uni 3 ficam aqui imortalizadas!"
 hof4_header: "As lendas do Uni 4 ficam aqui imortalizadas!"
 hof7_header: "As lendas do Uni 7 ficam aqui imortalizadas!"
-IonCannon: "Canhão de íons"
+IonCannon: Canhão de iões
 least_reached_ach: "Conquistas mais raras"
 Lowest_longterm_points: "Contas pré-registadas com menos pontos"
 medAliens: "Alienígenas médios"
@@ -177,8 +144,8 @@ overall: "Geral"
 players: "Jogadores"
 points_amount: "Pontos / Quantidade"
 realDesUnits: "Unidades realmente destruídas"
-registerDataPrivacyDesc: "Aceito a %s"
-second_expo_deck: "Iniciaram o seu segundo baralho de expedição"
+registerDataPrivacyDesc: Aceito a %s
+second_expo_deck: Começaram o seu segundo convés de expedição
 spy: "Sondas de espionagem"
 st_buildings: "Edifícios"
 st_defenses: "Defesa"
@@ -186,23 +153,29 @@ st_fleets: "Frota"
 st_points: "Pontos"
 st_researh: "Pesquisa"
 theme: "Tema"
-votingPoints: "Pontos de votação"
+votingPoints: Pontos de voto
 wonAttack: "Ataque ganho"
 wonDefense: "Defesa ganha"
-home_meme_alt_first_day: "Banda desenhada: o comandante Vane pousa uma mão robótica no ombro de um cadete nervoso – \"Não se preocupe, cadete. O Alto Comando tem total confiança na sua missão de reconhecimento a solo pelo espaço.\""
 home_menu: "Menu"
-home_meta_description: "%s – o jogo de estratégia espacial de navegador com o charme dos anos 2000: faça crescer planetas, construa frotas, forje alianças."
+home_meta_description: '%s – o jogo de estratégia espacial de browser com o charme dos anos 2000: faz crescer planetas, constrói frotas, forja alianças.'
 home_started: "Já em curso!"
 home_starts_in: "Em"
 home_team: "Equipa"
-home_meme_caption: "O seu primeiro dia"
+home_meme_caption: O teu primeiro dia
 home_meme_alt: "Meme de banda desenhada do posto de comando de {game_name}"
-home_meme_alt_deuterium_faith: "Banda desenhada: o comandante Kamioka sorri e pousa uma mão robótica no ombro de um cadete – \"Parece que não conseguiu trazer o deutério e a sua nave está a arder. Não se preocupe, cadete. Ainda temos… fé 'total' em si.\""
-home_meme_alt_this_is_fine: "Banda desenhada: um cão com fato espacial está sentado calmamente com uma chávena de café num centro de comando em chamas – \"Está tudo bem.\" O cadete diz: \"Não se preocupe. A minha frota só está 4 horas atrasada no regresso.\""
+home_meme_alt_deep_space_transit: "Banda desenhada: dois cadetes numa nave – um desanima ao ver um campo de asteroides, o outro sorri para uma nebulosa brilhante. «Patrulhas de setor normais vs. encontrar uma nebulosa inexplorada e rica em recursos.»"
+home_meme_alt_deuterium_joyride: "Banda desenhada: um comandante cansado no deck de observação vê dois recrutas a flutuar lá fora – «Ver os novos recrutas a gastar todo o deutério em passeios enquanto eu espero 12 horas pelas melhorias das minas.»"
+home_meme_alt_enemy_fleet: "Banda desenhada: um cadete agarra a cabeça em pânico enquanto os alarmes piscam – «1000 destruidores inimigos a caminho?! Pensei que este setor era seguro?!»"
+home_meme_alt_fleet_decimated: "Banda desenhada: um soldado em choque olha em frente enquanto naves explodem atrás da cúpula destruída – «Quando passas 20 horas a recolher recursos e a frota de um jogador do top 3 aparece e desmonta tudo em 3 segundos.»"
+home_meme_alt_solo_scouting: "Banda desenhada: o comandante Kamioka sorri e pousa uma mão robótica no ombro de um cadete – «Não te preocupes, cadete. O Alto Comando tem confiança ‘total’ na tua missão de reconhecimento a solo no espaço.»"
+home_meme_alt_this_is_fine: "Banda desenhada: um cão em fato espacial está sentado calmamente num centro de comando em chamas e diz «This is fine» – «Não te preocupes. A minha frota só volta com 4 horas de atraso.»"
 source_code: "Código-fonte"
 news_back: "Voltar às notícias"
+lightbox_close: "Fechar"
+lightbox_prev: "Imagem anterior"
+lightbox_next: "Próxima imagem"
 news_pinned: "Fixada"
 news_read_more: "Ler mais"
 news_latest: "Últimas notícias"
 news_all: "Todas as notícias"
-csrf_invalid: "A verificação de segurança do pedido falhou (sessão expirada?). Recarregue a página e tente novamente."
+csrf_invalid: A verificação de segurança falhou (a tua sessão pode ter expirado). Recarrega a página e tenta novamente.

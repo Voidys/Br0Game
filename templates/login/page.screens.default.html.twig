@@ -1,10 +1,10 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.siteTitleScreens }}{{ parent() }}{% endblock %}
 {% block content %}
-<div class="gallery-grid">
+<div class="gallery-grid" data-lightbox-close="{{ LNG.lightbox_close|e('html_attr') }}" data-lightbox-prev="{{ LNG.lightbox_prev|e('html_attr') }}" data-lightbox-next="{{ LNG.lightbox_next|e('html_attr') }}">
   {% for screenshot in (screenshots)|php_iter %}
     <a class="gallery" href="{{ screenshot.path }}" target="_blank" rel="gallery">
-      <img src="{{ screenshot.thumbnail }}" alt="" loading="lazy">
+      <img src="{{ screenshot.path }}"{% if screenshot.srcset %} srcset="{{ screenshot.srcset }}" sizes="(max-width: 30rem) calc(100vw - 4.25rem), 20rem"{% endif %} width="{{ screenshot.width }}" height="{{ screenshot.height }}" alt="" loading="lazy" decoding="async">
     </a>
   {% endfor %}
 </div>

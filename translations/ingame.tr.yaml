@@ -1,915 +1,863 @@
 Account: Hesap
 Achievement_names:
-  '1': Uykusuz ve kötü bir ruh hali içinde
-  '2': Mutlak Temeller
+  '1': Uykusuz ve huysuz
+  '2': Sürekli hareket
   '3': Hak etti
   '4': Şimdi ne anlamı var?
-  '5': Çünkü ben
-  '6': Düşük gelirliler
+  '5': Çünkü yapabilirim
+  '6': Asgari ücret
   '7': Fransız Devrimi
-  '8': Saven'de Sarhoş
-  '9': Bu ay değil.
+  '8': Sarhoş saven
+  '9': Bu bir ay değil
   '10': Misket oyunu
   '11': TheLegend27
   '12': Slippy'nin kutsaması
-  '13': Çok yakındı.
-  '14': Slippy'nin Laneti
-  '15': Hala Hafif Avci var mı?
-  '16': Hey adamım, enkaz alanım nerede?!
-  '17': Overlord Savunma!
+  '13': Kıl payı
+  '14': Slippy'nin laneti
+  '15': Hafif Avcı kaldı mı?
+  '16': Hey, enkaz alanım nerede?!
+  '17': Savunma efendisi!
   '18': Frankfurt Merkez İstasyonu
-  '19': Kalın deri 1
-  '20': Kalın deri 2
-  '21': Kalın deri 3
-  '22': Kalın deri 4
-  '23': Kalın deri 5
-  '24': Laz0r'ımı kovuyorum.
-  '25': DSGVO ihlali
-  '26': Her şey Başarılar için
-  '27': Büyük Beyin Zamanı
-  '28': Alternatifler Oynanış
+  '19': Kalın post 1
+  '20': Kalın post 2
+  '21': Kalın post 3
+  '22': Kalın post 4
+  '23': Kalın post 5
+  '24': Lazerime ateş!
+  '25': KVKK ihlali
+  '26': Her şey Başarımlar için
+  '27': Büyük beyin zamanı
+  '28': Alternatif oynanış
   '29': Komünist Manifesto
-  '30': Burası Sparta
+  '30': Burası Sparta!
   '31': Tatile çıkıyoruz
   '32': Buccaneer!
-  '33': İstersem durabilirim!
-  '34': noble çiftlik
+  '33': İstersem bırakırım!
+  '34': Menüde sen varsın
   '35': Bu hiç hoş değil!
   '36': Miesernachtsmann
-  '37': Ben öyle biri değilim.
+  '37': Ben öyle biri değilim
   '38': Cornag ve Offz
   '39': Hayatın anlamı
   '40': Kolumbus
-  '41': Filo yuvası patronu
-  '42': Önemli olan Battlehall
+  '41': Filo yuvası hayırseveri
+  '42': En azından Savaş Salonu'na girdim
   '43': Gözlerim kapalıyken
-  '44': Yanlışlıkla herkesin başına gelir
-  '45': Anahtar hizmet
+  '44': Herkesin başına gelir
+  '45': Çilingir
   '46': Saf nefret!
   '47': Jack the Ripper
   '48': Rip the Jacker
-  '49': Bu da fırında başka bir atıştı.
+  '49': Roket Ekibi yine uçtu
   '50': Oopsie
-  '51': Bunun doğal olarak geldiğini bilmiyorum.
-  '52': Büyüklük sanrıları
+  '51': Gezinmeye bile param yok
+  '52': Megalomani
   '53': Einstein
   '54': Mutlu yıllar!
   '55': Yaşayan efsane
 Achievement_text:
-  '1': Kendine ait bir gecen vardı ve tek bir atış bile yapamadın.
-  '2': Son 90 gün içinde kalıcı filo hareketleriniz oldu.
-  '3': Dil ayarlarınız "Fransızca" olarak ayarlıyken filonuzu kaybettiniz.
-  '4': İyon Teknolojisini Keşfedin 10.
-  '5': Graviton Araştırmalarını Keşfedin 2.
-  '6': Saldırılarınızdan biri 1 metal, 1 kristal, 1 döteryum ile geri döndü.
-  '7': >-
-    Toplamda en az 10.000 gemiden oluşan bir korsan veya uzaylı gemi filosunu
-    yenin.
-  '8': Sıkılaştırma masasına katılın (Salı günleri saat 8'den itibaren Discord'da).
-  '9': İlk Ölüm Yıldızı'nı inşa et.
+  '1': Bütün bir gece sana kaldı ama tek bir atış bile yapamadın.
+  '2': 90 gün boyunca durmadan hareket halinde filolarının oldu.
+  '3': Dilin “Fransızca” iken filonu kaybettin.
+  '4': İyon Tekniğini 10. seviyeye araştır.
+  '5': Gravitasyon Araştırmasını 2. seviyeye araştır, sırf yapabildiğin için.
+  '6': Saldırılarından biri sadece 1 metal, 1 kristal ve 1 deuterium ile döndü.
+  '7': Toplamda en az 10.000 gemiden oluşan bir korsan ya da uzaylı filosunu yen. Uzay bizim!
+  '8': Strammtisch'e katıl (Salı günleri akşam 8'de Discord'da).
+  '9': İlk Ölüm Yıldızını inşa et.
   '10': Bir oyuncunun ayını yok et.
-  '11': 14 gün boyunca sadece cep telefonundan oynayın.
-  '12': Filonuz ilk seferiniz sırasında bir kara delik tarafından yok edildi.
-  '13': >-
-    Gelen bir saldırının bitmesine 5 saniyeden az kalmışken filonuzu uzağa
-    gönderin.
-  '14': Kara delikler yüzünden 10 filo kaybettiniz.
-  '15': Bir gezegende ay almadan 10 ay denemesi yapın
-  '16': 250'den fazla geri dönüşümcünüz kargosuz geri döndü
-  '17': En az 5000 roketatarı bir siparişle üretime sokun.
-  '18': >-
-    Bir gezegende 24 saat içinde yakıt maliyeti olarak 5 milyon döteryum
-    tüketin.
-  '19': Uzay Gemisi Zırhını Keşfedin 3.
-  '20': Uzay Gemisi Zırhını Keşfedin 6.
-  '21': Uzay Gemisi Zırhını Keşfedin 9.
-  '22': Uzay Gemisi Zırhını Keşfedin 12.
-  '23': Uzay Gemisi Zırhını Keşfedin 15.
-  '24': Lazer teknolojisini keşfedin 12.
-  '25': Kayıtlara katılmayı kabul ettiniz
-  '26': Size en çok puanı veren gezegeni silin. (En az 100.000 puan)
-  '27': Galaksilerarası Araştırma Ağını Keşfedin 1.
-  '28': Bir aydaki üç kaynak deposunu da en az 3. seviyeye yükseltin.
-  '29': Daha yüksek skorlu bir oyuncunun filosunu 5 kişilik bir AKS ile toplayın
-  '30': 5 kişilik bir AKS'yi tek başına püskürtmek
-  '31': Saldırınızla bir oyuncuyu tatil moduna terfi ettirdiniz.
-  '32': '"SetSail" teması etkinleştirildiğinde 1000 gezegene baskın yapın.'
-  '33': U-Mode'dan dönüyorum.
-  '34': Bir kez saldırıya uğrayın.
-  '35': Puanlarınızın 1/10'undan daha azına sahip aktif bir oyuncuya saldırın
-  '36': "Aşağıdaki yapı taşlarından birini içeren bir mesaj alın:\r\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
-  '37': Filonuz 5 katılımcısı olan bir AKS tarafından yok edildi.
-  '38': Kendi ittifak üyelerinize saldırın.
-  '39': Tam 42 gemiyle birine saldırın.
-  '40': En az yarım evren ötedeki bir gezegeni kolonileştirin.
-  '41': Kötü bir pazar yeri teklifi ile bir filo slotunu bir haftalığına bloke edin.
-  '42': Battlehall'da 4 kez kaybeden olarak görünür.
-  '43': "Hesabınız Aktif Değil olarak işaretlenmişken bir savaş kazanın,\r\n            daha önce 7 günden fazla uçuş süresi olan bir filonun geldiği gezegenlerinizden birinde."
-  '44': >-
-    Bir gezegende 7 günden fazla süreyle %100'den daha az enerji kullanarak bir
-    kaynak üretin.
-  '45': Savunmada ilk 5'da yer alan bir oyuncuya saldırı kazanın.
-  '46': Gezegenler arası füzeler ateşleyerek çarpma korumasını tetikleyin.
+  '11': 14 gün boyunca yalnızca telefondan oyna.
+  '12': İlk keşif seferinde filon bir kara delik tarafından yok edildi.
+  '13': Gelen bir saldırının varmasına 5 saniyeden az kalmışken filonu uzağa gönder.
+  '14': 10 filoyu kara deliklere kaybet. Boşluk aç.
+  '15': Bir gezegende 10 denemede ay oluşturamadın. Bir dahaki sefere şansın yaver gider.
+  '16': 250'den fazla Geri Dönüşümcün boş döndü.
+  '17': Tek bir inşa emrinde en az 5000 Roketatar sıraya al.
+  '18': 24 saat içinde tek bir gezegende yakıt olarak 5 milyon deuterium yak.
+  '19': Zırhlandırma Tekniğini 3. seviyeye araştır.
+  '20': Zırhlandırma Tekniğini 6. seviyeye araştır.
+  '21': Zırhlandırma Tekniğini 9. seviyeye araştır.
+  '22': Zırhlandırma Tekniğini 12. seviyeye araştır.
+  '23': Zırhlandırma Tekniğini 15. seviyeye araştır.
+  '24': Lazer Tekniğini 12. seviyeye araştır.
+  '25': Rekorlara katılmayı seç.
+  '26': Sana en çok puan kazandıran gezegeni sil (en az 100.000 puan).
+  '27': Galaksilerarası Araştırma Ağını 1. seviyeye araştır.
+  '28': Bir aydaki üç depoyu da en az 3. seviyeye yükselt.
+  '29': Puanı daha yüksek bir oyuncunun filosunu 5 kişilik bir İSS ile yok et.
+  '30': 5 kişilik bir İSS saldırısını tek başına püskürt.
+  '31': Saldırınla bir oyuncuyu tatil moduna gönder.
+  '32': “SetSail” temasını kullanırken 1000 gezegene baskın yap. Arr!
+  '33': Tatil modundan dön.
+  '34': İlk kez saldırıya uğra. Evrene hoş geldin.
+  '35': Puanının 1/10'undan azına sahip aktif bir oyuncuya saldır.
+  '36': |-
+    Şu ifadelerden birini içeren bir mesaj al:
+    "Hurensohn", "gleichstarke Ziele", "gegen Schwächere", "ehrenlos"
+  '37': 5 kişilik bir İSS tarafından yok edil.
+  '38': Kendi ittifak üyelerine saldır. Dost ateşi, kimse?
+  '39': Tam 42 gemiyle birine saldır.
+  '40': En az yarım evren uzaklıktaki bir gezegeni kolonileştir.
+  '41': Kötü bir pazar teklifiyle bir filo yuvasını bir hafta boyunca meşgul et.
+  '42': Savaş Salonu'na 4 kez kaybeden tarafta gir.
+  '43': |-
+    Hesabın Pasif olarak işaretliyken bir savaş kazan;
+    bu savaş, daha önce uçuş süresi 7 günden fazla olan bir filonun vardığı gezegenlerinden birinde olmalı.
+  '44': Bir gezegende 7 günden uzun süre %100'ün altında enerjiyle bir kaynak üret.
+  '45': Savunmada ilk 5'te olan bir oyuncuya karşı saldırı kazan.
+  '46': Gezegenlerarası roketler fırlatarak bash korumasını tetikle.
   '47': 5 ay yok et.
-  '48': Ayları yok etmeye çalışırken 5 Ölüm Yıldızı kaybet.
-  '49': Kolo oluştuktan kısa bir süre sonra koparın.
-  '50': "Gravi'yi araştırmak için yeterli enerjiye sahip bir gezegendeki tüm güneş uydularınızı kaybedin.\r\n            Gravi'yi araştırmadan Gravi'yi araştırmak için enerji."
-  '51': Tüm döteryumunuzu gala manzarasında kullanın.
-  '52': >-
-    Önce diğer savaş gemilerini (Light Fighter, Heavy Fighter, Cruiser,
-    Battleship, Bomber, Destroyer veya Battle Cruiser) inşa etmeden bir Ölüm
-    Yıldızı inşa edin.
-  '53': Aynı anda 5 araştırmada en yüksek seviyeye sahibim.
-  '54': Aktif bir oyuncuya yapılan bir saldırıyı 01.01. 00:00:00 olarak zamanlayın
-  '55': Özel Başarı
-Achievements: Başarılar
-admin_access_1: Oyuncu gecici olarak admin yetkisine sahip!
-admin_access_2: ', eger ihtiyacin kalmadiysa'
-admin_access_link: Yetkiyi sonlandir
+  '48': Ayları yok etmeye çalışırken 5 Ölüm Yıldızı kaybet. Eyvah.
+  '49': Bir kolonini kurulduktan kısa süre sonra yık.
+  '50': |-
+    Gravitasyon Araştırmasını yapmak için yeterli enerjisi olan bir gezegende, Gravitasyon Araştırmasını yapmadan
+    tüm solar uydularını kaybet.
+  '51': Galaksi görünümünde gezinirken tüm deuteriumunu harca.
+  '52': Önce başka savaş gemisi (Hafif Avcı, Ağır Avcı, Kruvazör, Komuta Gemisi, Bombardıman Gemisi, Muhrip ya da Fırkateyn) inşa etmeden bir Ölüm Yıldızı inşa et.
+  '53': Aynı anda 5 araştırmada en yüksek seviyede ol.
+  '54': Aktif bir oyuncuya yapılan saldırıyı 01.01. 00:00:00'da varacak şekilde zamanla.
+  '55': Özel Başarım
+Achievements: Başarımlar
+admin_access_1: Geçici yönetici yetkilerin var.
+admin_access_2: ' Gerekmiyorsa hemen kapat.'
+admin_access_link: YETKİLERİ KAPAT
 Advanced_Stats:
-  destroy_moon_rips_lost: Kayıp Ölüm Yıldızları uyduları yok etmeye çalışıyor
-  desunits: Birim imhasına karıştı
-  desunits_real: Düşman birimleri yok edildi
-  dishonorable_fights: Onursuz dövüşler
+  destroy_moon_rips_lost: Ay yok etmeye çalışırken kaybedilen Ölüm Yıldızları
+  desunits: Birim imhasına karışan
+  desunits_real: Yok edilen düşman birimleri
+  dishonorable_fights: Onursuz savaşlar
   draws: Berabere
-  expo_aliens_large: Büyük Uzaylılar
-  expo_aliens_medium: Orta Boy Uzaylılar
-  expo_aliens_small: Küçük Uzaylılar
-  expo_black_hole: Kara Delikler
-  expo_count: Keşif Gezileri
-  expo_fast: Hızlı Seferler
-  expo_first: 'Keşif gezisinde bulundu:'
-  expo_found: 'Keşif gezisi şunları bulur:'
-  expo_lost: 'Sefer kayıpları:'
-  expo_nothing: Bulgu bulunmayan keşifler
-  expo_pirates_large: Büyük Korsanlar
-  expo_pirates_medium: Orta Boy Korsanlar
-  expo_pirates_small: Küçük Korsanlar
-  expo_res_large: Büyük Kaynak Bulguları
-  expo_res_medium: Orta Ölçekli Kaynak Bulguları
-  expo_res_small: Küçük Kaynak Bulguları
-  expo_ships_large: Büyük Gemi Buluntuları
-  expo_ships_medium: Orta Boy Gemi Buluntuları
-  expo_ships_small: Küçük Gemi Buluntuları
-  expo_slow: Yavaş Keşifler
-  first: 'Birinci seviye/parça:'
+  expo_aliens_large: Büyük uzaylılar
+  expo_aliens_medium: Orta boy uzaylılar
+  expo_aliens_small: Küçük uzaylılar
+  expo_black_hole: Kara delikler
+  expo_count: Keşifler
+  expo_fast: Hızlı keşifler
+  expo_first: 'Keşifte bulundu:'
+  expo_found: 'Keşifte bulunanlar:'
+  expo_lost: 'Keşif kayıpları:'
+  expo_nothing: Eli boş dönen keşifler
+  expo_pirates_large: Büyük korsanlar
+  expo_pirates_medium: Orta boy korsanlar
+  expo_pirates_small: Küçük korsanlar
+  expo_res_large: Büyük kaynak bulguları
+  expo_res_medium: Orta kaynak bulguları
+  expo_res_small: Küçük kaynak bulguları
+  expo_ships_large: Büyük gemi bulguları
+  expo_ships_medium: Orta gemi bulguları
+  expo_ships_small: Küçük gemi bulguları
+  expo_slow: Yavaş keşifler
+  first: 'İlk seviye/parça:'
   first_attack: İlk saldırı
   first_attack_win: İlk başarılı saldırı
-  first_big_attack_win: İlk büyük saldırı zaferi (1kk birim yok edildi)
-  first_big_defense_win: İlk büyük savunma zaferi (1kk birimleri yok edildi)
+  first_big_attack_win: İlk büyük saldırı zaferi (1 milyon birim yok edildi)
+  first_big_defense_win: İlk büyük savunma zaferi (1 milyon birim yok edildi)
   first_colony: İlk koloni
   first_defense: İlk savunma
   first_defense_win: İlk başarılı savunma
   first_espionage: İlk casusluk görevi
-  first_expedition: İlk sefer
+  first_expedition: İlk keşif
   first_expo_aliens_large: İlk büyük uzaylı karşılaşması
   first_expo_aliens_medium: İlk orta boy uzaylı karşılaşması
   first_expo_aliens_small: İlk küçük uzaylı karşılaşması
-  first_expo_black_hole: Karşılaşılan ilk kara delik
-  first_expo_fast: İlk hızlı sefer
-  first_expo_nothing: Hiçbir bulguya rastlanmayan ilk keşif gezisi
+  first_expo_black_hole: İlk kara delik karşılaşması
+  first_expo_fast: İlk hızlı keşif
+  first_expo_nothing: Eli boş dönen ilk keşif
   first_expo_pirates_large: İlk büyük korsan karşılaşması
   first_expo_pirates_medium: İlk orta boy korsan karşılaşması
   first_expo_pirates_small: İlk küçük korsan karşılaşması
-  first_expo_res_large: İlk büyük kaynak keşfi
-  first_expo_res_medium: İlk orta düzey kaynak bulma
-  first_expo_res_small: İlk küçük kaynak keşfi
-  first_expo_ships_large: İlk büyük gemi keşfi
-  first_expo_ships_medium: İlk orta boy gemi keşfi
-  first_expo_ships_small: İlk küçük gemi keşfi
-  first_expo_slow: İlk yavaş sefer
+  first_expo_res_large: İlk büyük kaynak bulgusu
+  first_expo_res_medium: İlk orta kaynak bulgusu
+  first_expo_res_small: İlk küçük kaynak bulgusu
+  first_expo_ships_large: İlk büyük gemi bulgusu
+  first_expo_ships_medium: İlk orta gemi bulgusu
+  first_expo_ships_small: İlk küçük gemi bulgusu
+  first_expo_slow: İlk yavaş keşif
   first_moon: İlk ay
-  first_moon_trys: İlk Ay'ı deniyor
-  first_recycling: İlk geri dönüşümcü görevi
-  first_vacation: Tatil modunun ilk kez etkinleştirilmesi
-  galaxy_scroll_spending: Galaksi görünümünde kaydırma yapmak için harcanan toplam döteryum
-  honorable_fights: Onurlu Dövüşler
+  first_moon_trys: İlk ay için denemeler
+  first_recycling: İlk geri dönüştürme görevi
+  first_vacation: İlk tatil modu
+  galaxy_scroll_spending: Galaksi görünümünde gezinirken harcanan toplam deuterium
+  honorable_fights: Onurlu savaşlar
   honorpoints: Onur puanları
-  kbcrystal: Kristal enkazına dahil
-  kbcrystal_real: Kristal kalıntıları oluşturuldu
-  kbmetal: Metal döküntülerine karışan
-  kbmetal_real: Metal döküntüleri oluşturuldu
-  loos: Kaybedilenler
-  lostunits: Birim kayıplarına karıştı
-  lostunits_real: Kendi birim kayıpları
-  moons_created: Aylar yaratıldı
-  moons_deleted: Aylar terk edildi
-  moons_destroyed: Aylar yok edildi
-  moons_lost: Aylar kayboldu
-  moons_received: Aylar alındı
-  outlaw_activations: Kanunsuz aktivasyonlar
+  kbcrystal: Kristal enkazına karışan
+  kbcrystal_real: Yaratılan kristal enkazı
+  kbmetal: Metal enkazına karışan
+  kbmetal_real: Yaratılan metal enkazı
+  loos: Kaybedilen
+  lostunits: Birim kaybına karışan
+  lostunits_real: Kendi birim kayıpların
+  moons_created: Oluşan aylar
+  moons_deleted: Terk edilen aylar
+  moons_destroyed: Yok edilen aylar
+  moons_lost: Kaybedilen aylar
+  moons_received: Devralınan aylar
+  outlaw_activations: Kanun kaçağı etkinleştirmeleri
   planets_created: Kolonileştirilen gezegenler
-  planets_deleted: Terk edilmiş gezegenler
-  raided_crystal: Yağmalanan kristaller
-  raided_deuterium: Yağmalanmış döteryum
-  raided_metal: Yağmalanmış metal
-  recycled_crystal: Geri dönüştürülmüş kristaller
-  recycled_metal: Geri dönüştürülmüş metal
-  set_sail_wins: SetSails Teması etkinken savaşları kazandı
-  stolen_crystal: Çalınan kristaller
-  stolen_deuterium: Çalınan döteryum
-  stolen_metal: Çalıntı metal
+  planets_deleted: Terk edilen gezegenler
+  raided_crystal: Yağmalanan kristal
+  raided_deuterium: Yağmalanan deuterium
+  raided_metal: Yağmalanan metal
+  recycled_crystal: Geri dönüştürülen kristal
+  recycled_metal: Geri dönüştürülen metal
+  set_sail_wins: SetSail teması açıkken kazanılan savaşlar
+  stolen_crystal: Çalınan kristal
+  stolen_deuterium: Çalınan deuterium
+  stolen_metal: Çalınan metal
   used_fuel: Tüketilen yakıt
-  wons: Kazanilanlar
-advancedStats: Gelişmiş İstatistikler
-al_acept_request: Kabul Et
-al_actions: Eylemler
-al_all_players: Tum Oyuncular
-al_alliance: ittifak
-al_alliance_closed: Ittifak daha fazla uye kabul etmiyor
-al_alliance_full: İttifak maksimum üye sayısına ulaştı.
-al_alliance_make: Yeni Ittifak Olustur
-al_alliance_min_points: 'Bu İttifaka başvurmak için minimum puana sahip değilsiniz: %d'
-al_alliance_search: Ittifak Ara
-al_ally_info_members: Uyeler
-al_ally_info_name: Isim
+  wons: Kazanılan
+advancedStats: Gelişmiş istatistikler
+al_acept_request: Kabul et
+al_actions: İşlemler
+al_all_players: Tüm oyuncular
+al_alliance: İttifak
+al_alliance_closed: Bu ittifak yeni üye kabul etmiyor.
+al_alliance_full: Bu ittifak dolu. Başka birini dene.
+al_alliance_make: Kendi ittifakını kur
+al_alliance_min_points: Bu ittifaka başvurmak için en az %d puana ihtiyacın var.
+al_alliance_search: İttifak ara
+al_ally_info_members: Üyeler
+al_ally_info_name: Ad
 al_ally_info_tag: Tag
-al_ally_information: Ittifak bilgisi
-al_already_exists: Boyle bir ittifak %s zaten mevcut.
-al_apply_not_exists: Mevcut basvuru yok.
-al_applyform_reload: yenile
-al_applyform_send: Gonder
+al_ally_information: İttifak bilgisi
+al_already_exists: <b>%s</b> adında bir ittifak zaten var. Başka bir ad seç.
+al_apply_not_exists: Bu başvuru artık yok.
+al_applyform_reload: Yenile
+al_applyform_send: Gönder
 al_back: Geri
 al_candidate: Aday
-al_change_submit: Degistir
-al_change_title: Basligi Degistir
+al_change_submit: Değiştir
+al_change_title: Başlığı değiştir
 al_characters: karakter
-al_circular_alliance: 'Ittifak '
-al_circular_front_text: 'Oyuncu %s sirkuler mesaji gonderdi:'
-al_circular_message: Genel Mesaj
-al_circular_reset: Temizle
-al_circular_send_ciruclar: Sirkuler Mesaji Gonder
-al_circular_send_submit: Gonder
-al_circular_sended: 'Sirkuler mesaji gonderildi. Mesaji alan oyuncular:'
-al_click_to_send_request: Ittifaka basvuru icin tikla
-al_close_ally: Ittifagi dagitmak istediginizden eminmisiniz ?
-al_configura_ranks: Rutbeleri Ayarla
-al_continue: Devam Et
-al_coords: Koordinat
-al_create: Olustur
-al_create_new_rank: Yeni Rutbe Olustur
-al_created: Ittifak %s basariyla kuruldu
+al_circular_alliance: 'İttifak '
+al_circular_front_text: 'İttifak üyesi <b>%s</b> yazdı:'
+al_circular_message: İttifak mesajları
+al_circular_reset: Sıfırla
+al_circular_send_ciruclar: Toplu mesaj gönder
+al_circular_send_submit: Gönder
+al_circular_sended: 'Mesaj şu oyunculara gönderildi:'
+al_click_to_send_request: İttifaka katıl
+al_close_ally: İttifakı gerçekten dağıtmak istiyor musun?
+al_configura_ranks: Rütbeleri yönet
+al_continue: Devam
+al_coords: Koordinatlar
+al_create: Kur
+al_create_new_rank: Yeni rütbe oluştur
+al_created: <b>%s</b> ittifakı kuruldu!
 al_decline_request: Reddet
-al_default_leader_name: Lirder
-al_default_request_text: Basvuru icin mesaj giriniz.
-al_delete_request: Basvurumu Geri Cek
-al_delete_request_confirm: Başvurunuzu gerçekten geri çekmek istiyor musunuz?
-al_description_message: Henuz ittifak aciklamasi girilmemistir.
+al_default_leader_name: Lider
+al_default_request_text: Bu oyuncu mesaj bırakmadı.
+al_delete_request: Başvuruyu geri çek
+al_delete_request_confirm: Başvurunu geri çekmek istiyor musun?
+al_description_message: Bu ittifak henüz bir açıklama yazmamış.
 al_diplo: Diplomasi
-al_diplo_accept: Basvurular
-al_diplo_accept_no: Anlasma reddedildi.
-al_diplo_accept_no_confirm: Anlasmayi bozmak istediginize eminmisiniz?
-al_diplo_accept_no_mes: (%s) anlasmasinin bozuldugu ittifaklar  %s ve %s!
-al_diplo_accept_send: Gonderildi
-al_diplo_accept_yes: Anlasma imzalandi.
-al_diplo_accept_yes_confirm: Anlasmayi kabul etmek istediginize eminmisiniz?
-al_diplo_accept_yes_mes: ' (%s) Anlasmasini imzalayan ittifaklar %s ve %s!'
-al_diplo_ally: Muttefik
-al_diplo_ask: Anlasmayi sorgula
-al_diplo_ask_mes: ' (%s) <a href="?page=alliance&mode=admin&action=diplomacy">anlasmasi</a> %s ve %s arasinda uygulandi.<br>Sebepleri: %s'
-al_diplo_confirm_delete: Anlasmayi silmek istediginize eminmisiniz?
-al_diplo_create: Yeni anlasma olustur.
-al_diplo_create_done: Anlasma basariyla tamamlandi.
-al_diplo_delete: Anlasma silindi.
-al_diplo_delete_mes: ' (%s) antlasmasi  %s ve %s ittifaklari arasinda silindi!'
-al_diplo_exists: '"%s" ittifagina diplomatik basvuruda bulundunuz.!'
-al_diplo_ground: 'Sebepler:'
-al_diplo_head: Diplomasiyi Yonet
-al_diplo_info: '<p> Diger Bilgiler [TODO: FAQ]</p>'
+al_diplo_accept: Gelen istekler
+al_diplo_accept_no: Anlaşma reddedildi.
+al_diplo_accept_no_confirm: Bu anlaşmayı reddetmek istiyor musun?
+al_diplo_accept_no_mes: (%s) anlaşması <b>%s</b> ve <b>%s</b> ittifakları arasında reddedildi!
+al_diplo_accept_send: Giden istekler
+al_diplo_accept_yes: Anlaşma imzalandı.
+al_diplo_accept_yes_confirm: Bu anlaşmayı kabul etmek istiyor musun?
+al_diplo_accept_yes_mes: (%s) anlaşması <b>%s</b> ve <b>%s</b> ittifakları arasında imzalandı!
+al_diplo_ally: İttifak
+al_diplo_ask: Anlaşma isteği
+al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Anlaşma isteği]</a> (%s), <b>%s</b> ittifakından <b>%s</b> ittifakına gönderildi.<br>Gerekçe: %s'
+al_diplo_confirm_delete: Bu anlaşmayı sonlandırmak istiyor musun?
+al_diplo_create: Anlaşma iste
+al_diplo_create_done: Anlaşma isteği gönderildi.
+al_diplo_delete: Anlaşma sona erdi
+al_diplo_delete_mes: (%s) anlaşması <b>%s</b> ve <b>%s</b> ittifakları arasında sona erdi.
+al_diplo_exists: '%s ile zaten aktif ya da bekleyen bir anlaşman var.'
+al_diplo_ground: 'Gerekçe:'
+al_diplo_head: Diplomasi yönetimi
+al_diplo_info: '<p>Bu sayfada ittifakının diplomatik anlaşmalarını yönetebilirsin.</p><p>Anlaşma türleri aşağıda listelenmiştir. Daha fazla bilgi: <a href="game?page=questions">SSS</a> veya <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
   - Ana
   - Kanat
-  - Muttefik
-  - Ticaret Pakti
-  - Ateskes Anlasmasi
-  - Savas
-  - Gitli Muttefil
+  - İttifak
+  - Ticaret anlaşması
+  - Saldırmazlık anlaşması
+  - Savaş
+  - Gizli ittifak
   - Barış
-al_diplo_level_des: Anlasma Turu
-al_diplo_no_accept: '- Basvuru Yok -'
-al_diplo_no_alliance: '%s ile bir muttefiklik yok!'
-al_diplo_no_entry: '- Anlasma Yok -'
-al_diplo_same_alliance: Muttefiklerinle pact yapamazsin!
-al_diplo_text: Mesaj
-al_diplo_war: Savas Deklerasyonu
-al_diplo_war_end: Savaş sona erdi
+al_diplo_level_des: Anlaşma türleri
+al_diplo_no_accept: '- İstek yok -'
+al_diplo_no_alliance: '%s kimlikli bir ittifak bulunamadı.'
+al_diplo_no_entry: '- Anlaşma yok -'
+al_diplo_same_alliance: Kendi ittifakınla anlaşma yapamazsın!
+al_diplo_text: İstek / gerekçe
+al_diplo_war: Savaş ilanı
+al_diplo_war_end: Barış ilanı
 al_diplo_war_end_confirm: Gerçekten savaşı bitirmek istiyor musun?
-al_diplo_war_end_mes: >-
-  The %s from the alliance %s with the alliance %s has just been declared
-  terminated.
-al_diplo_war_mes: ' %s ittifagi ile %s ittifagi %s duyurdu.<br>Sebep:<br>%s<br><br>Bilgi: Savas 24 saat gecerli. . <br> Daha fazla bilgi icin <a href="./?page=rules" target="_blank">Kurallar</a>.'
-al_diplo_withdraw: Pakt talebi geri çekildi
-al_diplo_withdraw_confirm: Anlaşma talebini gerçekten geri çekmek istiyor musunuz?
-al_diplo_withdraw_mes: The pact request (%s) between the %s and %s alliances was withdrawn
-al_disolve_alliance: Ittifagi Dagit
+al_diplo_war_end_mes: <b>%s</b> ve <b>%s</b> ittifakları arasındaki %s az önce sona erdi.
+al_diplo_war_mes: '<b>%1$s</b> ittifakı <b>%2$s</b> ittifakına %3$s ilan etti! <br>Gerekçe:<br>%4$s<br><br>Bilgi: Savaş <b>24 saat</b> sonra başlar; o andan itibaren Bash kuralı askıya alınır.<br>Daha fazla bilgi için <a href="./?page=rules" target="_blank">Kurallar</a> sayfasına bak.'
+al_diplo_withdraw: Anlaşma isteği geri çekildi.
+al_diplo_withdraw_confirm: Bu anlaşma isteğini geri çekmek istiyor musun?
+al_diplo_withdraw_mes: (%s) anlaşma isteği <b>%s</b> ve <b>%s</b> ittifakları arasında geri çekildi.
+al_disolve_alliance: İttifakı dağıt
 al_dlte: Sil
-al_do_you_really_want_to_go_out: '%s ittifakini terk etmek istediginize eminmisiniz?'
+al_do_you_really_want_to_go_out: '%s ittifakından gerçekten ayrılmak istiyor musun?'
 al_estate: Online
-al_events: olaylar
-al_find_alliances: ittifak ara
-al_find_no_alliances: ittifak bulunamadi!
-al_find_submit: ara
-al_find_text: ara
-al_founder_cant_leave_alliance: Ittifak kurucusu ittifaktan ayrilamaz.
+al_events: Olaylar
+al_find_alliances: İttifak bul
+al_find_no_alliances: İttifak bulunamadı. Başka bir arama dene.
+al_find_submit: Ara
+al_find_text: Aranan
+al_founder_cant_leave_alliance: Kurucu ittifaktan öylece ayrılamaz.
 al_founder_rank_text: Kurucu
-al_go_out_no: Hayir
+al_go_out_no: Hayır
 al_go_out_yes: Evet
-al_has_accepted: '</b> ittifagi basvurunuzu kabul etti.<br>Hosgeldin mesajlari: <br>'
-al_has_declined: '</b> ittifagina basvurun reddedildi. <br>Reddedilme Mesaji :  <br>'
-al_hi_the_alliance: Merhaba !<br>  <b>
-al_inside_section: Ozel Alan
-al_inside_text: Ittifak ici metin
-al_invalid_rank_name: Boyle bir rutbe kaydi yok!
-al_kick_player: '%s adli kullaniciyi ittifaktan atmak istediginize eminmisiniz?'
-al_leave_alliance: Ittifagi Terket
-al_leave_ally: Muttefigi terketmek istediginize eminmisiniz?
-al_leave_sucess: '%s ittifakini basari ile terkettiniz .'
+al_has_accepted: '</b> başvurunu kabul etti!<br>Mesaj: <br>'
+al_has_declined: '</b> başvurunu reddetti!<br>Mesaj: <br>'
+al_hi_the_alliance: <b>
+al_inside_section: Yalnızca üyeler
+al_inside_text: Özel açıklama
+al_invalid_rank_name: Rütbe adları yalnızca harf, rakam, boşluk, alt çizgi, tire ve nokta içerebilir.
+al_kick_player: '%s ittifaktan atılsın mı?'
+al_leave_alliance: İttifaktan ayrıl
+al_leave_ally: İttifaktan ayrılmak istiyor musun?
+al_leave_sucess: <b>%s</b> ittifakından ayrıldın.
 al_leaving: Bir oyuncu ittifaktan ayrıldı
-al_leaving_msg: >-
-  Oyuncu <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
-  ittifaktan ayrıldı.
-al_legend: Rutbe aciklamasi
-al_legend_admin_alliance: Ittifagi Yonet
-al_legend_check_requests: Basvuruyu Degerlendir
-al_legend_create_circular: Sirkuler mesaj yaz
-al_legend_disolve_alliance: Ittifagi Dagit
-al_legend_kick_users: Uye Cikar
-al_legend_right_hand: '"Sag Kol" (ittifagi devretmek icin gerekli)'
-al_legend_see_connected_users: Online Uye Listesi
-al_legend_see_requests: Basvurulari Goster
-al_legend_see_users_list: Uye Listesini Goster
-al_make_alliance: Ittifak Kur
-al_make_ally_insufficient_points: Ittifak kurmak icin yeterli puana sahip degilsiniz!<br>En az %s puana ihtiyaciniz var, %s puaniniz eksik.
-al_make_ally_name_required: Ittifak Ismi (3-30 karakter)
-al_make_ally_tag_required: Ittifak Tagi (3-8 karakter)
-al_make_submit: Devam
-al_manage_alliance: Ittifagi Yonet
-al_manage_change_name: Ittifak adini degistir
-al_manage_change_tag: Ittifak Tagini degistir
-al_manage_diplo: Diplomasu
-al_manage_founder_rank: Kurucu Ismi
-al_manage_image: Ittifak Logosu
-al_manage_members: Uyeleri Yonet
-al_manage_options: Secenekler
-al_manage_ranks: Rutbeleri ayarla
-al_manage_request_min_points: Basvuru icin gereken asgari puan
-al_manage_requests: Basvurular
-al_member: Isim
-al_member_since: Uyelik Tarihi
-al_memberlist_min: dak.
+al_leaving_msg: <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> adlı oyuncu ittifaktan ayrıldı!
+al_legend: Açıklama
+al_legend_admin_alliance: İttifakı yönet
+al_legend_check_requests: Başvuruları değerlendir
+al_legend_create_circular: Toplu mesaj gönder
+al_legend_disolve_alliance: İttifakı dağıt
+al_legend_kick_users: Üyeleri çıkar
+al_legend_right_hand: Sağ kol
+al_legend_see_connected_users: Çevrim içi durumunu gör
+al_legend_see_requests: Başvuruları gör
+al_legend_see_users_list: Üye listesini gör
+al_make_alliance: İttifak kur
+al_make_ally_insufficient_points: İttifak kurmak için yeterli puanın yok.<br>En az %s puan gerekiyor, %s puanın eksik.
+al_make_ally_name_required: İttifak adı (3-30 karakter)
+al_make_ally_tag_required: İttifak etiketi (3-8 karakter)
+al_make_submit: Kur
+al_manage_alliance: İttifakı yönet
+al_manage_change_name: İttifak adını değiştir
+al_manage_change_tag: İttifak etiketini değiştir
+al_manage_diplo: Diplomasi
+al_manage_founder_rank: Lider rütbesi
+al_manage_image: Afiş görseli
+al_manage_members: Üyeleri yönet
+al_manage_options: Seçenekler
+al_manage_ranks: Rütbeler
+al_manage_request_min_points: En az puan
+al_manage_requests: Başvurular
+al_member: Ad
+al_member_since: Katılma tarihi
+al_memberlist_min: dk
 al_memberlist_off: Offline
 al_memberlist_on: Online
 al_message: Mesaj
-al_name: Ittifak ismini degistir
-al_name_required: Ittifak ismini girmelisiniz.
-al_new_apply: >-
-  Birliğiniz şu şirketlerden yeni bir <a
-  href="?page=alliance&mode=admin&action=manageApply">başvuru</a> aldı - <a
-  href="#" data-action="dialog-playercard" data-id="%s" data-name="%s">%s</a>
-al_new_member_rank_text: Yeni Uye
-al_new_name: Yeni Isim (3-30 karakter)
-al_new_requests: '%d Yeni Basvuru'
-al_new_tag: Yeni Tag (3-8 karakter)
-al_newname_specialchar: Ittifak ismi ve tag alfanumerik karakterlerden olusmalidir!
+al_name: İttifak adını değiştir
+al_name_required: Lütfen bir ittifak adı gir.
+al_new_apply: İttifakına <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> adlı oyuncudan <a href="?page=alliance&mode=admin&action=manageApply">[bir başvuru]</a> geldi.
+al_new_member_rank_text: Yeni üye
+al_new_name: Adı değiştir (3-30 karakter)
+al_new_requests: '%d bekliyor'
+al_new_tag: Etiketi değiştir (3-8 karakter)
+al_newname_specialchar: İttifak adları ve etiketleri yalnızca harf, rakam, boşluk, alt çizgi, tire ve nokta içerebilir.
 al_no_diplo: '-'
-al_no_events: Mevcut olay yok
-al_no_ranks_defined: Mevkiler Henuz Belirlenmedi.
-al_no_request_pending: Mevcut %n uygulama beklemede
-al_no_requests: Basvuru yok
-al_not_exists: Ittifak Dagildi
+al_no_events: Henüz hiçbir şey olmadı.
+al_no_ranks_defined: Henüz rütbe yok. İlkini oluştur!
+al_no_request_pending: Toplam %d başvuru var
+al_no_requests: Şu an başvuru yok.
+al_not_exists: Böyle bir ittifak yok.
 al_num: ID
 al_ok: OK
-al_outside_text: Herkese acik metin
+al_outside_text: Herkese açık açıklama
 al_points: Puan
-al_position: Pozisyon
-al_rank: Rutben
+al_position: Rütbe
+al_rank: Rütben
 al_rank_desc:
-  ADMIN: Ittifagi yonetebilir
-  DIPLOMATIC: Diplamasiyi yonetebilir
-  EVENTS: Olaylari gorebilir
-  KICK: Uye cikarablir
-  MANAGEAPPLY: Basvurulari degerlendirebilir
-  MANAGEUSERS: Uyeleri yonetebilir
-  MEMBERLIST: Uye listesini gorebilir
-  ONLINESTATE: Online Uyeleri gorebilir
-  RANKS: Rutbeleri ayarlayabilir
-  ROUNDMAIL: Genel mesaj gonderebilir
-  SEEAPPLY: Basvurulari gorebilir
-  TRANSFER: Lider olabilir
+  ADMIN: İttifakı yönetebilir
+  DIPLOMATIC: Diplomasiyi yönetebilir
+  EVENTS: Olayları görebilir
+  KICK: Üyeleri atabilir
+  MANAGEAPPLY: Başvuruları yönetebilir
+  MANAGEUSERS: Üyeleri yönetebilir
+  MEMBERLIST: Üye listesini görebilir
+  ONLINESTATE: Kimin çevrim içi olduğunu görebilir
+  RANKS: Rütbeleri yönetebilir
+  ROUNDMAIL: Toplu mesaj gönderebilir
+  SEEAPPLY: Başvuruları görebilir
+  TRANSFER: İttifak lideri olabilir
 al_rank_diplo: Diplomat
-al_rank_name: Isim
-al_receiver: Alicilar
-al_reply_to_request: Basvuruya cevap ver
-al_request: Basvuru
-al_request_confirmation_message: >-
-  Başvuru gönderildi. Kabul edildiğinde veya reddedildiğinde bir mesaj
-  alacaksınız.
-al_request_date: Basvuru Tarihi
-al_request_deleted: >-
-  %s ittifagindaki basvurun silindi. Simdi yeniden basvurabilir ya da kendin bir
-  ittifak kurabilirsin
-al_request_from: '%s ittifaga basvuru talebi '
-al_request_from_user: Oyuncudan Basvuru
-al_request_last_onlinetime: Son online zamani
-al_request_list: Basvuru Listesi
-al_request_register_time: Kayit Tarihi
-al_request_text: Basvuru metni
-al_request_wait_message: >-
-  %s ittifagina zaten basvurdun. Lutfen ya bir cevap alincaya kadar bekle ya da
-  basvurunu geri cek.
-al_requests: Gereken
-al_requests_allowed: Mumkun (Ittifak Acik)
+al_rank_name: Ad
+al_receiver: Alıcı
+al_reply_to_request: Yanıtla
+al_request: Başvuru
+al_request_confirmation_message: Başvuru gönderildi!<br> Kabul edilir ya da reddedilirse mesaj alacaksın.
+al_request_date: Başvuru tarihi
+al_request_deleted: <b>%s</b> ittifakına yaptığın başvuru geri çekildi.<br> Şimdi yeni bir başvuru yapabilir ya da kendi ittifakını kurabilirsin.
+al_request_from: <b>%s</b> için başvuru
+al_request_from_user: Oyuncudan başvuru
+al_request_last_onlinetime: Son aktiflik
+al_request_list: Başvuru listesi
+al_request_register_time: Kayıt tarihi
+al_request_text: Başvuru formu
+al_request_wait_message: <b>%s</b> ittifakına yaptığın başvuru hâlâ bekliyor.<br> Yanıt gelmesini bekle ya da başvurunu geri çekip başka yere başvur.
+al_requests: Başvurular
+al_requests_allowed: Açık
 al_requests_min_points: ' %s puan'
-al_requests_not_allowed: Mumkun Degil (Ittifak Kapali)
+al_requests_not_allowed: Kapalı
 al_save: Kaydet
 al_saved: Kaydedildi!
-al_send_circular_message: Sirkuler Mesaji Gonder
-al_set_max_members: Maksimum uye sayisini ayarla
-al_tag: Ittifak tagini degistir
-al_tag_required: Ittifak tagini girmelisiniz.
-al_texts: Secenekler
-al_tfkristall: Geri Donusumlu Kristal
-al_tfmetall: Geri Donusumlu Metal
-al_the_alliance: ittifak
-al_transfer_alliance: Bu ittifaktan ayril/devret?
-al_transfer_submit: Gonder
-al_transfer_to: 'Yetkileri devir et:'
-al_unitsloos: Unite Kaybedildi
-al_unitsshut: Unite Yokedildi
-al_user_list: Uye Listesi
-al_users_list: 'Uye listesi (uye: %d)'
-al_users_list_main: 'Ana-Uye listesi (uye: %d) - %s'
-al_users_list_wing: 'Kanat-Uye listesi (uye: %d) - %s'
-al_view_diplo: Diplomasi herkese acik?
-al_view_events: Olaylari Goruntule
-al_view_stats: Savas istatistikleri herkese acik?
-al_web_site: Anasayfa
-al_web_text: Ittifak Sayfasi
-al_write_request: '%s ittifagina basvuru talebi'
-al_you_was_acceted: 'Basvurun kabul edildi:  '
-al_you_was_declined: 'Basvuruyu Reddeden Ittifak : '
-al_your_ally: Bagli bulundugun ittifak
-al_your_request_title: Basvuru Basligi
-bad_forum_url: Forumda boyle bir link yok!
-banned_message: >-
-  Engellendiniz. <!--discord_url-->Bir yanlış anlaşılma olduğunu düşünüyorsanız Discord'dan bize
-  yazın: <a
-  href="{discord_url}">{discord_url}</a><!--/discord_url-->
-bd_actual_production: 'Mevcut Uretim:'
-bd_add_to_list: Insa listesine ekle
-bd_available: 'Uygun: '
-bd_build: Binayi Insa Et
-bd_build_defenses: Uretim Emri Ver
-bd_build_next_level: 'Kademe Yukselt '
-bd_build_ships: Uretim Emri Ver
-bd_building_lab: Labaratuarda Su anda Calisma Var
-bd_building_shipyard: Tersane yada Nanit fabrikasinda calisma var
-bd_buildlist_full: İnşaat listesi dolu
-bd_cancel: Iptal Et
-bd_cancel_send: Iptal Et
-bd_cancel_warning: DIKKAT! <br> İptal edilen üretimin %60 ı geri iade edilir!.
-bd_completed: Tamamlandi
-bd_continue: Devam Et
-bd_deploy: Dağıtım
-bd_deployable: 'Onarım tamamlandı! Otomatik dağıtım başladı:'
-bd_destroy_time: Yikim Suresi
-bd_dismantle: Yikmak
+al_send_circular_message: Toplu mesaj gönder
+al_set_max_members: En fazla üye
+al_tag: İttifak etiketini değiştir
+al_tag_required: Lütfen bir ittifak etiketi gir.
+al_texts: Metinler
+al_tfkristall: Toplam enkaz alanı kristali
+al_tfmetall: Toplam enkaz alanı metali
+al_the_alliance: İttifak
+al_transfer_alliance: İttifakı devret
+al_transfer_submit: Devret
+al_transfer_to: 'Devret:'
+al_unitsloos: Kaybedilen birim
+al_unitsshut: Vurulan birim
+al_user_list: Üye listesi
+al_users_list: 'Üyeler (toplam: %d)'
+al_users_list_main: 'Ana üyeler (toplam: %d) - %s'
+al_users_list_wing: 'Kanat üyeleri (toplam: %d) - %s'
+al_view_diplo: Diplomasiyi göster
+al_view_events: Olayları göster
+al_view_stats: Savaş istatistiklerini göster
+al_web_site: Ana sayfa
+al_web_text: İttifak web sitesi
+al_write_request: <b>%s</b> ittifakına başvur
+al_you_was_acceted: 'Şuraya kabul edildin: '
+al_you_was_declined: 'Şuradan reddedildin: '
+al_your_ally: İttifakın
+al_your_request_title: Başvurun
+bad_forum_url: Forum bağlantısı geçersiz.
+banned_message: 'Banlandın. <!--discord_url-->Bunun bir hata olduğunu düşünüyorsan Discord''dan bize yaz: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
+bd_actual_production: 'Güncel üretim:'
+bd_add_to_list: İnşa kuyruğuna ekle
+bd_available: 'Mevcut: '
+bd_build: İnşa et
+bd_build_defenses: İnşa et
+bd_build_next_level: 'Yükselt '
+bd_build_ships: İnşa et
+bd_building_lab: Araştırma laboratuvarı yükseltilirken araştırma yapılamaz.
+bd_building_shipyard: Tersane (veya Nanit Fabrikası) yükseltilirken gemi ya da savunma inşa edilemez.
+bd_buildlist_full: İnşa kuyruğu dolu.
+bd_cancel: İptal
+bd_cancel_send: İnşaatı iptal et
+bd_cancel_warning: Dikkat!<br>İptal edersen maliyetin yalnızca %60'ı iade edilir.
+bd_completed: Bitti
+bd_continue: Devam
+bd_deploy: Konuşlandır
+bd_deployable: 'Onarım tamamlandı! Otomatik konuşlandırma:'
+bd_destroy_time: Süre
+bd_dismantle: Yık
 bd_finished: Bitti
-bd_jump_gate_action: Sicra
-bd_lab_required: Ilk olarak bu gezegende bir bilimsel arastirma merkezi kurman gerekli !
-bd_lvl: Kademe
-bd_max_builds: Maksimum  %d binayi insaa listesine ekleyebilirsin!
-bd_max_lvl: 'Max. Kademe:'
+bd_jump_gate_action: Sıçra
+bd_lab_required: Önce bu gezegende bir araştırma laboratuvarı inşa et.
+bd_lvl: Seviye
+bd_max_builds: 'Kuyruğun dolu: en fazla %d emir verebilirsin.'
+bd_max_lvl: 'En yüksek seviye:'
 bd_max_ships: max
-bd_max_ships_long: Uretime verilebilecek azami miktar
-bd_max_ships_repair: Maksimum geri kazanılabilir birimler
-bd_maxlevel: Maksimum kademeye ulasildi
-bd_more_engine: Uretildi  <font class="colorPositive">%s</font> %s more
-bd_need_engine: Ihtiyacin olan <font class="colorNegative">%s</font>  %s
-bd_next_level: 'Sonraki kademe icin :'
-bd_no_lab: >-
-  Bu gezegende hiçbir laboratuvar inşa, sadece kuyruğu görebilirsiniz, ancak onu
-  değiştiremezsiniz.
-bd_no_more_fields: Bu Gezegende Bina Yapabilmeniz icin daha fazla alan yok
-bd_on: baglandi
-bd_operating: (Uretiliyor)
+bd_max_ships_long: İnşa edilebilecek en fazla birim
+bd_max_ships_repair: Kurtarılabilecek en fazla birim
+bd_maxlevel: En yüksek seviyeye ulaşıldı
+bd_more_engine: <font class="colorPositive">%s</font> daha fazla %s üretir
+bd_need_engine: <font class="colorNegative">%s</font> daha fazla %s tüketir
+bd_next_level: 'Sonraki seviye:'
+bd_no_lab: Bu gezegende araştırma laboratuvarı yok. Kuyruğu görebilirsin ama değiştiremezsin.
+bd_no_more_fields: Bu gezegende boş alan kalmadı.
+bd_on: üzerinde
+bd_operating: (İnşa ediliyor)
 bd_paused: duraklatıldı
-bd_price_for_destroy: 'Yoketmek icin gereken:'
-bd_protection_shield_only_one: Kalkan Kubbeleri sadece 1 kez uretilebilir!
+bd_price_for_destroy: 'Yıkma maliyeti:'
+bd_protection_shield_only_one: Yalnızca bir kalkan kubbesi kurabilirsin!
 bd_ready: Bitti
-bd_remaining: Hammadde eksikliği
+bd_remaining: Eksik kaynaklar
 bd_repair_rate: Onarım oranı
-bd_repair_ships: Onarım
-bd_repairdock_busy: Onarım iskelesi zaten bir iş üzerinde çalışıyor!
-bd_repairdock_deploy: Gemiler tekrar hizmete girdi!
-bd_repairdock_empty: Enkaz alanı yok!
-bd_repairdock_required: Önce bu gezegende bir onarım rıhtımı inşa etmelisiniz!
-bd_repairdock_time: Kalan enkaz alanı süresi
-bd_repairing: Onarım devam ediyor
-bd_requirements: Gereklilikler yerine getirilmedi
-bd_research: Arastirma
-bd_researclist_full: Araştırma listesi dolu
-bd_shipyard_required: 'Ilk olarak bu gezegende bir tersane kurman gerekli '
-bd_tech: Arastirma
-bd_tech_next_level: 'Kademe Yukselt '
-bd_working: Calisiyor
-bd_wreck_count: Enkaz alanındaki enkazlar
-blockDm: Blok O.M.
-blockTrade: Blok ticareti
-bn_by: Cezayi veren
+bd_repair_ships: Onar
+bd_repairdock_busy: Onarım rıhtımı başka bir işle meşgul.
+bd_repairdock_deploy: Onarım bitti. Gemiler yeniden hizmette!
+bd_repairdock_empty: Burada onarılacak hurda alanı yok.
+bd_repairdock_required: Önce bu gezegende bir onarım rıhtımı inşa et.
+bd_repairdock_time: Hurda alanının kalan süresi
+bd_repairing: Onarım sürüyor
+bd_requirements: Gereksinimler eksik
+bd_research: Araştırma
+bd_researclist_full: Araştırma kuyruğu dolu.
+bd_shipyard_required: Önce bir Tersane inşa et.
+bd_tech: Araştır
+bd_tech_next_level: 'Araştır '
+bd_working: Meşgul
+bd_wreck_count: Hurda alanındaki enkazlar
+blockDm: Özel mesajları engelle
+blockTrade: Ticareti engelle
+bn_by: Banlayan
 bn_exists: 'Toplam '
-bn_from: Baslangic
-bn_no_players_banned: Cezali oyuncu yok!
+bn_from: Başlangıç
+bn_no_players_banned: Şu an banlı kimse yok.
 bn_player: Oyuncu
-bn_players_banned: ' oyuncu(lar) cezali'
-bn_players_banned_list: Cezali oyuncularin listesi
-bn_reason: Ceza Sebebi
-bn_until: Bitis
-bn_writemail: Mail at %s
-bs_acs_slot: Savas Rapor-Slot
-bs_add_acs_slot: SAVAS RAPOR-Slot Ekle
-bs_atter: Saldiran
-bs_cancel: Sifirla
+bn_players_banned: ' oyuncu banlı'
+bn_players_banned_list: Banlı oyuncuların listesi
+bn_reason: Sebep
+bn_until: Bitiş
+bn_writemail: '%s adlı kişiye yaz'
+bs_acs_slot: İSS yuvası
+bs_add_acs_slot: İSS yuvası ekle
+bs_atter: Saldıran
+bs_cancel: Sıfırla
 bs_deffer: Savunan
-bs_derbis_raport: 'Harabe alanı dönüşümü için gereken: %s %s.'
-bs_load: Yük
-bs_load_invalid: Geçersiz dize
-bs_load_no_input: Hiçbir dize girilmedi
-bs_names: Gemi ismi
-bs_reset: Sifirla
-bs_send: Simulasyonu Baslat
-bs_share: Paylaşmak
+bs_derbis_raport: 'Enkaz alanını geri dönüştürmek için gereken: %s %s.'
+bs_load: Yükle
+bs_load_invalid: Geçersiz paylaşım kodu
+bs_load_no_input: Paylaşım kodu girilmedi
+bs_names: Gemi adı
+bs_reset: Sıfırla
+bs_send: Hesapla
+bs_share: Paylaş
 bs_share_copy_fail: Kopyalama başarısız oldu
-bs_share_copy_prompt: 'Lütfen paylaşım dizesini manuel olarak kopyalayın:'
-bs_share_error: Paylaşım dizesi oluşturulurken hata oluştu
-bs_share_success: Paylaşım dizesi panoya kopyalandı
-bs_steal: 'Savunanin Kaynaklari:'
-bs_steal_raport: 'Kaynakları almak için gereken: %s %s yada %s %s.'
+bs_share_copy_prompt: 'Lütfen paylaşım kodunu elle kopyala:'
+bs_share_error: Paylaşım kodu oluşturulamadı
+bs_share_success: Paylaşım kodu panoya kopyalandı
+bs_steal: 'Savunanın kaynakları:'
+bs_steal_raport: 'Kaynakları ele geçirmek için gereken: %s %s veya %s %s.'
 bs_techno: Teknoloji
-bs_wait: Bir sonraki simulasyon icin 5 saniye bekleyiniz
-bu_accept: Kabul
-bu_accepted_request_body: Merhaba %s,<br>%s arkadaslik basvurunu kabul etti!
-bu_accepted_request_title: Arkadaslik basvurusu kabulu
-bu_action: Durum
-bu_alliance: Ittifak
+bs_wait: Bir sonraki simülasyondan önce lütfen 5 saniye bekle
+bu_accept: Kabul et
+bu_accepted_request_body: Merhaba %s,<br>%s arkadaşlık isteğini kabul etti!
+bu_accepted_request_title: Arkadaşlık isteği kabul edildi!
+bu_action: İşlem
+bu_alliance: İttifak
 bu_back: Geri
-bu_buddy_list: Arkadas Listesi
-bu_cancel_request: Basvuru Iptali
-bu_cannot_request_yourself: Kendinize arkadaslik istegi gonderemezsiniz
-bu_characters: karakter
-bu_connected: Oyunda
-bu_coords: Koordinat
+bu_buddy_list: Arkadaş listesi
+bu_cancel_request: İsteği iptal et
+bu_cannot_request_yourself: Kendine arkadaşlık isteği gönderemezsin
+bu_characters: Karakter
+bu_connected: Çevrim içi
+bu_coords: Koordinatlar
 bu_decline: Reddet
 bu_delete: Sil
-bu_disconnected: Offline
-bu_minutes: ' dak'
-bu_my_requests: Basvurularim
-bu_new_request_body: Merhaba %s,<br>%s arkadaslik teklifi gonderdi!
-bu_new_request_title: Yeni arkadaslik basvurusu!
-bu_no_buddys: Arkadas listesi bos!
-bu_no_request: Mevcut Basvuru yok!
-bu_online: Online
-bu_partners: Arkadaslar
+bu_disconnected: Çevrim dışı
+bu_minutes: ' dk'
+bu_my_requests: İsteklerim
+bu_new_request_body: Merhaba %s,<br>%s seninle arkadaş olmak istiyor!
+bu_new_request_title: Yeni arkadaşlık isteği
+bu_no_buddys: Henüz arkadaşın yok. Bir oyuncunun profilinden istek gönder!
+bu_no_request: İstek yok.
+bu_online: Çevrim içi
+bu_partners: Ortaklar
 bu_player: Oyuncu
-bu_rejected_request_body: Merhaba %s,<br>%s arkadaslik basvurunu reddetti!
-bu_rejected_request_title: Arkadaslik Basvurusu Reddi!
-bu_request_exists: Bu oyuncu icin zaten basvurun mevcut!
-bu_request_message: Basvuru Mesaji
-bu_request_send: Basvuru gonderildi!
-bu_request_text: Basvuru Metni
-bu_requests: Basvurular
-bu_send: Gonder
-bu_text: Mesaj
-build: İnşa etmek
-cff_acs_fleet: Ittifak Filosu
-cff_aproaching: 'Filodaki Gemiler '
-cff_fleet_own: Filonuz
+bu_rejected_request_body: Merhaba %s,<br>%s arkadaşlık isteğini reddetti!
+bu_rejected_request_title: Arkadaşlık isteği reddedildi!
+bu_request_exists: Bu oyuncu için zaten bir arkadaşlık isteği var!
+bu_request_message: İstek mesajı
+bu_request_send: Arkadaşlık isteği gönderildi.
+bu_request_text: İstek mesajı
+bu_requests: İstekler
+bu_send: Gönder
+bu_text: Metin
+build: İnşa et
+cff_acs_fleet: İSS filosu
+cff_aproaching: 'Filo şunlardan oluşuyor: '
+cff_fleet_own: Filon
 cff_fleet_target: Filolar
-cff_mission_acs: 'A %s from %s %s %s reached the %s %s %s. Mission: %s'
-cff_mission_own_0: >-
-  Size ait <b> %s </b> %s %s %s koordinatindan kalkti ve %s %s %s
-  koordinatlarina yaklasiyor. Gorevi: %s
-cff_mission_own_1: >-
-  Size ait <b>%s</b>  %s %s %s koordinatinda islemlerini tamamladi ve  %s %s %s
-  koordinatlarina geri donuyor. Gorevi: %s
-cff_mission_own_2: 'One of your %s from %s %s %s are in orbit around %s %s %s. Mission: %s'
-cff_mission_own_expo_0: >-
-  Size ait %s  %s %s %s  koordinatindan evreninin bilinmeyen noktasina %s
-  yaklasiyorlar. Gorevi: %s
-cff_mission_own_expo_1: >-
-  Size ait %s evrenin bilinmeyen noktasindan %s,  %s %s %s koordinatina geri
-  donuyor. Gorevi: %s
-cff_mission_own_expo_2: 'Size ait %s from %s %s %s is on a Expedition to Position %s. Mission: %s'
-cff_mission_own_mip: >-
-  Roket Saldirisi (%d)adet roket %s %s %s koordinatlarin ateslendi.%s %s %s
-  koordinatina yaklasiyor..
-cff_mission_own_recy_0: >-
-  Size ait %s,  %s %s %s koordinatindan %s yorungesindeki harabeye yaklasiyor.
-  Gorevi: %s
-cff_mission_own_recy_1: >-
-  Size ait %s,  %s yorungesindeki harabe alanindan  %s %s %s koordinatlarina
-  geri donuyor. Gorevi: %s
-cff_mission_target_bad: >-
-  Dusman %s, %s tarafindan %s %s %s koordinatindan %s %s %s koordinatina
-  yaklasiyor. Gorevi: %s
-cff_mission_target_good: >-
-  Dost %s,  %s tarafindan  %s %s %s koordinatindan %s %s %s koordinatina
-  yaklasiyor. Gorevi: %s
-cff_mission_target_mip: >-
-  Roket Saldirisi : (%d) adet roket  %s tarafindan %s %s %s koordinatlarindan
-  ateslendi. Su an  on sizin %s %s %s koordinatlarina yaklasiyor..
-cff_mission_target_stay: >-
-  Dost %s, %s tarafindan %s %s %s koordinatindan kalkti. Su an %s %s %s
-  yorungesinde bulunmaktalar. Gorevi: %s
-cff_no_fleet_data: Filo Bilgisi Yok
-cff_ships: ' unite'
-colonyWarn: Bir sistemde 2'den fazla gezegeni kolonileştirirken uyarı
-cr_armor: Zirk
-cr_destroyed: Yokedildi!
-cr_first_round: (Filo ilk ateste vuruldu)
-cr_lost_contact: Filonuz ile irtibat kesildi.
+cff_mission_acs: '%s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_own_0: 'Sana ait %s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_own_1: 'Sana ait %s, %s %s %s konumundan %s %s %s konumuna dönüyor. Görev: %s'
+cff_mission_own_2: 'Sana ait %s, %s %s %s konumundan çıkıp %s %s %s yörüngesinde bekliyor. Görev: %s'
+cff_mission_own_expo_0: 'Sana ait %s, %s %s %s konumundan çıkıp %s konumuna ulaştı. Görev: %s'
+cff_mission_own_expo_1: 'Sana ait %s, %s konumundan %s %s %s konumuna dönüyor. Görev: %s'
+cff_mission_own_expo_2: 'Sana ait %s, %s %s %s konumundan çıkıp %s konumunda keşifte. Görev: %s'
+cff_mission_own_mip: '%d roketlik saldırı: %s %s %s konumundan %s %s %s konumuna.'
+cff_mission_own_recy_0: 'Sana ait %s, %s %s %s konumundan çıkıp %s konumundaki enkaz alanına ulaştı. Görev: %s'
+cff_mission_own_recy_1: 'Sana ait %s, %s konumundaki enkaz alanından %s %s %s gezegenine dönüyor. Görev: %s'
+cff_mission_target_bad: '%s oyuncusuna ait düşman %s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_target_good: '%s oyuncusuna ait dost %s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_target_mip: 'Roket saldırısı (%d): %s oyuncusunun %s %s %s konumundan %s %s %s konumuna.'
+cff_mission_target_stay: '%s oyuncusuna ait dost %s, %s %s %s konumundan çıkıp %s %s %s yörüngesinde bekliyor. Görev: %s'
+cff_no_fleet_data: Filo verisi yok
+cff_ships: ' birim'
+colonyWarn: Bir sistemde 2'den fazla gezegen kolonileştirmeden önce uyar
+cr_armor: Zırh
+cr_destroyed: Yok edildi!
+cr_first_round: (Filo 1. turda yok edildi)
+cr_lost_contact: Filonla bağlantı kesildi.
 cr_shields: Kalkanlar
 cr_total: Toplam
-cr_type: Tur
+cr_type: Tür
 cr_weapons: Silahlar
 css_account_banned_expire: >-
   You are banned until %1$s!<br>In case of questions, please <a style="color: -webkit-link;" href="%2$s">contact us (link)</a>.
-css_account_banned_message: Hesabiniz banlandi!
+css_account_banned_message: Hesabın banlandı.
 css_account_banned_reason: 'Reason: %s'
-css_goto_homeside: <a href="./">Ana Sayfaya Git</a>
-css_server_maintrace: 'Sunucuda bakim var <br><br>Evren su an kapali.<br><br>Até: %s'
+css_goto_homeside: <a href="./">Ana sayfaya git</a>
+css_server_maintrace: 'Sunucu bakımda<br><br>Oyun şu an kapalı.<br><br>Sebep: %s'
 custom_fleet: Özel filolar
 custom_fleet_confirm: Filo şablonu %s kaldırılsın mı?
-delete_confirm_gala: Yerel evren verileri silinsin mi?
+delete_confirm_gala: Yerel olarak kaydedilen galaksi verileri silinsin mi?
 Description: Açıklama
 destroyed: Yok edildi
-dishonorable_fights: Onursuz dövüşler
+dishonorable_fights: Onursuz savaşlar
 donate: Bağışla
-expedition: Keşif Gezisi
-fa_action_not_allowed: Malesef izin verilmeyen bir girisimde bulunuyorsunuz
-fa_galaxy_not_exist: Hata, galaksi mevcut degil
-fa_mission_not_available: Hata, gorev uygun degil
-fa_no_fleetroom: Hata, yeterli filo yakiti yok
-fa_no_more_slots: Hata, yeterli filo kotaniz yok
-fa_no_recyclers: Efendim, gezegende hic geri donusum yok
-fa_no_spios: Hata, casus sondaniz yok
-fa_not_attack_yourself: Kendine saldirmak? Iyimisiniz efendim
-fa_not_enough_fuel: Hata, yeterli yakit yok
-fa_not_enough_probes: Efendim gezegende geri donusumcunuz yok!
-fa_not_spy_yourself: Hata, kendine casus sondasi gondermene ne gerek var!
-fa_planet_not_exist: Hata, gezegen mevcut degil
-fa_sending: Gonder
-fa_strong_player: Agir abi bu, bulasmaya gelmez. Biraz gelis sonra gel
-fa_system_not_exist: Hata, sistem mevcut degil
+expedition: Keşif
+fa_action_not_allowed: Bu işleme izin verilmiyor
+fa_galaxy_not_exist: Böyle bir galaksi yok
+fa_mission_not_available: Görev kullanılamıyor
+fa_no_fleetroom: Yakıt için yeterli kargo alanı yok
+fa_no_more_slots: Boş filo yuvası yok
+fa_no_recyclers: Kullanılabilir Geri Dönüşümcü yok
+fa_no_spios: Kullanılabilir sonda yok
+fa_not_attack_yourself: Kendine saldıramazsın
+fa_not_enough_fuel: Yeterli yakıt yok
+fa_not_enough_probes: Kullanılabilir sonda yok
+fa_not_spy_yourself: Kendini casuslayamazsın
+fa_planet_not_exist: Gezegen mevcut değil
+fa_sending: Gönder
+fa_strong_player: Oyuncu çok güçlü
+fa_system_not_exist: Böyle bir sistem yok
 fa_vacation_mode: Oyuncu tatil modunda
-fa_vacation_mode_current: Hata, Tatildesiniz
-fa_week_player: Elleme garibani, adam zayif oyuncu
-fcm_info: Bilgiler
+fa_vacation_mode_current: Tatil modundasın
+fa_week_player: Oyuncu çok zayıf
+fcm_info: Bilgi
 fcm_mainplanet: Ana Gezegen
 fcm_moon: Ay
 fcm_planet: Gezegen
 fcm_universe: Evren
 fcp_colony: Koloni
-fgf_time: Gereken Sure
-fgp_require: 'Gerekenler: '
+fgf_time: 'Süre: '
+fgp_require: 'Gereksinimler: '
 fgr_time: Onarım süresi
-first: İlk kez
+first: İlkler
 fl_a: (A)
-fl_acs: Ittifak Saldirisi
-fl_acs_change: Degistir
-fl_acs_change_name: Yeni isim gir
-fl_acs_invitation_message: ' sizi ittifak saldirisina davet ediyor.'
-fl_acs_invitation_title: Ittifak Saldirisi
-fl_acs_newname_alphanum: ittifak Saldiri ismi sadece alfabetik karakterlerden olusabilir
-fl_acs_title: Ittifak Saldirisi
-fl_add_to_attack: ' saldiriya eklendi.'
-fl_admin_attack: Saldirdigin kisinin Admin oldugunun farkindamisin?
-fl_all_resources: Tum Hammaddeler
-fl_already_invited: ' davet edildi..'
-fl_ammount: Adet
-fl_arrival: Sure
-fl_arrival_time: Varis Zamani
-fl_attack_confirm_buddy: Hedef arkadaş listende. Saldırıyı gerçekten gerçekleştirmek istiyor musun?
-fl_attack_confirm_diplo: >-
-  İttifakınız ve %2$s ittifakı ile bir anlaşma (%1$s) yapıldı. Saldırıyı
-  gerçekten gerçekleştirmek istiyor musunuz?
-fl_attack_confirm_outlaw: '%s''ye saldırırsanız 7 gün boyunca kanun kaçağı olursunuz.'
-fl_bash_protection: Gezegen Korumasi Aktif
-fl_beginning: Baslangic
-fl_blocked: ' davetiyeleri kabul etmiyor.'
+fl_acs: İSS
+fl_acs_change: Değiştir
+fl_acs_change_name: Yeni bir ad gir
+fl_acs_invitation_message: ' seni İSS saldırısına davet etti.'
+fl_acs_invitation_title: İSS
+fl_acs_newname_alphanum: İSS adı yalnızca harf ve rakam içerebilir
+fl_acs_title: İttifak saldırısı
+fl_add_to_attack: ' saldırıya eklendi.'
+fl_admin_attack: Yöneticilere saldırılamaz.
+fl_all_resources: Tüm kaynaklar
+fl_already_invited: ' zaten davet edildi.'
+fl_ammount: Gemiler
+fl_arrival: Varış
+fl_arrival_time: Varış zamanı
+fl_attack_confirm_buddy: |-
+  Hedef arkadaş listende.
+  Gerçekten saldırmak istiyor musun?
+fl_attack_confirm_diplo: '%2$s ile aranda bir anlaşma (%1$s) var. Yine de saldırılsın mı?'
+fl_attack_confirm_outlaw: '%s oyuncusuna saldırırsan 7 gün boyunca kanun kaçağı olursun.'
+fl_bash_protection: Bu, bash kuralını ihlal eder.
+fl_beginning: Çıkış
+fl_blocked: ' davetleri kabul etmiyor.'
 fl_bonus: Bonus
 fl_bonus_attack: Silahlar
-fl_bonus_defensive: Savunma
-fl_bonus_shield: Kalkan
-fl_cargo_capacity: Kargo Kapasitesi
-fl_cargo_current_planet: Mevcut Gezegen
+fl_bonus_defensive: Zırh
+fl_bonus_shield: Kalkanlar
+fl_cargo_capacity: Kargo kapasitesi
+fl_cargo_current_planet: Mevcut gezegen
 fl_cargo_needed: gerekli
 fl_cargo_options: Kargo seçenekleri
 fl_cargo_preset: Ön ayar
 fl_cargo_select: seçme
-fl_colonize_confirm: >-
-  Bu sistemde zaten birden fazla gezegeniniz var. Çok fazla gezegen güçlü
-  oyuncuları çeker. Hâlâ kolonileşmek istiyor musun?
+fl_colonize_confirm: Bu sistemde zaten birden fazla gezegenin var. Kalabalık sistemler güçlü oyuncuları çeker. Yine de kolonileştirilsin mi?
 fl_continue: Devam et
-fl_debris_shortcut: (HA)
-fl_departure: Gidis(Hedef)
-fl_deploy_only_your_planets: Sadece Kendi Gezegenlerinize Konuslandirmak yapabilirsiniz!
+fl_debris_shortcut: (EA)
+fl_departure: Kalkış
+fl_deploy_only_your_planets: Yalnızca kendi gezegenlerine konuşlanabilirsin.
 fl_destiny: Hedef
-fl_distance: Uzaklik
+fl_distance: Mesafe
 fl_dlte_shortcut: Sil
-fl_dont_exist: ' saldiriya eklenemedi.'
-fl_empty_target: Verdiginiz koordinatlarda bir gezegen yok
-fl_error: Bir şeyler ters gitti. Tekrar dene.
-fl_error_empty_derbis: Girilen koordinatlarda harabe mevcut degil!
-fl_error_no_moon: Girilen koordinatlarda AY mevcut degil!
-fl_error_not_avalible: Bu koordinatlarda bir gezegen yok
-fl_error_same_planet: Baslangic ve Varis koortinatlari ayni!
-fl_expedition_alert_message: >-
-  Dikkat! Keşif tehlikeli bir görevdir. Uzakta bilinmeyen yerleri keşfedeceksin
-  bu sebeple filoların aniden yok olabilir. Ama unutma karanlık madde ve
-  dahasını da bulabilirsin.!
-fl_expedition_fleets_limit: Maksimum kesif sayisina ulasildi!
-fl_expeditions: Kesifler
+fl_dont_exist: ' mevcut değil.'
+fl_empty_target: Kullanılabilir görev yok. Hedef var mı?
+fl_error: Bir şeyler ters gitti. Lütfen tekrar dene.
+fl_error_empty_derbis: Bu koordinatlarda enkaz alanı yok!
+fl_error_no_moon: Bu koordinatlarda ay yok.
+fl_error_not_avalible: Bu koordinatlarda hiçbir şey yok.
+fl_error_same_planet: Başlangıç ve hedef aynı gezegen!
+fl_expedition_alert_message: 'Dikkat: keşifler risklidir. Tüm filonu kaybedebilirsin! Öte yandan Karanlık Madde ve daha fazlasını da bulabilirsin.'
+fl_expedition_fleets_limit: Keşif sınırına ulaştın.
+fl_expeditions: Keşifler
 fl_fleet: Filo
-fl_fleet_sended: Filo basariyla gonderildi
-fl_fleet_speed: Hiz
+fl_fleet_sended: Filo gönderildi!
+fl_fleet_speed: Filo hızı
 fl_fleets: Filo
-fl_flying_arrival: Varis
-fl_flying_return: Geri Donus
-fl_flying_time: Sure
-fl_from: Kalkis
-fl_fuel_consumption: Yakit Tuketimi
-fl_hold_confirm_outlaw: '%s''de kalırsanız 7 gün boyunca kanun kaçağı olursunuz.'
-fl_hold_max_fleets: Zaten bu koordinatlara yönelen çok fazla filo var. Filo gönderilemedi.
-fl_hold_max_user: >-
-  Savunan imparatorlukların maksimum sayısına çoktan ulaşıldı. Filo
-  gönderilemedi.
-fl_hold_time: Durma Suresi
-fl_hold_time_not_exists: Yanlis durma zamani.
+fl_flying_arrival: Varış
+fl_flying_return: Dönüş
+fl_flying_time: Süre (tek yön)
+fl_from: Kalkış
+fl_fuel_consumption: Deuterium tüketimi
+fl_hold_confirm_outlaw: '%s konumunda beklersen 7 gün boyunca kanun kaçağı olursun.'
+fl_hold_max_fleets: Bu koordinatlara zaten çok fazla filo gidiyor, bu yüzden filon gönderilemedi.
+fl_hold_max_user: En fazla savunmacı sayısına ulaşıldı, bu yüzden filon gönderilemedi.
+fl_hold_time: Bekleme süresi
+fl_hold_time_not_exists: Lütfen geçerli bir bekleme süresi seç.
 fl_hours: Saat
-fl_in_vacation_player: 'Hata : Ayip, Adam tatile gitmis'
-fl_info_detail: Detaylar
-fl_invalid_mission: 'Hata : Yanlis Gorev'
-fl_invalid_target: Hedef bulunamadi
-fl_invite_members: Diger uyeleri davet et
+fl_in_vacation_player: Oyuncu tatil modunda
+fl_info_detail: Ayrıntılar
+fl_invalid_mission: Burada bu görev mümkün değil.
+fl_invalid_target: Bu hedef geçerli değil.
+fl_invite_members: Üyeleri davet et
 fl_market_type: Pazar türü
 fl_max: max
-fl_max_speed: Max Hiz
-fl_members_invited: Uye Katildi
-fl_mission: Gorev
-fl_modify_sac_name: Ittifak Saldiri Ismi
+fl_max_speed: En yüksek hız
+fl_members_invited: Davet edilen
+fl_mission: Görev
+fl_modify_sac_name: İSS adı
 fl_moon_shortcut: (A)
 fl_mt_fleet: Filo pazarı
 fl_mt_resources: Kaynak pazarı
 fl_multi_alarm: Multi alarm!
 fl_my_planets: Gezegenlerim
-fl_new_mission_title: 'Yeni Gorev: Filoyu Sec'
-fl_no_colony: Hic koloniniz yok
-fl_no_empty_derbis: Without debris present!
-fl_no_expedition_slot: Kesif filo kotasi maksimum sinira ulasti!
-fl_no_hold_depot: Girilen koordinatlarda ittifak deposu yok.
-fl_no_more_slots: Filo Kotasi Maximum Sayiya Ulasti
-fl_no_noresource: 'Hata : Nakliye edilecek hammadde eklenmedi!'
-fl_no_noresource_exchange: Değişim alanında kaynak yok
-fl_no_probe_expos: Saf prob keşiflerini uçuramazsınız, lütfen başka gemi türlerini ekleyin.
-fl_no_same_alliance: Dusman gezegende durulamaz!
-fl_no_ships: Yeterli gemi yok
-fl_no_shortcuts: Hicbir kisayol yok
-fl_no_slots: Filo kotasi yok
-fl_no_target: Hedef gezegen bulunamadi
-fl_not_all_ship_avalible: 'Hata : Butun gemiler uygun degil.'
-fl_not_ally_deposit: Yeterli Kademede Ittifak Deposu Yok
-fl_not_enough: Yeterli %s mevcut değil.
-fl_not_enough_deuterium: Yeterli yakitiniz yok.
-fl_not_enough_space: Gereken yakiti alacak depo kapasiten yok.
-fl_null: Hiçbiri
+fl_new_mission_title: 'Yeni görev: Filo seç'
+fl_no_colony: Kolonin yok
+fl_no_empty_derbis: Orada enkaz alanı yok!
+fl_no_expedition_slot: Boş keşif yuvası yok.
+fl_no_hold_depot: Hedefte İttifak Deposu yok.
+fl_no_more_slots: Boş yuva yok
+fl_no_noresource: Yüklenen kaynak yok!
+fl_no_noresource_exchange: Takas için kaynak girilmedi
+fl_no_probe_expos: Keşif sadece Casus Sondalarından oluşamaz!
+fl_no_same_alliance: Hedef oyuncu ittifakında ya da arkadaş listende olmalı!
+fl_no_ships: Kullanılabilir gemi yok
+fl_no_shortcuts: Kısayol yok
+fl_no_slots: Boş yuva yok
+fl_no_target: Kullanılabilir hedef gezegen yok
+fl_not_all_ship_avalible: Tüm gemiler kullanılabilir değil.
+fl_not_ally_deposit: Hedefte İttifak Deposu yok.
+fl_not_enough: Yeterli %s yok.
+fl_not_enough_deuterium: Bu uçuş için yeterli deuterium yok.
+fl_not_enough_space: Yeterli kargo alanı yok.
+fl_null: yok
 fl_number: ID
-fl_objective: Varis
-fl_only_planets_colonizable: Sadece gezegenler kolonilestirilebilir.
-fl_onway: Hedefe Ulasiyor
-fl_order: Gorev Turu
-fl_own_planet_error: Error! Again select the planet from which you want to send the fleet.
-fl_planet_populed: Bu gezegen dolu!
+fl_objective: Bitişine
+fl_only_planets_colonizable: Yalnızca gezegenler kolonileştirilebilir.
+fl_onway: Gidiş
+fl_order: Görev türü
+fl_own_planet_error: Bir şeyler ters gitti. Lütfen filoyu göndermek istediğin gezegeni yeniden seç.
+fl_planet_populed: Gezegen kolonileştirildi!
 fl_planet_shortcut: (G)
 fl_planets: Gezegenler
 fl_player: 'Oyuncu '
-fl_player_is_noob: Oyuncu zayif korumasinda!
-fl_player_is_strong: Oyuncu cok guclu!
-fl_r: (G)
-fl_register_shorcut: Olustur
-fl_remove_all_ships: Hicbir Gemi
-fl_resources: Hammadde
-fl_resources_left: Kalan Depo
-fl_return_time: Donus Zamani
-fl_returning: Geri Donuyor return
-fl_sac_of_fleet: Ittifak Filosu
-fl_select_all_ships: Butun Gemiler
-fl_selected_resources: seçilen kaynaklar
-fl_send_back: Geri Cagir
-fl_send_fleet: Filo Yolla
+fl_player_is_noob: Oyuncu çaylak korumasında.
+fl_player_is_strong: Oyuncu çok güçlü.
+fl_r: (D)
+fl_register_shorcut: Oluştur
+fl_remove_all_ships: Gemi yok
+fl_resources: Yüklenen kaynaklar!
+fl_resources_left: Boş kapasite
+fl_return_time: Dönüş zamanı
+fl_returning: Dönüyor
+fl_sac_of_fleet: İSS filosu
+fl_select_all_ships: Tüm gemiler
+fl_selected_resources: Seçilen kaynaklar
+fl_send_back: Geri çağır
+fl_send_fleet: Filo gönder
 fl_ship_available: Mevcut gemiler
-fl_ship_type: Gemi Turu
-fl_shortcut: Kisayollar
+fl_ship_type: Gemi türü
+fl_shortcut: Kısayollar
 fl_shortcut_add: Ekle
-fl_shortcut_edition: Duzenle
-fl_shortcut_name: isim
-fl_shortcut_save: Kisayolu Kaydet
-fl_shortcut_saved: Kisayol kaydedildi!
-fl_shortcuts: Kisayollar
-fl_simulate: Simulasyon
-fl_speed_title: 'Hiz: '
-fl_spy_confirm_outlaw: '%s hakkında casusluk yaparsanız 7 gün boyunca kanun kaçağı olursunuz.'
-fl_strong_player: 'Hata : Oyuncu cok guclu. 40 firin ekmek yemen lazim.'
-fl_system_places: Özel yerler
-fl_target_exists: Hedef Gezegen
-fl_target_not_exists: Hedef Gezegen mevcut degil!
-fl_trade_no_resource_loaded: Herhangi bir kaynak yüklemediniz.
-fl_trade_same_resource: '%s''yi %s karşılığında satamazsınız.'
-fl_trade_to_many_resources_loaded: Yalnızca bir kaynak satabilirsiniz.
+fl_shortcut_edition: Kısayolu düzenle
+fl_shortcut_name: Ad
+fl_shortcut_save: Kısayolu kaydet
+fl_shortcut_saved: Kısayol kaydedildi!
+fl_shortcuts: Kısayollar
+fl_simulate: Simüle et
+fl_speed_title: 'Hız: '
+fl_spy_confirm_outlaw: '%s oyuncusunu casuslarsan 7 gün boyunca kanun kaçağı olursun.'
+fl_strong_player: Oyuncu çok güçlü.
+fl_system_places: Özel konumlar
+fl_target_exists: Hedef gezegen
+fl_target_not_exists: Hedef gezegen mevcut değil.
+fl_trade_no_resource_loaded: Hiç kaynak yüklemedin.
+fl_trade_same_resource: '%s karşılığında %s satamazsın.'
+fl_trade_to_many_resources_loaded: Yalnızca tek tür kaynak satabilirsin.
 fl_transfer_alert_message: |-
   Dikkat!
-  Filonuz farklı bir kullanıcıya devredilecek!
+  Filon başka bir oyuncuya devredilecek!
 fl_vacation_mode_active: Tatil modu aktif
-fl_week_player: 'Hata : Oyuncu cok zayif! Kendine baska dusman bul'
-fleet_table_custom_empty_name: Bir filo ismi giriniz lütfen!
-fleetPrio: Filo sipariş önceliği
+fl_week_player: Oyuncu çaylak korumasında.
+fleet_table_custom_empty_name: Bir filo adı gir!
+fleetPrio: Filo sıralama önceliği
 fm_add_filter: Gemi filtresi ekle
-fm_all: Hepsi
+fm_all: Tümü
 fm_civil: Sivil
 fm_military: Askeri
-fm_recycler: Geri donusumculer
+fm_recycler: Geri Dönüşümcüler
 foreign_colors: Yabancı renkler
-found: 'Bulundu '
-ft_absenden: Islemi gerceklestir
-ft_charge: Oran
+found: 'Bulunan '
+ft_absenden: Gönder
+ft_charge: Tüccar oranı
 ft_count: Adet
-ft_empty: Bos
-ft_head: Satilacak Gemi/Unite
+ft_empty: Boş
+ft_head: Tüccar filoları
 ft_max: max
-ft_total: TOPLAM
+ft_total: Toplam
 general_colors: Genel renkler
-gl_actions: Aksiyonlar
+gl_actions: İşlemler
 gl_activity: (*)
 gl_activity_inactive: (%d min)
-gl_ajax_status_fail: Hata
+gl_ajax_status_fail: Başarısız
 gl_ajax_status_ok: Tamam
-gl_all_defenses: Hepsi
-gl_alliance: Ittifak
-gl_alliance_page: Ittifak Sayfasi
-gl_alliance_web_page: Ittifak Web Sitesi
-gl_avaible_grecyclers: Hiper Geri Donusumcu
-gl_avaible_missiles: Hazirdaki Roketler
-gl_avaible_recyclers: Geri Donusumcu
-gl_avaible_spyprobes: Casus Sondasi
-gl_banned: Cezali
-gl_buddy_request: Arkadaslik Istegi
-gl_collect: Sokmek
+gl_all_defenses: Tüm savunmalar
+gl_alliance: İttifak
+gl_alliance_page: İttifak sayfası
+gl_alliance_web_page: İttifak web sitesi
+gl_avaible_grecyclers: Dev Geri Dönüşümcü
+gl_avaible_missiles: Mevcut roketler
+gl_avaible_recyclers: Geri Dönüşümcüler
+gl_avaible_spyprobes: Casus Sondaları
+gl_banned: Banlı / askıya alınmış
+gl_buddy_request: Arkadaşlık isteği
+gl_collect: Topla
 gl_colonizable: Kolonileştirilebilir
-gl_debris: HA
-gl_debris_field: Harabe Alani
-gl_diameter: Genislik
-gl_features: Ozellikler
-gl_fleets: Filo Kotasi
-gl_free: Uygun
-gl_free_desc: Gezegende yerlesim yok. Kolonilestirmek icin elverisli.
+gl_debris: EA
+gl_debris_field: Enkaz alanı
+gl_diameter: Çap
+gl_features: Özellikler
+gl_fleets: Filo yuvaları
+gl_free: Boş
+gl_free_desc: Büyük, ıssız bir gezegen; yeni bir koloni için ideal.
 gl_galaxy: Galaksi
-gl_in_the_rank: Player %s in pos. %d
-gl_inactive_seven: 7 Gun Inaktif
-gl_inactive_twentyeight: 28 Gun Inaktif
-gl_legend: Bilgi
-gl_member: '%d uye ile koruyor'
-gl_member_add: '%d (s)'
-gl_missil_flytime: Uçuş süresi
-gl_missil_launch: Roket Saldirisi
-gl_missil_launch_action: Atesle
-gl_missil_to_launch: 'Roket miktari (<b>%d</b> kalan):'
-gl_missile_attack: Roket Saldirisi
+gl_in_the_rank: Oyuncu %s, sıralama %d
+gl_inactive_seven: 7 gündür pasif
+gl_inactive_twentyeight: 28 gündür pasif
+gl_legend: Açıklama
+gl_member: '%d üye'
+gl_member_add: '%d üye'
+gl_missil_flytime: Çarpışmaya kalan süre
+gl_missil_launch: Roket saldırısı
+gl_missil_launch_action: Roketleri fırlat
+gl_missil_to_launch: Miktar (<b>%d</b> mevcut)
+gl_missile_attack: Roket saldırısı
 gl_moon: Ay
-gl_name_activity: Isim (Aktivite)
-gl_no: Hayir
-gl_no_deuterium_to_view_galaxy: Galaksiyi gormek icin yeterli deuteriuma sahip degilsin.
-gl_no_spy_report: Bu gezegenle ilgili casus raporu bulunmamaktadır.
-gl_not_colonizable: Kolonize edilemez
-gl_objective: Hedef
-gl_out_space: Uzay Boslugu
+gl_name_activity: Ad (aktivite)
+gl_no: Hayır
+gl_no_deuterium_to_view_galaxy: Galaksiyi görüntülemek için yeterli deuterium yok!
+gl_no_spy_report: Bu gezegen için henüz casus raporu yok.
+gl_not_colonizable: Kolonileştirilemez!
+gl_objective: Ana hedef
+gl_out_space: Derin uzay
 gl_phalanx: Radar
 gl_planet: Gezegen
-gl_planet_destroyed: Gezegen yok edilmis
+gl_planet_destroyed: Gezegen yok edildi
 gl_player: Oyuncu
-gl_player_estate: Oyuncu (Statu)
-gl_playercard: Oyuncu Profili
+gl_player_estate: Oyuncu (Durum)
+gl_playercard: Oyuncu profili
 gl_points: Puan
-gl_populed_planets: '% Gezegende Yerlesim Goruldu'
-gl_pos: Koor.
-gl_resources: Hammaddeler
-gl_see_on_stats: Istatistikler
-gl_short_ban: C
+gl_populed_planets: '%d yerleşik gezegen'
+gl_pos: Konum
+gl_resources: Kaynaklar
+gl_see_on_stats: İstatistikler
+gl_short_ban: B
 gl_short_inactive: i
 gl_short_long_inactive: I
-gl_short_newbie: Z
+gl_short_newbie: Ç
 gl_short_strong: G
 gl_short_vacation: T
-gl_show: Goster
+gl_show: Sistemi göster
 gl_show_spy_report: Casus raporu
 gl_solar_system: Sistem
 gl_spy: Casusluk
@@ -917,351 +865,311 @@ gl_spy_report_fresh: Casus raporu (< %dh)
 gl_spy_report_none: Casus raporu yok
 gl_spy_report_old: Casus raporu (> %dh)
 gl_spy_report_recent: Casus raporu (< %dh)
-gl_strong_player: Guclu Oyuncu
-gl_sync: Senkronize etmek
-gl_sync_export_csv: CSV ihraç etmek
-gl_sync_export_json: İhracat json
-gl_sync_import_json: JSON'u içe aktar
-gl_sync_reset: Verileri Sıfırla
-gl_temperature: Sicaklik
+gl_strong_player: Güçlü oyuncu
+gl_sync: Verileri kaydet
+gl_sync_export_csv: CSV dışa aktar
+gl_sync_export_json: JSON dışa aktar
+gl_sync_import_json: JSON içe aktar
+gl_sync_reset: Verileri sıfırla
+gl_temperature: Sıcaklık
 gl_to: ' '
-gl_trade_space: Ticaret bölgesi
-gl_vacation: Tatil Modu
-gl_week_player: Zayif Oyuncu
-gl_with: ' sirasini '
-gl_wreckfield: Enkaz alanı
-gl_wreckfield_short: EA
+gl_trade_space: Pazar yeri
+gl_vacation: Tatil modu
+gl_week_player: Zayıf oyuncu
+gl_with: ' ile '
+gl_wreckfield: Hurda alanı
+gl_wreckfield_short: HA
 gl_yes: Evet
-honor_rank: Onur puanı sıralaması
+honor_rank: Onur rütbesi
 honor_rank_low_1: Haydut İmparator
 honor_rank_low_10: Haydutların Kralı
 honor_rank_low_20: Haydut Lordu
 honor_rank_low_30: Haydut
-honor_rank_top_1: Tanrı-İmparator
+honor_rank_top_1: Tanrı İmparator
 honor_rank_top_10: Büyük İmparator
 honor_rank_top_20: İmparator
 honor_rank_top_30: Yıldız Lordu
-honorable_fights: Onurlu Dövüşler
-honorpoints: Onur Puanları
-in_attack_pt: Saldiri Kapasitesi
-in_base_speed: Baslangic Hizi
+honorable_fights: Onurlu savaşlar
+honorpoints: Onur puanları
+in_attack_pt: Saldırı gücü
+in_base_speed: Temel hız
 in_bonus: 'Bonus:'
-in_capacity: Depo Kapasitesi
-in_consumption: Yakit Tuketimi(Deuterium)
-in_dest_durati: Yikim icin gereken sure
-in_destroy: 'Yik:'
+in_capacity: Kargo kapasitesi
+in_consumption: Yakıt tüketimi (Deuterium)
+in_dest_durati: Süre
+in_destroy: 'Yık:'
 in_difference: Fark
-in_engine: Motor Turu
-in_jump_gate_already_used: 'Bu Gecidi Kullanmaniz icin Gereken Sure:  '
-in_jump_gate_available: Uygun
-in_jump_gate_doesnt_have_one: Sicrama Gecidi Mevcut Degil!
-in_jump_gate_done: 'Sicrama basari ile gerceklesti : Sonraki sicrama: %s'
-in_jump_gate_error_data: Hata, sicrama icin girilen koordinatlar yanlis!
-in_jump_gate_finish_moon: Hedef AY
-in_jump_gate_jump: Sicramayi Gerceklestir
-in_jump_gate_no_target: Sicrama yapilacak hedef yok.
-in_jump_gate_not_ready_target: 'Sicramaya calisilan gecit henuz hazir degil Gereken Sure:'
-in_jump_gate_select_ships: Sicramayi Gerceklestirmek icin Gemileri seciniz
-in_jump_gate_start_moon: Sicrama Gecidi
-in_jump_gate_wait_time: 'Sicrama icin beklenecek sure:'
-in_level: Kademe
-in_missilesamount: Mevcut roketler
-in_missilestype: Roket Turu
-in_name: Isim
-in_needed: Gereken
-in_prod_p_hour: Saatlik Uretim
-in_range: Mezil
-in_rf_again: Vurus gucu giden
-in_rf_explanation: >-
-  Vurus gucu: Her savaş turunda, bu birim birden fazla kez ateş edebilir. Yüzde
-  değeri, o türdeki bir hedefi vurduktan sonra ek bir atış yapma olasılığını
-  gösterir.
-in_rf_from: Vurus gucu gelen
-in_shield_pt: Kalkan Gucu
-in_storage: Depo Kapasitesi
-in_struct_pt: Yapi Puani
-in_title_head: 'Bilgisi verilen :'
+in_engine: Motor
+in_jump_gate_already_used: 'Sıçrama Geçidi şarj oluyor. Hazır olmasına: '
+in_jump_gate_available: Adet
+in_jump_gate_doesnt_have_one: Sıçrayabileceğin başka bir Sıçrama Geçidin yok.
+in_jump_gate_done: 'Sıçrama başarılı! Geçit şu süre sonra yeniden hazır: %s'
+in_jump_gate_error_data: Geçersiz sıçrama koordinatları!
+in_jump_gate_finish_moon: Hedef
+in_jump_gate_jump: Sıçra
+in_jump_gate_no_target: Sıçranabilecek hedef yok.
+in_jump_gate_not_ready_target: 'Hedef geçit hâlâ şarj oluyor. Hazır olmasına: '
+in_jump_gate_select_ships: 'Sıçrama Geçidi: gemileri seç'
+in_jump_gate_start_moon: Çıkış
+in_jump_gate_wait_time: 'Sonraki sıçramaya kalan süre:'
+in_level: Seviye
+in_missilesamount: Mevcut
+in_missilestype: Roket türü
+in_name: Ad
+in_needed: Gerekli
+in_prod_p_hour: Saatlik
+in_range: Sensör menzili
+in_rf_again: Seri atış (hedef)
+in_rf_explanation: 'Seri atış: Bu birim her savaş turunda birden fazla kez ateş edebilir. Yüzde, o türden bir hedefi vurduktan sonra ek atış yapma şansını gösterir.'
+in_rf_from: Seri atış (gelen)
+in_shield_pt: Kalkan gücü
+in_storage: Depo kapasitesi
+in_struct_pt: Yapı bütünlüğü
+in_title_head: 'Bilgi:'
 in_units: Unit
-invalid_action: Hata Olustu!!
-kontakt: >-
-  Merhaba!<br>Bu sayfada, bu projeyi aktif olarak yürüten, yöneten ve geliştiren
-  kişiler hakkında bilgi bulacaksınız.<br>Herhangi bir sorunuz veya sorununuz
-  varsa bizimle iletişime geçmekten çekinmeyin.<br><br><!--discord_url-->Bizimle ve aynı zamanda
-  diğer ortak yayıncılarla daha iyi bir alışveriş için bir Discord sunucusu
-  kurduk. "<a href="{discord_url}">burada</a>" veya menü
-  aracılığıyla bulabilirsiniz.<br>Sunucuda en son haberlerin yanı sıra evrenin
-  ittifakları arasındaki heyecan verici memleri bulacaksınız.<br>Oyun
-  mekanikleri hakkında sorular sorun ve oyunun daha da geliştirilmesi için kendi
-  önerilerinizle yardımcı olun.<br><br><!--/discord_url-->Elbette oyun içi atıp tutmalarınıza da
-  cevap vereceğiz.<br>Ancak, lütfen oyunu sadece hobi olarak oynadığımızı
-  unutmayın. Cevaplar birkaç gün sürebilir.<br>
+invalid_action: Geçersiz işlem!
+kontakt: Selam!<br>Bu sayfada projeyi yürüten, yöneten ve geliştiren kişileri görürsün.<br>Sorun ya da soruların mı var? Bize ulaş.<br><br><!--discord_url-->Hem bizimle hem de diğer oyuncularla daha iyi iletişim için bir Discord sunucumuz var. Sunucuyu <a href="{discord_url}">buradan</a> ya da menüden bulabilirsin.<br>Orada en son haberleri ve evrendeki ittifakların en iyi memlerini bulursun.<br>Oyun mekaniklerini sorabilir, oyunun geleceği için fikirlerini paylaşabilirsin.<br><br><!--/discord_url-->Tabii ki oyun içi sorularını da yanıtlıyoruz.<br>Lütfen oyunu hobi olarak oynadığımızı unutma; yanıtlar birkaç gün sürebilir.<br>
 lm_administration: Administration
-lm_alliance: Ittifak Sayfasi
-lm_banned: Banlananlar
-lm_battlesim: Simulasyon
-lm_buddylist: Arkadaslik
+lm_alliance: İttifak
+lm_banned: Ban listesi
+lm_battlesim: Simülatör
+lm_buddylist: Arkadaşlar
 lm_buildings: Binalar
-lm_changelog: Degisiklikler
+lm_changelog: Değişiklikler
 lm_dataPrivacy: Veri gizliliği
 lm_defenses: Savunma
-lm_disclamer: Iletisim
-lm_empire: Imparatorluk
-lm_faq: Yeni Baslayanlar
-lm_fleet: Filolar
-lm_fleettrader: Hurdaci
+lm_disclamer: Künye
+lm_empire: İmparatorluk
+lm_faq: SSS
+lm_fleet: Filo
+lm_fleettrader: Hurdacı
 lm_forums: Forum
 lm_galaxy: Galaksi
 lm_info: Bilgi
-lm_logout: Cikis
+lm_logout: Çıkış
 lm_messages: Mesajlar
-lm_notes: Notlarim
+lm_notes: Notlarım
 lm_options: Ayarlar
-lm_overview: Genel Gorunum
+lm_overview: Genel Bakış
 lm_playercard: Oyuncu Profili
-lm_queue: Kuyruk
+lm_queue: Kuyruklar
 lm_records: Rekorlar
 lm_repairdock: Onarım rıhtımı
-lm_research: Arastirma
-lm_resources: Hammadde
+lm_research: Araştırma
+lm_resources: Kaynaklar
 lm_rules: Kurallar
-lm_search: Arama
+lm_search: Ara
 lm_shipshard: Tersane
-lm_statistics: Istatistlikler
+lm_statistics: İstatistikler
 lm_support: Destek
 lm_technology: Teknolojiler
-lm_topkb: Top 100 Savas
-lo_continue: Beklemek istemiyorsaniz tiklayiniz
-lo_logout: Oturum sonlandirildi. Umarim memnun kaldiniz.
-lo_notify: <span id="seconds">5</span> saniye icinde yonlendirileceksiniz.
-lo_redirect: Yonlendiriliyor...
-lo_title: Cikis islemi basariyla tamamlandi
-loading: yukleniyor ...
+lm_topkb: Şeref Listesi
+lo_continue: Devam etmek için tıkla.
+lo_logout: Çıkış yaptın. Yakında görüşürüz!
+lo_notify: <span id="seconds">5</span> saniye içinde yönlendirileceksin
+lo_redirect: Yönlendir
+lo_title: Çıkış yapıldı
+loading: Yükleniyor ...
 lost: Kayıp
-lv_buildable: inşa edilebilir öğeler
+lv_buildable: İnşa edilebilir
 lv_buildings: Binalar
 lv_coords: Koordinatlar
 lv_defenses: Savunma
-lv_fields: Alan
+lv_fields: Alanlar
 lv_highlight: 'Vurgula: '
-lv_imperium_title: Imparatorluk
-lv_name: Isim
+lv_imperium_title: İmparatorluk
+lv_name: Ad
 lv_planet: Gezegen
-lv_resources: Hammadde
+lv_resources: Kaynaklar
 lv_ships: Gemiler
-lv_technology: Teknoloji
+lv_technology: Teknolojiler
 lv_total: Toplam
-lv_unbuildable: inşa edilemeyen öğeler
-ma_add_missile_number: '<br>Gonderilecek Roket Sayisini Girmediniz</br>! '
-ma_all: Hepsi
-ma_big_laser: Agir Lazer Topu
-ma_big_protection_shield: Buyuk Kalkan Kubbesi
-ma_buster_canyon: Plazma Aticilar
-ma_gauss_canyon: Gaus Topu
-ma_impulse_drive_required: Impuls (Icten Yanmali) Motor Takimi gerekli
-ma_ionic_canyon: Iyon Topu
-ma_misil_launcher: Roket Aticilar
-ma_missiles_sended: ' Roket Ateslendi. Hedef: '
-ma_no_missiles: Mevcut roket yok
-ma_no_range: Hedef füzelerinizin menzilinde değil.
-ma_not_send_other_galaxy: 'Diger galaksiye roket gonderemezsiniz. '
-ma_planet_doesnt_exists: 'Gezegen mevcut degil. '
-ma_silo_level: 'Roket Silosu Kademe 4 gerekli! '
-ma_small_laser: Hafif Lazer Topu
-ma_small_protection_shield: Kucuk Kalkan Kubbesi
-ma_wrong_target: Yanlis Hedef
+lv_unbuildable: İnşa edilemez
+ma_add_missile_number: 'Roket sayısını gir! '
+ma_all: Tümü
+ma_big_laser: Ağır lazer
+ma_big_protection_shield: Büyük kalkan kubbesi
+ma_buster_canyon: Plazma atıcı
+ma_gauss_canyon: Gauss topu
+ma_impulse_drive_required: İmpuls Motoru gerekli
+ma_ionic_canyon: İyon topu
+ma_misil_launcher: Roket atıcı
+ma_missiles_sended: ' roket fırlatıldı. Hedef: '
+ma_no_missiles: Roket yok
+ma_no_range: Hedef, roketlerinin menzilinin dışında.
+ma_not_send_other_galaxy: 'Başka bir galaksiye roket gönderemezsin. '
+ma_planet_doesnt_exists: 'Böyle bir gezegen yok. '
+ma_silo_level: 'Roket Silosu seviye 4 gerekli! '
+ma_small_laser: Hafif lazer
+ma_small_protection_shield: Küçük kalkan kubbesi
+ma_wrong_target: Yanlış hedef
 market_buyable_no_tech: Çok zayıf
 market_fleet: Filo
-market_p_msg_purchase_failed: Satın alma tamamlanamadı. Tekrar dene.
+market_p_msg_purchase_failed: Satın alma gerçekleşmedi. Lütfen tekrar dene.
 Messages: Mesajlar
-messagesPerPage: Sayfa başına mesaj, min 3 & maks 50
-mg_action: Aksiyon
-mg_answer_to: 'Cevapla:'
-mg_blocked: Alıcı mesajları kabul etmez!
+messagesPerPage: Sayfa başına mesaj (3-50)
+mg_action: İşlem
+mg_answer_to: 'Yanıtla:'
+mg_blocked: Bu oyuncu mesaj kabul etmiyor.
 mg_characters: karakter
 mg_confirm: Onayla
 mg_date: Tarih
-mg_delete: Mesajı Sil
-mg_delete_all: Butun mesajlari sil
-mg_delete_marked: Secili Mesajlari Sil
-mg_delete_type_all: Bu tip mesajlari sil
+mg_delete: Mesajı sil
+mg_delete_all: Tüm mesajları sil
+mg_delete_marked: İşaretli mesajları sil
+mg_delete_type_all: Bu türdeki tüm mesajları sil
 mg_delete_unmarked: Bu türdeki işaretlenmemiş mesajları sil
-mg_deleted: The message has been deleted.
-mg_empty_text: Metin giriniz
-mg_error: Alici Bulunamadi!
+mg_deleted: Mesaj silindi.
+mg_empty_text: Lütfen bir metin gir
+mg_error: Alıcı bulunamadı!
 mg_favorite: Favori olarak işaretle
-mg_favorite_filter_off: Hepsini göster
-mg_favorite_filter_on: Sadece favorileri göster
-mg_forward: İleri mesaj
+mg_favorite_filter_off: Tümünü göster
+mg_favorite_filter_on: Yalnızca favorileri göster
+mg_forward: Mesajı ilet
 mg_from: Kimden
-mg_game_message: Oku
-mg_game_operators: Yoneticiler
-mg_grouping_off: Gruplanmamış mesajları göster
-mg_grouping_on: Birlikte gruplandırılmış mesajları göster
+mg_game_message: Oyun mesajı
+mg_game_operators: Oyun yöneticileri
+mg_grouping_off: Mesajları gruplamadan göster
+mg_grouping_on: Mesajları gruplayarak göster
 mg_message: Mesaj
-mg_message_send: Mesaj basariyla gonderildi!
+mg_message_send: Mesaj gönderildi!
 mg_message_title: Mesajlar
-mg_message_type: Mesaj Tipi
-mg_min_3_chars: Arama 3 harfle başlar
-mg_msg_sended: Mesaj Gonderildi
+mg_message_type: Mesaj türü
+mg_min_3_chars: Aramak için en az 3 karakter gir
+mg_msg_sended: Mesaj gönderildi!
 mg_new: Yeni
-mg_no_subject: Konu Yok
-mg_no_text: Mesaj Yok
-mg_no_user: Kullanıcı bulunamadı
-mg_open_all: Her zaman “tüm mesajlar” kategorisini aç
-mg_overview: Yoneticilerden Bilgiler
+mg_no_subject: Konu yok
+mg_no_text: Lütfen önce bir mesaj yaz.
+mg_no_user: Oyuncu bulunamadı
+mg_open_all: “Tüm mesajlar” kategorisini her zaman aç
+mg_overview: Mesaj yönetimi
 mg_page: Sayfa
-mg_read_all: Bu tip mesajlari okundu olarak isaretle
-mg_read_marked: Secili mesajlari okundu olarak isaretle
-mg_read_type_all: Butun mesajlari okundu olarak isaretle
-mg_receiver_block_pm: Alici ozel mesaj kabul etmiyor.
+mg_read_all: Tüm mesajları okundu işaretle
+mg_read_marked: Seçili mesajları okundu işaretle
+mg_read_type_all: Bu türdeki tüm mesajları okundu işaretle
+mg_receiver_block_pm: Bu oyuncu özel mesajları engelliyor.
 mg_remember_last_category: Son mesaj kategorisini hatırla
 mg_select_all: Tümünü seç
-mg_search: Aramak
-mg_search_placeholder: Arama terimini girin
-mg_send: Gonder
-mg_send_new: Mesaj Yaz
-mg_send_to: Alicilar
-mg_show_only_header_spy_reports: 'Casusluk mesajlarinin sadece basligini goster '
-mg_subject: Baslik
+mg_search: Ara
+mg_search_placeholder: Arama terimini gir
+mg_send: Gönder
+mg_send_new: Mesaj yaz
+mg_send_to: Alıcı
+mg_show_only_header_spy_reports: Casus raporlarını yalnızca kısmen göster
+mg_subject: Konu
 mg_to: Kime
 mg_total: Toplam
 mg_type:
-  '0': Casusluk Mesajlari
-  '1': Oyuncu Mesajlari
-  '2': Ittifak Mesajlari
-  '3': Savas Mesajlari
-  '4': Sistem Mesajlari
-  '5': Nakliye Mesajlari
-  '6': Harici taşıma
-  '7': Casusluk savunması
-  '15': Kesif Mesajlari
-  '50': Oyundan Haberler
-  '99': Insaa Mesajlari
-  '100': Butun Mesajlari
+  '0': Casus raporları
+  '1': Oyuncu mesajları
+  '2': İttifak mesajları
+  '3': Savaş raporları
+  '4': Sistem mesajları
+  '5': Nakliye
+  '6': Yabancı nakliye
+  '7': Karşı istihbarat
+  '15': Keşif raporları
+  '50': Oyun mesajları
+  '99': İnşaat
+  '100': Tüm mesajlar
   '998': Favoriler
-  '999': Arama mesajları
-mg_write_mail_to_ops: Email gonder
+  '999': Mesajlarda ara
+mg_write_mail_to_ops: 'E-posta yaz:'
 negativ: Negatif
 neutral_fights: Tarafsız dövüşler
-noob_interface: >-
-  Başlangıç arayüzü etkinleştirilmiştir. Bu, oyuna hızlı ve kolay bir şekilde
-  başlamanızı sağlayan basitleştirilmiş bir versiyondur. Öğreticiyi ilerledikçe
-  menü öğelerinin kilidini açarsınız. Başlangıç arayüzü, seçenekler menüsünden
-  istediğiniz zaman devre dışı bırakılabilir.
+noob_interface: Başlangıç arayüzü açık. Hızlı ve kolay bir başlangıç için sadeleştirilmiş bir oyun sürümüdür; menü öğeleri eğitimi ilerledikçe açılır. Ayarlardan istediğin zaman kapatabilirsin.
 nt_back: Geri
 nt_characters: karakter
-nt_create_new_note: Yeni not olustur
-nt_create_note: Yeni not olustur
+nt_create_new_note: Yeni not oluştur
+nt_create_note: Not oluştur
 nt_date_note: Tarih
 nt_dlte_note: Sil
-nt_edit_note: Duzenle
-nt_important: Onemli
-nt_no_text: Metin Yok
-nt_no_title: Baslik Yok
+nt_edit_note: Notu düzenle
+nt_important: Yüksek
+nt_no_text: Metin yok
+nt_no_title: Başlık yok
 nt_normal: Normal
-nt_note: Uyari
+nt_note: Not
 nt_notes: Notlar
-nt_priority: Oncelik
-nt_reset: Sifirla
+nt_priority: Öncelik
+nt_reset: Sıfırla
 nt_save: Kaydet
-nt_size_note: Buyukluk
-nt_subject_note: Baslik
-nt_unimportant: Onemsiz
-nt_you_dont_have_notes: Hic notunuz yok
-op_activate_vacation_mode: Tatil Modunu Aktif Et
-op_activate_vacation_mode_confirm: Tatil modu 48 saat boyunca tekrar devre dışı bırakılamaz. Emin misiniz?
-op_activate_vacation_mode_descrip: >-
-  Tatil modu uzun süreli yokluklarda sizi korumak için tasarlanmıştır. Yalnızca
-  kendi filolarınız hareket halinde değilken etkinleştirilebilir.
-  Etkinleştirildiğinde sizi yeni saldırılara karşı korur. Ancak, halihazırda
-  başlamış olan saldırılar devam edecek ve beklemekte olan dost filolar geri
-  gönderilecektir! Kaynakların üretimi, binaların inşası ve tersane
-  siparişlerinin yanı sıra araştırma bu süre zarfında duraklatılır ve daha sonra
-  yeniden başlatılır. Tatil modu en az 48 saat sürer, sonrasında tekrar devre
-  dışı bırakabilirsiniz.
-op_active_build_messages: Bina mesajlarini goster
-op_active_spy_messages_mode: Casus raporlarini ozetle
-op_add_to_buddy_list: Arkadaslik Istegi Gonder
-op_admin_discord_hook: PM mesajı için Discord web kancası
-op_admin_discord_id: PM için ping için kendi Discord Kullanıcı Kimliği
-op_admin_planets_protection: Gezegen Korumasi
-op_admin_title_options: Yonetici Ayarlari
-op_block_pm: Ozel mesajlari blokla
-op_build_pages: Bina ve araştırma sayfası ayarları
-op_cant_activate_vacation_mode: Filoyu kullanırken tatil modunu etkinleştiremezsiniz.
-op_cant_deactivate_vacation_mode: Henüz tatil modundan çıkamazsınız.
-op_change_mail_exist: Verilen email adresi %s azaten kullanimda!
-op_change_name_exist: Oyuncu ismi %s zaten mevcut
-op_change_name_pro_week: Oyuncu ismini 7 gun icinde en fazla 1 kez degistirebilirsin!
-op_collapse_spy_reports: Casus raporlarını varsayılan olarak daralt
-op_deactivate_ipcheck: IP Kontrol Kapat
-op_deactivate_ipcheck_descrip: >-
-  IP kontrol. IP degistirilmesi ya da iki farkli kisinin farkli IP adresleri ile
-  ayni isimle giris yapmalari durumunda, otomatik olarak guvenlik cikisi
-  yapilmasini saglar, yani o an icin otomatik olarak atilirsin. IP kontrolunu
-  devre disi birakmak cok onemli guvenlik acigi meydana getirebilir!
-op_decimal_separator: Ondalık işareti
-op_dlte_account: Hesabi Sil
-op_dlte_account_descrip: >-
-  Bu, en az 7 gün sonra hesabınızı otomatik olarak tamamen silecektir. Nihai
-  silme işlemi, silme cron işinin yürütülme süresine bağlıdır ve birkaç gün daha
-  sürebilir. Silme işlemi henüz gerçekleştirilmediği sürece, yani hala hesapta
-  oturum açabildiğiniz sürece durdurulabilir.
-op_email_adress: Email adresi
-op_email_adress_descrip: >-
-  Istediginiz zaman mail adresinizi degistirebilirsiniz. Bir sonraki degisiklik
-  sureniz 7 gundur
-op_enable_planet_styles: eğer gezegende varsa, gezegenler için holo efektlerini gösterir
-op_end_vacation_mode: Tatilden Cik
+nt_size_note: Boyut
+nt_subject_note: Başlık
+nt_unimportant: Düşük
+nt_you_dont_have_notes: Henüz notun yok
+op_activate_vacation_mode: Tatil modunu aç
+op_activate_vacation_mode_confirm: Tatil modunu 48 saat boyunca kapatamayacaksın. Emin misin?
+op_activate_vacation_mode_descrip: Tatil modu, uzun süre yokken seni korur. Yalnızca hiçbir filon hareket halinde değilken açılabilir. Açıldığında seni yeni saldırılardan korur. Ancak başlamış saldırılar devam eder ve bekleyen dost filolar geri gönderilir! Kaynak üretimi, bina inşaatı, tersane emirleri ve araştırmalar bu sürede durur, sonra devam eder. Tatil modu ilk 48 saat içinde kapatılamaz!
+op_active_build_messages: İnşaat mesajlarını aç
+op_active_spy_messages_mode: Casus raporlarını özetle
+op_add_to_buddy_list: Arkadaşlık isteği gönder
+op_admin_discord_hook: Özel mesajlar için Discord webhook'u
+op_admin_discord_id: Özel mesajlarda ping için Discord kullanıcı kimliği
+op_admin_planets_protection: Yönetici gezegen korumasını aç
+op_admin_title_options: Yönetici ayarları
+op_block_pm: Özel mesajları engelle
+op_build_pages: Binalar / Araştırma
+op_cant_activate_vacation_mode: Filoların hareket halindeyken tatil moduna geçemezsin.
+op_cant_deactivate_vacation_mode: Tatil modu henüz kapatılamaz.
+op_change_mail_exist: '%s e-posta adresi zaten kullanımda.'
+op_change_name_exist: '%s kullanıcı adı zaten alınmış.'
+op_change_name_pro_week: Kullanıcı adını 7 günde yalnızca bir kez değiştirebilirsin!
+op_collapse_spy_reports: Casus raporlarını varsayılan olarak kapalı göster
+op_deactivate_ipcheck: IP kontrolünü kapat
+op_deactivate_ipcheck_descrip: IP kontrolü, IP adresin değişirse ya da iki kişi aynı hesabı aynı anda farklı IP'lerden kullanırsa seni güvenlik için otomatik olarak çıkışa zorlar. Kapatmak hesabının güvenliğini düşürür!
+op_decimal_separator: Ondalık ayracı
+op_dlte_account: Hesabı sil
+op_dlte_account_descrip: Hesabın en az 7 gün sonra tamamen silinir. Kesin zaman silme görevinin ne zaman çalıştığına bağlıdır, bu yüzden birkaç gün daha sürebilir. Silme işlemi henüz yapılmadığı sürece, yani hesabına hâlâ giriş yapabildiğin sürece iptal edebilirsin.
+op_email_adress: E-posta adresi
+op_email_adress_descrip: Bu e-posta adresini istediğin zaman değiştirebilirsin. 7 gün boyunca değiştirmezsen kalıcı adresin olur.
+op_enable_planet_styles: Holo efekti olan gezegenlerde bu efekti göster
+op_end_vacation_mode: Tatil modunu kapat
 op_error: Hata
-op_galaxy_settings: Galaksi Gorunum Ayarlari
-op_general_settings: Genel Ayarlar
-op_hangar_filters: Gelişmiş hangar filtrelerini etkinleştir
-op_hangar_group_filters: Hangar grup filtreleri
-op_hide_useless: Maksimum faydalı seviyeye ulaşıldıktan sonra temel araştırmaları gizle
+op_galaxy_settings: Galaksi
+op_general_settings: Genel
+op_hangar_filters: Tersanede ek filtreleri göster
+op_hangar_group_filters: Tersane grup filtreleri
+op_hide_useless: Temel araştırmalar faydalı en yüksek seviyeye ulaşınca gizle
 op_lang: Dil
-op_max_fleets_messages: Maximum Filo Mesaji
-op_missile_attack: Roket Saldirisi
-op_missing_requirements_opacity: Gereksinimler karşılanmazsa solma
-op_missing_resources_opacity: Kaynaklar yetersizse solma
-op_need_pass_mail: Email adresini degistirmek icin kutuya sifreni yazmalisin!
-op_new_pass: Yeni Sifre (en az 8 karakter)
-op_noob_interface: Acemi arayüzü
-op_not_vaild_mail: Gecersiz email adresi!
-op_old_pass: Eski Sifre
-op_options_changed: Ayarlar kaydedilir.
+op_max_fleets_messages: En fazla filo mesajı
+op_missile_attack: Roket saldırısı
+op_missing_requirements_opacity: Gereksinimi eksik öğeleri soluklaştır
+op_missing_resources_opacity: Karşılayamadığın öğeleri soluklaştır
+op_need_pass_mail: E-posta adresini değiştirmek için şifreni gir.
+op_new_pass: Yeni şifre (en az 8 karakter)
+op_noob_interface: Başlangıç arayüzü
+op_not_vaild_mail: Bu e-posta adresi geçerli görünmüyor.
+op_old_pass: Mevcut şifre
+op_options_changed: Ayarlar kaydedildi.
 op_options_deletion_activated: Hesap silme etkinleştirildi.
 op_options_deletion_deactivated: Hesap silme devre dışı bırakıldı.
-op_options_no_other_settings_changed: Başka hiçbir ayar değiştirilmedi.
-op_options_vacation_activated: Tatil modu etkinleştirildi.
-op_options_vacation_deactivated: Tatil modu devre dışı bırakıldı.
-op_password_changed: >-
-  Sifreniz degistirildi Lutfen Tekrar giris yapin<br /><a href="./"
-  target="_top">Geri</a>
-op_permanent_email_adress: Surekli e-mail adresi
-op_repeat_new_pass: Yeni Sifre (tekrar)
-op_save_changes: Ayarlari kaydet
+op_options_no_other_settings_changed: Başka bir şey değişmedi.
+op_options_vacation_activated: Tatil modu açık. İyi tatiller!
+op_options_vacation_deactivated: Tatil modu kapalı. Tekrar hoş geldin!
+op_password_changed: Şifren değişti. Lütfen tekrar giriş yap.
+op_permanent_email_adress: Kalıcı e-posta adresi
+op_repeat_new_pass: Yeni şifre (tekrar)
+op_save_changes: Değişiklikleri kaydet
 op_seconds: saniye
-op_send_report: Rapor Yolla
-op_shortcut: Kisayol
-op_show: Goster
-op_show_all_buildable_elements: Eksik gereksinimleri olan öğeleri göster
-op_show_message_category: Doğrudan eşleşen mesaj kategorisini göster
-op_show_planetmenu: Gezegen menusunu goster
-op_show_skin: Skin
+op_send_report: Casus raporu
+op_shortcut: Kısayol
+op_show: Görünüm
+op_show_all_buildable_elements: Gereksinimi eksik öğeleri de göster
+op_show_message_category: Doğrudan ilgili mesaj kategorisine git
+op_show_planetmenu: Gezegen menüsünü göster
+op_show_skin: Teması göster
 op_skin_example: Tema
-op_sort_abc: Alfabetik Sira
+op_sort_abc: Alfabetik
 op_sort_down: Azalan
-op_sort_kind: Siralama Sekli
-op_sort_koords: Koordinatlara Gore
-op_sort_normal: Olusum Sirasina Gore
-op_sort_planets_by: Gezegenleri Sirala
+op_sort_kind: Sıralama düzeni
+op_sort_koords: Koordinatlar
+op_sort_normal: Kolonileştirme sırası
+op_sort_planets_by: Gezegenleri sırala
 op_sort_up: Artan
 op_spy: Casusluk
-op_spy_probes_number: Casus Sondalarinin Sayisi
-op_spy_probes_number_descrip: >-
-  Her tarama sirasinda galaksi menusunden direk gonderilen casusluk sondalarinin
-  sayisi.
+op_spy_probes_number: Görev başına Casus Sondası
+op_spy_probes_number_descrip: Galaksi görünümünden gönderilen sonda sayısı.
 op_spy_report: Casus raporu
 op_spy_report_fresh_time: Taze casus raporu (yeşil nokta), en fazla
 op_spy_report_fresh_time_tooltip: >-
@@ -1271,501 +1179,460 @@ op_spy_report_recent_time: Yakın zamanlı casus raporu (sarı nokta), en fazla
 op_spy_report_recent_time_tooltip: >-
   Bu saat sayısından daha yeni casus raporları sarı nokta gösterir; daha eski
   raporlar kırmızı nokta gösterir.
-op_spy_report_time_invalid: >-
-  Geçersiz casus raporu zamanlayıcıları. Her iki değer de en az 1 saat olmalı ve
-  yakın zamanlı raporların sınırı taze raporların sınırından büyük olmalıdır.
+op_spy_report_time_invalid: Geçersiz casus raporu süreleri. Her iki değer de en az 1 saat olmalı ve yakın zamanlı değer taze değerden büyük olmalı.
 op_stop_dlte_account: Hesap silme işlemini iptal et
-op_timezone: Zaman Dilimi
-op_toolt_data: Bilgilendirme
-op_user_data: Kullanici Verileri
-op_user_name_no_alphanumeric: Lutfen sadece alfabetik ve rakamsal karakter kulaniniz!
-op_username: Kullanici ismi
-op_username_changed: >-
-  Uye Adiniz degistirildi Lutfen Tekrar giris yapin<br /><a href="./"
-  target="_top">Geri</a>
-op_vacation_delete_mode: Tatil Modu / Hesap Silme Ayarlari
-op_vacation_mode_active_message: 'Tatil Modu Aktif :  '
-op_write_message: Mesaj Yaz
+op_timezone: Saat dilimi
+op_toolt_data: 'İpucu göster:'
+op_user_data: Kullanıcı verileri
+op_user_name_no_alphanumeric: Kullanıcı adın yalnızca harf ve rakam içerebilir!
+op_username: Kullanıcı adı
+op_username_changed: Kullanıcı adın değişti. Lütfen tekrar giriş yap.
+op_vacation_delete_mode: Tehlikeli bölge
+op_vacation_mode_active_message: 'Tatil modu şu zamana kadar kapatılamaz: '
+op_write_message: Mesaj yaz
 other: Diğer
-ov_abandon_planet_not_possible: 'Hata: Gezegende filo, bina yada arastirma hareketi mevcut!'
-ov_admins_online: Online Admin
-ov_aprox: Yaklasik
-ov_closed: Evren su an cevrimdisi
-ov_delete_planet: Gezegeni Sil
-ov_developed_fields: Kullanilan Alan
-ov_diameter: Genislik
+ov_abandon_planet_not_possible: Bu koloniye giden ya da kolonidan çıkan filolar varken kolonini silemezsin.
+ov_admins_online: Aktif yöneticiler
+ov_aprox: Yaklaşık
+ov_closed: Bu evren şu an kapalı!
+ov_delete_planet: Gezegeni sil
+ov_developed_fields: Kullanılan alanlar
+ov_diameter: Çap
 ov_distance_unit: km
 ov_events: Olaylar
 ov_fields: Alanlar
 ov_fleet: Filolar
-ov_free: Uygun
-ov_have_new_message: Yeni mesajiniz var
-ov_have_new_messages: ' <b>(%d)</b> Adet Yeni Mesajiniz Var'
-ov_max_developed_fields: Max. Alan
+ov_free: Boş
+ov_have_new_message: Yeni bir mesajın var
+ov_have_new_messages: '%d yeni mesajın var'
+ov_max_developed_fields: Toplam alan
 ov_moon: Ay
-ov_newname_done: Gezegenin ismi basariyla degistirildi
-ov_newname_specialchar: Yanlis Karakter Girdiniz - Sadece Alfabetik Karakterler.,.
+ov_newname_done: Gezegenin adı değişti!
+ov_newname_specialchar: Gezegen adları yalnızca harf, rakam, boşluk, alt çizgi, tire ve nokta içerebilir!
 ov_news: Duyurular
-ov_no_admins_online: Su anda online admin bulunmuyor
-ov_noreflink: Su ana kadar sayende <br> 0 </br>kisi katildi .
-ov_of: 'Toplam Oyuncu:'
+ov_no_admins_online: Şu an çevrim içi yönetici yok!
+ov_noreflink: Henüz kimseyi davet etmedin.
+ov_of: /
 ov_outlaw: 'Şu tarihe kadar kanun kaçağı:'
-ov_password: Sifre
-ov_place: 'Sira:'
+ov_password: Şifre
+ov_place: 'Sıra:'
 ov_planet: Gezegen
-ov_planet_abandoned: Gezegen basariyla terkedildi!
-ov_planet_rename: Yeniden Adlandir
-ov_planetmenu: Yeniden Adlandir yada Sil
-ov_planets: Gezegenler ve uydular
-ov_points: Puanlar
-ov_position: Koordinat
-ov_principal_planet_cant_abanone: Ana gezegen terkedilemez!
-ov_reflink: Davet et
-ov_rename_label: Yeni Isim
-ov_security_confirm: ' %s gezegenini silme islemini onaylaniz.'
-ov_security_request: Guvenlik Sorusu
-ov_server_time: Uzay Zamani
+ov_planet_abandoned: Gezegen silindi.
+ov_planet_rename: Yeniden adlandır
+ov_planetmenu: Yeniden adlandır veya sil
+ov_planets: Gezegenler ve aylar
+ov_points: Puan
+ov_position: Konum
+ov_principal_planet_cant_abanone: Ana gezegenini silemezsin!
+ov_reflink: Davet bağlantısı
+ov_rename_label: Yeni ad
+ov_security_confirm: '%s gezegenini yok etmek istediğine emin misin?'
+ov_security_request: Güvenlik sorusu
+ov_server_time: Sunucu saati
 ov_temp_unit: °C
-ov_temperature: Sicaklik
+ov_temperature: Sıcaklık
 ov_ticketbot: Ticketbot
 ov_to: ila
 ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
-ov_wrong_name: Yanlis isim girdiniz!
-ov_wrong_pass: Yanlis sifre girdiniz!
+ov_wrong_name: Yanlış ad!
+ov_wrong_pass: Yanlış şifre!
 own_colors: Kendi renkleri
-page_doesnt_exist: Sayfa Bulunamadi
-pl_ally: Ittifak
-pl_buddy: Arkadaslik
+page_doesnt_exist: İstenen sayfa mevcut değil.
+pl_ally: İttifak
+pl_buddy: Arkadaş
 pl_builds: Binalar
 pl_def: Savunma
-pl_dercrystal: Geri Donusumlu Kristal
-pl_dermetal: Geri Donusumlu Metal
-pl_destroy: '%s aşağıdaki yıkımlara karışmıştır'
-pl_destroy_real: '%s aslında aşağıdakileri kendisi yok etti'
-pl_etc: 'Digerleri '
+pl_dercrystal: Geri dönüştürülen kristal
+pl_dermetal: Geri dönüştürülen metal
+pl_destroy: '%s şunlara karıştı'
+pl_destroy_real: '%s bizzat şunlara karıştı'
+pl_etc: 'Diğer '
 pl_fightdraw: Berabere
-pl_fightlose: Kaybedilenler
-pl_fights: Savaslar
-pl_fightstats: Savas Istatistikleri
-pl_fightwon: Kazanilanlar
+pl_fightlose: Kaybedilen
+pl_fights: Savaşlar
+pl_fightstats: Savaş istatistikleri
+pl_fightwon: Kazanılan
 pl_fleet: Filo
-pl_fprocent: 'Yuzdesi '
-pl_homeplanet: Ana Gezegen
+pl_fprocent: Yüzde
+pl_homeplanet: Ana gezegen
 pl_message: Mesaj
-pl_name: Oyuncu Adi
+pl_name: Kullanıcı adı
 pl_overview: Oyuncu Profili
 pl_points: Puan
-pl_range: Sira
-pl_tech: Arastirma
+pl_range: Sıra
+pl_tech: Araştırma
 pl_total: Toplam
-pl_totalfight: Toplam Savaslar
-pl_unitslose: Unite Kaybedildi
-pl_unitsshot: Unite yok edildi
-PM: '[O.M.]'
+pl_totalfight: Toplam savaş
+pl_unitslose: Kaybedilen birim
+pl_unitsshot: Yok edilen birim
+PM: '[ÖM]'
 positiv: Olumlu
-px_fleet_movement: Guncel filo hareketleri
-px_no_deuterium: Yeterli deuterium yok!
-px_no_fleet: Guncel filo hareketi yok.
-px_out_of_range: Menzil Disi
-px_scan_position: Aranan koordinat
-ready: Bitti
-rebuild_proteciton_link: Bu modu burada zamanından önce devre dışı bırakın.
-rebuild_proteciton_mode: >-
-  Hesabınız, sizi saldırılardan koruyabilecek yeniden oluşturma koruma
-  modundadır.
+px_fleet_movement: Hareket halindeki filo
+px_no_deuterium: Yeterli deuterium yok.
+px_no_fleet: Şu an hareket halinde filo yok.
+px_out_of_range: Menzil dışı
+px_scan_position: Tarama konumu
+ready: Hazır
+rebuild_proteciton_link: Buradan erkenden kapatabilirsin.
+rebuild_proteciton_mode: Hesabın yeniden kuruluş korumasında; bu seni saldırılardan koruyabilir.
 rec_count: Miktar
-rec_last_update_on: 'Son guncellendigi tarih '
-rec_level: Kademe
+rec_last_update_on: 'Son güncelleme: '
+rec_level: Seviye
 rec_players: Oyuncu
 rec_time: Tarih/Saat
-recordsOptIn: Kayıtlarınızı tüm oyunculara gösterin
+recordsOptIn: Rekorlarını tüm oyunculara göster
 repaired: Onarıldı
 rs_amount: Miktar
-rs_basic_income: Ana Gelir
-rs_calculate: Hesaplama
-rs_daily: 'Gunluk Uretim:'
-rs_lvl: Kademe
-rs_production_on_planet: '"%s" gezegenindeki mevcut uretim bilgileri'
-rs_ress_bonus: 'Bonus (Subaylar dahil):'
-rs_ress_bonus_position: Bonus (gezegen pozisyonu aracılığıyla)
-rs_storage_capacity: Depo Kapasitesi
-rs_sum: Toplam
-rs_weekly: 'Haftalik Uretim:'
-sh_alliance: Ittifak
-sh_alliance_name: Ittifak Ismi
-sh_alliance_tag: Ittifak Tagi
-sh_buddy_request: Arkadaslik Istegi
-sh_coords: Koordinat
-sh_loading: (Yukleniyor ...)
-sh_members: Uye
-sh_name: Isim
+rs_basic_income: Temel üretim
+rs_calculate: Değişiklikleri kaydet
+rs_daily: 'Günlük üretim:'
+rs_lvl: Seviye
+rs_production_on_planet: '"%s" gezegeninde üretilen kaynaklar'
+rs_ramp_up: Tümünü çalıştır
+rs_ress_bonus: Bonus (araştırmalardan)
+rs_ress_bonus_position: Bonus (gezegen konumundan)
+rs_shut_down: Tümünü durdur
+rs_storage_capacity: Depo kapasitesi
+rs_sum: Saatlik üretim
+rs_weekly: 'Haftalık üretim:'
+sh_alliance: İttifak
+sh_alliance_name: İttifak adı
+sh_alliance_tag: İttifak etiketi
+sh_buddy_request: Arkadaşlık isteği
+sh_coords: Konum
+sh_loading: (Yükleniyor ...)
+sh_members: Üye
+sh_name: Ad
 sh_planet: Gezegen
-sh_planet_name: Gezegen Adi
-sh_player_name: Oyuncu Adi
+sh_planet_name: Gezegen adı
+sh_player_name: Oyuncu adı
 sh_points: Puan
-sh_position: Sira
-sh_search: arama
-sh_search_in_the_universe: Oyun icinde ara
+sh_position: Sıra
+sh_search: Ara
+sh_search_in_the_universe: Evrende ara
 sh_tag: Tag
-sh_write_message: Ozel Mesaj
-spec_mail_inactive_title: '%s - Hatirlatma Mesaji'
+sh_write_message: Özel mesaj
+spec_mail_inactive_title: '%s - Hatırlatma'
 spytech_playercard:
-  level2: Casusluk Teknigi 2'den görüntülenebilir!
-  level4: Casusluk Teknigi 4'den görüntülenebilir!
-  level6: Casusluk Teknigi 6'den görüntülenebilir!
-st_alliance: Ittifak
+  level2: Casusluk Tekniği 2'den itibaren görülebilir!
+  level4: Casusluk Tekniği 4'ten itibaren görülebilir!
+  level6: Casusluk Tekniği 6'dan itibaren görülebilir!
+st_alliance: İttifak
 st_buildings: Bina
 st_defenses: Savunma
 st_fleets: Filo
-st_honor: Onur Puanları
-st_in_the_positions: siralama
+st_honor: Onur puanı
+st_in_the_positions: sıralamada
 st_members: Uye
-st_per: tip
-st_per_member: Uye Basina
+st_per: türe göre
+st_per_member: Üye başına
 st_player: Oyuncu
 st_points: Puan
-st_position: Sira
-st_researh: Arastirma
-st_show: goster
-st_statistics: Istatistikler
-st_updated: Son guncelleme
-st_write_message: Ozel Mesaj
+st_position: Sıra
+st_researh: Araştırma
+st_show: göster
+st_statistics: İstatistikler
+st_updated: Son güncelleme
+st_write_message: Özel mesaj
 StaticTimer: Varış zamanı
 stats:
-  '202': Kucuk Nakliye
-  '203': Buyuk Nakliye
-  '204': Hafif Avci
-  '205': Agir Avci
-  '206': Kruvazor
+  '202': Küçük Nakliye
+  '203': Büyük Nakliye
+  '204': Hafif Avcı
+  '205': Ağır Avcı
+  '206': Kruvazör
   '207': Komuta Gemisi
   '208': Koloni Gemisi
-  '209': Geri Donusumcu
-  '210': Casus Sondasi
-  '211': Bombardiman Gemisi
+  '209': Geri Dönüşümcü
+  '210': Casus Sondası
+  '211': Bombardıman Gemisi
   '212': Solar Uydu
   '213': Muhrip
-  '214': Olum Yildizi (R.I.P.)
-  '215': Firkateyn
-  '216': Kara Savasci
+  '214': Ölüm Yıldızı
+  '215': Fırkateyn
+  '216': Kara Savaşçı
   '217': Ultra Nakliye
   '218': Avatar
-  '219': Ultra Donusumcu
-  '401': Roket Aticilar
+  '219': Ultra Dönüşümcü
+  '401': Roket Atıcılar
   '402': Hafif Lazer
-  '403': Agir Lazer
-  '404': Gaus Topu
-  '405': Iyon Topu
-  '406': Plazma Aticilar
-  '407': Kucuk Kalkan Kubbesi
-  '408': Buyuk Kalkan Kubbesi
-  '409': Dev(Atmosfer) Kalkan Kubbesi
+  '403': Ağır Lazer
+  '404': Gauss Topu
+  '405': İyon Topu
+  '406': Plazma Atıcılar
+  '407': Küçük Kalkan Kubbesi
+  '408': Büyük Kalkan Kubbesi
+  '409': Dev (Atmosfer) Kalkan Kubbesi
   '410': Gravitasyon Topu
   '411': Orbital Savunma Platformu
   '412': Bunker
   '413': Titan Laser
   '414': Yem
-  '502': Yakalayici Roketler
-  '503': Gezegenler Arasi Roketler
+  '502': Yakalayıcı Roketler
+  '503': Gezegenlerarası Roketler
   '901': Metal
   '902': Kristal
   '903': Deuterium
-stb_activ: Çöpçüler Araç Kutusu etkin
-stb_big_ress: Hedef gezegende birçok kaynak mevcut
-stb_big_ress_tooltip: >-
-  Gezegene girilenden daha az kaynak varsa, casus raporu açık yeşil (iyi) olarak
-  işaretlenir. Bu değerin üzerinde kaynaklara sahip casus raporları açık mavi
-  (optimal) olarak görüntülenir.
-stb_big_time: Saniye başına iyi kaynak oranı
-stb_big_time_tooltip: >-
-  İki ondalık basamağa yuvarlanmış, saniyede mümkün olan en iyi kaynak verimini
-  açıklar. Girilen değerden daha düşük bir oran iyi (açık yeşil), yukarıdaki bir
-  değer optimal (açık mavi) olarak yorumlanır.
-stb_low_ress: Hedef gezegende mevcut düşük kaynaklar
-stb_low_ress_tooltip: >-
-  Gezegene girilenden daha az kaynak varsa, casus raporu parlak kırmızı (kötü)
-  olarak işaretlenir.
-stb_med_time: Saniye başına ortalama kaynak oranı
-stb_med_time_tooltip: >-
-  İki ondalık basamağa yuvarlanmış, saniyede mümkün olan en iyi kaynak verimini
-  açıklar. Kayıtlı değerden daha düşük bir oran orta (açık turuncu) olarak
-  yorumlanır.
-stb_mid_ress: Hedef gezegende bulunan orta kaynaklar
-stb_mid_ress_tooltip: >-
-  Gezegene girilenden daha az kaynak varsa, casus raporu açık turuncu (orta)
-  olarak işaretlenir.
-stb_small_time: Saniye başına düşük kaynak oranı
-stb_small_time_tooltip: >-
-  İki ondalık basamağa yuvarlanmış, saniyede mümkün olan en iyi kaynak verimini
-  açıklar. Kayıtlı değerden daha düşük bir oran kötü (açık kırmızı) olarak
-  yorumlanır.
+stb_activ: Ayrıntılı casus raporları (Çöpçü Araç Kutusu) açık
+stb_big_ress: Bol kaynak (şundan az)
+stb_big_ress_tooltip: Gezegendeki kaynak bu değerden azsa casus raporu açık yeşil (iyi) işaretlenir. Kaynağı bu değerden fazla olan casus raporları açık mavi (optimal) görünür.
+stb_big_time: Saniyede bol kaynak (şundan az)
+stb_big_time_tooltip: Saniye başına elde edilebilecek en iyi kaynak verimi, iki ondalık basamağa yuvarlanmış. Bu değerin altındaki oran iyi (açık yeşil), üstündeki optimal (açık mavi) sayılır.
+stb_low_ress: Az kaynak (şundan az)
+stb_low_ress_tooltip: Gezegendeki kaynak bu değerden azsa casus raporu parlak kırmızı (kötü) işaretlenir.
+stb_med_time: Saniyede orta kaynak (şundan az)
+stb_med_time_tooltip: Saniye başına elde edilebilecek en iyi kaynak verimi, iki ondalık basamağa yuvarlanmış. Bu değerin altındaki oran orta (açık turuncu) sayılır.
+stb_mid_ress: Orta kaynak (şundan az)
+stb_mid_ress_tooltip: Gezegendeki kaynak bu değerden azsa casus raporu açık turuncu (orta) işaretlenir.
+stb_small_time: Saniyede az kaynak (şundan az)
+stb_small_time_tooltip: Saniye başına elde edilebilecek en iyi kaynak verimi, iki ondalık basamağa yuvarlanmış. Bu değerin altındaki oran kötü (açık kırmızı) sayılır.
 stb_title: Scavengers Toolbox
 sys_back: Geri
-sys_buildlist: Insaa Listesi
-sys_buildlist_fail: Insaa Edilemedi
+sys_buildlist: İnşa kuyruğu
+sys_buildlist_fail: İnşaat başarısız oldu
 sys_catchup: 'Maliyet ve inşaat süresi bonusu: %01.2f'
 sys_catchup_short: 'Bonus: %01.2f'
-sys_catchup_tooltip: >-
-  Bu binanın/araştırmanın rekor seviyesine ulaşması sayesinde zaman ve maliyet
-  tasarrufu sağlandı
-sys_closed_game: 'Oyun su an aktif degil:'
-sys_forward: Ileri
-sys_game_is_setup: >-
-  <h1>Kayıt Tamamlandı!</h1><br><p>şu anda evreni̇ si̇zi̇n i̇çi̇n
-  hazirliyoruz!</p><!--discord_url--><p>Bu arada, hiçbir şeyi kaçırmayın, bize katılın</p><h3><a
-  href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
-sys_module_inactive: Modul Aktif Degil
-sys_nomore_level: Mevcut olmayan bir binayi yikmaya calisiyorsun ( %s ).
-sys_notenough_money: >-
-  Hata %s <a
-  href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a>de yeterli
-  hammadde yok.  . <br> Insaa Edilmesi Emredilen Bina: %s. Sendeki mevcut
-  hammadde %s %s , %s %s and %s %s. <br>Insaa icin gereken ise  %s %s , %s %s ve
-  %s %s.
+sys_catchup_tooltip: 'Yetişme bonusu: bu binanın/araştırmanın rekor seviyesine göre kısalan süre ve düşen maliyet'
+sys_closed_game: 'Oyun şu an kapalı:'
+sys_forward: İleri
+sys_game_is_setup: <h1>Kayıt tamamlandı!</h1><br><p>Evrenini hazırlıyoruz!</p><!--discord_url--><p>Bu arada hiçbir şeyi kaçırmamak için bize katıl:</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
+sys_module_inactive: Bu modül etkin değil
+sys_nomore_level: Yıkılacak %s yok.
+sys_notenough_money: '%s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> üzerinde %s inşa etmek için yeterli kaynak yok. <br>Sende var: %s %s, %s %s ve %s %s. <br>Maliyet: %s %s, %s %s ve %s %s.'
 sys_refferal_from: Sistem
-sys_refferal_text: Oyuncu %s sizin tarafinizdan evrene kazandirildi ve su an %s puani var.
-sys_refferal_title: Oyuncu Bonusu %s
-sys_techlist: Arastirma Listesi
+sys_refferal_text: Seni davetiyle gelen %s adlı oyuncu %s puana ulaştı.
+sys_refferal_title: Oyuncu bonusu %s
+sys_techlist: Araştırma kuyruğu
 team: Ekip
 teamAdmin: Admin
-teamAdminLong: Oyunu yönetmek için özel özelliklere erişimi vardır
-teamAktiv: Varlık
-teamAlumni: Eski / Aktif Olmayan Ekip Üyeleri
-teamAlumniLong: Teşekkür ederiz
+teamAdminLong: Oyunu yönetmek için özel araçlar kullanabilir
+teamAktiv: Aktif
+teamAlumni: Eski / pasif ekip üyeleri
+teamAlumniLong: Teşekkürler
 teamCommunity: Community Support
-teamCommunityLong: >-
-  Desteğe ihtiyacınız olduğunda sizin için oradalar<hr>Sorununuz ne olursa olsun
-  bizimle iletişime geçmeniz yeterli! Bir çözüm bulmak için elimizden geleni
-  yapacağız<hr>Herhangi bir sorunuz varsa veya içinizi dökmek istiyorsanız,
-  anonim olarak bile olsa, bunu yapabilirsiniz<hr>Ayrıca oyuncular ve modlar
-  arasındaki irtibattan da biz sorumluyuz.
-teamContributor: Katkıda Bulunan
-teamContributorLong: Projenin gelişimine katkıda bulunur.
+teamCommunityLong: Desteğe ihtiyacın olduğunda senin için buradalar.<br>Sorun ne olursa olsun, bize ulaşman yeterli!<br>Çözüm bulmak için elimizden geleni yapacağız.<br>Sorun ya da içini dökmek istediğin bir şey mi var, anonim bile olsa? Gel, konuşalım.<br>Ayrıca oyuncular ile moderatörler arasında köprü görevi görüyoruz.
+teamContributor: Katkıda bulunan
+teamContributorLong: Projenin gelişmesine yardım eder.
 teamDatabase: Veritabanı erişimi
 teamDev: Geliştirici
-teamDevLong: >-
-  Projeyi sürdürür ve geliştirir<br>Geliştirici tartışmaları için Discord
-  bölümüne erişimi vardır
-teamDiscordName: Discord Adı
-teamEmergency: Acil Durum Ekibi
-teamEmergencyLong: Sunucu kesintileri meydana geldiğinde kullanıcılardan bir ping alır
-teamIngameName: Oyun İçi İsim
-teamLegend: Açıklama, Rollerin / Hakların Açıklaması
+teamDevLong: Projeyi sürdürür ve geliştirir<br>Geliştirici tartışmaları için Discord bölümüne erişimi var
+teamDiscordName: Discord adı
+teamEmergency: Acil durum ekibi
+teamEmergencyLong: Sunucular çöktüğünde kullanıcılar Discord'daki "@Emergency Response Team" üzerinden ona ping atar
+teamIngameName: Oyun içi ad
+teamLegend: Roller ve yetkiler
 teamMod: Moderatör
-teamModLong: >-
-  Vakalarınızı/sorunlarınızı ele almak<br>Adil bir oyun deneyimi sağlamaya
-  çalışır<br>Cezalardan sorumludur<br>Mod tartışmaları için Discord bölümüne
-  erişimi vardır<br>Geliştirici tartışmaları için Discord bölümüne erişimi
-  vardır<br>Geliştiricilerle bilet toplantıları için Discord bölümüne erişimi
-  vardır
+teamModLong: Vakalarını ve sorunlarını ele alır<br>Herkes için adil bir oyun için çalışır<br>Cezalardan sorumludur<br>Moderatör tartışmaları için Discord bölümüne erişimi var<br>Geliştirici tartışmaları için Discord bölümüne erişimi var<br>Geliştiricilerle bilet toplantıları için Discord bölümüne erişimi var
 teamNo: Hayır
 teamPlayer: Oyuncu
 teamRole: Rol
-teamScripte: Komut dosyalarını kontrol etme
-teamScripteLong: >-
-  Oyuncular tarafından oluşturulan komut dosyalarını değerlendirir, böylece
-  Takım<br>komut dosyasına özelliklerle izin verip vermeyeceğine karar verebilir
+teamScripte: Script denetimi
+teamScripteLong: Oyuncuların yazdığı scriptleri inceler; böylece ekip<br>izin verilip verilmeyeceğine karar verebilir
 teamTickets: Bilet erişimi
-teamTicketsLong: Açılan tüm biletleri okuyabilir
-teamYes: Ve
-ti_admin_close: Admin ticketi kapatti!
-ti_admin_open: Bilet acik!
-ti_answer: Yanitla
-ti_answers: Cevapla
+teamTicketsLong: Açık tüm biletleri okuyabilir
+teamYes: Evet
+ti_admin_close: Bilet kapatıldı!
+ti_admin_open: Bilet açıldı!
+ti_answer: Yanıtla
+ti_answers: Yanıt
 ti_category: Kategori
-ti_close: Ticket kapatildi
-ti_create: 'Ticketin olusturuldugu tarih: '
-ti_create_head: Ticket Ac
-ti_create_info: >-
-  <p> Dikkat, Bir destek bileti olustururken lutfen mumkun oldugu kadar detayli
-  anlatiniz!</p><p>Sormak istediginiz soruyu net bir sekilde anlatiniz ve
-  sorunun kisa surede hallolmasi icin onerilerinizi de
-  bildiriniz</p><p>Ozellikle hesapla ilgili konularda detay vermek sorunun cabuk
-  halledilmesi bakimindan onemli.</p>
+ti_close: Bilet kapatıldı
+ti_create: 'Biletin oluşturulma tarihi: '
+ti_create_head: Bilet oluştur
+ti_create_info: |-
+  <p>Destek bileti oluştururken lütfen sorununu mümkün olduğunca ayrıntılı anlat!</p>
+  <p>Ayrıntılı bir açıklama çözüm süresini kısaltır ve uzun uzun yazışmaları önler.</p>
+  <p>Hesapla ilgili sorunlarda ilgili hesap bilgilerini vermek, biletin doğru kişiye atanmasına yardım eder ve işlem süresini kısaltır.</p>
 ti_date: Tarih
-ti_error_closed: >-
-  Ticket kapatildi. Daha fazla Mesaj Yazilamaz. Yeni bir ticket acmak
-  zorundasin!
-ti_error_no_subject: Konuyu girmediniz!
-ti_from: Gonderen
-ti_header: Destek Sistemi
+ti_error_closed: Bu bilet zaten kapalı, bu yüzden yanıtlanamaz.
+ti_error_no_subject: Lütfen bir konu gir.
+ti_from: gönderen
+ti_header: Destek sistemi
 ti_id: Ticket
 ti_message: Mesaj
-ti_msgtime: 'Mesajin gonderildigi zaman: '
-ti_new: Yeni Ticket
-ti_not_exist: 'Ticket #%d Mevcut degil!'
-ti_open: Acik
+ti_msgtime: 'Mesajın gönderildiği zaman: '
+ti_new: Yeni bilet
+ti_not_exist: '#%d numaralı bilet bulunamadı.'
+ti_open: Açık bilet
 ti_overview: Geri
-ti_re: 'Ilet:'
-ti_read: Detaylar
-ti_responded: 'Yanitlandigi tarih: '
+ti_re: 'Ynt:'
+ti_read: Okunacak bilet
+ti_responded: 'Biletin yanıtlandığı tarih: '
 ti_status: Durum
-ti_status_answer: Yanit
-ti_status_closed: Kapali
-ti_status_open: Acik
+ti_status_answer: Yanıt
+ti_status_closed: Kapalı
+ti_status_open: Açık
 ti_subject: Konu
-ti_submit: Gonder
+ti_submit: Gönder
 ti_username: Oyuncu
-tkb_all: hepsi
+tkb_all: tümü
 tkb_datum: Tarih
 tkb_day: gün
 tkb_diplomacy: Diplomasi
 tkb_exclude: hariç tut
 tkb_galaxy: Galaksi
 tkb_gewinner: <b>-Kazanan-</b>
-tkb_gratz: 'Evrendeki En Buyuk 100 Savas '
-tkb_legende: '<b>Bilgi: </b>'
+tkb_gratz: 'Tüm ekip ilk 100''dekileri tebrik eder '
+tkb_legende: '<b>Açıklama: </b>'
 tkb_memorial: Anıtlar
-tkb_missing: <br>Oyuncu artik mevcut degil.
+tkb_missing: '<br>Kayıp: Oyuncu hesabı artık yok.'
 tkb_month: ay
-tkb_only: sadece
-tkb_owners: Katilimcilar
-tkb_platz: Sira
-tkb_self: kendi
-tkb_timeframe: Zaman Çerçevesi
-tkb_top: En Buyuk Savaslar
-tkb_unentschieden: <b>-Berabere- </b>
-tkb_units: Uniteler
+tkb_only: yalnızca
+tkb_owners: Katılan oyuncular
+tkb_platz: Sıra
+tkb_self: yalnızca kendi
+tkb_timeframe: Zaman aralığı
+tkb_top: Şeref Listesi
+tkb_unentschieden: <b>-Berabere-</b>
+tkb_units: Birimler
 tkb_verlierer: <b>-Kaybeden-</b>
 tkb_week: hafta
-tn_delete_mode: 'Hesabiniz Silme Modunda Silinecegi Tarih : %s'
-tn_player_title: Imparator
-tn_vacation_mode: Tatil modundasınız.
-tn_vacation_mode_kick: >-
-  <br><br>LÜTFEN DİKKAT: Tatil modu 4 hafta kullanılmadığında otomatik olarak
-  devre dışı bırakılır.
-tn_vacation_mode_until: Saat en az %s olana kadar tatil modundasınız.
-tr_exchange_done: Takas basari ile tamamlandi
-tr_exchange_error: Girilen miktar yanlis yada yeterli miktarda kaynagin yok
-tt_lvl: 'Kademe '
-tt_requirements: Gereken
-type_mission_1: Saldiri
+tn_delete_mode: Hesabın %s tarihinde silinecek.
+tn_player_title: İmparator
+tn_vacation_mode: Hesabın tatil modunda.
+tn_vacation_mode_kick: '<br><br>NOT: Tatil modu 4 hafta etkinlik olmazsa otomatik olarak kapanır.'
+tn_vacation_mode_until: Hesabın en az %s tarihine kadar tatil modunda.
+tr_exchange_done: Takas tamamlandı!
+tr_exchange_error: Kaynak miktarı geçersiz ya da yetersiz
+tt_lvl: 'Seviye '
+tt_lv_short: Sv
+tt_requirements: Gereksinimler
+tt_unlocks: 'Unlocks'
+tt_status_owned: 'Built'
+tt_status_available: 'Available'
+tt_status_locked: 'Locked'
+tt_hint: 'Hover or select a technology to trace its requirements (above) and what it unlocks (below). Click to pin, Esc to clear.'
+tt_foreign: 'Required by this category, belongs to another'
+tt_none: 'none'
+tt_graph: 'Technology tree'
+type_mission_1: Saldır
 type_mission_1_foreign: Yabancı saldırı
-type_mission_1_own: Kendi saldırısı
-type_mission_2: Ittifak Saldirisi
-type_mission_2_foreign: Yabancı federasyon saldırı filosu
-type_mission_2_friend: Dost federasyon saldırı filosu
-type_mission_2_own: Kendi federasyon saldırı filosu
+type_mission_1_own: Kendi saldırın
+type_mission_2: İttifak Saldırısı
+type_mission_2_foreign: Yabancı İSS saldırı filosu
+type_mission_2_friend: Dost İSS saldırı filosu
+type_mission_2_own: Kendi İSS saldırı filon
 type_mission_3: Nakliye
 type_mission_3_foreign: Yabancı nakliye
-type_mission_3_own: Kendi nakliye aracı
-type_mission_4: Konuslanmak
-type_mission_4_foreign: Yabancı istasyon
-type_mission_4_own: İstasyon sahibi
-type_mission_5: Durmak
-type_mission_5_foreign: Yabancı bekletme
-type_mission_5_own: Own holding
+type_mission_3_own: Kendi nakliyen
+type_mission_4: Konuşlan
+type_mission_4_foreign: Yabancı konuşlanma
+type_mission_4_own: Kendi konuşlanman
+type_mission_5: Bekle
+type_mission_5_foreign: Yabancı bekleme
+type_mission_5_own: Kendi beklemen
 type_mission_6: Casusluk
 type_mission_6_foreign: Yabancı casusluk
-type_mission_6_own: Kendi casusluk
-type_mission_7: Kolonilestirmek
+type_mission_6_own: Kendi casusluğun
+type_mission_7: Kolonileştir
 type_mission_7_foreign: Yabancı kolonileştirme
-type_mission_7_own: Kendi kolonizasyon
-type_mission_7_own_return: Kendi kolonizasyonunu iade et
-type_mission_8: Sokmek
+type_mission_7_own: Kendi kolonileştirmen
+type_mission_7_own_return: Kendi kolonileştirmenin dönüşü
+type_mission_8: Geri dönüştür
 type_mission_8_foreign: Yabancı geri dönüşüm
-type_mission_8_own: Kendi geri dönüşümü
-type_mission_9: Yoketmek
-type_mission_9_foreign: Yabancı imha
-type_mission_9_own: Kendi yıkımı
-type_mission_10: Roket Saldirisi
-type_mission_10_foreign: Yabancı füze saldırısı
-type_mission_10_own: Kendi füze saldırısı
-type_mission_15: Kesif Ucusu
-type_mission_15_foreign: Yabancı sefer
-type_mission_15_own: Kendi seferi
+type_mission_8_own: Kendi geri dönüşümün
+type_mission_9: Yok et
+type_mission_9_foreign: Yabancı yok etme
+type_mission_9_own: Kendi yok etmen
+type_mission_10: Roket saldırısı
+type_mission_10_foreign: Yabancı roket saldırısı
+type_mission_10_own: Kendi roket saldırın
+type_mission_15: Keşif
+type_mission_15_foreign: Yabancı keşif
+type_mission_15_own: Kendi keşfin
 type_mission_16: Ticaret
 type_mission_16_foreign: Yabancı pazar filosu
-type_mission_16_own: Kendi pazar yeri filosu
-type_mission_17: Transfer
-type_mission_17_foreign: Yabancı transfer
-type_mission_17_own: Kendi transfer
+type_mission_16_own: Kendi pazar filon
+type_mission_17: Aktarım
+type_mission_17_foreign: Yabancı aktarım
+type_mission_17_own: Kendi aktarımın
 type_mission_20: Saldırı
 type_mission_21: Casusluk
 type_mission_22: Geri dönüşüm
 type_mission_return_foreign: Yabancı dönüş
-type_mission_return_own: Kendi dönüşü
+type_mission_return_own: Kendi dönüşün
 type_planet_1: Gezegen
-type_planet_2: Harabe alani
+type_planet_2: Enkaz alanı
 type_planet_3: Ay
 type_planet_4: Korsan üssü
 type_planet_short_1: G
-type_planet_short_2: HA
+type_planet_short_2: EA
 type_planet_short_3: A
-type_planet_short_4: Kü
+type_planet_short_4: Ks
 user_level_0: Oyuncu
 user_level_1: Moderator
 user_level_2: Operator
-user_level_3: Admin
-whenbuildable: İçinde mümkün
-write_message: Mesaj Yaz
+user_level_3: Yönetici
+whenbuildable: 'İnşa edilebilir:'
+write_message: Mesaj yaz
 ach_filter_all: "Tümü"
-ach_filter_locked: "Kilitli"
-ach_filter_unlocked: "Kilidi açık"
-ach_locked: "Henüz açılmadı"
-ach_progress: "%d / %d açıldı"
+ach_filter_locked: Kilitli
+ach_filter_unlocked: Açılmış
+ach_locked: Henüz açılmadı
+ach_progress: '%d / %d açıldı'
 ach_unlocked_on: "%s tarihinde açıldı"
 al_apply_accepted: "Başvuru kabul edildi."
 al_apply_declined: "Başvuru reddedildi."
-al_name_tag_too_long: "İttifak etiketi en fazla 8, ad ise en fazla 30 karakter olabilir!"
-bs_share_code: "Paylaşım kodu"
-bs_swap: "Tarafları değiştir"
-bu_player_not_exist: "Bu oyuncu mevcut değil!"
-cff_mission_other_expo_0: "%s tipi bir filo, %s %s %s konumundan %s konumuna ulaştı. Görev: %s"
-cff_mission_other_expo_2: "%s tipi bir filo, %s %s %s konumundan çıkıp %s konumunda keşif seferinde. Görev: %s"
-cff_mission_other_recy_0: "%s tipi bir filo, %s %s %s konumundan çıkıp %s konumundaki enkaz alanına ulaştı. Görev: %s"
-cff_mission_other_0: "%s tipi bir filo, %s %s %s konumundan %s %s %s konumuna ulaştı. Görev: %s"
-cff_mission_other_1: "%s tipi bir filo, %s %s %s konumundan %s %s %s konumuna dönüyor. Görev: %s"
-cff_mission_other_2: "%s tipi bir filo, %s %s %s konumundan çıkıp %s %s %s etrafında yörüngede. Görev: %s"
-cff_mission_other_expo_1: "%s tipi bir filo, %s konumundan %s %s %s konumuna dönüyor. Görev: %s"
-cff_mission_other_mip: "%s %s %s konumundan %s %s %s konumuna füze saldırısı (%d)."
-cff_mission_other_recy_1: "%s tipi bir filo, %s konumundaki enkaz alanından %s %s %s gezegenine dönüyor. Görev: %s"
-fl_exchange: "Takas"
-fl_expedition_tech_required: "Keşif seferi başlatmadan önce Astrofizik araştırması seviye 1 gerekir."
-fl_stronger_techs: "Saldırı/zırh/kalkan değerin çok düşük."
-fl_visibility: "Görünürlük"
-fl_visibility_all: "Herkes"
-fl_visibility_alliance: "Müttefikler ve ticaret ortakları"
-fl_visibility_no_enemies: "Düşmanlar hariç herkes"
-fm_engines: "Motorlar"
-fm_imperial: "İmparatorluk"
-fm_mining: "Madencilik"
-fm_other: "Diğer"
-fm_storage: "Depolar"
-lm_marketplace: "Pazar yeri"
-market_buyable_no_enemies: "Düşman yok"
-market_buyable_only_trade_partners: "Yalnızca ortaklar"
+al_name_tag_too_long: Etiket en fazla 8, ad en fazla 30 karakter olabilir.
+bs_share_code: Paylaşım kodu
+bs_swap: Tarafları değiştir
+bu_player_not_exist: Böyle bir oyuncu yok.
+cff_mission_other_expo_0: '%s, %s %s %s konumundan çıkıp %s konumuna ulaştı. Görev: %s'
+cff_mission_other_expo_2: '%s, %s %s %s konumundan çıkıp %s konumunda keşifte. Görev: %s'
+cff_mission_other_recy_0: '%s, %s %s %s konumundan çıkıp %s konumundaki enkaz alanına ulaştı. Görev: %s'
+cff_mission_other_0: '%s, %s %s %s konumundan çıkıp %s %s %s konumuna ulaştı. Görev: %s'
+cff_mission_other_1: '%s, %s %s %s konumundan %s %s %s konumuna dönüyor. Görev: %s'
+cff_mission_other_2: '%s, %s %s %s konumundan çıkıp %s %s %s yörüngesinde bekliyor. Görev: %s'
+cff_mission_other_expo_1: '%s, %s konumundan %s %s %s konumuna dönüyor. Görev: %s'
+cff_mission_other_mip: 'Roket saldırısı (%d): %s %s %s konumundan %s %s %s konumuna.'
+cff_mission_other_recy_1: '%s, %s konumundaki enkaz alanından %s %s %s gezegenine dönüyor. Görev: %s'
+fl_exchange: Takas
+fl_expedition_tech_required: Keşif başlatmadan önce Astrofizik seviye 1'e ihtiyacın var.
+fl_stronger_techs: Silah, zırh ya da kalkan tekniğin çok düşük.
+fl_visibility: Görünürlük
+fl_visibility_all: Herkes
+fl_visibility_alliance: İttifak, anlaşma ortakları ve arkadaşlar
+fl_visibility_no_enemies: Düşmanlar hariç herkes
+fm_engines: Motorlar
+fm_imperial: İmparatorluk
+fm_mining: Madencilik
+fm_other: Diğer
+fm_storage: Depolar
+lm_marketplace: Pazar yeri
+market_buyable_no_enemies: Düşman yok
+market_buyable_only_trade_partners: Yalnızca ortaklar
 market_confirm_are_you_sure: "Emin misin?"
-market_info_description: "Sol taraf - satış teklifleri | Sağ taraf - istenen fiyat<br><br>&bull; Kabul edilen teklifler iptal edilemez &bull;<br>&bull; Bazı teklifler push kuralı nedeniyle kabul edilemez &bull;<br>&bull; Satın alınan filonun yakıtını alıcı öder &bull;"
+market_info_description: 'Sol taraf: satış teklifleri | Sağ taraf: istenen fiyat<br><br>&bull; Kabul edilen teklifler iptal edilemez &bull;<br>&bull; Bazı teklifler push kuralı yüzünden kabul edilemez &bull;<br>&bull; Satın alınan filonun yakıtını alıcı öder &bull;'
 market_info_header: "Pazar yeri"
 market_info_no_return: "Pazar yeri teklifleri iptal edilemez!"
-market_msg_trade_bought: "Filon %s konumuna %s %s, %s %s, %s %s ile uçuyor ve %s %s tutuyor."
+market_msg_trade_bought: Filon %s %s, %s %s, %s %s ile %s konumuna uçuyor ve maliyeti %s %s.
 market_msg_trade_from: "Pazar yeri"
-market_msg_trade_sold: "Filon %s konumuna %s %s, %s %s, %s %s ile uçuyor."
+market_msg_trade_sold: Filon %s %s, %s %s, %s %s ile %s konumuna uçuyor.
 market_msg_trade_topic: "Ticaret durumu"
 market_p_buy: "Satın al"
 market_p_cost_amount: "Miktar"
 market_p_cost_type: "Maliyet türü"
 market_p_end: "Bitiş"
-market_p_from_duration: "Kalkış"
-market_p_msg_more_ships_is_needed: "Daha fazla gemi gerekli."
-market_p_msg_not_found: "Teklif bulunamadı."
+market_p_from_duration: Kalkıştan
+market_p_msg_more_ships_is_needed: Bu teklif için daha fazla gemiye ihtiyacın var.
+market_p_msg_not_found: Bu teklif artık yok.
 market_p_msg_own_offer: "Kendi teklifini satın alamazsın."
-market_p_msg_resources_error: "Yeterli kaynak yok."
-market_p_msg_sent: "%s Küçük Nakliye, %s Büyük Nakliye gönderildi"
-market_p_msg_wrong_resource_type: "Bu teklif geçersiz bir kaynak istiyor."
+market_p_msg_resources_error: Yeterli kaynağın yok.
+market_p_msg_sent: '%s Küçük Nakliye, %s Büyük Nakliye gönderildi'
+market_p_msg_wrong_resource_type: Bu teklif geçersiz bir kaynak istiyor.
 market_p_offer_type: "Teklif türü"
 market_p_ratio: "Oran"
 market_p_submit: "Şimdi satın al!"
-market_p_to_duration: "Varış"
+market_p_to_duration: Varışa
 market_ship_as_first: "Ticaret için gemi türünü seç:"
 ov_checknews_hide: "Haberleri gizle"
 ov_checknews_show: "Haberleri göster"
-ov_fleetbutton_hide: "Gizle"
+ov_fleetbutton_hide: Gizle
 ov_fleetbutton_show: "Göster"
 ov_newname_too_long: "Gezegen adı en fazla %d karakter olabilir."
 ov_rules: "Kurallar"
-ov_rulesnotify: "Lütfen şunlara uy:"
-own: "Kendi"
+ov_rulesnotify: 'Lütfen şunlara uy:'
+own: Kendi
 st_units: "Birimler"
 ui_skip_to_content: "İçeriğe geç"
 ui_menu: "Menü"
@@ -1782,15 +1649,15 @@ ui_nav_universe: "Evren"
 ui_nav_community: "Topluluk"
 ui_nav_help: "Yardım"
 ui_nav_personal: "Kişisel"
-ov_moving_fleets: "Hareket halindeki filolar"
-ov_online: "Çevrimiçi"
+ov_moving_fleets: Hareket halindeki filolar
+ov_online: Çevrim içi
 ov_players: "Oyuncular"
-source_code: "Kaynak kod"
-teamMemberName: "İsim"
+source_code: Kaynak kodu
+teamMemberName: Ad
 teamMemberContact: "İletişim"
 teamMemberAbout: "Hakkında"
-teamEmpty: "Henüz ekip üyesi eklenmedi."
-lm_board: "Forum"
+teamEmpty: Henüz ekip üyesi eklenmedi.
+lm_board: Forum
 neutral: "Tarafsız"
 lv_prodPerHour: "Saatlik üretim"
 lv_show: "Göster: "

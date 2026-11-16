@@ -2,400 +2,368 @@ bonus:
   Attack: Angriff
   BuildTime: Bauzeit
   Defensive: Verteidigung
-  DefensiveTime: Verteidungsbauzeit
+  DefensiveTime: Verteidigungsbauzeit
   Energy: Energieerzeugung
   Expedition: Expeditionen
   FleetSlots: Flottenslots
   FlyTime: Flugzeit
-  GateCoolTime: Sprungtoraufladungszeit
+  GateCoolTime: Sprungtor-Aufladezeit
   MoreFound: Expeditionsfund
   Planets: Planeten
   ResearchTime: Forschungszeit
   Resource: Minenertrag
-  ResourceStorage: Speicher
+  ResourceStorage: Rohstoffspeicher
   Shield: Schild
   ShipStorage: Flottenkapazität
   ShipTime: Schiffbauzeit
-  SpyPower: Spionagepower
+  SpyPower: Spionagestärke
 longDescription:
   '1': >-
-    Hauptrohstofflieferanten für den Bau tragender Strukturen von Bauwerken und
-    Schiffen. Metall ist der billigste Rohstoff, dafür wird er mehr benötigt als
-    die anderen. Metall braucht zur Herstellung am wenigsten Energie. Je größer
-    die Minen ausgebaut sind, desto tiefer sind sie. Bei den meisten Planeten
-    befindet sich das Metall in großer Tiefe, durch diese tieferen Minen können
-    mehr Metalle abgebaut werden, die Produktion steigt. Gleichzeitig muss für
-    die größere Metallmine mehr Energie zur Verfügung gestellt werden.
+    Metallminen fördern das Erz, auf dem jedes junge wie etablierte Imperium
+    aufbaut. Metall ist der wichtigste Baustoff für Gebäude und Schiffe, der
+    günstigste Rohstoff und der, den du am meisten brauchst. Zusammen mit
+    Kristall braucht es zur Herstellung außerdem am wenigsten Energie. Je weiter
+    eine Mine ausgebaut ist, desto tiefer gräbt sie sich in den Boden und desto
+    höher ist die Produktion. Dafür braucht sie aber auch mehr Energie.
   '2': >-
-    Baut Mineralien ab, die für die Feinelektronik benötigt werden. Sie benötigt
-    jedoch mehr Energie, da sie die Mineralien gleich in nötige Legierungen
-    verarbeitet.
+    Kristall ist der Schlüsselrohstoff für Elektronik und bestimmte Legierungen.
+    Kristallminen bauen Mineralien ab und verarbeiten sie gleich zu den nötigen
+    Legierungen. Das kostet genauso viel Energie wie beim Metall.
   '3': >-
-    Deuterium ist schwerer Wasserstoff. Daher sind ähnlich wie bei den Minen die
-    größten Vorräte auf dem Grund des Meeres. Der Ausbau des Synthetisierers
-    sorgt ebenfalls für die Erschließung dieser Deuterium-Tiefenlagerstätten.
-    Deuterium wird als Treibstoff für die Schiffe, für fast alle Forschungen,
-    für einen Blick in die Galaxie sowie für den Sensorphalanx-Scan benötigt.
+    Deuterium ist schwerer Wasserstoff und der Treibstoff deiner Raumschiffe.
+    Die größten Vorräte liegen tief auf dem Meeresgrund, und je weiter du den
+    Synthetisierer ausbaust, desto mehr davon erschließt er. Du brauchst
+    Deuterium außerdem für viele Forschungen, für einen Blick in die Galaxie und
+    für Phalanx-Scans. Es ist selten und deshalb vergleichsweise teuer.
   '4': >-
-    Um die Energie zur Versorgung der Minen und Synthetisierern zu
-    gewährleisten, sind riesige Solarkraftwerkanlagen vonnöten. Je größer die
-    Anlagen ausgebaut sind, desto mehr Oberfläche ist mit photovoltaischen
-    Zellen bedeckt, welche Lichtenergie in elektrische Energie umwandeln.
-    Solarkraftwerke stellen den Grundstock der planetaren Energieversorgung dar.
+    Solarkraftwerke wandeln Sonnenlicht in Energie um und bilden das Fundament
+    deiner Energieversorgung. Jede Mine braucht Energie, um zu laufen. Je weiter
+    du ein Kraftwerk ausbaust, desto mehr Fläche ist mit Solarzellen bedeckt.
   '6': >-
-    Aufgrund der immer zeitaufwendigeren Forschungen, haben sich die klügsten
-    Köpfe der intergalaktischen Forschungsnetzwerke zusammengetan und den
-    TechnoDome entwickelt. Er verkürzt die Forschungszeiten um 8%
+    Weil die Forschungen immer aufwendiger werden, haben sich die klügsten Köpfe
+    der intergalaktischen Forschungsnetzwerke zusammengetan und den TechnoDome
+    entwickelt. Standardmäßig verkürzt jede Stufe die Forschungszeit um 8%.
   '12': >-
-    Im Fusionskraftwerk werden Atome miteinander fusioniert, um so mehr Energie
-    zu erzeugen als in dem Solarkraftwerk, allerdings ist es teurer im Bau.
+    Das Fusionskraftwerk gewinnt Energie, indem es Deuterium verschmilzt. Es
+    liefert mehr Energie als ein Solarkraftwerk, ist aber teurer im Bau. Der
+    Ertrag steigt mit der Energietechnik und mit der Stufe des Kraftwerks
+    selbst. Die Formel für die Energieerzeugung lautet:<br> Erzeugte Energie =
+    30 x Stufe des Fusionskraftwerks x (1,05 + (0,01 * Stufe der
+    Energietechnik))^Stufe des Fusionskraftwerks
   '14': >-
-    Roboterfabriken stellen einfache Arbeitskräfte zur Verfügung, die beim Bau
-    der planetaren Infrastruktur eingesetzt werden können. Jede Stufe erhöht
-    damit die Geschwindigkeit des Ausbaus von Gebäuden.
+    Roboterfabriken stellen Bauroboter bereit, die dir beim Errichten deiner
+    Gebäude helfen. Jede Stufe beschleunigt den Ausbau von Gebäuden.
   '15': >-
     Die Nanitenfabrik ist die Krönung der Robotertechnik. Naniten sind
-    nanometergroße Roboter, die durch Vernetzung zu außerordentlichen Leistungen
-    im Stande sind. Einmal erforscht erhöhen sie die Produktivität in fast allen
-    Bereichen. Die Nanitenfabrik halbiert pro Stufe die Bauzeit von Gebäuden,
-    Schiffen und Verteidigungsanlagen.
+    nanometergroße Roboter, die sich vernetzen und dadurch Außerordentliches
+    leisten. Einmal erforscht, steigern sie die Produktivität in fast allen
+    Bereichen. Jede Stufe halbiert die Bauzeit von Gebäuden, Schiffen und
+    Verteidigungsanlagen.
   '21': >-
-    In der planetaren Werft werden alle Arten von Schiffen und
-    Verteidigungsanlagen gebaut. Je größer sie ist, desto schneller können
-    aufwendigere und größere Schiffe und Verteidigungsanlagen gebaut werden.
-    Durch Anbau einer Nanitenfabrik werden winzige Roboter erstellt, die den
-    Arbeitern helfen, schneller zu arbeiten.
+    In der Raumschiffwerft deines Planeten werden alle Schiffe und
+    Verteidigungsanlagen gebaut. Je höher die Stufe, desto schneller entstehen
+    auch aufwendigere und größere Schiffe und Verteidigungsanlagen. Mit einer
+    Nanitenfabrik helfen winzige Roboter den Arbeitern, noch schneller zu
+    arbeiten.
   '22': >-
-    Riesige Lagerstätte für abgebautes Metallerz. Je größer der Speicher, desto
-    mehr Metall kann in ihm gelagert werden. Ist das Lager voll, wird kein
-    Metall mehr abgebaut.
+    Riesige Lagerhallen für überschüssiges Metall. Je größer der Speicher, desto
+    mehr Metall passt hinein. Ist das Lager voll, wird kein Metall mehr
+    gefördert.
   '23': >-
-    Das noch unbearbeitete Kristall wird in diesen riesigen Lagerhallen
-    zwischengespeichert. Je größer das Lager, desto mehr Kristall kann in ihm
-    eingelagert werden. Sind die Kristalllager voll, wird kein weiteres Kristall
-    abgebaut.
+    In diesen riesigen Lagerhallen wird überschüssiger Kristall
+    zwischengespeichert. Je größer das Lager, desto mehr Kristall passt hinein.
+    Sind die Kristalllager voll, wird kein Kristall mehr gefördert.
   '24': >-
-    Riesige Tanks zur Lagerung des neu gewonnenen Deuteriums. Diese Lager findet
-    man meistens in der Nähe von Raumhäfen. Je größer sie sind, desto mehr
-    Deuterium kann in ihnen gelagert werden. Sind sie gefüllt, wird kein
-    Deuterium mehr abgebaut.
+    Riesige Tanks für neu gewonnenes Deuterium. Je größer sie sind, desto mehr
+    Deuterium passt hinein. Sind sie voll, wird kein Deuterium mehr gefördert.
   '31': >-
-    Um neue Technologien zu erforschen, ist der Betrieb einer Forschungsstation
-    notwendig. Die Ausbaustufe einer Forschungsstation ist ausschlaggebend
-    dafür, wie schnell eine neue Technologie erforscht werden kann. Je höher die
-    Ausbaustufe des Labors, umso mehr neue Technologien können erforscht werden.
-    Um die Forschungsarbeiten möglichst schnell zum Abschluss zu bringen,
-    werden, wenn auf einem Planeten geforscht wird, automatisch alle verfügbaren
-    Forscher in diese Forschungsstation geschickt und stehen somit auf anderen
-    Planeten nicht mehr zur Verfügung. Sobald eine Technologie einmal erforscht
-    ist, kehren die Forscher auf ihre Heimatplaneten zurück und bringen das
-    Wissen um sie mit. So kann man die Technologie auf all seinen Planeten
-    einsetzen.
+    Ohne Forschungslabor keine neuen Technologien. Die Stufe des Labors
+    bestimmt, wie schnell du forschst und welche Technologien du erforschen
+    kannst. Geforscht wird im Labor des Planeten, auf dem du die Forschung
+    startest, und das Ergebnis gilt für alle deine Planeten. Solange eine
+    Forschung läuft, kann kein Forschungslabor ausgebaut werden.
   '33': >-
-    Mit zunehmendem Ausbau der Planeten, wurde die Frage des begrenzten
-    Lebensraums auf Kolonien immer wichtiger. Traditionelle Methoden wie Hoch-
-    und Tiefbau erwiesen sich zunehmend als unzureichend. Eine kleine Gruppe von
-    Hochenergiephysikern und Nanotechnikern fand schließlich die Lösung: Das
-    Terraforming. Unter Aufwand riesiger Energiemengen kann der Terraformer
-    ganze Landstriche oder gar Kontinente urbar machen. In diesem Gebäude werden
-    fortwährend eigens dafür konstruierte Naniten produziert, die für eine
-    konstante Qualität des Bodens sorgen. Einmal gebaut kann der Terraformer
-    nicht wieder abgerissen werden.
+    Der Terraformer erweitert die nutzbare Fläche des Planeten. Jede Stufe
+    bringt dir 5 zusätzliche Felder, auf jeder geraden Stufe noch ein weiteres.
+    Jede Stufe des Terraformers belegt selbst ein Feld.<br>Der Bau kostet
+    Energie, die aber nicht verbraucht wird: Dein Planet muss sie nur erzeugen
+    können (1.000 für Stufe 1, mit jeder Stufe doppelt so viel), auch wenn deine
+    Minen sie schon nutzen. Einmal gebaut, lässt sich der Terraformer nie wieder
+    abreißen.
   '34': >-
-    Das Allianzdepot bietet die Möglichkeit, befreundete Flotten, die bei der
-    Verteidigung helfen und im Orbit stehen, mit Treibstoff zu versorgen. Für
-    jeden Ausbaulevel des Allianzdepots können 10.000 Einheiten Deuterium pro
-    Stunde an die zu versorgenden Flotten im Orbit geschickt werden.
+    Das Allianzdepot hat derzeit keine Wirkung in diesem Spiel: Befreundete
+    Flotten können auch ohne es an deinem Planeten gehalten werden, und eine
+    Treibstoffversorgung gibt es nicht.
   '35': >-
-    Das Reparaturdock bietet die Möglichkeit zerstörte Schiffe, die in Folge
-    eines Kampfes ein Wrackfeld hinterlassen haben, zu reparieren. Die
-    Reparaturzeit beträgt maximal 12h, aber es dauert mindestens 30min bis die
-    Schiffe in Dienst gestellt werden können.<br>Ab Entstehung des Wrackfeldes
-    bleiben 3 Tage Zeit um mit der Reparatur zu beginnen. Die reparierten
-    Schiffe müssen nach Ablauf der Reparatur aktiv wieder in Dienst gestellt
-    werden. Geschieht dies nicht, gehen sie nach 3 Tagen automatisch wieder in
-    Dienst.
+    Das Reparaturdock kann Schiffe reparieren, die im Kampf zerstört wurden und
+    ein Wrackfeld hinterlassen haben. Eine Reparatur dauert höchstens 12 Stunden
+    und ist frühestens 30 Minuten nach Entstehung des Wrackfeldes fertig.<br>Ab
+    Entstehung des Wrackfeldes hast du 3 Tage Zeit, um die Reparatur zu starten.
+    Nach der Reparatur musst du die Schiffe selbst wieder in Dienst stellen.
+    Tust du das nicht, gehen sie nach 3 Tagen automatisch wieder in Dienst.
   '41': >-
-    Ein Mond verfügt über keinerlei Atmosphäre, deshalb muss vor der Besiedlung
-    eine Mondbasis errichtet werden. Diese sorgt für die nötige Atemluft,
-    Gravitation und Wärme. Je höher die Ausbaustufe der Mondbasis ist, umso
-    größer ist die Fläche die mit einer Biosphäre versorgt wird. Pro
-    Mondbasislevel können 3 Felder bebaut werden bis zum Maximum der Mondgröße.
-    Diese beträgt (Durchmesser des Mondes/1000)^2, wobei jede Stufe der
-    Mondbasis selbst auch ein Feld belegt Einmal gebaut kann die Mondbasis nicht
-    wieder abgerissen werden.
+    Der Mond hat keine Atmosphäre, und ein frischer Mond bietet Platz für nur
+    ein Gebäude, deshalb beginnst du am besten mit der Mondbasis. Sie sorgt für
+    Atemluft, Gravitation und Wärme. Jede Stufe bringt 3 zusätzliche Felder und
+    belegt selbst ein Feld. Einmal gebaut, kann die Mondbasis nie wieder
+    abgerissen werden.
   '42': >-
-    Hochauflösende Sensoren scannen das vollständige Frequenzspektrum aller auf
-    die Phalanx auftreffenden Strahlungen. Hochleistungscomputer kombinieren
-    winzige Energieschwankungen und gewinnen so Informationen über
-    Schiffsbewegungen auf entfernten Planeten. Für den Scan muss Energie in Form
-    von Deuterium (5.000) auf dem Mond bereitgestellt werden. Man scannt, indem
-    man vom Mond aus ins Galaxiemenü wechselt und auf einen feindlichen Planeten
-    in Sensorenreichweite (Phalanxstufe)^2 - 1 klickt.
+    Die Sensorphalanx lässt dich Flottenbewegungen beobachten. Je höher die
+    Stufe, desto größer die Reichweite der Phalanx: standardmäßig
+    (Phalanxstufe)^2 - 1 Systeme, Stufe 1 deckt also nur das eigene System des
+    Mondes ab. Ein Scan kostet 5.000 Deuterium, das auf dem Mond bereitstehen
+    muss. Du scannst, indem du vom Mond aus in die Galaxieansicht wechselst und
+    auf einen Planeten in Reichweite klickst. Monde selbst lassen sich mit der
+    Phalanx nicht scannen, weil ihnen die Atmosphäre fehlt.<br><br>Die Phalanx
+    zeigt Flotten, die vom gescannten Planeten starten oder zu ihm fliegen: ihre
+    Ankunft, das Ende einer Haltezeit und die Rückkehr der Flotten des
+    Besitzers. Stationierungen und Raketen werden nie angezeigt, ebenso wenig
+    Recycling- und Handelsflüge zum Planeten.
   '43': >-
-    Sprungtore sind riesige Transmitter, die in der Lage sind, selbst große
-    Flotten ohne Zeitverlust durch das Universum zu versenden. Diese Transmitter
-    verbrauchen kein Deuterium, jedoch muss zwischen 2 Sprüngen eine Stunde
-    vergehen, da sich die Tore sonst überhitzten. Auch ist ein Mitschicken von
-    Ressourcen nicht möglich. Der ganze Vorgang erfordert eine ungeheuer hoch
-    entwickelte Technologie.
+    Sprungtore sind riesige Transmitter, die auch große Flotten ohne Zeitverlust
+    quer durchs Universum schicken. Sie verbrauchen kein Deuterium, Rohstoffe
+    lassen sich auf diesem Weg aber nicht mitschicken. Beide Tore müssen bereit
+    sein: Nach einem Sprung braucht jedes Tor eine Abklingzeit, die
+    standardmäßig auf Stufe 1 bei 60 Minuten liegt und mit jeder Stufe kürzer
+    wird, bis auf 10 Minuten ab Stufe 15.
   '44': >-
-    Raketensilos dienen zum Einlagern von Raketen. Pro ausgebauter Stufe kann
-    man fünf Interplanetar- oder zehn Abfangraketen einlagern. Eine
-    Interplanetarrakete benötigt so viel Platz wie zwei Abfangraketen.
-    Unterschiedliche Raketentypen können beliebig kombiniert werden.
+    Raketensilos lagern deine Raketen. Standardmäßig bietet jede Stufe 10
+    Plätze: Eine Abfangrakete belegt 1 Platz, eine Interplanetarrakete 2. Die
+    Raketentypen lassen sich beliebig kombinieren.
   '106': >-
-    Die Spionagetechnik befasst sich in erster Linie mit der Erforschung neuer
-    und effizienterer Sensoren. Je höher diese Technik entwickelt ist, um so
-    mehr Informationen stehen dem Nutzer über Vorgänge in seiner Umgebung zur
-    Verfügung. Für Sonden ist die Differenz des eigenen und des gegnerischen
-    Spionagelevels entscheidend. Je weiter die eigene Spionagetechnik erforscht
-    ist, desto mehr Informationen enthält der Bericht und um so kleiner ist die
-    Chance, dass man beim Spionieren entdeckt wird. Je mehr Sonden man schickt,
-    desto mehr Details erfährt man von seinem Gegner, gleichzeitig steigt aber
-    auch die Gefahr einer Entdeckung. Die Spionagetechnik verbessert ebenfalls
-    die Ortung fremder Flotten. Dabei ist nur der eigene Spionagelevel
-    entscheidend. Ab Level 2 wird zusätzlich zur reinen Angriffsmeldung auch die
-    Gesamtanzahl der angreifenden Schiffe angezeigt. Ab Level 4 sieht man die
-    Art der angreifenden Schiffe, sowie die Gesamtanzahl und ab Level 8 die
-    genaue Anzahl der verschiedenen Schiffstypen. Für Raider ist diese Technik
-    unverzichtbar, da sie Auskunft darüber gibt, ob das Opfer Flotte und/oder
-    Verteidigung stationiert hat oder nicht. Deshalb sollte diese Technik schon
-    sehr früh erforscht werden. Am besten sofort nach der Erforschung von
-    kleinen Transportern.
+    Mit dieser Technologie sammelst du Informationen über andere Planeten und
+    Monde. Wenn du Sonden schickst, wird deine Spionagetechnik mit der des Ziels
+    verglichen: Je höher deine Stufe, desto mehr Infos im Bericht und desto
+    kleiner die Chance, dass deine Sonden entdeckt werden. Mehr Sonden liefern
+    mehr Details, erhöhen aber auch das Risiko, entdeckt zu werden. Ab
+    bestimmten Stufen erfährst du in der Übersicht außerdem mehr über fremde
+    Flotten:<br><br><li>Auf Stufe 0-1 siehst du nur, dass sich eine Flotte
+    deinem Planeten nähert</li><li>Auf Stufe 2-3 siehst du, wie viele Schiffe
+    anfliegen</li><li>Auf Stufe 4-7 siehst du, welche Schiffstypen in der Flotte
+    sind</li><li>Ab Stufe 8 siehst du, wie viele Schiffe jedes Typs in der
+    Flotte sind</li>
   '108': >-
-    Die Computertechnik befasst sich mit der Erweiterung der vorhandenen
-    Computerkapazitäten. Immer leistungsfähigere und effizientere
-    Computersysteme werden entwickelt. Die Rechenleistung steigt immer weiter
-    und die Geschwindigkeit, mit denen Rechenprozesse ablaufen, wird ebenfalls
-    erhöht. Mit der Erhöhung der Computerkapazitäten lassen sich immer mehr
-    Flotten gleichzeitig befehligen. Jede Stufe Computertechnik erhöht dabei die
-    maximale Flottenanzahl um eins. Je mehr Flotten man gleichzeitig verschicken
-    kann, desto mehr kann man raiden und desto mehr Rohstoffe kann man
-    einnehmen. Natürlich nutzt diese Technik auch Händlern, denn sie können dann
-    ebenfalls mehr Handelsflotten gleichzeitig losschicken. Aus diesem Grund
-    sollte die Computertechnik kontinuierlich über das gesamte Spiel hinweg
-    ausgebaut werden.
+    Bessere Computer lassen dich mehr Flotten gleichzeitig befehligen. Jede
+    Stufe Computertechnik erhöht deine maximale Flottenanzahl um eins. Mehr
+    Flotten bedeuten mehr Raids und mehr Beute, und auch Händler profitieren,
+    weil sie mehr Handelsflotten gleichzeitig losschicken können. Baue die
+    Computertechnik deshalb das ganze Spiel über kontinuierlich aus.
   '109': >-
-    Die Waffentechnik beschäftigt sich vor allem mit der Weiterentwicklung
-    bestehender Waffensysteme. Dabei wird insbesondere darauf Wert gelegt, die
-    vorhandenen Systeme mit mehr Energie auszustatten und diese Energie
-    punktgenau zu kanalisieren. Dadurch werden die Waffensysteme effizienter und
-    Waffen richten mehr Schaden an. Jede Stufe der Waffentechnik erhöht die
-    Waffenstärke der Einheiten um 10% des Grundwertes. Die Waffentechnik ist
-    wichtig, um später die eigenen Einheiten konkurrenzfähig zu halten. Deshalb
-    sollte sie kontinuierlich das ganze Spiel hindurch entwickelt werden.
+    Die Waffentechnik macht Waffensysteme wirkungsvoller. Jede Stufe erhöht die
+    Waffenstärke aller Einheiten um 10% des Grundwerts. So bleiben deine
+    Einheiten auf Dauer konkurrenzfähig, deshalb solltest du sie das ganze Spiel
+    über weiterentwickeln.
   '110': >-
-    Die Schildtechnik beschäftigt sich mit der Erforschung immer neuer
-    Möglichkeiten, die Schilde mit mehr Energie zu versorgen und sie so
-    effizienter und belastbarer zu machen. Dadurch steigt mit jeder erforschten
-    Stufe die Effizienz der Schilde um 10% des Grundwertes.
+    Die Schildtechnik macht die Schilde von Schiffen und Verteidigungsanlagen
+    wirksamer. Jede Stufe erhöht die Schildstärke um 10% des Grundwerts.
   '111': >-
-    Spezielle Legierungen machen die Panzerung der Raumschiffe immer besser. Ist
-    einmal eine sehr widerstandsfähige Legierung gefunden, wird durch spezielle
-    Strahlungen die molekulare Struktur des Raumschiffes verändert und auf den
-    Stand der besten erforschten Legierung gebracht. Die Wirksamkeit der
-    Panzerung kann so pro Stufe um 10% des Grundwertes gesteigert werden.
+    Spezielle Legierungen verbessern die Panzerung von Schiffen und
+    Verteidigungsanlagen. Jede Stufe erhöht die Wirksamkeit der Panzerung um 10%
+    des Grundwerts.
   '113': >-
-    Die Energietechnik beschäftigt sich mit der Weiterentwicklung der
-    Energieleitsysteme und Energiespeicher, welche für viele neue Technologien
-    benötigt wird.
+    Wer verschiedene Energieformen beherrscht, schaltet viele neue Technologien
+    frei. Jede Stufe Energietechnik erhöht außerdem die Energieerzeugung des
+    Fusionskraftwerks.
   '114': >-
-    Durch die Einbindung der 4. und 5. Dimension ist es nun möglich einen
-    neuartigen Antrieb zu erforschen, welcher sparsamer und leistungsfähiger
-    ist.
+    Mit der Einbindung der 4. und 5. Dimension kannst du einen neuartigen
+    Antrieb erforschen, der sparsamer und leistungsfähiger ist.
   '115': >-
-    Verbrennungstriebwerke basieren auf dem uralten Prinzip des Rückstoßes.
+    Verbrennungstriebwerke arbeiten nach dem uralten Rückstoßprinzip:
     Hocherhitzte Materie wird weggeschleudert und treibt das Schiff in die
-    entgegengesetzte Richtung. Der Wirkungsgrad dieser Triebwerke ist eher
-    gering, aber sie sind billig und zuverlässig und benötigen kaum Wartung.
-    Außerdem verbrauchen sie weniger Raum und sind deshalb gerade auf kleineren
-    Schiffen immer wieder zu finden. Da Verbrennungstriebwerke die Grundlage
-    jeder Raumfahrt sind, sollten sie so früh wie möglich erforscht werden. Die
-    Weiterentwicklung dieser Triebwerke macht folgende Schiffe um 10% des
-    Grundwertes pro Stufe schneller: Kleine und große Transporter, Leichte
-    Jäger, Recycler und Spionagesonden.
+    Gegenrichtung. Sie sind nicht besonders effizient, aber billig, zuverlässig
+    und kaum wartungsbedürftig. Da sie die Grundlage jeder Raumfahrt sind,
+    solltest du sie so früh wie möglich erforschen. Jede Stufe macht folgende
+    Schiffe um 10% des Grundwerts schneller: Kleiner und Großer Transporter,
+    Leichter Jäger, Recycler und Spionagesonde (Kleiner Transporter und Recycler
+    wechseln später zu besseren Antrieben).
   '117': >-
-    Das Impulstriebwerk basiert auf dem Rückstoßprinzip, wobei die Strahlmasse
-    zum Großteil als Abfallprodukt der zur Energiegewinnung verwendeten
-    Kernfusion entsteht. Zusätzlich kann weitere Masse eingespritzt werden. Die
-    Weiterentwicklung dieser Triebwerke macht folgende Schiffe um 20% des
-    Grundwertes pro Stufe schneller: Bomber, Kreuzer, Schwere Jäger und
-    Kolonieschiffe. Interplanetarraketen können pro Stufe weiter fliegen.
+    Das Impulstriebwerk arbeitet nach dem Rückstoßprinzip. Die Strahlmasse fällt
+    dabei größtenteils als Abfallprodukt der Kernfusion an, zusätzlich kann
+    weitere Masse eingespritzt werden. Jede Stufe macht folgende Schiffe um 20%
+    des Grundwerts schneller: Bomber, Kreuzer, Schwerer Jäger und Kolonieschiff,
+    außerdem Kleiner Transporter und Recycler, sobald sie auf diesen Antrieb
+    wechseln. Außerdem fliegen Interplanetarraketen pro Stufe weiter.
   '118': >-
-    Durch eine Raumzeitverkrümmung wird in unmittelbarer Umgebung eines Schiffes
-    der Raum komprimiert, womit sich weite Strecken sehr schnell zurücklegen
-    lassen. Je höher der Hyperraumantrieb entwickelt ist, desto höher wird die
-    Kompression des Raumes, wodurch sich pro Stufe die Geschwindigkeit der
-    Schiffe die damit ausgestattet sind (Schlachtkreuzer, Schlachtschiffe,
-    Zerstörer und Todessterne) um 30% erhöht. Voraussetzungen: Hyperraumtechnik
-    (Stufe 3) Forschungslabor (Stufe 7).
+    Der Hyperraumantrieb krümmt den Raum rund um ein Schiff und komprimiert ihn,
+    sodass sich weite Strecken sehr schnell zurücklegen lassen. Jede Stufe macht
+    Schiffe mit diesem Antrieb (Schlachtkreuzer, Schlachtschiff, Zerstörer,
+    Todesstern, Lune Noire, Evo. Transporter, Avatar und Gigarecycler, außerdem
+    Bomber und Recycler, sobald sie auf diesen Antrieb wechseln) um 30 Prozent
+    des Grundwerts schneller. Voraussetzungen: Hyperraumtechnik (Stufe 3),
+    Forschungslabor (Stufe 7).
   '120': >-
-    Laser (Lichtverstärkung durch induzierte Strahlungsemission) erzeugen einen
-    intensiven, energiereichen Strahl von kohärentem Licht. Diese Geräte finden
-    in allen möglichen Bereichen ihre Anwendung, von optischen Computern bis hin
-    zu schweren Laserwaffen, die mühelos durch Raumschiffpanzerungen schneiden.
-    Die Lasertechnik bildet einen wichtigen Grundstein für die Erforschung
-    weiterer Waffentechnologien. Voraussetzungen: Forschungslabor (Stufe 1)
-    Energietechnik (Stufe 2).
+    Gebündeltes Licht erzeugt einen Strahl, der alles beschädigt, was er trifft.
+    Laser (Lichtverstärkung durch induzierte Strahlungsemission) finden überall
+    Anwendung, von optischen Computern bis zu schweren Laserwaffen, die mühelos
+    Schiffspanzerungen durchschneiden. Die Lasertechnik ist die Grundlage für
+    viele weitere Waffentechnologien. Voraussetzungen: Forschungslabor (Stufe
+    1), Energietechnik (Stufe 2).
   '121': >-
-    Wahrhaft tödlicher Richtstrahl aus beschleunigten Ionen. Die beschleunigten
-    Ionen richten beim Auftreffen auf ein Objekt einen riesigen Schaden an.
+    Ein tödlicher Strahl aus beschleunigten Ionen, der beim Aufprall enormen
+    Schaden anrichtet.
   '122': >-
-    Eine Weiterentwicklung der Ionentechnik, die nicht Ionen beschleunigt,
-    sondern hochenergetisches Plasma. Das hochenergetische Plasma hat eine
-    verheerende Wirkung beim Auftreffen auf ein Objekt.
+    Eine Weiterentwicklung der Ionentechnik: Statt Ionen wird hochenergetisches
+    Plasma beschleunigt, das durch extremes Erhitzen von Ionen entsteht. Beim
+    Aufprall hat es eine verheerende Wirkung.
   '123': >-
-    Forscher verschiedener Planeten kommunizieren über dieses Netzwerk
-    miteinander. Pro erforschtes Level, wird ein Forschungslabor vernetzt. Dabei
-    werden immer die Labors der höchsten Stufe dazugeschaltet. Das vernetzte
-    Labor muss ausreichend ausgebaut sein um die anstehende Forschung
-    selbständig durchführen zu können. Die Ausbaustufen aller beteiligten Labors
-    werden im intergalaktischen Forschungsnetzwerk zusammen gezählt.
+    Forscher verschiedener Planeten kommunizieren über dieses Netzwerk. Jede
+    Stufe schaltet ein weiteres Labor zu dem Labor dazu, in dem du eine
+    Forschung startest. Dabei werden immer die Labore mit den höchsten Stufen
+    gewählt. Das vernetzte Labor muss weit genug ausgebaut sein, um die
+    Forschung allein durchführen zu können. Die Stufen aller beteiligten Labore
+    werden addiert und bestimmen die Forschungszeit.
   '124': >-
-    Mit einem Astrophysik-Forschungsmodul können Schiffe lange Expeditionen
-    unternehmen. Jedes zweite Level dieser Technologie (beginnend mit dem 1.)
-    ermöglicht es, einen zusätzlichen Planeten zu kolonisieren. Außerdem können
-    mehr Expeditionen in den tiefen Weltraum geschickt werden.<br><br><li>Level
-    1-3 - 1 Expedition</li><li>Level 4-8 - 2 Expeditionen</li><li>Level 9-15 - 3
-    Expeditionen</li><li>Level 16-24 - 4 Expeditionen</li>
-  '131': Erhöht die Produktion der Metallmine um 2%
-  '132': Erhöht die Produktion der Kristallmine um 2%
-  '133': Erhöht die Produktion der Deuteriumsynthetisierer um 2%
-  '134': Reduziert die Flugkosten um 2%
+    Die Astrophysik schaltet Kolonisierung und Expeditionen in den tiefen
+    Weltraum frei. Kolonielimit, Expeditionsdauer und Positionen unten sind die
+    Standardwerte; dein Universum kann abweichen.<br><br> <li>Kolonielimit</li>
+    Stufe 1-2 = 2 Planeten<br> Stufe 3-4 = 3 Planeten<br> Stufe 5-6 = 4
+    Planeten<br> Stufe 7-8 = 5 Planeten<br> Stufe 9-10 = 6 Planeten<br> Stufe
+    11-12 = 7 Planeten<br> Stufe 13-14 = 8 Planeten<br> Stufe 15-16 = 9
+    Planeten<br> Stufe 17-18 = 10 Planeten<br> Stufe 19-20 = 11 Planeten<br>
+    Stufe 21+ = 12 Planeten<br><br> <li>Expeditionsslots</li> Stufe 1-3 = 1
+    Expedition<br> Stufe 4-8 = 2 Expeditionen<br> Stufe 9-15 = 3
+    Expeditionen<br> Stufe 16-24 = 4 Expeditionen<br>(eine weitere auf jeder
+    folgenden Quadratstufe: 25, 36, ...)<br><br> <li>Expeditionsdauer</li> Stufe
+    = maximale Haltezeit in Stunden<br><br> <li>Kolonisierbare Positionen</li>
+    Stufe 1-3 = 4-12<br> Stufe 4-5 = 3-13<br> Stufe 6-7 = 2-14<br> Stufe 8+ =
+    1-15
+  '131': >-
+    Erhöht die Metallproduktion pro Stufe um 2%.
+  '132': >-
+    Erhöht die Kristallproduktion pro Stufe um 2%.
+  '133': >-
+    Erhöht die Deuteriumproduktion pro Stufe um 2%.
+  '134': >-
+    Senkt die Flugkosten pro Stufe um 2%.
   '199': >-
-    Ein Graviton ist ein Partikel, das keine Masse und keine Ladung besitzt,
-    welche die Gravitationskraft bestimmt. Durch Abschuss einer konzentrierten
-    Ladung von Gravitonen kann ein künstliches Gravitationsfeld errichtet
-    werden, welches ähnlich einem schwarzen Loch, Masse in sich hineinzieht,
-    wodurch Schiffe oder auch Monde vernichtet werden können. Um eine
-    ausreichende Menge Gravitonen herzustellen benötigt es riesige Mengen an
-    Energie. Voraussetzungen: Forschungslabor (Stufe 12).
+    Ein Graviton ist ein masseloses, ungeladenes Teilchen, das die
+    Gravitationskraft bestimmt. Wird eine konzentrierte Ladung Gravitonen
+    abgefeuert, entsteht ein künstliches Gravitationsfeld, das ähnlich wie ein
+    schwarzes Loch Masse in sich hineinzieht und Schiffe oder sogar Monde
+    zerstören kann. Für genug Gravitonen braucht es riesige Mengen Energie.
+    Voraussetzung: Forschungslabor (Stufe 12).
   '202': >-
-    Transporter haben ungefähr die gleiche Größe wie Jäger, verzichten aber auf
-    leistungsfähige Antriebe und Bordwaffen, um Platz für Frachtraum zu
-    schaffen. Der kleine Transporter verfügt über eine Ladekapazität von 5.000
-    Ressourceneinheiten. Aufgrund ihrer geringen Feuerkraft werden Transporter
-    oft von anderen Schiffen eskortiert.
+    Der Kleine Transporter ist ein wendiges Schiff, das Rohstoffe schnell zu
+    anderen Planeten bringt. Er ist ungefähr so groß wie ein Jäger, verzichtet
+    aber auf starke Antriebe und Bordwaffen, um Platz für Fracht zu schaffen
+    (Ladekapazität: 5.000 Rohstoffeinheiten). Wegen seiner geringen Feuerkraft
+    wird er oft von anderen Schiffen eskortiert.<br>Er fliegt mit dem
+    Verbrennungsantrieb, bis dein Impulstriebwerk Stufe 5 erreicht. Ab dann
+    wechselt er zum Impulsantrieb und verdoppelt damit seine
+    Grundgeschwindigkeit.
   '203': >-
-    Dieses Schiff hat kaum Waffen oder andere Technologien an Bord. Aus diesem
-    Grunde sollten sie nie alleine losgeschickt werden. Der große Transporter
-    dient durch sein hochentwickeltes Verbrennungstriebwerk als schneller
-    Ressourcenlieferant zwischen den Planeten und natürlich begleitet er die
-    Flotten auf ihren Überfällen feindlicher Planeten, um möglichst viele
-    Ressourcen zu erobern, der große Transporter verfügt über eine Ladekapazität
-    von 25.000 Ressourceneinheiten.
+    Dieses Frachtschiff transportiert deutlich mehr als der Kleine Transporter
+    und ist dank verbessertem Antrieb meist schneller. Es hat kaum Waffen an
+    Bord und sollte deshalb nie allein losgeschickt werden. Der Große
+    Transporter bringt Rohstoffe zwischen deinen Planeten, begleitet deine
+    Flotten auf Raubzügen und schleppt möglichst viel Beute heim (Ladekapazität:
+    25.000 Rohstoffeinheiten).
   '204': >-
-    Der leichte Jäger ist ein wendiges Schiff, das auf fast jedem Planeten
-    vorgefunden wird. Die Kosten sind nicht besonders hoch, Schildstärke und
-    Ladekapazität sind allerdings sehr gering.
+    Das erste Kampfschiff, das jeder Herrscher baut. Der Leichte Jäger ist
+    wendig, allein aber verwundbar; in großer Zahl wird er zur echten Bedrohung
+    für jedes Imperium. Er ist günstig und auf fast jedem Planeten zu finden,
+    hat aber nur schwache Schilde und wenig Laderaum. Leichte Jäger eskortieren
+    als Erste Kleine und Große Transporter zu schwach verteidigten feindlichen
+    Planeten.
   '205': >-
-    Bei der Weiterentwicklung des leichten Jägers kamen die Forscher zu einem
-    Punkt, bei welchem der konventionelle Antrieb nicht mehr ausreichend
-    Leistungen erbrachte. Um das neue Schiff optimal fortbewegen zu können wurde
-    zum ersten Mal der Impulsantrieb genutzt. Dieses erhöhte zwar die Kosten,
-    eröffnete aber auch neue Möglichkeiten. Durch die Einsetzung dieses
-    Antriebes blieb mehr Energie für Waffen und Schilde übrig, ausserdem wurden
-    für diese neue Jägergattung auch qualitativ hochwertigere Materialien
-    verwendet. Dies führte zu einer verbesserten strukturellen Integrität und
-    einer höheren Feuerkraft, was ihn im Kampf zu einer immens größeren
-    Bedrohung macht als sein leichtes Pendant. Durch diese Änderungen stellt der
-    schwere Jäger eine neue Ära der Schiffstechnologie dar, welche die Grundlage
-    für die Kreuzertechnologie ist.
+    Bei der Weiterentwicklung des Leichten Jägers stießen die Forscher an die
+    Grenzen des konventionellen Antriebs. Für das neue Schiff kam deshalb
+    erstmals der Impulsantrieb zum Einsatz. Das machte es teurer, ließ aber mehr
+    Energie für Waffen und Schilde übrig, und auch die Materialien waren
+    hochwertiger. Das Ergebnis: bessere Panzerung und mehr Feuerkraft, im Kampf
+    also eine deutlich größere Bedrohung als der Leichte Jäger. Der Schwere
+    Jäger leitet eine neue Ära im Schiffbau ein und ist die Grundlage der
+    Kreuzertechnologie.
   '206': >-
-    Mit der Entwicklung der schweren Laser und der Ionenkanonen kamen die Jäger
-    immer mehr in Bedrängnis. Trotz vieler Modifikationen konnte die
-    Waffenstärke und die Panzerung nicht so weit gesteigert werden, um diesen
-    Verteidigungsgeschützen wirksam begegnen zu können. Deshalb entschied man
-    sich, eine neue Schiffsklasse zu konstruieren, die mehr Panzerung und mehr
-    Feuerkraft in sich vereinte. Der Kreuzer war geboren. Kreuzer sind fast
-    dreimal so stark gepanzert wie schwere Jäger und verfügen über mehr als die
-    doppelte Schusskraft. Zudem sind sie sehr schnell. Gegen mittlere
-    Verteidigung gibt es keine bessere Waffe. Kreuzer beherrschten fast ein
-    Jahrhundert lang unumschränkt das All. Mit dem Aufkommen der Gaußgeschütze
-    und Plasmawerfer endete ihre Vorherrschaft. Jedoch werden sie auch heute
-    noch gerne gegen Jägerverbände eingesetzt.
+    Mit den schweren Lasern und Ionenkanonen gerieten die Jäger immer mehr in
+    Bedrängnis. Also entwickelte man eine neue Schiffsklasse mit mehr Panzerung
+    und mehr Feuerkraft: den Kreuzer. Kreuzer sind fast dreimal so stark
+    gepanzert wie Schwere Jäger und haben mehr als die doppelte Feuerkraft.
+    Außerdem sind sie sehr schnell. Gegen mittlere Verteidigung gibt es kaum
+    eine bessere Waffe. Fast ein Jahrhundert lang beherrschten sie das All, bis
+    Gaußkanonen und Plasmawerfer ihre Vorherrschaft beendeten. Gegen
+    Jägerverbände sind sie bis heute beliebt.
   '207': >-
-    Schlachtschiffe bilden meist das Rückrat einer Flotte. Ihre schweren
-    Geschütze, die hohe Geschwindigkeit und der große Frachtraum, machen sie zu
-    ernst zu nehmenden Gegnern.
+    Schlachtschiffe sind das Rückgrat jeder Flotte. Schwere Geschütze, hohe
+    Geschwindigkeit und große Laderäume machen sie zu Gegnern, die man ernst
+    nehmen muss.
   '208': >-
-    Dieses gut gepanzerte Schiff dient der Eroberung neuer Planeten, was für ein
-    aufstrebendes Imperium unerlässlich ist. Das Schiff wird auf der neuen
-    Kolonie als Rohstofflieferant genutzt, in dem es wieder auseinander gebaut
-    wird und alles wiederverwertbare Material für die Erschliessung der neuen
-    Welt genutzt wird. Die Anzahl der kolonisierbaren Planeten je Imperium ist
-    direkt abhängig von der Astrophysik-Forschung. Die Erste, sowie jede weitere
-    zweite Stufe ermöglichen eine weitere Besiedelung.
+    Dieses gut gepanzerte Schiff erobert neue Planeten, die ein aufstrebendes
+    Imperium zum Wachsen braucht. Auf der neuen Kolonie wird das Schiff zerlegt,
+    und alles verwertbare Material fließt in den Aufbau der neuen Welt. Wie
+    viele Planeten du kolonisieren kannst, hängt direkt von der Astrophysik ab:
+    Die erste Stufe und jede weitere zweite Stufe erlauben standardmäßig eine
+    weitere Kolonie.
   '209': >-
-    Die Weltraumgefechte nahmen immer größere Ausmaße an. Tausende Schiffe
-    wurden zerstört, aber die dadurch entstandenen Trümmerfelder schienen für
-    immer verloren. Normale Transporter konnten sich nicht nahe genug an diese
-    Felder heran bewegen, ohne durch kleinere Trümmer riesigen Schaden zu
-    nehmen. Mit einer neuen Entwicklung im Bereich der Schildtechnologie konnte
-    dieses Problem effizient beseitigt werden. Es entstand eine neue
-    Schiffsklasse, ähnlich dem großen Transporter, der Recycler. Mit dessen
-    Hilfe konnten die scheinbar verlorenen Ressourcen doch noch verwertet
-    werden. Die kleinen Trümmer stellten aufgrund der neuen Schilde auch keine
-    Gefahr mehr dar. Durch spezielle mehrdimensionale Ladefelder konnte seine
-    Ladekapazität auf 20.000 erweitert werden. Ab Impulsantrieb Stufe 17 bzw.
-    Hyperraumantrieb Stufe 15 wird der schnellere und kostengünstigere Antrieb
-    genutzt.
+    Der Recycler birgt Rohstoffe aus Trümmerfeldern. Nach riesigen
+    Weltraumschlachten schienen die Trümmerfelder für immer verloren: Normale
+    Transporter konnten sich nicht nah genug heranwagen, ohne von kleinen
+    Trümmerteilen schwer beschädigt zu werden. Eine Neuentwicklung in der
+    Schildtechnologie löste das Problem, und der Recycler, gebaut ähnlich wie
+    der Große Transporter, holte die scheinbar verlorenen Rohstoffe doch noch
+    heim. Dank spezieller mehrdimensionaler Laderäume fasst er 20.000 Einheiten.
+    Er startet mit dem Verbrennungsantrieb, wechselt zum Impulsantrieb, sobald
+    dein Impulstriebwerk Stufe 17 erreicht, und zum Hyperraumantrieb, sobald
+    dein Hyperraumantrieb Stufe 15 erreicht.
   '210': >-
-    Spionagesonden sind kleine wendige Drohnen, welche über weite Entfernungen
-    hinweg Daten über Flotten und Planeten liefern. Ihr Hochleistungstriebwerk
-    ermöglicht ihnen weite Strecken in wenigen Sekunden zurück zu legen. Einmal
-    in der Umlaufbahn eines Planeten angekommen verweilen sie dort kurz um Daten
-    zu sammeln. Während dieser Zeit sind sie vom Feind relativ leicht entdeck-
-    und angreifbar. Um Platz zu sparen wurde auf Panzerung, Schilde und Waffen
-    verzichtet, was die Sonden, wenn sie einmal entdeckt wurden, zu leichten
-    Zielen macht.
+    Spionagesonden sind kleine, wendige Drohnen, die über weite Entfernungen
+    Daten über Flotten und Planeten liefern. Ihr Hochleistungstriebwerk bringt
+    sie in wenigen Sekunden ans Ziel. Im Orbit verweilen sie kurz, um Daten zu
+    sammeln, und sind in dieser Zeit für den Feind relativ leicht zu entdecken
+    und anzugreifen. Um Platz zu sparen, haben sie kaum Panzerung und weder
+    Schilde noch Waffen und sind deshalb leichte Ziele, sobald sie entdeckt
+    werden.
   '211': >-
-    Der Bomber wurde speziell entwickelt um die Verteidigung eines Planeten zu
-    zerstören. Mit Hilfe einer lasergesteuerten Zielvorrichtung wirft er
-    zielgenau Plasmabomben auf die Planetenoberfläche und richtet so einen
-    verheerenden Schaden bei Verteidigungsanlagen an.
+    Der Bomber wurde eigens entwickelt, um die Verteidigung eines Planeten zu
+    zerstören. Mit seiner lasergesteuerten Zielvorrichtung wirft er Plasmabomben
+    punktgenau auf die Planetenoberfläche und richtet bei Verteidigungsanlagen
+    verheerenden Schaden an.<br>Er fliegt mit dem Impulsantrieb und wechselt zum
+    Hyperraumantrieb, sobald dein Hyperraumantrieb Stufe 8 erreicht.
   '212': >-
-    Solarsatelliten werden in eine geostationäre Umlaufbahn um einen Planeten
-    geschossen. Sie bündeln Sonnenenergie und transferieren sie zu einer
-    Bodenstation. Die Effizienz der Solarsatelliten hängt von der Stärke der
-    Sonneneinstrahlung ab. Grundsätzlich ist die Energieausbeute auf sonnennahen
-    Orbits größer als auf Planeten mit sonnenfernen Orbit. Durch ihr gutes
-    Preis-Leistungs-Verhältnis lösen Solarsatelliten die Energieprobleme vieler
-    Welten. Aber Vorsicht: Solarsatelliten können im Kampf zerstört werden.
+    Solarsatelliten sind einfache Plattformen aus Solarzellen in einem hohen,
+    stationären Orbit. Sie sammeln Sonnenlicht und strahlen es per Laser zur
+    Bodenstation. Ihre Effizienz hängt von der Sonneneinstrahlung ab: Auf
+    sonnennahen Planeten liefern sie mehr Energie als auf sonnenfernen. Dank
+    ihres guten Preis-Leistungs-Verhältnisses lösen sie die Energieprobleme
+    vieler Welten. Aber Vorsicht: Im Kampf können Solarsatelliten zerstört
+    werden.
   '213': >-
-    Der Zerstörer ist der König unter den Kriegsschiffen. Seine Multiphalanx
-    Ionen-, Plasma- und Gaußgeschütztürme können durch ihre verbesserten
-    Anpeilungssensoren fast 99% der verteidigenden leichten Laser treffen. Da
-    der Zerstörer sehr groß ist, ist seine Manövrierfähigkeit stark
-    eingeschränkt, wodurch er im Kampf eher einer Kampfstation gleicht, als
-    einem Kampfschiff. So hoch wie seine Kampfkraft ist auch sein Verbrauch an
-    Deuterium.
+    Der Zerstörer ist der König der Kriegsschiffe. Seine Ionen-, Plasma- und
+    Gaußgeschütztürme sind dank verbesserter Zielsensoren so treffsicher, dass
+    er gegen Leichte Lasergeschütze Schnellfeuer hat: nach jedem Treffer schießt
+    er in 9 von 10 Fällen noch einmal. Wegen seiner Größe ist er kaum
+    manövrierfähig und gleicht im Kampf eher einer Kampfstation als einem
+    Kampfschiff. So hoch wie seine Kampfkraft ist auch sein Deuteriumverbrauch.
   '214': >-
-    Der Todesstern ist mit einer riesigen Gravitonkanone bewaffnet, die Schiffe
-    so groß wie Zerstörer oder sogar Monde zerstören kann. Da dafür eine hohe
-    Menge an Energie benötigt wird, besteht er fast nur aus Generatoren.
-    Lediglich riesige Sternenreiche können überhaupt die Ressourcen und Arbeiter
-    aufbringen, um dieses mondgroße Schiff zu Bauen.
+    Die Zerstörungskraft des Todessterns ist unübertroffen, und er kann Monde
+    zerstören. Er ist mit einer riesigen Gravitonkanone bewaffnet, die Schiffe
+    von der Größe eines Zerstörers oder sogar Monde vernichtet. Weil das enorm
+    viel Energie braucht, besteht er fast nur aus Generatoren. Nur riesige
+    Sternenreiche können die Rohstoffe und Arbeiter aufbringen, um dieses
+    mondgroße Schiff zu bauen.
   '215': >-
-    Dieses filigrane Schiff eignet sich hervorragend zum Zerstören feindlicher
-    Flottenverbände. Mit seinen hochentwickelten Lasergeschützen ist es in der
-    Lage, eine große Zahl angreifender Schiffe gleichzeitig zu bekämpfen. Durch
-    seine schlanke Bauform und die starken Bewaffnung ist die Ladekapazität
-    begrenzt. Dies wird jedoch durch den verbrauchsarmen Hyperraumantrieb wieder
-    ausgeglichen.
-  '216': "Dieses monströse Schiff ist eine Weiterentwicklung des Todessternes, die an Geschwindigkeit zugenommen hat, doch an Stärke verloren.\t"
+    Der Schlachtkreuzer ist darauf spezialisiert, feindliche Flotten abzufangen.
+    Mit seinen hochentwickelten Lasergeschützen bekämpft das filigrane Schiff
+    viele angreifende Schiffe gleichzeitig. Durch die schlanke Bauform und die
+    starke Bewaffnung ist die Ladekapazität begrenzt, das gleicht der sparsame
+    Hyperraumantrieb aber wieder aus.
+  '216': >-
+    Dieses monströse Schiff ist der Nachfolger des beliebten Todessterns:
+    deutlich schneller und robuster, mit riesigem Laderaum, schlägt aber etwas
+    weniger hart zu.
   '217': >-
-    Dieser Transporter ist zwar langsamer aber dafür kann er jetzt mehr
-    aufladen. Doch wenn man die richtige Forschung hat ist er fast so schnell
-    wie der große Transporter.
+    Eine Weiterentwicklung des Großen Transporters mit deutlich mehr
+    Ladekapazität. Er fliegt mit dem Hyperraumantrieb, startet also langsamer
+    als der Große Transporter, zieht aber mit jeder Stufe deines
+    Hyperraumantriebs davon.
   '218': >-
-    Dieses Schiff ist eine Verbesserung mehrerer Schiffe gleichzeitig und der
-    Kaiser der Kampfsterne.
+    Der Super-GAU schlechthin, wenn auch ein sehr langsamer. Dieses Schiff
+    vereint die Stärken mehrerer Schiffe und ist der Kaiser unter den
+    Kampfsternen.
   '219': >-
-    Dieses Schiff ist eine wahrhaft gigantische Recycelanlage im Weltraum mit
-    Atemberaubender Geschwindigkeit und riesigem Lagerraum! Geschaffen für große
-    Imperien.
+    Ein wahrhaft gigantisches Recyclingschiff im Weltraum: riesiger Laderaum und
+    neue Antriebe machen es schneller und ermöglichen mehr Ausbeute aus
+    Trümmerfeldern. Gebaut für große Imperien.
   '220': >-
     Der Stahlkoloss ist eine wahre Festung im All, geschützt durch
     unerschütterliche Schilde und eine massive Panzerung. Selbst heftigste
@@ -430,365 +398,337 @@ longDescription:
     effektiv. Der veraltete Aufbau wurde dabei bis an seine Grenzen ausgereizt,
     um eine nahezu undurchdringliche Verteidigung zu ermöglichen.
   '224': >-
-    Der Improvisierte Kampftransporter ist ein ungetestetes Transportflugobjekt,
-    das mit minimaler Bewaffnung ausgerüstet wurde und speziell dafür entwickelt
-    wurde, unvorsichtige und unvorbereitete Nachbarn zu stören. Dieses
-    improvisierte Gefährt ist nicht für den langfristigen Einsatz gedacht,
-    sondern für schnelle, impulsive Angriffe, die sofortige Reaktionen
-    hervorrufen. Ein Nachbarschaftsstreit ist praktisch garantiert, sobald es in
-    den Einsatz geht. Durch seine geringe Ausstattung und seine unberechenbare
-    Natur wird es zu einem gefährlichen Werkzeug für schnelle Konflikte.
+    Der Improvisierte Kampftransporter ist ein ungetestetes Transportschiff mit
+    minimaler Bewaffnung, gebaut, um unvorsichtige und unvorbereitete Nachbarn
+    zu ärgern. Dieses zusammengeschusterte Gefährt ist nicht für den
+    Dauereinsatz gedacht, sondern für schnelle, impulsive Angriffe, die sofort
+    Reaktionen hervorrufen. Nachbarschaftsstreit ist praktisch garantiert,
+    sobald es im Einsatz ist. Mit seiner dürftigen Ausstattung und seiner
+    unberechenbaren Art ist es ein gefährliches Werkzeug, um Konflikte schnell
+    eskalieren zu lassen.
   '225': >-
-    Der Sturmtransporter ist ein wahres Meisterwerk der Technik, das die
-    perfekte Balance zwischen Kampfkraft, Geschwindigkeit und Transportvolumen
-    bietet. Mit seiner Fähigkeit, Truppen und Ressourcen schnell zu verlegen und
-    gleichzeitig eine beeindruckende Feuerkraft auf das Schlachtfeld zu bringen,
-    hat er sich als unverzichtbares Element jeder schlagkräftigen Flotte
-    etabliert. Ob für schnelle Angriffseinheiten oder die Unterstützung
-    langfristiger Einsätze, der Sturmtransporter ist der Schlüssel zu einer
-    effektiven Kriegsführung, der auf keinem Schlachtfeld fehlen darf.
+    Der Sturmtransporter ist ein wahres Meisterwerk der Technik und bietet die
+    perfekte Balance zwischen Kampfkraft, Geschwindigkeit und Transportvolumen.
+    Er verlegt Truppen und Rohstoffe schnell und bringt dabei beeindruckende
+    Feuerkraft aufs Schlachtfeld. Damit ist er aus jeder schlagkräftigen Flotte
+    nicht mehr wegzudenken. Ob für schnelle Angriffe oder zur Unterstützung
+    langer Einsätze: Der Sturmtransporter ist der Schlüssel zu effektiver
+    Kriegsführung und gehört in jede Flotte.
   '226': >-
-    Der Kolossale Schlachttransporter repräsentiert die technische Spitze der
-    Ingenieurskunst. Trotz seines etwas globigen Designs und seiner damit
-    verbundenen langsamen Fluggeschwindigkeit, ist er der am stärksten
-    gepanzerte Kampftransporter, den die Flottenführung je gesehen hat. Seine
-    beeindruckende Schlagkraft macht ihn zu einer nahezu unaufhaltbaren
-    Bedrohung auf dem Schlachtfeld. Dieser Koloss kann mit Leichtigkeit
-    feindliche Linien durchbrechen und bietet gleichzeitig maximalen Schutz für
-    seine Besatzung. Er ist der Inbegriff von Stärke und Widerstandsfähigkeit
-    und unverzichtbar für jede schwer bewaffnete Flotte.
+    Der Kolossale Schlachttransporter ist die Spitze der Ingenieurskunst. Trotz
+    seines etwas klobigen Designs und der daraus folgenden geringen
+    Fluggeschwindigkeit ist er der am stärksten gepanzerte Kampftransporter, den
+    je eine Flotte gesehen hat. Seine überwältigende Schlagkraft macht ihn zu
+    einer unaufhaltsamen Macht auf dem Schlachtfeld. Dieser Koloss durchbricht
+    mühelos feindliche Linien und schützt dabei seine Besatzung optimal. Er
+    verkörpert Stärke und Widerstandsfähigkeit und ist unverzichtbar für jede
+    schwer bewaffnete Flotte.
   '227': >-
     Der Optimierte Recycler ist eine hochmoderne Weiterentwicklung des
-    herkömmlichen Recyclers. Dank des leistungsstarken Impulstriebwerks kann er
-    Trümmerfelder schneller und kostengünstiger erreichen, was ihn zu einem
-    unverzichtbaren Schiff für jede fortgeschrittene Flotte macht. Seine
-    optimierte Bauweise senkt nicht nur die Produktionskosten, sondern steigert
-    auch die Effizienz bei der Rohstoffrückgewinnung. Ab dem Midgame verfügbar,
-    stellt er einen entscheidenden Vorteil für jedes expandierende Imperium dar.
+    herkömmlichen Recyclers. Dank des leistungsstarken Impulstriebwerks erreicht
+    er Trümmerfelder schneller und günstiger, was ihn für jede fortgeschrittene
+    Flotte unverzichtbar macht. Seine optimierte Bauweise senkt die Baukosten
+    und steigert gleichzeitig die Effizienz bei der Rohstoffrückgewinnung. Ab
+    dem Midgame verfügbar, verschafft er jedem expandierenden Imperium einen
+    strategischen Vorteil.
   '228': >-
-    Der Omega-Recycler stellt den Höhepunkt der Recycling-Technologie dar –
-    allerdings mit einem hohen Preis. Sein leistungsstarker Hyperraumantrieb
-    ermöglicht es ihm, Trümmerfelder in Rekordzeit zu erreichen und schneller
-    als jedes andere Schiff Ressourcen zu bergen. Doch diese Geschwindigkeit
-    geht auf Kosten der Effizienz: Seine Bau- und Treibstoffkosten sind enorm,
-    was ihn nur für wohlhabende Kommandanten im Lategame interessant macht. Wer
-    jedoch auf Geschwindigkeit statt auf Kostenoptimierung setzt, findet hier
-    den ultimativen Recycler.
+    Der Omega-Recycler ist der Höhepunkt der Recycling-Technologie, hat aber
+    seinen Preis. Sein leistungsstarker Hyperraumantrieb bringt ihn in
+    Rekordzeit zu Trümmerfeldern und lässt ihn Rohstoffe schneller bergen als
+    jedes andere Schiff. Die Geschwindigkeit geht allerdings auf Kosten der
+    Effizienz: Bau- und Treibstoffkosten sind enorm, deshalb lohnt er sich nur
+    für wohlhabende Kommandanten im Lategame. Wer Tempo über Kosten stellt,
+    bekommt hier den ultimativen Recycler.
   '229': >-
     Entwickelt, um die Vorherrschaft der Xer zu brechen, ist die Viper die
-    ultimative Waffe gegen  Leichte Jäger, Schwere Jäger und Xer. Mit ihren
-    Schnellfeuerwaffen bringt sie das bestehende Kräfteverhäitnis ins Wanken.
+    ultimative Waffe gegen Leichte Jäger, Schwere Jäger und Kreuzer. Mit ihren
+    Schnellfeuerkanonen und fortschrittlicher Technik bringt sie das
+    Kräfteverhältnis im Universum ins Wanken.
   '230': >-
-    Schnell. Präzise. Unerreichbar.  Der Impulsjäger ist nicht für den fairen
-    Kampf designed, sondern um schnell und überraschend eine Übermacht zu
-    erzeugen.
+    Schnell. Präzise. Unerreichbar. Der Impulsjäger ist nicht für faire Kämpfe
+    gebaut, sondern dafür, schnell und hart zuzuschlagen und im Handumdrehen
+    eine erdrückende Übermacht zu schaffen.
   '231': >-
-    Der Behemoth ist das Ergebnis jahrzehntelanger Gravitonforschung und vereint
-    diese Technologie in einer kompromisslosen Kampfplattform. Anders als
-    Todessterne wurde er nicht für planetare Vernichtung entwickelt, sondern für
-    maximale Gefechtsleistung. Der Verzicht auf energiehungrige Systeme zur
-    Mondzertrümmerung ermöglichte ein leichteres Design mit stärkerem Antrieb,
-    höherer Agilität und gesteigerter Feuerkraft. Seine kompakte Gravitonkanone
-    macht ihn zu einer mobilen Vernichtungsmaschine, die selbst große Flotten im
-    Alleingang zerschlagen kann.
+    Der Behemoth ist das Ergebnis jahrzehntelanger Gravitonforschung, verwandelt
+    in eine unerbittliche Kampfplattform. Anders als Todessterne wurde er nicht
+    für planetare Zerstörung entwickelt, sondern für maximale Gefechtsleistung.
+    Weil er auf die energiehungrigen Systeme zur Mondzerstörung verzichtet,
+    konnte sein Design deutlich erleichtert werden. Das ermöglicht stärkere
+    Antriebe, mehr Wendigkeit und höhere Feuerkraft. Seine kompakte
+    Gravitonkanone macht ihn zur mobilen Vernichtungsmaschine, die selbst
+    riesige Flotten im Alleingang zerschlagen kann.
   '232': >-
-    Der Void Titan stellt den Höhepunkt moderner Gravitontechnologie dar. Sein
-    gesamtes Design verfolgt nur ein einziges Ziel: die schnellstmögliche
-    Auslöschung feindlicher Monde. Auf klassische Geschütztürme wurde bewusst
-    verzichtet, um Masse einzusparen und Platz für gigantische
-    Kristallgeneratoren zu schaffen. Diese versorgen die stärksten
-    Beschleunigungsspulen der bekannten Galaxien mit Energie und verleihen dem
-    Schiff eine bislang unerreichte Mobilität. Der enorme Kristallbedarf macht
-    jeden Void Titan zu einer strategischen Meisterleistung – und zu einem
-    Symbol grenzenloser zerstörerischer Macht.
+    Der Void Titan ist der Höhepunkt moderner Gravitontechnologie. Sein gesamtes
+    Design dient einem einzigen Ziel: der schnellen Auslöschung feindlicher
+    Monde. Auf klassische Geschütztürme wurde bewusst verzichtet, um Masse zu
+    sparen und Platz für gigantische Kristallgeneratoren zu schaffen. Diese
+    versorgen die fortschrittlichsten Beschleunigungsspulen der bekannten
+    Galaxien und verleihen dem Schiff eine unerreichte Beweglichkeit. Der enorme
+    Kristallbedarf macht jeden Void Titan zu einer industriellen Meisterleistung
+    und zum Symbol grenzenloser Zerstörungskraft.
   '401': >-
-    Der Raketenwerfer ist eine einfache aber kostengünstige
-    Verteidigungsmöglichkeit. Da er nur eine Weiterentwicklung gewöhnlicher
-    ballistischer Feuerwaffen ist, benötigt er keine weitere Forschung. Seine
-    geringen Herstellungskosten rechtfertigen seinen Einsatz gegen kleinere
-    Flotten, er verliert aber mit der Zeit an Bedeutung. Später wird er nur noch
-    als Schussfang hinter großen Geschützen eingesetzt. Verteidigungsanlagen
-    deaktivieren sich, sobald sie zu stark beschädigt sind. Nach einer Schlacht
-    beträgt die Chance bis zu 70%, dass sich ausgefallene Verteidigungsanlagen
-    wieder Instand setzen lassen.
+    Der Raketenwerfer ist eine einfache, aber kostengünstige Verteidigung. Er
+    ist nur eine Weiterentwicklung gewöhnlicher ballistischer Feuerwaffen und
+    braucht deshalb keine Forschung. Dank der niedrigen Kosten lohnt er sich
+    gegen kleinere Flotten, verliert mit der Zeit aber an Bedeutung und dient
+    später meist nur noch als Schussfang hinter großen Geschützen. Nach einer
+    Schlacht werden im Schnitt etwa 70 Prozent der zerstörten Verteidigungsanlagen
+    wieder aufgebaut.
   '402': >-
-    Um die enormen Fortschritte im Bereich der Raumschifftechnologie
-    kompensieren zu können, mussten die Forscher eine Verteidigungsanlage
-    entwickeln, welche auch mit größeren und besser ausgerüsteten Schiffen bzw.
-    Flotten zurechtkommt. Dies war die Geburtsstunde des leichten Lasers. Durch
-    den konzentrierten Beschuss eines Ziels mit Photonen konnte eine wesentlich
-    größere Schadenswirkung erzielt werden als mit gewöhnlichen ballistischen
-    Waffen. Um der größeren Feuerkraft der neuen Schiffstypen widerstehen zu
-    können wurde er ausserdem mit verbesserten Schilden ausgestattet. Damit die
-    Produktionskosten dennoch gering gehalten werden konnten wurde die Struktur
-    nicht weiter verstärkt. Der leichte Laser besitzt das beste
-    Preis-Leistungs-Verhältnis überhaupt und ist dadurch auch für weiter
-    fortgeschrittene Zivilisationen interessant. Verteidigungsanlagen
-    deaktivieren sich, sobald sie zu stark beschädigt sind. Nach einer Schlacht
-    beträgt die Chance bis zu 70%, dass sich die zerstörten Verteidigungsanlagen
-    wieder Instand setzen lassen.
+    Um die enormen Fortschritte der Raumschifftechnologie auszugleichen, mussten
+    die Forscher eine Verteidigungsanlage entwickeln, die auch mit größeren und
+    besser ausgerüsteten Schiffen und Flotten zurechtkommt. Das war die
+    Geburtsstunde des Leichten Lasergeschützes. Leichte Lasergeschütze sind
+    einfache Verteidigungswaffen am Boden: Spezielle Zielsysteme verfolgen den
+    Feind, und ein hochintensiver Laser schneidet durch die Hülle des Ziels.
+    Durch den konzentrierten Beschuss eines Ziels mit Photonen konnte eine
+    wesentlich größere Schadenswirkung erzielt werden als mit gewöhnlichen
+    ballistischen Waffen. Um der größeren Feuerkraft der neuen Schiffstypen
+    standzuhalten, bekam es außerdem verbesserte Schilde. Damit die
+    Produktionskosten niedrig blieben, wurde die Struktur nicht weiter
+    verstärkt. Das Leichte Lasergeschütz hat das beste
+    Preis-Leistungs-Verhältnis überhaupt und ist deshalb auch für weiter
+    fortgeschrittene Zivilisationen interessant. Nach einer Schlacht werden im
+    Schnitt etwa 70 Prozent der zerstörten Verteidigungsanlagen wieder aufgebaut.
   '403': >-
-    Der schwere Laser stellt die konsequente Weiterentwicklung des Designs des
-    leichten Lasers dar. Die Struktur wurde verstärkt und mit neuen Materialien
+    Das Schwere Lasergeschütz ist die konsequente Weiterentwicklung des Leichten
+    Lasergeschützes. Die Struktur wurde verstärkt und mit neuen Materialien
     verbessert. Die Hülle konnte so wesentlich widerstandsfähiger gemacht
     werden. Gleichzeitig wurden auch das Energiesystem und der Zielcomputer
-    verbessert, so dass ein schwerer Laser wesentlich mehr Energie auf ein Ziel
-    konzentrieren kann. Verteidigungsanlagen deaktivieren sich, sobald sie zu
-    stark beschädigt sind. Nach einer Schlacht beträgt die Chance bis zu 70%,
-    dass sich ausgefallene Verteidigungsanlagen wieder Instand setzen lassen.
+    verbessert, sodass es wesentlich mehr Energie auf ein Ziel konzentrieren
+    kann. Nach einer Schlacht werden im Schnitt etwa 70 Prozent der zerstörten
+    Verteidigungsanlagen wieder aufgebaut.
   '404': >-
-    Projektilwaffen galten lange Zeit neben der moderneren Kernfusions- und
-    Energietechnik, der Entwicklung des Hyperraumantriebs und immer besserer
-    Panzerungen als antiquiert, bis eben genau die Energietechnik, die sie einst
-    verdrängt hatte, ihr wieder zu ihrem angestammten Platz verhalf. Das Prinzip
-    war eigentlich schon aus dem 20. und 21. Jahrhundert der Erde bekannt - der
-    Teilchenbeschleuniger. Eine Gaußkanone ist eigentlich nichts anderes als
-    eine erheblich größere Version dieser Konstruktion. Tonnenschwere Geschosse
-    werden unter gigantischem elektrischem Aufwand magnetisch beschleunigt und
-    haben Mündungsgeschwindigkeiten, die die Schmutzteilchen in der Luft um das
-    Geschoss verbrennen lassen und der Rückstoß bringt die Erde zum Beben.
-    Dieser Durchschlagskraft können auch aktuelle Panzerungen und Schilde nur
-    schwer widerstehen, und es kommt nicht selten vor, dass das Ziel einfach
-    durchschlagen wird. Verteidigungsanlagen deaktivieren sich, sobald sie zu
-    stark beschädigt sind. Nach einer Schlacht beträgt die Chance bis zu 70%,
-    dass sich ausgefallene Verteidigungsanlagen wieder Instand setzen lassen.
+    Projektilwaffen galten neben Kernfusion, Energietechnik, Hyperraumantrieb
+    und immer besseren Panzerungen lange als antiquiert, bis ausgerechnet die
+    Energietechnik, die sie einst verdrängt hatte, ihnen ihren Platz zurückgab.
+    Das Prinzip kannte man schon im 20. und 21. Jahrhundert der Erde: der
+    Teilchenbeschleuniger. Eine Gaußkanone ist im Grunde nichts anderes als eine
+    erheblich größere Version davon. Tonnenschwere Geschosse aus hochdichtem
+    Metall werden unter gigantischem elektrischem Aufwand magnetisch
+    beschleunigt. Ihre Mündungsgeschwindigkeit ist so hoch, dass die
+    Schmutzteilchen in der Luft um das Geschoss verglühen, und der Rückstoß
+    lässt die Erde beben. Dieser Durchschlagskraft können auch aktuelle
+    Panzerungen und Schilde kaum widerstehen, und nicht selten wird das Ziel
+    einfach durchschlagen. Nach einer Schlacht werden im Schnitt etwa 70 Prozent
+    der zerstörten Verteidigungsanlagen wieder aufgebaut.
   '405': >-
-    Im 21. Jahrhundert der Erde gab es etwas, das allgemein als EMP bekannt war.
-    EMP steht für Elektromagnetischer Puls, der die Eigenschaft hat, in alle
-    Schaltkreise zusätzliche Spannungen zu induzieren und somit massenhafte
-    Störungen zu verursachen, die alle empfindlichen Geräte zerstören können.
-    Damals waren EMP-Waffen meistens noch auf Raketen- und Bombenbasis, auch in
-    Verbindung mit Nuklearwaffen. Mittlerweile wurde der EMP ständig
-    weiterentwickelt, da man in ihm ein großes Potential sah, Ziele nicht zu
-    zerstören, aber kampf- und manövrierunfähig zu machen, so dass einer
-    Übernahme nichts mehr im Wege stand. Die bisher höchste Form einer EMP-Waffe
+    Im 21. Jahrhundert der Erde war der EMP allgemein bekannt. EMP steht für
+    Elektromagnetischer Puls: Er induziert in alle Schaltkreise zusätzliche
+    Spannungen und verursacht so massenhaft Störungen, die empfindliche Geräte
+    zerstören können. Damals basierten EMP-Waffen meist auf Raketen und Bomben,
+    auch in Verbindung mit Nuklearwaffen. Inzwischen wurde der EMP ständig
+    weiterentwickelt, denn man sah großes Potenzial darin, Ziele nicht zu
+    zerstören, sondern nur kampf- und manövrierunfähig zu machen, sodass einer
+    Übernahme nichts mehr im Weg stand. Die bisher höchste Form einer EMP-Waffe
     stellt das Ionengeschütz dar. Es schleudert eine Welle von Ionen (elektrisch
     geladene Teilchen) auf das Ziel, welche die Schilde destabilisiert und alle
     Elektronik - sofern diese nicht massiv abgeschirmt ist - beschädigt, was
     nicht selten einer völligen Zerstörung gleichkommt. Die kinetische
     Durchschlagskraft kann vernachlässigt werden. Die Ionentechnik wird auch auf
-    Kreuzern eingesetzt, jedoch auf keinem anderen Schiffstyp, da der
-    Energieverbrauch der Ionengeschütze enorm ist und es in einem Gefecht häufig
-    darauf ankommt, das Ziel zu zerstören und nicht nur zu paralysieren.
-    Verteidigungsanlagen deaktivieren sich, sobald sie zu stark beschädigt sind.
-    Nach einer Schlacht beträgt die Chance bis zu 70%, dass sich ausgefallene
-    Verteidigungsanlagen wieder Instand setzen lassen.
+    Kreuzern eingesetzt, jedoch auf keinem anderen Schiffstyp, denn der
+    Energieverbrauch der Ionengeschütze ist enorm, und im Gefecht kommt es oft
+    darauf an, das Ziel zu zerstören und nicht nur zu lähmen. Nach einer
+    Schlacht werden im Schnitt etwa 70 Prozent der zerstörten Verteidigungsanlagen
+    wieder aufgebaut.
   '406': >-
-    Die Lasertechnik war mittlerweile nahezu perfektioniert, die Ionentechnik
-    hatte ein Endstadium erreicht und es galt mittlerweile als praktisch
-    unmöglich, auch aus nur einem Waffensystem qualitativ gesehen noch mehr
-    Effektivität herauszubekommen. Doch all dies sollte sich ändern, als man auf
-    die Idee kam, beide Systeme miteinander zu kombinieren. Schon aus der
-    Kernfusionstechnik bekannt, erhitzen Laser Teilchen ( meistens Deuterium )
-    auf extrem hohe Temperaturen, die schon einmal in die Millionen Grad gehen.
-    Die Ionentechnik trägt ihren Teil in Form von elektrischer Aufladung,
-    Stabilisierungsfeldern und Beschleunigern bei. Wird die abzufeuernde Ladung
-    genügend erhitzt, unter Druck gesetzt und ionisiert, jagt man sie mittels
-    Beschleunigern in die Weiten des Alls Richtung Ziel hinaus. Der grünlich
-    glühende Plasmastrahl bietet einen imposanten Anblick, es fragt sich aber,
-    ob die Crew des Zielschiffes lange an ihm Gefallen haben wird, wenn in
-    wenigen Sekunden die Hülle zerfetzt und die Elektronik geschmort wird... Der
-    Plasmawerfer gilt als eine der gefürchtetsten Waffen überhaupt, und diese
-    Technik hat auch ihren Preis. Verteidigungsanlagen deaktivieren sich, sobald
-    sie zu stark beschädigt sind. Nach einer Schlacht beträgt die Chance bis zu
-    70%, dass sich ausgefallene Verteidigungsanlagen wieder Instand setzen
-    lassen.
+    Die Lasertechnik war inzwischen nahezu perfektioniert und die Ionentechnik
+    am Ende ihrer Entwicklung. Es galt als praktisch unmöglich, aus einem der
+    beiden Waffensysteme noch mehr Effektivität herauszuholen. Das änderte sich,
+    als jemand auf die Idee kam, beide Systeme zu kombinieren. Wie schon aus der
+    Kernfusion bekannt, erhitzen Laser Teilchen (meist Deuterium) auf extrem
+    hohe Temperaturen von oft mehreren Millionen Grad. Die Ionentechnik trägt
+    ihren Teil in Form von elektrischer Aufladung, Stabilisierungsfeldern und
+    Beschleunigern bei. Ist die Ladung ausreichend erhitzt, unter Druck gesetzt
+    und ionisiert, jagt man sie mit Beschleunigern in Richtung Ziel. Der
+    grünlich glühende Plasmastrahl ist ein imposanter Anblick, doch die Crew des
+    Zielschiffs wird wenig Freude daran haben, wenn in wenigen Sekunden die
+    Hülle zerfetzt und die Elektronik geschmort wird. Der Plasmawerfer gilt als
+    eine der gefürchtetsten Waffen überhaupt, und diese Technik hat ihren Preis.
+    Nach einer Schlacht werden im Schnitt etwa 70 Prozent der zerstörten
+    Verteidigungsanlagen wieder aufgebaut.
   '407': >-
-    Lange bevor die Schildgeneratoren klein genug waren, um auf Schiffen Einsatz
-    zu finden, existierten bereits riesige Generatoren auf der Oberfläche von
-    Planeten. Diese umhüllen den ganzen Planeten mit einem Kraftfeld, welches
-    ungeheure Mengen an Energie absorbieren kann, bevor es zusammenbricht.
-    Kleinere Angriffsflotten scheitern immer wieder an diesen Schildkuppeln. Mit
-    zunehmender technologischer Entwicklung können diese Schilde noch verstärkt
-    werden. Später kann man sogar eine große Schildkuppel bauen, die noch
-    stärker ist. Pro Planet kann nur eine einzige kleine Schildkuppel gebaut
-    werden.
+    Lange bevor Schildgeneratoren klein genug für Schiffe waren, gab es bereits
+    riesige Generatoren auf der Oberfläche von Planeten. Sie hüllen den ganzen
+    Planeten in ein Kraftfeld, das ungeheure Mengen an Energie absorbieren kann,
+    bevor es zusammenbricht. Kleinere Angriffsflotten scheitern immer wieder an
+    diesen Schildkuppeln. Mit fortschreitender Technologie lassen sie sich noch
+    verstärken, und später kannst du sogar eine Große Schildkuppel bauen, die
+    noch stärker ist. Pro Planet kann nur eine einzige Kleine Schildkuppel
+    gebaut werden.
   '408': >-
-    Die Weiterentwicklung der kleinen Schildkuppel. Sie basiert auf den gleichen
-    Technologien kann aber wesentlich mehr Energie einsetzen um feindliche
-    Angriffe abzuhalten.
+    Die Weiterentwicklung der Kleinen Schildkuppel. Sie basiert auf derselben
+    Technologie, braucht aber deutlich mehr Energie, um feindliche Angriffe
+    abzuhalten. Pro Planet kann nur eine gebaut werden.
   '409': >-
-    Die Weiterentwicklung der Großen Schildkuppel. Sie basiert auf den gleichen
-    Technologien kann aber wesentlich mehr Energie einsetzen um feindliche
-    Angriffe abzuhalten.
+    Die Weiterentwicklung der Schildkuppel-Technologie. Sie verbraucht noch viel
+    mehr Energie, hält dafür aber mehr Angriffe aus als jedes andere Schild. Pro
+    Planet kann nur eine gebaut werden.
   '410': >-
-    Sie basiert, wie der Name schon sagt, auf einer Gravitonkraft, bekannt aus
-    dem Todesstern und aus besseren Schiffen.
+    Nach jahrelanger Gravitationsforschung entwickelten Wissenschaftler eine
+    Gravitonkanone, die ein kleines, konzentriertes Gravitonfeld erzeugt und auf
+    den Feind abfeuert.
   '411': >-
-    Diese Plattform, mit gigantischem Ausmaß, ist das Größte was das Universum
-    je gesehen hat. Es ist eine unbewegliche defensive Plattform. Sie besitzt
-    keinen direkten Antrieb und wird durch Gravitonforschung in einer stabilen
-    Umlaufbahn des Planeten gehalten. Das Starten dieses Vorgangs erfordert hohe
-    Massen an Energie. Die Forscher arbeiten an einer Möglichkeit, auf dieser
-    Plattform Schiffe zu bauen, um sie als einen äusseren Verteidigungsring zu
-    nutzen, der es dem Gegner erschwert zur Planetaren Verteidigung
-    durchzubrechen. Durch das gigantische Ausmaß ist es nur möglich einer dieser
-    Monster zu besitzen.
+    Eine unbewegliche Verteidigungsplattform ohne eigenen Antrieb, die durch
+    Gravitonforschung in einer stabilen Umlaufbahn um den Planeten gehalten
+    wird. Diesen Vorgang zu starten, kostet riesige Mengen Energie. Wegen ihrer
+    gigantischen Ausmaße kannst du nur eine dieser Plattformen besitzen.
   '412': >-
-    Der Bunker ist ein stark befestigtes Bauwerk, das selbst den stärksten
+    Der Bunker ist ein stark befestigtes Bauwerk, das selbst den mächtigsten
     Angriffen standhalten soll. Er bietet den Bewohnern des Planeten und der
-    kritischen Infrastruktur unvergleichlichen Schutz und ist damit ein
-    Eckpfeiler der planetarischen Verteidigung.
+    wichtigen Infrastruktur unvergleichlichen Schutz und ist damit ein
+    Eckpfeiler der Planetenverteidigung.
   '413': >-
     Der Titan-Laser ist eine gigantische Waffe von beispielloser
     Zerstörungskraft.
   '414': >-
-    Der „Köder“ ist ein ausgeklügeltes Verteidigungssystem, das dazu dient,
-    feindliche Streitkräfte in die Irre zu führen und zu verwirren. Indem er
-    sich als Raketenwerfer tarnt, schreckt er Angriffe ab.
+    Der Köder ist ein raffiniertes Verteidigungssystem, das feindliche
+    Streitkräfte in die Irre führen und verwirren soll. Er gibt sich als
+    Raketenwerfer aus und schreckt so Angriffe ab.
   '502': >-
-    Abfangraketen zerstören angreifende Interplanetarraketen. Jede
-    Boden-Luft-Rakete zerstört eine Interplanetarrakete.
+    Abfangraketen zerstören anfliegende Interplanetarraketen. Pro
+    Interplanetarrakete wird eine Abfangrakete benötigt.
   '503': >-
-    Interplanetarraketen zerstören die gegnerische Verteidigung, können
-    allerdings durch Abfangraketen zerstört werden! Von Interplanetarraketen
-    zerstörte Verteidigungsanlagen bauen sich nicht wieder auf.
+    Interplanetarraketen zerstören die gegnerische Verteidigung, können aber von
+    Abfangraketen abgefangen werden. Verteidigungsanlagen, die von
+    Interplanetarraketen zerstört wurden, bauen sich nicht wieder auf.
+    Standardmäßig hängt die Reichweite (in Sonnensystemen) von der Stufe deines
+    Impulstriebwerks ab:<br>Reichweite = (5 x Stufe des Impulstriebwerks) - 1
   '901': >-
-    Hauptrohstoff für den Bau tragender Strukturen von Bauwerken und Schiffen.
-    Metall ist der billigste Rohstoff, dafür wird er mehr benötigt als die
-    anderen. Metall braucht zur Herstellung am wenigsten Energie. Je größer die
-    Minen ausgebaut sind, desto tiefer sind sie. Bei den meisten Planeten
-    befindet sich das Metall in großer Tiefe, durch diese tieferen Minen können
-    mehr Metalle abgebaut werden, die Produktion steigt. Trotz seiner Häufigkeit
-    ist Metall eine der gefragtesten Ressourcen im Universum.
+    Metall ist der wichtigste Rohstoff für Gebäude und Schiffe. Es ist der
+    günstigste Rohstoff, aber auch der, den du am meisten brauchst, und braucht
+    wie Kristall zur Herstellung am wenigsten Energie. Je größer die Minen,
+    desto tiefer graben sie sich in die Erde und desto höher ist die Produktion.
+    Trotz seiner Häufigkeit gehört Metall zu den begehrtesten Rohstoffen im
+    Universum.
   '902': >-
-    Kristall wird für die Herstellung feinelektronischer Komponente benötigt,
-    und wird in Minen unter der Erde abgebaut.
+    Kristall ist der Hauptrohstoff für elektronische Schaltkreise und bestimmte
+    Legierungen. Er wird in unterirdischen Minen abgebaut und dort gleich zu
+    Schaltkreisen verarbeitet.
   '903': >-
-    Deuterium ist schwerer Wasserstoff. Die größten Vorräte sind am Grund des
-    Meeres. Deshalb werden für die Gewinnung von Deuterium großen Mengen Energie
-    benötigt. Deuterium wird als Treibstoff für Raumschiffe, für fast alle
-    Forschungen, für einen Blick in die Galaxie sowie für den Sensorphalanx-Scan
-    benötigt.
+    Deuterium (schwerer Wasserstoff) findet sich in den tiefsten Meeren und ist
+    einer der seltensten Rohstoffe im Universum. Man muss bis zum Meeresgrund
+    vordringen, deshalb ist es der teuerste Rohstoff und braucht auch am meisten
+    Energie. Du brauchst es als Treibstoff für Raumschiffe, für viele
+    Forschungen, für einen Blick in die Galaxie und für Phalanx-Scans.
   '911': >-
-    Energie wird für das gewinnnen jeglicher Rohstoffe benötigt. Man sagt, man
-    könne mit unmengen an Energie, die Gravitation beeinflussen und dadurch
-    zerstörerische Waffen bauen. Allerdings ist dies bis heute noch kaum
-    jemanden gelungen.
+    Energie wird für die Gewinnung jedes Rohstoffs benötigt. Man sagt, mit
+    unvorstellbar großen Energiemengen ließe sich sogar die Gravitation
+    beeinflussen und damit zerstörerische Waffen bauen. Bis heute ist das aber
+    kaum jemandem gelungen.
 secureResources: >-
-  Je Ausbaustufe werden 1% der Tagesproduktion bis zu einem Maximum von 10% vor
-  Plünderung bei Angriffen geschützt.
+  Jede Stufe eines Lagergebäudes schützt 1% der Tagesproduktion des jeweiligen
+  Rohstoffs bei Angriffen vor Plünderung, maximal 10%.
 shortDescription:
-  '1': >-
-    Hauptrohstofflieferanten für den Bau tragender Strukturen von Bauwerken und
-    Schiffen.
-  '2': Hauptrohstofflieferanten für elektronische Bauteile und Legierungen.
-  '3': Entziehen dem Wasser eines Planeten den geringen Deuteriumanteil.
+  '1': Metallminen fördern das Erz, auf dem jedes junge wie etablierte Imperium aufbaut.
+  '2': Kristall ist der Schlüsselrohstoff für Elektronik und bestimmte Legierungen.
+  '3': >-
+    Deuterium treibt deine Raumschiffe an und wird aus der Tiefsee gewonnen. Es
+    ist selten und deshalb vergleichsweise teuer.
   '4': >-
-    Solarkraftwerke gewinnen Energie aus Sonneneinstrahlung. Einige Gebäude
-    benötigen Energie für ihren Betrieb.
-  '6': Sie verkürzt pro Stufe die Forschungszeit um 8%.
+    Solarkraftwerke wandeln Sonnenlicht in Energie um. Jede Mine braucht
+    Energie, um zu laufen.
+  '6': >-
+    Standardmäßig verkürzt jede Stufe die Forschungszeit um 8%.
   '12': >-
-    Das Fusionskraftwerk gewinnt Energie aus Brennstäben die aus Deuterium
-    gefertigt werden.
+    Das Fusionskraftwerk gewinnt Energie, indem es Deuterium als Brennstoff
+    verschmilzt.
   '14': >-
-    Roboterfabriken stellen einfache Arbeitskräfte zur Verfügung, die beim Bau
-    der planetaren Infrastruktur eingesetzt werden. Jede Stufe erhöht damit die
-    Geschwindigkeit des Ausbaus von Gebäuden.
+    Roboterfabriken stellen Bauroboter bereit, die dir beim Errichten deiner
+    Gebäude helfen. Jede Stufe beschleunigt den Ausbau von Gebäuden.
   '15': >-
-    Stellt die Krönung der Robotertechnik dar. Jede Stufe halbiert die Bauzeit
-    von Gebäuden, Schiffen und Verteidigung.
+    Die Krönung der Robotertechnik. Jede Stufe halbiert die Bauzeit von
+    Gebäuden, Schiffen und Verteidigungsanlagen.
   '21': >-
-    In der planetaren Werft werden alle Arten von Schiffen und
+    In der Raumschiffwerft deines Planeten werden alle Schiffe und
     Verteidigungsanlagen gebaut.
-  '22': >-
-    Lagerstätte für unbearbeitete Metallerze bevor sie weiter verarbeitet
-    werden.
-  '23': Lagerstätte für unbearbeitetes Kristall bevor es weiter verarbeitet wird.
-  '24': Riesige Tanks zur Lagerung des neu gewonnenen Deuteriums.
-  '31': >-
-    Um neue Technologien zu erforschen, ist der Betrieb einer Forschungsstation
-    notwendig.
-  '33': Der Terraformer vergrößert die nutzbare Fläche auf Planeten.
+  '22': Lagerstätte für überschüssiges Metall.
+  '23': Lagerstätte für überschüssigen Kristall.
+  '24': Lagerstätte für überschüssiges Deuterium.
+  '31': Um neue Technologien zu erforschen, brauchst du ein Forschungslabor.
+  '33': >-
+    Der Terraformer erweitert die nutzbare Fläche des Planeten: 5 zusätzliche
+    Felder pro Stufe, auf jeder geraden Stufe ein weiteres. Jede Stufe belegt
+    selbst ein Feld.
   '34': >-
-    Das Allianzdepot bietet die Möglichkeit, befreundete Flotten, die bei der
-    Verteidigung helfen und im Orbit stehen, mit Treibstoff zu versorgen.
-  '35': Das Reparaturdock ermöglicht Schiffe aus einem Wrackfeld wiederherzustellen.
+    Das Allianzdepot hat derzeit keine Wirkung in diesem Spiel.
+  '35': Das Reparaturdock stellt Schiffe aus einem Wrackfeld wieder her.
   '41': >-
-    Ein Mond verfügt über keinerlei Atmosphäre, deshalb muss vor der Besiedlung
-    eine Mondbasis errichtet werden.
+    Der Mond hat keine Atmosphäre, und ein frischer Mond bietet Platz für nur
+    ein Gebäude, deshalb beginnst du am besten mit der Mondbasis.
   '42': >-
-    Die Sensorphalanx erlaubt es, Flottenbewegungen zu beobachten. Je höher die
-    Ausbaustufe, desto größer ist die Reichweite der Phalanx.
+    Die Sensorphalanx lässt dich Flottenbewegungen beobachten. Je höher die
+    Stufe, desto größer die Reichweite der Phalanx.
   '43': >-
-    Sprungtore sind riesige Transmitter, die in der Lage sind, selbst riesige
-    Flotten ohne Zeitverlust durch das Universum zu versenden.
-  '44': Raketensilos dienen zum Einlagern von Raketen.
-  '106': >-
-    Mit Hilfe dieser Technik lassen sich Informationen über andere Planeten und
-    Monde gewinnen.
+    Sprungtore sind riesige Transmitter, die auch große Flotten ohne Zeitverlust
+    quer durchs Universum schicken.
+  '44': Raketensilos lagern deine Raketen.
+  '106': Mit dieser Technologie sammelst du Informationen über andere Planeten und Monde.
   '108': >-
-    Mit der Erhöhung der Computerkapazitäten lassen sich immer mehr Flotten
-    befehligen. Jede Stufe Computertechnik erhöht dabei die maximale
-    Flottenanzahl um eins.
+    Bessere Computer lassen dich mehr Flotten befehligen. Jede Stufe
+    Computertechnik erhöht deine maximale Flottenanzahl um eins.
   '109': >-
-    Waffentechnik macht Waffensysteme effizienter. Jede Stufe der Waffentechnik
-    erhöht die Waffenstärke der Einheiten um 10% des Grundwertes.
+    Die Waffentechnik macht Waffensysteme wirkungsvoller. Jede Stufe erhöht die
+    Waffenstärke aller Einheiten um 10% des Grundwerts.
   '110': >-
-    Schildtechnik macht die Schilde der Schiffe und Verteidigungsanlagen
-    effizienter. Jede Stufe der Schildtechnik steigert die Effizienz der Schilde
-    um 10% des Grundwertes.
+    Die Schildtechnik macht die Schilde von Schiffen und Verteidigungsanlagen
+    wirksamer. Jede Stufe erhöht die Schildstärke um 10% des Grundwerts.
   '111': >-
-    Spezielle Legierungen machen die Panzerung der Raumschiffe immer besser. Die
-    Wirksamkeit der Panzerung kann so pro Stufe um 10% gesteigert werden.
-  '113': >-
-    Die Beherrschung der unterschiedlichen Arten von Energie ist für viele neue
-    Technologien notwendig.
+    Spezielle Legierungen verbessern die Panzerung von Schiffen und
+    Verteidigungsanlagen. Jede Stufe erhöht die Wirksamkeit der Panzerung um
+    10%.
+  '113': Wer verschiedene Energieformen beherrscht, schaltet viele neue Technologien frei.
   '114': >-
-    Durch die Einbindung der 4. und 5. Dimension ist es nun möglich einen
-    neuartigen Antrieb zu erforschen, welcher sparsamer und leistungsfähiger
-    ist.
+    Mit der Einbindung der 4. und 5. Dimension kannst du einen neuartigen
+    Antrieb erforschen, der sparsamer und leistungsfähiger ist.
   '115': >-
-    Die Weiterentwicklung dieser Triebwerke macht einige Schiffe schneller,
-    allerdings steigert jede Stufe die Geschwindigkeit nur um 10% des
-    Grundwertes.
+    Die Weiterentwicklung dieses Antriebs macht einige Schiffe schneller, aber
+    jede Stufe bringt nur 10% der Grundgeschwindigkeit.
   '117': >-
-    Das Impulstriebwerk basiert auf dem Rückstoßprinzip. Die Weiterentwicklung
-    dieser Triebwerke macht einige Schiffe schneller und steigert jede Stufe die
-    Geschwindigkeit um 20% des Grundwertes.
+    Das Impulstriebwerk arbeitet nach dem Rückstoßprinzip. Die Weiterentwicklung
+    macht einige Schiffe schneller, aber jede Stufe bringt nur 20% der
+    Grundgeschwindigkeit.
   '118': >-
-    Krümmt den Raum um ein Schiff. Die Weiterentwicklung dieser Triebwerke macht
-    einige Schiffe schneller, allerdings steigert jede Stufe die Geschwindigkeit
-    nur um 30% des Grundwertes.
-  '120': >-
-    Durch Bündelung des Lichtes entsteht ein Strahl der beim Auftreffen auf ein
-    Objekt Schaden anrichtet.
+    Der Hyperraumantrieb krümmt den Raum um ein Schiff. Die Weiterentwicklung
+    macht einige Schiffe schneller, aber jede Stufe bringt nur 30% der
+    Grundgeschwindigkeit.
+  '120': Gebündeltes Licht erzeugt einen Strahl, der alles beschädigt, was er trifft.
   '121': >-
-    Wahrhaft tödlicher Richtstrahl aus beschleunigten Ionen. Diese richten beim
-    Auftreffen auf ein Objekt einen riesigen Schaden an.
+    Ein tödlicher Strahl aus beschleunigten Ionen, der beim Aufprall enormen
+    Schaden anrichtet.
   '122': >-
-    Eine Weiterentwicklung der Ionentechnik, die nicht Ionen beschleunigt,
-    sondern hochenergetisches Plasma. Dieses hat eine verheerende Wirkung beim
-    Auftreffen auf ein Objekt.
-  '123': >-
-    Forscher verschiedener Planeten kommunizieren über dieses Netzwerk
-    miteinander. Durch das Zusammenschalten der Labore wird die Forschungszeit
-    verkürzt, jede Stufe schaltet die Labore eines Planeten dazu.
+    Eine Weiterentwicklung der Ionentechnik: Statt Ionen wird hochenergetisches
+    Plasma beschleunigt, das durch extremes Erhitzen von Ionen entsteht. Beim
+    Aufprall hat es eine verheerende Wirkung.
+  '123': Forscher verschiedener Planeten kommunizieren über dieses Netzwerk.
   '124': >-
-    Weitere Erkenntnisse in der Astrophysik ermöglichen den Bau von Laboren, mit
-    denen immer mehr Schiffe ausgestattet werden können.
-  '131': Erhöht die Produktion der Metallmine um 2%
-  '132': Erhöht die Produktion der Kristallmine um 2%
-  '133': Erhöht die Produktion der Deuteriumsynthetisierer um 2%
-  '134': Reduziert die Flugkosten um 2%
+    Schaltet Kolonisierung und Expeditionen in den tiefen Weltraum frei.
+    Zusätzliche Planeten auf ungeraden Stufen, zusätzliche Expeditionsslots auf
+    Quadratstufen, längere Expeditionsdauer und mehr Planetenpositionen in einem
+    System.
+  '131': >-
+    Erhöht die Metallproduktion pro Stufe um 2%.
+  '132': >-
+    Erhöht die Kristallproduktion pro Stufe um 2%.
+  '133': >-
+    Erhöht die Deuteriumproduktion pro Stufe um 2%.
+  '134': >-
+    Senkt die Flugkosten pro Stufe um 2%.
   '199': >-
-    Durch Abschuss einer konzentrierten Ladung von Gravitonpartikeln kann ein
-    künstliches Gravitationsfeld errichtet werden, wodurch Schiffe oder auch
-    Monde vernichtet werden können.
+    Eine konzentrierte Ladung Gravitonen erzeugt ein künstliches
+    Gravitationsfeld, das Schiffe und sogar Monde zerstören kann.
   '202': >-
-    Der kleine Transporter ist ein wendiges Schiff, welches Rohstoffe schnell zu
-    anderen Planeten transportieren kann.
+    Der Kleine Transporter ist ein wendiges Schiff, das Rohstoffe schnell zu
+    anderen Planeten bringt.
   '203': >-
-    Die Weiterentwicklung des kleinen Transporters hat ein größeres Ladevermögen
-    und kann sich dank weiterentwickeltem Antrieb noch schneller fortbewegen als
-    der kleine Transporter.
+    Dieses Frachtschiff transportiert deutlich mehr als der Kleine Transporter
+    und ist dank verbessertem Antrieb meist schneller.
   '204': >-
-    Der leichte Jäger ist ein wendiges Schiff, das auf fast jedem Planeten
-    vorgefunden wird. Die Kosten sind nicht besonders hoch, Schildstärke und
-    Ladekapazität sind allerdings sehr gering.
-  '205': >-
-    Die Weiterentwicklung des leichten Jägers ist besser gepanzert und hat eine
-    höhere Angriffsstärke.
+    Das erste Kampfschiff, das jeder Herrscher baut. Wendig, aber allein
+    verwundbar; in großer Zahl eine echte Bedrohung für jedes Imperium. Leichte
+    Jäger eskortieren als Erste Kleine und Große Transporter zu schwach
+    verteidigten feindlichen Planeten.
+  '205': Dieser Jäger ist besser gepanzert und schlägt härter zu als der Leichte Jäger.
   '206': >-
     Kreuzer sind fast dreimal so stark gepanzert wie schwere Jäger und verfügen
     über mehr als die doppelte Schusskraft. Zudem sind sie sehr schnell.
@@ -796,13 +736,13 @@ shortDescription:
     Schlachtschiffe bilden meist das Rückgrat einer Flotte. Ihre schweren
     Geschütze, die hohe Geschwindigkeit und der große Frachtraum machen sie zu
     ernst zu nehmenden Gegnern.
-  '208': Fremde Planeten können mit diesem Schiff kolonisiert werden.
-  '209': Mit dem Recycler lassen sich Rohstoffe aus Trümmerfeldern gewinnen.
+  '208': Mit diesem Schiff kannst du unbesiedelte Planeten kolonisieren.
+  '209': Der Recycler birgt Rohstoffe aus Trümmerfeldern.
   '210': >-
-    Spionagesonden sind kleine wendige Drohnen, welche über weite Entfernungen
-    hinweg Daten über Flotten und Planeten liefern.
+    Spionagesonden sind kleine, wendige Drohnen, die über weite Entfernungen
+    Daten über Flotten und Planeten liefern.
   '211': >-
-    Der Bomber wurde extra entwickelt, um die Verteidigung eines Planeten zu
+    Der Bomber wurde eigens entwickelt, um die Verteidigung eines Planeten zu
     zerstören.
   '212': >-
     Solarsatelliten sind einfache Plattformen aus Solarzellen, die sich in einem
@@ -810,15 +750,21 @@ shortDescription:
     per Laser an die Bodenstation weiter.
   '213': Der Zerstörer ist der König unter den Kriegsschiffen.
   '214': >-
-    Die Zerstörungskraft des Todessterns ist unübertroffen und er kann als
-    einziges Schiff Monde zerstören.
+    Die Zerstörungskraft des Todessterns ist unübertroffen, und er kann Monde
+    zerstören.
   '215': Der Schlachtkreuzer ist auf das Abfangen feindlicher Flotten spezialisiert.
-  '216': Der Nachfolger des beliebten Todessterns, etwas schneller und stärker.
+  '216': >-
+    Der Nachfolger des beliebten Todessterns: deutlich schneller und robuster,
+    mit riesigem Laderaum, schlägt aber etwas weniger hart zu.
   '217': >-
-    Ist der eine Weiterentwicklung des großen Transporters. Er hat mehr
-    Ladevermögen und fliegt schneller.
-  '218': Der Supergau schlechthin, allerdings sehr langsam.
-  '219': Ist eine gigantische Weltraumrecycleanlage und hyperschnell.
+    Eine Weiterentwicklung des Großen Transporters mit deutlich mehr
+    Ladekapazität. Er fliegt mit dem Hyperraumantrieb, startet also langsamer
+    als der Große Transporter, zieht aber mit jeder Stufe deines
+    Hyperraumantriebs davon.
+  '218': Der Super-GAU schlechthin, wenn auch ein sehr langsamer.
+  '219': >-
+    Riesiger Laderaum und neue Antriebe: schneller und mit mehr Ausbeute aus
+    Trümmerfeldern.
   '220': >-
     Der Stahlkoloss trotzt jedem Angriff mit massiven Schilden und dicker
     Panzerung, doch seine Waffen und Antriebe lassen zu wünschen übrig.
@@ -833,16 +779,15 @@ shortDescription:
     Besatzung bietet, jedoch in Fluggeschwindigkeit und Wendigkeit stark
     eingeschränkt ist.
   '224': >-
-    Ein improvisiertes, nicht getestetes Transportflugobjekt mit
-    minimalistischer Bewaffnung, das darauf abzielt, unvorsichtige Nachbarn zu
-    stören und sofort einen Konflikt zu provozieren.
+    Ein ungetestetes Transportschiff mit minimaler Bewaffnung, gebaut, um
+    unvorsichtige Nachbarn zu ärgern und sofort Streit zu provozieren.
   '225': >-
     Ein Schiff, das Kampfkraft, Geschwindigkeit und Transportvolumen vereint und
-    damit unverzichtbar für jede schlagkräftige Flotte ist.
+    deshalb in jeder schlagkräftigen Flotte unverzichtbar ist.
   '226': >-
-    Ein massiv gepanzerter Kampftransporter mit einem imposanten, leicht globig
-    anmutenden Design, der mit seiner überwältigenden Schlagkraft selbst den
-    härtesten Gegner bezwingt.
+    Ein massiv gepanzerter Kampftransporter mit imposantem, leicht klobigem
+    Design, dessen überwältigende Feuerkraft selbst die härtesten Gegner
+    bezwingt.
   '227': >-
     Eine verbesserte Version des klassischen Recyclers mit Impulstriebwerk, das
     effizientere Bergungsmissionen bei geringeren Kosten ermöglicht.
@@ -851,74 +796,69 @@ shortDescription:
     Hyperraumantrieb.
   '229': >-
     Entwickelt, um die Vorherrschaft der Xer zu brechen, ist die Viper die
-    ultimative Waffe gegen  Leichte Jäger, Schwere Jäger und Xer. Mit ihren
-    Schnellfeuerwaffen bringt sie das bestehende Kräfteverhäitnis ins Wanken.
+    ultimative Waffe gegen Leichte Jäger, Schwere Jäger und Kreuzer. Mit ihren
+    Schnellfeuerkanonen und fortschrittlicher Technik bringt sie das
+    Kräfteverhältnis im Universum ins Wanken.
   '230': >-
-    Schnell. Präzise. Unerreichbar.  Der Impulsjäger ist nicht für den fairen
-    Kampf designed, sondern um schnell und überraschend eine Übermacht zu
-    erzeugen.
+    Schnell. Präzise. Unerreichbar. Der Impulsjäger ist nicht für faire Kämpfe
+    gebaut, sondern dafür, schnell und hart zuzuschlagen und im Handumdrehen
+    eine erdrückende Übermacht zu schaffen.
   '231': >-
-    Ein kleinerer, schnellerer Todesstern, der jedoch keine Monde zerstören
-    kann. „Tödlich gegen Flotten“ – so lässt sich der Behemoth am besten
-    beschreiben.
+    Ein kleinerer, schnellerer Todesstern, der keine Monde zerstören kann. Der
+    Behemoth ist tödlich gegen Flotten.
   '232': >-
-    Schneller, explosiver, immer als überraschung gut. Der Void Titan ist der
-    schrecken der Monde.
-  '401': >-
-    Der Raketenwerfer ist eine einfache aber kostengünstige
-    Verteidigungsmöglichkeit.
+    Schneller, explosiver, immer für eine Überraschung gut. Der Void Titan ist
+    der Schrecken der Monde.
+  '401': Der Raketenwerfer ist eine einfache, aber kostengünstige Verteidigung.
   '402': >-
-    Durch den konzentrierten Beschuss eines Ziels mit Photonen kann eine
-    wesentlich größere Schadenswirkung erzielt werden, als mit gewöhnlichen
-    ballistischen Waffen.
+    Leichte Lasergeschütze sind einfache Verteidigungswaffen am Boden. Spezielle
+    Zielsysteme verfolgen feindliche Schiffe, und ein hochintensiver Laser
+    schneidet durch die Hülle des Ziels.
   '403': >-
-    Der schwere Laser stellt die konsequente Weiterentwicklung des leichten
-    Lasers dar.
-  '404': >-
-    Die Gaußkanone beschleunigt tonnenschwere Geschosse unter gigantischem
-    elektrischen Aufwand.
+    Das Schwere Lasergeschütz ist eine verbesserte Version des Leichten
+    Lasergeschützes.
+  '404': Die Gaußkanone verschießt extrem schnelle Projektile aus hochdichtem Metall.
   '405': >-
-    Das Ionengeschütz schleudert eine Welle von Ionen auf das Ziel, welche
-    Schilde destabilisiert und die Elektronik beschädigt.
+    Das Ionengeschütz schießt Strahlen aus Ionen (positiv oder negativ geladenen
+    Teilchen) auf das Ziel, destabilisiert Schilde und beschädigt die
+    Elektronik.
   '406': >-
-    Plasmageschütze setzen die Kraft einer Sonneneruption frei und übertreffen
-    in ihrer zerstörerischen Wirkung sogar den Zerstörer.
+    Der Plasmawerfer nutzt eine große Brennzelle eines Kernreaktors, um einen
+    elektromagnetischen Beschleuniger anzutreiben, der Plasmapulse (Toroide)
+    abfeuert.
   '407': >-
-    Die kleine Schildkuppel umhüllt den ganzen Planeten mit einem Feld, welches
-    ungeheure Mengen an Energie absorbieren kann.
-  '408': >-
-    Die Weiterentwicklung der Kleinen Schildkuppel kann wesentlich mehr Energie
-    einsetzen um Angriffe abzuhalten.
+    Die Kleine Schildkuppel hüllt den ganzen Planeten in ein Feld, das ungeheure
+    Mengen an Energie absorbieren kann.
+  '408': Die Große Schildkuppel kann im Angriff deutlich mehr Energie absorbieren.
   '409': >-
-    Die Weiterentwicklung der Großen Schildkuppel ist die Krönung der
-    Schildtechnik sie kann wesentlich mehr Energie einsetzen um Angriffe
-    abzuhalten als alle anderen Schildkuppeln.
+    Die Weiterentwicklung der Schildkuppel-Technologie. Sie verbraucht noch viel
+    mehr Energie, hält dafür aber mehr Angriffe aus als jedes andere Schild.
   '410': >-
-    Nach jahrelangen forschen an der Gravitationskraft ist es Forschern
-    gelungen, eine Gravitonenkanone zu entwickeln, die kleine konzentrierte
-    Gravitationsfelder erzeugen kann und sie auf Gegner schießen lässt.
+    Nach jahrelanger Gravitationsforschung entwickelten Wissenschaftler eine
+    Gravitonkanone, die ein kleines, konzentriertes Gravitonfeld erzeugt und auf
+    den Feind abfeuert.
   '411': >-
-    Es ist eine unbewegliche defensive Plattform. Sie besitzt keinen direkten
-    Antrieb und wird durch Gravitonforschung in einer stabilen Umlaufbahn des
-    Planeten gehalten. Das starten dieses Vorgangs erfordert hohe Massen an
-    Energie.
-  '412': Es schützt! Wie der Lego-Stein in „Kindergarten TD“
-  '413': Der Titan-Laser ist ein gigantischer Laser.
-  '414': Der Köder gibt vor, ein Raketenwerfer zu sein.
+    Eine unbewegliche Verteidigungsplattform ohne eigenen Antrieb, die durch
+    Gravitonforschung in einer stabilen Umlaufbahn um den Planeten gehalten
+    wird. Diesen Vorgang zu starten, kostet riesige Mengen Energie.
+  '412': Er schützt! Wie der Lego-Stein in „Kindergarten TD“.
+  '413': Der Titan Laser ist ein gigantischer Laser.
+  '414': >-
+    Der Köder ist ein raffiniertes Verteidigungssystem, das feindliche
+    Streitkräfte in die Irre führen soll. Er gibt sich als Raketenwerfer aus und
+    schreckt so Angriffe ab.
   '502': Abfangraketen zerstören angreifende Interplanetarraketen.
   '503': Interplanetarraketen zerstören die gegnerische Verteidigung.
   '901': >-
-    Hauptrohstoff für den Bau tragender Strukturen von Bauwerken und Schiffen.
-    Metall ist der billigste Rohstoff, dafür wird er mehr benötigt als die
-    anderen. Metall braucht zur Herstellung am wenigsten Energie.
+    Metall ist der wichtigste Rohstoff für Gebäude und Schiffe. Es ist der
+    günstigste Rohstoff, aber auch der, den du am meisten brauchst.
   '902': >-
-    Kristall wird für die Herstellung feinelektronischer Komponente benötigt,
-    und wird in Minen unter der Erde abgebaut.
+    Kristall ist der Hauptrohstoff für elektronische Schaltkreise und bestimmte
+    Legierungen.
   '903': >-
-    Deuterium ist schwerer Wasserstoff. Für die Gewinnung von Deuterium großen
-    Mengen Energie benötigt. Deuterium wird unter anderem als Treibstoff für
-    Raumschiffe benötigt.
-  '911': Energie wird für das gewinnnen jeglicher Rohstoffe benötigt.
+    Deuterium findet sich in den tiefsten Meeren. Es ist der teuerste Rohstoff
+    und braucht auch am meisten Energie.
+  '911': Energie wird für die Gewinnung jedes Rohstoffs benötigt.
 shortNames:
   '202': Kl. Transporter
   '203': Gr. Transporter
@@ -966,11 +906,10 @@ shortNames:
   '413': Titan Laser
   '414': Köder
 spytechStatsDescription: >-
-  Mit Level 0 und 1 sind nur die Gesamtpunkte anderer Spieler sichtbar. Ab Level
-  2 werden zusätzlich auch die Gebäudepunkte anderer Spieler sichtbar. Ab Level
-  4 werden dann auch die Forschungspunkte angezeigt. Ab Level 6 werden die
-  Schiffe und Verteidigungspunkte angezeigt sowie zusätzlich die
-  Kampfstatistiken.
+  Auf Stufe 0 und 1 siehst du nur die Gesamtpunkte anderer Spieler. Ab Stufe 2
+  siehst du zusätzlich ihre Gebäudepunkte, ab Stufe 4 ihre Forschungspunkte. Ab
+  Stufe 6 kommen Schiffs- und Verteidigungspunkte sowie die Kampfstatistiken
+  dazu.
 tech:
   '0': Gebäude
   '1': Metallmine

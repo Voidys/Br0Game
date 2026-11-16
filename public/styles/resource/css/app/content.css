@@ -821,9 +821,17 @@ textarea {
 
 /* Chart.js sizes from the parent. Fill the content table (already full width) so narrow layouts
    are not capped by a desktop sidebar offset. */
+.table-scroll:has(> .empire-table) {
+	container-type: inline-size;
+}
+
+/* the charts sit in a cell as wide as the whole planet table: keep them at the visible width and pinned to the
+   left edge while the table scrolls sideways (phones, many planets) */
 .empire-chart {
-	position: relative;
+	position: sticky;
+	inset-inline-start: 0;
 	inline-size: 100%;
+	max-inline-size: calc(100cqi - 1rem);
 	overflow: hidden;
 
 	& canvas {
@@ -1676,19 +1684,174 @@ input.fleet-radio { width: 3.75rem; }
 .mission-option .fleet-alert { margin-block: 0.5rem; }
 .repair-element-link { padding: 0.625rem; }
 
-/* buildings: dismantle tooltip */
-.tt-destroy { width: 18.75rem; }
+/* buildings: dismantle tooltip, compact: cost rows label/value, full-width confirm button */
+#tooltip:has(.tt-destroy) { padding: 0.375rem 0.5rem; }
+#tooltip .tt-destroy {
+	width: auto;
+	min-width: 11rem;
+	margin: 0;
+	border: 0;
+	border-collapse: collapse;
+	background: none;
+	font-size: 0.8125rem;
+	line-height: 1.3;
+
+	& th {
+		padding: 0 0 0.25rem;
+		border: 0;
+		background: none;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-align: start;
+		white-space: nowrap;
+	}
+	& td {
+		padding: 0.0625rem 0;
+		border: 0;
+		background: none;
+		text-align: start;
+	}
+	& td + td {
+		padding-inline-start: 1rem;
+		text-align: end;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+	& td[colspan] { padding-block-start: 0.375rem; }
+	& form { margin: 0; }
+	& .build_submit {
+		inline-size: 100%;
+		min-block-size: 0;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.8125rem;
+	}
+}
 
 /* empire */
 .empire-col { width: 6.25rem; }
 .empire-sigma { font-size: 3.125rem; }
 
-/* tech tree: branches start collapsed */
-#techtree .techi,
-#techtree .minus { display: none; }
-#techtree .techi.tt-open { display: block; }
-#techtree .techb.tt-open .minus { display: inline; }
-#techtree .techb.tt-open .plus { display: none; }
+/* ---- tech tree (page techtree): tabs, graph of cards with SVG connectors, detail panel */
+.tt {
+	--tt-met: var(--signal-positive, var(--c-positive, #4caf72));
+	--tt-unmet: var(--signal-negative, var(--c-negative, #e05a5a));
+	--tt-accent: var(--c-accent, #ee4d2e);
+	--tt-card: var(--theme-raised, #141b24);
+	--tt-line: var(--c-border-strong, #33475e);
+	--tt-muted: var(--c-muted, #8796a7);
+	--tt-cell-w: 5rem;
+	--tt-gap-x: 0.375rem;
+	--tt-gap-y: 2rem;
+	min-inline-size: 0;
+}
+.tt-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-block-end: 0.5rem; border-block-end: 0.0625rem solid var(--tt-line); }
+.tt-tab {
+	padding: 0.375rem 0.75rem;
+	border: 0.0625rem solid transparent;
+	border-block-end: 0;
+	border-radius: 0.375rem 0.375rem 0 0;
+	background: transparent;
+	color: var(--tt-muted);
+	cursor: pointer;
+	&:hover { color: inherit; }
+	&[aria-selected="true"] { color: inherit; font-weight: bold; border-color: var(--tt-line); background: var(--tt-card); box-shadow: inset 0 -0.1875rem 0 var(--tt-accent); }
+}
+.tt-scroll { overflow-x: auto; max-inline-size: 100%; padding-block: 0.5rem; }
+.tt-canvas {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--tt-gap-y);
+	inline-size: 100%;
+	box-sizing: border-box;
+	padding: 0.5rem;
+}
+.tt-lines { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: visible; }
+.tt-row { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem var(--tt-gap-x); }
+.tt-cell { position: relative; flex: none; inline-size: var(--tt-cell-w); }
+.tt-node {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.125rem;
+	block-size: 100%;
+	inline-size: 100%;
+	box-sizing: border-box;
+	padding: 0.25rem 0.125rem;
+	border: 0.0625rem solid var(--tt-line);
+	border-radius: 0.375rem;
+	background: var(--tt-card);
+	color: inherit;
+	font: inherit;
+	font-size: 0.6875rem;
+	line-height: 1.15;
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
+	& img { display: block; inline-size: 2.25rem; block-size: 2.25rem; border-radius: 0.25rem; object-fit: cover; }
+	&:focus-visible { outline: 0.125rem solid var(--tt-accent); outline-offset: 0.125rem; }
+	&[aria-pressed="true"] { border-color: var(--tt-accent); box-shadow: 0 0 0 0.125rem var(--tt-accent); }
+}
+.tt-img { position: relative; display: block; }
+.tt-name { min-inline-size: 0; max-inline-size: 100%; overflow: hidden; overflow-wrap: anywhere; hyphens: auto; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+.tt-lv {
+	position: absolute;
+	inset-block-end: -0.125rem;
+	inset-inline-end: -0.5rem;
+	white-space: nowrap;
+	min-inline-size: 1rem;
+	padding: 0 0.1875rem;
+	border-radius: 0.5rem;
+	font-size: 0.625rem;
+	font-weight: bold;
+	line-height: 1rem;
+	font-variant-numeric: tabular-nums;
+	background: var(--tt-accent);
+	color: var(--c-accent-ink, #fff);
+}
+.tt-info { position: absolute; inset-block-start: 0; inset-inline-end: 0; display: flex; padding: 0.125rem; opacity: 0.55; & .icon { inline-size: 0.875rem; block-size: 0.875rem; } &:hover, &:focus-visible { opacity: 1; } }
+.tt-owned .tt-node { border-color: color-mix(in srgb, var(--tt-met) 55%, var(--tt-line)); }
+.tt-available .tt-node { border-color: var(--tt-accent); }
+.tt-locked .tt-node > :not(.tt-info) { opacity: 0.55; }
+.tt-ghost .tt-node { padding: 0.1875rem 0.0625rem; border-style: dashed; font-size: 0.625rem; & img { inline-size: 1.5rem; block-size: 1.5rem; } }
+.tt-ghost { --tt-cell-w: 4.25rem; }
+.tt-edge { fill: none; stroke-width: 0.0625rem; stroke-linecap: round; opacity: 0.28; }
+.tt-edge.tt-met { stroke: var(--tt-met); }
+.tt-edge.tt-unmet { stroke: var(--tt-unmet); stroke-dasharray: 0.25rem 0.25rem; }
+.tt-edge-label { opacity: 0; font-size: 0.6875rem; pointer-events: none; & rect { fill: var(--c-bg-2, #0b111a); stroke: var(--tt-line); stroke-width: 0.0625rem; } & text { fill: currentColor; font-variant-numeric: tabular-nums; } }
+.tt-focus {
+	& .tt-cell:not(.tt-on) .tt-node > :not(.tt-info) { opacity: 0.25; }
+	& .tt-cell:not(.tt-on) .tt-node { border-color: var(--tt-line); }
+	& .tt-edge { opacity: 0.08; }
+	& .tt-edge.tt-on { opacity: 1; stroke-width: 0.125rem; }
+	& .tt-edge-label.tt-on { opacity: 1; }
+}
+.tt-detail {
+	position: sticky;
+	inset-block-end: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	margin-block-start: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	border: 0.0625rem solid var(--tt-line);
+	border-radius: 0.375rem;
+	background: var(--c-bg-2, #0b111a);
+	font-size: 0.8125rem;
+	& p { margin: 0; }
+}
+.tt-hint, .tt-none { color: var(--tt-muted); }
+.tt-detail-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
+.tt-detail-name { font-size: 0.9375rem; }
+.tt-state { font-size: 0.75rem; color: var(--tt-muted); }
+.tt-state-available { color: var(--tt-accent); }
+.tt-detail-list { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.125rem 0.75rem; }
+.tt-detail-title { font-weight: bold; }
+@media (max-width: 40rem) {
+	.tt { --tt-gap-y: 1.5rem; }
+	.tt-tab { padding-inline: 0.5rem; }
+}
 
 /* shipyard: hangar filter bar */
 .hangar-filter-add-wrap { position: relative; display: inline-block; }
@@ -1725,7 +1888,55 @@ input.fleet-amount--fill { min-width: 0; }
 }
 
 /* ---- tables & forms: economy, messages, reports */
-.prod-table select { width: 6rem; font-family: var(--font-mono, monospace); }
+/* resources page: planet header with actions, production table with one tint per resource */
+.prod-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem 1rem;
+	margin-block-end: 0.5rem;
+
+	& h2 { margin: 0; font-size: 1rem; }
+}
+.prod-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.prod-table {
+	--res-901: #b4bcc6;
+	--res-902: #4fc3f7;
+	--res-903: #3ddc97;
+	--res-911: #f0b429;
+	min-inline-size: 38rem;
+	border-collapse: separate;
+	border-spacing: 0;
+
+	& select { width: 5rem; font-family: var(--font-mono, monospace); }
+	& .prod-level { opacity: 0.7; white-space: nowrap; }
+	& .prod-pct { opacity: 0.7; font-size: 0.85em; }
+	& :is(.prod-zero) { opacity: 0.55; }
+	& .prod-pos::before { content: "+"; }
+	& td.num, & th.num { font-variant-numeric: tabular-nums; }
+	& .res-metal { --res: var(--res-901); }
+	& .res-crystal { --res: var(--res-902); }
+	& .res-deuterium { --res: var(--res-903); }
+	& .res-energy { --res: var(--res-911); }
+	& :is(td, th).num { background-image: linear-gradient(color-mix(in srgb, var(--res) 8%, transparent), color-mix(in srgb, var(--res) 8%, transparent)); }
+	& thead th.num { border-block-end: 0.1875rem solid var(--res); }
+	& thead th.num a { color: var(--res); font-weight: 600; }
+	& .prod-sep > td { border-block-start: 0.125rem solid color-mix(in srgb, currentcolor 35%, transparent); }
+	& .prod-total > td:first-child { font-weight: 600; }
+	& .prod-total .num { font-weight: 600; }
+	& .prod-deficit {
+		outline: 0.125rem solid var(--c-negative, #f05252);
+		outline-offset: -0.125rem;
+	}
+	& .prod-deficit .prod-neg::after { content: " \26A0"; }
+	& :is(td, th):first-child {
+		position: sticky;
+		inset-inline-start: 0;
+		z-index: 1;
+		background-color: var(--prod-sticky-bg, Canvas);
+	}
+}
 .empire-sigma { text-align: end; }
 .search-receiver { display: block; }
 .search-receiver .select-box { inset-inline-start: 0; }

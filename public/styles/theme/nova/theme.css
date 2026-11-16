@@ -452,25 +452,6 @@ th a,
   }
 }
 
-.techb {
-  background: var(--theme-tech-bg);
-  border-radius: 0.25rem;
-  padding: 0.3125rem;
-  overflow: hidden;
-  text-align: start;
-  inline-size: 100%;
-}
-
-.techi {
-  margin: 0.3125rem 0 0 0.3125rem;
-  min-block-size: 15rem;
-  min-inline-size: 10.75rem;
-  float: inline-start;
-  inline-size: 32.5%;
-  padding: 0.1875rem;
-  background: #478f7e8c;
-}
-
 .ship {
   margin: 0 auto;
   max-inline-size: 25rem;

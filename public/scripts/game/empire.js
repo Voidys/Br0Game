@@ -1,7 +1,10 @@
 // Empire page: collapsible row groups and the two score charts (points history on a log scale; score change
 // per interval as bars + line on two aligned axes). Data: <script id="empire-chart-data"> (EmpireController).
 import { on, cookie } from '../app/core.js';
-import { Chart, readChartData, applyPageTheme, formatPoints, timeAgoTicks, tooltip } from '../app/charts.js';
+import { Chart, readChartData, applyPageTheme, hexWithAlpha, formatPoints, timeAgoTicks, tooltip } from '../app/charts.js';
+
+// one calm, colour-blind friendly palette for both charts (points = blue, the categories distinct hues)
+const COLORS = { points: '#5aa9ff', buildings: '#6fcf8e', research: '#b28cff', fleets: '#ff7a6b', defenses: '#f2c25c', up: '#6fcf8e', down: '#ff7a6b' };
 
 // ------------------------------------------------------------------ collapsible row groups
 
@@ -126,13 +129,16 @@ const formatLogTick = (value) => formatPoints(value).replace(/(\d+)\.0+(?= |$)/
 
 /** Line chart of the points history (total and per category) on a logarithmic axis; non-positive values are gaps. Returns the Chart instance. */
 function pointsChart(data) {
+  // total: thicker line drawn on top; categories: thin solid lines
   const line = (label, values, color, main) => ({
     label,
     data: positiveOrNull(values),
     borderColor: color,
-    borderWidth: main ? 2 : 1,
-    borderDash: main ? undefined : [2, 2],
-    radius: 2,
+    backgroundColor: color,
+    pointBackgroundColor: color,
+    pointHoverBorderColor: 'rgba(8, 11, 16, 0.9)',
+    borderWidth: main ? 2.25 : 1.5,
+    order: main ? 0 : 1,
   });
 
   return new Chart(document.getElementById('playerChart'), {
@@ -140,11 +146,11 @@ function pointsChart(data) {
     data: {
       labels: data.hoursAgo,
       datasets: applySavedVisibility('playerChart', [
-        line(data.labels.points, data.total, '#008fff', true),
-        line(data.labels.buildings, data.build, '#addc8d'),
-        line(data.labels.research, data.tech, '#843bff'),
-        line(data.labels.fleets, data.fleet, '#c52b2f'),
-        line(data.labels.defenses, data.defence, '#ffc166'),
+        line(data.labels.points, data.total, COLORS.points, true),
+        line(data.labels.buildings, data.build, COLORS.buildings),
+        line(data.labels.research, data.tech, COLORS.research),
+        line(data.labels.fleets, data.fleet, COLORS.fleets),
+        line(data.labels.defenses, data.defence, COLORS.defenses),
       ]),
     },
     options: {
@@ -153,7 +159,7 @@ function pointsChart(data) {
       spanGaps: true,
       interaction: { mode: 'index', intersect: false },
       scales: {
-        x: { ticks: timeAgoTicks() },
+        x: { ticks: timeAgoTicks(), grid: { display: false } },
         y: { type: 'logarithmic', afterBuildTicks: niceLogTicks, ticks: { autoSkip: false, callback: formatLogTick } },
       },
       plugins: {
@@ -341,7 +347,12 @@ function changeChart(data) {
       yAxisID: 'y',
       order: 1,
       data: data.relative,
-      backgroundColor: (context) => (context.dataset.data[context.dataIndex] < 0 ? '#ee4d2e' : '#addc8d'),
+      backgroundColor: (context) => hexWithAlpha(context.dataset.data[context.dataIndex] < 0 ? COLORS.down : COLORS.up, 0.75),
+      hoverBackgroundColor: (context) => (context.dataset.data[context.dataIndex] < 0 ? COLORS.down : COLORS.up),
+      maxBarThickness: 14,
+      categoryPercentage: 0.9,
+      barPercentage: 0.8,
+      pointStyle: 'rectRounded',
     },
     {
       type: 'line',
@@ -349,11 +360,11 @@ function changeChart(data) {
       yAxisID: 'y2',
       order: 0,
       data: data.absolute,
-      pointRadius: 0,
-      pointHoverRadius: 4,
       pointHitRadius: 18,
       borderWidth: 2,
-      borderColor: '#56B4E9',
+      borderColor: COLORS.points,
+      pointBackgroundColor: COLORS.points,
+      pointHoverBorderColor: 'rgba(8, 11, 16, 0.9)',
     },
   ]);
   const axis = barAxisState(datasets[0].hidden !== true, datasets[1].hidden !== true, data.relative, data.absolute);
@@ -374,7 +385,7 @@ function changeChart(data) {
       maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       scales: {
-        x: { display: axis.x.display, offset: false, ticks: timeAgoTicks(), grid: { offset: false } },
+        x: { display: axis.x.display, offset: false, ticks: timeAgoTicks(), grid: { display: false, offset: false } },
         y: valueAxis(axis.y, formatRelativeTick),
         y2: valueAxis(axis.y2, formatPoints, { precision: 0 }),
       },

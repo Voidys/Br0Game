@@ -2,24 +2,24 @@ Active_players: Активные игроки
 Back: Назад
 mail:
   subject:
-    mail_changed: Адрес электронной почты %s был изменен
+    mail_changed: Адрес электронной почты аккаунта %s изменён
 Other_universes: Другие вселенные
 Play: Играть
-Playername: Игровое имя
+Playername: Имя игрока
 Register: Регистрация
 Settings: Настройки
-Sitting_cancel: Прервать сидение
-Sitting_end: Сидячий конец
-Sitting_request: Запрос Сидеть (не запрограммирован)
-uni_status_regclosed_gameclosed: Закрытый
-uni_status_regclosed_gameopen: Открыто для игры
-uni_status_regopen_gameclosed: Открыт для регистрации
-uni_status_regopen_gameopen: Открыть
+Sitting_cancel: Отменить ситтинг
+Sitting_end: Конец ситтинга
+Sitting_request: Запросить ситтинг (пока недоступно)
+uni_status_regclosed_gameclosed: Закрыта
+uni_status_regclosed_gameopen: Открыта для игры
+uni_status_regopen_gameclosed: Открыта для регистрации
+uni_status_regopen_gameopen: Открыта
 Universe_end: Конец
 Universe_start: Начало
-Universe_status: 'Состояние вселенных: '
+Universe_status: "Статус вселенной: "
 Universes: Вселенные
-Your_universes: Ваши вселенные
+Your_universes: Твои вселенные
 board_create: "Новая запись"
 board_edit_post: "Редактировать запись"
 board_sort: "Сортировка"
@@ -43,7 +43,7 @@ board_pinned: "Закреплено"
 board_locked: "Закрыто"
 board_by: "от"
 board_comments: "Комментарии"
-board_empty: "Записей пока нет. Напишите первую."
+board_empty: Записей пока нет. Напиши первую!
 board_no_comments: "Комментариев пока нет."
 board_title: "Заголовок"
 board_body: "Текст"
@@ -55,7 +55,7 @@ board_edited: "изменено"
 board_delete: "Удалить"
 board_deleted: "[удалено]"
 board_deleted_user: "[удалено]"
-board_confirm_delete: "Действительно удалить?"
+board_confirm_delete: Точно удалить?
 board_reply: "Ответить"
 board_collapse: "Свернуть ветку"
 board_add_comment: "Написать комментарий"
@@ -65,18 +65,18 @@ board_mod_unpin: "Открепить"
 board_mod_lock: "Закрыть"
 board_mod_unlock: "Открыть"
 board_not_found: "Эта запись или комментарий не существует."
-board_not_allowed: "У вас нет прав на это действие."
-board_err_csrf: "Не удалось проверить запрос. Перезагрузите страницу и повторите попытку."
-board_err_title: "Введите заголовок."
+board_not_allowed: У тебя нет прав на это действие.
+board_err_csrf: Не удалось проверить запрос. Обнови страницу и попробуй ещё раз.
+board_err_title: Введи заголовок.
 board_err_title_long: "Заголовок может содержать не более 200 символов."
-board_err_body: "Введите текст (он не может быть пустым или слишком длинным)."
+board_err_body: Введи текст (он не может быть пустым или слишком длинным).
 board_err_locked: "Эта запись закрыта, новые комментарии недоступны."
-board_err_rate_post: "Подождите ещё %d сек. до следующей записи."
-board_err_rate_comment: "Подождите ещё %d сек. до следующего комментария."
+board_err_rate_post: Подожди ещё %d сек. перед следующей записью.
+board_err_rate_comment: Подожди ещё %d сек. перед следующим комментарием.
 board_ago_now: "только что"
 board_ago_min: "%d мин. назад"
 board_ago_hours: "%d ч. назад"
 board_ago_days: "%d дн. назад"
-board_guest_hint: "Войдите, чтобы писать, комментировать и голосовать."
+board_guest_hint: Войди, чтобы писать, комментировать и голосовать.
 board_guest_login: "Войти"
 board_guest_register: "Регистрация"

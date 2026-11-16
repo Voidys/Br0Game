@@ -1,25 +1,25 @@
-Active_players: Jogadores activos
+Active_players: Jogadores ativos
 Back: Voltar
 mail:
   subject:
-    mail_changed: O endereço de e-mail da conta %s foi alterado
-Other_universes: Outros Universos
+    mail_changed: O endereço de email da tua conta %s foi alterado
+Other_universes: Outros universos
 Play: Jogar
 Playername: Nome de jogador
-Register: Registo
+Register: Registar
 Settings: Definições
-Sitting_cancel: Abortar a sessão
-Sitting_end: Final de sessão
-Sitting_request: Solicitação de sessão (não programada)
+Sitting_cancel: Cancelar substituição
+Sitting_end: Fim da substituição
+Sitting_request: Pedir substituição (ainda não disponível)
 uni_status_regclosed_gameclosed: Fechado
 uni_status_regclosed_gameopen: Aberto para jogar
 uni_status_regopen_gameclosed: Aberto ao registo
 uni_status_regopen_gameopen: Aberto
 Universe_end: Fim
 Universe_start: Início
-Universe_status: 'Estado dos universos: '
+Universe_status: 'Estado do universo: '
 Universes: Universos
-Your_universes: Os vossos universos
+Your_universes: Os teus universos
 board_create: "Nova publicação"
 board_edit_post: "Editar publicação"
 board_sort: "Ordenar"
@@ -43,7 +43,7 @@ board_pinned: "Fixado"
 board_locked: "Bloqueado"
 board_by: "por"
 board_comments: "Comentários"
-board_empty: "Ainda não há publicações. Seja o primeiro a escrever uma."
+board_empty: Ainda não há publicações. Sê o primeiro a escrever uma.
 board_no_comments: "Ainda não há comentários."
 board_title: "Título"
 board_body: "Texto"
@@ -55,7 +55,7 @@ board_edited: "editado"
 board_delete: "Eliminar"
 board_deleted: "[eliminado]"
 board_deleted_user: "[eliminado]"
-board_confirm_delete: "Tem a certeza de que quer eliminar isto?"
+board_confirm_delete: Tens a certeza de que queres eliminar isto?
 board_reply: "Responder"
 board_collapse: "Recolher tópico"
 board_add_comment: "Escrever um comentário"
@@ -65,18 +65,18 @@ board_mod_unpin: "Desafixar"
 board_mod_lock: "Bloquear"
 board_mod_unlock: "Desbloquear"
 board_not_found: "Esta publicação ou comentário não existe."
-board_not_allowed: "Não tem permissão para fazer isso."
-board_err_csrf: "Não foi possível verificar o pedido. Recarregue a página e tente novamente."
-board_err_title: "Introduza um título."
+board_not_allowed: Não tens permissão para fazer isso.
+board_err_csrf: Não foi possível verificar o pedido. Recarrega a página e tenta novamente.
+board_err_title: Introduz um título.
 board_err_title_long: "O título pode ter no máximo 200 caracteres."
-board_err_body: "Introduza um texto (não pode estar vazio nem ser demasiado longo)."
+board_err_body: Introduz um texto (não pode estar vazio nem ser demasiado longo).
 board_err_locked: "Esta publicação está bloqueada, sem novos comentários."
-board_err_rate_post: "Aguarde mais %d segundo(s) antes da próxima publicação."
-board_err_rate_comment: "Aguarde mais %d segundo(s) antes do próximo comentário."
+board_err_rate_post: Espera mais %d segundo(s) antes da próxima publicação.
+board_err_rate_comment: Espera mais %d segundo(s) antes do próximo comentário.
 board_ago_now: "agora mesmo"
 board_ago_min: "há %d min"
 board_ago_hours: "há %d h"
 board_ago_days: "há %d d"
-board_guest_hint: "Inicie sessão para publicar, comentar e votar."
-board_guest_login: "Iniciar sessão"
+board_guest_hint: Inicia sessão para publicar, comentar e votar.
+board_guest_login: Iniciar sessão
 board_guest_register: "Registar"

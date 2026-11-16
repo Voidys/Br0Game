@@ -5,21 +5,21 @@ mail:
     mail_changed: Se ha cambiado la dirección de correo electrónico de la cuenta de %s
 Other_universes: Otros universos
 Play: Jugar
-Playername: Nombre de juego
-Register: Regístrese en
+Playername: Nombre de jugador
+Register: Registrarse
 Settings: Ajustes
 Sitting_cancel: Abortar Sentada
-Sitting_end: Extremo sentado
-Sitting_request: Solicitar Sentarse (no programado)
+Sitting_end: Fin del sitting
+Sitting_request: Solicitar sitting (aún no disponible)
 uni_status_regclosed_gameclosed: Cerrado
 uni_status_regclosed_gameopen: Abierto al juego
-uni_status_regopen_gameclosed: Abierto el plazo de inscripción
-uni_status_regopen_gameopen: Abrir
+uni_status_regopen_gameclosed: Registro abierto
+uni_status_regopen_gameopen: Abierto
 Universe_end: Fin
 Universe_start: Inicio
 Universe_status: 'Estado de los universos: '
 Universes: Universos
-Your_universes: Sus universos
+Your_universes: Tus universos
 board_create: "Nueva publicación"
 board_edit_post: "Editar publicación"
 board_sort: "Ordenar"
@@ -71,12 +71,12 @@ board_err_title: "Introduce un título."
 board_err_title_long: "El título puede tener como máximo 200 caracteres."
 board_err_body: "Introduce un texto (no puede estar vacío ni ser demasiado largo)."
 board_err_locked: "Esta publicación está cerrada, no se admiten más comentarios."
-board_err_rate_post: "Espera %d segundo(s) más antes de la siguiente publicación."
-board_err_rate_comment: "Espera %d segundo(s) más antes del siguiente comentario."
+board_err_rate_post: Espera %d segundo(s) más antes de publicar de nuevo.
+board_err_rate_comment: Espera %d segundo(s) más antes de comentar de nuevo.
 board_ago_now: "ahora mismo"
 board_ago_min: "hace %d min"
 board_ago_hours: "hace %d h"
 board_ago_days: "hace %d d"
-board_guest_hint: "Inicia sesión para publicar, comentar y votar."
+board_guest_hint: Inicia sesión para publicar, comentar y votar.
 board_guest_login: "Iniciar sesión"
 board_guest_register: "Registrarse"

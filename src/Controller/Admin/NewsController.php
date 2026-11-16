@@ -30,6 +30,9 @@ use App\Runtime\ProjectPaths;
 #[\App\Routing\GamePage('admin.php', 'news', uniPrefix: true)]
 class NewsController extends AbstractAdminController
 {
+    /** widths of the srcset variants made for an uploaded news image */
+    private const IMAGE_WIDTHS = [480, 800, 1200];
+
     /**
      * News editor for the login page. `action` (GET): edit (id; form of an existing item), create (empty form); default is the list, filter = all,
      * published or drafts. POST action=save with id (0 = new), title, summary, text (sanitized rich text), status, pinned, date, optional image upload and
@@ -156,7 +159,7 @@ class NewsController extends AbstractAdminController
 
     /**
      * Applies the image part of the news form: removal (`remove_image`), a new upload (stored under public/uploads/news/,
-     * replacing the old file, max width 1600) and the NEWS.image update when it changed. Upload errors are returned,
+     * replacing the old file, max width 1600, plus the srcset width variants `-<w>w.webp` of IMAGE_WIDTHS) and the NEWS.image update when it changed. Upload errors are returned,
      * not thrown.
      *
      * @return array{0: string, 1: string} stored image name (empty = none) and the error text (empty = none)
@@ -175,7 +178,7 @@ class NewsController extends AbstractAdminController
         }
         if ($file instanceof \Symfony\Component\HttpFoundation\File\UploadedFile && $file->getError() !== UPLOAD_ERR_NO_FILE) {
             try {
-                $stored = (new ImageProcessor())->storeUpload($file, $dir, 'news-' . $id . '-' . bin2hex(random_bytes(4)), 1600);
+                $stored = (new ImageProcessor())->storeUpload($file, $dir, 'news-' . $id . '-' . bin2hex(random_bytes(4)), 1600, self::IMAGE_WIDTHS);
                 if ($image !== '') {
                     $this->removeImage($image);
                 }
@@ -286,5 +289,6 @@ class NewsController extends AbstractAdminController
         if (is_file($path)) {
             SafeFile::remove($path);
         }
+        ImageProcessor::removeVariants($path);
     }
 }

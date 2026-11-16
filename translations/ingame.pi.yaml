@@ -1471,8 +1471,10 @@ rs_calculate: Berechnen
 rs_daily: Pro Tag
 rs_lvl: Stufe
 rs_production_on_planet: Rohstoffproduktion auf Planet "%s"
+rs_ramp_up: Alles hochfahren
 rs_ress_bonus: Bonus (durch Forschung)
 rs_ress_bonus_position: Bonus (durch Inselposition)
+rs_shut_down: Alles herunterfahren
 rs_storage_capacity: Lagerkapazität
 rs_sum: Pro Stunde
 rs_weekly: Pro Woche
@@ -1717,7 +1719,16 @@ tn_vacation_mode_until: Sie sind bis mindestens %s Uhr im Urlaubsmodus.
 tr_exchange_done: Erfolgreich umgetauscht
 tr_exchange_error: Zu wenig verfügbare Einheiten oder falscher Typ
 tt_lvl: 'Stufe '
+tt_lv_short: 'St.'
 tt_requirements: Benötigt
+tt_unlocks: 'Schaltet frei'
+tt_status_owned: 'Vorhanden'
+tt_status_available: 'Verfügbar'
+tt_status_locked: 'Gesperrt'
+tt_hint: 'Technologie überfahren oder wählen, um Voraussetzungen (oben) und Freischaltungen (unten) zu verfolgen. Klick fixiert, Esc hebt auf.'
+tt_foreign: 'Wird von dieser Kategorie benötigt, gehört zu einer anderen'
+tt_none: 'keine'
+tt_graph: 'Technologiebaum'
 type_mission_1: Angreifen
 type_mission_1_foreign: Fremder Angriff
 type_mission_1_own: Eigener Angriff

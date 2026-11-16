@@ -338,7 +338,7 @@ tr:hover > td.transparent, tr:hover > td.no-background { background: transparent
 .buildn a, .buildn a:visited { color: var(--theme-text); }
 .buildn a:hover { color: var(--theme-accent-hover); }
 .buildl { background: transparent; line-height: 1.45; padding: 0.625rem 0.75rem; text-align: center; }
-.buildl img, .planeth img, .moon img, .shipl img, .techi img {
+.buildl img, .planeth img, .moon img, .shipl img {
   background: var(--theme-raised);
   border-radius: var(--radius-sm);
 }
@@ -346,14 +346,13 @@ tr:hover > td.transparent, tr:hover > td.no-background { background: transparent
 .moon, .planetl { padding: 0.625rem; }
 .galaxy { margin: 0.3125rem auto; inline-size: 50%; }
 
-.techb, .repairShipContainer {
+.repairShipContainer {
   background: var(--theme-panel);
   border: 0.0625rem solid var(--theme-border);
   border-radius: var(--radius);
   padding: 0.5rem;
   text-align: start;
 }
-.techi { background: var(--theme-raised); border-radius: var(--radius-sm); padding: 0.5rem; margin: 0.25rem 0 0 0.25rem; }
 .repairShipHeader { background: var(--theme-raised); border-radius: var(--radius) var(--radius) 0 0; color: var(--theme-text); }
 .repairShipHeader a:hover { color: var(--theme-accent-hover); }
 
