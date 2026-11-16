@@ -24,9 +24,9 @@ Download `br0game-<version>.zip` **only** from the
 `br0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
 it with your own calculation:
 
-* Windows (Command Prompt): `certutil -hashfile br0game-1.26.0.zip SHA256`
-* macOS: `shasum -a 256 br0game-1.26.0.zip`
-* Linux: `sha256sum -c br0game-1.26.0.zip.sha256` (both files in the same folder; it prints `OK`)
+* Windows (Command Prompt): `certutil -hashfile br0game-1.26.1.zip SHA256`
+* macOS: `shasum -a 256 br0game-1.26.1.zip`
+* Linux: `sha256sum -c br0game-1.26.1.zip.sha256` (both files in the same folder; it prints `OK`)
 
 On Windows and macOS, compare the printed value with the one in the `.sha256` file by eye. If they differ, download
 again and do not use the file.
@@ -124,7 +124,7 @@ Useful options (`bash install.sh --help` lists everything):
 
 ```sh
 bash install.sh --mode server --dir /var/www/br0game          # skip the menu
-bash install.sh --version v1.26.0 ...                          # a specific release (default: latest)
+bash install.sh --version v1.26.1 ...                          # a specific release (default: latest)
 bash install.sh --dry-run --mode server --dir /tmp/x --yes    # show what would happen
 # unattended, secrets from the environment:
 BR0GAME_DB_PASSWORD=... BR0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/br0game --yes \

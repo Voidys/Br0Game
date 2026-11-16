@@ -997,3 +997,7 @@ Technical changes per migration step, newest last.
 - New `EconomyReviewFixesTest` (18 tests).
 - Debug tickets (`ErrorReporter::openDebugTicket()`, debug setting on) are owned by `System` (staff only); the player who triggered the error is named in the text and can no longer read the stack trace.
 - Admin rights page: without (or with an unknown) `mode` it shows the first tab (permissions) instead of an empty page.
+
+## 119. Release 1.26.1
+
+- `install/VERSION` 1.26.1 (tag `v1.26.1`): languages nl/th/tl/uk/vi/zh, translation overhaul, alliance depot, raiding and smarter bots, database concurrency (read committed + retries), session-aware start page and the round-2 security and bug fixes (steps 105–118).

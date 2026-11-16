@@ -98,9 +98,9 @@ readers too.
 2. Check the file:
 
    ```sh
-   sha256sum -c br0game-1.26.0.zip.sha256            # Linux
-   shasum -a 256 br0game-1.26.0.zip                  # macOS: compare with the .sha256 file
-   certutil -hashfile br0game-1.26.0.zip SHA256      # Windows: compare with the .sha256 file
+   sha256sum -c br0game-1.26.1.zip.sha256            # Linux
+   shasum -a 256 br0game-1.26.1.zip                  # macOS: compare with the .sha256 file
+   certutil -hashfile br0game-1.26.1.zip SHA256      # Windows: compare with the .sha256 file
    ```
 
 3. Upload and extract it. Set your domain's **document root to the `public/` folder**.
