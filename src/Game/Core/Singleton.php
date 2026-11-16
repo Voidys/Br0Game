@@ -7,6 +7,16 @@ namespace App\Game\Core;
  * PLANET, LNG, resource, reslist, pricelist, request data, session, ...) read and written as properties, plus the
  * read-only RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are stored by reference so they can be written in place
  * (`$this->state->USER['key'] = ...`); no local reference aliases.
+ *
+ * Typed for static analysis (PHPStan reads these; at runtime the bag stays dynamic):
+ *
+ * @property array<string, mixed> $USER the logged-in player's users row (+ settings), [] when nobody is logged in
+ * @property array<string, mixed> $PLANET the current planet's row
+ * @property \App\Game\Core\Language $LNG the active language
+ * @property \App\Game\Core\Theme $THEME the player's theme
+ * @property array<int, string> $resource element id => database column (former vars.php)
+ * @property array<string, mixed> $reslist element id lists by group (build, tech, fleet, defense, ..., nested by type)
+ * @property array<int, array<string, mixed>> $pricelist element id => cost, factor, consumption, speed, ...
  */
 class Singleton
 {

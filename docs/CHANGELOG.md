@@ -1089,3 +1089,8 @@ Technical changes per migration step, newest last.
 
 - All ~270 `|php_iter` uses removed from the templates (Twig's `for` already iterates nothing for null/undefined); `|default([])` where a value can be null/false (repairdock ships, cronjob error, redirect buttons, mission priorities); the cronjob overview controller wraps single month/weekday values in a list (`overviewTimes()`), the only scalar the filter ever received (proved with a logging probe over the full page crawl). The filter itself is deleted from `TemplateExtension`.
 - Legacy table attributes in tooltip and fleet-step markup replaced (`w-100`, no `border/cellpadding/cellspacing`). Remaining inline `style` attributes are JS-owned visibility state or dynamic values (custom properties, bar sizes) and stay on purpose.
+
+## 136. Typed game state for static analysis, PHPStan level 6
+
+- `Singleton` declares the game state it carries (`@property`: `USER`/`PLANET` rows, `LNG` Language, `THEME`, `resource`, `reslist`, `pricelist`), so PHPStan checks their use instead of treating them as `mixed`; runtime unchanged (still the dynamic bag). Two by-ref baseline findings disappeared with the sharper types.
+- PHPStan raised to level 6: every new or changed method/property needs parameter, return and iterable value types; the 1398 existing `missingType.*` gaps are baselined (native types are added when code is touched, not in bulk, because adding return types to overridden methods can fatal subclasses).

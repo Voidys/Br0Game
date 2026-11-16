@@ -203,7 +203,7 @@ ddev composer exec php-cs-fixer fix -- --config=.php-cs-fixer.legacy.php   # leg
   - Every run rebuilds the schema of `db_test` from `install/install.sql` and the migrations; each test runs in a rolled-back transaction.
   - The mechanics tests compare against golden values captured from the code before the legacy renewal (prices, build times, production, queues, fleet maths, battles). A failing golden test means a result changed; only update the value (`GOLDEN_CAPTURE=1 vendor/bin/phpunit --filter <Class>` prints the new values to `var/golden/`) when the change is intended.
   - The Rust battle engine is checked against the PHP engine with the same seed (`mt_srand` / `BattleEngineRust::useSeed()`): results must be identical field by field, on the golden fleets and on 300 generated battles (`BATTLE_PARITY_RUNS=5000` for a longer soak). `sh tools/battlerust/build.sh test` runs the crate's own tests (RNG against PHP sequences, engine rules).
-- **Static analysis:** PHPStan level 5 (`phpstan.dist.neon`, known findings in `phpstan-baseline.neon`; the symfony extension reads `var/cache/dev/App_KernelDevDebugContainer.xml`, so warm the dev cache first):
+- **Static analysis:** PHPStan level 6 — new code needs full parameter, return and property types (`phpstan.dist.neon`, known findings in `phpstan-baseline.neon`; the symfony extension reads `var/cache/dev/App_KernelDevDebugContainer.xml`, so warm the dev cache first):
 
   ```sh
   ddev composer phpstan

@@ -138,7 +138,6 @@ final class AdminAuthorizationTest extends GameTestCase
     {
         [$mod] = $this->createPlayer(['authlevel' => AUTH_MOD]);
         $this->asUser($mod, ['name' => 'evilnew', 'password' => 'secret12', 'password2' => 'secret12', 'email' => 'evilnew@example.com', 'email2' => 'evilnew@example.com', 'authlevel' => AUTH_ADM, 'lang' => 'en']);
-        $this->state->LNG ??= null;
         $responder = new ClosureAdminResponder(
             static function (): never {
                 throw new EndOfRequest();

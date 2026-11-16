@@ -4,7 +4,8 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 5
+    # level 6: new code must declare parameter, return, property and iterable value types; the existing gaps are baselined
+    level: 6
     paths:
         - src
         - tests
