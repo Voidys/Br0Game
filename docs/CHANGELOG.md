@@ -889,3 +889,10 @@ Technical changes per migration step, newest last.
 - Placeholder order: translations that move values use numbered placeholders (`%3$s`); swapped values fixed in tr (diplomacy end, fleet mission targets, market messages) and pl (enemy spy probe messages); broken `s%`/`%ss` placeholders in of fixed; fr inactivity mail had a translated `{LASTDATE}` placeholder.
 - Language selectors: joke languages (`fun: true`: SetSails, Ogerfränkisch) are listed last in their own option group (`LanguageCatalog::getLanguageOptions()`, `Language::getLanguageOptions()`, label `lang_group_fun`), real languages sorted by code with native names (Español, Français, Polski, Türkçe).
 - ConfigFieldSchemaTest: universe schema golden hash updated (language list).
+
+## 112. Start page knows the login
+
+- Login-area pages read an existing account session (`state->auth->account()`, no session started for guests): header shows account name (link to the lobby) and a POST logout link, the start page replaces the login form by a "logged in as" panel with continue/log out buttons; new `public` keys `home_logged_in_head`, `home_logged_in_as`, `home_continue`, `home_account_lobby` in all 16 locales.
+- Screenshot gallery retaken in the Br0Game theme (10 shots incl. the tech tree with a highlighted chain); old set and its variants removed.
+- Start page memes rendered at 1600 px from the originals (variants 480/720/1080, quality 85) and no longer tilted (rotating a bitmap blurred the comic text; only the caption sticker stays tilted).
+- Language selectors (start page, public layout, installer) use the Lucide `languages` icon (added to the sprite) instead of the globe.

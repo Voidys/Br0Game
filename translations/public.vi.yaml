@@ -179,3 +179,7 @@ news_read_more: Đọc tiếp
 news_latest: Tin mới nhất
 news_all: Tất cả tin tức
 csrf_invalid: Kiểm tra bảo mật không thành công (có thể phiên của bạn đã hết hạn). Hãy tải lại trang và thử lại.
+home_logged_in_head: "Tài khoản của bạn"
+home_logged_in_as: "Đã đăng nhập với tên %s"
+home_continue: "Tiếp tục đến các vũ trụ của bạn"
+home_account_lobby: "Sảnh tài khoản"

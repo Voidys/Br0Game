@@ -179,3 +179,7 @@ news_read_more: Читати далі
 news_latest: Останні новини
 news_all: Усі новини
 csrf_invalid: Перевірка безпеки не пройдена (можливо, твій сеанс завершився). Перезавантаж сторінку й спробуй ще раз.
+home_logged_in_head: "Твій акаунт"
+home_logged_in_as: "Ти увійшов як %s"
+home_continue: "Перейти до твоїх всесвітів"
+home_account_lobby: "Лобі акаунта"

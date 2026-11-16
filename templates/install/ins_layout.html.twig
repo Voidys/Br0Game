@@ -27,7 +27,7 @@
     <div class="site-wrap site-header__inner">
       <span class="site-brand">{{ icon('rocket') }}<span>Br0Game · {{ LNG.title_install }}</span></span>
       {% if Selector is defined and Selector|length > 1 %}
-        <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.intro_lang }}</span>
+        <label class="site-lang">{{ icon('languages') }}<span class="visually-hidden">{{ LNG.intro_lang }}</span>
           <select data-lang-select>
             {% for langKey, langName in Selector %}<option value="{{ langKey }}"{% if langKey == lang %} selected{% endif %}>{{ langName }}</option>{% endfor %}
           </select>

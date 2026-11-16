@@ -221,3 +221,7 @@ news_latest: "Dernières actualités"
 news_all: "Toutes les actualités"
 csrf_invalid: La vérification de sécurité a échoué (ta session a peut-être expiré).
   Recharge la page et réessaie.
+home_logged_in_head: "Ton compte"
+home_logged_in_as: "Connecté en tant que %s"
+home_continue: "Continuer vers tes univers"
+home_account_lobby: "Salon du compte"

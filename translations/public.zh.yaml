@@ -181,3 +181,7 @@ news_read_more: 阅读更多
 news_latest: 最新新闻
 news_all: 全部新闻
 csrf_invalid: 安全检查失败（你的会话可能已过期）。请刷新页面后重试。
+home_logged_in_head: "你的账号"
+home_logged_in_as: "已登录为 %s"
+home_continue: "继续前往你的宇宙"
+home_account_lobby: "账号大厅"

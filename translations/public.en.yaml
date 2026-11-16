@@ -205,3 +205,7 @@ news_read_more: Read more
 news_latest: Latest news
 news_all: All news
 csrf_invalid: 'The security check failed (your session may have expired). Please reload the page and try again.'
+home_logged_in_head: "Your account"
+home_logged_in_as: "Logged in as %s"
+home_continue: "Continue to your universes"
+home_account_lobby: "Account lobby"

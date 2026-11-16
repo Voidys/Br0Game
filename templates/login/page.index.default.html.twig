@@ -6,9 +6,11 @@
     <section class="hero">
       <h1 class="hero__title">{{ LNG.format('loginWelcome', gameName) }}</h1>
       <p class="hero__text">{{ LNG.format('loginServerDesc', gameName) }}</p>
-      <div class="hero__actions">
-        <a class="button btn--primary btn-hero" href="./?page=register">{{ icon('rocket') }}{{ LNG.buttonRegister }}</a>
-      </div>
+      {% if loginAccountName is null %}
+        <div class="hero__actions">
+          <a class="button btn--primary btn-hero" href="./?page=register">{{ icon('rocket') }}{{ LNG.buttonRegister }}</a>
+        </div>
+      {% endif %}
       {% if universeStarts %}
         <div class="uni-starts">
           {% for universeStart in universeStarts %}
@@ -22,6 +24,16 @@
     </section>
 
     <section class="panel" id="login">
+      {% if loginAccountName is not null %}
+      <h2 class="panel__head">{{ icon('user') }}{{ LNG.home_logged_in_head }}</h2>
+      <div class="panel__body">
+        <div class="login-form login-form--session">
+          <p>{{ LNG.format('home_logged_in_as', loginAccountName) }}</p>
+          <a class="button btn--primary" href="account">{{ LNG.home_continue }}</a>
+          <a class="button" data-method="post" href="account?page=logout">{{ LNG.lm_logout }}</a>
+        </div>
+      </div>
+      {% else %}
       <h2 class="panel__head">{{ icon('lock') }}{{ LNG.loginHeader }}</h2>
       <div class="panel__body">
         {% if code %}
@@ -38,6 +50,7 @@
           <span>{{ LNG.format('loginInfo', rulesLink) }}</span>
         </div>
       </div>
+      {% endif %}
     </section>
 
     {% if latestNews %}

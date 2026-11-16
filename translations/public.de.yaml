@@ -209,3 +209,7 @@ news_read_more: Weiterlesen
 news_latest: Neueste News
 news_all: Alle News
 csrf_invalid: 'Die Sicherheitsprüfung ist fehlgeschlagen (vielleicht ist deine Sitzung abgelaufen). Bitte lade die Seite neu und versuche es noch einmal.'
+home_logged_in_head: "Dein Konto"
+home_logged_in_as: "Angemeldet als %s"
+home_continue: "Weiter zu deinen Universen"
+home_account_lobby: "Konto-Lobby"

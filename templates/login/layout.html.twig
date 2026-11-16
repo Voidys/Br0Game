@@ -35,7 +35,7 @@
         <a href="{{ base }}/?page=rules" aria-current="page">{{ 'menu_rules'|trans({}, 'public') }}</a>
       </nav>
       {% if language_names|length > 1 %}
-        <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ 'registerLanguage'|trans({}, 'public') }}</span>
+        <label class="site-lang">{{ icon('languages') }}<span class="visually-hidden">{{ 'registerLanguage'|trans({}, 'public') }}</span>
           <select data-language-select>
             {% for code, name in language_names %}<option value="{{ code }}"{% if code == app.request.locale %} selected{% endif %}>{{ name }}</option>{% endfor %}
           </select>

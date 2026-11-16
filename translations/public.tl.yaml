@@ -205,3 +205,7 @@ news_read_more: Magbasa pa
 news_latest: Pinakabagong balita
 news_all: Lahat ng balita
 csrf_invalid: 'Hindi pumasa ang security check (maaaring nag-expire na ang session mo). I-reload ang page at subukan ulit.'
+home_logged_in_head: "Iyong account"
+home_logged_in_as: "Naka-log in bilang %s"
+home_continue: "Magpatuloy sa iyong mga universe"
+home_account_lobby: "Lobby ng account"

@@ -179,3 +179,7 @@ news_read_more: "Ler mais"
 news_latest: "Últimas notícias"
 news_all: "Todas as notícias"
 csrf_invalid: A verificação de segurança falhou (a tua sessão pode ter expirado). Recarrega a página e tenta novamente.
+home_logged_in_head: "A tua conta"
+home_logged_in_as: "Sessão iniciada como %s"
+home_continue: "Continuar para os teus universos"
+home_account_lobby: "Lobby da conta"

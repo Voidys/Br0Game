@@ -181,3 +181,7 @@ news_read_more: Lees meer
 news_latest: Laatste nieuws
 news_all: Al het nieuws
 csrf_invalid: De beveiligingscontrole is mislukt (je sessie is mogelijk verlopen). Laad de pagina opnieuw en probeer het nog eens.
+home_logged_in_head: "Je account"
+home_logged_in_as: "Ingelogd als %s"
+home_continue: "Verder naar je universums"
+home_account_lobby: "Accountlobby"

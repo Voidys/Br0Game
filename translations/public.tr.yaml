@@ -179,3 +179,7 @@ news_read_more: "Devamını oku"
 news_latest: "Son haberler"
 news_all: "Tüm haberler"
 csrf_invalid: Güvenlik kontrolü başarısız oldu (oturumunun süresi dolmuş olabilir). Sayfayı yenileyip tekrar dene.
+home_logged_in_head: "Hesabın"
+home_logged_in_as: "%s olarak giriş yaptın"
+home_continue: "Evrenlerine devam et"
+home_account_lobby: "Hesap lobisi"

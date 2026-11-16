@@ -167,6 +167,8 @@ abstract class AbstractLoginController implements GameControllerInterface
                 'version'				=> $config->version,
                 'REV'					=> substr($config->version, -4),
                 'languages'				=> $LNG->getLanguageOptions(),
+                // name of the account with a valid login (existing session only), null for guests
+                'loginAccountName'		=> $this->state->auth?->account()?->getAccountName(),
             ];
         }
 

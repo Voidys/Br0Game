@@ -59,8 +59,14 @@
           <a href="./?page=rules"{% if currentPage == 'rules' %} aria-current="page"{% endif %}>{{ LNG.menu_rules }}</a>
           <a href="account?page=board"{% if currentPage == 'board' %} aria-current="page"{% endif %}>{{ LNG.forum }}</a>
         </nav>
+        {% if loginAccountName is defined and loginAccountName is not null and currentPage != 'index' %}
+          <nav class="site-account" aria-label="{{ loginAccountName }}">
+            <a class="site-account__name" href="account" title="{{ LNG.home_account_lobby }}">{{ icon('user') }}<span>{{ loginAccountName }}</span></a>
+            <a class="site-account__logout" data-method="post" href="account?page=logout" title="{{ LNG.lm_logout }}">{{ icon('log-out') }}<span class="visually-hidden">{{ LNG.lm_logout }}</span></a>
+          </nav>
+        {% endif %}
         {% if languages|length > 1 %}
-          <label class="site-lang">{{ icon('globe') }}<span class="visually-hidden">{{ LNG.registerLanguage }}</span>
+          <label class="site-lang">{{ icon('languages') }}<span class="visually-hidden">{{ LNG.registerLanguage }}</span>
             <select data-language-select>
               {% for langKey, langName in languages %}
                 {% if langName is iterable %}<optgroup label="{{ langKey }}">{% for subKey, subName in langName %}<option value="{{ subKey }}"{% if subKey == lang %} selected{% endif %}>{{ subName }}</option>{% endfor %}</optgroup>
