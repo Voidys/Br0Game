@@ -276,6 +276,10 @@ body.admin {
 .stack { display: grid; gap: var(--space-4); align-content: start; }
 .stack--tight { gap: var(--space-2); }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--space-4); align-items: start; }
+/* even-height cards (e.g. maintenance): every card as tall as the tallest in its row, footers aligned at the bottom */
+.grid--even { align-items: stretch; }
+.grid--even > .card { display: flex; flex-direction: column; }
+.grid--even > .card > .card__body { flex: 1; }
 .cols { display: grid; gap: var(--space-4); align-items: start; }
 @media (width >= 64rem) {
   .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
