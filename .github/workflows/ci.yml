@@ -93,7 +93,11 @@ jobs:
         run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: PHPUnit
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --log-junit build/junit.xml
+
+      - name: Failed tests as annotations
+        if: failure()
+        run: php tools/ci/junit-annotations.php build/junit.xml
 
   battlerust:
     name: Rust battle engine (cargo test, reproducible build, parity)
@@ -141,7 +145,11 @@ jobs:
 
       # the fresh library, not the committed one: same fights as the PHP engine with the same seed, missions end to end
       - name: Battle parity PHPUnit tests against the fresh library
-        run: vendor/bin/phpunit tests/Integration/BattleEngineTest.php tests/Integration/BattleMissionTest.php
+        run: vendor/bin/phpunit --log-junit build/junit-battle.xml tests/Integration/BattleEngineTest.php tests/Integration/BattleMissionTest.php
+
+      - name: Failed parity tests as annotations
+        if: failure()
+        run: php tools/ci/junit-annotations.php build/junit-battle.xml
 
       # last, so a mismatch still shows the test results above: the committed binary must be what the source builds
       - name: Committed bin/libbattlerust.so equals the fresh build

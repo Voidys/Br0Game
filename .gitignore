@@ -49,3 +49,4 @@ composer.phar
 /.phpunit.cache/
 ###< phpunit/phpunit ###
 /tools/battlerust/target/
+/build/
