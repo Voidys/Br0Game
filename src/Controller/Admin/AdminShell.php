@@ -67,6 +67,7 @@ final class AdminShell
                 ['ban', '', 'adm_tab_bans', 'ShowBanPage'],
                 ['active', '', 'mu_vaild_users', 'ShowActivePage'],
                 ['multiIP', '', 'mu_multiip_page', 'ShowMultiIPPage'],
+                ['abuseReport', '', 'abuse_menu', 'ShowAbuseReportPage'],
                 ['comments', '', 'adm_comments', 'ShowMultiIPPage'],
                 ['analytics', '', 'adm_analytics', 'ShowMultiIPPage'],
             ]],

@@ -1163,3 +1163,7 @@ Technical changes per migration step, newest last.
 - New universe settings whose defaults reproduce the previous behaviour exactly, so operators decide: `market_push_tolerance` (F-02, default 30 %, replaces the hard-coded market push tolerance), `transport_push_check` + `transport_push_limit` (F-02, default off: refuses large one-sided transports/holds without a return delivery in 7 days), `honor_pair_cap` (F-17, default 0 = unlimited honorable fights per pair and 24 h; table `honor_fights`, migration `1794902000`), `bash_war_exempt` (F-18, default on), `depot_cost_real_consumption` (F-20, default off: alliance depot charged by the fleet's real consumption).
 - Tests: `BalanceSettingsTest` (defaults = old behaviour, each switch's effect, push guard cases).
 
+## 148. Admin abuse report
+
+- New read-only admin page `abuseReport` (Moderation → Abuse report, right `ShowAbuseReportPage`): one-sided transports/holds between player pairs, repeated market trades with ratio outliers, rebuild-protection grants with the opponents' loot, recalls at or after arrival — each with shared-IP / multi-group markers (audit F-02, F-15, F-16, F-19). Values in metal units at the stored market ratios; every query limited to 100 rows (~0.2 s on 667k fleet log rows, no new index).
+- Tests: `AbuseReportQueryTest`.
