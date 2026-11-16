@@ -1108,3 +1108,10 @@ Technical changes per migration step, newest last.
 - F-05: outward fleets can't be recalled once their arrival time has passed (the arrival event has to run first; holds keep their rules); due fleet events are processed on AJAX/fragment requests too (`FlyingFleetHandler::processDue`).
 - Fleets advance without page views: `bin/console app:fleets:run` (one pass; DDEV daemon `fleets` loops it every 5 s) and cronjob `fleets` (every minute, migration `1794901500`); operator setup in `docs/INSTALL.md`.
 - Tests: `FleetRaceGuardsTest` (stale missile write, recall after arrival, hold recall, event driver).
+
+## 139. CSS cascade: named legacy sub-layers, components file, dead rules gone
+
+- Layer order is explicit: `@layer reset, base, legacy.content, legacy.theme, components, utilities;` — the game imports `content.css` into `legacy.content` and the player theme into `legacy.theme` (themes now always win over content.css, independent of selector specificity). New `app/components.css` (layer `components`) holds unthemed form/table components that used to lose against the shared button/control rules: resources production table, fleet inputs and `.form-page` forms, market place, stats filter, search bar, message search/bulk controls, advanced stats table.
+- ~40 lines of dead CSS removed (unused `.cw-*` widths, `.sim-split`, `.share-row`, `.achievement-name`, `.stats-target-info`, `#resource`, `#menu`, `#team content`, …; scanned against templates, scripts, PHP, translations, texts and stored DB HTML).
+- Styling on classes instead of ids: `.repair-infobox`, `.repair-list`, `.ratio-baselines`, `.form-page` (ids kept only where JS needs them); `#marketPlace` prefixes dropped. Floats replaced by flex for the fleet slot counters (`.fleet-slots`) and the repair dock.
+- Verified with the visual diff on 53 pages in all 10 themes (desktop) and nova on phone: no change beyond the noise floor.

@@ -11,9 +11,11 @@
   <table class="flyingFleets">
     <tr>
       <th colspan="9">
+        <div class="fleet-slots">
         <div class="transparent fleet-slot fleet-slot--start">{{ LNG.fl_fleets }} {{ activeFleetSlots }} / {{ maxFleetSlots }}</div>
         <div class="transparent fleet-slot fleet-slot--center">{{ LNG.fl_planets }} {{ currentPlanetCount }} / {{ maxPlanetCount }}</div>
         <div class="transparent fleet-slot fleet-slot--end">{{ LNG.fl_expeditions }} {{ activeExpedition }} / {{ maxExpedition }}</div>
+        </div>
       </th>
     </tr>
     {% if not empty(FlyingFleetList) %}

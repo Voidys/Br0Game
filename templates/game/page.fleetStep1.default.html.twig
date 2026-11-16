@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
-<form action="game?page=fleetStep2" method="post" data-on-submit="check-target" id="form">
+<form action="game?page=fleetStep2" method="post" data-on-submit="check-target" id="form" class="form-page">
 	<input type="hidden" name="token" value="{{ token }}">
 	<input type="hidden" name="group" value="0">
 	<input type="hidden" name="target_mission" value="{{ mission }}">

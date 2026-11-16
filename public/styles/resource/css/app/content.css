@@ -171,26 +171,6 @@ textarea {
 	min-inline-size: 5.625rem;
 }
 
-#resource {
-	text-align: center;
-	align-items: center;
-}
-
-#menu {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#options select {
-	max-inline-size: 10.625rem;
-}
-
-#overview #planetList td {
-	vertical-align: top;
-	white-space: nowrap;
-}
-
 /* ------------------------------------------------------------------ buttons in build lists */
 
 /* build/research buttons: one even width so the level label ("Upgrade 13") fits on one line */
@@ -361,7 +341,7 @@ textarea {
 
 /* ------------------------------------------------------------------ repair dock */
 
-#repairlist {
+.repair-list {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -369,7 +349,6 @@ textarea {
 
 .repaira,
 .repairb {
-	float: inline-start;
 	line-height: 1.4;
 	padding: 0.5rem;
 }
@@ -402,7 +381,6 @@ textarea {
 }
 
 .repairShipContainerContent {
-	float: inline-start;
 	inline-size: 50%;
 	line-height: 1.4;
 	padding: 0.625rem;
@@ -538,11 +516,9 @@ textarea {
 
 .msg-toolbar { border-block: 0.0625rem solid rgb(128 128 128 / 0.3); }
 .msg-search { flex: 1 1 18rem; }
-.msg-search input[type="search"] { flex: 1 1 auto; min-width: 0; max-width: 22rem; }
 .msg-filters { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-inline-start: auto; }
 .msg-filters .button.active { font-weight: bold; text-decoration: underline; }
 .msg-select-all { display: inline-flex; align-items: center; white-space: nowrap; cursor: pointer; }
-.msg-bulk select { max-width: 100%; }
 .msg-bulk .control-group { flex-wrap: wrap; }
 .msg-pages { margin-inline-start: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .msg-pages > * { margin-inline-start: 0.125rem; }
@@ -1148,18 +1124,6 @@ body#questions .faq-content {
 .honor-low { color: #7F06FB; }
 .honor-bottom { color: #920505; }
 
-/* column widths used by notes, tickets, statistics */
-.cw-15 { width: 15%; }
-.cw-30 { width: 30%; }
-.cw-40 { width: 40%; }
-.cw-45 { width: 45%; }
-.cw-60 { width: 60%; }
-.cw-70 { width: 70%; }
-.cw-20px { width: 20px; }
-.cw-40px { width: 40px; }
-.cw-60px { width: 60px; }
-.cw-150px { width: 150px; }
-
 /* alliance / player card: lock tooltip */
 .tooltip1 {
 	position: relative;
@@ -1218,12 +1182,6 @@ body#questions .faq-content {
 	margin: 2px;
 }
 
-/* tech tree element names */
-.achievement-name {
-	max-width: 42%;
-	display: inline-block;
-}
-
 /* achievement description in the modal (game/shared.achievementInfo.html.twig) */
 .achievement-info {
 	display: flex;
@@ -1247,10 +1205,6 @@ body#questions .faq-content {
 }
 .achievement-info__state .icon { width: 0.9rem; height: 0.9rem; }
 
-#achievements .minus {
-	display: none;
-}
-
 /* records page */
 .recordtable tr {
 	height: 40px;
@@ -1265,18 +1219,7 @@ body#questions .faq-content {
 	padding-left: 15px;
 }
 
-/* advanced statistics page: compact rows, faint zebra and row hover (tints layered over the theme's cell colour) */
-/* padding through the cell variables: the components layer owns the cell padding itself */
-.advanced-stats__table { inline-size: 100%; border-spacing: 0 0.0625rem; --cell-pad-y: 0.2rem; --cell-pad-x: 0.75rem; }
-.advanced-stats__table td { line-height: 1.3; }
-.advanced-stats__table td:first-child { text-align: start; }
-.advanced-stats__table tr:nth-child(even) td { background-image: linear-gradient(rgb(255 255 255 / 0.025), rgb(255 255 255 / 0.025)); }
-.advanced-stats__table tr:hover td { background-image: linear-gradient(rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.07)); }
 
-/* team page */
-#team content {
-	max-width: unset;
-}
 
 /* changelog */
 .changelog-text {
@@ -1289,10 +1232,6 @@ body#questions .faq-content {
 }
 
 /* battle simulator */
-.share-row {
-	margin: 6px 0;
-}
-
 .share-input {
 	width: 55%;
 }
@@ -1618,13 +1557,6 @@ body#questions .faq-content {
 	.stats-target-btn:hover .stats-acc-label {
 		color: #cde;
 	}
-	.stats-target-info {
-		padding: 4px 10px;
-		font-size: 12px;
-		font-style: italic;
-		color: #9ab;
-		margin-bottom: 4px;
-	}
 
 	/* Responsive */
 	@media (max-width: 600px) {
@@ -1639,8 +1571,6 @@ body#questions .faq-content {
 /* ---- pages: settings, fleet, overview, galaxy, economy (inline styles moved here) */
 
 /* fleet: coordinate and amount inputs */
-input.fleet-amount { max-width: 10em; }
-input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
 
 /* fleet step 1: shortcut grid */
 .shortcut-container {
@@ -1654,16 +1584,16 @@ input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
 }
 
 /* fleet step 2 */
-input.fleet-radio { width: 3.75rem; }
 .fleet-alert { color: red; padding-left: 0.8125rem; }
 .fleet-warning { color: red; }
 .fleet-noreturn { min-block-size: 3.125rem; }
 
 /* fleet overview: slot counters in three columns, running fleet times, resource tooltip */
-.fleet-slot { width: 33.33%; }
-.fleet-slot--start { text-align: left; float: left; }
-.fleet-slot--center { text-align: center; float: inline-start; }
-.fleet-slot--end { text-align: right; float: right; }
+.fleet-slots { display: flex; }
+.fleet-slot { flex: 1 1 0; }
+.fleet-slot--start { text-align: left; }
+.fleet-slot--center { text-align: center; }
+.fleet-slot--end { text-align: right; }
 .fleet-active-time { color: lime; }
 .tt-fleet-res { width: 12.5rem; }
 .tt-fleet-res td { width: 50%; color: white; }
@@ -1695,7 +1625,7 @@ input.fleet-radio { width: 3.75rem; }
 .fleet-dealer-body { clear: right; margin-top: 1.25rem; margin-left: 7.8125rem; }
 
 /* shipyard / repair dock: info box, wreck list link */
-#infobox.repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; padding: 0.3125rem; margin: 0 0 1rem; }
+.repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; padding: 0.3125rem; margin: 0 0 1rem; }
 
 /* mission choice of fleet step 2 (formerly a one-column table) */
 .mission-list { display: grid; gap: 0.75rem; padding: 0.5rem 0.75rem; }
@@ -1878,93 +1808,12 @@ input.fleet-radio { width: 3.75rem; }
 .hangar-filter-menu button { display: block; width: 100%; text-align: left; }
 .hangar-filter-remove { margin-left: 0.25rem; cursor: pointer; }
 
-/* market place */
-#marketPlace .market-list { white-space: nowrap; }
-#marketPlace .ratioBaseline.selected { font-weight: 700; }
-#marketPlace .market-res-type .market-res-icon { display: block; margin: 0 auto 0.125rem; }
-/* keep the reference ratio as a stable 3x2 grid (inputs / baseline buttons) */
-#marketPlace #ratioBaselines .ratio-grid {
-	display: grid;
-	grid-template-columns: 1fr auto 1fr auto 1fr;
-	column-gap: 0.125rem;
-	row-gap: 0.25rem;
-	align-items: center;
-}
-#marketPlace #ratioBaselines .ratio-grid input,
-#marketPlace #ratioBaselines .ratio-grid button { width: 100%; min-width: 0; box-sizing: border-box; }
 
 
-/* ---- tables & forms: settings, fleet, galaxy, information */
-.fleet-amount { width: var(--control-num-w); }
-td.num .control-group { justify-content: flex-end; }
-#form .form-table .control-group select { width: auto; }
-#form td.top > table { margin: 0; }
-/* fleet resources: three amount fields share the row evenly */
-table:has(input.fleet-amount--fill) { table-layout: fixed; }
-input.fleet-amount--fill { min-width: 0; }
-@media (max-width: 40rem) {
-	#form .control-group { flex-wrap: wrap; max-width: 100%; }
-}
-
-/* ---- tables & forms: economy, messages, reports */
-/* resources page: planet header with actions, production table with one tint per resource */
-.prod-head {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 0.5rem 1rem;
-	margin-block-end: 0.5rem;
-
-	& h2 { margin: 0; font-size: 1rem; }
-}
-.prod-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.prod-table {
-	--res-901: #b4bcc6;
-	--res-902: #4fc3f7;
-	--res-903: #3ddc97;
-	--res-911: #f0b429;
-	min-inline-size: 38rem;
-	border-collapse: separate;
-	border-spacing: 0;
-
-	& select { width: 5rem; font-family: var(--font-mono, monospace); }
-	& .prod-level { opacity: 0.7; white-space: nowrap; }
-	& .prod-pct { opacity: 0.7; font-size: 0.85em; }
-	& :is(.prod-zero) { opacity: 0.55; }
-	& .prod-pos::before { content: "+"; }
-	& td.num, & th.num { font-variant-numeric: tabular-nums; }
-	& .res-metal { --res: var(--res-901); }
-	& .res-crystal { --res: var(--res-902); }
-	& .res-deuterium { --res: var(--res-903); }
-	& .res-energy { --res: var(--res-911); }
-	& :is(td, th).num { background-image: linear-gradient(color-mix(in srgb, var(--res) 8%, transparent), color-mix(in srgb, var(--res) 8%, transparent)); }
-	& thead th.num { border-block-end: 0.1875rem solid var(--res); }
-	& thead th.num a { color: var(--res); font-weight: 600; }
-	& .prod-sep > td { border-block-start: 0.125rem solid color-mix(in srgb, currentcolor 35%, transparent); }
-	& .prod-total > td:first-child { font-weight: 600; }
-	& .prod-total .num { font-weight: 600; }
-	& .prod-deficit {
-		outline: 0.125rem solid var(--c-negative, #f05252);
-		outline-offset: -0.125rem;
-	}
-	& .prod-deficit .prod-neg::after { content: " \26A0"; }
-	& :is(td, th):first-child {
-		position: sticky;
-		inset-inline-start: 0;
-		z-index: 1;
-		background-color: var(--prod-sticky-bg, Canvas);
-	}
-}
 .empire-sigma { text-align: end; }
 .search-receiver { display: block; }
 .search-receiver .select-box { inset-inline-start: 0; }
-#message .receiver { margin-inline-start: 0; }
-/* battle simulator: fleet and defence tables side by side, stacked below 64rem */
-.sim-split > tbody > tr > td { width: 50%; }
-@media (max-width: 64rem) {
-	.sim-split > tbody > tr > td { display: block; width: 100%; }
-}
+#receiver-list .receiver { margin-inline-start: 0; }
 /* spy reports: rows of 25 % cells; .lg:hidden / .max-lg:hidden come from reports stored with the old utility classes */
 .spyRaport .spyRaportContainerRow { display: flex; flex-wrap: wrap; align-items: flex-start; }
 .spyRaport .spyRaportContainerRow::after { content: none; }
@@ -1977,12 +1826,3 @@ input.fleet-amount--fill { min-width: 0; }
 	.empire-table tr > :first-child { position: sticky; inset-inline-start: 0; z-index: 1; background-color: var(--tv-bg-primary, #0d1014); }
 }
 
-/* ---- tables & forms: alliance, community, help */
-.stats-filter { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
-.stats-filter .control-group { display: flex; flex: 1 1 12rem; }
-.stats-filter .control-group select { flex: 1 1 auto; min-width: 0; }
-.search-bar { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-.search-bar #searchtext { flex: 1 1 10rem; min-width: 0; }
-@media (max-width: 40rem) {
-	.stats-filter .control-group label { flex: 0 0 4.5rem; }
-}

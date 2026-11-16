@@ -1,0 +1,112 @@
+/*
+ * Game content components that are owned by the app and not touched by the classic themes: forms, controls and
+ * tables of the content area (production table, market, fleet inputs, message toolbar, advanced stats).
+ * Layer "components": they refine the shared controls and tables (base.css, tables-forms.css) and win over
+ * content.css and the theme (layer "legacy"). Loaded after tables-forms.css.
+ */
+@layer components {
+/* ---- tables & forms: settings, fleet, galaxy, information */
+.fleet-amount { width: var(--control-num-w); }
+td.num .control-group { justify-content: flex-end; }
+.form-page .form-table .control-group select { width: auto; }
+.form-page td.top > table { margin: 0; }
+/* fleet resources: three amount fields share the row evenly */
+table:has(input.fleet-amount--fill) { table-layout: fixed; }
+input.fleet-amount--fill { min-width: 0; }
+@media (max-width: 40rem) {
+	.form-page .control-group { flex-wrap: wrap; max-width: 100%; }
+}
+
+/* ---- tables & forms: economy, messages, reports */
+/* resources page: planet header with actions, production table with one tint per resource */
+.prod-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem 1rem;
+	margin-block-end: 0.5rem;
+
+	& h2 { margin: 0; font-size: 1rem; }
+}
+.prod-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.prod-table {
+	--res-901: #b4bcc6;
+	--res-902: #4fc3f7;
+	--res-903: #3ddc97;
+	--res-911: #f0b429;
+	min-inline-size: 38rem;
+	border-collapse: separate;
+	border-spacing: 0;
+
+	& select { width: 5rem; font-family: var(--font-mono, monospace); }
+	& .prod-level { opacity: 0.7; white-space: nowrap; }
+	& .prod-pct { opacity: 0.7; font-size: 0.85em; }
+	& :is(.prod-zero) { opacity: 0.55; }
+	& .prod-pos::before { content: "+"; }
+	& td.num, & th.num { font-variant-numeric: tabular-nums; }
+	& .res-metal { --res: var(--res-901); }
+	& .res-crystal { --res: var(--res-902); }
+	& .res-deuterium { --res: var(--res-903); }
+	& .res-energy { --res: var(--res-911); }
+	& :is(td, th).num { background-image: linear-gradient(color-mix(in srgb, var(--res) 8%, transparent), color-mix(in srgb, var(--res) 8%, transparent)); }
+	& thead th.num { border-block-end: 0.1875rem solid var(--res); }
+	& thead th.num a { color: var(--res); font-weight: 600; }
+	& .prod-sep > td { border-block-start: 0.125rem solid color-mix(in srgb, currentcolor 35%, transparent); }
+	& .prod-total > td:first-child { font-weight: 600; }
+	& .prod-total .num { font-weight: 600; }
+	& .prod-deficit {
+		outline: 0.125rem solid var(--c-negative, #f05252);
+		outline-offset: -0.125rem;
+	}
+	& .prod-deficit .prod-neg::after { content: " \26A0"; }
+	& :is(td, th):first-child {
+		position: sticky;
+		inset-inline-start: 0;
+		z-index: 1;
+		background-color: var(--prod-sticky-bg, Canvas);
+	}
+}
+
+/* ---- tables & forms: alliance, community, help */
+.stats-filter { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.stats-filter .control-group { display: flex; flex: 1 1 12rem; }
+.stats-filter .control-group select { flex: 1 1 auto; min-width: 0; }
+.search-bar { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.search-bar #searchtext { flex: 1 1 10rem; min-width: 0; }
+@media (max-width: 40rem) {
+	.stats-filter .control-group label { flex: 0 0 4.5rem; }
+}
+
+/* market place */
+.market-list { white-space: nowrap; }
+.ratioBaseline.selected { font-weight: 700; }
+.market-res-type .market-res-icon { display: block; margin: 0 auto 0.125rem; }
+/* keep the reference ratio as a stable 3x2 grid (inputs / baseline buttons) */
+.ratio-baselines .ratio-grid {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr auto 1fr;
+	column-gap: 0.125rem;
+	row-gap: 0.25rem;
+	align-items: center;
+}
+.ratio-baselines .ratio-grid input,
+.ratio-baselines .ratio-grid button { width: 100%; min-width: 0; box-sizing: border-box; }
+
+.msg-search input[type="search"] { flex: 1 1 auto; min-width: 0; max-width: 22rem; }
+
+.msg-bulk select { max-width: 100%; }
+
+input.fleet-amount { max-width: 10em; }
+input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
+
+input.fleet-radio { width: 3.75rem; }
+
+/* advanced statistics page: compact rows, faint zebra and row hover (tints layered over the theme's cell colour) */
+/* padding through the cell variables: the components layer owns the cell padding itself */
+.advanced-stats__table { inline-size: 100%; border-spacing: 0 0.0625rem; --cell-pad-y: 0.2rem; --cell-pad-x: 0.75rem; }
+.advanced-stats__table td { line-height: 1.3; }
+.advanced-stats__table td:first-child { text-align: start; }
+.advanced-stats__table tr:nth-child(even) td { background-image: linear-gradient(rgb(255 255 255 / 0.025), rgb(255 255 255 / 0.025)); }
+.advanced-stats__table tr:hover td { background-image: linear-gradient(rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.07)); }
+}

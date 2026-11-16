@@ -1,15 +1,15 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_repairdock }}{{ parent() }}{% endblock %}
 {% block content %}
-  <p id="infobox" class="repair-infobox">{{ LNG.bd_repairdock_time }}: <span class="countdown" data-time="{{ wftime }}"></span></p><br><br>
+  <p class="repair-infobox">{{ LNG.bd_repairdock_time }}: <span class="countdown" data-time="{{ wftime }}"></span></p><br><br>
   {% if repdock_level == 0 %}
-    <p id="infobox" class="repair-infobox">{{ LNG.bd_repairdock_required }}</p><br><br>
+    <p class="repair-infobox">{{ LNG.bd_repairdock_required }}</p><br><br>
   {% else %}
     {% if busy %}
-      <p id="infobox" class="repair-infobox">{{ LNG.bd_repairdock_busy }}</p><br><br>
+      <p class="repair-infobox">{{ LNG.bd_repairdock_busy }}</p><br><br>
     {% endif %}
     {% if not empty(List) %}
-      <div id="repairlist" class="infos1">
+      <div class="infos1 repair-list">
         {% set ctime = 0 %}
         <div class="repairb">
           {% for shipID, amount in List.ships|default([]) %}

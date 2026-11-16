@@ -14,16 +14,18 @@
   {% endif %}
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 
-  {# cascade layers: reset, base, legacy (theme + content), components; game.css (shell) stays unlayered #}
+  {# cascade layers: reset, base, legacy.content, legacy.theme, components; game.css (shell) stays unlayered #}
   <link rel="stylesheet" href="./styles/resource/css/app/base.css?v={{ asset_version }}">
   <link rel="stylesheet" href="./styles/resource/css/app/rte.css?v={{ asset_version }}">
   {# tables and forms of the content area: layout for every theme (layer "components", see the file header) #}
   <link rel="stylesheet" href="./styles/resource/css/app/tables-forms.css?v={{ asset_version }}">
-  {# the content components and the player's classic theme share the "legacy" cascade layer, theme
-     last as in the original header (it wins ties); base < legacy < components < game.css #}
+  {# app-owned content components (forms, tables, controls) that no theme styles: also layer "components", after tables-forms #}
+  <link rel="stylesheet" href="./styles/resource/css/app/components.css?v={{ asset_version }}">
+  {# content components and the player's classic theme: sub-layers of "legacy", theme last (it overrides
+     content.css); base < legacy.content < legacy.theme < components < game.css #}
   <style>
-    @import url("./styles/resource/css/app/content.css?v={{ asset_version }}") layer(legacy);
-    @import url("{{ themeCssPath }}?v={{ asset_version }}") layer(legacy);
+    @import url("./styles/resource/css/app/content.css?v={{ asset_version }}") layer(legacy.content);
+    @import url("{{ themeCssPath }}?v={{ asset_version }}") layer(legacy.theme);
   </style>
   <link rel="stylesheet" href="./styles/resource/css/app/game.css?v={{ asset_version }}">
   {# the player's signal colours win over theme and base styles. A colour still at its factory default is not
