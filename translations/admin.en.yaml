@@ -573,7 +573,12 @@ ow_file_detected: The file %s was found. For security, delete or rename it.
 ow_forum: Forum
 ow_none: No warnings
 ow_overview: Control panel
-ow_proyect_leader: Project lead
+ow_proyect_leader: "Former fleet admiral (2Moons project lead)"
+ow_former_pr0game_crew: "Former pr0game crew"
+ow_crew_dev: "Development & emergencies"
+ow_crew_mod: "Moderation"
+ow_crew_community: "Community"
+ow_pr0game_contributors: "pr0game code contributors"
 ow_special_thanks: Special thanks
 ow_support: Support
 ow_title: Welcome to {game_name}!

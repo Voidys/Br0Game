@@ -632,7 +632,7 @@ ow_file_detected: ' %s adli dosya saptandi. Guvenlik nedeniyle dosyayi silin yad
 ow_forum: Forum
 ow_none: Mevcut Uyari Yok
 ow_overview: Kontrol
-ow_proyect_leader: Proje Lideri
+ow_proyect_leader: "Eski filo amirali (2Moons proje lideri)"
 ow_smtp_errors: SMTP ayarlari kontrol ediliyor! -Su an mail gonderemezsiniz!
 ow_special_thanks: Ozel Tesekkur
 ow_support: Destek

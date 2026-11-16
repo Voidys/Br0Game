@@ -649,7 +649,7 @@ ow_file_detected: Foi encontrado o arquivo %s. Por motivos de segurança, apagar
 ow_forum: Forum
 ow_none: Sem Avisos
 ow_overview: Controlo
-ow_proyect_leader: Lider de Projecto
+ow_proyect_leader: "Antigo almirante da frota (líder do projeto 2Moons)"
 ow_smtp_errors: >-
   Verifica as configurações de SMTP! - Neste momento nenhum email pode ser
   enviado!

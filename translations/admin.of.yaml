@@ -663,7 +663,7 @@ ow_file_detected: >-
 ow_forum: Forum
 ow_none: Keine Warnungen
 ow_overview: Kontrollzentrum
-ow_proyect_leader: Projektleitung
+ow_proyect_leader: "Ehemaliger Flottenadmiral (2Moons-Projektleitung)"
 ow_smtp_errors: >-
   Überprüfe deine SMTP-Einstellungen! - Momentan können keine Mails gesendet
   werden!

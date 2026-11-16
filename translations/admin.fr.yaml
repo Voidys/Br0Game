@@ -645,7 +645,7 @@ ow_file_detected: >-
 ow_forum: Forums
 ow_none: Aucun avertissement
 ow_overview: Panneau de configuration
-ow_proyect_leader: Chef de projet
+ow_proyect_leader: "Ancien amiral de la flotte (chef de projet 2Moons)"
 ow_smtp_errors: Vérifiez vos paramètres SMTP ! - Actuellement aucun mails ne sont envoyés !
 ow_special_thanks: Remerciements spéciaux
 ow_support: Support

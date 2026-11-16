@@ -660,7 +660,7 @@ ow_file_detected: >-
 ow_forum: Foro
 ow_none: No hay alertas
 ow_overview: Panel de Control
-ow_proyect_leader: Líder del Proyecto
+ow_proyect_leader: "Antiguo almirante de la flota (líder del proyecto 2Moons)"
 ow_smtp_errors: ¡Compruebe la configuración de SMTP! - Actualmente no se envían los correos!
 ow_special_thanks: Agradecimientos especiales
 ow_support: Soporte

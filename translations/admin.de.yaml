@@ -674,7 +674,12 @@ ow_file_detected: >-
 ow_forum: Forum
 ow_none: Keine Warnungen
 ow_overview: Kontrollzentrum
-ow_proyect_leader: Projektleitung
+ow_proyect_leader: "Ehemaliger Flottenadmiral (2Moons-Projektleitung)"
+ow_former_pr0game_crew: "Ehemalige pr0game-Crew"
+ow_crew_dev: "Entwicklung & Notfälle"
+ow_crew_mod: "Moderation"
+ow_crew_community: "Community"
+ow_pr0game_contributors: "pr0game-Code-Beitragende"
 ow_smtp_errors: >-
   Überprüfe deine SMTP-Einstellungen! - Momentan können keine Mails gesendet
   werden!
