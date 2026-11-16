@@ -81,6 +81,11 @@ abstract class AbstractGameController implements GameControllerInterface
     /** true: skip the resource update of the current planet (pages that do not show resources) */
     protected $disableEcoSystem = false;
 
+    /**
+     * Runs before every in-game page. Full page loads (not XHR) lock the player row and then the current planet row (always in that
+     * order, like research, empire and fleet code, to avoid deadlocks), recalculate the planet's resources up to now (ResourceUpdate::CalcResource,
+     * including finished queues) from the locked rows and commit. Pages that set $disableEcoSystem skip this. XHR requests only select the ajax layout.
+     */
     public function initialize(): void
     {
         if (!$this->state->runtime->ajax) {
@@ -157,6 +162,9 @@ abstract class AbstractGameController implements GameControllerInterface
         return $this->accountIds[$userId] ??= $this->playerUtil()->get_account_id($userId);
     }
 
+    /**
+     * Query string (page, mode, id) of the current request, e.g. for the language/theme switch links.
+     */
     protected function getQueryString()
     {
         $queryString = [];
@@ -415,6 +423,9 @@ abstract class AbstractGameController implements GameControllerInterface
         $this->display('game/error.default.html.twig');
     }
 
+    /**
+     * Sets `last_update` of the current planet to the request time (used by pages that change the planet without a resource update).
+     */
     protected function updatePlanetTime()
     {
         $PLANET = $this->state->PLANET;
@@ -430,6 +441,10 @@ abstract class AbstractGameController implements GameControllerInterface
         ]);
     }
 
+    /**
+     * Variables of the game shell for full pages (top bar, planet list, resources, new-message badge, theme and clock). Popup and ajax
+     * windows get no shell data.
+     */
     protected function layoutData(string $template): array
     {
         $LNG = $this->state->LNG;
@@ -478,6 +493,9 @@ abstract class AbstractGameController implements GameControllerInterface
         return $response;
     }
 
+    /**
+     * Sends $data as a JSON response and ends the request (EndOfRequest).
+     */
     protected function sendJSON($data)
     {
         // $this->updatePlanetTime();
@@ -485,6 +503,9 @@ abstract class AbstractGameController implements GameControllerInterface
         throw new EndOfRequest();
     }
 
+    /**
+     * Redirects to $url and ends the request.
+     */
     protected function redirectTo($url)
     {
         // $this->updatePlanetTime();

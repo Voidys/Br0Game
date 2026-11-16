@@ -14,6 +14,11 @@ final class TableNames
         private readonly string $prefix,
     ) {}
 
+    /**
+     * Prefixed table name; only [a-z0-9_] is accepted so the result is safe to embed in SQL.
+     *
+     * @throws \InvalidArgumentException for any other characters
+     */
     public function get(string $table): string
     {
         if (!preg_match('/^[a-z0-9_]+$/', $table)) {

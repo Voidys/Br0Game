@@ -47,6 +47,10 @@ class BuildingsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Cancels the building currently under construction (queue position 1), refunds its cost, and starts the next queued entry.
+     * Returns false when nothing is being built.
+     */
     private function cancelBuildingFromQueue(): bool
     {
         $PLANET = &$this->state->PLANET;
@@ -90,6 +94,10 @@ class BuildingsController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Removes the waiting queue entry at 1-based position $QueueID (the running entry, position 1, cannot be removed here) and re-adds the
+     * entries behind it so costs and times are recomputed. Returns false for stale positions.
+     */
     private function removeBuildingFromQueue(int $QueueID): bool
     {
         $PLANET = &$this->state->PLANET;
@@ -130,6 +138,11 @@ class BuildingsController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Adds an upgrade ($AddMode) or a demolition (false) of building $Element to the planet's build queue after checking: allowed on this
+     * planet type, module enabled, requirements met, not blocked by running research (research lab) or shipyard work (shipyard, nanite factory), and
+     * that missiles are not stored when demolishing the silo. Deducts resources and starts the entry when the queue was empty.
+     */
     private function addBuildingToQueue(int $Element, bool $AddMode = true): void
     {
         $PLANET = &$this->state->PLANET;
@@ -221,6 +234,9 @@ class BuildingsController extends AbstractGameController
         }
     }
 
+    /**
+     * Data for the queue display: per entry name, level, remaining time and end time, plus the quick info of the first entry.
+     */
     private function getQueueData(): array
     {
         $LNG = $this->state->LNG;
@@ -256,6 +272,11 @@ class BuildingsController extends AbstractGameController
         return ['queue' => $scriptData, 'quickinfo' => $quickinfo];
     }
 
+    /**
+     * Buildings page. Request: cmd (cancel, remove, insert, destroy) with building (element id) and listid (queue position) - then redirects
+     * back to the page; watch (element id, 0 clears) stores the element watched by the cargo calculator on the planet. Otherwise renders the list of
+     * buildings with costs, times, requirements, production changes and the build queue. Queue changes are written back with the planet.
+     */
     public function show(): Response
     {
         $ProdGrid = &$this->state->ProdGrid;

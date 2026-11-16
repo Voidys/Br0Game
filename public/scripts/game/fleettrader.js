@@ -9,6 +9,7 @@ import { registerActions } from '../app/actions.js';
 const { costInfo: CostInfo, charge: Charge, shipImg: ShipImg } = pageData('fleet-dealer-data');
 const el = (id) => document.getElementById(id);
 
+/** Shows image, name and discounted per-ship price of the selected ship type (price * (1 - charge/100)) and resets the amount. */
 function updateVars()
 {
 	let shipID 	= el('shipID').value;
@@ -21,6 +22,7 @@ function updateVars()
 	Reset();
 }
 
+/** Fills the amount with the maximum available for the selected ship type and updates the total. */
 function MaxShips()
 {
 	let shipID 	= el('shipID').value;
@@ -28,6 +30,7 @@ function MaxShips()
 	Total();
 }
 
+/** Total price for the typed amount (invalid or negative input becomes 0), discount applied. */
 function Total()
 {
 	let Count	= el('count').value;
@@ -43,6 +46,7 @@ function Total()
 	el('total_deuterium').textContent = pretty_number(CostInfo[shipID][2][903] * Count * (1 - Charge / 100));
 }
 
+/** Clears amount and totals. */
 function Reset()
 {
 	el('count').value = 0;

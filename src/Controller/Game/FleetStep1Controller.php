@@ -37,6 +37,13 @@ class FleetStep1Controller extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Fleet dispatch step 1. Request: ship<id> = counts of the ships to send (solar satellites ignored; none selected goes back to the fleet page),
+     * galaxy/system/planet/type (preset target, default the current planet), target_mission, met_storage/krist_storage/deut_storage (preset cargo).
+     * Stores the chosen fleet in the game session under a new random token (used by steps 2 and 3), refuses ships the planet does not have, and renders the
+     * target form with speed choices, coordinate shortcuts, own planets, usable alliance combat groups, the pirate base and the universe geometry for
+     * the flight time preview.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -157,15 +164,6 @@ class FleetStep1Controller extends AbstractGameController
 
         //check if all ships are available
         foreach ($Fleet as $Ship => $Count) {
-            // Count ships in other session tokens
-            // foreach ($fleet as $tokenID => $sessionData) {
-            //     if ($tokenID == $token || (isset($sessionData['ownPlanet']) && $sessionData['ownPlanet'] != $PLANET['id'])) {
-            //         continue;
-            //     }
-            //     if (isset($sessionData['fleet'][$Ship])) {
-            //         $Count += $sessionData['fleet'][$Ship];
-            //     }
-            // }
             if ($Count > $PLANET[$resource[$Ship]]) {
                 $this->printMessage($LNG['fl_not_all_ship_avalible'], [[
                     'label' => $LNG['sys_back'],
@@ -176,6 +174,10 @@ class FleetStep1Controller extends AbstractGameController
         return $this->render('game/page.fleetStep1.default.html.twig');
     }
 
+    /**
+     * Saves the coordinate shortcuts (request shortcut[<id or new...>] with name, galaxy, system, planet, type). Shortcuts of the player missing from the
+     * request are deleted, `new...` entries inserted and changed ones updated (name cut to 32 characters); incomplete entries are skipped. Answers JSON with the saved message.
+     */
     public function saveShortcuts(): void
     {
         $USER = $this->state->USER;
@@ -246,6 +248,9 @@ class FleetStep1Controller extends AbstractGameController
         $this->sendJSON($LNG['fl_shortcut_saved']);
     }
 
+    /**
+     * The player's other planets/moons (not the current one) as quick-select targets with name, coordinates and type.
+     */
     private function GetColonyList()
     {
         $PLANET = $this->state->PLANET;
@@ -291,6 +296,10 @@ class FleetStep1Controller extends AbstractGameController
         return $ShortcutList;
     }
 
+    /**
+     * Alliance combat groups (AKS) the player is invited to (USERS_TO_ACS) that still have room: fewer than `max_fleets_per_acs` fleets and fewer than
+     * `max_participants_per_acs` participants (or the player already takes part).
+     */
     private function GetAvalibleACS()
     {
         $USER = $this->state->USER;
@@ -331,6 +340,12 @@ class FleetStep1Controller extends AbstractGameController
         return $ACSList;
     }
 
+    /**
+     * XHR check of the entered target (request: galaxy, system, planet, planet_type, kolo = colony ship in the fleet). Answers JSON: `OK` or the error text
+     * for: same planet, no own pirate base (position max_planets + 3) or empty pirate debris, expedition without expedition tech or free slot (position
+     * max_planets + 1), otherwise a missing moon/planet (a planet is fine with a colony ship), vacation mode, admin attack protection (`adm_attack`),
+     * destroyed planet and an empty debris field.
+     */
     public function checkTarget(): void
     {
         $PLANET = $this->state->PLANET;
@@ -421,24 +436,6 @@ class FleetStep1Controller extends AbstractGameController
                 $this->sendJSON($LNG['fl_error_empty_derbis']);
             }
 
-            // $sql = 'SELECT (
-            // 	(SELECT COUNT(*) FROM %%MULTI%% WHERE userID = :userID) +
-            // 	(SELECT COUNT(*) FROM %%MULTI%% WHERE userID = :dataID)
-            // ) as count;';
-
-            // if (!empty($planetData)) {
-            //     $multiCount = $db->selectSingle($sql, [
-            //         ':userID' => $USER['id'],
-            //         ':dataID' => $planetData['id'],
-            //     ], 'count');
-            // }
-
-            // if (
-            //     ENABLE_MULTIALERT && $USER['id'] != $planetData['id'] && $USER['authlevel'] != AUTH_ADM
-            //     && $USER['user_lastip'] == $planetData['user_lastip'] && $multiCount != 2
-            // ) {
-            //     $this->sendJSON($LNG['fl_multi_alarm']);
-            // }
         } else {
             if ($USER[$resource[124]] == 0) {
                 $this->sendJSON($LNG['fl_expedition_tech_required']);

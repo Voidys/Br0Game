@@ -27,6 +27,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ErrorController extends AbstractAdminController
 {
     protected $message = '';
+    /**
+     * Renders an error page inside the admin shell.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

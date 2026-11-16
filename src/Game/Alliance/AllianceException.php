@@ -35,6 +35,9 @@ final class AllianceException extends \RuntimeException
         return new self(self::HOME);
     }
 
+    /**
+     * Redirect to a URL relative to the game root.
+     */
     public static function redirect(string $url): self
     {
         return new self(self::REDIRECT, $url);

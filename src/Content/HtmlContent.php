@@ -26,11 +26,13 @@ final class HtmlContent
     private ?HtmlSanitizer $rich = null;
     private ?HtmlSanitizer $basic = null;
 
+    /** Sanitized HTML with the rich profile (CMS pages, news); null/empty gives ''. */
     public function rich(?string $html): string
     {
         return $this->clean($this->rich ??= $this->build([...self::INLINE, ...self::BLOCK_BASIC, ...self::BLOCK_RICH]), $html);
     }
 
+    /** Sanitized HTML with the basic profile (board posts, comments); null/empty gives ''. */
     public function basic(?string $html): string
     {
         return $this->clean($this->basic ??= $this->build([...self::INLINE, ...self::BLOCK_BASIC]), $html);
@@ -70,6 +72,7 @@ final class HtmlContent
         return trim(html_entity_decode(strip_tags((string) $html), ENT_QUOTES | ENT_HTML5, 'UTF-8'), " \t\n\r\0\x0B\u{00A0}") === '';
     }
 
+    /** Trims and sanitizes; empty input skips the sanitizer. Input over 200000 characters is truncated by the sanitizer config. */
     private function clean(HtmlSanitizer $sanitizer, ?string $html): string
     {
         $html = trim((string) $html);
@@ -77,7 +80,12 @@ final class HtmlContent
         return $html === '' ? '' : trim($sanitizer->sanitize($html));
     }
 
-    /** @param list<string> $elements */
+    /**
+     * Sanitizer allowing exactly `$elements` (links keep href/title, table cells colspan/rowspan), http(s)/mailto/relative
+     * links, forced rel="noopener nofollow ugc".
+     *
+     * @param list<string> $elements
+     */
     private function build(array $elements): HtmlSanitizer
     {
         $config = (new HtmlSanitizerConfig())

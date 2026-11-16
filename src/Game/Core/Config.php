@@ -22,6 +22,12 @@ use App\Game\Core\Config\ConfigFieldProcessor;
 use App\Game\Core\Config\ConfigFieldSchema;
 use UnexpectedValueException;
 
+/**
+ * Settings of one universe as an object: the global keys (table `config`) merged with the universe's keys (table
+ * `config_universe`), plus `moduls` (module id => state) and `uni`. Read and write as properties
+ * ($config->fleet_speed); unknown keys throw UnexpectedValueException. Changes are collected and written with
+ * save() (universe keys), saveGlobalKeys() (global keys) or saveModules(). Instances are created by ConfigRegistry.
+ */
 class Config
 {
     private array $configData = [];
@@ -35,6 +41,9 @@ class Config
         $this->registry = $registry;
     }
 
+    /**
+     * Value of a setting; throws UnexpectedValueException for an unknown key.
+     */
     public function __get(string $key): mixed
     {
         if (!isset($this->configData[$key])) {
@@ -44,6 +53,9 @@ class Config
         return $this->configData[$key];
     }
 
+    /**
+     * Changes a setting in memory and remembers it for the next save(); unknown keys throw.
+     */
     public function __set(string $key, mixed $value): void
     {
         if (!isset($this->configData[$key]) && !array_key_exists($key, $this->configData)) {
@@ -53,11 +65,18 @@ class Config
         $this->configData[$key] = $value;
     }
 
+    /**
+     * True if the key exists and is not null.
+     */
     public function __isset(string $key): bool
     {
         return isset($this->configData[$key]);
     }
 
+    /**
+     * Writes the changed universe keys (INSERT ... ON DUPLICATE KEY UPDATE into config_universe); keys that belong to
+     * the global schema are skipped here. Clears the list of changes.
+     */
     public function save(): bool
     {
         if (empty($this->updateRecords)) {
@@ -85,6 +104,9 @@ class Config
         return true;
     }
 
+    /**
+     * Writes the changed global keys into `config` (keys of the universe schema are skipped). Clears the list of changes.
+     */
     public function saveGlobalKeys(): bool
     {
         if (empty($this->updateRecords)) {
@@ -110,6 +132,9 @@ class Config
         return true;
     }
 
+    /**
+     * Writes the state of all modules of this universe to config_universe_modules.
+     */
     public function saveModules(): bool
     {
         foreach ($this->configData['moduls'] as $modulKey => $modulValue) {

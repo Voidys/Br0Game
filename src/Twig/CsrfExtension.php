@@ -18,6 +18,7 @@ final class CsrfExtension extends AbstractExtension
 {
     public function __construct(private readonly CsrfTokenManagerInterface $tokens) {}
 
+    /** @return list<TwigFunction> csrf_token(), csrf_meta(), csrf_field() */
     public function getFunctions(): array
     {
         return [
@@ -33,11 +34,13 @@ final class CsrfExtension extends AbstractExtension
         return $this->tokens->getToken(CsrfPolicy::TOKEN_ID)->getValue();
     }
 
+    /** `<meta name="csrf-token">` tag, read by public/scripts/app/csrf.js to sign fetch/XHR requests. */
     public function meta(): string
     {
         return '<meta name="csrf-token" content="' . htmlspecialchars($this->token(), ENT_QUOTES) . '">';
     }
 
+    /** Hidden `_csrf` input for a form (CsrfListener removes the field again before the game code sees the request). */
     public function field(): string
     {
         return '<input type="hidden" name="' . CsrfPolicy::FIELD . '" value="' . htmlspecialchars($this->token(), ENT_QUOTES) . '">';

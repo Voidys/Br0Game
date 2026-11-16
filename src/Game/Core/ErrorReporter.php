@@ -36,6 +36,12 @@ class ErrorReporter
         set_error_handler($this->handleError(...));
     }
 
+    /**
+     * Last-resort handler for uncaught exceptions and fatal errors: answers 503 with a bilingual error page (details
+     * and backtrace only in debug mode), reports the exception to Discord (not during install), appends the error with
+     * stack trace to var/log/game.log and, when the `debug` setting is on, opens a support ticket of category 9 with
+     * the error text.
+     */
     public function handleException(\ErrorException|\Throwable $exception): void
     {
         $this->http()->sendHeader('HTTP/1.1 503 Service Unavailable');

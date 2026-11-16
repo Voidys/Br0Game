@@ -26,6 +26,11 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Mission "pirate base espionage" (21): probes spy on an NPC pirate base and deliver a spy report like
+ * MissionCaseSpy, with the base's resources and ships (no buildings/defense; the research shown is the
+ * sender's own weapon/shield/armor tech minus 3). The base counts as having spy tech sender - 1 (min 1).
+ */
 class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -34,6 +39,12 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         $this->_fleet   = $Fleet;
     }
 
+    /**
+     * Arrival: loads the base (probes return with a "base gone" message if it vanished), derives the visible
+     * information classes (getClassIDs), builds and sends the spy report and rolls the detection chance
+     * (getDetectionChance against a 1-100 roll): detected probes are destroyed and their debris goes to the base's
+     * debris field; others return. Unlike planets there is no notice to a defender.
+     */
     public function TargetEvent()
     {
         $pricelist = $this->state->pricelist;
@@ -261,6 +272,9 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         return  $recycleValue;
     }
 
+    /**
+     * Recyclers needed to carry the given debris amount, plus one as safety margin.
+     */
     public function estimateRecyclers($recycleValue)
     {
         $pricelist = $this->state->pricelist;
@@ -269,16 +283,26 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
 
 
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Probes are back: lands them at the start planet (no message).
+     */
     public function ReturnEvent()
     {
         $this->RestoreFleet();
     }
 
+    /**
+     * Counter-espionage chance in percent (OGame rule): min(round(2^(target tech - sender tech) * probes *
+     * ships on the base * 0.0025), 100).
+     */
     private function getDetectionChance(int $senderSpyTech, int $targetSpyTech, int $fleetAmount, int $totalShipDefCount) : int
     {
         // $targetChance = random_int(0, min(($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech), 100));
@@ -292,6 +316,12 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         return $targetChance;
     }
 
+    /**
+     * Information classes the report may show for the given probe count (see MissionCaseSpy::TargetEvent for
+     * the formula: minimum probes = +-(tech difference * SPY_DIFFENCE_FACTOR)^2, +1/+3/+5 * SPY_VIEW_FACTOR for
+     * defense/buildings/research). Always includes resources (900).
+     * @return array<int, array<int>> class id (900 resources, 200 ships, 400 defense, 0 buildings, 100 research) => element ids.
+     */
     private function getClassIDs($fleetAmount, $senderSpyTech, $targetSpyTech) : array
     {
         $reslist = $this->state->reslist;

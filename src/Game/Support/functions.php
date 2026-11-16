@@ -13,6 +13,10 @@
  * @link https://github.com/jkroepke/2Moons
  */
 
+/**
+ * Time zones for the settings dropdown, grouped by continent (only region identifiers).
+ * @return array<string, array<string, string>> continent => [identifier => "City" or "Region - City"].
+ */
 function get_timezone_selector()
 {
     // New Timezone Selector, better support for changes in tzdata (new russian timezones, e.g.)
@@ -31,11 +35,18 @@ function get_timezone_selector()
     return $timezones;
 }
 
+/**
+ * True if the string is a valid e-mail address.
+ */
 function ValidateAddress($address)
 {
     return filter_var($address, FILTER_VALIDATE_EMAIL) !== false;
 }
 
+/**
+ * Duration as HH:MM:SS (hours not wrapped at 24).
+ * @param int|float $seconds duration in seconds.
+ */
 function pretty_fly_time($seconds)
 {
     $hour = floor($seconds / 3600);
@@ -47,6 +58,10 @@ function pretty_fly_time($seconds)
     return sprintf('%02d:%02d:%02d', $hour, $minute, $second);
 }
 
+/**
+ * Remaining time for countdowns as e.g. "1d 02h 03m" (units Y M W d h m s; below days the numbers are zero-padded). Rounds up so the shown second only changes when it has really elapsed (like the JS countdown). With $shorten at most the three largest non-zero units are shown.
+ * @param int|float $seconds
+ */
 function getRestTimeFormat($seconds, $shorten = false)
 {
     // ceil keeps the displayed second until it actually elapses, matching the JS countdown
@@ -75,6 +90,11 @@ function getRestTimeFormat($seconds, $shorten = false)
     return trim($rstr);
 }
 
+/**
+ * HTML link "[g:s:p]" to the galaxy view of the fleet's start coordinates.
+ * @param array $FleetRow fleet row (start_galaxy, start_system, start_planet).
+ * @param string $FleetType CSS class of the link (mission style).
+ */
 function GetStartAddressLink($FleetRow, $FleetType = '')
 {
     return '<a href="game?page=galaxy&amp;galaxy=' . $FleetRow['start_galaxy'] . '&amp;system='
@@ -82,6 +102,9 @@ function GetStartAddressLink($FleetRow, $FleetType = '')
         . $FleetRow['start_system'] . ':' . $FleetRow['start_planet'] . ']</a>';
 }
 
+/**
+ * HTML link "[g:s:p]" to the galaxy view of the fleet's target coordinates (end_* columns).
+ */
 function GetTargetAddressLink($FleetRow, $FleetType = '')
 {
     return '<a href="game?page=galaxy&amp;galaxy=' . $FleetRow['end_galaxy'] . '&amp;system='
@@ -89,6 +112,9 @@ function GetTargetAddressLink($FleetRow, $FleetType = '')
         . $FleetRow['end_system'] . ':' . $FleetRow['end_planet'] . ']</a>';
 }
 
+/**
+ * HTML link "[g:s:p]" to the galaxy view of a planet row.
+ */
 function BuildPlanetAddressLink($CurrentPlanet)
 {
     return '<a href="game?page=galaxy&amp;galaxy=' . $CurrentPlanet['galaxy'] . '&amp;system='
@@ -96,11 +122,19 @@ function BuildPlanetAddressLink($CurrentPlanet)
         . $CurrentPlanet['planet'] . ']</a>';
 }
 
+/**
+ * Converts line breaks to <br> (text is not escaped here).
+ */
 function makebr($text)
 {
     return nl2br($text, false);
 }
 
+/**
+ * Number as plain decimal string without exponent (sprintf), for storing big amounts.
+ * @param int $Pro decimals.
+ * @param bool $output true: force a '.' as decimal separator (sprintf with a comma locale).
+ */
 function floatToString($number, $Pro = 0, $output = false)
 {
     if ($output) {
@@ -109,6 +143,9 @@ function floatToString($number, $Pro = 0, $output = false)
     return sprintf("%." . $Pro . "f", $number);
 }
 
+/**
+ * The value if numeric, else $default.
+ */
 function getNumber($from, $default = 0)
 {
     return is_numeric($from) ? $from : $default;
@@ -120,66 +157,18 @@ function getRandomString()
     return bin2hex(random_bytes(16));
 }
 
+/**
+ * True if the player row has vacation mode on.
+ */
 function isVacationMode($USER)
 {
     return ($USER['urlaubs_modus'] == 1) ? true : false;
 }
 
 
-/*
- * Handler for exceptions
- *
- * @param object
- * @return Exception
+/**
+ * gzip (level 9) and base64 encode, used to store large combat reports. @throws RuntimeException if compression fails.
  */
-
-/*
- *
- * @throws ErrorException
- *
- * @return bool If its an hidden error.
- *
- */
-
-// "workaround" for PHP version pre 5.3.0
-if (!function_exists('array_replace_recursive')) {
-    function array_replace_recursive()
-    {
-        if (!function_exists('recurse')) {
-            function recurse($array, $array1)
-            {
-                foreach ($array1 as $key => $value) {
-                    // create new key in $array, if it is empty or not an array
-                    if (!isset($array[$key]) || (isset($array[$key]) && !is_array($array[$key]))) {
-                        $array[$key] = [];
-                    }
-
-                    // overwrite the value in the base array
-                    if (is_array($value)) {
-                        $value = recurse($array[$key], $value);
-                    }
-                    $array[$key] = $value;
-                }
-                return $array;
-            }
-        }
-
-        // handle the arguments, merge one by one
-        $args = func_get_args();
-        $array = $args[0];
-        if (!is_array($array)) {
-            return $array;
-        }
-        $count = count($args);
-        for ($i = 1; $i < $count; ++$i) {
-            if (is_array($args[$i])) {
-                $array = recurse($array, $args[$i]);
-            }
-        }
-        return $array;
-    }
-}
-
 function compressToBase64($string)
 {
 
@@ -192,6 +181,9 @@ function compressToBase64($string)
     return base64_encode($compressed);
 }
 
+/**
+ * Reverse of compressToBase64(). @throws RuntimeException if the text is not valid base64 or gzip.
+ */
 function decompressFromBase64($string)
 {
     $compressed = base64_decode($string);

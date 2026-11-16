@@ -111,6 +111,7 @@ final class ImageProcessor
         return $stats;
     }
 
+    /** Heuristic animation check on the first 4 MiB: GIF with more than one frame, WebP with ANIM/ANMF chunk, PNG with acTL chunk (APNG). `$mime` selects the format. */
     public function isAnimated(string $path, string $mime): bool
     {
         $data = SafeFile::read($path, 4 * 1024 * 1024);
@@ -127,6 +128,11 @@ final class ImageProcessor
         };
     }
 
+    /**
+     * Re-encodes an image file as WebP (quality QUALITY) at `$target`, scaling down to `$maxWidth` pixels when wider
+     * (0 = keep size); transparency is preserved. Returns false when the source is no readable image or the
+     * written file is missing/empty.
+     */
     private function convert(string $source, string $target, int $maxWidth): bool
     {
         $data = SafeFile::read($source);

@@ -15,6 +15,11 @@ use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
+/**
+ * Achievement rules triggered by fights (checkBattleAchievements() for real fights, checkExpoBattleAchievements()
+ * for expedition fights); called from BattleHandler::GenerateReport(). Each checkBattleAchievementN() unlocks
+ * achievement N (see the achievements table) when the fight meets its condition.
+ */
 class BattleAchievement
 {
     use \App\Game\Core\GameUtilities;

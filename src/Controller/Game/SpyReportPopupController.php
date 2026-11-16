@@ -23,6 +23,10 @@ class SpyReportPopupController extends AbstractGameController
 
     public function initialize(): void {}
 
+    /**
+     * Popup with up to the 10 latest spy reports of the coordinates (request: galaxy, system, planet, planettype) from the player's own, not deleted
+     * messages of the spy-report category.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

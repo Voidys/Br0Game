@@ -9,12 +9,18 @@ import { registerActions } from '../app/actions.js';
  * receiverList}), read each time a dialog is loaded.
  */
 
+/** Message list helpers; state kept in `MessID` (the category currently shown) and in localStorage (`messages.*` keys). */
 const Message = {
   MessID: 0,
   categoryStorageKey: 'messages.lastCategory',
   openAllStorageKey: 'messages.openAllWithoutCategory',
   rememberCategoryStorageKey: 'messages.rememberLastCategory',
 
+  /**
+   * Category preferences of the message page (localStorage): "open all categories" and "remember last category". Without a
+   * `category` in the URL it redirects to the remembered category or to 100 (all) according to the switches; with one it
+   * remembers it. The two switches exclude each other. Reads/writes localStorage, may replace the location.
+   */
   initCategoryPreferences: function () {
     let openAll = localStorage.getItem(Message.openAllStorageKey) === '1';
     let rememberCategory = localStorage.getItem(Message.rememberCategoryStorageKey) === '1';
@@ -63,12 +69,14 @@ const Message = {
     });
   },
 
+  /** Stores the shown category id in localStorage (numeric ids only). */
   rememberCategory: function (category) {
     if (/^\d+$/.test(String(category))) {
       localStorage.setItem(Message.categoryStorageKey, String(category));
     }
   },
 
+  /** Adjusts the unread counters in the category list after a category was opened (100 = all: every counter to 0, the "new messages" notice removed). DOM only. */
   MessageCount: function () {
     let setText = function (selector, text) {
       let el = qs(selector);
@@ -99,6 +107,7 @@ const Message = {
     }
   },
 
+  /** Loads one page of a category via ajax (`game?page=messages&mode=view`) and replaces the message table; updates the unread counters first. */
   getMessages: async function (MessID, page) {
     if (typeof page === "undefined") {
       page = 1;
@@ -114,10 +123,12 @@ const Message = {
     qs('#content table')?.insertAdjacentHTML('afterend', data);
   },
 
+  /** Removes tags from a string. */
   stripHTML: function (string) {
     return string.replace(/<(.|\n)*?>/g, '');
   },
 
+  /** Reply subject: prefixes "Re: " or raises an existing "Re[n]: " to "Re[n+1]: "; tags are stripped. */
   CreateAnswer: function (Answer) {
     let answer = Message.stripHTML(Answer).trim();
     let prefixes = answer.match(/^(?:Re(?:\[(\d+)\])?:\s*)+/i);
@@ -136,6 +147,7 @@ const Message = {
     return 'Re[' + (replyLevel + 1) + ']: ' + answer.substr(prefix.length);
   },
 
+  /** Ids of the checked messages from a list of form fields named `delmes[<id>]` (value "on"). */
   getMessagesIDs: function (Infos) {
     let IDs = [];
     for (const mess of Infos) {
@@ -145,6 +157,7 @@ const Message = {
     return IDs;
   },
 
+  /** Deletes a message (ajax POST, `mode=deleteMessage`), removes its row and the conversation block when it became empty, shows the server's notice. */
   delMessage: async function (ID, div_id) {
     show(qs('#loading'));
 
@@ -161,6 +174,7 @@ const Message = {
     NotifyBox(data.mess);
   },
 
+  /** Toggles the favourite mark of a message (ajax POST, `mode=favMessage`): sets the icon state from the answer code (1 = favourite); `favUrl`/`nofavUrl` are image URLs for the old image-based icon. */
   favMessage: async function (ID, favUrl, nofavUrl) {
     show(qs('#loading'));
 
@@ -209,11 +223,13 @@ window.onPageInit(function () {
   }
 });
 
+/** POSTs a message form to the server (JSON answer), shows the answer text in an alert and closes the modal afterwards. */
 async function sendAndClose(url, data) {
   const result = await post(url, data, 'json');
   window.Dialog.alert(result, () => window.Dialog.close());
 }
 
+/** Send button of the write dialog: refuses an empty text, otherwise sends subject, text, group and the chosen receivers. */
 function check() {
   const text = qs('#text').value;
   if (text.length === 0) {
@@ -228,6 +244,7 @@ function check() {
   });
 }
 
+/** Forward dialog: sends the message id to the chosen receivers. */
 function checkForward() {
   sendAndClose('game?page=messages&mode=sendForward&ajax=1', {
     id: write.messageID,
@@ -235,7 +252,7 @@ function checkForward() {
   });
 }
 
-// collapseUrl / expandUrl: resolved theme images (theme_asset() in the template)
+/** Collapses/expands a spy report message (content and details versus the title line); `collapseUrl`/`expandUrl` are image URLs for the old image-based toggle. */
 function toggleSpyReport(messageId, collapseUrl, expandUrl) {
   let content = document.getElementById('msgcontent_' + messageId);
   let details = document.getElementById('msgdetails_' + messageId);
@@ -256,12 +273,14 @@ function toggleSpyReport(messageId, collapseUrl, expandUrl) {
   }
 }
 
+/** Flips the conversation grouping setting (cookie `msgGrouping` 0/1) and reloads the category. */
 function toggleGrouping(MessID, fav) {
   let isGrp = parseInt(cookie.get('msgGrouping') || 0);
   cookie.set('msgGrouping', isGrp === 1 ? 0 : 1);
   window.location.href = 'game?page=messages&category=' + MessID + '&fav=' + fav;
 }
 
+/** Player search of the write dialog: from 3 characters asks the server (`mode=loadUser`, JSON), cancelling an older request, and lists the matches that are not yet receivers. */
 async function loadUser() {
   const searchtext = qs('#to').value.trim();
 
@@ -305,6 +324,7 @@ async function loadUser() {
   }
 }
 
+/** Adds a receiver (once) to the list and the form. */
 function addUser(id, username) {
   hide(selectBox);
   qs('#to').value = '';
@@ -325,6 +345,7 @@ function addUser(id, username) {
   qs('#receiver-list').append(entry);
 }
 
+/** Removes a receiver from the list and the form. */
 function removeUser(id) {
   receiver = receiver.filter(function (value) {
     return value !== id;
@@ -332,6 +353,7 @@ function removeUser(id) {
   qs('#receiver-' + id)?.remove();
 }
 
+/** Hides the search result box after a short delay, so a click on a result still registers. */
 function hideSearch() {
   setTimeout(function () {
     hide(selectBox);
@@ -361,6 +383,14 @@ registerActions({
   'msg-remove-user': (span) => removeUser(Number(span.dataset.id)),
 });
 
+/**
+ * Spy report conclusions (shown only for reports with a "totalRes" element): for each report it computes the loot (half of
+ * the resources), the capacity needed, the debris value of the ships (`recycleList` = debris per ship type, scaled by
+ * the debris percentage), the number of recyclers, the market value of the resources and the value per second of a round
+ * trip with small cargos from the closest own planet, then writes them into the report and colours them with the
+ * thresholds of the player's settings (`stbSettings`). Input comes from the `jsthings` attribute of #stuff. Estimates
+ * only, they do not use the fleet send code.
+ */
 function scavengers() {
   let stuff = document.getElementById("stuff");
   if (stuff == null) {
@@ -396,6 +426,7 @@ function scavengers() {
   const uniType = frombody.uniType
   const maxGalaxy = frombody.maxGalaxy
 
+  /** Reads coordinates and the amount of every resource/ship/building (`data-info`) from a report element. */
   function spyReportParser(spyReportElement) {
     let spyReport = {};
     let spyReportHead = spyReportElement.querySelector(".spyRaportHead");
@@ -422,19 +453,27 @@ function scavengers() {
     return spyReport.content[901] + spyReport.content[902] + spyReport.content[903];
   }
 
+  /** Cargo capacity for the loot of a raid: 0.5 * max(sum, min(0.75 * (2 * metal + crystal + deuterium), 2 * metal + deuterium)). */
   function calculateNeededCapacity(metal, crystal, deuterium) {
     return 0.5 * Math.max(metal + crystal + deuterium, Math.min(0.75 * (2 * metal + crystal + deuterium), 2 * metal + deuterium));
   }
 
+  /** Resources converted to a single value with the market ratios (metal : crystal : deuterium), rounded up. */
   function calculateResourceMarketValue(metal, crystal, deuterium) {
     return Math.ceil(metal / marketRatios[901] + crystal / marketRatios[902] + deuterium / marketRatios[903])
   }
 
+  /** Estimated recyclers for a debris amount (20000 per recycler, plus one). */
   function estimateRecyclers(recycleValue) {
     return Math.ceil(recycleValue / 20000) + 1;
   }
 
 
+  /**
+   * Value per second of a raid with small cargos: market value of the loot divided by the round-trip time, from the active
+   * planet and from the closest planet. The flight time uses a fixed 100 % speed approximation (see bestLocation()).
+   * @param {Array} raidLocation [galaxy, system, planet] of the target
+   */
   function raidTimeKT(met, kris, deut, raidLocation) {
     let bestPlanet,
       flytime = '',
@@ -473,6 +512,12 @@ function scavengers() {
 
   }
 
+  /**
+   * Distance from every own planet (read from the planet selector options) to the target, with the default distance
+   * constants (galaxy 20000 per step, system 95 per step + 2700, planet 5 per step + 1000), for linear and circular universes
+   * (circular wraps around). Returns the active planet's and the closest planet's distance and whether the closest one needs a galaxy jump.
+   * Estimate for the report only; does not read the universe's configured distance factors.
+   */
   function bestLocation(raidLocation) {
 
     let activPlanet,
@@ -591,6 +636,7 @@ function scavengers() {
 
   }
 
+  /** Speed of a small cargo (202) with the player's drive techs (combustion, or impulse from level 5) times the fleet speed factor of the universe. */
   function flightSpeed(shiptype) {
     let speed;
 
@@ -607,6 +653,7 @@ function scavengers() {
 
   }
 
+  /** Debris the ships of the report would leave: ships * debris per ship type (`recycleList`), times the fleet debris percentage. */
   function determineRecycleValue(spyReport) {
     let summedUpRecycleValue = 0;
     Object.keys(recycleList).forEach(recycleKey => {

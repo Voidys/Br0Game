@@ -43,11 +43,13 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         private readonly GameConfig $config,
     ) {}
 
+    /** Handles only POSTs to the login routes of the start page (also the per-universe variant). */
     public function supports(Request $request): bool
     {
         return $request->isMethod('POST') && in_array($request->attributes->get('_route'), self::ROUTES, true);
     }
 
+    /** Passport from the posted e-mail and password; hashes with an outdated algorithm are upgraded after success. */
     public function authenticate(Request $request): Passport
     {
         $email = trim((string) $request->request->get('email', ''));
@@ -60,6 +62,7 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         );
     }
 
+    /** Resets the failed-login counter, sets the plain "account" cookie (start page remembers returning players) and goes to the account lobby. */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $account = $token->getUser();
@@ -74,6 +77,12 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         return $response;
     }
 
+    /**
+     * Redirects to the start page with a result code: 4 = throttled, 1 = wrong credentials (same for unknown
+     * accounts). Side effects: increments failed_logins of the matching account (or of the pending, unverified
+     * registration); a pending registration with the correct password is sent to its verification link instead,
+     * unless the universe has user_valid set.
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if ($exception instanceof TooManyLoginAttemptsAuthenticationException) {

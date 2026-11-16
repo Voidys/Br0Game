@@ -64,6 +64,9 @@ abstract class AbstractLoginController implements GameControllerInterface
     /** window of non-ajax requests (layout.<window>.html.twig) */
     public $defaultWindow = 'normal';
 
+    /**
+     * Picks the layout window: `ajax` for XHR requests, otherwise $defaultWindow. No login is required for these pages.
+     */
     public function initialize(): void
     {
         if (!$this->state->runtime->ajax) {
@@ -73,6 +76,9 @@ abstract class AbstractLoginController implements GameControllerInterface
         }
     }
 
+    /**
+     * Universe dropdown data: universe id => universe name, for all available universes.
+     */
     protected function getUniverseSelector()
     {
         $universeSelect	= [];
@@ -82,6 +88,9 @@ abstract class AbstractLoginController implements GameControllerInterface
         return $universeSelect;
     }
 
+    /**
+     * Query string (page, mode) of the current request, e.g. for the language switch links.
+     */
     protected function getQueryString()
     {
         $queryString	= [];
@@ -128,6 +137,9 @@ abstract class AbstractLoginController implements GameControllerInterface
     /** hook run before every response (pages that write data on the way out) */
     protected function save() {}
 
+    /**
+     * Saves the game state and renders the template inside the public layout.
+     */
     protected function render(string $template): \Symfony\Component\HttpFoundation\Response
     {
         $this->save();
@@ -135,6 +147,10 @@ abstract class AbstractLoginController implements GameControllerInterface
         return $this->renderPage($template);
     }
 
+    /**
+     * Variables of the public layout: game name, mail/referral switches, language list, version, base URL (with the `uniN.`
+     * host part removed when universes are served from wildcard subdomains) and whether several universes exist.
+     */
     protected function layoutData(string $template): array
     {
         $LNG = $this->state->LNG;
@@ -174,6 +190,9 @@ abstract class AbstractLoginController implements GameControllerInterface
         ]);
     }
 
+    /**
+     * Sends $data as a JSON response and ends the request (EndOfRequest).
+     */
     protected function sendJSON($data)
     {
         $this->save();
@@ -181,6 +200,9 @@ abstract class AbstractLoginController implements GameControllerInterface
         throw new EndOfRequest();
     }
 
+    /**
+     * Redirects to $url and ends the request.
+     */
     protected function redirectTo($url)
     {
         $this->save();

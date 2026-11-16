@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 final class RulesController extends AbstractController
 {
+    /**
+     * Renders the rules CMS page in the request locale as sanitized HTML.
+     */
     #[Route('/rules', name: 'login_rules', methods: ['GET'])]
     public function __invoke(Request $request, ContentPages $pages): Response
     {

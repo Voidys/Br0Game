@@ -38,6 +38,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'accountEditor', uniPrefix: true)]
 class AccountEditorController extends AbstractAdminController
 {
+    /**
+     * Menu of the account editor (admin?page=accounteditor): checks that the acting admin may edit and renders the tab links. The
+     * tabs (resources, ships, buildings, research, personal data, planets, alliances ...) are classes under App\Game\Admin\AccountEditor.
+     */
     public function show(): Response
     {
         if (!isset($this->state->requestQuery['edit'])) {

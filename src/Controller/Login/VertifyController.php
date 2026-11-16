@@ -38,6 +38,12 @@ class VertifyController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Completes the registration from the mail link. Request: i (validation id), k (key); the row in ACCOUNTS_VALID must match
+     * and be younger than 3 days, otherwise a message is shown. Removes the pending row, creates the account through
+     * AccountUtil::createAccount, mails a welcome message when mail is enabled (failures are ignored) and credits the referrer if
+     * a referral id was stored (kept in ACCOUNTS.referralID until the first player is created, see Account\RegisterController).
+     */
     private function _activeUser()
     {
         $LNG = $this->state->LNG;
@@ -92,15 +98,10 @@ class VertifyController extends AbstractLoginController
         }
 
         if (!empty($userData['referralID'])) {
-            $sql = "UPDATE %%USERS%% SET
-			`ref_id`	= :referralId,
-			`ref_bonus`	= 1
-			WHERE
-			`id`		= :userID;";
-
-            $db->update($sql, [
-                ':referralId'	=> $userData['referralID'],
-                ':userID'		=> $userID,
+            // no player exists yet: the account carries the referral to its first player (Account\RegisterController)
+            $db->update('UPDATE %%ACCOUNTS%% SET `referralID` = :referralId WHERE `id` = :accountID;', [
+                ':referralId' => (int) $userData['referralID'],
+                ':accountID'  => $accountID,
             ]);
         }
 
@@ -110,6 +111,9 @@ class VertifyController extends AbstractLoginController
         ];
     }
 
+    /**
+     * Verification link target: activates the account (see _activeUser) and logs it in, then redirects to /account.
+     */
     public function show()
     {
         $userData	= $this->_activeUser();
@@ -126,6 +130,9 @@ class VertifyController extends AbstractLoginController
         $this->http()->redirectTo('account');
     }
 
+    /**
+     * Activates the account like show() but does not log in; answers the message vertifyAdminMessage as JSON.
+     */
     public function json()
     {
         $LNG = $this->state->LNG;

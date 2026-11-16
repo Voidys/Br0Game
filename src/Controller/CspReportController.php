@@ -27,6 +27,11 @@ final class CspReportController
         private readonly RateLimiterFactoryInterface $limiter,
     ) {}
 
+    /**
+     * Receives a CSP violation report (POST, legacy report-uri or Reporting API JSON, body cut at MAX_BODY = 4096 bytes). Rate limited per client IP
+     * (limiter.csp_report); anything not parsable is dropped silently. Appends the allowed fields (each cut to 300 characters) with time and IP as one JSON
+     * line to var/log/csp.log. Always answers 204.
+     */
     #[Route(ContentSecurityPolicy::REPORT_PATH, name: 'csp_report', methods: ['POST'])]
     public function __invoke(Request $request): Response
     {

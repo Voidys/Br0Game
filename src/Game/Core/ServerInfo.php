@@ -220,6 +220,9 @@ class ServerInfo
         return $this->logInfo()->logs($environment);
     }
 
+    /**
+     * Size with binary units, see ServerInfoFormat::bytes().
+     */
     public static function bytes(int|float $bytes): string
     {
         return ServerInfoFormat::bytes($bytes);

@@ -24,6 +24,9 @@ class RebuildProtectionAjaxController extends AbstractGameController
         $this->setWindow('ajax');
     }
 
+    /**
+     * Ends the player's rebuild protection early (XHR): clears the protection fields on the user row.
+     */
     public function show()
     {
         $USER = $this->state->USER;

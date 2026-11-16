@@ -30,6 +30,9 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'reset', uniPrefix: true)]
 class ResetController extends AbstractAdminController
 {
+    /**
+     * Only the root user (ROOT_USER) may reset a universe; everyone else ends in EndOfRequest.
+     */
     protected function construct(): void
     {
         $USER = $this->state->USER;
@@ -41,6 +44,13 @@ class ResetController extends AbstractAdminController
         parent::construct();
     }
 
+    /**
+     * Resets selected parts of the emulated universe. The POST checkboxes (value `on`) select the parts: players, planets, moons,
+     * defenses, ships, h_d (ships and defenses), edif_p / edif_l / edif (buildings on planets / moons / both), inves / inves_c (research,
+     * officers), dark (dark matter), resources, notes, rw (battle reports), friends, alliances, fleets, banneds, messages, statpoints.
+     * Reset values come from the universe's `<resource>_start` config; the columns are taken from $reslist/$resource, never from the
+     * request. Everything runs against the emulated universe only. Ends with a confirmation message; without POST it renders the form.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

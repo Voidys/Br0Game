@@ -43,6 +43,9 @@ class TicketController extends AbstractGameController
         $this->ticketObj = new SupportTickets($this->db, $this->configs, $this->state);
     }
 
+    /**
+     * The player's tickets with answer counts.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -75,6 +78,9 @@ class TicketController extends AbstractGameController
         return $this->render('game/page.ticket.default.html.twig');
     }
 
+    /**
+     * Form for a new ticket.
+     */
     public function create(): Response
     {
         $categoryList = $this->ticketObj->getCategoryList();
@@ -88,6 +94,12 @@ class TicketController extends AbstractGameController
         return $this->render('game/page.ticket.create.html.twig');
     }
 
+    /**
+     * Creates a ticket or answers one. Request: message (required; without it the request redirects back to the form or to the ticket), id (0 = new
+     * ticket), category and subject (new tickets; a missing subject shows an error message). For an existing ticket (id) it must belong to the player, not
+     * be a debug ticket (category 9) and not be closed (`ti_error_closed`); the answer then gets the subject `RE: <ticket subject>`. The Discord ticket hook (when
+     * configured) is notified about new tickets and replies; the text is stored through SupportTickets::createAnswer and the request redirects to the ticket.
+     */
     public function send()
     {
         $USER = $this->state->USER;
@@ -162,6 +174,9 @@ class TicketController extends AbstractGameController
         $this->redirectTo('game?page=ticket&mode=view&id=' . $ticketID);
     }
 
+    /**
+     * One ticket with its answers (request: id); unknown or foreign tickets end in a message.
+     */
     public function view(): Response
     {
         $USER = $this->state->USER;

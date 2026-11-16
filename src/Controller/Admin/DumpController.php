@@ -29,6 +29,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'dump', uniPrefix: true)]
 class DumpController extends AbstractAdminController
 {
+    /**
+     * Dumping is not available to plain players (authlevel check); no per-page right is needed beyond that.
+     */
     protected function construct(): void
     {
         $USER = $this->state->USER;
@@ -37,6 +40,10 @@ class DumpController extends AbstractAdminController
         }
         parent::construct();
     }
+    /**
+     * Database backup. POST action=dump with dbtables[] (table names with the game prefix) writes an SQL dump to var/backups/ and shows
+     * the file name; without a selection a message is shown. Otherwise lists the tables of the game for selection.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

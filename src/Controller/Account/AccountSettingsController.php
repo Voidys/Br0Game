@@ -28,6 +28,9 @@ class AccountSettingsController extends AbstractAccountController
         parent::initialize();
     }
 
+    /**
+     * Settings form of the account (language, theme, timezone, e-mail, password, deletion flag).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -53,6 +56,14 @@ class AccountSettingsController extends AbstractAccountController
         return $this->render('account/page.accountSettings.default.html.twig');
     }
 
+    /**
+     * Saves the account settings (mode=send) in one transaction. Request: password (current), newpassword and newpassword2,
+     * email, language, theme, timezone (language/theme must be among the offered ones, otherwise the current is kept).
+     * A new password needs the current one and matching repetitions; it revokes all sessions of the account and logs it out.
+     * A changed e-mail needs the current password, a valid address that is not used by another account or pending
+     * registration; it is stored with `setmail` = now + 7 days (change period) and a notification mail is sent to the old
+     * address (email_2). Language, theme and timezone are always written. Ends with a message page.
+     */
     public function send()
     {
         $ACCOUNT = & $this->state->ACCOUNT;
@@ -205,6 +216,10 @@ class AccountSettingsController extends AbstractAccountController
         ]);
     }
 
+    /**
+     * Toggles the account deletion flag (`db_deaktjava` = timestamp of the request, or 0 to cancel). The flag is acted on
+     * later by the maintenance cronjob. Ends with a message page.
+     */
     public function toggleDelete()
     {
         $LNG = $this->state->LNG;

@@ -17,6 +17,10 @@ final class WikiSsoResolveController
 {
     public function __construct(private readonly GameSettings $settings) {}
 
+    /**
+     * Server-to-server resolve call from the wiki (POST code, header X-Internal-Auth = shared secret). Answers JSON {accountId, accountname} and consumes
+     * the one-time code, or {error} with 503 (not configured), 403 (wrong token), 400 (malformed code), 404 (unknown, used or expired code) or 500 (corrupt payload).
+     */
     #[Route('/internal_sso_resolve.php', name: 'wiki_sso_resolve')]
     public function __invoke(Request $request): JsonResponse
     {

@@ -28,6 +28,9 @@ use App\Game\Core\ResourceUpdate;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Mission "espionage" (6): probes spy on a planet or moon and deliver a spy report; the defender may shoot them down.
+ */
 class MissionCaseSpy extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -58,6 +61,9 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         return $planetfleet;
     }
 
+    /**
+     * Defense counts (all `reslist['defense']` ids) on the planet row, by element id.
+     */
     private function getPlanetDefense($targetPlanet)
     {
         $reslist = $this->state->reslist;
@@ -72,6 +78,21 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         return $planetdef;
     }
 
+    /**
+     * Arrival of the probes. Turns around when the planet is gone or the owner is in vacation mode. Otherwise:
+     * 1. Brings the target planet up to date (arrival time) and adds the ships of hold fleets stationed there.
+     * 2. Information level: with spy tech levels s (sender) and t (target), both at least 1, the probes needed for
+     *    fleets are n0 = +-((|s-t|*SPY_DIFFENCE_FACTOR)^2) (negative if the sender has the better tech); defense
+     *    is visible with n0+1*SPY_VIEW_FACTOR probes, buildings n0+3*, research n0+5*. Resources are always shown.
+     * 3. Counter-espionage chance (OGame rule): min(round(2^(t-s) * probes * ships_and_defenses_on_planet * 0.0025), 100)
+     *    percent against a random roll 1..100; planets without ships or defense never shoot.
+     * 4. Collects the report data (also ships in the repair dock queue, cargo needed to loot half of the planet,
+     *    danger = summed attack, energy class) and sends it as JSON to the owner (spy report message); the
+     *    target owner gets a "foreign fleet seen" notice every time.
+     * 5. If the counter-espionage roll succeeded (chance >= roll) the probes are destroyed: their debris
+     *    (fleet_debris_percentage of the probe cost) is added to the debris field (moon: parent planet) and the
+     *    destroyed-ships stat is counted; otherwise the probes return home.
+     */
     public function TargetEvent()
     {
         $pricelist = $this->state->pricelist;
@@ -446,17 +467,26 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         return  $recycleValue;
     }
 
+    /**
+     * Recyclers needed to carry the given debris amount, plus one as safety margin.
+     */
     public function estimateRecyclers($recycleValue)
     {
         $pricelist = $this->state->pricelist;
         return ceil($recycleValue / $pricelist[SHIP_RECYCLER]["capacity"]) + 1;
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Probes are back: lands them at the start planet (no message; the report was sent on arrival).
+     */
     public function ReturnEvent()
     {
         $this->RestoreFleet();

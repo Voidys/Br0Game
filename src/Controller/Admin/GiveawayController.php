@@ -31,6 +31,11 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'giveaway', uniPrefix: true)]
 class GiveawayController extends AbstractAdminController
 {
+    /**
+     * Gift form and action (action=send). Gives the entered amounts (element_<id>: resources, dark matter, buildings, research, ships,
+     * defense) in addition to the current values: to all planets and/or moons of the universe (planet, moon), optionally only home
+     * planets (mainplanet) and only players active within INACTIVE seconds (no_inactive). Writes an admin log entry (type 4).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -59,6 +64,7 @@ class GiveawayController extends AbstractAdminController
             }
 
             $data = [];
+            $params = [':universe' => $this->universe()->getEmulated()];
 
             $DataIDs = array_merge(
                 $reslist['resstype'][1],
@@ -74,7 +80,8 @@ class GiveawayController extends AbstractAdminController
 
             foreach ($DataIDs as $ID) {
                 $amount = max(0, round($this->http()->_GP('element_' . $ID, 0.0)));
-                $data[] = $resource[$ID] . " = " . $resource[$ID] . " + " . $amount;
+                $data[] = $resource[$ID] . " = " . $resource[$ID] . " + :element" . $ID;
+                $params[':element' . $ID] = sprintf('%.0f', $amount);
 
                 $logOld[$ID] = 0;
                 $logNew[$ID] = $amount;
@@ -87,13 +94,13 @@ class GiveawayController extends AbstractAdminController
             }
 
             if ($no_inactive == true) {
-                $SQL .= " AND u.onlinetime > " . ($this->state->runtime->timestamp - INACTIVE);
+                $SQL .= " AND u.onlinetime > :activeSince";
+                $params[':activeSince'] = $this->state->runtime->timestamp - INACTIVE;
             }
 
-            $SQL .= " SET " . implode(', ', $data) . " WHERE p.universe = " . $this->universe()->getEmulated()
+            $SQL .= " SET " . implode(', ', $data) . " WHERE p.universe = :universe"
                 . " AND p.planet_type IN (" . implode(',', $planetIN) . ")";
-            //TODO: replace with $db->update
-            $db->nativeQuery($SQL);
+            $db->update($SQL, $params);
             $LOG = new Log($this->db, $this->configs, $this->state, 4);
             $LOG->target = 0;
             $LOG->old = $logOld;

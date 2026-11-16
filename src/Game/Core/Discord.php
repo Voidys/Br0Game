@@ -6,6 +6,11 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
+/**
+ * Posts messages to Discord webhooks (configured in the settings): server errors (discord_exceptions_hook) and
+ * log/cronjob messages (discord_logs_hook). Does nothing when the matching hook is empty. Needs no database, so it
+ * can report errors even when the database is down.
+ */
 class Discord
 {
     private HttpClientInterface $httpClient;
@@ -24,6 +29,9 @@ class Discord
         $this->httpClient = $httpClient ?? HttpClient::create();
     }
 
+    /**
+     * Sends an exception (message, user, file, line, URL, backtrace) to the exceptions webhook.
+     */
     public function sendException(Throwable $exception): void
     {
         $config = $this->configs->get();
@@ -56,6 +64,10 @@ class Discord
         );
     }
 
+    /**
+     * Sends a titled log message to the logs webhook; the data lines come from $data, or from the exception's properties when only $exception is given.
+     * @param array<string,mixed>|null $data key => value lines.
+     */
     public function sendLog(string $title, ?array $data = null, ?Throwable $exception = null): void
     {
         $config = $this->configs->get();

@@ -23,6 +23,9 @@ trait GameServices
     protected AuthRateLimits $rateLimits;
     protected CanonicalUrl $canonicalUrl;
 
+    /**
+     * Container (setter) injection of database, config registry and game state.
+     */
     #[Required]
     public function setGameServices(Database $db, ConfigRegistry $configs, Singleton $state): void
     {
@@ -50,6 +53,9 @@ trait GameServices
         return $this;
     }
 
+    /**
+     * Copies the game and security services of the creating controller $creator (for error pages and nested controllers built with `new`).
+     */
     public function withGameServicesOf(object $creator): static
     {
         $this->setGameServices($creator->db, $creator->configs, $creator->state);

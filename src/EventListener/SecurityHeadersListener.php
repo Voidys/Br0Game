@@ -23,6 +23,7 @@ final class SecurityHeadersListener
         'Permissions-Policy' => 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
     ];
 
+    /** Adds the HEADERS to the main response unless a controller set them already. */
     public function __invoke(ResponseEvent $event): void
     {
         if (!$event->isMainRequest()) {

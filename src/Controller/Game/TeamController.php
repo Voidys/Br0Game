@@ -29,6 +29,9 @@ class TeamController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Lists the team members (TEAM_MEMBERS) with links to their player cards.
+     */
     public function show(): Response
     {
         // the team is maintained in the admin team section (team_members), the same list as the public team page

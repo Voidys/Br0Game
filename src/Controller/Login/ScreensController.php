@@ -32,6 +32,9 @@ class ScreensController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Gallery of the screenshot files in public/styles/resource/images/login/screens/ (with the thumbnail from `thumbnails/` when one exists), sorted by path.
+     */
     public function show(): Response
     {
         $screenshots	= [];

@@ -41,6 +41,10 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
     private Language $LNG;
     private ExpeditionContext $ctx;
 
+    /**
+     * Loads the owner's language and builds the ExpeditionContext that lets the event classes read the fleet and
+     * change its columns (UpdateFleet / UpdateFleetLog / KillFleet) without knowing this mission class.
+     */
     public function __construct(array $fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
         parent::__construct($db, $configs, $state);
@@ -63,6 +67,10 @@ class MissionCaseExpedition extends MissionFunctions implements MissionInterface
         );
     }
 
+    /**
+     * Arrival at the expedition position: the fleet starts its stay (FLEET_HOLD until stay_time) and cannot be
+     * recalled any more (cannotCancel = 1). The event is resolved later in EndStayEvent().
+     */
     public function TargetEvent(): void
     {
         $this->setState(FLEET_HOLD);

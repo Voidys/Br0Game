@@ -151,6 +151,11 @@ final class CsrfPolicy
         return preg_match('/^game_([a-z]+)_([a-z0-9]+)/', $route, $m) === 1 ? [$m[1], $m[2]] : ['', ''];
     }
 
+    /**
+     * Whether a GET request matches one of the GET_RULES, i.e. a state-changing action reachable by link that needs
+     * a token. A rule matches by area and page ("*" = any), and optionally requires `mode`/`action` values or the
+     * presence of parameters (`has`), and is skipped when an `unless` parameter has an excluded value.
+     */
     private function matchesGetRule(Request $request): bool
     {
         [$area, $page] = $this->areaAndPage($request);

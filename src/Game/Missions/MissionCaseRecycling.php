@@ -24,6 +24,9 @@ use App\Game\Core\Singleton;
 use App\Game\Achievements\MiscAchievement;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 
+/**
+ * Mission "recycle" (8): collects the debris field (metal, crystal) at the target coordinates with recyclers.
+ */
 class MissionCaseRecycling extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -32,6 +35,14 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
         $this->_fleet = $Fleet;
     }
 
+    /**
+     * Arrival: loads debris into the fleet cargo. Capacity = capacity of all recyclers plus whatever the non-recycler
+     * ships have left after taking over the cargo already on board (non-recycler space can never add capacity, but
+     * cargo on board beyond it eats recycler space). If the capacity is less than the field, both resources are
+     * taken proportionally (ceil); the rest stays in the field. Counts recycled metal/crystal, the first-recycling
+     * timestamp, and sends the report incl. the number of recyclers needed for the rest. An empty debris field only
+     * checks the recycling achievements. The fleet always returns (also if the planet row is gone).
+     */
     public function TargetEvent()
     {
         $pricelist = $this->state->pricelist;
@@ -161,11 +172,17 @@ class MissionCaseRecycling extends MissionFunctions implements MissionInterface
         $this->SaveFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "recycling returned" message with the gathered resources and lands ships and cargo at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);

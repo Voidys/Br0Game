@@ -271,11 +271,26 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         ]);
     }
 
+    /**
+     * Random source of the mission rolls (moon creation, moon and fleet destruction chances): uniform integer in
+     * [$min, $max] from random_int(). A seam so tests can force an outcome; production never overrides it.
+     */
+    protected function roll(int $min, int $max): int
+    {
+        return random_int($min, $max);
+    }
+
+    /**
+     * Attack missions have no hold phase; nothing to do.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * The surviving fleet is home again: sends the "fleet returned" message (cargo, lost ships) and lands ships and loot on the start planet.
+     */
     public function ReturnEvent()
     {
         $this->sendAttackReturnMessage();

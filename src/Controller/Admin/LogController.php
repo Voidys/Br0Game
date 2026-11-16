@@ -30,6 +30,9 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'log', uniPrefix: true)]
 class LogController extends AbstractAdminController
 {
+    /**
+     * Dispatches on `type` (planet, player, settings, present, alliance, detail; default overview) to the matching list or detail.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -96,6 +99,10 @@ class LogController extends AbstractAdminController
         }
     }
 
+    /**
+     * Formats one old/new value pair of a log entry for display: picks a readable label from the language keys and prints booleans,
+     * timestamps and numbers accordingly.
+     */
     private function addToLogArray(&$LogArray, $Wrapper, $conf_after, $key, $val)
     {
         $LNG = $this->state->LNG;
@@ -137,6 +144,9 @@ class LogController extends AbstractAdminController
         ];
     }
 
+    /**
+     * One log entry (request: id): who changed what, with the old and new values side by side.
+     */
     public function ShowLogDetail(): Response
     {
         $LNG = $this->state->LNG;
@@ -252,6 +262,9 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogDetail.html.twig');
     }
 
+    /**
+     * Log entries of universe settings changes with the acting admin; a message when there are none.
+     */
     public function ShowLogSettingsList(): Response
     {
         $LNG = $this->state->LNG;
@@ -300,6 +313,9 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogList.html.twig');
     }
 
+    /**
+     * Log entries of planet edits (quick editor): planet, owner and acting admin.
+     */
     public function ShowLogPlanetsList(): Response
     {
         $LNG = $this->state->LNG;
@@ -341,6 +357,9 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogList.html.twig');
     }
 
+    /**
+     * Log entries of player edits (quick editor, account editor).
+     */
     public function ShowLogPlayersList(): Response
     {
         $LNG = $this->state->LNG;
@@ -383,6 +402,9 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogList.html.twig');
     }
 
+    /**
+     * Log entries of gifts (giveaway).
+     */
     public function ShowLogPresent(): Response
     {
         $LNG = $this->state->LNG;
@@ -420,6 +442,9 @@ class LogController extends AbstractAdminController
         return $this->render('admin/LogList.html.twig');
     }
 
+    /**
+     * Log entries of alliance edits with the alliance names.
+     */
     public function ShowLogAlliance(): Response
     {
         $LNG = $this->state->LNG;

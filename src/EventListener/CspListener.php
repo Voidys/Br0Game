@@ -23,6 +23,11 @@ final class CspListener
         private readonly CspNonce $nonce,
     ) {}
 
+    /**
+     * Sets the CSP header on HTML responses of areas that have a policy (header name depends on enforce vs.
+     * report-only); skipped when the response already carries an enforced policy. Runs after the page rendered, so the
+     * features requested through csp_allow() are known.
+     */
     public function __invoke(ResponseEvent $event): void
     {
         if (!$event->isMainRequest()) {

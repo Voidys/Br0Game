@@ -27,7 +27,7 @@ function allOptions(select) {
   return originals.get(select);
 }
 
-/** show only the options whose text matches the pattern */
+/** Shows only the options whose text matches `pattern` (case-insensitive regular expression); '' restores all. An invalid expression leaves the list unchanged. */
 export function filterSelect(select, pattern) {
   const options = allOptions(select);
   let expression;
@@ -42,6 +42,7 @@ export function filterSelect(select, pattern) {
   }
 }
 
+/** Delegated listeners for the controls described in the file header (typing, reset, fixed patterns, double click submit). */
 export function initFilterSelect() {
   document.addEventListener('input', (event) => {
     const input = event.target;

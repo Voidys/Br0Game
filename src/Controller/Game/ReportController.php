@@ -21,6 +21,9 @@ class ReportController extends AbstractGameController
         $this->setWindow('ajax');
     }
 
+    /**
+     * Stores a client-side report as a player comment (USERS_COMMENTS) through an XHR call. Request: hi, u, o, ts.
+     */
     public function show()
     {
         $USER = $this->state->USER;

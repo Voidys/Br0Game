@@ -27,6 +27,10 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'reshuffle', uniPrefix: true)]
 class ReshuffleController extends AbstractAdminController
 {
+    /**
+     * action=send with universe: reshuffles the positions of all planets of that universe (PlayerUtil::reshuffleAllPlanets) and ends with
+     * the result text. Otherwise renders the universe picker.
+     */
     public function show(): Response
     {
         $LNG = & $this->state->LNG;

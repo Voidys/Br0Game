@@ -45,6 +45,7 @@ CREATE TABLE `%PREFIX%accounts` (
   `bana` tinyint(1) NOT NULL DEFAULT '0',
   `banaday` int(11) NOT NULL DEFAULT '0',
   `setmail` int(11) NOT NULL DEFAULT '0',
+  `referralID` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

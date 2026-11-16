@@ -31,11 +31,13 @@ final class GameConfig
         private readonly \Closure $registry,
     ) {}
 
+    /** Value of `$key`: the universe's own setting, else the global one, else `$default`. */
     public function get(string $key, ?string $default = null, int $universe = self::ROOT_UNIVERSE): ?string
     {
         return $this->universe($universe)[$key] ?? $this->global()[$key] ?? $default;
     }
 
+    /** Boolean view of a numeric setting ("0"/"1"); missing keys are false. */
     public function getBool(string $key, int $universe = self::ROOT_UNIVERSE): bool
     {
         return (bool) (int) $this->get($key, '0', $universe);

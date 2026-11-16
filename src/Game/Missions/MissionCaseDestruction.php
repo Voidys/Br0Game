@@ -144,7 +144,7 @@ class MissionCaseDestruction extends AbstractBattleMission
         $moonDestroyChance = min($moonDestroyChance, 100);
         $moonDestroyChance = max($moonDestroyChance, 0);
 
-        $randChance = random_int(1, 100);
+        $randChance = $this->roll(1, 100);
         if ($randChance <= $moonDestroyChance) {
             $sql = 'SELECT id FROM %%PLANETS%% WHERE id_luna = :moonId;';
             $planetID = $db->selectSingle($sql, [
@@ -192,7 +192,7 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         $fleetDestroyChance = round(sqrt($targetPlanet['diameter']) / 2);
 
-        $randChance = random_int(1, 100);
+        $randChance = $this->roll(1, 100);
         if ($randChance <= $fleetDestroyChance) {
             if (isset($fleetAttack[$this->_fleet['id']])) {
                 $this->statsHandler->updateLostAdvancedStats($this->_fleet['owner'], $leadUnits);

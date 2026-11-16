@@ -24,6 +24,9 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'clearCache', uniPrefix: true)]
 class ClearCacheController extends AbstractAdminController
 {
+    /**
+     * Clears the game caches and shows a message (via Maintenance::clearCache).
+     */
     public function show(): never
     {
         $LNG = $this->state->LNG;

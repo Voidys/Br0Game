@@ -2,6 +2,11 @@
 
 namespace App\Game\Core;
 
+/**
+ * Configuration of the ships an expedition can find: for each ship type which ship types in the fleet allow it
+ * to be found ("findable_by"). Stored per universe in expedition_findable_ships; without rows the legacy table
+ * LEGACY_FINDABLE_SHIPS applies (bigger ships can find the smaller ones). Used by ExpeditionShipEvent and edited in the admin area.
+ */
 class ExpeditionFindableShipsHandler
 {
     use \App\Game\Core\GameUtilities;
@@ -25,6 +30,11 @@ class ExpeditionFindableShipsHandler
         213 => [210, 202, 204, 203, 205, 206, 207, 215, 211, 213],
     ];
 
+    /**
+     * Default configuration from the legacy table for all enabled ship types.
+     * @param bool $findable true: only ships that are findable by something.
+     * @return array<int, array{ship_id:int, is_findable:int, findable_by:int[]}>
+     */
     private function buildDefaultConfig(bool $findable = false): array
     {
         $reslist = $this->state->reslist;
@@ -52,6 +62,11 @@ class ExpeditionFindableShipsHandler
         return $config;
     }
 
+    /**
+     * Effective configuration of a universe: the defaults overridden by the stored rows. With $findable, ships that
+     * are disabled, not findable or no longer exist are dropped.
+     * @return array<int, array{ship_id:int, is_findable:int, findable_by:int[]}> by ship id.
+     */
     public function getConfigForUniverse(int $universe, bool $findable = false): array
     {
         $reslist = $this->state->reslist;
@@ -78,6 +93,11 @@ class ExpeditionFindableShipsHandler
         return $result;
     }
 
+    /**
+     * Stores the admin's submitted configuration for every ship type (a ship counts as findable only when flagged and
+     * at least one finder is selected).
+     * @param array<int, array{is_findable?:mixed, findable_by?:int[]}> $submittedConfig by ship id.
+     */
     public function saveConfigForUniverse(int $universe, array $submittedConfig): void
     {
         $reslist = $this->state->reslist;
@@ -100,6 +120,12 @@ class ExpeditionFindableShipsHandler
         }
     }
 
+    /**
+     * Ship types the fleet could find on an expedition: every findable ship that has one of the fleet's ship types
+     * among its finders; the fallback [210, 202] (spy probe, small cargo) when nothing matches.
+     * @param array<int,int|float> $fleet ship id => amount.
+     * @return int[] ship ids
+     */
     public function findableShipsForFleet(int $universe, array $fleet): array
     {
         $config = $this->getConfigForUniverse($universe, true);

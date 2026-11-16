@@ -29,6 +29,8 @@ Object.assign(window, {
   days: env.days ?? [],
   months: env.months ?? [],
   localtimezonestring: env.timezone ?? '',
+  // timezone the server clock (serverTime) is expressed in: the game's configured timezone
+  serverTimezoneString: env.serverTimezone || 'Europe/Berlin',
   tdformat: env.tdformat ?? '',
   queryString: env.queryString ?? '',
   isPlayerCardActive: env.isPlayerCardActive ?? false,

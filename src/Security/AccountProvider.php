@@ -26,6 +26,7 @@ final class AccountProvider implements UserProviderInterface, PasswordUpgraderIn
         private readonly TableNames $tables,
     ) {}
 
+    /** Loads an account by numeric id (session refresh) or e-mail address (login); @throws UserNotFoundException when unknown. */
     public function loadUserByIdentifier(string $identifier): Account
     {
         $column = ctype_digit($identifier) ? 'id' : 'email';
@@ -64,6 +65,7 @@ final class AccountProvider implements UserProviderInterface, PasswordUpgraderIn
         return $class === Account::class;
     }
 
+    /** Stores the new password hash after Symfony rehashed an outdated one at login. */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if ($user instanceof Account) {

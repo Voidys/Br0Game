@@ -41,6 +41,13 @@ class GalaxyController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Galaxy view of one solar system. Request: galaxy and system (clamped to 1..max_galaxy / 1..max_system; default the current planet's), or the
+     * arrow buttons galaxyLeft/galaxyRight/systemLeft/systemRight that move one step from them (wrapping around at the borders). Looking at a system
+     * other than the planet's own costs `deuterium_cost_galaxy` deuterium (removed from the planet and counted in the advanced stats); without enough
+     * deuterium a message is shown instead. Shows the system's rows (GalaxyRows), which positions are colonizable, the player's own pirate base of
+     * the system, hidden-debris threshold, the missile flight duration and the player's fleet slots, probes, recyclers and missiles.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

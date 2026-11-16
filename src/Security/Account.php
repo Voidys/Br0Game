@@ -58,11 +58,13 @@ final class Account implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->language;
     }
 
+    /** The account id as string (what the session stores and AccountProvider::loadUserByIdentifier() accepts). */
     public function getUserIdentifier(): string
     {
         return (string) $this->id;
     }
 
+    /** ROLE_USER for everybody plus ROLE_MODERATOR / ROLE_OPERATOR / ROLE_ADMIN for authlevel 1 / 2 / 3. */
     public function getRoles(): array
     {
         $roles = ['ROLE_USER'];

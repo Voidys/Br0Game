@@ -7,6 +7,11 @@
  */
 import { qs, qsa, on, show, hide, toggle, pageData } from '../app/core.js';
 
+/**
+ * Renders the "battle statistics" section of a combat report from the JSON island: per round and side the stat categories
+ * (STAT_ORDER), plus a total over all rounds, each as fleet-to-fleet and ship-to-ship tables. Does nothing without round
+ * data. DOM only; all numbers come from the server's battle engine result.
+ */
 function renderRaport() {
   const { raportData, shipNames = {}, raportLNG = {} } = pageData('raport-data');
   if (!raportData || !raportData.rounds) return;
@@ -143,6 +148,7 @@ function renderRaport() {
     return false;
   }
 
+  /** Adds the values of a 4-level stat block (from fleet -> to fleet -> from ship -> to ship) into `target`, summing equal paths. */
   function mergeStatMaps(target, source) {
     if (!source || typeof source !== 'object') return;
 
@@ -181,6 +187,7 @@ function renderRaport() {
     }
   }
 
+  /** Empty statistics object with every stat category present. */
   function buildEmptyStatistics() {
     let statistics = {};
     for (let i = 0; i < STAT_ORDER.length; i++) {
@@ -189,6 +196,7 @@ function renderRaport() {
     return statistics;
   }
 
+  /** Sums the statistics of all rounds into one pseudo round ("total") with the same structure, per side. */
   function buildTotalRound(rounds) {
     let totalRound = {
       attacker: { Statistics: buildEmptyStatistics() },
@@ -218,6 +226,7 @@ function renderRaport() {
     return totalRound;
   }
 
+  /** True when any stat category of the side has a non-zero entry. */
   function sideHasStats(sideData) {
     if (!sideData || !sideData.Statistics) return false;
 

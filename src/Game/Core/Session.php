@@ -17,6 +17,12 @@
 
 namespace App\Game\Core;
 
+/**
+ * The game's login session of a request: user id, account id, selected planet, universe and bookkeeping values,
+ * held in the Symfony session (attribute 'obj') and mirrored in the `session` table, which decides validity.
+ * Created and restored by SessionManager. save() throttles database writes (at most every 30 s while nothing
+ * changed) and keeps users.onlinetime/user_lastip current; it also detects multi-account IP overlaps.
+ */
 class Session
 {
     /**
@@ -66,11 +72,17 @@ class Session
         return $session;
     }
 
+    /**
+     * Sets a session value (kept for the whole login).
+     */
     public function __set($name, $value)
     {
         $this->data[$name]  = $value;
     }
 
+    /**
+     * Reads a session value, null when unset.
+     */
     public function __get($name)
     {
         if (isset($this->data[$name])) {
@@ -80,6 +92,9 @@ class Session
         }
     }
 
+    /**
+     * True if the session value is set.
+     */
     public function __isset($name)
     {
         return isset($this->data[$name]);
@@ -246,6 +261,9 @@ class Session
         }
     }
 
+    /**
+     * Logs out: deletes the session row, clears the cookie, invalidates the Symfony session; a deleted session is not written back.
+     */
     public function delete()
     {
         $sql    = 'DELETE FROM %%SESSION%% WHERE sessionID = :sessionId;';
@@ -257,13 +275,12 @@ class Session
         $this->destroyed = true;
     }
 
+    /**
+     * True if the session may be used: data present, last activity within SESSION_LIFETIME (12 h) and its row still
+     * exists in `session` (rows are removed by logout, password changes and the cleaner cronjob).
+     */
     public function isValidSession()
     {
-        // if($this->compareIpAddress($this->data['userIpAddress'], $this->manager->getClientIp(), COMPARE_IP_BLOCKS) === false)
-        // {
-        // return false;
-        // }
-
         if (
             isset($this->manager->gameState()->requestQuery['page'])
             && $this->manager->gameState()->requestQuery['page'] == "raport"
@@ -277,7 +294,6 @@ class Session
                 return false;
             }
         }
-
 
         if ($this->data['lastActivity'] < $this->manager->gameState()->runtime->timestamp - SESSION_LIFETIME) {
             return false;
@@ -295,6 +311,9 @@ class Session
         return true;
     }
 
+    /**
+     * Switches the active planet when the request carries `cp=<planet id>` and the planet belongs to the player.
+     */
     public function selectActivePlanet()
     {
         $httpData   = (new HTTP($this->manager->gameState()))->_GP('cp', 0);
@@ -319,39 +338,11 @@ class Session
         return $this->manager->gameState()->runtime->httpRoot . (!empty($this->manager->gameState()->requestServer['QUERY_STRING']) ? '?' . $this->manager->gameState()->requestServer['QUERY_STRING'] : '');
     }
 
-    private function compareIpAddress($ip1, $ip2, $blockCount)
-    {
-        if (strpos($ip2, ':') !== false && strpos($ip1, ':') !== false) {
-            $s_ip = $this->shortIpv6($ip1, $blockCount);
-            $u_ip = $this->shortIpv6($ip2, $blockCount);
-        } else {
-            $s_ip = implode('.', array_slice(explode('.', $ip1), 0, $blockCount));
-            $u_ip = implode('.', array_slice(explode('.', $ip2), 0, $blockCount));
-        }
-
-        return ($s_ip == $u_ip);
-    }
-
-    private function shortIpv6($ip, $length)
-    {
-        if ($length < 1) {
-            return '';
-        }
-
-        $blocks = substr_count($ip, ':') + 1;
-        if ($blocks < 9) {
-            $ip = str_replace('::', ':' . str_repeat('0000:', 9 - $blocks), $ip);
-        }
-        if ($ip[0] == ':') {
-            $ip = '0000' . $ip;
-        }
-        if ($length < 4) {
-            $ip = implode(':', array_slice(explode(':', $ip), 0, 1 + $length));
-        }
-
-        return $ip;
-    }
-
+    /**
+     * Multi-account detection: when other players of the universe used the same IP in the last 24 h, records the
+     * group in `multi` / `multi_to_users` (creating or extending an existing entry for this IP or for the same
+     * set of players) with allowed = 0, so admins can review it.
+     */
     private function checkMultiIP()
     {
 
@@ -386,7 +377,7 @@ class Session
                     $sql = "SELECT mu.`multiID`, count(DISTINCT muc.`userID`) AS anz
                         FROM `%%MULTI_TO_USERS%%` AS mu
                         JOIN `%%MULTI_TO_USERS%%` AS muc ON muc.`multiID` = mu.`multiID`
-                        WHERE mu.`userID` IN ( ". implode(', ', array_column($multis, 'id')) ." )
+                        WHERE mu.`userID` IN ( ". implode(', ', array_map('intval', array_column($multis, 'id'))) ." )
                         GROUP BY mu.`multiID`
                         HAVING count(DISTINCT mu.`userID`) >= :usersSize
                         ORDER BY anz ASC;";

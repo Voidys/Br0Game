@@ -18,6 +18,7 @@ let ShipyardInterval = null;
 let Shipyard = [];
 let Amount = null;
 
+/** Seconds since the page was rendered (server time based); 0 in vacation mode, where nothing is produced. */
 function pageElapsedSeconds() {
     if (umode) {
         return 0;
@@ -25,6 +26,7 @@ function pageElapsedSeconds() {
     return (window.serverTime.getTime() - window.startTime) / 1000;
 }
 
+/** Takes the queue snapshot from the data island, reads the units already available from the page, renders once and starts the 1 s refresh (not in vacation mode). */
 function ShipyardInit() {
     queueSnapshot = data.Queue.map(function (item) {
         return [item[0], item[1], item[2], item[3]];
@@ -53,6 +55,13 @@ function ShipyardInit() {
 
 // Replay the hangar queue from page-load state plus elapsed server time,
 // so hidden-tab ticks cannot freeze or skip finished units.
+/**
+ * Replays the hangar queue from the page-load state plus the work done since then (seconds), so hidden-tab ticks cannot
+ * freeze or skip finished units.
+ * @param {number} work production seconds available (initial progress + elapsed time)
+ * @returns {{remaining: Array, completedById: Object}} entries left as [name, count, unitTime, elementId, secondsLeftForCurrentUnit],
+ *          and the number of units finished per element id
+ */
 function consumeQueue(work) {
     let remaining = [];
     let completedById = {};
@@ -96,6 +105,7 @@ function consumeQueue(work) {
     return { remaining: remaining, completedById: completedById };
 }
 
+/** Updates the "(available: n)" label of each unit type that finished new units (initial count + completed since page load). */
 function updateAvailableCounts(completedById) {
     for (let elementId in completedById) {
         if (!Object.prototype.hasOwnProperty.call(completedById, elementId)) {
@@ -113,6 +123,7 @@ function updateAvailableCounts(completedById) {
     }
 }
 
+/** One refresh: replays the queue for the elapsed time, updates available counts, the queue list and the remaining time of the current batch; shows the ready text and stops when the queue is empty. */
 function BuildlistShipyard() {
     let state = consumeQueue(initialHanger + pageElapsedSeconds());
     let listId = document.getElementById('auftr') ? 'auftr' : 'auftrumode';
@@ -168,6 +179,7 @@ function BuildlistShipyard() {
     }
 }
 
+/** Rebuilds the queue <select> (first entry shows the live count of the current batch). */
 function ShipyardList() {
     let list = document.getElementById('auftr') || document.getElementById('auftrumode');
     if (!list) {

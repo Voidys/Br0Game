@@ -27,6 +27,13 @@ class TestDataCreator extends CreatorTab
         return $this->responder->render('admin/CreatePageTestUser.html.twig');
     }
 
+    /**
+     * Creates `amount` (POST) test players "TestUser<N>" (account TestUser<N>@test.com, password = name, language of
+     * the admin) in the emulated universe. N continues after the highest existing number. Each gets a main planet
+     * "TestMainPlanet<N>" plus the research, resources, buildings, ships and defense of the chosen stage
+     * (POST `gameStage` 1-4), a moon when the stage has one and the universe has a moon chance, and the stage's number of
+     * "TestColony<j>" colonies (with moons as the stage lists them). Writes accounts, users, planets and moons.
+     */
     private function createTestUser(): void
     {
         $LNG = $this->state->LNG;
@@ -120,6 +127,7 @@ class TestDataCreator extends CreatorTab
         }
     }
 
+    /** Sets the user's research levels (columns named by the resource ids) to the stage's `research` values; levels are absolute, not added. */
     private function setTestTechData($userId, $stageData): void
     {
         $resource = $this->state->resource;
@@ -138,6 +146,7 @@ class TestDataCreator extends CreatorTab
         $db->update($sql, $params);
     }
 
+    /** Sets a planet's resources, buildings, ships and defense (absolute values, column names from the resource ids) from the stage data. */
     private function setTestPlanetData($planetId, $stageData): void
     {
         $resource = $this->state->resource;
@@ -168,6 +177,7 @@ class TestDataCreator extends CreatorTab
         $db->update($sql, $params);
     }
 
+    /** Sets a moon's resources and buildings from the stage's `moonResources` and `moonBuildings` (absolute values). */
     private function setTestMoonData($moonId, $stageData): void
     {
         $resource = $this->state->resource;
@@ -190,6 +200,13 @@ class TestDataCreator extends CreatorTab
         $db->update($sql, $params);
     }
 
+    /**
+     * Fixed test setups by stage 1-4 (early, mid, late, end game). Per stage: `planets` (extra colonies) and `moons`
+     * counts, `resources`/`moonResources` (units per resource id), and level or count lists `buildings`,
+     * `moonBuildings`, `research`, `fleet`, `defense` keyed by element id.
+     *
+     * @return array<int, array<string, mixed>>
+     */
     private function getTestGameStageData(): array
     {
         $data = [

@@ -8,6 +8,9 @@
 
 namespace App\Game\Tutorials;
 
+/**
+ * Standard step: goals are building levels, research levels or owned ships/defenses compared with the amounts of the goals.
+ */
 class DefaultTutorialSupport extends AbstractTutorialSupport
 {
     public function __construct(

@@ -29,6 +29,10 @@ final class CronRunCommand extends Command
         $this->addOption('job', null, InputOption::VALUE_REQUIRED, 'Run only this cronjob id (if it is due)');
     }
 
+    /**
+     * Boots the game in CLI mode, asks Cronjob for the jobs due now (optionally only `--job=<id>`) and executes them
+     * one by one. Returns FAILURE (nothing run) when the bootstrap would redirect, i.e. installation or DB upgrade is pending.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {

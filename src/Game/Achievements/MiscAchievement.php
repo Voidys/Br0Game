@@ -12,6 +12,10 @@ use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\Achievement;
 
+/**
+ * Achievement rules not tied to fights, queues or planets: expedition counts and black holes, recycling,
+ * galaxy view, settings and shipyard milestones. Called from the missions/pages that produce the event.
+ */
 class MiscAchievement
 {
     use \App\Game\Core\GameUtilities;

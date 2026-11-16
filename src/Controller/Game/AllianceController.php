@@ -41,6 +41,9 @@ class AllianceController extends AbstractGameController
     private ?AllianceServices $allianceServices = null;
     public $availableRanks = AllianceRights::AVAILABLE;
 
+    /**
+     * Loads the alliance state of the player: rights, whether he is in an alliance, has an open application, and the alliance data.
+     */
     public function initialize(): void
     {
         $USER = & $this->state->USER;
@@ -89,6 +92,9 @@ class AllianceController extends AbstractGameController
         }
     }
 
+    /**
+     * Public info page of an alliance (request: id).
+     */
     public function info(): Response
     {
         $this->setAllianceData($this->http()->_GP('id', 0));
@@ -98,6 +104,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.info.html.twig');
     }
 
+    /**
+     * Alliance entry page: members see their alliance home, players with an open application a wait screen, everybody else the create/search choice.
+     */
     public function show(): Response
     {
         if ($this->hasAlliance) {
@@ -139,6 +148,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.applyWait.html.twig');
     }
 
+    /**
+     * Alliance search (request: searchtext); players with an open application are sent back to the wait screen.
+     */
     public function search(): Response
     {
         if ($this->hasApply) {
@@ -155,6 +167,10 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.search.html.twig');
     }
 
+    /**
+     * Application form for alliance `id`, and submit when `text` is given (stored through the application service, then a confirmation message). Players who are
+     * in an alliance or already applied are redirected home.
+     */
     public function apply(): Response
     {
         $LNG = $this->state->LNG;
@@ -190,6 +206,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.apply.html.twig');
     }
 
+    /**
+     * Withdraws the player's open application.
+     */
     public function cancelApply()
     {
         $LNG = $this->state->LNG;
@@ -205,6 +224,10 @@ class AllianceController extends AbstractGameController
         ]]);
     }
 
+    /**
+     * Founding form; action=send with atag and aname founds the alliance (AllianceMembership::found), the player becomes founder, then a message is shown.
+     * Players who may not found (already in one, ...) get the reason as message.
+     */
     public function create(): Response
     {
         if ($this->hasApply) {
@@ -250,6 +273,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.home.html.twig');
     }
 
+    /**
+     * Member list of the own alliance with the main/wing alliances; needs the MEMBERLIST right.
+     */
     public function memberList(): Response
     {
         if (!$this->rights['MEMBERLIST']) {
@@ -292,6 +318,10 @@ class AllianceController extends AbstractGameController
         ]]);
     }
 
+    /**
+     * Circular message dialog. Needs the ROUNDMAIL right. action=send with rankID (0 = all members, otherwise one rank), subject and text sends the messages
+     * through the alliance messenger and answers JSON {message, error}; otherwise renders the popup with the rank selection.
+     */
     public function circular(): Response
     {
         $LNG = $this->state->LNG;
@@ -337,6 +367,10 @@ class AllianceController extends AbstractGameController
         return $this->{$methodName}();
     }
 
+    /**
+     * Alliance admin overview (needs the ADMIN right). With send=1 saves the settings: owner_range (founder title), web, image, request_notallow, ally_max_members,
+     * request_min_points, stats, diplo, ally_tag, ally_name and the text selected by textMode (external, internal or application text). Otherwise shows the form.
+     */
     protected function adminOverview(): Response
     {
         if (!$this->hasAlliance || !$this->rights['ADMIN']) {
@@ -403,6 +437,9 @@ class AllianceController extends AbstractGameController
         $this->redirectToHome();
     }
 
+    /**
+     * Transfers the leadership to another member (request: newleader); only the founder may.
+     */
     protected function adminTransfer(): Response
     {
         if (!$this->allianceData || $this->allianceData['ally_owner'] != $this->state->USER['id']) {
@@ -435,6 +472,9 @@ class AllianceController extends AbstractGameController
         }
     }
 
+    /**
+     * List of open applications (needs the SEEAPPLY and MANAGEAPPLY rights).
+     */
     protected function adminManageApply(): Response
     {
         $this->requireApplicationRights();
@@ -446,6 +486,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.admin.manageApply.html.twig');
     }
 
+    /**
+     * One application (request: id) with the applicant's message and points.
+     */
     protected function adminDetailApply(): Response
     {
         $LNG = $this->state->LNG;
@@ -469,6 +512,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.admin.detailApply.html.twig');
     }
 
+    /**
+     * Accepts or rejects an application (request: id, answer, text) and notifies the applicant; redirects to the application list.
+     */
     protected function adminSendAnswerToApply()
     {
         $this->requireApplicationRights();
@@ -494,6 +540,9 @@ class AllianceController extends AbstractGameController
         $this->redirectTo('game?page=alliance&mode=admin&action=manageApply');
     }
 
+    /**
+     * Rank and rights table (needs the RANKS right).
+     */
     protected function adminPermissions(): Response
     {
         if (!$this->rights['RANKS']) {
@@ -508,6 +557,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.admin.permissions.html.twig');
     }
 
+    /**
+     * Saves the rank table (needs the RANKS right). Request: rank[] (rights per rank), newrank[] (ranks to create), deleteRank; redirects back to the table.
+     */
     protected function adminPermissionsSend()
     {
         if (!$this->rights['RANKS']) {
@@ -534,6 +586,9 @@ class AllianceController extends AbstractGameController
         $this->redirectTo('game?page=alliance&mode=admin&action=permissions');
     }
 
+    /**
+     * Member administration list (needs MANAGEUSERS) with the rank choices the acting member may hand out; kick buttons need the KICK right.
+     */
     protected function adminMembers(): Response
     {
         $LNG = $this->state->LNG;
@@ -559,6 +614,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.admin.members.html.twig');
     }
 
+    /**
+     * Assigns ranks to members (needs MANAGEUSERS; request rank[] member id => rank id); answers JSON with the saved message.
+     */
     protected function adminRank()
     {
         if (!$this->rights['MANAGEUSERS']) {
@@ -570,6 +628,9 @@ class AllianceController extends AbstractGameController
         $this->sendJSON($this->state->LNG['al_saved']);
     }
 
+    /**
+     * Removes member `id` from the alliance (needs the KICK right; the membership service refuses members the acting rank may not kick); redirects to the member list.
+     */
     protected function adminMembersKick()
     {
         if (!$this->rights['KICK']) {
@@ -592,6 +653,9 @@ class AllianceController extends AbstractGameController
         }
     }
 
+    /**
+     * Diplomacy overview (needs the diplomatic right): relations and open proposals.
+     */
     protected function adminDiplomacy(): Response
     {
         $this->requireDiplomaticRight();
@@ -632,6 +696,9 @@ class AllianceController extends AbstractGameController
         $this->diplomacyAction('delete');
     }
 
+    /**
+     * Form for a new diplomatic proposal (request: diploMode, id of the other alliance).
+     */
     protected function adminDiplomacyCreate(): Response
     {
         $this->requireDiplomaticRight();
@@ -650,6 +717,9 @@ class AllianceController extends AbstractGameController
         return $this->render('game/page.alliance.admin.diplomacy.create.html.twig');
     }
 
+    /**
+     * Stores a diplomatic proposal (request: ally_id = tag or name of the other alliance, level, text); answers JSON {error, message}.
+     */
     protected function adminDiplomacyCreateProcessor()
     {
         $this->requireDiplomaticRight();

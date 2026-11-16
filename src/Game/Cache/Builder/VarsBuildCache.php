@@ -20,6 +20,11 @@ namespace App\Game\Cache\Builder;
 use App\Game\Core\Database;
 use App\Game\Core\Universe;
 
+/**
+ * Builds the "vars" cache: the game data tables (elements, costs, production, storage, combat values, rapid fire,
+ * requirements) per universe, with universe 0 holding the defaults. The result feeds GameData, which exposes it as
+ * the globals $resource, $reslist, $pricelist, $CombatCaps, $ProdGrid and $requeriments.
+ */
 class VarsBuildCache implements BuildCacheInterface
 {
     public function __construct(
@@ -27,6 +32,13 @@ class VarsBuildCache implements BuildCacheInterface
         private ?\App\Game\Core\Singleton $state = null,
     ) {}
 
+    /**
+     * Reads vars, vars_require and vars_rapidfire for universe 0 and every available universe and sorts the elements
+     * into the lists of `reslist` by their class: 0 buildings (with `allow` per planet type 1/3), 100 research, 200 ships,
+     * 400 defense, 500 missiles, plus prod/storage/one-per-planet lists and the ship types (civil/military/recycler).
+     * @return array<int, array{reslist: array, ProdGrid: array, CombatCaps: array, resource: array, pricelist: array, requeriments: array}> by universe id.
+     * @throws \LogicException without database and state.
+     */
     public function buildCache()
     {
         if ($this->db === null || $this->state === null) {

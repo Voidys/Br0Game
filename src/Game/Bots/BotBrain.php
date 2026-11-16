@@ -43,6 +43,18 @@ class BotBrain
         private readonly Singleton $state,
     ) {}
 
+    /**
+     * Picks the next action of a bot. Takes every currently possible action (candidates()), perturbs the scores by
+     * `randomness` percent so identical bots diverge, then in this order: with probability mistakeChance() takes a random
+     * affordable action marked 'mistake'; 4 % of the time does nothing ('distracted'); otherwise draws among the best three
+     * (the lower the skill, the more weight the 2nd and 3rd get). An unaffordable pick means the bot saves up
+     * and waits. No candidates also yields a wait decision. Pure decision: nothing is written here.
+     *
+     * @param array<string, mixed> $settings    normalized profile settings (see BotProfiles)
+     * @param array<string, float> $personality per-bot multipliers (`patience`, one per weight category), 1.0 = neutral
+     * @param float                $skill       0-1, current skill of the bot
+     * @return array<string, mixed> decision, see the class comment
+     */
     public function choose(BotActions $ctx, array $settings, array $personality, float $skill): array
     {
         $candidates = $this->candidates($ctx, $settings, $personality, $skill);
@@ -100,6 +112,10 @@ class BotBrain
         return $pick;
     }
 
+    /**
+     * Mistake probability in percent (0-100). Bots with a skill gain (e.g. the noob profile) make `mistake_chance` percent
+     * mistakes at `skill_start` and fall linearly to 0 at `skill_max`; others keep the constant base value.
+     */
     public static function mistakeChance(array $settings, float $skill): float
     {
         $base = (float) $settings['mistake_chance'];
@@ -113,6 +129,17 @@ class BotBrain
         return max(0.0, min(100.0, $base));
     }
 
+    /**
+     * Lists everything the bot could do now, each with a score: buildings (mines kept in a human-like ratio, energy
+     * when the balance is negative, storage when nearly full, facilities by milestone; only if the build queue is
+     * free), research (base score with diminishing returns per level; needs a lab and an empty research queue) and
+     * ships/defense (when units can be queued; colony ship only if a colony is possible). The score is multiplied by the
+     * profile weight and personality factor of the category (sqrt of the relative weight), and by a waiting penalty
+     * 1 / (1 + hoursToAfford / (3 * patience)) where hours come from the planet's hourly income (production plus the
+     * universe's basic income). `affordable` says whether the price is covered right now.
+     *
+     * @return list<array<string, mixed>> decisions with `type`, `planet`, `element`, `count`, `cat`, `score`, `affordable`, `label`
+     */
     private function candidates(BotActions $ctx, array $settings, array $personality, float $skill): array
     {
         $resource = $this->state->resource;
@@ -194,7 +221,7 @@ class BotBrain
                         case 23:
                         case 24:
                             $rid = [22 => 901, 23 => 902, 24 => 903][$el];
-                            $max = (float) $planet[$resource[$rid] . '_max'] ?? 0;
+                            $max = (float) ($planet[$resource[$rid] . '_max'] ?? 0);
                             $fill = $max > 0 ? (float) $planet[$resource[$rid]] / $max : 0;
                             $score = 12 + 110 * max(0, $fill - 0.55);
                             $cat = 'storage';
@@ -285,6 +312,14 @@ class BotBrain
         return $out;
     }
 
+    /**
+     * Adds a ship/defense candidate: batch size is 15-60 % of what the planet can afford (at least 1; exactly 1 for
+     * colony ship, solar satellite-like single units and one-per-planet defenses), capped by `max_fleet_per_build`; the score
+     * is weighted and penalised like in candidates(). Skips elements that are not allowed or score 0.
+     *
+     * @param list<array<string, mixed>> $out     candidate list, appended to
+     * @param callable                   $penalty fn(array $cost): array{0: bool, 1: float} affordable now + waiting factor
+     */
     private function addUnits(array &$out, BotActions $ctx, array $planet, int $pid, int $el, float $score, string $type, string $cat, float $wf, callable $penalty, string $name): void
     {
         $resource = $this->state->resource;

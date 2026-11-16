@@ -17,6 +17,9 @@
 
 namespace App\Game\Cache\Resource;
 
+/**
+ * File storage of cache entries: one PHP array file `cache.<key>.php` in the cache directory (var/game/, the system temp dir if that is not writable).
+ */
 class CacheFile
 {
     private $path;
@@ -50,6 +53,9 @@ class CacheFile
         return PhpArrayFile::read($this->path.'cache.'.$Key.'.php') ?? false;
     }
 
+    /**
+     * Deletes the cache file of a key; false when it did not exist.
+     */
     public function flush($Key)
     {
         if (!file_exists($this->path.'cache.'.$Key.'.php')) {

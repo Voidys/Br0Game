@@ -19,8 +19,14 @@ use Exception;
 use App\Game\Core\Discord;
 use App\Game\Core\Statbuilder;
 
+/**
+ * Ranking update (cronjob "statistic", every 30 minutes): recalculates points and ranks via Statbuilder.
+ */
 class StatisticCronjob extends AbstractCronjobTask
 {
+    /**
+     * Calls Statbuilder::generateStats(), archiveStats() and buildRecords(); exceptions are reported to Discord and echoed, not rethrown.
+     */
     public function run(): void
     {
         try {

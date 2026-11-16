@@ -16,6 +16,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class AvailableLocalesPass implements CompilerPassInterface
 {
+    /** Reads the language codes (keys) of config/languages.yaml, sorted, into `app.locales`; the file is tracked so editing it rebuilds the container. */
     public function process(ContainerBuilder $container): void
     {
         $file = $container->getParameter('kernel.project_dir') . '/config/languages.yaml';

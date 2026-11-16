@@ -33,6 +33,10 @@ class TechtreeController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Technology tree: for every enabled building, research, ship, defense and missile its requirements with the level needed and the player's own level
+     * (read from the current planet, or from the user for research); headline rows (ids 0, 100, 200, 400, 500) separate the groups.
+     */
     public function show(): Response
     {
         $resource = $this->state->resource;

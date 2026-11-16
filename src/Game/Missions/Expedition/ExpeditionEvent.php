@@ -31,6 +31,9 @@ abstract class ExpeditionEvent
         $this->LNG = $ctx->LNG;
     }
 
+    /**
+     * Helper that computes expedition points and free capacity of the fleet (see ExpeditionFleetValue).
+     */
     protected function fleetValue(): ExpeditionFleetValue
     {
         return new ExpeditionFleetValue($this->db, $this->configs, $this->state);

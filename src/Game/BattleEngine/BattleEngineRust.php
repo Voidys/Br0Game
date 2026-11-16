@@ -21,6 +21,9 @@ class BattleEngineRust extends AbstractBattleEngine
         return 'rust';
     }
 
+    /**
+     * @return bool true on Linux with proc_open, an executable bin/battlerust and bin/libbattlerust.so.
+     */
     public function isAvailable(bool $sim = false): bool
     {
         return \function_exists('proc_open')
@@ -29,6 +32,11 @@ class BattleEngineRust extends AbstractBattleEngine
             && \is_file(\App\Runtime\ProjectPaths::ROOT . 'bin/libbattlerust.so');
     }
 
+    /**
+     * Serialises the fleets to JSON, runs the Rust library and converts its round log back into the result array
+     * format of BattleEngineInterface (same keys as the PHP engine). By-ref fleets get their surviving units written back.
+     * @return array|false false when the engine process failed (BattleHandler then tries the next engine).
+     */
     public function calculateAttack(array &$attackers, array &$defenders, int $universe, bool $sim = false, int $simTries = 1): array|false
     {
         $executionTime = microtime(true);
@@ -65,6 +73,11 @@ class BattleEngineRust extends AbstractBattleEngine
         return \App\Runtime\ProjectPaths::ROOT . 'bin/battlerust';
     }
 
+    /**
+     * Builds the engine input: six rounds, per side a list of fleets with one entry per unit type (attack with
+     * +10%/level weapon tech, hull = (metal+crystal)/10 with armor tech, shield with shield tech, rapid fire table,
+     * bigshield/stun flags, explode threshold 0.7 for attacking units and for defending ships (ids 2xx); defending defenses have none).
+     */
     private function createRustJson(&$attackers, &$defenders, $simTries = 1): string
     {
         $pricelist = $this->state->pricelist;
@@ -123,6 +136,13 @@ class BattleEngineRust extends AbstractBattleEngine
         return json_encode($data);
     }
 
+    /**
+     * Applies the engine output: per-fleet losses and kill statistics from the round log, remaining units, debris
+     * (fleet_debris_percentage for ships, def_debris_percentage for defenses), defense rebuild (60-80%, or 70% per
+     * unit for 10 or fewer losses), wreck field, per-user lost value and transport capacity; writes advanced stats
+     * unless $sim. Result keys match BattleEngineSteemNova::calculateAttack().
+     * @param bool $sim true for simulator runs: nothing is persisted.
+     */
     private function parseRustJson($json, &$attackers, &$defenders, $universe, $sim, $executionTime)
     {
         $pricelist = $this->state->pricelist;

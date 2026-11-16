@@ -49,6 +49,10 @@ class SettingsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Settings page of the player: while in vacation mode only the vacation view is rendered, otherwise the options form (display, fleet, notification
+     * settings and the buttons for vacation mode and account deletion).
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -161,6 +165,10 @@ class SettingsController extends AbstractGameController
         }
     }
 
+    /**
+     * Switches vacation mode. Leaving is only possible after `urlaubs_until`; entering needs checkVMode() to pass. Locks user and planet
+     * rows, then PlayerUtil::enable_vmode / disable_vmode, and ends with a message.
+     */
     public function toggleVacation()
     {
         $LNG = $this->state->LNG;
@@ -229,6 +237,9 @@ class SettingsController extends AbstractGameController
         }
     }
 
+    /**
+     * Toggles the deletion flag (`db_deaktjava` = request time, or 0 to cancel); the maintenance cronjob deletes flagged players later. Ends with a message.
+     */
     public function toggleDelete()
     {
         $LNG = $this->state->LNG;
@@ -279,15 +290,14 @@ class SettingsController extends AbstractGameController
         }
     }
 
+    /**
+     * True when vacation mode may be entered: no own fleet is in flight. Recalculates all other planets under lock first so the stored state is
+     * current when the vacation mode is applied.
+     */
     private function checkVMode()
     {
         $USER = & $this->state->USER;
         $PLANET = $this->state->PLANET;
-        /*
-        if (!empty($USER['b_tech']) || !empty($PLANET['b_building']) || !empty($PLANET['b_hangar'])) {
-            return false;
-        }
-        */
         $db = $this->db;
 
         $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE `owner` = :userID FOR UPDATE;";
@@ -317,12 +327,6 @@ class SettingsController extends AbstractGameController
 
         foreach ($query as $CPLANET) {
             [$USER, $CPLANET] = $this->ecoObj->CalcResource($USER, $CPLANET, true);
-            /*
-            if (!empty($CPLANET['b_building']) || !empty($CPLANET['b_hangar'])) {
-                $db->commit();
-                return false;
-            }
-            */
             unset($CPLANET);
         }
 
@@ -330,6 +334,9 @@ class SettingsController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Saves the settings form (delegates to the settings saving code) and ends with a message.
+     */
     public function send()
     {
         $LNG = $this->state->LNG;

@@ -9,6 +9,9 @@ use App\Game\Core\DisposableEmailDomainBlocklist;
 use App\Game\Core\Singleton;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * Keeps the list of disposable e-mail domains (used to refuse registrations) current; daily 03:00.
+ */
 class DisposableEmailDomainsCronjob extends AbstractCronjobTask
 {
     private const SOURCE_URL = 'https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/master/disposable_email_blocklist.conf';

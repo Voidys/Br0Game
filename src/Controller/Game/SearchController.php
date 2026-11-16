@@ -36,6 +36,12 @@ class SearchController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Searches the current universe. $searchMode: playername (users, with home planet, alliance and total rank), planetname (non-destroyed planets/moons
+     * with owner), allytag or allyname (alliances with member count and points). Matches are bound `%text%` LIKE patterns, exact matches first, then
+     * alphabetical. $maxResult is the row limit (-1 = no limit). Returns rows with the keys the templates use (planetname, username, userid, allyname,
+     * allyid, galaxy, system, planet, rank for players and planets; allypoints, allytag, allymembers, allyname, allyid for alliances); unknown modes give [].
+     */
     private function _getSearchList($searchMode, $searchText, $maxResult)
     {
         $db = $this->db;
@@ -173,6 +179,10 @@ class SearchController extends AbstractGameController
         return $searchList;
     }
 
+    /**
+     * JSON suggestions (XHR). Request: type (one or several modes joined with |), term. Up to 5 hits per mode with the matching part
+     * highlighted.
+     */
     public function autocomplete()
     {
         $LNG = $this->state->LNG;
@@ -213,6 +223,9 @@ class SearchController extends AbstractGameController
         $this->sendJSON($searchList);
     }
 
+    /**
+     * Result list (ajax fragment). Request: type, search; at most SEARCH_LIMIT rows; alliance searches use the alliance template.
+     */
     public function result(): Response
     {
         $THEME = $this->state->THEME;
@@ -239,6 +252,9 @@ class SearchController extends AbstractGameController
         return $this->render('game/page.search.result.' . $templateSuffix . '.html.twig');
     }
 
+    /**
+     * Search form with the mode selector (request: type preselects the mode).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

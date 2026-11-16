@@ -42,6 +42,10 @@ class ShipyardController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Cancels hangar queue entries (request: auftr[] queue positions; the running entry at position 0 can not be cancelled) and refunds their
+     * cost. False when nothing was cancelled.
+     */
     private function cancelAuftr(): bool
     {
         $USER = $this->state->USER;
@@ -84,6 +88,11 @@ class ShipyardController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Queues ships/defense from fmenge[<element id>] = counts. Each count is limited by `max_fleet_per_build`, the affordable amount (resources
+     * already used by earlier entries of the same order are not counted again), the queue length limit, silo capacity for missiles and "one only"
+     * elements (shields). Deducts the cost, records shipyard achievements and starts the queue when it was empty.
+     */
     private function buildAuftr(array $fmenge): void
     {
         $USER = $this->state->USER;
@@ -160,6 +169,10 @@ class ShipyardController extends AbstractGameController
         $this->ecoObj->saveShipyardQueue($PLANET);
     }
 
+    /**
+     * Shipyard page (request: mode = fleet or defense, fmenge[] counts, action = insert/delete). Needs a shipyard; blocked while the shipyard or
+     * nanite factory is upgrading. Shows buildable elements, costs, times and the hangar queue; commands redirect back to the same mode.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

@@ -44,6 +44,7 @@ export function registerActions(actions) {
 /** the element the event concerns that carries the attribute, or null */
 const carrier = (event, attribute) => (event.target instanceof Element ? event.target.closest(`[${attribute}]`) : null);
 
+/** Finds the carrier of `attribute` for the event and calls its registered handler; null when there is none or the name is not registered (other areas reuse data-action for their own purposes). Returns {element, result}. */
 function run(event, attribute) {
   const element = carrier(event, attribute);
   if (!element) return null;

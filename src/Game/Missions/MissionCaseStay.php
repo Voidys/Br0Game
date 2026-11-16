@@ -21,6 +21,10 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "station" (4, deploy): the fleet moves to one of the player's own planets or moons (or a friendly one)
+ * and stays there permanently, i.e. its ships and cargo join the target planet; there is no return trip.
+ */
 class MissionCaseStay extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -29,6 +33,12 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
         $this->_fleet = $Fleet;
     }
 
+    /**
+     * Arrival: returns the fleet if the target planet is gone/abandoned or (for a foreign target) its owner is in
+     * vacation mode. Otherwise refunds half of the deuterium paid at dispatch (fuel_cost, or a recomputed
+     * consumption for old fleets) into the cargo, sends the target owner a "fleet stationed" message and lands
+     * ships and cargo at the target planet (RestoreFleet(false)), which also deletes the fleet.
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -131,11 +141,17 @@ class MissionCaseStay extends MissionFunctions implements MissionInterface
         $this->RestoreFleet(false);
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Fleet that was turned back (target gone/vacation): message "fleet returned" with ship list and cargo, then landing at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);

@@ -3,6 +3,10 @@ namespace App\Game\BattleEngine;
 
 use App\Game\Core\Singleton;
 
+/**
+ * Base of the PHP battle engines: wires the services, provides the aggregated combat values and the memory
+ * guard (raise memory_limit for large fights, abort at 90% usage) used by BattleHandler's engine fallback chain.
+ */
 abstract class AbstractBattleEngine implements BattleEngineInterface
 {
     use \App\Game\Core\GameUtilities;
@@ -33,6 +37,11 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
 
     abstract public function isAvailable(bool $sim = false): bool;
 
+    /**
+     * Aggregated (not per-ship) combat values per fleet and unit id: 'def' (armor = (metal+crystal)/10 times
+     * armor tech), 'shield' and 'att', each multiplied by the unit amount and the owner's tech level (+10% per level).
+     * Also stores the tech factors in $fleets[$id]['techs'] as [attack, shield, armor].
+     */
     protected function initCombatValues(&$fleets): array
     {
         // INIT COMBAT VALUES
@@ -82,6 +91,9 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
         return max(1000, min(self::MAX_SIMULATED_SHIPS, intdiv(max(0, $available), self::BYTES_PER_SHIP)));
     }
 
+    /**
+     * Puts memory_limit back to the value it had before shipBudget() raised it.
+     */
     protected function restoreMemoryLimit(): void
     {
         if ($this->originalMemoryLimit !== null) {
@@ -90,6 +102,10 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
         }
     }
 
+    /**
+     * Guard against running out of memory mid-fight.
+     * @return bool false once the process uses more than 90% of memory_limit (unlimited limits always pass).
+     */
     protected function checkMemoryUsage() : bool
     {
         try {

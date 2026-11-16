@@ -22,6 +22,9 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "colonise" (7): founds a new colony on a free position with the colony ship.
+ */
 class MissionCaseColonisation extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -30,6 +33,14 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
         $this->_fleet = $Fleet;
     }
 
+    /**
+     * Arrival: sends the owner a colonisation report whose text depends on the first failing check: position
+     * occupied or invalid (checkPosition/isPositionFree), position not allowed by the player's astrophysics/tech
+     * (allowPlanetPosition), planet limit reached (current >= max planet count), creation failed (badpos).
+     * On success the planet is created for the fleet owner, advanced stats (planets created, first colony) are set,
+     * the cargo is unloaded there and one colony ship is consumed (the fleet is deleted when it was the only ship);
+     * the remaining ships fly home with empty cargo. On failure the whole fleet returns.
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -138,11 +149,17 @@ class MissionCaseColonisation extends MissionFunctions implements MissionInterfa
         $this->SaveFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "fleet returned" message with the remaining ships and lands them at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);

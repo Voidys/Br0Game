@@ -41,11 +41,13 @@ class LlmClient
         }
     }
 
+    /** API base URL used for a provider when none is configured; '' for unknown providers. */
     public static function defaultBaseUrl(string $provider): string
     {
         return self::DEFAULT_BASE_URLS[$provider] ?? '';
     }
 
+    /** Provider key (one of PROVIDERS). */
     public function getProvider(): string
     {
         return $this->provider;
@@ -157,7 +159,12 @@ class LlmClient
         return $text;
     }
 
-    /** @return array{ok: bool, message: string, response: string, latency_ms: int} */
+    /**
+     * Connectivity check: asks the model for "pong" and stores the outcome (time, ok flag, message) in the provider's
+     * bot_llm_providers row. Never throws; failures are reported in the result (`latency_ms` is the round trip).
+     *
+     * @return array{ok: bool, message: string, response: string, latency_ms: int}
+     */
     public function test(): array
     {
         $start = microtime(true);

@@ -32,6 +32,12 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'configUni', uniPrefix: true)]
 class ConfigUniController extends AbstractAdminController
 {
+    /**
+     * Universe settings of the emulated universe as a schema driven form (ConfigFieldSchema). Any POST saves the processed fields (Config::save) and writes
+     * an admin log entry (type 3) with before/after values. Side effects of a status change (`uni_status`): opening a universe that was registration-only or
+     * closed resets `last_update` of all planets (and, from registration-only, `onlinetime` of all players) so no production or inactivity accrues while
+     * closed; closing an open universe first calculates the resources of all home planets. Setting `adm_attack` to 0 clears `authattack` of all players.
+     */
     public function show(): Response
     {
         $config = $this->configs->get($this->universe()->getEmulated());

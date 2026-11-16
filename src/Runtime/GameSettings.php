@@ -18,6 +18,7 @@ final class GameSettings
         private readonly string $projectDir,
     ) {}
 
+    /** Variable `$name` as defined by config/game.php (file is included once, lazily); `$default` if absent. */
     public function get(string $name, mixed $default = null): mixed
     {
         if ($this->values === null) {

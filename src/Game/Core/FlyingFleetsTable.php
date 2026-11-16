@@ -17,6 +17,12 @@
 
 namespace App\Game\Core;
 
+/**
+ * Builds the list of fleet movements shown on the overview and in the phalanx view: the player's own flights and
+ * foreign flights aimed at the player (set up with setUser/setPlanet/setMissions/setPhalanxMode, then
+ * renderTable()). In phalanx mode it lists the flights to and from the scanned planet and logs the scan in
+ * phalanx_log/phalanx_fleets. Each event (arrival, hold end, return) becomes one translated line with fleet and mission popups.
+ */
 class FlyingFleetsTable
 {
     use \App\Game\Core\GameUtilities;
@@ -50,9 +56,15 @@ class FlyingFleetsTable
 
     public function setMissions(string $missions): void
     {
-        $this->missions = implode(',', array_filter(explode(',', $missions), 'is_numeric'));
+        $this->missions = implode(',', array_map('intval', array_filter(explode(',', $missions), 'is_numeric')));
     }
 
+    /**
+     * Fleet rows with owner/target names and planet names. Phalanx: flights starting at or heading to the scanned
+     * planet (no deployments, recycling or trade targets); with $acsID: all fleets of that group; with a mission
+     * filter: only those missions; otherwise own flights and foreign flights targeting the player (except
+     * recycling and trade).
+     */
     private function getFleets(int $acsID = 0): array
     {
         if ($this->IsPhalanx && $acsID <= 0) {
@@ -100,6 +112,13 @@ class FlyingFleetsTable
         return $this->db->select($sql, $param);
     }
 
+    /**
+     * Expands the fleets into time-ordered events: outward arrival (once per ACS group), missile arrivals, hold end
+     * (hold missions, also at the scanned planet), and the return of own fleets, each only if it lies in the future.
+     * In phalanx mode also writes the scan to phalanx_log and the fleets seen to phalanx_fleets.
+     * @param bool $isPhalanx true when called for a phalanx scan.
+     * @return array<string, array{text: \Twig\Markup, returntime: int, resttime: int}> keyed by event time + fleet id (sorted ascending).
+     */
     public function renderTable(bool $isPhalanx = false): array
     {
         $db = $this->db;
@@ -197,6 +216,10 @@ class FlyingFleetsTable
         return $FleetData;
     }
 
+    /**
+     * One table entry. Outward events of an ACS group list every fleet of the group, one below the other.
+     * @param int $FleetState 0 = outward (arrival), 1 = return, 2 = hold end.
+     */
     private function buildFleetEventTable(array $fleetRow, int $FleetState): array
     {
         $Time   = 0;
@@ -253,6 +276,12 @@ class FlyingFleetsTable
         ];
     }
 
+    /**
+     * Text of one fleet event.
+     * @param int $Status FLEET_OUTWARD, FLEET_RETURN or FLEET_HOLD.
+     * @return array{0: int, 1: string, 2: int} seconds left, translated HTML line (mission and viewer specific:
+     * own, foreign or hostile wording), event timestamp.
+     */
     public function getEventData(array $fleetRow, int $Status): array
     {
         $LNG = & $this->state->LNG;
@@ -538,6 +567,10 @@ class FlyingFleetsTable
             . ' <a href="#" data-action="dialog-pm" data-id="' . (int) $fleetRow['owner'] . '">' . $LNG['PM'] . '</a>';
     }
 
+    /**
+     * Mission name as a link with a hover popup showing the carried resources (plain text when the fleet carries
+     * nothing or in phalanx mode).
+     */
     private function createFleetPopupedMissionLink(array $fleetRow, string $Texte, string $FleetType): string
     {
         $LNG = $this->state->LNG;
@@ -570,6 +603,11 @@ class FlyingFleetsTable
         return $MissionPopup;
     }
 
+    /**
+     * "Fleet" label with a hover popup that lists the ships. Own fleets show types and amounts; foreign fleets
+     * depend on the viewer's espionage tech (the phalanx always shows at least the ship count): below 8 the
+     * number of ships, from 4 also the ship types, from 8 types with amounts; below 2 nothing.
+     */
     private function createFleetPopupedFleetLink(array $fleetRow, string $Text, string $FleetType): string
     {
         $LNG = $this->state->LNG;

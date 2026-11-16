@@ -10,6 +10,9 @@ namespace App\Game\Tutorials;
 
 use App\Game\Core\Singleton;
 
+/**
+ * Step "get settled": goals are renaming the main planet, sending a buddy request and applying to or joining an alliance; verified from planet name, buddy and alliance request tables.
+ */
 class RenameTutorialSupport extends AbstractTutorialSupport
 {
     public function __construct(

@@ -6,6 +6,10 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "transfer" (17): gives ships and cargo to another player's planet. Everything is handed over (the
+ * fleet is not coming back).
+ */
 class MissionCaseTransfer extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -14,6 +18,11 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
         $this->_fleet	= $Fleet;
     }
 
+    /**
+     * Arrival: turns the fleet around if the target is gone/abandoned. Otherwise both players get a transport
+     * message with the ship list, the cargo is unloaded into the target planet and the ships are added to it
+     * (RestoreFleet(false) with the target owner), which deletes the fleet.
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -105,11 +114,17 @@ class MissionCaseTransfer extends MissionFunctions implements MissionInterface
         $this->RestoreFleet(false);
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Fleet that was turned back: "fleet returned" message with ships and cargo, landing at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG				= $this->getLanguage(null, $this->_fleet['owner']);

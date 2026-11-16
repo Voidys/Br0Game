@@ -23,6 +23,11 @@ use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 use App\Game\Core\Discord;
 
+/**
+ * Scheduler core for the `cronjobs` table (name, class, cron expression min/hours/dom/month/dow, isActive, nextTime,
+ * lock). bin/console app:cron:run asks getNeedTodoExecutedJobs() for the due jobs every minute and runs each
+ * through execute(); every task class is a CronjobTaskInterface service in this namespace.
+ */
 class Cronjob
 {
     /** Cronjob tasks as Symfony services (tag app.game_cronjob), set by App\Runtime\GameKernel. */
@@ -38,6 +43,13 @@ class Cronjob
         private ?\Psr\Container\ContainerInterface $tasks = null,
     ) {}
 
+    /**
+     * Runs one job: only if it is active and not locked. Sets the lock (token = md5 of the request time), runs the task
+     * (container service tagged app.game_cronjob, else built by hand), computes its next run time, releases the lock and
+     * writes a row to cronjobs_log, then reports success to Discord. Task exceptions release the lock and are
+     * reported to Discord (not rethrown, nextTime stays unchanged so the job is retried on the next run).
+     * @throws Exception for an unknown, inactive or locked job id.
+     */
     public function execute(int $cronjobID): void
     {
 
@@ -94,6 +106,10 @@ class Cronjob
         }
     }
 
+    /**
+     * Ids of the active, unlocked jobs whose nextTime lies in the past.
+     * @return int[]
+     */
     public function getNeedTodoExecutedJobs(): array
     {
         $sql = 'SELECT cronjobID
@@ -114,6 +130,9 @@ class Cronjob
         return $cronjobList;
     }
 
+    /**
+     * Unix timestamp of the last logged run of the job with this `name` (cronjobs_log), false if it never ran.
+     */
     public function getLastExecutionTime(string $cronjobName): int|false
     {
         $sql = 'SELECT MAX(executionTime) as executionTime FROM %%CRONJOBS_LOG%% INNER JOIN %%CRONJOBS%% USING(cronjobId) WHERE name = :cronjobName;';
@@ -128,6 +147,9 @@ class Cronjob
         return strtotime($lastTime);
     }
 
+    /**
+     * Sets nextTime of one job (or all when null) to the next run of its cron expression after now + 60 s.
+     */
     public function reCalculateCronjobs(?int $cronjobID = null): void
     {
         $db = $this->db;

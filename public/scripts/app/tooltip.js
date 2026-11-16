@@ -10,6 +10,7 @@ let tip;
 let sticky = false;
 let current = null;
 
+/** The shared tooltip element (#tooltip), created on first use. */
 function element() {
   if (!tip) {
     tip = document.getElementById('tooltip') ?? Object.assign(document.createElement('div'), { id: 'tooltip' });
@@ -20,6 +21,7 @@ function element() {
   return tip;
 }
 
+/** Shows the tooltip with the source's data-tooltip-content at the pointer position. */
 function open(source, x, y) {
   const box = element();
   current = source;
@@ -28,6 +30,7 @@ function open(source, x, y) {
   place(x, y);
 }
 
+/** Positions the tooltip next to (x, y), flipping to the other side when it would leave the viewport. */
 function place(x, y) {
   const box = element();
   const width = box.offsetWidth;
@@ -40,6 +43,7 @@ function place(x, y) {
   box.style.top = `${Math.max(8, top) + window.scrollY}px`;
 }
 
+/** Hides the tooltip and resets its sticky state. */
 function close() {
   if (!tip) return;
   tip.style.display = 'none';
@@ -48,6 +52,7 @@ function close() {
   current = null;
 }
 
+/** Registers the delegated listeners: hover/move/leave for pointer devices, tap to toggle for touch devices; sticky tooltips stay open while the pointer is over them. */
 export function initTooltips() {
   const touch = window.matchMedia('(pointer: coarse)').matches;
 

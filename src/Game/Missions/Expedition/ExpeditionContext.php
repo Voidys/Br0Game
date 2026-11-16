@@ -42,11 +42,17 @@ final class ExpeditionContext
         return ($this->readFleet)();
     }
 
+    /**
+     * Sets a `fleets` column through the mission (saved by the mission's SaveFleet()).
+     */
     public function updateFleet(string $column, mixed $value): void
     {
         ($this->writeFleet)($column, $value);
     }
 
+    /**
+     * Sets a `log_fleets` column through the mission (saved by the mission's SaveFleet()).
+     */
     public function updateFleetLog(string $column, mixed $value): void
     {
         ($this->writeFleetLog)($column, $value);

@@ -30,6 +30,13 @@ use App\Runtime\ProjectPaths;
 #[\App\Routing\GamePage('admin.php', 'news', uniPrefix: true)]
 class NewsController extends AbstractAdminController
 {
+    /**
+     * News editor for the login page. `action` (GET): edit (id; form of an existing item), create (empty form); default is the list, filter = all,
+     * published or drafts. POST action=save with id (0 = new), title, summary, text (sanitized rich text), status, pinned, date, optional image upload and
+     * remove_image: needs a title and text (otherwise the form is shown again with an error), inserts or updates NEWS, stores or replaces the image under
+     * public/uploads/news/ and redirects to the editor with saved=1 (an image error re-renders the form instead). POST action=delete with id removes the
+     * item and its image and redirects with deleted=1.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

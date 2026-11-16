@@ -17,6 +17,12 @@
 
 namespace App\Game\Missions;
 
+/**
+ * Mission "ACS" (2): the entry of a fleet that joined an ACS group attack. The fight of the whole group is
+ * resolved once by the lead attack fleet (AbstractBattleMission::collectParticipants loads all fleets of the
+ * group), so when this fleet's own arrival event fires it only turns around (its ships and cargo were already
+ * updated by that fight). Return behaves like an attack: message plus landing.
+ */
 class MissionCaseACS extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -25,6 +31,9 @@ class MissionCaseACS extends MissionFunctions implements MissionInterface
         $this->_fleet	= $Fleet;
     }
 
+    /**
+     * Turns the fleet around (state FLEET_RETURN); the group fight is not run here.
+     */
     public function TargetEvent()
     {
         $this->setState(FLEET_RETURN);
@@ -32,11 +41,17 @@ class MissionCaseACS extends MissionFunctions implements MissionInterface
         return;
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "fleet returned" message and lands ships and cargo at the start planet.
+     */
     public function ReturnEvent()
     {
         $this->sendAttackReturnMessage();

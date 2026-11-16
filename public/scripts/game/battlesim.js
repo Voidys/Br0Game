@@ -10,6 +10,7 @@ import { tabs } from '../app/ui.js';
  */
 const BS_LNG = pageData('sim-data');
 
+/** Submits the simulator form (POST) to another action URL; returns true. */
 function submitTo(action) {
 	const form = document.getElementById('form');
 	form.setAttribute('action', action);
@@ -18,14 +19,21 @@ function submitTo(action) {
 	return true;
 }
 
+/** Reloads the form with one more attacker slot (server action `moreslots`). */
 function add(){
 	return submitTo('game?page=battleSimulator&action=moreslots');
 }
 
+/** Swaps attackers and defenders (server action `switch`). */
 function switchSides(){
 	return submitTo('game?page=battleSimulator&action=switch');
 }
 
+/**
+ * Runs the simulation: posts the form (`mode=send`), opens the returned report id in the modal (game?page=raport&raport=...) or
+ * shows a text answer (error) as alert. The button stays disabled for 2 s afterwards because the server allows one
+ * simulation every few seconds. Returns false if a simulation is still pending.
+ */
 function check(){
 	const button = document.getElementById('sim-submit');
 	if (button.disabled) return false;
@@ -53,7 +61,7 @@ function check(){
 	return true;
 }
 
-// the tab strip is built by the shared tabs widget (data-tabs); rebuilt after slots were added or removed
+/** The tab strip is built by the shared tabs widget (data-tabs); rebuilt after slots were added or removed (old click handlers are dropped by cloning the links). */
 function rebuildTabs() {
 	const container = document.getElementById('tabs');
 	// drop the old click handlers by replacing the links
@@ -62,7 +70,7 @@ function rebuildTabs() {
 	tabs(container);
 }
 
-// clear button in a section header: sets the number fields of its column in this section to 0
+/** "Clear" button in a section header: sets the number fields of its column in this section to 0. */
 on(document, 'click', '.sim-clear', function (event, button) {
 	event.preventDefault();
 	let cell = button.closest('th');
@@ -77,6 +85,10 @@ on(document, 'click', '.sim-clear', function (event, button) {
 	}
 });
 
+/**
+ * Copies the current inputs of all slots as a share string: JSON {slot: {side(0 attacker/1 defender): {unitId: count}}},
+ * compressed with LZString to Base64. Uses the clipboard API, falling back to a hidden textarea or a prompt.
+ */
 function generateShareString(){
 	let slots = parseInt(document.getElementById('slots').value, 10) || 1;
 	let data = {};
@@ -113,6 +125,7 @@ function generateShareString(){
 	}
 }
 
+/** Copies via a temporary textarea and execCommand; shows the text in a prompt when even that fails. */
 function fallbackCopy(text){
 	let el = document.createElement('textarea');
 	el.value = text;
@@ -130,6 +143,11 @@ function fallbackCopy(text){
 	document.body.removeChild(el);
 }
 
+/**
+ * Fills the form from a share string (#shareInput): decodes it (invalid input gives an alert), removes extra slot tabs,
+ * clones the first slot for every slot the string needs (field names renumbered, defense/resources only in slot 1), rebuilds
+ * the tabs, sets the hidden slot count and writes the unit counts into the matching inputs.
+ */
 function loadShareString(){
 	let str = document.getElementById('shareInput').value;
 	if(!str) {

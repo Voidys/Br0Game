@@ -1,5 +1,10 @@
 import { qs, qsa, on, post } from '../app/core.js';
 
+/**
+ * Shipyard hangar filter bar (#hangar-filters): group filters, filters pinned per ship and a "+" menu to pin more. The
+ * selected filters decide which ship cards (.infos) are visible ("All" or no selection shows everything). Adding or removing a
+ * pinned ship saves the list on the server (`game?page=shipyard&mode=saveFilters`, ajax POST, errors ignored).
+ */
 window.onPageInit(() => {
   const bar = qs('#hangar-filters');
   if (!bar) {
@@ -37,12 +42,14 @@ window.onPageInit(() => {
     }
   }
 
+  /** Selects only the "All" filter and shows every card. */
   function selectAllOrNone() {
     filterButtons().forEach((button) => button.classList.remove('selected'));
     qs('#ship3', bar)?.classList.add('selected');
     applyFilters();
   }
 
+  /** Click on a filter: "All" is exclusive; any other toggles and deselects "All"; an empty selection falls back to "All". */
   function toggleFilter(button) {
     if (button.id === 'ship3') {
       filterButtons().forEach((other) => other.classList.remove('selected'));
@@ -61,10 +68,12 @@ window.onPageInit(() => {
     applyFilters();
   }
 
+  /** Ship ids of the pinned filters in bar order. */
   function currentShipIds() {
     return qsa('.hangar-ship-filter', bar).map((button) => parseInt(button.getAttribute('data-ship-id'), 10));
   }
 
+  /** Persists the pinned ship ids (fire and forget). */
   function saveShips(ids) {
     post('game?page=shipyard&mode=saveFilters&ajax=1', { 'ships[]': ids }).catch(() => {});
   }

@@ -1,5 +1,11 @@
 import { qs, setVisibleInterval, clearVisibleInterval, getRestTimeFormat } from '../app/core.js';
 
+/**
+ * Research page: countdown and progress bar of the running research. `data-time` of the #progressbar is the
+ * remaining seconds at render time, of #time the total duration; in vacation mode (.timer[data-umode=1]) the
+ * remaining time is frozen. When it reaches zero the "ready" text is shown, the cancel command removed and the
+ * page title reset; until then the title shows the remaining time.
+ */
 let resttime = 0;
 let time = 0;
 let interval = 0;
@@ -7,6 +13,7 @@ let buildname = '';
 let umode = false;
 let startValue = 0;
 
+/** Sets the progress bar between its start value (share already done at render time) and 100 from the remaining seconds. */
 function setProgress(rest) {
   const bar = qs('#progressbar');
   if (!bar || time <= 0) return;
@@ -14,6 +21,7 @@ function setProgress(rest) {
   bar.value = startValue + (100 - startValue) * done;
 }
 
+/** One tick (1 s): updates the remaining-time text, page title and progress bar; at zero stops the interval and shows the finished state. */
 function Buildlist() {
   let rest = resttime;
   if (!umode) {

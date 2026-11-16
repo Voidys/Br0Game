@@ -26,6 +26,11 @@ import { initAjaxForms } from './ajaxForm.js';
 
 const confirmText = () => window.confirmText || '';
 
+/**
+ * Side navigation filter ([data-menu-filter]): hides entries that match neither their label nor their `data-keywords`
+ * (tab names), highlights the match, hides empty groups and shows the "no result" line. Enter opens the first match, Esc
+ * clears; "/" anywhere (not while typing) opens the sidebar drawer and focuses the field.
+ */
 function menuFilter() {
   const input = document.querySelector('[data-menu-filter]');
   if (!input) return;
@@ -79,6 +84,7 @@ function menuFilter() {
   });
 }
 
+/** The universe selector reloads the current admin page with `?uni=<value>` (the emulated universe). */
 function universeSwitch() {
   const select = document.querySelector('[data-admin-universe]');
   if (!select) return;
@@ -101,6 +107,7 @@ function confirmations() {
   }, true);
 }
 
+/** Marks `form[data-track-dirty]` as `form-dirty` on the first edit and asks the browser to confirm leaving the page, unless a form is being submitted. */
 function dirtyForms() {
   const forms = [...document.querySelectorAll('form[data-track-dirty]')];
   if (!forms.length) return;
@@ -118,6 +125,7 @@ function dirtyForms() {
   });
 }
 
+/** `[data-table-filter=<selector>]`: live filter of the table's body rows by their text (case-insensitive substring). */
 function tableFilters() {
   document.querySelectorAll('[data-table-filter]').forEach((input) => {
     const table = document.querySelector(input.dataset.tableFilter);
@@ -183,6 +191,7 @@ function formHelpers() {
   });
 }
 
+/** Starts every behaviour of this file and of filterSelect.js / ajaxForm.js. */
 const init = () => {
   menuFilter();
   universeSwitch();

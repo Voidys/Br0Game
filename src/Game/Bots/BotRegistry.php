@@ -16,6 +16,10 @@ class BotRegistry
     ) {}
 
     /**
+     * The bots of a universe for the admin overview: profile name, skill in percent, total points (formatted, '-' when
+     * not ranked yet), last action and next tick (d.m. H:i), whether a session is running now, action count and the
+     * first 160 characters of the persona bio.
+     *
      * @return list<array{user_id: int, username: string, profile_id: int, profile_name: string, skill: int|float,
      *     points: string, last_action: string, next_tick: string, online: bool, actions_total: int, bio: string}>
      */
@@ -54,6 +58,8 @@ class BotRegistry
     }
 
     /**
+     * Newest bot log entries of the universe, newest first; `$limit` is clamped to 1-500.
+     *
      * @return list<array{time: string, username: string, action: string, detail: string}>
      */
     public function recentLog(int $universe, int $limit = 50): array

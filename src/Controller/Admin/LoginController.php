@@ -29,6 +29,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'login', uniPrefix: true)]
 class LoginController extends AbstractAdminController
 {
+    /**
+     * Runs the base permission check for the login page only (the page itself sets up admin access).
+     */
     protected function construct(): void
     {
         $USER = $this->state->USER;
@@ -39,6 +42,10 @@ class LoginController extends AbstractAdminController
         parent::construct();
     }
 
+    /**
+     * Admin password prompt. POST admin_pw is checked against the account password (rate limited, failures are throttled and answered
+     * with a message); on success admin access is stored in the session and the request redirects to /admin.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

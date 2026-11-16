@@ -18,6 +18,11 @@ class Maintenance
         protected Singleton $state,
     ) {}
 
+    /**
+     * Admin/cron "clear cache": deletes the cache files in var/game/ and var/game/languages/, the compiled Twig
+     * templates, recalculates all cronjob times, empties planets.eco_hash (production is recalculated on next
+     * access) and stores the version from install/VERSION in the config.
+     */
     public function clearCache()
     {
         $DIRS = ['var/game/', 'var/game/languages/'];
@@ -54,6 +59,12 @@ class Maintenance
         }
     }
 
+    /**
+     * Migrations that still have to run: files of install/migrations/ minus the revisions recorded in `system`
+     * (dbVersion). Legacy installs that recorded only one version number get every file below it marked as done.
+     * @return array<string, array{pathName:string, fileName:string, fileRevision:string, fileExtension:string}> by revision, ascending.
+     * Side effect: may insert revisions into `system`.
+     */
     public function listMigrations(): array
     {
         $db = $this->db;
@@ -125,6 +136,9 @@ class Maintenance
         return $migrationFileList;
     }
 
+    /**
+     * True when at least one migration is pending (triggers the upgrade page).
+     */
     public function checkDBUpgrade(): bool
     {
         $migrationFileList = $this->listMigrations();

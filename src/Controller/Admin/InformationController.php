@@ -42,6 +42,9 @@ class InformationController extends AbstractAdminController
         private readonly string $sessionDsn,
     ) {}
 
+    /**
+     * Server and game information for admins: health checks, PHP and database versions, timezones and game statistics. Read-only.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

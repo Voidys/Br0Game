@@ -57,6 +57,12 @@ final class InstallCommand extends Command
             ->addOption('finish', null, InputOption::VALUE_NONE, 'Internal: second phase');
     }
 
+    /**
+     * Phase 1 of the unattended installer (or phase 2 with --finish). Values come from options, then (interactive)
+     * prompts, then defaults; secrets can come from environment variables. Validates everything up front and returns
+     * Command::INVALID for bad input, FAILURE when the requirements or the database step fail. Writes
+     * config/game.php and .env.local, then re-runs itself with --finish.
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -35,6 +35,7 @@ export function tabs(container, { active = 0, onChange } = {}) {
 
 // ---------------------------------------------------------------------------------------- sortable tables
 
+/** Sort key of a cell: `data-sort` or its text; numbers with thousands separators ("1.234", "1,234,5") become numbers, everything else lower-case text. */
 function cellValue(row, index) {
   const cell = row.cells[index];
   if (!cell) return '';
@@ -158,6 +159,7 @@ function warningBanners() {
   });
 }
 
+/** Planet/moon dropdown: switching reloads the current page with `cp=<planet id>` (keeps the current query string). */
 function planetSelector() {
   on(document, 'change', '#planetSelector, [data-planet-selector]', (event, select) => {
     document.location = `?${window.queryString ?? ''}&cp=${select.value}`;
@@ -245,6 +247,7 @@ function automationReport() {
   }, true);
 }
 
+/** Starts all page-wide behaviours (delegated listeners, no per-page setup) and initialises tabs and sortable tables found in the DOM. */
 export function initUi() {
   warningBanners();
   planetSelector();

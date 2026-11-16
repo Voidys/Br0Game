@@ -22,6 +22,12 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
+/**
+ * PDO wrapper of the game: table placeholders %%TABLE%% (names from Support/tables.php with the configured prefix)
+ * are replaced in every query, queries use named parameters, and the verbs are checked (select/insert/update/delete/replace
+ * accept only their own statement type). Shares Symfony's DBAL connection (UTF-8, STRICT_ALL_TABLES), keeps the last
+ * insert id and row count, counts queries and records them in debug mode. Errors throw Exception with the query text.
+ */
 class Database
 {
     /** Connection setup of the game (charset + sql_mode without ONLY_FULL_GROUP_BY etc.). */
@@ -90,16 +96,28 @@ class Database
         }
     }
 
+    /**
+     * Auto-increment id of the last insert() of this object (0 after any other query).
+     */
     public function lastInsertId(): int
     {
         return $this->lastInsertId;
     }
 
+    /**
+     * Rows affected (or returned) by the last query of this object.
+     */
     public function rowCount(): int
     {
         return $this->rowCount;
     }
 
+    /**
+     * Runs a prepared statement: resolves %%TABLE%% placeholders, quotes the reserved words `system` and `rank`, binds :limit/:offset as integers and everything else as strings (null stays null), measures the DB time, remembers insert id and row count.
+     * @param string $type one of insert, select, update, delete, replace.
+     * @return bool|PDOStatement the statement for selects, true otherwise.
+     * @throws Exception on SQL errors (message includes the query with parameters filled in).
+     */
     private function _query(string $qry, array $params, string $type): bool|PDOStatement
     {
         $start = microtime(true);
@@ -168,6 +186,9 @@ class Database
         return strtolower($match[1]);
     }
 
+    /**
+     * Runs a DELETE; other statement types are rejected. @throws Exception
+     */
     public function delete(string $qry, array $params = []): bool
     {
         if (($type = $this->getQueryType($qry)) !== "delete") {
@@ -177,6 +198,9 @@ class Database
         return $this->_query($qry, $params, $type);
     }
 
+    /**
+     * Runs a REPLACE INTO; other statement types are rejected. @throws Exception
+     */
     public function replace(string $qry, array $params = []): bool
     {
         if (($type = $this->getQueryType($qry)) !== "replace") {
@@ -186,6 +210,9 @@ class Database
         return $this->_query($qry, $params, $type);
     }
 
+    /**
+     * Runs an UPDATE; other statement types are rejected. @throws Exception
+     */
     public function update(string $qry, array $params = []): bool
     {
         if (($type = $this->getQueryType($qry)) !== "update") {
@@ -195,6 +222,9 @@ class Database
         return $this->_query($qry, $params, $type);
     }
 
+    /**
+     * Runs an INSERT (the id is then available in lastInsertId()); other statement types are rejected. @throws Exception
+     */
     public function insert(string $qry, array $params = []): bool
     {
         if (($type = $this->getQueryType($qry)) !== "insert") {
@@ -204,6 +234,9 @@ class Database
         return $this->_query($qry, $params, $type);
     }
 
+    /**
+     * Runs a SELECT and returns all rows as associative arrays.
+     */
     public function select(string $qry, array $params = []): array
     {
         if (($type = $this->getQueryType($qry)) !== "select") {
@@ -214,6 +247,9 @@ class Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * First row of a SELECT as associative array (false when none), or with $field only that column's value (the whole result, i.e. false, when no row).
+     */
     public function selectSingle(string $qry, array $params = [], ?string $field = null): mixed
     {
         if (($type = $this->getQueryType($qry)) !== "select") {
@@ -225,16 +261,25 @@ class Database
         return (empty($field) || (empty($res))) ? $res : $res[$field];
     }
 
+    /**
+     * Starts a transaction (nested transactions are not supported).
+     */
     public function startTransaction(): void
     {
         $this->query("START TRANSACTION;");
     }
 
+    /**
+     * Commits the open transaction.
+     */
     public function commit(): void
     {
         $this->query("COMMIT;");
     }
 
+    /**
+     * Rolls the open transaction back.
+     */
     public function rollback(): void
     {
         $this->query("ROLLBACK");
@@ -269,6 +314,9 @@ class Database
         return $results;
     }
 
+    /**
+     * Executes a raw statement without result (no placeholders, no parameters).
+     */
     public function query(string $qry): void
     {
         $this->lastInsertId = 0;
@@ -279,6 +327,9 @@ class Database
         $this->logQuery($qry, [], 'query', $start);
     }
 
+    /**
+     * Runs a raw statement with %%TABLE%% replacement and no parameters; returns the rows for SELECT/SHOW, true otherwise.
+     */
     public function nativeQuery(string $qry): bool|array
     {
         $this->lastInsertId = 0;
@@ -307,16 +358,25 @@ class Database
         return $this->queryCounter;
     }
 
+    /**
+     * Unix timestamp as MySQL datetime string (server time zone).
+     */
     public function formatDate(int $time): string
     {
         return date('Y-m-d H:i:s', floor($time));
     }
 
+    /**
+     * Quotes a string literal for use in a raw query.
+     */
     public function quote(string $str): string
     {
         return $this->dbHandle->quote($str);
     }
 
+    /**
+     * Debug helper: substitutes the parameters into the query text, writes it to the error log and returns it.
+     */
     public function log(string $qry, array $params = []): string
     {
         $qry    = str_replace($this->dbTableNames['keys'], $this->dbTableNames['names'], $qry);

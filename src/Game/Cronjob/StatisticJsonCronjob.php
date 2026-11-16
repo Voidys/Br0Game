@@ -19,8 +19,14 @@ use Exception;
 use App\Game\Core\Discord;
 use App\Game\Core\Statbuilder;
 
+/**
+ * Exports the ranking data as JSON for external use (cronjob "statisticjson", off by default; Saturday 06:00) via Statbuilder.
+ */
 class StatisticJsonCronjob extends AbstractCronjobTask
 {
+    /**
+     * Calls Statbuilder::generateJson(); exceptions are reported to Discord and echoed.
+     */
     public function run(): void
     {
         try {

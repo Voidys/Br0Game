@@ -11,6 +11,11 @@ namespace App\Game\Tutorials;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 
+/**
+ * Tutorial engine of the game: keeps the player's progress rows in sync with the enabled tutorials/goals,
+ * builds the data of the tutorial popup for the current step, handles advancing, skipping and reward claiming.
+ * The step logic itself is in the AbstractTutorialSupport subclasses.
+ */
 class TutorialUtil
 {
     use \App\Game\Core\GameUtilities;
@@ -18,6 +23,9 @@ class TutorialUtil
     /** seconds between two syncs of the player's tutorial rows with the enabled tutorials and goals */
     private const SYNC_INTERVAL = 60;
 
+    /**
+     * Adds the missing users_tutorial and users_tutorial_goal rows (tutorials and goals that were enabled after the player started, or all for a new player); throttled to once per SYNC_INTERVAL seconds per player in the session.
+     */
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
@@ -127,7 +135,7 @@ class TutorialUtil
     /**
      * Attempts to skip the current tutorial step, if able
      *
-     * Called by button/link in shared.tutorial.tpl via ShowTutorialPage.class.php
+     * Called by button/link in templates/game/shared.tutorial.html.twig via App\Controller\Game\TutorialController
      *
      * @return void
      */
@@ -154,7 +162,7 @@ class TutorialUtil
     /**
      * Attempts to skip the current tutorial step goal, if able
      *
-     * Called by button/link in shared.tutorial.tpl via ShowTutorialPage.class.php
+     * Called by button/link in templates/game/shared.tutorial.html.twig via App\Controller\Game\TutorialController
      *
      * @param integer $goal
      * @return void
@@ -181,7 +189,7 @@ class TutorialUtil
     /**
      * Skips the entire tutorial
      *
-     * Called by button/link in shared.tutorial.tpl via ShowTutorialPage.class.php
+     * Called by button/link in templates/game/shared.tutorial.html.twig via App\Controller\Game\TutorialController
      *
      * @return void
      */
@@ -203,7 +211,7 @@ class TutorialUtil
     /**
      * Claims all rewards for the tutorial step, if any, and tags it accordingly
      *
-     * Called by button/link in shared.tutorial.tpl via ShowTutorialPage.class.php
+     * Called by button/link in templates/game/shared.tutorial.html.twig via App\Controller\Game\TutorialController
      *
      * @return void
      */
@@ -224,7 +232,7 @@ class TutorialUtil
     /**
      * Attempts to tag the given goal as fullfilled
      *
-     * Called by button/link in shared.tutorial.tpl via ShowTutorialPage.class.php
+     * Called by button/link in templates/game/shared.tutorial.html.twig via App\Controller\Game\TutorialController
      *
      * @param integer $goal
      * @return void

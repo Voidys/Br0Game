@@ -15,6 +15,11 @@ use App\Game\Core\HTTP;
  */
 trait PageModeDispatch
 {
+    /**
+     * Route entry of a page controller: checks the module switch of the page ($requireModule, a module id or MODULE_* constant name; an inactive module ends
+     * in the error page), reads `mode` (default `show`) and calls that public method. An unknown mode falls back to $defaultController, otherwise the "page does
+     * not exist" error. A mode that returns a Response is used as is; modes ending in display(), redirectTo() or sendJSON() end the request with EndOfRequest.
+     */
     public function __invoke(): Response
     {
         $LNG = $this->state->LNG;

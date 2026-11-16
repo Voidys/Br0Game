@@ -1,3 +1,7 @@
+/**
+ * Admin message list: pager links submit the list form, sender/receiver fields autocomplete user names (GET
+ * `admin?page=autoComplete&term=`, JSON), and the "toggle" link shows or hides the message text of its row.
+ */
 import { qs, on } from '../app/core.js';
 import { autocomplete } from '../app/ui.js';
 

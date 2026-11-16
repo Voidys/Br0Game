@@ -25,6 +25,9 @@ class AccountController extends AbstractAccountController
         parent::initialize();
     }
 
+    /**
+     * Account lobby (/account?page=account): lists the universes the account has a player in and the ones it can still register in.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -45,6 +48,11 @@ class AccountController extends AbstractAccountController
         return $this->render('account/page.account.default.html.twig');
     }
 
+    /**
+     * Enters a universe (mode=send): POST/GET userID (player id) and universe (id).
+     * Checks that the player belongs to the logged in account (ACCOUNTS_TO_USERS), switches the session to that player and universe
+     * (admin access is dropped) and redirects to /game. A foreign player id redirects back to the lobby.
+     */
     public function send()
     {
         $ACCOUNT = $this->state->ACCOUNT;

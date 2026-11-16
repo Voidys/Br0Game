@@ -10,6 +10,10 @@ class LanguageCatalog
 {
     private static array $allLanguages = [];
 
+    /**
+     * Languages the game offers.
+     * @param bool $OnlyKey true: codes only; false: code => display name.
+     */
     public function getAllowedLangs(bool $OnlyKey = true): array
     {
         if (empty(self::$allLanguages)) {
@@ -32,14 +36,6 @@ class LanguageCatalog
     }
 
     /**
-     * Metadata of a language pack (suffixes, profile, …) from config/languages.yaml,
-     * read directly (memoized per request) so number formatting does not depend on the
-     * language list cache being rebuilt. LanguageBuildCache stores the same metadata
-     * for the allowed-lang list.
-     *
-     * @return array<string, mixed>
-     */
-    /**
      * All selectable language packs, locale => metadata (config/languages.yaml).
      *
      * @return array<string, array<string, mixed>>
@@ -56,6 +52,14 @@ class LanguageCatalog
         return $packs;
     }
 
+    /**
+     * Metadata of a language pack (suffixes, profile, …) from config/languages.yaml,
+     * read directly (memoized per request) so number formatting does not depend on the
+     * language list cache being rebuilt. LanguageBuildCache stores the same metadata
+     * for the allowed-lang list.
+     *
+     * @return array<string, mixed>
+     */
     public function getPackConfig(?string $lang = null): array
     {
         static $packMemo = [];

@@ -48,6 +48,10 @@ class ResourceUpdate
     /** working user/planet rows, built deltas and target time, shared with the queue processors */
     private QueueState $st;
 
+    /**
+     * @param bool $Build false: do not process the building queue in CalcResource().
+     * @param bool $Tech false: do not process the research queue in CalcResource().
+     */
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
@@ -92,6 +96,9 @@ class ResourceUpdate
         return [$this->st->user, $this->st->planet];
     }
 
+    /**
+     * Current [user, planet] state arrays (same as getData()); read after CalcResource() to get the updated rows.
+     */
     public function ReturnVars()
     {
         return [$this->st->user, $this->st->planet];

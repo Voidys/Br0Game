@@ -35,6 +35,9 @@ class RulesController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Rules page: the localized text templates/texts/<lang>/rules.txt (trusted HTML) with the issue tracker link of the config filled in.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

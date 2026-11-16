@@ -17,6 +17,9 @@
 
 namespace App\Game\Core;
 
+/**
+ * Support ticket storage (tickets, tickets_answer, tickets_category); also used by the error reporter to open debug tickets in category 9.
+ */
 class SupportTickets
 {
     use \App\Game\Core\GameUtilities;
@@ -27,6 +30,11 @@ class SupportTickets
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /**
+     * Creates a ticket in the current universe and returns its id.
+     * @param int $ownerID user id (0 = system).
+     * @param int $categoryID ticket category.
+     */
     public function createTicket($ownerID, $categoryID, $subject)
     {
         $db = $this->db;
@@ -50,6 +58,10 @@ class SupportTickets
         return $id;
     }
 
+    /**
+     * Adds an answer to a ticket, sets the ticket status and returns the answer id.
+     * @param int $status new ticket status: 0 for new tickets and player replies, 1 and 2 are set by the admin SupportController (2 = closed).
+     */
     public function createAnswer($ticketID, $ownerID, $ownerName, $subject, $message, $status)
     {
         $db = $this->db;
@@ -82,6 +94,10 @@ class SupportTickets
         return $answerId;
     }
 
+    /**
+     * Ticket categories.
+     * @return array<int, string> category id => name.
+     */
     public function getCategoryList()
     {
         $sql	= 'SELECT * FROM %%TICKETS_CATEGORY%%;';

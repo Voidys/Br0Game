@@ -38,7 +38,9 @@ class LlmClientFactory
     }
 
     /**
-     * null = use the stored value; an empty key means "stored key".
+     * Client for a provider with optional overrides (e.g. to test unsaved form values): null = use the stored value;
+     * an empty key means "stored key". Refuses to use the stored key together with a different base URL than the
+     * stored one, so a key can never be sent to a URL the admin typed in without re-entering it.
      *
      * @throws LlmException
      */
@@ -137,6 +139,7 @@ class LlmClientFactory
         }
     }
 
+    /** Creates the client; the OpenCode session id is stable per installation (hash of the project path), the referer is this game's URL. */
     private function build(string $provider, string $key, string $model, string $url): LlmClient
     {
         $runtime = $this->state->runtime;

@@ -135,6 +135,9 @@ class ServerInfoLogs
 
     // ------------------------------------------------------------------------------ helpers
 
+    /**
+     * Path relative to the project root (unchanged outside it), so the admin server info does not reveal absolute paths.
+     */
     public function relativePath(string $path): string
     {
         $root = rtrim($this->state->runtime->rootPath, '/') . '/';

@@ -17,7 +17,14 @@
 
 namespace App\Game\Cache\Builder;
 
+/**
+ * Builder of one cache entry (registered in Core\Cache::BUILDERS by key): buildCache() computes the data that is then stored as a PHP array file.
+ */
 interface BuildCacheInterface
 {
+    /**
+     * Computes the cache content from the database or the language files.
+     * @return array<mixed>
+     */
     public function buildCache();
 }

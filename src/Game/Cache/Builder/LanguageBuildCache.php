@@ -20,8 +20,17 @@ namespace App\Game\Cache\Builder;
 use Symfony\Component\Yaml\Yaml;
 use App\Game\Core\Language;
 
+/**
+ * Builds the "language" cache: converts the Symfony translation files translations/<domain>.<lang>.yaml of every
+ * language pack into var/game/languages/<lang>-<DOMAIN> array files (read by Language::includeData()) and returns
+ * the selectable languages with their metadata (config/languages.yaml).
+ */
 class LanguageBuildCache implements BuildCacheInterface
 {
+    /**
+     * Writes the language array files for all packs and returns the language list.
+     * @return array<string, array<string, mixed>> language code => metadata (name, ...) for packs that declare a name.
+     */
     public function buildCache(): array
     {
         if (!is_dir(\App\Runtime\ProjectPaths::CACHE.'languages/')) {
@@ -40,6 +49,11 @@ class LanguageBuildCache implements BuildCacheInterface
         return $languages;
     }
 
+    /**
+     * Converts all domain files of one language into cache files.
+     * @param string $fileDir unused (kept for compatibility); the translations directory of the project is used.
+     * @param string $lang language code, e.g. 'de'.
+     */
     public function cacheLanguage(string $fileDir, string $lang): void
     {
 

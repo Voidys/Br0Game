@@ -36,6 +36,9 @@ class SupportController extends AbstractAdminController
 {
     private $ticketObj;
 
+    /**
+     * Creates the SupportTickets helper after the permission check.
+     */
     protected function construct(): void
     {
         parent::construct();
@@ -43,6 +46,9 @@ class SupportController extends AbstractAdminController
         $this->ticketObj    = new SupportTickets($this->db, $this->configs, $this->state);
     }
 
+    /**
+     * Ticket overview of the emulated universe with answer counts. `mode` other than show dispatches to the method of that name (view, send).
+     */
     public function show(): Response
     {
         //TODO: temporary fix for 2Moons 1.7TO1.6 PageClass Wrapper
@@ -85,6 +91,11 @@ class SupportController extends AbstractAdminController
         return $this->render('admin/page.ticket.default.html.twig');
     }
 
+    /**
+     * Answers a ticket (mode=send): request id, message and change_status. change_status toggles open (1) and closed (2); an answer and/or
+     * the status change is stored through SupportTickets::createAnswer, the Discord ticket hook is notified and the ticket owner gets an
+     * in-game message. Redirects to the ticket, or to the overview after closing.
+     */
     public function send(): never
     {
         $USER = $this->state->USER;
@@ -159,6 +170,9 @@ class SupportController extends AbstractAdminController
         $this->http()->redirectTo('admin?page=support');
     }
 
+    /**
+     * One ticket (request: id) with the conversation (TICKETS_ANSWER).
+     */
     public function view(): Response
     {
         $USER = $this->state->USER;

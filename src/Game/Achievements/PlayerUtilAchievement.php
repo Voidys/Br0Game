@@ -15,6 +15,10 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\Statbuilder;
 
+/**
+ * Achievement rules checked while players and planets are created, deleted or renamed (galaxy position of the
+ * home planet, destroyed colonies/moons, names, ...); called from the Core\Player services.
+ */
 class PlayerUtilAchievement
 {
     use \App\Game\Core\GameUtilities;

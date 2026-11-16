@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'maintenance', uniPrefix: true)]
 class MaintenanceController extends AbstractAdminController
 {
+    /**
+     * Shown to every admin; the single actions have their own permission checks.
+     */
     protected function construct(): void
     {
         // no right of its own: open for admins who may run at least one of the tools
@@ -23,6 +26,9 @@ class MaintenanceController extends AbstractAdminController
         }
     }
 
+    /**
+     * Renders the maintenance page (cache clearing, statistics recalculation).
+     */
     public function show(): Response
     {
         $this->assign([

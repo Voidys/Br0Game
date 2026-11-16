@@ -35,6 +35,10 @@ class FleetDealerController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Sells ships (request: shipID, count) of the current planet: only ships listed in `trade_allowed_ships`, not in vacation mode, with the
+     * planet row locked. Pays the ship cost minus the `trade_charge` percent in resources and removes the ships.
+     */
     public function send()
     {
         $USER = $this->state->USER;
@@ -124,6 +128,9 @@ class FleetDealerController extends AbstractGameController
         ]);
     }
 
+    /**
+     * Ship dealer form with the tradeable ships and the charge.
+     */
     public function show(): Response
     {
         $PLANET = $this->state->PLANET;

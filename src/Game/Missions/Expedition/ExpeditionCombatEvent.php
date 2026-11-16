@@ -86,6 +86,13 @@ class ExpeditionCombatEvent extends ExpeditionEvent
         return $returnArray;
     }
 
+    /**
+     * Builds the enemy side for the engine: fleet 0 owned by user id 0 at the expedition coordinates, ships from
+     * setupPiratesOrAliens(), tech levels of the player's weapons/shield/armor plus the tech bonus (pirates -3,
+     * aliens +3, never below 0), no resource bonuses.
+     * @param array $playerFleet attacker entry (player row, unit list) as passed to the engine.
+     * @return array{0: array, 1: string} defender array for the engine, event message text.
+     */
     private function determineEnemyData(array $playerFleet): array
     {
         $senderData = $playerFleet['player'];

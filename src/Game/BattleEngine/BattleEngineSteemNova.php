@@ -10,6 +10,13 @@ use App\Game\Missions\MissionFunctions;
 use App\Game\Core\FleetFunctions;
 
 
+/**
+ * PHP battle engine (the OGame-style per-ship simulation, fallback when the Rust engine is unavailable).
+ * Every ship is an individual object with attack/shield/armor; up to MAX_ATTACK_ROUNDS rounds in which every
+ * ship fires once at a random enemy ship (with rapid fire re-shots), then destroyed ships are removed and all
+ * shields restored. Also computes the debris field, the 70% (+/-) defense rebuild and the wreck field for the
+ * repair dock. Fleet arrays are the format built by BattleHandler. Uses the Ds extension when installed.
+ */
 class BattleEngineSteemNova extends AbstractBattleEngine
 {
 
@@ -426,6 +433,13 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         }
     }
 
+    /**
+     * One round: all attackers shoot, then all defenders shoot (damage is applied immediately on the victim, but
+     * destruction is only settled afterwards by destroy()).
+     * @param array $advancedStats by-ref kill counter [shooterUserId][victimUserId][unitId] => ships destroyed.
+     * @return array|\Ds\Map|false per-side damage dealt and shield damage absorbed (keys attack, defense,
+     * attackShield, defShield), or false when the memory guard trips.
+     */
     private function fight(&$attackers, &$defenders, $sim, &$advancedStats)
     {
 
@@ -473,6 +487,10 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         ];
     }
 
+    /**
+     * Removes every ship with armor <= 0 or flagged 'explode' from the per-ship list and decrements the fleet's
+     * unit counts accordingly. Called after each round.
+     */
     private function destroy(&$attackers)
     {
         foreach ($attackers as $fleetID => &$attacker) {
@@ -494,6 +512,16 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         }
     }
 
+    /**
+     * One shot of one ship at a uniformly random enemy ship (picked over all ships of all fleets of the other side).
+     * Rules: a shot whose attack is below 1% of the target's shield bounces off; otherwise the shield absorbs
+     * first, the remainder hits the armor. A ship (id 2xx) below 70% of its initial armor explodes with probability
+     * (1 - armor/initialArmor) on every hit. Rapid fire: if the target type is in the shooter's 'sd' table with
+     * value N the shooter fires again with probability (N-1)/N (recursive).
+     * Side effects: updates damage totals in $ad and kill statistics in $advancedStats.
+     * @param int $attacker user id of the shooter (0 = pirates / expedition NPC).
+     * @param array $unit shooter ship entry (unit id, att, ...).
+     */
     private function shoot($attacker, $unit, &$defenders, &$ad, $sim, &$advancedStats)
     {
         // SHOOT
@@ -570,6 +598,13 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         }
     }
 
+    /**
+     * Builds the per-ship objects on the first call ($firstInit: one array per ship with attack/shield/armor
+     * scaled by the owner's weapon/shield/armor tech, +10% per level, armor = (metal+crystal cost)/10) and
+     * returns the per-fleet/per-unit totals used for the round report.
+     * @return array{attackAmount: array<int|string,int>, attArray: array} ship counts per fleet ('total' for all)
+     * and the summed def/shield/att values per fleet and unit id.
+     */
     protected function initCombatValues(&$fleets, $firstInit = false): array
     {
         // INIT COMBAT VALUES
@@ -629,6 +664,9 @@ class BattleEngineSteemNova extends AbstractBattleEngine
         return ['attackAmount' => $attackAmount, 'attArray' => $attArray];
     }
 
+    /**
+     * Resets the shield of every surviving ship to its full value; shields regenerate between rounds.
+     */
     private function restoreShields(&$fleets)
     {
         $CombatCaps = $this->state->CombatCaps;

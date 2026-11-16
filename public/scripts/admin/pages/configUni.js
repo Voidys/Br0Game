@@ -84,11 +84,17 @@ function flightTimePreview() {
     return '';
   };
 
+  /** Number of steps between two positions on a ring of `max` positions (circular universe/galaxy type: the shorter way round counts). */
   const ringDistance = (current, target, max) => {
     const diff = Math.abs(current - target);
     return diff < Math.ceil(max / 2) ? diff : Math.floor(max / 2) - (diff - Math.ceil(max / 2));
   };
 
+  /**
+   * Distance from 1:1:1 to the target using the current form values, same rules as the PHP FleetMath::getTargetDistance():
+   * galaxy, system or planet step with the universe/galaxy type (0 linear, 1 circular, 2 constant), distance factors and
+   * base distances; 5 for the same planet.
+   */
   const distanceTo = (target) => {
     const uniType = fieldValue('uni_type');
     const galaxyType = fieldValue('galaxy_type');
@@ -114,11 +120,13 @@ function flightTimePreview() {
     return 5;
   };
 
+  /** One-way flight time in seconds for a distance (mirror of PHP FleetMath::getMissionDuration() at full speed), at least `minDuration`. */
   const durationFor = (distance) => {
     const duration = ((3500 / (settings.speedFactor * 0.1) * Math.sqrt(distance * 10 / settings.shipSpeed) + 10) / settings.gameSpeed) * settings.fleetSpeedFactor;
     return Math.floor(Math.max(duration, settings.minDuration));
   };
 
+  /** Recomputes the preview for the typed target coordinates; shows a validation message instead when they are out of range. */
   const update = () => {
     const target = parseTarget();
     const error = validateTarget(target);

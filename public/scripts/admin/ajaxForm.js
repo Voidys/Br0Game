@@ -26,6 +26,7 @@ export async function postToDialog(form, url) {
   Dialog.alert(text, () => window.location.reload());
 }
 
+/** Delegated submit handler for `form[data-ajax-dialog=<url>]`: posts in the background via postToDialog() instead of navigating. */
 export function initAjaxForms() {
   document.addEventListener('submit', (event) => {
     const form = event.target;

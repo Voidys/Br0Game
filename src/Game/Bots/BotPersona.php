@@ -118,6 +118,13 @@ class BotPersona
         ];
     }
 
+    /**
+     * Name for a bot's home planet or colony: asks the LLM (when enabled, within the budget) and accepts the answer only if it
+     * is a valid planet name (2-20 characters, no tags); otherwise a local name from a fixed list.
+     *
+     * @param array<string, mixed> $botRow  bot_players row (user_id, universe)
+     * @param array<string, mixed> $persona decoded persona (tone, language, bio)
+     */
     public function planetName(array $botRow, array $persona, bool $home): string
     {
         $universe = (int) ($botRow['universe'] ?? 1);
@@ -188,6 +195,10 @@ class BotPersona
         }
     }
 
+    /**
+     * Counts one LLM call against the bot's daily budget (`bots_llm_daily_limit`, default and fallback 20 calls per
+     * calendar day). Returns false when the bot is unknown or the budget is used up; the counter resets when the date changes.
+     */
     private function takeBudget(int $universe, int $userId): bool
     {
         $db = $this->db;
@@ -215,6 +226,7 @@ class BotPersona
         return true;
     }
 
+    /** Persona as array: arrays pass through, JSON strings are decoded, anything else gives []. */
     public static function decode(mixed $persona): array
     {
         if (is_array($persona)) {
@@ -259,7 +271,7 @@ class BotPersona
         return $br ? nl2br($text, false) : $text;
     }
 
-    /** Swaps adjacent letters at the given rate to imitate typos. */
+    /** Swaps two adjacent inner letters in words of 4+ letters; each word is hit with probability `$rate * 2` (rate as fraction, e.g. 0.02). */
     public static function typos(string $text, float $rate): string
     {
         if ($rate <= 0) {
@@ -278,6 +290,7 @@ class BotPersona
         }, $text);
     }
 
+    /** Normalized profile key (lowercase, spaces to underscores) from profile_key, name or key; defaults to 'office_worker'. */
     public static function profileKey(array $profile): string
     {
         $key = (string) ($profile['profile_key'] ?? $profile['name'] ?? $profile['key'] ?? '');
@@ -289,6 +302,7 @@ class BotPersona
     // generation internals
     // ------------------------------------------------------------------------------------------------
 
+    /** Language of a new persona: the universe's default language (de or en) with 70 % probability, the other one otherwise. */
     private function rollLanguage(int $universe): string
     {
         $default = 'de';
@@ -303,6 +317,13 @@ class BotPersona
         return mt_rand(1, 100) <= 70 ? $default : $other;
     }
 
+    /**
+     * Asks the LLM for a nickname and persona (JSON object: nickname, bio, tone, quirks, age_hint), at most two attempts. Every
+     * field is sanitized; fields that fail validation keep the local persona's value. Returns null when the LLM is
+     * unavailable or no usable, still free nickname came back (the caller then generates locally).
+     *
+     * @return array{nickname: string, persona: array<string, mixed>}|null
+     */
     private function generateWithLlm(int $universe, string $style, string $language): ?array
     {
         $system = 'You create fictional human players for a browser space strategy game. '
@@ -361,6 +382,10 @@ class BotPersona
         return null;
     }
 
+    /**
+     * Whether a nickname is usable: 3-20 characters, no surrounding whitespace, valid game name, nothing that suggests a bot or AI
+     * (BAD_NICK), and not taken as player name in the universe or as account name.
+     */
     public function nickAvailable(int $universe, string $nick): bool
     {
         $len = mb_strlen($nick);
@@ -385,6 +410,7 @@ class BotPersona
         return (int) $inUsers === 0 && (int) $inAccounts === 0;
     }
 
+    /** Free nickname without the LLM: 20 tries with BotNameGenerator, 20 with random gamer handles, then "Pilot<number>". */
     private function localNickname(int $universe): string
     {
         for ($i = 0; $i < 40; ++$i) {
@@ -397,6 +423,7 @@ class BotPersona
         return 'Pilot' . mt_rand(1000, 99999);
     }
 
+    /** Random gamer handle (word combinations, first names, years, leetspeak), cut to MAX_NICK characters; not checked for availability. */
     private static function randomHandle(): string
     {
         $pick = static fn(array $a): string => $a[array_rand($a)];
@@ -428,6 +455,12 @@ class BotPersona
         return $nick;
     }
 
+    /**
+     * Persona without the LLM: tone, age hint and `typo_rate` (share of misspelled words, max 0.1) depend on the profile
+     * style (noob types most typos), plus a random bio and one or two quirks in the given language.
+     *
+     * @return array{bio: string, tone: string, language: string, quirks: list<string>, age_hint: string, play_style: string, typo_rate: float}
+     */
     private static function localPersona(string $style, string $language): array
     {
         $typo = match ($style) {
@@ -468,6 +501,7 @@ class BotPersona
         ];
     }
 
+    /** Planet name from the LLM: 2-20 characters, valid game name, no markup. */
     private function validPlanetName(string $name): bool
     {
         $len = mb_strlen($name);
@@ -475,6 +509,7 @@ class BotPersona
         return $len >= 2 && $len <= 20 && $this->playerUtil()->isNameValid($name, true) && strip_tags($name) === $name;
     }
 
+    /** Planet name from the fixed lists; colonies sometimes get a number 2-9 appended; max 20 characters. */
     private static function localPlanetName(bool $home): string
     {
         $list = $home ? self::PLANETS_HOME : self::PLANETS_COLONY;

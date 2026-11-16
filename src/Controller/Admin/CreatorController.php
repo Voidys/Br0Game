@@ -33,6 +33,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'creator', uniPrefix: true)]
 class CreatorController extends AbstractAdminController
 {
+    /**
+     * Creator page (admin?page=creator). `mode` selects the tab handler: account, user, moon, planet or testData (classes in App\Game\Admin\Creator,
+     * driven through a ClosureAdminResponder); without a known mode the tab overview template is rendered.
+     */
     public function show(): Response
     {
         if (empty($this->state->requestQuery['mode'])) {

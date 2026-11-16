@@ -38,6 +38,9 @@ class NotesController extends AbstractGameController
         $this->setWindow('popup');
     }
 
+    /**
+     * List of the player's notes, highest priority first, newest first.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -67,6 +70,9 @@ class NotesController extends AbstractGameController
         return $this->render('game/page.notes.default.html.twig');
     }
 
+    /**
+     * Edit popup of one note (request: id; 0 = new note).
+     */
     public function detail(): Response
     {
         $LNG = $this->state->LNG;
@@ -98,6 +104,10 @@ class NotesController extends AbstractGameController
         return $this->render('game/page.notes.detail.html.twig');
     }
 
+    /**
+     * Saves a note (request: id, priority, title, text); id 0 inserts, otherwise the player's own note is updated. The encoded title is cut to
+     * 32 characters without leaving a broken entity. Redirects to the list.
+     */
     public function insert()
     {
         $LNG = $this->state->LNG;
@@ -141,19 +151,27 @@ class NotesController extends AbstractGameController
         $this->redirectTo('game?page=notes');
     }
 
+    /**
+     * Deletes the selected notes (request: delmes[<id>]); only the player's own notes are affected. Redirects to the list.
+     */
     public function delete()
     {
         $USER = $this->state->USER;
 
         $deleteIds	= $this->http()->_GP('delmes', []);
         $deleteIds	= array_keys($deleteIds);
-        $deleteIds	= array_filter($deleteIds, 'is_numeric');
+        $deleteIds	= array_map('intval', array_filter($deleteIds, 'is_numeric'));
 
         if (!empty($deleteIds)) {
-            $sql = 'DELETE FROM %%NOTES%% WHERE id IN (' . implode(', ', $deleteIds) . ') AND owner = :userID;';
-            $this->db->delete($sql, [
-                ':userID'   => $USER['id'],
-            ]);
+            // one bound placeholder per id: request values never reach the SQL text
+            $params = [':userID' => $USER['id']];
+            $placeholders = [];
+            foreach (array_values($deleteIds) as $i => $noteId) {
+                $placeholders[] = ':note' . $i;
+                $params[':note' . $i] = $noteId;
+            }
+            $sql = 'DELETE FROM %%NOTES%% WHERE id IN (' . implode(', ', $placeholders) . ') AND owner = :userID;';
+            $this->db->delete($sql, $params);
         }
         $this->redirectTo('game?page=notes');
     }

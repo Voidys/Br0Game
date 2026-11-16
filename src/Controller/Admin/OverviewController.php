@@ -25,6 +25,11 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'overview', uniPrefix: true)]
 class OverviewController extends AbstractAdminController
 {
+    /**
+     * Admin dashboard. Notices for ADM (leftover update.php / webinstall.php / var/ENABLE_INSTALL_TOOL, var/ directories that are not
+     * writable), figures of the emulated universe (players online within the last 15 minutes, players, fleets), active cronjobs
+     * and a warning for jobs whose lock is still set (stuck runs). Read-only.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

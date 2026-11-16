@@ -1,12 +1,19 @@
 import { qs, qsa, on, now, getRestTimeFormat, setVisibleInterval } from '../app/core.js';
 
+/**
+ * Overview page: live countdowns (fleet movements `.fleets`, building/research `.timer`, planet repair `.timerrepair`,
+ * short form `.timershort`) and the toggles of the news and event blocks. Countdown elements carry the remaining
+ * seconds at render time in data attributes; in vacation mode (`.timer[data-umode=1]`) they stay frozen.
+ */
 const elapsed = () => (now().getTime() - (window.startTime ?? now().getTime())) / 1000;
 
+/** Remaining seconds of an element (data-time): absolute since page render, frozen in vacation mode. */
 function remaining(el, umode) {
   const time = Number(el.dataset.time);
   return umode ? time : time - elapsed();
 }
 
+/** Starts the two 1 s intervals and the news/event toggle buttons. A finished repair countdown restarts with the 3-day (259200 s) cycle and switches the label to its alternative text. */
 function init() {
   const umode = qs('.timer')?.dataset.umode == 1;
 

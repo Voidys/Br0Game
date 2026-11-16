@@ -23,8 +23,21 @@ use App\Game\Core\AccountUtil;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Universe;
 
+/**
+ * Weekly cleaning (default Saturday 02:45, cronjob "cleaner"): deletes old data in all tables and removes
+ * players and accounts that are inactive or flagged for deletion.
+ */
 class CleanerCronjob extends AbstractCronjobTask
 {
+    /**
+     * Steps: user messages older than message_delete_days (favorites kept, except spy reports) and orphaned message
+     * bodies; empty alliances with their ranks; planets whose `destruyed` time has passed; expired sessions
+     * (SESSION_LIFETIME); fleet events without fleet; fleet logs and phalanx logs older than
+     * del_oldstuff days; advanced-stat history older than 7 days; resets debris-field flags (tf_active). Per
+     * universe (skipped for registration-only universes): deletes players (authlevel user) who requested deletion
+     * more than del_user_manually days ago or were offline longer than del_user_automatic days (0 = off).
+     * Accounts: deletes accounts that requested deletion, and accounts without any player and inactive for a month.
+     */
     public function run(): void
     {
         $config = $this->configs->get(ROOT_UNI);

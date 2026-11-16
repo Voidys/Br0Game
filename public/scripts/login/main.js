@@ -14,6 +14,7 @@ function fbLinks() {
   return qsa('.fb_login');
 }
 
+/** Points the login form and the social login links at the selected universe: `uni<N>.` subdomain (wildcard setups) or `uni<N>/` path prefix; universe 0 keeps the base path. */
 function updateUrls(select) {
   const universe = select.value;
   const form = select.closest('form');

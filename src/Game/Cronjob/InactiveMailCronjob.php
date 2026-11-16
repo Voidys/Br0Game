@@ -23,8 +23,16 @@ use App\Game\Core\Language;
 use App\Game\Core\Mail;
 use App\Game\Core\Singleton;
 
+/**
+ * Inactivity reminder (default 01:30 on Sunday, Wednesday, Saturday): mails players who were offline longer than
+ * del_user_sendmail days (once; bots excluded) when mail sending is enabled.
+ */
 class InactiveMailCronjob extends AbstractCronjobTask
 {
+    /**
+     * Sends the localized `email_inactive` text to each player with inactive_mail = 0 and onlinetime older than the
+     * limit, then sets inactive_mail = 1 so the player is not mailed again.
+     */
     public function run(): void
     {
         $LNG = & $this->state->LNG;

@@ -12,6 +12,10 @@ use Cron\CronExpression;
 use DateTime;
 use Exception;
 
+/**
+ * Account-level helpers (the login account that owns one player per universe): creation, password hashing,
+ * name/mail validation, universe list, account bans and the planned deletion date. Player-level logic is in PlayerUtil.
+ */
 class AccountUtil
 {
     use \App\Game\Core\GameUtilities;
@@ -22,11 +26,17 @@ class AccountUtil
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /**
+     * Bcrypt hash (cost 13) of a password for storage in `accounts.password`.
+     */
     public function cryptPassword(string $password): string
     {
         return password_hash($password, PASSWORD_BCRYPT, ['cost' => 13]);
     }
 
+    /**
+     * Allowed account names: letters, digits, German umlauts, space, underscore, dot, hyphen (ASCII only without UTF-8 support).
+     */
     public function isNameValid(string $name): bool
     {
         if (UTF8_SUPPORT) {
@@ -36,6 +46,9 @@ class AccountUtil
         }
     }
 
+    /**
+     * True for an RFC-valid e-mail address (filter_var).
+     */
     public function isMailValid(string $address): bool
     {
         if (function_exists('filter_var')) {
@@ -155,11 +168,18 @@ class AccountUtil
         return true;
     }
 
+    /**
+     * Timestamp at which an account that requested deletion will really be removed: the next run of the cleaner
+     * cronjob (CleanerCronjob, the job that deletes players and accounts; if active) that lies after `$dbdeaktjava + del_user_manually days`; 0 when the cronjob is
+     * inactive or no run fits within the next ten schedule slots.
+     * @param int $dbdeaktjava timestamp of the deletion request.
+     * @param object $config universe config (del_user_manually = days to wait).
+     */
     public function getDeletionDate(int $dbdeaktjava, object $config): int
     {
         $db = $this->db;
-        $sql = 'SELECT * FROM %%CRONJOBS%% WHERE `cronjobID` = 4;';
-        $deletionJob = $db->selectSingle($sql);
+        $sql = 'SELECT * FROM %%CRONJOBS%% WHERE `class` = :class;';
+        $deletionJob = $db->selectSingle($sql, [':class' => 'CleanerCronjob']);
         $deletionDate = 0;
         if (!empty($deletionJob) && $deletionJob['isActive'] == 1) {
             $earliestTime = $dbdeaktjava + ($config->del_user_manually * 86400);
@@ -281,6 +301,13 @@ class AccountUtil
         return $account;
     }
 
+    /**
+     * Bans an account and all its players in every universe: writes `accounts_banned` and a `users_banned` row per
+     * player (reason, start time, author, mail), sets bana/banaday on the account and the players and, with $vMode,
+     * puts every player into vacation mode (enable_vmode, flagged as ban).
+     * @param int $banTime timestamp the ban ends (default 2147483647 = permanent).
+     * @param string $admin author name stored with the ban.
+     */
     public function banAccount(int $accountId, string $banReason, int $banTime = 2147483647, bool $vMode = true, string $admin = 'System', string $mail = ''): void
     {
         $db = $this->db;
@@ -350,19 +377,3 @@ class AccountUtil
         }
     }
 }
-/*
-    Enable to debug
-*/
-// try {
-//     define('MODE', 'INSTALL');
-//     define('ROOT_PATH', 'G:/xampp/htdocs/pr0game/');
-//     define('TIMESTAMP', time());
-//     require 'src/Game/Support/constants.php';
-//     require 'includes/classes/Database.class.php';
-//     require 'includes/classes/Cache.class.php';
-//     require 'src/Game/Support/vars.php';
-//     require 'includes/classes/Config.class.php';
-
-//     PlayerUtil::randomHP(1);
-// } catch (Exception $e) {
-// }

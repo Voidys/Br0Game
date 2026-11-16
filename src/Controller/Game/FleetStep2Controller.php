@@ -40,6 +40,16 @@ class FleetStep2Controller extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Fleet dispatch step 2 (mission choice). Request: token (fleet stored by step 1; unknown tokens go back to the fleet page), galaxy/system/planet/type
+     * (target), speed (percent, validated against the allowed speeds), target_mission (-1 = pick), group (public id of an alliance combat group the
+     * player is invited to). Loads the target (planet, moon, or the player's own pirate base; empty debris fields are refused), asks FleetFunctions
+     * which missions are possible (none: message), chooses the mission when none was given (the best of the player's mission priorities, or
+     * transport for own/befriended targets, spy for a lone probe, otherwise attack; attack on a combat group becomes ACS), computes distance, duration
+     * and deuterium consumption (refused when the planet lacks the deuterium), and stores speed, distance and target in the session fleet entry.
+     * Builds the confirmation questions (outlaw, diplomatic partner, buddy, colony warning), the stay times and the trade market rates for trade
+     * missions, refuses missing ships and expeditions with probes only, and renders the form.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -374,6 +384,12 @@ class FleetStep2Controller extends AbstractGameController
         return $this->render('game/page.fleetStep2.default.html.twig');
     }
 
+    /**
+     * XHR validation of the cargo of step 2 (request: token, mission, metal, crystal, deuterium, and for trade missions resEx = wanted resource type 1..3,
+     * exchange = wanted amount, markettype 0 = resources / 1 = ships). Answers JSON: `OK` or the error text for missing resources on the planet, deuterium
+     * for the flight on top of the cargo, too little cargo space, or invalid trade setups (nothing or several resources loaded, wanting the loaded
+     * resource). An unknown token gives {message, error: true}.
+     */
     public function checkResources(): void
     {
         $PLANET = $this->state->PLANET;

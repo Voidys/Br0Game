@@ -75,6 +75,9 @@ abstract class AbstractAdminController implements GameControllerInterface
         $this->checkPermission('Show' . preg_replace('/Controller$/', '', $short) . 'Page');
     }
 
+    /**
+     * Route entry: runs show() and returns its Response; a page that printed its own output (downloads, plain text) ends the request through EndOfRequest.
+     */
     public function __invoke(): Response
     {
         $result = $this->show();

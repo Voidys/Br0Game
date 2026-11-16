@@ -1,18 +1,25 @@
 import { qs, qsa, show, hide, setVisibleInterval, clearVisibleInterval, getRestTimeFormat } from '../app/core.js';
 import { registerActions } from '../app/actions.js';
 
+/**
+ * Repair dock page: countdown and progress bar of the running repair, "repair all" button. `data-time` of #time is the
+ * remaining seconds at render time; in vacation mode (.timer[data-umode=1]) the time is frozen. When the repair is done the
+ * "ready" text, the deploy button (#deployRepaired) are shown and the progress bar is hidden.
+ */
 let resttime = 0;
 let time = 0;
 let interval = 0;
 let umode = false;
 let startValue = 0;
 
+/** Fills every amount field with its maximum (data-max). */
 function repairAll() {
   for (const field of qsa('.numfield')) {
     field.value = field.dataset.max;
   }
 }
 
+/** Sets the progress bar between its start value and 100 from the remaining seconds. */
 function setProgress(rest) {
   const bar = qs('#progressbar');
   if (!bar || time <= 0) return;
@@ -20,6 +27,7 @@ function setProgress(rest) {
   bar.value = startValue + (100 - startValue) * done;
 }
 
+/** One tick (1 s): updates remaining time, page title and progress bar; at zero stops the interval and shows the finished state. */
 function Repairlist() {
   let rest = resttime;
   if (!umode) {

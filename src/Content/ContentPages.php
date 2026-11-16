@@ -96,6 +96,12 @@ final class ContentPages
         return $info;
     }
 
+    /**
+     * Stores the edited version of a page for one language (insert or update). The HTML is sanitized with the rich
+     * profile, the title cut to 255 and the editor name to 64 characters.
+     *
+     * @throws \InvalidArgumentException for an unknown slug or language
+     */
     public function save(string $slug, string $lang, string $title, string $html, string $user): void
     {
         $this->assertSlug($slug);
@@ -142,6 +148,7 @@ final class ContentPages
         return $byLang;
     }
 
+    /** Page row for a page that was never edited: translated title, generated default content, edited = false. */
     private function default(string $slug, string $lang): array
     {
         $title = $this->translator->trans(self::TITLE_KEYS[$slug], [], 'public', $lang);
@@ -157,6 +164,11 @@ final class ContentPages
         ];
     }
 
+    /**
+     * Default HTML of a page: "contacts" is built from the legal-notice settings (address, phone, mail, notice),
+     * "dataPrivacy" from the privacy template with live settings (privacyPolicy()), the others from the language
+     * template (the issues link fills the one placeholder).
+     */
     private function defaultContent(string $slug, string $lang): string
     {
         $t = fn(string $key): string => $this->translator->trans($key, [], 'public', $lang);
@@ -218,6 +230,7 @@ final class ContentPages
         ]);
     }
 
+    /** @throws \InvalidArgumentException unless the slug is one of SLUGS */
     private function assertSlug(string $slug): void
     {
         if (!array_key_exists($slug, self::SLUGS)) {
@@ -225,6 +238,7 @@ final class ContentPages
         }
     }
 
+    /** @throws \InvalidArgumentException unless the language pack exists */
     private function assertLang(string $lang): void
     {
         if (!isset($this->languagePacks->getNames()[$lang])) {

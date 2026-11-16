@@ -2,6 +2,10 @@
 
 namespace App\Game\Core;
 
+/**
+ * Renders spy reports for the message list: spy report messages store a JSON blob built by MissionCaseSpy;
+ * this class turns it into the message title and the HTML report (Twig template game/shared.mission.spyReport).
+ */
 class SpyReport
 {
     use \App\Game\Core\GameUtilities;
@@ -12,6 +16,9 @@ class SpyReport
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /**
+     * Title line of a report message (planet, owner, coordinates, spy time) from the JSON text; '' if the text is not valid JSON.
+     */
     public function getSpyReportTitle(string $MessageText): string
     {
         $USER = $this->state->USER;
@@ -34,6 +41,9 @@ class SpyReport
         );
     }
 
+    /**
+     * HTML of a report from the stored JSON text, in the viewer's theme; the text is returned unchanged if it is not JSON (old-format reports).
+     */
     public function getSpyReport(string $MessageText): string
     {
         $USER = $this->state->USER;

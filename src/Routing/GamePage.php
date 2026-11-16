@@ -15,6 +15,14 @@ use Symfony\Component\Routing\Attribute\Route;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 final class GamePage extends Route
 {
+    /**
+     * @param string $script    entry script, only its basename selects the area (index = login, game, admin, account, CombatReport)
+     * @param string $page      value of `?page=`, matched case-insensitively through a route condition
+     * @param bool   $default   also match when `page` is missing or empty
+     * @param bool   $uniPrefix variant under /uni{N}/ (universe prefix, N is passed as route attribute `uni`)
+     *
+     * Route name is `game_<area>_<page lowercased>[_uni]`, which CsrfPolicy and LocaleSubscriber rely on.
+     */
     public function __construct(string $script, string $page, bool $default = false, bool $uniPrefix = false)
     {
         $matchPage = sprintf("(request.query.get('page') ~ '') matches '/^%s$/i'", preg_quote($page, '/'));

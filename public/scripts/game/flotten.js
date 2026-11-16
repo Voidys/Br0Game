@@ -20,6 +20,7 @@ let dataFlyConsumption = 0;
 let dataFlyCargoSpace = 0;
 let transportCapacity = 0;
 
+/** Recomputes distance, duration, fuel and free cargo space after the target or speed changed and refreshes the form display. Resets the ACS group unless `$reset_acs` is false. Targets beyond the last planet slot (expedition position) force the planet type to 1. */
 function updateVars($reset_acs = true)
 {
 	if ($reset_acs) {
@@ -42,7 +43,7 @@ function updateVars($reset_acs = true)
 /**
  * Calculates the distance to the target
  *
- * Changes needs to be done in includes/classes/class.FleetFuntions.php#getTargetDistance() aswell
+ * Changes needs to be done in src/Game/Core/FleetMath.php getTargetDistance() as well (and the preview in admin/pages/configUni.js)
  *
  * @returns int
  */
@@ -100,7 +101,7 @@ function GetDistance() {
 /**
  * Unrounded travel time, including fleetSpeedFactor.
  * Used for the deuterium preview so it matches FleetFunctions::getFleetConsumption().
- * Keep in sync with FleetFunctions::getMissionDuration().
+ * Keep in sync with FleetMath::getMissionDuration().
  */
 function GetRawDuration() {
 	let sp = Number(document.getElementsByName("speed")[0].value);
@@ -110,13 +111,14 @@ function GetRawDuration() {
 
 /**
  * Whole seconds shown in the UI and stored at send.
- * Floor after the speed factor matches ShowFleetStep3Page: floor($duration) + TIMESTAMP.
- * Keep in sync with FleetFunctions::getMissionDuration() and ConfigUni.tpl#getDuration().
+ * Floor after the speed factor matches FleetDispatch: floor($duration) + request time.
+ * Keep in sync with FleetMath::getMissionDuration() and admin/pages/configUni.js (durationFor()).
  */
 function GetDuration() {
 	return Math.floor(GetRawDuration());
 }
 
+/** Deuterium needed for the whole fleet (sum per ship type from base consumption, distance and flight speed, times the honor boost, +1), same formula as the server. */
 function GetConsumption() {
 	let dataFlyConsumption = 0;
 	let dataFlyConsumption2 = 0;
@@ -130,10 +132,12 @@ function GetConsumption() {
 	return Math.round((dataFlyConsumption + dataFlyConsumption2) * honorboost) + 1;
 }
 
+/** Free cargo space after the fuel is loaded (negative when the fleet cannot carry its own fuel). */
 function storage() {
 	return data.fleetroom - dataFlyConsumption;
 }
 
+/** Writes duration (h:mm:ss), distance, max speed, fuel and free cargo into the step 1 form; fuel and cargo are red when the cargo space is negative. */
 function refreshFormData() {
 	let seconds = dataFlyTime;
 	let hours = Math.floor(seconds / 3600);
@@ -148,12 +152,14 @@ function refreshFormData() {
 	document.getElementById("storage").innerHTML = "<font color=\"" + color + "\">" + pretty_number(dataFlyCargoSpace) + "</font>";
 }
 
+/** Takes the target of an ACS group (fleet union) and remembers its id in the form. */
 function setACSTarget(galaxy, solarsystem, planet, type, tacs) {
 	setTarget(galaxy, solarsystem, planet, type);
 	updateVars();
 	document.getElementsByName("group")[0].value = tacs;
 }
 
+/** Writes target coordinates and planet type (1 planet, 2 debris field, 3 moon) into the form. */
 function setTarget(galaxy, solarsystem, planet, type) {
 	document.getElementsByName("galaxy")[0].value = galaxy;
 	document.getElementsByName("system")[0].value = solarsystem;
@@ -161,6 +167,7 @@ function setTarget(galaxy, solarsystem, planet, type) {
 	document.getElementsByName("type")[0].value = type;
 }
 
+/** Shows arrival and return time of the planned flight (now + duration, return = twice the duration without a stay). */
 function FleetTime(){
 	let starttime = dataFlyTime;
 	let endtime	= starttime + dataFlyTime;
@@ -174,6 +181,7 @@ function setResource(id, val) {
 	}
 }
 
+/** "Max" for one resource in step 2: fills the field with as much as the free cargo space and the planet's stock allow (deuterium minus the fuel). */
 function maxResource(id) {
 	let thisresource = getRessource(id);
 	let thisresourcechosen = parseInt(document.getElementsByName(id)[0].value);
@@ -213,6 +221,7 @@ function maxResources() {
 	maxResource('deuterium');
 }
 
+/** Applies the resources preselected by the previous page (`#selectedres` data: metal, crystal, deuterium, reserve), capped by the planet's stock. */
 function selectedResources() {
   let amt=document.getElementById("selectedres").getAttribute("data").split(",")
   if(!isNaN(parseInt(amt[0]))){
@@ -236,6 +245,7 @@ function selectedResources() {
   applySelectedResourcesToTrade();
 }
 
+/** Shows the cargo space left after fuel and the typed resources (red when overloaded), updates the trade ratio and returns the value. */
 function calculateTransportCapacity() {
 	let metal = Math.abs(document.getElementsByName("metal")[0].value);
 	let crystal = Math.abs(document.getElementsByName("crystal")[0].value);
@@ -250,6 +260,7 @@ function calculateTransportCapacity() {
 	return transportCapacity;
 }
 
+/** Positive whole number from an input value, else 0. */
 function parseTradeAmount(value) {
 	let amount = parseInt(value, 10);
 	return isFinite(amount) && amount > 0 ? amount : 0;
@@ -265,6 +276,7 @@ function tradeReferenceDecimals() {
 		: 2;
 }
 
+/** Value of an amount in deuterium with the market `rates` (metal/crystal rate = amount per deuterium), rounded up; 0 when invalid. */
 function convertTradeAmountToDeut(amount, resourceId, rates) {
 	let key = tradeResourceKey(resourceId);
 	if (!key || amount <= 0 || !rates) {
@@ -294,6 +306,7 @@ function setTradeRatioDisplay(ratio) {
 	ratioEl.className = ratio < 1 ? 'colorNegative' : 'colorPositive';
 }
 
+/** The resources with an amount above 0 in the cargo fields, as [{id: 1 metal | 2 crystal | 3 deuterium, amount}]. */
 function getLoadedTradeResources() {
 	let metalEl = document.getElementsByName('metal')[0];
 	let crystalEl = document.getElementsByName('crystal')[0];
@@ -349,6 +362,7 @@ function setTradeCargo(metal, crystal, deuterium) {
 	}
 }
 
+/** Trade mission: offered and requested resource must differ (the requested one is switched and the offered one disabled in the other list); fleet market offers may not be "nothing". */
 function ensureTradePairExclusive() {
 	let offerEl = getTradeElement('resOffer');
 	let askEl = getTradeElement('resEx');
@@ -367,6 +381,7 @@ function ensureTradePairExclusive() {
 	setTradeOptionsDisabled(askEl, offerId);
 }
 
+/** Trade mission: puts the offered amount into the cargo field of the offered resource and zeroes the others (no cargo for the fleet market type). */
 function syncTradeOfferToCargo() {
 	if (isFleetMarket()) {
 		setTradeCargo(0, 0, 0);
@@ -381,6 +396,7 @@ function syncTradeOfferToCargo() {
 	setTradeCargo(offerId === 1 ? amount : 0, offerId === 2 ? amount : 0, offerId === 3 ? amount : 0);
 }
 
+/** Switches the form between resource market and fleet market offer (hides the offer rows for fleets) and syncs cargo and capacity. */
 function applyTradeMarketType() {
 	let isFleet = isFleetMarket();
 	let offerRow = document.getElementById('tradeOfferRow');
@@ -402,6 +418,7 @@ function applyTradeMarketType() {
 	calculateTransportCapacity();
 }
 
+/** "Max" for the offered amount: the largest amount of the offered resource that fits into the cargo space. */
 function maxTradeOffer() {
 	if (isFleetMarket()) {
 		return;
@@ -433,6 +450,7 @@ function onTradeAskChanged() {
 	updateTradeRatio();
 }
 
+/** Takes a preselected single resource as the trade offer (first loaded resource), otherwise clears the offer. */
 function applySelectedResourcesToTrade() {
 	if (!getTradeElement('resOffer')) {
 		return;
@@ -459,6 +477,7 @@ function applySelectedResourcesToTrade() {
 	calculateTransportCapacity();
 }
 
+/** Shows the offered/requested value ratio (both converted to deuterium with the market rates), red below 1; for fleet offers the fleet's deuterium value is used. */
 function updateTradeRatio() {
 	if (typeof tradeMarket === 'undefined' || !tradeMarket) {
 		return;
@@ -493,6 +512,7 @@ function updateTradeRatio() {
 	setTradeRatioDisplay(askDeut > 0 ? offerDeut / askDeut : 0);
 }
 
+/** Hooks the trade fields (market type, offered and requested resource, amounts) to their update handlers and applies the current state. */
 function initTradeMarket() {
 	if (typeof tradeMarket === 'undefined' || !tradeMarket) {
 		return;
@@ -535,6 +555,7 @@ function maxShip(id) {
   amountsChanged();
 }
 
+/** Fills every ship field with the maximum available. */
 export function maxShips() {
 	let id;
 	qsa('input[name^="ship"]').forEach(function(input) {
@@ -552,6 +573,7 @@ function noShip(id) {
 }
 
 
+/** Sets every ship field to 0. */
 export function noShips() {
 	let id;
 	qsa('input[name^="ship"]').forEach(function(input) {
@@ -566,6 +588,13 @@ function setNumber(name, number) {
 	}
 }
 
+/**
+ * Cargo preset links ("send resources to ..."): chooses small and/or large cargos so that `total` units are carried
+ * (the preferred type first, capped by what the planet has, the rest covered by the other type), fills the resource
+ * storage fields and, if given, the target coordinates.
+ * @param {number} type 202 (small cargo) or 203 (large cargo): the preferred ship
+ * @param {number} total resources to carry; neededNNN = ships of that type needed alone; shipNNNCapacity = cargo per ship
+ */
 function setCargoPreset(type, galaxy, system, planet, planet_type, metal, crystal, deuterium, total, ship202, ship203, needed202, needed203, ship202Capacity, ship203Capacity) {
 	let ship202Needed = 0;
 	let ship203Needed = 0;
@@ -602,6 +631,7 @@ function setCargoPreset(type, galaxy, system, planet, planet_type, metal, crysta
 	}
 }
 
+/** Fleet steps reserve the fleet on the server; leaving the page without sending releases it again through a beacon (`fleetStepAjax`). These three functions manage that listener. */
 function removeBeforeUnload() {
 	window.removeEventListener("beforeunload", handleBeforeUnload);
 }
@@ -612,6 +642,7 @@ function addBeforeUnload() {
 	window.addEventListener("beforeunload", handleBeforeUnload);
 }
 
+/** Step 1 submit: validates the target on the server (`checkTarget`); "OK" submits the form, otherwise the message is shown. Returns false (the real submit happens afterwards). */
 function CheckTarget()
 {
 	removeBeforeUnload();
@@ -628,6 +659,7 @@ function CheckTarget()
 	return false;
 }
 
+/** Step 2 submit: validates cargo, mission and trade fields on the server (`checkResources`); "OK" submits, an error object ends the dispatch with a dialog (back to the fleet table), other text is shown as notice. Returns false. */
 function CheckResources()
 {
 	removeBeforeUnload();
@@ -654,6 +686,7 @@ function CheckResources()
 	return false;
 }
 
+/** Switches the shortcut list into edit mode (adds an empty entry when there is none yet). */
 function EditShortcuts(autoadd) {
 	qsa(".shortcut-link").forEach(hide);
 	// the stylesheet hides .shortcut-edit, so the display value has to be set explicitly
@@ -662,6 +695,7 @@ function EditShortcuts(autoadd) {
 		AddShortcuts();
 }
 
+/** Appends an empty shortcut entry cloned from the template row, numbering its field names `shortcut[<n>-new]`. */
 function AddShortcuts() {
 	let HTML	= Array.from(document.querySelector('.shortcut-new td').cloneNode(true).children);
 	const count = document.querySelectorAll('.shortcut-link').length;
@@ -678,6 +712,7 @@ function AddShortcuts() {
   document.querySelectorAll('.shortcut-none').forEach(function (el) { el.remove(); });
 }
 
+/** Saves the shortcut fields (ajax POST `saveShortcuts`) and reloads the page. */
 function SaveShortcuts(reedit) {
   post('game?page=fleetStep1&mode=saveShortcuts&ajax=1', serialize(qsa('.shortcut-row input, .shortcut-row select'))).then(function(res) {
 		qsa(".shortcut-link").forEach(function (el) { show(el); });
@@ -687,6 +722,7 @@ function SaveShortcuts(reedit) {
 	});
 }
 
+/** Shows the stay-time selector only for missions with a hold time (5, 15, 16, 17 and -1). */
 function checkHold(mission) {
 	let stayHead = document.getElementById("stay_head");
 	let stay = document.getElementById("stay");
@@ -707,6 +743,7 @@ function checkHold(mission) {
 	}
 }
 
+/** Send button of step 2: shows the wait row; for missions with a warning text (`questionList`) asks to confirm first and returns false when declined. */
 function sendFleet() {
 	let mission = document.querySelector('input[name="mission"]:checked').value;
 	let message = questionList[parseInt(mission)] || null;
@@ -744,9 +781,10 @@ on(document, 'click', '.shortcut-delete', function (event, button) {
 	button.closest('.shortcut-colum')?.remove();
 });
 
+/** Live arrival time of the flight in the player's timezone (page element #arr_time, `duration` attribute in seconds), with a day prefix "nT" for more than a day. */
 function update_arrival() {
 	const current = new Date(Date.now())
-	const deT = new Date(current.toLocaleString('en-us', { timeZone: 'Europe/Berlin'})).getTime()
+	const deT = new Date(current.toLocaleString('en-us', { timeZone: serverTimezoneString})).getTime()
 	const localT = new Date(current.toLocaleString('en-us', { timeZone: localtimezonestring})).getTime()
 	const timeOffset = localT - deT
   const nd = new Date(new Date(serverTime).getTime() + timeOffset + parseInt(document.getElementById("arr_time").getAttribute("duration")) * 1000)

@@ -27,6 +27,17 @@ class BotSocial
         private readonly BotSocialAlliance $alliance,
     ) {}
 
+    /**
+     * One social turn of a bot, after its gameplay actions: builds the context (own user row, decoded persona,
+     * profile settings) and runs the steps reply, buddy, alliance, message in that order. A reply or message that was
+     * sent blocks the later `message` step so a bot never sends two chat messages in one turn. Each step is isolated:
+     * errors are written to the bot log ('social') and the next step still runs. Returns silently if the bot's user
+     * row is gone.
+     *
+     * @param array<string, mixed> $botRow  row of {prefix}bot_players
+     * @param array<string, mixed> $user    the bot's user row (fallback for ids)
+     * @param array<string, mixed> $profile profile settings (chances in percent, see BotProfiles)
+     */
     public function act(array $botRow, array $user, array $profile): void
     {
         $botId = (int) ($botRow['user_id'] ?? $user['id'] ?? 0);
@@ -74,10 +85,14 @@ class BotSocial
         }
     }
 
-    // ------------------------------------------------------------------------------------------------
-    // a. replies
-    // ------------------------------------------------------------------------------------------------
-
+    /**
+     * Answers the oldest pending buddy request addressed to the bot: accepts with the profile's
+     * `buddy_accept_chance` (percent), otherwise declines (request removed, sender told) in 80 % of the cases and
+     * ignores it in the rest. Writes buddy rows and a system message to the requester (in their language).
+     * Always returns false (a buddy answer does not count as the turn's chat message).
+     *
+     * @param array<string, mixed> $ctx bot context built by act()
+     */
     private function stepBuddy(array $ctx): bool
     {
         $db = $this->db;
@@ -128,8 +143,4 @@ class BotSocial
 
         return false;
     }
-
-    // ------------------------------------------------------------------------------------------------
-    // c. alliance
-    // ------------------------------------------------------------------------------------------------
 }

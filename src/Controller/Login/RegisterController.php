@@ -36,12 +36,16 @@ class RegisterController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Registration form (universe status, rules and privacy checkboxes, optional referral name).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
         $referralData = ['id' => 0, 'name' => ''];
         $accountName = "";
 
+        $referralID = (int) $this->http()->_GP('referralID', 0);
         $config = $this->configs->get();
         if ($config->ref_active == 1 && !empty($referralID)) {
             $db = $this->db;
@@ -68,6 +72,13 @@ class RegisterController extends AbstractLoginController
         return $this->render('login/page.register.default.html.twig');
     }
 
+    /**
+     * Registers a new account (mode=send). Request: username, password, passwordReplay, email, emailReplay, rules, privacy
+     * (checkboxes, must be 1), lang, time (timezone), referralID. Validation (all errors are collected and shown together): rate
+     * limit per IP, valid and free account name, password of at least 6 characters and equal repetition, valid, non-disposable
+     * and unused e-mail (also against pending registrations), rules and privacy accepted. Stores a pending row in ACCOUNTS_VALID;
+     * sends the verification mail, or, when mail/validation is off, redirects straight to the verification link.
+     */
     public function send()
     {
         $LNG = $this->state->LNG;

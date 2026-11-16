@@ -36,6 +36,10 @@ class BanListController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Public ban list of the current universe, newest first, paged. Request: side (page number).
+     * Reads USERS_BANNED and shows ban and release time in the universe timezone.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

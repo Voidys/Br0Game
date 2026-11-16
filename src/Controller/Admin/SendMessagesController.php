@@ -32,6 +32,12 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'sendMessages', uniPrefix: true)]
 class SendMessagesController extends AbstractAdminController
 {
+    /**
+     * Mass messages. action=send with subject, text, mode (0 in-game message, 1 mail, 2 both), globalmessageuniverse (0 = all) and
+     * globalmessagelang (empty = all languages). In-game messages go to the players, grouped per universe, signed with the sender's
+     * authlevel class; mails go to the distinct addresses of the accounts of the selected players ({USERNAME} is replaced). The form
+     * hides mail when mail is not enabled.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

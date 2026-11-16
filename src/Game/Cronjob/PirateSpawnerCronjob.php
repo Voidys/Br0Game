@@ -9,6 +9,10 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
+/**
+ * Weekly pirate base generation (cronjob "pirates", off by default; Sunday 02:00): archives and replaces all
+ * pirate bases (table pirate_bases) for universes with MODULE_PIRATE_BASES.
+ */
 class PirateSpawnerCronjob extends AbstractCronjobTask
 {
 
@@ -21,6 +25,14 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         require_once 'config/game.php';
     }
 
+    /**
+     * Copies the current bases to pirate_bases_history and deletes them. Then, per universe and for every player who
+     * was online within INACTIVE (7 days) and has at least piratebase_min_points points, creates one base in a random
+     * planet's galaxy/system of that player: ships are a random share (piratebase_fleet_percentage_min..max percent,
+     * at least 1) of the player's total ships (planets plus flying fleets) except probes, solar satellites and void
+     * titans; resources are the production of piratebase_ress_hours hours (main planet only if
+     * piratebase_mainplanet_only). Errors are logged and sent to Discord.
+     */
     public function run(): void
     {
         try {
@@ -62,6 +74,9 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         }
     }
 
+    /**
+     * Inserts the base (owner = the targeted player, coordinates of $targetPlanet, resources, serialized ships, empty debris).
+     */
     private function createPirateBase(array $targetPlanet, array $pirateFleet, array $ress, array $user): void
     {
         $sql = "INSERT INTO %%PIRATE_BASES%% SET
@@ -89,6 +104,10 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         ]);
     }
 
+    /**
+     * Resources of a base: hourly production of the player's planets (or only the main planet) times $hours.
+     * @return array<int,int|float> resource id => amount.
+     */
     private function getPirateRess(array $planets, int $mainPlanetId, bool $mainPlanetOnly, int $hours): array
     {
         $ress = [
@@ -108,6 +127,10 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         return $ress;
     }
 
+    /**
+     * Enemy fleet: per ship type max(1, floor(amount * random percentage between min and max / 100)), excluded types skipped.
+     * @return array<int,int|float> ship id => amount.
+     */
     private function getPirateFleet(array $userShips, array $excludedShips, int $minPercentage, int $maxPercentage): array
     {
         $pirateFleet = [];
@@ -122,6 +145,10 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         return $pirateFleet;
     }
 
+    /**
+     * Total ships of a player by ship id: stationed on all given planets plus those in own flying fleets.
+     * @param array<int, array<string, mixed>> $planets planet rows of the player.
+     */
     private function getUserShips(int $userId, array $planets): array
     {
         $resource = $this->state->resource;
@@ -152,6 +179,9 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         return $userShips;
     }
 
+    /**
+     * Planets of the player that are not marked for destruction.
+     */
     private function getUserPlanets(int $userId): array
     {
         $sql = "SELECT * FROM %%PLANETS%% WHERE `id_owner` = :userId AND destruyed = 0;";
@@ -160,6 +190,9 @@ class PirateSpawnerCronjob extends AbstractCronjobTask
         ]);
     }
 
+    /**
+     * Players of the universe that were online within INACTIVE and have at least $minPoints total points (stat type 1 = total).
+     */
     private function getUsers(int $universe, int $minPoints): array
     {
         $sql = "SELECT u.id, u.id_planet, us.lang FROM %%USERS%% u

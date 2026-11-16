@@ -11,6 +11,11 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Entry point for fights: picks the first available engine (Rust, else the PHP SteemNova engine) and holds the
+ * combat-adjacent rules that surround a fight: report data assembly, rebuild protection, wreck fields and
+ * looting. Used by the attack/ACS/pirate/expedition missions (see AbstractBattleMission) and the simulator.
+ */
 class BattleHandler
 {
     use \App\Game\Core\GameUtilities;
@@ -50,6 +55,18 @@ class BattleHandler
         throw new \RuntimeException('Keine Battle\-Engine verfügbar');
     }
 
+    /**
+     * Rebuild protection: when a player loses nearly everything in one fight, that player is shielded from
+     * being attacked for a while. Triggers for a user if the lost value (metal+crystal) exceeds
+     * noobProtectionPoints*1000 (capped at 5000 points) and is more than 70% of the user's fleet+defense value
+     * before the fight, or the lost transport capacity exceeds that threshold and is more than 80% of the capacity
+     * before. Skipped while `rebuild_protection_locked_until` (set to one month after a trigger) is still running.
+     * Side effects: UPDATE users (rebuild_protection = fight time, rebuild_protection_attackers = JSON of the
+     * attacker user ids, rebuild_protection_locked_until = +1 month).
+     * @param array<int, array{totalUnits:int|float, totalCapacity:int|float}> $currentTotalFleetState per user id, before the fight.
+     * @param array $combatResult result of BattleEngineInterface::calculateAttack().
+     * @param int $combatTime fight timestamp.
+     */
     public function CheckRebuildProtection(array $currentTotalFleetState, array $combatResult, int $combatTime, int $noobProtectionPoints)
     {
         $db = $this->db;
@@ -100,6 +117,18 @@ class BattleHandler
         }
     }
 
+    /**
+     * Turns the engine result into the combat report array that is stored (and rendered later): header data
+     * (coordinates, loot, debris, moon chances, repaired defenses, wreck field), players with their techs and
+     * home coordinates, and per-round ship stats. The Rust engine's round log is stored as it is; for the PHP engine
+     * it is reshaped to [amount, att, shield, def] per ship.
+     * For REAL_FIGHT it also runs the battle achievements and, with the honor module, adds `honorpoints` (single
+     * or multi variant depending on the number of distinct users per side); for EXPO_FIGHT only the expedition
+     * achievements. Side effects: achievement/honor writes via the injected services.
+     * @param int $battleType REAL_FIGHT or EXPO_FIGHT (or a simulator constant, no side effects then).
+     * @param string|null $battleEngineName engine name stored with the result ('rust' selects the raw round format).
+     * @return array report data
+     */
     public function GenerateReport($combatResult, $reportInfo, $battleType, $attackers, $defenders, $battleEngineName = null)
     {
         $Destroy = ['att' => 0, 'def' => 0];
@@ -243,6 +272,13 @@ class BattleHandler
         return $DATA;
     }
 
+    /**
+     * Repair dock: stores the destroyed defender ships of a fight in the planet's wreck field (adds to an
+     * existing field and refreshes its `created` time, else inserts a new one) and starts the defender's
+     * wreckfield cooldown (config wreckfield_cooldown, seconds). No-op without the repair dock module or
+     * when the result holds no wreck field (the engine already applied the minimum-loss rules).
+     * @param int $planetID planet the field belongs to.
+     */
     public function GenerateWreckField($planetID, $combatResult, int $defenderPlayerID, int $universe)
     {
         if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) || !isset($combatResult['wreckfield']) || empty($combatResult['wreckfield'])) {
@@ -291,6 +327,22 @@ class BattleHandler
         ]);
     }
 
+    /**
+     * Loot of a successful raid (see owiki "Beute"). Capacity = cargo capacity of all attacking fleets minus
+     * what they already carry (spy drones, id 210, do not count). Order: up to 1/3 of the capacity in metal, then
+     * 1/2 of the rest in crystal, the rest in deuterium, then the remaining capacity is refilled with metal and
+     * crystal. Per resource at most half the stock may be taken (times the honor factor: reduced for repeatedly
+     * attacked defenders by calculate_honorpoints_decrease, doubled = 100% on pirate bases, planet type 4), and
+     * with the resource stash module a protected part (1% of the daily production per storage level, max 10%)
+     * is always left. Amounts are floored.
+     * With $simulate = false the loot is split over the fleets in proportion to their free capacity (floored
+     * shares, remainder to the first fleet), added to the flying fleets (`fleets`, `log_fleets.gained_*`) and
+     * counted in the raided/stolen advanced stats; the planet itself is NOT debited here.
+     * @param array $attackFleets fleet array as built by AbstractBattleMission (unit, fleetDetail, player).
+     * @param array $defenderPlanet planet row (stocks, *_perhour, store levels, planet_type).
+     * @param bool $simulate true: only return the amounts (no honor factor, no stash, no writes).
+     * @return array<int,float|int> loot by resource id (901 metal, 902 crystal, 903 deuterium)
+     */
     public function calculateSteal($attackFleets, $defenderPlanet, $universe, $simulate = false)
     {
         // See: http://www.owiki.de/Beute
@@ -477,6 +529,11 @@ class BattleHandler
         return $stealResource;
     }
 
+    /**
+     * Smallest total cargo capacity with which calculateSteal() would take the maximum possible (half of each
+     * stock). Binary search over capacity using canStealHalf(); used by the fleet UI to suggest recyclers/cargo.
+     * @return int capacity in cargo units
+     */
     public function calculateMinCapacity(array $defenderPlanet): int
     {
         $pricelist = $this->state->pricelist;
@@ -512,6 +569,9 @@ class BattleHandler
         return $high;
     }
 
+    /**
+     * Dry run of the calculateSteal() distribution order for a given capacity: true if it reaches half of every resource.
+     */
     private function canStealHalf(int $capacity, array $targetResource): bool
     {
         $stolenMetal = min($capacity / 3, $targetResource[RESOURCE_METAL]);

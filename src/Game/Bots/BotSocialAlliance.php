@@ -42,6 +42,15 @@ class BotSocialAlliance
         private readonly BotSocialMessaging $messaging,
     ) {}
 
+    /**
+     * Alliance step of a social turn. A bot in an alliance it owns handles the oldest application (processApplications()).
+     * A bot without alliance and without pending application rolls `alliance_chance` (percent): if an open alliance
+     * exists (accepts applications, not full, min points <= the bot's points) it applies to one of the three best
+     * scored (similar average points, same galaxy as members, plus randomness), otherwise it may found its own
+     * (maybeFound()). Always returns false (never counts as the turn's chat message).
+     *
+     * @param array<string, mixed> $ctx bot context built by BotSocial::act()
+     */
     public function stepAlliance(array $ctx): bool
     {
         $db = $this->db;
@@ -104,6 +113,14 @@ class BotSocialAlliance
         return false;
     }
 
+    /**
+     * Files an application at `$alliance`: the text comes from the LLM when available and not broken, otherwise from the
+     * canned APPLY_TEXTS (de/en, with the persona's typos). Inserts the alliance_request row and sends an alliance message to
+     * the owner and every member with the manage-applications right, like the human application flow.
+     *
+     * @param array<string, mixed> $ctx      bot context
+     * @param array<string, mixed> $alliance candidate row (id, ally_tag, ...)
+     */
     private function applyTo(array $ctx, array $alliance): void
     {
         $db = $this->db;
@@ -136,7 +153,7 @@ class BotSocialAlliance
             [':a' => $alliance['id'], ':t' => $text, ':time' => time(), ':u' => $bot],
         );
 
-        // notify the managers like ShowAlliancePage::apply does
+        // notify the managers like AllianceController::apply() does
         $receivers = $db->select(
             'SELECT u.id, us.lang FROM %%USERS%% u
              INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id
@@ -162,6 +179,12 @@ class BotSocialAlliance
         $this->botLog->log($bot, $uni, 'alliance_apply', 'applied to [' . $alliance['ally_tag'] . '] #' . $alliance['id']);
     }
 
+    /**
+     * Possibly founds an alliance for the bot. Per call the chance is `alliance_chance` / 10 percent (so rare); requires at
+     * least 2 planets (planet type 1, not destroyed) and a rank within the best 30 % of the universe by points. Tries up
+     * to ten random name/tag combinations from ALLY_WORDS that pass name validation and are free in the universe,
+     * then creates the alliance (bot as owner, 1 member) and assigns it in the users and statpoints tables.
+     */
     private function maybeFound(array $ctx, float $points): void
     {
         $db = $this->db;
@@ -214,6 +237,15 @@ class BotSocialAlliance
         }
     }
 
+    /**
+     * Decides the oldest application to the bot's alliance: 15 % stay pending, 70 % are accepted, 15 % declined. An
+     * accept is re-checked under row locks (applicant still without alliance, alliance not full) in one transaction and
+     * falls back to a decline when the alliance filled up meanwhile. Updates user, statpoints and alliance member count,
+     * then messages the applicant (accept text with a welcome line, or decline) in their language.
+     *
+     * @param array<string, mixed> $ctx      bot context
+     * @param array<string, mixed> $alliance row of the bot's own alliance
+     */
     private function processApplications(array $ctx, array $alliance): void
     {
         $db = $this->db;

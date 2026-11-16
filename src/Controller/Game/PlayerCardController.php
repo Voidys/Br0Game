@@ -43,6 +43,11 @@ class PlayerCardController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Player card popup (request: id): player data, total points and the stats blocks below, plus achievements and the block status. Buildings need
+     * the viewer's spy tech level 2, techs level 4, defense/fleet/battle record/honor level 6 (PlayerUtil::spyTechAllowedFor), otherwise those blocks are
+     * zeroed.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;
@@ -138,6 +143,9 @@ class PlayerCardController extends AbstractGameController
         return $this->render('game/page.playerCard.default.html.twig');
     }
 
+    /**
+     * Achievements the player $userid has unlocked.
+     */
     public function get_achievements($userid)
     {
         $db = $this->db;
@@ -150,6 +158,9 @@ class PlayerCardController extends AbstractGameController
         return $achievementResult;
     }
 
+    /**
+     * Destroyed and lost units (real counts) and the debris produced, from the stats row; zeros when $show is false.
+     */
     public function get_real_units($stats, $show = true)
     {
         $units_real_destroyed = 0;
@@ -171,6 +182,9 @@ class PlayerCardController extends AbstractGameController
             "debris_crystal"    => $debris_real_crystal];
     }
 
+    /**
+     * Destroyed and lost units (battle points) and debris metal/crystal from the stats row; zeros when $show is false.
+     */
     public function get_units($stats, $show = true)
     {
         $kbmetal = 0;
@@ -193,6 +207,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Battles won, lost and drawn with their total and percentages; zeros when $show is false.
+     */
     public function get_battle_stats($stats, $show = true)
     {
         if ($show) {
@@ -226,6 +243,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Statistics row of player $playerId: name, home coordinates, alliance, ranks and points per category and their share of the total points.
+     */
     public function get_stats($playerId)
     {
         $db = $this->db;
@@ -269,6 +289,9 @@ class PlayerCardController extends AbstractGameController
         return $query;
     }
 
+    /**
+     * Basic data block of the card: name, home planet name and coordinates, alliance id and name.
+     */
     public function get_player_data($data)
     {
         return [
@@ -282,6 +305,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Research rank, points and share of the total points; zeros when $show is false.
+     */
     public function get_tech_data($data, $show = true)
     {
         if ($show) {
@@ -300,6 +326,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Building rank, points and share of the total points; zeros when $show is false.
+     */
     public function get_build_data($data, $show = true)
     {
         if ($show) {
@@ -318,6 +347,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Defense rank, points and share of the total points; zeros when $show is false.
+     */
     public function get_def_data($data, $show = true)
     {
         if ($show) {
@@ -336,6 +368,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Fleet rank, points and share of the total points; zeros when $show is false.
+     */
     public function get_fleet_data($data, $show = true)
     {
         if ($show) {
@@ -353,6 +388,9 @@ class PlayerCardController extends AbstractGameController
             "fleet_percent" => $fleet_percent,
         ];
     }
+    /**
+     * Honor block: honor rank, honor points, honorable/dishonorable fight counts and their share of all fights (advanced stats); zeros when $show is false.
+     */
     public function get_honor_data($playerId, $statRow, $show = true)
     {
         /*
@@ -409,6 +447,9 @@ class PlayerCardController extends AbstractGameController
         ];
     }
 
+    /**
+     * Total points block of the card (points, rank).
+     */
     public function get_total_data($data)
     {
         return [

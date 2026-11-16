@@ -10,6 +10,9 @@ namespace App\Game\Tutorials;
 
 use App\Game\Core\Singleton;
 
+/**
+ * Step whose goals are missions: a goal counts as done when the player has a completed (returned and not recalled) flight of that mission type in the fleet log (colonisation counts on arrival), or owns the required ships.
+ */
 class MissionTutorialSupport extends AbstractTutorialSupport
 {
     public function __construct(

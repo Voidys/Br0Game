@@ -34,6 +34,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         private readonly Singleton $state,
     ) {}
 
+    /** @return array{LNG: LanguageView} the translation view of the current request */
     public function getGlobals(): array
     {
         return ['LNG' => LanguageView::of($this->state)];
@@ -58,6 +59,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         ];
     }
 
+    /** @return list<TwigFunction> PHP passthroughs, game view helpers (pretty_number, allowedTo, ...), theme_asset, html_options, icon, sprintf and small PHP-semantics helpers kept from the Smarty templates */
     public function getFunctions(): array
     {
         $functions = [];
@@ -83,6 +85,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $functions;
     }
 
+    /** @return list<TwigFilter> the same passthroughs and view helpers as filters, plus escape-aware format/sprintf/nl2br, legacy_markup, php_iter, php_date, count_characters, ... */
     public function getFilters(): array
     {
         $filters = [];
@@ -190,6 +193,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $version ??= (string) \App\Runtime\SafeFile::mtime(\App\Runtime\ProjectPaths::ROOT . 'public/styles/resource/icons/lucide.svg');
     }
 
+    /** PHP number_format() for templates: `$num` is cast to float, separators default to "." and ",". */
     public static function numberFormat($num, int $decimals = 0, ?string $decimalSeparator = '.', ?string $thousandsSeparator = ','): string
     {
         return number_format((float) $num, $decimals, $decimalSeparator, $thousandsSeparator);
@@ -262,6 +266,10 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $html;
     }
 
+    /**
+     * One <option> (or an <optgroup> with its options when `$value` is an array), escaped without double encoding.
+     * `$selected` is an escaped value or a set of escaped values; `$idx` numbers the generated ids (`<id>-<n>`).
+     */
     private static function optionOutput($key, $value, $selected, ?string $id, ?string $class, int &$idx): string
     {
         if (is_array($value)) {
@@ -288,6 +296,7 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         return $html;
     }
 
+    /** Attribute/text escaping without double encoding (input is already entity-encoded by HTTP::_GP). */
     private static function escape(string $value): string
     {
         return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);

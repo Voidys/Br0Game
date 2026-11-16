@@ -46,6 +46,7 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return $language instanceof Language ? $language : null;
     }
 
+    /** Always true: a missing top-level key returns the key itself (see offsetGet()); use has() for a real check. */
     public function offsetExists(mixed $offset): bool
     {
         return true;
@@ -57,6 +58,10 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return $this->values !== null ? isset($this->values[$offset]) : isset($this->language()[$offset]);
     }
 
+    /**
+     * Template access `LNG.key` / `LNG['key']`. Strings come back as trusted Markup (translations are stored
+     * HTML), arrays as nested views. Top-level keys that do not exist return the key name; inside a list they are null.
+     */
     public function offsetGet(mixed $offset): mixed
     {
         if ($this->values !== null) {
@@ -68,6 +73,7 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return self::wrap($language !== null ? $language[$offset] : $offset);
     }
 
+    /** Read-only: language strings cannot be changed from templates. */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new \LogicException('Templates cannot change language strings.');
@@ -123,6 +129,7 @@ final class LanguageView implements \ArrayAccess, \IteratorAggregate, \Countable
         return $language->$name(...$arguments);
     }
 
+    /** String -> Markup (no escaping), array -> nested view, anything else unchanged. */
     private static function wrap(mixed $value): mixed
     {
         return match (true) {

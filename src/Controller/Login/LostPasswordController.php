@@ -38,6 +38,9 @@ class LostPasswordController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Lost-password form; redirects to the start page when mail is not enabled in the universe config.
+     */
     public function show(): Response
     {
         if (!$this->configs->get()->mail_active) {
@@ -53,6 +56,12 @@ class LostPasswordController extends AbstractLoginController
         return $this->render('login/page.lostPassword.default.html.twig');
     }
 
+    /**
+     * Sets a new password from the mail link (mode=newPassword). Request: u (account id), k (key). The key must belong to the
+     * account, be unused (`hasChanged` = 0) and not older than 30 minutes. Writes the new password hash to ACCOUNTS, marks the
+     * key used, revokes the other sessions of the account and mails the result (on systems without working mail the new
+     * password is shown on the page).
+     */
     public function newPassword()
     {
         $LNG = $this->state->LNG;
@@ -127,6 +136,12 @@ class LostPasswordController extends AbstractLoginController
         }
     }
 
+    /**
+     * Requests a reset mail (mode=send). Request: username (account name), mail (the account's second address `email_2`).
+     * Needs working mail, passes the lost-password rate limit per IP, and allows one open request per account per 24 hours.
+     * Stores a key in LOSTPASSWORD and mails a link (mode=newPassword). Unknown accounts and repeated requests get the same
+     * answer as a successful one, so account names cannot be enumerated.
+     */
     public function send()
     {
         $LNG = $this->state->LNG;

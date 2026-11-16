@@ -8,6 +8,10 @@
 
 namespace App\Game\Core;
 
+/**
+ * Storage of unlocked achievements (tables achievements, users_to_achievements). The rules that unlock them are
+ * in App\Game\Achievements\*; this class only reads the catalog and records unlocks.
+ */
 class Achievement
 {
     use \App\Game\Core\GameUtilities;

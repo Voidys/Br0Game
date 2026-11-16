@@ -40,6 +40,14 @@ class StatisticsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Highscore. Request: who (STATS_PLAYERS or STATS_ALLIANCES), type (points, fleet, research, buildings, defense, units, honor; unknown = total points),
+     * range (first rank of the 100-row page). With the spy-tech dependent stats module active, non-admins only get a category when their spy tech allows
+     * it (buildings 2, research 4, fleet/defense/units/honor 6), otherwise the total ranking is shown. When the universe hides staff (`stat` = 2),
+     * accounts with authlevel >= `stat_level` are left out. Player rows (STATPOINTS joined with user, alliance, diplomacy and buddy data) carry the
+     * rank, points and the rank change (old rank - rank) and mark buddies and diplomatic partners; alliance rows list the alliances. Passes the
+     * selectors, the page ranges and the time of the last statistic cron run to the template.
+     */
     public function show(): Response
     {
         $USER = & $this->state->USER;

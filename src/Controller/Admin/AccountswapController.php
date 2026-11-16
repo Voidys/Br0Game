@@ -16,6 +16,11 @@ use Twig\Markup;
 #[\App\Routing\GamePage('admin.php', 'accountswap', uniPrefix: true)]
 class AccountswapController extends AbstractAdminController
 {
+    /**
+     * Swaps the login accounts of two players of the universe. action=swap with user1 and user2 (player ids, must differ and both
+     * have an ACCOUNTS_TO_USERS row): exchanges their account_id in one UPDATE. Without action it renders the two player pickers
+     * (users up to the acting admin's authlevel).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

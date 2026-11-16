@@ -28,6 +28,7 @@ final class GameKernel
         $this->state->twig = $this->twig;
     }
 
+    /** Project root with trailing slash (as in RuntimeContext::rootPath), for legacy code paths. */
     public function getRootPath(): string
     {
         return $this->state->runtime->rootPath;

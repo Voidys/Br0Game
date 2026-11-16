@@ -18,6 +18,7 @@ final class GameAuth
         private readonly AccountProvider $accounts,
     ) {}
 
+    /** The logged-in login account, null for visitors. */
     public function account(): ?Account
     {
         $user = $this->security->getUser();
@@ -25,11 +26,13 @@ final class GameAuth
         return $user instanceof Account ? $user : null;
     }
 
+    /** Id of the logged-in account, 0 for visitors (the legacy convention for "no account"). */
     public function accountId(): int
     {
         return $this->account()?->getId() ?? 0;
     }
 
+    /** Logs the account in programmatically (e-mail verification, installer): token and session are set up like after the login form. */
     public function login(int $accountId): void
     {
         $this->security->login($this->accounts->loadUserByIdentifier((string) $accountId), LoginFormAuthenticator::class, 'main');

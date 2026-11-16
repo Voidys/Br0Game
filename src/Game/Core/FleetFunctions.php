@@ -341,6 +341,11 @@ class FleetFunctions
         return $this->statistics()->calculateCurrentTotalFleetState($userID);
     }
 
+    /**
+     * Aborts a failed fleet dispatch: with the debug setting it prints file, line and the error text
+     * (`fl_send_error[$Code]`) and ends the request; otherwise redirects to the fleet page. Always ends the request.
+     * @param int $Code index into the language array `fl_send_error` (what went wrong).
+     */
     public function gotoFleetPage($Code = 0): void
     {
         $LNG = $this->state->LNG;

@@ -19,6 +19,10 @@ final class NewsController extends AbstractLoginController
 
     private const PER_PAGE = 10;
 
+    /**
+     * News list (paged, pinned first) or, with id, one article; unknown ids end in a message. Request: id, p (page).
+     * Article texts are rendered through the HTML sanitizer.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

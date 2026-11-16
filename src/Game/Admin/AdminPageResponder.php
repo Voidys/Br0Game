@@ -13,5 +13,6 @@ interface AdminPageResponder
     /** @param array<string, mixed> $variables */
     public function assign(array $variables): void;
 
+    /** Renders the admin template (path below templates/, e.g. `admin/Foo.html.twig`) with the assigned variables. */
     public function render(string $template): Response;
 }

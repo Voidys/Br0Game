@@ -14,6 +14,12 @@ class GameData
         protected Singleton $state,
     ) {}
 
+    /**
+     * Loads the "vars" cache and publishes the game data of the current universe (universe 0 defaults overridden by
+     * the universe's own rows) as properties of the game state, i.e. $resource, $reslist, $pricelist, $CombatCaps,
+     * $ProdGrid, $requeriments. Adds the fixed resource ids (901 metal, 902 crystal, 903 deuterium, 911 energy) and the
+     * resource lists `ressources` and `resstype` (1 = tradable, 2 = energy).
+     */
     public function load(): void
     {
         $cache = new Cache($this->db, $this->state);

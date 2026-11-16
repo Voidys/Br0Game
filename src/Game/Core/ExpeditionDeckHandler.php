@@ -19,6 +19,14 @@ namespace App\Game\Core;
 
 use App\Game\Core\Database;
 
+/**
+ * Expedition event "deck of cards": every player has a persistent deck per universe (expedition_user_deck) whose
+ * slots hold a number of cards per event type and size (Res/Ships/Pirates/Aliens/Fast/Slow, Small/Medium/Big,
+ * BlackHole, Nothing). drawCard() draws one card at random weighted by the remaining counts WITHOUT replacement
+ * and refills the deck from the universe's configuration (expedition_deck_config, or $defaultDeckConfig) when it
+ * is empty, so the long-run event frequencies match the configured counts and bad/good streaks are bounded.
+ * Used by MissionCaseExpedition at the end of the stay; the admin can edit the deck via updateDeckConfig().
+ */
 class ExpeditionDeckHandler
 {
     private int $userId;

@@ -39,6 +39,9 @@ class DisclamerController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Renders the CMS page "contacts" (imprint) in the public layout.
+     */
     public function show(): Response
     {
         $page = $this->contentPages->find('contacts', $this->state->LNG->getLanguage());

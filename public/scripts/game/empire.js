@@ -7,12 +7,14 @@ import { Chart, readChartData, applyPageTheme, formatPoints, timeAgoTicks, toolt
 
 const GROUPS = ['chart', 'ressources', 'buildings', 'technology', 'ships', 'defenses', 'missile'];
 
+/** Collapses or expands a group of table rows (class = group name) and flips its arrow. */
 function showGroup(target, hidden) {
   document.querySelectorAll('.' + target).forEach((row) => row.classList.toggle('hidden', hidden));
   const arrow = document.getElementById(target + '-toggle');
   if (arrow) arrow.textContent = hidden ? '▼' : '▲';
 }
 
+/** Restores the collapsed state of all groups from localStorage, toggles on click and stores the checkbox settings in cookies (`data-cookie`). The chart canvases are resized after the chart group opens (they measure 0x0 while hidden). */
 function initGroups() {
   for (const target of GROUPS) {
     showGroup(target, localStorage.getItem(target) === 'true');
@@ -34,6 +36,7 @@ function initGroups() {
 
 const visibilityKey = (chartId) => 'empire-chart-visibility-' + chartId;
 
+/** Applies the dataset visibility the player chose earlier (localStorage, by dataset label) to the datasets of a chart. */
 function applySavedVisibility(chartId, datasets) {
   let saved = null;
   try {
@@ -51,6 +54,7 @@ function applySavedVisibility(chartId, datasets) {
   return datasets;
 }
 
+/** Stores which datasets of a chart are visible (by label). */
 function saveVisibility(chart) {
   const saved = {};
   chart.data.datasets.forEach((dataset, index) => {
@@ -59,6 +63,7 @@ function saveVisibility(chart) {
   localStorage.setItem(visibilityKey(chart.canvas.id), JSON.stringify(saved));
 }
 
+/** Legend click: toggles the dataset, re-aligns the bar chart axes and remembers the choice. */
 function legendClick(evt, legendItem, legend) {
   const chart = legend.chart;
   const index = legendItem.datasetIndex;
@@ -84,6 +89,7 @@ function syncBarChartBox(chart) {
 
 const positiveOrNull = (values) => values.map((v) => (typeof v === 'number' && isFinite(v) && v > 0 ? v : null));
 
+/** Tick values (coeff * 10^n, coeff from `coeffs`) inside [min, max] with 5 % margin on a logarithmic axis; [] for invalid ranges. */
 function logTickCandidates(min, max, coeffs) {
   const values = [];
   if (!(min > 0) || !(max > 0) || !isFinite(min) || !isFinite(max) || min > max) {
@@ -103,6 +109,7 @@ function logTickCandidates(min, max, coeffs) {
   return values;
 }
 
+/** Chooses logarithmic ticks: the 1-2-5 sequence, thinned to 1-5 or 1 only while there are more than eight; always at least the range ends. */
 function niceLogTicks(scale) {
   let values = [];
   for (const sequence of [[1, 2, 5], [1, 5], [1]]) {
@@ -117,6 +124,7 @@ function niceLogTicks(scale) {
 
 const formatLogTick = (value) => formatPoints(value).replace(/(\d+)\.0+(?= |$)/, '$1');
 
+/** Line chart of the points history (total and per category) on a logarithmic axis; non-positive values are gaps. Returns the Chart instance. */
 function pointsChart(data) {
   const line = (label, values, color, main) => ({
     label,
@@ -168,6 +176,7 @@ function pointsChart(data) {
 
 // ------------------------------------------------------------------ change chart: two axes with aligned zero lines
 
+/** Min and max of the values, always including 0 (the zero line must be visible); a flat zero range becomes 0..1. */
 function dataRange(values) {
   let min = Math.min(...values);
   let max = Math.max(...values);
@@ -179,6 +188,7 @@ function dataRange(values) {
   return { min, max: min === 0 && max === 0 ? 1 : max };
 }
 
+/** Rounds a span up to a "nice" step (1, 2, 5 or 10 times a power of ten). */
 function niceNum(range) {
   if (!(range > 0) || !isFinite(range)) {
     return 1;
@@ -220,6 +230,7 @@ function applyAlignedPlan(plan, ratio) {
   return { min, max, step: plan.step };
 }
 
+/** Axis limits for the relative (%) and absolute scales that share the same zero line position: both get the larger negative/positive ratio. */
 function alignedNiceAxes(relValues, absValues) {
   const relPlan = niceAxisPlan(dataRange(relValues));
   const absPlan = niceAxisPlan(dataRange(absValues));
@@ -227,11 +238,13 @@ function alignedNiceAxes(relValues, absValues) {
   return { rel: applyAlignedPlan(relPlan, ratio), abs: applyAlignedPlan(absPlan, ratio) };
 }
 
+/** Nice axis limits for a single scale (used when only one of the two bar series is visible). */
 function ownNiceAxis(values) {
   const plan = niceAxisPlan(dataRange(values));
   return applyAlignedPlan(plan, planRatio(plan));
 }
 
+/** Which axes of the change chart are shown and with which limits, depending on which of the two series (relative / absolute) is visible. */
 function barAxisState(relVisible, absVisible, relData, absData) {
   const { rel, abs } = relVisible && absVisible
     ? alignedNiceAxes(relData, absData)
@@ -250,6 +263,7 @@ function barAxisState(relVisible, absVisible, relData, absData) {
   };
 }
 
+/** Writes min, max and tick step into a Chart.js scale. */
 function applyScaleLimits(scale, limits) {
   scale.min = limits.min;
   scale.max = limits.max;
@@ -258,6 +272,7 @@ function applyScaleLimits(scale, limits) {
   }
 }
 
+/** Applies the axis state (display, position, grid, limits) to the chart's scales. */
 function applyBarAxisState(chart, state) {
   const { x, y, y2 } = chart.options.scales;
   if (x) {
@@ -279,6 +294,7 @@ function applyBarAxisState(chart, state) {
   applyScaleLimits(y2, state.y2.limits);
 }
 
+/** Recomputes the axes of the change chart from the current data and series visibility (no-op without both series). */
 function configureBarAxes(chart) {
   if (!chart.options.scales?.y2) {
     return;
@@ -315,6 +331,7 @@ function changeTooltipLine(dataset, index) {
   return dataset.label + ': ' + withSign(value, dataset.yAxisID === 'y2' ? formatPoints(value) : formatRelative(value));
 }
 
+/** Chart of the score change per interval: relative change (%) as bars (red negative, green positive) and absolute change as line on a second axis, with aligned zero lines. Returns the Chart instance. */
 function changeChart(data) {
   const times = data.times.slice(1);
   const datasets = applySavedVisibility('playerChartBars', [

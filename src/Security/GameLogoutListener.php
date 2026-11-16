@@ -25,6 +25,7 @@ final class GameLogoutListener
         private readonly Singleton $state,
     ) {}
 
+    /** Removes the game session row (and cookie, when the game session is loaded) belonging to the logging-out Symfony session. */
     public function __invoke(LogoutEvent $event): void
     {
         $session = $this->state->session ?? null;

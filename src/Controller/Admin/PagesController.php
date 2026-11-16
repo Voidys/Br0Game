@@ -30,6 +30,11 @@ class PagesController extends AbstractAdminController
         $this->contentPages = $contentPages;
     }
 
+    /**
+     * Editor for the CMS pages (contacts, data privacy, rules; ContentPages::SLUGS) per language. Request: slug, lang, action=save
+     * (POST title and content, stored raw because the markup is sanitized on output) or action=reset (back to the default text);
+     * without slug shows the page list.
+     */
     public function show(): Response
     {
         $LNG = &$this->state->LNG;

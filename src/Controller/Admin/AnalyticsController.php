@@ -14,6 +14,12 @@ use Twig\Markup;
 #[\App\Routing\GamePage('admin.php', 'analytics', uniPrefix: true)]
 class AnalyticsController extends AbstractAdminController
 {
+    /**
+     * Page-visit analytics switch (admin?page=analytics). Two forms pick a player id from a select list: POST userListSubmit + user_name turns
+     * analytics on for that player (`enable_analytics` = 1); POST analysedUsersSubmit + analyse_name turns it off and deletes the player's USERS_ANALYTICS
+     * rows. GET order/order2 (id or name) sort the two lists. Shows the players with authlevel 0 and the analysed players of the emulated
+     * universe, and the recorded visits (player, alliance, time, URL), newest first.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

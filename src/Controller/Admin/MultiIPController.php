@@ -31,6 +31,11 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'multiIP', uniPrefix: true)]
 class MultiIPController extends AbstractAdminController
 {
+    /**
+     * Multi account list (accounts sharing an IP). Request action=known|unknown with id (MULTI id) and optionally userID: marks the
+     * IP group, or only one user in it, as allowed or not (MULTI / MULTI_TO_USERS `allowed`), logs it (type 7) and redirects. Otherwise lists
+     * the IP groups with their users, mail and last activity.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

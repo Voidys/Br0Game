@@ -19,6 +19,7 @@ final class GameDatabaseCollector extends AbstractDataCollector
         private readonly Singleton $state,
     ) {}
 
+    /** Copies the game's query log (`sql`, `ms` per entry) into the profile and sums the time (milliseconds). */
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $queries = $this->state->queryLog ?? [];
@@ -34,6 +35,7 @@ final class GameDatabaseCollector extends AbstractDataCollector
         return 'data_collector/game_db.html.twig';
     }
 
+    /** @return list<array{sql: string, params: array<mixed>, type: string, ms: float}> queries of the request in execution order */
     public function getQueries(): array
     {
         return $this->data['queries'] ?? [];
@@ -44,6 +46,7 @@ final class GameDatabaseCollector extends AbstractDataCollector
         return $this->data['count'] ?? 0;
     }
 
+    /** Total game query time in milliseconds. */
     public function getTime(): float
     {
         return $this->data['time'] ?? 0.0;

@@ -24,10 +24,15 @@
  * other packs → European). users_settings.decimal_separator remains the
  * user override; settings UI must not be removed.
  *
- * JS receives the same abbreviation list via numberSuffixes from main.header.tpl.
+ * JS receives the same abbreviation list via numberSuffixes from templates/game/layout.base.html.twig.
  */
 namespace App\Game\Core;
 
+/**
+ * Compact number notation (1.5 Mio, 3 Mrd, 2.4K, ...) for the top bar and tables: the suffix table per language
+ * comes from config/languages.yaml (number_suffixes, or one of the profiles short/long/hybrid), and the default
+ * decimal separator (European 1.234,56 or US 1,234.56) per language.
+ */
 class NumberAbbreviation
 {
     public const PROFILE_SHORT = 'short';

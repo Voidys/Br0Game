@@ -31,6 +31,12 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'rights', uniPrefix: true)]
 class RightsController extends AbstractAdminController
 {
+    /**
+     * Moderator rights. mode=rights: choose an admin/moderator (id_1, `get` filters the list by level adm, ope, mod, pla) and POST
+     * action=send with rights[] to store the allowed admin pages in `users.rights` (keyed by the former page class names); only the root
+     * user may edit root. mode=users: set the authlevel of a player (id_1 or id_2, authlevel) with the same root protection. Unknown modes
+     * render an empty page.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

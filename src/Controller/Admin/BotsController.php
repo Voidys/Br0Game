@@ -39,6 +39,9 @@ class BotsController extends AbstractAdminController
     private BotSpawner $spawner;
     private BotRegistry $registry;
 
+    /**
+     * Setter injection of the bot services (LLM clients, profiles, bot service) for this controller.
+     */
     #[Required]
     public function setBotServices(LlmClientFactory $llm, BotProfiles $profiles, BotSpawner $spawner, BotRegistry $registry): void
     {
@@ -48,6 +51,11 @@ class BotsController extends AbstractAdminController
         $this->registry = $registry;
     }
 
+    /**
+     * Bots admin page. Request: mode (tab: providers, profiles or bots; default providers), action. action=test is answered as JSON by actionTest().
+     * Other POST actions need the session CSRF token (`csrf`, else a flash error and redirect), run in handlePost() and redirect to the URL it returns
+     * (post/redirect/get, result message via session flash); everything else renders the tab with renderTab().
+     */
     public function show(): Response
     {
         $tab = (string) $this->http()->_GP('mode', 'providers');
@@ -110,6 +118,11 @@ class BotsController extends AbstractAdminController
 
     // ---------------------------------------------------------------------------- actions
 
+    /**
+     * Tests an LLM provider connection (button on the providers tab), answered as JSON. Needs a POST with the CSRF token (otherwise 403 {ok: false}).
+     * POST provider (must be one of LlmClient::PROVIDERS), api_key, model, base_url build a client for those values and run its test call; the result
+     * array is returned, an LlmException becomes {ok: false, message}.
+     */
     private function actionTest(bool $isPost): JsonResponse
     {
         $LNG = $this->state->LNG;
@@ -283,6 +296,11 @@ class BotsController extends AbstractAdminController
 
     // ---------------------------------------------------------------------------- views
 
+    /**
+     * Renders one tab and consumes the session flash message. providers: the providers with key hint (never the key), model, URL, active flag and last
+     * test result. profiles: the behaviour profiles with a settings summary, plus the edit form when `edit` (profile id) or `new` is requested. bots: the
+     * bots of the emulated universe, the profile choices, the `bots_enabled` switch and the 50 most recent log entries.
+     */
     private function renderTab(string $tab): Response
     {
         $LNG = $this->state->LNG;

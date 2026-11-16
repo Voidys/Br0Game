@@ -16,16 +16,19 @@ const CLOSE_BUTTON = '<button type="button" class="modal__close" data-dialog-clo
 let contentDialog = null;
 let loadToken = 0;
 
+/** Sets the modal width (px) via the --modal-width custom property; empty resets to the CSS default. */
 function sizeFor(dialog, width) {
   dialog.style.setProperty('--modal-width', width ? `${width}px` : '');
 }
 
+/** Clicking the backdrop (the <dialog> itself, outside its content) closes the modal. */
 function closeOnBackdrop(dialog) {
   dialog.addEventListener('click', (event) => {
     if (event.target === dialog) dialog.close();
   });
 }
 
+/** Identity of a page for "same page?" checks: path plus lower-cased `page` query parameter; '' for an invalid URL. */
 function pageOf(url) {
   try {
     const parsed = new URL(url, document.baseURI);
@@ -35,6 +38,11 @@ function pageOf(url) {
   }
 }
 
+/**
+ * Creates the one shared content modal and wires it: closing clears the body and cancels pending loads; same-page
+ * links (same path and `page` parameter) and forms load inside the modal, everything else (other pages, new tabs,
+ * modified clicks, `data-modal-native` forms) behaves natively.
+ */
 function buildContentDialog() {
   const dialog = document.createElement('dialog');
   dialog.className = 'modal modal--content';
@@ -114,6 +122,15 @@ async function runScripts(container) {
   for (const fn of pending) fn();
 }
 
+/**
+ * Fetches a game page as a fragment (header X-Game-Fragment: 1) and shows it in the modal: network errors render an
+ * error text, a POST that redirected to a different page navigates the whole window instead. The body is taken from
+ * `[data-modal-root]`, `#content`, `main` or the document body, its scripts are re-run (runScripts) and `modal:load` is
+ * dispatched on the document. A newer load or a close makes an older response stale and is dropped.
+ * @param {HTMLDialogElement} dialog
+ * @param {string} url
+ * @param {RequestInit} [init] e.g. {method: 'POST', body: FormData}; the CSRF header is added by app/csrf.js
+ */
 async function load(dialog, url, init = {}) {
   const token = ++loadToken;
   const body = dialog.querySelector('.modal__body');

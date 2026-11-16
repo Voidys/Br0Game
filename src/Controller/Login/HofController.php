@@ -31,6 +31,10 @@ class HofController extends AbstractLoginController
 
     }
 
+    /**
+     * Archived final rankings of finished universes. Request: universe (uni3, uni4 or uni7 = default); renders the matching
+     * static HoF template.
+     */
     public function show(): Response
     {
 

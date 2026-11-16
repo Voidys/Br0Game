@@ -22,6 +22,7 @@ final class EscaperConfigurator
         private readonly EnvironmentConfigurator $inner,
     ) {}
 
+    /** Runs Symfony's own configuration, then adds the `game_html` escaper strategy to the environment. */
     public function configure(Environment $environment): void
     {
         $this->inner->configure($environment);

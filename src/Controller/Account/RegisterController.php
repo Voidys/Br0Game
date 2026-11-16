@@ -28,6 +28,11 @@ class RegisterController extends AbstractAccountController
         parent::initialize();
     }
 
+    /**
+     * Registration form for another universe (request: uni). Shows the registration state of the universe (closed, registration
+     * only, login only, open; admins are not restricted) - closed and login-only universes end in an error page - and the
+     * settings of the account's existing players that can be copied (colors, mission priorities, simulator settings).
+     */
     public function show(): Response
     {
         $uniId = $this->http()->_GP('uni', '0');
@@ -88,6 +93,13 @@ class RegisterController extends AbstractAccountController
         return $this->render('account/page.register.default.html.twig');
     }
 
+    /**
+     * Creates a player of the account in universe uni (mode=send). Request: uni, username, language, imageTheme, cssTheme,
+     * timezone, colors, missionPrios, stbSettings ('default' or the universe id to copy from).
+     * Refused when the universe does not accept registrations, the name is invalid or taken, or the account already has a player
+     * there. Creates player and home planet through PlayerUtil::createPlayer (a referral stored on the account is applied to the first
+     * player: ref_id/ref_bonus, then cleared), logs the player in and redirects to /game.
+     */
     public function send()
     {
         $LNG = $this->state->LNG;
@@ -185,7 +197,9 @@ class RegisterController extends AbstractAccountController
             ]]);
         }
 
-        if ($config->ref_active == 1 && !empty($referralID)) {
+        // referral carried over from the registration (ACCOUNTS.referralID); only valid for a player of that universe
+        $referralID = (int) ($ACCOUNT['referralID'] ?? 0);
+        if ($config->ref_active == 1 && $referralID > 0) {
             $sql = "SELECT COUNT(*) as state FROM %%USERS%% WHERE id = :referralID AND universe = :universe;";
             $Count = $db->selectSingle($sql, [
                 ':referralID' => $referralID,
@@ -220,6 +234,15 @@ class RegisterController extends AbstractAccountController
             $imageTheme,
             $cssTheme,
         );
+        if ($referralID > 0) {
+            // the recruiter is rewarded by ReferralCronjob once this player reaches ref_minpoints
+            $db->update('UPDATE %%USERS%% SET `ref_id` = :referralId, `ref_bonus` = 1 WHERE `id` = :userID;', [
+                ':referralId' => $referralID,
+                ':userID' => $userID,
+            ]);
+            $db->update('UPDATE %%ACCOUNTS%% SET `referralID` = 0 WHERE `id` = :accountID;', [':accountID' => $ACCOUNT['id']]);
+        }
+
         $LNG->includeData(['PUBLIC']);
         $senderName = $LNG['registerWelcomePMSenderName'];
         $subject 	= $LNG['registerWelcomePMSubject'];

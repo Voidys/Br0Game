@@ -73,6 +73,15 @@ class BotSocialMessaging
         private readonly BotLog $botLog,
     ) {}
 
+    /**
+     * Answers the oldest unhandled private message to the bot: a player message (not from a bot or itself, not deleted, at least 30
+     * seconds old, newer than `last_message_id`). With the profile's `reply_chance` (percent) and no DM block between the
+     * two, the reply is written by the LLM (if configured and sane) or picked from canned replies by intent and
+     * language (detectLanguage(), cannedReply()). In every case the message counts as handled: the pointer
+     * `last_message_id` advances and the message is marked read. Returns true when a reply was sent.
+     *
+     * @param array<string, mixed> $ctx bot context built by BotSocial::act()
+     */
     public function stepReply(array $ctx): bool
     {
         $db = $this->db;
@@ -145,10 +154,13 @@ class BotSocialMessaging
         return $replied;
     }
 
-    // ------------------------------------------------------------------------------------------------
-    // b. buddy requests
-    // ------------------------------------------------------------------------------------------------
-
+    /**
+     * Unprompted greeting to a neighbour: with `message_chance` (percent), at most 5 player messages per 24 h, to one random human
+     * who was online within 30 days, plays in the same galaxy within 10 systems and was not messaged by this bot in
+     * the last 7 days. LLM text with fallback to a canned greeting; blocked players are skipped. Returns true when sent.
+     *
+     * @param array<string, mixed> $ctx bot context
+     */
     public function stepMessage(array $ctx): bool
     {
         $chance = (int) ($ctx['profile']['message_chance'] ?? 5);
@@ -243,7 +255,11 @@ class BotSocialMessaging
         }
     }
 
-    /** Sends a private message from the bot. $text/$subject are raw text; they are escaped here. */
+    /**
+     * Sends a private message from the bot (type MESSAGE_TYPE_USER, sender label "name [g:s:p]"). `$text`/`$subject` are raw text,
+     * cleaned (600/60 characters) and escaped here; `$group` continues a conversation. Refuses (returns false) when the text
+     * is empty or matches the game's forbidden-text patterns, so a bot never sends what would get a player banned.
+     */
     public function send(array $ctx, int $receiverId, string $subject, string $text, ?string $group): bool
     {
         $text = BotPersona::cleanText($text, 600);
@@ -285,6 +301,7 @@ class BotSocialMessaging
         return true;
     }
 
+    /** One-sentence status of the bot (rank, points, planet count) for LLM prompts; '' when it cannot be read. */
     public function situation(array $ctx): string
     {
         try {
@@ -299,6 +316,12 @@ class BotSocialMessaging
         }
     }
 
+    /**
+     * System prompt that makes the LLM write as the bot's persona (bio, tone, age hint, quirks, profile chat style) and
+     * never reveal being a bot; the output is limited to `$maxLen` characters.
+     *
+     * @param array<string, mixed> $ctx bot context (me, persona, profile)
+     */
     public static function systemPrompt(array $ctx, int $maxLen): string
     {
         $p = $ctx['persona'];
@@ -315,6 +338,7 @@ class BotSocialMessaging
         return $prompt;
     }
 
+    /** HTML message text to plain text: <br> to newline, tags stripped, entities decoded, cut to `$max` characters. */
     private static function plain(string $html, int $max): string
     {
         $text = preg_replace('~<br\s*/?>~i', "\n", $html);
@@ -323,6 +347,7 @@ class BotSocialMessaging
         return trim(mb_substr($text, 0, $max));
     }
 
+    /** Subject without leading "Re:" prefixes (so replies do not stack them), '-' if empty, max 40 characters. */
     private static function trimSubject(string $subject): string
     {
         $subject = trim(preg_replace('/^(\s*re:\s*)+/i', '', $subject));
@@ -333,6 +358,7 @@ class BotSocialMessaging
         return mb_substr($subject, 0, 40);
     }
 
+    /** 'de' or 'en' by counting typical words of each language; a tie falls back to the persona language (or 'de'). */
     private static function detectLanguage(string $text, string $fallback): string
     {
         $words = preg_split('/[^\p{L}]+/u', mb_strtolower($text), -1, PREG_SPLIT_NO_EMPTY);
@@ -348,6 +374,7 @@ class BotSocialMessaging
         return in_array($fallback, ['de', 'en'], true) ? $fallback : 'de';
     }
 
+    /** Fixed-phrase reply chosen by keyword intent (attack, trade, alliance, question, greeting, default) in the given language, then stylized. */
     private static function cannedReply(string $incoming, string $lang, array $persona): string
     {
         $t = mb_strtolower($incoming);
@@ -368,6 +395,7 @@ class BotSocialMessaging
         return self::stylize($text, $persona);
     }
 
+    /** Applies the persona's typo rate and the quirks "lowercase" / "no punctuation" (also German wording) to a text. */
     private static function stylize(string $text, array $persona): string
     {
         $text = BotPersona::typos($text, (float) ($persona['typo_rate'] ?? 0));
@@ -382,6 +410,7 @@ class BotSocialMessaging
         return $text;
     }
 
+    /** Random element of a non-empty list. */
     public static function pick(array $list): mixed
     {
         return $list[array_rand($list)];

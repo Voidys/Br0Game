@@ -34,6 +34,12 @@ class AccountDataController extends AbstractAdminController
     // checks applied, no per-page permission check.
     protected function construct(): void {}
 
+    /**
+     * Read-only player report (admin?page=accoutdata). Without id_u a list of the users the acting admin may see (authlevel <= own)
+     * to pick from; with id_u the detail page: account and login data, last IP, ban state and reason, points and ranks, alliance (with
+     * owner and alliance stats), and per planet/moon the coordinates, fields, resources and the building, fleet and defense matrix
+     * plus the player's research levels. Unknown ids end in a message. Writes nothing.
+     */
     public function show(): Response
     {
         $USER = & $this->state->USER;

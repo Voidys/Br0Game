@@ -26,6 +26,9 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'logout', uniPrefix: true)]
 class LogoutController extends AbstractAdminController
 {
+    /**
+     * No page right is required to leave the admin area.
+     */
     protected function construct(): void
     {
         $USER = $this->state->USER;
@@ -36,6 +39,9 @@ class LogoutController extends AbstractAdminController
         parent::construct();
     }
 
+    /**
+     * Drops admin access from the session and redirects to /game.
+     */
     public function show(): void
     {
         $session = $this->sessions()->create();

@@ -5,6 +5,7 @@
  */
 import { qsa, now, pretty_number, shortly_number, setVisibleInterval, pageData } from './core.js';
 
+/** Writes the live amount into the element's tooltip HTML (`.res_current` part, or the whole tooltip text); `full` marks the storage-full state, `amount` null leaves the number as is. */
 function updateTooltip(element, amount, full) {
   const content = element.getAttribute('data-tooltip-content') ?? '';
   if (!content.startsWith('<')) {
@@ -22,6 +23,14 @@ function updateTooltip(element, amount, full) {
   element.setAttribute('data-tooltip-content', holder.innerHTML);
 }
 
+/**
+ * Updates the displayed amount of one resource from absolute time: available + production/3600 * seconds since the page
+ * was rendered, never negative. Marks the value with `res_current_warn` from 90 % of the storage limit and
+ * `res_current_max` / `colorNegative` once the limit is reached (then the amount stops counting). DOM only, no network.
+ * @param {{valueElem: string, available: number|string, production: number|string, limit: Array}} config
+ *        `production` is per hour, `limit[1]` the storage capacity
+ * @param {boolean} [init] true on the first call: also starts the 1 s refresh interval
+ */
 export function resourceTicker(config, init) {
   if (init === true) {
     setVisibleInterval(() => resourceTicker(config), 1000);

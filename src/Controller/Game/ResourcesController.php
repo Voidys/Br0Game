@@ -37,6 +37,11 @@ class ResourcesController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Saves the production levels (POST prod[<resource id>] = 0..10 in steps of 10%). Not in vacation mode. Locks the planet row, only
+     * accepts columns `<resource>_porcent` that exist on the planet, updates them and clears `eco_hash` so the production is recalculated.
+     * Redirects back.
+     */
     public function send()
     {
         $resource = $this->state->resource;
@@ -80,6 +85,10 @@ class ResourcesController extends AbstractGameController
         $this->redirectTo('game?page=resources');
     }
 
+    /**
+     * Resource settings page: per-resource production breakdown of the current planet (plus, minus, bonus), storage capacity and the production level
+     * selectors saved by send().
+     */
     public function show(): Response
     {
         $LNG = & $this->state->LNG;

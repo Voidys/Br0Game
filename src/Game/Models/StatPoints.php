@@ -2,6 +2,11 @@
 
 namespace App\Game\Models;
 
+/**
+ * Row of `statpoints` (ranking): per owner or alliance and stat type (1 = player, 2 = alliance) the points, count,
+ * rank and previous rank for research, buildings, defense, fleet and total, plus honor points and rank.
+ * Plain data holder filled by Statbuilder / the statistics queries.
+ */
 class StatPoints
 {
     public int $id_owner = 0;

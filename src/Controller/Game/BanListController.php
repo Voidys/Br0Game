@@ -37,6 +37,9 @@ class BanListController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Ban list of the universe (newest first, paged; request: side). Shows start and end of the bans in the universe timezone.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

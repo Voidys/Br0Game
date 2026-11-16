@@ -29,6 +29,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'expeditionShips', uniPrefix: true)]
 class ExpeditionShipsController extends AbstractAdminController
 {
+    /**
+     * Selection of ships that an expedition can find (request: uniID, default emulated; action=update with findable_ships[] saves it
+     * through ExpeditionShips::saveConfigForUniverse).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

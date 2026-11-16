@@ -17,7 +17,7 @@ use App\Controller\Login\ErrorController as ShowErrorPage;
 /**
  * Per-request bootstrap of the game code (formerly includes/common.php), unchanged in
  * behaviour: error handling, theme, session, user/account/planet and language for the
- * current mode, fleet event processing, closed-universe checks.
+ * current mode, fleet event processing, closed-universe checks. Called once per request by GameKernel::boot().
  *
  * Requires a started RuntimeContext ($state->runtime) and the project root as working
  * directory (see GameKernel::boot()). Early returns for INSTALL and UPGRADE.
@@ -36,6 +36,23 @@ final class GameBootstrap
         private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient,
     ) {}
 
+    /**
+     * Builds the per-request game state for the current mode (`state->runtime->mode`).
+     *
+     * Common: registers the error reporter, creates the theme, sends the HTML content type, makes sure the cache and
+     * session directories exist. INSTALL/UPGRADE return early; a missing config/game.php redirects to the installer
+     * and pending DB migrations to the upgrade page.
+     * INGAME/ADMIN/CRON: loads the game session, loads game data (GameData), runs due fleet events (non-ajax INGAME
+     * only, module MODULE_FLEET_EVENTS), loads USER (with unread message count and points), lifts an expired ban,
+     * applies language, theme and timezone, then gates on bans (error page), universe status (closed/registration
+     * only block normal players) and, for INGAME, locks the active planet row (FOR UPDATE) and loads PLANETS.
+     * Optionally logs analytics and verifies a submitted reCAPTCHA token.
+     * A battle report link (page=raport, no other parameter) works without session or user.
+     * LOGIN: only the language. ACCOUNT: loads the account row (or a guest stub for the public board).
+     *
+     * Side effects: DB writes (ban reset, analytics, reCAPTCHA log, fleet events), game session writes, redirects and
+     * error pages that end the request via EndOfRequest.
+     */
     public function run(): void
     {
         if (isset($this->state->requestPost['GLOBALS']) || isset($this->state->requestQuery['GLOBALS'])) {
@@ -331,16 +348,6 @@ final class GameBootstrap
     }
 
     /**
-     * Claims the due fleet events of the current universe and runs their missions
-     * (formerly src/Game/Support/fleet_events.php).
-     */
-    /**
-     * The game session object follows the Symfony login: a fresh login (or another account) starts a
-     * new game session (no player chosen, no admin access); an idle session past SESSION_LIFETIME
-     * ends the login; a missing session row is written again. Visitors without login were already
-     * stopped by access_control.
-     */
-    /**
      * Visitor without login on the public board (account?page=board): an account stub with id 0,
      * language from the start page cookie or the browser, server timezone, default theme; PUBLIC
      * texts for the start page frame (account/layout.site).
@@ -365,6 +372,12 @@ final class GameBootstrap
         ];
     }
 
+    /**
+     * The game session object follows the Symfony login: a fresh login (or another account) starts a
+     * new game session (no player chosen, no admin access); an idle session past SESSION_LIFETIME
+     * ends the login; a missing session row is written again. Visitors without login were already
+     * stopped by access_control.
+     */
     private function syncGameSession(\App\Game\Core\Session $session): void
     {
         $accountId = $this->auth->accountId();
@@ -386,6 +399,13 @@ final class GameBootstrap
         }
     }
 
+    /**
+     * Claims the due fleet events of the current universe (sets a random lock token on all unlocked rows of
+     * fleets_event with time <= now) and runs their missions through FlyingFleetHandler; the lock is released
+     * afterwards. The claim is its own short transaction so parallel requests never process the same event twice;
+     * a MySQL deadlock (1213) while claiming is reported to Discord instead of failing the page.
+     * (Formerly src/Game/Support/fleet_events.php.)
+     */
     private function processFleetEvents(): void
     {
         $token = getRandomString();

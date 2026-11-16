@@ -50,6 +50,11 @@ class FleetAjaxController extends AbstractGameController
         $this->sendJSON($this->returnData);
     }
 
+    /**
+     * Galaxy view shortcuts (XHR). Request: planetID (target planet), mission (spy, recycling, missile, pirate base variants), confirm.
+     * Checks fleet slots, ships and target restrictions (noob protection, vacation, own planet), may send probes or recyclers directly, and
+     * answers JSON codes. Missile attacks are only checked here; they are launched by the missile page.
+     */
     public function show()
     {
         $USER = & $this->state->USER;
@@ -311,6 +316,9 @@ class FleetAjaxController extends AbstractGameController
         );
     }
 
+    /**
+     * Loads the target planet with its owner and statistics (or pirate base) for $mission, or false when it does not exist.
+     */
     private function getTargetData(int $mission, int $planetID, int $userId): array|bool
     {
         $db = $this->db;

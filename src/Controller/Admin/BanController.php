@@ -31,6 +31,14 @@ use Twig\Markup;
 #[\App\Routing\GamePage('admin.php', 'ban', uniPrefix: true)]
 class BanController extends AbstractAdminController
 {
+    /**
+     * Ban management for players (mode `user`) and login accounts (mode `account`). GET: order/order2 (id or name sort of the
+     * lists), view=bana (only banned). POST: panel / panel_change (show the ban form of ban_id or unban_id), bannow (ban),
+     * unban. Ban data: ban_id, ban_name, why (reason), days/hour/mins/secs (duration in addition to a still running ban),
+     * permanent (until 2147483647), vacat (also put the player(s) in vacation mode). Writes USERS_BANNED / ACCOUNTS_BANNED and
+     * the `bana`/`banaday` flags; an account ban also bans the account's players in the emulated universe. Unbanning
+     * resets the flags. Player id 1 and targets above the admin's authlevel are not offered.
+     */
     public function show(): Response
     {
         $db = $this->db;

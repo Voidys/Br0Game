@@ -31,6 +31,11 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'messageList', uniPrefix: true)]
 class MessageListController extends AbstractAdminController
 {
+    /**
+     * Message browser (50 per page). Request: side (page), type (message category, default all), sender and receiver (name
+     * fragments), dateStart/dateEnd (arrays day, month, year; both give a range, only a start means "since"). Reads MESSAGES via
+     * USERS_TO_MESSAGES for the emulated universe.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

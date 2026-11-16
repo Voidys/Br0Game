@@ -31,6 +31,11 @@ class PhalanxController extends AbstractGameController
 
     public function initialize(): void {}
 
+    /**
+     * Sensor phalanx scan of the target coordinates (request: galaxy, system, planet). Needs PHALANX_DEUTERIUM deuterium on the current moon,
+     * which is deducted; the target must be within the phalanx range (FleetFunctions::allowPhalanx) and exist. Lists the target planet's fleet
+     * movements.
+     */
     public function show(): Response
     {
         $PLANET = $this->state->PLANET;

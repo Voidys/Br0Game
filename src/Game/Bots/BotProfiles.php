@@ -5,6 +5,11 @@ namespace App\Game\Bots;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 
+/**
+ * Bot behaviour profiles ({prefix}bot_profiles): how often and how long a bot plays, how skilled it is, what it
+ * builds and how social it is. Settings are stored as JSON and normalized (missing keys filled, values clamped) on
+ * every read and write. Five default profiles can be restored; BotEngine reads them, the admin page edits them.
+ */
 class BotProfiles
 {
     public function __construct(
@@ -13,6 +18,8 @@ class BotProfiles
     ) {}
 
     /**
+     * All profiles, defaults first, each row with `settings` decoded and normalized.
+     *
      * @return array<int, array>
      */
     public function all(): array
@@ -26,6 +33,7 @@ class BotProfiles
         return $rows;
     }
 
+    /** One profile row with normalized `settings`, null when it does not exist. */
     public function get(int $id): ?array
     {
         $row = $this->db->selectSingle(
@@ -102,6 +110,7 @@ class BotProfiles
         );
     }
 
+    /** Writes the five default profiles (by profile_key): existing ones are reset to the defaults and marked is_default, missing ones are inserted. Custom profiles stay. */
     public function restoreDefaults(): void
     {
         $db = $this->db;
@@ -123,7 +132,14 @@ class BotProfiles
     }
 
     /**
-     * Fills missing keys with the engine defaults and clamps values.
+     * Fills missing keys with the engine defaults (the "office_worker" profile) and clamps values to valid ranges:
+     * `activity` = 24 hourly play probabilities 0-1; `check_interval` (minutes between online checks),
+     * `session_minutes`, `actions_per_session` = [min, max] pairs; `weights` = relative build priorities 0-1000 per
+     * category; `*_chance` values in percent 0-100; skill values 0-1 (`skill_gain_per_day` is added per day of bot age);
+     * `pattern_shift_hours` every `pattern_shift_days` moves the daily rhythm; `chat_style` is a plain-text hint for the LLM.
+     *
+     * @param array<string, mixed> $in raw settings (e.g. from the admin form or JSON)
+     * @return array<string, mixed>
      */
     public function normalizeSettings(array $in): array
     {
@@ -166,6 +182,7 @@ class BotProfiles
         return $out;
     }
 
+    /** JSON settings string to normalized settings; invalid JSON gives the defaults. */
     private function decode(string $json): array
     {
         $data = json_decode($json, true);
@@ -173,16 +190,19 @@ class BotProfiles
         return $this->normalizeSettings(is_array($data) ? $data : []);
     }
 
+    /** `$v` as integer within [min, max]. */
     private static function clampInt(mixed $v, int $min, int $max): int
     {
         return max($min, min($max, (int) $v));
     }
 
+    /** `$v` as float within [min, max], rounded to 4 decimals. */
     private static function clampFloat(mixed $v, float $min, float $max): float
     {
         return round(max($min, min($max, (float) $v)), 4);
     }
 
+    /** Fallback values for missing settings. */
     private function baseSettings(): array
     {
         return $this->defaults()['office_worker']['settings'];

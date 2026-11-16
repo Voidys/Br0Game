@@ -19,6 +19,11 @@ namespace App\Game\Core;
 
 use Exception;
 
+/**
+ * Which universe the request belongs to: current (from login parameter, admin session, host name or URL
+ * /uniN/), the emulated universe of admins and the list of available universes. All state is kept in the game
+ * state, shared by every Universe object of a request.
+ */
 class Universe
 {
     /**
@@ -51,6 +56,9 @@ class Universe
         return $this->state->universeCurrent;
     }
 
+    /**
+     * Registers a universe id as available (called while the configuration is loaded).
+     */
     public function add($universe)
     {
         $available = $this->availableUniverses();
@@ -58,6 +66,9 @@ class Universe
         $this->state->universeAvailable = $available;
     }
 
+    /**
+     * Removes a universe id from the available list.
+     */
     public function remove($universe)
     {
         $this->state->universeAvailable = array_values(array_filter(
@@ -68,6 +79,9 @@ class Universe
         ));
     }
 
+    /**
+     * Universe an admin currently acts in (stored in the session; defaults to the current one).
+     */
     public function getEmulated()
     {
         if (is_null($this->state->universeEmulated)) {
@@ -82,6 +96,9 @@ class Universe
         return $this->state->universeEmulated;
     }
 
+    /**
+     * Switches the admin's emulated universe and stores it in the session. @throws Exception for an unknown universe id.
+     */
     public function setEmulated($universeId)
     {
         if (!$this->exists($universeId)) {

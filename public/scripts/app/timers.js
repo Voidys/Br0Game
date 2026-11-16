@@ -8,11 +8,13 @@ import { qsa, now, pad, getFormatedDate, getFormatedTime, getRestTimeFormat, set
 const startTime = () => window.startTime ?? now().getTime();
 const elapsed = () => (now().getTime() - startTime()) / 1000;
 
+/** Writes the current server time (window.tdformat) into every `.servertime` element. */
 export function updateClock() {
   const text = getFormatedDate(now().getTime(), window.tdformat ?? '[H]:[i]:[s]');
   qsa('.servertime').forEach((el) => { el.textContent = text; });
 }
 
+/** Refreshes `.countdown` (data-time = absolute end in seconds since page render) and `.buildcountdown` (timestamp = remaining seconds at render time). */
 export function updateCountdowns() {
   qsa('.countdown').forEach((el) => {
     const rest = Number(el.dataset.time) - elapsed();
@@ -25,6 +27,7 @@ export function updateCountdowns() {
   });
 }
 
+/** One-time rendering of fixed durations, arrival times (`.statictimer`, in the player's time zone, with a day prefix "nT") and the missile flight time. */
 function staticTimes() {
   qsa('.statictime').forEach((el) => { el.textContent = getRestTimeFormat(el.getAttribute('timestamp')); });
 
@@ -39,6 +42,7 @@ function staticTimes() {
   if (missile) missile.textContent = getFormatedTime(parseInt(missile.textContent, 10) || 0);
 }
 
+/** Renders all time displays once and keeps clock and countdowns ticking every second (paused while the tab is hidden). */
 export function initTimers() {
   updateClock();
   updateCountdowns();

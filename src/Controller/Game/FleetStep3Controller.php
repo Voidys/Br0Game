@@ -34,6 +34,10 @@ class FleetStep3Controller extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Fleet dispatch step 3: FleetDispatch::dispatch() validates the prepared fleet and sends it; a refusal (FleetDispatchRefused) is shown as a message
+     * with its buttons. On success renders the confirmation with the redirect target and delay (`goto`, `gotoinsec`).
+     */
     public function show(): Response
     {
         try {

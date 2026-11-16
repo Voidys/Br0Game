@@ -15,6 +15,7 @@ for (const ship of pageData('fleet-table-data').ships ?? []) {
 }
 document.addEventListener('fleet:amounts', () => show_values());
 
+/** Starts the 0.5 s refresh of the remaining flight times (`.fleets`) and of the "abort" times (`.aborttime`: time until the fleet could be recalled, shown in the player's timezone with a day prefix). */
 onPageInit(function () {
   setVisibleInterval(function () {
     qsa('.fleets').forEach(function (el) {
@@ -30,7 +31,7 @@ onPageInit(function () {
 
     for (let fleet of abortfleet) {
       const current = new Date(Date.now())
-      const deT = new Date(current.toLocaleString('en-us', { timeZone: 'Europe/Berlin'})).getTime() 
+      const deT = new Date(current.toLocaleString('en-us', { timeZone: serverTimezoneString})).getTime() 
       const localT = new Date(current.toLocaleString('en-us', { timeZone: localtimezonestring})).getTime()
       const timeOffset = localT - deT
       let cdate = new Date(serverTime.getTime() + timeOffset) 
@@ -49,6 +50,7 @@ onPageInit(function () {
 });
 
 
+/** Recomputes the experience and cargo sums whenever a ship amount input changes. */
 function add_exp_eventlisteners() {
   for (let sid in exp_values) {
     let shipinpt = document.getElementById("ship" + sid + "_input")
@@ -58,6 +60,7 @@ function add_exp_eventlisteners() {
   }
 }
 
+/** Shows the experience points ("Exp: n / cap") and the total cargo space of the ships typed into the amount fields. */
 function show_values() {
   let fpoints = 0
   let tpoints = 0
@@ -75,6 +78,7 @@ function show_values() {
 }
 
 
+/** Prefills the "carry resources" fields with the planet's current stock, hooks them to updatebuttons() and the small/large cargo buttons to setamt(). */
 function addstoragelisteners() {
   document.getElementsByName("met_storage")[0].addEventListener("input", updatebuttons);
   document.getElementsByName("krist_storage")[0].addEventListener("input", updatebuttons);
@@ -86,6 +90,7 @@ function addstoragelisteners() {
   document.getElementById("kt_select").addEventListener("click", setamt);
 }
 
+/** Number of large (25000 capacity) and small (5000 capacity) cargos needed for the typed resources; rounds up and adds one more when the remainder is above 80 % / 50 % of a ship. Base capacities, techs are not applied. */
 function updatebuttons() {
   let ttl = 0
   let met = parseInt(document.getElementsByName("met_storage")[0].value.replace(/\D/g, ""), 10)
@@ -106,6 +111,7 @@ function updatebuttons() {
   document.getElementById("gt_amt").innerText = " ( " + pretty_number(gts) + " ) "
 }
 
+/** Click on the large or small cargo button: clears all ships and enters the computed number of that cargo type. */
 function setamt() {
   noShips()
   if (this.id === "gt_select") {
@@ -122,6 +128,7 @@ function setamt() {
   show_values();
 }
 
+/** Shows or hides the custom fleet table (arrow indicator). */
 function toogle_custom_fleet() {
   const table = document.getElementById("customfleet")
   if (table.style.display === "none") {
@@ -135,6 +142,7 @@ function toogle_custom_fleet() {
 }
 
 
+/** Saves the current ship amounts under the typed name as a custom fleet in localStorage (`custom_fleets`); an empty name is refused. */
 function save_fleet_Select() {
   let obj = {}
   for (let shipid in exp_values) {
@@ -167,6 +175,7 @@ function change_fleet_select() {
   showfleet(document.getElementById("cfleet_select").value);
 }
 
+/** Deletes the selected custom fleet after confirmation. */
 function cf_remove() {
   let oname = document.getElementById("cfleet_select").value
   let rv = confirm(document.getElementById("customfleet").getAttribute("data-delconf").replace("%s",oname))
@@ -187,6 +196,7 @@ function cf_remove() {
   customfleet_show()
 }
 
+/** Loads a custom fleet into the amount fields of the editor (an empty name clears them) and updates its sums. */
 function showfleet(name) {
   document.getElementById("cfleet_name").value = name;
   const fleet = cfleet[name] || {}
@@ -210,6 +220,7 @@ function showfleet(name) {
   showexpopoints();
 }
 
+/** Experience and cargo sums of the custom fleet editor. */
 function showexpopoints() {
   let fleet = {}
   for (let f in exp_values) {
@@ -270,6 +281,7 @@ function local_setValue(key, value) {
 }
 
 
+/** Loads the stored custom fleets (localStorage), fills the selector and connects the editor controls. */
 function loadcustomfleets() {
   cfleet = local_getValue("custom_fleets", {})
   for (let cf in cfleet) {
@@ -297,6 +309,7 @@ function loadcustomfleets() {
   showexpopoints();
 
 }
+/** Quick link "custom fleet": clears the ships and enters the stored amounts of that fleet. */
 function custom_fleet(k) {
   noShips();
   const custom_fleet = local_getValue("custom_fleets", {})[k]
@@ -311,6 +324,7 @@ function custom_fleet(k) {
   show_values();
 
 }
+/** Rebuilds the list of quick links, one per stored custom fleet. */
 function customfleet_show() {
   let cfleet = local_getValue("custom_fleets", {})
   let x = ""
@@ -327,6 +341,7 @@ function customfleet_show() {
 
 }
 
+/** Fills ship amounts from the URL hash (`#ship_input[<id>]=<amount>`), e.g. from a link in a report or the simulator. */
 function fillShipps(){
   let ships = [...document.location.hash.matchAll(/ship_input\[(?<shiptype>[0-9]+)\]=(?<shipamount>[0-9]+)/g)];
   ships.forEach(ship => {

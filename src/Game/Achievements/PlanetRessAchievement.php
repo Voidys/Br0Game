@@ -13,6 +13,10 @@ use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\Core\Achievement;
 use App\Game\Core\Singleton;
 
+/**
+ * Achievement rules for what a planet or player has built: research levels, built ships and moon storage levels;
+ * called from ResourcePersistence::savePlanet() when queued elements finish.
+ */
 class PlanetRessAchievement
 {
     use \App\Game\Core\GameUtilities;

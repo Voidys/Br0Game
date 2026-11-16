@@ -56,6 +56,11 @@ class OverviewController extends AbstractGameController
         return $fleetTableObj->renderTable();
     }
 
+    /**
+     * Planet overview: the planet and its moon (or parent planet), the running building, research and hangar entries, the wreck field with repair state,
+     * the fleet movements of the table (FlyingFleetsTable), own rank and points, universe counters (players online in the last 15 minutes, fleets
+     * in flight), online admins and the outlaw state. No request parameters besides the standard cp= planet switch.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -291,6 +296,9 @@ class OverviewController extends AbstractGameController
         return $this->render('game/page.overview.default.html.twig');
     }
 
+    /**
+     * Popup with the planet actions (rename, abandon); passes the confirmation text and whether this is the main planet.
+     */
     public function actions(): Response
     {
         $LNG = $this->state->LNG;
@@ -307,6 +315,9 @@ class OverviewController extends AbstractGameController
         return $this->render('game/page.overview.actions.html.twig');
     }
 
+    /**
+     * Renames the current planet (XHR, request: name): at most 20 characters and valid characters; answers JSON {message, error}.
+     */
     public function rename()
     {
         $LNG = $this->state->LNG;
@@ -331,6 +342,11 @@ class OverviewController extends AbstractGameController
         }
     }
 
+    /**
+     * Abandons the current planet (XHR, request: password, which is actually the planet's name typed as confirmation). Refused while own fleets
+     * start from the planet or its moon, and for the main planet. Research queued on the planet is re-homed to the main planet, then the planet is
+     * deleted (PlayerUtil::deletePlanet); answers JSON.
+     */
     public function delete()
     {
         $LNG = $this->state->LNG;
@@ -347,12 +363,6 @@ class OverviewController extends AbstractGameController
                 ':planetID' => $PLANET['id'],
                 ':lunaID'   => $PLANET['id_luna'],
             ], 'state');
-
-            // $sql = 'SELECT `password` FROM %%ACCOUNTS%%
-            //     WHERE `id` = :accountId;';
-            // $accPassword = $db->selectSingle($sql, [
-            //     ':accountId'	=> PlayerUtil::get_account_id($USER['id']),
-            // ], 'password');
 
             if ($IfFleets > 0) {
                 $this->sendJSON(['message' => $LNG['ov_abandon_planet_not_possible']]);

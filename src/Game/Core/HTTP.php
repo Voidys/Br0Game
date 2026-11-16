@@ -21,6 +21,10 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+/**
+ * Response and input helpers of the game code on top of the Symfony request/response: redirects (they end the
+ * request via EndOfRequest), response headers, cookies and the sanitising input accessor _GP().
+ */
 class HTTP
 {
     /**
@@ -52,6 +56,9 @@ class HTTP
         $this->responseHeaders()->set($name, (string) $value);
     }
 
+    /**
+     * Redirects to the entry page of another universe (<host><base>uni<N>/).
+     */
     public function redirectToUniverse(int $universe): never
     {
         $this->redirectTo($this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase . "uni" . $universe . "/" . $this->state->runtime->httpFile, true);
@@ -70,6 +77,16 @@ class HTTP
         $this->responseHeaders()->setCookie(Cookie::create($name, $value, $toTime ?? 0, $path, $domain, $secure, $httpOnly, false, null));
     }
 
+    /**
+     * Reads one request value (POST overrides GET) typed and sanitised by the type of $default: float (or $highnum)
+     * -> float, int -> int, string -> trimmed text with line breaks normalised, NUL removed and HTML special
+     * characters encoded (ASCII only unless $multibyte; invalid UTF-8 becomes ''), array -> the same per element
+     * (integers when the default array starts with 0). Missing or mistyped input returns $default.
+     * Because the value is already HTML-encoded, templates must not encode it again (see docs/templates.md).
+     * @param mixed $default value returned when the parameter is absent; its type selects the conversion.
+     * @param bool $multibyte allow UTF-8 characters in strings.
+     * @param bool $highnum read as float even for integer defaults (large numbers).
+     */
     public function _GP(string $name, mixed $default, bool $multibyte = false, bool $highnum = false): mixed
     {
         $input = $this->state->requestInput ?? [];

@@ -94,7 +94,7 @@ final class BattleMissionTest extends GameTestCase
         [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_ATTACK);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
-        (new MissionCaseAttack($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
+        $this->attack($fleet)->TargetEvent();
 
         $this->goldenAssert('attack on a planet', $this->outcome($attacker, $defender, $target, $fleetId));
     }
@@ -104,7 +104,7 @@ final class BattleMissionTest extends GameTestCase
         [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_ATTACK, true);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
-        (new MissionCaseAttack($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
+        $this->attack($fleet)->TargetEvent();
 
         $this->goldenAssert('attack on a moon', $this->outcome($attacker, $defender, $target, $fleetId));
     }
@@ -114,9 +114,47 @@ final class BattleMissionTest extends GameTestCase
         [$attacker, $defender, $target, $fleetId] = $this->fight(MISSION_DESTRUCTION, true);
         $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
 
-        (new MissionCaseDestruction($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
+        $this->destruction($fleet, 100)->TargetEvent();
 
         $this->goldenAssert('destruction without death stars', $this->outcome($attacker, $defender, $target, $fleetId));
         $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%PLANETS%% WHERE id = :id;', [':id' => $target['id']], 'c'), 'no death stars: the moon survives');
+    }
+
+    public function testDestructionLosesTheFleetWhenTheFleetRollHits(): void
+    {
+        [, , $target, $fleetId] = $this->fight(MISSION_DESTRUCTION, true);
+        $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
+
+        $this->destruction($fleet, 1)->TargetEvent();
+
+        $this->assertFalse($this->db->selectSingle('SELECT id FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]), 'the fleet roll hit: the fleet is gone');
+        $this->assertSame(1, (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%PLANETS%% WHERE id = :id;', [':id' => $target['id']], 'c'), 'no death stars: the moon survives');
+    }
+
+    /** Destruction mission whose chance rolls always return $roll (100 = no chance hits, 1 = every chance above 0 hits). */
+    private function destruction(array $fleet, int $roll): MissionCaseDestruction
+    {
+        return new class ($fleet, $this->db, $this->configs, $this->state, $roll) extends MissionCaseDestruction {
+            public function __construct(array $fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state, private int $forced)
+            {
+                parent::__construct($fleet, $db, $configs, $state);
+            }
+
+            protected function roll(int $min, int $max): int
+            {
+                return $this->forced;
+            }
+        };
+    }
+
+    /** Attack mission whose rolls never hit (moon creation stays off whatever the debris). */
+    private function attack(array $fleet): MissionCaseAttack
+    {
+        return new class ($fleet, $this->db, $this->configs, $this->state) extends MissionCaseAttack {
+            protected function roll(int $min, int $max): int
+            {
+                return $max;
+            }
+        };
     }
 }

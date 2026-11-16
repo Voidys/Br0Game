@@ -7,6 +7,13 @@ use App\Game\Core\Database;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Reads and writes the per-player "advanced statistics" counters (table advanced_stats: userId, universe,
+ * statkey = AdvancedStatsEnum case name, statvalue) that missions, the battle engines, the queues and the
+ * achievements feed (builds, losses, kills, loot, recycling, expedition results, honor points, "first time"
+ * timestamps). Every writer takes the enum case (null is ignored) so callers can pass the result of the
+ * AdvancedStatsEnum::getBuild()/getLost()/... lookups directly.
+ */
 class AdvancedStatsHandler
 {
     use \App\Game\Core\GameUtilities;
@@ -19,11 +26,18 @@ class AdvancedStatsHandler
     ) {
     }
 
-    public function increment(int $userId, AdvancedStatsEnum|null $statKey, int $value = 1): void
+    /**
+     * Adds $value to the counter (inserts it on first use; atomic upsert). The universe is looked up from the player.
+     * @param AdvancedStatsEnum|null $statKey null (no stat exists for that element) is a no-op.
+     * @param int|float|string $value amount to add; the column is an integer (bigint), so fractions (e.g. debris
+     *        values) are cut off toward zero, explicitly (an implicit float-to-int conversion is deprecated).
+     */
+    public function increment(int $userId, AdvancedStatsEnum|null $statKey, int|float|string $value = 1): void
     {
         if ($statKey == null) {
             return;
         }
+        $value = (int) $value;
 
         $sql = "INSERT INTO %%ADVANCED_STATS%% 
                 (userId, universe, statkey, statvalue) 
@@ -38,6 +52,9 @@ class AdvancedStatsHandler
         ]);
     }
 
+    /**
+     * Sets the counter to an absolute value (upsert).
+     */
     public function setValue(int $userId, AdvancedStatsEnum|null $statKey, int|float $value): void
     {
         if ($statKey == null) {
@@ -57,6 +74,12 @@ class AdvancedStatsHandler
         ]);
     }
 
+    /**
+     * Records a "first time" event (first attack, first colony, ...): stores the timestamp only if the player has none
+     * yet (INSERT IGNORE) and mirrors it into advanced_stats_universe (with the user name) for the universe-wide
+     * first-achiever list.
+     * @param int|null $timestamp event time; default now.
+     */
     public function setTimestamp(int $userId, AdvancedStatsEnum|null $statKey, ?int $timestamp = null): void
     {
         $timestamp ??= $this->state->runtime->timestamp;
@@ -90,6 +113,9 @@ class AdvancedStatsHandler
         ]);
     }
 
+    /**
+     * Current counter value, 0 when the player never got that stat (or $statKey is null).
+     */
     public function getValue(int $userId, AdvancedStatsEnum|null $statKey): int|float
     {
         if ($statKey == null) {
@@ -106,6 +132,12 @@ class AdvancedStatsHandler
         ])['statvalue'] ?? 0);
     }
 
+    /**
+     * Several counters of one player at once.
+     * @param AdvancedStatsEnum[] $statKeys
+     * @param bool $history true: read from the latest snapshot in advanced_stats_history instead of the live counters.
+     * @return array<string, float|int> lower-case stat name => value, 0 for missing ones.
+     */
     public function getMultipleStats(int $userId, array $statKeys, bool $history = false): array
     {
         if (empty($statKeys)) {
@@ -152,6 +184,10 @@ class AdvancedStatsHandler
         return $stats;
     }
 
+    /**
+     * All counters of a player (live), with 0 for stats the player does not have yet.
+     * @return array<string, float|int> lower-case stat name => value.
+     */
     public function getAllStats(int $userId): array
     {
         $sql = "SELECT statkey, statvalue 
@@ -173,6 +209,10 @@ class AdvancedStatsHandler
         return $stats;
     }
 
+    /**
+     * Display text of a stat key from the Advanced_Stats language array; for keys with an element suffix
+     * (e.g. `build_202`) the text of the prefix plus the element's tech name; 'Missing text for <key>' if none exists.
+     */
     public function getLangKey(string $key): string
     {
         $LNG = $this->state->LNG;
@@ -193,6 +233,13 @@ class AdvancedStatsHandler
         return 'Missing text for ' . $key;
     }
 
+    /**
+     * Honor ranking of a universe: the first $limit players by honor points (best first with $kind 'top', worst first
+     * otherwise), each with the number of honorable and dishonorable fights; ties are broken by honorable fights
+     * (more is better), then dishonorable fights (fewer is better).
+     * @param string $kind 'top' or anything else for the bottom list.
+     * @return array<int, array{userId:int, honorpoints:float, honorable_fights:int, dishonorable_fights:int}>
+     */
     public function getHonorList(int $universe, int $limit = 100, string $kind = 'top'): array
     {
         if ($kind == 'top') {
@@ -254,6 +301,12 @@ class AdvancedStatsHandler
         return $result;
     }
 
+    /**
+     * Sums stats over several players (e.g. all members of an alliance).
+     * @param int[] $userIds
+     * @param AdvancedStatsEnum[] $statKeys
+     * @return array<string, float|int> lower-case stat name => sum, 0 for none.
+     */
     public function getSummedStats(array $userIds, array $statKeys): array
     {
         if (empty($userIds) || empty($statKeys)) {
@@ -322,6 +375,11 @@ class AdvancedStatsHandler
         }
     }
 
+    /**
+     * Counts the "real" debris a player's kills would create (units * fleet/defense debris percentage) in
+     * KBMETAL_REAL / KBCRYSTAL_REAL.
+     * @param int $user attacker id (<= 0 = NPC: ignored).
+     */
     public function updateDebrisAdvancedStats($user, $Element, $amount = 0)
     {
         if ($user <= 0) {
@@ -342,6 +400,11 @@ class AdvancedStatsHandler
         $this->increment($user, AdvancedStatsEnum::KBCRYSTAL_REAL, $debrisCrystal);
     }
 
+    /**
+     * Counts lost units of a player: per element the lost stat and the lost resource value (metal+crystal) in LOSTUNITS_REAL.
+     * @param int $user player id (<= 0 = NPC: ignored).
+     * @param array<int,int|float> $fleetArray element id => amount.
+     */
     public function updateLostAdvancedStats($user, $fleetArray)
     {
         if ($user <= 0) {
@@ -356,6 +419,10 @@ class AdvancedStatsHandler
         }
     }
 
+    /**
+     * Counts ships lost on expeditions (black hole, pirate/alien fights) per element.
+     * @param array<int,int|float> $fleetArray element id => amount.
+     */
     public function updateExpoLostAdvancedStats($user, $fleetArray)
     {
         if ($user <= 0) {
@@ -367,6 +434,10 @@ class AdvancedStatsHandler
         }
     }
 
+    /**
+     * Counts ships found on expeditions per element.
+     * @param array<int,int|float> $fleetArray element id => amount.
+     */
     public function updateFoundShipsAdvancedStats($user, $fleetArray)
     {
         if ($user <= 0) {

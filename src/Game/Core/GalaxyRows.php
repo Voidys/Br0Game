@@ -18,6 +18,11 @@
 namespace App\Game\Core;
 
 
+/**
+ * Builds the rows of the galaxy view for one system (setGalaxy()/setSystem(), then getGalaxyData()): per planet
+ * position the planet, moon, debris field, owner, alliance, available missions and action buttons as seen by the
+ * current player ($state->USER/PLANET). Strings are HTML-escaped for the template; the data is display-only.
+ */
 class GalaxyRows
 {
     use \App\Game\Core\GameUtilities;
@@ -49,6 +54,12 @@ class GalaxyRows
         return $this;
     }
 
+    /**
+     * One query joins planets, owners, moons, statistics, alliance rank/diplomacy and buddy state of the system, then each
+     * position is expanded: planets marked `destruyed` only show the debris; others get last activity, owner (with
+     * noob/strong/vacation/inactive status classes), planet, alliance, debris, moon, action buttons and the spy report indicator.
+     * @return array<int, array<string, mixed>> keyed by planet position (1..max_planets).
+     */
     public function getGalaxyData(): array
     {
         $USER = $this->state->USER;
@@ -148,6 +159,11 @@ class GalaxyRows
         $this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']  = $this->galaxyRow['id_owner'] == $USER['id'];
     }
 
+    /**
+     * Mission buttons that apply to the position: attack/hold/spy/destroy/missiles only on foreign planets, station only
+     * on own planets, transport and recycle always; each needs its module, destroy a Death Star/Void Titan on the
+     * current planet, missiles an interplanetary missile in range (ion tech level, see FleetMath::inMissileRange()).
+     */
     private function getAllowedMissions(): void
     {
         $USER = $this->state->USER;
@@ -175,6 +191,10 @@ class GalaxyRows
         ];
     }
 
+    /**
+     * Quick-action buttons (spy, message, buddy request, missile, spy report, phalanx) from the player's settings
+     * and modules; none for own planets. Phalanx also needs the target not in vacation and in range.
+     */
     private function getActionButtons(): void
     {
         $USER = $this->state->USER;
@@ -197,6 +217,10 @@ class GalaxyRows
         }
     }
 
+    /**
+     * Owner block: name, points/rank, status classes (noob/strong protection etc. via userStatus()), buddy and
+     * alliance leader/diplomat flags.
+     */
     private function getPlayerData(): void
     {
         $USER = $this->state->USER;
@@ -221,6 +245,10 @@ class GalaxyRows
         ];
     }
 
+    /**
+     * Alliance block with CSS class by diplomacy level toward the viewer's alliance (1-2 member/pact, 3 trade,
+     * 4 friend, 5 enemy, 6 secret); own alliance members always 'member'. False without alliance.
+     */
     private function getAllianceData(): void
     {
         $USER = $this->state->USER;
@@ -280,6 +308,9 @@ class GalaxyRows
         }
     }
 
+    /**
+     * Moon block (name, diameter, image by the player's planet-style setting) or false without a moon.
+     */
     private function getMoonData(): void
     {
         if (!isset($this->galaxyRow['m_id'])) {
@@ -318,6 +349,10 @@ class GalaxyRows
         }
     }
 
+    /**
+     * Planet block: name, image (classic jpg or one of the style variants when the player enabled planet styles) and
+     * phalanx availability.
+     */
     private function getPlanetData(): void
     {
         $USER = $this->state->USER;
@@ -352,6 +387,9 @@ class GalaxyRows
         ];
     }
 
+    /**
+     * Loads the time of the player's newest spy report for each planet of the system (messages grouped 'm_<planetId>').
+     */
     private function fetchSpyReportAges(): void
     {
         $USER = $this->state->USER;
@@ -382,6 +420,10 @@ class GalaxyRows
         }
     }
 
+    /**
+     * Marks foreign planets by the age of the viewer's latest spy report: fresh (< spy_report_fresh_hours, default 24 h),
+     * recent (< spy_report_recent_hours, default 168 h), old, or none.
+     */
     private function getSpyReportIndicator(): void
     {
         if ($this->galaxyData[$this->galaxyRow['planet']]['ownPlanet']) {

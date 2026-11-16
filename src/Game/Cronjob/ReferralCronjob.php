@@ -22,8 +22,15 @@ use App\Game\Core\Database;
 use App\Game\Core\Language;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Referral notice (cronjob "referral", off by default; every 30 minutes): tells recruiters when an invited player reached the points threshold.
+ */
 class ReferralCronjob extends AbstractCronjobTask
 {
+    /**
+     * With ref_active: for every player with ref_bonus = 1 whose total points reached ref_minpoints, clears the
+     * flag and sends the recruiter (ref_id) a system message (no resources are granted here).
+     */
     public function run(): void
     {
         if ($this->configs->get(ROOT_UNI)->ref_active != 1) {

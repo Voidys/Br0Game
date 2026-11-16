@@ -44,6 +44,15 @@ final class Installer
     /** @var array<string, mixed> template variables collected by assign() */
     private array $viewData = [];
 
+    /**
+     * Entry point of /install/ (modes install, upgrade, doupgrade).
+     *
+     * Picks the installer language (?lang= / cookie), guards access: the tool only opens while
+     * var/ENABLE_INSTALL_TOOL exists (created automatically on a fresh project or from var/FIRST_INSTALL, removed
+     * after an hour unless it contains KEEP_FILE); upgrades additionally need the migration password from
+     * config/game.php (grants `migrationAccess` in the game session). Then renders the wizard step (`step` 1-8) or the
+     * pending-migrations page / runs them. Ends every request via show()/redirectTo().
+     */
     public function run(): void
     {
         $mode = $this->http()->_GP('mode', '');
@@ -306,6 +315,7 @@ final class Installer
         };
     }
 
+    /** Step 1: shows the licence; accepting continues with the requirements. */
     private function stepLicence(): void
     {
         if (isset($this->state->requestPost['post'])) {
@@ -319,12 +329,14 @@ final class Installer
         $this->show('ins_license');
     }
 
+    /** Step 2: PHP/extension checks and writable paths (see InstallService::requirements()). */
     private function stepRequirements(Language $LNG): void
     {
         $this->assign($this->installer->requirements($LNG->getLanguage()));
         $this->show('ins_req');
     }
 
+    /** Step 3: database form, prefilled from the query string or the unattended-install defaults. */
     private function stepDatabaseForm(): void
     {
         $query = $this->state->requestQuery;
@@ -402,6 +414,7 @@ final class Installer
         $this->sendJson(['ok' => true]);
     }
 
+    /** JSON answer of an AJAX build task; ends the request. */
     private function sendJson(array $data): never
     {
         $this->http()->sendHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -447,6 +460,7 @@ final class Installer
         $this->show('ins_game');
     }
 
+    /** Step 7: administrator form (name, password, e-mail, number of bots to create, 0-50). */
     private function stepAdminForm(): void
     {
         $this->assign([
@@ -459,6 +473,11 @@ final class Installer
         $this->show('ins_acc');
     }
 
+    /**
+     * Step 8: validates and creates the admin account, logs it in (Symfony login plus a game session with admin
+     * access), optionally spawns bots (a failure only sets a flag), locks the installer and shows the summary with the
+     * cron line and the generated migration password.
+     */
     private function stepAdmin(Language $LNG): void
     {
         $locale = $LNG->getLanguage();

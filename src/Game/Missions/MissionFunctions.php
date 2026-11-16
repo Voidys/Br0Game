@@ -26,6 +26,13 @@ use App\Game\Core\ResourceUpdate;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
 
+/**
+ * Base class of all fleet missions (MissionCase*): holds the flying-fleet row being processed ($_fleet), the
+ * pending column changes ($_upd for `fleets`, $_updLog for `log_fleets`) and the common event operations
+ * (change state/time, persist, return the fleet home, unload goods, kill the fleet, standard messages). A mission
+ * is created by FlyingFleetHandler per due event and then gets TargetEvent / EndStayEvent / ReturnEvent called
+ * (MissionInterface). All writes are meant to run inside the transaction opened by FlyingFleetHandler.
+ */
 class MissionFunctions
 {
     use \App\Game\Core\GameUtilities;
@@ -45,17 +52,27 @@ class MissionFunctions
         $this->statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
     }
 
+    /**
+     * Sets a `fleets` column on the in-memory row and queues it for SaveFleet().
+     */
     protected function UpdateFleet($Option, $Value)
     {
         $this->_fleet[$Option] = $Value;
         $this->_upd[$Option] = $Value;
     }
 
+    /**
+     * Queues a `log_fleets` column change (history of the fleet) for SaveFleet().
+     */
     protected function UpdateFleetLog($Option, $Value)
     {
         $this->_updLog[$Option] = $Value;
     }
 
+    /**
+     * Sets the fleet status (FLEET_OUTWARD / FLEET_HOLD / FLEET_RETURN) and the matching next event time
+     * (arrival_time, stay_time, return_time) that SaveFleet() writes to `fleets_event`.
+     */
     protected function setState($Value)
     {
         $this->_fleet['status'] = $Value;
@@ -74,6 +91,12 @@ class MissionFunctions
         }
     }
 
+    /**
+     * Persists the queued changes: UPDATE fleets (+ log_fleets) and the next event time in fleets_event.
+     * For every mission except colonisation, expedition and trade it first stores the current total points of fleet
+     * owner and target owner in log_fleets (for ACS all fleets of the group), i.e. the points at the moment of
+     * arrival. Does nothing more when the fleet was already killed (KillFleet()).
+     */
     protected function SaveFleet()
     {
         $targetMission = $this->_fleet['mission'];
@@ -139,6 +162,11 @@ class MissionFunctions
         }
     }
 
+    /**
+     * Locks the user and planet rows and brings the planet's resources up to date for $time (ResourceUpdate), so a
+     * fleet landing/arriving sees current stocks.
+     * @param int|null $time timestamp to calculate to; null = now.
+     */
     protected function UpdatePlanet($userId, $planetId, $time = null)
     {
         $sql = 'SELECT u.*, us.* FROM %%USERS%% u 
@@ -156,6 +184,12 @@ class MissionFunctions
         $planetUpdater->CalcResource($targetUser, $planet, true, $time);
     }
 
+    /**
+     * Lands the fleet: adds its ships and cargo to the planet (start planet when $onStart, else the target planet
+     * with its owner), after updating that planet's resources up to the landing time, and deletes the fleet.
+     * @param bool $onStart true: return home (owner, start_id, return_time); false: land at the target (target_owner,
+     * end_id, arrival_time).
+     */
     protected function RestoreFleet($onStart = true)
     {
         $resource = $this->state->resource;
@@ -195,6 +229,10 @@ class MissionFunctions
         $this->KillFleet();
     }
 
+    /**
+     * Unloads the cargo (metal, crystal, deuterium) into the start planet ($onStart) or the target planet and empties
+     * the fleet's cargo columns; the fleet itself keeps flying.
+     */
     protected function StoreGoodsToPlanet($onStart = false)
     {
         $sql = 'UPDATE %%PLANETS%% as p, %%USERS%% as u SET
@@ -250,6 +288,9 @@ class MissionFunctions
         return true;
     }
 
+    /**
+     * Deletes the fleet and its event row immediately and marks the mission as killed so SaveFleet() writes nothing.
+     */
     protected function KillFleet()
     {
         $this->kill = 1;
@@ -262,6 +303,11 @@ class MissionFunctions
         ]);
     }
 
+    /**
+     * Language pack (L18N, FLEET, TECH, CUSTOM) for a message to a player: of the given language code, else the
+     * player's setting by user id, else the language of the current request. Per-language packs are cached for the
+     * process and returned as copies.
+     */
     protected function getLanguage($language = null, $userID = null)
     {
         if (is_null($language) && !is_null($userID)) {
@@ -292,6 +338,11 @@ class MissionFunctions
     /** @var array<string, Language> language packs of getLanguage() by language code */
     private static array $languageCache = [];
 
+    /**
+     * Sends the "fleet returned" system message to the fleet owner (game messages, system type, timestamped with
+     * return_time): start/target planet, the cargo brought home and, if the ship counts differ from the start, the
+     * list of lost/missing ships per type.
+     */
     public function sendAttackReturnMessage()
     {
         $reslist = $this->state->reslist;
@@ -359,6 +410,9 @@ class MissionFunctions
         );
     }
 
+    /**
+     * Tells the fleet owner that the targeted pirate base no longer exists (message dated now).
+     */
     protected function sendPiratebaseGoneMessage()
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);

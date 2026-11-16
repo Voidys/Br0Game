@@ -25,6 +25,11 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Mission "pirate base attack" (20): attack on an NPC pirate base (table `pirate_bases`, spawned by
+ * PirateSpawnerCronjob, planet type 4) instead of a player planet. The simplified counterpart of
+ * AbstractBattleMission: no vacation/protection checks, no moon, no rebuild protection, no ACS defenders.
+ */
 class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -33,6 +38,15 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $this->_fleet = $Fleet;
     }
 
+    /**
+     * Arrival: loads and locks the base (fleet returns with a "base gone" message if it was removed meanwhile).
+     * The base defends with its stored ships as fleet 0 owned by user id 0, using tech levels of the
+     * attacking (lead) player minus 3 (not below 0), so the strength scales with the attacker. After the fight
+     * (BattleHandler, PIRATE_BASE_FIGHT) the survivors of both sides are saved, the loot of a win is calculated
+     * (pirate bases give up to 100% of their resources) and removed from the base, the debris is added to the
+     * base's debris fields, the report is stored (`rw`) and a report message is sent to the attacking players only.
+     * The fleets then return. No fight result (too large): fight cancelled, fleets return.
+     */
     public function TargetEvent()
     {
         $resource = $this->state->resource;
@@ -246,11 +260,17 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $this->SaveFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "fleet returned" message (cargo, lost ships) and lands ships and loot at the start planet.
+     */
     public function ReturnEvent()
     {
         $this->sendAttackReturnMessage();
@@ -258,6 +278,9 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $this->RestoreFleet();
     }
 
+    /**
+     * Engine could not compute the fight: tells all participants the attack was cancelled and turns the fleet around.
+     */
     private function cancelFight($userAttack, $userDefend, $targetPlanet)
     {
         foreach ([$userAttack, $userDefend] as $data) {
@@ -288,6 +311,10 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $this->SaveFleet();
     }
 
+    /**
+     * Writes the surviving ships of every attacking fleet (fleets and log_fleets), deletes fleets without ships and
+     * marks them FLEET_DESTROYED in the log, and removes them from `$fleets` (by reference, like AbstractBattleMission::applyLosses()) so loot and report only see surviving fleets. The pirate base itself (fleet id 0) is skipped.
+     */
     private function updateFleetsAfterBattle(array &$fleets, string $reportID)
     {
         $db = $this->db;
@@ -327,7 +354,7 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
                     ':fleetState'   => FLEET_DESTROYED,
                 ]);
 
-                unset($fleetAttack[$fleetID]);
+                unset($fleets[$fleetID]);
             } elseif ($totalCount > 0) {
                 $sql = "UPDATE %%FLEETS%% f, %%LOG_FLEETS%% l SET
                     f.`ships`       = :fleetData,
@@ -349,6 +376,10 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         }
     }
 
+    /**
+     * The attacking fleets: all fleets of the ACS group (and the group is deleted) or just this one.
+     * @return array<int, array<string, mixed>> fleet rows by fleet id.
+     */
     private function getIncomingFleets()
     {
         $incomingFleets = [];
@@ -373,6 +404,9 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         return $incomingFleets;
     }
 
+    /**
+     * Cancels the attack: deletes the ACS group (if any) and turns this fleet around.
+     */
     private function returnFleets()
     {
         if ($this->_fleet['group'] != 0) {
@@ -390,6 +424,9 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
         $this->SaveFleet();
     }
 
+    /**
+     * Template of the combat report message (see BattleReporting::getMessageText()).
+     */
     private function getMessageText()
     {
         $messageHTML = <<<HTML

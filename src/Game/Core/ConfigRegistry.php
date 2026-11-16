@@ -33,6 +33,11 @@ class ConfigRegistry
         return !empty($this->instances);
     }
 
+    /**
+     * Config of a universe; 0 = the current universe (1 when none is selected). The first call loads all
+     * configurations from the database.
+     * @throws Exception for an unknown universe id.
+     */
     public function get(int $universe = 0): Config
     {
         if (empty($this->instances)) {
@@ -56,6 +61,9 @@ class ConfigRegistry
         return $this->instances[$universe];
     }
 
+    /**
+     * Rereads the configuration from the database (after settings were saved by others).
+     */
     public function reload(): void
     {
         $this->generateInstances();
@@ -96,6 +104,11 @@ class ConfigRegistry
         return $this->schemaUni;
     }
 
+    /**
+     * Reads `config` and `config_universe` (values converted by the field transforms of ConfigFieldSchema), inserts
+     * missing keys with their schema default and missing modules as disabled, merges global and universe keys and
+     * creates one Config per universe (registering it with Universe). Also remembers the raw rows for App\Runtime\GameConfig.
+     */
     private function generateInstances(): void
     {
         $db = $this->db;

@@ -1,6 +1,10 @@
 <?php
 namespace App\Game\BattleEngine;
 
+/**
+ * Contract of a combat engine: simulate a fight between attacker and defender fleet arrays (built by
+ * BattleHandler) and return the result. Implementations: Rust (fast, via bin/battlerust) and SteemNova (PHP).
+ */
 interface BattleEngineInterface
 {
     /**

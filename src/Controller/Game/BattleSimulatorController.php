@@ -39,6 +39,11 @@ class BattleSimulatorController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Runs a simulation (XHR). Request: battleinput (slots with fleets, techs and resources; sanitized, ids numeric and amounts capped). Throttled to 10
+     * stored simulations per user per minute (marker `sim:<userId>` in RW.attacker). Simulates with the battle engine on virtual fleets (fixed 1:33:7
+     * coordinates), stores the report in RW and answers the report id as JSON, or 0 for invalid or rejected input.
+     */
     public function send()
     {
         $reslist = $this->state->reslist;
@@ -305,6 +310,10 @@ class BattleSimulatorController extends AbstractGameController
         return $clean;
     }
 
+    /**
+     * Simulator page. Request: slots (number of slots), action=moreslots (adds slots), battleinput[] (prefill, e.g. from a spy report; otherwise the form
+     * starts with the player's own techs).
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

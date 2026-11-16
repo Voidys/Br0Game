@@ -20,6 +20,10 @@ namespace App\Game\Core;
 use App\Game\Cache\Resource\CacheFile;
 use App\Game\Cache\Builder\BuildCacheInterface;
 
+/**
+ * Cache facade for the game data entries ('vars', 'language'): loads an entry from its cache file, builds it with
+ * the registered BuildCacheInterface builder when missing, and keeps it in memory for the request.
+ */
 class Cache
 {
     private CacheFile $cacheResource;
@@ -44,11 +48,17 @@ class Cache
         $this->cacheBuilder = self::BUILDERS;
     }
 
+    /**
+     * Registers a builder class (in App\Game\Cache\Builder) for a cache key.
+     */
     public function add(string $Key, string $ClassName): void
     {
         $this->cacheBuilder[$Key]	= $ClassName;
     }
 
+    /**
+     * Content of a cache entry; built when missing unless $rebuild is false (then [] if absent).
+     */
     public function getData(string $Key, bool $rebuild = true): array
     {
         if (!isset($this->cacheObj[$Key]) && !$this->load($Key)) {
@@ -61,6 +71,9 @@ class Cache
         return $this->cacheObj[$Key];
     }
 
+    /**
+     * Deletes the cache file of a key and rebuilds it right away.
+     */
     public function flush(string $Key): bool
     {
         if (!isset($this->cacheObj[$Key]) && !$this->load($Key)) {
@@ -71,6 +84,9 @@ class Cache
         return $this->buildCache($Key);
     }
 
+    /**
+     * Loads the entry from its file into memory; false if the file is missing or in an outdated format.
+     */
     public function load(string $Key): bool
     {
         $cacheData	= $this->cacheResource->open($Key);
@@ -83,6 +99,9 @@ class Cache
         return true;
     }
 
+    /**
+     * Runs the builder of the key, keeps the result in memory and writes the cache file.
+     */
     public function buildCache(string $Key): bool
     {
         $className = 'App\\Game\\Cache\\Builder\\' . $this->cacheBuilder[$Key];

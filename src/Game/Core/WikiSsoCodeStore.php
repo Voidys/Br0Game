@@ -20,6 +20,12 @@ final class WikiSsoCodeStore
 
     private function __construct(private readonly AdapterInterface $cache) {}
 
+    /**
+     * Builds the store.
+     * @param string $store 'redis' or anything else for the filesystem.
+     * @param string $redisUrl Redis DSN, used with 'redis'.
+     * @param string|null $directory filesystem folder (default var/game/wiki_sso).
+     */
     public static function create(string $store, string $redisUrl = '', ?string $directory = null): self
     {
         if ($store === 'redis') {

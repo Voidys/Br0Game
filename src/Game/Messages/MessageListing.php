@@ -308,7 +308,7 @@ class MessageListing
 
         if (!empty($MessagesID)) {
             $sql = 'UPDATE %%USERS_TO_MESSAGES%% SET `message_unread` = 0 
-                WHERE `message_id` IN (' . implode(',', $MessagesID) . ') AND `user_id` = :userID;';
+                WHERE `message_id` IN (' . implode(',', array_map('intval', $MessagesID)) . ') AND `user_id` = :userID;';
             $db->update($sql, [
                 ':userID'       => $USER['id'],
             ]);

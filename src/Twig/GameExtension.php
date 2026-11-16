@@ -33,6 +33,7 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         private readonly CspNonce $nonce,
     ) {}
 
+    /** @return list<TwigFunction> game_config(key), languages(), import_map(), data_island(id, data) */
     public function getFunctions(): array
     {
         return [
@@ -43,7 +44,11 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         ];
     }
 
-    /** must precede every module script of the page (import maps apply to later module loads only) */
+    /**
+     * `<script type="importmap">` mapping every file under public/scripts to the same path with `?v=<mtime>`, so ES
+     * module imports are cache-busted per file. Must precede every module script of the page (import maps apply to
+     * later module loads only). The directory scan runs once per process; the tag carries the CSP nonce.
+     */
     public function importMap(): Markup
     {
         static $json = null;
@@ -85,6 +90,7 @@ final class GameExtension extends AbstractExtension implements GlobalsInterface
         return new Markup('<script type="importmap" nonce="' . $this->nonce->value() . '">' . $json . '</script>', 'UTF-8');
     }
 
+    /** @return array{asset_version: string} short git hash, appended to static asset URLs for cache busting */
     public function getGlobals(): array
     {
         return ['asset_version' => $this->runtime->gitVersion];

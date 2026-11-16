@@ -41,6 +41,13 @@ class FleetTableController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Creates an alliance combat group (AKS) led by the player's outgoing attack fleet $fleetID: inserts the group with a random name (`AG<number>`), a
+     * public id, the fleet's arrival time and target, adds the player as first participant and sets `group` on the fleet and its LOG_FLEETS row.
+     *
+     * @param array{arrival_time: int, end_id: int} $fleetData row of the fleet
+     * @return array{name: string, id: int, publicID: string}
+     */
     public function createACS($fleetID, $fleetData)
     {
         $USER = $this->state->USER;
@@ -59,12 +66,6 @@ class FleetTableController extends AbstractGameController
             ':time' => $fleetData['arrival_time'],
             ':target' => $fleetData['end_id'],
         ]);
-
-        // $sql = "SELECT `id` FROM %%AKS%% WHERE `name` = :acsName AND `target` = :target";
-        // $acsID = $db->selectSingle($sql, [
-        //     ':acsName' => $acsName,
-        //     ':target' => $fleetData['end_id'],
-        // ], 'id');
 
         $acsID = $db->lastInsertId();
 
@@ -95,6 +96,9 @@ class FleetTableController extends AbstractGameController
         ];
     }
 
+    /**
+     * The combat group of $fleetData['group'] (id, public_id, name) if the player takes part in it, otherwise empty.
+     */
     public function loadACS($fleetData)
     {
         $USER = $this->state->USER;
@@ -111,6 +115,12 @@ class FleetTableController extends AbstractGameController
         return $acsResult;
     }
 
+    /**
+     * Combat group dialog for the player's fleet $fleetID (action=acs). Returns [] unless the fleet is outgoing and has not arrived yet, and is either
+     * already in a group or an attack fleet (which then gets a new group through createACS()). Request acsName renames the group (valid names only) and
+     * ends the request with JSON `false`; username invites a player of the universe unless unknown, already invited or blocking messages (insert into
+     * USERS_TO_ACS and an invitation message in the invitee's language). Returns the invited users, group name, leading fleet id and a status message.
+     */
     public function getACSPageData($fleetID)
     {
         $USER = $this->state->USER;
@@ -226,6 +236,13 @@ class FleetTableController extends AbstractGameController
         ];
     }
 
+    /**
+     * Fleet movements page. Request: fleetID with action = sendfleetback (recall the fleet) or acs (combat group dialog, see getACSPageData; both
+     * ignored in vacation mode); galaxy, system, planet, planettype and target_mission are passed on as preselection for the dispatch form. Lists the
+     * player's fleets (missiles excluded) with the next event time, route, cargo and ships, the fleet and expedition slots in use, the ships on the
+     * current planet with their speed, the planet count, the research bonuses and the "cargo calculator" (resources and needed small/large cargos for the
+     * current planet and for the element each planet watches).
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

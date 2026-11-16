@@ -45,6 +45,10 @@ final class LocaleSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Sets the Symfony request locale (and the translator's) for non-game routes; game routes pick their own
+     * language in the game bootstrap. See resolve() for the order.
+     */
     public function onKernelRequest(RequestEvent $event): void
     {
         // The legacy entry scripts pick their language themselves.
@@ -58,6 +62,7 @@ final class LocaleSubscriber implements EventSubscriberInterface
         $this->localeSwitcher->setLocale($locale);
     }
 
+    /** Persists an explicitly requested `?lang=` as the `lang` cookie (read again by resolve() and the login scripts). */
     public function onKernelResponse(ResponseEvent $event): void
     {
         $request = $event->getRequest();
@@ -69,6 +74,10 @@ final class LocaleSubscriber implements EventSubscriberInterface
         }
     }
 
+    /**
+     * Locale priority: explicit `lang` parameter (also remembered as cookie), language of the logged-in account,
+     * `lang` cookie, browser Accept-Language (two-letter prefix), default locale. Only configured locales count.
+     */
     private function resolve(Request $request): string
     {
         $requested = $request->query->get('lang', $request->request->get('lang'));

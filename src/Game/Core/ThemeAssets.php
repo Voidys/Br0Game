@@ -36,6 +36,9 @@ final class ThemeAssets
     /** @var array<string, array<string, string>> per-process memo: theme => path => URL */
     private static array $maps = [];
 
+    /**
+     * URL of the asset for the theme (the theme folder URL when no file is found).
+     */
     public static function resolve(string $theme, string $path): string
     {
         $path = ltrim(preg_replace('#^\./#', '', $path), '/');
@@ -77,6 +80,9 @@ final class ThemeAssets
         return $chain;
     }
 
+    /**
+     * URL prefix of a theme folder.
+     */
     public static function themeUrl(string $theme): string
     {
         return './styles/theme/' . $theme . '/';

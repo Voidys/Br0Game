@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 class AlliancesTab extends AccountEditorTab
 {
     /** Shows the form, or applies the posted changes (logged) and redirects with a message. */
-    /** Shows the form, or saves the posted changes. */
     public function handle(): Response
     {
         if ($this->state->requestPost) {

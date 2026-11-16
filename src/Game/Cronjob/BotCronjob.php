@@ -23,6 +23,10 @@ class BotCronjob extends AbstractCronjobTask
         parent::__construct($db, $configs, $state);
     }
 
+    /**
+     * Every minute: for each universe with bots_enabled gives the bot engine its tick budget (bots_ticks_per_run,
+     * default 25); the current universe is restored afterwards.
+     */
     public function run(): void
     {
         $original = (int) $this->universe()->current();

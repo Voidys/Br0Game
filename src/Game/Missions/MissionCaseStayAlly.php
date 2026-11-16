@@ -20,6 +20,11 @@ namespace App\Game\Missions;
 use App\Game\Core\Database;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "hold" (5, Halten / defend): a fleet is sent to a friendly (allied or buddy) planet and waits there for
+ * a chosen number of hours. While it holds (status FLEET_HOLD, until stay_time) it takes part as defender in
+ * attacks on that planet (BattleFleetHandling::collectParticipants), then flies home.
+ */
 class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -28,6 +33,9 @@ class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
         $this->_fleet	= $Fleet;
     }
 
+    /**
+     * Arrival: turn around if the planet is gone/abandoned, else switch to FLEET_HOLD (next event = stay_time).
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -48,12 +56,18 @@ class MissionCaseStayAlly extends MissionFunctions implements MissionInterface
         $this->SaveFleet();
     }
 
+    /**
+     * Hold time over: send the fleet home (FLEET_RETURN).
+     */
     public function EndStayEvent()
     {
         $this->setState(FLEET_RETURN);
         $this->SaveFleet();
     }
 
+    /**
+     * Sends the "fleet returned" message and lands ships and cargo at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG		= $this->getLanguage(null, $this->_fleet['owner']);

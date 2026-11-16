@@ -31,6 +31,11 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'flyingFleet', uniPrefix: true)]
 class FlyingFleetController extends AbstractAdminController
 {
+    /**
+     * Fleets in flight of the emulated universe. Actions by request: id + lock (lock or unlock one fleet event), massunlock (unlock
+     * all events), sendfleetback (fleet id: recalls one fleet like a player would) or sendfleetsback (recalls all attacking fleets, undoing
+     * alliance combat groups). Always lists the fleets with owner, mission, origin and target.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

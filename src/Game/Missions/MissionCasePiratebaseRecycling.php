@@ -23,6 +23,10 @@ use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 use App\Game\Achievements\MiscAchievement;
 
+/**
+ * Mission "pirate base recycling" (22): recyclers collect the debris field of a pirate base (stored in
+ * `pirate_bases.der_metal/der_crystal`); same loading rules as MissionCaseRecycling.
+ */
 class MissionCasePiratebaseRecycling extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -31,6 +35,11 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
         $this->_fleet = $Fleet;
     }
 
+    /**
+     * Arrival: like MissionCaseRecycling::TargetEvent but the debris is taken from the pirate base; if the base is gone
+     * the fleet returns with a "base gone" message. Capacity is the recyclers' plus non-recycler space left after
+     * the cargo on board; a too small capacity takes both resources proportionally.
+     */
     public function TargetEvent()
     {
         $pricelist = $this->state->pricelist;
@@ -157,11 +166,17 @@ class MissionCasePiratebaseRecycling extends MissionFunctions implements Mission
         $this->SaveFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "recycling returned" message with the gathered resources and lands ships and cargo at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG = $this->getLanguage(null, $this->_fleet['owner']);

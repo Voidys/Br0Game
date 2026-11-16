@@ -132,6 +132,9 @@ class FleetMath
         }
     }
 
+    /**
+     * True if the speed percentage chosen in the fleet form (10..100 in steps of 10) is one of FleetFunctions::$allowedSpeed.
+     */
     public function checkUserSpeed(int $speed): bool
     {
         return isset(FleetFunctions::$allowedSpeed[$speed]);
@@ -194,7 +197,7 @@ class FleetMath
 
     /**
      * Travel time in seconds.
-     * Keep scripts/game/flotten.js#GetRawDuration() and ConfigUni.tpl#getDuration() in sync.
+     * Keep scripts/game/flotten.js#GetRawDuration() and the duration helper in public/scripts/game in sync.
      */
     public function getMissionDuration(int $SpeedFactor, int $MaxFleetSpeed, int $Distance, int $GameSpeed, array $USER): int
     {
@@ -220,6 +223,11 @@ class FleetMath
         return floor(max($duration, MIN_FLEET_TIME));
     }
 
+    /**
+     * Flight time in seconds of an interplanetary missile between two systems of one galaxy: (30 + 60 * system
+     * distance) / game speed, at least MIN_FLEET_TIME. The system distance wraps in circular galaxies
+     * (galaxy_type 1) and is fixed at 2 in galaxy_type 2.
+     */
     public function getMIPDuration(int $startSystem, int $targetSystem): int
     {
         $config = $this->configs->get();
@@ -241,6 +249,9 @@ class FleetMath
         return floor($Duration);
     }
 
+    /**
+     * Fleet speed multiplier of the universe: config fleet_speed / 2500 (2500 = normal speed).
+     */
     public function getGameSpeedFactor(): int
     {
         return $this->configs->get()->fleet_speed / 2500;
@@ -263,6 +274,10 @@ class FleetMath
         return 1 + $user->level(COMPUTER_TECH);
     }
 
+    /**
+     * Total cargo capacity of a fleet (sum of pricelist capacity * amount; fleet tech does not change it).
+     * @param array<int,int|float> $Fleet ship id => amount.
+     */
     public function getFleetRoom(array $Fleet): int
     {
         $pricelist = $this->state->pricelist;

@@ -12,6 +12,7 @@ class BotLog
 {
     public function __construct(private readonly Database $db) {}
 
+    /** Inserts one log row for the bot (action cut to 32, detail to 255 characters); database errors are swallowed on purpose. */
     public function log(int $userId, int $universe, string $action, string $detail = ''): void
     {
         try {

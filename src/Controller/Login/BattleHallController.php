@@ -35,6 +35,10 @@ class BattleHallController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Public hall of fame of the biggest battles (top 100 by units lost, battles older than 6 hours). Request: universe
+     * (id, default current), memorial (0 = normal battles, 1 = memorial battles only). Reads TOPKB with the participants.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

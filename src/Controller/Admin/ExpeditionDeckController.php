@@ -30,6 +30,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'expeditionDeck', uniPrefix: true)]
 class ExpeditionDeckController extends AbstractAdminController
 {
+    /**
+     * Expedition event deck of a universe (request: uniID, default emulated; action=update with POST saves the submitted deck).
+     * Shows the deck cards with computed statistics (card counts and percentages per type).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -81,6 +85,9 @@ class ExpeditionDeckController extends AbstractAdminController
         return ExpeditionDeckHandler::$defaultDeckConfig;
     }
 
+    /**
+     * Counts the cards per event type and their share of the deck; returns the totals used by the page.
+     */
     private function calculateDeckStats(array $deckConfig): array
     {
         $stats = [
@@ -108,6 +115,10 @@ class ExpeditionDeckController extends AbstractAdminController
         return $stats;
     }
 
+    /**
+     * Validates the posted deck JSON (every card needs type, size and count, count >= 0, at least one card) and stores it for the
+     * universe; invalid JSON or an empty deck is rejected with a message.
+     */
     private function updateDeckConfig(int $universe): void
     {
         $jsonInput = $this->state->requestInput['deck_config_json'] ?? '';

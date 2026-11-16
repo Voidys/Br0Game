@@ -43,6 +43,7 @@ final class ImagesWebpCommand extends Command
             ->addOption('clean', null, InputOption::VALUE_NONE, 'remove all .webp copies instead');
     }
 
+    /** Converts (or with --clean removes) the WebP copies under public/[path]; prints the saved size. Exit code FAILURE for an unknown folder. */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -79,6 +80,7 @@ final class ImagesWebpCommand extends Command
         return Command::SUCCESS;
     }
 
+    /** Human-readable size: KB, or MB with one decimal above 1 MiB. */
     private function size(int $bytes): string
     {
         return $bytes > 1048576 ? round($bytes / 1048576, 1) . ' MB' : round($bytes / 1024) . ' KB';

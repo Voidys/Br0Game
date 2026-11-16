@@ -23,8 +23,18 @@ use App\Game\Core\Database;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Universe;
 
+/**
+ * Nightly housekeeping (default 02:25 every day, cronjob "daily"): clears caches, recalculates all next run times,
+ * resets the eco hash of all planets (forces a production recalculation), then per universe: kicks long-inactive
+ * players out of vacation mode, resets mine/energy settings of inactive players to 100%, removes inactive players
+ * from alliances and buddy lists; finally cleans old battle reports, erases old multi-account IPs and deletes
+ * unvalidated registrations.
+ */
 class DailyCronjob extends AbstractCronjobTask
 {
+    /**
+     * Runs all steps in order; the per-universe steps only act when the matching module is enabled in that universe.
+     */
     public function run(): void
     {
         $this->clearCache();
@@ -41,28 +51,46 @@ class DailyCronjob extends AbstractCronjobTask
         $this->cleanAccountsValid();
     }
 
+    /**
+     * Maintenance::clearCache(): deletes the cache files in var/game/ and compiled templates, recalculates the cronjob times,
+     * resets the eco hash and refreshes the stored game version.
+     */
     public function clearCache(): void
     {
         $this->maintenance()->clearCache();
     }
 
+    /**
+     * Recomputes nextTime of every cronjob (Cronjob::reCalculateCronjobs()).
+     */
     public function reCalculateCronjobs(): void
     {
         $this->cronjobs()->reCalculateCronjobs();
     }
 
+    /**
+     * Empties `planets.eco_hash` so every planet recalculates its production the next time it is updated.
+     */
     public function clearEcoCache(): void
     {
         $sql	= "UPDATE %%PLANETS%% SET eco_hash = '';";
         $this->db->update($sql);
     }
 
+    /**
+     * Privacy: replaces `multi.multi_ip` with 'cleared' for entries whose last activity is older than one month.
+     */
     public function eraseIPAdresses(): void
     {
         $sql = "UPDATE %%MULTI%% SET multi_ip = 'cleared' WHERE lastActivity < :oneMonth;";
         $this->db->update($sql, [':oneMonth' => $this->state->runtime->timestamp - TIME_1_MONTH]);
     }
 
+    /**
+     * Module MODULE_VMODE_KICK: players in vacation mode who were offline longer than INACTIVE_LONG (28 days),
+     * not banned, leave vacation mode (queues restarted via disable_vmode) and their planets are cleaned up.
+     * @param int $universe universe id.
+     */
     public function cancelVacation(int $universe): void
     {
         if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $universe)) {
@@ -82,6 +110,10 @@ class DailyCronjob extends AbstractCronjobTask
         }
     }
 
+    /**
+     * Module MODULE_EMPTY_BUDDY: players (not in vacation mode) offline longer than INACTIVE (7 days) are removed
+     * from their alliance and from all buddy lists.
+     */
     public function emptyInactiveAllianceAndBuddy(int $universe): void
     {
         if ($this->viewHelpers()->isModuleAvailable(MODULE_EMPTY_BUDDY, $universe)) {
@@ -102,6 +134,11 @@ class DailyCronjob extends AbstractCronjobTask
         }
     }
 
+    /**
+     * Sets the production percentage of mines, solar plant, fusion plant and satellites on the home/colony planets
+     * (type 1) of players offline longer than INACTIVE (7 days, not in vacation) back to 100% (stored as 10).
+     * @param int $universe universe id.
+     */
     public function updateInactiveMines(int $universe): void
     {
         $sql = "UPDATE %%PLANETS%% set metal_mine_porcent = :full, crystal_mine_porcent = :full, deuterium_sintetizer_porcent = :full, solar_plant_porcent = :full, fusion_plant_porcent = :full, solar_satelit_porcent = :full
@@ -178,15 +215,3 @@ class DailyCronjob extends AbstractCronjobTask
         ]);
     }
 }
-
-
-/*
-    Enable to debug
-    includes/classes/Universe.class.php set var $currentUniverse to 1 instead of NULL
-*/
-
-// define('MODE', 'INSTALL');
-// $this->configs->get(1);
-// define('TIMESTAMP', time());
-// $class = new DailyCronJob();
-// $class->cancelVacation();

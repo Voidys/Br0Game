@@ -2,6 +2,14 @@
 
 namespace App\Game\AdvancedStats;
 
+/**
+ * All counter keys of the advanced statistics (the case name is the `statkey` stored in the DB). Besides the plain
+ * cases there are per-element families (BUILD_<id>, LOST_<id>, REPAIRED_<id>, DESTROYED_<id>, FIRST_<id>,
+ * EXPO_FIRST_<id>, EXPO_LOST_<id>, EXPO_FOUND_<id>) that the static getBuild()/getLost()/... helpers resolve from
+ * an element id (null when no such case exists, which AdvancedStatsHandler treats as "do not count"). The `*_REAL`
+ * cases (KBMETAL_REAL, KBCRYSTAL_REAL, LOSTUNITS_REAL, DESUNITS_REAL) are filled per destroyed unit by AdvancedStatsHandler;
+ * their plain counterparts are summed per fight by the battle engines.
+ */
 enum AdvancedStatsEnum
 {
     case BUILD_202;

@@ -37,6 +37,9 @@ class BattleHallController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Builds the filter dropdowns (memorial, time frame, diplomacy, galaxy) of the battle hall.
+     */
     private function assembleSelectors()
     {
         $LNG = $this->state->LNG;
@@ -74,6 +77,9 @@ class BattleHallController extends AbstractGameController
         return $Selectors;
     }
 
+    /**
+     * Hall of fame of the biggest battles with filters. Request: memorial (1 memorial battles only), timeframe, diplomacy, galaxy.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

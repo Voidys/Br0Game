@@ -11,6 +11,13 @@ namespace App\Game\Core;
 
 use Exception;
 
+/**
+ * Price reference of the marketplace: derives the current metal/deuterium and crystal/deuterium exchange rates from
+ * the completed trades of the last 7 days in the current universe (between different players, visible ones only),
+ * clamped to 0.5..5.0 and stored in `marketplace` (the stored ratio is the fallback when there are no trades), and
+ * offers conversions to deuterium and fleet values for the push check (trades that would just transfer wealth
+ * between multi-accounts or weak/strong players).
+ */
 class MarketManager
 {
     use \App\Game\Core\GameUtilities;
@@ -45,6 +52,9 @@ class MarketManager
         return number_format($ratio, self::REFERENCE_DECIMALS, '.', '');
     }
 
+    /**
+     * Last stored ratios of the universe (metDeutRatio, crysDeutRatio); defaults 3.0 and 2.0 for a new market. Cached per instance.
+     */
     private function getStoredRatios(): array
     {
         if ($this->_storedRatios !== null) {
@@ -166,6 +176,11 @@ class MarketManager
         return $trades;
     }
 
+    /**
+     * Trades of the last 7 days that offered only crystal (seller's cargo had no metal/deuterium) for the given resource type.
+     * @param int $expectedrestype wanted resource type of the trades (1 metal, 2 crystal, 3 deuterium).
+     * @return array<int, array{amount: int|float, crystal: int|float}> wanted amount and offered crystal per trade; one default row if none.
+     */
     private function getCrysSales(int $expectedrestype): array
     {
         $db = $this->db;
@@ -200,6 +215,11 @@ class MarketManager
         return $trades;
     }
 
+    /**
+     * Trades of the last 7 days that offered only deuterium (seller's cargo had no metal/crystal) for the given resource type; counterpart of getCrysSales().
+     * @param int $expectedrestype wanted resource type of the trades (1 metal, 2 crystal, 3 deuterium).
+     * @return array<int, array{amount: int|float, deuterium: int|float}> wanted amount and offered deuterium per trade; one default row if none.
+     */
     private function getDeutSales(int $expectedrestype): array
     {
         $db = $this->db;
@@ -265,6 +285,10 @@ class MarketManager
         return $allTrades;
     }
 
+    /**
+     * Sums crystal and deuterium volume of both directions of crystal/deuterium trades; ratio source for crystal.
+     * @return array{crystal: int|float, deuterium: int|float}
+     */
     private function getTotalCrysDeutVolume(): array
     {
         if ($this->_cdVolume != []) {
@@ -320,6 +344,10 @@ class MarketManager
         });
     }
 
+    /**
+     * Current exchange rates relative to deuterium (persisted when recomputed).
+     * @return array{md: float, cd: float} metal per deuterium, crystal per deuterium.
+     */
     public function getAllTradeRatios(): array
     {
         return [
@@ -328,6 +356,10 @@ class MarketManager
         ];
     }
 
+    /**
+     * Value of one unit of each resource in deuterium (deuterium = 1.0).
+     * @return array<string,float> keys metal, crystal, deuterium.
+     */
     public function getDeutRelativeRatios(): array
     {
         $ratios = $this->getAllTradeRatios();

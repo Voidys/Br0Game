@@ -52,6 +52,9 @@ class Statbuilder
     private StatScores $scores;
     private StatPointsWriter $writer;
 
+    /**
+     * Loads the available universes and their game data (resource names, element lists, price lists from the "vars" cache) and prepares the scorer and the statpoints writer; also notes start time and memory for the run info.
+     */
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,

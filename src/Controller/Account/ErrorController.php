@@ -19,6 +19,9 @@ class ErrorController extends AbstractAccountController
 
     protected $disableEcoSystem = true;
 
+    /**
+     * No account checks: the error page must work for guests too.
+     */
     public function initialize(): void
     {
         parent::initialize();

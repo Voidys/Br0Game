@@ -20,6 +20,7 @@ final class LegacyUrlRedirectListener
 {
     private const PATTERN = '#^(?<prefix>/(?:uni\d+/|install/)?)(?:(?<area>game|admin|account|CombatReport)\.php|index\.php)$#';
 
+    /** 301 for GET/HEAD to game.php, admin.php, account.php, CombatReport.php or index.php (with optional /uniN or /install prefix), query string kept. */
     #[AsEventListener(event: KernelEvents::REQUEST, priority: 64)]
     public function __invoke(RequestEvent $event): void
     {

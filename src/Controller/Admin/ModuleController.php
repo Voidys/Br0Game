@@ -30,6 +30,10 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'module', uniPrefix: true)]
 class ModuleController extends AbstractAdminController
 {
+    /**
+     * Module switches of the emulated universe. With mode aktiv/inaktiv and id (module id) the module is turned on or off in the config
+     * (`moduls`), saved and the caches cleared; always lists all modules with their state.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

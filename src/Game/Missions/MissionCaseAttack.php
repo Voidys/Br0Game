@@ -149,7 +149,7 @@ class MissionCaseAttack extends AbstractBattleMission
             'fleetDestroySuccess'   => null,
         ];
 
-        $randChance = random_int(1, 100);
+        $randChance = $this->roll(1, 100);
         if ($randChance <= $chanceCreateMoon + $additionalChance) {
             $LNG = $this->getLanguage($targetUser['lang']);
             $reportInfo['moonName'] = $LNG['type_planet_3'];

@@ -21,6 +21,9 @@ use App\Game\Core\Database;
 use App\Game\Core\Log;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "transport" (3): delivers the cargo to the target planet (own or foreign) and flies home empty.
+ */
 class MissionCaseTransport extends MissionFunctions implements MissionInterface
 {
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -29,6 +32,13 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
         $this->_fleet	= $Fleet;
     }
 
+    /**
+     * Arrival: turns the fleet around if the target is gone/abandoned. Otherwise reports to the sender and, if the
+     * planet belongs to somebody else, to the receiver too (plus a transaction log entry of type 5 with the
+     * delivered amounts), updates the target planet to the arrival time and unloads the cargo into it. If the start
+     * planet no longer exists (destroyed moon) the return destination is changed to the owner's main planet.
+     * Finally state FLEET_RETURN.
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -160,11 +170,17 @@ class MissionCaseTransport extends MissionFunctions implements MissionInterface
         $this->SaveFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent()
     {
         return;
     }
 
+    /**
+     * Sends the "fleet returned" message and lands the ships (cargo is empty) at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG		= $this->getLanguage(null, $this->_fleet['owner']);

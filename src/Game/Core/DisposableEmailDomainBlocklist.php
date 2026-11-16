@@ -2,6 +2,11 @@
 
 namespace App\Game\Core;
 
+/**
+ * Blocklist of throwaway e-mail domains used at registration. The list is downloaded by
+ * DisposableEmailDomainsCronjob into var/game/others/disposable-email-domains.json; a built-in fallback list is
+ * always included. A domain is blocked when it or any parent domain is listed.
+ */
 class DisposableEmailDomainBlocklist
 {
     private const CACHE_FILE = 'others/disposable-email-domains.json';
@@ -9,6 +14,9 @@ class DisposableEmailDomainBlocklist
 
     private static ?array $domains = null;
 
+    /**
+     * True if the domain of the address, or a parent domain (a.b.example.com, b.example.com, ...), is on the list.
+     */
     public static function isBlocked(string $email): bool
     {
         $separator = strrpos($email, '@');
@@ -36,6 +44,10 @@ class DisposableEmailDomainBlocklist
         }
     }
 
+    /**
+     * Parses a downloaded list (one domain per line, # comments) and atomically replaces the cache file.
+     * @return bool false when the list is invalid or the cache directory is not writable (the old cache stays).
+     */
     public static function updateFromList(string $contents): bool
     {
         $domains = self::parseDomainList($contents);
@@ -93,6 +105,9 @@ class DisposableEmailDomainBlocklist
         return self::$domains;
     }
 
+    /**
+     * Normalized domains of the list text, or null if any line is not a valid domain.
+     */
     private static function parseDomainList(string $contents): ?array
     {
         $domains = [];

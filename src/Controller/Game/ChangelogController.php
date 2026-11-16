@@ -32,6 +32,9 @@ class ChangelogController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Renders CHANGES.md as the changelog page.
+     */
     public function show(): Response
     {
         $parsedown = new Parsedown();

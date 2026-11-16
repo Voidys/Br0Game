@@ -28,6 +28,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'active', uniPrefix: true)]
 class ActiveController extends AbstractAdminController
 {
+    /**
+     * Pending (not yet verified) registrations from ACCOUNTS_VALID. action=delete with id (validation id) removes one entry;
+     * always lists the remaining ones with their registration date in the admin's timezone.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

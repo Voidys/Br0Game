@@ -40,6 +40,10 @@ class EmpireController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Empire overview: resources, buildings, research, ships and defense of all planets (or all moons) of the player in one table. Locks
+     * the user row and recalculates every planet first so the numbers are current. Request: planet type switch (planets/moons).
+     */
     public function show(): Response
     {
         $USER = & $this->state->USER;

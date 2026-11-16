@@ -28,6 +28,10 @@ use App\Game\Core\Statbuilder;
 #[\App\Routing\GamePage('admin.php', 'statUpdate', uniPrefix: true)]
 class StatUpdateController extends AbstractAdminController
 {
+    /**
+     * Runs the statistics build (Statbuilder::generateStats) in the request, reports duration, memory and SQL count, and logs the result
+     * to Discord. Failures are shown and logged as well.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

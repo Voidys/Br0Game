@@ -103,6 +103,9 @@ class HangarFilters
         return $merged === [] ? ['all'] : $merged;
     }
 
+    /**
+     * The group keys contained in a filter list.
+     */
     public function groups(array $filters): array
     {
         return array_values(array_filter(
@@ -111,6 +114,9 @@ class HangarFilters
         ));
     }
 
+    /**
+     * The pinned ship ids (numeric entries) of a filter list.
+     */
     public function shipIds(array $filters): array
     {
         $ids = [];
@@ -128,6 +134,9 @@ class HangarFilters
         return in_array($group, $filters, true);
     }
 
+    /**
+     * JSON string for storage; falls back to the default groups if encoding fails.
+     */
     public function encode(array $filters): string
     {
         $json = json_encode(array_values($filters));

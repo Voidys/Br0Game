@@ -15,6 +15,10 @@ class ViewHelpers
         protected Singleton $state,
     ) {}
 
+    /**
+     * Prepares a date() format: replaces the D (weekday) and M (month) letters by the language's names (escaped), so date() prints localized names.
+     * @param int $time timestamp used to pick the weekday and month.
+     */
     public function localeDateFormat($format, $time, $LNG = null)
     {
         // Workaround for locale Names.
@@ -42,6 +46,10 @@ class ViewHelpers
         throw EndOfRequest::withResponse((new \App\View\GameView($this->db, $this->configs, $this->state))->messagePage($mes, $dest, $time, !$topnav));
     }
 
+    /**
+     * Duration as "[Nd ]HHh MMm SSs" with the language's unit labels.
+     * @param int|float $seconds duration in seconds.
+     */
     public function prettyTime($seconds)
     {
         $LNG = $this->state->LNG;
@@ -73,6 +81,10 @@ class ViewHelpers
         );
     }
 
+    /**
+     * Number with thousands separators in the player's notation (setting decimal_separator: 0 = 1.234,56, 1 = 1,234.56); non-numeric input is returned unchanged.
+     * @param int $dec decimals.
+     */
     public function prettyNumber($n, $dec = 0)
     {
         if (is_numeric($n)) {
@@ -87,6 +99,10 @@ class ViewHelpers
         }
     }
 
+    /**
+     * Compact number (÷1000 steps with the language's suffixes from NumberAbbreviation, e.g. 1.2 Mio); a decimal is
+     * shown for non-integer values below 100 when $decimal is not given.
+     */
     public function shortlyNumber($number, $decimal = null)
     {
         $negate = $number < 0 ? -1 : 1;
@@ -114,6 +130,9 @@ class ViewHelpers
         return $this->prettyNumber($negate * $number, $decimal) . ($key !== 0 ? '&nbsp;' . $unit[$key] : '');
     }
 
+    /**
+     * True if the game module (MODULE_* id) is enabled in the universe (0 = current). Unknown module ids are logged and count as enabled.
+     */
     public function isModuleAvailable($ID, $universe = 0)
     {
         $config = $this->configs->get($universe);
@@ -128,6 +147,9 @@ class ViewHelpers
         return isset($modules[$ID]) ? $modules[$ID] == 1 : true;
     }
 
+    /**
+     * True if the current user may use the admin function $side: admins always, other staff when `rights[$side]` is 1.
+     */
     public function allowedTo($side)
     {
 

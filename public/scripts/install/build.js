@@ -7,6 +7,7 @@ const start = document.querySelector('.install-build__start');
 const errorBox = document.querySelector('.install-build__error');
 const back = document.querySelector('.install-build__back');
 
+/** Runs one build task on the server (GET with `task=<name>`), marks the list item running/ok/failed and shows the error with the back link on failure. Returns true on success. */
 async function runTask(item) {
   item.className = 'is-running';
   try {

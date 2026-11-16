@@ -21,6 +21,9 @@ final class EndOfRequest extends \Error
         parent::__construct('End of request');
     }
 
+    /**
+     * Creates an end-of-request carrying the finished Symfony Response (page output, redirect or JSON) that the front controller sends.
+     */
     public static function withResponse(Response $response): self
     {
         $end = new self();

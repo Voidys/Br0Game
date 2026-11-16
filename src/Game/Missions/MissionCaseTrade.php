@@ -18,6 +18,11 @@ use App\Game\Core\Database;
 use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 
+/**
+ * Mission "trade" (16): fleets that carry the goods of a market offer (see MarketManager / `trades`). The seller
+ * and buyer fleets fly to the market place pseudo-position (planet max_planets + 2) of the offer's system; the
+ * exchanged goods are loaded when the trade is completed and travel home with the fleet.
+ */
 class MissionCaseTrade extends MissionFunctions implements MissionInterface
 {
     public function __construct($fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -26,6 +31,16 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $this->_fleet	= $fleet;
     }
 
+    /**
+     * Two phases, told apart by end_id. end_id != 0: the buyer fleet arrived at its own market place and is rerouted
+     * to the seller's market place (new duration for 10% speed legs via getMissionDuration, hold for 6 hours =
+     * TIME_6_HOURS, then return; cargo emptied; the leg start time is reset when the market place is in another
+     * system, so the return time is not counted twice). end_id == 0: the fleet arrived at the market place: goes to
+     * FLEET_HOLD; if the trade already has a buy_time the wanted goods (ex_resource_* for the seller,
+     * resource_* for the buyer; type 1/2/3 = metal/crystal/deuterium) are put into the cargo, logged
+     * (wanted_resource*) and the fleet may be recalled (cannotCancel = 0) and the owner gets a hold message;
+     * otherwise cannotCancel = 1 (the offer is still open, the fleet must wait).
+     */
     public function TargetEvent()
     {
         $db = $this->db;
@@ -143,12 +158,19 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $this->SaveFleet();
     }
 
+    /**
+     * Hold time over: send the fleet home (FLEET_RETURN).
+     */
     public function EndStayEvent()
     {
         $this->setState(FLEET_RETURN);
         $this->SaveFleet();
     }
 
+    /**
+     * Success message (with the goods brought home) if the fleet belonged to a completed trade, otherwise a plain
+     * "fleet returned" message; then lands ships and cargo at the start planet.
+     */
     public function ReturnEvent()
     {
         $LNG		= $this->getLanguage(null, $this->_fleet['owner']);
@@ -193,6 +215,10 @@ class MissionCaseTrade extends MissionFunctions implements MissionInterface
         $this->RestoreFleet();
     }
 
+    /**
+     * Tells the owner that the traded goods are loaded and the fleet can be sent back; the flight home takes
+     * arrival_time - start_time (as in FleetFunctions::sendFleetBack), not the scheduled leg.
+     */
     private function sendHoldMessage()
     {
         $LNG		= $this->getLanguage(null, $this->_fleet['owner']);

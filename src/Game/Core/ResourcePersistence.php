@@ -225,6 +225,13 @@ class ResourcePersistence
 		WHERE p.id = :planetId AND u.id = :userId;';
     }
 
+    /**
+     * Debits resources from a planet in the DB (relative UPDATE `col = col - x`), skipping energy, and mirrors the change
+     * in the passed planet array. Callers check affordability beforehand; the stock can go negative here.
+     * @param int $planetId
+     * @param array<int, int|float> $resources resource id (901-903, 921) => amount to remove.
+     * @param array<string, mixed>|null $planet optional planet row, updated in place.
+     */
     public function removeResources(int $planetId, array $resources, ?array &$planet = null)
     {
         $resource = $this->state->resource;
@@ -251,6 +258,12 @@ class ResourcePersistence
         }
     }
 
+    /**
+     * Credits resources to a planet in the DB (relative UPDATE `col = col + x*factor`), skipping energy, and mirrors
+     * the change in the passed planet array.
+     * @param array<int, int|float> $resources resource id => amount.
+     * @param float $factor multiplier applied to every amount (e.g. a refund share such as 0.5).
+     */
     public function addResources(int $planetId, array $resources, ?array &$planet = null, float $factor = 1)
     {
         $resource = $this->state->resource;
@@ -274,6 +287,9 @@ class ResourcePersistence
         $this->db->update($sql, $params);
     }
 
+    /**
+     * Writes only the metal, crystal and deuterium stocks of the planet row (absolute values, no queue or production data).
+     */
     public function saveResources(array $PLANET)
     {
         $params = [
@@ -291,6 +307,9 @@ class ResourcePersistence
         $this->db->update($sql, $params);
     }
 
+    /**
+     * Writes the user's research queue columns (b_tech end time, b_tech_id, b_tech_planet, b_tech_queue) to `users`.
+     */
     public function saveTechQueue(array $USER)
     {
         $params = [
@@ -310,6 +329,10 @@ class ResourcePersistence
         $this->db->update($sql, $params);
     }
 
+    /**
+     * Writes the planet's building queue columns (b_building end time, b_building_id, watch_id) to `planets`
+     * (method name keeps its historic typo).
+     */
     public function saveBuilingQueue(array $PLANET)
     {
         $params = [
@@ -327,6 +350,9 @@ class ResourcePersistence
         $this->db->update($sql, $params);
     }
 
+    /**
+     * Writes the planet's shipyard queue columns (b_hangar_id, b_hangar progress time) to `planets`.
+     */
     public function saveShipyardQueue(array $PLANET)
     {
         $params = [

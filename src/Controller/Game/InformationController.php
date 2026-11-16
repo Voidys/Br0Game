@@ -41,6 +41,10 @@ class InformationController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Timestamp at which a jump gate can be used again. $lastTime = last jump (timestamp), $jumpLevel = gate level: 60 minutes at level 0,
+     * falling with the level along 0.25*x^2 - 7x + 60 (x = level - 1) down to 10 minutes from level 15, divided by `jumpgate_factor`.
+     */
     protected function getNextJumpWaitTime($lastTime, $jumpLevel)
     {
         if ($jumpLevel >= 15) {
@@ -56,6 +60,11 @@ class InformationController extends AbstractGameController
         return $lastTime + ceil(($cooldownMinutes * 60) / $this->configs->get()->jumpgate_factor);
     }
 
+    /**
+     * Jump gate jump (XHR). Request: jmpto (target gate planet id), ship[<id>] = counts. Both gates must be ready (cooldown above), counts are
+     * limited to what the planet holds (solar satellites excluded); moves the ships to the target planet in two UPDATEs, sets `last_jump_time` on both
+     * and answers JSON {message, error}.
+     */
     public function sendFleet()
     {
         $PLANET = & $this->state->PLANET;
@@ -181,6 +190,10 @@ class InformationController extends AbstractGameController
         return $fleetList;
     }
 
+    /**
+     * Removes missiles from the current silo (request: missile[502], missile[503] = interceptor / interplanetary missiles to destroy);
+     * answers the remaining counts as JSON.
+     */
     public function destroyMissiles()
     {
         $resource = $this->state->resource;
@@ -205,6 +218,9 @@ class InformationController extends AbstractGameController
         $this->sendJSON([$PLANET[$resource[502]], $PLANET[$resource[503]]]);
     }
 
+    /**
+     * The player's other moons with a jump gate (planet type 3), ordered by the player's planet sort setting.
+     */
     private function getTargetGates()
     {
         $resource = $this->state->resource;
@@ -249,6 +265,11 @@ class InformationController extends AbstractGameController
         return $moonList;
     }
 
+    /**
+     * Element info popup (request: id = element id): description, production and consumption table for 15 levels around the current one
+     * for producers, storage capacity, rapid fire / combat values for ships and defense, missile list for the silo and the jump gate target list
+     * for the jump gate. The tables evaluate the formulas from the game data (ProdGrid).
+     */
     public function show(): Response
     {
         $USER = & $this->state->USER;

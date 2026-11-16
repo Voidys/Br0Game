@@ -36,6 +36,7 @@ function doit(missionID, planetID) {
   });
 }
 
+/** Shows the result of a mission request: updates free slots and ship counts, appends the server message to the status list (oldest dropped at `maxFleetSetting`), green for code 600, red otherwise. */
 function handleDoIt(data) {
   document.getElementById('slots').textContent = data.slots;
   if (typeof data.ships !== "undefined") {
@@ -58,6 +59,7 @@ function handleDoIt(data) {
 
 }
 
+/** Fills the interplanetary missile form with the target (galaxy, system, position, planet/moon type) and flight time (seconds), shows it and focuses the amount field. Returns false (cancels the link). */
 function showMissileForm(galaxy, system, planetPos, duration, type) {
   const form = document.querySelector('form[action="?page=fleetMissile"]');
   if (!form) return false;
@@ -75,6 +77,7 @@ function showMissileForm(galaxy, system, planetPos, duration, type) {
   return false;
 }
 
+/** Answer of the missile pre-check (`mission=10`): code 600 opens the form, anything else is shown as an alert. */
 function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
   if (data.code !== 600) {
     alert(data.mess);
@@ -83,6 +86,7 @@ function handleMissileAjax(data, galaxy, system, planetPos, duration, type) {
   showMissileForm(galaxy, system, planetPos, duration, type);
 }
 
+/** Pre-checks a missile attack on the planet via `fleetAjax` (mission 10); code 602 asks the player to confirm first (outlaw rules), then opens the form on success. Returns false (cancels the link). */
 function openMissileForm(planetID, galaxy, system, planetPos, duration, type) {
   post("game?page=fleetAjax&ajax=1&mission=10&planetID=" + planetID, {}, 'json').then(function (data) {
     if (data.code === 602) {
@@ -100,11 +104,13 @@ function openMissileForm(planetID, galaxy, system, planetPos, duration, type) {
   return false;
 }
 
+/** Navigates the galaxy view: the clicked direction (`systemLeft`, `systemRight`, `galaxyLeft`, `galaxyRight`) is sent as the name of the hidden field and the form submitted. */
 function galaxy_submit(value) {
   document.getElementById('auto').setAttribute('name', value);
   document.getElementById('galaxy_form').submit();
 }
 
+/** "uniN" of the current URL path (default "uni1"); prefix of the local storage keys. */
 function parseUni() {
   return window.location.pathname.match('uni?.')?.[0] || 'uni1'
 }
@@ -132,11 +138,13 @@ const galaxyStore = {
   },
 };
 
+/** Local galaxy data store: `universe` ("g:s" -> planets by position, with a timepoint), `playerids` and `allyids` (id -> name + timepoint). Entries with the newer timepoint win when data is merged. */
 const universe = galaxyStore.get("universe", {})
 const playerids = galaxyStore.get("playerids", {})
 const allyids = galaxyStore.get("allyids", {})
 
 
+/** Hooks the sync / export / import / reset buttons of the galaxy tools and adds the stored positions to the player tooltips. */
 function addlisteners() {
   document.getElementById("gala_sync").onclick = () => {
     syncsys();
@@ -155,12 +163,14 @@ onPageInit(function () {
   addlisteners();
 });
 
+/** Reads the chosen JSON file (as written by export_json) for onReaderLoad_import(). */
 function onChange_import(event) {
   const reader = new FileReader();
   reader.onload = onReaderLoad_import;
   reader.readAsText(event.target.files[0]);
 }
 
+/** Merges an exported galaxy file ([universe, playerids, allyids]) into the local store; per entry the newer timepoint wins, then saves. */
 function onReaderLoad_import(event) {
   const ttl = JSON.parse(event.target.result);
   let obj = ttl[0]
@@ -198,6 +208,7 @@ function onReaderLoad_import(event) {
   galaxyStore.set("allyids", allyids)
 }
 
+/** Downloads the stored data as CSV: coordinates, moon flag, player and alliance (id in brackets), status; systems sorted by galaxy and system. */
 function export_csv() {
   let keys = Object.keys(universe)
   keys.sort(compareFn)
@@ -214,10 +225,12 @@ function export_csv() {
   download("universe.csv", outcsv)
 }
 
+/** Downloads the stored data as JSON ([universe, playerids, allyids]), the format import understands. */
 function export_json() {
   download("universe.json", JSON.stringify([universe, playerids, allyids]))
 }
 
+/** After confirmation deletes all locally stored galaxy data. */
 function reset() {
   if (confirm(confirmlng) === false) {
     return;
@@ -230,6 +243,7 @@ function reset() {
   galaxyStore.set("allyids", allyids)
 }
 
+/** Stores the currently viewed system, with its players and alliances, in the local galaxy data. */
 function syncsys() {
   universe[galakey] = systemdata;
   for (let pos in systemdata) {
@@ -245,12 +259,14 @@ function syncsys() {
 
 }
 
+/** Adds the known planet locations to the tooltip of every player name on the page. */
 function showplayerinfos() {
   for (let username of document.getElementsByClassName(" galaxy-username")) {
     annotatehover(username.getAttribute("playerid"), username.parentElement)
   }
 }
 
+/** Appends a list of the player's known planets (from the local data, own system highlighted, links within the current galaxy emphasised) to the tooltip HTML of `htmlobject`. */
 function annotatehover(id, htmlobject) {
   if (!htmlobject.hasAttribute("data-tooltip-content")) return;
   let anostr = htmlobject.getAttribute("data-tooltip-content").replace("</table>", "")
@@ -293,6 +309,7 @@ function getcoordstring(coord) {
 }
 
 
+/** Sort order of "galaxy:system" keys: numeric by galaxy, then system. */
 function compareFn(a, b) {
   let spa = a.split(":")
   let spb = b.split(":")
@@ -313,6 +330,7 @@ function compareFn(a, b) {
   return 0;
 }
 
+/** Offers `text` as a file download in the browser (data URL link, no server call). */
 function download(filename, text) {
   const element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -330,6 +348,7 @@ function download(filename, text) {
 let keypressRegistered = false;
 document.addEventListener('keydown', logKey);
 
+/** Keyboard navigation of the galaxy view: A / D or left / right arrows change the system, W / S or up / down the galaxy; only the first key press is handled (the page reloads). */
 function logKey(e) {
   if (!keypressRegistered) {
     const callback = {

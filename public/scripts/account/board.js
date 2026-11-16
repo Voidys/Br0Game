@@ -66,11 +66,16 @@ if (root) {
   const template = document.getElementById('board-reply-tpl');
   let openForm = null;
 
+  /** Removes the open inline reply/edit form, if any. */
   function closeForm() {
     openForm?.remove();
     openForm = null;
   }
 
+  /**
+   * Opens an inline form below a comment (only one at a time): a reply form for the comment, or with `edit` the edit form (mode saveComment,
+   * id of the comment, current text prefilled) with the rich text editor attached.
+   */
   function openFor(comment, edit) {
     closeForm();
     const form = template.content.firstElementChild.cloneNode(true);

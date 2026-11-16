@@ -51,6 +51,9 @@ class DataPrivacyController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Renders the CMS page "dataPrivacy" in the account shell.
+     */
     public function show(): Response
     {
         $page = $this->contentPages->find('dataPrivacy', $this->state->LNG->getLanguage());

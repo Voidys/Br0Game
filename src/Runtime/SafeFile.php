@@ -17,6 +17,7 @@ final class SafeFile
 {
     private static ?Filesystem $fs = null;
 
+    /** Lazily created shared Symfony Filesystem. */
     private static function fs(): Filesystem
     {
         return self::$fs ??= new Filesystem();

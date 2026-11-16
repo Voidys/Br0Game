@@ -17,7 +17,14 @@
 
 namespace App\Game\Cronjob;
 
+/**
+ * One scheduled task. The class name (without namespace) is stored in `cronjobs.class`; run() does the whole job
+ * and may throw (Cronjob::execute() catches, unlocks and reports to Discord).
+ */
 interface CronjobTaskInterface
 {
+    /**
+     * Executes the task once.
+     */
     public function run(): void;
 }

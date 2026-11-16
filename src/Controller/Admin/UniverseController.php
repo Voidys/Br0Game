@@ -43,6 +43,9 @@ class UniverseController extends AbstractAdminController
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * Only authlevel ADM may manage universes.
+     */
     protected function construct(): void
     {
         $USER = $this->state->USER;
@@ -55,6 +58,14 @@ class UniverseController extends AbstractAdminController
 
     }
 
+    /**
+     * Universe administration. Request: action and uniID. open / closed set the universe status (STATUS_OPEN / STATUS_CLOSED) in its
+     * config. delete removes a universe with all its data (not the root universe and not the universe the admin is currently in);
+     * afterwards the admin is redirected (to the root URL layout when only one universe remains). create first checks that the web
+     * server rewrites /uniN/ URLs (a request that must answer 302, otherwise the nginx hint is shown), then inserts the default
+     * config for the next universe id (schema defaults, all modules on, a marketplace row), creates an ADM player for the acting admin at 1:1:1 and
+     * switches the admin session to it. Without action lists the universes.
+     */
     public function show(): Response
     {
         $LNG = & $this->state->LNG;

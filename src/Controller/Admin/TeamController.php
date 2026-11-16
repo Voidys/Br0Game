@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'team', uniPrefix: true)]
 class TeamController extends AbstractAdminController
 {
+    /**
+     * Edits the team members of the public team page. action=save stores the submitted rows (saveMembers); always lists the members.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

@@ -35,6 +35,10 @@ final class CsrfListener
         private readonly TranslatorInterface $translator,
     ) {}
 
+    /**
+     * Order of checks for the main request: bounce foreign navigations, skip requests the policy does not cover,
+     * reject a missing/invalid token (403 response, request ends), otherwise strip the token field from the request.
+     */
     public function __invoke(RequestEvent $event): void
     {
         if (!$event->isMainRequest()) {
@@ -71,6 +75,7 @@ final class CsrfListener
             || (bool) ($request->query->get('ajax') ?? $request->request->get('ajax'));
     }
 
+    /** 403 answer for a failed check: JSON `{error, csrf, message}` for scripts, a minimal HTML page otherwise (message in de/en by Accept-Language). */
     private function reject(Request $request): Response
     {
         $locale = $request->getPreferredLanguage(['de', 'en']) ?? 'en';
@@ -87,6 +92,7 @@ final class CsrfListener
         return new Response($page, Response::HTTP_FORBIDDEN);
     }
 
+    /** 303 redirect to the area's start page (keeping the /uniN prefix) for a foreign top-level navigation. */
     private function bounce(Request $request): Response
     {
         [$area] = $this->policy->areaAndPage($request);

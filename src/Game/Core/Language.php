@@ -20,6 +20,12 @@ namespace App\Game\Core;
 use ArrayAccess;
 use Exception;
 
+/**
+ * Texts of one language: array access to the translations ($LNG['key'], nested for tech names etc.), loaded
+ * per domain from the cached language files (includeData(): English first as fallback, then the player's
+ * language), with format()/formatHtml() for printf-style texts. The language comes from the request (?lang, cookie,
+ * Accept-Language) or from the universe default; "{game_name}" in texts is replaced by the configured game name.
+ */
 class Language implements ArrayAccess
 {
     private array $container = [];
@@ -37,6 +43,11 @@ class Language implements ArrayAccess
         }
     }
 
+    /**
+     * Determines the language of the visitor: ?lang= parameter (also stored in the `lang` cookie), the cookie in
+     * login/install modes, else the best match of the Accept-Language header with the allowed languages (default
+     * language when none); stores the choice in the cookie.
+     */
     private function getUserAgentLanguage(): void
     {
         if (isset($this->configs->gameState()->requestInput['lang']) && in_array($this->configs->gameState()->requestInput['lang'], $this->catalog()->getAllowedLangs())) {
@@ -78,6 +89,9 @@ class Language implements ArrayAccess
         $this->setLanguage($language);
     }
 
+    /**
+     * Selects the language if allowed; otherwise the universe's default language (or DEFAULT_LANG during install).
+     */
     public function setLanguage(?string $language): void
     {
         if (!is_null($language) && in_array($language, $this->catalog()->getAllowedLangs())) {
@@ -89,6 +103,9 @@ class Language implements ArrayAccess
         }
     }
 
+    /**
+     * Merges text arrays into the loaded texts (later data overrides earlier).
+     */
     public function addData(array $data): void
     {
         $this->container = array_replace_recursive($this->container, $data);
@@ -99,6 +116,9 @@ class Language implements ArrayAccess
         return $this->language;
     }
 
+    /**
+     * Contents of a text template templates/texts/<lang>/<name>.txt (e-mail and rule texts); a visible error text when missing.
+     */
     public function getTemplate(string $templateName): string
     {
         if (file_exists('templates/texts/'.$this->getLanguage().'/'.$templateName.'.txt')) {
@@ -109,6 +129,11 @@ class Language implements ArrayAccess
     }
 
 
+    /**
+     * Loads the language domains (e.g. 'L18N', 'INGAME', 'TECH') from the cache files: English as fallback, then the
+     * current language over it. Rebuilds the language cache once if an English file is missing.
+     * @param string[] $files domain names in upper case.
+     */
     public function includeData(array $files): void
     {
         // Fixed BOM problems.
@@ -196,16 +221,25 @@ class Language implements ArrayAccess
             $this->container[$offset] = $value;
         }
     }
+    /**
+     * ArrayAccess: true if the text key is loaded.
+     */
     #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->container[$offset]);
     }
+    /**
+     * ArrayAccess: removes a loaded text key.
+     */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
     }
+    /**
+     * ArrayAccess: the text for the key. A missing key returns the key itself (never null), so `|default` does not apply (see CLAUDE.md).
+     */
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {

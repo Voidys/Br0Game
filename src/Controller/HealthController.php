@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Attribute\Route;
 /** Health check (/healthz): PHP, database version and account count. */
 final class HealthController extends AbstractController
 {
+    /**
+     * Health page: PHP version, database server version and the number of accounts; renders health.html.twig. Also shows the logged in account.
+     */
     #[Route('/healthz', name: 'health', methods: ['GET'])]
     public function __invoke(
         Connection $connection,

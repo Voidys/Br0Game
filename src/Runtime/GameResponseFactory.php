@@ -18,6 +18,13 @@ final class GameResponseFactory
     ) {}
 
     /**
+     * Runs `$code` with output buffering and converts the outcome into a Response.
+     *
+     * Echoed output becomes the body; EndOfRequest ends the code early (its response/output are used); any other
+     * Throwable is rendered by the game's ErrorReporter (rethrown when the game is not bootstrapped). Always writes the
+     * game session back (it lives in the Symfony session) and adds the headers, cookies and status collected in the
+     * game state (see withGameHeaders()).
+     *
      * @param callable(): (Response|void|null) $code a Response it returns is used as is
      *                                             (plus natively set headers/cookies)
      */
@@ -55,6 +62,10 @@ final class GameResponseFactory
         return $this->withGameHeaders($this->toResponse($content), true);
     }
 
+    /**
+     * Prepends echoed output to a Response built by the game and copies the headers set via native header()
+     * (not X-Powered-By) into it; headers the Response already has win, except cookies. Clears the native list.
+     */
     private function withNativeHeaders(Response $response, string $echoed): Response
     {
         if ($echoed !== '') {
@@ -75,6 +86,7 @@ final class GameResponseFactory
         return $response;
     }
 
+    /** Shows the game's own error page for an uncaught exception, so the output ends up in the buffer. */
     private function renderLegacyError(\Throwable $error): void
     {
         // The game's own error page (ErrorReporter); needs the game bootstrap (constants, helpers).
@@ -120,6 +132,10 @@ final class GameResponseFactory
         return $response;
     }
 
+    /**
+     * Response from echoed output: status from http_response_code(), natively set headers moved over (appended, so
+     * repeated headers survive), Content-Type defaults to UTF-8 HTML. Clears the native header list.
+     */
     private function toResponse(string $content): Response
     {
         $response = new Response($content, http_response_code() ?: 200);

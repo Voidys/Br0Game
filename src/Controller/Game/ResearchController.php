@@ -46,6 +46,10 @@ class ResearchController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * True when no planet of the player is currently upgrading the research lab (or university): research is blocked while the lab is
+     * under construction.
+     */
     private function checkLabSettingsInQueue(): bool
     {
         $USER = $this->state->USER;
@@ -71,6 +75,9 @@ class ResearchController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Cancels the running research (queue position 1), refunds its cost and starts the next queued entry. False when there is none.
+     */
     private function cancelResearchFromQueue(): bool
     {
         $PLANET = & $this->state->PLANET;
@@ -165,6 +172,9 @@ class ResearchController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Removes the waiting entry at 1-based position $QueueID (not the running one) and re-adds the entries behind it. False for stale positions.
+     */
     private function removeResearchFromQueue(int $QueueID): bool
     {
         $USER = & $this->state->USER;
@@ -226,6 +236,11 @@ class ResearchController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Adds a research to the player's research queue ($AddMode false asks BuildFunctions for the price and time of the destroy mode). Refused when the element is
+     * not allowed here, disabled, its requirements are missing, the lab or university is being upgraded, the queue limit `max_elements_tech` is reached or the maximum
+     * level is hit; checks affordability for the first entry, deducts the cost and starts it when the queue was empty.
+     */
     private function addResearchToQueue(int $elementId, bool $AddMode = true): bool
     {
         $PLANET = & $this->state->PLANET;
@@ -314,6 +329,9 @@ class ResearchController extends AbstractGameController
         return true;
     }
 
+    /**
+     * Data for the research queue display: name, level, remaining time and end time per entry.
+     */
     private function getQueueData(): array
     {
         $LNG = $this->state->LNG;
@@ -356,6 +374,11 @@ class ResearchController extends AbstractGameController
         return ['queue' => $scriptData, 'quickinfo' => $quickinfo];
     }
 
+    /**
+     * Research page. With a research lab on the current planet: cmd (cancel, remove, insert) with tech (element id) and listid (queue position) then
+     * redirects back; watch stores the element watched by the cargo calculator. Renders the research list with costs, durations, requirements and
+     * the queue.
+     */
     public function show(): Response
     {
         $PLANET = & $this->state->PLANET;

@@ -17,6 +17,11 @@
 
 namespace App\Game\Core;
 
+/**
+ * Query builder of the battle hall (top battle reports, table topkb): filters by memorial status (all/excluded/only),
+ * diplomacy (all, own alliance's players, own fights only), timeframe (24 h, week, month; reports appear after a
+ * 6 hour delay) and galaxy, from the filter array chosen on the battle hall page.
+ */
 class BattleHallFilter
 {
     use \App\Game\Core\GameUtilities;
@@ -42,6 +47,9 @@ class BattleHallFilter
     private int $_timeframe = 0;
     private int $_location = 0;
 
+    /**
+     * @param array{memorial?:int, diplomacy?:int, timeframe?:int, galaxy?:int}|null $filterArray selected filters, null = no filter.
+     */
     public function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,
@@ -70,6 +78,9 @@ class BattleHallFilter
         }
     }
 
+    /**
+     * SQL condition: reports newer than the timeframe plus the 6 hour battle hall delay; '' for all time.
+     */
     private function assembleTimeFilter(int $timeframe): string
     {
         switch ($timeframe) {
@@ -92,13 +103,16 @@ class BattleHallFilter
         return $result;
     }
 
+    /**
+     * SQL condition restricting to reports in which the current player (or any member of the own alliance) took part; '' without alliance or for "all".
+     */
     private function assembleDiplomacyFilter(int $diplomacy): string
     {
         $USER = $this->state->USER;
 
         switch ($diplomacy) {
             case self::DIPLOMACY_SELF:
-                $userid = $USER['id'];
+                $userid = (int) $USER['id'];
                 $subquery = 'SELECT DISTINCT %%TOPKB%%.rid FROM %%TOPKB%%
 						 	JOIN %%TOPKB_USERS%%
 						 	ON %%TOPKB%%.rid = %%TOPKB_USERS%%.rid
@@ -109,7 +123,7 @@ class BattleHallFilter
 
                 return $result;
             case self::DIPLOMACY_ALLIANCE:
-                $allyid = $USER['ally_id'];
+                $allyid = (int) $USER['ally_id'];
                 if (empty($allyid) || $allyid == 0) {
                     return '';
                 } // no alliance
@@ -139,6 +153,10 @@ class BattleHallFilter
         return $result;
     }
 
+    /**
+     * The top reports (most units destroyed first) matching the filters, with attacker and defender names joined as "A & B".
+     * @param int $limit maximum number of reports.
+     */
     public function getTopKBs(int $limit = 100): array
     {
         $memorialString  = $this->filterMemorialKb($this->_memorial);

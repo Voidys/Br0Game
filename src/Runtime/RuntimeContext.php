@@ -50,6 +50,7 @@ final class RuntimeContext
         $this->cachePath = $this->rootPath . 'var/game/';
     }
 
+    /** True once start() captured the request facts (timestamp is non-zero). */
     public function isStarted(): bool
     {
         return $this->timestamp !== 0;
@@ -94,6 +95,7 @@ final class RuntimeContext
         $this->httpPath = $this->protocol . $this->httpHost . $this->httpRoot;
     }
 
+    /** First 7 characters of the checked-out commit (reads .git/HEAD, follows a branch ref); '' without a checkout. */
     private function readGitVersion(): string
     {
         $head = SafeFile::read($this->rootPath . '.git/HEAD');

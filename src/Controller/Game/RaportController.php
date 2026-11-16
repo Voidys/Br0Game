@@ -39,6 +39,10 @@ class RaportController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Backwards compatibility: converts combat reports stored before revision 2321 (old moon, simulator, debris and unit layouts) into the current
+     * report structure. $isDefender selects the perspective.
+     */
     private function BCWrapperPreRev2321($combatReport, $isDefender)
     {
         if (isset($combatReport['moon']['desfail'])) {
@@ -87,6 +91,11 @@ class RaportController extends AbstractGameController
         return $combatReport;
     }
 
+    /**
+     * Combat report (request: raport = report id from RW). Participants (attacker or defender id lists; old reports without lists count as everybody),
+     * admins and members of the alliances of participants see the full report; everybody else only a reduced one with the participants' names
+     * (from TOPKB_USERS). Renders the template for the battle engine stored with the report (`rust` or classic). Unknown ids end in a message.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

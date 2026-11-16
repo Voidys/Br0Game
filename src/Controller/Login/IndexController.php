@@ -32,6 +32,11 @@ class IndexController extends AbstractLoginController
         $this->setWindow('light');
     }
 
+    /**
+     * Start page with login form. Request: ref (referral id: redirects to the registration with referralID), code (login
+     * error number shown as message login_error_<code>). Lists universes that start within the next 28 days (or began up to
+     * 14 days ago) with their start time in the universe timezone, plus the hourly meme and the latest news.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

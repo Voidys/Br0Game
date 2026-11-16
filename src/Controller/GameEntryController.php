@@ -54,6 +54,10 @@ final class GameEntryController
         private readonly string $projectDir,
     ) {}
 
+    /**
+     * Fallback for `/`, `/index.php` and `/uniN/`: pages of the public area are routed to Login\* controllers, so this only runs for an unknown `?page=` and
+     * shows the public "page does not exist" error (LOGIN mode).
+     */
     #[Route('/', name: 'game_login_root')]
     #[Route('/index.php', name: 'game_login')]
     #[Route('/uni{uni}/{_ext}', name: 'game_login_uni', requirements: ['uni' => '\d+', '_ext' => '(?:index\.php)?'], defaults: ['_ext' => ''])]
@@ -66,6 +70,9 @@ final class GameEntryController
         });
     }
 
+    /**
+     * Fallback for `/game` (and `/uniN/game`): boots INGAME mode and shows the "page does not exist" error of the game area. Default page is overview.
+     */
     #[Route('/game{_ext}', requirements: ['_ext' => '(?:\.php)?'], defaults: ['_ext' => ''], name: 'game_ingame')]
     #[Route('/uni{uni}/game{_ext}', defaults: ['_ext' => ''], name: 'game_ingame_uni', requirements: ['uni' => '\d+', '_ext' => '(?:\.php)?'])]
     public function game(Request $request, ?string $uni = null): Response
@@ -77,6 +84,9 @@ final class GameEntryController
         });
     }
 
+    /**
+     * Fallback for `/account` (and `/uniN/account`): boots ACCOUNT mode and shows the "page does not exist" error of the account lobby.
+     */
     #[Route('/account{_ext}', requirements: ['_ext' => '(?:\.php)?'], defaults: ['_ext' => ''], name: 'game_account')]
     #[Route('/uni{uni}/account{_ext}', defaults: ['_ext' => ''], name: 'game_account_uni', requirements: ['uni' => '\d+', '_ext' => '(?:\.php)?'])]
     public function account(Request $request, ?string $uni = null): Response
@@ -88,6 +98,10 @@ final class GameEntryController
         });
     }
 
+    /**
+     * Fallback for `/admin` (and `/uniN/admin`): boots ADMIN mode and shows the "page does not exist" admin error after the normal admin entry checks
+     * (players are sent to the game, the admin password prompt is shown until the session has admin access).
+     */
     #[Route('/admin{_ext}', requirements: ['_ext' => '(?:\.php)?'], defaults: ['_ext' => ''], name: 'game_admin')]
     #[Route('/uni{uni}/admin{_ext}', defaults: ['_ext' => ''], name: 'game_admin_uni', requirements: ['uni' => '\d+', '_ext' => '(?:\.php)?'])]
     public function admin(Request $request, ?string $uni = null): Response
@@ -107,6 +121,9 @@ final class GameEntryController
         });
     }
 
+    /**
+     * Old combat report URL (`/CombatReport?raport=<id>`): redirects to the report page `game?page=raport`.
+     */
     #[Route('/CombatReport{_ext}', requirements: ['_ext' => '(?:\.php)?'], defaults: ['_ext' => ''], name: 'game_combat_report')]
     #[Route('/uni{uni}/CombatReport{_ext}', defaults: ['_ext' => ''], name: 'game_combat_report_uni', requirements: ['uni' => '\d+', '_ext' => '(?:\.php)?'])]
     public function combatReport(Request $request, ?string $uni = null): Response
@@ -117,6 +134,9 @@ final class GameEntryController
         });
     }
 
+    /**
+     * Installer (`/install/`): runs UPGRADE mode for `?mode=upgrade`, otherwise INSTALL mode, and lets Installer::run() produce the response.
+     */
     #[Route('/install/', name: 'game_install')]
     #[Route('/install/index.php', name: 'game_install_index')]
     public function install(Request $request): Response
@@ -145,6 +165,10 @@ final class GameEntryController
         return $this->responses->run($run);
     }
 
+    /**
+     * Looks up `?page=` (or $defaultPage) of $script in config/legacy_routes.php (lower-cased page name) and returns the 308 redirect to the
+     * new route, or null when the page was not ported.
+     */
     private function migratedPageRedirect(Request $request, string $script, ?string $defaultPage): ?Response
     {
         $routes = require $this->projectDir . '/config/legacy_routes.php';

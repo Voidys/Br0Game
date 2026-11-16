@@ -55,6 +55,9 @@ class MessagesController extends AbstractGameController
         ]);
     }
 
+    /**
+     * Toggles the favourite flag of a message (XHR, request: favMessID); answers JSON.
+     */
     public function favMessage()
     {
         $LNG = $this->state->LNG;
@@ -70,6 +73,9 @@ class MessagesController extends AbstractGameController
         $this->sendData($this->mailbox()->toggleFavorite($favMessID), 'OK');
     }
 
+    /**
+     * Deletes a message of the player (XHR, request: delMessID); answers JSON.
+     */
     public function deleteMessage()
     {
         $LNG = $this->state->LNG;
@@ -87,6 +93,10 @@ class MessagesController extends AbstractGameController
         $this->sendData($delMessID, $LNG['mg_deleted']);
     }
 
+    /**
+     * Bulk action on messages (form post): messcat (category), site (page), messageID[] and action, applied by the mailbox service. Without an action
+     * nothing happens; redirects back to the same category page.
+     */
     public function action()
     {
         $MessCategory  	= $this->http()->_GP('messcat', MESSAGE_TYPE_ALL);
@@ -109,6 +119,9 @@ class MessagesController extends AbstractGameController
         $this->sendJSON($this->mailbox()->searchRecipients($searchtext));
     }
 
+    /**
+     * Forwards an own message to other players (XHR, request: to[] receivers, id message); validates ownership and receivers, answers JSON.
+     */
     public function sendForward()
     {
         $LNG = $this->state->LNG;
@@ -135,6 +148,10 @@ class MessagesController extends AbstractGameController
         $this->sendJSON($LNG['mg_message_send']);
     }
 
+    /**
+     * Sends a new message (XHR, request: to[] receivers, subject, text, groupid). Needs receivers and text; receivers who block messages are dropped (all
+     * blocked: error). Answers JSON with the result text.
+     */
     public function send()
     {
         $LNG = $this->state->LNG;
@@ -161,6 +178,9 @@ class MessagesController extends AbstractGameController
         $this->sendJSON($LNG['mg_message_send']);
     }
 
+    /**
+     * Compose form prefilled with the text of message `id` (to forward it).
+     */
     public function forward(): Response
     {
         $this->setWindow('popup');
@@ -176,6 +196,9 @@ class MessagesController extends AbstractGameController
         return $this->render('game/page.messages.write.html.twig');
     }
 
+    /**
+     * Compose popup. Request: receivers[] (player ids), subject, message, groupid. Looks up the receivers' home coordinates and names and whether they block PMs.
+     */
     public function write(): Response
     {
         $LNG = $this->state->LNG;
@@ -218,6 +241,10 @@ class MessagesController extends AbstractGameController
         return $this->render('game/page.messages.write.html.twig');
     }
 
+    /**
+     * Message center. Request: category (-1 = category overview), site (page), fav (1 = favourites only), searchtext. The list comes from MessageListing;
+     * the grouping (cookie msgGrouping), the player's simulator display settings and the market reference ratios are passed to the template.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

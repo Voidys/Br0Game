@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'comments', uniPrefix: true)]
 class CommentsController extends AbstractAdminController
 {
+    /**
+     * Skips the per-page permission check: every admin may read the comments.
+     */
     protected function construct(): void
     {
         if (!$this->viewHelpers()->allowedTo('ShowMultiIPPage')) {
@@ -22,6 +25,9 @@ class CommentsController extends AbstractAdminController
         parent::construct();
     }
 
+    /**
+     * Lists the admin comments (USERS_COMMENTS) stored on players of the universe with player and alliance names.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

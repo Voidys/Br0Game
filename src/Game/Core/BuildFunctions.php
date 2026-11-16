@@ -21,6 +21,13 @@ use App\Game\Model\Planet;
 use App\Game\Model\User;
 use Exception;
 
+/**
+ * Build rules for buildings, research, ships, defense and missiles: prices (with the catch-up and destroy
+ * variants), build/research/ship time, requirements and accessibility, affordability, maximum buildable amounts,
+ * and the field projection of a building queue. Pure calculations on user/planet state (array or typed
+ * Model\User/Planet); the queues themselves are processed in BuildingQueueProcessor, ResearchQueueProcessor and
+ * HangarQueueProcessor.
+ */
 class BuildFunctions
 {
     use \App\Game\Core\GameUtilities;
@@ -487,6 +494,11 @@ class BuildFunctions
         ];
     }
 
+    /**
+     * Ship category used for sorting/filtering (civil, military, recycler) from `reslist['ship_type']`; ids in none
+     * of the lists count as civil.
+     * @return string civil|military|recycler
+     */
     public function getType(int $Element): string
     {
         $reslist = $this->state->reslist;

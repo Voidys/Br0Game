@@ -38,11 +38,17 @@ class SessionManager
         return $request->getSession();
     }
 
+    /**
+     * Id of the Symfony session.
+     */
     public function id(): string
     {
         return $this->symfonySession()->getId();
     }
 
+    /**
+     * Cookie name of the Symfony session.
+     */
     public function name(): string
     {
         return $this->symfonySession()->getName();

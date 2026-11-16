@@ -35,6 +35,9 @@ class QuestionsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * FAQ category overview.
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -44,6 +47,9 @@ class QuestionsController extends AbstractGameController
         return $this->render('game/page.questions.default.html.twig');
     }
 
+    /**
+     * One FAQ entry (request: categoryID, questionID); unknown ids redirect to the overview.
+     */
     public function single(): Response
     {
         $LNG = $this->state->LNG;

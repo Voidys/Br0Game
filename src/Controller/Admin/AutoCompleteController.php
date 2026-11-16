@@ -26,6 +26,10 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'autoComplete', uniPrefix: true)]
 class AutoCompleteController extends AbstractAdminController
 {
+    /**
+     * JSON autocomplete for admin player fields. Request: term (username fragment, or `#` + id for an exact id lookup).
+     * Returns up to 20 players of the emulated universe, exact and prefix matches first; an empty term returns [].
+     */
     public function show(): void
     {
         $searchText = $this->http()->_GP('term', '', UTF8_SUPPORT);

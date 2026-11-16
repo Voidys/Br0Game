@@ -22,6 +22,12 @@ final class GameControllerListener
         private readonly GameResponseFactory $responses,
     ) {}
 
+    /**
+     * Replaces the controller of a game page (GameControllerInterface) by a closure that, inside
+     * GameResponseFactory::run(), boots the game for the controller's mode and entry script, calls
+     * `initialize()` and then the original action. Also exposes the `/uniN` route attribute as REDIRECT_UNI so the
+     * game's Universe picks the right universe. Other controllers and sub-requests are untouched.
+     */
     public function __invoke(ControllerArgumentsEvent $event): void
     {
         $controller = $event->getController();

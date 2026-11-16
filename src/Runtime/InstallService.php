@@ -64,11 +64,13 @@ final class InstallService
         $this->root = rtrim($projectDir, '/') . '/';
     }
 
+    /** Project root with trailing slash. */
     public function root(): string
     {
         return $this->root;
     }
 
+    /** True when config/game.php exists and is not empty (the installer's finish marker). */
     public function isInstalled(): bool
     {
         return is_file($this->root . 'config/game.php') && filesize($this->root . 'config/game.php') > 0;
@@ -111,6 +113,7 @@ final class InstallService
         return \DateTimeZone::listIdentifiers();
     }
 
+    /** The server's PHP timezone if it is a valid identifier, else UTC. */
     public function defaultTimezone(): string
     {
         $zone = date_default_timezone_get() ?: 'UTC';
@@ -348,6 +351,7 @@ final class InstallService
         return $values;
     }
 
+    /** Hint for a failed CREATE DATABASE: missing privilege (MySQL 1044/1227) or the raw message. */
     private function explainCreateError(PDOException $e, string $locale): string
     {
         $LNG = $this->lng($locale);

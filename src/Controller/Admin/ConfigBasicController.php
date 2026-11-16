@@ -31,6 +31,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'configBasic', uniPrefix: true)]
 class ConfigBasicController extends AbstractAdminController
 {
+    /**
+     * Basic (global) game settings as a schema driven form (ConfigFieldSchema). Any POST saves the processed fields through Config::saveGlobalKeys
+     * and writes an admin log entry (type 3). POST field `test` additionally tests the SMTP connection and changes the label of the test button.
+     */
     public function show(): Response
     {
         $LNG = & $this->state->LNG;

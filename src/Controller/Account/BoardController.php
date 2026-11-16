@@ -30,6 +30,10 @@ class BoardController extends AbstractAccountController
 
     private ?HtmlContent $htmlContent = null;
 
+    /**
+     * Guests may only open the read-only modes (show, post); other modes redirect to the start page.
+     * Guests get the public site frame.
+     */
     public function initialize(): void
     {
         parent::initialize();
@@ -45,6 +49,10 @@ class BoardController extends AbstractAccountController
 
     // ------------------------------------------------------------------ views
 
+    /**
+     * Post list of the board. Request: sort (hot, new, top, ...), t (time range for top), flair (filter), p (page).
+     * Reads BOARD_POSTS with the author names and the vote of the viewing account (BOARD_VOTES).
+     */
     public function show(): Response
     {
         $sort = in_array($this->http()->_GP('sort', 'hot'), ['hot', 'new', 'top'], true) ? $this->http()->_GP('sort', 'hot') : 'hot';
@@ -144,6 +152,10 @@ class BoardController extends AbstractAccountController
         return $this->render('account/page.board.default.html.twig');
     }
 
+    /**
+     * One post with its comment tree. Request: id (post), csort (best or new). Deleted posts and comments are shown as
+     * placeholders (moderators and authors see more); an unknown id shows the "not found" message.
+     */
     public function post(): Response
     {
         $id = (int) $this->http()->_GP('id', 0);
@@ -199,6 +211,9 @@ class BoardController extends AbstractAccountController
         return $this->render('account/page.board.post.html.twig');
     }
 
+    /**
+     * Empty form for a new post.
+     */
     public function submit(): Response
     {
         $this->assign([
@@ -212,6 +227,9 @@ class BoardController extends AbstractAccountController
         return $this->render('account/page.board.submit.html.twig');
     }
 
+    /**
+     * Edit form of an own, not deleted post (id); only the author may edit.
+     */
     public function editPost(): Response
     {
         $post = $this->loadPost((int) $this->http()->_GP('id', 0));
@@ -237,6 +255,10 @@ class BoardController extends AbstractAccountController
 
     // ------------------------------------------------------------------ writes (POST)
 
+    /**
+     * Creates a post from the form (POST only). Rate limit: one post per POST_COOLDOWN (60 s) per account. Validates
+     * title/body/flair through readPostForm(); redirects to the new post.
+     */
     public function create()
     {
         $this->requirePost();
@@ -264,6 +286,9 @@ class BoardController extends AbstractAccountController
         $this->redirectTo('account?page=board&mode=post&id=' . $this->db->lastInsertId());
     }
 
+    /**
+     * Saves an edited post (POST only, id): only the author, not a deleted post; sets `edited_at`. Redirects to the post.
+     */
     public function savePost()
     {
         $this->requirePost();
@@ -284,6 +309,11 @@ class BoardController extends AbstractAccountController
         $this->redirectTo('account?page=board&mode=post&id=' . $id);
     }
 
+    /**
+     * Adds a comment to a post (POST only). Request: post_id, parent_id (0 = top level), body. Refused for deleted or
+     * locked posts, a parent from another post, an empty/oversized body or within COMMENT_COOLDOWN (15 s) of the last comment.
+     * Increments the post's comment counter and its last activity; redirects to the new comment.
+     */
     public function comment()
     {
         $this->requirePost();
@@ -334,6 +364,9 @@ class BoardController extends AbstractAccountController
         $this->redirectTo($back . '#c' . $commentId);
     }
 
+    /**
+     * Saves an edited comment (POST only, id); author or moderator only.
+     */
     public function saveComment()
     {
         $this->requirePost();
@@ -354,6 +387,10 @@ class BoardController extends AbstractAccountController
         $this->redirectTo($back . '#c' . $id);
     }
 
+    /**
+     * Soft-deletes a post or comment (POST only). Request: id, type (post or comment). Allowed for the author and
+     * moderators. A deleted comment decrements the post's comment counter, a deleted post is also unpinned.
+     */
     public function delete()
     {
         $this->requirePost();
@@ -385,6 +422,9 @@ class BoardController extends AbstractAccountController
         $this->redirectTo('account?page=board&mode=post&id=' . $id);
     }
 
+    /**
+     * Moderator action on a post (POST only). Request: id, action (pin, unpin, lock, unlock). Moderators only.
+     */
     public function moderate()
     {
         $this->requirePost();
@@ -406,6 +446,11 @@ class BoardController extends AbstractAccountController
         $this->redirectTo('account?page=board&mode=post&id=' . $id);
     }
 
+    /**
+     * Votes on a post or comment (XHR, CSRF token checked). Request: type (post or comment), id, value (-1, 0 removes, 1).
+     * Runs in a transaction: replaces the account's vote and adjusts the score by the difference. Answers JSON
+     * {ok, score, value} or {ok: false, error}.
+     */
     public function vote()
     {
         if (!$this->checkCsrf()) {

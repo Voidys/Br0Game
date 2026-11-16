@@ -22,6 +22,10 @@ class WikiLoginController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Single sign-on to the wiki: for a logged-in account stores a one-time code (WikiSsoCodeStore, with account id and name) and renders an auto-submitting
+     * form to the wiki login URL from config/game.php. 403 without a session, 503 when no wiki SSO URL is configured.
+     */
     public function show()
     {
 

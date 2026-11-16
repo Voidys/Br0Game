@@ -26,6 +26,10 @@ use App\Game\Core\FleetFunctions;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
+/**
+ * Mission "missile attack" (10): interplanetary missiles hit the defenses of a planet; the missiles are used up
+ * (the fleet is always deleted, there is no return).
+ */
 class MissionCaseMIP extends MissionFunctions implements MissionInterface
 {
     public function __construct(array $Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
@@ -34,6 +38,15 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         $this->_fleet	= $Fleet;
     }
 
+    /**
+     * Arrival: the target defender's interceptor missiles shoot down missiles first (one for one: if they are at
+     * least as many as the incoming ones all are intercepted and that many interceptors are lost, otherwise all
+     * interceptors are used up). Surviving missiles (calculateMIPAttack) destroy defenses, primary target first
+     * (a valid defense id chosen at launch, interceptors/invalid fall back to the missile launcher), then in the
+     * order of the list. Both players get a report with the destroyed amounts (also if everything was
+     * intercepted or nothing could be hit); destroyed/lost units are counted in the advanced stats. If the target
+     * planet no longer exists the missiles are only counted as lost; an owner in vacation mode returns the fleet.
+     */
     public function TargetEvent(): void
     {
         $resource = $this->state->resource;
@@ -210,16 +223,29 @@ class MissionCaseMIP extends MissionFunctions implements MissionInterface
         $this->KillFleet();
     }
 
+    /**
+     * No hold phase.
+     */
     public function EndStayEvent(): void
     {
         return;
     }
 
+    /**
+     * Missiles do not return (the fleet is deleted in TargetEvent); never called.
+     */
     public function ReturnEvent(): void
     {
         return;
     }
 
+    /**
+     * Damage of the surviving missiles: total attack = surviving missiles * missile attack * (1 + 0.1 * attacker
+     * weapons tech); every defense is destroyed as many as the attack covers (structure points = (metal+crystal)
+     * cost / 10 * (1 + 0.1 * defender's armor tech)), primary target first, until the attack is used up.
+     * @param array<int,int> $targetDefensive defense id => amount on the planet (interceptors removed).
+     * @return array<int,int> destroyed amount by defense id.
+     */
     private function calculateMIPAttack(int $TargetDefTech, int $OwnerAttTech, int $missiles, array $targetDefensive, 
         int $firstTarget, int $defenseMissles): array
     {

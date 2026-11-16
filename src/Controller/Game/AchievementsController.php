@@ -31,6 +31,9 @@ class AchievementsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Achievement list with the unlock date of those the player has earned (not-yet-implemented achievements are hidden) and the unlocked count.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

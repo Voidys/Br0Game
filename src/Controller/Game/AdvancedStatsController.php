@@ -51,6 +51,9 @@ class AdvancedStatsController extends AbstractGameController
         return $result;
     }
 
+    /**
+     * Advanced statistics of the player (counters from AdvancedStats such as built, repaired or destroyed elements), grouped for the template.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

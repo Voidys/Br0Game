@@ -19,6 +19,9 @@ namespace App\Game\Core;
 
 use Exception;
 
+/**
+ * Database dump and restore for backups (DumpCronjob, admin): uses mysqldump/mysql when the binaries exist, else a pure-PHP dumper (DROP/CREATE TABLE plus INSERT blocks) and executes the dump statement by statement.
+ */
 class SQLDumper
 {
     public function __construct(
@@ -27,6 +30,11 @@ class SQLDumper
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /**
+     * Writes the given tables (structure and data) as SQL to the file.
+     * @param string[] $dbTables full table names (with prefix).
+     * @param string $filePath target file.
+     */
     public function dumpTablesToFile($dbTables, $filePath)
     {
         if ($this->canNative('mysqldump')) {
@@ -67,6 +75,9 @@ class SQLDumper
         return $sqlDump;
     }
 
+    /**
+     * Pure-PHP dump: per table DROP TABLE IF EXISTS, SHOW CREATE TABLE and chunked INSERTs; numbers unquoted, other values quoted. Sets a 10 minute time limit.
+     */
     private function softwareDumpToFile($dbTables, $filePath)
     {
         $this->setTimelimit();
@@ -201,6 +212,10 @@ UNLOCK TABLES;
         return filesize($filePath) !== 0;
     }
 
+    /**
+     * Replays a dump file: with the mysql client when available (the shell output is treated as an error), otherwise by splitting the file at ";\r\n" and running each statement. Sets a 10 minute time limit.
+     * @throws Exception with the client's output on error.
+     */
     public function restoreDatabase($filePath)
     {
         // Ugly.

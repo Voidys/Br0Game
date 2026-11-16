@@ -40,6 +40,13 @@ class RepairdockController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Repair dock of the current planet (wrecks live in PLANET_WRECKFIELD; an empty wreck field ends in a message). Request: cmd=deploy takes a
+     * finished repair order (repair_order_end reached): the ships are added to the planet inside a transaction that re-reads the order, so a parallel
+     * request cannot deploy it twice. Posting fmenge[<ship id>] = counts starts a new order (only when none runs, not in vacation mode, limited to the
+     * wrecks available); its duration follows the build time, at least the creation time + 30 minutes and at most 12 hours. Both commands redirect
+     * back; otherwise the page shows wrecks, the running order and its remaining time.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

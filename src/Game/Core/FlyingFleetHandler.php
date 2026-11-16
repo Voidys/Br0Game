@@ -35,6 +35,12 @@ use App\Game\Missions\MissionCaseTransfer;
 use App\Game\Missions\MissionCaseTransport;
 use App\Game\Missions\MissionInterface;
 
+/**
+ * Processes the due fleet events: for every fleet whose `fleets_event` row carries this run's lock token (set by
+ * the caller/cronjob) it instantiates the mission class of the fleet's mission id (missionClasses()) and calls
+ * TargetEvent / ReturnEvent / EndStayEvent depending on the fleet status, oldest event first. Fleets of an unknown
+ * mission are deleted. The caller wraps the run in a transaction.
+ */
 class FlyingFleetHandler
 {
     public function __construct(
@@ -78,6 +84,9 @@ class FlyingFleetHandler
         $this->token    = $token;
     }
 
+    /**
+     * Handles all events locked with the token (see setToken()), ordered by event time then fleet id, rows locked FOR UPDATE.
+     */
     public function run(): void
     {
 

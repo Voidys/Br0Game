@@ -77,21 +77,25 @@ class BotActions
         return true;
     }
 
+    /** "Name [g:s:p]" label of a planet for log lines. */
     public function planetLabel(array $planet): string
     {
         return $planet['name'] . ' [' . $planet['galaxy'] . ':' . $planet['system'] . ':' . $planet['planet'] . ']';
     }
 
+    /** Element id => column name map (`$resource` from the game data). */
     public function res(): array
     {
         return $this->state->resource;
     }
 
+    /** True when no building is under construction on the planet. */
     public function isBuildingQueueEmpty(array $planet): bool
     {
         return empty($planet['b_building_id']) && empty($planet['b_building']);
     }
 
+    /** True when the user has no research running or queued. */
     public function isResearchQueueEmpty(): bool
     {
         return empty($this->user['b_tech_queue']) && empty($this->user['b_tech']);
@@ -137,6 +141,7 @@ class BotActions
         return false;
     }
 
+    /** Number of entries in the planet's shipyard queue. */
     public function hangarCount(array $planet): int
     {
         $queue = !empty($planet['b_hangar_id']) ? StoredData::decode($planet['b_hangar_id']) : [];
@@ -176,6 +181,11 @@ class BotActions
         return $level;
     }
 
+    /**
+     * Starts the next level of a building like the buildings page: needs an empty building queue, free fields, an allowed
+     * and accessible element within its max level, and enough resources. Deducts the price, writes the queue with end
+     * time and saves it. Returns a log text, or null when any rule rejects it (nothing changed).
+     */
     public function build(int $planetId, int $element): ?string
     {
         $resource = $this->res();
@@ -209,6 +219,7 @@ class BotActions
         return $resource[$element] . ' ' . $level . ' on ' . $this->planetLabel($planet);
     }
 
+    /** Next research level of `$element` if it may be researched from this planet (listed, enabled, requirements met, below max), else null. Resources are not checked. */
     public function researchLevel(array $planet, int $element): ?int
     {
         $resource = $this->res();
@@ -230,6 +241,11 @@ class BotActions
         return $level;
     }
 
+    /**
+     * Starts the next level of a technology like the research page: research queue empty, no lab or university under
+     * construction (anywhere), requirements and resources met. Deducts the price on `$planetId`, stores the single-entry research
+     * queue and clears the planet's "watch" marker for that element. Returns a log text, or null when rejected.
+     */
     public function research(int $planetId, int $element): ?string
     {
         $resource = $this->res();
@@ -281,6 +297,7 @@ class BotActions
         return $max == 0 || $this->hangarCount($planet) < $max;
     }
 
+    /** Whether the ship or defense `$element` may be built on the planet: enabled, requirements met, and for one-per-planet units (e.g. shields) not yet built or queued. */
     public function unitsAllowed(array $planet, int $element): bool
     {
         $reslist = $this->state->reslist;
@@ -308,6 +325,11 @@ class BotActions
         return true;
     }
 
+    /**
+     * Queues `$count` ships or defense units like the shipyard page. The count is capped by `max_fleet_per_build`, by what the planet
+     * can pay and (one-per-planet units) to 1. Deducts the price, appends to the hangar queue, saves it and checks
+     * shipyard achievements. Returns a log text, or null when nothing could be queued.
+     */
     public function units(int $planetId, int $element, int $count): ?string
     {
         $resource = $this->res();
@@ -347,13 +369,20 @@ class BotActions
     // fleet actions
     // ------------------------------------------------------------------
 
+    /** Fleet slots (computer technology and bonuses) minus fleets already flying. */
     private function freeFleetSlots(): int
     {
         return $this->fleetFunctions()->getMaxFleetSlots($this->user) - $this->fleetFunctions()->getCurrentFleets($this->user['id']);
     }
 
     /**
-     * Sends a fleet in the same way ShowFleetStep3Page does for a mission without cargo.
+     * Sends a fleet in the same way FleetDispatch (fleet step 3) does for a mission without cargo, at full speed (speed setting 10 =
+     * 100 %). Returns null without changes when the mission is not available for the target, the ships are not on
+     * the planet, the stay time is not offered, or the planet lacks deuterium (id 903) for the trip. Otherwise sends it
+     * through FleetFunctions::sendFleet() (DB write), keeps the in-memory planet in sync and returns the fleet id.
+     *
+     * @param array<int, int> $fleetArray ship id => count
+     * @param int $stayHours expedition hold time in hours (0 = none)
      */
     private function dispatch(array &$planet, array $fleetArray, int $mission, int $galaxy, int $system, int $pos, int $stayHours = 0): ?int
     {
@@ -433,6 +462,7 @@ class BotActions
         return $id;
     }
 
+    /** Expedition module on in the universe, a free fleet slot and the expedition limit not reached. */
     public function canSendExpedition(): bool
     {
         return $this->viewHelpers()->isModuleAvailable(MODULE_MISSION_EXPEDITION, $this->universe)
@@ -440,6 +470,11 @@ class BotActions
             && $this->fleetFunctions()->getCurrentFleets($this->user['id'], MISSION_EXPEDITION, true) < $this->fleetFunctions()->getExpeditionLimit($this->user);
     }
 
+    /**
+     * Sends an expedition to the expedition position (max_planets + 1) of the system of a random own planet that has
+     * cargo ships: 40-100 % of its small and large cargos and, with 50 % chance, one probe; 1 hour hold time. Returns
+     * a log text, or null when it cannot be sent.
+     */
     public function expedition(): ?string
     {
         $resource = $this->res();
@@ -487,6 +522,7 @@ class BotActions
         return implode(', ', $parts) . ' from ' . $this->planetLabel($planet) . ' to [' . $planet['galaxy'] . ':' . $planet['system'] . ':' . $targetPos . ']';
     }
 
+    /** Colony module on, a free fleet slot, below the maximum planet count and no colonization fleet already flying. */
     public function canColonize(): bool
     {
         if (!$this->viewHelpers()->isModuleAvailable(MODULE_MISSION_COLONY, $this->universe) || $this->freeFleetSlots() < 1) {
@@ -497,6 +533,11 @@ class BotActions
             && $this->fleetFunctions()->getCurrentFleets($this->user['id'], MISSION_COLONISATION, true) == 0;
     }
 
+    /**
+     * Sends a colony ship from the first planet that has one to a random free position near it: up to 40 tries, system
+     * within 3 (first 20 tries) or 10 systems, position 2 to max_planets - 2, allowed for the user and not already
+     * targeted by a colonization fleet. Returns a log text, or null when no ship or no target was found.
+     */
     public function colonize(): ?string
     {
         $resource = $this->res();
@@ -548,6 +589,7 @@ class BotActions
         return 'colony ship from ' . $this->planetLabel($planet) . ' to [' . implode(':', $target) . ']';
     }
 
+    /** Whether a colonization fleet is already heading for these coordinates. */
     private function positionTargeted(int $galaxy, int $system, int $pos): bool
     {
         return (int) $this->db->selectSingle(
@@ -561,6 +603,8 @@ class BotActions
     /**
      * Colonies are created when the colony ship arrives (fleet handler), with the
      * language's default colony name. Give such planets a persona based name.
+     *
+     * @return int number of planets renamed (the home planet is never renamed)
      */
     public function renameDefaultColonies(array $botRow, array $persona): int
     {
@@ -578,7 +622,7 @@ class BotActions
         return $renamed;
     }
 
-    /** @return string[] the default colony names of all languages */
+    /** @return string[] the default colony names (translation key `fcp_colony`) of all languages, read once from translations/*.yaml */
     private function defaultColonyNames(): array
     {
         static $names = null;

@@ -21,8 +21,15 @@ use Exception;
 use App\Game\Core\Database;
 use App\Game\Core\SQLDumper;
 
+/**
+ * Database backup (cronjob "databasedump", off by default; Monday 01:30): dumps all prefixed tables into var/backups/.
+ */
 class DumpCronjob extends AbstractCronjobTask
 {
+    /**
+     * Writes var/backups/br0gameBackup_<dd_mm_YYYY_HH_ii_ss>.sql with all tables of the configured prefix.
+     * @throws Exception when no table with the prefix exists.
+     */
     public function run(): void
     {
         $prefixCounts	= strlen($this->db->getTablePrefix());

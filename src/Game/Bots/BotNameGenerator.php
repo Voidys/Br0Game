@@ -59,11 +59,13 @@ class BotNameGenerator
         return $name;
     }
 
+    /** Random element of a non-empty list. */
     private static function pick(array $list): string
     {
         return $list[random_int(0, count($list) - 1)];
     }
 
+    /** One random handle in one of ten styles (word combinations, first names, numbers/years, suffixes, sometimes leetspeak), max 24 characters; availability is not checked. */
     private static function candidate(): string
     {
         $number = static function (): string {
@@ -119,6 +121,7 @@ class BotNameGenerator
         return substr($name, 0, 24);
     }
 
+    /** Whether the name is free and acceptable: 3+ characters, no "bot", valid game name, unused as player name in the universe and as account name. */
     public function isUsable(string $name, int $universe): bool
     {
         if (strlen($name) < 3 || stripos($name, 'bot') !== false) {

@@ -13,6 +13,10 @@ namespace App\View;
  */
 final class HtmlWhitespace
 {
+    /**
+     * Returns `$source` without HTML comments and with whitespace between tags collapsed (single space between
+     * adjacent tags, none at start/end). Content of script, textarea and pre elements and conditional comments is kept.
+     */
     public static function trim(string $source): string
     {
         $store = [];

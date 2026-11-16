@@ -64,6 +64,7 @@ function cleanHtml(html, mode) {
   return doc.body.innerHTML.trim();
 }
 
+/** Toolbar button for a tool definition (label, tooltip and aria-label from `tool`). */
 function button(name, tool) {
   const b = document.createElement('button');
   b.type = 'button';
@@ -75,6 +76,12 @@ function button(name, tool) {
   return b;
 }
 
+/**
+ * Turns one textarea[data-rte] into the editor: toolbar (layout by mode), contenteditable area (accessible name from the
+ * textarea's label), HTML source toggle in rich mode, Ctrl+B/I/K shortcuts, paste cleaning. The textarea stays the form
+ * field: it is hidden and receives the cleaned HTML on every change and before submit ('' for an empty
+ * editor); form reset restores the original value. Runs once per textarea.
+ */
 function enhance(textarea) {
   if (textarea.dataset.rteReady) return;
   textarea.dataset.rteReady = '1';
@@ -191,6 +198,7 @@ function enhance(textarea) {
   sync();
 }
 
+/** Enhances every textarea[data-rte] below `root` (also called automatically once the DOM is ready). */
 export function initRte(root = document) {
   for (const textarea of root.querySelectorAll('textarea[data-rte]')) enhance(textarea);
 }

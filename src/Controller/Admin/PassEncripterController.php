@@ -29,6 +29,9 @@ use App\Game\Core\Singleton;
 #[\App\Routing\GamePage('admin.php', 'passEncripter', uniPrefix: true)]
 class PassEncripterController extends AbstractAdminController
 {
+    /**
+     * Helper: shows the password hash the game would store for the plain text in `md5q` (for manual database edits).
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;

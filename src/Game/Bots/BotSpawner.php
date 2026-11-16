@@ -66,6 +66,15 @@ class BotSpawner
         return $created;
     }
 
+    /**
+     * Creates one bot: nickname and persona (LLM or local), an account with a random password and a placeholder address
+     * (`...@bots.invalid`, never used to log in), the player with a home planet (account is removed again if that fails), the
+     * bot_players row (skill from the profile's `skill_start`, random category preferences 0.7-1.3 as `personality`, first tick within
+     * 10 minutes) and, when a persona exists, a persona-style home planet name. Writes a 'spawn' log entry.
+     *
+     * @param array<string, mixed> $profile profile as returned by BotProfiles::load()
+     * @return int id of the new user
+     */
     private function spawnOne(int $universe, array $profile): int
     {
         $config = $this->configs->get($universe);
@@ -154,6 +163,10 @@ class BotSpawner
         return (int) $userId;
     }
 
+    /**
+     * Removes a bot completely: the player (via deletePlayer()), its account when no other player uses it (never the root
+     * account), and the bot_players and bot_log rows.
+     */
     public function remove(int $userId): void
     {
         $db = $this->db;

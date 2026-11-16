@@ -30,6 +30,7 @@ class BotEngine
         private readonly FlyingFleetHandler $fleetHandler,
     ) {}
 
+    /** Writes an entry to the bot activity log (see BotLog). */
     public function log(int $userId, int $universe, string $action, string $detail = ''): void
     {
         $this->botLog->log($userId, $universe, $action, $detail);
@@ -50,6 +51,7 @@ class BotEngine
         (new GameData($this->db, $this->configs, $this->state))->load();
     }
 
+    /** Random integer in the inclusive range [min, max] given as a two-element profile setting (order-insensitive, default 1). */
     private function roll(array $range): int
     {
         $min = (int) ($range[0] ?? 1);
@@ -59,7 +61,10 @@ class BotEngine
     }
 
     /**
-     * Processes up to $limit due bots of the universe (the caller made it the current universe).
+     * Processes up to `$limit` bots of the universe whose `next_tick` is due (oldest first), after running the due
+     * fleet events of bot fleets. Does nothing unless the universe is open (STATUS_OPEN). An exception in one bot is
+     * logged ('error' in the bot log), that bot is postponed by 15 minutes, and the loop continues. Roughly every 200th
+     * call purges bot log entries older than 14 days.
      *
      * @return int number of processed bots
      */
@@ -167,6 +172,19 @@ class BotEngine
         }
     }
 
+    /**
+     * One tick of one bot. Skill grows with the bot's age (`skill_start` + days * `skill_gain_per_day`, capped at
+     * `skill_max`). Outside a session the bot first rolls whether it comes online this tick (rollActive(), hourly
+     * activity profile); on success a session starts: length from `session_minutes`, planned action count from
+     * `actions_per_session`, plus rolled special actions (expedition, colonize; chances in percent). While online it
+     * bumps `onlinetime`, runs 1-3 actions in one DB transaction (rolled back on error), then the social behaviour
+     * (isolated: its errors are only logged). Finally it schedules the next tick (60-240 s later inside a session,
+     * `check_interval` minutes after the session ended) and persists skill, personality and session state.
+     *
+     * @param array<string, mixed> $bot     row of {prefix}bot_players
+     * @param array<string, mixed> $profile profile with its `settings` (see BotProfiles)
+     * @param int                  $now     unix timestamp of this tick
+     */
     private function processBot(array $bot, array $profile, int $now): void
     {
         $db = $this->db;
@@ -257,7 +275,13 @@ class BotEngine
         }
     }
 
-    /** One decision + execution. */
+    /**
+     * One action: first the special actions rolled at session start (expedition, then colonization; each is tried only
+     * once and ends the step when it succeeded), otherwise BotBrain picks a build, research, ship, defense, mistake or
+     * wait decision and BotActions executes it. A rejected decision is logged as 'wait'.
+     *
+     * @param array<string, mixed> $session session state (`left` actions, `expo`/`colo` flags), updated in place
+     */
     private function step(BotActions $ctx, array $s, array $personality, float $skill, array &$session, int $userId, int $universe): void
     {
         // optional special actions rolled at session start
@@ -304,6 +328,7 @@ class BotEngine
         $this->done($userId, $universe, $action, ($decision['kind'] === 'mistake' ? $decision['type'] . ': ' : '') . $detail);
     }
 
+    /** Logs a successful action and counts it in `actions_total` / `last_action_at` of the bot. */
     private function done(int $userId, int $universe, string $action, string $detail): void
     {
         $this->log($userId, $universe, $action, $detail);
@@ -313,6 +338,10 @@ class BotEngine
         );
     }
 
+    /**
+     * Whether the bot comes online now: `activity` holds 24 probabilities (0-1) by hour of day; after
+     * `pattern_shift_days` the daily rhythm moves by `pattern_shift_hours`, so bots do not keep the same schedule forever.
+     */
     private function rollActive(array $s, int $now, int $createdAt): bool
     {
         $activity = array_values((array) $s['activity']);
@@ -327,6 +356,7 @@ class BotEngine
         return mt_rand(1, 10000) <= (float) $activity[$index] * 10000;
     }
 
+    /** Persists skill, personality JSON, `next_tick` and `session_until` of the bot (unix timestamps). */
     private function save(array $bot, float $skill, array $personality, int $nextTick, int $sessionUntil): void
     {
         $this->db->update(

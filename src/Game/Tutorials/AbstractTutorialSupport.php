@@ -12,6 +12,12 @@ use App\Game\Core\Database;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Singleton;
 
+/**
+ * Rules of one tutorial step for one player: loads the step's universe settings, the player's goals (with
+ * fulfilled/skipped state) and the unclaimed rewards, and answers whether all goals are done, which goals to show
+ * and which rewards to give. Subclasses (Default, Mission, Rename, Link; named in tutorials.support_class) change
+ * how goals are named and verified. Created by TutorialUtil.
+ */
 abstract class AbstractTutorialSupport
 {
     use \App\Game\Core\GameUtilities;
@@ -26,6 +32,9 @@ abstract class AbstractTutorialSupport
     protected array $user;
     protected array $planet;
 
+    /**
+     * Loads tutorial_universe, the player's tutorial goals and the still unclaimed rewards of the step; the goals are checked against the player's main planet.
+     */
     protected function __construct(
         protected \App\Game\Core\Database $db,
         protected \App\Game\Core\ConfigRegistry $configs,

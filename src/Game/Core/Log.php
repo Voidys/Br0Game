@@ -17,6 +17,11 @@
 
 namespace App\Game\Core;
 
+/**
+ * Audit log entry builder: create with a mode (log type id), set properties (target, old, new, universe, ...), then
+ * save() or saveTr(). The acting user is taken from the session (0 for CLI/cron). Used by admin actions and by
+ * transports to other players (type 5).
+ */
 class Log
 {
     use \App\Game\Core\GameUtilities;
@@ -49,19 +54,31 @@ class Log
         return (int) (new SessionManager($this->db, $this->configs, $this->state))->load()->userId;
     }
 
+    /**
+     * Sets a log field (mode, admin, target, old, new, universe, ...).
+     */
     public function __set(string $key, mixed $value): void
     {
         $this->data[$key] = $value;
     }
+    /**
+     * Reads a log field, null when unset.
+     */
     public function __get(string $key): mixed
     {
         return $this->__isset($key) ? $this->data[$key] : null;
     }
+    /**
+     * True if the log field is set.
+     */
     public function __isset(string $key): bool
     {
         return isset($this->data[$key]);
     }
 
+    /**
+     * Writes a transaction-style entry to `log`: only the `new` value is stored (no before/after pair).
+     */
     public function saveTr(): void
     {
         $db = $this->db;
@@ -85,6 +102,9 @@ class Log
         ]);
     }
 
+    /**
+     * Writes an entry to `log` with the old and new values (JSON via StoredData) for the universe given by `universe` or the emulated universe.
+     */
     public function save(): void
     {
         $db = $this->db;

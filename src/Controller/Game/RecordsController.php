@@ -40,6 +40,10 @@ class RecordsController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Records page: advanced-statistic records of the universe (ADVANCED_STATS_UNIVERSE), and the highest building and research levels (RECORDS), each
+     * next to the player's own value. Players who did not opt in to records (`records_optIn` = 0) appear as `-`.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

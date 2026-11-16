@@ -27,6 +27,9 @@ class TeamController extends AbstractLoginController
         parent::initialize();
     }
 
+    /**
+     * Lists the members from TEAM_MEMBERS (edited in the admin team page).
+     */
     public function show(): Response
     {
         $this->assign([

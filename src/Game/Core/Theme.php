@@ -17,6 +17,11 @@
 
 namespace App\Game\Core;
 
+/**
+ * Visual theme of the player: an image theme (picture sets) and a CSS theme, both from public/styles/theme/<name>/
+ * (style.cfg metadata, settings.cfg layout values such as overview planet rows). Provides URLs, asset lookup via
+ * ThemeAssets and the lists of selectable themes.
+ */
 class Theme
 {
     public static $Themes;
@@ -44,6 +49,10 @@ class Theme
         $this->customtpls	= [];
     }
 
+    /**
+     * Selects the image theme (and optionally another CSS theme) if public/styles/theme/<name>/style.cfg exists;
+     * returns false for an unknown theme (the current one stays) and loads the theme's layout settings.
+     */
     public function setUserTheme($Theme, $cssTheme = null)
     {
         if (!file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$Theme.'/style.cfg')) {
@@ -76,6 +85,9 @@ class Theme
         return $this->skin;
     }
 
+    /**
+     * Reads the theme's settings.cfg and merges it over the defaults (overview/fleet rows, short numbers in the top nav).
+     */
     public function setStyleSettings()
     {
         if (file_exists(\App\Runtime\ProjectPaths::ROOT.'public/styles/theme/'.$this->skin.'/settings.cfg')) {
@@ -96,6 +108,9 @@ class Theme
         return $this->THEMESETTINGS;
     }
 
+    /**
+     * The configured default theme if it is an available CSS theme, else DEFAULT_THEME.
+     */
     public static function resolveDefaultTheme(?string $configured): string
     {
         if (!empty($configured) && array_key_exists($configured, self::getAvailableCssThemes())) {
@@ -104,6 +119,10 @@ class Theme
         return DEFAULT_THEME;
     }
 
+    /**
+     * CSS themes the player can choose (themes that are not disabled and offer CSS).
+     * @return array<string,string> theme folder => display name.
+     */
     public static function getAvailableCssThemes()
     {
         $themes = [];
@@ -115,6 +134,10 @@ class Theme
         return $themes;
     }
 
+    /**
+     * Image themes the player can choose.
+     * @return array<string,string> theme folder => display name.
+     */
     public static function getAvailableImageThemes()
     {
         $themes = [];
@@ -141,6 +164,10 @@ class Theme
         return $this->imageSkin;
     }
 
+    /**
+     * Scans public/styles/theme/<name>/style.cfg once per request; disabled themes are skipped.
+     * @return array<string, array{name:string, cssTheme:bool, imageTheme:bool}> by folder.
+     */
     private static function loadThemeMeta(): array
     {
         if (self::$ThemeMeta !== null) {

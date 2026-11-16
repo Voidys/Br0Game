@@ -17,6 +17,7 @@ final class CspExtension extends AbstractExtension
 {
     public function __construct(private readonly CspNonce $nonce) {}
 
+    /** @return list<TwigFunction> csp_nonce() and csp_allow(feature); the latter prints nothing, it only records the feature for the policy header */
     public function getFunctions(): array
     {
         return [

@@ -6,7 +6,9 @@
 
 // ---------------------------------------------------------------------------------------- DOM
 
+/** First element matching `selector` below `root`, or null. */
 export const qs = (selector, root = document) => root.querySelector(selector);
+/** All elements matching `selector` below `root` as a real array. */
 export const qsa = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
 /** delegated event listener: on(document, 'click', '.foo', (event, element) => ...) */
@@ -19,6 +21,7 @@ export function on(root, type, selector, handler, options) {
   }, options);
 }
 
+/** Runs `fn` once the DOM is parsed (immediately when it already is). */
 export function ready(fn) {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', fn, { once: true });
@@ -27,8 +30,11 @@ export function ready(fn) {
   }
 }
 
+/** Shows an element by resetting or setting its inline `display` (null-safe). */
 export const show = (el, display = '') => { if (el) el.style.display = display; };
+/** Hides an element with inline `display: none` (null-safe). */
 export const hide = (el) => { if (el) el.style.display = 'none'; };
+/** Toggles an element's visibility via inline display; `force` true/false sets it explicitly (null-safe). */
 export const toggle = (el, force) => {
   if (!el) return;
   const visible = force ?? getComputedStyle(el).display === 'none';
@@ -101,6 +107,7 @@ export function serialize(source) {
   return result.toString();
 }
 
+/** fetch() with same-origin cookies; throws on a non-2xx status, so callers can use try/catch. */
 async function request(url, init) {
   const response = await fetch(url, { credentials: 'same-origin', ...init });
   if (!response.ok) {
@@ -109,8 +116,17 @@ async function request(url, init) {
   return response;
 }
 
+/** GET `url`, resolves to the body text. Network: one request, same origin; rejects on HTTP errors. */
 export const getText = async (url) => (await request(url)).text();
+/** GET `url` with `Accept: application/json`, resolves to the parsed body. Rejects on HTTP errors. */
 export const getJSON = async (url) => (await request(url, { headers: { Accept: 'application/json' } })).json();
+/**
+ * POST form-encoded data (see params()). The CSRF token is added to unsafe requests by app/csrf.js, which wraps
+ * fetch. Resolves to the body text, or parsed JSON with `as = 'json'`. Rejects on HTTP errors.
+ * @param {string} url
+ * @param {HTMLFormElement|URLSearchParams|Object|string} data
+ * @param {'text'|'json'} [as]
+ */
 export async function post(url, data, as = 'text') {
   const response = await request(url, {
     method: 'POST',
@@ -122,6 +138,7 @@ export async function post(url, data, as = 'text') {
 
 // ---------------------------------------------------------------------------------------- cookies
 
+/** Cookie access (URI-encoded names/values). `set` writes a Lax cookie for the whole site, `days` defaults to 365. */
 export const cookie = {
   get(name) {
     const match = document.cookie.split('; ').find((part) => part.startsWith(`${encodeURIComponent(name)}=`));
@@ -138,6 +155,7 @@ export const cookie = {
 
 // ---------------------------------------------------------------------------------------- numbers
 
+/** PHP-style number_format: rounds to `decimals`, `dec` is the decimal and `sep` the thousands separator; non-numeric input counts as 0. */
 export function number_format(number, decimals, dec, sep) {
   const n = Number(String(number).replace(/[^0-9+\-Ee.]/g, ''));
   const value = Number.isFinite(n) ? n : 0;
@@ -147,6 +165,7 @@ export function number_format(number, decimals, dec, sep) {
   return parts.join(dec);
 }
 
+/** Writes a large number without exponent notation ("1e+21" style output of String()) as far as precision allows; other values unchanged. */
 export function removeE(value) {
   const text = String(value);
   if (!text.includes('e+')) return text;
@@ -154,11 +173,13 @@ export function removeE(value) {
   return Number.isNaN(exponent) || exponent === 0 ? text : parseFloat(text).toPrecision(Math.min(exponent + 1, 21));
 }
 
+/** Number for display, rounded to `dec` decimals, with the player's separators (`window.decimalSeparator` 0 = "1.234,5", else "1,234.5"). */
 export function pretty_number(value, dec = 0) {
   const number = dec == 0 ? removeE(Math.round(value)) : value;
   return window.decimalSeparator == 0 ? number_format(number, dec, ',', '.') : number_format(number, dec, '.', ',');
 }
 
+/** Abbreviated number (12.3 K, 4 M, ...) using the suffixes of `window.numberSuffixes` (defaults K, M, B, T, ...); one decimal below 100 in a unit. Returns HTML (non-breaking space). */
 export function shortly_number(number) {
   const units = Array.isArray(window.numberSuffixes) && window.numberSuffixes.length
     ? window.numberSuffixes
@@ -176,8 +197,10 @@ export function shortly_number(number) {
 
 // ---------------------------------------------------------------------------------------- time
 
+/** Left-pads the number to `size` digits with zeros. */
 export const pad = (num, size) => String(num).padStart(size, '0');
 
+/** Zero-pads (or pads with `prefix`) an integer to `size` characters; a minus sign goes in front of the zeros. */
 export function dezInt(num, size, prefix = '0') {
   const minus = num < 0 ? '-' : '';
   const digits = String(Math.abs(parseInt(num, 10)));
@@ -188,6 +211,12 @@ export function dezInt(num, size, prefix = '0') {
 /** current server time (window.serverTime is defined by the layout) */
 export const now = () => (window.serverTime instanceof Date ? window.serverTime : new Date());
 
+/**
+ * Formats a point in time with the placeholders [d] [D] [m] [M] [j] [Y] [y] [G] [H] [i] [s] (day, weekday name,
+ * month, month name, ... as in the game's date formats). Weekday/month names come from `window.days` / `window.months`.
+ * @param {number} timestamp milliseconds since the epoch (not seconds)
+ * @param {string} format
+ */
 export function getFormatedDate(timestamp, format) {
   const time = new Date(timestamp + (window.ServerTimezoneOffset ?? 0) * 1000);
   const days = window.days ?? [];
@@ -206,6 +235,7 @@ export function getFormatedDate(timestamp, format) {
     .replace('[s]', dezInt(time.getSeconds(), 2));
 }
 
+/** Seconds as HH:MM:SS (hours not capped at 24). */
 export function getFormatedTime(time) {
   const hours = Math.floor(time / 3600);
   const minutes = Math.floor((time % 3600) / 60);
@@ -213,6 +243,12 @@ export function getFormatedTime(time) {
   return `${dezInt(hours, 2)}:${dezInt(minutes, 2)}:${dezInt(seconds, 2)}`;
 }
 
+/**
+ * Remaining time as "1Y 2M 3W 4d 05h 06m 07s": leading zero units are dropped, at most three units are shown
+ * when `shorten` is true. Rounds up so a second shows until it has elapsed. JS twin of the PHP helper of the same name.
+ * @param {number} secs remaining seconds
+ * @param {boolean} [shorten]
+ */
 export function getRestTimeFormat(secs, shorten) {
   // ceil keeps the displayed second until it actually elapses
   let rest = Math.max(0, Math.ceil(Number(secs) - 1e-9));
@@ -254,6 +290,7 @@ export function setVisibleInterval(fn, ms) {
   return id;
 }
 
+/** Stops an interval created by setVisibleInterval(). */
 export function clearVisibleInterval(id) {
   window.clearInterval(id);
   visibleIntervals.delete(id);
@@ -277,6 +314,7 @@ export function NotifyBox(text) {
   window.setTimeout(() => fadeOut(box, 1000).then(() => box.remove()), 600);
 }
 
+/** window.onerror handler: logs the error and tells the player (alert); returning true suppresses the browser's own report. */
 export function handleErr(message, url, line, col, error) {
   const text = `There is an error at this page.\nError: ${message}\nURL: ${url}\nLine: ${line}\nColumn: ${col}\n`
     + (error ? `Error Object: ${error.stack}\n` : '');

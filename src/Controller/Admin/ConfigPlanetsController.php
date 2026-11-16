@@ -28,6 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[\App\Routing\GamePage('admin.php', 'configPlanets', uniPrefix: true)]
 class ConfigPlanetsController extends AbstractAdminController
 {
+    /**
+     * Only authlevel ADM may open the page (checked before the permission system).
+     */
     protected function construct(): void
     {
         if (!$this->viewHelpers()->allowedTo('ShowMultiIPPage')) {
@@ -37,6 +40,10 @@ class ConfigPlanetsController extends AbstractAdminController
         parent::construct();
     }
 
+    /**
+     * Saves the per-position planet defaults (mode=send): temperature, fields and production bonuses per planet position, stored in
+     * PLANET_DATA (insert for new positions, update for existing ones).
+     */
     public function send(): void
     {
         $action = $this->http()->_GP('mode', '');
@@ -130,6 +137,9 @@ class ConfigPlanetsController extends AbstractAdminController
         }
     }
 
+    /**
+     * Renders the table of per-position planet defaults.
+     */
     public function show(): Response
     {
         $this->send();

@@ -163,6 +163,12 @@ trait BattleReporting
         ]);
     }
 
+    /**
+     * Called when the engine returned no result (fight too large for every engine): sends every involved player the
+     * "attack cancelled" report message and turns the attacking fleet around unharmed.
+     * @param array<int, string> $userAttack attacking user ids => names.
+     * @param array<int, string> $userDefend defending user ids => names.
+     */
     protected function cancelFight($userAttack, $userDefend, $targetPlanet)
     {
         foreach ([$userAttack, $userDefend] as $data) {
@@ -193,6 +199,10 @@ trait BattleReporting
         $this->SaveFleet();
     }
 
+    /**
+     * Template (minified HTML with sprintf placeholders) of the combat report message: link to the report, result
+     * line with units lost per side, loot and debris. Filled by sendReportMessages().
+     */
     protected function getMessageText()
     {
         $messageHTML = <<<HTML

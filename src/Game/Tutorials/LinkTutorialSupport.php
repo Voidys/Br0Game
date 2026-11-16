@@ -8,6 +8,9 @@
 
 namespace App\Game\Tutorials;
 
+/**
+ * Step whose goal is to open an external link (the Discord invite); clicking the link reports the goal as fulfilled.
+ */
 class LinkTutorialSupport extends AbstractTutorialSupport
 {
     public function __construct(

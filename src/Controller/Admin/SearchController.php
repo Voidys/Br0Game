@@ -31,6 +31,12 @@ use App\Game\Core\Universe;
 #[\App\Routing\GamePage('admin.php', 'search', uniPrefix: true)]
 class SearchController extends AbstractAdminController
 {
+    /**
+     * Admin search over players (users, banned), planets/moons and alliances. Request: search (type), search_in (name or id), fuki
+     * (normal, exact, last, first: how the key is matched), key_user (search key), key_order (sort column from the whitelist), key_acc
+     * (ASC/DESC), limit (page size from 1..500), side (page). Builds the field list and WHERE parts per type and delegates to
+     * MyCrazyLittleSearch().
+     */
     public function show(): Response
     {
         $LNG = $this->state->LNG;
@@ -314,6 +320,12 @@ class SearchController extends AbstractAdminController
         return $this->render('admin/SearchPage.html.twig');
     }
 
+    /**
+     * Runs the search query and the matching count query. Callers pass trusted SQL fragments ($SpecifyItems columns, $WhereItem,
+     * $SpecifyWhere operator, $SpecialSpecify extra conditions, $Table); the search key is a bound parameter, the sort column must be in
+     * $ArrayOSec and the direction is limited to ASC/DESC. Computes paging from $Page and $Limit and fills the result table
+     * (column names and links) for the template.
+     */
     public function MyCrazyLittleSearch(
         $SpecifyItems,
         $WhereItem,
@@ -352,7 +364,8 @@ class SearchController extends AbstractAdminController
         $QuerySearch = "SELECT " . $SpecifyItems . " FROM " . $Table . " ";
         $QuerySearch .= $WhereItem . " ";
         $QuerySearch .= $SpecifyWhere . " " . $SpecialSpecify . " ";
-        $QuerySearch .= "ORDER BY " . $Order . " " . $OrderBY . " ";
+        // direction comes from the request: only ASC/DESC may reach the query
+        $QuerySearch .= "ORDER BY " . $Order . " " . (strtoupper((string) $OrderBY) === 'DESC' ? 'DESC' : 'ASC') . " ";
         $QuerySearch .= "LIMIT " . $INI . "," . $Limit;
         $sqlResult = $db->select($QuerySearch, [':searchKey' => $SpecifySearchKey]);
 

@@ -39,6 +39,9 @@ class BuddyListController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Request form for a buddy (request: id of the player); refuses yourself, existing buddies and existing requests.
+     */
     public function request(): Response
     {
         $USER = $this->state->USER;
@@ -84,6 +87,10 @@ class BuddyListController extends AbstractGameController
         return $this->render('game/page.buddyList.request.html.twig');
     }
 
+    /**
+     * Stores a buddy request (request: id, text): refused for yourself, a player who blocks direct messages (either direction), an unknown player or an existing
+     * request. Inserts BUDDY and BUDDY_REQUEST (the text) and sends the target a system message in his own language.
+     */
     public function send()
     {
         $USER = $this->state->USER;
@@ -132,13 +139,6 @@ class BuddyListController extends AbstractGameController
             ':universe' => $this->universe()->current(),
         ]);
 
-        // $sql = "SELECT `id` FROM %%BUDDY%% WHERE `sender` = :userID AND `owner` = :friendID AND `universe` = :universe;";
-        // $buddyID = $db->selectSingle($sql, [
-        //     ':userID'	=> $USER['id'],
-        //     ':friendID'  => $id,
-        //     ':universe' => Universe::current(),
-        // ], 'id');
-
         $buddyID = $db->lastInsertId();
 
         $sql = "INSERT INTO %%BUDDY_REQUEST%% SET id = :buddyID, text = :text;";
@@ -164,6 +164,10 @@ class BuddyListController extends AbstractGameController
         $this->printMessage($LNG['bu_request_send']);
     }
 
+    /**
+     * Removes a buddy or withdraws/rejects a pending request (request: id of the BUDDY row; only its two parties may). For a pending request the other
+     * player gets a system message. Deletes the BUDDY and BUDDY_REQUEST rows; redirects to the list.
+     */
     public function delete()
     {
         $USER = $this->state->USER;
@@ -208,6 +212,10 @@ class BuddyListController extends AbstractGameController
         $this->redirectTo("game?page=buddyList");
     }
 
+    /**
+     * Accepts a pending request (request: id of the BUDDY row; only its recipient may): deletes the BUDDY_REQUEST row, which turns the BUDDY row into a
+     * friendship, and sends the requester a system message; redirects to the list.
+     */
     public function accept()
     {
         $USER = $this->state->USER;
@@ -249,6 +257,9 @@ class BuddyListController extends AbstractGameController
         $this->redirectTo("game?page=buddyList");
     }
 
+    /**
+     * Buddy list: friends with online state and alliance, incoming and outgoing requests.
+     */
     public function show(): Response
     {
         $USER = $this->state->USER;

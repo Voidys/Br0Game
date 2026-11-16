@@ -51,6 +51,9 @@ abstract class AbstractAccountController implements GameControllerInterface
         $this->printMessage($message);
     }
 
+    /**
+     * Guests (no account in the session) are sent to the start page; everything else is passed on to the page.
+     */
     public function initialize(): void
     {
         $this->setWindow('full');
@@ -60,6 +63,9 @@ abstract class AbstractAccountController implements GameControllerInterface
         }
     }
 
+    /**
+     * Builds the query string (page, mode, id) of the current request, e.g. for the language switch and redirects.
+     */
     protected function getQueryString()
     {
         $queryString = [];
@@ -108,6 +114,10 @@ abstract class AbstractAccountController implements GameControllerInterface
         $this->display('account/error.default.html.twig');
     }
 
+    /**
+     * Variables of the account shell (page title, account name, theme, server time in the account's timezone).
+     * Nothing is added for ajax windows.
+     */
     protected function layoutData(string $template): array
     {
         $ACCOUNT = $this->state->ACCOUNT;
@@ -172,6 +182,9 @@ abstract class AbstractAccountController implements GameControllerInterface
         ]);
     }
 
+    /**
+     * Sends $data as a JSON response and ends the request (EndOfRequest).
+     */
     protected function sendJSON($data)
     {
         // $this->updatePlanetTime();
@@ -179,6 +192,9 @@ abstract class AbstractAccountController implements GameControllerInterface
         throw new EndOfRequest();
     }
 
+    /**
+     * Redirects to $url (relative to the game root) and ends the request.
+     */
     protected function redirectTo($url)
     {
         // $this->updatePlanetTime();

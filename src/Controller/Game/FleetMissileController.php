@@ -39,6 +39,11 @@ class FleetMissileController extends AbstractGameController
         parent::initialize();
     }
 
+    /**
+     * Interplanetary missile launch (request: galaxy, system, planet, type = planet type of the target, SendMI = number of missiles, Target
+     * = primary target defense id). Validates silo level, missile range, protections and counts, then creates the missile fleet event and
+     * deducts the missiles and ends with a message page. Direct GET visits with empty input end in the error message (the galaxy form POSTs the launch).
+     */
     public function show()
     {
         // Planet selector keeps page=fleetMissile and only adds cp=. A GET then

@@ -20,6 +20,9 @@ namespace App\Game\Core;
 use PHPMailer\PHPMailer\PHPMailer;
 use Exception;
 
+/**
+ * Sends e-mail through PHPMailer using the settings mail_use (0 = PHP mail(), 2 = SMTP; the old sendmail mode is rejected), SMTP host/port/ssl/user/password, sender address and game name.
+ */
 class Mail
 {
     use \App\Game\Core\GameUtilities;
@@ -30,6 +33,9 @@ class Mail
         protected \App\Game\Core\Singleton $state,
     ) {}
 
+    /**
+     * Sends one mail (UTF-8). Transport errors are logged with error_log, not thrown.
+     */
     public function send(string $mailTarget, string $mailTargetName, string $mailSubject, string $mailContent): void
     {
         $mail	= $this->getMailObject();
@@ -45,6 +51,11 @@ class Mail
         }
     }
 
+    /**
+     * Sends the same subject to several addresses, one message each (HTML), with an own body per target when given.
+     * @param array<string, array{username: string, body?: string}> $mailTargets address => data.
+     * @param string|null $mailContent default body.
+     */
     public function multiSend(array $mailTargets, string $mailSubject, ?string $mailContent = null): void
     {
         $mail	= $this->getMailObject();
@@ -61,6 +72,9 @@ class Mail
         }
     }
 
+    /**
+     * True if an SMTP connection can be opened with the current settings (admin setup check).
+     */
     public function testConnection(): bool
     {
         $mail	= $this->getMailObject();
@@ -71,6 +85,9 @@ class Mail
         }
     }
 
+    /**
+     * Configured PHPMailer instance (transport, sender). @throws \Exception for the unsupported sendmail mode.
+     */
     private function getMailObject(): PHPMailer
     {
         $mail               = new PHPMailer(true);

@@ -6,6 +6,7 @@ import { qs, qsa, on, now, pretty_number, getRestTimeFormat, setVisibleInterval,
  * text comes from the data island #market-data ({confirmText}).
  */
 
+/** Counts the remaining time of every offer row (`data-time` = seconds at render time). */
 function Refrash() {
 	qsa("[data-time]").forEach(function (el) {
 		let remaining = Number(el.dataset.time) - (now().getTime() - window.startTime) / 1000;
@@ -14,7 +15,10 @@ function Refrash() {
 }
 
 
-//-------------------
+/**
+ * Number from a reference ratio input: tolerates spaces and, depending on the player's decimal separator, both comma and dot
+ * notation. NaN when empty, not positive or not a number.
+ */
 function parseReferenceRatio(value) {
 	if (typeof value === 'number') {
 		return isFinite(value) && value > 0 ? value : NaN;
@@ -59,6 +63,7 @@ function inputReferenceRatios() {
 	};
 }
 
+/** Official reference ratios divided by the chosen baseline resource (so the baseline becomes 1); null when the baseline ratio is invalid. */
 function scaleOfficialReferenceTo(resource) {
 	let official = officialReferenceRatios();
 	let baseline = official[resource];
@@ -72,6 +77,7 @@ function scaleOfficialReferenceTo(resource) {
 	};
 }
 
+/** Writes the three ratios into their inputs (formatted). */
 function setReferenceRatioInputs(ratios) {
 	const set = function (name, value) {
 		const input = qs('input[name=' + name + ']');
@@ -88,6 +94,7 @@ function setWorkingReferenceRatios(ratios) {
 	workingReferenceRatios = ratios;
 }
 
+/** Baseline button: sets the working ratios to the official ones expressed relative to `resource`, updates inputs and highlighting, repaints the offers. */
 function normalizeReferenceTo(resource) {
 	let ratios = scaleOfficialReferenceTo(resource);
 	if (!ratios) {
@@ -100,6 +107,7 @@ function normalizeReferenceTo(resource) {
 	calculateRatios();
 }
 
+/** Ratios relative to deuterium (deuterium = 1); null when the deuterium ratio is invalid. */
 function deuteriumRelativeRatios(refs) {
 	if (!isFinite(refs.deuterium) || refs.deuterium <= 0) {
 		return null;
@@ -111,6 +119,7 @@ function deuteriumRelativeRatios(refs) {
 	};
 }
 
+/** Value of an amount of the flagged resource kinds in deuterium, rounded up: metal and crystal are divided by their rate. */
 function convertAmountToDeut(amount, isMetal, isCrystal, isDeuterium, rates) {
 	let value = 0;
 	if (isMetal) {
@@ -125,6 +134,7 @@ function convertAmountToDeut(amount, isMetal, isCrystal, isDeuterium, rates) {
 	return Math.ceil(value);
 }
 
+/** Official ratio of an offer row: offered deuterium value divided by the asked one (data attributes); 0 when not computable. */
 function officialRowRatio(ratioCell) {
 	let offerDeut = parseFloat(ratioCell.getAttribute('data-offer-deut'));
 	let askDeut = parseFloat(ratioCell.getAttribute('data-ask-deut'));
@@ -134,11 +144,13 @@ function officialRowRatio(ratioCell) {
 	return offerDeut / askDeut;
 }
 
+/** Shows the ratio with two decimals, red below 1 (a bad deal for the buyer), green otherwise. */
 function paintRatio(ratioCell, ratio) {
 	ratioCell.textContent = pretty_number(ratio, 2);
 	ratioCell.style.color = ratio < 1 ? '#F00' : '#0F0';
 }
 
+/** Colours the ratio column of the fleet market table. */
 function paintFleetRatios() {
 	qsa('table#tradeFleetList tbody tr').forEach(function(row) {
 		let ratioCell = row.querySelector('.ratio');
@@ -146,10 +158,13 @@ function paintFleetRatios() {
 	});
 }
 
+/**
+ * Recalculates the "ratio" column of the resource offers: with an official baseline selected from the rows' data attributes,
+ * otherwise by converting offered and wanted amounts to deuterium with the player's own reference ratios. The fleet table is
+ * repainted too. Does nothing when the reference ratios are invalid.
+ */
 function calculateRatios(){
-	/*
-	 * Thanks to zb0oj for idea and a part of source code!
-	 */
+	// Thanks to zb0oj for idea and a part of source code!
 	paintFleetRatios();
 	let useOfficial = qsa('.ratioBaseline.selected').length > 0;
 	let rates = null;
@@ -266,6 +281,7 @@ function toggleFlightColumns() {
 	}
 }
 
+/** Initial state of the resource/fleet box switch and the flight column selector. */
 function initMarketBoxes() {
 	reloadMarketBox();
 	if (document.getElementById('shipT')) toggleFlightColumns();
