@@ -1023,3 +1023,8 @@ Technical changes per migration step, newest last.
 - `BotSocialMessaging::stepReply` answers per sender: all pending DMs in one reply once the oldest is `bot_reply_delay_hours` old (most overdue sender per turn), tone by stance (LLM prompt and canned sets).
 - New universe settings `bot_reply_delay_hours` (default 3) and `bot_chatter` (default on) in category `bots`; `bot_chatter` off still reads/counts messages but sends no replies.
 - `stepThreats` detects attacks and spy probes on a bot from `log_fleets` (mission 1/2/6/9, human sender, arrival since `last_threat_check`); attack reaction and raid taunt only go to contacted players and respect the delay.
+
+## 123. Galaxy tooltips escaped for their attribute
+
+- `page.galaxy.default.html.twig`: the 11 tooltip includes in `data-tooltip-content` go through `include(...)|e('html_attr')`; the player tooltip's double quotes closed the attribute and leaked `">` before player names.
+

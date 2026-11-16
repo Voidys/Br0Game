@@ -64,20 +64,20 @@
       {% set currentPlanet = GalaxyRows[planet.planet_position] %}
       {% if not isset(currentPlanet) %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.colonizable.html.twig')|e('html_attr') }}">
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item span5"></div>
         </div>
       {% elseif currentPlanet.destroyed == true %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.colonizable.html.twig')|e('html_attr') }}">
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item span2">{{ LNG.gl_planet_destroyed }}</div>
           <div class="galaxy-grid-item galaxy-debris span3">
             {% if currentPlanet.debris and (currentPlanet.debris.metal + currentPlanet.debris.crystal) > hiddenDebris %}
-              <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris} %}">
+              <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.debris.html.twig', {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris})|e('html_attr') }}">
                 <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
               </a>
               {{ shortly_number(currentPlanet.debris.metal) }} / {{ shortly_number(currentPlanet.debris.crystal) }}
@@ -86,33 +86,33 @@
         </div>
       {% else %}
         <div class="galaxy-grid-row {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ currentPlanet.ownPlanet ? 'own' : 'taken' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.colonizable.html.twig' %}">
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ currentPlanet.ownPlanet ? 'own' : 'taken' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.colonizable.html.twig')|e('html_attr') }}">
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item galaxy-planet">
             {% if isset(currentPlanet) %}
-              <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.missions.html.twig' with {'details': currentPlanet.planet, 'missions': currentPlanet.missions} %}">
+              <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.missions.html.twig', {'details': currentPlanet.planet, 'missions': currentPlanet.missions})|e('html_attr') }}">
                 <img src='{{ currentPlanet.planet.image }}' height='30' width='30'> {{ currentPlanet.planet.name }} {{ currentPlanet.lastActivity }}
               </a>
             {% endif %}
           </div>
           <div class="galaxy-grid-item galaxy-moon centered">
             {% if currentPlanet.moon %}
-              <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.missions.html.twig' with {'moon': true, 'details': currentPlanet.moon, 'missions': currentPlanet.missions} %}">
+              <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.missions.html.twig', {'moon': true, 'details': currentPlanet.moon, 'missions': currentPlanet.missions})|e('html_attr') }}">
                 <img src='{{ currentPlanet.moon.image }}' height="22" width="22" alt="{{ currentPlanet.moon.name }}">
               </a>
             {% endif %}
           </div>
           <div class="galaxy-grid-item galaxy-debris centered">
             {% if currentPlanet.debris and (currentPlanet.debris.metal + currentPlanet.debris.crystal) > hiddenDebris %}
-              <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris} %}">
+              <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.debris.html.twig', {'id': currentPlanet.planet.id, 'missions': currentPlanet.missions, 'debris': currentPlanet.debris})|e('html_attr') }}">
                 <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
               </a>
               <div class="galaxy-debris-text">{{ shortly_number(currentPlanet.debris.metal) }} / {{ shortly_number(currentPlanet.debris.crystal) }}</div>
             {% endif %}
           </div>
           <div class="galaxy-grid-item galaxy-player">
-            <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.player.html.twig' %}">
+            <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.player.html.twig')|e('html_attr') }}">
               <span playerid='{{ currentPlanet.user.id }}' class="{% for class in (currentPlanet.user.class)|php_iter %}{% if not loop.first %} {% endif %}galaxy-username-{{ class }}{% endfor %} galaxy-username{% if currentPlanet.user.isBuddy %} galaxy-friend{% endif %}">{{ currentPlanet.user.username }}</span>
             </a>
             {% if currentPlanet.user.is_leader %}<a class="tooltip galaxy-rank-leader" data-tooltip-content="<table width='100%'><tr><th colspan='2' class='text-center'>{{ currentPlanet.user.ally_owner_range|tooltip_text }}</th></tr><tr><td class='transparent'>{{ currentPlanet.alliance.name|tooltip_text }}</td></tr></table>">{{ icon('trophy') }}</a>{% endif %}
@@ -123,7 +123,7 @@
               </div>
             {% endif %}
             {% if currentPlanet.alliance %}
-              <a allyid={{ currentPlanet.alliance.id }} class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.alliance.html.twig' %}">
+              <a allyid={{ currentPlanet.alliance.id }} class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.alliance.html.twig')|e('html_attr') }}">
                 <span class="{% for class in (currentPlanet.alliance.class)|php_iter %}{% if not loop.first %} {% endif %}galaxy-alliance-{{ class }}{% endfor %} galaxy-alliance">[{{ currentPlanet.alliance.tag }}]</span>
               </a>
             {% endif %}
@@ -190,14 +190,14 @@
           {{ max_planets + 3 }}
         </div>
         <div class="galaxy-grid-item galaxy-planet span2">
-          <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.missions.html.twig' with {'details': pirateBase, 'missions': pirateBase.missions, 'isPirateBase': true} %}">
+          <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.missions.html.twig', {'details': pirateBase, 'missions': pirateBase.missions, 'isPirateBase': true})|e('html_attr') }}">
             <img src="{{ pirateBase.image }}" height="30" width="30"> {{ LNG.type_planet_4 }}
           </a>
         </div>
         <div class="galaxy-grid-item galaxy-debris centered span2">
           {% if (pirateBase.metal + pirateBase.crystal) > 0 %}
             {% set currentPlanet = currentPlanet|merge({'planet': (currentPlanet.planet|default({}))|merge({'id': pirateBase.id})}) %}
-            <a class="tooltip_sticky" data-tooltip-content="{% include 'game/tooltip.galaxy.debris.html.twig' with {'id': pirateBase.id, 'missions': pirateBase.missions, 'debris': pirateBase} %}">
+            <a class="tooltip_sticky" data-tooltip-content="{{ include('game/tooltip.galaxy.debris.html.twig', {'id': pirateBase.id, 'missions': pirateBase.missions, 'debris': pirateBase})|e('html_attr') }}">
               <img src="{{ theme_asset('planeten/debris.jpg') }}" height="22" width="22" alt="">
             </a>
             <div class="galaxy-debris-text">{{ shortly_number(pirateBase.metal) }} / {{ shortly_number(pirateBase.crystal) }}</div>
