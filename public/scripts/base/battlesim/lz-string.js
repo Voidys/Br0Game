@@ -7,7 +7,7 @@
 // http://pieroxy.net/blog/pages/lz-string/testing.html
 //
 // LZ-based compression algorithm, version 1.4.5
-var LZString = (function() {
+const LZString = (function() {
 
 // private property
 var f = String.fromCharCode;
@@ -494,13 +494,6 @@ var LZString = {
   return LZString;
 })();
 
-if (typeof define === 'function' && define.amd) {
-  define(function () { return LZString; });
-} else if( typeof module !== 'undefined' && module != null ) {
-  module.exports = LZString
-} else if( typeof angular !== 'undefined' && angular != null ) {
-  angular.module('LZString', [])
-  .factory('LZString', function () {
-    return LZString;
-  });
-}
+export { LZString };
+export const { compressToBase64, decompressFromBase64, compressToUTF16, decompressFromUTF16, compressToUint8Array, decompressFromUint8Array, compressToEncodedURIComponent, decompressFromEncodedURIComponent, compress, decompress } = LZString;
+export default LZString;

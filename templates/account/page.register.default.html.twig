@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.siteTitleRegister }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -11,19 +12,19 @@
       <label class="acc-form__label" for="username">{{ LNG['Playername'] }}:</label>
       <div class="acc-form__field"><input id="username" form="account-register-form" name="username" maxlength="32" size="20" value="" type="text"></div>
       <label class="acc-form__label" for="language">{{ LNG['op_lang'] }}:</label>
-      <div class="acc-form__field"><select form="account-register-form" name="language" id="language">{{ html_options({'options': Selectors.lang, 'selected': userLang}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="language" id="language">{{ forms.html_options({'options': Selectors.lang, 'selected': userLang}) }}</select></div>
       <label class="acc-form__label" for="imageTheme">{{ LNG['op_skin_example'] }} (IMG):</label>
-      <div class="acc-form__field"><select form="account-register-form" name="imageTheme" id="imageTheme">{{ html_options({'options': Selectors.ImageSkins, 'selected': imageTheme}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="imageTheme" id="imageTheme">{{ forms.html_options({'options': Selectors.ImageSkins, 'selected': imageTheme}) }}</select></div>
       <label class="acc-form__label" for="cssTheme">{{ LNG['op_skin_example'] }} (CSS):</label>
-      <div class="acc-form__field"><select form="account-register-form" name="cssTheme" id="cssTheme">{{ html_options({'options': Selectors.CssSkins, 'selected': cssTheme}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="cssTheme" id="cssTheme">{{ forms.html_options({'options': Selectors.CssSkins, 'selected': cssTheme}) }}</select></div>
       <label class="acc-form__label" for="timezone">{{ LNG['op_timezone'] }}: </label>
-      <div class="acc-form__field"><select form="account-register-form" name="timezone" id="timezone">{{ html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="timezone" id="timezone">{{ forms.html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
       <label class="acc-form__label" for="colors">{{ LNG['own_colors'] }}: </label>
-      <div class="acc-form__field"><select form="account-register-form" name="colors" id="colors">{{ html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="colors" id="colors">{{ forms.html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
       <label class="acc-form__label" for="missionPrios">{{ LNG['fleetPrio'] }}: </label>
-      <div class="acc-form__field"><select form="account-register-form" name="missionPrios" id="missionPrios">{{ html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="missionPrios" id="missionPrios">{{ forms.html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
       <label class="acc-form__label" for="stbSettings">{{ LNG['stb_title'] }}: </label>
-      <div class="acc-form__field"><select form="account-register-form" name="stbSettings" id="stbSettings">{{ html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
+      <div class="acc-form__field"><select form="account-register-form" name="stbSettings" id="stbSettings">{{ forms.html_options({'options': defaultUnis, 'selected': default}) }}</select></div>
     </div>
     <div class="acc-form__actions">
       <form id="account-register-form" action="account?page=register" method="post"><input type="hidden" name="mode" value="send"><input type="hidden" name="uni" value={{ uniId }}><input class="btn btn--primary" value="{{ LNG['Register'] }}" type="submit"></form>

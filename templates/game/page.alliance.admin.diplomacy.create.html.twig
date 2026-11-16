@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -8,14 +9,14 @@
 	</tr>
 	<tr>
 		<td>{{ LNG.al_diplo_ally }}</td>
-		<td>{{ html_options({'name': "ally_id", 'values': IdList, 'output': AllyList}) }}</td>
+		<td>{{ forms.html_options({'name': "ally_id", 'values': IdList, 'output': AllyList}) }}</td>
 	</tr>
 	<tr>
 		<td>{{ LNG.al_diplo_level_des }}</td>
 		{% if diploMode == php_const('DIPLO_PEACE') %}
-			<td>{{ html_options({'name': "level", 'values': 'range(7,7)', 'output': diploLevel, 'selected': diploMode}) }}</td>
+			<td>{{ forms.html_options({'name': "level", 'values': range(7, 7), 'output': diploLevel, 'selected': diploMode}) }}</td>
 		{% else %}
-			<td>{{ html_options({'name': "level", 'values': 'range(1,6)', 'output': diploLevel, 'selected': diploMode}) }}</td>
+			<td>{{ forms.html_options({'name': "level", 'values': range(1, 6), 'output': diploLevel, 'selected': diploMode}) }}</td>
 		{% endif %}
 	</tr>
 	<tr>

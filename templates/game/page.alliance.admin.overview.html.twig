@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -72,18 +73,18 @@
 	</tr>
 	<tr>
 		<td>{{ LNG.al_view_stats }}</td>
-		<td>{{ html_options({'name': 'stats', 'options': YesNoSelector, 'selected': ally_stats_data}) }}</td>
+		<td>{{ forms.html_options({'name': 'stats', 'options': YesNoSelector, 'selected': ally_stats_data}) }}</td>
 	</tr>
 	<tr>
 		<td>{{ LNG.al_view_diplo }}</td>
-		<td>{{ html_options({'name': 'diplo', 'options': YesNoSelector, 'selected': ally_diplo_data}) }}</td>
+		<td>{{ forms.html_options({'name': 'diplo', 'options': YesNoSelector, 'selected': ally_diplo_data}) }}</td>
 	</tr>
 	<tr>
 		<th colspan="2">{{ LNG.al_manage_requests }}</th>
 	</tr>
 	<tr>
 		<td>{{ LNG.al_manage_requests }}</td>
-		<td>{{ html_options({'name': 'request_notallow', 'options': RequestSelector, 'selected': ally_request_notallow}) }}</td>
+		<td>{{ forms.html_options({'name': 'request_notallow', 'options': RequestSelector, 'selected': ally_request_notallow}) }}</td>
 	</tr>
 	<tr>
 		<td>{{ LNG.al_set_max_members }}</td>

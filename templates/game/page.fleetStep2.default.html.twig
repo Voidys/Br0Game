@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -156,7 +157,7 @@
 		</tr>
 		<tr id="stay">
 			<td>
-			{{ html_options({'name': 'staytime', 'options': StaySelector}) }} {{ LNG.fl_hours }}
+			{{ forms.html_options({'name': 'staytime', 'options': StaySelector}) }} {{ LNG.fl_hours }}
 			</td>
 		</tr>
 		{% endif %}

@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% macro lbl(label) %}{{ LNG.has(label) ? LNG[label] : label }}{% endmacro %}
 {% block title %}{{ LNG.siteTitleHOF }}{{ parent() }}{% endblock %}
@@ -8,7 +9,7 @@
 {% else %}
   {% if universeSelect|length > 1 %}
   <form class="filter-bar" name="stats" id="stats" method="post" action="">
-    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
+    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
   </form>
   {% endif %}
   {% if hof.title %}<h2>{{ _self.lbl(hof.title) }}</h2>{% endif %}

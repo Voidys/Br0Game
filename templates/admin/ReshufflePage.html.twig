@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 <form name="message" id="message" action="admin?page=reshuffle&amp;action=send&amp;ajax=1" class="stack">
   <section class="card card--danger">
@@ -7,7 +8,7 @@
       <div class="form-grid">
         <div class="field-row">
           <label for="universe">{{ LNG.uni_reg }}</label>
-          <div class="field-control">{{ html_options({'name': 'universe', 'options': universes}) }}</div>
+          <div class="field-control">{{ forms.html_options({'name': 'universe', 'options': universes}) }}</div>
         </div>
       </div>
     </div>

@@ -1,0 +1,50 @@
+{#
+  Form helpers. html_options(p) renders <option> markup (wrapped in a <select> when p.name is set).
+  p keys: options (value => label, a label that is an array becomes an <optgroup>) or values + output (parallel
+  lists), selected (scalar or list), name, id, class. Values and labels are escaped without double encoding.
+#}
+{% macro html_options(p) %}{% autoescape false %}
+{%- set opts = p.options is defined ? p.options : null -%}
+{%- set vals = p.values is defined ? p.values : null -%}
+{%- if opts is null and vals is null -%}{%- else -%}
+{%- set sel = p.selected is defined ? p.selected : '' -%}
+{%- set selList = [] -%}
+{%- if sel is iterable -%}{%- for item in sel -%}{%- set selList = selList|merge([(item ~ '')|escape('game_html')]) -%}{%- endfor -%}{%- endif -%}
+{%- set selStr = sel is iterable ? '' : (sel ~ '')|escape('game_html') -%}
+{%- set id = p.id is defined and p.id is not empty ? p.id : null -%}
+{%- set class = p.class is defined and p.class is not empty ? p.class : null -%}
+{%- set pairs = [] -%}
+{%- if opts is null -%}
+  {%- set outs = [] -%}
+  {%- if p.output is defined and p.output is not null -%}{%- for o in (p.output is iterable ? p.output : [p.output]) -%}{%- set outs = outs|merge([o]) -%}{%- endfor -%}{%- endif -%}
+  {%- for k in (vals is iterable ? vals : [vals]) -%}{%- set pairs = pairs|merge([{'k': k, 'v': outs[loop.index0] ?? ''}]) -%}{%- endfor -%}
+{%- else -%}
+  {%- for k, v in (opts is iterable ? opts : [opts]) -%}{%- set pairs = pairs|merge([{'k': k, 'v': v}]) -%}{%- endfor -%}
+{%- endif -%}
+{%- set html = _self.items(pairs, selList, selStr, sel is iterable, id, class) -%}
+{%- if p.name is defined and p.name is not empty -%}
+  {%- set html = '<select name="' ~ p.name ~ '"' ~ (class ? ' class="' ~ class ~ '"' : '') ~ (id ? ' id="' ~ id ~ '"' : '') ~ '>' ~ "\n" ~ html ~ '</select>' ~ "\n" -%}
+{%- endif -%}
+{{- html -}}
+{%- endif -%}
+{% endautoescape %}{% endmacro %}
+
+{# one level of options/optgroups; ids are numbered <id>-<n> per level, groups pass <id>-<n> down #}
+{% macro items(pairs, selList, selStr, multi, id, class) %}{% autoescape false %}
+{%- set html = '' -%}
+{%- set idx = 0 -%}
+{%- for pair in pairs -%}
+  {%- if pair.v is iterable -%}
+    {%- set sub = [] -%}
+    {%- for k, v in pair.v -%}{%- set sub = sub|merge([{'k': k, 'v': v}]) -%}{%- endfor -%}
+    {%- set html = html ~ '<optgroup label="' ~ (pair.k ~ '')|escape('game_html') ~ '">' ~ "\n" ~ _self.items(sub, selList, selStr, multi, id ? id ~ '-' ~ idx : null, class) ~ "</optgroup>\n" -%}
+    {%- set idx = idx + 1 -%}
+  {%- else -%}
+    {%- set ek = (pair.k ~ '')|escape('game_html') -%}
+    {%- set isSel = multi ? (selList|filter(s => s is same as(ek))|length > 0) : ek is same as(selStr) -%}
+    {%- set html = html ~ '<option value="' ~ ek ~ '"' ~ (isSel ? ' selected="selected"' : '') ~ (class ? ' class="' ~ class ~ ' option"' : '') ~ (id ? ' id="' ~ id ~ '-' ~ idx ~ '"' : '') ~ '>' ~ (pair.v ~ '')|escape('game_html') ~ '</option>' ~ "\n" -%}
+    {%- set idx = idx + 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+{{- html -}}
+{% endautoescape %}{% endmacro %}

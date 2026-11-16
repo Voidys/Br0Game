@@ -2,6 +2,7 @@ import { qs, qsa, on, post, serialize, pageData } from '../app/core.js';
 import { registerActions } from '../app/actions.js';
 import { Dialog } from '../app/dialog.js';
 import { tabs } from '../app/ui.js';
+import LZString from '../base/battlesim/lz-string.js';
 
 /**
  * Battle simulator: submit helpers (more slots, swap sides, simulate), the slot tabs and the share string

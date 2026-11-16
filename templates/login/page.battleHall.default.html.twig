@@ -1,10 +1,11 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.siteTitleBattleHall }}{{ parent() }}{% endblock %}
 {% block content %}
 {% if isMultiUniverse %}
   <form class="filter-bar" name="stats" id="stats" method="post" action="">
-    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ html_options({'options': universeSelect, 'selected': universe}) }}</select>
-    <select name="memorial" id="memorial" class="changeUni" data-autosubmit>{{ html_options({'options': memorialSelect, 'selected': memorial}) }}</select>
+    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
+    <select name="memorial" id="memorial" class="changeUni" data-autosubmit>{{ forms.html_options({'options': memorialSelect, 'selected': memorial}) }}</select>
   </form>
 {% endif %}
 <div class="table-scroll">

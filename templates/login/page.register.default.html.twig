@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.siteTitleRegister }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -34,7 +35,7 @@
     {% if count(languages) > 1 %}
       <div class="field">
         <label for="language">{{ LNG.registerLanguage }}</label>
-        <select name="lang" id="language">{{ html_options({'options': languages, 'selected': lang}) }}</select>
+        <select name="lang" id="language">{{ forms.html_options({'options': languages, 'selected': lang}) }}</select>
       </div>
     {% endif %}
     {% if not empty(referralData.name) %}
@@ -46,7 +47,7 @@
     {% if count(timezones) > 1 %}
       <div class="field">
         <label for="timezone">{{ LNG.registerTimezone }}</label>
-        <select name="time" id="timezone">{{ html_options({'options': timezones}) }}</select>
+        <select name="time" id="timezone">{{ forms.html_options({'options': timezones}) }}</select>
       </div>
     {% endif %}
 

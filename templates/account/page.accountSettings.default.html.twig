@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 
 {% block title %}
@@ -17,11 +18,11 @@
       <label class="acc-form__label" for="f_email">{{ LNG['op_email_adress'] }}:</label>
       <div class="acc-form__field"><input id="f_email" form="account-settings-form" name="email" maxlength="64" size="20" value="{{ email|default('') }}" type="email" maxlength="64"></div>
       <label class="acc-form__label" for="language">{{ LNG['op_lang'] }}:</label>
-      <div class="acc-form__field"><select form="account-settings-form" name="language" id="language">{{ html_options({'options': Selectors.lang, 'selected': userLang}) }}</select></div>
+      <div class="acc-form__field"><select form="account-settings-form" name="language" id="language">{{ forms.html_options({'options': Selectors.lang, 'selected': userLang}) }}</select></div>
       <label class="acc-form__label" for="theme">{{ LNG['op_skin_example'] }}:</label>
-      <div class="acc-form__field"><select form="account-settings-form" name="theme" id="theme">{{ html_options({'options': Selectors.Skins, 'selected': theme}) }}</select></div>
+      <div class="acc-form__field"><select form="account-settings-form" name="theme" id="theme">{{ forms.html_options({'options': Selectors.Skins, 'selected': theme}) }}</select></div>
       <label class="acc-form__label" for="timezone">{{ LNG['op_timezone'] }}: </label>
-      <div class="acc-form__field"><select form="account-settings-form" name="timezone" id="timezone">{{ html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
+      <div class="acc-form__field"><select form="account-settings-form" name="timezone" id="timezone">{{ forms.html_options({'options': Selectors.timezones, 'selected': timezone}) }}</select></div>
     </div>
     <div class="acc-form__actions">
       <form id="account-settings-form" action="account?page=accountSettings" method="post"><input type="hidden" name="mode" value="send"><input class="btn btn--primary" value="{{ LNG['op_save_changes'] }}" type="submit"></form>

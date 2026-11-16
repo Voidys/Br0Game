@@ -430,7 +430,6 @@ class BattleSimulatorController extends AbstractGameController
             }
         }
 
-        $this->addScript('../base/battlesim/lz-string.js');
         $this->addScript('battlesim.js');
 
         $this->assign([

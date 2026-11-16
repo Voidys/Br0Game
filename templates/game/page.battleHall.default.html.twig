@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_topkb }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -8,10 +9,10 @@
   </header>
 
   <form class="bh__filters" name="stats" id="stats" method="post" action="">
-    <label class="bh__filter">{{ LNG.tkb_memorial }}<select name="memorial" id="memorial" data-on-change="submit-form">{{ html_options({'options': Selectors.memorial, 'selected': memorial}) }}</select></label>
-    <label class="bh__filter">{{ LNG.tkb_timeframe }}<select name="timeframe" id="timeframe" data-on-change="submit-form">{{ html_options({'options': Selectors.timeframe, 'selected': timeframe}) }}</select></label>
-    <label class="bh__filter">{{ LNG.tkb_diplomacy }}<select name="diplomacy" id="diplomacy" data-on-change="submit-form">{{ html_options({'options': Selectors.diplomacy, 'selected': diplomacy}) }}</select></label>
-    <label class="bh__filter">{{ LNG.tkb_galaxy }}<select name="galaxy" id="galaxy" data-on-change="submit-form">{{ html_options({'options': Selectors.galaxy, 'selected': galaxy}) }}</select></label>
+    <label class="bh__filter">{{ LNG.tkb_memorial }}<select name="memorial" id="memorial" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.memorial, 'selected': memorial}) }}</select></label>
+    <label class="bh__filter">{{ LNG.tkb_timeframe }}<select name="timeframe" id="timeframe" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.timeframe, 'selected': timeframe}) }}</select></label>
+    <label class="bh__filter">{{ LNG.tkb_diplomacy }}<select name="diplomacy" id="diplomacy" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.diplomacy, 'selected': diplomacy}) }}</select></label>
+    <label class="bh__filter">{{ LNG.tkb_galaxy }}<select name="galaxy" id="galaxy" data-on-change="submit-form">{{ forms.html_options({'options': Selectors.galaxy, 'selected': galaxy}) }}</select></label>
     <noscript><button type="submit">{{ icon('filter') }}OK</button></noscript>
   </form>
 

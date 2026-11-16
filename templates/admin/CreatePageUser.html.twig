@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
   {% include 'admin/CreateTabs.html.twig' with {'createMode': 'user'} %}
@@ -7,8 +8,8 @@
       <div class="fields">
         <div class="field"><label for="c-account">{{ accountID }}</label><input type="text" id="c-account" name="accountID" inputmode="numeric"></div>
         <div class="field"><label for="c-name">{{ user_reg }}</label><input type="text" id="c-name" name="name" autocomplete="off"></div>
-        <div class="field"><label for="c-authlevel">{{ new_range }}</label>{{ html_options({'name': 'authlevel', 'id': 'c-authlevel', 'options': Selector.auth}) }}</div>
-        <div class="field"><label for="c-lang">{{ lang_reg }}</label>{{ html_options({'name': 'lang', 'id': 'c-lang', 'options': Selector.lang}) }}</div>
+        <div class="field"><label for="c-authlevel">{{ new_range }}</label>{{ forms.html_options({'name': 'authlevel', 'id': 'c-authlevel', 'options': Selector.auth}) }}</div>
+        <div class="field"><label for="c-lang">{{ lang_reg }}</label>{{ forms.html_options({'name': 'lang', 'id': 'c-lang', 'options': Selector.lang}) }}</div>
       </div>
       <div class="fields">
         <div class="field"><label for="c-galaxy">{{ new_coord }}: {{ LNG.po_galaxy }}</label><input type="text" id="c-galaxy" name="galaxy" maxlength="1" inputmode="numeric"></div>

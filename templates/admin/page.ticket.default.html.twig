@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 {% macro rows(ticketList, withCategory, closed, LNG) %}
   {% for TicketID, TicketInfo in ticketList %}
@@ -24,7 +25,7 @@
       <h2 class="card__title">{{ icon('ticket') }}{{ LNG.ti_header }}</h2>
       <div class="card__actions">
         <label for="categoryID" class="muted small">{{ LNG.ti_category }}</label>
-        <select id="categoryID">{{ html_options({'options': categories}) }}</select>
+        <select id="categoryID">{{ forms.html_options({'options': categories}) }}</select>
       </div>
     </header>
     {% if count(ticketList) == 0 %}<div class="card__body"><div class="empty">{{ icon('ticket') }}<p>{{ LNG.ti_header }}: 0</p></div></div>{% endif %}

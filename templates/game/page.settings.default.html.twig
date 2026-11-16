@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_options }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -34,38 +35,38 @@
 				</tr>
 				<tr>
 					<td>{{ LNG.op_timezone }}</td>
-					<td>{{ html_options({'name': 'timezone', 'options': Selectors.timezones, 'selected': timezone}) }}</td>
+					<td>{{ forms.html_options({'name': 'timezone', 'options': Selectors.timezones, 'selected': timezone}) }}</td>
 				</tr>
 				{% if count(Selectors.lang) > 1 %}
 					<tr>
 						<td>{{ LNG.op_lang }}</td>
-						<td>{{ html_options({'name': 'language', 'options': Selectors.lang, 'selected': userLang}) }}</td>
+						<td>{{ forms.html_options({'name': 'language', 'options': Selectors.lang, 'selected': userLang}) }}</td>
 					</tr>
 				{% endif %}
 				<tr>
 					<td>{{ LNG.op_decimal_separator }}</td>
-					<td>{{ html_options({'name': 'decimalSeparator', 'options': Selectors.decimalSeparators, 'selected': decimalSeparator}) }}</td>
+					<td>{{ forms.html_options({'name': 'decimalSeparator', 'options': Selectors.decimalSeparators, 'selected': decimalSeparator}) }}</td>
 				</tr>
 				<tr>
 					<td>{{ LNG.op_sort_planets_by }}</td>
-					<td>{{ html_options({'name': 'planetSort', 'options': Selectors.Sort, 'selected': planetSort}) }}</td>
+					<td>{{ forms.html_options({'name': 'planetSort', 'options': Selectors.Sort, 'selected': planetSort}) }}</td>
 				</tr>
 				<tr>
 					<td>{{ LNG.op_sort_kind }}</td>
 					<td>
-						{{ html_options({'name': 'planetOrder', 'options': Selectors.SortUpDown, 'selected': planetOrder}) }}
+						{{ forms.html_options({'name': 'planetOrder', 'options': Selectors.SortUpDown, 'selected': planetOrder}) }}
 					</td>
 				</tr>
 				{% if count(Selectors.ImageSkins|default([])) > 1 %}
 					<tr>
 						<td>{{ LNG.op_skin_example }} (IMG)</td>
-						<td>{{ html_options({'options': Selectors.ImageSkins, 'selected': imageTheme, 'name': "imageTheme", 'id': "imageTheme"}) }}</td>
+						<td>{{ forms.html_options({'options': Selectors.ImageSkins, 'selected': imageTheme, 'name': "imageTheme", 'id': "imageTheme"}) }}</td>
 					</tr>
 				{% endif %}
 				{% if count(Selectors.CssSkins|default([])) > 1 %}
 					<tr>
 						<td>{{ LNG.op_skin_example }} (CSS)</td>
-						<td>{{ html_options({'options': Selectors.CssSkins, 'selected': cssTheme, 'name': "cssTheme", 'id': "cssTheme"}) }}</td>
+						<td>{{ forms.html_options({'options': Selectors.CssSkins, 'selected': cssTheme, 'name': "cssTheme", 'id': "cssTheme"}) }}</td>
 					</tr>
 				{% endif %}
 				<tr>

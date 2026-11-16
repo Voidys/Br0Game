@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 <!DOCTYPE html>
 <html lang="{{ lang }}" data-dialog-ok="{{ LNG.dialog_ok }}" data-dialog-cancel="{{ LNG.dialog_cancel }}">
 <head>
@@ -45,7 +46,7 @@
       <label class="admin-universe">
         {{ icon('server') }}
         <span class="visually-hidden">{{ LNG.adm_universe_switch }}</span>
-        <select data-admin-universe>{{ html_options({'options': adminUniverses, 'selected': adminUniverse}) }}</select>
+        <select data-admin-universe>{{ forms.html_options({'options': adminUniverses, 'selected': adminUniverse}) }}</select>
       </label>
     {% endif %}
 

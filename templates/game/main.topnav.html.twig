@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 <button type="button" class="topbar__menu icon-button" data-sidebar-toggle aria-controls="sidebar" aria-label="{{ LNG.ui_menu|default('Menu') }}">
   {{ icon('menu') }}
 </button>
@@ -20,7 +21,7 @@
   </a>
   <label class="visually-hidden" for="planetSelector">{{ LNG.ui_planet|default('Planet') }}</label>
   <select id="planetSelector" class="planet-switch__select">
-    {{ html_options({'options': PlanetSelect, 'selected': current_pid}) }}
+    {{ forms.html_options({'options': PlanetSelect, 'selected': current_pid}) }}
   </select>
 </div>
 

@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {# One setting as a labelled row: label, control (+ unit), visible help text. #}
 {% if fieldConfig.type != 'none' %}
   {% set helpKey = 'se_' ~ fieldName ~ '_info' %}
@@ -14,7 +15,7 @@
       {% elseif fieldConfig.type == 'checkbox' %}
         <input id="{{ fieldName }}" name="{{ fieldName }}" type="checkbox" class="switch"{% if configValues[fieldName] %} checked{% endif %}>
       {% elseif fieldConfig.type == 'select' %}
-        {{ html_options({'name': fieldName, 'id': fieldName, 'options': fieldConfig.options, 'selected': configValues[fieldName]}) }}
+        {{ forms.html_options({'name': fieldName, 'id': fieldName, 'options': fieldConfig.options, 'selected': configValues[fieldName]}) }}
       {% elseif fieldConfig.type == 'slider' %}
         <input id="{{ fieldName }}" name="{{ fieldName }}" value="{{ configValues[fieldName] }}" type="range" min="{{ fieldConfig.min }}" max="{{ fieldConfig.max }}">
         {% if fieldConfig.label is defined %}<span class="muted">{{ fieldConfig.label }}</span>{% endif %}

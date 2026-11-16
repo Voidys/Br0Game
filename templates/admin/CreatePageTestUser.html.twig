@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
   {% include 'admin/CreateTabs.html.twig' with {'createMode': 'testData'} %}
@@ -6,7 +7,7 @@
     <div class="card__body">
       <div class="fields">
         <div class="field"><label for="c-amount">{{ LNG.test_data_amount }}</label><input id="c-amount" type="text" name="amount" maxlength="2" value="5" inputmode="numeric"></div>
-        <div class="field"><label for="c-stage">{{ LNG.test_data_stage_label }}</label>{{ html_options({'name': 'gameStage', 'id': 'c-stage', 'options': gameStages}) }}</div>
+        <div class="field"><label for="c-stage">{{ LNG.test_data_stage_label }}</label>{{ forms.html_options({'name': 'gameStage', 'id': 'c-stage', 'options': gameStages}) }}</div>
       </div>
     </div>
     <footer class="card__foot"><button type="submit" class="btn--primary">{{ icon('plus') }}{{ LNG.test_data_title }}</button></footer>

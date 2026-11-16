@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 {% import 'admin/AdminPicker.macros.html.twig' as picker %}
 <div class="stack">
@@ -22,7 +23,7 @@
         </div>
         <div class="field">
           <label for="rank-level">{{ ad_authlevel_auth }}</label>
-          {{ html_options({'name': 'authlevel', 'id': 'rank-level', 'options': Selector}) }}
+          {{ forms.html_options({'name': 'authlevel', 'id': 'rank-level', 'options': Selector}) }}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 <form name="message" id="message" action="admin?page=sendMessages&amp;action=send&amp;ajax=1" class="stack" data-empty-text="{{ LNG.mg_empty_text|e('html_attr') }}" data-confirm-text="{{ LNG.ma_send_global_message|e('html_attr') }}">
   <div class="cols cols--wide-left">
@@ -26,15 +27,15 @@
           <div class="fields">
             <div class="field">
               <label for="ma-mode">{{ LNG.ma_mode }}</label>
-              {{ html_options({'name': 'mode', 'id': 'ma-mode', 'options': modes}) }}
+              {{ forms.html_options({'name': 'mode', 'id': 'ma-mode', 'options': modes}) }}
             </div>
             <div class="field">
               <label for="ma-universe">{{ LNG.log_universe }}</label>
-              {{ html_options({'name': 'globalmessageuniverse', 'id': 'ma-universe', 'options': universeSelector}) }}
+              {{ forms.html_options({'name': 'globalmessageuniverse', 'id': 'ma-universe', 'options': universeSelector}) }}
             </div>
             <div class="field">
               <label for="ma-lang">{{ LNG.se_lang }}</label>
-              {{ html_options({'name': 'globalmessagelang', 'id': 'ma-lang', 'options': langSelector}) }}
+              {{ forms.html_options({'name': 'globalmessagelang', 'id': 'ma-lang', 'options': langSelector}) }}
             </div>
           </div>
           <div class="notice notice--info">{{ icon('info') }}<div><strong>{{ LNG.adm_ma_recipients }}:</strong> <span id="ma-summary"></span></div></div>

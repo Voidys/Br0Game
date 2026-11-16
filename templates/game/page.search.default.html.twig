@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_search }}{{ parent() }}{% endblock %}
 {% block content %}
@@ -8,7 +9,7 @@
 	<tr>
 		<td>
 			<div class="search-bar">
-			{{ html_options({'options': modeSelector, 'name': "type", 'id': "type"}) }}
+			{{ forms.html_options({'options': modeSelector, 'name': "type", 'id': "type"}) }}
 			<input type="text" name="searchtext" id="searchtext">
 			<input type="button" value="{{ LNG.sh_search }}">
 			</div>

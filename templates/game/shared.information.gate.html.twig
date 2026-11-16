@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 <table>
 	<tbody>
 		<tr>
@@ -15,7 +16,7 @@
 			{% if not empty(gateData.gateList) %}
 				<tr>
 					<td>{{ LNG.in_jump_gate_finish_moon }}</td>
-					<td colspan="2">{{ html_options({'options': gateData.gateList, 'name': "jmpto", 'class': "jumpgate"}) }}</td>
+					<td colspan="2">{{ forms.html_options({'options': gateData.gateList, 'name': "jmpto", 'class': "jumpgate"}) }}</td>
 				</tr>
 				<tr>
 					<th>{{ LNG.fl_ship_type }}</th>

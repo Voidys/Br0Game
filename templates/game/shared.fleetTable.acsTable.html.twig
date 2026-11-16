@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 <form action="?page=fleetTable&amp;action=acs" method="post">
 <input name="fleetID" value="{{ acsData.mainFleetID }}" type="hidden">
 	<table>
@@ -24,7 +25,7 @@
 		<tr>
 			<td>
 				<select size="5" class="control-wide">
-					{{ html_options({'options': acsData.invitedUsers}) }}
+					{{ forms.html_options({'options': acsData.invitedUsers}) }}
                 </select>
 			</td>
 			<td>

@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 <div class="stack">
 <nav class="tabs" aria-label="{{ LNG.ad_editor_title }}">
@@ -30,7 +31,7 @@
         <header class="card__head"><h2 class="card__title">{{ icon('clock') }}{{ LNG.ad_personal_vacat }}</h2></header>
         <div class="card__body">
           <div class="fields">
-            <div class="field"><label for="ae-vacation">{{ LNG.ad_personal_vacat }}</label>{{ html_options({'name': 'vacation', 'id': 'ae-vacation', 'options': Selector}) }}</div>
+            <div class="field"><label for="ae-vacation">{{ LNG.ad_personal_vacat }}</label>{{ forms.html_options({'name': 'vacation', 'id': 'ae-vacation', 'options': Selector}) }}</div>
             <div class="field"><label for="ae-d">{{ LNG.time_days }}</label><input id="ae-d" class="num" name="d" type="number" min="0" maxlength="5"></div>
             <div class="field"><label for="ae-h">{{ LNG.time_hours }}</label><input id="ae-h" class="num" name="h" type="number" min="0" maxlength="10"></div>
             <div class="field"><label for="ae-m">{{ LNG.time_minutes }}</label><input id="ae-m" class="num" name="m" type="number" min="0" maxlength="10"></div>

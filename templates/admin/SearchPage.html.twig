@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 {% macro pager(result, prevLabel, nextLabel, ariaLabel) %}
   {% if result.pages > 1 %}
@@ -26,29 +27,29 @@
         </div>
         <div class="field">
           <label for="search-type">{{ se_type_typee }}</label>
-          {{ html_options({'name': 'search', 'id': 'search-type', 'options': Selector.list, 'selected': SearchFile}) }}
+          {{ forms.html_options({'name': 'search', 'id': 'search-type', 'options': Selector.list, 'selected': SearchFile}) }}
         </div>
         <div class="field">
           <label for="search-in">{{ se_search_in }}</label>
-          {{ html_options({'name': 'search_in', 'id': 'search-in', 'options': Selector.search, 'selected': SearchFor}) }}
+          {{ forms.html_options({'name': 'search_in', 'id': 'search-in', 'options': Selector.search, 'selected': SearchFor}) }}
         </div>
         <div class="field">
           <label for="search-filter">{{ se_filter_title }}</label>
-          {{ html_options({'name': 'fucki', 'id': 'search-filter', 'options': Selector.filter, 'selected': SearchMethod}) }}
+          {{ forms.html_options({'name': 'fucki', 'id': 'search-filter', 'options': Selector.filter, 'selected': SearchMethod}) }}
         </div>
         {% if OrderBYParse %}
           <div class="field">
             <label for="search-order">{{ se_search_order }}</label>
-            {{ html_options({'name': 'key_order', 'id': 'search-order', 'options': OrderBYParse, 'selected': Order}) }}
+            {{ forms.html_options({'name': 'key_order', 'id': 'search-order', 'options': OrderBYParse, 'selected': Order}) }}
           </div>
         {% endif %}
         <div class="field field--fixed-8">
           <label for="search-dir">{{ se_asc_desc }}</label>
-          {{ html_options({'name': 'key_acc', 'id': 'search-dir', 'options': Selector.order, 'selected': OrderBY}) }}
+          {{ forms.html_options({'name': 'key_acc', 'id': 'search-dir', 'options': Selector.order, 'selected': OrderBY}) }}
         </div>
         <div class="field field--fixed-6">
           <label for="search-limit">{{ se_limit }}</label>
-          {{ html_options({'name': 'limit', 'id': 'search-limit', 'options': Selector.limit, 'selected': limit}) }}
+          {{ forms.html_options({'name': 'limit', 'id': 'search-limit', 'options': Selector.limit, 'selected': limit}) }}
         </div>
         <button type="submit" class="btn--primary">{{ icon('search') }}{{ se_search }}</button>
       </div>

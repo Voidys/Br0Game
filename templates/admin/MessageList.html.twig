@@ -1,3 +1,4 @@
+{% import '_macros/forms.html.twig' as forms -%}
 {% include 'admin/overall_header.html.twig' %}
 {% macro pager(page, maxPage, ariaLabel) %}
   {% if maxPage > 1 %}
@@ -23,7 +24,7 @@
       <div class="toolbar">
         <div class="field field--sm">
           <label for="type">{{ LNG.ml_type }}</label>
-          {{ html_options({'options': categories, 'selected': type, 'name': "type", 'id': 'type'}) }}
+          {{ forms.html_options({'options': categories, 'selected': type, 'name': "type", 'id': 'type'}) }}
         </div>
         <div class="field field--sm">
           <label for="sender">{{ LNG.ml_sender }}</label>

@@ -78,7 +78,6 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
         $functions[] = new TwigFunction('php_const', static fn(string $name) => defined($name) ? constant($name) : null);
         $functions[] = new TwigFunction('empty', [self::class, 'isEmpty']);
         $functions[] = new TwigFunction('isset', static fn(...$v) => !in_array(null, $v, true));
-        $functions[] = new TwigFunction('html_options', [self::class, 'htmlOptions'], ['is_safe' => ['all']]);
         $functions[] = new TwigFunction('icon', [self::class, 'icon'], ['is_safe' => ['all']]);
         $functions[] = new TwigFunction('sprintf', [self::class, 'format'], ['is_safe' => ['all']]);
 
@@ -208,103 +207,6 @@ final class TemplateExtension extends AbstractExtension implements GlobalsInterf
     public static function numberFormat($num, int $decimals = 0, ?string $decimalSeparator = '.', ?string $thousandsSeparator = ','): string
     {
         return number_format((float) $num, $decimals, $decimalSeparator, $thousandsSeparator);
-    }
-
-    /**
-     * Port of Smarty's {html_options} (same markup).
-     *
-     * @param array<string, mixed> $params
-     */
-    public static function htmlOptions(array $params): string
-    {
-        $name = $values = $options = $selected = $output = $id = $class = null;
-        $extra = '';
-        foreach ($params as $key => $value) {
-            switch ($key) {
-                case 'name':
-                case 'class':
-                case 'id':
-                    $$key = (string) $value;
-                    break;
-                case 'options':
-                    $options = (array) $value;
-                    break;
-                case 'values':
-                case 'output':
-                    $$key = array_values((array) $value);
-                    break;
-                case 'selected':
-                    if (is_array($value)) {
-                        $selected = [];
-                        foreach ($value as $item) {
-                            $selected[self::escape((string) $item)] = true;
-                        }
-                    } else {
-                        $selected = self::escape((string) $value);
-                    }
-                    break;
-                case 'strict':
-                    break;
-                default:
-                    if (!is_array($value)) {
-                        $extra .= ' ' . $key . '="' . self::escape((string) $value) . '"';
-                    }
-            }
-        }
-
-        if ($options === null && $values === null) {
-            return '';
-        }
-
-        $html = '';
-        $idx = 0;
-        if ($options !== null) {
-            foreach ($options as $key => $value) {
-                $html .= self::optionOutput($key, $value, $selected, $id, $class, $idx);
-            }
-        } else {
-            foreach ($values as $i => $key) {
-                $html .= self::optionOutput($key, $output[$i] ?? '', $selected, $id, $class, $idx);
-            }
-        }
-
-        if (!empty($name)) {
-            $htmlClass = !empty($class) ? ' class="' . $class . '"' : '';
-            $htmlId = !empty($id) ? ' id="' . $id . '"' : '';
-            $html = '<select name="' . $name . '"' . $htmlClass . $htmlId . $extra . '>' . "\n" . $html . '</select>' . "\n";
-        }
-
-        return $html;
-    }
-
-    /**
-     * One <option> (or an <optgroup> with its options when `$value` is an array), escaped without double encoding.
-     * `$selected` is an escaped value or a set of escaped values; `$idx` numbers the generated ids (`<id>-<n>`).
-     */
-    private static function optionOutput($key, $value, $selected, ?string $id, ?string $class, int &$idx): string
-    {
-        if (is_array($value)) {
-            $groupIdx = 0;
-            $html = '<optgroup label="' . self::escape((string) $key) . '">' . "\n";
-            foreach ($value as $k => $v) {
-                $html .= self::optionOutput($k, $v, $selected, !empty($id) ? ($id . '-' . $idx) : null, $class, $groupIdx);
-            }
-            $idx++;
-
-            return $html . "</optgroup>\n";
-        }
-
-        $escapedKey = self::escape((string) $key);
-        $html = '<option value="' . $escapedKey . '"';
-        if (is_array($selected) ? isset($selected[$escapedKey]) : $escapedKey === $selected) {
-            $html .= ' selected="selected"';
-        }
-        $html .= !empty($class) ? ' class="' . $class . ' option"' : '';
-        $html .= !empty($id) ? ' id="' . $id . '-' . $idx . '"' : '';
-        $html .= '>' . self::escape((string) $value) . '</option>' . "\n";
-        $idx++;
-
-        return $html;
     }
 
     /** Attribute/text escaping without double encoding (input is already entity-encoded by HTTP::_GP). */

@@ -1119,3 +1119,10 @@ Technical changes per migration step, newest last.
 ## 140. Cron job names
 
 - Missing admin translations for the cron jobs `bots`, `disposable_email_domains` and the new `fleets` added (all admin locales); the cron list showed the raw `cronName_*` keys.
+
+## 141. `html_options` macro, lz-string module, diplomacy form fix
+
+- The Smarty port `html_options` (Twig function + `TemplateExtension::htmlOptions()`) is replaced by the Twig macro `templates/_macros/forms.html.twig` (`forms.html_options({...})`, same params incl. nested optgroups); 80 calls in 51 templates, markup byte-identical (crawl diff), the PHP helper is deleted.
+- `public/scripts/base/battlesim/lz-string.js` is an ES module (`export default LZString`, angular/UMD tail dropped) imported by `battlesim.js`; the classic script tag is gone; share strings unchanged (round trip verified).
+- Alliance diplomacy proposal form: the level select got `'range(1,6)'`/`'range(7,7)'` as literal strings since the Smarty transpile (a single bogus option, rejected server-side) — now real `range()` values (levels 1–6, peace 7).
+
