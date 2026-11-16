@@ -329,6 +329,9 @@ cronjob_nextTime: Nächste Ausführung
 cronjob_run: Ausführen
 cronjob_selectall: Alle
 cronName_cleaner: Alte Daten löschen
+cronName_bots: "Bots"
+cronName_disposable_email_domains: "Wegwerf-E-Mail-Domains aktualisieren"
+cronName_fleets: "Flottenereignisse"
 cronName_daily: Tägliche Aufgaben
 cronName_databasedump: Datenbank-Backup
 cronName_inactive: Inaktive löschen

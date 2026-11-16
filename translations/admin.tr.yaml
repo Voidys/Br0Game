@@ -314,6 +314,9 @@ cronjob_nextTime: Bir Sonraki
 cronjob_run: Çalıştır
 cronjob_selectall: Hepsini sec
 cronName_cleaner: Eski Veriyi Sil
+cronName_bots: "Botlar"
+cronName_disposable_email_domains: "Tek kullanımlık e-posta alan adlarını güncelle"
+cronName_fleets: "Filo olayları"
 cronName_daily: Gunluk Gorevler
 cronName_databasedump: Database backup
 cronName_inactive: Inaktifleri Sil

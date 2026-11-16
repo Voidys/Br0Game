@@ -278,6 +278,9 @@ cronjob_nextTime: Next run
 cronjob_run: Run
 cronjob_selectall: All
 cronName_cleaner: Delete old data
+cronName_bots: "Bots"
+cronName_disposable_email_domains: "Update disposable e-mail domains"
+cronName_fleets: "Fleet events"
 cronName_daily: Daily tasks
 cronName_databasedump: Database backup
 cronName_inactive: Delete inactive

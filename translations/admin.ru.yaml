@@ -323,6 +323,9 @@ cronjob_nextTime: Запуск
 cronjob_run: Запустить
 cronjob_selectall: Все
 cronName_cleaner: Удаление старых файлов
+cronName_bots: "Боты"
+cronName_disposable_email_domains: "Обновить одноразовые почтовые домены"
+cronName_fleets: "События флотов"
 cronName_daily: Ежедневные задачи
 cronName_databasedump: Резервное копирование БД
 cronName_inactive: Удаление неактивных игроков

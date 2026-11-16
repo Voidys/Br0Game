@@ -1115,3 +1115,7 @@ Technical changes per migration step, newest last.
 - ~40 lines of dead CSS removed (unused `.cw-*` widths, `.sim-split`, `.share-row`, `.achievement-name`, `.stats-target-info`, `#resource`, `#menu`, `#team content`, …; scanned against templates, scripts, PHP, translations, texts and stored DB HTML).
 - Styling on classes instead of ids: `.repair-infobox`, `.repair-list`, `.ratio-baselines`, `.form-page` (ids kept only where JS needs them); `#marketPlace` prefixes dropped. Floats replaced by flex for the fleet slot counters (`.fleet-slots`) and the repair dock.
 - Verified with the visual diff on 53 pages in all 10 themes (desktop) and nova on phone: no change beyond the noise floor.
+
+## 140. Cron job names
+
+- Missing admin translations for the cron jobs `bots`, `disposable_email_domains` and the new `fleets` added (all admin locales); the cron list showed the raw `cronName_*` keys.
