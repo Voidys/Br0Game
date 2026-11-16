@@ -1028,3 +1028,6 @@ Technical changes per migration step, newest last.
 
 - `page.galaxy.default.html.twig`: the 11 tooltip includes in `data-tooltip-content` go through `include(...)|e('html_attr')`; the player tooltip's double quotes closed the attribute and leaked `">` before player names.
 
+## 124. Galaxy action icons
+
+- Galaxy row actions (spy, spy report, message, buddy request, missile attack, phalanx) use Lucide icons (`scan-eye`, `file-search`, `mail`, `user-plus`, `crosshair`, `radar`; new symbols in the sprite) as `.galaxy-action` buttons instead of theme GIFs; the spy report freshness dot stays.

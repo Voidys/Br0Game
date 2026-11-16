@@ -779,11 +779,33 @@ textarea {
 	}
 }
 
+/* galaxy row actions: Lucide icons as small square buttons */
+.galaxy-action {
+	display: inline-grid;
+	place-items: center;
+	inline-size: 1.75rem;
+	block-size: 1.75rem;
+	border-radius: var(--radius-sm, 4px);
+	color: var(--c-muted, #9aa4b2);
+	text-decoration: none;
+
+	& .icon {
+		inline-size: 1.05rem;
+		block-size: 1.05rem;
+	}
+
+	&:hover,
+	&:focus-visible {
+		background: rgb(255 255 255 / 0.06);
+		color: var(--c-accent, #fff);
+	}
+}
+
 .spy-report-indicator {
 	position: relative;
 
-	&.spy-report-none img {
-		opacity: 0.3;
+	&.spy-report-none .icon {
+		opacity: 0.35;
 	}
 
 	&::after {

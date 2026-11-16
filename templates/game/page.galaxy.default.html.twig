@@ -131,33 +131,33 @@
           <div class="galaxy-grid-item galaxy-actions">
             {% if currentPlanet.action %}
               {% if currentPlanet.action.esp %}
-                <a href="#" data-action="galaxy-mission" data-mission="6" data-planet="{{ currentPlanet.planet.id }}">
-                  <img src="{{ theme_asset('img/e.gif') }}" title="{{ LNG.gl_spy }}" alt="">
+                <a href="#" class="galaxy-action" data-action="galaxy-mission" data-mission="6" data-planet="{{ currentPlanet.planet.id }}" title="{{ LNG.gl_spy }}">
+                  {{ icon('scan-eye', LNG.gl_spy) }}
                 </a>
               {% endif %}
               {% if currentPlanet.action.spyReport %}
-                <a href="#" class="spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" data-action="popup" data-url="?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="900">
-                  <img src="{{ theme_asset('img/spy_report.png') }}" title="{{ currentPlanet.spyReportTitle }}" alt="">
+                <a href="#" class="galaxy-action spy-report-indicator spy-report-{{ currentPlanet.spyReport }}" title="{{ currentPlanet.spyReportTitle }}" data-action="popup" data-url="?page=spyReportPopup&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="900">
+                  {{ icon('file-search', currentPlanet.spyReportTitle) }}
                 </a>
               {% endif %}
               {% if currentPlanet.action.message %}
-                <a href="#" data-action="dialog-pm" data-id="{{ currentPlanet.user.id }}">
-                  <img src="{{ theme_asset('img/m.gif') }}" title="{{ LNG.write_message }}" alt="">
+                <a href="#" class="galaxy-action" data-action="dialog-pm" data-id="{{ currentPlanet.user.id }}" title="{{ LNG.write_message }}">
+                  {{ icon('mail', LNG.write_message) }}
                 </a>
               {% endif %}
               {% if currentPlanet.action.buddy and not currentPlanet.ownPlanet %}
-                <a href="#" data-action="dialog-buddy" data-id="{{ currentPlanet.user.id }}">
-                  <img src="{{ theme_asset('img/b.gif') }}" title="{{ LNG.gl_buddy_request }}" alt="">
+                <a href="#" class="galaxy-action" data-action="dialog-buddy" data-id="{{ currentPlanet.user.id }}" title="{{ LNG.gl_buddy_request }}">
+                  {{ icon('user-plus', LNG.gl_buddy_request) }}
                 </a>
               {% endif %}
               {% if currentPlanet.action.missle %}
-                <a href="#" data-action="missile-form" data-planet="{{ currentPlanet.planet.id }}" data-galaxy="{{ galaxy }}" data-system="{{ system }}" data-position="{{ planet.planet_position }}" data-duration="{{ duration }}" data-type="1">
-                  <img src="{{ theme_asset('img/r.gif') }}" title="{{ LNG.gl_missile_attack }}" alt="">
+                <a href="#" class="galaxy-action" title="{{ LNG.gl_missile_attack }}" data-action="missile-form" data-planet="{{ currentPlanet.planet.id }}" data-galaxy="{{ galaxy }}" data-system="{{ system }}" data-position="{{ planet.planet_position }}" data-duration="{{ duration }}" data-type="1">
+                  {{ icon('crosshair', LNG.gl_missile_attack) }}
                 </a>
               {% endif %}
               {% if currentPlanet.action.phalanx %}
-                <a href="#" data-action="popup" data-url="?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="640">
-                  <span>{{ LNG.gl_phalanx }}</span>
+                <a href="#" class="galaxy-action" title="{{ LNG.gl_phalanx }}" data-action="popup" data-url="?page=phalanx&amp;galaxy={{ galaxy }}&amp;system={{ system }}&amp;planet={{ planet.planet_position }}&amp;planettype=1&amp;_csrf={{ csrf_token() }}" data-width="640">
+                  {{ icon('radar', LNG.gl_phalanx) }}
                 </a>
               {% endif %}
             {% else %}
