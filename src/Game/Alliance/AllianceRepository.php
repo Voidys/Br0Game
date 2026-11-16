@@ -73,12 +73,16 @@ class AllianceRepository
         if ($alliance['ally_owner'] == $user['id']) {
             $rights = AllianceRights::all(true);
         } elseif ($user['ally_rank_id'] != 0) {
-            $sql = 'SELECT ' . implode(', ', AllianceRights::AVAILABLE)
-                . ' FROM %%ALLIANCE_RANK%% WHERE allianceId = :allianceId AND rankID = :ally_rank_id;';
-            $rights = $this->db->selectSingle($sql, [
-                ':allianceId' => $alliance['id'],
-                ':ally_rank_id' => $user['ally_rank_id'],
-            ]);
+            // the right columns are the fixed list AllianceRights::AVAILABLE
+            $rights = $this->db->fetchRow(
+                $this->db->qb()
+                    ->select(...array_values(AllianceRights::AVAILABLE))
+                    ->from($this->db->table('ALLIANCE_RANK'))
+                    ->where('allianceId = :allianceId')
+                    ->andWhere('rankID = :ally_rank_id')
+                    ->setParameter('allianceId', $alliance['id'])
+                    ->setParameter('ally_rank_id', $user['ally_rank_id'])
+            );
         }
 
         return $rights ?: AllianceRights::all(false);
@@ -167,12 +171,19 @@ class AllianceRepository
      */
     public function ranksWithRights(int|string $allianceId, bool $withName = true): array
     {
-        $sql = 'SELECT rankID, ' . ($withName ? 'rankName, ' : '') . implode(', ', AllianceRights::AVAILABLE)
-            . ' FROM %%ALLIANCE_RANK%% WHERE allianceId = :allianceId;';
+        $columns = ['rankID'];
+        if ($withName) {
+            $columns[] = 'rankName';
+        }
 
-        return $this->db->select($sql, [
-            ':allianceId' => $allianceId,
-        ]);
+        return $this->db->fetchAll(
+            $this->db->qb()
+                ->select(...$columns)
+                ->addSelect(...array_values(AllianceRights::AVAILABLE))
+                ->from($this->db->table('ALLIANCE_RANK'))
+                ->where('allianceId = :allianceId')
+                ->setParameter('allianceId', $allianceId)
+        );
     }
 
     /** @return list<array<string, mixed>> members with position, status columns, points and rank id */

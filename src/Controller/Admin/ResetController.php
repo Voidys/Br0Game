@@ -62,32 +62,30 @@ class ResetController extends AbstractAdminController
 
         if ($this->state->requestPost) {
             foreach ($reslist['build'] as $ID) {
-                $dbcol['build'][$ID] = "`" . $resource[$ID] . "` = '0'";
+                $dbcol['build'][$resource[$ID]] = '0';
             }
 
             foreach ($reslist['tech'] as $ID) {
-                $dbcol['tech'][$ID] = "`" . $resource[$ID] . "` = '0'";
+                $dbcol['tech'][$resource[$ID]] = '0';
             }
 
             foreach ($reslist['fleet'] as $ID) {
-                $dbcol['fleet'][$ID] = "`" . $resource[$ID] . "` = '0'";
+                $dbcol['fleet'][$resource[$ID]] = '0';
             }
 
             foreach ($reslist['defense'] as $ID) {
-                $dbcol['defense'][$ID] = "`" . $resource[$ID] . "` = '0'";
+                $dbcol['defense'][$resource[$ID]] = '0';
             }
 
             foreach ($reslist['resstype'][1] as $ID) {
                 if (isset($config->{$resource[$ID] . '_start'})) {
-                    $dbcol['resource_planet_start'][$ID] = "`" . $resource[$ID] . "` = " . $config->{$resource[$ID]
-                        . '_start'};
+                    $dbcol['resource_planet_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
                 }
             }
 
             foreach ($reslist['resstype'][3] as $ID) {
                 if (isset($config->{$resource[$ID] . '_start'})) {
-                    $dbcol['resource_user_start'][$ID] = "`" . $resource[$ID] . "` = " . $config->{$resource[$ID]
-                        . '_start'};
+                    $dbcol['resource_user_start'][$resource[$ID]] = $config->{$resource[$ID] . '_start'};
                 }
             }
 
@@ -131,15 +129,11 @@ class ResetController extends AbstractAdminController
 
             // HANGARES Y DEFENSAS
             if (($this->state->requestPost['defenses'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET " . implode(", ", $dbcol['defense']) . " WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('PLANETS', $dbcol['defense'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             if (($this->state->requestPost['ships'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET " . implode(", ", $dbcol['fleet']) . " WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('PLANETS', $dbcol['fleet'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             if (($this->state->requestPost['h_d'] ?? '') === 'on') {
@@ -150,15 +144,11 @@ class ResetController extends AbstractAdminController
 
             // EDIFICIOS
             if (($this->state->requestPost['edif_p'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET " . implode(", ", $dbcol['build']) . ", `field_current` = '0' WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             if (($this->state->requestPost['edif_l'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET " . implode(", ", $dbcol['build']) . ", `field_current` = '0' WHERE `universe` = :universe AND `planet_type` = '3';", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('PLANETS', $dbcol['build'] + ['field_current' => '0'], ['universe' => $this->universe()->getEmulated(), 'planet_type' => '3']);
             }
 
             if (($this->state->requestPost['edif'] ?? '') === 'on') {
@@ -170,9 +160,7 @@ class ResetController extends AbstractAdminController
 
             // INVESTIGACIONES Y OFICIALES
             if (($this->state->requestPost['inves'] ?? '') === 'on') {
-                $db->update("UPDATE %%USERS%% SET " . implode(", ", $dbcol['tech']) . " WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('USERS', $dbcol['tech'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             if (($this->state->requestPost['inves_c'] ?? '') === 'on') {
@@ -183,15 +171,11 @@ class ResetController extends AbstractAdminController
 
             // RECURSOS
             if (($this->state->requestPost['dark'] ?? '') === 'on') {
-                $db->update("UPDATE %%USERS%% SET " . implode(", ", $dbcol['resource_user_start']) . " WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('USERS', $dbcol['resource_user_start'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             if (($this->state->requestPost['resources'] ?? '') === 'on') {
-                $db->update("UPDATE %%PLANETS%% SET " . implode(", ", $dbcol['resource_planet_start']) . " WHERE `universe` = :universe;", [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $db->updateRows('PLANETS', $dbcol['resource_planet_start'], ['universe' => $this->universe()->getEmulated()]);
             }
 
             // GENERAL

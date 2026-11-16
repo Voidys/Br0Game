@@ -11,77 +11,107 @@ class AccountCreator extends CreatorTab
     public function handle(): Response
     {
         $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
         $LNG->includeData(['PUBLIC']);
         if ($this->state->requestPost) {
-            $accountName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-            $accountPass = $this->http()->_GP('password', '');
-            $accountPass2 = $this->http()->_GP('password2', '');
-            $accountMail = $this->http()->_GP('email', '');
-            $accountMail2 = $this->http()->_GP('email2', '');
-            $authlevel = $this->http()->_GP('authlevel', 0);
-            $Language = $this->http()->_GP('lang', '');
-            $accountID = $this->http()->_GP('accountID', 0);
-
-            $db = $this->db;
-            $sql = "SELECT COUNT(*) as count FROM %%ACCOUNTS%% WHERE accountname = :accountname;";
-            $ExistsUser = $db->selectSingle($sql, [':accountname' => $accountName], 'count');
-
-            $sql = "SELECT COUNT(*) as count FROM %%ACCOUNTS%% WHERE email = :email OR email_2 = :email;";
-            $ExistsMails = $db->selectSingle($sql, [':email' => $accountMail], 'count');
-
-            $errors = "";
-
-            $config = $this->configs->get($this->universe()->getEmulated());
-
-            if ($ExistsMails != 0) {
-                $errors .= $LNG['mail_already_exists'];
-            }
-            if (empty($accountName)) {
-                $errors .= $LNG['registerErrorUsernameEmpty'];
-                $errors .= "<br>";
-            }
-
-            if (strlen($accountPass) < 6) {
-                $errors .= $LNG->format('registerErrorPasswordLength', 6);
-                $errors .= "<br>";
-            }
-
-            if ($accountPass != $accountPass2) {
-                $errors .= $LNG['registerErrorPasswordSame'];
-                $errors .= "<br>";
-            }
-
-            if ($accountMail != $accountMail2) {
-                $errors .= $LNG['registerErrorMailSame'];
-                $errors .= "<br>";
-            }
-
-            if (!$this->accountUtil()->isNameValid($accountName)) {
-                $errors .= $LNG['registerErrorUsernameChar'];
-                $errors .= "<br>";
-            }
-
-            if ($ExistsUser != 0) {
-                $errors .= $LNG['registerErrorUsernameExist'];
-                $errors .= "<br>";
-            }
-
-            if (!empty($errors)) {
-                $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=account', 10, true);
-            }
-
-            $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
-            $id = $this->accountUtil()->createAccount(
-                $accountName,
-                $this->accountUtil()->cryptPassword($accountPass),
-                $accountMail,
-                $Language,
-                $authlevel,
-            );
-
-            $this->responder->message($LNG->format('new_account_success', $id), '?page=creator&mode=account', 5, true);
+            $this->createFromPost();
         }
+
+        return $this->showForm();
+    }
+
+    /**
+     * Validates the posted form and creates the account; always ends the request with a message (errors, or the new
+     * account id).
+     */
+    private function createFromPost(): void
+    {
+        $LNG = $this->state->LNG;
+        $accountName = $this->http()->_GP('name', '', UTF8_SUPPORT);
+        $accountPass = $this->http()->_GP('password', '');
+        $accountPass2 = $this->http()->_GP('password2', '');
+        $accountMail = $this->http()->_GP('email', '');
+        $accountMail2 = $this->http()->_GP('email2', '');
+        $authlevel = $this->http()->_GP('authlevel', 0);
+        $Language = $this->http()->_GP('lang', '');
+
+        $config = $this->configs->get($this->universe()->getEmulated());
+        $errors = $this->validationErrors($accountName, $accountPass, $accountPass2, $accountMail, $accountMail2);
+
+        if (!empty($errors)) {
+            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=account', 10, true);
+        }
+
+        $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
+        $id = $this->accountUtil()->createAccount(
+            $accountName,
+            $this->accountUtil()->cryptPassword($accountPass),
+            $accountMail,
+            $Language,
+            $authlevel,
+        );
+
+        $this->responder->message($LNG->format('new_account_success', $id), '?page=creator&mode=account', 5, true);
+    }
+
+    /**
+     * Checks the form values: mail unused, name not empty/valid/taken, password at least 6 characters and repeated
+     * equally, mail repeated equally.
+     *
+     * @return string the translated messages (empty when everything is valid)
+     */
+    private function validationErrors(string $accountName, string $accountPass, string $accountPass2, string $accountMail, string $accountMail2): string
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+        $sql = "SELECT COUNT(*) as count FROM %%ACCOUNTS%% WHERE accountname = :accountname;";
+        $ExistsUser = $db->selectSingle($sql, [':accountname' => $accountName], 'count');
+
+        $sql = "SELECT COUNT(*) as count FROM %%ACCOUNTS%% WHERE email = :email OR email_2 = :email;";
+        $ExistsMails = $db->selectSingle($sql, [':email' => $accountMail], 'count');
+
+        $errors = "";
+
+        if ($ExistsMails != 0) {
+            $errors .= $LNG['mail_already_exists'];
+        }
+        if (empty($accountName)) {
+            $errors .= $LNG['registerErrorUsernameEmpty'];
+            $errors .= "<br>";
+        }
+
+        if (strlen($accountPass) < 6) {
+            $errors .= $LNG->format('registerErrorPasswordLength', 6);
+            $errors .= "<br>";
+        }
+
+        if ($accountPass != $accountPass2) {
+            $errors .= $LNG['registerErrorPasswordSame'];
+            $errors .= "<br>";
+        }
+
+        if ($accountMail != $accountMail2) {
+            $errors .= $LNG['registerErrorMailSame'];
+            $errors .= "<br>";
+        }
+
+        if (!$this->accountUtil()->isNameValid($accountName)) {
+            $errors .= $LNG['registerErrorUsernameChar'];
+            $errors .= "<br>";
+        }
+
+        if ($ExistsUser != 0) {
+            $errors .= $LNG['registerErrorUsernameExist'];
+            $errors .= "<br>";
+        }
+
+        return $errors;
+    }
+
+    /** Renders the creation form with the auth level choices the acting admin may hand out. */
+    private function showForm(): Response
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $AUTH = [];
         $AUTH[AUTH_USR] = $LNG['user_level_' . AUTH_USR];

@@ -27,8 +27,8 @@ class BuildingQueueProcessor
      */
     public function finishFirst(QueueState $st)
     {
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
         if (empty($st->planet['b_building_id']) || empty($st->planet['b_building_id']) || $st->planet['b_building'] > $st->time) {
             return false;
         }
@@ -107,7 +107,7 @@ class BuildingQueueProcessor
             $HaveResources = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $Element, $costResources);
             // Only the job that is about to start occupies a field now. Later queue
             // entries are still pending, and earlier ones are already on $st->planet.
-            $HaveFields = $ForDestroy || $this->buildFunctions()->getQueueFieldProjection($st->planet, [$ListIDArray])['valid'];
+            $HaveFields = $ForDestroy || $this->buildFunctions()->queueFieldProjectionFor($planetModel, [$ListIDArray])->valid;
             $BuildEndTime = $st->planet['b_building'] + $BuildTime;
             $CurrentQueue[0] = [$Element, $Level, $BuildTime, $BuildEndTime, $BuildMode, $costResources];
             $HaveNoMoreLevel = false;

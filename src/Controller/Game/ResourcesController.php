@@ -45,10 +45,8 @@ class ResourcesController extends AbstractGameController
     public function send()
     {
         $resource = $this->state->resource;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        if ($USER['urlaubs_modus'] == 0) {
-            $updateSQL = [];
+        if ($this->state->USER['urlaubs_modus'] == 0) {
+            $productionValues = [];
             if (!isset($this->state->requestPost['prod'])) {
                 $this->state->requestPost['prod'] = [];
             }
@@ -56,27 +54,25 @@ class ResourcesController extends AbstractGameController
             $db = $this->db;
             $db->startTransaction();
 
-            $param = [':planetId' => $PLANET['id']];
+            $param = [':planetId' => $this->state->PLANET['id']];
             $sql = "SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;";
-            $PLANET = $db->selectSingle($sql, $param);
+            $this->state->PLANET = $db->selectSingle($sql, $param);
 
             foreach ($this->state->requestPost['prod'] as $resourceId => $Value) {
                 $FieldName = $resource[$resourceId] . '_porcent';
-                if (!isset($PLANET[$FieldName]) || !in_array($Value, range(0, 10))) {
+                if (!isset($this->state->PLANET[$FieldName]) || !in_array($Value, range(0, 10))) {
                     continue;
                 }
 
-                $updateSQL[] = $FieldName . " = :" . $FieldName;
-                $param[':' . $FieldName] = (int) $Value;
-                $PLANET[$FieldName] = (int) $Value;
+                $productionValues[$FieldName] = (int) $Value;
+                $this->state->PLANET[$FieldName] = (int) $Value;
             }
 
-            if (!empty($updateSQL)) {
-                $sql = "UPDATE %%PLANETS%% SET " . implode(', ', $updateSQL) . ", eco_hash = '' WHERE id = :planetId;";
-                $db->update($sql, $param);
-                $PLANET['eco_hash'] = '';
+            if (!empty($productionValues)) {
+                $db->updateRows('PLANETS', $productionValues, ['id' => $this->state->PLANET['id']], ['eco_hash' => "''"]);
+                $this->state->PLANET['eco_hash'] = '';
 
-                [$USER, $PLANET] = $this->ecoObj->CalcResource($USER, $PLANET, true, $this->state->runtime->timestamp + 1);
+                [$this->state->USER, $this->state->PLANET] = $this->ecoObj->CalcResource($this->state->USER, $this->state->PLANET, true, $this->state->runtime->timestamp + 1);
             }
 
             $db->commit();
@@ -91,15 +87,14 @@ class ResourcesController extends AbstractGameController
      */
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
-        $ProdGrid = & $this->state->ProdGrid;
-        $resource = & $this->state->resource;
-        $reslist = & $this->state->reslist;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+        $LNG = $this->state->LNG;
+        $ProdGrid = $this->state->ProdGrid;
+        $resource = $this->state->resource;
+        $reslist = $this->state->reslist;
+
         $config = $this->configs->get();
 
-        if ($USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
+        if ($this->state->USER['urlaubs_modus'] == 1 || $this->state->PLANET['planet_type'] != 1) {
             $basicIncome[RESOURCE_METAL] = 0;
             $basicIncome[RESOURCE_CRYSTAL] = 0;
             $basicIncome[RESOURCE_DEUT] = 0;
@@ -134,24 +129,24 @@ class ResourcesController extends AbstractGameController
 
         $productionList = [];
 
-        if ($PLANET['energy_used'] != 0) {
-            $prodLevel = min(1, $PLANET['energy'] / abs($PLANET['energy_used']));
+        if ($this->state->PLANET['energy_used'] != 0) {
+            $prodLevel = min(1, $this->state->PLANET['energy'] / abs($this->state->PLANET['energy_used']));
         } else {
             $prodLevel = 0;
         }
 
         /* Data for eval */
-        $BuildEnergy = $USER[$resource[ENERGY_TECH]];
-        $BuildTemp = $PLANET['temp_max'];
+        $BuildEnergy = $this->state->USER[$resource[ENERGY_TECH]];
+        $BuildTemp = $this->state->PLANET['temp_max'];
 
         $prodSelector = [];
 
         foreach ($reslist['prod'] as $ProdID) {
-            if (isset($PLANET[$resource[$ProdID]]) && $PLANET[$resource[$ProdID]] == 0) {
+            if (isset($this->state->PLANET[$resource[$ProdID]]) && $this->state->PLANET[$resource[$ProdID]] == 0) {
                 continue;
             }
 
-            if (isset($USER[$resource[$ProdID]]) && $USER[$resource[$ProdID]] == 0) {
+            if (isset($this->state->USER[$resource[$ProdID]]) && $this->state->USER[$resource[$ProdID]] == 0) {
                 continue;
             }
 
@@ -162,13 +157,13 @@ class ResourcesController extends AbstractGameController
                     RESOURCE_DEUT => 0,
                     RESOURCE_ENERGY => 0,
                 ],
-                'elementLevel'  => $PLANET[$resource[$ProdID]],
-                'prodLevel'     => $PLANET[$resource[$ProdID] . '_porcent'],
+                'elementLevel'  => $this->state->PLANET[$resource[$ProdID]],
+                'prodLevel'     => $this->state->PLANET[$resource[$ProdID] . '_porcent'],
             ];
 
             /* Data for eval */
-            $BuildLevel = $PLANET[$resource[$ProdID]];
-            $BuildLevelFactor = $PLANET[$resource[$ProdID] . '_porcent'];
+            $BuildLevel = $this->state->PLANET[$resource[$ProdID]];
+            $BuildLevelFactor = $this->state->PLANET[$resource[$ProdID] . '_porcent'];
 
             foreach ($ressIDs as $ID) {
                 if (!isset($ProdGrid[$ProdID]['production'][$ID])) {
@@ -187,13 +182,13 @@ class ResourcesController extends AbstractGameController
                     $BuildEnergy = 0;
                     $bonus = FormulaEvaluator::evaluate($ProdGrid[$ProdID]['production'][$ID], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp'));
                     $temp[RESOURCE_ENERGY]['bonus'] = $Production - $bonus;
-                    $BuildEnergy = $USER[$resource[ENERGY_TECH]];
+                    $BuildEnergy = $this->state->USER[$resource[ENERGY_TECH]];
                 }
 
                 $productionList[$ProdID]['production'][$ID] = $Production;
 
                 if ($Production > 0) {
-                    if ($PLANET[$resource[$ID]] == 0) {
+                    if ($this->state->PLANET[$resource[$ID]] == 0) {
                         continue;
                     }
 
@@ -203,9 +198,9 @@ class ResourcesController extends AbstractGameController
                 }
             }
 
-            $BuildEnergy = $USER[$resource[ENERGY_TECH]];
+            $BuildEnergy = $this->state->USER[$resource[ENERGY_TECH]];
             $BuildLevelFactor = 10;
-            $BuildLevel = $PLANET[$resource[$ProdID]];
+            $BuildLevel = $this->state->PLANET[$resource[$ProdID]];
 
             $energyBaseProduction = FormulaEvaluator::evaluate($ProdGrid[$ProdID]['production'][RESOURCE_ENERGY], compact('BuildLevel', 'BuildLevelFactor', 'BuildEnergy', 'BuildTemp')) * $config->energy_multiplier / 100 ;
 
@@ -227,9 +222,9 @@ class ResourcesController extends AbstractGameController
         }
 
         $storage = [
-            RESOURCE_METAL => $this->viewHelpers()->shortlyNumber($PLANET[$resource[RESOURCE_METAL] . '_max']),
-            RESOURCE_CRYSTAL => $this->viewHelpers()->shortlyNumber($PLANET[$resource[RESOURCE_CRYSTAL] . '_max']),
-            RESOURCE_DEUT => $this->viewHelpers()->shortlyNumber($PLANET[$resource[RESOURCE_DEUT] . '_max']),
+            RESOURCE_METAL => $this->viewHelpers()->shortlyNumber($this->state->PLANET[$resource[RESOURCE_METAL] . '_max']),
+            RESOURCE_CRYSTAL => $this->viewHelpers()->shortlyNumber($this->state->PLANET[$resource[RESOURCE_CRYSTAL] . '_max']),
+            RESOURCE_DEUT => $this->viewHelpers()->shortlyNumber($this->state->PLANET[$resource[RESOURCE_DEUT] . '_max']),
         ];
 
         $basicProduction = [
@@ -252,9 +247,9 @@ class ResourcesController extends AbstractGameController
         if (
             $positionBasedRessourceBonus) {
 
-            $metal_bonus_percent     = $PLANET['metal_bonus_percent'] / 100;
-            $crystal_bonus_percent   = $PLANET['crystal_bonus_percent'] / 100;
-            $deuterium_bonus_percent = $PLANET['deuterium_bonus_percent'] / 100;
+            $metal_bonus_percent     = $this->state->PLANET['metal_bonus_percent'] / 100;
+            $crystal_bonus_percent   = $this->state->PLANET['crystal_bonus_percent'] / 100;
+            $deuterium_bonus_percent = $this->state->PLANET['deuterium_bonus_percent'] / 100;
 
             $bonusProductionPositionBased = [
                 RESOURCE_METAL => $temp[RESOURCE_METAL]['plus'] * $metal_bonus_percent,
@@ -269,9 +264,9 @@ class ResourcesController extends AbstractGameController
         }
         if ($positionBasedRessourceBonus) {
             $bonusProduction = [
-                RESOURCE_METAL => ($temp[RESOURCE_METAL]['plus'] + $bonusProductionPositionBased[RESOURCE_METAL]) * (0.02 * $USER[$resource[METAL_PROC_TECH]]),
-                RESOURCE_CRYSTAL => ($temp[RESOURCE_CRYSTAL]['plus'] + $bonusProductionPositionBased[RESOURCE_CRYSTAL]) * (0.02 * $USER[$resource[CRYSTAL_PROC_TECH]]),
-                RESOURCE_DEUT => ($temp[RESOURCE_DEUT]['plus'] + $bonusProductionPositionBased[RESOURCE_DEUT]) * (0.02 * $USER[$resource[DEUTERIUM_PROC_TECH]]),
+                RESOURCE_METAL => ($temp[RESOURCE_METAL]['plus'] + $bonusProductionPositionBased[RESOURCE_METAL]) * (0.02 * $this->state->USER[$resource[METAL_PROC_TECH]]),
+                RESOURCE_CRYSTAL => ($temp[RESOURCE_CRYSTAL]['plus'] + $bonusProductionPositionBased[RESOURCE_CRYSTAL]) * (0.02 * $this->state->USER[$resource[CRYSTAL_PROC_TECH]]),
+                RESOURCE_DEUT => ($temp[RESOURCE_DEUT]['plus'] + $bonusProductionPositionBased[RESOURCE_DEUT]) * (0.02 * $this->state->USER[$resource[DEUTERIUM_PROC_TECH]]),
                 RESOURCE_ENERGY => $temp[RESOURCE_ENERGY]['bonus'],
             ];
 
@@ -279,14 +274,14 @@ class ResourcesController extends AbstractGameController
                 RESOURCE_METAL => $temp[RESOURCE_METAL]['plus'] + $bonusProduction[RESOURCE_METAL] + $bonusProductionPositionBased[RESOURCE_METAL] + $basicProduction[RESOURCE_METAL],
                 RESOURCE_CRYSTAL => $temp[RESOURCE_CRYSTAL]['plus'] + $bonusProduction[RESOURCE_CRYSTAL] + $bonusProductionPositionBased[RESOURCE_CRYSTAL] + $basicProduction[RESOURCE_CRYSTAL],
                 RESOURCE_DEUT => $temp[RESOURCE_DEUT]['plus'] + $bonusProduction[RESOURCE_DEUT] + $bonusProductionPositionBased[RESOURCE_DEUT] + $basicProduction[RESOURCE_DEUT] + $fusion_planet_deut,
-                RESOURCE_ENERGY => $PLANET[$resource[RESOURCE_ENERGY]] + $basicProduction[RESOURCE_ENERGY] + $PLANET[$resource[RESOURCE_ENERGY] . '_used'],
+                RESOURCE_ENERGY => $this->state->PLANET[$resource[RESOURCE_ENERGY]] + $basicProduction[RESOURCE_ENERGY] + $this->state->PLANET[$resource[RESOURCE_ENERGY] . '_used'],
             ];
         } else {
 
             $bonusProduction = [
-                RESOURCE_METAL => $temp[RESOURCE_METAL]['plus'] * (0.02 * $USER[$resource[METAL_PROC_TECH]]),
-                RESOURCE_CRYSTAL => $temp[RESOURCE_CRYSTAL]['plus'] * (0.02 * $USER[$resource[CRYSTAL_PROC_TECH]]),
-                RESOURCE_DEUT => $temp[RESOURCE_DEUT]['plus'] * (0.02 * $USER[$resource[DEUTERIUM_PROC_TECH]]),
+                RESOURCE_METAL => $temp[RESOURCE_METAL]['plus'] * (0.02 * $this->state->USER[$resource[METAL_PROC_TECH]]),
+                RESOURCE_CRYSTAL => $temp[RESOURCE_CRYSTAL]['plus'] * (0.02 * $this->state->USER[$resource[CRYSTAL_PROC_TECH]]),
+                RESOURCE_DEUT => $temp[RESOURCE_DEUT]['plus'] * (0.02 * $this->state->USER[$resource[DEUTERIUM_PROC_TECH]]),
                 RESOURCE_ENERGY => $temp[RESOURCE_ENERGY]['bonus'],
             ];
 
@@ -294,7 +289,7 @@ class ResourcesController extends AbstractGameController
                 RESOURCE_METAL => $temp[RESOURCE_METAL]['plus'] + $bonusProduction[RESOURCE_METAL] + $basicProduction[RESOURCE_METAL],
                 RESOURCE_CRYSTAL => $temp[RESOURCE_CRYSTAL]['plus'] + $bonusProduction[RESOURCE_CRYSTAL] + $basicProduction[RESOURCE_CRYSTAL],
                 RESOURCE_DEUT => $temp[RESOURCE_DEUT]['plus'] + $bonusProduction[RESOURCE_DEUT] + $basicProduction[RESOURCE_DEUT] + $fusion_planet_deut,
-                RESOURCE_ENERGY => $PLANET[$resource[RESOURCE_ENERGY]] + $basicProduction[RESOURCE_ENERGY] + $PLANET[$resource[RESOURCE_ENERGY] . '_used'],
+                RESOURCE_ENERGY => $this->state->PLANET[$resource[RESOURCE_ENERGY]] + $basicProduction[RESOURCE_ENERGY] + $this->state->PLANET[$resource[RESOURCE_ENERGY] . '_used'],
             ];
         }
 
@@ -317,7 +312,7 @@ class ResourcesController extends AbstractGameController
         }
 
         $this->assign([
-            'header'                            => $LNG->format('rs_production_on_planet', $PLANET['name']),
+            'header'                            => $LNG->format('rs_production_on_planet', $this->state->PLANET['name']),
             'prodSelector'                      => $prodSelector,
             'productionList'                    => $productionList,
             'basicProduction'                   => $basicProduction,
@@ -328,9 +323,9 @@ class ResourcesController extends AbstractGameController
             'dailyProduction'                   => $dailyProduction,
             'weeklyProduction'                  => $weeklyProduction,
             'storage'                           => $storage,
-            'metalProcTech'                     => $USER[$resource[METAL_PROC_TECH]],
-            'crystalProcTech'                   => $USER[$resource[CRYSTAL_PROC_TECH]],
-            'deuteriumProcTech'                 => $USER[$resource[DEUTERIUM_PROC_TECH]],
+            'metalProcTech'                     => $this->state->USER[$resource[METAL_PROC_TECH]],
+            'crystalProcTech'                   => $this->state->USER[$resource[CRYSTAL_PROC_TECH]],
+            'deuteriumProcTech'                 => $this->state->USER[$resource[DEUTERIUM_PROC_TECH]],
             'metalBonusPercent'                 => $metal_bonus_percent * 100,
             'crystalBonusPercent'               => $crystal_bonus_percent * 100,
             'deuteriumBonusPercent'             => $deuterium_bonus_percent * 100,

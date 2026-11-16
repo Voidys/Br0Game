@@ -17,6 +17,7 @@
 
 namespace App\Controller\Game;
 
+use App\Game\Core\Player\PlanetQueries;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
 use App\Game\Core\BuildFunctions;
@@ -46,42 +47,35 @@ class EmpireController extends AbstractGameController
      */
     public function show(): Response
     {
-        $USER = & $this->state->USER;
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
         $db = $this->db;
         $db->startTransaction();
-        $u = $db->selectSingle("SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE u.id = :userID FOR UPDATE;", [':userID' => $USER['id']]);
+        $u = $db->selectSingle("SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE u.id = :userID FOR UPDATE;", [':userID' => $this->state->USER['id']]);
         // Calc from the locked user row. The page-start copy is stale under
         // concurrent requests and SavePlanetToDB writes its b_tech* fields back.
         if (!empty($u)) {
-            $USER = array_merge($USER, $u);
+            $this->state->USER = array_merge($this->state->USER, $u);
         }
-        $order = $USER['planet_sort_order'] == 1 ? 'DESC' : 'ASC';
+        $order = $this->state->USER['planet_sort_order'] == 1 ? 'DESC' : 'ASC';
 
-        $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :userID AND destruyed = '0' ORDER BY ";
-        switch ($USER['planet_sort']) {
-            case 2:
-                $sql .= 'name ' . $order;
-                break;
-            case 1:
-                $sql .= 'galaxy ' . $order . ', system ' . $order . ', planet ' . $order . ', planet_type ' . $order;
-                break;
-            default:
-                $sql .= 'id ' . $order;
-                break;
-        }
-        $sql .= " FOR UPDATE";
-        $PlanetsRAW = $db->select($sql, [
-            ':userID' => $USER['id'],
-        ]);
+        // locks the planet rows for the recalculation below
+        $planetQuery = $db->qb()
+            ->select('*')
+            ->from($db->table('PLANETS'))
+            ->where('id_owner = :userID')
+            ->andWhere("destruyed = '0'")
+            ->setParameter('userID', $this->state->USER['id'])
+            ->forUpdate();
+        PlanetQueries::orderBySetting($planetQuery, $this->state->USER['planet_sort'], $order);
+        $PlanetsRAW = $db->fetchAll($planetQuery);
 
         $PLANETS = [];
 
         $PlanetRess = new ResourceUpdate($this->db, $this->configs, $this->state);
 
         foreach ($PlanetsRAW as $CPLANET) {
-            [$USER, $CPLANET] = $PlanetRess->CalcResource($USER, $CPLANET, true);
+            [$this->state->USER, $CPLANET] = $PlanetRess->CalcResource($this->state->USER, $CPLANET, true);
 
             $PLANETS[] = $CPLANET;
             unset($CPLANET);
@@ -90,10 +84,10 @@ class EmpireController extends AbstractGameController
         $db->commit();
 
         $planetList = [];
-        $config = $this->configs->get($USER['universe']);
+        $config = $this->configs->get($this->state->USER['universe']);
 
-        if (!empty($USER['b_tech_queue'])) {
-            $researchque = StoredData::decode($USER['b_tech_queue']);
+        if (!empty($this->state->USER['b_tech_queue'])) {
+            $researchque = StoredData::decode($this->state->USER['b_tech_queue']);
 
             $researchid = $researchque[0][0];
             $researchlvl = $researchque[0][1];
@@ -125,10 +119,13 @@ class EmpireController extends AbstractGameController
         $ownFleets = $db->select(
             "SELECT `ships`, `resource_metal`, `resource_crystal`, `resource_deuterium`, `start_id`, `end_id`, `mission`, `hasCanceled` FROM %%FLEETS%%
                 WHERE `owner` = :userID;",
-            [':userID' => $USER['id']],
+            [':userID' => $this->state->USER['id']],
         );
 
+        // read-only overview: the player snapshot is shared, every planet gets its own typed snapshot
+        $userModel = $this->models()->user($this->state->USER);
         foreach ($PLANETS as $Planet) {
+            $planetModel = $this->models()->planet($Planet);
             $planetList['points'][$Planet['id']] = $statbuidler->getBuildingScoreByPlanet($Planet)['points'];
             $planetList['image'][$Planet['id']]['id'] = $Planet['id'];
             $planetList['name'][$Planet['id']] = $Planet['name'];
@@ -140,7 +137,7 @@ class EmpireController extends AbstractGameController
             $planetList['coords'][$Planet['id']]['planet'] = $Planet['planet'];
 
             $planetList['field'][$Planet['id']]['current'] = $Planet['field_current'];
-            $planetList['field'][$Planet['id']]['max'] = $this->playerUtil()->calculateMaxPlanetFields($Planet);
+            $planetList['field'][$Planet['id']]['max'] = $this->playerUtil()->maxFieldsFor($planetModel);
 
             $planetList['temp'][$Planet['id']]['min'] = $Planet['temp_min'];
             $planetList['temp'][$Planet['id']]['max'] = $Planet['temp_max'];
@@ -195,10 +192,10 @@ class EmpireController extends AbstractGameController
                 }
 
                 $planetList['buildable'][$elementID][$Planet['id']] = false;
-                if ($this->buildFunctions()->isTechnologieAccessible($USER, $Planet, $elementID)) {
+                if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
                     $levelToBuild = $Planet[$resource[$elementID]] + 1;
-                    $costResources = $this->buildFunctions()->getElementPrice($USER, $Planet, $elementID, false, $levelToBuild);
-                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isElementBuyable($USER, $Planet, $elementID, $costResources);
+                    $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, $levelToBuild);
+                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
                 }
             }
 
@@ -211,9 +208,9 @@ class EmpireController extends AbstractGameController
                 $planetList['currentFlying'][$elementID][$Planet['id']] = 0;
 
                 $planetList['buildable'][$elementID][$Planet['id']] = false;
-                if ($this->buildFunctions()->isTechnologieAccessible($USER, $Planet, $elementID)) {
-                    $costResources = $this->buildFunctions()->getElementPrice($USER, $Planet, $elementID, false, 1);
-                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isElementBuyable($USER, $Planet, $elementID, $costResources);
+                if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
+                    $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, 1);
+                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
                 }
             }
 
@@ -225,9 +222,9 @@ class EmpireController extends AbstractGameController
                 $planetList['currentShipyard'][$elementID][$Planet['id']] = 0;
 
                 $planetList['buildable'][$elementID][$Planet['id']] = false;
-                if ($this->buildFunctions()->isTechnologieAccessible($USER, $Planet, $elementID)) {
-                    $costResources = $this->buildFunctions()->getElementPrice($USER, $Planet, $elementID, false, 1);
-                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isElementBuyable($USER, $Planet, $elementID, $costResources);
+                if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
+                    $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, 1);
+                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
                 }
             }
 
@@ -240,9 +237,9 @@ class EmpireController extends AbstractGameController
                 $planetList['currentFlying'][$elementID][$Planet['id']] = 0;
 
                 $planetList['buildable'][$elementID][$Planet['id']] = false;
-                if ($this->buildFunctions()->isTechnologieAccessible($USER, $Planet, $elementID)) {
-                    $costResources = $this->buildFunctions()->getElementPrice($USER, $Planet, $elementID, false, 1);
-                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isElementBuyable($USER, $Planet, $elementID, $costResources);
+                if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
+                    $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, 1);
+                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
                 }
             }
 
@@ -295,11 +292,11 @@ class EmpireController extends AbstractGameController
 
                 $planetList['tech'][$elementID][$Planet['id']] = -1;
                 $planetList['buildable'][$elementID][$Planet['id']] = false;
-                if ($this->buildFunctions()->isTechnologieAccessible($USER, $Planet, $elementID)) {
-                    $planetList['tech'][$elementID][$Planet['id']] = $USER[$resource[$elementID]];
-                    $levelToBuild = $USER[$resource[$elementID]] + 1;
-                    $costResources = $this->buildFunctions()->getElementPrice($USER, $Planet, $elementID, false, $levelToBuild);
-                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isElementBuyable($USER, $Planet, $elementID, $costResources);
+                if ($this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementID)) {
+                    $planetList['tech'][$elementID][$Planet['id']] = $this->state->USER[$resource[$elementID]];
+                    $levelToBuild = $this->state->USER[$resource[$elementID]] + 1;
+                    $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, $levelToBuild);
+                    $planetList['buildable'][$elementID][$Planet['id']] = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementID, $costResources);
                 } elseif ($Planet[$resource[RESEARCH_LABORATORY]] > 0) {
                     $planetList['tech'][$elementID][$Planet['id']] = 0;
                 }
@@ -323,10 +320,10 @@ class EmpireController extends AbstractGameController
             }
         }
 
-        $currentPlanetCount = $this->playerUtil()->currentPlanetCount($USER);
-        $maxPlanetCount = $this->playerUtil()->maxPlanetCount($USER);
-        $enablePlanetStyles = $USER['enable_planet_styles'];
-        $chartPoints = $this->playerUtil()->getChartPoints($USER['id'], $USER, TIME_1_WEEK * 2);
+        $currentPlanetCount = $this->playerUtil()->currentPlanetCount($this->state->USER);
+        $maxPlanetCount = $this->playerUtil()->maxPlanetCount($this->state->USER);
+        $enablePlanetStyles = $this->state->USER['enable_planet_styles'];
+        $chartPoints = $this->playerUtil()->getChartPoints($this->state->USER['id'], $this->state->USER, TIME_1_WEEK * 2);
 
         $this->assign([
             'colspan'                       => count($PLANETS) + 2,

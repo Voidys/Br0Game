@@ -73,17 +73,19 @@ class ExpeditionDeckHandler
     {
         $db = $this->db;
 
-        $sql = 'SELECT * FROM %%EXPEDITION_USER_DECK%% WHERE `user_id` = :user_id AND `universe` = :universe';
+        $query = $db->qb()
+            ->select('*')
+            ->from($db->table('EXPEDITION_USER_DECK'))
+            ->where('`user_id` = :user_id')
+            ->andWhere('`universe` = :universe')
+            ->setParameter('user_id', $this->userId)
+            ->setParameter('universe', $this->universe);
         if ($forUpdate) {
             // Relies on the outer FleetHandler transaction; do not start a nested one.
-            $sql .= ' FOR UPDATE';
+            $query->forUpdate();
         }
-        $sql .= ';';
 
-        $result = $db->selectSingle($sql, [
-            ':user_id' => $this->userId,
-            ':universe' => $this->universe,
-        ]);
+        $result = $db->fetchRow($query);
 
         if (!$result) {
             // Create new deck for user

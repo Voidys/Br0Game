@@ -3,6 +3,7 @@
 namespace App\Game\Core;
 
 use App\Game\Model\Planet;
+use App\Game\Model\ProductionResult;
 use App\Game\Model\User;
 
 /**
@@ -148,42 +149,72 @@ class ResourceProduction
      * Integrates the stock over $productionTime seconds (basic income + perhour, capped by storage * max_overflow,
      * consumption floors at 0). Moons (type 3) produce nothing.
      *
+     * Array adapter of produceFor(): applies the result to the array (stock += delta) and extends $builded by the same deltas.
+     *
      * @param array<string, mixed> $planet
      * @param array<int, float|int> $builded running delta per resource id, extended by the produced amounts
      * @return array<string, mixed> the planet with the new stock
      */
     public function produce(array $planet, int|float $productionTime, Config $config, array &$builded): array
     {
+        $resource = $this->state->resource;
         if ($planet['planet_type'] == 3) {
             return $planet;
         }
 
-        $maxMetalStorage = $planet['metal_max'] * $config->max_overflow;
-        $maxCristalStorage = $planet['crystal_max'] * $config->max_overflow;
-        $maxDeuteriumStorage = $planet['deuterium_max'] * $config->max_overflow;
-
-        $metalTheoretical = $productionTime * (
-            ($config->metal_basic_income * ($config->resource_multiplier / 2500))
-                + $planet['metal_perhour']
-        ) / 3600;
-
-        $this->addProduction($planet, $builded, RESOURCE_METAL, $metalTheoretical, $maxMetalStorage);
-
-        $cristalTheoretical = $productionTime * (
-            ($config->crystal_basic_income * ($config->resource_multiplier / 2500))
-                + $planet['crystal_perhour']
-        ) / 3600;
-
-        $this->addProduction($planet, $builded, RESOURCE_CRYSTAL, $cristalTheoretical, $maxCristalStorage);
-
-        $deuteriumTheoretical = $productionTime * (
-            ($config->deuterium_basic_income * ($config->resource_multiplier / 2500))
-                + $planet['deuterium_perhour']
-        ) / 3600;
-
-        $this->addProduction($planet, $builded, RESOURCE_DEUT, $deuteriumTheoretical, $maxDeuteriumStorage);
+        $result = $this->produceFor(Planet::fromState($planet, $resource), $productionTime, $config);
+        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
+            $delta = $result->delta($resourceId);
+            $builded[$resourceId] += $delta;
+            $planet[$resource[$resourceId]] += $delta;
+        }
 
         return $planet;
+    }
+
+    /**
+     * Typed, pure version of produce(): what a planet's production adds to its stock over $productionTime seconds. Reads only
+     * the planet snapshot and the universe config; changes nothing.
+     *
+     * Rules: per resource the theoretical production is seconds * (basic income * resource_multiplier / 2500 + production per
+     * hour) / 3600; consumption (negative) never takes the stock below 0; production fills the stock only up to
+     * storage * max_overflow; a stock that is already above that limit stays as it is. Moons produce nothing.
+     *
+     * @param Planet $planet planet snapshot: stocks, production per hour, storage (the planet's energy figures are passed through)
+     * @param int|float $productionTime elapsed seconds since the last update
+     */
+    public function produceFor(Planet $planet, int|float $productionTime, Config $config): ProductionResult
+    {
+        if ($planet->isMoon()) {
+            return new ProductionResult(0, 0, 0, $planet->metal, $planet->crystal, $planet->deuterium, $planet->energy, $planet->energyUsed);
+        }
+
+        $metalDelta = $this->cappedProduction(
+            $planet->metal,
+            $productionTime * (($config->metal_basic_income * ($config->resource_multiplier / 2500)) + $planet->metalPerHour) / 3600,
+            $planet->metalMax * $config->max_overflow,
+        );
+        $crystalDelta = $this->cappedProduction(
+            $planet->crystal,
+            $productionTime * (($config->crystal_basic_income * ($config->resource_multiplier / 2500)) + $planet->crystalPerHour) / 3600,
+            $planet->crystalMax * $config->max_overflow,
+        );
+        $deuteriumDelta = $this->cappedProduction(
+            $planet->deuterium,
+            $productionTime * (($config->deuterium_basic_income * ($config->resource_multiplier / 2500)) + $planet->deuteriumPerHour) / 3600,
+            $planet->deuteriumMax * $config->max_overflow,
+        );
+
+        return new ProductionResult(
+            $metalDelta,
+            $crystalDelta,
+            $deuteriumDelta,
+            $planet->metal + $metalDelta,
+            $planet->crystal + $crystalDelta,
+            $planet->deuterium + $deuteriumDelta,
+            $planet->energy,
+            $planet->energyUsed,
+        );
     }
 
     /**
@@ -317,30 +348,24 @@ class ResourceProduction
     }
 
     /**
-     * Adds $produced of one resource to the planet stock, clamped: consumption never takes the stock below 0, production
-     * never pushes it above $storage, and a stock already above storage stays as it is.
-     *
-     * @param array<string, mixed> $planet
-     * @param array<int, float|int> $builded
+     * The amount of $produced that really changes a stock: consumption never takes the stock below 0 (it empties it exactly),
+     * production never pushes it above $storage, and a stock already above storage stays as it is (delta 0).
      */
-    private function addProduction(array &$planet, array &$builded, int $resourceType, int|float $produced, int|float $storage): void
+    private function cappedProduction(int|float $stock, int|float $produced, int|float $storage): int|float
     {
-        $resource = $this->state->resource;
-
         if ($produced < 0) {
-            if ($planet[$resource[$resourceType]] + $produced < 0) {
+            if ($stock + $produced < 0) {
                 // consumption larger than the stock empties it exactly (was 1 + the fraction left over)
-                $produced = -$planet[$resource[$resourceType]];
+                $produced = -$stock;
             }
-        } elseif ($planet[$resource[$resourceType]] <= $storage) {
-            if ($planet[$resource[$resourceType]] + $produced > $storage) {
-                $produced = $storage - $planet[$resource[$resourceType]];
+        } elseif ($stock <= $storage) {
+            if ($stock + $produced > $storage) {
+                $produced = $storage - $stock;
             }
         } else {
             $produced = 0;
         }
 
-        $builded[$resourceType] += $produced;
-        $planet[$resource[$resourceType]] += $produced;
+        return $produced;
     }
 }

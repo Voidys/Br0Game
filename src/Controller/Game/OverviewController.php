@@ -351,7 +351,6 @@ class OverviewController extends AbstractGameController
     {
         $LNG = $this->state->LNG;
         $PLANET = $this->state->PLANET;
-        $USER = & $this->state->USER;
         $password   = $this->http()->_GP('password', '', true);
 
         if (!empty($password)) {
@@ -359,14 +358,14 @@ class OverviewController extends AbstractGameController
             $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE
                       (`owner` = :userID AND (`start_id` = :planetID OR `start_id` = :lunaID));";
             $IfFleets = $db->selectSingle($sql, [
-                ':userID'   => $USER['id'],
+                ':userID'   => $this->state->USER['id'],
                 ':planetID' => $PLANET['id'],
                 ':lunaID'   => $PLANET['id_luna'],
             ], 'state');
 
             if ($IfFleets > 0) {
                 $this->sendJSON(['message' => $LNG['ov_abandon_planet_not_possible']]);
-            } elseif ($USER['id_planet'] == $PLANET['id']) {
+            } elseif ($this->state->USER['id_planet'] == $PLANET['id']) {
                 $this->sendJSON(['message' => $LNG['ov_principal_planet_cant_abanone']]);
                 // } elseif (!password_verify($password, $accPassword)) {
                 //     $this->sendJSON(['message' => $LNG['ov_wrong_pass']]);
@@ -374,28 +373,28 @@ class OverviewController extends AbstractGameController
                 $this->sendJSON(['message' => $LNG['ov_wrong_name']]);
             } else {
                 // Re-home research queued on the abandoned planet to the main planet and persist it
-                if (!empty($USER['b_tech_queue'])) {
-                    $TechQueue = StoredData::decode($USER['b_tech_queue']);
+                if (!empty($this->state->USER['b_tech_queue'])) {
+                    $TechQueue = StoredData::decode($this->state->USER['b_tech_queue']);
                     foreach ($TechQueue as $ID => $ListIDArray) {
                         if ($ListIDArray[4] == $PLANET['id']) {
-                            $TechQueue[$ID][4] = $USER['id_planet'];
+                            $TechQueue[$ID][4] = $this->state->USER['id_planet'];
                         }
                     }
 
-                    if ($USER['b_tech_planet'] == $PLANET['id']) {
-                        $USER['b_tech_planet'] = $USER['id_planet'];
+                    if ($this->state->USER['b_tech_planet'] == $PLANET['id']) {
+                        $this->state->USER['b_tech_planet'] = $this->state->USER['id_planet'];
                     }
 
-                    $USER['b_tech_queue'] = StoredData::encode($TechQueue);
-                    $this->resourceUpdate()->saveTechQueue($USER);
+                    $this->state->USER['b_tech_queue'] = StoredData::encode($TechQueue);
+                    $this->resourceUpdate()->saveTechQueue($this->state->USER);
                 }
 
                 $this->playerUtil()->deletePlanet($PLANET['id']);
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
-                $statsHandler->increment($USER['id'], $PLANET['planet_type'] === TYPE_MOON ? AdvancedStatsEnum::MOONS_DELETED : AdvancedStatsEnum::PLANETS_DELETED, 1);
+                $statsHandler->increment($this->state->USER['id'], $PLANET['planet_type'] === TYPE_MOON ? AdvancedStatsEnum::MOONS_DELETED : AdvancedStatsEnum::PLANETS_DELETED, 1);
 
                 $session = $this->sessions()->load();
-                $session->planetId = $USER['id_planet'];
+                $session->planetId = $this->state->USER['id_planet'];
                 $session->save();
                 $this->sendJSON(['ok' => true, 'message' => $LNG['ov_planet_abandoned']]);
             }

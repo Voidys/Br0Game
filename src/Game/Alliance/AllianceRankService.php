@@ -86,22 +86,24 @@ class AllianceRankService
             throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], '?page=alliance&mode=admin&action=permission');
         }
 
-        $sql = 'INSERT INTO %%ALLIANCE_RANK%% SET rankName = :rankName, allianceID = :allianceID';
-        $params = [
-            ':rankName' => $newRank['rankName'],
-            ':allianceID' => $alliance['id'],
-        ];
+        $insert = $this->db->qb()
+            ->insert($this->db->table('ALLIANCE_RANK'))
+            ->setValue('rankName', ':rankName')
+            ->setValue('allianceID', ':allianceID')
+            ->setParameter('rankName', $newRank['rankName'])
+            ->setParameter('allianceID', $alliance['id']);
 
         unset($newRank['rankName']);
 
+        // only the rights the acting user holds themselves can be handed out (columns from AllianceRights::AVAILABLE)
         foreach ($newRank as $key => $value) {
             if (isset(AllianceRights::AVAILABLE[$key]) && $rights[AllianceRights::AVAILABLE[$key]]) {
-                $sql .= ', `' . AllianceRights::AVAILABLE[$key] . '` = :' . AllianceRights::AVAILABLE[$key];
-                $params[':' . AllianceRights::AVAILABLE[$key]] = $value == 1 ? 1 : 0;
+                $right = AllianceRights::AVAILABLE[$key];
+                $insert->setValue('`' . $right . '`', ':' . $right)->setParameter($right, $value == 1 ? 1 : 0);
             }
         }
 
-        $this->db->insert($sql, $params);
+        $this->db->execute($insert);
     }
 
     /**
@@ -145,25 +147,18 @@ class AllianceRankService
                 throw AllianceException::message($LNG['al_invalid_rank_name'], $LNG['sys_back'], '?page=alliance&mode=admin&action=permissions');
             }
 
-            $sql = 'UPDATE %%ALLIANCE_RANK%% SET rankName = :rankName';
-            $params = [
-                ':rankName' => $rowData['rankName'],
-                ':allianceID' => $alliance['id'],
-                ':rankId' => $rankId,
-            ];
+            $values = ['rankName' => $rowData['rankName']];
 
             unset($rowData['rankName']);
 
+            // only the rights the acting user holds themselves are rewritten (columns from AllianceRights::AVAILABLE)
             foreach (AllianceRights::AVAILABLE as $key => $right) {
                 if ($rights[$right]) {
-                    $sql .= ', `' . $right . '` = :' . $right;
-                    $params[':' . $right] = isset($rowData[$key]) ? 1 : 0;
+                    $values[$right] = isset($rowData[$key]) ? 1 : 0;
                 }
             }
 
-            $sql .= ' WHERE rankID = :rankId AND allianceID = :allianceID';
-
-            $this->db->update($sql, $params);
+            $this->db->updateRows('ALLIANCE_RANK', $values, ['rankID' => $rankId, 'allianceID' => $alliance['id']]);
         }
     }
 

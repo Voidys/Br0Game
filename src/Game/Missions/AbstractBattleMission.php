@@ -19,6 +19,7 @@ namespace App\Game\Missions;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\BattleEngine\BattleHandler;
+use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\ResourceUpdate;
 use App\Game\Core\StoredData;
 use OutOfRangeException;
@@ -131,10 +132,10 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
      * Debris of the fight added to the debris field of the target (of the parent planet for a moon).
      *
      * @param array<string, mixed> $targetPlanet target planet row (moon: gets the parent planet's debris added; modified)
-     * @param array<string, mixed> $combatResult result of the engine
+     * @param BattleResult $combatResult result of the engine
      * @return array{0: array<int, int|float>, 1: array<int, int|float>} new debris of the fight, debris field after the fight, by resource
      */
-    protected function computeDebris(array &$targetPlanet, array $combatResult): array
+    protected function computeDebris(array &$targetPlanet, BattleResult $combatResult): array
     {
         $resource = $this->state->resource;
         $db = $this->db;
@@ -153,8 +154,7 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
         }
 
         foreach ($debrisResource as $elementID) {
-            $debris[$elementID] = $combatResult['debris']['attacker'][$elementID]
-                + $combatResult['debris']['defender'][$elementID];
+            $debris[$elementID] = $combatResult->debris->total($elementID);
             $planetDebris[$elementID] = $targetPlanet['der_' . $resource[$elementID]] + $debris[$elementID];
         }
 
@@ -166,14 +166,14 @@ abstract class AbstractBattleMission extends MissionFunctions implements Mission
      *
      * @return array{0: string, 1: string} CSS classes of the attacker and defender side of the report
      */
-    protected function recordResultStats(BattleSetup $setup, array $combatResult, int|float $units): array
+    protected function recordResultStats(BattleSetup $setup, BattleResult $combatResult, int|float $units): array
     {
         $db = $this->db;
         $userAttack = $setup->userAttack;
         $userDefend = $setup->userDefend;
         $mainAttacker = $setup->mainAttacker;
 
-        switch ($combatResult['won']) {
+        switch ($combatResult->won) {
             case ATTACKER:
                 // Win
                 $class = ['raportWin', 'raportLose'];

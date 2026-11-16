@@ -53,7 +53,6 @@ class FleetMissileController extends AbstractGameController
             $this->redirectTo('game?page=galaxy');
         }
 
-        $USER = & $this->state->USER;
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
         $reslist = $this->state->reslist;
@@ -87,17 +86,17 @@ class FleetMissileController extends AbstractGameController
 
         $error = "";
 
-        if (IsVacationMode($USER)) {
+        if (IsVacationMode($this->state->USER)) {
             $error = $LNG['fl_vacation_mode_active'];
         } elseif ($PLANET['silo'] < 4) {
             $error = $LNG['ma_silo_level'];
-        } elseif ($USER['impulse_motor_tech'] == 0) {
+        } elseif ($this->state->USER['impulse_motor_tech'] == 0) {
             $error = $LNG['ma_impulse_drive_required'];
         } elseif ($targetGalaxy != $PLANET['galaxy']) {
             $error = $LNG['ma_not_send_other_galaxy'];
         } elseif (empty($target)) {
             $error = $LNG['ma_planet_doesnt_exists'];
-        } elseif (!$this->fleetFunctions()->inMissileRange($PLANET, $target, $USER[$resource[117]])) {
+        } elseif (!$this->fleetFunctions()->inMissileRange($PLANET, $target, $this->state->USER[$resource[117]])) {
             $error = $LNG['ma_no_range'];
         } elseif (!in_array($primaryTarget, $reslist['defense']) && $primaryTarget != 0) {
             $error = $LNG['ma_wrong_target'];
@@ -107,7 +106,7 @@ class FleetMissileController extends AbstractGameController
             $error = $LNG['ma_add_missile_number'];
         }
 
-        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $USER['authlevel']) {
+        if ($this->configs->get()->adm_attack == 1 && $target['authattack'] > $this->state->USER['authlevel']) {
             $error = $LNG['fl_admin_attack'];
         } elseif ($target['urlaubs_modus']) {
             $error = $LNG['fl_in_vacation_player'];
@@ -118,14 +117,14 @@ class FleetMissileController extends AbstractGameController
             WHERE `id_owner` = :userId AND `stat_type` = 1';
 
         try {
-            $USER += $this->db->selectSingle($sql, [
-                ':userId' => $USER['id'],
+            $this->state->USER += $this->db->selectSingle($sql, [
+                ':userId' => $this->state->USER['id'],
             ]) ?: ['total_points' => 0];
         } catch (Exception $exception) {
-            $USER += ['total_points' => 0];
+            $this->state->USER += ['total_points' => 0];
         }
 
-        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($target));
+        $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($target));
 
         if ($IsNoobProtec['NoobPlayer']) {
             $error = $LNG['fl_week_player'];
@@ -133,10 +132,10 @@ class FleetMissileController extends AbstractGameController
             if ($this->configs->get()->noob_protection_outlaw) {
                 $db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
                     ':outlawTime' => $this->state->runtime->timestamp,
-                    ':userId'     => $USER['id'],
+                    ':userId'     => $this->state->USER['id'],
                 ]);
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
-                $statsHandler->increment($USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
+                $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
             } else {
                 $error = $LNG['fl_strong_player'];
             }
@@ -165,7 +164,7 @@ class FleetMissileController extends AbstractGameController
         $this->fleetFunctions()->sendFleet(
             $fleetArray,
             10,
-            $USER['id'],
+            $this->state->USER['id'],
             $PLANET['id'],
             $PLANET['galaxy'],
             $PLANET['system'],

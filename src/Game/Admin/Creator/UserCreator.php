@@ -11,83 +11,115 @@ class UserCreator extends CreatorTab
     public function handle(): Response
     {
         $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
         $LNG->includeData(['PUBLIC']);
         if ($this->state->requestPost) {
-            $UserName = $this->http()->_GP('name', '', UTF8_SUPPORT);
-            $UserAuth = $this->http()->_GP('authlevel', 0);
-            $Galaxy = $this->http()->_GP('galaxy', 0);
-            $System = $this->http()->_GP('system', 0);
-            $Planet = $this->http()->_GP('planet', 0);
-            $Language = $this->http()->_GP('lang', '');
-            $accountID = $this->http()->_GP('accountID', 0);
-
-            $db = $this->db;
-            $sql = "SELECT COUNT(*) as count FROM %%USERS%% WHERE universe = :universe AND username = :username;";
-            $ExistsUser = $db->selectSingle($sql, [':universe' => $this->universe()->getEmulated(), ':username' => $UserName], 'count');
-
-            $sql = "SELECT COUNT(*) as count FROM %%USERS%% u INNER JOIN %%ACCOUNTS_TO_USERS%% atu on atu.user_id = u.id WHERE u.universe = :universe AND atu.account_id = :accountId;";
-            $AccountHasUser = $db->selectSingle($sql, [':universe' => $this->universe()->getEmulated(), ':accountId' => $accountID], 'count');
-
-            $errors = "";
-
-            $config = $this->configs->get($this->universe()->getEmulated());
-
-            if (empty($accountID)) {
-                $errors .= $LNG['empty_account_field'];
-                $errors .= "<br>";
-            }
-
-            if (empty($UserName)) {
-                $errors .= $LNG['registerErrorUsernameEmpty'];
-                $errors .= "<br>";
-            }
-
-            if (!$this->playerUtil()->isNameValid($UserName)) {
-                $errors .= $LNG['registerErrorUsernameChar'];
-                $errors .= "<br>";
-            }
-
-            if ($ExistsUser != 0) {
-                $errors .= $LNG['registerErrorUsernameExist'];
-                $errors .= "<br>";
-            }
-
-            if ($AccountHasUser != 0) {
-                $errors .= $LNG['account_already_has_user'];
-                $errors .= "<br>";
-            }
-
-            if (!$this->playerUtil()->isPositionFree($this->universe()->getEmulated(), $Galaxy, $System, $Planet)) {
-                $errors .= $LNG['po_complete_all'];
-                $errors .= "<br>";
-            }
-
-            if ($Galaxy > $config->max_galaxy || $System > $config->max_system || $Planet > $config->max_planets) {
-                $errors .= $LNG['po_complete_all2'];
-                $errors .= "<br>";
-            }
-
-            if (!empty($errors)) {
-                $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=user', 10, true);
-            }
-
-            $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
-
-            $player = $this->playerUtil()->createPlayer(
-                $accountID,
-                $this->universe()->getEmulated(),
-                $UserName,
-                $Language,
-                $Galaxy,
-                $System,
-                $Planet,
-                $LNG['fcm_planet'],
-                $UserAuth,
-            );
-
-            $this->responder->message($LNG->format('new_user_success', $player[0], $player[1]), '?page=creator&mode=user', 5, true);
+            $this->createFromPost();
         }
+
+        return $this->showForm();
+    }
+
+    /**
+     * Validates the posted form (name, account, position) and creates the player with its home planet; always ends
+     * the request with a message (errors, or the new user and planet id).
+     */
+    private function createFromPost(): void
+    {
+        $LNG = $this->state->LNG;
+        $UserName = $this->http()->_GP('name', '', UTF8_SUPPORT);
+        $UserAuth = $this->http()->_GP('authlevel', 0);
+        $Galaxy = $this->http()->_GP('galaxy', 0);
+        $System = $this->http()->_GP('system', 0);
+        $Planet = $this->http()->_GP('planet', 0);
+        $Language = $this->http()->_GP('lang', '');
+        $accountID = $this->http()->_GP('accountID', 0);
+
+        $config = $this->configs->get($this->universe()->getEmulated());
+        $errors = $this->validationErrors($UserName, $accountID, $Galaxy, $System, $Planet, $config);
+
+        if (!empty($errors)) {
+            $this->responder->message(new \Twig\Markup($errors, 'UTF-8'), '?page=creator&mode=user', 10, true);
+        }
+
+        $Language = array_key_exists($Language, $LNG->getAllowedLangs(false)) ? $Language : $config->lang;
+
+        $player = $this->playerUtil()->createPlayer(
+            $accountID,
+            $this->universe()->getEmulated(),
+            $UserName,
+            $Language,
+            $Galaxy,
+            $System,
+            $Planet,
+            $LNG['fcm_planet'],
+            $UserAuth,
+        );
+
+        $this->responder->message($LNG->format('new_user_success', $player[0], $player[1]), '?page=creator&mode=user', 5, true);
+    }
+
+    /**
+     * Checks the form values: account given, name not empty/valid/taken in the universe, account without a player in
+     * the universe, position free and inside the universe size.
+     *
+     * @param \App\Game\Core\Config $config config of the emulated universe
+     * @return string the translated messages, each followed by "<br>" (empty when everything is valid)
+     */
+    private function validationErrors(string $UserName, $accountID, $Galaxy, $System, $Planet, $config): string
+    {
+        $LNG = $this->state->LNG;
+        $db = $this->db;
+        $sql = "SELECT COUNT(*) as count FROM %%USERS%% WHERE universe = :universe AND username = :username;";
+        $ExistsUser = $db->selectSingle($sql, [':universe' => $this->universe()->getEmulated(), ':username' => $UserName], 'count');
+
+        $sql = "SELECT COUNT(*) as count FROM %%USERS%% u INNER JOIN %%ACCOUNTS_TO_USERS%% atu on atu.user_id = u.id WHERE u.universe = :universe AND atu.account_id = :accountId;";
+        $AccountHasUser = $db->selectSingle($sql, [':universe' => $this->universe()->getEmulated(), ':accountId' => $accountID], 'count');
+
+        $errors = "";
+
+        if (empty($accountID)) {
+            $errors .= $LNG['empty_account_field'];
+            $errors .= "<br>";
+        }
+
+        if (empty($UserName)) {
+            $errors .= $LNG['registerErrorUsernameEmpty'];
+            $errors .= "<br>";
+        }
+
+        if (!$this->playerUtil()->isNameValid($UserName)) {
+            $errors .= $LNG['registerErrorUsernameChar'];
+            $errors .= "<br>";
+        }
+
+        if ($ExistsUser != 0) {
+            $errors .= $LNG['registerErrorUsernameExist'];
+            $errors .= "<br>";
+        }
+
+        if ($AccountHasUser != 0) {
+            $errors .= $LNG['account_already_has_user'];
+            $errors .= "<br>";
+        }
+
+        if (!$this->playerUtil()->isPositionFree($this->universe()->getEmulated(), $Galaxy, $System, $Planet)) {
+            $errors .= $LNG['po_complete_all'];
+            $errors .= "<br>";
+        }
+
+        if ($Galaxy > $config->max_galaxy || $System > $config->max_system || $Planet > $config->max_planets) {
+            $errors .= $LNG['po_complete_all2'];
+            $errors .= "<br>";
+        }
+
+        return $errors;
+    }
+
+    /** Renders the creation form with the auth level choices the acting admin may hand out. */
+    private function showForm(): Response
+    {
+        $LNG = $this->state->LNG;
+        $USER = $this->state->USER;
 
         $AUTH = [];
         $AUTH[AUTH_USR] = $LNG['user_level_' . AUTH_USR];

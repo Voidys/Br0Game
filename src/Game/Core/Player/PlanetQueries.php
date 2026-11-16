@@ -3,6 +3,7 @@
 namespace App\Game\Core\Player;
 
 use App\Game\Core\ConfigRegistry;
+use Doctrine\DBAL\Query\QueryBuilder;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
@@ -49,14 +50,56 @@ class PlanetQueries
     /**
      * Maximum number of building fields of a planet: base size plus terraformer and moon base bonus.
      *
+     * Array adapter of maxFieldsFor().
+     *
      * @param array $planet planet row
      * @return int|float
      */
     public function calculateMaxPlanetFields($planet)
     {
-        $resource = $this->state->resource;
-        return $planet['field_max'] + floor($planet[$resource[33]] * FIELDS_BY_TERRAFORMER) + ($planet[$resource[41]]
-            * FIELDS_BY_MOONBASIS_LEVEL);
+        return $this->maxFieldsFor($this->models()->planet($planet));
+    }
+
+    /**
+     * Typed version of calculateMaxPlanetFields(): `field_max` + floor(terraformer level * 5.5) + moon base level * 3.
+     * The two levels can be overridden to ask what the limit would be after a queued terraformer or moon base
+     * (BuildFunctions::queueFieldProjectionFor()); the planet itself is not changed.
+     *
+     * @param int|float|null $terraformerLevel level to use instead of the planet's terraformer level
+     * @param int|float|null $moonBaseLevel    level to use instead of the planet's moon base level
+     */
+    public function maxFieldsFor(\App\Game\Model\Planet $planet, int|float|null $terraformerLevel = null, int|float|null $moonBaseLevel = null): int|float
+    {
+        $terraformerLevel ??= $planet->count(TERRAFORMER);
+        $moonBaseLevel ??= $planet->count(MOONBASE);
+
+        return $planet->fieldsMax + floor($terraformerLevel * FIELDS_BY_TERRAFORMER) + ($moonBaseLevel * FIELDS_BY_MOONBASIS_LEVEL);
+    }
+
+    /**
+     * Adds the player's planet sort setting to a planet query: 1 = coordinates (galaxy, system, planet, type), 2 = name,
+     * anything else (0) = id. All columns are fixed names; the direction is only ever ASC or DESC.
+     *
+     * @param mixed  $sort      user setting planet_sort
+     * @param string $direction "ASC" or "DESC" (user setting planet_sort_order)
+     */
+    public static function orderBySetting(QueryBuilder $qb, mixed $sort, string $direction): void
+    {
+        $direction = $direction === 'DESC' ? 'DESC' : 'ASC';
+        switch ((int) $sort) {
+            case 1:
+                $qb->orderBy('galaxy', $direction)
+                    ->addOrderBy('`system`', $direction)
+                    ->addOrderBy('planet', $direction)
+                    ->addOrderBy('planet_type', $direction);
+                break;
+            case 2:
+                $qb->orderBy('name', $direction);
+                break;
+            default:
+                $qb->orderBy('id', $direction);
+                break;
+        }
     }
 
     /**
@@ -74,25 +117,15 @@ class PlanetQueries
 
         $order = $USER['planet_sort_order'] == 1 ? "DESC" : "ASC";
 
-        $sql = "SELECT id, name, galaxy, system, planet, planet_type, image, planet_style, b_building, b_building_id, watch_id
-    			FROM %%PLANETS%% WHERE id_owner = :userId AND destruyed = :destruyed ORDER BY ";
-
-        switch ($USER['planet_sort']) {
-            case 0:
-                $sql .= 'id ' . $order;
-                break;
-            case 1:
-                $sql .= 'galaxy ' . $order . ', system ' . $order . ', planet ' . $order . ', planet_type ' . $order;
-                break;
-            case 2:
-                $sql .= 'name ' . $order;
-                break;
-        }
-
-        $planetsResult = $this->db->select($sql, [
-            ':userId' => $USER['id'],
-            ':destruyed' => 0,
-        ]);
+        $qb = $this->db->qb()
+            ->select('id', 'name', 'galaxy', '`system`', 'planet', 'planet_type', 'image', 'planet_style', 'b_building', 'b_building_id', 'watch_id')
+            ->from($this->db->table('PLANETS'))
+            ->where('id_owner = :userId')
+            ->andWhere('destruyed = :destruyed')
+            ->setParameter('userId', $USER['id'])
+            ->setParameter('destruyed', 0);
+        self::orderBySetting($qb, $USER['planet_sort'], $order);
+        $planetsResult = $this->db->fetchAll($qb);
 
         $planetsList = [];
 

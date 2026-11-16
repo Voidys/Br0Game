@@ -17,6 +17,7 @@
 
 namespace App\Game\Missions;
 
+use App\Game\BattleEngine\BattleFleet;
 use App\Game\Core\ResourceUpdate;
 use OutOfRangeException;
 
@@ -72,18 +73,22 @@ trait BattleFleetHandling
         $mainAttacker = null;
         foreach ($incomingFleets as $fleetID => $fleetDetail) {
             $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $fleetAttack[$fleetID]['player'] = $db->selectSingle($sql, [
+            $player = $db->selectSingle($sql, [
                 ':userId'   => $fleetDetail['owner'],
             ]);
 
-            $fleetAttack[$fleetID]['fleetDetail'] = $fleetDetail;
-            $fleetAttack[$fleetID]['unit'] = $this->fleetFunctions()->unserialize($fleetDetail['ships']);
+            $fleetAttack[$fleetID] = new BattleFleet(
+                $fleetID,
+                $player,
+                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
+                $fleetDetail,
+            );
 
             if (!isset($currentTotalFleetState[$fleetDetail['owner']])) {
                 $currentTotalFleetState[$fleetDetail['owner']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($fleetDetail['owner']);
             }
 
-            $userAttack[$fleetAttack[$fleetID]['player']['id']] = $fleetAttack[$fleetID]['player']['username'];
+            $userAttack[$player['id']] = $player['username'];
 
             if ($mainAttacker === null) {
                 $mainAttacker = $fleetDetail['owner'];
@@ -107,45 +112,51 @@ trait BattleFleetHandling
             $fleetID = $fleetDetail['id'];
 
             $sql = "SELECT * FROM %%USERS%% WHERE `id` = :userId;";
-            $fleetDefend[$fleetID]['player'] = $db->selectSingle($sql, [
+            $player = $db->selectSingle($sql, [
                 ':userId'   => $fleetDetail['owner'],
             ]);
 
-            $fleetDefend[$fleetID]['fleetDetail'] = $fleetDetail;
-            $fleetDefend[$fleetID]['unit'] = $this->fleetFunctions()->unserialize($fleetDetail['ships']);
+            $fleetDefend[$fleetID] = new BattleFleet(
+                $fleetID,
+                $player,
+                $this->fleetFunctions()->unserialize($fleetDetail['ships']),
+                $fleetDetail,
+            );
 
             if (!isset($currentTotalFleetState[$fleetDetail['owner']])) {
                 $currentTotalFleetState[$fleetDetail['owner']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($fleetDetail['owner']);
             }
 
-            $userDefend[$fleetDefend[$fleetID]['player']['id']] = $fleetDefend[$fleetID]['player']['username'];
+            $userDefend[$player['id']] = $player['username'];
         }
 
         unset($targetFleetsResult);
 
-        $fleetDefend[0]['player'] = $targetUser;
-        $fleetDefend[0]['fleetDetail'] = [
-            'start_galaxy'    => $targetPlanet['galaxy'],
-            'start_system'    => $targetPlanet['system'],
-            'start_planet'    => $targetPlanet['planet'],
-            'start_type'      => $targetPlanet['planet_type'],
-        ];
-
-        $fleetDefend[0]['unit'] = [];
-
+        $planetUnits = [];
         foreach (array_merge($reslist['fleet'], $reslist['defense']) as $elementID) {
             if (empty($targetPlanet[$resource[$elementID]])) {
                 continue;
             }
 
-            $fleetDefend[0]['unit'][$elementID] = $targetPlanet[$resource[$elementID]];
+            $planetUnits[$elementID] = $targetPlanet[$resource[$elementID]];
         }
 
-        $userDefend[$fleetDefend[0]['player']['id']] = $fleetDefend[0]['player']['username'];
+        $userDefend[$targetUser['id']] = $targetUser['username'];
         if (!isset($currentTotalFleetState[$targetUser['id']])) {
             $currentTotalFleetState[$targetUser['id']] = $this->fleetFunctions()->calculateCurrentTotalFleetState($targetUser['id']);
         }
-        $fleetDefend[0]['currentTotalFleetState'] = $currentTotalFleetState[$targetUser['id']];
+        $fleetDefend[0] = new BattleFleet(
+            0,
+            $targetUser,
+            $planetUnits,
+            [
+                'start_galaxy'    => $targetPlanet['galaxy'],
+                'start_system'    => $targetPlanet['system'],
+                'start_planet'    => $targetPlanet['planet'],
+                'start_type'      => $targetPlanet['planet_type'],
+            ],
+            $currentTotalFleetState[$targetUser['id']],
+        );
 
         $setup = new BattleSetup();
         $setup->fleetAttack = $fleetAttack;
@@ -169,12 +180,12 @@ trait BattleFleetHandling
         $fleetAttack = & $setup->fleetAttack;
         $fleetDefend = & $setup->fleetDefend;
 
-        foreach ($fleetAttack as $fleetID => $fleetDetail) {
+        foreach ($fleetAttack as $fleetID => $fleet) {
             $fleetArray = '';
             $totalCount = 0;
 
-            $fleetDetail['unit'] = array_filter($fleetDetail['unit']);
-            foreach ($fleetDetail['unit'] as $elementID => $amount) {
+            $survivors = array_filter($fleet->units);
+            foreach ($survivors as $elementID => $amount) {
                 $fleetArray .= $elementID . ',' . floatToString($amount) . ';';
                 $totalCount += $amount;
             }
@@ -221,15 +232,15 @@ trait BattleFleetHandling
             }
         }
 
-        foreach ($fleetDefend as $fleetID => $fleetDetail) {
+        foreach ($fleetDefend as $fleetID => $fleet) {
             if ($fleetID != 0) {
                 // Stay fleet
                 $fleetArray = '';
                 $totalCount = 0;
 
-                $fleetDetail['unit'] = array_filter($fleetDetail['unit']);
+                $survivors = array_filter($fleet->units);
 
-                foreach ($fleetDetail['unit'] as $elementID => $amount) {
+                foreach ($survivors as $elementID => $amount) {
                     $fleetArray .= $elementID . ',' . floatToString($amount) . ';';
                     $totalCount += $amount;
                 }
@@ -275,7 +286,7 @@ trait BattleFleetHandling
 
                 // Planet fleet
                 $fleetArray = [];
-                foreach ($fleetDetail['unit'] as $elementID => $amount) {
+                foreach ($fleet->units as $elementID => $amount) {
                     $fleetArray[] = '`' . $resource[$elementID] . '` = :' . $resource[$elementID];
                     $params[':' . $resource[$elementID]] = $amount;
                 }

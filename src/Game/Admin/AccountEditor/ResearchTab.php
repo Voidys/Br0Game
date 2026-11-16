@@ -20,48 +20,38 @@ class ResearchTab extends AccountEditorTab
             foreach ($reslist['tech'] as $ID) {
                 $fields[] = "`" . $resource[$ID] . "`";
             }
-            $sql = "SELECT " . implode(", ", $fields) . " FROM %%USERS%% WHERE `id` = :userID;";
-            $beforeResearch = $db->selectSingle($sql, [
-                ':userID' => $id,
-            ]);
+            // the columns come from the game's resource table
+            $beforeResearch = $db->fetchRow(
+                $db->qb()
+                    ->select(...$fields)
+                    ->from($db->table('USERS'))
+                    ->where('`id` = :userID')
+                    ->setParameter('userID', $id)
+            );
             $afterResearch = [];
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%USERS%% SET ";
                 foreach ($reslist['tech'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` + :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = $count;
                         $afterResearch[$ID] = $beforeResearch[$resource[$ID]] + $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('USERS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], [], $QryUpdate);
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%USERS%% SET ";
                 foreach ($reslist['tech'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` - :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = -$count;
                         $afterResearch[$ID] = max(0, $beforeResearch[$resource[$ID]] - $count);
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('USERS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], [], $QryUpdate);
                 }
             }
 

@@ -57,23 +57,23 @@ class BattleEngineRust extends AbstractBattleEngine
     }
 
     /**
-     * Serialises the fleets to JSON, runs the Rust library and converts its round log back into the result array
-     * format of BattleEngineInterface (same keys as the PHP engine). By-ref fleets get their surviving units written back.
+     * Serialises the fleets to JSON, runs the Rust library and converts its round log back into a BattleResult (same
+     * content as the PHP engine's). The surviving units are written back into the given fleets.
      * When the library refuses the fight (more ships than its memory guard, 60 million) or the process fails, the
      * fight is run by the PHP engine instead (which scales huge fleets down), so a battle is never cancelled; the engine
      * name (getName()) then reports 'steemnova'. The failure is logged.
-     * @return array|false false only when the PHP engine fails as well.
+     * @return BattleResult|false false only when the PHP engine fails as well.
      */
-    public function calculateAttack(array &$attackers, array &$defenders, int $universe, bool $sim = false, int $simTries = 1): array|false
+    public function fight(array $attackers, array $defenders, int $universe, bool $sim = false, int $simTries = 1): BattleResult|false
     {
         $executionTime = microtime(true);
 
-        $json = $this->createRustJson($attackers, $defenders, $simTries);
+        $json = $this->engineJson($attackers, $defenders);
         $output = $this->runEngine($json);
         if ($output === null) {
             \error_log('battlerust: the Rust engine failed or refused the fight, using the PHP engine');
             $this->fellBack = true;
-            $result = (new BattleEngineSteemNova($this->db, $this->configs, $this->state))->calculateAttack($attackers, $defenders, $universe, $sim, $simTries);
+            $result = (new BattleEngineSteemNova($this->db, $this->configs, $this->state))->fight($attackers, $defenders, $universe, $sim, $simTries);
             $this->fellBack = $result !== false;
 
             return $result;
@@ -109,79 +109,85 @@ class BattleEngineRust extends AbstractBattleEngine
     /**
      * Builds the engine input: six rounds, per side a list of fleets with one entry per unit type (attack with
      * +10%/level weapon tech, hull = (metal+crystal)/10 with armor tech, shield with shield tech, rapid fire table,
-     * bigshield/stun flags, explode threshold 0.7 for ships (ids 2xx), none for defenses). The values are NOT rounded:
-     * they are the exact numbers of the PHP engine (initCombatValues), which seeded parity depends on.
+     * bigshield/stun flags, explode threshold 0.7 for ships (ids 2xx), none for defenses), and the seed when useSeed() was
+     * called. The values are NOT rounded: they are the exact numbers of the PHP engine, which seeded parity depends on.
+     * The key order is part of the format (docs/battle-engine-contract.md) and pinned by a test.
+     *
+     * @param array<int|string, BattleFleet> $attackers attacking fleets in firing order
+     * @param array<int|string, BattleFleet> $defenders defending fleets in firing order (the planet is fleet 0)
+     * @return array<string, mixed> the document json_encode()d by engineJson()
      */
-    private function createRustJson(&$attackers, &$defenders, $simTries = 1): string
+    public function engineInput(array $attackers, array $defenders): array
+    {
+        $data = [
+            'rounds'   => 6,
+            'attacker' => $this->engineFleets($attackers),
+            'defender' => $this->engineFleets($defenders),
+        ];
+
+        if ($this->seed !== null) {
+            $data['seed'] = $this->seed;
+        }
+
+        return $data;
+    }
+
+    /**
+     * The engine input of engineInput() as the JSON string sent to bin/battlerust (default json_encode flags: floats keep
+     * their shortest round-trip form, whole floats are written without a fraction).
+     *
+     * @param array<int|string, BattleFleet> $attackers
+     * @param array<int|string, BattleFleet> $defenders
+     */
+    public function engineJson(array $attackers, array $defenders): string
+    {
+        return json_encode($this->engineInput($attackers, $defenders));
+    }
+
+    /**
+     * One side of the engine input: a list of {name, ships[]} with a ship entry per unit type of the fleet, in unit order.
+     *
+     * @param array<int|string, BattleFleet> $fleets
+     * @return list<array{name: int|string, ships: list<array<string, mixed>>}>
+     */
+    private function engineFleets(array $fleets): array
     {
         $pricelist = $this->state->pricelist;
         $CombatCaps = $this->state->CombatCaps;
 
-        $data = [
-            'rounds'   => 6,
-            'attacker' => [],
-            'defender' => [],
-        ];
-
-        foreach ($attackers as $fleetID => $attacker) {
-            $attackerData = [
-                'name'  => $fleetID,
-                'ships' => [],
-            ];
-            foreach ($attacker['unit'] as $unit => $amount) {
-                $unitData = [
+        $list = [];
+        foreach ($fleets as $fleetID => $fleet) {
+            $techs = $fleet->techs;
+            $ships = [];
+            foreach ($fleet->units as $unit => $amount) {
+                $ships[] = [
                     'shipid'    => (int)$unit,
-                    'attack'    => $CombatCaps[$unit]['attack'] * (1 + (0.1 * $attacker['player']['military_tech'])),
-                    'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $attacker['player']['defence_tech'])),
-                    'shield'    => $CombatCaps[$unit]['shield'] * (1 + (0.1 * $attacker['player']['shield_tech'])),
-                    'bigshield' => (bool)$CombatCaps[$unit]['bigshield'],
-                    'stun'      => $CombatCaps[$unit]['stun'],
-                    'explode'   => floor((int)$unit / 100) == 2 ? 0.7 : 0,
-                    'amount'    => (int)$amount,
-                    'rapidfire' => $CombatCaps[$unit]['sd'] ?? new \stdClass(),
-                ];
-                $attackerData['ships'][] = $unitData;
-            }
-            $data['attacker'][] = $attackerData;
-        }
-
-        foreach ($defenders as $fleetID => $defender) {
-            $defenderData = [
-                'name'  => $fleetID,
-                'ships' => [],
-            ];
-            foreach ($defender['unit'] as $unit => $amount) {
-                $unitData = [
-                    'shipid'    => (int)$unit,
-                    'attack'    => $CombatCaps[$unit]['attack'] * (1 + (0.1 * $defender['player']['military_tech'])),
-                    'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * (1 + (0.1 * $defender['player']['defence_tech'])),
-                    'shield'    => $CombatCaps[$unit]['shield'] * (1 + (0.1 * $defender['player']['shield_tech'])),
+                    'attack'    => $CombatCaps[$unit]['attack'] * $techs->attackMultiplier(),
+                    'hull'      => ($pricelist[$unit]['cost'][901] + $pricelist[$unit]['cost'][902]) / 10 * $techs->armorMultiplier(),
+                    'shield'    => $CombatCaps[$unit]['shield'] * $techs->shieldMultiplier(),
                     'bigshield' => (bool)$CombatCaps[$unit]['bigshield'],
                     'stun'      => $CombatCaps[$unit]['stun'],
                     'explode'   => floor((int)$unit / 100) == 2 ? 0.7 : 0, //TODO: move to database
                     'amount'    => (int)$amount,
                     'rapidfire' => $CombatCaps[$unit]['sd'] ?? new \stdClass(),
                 ];
-                $defenderData['ships'][] = $unitData;
             }
-            $data['defender'][] = $defenderData;
+            $list[] = ['name' => $fleetID, 'ships' => $ships];
         }
 
-        if ($this->seed !== null) {
-            $data['seed'] = $this->seed;
-        }
-
-        return json_encode($data);
+        return $list;
     }
 
     /**
      * Applies the engine output: per-fleet losses and kill statistics from the round log, remaining units, debris
      * (fleet_debris_percentage for ships, def_debris_percentage for defenses), defense rebuild (60-80%, or 70% per
      * unit for 10 or fewer losses), wreck field, per-user lost value and transport capacity; writes advanced stats
-     * unless $sim. Result keys match BattleEngineSteemNova::calculateAttack().
+     * unless $sim. The result has the same content as BattleEngineSteemNova::fight().
+     * @param array<int|string, BattleFleet> $attackers the fleets that were sent; their units are reduced to the survivors
+     * @param array<int|string, BattleFleet> $defenders likewise; the planet also gets its rebuilt defense back
      * @param bool $sim true for simulator runs: nothing is persisted.
      */
-    private function parseRustJson($json, &$attackers, &$defenders, $universe, $sim, $executionTime)
+    private function parseRustJson(string $json, array $attackers, array $defenders, int $universe, bool $sim, float $executionTime): BattleResult
     {
         $pricelist = $this->state->pricelist;
         $reslist = $this->state->reslist;
@@ -214,8 +220,8 @@ class BattleEngineRust extends AbstractBattleEngine
 
         // Snapshot for the report before mission cases unset() fully destroyed
         // fleets from $attackers/$defenders (keys must match Roundstats fleet IDs)
-        $rounds[0]['attackers'] = $attackers;
-        $rounds[0]['defenders'] = $defenders;
+        $rounds[0]['attackers'] = BattleFleet::listToArrays($attackers);
+        $rounds[0]['defenders'] = BattleFleet::listToArrays($defenders);
 
         $stats = [
             'attacker' => [],
@@ -323,8 +329,8 @@ class BattleEngineRust extends AbstractBattleEngine
         // every participating user is listed, also without losses (as the PHP engine does)
         foreach (['attacker' => $attackers, 'defender' => $defenders] as $side => $fleets) {
             foreach ($fleets as $fleet) {
-                $unitsLost[$side][$fleet['player']['id']] ??= 0;
-                $capacityLost[$side][$fleet['player']['id']] ??= 0;
+                $unitsLost[$side][$fleet->userId()] ??= 0;
+                $capacityLost[$side][$fleet->userId()] ??= 0;
             }
         }
 
@@ -333,35 +339,35 @@ class BattleEngineRust extends AbstractBattleEngine
         foreach ($stats['attacker'] as $fleetID => $attacker) {
             foreach ($attacker['lost'] ?? [] as $element => $amount) {
                 if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
-                    if ($defenders[0]['player']['id'] === 0) { // PlayerID for AI is 0
+                    if ($defenders[0]->userId() === 0) { // PlayerID for AI is 0
                         // Expo
                         if (!$sim) {
-                            $statsHandler->updateExpoLostAdvancedStats($attackers[$fleetID]['player']['id'], [$element => $amount]);
+                            $statsHandler->updateExpoLostAdvancedStats($attackers[$fleetID]->userId(), [$element => $amount]);
                         }
                     } else {
                         // Attack
                         if (!$sim) {
-                            $statsHandler->updateLostAdvancedStats($attackers[$fleetID]['player']['id'], [$element => $amount]);
+                            $statsHandler->updateLostAdvancedStats($attackers[$fleetID]->userId(), [$element => $amount]);
                         }
                     }
 
-                    $attackers[$fleetID]['unit'][$element] -= $amount;
+                    $attackers[$fleetID]->units[$element] -= $amount;
 
                     $debris['attacker'][RESOURCE_METAL] += $pricelist[$element]['cost'][RESOURCE_METAL] * $amount * ($config->fleet_debris_percentage / 100);
                     $debris['attacker'][RESOURCE_CRYSTAL] += $pricelist[$element]['cost'][RESOURCE_CRYSTAL] * $amount * ($config->fleet_debris_percentage / 100);
 
                     $totalLost['attacker'] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-                    $unitsLost['attacker'][$attackers[$fleetID]['player']['id']] ??= 0;
-                    $unitsLost['attacker'][$attackers[$fleetID]['player']['id']] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-                    $capacityLost['attacker'][$attackers[$fleetID]['player']['id']] ??= 0;
-                    $capacityLost['attacker'][$attackers[$fleetID]['player']['id']] += $amount * $pricelist[$element]['capacity'];
+                    $unitsLost['attacker'][$attackers[$fleetID]->userId()] ??= 0;
+                    $unitsLost['attacker'][$attackers[$fleetID]->userId()] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+                    $capacityLost['attacker'][$attackers[$fleetID]->userId()] ??= 0;
+                    $capacityLost['attacker'][$attackers[$fleetID]->userId()] += $amount * $pricelist[$element]['capacity'];
                 }
             }
 
-            if (!$sim && $defenders[0]['player']['id'] !== 0) {
+            if (!$sim && $defenders[0]->userId() !== 0) {
                 foreach ($attacker['destroyed'] ?? [] as $element => $amount) {
                     if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
-                        $statsHandler->updateDestroyedAdvancedStats($attackers[$fleetID]['player']['id'], 0, $element, $amount);
+                        $statsHandler->updateDestroyedAdvancedStats($attackers[$fleetID]->userId(), 0, $element, $amount);
                     }
                 }
             }
@@ -389,10 +395,10 @@ class BattleEngineRust extends AbstractBattleEngine
             foreach ($defender['lost'] ?? [] as $element => $amount) {
                 if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
                     if (!$sim) {
-                        $statsHandler->updateLostAdvancedStats($defenders[$fleetID]['player']['id'], [$element => $amount]);
+                        $statsHandler->updateLostAdvancedStats($defenders[$fleetID]->userId(), [$element => $amount]);
                     }
                 }
-                $defenders[$fleetID]['unit'][$element] -= $amount;
+                $defenders[$fleetID]->units[$element] -= $amount;
 
                 $giveback = 0;
                 if ($fleetID === 0) {
@@ -411,12 +417,12 @@ class BattleEngineRust extends AbstractBattleEngine
                                 }
                             }
                         }
-                        $defenders[$fleetID]['unit'][$element] += $giveback;
+                        $defenders[$fleetID]->units[$element] += $giveback;
                         $stats['defender'][$fleetID]['repaired'][$element] = $giveback;
                         $repairedDef[$element]['units'] = $giveback;
                         $repairedDef[$element]['percent'] = $giveback / $amount * 100;
                         if (!$sim) {
-                            $statsHandler->increment($defenders[0]['player']['id'], AdvancedStatsEnum::getRepaired($element), $giveback);
+                            $statsHandler->increment($defenders[0]->userId(), AdvancedStatsEnum::getRepaired($element), $giveback);
                         }
                     }
                 }
@@ -426,67 +432,65 @@ class BattleEngineRust extends AbstractBattleEngine
 
                 $totalLost['defender'] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
                 if ($element < 300) {
-                    $unitsLost['defender'][$defenders[$fleetID]['player']['id']] ??= 0;
-                    $unitsLost['defender'][$defenders[$fleetID]['player']['id']] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
-                    $capacityLost['defender'][$defenders[$fleetID]['player']['id']] ??= 0;
-                    $capacityLost['defender'][$defenders[$fleetID]['player']['id']] += $amount * $pricelist[$element]['capacity'];
+                    $unitsLost['defender'][$defenders[$fleetID]->userId()] ??= 0;
+                    $unitsLost['defender'][$defenders[$fleetID]->userId()] += $amount * ($pricelist[$element]['cost'][RESOURCE_METAL] + $pricelist[$element]['cost'][RESOURCE_CRYSTAL]);
+                    $capacityLost['defender'][$defenders[$fleetID]->userId()] ??= 0;
+                    $capacityLost['defender'][$defenders[$fleetID]->userId()] += $amount * $pricelist[$element]['capacity'];
                 }
             }
 
             if (!$sim) {
                 foreach ($defender['destroyed'] ?? [] as $element => $amount) {
                     if ($element > 0 && (in_array($element, $reslist['fleet']) || in_array($element, $reslist['defense'])) && $amount > 0) {
-                        $statsHandler->updateDestroyedAdvancedStats($defenders[$fleetID]['player']['id'], 0, $element, $amount);
+                        $statsHandler->updateDestroyedAdvancedStats($defenders[$fleetID]->userId(), 0, $element, $amount);
                     }
                 }
             }
         }
 
-        if (!$sim && $defenders[0]['player']['id'] != 0) {
+        if (!$sim && $defenders[0]->userId() != 0) {
             $statsDone = [];
             foreach ($attackers as $fleetID => $attacker) {
-                if (isset($statsDone[$attacker['player']['id']])) {
+                if (isset($statsDone[$attacker->userId()])) {
                     continue; // once per user, not per fleet
                 }
-                $statsDone[$attacker['player']['id']] = true;
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBMETAL, $debris['attacker'][RESOURCE_METAL] + $debris['defender'][RESOURCE_METAL]);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debris['attacker'][RESOURCE_CRYSTAL] + $debris['defender'][RESOURCE_CRYSTAL]);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['defender']);
-                $statsHandler->increment($attacker['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['attacker'][$attacker['player']['id']] ?? 0));
+                $statsDone[$attacker->userId()] = true;
+                $statsHandler->increment($attacker->userId(), AdvancedStatsEnum::KBMETAL, $debris['attacker'][RESOURCE_METAL] + $debris['defender'][RESOURCE_METAL]);
+                $statsHandler->increment($attacker->userId(), AdvancedStatsEnum::KBCRYSTAL, $debris['attacker'][RESOURCE_CRYSTAL] + $debris['defender'][RESOURCE_CRYSTAL]);
+                $statsHandler->increment($attacker->userId(), AdvancedStatsEnum::DESUNITS, $totalLost['defender']);
+                $statsHandler->increment($attacker->userId(), AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['attacker'][$attacker->userId()] ?? 0));
             }
             $statsDone = [];
             foreach ($defenders as $fleetID => $defender) {
-                if (isset($statsDone[$defender['player']['id']])) {
+                if (isset($statsDone[$defender->userId()])) {
                     continue; // once per user, not per fleet
                 }
-                $statsDone[$defender['player']['id']] = true;
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBMETAL, $debris['attacker'][RESOURCE_METAL] + $debris['defender'][RESOURCE_METAL]);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::KBCRYSTAL, $debris['attacker'][RESOURCE_CRYSTAL] + $debris['defender'][RESOURCE_CRYSTAL]);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::DESUNITS, $totalLost['attacker']);
-                $statsHandler->increment($defender['player']['id'], AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['defender'][$defender['player']['id']] ?? 0));
+                $statsDone[$defender->userId()] = true;
+                $statsHandler->increment($defender->userId(), AdvancedStatsEnum::KBMETAL, $debris['attacker'][RESOURCE_METAL] + $debris['defender'][RESOURCE_METAL]);
+                $statsHandler->increment($defender->userId(), AdvancedStatsEnum::KBCRYSTAL, $debris['attacker'][RESOURCE_CRYSTAL] + $debris['defender'][RESOURCE_CRYSTAL]);
+                $statsHandler->increment($defender->userId(), AdvancedStatsEnum::DESUNITS, $totalLost['attacker']);
+                $statsHandler->increment($defender->userId(), AdvancedStatsEnum::LOSTUNITS, max(0, $unitsLost['defender'][$defender->userId()] ?? 0));
             }
         }
 
         if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) ||
-            $defenders[0]['player']['id'] === 0 ||
-            !isset($defenders[0]['currentTotalFleetState']['totalUnits']) ||
-            $defenders[0]['currentTotalFleetState']['totalUnits'] <= 0 ||
-            (!empty($defenders[0]['player']['wreckfield_cooldown_until']) && $defenders[0]['player']['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
+            $defenders[0]->userId() === 0 ||
+            !isset($defenders[0]->currentTotalFleetState['totalUnits']) ||
+            $defenders[0]->currentTotalFleetState['totalUnits'] <= 0 ||
+            (!empty($defenders[0]->player['wreckfield_cooldown_until']) && $defenders[0]->player['wreckfield_cooldown_until'] > $this->state->runtime->timestamp) ||
             $defendingPlayer['lost'] < $config->wreckfield_min_units ||
-            $defendingPlayer['lost'] / $defenders[0]['currentTotalFleetState']['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
+            $defendingPlayer['lost'] / $defenders[0]->currentTotalFleetState['totalUnits'] < ($config->wreckfield_min_percent / 100)) {
             $wreckfield = [];
         }
 
-        return [
-            'won'                                 => $won,
-            'debris'                              => $debris,
-            'rw'                                  => $rounds,
-            'unitLost'                            => $totalLost,
-            'repaired'                            => $repairedDef,
-            'wreckfield'                          => $wreckfield,
-            'duration'                            => microtime(true) - $executionTime,
-            'unitLostPerSideAndUser'              => $unitsLost,
-            'transportCapacityLostPerSideAndUser' => $capacityLost,
-        ];
+        return new BattleResult(
+            $won,
+            new BattleDebris($debris['attacker'][RESOURCE_METAL], $debris['attacker'][RESOURCE_CRYSTAL], $debris['defender'][RESOURCE_METAL], $debris['defender'][RESOURCE_CRYSTAL]),
+            $rounds,
+            new BattleLosses($totalLost['attacker'], $totalLost['defender'], $unitsLost, $capacityLost),
+            $repairedDef,
+            $wreckfield,
+            microtime(true) - $executionTime,
+        );
     }
 }

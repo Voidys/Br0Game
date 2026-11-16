@@ -2,7 +2,9 @@
 
 namespace App\Game\Missions\Expedition;
 
+use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
+use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\StoredData;
 
 /**
@@ -16,12 +18,12 @@ class ExpeditionCombatReport extends ExpeditionEvent
      *
      * Side effect: inserts the report into the rw table.
      *
-     * @param array<string, mixed> $combatResult result of the battle engine
-     * @param array<mixed>         $fleetAttack  attacker data as given to the engine
-     * @param array<mixed>         $fleetDefend  defender data as given to the engine
+     * @param BattleResult                  $combatResult result of the battle engine
+     * @param array<int|string, BattleFleet> $fleetAttack  attacking fleets as given to the engine
+     * @param array<int|string, BattleFleet> $fleetDefend  defending fleets as given to the engine
      * @return array{reportID: string, msg: string, link: string} report id, message html, link html
      */
-    public function generate(array $combatResult, BattleHandler $battleHandler, array $fleetAttack, array $fleetDefend): array
+    public function generate(BattleResult $combatResult, BattleHandler $battleHandler, array $fleetAttack, array $fleetDefend): array
     {
         $LNG = $this->LNG;
         $debris = [RESOURCE_METAL => 0, RESOURCE_CRYSTAL => 0];
@@ -93,7 +95,7 @@ HTML;
             ':battleengine' => $battleHandler->engine->getName(),
         ]);
 
-        switch ($combatResult['won']) {
+        switch ($combatResult->won) {
             case ATTACKER:
                 $attackClass = 'raportWin';
                 $defendClass = 'raportLose';
@@ -122,10 +124,10 @@ HTML;
             $LNG['sys_lost'],
             $attackClass,
             $LNG['sys_attack_attacker_pos'],
-            $this->viewHelpers()->prettyNumber($combatResult['unitLost']['attacker']),
+            $this->viewHelpers()->prettyNumber($combatResult->losses->attackerValue),
             $defendClass,
             $LNG['sys_attack_defender_pos'],
-            $this->viewHelpers()->prettyNumber($combatResult['unitLost']['defender']),
+            $this->viewHelpers()->prettyNumber($combatResult->losses->defenderValue),
             $LNG['sys_gain'],
             $LNG['tech'][RESOURCE_METAL],
             $this->viewHelpers()->prettyNumber($stealResource[RESOURCE_METAL]),

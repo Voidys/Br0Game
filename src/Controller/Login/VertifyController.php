@@ -119,11 +119,10 @@ class VertifyController extends AbstractLoginController
         $userData	= $this->_activeUser();
         $db = $this->db;
         $sql = "SELECT * FROM %%ACCOUNTS%% WHERE `id` = :accountID;";
-        $ACCOUNT = $db->selectSingle($sql, [
+        $this->state->ACCOUNT = $db->selectSingle($sql, [
             ':accountID'	=> $userData['accountID'],
         ]);
-        $this->state->ACCOUNT = $ACCOUNT;
-        $ACCOUNT = & $this->state->ACCOUNT;
+        $this->state->ACCOUNT = $this->state->ACCOUNT;
         // verified: log the new account in (the game session follows on the account page)
         $this->state->auth->login((int) $userData['accountID']);
 

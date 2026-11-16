@@ -19,6 +19,7 @@ namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\StoredData;
+use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -49,7 +50,6 @@ class BattleSimulatorController extends AbstractGameController
         $reslist = $this->state->reslist;
         $pricelist = $this->state->pricelist;
         $LNG = $this->state->LNG;
-        $USER = & $this->state->USER;
         if (!isset($this->state->requestInput['battleinput'])) {
             $this->sendJSON(0);
         }
@@ -60,7 +60,7 @@ class BattleSimulatorController extends AbstractGameController
         }
 
         // Throttle: stored simulator reports are marked in `attacker`, at most 10 per user per minute
-        $simMarker = 'sim:' . $USER['id'];
+        $simMarker = 'sim:' . $this->state->USER['id'];
         $sql = "SELECT COUNT(*) AS cnt FROM %%RW%% WHERE `attacker` = :marker AND `time` > :since;";
         $recent = $this->db->selectSingle($sql, [
             ':marker' => $simMarker,
@@ -75,22 +75,7 @@ class BattleSimulatorController extends AbstractGameController
         $fleetAttack = [];
         foreach ($BattleArray as $BattleSlotID => $BattleSlot) {
             if (isset($BattleSlot[0]) && (array_sum($BattleSlot[0]) > 0 || $BattleSlotID == 0)) {
-                $attacker = [];
-                $attacker['fleetDetail'] = [
-                    'start_galaxy' => 1,
-                    'start_system' => 33,
-                    'start_planet' => 7,
-                    'start_type' => 1,
-                    'end_galaxy' => 1,
-                    'end_system' => 33,
-                    'end_planet' => 7,
-                    'end_type' => 1,
-                    'resource_metal' => 0,
-                    'resource_crystal' => 0,
-                    'resource_deuterium' => 0,
-                ];
-
-                $attacker['player'] = [
+                $attackerPlayer = [
                     'id' => (1000 + $BattleSlotID + 1),
                     'username'  => $LNG['bs_atter'] . ' Nr.' . ($BattleSlotID + 1),
                     'military_tech' => getNumber($BattleSlot[0][MILITARY_TECH]),
@@ -107,28 +92,11 @@ class BattleSimulatorController extends AbstractGameController
                     }
                 }
 
-                $attacker['unit'] = $BattleSlot[0];
-
-                $fleetAttack[] = $attacker;
+                $fleetAttack[] = new BattleFleet(count($fleetAttack), $attackerPlayer, $BattleSlot[0], $this->simulatedFleetDetail());
             }
 
             if (isset($BattleSlot[1]) && (array_sum($BattleSlot[1]) > 0 || $BattleSlotID == 0)) {
-                $defender = [];
-                $defender['fleetDetail'] = [
-                    'start_galaxy' => 1,
-                    'start_system' => 33,
-                    'start_planet' => 7,
-                    'start_type' => 1,
-                    'end_galaxy' => 1,
-                    'end_system' => 33,
-                    'end_planet' => 7,
-                    'end_type' => 1,
-                    'resource_metal' => 0,
-                    'resource_crystal' => 0,
-                    'resource_deuterium' => 0,
-                ];
-
-                $defender['player'] = [
+                $defenderPlayer = [
                     'id' => (2000 + $BattleSlotID + 1),
                     'username'  => $LNG['bs_deffer'] . ' Nr.' . ($BattleSlotID + 1),
                     'military_tech' => getNumber($BattleSlot[1][MILITARY_TECH]),
@@ -145,8 +113,7 @@ class BattleSimulatorController extends AbstractGameController
                     }
                 }
 
-                $defender['unit'] = $BattleSlot[1];
-                $fleetDefend[] = $defender;
+                $fleetDefend[] = new BattleFleet(count($fleetDefend), $defenderPlayer, $BattleSlot[1], $this->simulatedFleetDetail());
             }
         }
 
@@ -157,6 +124,7 @@ class BattleSimulatorController extends AbstractGameController
         $tempFleet = $fleetDefend[0];
         unset($fleetDefend[0]);
         $fleetDefend[0] = $tempFleet;
+        // the fleets are keyed by their list position (as before); the planet is fleet 0 and fires last
 
         if ($battleElementAmount > 135000000) {
             $this->sendJSON(0); // return
@@ -166,18 +134,18 @@ class BattleSimulatorController extends AbstractGameController
 
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-        $combatResult = $battleHandler->engine->calculateAttack($fleetAttack, $fleetDefend, $USER['universe'], true);
+        $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->state->USER['universe'], true);
 
         if (!$combatResult) {
             $this->sendJSON(0); // return
         }
 
-        if ($combatResult['won'] == ATTACKER) {
+        if ($combatResult->won == ATTACKER) {
             $stealResource = $battleHandler->calculateSteal($fleetAttack, [
                 'metal' => getNumber($BattleArray[0][1][RESOURCE_METAL]),
                 'crystal' => getNumber($BattleArray[0][1][RESOURCE_CRYSTAL]),
                 'deuterium' => getNumber($BattleArray[0][1][RESOURCE_DEUT]),
-            ], $USER['universe'], true);
+            ], $this->state->USER['universe'], true);
         } else {
             $stealResource = [
                 RESOURCE_METAL => 0,
@@ -194,8 +162,7 @@ class BattleSimulatorController extends AbstractGameController
         $debris = [];
 
         foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL] as $elementID) {
-            $debris[$elementID] = $combatResult['debris']['attacker'][$elementID]
-                + $combatResult['debris']['defender'][$elementID];
+            $debris[$elementID] = $combatResult->debris->total($elementID);
         }
 
         $debrisTotal = array_sum($debris);
@@ -254,6 +221,28 @@ class BattleSimulatorController extends AbstractGameController
         ]);
 
         $this->sendJSON($reportID);
+    }
+
+    /**
+     * Fleet row of a simulated fleet: every slot starts and ends at the virtual position 1:33:7 and carries no resources.
+     *
+     * @return array<string, int>
+     */
+    private function simulatedFleetDetail(): array
+    {
+        return [
+            'start_galaxy' => 1,
+            'start_system' => 33,
+            'start_planet' => 7,
+            'start_type' => 1,
+            'end_galaxy' => 1,
+            'end_system' => 33,
+            'end_planet' => 7,
+            'end_type' => 1,
+            'resource_metal' => 0,
+            'resource_crystal' => 0,
+            'resource_deuterium' => 0,
+        ];
     }
 
     /**

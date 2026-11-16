@@ -20,48 +20,38 @@ class DefensesTab extends AccountEditorTab
             foreach ($reslist['defense'] as $ID) {
                 $fields[] = "`" . $resource[$ID] . "`";
             }
-            $sql = "SELECT " . implode(", ", $fields) . " FROM %%PLANETS%% WHERE `id` = :planetID;";
-            $beforeDef = $db->selectSingle($sql, [
-                ':planetID' => $id,
-            ]);
+            // the columns come from the game's resource table
+            $beforeDef = $db->fetchRow(
+                $db->qb()
+                    ->select(...$fields)
+                    ->from($db->table('PLANETS'))
+                    ->where('`id` = :planetID')
+                    ->setParameter('planetID', $id)
+            );
             $afterDef = [];
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%PLANETS%% SET ";
                 foreach ($reslist['defense'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` + :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = $count;
                         $afterDef[$ID] = $beforeDef[$resource[$ID]] + $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], [], $QryUpdate);
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%PLANETS%% SET ";
                 foreach ($reslist['defense'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` - :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = -$count;
                         $afterDef[$ID] = max(0, $beforeDef[$resource[$ID]] - $count);
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], [], $QryUpdate);
                 }
             }
 

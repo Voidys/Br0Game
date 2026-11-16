@@ -36,7 +36,7 @@ class StatRecords
 
         // Highest level per column among the non-hidden users, then every user holding such a level
         // (including hidden ones, as before) - two queries instead of two per column.
-        return $this->getHighestRows('%%USERS%%', 'id', 'authlevel < :level', $columns, $uni);
+        return $this->getHighestRows('USERS', 'id', $columns, $uni);
     }
 
     /** Records of the highest building levels of the (non-hidden) players' planets of a universe, per building. */
@@ -50,20 +50,23 @@ class StatRecords
             $columns[$kind] = $resource[$kind];
         }
 
-        return $this->getHighestRows('%%PLANETS%%', 'id_owner', 'p.destruyed = 0 AND u.authlevel < :level', $columns, $uni);
+        return $this->getHighestRows('PLANETS', 'id_owner', $columns, $uni);
     }
 
     /**
-     * @param string $table        %%USERS%% (rows are users) or %%PLANETS%% (rows are planets, owner by id_owner)
+     * Two QueryBuilder queries: the maximum per column among the rows that count (users below the stat level; for planets
+     * the standing planets of such users), then every row holding one of the maxima. The column names come from the game's
+     * resource table.
+     *
+     * @param string $table        USERS (rows are users) or PLANETS (rows are planets, owner by id_owner)
      * @param string $idColumn     column of $table that identifies the user
-     * @param string $maxCondition condition for the rows that count for the maximum
      * @param array  $columns      element id => column name
      * @return array list (per element with a level above 0) of rows [id, level, 0 => element id]
      */
-    private function getHighestRows(string $table, string $idColumn, string $maxCondition, array $columns, int $uni): array
+    private function getHighestRows(string $table, string $idColumn, array $columns, int $uni): array
     {
         $db = $this->db;
-        $isPlanet = $table === '%%PLANETS%%';
+        $isPlanet = $table === 'PLANETS';
         $level = $this->configs->get()->stat_level;
 
         if ($columns === []) {
@@ -74,36 +77,37 @@ class StatRecords
         foreach ($columns as $element => $column) {
             $maxSelect[] = "MAX(" . ($isPlanet ? 'p.' : '') . "`$column`) AS `m$element`";
         }
+        $maxQuery = $db->qb()->select(...$maxSelect);
         if ($isPlanet) {
-            $sql = "SELECT " . implode(', ', $maxSelect) . " FROM %%PLANETS%% p
-                JOIN %%USERS%% u ON p.id_owner = u.id
-                WHERE p.universe = :universe AND $maxCondition;";
+            $maxQuery->from($db->table('PLANETS'), 'p')
+                ->join('p', $db->table('USERS'), 'u', 'p.id_owner = u.id')
+                ->where('p.universe = :universe')
+                ->andWhere('p.destruyed = 0')
+                ->andWhere('u.authlevel < :level');
         } else {
-            $sql = "SELECT " . implode(', ', $maxSelect) . " FROM %%USERS%%
-                WHERE universe = :universe AND $maxCondition;";
+            $maxQuery->from($db->table('USERS'))
+                ->where('universe = :universe')
+                ->andWhere('authlevel < :level');
         }
-        $max = $db->selectSingle($sql, [':universe' => $uni, ':level' => $level]);
+        $max = $db->fetchRow($maxQuery->setParameter('universe', $uni)->setParameter('level', $level));
 
         $wanted = [];
+        $holderQuery = $db->qb()->from($db->table($table))->where('universe = :universe')->setParameter('universe', $uni);
+        $holderQuery->addSelect('`' . $idColumn . '` AS `id`');
         $conditions = [];
         foreach ($columns as $element => $column) {
             $value = $max['m' . $element] ?? null;
             if ($value !== null && $value > 0) {
                 $wanted[$element] = $value;
-                $conditions[] = "`$column` = " . (int) $value;
+                $conditions[] = $holderQuery->expr()->eq('`' . $column . '`', (int) $value);
+                $holderQuery->addSelect('`' . $column . '` AS `c' . $element . '`');
             }
         }
         if ($wanted === []) {
             return [];
         }
 
-        $select = ['`' . $idColumn . '` AS `id`'];
-        foreach ($wanted as $element => $value) {
-            $select[] = '`' . $columns[$element] . '` AS `c' . $element . '`';
-        }
-        $sql = "SELECT " . implode(', ', $select) . " FROM $table
-            WHERE universe = :universe AND (" . implode(' OR ', $conditions) . ");";
-        $rows = $db->select($sql, [':universe' => $uni]);
+        $rows = $db->fetchAll($holderQuery->andWhere($holderQuery->expr()->or(...$conditions)));
 
         $result = [];
         foreach ($wanted as $element => $value) {

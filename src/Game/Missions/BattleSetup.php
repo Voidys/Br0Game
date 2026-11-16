@@ -2,14 +2,16 @@
 
 namespace App\Game\Missions;
 
+use App\Game\BattleEngine\BattleFleet;
+
 /**
  * The fleets and players of one fight, collected by AbstractBattleMission::collectParticipants().
  */
 final class BattleSetup
 {
-    /** @var array<int, array<string, mixed>> attacking fleets: fleet id => player, fleetDetail, unit */
+    /** @var array<int|string, BattleFleet> attacking fleets by fleet id (destroyed ones are removed after the fight) */
     public array $fleetAttack = [];
-    /** @var array<int, array<string, mixed>> defending fleets: fleet id => data, 0 = the planet itself */
+    /** @var array<int|string, BattleFleet> defending fleets by fleet id, 0 = the planet itself (destroyed stay fleets are removed after the fight) */
     public array $fleetDefend = [];
     /** @var array<int, string> attacking player id => name */
     public array $userAttack = [];

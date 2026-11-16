@@ -25,36 +25,26 @@ class PersonalTab extends AccountEditorTab
             ]);
             $afterPersonal = $beforePersonal;
             $QryUpdate = [];
-            $params = [];
 
             if (!empty($username) && $id != ROOT_USER) {
-                $QryUpdate[] = "`username` = :username";
-                $params[':username'] = $username;
+                $QryUpdate['username'] = $username;
                 $afterPersonal['username'] = $username;
             }
 
             if ($vacation == 'yes') {
-                $QryUpdate[] = "`urlaubs_modus` = :urlaubs_modus";
-                $params[':urlaubs_modus'] = 1;
+                $QryUpdate['urlaubs_modus'] = 1;
                 $afterPersonal['urlaubs_modus'] = 1;
                 $d = $this->http()->_GP('d', 0);
                 $h = $this->http()->_GP('h', 0);
                 $m = $this->http()->_GP('m', 0);
                 $s = $this->http()->_GP('s', 0);
                 $TimeAns = $this->state->runtime->timestamp + $d * 86400 + $h * 3600 + $m * 60 + $s;
-                $QryUpdate[] = "`urlaubs_until` = :urlaubs_until";
-                $params[':urlaubs_until'] = $TimeAns;
+                $QryUpdate['urlaubs_until'] = $TimeAns;
                 $afterPersonal['urlaubs_until'] = $TimeAns;
             }
 
             if (!empty($QryUpdate)) {
-                $sql = "UPDATE %%USERS%% SET ";
-                $sql .= implode(", ", $QryUpdate);
-                $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                $db->update($sql, array_merge($params, [
-                    ':id'       => $id,
-                    ':universe' => $this->universe()->getEmulated(),
-                ]));
+                $db->updateRows('USERS', $QryUpdate, ['id' => $id, 'universe' => $this->universe()->getEmulated()]);
 
                 $LOG = new Log($this->db, $this->configs, $this->state, 1);
                 $LOG->target = $id;

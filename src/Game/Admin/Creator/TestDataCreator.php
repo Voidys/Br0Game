@@ -36,9 +36,6 @@ class TestDataCreator extends CreatorTab
      */
     private function createTestUser(): void
     {
-        $LNG = $this->state->LNG;
-        $USER = $this->state->USER;
-
         $db = $this->db;
         $amount = $this->http()->_GP('amount', 1);
         $gameStage = $this->http()->_GP('gameStage', 1);
@@ -62,67 +59,92 @@ class TestDataCreator extends CreatorTab
         $maxNumber = $db->selectSingle($sql, [], 'max_number');
 
         for ($i = $maxNumber + 1; $i <= $maxNumber + $amount; $i++) {
-            $accountId = $this->accountUtil()->createAccount(
-                'TestUser' . $i,
-                $this->accountUtil()->cryptPassword('TestUser' . $i),
-                'TestUser' . $i . '@test.com',
-                $USER['lang'],
-            );
-            $player = $this->playerUtil()->createPlayer(
-                $accountId,
+            $this->createTestPlayer($i, $universe, $config, $stageData[$gameStage]);
+        }
+    }
+
+    /**
+     * Creates test player "TestUser<number>" with its account, main planet, optional moon and colonies.
+     *
+     * @param int $number running test user number
+     * @param int $universe emulated universe
+     * @param \App\Game\Core\Config $config universe config (moon chance)
+     * @param array<string, mixed> $stage the chosen stage's data (see TestGameStages)
+     */
+    private function createTestPlayer(int $number, int $universe, $config, array $stage): void
+    {
+        $lang = $this->state->USER['lang'];
+        $accountId = $this->accountUtil()->createAccount(
+            'TestUser' . $number,
+            $this->accountUtil()->cryptPassword('TestUser' . $number),
+            'TestUser' . $number . '@test.com',
+            $lang,
+        );
+        $player = $this->playerUtil()->createPlayer(
+            $accountId,
+            $universe,
+            'TestUser' . $number,
+            $lang,
+            null,
+            null,
+            null,
+            'TestMainPlanet' . $number,
+        );
+
+        $userId = $player[0];
+        $planetId = $player[1];
+        $this->setTestTechData($userId, $stage);
+        $this->setTestPlanetData($planetId, $stage);
+
+        if ($stage['moons'] > 0 && $config->moon_chance > 0) {
+            $sql = "SELECT `galaxy`, `system`, `planet` FROM %%PLANETS%% WHERE `id` = :planetId;";
+            $planetData = $this->db->selectSingle($sql, [':planetId' => $planetId]);
+            $moonId = $this->playerUtil()->createMoon(
                 $universe,
-                'TestUser' . $i,
-                $USER['lang'],
-                null,
-                null,
-                null,
-                'TestMainPlanet' . $i,
+                $planetData['galaxy'],
+                $planetData['system'],
+                $planetData['planet'],
+                $userId,
+                $config->moon_chance,
+                'TestMoon',
             );
+            $this->setTestMoonData($moonId, $stage);
+        }
 
-            $userId = $player[0];
-            $planetId = $player[1];
-            $this->setTestTechData($userId, $stageData[$gameStage]);
-            $this->setTestPlanetData($planetId, $stageData[$gameStage]);
+        $this->createTestColonies($userId, $universe, $stage);
+    }
 
-            if ($stageData[$gameStage]['moons'] > 0 && $config->moon_chance > 0) {
-                $sql = "SELECT `galaxy`, `system`, `planet` FROM %%PLANETS%% WHERE `id` = :planetId;";
-                $planetData = $db->selectSingle($sql, [':planetId' => $planetId]);
+    /**
+     * Creates the stage's colonies "TestColony<j>" at new positions; colony j gets a moon while the stage lists more
+     * moons than j (moon chance fixed at 20).
+     *
+     * @param array<string, mixed> $stage the chosen stage's data (see TestGameStages)
+     */
+    private function createTestColonies(int $userId, int $universe, array $stage): void
+    {
+        for ($j = 1; $j <= $stage['planets']; $j++) {
+            $pos = $this->playerUtil()->getNewPlanetPosition($universe);
+            $newPlanetId = $this->playerUtil()->createPlanet(
+                $pos['galaxy'],
+                $pos['system'],
+                $pos['planet'],
+                $universe,
+                $userId,
+                'TestColony' . $j,
+            );
+            $this->setTestPlanetData($newPlanetId, $stage);
+
+            if ($stage['moons'] > $j) {
                 $moonId = $this->playerUtil()->createMoon(
                     $universe,
-                    $planetData['galaxy'],
-                    $planetData['system'],
-                    $planetData['planet'],
-                    $userId,
-                    $config->moon_chance,
-                    'TestMoon',
-                );
-                $this->setTestMoonData($moonId, $stageData[$gameStage]);
-            }
-
-            for ($j = 1; $j <= $stageData[$gameStage]['planets']; $j++) {
-                $pos = $this->playerUtil()->getNewPlanetPosition($universe);
-                $newPlanetId = $this->playerUtil()->createPlanet(
                     $pos['galaxy'],
                     $pos['system'],
                     $pos['planet'],
-                    $universe,
                     $userId,
-                    'TestColony' . $j,
+                    20,
+                    'TestMoon',
                 );
-                $this->setTestPlanetData($newPlanetId, $stageData[$gameStage]);
-
-                if ($stageData[$gameStage]['moons'] > $j) {
-                    $moonId = $this->playerUtil()->createMoon(
-                        $universe,
-                        $pos['galaxy'],
-                        $pos['system'],
-                        $pos['planet'],
-                        $userId,
-                        20,
-                        'TestMoon',
-                    );
-                    $this->setTestMoonData($moonId, $stageData[$gameStage]);
-                }
+                $this->setTestMoonData($moonId, $stage);
             }
         }
     }
@@ -130,339 +152,55 @@ class TestDataCreator extends CreatorTab
     /** Sets the user's research levels (columns named by the resource ids) to the stage's `research` values; levels are absolute, not added. */
     private function setTestTechData($userId, $stageData): void
     {
-        $resource = $this->state->resource;
-
-        $db = $this->db;
-
-        $fields = [];
-        $params = [];
-        foreach ($stageData['research'] as $ID => $level) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $level;
-        }
-        $params[':userId'] = $userId;
-
-        $sql = "UPDATE %%USERS%% SET " . implode(', ', $fields) . " WHERE id = :userId;";
-        $db->update($sql, $params);
+        $this->updateAbsoluteValues('USERS', $userId, [$stageData['research']]);
     }
 
     /** Sets a planet's resources, buildings, ships and defense (absolute values, column names from the resource ids) from the stage data. */
     private function setTestPlanetData($planetId, $stageData): void
     {
-        $resource = $this->state->resource;
-
-        $fields = [];
-        $params = [];
-        foreach ($stageData['resources'] as $ID => $amount) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $amount;
-        }
-        foreach ($stageData['buildings'] as $ID => $level) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $level;
-        }
-        foreach ($stageData['fleet'] as $ID => $level) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $level;
-        }
-        foreach ($stageData['defense'] as $ID => $level) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $level;
-        }
-        $params[':planetId'] = $planetId;
-
-        $db = $this->db;
-
-        $sql = "UPDATE %%PLANETS%% SET " . implode(', ', $fields) . " WHERE id = :planetId;";
-        $db->update($sql, $params);
+        $this->updateAbsoluteValues('PLANETS', $planetId, [
+            $stageData['resources'],
+            $stageData['buildings'],
+            $stageData['fleet'],
+            $stageData['defense'],
+        ]);
     }
 
     /** Sets a moon's resources and buildings from the stage's `moonResources` and `moonBuildings` (absolute values). */
     private function setTestMoonData($moonId, $stageData): void
     {
-        $resource = $this->state->resource;
-
-        $fields = [];
-        $params = [];
-        foreach ($stageData['moonResources'] as $ID => $amount) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $amount;
-        }
-        foreach ($stageData['moonBuildings'] as $ID => $level) {
-            $fields[] = "`" . $resource[$ID] . "` = :" . $resource[$ID];
-            $params[':' . $resource[$ID]] = $level;
-        }
-        $params[':planetId'] = $moonId;
-
-        $db = $this->db;
-
-        $sql = "UPDATE %%PLANETS%% SET " . implode(', ', $fields) . " WHERE id = :planetId;";
-        $db->update($sql, $params);
+        $this->updateAbsoluteValues('PLANETS', $moonId, [$stageData['moonResources'], $stageData['moonBuildings']]);
     }
 
     /**
-     * Fixed test setups by stage 1-4 (early, mid, late, end game). Per stage: `planets` (extra colonies) and `moons`
-     * counts, `resources`/`moonResources` (units per resource id), and level or count lists `buildings`,
-     * `moonBuildings`, `research`, `fleet`, `defense` keyed by element id.
+     * UPDATEs one row of the table, setting every listed element column (named by its resource id) to the absolute value.
+     *
+     * @param string $table game table key: USERS or PLANETS
+     * @param int $rowId user or planet id
+     * @param array<int, array<int, int|float>> $valueLists element id => value lists, applied in order
+     */
+    private function updateAbsoluteValues(string $table, $rowId, array $valueLists): void
+    {
+        $resource = $this->state->resource;
+
+        // column names come from the game's resource table; a later list overwrites an earlier value of the same column
+        $columns = [];
+        foreach ($valueLists as $values) {
+            foreach ($values as $ID => $value) {
+                $columns[$resource[$ID]] = $value;
+            }
+        }
+
+        $this->db->updateRows($table, $columns, ['id' => $rowId]);
+    }
+
+    /**
+     * Fixed test setups by stage 1-4 (early, mid, late, end game), see TestGameStages for the layout.
      *
      * @return array<int, array<string, mixed>>
      */
     private function getTestGameStageData(): array
     {
-        $data = [
-            1 => [
-                'planets' => 0,
-                'moons' => 0,
-                'resources' => [
-                    RESOURCE_METAL => 20000,
-                    RESOURCE_CRYSTAL => 20000,
-                    RESOURCE_DEUT => 10000,
-                ],
-                'moonResources' => [
-                    RESOURCE_METAL => 0,
-                    RESOURCE_CRYSTAL => 0,
-                    RESOURCE_DEUT => 0,
-                ],
-                'buildings' => [
-                    metal_mine => 10,
-                    crystal_mine => 9,
-                    deuterium_sintetizer => 7,
-                    solar_plant => 11,
-                    ROBOT_FACTORY => 2,
-                    SHIPYARD => 3,
-                    METAL_STORE => 2,
-                    CRYSTAL_STORE => 1,
-                    DEUTERIUM_STORE => 0,
-                    RESEARCH_LABORATORY => 3,
-                ],
-                'moonBuildings' => [
-                ],
-                'research' => [
-                    SPY_TECH => 3,
-                    COMPUTER_TECH => 3,
-                    ENERGY_TECH => 2,
-                    COMBUSTION_TECH => 3,
-                ],
-                'fleet' => [
-                    SHIP_SMALL_CARGO => 5,
-                    SHIP_LIGHT_FIGHTER => 5,
-                    SHIP_PROBE => 10,
-                ],
-                'defense' => [
-                    MISSILE_LAUNCHER => 2,
-                ],
-            ],
-            2 => [
-                'planets' => 5,
-                'moons' => 1,
-                'resources' => [
-                    RESOURCE_METAL => 200000,
-                    RESOURCE_CRYSTAL => 150000,
-                    RESOURCE_DEUT => 50000,
-                ],
-                'moonResources' => [
-                    RESOURCE_METAL => 0,
-                    RESOURCE_CRYSTAL => 0,
-                    RESOURCE_DEUT => 5000,
-                ],
-                'buildings' => [
-                    metal_mine => 16,
-                    crystal_mine => 15,
-                    deuterium_sintetizer => 11,
-                    solar_plant => 17,
-                    ROBOT_FACTORY => 6,
-                    SHIPYARD => 6,
-                    METAL_STORE => 5,
-                    CRYSTAL_STORE => 4,
-                    DEUTERIUM_STORE => 2,
-                    RESEARCH_LABORATORY => 7,
-                    SILO => 2,
-                ],
-                'moonBuildings' => [
-                    MOONBASE => 4,
-                    ROBOT_FACTORY => 5,
-                    PHALANX => 2,
-                ],
-                'research' => [
-                    SPY_TECH => 6,
-                    COMPUTER_TECH => 8,
-                    ENERGY_TECH => 5,
-                    HYPERSPACE_TECH => 4,
-                    COMBUSTION_TECH => 7,
-                    IMPULSE_MOTOR_TECH => 5,
-                    HYPERSPACE_MOTOR_TECH => 4,
-                    LASER_TECH => 6,
-                    EXPEDITION_TECH => 7,
-                    METAL_PROC_TECH => 3,
-                    CRYSTAL_PROC_TECH => 3,
-                    DEUTERIUM_PROC_TECH => 2,
-                ],
-                'fleet' => [
-                    SHIP_SMALL_CARGO => 50,
-                    SHIP_LARGE_CARGO => 20,
-                    SHIP_LIGHT_FIGHTER => 50,
-                    SHIP_CRUISER => 20,
-                    SHIP_BATTLESHIP => 2,
-                    SHIP_PROBE => 50,
-                    SHIP_SOLSAT => 25,
-                ],
-                'defense' => [
-                    MISSILE_LAUNCHER => 40,
-                    LIGHT_LASER_TURRET => 20,
-                    HEAVY_LASER_TURRET => 10,
-                    GAUSS_CANNON => 1,
-                    SMALL_SHIELD_DOME => 1,
-                    INTERCEPTOR_MISSILE => 5,
-                ],
-            ],
-            3 => [
-                'planets' => 7,
-                'moons' => 4,
-                'resources' => [
-                    RESOURCE_METAL => 2000000,
-                    RESOURCE_CRYSTAL => 1500000,
-                    RESOURCE_DEUT => 500000,
-                ],
-                'moonResources' => [
-                    RESOURCE_METAL => 0,
-                    RESOURCE_CRYSTAL => 0,
-                    RESOURCE_DEUT => 250000,
-                ],
-                'buildings' => [
-                    metal_mine => 23,
-                    crystal_mine => 22,
-                    deuterium_sintetizer => 18,
-                    solar_plant => 25,
-                    ROBOT_FACTORY => 10,
-                    SHIPYARD => 8,
-                    METAL_STORE => 8,
-                    CRYSTAL_STORE => 6,
-                    DEUTERIUM_STORE => 5,
-                    RESEARCH_LABORATORY => 10,
-                    SILO => 4,
-                ],
-                'moonBuildings' => [
-                    MOONBASE => 5,
-                    ROBOT_FACTORY => 2,
-                    PHALANX => 6,
-                ],
-                'research' => [
-                    SPY_TECH => 8,
-                    COMPUTER_TECH => 10,
-                    ENERGY_TECH => 8,
-                    HYPERSPACE_TECH => 5,
-                    COMBUSTION_TECH => 12,
-                    IMPULSE_MOTOR_TECH => 8,
-                    HYPERSPACE_MOTOR_TECH => 5,
-                    LASER_TECH => 12,
-                    IONIC_TECH => 5,
-                    BUSTER_TECH => 7,
-                    INTERGALACTIC_TECH => 1,
-                    EXPEDITION_TECH => 11,
-                    METAL_PROC_TECH => 6,
-                    CRYSTAL_PROC_TECH => 5,
-                    DEUTERIUM_PROC_TECH => 4,
-                ],
-                'fleet' => [
-                    SHIP_SMALL_CARGO => 800,
-                    SHIP_LARGE_CARGO => 500,
-                    SHIP_LIGHT_FIGHTER => 5000,
-                    SHIP_CRUISER => 1000,
-                    SHIP_BATTLESHIP => 500,
-                    SHIP_RECYCLER => 300,
-                    SHIP_BATTLECRUISER => 250,
-                    SHIP_PROBE => 500,
-                    SHIP_SOLSAT => 100,
-                ],
-                'defense' => [
-                    MISSILE_LAUNCHER => 400,
-                    LIGHT_LASER_TURRET => 200,
-                    HEAVY_LASER_TURRET => 100,
-                    GAUSS_CANNON => 20,
-                    PLASMA_CANNON => 5,
-                    SMALL_SHIELD_DOME => 1,
-                    LARGE_SHIELD_DOME => 1,
-                    INTERCEPTOR_MISSILE => 20,
-                    INTERPLANETARY_MISSILE => 5,
-                ],
-            ],
-            4 => [
-                'planets' => 9,
-                'moons' => 5,
-                'resources' => [
-                    RESOURCE_METAL => 20000000,
-                    RESOURCE_CRYSTAL => 15000000,
-                    RESOURCE_DEUT => 5000000,
-                ],
-                'moonResources' => [
-                    RESOURCE_METAL => 0,
-                    RESOURCE_CRYSTAL => 0,
-                    RESOURCE_DEUT => 250000,
-                ],
-                'buildings' => [
-                    metal_mine => 30,
-                    crystal_mine => 28,
-                    deuterium_sintetizer => 25,
-                    solar_plant => 32,
-                    ROBOT_FACTORY => 10,
-                    NANITE_FACTORY => 2,
-                    SHIPYARD => 12,
-                    METAL_STORE => 10,
-                    CRYSTAL_STORE => 8,
-                    DEUTERIUM_STORE => 7,
-                    RESEARCH_LABORATORY => 10,
-                    SILO => 4,
-                ],
-                'moonBuildings' => [
-                    MOONBASE => 5,
-                    SPRUNGTOR => 1,
-                    PHALANX => 6,
-                ],
-                'research' => [
-                    SPY_TECH => 10,
-                    COMPUTER_TECH => 14,
-                    ENERGY_TECH => 12,
-                    HYPERSPACE_TECH => 8,
-                    COMBUSTION_TECH => 14,
-                    IMPULSE_MOTOR_TECH => 12,
-                    HYPERSPACE_MOTOR_TECH => 9,
-                    LASER_TECH => 12,
-                    IONIC_TECH => 8,
-                    BUSTER_TECH => 8,
-                    INTERGALACTIC_TECH => 2,
-                    EXPEDITION_TECH => 17,
-                    METAL_PROC_TECH => 10,
-                    CRYSTAL_PROC_TECH => 8,
-                    DEUTERIUM_PROC_TECH => 7,
-                    GRAVITON_TECH => 1,
-                ],
-                'fleet' => [
-                    SHIP_SMALL_CARGO => 1800,
-                    SHIP_LARGE_CARGO => 1500,
-                    SHIP_LIGHT_FIGHTER => 15000,
-                    SHIP_CRUISER => 5000,
-                    SHIP_BATTLESHIP => 2500,
-                    SHIP_RECYCLER => 2300,
-                    SHIP_BATTLECRUISER => 1250,
-                    SHIP_DESTROYER => 200,
-                    SHIP_BOMBER => 100,
-                    SHIP_RIP => 5,
-                    SHIP_PROBE => 500,
-                    SHIP_SOLSAT => 200,
-                ],
-                'defense' => [
-                    MISSILE_LAUNCHER => 1000,
-                    LIGHT_LASER_TURRET => 500,
-                    HEAVY_LASER_TURRET => 200,
-                    GAUSS_CANNON => 100,
-                    PLASMA_CANNON => 20,
-                    SMALL_SHIELD_DOME => 1,
-                    LARGE_SHIELD_DOME => 1,
-                    INTERCEPTOR_MISSILE => 20,
-                    INTERPLANETARY_MISSILE => 10,
-                ],
-            ],
-        ];
-        return $data;
+        return TestGameStages::STAGES;
     }
 }

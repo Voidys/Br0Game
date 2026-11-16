@@ -33,7 +33,7 @@ class ReshuffleController extends AbstractAdminController
      */
     public function show(): Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $ACTION = $this->http()->_GP('action', '');
         if ($ACTION == 'send') {
             $selectedUniverse = $this->http()->_GP('universe', '');

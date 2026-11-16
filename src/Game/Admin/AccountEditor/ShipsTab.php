@@ -20,48 +20,38 @@ class ShipsTab extends AccountEditorTab
             foreach ($reslist['fleet'] as $ID) {
                 $fields[] = "`" . $resource[$ID] . "`";
             }
-            $sql = "SELECT " . implode(", ", $fields) . " FROM %%PLANETS%% WHERE `id` = :planetID;";
-            $beforeShips = $db->selectSingle($sql, [
-                ':planetID' => $id,
-            ]);
+            // the columns come from the game's resource table
+            $beforeShips = $db->fetchRow(
+                $db->qb()
+                    ->select(...$fields)
+                    ->from($db->table('PLANETS'))
+                    ->where('`id` = :planetID')
+                    ->setParameter('planetID', $id)
+            );
             $afterShips = [];
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%PLANETS%% SET `eco_hash` = '', ";
                 foreach ($reslist['fleet'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` + :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = $count;
                         $afterShips[$ID] = ($beforeShips[$resource[$ID]] ?? 0) + $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], ['eco_hash' => "''"], $QryUpdate);
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
-                $sql = "UPDATE %%PLANETS%% SET `eco_hash` = '', ";
                 foreach ($reslist['fleet'] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` - :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = -$count;
                         $afterShips[$ID] = max(0, $beforeShips[$ID] - $count);
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], ['eco_hash' => "''"], $QryUpdate);
                 }
             }
 

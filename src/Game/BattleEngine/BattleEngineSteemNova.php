@@ -44,19 +44,30 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      * proportionally scaled fleets (see fightScaled). Only if even that keeps running out of memory is false
      * returned, after the scale was quadrupled several times (down to a few thousand ships).
      */
-    public function calculateAttack(&$attackers, &$defenders, $universe, $sim = false, int $simTries = 1): array|false
+    public function fight(array $attackers, array $defenders, int $universe, bool $sim = false, int $simTries = 1): BattleResult|false
     {
-        $originalAttackers = $attackers;
-        $originalDefenders = $defenders;
+        // The per-ship simulation works on plain arrays (one array per ship, 500k ships at most); the typed fleets are
+        // converted once here and receive the surviving units once the fight succeeded.
+        $workAttackers = BattleFleet::listToArrays($attackers);
+        $workDefenders = BattleFleet::listToArrays($defenders);
+        $originalAttackers = $workAttackers;
+        $originalDefenders = $workDefenders;
         $this->minScale = 1;
         try {
             for ($try = 0; $try < 6; $try++) {
-                $result = $this->fightScaled($attackers, $defenders, $universe, $sim, $simTries);
+                $result = $this->fightScaled($workAttackers, $workDefenders, $universe, $sim, $simTries);
                 if ($result !== false) {
+                    foreach ($attackers as $id => $fleet) {
+                        $fleet->units = $workAttackers[$id]['unit'];
+                    }
+                    foreach ($defenders as $id => $fleet) {
+                        $fleet->units = $workDefenders[$id]['unit'];
+                    }
+
                     return $result;
                 }
-                $attackers = $originalAttackers;
-                $defenders = $originalDefenders;
+                $workAttackers = $originalAttackers;
+                $workDefenders = $originalDefenders;
                 $this->minScale *= 4;
             }
         } finally {
@@ -72,8 +83,11 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      * real amounts. Fights are statistical (random targets) and invariant when both sides shrink by the same
      * factor, so the outcome matches the full fight closely; losses, wrecks and debris are computed from the
      * real amounts. Round data of the report is scaled back as well.
+     *
+     * @param array<int|string, array<string, mixed>> $attackers working copies of the fleets (BattleFleet::toArray()); `unit` ends as the survivors
+     * @param array<int|string, array<string, mixed>> $defenders likewise; the planet's `unit` includes the rebuilt defense
      */
-    private function fightScaled(&$attackers, &$defenders, $universe, $sim, int $simTries): array|false
+    private function fightScaled(array &$attackers, array &$defenders, int $universe, bool $sim, int $simTries): BattleResult|false
     {
         $executionTime = microtime(true);
 
@@ -182,7 +196,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
 
             if ($att['attackAmount']['total'] > 0 && $def['attackAmount']['total'] > 0 && $ROUNDC < MAX_ATTACK_ROUNDS) {
                 // FIGHT
-                $fightResults = $this->fight($attackers, $defenders, $sim, $advancedStats);
+                $fightResults = $this->fightRound($attackers, $defenders, $sim, $advancedStats);
                 if (!$fightResults) {
                     return false; // Memory limit exceeded, return false to indicate failure
                 }
@@ -352,26 +366,15 @@ class BattleEngineSteemNova extends AbstractBattleEngine
             $wreckfield = [];
         }
 
-        return [
-            'won' => $won,
-            'debris' => [
-                'attacker' => [
-                    901 => $debAttMet,
-                    902 => $debAttCry,
-                ],
-                'defender' => [
-                    901 => $debDefMet,
-                    902 => $debDefCry,
-                ]
-            ],
-            'rw' => $ROUND,
-            'unitLost' => $totalLost,
-            'repaired' => $repairedDef,
-            'wreckfield' => $wreckfield,
-            'duration' => microtime(true) - $executionTime,
-            'unitLostPerSideAndUser' => $unitsLost,
-            'transportCapacityLostPerSideAndUser' => $capacityLost,
-        ];
+        return new BattleResult(
+            $won,
+            new BattleDebris($debAttMet, $debAttCry, $debDefMet, $debDefCry),
+            $ROUND,
+            new BattleLosses($totalLost['attacker'], $totalLost['defender'], $unitsLost, $capacityLost),
+            $repairedDef,
+            $wreckfield,
+            microtime(true) - $executionTime,
+        );
     }
 
     /** Fleet data without the per-ship arrays (only needed while fighting, never read from the report rounds). */
@@ -440,7 +443,7 @@ class BattleEngineSteemNova extends AbstractBattleEngine
      * @return array|\Ds\Map|false per-side damage dealt and shield damage absorbed (keys attack, defense,
      * attackShield, defShield), or false when the memory guard trips.
      */
-    private function fight(&$attackers, &$defenders, $sim, &$advancedStats)
+    private function fightRound(&$attackers, &$defenders, $sim, &$advancedStats)
     {
 
         $attack = ['attack' => 0, 'shield' => 0];

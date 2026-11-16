@@ -18,7 +18,7 @@ PHP (proc_open) -> bin/battlerust (C launcher, tools/battlerust-cli) -> dlopen b
 | `const char *battlerust_version(void)` | Static version string, e.g. `1.0.0`. |
 
 Launcher exit codes: 0 ok, 2 library missing/unloadable, 3 symbol missing, 4 input error, 5 engine returned nothing. PHP treats
-any non-zero exit or empty output as a failed fight. `BattleEngineRust::calculateAttack()` then runs the PHP engine instead
+any non-zero exit or empty output as a failed fight. `BattleEngineRust::fight()` then runs the PHP engine instead
 (and `getName()` reports `steemnova`, so the report is stored in the PHP format).
 
 The old library printed progress lines to stdout ("Round 0: Fleet A size: ..."); the launcher redirects stdout to stderr while
@@ -26,7 +26,7 @@ the library runs. The new library prints nothing on success.
 
 ## Input JSON
 
-Built by `BattleEngineRust::createRustJson()`:
+Built by `BattleEngineRust::engineJson()` (`engineInput()` is the array; both take `BattleFleet` objects):
 
 ```json
 {

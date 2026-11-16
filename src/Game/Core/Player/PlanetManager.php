@@ -505,21 +505,21 @@ class PlanetManager
 
         $db = $this->db;
 
-        $params = [];
-        $params[] = $resource[RESOURCE_METAL] . ' = 0';
-        $params[] = $resource[RESOURCE_CRYSTAL] . ' = 0';
-        $params[] = $resource[RESOURCE_DEUT] . ' = 0';
+        // fixed assignments plus the resource, fleet and defense columns from the game's resource table
+        $expressions = ['b_hangar' => '0', 'b_hangar_id' => "''"];
+        $expressions[$resource[RESOURCE_METAL]] = '0';
+        $expressions[$resource[RESOURCE_CRYSTAL]] = '0';
+        $expressions[$resource[RESOURCE_DEUT]] = '0';
 
         foreach ($reslist['fleet'] as $element) {
-            $params[] = $resource[$element] . ' = 0';
+            $expressions[$resource[$element]] = '0';
         }
 
         foreach ($reslist['defense'] as $element) {
-            $params[] = $resource[$element] . ' = 0';
+            $expressions[$resource[$element]] = '0';
         }
 
-        $sql = 'UPDATE %%PLANETS%% SET `b_hangar` = 0, `b_hangar_id` = "", ' . implode(", ", $params) . ' WHERE `id_owner` = :owner;';
-        $db->update($sql, [':owner' => $USER['id']]);
+        $db->updateRows('PLANETS', [], ['id_owner' => $USER['id']], $expressions);
     }
 
     private function planetPositions(): PlanetPositions

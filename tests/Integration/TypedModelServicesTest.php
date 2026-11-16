@@ -109,6 +109,46 @@ final class TypedModelServicesTest extends GameTestCase
         $this->assertSame($production->getNetworkLevel($user, $planet), $production->networkLevelFor($userModel, $planetModel));
     }
 
+    /** The pure production calculation gives the deltas and capped stocks the array adapter applies. */
+    public function testProduceForIsPureAndTheAdapterAppliesIt(): void
+    {
+        [$user, $planet] = $this->player();
+        $production = new ResourceProduction($this->db, $this->configs, $this->state);
+        $config = $this->configs->get(1);
+        $config->metal_basic_income = 30;
+        $config->crystal_basic_income = 15;
+        $config->deuterium_basic_income = 0;
+        $planet = array_merge($planet, [
+            'planet_type' => 1,
+            'metal' => 900.5, 'metal_max' => 1000, 'metal_perhour' => 3600,
+            'crystal' => 50.25, 'crystal_max' => 100000, 'crystal_perhour' => 1800,
+            'deuterium' => 10.0, 'deuterium_max' => 1000, 'deuterium_perhour' => -3600 * 100,
+        ]);
+        $before = $planet;
+
+        $result = $production->produceFor($this->models->planet($planet), 3600, $config);
+
+        $this->assertSame($before, $planet, 'the calculation changes no state');
+        $this->assertEqualsWithDelta(99.5, $result->metalDelta, 1e-9, 'capped at storage * max_overflow');
+        $this->assertEqualsWithDelta(1000.0, $result->metal, 1e-9);
+        $this->assertEqualsWithDelta(1815.0, $result->crystalDelta, 1e-9);
+        $this->assertEqualsWithDelta(-10.0, $result->deuteriumDelta, 1e-9, 'consumption empties the stock exactly');
+        $this->assertEqualsWithDelta(0.0, $result->deuterium, 1e-9);
+        $this->assertSame($result->crystalDelta, $result->delta(RESOURCE_CRYSTAL));
+        $this->assertSame($result->crystal, $result->stock(RESOURCE_CRYSTAL));
+
+        $builded = [RESOURCE_METAL => 5.0, RESOURCE_CRYSTAL => 0.0, RESOURCE_DEUT => 0.0];
+        $applied = $production->produce($planet, 3600, $config, $builded);
+        $this->assertEqualsWithDelta($result->metal, $applied['metal'], 1e-9);
+        $this->assertEqualsWithDelta($result->crystal, $applied['crystal'], 1e-9);
+        $this->assertEqualsWithDelta($result->deuterium, $applied['deuterium'], 1e-9);
+        $this->assertEqualsWithDelta(5.0 + $result->metalDelta, $builded[RESOURCE_METAL], 1e-9);
+
+        $moon = $production->produceFor($this->models->planet(array_merge($planet, ['planet_type' => 3])), 3600, $config);
+        $this->assertSame([0, 0, 0], [$moon->metalDelta, $moon->crystalDelta, $moon->deuteriumDelta], 'moons produce nothing');
+        $this->assertSame(900.5, $moon->metal);
+    }
+
     public function testFleetMathTypedMatchesArrays(): void
     {
         [$user, , $userModel] = $this->player();

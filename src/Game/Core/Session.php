@@ -374,16 +374,20 @@ class Session
                 ]);
 
                 if (empty($multiEntry)) {
-                    $sql = "SELECT mu.`multiID`, count(DISTINCT muc.`userID`) AS anz
-                        FROM `%%MULTI_TO_USERS%%` AS mu
-                        JOIN `%%MULTI_TO_USERS%%` AS muc ON muc.`multiID` = mu.`multiID`
-                        WHERE mu.`userID` IN ( ". implode(', ', array_map('intval', array_column($multis, 'id'))) ." )
-                        GROUP BY mu.`multiID`
-                        HAVING count(DISTINCT mu.`userID`) >= :usersSize
-                        ORDER BY anz ASC;";
-                    $multiID = $db->selectSingle($sql, [
-                        ':usersSize' => count($multis),
-                    ], 'multiID');
+                    // the multi group that contains all of these users (fewest members first)
+                    $multiID = $db->fetchValue(
+                        $db->qb()
+                            ->select('mu.`multiID`')
+                            ->addSelect('count(DISTINCT muc.`userID`) AS anz')
+                            ->from($db->table('MULTI_TO_USERS'), 'mu')
+                            ->join('mu', $db->table('MULTI_TO_USERS'), 'muc', 'muc.`multiID` = mu.`multiID`')
+                            ->where('mu.`userID` IN (:userIds)')
+                            ->groupBy('mu.`multiID`')
+                            ->having('count(DISTINCT mu.`userID`) >= :usersSize')
+                            ->orderBy('anz', 'ASC')
+                            ->setParameter('userIds', array_map('intval', array_column($multis, 'id')), \Doctrine\DBAL\ArrayParameterType::INTEGER)
+                            ->setParameter('usersSize', count($multis))
+                    );
 
                     $sql = "SELECT * FROM %%MULTI%%
                         WHERE `multiID` = :multiID;";

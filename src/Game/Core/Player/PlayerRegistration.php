@@ -74,26 +74,63 @@ class PlayerRegistration
         ?string $imageTheme = null,
         ?string $cssTheme = null,
     ): array {
-        $config = $this->configs->get($universe);
-        $imageTheme ??= Theme::resolveDefaultTheme($config->default_theme ?? null);
-        $cssTheme ??= Theme::resolveDefaultTheme($config->default_theme ?? null);
-        $db = $this->db;
+        return $this->register(new NewPlayerOptions(
+            $accountId,
+            $universe,
+            $userName,
+            $userLanguage,
+            $galaxy,
+            $system,
+            $planet,
+            $name,
+            $authlevel,
+            $userIpAddress,
+            $stb,
+            $colorSettings,
+            $missionSettings,
+            $timezone,
+            $imageTheme,
+            $cssTheme,
+        ));
+    }
 
-        $pos = $this->startPosition($universe, $galaxy, $system, $planet);
+    /**
+     * Creates a player from NewPlayerOptions (what createPlayer() does, see there for the side effects).
+     *
+     * Order: position check, user + settings rows, copied settings, home planet, position/planet link on the user,
+     * statistics row, account link, users_amount + 1 saved.
+     *
+     * @return array{0: int, 1: int} [user id, home planet id]
+     * @throws Exception when a given position is outside the universe or taken
+     */
+    public function register(NewPlayerOptions $options): array
+    {
+        $universe = $options->universe;
+        $config = $this->configs->get($universe);
+        $imageTheme = $options->imageTheme ?? Theme::resolveDefaultTheme($config->default_theme ?? null);
+        $cssTheme = $options->cssTheme ?? Theme::resolveDefaultTheme($config->default_theme ?? null);
+
+        $pos = $this->startPosition($universe, $options->galaxy, $options->system, $options->planet);
 
         $userId = $this->insertUserRecords(
             $config,
             $universe,
-            $userName,
-            $authlevel,
-            $userIpAddress,
-            $userLanguage,
-            $timezone,
+            $options->userName,
+            $options->authlevel,
+            $options->userIpAddress,
+            $options->userLanguage,
+            $options->timezone,
             $imageTheme,
             $cssTheme,
         );
 
-        $this->copySettingsFromOtherUniverse($userId, $accountId, $stb, $colorSettings, $missionSettings);
+        $this->copySettingsFromOtherUniverse(
+            $userId,
+            $options->accountId,
+            $options->stb,
+            $options->colorSettings,
+            $options->missionSettings,
+        );
 
         $planetId = $this->planetManager()->createPlanet(
             $pos['galaxy'],
@@ -101,14 +138,30 @@ class PlayerRegistration
             $pos['planet'],
             $universe,
             $userId,
-            $name,
+            $options->planetName,
             true,
-            $authlevel,
+            $options->authlevel,
         );
 
-        $currentUserAmount = $config->users_amount + 1;
-        $config->users_amount = $currentUserAmount;
+        $config->users_amount = $config->users_amount + 1;
+        $this->linkHomePlanet($userId, $planetId, $pos);
+        $this->insertStatpointsRow($userId, $universe);
+        $this->linkAccount($userId, $options->accountId);
+        $config->save();
 
+        return [
+            $userId,
+            $planetId,
+        ];
+    }
+
+    /**
+     * Stores the start position and home planet id on the user row.
+     *
+     * @param array{galaxy: int, system: int, planet: int} $pos
+     */
+    private function linkHomePlanet(int $userId, int $planetId, array $pos): void
+    {
         $sql = 'UPDATE %%USERS%% SET
             `galaxy` = :galaxy,
             `system` = :system,
@@ -116,30 +169,26 @@ class PlayerRegistration
             `id_planet` = :planetId
             WHERE `id` = :userId;';
 
-        $db->update($sql, [
+        $this->db->update($sql, [
             ':galaxy'   => $pos['galaxy'],
             ':system'   => $pos['system'],
             ':planet'   => $pos['planet'],
             ':planetId' => $planetId,
             ':userId'   => $userId,
         ]);
+    }
 
-        $this->insertStatpointsRow($userId, $universe);
-
+    /** Links the new user to its account (accounts_to_users, no end time). */
+    private function linkAccount(int $userId, int $accountId): void
+    {
         $sql = 'INSERT INTO %%ACCOUNTS_TO_USERS%% SET
             `account_id`    = :accId,
             user_id         = :userId,
             end_time        = 0;';
-        $db->insert($sql, [
+        $this->db->insert($sql, [
             ':userId'    => $userId,
             ':accId'    => $accountId,
         ]);
-        $config->save();
-
-        return [
-            $userId,
-            $planetId,
-        ];
     }
 
     /**

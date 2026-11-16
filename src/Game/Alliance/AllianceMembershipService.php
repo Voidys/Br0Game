@@ -195,12 +195,15 @@ class AllianceMembershipService
         }
 
         if ($alliance['ally_owner'] != $USER['id'] && $kickUser['ally_rank_id'] != 0) {
-            $sql = 'SELECT ' . implode(', ', AllianceRights::AVAILABLE)
-                . ' FROM %%ALLIANCE_RANK%% WHERE allianceID = :allianceId AND rankID = :rankId;';
-            $kickRank = $db->selectSingle($sql, [
-                ':allianceId' => $alliance['id'],
-                ':rankId' => $kickUser['ally_rank_id'],
-            ]);
+            $kickRank = $db->fetchRow(
+                $db->qb()
+                    ->select(...array_values(AllianceRights::AVAILABLE))
+                    ->from($db->table('ALLIANCE_RANK'))
+                    ->where('allianceID = :allianceId')
+                    ->andWhere('rankID = :rankId')
+                    ->setParameter('allianceId', $alliance['id'])
+                    ->setParameter('rankId', $kickUser['ally_rank_id'])
+            );
             if ($kickRank && !AllianceRights::canHandOut($kickRank, $rights)) {
                 throw AllianceException::home();
             }

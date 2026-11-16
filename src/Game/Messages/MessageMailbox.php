@@ -2,6 +2,7 @@
 
 namespace App\Game\Messages;
 
+use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -177,13 +178,15 @@ class MessageMailbox
             return;
         }
         $USER = $this->state->USER;
-        $sql = 'UPDATE %%USERS_TO_MESSAGES%%
-                    SET `message_unread` = 0 
-                    WHERE `user_id` = :userID
-                      AND `message_id` IN (' . implode(', ', $ids) . ');';
-        $this->db->update($sql, [
-            ':userID'       => $USER['id'],
-        ]);
+        $this->db->execute(
+            $this->db->qb()
+                ->update($this->db->table('USERS_TO_MESSAGES'))
+                ->set('`message_unread`', '0')
+                ->where('`user_id` = :userID')
+                ->andWhere('`message_id` IN (:ids)')
+                ->setParameter('userID', $USER['id'])
+                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+        );
     }
 
     /** Deletes all messages of the player except favourites. */
@@ -224,15 +227,17 @@ class MessageMailbox
             return;
         }
         $USER = $this->state->USER;
-        $sql = 'UPDATE %%USERS_TO_MESSAGES%%
-                    SET `deleted_at` = :timestamp 
-                    WHERE `user_id` = :userId
-                      AND `message_favorite` = 0
-                      AND `message_id` IN (' . implode(', ', $ids) . ');';
-        $this->db->update($sql, [
-            ':timestamp' => $this->state->runtime->timestamp,
-            ':userId' => $USER['id'],
-        ]);
+        $this->db->execute(
+            $this->db->qb()
+                ->update($this->db->table('USERS_TO_MESSAGES'))
+                ->set('`deleted_at`', ':timestamp')
+                ->where('`user_id` = :userId')
+                ->andWhere('`message_favorite` = 0')
+                ->andWhere('`message_id` IN (:ids)')
+                ->setParameter('timestamp', $this->state->runtime->timestamp)
+                ->setParameter('userId', $USER['id'])
+                ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+        );
     }
 
     /**
@@ -247,26 +252,25 @@ class MessageMailbox
         }
         $USER = $this->state->USER;
         $db = $this->db;
-        $sql = 'UPDATE %%USERS_TO_MESSAGES%% um
-                    INNER JOIN %%MESSAGES%% m ON m.`message_id` = um.`message_id`
-                    SET um.`deleted_at` = :timestamp
-                    WHERE um.`user_id` = :userId
-                      AND um.`message_favorite` = 0
-                      AND um.`message_id` NOT IN (' . implode(', ', $ids) . ')';
+        // the former UPDATE ... INNER JOIN messages: a QueryBuilder update has no join, so the message must exist (and have
+        // the category, unless ALL) as a subselect
+        $messages = $db->table('MESSAGES');
+        $qb = $db->qb()
+            ->update($db->table('USERS_TO_MESSAGES'))
+            ->set('`deleted_at`', ':timestamp')
+            ->where('`user_id` = :userId')
+            ->andWhere('`message_favorite` = 0')
+            ->andWhere('`message_id` NOT IN (:ids)')
+            ->setParameter('timestamp', $this->state->runtime->timestamp)
+            ->setParameter('userId', $USER['id'])
+            ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER);
         if ($MessCategory != MESSAGE_TYPE_ALL) {
-            $sql .= ' AND m.`message_type` = :messCategory;';
-            $db->update($sql, [
-                ':timestamp'    => $this->state->runtime->timestamp,
-                ':userId'       => $USER['id'],
-                ':messCategory' => $MessCategory,
-            ]);
+            $qb->andWhere('`message_id` IN (SELECT m.`message_id` FROM ' . $messages . ' m WHERE m.`message_type` = :messCategory)')
+                ->setParameter('messCategory', $MessCategory);
         } else {
-            $sql .= ';';
-            $db->update($sql, [
-                ':timestamp' => $this->state->runtime->timestamp,
-                ':userId'    => $USER['id'],
-            ]);
+            $qb->andWhere('`message_id` IN (SELECT m.`message_id` FROM ' . $messages . ' m)');
         }
+        $db->execute($qb);
     }
 
     /**

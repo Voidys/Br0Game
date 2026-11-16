@@ -17,6 +17,7 @@
 
 namespace App\Controller\Admin;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
@@ -52,10 +53,6 @@ class MessageListController extends AbstractAdminController
         $perSide = 50;
 
         $messageList = [];
-        $userWhereSQL = '';
-        $dateWhereSQL = '';
-        $countJoinSQL = '';
-        $params = [];
 
         $categories = $LNG['mg_type'];
         unset($categories[999]);
@@ -66,80 +63,86 @@ class MessageListController extends AbstractAdminController
         $useDateStart = count($dateStart) == 3;
         $useDateEnd = count($dateEnd) == 3;
 
+        // optional filters as [condition, parameters]; the same set limits the count and the page query
+        $dateFilter = null;
         if ($useDateStart && $useDateEnd) {
-            $dateWhereSQL = ' AND um.`created_at` BETWEEN :msgTimeStart AND :msgTimeEnd';
-            $params[':msgTimeStart'] = mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
-            $params[':msgTimeEnd'] = mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
+            $dateFilter = ['um.`created_at` BETWEEN :msgTimeStart AND :msgTimeEnd', [
+                'msgTimeStart' => mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']),
+                'msgTimeEnd' => mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']),
+            ]];
         } elseif ($useDateStart) {
-            $dateWhereSQL = ' AND um.`created_at` > :msgTime';
-            $params[':msgTime'] = mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']);
-        } elseif ($useDateStart) {
-            $dateWhereSQL = ' AND um.`created_at` < :msgTime';
-            $params[':msgTime'] = mktime(23, 59, 59, (int) $dateEnd['month'], (int) $dateEnd['day'], (int) $dateEnd['year']);
+            $dateFilter = ['um.`created_at` > :msgTime', [
+                'msgTime' => mktime(0, 0, 0, (int) $dateStart['month'], (int) $dateStart['day'], (int) $dateStart['year']),
+            ]];
         }
 
+        /**
+         * Adds the shared conditions: message type (unless all types), universe, date range, sender and receiver name.
+         * The sender/receiver joins (aliases us/u) must already be on the query.
+         */
+        $filter = function (QueryBuilder $qb) use ($type, $dateFilter, $sender, $receiver): QueryBuilder {
+            if ($type != MESSAGE_TYPE_ALL) {
+                $qb->andWhere('m.`message_type` = :type')->setParameter('type', $type);
+            }
+            $qb->andWhere('m.`message_universe` = :universe')->setParameter('universe', $this->universe()->getEmulated());
+            if ($dateFilter !== null) {
+                $qb->andWhere($dateFilter[0]);
+                foreach ($dateFilter[1] as $name => $value) {
+                    $qb->setParameter($name, $value);
+                }
+            }
+            if (!empty($sender)) {
+                $qb->andWhere('us.`username` = :sender')->setParameter('sender', $sender);
+            }
+            if (!empty($receiver)) {
+                $qb->andWhere('u.`username` = :receiver')->setParameter('receiver', $receiver);
+            }
+
+            return $qb;
+        };
+
+        $countQuery = $db->qb()
+            ->select('COUNT(*) AS anz')
+            ->from($db->table('MESSAGES'), 'm')
+            ->leftJoin('m', $db->table('USERS_TO_MESSAGES'), 'um', 'm.`message_id` = um.`message_id`');
         if (!empty($sender)) {
-            $countJoinSQL .= ' LEFT JOIN %%USERS%% as us ON m.`message_sender` = us.`id`';
-            $userWhereSQL .= ' AND us.`username` = :sender';
-            $params[':sender'] = $sender;
+            $countQuery->leftJoin('m', $db->table('USERS'), 'us', 'm.`message_sender` = us.`id`');
         }
-
         if (!empty($receiver)) {
-            $countJoinSQL .= ' LEFT JOIN %%USERS%% as u ON um.`user_id` = u.`id`';
-            $userWhereSQL .= ' AND u.`username` = :receiver';
-            $params[':receiver'] = $receiver;
+            $countQuery->leftJoin('um', $db->table('USERS'), 'u', 'um.`user_id` = u.`id`');
         }
-
-        $params[':universe'] = $this->universe()->getEmulated();
-
-        if ($type != MESSAGE_TYPE_ALL) {
-            $sql = "SELECT COUNT(*) AS anz FROM %%MESSAGES%% AS m 
-            LEFT JOIN %%USERS_TO_MESSAGES%% as um ON m.`message_id` = um.`message_id` 
-            $countJoinSQL 
-            WHERE m.`message_type` = :type AND m.`message_universe` = :universe $dateWhereSQL $userWhereSQL;";
-            $params[':type'] = $type;
-            $MessageCount = $db->selectSingle($sql, $params, 'anz');
-        } else {
-            $sql = "SELECT COUNT(*) AS anz FROM %%MESSAGES%% AS m 
-            LEFT JOIN %%USERS_TO_MESSAGES%% as um ON m.`message_id` = um.`message_id` 
-            $countJoinSQL 
-            WHERE m.`message_universe` = :universe $dateWhereSQL $userWhereSQL;";
-            $MessageCount = $db->selectSingle($sql, $params, 'anz');
-        }
+        $MessageCount = $db->fetchValue($filter($countQuery));
 
         $maxPage = max(1, ceil($MessageCount / $perSide));
         $page = max(1, min($page, $maxPage));
 
-        $sqlLimit = (($page - 1) * $perSide) . ", " . ($perSide - 1);
-
-        if ($type != MESSAGE_TYPE_ALL) {
-            $params[':type'] = $type;
-            $messageRaw = $db->select(
-                "SELECT m.`message_id`, u.`username`, us.`username` as senderName, m.`message_from`, 
-                m.`message_sender`, um.`user_id` AS message_owner, m.`message_subject`, m.`message_text`, m.`message_type`, um.`deleted_at` AS message_deleted, um.`created_at` AS message_time
-		    FROM %%MESSAGES%% as m
-            LEFT JOIN %%USERS_TO_MESSAGES%% as um ON m.`message_id` = um.`message_id`
-		    LEFT JOIN %%USERS%% as u ON um.`user_id` = u.`id`
-		    LEFT JOIN %%USERS%% as us ON m.`message_sender` = us.`id`
-            WHERE m.`message_type` = :type AND message_universe = :universe $dateWhereSQL $userWhereSQL
-            ORDER BY m.`message_time` DESC, m.`message_id` DESC
-            LIMIT $sqlLimit;",
-                $params,
-            );
-        } else {
-            $messageRaw = $db->select(
-                "SELECT m.`message_id`, u.`username`, us.`username` as senderName, m.`message_from`, 
-                m.`message_sender`, um.`user_id` AS message_owner, m.`message_subject`, m.`message_text`, m.`message_type`, um.`deleted_at` AS message_deleted, um.`created_at` as message_time
-            FROM %%MESSAGES%% as m 
-            LEFT JOIN %%USERS_TO_MESSAGES%% as um ON m.`message_id` = um.`message_id`
-            LEFT JOIN %%USERS%% as u ON um.`user_id` = u.`id` 
-            LEFT JOIN %%USERS%% as us ON m.`message_sender` = us.`id`
-            WHERE m.`message_universe` = :universe $dateWhereSQL $userWhereSQL
-            ORDER BY m.`message_time` DESC, m.`message_id` DESC
-            LIMIT $sqlLimit;",
-                $params,
-            );
-        }
+        // the page holds $perSide - 1 rows (long-standing behaviour of this list)
+        $messageRaw = $db->fetchAll(
+            $filter(
+                $db->qb()
+                    ->select(
+                        'm.`message_id`',
+                        'u.`username`',
+                        'us.`username` AS senderName',
+                        'm.`message_from`',
+                        'm.`message_sender`',
+                        'um.`user_id` AS message_owner',
+                        'm.`message_subject`',
+                        'm.`message_text`',
+                        'm.`message_type`',
+                        'um.`deleted_at` AS message_deleted',
+                        'um.`created_at` AS message_time'
+                    )
+                    ->from($db->table('MESSAGES'), 'm')
+                    ->leftJoin('m', $db->table('USERS_TO_MESSAGES'), 'um', 'm.`message_id` = um.`message_id`')
+                    ->leftJoin('um', $db->table('USERS'), 'u', 'um.`user_id` = u.`id`')
+                    ->leftJoin('m', $db->table('USERS'), 'us', 'm.`message_sender` = us.`id`')
+            )
+                ->orderBy('m.`message_time`', 'DESC')
+                ->addOrderBy('m.`message_id`', 'DESC')
+                ->setFirstResult(($page - 1) * $perSide)
+                ->setMaxResults($perSide - 1)
+        );
 
         foreach ($messageRaw as $messageRow) {
             if ($messageRow['message_type'] == MESSAGE_TYPE_SPY_REPORT) {

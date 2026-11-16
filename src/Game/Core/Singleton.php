@@ -5,8 +5,8 @@ namespace App\Game\Core;
 /**
  * The game state of a request or console run, a shared container service: a bag of named values ($state->USER,
  * PLANET, LNG, resource, reslist, pricelist, request data, session, ...) read and written as properties, plus the
- * read-only RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are stored by reference so aliases
- * such as `$USER = & $this->state->USER` see later changes.
+ * read-only RuntimeContext ($state->runtime: time, mode, paths, URLs). Values are stored by reference so they can be written in place
+ * (`$this->state->USER['key'] = ...`); no local reference aliases.
  */
 class Singleton
 {

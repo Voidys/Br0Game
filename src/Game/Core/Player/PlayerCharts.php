@@ -2,6 +2,7 @@
 
 namespace App\Game\Core\Player;
 
+use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\Database;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Singleton;
@@ -65,10 +66,17 @@ class PlayerCharts
         $ownByTimestamp = [];
         if (!empty($statpoints)) {
             $timestamps = array_map('intval', array_column($statpoints, 'timestamp'));
-            $sql = "SELECT * FROM %%STATPOINTS_HISTORY%%
-                WHERE `id_owner` = :userId AND `timestamp` IN (" . implode(', ', $timestamps) . ")
-                ORDER BY `stat_type` ASC;";
-            foreach ($db->select($sql, [':userId' => $USER['id']]) as $ownRow) {
+            $ownRows = $db->fetchAll(
+                $db->qb()
+                    ->select('*')
+                    ->from($db->table('STATPOINTS_HISTORY'))
+                    ->where('`id_owner` = :userId')
+                    ->andWhere('`timestamp` IN (:timestamps)')
+                    ->setParameter('userId', $USER['id'])
+                    ->setParameter('timestamps', $timestamps, ArrayParameterType::INTEGER)
+                    ->orderBy('`stat_type`', 'ASC')
+            );
+            foreach ($ownRows as $ownRow) {
                 $ownByTimestamp[$ownRow['timestamp']] ??= $ownRow;
             }
         }

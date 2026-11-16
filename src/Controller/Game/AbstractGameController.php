@@ -91,32 +91,31 @@ abstract class AbstractGameController implements GameControllerInterface
         if (!$this->state->runtime->ajax) {
             $this->setWindow('full');
             if (!$this->disableEcoSystem) {
-                $USER = & $this->state->USER;
-                $PLANET = & $this->state->PLANET;
-                if (!empty($USER) && !empty($PLANET)) {
+
+                if (!empty($this->state->USER) && !empty($this->state->PLANET)) {
                     $db = $this->db;
                     $db->startTransaction();
                     // User row first, then planets: the same order as the
                     // research, Empire, vacation and fleet mission paths.
                     $sql    = "SELECT * FROM %%USERS%% WHERE id = :userId FOR UPDATE;";
                     $u   = $db->selectSingle($sql, [
-                        ':userId'   => $USER['id'],
+                        ':userId'   => $this->state->USER['id'],
                     ]);
                     $sql    = "SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;";
                     $p = $db->selectSingle($sql, [
-                        ':planetId' => $PLANET['id'],
+                        ':planetId' => $this->state->PLANET['id'],
                     ]);
 
                     // Calc from the locked rows. Session copies are stale under
                     // concurrent requests (PREVENT_MULTISESSIONS is false) and
                     // SavePlanetToDB applies resource deltas additively.
                     if (!empty($p) && !empty($u)) {
-                        $USER = array_merge($USER, $u);
-                        $PLANET = $p;
+                        $this->state->USER = array_merge($this->state->USER, $u);
+                        $this->state->PLANET = $p;
                     }
 
                     $this->ecoObj = new ResourceUpdate($this->db, $this->configs, $this->state);
-                    [$USER, $PLANET] = $this->ecoObj->CalcResource($USER, $PLANET, true);
+                    [$this->state->USER, $this->state->PLANET] = $this->ecoObj->CalcResource($this->state->USER, $this->state->PLANET, true);
                     $db->commit();
                 }
             }
@@ -196,7 +195,6 @@ abstract class AbstractGameController implements GameControllerInterface
     {
         $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
-        $USER = & $this->state->USER;
         $THEME = $this->state->THEME;
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
@@ -205,15 +203,15 @@ abstract class AbstractGameController implements GameControllerInterface
 
         $PlanetSelect = [];
 
-        if ($USER['bana'] == 1) {
+        if ($this->state->USER['bana'] == 1) {
             throw new EndOfRequest($LNG['banned_message']);
         }
 
-        if (!isset($USER['PLANETS'])) {
-            $USER['PLANETS'] = $this->playerUtil()->getPlanets($USER);
+        if (!isset($this->state->USER['PLANETS'])) {
+            $this->state->USER['PLANETS'] = $this->playerUtil()->getPlanets($this->state->USER);
         }
 
-        foreach ($USER['PLANETS'] as $PlanetQuery) {
+        foreach ($this->state->USER['PLANETS'] as $PlanetQuery) {
             $PlanetSelect[$PlanetQuery['id']] = $PlanetQuery['name'] . (($PlanetQuery['planet_type'] == 3) ? " (" . $LNG['fcm_moon'] . ")" : "") . " [" . $PlanetQuery['galaxy'] . ":" . $PlanetQuery['system'] . ":" . $PlanetQuery['planet'] . "]";
         }
 
@@ -223,7 +221,7 @@ abstract class AbstractGameController implements GameControllerInterface
             $resourceTable[$resourceID]['name'] = $resource[$resourceID];
             $resourceTable[$resourceID]['current'] = floor($PLANET[$resource[$resourceID]]);
             $resourceTable[$resourceID]['max'] = $PLANET[$resource[$resourceID] . '_max'];
-            if ($USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
+            if ($this->state->USER['urlaubs_modus'] == 1 || $PLANET['planet_type'] != 1) {
                 $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'];
             } else {
                 $resourceTable[$resourceID]['production'] = $PLANET[$resource[$resourceID] . '_perhour'] + $config->{$resource[$resourceID] . '_basic_income'} * $resourceSpeed;
@@ -238,7 +236,7 @@ abstract class AbstractGameController implements GameControllerInterface
 
         foreach ($reslist['resstype'][3] as $resourceID) {
             $resourceTable[$resourceID]['name'] = $resource[$resourceID];
-            $resourceTable[$resourceID]['current'] = $USER[$resource[$resourceID]];
+            $resourceTable[$resourceID]['current'] = $this->state->USER[$resource[$resourceID]];
         }
 
         $themeSettings = $THEME->getStyleSettings();
@@ -261,7 +259,7 @@ abstract class AbstractGameController implements GameControllerInterface
         // players without an alliance have no requests to manage (no alliance has id 0)
         $allyApplyRequests = 0;
         $allyDiploRequests = 0;
-        if (!empty($USER['ally_id'])) {
+        if (!empty($this->state->USER['ally_id'])) {
             $sql = "SELECT COUNT(r.applyID) AS applies
                 FROM %%ALLIANCE_REQUEST%% r
                 JOIN %%USERS%% u ON u.ally_id = r.allianceID
@@ -269,8 +267,8 @@ abstract class AbstractGameController implements GameControllerInterface
                 LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
                 WHERE r.allianceID = :allianceID AND u.id = :userID AND (u.id = a.ally_owner OR ra.MANAGEAPPLY = 1);";
             $allyApplyRequests = $db->selectSingle($sql, [
-                ':allianceID' => $USER['ally_id'],
-                ':userID' => $USER['id'],
+                ':allianceID' => $this->state->USER['ally_id'],
+                ':userID' => $this->state->USER['id'],
             ], 'applies');
 
             $sql = "SELECT COUNT(d.id) AS diplos
@@ -280,21 +278,21 @@ abstract class AbstractGameController implements GameControllerInterface
                 LEFT JOIN %%ALLIANCE_RANK%% ra ON ra.allianceID = u.ally_id AND ra.rankID = u.ally_rank_id
                 WHERE d.owner_2 = :allianceID AND accept = 0 AND u.id = :userID AND (u.id = a.ally_owner OR ra.DIPLOMATIC = 1);";
             $allyDiploRequests = $db->selectSingle($sql, [
-                ':allianceID' => $USER['ally_id'],
-                ':userID' => $USER['id'],
+                ':allianceID' => $this->state->USER['ally_id'],
+                ':userID' => $this->state->USER['id'],
             ], 'diplos');
         }
 
         $allyrequests = $allyApplyRequests + $allyDiploRequests;
 
         $vacation = false;
-        if ($USER['urlaubs_modus']) {
-            if ($USER['urlaubs_until'] > $this->state->runtime->timestamp) {
-                $vacation = $LNG->format('tn_vacation_mode_until', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $USER['urlaubs_until'], $USER['timezone']));
+        if ($this->state->USER['urlaubs_modus']) {
+            if ($this->state->USER['urlaubs_until'] > $this->state->runtime->timestamp) {
+                $vacation = $LNG->format('tn_vacation_mode_until', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->state->USER['urlaubs_until'], $this->state->USER['timezone']));
             } else {
                 $vacation = $LNG['tn_vacation_mode'];
             }
-            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $USER['universe'])) {
+            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $this->state->USER['universe'])) {
                 $vacation .= $LNG['tn_vacation_mode_kick'];
             }
         }
@@ -306,13 +304,13 @@ abstract class AbstractGameController implements GameControllerInterface
         $sql = "SELECT COUNT(b.`id`) as count FROM %%BUDDY%% b
             JOIN %%BUDDY_REQUEST%% br ON br.`id` = b.`id`
             WHERE b.`sender` = :userID OR b.`owner` = :userID;";
-        $buddyRequests = $db->selectSingle($sql, [':userID' => $USER['id']], 'count');
+        $buddyRequests = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'count');
 
         $deletion = false;
-        $accountId = $this->accountIdOfUser((int) $USER['id']);
+        $accountId = $this->accountIdOfUser((int) $this->state->USER['id']);
         $ACCOUNT = $this->accountUtil()->get_account($accountId);
-        if ($USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
-            $timestamp = $USER['db_deaktjava'] ? $USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
+        if ($this->state->USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
+            $timestamp = $this->state->USER['db_deaktjava'] ? $this->state->USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
             $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config), $ACCOUNT['timezone']));
         }
 
@@ -326,10 +324,10 @@ abstract class AbstractGameController implements GameControllerInterface
         return [
             'PlanetSelect' => $PlanetSelect,
             'wreckfield' => $wreckfield,
-            'new_message' => $USER['messages'],
-            'loginNotice' => $this->newMessagesNotice((int) $USER['messages']),
-            'userRank' => (int) ($USER['total_rank'] ?? 0),
-            'userPoints' => (float) ($USER['total_points'] ?? 0),
+            'new_message' => $this->state->USER['messages'],
+            'loginNotice' => $this->newMessagesNotice((int) $this->state->USER['messages']),
+            'userRank' => (int) ($this->state->USER['total_rank'] ?? 0),
+            'userPoints' => (float) ($this->state->USER['total_points'] ?? 0),
             'new_allyrequests' => $allyrequests,
             'new_buddyrequests' => $buddyRequests,
             'commit' => $commit,
@@ -339,19 +337,19 @@ abstract class AbstractGameController implements GameControllerInterface
             'current_pid' => $PLANET['id'],
             'image' => $PLANET['image'],
             'planet_style' => $PLANET['planet_style'],
-            'username' => $USER['username'],
+            'username' => $this->state->USER['username'],
             'avatar' => $avatar,
             'resourceTable' => $resourceTable,
             'shortlyNumber' => $themeSettings['TOPNAV_SHORTLY_NUMBER'],
             'uni_status' => $config->uni_status,
             'hasBoard' => true,
             'hasAdminAccess' => !empty($this->sessions()->load()->adminAccess),
-            'hasRebuildProtection' => $config->rebuild_protection == 1 && $USER['rebuild_protection'] > 0,
-            'rebuildProtectionUntil' => $USER['rebuild_protection'] + TIME_24_HOURS * 2 - $this->state->runtime->timestamp,
+            'hasRebuildProtection' => $config->rebuild_protection == 1 && $this->state->USER['rebuild_protection'] > 0,
+            'rebuildProtectionUntil' => $this->state->USER['rebuild_protection'] + TIME_24_HOURS * 2 - $this->state->runtime->timestamp,
             'hasGate' => $PLANET[$resource[43]] > 0,
             'discordUrl' => DISCORD_URL,
             'tutorial' => !$tutorialDetails || empty($tutorialDetails) ? false : $tutorialDetails,
-            'noobInterface' => $USER['noob_interface'],
+            'noobInterface' => $this->state->USER['noob_interface'],
         ];
     }
 
@@ -448,7 +446,6 @@ abstract class AbstractGameController implements GameControllerInterface
     protected function layoutData(string $template): array
     {
         $LNG = $this->state->LNG;
-        $USER = & $this->state->USER;
         $THEME = $this->state->THEME;
 
         $data = [];
@@ -464,9 +461,9 @@ abstract class AbstractGameController implements GameControllerInterface
             'dpath'             => $THEME->getTheme(),
             'themeCssPath'      => $THEME->getThemeCssPath(),
             'basepath'          => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase,
-            'TIMEZONESTRING'    => $USER['timezone'],
-            'signalColors'      => $USER['signalColors'],
-            'decimalSeparator'  => $USER['decimal_separator'],
+            'TIMEZONESTRING'    => $this->state->USER['timezone'],
+            'signalColors'      => $this->state->USER['signalColors'],
+            'decimalSeparator'  => $this->state->USER['decimal_separator'],
             'numberSuffixes'    => (new NumberAbbreviation())->suffixesForLang($LNG->getLanguage()),
             'captchakey'        => $this->configs->get()->recaptcha_pub_key,
         ]);
@@ -475,19 +472,18 @@ abstract class AbstractGameController implements GameControllerInterface
     /** RendersPages::render() plus the Server-Timing header (bootstrap, page, rendering, database) */
     protected function render(string $template): Response
     {
-        $time = &$this->state->time;
-        $time['end_page'] = microtime(true);
+        $this->state->time['end_page'] = microtime(true);
         $response = $this->renderPage($template);
-        $time['end_template'] = microtime(true);
+        $this->state->time['end_template'] = microtime(true);
 
         $ms = static fn(float $from, float $to): float => ($to - $from) * 1000;
         $response->headers->set('Server-Timing', sprintf(
             'total;dur=%s, common;dur=%s, page;dur=%s, rendering;dur=%s, db;desc=query;dur=%s',
-            $ms($time['start'], $time['end_template']),
-            $ms($time['start'], $time['end_common']),
-            $ms($time['end_common'], $time['end_page']),
-            $ms($time['end_page'], $time['end_template']),
-            ($time['db'] ?? 0) * 1000,
+            $ms($this->state->time['start'], $this->state->time['end_template']),
+            $ms($this->state->time['start'], $this->state->time['end_common']),
+            $ms($this->state->time['end_common'], $this->state->time['end_page']),
+            $ms($this->state->time['end_page'], $this->state->time['end_template']),
+            ($this->state->time['db'] ?? 0) * 1000,
         ));
 
         return $response;

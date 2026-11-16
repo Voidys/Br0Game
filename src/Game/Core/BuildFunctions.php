@@ -17,6 +17,7 @@
 
 namespace App\Game\Core;
 
+use App\Game\Model\FieldProjection;
 use App\Game\Model\Planet;
 use App\Game\Model\User;
 use Exception;
@@ -521,13 +522,30 @@ class BuildFunctions
      *
      * Queue item format: [elementId, level, time, endTime, mode, cost?]
      *
+     * Array adapter of queueFieldProjectionFor().
+     *
      * @return array{current: int, max: int, valid: bool}
      */
     public function getQueueFieldProjection(array $PLANET, array $queue): array
     {
-        $resource = $this->state->resource;
-        $current = (int) $PLANET['field_current'];
-        $projected = $PLANET;
+        return $this->queueFieldProjectionFor($this->models()->planet($PLANET), $queue)->toArray();
+    }
+
+    /**
+     * Typed version of getQueueFieldProjection(): replays the queue entry by entry against the field limit, without
+     * changing the planet. Build entries need a free field at their turn (otherwise the projection is invalid and the replay
+     * stops); destroy entries free one. A queued terraformer or moon base raises the limit only for the entries after it
+     * (a destroyed one takes its bonus away again at once), so the replay tracks the two levels instead of changing a
+     * planet copy.
+     *
+     * @param Planet $planet planet snapshot: occupied fields, field limit, terraformer and moon base levels
+     * @param array<int, array<int, mixed>> $queue queue items [elementId, level, time, endTime, mode, cost?]; mode 'destroy' or (default) build
+     */
+    public function queueFieldProjectionFor(Planet $planet, array $queue): FieldProjection
+    {
+        $planets = $this->playerUtil();
+        $current = $planet->fieldsCurrent;
+        $levels = [TERRAFORMER => $planet->count(TERRAFORMER), MOONBASE => $planet->count(MOONBASE)];
         $valid = true;
 
         foreach ($queue as $item) {
@@ -539,12 +557,12 @@ class BuildFunctions
                 $current--;
                 // Destroyed expanders must drop their bonus before later items run.
                 if ($element === TERRAFORMER || $element === MOONBASE) {
-                    $projected[$resource[$element]] = max(0, $level - 1);
+                    $levels[$element] = max(0, $level - 1);
                 }
                 continue;
             }
 
-            $max = (int) $this->playerUtil()->calculateMaxPlanetFields($projected);
+            $max = (int) $planets->maxFieldsFor($planet, $levels[TERRAFORMER], $levels[MOONBASE]);
             if ($current >= $max) {
                 $valid = false;
                 break;
@@ -552,15 +570,15 @@ class BuildFunctions
 
             $current++;
             if ($element === TERRAFORMER || $element === MOONBASE) {
-                $projected[$resource[$element]] = $level;
+                $levels[$element] = $level;
             }
         }
 
-        return [
-            'current' => $current,
-            'max' => (int) $this->playerUtil()->calculateMaxPlanetFields($projected),
-            'valid' => $valid,
-        ];
+        return new FieldProjection(
+            $current,
+            (int) $planets->maxFieldsFor($planet, $levels[TERRAFORMER], $levels[MOONBASE]),
+            $valid,
+        );
     }
 
     /**
@@ -568,6 +586,8 @@ class BuildFunctions
      *
      * Queued Terraformers and Moon Bases increase later capacity, but they still
      * need a free field of their own at the point they are built.
+     *
+     * Array adapter of canQueueOnFieldsFor().
      */
     public function canQueueBuildingOnFields(array $PLANET, array $queue, bool $addMode = true): bool
     {
@@ -575,8 +595,16 @@ class BuildFunctions
             return true;
         }
 
-        $projection = $this->getQueueFieldProjection($PLANET, $queue);
+        return $this->canQueueOnFieldsFor($this->models()->planet($PLANET), $queue);
+    }
 
-        return $projection['valid'] && $projection['current'] < $projection['max'];
+    /**
+     * Typed version of canQueueBuildingOnFields() for adding a building: true when the queue is valid and a field is free after it.
+     *
+     * @param array<int, array<int, mixed>> $queue current building queue items
+     */
+    public function canQueueOnFieldsFor(Planet $planet, array $queue): bool
+    {
+        return $this->queueFieldProjectionFor($planet, $queue)->hasFreeField();
     }
 }

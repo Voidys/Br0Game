@@ -80,8 +80,8 @@ class AllianceMemberLists
     public function adminMembers(array $alliance): array
     {
         $LNG = $this->state->LNG;
-        $user = & $this->state->USER;
         $this->loadOwnPoints();
+        $user = $this->state->USER;
 
         $memberList = [];
         foreach ($this->repository->memberRows($alliance['id']) as $memberRow) {
@@ -227,17 +227,16 @@ class AllianceMemberLists
     /** Merges the acting user's total points into state->USER (0 without statistics row). */
     private function loadOwnPoints(): void
     {
-        $user = & $this->state->USER;
         try {
-            $user += $this->db->selectSingle(
+            $this->state->USER += $this->db->selectSingle(
                 'SELECT total_points FROM %%STATPOINTS%% WHERE id_owner = :userId AND stat_type = :statType',
                 [
-                    ':userId' => $user['id'],
+                    ':userId' => $this->state->USER['id'],
                     ':statType' => 1,
                 ],
             ) ?: ['total_points' => 0];
         } catch (Exception $e) {
-            $user['total_points'] = 0;
+            $this->state->USER['total_points'] = 0;
         }
     }
 }

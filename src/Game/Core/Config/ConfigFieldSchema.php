@@ -79,10 +79,11 @@ class ConfigFieldSchema
      */
     private function getBasicSchema(): array
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         if (is_null($LNG)) {
             $LNG = new Language($this->configs, 'en'); // Fallback to avoid errors if language is not loaded
             $LNG->includeData(['L18N', 'INGAME', 'ADMIN', 'PUBLIC', 'CUSTOM']);
+            $this->state->LNG = $LNG;
         }
         $LNG->includeData(['ADMIN']);
 
@@ -446,10 +447,11 @@ class ConfigFieldSchema
      */
     private function getUniSchema(): array
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         if (is_null($LNG)) {
             $LNG = new Language($this->configs, 'en'); // Fallback to avoid errors if language is not loaded
             $LNG->includeData(['L18N', 'INGAME', 'ADMIN', 'PUBLIC', 'CUSTOM']);
+            $this->state->LNG = $LNG;
         }
         $LNG->includeData(['ADMIN']);
 

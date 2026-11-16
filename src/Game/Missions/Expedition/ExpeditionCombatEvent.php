@@ -3,6 +3,7 @@
 namespace App\Game\Missions\Expedition;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
+use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
 
 /**
@@ -90,47 +91,43 @@ class ExpeditionCombatEvent extends ExpeditionEvent
      * Builds the enemy side for the engine: fleet 0 owned by user id 0 at the expedition coordinates, ships from
      * setupPiratesOrAliens(), tech levels of the player's weapons/shield/armor plus the tech bonus (pirates -3,
      * aliens +3, never below 0), no resource bonuses.
-     * @param array $playerFleet attacker entry (player row, unit list) as passed to the engine.
-     * @return array{0: array, 1: string} defender array for the engine, event message text.
+     * @param BattleFleet $playerFleet the expedition fleet (attacker entry) as passed to the engine.
+     * @return array{0: array<int, BattleFleet>, 1: string} defending fleets for the engine (the enemy as fleet 0), event message text.
      */
-    private function determineEnemyData(array $playerFleet): array
+    private function determineEnemyData(BattleFleet $playerFleet): array
     {
-        $senderData = $playerFleet['player'];
-
-        $encounterSetupData = $this->setupPiratesOrAliens($playerFleet['unit']);
-        $techBonus = $encounterSetupData['techbonus'];
-        $targetFleetData = $encounterSetupData['fleetData'];
-
-        $targetData = [
-            'id' => 0,
-            'username' => $encounterSetupData['username'],
-            'military_tech' => max($senderData['military_tech'] + $techBonus, 0),
-            'shield_tech' => max($senderData['shield_tech'] + $techBonus, 0),
-            'defence_tech' => max($senderData['defence_tech'] + $techBonus, 0),
-        ];
-
-        $fleetDefend = [];
-        $fleetDefend[0]['fleetDetail'] = [
-            'start_galaxy' => $this->fleet['end_galaxy'],
-            'start_system' => $this->fleet['end_system'],
-            'start_planet' => $this->fleet['end_planet'],
-            'start_type' => 1,
-            'end_galaxy' => $this->fleet['end_galaxy'],
-            'end_system' => $this->fleet['end_system'],
-            'end_planet' => $this->fleet['end_planet'],
-            'end_type' => 1,
-            'resource_metal' => 0,
-            'resource_crystal' => 0,
-            'resource_deuterium' => 0,
-        ];
+        $encounterSetupData = $this->setupPiratesOrAliens($playerFleet->units);
+        $techs = $playerFleet->techs->withBonus($encounterSetupData['techbonus']);
 
         $bonusList = $this->buildFunctions()->getBonusList();
 
-        $fleetDefend[0]['player'] = $targetData;
-        $fleetDefend[0]['player']['factor'] = array_fill_keys($bonusList, 0);
-        $fleetDefend[0]['unit'] = $targetFleetData;
+        $enemy = new BattleFleet(
+            0,
+            [
+                'id' => 0,
+                'username' => $encounterSetupData['username'],
+                'military_tech' => $techs->weapons,
+                'shield_tech' => $techs->shields,
+                'defence_tech' => $techs->armor,
+                'factor' => array_fill_keys($bonusList, 0),
+            ],
+            $encounterSetupData['fleetData'],
+            [
+                'start_galaxy' => $this->fleet['end_galaxy'],
+                'start_system' => $this->fleet['end_system'],
+                'start_planet' => $this->fleet['end_planet'],
+                'start_type' => 1,
+                'end_galaxy' => $this->fleet['end_galaxy'],
+                'end_system' => $this->fleet['end_system'],
+                'end_planet' => $this->fleet['end_planet'],
+                'end_type' => 1,
+                'resource_metal' => 0,
+                'resource_crystal' => 0,
+                'resource_deuterium' => 0,
+            ],
+        );
 
-        return [$fleetDefend, $encounterSetupData['message']];
+        return [[0 => $enemy], $encounterSetupData['message']];
     }
 
     /**
@@ -154,10 +151,7 @@ class ExpeditionCombatEvent extends ExpeditionEvent
 
         $fleetID = $this->fleet['id'];
 
-        $fleetAttack = [];
-        $fleetAttack[$fleetID]['fleetDetail'] = $this->fleet;
-        $fleetAttack[$fleetID]['player'] = $senderData;
-        $fleetAttack[$fleetID]['unit'] = $fleetArray;
+        $fleetAttack = [$fleetID => new BattleFleet($fleetID, $senderData, $fleetArray, $this->fleet)];
 
         // todo $Message as class variable? /discusswithself
         $enemyData = $this->determineEnemyData($fleetAttack[$fleetID]);
@@ -165,15 +159,15 @@ class ExpeditionCombatEvent extends ExpeditionEvent
         $Message = $enemyData[1];
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-        $combatResult = $battleHandler->engine->calculateAttack($fleetAttack, $fleetDefend, $this->fleet['universe']);
+        $combatResult = $battleHandler->engine->fight($fleetAttack, $fleetDefend, $this->fleet['universe']);
         $report = (new ExpeditionCombatReport($this->db, $this->configs, $this->state, $this->ctx))->generate($combatResult, $battleHandler, $fleetAttack, $fleetDefend);
 
         $fleetArray = '';
         $totalCount = 0;
 
         $fleetID = $this->fleet['id'];
-        $fleetAttack[$fleetID]['unit'] = array_filter($fleetAttack[$fleetID]['unit']);
-        foreach ($fleetAttack[$fleetID]['unit'] as $element => $amount) {
+        $fleetAttack[$fleetID]->units = array_filter($fleetAttack[$fleetID]->units);
+        foreach ($fleetAttack[$fleetID]->units as $element => $amount) {
             $fleetArray .= $element . ',' . $amount . ';';
             $totalCount += $amount;
         }

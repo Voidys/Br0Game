@@ -39,7 +39,6 @@ class FlyingFleetController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $USER = &$this->state->USER;
         $db = $this->db;
         $id = $this->http()->_GP('id', 0);
         $massunlock = $this->http()->_GP('massunlock', 0);
@@ -96,7 +95,6 @@ class FlyingFleetController extends AbstractAdminController
                 $shipList[$shipDetail[0]] = $shipDetail[1];
             }
 
-            $USER = &$this->state->USER;
             $FleetList[] = [
                 'fleetID'            => $fleetRow['id'],
                 'lock'               => !empty($fleetRow['lock']),
@@ -104,12 +102,12 @@ class FlyingFleetController extends AbstractAdminController
                 'error'              => !$fleetRow['error'],
                 'ships'              => $shipList,
                 'state'              => $fleetRow['status'],
-                'starttime'          => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['start_time'], $USER['timezone']),
-                'arrivaltime'        => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['arrival_time'], $USER['timezone']),
+                'starttime'          => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['start_time'], $this->state->USER['timezone']),
+                'arrivaltime'        => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['arrival_time'], $this->state->USER['timezone']),
                 'stayhour'           => round(($fleetRow['stay_time'] - $fleetRow['arrival_time']) / 3600),
                 'staytime'           => $fleetRow['arrival_time'] !== $fleetRow['stay_time']
-                    ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['stay_time'], $USER['timezone']) : 0,
-                'endtime'            => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['return_time'], $USER['timezone']),
+                    ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['stay_time'], $this->state->USER['timezone']) : 0,
+                'endtime'            => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $fleetRow['return_time'], $this->state->USER['timezone']),
                 'missionID'          => $fleetRow['mission'],
                 'acsID'              => $fleetRow['group'],
                 'acsName'            => $fleetRow['acsName'],

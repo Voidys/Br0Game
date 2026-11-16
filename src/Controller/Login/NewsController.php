@@ -48,7 +48,19 @@ final class NewsController extends AbstractLoginController
         $pages = max(1, (int) ceil($total / self::PER_PAGE));
         $page = min($pages, max(1, (int) $this->http()->_GP('p', 1)));
 
-        $rows = $this->db->select("SELECT * FROM %%NEWS%% WHERE status = 1 AND date <= :now ORDER BY pinned DESC, date DESC, id DESC LIMIT " . self::PER_PAGE . " OFFSET " . (($page - 1) * self::PER_PAGE) . ";", [':now' => $now]);
+        $rows = $this->db->fetchAll(
+            $this->db->qb()
+                ->select('*')
+                ->from($this->db->table('NEWS'))
+                ->where('status = 1')
+                ->andWhere('date <= :now')
+                ->setParameter('now', $now)
+                ->orderBy('pinned', 'DESC')
+                ->addOrderBy('date', 'DESC')
+                ->addOrderBy('id', 'DESC')
+                ->setFirstResult(($page - 1) * self::PER_PAGE)
+                ->setMaxResults(self::PER_PAGE)
+        );
         $newsList = [];
         foreach ($rows as $row) {
             $item = $this->present($row, $html);

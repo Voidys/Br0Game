@@ -57,26 +57,25 @@ class FleetAjaxController extends AbstractGameController
      */
     public function show()
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
+
         $resource = $this->state->resource;
         $LNG = $this->state->LNG;
         $pricelist = $this->state->pricelist;
         $reslist = $this->state->reslist;
-        $UserDeuterium = $PLANET['deuterium'];
+        $UserDeuterium = $this->state->PLANET['deuterium'];
 
         $planetID = $this->http()->_GP('planetID', 0);
         $targetMission = $this->http()->_GP('mission', 0);
         $confirmed = $this->http()->_GP('confirm', 0) == 1;
 
-        $activeSlots = $this->fleetFunctions()->getCurrentFleets($USER['id']);
-        $maxSlots = $this->fleetFunctions()->getMaxFleetSlots($USER);
+        $activeSlots = $this->fleetFunctions()->getCurrentFleets($this->state->USER['id']);
+        $maxSlots = $this->fleetFunctions()->getMaxFleetSlots($this->state->USER);
 
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
 
         $this->returnData['slots'] = $activeSlots;
 
-        if (IsVacationMode($USER)) {
+        if (IsVacationMode($this->state->USER)) {
             $this->sendData(620, $LNG['fa_vacation_mode_current']);
         }
 
@@ -99,14 +98,14 @@ class FleetAjaxController extends AbstractGameController
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
 
-                $ships = min($USER['spio_anz'], $PLANET[$resource[SHIP_PROBE]]);
+                $ships = min($this->state->USER['spio_anz'], $this->state->PLANET[$resource[SHIP_PROBE]]);
 
                 if (empty($ships)) {
                     $this->sendData(611, $LNG['fa_no_spios']);
                 }
 
                 $fleetArray = [SHIP_PROBE => $ships];
-                $this->returnData['ships'][SHIP_PROBE] = $PLANET[$resource[SHIP_PROBE]] - $ships;
+                $this->returnData['ships'][SHIP_PROBE] = $this->state->PLANET[$resource[SHIP_PROBE]] - $ships;
                 break;
             case MISSION_RECYCLING:
             case MISSION_PIRATEBASE_RECYCLING:
@@ -128,11 +127,11 @@ class FleetAjaxController extends AbstractGameController
 
                 foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
                     $a = $pricelist[$elementID]['capacity'];
-                    $shipsNeed = min(ceil($totalDebris / $a), $PLANET[$resource[$elementID]]);
+                    $shipsNeed = min(ceil($totalDebris / $a), $this->state->PLANET[$resource[$elementID]]);
                     $totalDebris -= ($shipsNeed * $a);
 
                     $fleetArray[$elementID] = $shipsNeed;
-                    $this->returnData['ships'][$elementID] = $PLANET[$resource[$elementID]] - $shipsNeed;
+                    $this->returnData['ships'][$elementID] = $this->state->PLANET[$resource[$elementID]] - $shipsNeed;
 
                     if ($totalDebris <= 0) {
                         break;
@@ -148,7 +147,7 @@ class FleetAjaxController extends AbstractGameController
                     $this->sendData(699, $LNG['sys_module_inactive']);
                 }
 
-                $ships = $PLANET[$resource[INTERPLANETARY_MISSILE]];
+                $ships = $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]];
                 if (empty($ships)) {
                     $this->sendData(611, $LNG['ma_no_missiles']);
                 }
@@ -165,14 +164,14 @@ class FleetAjaxController extends AbstractGameController
             $this->sendData(610, $LNG['fa_not_enough_probes']);
         }
 
-        $targetData = $this->getTargetData($targetMission, $planetID, $USER['id']);
+        $targetData = $this->getTargetData($targetMission, $planetID, $this->state->USER['id']);
 
         if (empty($targetData) || ($targetData['destruyed'] != 0 && ($targetMission == MISSION_SPY || $targetMission == MISSION_MISSILE))) {
             $this->sendData(601, $LNG['fa_planet_not_exist']);
         }
 
         if ($targetMission == MISSION_SPY || $targetMission == MISSION_MISSILE) {
-            if ($this->configs->get()->adm_attack == 1 && $targetData['authattack'] > $USER['authlevel']) {
+            if ($this->configs->get()->adm_attack == 1 && $targetData['authattack'] > $this->state->USER['authlevel']) {
                 $this->sendData(619, $LNG['fa_action_not_allowed']);
             }
 
@@ -184,14 +183,14 @@ class FleetAjaxController extends AbstractGameController
                 WHERE id_owner = :userId AND stat_type = :statType';
 
             try {
-                $USER += $db->selectSingle($sql, [
-                    ':userId' => $USER['id'],
+                $this->state->USER += $db->selectSingle($sql, [
+                    ':userId' => $this->state->USER['id'],
                     ':statType' => 1,
                 ]) ?: ['total_points' => 0];
             } catch (Exception $exception) {
             }
 
-            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($targetData));
+            $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($targetData));
 
             if ($IsNoobProtec['NoobPlayer']) {
                 $this->sendData(603, $LNG['fa_week_player']);
@@ -223,9 +222,9 @@ class FleetAjaxController extends AbstractGameController
 
                 $db->update('UPDATE %%USERS%% SET outlaw_time = :outlawTime WHERE id = :userId;', [
                     ':outlawTime'   => $this->state->runtime->timestamp,
-                    ':userId'       => $USER['id'],
+                    ':userId'       => $this->state->USER['id'],
                 ]);
-                $statsHandler->increment($USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
+                $statsHandler->increment($this->state->USER['id'], AdvancedStatsEnum::OUTLAW_ACTIVATIONS);
             }
 
             if ($targetMission == MISSION_MISSILE) {
@@ -233,19 +232,19 @@ class FleetAjaxController extends AbstractGameController
                 $this->sendData(600, '');
             }
 
-            if ($USER['id'] == $targetData['id_owner']) {
+            if ($this->state->USER['id'] == $targetData['id_owner']) {
                 $this->sendData(618, $LNG['fa_not_spy_yourself']);
             }
         }
 
         $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
         $Distance = $this->fleetFunctions()->getTargetDistance(
-            [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
+            [$this->state->PLANET['galaxy'], $this->state->PLANET['system'], $this->state->PLANET['planet']],
             [$targetData['galaxy'], $targetData['system'], $targetData['planet']],
         );
-        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $USER);
-        $Duration = $this->fleetFunctions()->getMissionDuration(MISSION_MISSILE, $SpeedAllMin, $Distance, $SpeedFactor, $USER);
-        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $Duration, $Distance, $USER, $SpeedFactor);
+        $SpeedAllMin = $this->fleetFunctions()->getFleetMaxSpeed($fleetArray, $this->state->USER);
+        $Duration = $this->fleetFunctions()->getMissionDuration(MISSION_MISSILE, $SpeedAllMin, $Distance, $SpeedFactor, $this->state->USER);
+        $consumption = $this->fleetFunctions()->getFleetConsumption($fleetArray, $Duration, $Distance, $this->state->USER, $SpeedFactor);
 
         $UserDeuterium -= $consumption;
 
@@ -274,17 +273,17 @@ class FleetAjaxController extends AbstractGameController
         $fleetEndTime = $fleetStayTime + $Duration;
 
         $shipID = array_keys($fleetArray);
-        $PLANET['deuterium'] -= $consumption;
+        $this->state->PLANET['deuterium'] -= $consumption;
 
         $this->fleetFunctions()->sendFleet(
             $fleetArray,
             $targetMission,
-            $USER['id'],
-            $PLANET['id'],
-            $PLANET['galaxy'],
-            $PLANET['system'],
-            $PLANET['planet'],
-            $PLANET['planet_type'],
+            $this->state->USER['id'],
+            $this->state->PLANET['id'],
+            $this->state->PLANET['galaxy'],
+            $this->state->PLANET['system'],
+            $this->state->PLANET['planet'],
+            $this->state->PLANET['planet_type'],
             $targetData['id_owner'],
             $planetID,
             $targetData['galaxy'],

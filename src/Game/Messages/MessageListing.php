@@ -2,6 +2,7 @@
 
 namespace App\Game\Messages;
 
+use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
@@ -307,11 +308,16 @@ class MessageListing
         }
 
         if (!empty($MessagesID)) {
-            $sql = 'UPDATE %%USERS_TO_MESSAGES%% SET `message_unread` = 0 
-                WHERE `message_id` IN (' . implode(',', array_map('intval', $MessagesID)) . ') AND `user_id` = :userID;';
-            $db->update($sql, [
-                ':userID'       => $USER['id'],
-            ]);
+            // the listed messages count as read
+            $db->execute(
+                $db->qb()
+                    ->update($db->table('USERS_TO_MESSAGES'))
+                    ->set('`message_unread`', '0')
+                    ->where('`message_id` IN (:messageIds)')
+                    ->andWhere('`user_id` = :userID')
+                    ->setParameter('messageIds', array_map('intval', $MessagesID), ArrayParameterType::INTEGER)
+                    ->setParameter('userID', $USER['id'])
+            );
         }
 
         return [
@@ -346,17 +352,12 @@ class MessageListing
             return $messages;
         }
 
-        $params = [];
-        $placeholders = [];
-        foreach (array_values($fleetIds) as $index => $fleetId) {
-            $placeholder = ':fleetId' . $index;
-            $placeholders[] = $placeholder;
-            $params[$placeholder] = $fleetId;
-        }
-
-        $fleets = $this->db->select(
-            'SELECT id, mess FROM %%FLEETS%% WHERE id IN (' . implode(', ', $placeholders) . ')',
-            $params,
+        $fleets = $this->db->fetchAll(
+            $this->db->qb()
+                ->select('id', 'mess')
+                ->from($this->db->table('FLEETS'))
+                ->where('id IN (:fleetIds)')
+                ->setParameter('fleetIds', array_values($fleetIds), ArrayParameterType::INTEGER)
         );
         $stateById = [];
         foreach ($fleets as $fleet) {

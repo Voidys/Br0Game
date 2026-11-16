@@ -41,7 +41,7 @@ class AlliancesTab extends AccountEditorTab
 
         // change plan: SQL set parts and parameters of the alliance update, the alliance row before and after (with the
         // changed members and, for a deletion, the removed related rows, for the log)
-        $plan = ['QryUpdate' => [], 'params' => [], 'beforeAlliance' => $beforeAlliance];
+        $plan = ['values' => [], 'expr' => [], 'beforeAlliance' => $beforeAlliance];
         if ($delete == 'on') {
             $this->deleteAlliance($plan, $id);
         }
@@ -205,8 +205,7 @@ class AlliancesTab extends AccountEditorTab
             ]);
             $afterNewLeader['ally_rank_id'] = 0;
 
-            $plan['QryUpdate'][] = "`ally_owner` = :newLeader";
-            $plan['params'][':newLeader'] = $changeleader;
+            $plan['values']['ally_owner'] = $changeleader;
             $plan['afterAlliance']['ally_owner'] = $changeleader;
             $plan['beforeAlliance']['USERS'][$changeleader] = $beforeNewLeader;
             $plan['afterAlliance']['USERS'][$changeleader] = $afterNewLeader;
@@ -250,7 +249,7 @@ class AlliancesTab extends AccountEditorTab
             $afterMember['ally_rank_id'] = 0;
             $afterMember['ally_register_time'] = 0;
 
-            $plan['QryUpdate'][] = "`ally_members` = ally_members - 1";
+            $plan['expr']['ally_members'] = "`ally_members` - 1";
             $plan['afterAlliance']['ally_members'] -= 1;
             $plan['beforeAlliance']['USERS'][$delete_u] = $beforeMember;
             $plan['afterAlliance']['USERS'][$delete_u] = $afterMember;
@@ -271,32 +270,27 @@ class AlliancesTab extends AccountEditorTab
         $solicitud = $this->http()->_GP('solicitud', '', true);
 
         if (!empty($name)) {
-            $plan['QryUpdate'][] = "`ally_name` = :ally_name";
-            $plan['params'][':ally_name'] = $name;
+            $plan['values']['ally_name'] = $name;
             $plan['afterAlliance']['ally_name'] = $name;
         }
 
         if (!empty($tag)) {
-            $plan['QryUpdate'][] = "`ally_tag` = :ally_tag";
-            $plan['params'][':ally_tag'] = $tag;
+            $plan['values']['ally_tag'] = $tag;
             $plan['afterAlliance']['ally_tag'] = $tag;
         }
 
         if (!empty($externo)) {
-            $plan['QryUpdate'][] = "`ally_description` = :ally_description";
-            $plan['params'][':ally_description'] = $externo;
+            $plan['values']['ally_description'] = $externo;
             $plan['afterAlliance']['ally_description'] = $externo;
         }
 
         if (!empty($interno)) {
-            $plan['QryUpdate'][] = "`ally_text` = :ally_text";
-            $plan['params'][':ally_text'] = $interno;
+            $plan['values']['ally_text'] = $interno;
             $plan['afterAlliance']['ally_text'] = $interno;
         }
 
         if (!empty($solicitud)) {
-            $plan['QryUpdate'][] = "`ally_request` = :ally_request";
-            $plan['params'][':ally_request'] = $solicitud;
+            $plan['values']['ally_request'] = $solicitud;
             $plan['afterAlliance']['ally_request'] = $solicitud;
         }
     }
@@ -309,13 +303,7 @@ class AlliancesTab extends AccountEditorTab
     private function writeAlliance(array $plan, mixed $id): void
     {
         $db = $this->db;
-        $sql = "UPDATE %%ALLIANCE%% SET ";
-        $sql .= implode(", ", $plan['QryUpdate']);
-        $sql .= " WHERE `id` = :id AND `ally_universe` = :universe;";
-        $db->update($sql, array_merge($plan['params'], [
-            ':id'       => $id,
-            ':universe' => $this->universe()->getEmulated(),
-        ]));
+        $db->updateRows('ALLIANCE', $plan['values'], ['id' => $id, 'ally_universe' => $this->universe()->getEmulated()], $plan['expr']);
 
         $LOG = new Log($this->db, $this->configs, $this->state, 6);
         $LOG->target = $id;

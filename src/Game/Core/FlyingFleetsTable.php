@@ -284,8 +284,7 @@ class FlyingFleetsTable
      */
     public function getEventData(array $fleetRow, int $Status): array
     {
-        $LNG = & $this->state->LNG;
-        $USER = & $this->state->USER;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $Owner          = $fleetRow['owner'] == $this->userId;
         $friendly = !$Owner && $fleetRow['target_owner'] != $this->userId;
@@ -501,7 +500,7 @@ class FlyingFleetsTable
                     INNER JOIN %%FLEETS%% AS f ON uta.`acsID` = f.`group`
                     WHERE uta.`userID` = :userId AND f.`id` = :fleetId;";
                 $friend = $db->selectSingle($sql, [
-                    ':userId'   => $USER['id'],
+                    ':userId'   => $this->state->USER['id'],
                     ':fleetId'  => $fleetRow['id']
                 ], 'count');
                 if ($Owner == true) {

@@ -42,10 +42,9 @@ class AccountDataController extends AbstractAdminController
      */
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $reslist = & $this->state->reslist;
-        $resource = & $this->state->resource;
-        $LNG = & $this->state->LNG;
+        $reslist = $this->state->reslist;
+        $resource = $this->state->resource;
+        $LNG = $this->state->LNG;
         $db = $this->db;
         $id_u = $this->http()->_GP('id_u', 0);
         if (!empty($id_u)) {
@@ -57,27 +56,32 @@ class AccountDataController extends AbstractAdminController
                 $this->message($LNG['ac_username_doesnt'], '?page=accoutdata');
             } else {
                 // User data
-                $sql = "SELECT ac.`id` as account_id, ac.`accountname`, u.`id`, u.`username`, u.`authlevel`, u.`id_planet`, u.`galaxy`,
-                u.`system`, u.`planet`, u.`user_lastip`, u.`ip_at_reg`, u.`register_time`, u.`onlinetime`,
-                u.`urlaubs_modus`, u.`urlaubs_until`, u.`ally_id`, u.`ally_register_time`,
-                u.`ally_rank_id`, u.`bana`, u.`banaday`, ";
+                // the research columns come from the game's resource table, not from the request
+                $userColumns = [
+                    'ac.`id` AS account_id', 'ac.`accountname`', 'u.`id`', 'u.`username`', 'u.`authlevel`', 'u.`id_planet`',
+                    'u.`galaxy`', 'u.`system`', 'u.`planet`', 'u.`user_lastip`', 'u.`ip_at_reg`', 'u.`register_time`',
+                    'u.`onlinetime`', 'u.`urlaubs_modus`', 'u.`urlaubs_until`', 'u.`ally_id`', 'u.`ally_register_time`',
+                    'u.`ally_rank_id`', 'u.`bana`', 'u.`banaday`',
+                ];
                 foreach ($reslist['tech'] as $ID) {
-                    $sql .= " u.`" . $resource[$ID] . "`, ";
+                    $userColumns[] = 'u.`' . $resource[$ID] . '`';
                 }
-                $sql = rtrim($sql, ', ') . " FROM %%USERS%% as u
-                JOIN %%ACCOUNTS_TO_USERS%% au ON au.`user_id` = u.`id`
-                JOIN %%ACCOUNTS%% ac ON ac.`id` = au.`account_id`
-                WHERE u.`id` = :userID;";
-                $UserQuery = $db->selectSingle($sql, [
-                    ':userID' => $id_u,
-                ]);
+                $UserQuery = $db->fetchRow(
+                    $db->qb()
+                        ->select(...$userColumns)
+                        ->from($db->table('USERS'), 'u')
+                        ->join('u', $db->table('ACCOUNTS_TO_USERS'), 'au', 'au.`user_id` = u.`id`')
+                        ->join('au', $db->table('ACCOUNTS'), 'ac', 'ac.`id` = au.`account_id`')
+                        ->where('u.`id` = :userID')
+                        ->setParameter('userID', $id_u)
+                );
 
                 if (!isset($UserQuery['user_ua'])) {
                     $UserQuery['user_ua'] = '';
                 }
 
-                $reg_time = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['register_time'], $USER['timezone']);
-                $onlinetime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['onlinetime'], $USER['timezone']);
+                $reg_time = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['register_time'], $this->state->USER['timezone']);
+                $onlinetime = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $UserQuery['onlinetime'], $this->state->USER['timezone']);
                 $account_id = $UserQuery['account_id'];
                 $accountname = $UserQuery['accountname'];
                 $id = $UserQuery['id'];
@@ -115,8 +119,8 @@ class AccountDataController extends AbstractAdminController
                         ':user_id' => $id,
                     ]);
 
-                    $sus_longer = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $BannedQuery['longer'], $USER['timezone']);
-                    $sus_time = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $BannedQuery['time'], $USER['timezone']);
+                    $sus_longer = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $BannedQuery['longer'], $this->state->USER['timezone']);
+                    $sus_time = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $BannedQuery['time'], $this->state->USER['timezone']);
                     $sus_reason = $BannedQuery['theme'];
                     $sus_author = $BannedQuery['author'];
                 }
@@ -172,7 +176,7 @@ class AccountDataController extends AbstractAdminController
                     $allianceData['applyText'] = empty($AllianceQuery['ally_request']) ? false : nl2br($AllianceQuery['ally_request']);
                     $allianceData['logo'] = empty($AllianceQuery['ally_image']) ? false : $AllianceQuery['ally_image'];
                     $allianceData['website'] = empty($AllianceQuery['ally_web']) ? false : $AllianceQuery['ally_web'];
-                    $allianceData['foundationDate'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $AllianceQuery['ally_register_time'], $USER['timezone']);
+                    $allianceData['foundationDate'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $AllianceQuery['ally_register_time'], $this->state->USER['timezone']);
                     $allianceData['memberAmount'] = $AllianceQuery['ally_members'];
 
                     $sql = "SELECT `tech_count`, `defs_count`, `fleet_count`, `build_count`, `build_points`, `tech_points`,
@@ -186,15 +190,21 @@ class AccountDataController extends AbstractAdminController
                 $planetCols = [];
 
                 // Planet data
-                $sql = "SELECT `planet_type`, `id`, `name`, `galaxy`, `system`, `planet`, `destruyed`, `diameter`, `field_current`, `field_max`,
-                `temp_min`, `temp_max`, `metal`, `crystal`, `deuterium`, `energy`, `energy_used`, ";
+                $planetColumns = [
+                    '`planet_type`', '`id`', '`name`', '`galaxy`', '`system`', '`planet`', '`destruyed`', '`diameter`',
+                    '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`',
+                    '`energy`', '`energy_used`',
+                ];
                 foreach (array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']) as $ID) {
-                    $sql .= "`" . $resource[$ID] . "`, ";
+                    $planetColumns[] = '`' . $resource[$ID] . '`';
                 }
-                $sql = rtrim($sql, ', ') . "FROM %%PLANETS%% WHERE `id_owner` = :userID;";
-                $PlanetsQuery = $db->select($sql, [
-                    ':userID' => $id_u,
-                ]);
+                $PlanetsQuery = $db->fetchAll(
+                    $db->qb()
+                        ->select(...$planetColumns)
+                        ->from($db->table('PLANETS'))
+                        ->where('`id_owner` = :userID')
+                        ->setParameter('userID', $id_u)
+                );
 
                 $planetRows = [];
                 $resourceRows = [];
@@ -324,7 +334,7 @@ class AccountDataController extends AbstractAdminController
         WHERE `authlevel` <= :userLevel AND `universe` = :universe
         ORDER BY `username` ASC;";
         $UserQuerry = $db->select($sql, [
-            ':userLevel' => $USER['authlevel'],
+            ':userLevel' => $this->state->USER['authlevel'],
             ':universe'  => $this->universe()->getEmulated(),
         ]);
 

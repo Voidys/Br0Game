@@ -54,7 +54,7 @@ class MissionCaseAttack extends AbstractBattleMission
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
-        $combatResult = $battleHandler->engine->calculateAttack($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
+        $combatResult = $battleHandler->engine->fight($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
         $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
         if (!$combatResult) {
             $this->cancelFight($setup->userAttack, $setup->userDefend, $targetPlanet);
@@ -67,7 +67,7 @@ class MissionCaseAttack extends AbstractBattleMission
 
         $this->applyLosses($setup, $reportID);
 
-        if ($combatResult['won'] == ATTACKER) {
+        if ($combatResult->won == ATTACKER) {
             $stealResource = $battleHandler->calculateSteal($setup->fleetAttack, $targetPlanet, $this->_fleet['universe']);
         }
 
@@ -84,7 +84,7 @@ class MissionCaseAttack extends AbstractBattleMission
         foreach ($setup->userDefend as $defenderId => $fleet) {
             $this->statsHandler->setTimestamp($defenderId, AdvancedStatsEnum::FIRST_DEFENSE, $this->_fleet['arrival_time']);
         }
-        $units = $combatResult['unitLost']['attacker'] + $combatResult['unitLost']['defender'];
+        $units = $combatResult->losses->totalValue();
 
         $class = $this->recordResultStats($setup, $combatResult, $units);
         $this->storeReport($setup, $battleHandler, $reportData, $reportID);

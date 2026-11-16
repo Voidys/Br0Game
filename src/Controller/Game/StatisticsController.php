@@ -50,12 +50,11 @@ class StatisticsController extends AbstractGameController
      */
     public function show(): Response
     {
-        $USER = & $this->state->USER;
         $LNG = $this->state->LNG;
         $who = $this->http()->_GP('who', STATS_PLAYERS);
         $type = $this->http()->_GP('type', STATS_TYPE_POINTS);
         $range = $this->http()->_GP('range', 1);
-        if (!$this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) || $USER['authlevel'] > 0) {
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) || $this->state->USER['authlevel'] > 0) {
             switch ($type) {
                 case STATS_TYPE_FLEET:
                     $Order = "fleet_rank";
@@ -102,7 +101,7 @@ class StatisticsController extends AbstractGameController
             }
         } else {
             //prevent url manipulation
-            $spytech = $USER['spy_tech'];
+            $spytech = $this->state->USER['spy_tech'];
             if ($type == STATS_TYPE_FLEET && $spytech >= 6) {
                 $Order = "fleet_rank ASC";
                 $Points = "fleet_points";
@@ -149,13 +148,16 @@ class StatisticsController extends AbstractGameController
         switch ($who) {
             case STATS_PLAYERS:
                 $MaxUsers = 0;
-                $sql = "SELECT COUNT(*) as state FROM %%USERS%% WHERE `universe` = :universe";
+                // with stat == 2 the staff above the configured level is left out of the ranking
+                $countQuery = $db->qb()
+                    ->select('COUNT(*) AS state')
+                    ->from($db->table('USERS'))
+                    ->where('`universe` = :universe')
+                    ->setParameter('universe', $this->universe()->current());
                 if ($config->stat == 2) {
-                    $sql .= " AND authlevel < :authLevel";
-                    $MaxUsers = $db->selectSingle($sql, [':universe' => $this->universe()->current(), ':authLevel' => $config->stat_level], 'state');
-                } else {
-                    $MaxUsers = $db->selectSingle($sql, [':universe' => $this->universe()->current()], 'state');
+                    $countQuery->andWhere('authlevel < :authLevel')->setParameter('authLevel', $config->stat_level);
                 }
+                $MaxUsers = $db->fetchValue($countQuery);
                 $range = min($range, $MaxUsers);
                 $LastPage = max(1, ceil($MaxUsers / 100));
 
@@ -167,44 +169,61 @@ class StatisticsController extends AbstractGameController
 
                 $start = max(floor(($range - 1) / 100) * 100, 0);
 
-                $sql = "SELECT DISTINCT s.*, u.id, u.username, u.ally_id, u.banaday, u.urlaubs_modus, u.onlinetime, u.outlaw_time, u.rebuild_protection, u.rebuild_protection_attackers,
-                        a.ally_name, (a.ally_owner=u.id) as is_leader, a.ally_owner_range, r.DIPLOMATIC as is_diplo,
-                        buddy.id as buddy, d.level as diploLevel, s.honor_title
-                        FROM %%STATPOINTS%% as s
-                        INNER JOIN %%USERS%% as u ON u.id = s.id_owner
-                        LEFT JOIN %%ALLIANCE%% as a ON a.id = s.id_ally
-                        LEFT JOIN %%ALLIANCE_RANK%% as r ON r.allianceID = s.id_ally AND r.rankID = u.ally_rank_id
-                        LEFT JOIN %%DIPLO%% as d ON ((d.owner_1 = :allianceId AND d.owner_2 = a.id) OR (d.owner_1 = a.id AND d.owner_2 = :allianceId)) AND d.accept = 1
-                        LEFT JOIN %%BUDDY%% as buddy ON ((buddy.sender = :userId AND buddy.owner = u.id) OR (buddy.sender = u.id AND buddy.owner = :userId)) AND u.id != :userId
-                        WHERE s.universe = :universe AND s.stat_type = 1";
+                // $Order is one of the fixed "<type>_rank ASC" strings chosen above, never request input
+                $rankingQuery = $db->qb()
+                    ->select(
+                        'DISTINCT s.*',
+                        'u.id',
+                        'u.username',
+                        'u.ally_id',
+                        'u.banaday',
+                        'u.urlaubs_modus',
+                        'u.onlinetime',
+                        'u.outlaw_time',
+                        'u.rebuild_protection',
+                        'u.rebuild_protection_attackers',
+                        'a.ally_name',
+                        '(a.ally_owner=u.id) AS is_leader',
+                        'a.ally_owner_range',
+                        'r.DIPLOMATIC AS is_diplo',
+                        'buddy.id AS buddy',
+                        'd.level AS diploLevel',
+                        's.honor_title'
+                    )
+                    ->from($db->table('STATPOINTS'), 's')
+                    ->innerJoin('s', $db->table('USERS'), 'u', 'u.id = s.id_owner')
+                    ->leftJoin('s', $db->table('ALLIANCE'), 'a', 'a.id = s.id_ally')
+                    ->leftJoin('s', $db->table('ALLIANCE_RANK'), 'r', 'r.allianceID = s.id_ally AND r.rankID = u.ally_rank_id')
+                    ->leftJoin('a', $db->table('DIPLO'), 'd', '((d.owner_1 = :allianceId AND d.owner_2 = a.id) OR (d.owner_1 = a.id AND d.owner_2 = :allianceId)) AND d.accept = 1')
+                    ->leftJoin('u', $db->table('BUDDY'), 'buddy', '((buddy.sender = :userId AND buddy.owner = u.id) OR (buddy.sender = u.id AND buddy.owner = :userId)) AND u.id != :userId')
+                    ->where('s.universe = :universe')
+                    ->andWhere('s.stat_type = 1')
+                    ->setParameter('allianceId', $this->state->USER['ally_id'])
+                    ->setParameter('userId', $this->state->USER['id'])
+                    ->setParameter('universe', $this->universe()->current())
+                    ->orderBy($Order)
+                    ->setFirstResult((int) $start)
+                    ->setMaxResults(100);
                 if ($config->stat == 2) {
-                    $sql .= " AND u.authlevel < :authLevel";
+                    $rankingQuery->andWhere('u.authlevel < :authLevel')->setParameter('authLevel', $config->stat_level);
                 }
-                $sql .= " ORDER BY " . $Order . " LIMIT :offset, :limit;";
-                $query = $db->select($sql, [
-                    ':allianceId'   => $USER['ally_id'],
-                    ':userId'       => $USER['id'],
-                    ':universe'     => $this->universe()->current(),
-                    ':offset'       => $start,
-                    ':limit'        => 100,
-                    ':authLevel'    => $config->stat_level,
-                ]);
+                $query = $db->fetchAll($rankingQuery);
 
                 try {
                     $sql = 'SELECT total_points FROM %%STATPOINTS%% WHERE id_owner = :userId AND stat_type = :statType';
-                    $USER += $db->selectSingle(
+                    $this->state->USER += $db->selectSingle(
                         $sql,
                         [
-                            ':userId'   => $USER['id'],
+                            ':userId'   => $this->state->USER['id'],
                             ':statType' => 1,
                         ],
                     ) ?: ['total_points' => 0];
                 } catch (Exception $e) {
-                    $USER['total_points'] = 0;
+                    $this->state->USER['total_points'] = 0;
                 }
 
                 foreach ($query as $StatRow) {
-                    $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($USER), $this->models()->user($StatRow));
+                    $IsNoobProtec = $this->playerUtil()->checkNoobProtectionFor($this->models()->user($this->state->USER), $this->models()->user($StatRow));
                     $Class = $this->playerUtil()->userStatus($StatRow, $IsNoobProtec);
                     $AllyClass = [];
                     if (!empty($StatRow['ally_id'])) {
@@ -227,7 +246,7 @@ class StatisticsController extends AbstractGameController
                                 break;
                         }
 
-                        if ($USER['ally_id'] == $StatRow['ally_id']) {
+                        if ($this->state->USER['ally_id'] == $StatRow['ally_id']) {
                             $AllyClass = ['member'];
                         }
                     }
@@ -266,15 +285,18 @@ class StatisticsController extends AbstractGameController
 
                 $start = max(floor(($range - 1) / 100) * 100, 0);
 
-                $sql = 'SELECT DISTINCT s.*, a.id, a.ally_members, a.ally_name FROM %%STATPOINTS%% as s
-                        INNER JOIN %%ALLIANCE%% as a ON a.id = s.id_owner
-                        WHERE universe = :universe AND stat_type = 2
-                        ORDER BY ' . $Order . ' LIMIT :offset, :limit;';
-                $query = $db->select($sql, [
-                    ':universe' => $this->universe()->current(),
-                    ':offset'   => $start,
-                    ':limit'    => 100,
-                ]);
+                $query = $db->fetchAll(
+                    $db->qb()
+                        ->select('DISTINCT s.*', 'a.id', 'a.ally_members', 'a.ally_name')
+                        ->from($db->table('STATPOINTS'), 's')
+                        ->innerJoin('s', $db->table('ALLIANCE'), 'a', 'a.id = s.id_owner')
+                        ->where('universe = :universe')
+                        ->andWhere('stat_type = 2')
+                        ->setParameter('universe', $this->universe()->current())
+                        ->orderBy($Order)
+                        ->setFirstResult((int) $start)
+                        ->setMaxResults(100)
+                );
 
 
                 foreach ($query as $StatRow) {
@@ -296,7 +318,7 @@ class StatisticsController extends AbstractGameController
             STATS_PLAYERS => $LNG['st_player'],
             STATS_ALLIANCES => $LNG['st_alliance'],
         ];
-        if (!$this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) || $USER['authlevel'] > 0) {
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS) || $this->state->USER['authlevel'] > 0) {
             $Selector['type'] = [
                 STATS_TYPE_POINTS => $LNG['st_points'],
                 STATS_TYPE_FLEET => $LNG['st_fleets'],
@@ -310,7 +332,7 @@ class StatisticsController extends AbstractGameController
             }
         } else {
             // only show selectable stat types
-            $spytech = $USER['spy_tech'];
+            $spytech = $this->state->USER['spy_tech'];
             switch ($spytech) {
                 case 0:
                 case 1:
@@ -356,9 +378,9 @@ class StatisticsController extends AbstractGameController
             'type'        => $type,
             'range'       => floor(($range - 1) / 100) * 100 + 1,
             'RangeList'   => $RangeList,
-            'CUser_ally'  => $USER['ally_id'],
-            'CUser_id'    => $USER['id'],
-            'stat_date'   => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->cronjobs()->getLastExecutionTime('statistic'), $USER['timezone']),
+            'CUser_ally'  => $this->state->USER['ally_id'],
+            'CUser_id'    => $this->state->USER['id'],
+            'stat_date'   => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->cronjobs()->getLastExecutionTime('statistic'), $this->state->USER['timezone']),
             'ShortStatus' => [
                 'vacation'      => $LNG['gl_short_vacation'],
                 'banned'        => $LNG['gl_short_ban'],

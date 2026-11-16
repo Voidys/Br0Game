@@ -53,18 +53,13 @@ class PlanetCreator extends CreatorTab
 
             // optional field limit and name (the former string building produced "SET , name" without a field limit)
             $set = [];
-            $params = [':planetId' => $planetId];
             if ($field_max > 0) {
-                $set[] = 'field_max = :fieldMax';
-                $params[':fieldMax'] = (int) $field_max;
+                $set['field_max'] = (int) $field_max;
             }
             if (!empty($name)) {
-                $set[] = 'name = :name';
-                $params[':name'] = $name;
+                $set['name'] = $name;
             }
-            if ($set !== []) {
-                $db->update('UPDATE %%PLANETS%% SET ' . implode(', ', $set) . ' WHERE id = :planetId;', $params);
-            }
+            $db->updateRows('PLANETS', $set, ['id' => $planetId]);
 
             $this->responder->message($LNG['po_complete_succes'], '?page=creator&mode=planet', 3, true);
         }

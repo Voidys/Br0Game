@@ -62,16 +62,18 @@ class BoardController extends AbstractAccountController
         $page = max(1, (int) $this->http()->_GP('p', 1));
         $now = $this->now();
 
-        $where = 'p.deleted = 0';
-        $params = [':me' => $this->accountId()];
-        if ($flair !== '') {
-            $where .= ' AND p.flair = :flair';
-            $params[':flair'] = $flair;
-        }
-        if ($sort === 'top' && $period === 'week') {
-            $where .= ' AND p.created_at >= :since';
-            $params[':since'] = $now - 7 * 86400;
-        }
+        // optional filters (flair, "top of the week"), shared by the count and the page query
+        $filter = static function (\Doctrine\DBAL\Query\QueryBuilder $qb) use ($flair, $sort, $period, $now): \Doctrine\DBAL\Query\QueryBuilder {
+            $qb->where('p.deleted = 0');
+            if ($flair !== '') {
+                $qb->andWhere('p.flair = :flair')->setParameter('flair', $flair);
+            }
+            if ($sort === 'top' && $period === 'week') {
+                $qb->andWhere('p.created_at >= :since')->setParameter('since', $now - 7 * 86400);
+            }
+
+            return $qb;
+        };
 
         $order = match ($sort) {
             'new' => 'p.pinned DESC, p.created_at DESC',
@@ -79,24 +81,26 @@ class BoardController extends AbstractAccountController
             default => 'p.pinned DESC, (SIGN(p.score) * LOG10(GREATEST(ABS(p.score), 1)) + p.created_at / 45000) DESC',
         };
 
-        $countParams = $params;
-        unset($countParams[':me']);
-        $total = (int) $this->db->selectSingle(
-            "SELECT COUNT(*) AS c FROM %%BOARD_POSTS%% p WHERE $where;",
-            $countParams,
-            'c',
+        $total = (int) $this->db->fetchValue(
+            $filter($this->db->qb()->select('COUNT(*) AS c')->from($this->db->table('BOARD_POSTS'), 'p'))
         );
         $pages = max(1, (int) ceil($total / self::PER_PAGE));
         $page = min($page, $pages);
         $offset = ($page - 1) * self::PER_PAGE;
 
-        $rows = $this->db->select(
-            "SELECT p.id, p.flair, p.title, p.score, p.comment_count, p.pinned, p.locked, p.created_at, a.accountname, v.value AS myvote
-             FROM %%BOARD_POSTS%% p
-             LEFT JOIN %%ACCOUNTS%% a ON a.id = p.account_id
-             LEFT JOIN %%BOARD_VOTES%% v ON v.account_id = :me AND v.target_type = 1 AND v.target_id = p.id
-             WHERE $where ORDER BY $order, p.id DESC LIMIT $offset, " . self::PER_PAGE . ';',
-            $params,
+        // $order is one of three fixed expressions (never request input); the id keeps equal rows in a stable order
+        $rows = $this->db->fetchAll(
+            $filter(
+                $this->db->qb()
+                    ->select('p.id', 'p.flair', 'p.title', 'p.score', 'p.comment_count', 'p.pinned', 'p.locked', 'p.created_at', 'a.accountname', 'v.value AS myvote')
+                    ->from($this->db->table('BOARD_POSTS'), 'p')
+                    ->leftJoin('p', $this->db->table('ACCOUNTS'), 'a', 'a.id = p.account_id')
+                    ->leftJoin('p', $this->db->table('BOARD_VOTES'), 'v', 'v.account_id = :me AND v.target_type = 1 AND v.target_id = p.id')
+                    ->setParameter('me', $this->accountId())
+            )
+                ->orderBy($order . ', p.id DESC')
+                ->setFirstResult($offset)
+                ->setMaxResults(self::PER_PAGE)
         );
 
         $posts = [];
@@ -442,7 +446,7 @@ class BoardController extends AbstractAccountController
         if ($column === null || $this->loadPost($id) === null) {
             $this->fail($this->state->LNG['board_not_found']);
         }
-        $this->db->update("UPDATE %%BOARD_POSTS%% SET {$column[0]} = :v WHERE id = :id;", [':v' => $column[1], ':id' => $id]);
+        $this->db->updateRows('BOARD_POSTS', [$column[0] => $column[1]], ['id' => $id]);
         $this->redirectTo('account?page=board&mode=post&id=' . $id);
     }
 

@@ -37,7 +37,7 @@ class PagesController extends AbstractAdminController
      */
     public function show(): Response
     {
-        $LNG = &$this->state->LNG;
+        $LNG = $this->state->LNG;
         $USER = $this->state->USER;
         $languages = $this->contentPages->languages();
 

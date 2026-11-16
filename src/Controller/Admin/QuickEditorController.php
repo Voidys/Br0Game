@@ -52,17 +52,19 @@ class QuickEditorController extends AbstractAdminController
         switch ($edit) {
             case 'planet':
                 $DataIDs = array_merge($reslist['fleet'], $reslist['build'], $reslist['defense']);
-                $SpecifyItemsPQ = "";
-
+                // the element columns come from the game's resource table
+                $planetColumns = [];
                 foreach ($DataIDs as $ID) {
-                    $SpecifyItemsPQ .= "`" . $resource[$ID] . "`,";
+                    $planetColumns[] = '`' . $resource[$ID] . '`';
                 }
-                $sql = "SELECT " . $SpecifyItemsPQ . " `name`, `id_owner`, `planet_type`, `galaxy`, `system`, `planet`, `destruyed`,
-                `diameter`, `field_current`, `field_max`, `temp_min`, `temp_max`, `metal`, `crystal`, `deuterium`
-                FROM %%PLANETS%% WHERE `id` = :planetID;";
-                $PlanetData = $db->selectSingle($sql, [
-                    ':planetID' => $id,
-                ]);
+                $PlanetData = $db->fetchRow(
+                    $db->qb()
+                        ->select(...$planetColumns)
+                        ->addSelect('`name`', '`id_owner`', '`planet_type`', '`galaxy`', '`system`', '`planet`', '`destruyed`', '`diameter`', '`field_current`', '`field_max`', '`temp_min`', '`temp_max`', '`metal`', '`crystal`', '`deuterium`')
+                        ->from($db->table('PLANETS'))
+                        ->where('`id` = :planetID')
+                        ->setParameter('planetID', $id)
+                );
 
                 if ($action == 'send') {
                     $this->savePlanet((int) $id, $PlanetData, $DataIDs);
@@ -129,15 +131,18 @@ class QuickEditorController extends AbstractAdminController
                 return $this->render('admin/QuickEditorPlanet.html.twig');
             case 'player':
                 $DataIDs = $reslist['tech'];
-                $SpecifyItemsPQ = "";
-
+                $userColumns = [];
                 foreach ($DataIDs as $ID) {
-                    $SpecifyItemsPQ .= "`" . $resource[$ID] . "`,";
+                    $userColumns[] = '`' . $resource[$ID] . '`';
                 }
-                $sql = "SELECT " . $SpecifyItemsPQ . " `username`, `authlevel`, `galaxy`, `system`, `planet`, `id_planet`, `authattack`, `authlevel`
-                FROM %%USERS%%
-                WHERE `id` = :userID;";
-                $UserData = $db->selectSingle($sql, [':userID' => $id]);
+                $UserData = $db->fetchRow(
+                    $db->qb()
+                        ->select(...$userColumns)
+                        ->addSelect('`username`', '`authlevel`', '`galaxy`', '`system`', '`planet`', '`id_planet`', '`authattack`')
+                        ->from($db->table('USERS'))
+                        ->where('`id` = :userID')
+                        ->setParameter('userID', $id)
+                );
                 $ChangePW = $USER['id'] == ROOT_USER || ($id != ROOT_USER && $USER['authlevel'] > $UserData['authlevel']);
 
                 if ($action == 'send') {
@@ -213,8 +218,8 @@ class QuickEditorController extends AbstractAdminController
         $reslist = $this->state->reslist;
         $resource = $this->state->resource;
 
-        $sets = [];
-        $params = [];
+        // columns to write (column => value, bound by Database::updateRows)
+        $values = [];
         $old = [];
         $new = [];
         $fields = $PlanetData['field_current'];
@@ -233,9 +238,8 @@ class QuickEditorController extends AbstractAdminController
                 $fields += $level - $PlanetData[$column];
             }
 
-            $sets[] = '`' . $column . '` = :res' . $ID;
-            $params[':res' . $ID] = $this->digits($level);
-            $new[$ID] = $params[':res' . $ID];
+            $values[$column] = $this->digits($level);
+            $new[$ID] = $values[$column];
         }
 
         foreach (['metal', 'crystal', 'deuterium'] as $column) {
@@ -243,31 +247,22 @@ class QuickEditorController extends AbstractAdminController
             $old[$ID] = $PlanetData[$column];
             $new[$ID] = $PlanetData[$column];
             if ($this->has($column)) {
-                $sets[] = '`' . $column . '` = :' . $column;
-                $params[':' . $column] = $this->digits(max(0, round($this->http()->_GP($column, 0.0))));
-                $new[$ID] = $params[':' . $column];
+                $values[$column] = $this->digits(max(0, round($this->http()->_GP($column, 0.0))));
+                $new[$ID] = $values[$column];
             }
         }
 
         $old['field_max'] = $new['field_max'] = $PlanetData['field_max'];
         if ($this->has('field_max')) {
-            $sets[] = '`field_max` = :field_max';
-            $params[':field_max'] = $new['field_max'] = $this->http()->_GP('field_max', 0);
+            $values['field_max'] = $new['field_max'] = $this->http()->_GP('field_max', 0);
         }
         if ($this->has('name')) {
-            $sets[] = '`name` = :name';
-            $params[':name'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
+            $values['name'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
         }
 
-        $sets[] = '`field_current` = :fields';
-        $params[':fields'] = (int) $fields;
-        $sets[] = "`eco_hash` = ''";
-        $params[':planetID'] = $id;
-        $params[':universe'] = $this->universe()->getEmulated();
-        $this->db->update(
-            'UPDATE %%PLANETS%% SET ' . implode(', ', $sets) . ' WHERE `id` = :planetID AND `universe` = :universe;',
-            $params,
-        );
+        $values['field_current'] = (int) $fields;
+        // eco_hash is cleared so the economy is recalculated
+        $this->db->updateRows('PLANETS', $values, ['id' => $id, 'universe' => $this->universe()->getEmulated()], ['eco_hash' => "''"]);
 
         $LOG = new Log($this->db, $this->configs, $this->state, 2);
         $LOG->target = $id;
@@ -301,8 +296,7 @@ class QuickEditorController extends AbstractAdminController
         $LNG = $this->state->LNG;
         $resource = $this->state->resource;
 
-        $sets = [];
-        $params = [];
+        $values = [];
         $old = [];
         $new = [];
         $newPasswordHash = null;
@@ -312,8 +306,7 @@ class QuickEditorController extends AbstractAdminController
             $old[$ID] = $UserData[$column];
             $new[$ID] = $UserData[$column];
             if ($this->has($column)) {
-                $sets[] = '`' . $column . '` = :tech' . $ID;
-                $params[':tech' . $ID] = $new[$ID] = min(abs($this->http()->_GP($column, 0)), 255);
+                $values[$column] = $new[$ID] = min(abs($this->http()->_GP($column, 0)), 255);
             }
         }
 
@@ -323,14 +316,12 @@ class QuickEditorController extends AbstractAdminController
 
         $old['username'] = $new['username'] = $UserData['username'];
         if ($this->has('name')) {
-            $sets[] = '`username` = :username';
-            $params[':username'] = $new['username'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
+            $values['username'] = $new['username'] = $this->http()->_GP('name', '', UTF8_SUPPORT);
         }
 
         $old['authattack'] = $new['authattack'] = $UserData['authattack'];
         if ($this->has('authattack') || $this->has('name')) {
-            $sets[] = '`authattack` = :authattack';
-            $params[':authattack'] = $new['authattack'] = ($UserData['authlevel'] != AUTH_USR && $this->http()->_GP('authattack', '') == 'on' ? $UserData['authlevel'] : 0);
+            $values['authattack'] = $new['authattack'] = ($UserData['authlevel'] != AUTH_USR && $this->http()->_GP('authattack', '') == 'on' ? $UserData['authlevel'] : 0);
         }
 
         if ($newPasswordHash !== null) {
@@ -341,13 +332,8 @@ class QuickEditorController extends AbstractAdminController
             );
         }
 
-        if ($sets !== []) {
-            $params[':userID'] = $id;
-            $params[':universe'] = $this->universe()->getEmulated();
-            $this->db->update(
-                'UPDATE %%USERS%% SET ' . implode(', ', $sets) . ' WHERE `id` = :userID AND `universe` = :universe;',
-                $params,
-            );
+        if ($values !== []) {
+            $this->db->updateRows('USERS', $values, ['id' => $id, 'universe' => $this->universe()->getEmulated()]);
 
             $LOG = new Log($this->db, $this->configs, $this->state, 1);
             $LOG->target = $id;

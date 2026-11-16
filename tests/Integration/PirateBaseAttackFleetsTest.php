@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
+use App\Game\BattleEngine\BattleFleet;
 use App\Game\Missions\MissionCasePiratebaseAttack;
 use App\Tests\Support\GameTestCase;
 
@@ -17,9 +18,9 @@ final class PirateBaseAttackFleetsTest extends GameTestCase
     {
         $mission = new MissionCasePiratebaseAttack(['id' => 900001, 'group' => 0], $this->db, $this->configs, $this->state);
         $fleets = [
-            900001 => ['unit' => [202 => 0]],
-            900002 => ['unit' => [202 => 5]],
-            0 => ['unit' => [202 => 3]],
+            900001 => new BattleFleet(900001, ['id' => 1, 'username' => 'a'], [202 => 0], []),
+            900002 => new BattleFleet(900002, ['id' => 1, 'username' => 'a'], [202 => 5], []),
+            0 => new BattleFleet(0, ['id' => 0, 'username' => 'base'], [202 => 3], []),
         ];
 
         $method = new \ReflectionMethod($mission, 'updateFleetsAfterBattle');

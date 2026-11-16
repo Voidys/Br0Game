@@ -66,14 +66,13 @@ class AccountSettingsController extends AbstractAccountController
      */
     public function send()
     {
-        $ACCOUNT = & $this->state->ACCOUNT;
         $LNG = $this->state->LNG;
         $LNG->includeData(['INGAME', 'ACCOUNT']);
         $THEME = $this->state->THEME;
         $password           = $this->http()->_GP('password', '');
         $newpassword        = $this->http()->_GP('newpassword', '');
         $newpassword2       = $this->http()->_GP('newpassword2', '');
-        $email              = $this->http()->_GP('email', $ACCOUNT['email']);
+        $email              = $this->http()->_GP('email', $this->state->ACCOUNT['email']);
         $language           = $this->http()->_GP('language', '');
         $theme              = $this->http()->_GP('theme', $THEME->getThemeName());
         $timezone           = $this->http()->_GP('timezone', '');
@@ -85,7 +84,7 @@ class AccountSettingsController extends AbstractAccountController
         $db->startTransaction();
         $sql = "SELECT * FROM %%ACCOUNTS%% a WHERE a.id = :id FOR UPDATE;";
         $db->select($sql, [
-            ':id' => $ACCOUNT['id'],
+            ':id' => $this->state->ACCOUNT['id'],
         ]);
         $this->assign([
             'Selectors'         => [
@@ -93,34 +92,34 @@ class AccountSettingsController extends AbstractAccountController
                 'Skins' => Theme::getAvailableCssThemes(),
                 'lang' => $LNG->getAllowedLangs(false),
             ],
-            'id'            => $ACCOUNT['id'],
-            'delete'        => $ACCOUNT['db_deaktjava'],
-            'accountname'   => $ACCOUNT['accountname'],
-            'userLang'      => $ACCOUNT['lang'],
-            'theme'         => $ACCOUNT['dpath'],
-            'timezone'      => $ACCOUNT['timezone'],
+            'id'            => $this->state->ACCOUNT['id'],
+            'delete'        => $this->state->ACCOUNT['db_deaktjava'],
+            'accountname'   => $this->state->ACCOUNT['accountname'],
+            'userLang'      => $this->state->ACCOUNT['lang'],
+            'theme'         => $this->state->ACCOUNT['dpath'],
+            'timezone'      => $this->state->ACCOUNT['timezone'],
             'toplink'       => "account?page=account",
             'topname'       => $LNG->format('Back'),
         ]);
         if (
             !empty($newpassword)
             && !empty($password)
-            && password_verify($password, $ACCOUNT['password'])
+            && password_verify($password, $this->state->ACCOUNT['password'])
             && $newpassword == $newpassword2
         ) {
             $newpass     = $this->accountUtil()->cryptPassword($newpassword);
             $sql = "UPDATE %%ACCOUNTS%% SET password = :newpass WHERE id = :accountID;";
             $db->update($sql, [
                 ':newpass'  => $newpass,
-                ':accountID'   => $ACCOUNT['id'],
+                ':accountID'   => $this->state->ACCOUNT['id'],
             ]);
             // the new password ends every session of the account, this one included
-            $this->sessions()->revokeAccountSessions((int) $ACCOUNT['id']);
+            $this->sessions()->revokeAccountSessions((int) $this->state->ACCOUNT['id']);
             $this->state->auth->logout();
         }
 
-        if (!empty($email) && $email != $ACCOUNT['email']) {
-            if (!password_verify($password, $ACCOUNT['password'])) {
+        if (!empty($email) && $email != $this->state->ACCOUNT['email']) {
+            if (!password_verify($password, $this->state->ACCOUNT['password'])) {
                 $this->printMessage($LNG['op_need_pass_mail'], [
                     [
                         'label' => $LNG['sys_back'],
@@ -139,7 +138,7 @@ class AccountSettingsController extends AbstractAccountController
                     . " (SELECT COUNT(*) FROM %%ACCOUNTS%% WHERE id != :accountID AND (email ="
                     . " :email OR email_2 = :email)) + (SELECT COUNT(*) FROM %%ACCOUNTS_VALID%% WHERE email = :email) as count";
                 $Count = $db->selectSingle($sql, [
-                    ':accountID'   => $ACCOUNT['id'],
+                    ':accountID'   => $this->state->ACCOUNT['id'],
                     ':email'    => $email,
                 ], 'count');
 
@@ -155,7 +154,7 @@ class AccountSettingsController extends AbstractAccountController
                     $db->update($sql, [
                         ':email'    => $email,
                         ':time'     => ($this->state->runtime->timestamp + 604800),
-                        ':userID'   => $ACCOUNT['id'],
+                        ':userID'   => $this->state->ACCOUNT['id'],
                     ]);
 
                     $config = $this->configs->get();
@@ -166,13 +165,13 @@ class AccountSettingsController extends AbstractAccountController
                         '{GAMENAME}',
                         '{DISCORD}',
                     ], [
-                        $ACCOUNT['accountname'],
+                        $this->state->ACCOUNT['accountname'],
                         $config->game_name,
                         DISCORD_URL,
                     ], $MailRAW);
 
                     $subject = $LNG->formatIn(['mail', 'subject', 'mail_changed'], $config->game_name);
-                    $this->mailer()->send($ACCOUNT['email_2'], $ACCOUNT['accountname'], $subject, $MailContent);
+                    $this->mailer()->send($this->state->ACCOUNT['email_2'], $this->state->ACCOUNT['accountname'], $subject, $MailContent);
                 }
             }
         }
@@ -188,21 +187,21 @@ class AccountSettingsController extends AbstractAccountController
             ':theme'             => $theme,
             ':cssTheme'          => $theme,
             ':timezone'          => $timezone,
-            ':userID'            => $ACCOUNT['id'],
+            ':userID'            => $this->state->ACCOUNT['id'],
         ]);
-        $ACCOUNT['dpath'] = $theme;
-        $ACCOUNT['css_dpath'] = $theme;
+        $this->state->ACCOUNT['dpath'] = $theme;
+        $this->state->ACCOUNT['css_dpath'] = $theme;
         $this->assign([
             'Selectors'         => [
                 'timezones' => get_timezone_selector(),
                 'Skins' => Theme::getAvailableCssThemes(),
                 'lang' => $LNG->getAllowedLangs(false),
             ],
-            'id'            => $ACCOUNT['id'],
-            'accountname'   => $ACCOUNT['accountname'],
-            'userLang'      => $ACCOUNT['lang'],
-            'theme'         => $ACCOUNT['dpath'],
-            'timezone'      => $ACCOUNT['timezone'],
+            'id'            => $this->state->ACCOUNT['id'],
+            'accountname'   => $this->state->ACCOUNT['accountname'],
+            'userLang'      => $this->state->ACCOUNT['lang'],
+            'theme'         => $this->state->ACCOUNT['dpath'],
+            'timezone'      => $this->state->ACCOUNT['timezone'],
             'toplink'       => "account?page=account",
             'topname'       => $LNG->format('Back'),
         ]);

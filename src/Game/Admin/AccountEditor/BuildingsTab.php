@@ -32,46 +32,30 @@ class BuildingsTab extends AccountEditorTab
             if (isset($this->state->requestPost['add'])) {
                 $QryUpdate = [];
                 $fields = 0;
-                $sql = "UPDATE %%PLANETS%% SET `eco_hash` = '', ";
                 foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` + :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = $count;
                         $afterBuildings[$ID] = $beforeBuildings[$ID] + $count;
                         $fields += $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= ", `field_current` = `field_current` + :fields WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':fields'   => $fields,
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], ['eco_hash' => "''"], $QryUpdate + ['field_current' => $fields]);
                 }
             } elseif (isset($this->state->requestPost['delete'])) {
                 $QryUpdate = [];
                 $fields = 0;
-                $sql = "UPDATE %%PLANETS%% SET `eco_hash` = '', ";
                 foreach ($reslist['allow'][$PlanetData['planet_type']] as $ID) {
                     $count = max(0, round($this->http()->_GP($resource[$ID], 0.0)));
                     if ($count > 0) {
-                        $QryUpdate[] = "`" . $resource[$ID] . "` = `" . $resource[$ID] . "` - :" . $resource[$ID];
-                        $params[':' . $resource[$ID]] = $count;
+                        $QryUpdate[$resource[$ID]] = -$count;
                         $afterBuildings[$ID] = max($beforeBuildings[$ID] - $count, 0);
                         $fields += $count;
                     }
                 }
                 if (!empty($QryUpdate)) {
-                    $sql .= implode(", ", $QryUpdate);
-                    $sql .= ", `field_current` = `field_current` - :fields WHERE `id` = :id AND `universe` = :universe;";
-                    $db->update($sql, array_merge($params, [
-                        ':fields'   => $fields,
-                        ':id'       => $id,
-                        ':universe' => $this->universe()->getEmulated(),
-                    ]));
+                    $db->updateRows('PLANETS', [], ['id' => $id, 'universe' => $this->universe()->getEmulated()], ['eco_hash' => "''"], $QryUpdate + ['field_current' => -$fields]);
                 }
             }
 

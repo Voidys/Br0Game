@@ -261,19 +261,9 @@ abstract class AbstractTutorialSupport
 
         foreach ($this->listRewards() as $elementID => $rewardRow) {
             if (array_key_exists($resource[$elementID], $this->user)) {
-                $sql = "UPDATE %%USERS%% SET " . $resource[$elementID] . " = " . $resource[$elementID] . " + :ammount
-                    WHERE id = :userID;";
-                $this->db->update($sql, [
-                    ':ammount' => $rewardRow['ammount'],
-                    ':userID' => $this->user['id'],
-                ]);
+                $this->db->updateRows('USERS', [], ['id' => $this->user['id']], [], [$resource[$elementID] => $rewardRow['ammount']]);
             } elseif (array_key_exists($resource[$elementID], $this->planet)) {
-                $sql = "UPDATE %%PLANETS%% SET " . $resource[$elementID] . " = " . $resource[$elementID] . " + :ammount
-                    WHERE id = :planetID;";
-                $this->db->update($sql, [
-                    ':ammount' => $rewardRow['ammount'],
-                    ':planetID' => $this->planet['id'],
-                ]);
+                $this->db->updateRows('PLANETS', [], ['id' => $this->planet['id']], [], [$resource[$elementID] => $rewardRow['ammount']]);
             }
         }
     }

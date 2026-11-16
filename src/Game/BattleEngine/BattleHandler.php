@@ -64,20 +64,18 @@ class BattleHandler
      * Side effects: UPDATE users (rebuild_protection = fight time, rebuild_protection_attackers = JSON of the
      * attacker user ids, rebuild_protection_locked_until = +1 month).
      * @param array<int, array{totalUnits:int|float, totalCapacity:int|float}> $currentTotalFleetState per user id, before the fight.
-     * @param array $combatResult result of BattleEngineInterface::calculateAttack().
+     * @param BattleResult $combatResult result of BattleEngineInterface::fight().
      * @param int $combatTime fight timestamp.
      */
-    public function CheckRebuildProtection(array $currentTotalFleetState, array $combatResult, int $combatTime, int $noobProtectionPoints)
+    public function CheckRebuildProtection(array $currentTotalFleetState, BattleResult $combatResult, int $combatTime, int $noobProtectionPoints)
     {
         $db = $this->db;
+        $losses = $combatResult->losses;
 
         //Limit to a max of 5.000 points, which is 5.000.000 units, so that it still triggers in universes with high noob protection numbers
         $noobProtectionPoints = min($noobProtectionPoints, 5000);
 
-        $attacker = [];
-        foreach ($combatResult['unitLostPerSideAndUser']['attacker'] as $userID => $value) {
-            $attacker[] = $userID;
-        }
+        $attacker = $losses->userIds(BattleSide::Attacker);
 
         $noobProtection = $noobProtectionPoints * 1000;
         foreach ($currentTotalFleetState as $userID => $state) {
@@ -87,21 +85,8 @@ class BattleHandler
                 continue;
             }
 
-            $lostUnits = 0;
-            if (isset($combatResult['unitLostPerSideAndUser']['attacker'][$userID])) {
-                $lostUnits += $combatResult['unitLostPerSideAndUser']['attacker'][$userID];
-            }
-            if (isset($combatResult['unitLostPerSideAndUser']['defender'][$userID])) {
-                $lostUnits += $combatResult['unitLostPerSideAndUser']['defender'][$userID];
-            }
-
-            $lostCapacity = 0;
-            if (isset($combatResult['transportCapacityLostPerSideAndUser']['attacker'][$userID])) {
-                $lostCapacity += $combatResult['transportCapacityLostPerSideAndUser']['attacker'][$userID];
-            }
-            if (isset($combatResult['transportCapacityLostPerSideAndUser']['defender'][$userID])) {
-                $lostCapacity += $combatResult['transportCapacityLostPerSideAndUser']['defender'][$userID];
-            }
+            $lostUnits = $losses->userValue(BattleSide::Attacker, $userID) + $losses->userValue(BattleSide::Defender, $userID);
+            $lostCapacity = $losses->userCapacity(BattleSide::Attacker, $userID) + $losses->userCapacity(BattleSide::Defender, $userID);
 
             if (($lostUnits > 0 && $lostUnits > $noobProtection && ($lostUnits / $state['totalUnits']) > 0.7) ||
                 ($lostCapacity > 0 && $lostCapacity > $noobProtection && ($lostCapacity / $state['totalCapacity']) > 0.8)) {
@@ -126,10 +111,14 @@ class BattleHandler
      * or multi variant depending on the number of distinct users per side); for EXPO_FIGHT only the expedition
      * achievements. Side effects: achievement/honor writes via the injected services.
      * @param int $battleType REAL_FIGHT or EXPO_FIGHT (or a simulator constant, no side effects then).
+     * @param BattleResult $combatResult result of the fight.
+     * @param array<string, mixed> $reportInfo header data (fleet row, debris, loot, moon chances, ...).
+     * @param array<int|string, BattleFleet> $attackers attacking fleets that still exist after the fight (destroyed ones are already removed; only these get a `players` entry).
+     * @param array<int|string, BattleFleet> $defenders likewise for the defending side.
      * @param string|null $battleEngineName engine name stored with the result ('rust' selects the raw round format).
-     * @return array report data
+     * @return array<string, mixed> report data
      */
-    public function GenerateReport($combatResult, $reportInfo, $battleType, $attackers, $defenders, $battleEngineName = null)
+    public function GenerateReport(BattleResult $combatResult, array $reportInfo, int $battleType, array $attackers, array $defenders, ?string $battleEngineName = null): array
     {
         $Destroy = ['att' => 0, 'def' => 0];
         $DATA = [];
@@ -137,11 +126,11 @@ class BattleHandler
         $DATA['time'] = $reportInfo['thisFleet']['arrival_time'];
         $DATA['start'] = [$reportInfo['thisFleet']['start_galaxy'], $reportInfo['thisFleet']['start_system'], $reportInfo['thisFleet']['start_planet'], $reportInfo['thisFleet']['start_type']];
         $DATA['koords'] = [$reportInfo['thisFleet']['end_galaxy'], $reportInfo['thisFleet']['end_system'], $reportInfo['thisFleet']['end_planet'], $reportInfo['thisFleet']['end_type']];
-        $DATA['units'] = [$combatResult['unitLost']['attacker'], $combatResult['unitLost']['defender']];
+        $DATA['units'] = [$combatResult->losses->attackerValue, $combatResult->losses->defenderValue];
         $DATA['debris'] = $reportInfo['debris'];
         $DATA['steal'] = $reportInfo['stealResource'];
-        $DATA['result'] = $combatResult['won'];
-        $DATA['duration'] = $combatResult['duration'];
+        $DATA['result'] = $combatResult->won;
+        $DATA['duration'] = $combatResult->duration;
         $DATA['moon'] = [
             'moonName'            => $reportInfo['moonName'],
             'moonChance'          => (int)$reportInfo['moonChance'],
@@ -151,36 +140,36 @@ class BattleHandler
             'fleetDestroyChance'  => (int)$reportInfo['fleetDestroyChance'],
             'fleetDestroySuccess' => (int)$reportInfo['fleetDestroySuccess'],
         ];
-        $DATA['repaired'] = $combatResult['repaired'];
-        $DATA['wreckfield'] = $combatResult['wreckfield'];
+        $DATA['repaired'] = $combatResult->repaired;
+        $DATA['wreckfield'] = $combatResult->wreckfield;
         if (isset($reportInfo['additionalInfo'])) {
             $DATA['additionalInfo'] = $reportInfo['additionalInfo'];
         } else {
             $DATA['additionalInfo'] = "";
         }
 
-        foreach (['attackers', 'defenders'] as $side) {
-            foreach ($$side as $player) {
-                $DATA['players'][$player['player']['id']] = [
-                    'name'   => $player['player']['username'],
+        foreach ([$attackers, $defenders] as $fleets) {
+            foreach ($fleets as $fleet) {
+                $DATA['players'][$fleet->userId()] = [
+                    'name'   => $fleet->player['username'],
                     'koords' => [
-                        $player['fleetDetail']['start_galaxy'],
-                        $player['fleetDetail']['start_system'],
-                        $player['fleetDetail']['start_planet'],
-                        $player['fleetDetail']['start_type'],
+                        $fleet->fleetDetail['start_galaxy'],
+                        $fleet->fleetDetail['start_system'],
+                        $fleet->fleetDetail['start_planet'],
+                        $fleet->fleetDetail['start_type'],
                     ],
 
                     'tech' => [
-                        $player['player']['military_tech'] * 100,
-                        $player['player']['shield_tech'] * 100,
-                        $player['player']['defence_tech'] * 100,
+                        $fleet->techs->weapons * 100,
+                        $fleet->techs->shields * 100,
+                        $fleet->techs->armor * 100,
                     ],
                 ];
             }
         }
 
         if ($battleEngineName !== 'rust') {
-            foreach ($combatResult['rw'] as $Round => $RoundInfo) {
+            foreach ($combatResult->rounds as $Round => $RoundInfo) {
                 foreach ($RoundInfo['attackers'] as $FleetID => $player) {
                     $playerData = ['userID' => $player['player']['id'], 'ships' => []];
 
@@ -239,26 +228,21 @@ class BattleHandler
                 }
             }
         } else {
-            $DATA['rounds'] = $combatResult['rw'];
+            $DATA['rounds'] = $combatResult->rounds;
         }
         if ($battleType == REAL_FIGHT) {
             $this->battleAchievements()->checkBattleAchievements($reportInfo, $combatResult, $DATA);
 
             if ($this->viewHelpers()->isModuleAvailable(MODULE_HONORPOINTS)) {
-                $attackers = array_values(array_unique(array_map(function ($p) {
-                    return (int)$p['player']['id'];
-                }, $combatResult['rw'][0]['attackers'])));
-                $countAttackers = count($attackers);
+                $startAttackers = $combatResult->startAttackers();
+                $startDefenders = $combatResult->startDefenders();
+                $attackerIds = array_values(array_unique(array_map(static fn(BattleFleet $fleet): int => (int) $fleet->userId(), $startAttackers)));
+                $defenderIds = array_values(array_unique(array_map(static fn(BattleFleet $fleet): int => (int) $fleet->userId(), $startDefenders)));
 
-                $defenders = array_values(array_unique(array_map(function ($p) {
-                    return (int)$p['player']['id'];
-                }, $combatResult['rw'][0]['defenders'])));
-                $countDefenders = count($defenders);
-
-                if ($countAttackers == 1 && $countDefenders == 1) {
-                    $honorpoints = $this->playerUtil()->calculate_honorpoints_single($attackers[0], $defenders[0], $combatResult['unitLost']['attacker'], $combatResult['unitLost']['defender']);
+                if (count($attackerIds) == 1 && count($defenderIds) == 1) {
+                    $honorpoints = $this->playerUtil()->calculate_honorpoints_single($attackerIds[0], $defenderIds[0], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
                 } else {
-                    $honorpoints = $this->playerUtil()->calculate_honorpoints_multi($combatResult['rw'][0]['attackers'], $combatResult['rw'][0]['defenders'], $combatResult['unitLost']['attacker'], $combatResult['unitLost']['defender']);
+                    $honorpoints = $this->playerUtil()->calculate_honorpoints_multi($combatResult->rounds[0]['attackers'], $combatResult->rounds[0]['defenders'], $combatResult->losses->attackerValue, $combatResult->losses->defenderValue);
                 }
 
                 $DATA['honorpoints'] = $honorpoints;
@@ -279,9 +263,9 @@ class BattleHandler
      * when the result holds no wreck field (the engine already applied the minimum-loss rules).
      * @param int $planetID planet the field belongs to.
      */
-    public function GenerateWreckField($planetID, $combatResult, int $defenderPlayerID, int $universe)
+    public function GenerateWreckField($planetID, BattleResult $combatResult, int $defenderPlayerID, int $universe)
     {
-        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) || !isset($combatResult['wreckfield']) || empty($combatResult['wreckfield'])) {
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_REPAIR_DOCK) || empty($combatResult->wreckfield)) {
             return;
         }
 
@@ -292,7 +276,7 @@ class BattleHandler
 
         if (!empty($wreckfield)) {
             $fleetArray = $this->fleetFunctions()->unserialize($wreckfield['ships']);
-            foreach ($combatResult['wreckfield'] as $elementID => $amount) {
+            foreach ($combatResult->wreckfield as $elementID => $amount) {
                 if ($amount > 0) {
                     if (!isset($fleetArray[$elementID])) {
                         $fleetArray[$elementID] = $amount;
@@ -315,7 +299,7 @@ class BattleHandler
             $db->insert($sql, [
                 ':planetID'  => $planetID,
                 ':created'   => $this->state->runtime->timestamp,
-                ':shipArray' => $this->fleetFunctions()->serialize($combatResult['wreckfield']),
+                ':shipArray' => $this->fleetFunctions()->serialize($combatResult->wreckfield),
             ]);
         }
 
@@ -338,12 +322,12 @@ class BattleHandler
      * With $simulate = false the loot is split over the fleets in proportion to their free capacity (floored
      * shares, remainder to the first fleet), added to the flying fleets (`fleets`, `log_fleets.gained_*`) and
      * counted in the raided/stolen advanced stats; the planet itself is NOT debited here.
-     * @param array $attackFleets fleet array as built by AbstractBattleMission (unit, fleetDetail, player).
+     * @param array<int|string, BattleFleet> $attackFleets the attacking fleets that survived the fight (as set up by AbstractBattleMission).
      * @param array $defenderPlanet planet row (stocks, *_perhour, store levels, planet_type).
      * @param bool $simulate true: only return the amounts (no honor factor, no stash, no writes).
      * @return array<int,float|int> loot by resource id (901 metal, 902 crystal, 903 deuterium)
      */
-    public function calculateSteal($attackFleets, $defenderPlanet, $universe, $simulate = false)
+    public function calculateSteal(array $attackFleets, $defenderPlanet, $universe, $simulate = false)
     {
         // See: http://www.owiki.de/Beute
         $pricelist = $this->state->pricelist;
@@ -364,15 +348,15 @@ class BattleHandler
         foreach ($attackFleets as $FleetID => $Attacker) {
             $SortFleets[$FleetID] = 0;
 
-            foreach ($Attacker['unit'] as $Element => $amount) {
+            foreach ($Attacker->units as $Element => $amount) {
                 if ($Element != 210) { //Exclude spy drone from raid capacity
                     $SortFleets[$FleetID] += $pricelist[$Element]['capacity'] * $amount;
                 }
             }
 
-            $SortFleets[$FleetID] -= $Attacker['fleetDetail']['resource_metal'];
-            $SortFleets[$FleetID] -= $Attacker['fleetDetail']['resource_crystal'];
-            $SortFleets[$FleetID] -= $Attacker['fleetDetail']['resource_deuterium'];
+            $SortFleets[$FleetID] -= $Attacker->fleetDetail['resource_metal'];
+            $SortFleets[$FleetID] -= $Attacker->fleetDetail['resource_crystal'];
+            $SortFleets[$FleetID] -= $Attacker->fleetDetail['resource_deuterium'];
             if ($SortFleets[$FleetID] < 0) {//if fleet is already full but spydrones are not factored in,
                 $SortFleets[$FleetID] = 0; //capacity can be negative, resulting in negative steel numbers.
             }
@@ -489,9 +473,9 @@ class BattleHandler
 
         foreach ($SortFleets as $FleetID => $Capacity) {
             $share = $shares[$FleetID];
-            $statsHandler->increment($attackFleets[$FleetID]['player']['id'], AdvancedStatsEnum::RAIDED_METAL, $share[$firstResource]);
-            $statsHandler->increment($attackFleets[$FleetID]['player']['id'], AdvancedStatsEnum::RAIDED_CRYSTAL, $share[$secondResource]);
-            $statsHandler->increment($attackFleets[$FleetID]['player']['id'], AdvancedStatsEnum::RAIDED_DEUTERIUM, $share[$thirdResource]);
+            $statsHandler->increment($attackFleets[$FleetID]->userId(), AdvancedStatsEnum::RAIDED_METAL, $share[$firstResource]);
+            $statsHandler->increment($attackFleets[$FleetID]->userId(), AdvancedStatsEnum::RAIDED_CRYSTAL, $share[$secondResource]);
+            $statsHandler->increment($attackFleets[$FleetID]->userId(), AdvancedStatsEnum::RAIDED_DEUTERIUM, $share[$thirdResource]);
 
             if ($defenderPlanet['planet_type'] != 4) {
                 $statsHandler->increment($defenderPlanet['id_owner'], AdvancedStatsEnum::STOLEN_METAL, $share[$firstResource]);

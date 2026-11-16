@@ -141,7 +141,6 @@ class AllianceMessenger
      */
     public function sendDiplomatic(array $receivers, string $ownTag, callable $compose): void
     {
-        $USER = & $this->state->USER;
         $langReceivers = [];
         foreach ($receivers as $receiver) {
             if (!isset($langReceivers[$receiver['lang']])) {
@@ -156,7 +155,7 @@ class AllianceMessenger
             [$subject, $text] = $compose($group['lang']);
             $this->playerUtil()->sendMessage(
                 $group['receivers'],
-                $USER['id'],
+                $this->state->USER['id'],
                 $group['lang']['al_circular_alliance'] . $ownTag,
                 MESSAGE_TYPE_ALLIANCE,
                 $subject,

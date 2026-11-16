@@ -48,7 +48,7 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
 
-        $combatResult = $battleHandler->engine->calculateAttack($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
+        $combatResult = $battleHandler->engine->fight($setup->fleetAttack, $setup->fleetDefend, $this->_fleet['universe']);
         $reportID = md5(uniqid('', true) . $this->state->runtime->timestamp);
         if (!$combatResult) {
             $this->cancelFight($setup->userAttack, $setup->userDefend, $targetPlanet);
@@ -61,7 +61,7 @@ class MissionCaseDestruction extends AbstractBattleMission
 
         $this->applyLosses($setup, $reportID);
 
-        if ($combatResult['won'] == ATTACKER) {
+        if ($combatResult->won == ATTACKER) {
             $stealResource = $battleHandler->calculateSteal($setup->fleetAttack, $targetPlanet, $this->_fleet['universe']);
         }
 
@@ -81,13 +81,13 @@ class MissionCaseDestruction extends AbstractBattleMission
             'fleetDestroySuccess'   => false,
         ];
 
-        $units = $combatResult['unitLost']['attacker'] + $combatResult['unitLost']['defender'];
+        $units = $combatResult->losses->totalValue();
 
-        if ($combatResult['won'] == ATTACKER) {
+        if ($combatResult->won == ATTACKER) {
             $this->rollDestruction($setup, $targetPlanet, $reportInfo);
         }
         $class = $this->recordResultStats($setup, $combatResult, $units);
-        if ($combatResult['won'] != ATTACKER) {
+        if ($combatResult->won != ATTACKER) {
             $reportInfo['moonDestroySuccess'] = -1;
         }
 
@@ -132,10 +132,10 @@ class MissionCaseDestruction extends AbstractBattleMission
         // $leadRips is only the lead fleet's own share (for its lost-RIP statistic).
         $rips = 0;
         foreach ($fleetAttack as $attackFleet) {
-            $rips += $attackFleet['unit'][SHIP_RIP] ?? 0;
-            $rips += $attackFleet['unit'][VOID_TITAN] ?? 0;
+            $rips += $attackFleet->units[SHIP_RIP] ?? 0;
+            $rips += $attackFleet->units[VOID_TITAN] ?? 0;
         }
-        $leadUnits = $fleetAttack[$this->_fleet['id']]['unit'] ?? [];
+        $leadUnits = isset($fleetAttack[$this->_fleet['id']]) ? $fleetAttack[$this->_fleet['id']]->units : [];
         $leadRips = ($leadUnits[SHIP_RIP] ?? 0) + ($leadUnits[VOID_TITAN] ?? 0);
 
         $moonDestroyChance = round((100 - sqrt($targetPlanet['diameter'])) * sqrt($rips), 1);

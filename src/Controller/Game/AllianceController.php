@@ -46,13 +46,12 @@ class AllianceController extends AbstractGameController
      */
     public function initialize(): void
     {
-        $USER = & $this->state->USER;
         parent::initialize();
         $this->rights = AllianceRights::all(false);
-        $this->hasAlliance = $USER['ally_id'] != 0;
-        $this->hasApply = $this->alliance()->repository()->hasOpenApplication($USER['id']);
+        $this->hasAlliance = $this->state->USER['ally_id'] != 0;
+        $this->hasApply = $this->alliance()->repository()->hasOpenApplication($this->state->USER['id']);
         if ($this->hasAlliance && !$this->hasApply) {
-            $this->setAllianceData($USER['ally_id']);
+            $this->setAllianceData($this->state->USER['ally_id']);
         }
     }
 
@@ -355,7 +354,7 @@ class AllianceController extends AbstractGameController
     /** dispatches ?action= to the admin* handlers below */
     public function admin(): ?Response
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $action = $this->http()->_GP('action', 'overview');
         $methodName = 'admin' . ucwords($action);

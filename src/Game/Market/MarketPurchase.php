@@ -181,8 +181,6 @@ class MarketPurchase
     private function planBuyerTrip(array $fleetResult, bool $isFleetTrade, mixed $shipType): array|string
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $resource = $this->state->resource;
         $LNG = $this->state->LNG;
 
         //if not in range 1-3
@@ -202,20 +200,63 @@ class MarketPurchase
         $amount = $fleetResult['ex_resource_amount'];
         $marketplace = ($this->configs->get($USER['universe'])->max_planets + 2);
 
-        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $Distance = $this->buyerTripDistance($fleetResult, $isFleetTrade, $marketplace);
+        [$Duration, $consumption] = $this->buyerTripDurationAndFuel($fleetArray, $fleetResult, $isFleetTrade, $Distance);
+
+        $fleetStartTime = $Duration + $this->state->runtime->timestamp;
+        $fleetStayTime = $fleetStartTime;
+        $fleetEndTime = $fleetStayTime + $Duration;
+
+        $fleetResource = $this->offeredCargo($fleetResult, $amount);
+
+        if (!$this->payTrip($fleetResource, $consumption)) {
+            return $LNG['market_p_msg_resources_error'];
+        }
+
+        return [
+            'fleetArray' => $fleetArray,
+            'consumption' => $consumption,
+            'fleetResource' => $fleetResource,
+            'marketplace' => $marketplace,
+            'startTime' => $fleetStartTime,
+            'stayTime' => $fleetStayTime,
+            'endTime' => $fleetEndTime,
+        ];
+    }
+
+    /**
+     * Distance of the buyer's trip: to the seller's planet for fleet offers, otherwise to the market slot
+     * (max_planets + 2) of the current system.
+     *
+     * @param array<string, mixed> $fleetResult offer row
+     */
+    private function buyerTripDistance(array $fleetResult, bool $isFleetTrade, int|float $marketplace): int|float
+    {
         if ($isFleetTrade) {
-            $Distance = $this->fleetFunctions()->getTargetDistance(
-                [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
+            return $this->fleetFunctions()->getTargetDistance(
+                [$this->state->PLANET['galaxy'], $this->state->PLANET['system'], $this->state->PLANET['planet']],
                 [$fleetResult['end_galaxy'], $fleetResult['end_system'], $fleetResult['end_planet']],
-            );
-        } else {
-            $Distance = $this->fleetFunctions()->getTargetDistance(
-                [$PLANET['galaxy'], $PLANET['system'], $PLANET['planet']],
-                [$PLANET['galaxy'], $PLANET['system'], $marketplace],
             );
         }
 
-        $userModel = $this->models()->user($USER);
+        return $this->fleetFunctions()->getTargetDistance(
+            [$this->state->PLANET['galaxy'], $this->state->PLANET['system'], $this->state->PLANET['planet']],
+            [$this->state->PLANET['galaxy'], $this->state->PLANET['system'], $marketplace],
+        );
+    }
+
+    /**
+     * One-way duration and deuterium consumption of the buyer's fleet; for fleet offers the consumption of the
+     * offered fleet's own flight over the same distance is added.
+     *
+     * @param array<int, int|float> $fleetArray ship id => count
+     * @param array<string, mixed> $fleetResult offer row
+     * @return array{0: int|float, 1: int|float} [duration, consumption]
+     */
+    private function buyerTripDurationAndFuel(array $fleetArray, array $fleetResult, bool $isFleetTrade, int|float $Distance): array
+    {
+        $SpeedFactor = $this->fleetFunctions()->getGameSpeedFactor();
+        $userModel = $this->models()->user($this->state->USER);
         $SpeedAllMin = $this->fleetFunctions()->fleetMaxSpeedFor($fleetArray, $userModel);
         $Duration = $this->fleetFunctions()->missionDurationFor(10, $SpeedAllMin, $Distance, $SpeedFactor, $userModel);
         $consumption = $this->fleetFunctions()->fleetConsumptionFor($fleetArray, $Duration, $Distance, $userModel, $SpeedFactor);
@@ -228,10 +269,17 @@ class MarketPurchase
             $consumption += $bonusConsumption;
         }
 
-        $fleetStartTime = $Duration + $this->state->runtime->timestamp;
-        $fleetStayTime = $fleetStartTime;
-        $fleetEndTime = $fleetStayTime + $Duration;
+        return [$Duration, $consumption];
+    }
 
+    /**
+     * The resources the buyer's fleet carries to the seller: the offer's counter-value in its resource type.
+     *
+     * @param array<string, mixed> $fleetResult offer row (ex_resource_type 1 metal, 2 crystal, 3 deuterium)
+     * @return array<int, int|float> resource id => amount
+     */
+    private function offeredCargo(array $fleetResult, int|float $amount): array
+    {
         $met = 0;
         $cry = 0;
         $deu = 0;
@@ -243,33 +291,38 @@ class MarketPurchase
             $deu = $amount;
         }
 
-        $fleetResource = [
+        return [
             RESOURCE_METAL => $met,
             RESOURCE_CRYSTAL => $cry,
             RESOURCE_DEUT => $deu,
         ];
+    }
+
+    /**
+     * Takes the cargo and the fuel from the current planet when it can afford both.
+     *
+     * Side effect: reduces metal, crystal and deuterium of state->PLANET (nothing is saved here).
+     *
+     * @param array<int, int|float> $fleetResource resource id => amount
+     * @return bool false (and nothing taken) when a resource is missing
+     */
+    private function payTrip(array $fleetResource, int|float $consumption): bool
+    {
+        $resource = $this->state->resource;
 
         if (
-            $PLANET[$resource[RESOURCE_METAL]] - $fleetResource[RESOURCE_METAL] < 0
-            || $PLANET[$resource[RESOURCE_CRYSTAL]] - $fleetResource[RESOURCE_CRYSTAL] < 0
-            || $PLANET[$resource[RESOURCE_DEUT]] - $fleetResource[RESOURCE_DEUT] - $consumption < 0
+            $this->state->PLANET[$resource[RESOURCE_METAL]] - $fleetResource[RESOURCE_METAL] < 0
+            || $this->state->PLANET[$resource[RESOURCE_CRYSTAL]] - $fleetResource[RESOURCE_CRYSTAL] < 0
+            || $this->state->PLANET[$resource[RESOURCE_DEUT]] - $fleetResource[RESOURCE_DEUT] - $consumption < 0
         ) {
-            return $LNG['market_p_msg_resources_error'];
+            return false;
         }
 
-        $PLANET[$resource[RESOURCE_METAL]] -= $fleetResource[RESOURCE_METAL];
-        $PLANET[$resource[RESOURCE_CRYSTAL]] -= $fleetResource[RESOURCE_CRYSTAL];
-        $PLANET[$resource[RESOURCE_DEUT]] -= $fleetResource[RESOURCE_DEUT] + $consumption;
+        $this->state->PLANET[$resource[RESOURCE_METAL]] -= $fleetResource[RESOURCE_METAL];
+        $this->state->PLANET[$resource[RESOURCE_CRYSTAL]] -= $fleetResource[RESOURCE_CRYSTAL];
+        $this->state->PLANET[$resource[RESOURCE_DEUT]] -= $fleetResource[RESOURCE_DEUT] + $consumption;
 
-        return [
-            'fleetArray' => $fleetArray,
-            'consumption' => $consumption,
-            'fleetResource' => $fleetResource,
-            'marketplace' => $marketplace,
-            'startTime' => $fleetStartTime,
-            'stayTime' => $fleetStayTime,
-            'endTime' => $fleetEndTime,
-        ];
+        return true;
     }
 
     /**

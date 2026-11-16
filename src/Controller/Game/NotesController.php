@@ -17,6 +17,7 @@
 
 namespace App\Controller\Game;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
@@ -163,15 +164,15 @@ class NotesController extends AbstractGameController
         $deleteIds	= array_map('intval', array_filter($deleteIds, 'is_numeric'));
 
         if (!empty($deleteIds)) {
-            // one bound placeholder per id: request values never reach the SQL text
-            $params = [':userID' => $USER['id']];
-            $placeholders = [];
-            foreach (array_values($deleteIds) as $i => $noteId) {
-                $placeholders[] = ':note' . $i;
-                $params[':note' . $i] = $noteId;
-            }
-            $sql = 'DELETE FROM %%NOTES%% WHERE id IN (' . implode(', ', $placeholders) . ') AND owner = :userID;';
-            $this->db->delete($sql, $params);
+            // the ids are bound as one integer list: request values never reach the SQL text
+            $this->db->execute(
+                $this->db->qb()
+                    ->delete($this->db->table('NOTES'))
+                    ->where('id IN (:noteIds)')
+                    ->andWhere('owner = :userID')
+                    ->setParameter('noteIds', $deleteIds, ArrayParameterType::INTEGER)
+                    ->setParameter('userID', $USER['id'])
+            );
         }
         $this->redirectTo('game?page=notes');
     }

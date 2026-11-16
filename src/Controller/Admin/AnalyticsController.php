@@ -56,23 +56,30 @@ class AnalyticsController extends AbstractAdminController
         $usercount = 0;
         $bancount = 0;
 
-        $sql = 'SELECT `username`, `id`, `enable_analytics` FROM %%USERS%%
-        WHERE `authlevel` = 0 AND `universe` = :uni
-        ORDER BY ' . $ORDER . ' ASC;';
-        $userList = $db->select($sql, [
-            ':uni' => $this->universe()->getEmulated(),
-        ]);
+        // $ORDER and $ORDER2 are fixed column names, never the raw request value
+        $userList = $db->fetchAll(
+            $db->qb()
+                ->select('`username`', '`id`', '`enable_analytics`')
+                ->from($db->table('USERS'))
+                ->where('`authlevel` = 0')
+                ->andWhere('`universe` = :uni')
+                ->setParameter('uni', $this->universe()->getEmulated())
+                ->orderBy($ORDER, 'ASC')
+        );
         foreach ($userList as $a) {
             $userSelect['List'] .= '<option value="' . $a['id'] . '">' . GameEscaping::escape((string) $a['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $a['id'] . ')' . (($a['enable_analytics'] == '1') ? '&nbsp;(tracked)' : '') . '</option>';
             $usercount++;
         }
 
-        $sql = 'SELECT `username`, `id`, `enable_analytics` FROM %%USERS%%
-        WHERE `enable_analytics` = 1 AND `universe` = :uni
-        ORDER BY ' . $ORDER2 . ' ASC;';
-        $userListBan = $db->select($sql, [
-            ':uni' => $this->universe()->getEmulated(),
-        ]);
+        $userListBan = $db->fetchAll(
+            $db->qb()
+                ->select('`username`', '`id`', '`enable_analytics`')
+                ->from($db->table('USERS'))
+                ->where('`enable_analytics` = 1')
+                ->andWhere('`universe` = :uni')
+                ->setParameter('uni', $this->universe()->getEmulated())
+                ->orderBy($ORDER2, 'ASC')
+        );
         foreach ($userListBan as $b) {
             $userSelect['ListBan'] .= '<option value="' . $b['id'] . '">' . GameEscaping::escape((string) $b['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $b['id'] . ')</option>';
             $bancount++;

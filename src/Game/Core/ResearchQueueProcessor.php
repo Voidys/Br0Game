@@ -28,7 +28,7 @@ class ResearchQueueProcessor
      */
     public function finishCurrent(QueueState $st)
     {
-        $resource = & $this->state->resource;
+        $resource = $this->state->resource;
 
         if (empty($st->user['b_tech_id']) || $st->user['b_tech'] > $st->time) {
             return false;

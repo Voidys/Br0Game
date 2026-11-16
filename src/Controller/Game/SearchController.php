@@ -17,6 +17,7 @@
 
 namespace App\Controller\Game;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
@@ -37,6 +38,27 @@ class SearchController extends AbstractGameController
     }
 
     /**
+     * Completes a search query: the (code-chosen) column must contain the text, exact matches come first, then
+     * alphabetical by that column. The text is bound as a `%text%` pattern; $maxResult -1 means no row limit.
+     *
+     * @param string $column fixed column expression (alias.column), never request input
+     */
+    private function matchOrder(QueryBuilder $qb, string $column, mixed $universe, string $searchText, int $maxResult): QueryBuilder
+    {
+        $qb->andWhere($column . ' LIKE :searchTextLike')
+            ->setParameter('universe', $universe)
+            ->setParameter('searchText', $searchText)
+            ->setParameter('searchTextLike', '%' . $searchText . '%')
+            ->orderBy('(IF(' . $column . ' = :searchText, 1, 0) + IF(' . $column . ' LIKE :searchTextLike, 1, 0))', 'DESC')
+            ->addOrderBy($column, 'ASC');
+        if ($maxResult !== -1) {
+            $qb->setMaxResults($maxResult);
+        }
+
+        return $qb;
+    }
+
+    /**
      * Searches the current universe. $searchMode: playername (users, with home planet, alliance and total rank), planetname (non-destroyed planets/moons
      * with owner), allytag or allyname (alliances with member count and points). Matches are bound `%text%` LIKE patterns, exact matches first, then
      * alphabetical. $maxResult is the row limit (-1 = no limit). Returns rows with the keys the templates use (planetname, username, userid, allyname,
@@ -45,29 +67,25 @@ class SearchController extends AbstractGameController
     private function _getSearchList($searchMode, $searchText, $maxResult)
     {
         $db = $this->db;
-
-        $limit		= $maxResult === -1 ? '' : 'LIMIT ' . ((int) $maxResult);
+        $universe = $this->universe()->current();
 
         $searchList	= [];
 
         switch ($searchMode) {
             case 'playername':
-                $sql = "SELECT a.id, a.username, a.ally_id, a.galaxy, a.system, a.planet, b.name, c.total_rank, d.ally_name
-				FROM %%USERS%% as a
-				INNER JOIN %%PLANETS%% as b ON b.id = a.id_planet
-				LEFT JOIN %%STATPOINTS%% as c ON c.id_owner = a.id AND c.stat_type = 1
-				LEFT JOIN %%ALLIANCE%% as d ON d.id = a.ally_id
-				WHERE a.universe = :universe AND a.username LIKE :searchTextLike
-				ORDER BY (
-				  IF(a.username = :searchText, 1, 0)
-				  + IF(a.username LIKE :searchTextLike, 1, 0)
-				) DESC, a.username ASC
-				" . $limit . ";";
-                $searchResult = $db->select($sql, [
-                    ':universe'			=> $this->universe()->current(),
-                    ':searchText' 		=> $searchText,
-                    ':searchTextLike'	=> '%' . $searchText . '%',
-                ]);
+                $searchResult = $db->fetchAll($this->matchOrder(
+                    $db->qb()
+                        ->select('a.id', 'a.username', 'a.ally_id', 'a.galaxy', 'a.`system`', 'a.planet', 'b.name', 'c.total_rank', 'd.ally_name')
+                        ->from($db->table('USERS'), 'a')
+                        ->innerJoin('a', $db->table('PLANETS'), 'b', 'b.id = a.id_planet')
+                        ->leftJoin('a', $db->table('STATPOINTS'), 'c', 'c.id_owner = a.id AND c.stat_type = 1')
+                        ->leftJoin('a', $db->table('ALLIANCE'), 'd', 'd.id = a.ally_id')
+                        ->where('a.universe = :universe'),
+                    'a.username',
+                    $universe,
+                    $searchText,
+                    $maxResult
+                ));
 
                 foreach ($searchResult as $searchRow) {
                     $searchList[]	= [
@@ -85,26 +103,20 @@ class SearchController extends AbstractGameController
                 break;
             case 'planetname':
 
-                $sql = "SELECT a.name, a.galaxy, a.planet, a.system,
-				b.id, b.ally_id, b.username,
-				c.total_rank,
-				d.ally_name
-				FROM %%PLANETS%% as a
-				INNER JOIN %%USERS%% as b ON b.id = a.id_owner
-				LEFT JOIN  %%STATPOINTS%% as c ON c.id_owner = b.id AND c.stat_type = 1
-				LEFT JOIN %%ALLIANCE%% as d ON d.id = b.ally_id
-				WHERE a.universe = :universe AND a.name LIKE :searchTextLike AND a.destruyed = 0
-				ORDER BY (
-				  IF(a.name = :searchText, 1, 0)
-				  + IF(a.name LIKE :searchTextLike, 1, 0)
-				) DESC, a.name ASC
-				" . $limit . ";";
-
-                $searchResult = $db->select($sql, [
-                    ':universe'			=> $this->universe()->current(),
-                    ':searchText' 		=> $searchText,
-                    ':searchTextLike'	=> '%' . $searchText . '%',
-                ]);
+                $searchResult = $db->fetchAll($this->matchOrder(
+                    $db->qb()
+                        ->select('a.name', 'a.galaxy', 'a.planet', 'a.`system`', 'b.id', 'b.ally_id', 'b.username', 'c.total_rank', 'd.ally_name')
+                        ->from($db->table('PLANETS'), 'a')
+                        ->innerJoin('a', $db->table('USERS'), 'b', 'b.id = a.id_owner')
+                        ->leftJoin('b', $db->table('STATPOINTS'), 'c', 'c.id_owner = b.id AND c.stat_type = 1')
+                        ->leftJoin('b', $db->table('ALLIANCE'), 'd', 'd.id = b.ally_id')
+                        ->where('a.universe = :universe')
+                        ->andWhere('a.destruyed = 0'),
+                    'a.name',
+                    $universe,
+                    $searchText,
+                    $maxResult
+                ));
 
                 foreach ($searchResult as $searchRow) {
                     $searchList[]	= [
@@ -121,21 +133,17 @@ class SearchController extends AbstractGameController
                 }
                 break;
             case "allytag":
-                $sql = "SELECT a.id, a.ally_name, a.ally_tag, a.ally_members,
-				c.total_points FROM %%ALLIANCE%% as a
-				LEFT JOIN %%STATPOINTS%% as c ON c.stat_type = 2 AND c.id_owner = a.id
-				WHERE a.ally_universe = :universe AND a.ally_tag LIKE :searchTextLike
-				ORDER BY (
-				  IF(a.ally_tag = :searchText, 1, 0)
-				  + IF(a.ally_tag LIKE :searchTextLike, 1, 0)
-				) DESC, a.ally_tag ASC
-				" . $limit . ";";
-
-                $searchResult = $db->select($sql, [
-                    ':universe'			=> $this->universe()->current(),
-                    ':searchText' 		=> $searchText,
-                    ':searchTextLike'	=> '%' . $searchText . '%',
-                ]);
+                $searchResult = $db->fetchAll($this->matchOrder(
+                    $db->qb()
+                        ->select('a.id', 'a.ally_name', 'a.ally_tag', 'a.ally_members', 'c.total_points')
+                        ->from($db->table('ALLIANCE'), 'a')
+                        ->leftJoin('a', $db->table('STATPOINTS'), 'c', 'c.stat_type = 2 AND c.id_owner = a.id')
+                        ->where('a.ally_universe = :universe'),
+                    'a.ally_tag',
+                    $universe,
+                    $searchText,
+                    $maxResult
+                ));
 
                 foreach ($searchResult as $searchRow) {
                     $searchList[]	= [
@@ -148,21 +156,17 @@ class SearchController extends AbstractGameController
                 }
                 break;
             case "allyname":
-                $sql = "SELECT a.id, a.ally_name, a.ally_tag, a.ally_members,
-				b.total_points FROM %%ALLIANCE%% as a
-				LEFT JOIN %%STATPOINTS%% as b ON b.stat_type = 2 AND b.id_owner = a.id
-				WHERE a.ally_universe = :universe AND a.ally_name LIKE :searchTextLike
-				ORDER BY (
-				  IF(a.ally_name = :searchText, 1, 0)
-				  + IF(a.ally_name LIKE :searchTextLike, 1, 0)
-				) DESC,a.ally_name ASC
-				" . $limit . ";";
-
-                $searchResult = $db->select($sql, [
-                    ':universe'			=> $this->universe()->current(),
-                    ':searchText' 		=> $searchText,
-                    ':searchTextLike'	=> '%' . $searchText . '%',
-                ]);
+                $searchResult = $db->fetchAll($this->matchOrder(
+                    $db->qb()
+                        ->select('a.id', 'a.ally_name', 'a.ally_tag', 'a.ally_members', 'b.total_points')
+                        ->from($db->table('ALLIANCE'), 'a')
+                        ->leftJoin('a', $db->table('STATPOINTS'), 'b', 'b.stat_type = 2 AND b.id_owner = a.id')
+                        ->where('a.ally_universe = :universe'),
+                    'a.ally_name',
+                    $universe,
+                    $searchText,
+                    $maxResult
+                ));
 
                 foreach ($searchResult as $searchRow) {
                     $searchList[]	= [

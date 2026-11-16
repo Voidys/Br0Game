@@ -547,6 +547,15 @@ class PlayerUtil
     }
 
     /**
+     * Typed version of calculateMaxPlanetFields(), optionally with other terraformer / moon base levels.
+     * @see PlanetQueries::maxFieldsFor()
+     */
+    public function maxFieldsFor(\App\Game\Model\Planet $planet, int|float|null $terraformerLevel = null, int|float|null $moonBaseLevel = null): int|float
+    {
+        return $this->planetQueries()->maxFieldsFor($planet, $terraformerLevel, $moonBaseLevel);
+    }
+
+    /**
      * status classes of a player row (banned, vacation, inactive, noob, strong) for lists and the galaxy
      * @see ProtectionRules::userStatus()
      */

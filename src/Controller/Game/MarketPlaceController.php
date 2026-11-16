@@ -35,7 +35,6 @@ class MarketPlaceController extends AbstractGameController
      */
     public function show(): Response
     {
-        $PLANET = & $this->state->PLANET;
         $LNG = $this->state->LNG;
 
         $GetAction = $this->http()->_GP('action', "");
@@ -46,7 +45,7 @@ class MarketPlaceController extends AbstractGameController
 
         if ($GetAction == "buy") {
             // MarketPurchase::buy() reduces $PLANET in memory; restore it when the purchase is rolled back
-            $planetBackup = $PLANET;
+            $planetBackup = $this->state->PLANET;
             // Lock the offer row for the whole purchase, so a concurrent buyer
             // waits and then no longer finds it with fleet_mess = 2.
             $db->startTransaction();
@@ -55,7 +54,7 @@ class MarketPlaceController extends AbstractGameController
                 $db->commit();
             } catch (\Throwable $e) {
                 $db->rollback();
-                $PLANET = $planetBackup;
+                $this->state->PLANET = $planetBackup;
                 // Deadlock/contention on FOR UPDATE must not hit the generic
                 // "dev was notified" error page (see PR review on #1774).
                 $message = $LNG['market_p_msg_purchase_failed'];

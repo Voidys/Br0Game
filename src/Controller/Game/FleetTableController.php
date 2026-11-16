@@ -17,6 +17,7 @@
 
 namespace App\Controller\Game;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\Database;
@@ -409,8 +410,15 @@ class FleetTableController extends AbstractGameController
 
         if (!empty($keys) && !empty($ids)) {
 
-            $sql = "SELECT p.id, p.watch_id, p.metal, p.crystal, p.deuterium, p.galaxy, p.system, p.planet, p.planet_type, " . implode(',', $keys) . " FROM %%PLANETS%% p LEFT JOIN %%USERS%% u ON u.id = p.id_owner WHERE p.id IN (" . implode(',', $ids) . ");";
-            $watchLevels = $db->select($sql);
+            // the watched building/research columns come from the game's resource table ($keys), the planet ids are the player's own
+            $watchLevels = $db->fetchAll(
+                $db->qb()
+                    ->select('p.id', 'p.watch_id', 'p.metal', 'p.crystal', 'p.deuterium', 'p.galaxy', 'p.`system`', 'p.planet', 'p.planet_type', ...$keys)
+                    ->from($db->table('PLANETS'), 'p')
+                    ->leftJoin('p', $db->table('USERS'), 'u', 'u.id = p.id_owner')
+                    ->where('p.id IN (:ids)')
+                    ->setParameter('ids', array_map('intval', $ids), ArrayParameterType::INTEGER)
+            );
 
             foreach ($watchLevels as $levelRow) {
                 $cost = $this->buildFunctions()->getElementPrice($USER, $PLANET, $levelRow['watch_id'], false, $levelRow[$resource[$levelRow['watch_id']]] + 1);

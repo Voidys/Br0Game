@@ -115,7 +115,6 @@ class SettingsUpdater
      */
     public function save(): void
     {
-        $USER = & $this->state->USER;
         $LNG = $this->state->LNG;
         $THEME = $this->state->THEME;
         $values = [];
@@ -125,7 +124,7 @@ class SettingsUpdater
         $adminprotection    = $this->http()->_GP('adminprotection', 0);
         $discord_id         = $this->http()->_GP('discord_id', '');
         $discord_hook       = $this->http()->_GP('discord_hook', '');
-        $username           = $this->http()->_GP('username', $USER['username'], UTF8_SUPPORT);
+        $username           = $this->http()->_GP('username', $this->state->USER['username'], UTF8_SUPPORT);
         $language           = $this->http()->_GP('language', '');
         $decimalSeparator   = $this->http()->_GP('decimalSeparator', 0);
         $imageThemeInput    = $this->http()->_GP('imageTheme', '');
@@ -153,7 +152,7 @@ class SettingsUpdater
             $hangarFilterGroups[] = 'all';
         }
         $hangarFilters = $this->hangarFilters()->encode($this->hangarFilters()->mergeGroups(
-            $this->hangarFilters()->parse($USER['hangar_filters'] ?? null),
+            $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
             $hangarFilterGroups,
         ));
 
@@ -164,8 +163,8 @@ class SettingsUpdater
             $messagesPerPage = 3;
         }
 
-        if ($USER['authlevel'] != AUTH_USR) {
-            $adminprotection = ($adminprotection == 1) ? $USER['authlevel'] : 0;
+        if ($this->state->USER['authlevel'] != AUTH_USR) {
+            $adminprotection = ($adminprotection == 1) ? $this->state->USER['authlevel'] : 0;
         } else {
             $adminprotection = 0;
             $discord_id = '';
@@ -187,10 +186,10 @@ class SettingsUpdater
         // still that language's default. A custom override is kept when the
         // dropdown was not changed in this save.
         $decimalSeparator = (int) $decimalSeparator;
-        $previousSeparator = (int) $USER['decimal_separator'];
-        if ($language !== $USER['lang']
+        $previousSeparator = (int) $this->state->USER['decimal_separator'];
+        if ($language !== $this->state->USER['lang']
             && $decimalSeparator === $previousSeparator
-            && $previousSeparator === (new NumberAbbreviation())->defaultDecimalSeparatorForLang($USER['lang'])
+            && $previousSeparator === (new NumberAbbreviation())->defaultDecimalSeparatorForLang($this->state->USER['lang'])
         ) {
             $decimalSeparator = (new NumberAbbreviation())->defaultDecimalSeparatorForLang($language);
         }
@@ -206,18 +205,18 @@ class SettingsUpdater
         $sql = "SELECT * FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON u.id = us.user_id WHERE u.universe = :universe AND u.id = :id FOR UPDATE;";
         $db->select($sql, [
             ':universe' => $this->universe()->current(),
-            ':id' => $USER['id'],
+            ':id' => $this->state->USER['id'],
         ]);
         $sql = "SELECT * FROM %%PLANETS%% WHERE universe = :universe AND id_owner = :id FOR UPDATE;";
         $db->select($sql, [
             ':universe' => $this->universe()->current(),
-            ':id' => $USER['id'],
+            ':id' => $this->state->USER['id'],
         ]);
 
-        if (!empty($username) && $USER['username'] != $username) {
+        if (!empty($username) && $this->state->USER['username'] != $username) {
             if (!$this->playerUtil()->isNameValid($username)) {
                 throw new SettingsRefused($LNG['op_user_name_no_alphanumeric']);
-            } elseif ($USER['uctime'] >= $this->state->runtime->timestamp - USERNAME_CHANGETIME) {
+            } elseif ($this->state->USER['uctime'] >= $this->state->runtime->timestamp - USERNAME_CHANGETIME) {
                 throw new SettingsRefused($LNG['op_change_name_pro_week']);
             } else {
                 $sql = "SELECT
@@ -234,7 +233,7 @@ class SettingsUpdater
                     $sql = "UPDATE %%USERS%% SET username = :username, uctime = :timestamp WHERE id = :userID;";
                     $db->update($sql, [
                         ':username' => $username,
-                        ':userID'   => $USER['id'],
+                        ':userID'   => $this->state->USER['id'],
                         ':timestamp' => $this->state->runtime->timestamp,
                     ]);
 
@@ -254,13 +253,13 @@ class SettingsUpdater
             'messages_per_page' => $messagesPerPage,
         ], $adminprotection, $discord_id, $discord_hook);
 
-        $USER['dpath'] = $imageTheme;
-        $USER['css_dpath'] = $cssTheme;
+        $this->state->USER['dpath'] = $imageTheme;
+        $this->state->USER['css_dpath'] = $cssTheme;
         $THEME->setUserTheme($imageTheme, $cssTheme);
 
         $db->commit();
 
-        $this->miscAchievements()->checkSettingsAchievements($USER['id'], $recordsOptIn);
+        $this->miscAchievements()->checkSettingsAchievements($this->state->USER['id'], $recordsOptIn);
     }
 
     /**
@@ -282,12 +281,7 @@ class SettingsUpdater
             ':userID'                       => $USER['id'],
         ]);
 
-        $assignments = [];
-        $params = [':userID' => $USER['id']];
-        foreach ($values as $column => $value) {
-            $assignments[] = "`$column` = :$column";
-            $params[':' . $column] = $value;
-        }
-        $this->db->update('UPDATE %%USERS_SETTINGS%% SET ' . implode(', ', $assignments) . ' WHERE user_id = :userID;', $params);
+        // $values: settings column => value, built from the fixed setting list of the form
+        $this->db->updateRows('USERS_SETTINGS', $values, ['user_id' => $USER['id']]);
     }
 }

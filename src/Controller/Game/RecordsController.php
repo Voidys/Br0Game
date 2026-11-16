@@ -93,16 +93,27 @@ class RecordsController extends AbstractGameController
             $selected_tech[] = $resource[$Techno];
         }
 
-        $sql = "SELECT " . implode(", ", $selected_tech) . " FROM %%USERS%% WHERE id = :userId;";
-        $userTechResult = $db->selectSingle($sql, [':userId' => $USER['id']]);
+        // column names come from the game's resource table
+        $userTechResult = $db->fetchRow(
+            $db->qb()
+                ->select(...$selected_tech)
+                ->from($db->table('USERS'))
+                ->where('id = :userId')
+                ->setParameter('userId', $USER['id'])
+        );
 
         $select_buildings = [];
         foreach ($reslist['build'] as $Building) {
             $select_buildings[] = sprintf('max(%1$s) AS \'%1$s\'', $resource[$Building]);
         }
 
-        $sql = "SELECT " . implode(", ", $select_buildings) . " FROM %%PLANETS%% WHERE id_owner = :userId;";
-        $userBuildResult = $db->selectSingle($sql, [':userId' => $USER['id']]);
+        $userBuildResult = $db->fetchRow(
+            $db->qb()
+                ->select(...$select_buildings)
+                ->from($db->table('PLANETS'))
+                ->where('id_owner = :userId')
+                ->setParameter('userId', $USER['id'])
+        );
 
         $defenseList = array_fill_keys($reslist['defense'], []);
         $fleetList = array_fill_keys($reslist['fleet'], []);

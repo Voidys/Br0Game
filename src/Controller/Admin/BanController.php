@@ -52,21 +52,31 @@ class BanController extends AbstractAdminController
             $this->state->requestQuery['order'] = '';
         }
 
-        $WHEREBANA = "";
+        // "view=bana" restricts the left list to the players that are already banned
+        $onlyBanned = false;
         if (!isset($this->state->requestQuery['view'])) {
             $this->state->requestQuery['view'] = '';
         }
         if ($this->state->requestQuery['view'] == 'bana') {
-            $WHEREBANA = "AND `bana` = '1'";
+            $onlyBanned = true;
         }
         switch ($this->state->requestQuery['mode']) {
             case 'user':
                 $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "username";
-                $sql = "SELECT `username`, `id`, `bana` FROM %%USERS%% WHERE `id` != 1 AND `authlevel` <= :authlevel AND `universe` = :universe " . $WHEREBANA . " ORDER BY " . $ORDER . " ASC;";
-                $userList = $db->select($sql, [
-                    ':authlevel' => $USER['authlevel'],
-                    ':universe'  => $this->universe()->getEmulated(),
-                ]);
+                // $ORDER is one of two fixed column names, never the raw request value
+                $qb = $db->qb()
+                    ->select('`username`', '`id`', '`bana`')
+                    ->from($db->table('USERS'))
+                    ->where('`id` != 1')
+                    ->andWhere('`authlevel` <= :authlevel')
+                    ->andWhere('`universe` = :universe')
+                    ->setParameter('authlevel', $USER['authlevel'])
+                    ->setParameter('universe', $this->universe()->getEmulated())
+                    ->orderBy($ORDER, 'ASC');
+                if ($onlyBanned) {
+                    $qb->andWhere("`bana` = '1'");
+                }
+                $userList = $db->fetchAll($qb);
                 $userSelect = ['List' => '', 'ListBan' => ''];
 
                 $users = 0;
@@ -81,13 +91,15 @@ class BanController extends AbstractAdminController
                 $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "username";
 
                 $banned = 0;
-                $sql = "SELECT `username`, `id`
-                FROM %%USERS%%
-                WHERE `bana` = '1' AND `universe` = :universe
-                ORDER BY " . $ORDER2 . " ASC;";
-                $userListBan = $db->select($sql, [
-                    ':universe' => $this->universe()->getEmulated(),
-                ]);
+                $userListBan = $db->fetchAll(
+                    $db->qb()
+                        ->select('`username`', '`id`')
+                        ->from($db->table('USERS'))
+                        ->where("`bana` = '1'")
+                        ->andWhere('`universe` = :universe')
+                        ->setParameter('universe', $this->universe()->getEmulated())
+                        ->orderBy($ORDER2, 'ASC')
+                );
                 foreach ($userListBan as $user) {
                     $userSelect['ListBan'] .= '<option value="' . $user['id'] . '">' . GameEscaping::escape((string) $user['username'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $user['id'] . ')</option>';
                     $banned++;
@@ -227,13 +239,17 @@ class BanController extends AbstractAdminController
                 return $this->render('admin/BanPageUser.html.twig');
             case 'account':
                 $ORDER = $this->state->requestQuery['order'] == 'id' ? "id" : "accountname";
-                $sql = "SELECT `accountname`, `id`, `bana` 
-                FROM %%ACCOUNTS%% 
-                WHERE `id` != 1 AND `authlevel` <= :authlevel " . $WHEREBANA . " 
-                ORDER BY " . $ORDER . " ASC;";
-                $accountList = $db->select($sql, [
-                    ':authlevel' => $USER['authlevel'],
-                ]);
+                $qb = $db->qb()
+                    ->select('`accountname`', '`id`', '`bana`')
+                    ->from($db->table('ACCOUNTS'))
+                    ->where('`id` != 1')
+                    ->andWhere('`authlevel` <= :authlevel')
+                    ->setParameter('authlevel', $USER['authlevel'])
+                    ->orderBy($ORDER, 'ASC');
+                if ($onlyBanned) {
+                    $qb->andWhere("`bana` = '1'");
+                }
+                $accountList = $db->fetchAll($qb);
                 $accountSelect = ['List' => '', 'ListBan' => ''];
 
                 $accounts = 0;
@@ -248,11 +264,13 @@ class BanController extends AbstractAdminController
                 $ORDER2 = $this->state->requestQuery['order2'] == 'id' ? "id" : "accountname";
 
                 $banned = 0;
-                $sql = "SELECT `accountname`, `id` 
-                FROM %%ACCOUNTS%% 
-                WHERE `bana` = '1' 
-                ORDER BY " . $ORDER2 . " ASC;";
-                $accountListBan = $db->select($sql, []);
+                $accountListBan = $db->fetchAll(
+                    $db->qb()
+                        ->select('`accountname`', '`id`')
+                        ->from($db->table('ACCOUNTS'))
+                        ->where("`bana` = '1'")
+                        ->orderBy($ORDER2, 'ASC')
+                );
                 foreach ($accountListBan as $account) {
                     $accountSelect['ListBan'] .= '<option value="' . $account['id'] . '">' . GameEscaping::escape((string) $account['accountname'], 'UTF-8') . '&nbsp;&nbsp;(ID:&nbsp;' . $account['id'] . ')</option>';
                     $banned++;

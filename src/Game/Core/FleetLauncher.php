@@ -310,27 +310,21 @@ class FleetLauncher
         $resource = $this->state->resource;
         $fleetData = [];
 
-        $params = [':planetId' => $fleetStartPlanetID];
-
-        $planetQuery = [];
+        // column => amount to take from the start planet (negative = decrement for Database::updateRows)
+        $take = [];
         foreach ($fleetArray as $ShipID => $ShipCount) {
             $fleetData[] = $ShipID . ',' . floatToString($ShipCount);
-            $planetQuery[] = $resource[$ShipID] . " = " . $resource[$ShipID] . " - :" . $resource[$ShipID];
-
-            $params[':' . $resource[$ShipID]] = floatToString($ShipCount);
+            $take[$resource[$ShipID]] = '-' . ltrim(floatToString($ShipCount), '-');
         }
 
         foreach ($fleetResource as $resourceId => $amount) {
-            $planetQuery[] = $resource[$resourceId] . " = " . $resource[$resourceId] . " - :" . $resource[$resourceId];
             if ($resourceId == RESOURCE_DEUT && $consumption > 0) {
                 $amount += $consumption;
             }
-            $params[':' . $resource[$resourceId]] = $amount;
+            $take[$resource[$resourceId]] = is_string($amount) ? '-' . ltrim($amount, '-') : -$amount;
         }
 
-        $sql = 'UPDATE %%PLANETS%% SET ' . implode(', ', $planetQuery) . ' WHERE id = :planetId;';
-
-        $this->db->update($sql, $params);
+        $this->db->updateRows('PLANETS', [], ['id' => $fleetStartPlanetID], [], $take);
 
         return $fleetData;
     }

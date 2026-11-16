@@ -35,7 +35,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
      */
     public function run(): void
     {
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
 
         $config	= $this->configs->get(ROOT_UNI);
 
@@ -60,6 +60,7 @@ class InactiveMailCronjob extends AbstractCronjobTask
                 $userConfig	= $this->configs->get($user['universe']);
 
                 $LNG			= $langObjects[$user['lang']];
+                $this->state->LNG = $LNG; // the last mailed language stays the active one (as before)
 
                 $MailSubject	= $LNG->format('spec_mail_inactive_title', $userConfig->game_name.' - '.$userConfig->uni_name);
                 $MailRAW		= $LNG->getTemplate('email_inactive');

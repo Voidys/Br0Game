@@ -44,12 +44,12 @@ class PlanetsTab extends AccountEditorTab
             $this->responder->message($LNG['ad_pla_error_planets2'], '?page=accountEditor&edit=planets');
         }
 
-        // update plan: 'QryUpdate'/'params'/'afterPlanet' for the planet itself, the suffix 2 and 3 for the second and
+        // update plan: 'values' (column => bound value) / 'expr' (column => fixed SQL expression) / 'afterPlanet' for the planet itself, the suffix 2 and 3 for the second and
         // third planet touched (with their 'beforePlanet2/3')
         $plan = [
-            'QryUpdate' => [], 'params' => [], 'afterPlanet' => $beforePlanet,
-            'QryUpdate2' => [], 'params2' => [], 'beforePlanet2' => [], 'afterPlanet2' => [],
-            'QryUpdate3' => [], 'params3' => [], 'beforePlanet3' => [], 'afterPlanet3' => [],
+            'values' => [], 'expr' => [], 'afterPlanet' => $beforePlanet,
+            'values2' => [], 'expr2' => [], 'beforePlanet2' => [], 'afterPlanet2' => [],
+            'values3' => [], 'expr3' => [], 'beforePlanet3' => [], 'afterPlanet3' => [],
         ];
         $this->collectFieldChanges($plan);
         if ($change_pos == 'on') {
@@ -81,57 +81,54 @@ class PlanetsTab extends AccountEditorTab
 
 
         if (!empty($name)) {
-            $plan['QryUpdate'][] = "`name` = :name";
-            $plan['params'][':name'] = $name;
+            $plan['values']['name'] = $name;
             $plan['afterPlanet']['name'] = $name;
         }
 
         if ($buildings == 'on') {
             foreach ($reslist['build'] as $ID) {
-                $plan['QryUpdate'][] = "`" . $resource[$ID] . "` = '0'";
+                $plan['expr'][$resource[$ID]] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }
 
         if ($ships == 'on') {
             foreach ($reslist['fleet'] as $ID) {
-                $plan['QryUpdate'][] = "`" . $resource[$ID] . "` = '0'";
+                $plan['expr'][$resource[$ID]] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }
 
         if ($defenses == 'on') {
             foreach ($reslist['defense'] as $ID) {
-                $plan['QryUpdate'][] = "`" . $resource[$ID] . "` = '0'";
+                $plan['expr'][$resource[$ID]] = "'0'";
                 $plan['afterPlanet'][$ID] = 0;
             }
         }
 
         if ($c_hangar == 'on') {
-            $plan['QryUpdate'][] = "`b_hangar` = 0";
-            $plan['QryUpdate'][] = "`b_hangar_plus` = 0";
-            $plan['QryUpdate'][] = "`b_hangar_id` = ''";
+            $plan['expr']['b_hangar'] = "0";
+            $plan['expr']['b_hangar_plus'] = "0";
+            $plan['expr']['b_hangar_id'] = "''";
             $plan['afterPlanet']['b_hangar'] = 0;
             $plan['afterPlanet']['b_hangar_plus'] = 0;
             $plan['afterPlanet']['b_hangar_id'] = '';
         }
 
         if ($c_buildings == 'on') {
-            $plan['QryUpdate'][] = "`b_building` = 0";
-            $plan['QryUpdate'][] = "`b_building_id` = ''";
+            $plan['expr']['b_building'] = "0";
+            $plan['expr']['b_building_id'] = "''";
             $plan['afterPlanet']['b_building'] = 0;
             $plan['afterPlanet']['b_building_id'] = '';
         }
 
         if (!empty($diameter)) {
-            $plan['QryUpdate'][] = "`diameter` = :diameter";
-            $plan['params'][':diameter'] = $diameter;
+            $plan['values']['diameter'] = $diameter;
             $plan['afterPlanet']['diameter'] = $diameter;
         }
 
         if (!empty($fields)) {
-            $plan['QryUpdate'][] = "`field_max` = :field_max";
-            $plan['params'][':field_max'] = $fields;
+            $plan['values']['field_max'] = $fields;
             $plan['afterPlanet']['field_max'] = $fields;
         }
     }
@@ -172,12 +169,9 @@ class PlanetsTab extends AccountEditorTab
                 $this->responder->message($LNG['ad_pla_error_planets3'], '?page=accountEditor&edit=planets');
             }
 
-            $plan['QryUpdate'][] = "`galaxy` = :galaxy";
-            $plan['QryUpdate'][] = "`system` = :system";
-            $plan['QryUpdate'][] = "`planet` = :planet";
-            $plan['params'][':galaxy'] = $galaxy;
-            $plan['params'][':system'] = $system;
-            $plan['params'][':planet'] = $planet;
+            $plan['values']['galaxy'] = $galaxy;
+            $plan['values']['system'] = $system;
+            $plan['values']['planet'] = $planet;
             $plan['afterPlanet']['galaxy'] = $galaxy;
             $plan['afterPlanet']['system'] = $system;
             $plan['afterPlanet']['planet'] = $planet;
@@ -191,13 +185,9 @@ class PlanetsTab extends AccountEditorTab
                 ]);
                 $plan['afterPlanet2'] = $plan['beforePlanet2'];
 
-                $plan['QryUpdate2'][] = "`galaxy` = :galaxy";
-                $plan['QryUpdate2'][] = "`system` = :system";
-                $plan['QryUpdate2'][] = "`planet` = :planet";
-                $plan['params2'][':galaxy'] = $galaxy;
-                $plan['params2'][':system'] = $system;
-                $plan['params2'][':planet'] = $planet;
-                $plan['params2'][':id'] = $plan['beforePlanet2']['id'];
+                $plan['values2']['galaxy'] = $galaxy;
+                $plan['values2']['system'] = $system;
+                $plan['values2']['planet'] = $planet;
                 $plan['afterPlanet2']['galaxy'] = $galaxy;
                 $plan['afterPlanet2']['system'] = $system;
                 $plan['afterPlanet2']['planet'] = $planet;
@@ -228,19 +218,14 @@ class PlanetsTab extends AccountEditorTab
                 $this->responder->message($LNG['ad_pla_error_planets4'], '?page=accountEditor&edit=planets');
             }
 
-            $plan['QryUpdate'][] = "`galaxy` = :galaxy";
-            $plan['QryUpdate'][] = "`system` = :system";
-            $plan['QryUpdate'][] = "`planet` = :planet";
-            $plan['params'][':galaxy'] = $galaxy;
-            $plan['params'][':system'] = $system;
-            $plan['params'][':planet'] = $planet;
+            $plan['values']['galaxy'] = $galaxy;
+            $plan['values']['system'] = $system;
+            $plan['values']['planet'] = $planet;
             $plan['afterPlanet']['galaxy'] = $galaxy;
             $plan['afterPlanet']['system'] = $system;
             $plan['afterPlanet']['planet'] = $planet;
 
-            $plan['QryUpdate2'][] = "`id_luna` = :id_luna";
-            $plan['params2'][':id_luna'] = $beforePlanet['id'];
-            $plan['params2'][':id'] = $plan['beforePlanet2']['id'];
+            $plan['values2']['id_luna'] = $beforePlanet['id'];
             $plan['afterPlanet2']['id_luna'] = $beforePlanet['id'];
 
             $sql = "SELECT * FROM %%PLANETS%%
@@ -251,9 +236,7 @@ class PlanetsTab extends AccountEditorTab
             ]);
             $plan['afterPlanet3'] = $plan['beforePlanet3'];
 
-            $plan['QryUpdate3'][] = "`id_luna` = :id_luna";
-            $plan['params3'][':id_luna'] = 0;
-            $plan['params3'][':id'] = $plan['beforePlanet3']['id'];
+            $plan['values3']['id_luna'] = 0;
             $plan['afterPlanet3']['id_luna'] = 0;
         }
     }
@@ -267,14 +250,8 @@ class PlanetsTab extends AccountEditorTab
     private function writePlan(array $plan, array $beforePlanet, mixed $id): void
     {
         $db = $this->db;
-        if (!empty($plan['QryUpdate'])) {
-            $sql = "UPDATE %%PLANETS%% SET ";
-            $sql .= implode(", ", $plan['QryUpdate']);
-            $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-            $db->update($sql, array_merge($plan['params'], [
-                ':id'       => $id,
-                ':universe' => $this->universe()->getEmulated(),
-            ]));
+        if (!empty($plan['values']) || !empty($plan['expr'])) {
+            $db->updateRows('PLANETS', $plan['values'], ['id' => $id, 'universe' => $this->universe()->getEmulated()], $plan['expr']);
 
             $LOG = new Log($this->db, $this->configs, $this->state, 2);
             $LOG->target = $id;
@@ -283,13 +260,8 @@ class PlanetsTab extends AccountEditorTab
             $LOG->new = $plan['afterPlanet'];
             $LOG->save();
         }
-        if (!empty($plan['beforePlanet2']) && !empty($plan['QryUpdate2'])) {
-            $sql = "UPDATE %%PLANETS%% SET ";
-            $sql .= implode(", ", $plan['QryUpdate2']);
-            $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-            $db->update($sql, array_merge($plan['params2'], [
-                ':universe' => $this->universe()->getEmulated(),
-            ]));
+        if (!empty($plan['beforePlanet2']) && (!empty($plan['values2']) || !empty($plan['expr2']))) {
+            $db->updateRows('PLANETS', $plan['values2'], ['id' => $plan['beforePlanet2']['id'], 'universe' => $this->universe()->getEmulated()], $plan['expr2']);
 
             $LOG = new Log($this->db, $this->configs, $this->state, 2);
             $LOG->target = $plan['beforePlanet2']['id'];
@@ -298,13 +270,8 @@ class PlanetsTab extends AccountEditorTab
             $LOG->new = $plan['afterPlanet2'];
             $LOG->save();
         }
-        if (!empty($plan['beforePlanet3']) && !empty($plan['QryUpdate3'])) {
-            $sql = "UPDATE %%PLANETS%% SET ";
-            $sql .= implode(", ", $plan['QryUpdate3']);
-            $sql .= " WHERE `id` = :id AND `universe` = :universe;";
-            $db->update($sql, array_merge($plan['params3'], [
-                ':universe' => $this->universe()->getEmulated(),
-            ]));
+        if (!empty($plan['beforePlanet3']) && (!empty($plan['values3']) || !empty($plan['expr3']))) {
+            $db->updateRows('PLANETS', $plan['values3'], ['id' => $plan['beforePlanet3']['id'], 'universe' => $this->universe()->getEmulated()], $plan['expr3']);
 
             $LOG = new Log($this->db, $this->configs, $this->state, 2);
             $LOG->target = $plan['beforePlanet3']['id'];

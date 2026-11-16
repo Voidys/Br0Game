@@ -33,17 +33,16 @@ class GameData
         }
         foreach ($result as $k => $v) {
             $this->state->$k = $v;
-            $$k = & $this->state->$k;
         }
 
-        $resource[901] = 'metal';
-        $resource[902] = 'crystal';
-        $resource[903] = 'deuterium';
-        $resource[911] = 'energy';
+        $this->state->resource[901] = 'metal';
+        $this->state->resource[902] = 'crystal';
+        $this->state->resource[903] = 'deuterium';
+        $this->state->resource[911] = 'energy';
 
-        $reslist['ressources']  = [901, 902, 903, 911];
-        $reslist['resstype'][1] = [901, 902, 903];
-        $reslist['resstype'][2] = [911];
-        $reslist['resstype'][3] = [];
+        $this->state->reslist['ressources']  = [901, 902, 903, 911];
+        $this->state->reslist['resstype'][1] = [901, 902, 903];
+        $this->state->reslist['resstype'][2] = [911];
+        $this->state->reslist['resstype'][3] = [];
     }
 }

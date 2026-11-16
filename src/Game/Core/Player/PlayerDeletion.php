@@ -227,56 +227,21 @@ class PlayerDeletion
 
         $this->removeFromBuddy($userId);
 
-        // marketplace offers of the player's fleets would otherwise stay behind without a fleet
-        $sql = 'DELETE t FROM %%TRADES%% t
-            INNER JOIN %%FLEETS%% f ON f.`id` = t.`seller_fleet_id`
-            WHERE f.`owner` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
-
-        $sql = 'DELETE %%FLEETS%%, %%FLEETS_EVENT%%
-            FROM %%FLEETS%% LEFT JOIN %%FLEETS_EVENT%% on `id` = fleetId
-            WHERE `owner` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
+        $this->deleteMarketOffersAndFleets($userId);
 
         $this->deleteMessageCopies($userId);
 
         $this->deleteSecondaryPlayerData($userId);
 
-        $sql = 'DELETE %%PLANETS%%, %%PLANET_WRECKFIELD%%
-            FROM %%PLANETS%% LEFT JOIN %%PLANET_WRECKFIELD%% on `planetID` = id
-            WHERE `id_owner` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
+        $this->deletePlanets($userId);
 
-        $sql = 'DELETE FROM %%USERS_SETTINGS%% WHERE `user_id` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
-
-        $sql = 'DELETE FROM %%USERS%% WHERE `id` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
+        $this->deleteUserRows($userId);
 
         $this->deleteStatistics($userId);
 
-        $fleetIds = $db->select('SELECT `id` FROM %%FLEETS%% WHERE `target_owner` = :userId;', [
-            ':userId'   => $userId,
-        ]);
+        $this->recallIncomingFleets($userId);
 
-        foreach ($fleetIds as $fleetId) {
-            $this->fleetFunctions()->sendFleetBack(['id' => $userId], $fleetId['id']);
-        }
-
-        $sql = 'DELETE FROM %%ACCOUNTS_TO_USERS%% WHERE `user_id` = :userId;';
-        $db->delete($sql, [
-            ':userId'   => $userId,
-        ]);
+        $this->unlinkAccount($userId);
 
         /*
         $sql = 'UPDATE %%UNIVERSE%% SET `userAmount` = `userAmount` - 1 WHERE `universe` = :universe;';
@@ -288,6 +253,73 @@ class PlayerDeletion
         */
 
         return true;
+    }
+
+    /**
+     * Deletes the marketplace offers made with the player's fleets (they would stay behind without a fleet), then
+     * the player's fleets together with their events.
+     */
+    private function deleteMarketOffersAndFleets(int $userId): void
+    {
+        $sql = 'DELETE t FROM %%TRADES%% t
+            INNER JOIN %%FLEETS%% f ON f.`id` = t.`seller_fleet_id`
+            WHERE f.`owner` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
+
+        $sql = 'DELETE %%FLEETS%%, %%FLEETS_EVENT%%
+            FROM %%FLEETS%% LEFT JOIN %%FLEETS_EVENT%% on `id` = fleetId
+            WHERE `owner` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
+    }
+
+    /** Deletes all planets and moons of the player together with their wreck fields. */
+    private function deletePlanets(int $userId): void
+    {
+        $sql = 'DELETE %%PLANETS%%, %%PLANET_WRECKFIELD%%
+            FROM %%PLANETS%% LEFT JOIN %%PLANET_WRECKFIELD%% on `planetID` = id
+            WHERE `id_owner` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
+    }
+
+    /** Deletes the settings row and the user row itself (settings first, order matters for the foreign keys). */
+    private function deleteUserRows(int $userId): void
+    {
+        $sql = 'DELETE FROM %%USERS_SETTINGS%% WHERE `user_id` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
+
+        $sql = 'DELETE FROM %%USERS%% WHERE `id` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
+    }
+
+    /** Sends fleets of other players that were heading to the deleted player's planets back home. */
+    private function recallIncomingFleets(int $userId): void
+    {
+        $fleetIds = $this->db->select('SELECT `id` FROM %%FLEETS%% WHERE `target_owner` = :userId;', [
+            ':userId'   => $userId,
+        ]);
+
+        foreach ($fleetIds as $fleetId) {
+            $this->fleetFunctions()->sendFleetBack(['id' => $userId], $fleetId['id']);
+        }
+    }
+
+    /** Removes the link between the player and its account. */
+    private function unlinkAccount(int $userId): void
+    {
+        $sql = 'DELETE FROM %%ACCOUNTS_TO_USERS%% WHERE `user_id` = :userId;';
+        $this->db->delete($sql, [
+            ':userId'   => $userId,
+        ]);
     }
 
     /**

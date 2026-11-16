@@ -48,7 +48,7 @@ class PlanetReshuffle
 
         if ($maxPlanetAmount > 1 || $uniStatus != STATUS_CLOSED || $USER['authlevel'] != AUTH_ADM) {
             $result = "";
-            $LNG = & $this->state->LNG;
+            $LNG = $this->state->LNG;
             if ($maxPlanetAmount > 1) {
                 $result = $LNG['rp_planet_error'];
             } elseif ($uniStatus != STATUS_CLOSED) {
@@ -116,7 +116,6 @@ class PlanetReshuffle
         ], 'lang');
         $LNG    = new Language($this->configs, $lang);
         $this->state->LNG = $LNG;
-        $LNG = & $this->state->LNG;
         $LNG->includeData(['L18N', 'INGAME', 'TECH', 'CUSTOM']);
         $name = $LNG['fcm_mainplanet'];
         $planetId = $this->planetManager()->createPlanet(

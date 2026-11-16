@@ -57,8 +57,7 @@ class SupportController extends AbstractAdminController
             return $this->{$ACTION}();
         }
 
-        $USER = & $this->state->USER;
-        $LNG = & $this->state->LNG;
+        $LNG = $this->state->LNG;
         $db = $this->db;
 
         $sql = 'SELECT t.*, u.`username`, COUNT(a.`ticketID`) as answer
@@ -73,7 +72,7 @@ class SupportController extends AbstractAdminController
         $ticketList = [];
 
         foreach ($ticketResult as $ticketRow) {
-            $ticketRow['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $ticketRow['time'], $USER['timezone']);
+            $ticketRow['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $ticketRow['time'], $this->state->USER['timezone']);
             $ticketList[$ticketRow['ticketID']]	= $ticketRow;
         }
 

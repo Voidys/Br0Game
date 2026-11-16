@@ -172,10 +172,9 @@ class SettingsController extends AbstractGameController
     public function toggleVacation()
     {
         $LNG = $this->state->LNG;
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        if ($USER['urlaubs_modus'] == 1) {
-            if ($USER['urlaubs_until'] > $this->state->runtime->timestamp) {
+
+        if ($this->state->USER['urlaubs_modus'] == 1) {
+            if ($this->state->USER['urlaubs_until'] > $this->state->runtime->timestamp) {
                 $this->printMessage($LNG['op_cant_deactivate_vacation_mode'], [
                     [
                         'label' => $LNG['sys_forward'],
@@ -190,16 +189,16 @@ class SettingsController extends AbstractGameController
             $sql = "SELECT id FROM %%USERS%% WHERE universe = :universe AND id = :userID FOR UPDATE;";
             $db->selectSingle($sql, [
                 ':universe' => $this->universe()->current(),
-                ':userID'   => $USER['id'],
+                ':userID'   => $this->state->USER['id'],
             ]);
 
             $sql = "SELECT id FROM %%PLANETS%% WHERE universe = :universe AND id_owner = :userID FOR UPDATE;";
             $db->select($sql, [
                 ':universe' => $this->universe()->current(),
-                ':userID'   => $USER['id'],
+                ':userID'   => $this->state->USER['id'],
             ]);
 
-            $this->playerUtil()->disable_vmode($USER, $PLANET);
+            $this->playerUtil()->disable_vmode($this->state->USER, $this->state->PLANET);
             $db->commit();
 
             $this->printMessage($LNG['op_options_vacation_deactivated'], [
@@ -218,14 +217,14 @@ class SettingsController extends AbstractGameController
                 ]);
             }
 
-            $this->playerUtil()->enable_vmode($USER, $PLANET);
+            $this->playerUtil()->enable_vmode($this->state->USER, $this->state->PLANET);
             $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
-            $statsHandler->setTimestamp($USER['id'], AdvancedStatsEnum::FIRST_VACATION, $this->state->runtime->timestamp);
+            $statsHandler->setTimestamp($this->state->USER['id'], AdvancedStatsEnum::FIRST_VACATION, $this->state->runtime->timestamp);
 
             // translations are trusted HTML
             $text = $LNG['op_options_vacation_activated'];
             $text .= '<br>' . $LNG['op_options_no_other_settings_changed'];
-            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $USER['universe'])) {
+            if ($this->viewHelpers()->isModuleAvailable(MODULE_VMODE_KICK, $this->state->USER['universe'])) {
                 $text .= $LNG['tn_vacation_mode_kick'];
             }
             $this->printMessage(new Markup($text, 'UTF-8'), [
@@ -296,12 +295,11 @@ class SettingsController extends AbstractGameController
      */
     private function checkVMode()
     {
-        $USER = & $this->state->USER;
         $PLANET = $this->state->PLANET;
         $db = $this->db;
 
         $sql = "SELECT COUNT(*) as state FROM %%FLEETS%% WHERE `owner` = :userID FOR UPDATE;";
-        $fleets = $db->selectSingle($sql, [':userID' => $USER['id']], 'state');
+        $fleets = $db->selectSingle($sql, [':userID' => $this->state->USER['id']], 'state');
 
         if ($fleets != 0) {
             return false;
@@ -312,21 +310,21 @@ class SettingsController extends AbstractGameController
         // stale under concurrent requests and SavePlanetToDB writes its b_tech*
         // fields back.
         $sql = "SELECT * FROM %%USERS%% WHERE id = :userID FOR UPDATE;";
-        $u = $db->selectSingle($sql, [':userID' => $USER['id']]);
+        $u = $db->selectSingle($sql, [':userID' => $this->state->USER['id']]);
         if (empty($u) || $u['urlaubs_modus'] == 1) {
             $db->commit();
             return false;
         }
-        $USER = array_merge($USER, $u);
+        $this->state->USER = array_merge($this->state->USER, $u);
 
         $sql = "SELECT * FROM %%PLANETS%% WHERE id_owner = :userID AND id != :planetID AND destruyed = 0 FOR UPDATE;";
         $query = $db->select($sql, [
-            ':userID'   => $USER['id'],
+            ':userID'   => $this->state->USER['id'],
             ':planetID' => $PLANET['id'],
         ]);
 
         foreach ($query as $CPLANET) {
-            [$USER, $CPLANET] = $this->ecoObj->CalcResource($USER, $CPLANET, true);
+            [$this->state->USER, $CPLANET] = $this->ecoObj->CalcResource($this->state->USER, $CPLANET, true);
             unset($CPLANET);
         }
 

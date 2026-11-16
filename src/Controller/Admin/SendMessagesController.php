@@ -17,6 +17,7 @@
 
 namespace App\Controller\Admin;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Config;
 use App\Game\Core\Database;
@@ -72,19 +73,11 @@ class SendMessagesController extends AbstractAdminController
                     $From = '<span class="' . $class . '">' . $LNG['user_level_' . $USER['authlevel']] . ' ' . $USER['username'] . '</span>';
                     $pmSubject = '<span class="' . $class . '">' . $Subject . '</span>';
                     $pmMessage = '<span class="' . $class . '">' . nl2br($Message) . '</span>';
-                    $sql = "SELECT `id`, `username`, `universe` FROM %%USERS%% u INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id";
-                    $params = [];
-                    if ($universe > 0 && !empty($Lang)) {
-                        $sql .= " WHERE `universe` = :universe AND `us.lang` = :lang";
-                        $params = [':universe' => $universe, ':lang' => $Lang];
-                    } elseif ($universe > 0) {
-                        $sql .= " WHERE `universe` = :universe";
-                        $params = [':universe' => $universe];
-                    } elseif (!empty($Lang)) {
-                        $sql .= " WHERE `us.lang` = :lang";
-                        $params = [':lang' => $Lang];
-                    }
-                    $USERS = $db->select($sql, $params);
+                    $qb = $db->qb()
+                        ->select('`id`', '`username`', '`universe`')
+                        ->from($db->table('USERS'), 'u')
+                        ->innerJoin('u', $db->table('USERS_SETTINGS'), 'us', 'us.user_id = u.id');
+                    $USERS = $db->fetchAll($this->audienceFilter($qb, $universe, $Lang));
                     $userList = [];
                     foreach ($USERS as $UserData) {
                         $userList[$UserData['universe']][] = $UserData['id'];
@@ -97,23 +90,13 @@ class SendMessagesController extends AbstractAdminController
                 if ($Mode == 1 || $Mode == 2) {
                     $userList = [];
 
-                    $sql = "SELECT DISTINCT a.`email`, a.`accountname` 
-                        FROM %%USERS%% u 
-                        INNER JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id
-                        INNER JOIN %%ACCOUNTS_TO_USERS%% au ON au.user_id = u.id
-                        INNER JOIN %%ACCOUNTS%% a ON a.id = au.account_id";
-                    $params = [];
-                    if ($universe > 0 && !empty($Lang)) {
-                        $sql .= " WHERE `universe` = :universe AND `us.lang` = :lang";
-                        $params = [':universe' => $universe, ':lang' => $Lang];
-                    } elseif ($universe > 0) {
-                        $sql .= " WHERE `universe` = :universe";
-                        $params = [':universe' => $universe];
-                    } elseif (!empty($Lang)) {
-                        $sql .= " WHERE `us.lang` = :lang";
-                        $params = [':lang' => $Lang];
-                    }
-                    $USERS = $db->select($sql, $params);
+                    $qb = $db->qb()
+                        ->select('DISTINCT a.`email`', 'a.`accountname`')
+                        ->from($db->table('USERS'), 'u')
+                        ->innerJoin('u', $db->table('USERS_SETTINGS'), 'us', 'us.user_id = u.id')
+                        ->innerJoin('u', $db->table('ACCOUNTS_TO_USERS'), 'au', 'au.user_id = u.id')
+                        ->innerJoin('au', $db->table('ACCOUNTS'), 'a', 'a.id = au.account_id');
+                    $USERS = $db->fetchAll($this->audienceFilter($qb, $universe, $Lang));
 
                     foreach ($USERS as $UserData) {
                         $userList[$UserData['email']] = [
@@ -146,5 +129,21 @@ class SendMessagesController extends AbstractAdminController
             'modes'            => $sendModes,
         ]);
         return $this->render('admin/SendMessagesPage.html.twig');
+    }
+
+    /**
+     * Restricts a recipient query (users joined with their settings as u/us) to one universe and/or one language;
+     * a universe of 0 and an empty language mean "everyone".
+     */
+    private function audienceFilter(QueryBuilder $qb, mixed $universe, string $lang): QueryBuilder
+    {
+        if ($universe > 0) {
+            $qb->andWhere('`universe` = :universe')->setParameter('universe', $universe);
+        }
+        if (!empty($lang)) {
+            $qb->andWhere('us.`lang` = :lang')->setParameter('lang', $lang);
+        }
+
+        return $qb;
     }
 }

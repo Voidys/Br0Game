@@ -18,6 +18,7 @@
 namespace App\Game\Missions;
 
 use App\Game\BattleEngine\BattleHandler;
+use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\StoredData;
 
 /**
@@ -60,7 +61,7 @@ trait BattleReporting
      * @param array{0: string, 1: string} $class   CSS classes of the two sides
      * @return bool whether the fight is a top-KB entry
      */
-    protected function sendReportMessages(BattleSetup $setup, array $combatResult, string $reportID, string $messageHTML, array $class, array $stealResource, array $debris, int|float $units): bool
+    protected function sendReportMessages(BattleSetup $setup, BattleResult $combatResult, string $reportID, string $messageHTML, array $class, array $stealResource, array $debris, int|float $units): bool
     {
         $db = $this->db;
         $userAttack = $setup->userAttack;
@@ -88,10 +89,10 @@ trait BattleReporting
                     $LNG['sys_lost'],
                     $class[0],
                     $LNG['sys_attack_attacker_pos'],
-                    $this->viewHelpers()->prettyNumber($combatResult['unitLost']['attacker']),
+                    $this->viewHelpers()->prettyNumber($combatResult->losses->attackerValue),
                     $class[1],
                     $LNG['sys_attack_defender_pos'],
-                    $this->viewHelpers()->prettyNumber($combatResult['unitLost']['defender']),
+                    $this->viewHelpers()->prettyNumber($combatResult->losses->defenderValue),
                     $LNG['sys_gain'],
                     $LNG['tech'][901],
                     $this->viewHelpers()->prettyNumber($stealResource[901]),
@@ -142,7 +143,7 @@ trait BattleReporting
     }
 
     /** Inserts the fight into the top-KB list (table topkb). */
-    protected function insertTopKb(array $combatResult, string $reportID, int|float $units): void
+    protected function insertTopKb(BattleResult $combatResult, string $reportID, int|float $units): void
     {
         $db = $this->db;
         $sql = 'INSERT INTO %%TOPKB%% SET
@@ -159,7 +160,7 @@ trait BattleReporting
             ':time'     => $this->_fleet['arrival_time'],
             ':universe' => $this->_fleet['universe'],
             ':galaxy'	=> $this->_fleet['end_galaxy'],
-            ':result'   => $combatResult['won'],
+            ':result'   => $combatResult->won,
         ]);
     }
 

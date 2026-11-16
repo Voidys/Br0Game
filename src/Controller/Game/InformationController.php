@@ -18,6 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
+use App\Game\Core\Player\PlanetQueries;
 use App\Game\Core\BuildFunctions;
 use App\Game\Core\HTTP;
 use App\Game\Core\FormulaEvaluator;
@@ -67,7 +68,6 @@ class InformationController extends AbstractGameController
      */
     public function sendFleet()
     {
-        $PLANET = & $this->state->PLANET;
         $USER = $this->state->USER;
         $resource = $this->state->resource;
         $LNG = $this->state->LNG;
@@ -82,14 +82,14 @@ class InformationController extends AbstractGameController
         }
 
         // The source planet needs a jump gate itself
-        if ($PLANET[$resource[43]] <= 0) {
+        if ($this->state->PLANET[$resource[43]] <= 0) {
             $this->sendJSON([
                 'message'   => $LNG['in_jump_gate_doesnt_have_one'],
                 'error'     => true,
             ]);
         }
 
-        $NextJumpTime = $this->getNextJumpWaitTime($PLANET['last_jump_time'], $PLANET['sprungtor']);
+        $NextJumpTime = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
 
         if ($this->state->runtime->timestamp < $NextJumpTime) {
             $this->sendJSON([
@@ -98,7 +98,7 @@ class InformationController extends AbstractGameController
             ]);
         }
 
-        $TargetPlanet = (int) $this->http()->_GP('jmpto', (int) $PLANET['id']);
+        $TargetPlanet = (int) $this->http()->_GP('jmpto', (int) $this->state->PLANET['id']);
 
         $sql = "SELECT id, last_jump_time, sprungtor FROM %%PLANETS%% WHERE id = :targetID AND id_owner = :userID AND"
             . " sprungtor > 0;";
@@ -107,7 +107,7 @@ class InformationController extends AbstractGameController
             ':userID'   => $USER['id'],
         ]);
 
-        if (!isset($TargetGate) || $TargetPlanet == $PLANET['id']) {
+        if (!isset($TargetGate) || $TargetPlanet == $this->state->PLANET['id']) {
             $this->sendJSON([
                 'message' => $LNG['in_jump_gate_doesnt_have_one'],
                 'error' => true,
@@ -124,8 +124,7 @@ class InformationController extends AbstractGameController
         }
 
         $ShipArray      = [];
-        $SubQueryOri    = "";
-        $SubQueryDes    = "";
+        $shipsOut       = [];
         $Ships          = $this->http()->_GP('ship', []);
         if (!is_array($Ships)) {
             $Ships = [];
@@ -136,36 +135,47 @@ class InformationController extends AbstractGameController
                 continue;
             }
 
-            $ShipArray[$Ship]   = max(0, min((int) $Ships[$Ship], (int) $PLANET[$resource[$Ship]]));
+            $ShipArray[$Ship]   = max(0, min((int) $Ships[$Ship], (int) $this->state->PLANET[$resource[$Ship]]));
 
             if (empty($ShipArray[$Ship])) {
                 continue;
             }
 
-            $SubQueryOri        .= $resource[$Ship] . " = " . $resource[$Ship] . " - " . $ShipArray[$Ship] . ", ";
-            $SubQueryDes        .= $resource[$Ship] . " = " . $resource[$Ship] . " + " . $ShipArray[$Ship] . ", ";
-            $PLANET[$resource[$Ship]] -= $ShipArray[$Ship];
+            $shipsOut[$resource[$Ship]] = $ShipArray[$Ship];
+            $this->state->PLANET[$resource[$Ship]] -= $ShipArray[$Ship];
         }
 
-        if (empty($SubQueryOri)) {
+        if (empty($shipsOut)) {
             $this->sendJSON([
                 'message' => $LNG['in_jump_gate_error_data'],
                 'error' => true,
             ]);
         }
 
-        $array_merge =  [':planetID' => $PLANET['id'],':jumptime' => $this->state->runtime->timestamp];
-        $sql  = "UPDATE %%PLANETS%% SET " . $SubQueryOri . " `last_jump_time` = :jumptime WHERE id = :planetID;";
-        $db->update($sql, $array_merge);
+        // ships leave the origin gate planet and arrive at the target; the amounts are clamped integers, the columns come from $resource
+        $leave = $db->qb()->update($db->table('PLANETS'));
+        $arrive = $db->qb()->update($db->table('PLANETS'));
+        $index = 0;
+        foreach ($shipsOut as $column => $amount) {
+            $leave->set('`' . $column . '`', '`' . $column . '` - :amount' . $index)->setParameter('amount' . $index, $amount);
+            $arrive->set('`' . $column . '`', '`' . $column . '` + :amount' . $index)->setParameter('amount' . $index, $amount);
+            $index++;
+        }
+        $db->execute(
+            $leave->set('`last_jump_time`', ':jumptime')
+                ->where('id = :planetID')
+                ->setParameter('jumptime', $this->state->runtime->timestamp)
+                ->setParameter('planetID', $this->state->PLANET['id'])
+        );
+        $db->execute(
+            $arrive->set('`last_jump_time`', ':jumptime')
+                ->where('id = :targetID')
+                ->setParameter('jumptime', $this->state->runtime->timestamp)
+                ->setParameter('targetID', $TargetPlanet)
+        );
 
-        $sql  = "UPDATE %%PLANETS%% SET " . $SubQueryDes . " `last_jump_time` = :jumptime WHERE id = :targetID;";
-        $db->update($sql, [
-            ':targetID' => $TargetPlanet,
-            ':jumptime' => $this->state->runtime->timestamp,
-        ]);
-
-        $PLANET['last_jump_time']   = $this->state->runtime->timestamp;
-        $NextJumpTime   = $this->getNextJumpWaitTime($PLANET['last_jump_time'], $PLANET['sprungtor']);
+        $this->state->PLANET['last_jump_time']   = $this->state->runtime->timestamp;
+        $NextJumpTime   = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
         $this->sendJSON([
             'message' => $LNG->format('in_jump_gate_done', $this->viewHelpers()->prettyTime($NextJumpTime - $this->state->runtime->timestamp)),
             'error' => false,
@@ -197,25 +207,27 @@ class InformationController extends AbstractGameController
     public function destroyMissiles()
     {
         $resource = $this->state->resource;
-        $PLANET = & $this->state->PLANET;
         $db = $this->db;
 
         $Missle = $this->http()->_GP('missile', []);
         if (!is_array($Missle)) {
             $Missle = [];
         }
-        $PLANET[$resource[502]] -= max(0, min((int) ($Missle[502] ?? 0), (int) $PLANET[$resource[502]]));
-        $PLANET[$resource[503]] -= max(0, min((int) ($Missle[503] ?? 0), (int) $PLANET[$resource[503]]));
+        $this->state->PLANET[$resource[502]] -= max(0, min((int) ($Missle[502] ?? 0), (int) $this->state->PLANET[$resource[502]]));
+        $this->state->PLANET[$resource[503]] -= max(0, min((int) ($Missle[503] ?? 0), (int) $this->state->PLANET[$resource[503]]));
 
-        $sql = "UPDATE %%PLANETS%% SET " . $resource[502] . " = :resource502Val, " . $resource[503]
-            . " = :resource503Val WHERE id = :planetID;";
-        $db->update($sql, [
-            ':resource502Val'   => $PLANET[$resource[502]],
-            ':resource503Val'   => $PLANET[$resource[503]],
-            ':planetID'         => $PLANET['id'],
-        ]);
+        $db->execute(
+            $db->qb()
+                ->update($db->table('PLANETS'))
+                ->set('`' . $resource[502] . '`', ':resource502Val')
+                ->set('`' . $resource[503] . '`', ':resource503Val')
+                ->where('id = :planetID')
+                ->setParameter('resource502Val', $this->state->PLANET[$resource[502]])
+                ->setParameter('resource503Val', $this->state->PLANET[$resource[503]])
+                ->setParameter('planetID', $this->state->PLANET['id'])
+        );
 
-        $this->sendJSON([$PLANET[$resource[502]], $PLANET[$resource[503]]]);
+        $this->sendJSON([$this->state->PLANET[$resource[502]], $this->state->PLANET[$resource[503]]]);
     }
 
     /**
@@ -231,27 +243,17 @@ class InformationController extends AbstractGameController
         $order = $USER['planet_sort_order'] == 1 ? "DESC" : "ASC" ;
         $sort  = $USER['planet_sort'];
 
-        $sql = "SELECT id, name, galaxy, system, planet, last_jump_time, sprungtor, " . $resource[43]
-            . " FROM %%PLANETS%% WHERE id != :planetID AND id_owner = :userID AND planet_type = '3' AND "
-            . $resource[43] . " > 0 ORDER BY ";
-
-        switch ($sort) {
-            case 1:
-                $sql .= 'galaxy ' . $order . ', system ' . $order . ', planet ' . $order . ', planet_type ' . $order;
-                break;
-            case 2:
-                $sql .= 'name ' . $order;
-                break;
-            default:
-                $sql .= 'id ' . $order;
-                break;
-        }
-
-
-        $moonResult = $db->select($sql, [
-            ':planetID'         => $PLANET['id'],
-            ':userID'           => $USER['id'],
-        ]);
+        $moonQuery = $db->qb()
+            ->select('id', 'name', 'galaxy', '`system`', 'planet', 'last_jump_time', 'sprungtor', '`' . $resource[43] . '`')
+            ->from($db->table('PLANETS'))
+            ->where('id != :planetID')
+            ->andWhere('id_owner = :userID')
+            ->andWhere("planet_type = '3'")
+            ->andWhere('`' . $resource[43] . '` > 0')
+            ->setParameter('planetID', $PLANET['id'])
+            ->setParameter('userID', $USER['id']);
+        PlanetQueries::orderBySetting($moonQuery, $sort, $order);
+        $moonResult = $db->fetchAll($moonQuery);
 
         $moonList   = [];
 
@@ -272,14 +274,13 @@ class InformationController extends AbstractGameController
      */
     public function show(): Response
     {
-        $USER = & $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $LNG = & $this->state->LNG;
-        $resource = & $this->state->resource;
-        $pricelist = & $this->state->pricelist;
-        $reslist = & $this->state->reslist;
-        $CombatCaps = & $this->state->CombatCaps;
-        $ProdGrid = & $this->state->ProdGrid;
+
+        $LNG = $this->state->LNG;
+        $resource = $this->state->resource;
+        $pricelist = $this->state->pricelist;
+        $reslist = $this->state->reslist;
+        $CombatCaps = $this->state->CombatCaps;
+        $ProdGrid = $this->state->ProdGrid;
         $elementID  = $this->http()->_GP('id', 0);
 
         $this->setWindow('popup');
@@ -295,11 +296,11 @@ class InformationController extends AbstractGameController
 
         if (in_array($elementID, $reslist['prod'])) {
             /* Data for eval */
-            $BuildEnergy        = $USER[$resource[113]];
-            $BuildTemp          = $PLANET['temp_max'];
-            $BuildLevelFactor   = $PLANET[$resource[$elementID] . '_porcent'];
+            $BuildEnergy        = $this->state->USER[$resource[113]];
+            $BuildTemp          = $this->state->PLANET['temp_max'];
+            $BuildLevelFactor   = $this->state->PLANET[$resource[$elementID] . '_porcent'];
 
-            $CurrentLevel       = $PLANET[$resource[$elementID]];
+            $CurrentLevel       = $this->state->PLANET[$resource[$elementID]];
             $BuildStartLvl      = max($CurrentLevel - 2, 0);
             for ($BuildLevel = $BuildStartLvl; $BuildLevel < $BuildStartLvl + 15; $BuildLevel++) {
                 foreach ($ressIDs as $ID) {
@@ -322,7 +323,7 @@ class InformationController extends AbstractGameController
             $productionTable['usedResource']    = array_keys($productionTable['production'][$BuildStartLvl]);
         }
         if (in_array($elementID, $reslist['storage'])) {
-            $CurrentLevel       = $PLANET[$resource[$elementID]];
+            $CurrentLevel       = $this->state->PLANET[$resource[$elementID]];
             $BuildStartLvl      = max($CurrentLevel - 2, 0);
 
             for ($BuildLevel = $BuildStartLvl; $BuildLevel < $BuildStartLvl + 15; $BuildLevel++) {
@@ -401,20 +402,20 @@ class InformationController extends AbstractGameController
             }
         }
 
-        if ($elementID == 43 && $PLANET[$resource[43]] > 0) {
+        if ($elementID == 43 && $this->state->PLANET[$resource[43]] > 0) {
             $this->addScript('gate.js');
-            $nextTime   = $this->getNextJumpWaitTime($PLANET['last_jump_time'], $PLANET['sprungtor']);
+            $nextTime   = $this->getNextJumpWaitTime($this->state->PLANET['last_jump_time'], $this->state->PLANET['sprungtor']);
             $gateData   = [
-                'nextTime'  => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $nextTime, $USER['timezone']),
+                'nextTime'  => $this->viewHelpers()->formatDate($LNG['php_tdformat'], $nextTime, $this->state->USER['timezone']),
                 'restTime'  => max(0, $nextTime - $this->state->runtime->timestamp),
-                'startLink' => $PLANET['name'] . ' ' . strip_tags(BuildPlanetAddressLink($PLANET)),
+                'startLink' => $this->state->PLANET['name'] . ' ' . strip_tags(BuildPlanetAddressLink($this->state->PLANET)),
                 'gateList'  => $this->getTargetGates(),
                 'fleetList' => $this->getAvailableFleets(),
             ];
-        } elseif ($elementID == 44 && $PLANET[$resource[44]] > 0) {
+        } elseif ($elementID == 44 && $this->state->PLANET[$resource[44]] > 0) {
             $MissileList    = [
-                502 => $PLANET[$resource[502]],
-                503 => $PLANET[$resource[503]],
+                502 => $this->state->PLANET[$resource[502]],
+                503 => $this->state->PLANET[$resource[503]],
             ];
         }
 

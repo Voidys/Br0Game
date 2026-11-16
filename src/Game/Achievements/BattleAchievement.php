@@ -10,6 +10,7 @@ namespace App\Game\Achievements;
 
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 use App\Game\AdvancedStats\AdvancedStatsHandler;
+use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\Achievement;
 use App\Game\Core\Database;
 use App\Game\Core\Singleton;
@@ -34,15 +35,15 @@ class BattleAchievement
      * Check for achievements related to pvp battles
      *
      * @param array			$reportInfo       	The report array
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param array			$DATA       		The report data array
      */
-    public function checkBattleAchievements($reportInfo, $combatResult, $DATA)
+    public function checkBattleAchievements($reportInfo, BattleResult $combatResult, $DATA)
     {
         $db = $this->db;
         $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
         $mainAttacker = $reportInfo['thisFleet']['owner'];
-        $planetDefender = $combatResult['rw'][0]['defenders'][0]['player']['id'];
+        $planetDefender = $combatResult->startDefenders()[0]->userId();
         $this->checkBattleAchievement6($reportInfo, $combatResult);
         $this->checkBattleAchievement39($reportInfo, $combatResult, $mainAttacker);
         $this->checkBattleAchievement10($reportInfo, $mainAttacker);
@@ -62,9 +63,9 @@ class BattleAchievement
      * Check for achievements related to expedition battles
      *
      * @param array			$reportInfo       	The report array
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      */
-    public function checkExpoBattleAchievements($reportInfo, $combatResult)
+    public function checkExpoBattleAchievements($reportInfo, BattleResult $combatResult)
     {
         $mainAttacker = $reportInfo['thisFleet']['owner'];
         $this->checkBattleAchievement7($reportInfo, $combatResult, $mainAttacker);
@@ -75,14 +76,14 @@ class BattleAchievement
      * Low performer: Have an attack come back with exqactly 1 metal, 1 crystal and 1 deuterium
      *
      * @param array			$reportInfo       	The report array
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      */
-    public function checkBattleAchievement6($reportInfo, $combatResult)
+    public function checkBattleAchievement6($reportInfo, BattleResult $combatResult)
     {
         if ($reportInfo['stealResource'][RESOURCE_METAL] == 1 && $reportInfo['stealResource'][RESOURCE_CRYSTAL] == 1 && $reportInfo['stealResource'][RESOURCE_CRYSTAL] == 1) {
-            foreach ($combatResult['rw'][0]['attackers'] as $player) {
-                if (!$this->achievement()->checkAchievement($player['player']['id'], 6)) {
-                    $this->achievement()->setAchievement($player['player']['id'], 6);
+            foreach ($combatResult->startAttackers() as $fleet) {
+                if (!$this->achievement()->checkAchievement($fleet->userId(), 6)) {
+                    $this->achievement()->setAchievement($fleet->userId(), 6);
                 }
             }
         }
@@ -93,13 +94,13 @@ class BattleAchievement
      * The meaning of life: Attack someone with 42 ships
      *
      * @param array			$reportInfo       	The report array
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker       The id of the User
      */
-    public function checkBattleAchievement39($reportInfo, $combatResult, $mainAttacker)
+    public function checkBattleAchievement39($reportInfo, BattleResult $combatResult, $mainAttacker)
     {
         if ($reportInfo['thisFleet']['ship_amount'] == 42 && !$this->achievement()->checkAchievement($mainAttacker, 39)
-            && count($combatResult['rw'][0]['attackers']) == 1) {
+            && count($combatResult->startAttackers()) == 1) {
             $this->achievement()->setAchievement($mainAttacker, 39);
         }
     }
@@ -179,18 +180,18 @@ class BattleAchievement
      * Check for achievement 37
      * I am not one of those: Get attacked by a 5 man ACS and lose
      *
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$planetDefender     The id of the User
      */
-    public function checkBattleAchievement37($planetDefender, $combatResult)
+    public function checkBattleAchievement37($planetDefender, BattleResult $combatResult)
     {
-        if (!$this->achievement()->checkAchievement($planetDefender, 37) && $combatResult['won'] == ATTACKER) {
+        if (!$this->achievement()->checkAchievement($planetDefender, 37) && $combatResult->won == ATTACKER) {
             $countAttacker = 0;
             $attackers = [];
-            foreach ($combatResult['rw'][0]['attackers'] as $player) {
-                if (!in_array($player['player']['id'], $attackers)) {
+            foreach ($combatResult->startAttackers() as $fleet) {
+                if (!in_array($fleet->userId(), $attackers)) {
                     $countAttacker++;
-                    array_push($attackers, $player['player']['id']);
+                    array_push($attackers, $fleet->userId());
                 }
             }
             //max aks participants var?
@@ -204,14 +205,14 @@ class BattleAchievement
      * Check for achievement 35
      * That's not nice!: Attack an active player with less than 10% of your points
      *
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker     	The id of the User
      * @param Database	 	$db       			The database object
      * @param int	 		$planetDefender     The id of the User
      */
-    public function checkBattleAchievement35($mainAttacker, $combatResult, $db, $planetDefender)
+    public function checkBattleAchievement35($mainAttacker, BattleResult $combatResult, $db, $planetDefender)
     {
-        if (!$this->achievement()->checkAchievement($mainAttacker, 35) && $combatResult['won'] == ATTACKER && count($combatResult['rw'][0]['attackers']) == 1) {
+        if (!$this->achievement()->checkAchievement($mainAttacker, 35) && $combatResult->won == ATTACKER && count($combatResult->startAttackers()) == 1) {
             $sql = "SELECT total_points FROM %%STATPOINTS%% a WHERE id_owner = :attacker AND stat_type = 1;";
             $attackerPoints = $db->selectSingle($sql, [
                 ':attacker' => $mainAttacker,
@@ -237,14 +238,14 @@ class BattleAchievement
      * Check for achievement 38
      * Cornag and Offz: Attack a player with the same alliance
      *
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker     	The id of the User
      * @param Database	 	$db       			The database object
      * @param int	 		$planetDefender     The id of the User
      */
-    public function checkBattleAchievement38($mainAttacker, $combatResult, $db, $planetDefender)
+    public function checkBattleAchievement38($mainAttacker, BattleResult $combatResult, $db, $planetDefender)
     {
-        if (!$this->achievement()->checkAchievement($mainAttacker, 38) && count($combatResult['rw'][0]['attackers']) == 1) {
+        if (!$this->achievement()->checkAchievement($mainAttacker, 38) && count($combatResult->startAttackers()) == 1) {
             $sql = "SELECT ally_id FROM %%USERS%% WHERE id = :attacker;";
             $attackerAlly = $db->selectSingle($sql, [
                 ':attacker' => $mainAttacker,
@@ -268,9 +269,9 @@ class BattleAchievement
      * @param Database	 				$db					The database object
      * @param AdvancedStatsHandler	 	$statsHandler       The stats handler object
      */
-    public function checkBattleAchievement32($mainAttacker, $combatResult, $db, AdvancedStatsHandler $statsHandler)
+    public function checkBattleAchievement32($mainAttacker, BattleResult $combatResult, $db, AdvancedStatsHandler $statsHandler)
     {
-        if (($combatResult['won'] == ATTACKER)) {
+        if (($combatResult->won == ATTACKER)) {
             $count = $statsHandler->getValue($mainAttacker, AdvancedStatsEnum::SET_SAIL_WINS);
 
             if (!$this->achievement()->checkAchievement($mainAttacker, 32) && $count >= 1000) {
@@ -283,13 +284,13 @@ class BattleAchievement
      * Check for achievement 3
      * Deserved: Lose atleast 1000 fleet points and atleast 50% of your fleet while your language is set to french
      *
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$planetDefender     The id of the User
      * @param Database	 	$db       			The database object
      */
-    public function checkBattleAchievement3($combatResult, $planetDefender, $db)
+    public function checkBattleAchievement3(BattleResult $combatResult, $planetDefender, $db)
     {
-        if (($combatResult['won'] == ATTACKER && !$this->achievement()->checkAchievement($planetDefender, 3))) {
+        if (($combatResult->won == ATTACKER && !$this->achievement()->checkAchievement($planetDefender, 3))) {
             //check for loose condition mindestens 1k fleet punkte und mindestens 50%der flotte
             $sql = "SELECT fleet_points FROM %%STATPOINTS%% WHERE id_owner = :id AND stat_type = 1;";
             $fleet_points = $db->selectSingle($sql, [
@@ -301,7 +302,7 @@ class BattleAchievement
 
             foreach ($reslist['fleet'] as $Fleet) {
 
-                if ($combatResult['rw'][0]['defenders'][0]['unit'] == 0) {
+                if ($combatResult->startDefenders()[0]->units == 0) {
                     continue;
                 }
 
@@ -324,23 +325,23 @@ class BattleAchievement
      * Locksmith: Win agaisnt a top 5 defense rank player
      *
      * @param int	 		$mainAttacker       The id of the User
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param Database	 	$db       			The database object
      * @param int	 		$planetDefender     The id of the User
      */
-    public function checkBattleAchievement45($combatResult, $db, $planetDefender)
+    public function checkBattleAchievement45(BattleResult $combatResult, $db, $planetDefender)
     {
         $sql = "SELECT defs_rank FROM %%STATPOINTS%% WHERE id_owner = :id AND stat_type = 1;";
         $defs_rank = $db->selectSingle($sql, [
             ':id' => $planetDefender,
         ], 'defs_rank');
-        if ($defs_rank <= 5 && $combatResult['won'] == ATTACKER) {
+        if ($defs_rank <= 5 && $combatResult->won == ATTACKER) {
             $countAttacker = 0;
             $attackers = [];
-            foreach ($combatResult['rw'][0]['attackers'] as $player) {
-                if (!in_array($player['player']['id'], $attackers) && !$this->achievement()->checkAchievement($player['player']['id'], 45)) {
+            foreach ($combatResult->startAttackers() as $fleet) {
+                if (!in_array($fleet->userId(), $attackers) && !$this->achievement()->checkAchievement($fleet->userId(), 45)) {
                     $countAttacker++;
-                    array_push($attackers, $player['player']['id']);
+                    array_push($attackers, $fleet->userId());
                 }
             }
             foreach ($attackers as $attacker) {
@@ -353,14 +354,14 @@ class BattleAchievement
      * Check for achievement 43
      * With my Eyes closed: Win as a definder while your account is flagged as inactive, with a fleet that was away for 7 days
      *
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$planetDefender     The id of the User
      * @param Database	 	$db       			The database object
      * @param array			$DATA       		The report data array
      */
-    public function checkBattleAchievement43($combatResult, $planetDefender, $db, $DATA)
+    public function checkBattleAchievement43(BattleResult $combatResult, $planetDefender, $db, $DATA)
     {
-        if ($combatResult['won'] == DEFENDER) {
+        if ($combatResult->won == DEFENDER) {
             $sql = "SELECT onlinetime FROM %%USERS%% WHERE id = :defender;";
             $onlinetime = $db->selectSingle($sql, [
                 ':defender' => $planetDefender,
@@ -390,13 +391,13 @@ class BattleAchievement
      * French revolution: Win against pirates or aliens with atleast 10.000 ships
      *
      * @param array			$reportInfo       	The report array
-     * @param array			$combatResult       The combat result array
+     * @param BattleResult		$combatResult       The combat result
      * @param int	 		$mainAttacker       The id of the User
      */
-    public function checkBattleAchievement7($reportInfo, $combatResult, $mainAttacker)
+    public function checkBattleAchievement7($reportInfo, BattleResult $combatResult, $mainAttacker)
     {
         if ($reportInfo['thisFleet']['ship_amount'] >= 10000 && !$this->achievement()->checkAchievement($mainAttacker, 7)
-            && $combatResult['won'] == ATTACKER) {
+            && $combatResult->won == ATTACKER) {
             $this->achievement()->setAchievement($mainAttacker, 7);
         }
     }

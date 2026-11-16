@@ -74,7 +74,6 @@ class FleetDispatch
     public function dispatch(): array
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
 
         if (IsVacationMode($USER)) {
             $this->fleetFunctions()->gotoFleetPage(0);
@@ -87,7 +86,7 @@ class FleetDispatch
         $db->selectSingle('SELECT `id` FROM %%USERS%% WHERE `id` = :userId FOR UPDATE;', [':userId' => $USER['id']]);
         // reloading global $PLANET for database lock support.
         // not pretty, but not using the global dupes resources
-        $this->lockPlanet($PLANET['id']);
+        $this->lockPlanet($this->state->PLANET['id']);
 
         $this->loadForm();
         $this->validateRequest();
@@ -410,7 +409,6 @@ class FleetDispatch
     private function planFlight(): void
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
         $resource = $this->state->resource;
         $LNG = $this->state->LNG;
         $userModel = $this->models()->user($USER);
@@ -419,7 +417,7 @@ class FleetDispatch
         $this->duration = $this->fleetFunctions()->missionDurationFor($this->fleetSpeed, $this->fleetMaxSpeed, $this->distance, $SpeedFactor, $userModel);
         $this->consumption = $this->fleetFunctions()->fleetConsumptionFor($this->fleetArray, $this->duration, $this->distance, $userModel, $SpeedFactor);
 
-        if ($PLANET[$resource[903]] < $this->consumption) {
+        if ($this->state->PLANET[$resource[903]] < $this->consumption) {
             $this->refuse($LNG['fl_not_enough_deuterium'], 'game?page=fleetTable');
         }
 
@@ -436,9 +434,9 @@ class FleetDispatch
         $this->fleetStorage -= $this->consumption;
 
         $this->fleetResource = [
-            901 => min($this->TransportMetal, floor($PLANET[$resource[901]])),
-            902 => min($this->TransportCrystal, floor($PLANET[$resource[902]])),
-            903 => min($this->TransportDeuterium, floor($PLANET[$resource[903]] - $this->consumption)),
+            901 => min($this->TransportMetal, floor($this->state->PLANET[$resource[901]])),
+            902 => min($this->TransportCrystal, floor($this->state->PLANET[$resource[902]])),
+            903 => min($this->TransportDeuterium, floor($this->state->PLANET[$resource[903]] - $this->consumption)),
         ];
 
         $StorageNeeded = max(array_sum($this->fleetResource), $this->WantedResourceAmount);
@@ -462,9 +460,9 @@ class FleetDispatch
             }
         }
 
-        $PLANET[$resource[901]] -= $this->fleetResource[901];
-        $PLANET[$resource[902]] -= $this->fleetResource[902];
-        $PLANET[$resource[903]] -= $this->fleetResource[903] + $this->consumption;
+        $this->state->PLANET[$resource[901]] -= $this->fleetResource[901];
+        $this->state->PLANET[$resource[902]] -= $this->fleetResource[902];
+        $this->state->PLANET[$resource[903]] -= $this->fleetResource[903] + $this->consumption;
 
         $this->fleetStartTime = floor($this->duration) + $this->state->runtime->timestamp;
         $timeDifference = round(max(0, $this->fleetStartTime - $this->ACSTime));

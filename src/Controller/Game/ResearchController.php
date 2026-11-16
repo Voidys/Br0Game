@@ -80,51 +80,50 @@ class ResearchController extends AbstractGameController
      */
     private function cancelResearchFromQueue(): bool
     {
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+
         $resource = $this->state->resource;
-        $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
-        if (empty($CurrentQueue) || empty($USER['b_tech'])) {
-            $USER['b_tech_queue']   = '';
-            $USER['b_tech_planet']  = 0;
-            $USER['b_tech_id']      = 0;
-            $USER['b_tech']         = 0;
+        $CurrentQueue  = !empty($this->state->USER['b_tech_queue']) ? StoredData::decode($this->state->USER['b_tech_queue']) : [];
+        if (empty($CurrentQueue) || empty($this->state->USER['b_tech'])) {
+            $this->state->USER['b_tech_queue']   = '';
+            $this->state->USER['b_tech_planet']  = 0;
+            $this->state->USER['b_tech_id']      = 0;
+            $this->state->USER['b_tech']         = 0;
 
             return false;
         }
 
         $db = $this->db;
 
-        $elementId = $USER['b_tech_id'];
+        $elementId = $this->state->USER['b_tech_id'];
         if (isset($CurrentQueue[0][self::QUEUE_COST])) {
             $costResources = $CurrentQueue[0][self::QUEUE_COST];
         } else {
             $costResources = $this->buildFunctions()->getElementPrice(
-                $USER,
-                $PLANET,
+                $this->state->USER,
+                $this->state->PLANET,
                 $elementId,
                 false,
-                $USER[$resource[$elementId]] + 1,
+                $this->state->USER[$resource[$elementId]] + 1,
             );
         }
 
-        if ($PLANET['id'] == $USER['b_tech_planet']) {
-            $this->ecoObj->addResources($USER['b_tech_planet'], $costResources, $PLANET);
+        if ($this->state->PLANET['id'] == $this->state->USER['b_tech_planet']) {
+            $this->ecoObj->addResources($this->state->USER['b_tech_planet'], $costResources, $this->state->PLANET);
         } else {
-            $this->ecoObj->addResources($USER['b_tech_planet'], $costResources);
+            $this->ecoObj->addResources($this->state->USER['b_tech_planet'], $costResources);
         }
 
-        $USER['b_tech_id']          = 0;
-        $USER['b_tech']             = 0;
-        $USER['b_tech_planet']      = 0;
+        $this->state->USER['b_tech_id']          = 0;
+        $this->state->USER['b_tech']             = 0;
+        $this->state->USER['b_tech_planet']      = 0;
 
         array_shift($CurrentQueue);
 
         if (count($CurrentQueue) == 0) {
-            $USER['b_tech_queue']   = '';
-            $USER['b_tech_planet']  = 0;
-            $USER['b_tech_id']      = 0;
-            $USER['b_tech']         = 0;
+            $this->state->USER['b_tech_queue']   = '';
+            $this->state->USER['b_tech_planet']  = 0;
+            $this->state->USER['b_tech_id']      = 0;
+            $this->state->USER['b_tech']         = 0;
         } else {
             $BuildEndTime       = $this->state->runtime->timestamp;
             $NewCurrentQueue    = [];
@@ -134,19 +133,22 @@ class ResearchController extends AbstractGameController
                     continue;
                 }
 
-                if ($ListIDArray[self::QUEUE_PLANET_ID] != $PLANET['id']) {
-                    $sql = "SELECT " . $resource[university] . " , " . $resource[RESEARCH_LABORATORY] . ", id FROM %%PLANETS%% WHERE id = :id;";
-                    $CPLANET = $db->selectSingle($sql, [
-                        ':id' => $ListIDArray[self::QUEUE_PLANET_ID],
-                    ]);
+                if ($ListIDArray[self::QUEUE_PLANET_ID] != $this->state->PLANET['id']) {
+                    $CPLANET = $db->fetchRow(
+                        $db->qb()
+                            ->select($resource[university], $resource[RESEARCH_LABORATORY], 'id')
+                            ->from($db->table('PLANETS'))
+                            ->where('id = :id')
+                            ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID])
+                    );
                 } else {
-                    $CPLANET = $PLANET;
+                    $CPLANET = $this->state->PLANET;
                     $saveRessources = true;
                 }
 
-                $CPLANET[$resource[RESEARCH_LABORATORY] . '_inter']    = $this->ecoObj->getNetworkLevel($USER, $CPLANET);
+                $CPLANET[$resource[RESEARCH_LABORATORY] . '_inter']    = $this->ecoObj->getNetworkLevel($this->state->USER, $CPLANET);
                 $BuildEndTime += $this->buildFunctions()->getBuildingTime(
-                    $USER,
+                    $this->state->USER,
                     $CPLANET,
                     $ListIDArray[self::QUEUE_ELEMENT_ID],
                     null,
@@ -158,14 +160,14 @@ class ResearchController extends AbstractGameController
             }
 
             if (!empty($NewCurrentQueue)) {
-                $USER['b_tech']             = $this->state->runtime->timestamp;
-                $USER['b_tech_queue']       = StoredData::encode($NewCurrentQueue);
-                $this->ecoObj->setData($USER, $PLANET);
+                $this->state->USER['b_tech']             = $this->state->runtime->timestamp;
+                $this->state->USER['b_tech_queue']       = StoredData::encode($NewCurrentQueue);
+                $this->ecoObj->setData($this->state->USER, $this->state->PLANET);
                 $this->ecoObj->SetNextQueueTechOnTop($saveRessources);
-                [$USER, $PLANET] = $this->ecoObj->getData();
+                [$this->state->USER, $this->state->PLANET] = $this->ecoObj->getData();
             } else {
-                $USER['b_tech']         = 0;
-                $USER['b_tech_queue']   = '';
+                $this->state->USER['b_tech']         = 0;
+                $this->state->USER['b_tech_queue']   = '';
             }
         }
 
@@ -177,10 +179,9 @@ class ResearchController extends AbstractGameController
      */
     private function removeResearchFromQueue(int $QueueID): bool
     {
-        $USER = & $this->state->USER;
         $PLANET = $this->state->PLANET;
         $resource = $this->state->resource;
-        $CurrentQueue  = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
+        $CurrentQueue  = !empty($this->state->USER['b_tech_queue']) ? StoredData::decode($this->state->USER['b_tech_queue']) : [];
         if ($QueueID <= 1 || empty($CurrentQueue)) {
             return false;
         }
@@ -211,26 +212,29 @@ class ResearchController extends AbstractGameController
                 if ($ListIDArray[self::QUEUE_PLANET_ID] != $PLANET['id']) {
                     $db = $this->db;
 
-                    $sql = "SELECT " . $resource[university] . ", " . $resource[RESEARCH_LABORATORY] . ", id FROM %%PLANETS%% WHERE id = :id;";
-                    $CPLANET = $db->selectSingle($sql, [
-                        ':id' => $ListIDArray[self::QUEUE_PLANET_ID],
-                    ]);
+                    $CPLANET = $db->fetchRow(
+                        $db->qb()
+                            ->select($resource[university], $resource[RESEARCH_LABORATORY], 'id')
+                            ->from($db->table('PLANETS'))
+                            ->where('id = :id')
+                            ->setParameter('id', $ListIDArray[self::QUEUE_PLANET_ID])
+                    );
                 } else {
                     $CPLANET = $PLANET;
                 }
 
-                $CPLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->ecoObj->getNetworkLevel($USER, $CPLANET);
+                $CPLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->ecoObj->getNetworkLevel($this->state->USER, $CPLANET);
 
-                $BuildEndTime += $this->buildFunctions()->getBuildingTime($USER, $CPLANET, $ListIDArray[self::QUEUE_ELEMENT_ID], null, false, $ListIDArray[1]);
+                $BuildEndTime += $this->buildFunctions()->getBuildingTime($this->state->USER, $CPLANET, $ListIDArray[self::QUEUE_ELEMENT_ID], null, false, $ListIDArray[1]);
                 $ListIDArray[self::QUEUE_BUILD_END_TIME] = $BuildEndTime;
                 $NewCurrentQueue[] = $ListIDArray;
             }
         }
 
         if (!empty($NewCurrentQueue)) {
-            $USER['b_tech_queue'] = StoredData::encode($NewCurrentQueue);
+            $this->state->USER['b_tech_queue'] = StoredData::encode($NewCurrentQueue);
         } else {
-            $USER['b_tech_queue'] = "";
+            $this->state->USER['b_tech_queue'] = "";
         }
 
         return true;
@@ -243,21 +247,20 @@ class ResearchController extends AbstractGameController
      */
     private function addResearchToQueue(int $elementId, bool $AddMode = true): bool
     {
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
         $pricelist = $this->state->pricelist;
         if (
             !in_array($elementId, $reslist['tech'])
             || !$this->buildFunctions()->isEnabled($elementId)
-            || !$this->buildFunctions()->isTechnologieAccessible($USER, $PLANET, $elementId)
+            || !$this->buildFunctions()->isTechnologieAccessible($this->state->USER, $this->state->PLANET, $elementId)
             || !$this->checkLabSettingsInQueue()
         ) {
             return false;
         }
 
-        $CurrentQueue       = !empty($USER['b_tech_queue']) ? StoredData::decode($USER['b_tech_queue']) : [];
+        $CurrentQueue       = !empty($this->state->USER['b_tech_queue']) ? StoredData::decode($this->state->USER['b_tech_queue']) : [];
 
         if (!empty($CurrentQueue)) {
             $ActualCount    = count($CurrentQueue);
@@ -270,39 +273,39 @@ class ResearchController extends AbstractGameController
             return false;
         }
 
-        if ($PLANET['watch_id'] == $elementId) {
-            $PLANET['watch_id'] = 0;
+        if ($this->state->PLANET['watch_id'] == $elementId) {
+            $this->state->PLANET['watch_id'] = 0;
             $db = $this->db;
             $db->update(
                 'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
                 [
-                    ':watch_id' => $PLANET['watch_id'],
-                    ':planetId' => $PLANET['id'],
+                    ':watch_id' => $this->state->PLANET['watch_id'],
+                    ':planetId' => $this->state->PLANET['id'],
                 ],
             );
         }
 
-        $BuildLevel                 = $USER[$resource[$elementId]] + 1;
+        $BuildLevel                 = $this->state->USER[$resource[$elementId]] + 1;
         if ($ActualCount == 0) {
             if ($pricelist[$elementId]['max'] < $BuildLevel) {
                 return false;
             }
 
-            $costResources      = $this->buildFunctions()->getElementPrice($USER, $PLANET, $elementId, !$AddMode, $BuildLevel);
+            $costResources      = $this->buildFunctions()->getElementPrice($this->state->USER, $this->state->PLANET, $elementId, !$AddMode, $BuildLevel);
 
-            if (!$this->buildFunctions()->isElementBuyable($USER, $PLANET, $elementId, $costResources)) {
+            if (!$this->buildFunctions()->isElementBuyable($this->state->USER, $this->state->PLANET, $elementId, $costResources)) {
                 return false;
             }
 
-            $this->ecoObj->removeResources($PLANET['id'], $costResources, $PLANET);
+            $this->ecoObj->removeResources($this->state->PLANET['id'], $costResources, $this->state->PLANET);
 
-            $elementTime                = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementId, $costResources);
+            $elementTime                = $this->buildFunctions()->getBuildingTime($this->state->USER, $this->state->PLANET, $elementId, $costResources);
             $BuildEndTime               = $this->state->runtime->timestamp + $elementTime;
 
-            $USER['b_tech_queue'] = StoredData::encode([[$elementId, $BuildLevel, $elementTime, $BuildEndTime, $PLANET['id'], $costResources]]);
-            $USER['b_tech'] = $BuildEndTime;
-            $USER['b_tech_id'] = $elementId;
-            $USER['b_tech_planet'] = $PLANET['id'];
+            $this->state->USER['b_tech_queue'] = StoredData::encode([[$elementId, $BuildLevel, $elementTime, $BuildEndTime, $this->state->PLANET['id'], $costResources]]);
+            $this->state->USER['b_tech'] = $BuildEndTime;
+            $this->state->USER['b_tech_id'] = $elementId;
+            $this->state->USER['b_tech_planet'] = $this->state->PLANET['id'];
         } else {
             $addLevel = 0;
             foreach ($CurrentQueue as $QueueSubArray) {
@@ -319,11 +322,11 @@ class ResearchController extends AbstractGameController
                 return false;
             }
 
-            $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementId, null, !$AddMode, $BuildLevel);
+            $elementTime = $this->buildFunctions()->getBuildingTime($this->state->USER, $this->state->PLANET, $elementId, null, !$AddMode, $BuildLevel);
 
             $BuildEndTime = $CurrentQueue[$ActualCount - 1][self::QUEUE_BUILD_END_TIME] + $elementTime;
-            $CurrentQueue[] = [$elementId, $BuildLevel, $elementTime, $BuildEndTime, $PLANET['id']];
-            $USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
+            $CurrentQueue[] = [$elementId, $BuildLevel, $elementTime, $BuildEndTime, $this->state->PLANET['id']];
+            $this->state->USER['b_tech_queue'] = StoredData::encode($CurrentQueue);
         }
 
         return true;
@@ -381,8 +384,7 @@ class ResearchController extends AbstractGameController
      */
     public function show(): Response
     {
-        $PLANET = & $this->state->PLANET;
-        $USER = & $this->state->USER;
+
         $LNG = $this->state->LNG;
         $requeriments = $this->state->requeriments;
         $resource = $this->state->resource;
@@ -392,35 +394,35 @@ class ResearchController extends AbstractGameController
         $elementId      = 0;
         $ListID         = 0;
         $hasLab         = false;
-        if ($PLANET[$resource[RESEARCH_LABORATORY]] != 0) {
+        if ($this->state->PLANET[$resource[RESEARCH_LABORATORY]] != 0) {
             $TheCommand     = $this->http()->_GP('cmd', '');
             $elementId      = $this->http()->_GP('tech', 0);
             $ListID         = $this->http()->_GP('listid', 0);
             $hasLab         = true;
         }
-        $catchupFactor  = $this->playerUtil()->getCatchUpFactor($USER);
+        $catchupFactor  = $this->playerUtil()->getCatchUpFactor($this->state->USER);
 
         if ($this->http()->_GP('watch', '') != '') {
             $db = $this->db;
             $db->update(
                 'UPDATE %%PLANETS%% SET watch_id = :watch_id WHERE id = :planetId;',
                 [':watch_id' => max(0, (int) $this->http()->_GP('watch', 0)),
-                    ':planetId' => $PLANET['id'],
+                    ':planetId' => $this->state->PLANET['id'],
                 ],
             );
 
             $this->redirectTo('game?page=research');
         }
 
-        $PLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->resourceUpdate()->getNetworkLevel($USER, $PLANET);
+        $this->state->PLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->resourceUpdate()->getNetworkLevel($this->state->USER, $this->state->PLANET);
 
-        if (!empty($TheCommand) && $this->state->requestServer['REQUEST_METHOD'] === 'POST' && $USER['urlaubs_modus'] == 0) {
+        if (!empty($TheCommand) && $this->state->requestServer['REQUEST_METHOD'] === 'POST' && $this->state->USER['urlaubs_modus'] == 0) {
             $db = $this->db;
             $db->startTransaction();
-            $USER = $db->selectSingle("SELECT u.*, us.* FROM %%USERS%% u JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE id = :userID FOR UPDATE;", [':userID' => $USER['id']]);
-            $PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $PLANET['id']]);
-            $db->select("SELECT * FROM %%PLANETS%% WHERE id_owner = :userID FOR UPDATE;", [':userID' => $USER['id']]);
-            $PLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->resourceUpdate()->getNetworkLevel($USER, $PLANET);
+            $this->state->USER = $db->selectSingle("SELECT u.*, us.* FROM %%USERS%% u JOIN %%USERS_SETTINGS%% us ON us.user_id = u.id WHERE id = :userID FOR UPDATE;", [':userID' => $this->state->USER['id']]);
+            $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
+            $db->select("SELECT * FROM %%PLANETS%% WHERE id_owner = :userID FOR UPDATE;", [':userID' => $this->state->USER['id']]);
+            $this->state->PLANET[$resource[RESEARCH_LABORATORY] . '_inter'] = $this->resourceUpdate()->getNetworkLevel($this->state->USER, $this->state->PLANET);
             $validCommand = true;
             switch ($TheCommand) {
                 case 'cancel':
@@ -442,7 +444,7 @@ class ResearchController extends AbstractGameController
             }
 
             if ($validCommand) {
-                $this->ecoObj->saveTechQueue($USER);
+                $this->ecoObj->saveTechQueue($this->state->USER);
             }
             $db->commit();
             $this->redirectTo('game?page=research');
@@ -455,24 +457,28 @@ class ResearchController extends AbstractGameController
         $QueueCount     = count($TechQueue);
         $ResearchList   = [];
         $config         = $this->configs->get();
-        $metproduction  = $PLANET['metal_perhour'] + $config->metal_basic_income * ($config->resource_multiplier / 2500);
-        $kristproduction = $PLANET['crystal_perhour'] + $config->crystal_basic_income * ($config->resource_multiplier / 2500);
-        $deutproduction = $PLANET['deuterium_perhour']  + $config->deuterium_basic_income * ($config->resource_multiplier / 2500);
+        $metproduction  = $this->state->PLANET['metal_perhour'] + $config->metal_basic_income * ($config->resource_multiplier / 2500);
+        $kristproduction = $this->state->PLANET['crystal_perhour'] + $config->crystal_basic_income * ($config->resource_multiplier / 2500);
+        $deutproduction = $this->state->PLANET['deuterium_perhour']  + $config->deuterium_basic_income * ($config->resource_multiplier / 2500);
+
+        // the page only reads from here on: one typed snapshot (with the research network labs) serves the whole listing
+        $userModel = $this->models()->user($this->state->USER);
+        $planetModel = $this->models()->planet($this->state->PLANET);
 
         foreach ($reslist['tech'] as $elementId) {
             if (!$this->buildFunctions()->isEnabled($elementId)) {
                 continue;
             }
             $requirementsList = [];
-            if (!$this->buildFunctions()->isTechnologieAccessible($USER, $PLANET, $elementId)) {
-                if (!$USER['show_all_buildable_elements']) {
+            if (!$this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $elementId)) {
+                if (!$this->state->USER['show_all_buildable_elements']) {
                     continue;
                 }
                 if (isset($requeriments[$elementId])) {
                     foreach ($requeriments[$elementId] as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [
                             'count' => $RedCount,
-                            'own'   => isset($PLANET[$resource[$requireID]]) ? $PLANET[$resource[$requireID]] : $USER[$resource[$requireID]],
+                            'own'   => isset($this->state->PLANET[$resource[$requireID]]) ? $this->state->PLANET[$resource[$requireID]] : $this->state->USER[$resource[$requireID]],
                         ];
                     }
                 }
@@ -481,11 +487,11 @@ class ResearchController extends AbstractGameController
             if (isset($queueData['quickinfo'][$elementId])) {
                 $levelToBuild   = $queueData['quickinfo'][$elementId];
             } else {
-                $levelToBuild   = $USER[$resource[$elementId]];
+                $levelToBuild   = $this->state->USER[$resource[$elementId]];
             }
 
-            $costResources = $this->buildFunctions()->getElementPrice($USER, $PLANET, $elementId, false, $levelToBuild + 1);
-            $costOverflow = $this->buildFunctions()->getRestPrice($USER, $PLANET, $elementId, $costResources);
+            $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementId, false, $levelToBuild + 1);
+            $costOverflow = $this->buildFunctions()->restPriceFor($userModel, $planetModel, $elementId, $costResources);
             $timetobuild = 0;
             if (array_key_exists(RESOURCE_METAL, $costOverflow) && $costOverflow[RESOURCE_METAL] != 0 && $metproduction > 0) {
                 $timetobuild = max($timetobuild, $costOverflow[RESOURCE_METAL] / $metproduction);
@@ -497,11 +503,11 @@ class ResearchController extends AbstractGameController
                 $timetobuild = max($timetobuild, $costOverflow[RESOURCE_DEUT] / $deutproduction);
             }
             $timetobuild = floor($timetobuild * 3600) ;
-            $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $elementId, $costResources);
-            $buyable = $QueueCount != 0 || $this->buildFunctions()->isElementBuyable($USER, $PLANET, $elementId, $costResources);
+            $elementTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $elementId, $costResources);
+            $buyable = $QueueCount != 0 || $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $elementId, $costResources);
 
-            $fade = ($USER['missing_requirements_opacity'] && !empty($requirementsList))
-                || ($USER['missing_resources_opacity'] && !$buyable)
+            $fade = ($this->state->USER['missing_requirements_opacity'] && !empty($requirementsList))
+                || ($this->state->USER['missing_resources_opacity'] && !$buyable)
                 || $pricelist[$elementId]['max'] == $levelToBuild;
 
             $max_useful_level = $pricelist[$elementId]['max_useful_level'];
@@ -510,7 +516,7 @@ class ResearchController extends AbstractGameController
 
             $ResearchList[$elementId]   = [
                 'id'                => $elementId,
-                'level'             => $USER[$resource[$elementId]],
+                'level'             => $this->state->USER[$resource[$elementId]],
                 'maxLevel'          => $pricelist[$elementId]['max'],
                 'costResources'     => $costResources,
                 'costOverflow'      => $costOverflow,
@@ -526,7 +532,7 @@ class ResearchController extends AbstractGameController
         }
 
         $this->assign([
-            'umode'         => $USER['urlaubs_modus'],
+            'umode'         => $this->state->USER['urlaubs_modus'],
             'ResearchList'  => $ResearchList,
             'IsLabinBuild'  => !$bContinue,
             'hasLab'        => $hasLab,
@@ -536,8 +542,8 @@ class ResearchController extends AbstractGameController
             'queueSlots'    => max((int) $this->configs->get()->max_elements_tech, count($TechQueue)),
             'isCatchUp'     => $config->catch_up,
             'catchUp'       => $LNG->format('sys_catchup', round((1 - $catchupFactor) * 100, 2)),
-            'hide_useless'  => $USER['hide_useless'],
-            'watch'         => $PLANET['watch_id'],
+            'hide_useless'  => $this->state->USER['hide_useless'],
+            'watch'         => $this->state->PLANET['watch_id'],
         ]);
 
         return $this->render('game/page.research.default.html.twig');

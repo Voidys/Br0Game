@@ -51,7 +51,6 @@ class GalaxyController extends AbstractGameController
     public function show(): Response
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
         $resource = $this->state->resource;
         $LNG = $this->state->LNG;
         $reslist = $this->state->reslist;
@@ -63,8 +62,8 @@ class GalaxyController extends AbstractGameController
         $galaxyRight	= $this->http()->_GP('galaxyRight', '');
         $systemLeft		= $this->http()->_GP('systemLeft', '');
         $systemRight	= $this->http()->_GP('systemRight', '');
-        $galaxy			= min(max($this->http()->_GP('galaxy', (int) $PLANET['galaxy']), 1), $config->max_galaxy);
-        $system			= min(max($this->http()->_GP('system', (int) $PLANET['system']), 1), $config->max_system);
+        $galaxy			= min(max($this->http()->_GP('galaxy', (int) $this->state->PLANET['galaxy']), 1), $config->max_galaxy);
+        $system			= min(max($this->http()->_GP('system', (int) $this->state->PLANET['system']), 1), $config->max_system);
 
         if (!empty($galaxyLeft)) {
             $galaxy	= $galaxy - 1;
@@ -90,8 +89,8 @@ class GalaxyController extends AbstractGameController
             }
         }
 
-        if ($galaxy != $PLANET['galaxy'] || $system != $PLANET['system']) {
-            if ($PLANET['deuterium'] < $config->deuterium_cost_galaxy) {
+        if ($galaxy != $this->state->PLANET['galaxy'] || $system != $this->state->PLANET['system']) {
+            if ($this->state->PLANET['deuterium'] < $config->deuterium_cost_galaxy) {
                 $this->miscAchievements()->checkGalaxyAchievements($USER['id']);
                 $this->printMessage($LNG['gl_no_deuterium_to_view_galaxy'], [[
                     'label'	=> $LNG['sys_back'],
@@ -99,7 +98,7 @@ class GalaxyController extends AbstractGameController
                 ]]);
             } else {
                 $resources = [RESOURCE_DEUT => $config->deuterium_cost_galaxy];
-                $this->ecoObj->removeResources($PLANET['id'], $resources, $PLANET);
+                $this->ecoObj->removeResources($this->state->PLANET['id'], $resources, $this->state->PLANET);
                 $statsHandler = new AdvancedStatsHandler($this->db, $this->configs, $this->state);
                 $statsHandler->increment($USER['id'], AdvancedStatsEnum::GALAXY_SCROLL_SPENDING, $config->deuterium_cost_galaxy);
             }
@@ -122,7 +121,7 @@ class GalaxyController extends AbstractGameController
 
         $hiddenDebris = ($pricelist[SHIP_PROBE]['cost'][RESOURCE_METAL] + $pricelist[SHIP_PROBE]['cost'][RESOURCE_CRYSTAL]) * ($config->fleet_debris_percentage / 100);
 
-        $Duration = $this->fleetFunctions()->getMIPDuration($PLANET['system'], $system);
+        $Duration = $this->fleetFunctions()->getMIPDuration($this->state->PLANET['system'], $system);
 
         $colonizable = [];
         // allowPlanetPosition() depends only on the distance to the nearest edge (1, 2, 3, or further in), so
@@ -147,7 +146,7 @@ class GalaxyController extends AbstractGameController
 
         $recyclerCount = 0;
         foreach ($reslist['ship_type'][SHIP_TYPE_RECYCLER] as $elementID) {
-            $recyclerCount += $PLANET[$resource[$elementID]];
+            $recyclerCount += $this->state->PLANET[$resource[$elementID]];
         }
 
         $pirateBase = null;
@@ -184,15 +183,15 @@ class GalaxyController extends AbstractGameController
             'type'						=> $type,
             'maxfleetcount'				=> $this->fleetFunctions()->getCurrentFleets($USER['id']),
             'fleetmax'					=> $this->fleetFunctions()->getMaxFleetSlots($USER),
-            'currentmip'				=> $PLANET[$resource[INTERPLANETARY_MISSILE]],
+            'currentmip'				=> $this->state->PLANET[$resource[INTERPLANETARY_MISSILE]],
             'recyclers'   				=> $recyclerCount,
-            'spyprobes'   				=> $PLANET[$resource[SHIP_PROBE]],
+            'spyprobes'   				=> $this->state->PLANET[$resource[SHIP_PROBE]],
             'spyShips'					=> [SHIP_PROBE => $USER['spio_anz']],
             'settings_fleetactions'		=> $USER['settings_fleetactions'],
-            'current_galaxy'			=> $PLANET['galaxy'],
-            'current_system'			=> $PLANET['system'],
-            'current_planet'			=> $PLANET['planet'],
-            'planet_type' 				=> $PLANET['planet_type'],
+            'current_galaxy'			=> $this->state->PLANET['galaxy'],
+            'current_system'			=> $this->state->PLANET['system'],
+            'current_planet'			=> $this->state->PLANET['planet'],
+            'planet_type' 				=> $this->state->PLANET['planet_type'],
             'max_planets'               => $config->max_planets,
             'missileSelector'			=> $missileSelector,
             'hiddenDebris'				=> $hiddenDebris,

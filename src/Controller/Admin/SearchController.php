@@ -17,6 +17,7 @@
 
 namespace App\Controller\Admin;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Database;
 use App\Game\Core\HTTP;
@@ -105,7 +106,8 @@ class SearchController extends AbstractAdminController
                 '500' => '500',
             ],
         ];
-        $SpecialSpecify = "";
+        // extra conditions of the chosen list as [column, operator, value] (column and operator are code, not input)
+        $SpecialSpecify = [];
         $SpecifySearchKey = $SearchKey;
 
         switch ($SearchMethod) {
@@ -135,7 +137,7 @@ class SearchController extends AbstractAdminController
             $ArrayAlliance = ["alliance"];
 
             if (in_array($SearchFile, $ArrayUsers)) {
-                $Table = "%%USERS%%";
+                $Table = "USERS";
                 $NameLang = [
                     0 => $LNG['se_search_users_0'],
                     1 => $LNG['se_search_users_1'],
@@ -146,31 +148,32 @@ class SearchController extends AbstractAdminController
                     6 => $LNG['se_search_users_7'],
                     7 => $LNG['se_search_users_8'],
                 ];
-                $SpecifyItems = "id,username,onlinetime,register_time,user_lastip,authlevel,bana,urlaubs_modus";
+                $SpecifyItems = ["id", "username", "onlinetime", "register_time", "user_lastip", "authlevel", "bana", "urlaubs_modus"];
                 $SName = $LNG['se_input_userss'];
                 if ($SearchFile == "vacation") {
-                    $SpecialSpecify = "AND urlaubs_modus = '1'";
+                    $SpecialSpecify[] = ['urlaubs_modus', '=', 1];
                     $SName = $LNG['se_input_vacatii'];
                 }
 
                 if ($SearchFile == "online") {
-                    $SpecialSpecify = "AND onlinetime >= '" . ($this->state->runtime->timestamp - 15 * 60) . "'";
+                    $SpecialSpecify[] = ['onlinetime', '>=', $this->state->runtime->timestamp - 15 * 60];
                     $SName = $LNG['se_input_connect'];
                 }
 
                 if ($SearchFile == "inactives") {
-                    $SpecialSpecify = "AND onlinetime < '" . ($this->state->runtime->timestamp - 60 * 60 * 24 * 7) . "'";
+                    $SpecialSpecify[] = ['onlinetime', '<', $this->state->runtime->timestamp - 60 * 60 * 24 * 7];
                     $SName = $LNG['se_input_inact'];
                 }
 
                 if ($SearchFile == "admin") {
-                    $SpecialSpecify = "AND authlevel <= '" . $USER['authlevel'] . "' AND authlevel > '0'";
+                    $SpecialSpecify[] = ['authlevel', '<=', $USER['authlevel']];
+                    $SpecialSpecify[] = ['authlevel', '>', 0];
                     $SName = $LNG['se_input_admm'];
                 }
 
-                $SpecialSpecify .= " AND universe = '" . $this->universe()->getEmulated() . "'";
+                $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
 
-                (($SearchFor == "name") ? $WhereItem = "WHERE username" : $WhereItem = "WHERE id");
+                $WhereItem = $SearchFor == "name" ? "username" : "id";
                 $ArrayOSec = [
                     "id",
                     "username",
@@ -187,7 +190,7 @@ class SearchController extends AbstractAdminController
                     $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_users_' . $OrderNum];
                 }
             } elseif (in_array($SearchFile, $ArrayPlanets)) {
-                $Table = "%%PLANETS%% p";
+                $Table = "PLANETS";
                 $NameLang = [
                     0 => $LNG['se_search_planets_0'],
                     1 => $LNG['se_search_planets_1'],
@@ -198,27 +201,24 @@ class SearchController extends AbstractAdminController
                     6 => $LNG['se_search_planets_6'],
                     7 => $LNG['se_search_planets_7'],
                 ];
-                $SpecifyItems = "p.id,p.name,CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') as owner,p.last_update,p.galaxy,"
-                    . "p.system,p.planet,p.id_luna";
+                $SpecifyItems = [
+                    "p.id", "p.name", "CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')') AS owner", "p.last_update",
+                    "p.galaxy", "p.`system`", "p.planet", "p.id_luna",
+                ];
 
                 if ($SearchFile == "planet") {
-                    $SpecialSpecify = "AND planet_type = '1'";
+                    $SpecialSpecify[] = ['p.planet_type', '=', 1];
                     $SName = $LNG['se_input_planett'];
                 } elseif ($SearchFile == "moon") {
-                    $SpecialSpecify = "AND planet_type = '3'";
+                    $SpecialSpecify[] = ['p.planet_type', '=', 3];
                     $SName = $LNG['se_input_moonn'];
                 } elseif ($SearchFile == "p_connect") {
-                    $SpecialSpecify = "AND last_update >= " . ($this->state->runtime->timestamp - 60 * 60) . "";
+                    $SpecialSpecify[] = ['p.last_update', '>=', $this->state->runtime->timestamp - 60 * 60];
                     $SName = $LNG['se_input_act_pla'];
                 }
 
-                $SpecialSpecify .= " AND p.universe = " . $this->universe()->getEmulated();
-                $WhereItem = "LEFT JOIN %%USERS%% u ON u.id = p.id_owner ";
-                if ($SearchFor == "name") {
-                    $WhereItem .= "WHERE p.name";
-                } else {
-                    $WhereItem .= "WHERE p.id";
-                }
+                $SpecialSpecify[] = ['p.universe', '=', $this->universe()->getEmulated()];
+                $WhereItem = $SearchFor == "name" ? "p.name" : "p.id";
 
                 $ArrayOSec = ["id", "name", "id_owner", "id_luna", "last_update", "galaxy", "system", "planet"];
                 $Array0SecCount = count($ArrayOSec);
@@ -227,7 +227,7 @@ class SearchController extends AbstractAdminController
                     $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_planets_' . $OrderNum];
                 }
             } elseif (in_array($SearchFile, $ArrayBanned)) {
-                $Table = "%%USERS_BANNED%%";
+                $Table = "USERS_BANNED";
                 $NameLang = [
                     0 => $LNG['se_search_banned_0'],
                     1 => $LNG['se_search_banned_1'],
@@ -236,11 +236,11 @@ class SearchController extends AbstractAdminController
                     4 => $LNG['se_search_banned_4'],
                     5 => $LNG['se_search_banned_5'],
                 ];
-                $SpecifyItems = "id,who,time,longer,theme,author";
+                $SpecifyItems = ["id", "who", "time", "longer", "theme", "author"];
                 $SName = $LNG['se_input_susss'];
-                $SpecialSpecify = " AND universe = '" . $this->universe()->getEmulated() . "'";
+                $SpecialSpecify[] = ['universe', '=', $this->universe()->getEmulated()];
 
-                (($SearchFor == "name") ? $WhereItem = "WHERE who" : $WhereItem = "WHERE id");
+                $WhereItem = $SearchFor == "name" ? "who" : "id";
 
                 $ArrayOSec = ["id", "who", "time", "longer", "theme", "author"];
                 $Array0SecCount = count($ArrayOSec);
@@ -249,7 +249,7 @@ class SearchController extends AbstractAdminController
                     $OrderBYParse[$ArrayOSec[$OrderNum]] = $LNG['se_search_banned_' . $OrderNum];
                 }
             } elseif (in_array($SearchFile, $ArrayAlliance)) {
-                $Table = "%%ALLIANCE%%";
+                $Table = "ALLIANCE";
                 $NameLang = [
                     0 => $LNG['se_search_alliance_0'],
                     1 => $LNG['se_search_alliance_1'],
@@ -258,11 +258,11 @@ class SearchController extends AbstractAdminController
                     4 => $LNG['se_search_alliance_4'],
                     5 => $LNG['se_search_alliance_5'],
                 ];
-                $SpecifyItems = "id,ally_name,ally_tag,ally_owner,ally_register_time,ally_members";
+                $SpecifyItems = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
                 $SName = $LNG['se_input_allyy'];
-                $SpecialSpecify = " AND ally_universe = '" . $this->universe()->getEmulated() . "'";
+                $SpecialSpecify[] = ['ally_universe', '=', $this->universe()->getEmulated()];
 
-                (($SearchFor == "name") ? $WhereItem = "WHERE ally_name" : $WhereItem = "WHERE id");
+                $WhereItem = $SearchFor == "name" ? "ally_name" : "id";
 
                 $ArrayOSec = ["id", "ally_name", "ally_tag", "ally_owner", "ally_register_time", "ally_members"];
                 $Array0SecCount = count($ArrayOSec);
@@ -321,21 +321,24 @@ class SearchController extends AbstractAdminController
     }
 
     /**
-     * Runs the search query and the matching count query. Callers pass trusted SQL fragments ($SpecifyItems columns, $WhereItem,
-     * $SpecifyWhere operator, $SpecialSpecify extra conditions, $Table); the search key is a bound parameter, the sort column must be in
-     * $ArrayOSec and the direction is limited to ASC/DESC. Computes paging from $Page and $Limit and fills the result table
-     * (column names and links) for the template.
+     * Runs the search query and the matching count query (QueryBuilder). Callers pass trusted pieces: the game table key
+     * $Table (USERS, PLANETS, USERS_BANNED, ALLIANCE; PLANETS is aliased "p" and joined with its owner "u"), the list of
+     * $SpecifyItems select expressions, the $WhereItem column the search key is compared with ($SpecifyWhere is "= :searchKey" or
+     * "LIKE :searchKey"), and the extra conditions $SpecialSpecify as [column, operator, value] (values are bound). The search
+     * key is a bound parameter, the sort column must be in $ArrayOSec (unknown ones fall back to the first column) and the
+     * direction is limited to ASC/DESC. Computes paging from $Page and $Limit and fills the result table (column names and
+     * links) for the template.
      */
     public function MyCrazyLittleSearch(
-        $SpecifyItems,
-        $WhereItem,
-        $SpecifyWhere,
+        array $SpecifyItems,
+        string $WhereItem,
+        string $SpecifyWhere,
         $SpecifySearchKey,
-        $SpecialSpecify,
+        array $SpecialSpecify,
         $Order,
         $OrderBY,
         $Limit,
-        $Table,
+        string $Table,
         $Page,
         $NameLang,
         $ArrayOSec,
@@ -353,26 +356,37 @@ class SearchController extends AbstractAdminController
             $INI = ($Page - 1) * $Limit;
         }
 
-        $ArrayEx = explode(",", str_replace("CONCAT(u.username, ' (ID:&nbsp;', p.id_owner, ')')", '', $SpecifyItems));
-
         if (!$Order || !in_array($Order, $ArrayOSec)) {
-            $Order = $ArrayEx[0];
+            $Order = $SpecifyItems[0];
         }
 
-        $CountArray = count($ArrayEx);
+        $CountArray = count($SpecifyItems);
 
-        $QuerySearch = "SELECT " . $SpecifyItems . " FROM " . $Table . " ";
-        $QuerySearch .= $WhereItem . " ";
-        $QuerySearch .= $SpecifyWhere . " " . $SpecialSpecify . " ";
-        // direction comes from the request: only ASC/DESC may reach the query
-        $QuerySearch .= "ORDER BY " . $Order . " " . (strtoupper((string) $OrderBY) === 'DESC' ? 'DESC' : 'ASC') . " ";
-        $QuerySearch .= "LIMIT " . $INI . "," . $Limit;
-        $sqlResult = $db->select($QuerySearch, [':searchKey' => $SpecifySearchKey]);
+        // the same filter for the page and for the count: planets are listed with their owner's name
+        $filtered = function (QueryBuilder $qb) use ($db, $Table, $WhereItem, $SpecifyWhere, $SpecifySearchKey, $SpecialSpecify): QueryBuilder {
+            if ($Table === 'PLANETS') {
+                $qb->from($db->table('PLANETS'), 'p')
+                    ->leftJoin('p', $db->table('USERS'), 'u', 'u.id = p.id_owner');
+            } else {
+                $qb->from($db->table($Table));
+            }
+            $qb->where($WhereItem . ' ' . $SpecifyWhere)->setParameter('searchKey', $SpecifySearchKey);
+            foreach ($SpecialSpecify as $i => [$column, $operator, $value]) {
+                $qb->andWhere($column . ' ' . $operator . ' :special' . $i)->setParameter('special' . $i, $value);
+            }
 
-        $QueryCSearch = "SELECT COUNT(" . $ArrayEx[0] . ") AS total FROM " . $Table . " ";
-        $QueryCSearch .= $WhereItem . " ";
-        $QueryCSearch .= $SpecifyWhere . " " . $SpecialSpecify . " ";
-        $CountQuery = $db->selectSingle($QueryCSearch, [':searchKey' => $SpecifySearchKey]);
+            return $qb;
+        };
+
+        // the sort column is whitelisted (quoted: system); the direction comes from the request, only ASC/DESC may reach the query
+        $orderColumn = implode('.', array_map(static fn($part) => '`' . $part . '`', explode('.', (string) $Order)));
+        $sqlResult = $db->fetchAll(
+            $filtered($db->qb()->select(...$SpecifyItems))
+                ->orderBy($orderColumn, strtoupper((string) $OrderBY) === 'DESC' ? 'DESC' : 'ASC')
+                ->setFirstResult($INI)
+                ->setMaxResults($Limit)
+        );
+        $CountQuery = $db->fetchRow($filtered($db->qb()->select('COUNT(' . $SpecifyItems[0] . ') AS total')));
 
         if ($CountQuery['total'] <= 0) {
             return ['empty' => true];
@@ -393,15 +407,15 @@ class SearchController extends AbstractAdminController
         ]);
 
         $columns = array_slice($NameLang, 0, $CountArray);
-        $canInfo = $Table == '%%USERS%%' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
-        $canEditPlanet = $Table == '%%PLANETS%% p' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
+        $canInfo = $Table === 'USERS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
+        $canEditPlanet = $Table === 'PLANETS' && $this->viewHelpers()->allowedTo('ShowQuickEditorPage');
         $isAdmin = $USER['authlevel'] == AUTH_ADM;
         $yes = '<span class="badge badge--ok">' . $LNG['one_is_yes_1'] . '</span>';
         $no = '<span class="muted">' . $LNG['one_is_yes_0'] . '</span>';
 
         $rows = [];
         foreach ($sqlResult as $WhileResult) {
-            if ($Table == '%%USERS%%') {
+            if ($Table === 'USERS') {
                 if (isset($this->state->requestQuery['search']) && $this->state->requestQuery['search'] == 'online') {
                     $WhileResult['onlinetime'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['onlinetime']);
                 } else {
@@ -413,16 +427,16 @@ class SearchController extends AbstractAdminController
                 $WhileResult['urlaubs_modus'] = $WhileResult['urlaubs_modus'] == '1' ? $yes : $no;
             }
 
-            if ($Table == '%%USERS_BANNED%%') {
+            if ($Table === 'USERS_BANNED') {
                 $WhileResult['time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['time'], $USER['timezone']);
                 $WhileResult['longer'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['longer'], $USER['timezone']);
             }
 
-            if ($Table == '%%ALLIANCE%%') {
+            if ($Table === 'ALLIANCE') {
                 $WhileResult['ally_register_time'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $WhileResult['ally_register_time'], $USER['timezone']);
             }
 
-            if ($Table == '%%PLANETS%% p') {
+            if ($Table === 'PLANETS') {
                 $WhileResult['last_update'] = $this->viewHelpers()->prettyTime($this->state->runtime->timestamp - $WhileResult['last_update']);
                 $WhileResult['id_luna'] = $WhileResult['id_luna'] > 0 ? $yes : $no;
             }
@@ -431,7 +445,7 @@ class SearchController extends AbstractAdminController
             if ($canInfo) {
                 $actions[] = ['type' => 'edit', 'edit' => 'player', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
             }
-            if ($Table == '%%USERS%%' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
+            if ($Table === 'USERS' && $isAdmin && $WhileResult['id'] != $USER['id'] && $WhileResult['id'] != ROOT_USER) {
                 $actions[] = [
                     'type' => 'delete',
                     'href' => '?page=search&delete=user&user=' . $WhileResult['id'],
@@ -442,7 +456,7 @@ class SearchController extends AbstractAdminController
             if ($canEditPlanet) {
                 $actions[] = ['type' => 'edit', 'edit' => 'planet', 'id' => $WhileResult['id'], 'label' => $LNG['se_search_edit']];
             }
-            if ($Table == '%%PLANETS%% p' && $isAdmin) {
+            if ($Table === 'PLANETS' && $isAdmin) {
                 $actions[] = [
                     'type' => 'delete',
                     'href' => '?page=search&delete=planet&planet=' . $WhileResult['id'],
@@ -458,7 +472,7 @@ class SearchController extends AbstractAdminController
             'empty' => false,
             'columns' => $columns,
             'rows' => $rows,
-            'hasActions' => $canInfo || $canEditPlanet || ($isAdmin && in_array($Table, ['%%USERS%%', '%%PLANETS%% p'], true)),
+            'hasActions' => $canInfo || $canEditPlanet || ($isAdmin && in_array($Table, ['USERS', 'PLANETS'], true)),
             'total' => (int) $CountQuery['total'],
             'name' => $SName,
             'page' => (int) $Page,

@@ -88,19 +88,15 @@ class RepairdockController extends AbstractGameController
             $queuedShips = $ships;
 
             $repaired = [];
-            $params = [
-                ':planetID' => $PLANET['id'],
-            ];
             foreach ($ElementQueue as $elementID => $amount) {
-                $repaired[] = '`' . $resource[$elementID] . '` = ' . $resource[$elementID] . ' + :' . $resource[$elementID];
-                $params[':' . $resource[$elementID]] = $amount;
+                $repaired[$resource[$elementID]] = $amount;
                 $statsHandler->increment($USER['id'], AdvancedStatsEnum::getRepaired($elementID), $amount);
             }
             $ships = $this->remainingWrecks($queuedShips, $ElementQueue, $PLANET[$resource[REPAIR_DOCK]]);
 
             if (!empty($repaired)) {
-                $sql = "UPDATE %%PLANETS%% SET " . implode(', ', $repaired) . " WHERE id = :planetID;";
-                $db->update($sql, $params);
+                // the repaired ships return to the planet
+                $db->updateRows('PLANETS', [], ['id' => $PLANET['id']], [], $repaired);
 
                 $sql = "UPDATE %%PLANET_WRECKFIELD%% SET `ships` = :ships, `repair_order` = '', `repair_order_start` = 0, `repair_order_end` = 0
                     WHERE `planetID` = :planetID;";

@@ -38,6 +38,25 @@ abstract class AbstractBattleEngine implements BattleEngineInterface
     abstract public function isAvailable(bool $sim = false): bool;
 
     /**
+     * @deprecated use fight() with BattleFleet objects
+     * @see BattleEngineInterface::calculateAttack()
+     */
+    public function calculateAttack(array &$attackers, array &$defenders, int $universe, bool $sim = false, int $simTries = 1): array|false
+    {
+        $attackFleets = BattleFleet::listFromArrays($attackers);
+        $defendFleets = BattleFleet::listFromArrays($defenders);
+        $result = $this->fight($attackFleets, $defendFleets, $universe, $sim, $simTries);
+        foreach ($attackFleets as $id => $fleet) {
+            $attackers[$id]['unit'] = $fleet->units;
+        }
+        foreach ($defendFleets as $id => $fleet) {
+            $defenders[$id]['unit'] = $fleet->units;
+        }
+
+        return $result === false ? false : $result->toArray();
+    }
+
+    /**
      * Aggregated (not per-ship) combat values per fleet and unit id: 'def' (armor = (metal+crystal)/10 times
      * armor tech), 'shield' and 'att', each multiplied by the unit amount and the owner's tech level (+10% per level).
      * Also stores the tech factors in $fleets[$id]['techs'] as [attack, shield, armor].

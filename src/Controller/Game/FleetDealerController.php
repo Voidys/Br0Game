@@ -42,7 +42,6 @@ class FleetDealerController extends AbstractGameController
     public function send()
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
         $LNG = $this->state->LNG;
         $pricelist = $this->state->pricelist;
         $resource = $this->state->resource;
@@ -77,7 +76,7 @@ class FleetDealerController extends AbstractGameController
         $db->startTransaction();
         $sql = 'SELECT * FROM %%PLANETS%% WHERE id = :planetID FOR UPDATE;';
         $lockedPlanet = $db->selectSingle($sql, [
-            ':planetID' => $PLANET['id'],
+            ':planetID' => $this->state->PLANET['id'],
         ]);
 
         if (empty($lockedPlanet) || $lockedPlanet[$shipColumn] < $Count) {
@@ -103,7 +102,7 @@ class FleetDealerController extends AbstractGameController
             . ' WHERE id = :planetID AND ' . $shipColumn . ' >= :count;';
         $db->update($sql, [
             ':count'    => $Count,
-            ':planetID' => $PLANET['id'],
+            ':planetID' => $this->state->PLANET['id'],
         ]);
 
         if ($db->rowCount() !== 1) {
@@ -116,8 +115,8 @@ class FleetDealerController extends AbstractGameController
             ]);
         }
 
-        $this->ecoObj->addResources($PLANET['id'], $resources, $PLANET);
-        $PLANET[$shipColumn] = $lockedPlanet[$shipColumn] - $Count;
+        $this->ecoObj->addResources($this->state->PLANET['id'], $resources, $this->state->PLANET);
+        $this->state->PLANET[$shipColumn] = $lockedPlanet[$shipColumn] - $Count;
         $db->commit();
 
         $this->printMessage($LNG['tr_exchange_done'], [

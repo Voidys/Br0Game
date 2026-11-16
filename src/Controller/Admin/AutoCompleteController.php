@@ -41,20 +41,24 @@ class AutoCompleteController extends AbstractAdminController
             throw new \App\Game\Core\EndOfRequest();
         }
 
+        $qb = $db->qb()
+            ->select('id', 'username')
+            ->from($db->table('USERS'))
+            ->where('universe = :universe')
+            ->setParameter('universe', $this->universe()->getEmulated())
+            ->setMaxResults(20);
         if (substr($searchText, 0, 1) === '#') {
-            $searchText = (int) substr($searchText, 1);
-            $where = 'id = :searchText';
-            $orderBy = ' ORDER BY id ASC';
+            // exact id lookup
+            $qb->andWhere('id = :searchText')->setParameter('searchText', (int) substr($searchText, 1))
+                ->orderBy('id', 'ASC');
         } else {
-            $searchText = '%' . $searchText . '%';
-            $where = "username LIKE :searchText";
-            $orderBy = " ORDER BY (IF(username = :searchText, 1, 0) + IF(username LIKE :searchText, 1, 0)) DESC, username";
+            // name fragment: exact and prefix-style matches first, then by name
+            $qb->andWhere('username LIKE :searchText')->setParameter('searchText', '%' . $searchText . '%')
+                ->orderBy('(IF(username = :searchText, 1, 0) + IF(username LIKE :searchText, 1, 0))', 'DESC')
+                ->addOrderBy('username');
         }
 
-        $userResult = $db->select("SELECT id, username FROM %%USERS%% WHERE universe = :universe AND " . $where . $orderBy . " LIMIT 20", [
-            ':searchText' => $searchText,
-            ':universe' => $this->universe()->getEmulated(),
-        ]);
+        $userResult = $db->fetchAll($qb);
         foreach ($userResult as $userRow) {
             $searchList[] = [
                 'label' => $userRow['username'] . ' (ID:' . $userRow['id'] . ')',

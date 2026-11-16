@@ -49,8 +49,7 @@ class ShipyardController extends AbstractGameController
     private function cancelAuftr(): bool
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
 
         $CancelArray = $this->http()->_GP('auftr', []);
 
@@ -64,26 +63,26 @@ class ShipyardController extends AbstractGameController
             }
 
             if ($Auftr == 0) {
-                $PLANET['b_hangar'] = 0;
+                $this->state->PLANET['b_hangar'] = 0;
             }
 
             $Element = $ElementQueue[$Auftr][self::QUEUE_ELEMENT_ID];
             $Count = $ElementQueue[$Auftr][self::QUEUE_AMMOUNT];
 
-            $costResources = $this->buildFunctions()->getElementPrice($USER, $PLANET, $Element, false, $Count);
+            $costResources = $this->buildFunctions()->getElementPrice($USER, $this->state->PLANET, $Element, false, $Count);
 
-            $this->ecoObj->addResources($PLANET['id'], $costResources, $PLANET, FACTOR_CANCEL_SHIPYARD);
+            $this->ecoObj->addResources($this->state->PLANET['id'], $costResources, $this->state->PLANET, FACTOR_CANCEL_SHIPYARD);
 
             unset($ElementQueue[$Auftr]);
         }
 
         if (empty($ElementQueue)) {
-            $PLANET['b_hangar_id'] = '';
+            $this->state->PLANET['b_hangar_id'] = '';
         } else {
-            $PLANET['b_hangar_id'] = StoredData::encode(array_values($ElementQueue));
+            $this->state->PLANET['b_hangar_id'] = StoredData::encode(array_values($ElementQueue));
         }
 
-        $this->ecoObj->saveShipyardQueue($PLANET);
+        $this->ecoObj->saveShipyardQueue($this->state->PLANET);
 
         return true;
     }
@@ -96,11 +95,10 @@ class ShipyardController extends AbstractGameController
     private function buildAuftr(array $fmenge): void
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
         $reslist = $this->state->reslist;
         $resource = $this->state->resource;
         // Working copy: resources already committed to earlier entries of this order are not available again
-        $availablePlanet = $PLANET;
+        $availablePlanet = $this->state->PLANET;
         $maxBuildQueue = $this->configs->get()->max_elements_ships;
 
         $totalCostResources = [
@@ -113,12 +111,12 @@ class ShipyardController extends AbstractGameController
                 empty($Count)
                 || !in_array($Element, array_merge($reslist['fleet'], $reslist['defense'], $reslist['missile']))
                 || !$this->buildFunctions()->isEnabled($Element)
-                || !$this->buildFunctions()->isTechnologieAccessible($USER, $PLANET, $Element)
+                || !$this->buildFunctions()->isTechnologieAccessible($USER, $this->state->PLANET, $Element)
             ) {
                 continue;
             }
 
-            $BuildArray = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
+            $BuildArray = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
             if ($maxBuildQueue != 0 && count($BuildArray) >= $maxBuildQueue) {
                 break;
             }
@@ -130,7 +128,7 @@ class ShipyardController extends AbstractGameController
 
             if (in_array($Element, $reslist['missile'])) {
                 // Owned and already queued missiles are both counted by getMaxConstructibleRockets()
-                $MaxMissiles = $this->buildFunctions()->getMaxConstructibleRockets($PLANET);
+                $MaxMissiles = $this->buildFunctions()->getMaxConstructibleRockets($this->state->PLANET);
                 $Count = min($Count, $MaxMissiles[$Element]);
             } elseif (in_array($Element, $reslist['one'])) {
                 $InBuild = false;
@@ -141,7 +139,7 @@ class ShipyardController extends AbstractGameController
                     }
                 }
 
-                if ($InBuild || $PLANET[$resource[$Element]] != 0) {
+                if ($InBuild || $this->state->PLANET[$resource[$Element]] != 0) {
                     continue;
                 }
 
@@ -154,7 +152,7 @@ class ShipyardController extends AbstractGameController
                 continue;
             }
 
-            $costResources = $this->buildFunctions()->getElementPrice($USER, $PLANET, $Element, false, $Count);
+            $costResources = $this->buildFunctions()->getElementPrice($USER, $this->state->PLANET, $Element, false, $Count);
 
             foreach ($costResources as $resourceId => $amount) {
                 $totalCostResources[$resourceId] += $amount;
@@ -163,10 +161,10 @@ class ShipyardController extends AbstractGameController
 
             $this->miscAchievements()->checkShipyardAchievements($USER['id'], $Count, $Element);
             $BuildArray[] = [$Element, $Count];
-            $PLANET['b_hangar_id'] = StoredData::encode($BuildArray);
+            $this->state->PLANET['b_hangar_id'] = StoredData::encode($BuildArray);
         }
-        $this->ecoObj->removeResources($PLANET['id'], $totalCostResources, $PLANET);
-        $this->ecoObj->saveShipyardQueue($PLANET);
+        $this->ecoObj->removeResources($this->state->PLANET['id'], $totalCostResources, $this->state->PLANET);
+        $this->ecoObj->saveShipyardQueue($this->state->PLANET);
     }
 
     /**
@@ -176,12 +174,11 @@ class ShipyardController extends AbstractGameController
     public function show(): Response
     {
         $USER = $this->state->USER;
-        $PLANET = & $this->state->PLANET;
         $LNG = $this->state->LNG;
         $requeriments = $this->state->requeriments;
         $resource = $this->state->resource;
         $reslist = $this->state->reslist;
-        if ($PLANET[$resource[SHIPYARD]] == 0) {
+        if ($this->state->PLANET[$resource[SHIPYARD]] == 0) {
             $this->printMessage($LNG['bd_shipyard_required']);
         }
 
@@ -190,8 +187,8 @@ class ShipyardController extends AbstractGameController
         $action = $this->http()->_GP('action', '');
 
         $NotBuilding = true;
-        if (!empty($PLANET['b_building_id'])) {
-            $CurrentQueue = !empty($PLANET['b_building_id']) ? StoredData::decode($PLANET['b_building_id']) : [];
+        if (!empty($this->state->PLANET['b_building_id'])) {
+            $CurrentQueue = !empty($this->state->PLANET['b_building_id']) ? StoredData::decode($this->state->PLANET['b_building_id']) : [];
             foreach ($CurrentQueue as $ElementArray) {
                 if ($ElementArray[self::QUEUE_ELEMENT_ID] == SHIPYARD || $ElementArray[self::QUEUE_ELEMENT_ID] == NANITE_FACTORY) {
                     $NotBuilding = false;
@@ -200,7 +197,7 @@ class ShipyardController extends AbstractGameController
             }
         }
 
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
         if (empty($ElementQueue)) {
             $Count = 0;
         } else {
@@ -216,7 +213,7 @@ class ShipyardController extends AbstractGameController
 
                 $db = $this->db;
                 $db->startTransaction();
-                $PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $PLANET['id']]);
+                $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
                 $this->buildAuftr($buildTodo);
                 $db->commit();
                 $this->redirectTo('game?page=shipyard&mode=' . $mode);
@@ -225,7 +222,7 @@ class ShipyardController extends AbstractGameController
             if ($action == "delete") {
                 $db = $this->db;
                 $db->startTransaction();
-                $PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $PLANET['id']]);
+                $this->state->PLANET = $db->selectSingle("SELECT * FROM %%PLANETS%% WHERE id = :planetId FOR UPDATE;", [':planetId' => $this->state->PLANET['id']]);
                 $this->cancelAuftr();
                 $db->commit();
                 $this->redirectTo('game?page=shipyard&mode=' . $mode);
@@ -233,7 +230,7 @@ class ShipyardController extends AbstractGameController
         }
 
         $elementInQueue = [];
-        $ElementQueue = !empty($PLANET['b_hangar_id']) ? StoredData::decode($PLANET['b_hangar_id']) : [];
+        $ElementQueue = !empty($this->state->PLANET['b_hangar_id']) ? StoredData::decode($this->state->PLANET['b_hangar_id']) : [];
         $buildList = [];
         $elementList = [];
 
@@ -246,16 +243,16 @@ class ShipyardController extends AbstractGameController
                 }
 
                 $elementInQueue[$Element[self::QUEUE_ELEMENT_ID]] = true;
-                $ElementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Element[self::QUEUE_ELEMENT_ID]);
+                $ElementTime = $this->buildFunctions()->getBuildingTime($USER, $this->state->PLANET, $Element[self::QUEUE_ELEMENT_ID]);
                 $QueueTime += $ElementTime * $Element[self::QUEUE_AMMOUNT];
                 $Shipyard[] = [$LNG['tech'][$Element[self::QUEUE_ELEMENT_ID]], $Element[self::QUEUE_AMMOUNT], $ElementTime, $Element[self::QUEUE_ELEMENT_ID]];
             }
 
             $buildList = [
                 'Queue' => $Shipyard,
-                'b_hangar_id_plus' => $PLANET['b_hangar'],
-                'queue_time' => max($QueueTime - $PLANET['b_hangar'], 0),
-                'pretty_time_b_hangar' => $this->viewHelpers()->prettyTime(max($QueueTime - $PLANET['b_hangar'], 0)),
+                'b_hangar_id_plus' => $this->state->PLANET['b_hangar'],
+                'queue_time' => max($QueueTime - $this->state->PLANET['b_hangar'], 0),
+                'pretty_time_b_hangar' => $this->viewHelpers()->prettyTime(max($QueueTime - $this->state->PLANET['b_hangar'], 0)),
             ];
         }
 
@@ -268,18 +265,22 @@ class ShipyardController extends AbstractGameController
         $Missiles = [];
 
         foreach ($reslist['missile'] as $elementID) {
-            $Missiles[$elementID] = $PLANET[$resource[$elementID]];
+            $Missiles[$elementID] = $this->state->PLANET[$resource[$elementID]];
         }
 
-        $MaxMissiles = $this->buildFunctions()->getMaxConstructibleRockets($PLANET, $Missiles);
-        $SolarEnergy = round((($PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
+        // the page only reads from here on: one typed snapshot of the player and the planet serves the whole listing
+        $userModel = $this->models()->user($USER);
+        $planetModel = $this->models()->planet($this->state->PLANET);
+
+        $MaxMissiles = $this->buildFunctions()->maxRocketsFor($planetModel, $Missiles);
+        $SolarEnergy = round((($this->state->PLANET['temp_max'] + 160) / 6) * $this->configs->get()->energy_multiplier, 1);
 
         foreach ($elementIDs as $Element) {
             if (!$this->buildFunctions()->isEnabled($Element)) {
                 continue;
             }
             $requirementsList = [];
-            if (!$this->buildFunctions()->isTechnologieAccessible($USER, $PLANET, $Element)) {
+            if (!$this->buildFunctions()->isAccessibleFor($userModel, $planetModel, $Element)) {
                 if (!$USER['show_all_buildable_elements']) {
                     continue;
                 }
@@ -287,17 +288,17 @@ class ShipyardController extends AbstractGameController
                     foreach ($requeriments[$Element] as $requireID => $RedCount) {
                         $requirementsList[$requireID] = [
                             'count' => $RedCount,
-                            'own'   => isset($PLANET[$resource[$requireID]]) ? $PLANET[$resource[$requireID]] : $USER[$resource[$requireID]],
+                            'own'   => isset($this->state->PLANET[$resource[$requireID]]) ? $this->state->PLANET[$resource[$requireID]] : $USER[$resource[$requireID]],
                         ];
                     }
                 }
             }
 
-            $costResources = $this->buildFunctions()->getElementPrice($USER, $PLANET, $Element);
-            $costOverflow = $this->buildFunctions()->getRestPrice($USER, $PLANET, $Element, $costResources);
-            $elementTime = $this->buildFunctions()->getBuildingTime($USER, $PLANET, $Element, $costResources);
-            $buyable = $this->buildFunctions()->isElementBuyable($USER, $PLANET, $Element, $costResources);
-            $maxBuildable = $this->buildFunctions()->getMaxConstructibleElements($USER, $PLANET, $Element, $costResources);
+            $costResources = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $Element);
+            $costOverflow = $this->buildFunctions()->restPriceFor($userModel, $planetModel, $Element, $costResources);
+            $elementTime = $this->buildFunctions()->buildingTimeFor($userModel, $planetModel, $Element, $costResources);
+            $buyable = $this->buildFunctions()->isBuyableFor($userModel, $planetModel, $Element, $costResources);
+            $maxBuildable = $this->buildFunctions()->maxConstructibleFor($userModel, $planetModel, $Element, $costResources);
             if (str_starts_with(strval($Element), 2)) {
                 $type = $this->buildFunctions()->getType($Element);
             } elseif (str_starts_with(strval($Element), 4)) {
@@ -311,7 +312,7 @@ class ShipyardController extends AbstractGameController
             }
 
             $AlreadyBuild = in_array($Element, $reslist['one'])
-                && (isset($elementInQueue[$Element]) || $PLANET[$resource[$Element]] != 0);
+                && (isset($elementInQueue[$Element]) || $this->state->PLANET[$resource[$Element]] != 0);
 
             $fade = ($USER['missing_requirements_opacity'] && !empty($requirementsList))
                 || ($USER['missing_resources_opacity'] && !$buyable)
@@ -319,7 +320,7 @@ class ShipyardController extends AbstractGameController
 
             $elementList[$Element] = [
                 'id' => $Element,
-                'available' => $PLANET[$resource[$Element]],
+                'available' => $this->state->PLANET[$resource[$Element]],
                 'costResources' => $costResources,
                 'costOverflow' => $costOverflow,
                 'elementTime' => $elementTime,
@@ -388,10 +389,9 @@ class ShipyardController extends AbstractGameController
      */
     public function saveFilters()
     {
-        $USER = & $this->state->USER;
         $ships = $this->http()->_GP('ships', []);
         $filters = $this->hangarFilters()->mergeShips(
-            $this->hangarFilters()->parse($USER['hangar_filters'] ?? null),
+            $this->hangarFilters()->parse($this->state->USER['hangar_filters'] ?? null),
             $ships,
         );
         $encoded = $this->hangarFilters()->encode($filters);
@@ -400,11 +400,11 @@ class ShipyardController extends AbstractGameController
             'UPDATE %%USERS_SETTINGS%% SET hangar_filters = :filters WHERE user_id = :userID;',
             [
                 ':filters' => $encoded,
-                ':userID' => $USER['id'],
+                ':userID' => $this->state->USER['id'],
             ],
         );
 
-        $USER['hangar_filters'] = $encoded;
+        $this->state->USER['hangar_filters'] = $encoded;
 
         $this->sendJSON([
             'ok' => true,

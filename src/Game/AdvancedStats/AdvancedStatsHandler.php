@@ -3,6 +3,7 @@
 namespace App\Game\AdvancedStats;
 
 use App\Game\Core\Config;
+use Doctrine\DBAL\ArrayParameterType;
 use App\Game\Core\Database;
 use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
@@ -144,34 +145,29 @@ class AdvancedStatsHandler
             return [];
         }
 
-        $placeholders = '';
-        foreach ($statKeys as $enum) {
-            $placeholders .= ':' . $enum->name . ', ';
-        }
-        $placeholders = rtrim($placeholders, ", ");
+        $names = array_map(static fn(AdvancedStatsEnum $enum): string => $enum->name, $statKeys);
+        $query = $this->db->qb()
+            ->select('statkey', 'statvalue')
+            ->setParameter('userId', $userId)
+            ->setParameter('names', $names, ArrayParameterType::STRING);
         if ($history) {
-            $sql = "SELECT DISTINCT `timestamp`
-                    FROM %%ADVANCED_STATS_HISTORY%% 
-                    ORDER BY timestamp DESC
-                    LIMIT 1";
-            $tmp = $this->db->selectSingle($sql);
-            $timestamp = (int) ($tmp['timestamp'] ?? 0);
-            $sql = "SELECT statkey, statvalue 
-                    FROM %%ADVANCED_STATS_HISTORY%% 
-                    WHERE userId = :userId AND `timestamp` = :ts AND statkey IN ($placeholders)";
-            $params = [':userId' => $userId, ':ts' => $timestamp];
+            // the latest snapshot
+            $timestamp = (int) ($this->db->fetchValue(
+                $this->db->qb()
+                    ->select('DISTINCT `timestamp`')
+                    ->from($this->db->table('ADVANCED_STATS_HISTORY'))
+                    ->orderBy('timestamp', 'DESC')
+                    ->setMaxResults(1)
+            ) ?: 0);
+            $query->from($this->db->table('ADVANCED_STATS_HISTORY'))
+                ->where('userId = :userId')
+                ->andWhere('`timestamp` = :ts')
+                ->setParameter('ts', $timestamp);
         } else {
-            $sql = "SELECT statkey, statvalue 
-                    FROM %%ADVANCED_STATS%% 
-                    WHERE userId = :userId AND statkey IN ($placeholders)";
-            $params = [':userId' => $userId];
+            $query->from($this->db->table('ADVANCED_STATS'))
+                ->where('userId = :userId');
         }
-
-        foreach ($statKeys as $enum) {
-            $params[':' . $enum->name] = $enum->name;
-        }
-
-        $result = $this->db->select($sql, $params);
+        $result = $this->db->fetchAll($query->andWhere('statkey IN (:names)'));
 
         $stats = [];
         foreach ($statKeys as $enum) {
@@ -313,24 +309,16 @@ class AdvancedStatsHandler
             return [];
         }
 
-        $userPlaceholders = str_repeat('?,', count($userIds) - 1) . '?';
-        $statPlaceholders = str_repeat('?,', count($statKeys) - 1) . '?';
-
-        $sql = "SELECT statkey, SUM(statvalue) as summed_value 
-                FROM %%ADVANCED_STATS%% 
-                WHERE userId IN ($userPlaceholders)
-                AND statkey IN ($statPlaceholders)
-                GROUP BY statkey";
-
-        $params = [];
-        foreach ($userIds as $userId) {
-            $params[] = $userId;
-        }
-        foreach ($statKeys as $enum) {
-            $params[] = $enum->name;
-        }
-
-        $result = $this->db->select($sql, $params);
+        $result = $this->db->fetchAll(
+            $this->db->qb()
+                ->select('statkey', 'SUM(statvalue) AS summed_value')
+                ->from($this->db->table('ADVANCED_STATS'))
+                ->where('userId IN (:userIds)')
+                ->andWhere('statkey IN (:names)')
+                ->groupBy('statkey')
+                ->setParameter('userIds', array_values($userIds), ArrayParameterType::INTEGER)
+                ->setParameter('names', array_map(static fn(AdvancedStatsEnum $enum): string => $enum->name, $statKeys), ArrayParameterType::STRING)
+        );
 
         $stats = [];
         foreach ($statKeys as $enum) {
