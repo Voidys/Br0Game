@@ -783,6 +783,9 @@ textarea {
 .galaxy-action {
 	display: inline-grid;
 	place-items: center;
+	/* the cell's link rule (.galaxy-grid-item a) makes this a flexbox: center it there too */
+	justify-content: center;
+	align-items: center;
 	inline-size: 1.75rem;
 	block-size: 1.75rem;
 	border-radius: var(--radius-sm, 4px);
