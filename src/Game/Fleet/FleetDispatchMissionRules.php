@@ -98,6 +98,53 @@ trait FleetDispatchMissionRules
         }
     }
 
+    /**
+     * Anti-push guard (audit F-02, off by default): with the universe setting transport_push_check on and
+     * transport_push_limit above 0, a transport or hold to another player whose cargo is worth more than the limit
+     * (deuterium units at the current market ratios) is refused unless that player sent resources back to the sender
+     * within the last 7 days.
+     */
+    private function checkPushGuard(): void
+    {
+        $config = $this->configs->get();
+        $limit = (float) $config->transport_push_limit;
+        if (
+            !$config->transport_push_check || $limit <= 0
+            || ($this->targetMission != MISSION_TRANSPORT && $this->targetMission != MISSION_HOLD)
+            || ($this->targetPlayerData['id'] ?? 0) == $this->state->USER['id']
+        ) {
+            return;
+        }
+
+        $market = new \App\Game\Core\MarketManager($this->db, $this->configs, $this->state);
+        $value = $market->convertToDeutNumeric([
+            901 => $this->fleetResource[901],
+            902 => $this->fleetResource[902],
+            903 => $this->fleetResource[903],
+        ]);
+        if ($value <= $limit) {
+            return;
+        }
+
+        $returned = (int) $this->db->selectSingle(
+            'SELECT COUNT(*) AS anz FROM %%LOG_FLEETS%%
+            WHERE `owner` = :target AND `target_owner` = :sender AND `mission` IN (:transport, :hold)
+              AND `start_time` > :since AND `hasCanceled` = 0
+              AND (`resource_metal` + `resource_crystal` + `resource_deuterium`) > 0;',
+            [
+                ':target' => $this->targetPlayerData['id'],
+                ':sender' => $this->state->USER['id'],
+                ':transport' => MISSION_TRANSPORT,
+                ':hold' => MISSION_HOLD,
+                ':since' => $this->state->runtime->timestamp - 7 * ONE_DAY,
+            ],
+            'anz',
+        );
+        if ($returned == 0) {
+            $this->refuse($this->state->LNG['fl_push_guard'], 'game?page=fleetTable');
+        }
+    }
+
     /** Hostile missions (attack, ACS, hold, spy, destruction): admin protection, noob protection and the outlaw status for attacking stronger players. */
     private function checkHostileRules(): void
     {

@@ -42,8 +42,6 @@ class MarketManager
     private array $_pairRatios = [];
     private bool $_ratiosPersisted = false;
 
-    private float $_pushTolerance = 0.3; // accepted market volatility percentage, not triggering push check
-
     /**
      * Period, no grouping. Used for stored fleet-log rates, not the marketplace inputs.
      */
@@ -520,7 +518,7 @@ class MarketManager
                 && ($sellerScore - $fleetScore < $buyerScore + $fleetScore));
 
         $highestValue = ($offer > $ask) ? $offer : $ask;
-        $margin = $highestValue * (1 - $this->_pushTolerance);
+        $margin = $highestValue * (1 - $this->pushTolerance());
 
         // seller <= buyer - too cheap?
         if ($sellerScore <= $buyerScore || $specialFleetPush) {
@@ -528,6 +526,15 @@ class MarketManager
         } else { // too expensive?
             return ($offer < $margin);
         }
+    }
+
+    /**
+     * Accepted market volatility (share of the value) that does not trigger the push check: universe setting
+     * market_push_tolerance in percent (default 30).
+     */
+    private function pushTolerance(): float
+    {
+        return max(0, min(90, (float) $this->configs->get()->market_push_tolerance)) / 100;
     }
 
     public function isFleetPush(array $fleetArray, int $ask, int $sellerId, int $buyerId): bool

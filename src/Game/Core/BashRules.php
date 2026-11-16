@@ -62,7 +62,7 @@ class BashRules
             ':allyD' => $targetAllianceId,
         ]);
 
-        if (!empty($War) && ($War['accept'] == 1 && $War['request_time'] < $this->state->runtime->timestamp - ONE_DAY)) {
+        if ($config->bash_war_exempt && !empty($War) && ($War['accept'] == 1 && $War['request_time'] < $this->state->runtime->timestamp - ONE_DAY)) {
             return false;
         }
 

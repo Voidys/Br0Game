@@ -489,6 +489,8 @@ class FleetDispatch
             903 => min($this->TransportDeuterium, floor($this->state->PLANET[$resource[903]] - $this->consumption)),
         ];
 
+        $this->checkPushGuard();
+
         $StorageNeeded = max(array_sum($this->fleetResource), $this->WantedResourceAmount);
 
         if ($StorageNeeded > $this->fleetStorage) {

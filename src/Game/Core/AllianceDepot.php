@@ -43,17 +43,41 @@ class AllianceDepot
      * Base consumption is the pricelist consumption of the drive the ship is built with (the first of consumption1..3
      * that is set), independent of the owner's drive and fuel techs, so the price is the same for every fleet.
      *
+     * With the universe setting depot_cost_real_consumption (default off) and the fleet owner given, the fleet's actual
+     * consumption (the owner's drive and fuel efficiency techs, as for a flight) is used instead of the base one.
+     *
      * @param array<int|string, int|float|string> $ships ship id => count
      */
-    public function hourlyCost(array $ships): int
+    public function hourlyCost(array $ships, ?int $ownerId = null): int
     {
         $pricelist = $this->state->pricelist;
+        $real = $ownerId !== null && $this->configs->get()->depot_cost_real_consumption
+            ? $this->realConsumptions($ships, $ownerId)
+            : null;
         $sum = 0.0;
         foreach ($ships as $shipId => $count) {
-            $sum += (float) $count * $this->baseConsumption($pricelist[$shipId] ?? []);
+            $per = $real[$shipId] ?? $this->baseConsumption($pricelist[$shipId] ?? []);
+            $sum += (float) $count * $per;
         }
 
         return (int) ceil($sum / self::HOLD_COST_DIVISOR);
+    }
+
+    /**
+     * Consumption per ship of each type for the owner's techs.
+     *
+     * @param array<int|string, int|float|string> $ships ship id => count
+     * @return array<int|string, float> ship id => consumption of one ship
+     */
+    private function realConsumptions(array $ships, int $ownerId): array
+    {
+        $owner = $this->db->selectSingle('SELECT * FROM %%USERS%% WHERE `id` = :id;', [':id' => $ownerId]);
+        if (!is_array($owner)) {
+            return [];
+        }
+        $info = $this->fleetFunctions()->getFleetShipInfo($ships, $owner);
+
+        return array_map(static fn(array $row): float => (float) $row['consumption'], $info);
     }
 
     /**
@@ -113,7 +137,7 @@ class AllianceDepot
                 'username' => $row['username'],
                 'ships' => $ships,
                 'stayTime' => (int) $row['stay_time'],
-                'hourlyCost' => $this->hourlyCost($ships),
+                'hourlyCost' => $this->hourlyCost($ships, (int) $row['owner']),
                 'maxHours' => $this->allowedHours($depotLevel, (int) $row['stay_time'], $now),
             ];
         }
@@ -171,7 +195,7 @@ class AllianceDepot
                 throw new AllianceDepotRefused('depot_err_max_stay', [$this->maxRemainingStayHours()]);
             }
 
-            $cost = $hours * $this->hourlyCost($this->fleetFunctions()->unserialize((string) $fleet['ships']));
+            $cost = $hours * $this->hourlyCost($this->fleetFunctions()->unserialize((string) $fleet['ships']), (int) $fleet['owner']);
             if ((float) $planet['deuterium'] < $cost) {
                 throw new AllianceDepotRefused('depot_err_deuterium', [$cost]);
             }

@@ -30,6 +30,25 @@ final class UniTraderFields
                     'unit' => '%',
                     'default' => 30,
                 ],
+                'market_push_tolerance' => [
+                    'type' => ConfigFieldSchema::TYPE_NUMBER,
+                    'transform' => 'int',
+                    'unit' => '%',
+                    'min' => 0,
+                    'max' => 90,
+                    'default' => 30,
+                ],
+                'transport_push_check' => [
+                    'type' => ConfigFieldSchema::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => false,
+                ],
+                'transport_push_limit' => [
+                    'type' => ConfigFieldSchema::TYPE_NUMBER,
+                    'transform' => 'int',
+                    'min' => 0,
+                    'default' => 0,
+                ],
             ],
         ];
     }

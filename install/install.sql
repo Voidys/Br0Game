@@ -391,6 +391,16 @@ CREATE TABLE `%PREFIX%log` (
   KEY `mode` (`mode`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE `%PREFIX%honor_fights` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `attacker` int(11) unsigned NOT NULL,
+  `defender` int(11) unsigned NOT NULL,
+  `time` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pair` (`attacker`, `defender`, `time`),
+  KEY `time` (`time`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 CREATE TABLE `%PREFIX%log_fleets` (
   `id` bigint(11) unsigned NOT NULL,
   `group` varchar(15) NOT NULL DEFAULT '0',

@@ -142,6 +142,17 @@ final class UniAttacksFields
                 'default' => 0,
                 'min' => 0,
             ],
+            'bash_war_exempt' => [
+                'type' => ConfigFieldSchema::TYPE_CHECKBOX,
+                'transform' => 'bool',
+                'default' => true,
+            ],
+            'honor_pair_cap' => [
+                'type' => ConfigFieldSchema::TYPE_NUMBER,
+                'transform' => 'int',
+                'default' => 0,
+                'min' => 0,
+            ],
         ];
     }
 }

@@ -97,6 +97,10 @@ class HonorPoints
         $attackerHonorpointsChange = 0;
         $defenderHonorpointsChange = 0;
 
+        if ($honorableForBoth && $this->pairCapReached($attacker, $defender)) {
+            return $honorpointsResult;
+        }
+
         if ($honorableForBoth) {
             $attackerHonorpointsChange = floor(pow($defenderUnitsLost, 0.9) / 1000);
             $defenderHonorpointsChange = floor(pow($attackerUnitsLost, 0.9) / 1000);
@@ -118,6 +122,39 @@ class HonorPoints
         $honorpointsResult['defendersH'][$defenderUser['username']] = $defenderHonorpointsChange;
 
         return $honorpointsResult;
+    }
+
+    /**
+     * Universe setting honor_pair_cap (F-17): at most that many honorable fights between the same two players (either
+     * direction) in 24 hours award honor; further fights count as neutral. 0 = unlimited (no bookkeeping at all).
+     * When the cap is not reached the fight is recorded, so the caller may award honor.
+     */
+    private function pairCapReached(int $attacker, int $defender): bool
+    {
+        $cap = (int) $this->configs->get()->honor_pair_cap;
+        if ($cap <= 0) {
+            return false;
+        }
+
+        $now = $this->state->runtime->timestamp;
+        $this->db->delete('DELETE FROM %%HONOR_FIGHTS%% WHERE `time` < :old;', [':old' => $now - ONE_DAY]);
+        $count = (int) $this->db->selectSingle(
+            'SELECT COUNT(*) AS anz FROM %%HONOR_FIGHTS%%
+            WHERE ((`attacker` = :a AND `defender` = :d) OR (`attacker` = :d AND `defender` = :a)) AND `time` >= :since;',
+            [':a' => $attacker, ':d' => $defender, ':since' => $now - ONE_DAY],
+            'anz',
+        );
+        if ($count >= $cap) {
+            return true;
+        }
+
+        $this->db->insert('INSERT INTO %%HONOR_FIGHTS%% SET `attacker` = :a, `defender` = :d, `time` = :t;', [
+            ':a' => $attacker,
+            ':d' => $defender,
+            ':t' => $now,
+        ]);
+
+        return false;
     }
 
     /**

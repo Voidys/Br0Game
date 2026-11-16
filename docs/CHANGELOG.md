@@ -1158,3 +1158,8 @@ Technical changes per migration step, newest last.
 - F-22: no votes on one's own board posts/comments; daily caps of 200 votes and 50 posts+comments per account (`app.board_votes_per_day`, `app.board_writes_per_day`).
 - Tests: `GameRateLimitsTest`.
 
+## 147. Balance settings for the audit's design findings (defaults unchanged)
+
+- New universe settings whose defaults reproduce the previous behaviour exactly, so operators decide: `market_push_tolerance` (F-02, default 30 %, replaces the hard-coded market push tolerance), `transport_push_check` + `transport_push_limit` (F-02, default off: refuses large one-sided transports/holds without a return delivery in 7 days), `honor_pair_cap` (F-17, default 0 = unlimited honorable fights per pair and 24 h; table `honor_fights`, migration `1794902000`), `bash_war_exempt` (F-18, default on), `depot_cost_real_consumption` (F-20, default off: alliance depot charged by the fleet's real consumption).
+- Tests: `BalanceSettingsTest` (defaults = old behaviour, each switch's effect, push guard cases).
+
