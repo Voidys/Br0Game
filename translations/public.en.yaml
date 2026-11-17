@@ -1,39 +1,18 @@
-biggest_solo: Biggest solo fights
 build_ships: Total ships built
 buttonLostPassword: Forgot password?
 buttonRegister: Register
 buttonScreenshot: Screenshots
 civil: Civilian
 colony: Colony
-CrystalStorage: Crystal Storage
 deathstar: Death Star
 destroyed_sats: Destroyed solar satellites
 disclamerLabelAddress: 'Game Address:'
 disclamerLabelMail: 'Support Email:'
 disclamerLabelNotice: More information
 disclamerLabelPhone: 'Phone:'
-disclamerRecaptcha: >-
-  This page uses reCAPTCHA and the Google <a
-  href="https://policies.google.com/privacy">privacy statement</a> and <a
-  href="https://policies.google.com/terms">terms of use</a> apply.
 first_fights: First fights in the universe
-flown_expos: Total expeditions flown
-flownDeut: Total Deuterium spent on flights
 forum: Board
-found_res: Total resources found
-found_ships: Total ships found
-galaxySpendDeut: Deuterium spent browsing the galaxy
-gameInformations: |-
-  A space strategy game in real time.
-  Hundreds of players in every universe.
-  No download - all you need is a standard browser.
-  Free registration
-hof3_header: The legends of Universe 3 live on here!
-hof4_header: The legends of Universe 4 live on here!
-hof7_header: The legends of Universe 7 live on here!
 hof_empty: "No hall of fame data yet."
-IonCannon: Ion Cannon
-least_reached_ach: Rarest achievements
 login_error_1: >-
   Wrong email or password! Tip: password managers often fill in your username,
   but you have to log in with your email.
@@ -53,27 +32,14 @@ loginServerDesc: >-
   web browser.
 loginWelcome: Welcome to %s
 Lowest_longterm_points: Preregistered Accounts with the fewest points
-medAliens: Medium Aliens
 menu_banlist: Ban List
 menu_battlehall: Battle Hall
 menu_disclamer: Contact
-menu_index: Home
 menu_news: News
 menu_rules: Rules
 military: Military
-most_achievements: Most achievements collected
-most_black_holes: Most black holes encountered
-most_build: Most built
-most_build_HF: Most Heavy Fighters built
-most_defended_moons: Most successful moon defenses
-most_destroyed_moons: Most moons destroyed
-most_expo_fights: Most fights against aliens/pirates
-most_fights: Most Wins / Losses / Draws
-most_reached_ach: Most common achievements
-most_records: Most records collected
 news_does_not_exist: No news available.
 news_from: On %s by %s
-oldest_active_acc: Oldest active accounts
 overall: Overall
 passwordBack: Back
 passwordChangedMailSend: Your new password is on its way. You will receive an email shortly.
@@ -81,10 +47,6 @@ passwordChangedMailTitle: 'New password for %s'
 passwordConfirmInfo: 'Click the button to reset your password. We will email you the new password.'
 passwordConfirmSubmit: 'Send me a new password'
 passwordErrorMailEmpty: We don't know that email address.
-passwordErrorOnePerDay: >-
-  A password for this account was already requested in the last 24 hours. You
-  can request another one in 24 hours.
-passwordErrorUnknown: No account was found with those details.
 passwordInfo: >-
   Forgot your password? Enter the username and email address of your account.
   If you don't remember them, contact an administrator.
@@ -97,7 +59,13 @@ passwordValidMailSend: You will receive an email shortly with the next steps.
 passwordValidMailTitle: 'Password reset for %s'
 players: Players
 points_amount: Points / Amount
-realDesUnits: Real destroyed units
+powFailed: >-
+  The automatic bot check failed or expired. Please go back, wait a moment and
+  submit the form again.
+powNoCrypto: >-
+  Your browser cannot run the automatic bot check (it needs a secure https
+  connection).
+powVerifying: Checking your browser …
 registerBack: Back
 registerDataPrivacyDesc: I agree to the %s
 registerEmail: Email
@@ -145,7 +113,6 @@ registerWelcomePMText: >-
   unlock it.<br>If you have more questions, check the FAQ, the wiki, or open a
   support ticket.<br><br>The team wishes you a lot of fun exploring the
   universe!
-second_expo_deck: Started their second Expedition Deck
 siteTitleBanList: Ban List
 siteTitleBattleHall: Battle Hall
 siteTitleDataPrivacy: Privacy Policy
@@ -167,21 +134,7 @@ theme: Theme
 universe: Universe
 vertifyAdminMessage: The account "%s" has been activated.
 vertifyNoUserFound: Invalid request.
-votingPoints: Voting Points
-wonAttack: Won Attack
-wonDefense: Won Defense
-chose_a_uni: Choose a universe
-menu_register: Registration
-news_overview: News
-passwordCaptcha: Security code
 passwordErrorUsernameEmpty: You did not enter a username!
-registerCaptcha: Security code
-registerCaptchaDesc: Enter the characters below into the empty field, without spaces. Case does not matter. If you still can't read the image after reloading a few times, contact the site administrator.
-registerCaptchaReload: Reload captcha
-registerErrorCaptcha: The security code is incorrect!
-registerMailVertifyError: 'The email could not be sent: %s'
-registerNext: Continue
-rulesHeader: Rules
 uni_closed: ' (closed)'
 uni_reg_closed: ' (registration closed)'
 uni_reg_open: ' (registration only)'

@@ -77,13 +77,6 @@
     {% endif %}
   {% endfor %}
 
-  {% if captchakey != "" %}
-    {{ csp_allow('recaptcha') }}
-    {{ data_island('captcha-config', {key: captchakey}) }}
-    <script type="module" src="./scripts/app/recaptcha.js?v={{ asset_version }}"></script>
-    <style>.grecaptcha-badge { visibility: hidden; }</style>
-  {% endif %}
-
   {% block script %}{% endblock %}
 </head>
 

@@ -93,15 +93,15 @@
 	</tr>
 	<tr>
 		<td colspan="2">{% if not show %}<div class="tooltip1"><img class="inline" src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightwon }}</td>
-	<td class="num">{% if show %}{{ pretty_number(fightwon) }} {% if totalfight %}({{ round(fightwon / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
+	<td class="num">{% if show %}{{ pretty_number(fightwon) }} {% if totalfight %}({{ (fightwon / totalfight * 100)|round(2) }}%){% endif %}{% else %}-{% endif %}</td>
 	</tr>
 	<tr>	
 		<td colspan="2">{% if not show %}<div class="tooltip1"><img class="inline" src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightlose }}</td>
-	<td class="num">{% if show %}{{ pretty_number(fightlose) }} {% if totalfight %}({{ round(fightlose / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
+	<td class="num">{% if show %}{{ pretty_number(fightlose) }} {% if totalfight %}({{ (fightlose / totalfight * 100)|round(2) }}%){% endif %}{% else %}-{% endif %}</td>
 	</tr>
 	<tr>
 		<td colspan="2">{% if not show %}<div class="tooltip1"><img class="inline" src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_fightdraw }}</td>
-	<td class="num">{% if show %}{{ pretty_number(fightdraw) }} {% if totalfight %}({{ round(fightdraw / totalfight * 100, 2) }}%){% endif %}{% else %}-{% endif %}</td>
+	<td class="num">{% if show %}{{ pretty_number(fightdraw) }} {% if totalfight %}({{ (fightdraw / totalfight * 100)|round(2) }}%){% endif %}{% else %}-{% endif %}</td>
 	</tr>
 	<tr>
 		<td colspan="2">{% if not show %}<div class="tooltip1"><img class="inline" src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div> {% endif %}{{ LNG.pl_unitsshot }}</td>

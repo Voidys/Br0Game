@@ -24,12 +24,10 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
 
 /** Ship dealer: sells ships of the current planet for resources (modes: show, send). */
-#[\App\Routing\GamePage('game.php', 'fleetDealer')]
-#[\App\Routing\GamePage('game.php', 'fleetDealer', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetDealer')]
+#[\App\Controller\RequireModule('MODULE_FLEET_TRADER')]
 class FleetDealerController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_FLEET_TRADER';
-
     public function initialize(): void
     {
         parent::initialize();

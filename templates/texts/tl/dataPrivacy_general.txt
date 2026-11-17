@@ -1,0 +1,79 @@
+<p>Ipinapaliwanag ng privacy policy na ito sa malinaw na wika kung anong personal na datos ang kinokolekta ng {game_name}, para saan ito ginagamit, gaano katagal itong itinatago at sino ang puwedeng makakita nito.</p>
+
+<h2>Sino ang nagpapatakbo ng website na ito</h2>
+<p>Pinapatakbo ang website na ito ng operator nito. Nakalista ang pangalan at postal address ng operator sa <a href="{contacts_url}">contact page</a>.<!--mail--> Maaabot mo kami sa pamamagitan ng email sa {contact_mail}.<!--/mail--></p>
+
+<h2>Pagbisita sa website</h2>
+<p>Sa tuwing magbubukas ka ng page, awtomatikong itinatala ng web server ang:</p>
+<ul>
+<li>ang IP address mo,</li>
+<li>ang petsa at oras ng request,</li>
+<li>ang hiniling na address at ang referring page,</li>
+<li>ang browser at operating system (user agent),</li>
+<li>ang status code at ang dami ng datos na inilipat.</li>
+</ul>
+<p>Ginagamit namin ang datos na ito para maihatid ang website at mapanatili itong matatag at ligtas, halimbawa para matukoy at maitaboy ang mga atake. Binubura ang mga server log file sa loob ng 7 araw sa pinakamatagal, maliban kung kailangan ang mga ito bilang ebidensya ng isang tiyak na insidente sa seguridad. Sa ganoong kaso, itinatago ang mga ito hanggang malutas ang insidente.</p>
+
+<h2>Account at datos ng manlalaro</h2>
+<p>Para makapaglaro, kailangan mo ng account. Kapag nagparehistro ka at naglaro, kinokolekta namin ang:</p>
+<ul>
+<li>pangalan ng account, email address at password (nakaimbak lang bilang salted hash, hindi kailanman bilang plain text),</li>
+<li>wika, time zone at mga setting ng display,</li>
+<li>oras ng registration, IP address noong registration, oras at IP address ng huling login, at mga nabigong pagtatangka sa login,</li>
+<li>isang manlalaro bawat universe: pangalan ng manlalaro at datos ng laro gaya ng mga planeta, gusali, research, fleet, resources, points, achievement, combat report at espionage report.</li>
+</ul>
+<p>Kailangan namin ang datos na ito para maibigay ang larong pinagparehistroan mo. Kung walang email address at password, walang account na mabubuo.</p>
+<p>Dahil sa kalikasan ng laro, nakikita ng ibang manlalaro ang ilang datos: pangalan ng manlalaro, mga coordinate ng mga planeta mo, alliance, points at ranking (statistics, hall of fame), at ang nilalamang pinili mong ilathala (mga teksto ng alliance<!--board-->, mga post sa board<!--/board-->).</p>
+
+<h2>Komunikasyon sa loob ng laro</h2>
+<p>Kapag ginamit mo ang mga feature ng komunikasyon, itinatago namin ang nilalaman nila kasama ang nagpadala, ang mga tatanggap at ang oras: mga pribado at alliance na mensahe, buddy request, note, support ticket<!--board-->, at mga post, komento at boto sa board<!--/board-->. Ginagawa ito para gumana ang mga feature. Puwedeng basahin ng mga moderator ang mga support ticket at, kung may hinihinalang paglabag sa mga tuntunin, ang iniulat na nilalaman.<!--messages--> Awtomatikong binubura ang mga mensahe pagkalipas ng {message_days} araw.<!--/messages--></p>
+
+<h2>Patas na laro at proteksyon laban sa abuso</h2>
+<p>Para mapanatiling patas ang laro at maipatupad ang mga tuntunin (halimbawa ang pagbabawal sa multi-account at account pushing), gumagamit kami ng:</p>
+<ul>
+<li>mga IP address ng aktibong session at login, na pinaghahambing sa pagitan ng mga account para matukoy ang maraming account na nilalaro mula sa iisang koneksyon,</li>
+<li>mga talaan ng session (session ID, IP address, huling aktibidad), na binubura pagkatapos mag-expire ang session,</li>
+<li>mga note ng game team tungkol sa mga indibidwal na account, at mga talaan ng ban kasama ang dahilan at tagal nito,</li>
+<li>kung may tiyak na hinala ng paglabag sa mga tuntunin para sa iisang account, isang talaan ng mga page na hiniling ng account na iyon kasama ang oras ng bawat request. Binubura ang talaang ito kapag tapos na ang imbestigasyon.</li>
+</ul>
+<p>Kapag nagparehistro ka, sinusuri namin ang domain ng email address mo laban sa pampublikong listahan ng mga disposable email provider. Dina-download ang listahan sa server namin, at hindi ipinapadala ang address mo kahit saan. Ang mga hakbang gaya ng ban ay pinagpapasyahan ng mga miyembro ng game team, hindi ng awtomatikong proseso.</p>
+
+<h2>Mga email</h2>
+<p>Nagpapadala kami ng email sa address na ginamit mo sa registration kapag kailangan ito para patakbuhin ang account mo: pag-activate ng account, pag-reset ng password, pagkumpirma ng pagbabago ng email address, mga babala bago burahin ang isang inactive na account, at mahahalagang abiso tungkol sa laro (halimbawa ang pagsisimula ng bagong universe). Hindi kami nagpapadala ng newsletter o advertising.</p>
+
+<h2>Bot protection</h2>
+<p>Ang registration at ang lost-password form ay protektado laban sa awtomatikong pang-aabuso ng isang maliit na kalkulasyon na kusang nilulutas ng browser mo kapag binuksan mo ang form. Sinusuri ito sa sarili naming server; walang third-party na serbisyong kinokontak, at walang cookie o tracking identifier na ginagamit para dito.</p>
+
+<h2>Mga cookie at local storage</h2>
+<p>Gumagamit lang kami ng mga cookie at browser storage na kailangan para maibigay ang serbisyong hiniling mo:</p>
+<ul>
+<li><strong>2Moons</strong>: session cookie na nagpapanatili sa iyong naka-log in. Nag-e-expire ito 12 oras pagkatapos ng huling aktibidad mo, o kapag nag-log out ka.</li>
+<li><strong>br0_device</strong>: random na device ID (2 taon). Isang hash lang nito ang itinatago kada account, sa loob ng 90 araw pagkatapos ng huling bisita, para matukoy ang maraming account na nilalaro mula sa iisang browser.</li>
+<li><strong>lang</strong>: natatandaan ang wikang pinili mo.</li>
+<li><strong>account</strong>: natatandaan na ginamit ang browser na ito para mag-log in, para maipakita muna ng start page ang login. Walang personal na datos ito.</li>
+<li>Local storage: mga setting ng display ng interface ng laro (halimbawa ang huling binuksang kategorya ng mensahe). Nananatili ang mga ito sa browser mo at hindi ipinapadala sa amin.</li>
+</ul>
+<p>Hindi kami gumagamit ng tracking, analytics o advertising cookie, at hindi kami gumagawa ng user profile para sa marketing.</p>
+
+<h2>Sino ang makakakita ng datos mo</h2>
+<p>Pinoproseso ang datos mo ng mga miyembro ng game team (administrator at moderator) hangga't kailangan ito ng kanilang mga gawain. Kumikilos ang mga technical service provider para sa amin at ayon lang sa aming mga tagubilin: ang hosting provider ng mga server at, kung naaangkop, ang serbisyo ng pagpapadala ng email. Nakikita ng ibang manlalaro ang datos na inilarawan sa ilalim ng "Account at datos ng manlalaro" at "Komunikasyon sa loob ng laro". Ibinibigay lang namin ang datos sa mga awtoridad kapag legal kaming inoobliga. Hindi namin ibinebenta ang personal na datos.</p>
+<p>Ang mga link sa external na serbisyo (halimbawa ang Discord o ang wiki) ay dadalhin ka lang sa mga serbisyong iyon. Doon lang pinoproseso ang datos kapag binuksan mo ang link, ayon sa privacy policy ng kaukulang provider.</p>
+
+<h2>Gaano katagal itinatago ang datos</h2>
+<ul>
+<li>Puwede mong burahin ang account mo sa account settings. Aalisin ito pagkatapos ng {deletion_days} araw na paghihintay, kung saan puwede mong kanselahin ang pagbura.</li>
+<!--inactive--><li>Awtomatikong binubura ang mga manlalarong hindi naging aktibo sa loob ng {inactive_days} araw. Kung nagpapadala ng babalang email ang laro, makakatanggap ka nito bago ang pagbura.</li>
+<!--/inactive--><li>Binubura ang mga account na walang kahit isang manlalaro pagkalipas ng 30 araw na walang aktibidad.</li>
+<li>Mga server log file: hindi lalampas sa 7 araw, tingnan ang "Pagbisita sa website".</li>
+<li>Ang datos na kailangan naming itago dahil sa legal na dahilan, o para asikasuhin ang mga legal na claim, ay itinatago lang hangga't kailangan.</li>
+<li>Naglalaman ang mga backup ng database ng datos noong ginawa ang backup. Itinatago ang mga ito sa limitadong panahon at pinapalitan nang paikot.</li>
+</ul>
+
+<h2>Ang iyong mga pagpipilian</h2>
+<p>Puwede mong baguhin ang datos ng account mo sa account settings at burahin doon ang account mo anumang oras. Kung gusto mong malaman kung anong datos ang hawak namin tungkol sa iyo, gusto mo itong itama o burahin, o may iba kang tanong tungkol sa datos mo, makipag-ugnayan sa amin gamit ang mga detalye sa <a href="{contacts_url}">contact page</a><!--mail--> o sa pamamagitan ng email sa {contact_mail}<!--/mail-->. Depende sa lugar kung saan ka nakatira, maaaring may dagdag kang karapatan sa ilalim ng lokal na batas sa proteksyon ng datos at maaari kang makipag-ugnayan sa lokal mong awtoridad sa proteksyon ng datos.</p>
+
+<h2>Seguridad</h2>
+<p>Lahat ng koneksyon sa website na ito ay naka-encrypt (TLS), nakaimbak lang bilang hash ang mga password, at limitado sa mga miyembro ng game team na nangangailangan nito ang access sa personal na datos. Hindi kami gumagawa ng desisyon tungkol sa iyo batay lang sa awtomatikong pagproseso.</p>
+
+<h2>Mga pagbabago</h2>
+<p>Ina-update namin ang privacy policy na ito kapag nagbago ang website o ang mga legal na kinakailangan. Ang bersyong nakalathala sa page na ito ang may bisa.</p>

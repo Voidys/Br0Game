@@ -1,0 +1,79 @@
+<p>In dit privacybeleid leggen we in duidelijke taal uit welke persoonsgegevens {game_name} verzamelt, waarvoor ze worden gebruikt, hoe lang ze worden bewaard en wie ze kan zien.</p>
+
+<h2>Wie beheert deze website</h2>
+<p>Deze website wordt beheerd door de beheerder. De naam en het postadres van de beheerder staan op de <a href="{contacts_url}">contactpagina</a>.<!--mail--> Je kunt ons per e-mail bereiken op {contact_mail}.<!--/mail--></p>
+
+<h2>Een bezoek aan de website</h2>
+<p>Telkens wanneer je een pagina opent, legt de webserver automatisch het volgende vast:</p>
+<ul>
+<li>je IP-adres,</li>
+<li>de datum en tijd van het verzoek,</li>
+<li>het opgevraagde adres en de verwijzende pagina,</li>
+<li>de browser en het besturingssysteem (user agent),</li>
+<li>de statuscode en de hoeveelheid overgedragen gegevens.</li>
+</ul>
+<p>We gebruiken deze gegevens om de website te leveren en stabiel en veilig te houden, bijvoorbeeld om aanvallen te detecteren en af te weren. Serverlogbestanden worden uiterlijk na 7 dagen verwijderd, tenzij ze nodig zijn als bewijs van een specifiek beveiligingsincident. In dat geval worden ze bewaard totdat het incident is afgehandeld.</p>
+
+<h2>Account- en spelersgegevens</h2>
+<p>Om te spelen heb je een account nodig. Wanneer je je registreert en speelt, verzamelen we:</p>
+<ul>
+<li>accountnaam, e-mailadres en wachtwoord (alleen opgeslagen als gezouten hash, nooit als platte tekst),</li>
+<li>taal, tijdzone en weergave-instellingen,</li>
+<li>registratietijd, IP-adres bij registratie, tijd en IP-adres van de laatste login, en mislukte inlogpogingen,</li>
+<li>één speler per universum: spelersnaam en spelgegevens zoals planeten, gebouwen, onderzoek, vloten, grondstoffen, punten, prestaties, gevechts- en spionagerapporten.</li>
+</ul>
+<p>We hebben deze gegevens nodig om het spel te leveren waarvoor je je hebt aangemeld. Zonder e-mailadres en wachtwoord kan geen account worden aangemaakt.</p>
+<p>Door de aard van het spel zijn sommige gegevens zichtbaar voor andere spelers: spelersnaam, coördinaten van je planeten, alliantie, punten en ranglijsten (statistieken, hall of fame), en de inhoud die je zelf publiceert (alliantieteksten<!--board-->, forumberichten<!--/board-->).</p>
+
+<h2>Communicatie binnen het spel</h2>
+<p>Wanneer je de communicatiefuncties gebruikt, slaan we de inhoud ervan op samen met de afzender, de ontvangers en de tijd: privéberichten en alliantieberichten, vriendschapsverzoeken, notities, supporttickets<!--board-->, en berichten, reacties en stemmen op het forum<!--/board-->. Dit gebeurt zodat de functies werken. Moderators kunnen supporttickets lezen en, bij vermoeden van een overtreding van de regels, de gemelde inhoud.<!--messages--> Berichten worden na {message_days} dagen automatisch verwijderd.<!--/messages--></p>
+
+<h2>Fair play en bescherming tegen misbruik</h2>
+<p>Om het spel eerlijk te houden en de regels te handhaven (bijvoorbeeld het verbod op multiaccounts en het pushen van accounts), gebruiken we:</p>
+<ul>
+<li>IP-adressen van actieve sessies en logins, die tussen accounts worden vergeleken om meerdere accounts te detecteren die vanaf dezelfde verbinding worden gespeeld,</li>
+<li>sessiegegevens (sessie-ID, IP-adres, laatste activiteit), die worden verwijderd nadat de sessie is verlopen,</li>
+<li>notities van het spelteam over individuele accounts, en registraties van bans met reden en duur,</li>
+<li>bij een concreet vermoeden van een overtreding van de regels voor één account: een registratie van de pagina's die dat account heeft opgevraagd, met het tijdstip van elk verzoek. Deze registratie wordt verwijderd zodra het onderzoek is afgerond.</li>
+</ul>
+<p>Bij registratie controleren we het domein van je e-mailadres aan de hand van een openbare lijst van aanbieders van wegwerpmailadressen. De lijst wordt naar onze server gedownload en je adres wordt nergens naartoe verzonden. Maatregelen zoals bans worden besloten door leden van het spelteam, niet door een geautomatiseerd proces.</p>
+
+<h2>E-mails</h2>
+<p>We sturen e-mails naar het adres waarmee je je hebt geregistreerd wanneer ze nodig zijn om je account te laten werken: activering van je account, het opnieuw instellen van je wachtwoord, bevestiging van een wijziging van je e-mailadres, waarschuwingen voordat een inactief account wordt verwijderd, en belangrijke mededelingen over het spel (bijvoorbeeld de start van een nieuw universum). We versturen geen nieuwsbrieven of reclame.</p>
+
+<h2>Botbescherming</h2>
+<p>Registratie en het formulier voor een vergeten wachtwoord zijn beschermd tegen geautomatiseerd misbruik door een kleine berekening die je browser zelf oplost wanneer je het formulier opent. De controle gebeurt op onze eigen server; er wordt geen dienst van derden benaderd, en er worden daarvoor geen cookies of trackingidentificaties gebruikt.</p>
+
+<h2>Cookies en lokale opslag</h2>
+<p>We gebruiken alleen cookies en browseropslag die nodig zijn om de dienst te leveren die je vraagt:</p>
+<ul>
+<li><strong>2Moons</strong>: sessiecookie waarmee je ingelogd blijft. Hij verloopt 12 uur na je laatste activiteit, of wanneer je uitlogt.</li>
+<li><strong>br0_device</strong>: willekeurige apparaat-ID (2 jaar). Alleen een hash ervan wordt per account opgeslagen, gedurende 90 dagen na het laatste bezoek, om meerdere accounts te detecteren die vanuit dezelfde browser worden gespeeld.</li>
+<li><strong>lang</strong>: onthoudt de taal die je hebt gekozen.</li>
+<li><strong>account</strong>: onthoudt dat deze browser is gebruikt om in te loggen, zodat de startpagina eerst de login kan tonen. Hij bevat geen persoonsgegevens.</li>
+<li>Lokale opslag: weergavevoorkeuren van de spelinterface (bijvoorbeeld de laatst geopende berichtcategorie). Ze blijven in je browser en worden niet naar ons verzonden.</li>
+</ul>
+<p>We gebruiken geen tracking-, analyse- of advertentiecookies en maken geen gebruikersprofielen voor marketing.</p>
+
+<h2>Wie kan je gegevens zien</h2>
+<p>Je gegevens worden verwerkt door leden van het spelteam (beheerders en moderators) voor zover hun taken dat vereisen. Technische dienstverleners werken namens ons en uitsluitend op onze instructies: de hostingprovider van de servers en, indien van toepassing, de e-mailbezorgdienst. Andere spelers zien de gegevens die zijn beschreven onder "Account- en spelersgegevens" en "Communicatie binnen het spel". We geven gegevens alleen aan autoriteiten door als we daartoe wettelijk verplicht zijn. We verkopen geen persoonsgegevens.</p>
+<p>Links naar externe diensten (bijvoorbeeld Discord of de wiki) brengen je alleen naar die diensten. Daar worden gegevens pas verwerkt nadat je de link opent, volgens het privacybeleid van de betreffende aanbieder.</p>
+
+<h2>Hoe lang gegevens worden bewaard</h2>
+<ul>
+<li>Je kunt je account verwijderen in de accountinstellingen. Het wordt verwijderd na een wachttijd van {deletion_days} dagen, waarin je de verwijdering kunt annuleren.</li>
+<!--inactive--><li>Spelers die {inactive_days} dagen niet actief zijn geweest, worden automatisch verwijderd. Waar het spel waarschuwingsmails verstuurt, ontvang je er een vóór de verwijdering.</li>
+<!--/inactive--><li>Accounts zonder speler worden na 30 dagen zonder activiteit verwijderd.</li>
+<li>Serverlogbestanden: niet langer dan 7 dagen, zie "Een bezoek aan de website".</li>
+<li>Gegevens die we om wettelijke redenen moeten bewaren, of nodig hebben voor juridische claims, worden alleen zolang bewaard als nodig is.</li>
+<li>Databaseback-ups bevatten de gegevens op het moment van de back-up. Ze worden beperkte tijd bewaard en roulerend vervangen.</li>
+</ul>
+
+<h2>Je keuzes</h2>
+<p>Je kunt je accountgegevens wijzigen in de accountinstellingen en daar op elk moment je account verwijderen. Wil je weten welke gegevens we van je hebben, wil je ze laten corrigeren of verwijderen, of heb je een andere vraag over je gegevens, neem dan contact met ons op via de gegevens op de <a href="{contacts_url}">contactpagina</a><!--mail--> of per e-mail op {contact_mail}<!--/mail-->. Afhankelijk van waar je woont, heb je mogelijk verdere rechten op grond van de lokale wetgeving voor gegevensbescherming en kun je contact opnemen met de lokale toezichthouder voor gegevensbescherming.</p>
+
+<h2>Beveiliging</h2>
+<p>Alle verbindingen met deze website zijn versleuteld (TLS), wachtwoorden worden alleen als hash opgeslagen en de toegang tot persoonsgegevens is beperkt tot de leden van het spelteam die die nodig hebben. We nemen geen besluiten over jou die uitsluitend op geautomatiseerde verwerking zijn gebaseerd.</p>
+
+<h2>Wijzigingen</h2>
+<p>We werken dit privacybeleid bij wanneer de website of de wettelijke vereisten veranderen. De versie die op deze pagina is gepubliceerd, is van toepassing.</p>

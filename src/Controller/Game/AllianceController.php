@@ -28,12 +28,10 @@ use Symfony\Component\HttpFoundation\Response;
  * in the services of App\Game\Alliance (see AllianceServices). The services end an action early by throwing an
  * AllianceException, which exitWith() turns into the redirect / message page / JSON answer.
  */
-#[\App\Routing\GamePage('game.php', 'alliance')]
-#[\App\Routing\GamePage('game.php', 'alliance', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'alliance')]
+#[\App\Controller\RequireModule('MODULE_ALLIANCE')]
 class AllianceController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_ALLIANCE';
-
     private $allianceData;
     private array $rights = [];
     private $hasAlliance = false;

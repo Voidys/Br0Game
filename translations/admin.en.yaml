@@ -1,10 +1,6 @@
 ac_account_data: Account details
 ac_act_time: Date of last activity
 ac_ali_idid: 'ID:'
-ac_ali_logo_11: Alliance logo
-ac_ali_text_11: External text
-ac_ali_text_22: Internal text
-ac_ali_text_33: Application text
 ac_alliance: Alliance
 ac_ally_ranking: Alliance statistics
 ac_ally_web: Alliance website
@@ -23,16 +19,12 @@ ac_id_names_coords: ID, name and coordinates
 ac_image: Alliance logo
 ac_info_ally: Alliance information
 ac_int_text: Internal text
-ac_isnodestruyed: <font color=red>(No planets have been destroyed recently)</font>
 ac_last_ip: Last IP
 ac_leader: Leader
 ac_leyend: '[ Legend ]'
-ac_minimize_maximize: Minimize/Maximize
 ac_moon: Moon
-ac_more: (More)
 ac_name: Name
 ac_name_ali: Full name
-ac_no_alliance: <font color=red>(No alliance)</font>
 ac_no_ally: No alliance
 ac_no_img: This alliance has no logo
 ac_no_text_ext: This alliance has no external text
@@ -75,15 +67,10 @@ ac_temperature: Temp.
 ac_time_destruyed: Date of destruction
 ac_total_members: Number of members
 ac_total_points: 'Total:'
-ac_urlnow: 'URL:'
 ac_user_ranking: Player statistics
 ac_user_system: Player system
 ac_username_doesnt: The player does not exist!
 ac_view_image: Open image in a new window
-ac_view_image2: View image
-ac_view_text_ext: Show external text
-ac_view_text_int: Show internal text
-ac_view_text_sol: Show application text
 account_already_has_user: This account already has a player in this universe
 accountID: Account ID
 ad_add_build_success: Buildings added successfully!
@@ -108,7 +95,6 @@ ad_ally_title: Alliance
 ad_ally_user_id: (Enter user ID)
 ad_authlevel_aa: '[Show administrators]'
 ad_authlevel_auth: Rank
-ad_authlevel_error: This user already has that rank!
 ad_authlevel_error_3: You cannot change the game creator's rank!
 ad_authlevel_insert_id: Enter ID manually (optional)
 ad_authlevel_jj: '[Show players]'
@@ -117,7 +103,6 @@ ad_authlevel_oo: '[Show operators]'
 ad_authlevel_succes: Rank changed successfully
 ad_authlevel_title: Ranks
 ad_authlevel_tt: '[Show all]'
-ad_back_to_menu: Return to main menu
 ad_buildings: Buildings
 ad_buildings_title: Buildings
 ad_count: Number
@@ -168,7 +153,6 @@ ad_ships: Ships
 ad_ships_title: Ships
 adm_absenden: Submit
 adm_cp_index: Home
-adm_cp_logout: Back to game
 adm_cp_title: Administration Panel
 adm_email: Email
 adm_login: Login
@@ -186,7 +170,6 @@ ap_del: Delete
 ap_email: Email
 ap_entfernen: '?'
 ap_id: ID
-ap_insgesamt: Total
 ap_ip: IP
 ap_nicht_aktivierte: unactivated users
 ap_nicht_aktivierte_user: Unactivated users
@@ -239,7 +222,6 @@ button_test: Test
 button_test_negative: Test failed
 button_test_positive: Test successful
 cc_cache_clear: Cache cleared
-cronjob_active: 'No'
 cronjob_class: class
 cronjob_delete: Delete
 cronjob_desc: >-
@@ -263,13 +245,7 @@ cronjob_error_month: No months selected!
 cronjob_error_name: No name entered!
 cronjob_headline: Cronjob ID
 cronjob_hours: Hour
-cronjob_id: ID
-cronjob_inactive: 'Yes'
-cronjob_inActive: Active
-cronjob_is_lock: 'Yes'
-cronjob_is_unlock: 'No'
 cronjob_lastTime: Last run
-cronjob_lock: Locked
 cronjob_min: Minute
 cronjob_month: Month
 cronjob_name: Name
@@ -292,7 +268,6 @@ cronName_tracking: Send global server statistics
 cs_time_between_updates: Time between updates
 defenses_title: Defenses
 du_choose_tables: Select tables
-du_header: Database backup
 du_not_tables_selected: You have not selected any tables to back up!
 du_select_all_tables: All tables
 du_submit: Submit
@@ -300,7 +275,6 @@ du_success: 'Backup created successfully! File: %s'
 email_reg: Email
 email2_reg: Confirm email
 empty_account_field: No account ID given
-er_data: Date
 et_encript: Generate
 et_md5_encripter: MD5 generator
 et_pass: Password
@@ -320,7 +294,6 @@ exp_deck_save_success: Card deck configuration saved successfully!
 exp_deck_size_desc: Event size (Small, Medium, Big, None)
 exp_deck_size_label: size
 exp_deck_statistics: Current Card Deck Statistics
-exp_deck_title: Expedition Card Deck Configuration
 exp_deck_total: Total
 exp_deck_type_desc: Event type (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
 exp_deck_type_label: type
@@ -332,7 +305,6 @@ exp_ships_findable: Findable
 exp_ships_found_by: Finder ships
 exp_ships_select_finders: Select finder ships
 exp_ships_ship: Ship
-exp_ships_title: Configure Findable Ships
 ff_arrivaltime: Arrival
 ff_del: Remove
 ff_endtime: Return
@@ -486,16 +458,11 @@ modul_53: Tutorial
 modul_54: Tutorial rewards
 modul_55: Honor points
 modul_56: Pirate bases
-mu_accountswap: 'Account Swap'
 mu_active_planets: 'Active Planets'
-mu_add_delete_resources: 'Account Editor'
-mu_ban_options: 'Ban System'
 mu_clear_cache: 'Clear Cache'
 mu_connected: Online
 mu_cronjob: 'Cron Jobs'
 mu_dump: 'Database Backup'
-mu_expeditiondeck: 'Expedition Card Deck'
-mu_expeditionships: 'Expedition: Findable Ships'
 mu_flying_fleets: 'Fleets in Flight'
 mu_game_info: Information
 mu_general: General
@@ -508,32 +475,15 @@ mu_md5_encripter: Password Hash
 mu_mess_list: 'Message List'
 mu_moderation_page: Permissions
 mu_module: Modules
-mu_moon_list: 'Moon List'
 mu_mpu_confirmation: Points are updated automatically. Click OK to update them now.
 mu_multiip_page: 'Multiple IPs'
 mu_news: News
-mu_observation: 'Monitoring'
-mu_planet_list: 'Planet List'
-mu_planetsettings: 'Planet Configuration'
 mu_search_page: 'Advanced Search'
-mu_settings: 'Server Configuration'
 mu_support: 'Support Tickets'
 mu_tools: Tools
-mu_unisettings: 'Universe Configuration'
 mu_universe: Universe
-mu_user_list: 'Player List'
 mu_users_settings: 'Players'
 mu_vaild_users: 'Active Users'
-mu_vertify: Verify game files
-mvc_announcement: Announcement
-mvc_author: Author
-mvc_desc: Description
-mvc_download: Download
-mvc_link: Link
-mvc_title: Title
-mvc_update_date: Released
-mvc_update_version: Latest Version
-mvc_version: Version
 new_account_success: 'New account created. ID: %d'
 new_add_account: Add new account
 new_add_user: Add new player
@@ -541,14 +491,11 @@ new_coord: Coordinates
 new_creator_coor: Coordinates
 new_creator_go_back: '[ Return to menu ]'
 new_creator_refresh: '[ Refresh ]'
-new_creator_title: Creator
 new_creator_title_a: Create/delete accounts
 new_creator_title_l: Create/delete moons
 new_creator_title_p: Create/delete planets
 new_creator_title_t: Create test user
 new_creator_title_u: Create/delete users
-new_name: Name
-new_pass: Password
 new_range: Rank
 new_title: Create new player
 new_title_acc: Create a new account
@@ -556,26 +503,18 @@ new_user_success: 'New player created. ID: %d, Planet: %d'
 nws_confirm: Are you sure you want to delete the news item "%s"?
 nws_content: Content
 nws_create: Create news
-nws_date: Date
 nws_del: Delete
 nws_from: From
 nws_head_create: Create news
 nws_head_edit: 'Editing news: %s'
-nws_id: ID
 nws_news: News
 nws_title: Title
-nws_total: '%d news items'
 one_is_yes_0: 'No'
 one_is_yes_1: 'Yes'
 online_users: Online
-ow_credits: Credits
 ow_default_uri_missing: 'Mail links need DEFAULT_URI (.env.local): until it is set, registration and password-reset mails are not sent.'
 ow_dir_not_writable: /%s is not writable!
-ow_donate: Donate
 ow_file_detected: The file %s was found. For security, delete or rename it.
-ow_forum: Forum
-ow_none: No warnings
-ow_overview: Control panel
 ow_proyect_leader: "Former fleet admiral (2Moons project lead)"
 ow_former_pr0game_crew: "Former pr0game crew"
 ow_crew_dev: "Development & emergencies"
@@ -583,11 +522,7 @@ ow_crew_mod: "Moderation"
 ow_crew_community: "Community"
 ow_pr0game_contributors: "pr0game code contributors"
 ow_special_thanks: Special thanks
-ow_support: Support
-ow_title: Welcome to {game_name}!
 ow_translator: Translators
-ow_updates: Recent updates
-ow_welcome_text: 'Welcome to {game_name}. (:'
 pass_reg: Password
 pass2_reg: Confirm password
 player: Player
@@ -615,9 +550,7 @@ qe_fleet: Fleet
 qe_hpcoords: Home coordinates
 qe_id: ID
 qe_info: Info
-qe_input: Edit
 qe_level: Level
-qe_name: Name
 qe_owner: Owner
 qe_password: Password
 qe_planetname: Planet
@@ -980,6 +913,36 @@ se_rank:
   - Moderator
   - Operator
   - Administrator
+se_pow_adaptive: Bot protection - adaptive difficulty
+se_pow_adaptive_info: >-
+  On: suspicious IP addresses and networks (/24 or /64) get a much harder
+  puzzle (many requests, failures or registrations in a short time). Off: every
+  visitor gets the basic puzzle and no counters are read.
+se_pow_elevated_factor: Bot protection - factor at elevated risk
+se_pow_elevated_factor_info: The puzzle becomes this many times harder (default 20).
+se_pow_high_factor: Bot protection - factor at high risk
+se_pow_high_factor_info: The puzzle becomes this many times harder (default 100).
+se_pow_max_cap: Bot protection - difficulty cap
+se_pow_max_cap_info: >-
+  Highest number after the factors are applied. 1500000 takes roughly 25
+  seconds on a slow smartphone.
+se_pow_sensitivity: Bot protection - risk detection sensitivity
+se_pow_sensitivity_info: >-
+  Percent of the default thresholds (elevated from 5 requests/10 min, 3
+  failures/hour or 2 registrations/24 h per IP; high from 20 / 10 / 5;
+  networks three times as many). 200 = twice as many events needed, 50 = half.
+se_pow_max_number: Bot protection - difficulty (maximum number)
+se_pow_max_number_info: >-
+  The browser tries hashes up to this number, half of them on average. 25000
+  takes well under a second. Higher means more work for bots.
+se_pow_min_seconds: Bot protection - minimum time before submitting (seconds)
+se_pow_min_seconds_info: >-
+  Forms submitted faster than this after loading are refused. 0 disables the
+  check.
+se_proofofwork: Bot protection
+se_proofofwork_info: >-
+  Registration and lost password are protected by a small computation that the
+  browser solves on its own, without any third party.
 se_rebuild_protection: Rebuild protection
 se_rebuild_protection_info: >-
   After heavy losses, players get rebuild protection against further attacks
@@ -987,10 +950,6 @@ se_rebuild_protection_info: >-
   transport capacity must be destroyed in one attack, and that loss must be at
   least noob-protection points × 1,000 in units or capacity. The player can end
   the mode early.
-se_recaptcha: reCAPTCHA settings
-se_recaptcha_info: reCAPTCHA can be used to tell human actions apart from automated ones.
-se_recaptcha_priv_key: reCAPTCHA private key
-se_recaptcha_pub_key: reCAPTCHA public key
 se_redis_connection_url: Redis connection URL
 se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
 se_ref: Referral link
@@ -1175,22 +1134,10 @@ uvs_reload: Reload
 uvs_speeds: Speed factors (G/F/R/E)
 uvs_speeds_full: Speed factors (Game/Fleet/Resource/Expedition)
 vt_all: All files
-vt_fail: Changed files
-vt_filecss: CSS files
-vt_fileerror: Error
-vt_filefail: Changed files
-vt_filehtaccess: htaccess files
-vt_fileimg: Image files
-vt_filejs: JavaScript files
-vt_filenew: New files
-vt_fileok: Files OK
-vt_filephp: PHP files
-vt_filetpl: Template files
 vt_head: Verify game files
 vt_info: >-
   This list shows files that differ from the original.<br>If you have not
   changed the game yourself, replace these files with the originals.
-vt_loadfile: Load file list
 adm_comments: Comments
 adm_analytics: Analytics
 ad_system: System
@@ -1211,7 +1158,6 @@ adm_dash_system: System
 adm_dash_version: Version
 adm_dash_php: PHP
 adm_dash_uni_status: Universe status
-adm_dash_last_stats: Last statistics run
 adm_dash_credits: Credits
 adm_dash_project: Project homepage
 adm_confirm: Are you sure?
@@ -1230,7 +1176,6 @@ adm_ae_danger_zone: Danger zone
 adm_ae_group_planet: Planet / moon
 adm_ae_group_player: Player
 adm_ae_menu_hint: 'Choose what to edit. Players are selected by player ID, planets by planet or moon ID.'
-adm_ae_officiers: Officers
 adm_ae_wipe: Reset planet
 adm_ae_wipe_hint: 'The checked areas are wiped from the planet. This cannot be undone.'
 adm_as_confirm: Really swap the accounts of the two selected players?
@@ -1263,143 +1208,14 @@ adm_edit: Edit
 adm_ma_recipients: Recipients
 adm_ml_from: from
 adm_ml_to: to
-404_page: You do not have the required permission
 ac_detailed_planet_moon_info: Planet and moon details
-ac_mail: Email
-ac_moons_no: <font color=red>(No moon)</font>
-ac_no_character: Digits only!
-ac_no_moons: The player has no moon
-ac_no_rank_level: You do not have the required permission to view player information!
-ac_no_web: The alliance has no website
-ac_perm_mail: Permanent email
-ac_select_one_id: Please select only one player!
-ac_select_username: Select player
-ac_swap_fail: 'Swap failed: %s'
-ac_title: Account details
-ac_title_entry: 'Detailed '
-ac_user_id_required: Please select a player!
-ad_authlevel_error_2: Select only one player!
-ad_authlevel_name: Name
-ad_editor_authlevels: Manage permissions
-ad_forgiven_id: You must enter an ID!
-ad_main_title: Manage resources & technology
 ad_max: (max. %d)
-ad_personal_email: Email
-ad_personal_email2: Repeat email
-ad_personal_pass: Password
-ad_pla_change_id: Change owner (enter user ID)
-ad_pla_delete_planet: Delete planet
-ad_pla_delete_planet_s: Planet deleted successfully
-ad_pla_error_user: The player does not exist!
-ad_pla_title_a: 'An existing moon moves along with the planet'
-ad_planet_id: Planet or moon ID
-adm_bad_password: Wrong password!
 adm_password_info: Enter your password to verify your identity!
-answer_new: 'Write a reply:'
-bo_bbb_go_act: '[ Reload ]'
-bo_bbb_go_back: '[ Back ]'
-bo_suspended_panel: Suspension Panel
-bo_time: Ban duration
-bo_user_doesnt_exist: The player does not exist!
-bo_user_select: Select...
 button_des_se: select/deselect all
-close_t: Ticket has been closed.
-close_ticket: Close ticket
-count_res: Resource amount
-cs_minutes: Minutes
-cs_resources: Resources
-cs_timeact_1: 'Last update was on: '
-cs_users_per_block: Users per block (min. 10)
 er_dlte_all: Delete all
-er_error_list: Error list
-er_errors: ' Errors'
-er_type: Type
 input_id_moon: Moon ID
 input_text: 'Description:'
-invalid_mail_adress: Invalid email address
-log_menu: View logs
 mip_ip: IP
-mip_user: 'Player'
-ml_page: Page
-mod_power_config: Game configuration
-mod_power_edit: Edit player values
-mod_power_loog: Log actions.
-mod_power_tools: May use tools (send global messages)
-mod_power_view: View player values
-mod_range: Rank
-mod_title: Admin powers
-mr_mail_title: Your journey in %s begins soon!
-mr_menu_button: Mail uni release
-mr_not_needed: This universe does not need a reminder mail, as it has already opened.
-mr_send: Send reminders by mail
-mr_timestamp: 'Planned universe opening (unix):'
-mu_error_list: 'DB Errors'
-mu_manage_users: 'Manage Users'
-mu_mod_update: Mod Version Control
-mu_moon_options: 'Moon Management'
-mu_optimize_db: Database
-mu_planets_options: 'Planet Options'
-mu_stats_options: Statistics Options
-mu_user_logs: Log
-mvc_update_no: The latest version is installed!
-mvc_update_yes: An update is available!
-new_email: Email
-one_is_no_0: 'Yes'
-one_is_no_1: 'No'
-only_numbers: You can only enter numbers!
-open_ticket: Open ticket
-ow_config_file_writable: The config.php is writable.
-ow_database_errors: There are errors!
-ow_developers: Developers
-ow_smtp_errors: Check your SMTP settings! - No mails can be sent at the moment!
-po_coor_1: Coordinates
-qe_allowmulti: Allow multi
-qe_resetr: Reset
-sendit_a: Message has been added.
-sendit_error: 'Error:'
-sendit_error_msg: You forgot to fill something in!
-sendit_t: Ticket has been submitted.
-sp_admin_answer: '%s (Admin) wrote on %s<br><br><font color="red">%s</font>'
-sp_admin_closed: '%s (Admin) closed the ticket on %s!'
-sp_admin_open: '%s (Admin) opened the ticket on %s!'
-supp_admin_answer: Admin reply
-supp_admin_system: Support admin panel
-supp_close: Closed
-supp_header: Support system
-supp_header_g: Closed tickets
-supp_open: Open
-supp_player_answer: Player reply
-supp_player_write: '%s wrote on %s'
-supp_send: Submit
-supp_ticket_close: Ticket closed
-ticket_id: '#Ticket ID'
-ticket_new: Create new ticket
-ticket_posted: Ticket from
-up_add: 'Add:'
-up_aktuelle_updates: Current updates
-up_alte_updates: Old updates
-up_chmod_error: No write permission for folder:\n\n
-up_del: 'Del:'
-up_delete_file: Deleted successfully
-up_download_patch_files: Download patch files
-up_edit: 'Edit:'
-up_error_delete_file: ERROR! - Could not delete file
-up_error_update: ERROR! - Could not upload file
-up_kein_update: No update available!
-up_momentane_version: Current version
-up_need_curl: 'Error: cURL not available.<br />The Br0Game update system requires cURL to download the current files.'
-up_no_xml_ext: 'Error: XML parser not available.<br />The Br0Game update system requires an XML parser to process the current files.'
-up_offline: Update server currently unavailable.
-up_ok_update: OK! - Updated
-up_revision: 'Revision '
-up_submit: Submit
-up_update_ok_rev: 'UPDATE: OK! At Revision: '
-up_version: Version
-up_weiter: Continue
-uvs_error: Invalid or corrupt import file!
-uvs_export: Export
-uvs_upload: Upload
-vt_error: HashFile is not available! - Run the update!
 adm_cfg_crystal_pct: Crystal %
 adm_cfg_deuterium_pct: Deuterium %
 adm_cfg_fields_max: Fields max
@@ -1433,13 +1249,11 @@ adm_flight_preview: Flight time preview
 adm_flight_preview_help: Flight time from 1:1:1 to the target with ship speed 45,000 and fleet speed 1; universe type, galaxy type, max values, distance factors and minimum distances are applied live.
 adm_flight_ship_speed: Ship speed
 adm_flight_time: Flight time
-adm_info_browser: Browser
 adm_info_col: Info
 adm_info_db_version: DB version
 adm_info_errorlog: Error log
 adm_info_game: Game
 adm_info_game_address: Game address
-adm_info_game_path: Game path
 adm_info_game_version: Game version
 adm_info_memory_limit: Memory limit
 adm_info_mysql_client: MySQL client
@@ -1590,7 +1404,6 @@ bot_duplicate: "Duplicate"
 bot_edit: "Edit"
 bot_edit_profile: "Edit profile"
 bot_enabled: "enabled"
-bot_engine_missing: "The bot engine is not installed."
 bot_expedition_chance: "Expedition chance per session"
 bot_failed: "Failed"
 bot_hours_every: "hours every"
@@ -1640,13 +1453,11 @@ bot_summary: "Summary"
 bot_summary_actions: "actions"
 bot_summary_mistakes: "mistakes"
 bot_summary_session: "session"
-bot_tab_bots: "Bots"
 bot_tab_profiles: "Profiles"
 bot_tab_providers: "LLM providers"
 bot_test: "Test connection"
 bot_testing: "Testing..."
 bot_time: "Time"
-bot_title: "Bots"
 bot_universe: "Universe"
 bot_w_defense: "Defense"
 bot_w_energy: "Energy"
@@ -1656,7 +1467,6 @@ bot_w_research: "Research"
 bot_w_ships: "Ships"
 bot_w_storage: "Storage"
 bot_weights: "Weights"
-mu_bots: "Bots"
 adm_nav_bots: Bots
 adm_tab_bot_providers: LLM providers
 adm_tab_bot_profiles: Profiles
@@ -1917,3 +1727,59 @@ adm_dash_unprotected_honor: "Honor pair cap is 0 (unlimited honor between the sa
 adm_dash_unprotected_bash: "Declared wars lift the bash limit (bash_war_exempt)."
 adm_dash_unprotected_depot: "Depot holds cost the cheap base consumption (depot_cost_real_consumption off)."
 adm_dash_unprotected_market: "Market push tolerance is above 10 % (market_push_tolerance)."
+modul_57: "Vote sites"
+adm_nav_voting: "Vote sites"
+vt_sites: "Vote sites"
+vt_add: "Add site"
+vt_create_head: "New vote site"
+vt_edit_head: "Edit vote site"
+vt_back: "Back"
+vt_name: "Name"
+vt_vote_url: "Vote URL"
+vt_vote_url_help: "The link players are sent to. {token} (one-time token of this vote) and {userId} are replaced."
+vt_image_url: "Image URL (optional)"
+vt_image_url_help: "Banner or logo shown next to the site on the player page (https)."
+vt_cooldown: "Cooldown (hours)"
+vt_cooldown_help: "One reward per player and site in this time window, counted from the last reward."
+vt_reward: "Reward"
+vt_res_901: "Metal"
+vt_res_902: "Crystal"
+vt_res_903: "Deuterium"
+vt_verification: "Verification"
+vt_verify_none: "None (reward on click)"
+vt_verify_postback: "Postback (reward on callback of the site)"
+vt_verification_help: "Without verification the reward is paid when the player clicks the vote button (cooldown only). With postback the site has to call the callback URL."
+vt_sort: "Sort order"
+vt_active: "Active"
+vt_enabled: "Active"
+vt_disabled: "Inactive"
+vt_enable: "Activate"
+vt_disable: "Deactivate"
+vt_delete: "Delete site"
+vt_renew_secret: "Generate a new secret"
+vt_renew_secret_help: "Invalidates the old postback URL: update it at the vote site."
+vt_postback: "Postback"
+vt_postback_url: "Callback URL"
+vt_secret: "Secret"
+vt_postback_help: "Enter this URL at the vote site as callback/postback. Replace {token} with the site's macro for the value it received in the vote URL. GET and POST are accepted; the secret can also be sent as header X-Vote-Secret."
+vt_saved: "Saved."
+vt_deleted: "Vote site deleted."
+vt_empty: "No vote sites yet."
+vt_confirm_delete: "Delete the vote site \"%s\" and its log?"
+vt_module_off: "The module \"Vote sites\" is switched off, players see no vote page."
+vt_error_name: "The name is required."
+vt_error_vote_url: "The vote URL must be a valid http(s) address."
+vt_error_image_url: "The image URL must be a valid http(s) address."
+vt_error_reward: "Reward amounts must be between 0 and 1,000,000,000."
+vt_clicks: "Clicks"
+vt_verified: "Verified"
+vt_rewarded: "Rewarded"
+vt_log: "Recent votes"
+vt_log_time: "Time"
+vt_log_player: "Player"
+vt_log_status: "Status"
+vt_log_ip: "IP"
+vt_log_empty: "No votes yet."
+vt_status_rewarded: "Rewarded"
+vt_status_verified: "Verified, no reward"
+vt_status_pending: "Clicked"

@@ -9,14 +9,14 @@ use App\Game\Core\HTTP;
 /**
  * ?mode= dispatch of the former page dispatcher for controllers routed at class level
  * (#[GamePage] on the class): runs the public method named by ?mode= (default "show"),
- * falls back to static::$defaultController, honours static::$requireModule.
+ * falls back to static::$defaultController, honours #[RequireModule].
  *
  * Only methods declared in the concrete controller class are reachable via ?mode=.
  */
 trait PageModeDispatch
 {
     /**
-     * Route entry of a page controller: checks the module switch of the page ($requireModule, a module id or MODULE_* constant name; an inactive module ends
+     * Route entry of a page controller: checks the module switch of the page (#[RequireModule]; an inactive module ends
      * in the error page), reads `mode` (default `show`) and calls that public method. An unknown mode falls back to $defaultController, otherwise the "page does
      * not exist" error. A mode that returns a Response is used as is; modes ending in display(), redirectTo() or sendJSON() end the request with EndOfRequest.
      */
@@ -24,12 +24,8 @@ trait PageModeDispatch
     {
         $LNG = $this->state->LNG;
 
-        $requireModule = property_exists(static::class, 'requireModule') ? static::$requireModule : 0;
-        // module constants (MODULE_*) are given by name: they only exist once the game is bootstrapped
-        if (is_string($requireModule)) {
-            $requireModule = constant($requireModule);
-        }
-        if ($requireModule !== 0 && !$this->viewHelpers()->isModuleAvailable($requireModule)) {
+        $requireModule = (new \ReflectionClass(static::class))->getAttributes(RequireModule::class)[0] ?? null;
+        if ($requireModule !== null && !$this->viewHelpers()->isModuleAvailable(constant($requireModule->newInstance()->module))) {
             $this->printPageError($LNG['sys_module_inactive']);
         }
 

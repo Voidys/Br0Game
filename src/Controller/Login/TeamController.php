@@ -15,28 +15,9 @@
 
 namespace App\Controller\Login;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /** Public team page (members from the admin team section). */
-#[\App\Routing\GamePage('index.php', 'team')]
-#[\App\Routing\GamePage('index.php', 'team', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'team')]
 class TeamController extends AbstractLoginController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
-    /**
-     * Lists the members from TEAM_MEMBERS (edited in the admin team page).
-     */
-    public function show(): Response
-    {
-        $this->assign([
-            'members' => $this->db->select('SELECT name, position, description, contact FROM %%TEAM_MEMBERS%% ORDER BY sort ASC, id ASC;'),
-        ]);
-
-        return $this->render('login/page.team.default.html.twig');
-    }
-
+    use \App\Controller\Shared\TeamPage;
 }

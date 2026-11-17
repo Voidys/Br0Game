@@ -33,6 +33,8 @@ use App\Game\Core\Singleton;
  */
 class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterface
 {
+    use SpyMissionSupport;
+
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
         parent::__construct($db, $configs, $state);
@@ -80,7 +82,7 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
         $totalShipDefCount = 0;
         $spyData = $this->collectSpyData($classIDs, $senderUser, $targetBase, $targetFleet, $totalShipDefCount);
 
-        $targetChance = $this->getDetectionChance($senderSpyTech, $targetSpyTech, $fleetAmount, $totalShipDefCount);
+        $targetChance = (int) $this->getDetectionChance($senderSpyTech, $targetSpyTech, $fleetAmount, $totalShipDefCount);
         $spyChance = random_int(1, 100);
 
         [$smallCargoNeeded, $largeCargoNeeded] = $this->cargoNeeded($targetBase);
@@ -124,52 +126,6 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
             $this->setState(FLEET_RETURN);
             $this->SaveFleet();
         }
-    }
-
-    /**
-     * Cargo ships needed to carry the base's resources (the capacity BattleHandler::calculateMinCapacity() gives for
-     * metal, crystal and deuterium).
-     *
-     * @param array<string, mixed> $targetBase pirate base row
-     * @return array{0: float, 1: float} small and large cargos needed
-     */
-    private function cargoNeeded(array $targetBase): array
-    {
-        $e = $this->elements();
-        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-
-        $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetBase[$e->column(RESOURCE_METAL)]),
-            'crystal' => getNumber($targetBase[$e->column(RESOURCE_CRYSTAL)]),
-            'deuterium' => getNumber($targetBase[$e->column(RESOURCE_DEUT)]),
-        ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO));
-        $largeCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO));
-
-        return [$smallCargoNeeded, $largeCargoNeeded];
-    }
-
-    /**
-     * Sends the spy report (JSON) to the fleet owner and sets the "first espionage" stat.
-     *
-     * @param array<string, mixed> $reportData report content
-     */
-    private function sendReport(array $reportData, \App\Game\Core\Language $LNG): void
-    {
-        $this->playerUtil()->sendMessage(
-            $this->_fleet['owner'],
-            0,
-            $LNG['sys_mess_spy_qg'],
-            MESSAGE_TYPE_SPY_REPORT,
-            $LNG['sys_mess_spy_report'],
-            json_encode($reportData),
-            $this->_fleet['arrival_time'],
-            1,
-            $this->_fleet['universe'],
-            $this->_fleet['end_id'],
-        );
-
-        $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
     }
 
     /**
@@ -247,79 +203,6 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
     }
 
     /**
-     * Returns the combined base attack values of ships and defences
-     */
-    public function getDangerValue($spyData)
-    {
-        $e = $this->elements();
-        $dangerValue = 0;
-
-        // ships
-        if (isset($spyData[200])) {
-            foreach ($spyData[200] as $elementID => $amount) {
-                $dangerValue += $e->combat($elementID)->attack * $amount;
-            }
-        }
-
-        // defence
-        if (isset($spyData[400])) {
-            foreach ($spyData[400] as $elementID => $amount) {
-                if (
-                    !($elementID == INTERCEPTOR_MISSILE)
-                    and !($elementID == INTERPLANETARY_MISSILE)
-                ) {
-                    $dangerValue += $e->combat($elementID)->attack * $amount;
-                }
-            }
-        }
-
-        return  $dangerValue;
-    }
-
-    /**
-     * Returns the combined recycle values of ships and defences
-     */
-    public function getRecyleValue($spyData)
-    {
-        $e = $this->elements();
-
-        $config = $this->configs->get($this->_fleet['universe']);
-        $fleetIntoDebris = $config->fleet_debris_percentage;
-        $defIntoDebris = $config->def_debris_percentage;
-
-        $recycleValue = 0;
-
-        // ships
-        if (isset($spyData[200]) && $fleetIntoDebris > 0) {
-            foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($e->cost($elementID)->metal
-                    + $e->cost($elementID)->crystal) * $fleetIntoDebris / 100) * $amount;
-            }
-        }
-
-        // defence
-        if (isset($spyData[400]) && $defIntoDebris > 0) {
-            foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($e->cost($elementID)->metal
-                    + $e->cost($elementID)->crystal) * $defIntoDebris / 100) * $amount;
-            }
-        }
-
-        return  $recycleValue;
-    }
-
-    /**
-     * Recyclers needed to carry the given debris amount, plus one as safety margin.
-     */
-    public function estimateRecyclers($recycleValue)
-    {
-        $e = $this->elements();
-        return ceil($recycleValue / $e->capacity(SHIP_RECYCLER)) + 1;
-    }
-
-
-
-    /**
      * No hold phase.
      */
     public function EndStayEvent()
@@ -333,23 +216,6 @@ class MissionCasePiratebaseSpy extends MissionFunctions implements MissionInterf
     public function ReturnEvent()
     {
         $this->RestoreFleet();
-    }
-
-    /**
-     * Counter-espionage chance in percent (OGame rule): min(round(2^(target tech - sender tech) * probes *
-     * ships on the base * 0.0025), 100).
-     */
-    private function getDetectionChance(int $senderSpyTech, int $targetSpyTech, int $fleetAmount, int $totalShipDefCount): int
-    {
-        // $targetChance = random_int(0, min(($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech), 100));
-
-        // New calculation: 1% Counterspy-Chance for 250 Ships * target spy bonus, if > sender spy tec
-        // $targetChance = ($totalShipDefCount/250)*MAX($senderSpyTech-$targetSpyTech, 1) + (($fleetAmount / 4) * ($targetSpyTech / $senderSpyTech));
-
-        // Calculation from https://ogame.fandom.com/wiki/Counterespionage
-        $targetChance = min(round(pow(2, $targetSpyTech - $senderSpyTech) * $fleetAmount * $totalShipDefCount * 0.0025), 100);
-
-        return $targetChance;
     }
 
     /**

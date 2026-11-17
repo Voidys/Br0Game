@@ -26,8 +26,7 @@ use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Edits the expedition event deck of a universe. */
-#[\App\Routing\GamePage('admin.php', 'expeditionDeck')]
-#[\App\Routing\GamePage('admin.php', 'expeditionDeck', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'expeditionDeck')]
 class ExpeditionDeckController extends AbstractAdminController
 {
     /**
@@ -60,7 +59,6 @@ class ExpeditionDeckController extends AbstractAdminController
 
         $this->assign([
             'universe' => $universe,
-            'deckConfig' => $deckConfig,
             'deckStats' => $deckStats,
             'deckJson' => json_encode($deckConfig, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
             'message' => $message,

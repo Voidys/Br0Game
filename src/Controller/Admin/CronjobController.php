@@ -27,8 +27,7 @@ use App\Game\Core\Singleton;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Manages the cronjob table: list, edit, lock, enable and run jobs. */
-#[\App\Routing\GamePage('admin.php', 'cronjob')]
-#[\App\Routing\GamePage('admin.php', 'cronjob', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'cronjob')]
 class CronjobController extends AbstractAdminController
 {
     /**

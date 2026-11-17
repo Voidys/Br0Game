@@ -30,8 +30,7 @@ use App\Game\Core\Universe;
 /**
  * Support ticket overview and ticket view/answer for admins.
  */
-#[\App\Routing\GamePage('admin.php', 'support')]
-#[\App\Routing\GamePage('admin.php', 'support', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'support')]
 class SupportController extends AbstractAdminController
 {
     private $ticketObj;

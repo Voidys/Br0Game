@@ -30,13 +30,11 @@ use App\Game\Core\Universe;
 /**
  * Player card popup with statistics, battle record and the player's achievements.
  */
-#[\App\Routing\GamePage('game.php', 'playerCard')]
-#[\App\Routing\GamePage('game.php', 'playerCard', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'playerCard')]
+#[\App\Controller\RequireModule('MODULE_PLAYERCARD')]
 class PlayerCardController extends AbstractGameController
 {
     private const MAX_BLOCKS = 200;
-
-    public static $requireModule = 'MODULE_PLAYERCARD';
 
     // protected $disableEcoSystem = true;
 

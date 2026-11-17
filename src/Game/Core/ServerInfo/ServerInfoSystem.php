@@ -13,7 +13,7 @@ use App\Runtime\SafeFile;
 class ServerInfoSystem
 {
     /** required PHP extensions */
-    public const REQUIRED_EXTENSIONS = ['pdo_mysql', 'intl', 'mbstring', 'gd', 'curl', 'json', 'ctype'];
+    public const REQUIRED_EXTENSIONS = ['pdo_mysql', 'intl', 'mbstring', 'gd', 'json', 'ctype'];
     public const OPTIONAL_EXTENSIONS = ['opcache', 'ffi', 'ds', 'redis', 'imap'];
 
     public function __construct(

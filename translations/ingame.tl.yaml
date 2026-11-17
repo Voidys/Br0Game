@@ -58,11 +58,11 @@ Achievement_names:
 Achievement_text:
   '1': Isang buong gabi ang hawak mo at wala kang naitamang isa mang putok.
   '2': Walang tigil na may mga fleet kang gumagalaw sa loob ng 90 araw.
-  '3': 'Nawala ang fleet mo habang naka-set sa "French" ang wika mo.'
+  '3': Nawala ang fleet mo habang naka-set sa "French" ang wika mo.
   '4': I-research ang Ion Technology 10.
   '5': I-research ang Graviton Research 2, dahil lang kaya mo.
   '6': Bumalik ang isa sa mga atake mo na 1 metal, 1 crystal at 1 deuterium lang ang dala.
-  '7': 'Talunin ang fleet ng mga barkong pirata o alien na may kabuuang hindi bababa sa 10,000 barko. Atin ang kalawakan!'
+  '7': Talunin ang fleet ng mga barkong pirata o alien na may kabuuang hindi bababa sa 10,000 barko. Atin ang kalawakan!
   '8': Sumipot sa Strammtisch (Martes, alas-8 ng gabi sa Discord).
   '9': Itayo ang una mong Death Star.
   '10': Wasakin ang buwan ng isang manlalaro.
@@ -87,19 +87,19 @@ Achievement_text:
   '29': Kolektibisahin ang fleet ng manlalarong mas mataas ang score gamit ang 5-player ACS.
   '30': Pigilan nang mag-isa ang isang 5-player ACS.
   '31': Ipadala ang isang manlalaro sa vacation mode gamit ang atake mo.
-  '32': 'Sumalakay sa 1000 planeta habang gamit ang "SetSail" theme. Arr!'
+  '32': Sumalakay sa 1000 planeta habang gamit ang "SetSail" theme. Arr!
   '33': Bumalik mula sa vacation mode.
   '34': Maatake sa unang pagkakataon. Welcome sa universe.
   '35': Umatake sa aktibong manlalarong wala pang 1/10 ng puntos mo.
   '36': "Makatanggap ng mensaheng may isa sa mga sumusunod na bloke:\r\n                        \"Hurensohn\", \"gleichstarke Ziele\", \"gegen Schwächere\", \"ehrenlos\""
   '37': Mapulbos ng isang 5-player ACS.
-  '38': 'Umatake sa mga miyembro ng sarili mong alliance. Friendly fire, sino?'
+  '38': Umatake sa mga miyembro ng sarili mong alliance. Friendly fire, sino?
   '39': Umatake sa isang tao gamit ang eksaktong 42 barko.
   '40': Mag-colonize ng planeta na hindi bababa sa kalahating universe ang layo.
   '41': Harangan ang isang fleet slot nang isang linggo dahil sa masamang offer sa marketplace.
   '42': Sumali sa Battlehall nang 4 na beses sa panig ng talo.
   '43': "Manalo sa laban habang naka-flag na Inactive ang account mo,\r\n            sa isa sa mga planeta mo kung saan dati nang dumating ang fleet na may oras ng biyaheng mahigit 7 araw."
-  '44': 'Gumawa ng resource sa isang planeta nang mahigit 7 araw habang mas mababa sa 100% ang energy.'
+  '44': Gumawa ng resource sa isang planeta nang mahigit 7 araw habang mas mababa sa 100% ang energy.
   '45': Manalo sa atake laban sa manlalarong nasa top 5 sa depensa.
   '46': Mag-trigger ng bash protection sa pagpapaputok ng mga interplanetary missile.
   '47': Wasakin ang 5 buwan.
@@ -107,19 +107,16 @@ Achievement_text:
   '49': Gibain ang kolonya hindi pa katagalan matapos itong gawin.
   '50': "Mawala ang lahat ng solar satellite mo sa isang planetang may sapat na\r\n            energy para mag-research ng Graviton technology, nang hindi pa nare-research ang Graviton technology."
   '51': Ubusin ang lahat ng deuterium mo sa pag-browse ng galaxy view.
-  '52': >-
-    Magtayo ng Death Star nang hindi muna nakapagtayo ng ibang combat ship
-    (Light Fighter, Heavy Fighter, Cruiser, Battleship, Bomber, Destroyer o
-    Battle Cruiser).
+  '52': Magtayo ng Death Star nang hindi muna nakapagtayo ng ibang combat ship (Light Fighter, Heavy Fighter, Cruiser, Battleship, Bomber, Destroyer o Battle Cruiser).
   '53': Hawakan ang pinakamataas na level sa 5 research nang sabay-sabay.
-  '54': 'I-time ang atake sa aktibong manlalaro para tumama sa 01/01 00:00:00.'
+  '54': I-time ang atake sa aktibong manlalaro para tumama sa 01/01 00:00:00.
   '55': Espesyal na Achievement
 ach_filter_all: Lahat
 ach_filter_locked: Naka-lock
 ach_filter_unlocked: Na-unlock
 ach_locked: Hindi pa na-unlock
 ach_progress: '%d sa %d ang na-unlock'
-ach_unlocked_on: 'Na-unlock noong %s'
+ach_unlocked_on: Na-unlock noong %s
 Achievements: Mga Achievement
 admin_access_1: May pansamantala kang admin rights.
 admin_access_2: ' kung hindi agad kailangan.'
@@ -216,22 +213,21 @@ al_all_players: Lahat ng manlalaro
 al_alliance: Alliance
 al_alliance_closed: Hindi tumatanggap ng mga bagong miyembro ang alliance na ito.
 al_alliance_full: Puno na ang alliance na ito. Subukan ang iba.
+al_apply_rate_limited: Nakapagpadala ka na ng sobrang daming aplikasyon ngayong araw. Subukan ulit bukas.
 al_alliance_make: Gumawa ng sarili mong alliance
-al_alliance_min_points: 'Kailangan mo ng hindi bababa sa %d puntos para mag-apply sa alliance na ito.'
+al_alliance_min_points: Kailangan mo ng hindi bababa sa %d puntos para mag-apply sa alliance na ito.
 al_alliance_search: Maghanap ng mga Alliance
 al_ally_info_members: Mga Miyembro
 al_ally_info_name: Pangalan
 al_ally_info_tag: Tag
 al_ally_information: Impormasyon ng alliance
-al_already_exists: 'May alliance nang tinatawag na <b>%s</b>. Pumili ng ibang pangalan.'
+al_already_exists: May alliance nang tinatawag na <b>%s</b>. Pumili ng ibang pangalan.
 al_apply_accepted: Tinanggap ang application.
 al_apply_declined: Tinanggihan ang application.
 al_apply_not_exists: Wala na ang application na iyon.
 al_applyform_send: Ipadala
 al_back: Bumalik
 al_candidate: Kandidato
-al_change_submit: Palitan
-al_change_title: Palitan ang titulo
 al_characters: character
 al_circular_alliance: 'Alliance '
 al_circular_front_text: 'Sumulat ang miyembro ng alliance na si <b>%s</b>:'
@@ -241,71 +237,59 @@ al_circular_send_ciruclar: Magpadala ng mass message
 al_circular_send_submit: Ipadala
 al_circular_sended: 'Naipadala ang mensahe sa mga manlalarong ito:'
 al_click_to_send_request: Sumali sa alliance
-al_close_ally: 'Sigurado ka bang gusto mong buwagin ang alliance?'
+al_close_ally: Sigurado ka bang gusto mong buwagin ang alliance?
 al_configura_ranks: Pamahalaan ang mga Rank
 al_continue: Magpatuloy
 al_coords: Mga Coordinate
 al_create: Gumawa
 al_create_new_rank: Gumawa ng bagong rank
-al_created: 'Naitatag ang alliance na <b>%s</b>!'
+al_created: Naitatag ang alliance na <b>%s</b>!
 al_decline_request: Tanggihan
 al_default_leader_name: Lider
 al_delete_request: Bawiin ang application
-al_delete_request_confirm: 'Bawiin ang application mo?'
+al_delete_request_confirm: Bawiin ang application mo?
 al_description_message: Wala pang isinusulat na deskripsyon ang alliance na ito.
 al_diplo: Diplomasya
 al_diplo_accept: Mga papasok na request
 al_diplo_accept_no: Tinanggihan ang pact.
-al_diplo_accept_no_confirm: 'Tanggihan ang pact na ito?'
+al_diplo_accept_no_confirm: Tanggihan ang pact na ito?
 al_diplo_accept_no_mes: Tinanggihan ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>!
 al_diplo_accept_send: Mga palabas na request
 al_diplo_accept_yes: Napirmahan ang pact.
-al_diplo_accept_yes_confirm: 'Tanggapin ang pact na ito?'
+al_diplo_accept_yes_confirm: Tanggapin ang pact na ito?
 al_diplo_accept_yes_mes: Napirmahan ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>!
 al_diplo_ally: Alliance
 al_diplo_ask: Request ng Pact
-al_diplo_ask_mes: >-
-  <a href="?page=alliance&mode=admin&action=diplomacy">[Isang request ng pact]</a> (%s)
-  ay ipinadala mula sa <b>%s</b> papunta sa <b>%s</b>.<br>Dahilan: %s
-al_diplo_confirm_delete: 'Tapusin ang pact na ito?'
+al_diplo_ask_mes: '<a href="?page=alliance&mode=admin&action=diplomacy">[Isang request ng pact]</a> (%s) ay ipinadala mula sa <b>%s</b> papunta sa <b>%s</b>.<br>Dahilan: %s'
+al_diplo_confirm_delete: Tapusin ang pact na ito?
 al_diplo_create: Humiling ng pact
 al_diplo_create_done: Naipadala ang request ng pact.
 al_diplo_delete: Natapos ang pact
-al_diplo_delete_mes: 'Natapos na ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.'
-al_diplo_exists: 'May aktibo o nakabinbing pact ka na sa %s.'
+al_diplo_delete_mes: Natapos na ang pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
+al_diplo_exists: May aktibo o nakabinbing pact ka na sa %s.
 al_diplo_head: Pamamahala ng Diplomasya
-al_diplo_info: >-
-  <p>Sa page na ito, mapamamahalaan mo ang mga diplomatic pact ng alliance
-  mo.</p><p>Nakalista sa ibaba ang mga uri ng pact. Karagdagang impormasyon:
-  <a href="game?page=questions">FAQ</a> o ang <a
-  href="{wiki_url}/wiki/En/Hauptseite"
-  target="_blank">wiki</a>.</p>
+al_diplo_info: '<p>Sa page na ito, mapamamahalaan mo ang mga diplomatic pact ng alliance mo.</p><p>Nakalista sa ibaba ang mga uri ng pact. Karagdagang impormasyon: <a href="game?page=questions">FAQ</a> o ang <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>'
 al_diplo_level:
-  - Main
-  - Wing
-  - Alliance
-  - Trade Pact
-  - Non-Aggression Pact
-  - Digmaan
-  - Lihim na Alliance
-  - Kapayapaan
+- Main
+- Wing
+- Alliance
+- Trade Pact
+- Non-Aggression Pact
+- Digmaan
+- Lihim na Alliance
+- Kapayapaan
 al_diplo_level_des: Mga Uri ng Pact
 al_diplo_no_accept: '- Walang request -'
-al_diplo_no_alliance: 'Walang nakitang alliance na may ID %s.'
+al_diplo_no_alliance: Walang nakitang alliance na may ID %s.
 al_diplo_no_entry: '- Walang pact -'
-al_diplo_same_alliance: 'Hindi ka makakagawa ng pact sa sarili mong alliance!'
+al_diplo_same_alliance: Hindi ka makakagawa ng pact sa sarili mong alliance!
 al_diplo_text: Request/Dahilan
 al_diplo_war: Deklarasyon ng Digmaan
 al_diplo_war_end: Deklarasyon ng Kapayapaan
-al_diplo_war_end_mes: 'Katatapos lang ng %s sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.'
-al_diplo_war_mes: >-
-  Idineklara ng alliance na <b>%1$s</b> ang %3$s laban sa <b>%2$s</b>!
-  <br>Dahilan:<br>%4$s<br><br>Impormasyon: magsisimula ang digmaan sa loob ng
-  <b>24 oras</b>, kung saan sususpindihin ang Bash Rule.<br>Para sa karagdagang
-  impormasyon, tingnan ang <a href="./?page=rules&lang=en"
-  target="_blank">[Rules]</a>.
+al_diplo_war_end_mes: Katatapos lang ng %s sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
+al_diplo_war_mes: 'Idineklara ng alliance na <b>%1$s</b> ang %3$s laban sa <b>%2$s</b>! <br>Dahilan:<br>%4$s<br><br>Impormasyon: magsisimula ang digmaan sa loob ng <b>24 oras</b>, kung saan sususpindihin ang Bash Rule.<br>Para sa karagdagang impormasyon, tingnan ang <a href="./?page=rules&lang=en" target="_blank">[Rules]</a>.'
 al_diplo_withdraw: Binawi ang request ng pact.
-al_diplo_withdraw_confirm: 'Bawiin ang request ng pact na ito?'
+al_diplo_withdraw_confirm: Bawiin ang request ng pact na ito?
 al_diplo_withdraw_mes: Binawi ang request ng pact (%s) sa pagitan ng mga alliance na <b>%s</b> at <b>%s</b>.
 al_disolve_alliance: Buwagin ang alliance
 al_dlte: Burahin
@@ -315,23 +299,22 @@ al_find_no_alliances: Walang nakitang alliance. Subukan ang ibang hanap.
 al_find_submit: Hanapin
 al_find_text: Hanapin ang
 al_founder_rank_text: Founder
-al_go_out_no: 'Hindi'
-al_go_out_yes: 'Oo'
+al_go_out_no: Hindi
+al_go_out_yes: Oo
 al_has_accepted: '</b> ay tinanggap ang application mo!<br>Mensahe: <br>'
 al_has_declined: '</b> ay tinanggihan ang application mo!<br>Mensahe: <br>'
 al_hi_the_alliance: Ang alliance na <b>
 al_inside_section: Para sa mga miyembro lang
 al_inside_text: Pribadong deskripsyon
 al_invalid_rank_name: Titik, numero, espasyo, underscore, gitling at tuldok lang ang puwede sa mga pangalan ng rank.
-al_kick_player: 'I-kick si %s sa alliance?'
+al_kick_player: I-kick si %s sa alliance?
 al_leave_alliance: Umalis sa alliance
-al_leave_ally: 'Umalis sa alliance?'
-al_leave_sucess: 'Umalis ka na sa alliance na <b>%s</b>.'
+al_leave_ally: Umalis sa alliance?
+al_leave_sucess: Umalis ka na sa alliance na <b>%s</b>.
 al_leaving: Umalis ang manlalaro sa alliance
-al_leaving_msg: >-
-  Umalis na sa alliance ang manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>!
+al_leaving_msg: Umalis na sa alliance ang manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>!
 al_make_alliance: Gumawa ng Alliance
-al_make_ally_insufficient_points: 'Kulang ang puntos mo para gumawa ng alliance.<br>Kailangan mo ng hindi bababa sa %s puntos at kulang ka pa ng %s.'
+al_make_ally_insufficient_points: Kulang ang puntos mo para gumawa ng alliance.<br>Kailangan mo ng hindi bababa sa %s puntos at kulang ka pa ng %s.
 al_make_ally_name_required: Pangalan ng alliance (3-30 character)
 al_make_ally_tag_required: Tag ng alliance (3-8 character)
 al_make_submit: Gumawa
@@ -352,19 +335,14 @@ al_memberlist_on: Online
 al_message: Mensahe
 al_name: Palitan ang pangalan ng alliance
 al_name_required: Maglagay ng pangalan ng alliance.
-al_link_too_long: "Masyadong mahaba ang link (hanggang 255 character lang)."
+al_link_too_long: Masyadong mahaba ang link (hanggang 255 character lang).
 al_name_tag_too_long: Hanggang 8 character lang ang tag at 30 ang pangalan.
-al_new_apply: >-
-  Nakatanggap ang alliance mo ng <a
-  href="?page=alliance&mode=admin&action=manageApply">[isang application]</a> mula sa
-  manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
+al_new_apply: Nakatanggap ang alliance mo ng <a href="?page=alliance&mode=admin&action=manageApply">[isang application]</a> mula sa manlalarong <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Bagong Miyembro
-al_new_name: Palitan ang pangalan (3-30 character)
 al_new_requests: '%d nakabinbin'
-al_new_tag: Palitan ang tag (3-8 character)
 al_newname_specialchar: Titik, numero, espasyo, underscore, gitling at tuldok lang ang puwede sa mga pangalan at tag ng alliance.
 al_no_diplo: '-'
-al_no_ranks_defined: 'Wala pang rank. Gawin ang una!'
+al_no_ranks_defined: Wala pang rank. Gawin ang una!
 al_no_requests: Walang application sa ngayon.
 al_not_exists: Walang ganoong alliance.
 al_num: ID
@@ -391,15 +369,15 @@ al_rank_name: Pangalan
 al_receiver: Tatanggap
 al_reply_to_request: Sumagot
 al_request: Application
-al_request_confirmation_message: 'Naipadala ang application!<br> Makakatanggap ka ng mensahe kapag tinanggap o tinanggihan ito.'
+al_request_confirmation_message: Naipadala ang application!<br> Makakatanggap ka ng mensahe kapag tinanggap o tinanggihan ito.
 al_request_date: Petsa ng application
-al_request_deleted: 'Binawi ang application mo na sumali sa alliance na <b>%s</b>.<br> Puwede ka nang magpadala ng bagong application o gumawa ng sarili mong alliance.'
+al_request_deleted: Binawi ang application mo na sumali sa alliance na <b>%s</b>.<br> Puwede ka nang magpadala ng bagong application o gumawa ng sarili mong alliance.
 al_request_from: Request para sa <b>%s</b>
 al_request_last_onlinetime: Huling aktibidad
 al_request_list: Listahan ng request
 al_request_register_time: Nagparehistro
 al_request_text: Application form
-al_request_wait_message: 'Nakabinbin pa rin ang application mo na sumali sa <b>%s</b>.<br> Maghintay ng sagot, o bawiin ito at mag-apply sa iba.'
+al_request_wait_message: Nakabinbin pa rin ang application mo na sumali sa <b>%s</b>.<br> Maghintay ng sagot, o bawiin ito at mag-apply sa iba.
 al_requests: Mga Request
 al_requests_allowed: Bukas
 al_requests_min_points: ' %s puntos'
@@ -428,10 +406,7 @@ al_you_was_acceted: 'Natanggap ka sa '
 al_you_was_declined: 'Tinanggihan ka sa '
 al_your_ally: Alliance mo
 al_your_request_title: Application mo
-bad_forum_url: Hindi valid ang forum link.
-banned_message: >-
-  Na-ban ka. <!--discord_url-->Kung sa tingin mo ay pagkakamali ito, mag-message sa amin sa Discord:
-  <a href="{discord_url}">{discord_url}</a><!--/discord_url-->
+banned_message: 'Na-ban ka. <!--discord_url-->Kung sa tingin mo ay pagkakamali ito, mag-message sa amin sa Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
 bd_actual_production: 'Kasalukuyang produksyon:'
 bd_available: 'Available: '
 bd_build: Itayo
@@ -442,7 +417,7 @@ bd_building_shipyard: Hindi puwedeng magtayo ng barko o depensa habang ina-upgra
 bd_buildlist_full: Puno na ang build queue.
 bd_cancel: Kanselahin
 bd_cancel_send: Kanselahin ang pagtatayo
-bd_cancel_warning: 'Paalala!<br>60% lang ng gastos ang ibabalik kapag nagkansela.'
+bd_cancel_warning: Paalala!<br>60% lang ng gastos ang ibabalik kapag nagkansela.
 bd_continue: Magpatuloy
 bd_deploy: I-deploy
 bd_deployable: 'Tapos na ang repair! Awtomatikong deployment sa loob ng:'
@@ -460,7 +435,7 @@ bd_need_engine: Gumagamit ng karagdagang <font class="colorNegative">%s</font> %
 bd_next_level: 'Susunod na level:'
 bd_no_lab: Walang research lab sa planetang ito. Makikita mo ang queue pero hindi mo ito mababago.
 bd_no_more_fields: Wala nang libreng field sa planetang ito.
-bd_operating: '(Ginagawa pa)'
+bd_operating: (Ginagawa pa)
 bd_paused: naka-pause
 bd_price_for_destroy: 'Gastos sa paggiba:'
 bd_protection_shield_only_one: Isang shield lang ang puwede mong itayo!
@@ -468,7 +443,7 @@ bd_remaining: Kulang na resource
 bd_repair_rate: Bilis ng repair
 bd_repair_ships: Ayusin
 bd_repairdock_busy: May ibang trabaho ang repair dock.
-bd_repairdock_deploy: 'Tapos na ang repair. Balik na sa serbisyo ang mga barko!'
+bd_repairdock_deploy: Tapos na ang repair. Balik na sa serbisyo ang mga barko!
 bd_repairdock_empty: Walang wreck field na maaayos dito.
 bd_repairdock_required: Magtayo muna ng repair dock sa planetang ito.
 bd_repairdock_time: Natitirang oras ng wreck field
@@ -491,19 +466,18 @@ bn_players_banned: ' manlalarong naka-ban'
 bn_players_banned_list: Listahan ng mga na-ban na manlalaro
 bn_reason: Dahilan
 bn_until: Hanggang
-bn_writemail: 'Sumulat kay %s'
+bn_writemail: Sumulat kay %s
 bs_acs_slot: ACS slot
 bs_add_acs_slot: Magdagdag ng ACS slot
 bs_atter: Umaatake
 bs_cancel: I-reset
-bs_too_many_units: "Masyadong maraming yunit para sa isang simulation (hanggang %s lang)."
-bs_busy: "May tumatakbo nang simulation, hintayin mo munang matapos."
+bs_too_many_units: Masyadong maraming yunit para sa isang simulation (hanggang %s lang).
+bs_busy: May tumatakbo nang simulation, hintayin mo munang matapos.
 bs_deffer: Depensor
 bs_derbis_raport: 'Kailangan para i-recycle ang debris: %s %s.'
 bs_load: I-load
 bs_load_invalid: Hindi valid na share code
 bs_load_no_input: Walang inilagay na share code
-bs_names: Pangalan ng Barko
 bs_reset: I-reset
 bs_send: Kalkulahin
 bs_share: Ibahagi
@@ -519,7 +493,7 @@ bs_techno: Teknolohiya
 bs_wait: Maghintay ng 5 segundo bago ang susunod na simulation
 bu_accept: Tanggapin
 bu_accepted_request_body: Hello %s,<br>tinanggap ni %s ang friend request mo!
-bu_accepted_request_title: 'Tinanggap ang friend request!'
+bu_accepted_request_title: Tinanggap ang friend request!
 bu_action: Aksyon
 bu_alliance: Alliance
 bu_buddy_list: Listahan ng mga kaibigan
@@ -533,18 +507,18 @@ bu_delete: Burahin
 bu_disconnected: Offline
 bu_minutes: ' min'
 bu_my_requests: Mga request ko
-bu_new_request_body: 'Hello %s,<br>gusto ni %s na maging kaibigan mo!'
+bu_new_request_body: Hello %s,<br>gusto ni %s na maging kaibigan mo!
 bu_new_request_title: Bagong friend request
-bu_no_buddys: 'Wala ka pang kaibigan. Magpadala ng request mula sa profile ng isang manlalaro!'
+bu_no_buddys: Wala ka pang kaibigan. Magpadala ng request mula sa profile ng isang manlalaro!
 bu_no_request: Walang request.
 bu_online: Online
 bu_partners: Mga Partner
 bu_player: Manlalaro
 bu_player_not_exist: Walang ganoong manlalaro.
-bu_rejected_request_body: 'Hello %s,<br>tinanggihan ni %s ang friend request mo!'
-bu_rejected_request_title: 'Tinanggihan ang friend request!'
-bu_request_exists: 'May friend request na para sa manlalarong ito!'
-bu_request_limit: 'Sobrang daming friend request. Maghintay ng ilang minuto bago magpadala ng iba pa.'
+bu_rejected_request_body: Hello %s,<br>tinanggihan ni %s ang friend request mo!
+bu_rejected_request_title: Tinanggihan ang friend request!
+bu_request_exists: May friend request na para sa manlalarong ito!
+bu_request_limit: Sobrang daming friend request. Maghintay ng ilang minuto bago magpadala ng iba pa.
 bu_request_message: Mensahe ng request
 bu_request_send: Naipadala ang friend request.
 bu_request_text: Mensahe ng request
@@ -562,7 +536,7 @@ cff_mission_other_0: 'Ang %s mula sa %s %s %s ay dumating sa %s %s %s. Mission: 
 cff_mission_other_1: 'Ang %s ay bumabalik mula sa %s %s %s papunta sa %s %s %s. Mission: %s'
 cff_mission_other_2: 'Ang %s mula sa %s %s %s ay nasa orbit sa paligid ng %s %s %s. Mission: %s'
 cff_mission_other_expo_1: 'Ang %s ay bumabalik mula sa posisyon %s papunta sa %s %s %s. Mission: %s'
-cff_mission_other_mip: 'Atake ng missile (%d) mula sa %s %s %s papunta sa %s %s %s.'
+cff_mission_other_mip: Atake ng missile (%d) mula sa %s %s %s papunta sa %s %s %s.
 cff_mission_other_recy_1: 'Ang %s ay bumabalik mula sa debris field sa %s papunta sa planetang %s %s %s. Mission: %s'
 cff_mission_own_0: 'Ang %s mo mula sa %s %s %s ay dumating sa %s %s %s. Mission: %s'
 cff_mission_own_1: 'Ang %s mo ay bumabalik mula sa %s %s %s papunta sa %s %s %s. Mission: %s'
@@ -572,26 +546,21 @@ cff_mission_own_expo_1: 'Ang %s mo ay bumabalik mula sa posisyon %s papunta sa %
 cff_mission_own_expo_2: 'Ang %s mo mula sa %s %s %s ay nasa expedition sa posisyon %s. Mission: %s'
 cff_mission_own_mip: Atake ng missile (%d) mula sa %s %s %s papunta sa %s %s %s.
 cff_mission_own_recy_0: 'Ang %s mo mula sa %s %s %s ay dumating sa debris field sa %s. Mission: %s'
-cff_mission_own_recy_1: >-
-  Ang %s mo ay bumabalik mula sa debris field sa %s papunta sa planetang %s %s
-  %s. Mission: %s
+cff_mission_own_recy_1: 'Ang %s mo ay bumabalik mula sa debris field sa %s papunta sa planetang %s %s %s. Mission: %s'
 cff_mission_target_bad: 'Isang kalabang %s mula sa manlalarong %s sa %s %s %s ay dumating sa %s %s %s. Mission: %s'
 cff_mission_target_good: 'Isang friendly na %s mula sa manlalarong %s sa %s %s %s ay dumating sa %s %s %s. Mission: %s'
 cff_mission_target_mip: Atake ng missile (%d) mula sa manlalarong %s sa %s %s %s papunta sa %s %s %s.
-cff_mission_target_stay: >-
-  Isang friendly na %s mula sa manlalarong %s sa %s %s %s ay nasa orbit sa
-  paligid ng %s %s %s. Mission: %s
+cff_mission_target_stay: 'Isang friendly na %s mula sa manlalarong %s sa %s %s %s ay nasa orbit sa paligid ng %s %s %s. Mission: %s'
 cff_no_fleet_data: Walang datos ng fleet
 cff_ships: ' unit'
 colonyWarn: Magbabala bago mag-colonize ng mahigit 2 planeta sa isang system
-css_account_banned_expire: >-
-  Naka-ban ka hanggang %1$s!<br>Kung may mga tanong, <a style="color: -webkit-link;" href="%2$s">makipag-ugnayan sa amin (link)</a>.
+css_account_banned_expire: 'Naka-ban ka hanggang %1$s!<br>Kung may mga tanong, <a style="color: -webkit-link;" href="%2$s">makipag-ugnayan sa amin (link)</a>.'
 css_account_banned_message: Na-ban ang account mo.
 css_account_banned_reason: 'Dahilan: %s'
 css_goto_homeside: <a href="./">Pumunta sa homepage</a>
 custom_fleet: Mga custom fleet
 custom_fleet_confirm: Alisin ang fleet template na %s?
-delete_confirm_gala: 'Burahin ang lokal na na-save na galaxy data?'
+delete_confirm_gala: Burahin ang lokal na na-save na galaxy data?
 Description: Deskripsyon
 destroyed: Nawasak
 dishonorable_fights: Mga walang dangal na laban
@@ -635,12 +604,14 @@ fl_already_invited: ' ay naimbitahan na.'
 fl_ammount: Mga Barko
 fl_arrival: Pagdating
 fl_arrival_time: Oras ng pagdating
-fl_attack_confirm_buddy: |-
-  Nasa listahan ng mga kaibigan mo ang target.
-  Sigurado ka bang aatake ka?
-fl_attack_confirm_diplo: 'May pact (%s) ka sa %s. Aatake pa rin?'
-fl_attack_confirm_outlaw: 'Ang pag-atake kay %s ay gagawin kang outlaw sa loob ng 7 araw.'
+fl_attack_confirm_buddy: 'Nasa listahan ng mga kaibigan mo ang target.
+
+  Sigurado ka bang aatake ka?'
+fl_attack_confirm_diplo: May pact (%s) ka sa %s. Aatake pa rin?
+fl_attack_confirm_outlaw: Ang pag-atake kay %s ay gagawin kang outlaw sa loob ng 7 araw.
 fl_bash_protection: Lalabag iyan sa bash rule.
+fl_daily_cap_reached: Naabot na ang araw-araw na limit na %1$d na fleet. Magre-reset ito sa loob ng %2$dh %3$dmin.
+fl_daily_attack_cap_reached: Naabot na ang araw-araw na limit na %1$d na atake. Magre-reset ito sa loob ng %2$dh %3$dmin.
 fl_beginning: Pinagmulan
 fl_blocked: ' ay hindi tumatanggap ng imbitasyon.'
 fl_bonus: Bonus
@@ -648,7 +619,7 @@ fl_bonus_attack: Armas
 fl_bonus_defensive: Armor
 fl_bonus_shield: Kalasag
 fl_cargo_capacity: Kapasidad ng cargo
-fl_colonize_confirm: 'May higit sa isa ka nang planeta sa system na ito. Nakakaakit ng malalakas na manlalaro ang masisikip na system. Mag-colonize pa rin?'
+fl_colonize_confirm: May higit sa isa ka nang planeta sa system na ito. Nakakaakit ng malalakas na manlalaro ang masisikip na system. Mag-colonize pa rin?
 fl_continue: Magpatuloy
 fl_debris_shortcut: (DF)
 fl_departure: Pag-alis
@@ -656,18 +627,18 @@ fl_destiny: Destinasyon
 fl_distance: Distansya
 fl_dlte_shortcut: Burahin
 fl_dont_exist: ' ay hindi umiiral.'
-fl_empty_target: 'Walang available na mission. May target ba talaga?'
+fl_empty_target: Walang available na mission. May target ba talaga?
 fl_error: May nagkamali. Subukan ulit.
-fl_error_empty_derbis: 'Walang debris field sa mga coordinate na ito!'
+fl_error_empty_derbis: Walang debris field sa mga coordinate na ito!
 fl_error_no_moon: Walang buwan sa mga coordinate na ito.
 fl_error_not_avalible: Walang anuman sa mga coordinate na ito.
-fl_error_same_planet: 'Iisang planeta ang simula at destinasyon!'
+fl_error_same_planet: Iisang planeta ang simula at destinasyon!
 fl_exchange: Palitan
 fl_expedition_alert_message: 'Mag-ingat: mapanganib ang mga expedition. Puwede mong mawala ang buong fleet mo!'
 fl_expedition_tech_required: Kailangan mo ng Astrophysics level 1 bago ka makapagsimula ng expedition.
 fl_expeditions: Mga Expedition
 fl_fleet: Fleet
-fl_fleet_sended: 'Naipadala ang fleet!'
+fl_fleet_sended: Naipadala ang fleet!
 fl_fleet_speed: Bilis ng fleet
 fl_fleets: Fleet
 fl_flying_arrival: Pagdating
@@ -675,7 +646,7 @@ fl_flying_return: Pagbalik
 fl_flying_time: Tagal (isang-daan)
 fl_from: Mula
 fl_fuel_consumption: Konsumo ng deuterium
-fl_hold_confirm_outlaw: 'Ang pag-hold sa %s ay gagawin kang outlaw sa loob ng 7 araw.'
+fl_hold_confirm_outlaw: Ang pag-hold sa %s ay gagawin kang outlaw sa loob ng 7 araw.
 fl_hold_max_fleets: Masyado nang maraming fleet ang papunta sa mga coordinate na ito, kaya hindi naipadala ang fleet mo.
 fl_hold_max_user: Naabot na ang maximum na bilang ng mga depensor, kaya hindi naipadala ang fleet mo.
 fl_hold_time: Hold time
@@ -695,22 +666,21 @@ fl_modify_sac_name: Pangalan ng ACS
 fl_moon_shortcut: (B)
 fl_mt_fleet: Fleet market
 fl_mt_resources: Resource market
-fl_multi_alarm: Multi alarm!
 fl_my_planets: Mga planeta ko
 fl_new_mission_title: 'Bagong mission: Pumili ng fleet'
 fl_no_colony: Walang kolonya
 fl_no_expedition_slot: Walang libreng expedition slot.
 fl_no_more_slots: Walang libreng slot
-fl_no_noresource: 'Walang nakargang resource!'
+fl_no_noresource: Walang nakargang resource!
 fl_no_noresource_exchange: Walang inilagay na resource para sa palitan
-fl_no_probe_expos: 'Hindi puwedeng mga Spy Probe lang ang bumubuo ng expedition!'
-fl_no_same_alliance: 'Dapat nasa alliance mo o sa listahan ng mga kaibigan mo ang target na manlalaro!'
+fl_no_probe_expos: Hindi puwedeng mga Spy Probe lang ang bumubuo ng expedition!
+fl_no_same_alliance: Dapat nasa alliance mo o sa listahan ng mga kaibigan mo ang target na manlalaro!
 fl_no_ships: Walang available na barko
 fl_no_shortcuts: Walang shortcut
 fl_no_slots: Walang available na slot
 fl_no_target: Walang available na target na planeta
 fl_not_all_ship_avalible: Hindi lahat ng barko ay available.
-fl_not_enough: 'Kulang ang %s.'
+fl_not_enough: Kulang ang %s.
 fl_not_enough_deuterium: Kulang ang deuterium para sa biyaheng ito.
 fl_not_enough_space: Kulang ang cargo space.
 fl_null: wala
@@ -727,7 +697,7 @@ fl_player_is_noob: Nasa noob protection ang manlalaro.
 fl_player_is_strong: Masyadong malakas ang manlalaro.
 fl_r: (R)
 fl_remove_all_ships: Walang barko
-fl_resources: 'Nakargahan na ang resource!'
+fl_resources: Nakargahan na ang resource!
 fl_resources_left: Available na kapasidad
 fl_return_time: Oras ng pagbalik
 fl_returning: Pabalik
@@ -746,7 +716,7 @@ fl_shortcut_save: I-save ang Shortcut
 fl_shortcut_saved: Na-save ang shortcut!
 fl_simulate: I-simulate
 fl_speed_title: 'Bilis: '
-fl_spy_confirm_outlaw: 'Ang pag-espiya kay %s ay gagawin kang outlaw sa loob ng 7 araw.'
+fl_spy_confirm_outlaw: Ang pag-espiya kay %s ay gagawin kang outlaw sa loob ng 7 araw.
 fl_strong_player: Masyadong malakas ang manlalaro.
 fl_stronger_techs: Masyadong mababa ang weapons, armor o shield technology mo.
 fl_system_places: Mga espesyal na lokasyon
@@ -754,16 +724,16 @@ fl_target_exists: Target na planeta
 fl_trade_no_resource_loaded: Wala kang nakargang resource.
 fl_trade_same_resource: Hindi mo puwedeng ibenta ang %s kapalit ng %s.
 fl_trade_to_many_resources_loaded: Isang uri lang ng resource ang puwede mong ibenta.
-fl_transfer_alert_message: |-
-  Babala!
-  Ililipat ang fleet mo sa ibang manlalaro!
+fl_transfer_alert_message: 'Babala!
+
+  Ililipat ang fleet mo sa ibang manlalaro!'
 fl_vacation_mode_active: Aktibo ang vacation mode
 fl_visibility: Visibility
 fl_visibility_all: Lahat
 fl_visibility_alliance: Alliance, mga partner sa pact at mga buddy
 fl_visibility_no_enemies: Lahat maliban sa mga kaaway
 fl_week_player: Nasa noob protection ang manlalaro
-fleet_table_custom_empty_name: 'Maglagay ng pangalan ng fleet!'
+fleet_table_custom_empty_name: Maglagay ng pangalan ng fleet!
 fleetPrio: Priority ng pagkakasunod ng fleet
 fm_add_filter: Magdagdag ng ship filter
 fm_all: Lahat
@@ -788,8 +758,6 @@ general_colors: Pangkalahatang mga kulay
 gl_actions: Mga Aksyon
 gl_activity: (*)
 gl_activity_inactive: (%d min)
-gl_ajax_status_fail: Nabigo
-gl_ajax_status_ok: Tapos na
 gl_all_defenses: Lahat ng depensa
 gl_alliance: Alliance
 gl_alliance_page: Page ng Alliance
@@ -800,13 +768,12 @@ gl_avaible_spyprobes: Mga Spy Probe
 gl_banned: Na-ban / Suspendido
 gl_buddy_request: Friend request
 gl_colonizable: Puwedeng i-colonize
-gl_debris: Debris
 gl_debris_field: Debris Field
 gl_diameter: Diameter
 gl_features: Mga Katangian
 gl_fleets: Mga Fleet Slot
 gl_galaxy: Galaxy
-gl_in_the_rank: 'Manlalarong %s, rank %d'
+gl_in_the_rank: Manlalarong %s, rank %d
 gl_inactive_seven: 7 araw na inactive
 gl_inactive_twentyeight: 28 araw na inactive
 gl_legend: Legend
@@ -815,11 +782,10 @@ gl_member_add: '%d Miyembro'
 gl_missil_flytime: Oras bago tumama
 gl_missil_launch: Atake ng Missile
 gl_missil_launch_action: Magpaputok ng mga Missile
-gl_missil_to_launch: 'Dami (<b>%d</b> available)'
+gl_missil_to_launch: Dami (<b>%d</b> available)
 gl_missile_attack: Atake ng missile
 gl_moon: Buwan
-gl_no: 'Hindi'
-gl_no_deuterium_to_view_galaxy: 'Kulang ang deuterium para makita ang galaxy!'
+gl_no_deuterium_to_view_galaxy: Kulang ang deuterium para makita ang galaxy!
 gl_no_spy_report: Wala pang spy report para sa planetang ito.
 gl_not_colonizable: Hindi puwedeng i-colonize!
 gl_objective: Pangunahing Layunin
@@ -837,7 +803,7 @@ gl_see_on_stats: Stats
 gl_short_ban: B
 gl_short_inactive: i
 gl_short_long_inactive: I
-gl_short_newbie: 'N'
+gl_short_newbie: N
 gl_short_strong: S
 gl_short_vacation: VM
 gl_show: Ipakita ang system
@@ -880,7 +846,7 @@ in_engine: Makina
 in_jump_gate_already_used: 'Nagcha-charge ang jump gate. Handa sa loob ng: '
 in_jump_gate_doesnt_have_one: Wala kang ibang jump gate na mapupuntahan.
 in_jump_gate_done: 'Matagumpay ang jump! Handa ulit ang jump gate sa loob ng: %s'
-in_jump_gate_error_data: 'Hindi valid ang mga coordinate ng jump!'
+in_jump_gate_error_data: Hindi valid ang mga coordinate ng jump!
 in_jump_gate_finish_moon: Destinasyon
 in_jump_gate_jump: Jump
 in_jump_gate_no_target: Walang available na target ng jump.
@@ -891,19 +857,14 @@ in_jump_gate_wait_time: 'Posible ang susunod na jump sa loob ng:'
 in_level: Level
 in_missilesamount: Available
 in_missilestype: Uri ng missile
-in_name: Pangalan
 in_prod_p_hour: Kada oras
 in_rf_again: Rapidfire laban sa
-in_rf_explanation: >-
-  Rapid Fire: Sa bawat combat round, puwedeng magpaputok nang maraming beses
-  ang unit na ito. Ipinapakita ng porsyento ang tsansa ng dagdag na putok
-  pagkatapos tamaan ang target na ganoong uri.
+in_rf_explanation: 'Rapid Fire: Sa bawat combat round, puwedeng magpaputok nang maraming beses ang unit na ito. Ipinapakita ng porsyento ang tsansa ng dagdag na putok pagkatapos tamaan ang target na ganoong uri.'
 in_rf_from: Rapidfire mula sa
 in_shield_pt: Lakas ng Kalasag
 in_storage: Imbakan
 in_struct_pt: Structural Integrity
-in_units: Unit
-kontakt: 'Hi!<br>Ipinapakita ng page na ito ang mga taong nagpapatakbo, nagmo-moderate at nagde-develop ng proyektong ito.<br>May mga tanong o problema? Makipag-ugnayan sa amin.<br><br><!--discord_url-->Para sa mas magandang palitan namin at ng ibang manlalaro, nagpapatakbo kami ng Discord server. Makikita mo ito <a href="{discord_url}">dito</a> o sa menu.<br>Doon mo makikita ang pinakabagong balita at ang pinakamagagandang meme mula sa mga alliance ng universe.<br>Magtanong tungkol sa game mechanics at ibahagi ang mga ideya mo para sa hinaharap ng laro.<br><br><!--/discord_url-->Siyempre, sinasagot din namin ang mga tanong mo sa laro.<br>Pakitandaan na libangan lang namin ang paglalaro, kaya maaaring abutin ng ilang araw ang mga sagot.<br>'
+kontakt: Hi!<br>Ipinapakita ng page na ito ang mga taong nagpapatakbo, nagmo-moderate at nagde-develop ng proyektong ito.<br>May mga tanong o problema? Makipag-ugnayan sa amin.<br><br><!--discord_url-->Para sa mas magandang palitan namin at ng ibang manlalaro, nagpapatakbo kami ng Discord server. Makikita mo ito <a href="{discord_url}">dito</a> o sa menu.<br>Doon mo makikita ang pinakabagong balita at ang pinakamagagandang meme mula sa mga alliance ng universe.<br>Magtanong tungkol sa game mechanics at ibahagi ang mga ideya mo para sa hinaharap ng laro.<br><br><!--/discord_url-->Siyempre, sinasagot din namin ang mga tanong mo sa laro.<br>Pakitandaan na libangan lang namin ang paglalaro, kaya maaaring abutin ng ilang araw ang mga sagot.<br>
 lm_administration: Administration
 lm_alliance: Alliance
 lm_banned: Na-ban
@@ -938,8 +899,8 @@ lm_support: Support
 lm_technology: Mga Teknolohiya
 lm_topkb: Hall of Fame
 lo_continue: I-click para magpatuloy.
-lo_logout: 'Nag-log out ka na. Hanggang sa muli!'
-lo_notify: 'Magre-redirect sa loob ng <span id="seconds">5</span> segundo'
+lo_logout: Nag-log out ka na. Hanggang sa muli!
+lo_notify: Magre-redirect sa loob ng <span id="seconds">5</span> segundo
 lo_redirect: I-redirect
 lo_title: Naka-log out
 loading: Naglo-load ...
@@ -967,6 +928,7 @@ ma_impulse_drive_required: Kailangan ng Impulse Drive
 ma_missiles_sended: ' missile ang naipaputok. Target: '
 ma_no_missiles: Walang missile
 ma_no_range: Wala sa saklaw ng mga missile mo ang target.
+ma_own_planet: Hindi mo puwedeng atakihin ang sarili mong planeta gamit ang missile.
 ma_not_send_other_galaxy: 'Hindi ka puwedeng magpadala ng mga missile sa ibang galaxy. '
 ma_planet_doesnt_exists: 'Walang ganoong planeta. '
 ma_silo_level: 'Kailangan ng Silo level 4! '
@@ -978,7 +940,7 @@ market_confirm_are_you_sure: Sigurado ka ba?
 market_fleet: Fleet
 market_info_description: 'Kaliwang bahagi: mga alok na ibinebenta | Kanang bahagi: hinihinging presyo<br><br>&bull; Hindi na maikakansela ang mga tinanggap na alok &bull;<br>&bull; Hindi matatanggap ang ilang alok dahil sa push rule &bull;<br>&bull; Ang bumibili ang nagbabayad ng fuel para sa nabiling fleet &bull;'
 market_info_header: Marketplace
-market_info_no_return: 'Hindi maikakansela ang mga alok sa marketplace!'
+market_info_no_return: Hindi maikakansela ang mga alok sa marketplace!
 market_msg_trade_bought: Lumilipad papunta sa %s ang fleet mo na may dalang %s %s, %s %s, %s %s at nagkakahalaga ito ng %s %s.
 market_msg_trade_from: Marketplace
 market_msg_trade_sold: Lumilipad papunta sa %s ang fleet mo na may dalang %s %s, %s %s, %s %s.
@@ -1013,7 +975,10 @@ mg_delete_type_all: Burahin ang lahat ng mensahe sa uri na ito
 mg_delete_unmarked: Burahin ang mga hindi minarkahang mensahe sa uri na ito
 mg_deleted: Nabura ang mensahe.
 mg_empty_text: Maglagay ng teksto
-mg_error: 'Hindi nahanap ang tatanggap!'
+mg_error: Hindi nahanap ang tatanggap!
+mg_too_many_recipients: Hanggang %d manlalaro lang ang puwede mong sabayang padalhan ng mensahe.
+mg_text_too_long: Masyadong mahaba ang mensahe (hanggang %d character lang).
+mg_rate_limited: Masyadong mabilis ang pagpapadala mo ng mensahe. Maghintay ng ilang minuto.
 mg_favorite: Markahan bilang paborito
 mg_favorite_filter_off: Ipakita lahat
 mg_favorite_filter_on: Ipakita ang mga paborito lang
@@ -1021,14 +986,13 @@ mg_forward: I-forward ang mensahe
 mg_grouping_off: Ipakita ang mga mensahe nang hindi naka-group
 mg_grouping_on: Ipakita ang mga mensahe nang naka-group
 mg_message: Mensahe
-mg_message_send: 'Naipadala ang mensahe!'
-mg_message_title: Mga Mensahe
+mg_message_send: Naipadala ang mensahe!
 mg_min_3_chars: Maglagay ng hindi bababa sa 3 character para maghanap
 mg_new: Bago
 mg_no_subject: Walang paksa
 mg_no_user: Walang nakitang manlalaro
 mg_overview: Pamamahala ng Mensahe
-mg_open_all: 'Laging buksan ang kategoryang "Lahat ng mensahe"'
+mg_open_all: Laging buksan ang kategoryang "Lahat ng mensahe"
 mg_page: Page
 mg_read_all: Markahang nabasa na ang lahat ng mensahe
 mg_read_marked: Markahang nabasa na ang mga napiling mensahe
@@ -1069,7 +1033,7 @@ nt_dlte_note: Burahin
 nt_edit_note: I-edit ang tala
 nt_important: Mataas
 nt_no_text: Walang teksto
-nt_limit_reached: 'Naabot mo na ang pinakamataas na bilang ng mga tala (%1$d). Magbura muna ng mga lumang tala.'
+nt_limit_reached: Naabot mo na ang pinakamataas na bilang ng mga tala (%1$d). Magbura muna ng mga lumang tala.
 nt_no_title: Walang pamagat
 nt_normal: Normal
 nt_note: Tala
@@ -1082,8 +1046,8 @@ nt_subject_note: Paksa
 nt_unimportant: Mababa
 nt_you_dont_have_notes: Wala ka pang mga tala
 op_activate_vacation_mode: I-activate ang vacation mode
-op_activate_vacation_mode_confirm: 'Hindi mo madi-deactivate ang vacation mode sa loob ng 48 oras. Sigurado ka ba?'
-op_activate_vacation_mode_descrip: 'Pinoprotektahan ka ng vacation mode sa mas matagal na pagliban. Maa-activate lang ito kapag walang gumagalaw na fleet mo. Kapag aktibo na, pinoprotektahan ka nito mula sa mga bagong atake. Gayunpaman, magpapatuloy ang mga atakeng nasimulan na, at ibabalik ang mga friendly na fleet na naka-hold! Naka-pause ang produksyon ng resource, pagtatayo ng gusali, mga order sa shipyard at research habang ito ay aktibo at magpapatuloy pagkatapos. Hindi madi-deactivate ang vacation mode sa unang 48 oras!'
+op_activate_vacation_mode_confirm: Hindi mo madi-deactivate ang vacation mode sa loob ng 48 oras. Sigurado ka ba?
+op_activate_vacation_mode_descrip: Pinoprotektahan ka ng vacation mode sa mas matagal na pagliban. Maa-activate lang ito kapag walang gumagalaw na fleet mo. Kapag aktibo na, pinoprotektahan ka nito mula sa mga bagong atake. Gayunpaman, magpapatuloy ang mga atakeng nasimulan na, at ibabalik ang mga friendly na fleet na naka-hold! Naka-pause ang produksyon ng resource, pagtatayo ng gusali, mga order sa shipyard at research habang ito ay aktibo at magpapatuloy pagkatapos. Hindi madi-deactivate ang vacation mode sa unang 48 oras!
 op_active_build_messages: I-enable ang mga mensahe ng konstruksyon
 op_active_spy_messages_mode: I-enable ang pinagsama-samang spy report
 op_add_to_buddy_list: Magpadala ng friend request
@@ -1095,9 +1059,9 @@ op_block_pm: I-block ang mga pribadong mensahe
 op_build_pages: Mga Gusali / Research
 op_cant_activate_vacation_mode: Hindi ka makakapagsimula ng vacation mode habang gumagalaw ang mga fleet mo.
 op_cant_deactivate_vacation_mode: Hindi pa matatapos ang vacation mode.
-op_change_mail_exist: 'Ginagamit na ang email address na %s.'
-op_change_name_exist: 'May gumagamit na ng username na %s.'
-op_change_name_pro_week: 'Isang beses lang kada 7 araw ang pagpalit ng username!'
+op_change_mail_exist: Ginagamit na ang email address na %s.
+op_change_name_exist: May gumagamit na ng username na %s.
+op_change_name_pro_week: Isang beses lang kada 7 araw ang pagpalit ng username!
 op_collapse_spy_reports: Ipakitang naka-collapse bilang default ang mga spy report
 op_decimal_separator: Decimal separator
 op_dlte_account: Burahin ang account
@@ -1124,8 +1088,8 @@ op_options_changed: Na-save ang mga setting.
 op_options_deletion_activated: Na-activate ang pagbura ng account!
 op_options_deletion_deactivated: Na-deactivate ang pagbura ng account!
 op_options_no_other_settings_changed: Walang ibang binago.
-op_options_vacation_activated: 'Naka-on ang vacation mode. Mag-enjoy sa pahinga mo!'
-op_options_vacation_deactivated: 'Naka-off ang vacation mode. Welcome back!'
+op_options_vacation_activated: Naka-on ang vacation mode. Mag-enjoy sa pahinga mo!
+op_options_vacation_deactivated: Naka-off ang vacation mode. Welcome back!
 op_repeat_new_pass: Bagong password (ulitin)
 op_save_changes: I-save ang mga pagbabago
 op_shortcut: Shortcut
@@ -1145,18 +1109,14 @@ op_spy_probes_number: Mga Spy Probe kada mission
 op_spy_probes_number_descrip: Bilang ng mga probe na ipinapadala mula sa Galaxy view.
 op_spy_report: Spy report
 op_spy_report_fresh_time: Sariwang spy report (berdeng tuldok), hanggang
-op_spy_report_fresh_time_tooltip: >-
-  Ang mga spy report na mas bago sa ibinigay na bilang ng oras ay may berdeng
-  tuldok sa galaxy view.
+op_spy_report_fresh_time_tooltip: Ang mga spy report na mas bago sa ibinigay na bilang ng oras ay may berdeng tuldok sa galaxy view.
 op_spy_report_recent_time: Kamakailang spy report (dilaw na tuldok), hanggang
-op_spy_report_recent_time_tooltip: >-
-  Ang mga spy report na mas bago sa ibinigay na bilang ng oras ay may dilaw na
-  tuldok; ang mas luma ay may pulang tuldok.
+op_spy_report_recent_time_tooltip: Ang mga spy report na mas bago sa ibinigay na bilang ng oras ay may dilaw na tuldok; ang mas luma ay may pulang tuldok.
 op_spy_report_time_invalid: Hindi valid ang mga oras ng spy report. Dapat hindi bababa sa 1 oras ang parehong halaga, at dapat mas mataas ang recent na halaga kaysa sa fresh na halaga.
 op_stop_dlte_account: Kanselahin ang pagbura ng account
 op_timezone: Time zone
 op_user_data: Datos ng user
-op_user_name_no_alphanumeric: 'Titik at numero lang ang puwede sa username mo!'
+op_user_name_no_alphanumeric: Titik at numero lang ang puwede sa username mo!
 op_username: Username
 op_vacation_delete_mode: Danger Zone
 op_vacation_mode_active_message: 'Hindi madi-deactivate ang vacation mode hanggang: '
@@ -1167,7 +1127,7 @@ ov_admins_online: Mga aktibong admin
 ov_aprox: Humigit-kumulang
 ov_checknews_hide: Itago ang balita
 ov_checknews_show: Ipakita ang balita
-ov_closed: 'Sarado ang universe na ito sa ngayon!'
+ov_closed: Sarado ang universe na ito sa ngayon!
 ov_delete_planet: Burahin ang planeta
 ov_developed_fields: Mga field na ginamit
 ov_diameter: Diameter
@@ -1183,12 +1143,11 @@ ov_have_new_messages: May %d bago kang mensahe
 ov_max_developed_fields: Kabuuang mga field
 ov_moon: Buwan
 ov_newname_done: Napalitan ang pangalan ng planeta!
-ov_newname_specialchar: 'Numero, titik, espasyo, underscore, gitling at tuldok lang ang puwede sa mga pangalan ng planeta!'
-ov_newname_too_long: 'Hanggang %d character lang ang pangalan ng planeta.'
+ov_newname_specialchar: Numero, titik, espasyo, underscore, gitling at tuldok lang ang puwede sa mga pangalan ng planeta!
+ov_newname_too_long: Hanggang %d character lang ang pangalan ng planeta.
 ov_news: Balita
 ov_of: ng
 ov_outlaw: 'Outlaw hanggang:'
-ov_password: Password
 ov_place: Posisyon
 ov_planet: Planeta
 ov_planet_abandoned: Nabura ang planeta.
@@ -1197,7 +1156,7 @@ ov_planetmenu: Palitan ang pangalan o burahin
 ov_planets: Mga planeta at buwan
 ov_points: Puntos
 ov_position: Posisyon
-ov_principal_planet_cant_abanone: 'Hindi mo mabubura ang home planet mo!'
+ov_principal_planet_cant_abanone: Hindi mo mabubura ang home planet mo!
 ov_rename_label: Bagong pangalan
 ov_rules: Mga Patakaran
 ov_rulesnotify: Sundin ang
@@ -1209,8 +1168,8 @@ ov_temperature: Temperatura
 ov_ticketbot: Ticketbot
 ov_to: hanggang
 ov_userrank_info: '%s (%s <a href="game?page=statistics&amp;range=%d">%d</a> %s %s)'
-ov_wrong_name: 'Maling pangalan!'
-ov_wrong_pass: 'Maling password!'
+ov_wrong_name: Maling pangalan!
+ov_wrong_pass: Maling password!
 own: Sarili
 own_colors: Sariling mga kulay
 page_doesnt_exist: Walang ganoong page.
@@ -1220,8 +1179,8 @@ pl_builds: Mga Gusali
 pl_def: Depensa
 pl_dercrystal: Na-recycle na Crystal
 pl_dermetal: Na-recycle na Metal
-pl_destroy: 'Kasali si %s sa'
-pl_destroy_real: 'Personal na kasali si %s sa'
+pl_destroy: Kasali si %s sa
+pl_destroy_real: Personal na kasali si %s sa
 pl_etc: 'Atbp '
 pl_fightdraw: Tabla
 pl_fightlose: Talo
@@ -1372,44 +1331,16 @@ sys_catchup_short: 'Bonus: %01.2f'
 sys_catchup_tooltip: 'Catch-up bonus: mas maikling oras at mas mababang gastos, batay sa record level ng gusali/research na ito'
 sys_closed_game: 'Sarado muna ang laro:'
 sys_forward: Susunod
-sys_game_is_setup: '<h1>Tapos na ang pagrehistro!</h1><br><p>Inihahanda namin ang universe mo!</p><!--discord_url--><p>Samantala, para hindi ka mahuli sa anuman, sumali sa amin sa</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->'
+sys_game_is_setup: <h1>Tapos na ang pagrehistro!</h1><br><p>Inihahanda namin ang universe mo!</p><!--discord_url--><p>Samantala, para hindi ka mahuli sa anuman, sumali sa amin sa</p><h3><a href="{discord_url}" target="_blank">-> Discord <-</a></h3><!--/discord_url-->
 sys_module_inactive: Hindi aktibo ang module na ito
-sys_nomore_level: 'Wala kang %s na magigiba.'
+sys_nomore_level: Wala kang %s na magigiba.
 sys_notenough_money: 'Kulang ang resource sa %s <a href="./game?page=buildings&amp;cp=%d&amp;re=0">[%d:%d:%d]</a> para itayo ang %s. <br>Meron ka: %s %s, %s %s at %s %s. <br>Nagkakahalaga ito ng: %s %s, %s %s at %s %s.'
 sys_refferal_from: System
 sys_refferal_text: Ang manlalarong %s, na na-recruit mo, ay umabot sa %s puntos.
 sys_refferal_title: Bonus ng Manlalaro %s
 sys_techlist: Research queue
 team: Ang team
-teamAdmin: Admin
-teamAdminLong: Puwedeng gumamit ng mga espesyal na tool para patakbuhin ang laro
-teamAktiv: Aktibo
-teamAlumni: Dating / Hindi na aktibong miyembro ng team
-teamAlumniLong: Taos-pusong pasasalamat sa
-teamCommunity: Community Support
-teamCommunityLong: 'Nandito sila para sa iyo kapag kailangan mo ng suporta.<br>Anuman ang problema, makipag-ugnayan lang!<br>Gagawin namin ang aming makakaya para makahanap ng solusyon.<br>May mga tanong, o may gustong ilabas, kahit anonymous? Kausapin kami.<br>Kami rin ang tulay sa pagitan ng mga manlalaro at ng mga mod.'
-teamContributor: Contributor
-teamContributorLong: Tumutulong sa pagbuo ng proyekto.
-teamDatabase: Access sa database
-teamDev: Developer
-teamDevLong: >-
-  Nagmementena at nagde-develop ng proyekto<br>May access sa Discord section
-  para sa mga usapan ng dev
-teamDiscordName: Pangalan sa Discord
-teamEmergency: Emergency team
-teamEmergencyLong: 'Pinapa-ping ng mga user sa pamamagitan ng aming Discord "@Emergency Response Team" kapag nag-down ang mga server'
-teamIngameName: Pangalan sa laro
-teamLegend: Paliwanag sa mga role at karapatan
-teamMod: Moderator
-teamModLong: 'Humahawak sa mga kaso at isyu mo<br>Nagtatrabaho para sa patas na laro para sa lahat<br>Responsable sa mga parusa<br>May access sa Discord section para sa mga usapan ng mod<br>May access sa Discord section para sa mga usapan ng dev<br>May access sa Discord section para sa mga ticket meeting kasama ang mga dev'
-teamNo: 'Hindi'
-teamPlayer: Manlalaro
 teamRole: Role
-teamScripte: Script review
-teamScripteLong: 'Nirerepaso ang mga script na gawa ng mga manlalaro para<br>makapagpasya ang team kung papayagan ang mga ito'
-teamTickets: Access sa ticket
-teamTicketsLong: Puwedeng magbasa sa lahat ng bukas na ticket
-teamYes: 'Oo'
 ti_admin_close: Sarado na ang ticket!
 ti_admin_open: Binuksan ang ticket!
 ti_answer: Tumugon
@@ -1421,6 +1352,8 @@ ti_create_head: Gumawa ng Ticket
 ti_create_info: "<p>Sa paggawa ng support Ticket, ilarawan nang pinakadetalyado ang problema mo!</p>\r\n<p>Pinapaikli ng detalyadong paglalarawan ang oras ng paglutas at iniiwasan ang matagal na palitan ng mensahe.</p>\r\n<p>Para sa mga isyung may kinalaman sa account, nakakatulong sa pag-assign ng ticket at nagpapaikli ng oras ng pagproseso ang pagbibigay ng mga kaugnay na detalye ng account.</p>"
 ti_date: Petsa
 ti_error_closed: Sarado na ang ticket na ito, kaya hindi na ito masasagot.
+ti_error_too_many_open: May %d bukas ka nang ticket. Maghintay munang may magsara bago magbukas ng bago.
+ti_error_rate_limited: Masyado kang mabilis magbukas ng ticket. Subukan ulit mamaya.
 ti_error_no_subject: Maglagay ng paksa.
 ti_from: ni
 ti_header: Support system
@@ -1431,7 +1364,6 @@ ti_new: Bagong ticket
 ti_not_exist: 'Hindi nahanap ang Ticket #%d.'
 ti_open: Buksan ang Ticket
 ti_overview: Bumalik
-ti_re: 'Re:'
 ti_read: Ticket na babasahin
 ti_responded: 'Sinagot ang ticket noong '
 ti_status: Status
@@ -1461,26 +1393,23 @@ tkb_top: Hall of Fame
 tkb_units: Mga Unit
 tkb_verlierer: <b>-Talo-</b>
 tkb_week: linggo
-tn_delete_mode: 'Mabubura ang account mo sa %s.'
-tn_player_title: Emperor
+tn_delete_mode: Mabubura ang account mo sa %s.
 tn_vacation_mode: Nasa vacation mode ang account mo.
-tn_vacation_mode_kick: >-
-  <br><br>TANDAAN: Awtomatikong nadi-deactivate ang vacation mode pagkatapos
-  ng 4 na linggo ng kawalan ng aktibidad.
+tn_vacation_mode_kick: '<br><br>TANDAAN: Awtomatikong nadi-deactivate ang vacation mode pagkatapos ng 4 na linggo ng kawalan ng aktibidad.'
 tn_vacation_mode_until: Nasa vacation mode ang account mo hanggang %s man lang.
-tr_exchange_done: 'Tapos na ang trade!'
+tr_exchange_done: Tapos na ang trade!
 tr_exchange_error: Hindi valid o hindi sapat ang dami ng resource
 tt_lvl: 'Level '
-tt_lv_short: 'Lv'
+tt_lv_short: Lv
 tt_requirements: Mga Requirement
-tt_unlocks: 'Binubuksan'
-tt_status_owned: 'Naitayo'
-tt_status_available: 'Available'
-tt_status_locked: 'Naka-lock'
-tt_hint: 'Mag-hover o pumili ng teknolohiya para masubaybayan ang mga requirement nito (sa itaas) at ang mga binubuksan nito (sa ibaba). I-click para i-pin, Esc para i-clear.'
-tt_foreign: 'Kailangan ng kategoryang ito, pero kabilang sa iba'
-tt_none: 'wala'
-tt_graph: 'Technology tree'
+tt_unlocks: Binubuksan
+tt_status_owned: Naitayo
+tt_status_available: Available
+tt_status_locked: Naka-lock
+tt_hint: Mag-hover o pumili ng teknolohiya para masubaybayan ang mga requirement nito (sa itaas) at ang mga binubuksan nito (sa ibaba). I-click para i-pin, Esc para i-clear.
+tt_foreign: Kailangan ng kategoryang ito, pero kabilang sa iba
+tt_none: wala
+tt_graph: Technology tree
 type_mission_1: Atake
 type_mission_1_foreign: Dayuhang atake
 type_mission_1_own: Sariling atake
@@ -1561,154 +1490,52 @@ ui_nav_universe: Universe
 ui_nav_community: Community
 ui_nav_help: Tulong
 ui_nav_personal: Personal
-al_applyform_reload: I-reload
-al_default_request_text: Walang iniwang mensahe ang manlalarong ito.
-al_diplo_ground: 'Dahilan:'
-al_diplo_war_end_confirm: Sigurado ka bang gusto mong tapusin ang digmaan?
-al_do_you_really_want_to_go_out: Sigurado ka bang gusto mong umalis sa %s?
-al_events: Mga Event
-al_founder_cant_leave_alliance: Hindi basta-basta makakaalis ang founder sa alliance.
-al_legend: Deskripsyon
-al_legend_admin_alliance: Pamahalaan ang alliance
-al_legend_check_requests: Iproseso ang mga application
-al_legend_create_circular: Magpadala ng mga mass message
-al_legend_disolve_alliance: Buwagin ang alliance
-al_legend_kick_users: Alisin ang mga miyembro
-al_legend_right_hand: Kanang kamay
-al_legend_see_connected_users: Makita ang online status
-al_legend_see_requests: Tingnan ang mga application
-al_legend_see_users_list: Tingnan ang listahan ng mga miyembro
-al_manage_change_name: Palitan ang pangalan ng alliance
-al_manage_change_tag: Palitan ang tag ng alliance
-al_no_events: Wala pang nangyayari.
-al_no_request_pending: Mayroong %d application sa kabuuan
-al_request_from_user: Application mula sa manlalaro
-al_tfkristall: Kabuuang crystal ng debris field
-al_tfmetall: Kabuuang metal ng debris field
-al_unitsloos: Mga unit na nawala
-al_unitsshut: Mga unit na napatay
-al_view_events: Ipakita ang mga event
-bd_add_to_list: Idagdag sa build queue
-bd_build_defenses: Itayo
-bd_completed: Tapos na
-bd_finished: Tapos na
-bd_lab_required: Magtayo muna ng research lab sa planetang ito.
-bd_max_lvl: 'Max. level:'
-bd_on: 'sa'
-bd_ready: Tapos na
-bd_research: Research
-bu_back: Bumalik
-cff_fleet_own: Fleet
-cff_fleet_target: Mga Fleet
-cr_armor: Armor
-cr_destroyed: Nawasak!
-cr_first_round: (Nawasak ang fleet sa round 1)
-cr_lost_contact: Nawalan ng contact sa fleet mo.
-cr_shields: Kalasag
-cr_total: Kabuuan
-cr_type: Uri
-cr_weapons: Armas
-css_server_maintrace: 'Maintenance ng server<br><br>Sarado ang laro sa ngayon.<br><br>Dahilan: %s'
-fa_galaxy_not_exist: Walang ganoong galaxy
-fa_mission_not_available: Hindi available ang mission
-fa_not_attack_yourself: Hindi mo puwedeng atakihin ang sarili mo
-fa_system_not_exist: Walang ganoong system
-fgp_require: Kailangan ng
-fl_deploy_only_your_planets: Sa sarili mong mga planeta ka lang puwedeng mag-deploy.
-fl_expedition_fleets_limit: Naabot mo na ang limit ng expedition mo.
-fl_no_empty_derbis: 'Walang debris field doon!'
-fl_no_hold_depot: Walang alliance depot sa target.
-fl_not_ally_deposit: Walang alliance depot sa target.
-fl_planet_populed: Na-colonize ang planeta!
-fl_register_shorcut: Gumawa
-fl_shortcuts: Mga Shortcut
-fl_target_not_exists: Walang ganoong target na planeta.
-gl_avaible_grecyclers: Giga recycler
-gl_collect: Anihin
-gl_free: Libre
-gl_free_desc: Isang malaking planetang walang naninirahan, perpektong lugar para sa bagong kolonya.
-gl_name_activity: Pangalan (aktibidad)
 gl_points: Puntos
-gl_with: ' na may '
-gl_wreckfield: Wreck field
-gl_wreckfield_short: WF
-gl_yes: 'Oo'
-in_bonus: 'Bonus:'
-in_dest_durati: Tagal
-in_jump_gate_available: Dami
-in_needed: Kailangan
-in_range: Saklaw ng sensor
-in_title_head: Impormasyon tungkol sa
-invalid_action: Hindi valid na aksyon!
-lm_disclamer: Imprint
-lm_forums: Forum
-lm_queue: Mga Queue
-ma_big_laser: Mabigat na laser turret
-ma_big_protection_shield: Malaking shield dome
-ma_buster_canyon: Plasma turret
-ma_gauss_canyon: Gauss cannon
-ma_ionic_canyon: Ion cannon
-ma_misil_launcher: Missile launcher
-ma_small_laser: Magaang laser turret
-ma_small_protection_shield: Maliit na shield dome
 mg_action: Aksyon
-mg_date: Petsa
-mg_from: Mula kay
-mg_game_message: Mensahe ng Laro
-mg_game_operators: Mga operator ng laro
 mg_message_type: Uri ng mensahe
-mg_msg_sended: Naipadala ang mensahe!
-mg_no_text: Sumulat muna ng mensahe.
-mg_receiver_block_pm: Bina-block ng manlalarong ito ang mga pribadong mensahe.
-mg_show_only_header_spy_reports: Ipakita lang nang bahagya ang mga spy report
 mg_to: Para kay
-mg_total: Kabuuan
-mg_write_mail_to_ops: Sumulat ng email kay
-op_deactivate_ipcheck: I-disable ang IP check
-op_deactivate_ipcheck_descrip: 'Awtomatiko kang nilo-log out ng IP check para sa kaligtasan kung magbago ang IP mo, o kung dalawang tao ang gumagamit ng iisang account mula sa magkaibang IP nang sabay. Ang pag-off nito ay nagpapababa ng seguridad ng account mo!'
-op_email_adress_descrip: Puwede mong palitan ang email address na ito anumang oras. Kung hindi mo ito babaguhin sa loob ng 7 araw, ito na ang magiging permanenteng address mo.
-op_error: Error
-op_password_changed: Napalitan ang password.
-op_permanent_email_adress: Permanenteng email address
-op_seconds: Segundo
-op_send_report: Spy report
-op_show_planetmenu: Ipakita ang planet menu
-op_show_skin: Ipakita ang skin
-op_toolt_data: Ipakita ang tooltip para sa
-op_username_changed: Napalitan ang username.
-ov_moving_fleets: Mga fleet na gumagalaw
-ov_no_admins_online: 'Walang admin na online sa ngayon!'
-ov_noreflink: Wala ka pang na-recruit na user.
-ov_online: Online
-ov_players: Mga Manlalaro
-ov_reflink: Referral link
-tkb_missing: '<br>Missing in Action: Wala na ang user account.'
-tkb_unentschieden: '<b>-Tabla-</b>'
+tkb_unentschieden: <b>-Tabla-</b>
 source_code: Source code
 teamMemberName: Pangalan
 teamMemberContact: Contact
 teamMemberAbout: Tungkol
 teamEmpty: Wala pang naidagdag na miyembro ng team.
-
 lm_board: Board
-bd_depot_action: "Suplayan ang mga fleet"
-depot_title: "Alliance Depot"
-depot_intro: "Dito mo masusuplayan ang mga friendly na fleet na nakatigil sa planetang ito. Pinahahaba ng bawat suplay ang pananatili nila nang 1 hanggang %s oras (ang level ng depot mo) at gumagastos ng deuterium mula sa planetang ito. Hindi puwedeng lumampas sa %s oras ang natitirang pananatili ng isang fleet."
-depot_deuterium_stock: "Deuterium sa planetang ito"
-depot_empty: "Walang friendly na fleet na nakatigil sa planetang ito."
-depot_col_owner: "Manlalaro"
-depot_col_ships: "Mga barko"
-depot_col_stay_end: "Matatapos ang pananatili"
-depot_col_hourly: "Gastos kada oras"
-depot_col_supply: "Suplay"
-depot_hours: "%s oras"
-depot_cost: "Gastos"
-depot_supply: "Suplayan"
-depot_full: "Naabot na ang pinakamahabang pananatili"
-depot_done: "Nasuplayan ang fleet: pinahaba ang pananatili nito nang %s oras kapalit ng %s deuterium."
-depot_err_not_owner: "Hindi sa iyo ang planetang ito."
-depot_err_no_depot: "Walang Alliance Depot ang planetang ito."
-depot_err_hours: "Puwede mong suplayan ang isang fleet nang 1 hanggang %s oras nang minsanan (ang level ng depot mo)."
-depot_err_fleet: "Hindi na nakatigil ang fleet na ito sa planetang ito."
-depot_err_max_stay: "Hanggang %s oras lang ang puwedeng matirang pananatili ng isang fleet. Pumili ng mas kaunting oras."
-depot_err_deuterium: "Kulang ang deuterium sa planetang ito: kailangan ng %s."
+bd_depot_action: Suplayan ang mga fleet
+depot_title: Alliance Depot
+depot_intro: Dito mo masusuplayan ang mga friendly na fleet na nakatigil sa planetang ito. Pinahahaba ng bawat suplay ang pananatili nila nang 1 hanggang %s oras (ang level ng depot mo) at gumagastos ng deuterium mula sa planetang ito. Hindi puwedeng lumampas sa %s oras ang natitirang pananatili ng isang fleet.
+depot_deuterium_stock: Deuterium sa planetang ito
+depot_empty: Walang friendly na fleet na nakatigil sa planetang ito.
+depot_col_owner: Manlalaro
+depot_col_ships: Mga barko
+depot_col_stay_end: Matatapos ang pananatili
+depot_col_hourly: Gastos kada oras
+depot_col_supply: Suplay
+depot_hours: '%s oras'
+depot_cost: Gastos
+depot_supply: Suplayan
+depot_full: Naabot na ang pinakamahabang pananatili
+depot_done: 'Nasuplayan ang fleet: pinahaba ang pananatili nito nang %s oras kapalit ng %s deuterium.'
+depot_err_not_owner: Hindi sa iyo ang planetang ito.
+depot_err_no_depot: Walang Alliance Depot ang planetang ito.
+depot_err_hours: Puwede mong suplayan ang isang fleet nang 1 hanggang %s oras nang minsanan (ang level ng depot mo).
+depot_err_fleet: Hindi na nakatigil ang fleet na ito sa planetang ito.
+depot_err_max_stay: Hanggang %s oras lang ang puwedeng matirang pananatili ng isang fleet. Pumili ng mas kaunting oras.
+depot_err_deuterium: 'Kulang ang deuterium sa planetang ito: kailangan ng %s.'
+op_discord_hook_invalid: Hindi wasto ang Discord webhook. Tanging https://discord.com/api/webhooks/... na URL lang ang pinapayagan.
+fl_push_guard: 'Hinarang ang transport na ito: hindi nagpadala kamakailan ng resources ang target na manlalaro at lampas sa limit ang halaga ng cargo.'
+rl_too_many_requests: Sobrang dami ng request sa maikling panahon. Maghintay ng %d segundo at subukan ulit.
+lm_vote: Vote
+vt_head: Mag-vote para sa laro
+vt_intro: Mag-vote sa mga site sa ibaba at makakuha ng reward sa main planeta mo. Puwedeng i-vote ulit ang bawat site pagkatapos ng cooldown nito.
+vt_site: Site
+vt_reward: Reward
+vt_status: Status
+vt_ready: Handa
+vt_wait: Sa susunod pa sa loob ng %d h %d min
+vt_button: Vote
+vt_none: Walang vote site sa ngayon.
+vt_postback_hint: Darating ang reward pagkatapos kumpirmahin ng site ang vote mo.
+vt_notice_rewarded: Salamat sa pag-vote! Idinagdag na ang reward sa main planeta mo.
+vt_notice_pending: Salamat sa pag-vote! Darating ang reward pagkatapos kumpirmahin ng site ang vote mo.
+vt_notice_cooldown: Kailangan mo pang maghintay bago ulit mag-vote sa site na ito.

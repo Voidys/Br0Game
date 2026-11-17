@@ -39,9 +39,9 @@ security:
     # and the board (account?page=board, read only for guests, BoardController guards the writes)
     # stay public. The admin area additionally asks for the admin password (game session flag).
     access_control:
-        - { path: '^/(uni\d+/)?account(\.php)?$', allow_if: "is_authenticated() or request.query.get('page') == 'board'" }
-        - { path: '^/(uni\d+/)?admin(\.php)?$', roles: IS_AUTHENTICATED }
-        - { path: '^/(uni\d+/)?game(\.php)?$', allow_if: "is_authenticated() or (request.query.get('page') == 'raport' and request.query.has('raport') and request.query.count() == 2)" }
+        - { path: '^/(uni\d+/)?account$', allow_if: "is_authenticated() or request.query.get('page') == 'board'" }
+        - { path: '^/(uni\d+/)?admin$', roles: IS_AUTHENTICATED }
+        - { path: '^/(uni\d+/)?game$', allow_if: "is_authenticated() or (request.query.get('page') == 'raport' and request.query.has('raport') and request.query.count() == 2)" }
 
 when@test:
     security:

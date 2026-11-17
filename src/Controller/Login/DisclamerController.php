@@ -20,12 +20,9 @@ namespace App\Controller\Login;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Public contact/imprint page, rendered from the CMS page "contacts". */
-#[\App\Routing\GamePage('index.php', 'disclamer')]
-#[\App\Routing\GamePage('index.php', 'disclamer', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'disclamer')]
 class DisclamerController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     private \App\Content\ContentPages $contentPages;
 
     #[\Symfony\Contracts\Service\Attribute\Required]

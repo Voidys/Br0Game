@@ -1,37 +1,18 @@
-biggest_solo: Grootste solo-gevechten
 build_ships: Totaal gebouwde schepen
 buttonLostPassword: Wachtwoord vergeten?
 buttonRegister: Registreren
 buttonScreenshot: Screenshots
 civil: Civiel
 colony: Kolonie
-CrystalStorage: Kristalopslag
 deathstar: Sterrenjager
 destroyed_sats: Vernietigde zonne-energiesatellieten
 disclamerLabelAddress: 'Spel-adres:'
 disclamerLabelMail: 'Support-e-mail:'
 disclamerLabelNotice: Meer informatie
 disclamerLabelPhone: 'Telefoon:'
-disclamerRecaptcha: Deze pagina gebruikt reCAPTCHA; de <a href="https://policies.google.com/privacy">privacyverklaring</a> en de <a href="https://policies.google.com/terms">gebruiksvoorwaarden</a> van Google zijn van toepassing.
 first_fights: Eerste gevechten in het universum
-flown_expos: Totaal aantal expedities
-flownDeut: Totaal aan deuterium verbruikt op vluchten
 forum: Forum
-found_res: Totaal gevonden grondstoffen
-found_ships: Totaal gevonden schepen
-galaxySpendDeut: Deuterium verbruikt voor het bekijken van het melkwegstelsel
-gameInformations: 'Een ruimtestrategiespel in realtime.
-
-  Honderden spelers in elk universum.
-
-  Geen download - een gewone browser is genoeg.
-
-  Gratis registreren'
-hof3_header: De legendes van universum 3 leven hier voort!
-hof4_header: De legendes van universum 4 leven hier voort!
-hof7_header: De legendes van universum 7 leven hier voort!
-IonCannon: Ioncanon
-least_reached_ach: Zeldzaamste prestaties
+hof_empty: Er zijn nog geen gegevens voor de Hall of Fame.
 login_error_1: 'Verkeerd e-mailadres of wachtwoord! Tip: wachtwoordmanagers vullen vaak je gebruikersnaam in, maar je moet inloggen met je e-mailadres.'
 login_error_2: Je account is op een ander apparaat ingelogd, of je IP-adres is veranderd.
 login_error_3: Je sessie is verlopen. Log opnieuw in.
@@ -44,36 +25,21 @@ loginPassword: Wachtwoord
 loginServerDesc: '%s is een ruimtestrategiespel waarin honderden spelers <strong>tegelijkertijd</strong> strijden om de beste te zijn. Een gewone webbrowser is alles wat je nodig hebt.'
 loginWelcome: Welkom bij %s
 Lowest_longterm_points: Voorgeregistreerde accounts met de minste punten
-medAliens: Gemiddelde aliens
 menu_banlist: Banlijst
 menu_battlehall: Gevechtshal
 menu_disclamer: Contact
-menu_index: Home
 menu_news: Nieuws
 menu_rules: Regels
 military: Militair
-most_achievements: Meeste prestaties behaald
-most_black_holes: Meeste zwarte gaten ontmoet
-most_build: Meest gebouwd
-most_build_HF: Meeste zware gevechtsschepen gebouwd
-most_defended_moons: Meeste succesvolle maanverdedigingen
-most_destroyed_moons: Meeste manen vernietigd
-most_expo_fights: Meeste gevechten tegen aliens/piraten
-most_fights: Meeste overwinningen / nederlagen / gelijkspelen
-most_reached_ach: Meest voorkomende prestaties
-most_records: Meeste records behaald
 news_does_not_exist: Geen nieuws beschikbaar.
 news_from: Op %s door %s
-oldest_active_acc: Oudste actieve accounts
 overall: Totaal
 passwordBack: Terug
 passwordChangedMailSend: Je nieuwe wachtwoord is onderweg. Je ontvangt zo meteen een e-mail.
 passwordChangedMailTitle: Nieuw wachtwoord voor %s
-passwordConfirmInfo: 'Klik op de knop om je wachtwoord opnieuw in te stellen. We sturen je het nieuwe wachtwoord per e-mail.'
-passwordConfirmSubmit: 'Nieuw wachtwoord aanvragen'
+passwordConfirmInfo: Klik op de knop om je wachtwoord opnieuw in te stellen. We sturen je het nieuwe wachtwoord per e-mail.
+passwordConfirmSubmit: Nieuw wachtwoord aanvragen
 passwordErrorMailEmpty: Dat e-mailadres kennen we niet.
-passwordErrorOnePerDay: Voor dit account is het afgelopen 24 uur al een wachtwoord aangevraagd. Je kunt over 24 uur een nieuw aanvragen.
-passwordErrorUnknown: Met deze gegevens is geen account gevonden.
 passwordInfo: Wachtwoord vergeten? Voer de gebruikersnaam en het e-mailadres van je account in. Weet je die niet meer, neem dan contact op met een beheerder.
 passwordMail: E-mail
 passwordNext: Volgende
@@ -84,7 +50,9 @@ passwordValidMailSend: Je ontvangt zo meteen een e-mail met de volgende stappen.
 passwordValidMailTitle: Wachtwoord opnieuw instellen voor %s
 players: Spelers
 points_amount: Punten / aantal
-realDesUnits: Echt vernietigde eenheden
+powFailed: De automatische botcontrole is mislukt of verlopen. Ga terug, wacht even en verstuur het formulier opnieuw.
+powNoCrypto: Je browser kan de automatische botcontrole niet uitvoeren (hiervoor is een beveiligde https-verbinding nodig).
+powVerifying: Je browser wordt gecontroleerd …
 registerBack: Terug
 registerDataPrivacyDesc: Ik ga akkoord met de %s
 registerEmail: E-mail
@@ -120,7 +88,6 @@ registerUsernameDesc: 'Gebruik 3 tot 25 tekens: letters, cijfers, spaties, punte
 registerWelcomePMSenderName: Beheerder
 registerWelcomePMSubject: Welkom
 registerWelcomePMText: Welkom bij %s! Bouw eerst een zonne-energiecentrale, want je hebt energie nodig om grondstoffen te produceren. Open Gebouwen in het linkermenu en begin met de zonne-energiecentrale.<br>Zodra je energie hebt, kun je mijnen bouwen. Blijf in Gebouwen en bouw een metaalmijn, daarna een kristalmijn.<br><br>Voor het bouwen van schepen heb je een werf nodig. Het menu Technologieën aan de linkerkant laat zien wat je daarvoor nodig hebt.<br>Heb je nog vragen? Kijk in de FAQ, de wiki of open een supportticket.<br><br>Het team wenst je veel plezier bij het verkennen van het universum!
-second_expo_deck: Zijn tweede expeditiedek gestart
 siteTitleBanList: Banlijst
 siteTitleBattleHall: Gevechtshal
 siteTitleDataPrivacy: Privacybeleid
@@ -142,21 +109,7 @@ theme: Thema
 universe: Universum
 vertifyAdminMessage: Het account "%s" is geactiveerd.
 vertifyNoUserFound: Ongeldige aanvraag.
-votingPoints: Stempunten
-wonAttack: Gewonnen aanval
-wonDefense: Gewonnen verdediging
-chose_a_uni: Kies een universum
-menu_register: Registratie
-news_overview: Nieuws
-passwordCaptcha: Beveiligingscode
 passwordErrorUsernameEmpty: Je hebt geen gebruikersnaam ingevoerd!
-registerCaptcha: Beveiligingscode
-registerCaptchaDesc: Voer de tekens hieronder in het lege veld in, zonder spaties. Hoofdletters maken niet uit. Kun je de afbeelding na een paar keer opnieuw laden nog steeds niet lezen, neem dan contact op met de beheerder van de site.
-registerCaptchaReload: Captcha opnieuw laden
-registerErrorCaptcha: De beveiligingscode is onjuist!
-registerMailVertifyError: 'De e-mail kon niet worden verzonden: %s'
-registerNext: Doorgaan
-rulesHeader: Regels
 uni_closed: ' (gesloten)'
 uni_reg_closed: ' (registratie gesloten)'
 uni_reg_open: ' (alleen registratie)'
@@ -180,9 +133,12 @@ lightbox_next: Volgende afbeelding
 news_pinned: Vastgepind
 news_read_more: Lees meer
 news_latest: Laatste nieuws
+home_discord_online: Online
+home_discord_join: Word lid van onze Discord
 news_all: Al het nieuws
 csrf_invalid: De beveiligingscontrole is mislukt (je sessie is mogelijk verlopen). Laad de pagina opnieuw en probeer het nog eens.
-home_logged_in_head: "Je account"
-home_logged_in_as: "Ingelogd als %s"
-home_continue: "Verder naar je universums"
-home_account_lobby: "Accountlobby"
+home_logged_in_head: Je account
+home_logged_in_as: Ingelogd als %s
+home_continue: Verder naar je universums
+home_account_lobby: Accountlobby
+rulesEmpty: Er zijn nog geen regels gepubliceerd.

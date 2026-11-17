@@ -18,8 +18,7 @@ use Symfony\Contracts\Service\Attribute\Required;
  * Bots: LLM providers, behaviour profiles and the bots of the emulated universe. Tabs (providers, profiles,
  * bots) are the "mode" of the page. Every POST carries the session CSRF token; changes redirect back (PRG).
  */
-#[\App\Routing\GamePage('admin.php', 'bots')]
-#[\App\Routing\GamePage('admin.php', 'bots', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'bots')]
 class BotsController extends AbstractAdminController
 {
     private const TABS = ['providers', 'profiles', 'bots'];

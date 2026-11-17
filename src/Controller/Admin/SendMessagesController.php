@@ -29,8 +29,7 @@ use App\Game\Core\Singleton;
 /**
  * Sends a mail to the accounts of a universe/language selection (news letter) and in-game messages.
  */
-#[\App\Routing\GamePage('admin.php', 'sendMessages')]
-#[\App\Routing\GamePage('admin.php', 'sendMessages', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'sendMessages')]
 class SendMessagesController extends AbstractAdminController
 {
     /**

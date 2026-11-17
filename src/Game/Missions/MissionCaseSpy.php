@@ -33,6 +33,8 @@ use App\Game\Core\Singleton;
  */
 class MissionCaseSpy extends MissionFunctions implements MissionInterface
 {
+    use SpyMissionSupport;
+
     public function __construct($Fleet, \App\Game\Core\Database $db, \App\Game\Core\ConfigRegistry $configs, \App\Game\Core\Singleton $state)
     {
         parent::__construct($db, $configs, $state);
@@ -58,22 +60,6 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         }
 
         return $planetfleet;
-    }
-
-    /**
-     * Defense counts (all `reslist['defense']` ids) on the planet row, by element id.
-     */
-    private function getPlanetDefense($targetPlanet)
-    {
-        $e = $this->elements();
-        $planetdef = [];
-        $resourceIDs = $e->ids('defense');
-
-        foreach ($resourceIDs as $deftype) {
-            $planetdef[$deftype] = $targetPlanet[$e->column($deftype)];
-        }
-
-        return $planetdef;
     }
 
     /**
@@ -164,17 +150,6 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
     }
 
     /**
-     * Chance (percent, at most 100) that the target shoots the probes down. OGame rule
-     * (https://ogame.fandom.com/wiki/Counterespionage): 2^(t-s) * probes * ships_and_defenses_on_planet * 0.0025,
-     * rounded; t/s = spy tech of target/sender.
-     */
-    private function getDetectionChance(int|float|string $senderSpyTech, int|float|string $targetSpyTech, int|float|string $fleetAmount, int|float|string $totalShipDefCount): int|float
-    {
-        // Calculation from https://ogame.fandom.com/wiki/Counterespionage
-        return min(round(pow(2, $targetSpyTech - $senderSpyTech) * $fleetAmount * $totalShipDefCount * 0.0025), 100);
-    }
-
-    /**
      * The content of the spy report (stored as JSON in the message): what the probes saw, the danger value of the
      * visible ships and defense, the cargo ships needed to loot half of the planet, the planet's energy class (to
      * spot players building gravitons), and both counter-espionage numbers.
@@ -234,52 +209,6 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         ];
 
         return $reportData;
-    }
-
-    /**
-     * Cargo ships needed to carry the planet's resources (the capacity BattleHandler::calculateMinCapacity() gives for
-     * metal, crystal and deuterium).
-     *
-     * @param array<string, mixed> $targetPlanet planet row
-     * @return array{0: float, 1: float} small and large cargos needed
-     */
-    private function cargoNeeded(array $targetPlanet): array
-    {
-        $e = $this->elements();
-        $battleHandler = new BattleHandler(false, $this->db, $this->configs, $this->state);
-
-        $capacityNeeded = $battleHandler->calculateMinCapacity([
-            'metal' => getNumber($targetPlanet[$e->column(RESOURCE_METAL)]),
-            'crystal' => getNumber($targetPlanet[$e->column(RESOURCE_CRYSTAL)]),
-            'deuterium' => getNumber($targetPlanet[$e->column(RESOURCE_DEUT)]),
-        ]);
-        $smallCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_SMALL_CARGO));
-        $largeCargoNeeded = ceil($capacityNeeded / $e->capacity(SHIP_LARGE_CARGO));
-
-        return [$smallCargoNeeded, $largeCargoNeeded];
-    }
-
-    /**
-     * Sends the spy report (JSON) to the fleet owner and sets the "first espionage" stat.
-     *
-     * @param array<string, mixed> $reportData report content
-     */
-    private function sendReport(array $reportData, \App\Game\Core\Language $LNG): void
-    {
-        $this->playerUtil()->sendMessage(
-            $this->_fleet['owner'],
-            0,
-            $LNG['sys_mess_spy_qg'],
-            MESSAGE_TYPE_SPY_REPORT,
-            $LNG['sys_mess_spy_report'],
-            json_encode($reportData),
-            $this->_fleet['arrival_time'],
-            1,
-            $this->_fleet['universe'],
-            $this->_fleet['end_id'],
-        );
-
-        $this->statsHandler->setTimestamp($this->_fleet['owner'], AdvancedStatsEnum::FIRST_ESPIONAGE, $this->_fleet['arrival_time']);
     }
 
     /**
@@ -533,77 +462,6 @@ class MissionCaseSpy extends MissionFunctions implements MissionInterface
         $this->statsHandler->updateDestroyedAdvancedStats($this->_fleet['target_owner'], $this->_fleet['owner'], SHIP_PROBE, $fleetAmount);
 
         $this->KillFleet();
-    }
-
-    /**
-     * Returns the combined base attack values of ships and defences
-     */
-    public function getDangerValue($spyData)
-    {
-        $e = $this->elements();
-        $dangerValue = 0;
-
-        // ships
-        if (isset($spyData[200])) {
-            foreach ($spyData[200] as $elementID => $amount) {
-                $dangerValue += $e->combat($elementID)->attack * $amount;
-            }
-        }
-
-        // defence
-        if (isset($spyData[400])) {
-            foreach ($spyData[400] as $elementID => $amount) {
-                if (
-                    !($elementID == INTERCEPTOR_MISSILE)
-                    and !($elementID == INTERPLANETARY_MISSILE)
-                ) {
-                    $dangerValue += $e->combat($elementID)->attack * $amount;
-                }
-            }
-        }
-
-        return  $dangerValue;
-    }
-
-    /**
-     * Returns the combined recycle values of ships and defences
-     */
-    public function getRecyleValue($spyData)
-    {
-        $e = $this->elements();
-
-        $config = $this->configs->get($this->_fleet['universe']);
-        $fleetIntoDebris = $config->fleet_debris_percentage;
-        $defIntoDebris = $config->def_debris_percentage;
-
-        $recycleValue = 0;
-
-        // ships
-        if (isset($spyData[200]) && $fleetIntoDebris > 0) {
-            foreach ($spyData[200] as $elementID => $amount) {
-                $recycleValue += (($e->cost($elementID)->metal
-                    + $e->cost($elementID)->crystal) * $fleetIntoDebris / 100) * $amount;
-            }
-        }
-
-        // defence
-        if (isset($spyData[400]) && $defIntoDebris > 0) {
-            foreach ($spyData[400] as $elementID => $amount) {
-                $recycleValue += (($e->cost($elementID)->metal
-                    + $e->cost($elementID)->crystal) * $defIntoDebris / 100) * $amount;
-            }
-        }
-
-        return  $recycleValue;
-    }
-
-    /**
-     * Recyclers needed to carry the given debris amount, plus one as safety margin.
-     */
-    public function estimateRecyclers($recycleValue)
-    {
-        $e = $this->elements();
-        return ceil($recycleValue / $e->capacity(SHIP_RECYCLER)) + 1;
     }
 
     /**

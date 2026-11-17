@@ -1,0 +1,201 @@
+back: Bumalik
+continue: Magpatuloy
+continueUpgrade: I-upgrade
+install_desc: 'Para ma-enable ang installation tool, gumawa ng file na "var/ENABLE_INSTALL_TOOL".<br> Case-sensitive ang pangalan ng file at walang file extension.<br> Puwedeng walang laman ang file.
+
+  Awtomatikong binubura ito kapag tapos na ang installation, o kapag mahigit isang oras na ang edad nito.'
+install_title: Naka-lock ang installation tool
+intro_install: I-install
+intro_lang: Wika
+intro_text: 'Ang Br0Game ay open-source na space strategy game sa browser: palaguin ang mga planeta mo, mag-research, magpadala ng fleet at makipaglaban sa daan-daang manlalaro nang sabay-sabay.<br><br>Ihahanda ng wizard na ito ang bagong installation hakbang-hakbang: susuriin nito ang server mo, kokonekta at gagawa ng database, bubuo ng mga table, hahayaan kang pangalanan ang laro mo at gagawa ng administrator.'
+intro_upgrade_head: Naka-install na ang Br0Game?
+intro_upgrade_text: <p>Naka-install na ang Br0Game at gusto mo lang mag-update?</p><p>Puwede mong i-update dito ang existing database mo sa ilang click lang!</p>
+intro_welcome: Maligayang pagdating sa Br0Game!
+licence_accept: Tinatanggap mo ba ang mga tuntunin ng lisensya? Puwede mo lang i-install ang software kung tatanggapin mo ang mga ito.
+licence_desc: Pakibasa ang mga tuntunin ng lisensya sa ibaba. Gamitin ang scroll bar para makita ang buong dokumento.
+licence_head: Mga tuntunin ng lisensya
+licence_need_accept: Kailangan mong tanggapin ang mga tuntunin ng lisensya para magpatuloy sa installation.
+login: Login
+menu_install: Installation
+menu_upgrade: Upgrade
+reg_dir: Puwede bang sulatan ang folder &raquo;%s&laquo;?
+reg_file: Puwede bang sulatan ang file &raquo;%s&laquo;?
+reg_not_found: Hindi nahanap
+reg_not_writable: Hindi puwedeng sulatan
+reg_writable: Puwedeng sulatan
+req_desc: Bago magpatuloy ang installation, susuriin ng Br0Game ang configuration at mga file ng server mo para masigurong maa-install at magagamit ito. Basahing mabuti ang mga resulta at huwag magpatuloy hangga't hindi pumapasa ang lahat ng kinakailangang test.
+sql_close_reason: 'Inihahanda ang universe.
+
+  Maghintay lang.'
+sql_welcome: Maligayang pagdating sa Br0Game v
+step1_head: I-configure ang access sa database
+step1_mysql_dbname: Pangalan ng database
+step1_mysql_dbpass: Password ng database
+step1_mysql_dbuser: Username ng database
+step1_mysql_migrationpass: Migration password ng database
+step1_mysql_migrationpass_info: Hihingiin ang password na ito kapag may kailangang baguhin o i-upgrade sa database para sa bagong bersyon ng laro.
+step1_mysql_port: Port ng database
+step1_mysql_prefix: 'Table prefix:'
+step2_conf_op_fail: Hindi puwedeng sulatan ang config.php!
+step2_config_exists: Umiiral na ang config.php!
+step2_db_con_fail: Hindi makakonekta sa database. Tingnan ang mga detalye ng error sa ibaba.
+step2_db_done: Matagumpay ang koneksyon sa database!
+step2_db_no_dbname: Walang tinukoy na pangalan ng database.
+step2_db_too_long: Hindi puwedeng lumampas sa 36 na character ang table prefix.
+step2_prefix_invalid: Mga letra, numero, at underscore lang ang puwede sa table prefix.
+step3_db_error: 'Hindi nagawa ang mga table ng database:'
+step3_head: Gumawa ng mga table ng database
+step4_admin_mail: 'Contact e-mail:'
+step4_admin_name: 'Username ng administrator:'
+step4_admin_name_desc: Maglagay ng username na 3 hanggang 20 character.
+step4_admin_pass: 'Password ng administrator:'
+step4_desc: Gagawa na ngayon ang installation wizard ng administrator account. Maglagay ng username, e-mail address at password.
+step4_head: Gumawa ng administrator
+step6_desc: Matagumpay mong na-install ang Br0Game.
+step6_head: Congratulations!
+title_install: Installer
+upgrade_available: May available na update sa database. Nasa revision %s ang database at puwede itong i-update sa revision %s.
+upgrade_back: Bumalik
+upgrade_intro_welcome: Maligayang pagdating sa database updater!
+upgrade_message_admin: 'Mga administrator: Para i-install ang database upgrade, ilagay ang migration password at magpatuloy.'
+upgrade_message_user: 'Mga manlalaro: Maghintay sandali, pagkatapos ay subukang i-click ang "Bumalik sa laro".'
+upgrade_notavailable: Revision %s na ang pinakabago para sa database mo.
+upgrade_nothingtodo: Walang kailangang gawin. Nasa revision %s na ang database.
+upgrade_return: Bumalik sa laro
+upgrade_success: Matagumpay ang update sa database. Nasa revision %s na ang database ngayon.
+upgrade_title: Kailangan ng upgrade sa database!
+ins_step_licence: Lisensya
+ins_step_requirements: Mga kinakailangan
+ins_step_database: Database
+ins_step_build: Mga table
+ins_step_game: Laro
+ins_step_admin: Administrator
+ins_step_done: Tapos
+ins_recheck: Suriin ulit
+ins_db_connection: Koneksyon
+ins_db_createdb: Gawin ang database kung wala pa
+ins_db_connect: Kumonekta at gumawa
+ins_db_no_host: Walang tinukoy na host ng database.
+ins_db_name_invalid: Mga letra, numero, _ at - lang ang puwede sa pangalan ng database (hanggang 64 na character).
+ins_check_input: Nasuri ang input
+ins_check_connect: Nakakonekta sa database server
+ins_check_database: Database »%s«
+ins_db_missing: wala pa (lagyan ng tsek ang "gawin ang database" o gawin mo ito mismo)
+ins_db_create_fail: 'hindi nagawa:'
+ins_db_created: nagawa na
+ins_db_exists: umiiral na
+ins_check_tables: Wala pang table na may prefix »%s«
+ins_tables_exist: May %d na table na may ganitong prefix na. Pumili ng ibang prefix o database.
+ins_check_write: '%s nasulatan na'
+ins_build_desc: Ngayon ay gagawin ng installer ang mga table ng laro at pupunuin ang mga ito ng default na value, isa-isang hakbang.
+ins_task_tables: Gumawa ng mga table
+ins_task_migrations: I-register ang bersyon ng database
+ins_task_config: Isulat ang mga setting ng laro
+ins_task_universe: I-set up ang universe 1
+ins_build_start: Buuin ang database
+ins_back_database: Bumalik sa mga setting ng database
+ins_game_name: Pangalan ng laro
+ins_game_name_info: 'Lumalabas sa title, header at mga e-mail. Default: Br0Game.'
+ins_default_theme: Default na theme
+ins_default_theme_info: Theme para sa mga bagong account at bisita; puwedeng magpalit ang mga manlalaro sa mga setting nila.
+ins_game_name_invalid: Maglagay ng pangalan ng laro na 1 hanggang 64 na character.
+ins_theme_invalid: Hindi kilalang theme.
+ins_to_start: Pumunta sa start page
+ins_credits_head: Nakatayo sa balikat ng mga higante
+ins_credits_text: 'Ipinagpapatuloy ng Br0Game ang mahabang linya ng mga open-source na browser game. Pagpupugay sa lahat ng bumuo at nagpanatili nitong buhay bago pa tayo:'
+ins_credits_thanks: Salamat, pr0game community, sa larong pinagmulan ng larong ito.
+ins_licence_note: Libreng software sa ilalim ng GNU AGPL v3
+ins_task_images: I-optimize ang mga image (WebP)
+ins_db_help: Ang Br0Game ay nag-iimbak ng lahat sa MySQL o MariaDB database. Makukuha mo ang mga value sa ibaba sa hosting panel mo (hanapin ang "Databases" o "MySQL"), o sa nag-set up ng server mo. Kung ikaw mismo ang nag-install ng MySQL, kadalasang gumagana ang mga default.
+ins_db_host: Database server
+ins_db_host_info: Halos palaging "localhost". May ibang host na nagbibigay ng pangalan gaya ng "db1.example.com".
+ins_db_name_info: Pangalan ng database para sa laro. Gawin muna ito sa hosting panel mo, o hayaang gawin ito ng installer (tingnan ang kahon sa ibaba).
+ins_db_advanced: Advanced (port, table prefix, migration password) - karaniwang hindi kailangan
+ins_db_prefix_info: Idinadagdag sa unahan ng bawat pangalan ng table. Palitan lang ito kung nagbabahagi ka ng database sa ibang software.
+ins_db_migrationpw_info: Pinoprotektahan ang update page (install/?mode=upgrade) para sa mga susunod na update ng laro. Iwanang walang laman at gagawa ang installer ng malakas na password at ipapakita ito nang isang beses sa huling page.
+ins_db_migrationpw_placeholder: awtomatikong gagawin
+ins_migrationpw_invalid: Hindi puwedeng maglaman ng quote, backslash, $ o line break ang migration password.
+ins_err_technical: mga teknikal na detalye
+ins_err_access_denied: Tinanggihan ng database server ang username o password. Suriin ang dalawa para sa typo (may halaga ang malaki at maliit na letra) sa hosting panel mo.
+ins_err_unknown_db: Wala sa server ang database na ito. Suriin ang pangalan, o lagyan ng tsek ang "Gawin ang database" sa ibaba.
+ins_err_no_privilege: Hindi pinapayagan ng database user na ito na gamitin ang database na iyon. Bigyan ang user ng lahat ng privilege dito sa hosting panel mo.
+ins_err_no_create: Hindi pinapayagan ang user na ito na gumawa ng database. Gumawa ng walang lamang database sa hosting panel mo at alisin ang tsek sa "Gawin ang database".
+ins_err_socket: Hindi nahanap ang socket ng database server. Subukan ang host na "127.0.0.1" sa halip na "localhost".
+ins_err_unreachable: Hindi maabot ang database server na "%s". Suriin ang host name at port, at kung tumatakbo ang database server. Kadalasan, ang web server lang ng host ang pinapayagang kumonekta, kaya karaniwang tama ang "localhost".
+ins_game_desc: Pangalanan ang laro mo at piliin kung paano ito lalaruin. Lahat ng ito ay mababago pa sa administration (Admin - Settings).
+ins_group_general: Pangkalahatan
+ins_uni_name: Pangalan ng universe
+ins_uni_name_info: Ipinapakita sa mga manlalaro kapag pumipili sila ng universe. Kung walang laman = "Universe 1".
+ins_uni_name_invalid: Hanggang 60 na character lang ang puwede sa pangalan ng universe.
+ins_language: Default na wika
+ins_language_info: Wika para sa mga bagong bisita at sa administrator account mo.
+ins_language_invalid: Hindi kilalang wika.
+ins_timezone: Time zone
+ins_timezone_info: Pinipili nang awtomatiko mula sa server mo. Ginagamit para sa ipinapakitang server time.
+ins_timezone_invalid: Hindi kilalang time zone.
+ins_group_speed: Bilis ng laro
+ins_speed_info: Gaano kabilis ang mga gusali, research, barko, fleet at produksyon. Ang Classic ang orihinal na bilis; ang mas mabibilis na preset ay bagay sa maliliit na komunidad at maikling round.
+ins_speed_classic: Classic
+ins_speed_classic_info: ang orihinal na bilis, tumatagal ng ilang buwan ang mga round
+ins_speed_fast: Fast
+ins_speed_fast_info: mga tatlong beses na mas mabilis, tumatagal ng ilang linggo ang mga round
+ins_speed_blitz: Blitz
+ins_speed_blitz_info: hanggang sampung beses na mas mabilis, tumatagal ng ilang araw ang mga round
+ins_speed_detail: Gusali/research %bx, fleet %fx, resources %rx
+ins_speed_invalid: Hindi kilalang speed preset.
+ins_group_players: Mga manlalaro
+ins_registration: Registration
+ins_registration_open: Bukas - sinuman ay puwedeng mag-sign up
+ins_registration_closed: Sarado - ikaw lang ang puwedeng gumawa ng account
+ins_registration_info: Piliin ang "sarado" habang inaayos mo pa ang lahat. Puwede mo itong buksan sa susunod sa Admin - Settings.
+ins_registration_invalid: Hindi kilalang setting ng registration.
+ins_bots: Computer players (bots)
+ins_bots_info: 0 hanggang 50. Naglalaro ang bots na parang tunay na manlalaro na may iba-ibang ugali, kaya hindi walang laman ang bagong universe. 0 = walang bots.
+ins_bots_invalid: Dapat nasa pagitan ng 0 at 50 ang bilang ng bots.
+ins_mail: Magpadala ng e-mail (registration, password reset)
+ins_mail_info: Naka-off bilang default. I-on lang kung kaya ng server mo magpadala ng mail; puwede mong i-set up ang SMTP sa susunod sa Admin - Settings.
+ins_admin_mail_info: Ginagamit para sa password reset at bilang contact address.
+ins_admin_mail_invalid: Maglagay ng wastong e-mail address.
+ins_admin_pass_confirm: Ulitin ang password
+ins_admin_pass_rules: Kailangan ng password ng hindi bababa sa %d na character (hanggang 64). Madaling tandaan at mahirap hulaan ang isang pangungusap na may ilang salita.
+ins_admin_pass_short: Kailangan ng password ng hindi bababa sa %d na character.
+ins_admin_pass_long: Hanggang 64 na character lang ang puwede sa password.
+ins_admin_pass_mismatch: Hindi magkapareho ang dalawang password.
+ins_done_checklist: Ang checklist mo
+ins_done_login: Mag-log in sa administration.
+ins_done_login_info: 'Naka-log in ka na bilang "%s". Sa susunod, gamitin ito:'
+ins_done_cron: I-set up ang cron job (kailangan).
+ins_done_cron_info: 'Kung wala ito, walang uusad sa laro (fleet, pila ng gusali, statistics). Idagdag ang linyang ito sa crontab ng user ng web server (crontab -e) o gumawa ng cron job gamit ito sa hosting panel mo:'
+ins_done_locked: Naka-lock na ngayon ang install tool.
+ins_done_locked_info: Walang makakapagpatakbo ulit ng wizard. Para mag-update sa susunod, sundin ang upgrade section ng dokumentasyon.
+ins_done_https: Gumamit ng HTTPS.
+ins_done_https_info: 'Naka-plain HTTP ka: naipapadala ang mga password nang walang encryption. Mag-set up ng certificate (halimbawa Let''s Encrypt) bago mo imbitahan ang mga manlalaro.'
+ins_done_https_ok: Na-serve ang page na ito sa HTTPS - maayos.
+ins_done_settings: Baguhin ang mga setting sa susunod.
+ins_done_settings_info: 'Admin - Settings: pangalan ng laro, bilis, registration, e-mail (SMTP), bots at marami pang iba.'
+ins_done_bots: Bots.
+ins_done_bots_info: Nagawa ang %d na bots. Kikilos sila kapag tumakbo ang cron job. Pamahalaan sila sa administration.
+ins_done_bots_failed: Nagawa ang administrator, pero hindi nagawa ang bots. Puwede mo silang idagdag sa susunod sa administration.
+ins_done_migrationpw: Isulat ang migration password mo (ipinapakita nang isang beses lang).
+ins_done_migrationpw_info: Kailangan mo ito para sa mga update ng laro. Nakaimbak din ito sa config/game.php.
+ins_done_docs: 'Dokumentasyon:'
+ins_done_to_admin: Pumunta sa administration
+ins_step_legal: Legal
+ins_legal_desc: Piliin kung saan naka-host ang laro at paano magsisimula ang mga legal page at community board. Mababago mo ang lahat ng ito sa susunod sa admin area (Settings, Pages).
+ins_group_privacy: Rehiyon ng hosting
+ins_privacy_info: Tinutukoy ng rehiyon kung aling privacy policy ang gagamitin bilang default.
+ins_privacy_eu: EU / EEA - privacy policy ayon sa GDPR
+ins_privacy_eu_info: Piliin ito kapag naka-host ang laro sa European Union o European Economic Area, o nakatuon sa mga manlalaro doon.
+ins_privacy_other: Labas sa EU - pangkalahatang privacy policy
+ins_privacy_other_info: Privacy policy na malinaw ang wika at walang sanggunian sa GDPR.
+ins_group_rules: Mga tuntunin
+ins_rules_default: I-import ang default na mga tuntunin
+ins_rules_default_info: Nagsisimula ang rules page sa karaniwang tuntunin ng laro, na puwede mong i-edit pagkatapos.
+ins_rules_blank: Magsimulang blangko
+ins_rules_blank_info: Mananatiling walang laman ang rules page hangga't hindi ka sumusulat ng sarili mong tuntunin sa admin area.
+ins_group_community: Komunidad
+ins_board: I-enable ang community board
+ins_board_info: Forum para sa mga manlalaro mo. Kapag naka-off, nakatago ang lahat ng board link at hindi available ang board pages.
+ins_legal_note: Mga template lang ang nagawang teksto. Bilang operator, ikaw ang responsable sa mga legal na teksto ng laro mo at dapat mo itong suriin.
+ins_legal_region_invalid: Pumili ng wastong rehiyon ng hosting.
+ins_legal_rules_invalid: Pumili kung paano dapat magsimula ang mga tuntunin.

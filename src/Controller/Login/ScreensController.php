@@ -23,12 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
 use DirectoryIterator;
 
 /** Screenshot gallery. */
-#[\App\Routing\GamePage('index.php', 'screens')]
-#[\App\Routing\GamePage('index.php', 'screens', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'screens')]
 class ScreensController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

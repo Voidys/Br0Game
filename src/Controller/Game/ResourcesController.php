@@ -26,12 +26,10 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Resource settings: production table of the current planet and production levels (modes: show, send). */
-#[\App\Routing\GamePage('game.php', 'resources')]
-#[\App\Routing\GamePage('game.php', 'resources', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'resources')]
+#[\App\Controller\RequireModule('MODULE_RESSOURCE_LIST')]
 class ResourcesController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_RESSOURCE_LIST';
-
     public function initialize(): void
     {
         parent::initialize();

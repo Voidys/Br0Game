@@ -26,12 +26,10 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Fleet dispatch, step 1: target coordinates, speed and shortcuts (modes: show, saveShortcuts, checkTarget). */
-#[\App\Routing\GamePage('game.php', 'fleetStep1')]
-#[\App\Routing\GamePage('game.php', 'fleetStep1', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetStep1')]
+#[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep1Controller extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_FLEET_TABLE';
-
     /** Prepared fleets (tokens) kept per session; each open fleet page uses one. */
     private const MAX_PREPARED_FLEETS = 20;
 
@@ -91,12 +89,6 @@ class FleetStep1Controller extends AbstractGameController
         $colonyList = $this->GetColonyList();
         $ACSList = $this->GetAvalibleACS();
 
-        if (!empty($shortcutList)) {
-            $shortcutAmount = max(array_keys($shortcutList));
-        } else {
-            $shortcutAmount = 0;
-        }
-
         $this->addScript('flotten.js');
 
         $pirateBase = null;
@@ -113,7 +105,6 @@ class FleetStep1Controller extends AbstractGameController
             'token'         => $token,
             'mission'       => $mission,
             'shortcutList'  => $shortcutList,
-            'shortcutMax'   => $shortcutAmount,
             'colonyList'    => $colonyList,
             'pirateBase'    => $pirateBase,
             'ACSList'       => $ACSList,

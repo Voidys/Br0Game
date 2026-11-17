@@ -20,12 +20,9 @@ use App\Game\Core\Singleton;
 /**
  * Achievements overview of the player.
  */
-#[\App\Routing\GamePage('game.php', 'achievements')]
-#[\App\Routing\GamePage('game.php', 'achievements', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'achievements')]
 class AchievementsController extends AbstractGameController
 {
-    #public static $requireModule = 'MODULE_TECHTREE';
-
     public function initialize(): void
     {
         parent::initialize();

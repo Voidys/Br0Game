@@ -25,8 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  * The password is only read from a POST body (never from the URL), attempts are limited per IP and
  * account, and the session id is renewed when the access is granted (session fixation).
  */
-#[\App\Routing\GamePage('admin.php', 'login')]
-#[\App\Routing\GamePage('admin.php', 'login', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'login')]
 class LoginController extends AbstractAdminController
 {
     /**

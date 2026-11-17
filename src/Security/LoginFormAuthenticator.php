@@ -34,7 +34,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
  */
 final class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
-    private const ROUTES = ['game_index_login', 'game_index_login_uni'];
+    private const ROUTES = ['game_index_login'];
 
     public function __construct(
         private readonly AccountProvider $accounts,

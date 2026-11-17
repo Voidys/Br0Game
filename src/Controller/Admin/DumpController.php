@@ -25,8 +25,7 @@ use App\Game\Core\SQLDumper;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Dumps selected database tables into var/backups. */
-#[\App\Routing\GamePage('admin.php', 'dump')]
-#[\App\Routing\GamePage('admin.php', 'dump', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'dump')]
 class DumpController extends AbstractAdminController
 {
     /**

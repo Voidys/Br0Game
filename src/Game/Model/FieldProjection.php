@@ -29,7 +29,7 @@ final readonly class FieldProjection
     }
 
     /**
-     * Array layout of the legacy getQueueFieldProjection().
+     * Array layout of the projection.
      *
      * @return array{current: int, max: int, valid: bool}
      */

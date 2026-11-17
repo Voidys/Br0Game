@@ -1,0 +1,201 @@
+back: Terug
+continue: Doorgaan
+continueUpgrade: Bijwerken
+install_desc: 'Om de installatietool in te schakelen, maak je het bestand "var/ENABLE_INSTALL_TOOL" aan.<br> De bestandsnaam is hoofdlettergevoelig en heeft geen bestandsextensie.<br> Het bestand mag leeg zijn.
+
+  Het wordt automatisch verwijderd zodra de installatie klaar is, of als het ouder is dan een uur.'
+install_title: De installatietool is vergrendeld
+intro_install: Installeren
+intro_lang: Taal
+intro_text: 'Br0Game is een open-source ruimtestrategiespel in de browser: bouw je planeten uit, doe onderzoek, stuur vloten en vecht tegelijk met honderden spelers.<br><br>Deze wizard zet stap voor stap een nieuwe installatie op: hij controleert je server, maakt verbinding met de database en maakt die aan, bouwt de tabellen, laat je je spel een naam geven en maakt de beheerder aan.'
+intro_upgrade_head: Br0Game al geïnstalleerd?
+intro_upgrade_text: <p>Br0Game is al geïnstalleerd en je wilt alleen bijwerken?</p><p>Je kunt je bestaande database hier in een paar klikken bijwerken!</p>
+intro_welcome: Welkom bij Br0Game!
+licence_accept: Accepteer je de licentievoorwaarden? Je kunt de software alleen installeren als je ze accepteert.
+licence_desc: Lees hieronder de licentievoorwaarden. Gebruik de schuifbalk om het hele document te bekijken.
+licence_head: Licentievoorwaarden
+licence_need_accept: Je moet de licentievoorwaarden accepteren om door te gaan met de installatie.
+login: Inloggen
+menu_install: Installatie
+menu_upgrade: Bijwerken
+reg_dir: Is de map &raquo;%s&laquo; schrijfbaar?
+reg_file: Is het bestand &raquo;%s&laquo; schrijfbaar?
+reg_not_found: Niet gevonden
+reg_not_writable: Niet schrijfbaar
+reg_writable: Schrijfbaar
+req_desc: Voordat de installatie verder kan, controleert Br0Game je serverconfiguratie en bestanden om zeker te weten dat het spel geïnstalleerd en gebruikt kan worden. Lees de resultaten zorgvuldig en ga pas verder als alle vereiste tests zijn geslaagd.
+sql_close_reason: 'Het universum wordt ingericht.
+
+  Even geduld.'
+sql_welcome: Welkom bij Br0Game v
+step1_head: Databasetoegang instellen
+step1_mysql_dbname: Databasenaam
+step1_mysql_dbpass: Databasewachtwoord
+step1_mysql_dbuser: Databasegebruikersnaam
+step1_mysql_migrationpass: Migratiewachtwoord database
+step1_mysql_migrationpass_info: Dit wachtwoord wordt gevraagd wanneer er databasewijzigingen of upgrades nodig zijn voor een nieuwe spelversie.
+step1_mysql_port: Databasepoort
+step1_mysql_prefix: 'Tabelprefix:'
+step2_conf_op_fail: config.php is niet schrijfbaar!
+step2_config_exists: config.php bestaat al!
+step2_db_con_fail: Kon geen verbinding maken met de database. Zie de foutdetails hieronder.
+step2_db_done: Verbinding met de database geslaagd!
+step2_db_no_dbname: Er is geen databasenaam opgegeven.
+step2_db_too_long: Het tabelprefix mag niet langer zijn dan 36 tekens.
+step2_prefix_invalid: Het tabelprefix mag alleen letters, cijfers en underscores bevatten.
+step3_db_error: 'Het aanmaken van de databasetabellen is mislukt:'
+step3_head: Databasetabellen aanmaken
+step4_admin_mail: 'Contact-e-mail:'
+step4_admin_name: 'Beheerdersnaam:'
+step4_admin_name_desc: Voer een gebruikersnaam van 3 tot 20 tekens in.
+step4_admin_pass: 'Beheerderswachtwoord:'
+step4_desc: De installatiewizard maakt nu een beheerdersaccount aan. Voer een gebruikersnaam, e-mailadres en wachtwoord in.
+step4_head: Beheerder aanmaken
+step6_desc: Je hebt Br0Game succesvol geïnstalleerd.
+step6_head: Gefeliciteerd!
+title_install: Installatie
+upgrade_available: Er zijn databaseupdates beschikbaar. De database staat op revisie %s en kan worden bijgewerkt naar revisie %s.
+upgrade_back: Terug
+upgrade_intro_welcome: Welkom bij de databaseupdater!
+upgrade_message_admin: 'Beheerders: voer het migratiewachtwoord in en ga door om de databaseupgrade te installeren.'
+upgrade_message_user: 'Spelers: wacht even en klik daarna op "Terug naar het spel".'
+upgrade_notavailable: Revisie %s is al de nieuwste voor je database.
+upgrade_nothingtodo: Geen actie nodig. De database staat al op revisie %s.
+upgrade_return: Terug naar het spel
+upgrade_success: Databaseupdate geslaagd. De database staat nu op revisie %s.
+upgrade_title: Er is een databaseupgrade nodig!
+ins_step_licence: Licentie
+ins_step_requirements: Vereisten
+ins_step_database: Database
+ins_step_build: Tabellen
+ins_step_game: Spel
+ins_step_admin: Beheerder
+ins_step_done: Klaar
+ins_recheck: Opnieuw controleren
+ins_db_connection: Verbinding
+ins_db_createdb: Maak de database aan als die nog niet bestaat
+ins_db_connect: Verbinden & aanmaken
+ins_db_no_host: Er is geen databaseserver opgegeven.
+ins_db_name_invalid: De databasenaam mag alleen letters, cijfers, _ en - bevatten (maximaal 64 tekens).
+ins_check_input: Invoer gecontroleerd
+ins_check_connect: Verbonden met de databaseserver
+ins_check_database: Database »%s«
+ins_db_missing: bestaat niet (vink "de database aanmaken" aan of maak hem zelf aan)
+ins_db_create_fail: 'kon niet worden aangemaakt:'
+ins_db_created: aangemaakt
+ins_db_exists: bestaat
+ins_check_tables: Nog geen tabellen met het prefix »%s«
+ins_tables_exist: Er bestaan al %d tabel(len) met dit prefix. Kies een ander prefix of een andere database.
+ins_check_write: '%s geschreven'
+ins_build_desc: Het installatieprogramma maakt nu de speltabellen aan en vult ze stap voor stap met de standaardwaarden.
+ins_task_tables: Tabellen aanmaken
+ins_task_migrations: Databaseversie registreren
+ins_task_config: Spelinstellingen schrijven
+ins_task_universe: Universum 1 inrichten
+ins_build_start: De database opbouwen
+ins_back_database: Terug naar de databaseinstellingen
+ins_game_name: Spelnaam
+ins_game_name_info: 'Wordt getoond in de titel, de koptekst en de e-mails. Standaard: Br0Game.'
+ins_default_theme: Standaardthema
+ins_default_theme_info: Thema voor nieuwe accounts en bezoekers; spelers kunnen dit in hun instellingen wijzigen.
+ins_game_name_invalid: Voer een spelnaam van 1 tot 64 tekens in.
+ins_theme_invalid: Onbekend thema.
+ins_to_start: Naar de startpagina
+ins_credits_head: Staan op de schouders van reuzen
+ins_credits_text: 'Br0Game zet een lange traditie van open-source browserspellen voort. Respect voor iedereen die dit eerder heeft gebouwd en in leven heeft gehouden:'
+ins_credits_thanks: Dank je, pr0game-community, voor het spel waaruit dit spel is gegroeid.
+ins_licence_note: Vrije software onder de GNU AGPL v3
+ins_task_images: Afbeeldingen optimaliseren (WebP)
+ins_db_help: Br0Game slaat alles op in een MySQL- of MariaDB-database. Je vindt de onderstaande waarden in je hostingpaneel (zoek naar "Databases" of "MySQL") of bij degene die je server heeft ingericht. Als je MySQL zelf hebt geïnstalleerd, werken de standaardwaarden meestal.
+ins_db_host: Databaseserver
+ins_db_host_info: Bijna altijd "localhost". Sommige hosts geven een naam als "db1.example.com".
+ins_db_name_info: De naam van de database voor het spel. Maak hem eerst aan in je hostingpaneel, of laat het installatieprogramma hem aanmaken (zie het vak hieronder).
+ins_db_advanced: Geavanceerd (poort, tabelprefix, migratiewachtwoord) - meestal niet nodig
+ins_db_prefix_info: Wordt voor elke tabelnaam geplaatst. Wijzig dit alleen als je één database deelt met andere software.
+ins_db_migrationpw_info: Beschermt de updatepagina (install/?mode=upgrade) voor latere spelupdates. Laat leeg, dan maakt het installatieprogramma een sterk wachtwoord aan en toont het één keer op de laatste pagina.
+ins_db_migrationpw_placeholder: wordt automatisch gegenereerd
+ins_migrationpw_invalid: Het migratiewachtwoord mag geen aanhalingstekens, backslashes, $ of regeleindes bevatten.
+ins_err_technical: technische details
+ins_err_access_denied: De databaseserver heeft de gebruikersnaam of het wachtwoord geweigerd. Controleer beide op typefouten (hoofdletters tellen mee) in je hostingpaneel.
+ins_err_unknown_db: Deze database bestaat niet op de server. Controleer de naam, of vink hieronder "De database aanmaken" aan.
+ins_err_no_privilege: Deze databasegebruiker mag die database niet gebruiken. Geef de gebruiker in je hostingpaneel alle rechten erop.
+ins_err_no_create: Deze gebruiker mag geen databases aanmaken. Maak in je hostingpaneel een lege database aan en vink "De database aanmaken" uit.
+ins_err_socket: De socket van de databaseserver is niet gevonden. Probeer de host "127.0.0.1" in plaats van "localhost".
+ins_err_unreachable: De databaseserver "%s" is niet bereikbaar. Controleer de hostnaam en poort, en of de databaseserver draait. Veel hosts staan alleen verbindingen toe vanaf hun eigen webservers, dus "localhost" is meestal goed.
+ins_game_desc: Geef je spel een naam en kies hoe het speelt. Alles hier kun je later wijzigen in het beheer (Admin - Instellingen).
+ins_group_general: Algemeen
+ins_uni_name: Naam van het universum
+ins_uni_name_info: Wordt aan spelers getoond als ze een universum kiezen. Leeg = "Universum 1".
+ins_uni_name_invalid: De naam van het universum mag maximaal 60 tekens bevatten.
+ins_language: Standaardtaal
+ins_language_info: Taal voor nieuwe bezoekers en je beheerdersaccount.
+ins_language_invalid: Onbekende taal.
+ins_timezone: Tijdzone
+ins_timezone_info: Vooraf ingesteld op basis van je server. Wordt gebruikt voor de getoonde servertijd.
+ins_timezone_invalid: Onbekende tijdzone.
+ins_group_speed: Spelsnelheid
+ins_speed_info: Hoe snel gebouwen, onderzoek, schepen, vloten en productie gaan. Klassiek is het oorspronkelijke tempo; de snellere presets passen bij kleine groepen en korte rondes.
+ins_speed_classic: Klassiek
+ins_speed_classic_info: het oorspronkelijke tempo, rondes duren maanden
+ins_speed_fast: Snel
+ins_speed_fast_info: ongeveer drie keer zo snel, rondes duren weken
+ins_speed_blitz: Blitz
+ins_speed_blitz_info: tot tien keer zo snel, rondes duren dagen
+ins_speed_detail: Gebouwen/onderzoek %bx, vloten %fx, grondstoffen %rx
+ins_speed_invalid: Onbekende snelheidspreset.
+ins_group_players: Spelers
+ins_registration: Registratie
+ins_registration_open: Open - iedereen kan zich aanmelden
+ins_registration_closed: Gesloten - alleen jij kunt accounts aanmaken
+ins_registration_info: Kies "gesloten" zolang je nog dingen aan het instellen bent. Je kunt dit later openzetten in Admin - Instellingen.
+ins_registration_invalid: Onbekende registratie-instelling.
+ins_bots: Computerspelers (bots)
+ins_bots_info: 0 tot 50. Bots spelen als echte spelers met verschillende gewoontes, zodat een nieuw universum niet leeg is. 0 = geen bots.
+ins_bots_invalid: Het aantal bots moet tussen 0 en 50 liggen.
+ins_mail: E-mails versturen (registratie, wachtwoord resetten)
+ins_mail_info: Standaard uit. Zet dit alleen aan als je server e-mail kan versturen; je kunt SMTP later instellen in Admin - Instellingen.
+ins_admin_mail_info: Wordt gebruikt voor wachtwoordresets en als contactadres.
+ins_admin_mail_invalid: Voer een geldig e-mailadres in.
+ins_admin_pass_confirm: Wachtwoord herhalen
+ins_admin_pass_rules: Het wachtwoord heeft minimaal %d tekens nodig (maximaal 64). Een zin van een paar woorden is makkelijk te onthouden en moeilijk te raden.
+ins_admin_pass_short: Het wachtwoord heeft minimaal %d tekens nodig.
+ins_admin_pass_long: Het wachtwoord mag maximaal 64 tekens bevatten.
+ins_admin_pass_mismatch: De twee wachtwoorden komen niet overeen.
+ins_done_checklist: Je checklist
+ins_done_login: Log in op het beheer.
+ins_done_login_info: 'Je bent al ingelogd als "%s". Gebruik de volgende keer:'
+ins_done_cron: Stel de cronjob in (verplicht).
+ins_done_cron_info: 'Zonder deze job gaat er in het spel niets verder (vloten, bouwwachtrijen, statistieken). Voeg deze regel toe aan de crontab van de webserver-gebruiker (crontab -e) of maak er een cronjob mee aan in je hostingpaneel:'
+ins_done_locked: De installatietool is nu vergrendeld.
+ins_done_locked_info: Niemand kan de wizard opnieuw uitvoeren. Om later bij te werken, volg je de upgradesectie van de documentatie.
+ins_done_https: Gebruik HTTPS.
+ins_done_https_info: 'Je zit op gewoon HTTP: wachtwoorden gaan onversleuteld over de lijn. Zet een certificaat op (bijvoorbeeld Let''s Encrypt) voordat je spelers uitnodigt.'
+ins_done_https_ok: Deze pagina is via HTTPS geladen - goed zo.
+ins_done_settings: Wijzig instellingen later.
+ins_done_settings_info: 'Admin - Instellingen: spelnaam, snelheid, registratie, e-mail (SMTP), bots en nog veel meer.'
+ins_done_bots: Bots.
+ins_done_bots_info: '%d bots zijn aangemaakt. Ze handelen zodra de cronjob draait. Beheer ze in het beheer.'
+ins_done_bots_failed: De beheerder is aangemaakt, maar de bots konden niet worden aangemaakt. Je kunt ze later in het beheer toevoegen.
+ins_done_migrationpw: Schrijf je migratiewachtwoord op (wordt maar één keer getoond).
+ins_done_migrationpw_info: Je hebt het nodig voor spelupdates. Het staat ook in config/game.php.
+ins_done_docs: 'Documentatie:'
+ins_done_to_admin: Naar het beheer
+ins_step_legal: Juridisch
+ins_legal_desc: Kies waar het spel wordt gehost en hoe de juridische pagina's en het communitybord beginnen. Dit kun je later allemaal wijzigen in het beheer (Instellingen, Pagina's).
+ins_group_privacy: Hostinglocatie
+ins_privacy_info: De regio bepaalt welk privacybeleid standaard wordt gebruikt.
+ins_privacy_eu: EU / EER - privacybeleid volgens de AVG
+ins_privacy_eu_info: Kies dit als het spel in de Europese Unie of de Europese Economische Ruimte wordt gehost, of zich daar op spelers richt.
+ins_privacy_other: Buiten de EU - algemeen privacybeleid
+ins_privacy_other_info: Een privacybeleid in duidelijke taal zonder verwijzingen naar de AVG.
+ins_group_rules: Regels
+ins_rules_default: Standaardregels importeren
+ins_rules_default_info: De regelpagina begint met de standaardspelregels, die je daarna kunt bewerken.
+ins_rules_blank: Leeg beginnen
+ins_rules_blank_info: De regelpagina blijft leeg tot je zelf regels schrijft in het beheer.
+ins_group_community: Community
+ins_board: Communitybord inschakelen
+ins_board_info: Een forum voor je spelers. Als dit uit staat, zijn alle bordlinks verborgen en zijn de bordpagina's niet beschikbaar.
+ins_legal_note: De gegenereerde teksten zijn alleen sjablonen. Als beheerder ben je verantwoordelijk voor de juridische teksten van je spel en moet je ze nakijken.
+ins_legal_region_invalid: Kies een geldige hostinglocatie.
+ins_legal_rules_invalid: Kies hoe de regels moeten beginnen.

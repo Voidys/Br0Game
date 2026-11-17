@@ -1059,7 +1059,6 @@ CREATE TABLE `%PREFIX%users_settings` (
   `enable_planet_styles` tinyint NOT NULL DEFAULT 1,
   `colonyWarn` int(1) unsigned NOT NULL DEFAULT 1,
   `noob_interface` tinyint(1) NOT NULL DEFAULT 1,
-  `tcg_token` varchar(64) NOT NULL DEFAULT '',
   `decimal_separator` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -1185,18 +1184,6 @@ CREATE TABLE `%PREFIX%vars_requriements` (
   KEY `requireID` (`requireID`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE `%PREFIX%recaptcha` (
-    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `accountId`    int(11) unsigned NOT NULL,
-    `success`   tinyint(1) NOT NULL DEFAULT '0',
-    `time`      int(11) NOT NULL DEFAULT '0',
-    `score`     DECIMAL(2,1) NOT NULL DEFAULT '0.0',
-    `action`    varchar(255) DEFAULT '',
-    `url`       varchar(255) DEFAULT NULL,
-    `universe`  tinyint unsigned NOT NULL DEFAULT 0,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS `%PREFIX%marketplace` (
   `universeId` int(11) NOT NULL AUTO_INCREMENT,
   `metDeutRatio` float(23) NOT NULL DEFAULT 2,
@@ -1275,26 +1262,35 @@ CREATE TABLE `%PREFIX%users_tutorial_goal` (
   KEY `userID` (`userID`, `tutorialGoalID`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Voting url needs to have {ID} which is replaced with user id
-CREATE TABLE `%PREFIX%voting_sites` (
+CREATE TABLE `%PREFIX%vote_sites` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL DEFAULT '',
-  `url` VARCHAR(100) NOT NULL DEFAULT '',
-  `check_url` VARCHAR(100) NOT NULL DEFAULT '',
-  `interval` int(11) NOT NULL DEFAULT '0',
-  `reward` int(11) NOT NULL DEFAULT '1',
-  `active` SMALLINT NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
+  `universe` int(11) unsigned NOT NULL DEFAULT 1,
+  `name` varchar(80) NOT NULL,
+  `vote_url` varchar(500) NOT NULL,
+  `image_url` varchar(500) NOT NULL DEFAULT '',
+  `cooldown_hours` int(11) unsigned NOT NULL DEFAULT 24,
+  `reward` json NOT NULL,
+  `verification` enum('none','postback') NOT NULL DEFAULT 'none',
+  `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `sort` int(11) NOT NULL DEFAULT 0,
+  `secret` varchar(64) NOT NULL,
+  `created` int(11) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `universe` (`universe`, `active`, `sort`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE TABLE `%PREFIX%users_voting` (
-  `userId` int(11) unsigned NOT NULL DEFAULT '0',
-  `votingId` int(11) unsigned NOT NULL DEFAULT '0',
-  `votingTime` int(11) NOT NULL DEFAULT '0',
-  `canVote` SMALLINT NOT NULL DEFAULT '1',
-  `checkTime` int(11) NOT NULL DEFAULT '0',
-  `active` SMALLINT NOT NULL DEFAULT '1',
-  PRIMARY KEY (`userId`, `votingId`)
+CREATE TABLE `%PREFIX%vote_log` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `token` char(32) NOT NULL,
+  `clicked_at` int(11) unsigned NOT NULL,
+  `verified_at` int(11) unsigned DEFAULT NULL,
+  `rewarded_at` int(11) unsigned DEFAULT NULL,
+  `ip` varchar(45) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `site_user` (`site_id`, `user_id`, `rewarded_at`),
+  KEY `clicked_at` (`clicked_at`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO `%PREFIX%tutorials` (`name`, `translation_key`, `order`, `support_class`, `skippable`, `enabled`) VALUES

@@ -8,7 +8,6 @@ Play: Играть
 Playername: Имя игрока
 Register: Регистрация
 Settings: Настройки
-Sitting_cancel: Отменить ситтинг
 Sitting_end: Конец ситтинга
 Sitting_request: Запросить ситтинг (пока недоступно)
 uni_status_regclosed_gameclosed: Закрыта
@@ -17,66 +16,69 @@ uni_status_regopen_gameclosed: Открыта для регистрации
 uni_status_regopen_gameopen: Открыта
 Universe_end: Конец
 Universe_start: Начало
-Universe_status: "Статус вселенной: "
+Universe_status: 'Статус вселенной: '
 Universes: Вселенные
 Your_universes: Твои вселенные
-board_create: "Новая запись"
-board_edit_post: "Редактировать запись"
-board_sort: "Сортировка"
-board_sort_hot: "Горячие"
-board_sort_new: "Новые"
-board_sort_top: "Лучшие"
-board_period_all: "За всё время"
-board_period_week: "За эту неделю"
-board_csort_best: "Лучшие"
-board_flair: "Метка"
-board_flair_all: "Все"
-board_flair_general: "Общее"
-board_flair_guide: "Руководство"
-board_flair_question: "Вопрос"
-board_flair_suggestion: "Предложение"
-board_flair_bug: "Ошибка"
-board_flair_offtopic: "Не по теме"
-board_upvote: "Голос «за»"
-board_downvote: "Голос «против»"
-board_pinned: "Закреплено"
-board_locked: "Закрыто"
-board_by: "от"
-board_comments: "Комментарии"
+board_create: Новая запись
+board_edit_post: Редактировать запись
+board_sort: Сортировка
+board_sort_hot: Горячие
+board_sort_new: Новые
+board_sort_top: Лучшие
+board_period_all: За всё время
+board_period_week: За эту неделю
+board_csort_best: Лучшие
+board_flair: Метка
+board_flair_all: Все
+board_flair_general: Общее
+board_flair_guide: Руководство
+board_flair_question: Вопрос
+board_flair_suggestion: Предложение
+board_flair_bug: Ошибка
+board_flair_offtopic: Не по теме
+board_upvote: Голос «за»
+board_downvote: Голос «против»
+board_pinned: Закреплено
+board_locked: Закрыто
+board_by: от
+board_comments: Комментарии
 board_empty: Записей пока нет. Напиши первую!
-board_no_comments: "Комментариев пока нет."
-board_title: "Заголовок"
-board_body: "Текст"
-board_publish: "Опубликовать"
-board_save: "Сохранить"
-board_cancel: "Отмена"
-board_edit: "Изменить"
-board_edited: "изменено"
-board_delete: "Удалить"
-board_deleted: "[удалено]"
-board_deleted_user: "[удалено]"
+board_no_comments: Комментариев пока нет.
+board_title: Заголовок
+board_body: Текст
+board_publish: Опубликовать
+board_save: Сохранить
+board_cancel: Отмена
+board_edit: Изменить
+board_edited: изменено
+board_delete: Удалить
+board_deleted: '[удалено]'
+board_deleted_user: '[удалено]'
 board_confirm_delete: Точно удалить?
-board_reply: "Ответить"
-board_collapse: "Свернуть ветку"
-board_add_comment: "Написать комментарий"
-board_comment_send: "Комментировать"
-board_mod_pin: "Закрепить"
-board_mod_unpin: "Открепить"
-board_mod_lock: "Закрыть"
-board_mod_unlock: "Открыть"
-board_not_found: "Эта запись или комментарий не существует."
+board_reply: Ответить
+board_collapse: Свернуть ветку
+board_add_comment: Написать комментарий
+board_comment_send: Комментировать
+board_mod_pin: Закрепить
+board_mod_unpin: Открепить
+board_mod_lock: Закрыть
+board_mod_unlock: Открыть
+board_not_found: Эта запись или комментарий не существует.
 board_not_allowed: У тебя нет прав на это действие.
 board_err_csrf: Не удалось проверить запрос. Обнови страницу и попробуй ещё раз.
 board_err_title: Введи заголовок.
-board_err_title_long: "Заголовок может содержать не более 200 символов."
+board_err_title_long: Заголовок может содержать не более 200 символов.
 board_err_body: Введи текст (он не может быть пустым или слишком длинным).
-board_err_locked: "Эта запись закрыта, новые комментарии недоступны."
+board_err_locked: Эта запись закрыта, новые комментарии недоступны.
 board_err_rate_post: Подожди ещё %d сек. перед следующей записью.
 board_err_rate_comment: Подожди ещё %d сек. перед следующим комментарием.
-board_ago_now: "только что"
-board_ago_min: "%d мин. назад"
-board_ago_hours: "%d ч. назад"
-board_ago_days: "%d дн. назад"
+board_ago_now: только что
+board_ago_min: '%d мин. назад'
+board_ago_hours: '%d ч. назад'
+board_ago_days: '%d дн. назад'
 board_guest_hint: Войди, чтобы писать, комментировать и голосовать.
-board_guest_login: "Войти"
-board_guest_register: "Регистрация"
+board_guest_login: Войти
+board_guest_register: Регистрация
+rl_board_err_self_vote: Нельзя голосовать за свой пост или комментарий.
+rl_board_err_vote_cap: Достигнут дневной лимит голосов. Попробуй завтра.
+rl_board_err_write_cap: Достигнут дневной лимит постов и комментариев. Попробуй завтра.

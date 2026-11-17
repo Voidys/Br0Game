@@ -63,11 +63,6 @@ class Database
         return $this->connectionConfig;
     }
 
-    public function getDbTableNames(): array
-    {
-        return $this->dbTableNames;
-    }
-
     /** table prefix of the game tables (formerly DB_PREFIX) */
     public function getTablePrefix(): string
     {
@@ -109,7 +104,7 @@ class Database
         $this->dbHandle = $db;
         $this->dbal = $connection;
         $dbTableNames = [];
-        include 'src/Game/Support/tables.php';
+        include __DIR__ . '/../Support/tables.php';
         foreach ($dbTableNames as $key => $name) {
             $this->dbTableNames['keys'][]   = '%%' . $key . '%%';
             $this->dbTableNames['names'][]  = $name;

@@ -1,28 +1,26 @@
 dir: ltr
 js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
 months:
-  - Ene
-  - Peb
-  - Mar
-  - Abr
-  - May
-  - Hun
-  - Hul
-  - Ago
-  - Set
-  - Okt
-  - Nob
-  - Dis
-php_tdformat: 'j M Y, H:i:s'
+- Ene
+- Peb
+- Mar
+- Abr
+- May
+- Hun
+- Hul
+- Ago
+- Set
+- Okt
+- Nob
+- Dis
+php_tdformat: j M Y, H:i:s
 short_day: a
 short_hour: o
 short_minute: m
 short_second: s
 timezones:
   '-1': '[UTC - 1] Oras ng Azores, Oras ng Cape Verde, Oras ng Silangang Greenland'
-  '-2': >-
-    [UTC - 2] Oras ng Fernando de Noronha, Oras ng South Georgia &amp; South
-    Sandwich Islands
+  '-2': '[UTC - 2] Oras ng Fernando de Noronha, Oras ng South Georgia &amp; South Sandwich Islands'
   '-3': '[UTC - 3] Karaniwang Oras ng Amazon, Oras ng Gitnang Greenland'
   '-3.5': '[UTC - 3:30] Karaniwang Oras ng Newfoundland'
   '-4': '[UTC - 4] Karaniwang Oras ng Atlantic'
@@ -49,9 +47,7 @@ timezones:
   '6': '[UTC + 6] Oras ng Bangladesh, Oras ng Bhutan, Karaniwang Oras ng Novosibirsk'
   '6.5': '[UTC + 6:30] Oras ng Cocos Islands, Oras ng Myanmar'
   '7': '[UTC + 7] Oras ng Indochina, Karaniwang Oras ng Krasnoyarsk'
-  '8': >-
-    [UTC + 8] Karaniwang Oras ng Pilipinas at China, Karaniwang Oras ng
-    Kanlurang Australia, Karaniwang Oras ng Irkutsk
+  '8': '[UTC + 8] Karaniwang Oras ng Pilipinas at China, Karaniwang Oras ng Kanlurang Australia, Karaniwang Oras ng Irkutsk'
   '8.75': '[UTC + 8:45] Karaniwang Oras ng Timog-silangang Kanlurang Australia'
   '9': '[UTC + 9] Karaniwang Oras ng Japan, Karaniwang Oras ng Korea, Karaniwang Oras ng Chita'
   '9.5': '[UTC + 9:30] Karaniwang Oras ng Gitnang Australia'
@@ -64,13 +60,14 @@ timezones:
   '13': '[UTC + 13] Oras ng Tonga, Oras ng Phoenix Islands'
   '14': '[UTC + 14] Oras ng Line Islands'
 week_day:
-  - Lin
-  - Lun
-  - Mar
-  - Miy
-  - Huw
-  - Biy
-  - Sab
+- Lin
+- Lun
+- Mar
+- Miy
+- Huw
+- Biy
+- Sab
 php_dateformat: M d, Y
-php_timeformat: h:i:s A
-lang_group_fun: "Pang-katuwaang wika"
+lang_group_fun: Pang-katuwaang wika
+dialog_ok: OK
+dialog_cancel: Kanselahin

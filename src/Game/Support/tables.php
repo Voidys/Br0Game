@@ -78,7 +78,6 @@ $dbTableNames   = [
     'PLANET_WRECKFIELD'       => $prefix . 'planet_wreckfield',
     'RW'                      => $prefix . 'raports',
     'RECORDS'                 => $prefix . 'records',
-    'RECAPTCHA'               => $prefix . 'recaptcha',
     'SESSION'                 => $prefix . 'session',
     'SHORTCUTS'               => $prefix . 'shortcuts',
     'STATPOINTS'              => $prefix . 'statpoints',
@@ -107,5 +106,7 @@ $dbTableNames   = [
     'VARS'                    => $prefix . 'vars',
     'VARS_RAPIDFIRE'          => $prefix . 'vars_rapidfire',
     'VARS_REQUIRE'            => $prefix . 'vars_requriements',
+    'VOTE_LOG'                => $prefix . 'vote_log',
+    'VOTE_SITES'              => $prefix . 'vote_sites',
 ];
 // MOD-TABLES

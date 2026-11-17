@@ -24,8 +24,7 @@ use App\Game\Core\Statbuilder;
 /**
  * Recalculates the statistics (points) manually and shows the result.
  */
-#[\App\Routing\GamePage('admin.php', 'statUpdate')]
-#[\App\Routing\GamePage('admin.php', 'statUpdate', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'statUpdate')]
 class StatUpdateController extends AbstractAdminController
 {
     /**

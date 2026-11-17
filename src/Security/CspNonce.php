@@ -11,7 +11,7 @@ use Symfony\Contracts\Service\ResetInterface;
  * never print an inline script (JSON, redirects) pay nothing. The same value goes into the
  * `script-src 'nonce-…'` header (CspListener) and into the `nonce` attribute of the few inline
  * scripts the templates still contain (Twig function csp_nonce()). Also remembers which optional
- * third-party features the rendered page uses (csp_allow('recaptcha')), so the policy opens only
+ * third-party features the rendered page uses (csp_allow('<feature>')), so the policy opens only
  * what the page needs.
  */
 final class CspNonce implements ResetInterface

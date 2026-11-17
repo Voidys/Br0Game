@@ -68,5 +68,6 @@ week_day:
 - T6
 - T7
 php_dateformat: d/m/Y
-php_timeformat: H:i:s
-lang_group_fun: "Ngôn ngữ vui"
+lang_group_fun: Ngôn ngữ vui
+dialog_ok: OK
+dialog_cancel: Hủy

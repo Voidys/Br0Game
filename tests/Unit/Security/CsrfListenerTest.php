@@ -261,15 +261,5 @@ final class CsrfListenerTest extends TestCase
 /** stands in for a routed game controller (the policy only looks at the interface) */
 final class FixtureGameController implements GameControllerInterface
 {
-    public static function getGameMode(): string
-    {
-        return 'INGAME';
-    }
-
-    public static function getEntryScript(): string
-    {
-        return 'game.php';
-    }
-
     public function initialize(): void {}
 }

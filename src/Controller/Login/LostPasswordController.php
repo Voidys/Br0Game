@@ -27,12 +27,9 @@ use App\Game\Core\Session;
 use App\Game\Core\Singleton;
 
 /** Lost password: requests a reset mail and sets a new password from the mail link (modes: show, send, newPassword). */
-#[\App\Routing\GamePage('index.php', 'lostPassword')]
-#[\App\Routing\GamePage('index.php', 'lostPassword', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'lostPassword')]
 class LostPasswordController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     /** seconds a reset link stays valid */
     private const KEY_LIFETIME = 1800;
     /** seconds an unused link blocks a new request for the same account (a lost mail can be requested again after that) */
@@ -170,7 +167,7 @@ class LostPasswordController extends AbstractLoginController
 
     /**
      * Requests a reset mail (mode=send). Request: username (account name), mail (the account's second address `email_2`).
-     * Needs working mail, passes the lost-password rate limit per IP, and allows one open request per account per 10 minutes.
+     * Needs working mail, a valid bot-check solution (fields `pow`, honeypot `website`), passes the lost-password rate limit per IP, and allows one open request per account per 10 minutes.
      * Stores a key in LOSTPASSWORD and mails a link (mode=newPassword). Unknown accounts and repeated requests get the same
      * answer as a successful one, so account names cannot be enumerated.
      */
@@ -196,6 +193,8 @@ class LostPasswordController extends AbstractLoginController
         if (!$config->mail_active || empty($config->smtp_host)) {
             $this->redirectTo('./');
         }
+
+        $this->requireBotCheck('./?page=lostPassword', $LNG['passwordBack']);
 
         if (!$this->rateLimits->allowLostPassword($this->sessions()->getClientIp())) {
             $this->printMessage($LNG['login_error_4'], [[

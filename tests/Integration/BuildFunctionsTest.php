@@ -283,7 +283,7 @@ final class BuildFunctionsTest extends GameTestCase
     {
         // with a robotics factory upgrade queued in front, later buildings are timed with the raised level
         [$user, $planet] = $this->createPlayer([], ['robot_factory' => 3]);
-        $planet['b_building_id'] = serialize([[14, 4, 100.0, 1.0e10, 'build', [901 => 400.0, 902 => 120.0, 903 => 200.0]]]);
+        $planet['b_building_id'] = \App\Game\Core\StoredData::encode([[14, 4, 100.0, 1.0e10, 'build', [901 => 400.0, 902 => 120.0, 903 => 200.0]]]);
 
         $price = $this->build->getElementPrice($user, $planet, 1, false, 8);
         $this->goldenAssert('time queued robotics at index 0', $this->build->getBuildingTime($user, $planet, 1, $price, false, 8, 0));
@@ -349,7 +349,7 @@ final class BuildFunctionsTest extends GameTestCase
     public function testMaxConstructibleRockets(): void
     {
         [, $planet] = $this->createPlayer([], ['silo' => 4, 'interceptor_misil' => 6, 'interplanetary_misil' => 3]);
-        $planet['b_hangar_id'] = serialize([[503, 2, 100.0]]);
+        $planet['b_hangar_id'] = \App\Game\Core\StoredData::encode([[503, 2, 100.0]]);
 
         $this->goldenAssert('max rockets silo 4', $this->build->getMaxConstructibleRockets($planet));
     }

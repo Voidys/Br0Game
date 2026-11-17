@@ -79,3 +79,6 @@ board_ago_days: '%d ngày trước'
 board_guest_hint: Đăng nhập để đăng bài, bình luận và bình chọn.
 board_guest_login: Đăng nhập
 board_guest_register: Đăng ký
+rl_board_err_self_vote: Bạn không thể bình chọn bài viết hoặc bình luận của chính mình.
+rl_board_err_vote_cap: Đã đạt giới hạn bình chọn trong ngày. Hãy thử lại vào ngày mai.
+rl_board_err_write_cap: Đã đạt giới hạn bài viết và bình luận trong ngày. Hãy thử lại vào ngày mai.

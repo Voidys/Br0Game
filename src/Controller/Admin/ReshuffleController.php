@@ -23,8 +23,7 @@ use App\Game\Core\Universe;
 /**
  * Reshuffles the positions of the planets in the galaxy.
  */
-#[\App\Routing\GamePage('admin.php', 'reshuffle')]
-#[\App\Routing\GamePage('admin.php', 'reshuffle', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'reshuffle')]
 class ReshuffleController extends AbstractAdminController
 {
     /**

@@ -22,7 +22,6 @@ fleet_attack_1: 'Atakująca flota dokonała ostrzału z siłą:'
 fleet_attack_2: 'w obrońcę. Osłony obrońcy pochłonęły:'
 fleet_defs_1: 'Broniąca się flota oddała ostrzał z siłą:'
 fleet_defs_2: 'w agresora. Osłony najeźdźcy pochłonęły:'
-spy_attack_with: Atak z
 spy_best_planet: Najlepsza planeta
 spy_best_resources_per_second: "Najlepsza produkcja surowców na sekundę"
 spy_energy: Energia
@@ -41,14 +40,12 @@ sys_and: i
 sys_attack_attacker_pos: Agresor
 sys_attack_defender_pos: Obrońca
 sys_attack_round: Runda
-sys_attack_techologies: 'Broń: %d %% Osłona: %d %% Pancerz: %d %% '
 sys_attack_title: 'Doszło do starcia następujących flot: '
 sys_attacker_lostunits: "Straty agresora:"
 sys_attacker_won: "Agresor wygrał bitwę! Jego statki lądują w stolicy, a dowódca przyjmuje upokarzającą przegranego defiladę zwycięskich wojsk."
 sys_both_won: "Bitwa kończy się remisem! Zmęczone floty wracają do baz, żeby dokonać niezbędnych napraw."
 sys_colo_allisok: "Jedna z twoich flot dotarła na współrzędne %s. Kolonizatorzy zaczęli zasiedlać nową planetę. To kolejny krok do ostatecznego triumfu naszego wspaniałego Imperium."
 sys_colo_badpos: "Jedna z twoich flot dotarła na współrzędne %s. Kolonizacja jest tam niemożliwa, więc kolonizatorzy wracają do domu rozczarowani."
-sys_colo_defaultname: Kolonia
 sys_colo_maxcolo: "Jedna z twoich flot dotarła na współrzędne %s. Kolonizacja jest niemożliwa: możesz mieć tylko %d planet, bo twoja znajomość astrofizyki jest zbyt niska."
 sys_colo_mess_from: Kolonizacja
 sys_colo_mess_report: Raport kolonizacji
@@ -94,8 +91,6 @@ sys_expe_back_home: "Twoja flota wróciła do %1$s %2$s z ekspedycji na %3$s."
 sys_expe_back_home_ress: Flota dostarczyła %s %s, %s %s i %s %s.
 sys_expe_back_home_ships_flound: "Znaleziono następujące statki:"
 sys_expe_back_home_ships_lost: 'Stracono następujące statki:'
-sys_expe_blackholl_1: "Twoja flota napotkała czarną dziurę i została częściowo zniszczona! Tylko dzięki zręczności i opanowaniu Admirała część jednostek przetrwała."
-sys_expe_blackholl_2: "Twoja flota wyszła z nadprzestrzeni wprost w czarną dziurę i została całkowicie zniszczona!"
 sys_expe_depleted_max_1: "Wpis z dziennika oficera łączności: Gdybyśmy kiedyś poczuli się zagrożeni, zawsze możemy połączyć siły ze wszystkimi innymi ekspedycjami latającymi w tej okolicy."
 sys_expe_depleted_max_2: "Wpis z dziennika oficera łączności: Jeśli tak dalej pójdzie, będziemy musieli ustawić boje nawigacyjne, żeby ogarnąć cały ten ruch."
 sys_expe_depleted_max_3: "Wpis z dziennika oficera łączności: Może bardziej przydałby się tu sklep z pamiątkami niż kolejna ekspedycja."
@@ -118,7 +113,6 @@ sys_expe_depleted_not_2: >-
 sys_expe_feqeuence_few: Ponad 10 wypraw w ciągu ostatnich 24 godzin
 sys_expe_feqeuence_many: Ponad 50 wypraw w ciągu ostatnich 24 godzin
 sys_expe_feqeuence_medium: Ponad 25 wypraw w ciągu ostatnich 24 godzin
-sys_expe_feqeuence_no: "Niewiele wypraw w ciągu ostatnich 24 godzin"
 sys_expe_found_goods: "Wydobyto: %s %s."
 sys_expe_found_ress_1_1: "Twoja ekspedycja natrafiła na niewielkie skupisko asteroid, z którego udało się wydobyć trochę surowców."
 sys_expe_found_ress_1_2: "Na odległej planetoidzie znaleziono kilka łatwo dostępnych złóż i z powodzeniem wydobyto surowce."
@@ -133,7 +127,6 @@ sys_expe_found_ress_logbook_1: "Wpis z dziennika pierwszego oficera: Wykorzystal
 sys_expe_found_ress_logbook_2: "Wpis z dziennika pierwszego oficera: Gdybyśmy tylko mieli kilka frachtowców więcej! Teraz musimy zostawić mnóstwo surowców."
 sys_expe_found_ress_logbook_3: "Wpis z dziennika pierwszego oficera: Wyrzuciliśmy już wszystko, czego już nie potrzebujemy, a i tak nie da się zrobić dość miejsca na wszystkie znalezione surowce."
 sys_expe_found_ress_logbook_4: "Wpis z dziennika pierwszego oficera: Nawet po przerobieniu stołówki i wszystkich salonów na ładownie nie zabierzemy wszystkich znalezionych surowców."
-sys_expe_found_ships: "Twoi badacze znaleźli statki w doskonałym stanie! Kto mógł je tu porzucić? Miejmy nadzieję, że sterylizacja wystarczy i ten dar nie okaże się naszym przekleństwem...<br>:"
 sys_expe_found_ships_1_1: "Ekspedycja natrafiła na wraki poprzedniej ekspedycji! Nasi technicy sprawdzają, czy dałoby się przywrócić część z nich do działania."
 sys_expe_found_ships_1_2: "Znaleźliśmy opuszczoną bazę piratów. W hangarze nadal stoi kilka starych statków. Technicy sprawdzają, czy któryś nadaje się jeszcze do użytku."
 sys_expe_found_ships_1_3: "Nasza ekspedycja trafiła na planetę niemal całkowicie zniszczoną przez wojny. Na orbicie dryfują wraki. Technicy próbują część z nich naprawić, a pokładowy historyk stara się dociec, co się tu właściwie wydarzyło."
@@ -182,7 +175,6 @@ sys_irak_subject: "Uderzenie rakiet"
 sys_lost: Straty
 sys_mess_attack_cancel: "Bitwa o %s %s została anulowana.\nSerwer nie mógł jej obliczyć."
 sys_mess_attack_report: "Raport z walki"
-sys_mess_destruc_report: 'Raport: Zniszczenie księżyca'
 sys_mess_fleetback: Powrót floty
 sys_mess_piratebase_gone: "Twoja flota dotarła do %s, ale bazy piratów już tam nie ma. Flota wraca do domu."
 sys_mess_spy_activity: "Raport kontrwywiadu"
@@ -220,7 +212,6 @@ sys_ship_repaired: Naprawiono
 sys_ship_shield: "Osłony"
 sys_ship_type: Typ
 sys_ship_weapon: "Siła ognia"
-sys_spy_defenses: Systemy obronne
 sys_spy_fleet: Flota
 sys_stat_mess: Twoja flota z %s %s dociera do %s %s %s i dostarcza %s %s, %s %s i %s %s. %s
 sys_stat_mess_stay: "Flota stacjonująca"

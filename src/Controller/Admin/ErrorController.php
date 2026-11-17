@@ -22,8 +22,7 @@ use App\Game\Core\Singleton;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Shows an admin error message. */
-#[\App\Routing\GamePage('admin.php', 'error')]
-#[\App\Routing\GamePage('admin.php', 'error', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'error')]
 class ErrorController extends AbstractAdminController
 {
     protected $message = '';

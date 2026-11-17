@@ -26,8 +26,7 @@ use App\Game\Core\Universe;
 /**
  * Resets parts of the universe (players, planets, research, fleets, ...).
  */
-#[\App\Routing\GamePage('admin.php', 'reset')]
-#[\App\Routing\GamePage('admin.php', 'reset', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'reset')]
 class ResetController extends AbstractAdminController
 {
     /**

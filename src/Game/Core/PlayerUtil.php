@@ -94,33 +94,6 @@ class PlayerUtil
     }
 
     /**
-     * Picks a random free home-planet position, preferring the emptiest part of the universe.
-     * @see PlanetPositions::randomHP()
-     */
-    public function randomHP(int $universe): array
-    {
-        return $this->planetPositions()->randomHP($universe);
-    }
-
-    /**
-     * Home-planet position strategy "block": fills systems that hold few active players.
-     * @see PlanetPositions::blockHP()
-     */
-    public function blockHP(int $universe): array
-    {
-        return $this->planetPositions()->blockHP($universe);
-    }
-
-    /**
-     * Home-planet position strategy "linear": walks through the universe system by system.
-     * @see PlanetPositions::linearHP()
-     */
-    public function linearHP(int $universe, Config $config): array
-    {
-        return $this->planetPositions()->linearHP($universe, $config);
-    }
-
-    /**
      * Chooses a position for a new home planet by the planet_creation setting: 1 = random, 2 = random or block (coin flip), anything else = linear.
      * @see PlanetPositions::getNewPlanetPosition()
      */
@@ -397,15 +370,6 @@ class PlayerUtil
     }
 
     /**
-     * Compare the number of honorable and dishonorable fights of a player with the reference data true if the player has more honorable fights or the same number of honorable fights and less dishonorable fights
-     * @see HonorPoints::compare_honor_fights()
-     */
-    public function compare_honor_fights(array $userFights, array $referenceFights): bool
-    {
-        return $this->honorPoints()->compare_honor_fights($userFights, $referenceFights);
-    }
-
-    /**
      * Retrieve the honorpoints and the number of honorable and dishonorable fights of a player
      * @see HonorPoints::get_honor_data()
      */
@@ -430,15 +394,6 @@ class PlayerUtil
     public function calculate_honorpoints_decrease(int $userId): float
     {
         return $this->honorPoints()->calculate_honorpoints_decrease($userId);
-    }
-
-    /**
-     * Calculate the border dataset for the top or low 10%, 20% and 30% of the universe
-     * @see HonorPoints::get_honor_percent()
-     */
-    public function get_honor_percent(string $kind = "top"): array
-    {
-        return $this->honorPoints()->get_honor_percent($kind);
     }
 
     /** @deprecated use catchUpFactorFor() with a typed User */

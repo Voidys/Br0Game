@@ -20,8 +20,7 @@ use App\Game\Core\Theme;
 use App\Security\PasswordSupport;
 
 /** Account settings: language, timezone, email and password, account deletion (modes: show, send, toggleDelete). */
-#[\App\Routing\GamePage('account.php', 'accountSettings')]
-#[\App\Routing\GamePage('account.php', 'accountSettings', uniPrefix: true)]
+#[\App\Routing\GamePage('account', 'accountSettings')]
 class AccountSettingsController extends AbstractAccountController
 {
     public function initialize(): void

@@ -41,10 +41,10 @@
 <h2>E-Mails</h2>
 <p>Wir senden E-Mails an Ihre registrierte Adresse, wenn sie für Ihr Konto nötig sind: Aktivierung des Kontos, Zurücksetzen des Passworts, Bestätigung einer neuen E-Mail-Adresse, Hinweise vor der Löschung eines inaktiven Kontos und wichtige Mitteilungen zum Spiel (etwa der Start eines neuen Universums). Wir versenden keine Newsletter und keine Werbung.</p>
 
-<!--recaptcha--><h2>Schutz vor Bots (Google reCAPTCHA)</h2>
-<p>Einige Formulare (etwa die Registrierung) sind mit Google reCAPTCHA vor automatisiertem Missbrauch geschützt, einem Dienst von Google. reCAPTCHA wird erst geladen, wenn Sie ein geschütztes Formular absenden. Dann übermittelt es Ihre IP-Adresse, Browserinformationen und Interaktionsdaten an Google, das prüft, ob die Anfrage von einem Menschen stammt. Google kann diese Daten auch in anderen Ländern verarbeiten, unter anderem in den USA. Weitere Informationen finden Sie in der Datenschutzerklärung von Google unter https://policies.google.com/privacy.</p>
+<h2>Schutz vor Bots</h2>
+<p>Registrierung und Passwort-Wiederherstellung sind vor automatisiertem Missbrauch durch eine kleine Rechenaufgabe geschützt, die Ihr Browser beim Öffnen des Formulars selbstständig löst. Sie wird auf unserem eigenen Server geprüft; es wird kein Drittanbieter kontaktiert, und es werden dafür weder Cookies noch Tracking-Kennungen verwendet.</p>
 
-<!--/recaptcha--><h2>Cookies und lokaler Speicher</h2>
+<h2>Cookies und lokaler Speicher</h2>
 <p>Wir verwenden ausschließlich Cookies und Browserspeicher, die nötig sind, um den von Ihnen gewünschten Dienst bereitzustellen:</p>
 <ul>
 <li><strong>2Moons</strong>: Sitzungscookie, das Sie angemeldet hält. Es läuft 12 Stunden nach Ihrer letzten Aktivität ab, oder wenn Sie sich abmelden.</li>
@@ -56,7 +56,7 @@
 <p>Wir verwenden keine Tracking-, Analyse- oder Werbecookies und erstellen keine Nutzerprofile zu Marketingzwecken.</p>
 
 <h2>Wer Ihre Daten sehen kann</h2>
-<p>Ihre Daten werden von Mitgliedern des Spielteams (Administratoren und Moderatoren) bearbeitet, soweit ihre Aufgaben das erfordern. Technische Dienstleister arbeiten in unserem Auftrag und nur nach unserer Weisung: der Hosting-Anbieter der Server und gegebenenfalls der E-Mail-Versanddienst. Andere Spieler sehen die unter „Konto- und Spielerdaten“ und „Kommunikation im Spiel“ beschriebenen Daten. An Behörden geben wir Daten nur weiter, wenn wir gesetzlich dazu verpflichtet sind. Wir verkaufen keine personenbezogenen Daten.<!--recaptcha--> Abgesehen von Google reCAPTCHA (siehe „Schutz vor Bots“) geben wir Ihre Daten nicht an andere Unternehmen weiter.<!--/recaptcha--></p>
+<p>Ihre Daten werden von Mitgliedern des Spielteams (Administratoren und Moderatoren) bearbeitet, soweit ihre Aufgaben das erfordern. Technische Dienstleister arbeiten in unserem Auftrag und nur nach unserer Weisung: der Hosting-Anbieter der Server und gegebenenfalls der E-Mail-Versanddienst. Andere Spieler sehen die unter „Konto- und Spielerdaten“ und „Kommunikation im Spiel“ beschriebenen Daten. An Behörden geben wir Daten nur weiter, wenn wir gesetzlich dazu verpflichtet sind. Wir verkaufen keine personenbezogenen Daten.</p>
 <p>Links zu externen Diensten (etwa Discord oder dem Wiki) führen Sie nur zu diesen Diensten. Dort werden Daten erst verarbeitet, wenn Sie den Link öffnen, und zwar nach der Datenschutzerklärung des jeweiligen Anbieters.</p>
 
 <h2>Speicherdauer</h2>

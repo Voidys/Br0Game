@@ -64,16 +64,6 @@ abstract class AbstractGameController implements GameControllerInterface
         $this->window = $window === 'popup' && $this->state->runtime->ajax ? 'ajax' : $window;
     }
 
-    public static function getGameMode(): string
-    {
-        return 'INGAME';
-    }
-
-    public static function getEntryScript(): string
-    {
-        return 'game.php';
-    }
-
     protected static function templateArea(): string
     {
         return 'game';
@@ -312,6 +302,7 @@ abstract class AbstractGameController implements GameControllerInterface
             'communityNav' => $this->communityNav(!empty($tutorialDetails['id'] ?? null)),
             'tutorial' => !$tutorialDetails || empty($tutorialDetails) ? false : $tutorialDetails,
             'noobInterface' => $this->state->USER['noob_interface'],
+            'voteNav' => $this->viewHelpers()->isModuleAvailable(MODULE_VOTING) && (new \App\Community\VoteSites($this->db))->hasActive((int) $this->state->USER['universe']),
         ];
     }
 
@@ -589,7 +580,6 @@ abstract class AbstractGameController implements GameControllerInterface
             'signalColors'      => $this->state->USER['signalColors'],
             'decimalSeparator'  => $this->state->USER['decimal_separator'],
             'numberSuffixes'    => (new NumberAbbreviation())->suffixesForLang($LNG->getLanguage()),
-            'captchakey'        => $this->configs->get()->recaptcha_pub_key,
         ]);
     }
 

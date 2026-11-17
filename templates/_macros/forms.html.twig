@@ -3,6 +3,16 @@
   p keys: options (value => label, a label that is an array becomes an <optgroup>) or values + output (parallel
   lists), selected (scalar or list), name, id, class. Values and labels are escaped without double encoding.
 #}
+{#
+  pow_fields(): fields of the bot check inside a form with data-pow (see pow_attrs() and scripts/app/pow.js): the hidden
+  solution field, the honeypot (hidden from humans, bots fill it) and the "verifying" note.
+#}
+{% macro pow_fields() %}
+<div class="pow-trap" aria-hidden="true"><label>Website <input type="text" name="website" value="" tabindex="-1" autocomplete="off"></label></div>
+<input type="hidden" name="pow" value="">
+<p class="pow-status field__help" data-pow-status role="status" hidden></p>
+{% endmacro %}
+
 {% macro html_options(p) %}{% autoescape false %}
 {%- set opts = p.options is defined ? p.options : null -%}
 {%- set vals = p.values is defined ? p.values : null -%}

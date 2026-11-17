@@ -147,10 +147,6 @@ sys_expe_back_home: Bumalik ang fleet mo sa %1$s %2$s mula sa expedition sa %3$s
 sys_expe_back_home_ress: Nagdala ito ng %s %s, %s %s, at %s %s.
 sys_expe_back_home_ships_flound: 'Natagpuan ang mga sumusunod na barko:'
 sys_expe_back_home_ships_lost: 'Nawala ang mga sumusunod na barko:'
-sys_expe_blackholl_1: >-
-  Nasalubong ng fleet mo ang isang black hole at bahagyang nawasak!
-sys_expe_blackholl_2: >-
-  Nasalubong ng fleet mo ang isang black hole at tuluyang nawasak!
 sys_expe_depleted_max_1: >-
   Entry mula sa logbook ng communications officer: Kung sakaling makaramdam
   kami ng panganib, puwede kaming laging makipagsanib-puwersa sa ibang mga
@@ -191,7 +187,6 @@ sys_expe_depleted_not_2: >-
 sys_expe_feqeuence_few: Mahigit 10 expedition sa nakaraang 24 oras
 sys_expe_feqeuence_many: Mahigit 50 expedition sa nakaraang 24 oras
 sys_expe_feqeuence_medium: Mahigit 25 expedition sa nakaraang 24 oras
-sys_expe_feqeuence_no: 'Kaunting expedition sa nakaraang 24 oras'
 sys_expe_found_goods: '%s %s ang namina.'
 sys_expe_found_ress_1_1: >-
   Nakatuklas ang expedition mo ng maliit na asteroid cluster na may mga
@@ -240,7 +235,6 @@ sys_expe_found_ress_logbook_4: >-
   Entry mula sa logbook ng first officer: Kahit ginawa na naming imbakan ang
   cafeteria at lahat ng lounge, hindi pa rin namin madala ang lahat ng
   resource na nakita namin.
-sys_expe_found_ships: 'Nakatagpo ang mga researcher mo ng mga spaceship na nasa perpektong kondisyon!<br>: '
 sys_expe_found_ships_1_1: >-
   Natuklasan namin ang mga labi ng naunang expedition! Sinusuri ng mga technician
   namin kung may mga wreck na maibabalik sa paggana.

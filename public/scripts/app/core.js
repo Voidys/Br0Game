@@ -80,7 +80,7 @@ export function pageData(id = 'page-data') {
 // ---------------------------------------------------------------------------------------- HTTP
 
 /** URLSearchParams from a form, an object or a query string */
-export function params(data) {
+function params(data) {
   if (data instanceof URLSearchParams) return data;
   if (data instanceof HTMLFormElement) return new URLSearchParams(new FormData(data));
   if (typeof data === 'string') return new URLSearchParams(data);
@@ -156,7 +156,7 @@ export const cookie = {
 // ---------------------------------------------------------------------------------------- numbers
 
 /** PHP-style number_format: rounds to `decimals`, `dec` is the decimal and `sep` the thousands separator; non-numeric input counts as 0. */
-export function number_format(number, decimals, dec, sep) {
+function number_format(number, decimals, dec, sep) {
   const n = Number(String(number).replace(/[^0-9+\-Ee.]/g, ''));
   const value = Number.isFinite(n) ? n : 0;
   const precision = Number.isFinite(+decimals) ? Math.abs(decimals) : 0;
@@ -166,7 +166,7 @@ export function number_format(number, decimals, dec, sep) {
 }
 
 /** Writes a large number without exponent notation ("1e+21" style output of String()) as far as precision allows; other values unchanged. */
-export function removeE(value) {
+function removeE(value) {
   const text = String(value);
   if (!text.includes('e+')) return text;
   const exponent = parseInt(text.replace(/\S+.?e\+/g, ''), 10);

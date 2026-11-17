@@ -19,8 +19,7 @@ use App\Game\Core\Theme;
 use App\Game\Core\AccountUtil;
 
 /** Creates a player for the account in another universe (modes: show, send). */
-#[\App\Routing\GamePage('account.php', 'register')]
-#[\App\Routing\GamePage('account.php', 'register', uniPrefix: true)]
+#[\App\Routing\GamePage('account', 'register')]
 class RegisterController extends AbstractAccountController
 {
     public function initialize(): void

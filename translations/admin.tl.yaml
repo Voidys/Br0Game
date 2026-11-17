@@ -1,0 +1,1683 @@
+ac_account_data: Mga detalye ng account
+ac_act_time: Petsa ng huling aktibidad
+ac_ali_idid: 'ID:'
+ac_alliance: Alliance
+ac_ally_ranking: Statistics ng alliance
+ac_ally_web: Website ng alliance
+ac_auth_level: Ranggo
+ac_banned: Naka-ban?
+ac_checkip_title: Pagsusuri ng IP
+ac_coords: Mga coordinate
+ac_diameter: Diameter
+ac_enter_user_id: Pumili ng manlalaro
+ac_ext_text: Panlabas na teksto
+ac_fields: Mga field
+ac_filter_placeholder: Salain...
+ac_home_planet_coord: Mga coordinate ng home planet
+ac_home_planet_id: ID ng home planet
+ac_id_names_coords: ID, pangalan at mga coordinate
+ac_image: Logo ng alliance
+ac_info_ally: Impormasyon ng alliance
+ac_int_text: Panloob na teksto
+ac_last_ip: Huling IP
+ac_leader: Lider
+ac_leyend: '[ Paliwanag ]'
+ac_moon: Buwan
+ac_name: Pangalan
+ac_name_ali: Buong pangalan
+ac_no_ally: Walang alliance
+ac_no_img: Walang logo ang alliance na ito
+ac_no_text_ext: Walang panlabas na teksto ang alliance na ito
+ac_no_text_int: Walang panloob na teksto ang alliance na ito
+ac_no_text_sol: Walang teksto ng aplikasyon ang alliance na ito
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Mahigit sa isang trilyon</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>Trilyon o higit pa</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>Bilyon o higit pa</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>Milyon o higit pa</th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Libo o higit pa</th></tr></table>
+ac_on_vacation: Naka-bakasyon?
+ac_points_count: Score | Bilang
+ac_ranking: Ranking
+ac_recent_destroyed_planets: Kamakailang nawasak na mga planeta
+ac_reg_ip: IP sa registration
+ac_register_ally_time: Itinatag
+ac_register_time: Nairehistro
+ac_research: Research
+ac_see_ranking: Tingnan ang statistics
+ac_select_id_num: Ilagay nang mano-mano ang ID (opsyonal)
+ac_sol_text: Teksto ng aplikasyon
+ac_suspended_autor: Na-ban ni
+ac_suspended_longer: Hanggang
+ac_suspended_reason: Dahilan
+ac_suspended_time: Na-ban
+ac_suspended_title: Mga detalye ng ban
+ac_swap_invalid: Hindi wastong pagpili, pumili ng dalawang magkaibang user!
+ac_swap_no_entry: Walang nakitang account entry para sa isa o pareho sa mga user.
+ac_swap_submit: Palitan
+ac_swap_success: Matagumpay na napalitan ang mga account.
+ac_swap_title: Palitan ang mga account
+ac_swap_user_a: User A
+ac_swap_user_b: User B
+ac_tag: TAG
+ac_temperature: Temp.
+ac_time_destruyed: Petsa ng pagkawasak
+ac_total_members: Bilang ng miyembro
+ac_total_points: 'Kabuuan:'
+ac_user_ranking: Statistics ng manlalaro
+ac_user_system: Sistema ng manlalaro
+ac_username_doesnt: Hindi umiiral ang manlalaro!
+ac_view_image: Buksan ang image sa bagong window
+account_already_has_user: May manlalaro na ang account na ito sa universe na ito
+accountID: Account ID
+ad_add_build_success: Matagumpay na naidagdag ang mga gusali!
+ad_add_defenses_success: Matagumpay na naidagdag ang mga depensa!
+ad_add_not_exist: Hindi umiiral ang ID!
+ad_add_res_sucess: Matagumpay na naidagdag ang resources!
+ad_add_ships_sucess: Matagumpay na naidagdag ang mga barko!
+ad_add_tech_success: Matagumpay na naidagdag ang research!
+ad_ally_change_id: Palitan ang founder
+ad_ally_delete: Burahin ang alliance
+ad_ally_delete_u: Burahin ang miyembro
+ad_ally_name: Pangalan ng alliance
+ad_ally_not_exist: Hindi umiiral ang alliance!
+ad_ally_not_exist2: Hindi umiiral ang miyembro!
+ad_ally_not_exist3: Hindi miyembro ng alliance na ito ang user
+ad_ally_succes: Tagumpay
+ad_ally_tag: TAG ng alliance
+ad_ally_text1: Paglalarawan ng alliance
+ad_ally_text2: Panloob na teksto
+ad_ally_text3: Template ng aplikasyon
+ad_ally_title: Alliance
+ad_ally_user_id: (Ilagay ang ID ng user)
+ad_authlevel_aa: '[Ipakita ang mga administrator]'
+ad_authlevel_auth: Ranggo
+ad_authlevel_error_3: Hindi mo mapapalitan ang ranggo ng game creator!
+ad_authlevel_insert_id: Ilagay nang mano-mano ang ID (opsyonal)
+ad_authlevel_jj: '[Ipakita ang mga manlalaro]'
+ad_authlevel_mm: '[Ipakita ang mga moderator]'
+ad_authlevel_oo: '[Ipakita ang mga operator]'
+ad_authlevel_succes: Matagumpay na napalitan ang ranggo
+ad_authlevel_title: Mga ranggo
+ad_authlevel_tt: '[Ipakita lahat]'
+ad_buildings: Mga gusali
+ad_buildings_title: Mga gusali
+ad_count: Bilang
+ad_defenses: Mga depensa
+ad_defenses_title: Mga depensa
+ad_delete_build_success: Matagumpay na naalis ang mga gusali!
+ad_delete_defenses_success: Matagumpay na naalis ang mga depensa!
+ad_delete_res_sucess: Matagumpay na naalis ang resources!
+ad_delete_ships_sucess: Matagumpay na naalis ang mga barko!
+ad_delete_tech_success: Matagumpay na naalis ang research!
+ad_editor_alliances: Alliance
+ad_editor_buildings: Mga gusali
+ad_editor_defenses: Mga depensa
+ad_editor_personal: Personal na datos
+ad_editor_planets: Planeta at buwan
+ad_editor_researchs: Research
+ad_editor_resources: Resources
+ad_editor_ships: Mga barko
+ad_editor_title: Editor ng account
+ad_levels: Antas
+ad_number: ID
+ad_personal_name: Username
+ad_personal_succes: Na-save ang mga setting
+ad_personal_title: I-edit ang personal na datos
+ad_personal_vacat: Bakasyon mode
+ad_pla_change_p: Coordinate ng planeta
+ad_pla_change_pp: Lagyan ng tsek para ilapat ang pagbabago ng coordinate
+ad_pla_delete_b: Alisin ang lahat ng gusali
+ad_pla_delete_cb: I-clear ang pila ng gusali
+ad_pla_delete_d: Alisin ang lahat ng depensa
+ad_pla_delete_hd: I-clear ang pila ng shipyard at depensa
+ad_pla_delete_s: Alisin ang lahat ng barko
+ad_pla_edit_diameter: I-edit ang diameter
+ad_pla_edit_fields: I-edit ang mga field
+ad_pla_edit_name: Pangalan
+ad_pla_error_planets: Hindi mapapalitan ang may-ari ng buwan
+ad_pla_error_planets2: Hindi umiiral ang planeta
+ad_pla_error_planets3: Ginagamit na ang mga coordinate na ito!
+ad_pla_error_planets4: Hindi mo maitatalaga ang buwan sa planetang may buwan na!
+ad_pla_error_planets5: May planeta na sa mga coordinate na ito
+ad_pla_error_planets6: Nasa labas ng limitasyon ng universe ang mga coordinate na ito
+ad_pla_succes: Matagumpay na na-save ang mga pagbabago
+ad_pla_title: Mga planeta at buwan
+ad_pla_title_l: Kung may buwan, mababago rin ang mga coordinate nito
+ad_research: Research
+ad_research_title: Research
+ad_ships: Mga barko
+ad_ships_title: Mga barko
+adm_absenden: Ipadala
+adm_cp_index: Home
+adm_cp_title: Admin Panel
+adm_email: Email
+adm_login: Login
+adm_password: Password
+adm_username: Username
+an_analyzed_list: Mga na-analyze na manlalaro
+an_btn_disable: I-disable ang analysis at burahin ang data
+an_btn_enable: I-enable ang analysis
+an_timestamp: Timestamp
+an_total_analyzed: Bilang ng na-analyze na manlalaro
+an_user_list: Listahan ng manlalaro
+ap_aktivieren: I-activate
+ap_datum: Petsa
+ap_del: Burahin
+ap_email: Email
+ap_entfernen: '?'
+ap_id: ID
+ap_ip: IP
+ap_nicht_aktivierte: hindi na-activate na user
+ap_nicht_aktivierte_user: Mga hindi na-activate na user
+ap_sicher: 'Sigurado ka bang gusto mong alisin '
+ap_status: Status
+ap_username: Username
+bo_accountname: Pangalan ng account
+bo_ban: Ban
+bo_ban_change: Palitan
+bo_ban_player: Ban / unban
+bo_banned: ' ay na-ban na.'
+bo_bbb_title_1: Ban system
+bo_bbb_title_2: Mag-e-expire ang ban
+bo_bbb_title_3: Ban system • <font color="red">Naka-ban ang manlalarong ito</font>
+bo_bbb_title_4: Para paikliin ang natitirang ban, lagyan ng minus ang oras, halimbawa -5.<br>Kung permanenteng naka-ban ang manlalaro, papalitan ng positibong oras ang haba nito.
+bo_bbb_title_5: Naka-ban hanggang
+bo_bbb_title_6: Palitan ang petsa
+bo_characters_1: Natitirang character
+bo_characters_suus: Naka-ban
+bo_order_banned: '[Ayusin ayon sa ban]'
+bo_order_id: '[Ayusin ayon sa ID]'
+bo_order_username: '[Ayusin ayon sa pangalan]'
+bo_permanent: Permanenteng ban
+bo_reason: Dahilan ng ban
+bo_select_title: Ipakita ang mga pangalang nagsisimula sa
+bo_the_player: 'Manlalaro '
+bo_the_player2: 'Manlalaro '
+bo_total_accs: 'Kabuuang account: '
+bo_total_accs_banned: 'Mga naka-ban na account: '
+bo_total_banneds: 'Mga naka-ban na manlalaro: '
+bo_total_users: 'Kabuuang manlalaro: '
+bo_unban: Unban
+bo_unban_player: Listahan ng ban
+bo_unbanned: ' ay na-unban na.'
+bo_username: Username
+bo_vacaations: Bakasyon mode
+bo_vacation_mode: Bakasyon mode
+buildings_title: Mga gusali
+button_add: Idagdag
+button_cancel: Kanselahin
+button_delete: Burahin
+button_deselect: I-clear ang pagpili
+button_filter: Salain
+button_reset: I-reset
+button_submit: Ipadala
+button_test: Subukan
+button_test_negative: Nabigo ang test
+button_test_positive: Matagumpay ang test
+cc_cache_clear: Nalinis ang cache
+cronjob_class: klase
+cronjob_delete: Burahin
+cronjob_desc: Itakda ang mga oras kung kailan dapat tumakbo ang cron job na ito. Pinagsasama ang mga kondisyon gamit ang AND, kaya tumatakbo lang ang job kapag tumugma ang lahat ng napiling kondisyon. Ang pagpili ng partikular na value sa parehong "Araw ng linggo" at "Araw" ay maaaring maging dahilan ng hindi regular na pagtakbo ng job; gamitin ang "Lahat" sa kahit isa sa mga field na iyon.<br>Mas nangingibabaw ang "Lahat" at nilalampasan nito ang ibang value sa listahang iyon.
+cronjob_desc_class: Klaseng tatawagin. Para sa includes/classes/cronjobs/foo.class.php, ilagay ang "foo".
+cronjob_desc_name: Pangalan ng sarili mong pinili para matukoy ang cron job na ito.
+cronjob_dom: Araw
+cronjob_dow: Araw ng linggo
+cronjob_edit: I-edit
+cronjob_error_class: Walang tinukoy na klase!
+cronjob_error_dom: Walang napiling araw!
+cronjob_error_dow: Walang napiling araw ng linggo!
+cronjob_error_filenotfound: 'Hindi nahanap ang tinukoy na file: '
+cronjob_error_hours: Walang napiling oras!
+cronjob_error_min: Walang napiling minuto!
+cronjob_error_month: Walang napiling buwan!
+cronjob_error_name: Walang inilagay na pangalan!
+cronjob_headline: ID ng cron job
+cronjob_hours: Oras
+cronjob_lastTime: Huling takbo
+cronjob_min: Minuto
+cronjob_month: Buwan
+cronjob_name: Pangalan
+cronjob_new: Gumawa ng cron job
+cronjob_nextTime: Susunod na takbo
+cronjob_run: Patakbuhin
+cronjob_selectall: Lahat
+cronName_cleaner: Burahin ang lumang data
+cronName_bots: Bots
+cronName_disposable_email_domains: I-update ang disposable na e-mail domain
+cronName_fleets: Mga fleet event
+cronName_daily: Mga araw-araw na gawain
+cronName_databasedump: Backup ng database
+cronName_inactive: Burahin ang mga inactive
+cronName_pirates: Gumawa ng pirate base
+cronName_referral: Referral Bonus
+cronName_statistic: Statistics
+cronName_statisticjson: I-export ang stats.json
+cronName_tracking: Ipadala ang global server statistics
+cs_time_between_updates: Oras sa pagitan ng mga update
+defenses_title: Mga depensa
+du_choose_tables: Pumili ng mga table
+du_not_tables_selected: Wala ka pang napiling table na ibabackup!
+du_select_all_tables: Lahat ng table
+du_submit: Ipadala
+du_success: 'Matagumpay na nagawa ang backup! File: %s'
+email_reg: Email
+email2_reg: Kumpirmahin ang email
+empty_account_field: Walang ibinigay na account ID
+et_encript: Gumawa
+et_md5_encripter: MD5 generator
+et_pass: Password
+et_result: Resulta
+exp_deck_cards: Mga card
+exp_deck_count_desc: Bilang ng mga card ng ganitong uri sa deck
+exp_deck_count_label: bilang
+exp_deck_edit: I-edit ang configuration ng card deck
+exp_deck_event_type: Uri ng event
+exp_deck_example: 'Halimbawa:'
+exp_deck_format_help: 'Ang configuration ng card deck ay JSON array kung saan bawat item ay kumakatawan sa isang uri ng card na may sumusunod na property:'
+exp_deck_format_instructions: Mga tagubilin sa format
+exp_deck_percentage: Porsyento
+exp_deck_save_success: Matagumpay na na-save ang configuration ng card deck!
+exp_deck_size_desc: Laki ng event (Small, Medium, Big, None)
+exp_deck_size_label: laki
+exp_deck_statistics: Kasalukuyang statistics ng card deck
+exp_deck_total: Kabuuan
+exp_deck_type_desc: Uri ng event (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
+exp_deck_type_label: uri
+exp_deck_warning: 'Babala: Tatanggihan ang hindi wastong JSON'
+exp_ships_description: Para sa bawat aktibong barko, piliin kung puwede itong matagpuan ng expedition at aling mga barko ang puwedeng makatagpo nito.
+exp_ships_findable: Puwedeng matagpuan
+exp_ships_found_by: Mga barkong naghahanap
+exp_ships_select_finders: Pumili ng mga barkong naghahanap
+exp_ships_ship: Barko
+ff_arrivaltime: Dating
+ff_del: Alisin
+ff_endtime: Balik
+ff_fleetid: ID
+ff_holdtime: Hawak hanggang
+ff_lock: I-lock
+ff_mission: Mission
+ff_no_fleets: Walang fleet na nasa biyahe sa ngayon
+ff_sendFleetBack: Ibalik
+ff_sendFleetsBack: Ibalik lahat ng atake
+ff_ships: Mga barko
+ff_startplanet: Pinanggalingang planeta
+ff_starttime: Simula
+ff_startuser: Nagpadala
+ff_targetplanet: Destinasyong planeta
+ff_targetuser: Tatanggap
+ff_unlock: I-unlock
+ga_definetarget: Tukuyin ang mga target
+ga_homecoordinates: Home planet lang
+ga_no_inactives: Ibukod ang mga inactive na manlalaro
+ga_planettypes: Mga uri ng planeta
+ga_selectplanettype: Pumili ng kahit isang uri ng planeta!
+ga_success: Tagumpay!
+info_information: Gamitin ang impormasyong ito kapag nag-uulat ng bug sa <a href="%s" target="tracker">GitHub issues</a>.<br>Hindi poproseso ang mga support request na walang impormasyong ito.
+input_id: ID
+input_id_account: Account ID
+input_id_ally: Alliance ID
+input_id_p_m: ID ng planeta o buwan
+input_id_planet: ID ng planeta
+input_id_user: ID ng manlalaro
+lang_reg: Wika
+log_admin: Administrator
+log_alliance: Mga na-edit na alliance
+log_cat: 'Pumili ng kategorya:'
+log_disclamersettings: Legal notice
+log_element: Elemento
+log_id: ID
+log_info: Info
+log_log: Log
+log_new: Pagkatapos
+log_no_data: Walang data sa log!
+log_old: Bago
+log_planet: Mga na-edit na planeta
+log_player: Mga na-edit na manlalaro
+log_present: Mga naipamahaging regalo
+log_settings: Mga na-edit na setting
+log_ssettings: Configuration ng server
+log_statsettings: Mga setting ng statistics
+log_target_alliance: Binagong alliance
+log_target_planet: Binagong planeta
+log_target_universe: Binagong seksyon ng setting
+log_target_user: Binagong manlalaro
+log_time: Oras
+log_uni_short: Uni
+log_universe: Universe
+log_usettings: Configuration ng universe
+log_view: Tingnan
+ma_all: Lahat
+ma_characters: Mga character
+ma_message: Mensahe
+ma_message_sended: Naipadala na ang mensahe mo!
+ma_mode: Ipadala bilang
+ma_modes:
+- In-game
+- Email
+- In-game at email
+ma_none: Global news
+ma_send_global_message: Ipadala ang global na mensahe
+ma_subject: Paksa
+ma_subject_needed: Kailangan ng paksa!
+ma_no_recipients: Walang tatanggap na tumugma sa filter, walang na-send na mail.
+message_a: 'Status ng mensahe:'
+message_t: 'Status ng ticket:'
+mip_known: Aprubado?
+ml_date: Petsa
+ml_date_range: Panahon
+ml_deleted: Nabura na ang mensahe
+ml_id: '#ID'
+ml_message_list: Listahan ng mensahe
+ml_receiver: Tatanggap
+ml_sender: Nagpadala
+ml_subject: Paksa
+ml_type: Uri ng mensahe
+ml_type_submit: Ipadala
+mo_diameter: Diameter
+mo_fields_avaibles: Mga field
+mo_moon: Buwan
+mo_moon_added: Matagumpay na naidagdag ang buwan!
+mo_moon_name: Pangalan ng buwan
+mo_moon_random: Random
+mo_moon_unavaible: May buwan na ang planetang ito!
+mo_planet_doesnt_exist: Hindi umiiral ang manlalaro!
+mod_active: Aktibo
+mod_change_active: I-enable
+mod_change_deactive: I-disable
+mod_deactive: Hindi aktibo
+mod_info: Mga module ng laro
+mod_module: Mga module
+modul_0: Alliance
+modul_1: Mission — Atake
+modul_2: Konstruksyon — Mga gusali
+modul_3: Konstruksyon — Research
+modul_4: Konstruksyon — Mga fleet
+modul_5: Konstruksyon — Depensa
+modul_6: Listahan ng buddy
+modul_9: Fleet
+modul_10: Fleet — Event handler
+modul_11: Galaxy
+modul_12: Hall of Fame
+modul_13: Merchant
+modul_14: Info
+modul_15: Imperyo
+modul_16: Mga mensahe
+modul_17: Mga note
+modul_19: Phalanx
+modul_20: Card ng manlalaro
+modul_21: Listahan ng ban
+modul_22: Mga record
+modul_23: Resources
+modul_24: Mission — Espiya
+modul_25: Statistics
+modul_26: Paghahanap
+modul_27: Mga support ticket
+modul_28: Puno ng teknolohiya
+modul_29: Mission — Sirain
+modul_30: Mission — Expedition
+modul_32: Mission — I-recycle
+modul_33: Mission — Hold
+modul_34: Mission — Transport
+modul_35: Mission — Kolonya
+modul_36: Mission — Deploy
+modul_38: Scrap merchant
+modul_39: Battle simulator
+modul_40: Mission — Missile attack
+modul_41: Mga shortcut ng fleet
+modul_42: Mission — ACS
+modul_43: Mission — Trade
+modul_44: Mission — Transfer
+modul_45: Market — Resources
+modul_46: Market — Fleet
+modul_47: Statistics na nakadepende sa spy tech
+modul_48: Repair dock
+modul_49: Ligtas na resources
+modul_50: Pag-kick sa bakasyon mode
+modul_51: Pag-kick sa buddy at alliance
+modul_52: Stats.json
+modul_53: Tutorial
+modul_54: Mga reward ng tutorial
+modul_55: Honor points
+modul_56: Mga pirate base
+mu_active_planets: Aktibong planeta
+mu_clear_cache: I-clear ang cache
+mu_connected: Online
+mu_cronjob: Mga cron job
+mu_dump: Backup ng database
+mu_flying_fleets: Mga fleet sa biyahe
+mu_game_info: Impormasyon
+mu_general: Pangkalahatan
+mu_giveaway: Mga giveaway
+mu_global_message: Global na mensahe
+mu_info_account_page: Impormasyon ng account
+mu_logs: Log ng admin
+mu_manual_points_update: I-update ang points
+mu_md5_encripter: Password hash
+mu_mess_list: Listahan ng mensahe
+mu_moderation_page: Mga pahintulot
+mu_module: Mga module
+mu_mpu_confirmation: Awtomatikong ina-update ang points. I-click ang OK para i-update ang mga ito ngayon.
+mu_multiip_page: Maraming IP
+mu_news: Balita
+mu_search_page: Advanced na paghahanap
+mu_support: Mga support ticket
+mu_tools: Mga tool
+mu_universe: Universe
+mu_users_settings: Mga manlalaro
+mu_vaild_users: Mga aktibong user
+new_account_success: 'Nagawa ang bagong account. ID: %d'
+new_add_account: Magdagdag ng bagong account
+new_add_user: Magdagdag ng bagong manlalaro
+new_coord: Mga coordinate
+new_creator_coor: Mga coordinate
+new_creator_go_back: '[ Bumalik sa menu ]'
+new_creator_refresh: '[ I-refresh ]'
+new_creator_title_a: Gumawa/burahin ang mga account
+new_creator_title_l: Gumawa/burahin ang mga buwan
+new_creator_title_p: Gumawa/burahin ang mga planeta
+new_creator_title_t: Gumawa ng test user
+new_creator_title_u: Gumawa/burahin ang mga user
+new_range: Ranggo
+new_title: Gumawa ng bagong manlalaro
+new_title_acc: Gumawa ng bagong account
+new_user_success: 'Nagawa ang bagong manlalaro. ID: %d, Planeta: %d'
+nws_confirm: Sigurado ka bang gusto mong burahin ang news item na "%s"?
+nws_content: Nilalaman
+nws_create: Gumawa ng balita
+nws_del: Burahin
+nws_from: Mula kay
+nws_head_create: Gumawa ng balita
+nws_head_edit: 'Ine-edit ang balita: %s'
+nws_news: Balita
+nws_title: Pamagat
+one_is_yes_0: Hindi
+one_is_yes_1: Oo
+online_users: Online
+ow_default_uri_missing: 'Kailangan ng mga mail link ang DEFAULT_URI (.env.local): hangga''t hindi ito naitatakda, hindi naipapadala ang mga mail sa registration at password reset.'
+ow_dir_not_writable: Hindi puwedeng sulatan ang /%s!
+ow_file_detected: Nahanap ang file na %s. Para sa seguridad, burahin o palitan ang pangalan nito.
+ow_proyect_leader: Dating fleet admiral (project lead ng 2Moons)
+ow_former_pr0game_crew: Dating crew ng pr0game
+ow_crew_dev: Development at emergency
+ow_crew_mod: Moderation
+ow_crew_community: Komunidad
+ow_pr0game_contributors: Mga contributor sa code ng pr0game
+ow_special_thanks: Espesyal na pasasalamat
+ow_translator: Mga tagasalin
+pass_reg: Password
+pass2_reg: Kumpirmahin ang password
+player: Manlalaro
+po_add_moon: Magdagdag ng buwan
+po_add_planet: Magdagdag ng kolonya
+po_colony: Kolonya
+po_complete_all: Hindi wastong data o ginagamit na!
+po_complete_all2: Hindi wastong coordinate!
+po_complete_succes: Matagumpay na nagawa ang planeta
+po_fields_max: Mga field
+po_galaxy: Galaxy
+po_name_planet: Pangalan ng planeta
+po_planet: Mga planeta
+po_system: System
+qe_authattack: Proteksyon laban sa atake ng admin
+qe_build: Mga gusali
+qe_change: Palitan
+qe_coords: Mga coordinate
+qe_count: Available
+qe_defensive: Mga depensa
+qe_edit_planet_sucess: Matagumpay na na-edit ang planetang %s [%d:%d:%d]!
+qe_edit_player_sucess: 'Matagumpay na na-edit ang manlalarong %s (ID: %d)!'
+qe_fields: Mga field
+qe_fleet: Fleet
+qe_hpcoords: Mga home coordinate
+qe_id: ID
+qe_info: Info
+qe_level: Antas
+qe_owner: May-ari
+qe_password: Password
+qe_planetname: Planeta
+qe_reset: I-reset
+qe_resources: Resources
+qe_send: Ipadala
+qe_submit: Ipadala
+qe_tech: Research
+qe_temp: Temperatura
+qe_username: Username
+re_buildings_lu: I-reset ang mga gusali ng buwan
+re_buildings_pl: I-reset ang mga gusali
+re_buldings: Mga gusali
+re_defenses: I-reset ang mga depensa
+re_defenses_and_ships: Mga barko at depensa
+re_general: Pangkalahatan
+re_inve: Research
+re_investigations: I-reset ang research
+re_player_and_planets: Mga manlalaro at planeta
+re_reset_all: I-reset ang buong universe
+re_reset_allys: I-reset lahat ng alliance
+re_reset_banned: I-reset ang mga ban
+re_reset_buddies: I-reset ang mga listahan ng buddy
+re_reset_buldings: I-reset ang mga pila ng gusali
+re_reset_errors: I-reset ang listahan ng error
+re_reset_excess: Matagumpay na na-reset ang mga setting!
+re_reset_fleets: I-reset ang mga fleet sa biyahe
+re_reset_hangar: I-reset ang mga pila ng shipyard at depensa
+re_reset_invest: I-reset ang mga pila ng research
+re_reset_messages: I-reset lahat ng mensahe
+re_reset_moons: I-reset lahat ng buwan
+re_reset_notes: I-reset lahat ng note
+re_reset_planets: I-reset ang mga planeta (burahin ang mga kolonya)
+re_reset_player: I-reset ang mga manlalaro (burahin lahat)
+re_reset_rw: I-reset ang mga battle report
+re_reset_statpoints: I-reset ang statistics
+re_reset_universe: I-reset ang Universe
+re_reset_universe_confirmation: Hindi na ito mababawi. Siguraduhing may backup ka ng database bago i-click ang OK.
+re_resources: Resources
+re_resources_met_cry: I-reset lahat ng resources (metal/crystal/deuterium)
+re_ships: I-reset ang mga fleet
+researchs_title: Research
+resources_title: Resources
+rp_done: Matagumpay na na-reshuffle ang mga planeta
+rp_explain: Pagkatapos mong i-click ang Ipadala, maghintay hanggang lumabas ang pop-up. Puwedeng tumagal ng ilang segundo ang pag-reposition.
+rp_header: I-reshuffle ang mga planeta
+rp_planet_error: May higit sa isang planeta bawat manlalaro!
+rp_rights_error: Walang karapatan ng administrator!
+rp_universe_error: Hindi pa ganap na sarado ang universe!
+sb_final_memory: 'Ginamit na memory sa dulo: %e KB / max. %m KB<br>'
+sb_sql_counts: 'Mga SQL query: %d'
+sb_start_memory: 'Ginamit na memory sa simula: %i KB / max. %m KB<br>'
+sb_stats_update: Na-update ang statistics sa loob ng %s segundo<br>
+sb_stats_updated: Na-update ang statistics.<br>Buod:<br>
+sb_top_memory: 'Pinakamataas na memory: %p KB / max. %m KB <br>'
+se__before: Nakaraan
+se__next: Susunod
+se_activity: Huling aktibidad
+se_adm_attack: Proteksyon ng admin
+se_adm_attack_info: Kapag naka-enable, puwedeng gawing hindi maaatake ng mga administrator at moderator ang sarili nila.
+se_all_planet_pictures: Lahat ng larawan ng planeta
+se_all_planet_pictures_info: Payagan ang lahat ng larawan ng planeta sa lahat ng posisyon.
+se_alliance_create_min_points: Pinakamababang points na kailangan para magtatag ng alliance
+se_allys: Mga alliance
+se_asc_desc: Pataas / pababa
+se_attacks: Mga setting ng atake
+se_auth: Ranggo
+se_authlevels: Mga administrator
+se_ban: Naka-ban?
+se_ban_author: Na-ban ni
+se_ban_limit: Hanggang
+se_ban_reason: Dahilan
+se_ban_time: Naka-ban
+se_bash_per_planet: Bash limit bawat planeta
+se_bash_per_planet_info: Gaano kadalas makakaatake ang isang manlalaro sa planeta ng ibang manlalaro kada 24 na oras (binibilang kada planeta). 0 = naka-off
+se_bash_count_missiles: Isinasama ng bash limit ang missile attack
+se_bash_count_missiles_info: 'Binibilang ang interplanetary na missile attack bilang fleet attack sa bash limit (kada manlalaro at kada planeta). Naka-off: hindi binibilang ang mga missile.'
+se_bash_per_user: Bash limit bawat manlalaro
+se_bash_per_user_info: Gaano kadalas makakaatake ang isang manlalaro sa ibang manlalaro kada 24 na oras (lahat ng planeta). 0 = naka-off
+se_block_planet_creation: Block
+se_board_enabled: I-enable ang community board
+se_board_enabled_info: 'Naka-off: nakatago ang lahat ng board link at hindi available ang board pages.'
+se_building_speed: Bilis ng pagtatayo
+se_buildings: Mga setting ng gusali
+se_buildlist: Mga setting ng pila
+se_cascading_moon_chance: Cascading na tsansa ng buwan
+se_cascading_moon_chance_info: Dagdag na tsansa ng buwan na idinadagdag pagkatapos ng bawat nabigong pagtatangka sa maximum na tsansa. Para lang sa unang buwan sa isang account. 0 = naka-off
+se_catch_up: Catch-up mechanic
+se_catch_up_info: Binabawasan nang exponential ang oras ng pagtatayo at research hanggang 10 beses, depende sa agwat ng points sa unang manlalaro. Mula sa humigit-kumulang 90% ng points ng lider, walang bonus. Sa humigit-kumulang 54%, 2.5 ang factor; sa 27%, 5; at sa 11%, 7.5. Kino-convert ito sa saklaw na 1.0 hanggang 0.5.
+se_catchup_percent: Pinakamataas na catch-up bonus sa porsyento
+se_close_reason: Mensahe ng saradong server
+se_colonisation_config: Mga setting ng kolonisasyon
+se_configuration_title: Configuration ng server
+se_confirm_planet: 'Ganap na ire-reset ang napiling planeta. Gusto mo bang magpatuloy? Pangalan ng planeta:'
+se_contrac: I-collapse
+se_cookie_advert: Kapag pinalitan ang pangalan ng cookie, mao-logout ang lahat.<br>Gumamit ng ibang pangalan kung maraming universe ang tinatakbo mo.
+se_cookie_name: Pangalan ng cookie
+se_crystal_basic_income: Batayang produksyon ng crystal
+se_crystal_start: Panimulang crystal
+se_crystal_start_info: Crystal na ibinibigay sa mga bagong manlalaro sa kanilang home planet.
+se_days: Araw
+se_debris_moon: I-clear ang debris pagkatapos ng buwan
+se_debris_moon_info: Inaalis ang debris field pagkatapos magawa ang buwan.
+se_debug: Debug mode
+se_debug_info: Nagla-log ng SQL query at nagpapakita ng status bar na may bilang ng query at runtime para sa mga administrator.
+se_def_debris_percentage: Depensa na nagiging debris
+se_def_debris_percentage_info: Porsyento ng nawasak na depensa na nagiging debris pagkatapos ng atake.
+se_del_oldstuff: Burahin ang mga mensahe pagkatapos ng
+se_del_oldstuff_info: Burahin ang mga mensahe at battle report pagkatapos ng X na araw.
+se_del_user_automatic: Burahin ang mga inactive na manlalaro pagkatapos ng
+se_del_user_automatic_info: Binubura ang mga manlalarong hindi nag-log in sa loob ng X na araw. (0 = naka-disable)
+se_del_user_manually: Burahin ang mga hiniling na account pagkatapos ng
+se_del_user_manually_info: Binubura ang mga manlalarong humiling ng pagbura ng account pagkatapos ng X na araw.
+se_del_user_sendmail: Magpadala ng paalala pagkatapos ng
+se_del_user_sendmail_info: Nagpapadala ng paalalang email pagkatapos ng X na araw na walang login.
+se_delete_succes_p: Matagumpay na nabura
+se_delete_not_found: 'Walang nabura: hindi umiiral ang manlalaro o planeta, o hindi ito puwedeng burahin.'
+se_deuterium_basic_income: Batayang produksyon ng deuterium
+se_deuterium_cost_galaxy: Gastos na deuterium sa galaxy
+se_deuterium_cost_galaxy_info: 'Gastos na deuterium bawat galaxy click (default: 10)'
+se_deuterium_start: Panimulang deuterium
+se_deuterium_start_info: Deuterium na ibinibigay sa mga bagong manlalaro sa kanilang home planet.
+se_disclaimer: Mga setting ng legal notice
+se_disclamer_address: Address
+se_disclamer_mail: Email address
+se_disclamer_notice: Karagdagang impormasyon
+se_disclamer_phone: Numero ng telepono
+se_discord_exceptions_hook: Mga exception at babala
+se_discord_hooks: Discord Webhooks
+se_discord_logs_hook: Log
+se_discord_tickets_hook: Mga ticket
+se_dst: Daylight Saving Time?
+se_dst_sel:
+- Hindi
+- Oo
+- Awtomatiko
+se_email: E-mail
+se_end: Petsa ng pagtatapos
+se_end_time: Oras ng pagtatapos
+se_energy_basic_income: Batayang produksyon ng enerhiya
+se_energy_multiplier: Factor ng enerhiya
+se_expand: I-expand
+se_expedition_parameters: Mga setting ng expedition
+se_expo_hold_multiplier: Bilis ng expedition
+se_expo_hold_multiplier_info: 'Normal na bilis: 1'
+se_expo_ress_crys_chance: Tsansa ng crystal mula sa expedition
+se_expo_ress_deut_chance: Tsansa ng deuterium mula sa expedition
+se_expo_ress_met_chance: Tsansa ng metal mula sa expedition
+se_factor_university: Factor ng university
+se_factor_university_info: Porsyentong binabawasan ng bawat antas ng university ang oras ng research
+se_fields: Mga field
+se_filter_title: Filter
+se_fleet_debris_percentage: Fleet na nagiging debris
+se_fleet_speed: Bilis ng fleet
+se_fleet_speed_info: 'Normal na bilis: 1'
+se_forum_url: Link ng forum
+se_galaxy: Galaxy
+se_galaxy_distance_factor: Factor ng distansya ng galaxy
+se_galaxy_distance_factor_info: 'Default: 20000, kalkulasyon: pagkakaiba ng galaxy × factor ng distansya ng galaxy'
+se_galaxy_parameters: Mga setting ng galaxy
+se_galaxy_type: Uri ng galaxy
+se_galaxy_type_info: <TABLE><tr><td>Linear galaxies</td><td>Tumataas ang distansya sa system 1 sa bawat system sa galaxy.</td></tr><tr><td>Ring galaxies</td><td>Konektado ang huling at unang system ng galaxy, kaya nababawasan ang distansya mula sa malalayong system papunta sa una.</td></tr><tr><td>Sphere galaxies</td><td>Pantay ang distansya ng bawat system sa parehong galaxy sa iba pa.</td></tr></TABLE>
+se_default_theme: Default na theme
+se_default_theme_info: Theme para sa mga bagong account at bisita
+se_legal: Legal at komunidad
+se_privacy_region: Rehiyon ng hosting (privacy policy)
+se_privacy_region_info: 'Pinipili ang default na privacy policy: bersyong GDPR (EU/EEA) o pangkalahatang bersyon. Nananatiling hindi nagbabago ang mga page na na-edit na; ang operator ang responsable sa mga legal na teksto.'
+se_privacy_region_sel:
+  eu: EU / EEA - privacy policy ayon sa GDPR
+  other: Labas sa EU - pangkalahatang privacy policy
+se_rules_default: Gamitin ang default na tuntunin
+se_rules_default_info: 'Naka-off: mananatiling walang laman ang rules page hanggang sumulat ka ng sarili mong tuntunin sa ilalim ng Pages. Pinananatili ang mga tuntuning na-edit na.'
+se_source_url: URL ng source code
+se_source_url_info: Pampublikong repository ng code na tumatakbo sa server na ito, naka-link bilang "Source code" sa mga footer (hinihiling ng AGPL na ialok mo sa mga manlalaro ang mga pagbabago mo). Kapag walang laman, nakatago ang link.
+se_game_name: Pangalan ng laro
+se_git_issues_link: Link sa issue tracker
+se_git_issues_link_info: Page kung saan puwedeng mag-report ng bug at issue
+se_id_owner: ID ng may-ari
+se_inactives: Hindi aktibo
+se_initial_fields: 'Panimulang field:'
+se_initial_temp: 'Panimulang temperatura:'
+se_input_a: A
+se_input_act_pla: ' aktibong planeta'
+se_input_activity: Aktibidad
+se_input_admm: ' administrator'
+se_input_allyy: ' alliance'
+se_input_asc: Pataas
+se_input_authlevel: Ranggo
+se_input_connect: ' manlalarong online'
+se_input_d: D
+se_input_desc: Pababa
+se_input_email: E-mail
+se_input_g: Galaxy
+se_input_have_moon: Buwan?
+se_input_hay: 'Kasalukuyan '
+se_input_inact: ' hindi aktibong manlalaro'
+se_input_inacti: Kawalan ng aktibidad
+se_input_ip: IP
+se_input_longer: Tagal
+se_input_members: Mga miyembro
+se_input_members2: Mga miyembro
+se_input_moonn: ' buwan'
+se_input_name: Pangalan
+se_input_p: Planeta
+se_input_planett: ' planeta'
+se_input_prop: May-ari
+se_input_register: Registration
+se_input_s: System
+se_input_submit: Maghanap
+se_input_susss: ' naka-ban'
+se_input_time: Oras
+se_input_userss: ' manlalaro'
+se_input_vacatii: ' manlalaro sa bakasyon'
+se_intro: Salita o keyword
+se_iter_planet_creation: Iterative (default)
+se_jumpgate_factor: Recharge ng jump gate
+se_jumpgate_factor_info: Factor na hahatian ang recharge time ng jump gate (default 1)
+se_lang: Wika
+se_limit: Limit
+se_line_galaxy: Linear galaxies (default)
+se_line_uni: Linear universe (default)
+se_mail_active: I-enable ang email
+se_mail_sel:
+- PHP mail()
+- Sendmail / Qmail
+- SMTP Auth
+se_mail_use: 'Paraan ng mail:'
+se_max_additional_planets: Pinakamaraming dagdag na planeta mula sa astrophysics
+se_max_additional_planets_info: Dagdag na planetang puwedeng kolonisahin ng manlalaro sa pamamagitan ng astrophysics
+se_max_elements_build: Max. na pila ng gusali
+se_max_elements_build_info: Pinakamaraming gusali sa construction queue
+se_max_elements_ships: Max. na pila ng shipyard
+se_max_elements_ships_info: Pinakamaraming order sa shipyard queue
+se_max_elements_tech: Max. na pila ng research
+se_max_elements_tech_info: Pinakamaraming item sa research queue
+se_max_fleet_per_build: Max. na unit bawat order
+se_max_fleet_per_build_info: Pinakamaraming unit bawat shipyard order
+se_max_fleets_per_acs: Max. na fleet bawat ACS
+se_max_fleets_per_acs_info: Pinakamaraming fleet sa isang ACS (default 16)
+se_max_galaxy: Max. na galaxy
+se_max_galaxy_info: Pinakamaraming galaxy sa universe
+se_max_initial_planets: Max. na planeta nang walang research
+se_max_initial_planets_info: Bilang ng planetang puwedeng kolonisahin ng manlalaro mula sa simula, nang walang astrophysics
+se_max_overflow: Overflow ng storage
+se_max_overflow_info: Factor kung ilang resources ang puwede pa ring mapagawa kapag puno ang storage
+se_max_participants_per_acs: Max. na kalahok bawat ACS
+se_max_participants_per_acs_info: Pinakamaraming kalahok sa isang ACS (default 5)
+se_max_planets: Max. na planeta
+se_max_planets_info: 'Pinakamaraming planeta bawat system (default: 15)'
+se_max_player_planets: Max. na planeta bawat manlalaro
+se_max_player_planets_info: Pinakamaraming kolonya nang walang research
+se_max_system: Max. na system
+se_max_system_info: Pinakamaraming system bawat galaxy
+se_message_delete_days: Tanggalin nang tuluyan ang mga naburang mensahe pagkatapos ng X na araw
+se_messages: Mga mensahe
+se_metal_basic_income: Batayang produksyon ng metal
+se_metal_start: Panimulang metal
+se_metal_start_info: Metal na ibinibigay sa mga bagong manlalaro sa kanilang home planet.
+se_min_build_time: Pinakamababang oras ng pagtatayo
+se_min_build_time_info: Pinakamababang oras ng pagtatayo sa segundo para sa mga gusali, research, barko, at depensa. Default ay 1.<br>Ang 0 ay nagdi-disable ng minimum.<br>Ang pag-disable nito ay puwedeng magdulot ng bug.
+se_missile_range_factor: Factor ng range ng missile
+se_moon_chance: Max. na tsansa ng buwan
+se_moon_chance_info: Pinakamataas na tsansang mabuo ang buwan
+se_moon_factor: Factor ng tsansa ng buwan
+se_moon_factor_info: Multiplier sa tsansang mabuo ang buwan
+se_moon_size_factor: Factor ng laki ng buwan
+se_moon_size_factor_info: Multiplier sa laki ng buwan, 1 = default
+se_moons: Mga buwan
+se_name: Pangalan
+se_news: Mga setting ng balita
+se_no_data: Walang data
+se_noob_inactives: Ilapat ang noob protection factor sa mga hindi aktibong manlalaro
+se_noob_protection: Noob protection
+se_noob_protection_multi: Noob protection factor
+se_noob_protection_multi_info: 'Puwede ka lang umatake ng mga manlalarong nasa loob ng points mo × factor na ito. Halimbawa sa 18: kung may 1,000 points ka, puwede kang umatake ng mga manlalarong may kulang sa 18,000 points. Ang manlalarong may 20,000 points ay puwedeng umatake kahit kanino hanggang 360,000 points, kaya nasa saklaw pa rin niya ang manlalarong may 50,000 points.'
+se_noob_protection_outlaw: Sistema ng outlaw
+se_noob_protection_outlaw_info: Pinapayagan ang mas mahihinang manlalaro na umatake ng mas malalakas. Nagiging outlaw ang umatake sa loob ng 7 araw at nawawala ang noob protection niya.
+se_noob_protection_time: Noob protection hanggang X points
+se_noob_protection_time_info: Mananatili sa ilalim ng noob protection ang mga manlalarong nasa o mas mababa sa score na ito.
+se_normal_speed: 'Normal na bilis: 1'
+se_order_list_now: Maghanap
+se_overview_news_frame: I-enable ang balita
+se_overview_news_frame_info: Kapag naka-disable, nakatago ang balita sa overview.
+se_overview_news_text: Balita
+se_overview_news_text_info: Hanggang 255 na character. Pinapayagan ang HTML.
+se_pagees: Mga page
+se_per_hour: bawat oras
+se_phalanx_range_factor: Factor ng range ng phalanx
+se_piratebase: Mga pirate base
+se_piratebase_fleet_percentage_max: 'Fleet: pinakamataas na % ng fleet ng manlalaro'
+se_piratebase_fleet_percentage_min: 'Fleet: pinakamababang % ng fleet ng manlalaro'
+se_piratebase_mainplanet_only: 'Resources: home planet lang'
+se_piratebase_min_points: Pinakamababang points
+se_piratebase_min_points_info: Pinakamababang points na kailangan ng manlalaro bago lumitaw ang pirate base
+se_piratebase_ress_hours: 'Resources: oras ng produksyon'
+se_planet: Planeta
+se_planet_creation: Paglalagay ng home planet
+se_planet_creation_info: Puwedeng ilagay nang iterative ang mga bagong home planet sa mga system at galaxy, random, sa mga block, o 50% random at 50% block.<br>Pantay na pinupuno ng random na paglalagay ang mga galaxy at system sa random na posisyon.<br>Pumipili ang block na paglalagay ng system na mayroon nang isa o dalawang planeta. Kapag walang ganoong system o wala pang 50 manlalaro, random ang paglalagay.
+se_planet_distance: Min. na distansya ng planeta
+se_planet_distance_factor: Factor ng distansya ng planeta
+se_planet_distance_factor_info: 'Default: 5, kalkulasyon: pagkakaiba ng planeta × factor ng distansya ng planeta + min. na distansya ng planeta'
+se_planet_distance_info: 'Default: 1000, kalkulasyon: pagkakaiba ng planeta × factor ng distansya ng planeta + min. na distansya ng planeta'
+se_planet_parameters: Mga setting ng planeta
+se_planet_ressource_bonus: Bonus sa resources batay sa posisyon
+se_planet_ressource_bonus_info: Dinaragdagan ang produksyon ng resources sa planeta ng x%, depende sa posisyon nito.
+se_planet_size_factor: Factor ng laki ng planeta
+se_planet_size_factor_info: Multiplier sa laki ng planeta, 1 = default
+se_planets: Mga planeta
+se_planets_act: Mga aktibong planeta
+se_planets_per_tech: Dagdag na planeta bawat antas ng astrophysics
+se_planets_per_tech_info: Dagdag na kolonyang nabubuksan bawat antas ng astrophysics
+se_prepare_text: Teksto ng paghahanda ng server
+se_random_planet_creation: Random
+se_rank:
+- Manlalaro
+- Moderator
+- Operator
+- Administrator
+se_pow_adaptive: Bot protection - adaptive na hirap
+se_pow_adaptive_info: 'Naka-on: ang mga kahina-hinalang IP address at network (/24 o /64) ay makakatanggap ng mas mahirap na palaisipan (maraming kahilingan, pagkabigo o pagpaparehistro sa maikling panahon). Naka-off: lahat ng bisita ay makakakuha ng pangunahing palaisipan at walang binibilang na counter.'
+se_pow_elevated_factor: Bot protection - factor sa nakataas na panganib
+se_pow_elevated_factor_info: Nagiging ganito kabeses na mas mahirap ang palaisipan (default 20).
+se_pow_high_factor: Bot protection - factor sa mataas na panganib
+se_pow_high_factor_info: Nagiging ganito kabeses na mas mahirap ang palaisipan (default 100).
+se_pow_max_cap: Bot protection - limitasyon ng hirap
+se_pow_max_cap_info: Pinakamataas na numero pagkatapos ilapat ang mga factor. Ang 1500000 ay humigit-kumulang 25 segundo sa mabagal na smartphone.
+se_pow_sensitivity: Bot protection - sensitivity ng pagtukoy sa panganib
+se_pow_sensitivity_info: Porsyento ng default na threshold (nakataas mula 5 kahilingan/10 min, 3 pagkabigo/oras o 2 pagpaparehistro/24 oras kada IP; mataas mula 20 / 10 / 5; ang network ay tatlong beses). 200 = dalawang beses na mas maraming pangyayari ang kailangan, 50 = kalahati.
+se_pow_max_number: Bot protection - hirap (pinakamataas na numero)
+se_pow_max_number_info: Sinusubukan ng browser ang mga hash hanggang sa numerong ito, kalahati nito sa karaniwan. Humigit-kumulang kalahating segundo hanggang isang segundo ang 100000. Mas maraming trabaho para sa bots ang mas mataas na halaga.
+se_pow_min_seconds: Bot protection - pinakamababang oras bago magsumite (segundo)
+se_pow_min_seconds_info: Tinatanggihan ang mga form na naisumite nang mas mabilis kaysa rito pagkatapos mag-load. Ang 0 ay nagdi-disable ng check.
+se_proofofwork: Bot protection
+se_proofofwork_info: Protektado ang registration at lost password ng maliit na kalkulasyon na sarili nang nilulutas ng browser, nang walang third party.
+se_rebuild_protection: Rebuild protection
+se_rebuild_protection_info: Pagkatapos ng malaking pagkalugi, makakakuha ang manlalaro ng rebuild protection laban sa karagdagang atake pagkalipas ng 6 na oras, tatagal ng 48 oras mula sa atake. Dapat masira ang 70% ng fleet o 80% ng transport capacity sa isang atake, at ang pagkalugi ay dapat hindi bababa sa noob-protection points × 1,000 sa unit o capacity. Puwedeng tapusin nang maaga ng manlalaro ang mode.
+se_redis_connection_url: URL ng koneksyon sa Redis
+se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
+se_ref: Referral link
+se_ref_active: I-enable ang referral link
+se_ref_active_info: Pinapayagan ng referral link ang mga manlalaro na mag-imbita ng kaibigan. May bonus ang na-recruit na manlalaro.
+se_ref_bonus: Referral bonus
+se_ref_bonus_info: Dark Matter na natatanggap ng nagrefer na manlalaro bawat na-recruit na manlalaro.
+se_ref_max_referals: Pinakamaraming referral
+se_ref_max_referals_info: Pinakamaraming manlalarong puwedeng i-recruit ng isang user.
+se_ref_minpoints: Pinakamababang points para sa bonus
+se_ref_minpoints_info: Dapat maabot ng na-recruit na manlalaro ang score na ito bago makatanggap ng bonus ang nagrefer.
+se_research_speed: Bilis ng research
+se_resource_multiplier: Bilis ng produksyon ng resources
+se_resource_multiplier_info: 'Normal na bilis: 1'
+se_ress_chance: Mga tsansa ng resources
+se_ring_galaxy: Ring galaxies
+se_ring_uni: Ring universe
+se_save_parameters: I-save
+se_se_fleet_debris_percentage_info: Porsyento ng nawasak na fleet na nagiging debris pagkatapos ng atake
+se_search: Maghanap
+se_search_alliance_0: ID
+se_search_alliance_1: Pangalan
+se_search_alliance_2: TAG
+se_search_alliance_3: Lider
+se_search_alliance_4: Itinatag
+se_search_alliance_5: Mga miyembro
+se_search_banned_0: ID
+se_search_banned_1: Pangalan
+se_search_banned_2: Na-ban mula sa
+se_search_banned_3: Naka-ban hanggang
+se_search_banned_4: Dahilan
+se_search_banned_5: May-akda
+se_search_edit: I-edit
+se_search_in: Para sa
+se_search_info: Maghanap
+se_search_order: Ayusin
+se_search_planets_0: ID
+se_search_planets_1: Pangalan
+se_search_planets_2: May-ari
+se_search_planets_3: Huling aktibidad
+se_search_planets_4: Galaxy
+se_search_planets_5: System
+se_search_planets_6: Planeta
+se_search_planets_7: May buwan?
+se_search_title: Advanced na paghahanap
+se_search_users_0: ID
+se_search_users_1: Pangalan
+se_search_users_2: E-mail
+se_search_users_3: Huling aktibidad
+se_search_users_4: Petsa ng registration
+se_search_users_5: Huling IP
+se_search_users_6: Ranggo
+se_search_users_7: Naka-ban?
+se_search_users_8: Bakasyon?
+se_sendmail_inactive: I-enable ang mga paalalang email
+se_server_naame: Pangalan ng laro
+se_server_parameters: Mga setting ng universe
+se_session_handler: Session handler
+se_several_parameters: Iba pang setting
+se_shipyard_speed: Bilis ng shipyard
+se_silo_factor: Laki ng missile silo
+se_silo_factor_info: Multiplier sa laki ng missile silo
+se_smail_path: Path papunta sa Sendmail / Qmail
+se_smtp: Mga setting ng SMTP
+se_smtp_host: 'SMTP host:'
+se_smtp_host_info: Address ng SMTP server mo.
+se_smtp_info: Mga setting ng SMTP na ginagamit para magpadala ng mail mula sa server ng {game_name} papunta sa mga manlalaro.
+se_smtp_pass: 'Password ng SMTP:'
+se_smtp_port: 'Port ng SMTP:'
+se_smtp_port_info: Port ng SMTP server. Karaniwang 25.
+se_smtp_sendmail: 'Nagpapadala sa SMTP:'
+se_smtp_sendmail_info: Address ng nagpapadala. Hindi kailangang tumugma ito sa login address.
+se_smtp_ssl: 'SMTP SSL/TLS:'
+se_smtp_ssl_info: Encryption na ginagamit sa pagitan ng server na ito at ng mail server. Bihirang kailanganin.
+se_smtp_ssl_sel:
+- Wala
+- SSL
+- TLS
+se_smtp_user: 'Username ng SMTP:'
+se_sphere_galaxy: Sphere galaxies
+se_sphere_uni: Sphere universe
+se_start: Petsa ng simula
+se_start_time: Oras ng simula
+se_stat: Bigyan ng 0 points ang mga administrator
+se_stat_level: Mula sa ranggo
+se_stat_sel:
+- Hindi
+- Oo
+- Itago ang mga admin
+se_stat_settings: Halaga ng 1 statistics point
+se_statistics: Statistics
+se_statsjson_delay: Delay ng stats.json
+se_storage_multiplier: Multiplier ng resource storage
+se_suspended: Naka-ban
+se_system: System
+se_system_distance: Min. na distansya ng system
+se_system_distance_factor: Factor ng distansya ng system
+se_system_distance_factor_info: 'Default: 95, kalkulasyon: pagkakaiba ng system × factor ng distansya ng system + min. na distansya ng system'
+se_system_distance_info: 'Default: 2700, kalkulasyon: pagkakaiba ng system × factor ng distansya ng system + min. na distansya ng system'
+se_tag: TAG
+se_temp: Digri
+se_time_of_page: Nalikha ang page
+se_timezone: Time zone ng universe
+se_trade_allowed_ships: 'Mga pinapayagang barko:'
+se_trade_charge: 'Bayad ng merchant:'
+se_trader: Mga setting ng scrap merchant
+se_ttf_file: Path papunta sa TTF file
+se_ttf_file_info: Kailangan para maipakita ang Cyrillic o Chinese na character sa statistics banner
+se_type_all: Normal na paghahanap
+se_type_exact: Eksaktong paghahanap
+se_type_first: Nagsisimula sa
+se_type_last: Nagtatapos sa
+se_type_typee: Uri
+se_uni_name: Pangalan ng universe
+se_uni_status: Status ng universe
+se_uni_status_regclosed_gameclosed: Sarado ang registration at login (hal. maintenance)
+se_uni_status_regclosed_gameopen: Sarado ang registration, bukas ang login (hal. mga lumang universe)
+se_uni_status_regopen_gameclosed: Bukas ang registration, sarado ang login (hal. mga bagong universe)
+se_uni_status_regopen_gameopen: Bukas ang registration at login
+se_uni_type: Uri ng universe
+se_uni_type_info: <TABLE><tr><td>Linear universe</td><td>Tumataas ang distansya sa galaxy 1 sa bawat galaxy.</td></tr><tr><td>Ring universe</td><td>Konektado ang huling at unang galaxy, kaya nababawasan ang distansya mula sa malalayong galaxy papunta sa una.</td></tr><tr><td>Sphere universe</td><td>Pantay ang distansya ng bawat galaxy sa iba pa.</td></tr></TABLE>
+se_user_settings: Mga setting ng manlalaro
+se_user_valid: Validation ng email
+se_user_valid_info: Kapag naka-enable, dapat i-activate ng mga manlalaro ang account nila sa pamamagitan ng email. Kailangang naka-configure ang SMTP sa ibaba.
+se_users: Mga manlalaro
+se_vacat: Bakasyon?
+se_vacations: Bakasyon
+se_vmode_min_time: Pinakamababang oras ng bakasyon
+se_vmode_min_time_info: Pinakamababang oras na dapat manatili ang manlalaro sa bakasyon mode, sa segundo
+se_wreckfield_cooldown: Cooldown ng wreck field
+se_wreckfield_min_percent: Pinakamababang porsyento ng nawasak na unit ng fleet para sa wreck field
+se_wreckfield_min_units: Pinakamababang nawasak na unit para sa wreck field
+select_option: Pumili...
+ships_title: Mga barko
+sp_answer_message: 'May sumagot na sa ticket mo #%d!'
+sp_answer_message_title: 'Support ticket #%d'
+status: Status
+subject: Paksa
+test_data_amount: Bilang ng test user
+test_data_stage:
+- Simula (Spy probe)
+- Mid Game (Battleship, 1 Buwan)
+- Late Game (Battlecruiser, Phalanx)
+- End Game (Death Star, Jump Gate)
+test_data_stage_label: Yugto
+test_data_success: Matagumpay na nagawa ang test data
+test_data_title: Gumawa ng test user data
+text: Mga detalye
+time_days: Araw
+time_hours: Oras
+time_minutes: Minuto
+time_seconds: Segundo
+ul_sure_you_want_dlte: Sigurado ka bang gusto mong alisin ito?
+uni_reg: Universe
+user_reg: Pangalan
+uvs_actions: Mga aksyon
+uvs_back: Bumalik
+uvs_delete: Burahin
+uvs_id: Universe ID
+uvs_inactive: Hindi aktibo
+uvs_name: Pangalan
+uvs_new: Magdagdag ng universe
+uvs_off: Sarado
+uvs_on: Bukas
+uvs_open: Status
+uvs_planets: Mga planeta
+uvs_players: Mga manlalaro
+uvs_reload: I-reload
+uvs_speeds: Speed factor (G/F/R/E)
+uvs_speeds_full: Speed factor (Game/Fleet/Resource/Expedition)
+vt_all: Lahat ng file
+vt_head: I-verify ang game files
+vt_info: Ipinapakita ng listahang ito ang mga file na iba sa orihinal.<br>Kung hindi mo binago ang laro mismo, palitan ang mga file na ito ng orihinal.
+adm_comments: Mga komento
+adm_analytics: Analytics
+ad_system: System
+adm_menu_filter: I-filter ang menu …
+adm_menu_empty: Walang nakitang entry sa menu
+adm_menu_toggle: Menu
+adm_back_to_game: Bumalik sa laro
+adm_drop_rights: Logout
+adm_universe_switch: Universe
+adm_dash_attention: Kailangan ng atensyon
+adm_dash_all_good: Maayos ang lahat – walang babala.
+adm_dash_online: Mga manlalarong online (15 min)
+adm_dash_players: Kabuuang manlalaro
+adm_dash_tickets: Mga bukas na ticket
+adm_dash_fleets: Mga fleet sa biyahe
+adm_dash_quick: Mabilis na access
+adm_dash_system: System
+adm_dash_version: Bersyon
+adm_dash_php: PHP
+adm_dash_uni_status: Status ng universe
+adm_dash_credits: Mga kredito
+adm_dash_project: Homepage ng proyekto
+adm_confirm: Sigurado ka ba?
+adm_dash_cron_locked: 'Naka-lock ang cronjob (hindi na tumatakbo): %s'
+adm_dash_next_cron: Susunod na cronjob
+adm_dash_cron_count: aktibong cronjob
+adm_unsaved_hint: Magkakabisa ang mga pagbabago kapag na-save mo na.
+adm_sections: Mga seksyon
+adm_skip: Lumaktaw sa nilalaman
+adm_filter_page: I-filter ang page na ito …
+adm_actions: Mga aksyon
+adm_ac_no_destroyed: Walang planetang nawasak kamakailan.
+adm_ae_addremove_hint: Idinadagdag ang mga value sa kasalukuyang halaga (Idagdag) o ibinabawas dito (Burahin). Ang value na 0 ay hindi nagbabago sa entry.
+adm_ae_confirm_remove: Talaga bang ibabawas ang mga inilagay na value sa kasalukuyang halaga?
+adm_ae_danger_zone: Danger zone
+adm_ae_group_planet: Planeta / buwan
+adm_ae_group_player: Manlalaro
+adm_ae_menu_hint: Pumili ng ieedit. Pinipili ang mga manlalaro sa pamamagitan ng player ID, ang mga planeta sa pamamagitan ng planet o moon ID.
+adm_ae_wipe: I-reset ang planeta
+adm_ae_wipe_hint: Mabubura sa planeta ang mga lagyan ng tsek na bahagi. Hindi na ito mababawi.
+adm_as_confirm: Talaga bang papalitan ang account ng dalawang napiling manlalaro?
+adm_as_explain: Magpapalitan ng account (login details) ang dalawang napiling manlalaro. Nananatili sa bawat manlalaro ang game state at mga planeta; ang login details lang ang nagpapalit ng may-ari. Piliin ang manlalaro A sa kaliwa at manlalaro B sa kanan.
+adm_ban_accounts: Mga account
+adm_ban_duration: Tagal
+adm_ban_users: Mga manlalaro
+adm_continue: Magpatuloy
+adm_coord_position: Posisyon
+adm_cron_active: Aktibo
+adm_cron_click_disable: I-click para i-deactivate
+adm_cron_click_enable: I-click para i-activate
+adm_cron_click_lock: I-click para i-lock
+adm_cron_click_unlock: I-click para i-unlock (natigil na takbo)
+adm_cron_free: Libre
+adm_cron_hint: I-click ang state badge para i-toggle ito
+adm_cron_inactive: Hindi aktibo
+adm_cron_locked: Naka-lock
+adm_cron_state: Status
+adm_giveaway_confirm: Ibibigay ang mga halaga sa lahat ng tumutugmang planeta ng universe na ito. Magpatuloy?
+adm_giveaway_hint: Idinadagdag ang mga halaga sa kasalukuyang stock ng bawat tumutugmang planeta. Ang mga field na naiwang 0 ay hindi nagbabago.
+adm_reset_warning: Permanenteng mabubura o mare-reset para sa universe na ito ang lahat ng nakalagay ng tsek sa ibaba. Walang backup at walang undo.
+adm_rights_edit: I-edit ang mga pahintulot
+adm_rights_other: Iba pa
+adm_rights_page: Page
+adm_rights_pick: Piliin ang manlalarong gusto mong i-edit ang mga pahintulot.
+adm_uni_close: Isara ang universe
+adm_uni_open: Buksan ang universe
+adm_edit: I-edit
+adm_ma_recipients: Mga tatanggap
+adm_ml_from: mula
+adm_ml_to: hanggang
+ac_detailed_planet_moon_info: Mga detalye ng planeta at buwan
+ad_max: (max. %d)
+adm_password_info: Ilagay ang password mo para i-verify ang pagkakakilanlan mo!
+button_des_se: piliin/alisin ang lahat
+er_dlte_all: Burahin lahat
+input_id_moon: Moon ID
+input_text: 'Paglalarawan:'
+mip_ip: IP
+adm_cfg_crystal_pct: Crystal %
+adm_cfg_deuterium_pct: Deuterium %
+adm_cfg_fields_max: Max na field
+adm_cfg_fields_min: Min na field
+adm_cfg_metal_pct: Metal %
+adm_cfg_planet_props: Mga katangian ng planeta bawat posisyon
+adm_cfg_planet_props_hint: Temperatura sa °C, field, production bonus sa %
+adm_cfg_temp_max: Max na temp.
+adm_cfg_temp_min: Min na temp.
+adm_comment_col: Komento
+adm_date_dd: dd
+adm_date_format: (dd.mm.yyyy)
+adm_date_mm: mm
+adm_date_yyyy: yyyy
+adm_exp_deck_err_card: 'Hindi wastong format ng card: kulang ang type, size o count'
+adm_exp_deck_err_count: 'Hindi wastong bilang ng card: hindi puwedeng negatibo'
+adm_exp_deck_err_empty: Dapat may kahit isang card ang deck
+adm_exp_deck_err_format: 'Hindi wastong format ng deck: dapat array'
+adm_exp_deck_err_json: Hindi wastong format ng JSON
+adm_exp_ships_saved: Matagumpay na na-save ang configuration ng barko!
+adm_flight_distance: Distansya
+adm_flight_err_dist_missing: Punan nang buo ang lahat ng value ng distansya.
+adm_flight_err_format: Ilagay sa format na galaxy:system:planet.
+adm_flight_err_galaxy_over: Lampas sa max_galaxy ang galaxy.
+adm_flight_err_max_missing: Punan nang buo ang max_galaxy, max_system at max_planets.
+adm_flight_err_min_one: Dapat hindi bababa sa 1 ang galaxy, system at planeta.
+adm_flight_err_planet_over: Lampas sa max_planets ang planeta.
+adm_flight_err_system_over: Lampas sa max_system ang system.
+adm_flight_fleet_speed: Bilis ng fleet
+adm_flight_preview: Preview ng oras ng biyahe
+adm_flight_preview_help: Oras ng biyahe mula 1:1:1 papunta sa target na may ship speed 45,000 at fleet speed 1; ina-apply nang live ang uri ng universe, uri ng galaxy, max value, distance factor at minimum na distansya.
+adm_flight_ship_speed: Bilis ng barko
+adm_flight_time: Oras ng biyahe
+adm_info_col: Info
+adm_info_db_version: Bersyon ng DB
+adm_info_errorlog: Error log
+adm_info_game: Laro
+adm_info_game_address: Address ng laro
+adm_info_game_version: Bersyon ng laro
+adm_info_memory_limit: Limit ng memory
+adm_info_mysql_client: MySQL client
+adm_info_mysql_server: MySQL server
+adm_info_php_version: Bersyon ng PHP
+adm_info_server: Server
+adm_info_server_info: Impormasyon ng server
+adm_info_text: Bilang teksto
+adm_info_timezone: Time zone (PHP/config/user)
+adm_loading: Naglo-load …
+adm_log_not_found: Hindi nahanap sa log
+adm_mip_activity: Aktibidad
+adm_mip_show_allowed: Ipakita ang aprubado
+adm_mip_show_banned: Ipakita ang naka-ban
+adm_ml_end_day: Huling araw
+adm_ml_end_month: Huling buwan
+adm_ml_end_year: Huling taon
+adm_ml_start_day: Unang araw
+adm_ml_start_month: Unang buwan
+adm_ml_start_year: Unang taon
+adm_pagination: Pagination
+adm_permission_error: Walang pahintulot!
+adm_ti_all: Lahat
+adm_ti_debug_errors: Debug/error
+adm_ti_user_tickets: Mga ticket ng user
+adm_group_community: Komunidad
+adm_nav_accounts: Mga account
+adm_nav_expeditions: Mga expedition
+adm_nav_messages: Mga mensahe
+adm_nav_moderation: Moderation
+adm_nav_players: Mga manlalaro
+adm_nav_settings: Mga setting
+adm_tab_bans: Mga ban
+adm_tab_card_deck: Card Deck
+adm_tab_create: Gumawa
+adm_tab_editor: Editor
+adm_tab_findable_ships: Mga Puwedeng Matagpuang Barko
+adm_tab_moons: Mga buwan
+adm_tab_planets: Mga planeta
+adm_tab_players: Mga manlalaro
+adm_tab_server: Server
+adm_tab_swap: Palitan
+adm_tab_universe: Universe
+adm_maint_cache_text: Binubura ang mga game cache (mga wika, template, game data) at kinakalkula ulit ang oras ng mga cron job. Nakakatulong ito kapag hindi lumalabas ang mga pagbabago sa mga setting o teksto.
+adm_maint_log_head: Log ng laro
+adm_maint_log_text: Error log ng laro (var/log/game.log). Ang pag-clear ay nagbubura ng laman ng file; agad na nasusulatan ulit ang mga bagong error.
+adm_maint_log_size: Laki
+adm_maint_log_changed: Huling pagbabago
+adm_maint_log_missing: Wala pa ang log file.
+adm_maint_log_clear: I-clear ang game log
+adm_maint_log_confirm: Burahin ang laman ng var/log/game.log? Hindi na ito mababawi.
+adm_maint_log_cleared: Na-clear na ang game log.
+adm_maint_log_failed: Hindi ma-clear ang game log (hindi puwedeng sulatan ang file).
+adm_maint_points_text: Agad na kinakalkula ulit ang points at ranking. Kung hindi, awtomatiko itong tumatakbo sa pamamagitan ng statistics cron job at puwedeng tumagal nang kaunti kapag maraming manlalaro.
+adm_nav_maintenance: Maintenance
+adm_nav_content: Nilalaman
+adm_tab_pages: Mga page
+adm_tab_team: Team
+nws_back: Bumalik sa listahan
+nws_view: Tingnan
+nws_summary: Buod
+nws_summary_help: Opsyonal na teaser para sa listahan ng balita (max. 300 na character). Kapag walang laman = sipi ng teksto.
+nws_publish_date: Petsa ng paglalathala
+nws_publish_help: 'Ang petsa sa hinaharap ay nagsi-schedule ng balita: awtomatiko itong lalabas sa oras na iyon.'
+nws_status: Status
+nws_status_draft: Draft
+nws_status_published: Nailathala
+nws_status_scheduled: Naka-iskedyul
+nws_pinned: Naka-pin
+nws_filter_all: Lahat
+nws_filter_drafts: Mga draft
+nws_empty: Walang balita
+nws_saved: Na-save ang balita.
+nws_deleted: Nabura ang balita.
+nws_error_empty: Hindi puwedeng walang laman ang pamagat at teksto.
+cms_page_contacts: Mga contact
+cms_page_dataPrivacy: Data privacy
+cms_page_rules: Mga tuntunin
+cms_language: Wika
+cms_status: Status
+cms_status_default: Default
+cms_status_edited: Na-edit
+cms_last_edit: Huling pag-edit
+cms_title: Pamagat
+cms_content: Nilalaman
+cms_save: I-save ang page
+cms_view: Tingnan ang page
+cms_reset: I-reset sa default
+cms_reset_confirm: Burahin ang na-edit na bersyon at ipakita ulit ang default na nilalaman?
+cms_saved: Na-save ang page.
+cms_reset_done: Na-reset ang page sa default na nilalaman.
+team_name: Pangalan
+team_position: Posisyon
+team_contact: Contact (hal. Discord)
+team_description: Paglalarawan
+team_add: Magdagdag ng miyembro
+team_delete: Alisin
+team_move_up: Ilipat pataas
+team_move_down: Ilipat pababa
+team_save: I-save ang team
+team_saved: Na-save ang team.
+team_empty: Wala pang miyembro ng team.
+team_hint: Ang pagkakasunod-sunod ng mga row ay ang ayos sa public team page. Ang mga row na walang pangalan ay tinatanggal kapag na-save.
+nws_image: Larawan
+nws_image_remove: Alisin ang larawan
+nws_image_help: Opsyonal, isang larawan bawat balita (JPEG, PNG, GIF o WebP, max. 8 MB). Awtomatikong ico-convert sa WebP.
+bot_action: Aksyon
+bot_actions_per_session: Mga aksyon bawat session
+bot_active: Aktibo
+bot_active_none: Walang LLM (local fallback lang)
+bot_activity: Aktibidad bawat oras
+bot_activity_info: 24 value na pinaghihiwalay ng kuwit, mula 0 hanggang 1 (tsansang magsimula ng session ang offline na bot, oras 0-23)
+bot_alliance_chance: Tsansa ng aktibidad sa alliance bawat session
+bot_alliance_join_chance: Tsansang mag-apply sa bot alliance (bawat turn)
+bot_fleetsave_chance: Tsansang mag-fleetsave (pagtatapos ng session, mga banta)
+bot_saving_discipline: Disiplina sa pag-iipon (nag-iipon para sa layunin nito sa halip na bumili ng mura)
+bot_expedition_slots: Mga fleet slot na nananatiling bakante para sa expedition
+bot_api_key: API key
+bot_base_url: Base URL
+bot_buddy_accept_chance: Tsansang tanggapin ang buddy request
+bot_cancel: Kanselahin
+bot_chat_style: Hint sa istilo ng chat
+bot_raid_enabled: Naka-enable ang raid
+bot_raid_chance: Mga session na nagra-raid
+bot_scout_range: Saklaw ng scout (mga system sa paligid ng sariling planeta)
+bot_min_profit_ratio: Pinakamababang profit ratio (loot / fuel + pagkalugi)
+bot_relentless_minutes: Raid streak pagkatapos ng hit (minuto, min - max)
+bot_recall_check_chance: Tsansa ng muling espiya at recall check bago tumama
+bot_max_attacks_per_target: Max na atake bawat target at araw
+bot_attack_bots: Umatake ng ibang bot
+bot_attack_humans: Umatake ng mga manlalarong tao
+bot_prefer_inactive: Pagpili sa mga hindi aktibong target (0-100)
+bot_check_interval: Agwat ng login check
+bot_colonize_chance: Tsansang mag-kolonisa bawat session
+bot_confirm_delete: Talaga bang burahin?
+bot_confirm_restore: I-reset ang mga default na profile sa orihinal nilang value?
+bot_csrf_error: Hindi wastong security token, paki-reload ang page.
+bot_days_zero_off: araw (0 = naka-off)
+bot_default: default
+bot_defaults_restored: Naibalik ang mga default na profile.
+bot_delete: Burahin
+bot_deleted: Nabura.
+bot_description: Paglalarawan
+bot_detail: Detalye
+bot_disabled: naka-disable
+bot_duplicate: I-duplicate
+bot_edit: I-edit
+bot_edit_profile: I-edit ang profile
+bot_enabled: naka-enable
+bot_expedition_chance: Tsansang mag-expedition bawat session
+bot_failed: Nabigo
+bot_hours_every: oras kada
+bot_invalid_url: Dapat magsimula ang base URL sa http:// o https://.
+bot_key: Key
+bot_key_keep: iwanang walang laman para manatili
+bot_key_not_set: hindi nakatakda
+bot_key_stored: naka-save
+bot_last_action: Huling aksyon
+bot_last_test: Huling test
+bot_list: Mga bot
+bot_llm_advice: Payagan ang LLM (mga pangalan at chat)
+bot_log: Mga kamakailang aksyon
+bot_mistake_chance: Tsansang magkamali
+bot_mode: Mode ng bot
+bot_model: Model
+bot_name: Pangalan
+bot_name_required: Maglagay ng pangalan.
+bot_new_profile: Bagong profile
+bot_next_tick: Susunod na check
+bot_none: Wala.
+bot_offline: offline
+bot_online: online
+bot_open_config: Mga setting ng universe
+bot_pattern_shift: Pattern ng shift
+bot_player: Manlalaro
+bot_points: Points
+bot_profile: Profile
+bot_profile_default_locked: Hindi puwedeng burahin ang mga default na profile.
+bot_profile_in_use: Ginagamit pa rin ng mga bot ang profile na ito.
+bot_profile_missing: Hindi nahanap ang profile.
+bot_provider: Provider
+bot_providers_info: 'Opsyonal ang LLM at ginagamit lang para sa panig-tao ng mga bot: mga nickname, persona, pangalan ng planeta at chat (mga sagot sa mensahe, alliance, buddy). Lokal na ginagawa palagi ang mga desisyon sa laro. Kapag walang aktibong provider, ginagamit ang built-in na name generator at mga nakahandang mensahe. Iwanang walang laman ang key field para manatili ang naka-save na key.'
+bot_randomness: Randomness
+bot_reply_chance: Tsansang sumagot (pribadong mensahe)
+bot_restore_defaults: Ibalik ang default
+bot_saved: Na-save.
+bot_session: Session
+bot_session_minutes: Haba ng session
+bot_skill: Skill
+bot_skill_gain: Pagtaas bawat araw
+bot_skill_max: Max
+bot_skill_start: Simula
+bot_spawn: Gumawa ng bot
+bot_spawned: '%d bot ang nagawa.'
+bot_summary: Buod
+bot_summary_actions: mga aksyon
+bot_summary_mistakes: mga pagkakamali
+bot_summary_session: session
+bot_tab_profiles: Mga profile
+bot_tab_providers: Mga LLM provider
+bot_test: Subukan ang koneksyon
+bot_testing: Sinusubukan...
+bot_time: Oras
+bot_universe: Universe
+bot_w_defense: Depensa
+bot_w_energy: Enerhiya
+bot_w_facilities: Mga pasilidad
+bot_w_mines: Mga mina
+bot_w_research: Research
+bot_w_ships: Mga barko
+bot_w_storage: Storage
+bot_weights: Mga timbang
+adm_nav_bots: Mga bot
+adm_tab_bot_providers: Mga LLM provider
+adm_tab_bot_profiles: Mga profile
+adm_tab_bot_list: Mga bot
+se_bots: Mga bot
+se_bots_enabled: I-enable ang mga bot
+se_bots_enabled_info: Pinapayagan ang mga server-side na bot na maglaro sa universe na ito. Pinoproseso sila ng cron job isang beses bawat minuto.
+se_bots_llm_daily_limit: Mga LLM call bawat bot at araw
+se_bots_llm_daily_limit_info: Pinakamaraming LLM call na puwedeng gawin ng isang bot kada araw. Pagkatapos nito, local fallback ang ginagamit.
+se_bots_llm_enabled: Gamitin ang LLM para sa mga pangalan at chat
+se_bots_llm_enabled_info: Ina-enable ang mga nickname, persona, pangalan ng planeta at chat na gawa ng LLM (mga mensahe, alliance, buddy) gamit ang aktibong provider. Lokal palagi ang mga desisyon sa laro.
+se_bots_max_count: Pinakamaraming bilang ng bot
+se_bots_max_count_info: Pinakamataas na limitasyon para sa mga nagawang bot sa universe na ito.
+se_bots_ticks_per_run: Mga bot bawat cron run
+se_bots_ticks_per_run_info: Pinakamaraming bot na pinoproseso sa isang cron run.
+se_bots_raids_enabled: Mag-raid ng ibang manlalaro ang mga bot
+se_bots_raids_enabled_info: Pinapayagan ang mga bot na mag-scout, mag-espiya at umatake ng mga malapit na manlalaro at ibang bot, sa parehong patakaran ng mga manlalaro (bash limit, protection, bakasyon). Naka-off bilang default.
+adm_info_summary_fail: '%s check ang nabigo, %s babala. Ayusin muna ang mga nabigong check.'
+adm_info_summary_warn: Walang nabigong check, pero %s babala ang kailangang tingnan.
+adm_info_summary_ok: Pumasa ang lahat ng health check.
+adm_info_health: Mga health check
+adm_info_status_ok: OK
+adm_info_status_warn: Babala
+adm_info_status_fail: Nabigo
+adm_info_status_info: Info
+adm_info_chk_php: Bersyon ng PHP (8.4 o mas bago)
+adm_info_chk_php_hint: Kailangan ng laro ang PHP 8.4 o mas bago.
+adm_info_chk_ext_required: Mga kinakailangang PHP extension
+adm_info_chk_ext_required_hint: I-install ang mga nawawalang extension; hindi gagana ang laro kung wala ang mga ito.
+adm_info_chk_ext_optional: Mga opsyonal na PHP extension
+adm_info_chk_ext_optional_hint: Hindi kinakailangan, pero nagbibigay ang mga ito ng mas mabilis o dagdag na feature (tingnan ang listahan ng extension).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: Naka-off ang OPcache. I-enable ito sa production, malaki ang naitutulong nito sa bilis ng PHP.
+adm_info_chk_environment: Environment (APP_ENV / debug)
+adm_info_chk_environment_hint: Patakbuhin gamit ang APP_ENV=prod at naka-off ang debug sa public server.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: Puwedeng mailantad ng error output sa mga page ang mga internal. Itakda ang display_errors=Off sa mga public server.
+adm_info_chk_writable: Mga directory na puwedeng sulatan
+adm_info_chk_writable_hint: Dapat makasulat sa mga directory na ito ang user ng web server (cache, log, session, upload).
+adm_info_chk_install_tool: Install tool
+adm_info_chk_install_tool_hint: Umiiral ang var/ENABLE_INSTALL_TOOL. Burahin ito kapag hindi ka nagi-install.
+adm_info_chk_migrations: Mga migration ng database
+adm_info_chk_migrations_hint: May nakabinbing migration. Ia-apply ang mga ito sa susunod na request sa laro; tingnan ang log kung nananatiling nakabinbin.
+adm_info_chk_battle_engine: Battle engine
+adm_info_chk_battle_engine_hint: Hindi magamit ang Rust engine (bin/battlerust, bin/libbattlerust.so, proc_open). Sa mas mabagal na PHP engine tatakbo ang mga laban.
+adm_info_chk_cron: Mga cron job
+adm_info_chk_cron_hint: Mukhang natigil o hindi tumatakbo ang cron. Tiyaking tumatakbo ang bin/console app:cron:run kada minuto at i-unlock ang mga natigil na job sa ilalim ng Cronjobs.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Hindi gumamit ng HTTPS ang request na ito. Walang encryption ang mga password at session na ipinapadala.
+adm_info_chk_mail: Pagpapadala ng mail
+adm_info_chk_mail_hint: Naka-disable o kulang ang mail (hindi darating ang mga activation mail at password reset). Tingnan ang mga setting.
+adm_info_chk_session: Session handler
+adm_info_chk_session_hint: Tingnan ang session storage.
+adm_info_os: Operating system
+adm_info_hostname: Hostname
+adm_info_max_exec: Max na oras ng pagtakbo
+adm_info_upload_max: Limit ng upload (upload_max_filesize)
+adm_info_post_max: Limit ng POST (post_max_size)
+adm_info_realpath: Realpath cache
+adm_info_peak: Pinakamataas na memory ng request na ito
+adm_info_cpu: CPU core
+adm_info_load: Average load (1 / 5 / 15 min)
+adm_info_uptime: Uptime ng system
+adm_info_disk: Disk (project)
+adm_info_memory: Memory ng system
+adm_info_free_of: '%s bakante sa %s (%s %% ang nagamit)'
+adm_info_opcache_line: '%s sa %s ang nagamit, hit rate %s %%, %s script ang naka-cache'
+adm_info_extensions: Mga PHP extension
+adm_info_extensions_hint: I-hover para makita ang layunin. Pula = kinakailangan at nawawala, kulay abo = opsyonal at nawawala.
+adm_info_required: kinakailangan
+adm_info_ext_pdo_mysql: Access sa database (PDO MySQL)
+adm_info_ext_intl: Pag-format ng numero, petsa at wika
+adm_info_ext_mbstring: Paghawak ng multibyte string
+adm_info_ext_gd: Pag-proseso ng image (avatar, larawan ng balita)
+adm_info_ext_curl: HTTP request (Discord, external API)
+adm_info_ext_json: JSON encoding at decoding
+adm_info_ext_ctype: Pagsusuri ng uri ng character
+adm_info_ext_opcache: Nagca-cache ng compiled na PHP code (bilis)
+adm_info_ext_ffi: Foreign function interface (native code)
+adm_info_ext_ds: Mabilis na data structure
+adm_info_ext_redis: Session at cache ng Redis
+adm_info_ext_imap: Access sa mailbox (IMAP)
+adm_info_database: Database
+adm_info_db_schema: Schema
+adm_info_db_size: Laki
+adm_info_tables: mga table
+adm_info_pending: Nakabinbing migration
+adm_info_db_uptime: Uptime ng MySQL
+adm_info_threads: Mga nakakonektang thread
+adm_info_max: max
+adm_info_qps: Mga query bawat segundo (average)
+adm_info_queries: mga query
+adm_info_slow: Mabagal na query
+adm_info_buffer_pool: InnoDB buffer pool
+adm_info_top_tables: Pinakamalaking table
+adm_info_table: Table
+adm_info_rows: mga row
+adm_info_data: Data
+adm_info_index: Index
+adm_info_game_stats: Statistics ng laro
+adm_info_universe: Universe
+adm_info_players: Mga manlalaro
+adm_info_accounts: Mga account
+adm_info_online: Online
+adm_info_planets: Mga planeta
+adm_info_moons: Mga buwan
+adm_info_fleets: Mga fleet sa biyahe
+adm_info_acs: Mga ACS group
+adm_info_alliances: Mga alliance
+adm_info_messages: Mga mensahe
+adm_info_unread: hindi pa nababasa
+adm_info_activity: Aktibidad at registration
+adm_info_active: Mga aktibong manlalaro
+adm_info_registrations: Mga bagong registration
+adm_info_banned: Mga naka-ban na manlalaro
+adm_info_vacation: Nasa bakasyon mode
+adm_info_bots: Mga bot na manlalaro
+adm_info_points_avg: Average points
+adm_info_points_top: Pinakamataas na points
+adm_info_last_stats: Huling update ng statistics
+adm_info_market: Mga bukas na alok sa market
+adm_info_reports: Mga naka-save na battle report
+adm_info_debris: Mga debris field na may laman (metal / crystal)
+adm_info_resources: Mga resources na naka-save sa mga planeta
+adm_info_fleets_by_mission: Mga fleet ayon sa mission
+adm_info_mission: Mission
+adm_info_no_fleets: Walang fleet sa biyahe.
+adm_info_reg_chart: Mga registration, huling 30 araw
+adm_info_no_registrations: Walang registration sa huling 30 araw.
+adm_info_all_universes: Lahat ng universe
+adm_info_total: Kabuuan
+adm_info_logs: Mga log at cache
+adm_info_game_log: Log ng laro
+adm_info_errors_24h: Mga error, huling 24 na oras
+adm_info_warnings_24h: Mga babala, huling 24 na oras
+adm_info_scanned: Na-scan (dulo ng file)
+adm_info_symfony_log: Log ng Symfony
+adm_info_lines: mga linya
+adm_info_files: mga file
+adm_info_last_errors: Pinakabagong error
+adm_info_no_errors: Walang error sa na-scan na bahagi ng log.
+adm_info_time: Oras ng server
+adm_info_timezone_of: Pinagmulan
+adm_info_zone: Time zone
+adm_info_tz_php: PHP
+adm_info_tz_config: Config ng laro
+adm_info_tz_user: Account mo
+adm_login_throttled: Sobrang daming pagtatangka. Subukan ulit sa loob ng ilang minuto.
+se_community_links: Mga link ng komunidad
+se_discord_url: URL ng Discord invite
+se_discord_url_info: Invite link ng Discord server mo (https://...). Ipinapakita sa menu, login page, mail at teksto. Kapag walang laman, nakatago ito.
+se_discord_widget_guild: ID ng Discord server (online widget)
+se_discord_widget_guild_info: ID ng Discord server mo (17-20 digit; Server Settings → Widget, dapat naka-on ang "Enable Server Widget"). Nagpapakita ng kahon na may bilang ng online sa start page, nire-refresh kada 5 minuto. Kapag walang laman, nakatago ito.
+se_wiki_url: Wiki URL
+se_wiki_url_info: Base URL ng external na wiki, walang trailing slash (https://...). Gawa mula rito ang mga wiki link sa FAQ, tutorial at tuntunin. Kapag walang laman, nakatago ang mga ito.
+se_donate_url: URL ng donasyon
+se_donate_url_info: Link para sa donasyon (https://...), ipinapakita sa menu. Kapag walang laman, nakatago ito.
+se_userscripts_url: URL ng userscripts
+se_userscripts_url_info: Page na naglalarawan ng mga userscript para sa laro mo (https://...), naka-link sa mga setting. Kapag walang laman, nakatago ito.
+se_bots_alliances_enabled: Bumubuo ng alliance ang mga bot
+se_bots_alliances_enabled_info: 'Nagtatatag ng sarili nilang alliance ang mga bot at paminsan-minsang sumasali sa iba. Naka-off: nananatiling lone wolf ang mga bot, hindi nag-a-apply kahit saan at umaalis sa mga alliance na kinabibilangan nila (nananatili ang mga alliance na itinatag ng bot).'
+se_bots_join_human_alliances: Puwedeng sumali ang mga bot sa alliance ng manlalaro
+se_bots_join_human_alliances_info: 'Puwede ring mag-apply ang mga bot sa mga alliance na itinatag ng mga manlalarong tao. Naka-off: sa mga alliance na itinatag ng bot lang sumasali ang mga bot at umaalis sila sa mga alliance ng manlalaro.'
+se_bot_reply_delay_hours: Pagkaantala ng sagot (oras)
+se_bot_reply_delay_hours_info: Oras na hihintayin ng pinakalumang hindi nasagot na pribadong mensahe ng manlalaro bago sagutin ng bot ang lahat ng nakabinbing mensahe ng manlalarong iyon sa isang sagot. Ito rin ang pinakamababang agwat sa pagitan ng dalawang mensaheng sinimulan ng bot (reaksyon sa atake, pang-aasar sa raid) papunta sa parehong manlalaro. 0 = walang pagkaantala.
+se_bot_chatter: Nakikipag-chat ang mga bot
+se_bot_chatter_info: 'Naka-on: sinasagot ng mga bot ang pribadong mensahe. Naka-off: binabasa at binibilang pa rin ang mga mensahe, pero reaksyon sa labanan lang ang ipinapadala (pagkatapos ma-atake o ma-raid ang manlalarong sumulat sa kanila). Hindi kailanman unang sumusulat ang mga bot sa manlalaro.'
+mu_hall_of_fame: Hall of Fame
+hof_head: Hall of Fame (universe)
+hof_view: Tingnan ang public page
+hof_status: Status
+hof_has_data: May data
+hof_entries: Mga entry sa ranking
+hof_updated: Huling na-update
+hof_no_data: Walang data ng hall of fame para sa universe na ito.
+hof_export: I-export ang JSON
+hof_clear: I-clear ang data
+hof_confirm_clear: Burahin ang data ng hall of fame ng universe na ito?
+hof_import: I-import ang JSON
+hof_file: JSON file
+hof_import_help: 'Format: hall-of-fame, bersyon 1 (max. 1 MB). Papalitan ang kasalukuyang data ng universe na ito.'
+hof_confirm_import: Palitan ang kasalukuyang data ng hall of fame ng universe na ito?
+hof_imported: Na-import ang hall of fame.
+hof_cleared: Nabura ang data ng hall of fame.
+hof_error_nofile: Walang wastong file na na-upload.
+hof_error_invalid: 'Tinanggihan ang import:'
+se_bash_war_exempt: Inaalis ng digmaan ang bash limit
+se_bash_war_exempt_info: 'Hindi binibilang sa bash limit ang mga atake sa pagitan ng mga alliance na nasa digmaan (tinanggap, mahigit isang araw na ang edad). Naka-off: binibilang ang mga atake sa digmaan gaya ng iba.'
+se_honor_pair_cap: Mga marangal na laban bawat pares (24 oras)
+se_honor_pair_cap_info: Ilang marangal na laban sa pagitan ng parehong dalawang manlalaro (alinmang direksyon) ang nagbibigay ng honor sa loob ng 24 oras. Ang mga susunod pang laban ay ituturing na neutral. 0 = walang limitasyon.
+se_market_push_tolerance: Toleransya sa market push
+se_market_push_tolerance_info: Tinatanggap na pagkakaiba ng halaga ng market trade sa porsyento (0-90) bago ito ituring na push. Default 30.
+se_transport_push_check: Guard sa transport push
+se_transport_push_check_info: Tinatanggihan ang mga transport, hold at transfer (cargo at barko) papunta sa ibang manlalaro kapag, sa huling 7 araw, lumampas ang halagang ipinadala sa kanila sa halagang ibinalik nila ng higit sa limit sa ibaba.
+se_transport_push_limit: Limit ng transport push
+se_transport_push_limit_info: Halaga ng cargo sa deuterium unit (market ratio) kung saan nagsisimulang umepekto ang guard. 0 = naka-off ang guard.
+se_depot_cost_real_consumption: Gastos ng depot ayon sa aktuwal na konsumo
+se_depot_cost_real_consumption_info: Sinisingil ng alliance depot ang aktuwal na fuel consumption ng fleet (kasama ang drive at fuel tech ng may-ari) / 10 kada oras, sa halip na base consumption / 10.
+abuse_menu: Ulat ng abuse
+abuse_days: Araw
+abuse_apply: Ilapat
+abuse_weights: 'Timbang ng halaga metal : crystal : deuterium'
+abuse_none: Walang nakitang anuman sa window na ito.
+abuse_from: Mula
+abuse_to: Hanggang
+abuse_count: Bilang
+abuse_sent: Ipinadala
+abuse_back: Ibinalik
+abuse_net: Net na halaga
+abuse_linked: Naka-link
+abuse_last: Huli
+abuse_link_ip: parehong IP
+abuse_link_multi: multi group
+abuse_link_multi_known: multi group (kilala)
+abuse_link_subnet: parehong subnet (mas mahina)
+abuse_thresholds: 'Mga threshold: nakalista ang pares ng transfer kapag mula %s metal unit sa isang direksyon na may pinakamarami %s ang pabalik; ang market pair ay mula %s trade, may flag kapag lumampas sa %s ang pagkakaiba. Ang walang row ay nangangahulugang walang umabot sa mga limit na ito (o walang laman ang mga log), hindi na walang nangyari.'
+abuse_transfers: Mga transport at hold na isang direksyon
+abuse_transfers_info: Mga transport, hold at paglilipat ng barko (hindi na-recall; binibilang ang barko sa build cost) sa pagitan ng dalawang manlalaro na ang cargo ay nagkakahalagang hindi bababa sa %s metal unit sa isang direksyon habang hanggang %s ng halagang iyon ang bumalik. Ayos ayon sa net value; ang timbang ay ang naka-save na market ratio.
+abuse_trades: Paulit-ulit na market trade
+abuse_trades_info: Mga resource trade sa pagitan ng parehong dalawang manlalaro, kahit man lang %s beses. Ratio = halagang ibinigay ng panig na mas maraming ibinigay, hinati sa kabilang panig (1.00 = nasa market reference); kapag lumampas sa %s ang pagkakaiba, may flag ang pares.
+abuse_giver: Mas maraming ibinigay
+abuse_receiver: Mas maraming natanggap
+abuse_ratio: Ratio
+abuse_outlier: outlier
+abuse_protections: Mga ibinigay na rebuild protection
+abuse_protections_info: Mga manlalarong nakatanggap ng rebuild protection sa window. Ang mga kalaban ay ang kabilang panig ng combat report ng laban na iyon; ang loot ay ang halagang nakuha ng kanilang fleet doon (hindi naka-save ang debris at halaga ng nawasak).
+abuse_protected: Manlalarong may protection
+abuse_granted: Ibinigay
+abuse_opponents: Mga kalaban
+abuse_loot: Loot ng kalaban
+abuse_report: Report
+abuse_recalls: Mga recall sa o pagkatapos ng pagdating
+abuse_recalls_info: Mga attack, ACS at destroy fleet na na-recall nang naabot na ang oras ng pagdating (recall-after-arrival pattern).
+abuse_mission: Mission
+abuse_arrival: Pagdating
+abuse_recalled: Na-recall
+abuse_late: Pagkatapos ng pagdating
+abuse_fought: lumaban
+abuse_mission_1: Atake
+abuse_mission_2: ACS attack
+abuse_mission_9: Sirain
+abuse_missiles_skipped: 'Hindi bahagi ng ulat na ito ang mga paglulunsad ng missile laban sa laman ng silo: walang kasaysayan ng silo sa mga table na pagkukumparahan.'
+abuse_link_device: parehong device
+abuse_graph: Mga cluster ng value flow
+abuse_graph_info: 'Mga manlalarong naka-link sa pamamagitan ng value flow sa huling %s araw (fixed window): mga transport, hold, paglilipat ng barko (sa build cost), market trade (magkabilang panig) at attack loot, pinagsama sa parehong direksyon. Tanging mga pares na nakagalaw ng hindi bababa sa %s metal unit at %s flow ang nakakonekta; nakalista ang mga konektadong grupo ng dalawa o higit pa (top %s ayon sa halaga). Net = halaga ng pinaka-isang-panig na pares sa cluster (bahagi ng kabuuang halaga nito). Ipinapakita ng link flag kung may kapareho ang mga miyembro sa IP, device o multi group sa ibang miyembro. Binabasa ang mga row na may limit kada pinagmulan.'
+abuse_members: Mga miyembro
+abuse_value: Kabuuang halaga
+abuse_flows: Mga flow
+abuse_top_edge: Pinaka-isang-panig na pares
+abuse_activity: Aktibidad ng pag-launch ng fleet (24 oras)
+abuse_activity_info: Mga account na may pinakamaraming pag-launch ng fleet sa huling 24 na oras; peak = mga launch sa pinakaabalang oras. Ang palagiang mataas na peak ay puwedeng senyales ng scripted na paglalaro.
+abuse_player: Manlalaro
+abuse_launches: Mga launch
+abuse_peak: Peak / oras
+adm_dash_unprotected: 'Naka-off ang anti-abuse protection sa universe na ito:'
+adm_dash_unprotected_push: Naka-off ang push guard para sa transport, hold at transfer (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: 0 ang honor pair cap (walang limitasyong honor sa pagitan ng parehong dalawang manlalaro).
+adm_dash_unprotected_bash: Inaalis ng mga idineklarang digmaan ang bash limit (bash_war_exempt).
+adm_dash_unprotected_depot: Ang depot hold ay sinisingil ng murang base consumption (depot_cost_real_consumption naka-off).
+adm_dash_unprotected_market: Lampas sa 10 % ang market push tolerance (market_push_tolerance).
+modul_57: Mga vote site
+adm_nav_voting: Mga vote site
+vt_sites: Mga vote site
+vt_add: Magdagdag ng site
+vt_create_head: Bagong vote site
+vt_edit_head: I-edit ang vote site
+vt_back: Bumalik
+vt_name: Pangalan
+vt_vote_url: Vote URL
+vt_vote_url_help: Ang link na ipapadala sa mga manlalaro. Papalitan ang {token} (one-time token ng vote na ito) at {userId}.
+vt_image_url: Image URL (opsyonal)
+vt_image_url_help: Banner o logo na ipinapakita sa tabi ng site sa player page (https).
+vt_cooldown: Cooldown (oras)
+vt_cooldown_help: Isang reward bawat manlalaro at site sa loob ng time window na ito, binibilang mula sa huling reward.
+vt_reward: Reward
+vt_res_901: Metal
+vt_res_902: Crystal
+vt_res_903: Deuterium
+vt_verification: Verification
+vt_verify_none: Wala (reward sa pag-click)
+vt_verify_postback: Postback (reward sa callback ng site)
+vt_verification_help: Kapag walang verification, ibinibigay ang reward pag-click ng manlalaro sa vote button (cooldown lang). Sa postback, kailangang tawagin ng site ang callback URL.
+vt_sort: Ayos ng pagkakasunod
+vt_active: Aktibo
+vt_enabled: Aktibo
+vt_disabled: Hindi aktibo
+vt_enable: I-activate
+vt_disable: I-deactivate
+vt_delete: Burahin ang site
+vt_renew_secret: Gumawa ng bagong secret
+vt_renew_secret_help: 'Hindi na valid ang lumang postback URL: i-update ito sa vote site.'
+vt_postback: Postback
+vt_postback_url: Callback URL
+vt_secret: Secret
+vt_postback_help: Ilagay ang URL na ito sa vote site bilang callback/postback. Palitan ang {token} ng macro ng site para sa value na natanggap nito sa vote URL. Tinatanggap ang GET at POST; puwede ring ipadala ang secret bilang header na X-Vote-Secret.
+vt_saved: Na-save.
+vt_deleted: Nabura ang vote site.
+vt_empty: Wala pang vote site.
+vt_confirm_delete: Burahin ang vote site na "%s" at ang log nito?
+vt_module_off: Naka-off ang module na "Mga vote site", walang vote page na nakikita ang mga manlalaro.
+vt_error_name: Kailangan ang pangalan.
+vt_error_vote_url: Dapat wastong http(s) address ang vote URL.
+vt_error_image_url: Dapat wastong http(s) address ang image URL.
+vt_error_reward: Dapat nasa pagitan ng 0 at 1,000,000,000 ang mga halaga ng reward.
+vt_clicks: Mga click
+vt_verified: Na-verify
+vt_rewarded: Nabigyan ng reward
+vt_log: Mga kamakailang vote
+vt_log_time: Oras
+vt_log_player: Manlalaro
+vt_log_status: Status
+vt_log_ip: IP
+vt_log_empty: Wala pang vote.
+vt_status_rewarded: Nabigyan ng reward
+vt_status_verified: Na-verify, walang reward
+vt_status_pending: Na-click

@@ -12,12 +12,9 @@ use App\Runtime\ProjectPaths;
 /**
  * ./?page=news: paginated list, ./?page=news&id=N single article.
  */
-#[GamePage('index.php', 'news')]
-#[GamePage('index.php', 'news', uniPrefix: true)]
+#[GamePage('index', 'news')]
 final class NewsController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     private const PER_PAGE = 10;
 
     /**

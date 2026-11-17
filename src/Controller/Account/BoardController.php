@@ -15,8 +15,7 @@ use App\Content\HtmlContent;
  * Visitors without login may read (list and post view, account stub with id 0); every other mode
  * sends them to the login.
  */
-#[\App\Routing\GamePage('account.php', 'board')]
-#[\App\Routing\GamePage('account.php', 'board', uniPrefix: true)]
+#[\App\Routing\GamePage('account', 'board')]
 class BoardController extends AbstractAccountController
 {
     private const FLAIRS = ['general', 'guide', 'question', 'suggestion', 'bug', 'offtopic'];

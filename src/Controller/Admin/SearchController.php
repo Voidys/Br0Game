@@ -28,8 +28,7 @@ use App\Game\Core\Universe;
 /**
  * Admin search over players, planets, alliances, messages and the like.
  */
-#[\App\Routing\GamePage('admin.php', 'search')]
-#[\App\Routing\GamePage('admin.php', 'search', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'search')]
 class SearchController extends AbstractAdminController
 {
     /**
@@ -103,10 +102,7 @@ class SearchController extends AbstractAdminController
             'se_search_in'         => $LNG['se_search_in'],
             'se_type_typee'        => $LNG['se_type_typee'],
             'se_intro'             => $LNG['se_intro'],
-            'se_search_title'      => $LNG['se_search_title'],
-            'se_contrac'           => $LNG['se_contrac'],
             'se_search_order'      => $LNG['se_search_order'],
-            'ac_minimize_maximize' => $LNG['ac_minimize_maximize'],
             'result'               => $RESULT,
         ]);
 

@@ -1,0 +1,1683 @@
+ac_account_data: รายละเอียดบัญชี
+ac_act_time: วันที่ใช้งานล่าสุด
+ac_ali_idid: 'ID:'
+ac_alliance: พันธมิตร
+ac_ally_ranking: สถิติพันธมิตร
+ac_ally_web: เว็บไซต์พันธมิตร
+ac_auth_level: ระดับสิทธิ์
+ac_banned: ถูกแบนหรือไม่?
+ac_checkip_title: ตรวจสอบ IP
+ac_coords: พิกัด
+ac_diameter: เส้นผ่านศูนย์กลาง
+ac_enter_user_id: เลือกผู้เล่น
+ac_ext_text: ข้อความภายนอก
+ac_fields: ช่องว่าง
+ac_filter_placeholder: กรอง...
+ac_home_planet_coord: พิกัดดาวเคราะห์หลัก
+ac_home_planet_id: ID ดาวเคราะห์หลัก
+ac_id_names_coords: ID ชื่อ และพิกัด
+ac_image: โลโก้พันธมิตร
+ac_info_ally: ข้อมูลพันธมิตร
+ac_int_text: ข้อความภายใน
+ac_last_ip: IP ล่าสุด
+ac_leader: หัวหน้า
+ac_leyend: '[ คำอธิบาย ]'
+ac_moon: ดวงจันทร์
+ac_name: ชื่อ
+ac_name_ali: ชื่อเต็ม
+ac_no_ally: ไม่มีพันธมิตร
+ac_no_img: พันธมิตรนี้ไม่มีโลโก้
+ac_no_text_ext: พันธมิตรนี้ไม่มีข้อความภายนอก
+ac_no_text_int: พันธมิตรนี้ไม่มีข้อความภายใน
+ac_no_text_sol: พันธมิตรนี้ไม่มีข้อความสมัคร
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>มากกว่าหนึ่งล้านล้าน</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>หนึ่งล้านล้านขึ้นไป</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>หนึ่งพันล้านขึ้นไป</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>หนึ่งล้านขึ้นไป</th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>หนึ่งพันขึ้นไป</th></tr></table>
+ac_on_vacation: โหมดพักร้อน?
+ac_points_count: คะแนน | จำนวน
+ac_ranking: อันดับ
+ac_recent_destroyed_planets: ดาวเคราะห์ที่ถูกทำลายล่าสุด
+ac_reg_ip: IP ตอนลงทะเบียน
+ac_register_ally_time: วันที่ก่อตั้ง
+ac_register_time: วันที่ลงทะเบียน
+ac_research: วิจัย
+ac_see_ranking: ดูสถิติ
+ac_select_id_num: กรอก ID ด้วยตนเอง (ไม่บังคับ)
+ac_sol_text: ข้อความสมัคร
+ac_suspended_autor: แบนโดย
+ac_suspended_longer: จนถึง
+ac_suspended_reason: เหตุผล
+ac_suspended_time: ถูกแบนเมื่อ
+ac_suspended_title: รายละเอียดการแบน
+ac_swap_invalid: การเลือกไม่ถูกต้อง กรุณาเลือกผู้ใช้สองคนที่ต่างกัน!
+ac_swap_no_entry: ไม่พบข้อมูลบัญชีของผู้ใช้หนึ่งคนหรือทั้งสองคน
+ac_swap_submit: สลับ
+ac_swap_success: สลับบัญชีสำเร็จ
+ac_swap_title: สลับบัญชี
+ac_swap_user_a: ผู้ใช้ A
+ac_swap_user_b: ผู้ใช้ B
+ac_tag: TAG
+ac_temperature: อุณหภูมิ
+ac_time_destruyed: วันที่ถูกทำลาย
+ac_total_members: จำนวนสมาชิก
+ac_total_points: 'รวม:'
+ac_user_ranking: สถิติผู้เล่น
+ac_user_system: ระบบผู้เล่น
+ac_username_doesnt: ไม่มีผู้เล่นคนนี้!
+ac_view_image: เปิดรูปในหน้าต่างใหม่
+account_already_has_user: บัญชีนี้มีผู้เล่นในจักรวาลนี้อยู่แล้ว
+accountID: ID บัญชี
+ad_add_build_success: เพิ่มอาคารสำเร็จ!
+ad_add_defenses_success: เพิ่มการป้องกันสำเร็จ!
+ad_add_not_exist: ไม่มี ID นี้!
+ad_add_res_sucess: เพิ่มทรัพยากรสำเร็จ!
+ad_add_ships_sucess: เพิ่มยานอวกาศสำเร็จ!
+ad_add_tech_success: เพิ่มการวิจัยสำเร็จ!
+ad_ally_change_id: เปลี่ยนผู้ก่อตั้ง
+ad_ally_delete: ลบพันธมิตร
+ad_ally_delete_u: ลบสมาชิก
+ad_ally_name: ชื่อพันธมิตร
+ad_ally_not_exist: ไม่มีพันธมิตรนี้!
+ad_ally_not_exist2: ไม่มีสมาชิกคนนี้!
+ad_ally_not_exist3: ผู้ใช้นี้ไม่ได้เป็นสมาชิกของพันธมิตรนี้
+ad_ally_succes: สำเร็จ
+ad_ally_tag: TAG พันธมิตร
+ad_ally_text1: คำอธิบายพันธมิตร
+ad_ally_text2: ข้อความภายใน
+ad_ally_text3: แบบฟอร์มสมัคร
+ad_ally_title: พันธมิตร
+ad_ally_user_id: (กรอก ID ผู้ใช้)
+ad_authlevel_aa: '[แสดงผู้ดูแลระบบ]'
+ad_authlevel_auth: ระดับสิทธิ์
+ad_authlevel_error_3: ไม่สามารถเปลี่ยนระดับสิทธิ์ของผู้สร้างเกมได้!
+ad_authlevel_insert_id: กรอก ID ด้วยตนเอง (ไม่บังคับ)
+ad_authlevel_jj: '[แสดงผู้เล่น]'
+ad_authlevel_mm: '[แสดงผู้ดูแล]'
+ad_authlevel_oo: '[แสดงผู้ควบคุม]'
+ad_authlevel_succes: เปลี่ยนระดับสิทธิ์สำเร็จ
+ad_authlevel_title: ระดับสิทธิ์
+ad_authlevel_tt: '[แสดงทั้งหมด]'
+ad_buildings: อาคาร
+ad_buildings_title: อาคาร
+ad_count: จำนวน
+ad_defenses: การป้องกัน
+ad_defenses_title: การป้องกัน
+ad_delete_build_success: ลบอาคารสำเร็จ!
+ad_delete_defenses_success: ลบการป้องกันสำเร็จ!
+ad_delete_res_sucess: ลบทรัพยากรสำเร็จ!
+ad_delete_ships_sucess: ลบยานอวกาศสำเร็จ!
+ad_delete_tech_success: ลบการวิจัยสำเร็จ!
+ad_editor_alliances: พันธมิตร
+ad_editor_buildings: อาคาร
+ad_editor_defenses: การป้องกัน
+ad_editor_personal: ข้อมูลส่วนตัว
+ad_editor_planets: ดาวเคราะห์และดวงจันทร์
+ad_editor_researchs: วิจัย
+ad_editor_resources: ทรัพยากร
+ad_editor_ships: ยานอวกาศ
+ad_editor_title: ตัวแก้ไขบัญชี
+ad_levels: ระดับ
+ad_number: ID
+ad_personal_name: ชื่อผู้ใช้
+ad_personal_succes: บันทึกการตั้งค่าแล้ว
+ad_personal_title: แก้ไขข้อมูลส่วนตัว
+ad_personal_vacat: โหมดพักร้อน
+ad_pla_change_p: พิกัดดาวเคราะห์
+ad_pla_change_pp: ติ๊กเพื่อใช้การเปลี่ยนพิกัด
+ad_pla_delete_b: ลบอาคารทั้งหมด
+ad_pla_delete_cb: ล้างคิวการสร้างอาคาร
+ad_pla_delete_d: ลบการป้องกันทั้งหมด
+ad_pla_delete_hd: ล้างคิวอู่ต่อเรือและการป้องกัน
+ad_pla_delete_s: ลบยานอวกาศทั้งหมด
+ad_pla_edit_diameter: แก้ไขเส้นผ่านศูนย์กลาง
+ad_pla_edit_fields: แก้ไขช่องว่าง
+ad_pla_edit_name: ชื่อ
+ad_pla_error_planets: ดวงจันทร์เปลี่ยนเจ้าของไม่ได้
+ad_pla_error_planets2: ไม่มีดาวเคราะห์นี้
+ad_pla_error_planets3: พิกัดนี้ถูกใช้อยู่แล้ว!
+ad_pla_error_planets4: ไม่สามารถกำหนดดวงจันทร์ให้ดาวเคราะห์ที่มีดวงจันทร์อยู่แล้วได้!
+ad_pla_error_planets5: มีดาวเคราะห์อยู่ที่พิกัดนี้แล้ว
+ad_pla_error_planets6: พิกัดนี้อยู่นอกขอบเขตของจักรวาล
+ad_pla_succes: บันทึกการเปลี่ยนแปลงสำเร็จ
+ad_pla_title: ดาวเคราะห์และดวงจันทร์
+ad_pla_title_l: หากมีดวงจันทร์ พิกัดของดวงจันทร์จะเปลี่ยนไปด้วย
+ad_research: วิจัย
+ad_research_title: วิจัย
+ad_ships: ยานอวกาศ
+ad_ships_title: ยานอวกาศ
+adm_absenden: ส่ง
+adm_cp_index: หน้าแรก
+adm_cp_title: แผงควบคุมการดูแลระบบ
+adm_email: อีเมล
+adm_login: เข้าสู่ระบบ
+adm_password: รหัสผ่าน
+adm_username: ชื่อผู้ใช้
+an_analyzed_list: ผู้เล่นที่ถูกวิเคราะห์
+an_btn_disable: ปิดการวิเคราะห์และลบข้อมูล
+an_btn_enable: เปิดการวิเคราะห์
+an_timestamp: เวลา
+an_total_analyzed: จำนวนผู้เล่นที่ถูกวิเคราะห์
+an_user_list: รายชื่อผู้เล่น
+ap_aktivieren: เปิดใช้งาน
+ap_datum: วันที่
+ap_del: ลบ
+ap_email: อีเมล
+ap_entfernen: '?'
+ap_id: ID
+ap_ip: IP
+ap_nicht_aktivierte: ผู้ใช้ที่ยังไม่เปิดใช้งาน
+ap_nicht_aktivierte_user: ผู้ใช้ที่ยังไม่เปิดใช้งาน
+ap_sicher: 'คุณแน่ใจหรือไม่ว่าต้องการลบ '
+ap_status: สถานะ
+ap_username: ชื่อผู้ใช้
+bo_accountname: ชื่อบัญชี
+bo_ban: แบน
+bo_ban_change: เปลี่ยน
+bo_ban_player: แบน / ปลดแบน
+bo_banned: ' ถูกแบนแล้ว'
+bo_bbb_title_1: ระบบแบน
+bo_bbb_title_2: การแบนหมดอายุ
+bo_bbb_title_3: ระบบแบน • <font color="red">ผู้เล่นคนนี้ถูกแบนอยู่</font>
+bo_bbb_title_4: หากต้องการลดระยะเวลาแบนที่เหลือ ให้ใส่เครื่องหมายลบนำหน้าเวลา เช่น -5<br>หากผู้เล่นถูกแบนถาวร การกรอกเวลาเป็นบวกจะแทนที่ด้วยระยะเวลานั้น
+bo_bbb_title_5: แบนถึง
+bo_bbb_title_6: เปลี่ยนวันที่
+bo_characters_1: ตัวอักษรที่เหลือ
+bo_characters_suus: ถูกแบน
+bo_order_banned: '[เรียงตามการแบน]'
+bo_order_id: '[เรียงตาม ID]'
+bo_order_username: '[เรียงตามชื่อ]'
+bo_permanent: แบนถาวร
+bo_reason: เหตุผลการแบน
+bo_select_title: แสดงชื่อที่ขึ้นต้นด้วย
+bo_the_player: 'ผู้เล่น '
+bo_the_player2: 'ผู้เล่น '
+bo_total_accs: 'บัญชีทั้งหมด: '
+bo_total_accs_banned: 'บัญชีที่ถูกแบน: '
+bo_total_banneds: 'ผู้เล่นที่ถูกแบน: '
+bo_total_users: 'ผู้เล่นทั้งหมด: '
+bo_unban: ปลดแบน
+bo_unban_player: รายการแบน
+bo_unbanned: ' ถูกปลดแบนแล้ว'
+bo_username: ชื่อผู้ใช้
+bo_vacaations: โหมดพักร้อน
+bo_vacation_mode: โหมดพักร้อน
+buildings_title: อาคาร
+button_add: เพิ่ม
+button_cancel: ยกเลิก
+button_delete: ลบ
+button_deselect: ล้างการเลือก
+button_filter: กรอง
+button_reset: รีเซ็ต
+button_submit: ส่ง
+button_test: ทดสอบ
+button_test_negative: การทดสอบล้มเหลว
+button_test_positive: การทดสอบสำเร็จ
+cc_cache_clear: ล้างแคชแล้ว
+cronjob_class: คลาส
+cronjob_delete: ลบ
+cronjob_desc: กำหนดเวลาที่ cron job นี้ควรทำงาน เงื่อนไขจะรวมกันด้วย AND งานจะทำงานเฉพาะเมื่อตรงกับเงื่อนไขที่เลือกทั้งหมด การเลือกค่าเฉพาะทั้งใน "วันในสัปดาห์" และ "วัน" อาจทำให้งานทำงานไม่สม่ำเสมอ ให้ใช้ "ทั้งหมด" ในช่องใดช่องหนึ่งอย่างน้อยหนึ่งช่อง<br>"ทั้งหมด" มีความสำคัญกว่าและจะแทนที่ค่าอื่นในรายการนั้น
+cronjob_desc_class: คลาสที่จะเรียก สำหรับ includes/classes/cronjobs/foo.class.php ให้กรอก "foo"
+cronjob_desc_name: ชื่อที่คุณตั้งเพื่อระบุ cron job นี้
+cronjob_dom: วัน
+cronjob_dow: วันในสัปดาห์
+cronjob_edit: แก้ไข
+cronjob_error_class: ยังไม่ได้ระบุคลาส!
+cronjob_error_dom: ยังไม่ได้เลือกวัน!
+cronjob_error_dow: ยังไม่ได้เลือกวันในสัปดาห์!
+cronjob_error_filenotfound: 'ไม่พบไฟล์ที่ระบุ: '
+cronjob_error_hours: ยังไม่ได้เลือกชั่วโมง!
+cronjob_error_min: ยังไม่ได้เลือกนาที!
+cronjob_error_month: ยังไม่ได้เลือกเดือน!
+cronjob_error_name: ยังไม่ได้กรอกชื่อ!
+cronjob_headline: ID ของ Cronjob
+cronjob_hours: ชั่วโมง
+cronjob_lastTime: ทำงานล่าสุด
+cronjob_min: นาที
+cronjob_month: เดือน
+cronjob_name: ชื่อ
+cronjob_new: สร้าง cron job
+cronjob_nextTime: ทำงานครั้งถัดไป
+cronjob_run: เรียกทำงาน
+cronjob_selectall: ทั้งหมด
+cronName_cleaner: ลบข้อมูลเก่า
+cronName_bots: บอต
+cronName_disposable_email_domains: อัปเดตโดเมนอีเมลชั่วคราว
+cronName_fleets: เหตุการณ์กองเรือ
+cronName_daily: งานรายวัน
+cronName_databasedump: สำรองฐานข้อมูล
+cronName_inactive: ลบผู้ไม่ใช้งาน
+cronName_pirates: สร้างฐานโจรสลัด
+cronName_referral: โบนัสการชวนเพื่อน
+cronName_statistic: สถิติ
+cronName_statisticjson: ส่งออก stats.json
+cronName_tracking: ส่งสถิติเซิร์ฟเวอร์รวม
+cs_time_between_updates: เวลาระหว่างการอัปเดต
+defenses_title: การป้องกัน
+du_choose_tables: เลือกตาราง
+du_not_tables_selected: คุณยังไม่ได้เลือกตารางที่จะสำรองข้อมูล!
+du_select_all_tables: ทุกตาราง
+du_submit: ส่ง
+du_success: 'สร้างการสำรองข้อมูลสำเร็จ! ไฟล์: %s'
+email_reg: อีเมล
+email2_reg: ยืนยันอีเมล
+empty_account_field: ไม่ได้ระบุ ID บัญชี
+et_encript: สร้าง
+et_md5_encripter: ตัวสร้าง MD5
+et_pass: รหัสผ่าน
+et_result: ผลลัพธ์
+exp_deck_cards: การ์ด
+exp_deck_count_desc: จำนวนการ์ดประเภทนี้ในสำรับ
+exp_deck_count_label: จำนวน
+exp_deck_edit: แก้ไขการตั้งค่าสำรับการ์ด
+exp_deck_event_type: ประเภทเหตุการณ์
+exp_deck_example: 'ตัวอย่าง:'
+exp_deck_format_help: 'การตั้งค่าสำรับการ์ดคืออาร์เรย์ JSON ซึ่งแต่ละรายการแทนประเภทการ์ดที่มีคุณสมบัติดังนี้:'
+exp_deck_format_instructions: คำแนะนำรูปแบบ
+exp_deck_percentage: เปอร์เซ็นต์
+exp_deck_save_success: บันทึกการตั้งค่าสำรับการ์ดสำเร็จ!
+exp_deck_size_desc: ขนาดเหตุการณ์ (Small, Medium, Big, None)
+exp_deck_size_label: ขนาด
+exp_deck_statistics: สถิติสำรับการ์ดปัจจุบัน
+exp_deck_total: รวม
+exp_deck_type_desc: ประเภทเหตุการณ์ (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
+exp_deck_type_label: ประเภท
+exp_deck_warning: 'คำเตือน: JSON ที่ไม่ถูกต้องจะถูกปฏิเสธ'
+exp_ships_description: สำหรับยานอวกาศที่ใช้งานอยู่แต่ละลำ เลือกว่าการสำรวจจะพบยานลำนี้ได้หรือไม่ และยานลำใดสามารถค้นพบได้
+exp_ships_findable: ค้นพบได้
+exp_ships_found_by: ยานที่ค้นพบ
+exp_ships_select_finders: เลือกยานที่ค้นพบ
+exp_ships_ship: ยาน
+ff_arrivaltime: ถึง
+ff_del: ลบ
+ff_endtime: กลับ
+ff_fleetid: ID
+ff_holdtime: ตรึงกำลังถึง
+ff_lock: ล็อก
+ff_mission: ภารกิจ
+ff_no_fleets: ขณะนี้ไม่มีกองเรือที่กำลังเดินทาง
+ff_sendFleetBack: ส่งกลับ
+ff_sendFleetsBack: ส่งการโจมตีทั้งหมดกลับ
+ff_ships: ยานอวกาศ
+ff_startplanet: ดาวเคราะห์ต้นทาง
+ff_starttime: เริ่ม
+ff_startuser: ผู้ส่ง
+ff_targetplanet: ดาวเคราะห์ปลายทาง
+ff_targetuser: ผู้รับ
+ff_unlock: ปลดล็อก
+ga_definetarget: กำหนดเป้าหมาย
+ga_homecoordinates: เฉพาะดาวเคราะห์หลัก
+ga_no_inactives: ไม่รวมผู้เล่นที่ไม่ใช้งาน
+ga_planettypes: ประเภทดาวเคราะห์
+ga_selectplanettype: เลือกประเภทดาวเคราะห์อย่างน้อยหนึ่งประเภท!
+ga_success: สำเร็จ!
+info_information: ให้ใส่ข้อมูลนี้เมื่อรายงานบั๊กใน <a href="%s" target="tracker">GitHub issues</a><br>คำขอความช่วยเหลือที่ไม่มีข้อมูลนี้จะไม่ได้รับการดำเนินการ
+input_id: ID
+input_id_account: ID บัญชี
+input_id_ally: ID พันธมิตร
+input_id_p_m: ID ดาวเคราะห์หรือดวงจันทร์
+input_id_planet: ID ดาวเคราะห์
+input_id_user: ID ผู้เล่น
+lang_reg: ภาษา
+log_admin: ผู้ดูแลระบบ
+log_alliance: พันธมิตรที่แก้ไข
+log_cat: 'เลือกหมวดหมู่:'
+log_disclamersettings: ประกาศทางกฎหมาย
+log_element: องค์ประกอบ
+log_id: ID
+log_info: ข้อมูล
+log_log: บันทึก
+log_new: หลัง
+log_no_data: ไม่มีข้อมูลในบันทึก!
+log_old: ก่อน
+log_planet: ดาวเคราะห์ที่แก้ไข
+log_player: ผู้เล่นที่แก้ไข
+log_present: ของขวัญที่แจก
+log_settings: การตั้งค่าที่แก้ไข
+log_ssettings: การตั้งค่าเซิร์ฟเวอร์
+log_statsettings: การตั้งค่าสถิติ
+log_target_alliance: พันธมิตรที่เปลี่ยนแปลง
+log_target_planet: ดาวเคราะห์ที่เปลี่ยนแปลง
+log_target_universe: ส่วนการตั้งค่าที่เปลี่ยนแปลง
+log_target_user: ผู้เล่นที่เปลี่ยนแปลง
+log_time: เวลา
+log_uni_short: จักรวาล
+log_universe: จักรวาล
+log_usettings: การตั้งค่าจักรวาล
+log_view: ดู
+ma_all: ทั้งหมด
+ma_characters: ตัวอักษร
+ma_message: ข้อความ
+ma_message_sended: ส่งข้อความของคุณแล้ว!
+ma_mode: ส่งในรูปแบบ
+ma_modes:
+- ในเกม
+- อีเมล
+- ในเกมและอีเมล
+ma_none: ข่าวสารส่วนกลาง
+ma_send_global_message: ส่งข้อความส่วนกลาง
+ma_subject: หัวข้อ
+ma_subject_needed: ต้องระบุหัวข้อ!
+ma_no_recipients: ไม่มีผู้รับที่ตรงกับตัวกรอง จึงไม่ได้ส่งอีเมล
+message_a: 'สถานะข้อความ:'
+message_t: 'สถานะคำร้อง:'
+mip_known: อนุมัติแล้วหรือไม่?
+ml_date: วันที่
+ml_date_range: ช่วงเวลา
+ml_deleted: ลบข้อความแล้ว
+ml_id: '#ID'
+ml_message_list: รายการข้อความ
+ml_receiver: ผู้รับ
+ml_sender: ผู้ส่ง
+ml_subject: หัวข้อ
+ml_type: ประเภทข้อความ
+ml_type_submit: ส่ง
+mo_diameter: เส้นผ่านศูนย์กลาง
+mo_fields_avaibles: ช่องว่าง
+mo_moon: ดวงจันทร์
+mo_moon_added: เพิ่มดวงจันทร์สำเร็จ!
+mo_moon_name: ชื่อดวงจันทร์
+mo_moon_random: สุ่ม
+mo_moon_unavaible: ดาวเคราะห์นี้มีดวงจันทร์อยู่แล้ว!
+mo_planet_doesnt_exist: ไม่มีผู้เล่นคนนี้!
+mod_active: ใช้งานอยู่
+mod_change_active: เปิดใช้งาน
+mod_change_deactive: ปิดใช้งาน
+mod_deactive: ไม่ได้ใช้งาน
+mod_info: โมดูลของเกม
+mod_module: โมดูล
+modul_0: พันธมิตร
+modul_1: ภารกิจ — โจมตี
+modul_2: การสร้าง — อาคาร
+modul_3: การสร้าง — วิจัย
+modul_4: การสร้าง — กองเรือ
+modul_5: การสร้าง — การป้องกัน
+modul_6: รายชื่อเพื่อน
+modul_9: กองเรือ
+modul_10: กองเรือ — ตัวจัดการเหตุการณ์
+modul_11: กาแล็กซี
+modul_12: หอเกียรติยศ
+modul_13: พ่อค้า
+modul_14: ข้อมูล
+modul_15: อาณาจักร
+modul_16: ข้อความ
+modul_17: บันทึกย่อ
+modul_19: ฟาแลงซ์
+modul_20: การ์ดผู้เล่น
+modul_21: รายการแบน
+modul_22: สถิติสูงสุด
+modul_23: ทรัพยากร
+modul_24: ภารกิจ — สอดแนม
+modul_25: สถิติ
+modul_26: ค้นหา
+modul_27: คำร้องขอความช่วยเหลือ
+modul_28: แผนผังเทคโนโลยี
+modul_29: ภารกิจ — ทำลาย
+modul_30: ภารกิจ — สำรวจ
+modul_32: ภารกิจ — รีไซเคิล
+modul_33: ภารกิจ — ตรึงกำลัง
+modul_34: ภารกิจ — ขนส่ง
+modul_35: ภารกิจ — ตั้งอาณานิคม
+modul_36: ภารกิจ — ส่งประจำการ
+modul_38: พ่อค้าเศษซาก
+modul_39: เครื่องจำลองการต่อสู้
+modul_40: ภารกิจ — โจมตีด้วยขีปนาวุธ
+modul_41: ทางลัดกองเรือ
+modul_42: ภารกิจ — ACS
+modul_43: ภารกิจ — ค้าขาย
+modul_44: ภารกิจ — โอนย้าย
+modul_45: ตลาด — ทรัพยากร
+modul_46: ตลาด — กองเรือ
+modul_47: สถิติที่ขึ้นกับเทคโนโลยีสอดแนม
+modul_48: อู่ซ่อม
+modul_49: รักษาทรัพยากร
+modul_50: เตะออกเมื่อโหมดพักร้อน
+modul_51: เตะออกเมื่อเพื่อนและพันธมิตร
+modul_52: Stats.json
+modul_53: บทเรียนแนะนำ
+modul_54: รางวัลบทเรียนแนะนำ
+modul_55: คะแนนเกียรติยศ
+modul_56: ฐานโจรสลัด
+mu_active_planets: ดาวเคราะห์ที่ใช้งาน
+mu_clear_cache: ล้างแคช
+mu_connected: ออนไลน์
+mu_cronjob: Cron Jobs
+mu_dump: สำรองฐานข้อมูล
+mu_flying_fleets: กองเรือที่กำลังเดินทาง
+mu_game_info: ข้อมูล
+mu_general: ทั่วไป
+mu_giveaway: การแจกของรางวัล
+mu_global_message: ข้อความส่วนกลาง
+mu_info_account_page: ข้อมูลบัญชี
+mu_logs: บันทึกผู้ดูแล
+mu_manual_points_update: อัปเดตคะแนน
+mu_md5_encripter: แฮชรหัสผ่าน
+mu_mess_list: รายการข้อความ
+mu_moderation_page: สิทธิ์การเข้าถึง
+mu_module: โมดูล
+mu_mpu_confirmation: คะแนนจะอัปเดตโดยอัตโนมัติ คลิก OK เพื่ออัปเดตตอนนี้
+mu_multiip_page: IP หลายรายการ
+mu_news: ข่าวสาร
+mu_search_page: ค้นหาขั้นสูง
+mu_support: คำร้องขอความช่วยเหลือ
+mu_tools: เครื่องมือ
+mu_universe: จักรวาล
+mu_users_settings: ผู้เล่น
+mu_vaild_users: ผู้ใช้ที่ใช้งานอยู่
+new_account_success: 'สร้างบัญชีใหม่แล้ว ID: %d'
+new_add_account: เพิ่มบัญชีใหม่
+new_add_user: เพิ่มผู้เล่นใหม่
+new_coord: พิกัด
+new_creator_coor: พิกัด
+new_creator_go_back: '[ กลับไปยังเมนู ]'
+new_creator_refresh: '[ รีเฟรช ]'
+new_creator_title_a: สร้าง/ลบบัญชี
+new_creator_title_l: สร้าง/ลบดวงจันทร์
+new_creator_title_p: สร้าง/ลบดาวเคราะห์
+new_creator_title_t: สร้างผู้ใช้ทดสอบ
+new_creator_title_u: สร้าง/ลบผู้เล่น
+new_range: ระดับสิทธิ์
+new_title: สร้างผู้เล่นใหม่
+new_title_acc: สร้างบัญชีใหม่
+new_user_success: 'สร้างผู้เล่นใหม่แล้ว ID: %d, ดาวเคราะห์: %d'
+nws_confirm: คุณแน่ใจหรือไม่ว่าต้องการลบข่าว "%s"?
+nws_content: เนื้อหา
+nws_create: สร้างข่าว
+nws_del: ลบ
+nws_from: จาก
+nws_head_create: สร้างข่าว
+nws_head_edit: 'แก้ไขข่าว: %s'
+nws_news: ข่าวสาร
+nws_title: หัวข้อ
+one_is_yes_0: ไม่ใช่
+one_is_yes_1: ใช่
+online_users: ออนไลน์
+ow_default_uri_missing: ลิงก์ในอีเมลต้องใช้ DEFAULT_URI (.env.local) จนกว่าจะตั้งค่า อีเมลลงทะเบียนและรีเซ็ตรหัสผ่านจะไม่ถูกส่ง
+ow_dir_not_writable: /%s เขียนข้อมูลไม่ได้!
+ow_file_detected: พบไฟล์ %s เพื่อความปลอดภัย กรุณาลบหรือเปลี่ยนชื่อไฟล์
+ow_proyect_leader: อดีตพลเรือเอกกองเรือ (หัวหน้าโครงการ 2Moons)
+ow_former_pr0game_crew: อดีตทีมงาน pr0game
+ow_crew_dev: การพัฒนาและการแก้ไขเหตุฉุกเฉิน
+ow_crew_mod: การควบคุมดูแล
+ow_crew_community: ชุมชน
+ow_pr0game_contributors: ผู้มีส่วนร่วมในโค้ด pr0game
+ow_special_thanks: ขอบคุณเป็นพิเศษ
+ow_translator: ผู้แปล
+pass_reg: รหัสผ่าน
+pass2_reg: ยืนยันรหัสผ่าน
+player: ผู้เล่น
+po_add_moon: เพิ่มดวงจันทร์
+po_add_planet: เพิ่มอาณานิคม
+po_colony: อาณานิคม
+po_complete_all: ข้อมูลไม่ถูกต้องหรือถูกใช้งานอยู่แล้ว!
+po_complete_all2: พิกัดไม่ถูกต้อง!
+po_complete_succes: สร้างดาวเคราะห์สำเร็จ
+po_fields_max: ช่องว่าง
+po_galaxy: กาแล็กซี
+po_name_planet: ชื่อดาวเคราะห์
+po_planet: ดาวเคราะห์
+po_system: ระบบ
+qe_authattack: การป้องกันการโจมตีของผู้ดูแล
+qe_build: อาคาร
+qe_change: เปลี่ยน
+qe_coords: พิกัด
+qe_count: มีอยู่
+qe_defensive: การป้องกัน
+qe_edit_planet_sucess: แก้ไขดาวเคราะห์ %s [%d:%d:%d] สำเร็จ!
+qe_edit_player_sucess: 'แก้ไขผู้เล่น %s (ID: %d) สำเร็จ!'
+qe_fields: ช่องว่าง
+qe_fleet: กองเรือ
+qe_hpcoords: พิกัดดาวเคราะห์หลัก
+qe_id: ID
+qe_info: ข้อมูล
+qe_level: ระดับ
+qe_owner: เจ้าของ
+qe_password: รหัสผ่าน
+qe_planetname: ดาวเคราะห์
+qe_reset: รีเซ็ต
+qe_resources: ทรัพยากร
+qe_send: ส่ง
+qe_submit: ส่ง
+qe_tech: วิจัย
+qe_temp: อุณหภูมิ
+qe_username: ชื่อผู้ใช้
+re_buildings_lu: รีเซ็ตอาคารของดวงจันทร์
+re_buildings_pl: รีเซ็ตอาคาร
+re_buldings: อาคาร
+re_defenses: รีเซ็ตการป้องกัน
+re_defenses_and_ships: ยานอวกาศและการป้องกัน
+re_general: ทั่วไป
+re_inve: วิจัย
+re_investigations: รีเซ็ตการวิจัย
+re_player_and_planets: ผู้เล่นและดาวเคราะห์
+re_reset_all: รีเซ็ตจักรวาลทั้งหมด
+re_reset_allys: รีเซ็ตพันธมิตรทั้งหมด
+re_reset_banned: รีเซ็ตการแบน
+re_reset_buddies: รีเซ็ตรายชื่อเพื่อน
+re_reset_buldings: รีเซ็ตคิวการสร้างอาคาร
+re_reset_errors: รีเซ็ตรายการข้อผิดพลาด
+re_reset_excess: รีเซ็ตการตั้งค่าสำเร็จ!
+re_reset_fleets: รีเซ็ตกองเรือที่กำลังเดินทาง
+re_reset_hangar: รีเซ็ตคิวอู่ต่อเรือและการป้องกัน
+re_reset_invest: รีเซ็ตคิวการวิจัย
+re_reset_messages: รีเซ็ตข้อความทั้งหมด
+re_reset_moons: รีเซ็ตดวงจันทร์ทั้งหมด
+re_reset_notes: รีเซ็ตบันทึกย่อทั้งหมด
+re_reset_planets: รีเซ็ตดาวเคราะห์ (ลบอาณานิคม)
+re_reset_player: รีเซ็ตผู้เล่น (ลบทั้งหมด)
+re_reset_rw: รีเซ็ตรายงานการต่อสู้
+re_reset_statpoints: รีเซ็ตสถิติ
+re_reset_universe: รีเซ็ตจักรวาล
+re_reset_universe_confirmation: ไม่สามารถย้อนกลับได้ ตรวจสอบให้แน่ใจว่ามีการสำรองฐานข้อมูลก่อนคลิก OK
+re_resources: ทรัพยากร
+re_resources_met_cry: รีเซ็ตทรัพยากรทั้งหมด (โลหะ/คริสตัล/ดิวทีเรียม)
+re_ships: รีเซ็ตกองเรือ
+researchs_title: วิจัย
+resources_title: ทรัพยากร
+rp_done: สลับตำแหน่งดาวเคราะห์สำเร็จ
+rp_explain: หลังคลิกส่ง ให้รอจนกว่าหน้าต่างป๊อปอัปจะปรากฏ การย้ายตำแหน่งอาจใช้เวลาหลายวินาที
+rp_header: สลับตำแหน่งดาวเคราะห์
+rp_planet_error: มีดาวเคราะห์มากกว่าหนึ่งดวงต่อผู้เล่น!
+rp_rights_error: ไม่มีสิทธิ์ผู้ดูแลระบบ!
+rp_universe_error: จักรวาลยังปิดไม่สมบูรณ์!
+sb_final_memory: 'หน่วยความจำที่ใช้เมื่อสิ้นสุด: %e KB / สูงสุด %m KB<br>'
+sb_sql_counts: 'คำสั่ง SQL: %d'
+sb_start_memory: 'หน่วยความจำที่ใช้เมื่อเริ่มต้น: %i KB / สูงสุด %m KB<br>'
+sb_stats_update: อัปเดตสถิติใน %s วินาที<br>
+sb_stats_updated: อัปเดตสถิติแล้ว<br>สรุป:<br>
+sb_top_memory: 'หน่วยความจำสูงสุด: %p KB / สูงสุด %m KB <br>'
+se__before: ก่อนหน้า
+se__next: ถัดไป
+se_activity: ใช้งานล่าสุด
+se_adm_attack: การป้องกันผู้ดูแล
+se_adm_attack_info: เมื่อเปิดใช้งาน ผู้ดูแลระบบและผู้ควบคุมจะทำให้ตนเองถูกโจมตีไม่ได้
+se_all_planet_pictures: รูปดาวเคราะห์ทั้งหมด
+se_all_planet_pictures_info: อนุญาตรูปดาวเคราะห์ทุกรูปในทุกตำแหน่ง
+se_alliance_create_min_points: คะแนนขั้นต่ำที่ต้องมีเพื่อก่อตั้งพันธมิตร
+se_allys: พันธมิตร
+se_asc_desc: จากน้อยไปมาก / จากมากไปน้อย
+se_attacks: การตั้งค่าการโจมตี
+se_auth: ระดับสิทธิ์
+se_authlevels: ผู้ดูแลระบบ
+se_ban: ถูกแบนหรือไม่?
+se_ban_author: แบนโดย
+se_ban_limit: จนถึง
+se_ban_reason: เหตุผล
+se_ban_time: ถูกแบนเมื่อ
+se_bash_per_planet: จำกัดการโจมตีซ้ำต่อดาวเคราะห์
+se_bash_per_planet_info: ผู้เล่นโจมตีดาวเคราะห์ของผู้เล่นอีกคนได้กี่ครั้งต่อ 24 ชั่วโมง (นับต่อดาวเคราะห์) 0 = ปิด
+se_bash_count_missiles: การจำกัดการโจมตีซ้ำนับขีปนาวุธด้วย
+se_bash_count_missiles_info: 'การโจมตีด้วยขีปนาวุธระหว่างดาวเคราะห์นับเป็นการโจมตีกองเรือเมื่อคำนวณการจำกัดการโจมตีซ้ำ (ต่อผู้เล่นและต่อดาวเคราะห์) ปิด: ไม่นับขีปนาวุธ'
+se_bash_per_user: จำกัดการโจมตีซ้ำต่อผู้เล่น
+se_bash_per_user_info: ผู้เล่นโจมตีผู้เล่นอีกคนได้กี่ครั้งต่อ 24 ชั่วโมง (รวมทุกดาวเคราะห์) 0 = ปิด
+se_block_planet_creation: บล็อก
+se_board_enabled: เปิดใช้บอร์ดชุมชน
+se_board_enabled_info: 'ปิด: ลิงก์บอร์ดทั้งหมดจะถูกซ่อนและหน้าบอร์ดจะใช้ไม่ได้'
+se_building_speed: ความเร็วการสร้างอาคาร
+se_buildings: การตั้งค่าอาคาร
+se_buildlist: การตั้งค่าคิว
+se_cascading_moon_chance: โอกาสดวงจันทร์แบบต่อเนื่อง
+se_cascading_moon_chance_info: โอกาสดวงจันทร์เพิ่มเติมที่เพิ่มขึ้นหลังการพยายามสร้างดวงจันทร์ที่ล้มเหลวทุกครั้ง เมื่ออยู่ที่โอกาสสูงสุด ใช้กับดวงจันทร์ดวงแรกของบัญชีเท่านั้น 0 = ปิด
+se_catch_up: กลไกไล่ตามทัน
+se_catch_up_info: ลดเวลาการสร้างและวิจัยแบบทวีคูณได้สูงสุดถึง 10 เท่า ขึ้นกับช่องว่างคะแนนกับผู้เล่นอันดับหนึ่ง จากประมาณ 90% ของคะแนนผู้นำจะไม่มีโบนัส ที่ประมาณ 54% ตัวคูณคือ 2.5 ที่ 27% คือ 5 และที่ 11% คือ 7.5 ค่านี้จะถูกแปลงเป็นช่วง 1.0 ถึง 0.5
+se_catchup_percent: โบนัสไล่ตามทันสูงสุดเป็นเปอร์เซ็นต์
+se_close_reason: ข้อความเมื่อเซิร์ฟเวอร์ปิด
+se_colonisation_config: การตั้งค่าการตั้งอาณานิคม
+se_configuration_title: การตั้งค่าเซิร์ฟเวอร์
+se_confirm_planet: 'ดาวเคราะห์ที่เลือกจะถูกรีเซ็ตทั้งหมด คุณต้องการดำเนินการต่อหรือไม่? ชื่อดาวเคราะห์:'
+se_contrac: ยุบ
+se_cookie_advert: การเปลี่ยนชื่อคุกกี้จะทำให้ทุกคนออกจากระบบ<br>ใช้ชื่ออื่นหากคุณรันหลายจักรวาล
+se_cookie_name: ชื่อคุกกี้
+se_crystal_basic_income: การผลิตคริสตัลพื้นฐาน
+se_crystal_start: คริสตัลเริ่มต้น
+se_crystal_start_info: คริสตัลที่มอบให้ผู้เล่นใหม่บนดาวเคราะห์หลัก
+se_days: วัน
+se_debris_moon: ล้างทุ่งเศษซากหลังสร้างดวงจันทร์
+se_debris_moon_info: ลบทุ่งเศษซากหลังจากสร้างดวงจันทร์
+se_debug: โหมดดีบัก
+se_debug_info: บันทึกคำสั่ง SQL และแสดงแถบสถานะจำนวนคำสั่งและเวลาทำงานสำหรับผู้ดูแลระบบ
+se_def_debris_percentage: การป้องกันที่กลายเป็นเศษซาก
+se_def_debris_percentage_info: เปอร์เซ็นต์ของการป้องกันที่ถูกทำลายซึ่งกลายเป็นเศษซากหลังการโจมตี
+se_del_oldstuff: ลบข้อความหลังจาก
+se_del_oldstuff_info: ลบข้อความและรายงานการต่อสู้หลังจาก X วัน
+se_del_user_automatic: ลบผู้เล่นที่ไม่ใช้งานหลังจาก
+se_del_user_automatic_info: ลบผู้เล่นที่ไม่ได้เข้าสู่ระบบเป็นเวลา X วัน (0 = ปิด)
+se_del_user_manually: ลบบัญชีที่ขอไว้หลังจาก
+se_del_user_manually_info: ลบผู้เล่นที่ขอลบบัญชีหลังจาก X วัน
+se_del_user_sendmail: ส่งการเตือนหลังจาก
+se_del_user_sendmail_info: ส่งอีเมลเตือนหลังจากไม่ได้เข้าสู่ระบบเป็นเวลา X วัน
+se_delete_succes_p: ลบสำเร็จ
+se_delete_not_found: 'ไม่มีการลบ: ไม่มีผู้เล่นหรือดาวเคราะห์นี้ หรือไม่สามารถลบได้'
+se_deuterium_basic_income: การผลิตดิวทีเรียมพื้นฐาน
+se_deuterium_cost_galaxy: ค่าดิวทีเรียมต่อการดูกาแล็กซี
+se_deuterium_cost_galaxy_info: 'ค่าดิวทีเรียมต่อการคลิกดูกาแล็กซีหนึ่งครั้ง (ค่าเริ่มต้น: 10)'
+se_deuterium_start: ดิวทีเรียมเริ่มต้น
+se_deuterium_start_info: ดิวทีเรียมที่มอบให้ผู้เล่นใหม่บนดาวเคราะห์หลัก
+se_disclaimer: การตั้งค่าประกาศทางกฎหมาย
+se_disclamer_address: ที่อยู่
+se_disclamer_mail: ที่อยู่อีเมล
+se_disclamer_notice: ข้อมูลเพิ่มเติม
+se_disclamer_phone: หมายเลขโทรศัพท์
+se_discord_exceptions_hook: ข้อยกเว้นและคำเตือน
+se_discord_hooks: เว็บฮุก Discord
+se_discord_logs_hook: บันทึก
+se_discord_tickets_hook: คำร้อง
+se_dst: เวลาออมแสงหรือไม่?
+se_dst_sel:
+- ไม่
+- ใช่
+- อัตโนมัติ
+se_email: อีเมล
+se_end: วันที่สิ้นสุด
+se_end_time: เวลาสิ้นสุด
+se_energy_basic_income: การผลิตพลังงานพื้นฐาน
+se_energy_multiplier: ตัวคูณพลังงาน
+se_expand: ขยาย
+se_expedition_parameters: การตั้งค่าการสำรวจ
+se_expo_hold_multiplier: ความเร็วการสำรวจ
+se_expo_hold_multiplier_info: 'ความเร็วปกติ: 1'
+se_expo_ress_crys_chance: โอกาสได้คริสตัลจากการสำรวจ
+se_expo_ress_deut_chance: โอกาสได้ดิวทีเรียมจากการสำรวจ
+se_expo_ress_met_chance: โอกาสได้โลหะจากการสำรวจ
+se_factor_university: ตัวคูณมหาวิทยาลัย
+se_factor_university_info: เปอร์เซ็นต์ที่เวลาวิจัยลดลงต่อเลเวลมหาวิทยาลัยแต่ละระดับ
+se_fields: ช่องว่าง
+se_filter_title: กรอง
+se_fleet_debris_percentage: กองเรือที่กลายเป็นเศษซาก
+se_fleet_speed: ความเร็วกองเรือ
+se_fleet_speed_info: 'ความเร็วปกติ: 1'
+se_forum_url: ลิงก์ฟอรัม
+se_galaxy: กาแล็กซี
+se_galaxy_distance_factor: ตัวคูณระยะทางกาแล็กซี
+se_galaxy_distance_factor_info: 'ค่าเริ่มต้น: 20000 การคำนวณ: ผลต่างของกาแล็กซี × ตัวคูณระยะทางกาแล็กซี'
+se_galaxy_parameters: การตั้งค่ากาแล็กซี
+se_galaxy_type: ประเภทกาแล็กซี
+se_galaxy_type_info: <TABLE><tr><td>กาแล็กซีเชิงเส้น</td><td>ระยะทางไปยังระบบที่ 1 จะเพิ่มขึ้นตามจำนวนระบบในกาแล็กซี</td></tr><tr><td>กาแล็กซีวงแหวน</td><td>ระบบสุดท้ายและระบบแรกของกาแล็กซีจะเชื่อมต่อกัน ระยะทางจากระบบที่ไกลไปยังระบบแรกจึงลดลง</td></tr><tr><td>กาแล็กซีทรงกลม</td><td>ทุกระบบในกาแล็กซีเดียวกันอยู่ห่างจากระบบอื่นเท่ากันหมด</td></tr></TABLE>
+se_default_theme: ธีมเริ่มต้น
+se_default_theme_info: ธีมสำหรับบัญชีใหม่และผู้เยี่ยมชม
+se_legal: กฎหมายและชุมชน
+se_privacy_region: ภูมิภาคที่โฮสต์ (นโยบายความเป็นส่วนตัว)
+se_privacy_region_info: 'เลือกนโยบายความเป็นส่วนตัวเริ่มต้น: เวอร์ชัน GDPR (EU/EEA) หรือเวอร์ชันทั่วไป หน้าที่ถูกแก้ไขแล้วจะไม่เปลี่ยน ผู้ดำเนินการรับผิดชอบต่อข้อความทางกฎหมาย'
+se_privacy_region_sel:
+  eu: EU / EEA - นโยบายความเป็นส่วนตัว GDPR
+  other: นอก EU - นโยบายความเป็นส่วนตัวทั่วไป
+se_rules_default: ใช้กฎเริ่มต้น
+se_rules_default_info: 'ปิด: หน้ากฎจะว่างเปล่าจนกว่าคุณจะเขียนกฎของตนเองในหน้าต่างๆ กฎที่แก้ไขแล้วจะยังคงอยู่'
+se_source_url: URL ซอร์สโค้ด
+se_source_url_info: ที่เก็บโค้ดสาธารณะของเซิร์ฟเวอร์นี้ จะแสดงเป็นลิงก์ "Source code" ที่ส่วนท้ายของหน้า (AGPL กำหนดให้เสนอการแก้ไขของคุณแก่ผู้เล่น) ว่างไว้เพื่อซ่อนลิงก์
+se_game_name: ชื่อเกม
+se_git_issues_link: ลิงก์ตัวติดตามปัญหา
+se_git_issues_link_info: หน้าที่ใช้รายงานบั๊กและปัญหา
+se_id_owner: ID เจ้าของ
+se_inactives: ไม่ใช้งาน
+se_initial_fields: 'ช่องว่างเริ่มต้น:'
+se_initial_temp: 'อุณหภูมิเริ่มต้น:'
+se_input_a: A
+se_input_act_pla: ' ดาวเคราะห์ที่ใช้งาน'
+se_input_activity: กิจกรรม
+se_input_admm: ' ผู้ดูแลระบบ'
+se_input_allyy: ' พันธมิตร'
+se_input_asc: จากน้อยไปมาก
+se_input_authlevel: ระดับสิทธิ์
+se_input_connect: ' ผู้เล่นออนไลน์'
+se_input_d: D
+se_input_desc: จากมากไปน้อย
+se_input_email: อีเมล
+se_input_g: กาแล็กซี
+se_input_have_moon: ดวงจันทร์?
+se_input_hay: 'ปัจจุบัน '
+se_input_inact: ' ผู้เล่นที่ไม่ใช้งาน'
+se_input_inacti: ความไม่ใช้งาน
+se_input_ip: IP
+se_input_longer: ระยะเวลา
+se_input_members: สมาชิก
+se_input_members2: สมาชิก
+se_input_moonn: ' ดวงจันทร์'
+se_input_name: ชื่อ
+se_input_p: ดาวเคราะห์
+se_input_planett: ' ดาวเคราะห์'
+se_input_prop: เจ้าของ
+se_input_register: การลงทะเบียน
+se_input_s: ระบบ
+se_input_submit: ค้นหา
+se_input_susss: ' ถูกแบน'
+se_input_time: เวลา
+se_input_userss: ' ผู้เล่น'
+se_input_vacatii: ' ผู้เล่นในโหมดพักร้อน'
+se_intro: คำหรือคีย์เวิร์ด
+se_iter_planet_creation: ทีละรายการ (ค่าเริ่มต้น)
+se_jumpgate_factor: การชาร์จประตูกระโดด
+se_jumpgate_factor_info: ตัวหารของเวลาชาร์จประตูกระโดด (ค่าเริ่มต้น 1)
+se_lang: ภาษา
+se_limit: จำกัด
+se_line_galaxy: กาแล็กซีเชิงเส้น (ค่าเริ่มต้น)
+se_line_uni: จักรวาลเชิงเส้น (ค่าเริ่มต้น)
+se_mail_active: เปิดใช้อีเมล
+se_mail_sel:
+- PHP mail()
+- Sendmail / Qmail
+- SMTP Auth
+se_mail_use: 'วิธีส่งอีเมล:'
+se_max_additional_planets: ดาวเคราะห์เพิ่มสูงสุดจากดาราศาสตร์ฟิสิกส์
+se_max_additional_planets_info: จำนวนดาวเคราะห์เพิ่มเติมที่ผู้เล่นตั้งอาณานิคมได้ผ่านดาราศาสตร์ฟิสิกส์
+se_max_elements_build: คิวการสร้างสูงสุด
+se_max_elements_build_info: จำนวนอาคารสูงสุดในคิวการก่อสร้าง
+se_max_elements_ships: คิวอู่ต่อเรือสูงสุด
+se_max_elements_ships_info: จำนวนคำสั่งสูงสุดในคิวอู่ต่อเรือ
+se_max_elements_tech: คิววิจัยสูงสุด
+se_max_elements_tech_info: จำนวนรายการสูงสุดในคิววิจัย
+se_max_fleet_per_build: หน่วยต่อคำสั่งสูงสุด
+se_max_fleet_per_build_info: จำนวนหน่วยสูงสุดต่อคำสั่งอู่ต่อเรือ
+se_max_fleets_per_acs: กองเรือสูงสุดต่อ ACS
+se_max_fleets_per_acs_info: จำนวนกองเรือสูงสุดใน ACS หนึ่งครั้ง (ค่าเริ่มต้น 16)
+se_max_galaxy: กาแล็กซีสูงสุด
+se_max_galaxy_info: จำนวนกาแล็กซีสูงสุดในจักรวาล
+se_max_initial_planets: ดาวเคราะห์สูงสุดโดยยังไม่วิจัย
+se_max_initial_planets_info: จำนวนดาวเคราะห์ที่ผู้เล่นตั้งอาณานิคมได้ตั้งแต่เริ่มโดยไม่มีดาราศาสตร์ฟิสิกส์
+se_max_overflow: การล้นของคลังสินค้า
+se_max_overflow_info: ตัวคูณว่าทรัพยากรยังผลิตต่อได้เท่าไรเมื่อคลังเต็ม
+se_max_participants_per_acs: ผู้เข้าร่วมสูงสุดต่อ ACS
+se_max_participants_per_acs_info: จำนวนผู้เข้าร่วมสูงสุดใน ACS หนึ่งครั้ง (ค่าเริ่มต้น 5)
+se_max_planets: ดาวเคราะห์สูงสุด
+se_max_planets_info: 'จำนวนดาวเคราะห์สูงสุดต่อระบบ (ค่าเริ่มต้น: 15)'
+se_max_player_planets: ดาวเคราะห์สูงสุดต่อผู้เล่น
+se_max_player_planets_info: จำนวนอาณานิคมสูงสุดโดยยังไม่วิจัย
+se_max_system: ระบบสูงสุด
+se_max_system_info: จำนวนระบบสูงสุดต่อกาแล็กซี
+se_message_delete_days: ลบข้อความที่ถูกลบแล้วหลังจาก X วัน
+se_messages: ข้อความ
+se_metal_basic_income: การผลิตโลหะพื้นฐาน
+se_metal_start: โลหะเริ่มต้น
+se_metal_start_info: โลหะที่มอบให้ผู้เล่นใหม่บนดาวเคราะห์หลัก
+se_min_build_time: เวลาสร้างขั้นต่ำ
+se_min_build_time_info: เวลาสร้างขั้นต่ำเป็นวินาทีสำหรับอาคาร การวิจัย ยานอวกาศ และการป้องกัน ค่าเริ่มต้นคือ 1<br>0 ปิดการกำหนดขั้นต่ำ<br>การปิดอาจทำให้เกิดบั๊ก
+se_missile_range_factor: ตัวคูณระยะของขีปนาวุธ
+se_moon_chance: โอกาสดวงจันทร์สูงสุด
+se_moon_chance_info: โอกาสสูงสุดที่ดวงจันทร์จะก่อตัว
+se_moon_factor: ตัวคูณโอกาสดวงจันทร์
+se_moon_factor_info: ตัวคูณโอกาสที่ดวงจันทร์จะก่อตัว
+se_moon_size_factor: ตัวคูณขนาดดวงจันทร์
+se_moon_size_factor_info: ตัวคูณขนาดดวงจันทร์ 1 = ค่าเริ่มต้น
+se_moons: ดวงจันทร์
+se_name: ชื่อ
+se_news: การตั้งค่าข่าวสาร
+se_no_data: ไม่มีข้อมูล
+se_noob_inactives: ใช้ตัวคูณการป้องกันมือใหม่กับผู้เล่นที่ไม่ใช้งาน
+se_noob_protection: การป้องกันมือใหม่
+se_noob_protection_multi: ตัวคูณการป้องกันมือใหม่
+se_noob_protection_multi_info: 'คุณโจมตีได้เฉพาะผู้เล่นที่มีคะแนนอยู่ในช่วง คะแนนของคุณ × ตัวคูณนี้ ตัวอย่างเมื่อตั้งเป็น 18: หากคุณมี 1,000 คะแนน คุณโจมตีผู้เล่นที่มีคะแนนน้อยกว่า 18,000 ได้ ผู้เล่นที่มี 20,000 คะแนนโจมตีใครก็ได้ที่มีคะแนนถึง 360,000 ดังนั้นผู้เล่นที่มี 50,000 คะแนนยังอยู่ในช่วงนั้น'
+se_noob_protection_outlaw: ระบบคนนอกกฎหมาย
+se_noob_protection_outlaw_info: ให้ผู้เล่นที่อ่อนกว่าโจมตีผู้เล่นที่แข็งแกร่งกว่าได้ ผู้โจมตีจะกลายเป็นคนนอกกฎหมายเป็นเวลา 7 วันและเสียการป้องกันมือใหม่
+se_noob_protection_time: การป้องกันมือใหม่จนถึง X คะแนน
+se_noob_protection_time_info: ผู้เล่นที่มีคะแนนเท่ากับหรือต่ำกว่านี้จะยังคงได้รับการป้องกันมือใหม่
+se_normal_speed: 'ความเร็วปกติ: 1'
+se_order_list_now: ค้นหา
+se_overview_news_frame: เปิดใช้ข่าวสาร
+se_overview_news_frame_info: หากปิด ข่าวสารจะถูกซ่อนในหน้าภาพรวม
+se_overview_news_text: ข่าวสาร
+se_overview_news_text_info: ไม่เกิน 255 ตัวอักษร อนุญาต HTML
+se_pagees: หน้า
+se_per_hour: ต่อชั่วโมง
+se_phalanx_range_factor: ตัวคูณระยะฟาแลงซ์
+se_piratebase: ฐานโจรสลัด
+se_piratebase_fleet_percentage_max: 'กองเรือ: สูงสุดเป็น % ของกองเรือผู้เล่น'
+se_piratebase_fleet_percentage_min: 'กองเรือ: ขั้นต่ำเป็น % ของกองเรือผู้เล่น'
+se_piratebase_mainplanet_only: 'ทรัพยากร: เฉพาะดาวเคราะห์หลัก'
+se_piratebase_min_points: คะแนนขั้นต่ำ
+se_piratebase_min_points_info: คะแนนขั้นต่ำที่ผู้เล่นต้องมีก่อนที่ฐานโจรสลัดจะปรากฏ
+se_piratebase_ress_hours: 'ทรัพยากร: ชั่วโมงการผลิต'
+se_planet: ดาวเคราะห์
+se_planet_creation: การวางดาวเคราะห์หลัก
+se_planet_creation_info: ดาวเคราะห์หลักใหม่สามารถวางแบบทีละระบบและทีละกาแล็กซี แบบสุ่ม เป็นบล็อก หรือ 50% สุ่มและ 50% เป็นบล็อก<br>การวางแบบสุ่มจะเติมกาแล็กซีและระบบอย่างสม่ำเสมอที่ตำแหน่งสุ่ม<br>การวางแบบบล็อกจะเลือกระบบที่มีดาวเคราะห์อยู่แล้วหนึ่งหรือสองดวง หากไม่มีระบบดังกล่าวหรือมีผู้เล่นน้อยกว่า 50 คน จะวางแบบสุ่ม
+se_planet_distance: ระยะห่างดาวเคราะห์ขั้นต่ำ
+se_planet_distance_factor: ตัวคูณระยะห่างดาวเคราะห์
+se_planet_distance_factor_info: 'ค่าเริ่มต้น: 5 การคำนวณ: ผลต่างของดาวเคราะห์ × ตัวคูณระยะห่างดาวเคราะห์ + ระยะห่างดาวเคราะห์ขั้นต่ำ'
+se_planet_distance_info: 'ค่าเริ่มต้น: 1000 การคำนวณ: ผลต่างของดาวเคราะห์ × ตัวคูณระยะห่างดาวเคราะห์ + ระยะห่างดาวเคราะห์ขั้นต่ำ'
+se_planet_parameters: การตั้งค่าดาวเคราะห์
+se_planet_ressource_bonus: โบนัสทรัพยากรตามตำแหน่ง
+se_planet_ressource_bonus_info: เพิ่มการผลิตทรัพยากรบนดาวเคราะห์ขึ้น x% ขึ้นกับตำแหน่งของดาวเคราะห์
+se_planet_size_factor: ตัวคูณขนาดดาวเคราะห์
+se_planet_size_factor_info: ตัวคูณขนาดดาวเคราะห์ 1 = ค่าเริ่มต้น
+se_planets: ดาวเคราะห์
+se_planets_act: ดาวเคราะห์ที่ใช้งาน
+se_planets_per_tech: ดาวเคราะห์เพิ่มต่อเลเวลดาราศาสตร์ฟิสิกส์
+se_planets_per_tech_info: จำนวนอาณานิคมเพิ่มที่ปลดล็อกต่อเลเวลดาราศาสตร์ฟิสิกส์
+se_prepare_text: ข้อความเตรียมเซิร์ฟเวอร์
+se_random_planet_creation: สุ่ม
+se_rank:
+- ผู้เล่น
+- ผู้กลั่นกรอง
+- ผู้ควบคุม
+- ผู้ดูแลระบบ
+se_pow_adaptive: การป้องกันบอต - ความยากแบบปรับอัตโนมัติ
+se_pow_adaptive_info: 'เปิด: ที่อยู่ IP และเครือข่ายที่น่าสงสัย (/24 หรือ /64) จะได้รับโจทย์ที่ยากขึ้นมาก (มีคำขอ ความล้มเหลว หรือการลงทะเบียนจำนวนมากในเวลาอันสั้น) ปิด: ผู้เข้าชมทุกคนได้รับโจทย์พื้นฐาน และไม่มีการนับตัวนับ'
+se_pow_elevated_factor: การป้องกันบอต - ตัวคูณเมื่อความเสี่ยงเพิ่มขึ้น
+se_pow_elevated_factor_info: โจทย์จะยากขึ้นเป็นกี่เท่า (ค่าเริ่มต้น 20)
+se_pow_high_factor: การป้องกันบอต - ตัวคูณเมื่อความเสี่ยงสูง
+se_pow_high_factor_info: โจทย์จะยากขึ้นเป็นกี่เท่า (ค่าเริ่มต้น 100)
+se_pow_max_cap: การป้องกันบอต - เพดานความยาก
+se_pow_max_cap_info: ตัวเลขสูงสุดหลังใช้ตัวคูณแล้ว 1500000 ใช้เวลาราว 25 วินาทีบนสมาร์ทโฟนรุ่นช้า
+se_pow_sensitivity: การป้องกันบอต - ความไวในการตรวจจับความเสี่ยง
+se_pow_sensitivity_info: เปอร์เซ็นต์ของเกณฑ์มาตรฐาน (เพิ่มขึ้นตั้งแต่ 5 คำขอ/10 นาที, 3 ความล้มเหลว/ชั่วโมง หรือ 2 การลงทะเบียน/24 ชม. ต่อ IP; สูงตั้งแต่ 20 / 10 / 5; เครือข่ายเป็นสามเท่า) 200 = ต้องมีเหตุการณ์เป็นสองเท่า, 50 = ครึ่งหนึ่ง
+se_pow_max_number: การป้องกันบอต - ความยาก (จำนวนสูงสุด)
+se_pow_max_number_info: เบราว์เซอร์จะลองแฮชจนถึงตัวเลขนี้ ประมาณครึ่งหนึ่งโดยเฉลี่ย 100000 ใช้เวลาราวครึ่งวินาทีถึงหนึ่งวินาที ค่าที่สูงขึ้นหมายถึงบอตต้องทำงานมากขึ้น
+se_pow_min_seconds: การป้องกันบอต - เวลาขั้นต่ำก่อนส่ง (วินาที)
+se_pow_min_seconds_info: แบบฟอร์มที่ส่งเร็วกว่านี้หลังโหลดหน้าจะถูกปฏิเสธ 0 ปิดการตรวจสอบ
+se_proofofwork: การป้องกันบอต
+se_proofofwork_info: การลงทะเบียนและการลืมรหัสผ่านได้รับการป้องกันด้วยการคำนวณเล็กน้อยที่เบราว์เซอร์แก้ไขเอง โดยไม่ต้องใช้บุคคลที่สาม
+se_rebuild_protection: การป้องกันการสร้างใหม่
+se_rebuild_protection_info: หลังจากสูญเสียหนัก ผู้เล่นจะได้รับการป้องกันการสร้างใหม่จากการโจมตีเพิ่มเติมหลัง 6 ชั่วโมง มีผลนาน 48 ชั่วโมงนับจากการโจมตี ต้องทำลายกองเรือ 70% หรือความจุการขนส่ง 80% ในการโจมตีครั้งเดียว และการสูญเสียนั้นต้องมีอย่างน้อยคะแนนการป้องกันมือใหม่ × 1,000 เป็นหน่วยหรือความจุ ผู้เล่นสามารถยุติโหมดนี้ก่อนกำหนดได้
+se_redis_connection_url: URL การเชื่อมต่อ Redis
+se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
+se_ref: ลิงก์แนะนำเพื่อน
+se_ref_active: เปิดใช้ลิงก์แนะนำเพื่อน
+se_ref_active_info: ลิงก์แนะนำเพื่อนให้ผู้เล่นชวนเพื่อนได้ ผู้เล่นที่ถูกชวนจะให้โบนัส
+se_ref_bonus: โบนัสการแนะนำ
+se_ref_bonus_info: Dark Matter ที่ผู้แนะนำได้รับต่อผู้เล่นที่ถูกชวนหนึ่งคน
+se_ref_max_referals: จำนวนการแนะนำสูงสุด
+se_ref_max_referals_info: จำนวนผู้เล่นสูงสุดที่ผู้ใช้หนึ่งคนชวนได้
+se_ref_minpoints: คะแนนขั้นต่ำสำหรับโบนัส
+se_ref_minpoints_info: ผู้เล่นที่ถูกชวนต้องถึงคะแนนนี้ก่อนที่ผู้แนะนำจะได้รับโบนัส
+se_research_speed: ความเร็วการวิจัย
+se_resource_multiplier: ความเร็วการผลิตทรัพยากร
+se_resource_multiplier_info: 'ความเร็วปกติ: 1'
+se_ress_chance: โอกาสได้รับทรัพยากร
+se_ring_galaxy: กาแล็กซีวงแหวน
+se_ring_uni: จักรวาลวงแหวน
+se_save_parameters: บันทึก
+se_se_fleet_debris_percentage_info: เปอร์เซ็นต์ของกองเรือที่ถูกทำลายซึ่งกลายเป็นเศษซากหลังการโจมตี
+se_search: ค้นหา
+se_search_alliance_0: ID
+se_search_alliance_1: ชื่อ
+se_search_alliance_2: TAG
+se_search_alliance_3: หัวหน้า
+se_search_alliance_4: ก่อตั้งเมื่อ
+se_search_alliance_5: สมาชิก
+se_search_banned_0: ID
+se_search_banned_1: ชื่อ
+se_search_banned_2: ถูกแบนจาก
+se_search_banned_3: ถูกแบนจนถึง
+se_search_banned_4: เหตุผล
+se_search_banned_5: ผู้ทำการแบน
+se_search_edit: แก้ไข
+se_search_in: สำหรับ
+se_search_info: ค้นหา
+se_search_order: เรียง
+se_search_planets_0: ID
+se_search_planets_1: ชื่อ
+se_search_planets_2: เจ้าของ
+se_search_planets_3: ใช้งานล่าสุด
+se_search_planets_4: กาแล็กซี
+se_search_planets_5: ระบบ
+se_search_planets_6: ดาวเคราะห์
+se_search_planets_7: มีดวงจันทร์หรือไม่?
+se_search_title: ค้นหาขั้นสูง
+se_search_users_0: ID
+se_search_users_1: ชื่อ
+se_search_users_2: อีเมล
+se_search_users_3: ใช้งานล่าสุด
+se_search_users_4: วันที่ลงทะเบียน
+se_search_users_5: IP ล่าสุด
+se_search_users_6: ระดับสิทธิ์
+se_search_users_7: ถูกแบนหรือไม่?
+se_search_users_8: พักร้อนหรือไม่?
+se_sendmail_inactive: เปิดใช้อีเมลเตือน
+se_server_naame: ชื่อเกม
+se_server_parameters: การตั้งค่าจักรวาล
+se_session_handler: ตัวจัดการเซสชัน
+se_several_parameters: การตั้งค่าอื่นๆ
+se_shipyard_speed: ความเร็วอู่ต่อเรือ
+se_silo_factor: ขนาดไซโลขีปนาวุธ
+se_silo_factor_info: ตัวคูณขนาดไซโลขีปนาวุธ
+se_smail_path: พาธไปยัง Sendmail / Qmail
+se_smtp: การตั้งค่า SMTP
+se_smtp_host: 'โฮสต์ SMTP:'
+se_smtp_host_info: ที่อยู่ของเซิร์ฟเวอร์ SMTP ของคุณ
+se_smtp_info: การตั้งค่า SMTP ที่ใช้ส่งอีเมลจากเซิร์ฟเวอร์ {game_name} ไปยังผู้เล่น
+se_smtp_pass: 'รหัสผ่าน SMTP:'
+se_smtp_port: 'พอร์ต SMTP:'
+se_smtp_port_info: พอร์ตของเซิร์ฟเวอร์ SMTP มักเป็น 25
+se_smtp_sendmail: 'ผู้ส่ง SMTP:'
+se_smtp_sendmail_info: ที่อยู่ผู้ส่ง ไม่จำเป็นต้องตรงกับที่อยู่สำหรับเข้าสู่ระบบ
+se_smtp_ssl: 'SMTP SSL/TLS:'
+se_smtp_ssl_info: การเข้ารหัสระหว่างเซิร์ฟเวอร์นี้กับเซิร์ฟเวอร์อีเมล ใช้น้อยมาก
+se_smtp_ssl_sel:
+- ไม่มี
+- SSL
+- TLS
+se_smtp_user: 'ชื่อผู้ใช้ SMTP:'
+se_sphere_galaxy: กาแล็กซีทรงกลม
+se_sphere_uni: จักรวาลทรงกลม
+se_start: วันที่เริ่ม
+se_start_time: เวลาเริ่ม
+se_stat: มอบ 0 คะแนนให้ผู้ดูแลระบบ
+se_stat_level: จากระดับสิทธิ์
+se_stat_sel:
+- ไม่
+- ใช่
+- ซ่อนผู้ดูแล
+se_stat_settings: ค่าของ 1 คะแนนสถิติ
+se_statistics: สถิติ
+se_statsjson_delay: ดีเลย์ของ stats.json
+se_storage_multiplier: ตัวคูณความจุคลังทรัพยากร
+se_suspended: ถูกแบน
+se_system: ระบบ
+se_system_distance: ระยะห่างระบบขั้นต่ำ
+se_system_distance_factor: ตัวคูณระยะห่างระบบ
+se_system_distance_factor_info: 'ค่าเริ่มต้น: 95 การคำนวณ: ผลต่างของระบบ × ตัวคูณระยะห่างระบบ + ระยะห่างระบบขั้นต่ำ'
+se_system_distance_info: 'ค่าเริ่มต้น: 2700 การคำนวณ: ผลต่างของระบบ × ตัวคูณระยะห่างระบบ + ระยะห่างระบบขั้นต่ำ'
+se_tag: TAG
+se_temp: องศา
+se_time_of_page: สร้างหน้าเมื่อ
+se_timezone: เขตเวลาของจักรวาล
+se_trade_allowed_ships: 'ยานที่อนุญาต:'
+se_trade_charge: 'ค่าธรรมเนียมพ่อค้า:'
+se_trader: การตั้งค่าพ่อค้าเศษซาก
+se_ttf_file: พาธไปยังไฟล์ TTF
+se_ttf_file_info: จำเป็นสำหรับแสดงอักษรซีริลลิกหรือจีนบนแบนเนอร์สถิติ
+se_type_all: การค้นหาปกติ
+se_type_exact: การค้นหาแบบตรงทุกตัว
+se_type_first: ขึ้นต้นด้วย
+se_type_last: ลงท้ายด้วย
+se_type_typee: ประเภท
+se_uni_name: ชื่อจักรวาล
+se_uni_status: สถานะจักรวาล
+se_uni_status_regclosed_gameclosed: ปิดการลงทะเบียนและการเข้าสู่ระบบ (เช่น ปิดปรับปรุง)
+se_uni_status_regclosed_gameopen: ปิดการลงทะเบียน เปิดการเข้าสู่ระบบ (เช่น จักรวาลเก่า)
+se_uni_status_regopen_gameclosed: เปิดการลงทะเบียน ปิดการเข้าสู่ระบบ (เช่น จักรวาลใหม่)
+se_uni_status_regopen_gameopen: เปิดการลงทะเบียนและการเข้าสู่ระบบ
+se_uni_type: ประเภทจักรวาล
+se_uni_type_info: <TABLE><tr><td>จักรวาลเชิงเส้น</td><td>ระยะทางไปยังกาแล็กซี 1 จะเพิ่มขึ้นตามทุกกาแล็กซี</td></tr><tr><td>จักรวาลวงแหวน</td><td>กาแล็กซีสุดท้ายและกาแล็กซีแรกจะเชื่อมต่อกัน ระยะทางจากกาแล็กซีที่ไกลไปยังกาแล็กซีแรกจึงลดลง</td></tr><tr><td>จักรวาลทรงกลม</td><td>ทุกกาแล็กซีอยู่ห่างจากกาแล็กซีอื่นเท่ากันหมด</td></tr></TABLE>
+se_user_settings: การตั้งค่าผู้เล่น
+se_user_valid: การยืนยันอีเมล
+se_user_valid_info: หากเปิดใช้ ผู้เล่นต้องเปิดใช้งานบัญชีผ่านอีเมล ต้องตั้งค่า SMTP ด้านล่างด้วย
+se_users: ผู้เล่น
+se_vacat: พักร้อนหรือไม่?
+se_vacations: พักร้อน
+se_vmode_min_time: เวลาพักร้อนขั้นต่ำ
+se_vmode_min_time_info: เวลาขั้นต่ำที่ผู้เล่นต้องอยู่ในโหมดพักร้อน หน่วยเป็นวินาที
+se_wreckfield_cooldown: ระยะพักของทุ่งซาก
+se_wreckfield_min_percent: เปอร์เซ็นต์หน่วยกองเรือที่ถูกทำลายขั้นต่ำสำหรับทุ่งซาก
+se_wreckfield_min_units: จำนวนหน่วยที่ถูกทำลายขั้นต่ำสำหรับทุ่งซาก
+select_option: เลือก...
+ships_title: ยานอวกาศ
+sp_answer_message: 'มีการตอบกลับในคำร้อง #%d ของคุณ!'
+sp_answer_message_title: 'คำร้องขอความช่วยเหลือ #%d'
+status: สถานะ
+subject: หัวข้อ
+test_data_amount: จำนวนผู้ใช้ทดสอบ
+test_data_stage:
+- ช่วงเริ่มต้น (โพรบสอดแนม)
+- ช่วงกลางเกม (เรือรบ 1 ดวงจันทร์)
+- ช่วงปลายเกม (เรือลาดตระเวนรบ ฟาแลงซ์)
+- ช่วงสุดท้าย (ดาวมรณะ ประตูกระโดด)
+test_data_stage_label: ช่วง
+test_data_success: สร้างข้อมูลผู้ใช้ทดสอบสำเร็จ
+test_data_title: สร้างข้อมูลผู้ใช้ทดสอบ
+text: รายละเอียด
+time_days: วัน
+time_hours: ชั่วโมง
+time_minutes: นาที
+time_seconds: วินาที
+ul_sure_you_want_dlte: คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?
+uni_reg: จักรวาล
+user_reg: ชื่อ
+uvs_actions: การดำเนินการ
+uvs_back: กลับ
+uvs_delete: ลบ
+uvs_id: ID จักรวาล
+uvs_inactive: ไม่ใช้งาน
+uvs_name: ชื่อ
+uvs_new: เพิ่มจักรวาล
+uvs_off: ปิด
+uvs_on: เปิด
+uvs_open: สถานะ
+uvs_planets: ดาวเคราะห์
+uvs_players: ผู้เล่น
+uvs_reload: โหลดใหม่
+uvs_speeds: ตัวคูณความเร็ว (G/F/R/E)
+uvs_speeds_full: ตัวคูณความเร็ว (เกม/กองเรือ/ทรัพยากร/การสำรวจ)
+vt_all: ไฟล์ทั้งหมด
+vt_head: ตรวจสอบไฟล์ของเกม
+vt_info: รายการนี้แสดงไฟล์ที่แตกต่างจากต้นฉบับ<br>หากคุณไม่ได้แก้ไขเกมเอง ให้แทนที่ไฟล์เหล่านี้ด้วยไฟล์ต้นฉบับ
+adm_comments: ความคิดเห็น
+adm_analytics: การวิเคราะห์
+ad_system: ระบบ
+adm_menu_filter: กรองเมนู …
+adm_menu_empty: ไม่พบรายการเมนู
+adm_menu_toggle: เมนู
+adm_back_to_game: กลับเข้าสู่เกม
+adm_drop_rights: ออกจากระบบ
+adm_universe_switch: จักรวาล
+adm_dash_attention: ต้องให้ความสนใจ
+adm_dash_all_good: ทุกอย่างปกติ – ไม่มีคำเตือน
+adm_dash_online: ผู้เล่นออนไลน์ (15 นาที)
+adm_dash_players: ผู้เล่นทั้งหมด
+adm_dash_tickets: คำร้องที่เปิดอยู่
+adm_dash_fleets: กองเรือที่กำลังเดินทาง
+adm_dash_quick: ทางลัด
+adm_dash_system: ระบบ
+adm_dash_version: เวอร์ชัน
+adm_dash_php: PHP
+adm_dash_uni_status: สถานะจักรวาล
+adm_dash_credits: เครดิต
+adm_dash_project: หน้าโครงการ
+adm_confirm: คุณแน่ใจหรือไม่?
+adm_dash_cron_locked: 'Cronjob ถูกล็อก (ไม่ทำงานแล้ว): %s'
+adm_dash_next_cron: Cronjob ถัดไป
+adm_dash_cron_count: cronjob ที่ใช้งานอยู่
+adm_unsaved_hint: การเปลี่ยนแปลงจะมีผลเมื่อคุณบันทึก
+adm_sections: หมวด
+adm_skip: ข้ามไปยังเนื้อหา
+adm_filter_page: กรองหน้านี้ …
+adm_actions: การดำเนินการ
+adm_ac_no_destroyed: ไม่มีดาวเคราะห์ที่ถูกทำลายเมื่อไม่นานมานี้
+adm_ae_addremove_hint: ค่าที่กรอกจะถูกเพิ่มเข้ากับจำนวนปัจจุบัน (เพิ่ม) หรือลบออกจากจำนวนนั้น (ลบ) หากค่าเป็น 0 รายการจะไม่เปลี่ยนแปลง
+adm_ae_confirm_remove: ต้องการลบค่าที่กรอกออกจากจำนวนปัจจุบันจริงหรือไม่?
+adm_ae_danger_zone: โซนอันตราย
+adm_ae_group_planet: ดาวเคราะห์ / ดวงจันทร์
+adm_ae_group_player: ผู้เล่น
+adm_ae_menu_hint: เลือกสิ่งที่จะแก้ไข เลือกผู้เล่นด้วย ID ผู้เล่น และเลือกดาวเคราะห์ด้วย ID ดาวเคราะห์หรือดวงจันทร์
+adm_ae_wipe: รีเซ็ตดาวเคราะห์
+adm_ae_wipe_hint: พื้นที่ที่ติ๊กไว้จะถูกลบออกจากดาวเคราะห์ ไม่สามารถย้อนกลับได้
+adm_as_confirm: ต้องการสลับบัญชีของผู้เล่นทั้งสองที่เลือกจริงหรือไม่?
+adm_as_explain: ผู้เล่นทั้งสองที่เลือกจะสลับบัญชี (ข้อมูลการเข้าสู่ระบบ) สถานะเกมและดาวเคราะห์จะยังอยู่กับผู้เล่นแต่ละคน มีเพียงข้อมูลการเข้าสู่ระบบที่เปลี่ยนเจ้าของ เลือกผู้เล่น A ทางซ้ายและผู้เล่น B ทางขวา
+adm_ban_accounts: บัญชี
+adm_ban_duration: ระยะเวลา
+adm_ban_users: ผู้เล่น
+adm_continue: ดำเนินการต่อ
+adm_coord_position: ตำแหน่ง
+adm_cron_active: ใช้งาน
+adm_cron_click_disable: คลิกเพื่อปิดใช้งาน
+adm_cron_click_enable: คลิกเพื่อเปิดใช้งาน
+adm_cron_click_lock: คลิกเพื่อล็อก
+adm_cron_click_unlock: คลิกเพื่อปลดล็อก (การทำงานค้าง)
+adm_cron_free: ว่าง
+adm_cron_hint: คลิกป้ายสถานะเพื่อสลับ
+adm_cron_inactive: ไม่ใช้งาน
+adm_cron_locked: ล็อกอยู่
+adm_cron_state: สถานะ
+adm_giveaway_confirm: จำนวนที่กรอกจะถูกเพิ่มให้ดาวเคราะห์ทุกดวงที่ตรงในจักรวาลนี้ ดำเนินการต่อหรือไม่?
+adm_giveaway_hint: จำนวนจะถูกเพิ่มเข้ากับทรัพยากรปัจจุบันของดาวเคราะห์ทุกดวงที่ตรง ช่องที่เป็น 0 จะไม่เปลี่ยนแปลง
+adm_reset_warning: ทุกอย่างที่ติ๊กไว้ด้านล่างจะถูกลบหรือรีเซ็ตอย่างถาวรสำหรับจักรวาลนี้ ไม่มีการสำรองข้อมูลและไม่สามารถย้อนกลับได้
+adm_rights_edit: แก้ไขสิทธิ์
+adm_rights_other: อื่นๆ
+adm_rights_page: หน้า
+adm_rights_pick: เลือกผู้เล่นที่ต้องการแก้ไขสิทธิ์
+adm_uni_close: ปิดจักรวาล
+adm_uni_open: เปิดจักรวาล
+adm_edit: แก้ไข
+adm_ma_recipients: ผู้รับ
+adm_ml_from: จาก
+adm_ml_to: ถึง
+ac_detailed_planet_moon_info: รายละเอียดดาวเคราะห์และดวงจันทร์
+ad_max: (สูงสุด %d)
+adm_password_info: กรอกรหัสผ่านของคุณเพื่อยืนยันตัวตน!
+button_des_se: เลือก/ยกเลิกทั้งหมด
+er_dlte_all: ลบทั้งหมด
+input_id_moon: ID ดวงจันทร์
+input_text: 'คำอธิบาย:'
+mip_ip: IP
+adm_cfg_crystal_pct: คริสตัล %
+adm_cfg_deuterium_pct: ดิวทีเรียม %
+adm_cfg_fields_max: ช่องว่างสูงสุด
+adm_cfg_fields_min: ช่องว่างต่ำสุด
+adm_cfg_metal_pct: โลหะ %
+adm_cfg_planet_props: คุณสมบัติดาวเคราะห์ตามตำแหน่ง
+adm_cfg_planet_props_hint: อุณหภูมิเป็น °C ช่องว่าง โบนัสการผลิตเป็น %
+adm_cfg_temp_max: อุณหภูมิสูงสุด
+adm_cfg_temp_min: อุณหภูมิต่ำสุด
+adm_comment_col: ความคิดเห็น
+adm_date_dd: วว
+adm_date_format: (วว.ดด.ปปปป)
+adm_date_mm: ดด
+adm_date_yyyy: ปปปป
+adm_exp_deck_err_card: 'รูปแบบการ์ดไม่ถูกต้อง: ขาดประเภท ขนาด หรือจำนวน'
+adm_exp_deck_err_count: 'จำนวนการ์ดไม่ถูกต้อง: ต้องไม่เป็นค่าลบ'
+adm_exp_deck_err_empty: สำรับต้องมีการ์ดอย่างน้อยหนึ่งใบ
+adm_exp_deck_err_format: 'รูปแบบสำรับไม่ถูกต้อง: ต้องเป็นอาร์เรย์'
+adm_exp_deck_err_json: รูปแบบ JSON ไม่ถูกต้อง
+adm_exp_ships_saved: บันทึกการตั้งค่ายานสำเร็จ!
+adm_flight_distance: ระยะทาง
+adm_flight_err_dist_missing: กรุณากรอกค่าระยะทางให้ครบทุกช่อง
+adm_flight_err_format: กรุณากรอกในรูปแบบ กาแล็กซี:ระบบ:ดาวเคราะห์
+adm_flight_err_galaxy_over: กาแล็กซีเกิน max_galaxy
+adm_flight_err_max_missing: กรุณากรอก max_galaxy, max_system และ max_planets ให้ครบ
+adm_flight_err_min_one: กาแล็กซี ระบบ และดาวเคราะห์ต้องมีค่าอย่างน้อย 1
+adm_flight_err_planet_over: ดาวเคราะห์เกิน max_planets
+adm_flight_err_system_over: ระบบเกิน max_system
+adm_flight_fleet_speed: ความเร็วกองเรือ
+adm_flight_preview: ตัวอย่างเวลาการบิน
+adm_flight_preview_help: เวลาการบินจาก 1:1:1 ไปยังเป้าหมาย โดยใช้ความเร็วยาน 45,000 และความเร็วกองเรือ 1 ประเภทจักรวาล ประเภทกาแล็กซี ค่าสูงสุด ตัวคูณระยะทาง และระยะห่างขั้นต่ำจะถูกนำมาใช้ทันที
+adm_flight_ship_speed: ความเร็วยาน
+adm_flight_time: เวลาการบิน
+adm_info_col: ข้อมูล
+adm_info_db_version: เวอร์ชันฐานข้อมูล
+adm_info_errorlog: บันทึกข้อผิดพลาด
+adm_info_game: เกม
+adm_info_game_address: ที่อยู่เกม
+adm_info_game_version: เวอร์ชันเกม
+adm_info_memory_limit: ขีดจำกัดหน่วยความจำ
+adm_info_mysql_client: ไคลเอนต์ MySQL
+adm_info_mysql_server: เซิร์ฟเวอร์ MySQL
+adm_info_php_version: เวอร์ชัน PHP
+adm_info_server: เซิร์ฟเวอร์
+adm_info_server_info: ข้อมูลเซิร์ฟเวอร์
+adm_info_text: เป็นข้อความ
+adm_info_timezone: เขตเวลา (PHP/config/ผู้ใช้)
+adm_loading: กำลังโหลด …
+adm_log_not_found: ไม่พบในบันทึก
+adm_mip_activity: กิจกรรม
+adm_mip_show_allowed: แสดงที่อนุมัติแล้ว
+adm_mip_show_banned: แสดงที่ถูกแบน
+adm_ml_end_day: วันสิ้นสุด
+adm_ml_end_month: เดือนสิ้นสุด
+adm_ml_end_year: ปีสิ้นสุด
+adm_ml_start_day: วันเริ่มต้น
+adm_ml_start_month: เดือนเริ่มต้น
+adm_ml_start_year: ปีเริ่มต้น
+adm_pagination: การแบ่งหน้า
+adm_permission_error: ไม่อนุญาต!
+adm_ti_all: ทั้งหมด
+adm_ti_debug_errors: ดีบัก/ข้อผิดพลาด
+adm_ti_user_tickets: คำร้องจากผู้ใช้
+adm_group_community: ชุมชน
+adm_nav_accounts: บัญชี
+adm_nav_expeditions: การสำรวจ
+adm_nav_messages: ข้อความ
+adm_nav_moderation: การควบคุมดูแล
+adm_nav_players: ผู้เล่น
+adm_nav_settings: การตั้งค่า
+adm_tab_bans: การแบน
+adm_tab_card_deck: สำรับการ์ด
+adm_tab_create: สร้าง
+adm_tab_editor: ตัวแก้ไข
+adm_tab_findable_ships: ยานที่ค้นพบได้
+adm_tab_moons: ดวงจันทร์
+adm_tab_planets: ดาวเคราะห์
+adm_tab_players: ผู้เล่น
+adm_tab_server: เซิร์ฟเวอร์
+adm_tab_swap: สลับ
+adm_tab_universe: จักรวาล
+adm_maint_cache_text: ล้างแคชของเกม (ภาษา เทมเพลต ข้อมูลเกม) และคำนวณเวลาของ cron job ใหม่ มีประโยชน์เมื่อการเปลี่ยนการตั้งค่าหรือข้อความไม่แสดงผล
+adm_maint_log_head: บันทึกของเกม
+adm_maint_log_text: บันทึกข้อผิดพลาดของเกม (var/log/game.log) การล้างจะทำให้ไฟล์ว่างเปล่า และข้อผิดพลาดใหม่จะถูกบันทึกทันที
+adm_maint_log_size: ขนาด
+adm_maint_log_changed: แก้ไขล่าสุด
+adm_maint_log_missing: ยังไม่มีไฟล์บันทึก
+adm_maint_log_clear: ล้างบันทึกของเกม
+adm_maint_log_confirm: ต้องการทำให้ var/log/game.log ว่างเปล่าหรือไม่? ไม่สามารถย้อนกลับได้
+adm_maint_log_cleared: ล้างบันทึกของเกมแล้ว
+adm_maint_log_failed: ไม่สามารถล้างบันทึกของเกมได้ (ไฟล์เขียนไม่ได้)
+adm_maint_points_text: คำนวณคะแนนและอันดับใหม่ทันที มิฉะนั้นจะทำงานอัตโนมัติผ่าน cron job ของสถิติ และอาจใช้เวลาสักครู่เมื่อมีผู้เล่นจำนวนมาก
+adm_nav_maintenance: การบำรุงรักษา
+adm_nav_content: เนื้อหา
+adm_tab_pages: หน้า
+adm_tab_team: ทีมงาน
+nws_back: กลับไปยังรายการ
+nws_view: ดู
+nws_summary: สรุป
+nws_summary_help: คำโปรยสำหรับรายการข่าว (ไม่บังคับ ไม่เกิน 300 ตัวอักษร) ว่างไว้ = ข้อความบางส่วนจากเนื้อหา
+nws_publish_date: วันที่เผยแพร่
+nws_publish_help: วันที่ในอนาคตจะตั้งเวลาข่าว ข่าวจะปรากฏโดยอัตโนมัติเมื่อถึงเวลานั้น
+nws_status: สถานะ
+nws_status_draft: ฉบับร่าง
+nws_status_published: เผยแพร่แล้ว
+nws_status_scheduled: ตั้งเวลาไว้
+nws_pinned: ปักหมุด
+nws_filter_all: ทั้งหมด
+nws_filter_drafts: ฉบับร่าง
+nws_empty: ยังไม่มีข่าว
+nws_saved: บันทึกข่าวแล้ว
+nws_deleted: ลบข่าวแล้ว
+nws_error_empty: หัวข้อและเนื้อหาต้องไม่ว่างเปล่า
+cms_page_contacts: ติดต่อ
+cms_page_dataPrivacy: ความเป็นส่วนตัวของข้อมูล
+cms_page_rules: กฎ
+cms_language: ภาษา
+cms_status: สถานะ
+cms_status_default: ค่าเริ่มต้น
+cms_status_edited: แก้ไขแล้ว
+cms_last_edit: แก้ไขล่าสุด
+cms_title: หัวข้อ
+cms_content: เนื้อหา
+cms_save: บันทึกหน้า
+cms_view: ดูหน้า
+cms_reset: กลับไปใช้ค่าเริ่มต้น
+cms_reset_confirm: ลบฉบับที่แก้ไขและแสดงเนื้อหาเริ่มต้นอีกครั้งหรือไม่?
+cms_saved: บันทึกหน้าแล้ว
+cms_reset_done: รีเซ็ตหน้าเป็นเนื้อหาเริ่มต้นแล้ว
+team_name: ชื่อ
+team_position: ตำแหน่ง
+team_contact: ช่องทางติดต่อ (เช่น Discord)
+team_description: คำอธิบาย
+team_add: เพิ่มสมาชิก
+team_delete: ลบออก
+team_move_up: เลื่อนขึ้น
+team_move_down: เลื่อนลง
+team_save: บันทึกทีมงาน
+team_saved: บันทึกทีมงานแล้ว
+team_empty: ยังไม่มีสมาชิกทีมงาน
+team_hint: ลำดับของแถวคือลำดับในหน้าทีมงานสาธารณะ แถวที่ไม่มีชื่อจะถูกลบเมื่อบันทึก
+nws_image: รูปภาพ
+nws_image_remove: ลบรูปภาพ
+nws_image_help: ไม่บังคับ รูปหนึ่งรูปต่อข่าว (JPEG, PNG, GIF หรือ WebP ไม่เกิน 8 MB) แปลงเป็น WebP อัตโนมัติ
+bot_action: การกระทำ
+bot_actions_per_session: จำนวนการกระทำต่อเซสชัน
+bot_active: ใช้งาน
+bot_active_none: ไม่มี LLM (ใช้เฉพาะค่าสำรองในเครื่อง)
+bot_activity: กิจกรรมต่อชั่วโมง
+bot_activity_info: ค่า 24 ค่าคั่นด้วยเครื่องหมายจุลภาค ตั้งแต่ 0 ถึง 1 (โอกาสที่บอตออฟไลน์จะเริ่มเซสชัน ชั่วโมง 0-23)
+bot_alliance_chance: โอกาสทำกิจกรรมพันธมิตรต่อเซสชัน
+bot_alliance_join_chance: โอกาสสมัครเข้าพันธมิตรของบอต (ต่อเทิร์น)
+bot_fleetsave_chance: โอกาสถอนกองเรือ (สิ้นสุดเซสชัน เมื่อมีภัยคุกคาม)
+bot_saving_discipline: วินัยในการออม (ออมเพื่อเป้าหมายแทนการซื้อของถูก)
+bot_expedition_slots: ช่องกองเรือที่เว้นไว้สำหรับการสำรวจ
+bot_api_key: API key
+bot_base_url: URL หลัก
+bot_buddy_accept_chance: โอกาสตอบรับคำขอเป็นเพื่อน
+bot_cancel: ยกเลิก
+bot_chat_style: คำแนะนำสไตล์การแชท
+bot_raid_enabled: เปิดการบุก
+bot_raid_chance: เซสชันที่ไปบุก
+bot_scout_range: ระยะการสอดแนม (ระบบรอบดาวเคราะห์ของตน)
+bot_min_profit_ratio: อัตรากำไรขั้นต่ำ (ของที่ปล้นได้ / เชื้อเพลิงและความสูญเสีย)
+bot_relentless_minutes: ช่วงบุกต่อเนื่องหลังโจมตีโดน (นาที, ต่ำสุด - สูงสุด)
+bot_recall_check_chance: โอกาสสอดแนมซ้ำและตรวจสอบการเรียกกลับก่อนถึงเป้าหมาย
+bot_max_attacks_per_target: จำนวนการโจมตีสูงสุดต่อเป้าหมายต่อวัน
+bot_attack_bots: โจมตีบอตอื่น
+bot_attack_humans: โจมตีผู้เล่นจริง
+bot_prefer_inactive: ความชอบเป้าหมายที่ไม่ใช้งาน (0-100)
+bot_check_interval: ช่วงเวลาตรวจสอบการเข้าสู่ระบบ
+bot_colonize_chance: โอกาสตั้งอาณานิคมต่อเซสชัน
+bot_confirm_delete: ลบจริงหรือไม่?
+bot_confirm_restore: รีเซ็ตโปรไฟล์เริ่มต้นกลับเป็นค่าเดิมหรือไม่?
+bot_csrf_error: โทเค็นความปลอดภัยไม่ถูกต้อง กรุณารีโหลดหน้า
+bot_days_zero_off: วัน (0 = ปิด)
+bot_default: ค่าเริ่มต้น
+bot_defaults_restored: กู้คืนโปรไฟล์เริ่มต้นแล้ว
+bot_delete: ลบ
+bot_deleted: ลบแล้ว
+bot_description: คำอธิบาย
+bot_detail: รายละเอียด
+bot_disabled: ปิดใช้งาน
+bot_duplicate: ทำซ้ำ
+bot_edit: แก้ไข
+bot_edit_profile: แก้ไขโปรไฟล์
+bot_enabled: เปิดใช้งาน
+bot_expedition_chance: โอกาสสำรวจต่อเซสชัน
+bot_failed: ล้มเหลว
+bot_hours_every: ชั่วโมง ทุกๆ
+bot_invalid_url: URL หลักต้องขึ้นต้นด้วย http:// หรือ https://
+bot_key: คีย์
+bot_key_keep: เว้นว่างเพื่อใช้คีย์เดิม
+bot_key_not_set: ยังไม่ได้ตั้งค่า
+bot_key_stored: บันทึกไว้แล้ว
+bot_last_action: การกระทำล่าสุด
+bot_last_test: การทดสอบล่าสุด
+bot_list: บอต
+bot_llm_advice: อนุญาตให้ LLM (ชื่อและการแชท)
+bot_log: การกระทำล่าสุด
+bot_mistake_chance: โอกาสทำผิดพลาด
+bot_mode: โหมดบอต
+bot_model: โมเดล
+bot_name: ชื่อ
+bot_name_required: กรุณากรอกชื่อ
+bot_new_profile: โปรไฟล์ใหม่
+bot_next_tick: การตรวจสอบครั้งถัดไป
+bot_none: ไม่มี
+bot_offline: ออฟไลน์
+bot_online: ออนไลน์
+bot_open_config: การตั้งค่าจักรวาล
+bot_pattern_shift: การเลื่อนรูปแบบ
+bot_player: ผู้เล่น
+bot_points: คะแนน
+bot_profile: โปรไฟล์
+bot_profile_default_locked: ไม่สามารถลบโปรไฟล์เริ่มต้นได้
+bot_profile_in_use: โปรไฟล์นี้ยังถูกใช้งานโดยบอตอยู่
+bot_profile_missing: ไม่พบโปรไฟล์
+bot_provider: ผู้ให้บริการ
+bot_providers_info: LLM เป็นส่วนเสริมและใช้เฉพาะฝั่งมนุษย์ของบอต ได้แก่ ชื่อเล่น บทบาท ชื่อดาวเคราะห์ และการแชท (ตอบข้อความ พันธมิตร และเพื่อน) การตัดสินใจในเกมทำโดยระบบในเครื่องเสมอ หากไม่มีผู้ให้บริการที่ใช้งานอยู่ ระบบจะใช้ตัวสร้างชื่อและข้อความสำเร็จรูปในตัว เว้นช่องคีย์ไว้เพื่อใช้คีย์ที่บันทึกไว้
+bot_randomness: ความสุ่ม
+bot_reply_chance: โอกาสตอบกลับ (ข้อความส่วนตัว)
+bot_restore_defaults: กู้คืนค่าเริ่มต้น
+bot_saved: บันทึกแล้ว
+bot_session: เซสชัน
+bot_session_minutes: ความยาวเซสชัน
+bot_skill: ทักษะ
+bot_skill_gain: ที่เพิ่มขึ้นต่อวัน
+bot_skill_max: สูงสุด
+bot_skill_start: เริ่มต้น
+bot_spawn: สร้างบอต
+bot_spawned: สร้างบอต %d ตัวแล้ว
+bot_summary: สรุป
+bot_summary_actions: การกระทำ
+bot_summary_mistakes: ความผิดพลาด
+bot_summary_session: เซสชัน
+bot_tab_profiles: โปรไฟล์
+bot_tab_providers: ผู้ให้บริการ LLM
+bot_test: ทดสอบการเชื่อมต่อ
+bot_testing: กำลังทดสอบ...
+bot_time: เวลา
+bot_universe: จักรวาล
+bot_w_defense: การป้องกัน
+bot_w_energy: พลังงาน
+bot_w_facilities: สิ่งอำนวยความสะดวก
+bot_w_mines: เหมือง
+bot_w_research: วิจัย
+bot_w_ships: ยานอวกาศ
+bot_w_storage: คลังสินค้า
+bot_weights: น้ำหนัก
+adm_nav_bots: บอต
+adm_tab_bot_providers: ผู้ให้บริการ LLM
+adm_tab_bot_profiles: โปรไฟล์
+adm_tab_bot_list: บอต
+se_bots: บอต
+se_bots_enabled: เปิดใช้บอต
+se_bots_enabled_info: ให้บอตฝั่งเซิร์ฟเวอร์เล่นในจักรวาลนี้ cron job จะประมวลผลบอตทุกนาที
+se_bots_llm_daily_limit: จำนวนการเรียก LLM ต่อบอตต่อวัน
+se_bots_llm_daily_limit_info: จำนวนการเรียก LLM สูงสุดที่บอตหนึ่งตัวทำได้ต่อวัน หลังจากนั้นจะใช้ค่าสำรองในเครื่อง
+se_bots_llm_enabled: ใช้ LLM สำหรับชื่อและการแชท
+se_bots_llm_enabled_info: เปิดให้ LLM สร้างชื่อเล่น บทบาท ชื่อดาวเคราะห์ และการแชท (ข้อความ พันธมิตร เพื่อน) โดยใช้ผู้ให้บริการที่ใช้งานอยู่ การตัดสินใจในเกมยังคงทำในเครื่องเสมอ
+se_bots_max_count: จำนวนบอตสูงสุด
+se_bots_max_count_info: จำนวนสูงสุดของบอตที่สร้างได้ในจักรวาลนี้
+se_bots_ticks_per_run: บอตต่อการทำงานของ cron
+se_bots_ticks_per_run_info: จำนวนบอตสูงสุดที่ประมวลผลในการทำงานของ cron หนึ่งครั้ง
+se_bots_raids_enabled: ให้บอตบุกผู้เล่นอื่น
+se_bots_raids_enabled_info: ให้บอตสอดแนม สอดแนมด้วยสายลับ และโจมตีผู้เล่นและบอตอื่นที่อยู่ใกล้ภายใต้กฎเดียวกับผู้เล่น (ขีดจำกัดการโจมตีซ้ำ การป้องกัน โหมดพักร้อน) ปิดเป็นค่าเริ่มต้น
+adm_info_summary_fail: ไม่ผ่าน %s รายการ เตือน %s รายการ แก้รายการที่ไม่ผ่านก่อน
+adm_info_summary_warn: ไม่มีรายการที่ไม่ผ่าน แต่มี %s คำเตือนที่ควรตรวจสอบ
+adm_info_summary_ok: ผ่านการตรวจสุขภาพระบบทุกรายการ
+adm_info_health: การตรวจสุขภาพระบบ
+adm_info_status_ok: ปกติ
+adm_info_status_warn: เตือน
+adm_info_status_fail: ไม่ผ่าน
+adm_info_status_info: ข้อมูล
+adm_info_chk_php: เวอร์ชัน PHP (8.4 ขึ้นไป)
+adm_info_chk_php_hint: เกมต้องใช้ PHP 8.4 ขึ้นไป
+adm_info_chk_ext_required: ส่วนขยาย PHP ที่จำเป็น
+adm_info_chk_ext_required_hint: ติดตั้งส่วนขยายที่ขาดหาย เกมจะใช้งานไม่ได้หากไม่มี
+adm_info_chk_ext_optional: ส่วนขยาย PHP เสริม
+adm_info_chk_ext_optional_hint: ไม่จำเป็น แต่เปิดใช้ฟีเจอร์ที่เร็วขึ้นหรือเพิ่มเติม (ดูรายการส่วนขยาย)
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache ปิดอยู่ เปิดใช้งานในโปรดักชัน จะทำให้ PHP เร็วขึ้นมาก
+adm_info_chk_environment: สภาพแวดล้อม (APP_ENV / debug)
+adm_info_chk_environment_hint: บนเซิร์ฟเวอร์สาธารณะ ควรรันด้วย APP_ENV=prod และปิด debug
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: ข้อความข้อผิดพลาดบนหน้าเว็บอาจเปิดเผยข้อมูลภายใน ตั้งค่า display_errors=Off บนเซิร์ฟเวอร์สาธารณะ
+adm_info_chk_writable: ไดเรกทอรีที่เขียนข้อมูลได้
+adm_info_chk_writable_hint: ผู้ใช้เว็บเซิร์ฟเวอร์ต้องเขียนลงไดเรกทอรีเหล่านี้ได้ (แคช บันทึก เซสชัน อัปโหลด)
+adm_info_chk_install_tool: เครื่องมือติดตั้ง
+adm_info_chk_install_tool_hint: มี var/ENABLE_INSTALL_TOOL อยู่ ลบออกเมื่อไม่ได้ติดตั้ง
+adm_info_chk_migrations: การย้ายข้อมูลฐานข้อมูล
+adm_info_chk_migrations_hint: มีการย้ายข้อมูลที่รอดำเนินการ จะถูกนำไปใช้ในคำขอเกมครั้งถัดไป หากยังค้างอยู่ให้ตรวจสอบบันทึก
+adm_info_chk_battle_engine: เอนจินการต่อสู้
+adm_info_chk_battle_engine_hint: เอนจิน Rust ใช้งานไม่ได้ (bin/battlerust, bin/libbattlerust.so, proc_open) การต่อสู้จะทำงานบนเอนจิน PHP ที่ช้ากว่า
+adm_info_chk_cron: Cron jobs
+adm_info_chk_cron_hint: Cron ดูเหมือนค้างหรือไม่ทำงาน ตรวจสอบว่า bin/console app:cron:run ทำงานทุกนาที และปลดล็อกงานที่ค้างใน Cronjobs
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: คำขอนี้ไม่ได้ใช้ HTTPS รหัสผ่านและเซสชันจะถูกส่งโดยไม่เข้ารหัส
+adm_info_chk_mail: การส่งอีเมล
+adm_info_chk_mail_hint: อีเมลถูกปิดหรือตั้งค่าไม่ครบ (อีเมลยืนยันบัญชีและการรีเซ็ตรหัสผ่านจะไม่ถูกส่ง) ดูในการตั้งค่า
+adm_info_chk_session: ตัวจัดการเซสชัน
+adm_info_chk_session_hint: ตรวจสอบพื้นที่จัดเก็บเซสชัน
+adm_info_os: ระบบปฏิบัติการ
+adm_info_hostname: ชื่อโฮสต์
+adm_info_max_exec: เวลาทำงานสูงสุด
+adm_info_upload_max: ขีดจำกัดการอัปโหลด (upload_max_filesize)
+adm_info_post_max: ขีดจำกัด POST (post_max_size)
+adm_info_realpath: แคช Realpath
+adm_info_peak: หน่วยความจำสูงสุดของคำขอนี้
+adm_info_cpu: จำนวนคอร์ CPU
+adm_info_load: โหลดเฉลี่ย (1 / 5 / 15 นาที)
+adm_info_uptime: เวลาทำงานของระบบ
+adm_info_disk: ดิสก์ (โปรเจกต์)
+adm_info_memory: หน่วยความจำของระบบ
+adm_info_free_of: ว่าง %s จากทั้งหมด %s (ใช้ไป %s %%)
+adm_info_opcache_line: ใช้ไป %s จาก %s อัตราการเข้าถึงแคช %s %% แคชสคริปต์ %s ไฟล์
+adm_info_extensions: ส่วนขยาย PHP
+adm_info_extensions_hint: วางเมาส์เพื่อดูหน้าที่ สีแดง = จำเป็นและขาดหาย สีเทา = เสริมและขาดหาย
+adm_info_required: จำเป็น
+adm_info_ext_pdo_mysql: การเข้าถึงฐานข้อมูล (PDO MySQL)
+adm_info_ext_intl: การจัดรูปแบบตัวเลข วันที่ และภาษา
+adm_info_ext_mbstring: การจัดการสตริงหลายไบต์
+adm_info_ext_gd: การประมวลผลรูปภาพ (อวาตาร์ รูปข่าว)
+adm_info_ext_curl: การร้องขอ HTTP (Discord, API ภายนอก)
+adm_info_ext_json: การเข้ารหัสและถอดรหัส JSON
+adm_info_ext_ctype: การตรวจสอบประเภทอักขระ
+adm_info_ext_opcache: แคชโค้ด PHP ที่คอมไพล์แล้ว (ความเร็ว)
+adm_info_ext_ffi: Foreign function interface (โค้ดเนทีฟ)
+adm_info_ext_ds: โครงสร้างข้อมูลที่เร็ว
+adm_info_ext_redis: เซสชันและแคชของ Redis
+adm_info_ext_imap: การเข้าถึงกล่องจดหมาย (IMAP)
+adm_info_database: ฐานข้อมูล
+adm_info_db_schema: สคีมา
+adm_info_db_size: ขนาด
+adm_info_tables: ตาราง
+adm_info_pending: การย้ายข้อมูลที่รอดำเนินการ
+adm_info_db_uptime: เวลาทำงานของ MySQL
+adm_info_threads: เธรดที่เชื่อมต่อ
+adm_info_max: สูงสุด
+adm_info_qps: คำสั่งต่อวินาที (เฉลี่ย)
+adm_info_queries: คำสั่ง
+adm_info_slow: คำสั่งที่ช้า
+adm_info_buffer_pool: InnoDB buffer pool
+adm_info_top_tables: ตารางที่ใหญ่ที่สุด
+adm_info_table: ตาราง
+adm_info_rows: แถว
+adm_info_data: ข้อมูล
+adm_info_index: ดัชนี
+adm_info_game_stats: สถิติเกม
+adm_info_universe: จักรวาล
+adm_info_players: ผู้เล่น
+adm_info_accounts: บัญชี
+adm_info_online: ออนไลน์
+adm_info_planets: ดาวเคราะห์
+adm_info_moons: ดวงจันทร์
+adm_info_fleets: กองเรือที่กำลังเดินทาง
+adm_info_acs: กลุ่ม ACS
+adm_info_alliances: พันธมิตร
+adm_info_messages: ข้อความ
+adm_info_unread: ยังไม่ได้อ่าน
+adm_info_activity: กิจกรรมและการลงทะเบียน
+adm_info_active: ผู้เล่นที่ใช้งานอยู่
+adm_info_registrations: การลงทะเบียนใหม่
+adm_info_banned: ผู้เล่นที่ถูกแบน
+adm_info_vacation: อยู่ในโหมดพักร้อน
+adm_info_bots: ผู้เล่นบอต
+adm_info_points_avg: คะแนนเฉลี่ย
+adm_info_points_top: คะแนนสูงสุด
+adm_info_last_stats: การอัปเดตสถิติล่าสุด
+adm_info_market: ข้อเสนอในตลาดที่เปิดอยู่
+adm_info_reports: รายงานการต่อสู้ที่บันทึกไว้
+adm_info_debris: ทุ่งเศษซากที่มีของ (โลหะ / คริสตัล)
+adm_info_resources: ทรัพยากรที่เก็บบนดาวเคราะห์
+adm_info_fleets_by_mission: กองเรือแยกตามภารกิจ
+adm_info_mission: ภารกิจ
+adm_info_no_fleets: ไม่มีกองเรือที่กำลังเดินทาง
+adm_info_reg_chart: การลงทะเบียน 30 วันที่ผ่านมา
+adm_info_no_registrations: ไม่มีการลงทะเบียนใน 30 วันที่ผ่านมา
+adm_info_all_universes: จักรวาลทั้งหมด
+adm_info_total: รวม
+adm_info_logs: บันทึกและแคช
+adm_info_game_log: บันทึกของเกม
+adm_info_errors_24h: ข้อผิดพลาด 24 ชั่วโมงที่ผ่านมา
+adm_info_warnings_24h: คำเตือน 24 ชั่วโมงที่ผ่านมา
+adm_info_scanned: ที่ตรวจแล้ว (ท้ายไฟล์)
+adm_info_symfony_log: บันทึกของ Symfony
+adm_info_lines: บรรทัด
+adm_info_files: ไฟล์
+adm_info_last_errors: ข้อผิดพลาดล่าสุด
+adm_info_no_errors: ไม่พบข้อผิดพลาดในส่วนของบันทึกที่ตรวจแล้ว
+adm_info_time: เวลาของเซิร์ฟเวอร์
+adm_info_timezone_of: แหล่งที่มา
+adm_info_zone: เขตเวลา
+adm_info_tz_php: PHP
+adm_info_tz_config: การตั้งค่าเกม
+adm_info_tz_user: บัญชีของคุณ
+adm_login_throttled: พยายามมากเกินไป กรุณาลองใหม่ในอีกไม่กี่นาที
+se_community_links: ลิงก์ชุมชน
+se_discord_url: URL คำเชิญ Discord
+se_discord_url_info: ลิงก์เชิญเซิร์ฟเวอร์ Discord ของคุณ (https://...) แสดงในเมนู หน้าเข้าสู่ระบบ อีเมล และข้อความ ว่างไว้เพื่อซ่อน
+se_discord_widget_guild: ID เซิร์ฟเวอร์ Discord (วิดเจ็ตออนไลน์)
+se_discord_widget_guild_info: ID ของเซิร์ฟเวอร์ Discord ของคุณ (17-20 หลัก; Server Settings → Widget ต้องเปิด "Enable Server Widget") จะแสดงกล่องจำนวนผู้ออนไลน์ในหน้าเริ่มต้น อัปเดตทุก 5 นาที ว่างไว้เพื่อซ่อน
+se_wiki_url: URL วิกิ
+se_wiki_url_info: URL หลักของวิกิภายนอก ไม่มีเครื่องหมาย / ต่อท้าย (https://...) ลิงก์วิกิในคำถามที่พบบ่อย บทเรียน และกฎจะสร้างจากค่านี้ ว่างไว้เพื่อซ่อน
+se_donate_url: URL สำหรับบริจาค
+se_donate_url_info: ลิงก์สำหรับบริจาค (https://...) แสดงในเมนู ว่างไว้เพื่อซ่อน
+se_userscripts_url: URL ของ Userscripts
+se_userscripts_url_info: หน้าที่อธิบาย userscripts สำหรับเกมของคุณ (https://...) จะลิงก์ในการตั้งค่า ว่างไว้เพื่อซ่อน
+se_bots_alliances_enabled: บอตก่อตั้งพันธมิตร
+se_bots_alliances_enabled_info: 'บอตจะก่อตั้งพันธมิตรของตัวเองและบางครั้งเข้าร่วมพันธมิตรอื่น ปิด: บอตจะอยู่คนเดียว ไม่สมัครที่ใดและออกจากพันธมิตรที่เป็นสมาชิกอยู่ (พันธมิตรที่บอตก่อตั้งจะยังคงอยู่)'
+se_bots_join_human_alliances: บอตเข้าร่วมพันธมิตรของผู้เล่นได้
+se_bots_join_human_alliances_info: 'บอตอาจสมัครเข้าพันธมิตรที่ผู้เล่นจริงก่อตั้งได้ด้วย ปิด: บอตจะเข้าร่วมเฉพาะพันธมิตรที่บอตก่อตั้งและออกจากพันธมิตรของผู้เล่น'
+se_bot_reply_delay_hours: ดีเลย์การตอบกลับ (ชั่วโมง)
+se_bot_reply_delay_hours_info: ชั่วโมงที่ข้อความส่วนตัวที่ผู้เล่นส่งมาและยังไม่ได้ตอบเก่าที่สุดต้องรอ ก่อนที่บอตจะตอบข้อความที่ค้างทั้งหมดของผู้เล่นนั้นในการตอบครั้งเดียว และเป็นช่วงห่างขั้นต่ำระหว่างข้อความที่บอตเริ่มส่งเองสองข้อความ (ตอบโต้การโจมตี การเยาะเย้ยการบุก) ถึงผู้เล่นคนเดียวกัน 0 = ไม่มีดีเลย์
+se_bot_chatter: บอตแชท
+se_bot_chatter_info: 'เปิด: บอตตอบข้อความส่วนตัว ปิด: ยังอ่านและนับข้อความอยู่ แต่จะส่งเฉพาะการตอบโต้การต่อสู้ (หลังถูกโจมตีหรือบุกผู้เล่นที่เคยส่งข้อความมา) บอตจะไม่ส่งข้อความหาผู้เล่นก่อนเด็ดขาด'
+mu_hall_of_fame: หอเกียรติยศ
+hof_head: หอเกียรติยศ (จักรวาล)
+hof_view: ดูหน้าสาธารณะ
+hof_status: สถานะ
+hof_has_data: มีข้อมูล
+hof_entries: รายการจัดอันดับ
+hof_updated: อัปเดตล่าสุด
+hof_no_data: ไม่มีข้อมูลหอเกียรติยศสำหรับจักรวาลนี้
+hof_export: ส่งออก JSON
+hof_clear: ล้างข้อมูล
+hof_confirm_clear: ลบข้อมูลหอเกียรติยศของจักรวาลนี้หรือไม่?
+hof_import: นำเข้า JSON
+hof_file: ไฟล์ JSON
+hof_import_help: 'รูปแบบ: hall-of-fame เวอร์ชัน 1 (ไม่เกิน 1 MB) จะแทนที่ข้อมูลเดิมของจักรวาลนี้'
+hof_confirm_import: แทนที่ข้อมูลหอเกียรติยศเดิมของจักรวาลนี้หรือไม่?
+hof_imported: นำเข้าหอเกียรติยศแล้ว
+hof_cleared: ลบข้อมูลหอเกียรติยศแล้ว
+hof_error_nofile: ไม่ได้อัปโหลดไฟล์ที่ถูกต้อง
+hof_error_invalid: 'นำเข้าถูกปฏิเสธ:'
+se_bash_war_exempt: สงครามยกเว้นการจำกัดการโจมตีซ้ำ
+se_bash_war_exempt_info: 'การโจมตีระหว่างพันธมิตรที่อยู่ในสงคราม (ยอมรับแล้ว เก่ากว่าหนึ่งวัน) จะไม่นับรวมในการจำกัดการโจมตีซ้ำ ปิด: การโจมตีในสงครามนับเหมือนการโจมตีอื่นทั้งหมด'
+se_honor_pair_cap: การต่อสู้อย่างมีเกียรติต่อคู่ (24 ชม.)
+se_honor_pair_cap_info: การต่อสู้อย่างมีเกียรติระหว่างผู้เล่นสองคนเดียวกัน (ทิศทางใดก็ได้) จะให้เกียรติภายใน 24 ชั่วโมงกี่ครั้ง การต่อสู้เพิ่มเติมจะนับเป็นกลาง 0 = ไม่จำกัด
+se_market_push_tolerance: ค่าความคลาดเคลื่อนการดันตลาด
+se_market_push_tolerance_info: ความต่างของมูลค่าการแลกเปลี่ยนในตลาดที่ยอมรับได้เป็นเปอร์เซ็นต์ (0-90) ก่อนจะนับเป็นการดันราคา ค่าเริ่มต้น 30
+se_transport_push_check: ตัวป้องกันการดันด้วยการขนส่ง
+se_transport_push_check_info: ปฏิเสธการขนส่ง การยึดกำลัง และการโอนย้าย (สินค้าและยาน) ไปยังผู้เล่นอีกคน เมื่อในช่วง 7 วันที่ผ่านมา มูลค่าที่ส่งไปให้เขาเกินมูลค่าที่เขาส่งกลับมาเกินขีดจำกัดด้านล่าง
+se_transport_push_limit: ขีดจำกัดการดันด้วยการขนส่ง
+se_transport_push_limit_info: มูลค่าสินค้าเป็นหน่วยดิวทีเรียม (อัตราส่วนตลาด) ที่เกินค่านี้ตัวป้องกันจะทำงาน 0 = ปิดตัวป้องกัน
+se_depot_cost_real_consumption: ค่าคลังสำรองตามการใช้จริง
+se_depot_cost_real_consumption_info: คลังสำรองของพันธมิตรจะคิดค่าการใช้เชื้อเพลิงจริงของกองเรือ (พร้อมเทคโนโลยีขับเคลื่อนและเชื้อเพลิงของเจ้าของ) / 10 ต่อชั่วโมง แทนการใช้พื้นฐาน / 10
+abuse_menu: รายงานการใช้ในทางมิชอบ
+abuse_days: วัน
+abuse_apply: ใช้
+abuse_weights: 'น้ำหนักมูลค่า โลหะ : คริสตัล : ดิวทีเรียม'
+abuse_none: ไม่พบสิ่งใดในช่วงเวลานี้
+abuse_from: จาก
+abuse_to: ถึง
+abuse_count: จำนวน
+abuse_sent: ส่งไป
+abuse_back: ส่งกลับ
+abuse_net: มูลค่าสุทธิ
+abuse_linked: เชื่อมโยง
+abuse_last: ล่าสุด
+abuse_link_ip: IP เดียวกัน
+abuse_link_multi: กลุ่มมัลติ
+abuse_link_multi_known: กลุ่มมัลติ (ทราบแล้ว)
+abuse_link_subnet: ซับเน็ตเดียวกัน (อ่อนกว่า)
+abuse_thresholds: 'ค่าเกณฑ์: คู่การโอนจะถูกแสดงเมื่อส่งไปทางเดียวตั้งแต่ %s หน่วยโลหะ และส่งกลับมาไม่เกิน %s คู่การค้าในตลาดจะแสดงเมื่อมีการค้าตั้งแต่ %s ครั้ง และถูกทำเครื่องหมายเมื่อต่างกันเกิน %s แถวที่ว่างหมายความว่าไม่มีอะไรถึงเกณฑ์เหล่านี้ (หรือบันทึกไม่มีข้อมูล) ไม่ได้หมายความว่าไม่มีอะไรเกิดขึ้น'
+abuse_transfers: การขนส่งและการยึดกำลังทางเดียว
+abuse_transfers_info: การขนส่ง การยึดกำลัง และการโอนยาน (ที่ไม่ถูกเรียกกลับ ยานนับตามราคาการสร้าง) ระหว่างผู้เล่นสองคน เมื่อสินค้าที่ส่งไปทางเดียวมีมูลค่าอย่างน้อย %s หน่วยโลหะ และมีมูลค่าส่งกลับมาไม่เกิน %s ของมูลค่านั้น เรียงตามมูลค่าสุทธิ น้ำหนักคืออัตราส่วนตลาดที่บันทึกไว้
+abuse_trades: การค้าในตลาดซ้ำ ๆ
+abuse_trades_info: การค้าทรัพยากรระหว่างผู้เล่นสองคนเดิมอย่างน้อย %s ครั้ง อัตราส่วน = มูลค่าที่ฝ่ายที่ให้มากกว่าให้ หารด้วยอีกฝ่าย (1.00 = ที่อ้างอิงตลาด) เมื่อต่างกันเกิน %s คู่นั้นจะถูกทำเครื่องหมาย
+abuse_giver: ให้มากกว่า
+abuse_receiver: ได้รับมากกว่า
+abuse_ratio: อัตราส่วน
+abuse_outlier: ผิดปกติ
+abuse_protections: การมอบการป้องกันการสร้างใหม่
+abuse_protections_info: ผู้เล่นที่ได้รับการป้องกันการสร้างใหม่ในช่วงเวลานี้ ศัตรูคืออีกฝ่ายของรายงานการต่อสู้ครั้งนั้น ของที่ปล้นคือมูลค่าที่กองเรือของพวกเขาได้จากการต่อสู้ (เศษซากและมูลค่าที่ถูกทำลายไม่ได้ถูกบันทึกไว้)
+abuse_protected: ผู้เล่นที่ได้รับการป้องกัน
+abuse_granted: ได้รับเมื่อ
+abuse_opponents: ศัตรู
+abuse_loot: ของที่ปล้นจากศัตรู
+abuse_report: รายงาน
+abuse_recalls: การเรียกกลับเมื่อถึงหรือหลังจากถึงเป้าหมาย
+abuse_recalls_info: กองเรือโจมตี ACS และทำลายที่ถูกเรียกกลับเมื่อเวลาถึงได้ผ่านไปแล้ว (รูปแบบการเรียกกลับหลังถึง)
+abuse_mission: ภารกิจ
+abuse_arrival: ถึง
+abuse_recalled: ถูกเรียกกลับ
+abuse_late: หลังถึง
+abuse_fought: สู้แล้ว
+abuse_mission_1: โจมตี
+abuse_mission_2: โจมตี ACS
+abuse_mission_9: ทำลาย
+abuse_missiles_skipped: การยิงขีปนาวุธเทียบกับของในไซโลไม่รวมอยู่ในรายงานนี้ เพราะตารางไม่มีประวัติไซโลให้เปรียบเทียบ
+abuse_link_device: อุปกรณ์เดียวกัน
+abuse_graph: กลุ่มการไหลของมูลค่า
+abuse_graph_info: 'ผู้เล่นที่เชื่อมกันด้วยการไหลของมูลค่าในช่วง %s วันที่ผ่านมา (ช่วงคงที่): การขนส่ง การยึดกำลัง การโอนยาน (ตามราคาการสร้าง) การค้าในตลาด (ทั้งสองฝั่ง) และของที่ปล้นจากการโจมตี รวมทั้งสองทิศทาง จะเชื่อมเฉพาะคู่ที่มีการเคลื่อนย้ายอย่างน้อย %s หน่วยโลหะ และมีการไหลอย่างน้อย %s ครั้ง แสดงกลุ่มที่เชื่อมกันตั้งแต่สองคนขึ้นไป (สูงสุด %s กลุ่มตามมูลค่า) สุทธิ = มูลค่าของคู่ที่ฝั่งเดียวที่สุดในกลุ่ม (สัดส่วนของมูลค่ารวม) ป้ายการเชื่อมโยงแสดงว่าสมาชิกมี IP อุปกรณ์ หรือกลุ่มมัลติเดียวกับสมาชิกคนอื่นหรือไม่ แถวจะถูกอ่านโดยจำกัดจำนวนต่อแหล่งข้อมูล'
+abuse_members: สมาชิก
+abuse_value: มูลค่ารวม
+abuse_flows: การไหล
+abuse_top_edge: คู่ที่ฝั่งเดียวที่สุด
+abuse_activity: กิจกรรมการส่งกองเรือ (24 ชม.)
+abuse_activity_info: บัญชีที่ส่งกองเรือมากที่สุดในช่วง 24 ชั่วโมงที่ผ่านมา ค่าสูงสุด = จำนวนการส่งในชั่วโมงที่คึกคักที่สุด ค่าสูงสุดที่สูงและคงที่อาจบ่งบอกถึงการเล่นด้วยสคริปต์
+abuse_player: ผู้เล่น
+abuse_launches: การส่ง
+abuse_peak: สูงสุด / ชั่วโมง
+adm_dash_unprotected: 'การป้องกันการใช้ในทางมิชอบถูกปิดอยู่ในจักรวาลนี้:'
+adm_dash_unprotected_push: ตัวป้องกันการดันด้วยการขนส่ง การยึดกำลัง และการโอนย้ายถูกปิดอยู่ (transport_push_check / transport_push_limit)
+adm_dash_unprotected_honor: ค่าเพดานการต่อสู้อย่างมีเกียรติคือ 0 (ได้เกียรติระหว่างผู้เล่นสองคนเดิมไม่จำกัด)
+adm_dash_unprotected_bash: สงครามที่ประกาศยกเว้นการจำกัดการโจมตีซ้ำ (bash_war_exempt)
+adm_dash_unprotected_depot: ค่าคลังสำรองใช้การใช้พื้นฐานที่ถูก (depot_cost_real_consumption ปิดอยู่)
+adm_dash_unprotected_market: ความคลาดเคลื่อนการดันตลาดสูงกว่า 10 % (market_push_tolerance)
+modul_57: เว็บไซต์โหวต
+adm_nav_voting: เว็บไซต์โหวต
+vt_sites: เว็บไซต์โหวต
+vt_add: เพิ่มเว็บไซต์
+vt_create_head: เว็บไซต์โหวตใหม่
+vt_edit_head: แก้ไขเว็บไซต์โหวต
+vt_back: กลับ
+vt_name: ชื่อ
+vt_vote_url: URL สำหรับโหวต
+vt_vote_url_help: ลิงก์ที่ส่งผู้เล่นไป {token} (โทเค็นครั้งเดียวของการโหวตนี้) และ {userId} จะถูกแทนที่
+vt_image_url: URL รูปภาพ (ไม่บังคับ)
+vt_image_url_help: แบนเนอร์หรือโลโก้ที่แสดงข้างเว็บไซต์ในหน้าผู้เล่น (https)
+vt_cooldown: ระยะพัก (ชั่วโมง)
+vt_cooldown_help: รับรางวัลได้หนึ่งครั้งต่อผู้เล่นและต่อเว็บไซต์ในช่วงเวลานี้ นับจากรางวัลครั้งล่าสุด
+vt_reward: รางวัล
+vt_res_901: โลหะ
+vt_res_902: คริสตัล
+vt_res_903: ดิวทีเรียม
+vt_verification: การยืนยัน
+vt_verify_none: ไม่มี (ได้รางวัลเมื่อคลิก)
+vt_verify_postback: Postback (ได้รางวัลเมื่อเว็บไซต์เรียกกลับ)
+vt_verification_help: หากไม่มีการยืนยัน ระบบจะจ่ายรางวัลเมื่อผู้เล่นกดปุ่มโหวต (ตามระยะพักเท่านั้น) หากใช้ postback เว็บไซต์ต้องเรียก URL สำหรับเรียกกลับ
+vt_sort: ลำดับการเรียง
+vt_active: ใช้งาน
+vt_enabled: ใช้งาน
+vt_disabled: ไม่ได้ใช้งาน
+vt_enable: เปิดใช้งาน
+vt_disable: ปิดใช้งาน
+vt_delete: ลบเว็บไซต์
+vt_renew_secret: สร้างรหัสลับใหม่
+vt_renew_secret_help: 'ทำให้ URL postback เดิมใช้ไม่ได้: ต้องอัปเดตที่เว็บไซต์โหวต'
+vt_postback: Postback
+vt_postback_url: URL สำหรับเรียกกลับ
+vt_secret: รหัสลับ
+vt_postback_help: กรอก URL นี้ในเว็บไซต์โหวตเป็น callback/postback แทนที่ {token} ด้วยตัวแปรของเว็บไซต์ที่ได้รับในลิงก์โหวต รับทั้ง GET และ POST และส่งรหัสลับได้ผ่านส่วนหัว X-Vote-Secret ด้วย
+vt_saved: บันทึกแล้ว
+vt_deleted: ลบเว็บไซต์โหวตแล้ว
+vt_empty: ยังไม่มีเว็บไซต์โหวต
+vt_confirm_delete: ลบเว็บไซต์โหวต "%s" และบันทึกของมันหรือไม่?
+vt_module_off: โมดูล "เว็บไซต์โหวต" ถูกปิดอยู่ ผู้เล่นจะไม่เห็นหน้าโหวต
+vt_error_name: ต้องกรอกชื่อ
+vt_error_vote_url: URL สำหรับโหวตต้องเป็นที่อยู่ http(s) ที่ถูกต้อง
+vt_error_image_url: URL รูปภาพต้องเป็นที่อยู่ http(s) ที่ถูกต้อง
+vt_error_reward: จำนวนรางวัลต้องอยู่ระหว่าง 0 ถึง 1,000,000,000
+vt_clicks: คลิก
+vt_verified: ยืนยันแล้ว
+vt_rewarded: ได้รับรางวัลแล้ว
+vt_log: การโหวตล่าสุด
+vt_log_time: เวลา
+vt_log_player: ผู้เล่น
+vt_log_status: สถานะ
+vt_log_ip: IP
+vt_log_empty: ยังไม่มีการโหวต
+vt_status_rewarded: ได้รับรางวัลแล้ว
+vt_status_verified: ยืนยันแล้ว ไม่มีรางวัล
+vt_status_pending: คลิกแล้ว

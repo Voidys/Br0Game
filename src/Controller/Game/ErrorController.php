@@ -20,25 +20,9 @@ namespace App\Controller\Game;
 /**
  * Error page of the game area: shows a message inside the game layout and ends the request.
  */
-#[\App\Routing\GamePage('game.php', 'error')]
-#[\App\Routing\GamePage('game.php', 'error', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'error')]
 class ErrorController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
+    use \App\Controller\Shared\ErrorPage;
     protected $disableEcoSystem = true;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
-    /** the area's error page with a message (ends the request) */
-    public function showError($Message, $fullSide = true, $redirect = null)
-    {
-        $this->initialize();
-        $this->printMessage($Message, null, $redirect, $fullSide);
-    }
-
-    public function show() {}
 }

@@ -79,3 +79,6 @@ board_ago_days: '%d д тому'
 board_guest_hint: Увійди, щоб писати дописи, коментувати й голосувати.
 board_guest_login: Увійти
 board_guest_register: Реєстрація
+rl_board_err_self_vote: Не можна голосувати за власний допис або коментар.
+rl_board_err_vote_cap: Досягнуто денний ліміт голосів. Спробуй завтра.
+rl_board_err_write_cap: Досягнуто денний ліміт дописів і коментарів. Спробуй завтра.

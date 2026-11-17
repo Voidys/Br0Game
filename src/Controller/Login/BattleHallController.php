@@ -24,12 +24,9 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Public hall of fame of the biggest battles. */
-#[\App\Routing\GamePage('index.php', 'battleHall')]
-#[\App\Routing\GamePage('index.php', 'battleHall', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'battleHall')]
 class BattleHallController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

@@ -38,7 +38,7 @@ $pdo->exec("CREATE DATABASE `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unic
 $kernel = new Kernel('test', true);
 $kernel->boot();
 $container = $kernel->getContainer()->get('test.service_container');
-$container->get(GameKernel::class)->boot('INSTALL', 'install/index.php');
+$container->get(GameKernel::class)->boot('INSTALL', 'install/index');
 
 /** @var InstallService $installer */
 $installer = $container->get(InstallService::class);

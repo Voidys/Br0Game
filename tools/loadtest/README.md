@@ -37,7 +37,7 @@ state use `ddev export-db` before and `ddev import-db` after.
 
 ## Notes
 
-- PHP-FPM in DDEV starts with 8 workers; the numbers in docs/CHANGELOG.md were taken with 32
+- PHP-FPM in DDEV starts with 8 workers; the numbers in CHANGES.md were taken with 32
   (`sudo sed -i 's/^pm.max_children = .*/pm.max_children = 32/' /etc/php/8.4/fpm/pool.d/www.conf && sudo service php8.4-fpm reload`
   inside `ddev ssh`, gone at the next restart). `SET GLOBAL innodb_print_all_deadlocks = ON` writes every deadlock graph to the MySQL log.
 - Test accounts must carry the game's own password cost (the seed uses `AccountUtil::cryptPassword()`): a weaker hash is rehashed at

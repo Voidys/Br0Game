@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  * skewed value ratio, rebuild-protection grants, recalls at or after the arrival time, value-flow clusters (trade graph) and
  * the accounts with the most fleet launches in 24 h, with link markers (shared IP / device / multi group). Filter: `days` (look-back window, default 7).
  */
-#[\App\Routing\GamePage('admin.php', 'abuseReport')]
-#[\App\Routing\GamePage('admin.php', 'abuseReport', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'abuseReport')]
 class AbuseReportController extends AbstractAdminController
 {
     /**

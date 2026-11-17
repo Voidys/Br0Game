@@ -294,28 +294,4 @@ UNLOCK TABLES;
             fwrite($fp, "(" . implode(", ", $rowData) . ")");
         }
     }
-
-    /**
-     * Replays a dump file: with the mysql client when available (the shell output is treated as an error), otherwise by splitting the file at ";\r\n" and running each statement. Sets a 10 minute time limit.
-     * @throws Exception with the client's output on error.
-     */
-    public function restoreDatabase($filePath)
-    {
-        // Ugly.
-        $this->setTimelimit();
-
-        if ($this->canNative('mysql')) {
-            $database	= [];
-            $database = $this->db->getConnectionConfig();
-            $sqlDump	= shell_exec("mysql --host='" . escapeshellarg($database['host']) . "' --port=" . ((int) $database['port']) . " --user='" . escapeshellarg($database['user']) . "' --password='" . escapeshellarg($database['userpw']) . "' '" . escapeshellarg($database['databasename']) . "' < " . escapeshellarg($filePath) . " 2>&1 1> /dev/null");
-            if (strlen($sqlDump) !== 0) { #mysql error
-                throw new Exception($sqlDump);
-            }
-        } else {
-            $backupQuery	= explode(";\r\n", file_get_contents($filePath));
-            foreach ($backupQuery as $query) {
-                $this->db->nativeQuery($query);
-            }
-        }
-    }
 }

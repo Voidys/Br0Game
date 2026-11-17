@@ -21,12 +21,10 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\TechTree;
 
 /** Technology tree: requirements of every building, research, ship and defence. */
-#[\App\Routing\GamePage('game.php', 'techtree')]
-#[\App\Routing\GamePage('game.php', 'techtree', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'techtree')]
+#[\App\Controller\RequireModule('MODULE_TECHTREE')]
 class TechtreeController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_TECHTREE';
-
     public function initialize(): void
     {
         parent::initialize();

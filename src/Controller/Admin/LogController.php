@@ -26,8 +26,7 @@ use App\Game\Core\Singleton;
 /**
  * Admin action log: overview, list per log type (planets, players, settings, presents, alliances) and the detail view.
  */
-#[\App\Routing\GamePage('admin.php', 'log')]
-#[\App\Routing\GamePage('admin.php', 'log', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'log')]
 class LogController extends AbstractAdminController
 {
     /**
@@ -36,7 +35,6 @@ class LogController extends AbstractAdminController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $resources = $this->state->resources;
         $table = $this->http()->_GP('type', '');
 
         # Modes:

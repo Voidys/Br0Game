@@ -26,12 +26,10 @@ use App\Game\Core\Singleton;
 /**
  * Hall of fame of the strongest battles (battle hall) with its filter.
  */
-#[\App\Routing\GamePage('game.php', 'battleHall')]
-#[\App\Routing\GamePage('game.php', 'battleHall', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'battleHall')]
+#[\App\Controller\RequireModule('MODULE_BATTLEHALL')]
 class BattleHallController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_BATTLEHALL';
-
     public function initialize(): void
     {
         parent::initialize();

@@ -2,81 +2,83 @@ Active_players: Aktywni gracze
 Back: Powrót
 mail:
   subject:
-    mail_changed: "Adres e-mail twojego konta %s został zmieniony"
-Other_universes: "Inne uniwersa"
-Play: "Graj"
+    mail_changed: Adres e-mail twojego konta %s został zmieniony
+Other_universes: Inne uniwersa
+Play: Graj
 Playername: Nazwa gracza
-Register: "Zarejestruj się"
+Register: Zarejestruj się
 Settings: Ustawienia
-Sitting_cancel: "Zakończ opiekę"
-Sitting_end: "Koniec opieki nad kontem"
-Sitting_request: "Poproś o opiekę nad kontem (jeszcze niedostępne)"
+Sitting_end: Koniec opieki nad kontem
+Sitting_request: Poproś o opiekę nad kontem (jeszcze niedostępne)
 uni_status_regclosed_gameclosed: Zamknięte
-uni_status_regclosed_gameopen: "Otwarty dla graczy"
-uni_status_regopen_gameclosed: "Otwarta rejestracja"
-uni_status_regopen_gameopen: "Otwarty"
+uni_status_regclosed_gameopen: Otwarty dla graczy
+uni_status_regopen_gameclosed: Otwarta rejestracja
+uni_status_regopen_gameopen: Otwarty
 Universe_end: Koniec
 Universe_start: Start
-Universe_status: "Status uniwersum: "
-Universes: "Uniwersa"
-Your_universes: "Twoje uniwersa"
-board_create: "Nowy wpis"
-board_edit_post: "Edytuj wpis"
-board_sort: "Sortuj"
-board_sort_hot: "Na czasie"
-board_sort_new: "Nowe"
-board_sort_top: "Najlepsze"
-board_period_all: "Cały czas"
-board_period_week: "W tym tygodniu"
-board_csort_best: "Najlepsze"
-board_flair: "Etykieta"
-board_flair_all: "Wszystkie"
-board_flair_general: "Ogólne"
-board_flair_guide: "Poradnik"
-board_flair_question: "Pytanie"
-board_flair_suggestion: "Propozycja"
-board_flair_bug: "Błąd"
-board_flair_offtopic: "Off-topic"
-board_upvote: "Głos za"
-board_downvote: "Głos przeciw"
-board_pinned: "Przypięty"
-board_locked: "Zablokowany"
-board_by: "od"
-board_comments: "Komentarze"
-board_empty: "Brak wpisów. Napisz pierwszy!"
-board_no_comments: "Brak komentarzy."
-board_title: "Tytuł"
-board_body: "Tekst"
-board_publish: "Opublikuj"
-board_save: "Zapisz"
-board_cancel: "Anuluj"
-board_edit: "Edytuj"
-board_edited: "edytowano"
-board_delete: "Usuń"
-board_deleted: "[usunięto]"
-board_deleted_user: "[usunięto]"
-board_confirm_delete: "Na pewno to usunąć?"
-board_reply: "Odpowiedz"
-board_collapse: "Zwiń wątek"
-board_add_comment: "Napisz komentarz"
-board_comment_send: "Skomentuj"
-board_mod_pin: "Przypnij"
-board_mod_unpin: "Odepnij"
-board_mod_lock: "Zablokuj"
-board_mod_unlock: "Odblokuj"
-board_not_found: "Ten wpis lub komentarz nie istnieje."
-board_not_allowed: "Nie masz uprawnień do tej czynności."
-board_err_csrf: "Nie udało się zweryfikować żądania. Odśwież stronę i spróbuj ponownie."
-board_err_title: "Podaj tytuł."
-board_err_title_long: "Tytuł może mieć maksymalnie 200 znaków."
-board_err_body: "Wpisz jakiś tekst (nie może być pusty ani zbyt długi)."
-board_err_locked: "Ten wpis jest zablokowany – nie można dodawać komentarzy."
-board_err_rate_post: "Poczekaj jeszcze %d s przed kolejnym wpisem."
-board_err_rate_comment: "Poczekaj jeszcze %d s przed kolejnym komentarzem."
-board_ago_now: "przed chwilą"
-board_ago_min: "%d min temu"
-board_ago_hours: "%d godz. temu"
-board_ago_days: "%d dn. temu"
-board_guest_hint: "Zaloguj się, aby pisać, komentować i głosować."
-board_guest_login: "Zaloguj się"
-board_guest_register: "Zarejestruj się"
+Universe_status: 'Status uniwersum: '
+Universes: Uniwersa
+Your_universes: Twoje uniwersa
+board_create: Nowy wpis
+board_edit_post: Edytuj wpis
+board_sort: Sortuj
+board_sort_hot: Na czasie
+board_sort_new: Nowe
+board_sort_top: Najlepsze
+board_period_all: Cały czas
+board_period_week: W tym tygodniu
+board_csort_best: Najlepsze
+board_flair: Etykieta
+board_flair_all: Wszystkie
+board_flair_general: Ogólne
+board_flair_guide: Poradnik
+board_flair_question: Pytanie
+board_flair_suggestion: Propozycja
+board_flair_bug: Błąd
+board_flair_offtopic: Off-topic
+board_upvote: Głos za
+board_downvote: Głos przeciw
+board_pinned: Przypięty
+board_locked: Zablokowany
+board_by: od
+board_comments: Komentarze
+board_empty: Brak wpisów. Napisz pierwszy!
+board_no_comments: Brak komentarzy.
+board_title: Tytuł
+board_body: Tekst
+board_publish: Opublikuj
+board_save: Zapisz
+board_cancel: Anuluj
+board_edit: Edytuj
+board_edited: edytowano
+board_delete: Usuń
+board_deleted: '[usunięto]'
+board_deleted_user: '[usunięto]'
+board_confirm_delete: Na pewno to usunąć?
+board_reply: Odpowiedz
+board_collapse: Zwiń wątek
+board_add_comment: Napisz komentarz
+board_comment_send: Skomentuj
+board_mod_pin: Przypnij
+board_mod_unpin: Odepnij
+board_mod_lock: Zablokuj
+board_mod_unlock: Odblokuj
+board_not_found: Ten wpis lub komentarz nie istnieje.
+board_not_allowed: Nie masz uprawnień do tej czynności.
+board_err_csrf: Nie udało się zweryfikować żądania. Odśwież stronę i spróbuj ponownie.
+board_err_title: Podaj tytuł.
+board_err_title_long: Tytuł może mieć maksymalnie 200 znaków.
+board_err_body: Wpisz jakiś tekst (nie może być pusty ani zbyt długi).
+board_err_locked: Ten wpis jest zablokowany – nie można dodawać komentarzy.
+board_err_rate_post: Poczekaj jeszcze %d s przed kolejnym wpisem.
+board_err_rate_comment: Poczekaj jeszcze %d s przed kolejnym komentarzem.
+board_ago_now: przed chwilą
+board_ago_min: '%d min temu'
+board_ago_hours: '%d godz. temu'
+board_ago_days: '%d dn. temu'
+board_guest_hint: Zaloguj się, aby pisać, komentować i głosować.
+board_guest_login: Zaloguj się
+board_guest_register: Zarejestruj się
+rl_board_err_self_vote: Nie możesz głosować na swój własny wpis lub komentarz.
+rl_board_err_vote_cap: Osiągnięto dzienny limit głosów. Spróbuj jutro.
+rl_board_err_write_cap: Osiągnięto dzienny limit wpisów i komentarzy. Spróbuj jutro.

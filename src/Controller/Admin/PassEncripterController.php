@@ -25,8 +25,7 @@ use App\Game\Core\Singleton;
 /**
  * Shows the stored password hash for a given plain password.
  */
-#[\App\Routing\GamePage('admin.php', 'passEncripter')]
-#[\App\Routing\GamePage('admin.php', 'passEncripter', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'passEncripter')]
 class PassEncripterController extends AbstractAdminController
 {
     /**

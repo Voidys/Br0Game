@@ -184,7 +184,6 @@ final class ElementCatalogTest extends GameTestCase
         $this->assertSame(array_keys($state['resource']), array_keys($catalog->columnMap()));
         $this->assertEquals($state['requeriments'], $catalog->requirementMap());
         $this->assertSame(array_keys($state['requeriments']), array_keys($catalog->requirementMap()));
-        $this->assertEquals(array_map('array_values', $state['reslist']['allow']), $catalog->allowedMap());
         $this->assertEquals(array_map('array_values', $state['reslist']['ship_type']), $catalog->shipTypes());
         $this->assertEquals(array_map('array_values', $state['reslist']['resstype']), $catalog->resourceTypes());
         foreach (ElementCatalog::GROUPS as $group) {

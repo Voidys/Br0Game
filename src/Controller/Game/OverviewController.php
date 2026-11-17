@@ -35,12 +35,9 @@ use App\Game\Core\Universe;
  * Planet overview: planet data, fleet events, news and rank; planet actions, rename and give-up (modes: show,
  * actions, rename, delete).
  */
-#[\App\Routing\GamePage('game.php', 'overview', default: true)]
-#[\App\Routing\GamePage('game.php', 'overview', default: true, uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'overview', default: true)]
 class OverviewController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();
@@ -80,16 +77,8 @@ class OverviewController extends AbstractGameController
         $AdminsOnline = $this->adminsOnline();
 
         $config = $this->configs->get();
-        $RefLinks = $this->referrals($USER, $config);
         $rankInfo = $this->rankInfo($USER, $config);
 
-        $db = $this->db;
-        $sql = 'SELECT COUNT(*) AS amount FROM %%USERS%%
-            WHERE onlinetime >= UNIX_TIMESTAMP(NOW() - INTERVAL 15 MINUTE)';
-        $usersOnline = $db->selectSingle($sql, [], 'amount');
-
-        $sql = 'SELECT COUNT(*) AS amount FROM %%FLEETS%%';
-        $fleetsOnline = $db->selectSingle($sql, [], 'amount');
         $enablePlanetStyles = $USER['enable_planet_styles'];
 
         $outlawTime = $this->outlawUntil($USER);
@@ -99,8 +88,6 @@ class OverviewController extends AbstractGameController
             'rankInfo'                  => $rankInfo,
             'is_news'                   => $config->overview_news_frame,
             'news'                      => makebr($config->overview_news_text),
-            'usersOnline'               => $usersOnline,
-            'fleetsOnline'              => $fleetsOnline,
             'planetname'                => $PLANET['name'],
             'planetimage'               => $PLANET['image'],
             'planet_style'              => $PLANET['planet_style'],
@@ -121,8 +108,6 @@ class OverviewController extends AbstractGameController
             'planet_temp_min'           => $PLANET['temp_min'],
             'planet_temp_max'           => $PLANET['temp_max'],
             'ref_active'                => $config->ref_active,
-            'ref_minpoints'             => $config->ref_minpoints,
-            'RefLinks'                  => $RefLinks,
             'servertime'                => $this->viewHelpers()->formatDate("M D d H:i:s", $this->state->runtime->timestamp, $USER['timezone']),
             'path'                      => $this->state->runtime->httpPath,
             'colors'                    => $USER['colors'],
@@ -327,34 +312,6 @@ class OverviewController extends AbstractGameController
         }
 
         return $AdminsOnline;
-    }
-
-    /**
-     * Players recruited by the user with their points capped at the referral threshold (only with the referral system on;
-     * the query runs regardless, as before).
-     *
-     * @param array<string, mixed> $USER
-     * @return array<int, array{username: string, points: int|float}>
-     */
-    private function referrals(array $USER, object $config): array
-    {
-        $RefLinks = [];
-        // known issue: deleted players no longer show up in this table
-        $sql = "SELECT u.id, u.username, s.total_points FROM %%USERS%% as u
-		    LEFT JOIN %%STATPOINTS%% as s ON s.id_owner = u.id AND s.stat_type = '1'
-            WHERE ref_id = :userID;";
-        $RefLinksRAW = $this->db->select($sql, [':userID'   => $USER['id']]);
-
-        if ($config->ref_active) {
-            foreach ($RefLinksRAW as $RefRow) {
-                $RefLinks[$RefRow['id']] = [
-                    'username'  => $RefRow['username'],
-                    'points'    => min($RefRow['total_points'], $config->ref_minpoints),
-                ];
-            }
-        }
-
-        return $RefLinks;
     }
 
     /**

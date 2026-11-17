@@ -28,7 +28,7 @@ use App\Game\Core\Universe;
  * Nightly housekeeping (default 02:25 every day, cronjob "daily"): clears caches, recalculates all next run times,
  * resets the eco hash of all planets (forces a production recalculation), then per universe: kicks long-inactive
  * players out of vacation mode, resets mine/energy settings of inactive players to 100%, removes inactive players
- * from alliances and buddy lists; finally cleans old battle reports, erases old multi-account IPs, deletes old device links and deletes
+ * from alliances and buddy lists; finally cleans old battle reports, erases old multi-account IPs, deletes old device links, deletes old vote log entries and deletes
  * unvalidated registrations.
  */
 class DailyCronjob extends AbstractCronjobTask
@@ -50,6 +50,7 @@ class DailyCronjob extends AbstractCronjobTask
         $this->cleanReports($universes);
         $this->eraseIPAdresses();
         $this->purgeDevices();
+        $this->purgeVoteLog();
         $this->cleanAccountsValid();
     }
 
@@ -85,6 +86,14 @@ class DailyCronjob extends AbstractCronjobTask
     public function purgeDevices(): void
     {
         (new \App\Game\Core\DeviceLinks($this->db, ''))->purge($this->state->runtime->timestamp);
+    }
+
+    /**
+     * Privacy: deletes vote log entries (with the player's IP) older than 90 days.
+     */
+    public function purgeVoteLog(): void
+    {
+        (new \App\Community\VoteSites($this->db))->purge($this->state->runtime->timestamp);
     }
 
     /**

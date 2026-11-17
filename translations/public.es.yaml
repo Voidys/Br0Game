@@ -1,23 +1,18 @@
+build_ships: Naves construidas en total
 buttonLostPassword: ¿Olvidaste tu contraseña?
 buttonRegister: ¡Regístrate ahora!
 buttonScreenshot: Capturas
-chose_a_uni: Elige un universo
+civil: Civil
+colony: Colonia
+deathstar: Estrella de la muerte
+destroyed_sats: Satélites solares destruidos
 disclamerLabelAddress: 'Dirección del juego:'
 disclamerLabelMail: 'Correo de soporte:'
 disclamerLabelNotice: Más información
 disclamerLabelPhone: 'Teléfono:'
-disclamerRecaptcha: >-
-  Esta página utiliza reCAPTCHA y se aplican la <a
-  href="https://policies.google.com/privacy">declaración de privacidad</a> y las
-  <a href="https://policies.google.com/terms">condiciones de uso</a> de Google.
+first_fights: Primeros combates del universo
 forum: Foro
-gameInformations: 'Un juego de estrategia espacial en tiempo real.
-
-  Cientos de jugadores en cada universo.
-
-  Sin descargas: solo necesitas un navegador normal.
-
-  Registro gratuito'
+hof_empty: Todavía no hay datos del salón de la fama.
 login_error_1: '¡Correo o contraseña incorrectos! Consejo: los gestores de contraseñas suelen rellenar tu nombre de usuario, pero para iniciar sesión tienes que usar tu correo.'
 login_error_2: Tu cuenta ha iniciado sesión desde otro dispositivo, o tu dirección IP ha cambiado.
 login_error_3: Tu sesión ha caducado. Inicia sesión de nuevo.
@@ -29,26 +24,22 @@ loginInfo: Al iniciar sesión, acepto las %s.
 loginPassword: Contraseña
 loginServerDesc: '%s es un juego de estrategia espacial en el que cientos de jugadores compiten <strong>al mismo tiempo</strong> por ser los mejores. Solo necesitas un navegador web normal.'
 loginWelcome: Bienvenido a %s
+Lowest_longterm_points: Cuentas preinscritas con menos puntos
 menu_banlist: Lista de baneos
 menu_battlehall: Salón de la Fama
 menu_disclamer: Contacto
-menu_index: Inicio
 menu_news: Noticias
-menu_register: Registro
 menu_rules: Reglas
+military: Militar
 news_does_not_exist: No hay noticias.
 news_from: El %s por %s
-news_overview: Noticias
+overall: Total
 passwordBack: Atrás
-passwordCaptcha: Código de seguridad
 passwordChangedMailSend: Tu nueva contraseña está en camino. Recibirás un correo en breve.
 passwordChangedMailTitle: Nueva contraseña para %s
-passwordConfirmInfo: 'Haz clic en el botón para restablecer tu contraseña. Te enviaremos la nueva contraseña por correo electrónico.'
-passwordConfirmSubmit: 'Enviarme una contraseña nueva'
+passwordConfirmInfo: Haz clic en el botón para restablecer tu contraseña. Te enviaremos la nueva contraseña por correo electrónico.
+passwordConfirmSubmit: Enviarme una contraseña nueva
 passwordErrorMailEmpty: No conocemos esa dirección de correo.
-passwordErrorOnePerDay: En las últimas 24 horas ya se solicitó una contraseña para esta cuenta. Podrás pedir otra dentro de 24 horas.
-passwordErrorUnknown: No se ha encontrado ninguna cuenta con esos datos.
-passwordErrorUsernameEmpty: ¡No has introducido un nombre de usuario!
 passwordInfo: ¿Has olvidado tu contraseña? Introduce el nombre de usuario y el correo de tu cuenta. Si no los recuerdas, ponte en contacto con un administrador.
 passwordMail: Correo electrónico
 passwordNext: Siguiente
@@ -57,15 +48,17 @@ passwordUsername: Usuario
 passwordValidInValid: Solicitud no válida.
 passwordValidMailSend: En breve recibirás un correo con los siguientes pasos.
 passwordValidMailTitle: Restablecer la contraseña de %s
+players: Jugadores
+points_amount: Puntos / Cantidad
+powFailed: La comprobación automática anti-bots falló o caducó. Vuelve atrás, espera un momento y envía el formulario de nuevo.
+powNoCrypto: Tu navegador no puede ejecutar la comprobación automática anti-bots (necesita una conexión https segura).
+powVerifying: Comprobando tu navegador …
 registerBack: Atrás
-registerCaptcha: Código de Seguridad
-registerCaptchaDesc: Escribe los caracteres de la imagen en el campo vacío, sin espacios. No distingue entre mayúsculas y minúsculas. Si después de recargar varias veces sigues sin poder leer la imagen, ponte en contacto con el administrador.
-registerCaptchaReload: Recargar captcha
+registerDataPrivacyDesc: Acepto la %s
 registerEmail: Correo electrónico
 registerEmailDesc: Introduce tu dirección de correo electrónico.
 registerEmailReplay: Repetir correo
 registerEmailReplayDesc: Escribe tu correo otra vez para confirmarlo.
-registerErrorCaptcha: ¡El código de seguridad no es correcto!
 registerErrorDataPrivacy: Acepta la política de privacidad para continuar.
 registerErrorMailEmpty: Introduce una dirección de correo electrónico.
 registerErrorMailExist: Esta dirección de correo ya está registrada.
@@ -80,9 +73,7 @@ registerErrorUsernameEmpty: Introduce un nombre de usuario.
 registerErrorUsernameExist: Ese nombre de usuario ya está en uso.
 registerLanguage: Idioma
 registerMailCompleteTitle: ¡Bienvenido a %s!
-registerMailVertifyError: 'No se pudo enviar el correo: %s'
 registerMailVertifyTitle: Activa tu cuenta de %s
-registerNext: Continuar
 registerPassword: Contraseña
 registerPasswordDesc: Tu contraseña debe tener al menos %s caracteres.
 registerPasswordReplay: Repetir contraseña
@@ -97,7 +88,6 @@ registerUsernameDesc: 'Usa de 3 a 25 caracteres: letras, números, espacios, pun
 registerWelcomePMSenderName: Administrador
 registerWelcomePMSubject: Bienvenido
 registerWelcomePMText: ¡Bienvenido a %s! Lo primero es construir una planta de energía solar, porque hace falta energía para producir recursos. Abre Edificios en el menú de la izquierda y empieza por la planta de energía solar.<br>Cuando tengas energía, ya puedes construir minas. Sigue en Edificios y levanta una mina de metal y después una de cristal.<br><br>Para construir naves necesitas un hangar. El menú Tecnología de la izquierda te muestra qué hace falta para desbloquearlo.<br>Si tienes más dudas, echa un vistazo a las FAQ, a la wiki o abre un ticket de soporte.<br><br>¡El equipo te desea mucha diversión explorando el universo!
-rulesHeader: Reglas
 siteTitleBanList: Lista de baneos
 siteTitleBattleHall: Salón de la Fama
 siteTitleDataPrivacy: Política de privacidad
@@ -109,83 +99,46 @@ siteTitleNews: Noticias
 siteTitleRegister: Registro
 siteTitleRules: Reglas
 siteTitleScreens: Capturas
-uni_closed: ' (cerrado)'
-uni_reg_closed: ' (registro cerrado)'
-uni_reg_open: ' (solo registro)'
+spy: Sondas de espionaje
+st_buildings: Edificios
+st_defenses: Defensa
+st_fleets: Flota
+st_points: Puntos
+st_researh: Investigación
+theme: Tema
 universe: Universo
 vertifyAdminMessage: La cuenta «%s» ha sido activada.
 vertifyNoUserFound: Solicitud no válida.
-biggest_solo: "Mayores combates en solitario"
-build_ships: "Naves construidas en total"
-civil: "Civil"
-colony: "Colonia"
-CrystalStorage: "Almacén de cristal"
-deathstar: "Estrella de la muerte"
-destroyed_sats: "Satélites solares destruidos"
-first_fights: "Primeros combates del universo"
-flown_expos: "Expediciones enviadas en total"
-flownDeut: Deuterio gastado en vuelos
-found_res: "Recursos encontrados en total"
-found_ships: "Naves encontradas en total"
-galaxySpendDeut: Deuterio gastado explorando la galaxia
-hof3_header: "¡Las leyendas del Uni 3 quedan inmortalizadas aquí!"
-hof4_header: "¡Las leyendas del Uni 4 quedan inmortalizadas aquí!"
-hof7_header: "¡Las leyendas del Uni 7 quedan inmortalizadas aquí!"
-IonCannon: "Cañón iónico"
-least_reached_ach: "Logros más raros"
-Lowest_longterm_points: Cuentas preinscritas con menos puntos
-medAliens: "Alienígenas medios"
-military: "Militar"
-most_achievements: "Más logros conseguidos"
-most_black_holes: "Más agujeros negros encontrados"
-most_build: "Más construidos"
-most_build_HF: "Más cazas pesados construidos"
-most_defended_moons: "Más defensas de luna exitosas"
-most_destroyed_moons: "Más lunas destruidas"
-most_expo_fights: "Más combates contra alienígenas/piratas"
-most_fights: "Más victorias / derrotas / empates"
-most_reached_ach: "Logros más comunes"
-most_records: "Más récords conseguidos"
-oldest_active_acc: "Cuentas activas más antiguas"
-overall: "Total"
-players: "Jugadores"
-points_amount: "Puntos / Cantidad"
-realDesUnits: "Unidades destruidas reales"
-registerDataPrivacyDesc: Acepto la %s
-second_expo_deck: Empezaron su segunda cubierta de expedición
-spy: "Sondas de espionaje"
-st_buildings: "Edificios"
-st_defenses: "Defensa"
-st_fleets: "Flota"
-st_points: "Puntos"
-st_researh: "Investigación"
-theme: "Tema"
-votingPoints: "Puntos de votación"
-wonAttack: "Ataque ganado"
-wonDefense: "Defensa ganada"
-home_menu: "Menú"
-home_meta_description: "%s – el juego de estrategia espacial de navegador con el encanto de los 2000: haz crecer planetas, construye flotas, forja alianzas."
-home_started: "¡Ya está en marcha!"
-home_starts_in: "En"
-home_team: "Equipo"
-home_meme_alt: "Meme en cómic desde el puente de mando de {game_name}"
-home_meme_alt_deep_space_transit: "Cómic: dos cadetes en una lanzadera – uno se hunde al ver un campo de asteroides, el otro sonríe ante una nebulosa brillante. «Patrullas de sector rutinarias vs. encontrar una nebulosa inexplorada y rica en recursos.»"
-home_meme_alt_deuterium_joyride: "Cómic: un comandante cansado en la cubierta de observación mira a dos reclutas flotando fuera – «Ver a los nuevos reclutas malgastar todo su deuterio dando vueltas mientras yo espero 12 horas a las mejoras de mis minas.»"
-home_meme_alt_enemy_fleet: "Cómic: un cadete se lleva las manos a la cabeza mientras parpadean las alarmas – «¡¿1000 destructores enemigos en camino?! ¡¿No era este sector seguro?!»"
-home_meme_alt_fleet_decimated: "Cómic: un soldado en estado de shock mira al frente mientras explotan naves tras la cúpula destrozada – «Cuando pasas 20 horas recolectando recursos y la flota de un jugador del top 3 llega y lo desmonta todo en 3 segundos.»"
-home_meme_alt_solo_scouting: "Cómic: el comandante Kamioka sonríe y apoya una mano robótica en el hombro de un cadete – «Tranquilo, cadete. El Alto Mando tiene una confianza ‘total’ en tu misión de reconocimiento en solitario por el espacio.»"
+passwordErrorUsernameEmpty: ¡No has introducido un nombre de usuario!
+uni_closed: ' (cerrado)'
+uni_reg_closed: ' (registro cerrado)'
+uni_reg_open: ' (solo registro)'
+home_menu: Menú
+home_meta_description: '%s – el juego de estrategia espacial de navegador con el encanto de los 2000: haz crecer planetas, construye flotas, forja alianzas.'
+home_started: ¡Ya está en marcha!
+home_starts_in: En
+home_team: Equipo
+home_meme_alt: Meme en cómic desde el puente de mando de {game_name}
+home_meme_alt_deep_space_transit: 'Cómic: dos cadetes en una lanzadera – uno se hunde al ver un campo de asteroides, el otro sonríe ante una nebulosa brillante. «Patrullas de sector rutinarias vs. encontrar una nebulosa inexplorada y rica en recursos.»'
+home_meme_alt_deuterium_joyride: 'Cómic: un comandante cansado en la cubierta de observación mira a dos reclutas flotando fuera – «Ver a los nuevos reclutas malgastar todo su deuterio dando vueltas mientras yo espero 12 horas a las mejoras de mis minas.»'
+home_meme_alt_enemy_fleet: 'Cómic: un cadete se lleva las manos a la cabeza mientras parpadean las alarmas – «¡¿1000 destructores enemigos en camino?! ¡¿No era este sector seguro?!»'
+home_meme_alt_fleet_decimated: 'Cómic: un soldado en estado de shock mira al frente mientras explotan naves tras la cúpula destrozada – «Cuando pasas 20 horas recolectando recursos y la flota de un jugador del top 3 llega y lo desmonta todo en 3 segundos.»'
+home_meme_alt_solo_scouting: 'Cómic: el comandante Kamioka sonríe y apoya una mano robótica en el hombro de un cadete – «Tranquilo, cadete. El Alto Mando tiene una confianza ‘total’ en tu misión de reconocimiento en solitario por el espacio.»'
 home_meme_alt_this_is_fine: 'Cómic: un perro con traje espacial está sentado tan tranquilo en un centro de mando en llamas y dice «This is fine» – «Tranquilo. Mi flota solo vuelve con 4 horas de retraso.»'
-source_code: "Código fuente"
-news_back: "Volver a las noticias"
-lightbox_close: "Cerrar"
-lightbox_prev: "Imagen anterior"
-lightbox_next: "Imagen siguiente"
-news_pinned: "Fijada"
-news_read_more: "Leer más"
-news_latest: "Últimas noticias"
-news_all: "Todas las noticias"
-csrf_invalid: "Falló la comprobación de seguridad de la solicitud (¿sesión caducada?). Recarga la página e inténtalo de nuevo."
-home_logged_in_head: "Tu cuenta"
-home_logged_in_as: "Sesión iniciada como %s"
-home_continue: "Continuar a tus universos"
-home_account_lobby: "Sala de la cuenta"
+source_code: Código fuente
+news_back: Volver a las noticias
+lightbox_close: Cerrar
+lightbox_prev: Imagen anterior
+lightbox_next: Imagen siguiente
+news_pinned: Fijada
+news_read_more: Leer más
+news_latest: Últimas noticias
+home_discord_online: En línea
+home_discord_join: Únete a nuestro Discord
+news_all: Todas las noticias
+csrf_invalid: Falló la comprobación de seguridad de la solicitud (¿sesión caducada?). Recarga la página e inténtalo de nuevo.
+home_logged_in_head: Tu cuenta
+home_logged_in_as: Sesión iniciada como %s
+home_continue: Continuar a tus universos
+home_account_lobby: Sala de la cuenta
+rulesEmpty: Todavía no se ha publicado ninguna regla.

@@ -21,7 +21,6 @@ web_environment:
     # local development runs in dev (profiler, debug pages); the checked-in .env defaults to prod
     - APP_ENV=dev
 nodejs_version: "16"
-# Symfony Scheduler worker: runs the game cronjobs every minute (App\Schedule)
 web_extra_daemons:
     # game cronjobs: a fresh `app:cron:run` at the start of every minute (production: crontab, see README);
     # %% is supervisor escaping for %

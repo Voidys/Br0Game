@@ -18,25 +18,9 @@
 namespace App\Controller\Login;
 
 /** Error page of the public area. */
-#[\App\Routing\GamePage('index.php', 'error')]
-#[\App\Routing\GamePage('index.php', 'error', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'error')]
 class ErrorController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
+    use \App\Controller\Shared\ErrorPage;
     protected $disableEcoSystem = true;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
-    /** the area's error page with a message (ends the request) */
-    public function showError($Message, $fullSide = true, $redirect = null)
-    {
-        $this->initialize();
-        $this->printMessage($Message, null, $redirect, $fullSide);
-    }
-
-    public function show() {}
 }

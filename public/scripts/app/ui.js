@@ -45,7 +45,7 @@ function cellValue(row, index) {
 }
 
 /** click a header cell to sort the table body by that column (formerly tablesorter) */
-export function sortableTable(table) {
+function sortableTable(table) {
   if (!table || table.dataset.sortableReady) return;
   table.dataset.sortableReady = '1';
   // last header row: tables may carry a title row above the column headings
@@ -274,7 +274,5 @@ export function initUi() {
   qsa('[data-tabs]').forEach((el) => tabs(el));
   qsa('table.sortable, table[data-sortable]').forEach(sortableTable);
 }
-
-window.App = Object.assign(window.App ?? {}, { tabs, sortableTable, autocomplete });
 
 export { qs };

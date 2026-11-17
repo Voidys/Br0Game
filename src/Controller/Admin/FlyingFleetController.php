@@ -27,8 +27,7 @@ use App\Game\Core\Universe;
 /**
  * Lists the fleets in flight of the emulated universe; fleets can be sent back (single or all attacking).
  */
-#[\App\Routing\GamePage('admin.php', 'flyingFleet')]
-#[\App\Routing\GamePage('admin.php', 'flyingFleet', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'flyingFleet')]
 class FlyingFleetController extends AbstractAdminController
 {
     /**

@@ -79,7 +79,7 @@ final class QueueTest extends GameTestCase
     }
 
     /**
-     * The stored queue (JSON, legacy serialize() also accepted) as the serialize() string the goldens were captured
+     * The stored queue (JSON) as the serialize() string the goldens were captured
      * from: decoding the storage and serializing the structure again proves it is identical to what the former
      * serialize()-based storage held. The clock and the planet id are made relative: "d:T+57;" instead of
      * "d:1794777123;" ($base defaults to the request timestamp), "i:4;i:PLANET;" instead of the planet id of a research entry.
@@ -291,7 +291,7 @@ final class QueueTest extends GameTestCase
         [$user, $planet] = $this->createPlayer([], ['metal' => 100000, 'crystal' => 100000, 'deuterium' => 100000, 'metal_mine' => 3, 'solar_plant' => 5]);
         $start = $planet['last_update'];
         $planet['b_building'] = $start + 100;
-        $planet['b_building_id'] = serialize([
+        $planet['b_building_id'] = StoredData::encode([
             [1, 4, 100.0, (float) ($start + 100), 'build', [901 => 100.0, 902 => 25.0]],
             [2, 1, 60.0, (float) ($start + 160), 'build'],
             [3, 1, 80.0, (float) ($start + 240), 'build'],

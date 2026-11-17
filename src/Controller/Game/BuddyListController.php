@@ -28,12 +28,10 @@ use App\Game\Core\Universe;
 /**
  * Buddy list: friends, friend requests (send, accept, reject, delete).
  */
-#[\App\Routing\GamePage('game.php', 'buddyList')]
-#[\App\Routing\GamePage('game.php', 'buddyList', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'buddyList')]
+#[\App\Controller\RequireModule('MODULE_BUDDYLIST')]
 class BuddyListController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_BUDDYLIST';
-
     private const MAX_OPEN_REQUESTS = 10;
     private const MAX_REQUESTS_PER_WINDOW = 5;
     private const REQUEST_WINDOW = 600;

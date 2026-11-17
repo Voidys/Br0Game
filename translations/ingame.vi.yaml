@@ -213,6 +213,7 @@ al_all_players: Tất cả người chơi
 al_alliance: Liên minh
 al_alliance_closed: Liên minh này không nhận thành viên mới.
 al_alliance_full: Liên minh này đã đầy. Hãy thử liên minh khác.
+al_apply_rate_limited: Hôm nay bạn đã gửi quá nhiều đơn xin gia nhập. Hãy thử lại vào ngày mai.
 al_alliance_make: Tạo liên minh của riêng bạn
 al_alliance_min_points: Bạn cần ít nhất %d điểm để nộp đơn vào liên minh này.
 al_alliance_search: Tìm liên minh
@@ -227,8 +228,6 @@ al_apply_not_exists: Đơn đó không còn tồn tại.
 al_applyform_send: Gửi
 al_back: Quay lại
 al_candidate: Ứng viên
-al_change_submit: Đổi
-al_change_title: Đổi tiêu đề
 al_characters: ký tự
 al_circular_alliance: 'Liên minh '
 al_circular_front_text: 'Thành viên liên minh <b>%s</b> đã viết:'
@@ -336,13 +335,11 @@ al_memberlist_on: Trực tuyến
 al_message: Tin nhắn
 al_name: Đổi tên liên minh
 al_name_required: Hãy nhập tên liên minh.
-al_link_too_long: "Liên kết quá dài (tối đa 255 ký tự)."
+al_link_too_long: Liên kết quá dài (tối đa 255 ký tự).
 al_name_tag_too_long: Thẻ tối đa 8 ký tự và tên tối đa 30 ký tự.
 al_new_apply: Liên minh của bạn đã nhận <a href="?page=alliance&mode=admin&action=manageApply">[một đơn xin gia nhập]</a> từ người chơi <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Thành viên mới
-al_new_name: Đổi tên (3-30 ký tự)
 al_new_requests: '%d đang chờ'
-al_new_tag: Đổi thẻ (3-8 ký tự)
 al_newname_specialchar: Tên và thẻ liên minh chỉ được chứa chữ cái, chữ số, khoảng trắng, dấu gạch dưới, gạch ngang và dấu chấm.
 al_no_diplo: '-'
 al_no_ranks_defined: Chưa có cấp bậc nào. Hãy tạo cấp bậc đầu tiên!
@@ -409,7 +406,6 @@ al_you_was_acceted: 'Bạn đã được nhận vào '
 al_you_was_declined: 'Bạn đã bị từ chối khỏi '
 al_your_ally: Liên minh của bạn
 al_your_request_title: Đơn xin của bạn
-bad_forum_url: Liên kết diễn đàn không hợp lệ.
 banned_message: 'Bạn đã bị cấm. <!--discord_url-->Nếu nghĩ đây là nhầm lẫn, hãy nhắn cho chúng tôi trên Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
 bd_actual_production: 'Sản lượng hiện tại:'
 bd_available: 'Có sẵn: '
@@ -475,14 +471,13 @@ bs_acs_slot: Ô ACS
 bs_add_acs_slot: Thêm ô ACS
 bs_atter: Bên tấn công
 bs_cancel: Đặt lại
-bs_too_many_units: "Quá nhiều đơn vị cho một lần mô phỏng (tối đa %s)."
-bs_busy: "Đang có một mô phỏng chạy, hãy đợi nó xong nhé."
+bs_too_many_units: Quá nhiều đơn vị cho một lần mô phỏng (tối đa %s).
+bs_busy: Đang có một mô phỏng chạy, hãy đợi nó xong nhé.
 bs_deffer: Bên phòng thủ
 bs_derbis_raport: 'Cần để tái chế mảnh vỡ: %s %s.'
 bs_load: Tải
 bs_load_invalid: Mã chia sẻ không hợp lệ
 bs_load_no_input: Chưa nhập mã chia sẻ
-bs_names: Tên tàu
 bs_reset: Đặt lại
 bs_send: Tính toán
 bs_share: Chia sẻ
@@ -523,7 +518,7 @@ bu_player_not_exist: Người chơi đó không tồn tại.
 bu_rejected_request_body: Xin chào %s,<br>%s đã từ chối lời mời kết bạn của bạn!
 bu_rejected_request_title: Lời mời kết bạn đã bị từ chối!
 bu_request_exists: Đã có lời mời kết bạn cho người chơi này!
-bu_request_limit: 'Bạn gửi quá nhiều lời mời kết bạn. Hãy đợi vài phút rồi gửi tiếp nhé.'
+bu_request_limit: Bạn gửi quá nhiều lời mời kết bạn. Hãy đợi vài phút rồi gửi tiếp nhé.
 bu_request_message: Lời nhắn kèm lời mời
 bu_request_send: Đã gửi lời mời kết bạn.
 bu_request_text: Lời nhắn kèm lời mời
@@ -609,12 +604,14 @@ fl_already_invited: ' đã được mời rồi.'
 fl_ammount: Tàu
 fl_arrival: Đến nơi
 fl_arrival_time: Thời gian đến
-fl_attack_confirm_buddy: |-
-  Mục tiêu nằm trong danh sách bạn bè của bạn.
-  Bạn có chắc muốn tấn công không?
+fl_attack_confirm_buddy: 'Mục tiêu nằm trong danh sách bạn bè của bạn.
+
+  Bạn có chắc muốn tấn công không?'
 fl_attack_confirm_diplo: Bạn có hiệp ước (%s) với %s. Vẫn tấn công?
 fl_attack_confirm_outlaw: Tấn công %s sẽ khiến bạn thành kẻ ngoài vòng pháp luật trong 7 ngày.
 fl_bash_protection: Việc đó sẽ vi phạm quy tắc bash.
+fl_daily_cap_reached: Đã đạt giới hạn %1$d hạm đội mỗi ngày. Giới hạn sẽ được làm mới sau %2$dh %3$dmin.
+fl_daily_attack_cap_reached: Đã đạt giới hạn %1$d lượt tấn công mỗi ngày. Giới hạn sẽ được làm mới sau %2$dh %3$dmin.
 fl_beginning: Xuất phát từ
 fl_blocked: ' không nhận lời mời.'
 fl_bonus: Bonus
@@ -669,7 +666,6 @@ fl_modify_sac_name: Tên ACS
 fl_moon_shortcut: (MT)
 fl_mt_fleet: Chợ hạm đội
 fl_mt_resources: Chợ tài nguyên
-fl_multi_alarm: Cảnh báo đa tài khoản!
 fl_my_planets: Hành tinh của tôi
 fl_new_mission_title: 'Nhiệm vụ mới: Chọn hạm đội'
 fl_no_colony: Không có thuộc địa
@@ -728,9 +724,9 @@ fl_target_exists: Hành tinh mục tiêu
 fl_trade_no_resource_loaded: Bạn chưa chất tài nguyên nào.
 fl_trade_same_resource: Bạn không thể bán %s để lấy %s.
 fl_trade_to_many_resources_loaded: Bạn chỉ có thể bán một loại tài nguyên.
-fl_transfer_alert_message: |-
-  Cảnh báo!
-  Hạm đội của bạn sẽ được chuyển cho người chơi khác!
+fl_transfer_alert_message: 'Cảnh báo!
+
+  Hạm đội của bạn sẽ được chuyển cho người chơi khác!'
 fl_vacation_mode_active: Chế độ nghỉ phép đang bật
 fl_visibility: Hiển thị
 fl_visibility_all: Tất cả
@@ -762,8 +758,6 @@ general_colors: Màu chung
 gl_actions: Thao tác
 gl_activity: (*)
 gl_activity_inactive: (%d phút)
-gl_ajax_status_fail: Thất bại
-gl_ajax_status_ok: Xong
 gl_all_defenses: Tất cả công trình phòng thủ
 gl_alliance: Liên minh
 gl_alliance_page: Trang liên minh
@@ -774,7 +768,6 @@ gl_avaible_spyprobes: Tàu do thám
 gl_banned: Bị cấm / Bị đình chỉ
 gl_buddy_request: Lời mời kết bạn
 gl_colonizable: Có thể thực dân hóa
-gl_debris: Mảnh vỡ
 gl_debris_field: Trường mảnh vỡ
 gl_diameter: Đường kính
 gl_features: Thuộc tính
@@ -792,7 +785,6 @@ gl_missil_launch_action: Phóng tên lửa
 gl_missil_to_launch: Số lượng (<b>%d</b> khả dụng)
 gl_missile_attack: Tấn công tên lửa
 gl_moon: Mặt trăng
-gl_no: Không
 gl_no_deuterium_to_view_galaxy: Không đủ deuterium để xem thiên hà!
 gl_no_spy_report: Chưa có báo cáo do thám cho hành tinh này.
 gl_not_colonizable: Không thể thực dân hóa!
@@ -865,7 +857,6 @@ in_jump_gate_wait_time: 'Có thể nhảy tiếp sau:'
 in_level: Cấp
 in_missilesamount: Khả dụng
 in_missilestype: Loại tên lửa
-in_name: Tên
 in_prod_p_hour: Mỗi giờ
 in_rf_again: Bắn liên thanh chống
 in_rf_explanation: 'Bắn liên thanh: Mỗi hiệp chiến đấu, đơn vị này có thể bắn nhiều lần. Phần trăm cho biết khả năng bắn thêm một phát sau khi trúng mục tiêu loại đó.'
@@ -873,7 +864,6 @@ in_rf_from: Bị bắn liên thanh từ
 in_shield_pt: Sức khiên
 in_storage: Kho chứa
 in_struct_pt: Độ bền kết cấu
-in_units: Đơn vị
 kontakt: Chào bạn!<br>Trang này cho biết những người điều hành, kiểm duyệt và phát triển dự án này.<br>Có câu hỏi hay vấn đề? Hãy liên hệ.<br><br><!--discord_url-->Để trao đổi tốt hơn với chúng tôi và những người chơi khác, chúng tôi chạy một máy chủ Discord. Bạn sẽ thấy nó <a href="{discord_url}">ở đây</a> hoặc qua menu.<br>Ở đó bạn sẽ thấy tin mới nhất cùng những meme hay nhất từ các liên minh của vũ trụ.<br>Hãy hỏi về cơ chế game và chia sẻ ý tưởng cho tương lai của game.<br><br><!--/discord_url-->Dĩ nhiên, chúng tôi cũng trả lời các câu hỏi trong game của bạn.<br>Xin nhớ rằng chúng tôi chơi game như một sở thích, nên phản hồi có thể mất vài ngày.<br>
 lm_administration: Quản trị
 lm_alliance: Liên minh
@@ -938,6 +928,7 @@ ma_impulse_drive_required: Cần Động cơ xung
 ma_missiles_sended: ' tên lửa đã được phóng. Mục tiêu: '
 ma_no_missiles: Không có tên lửa
 ma_no_range: Mục tiêu nằm ngoài tầm của tên lửa của bạn.
+ma_own_planet: Bạn không thể dùng tên lửa tấn công hành tinh của chính mình.
 ma_not_send_other_galaxy: 'Bạn không thể gửi tên lửa sang thiên hà khác. '
 ma_planet_doesnt_exists: 'Hành tinh đó không tồn tại. '
 ma_silo_level: 'Cần Hầm tên lửa cấp 4! '
@@ -985,6 +976,9 @@ mg_delete_unmarked: Xóa tin nhắn chưa đánh dấu thuộc loại này
 mg_deleted: Đã xóa tin nhắn.
 mg_empty_text: Hãy nhập nội dung
 mg_error: Không tìm thấy người nhận!
+mg_too_many_recipients: Bạn chỉ có thể gửi cho tối đa %d người chơi cùng lúc.
+mg_text_too_long: Tin nhắn quá dài (tối đa %d ký tự).
+mg_rate_limited: Bạn đang gửi tin nhắn quá nhanh. Hãy đợi vài phút.
 mg_favorite: Đánh dấu yêu thích
 mg_favorite_filter_off: Hiện tất cả
 mg_favorite_filter_on: Chỉ hiện mục yêu thích
@@ -993,7 +987,6 @@ mg_grouping_off: Hiện tin nhắn không nhóm lại
 mg_grouping_on: Hiện tin nhắn nhóm lại với nhau
 mg_message: Tin nhắn
 mg_message_send: Đã gửi tin nhắn!
-mg_message_title: Tin nhắn
 mg_min_3_chars: Nhập ít nhất 3 ký tự để tìm kiếm
 mg_new: Mới
 mg_no_subject: Không có chủ đề
@@ -1040,7 +1033,7 @@ nt_dlte_note: Xóa
 nt_edit_note: Sửa ghi chú
 nt_important: Cao
 nt_no_text: Chưa có nội dung
-nt_limit_reached: 'Bạn đã đạt số ghi chú tối đa (%1$d). Hãy xóa bớt ghi chú cũ trước.'
+nt_limit_reached: Bạn đã đạt số ghi chú tối đa (%1$d). Hãy xóa bớt ghi chú cũ trước.
 nt_no_title: Chưa có tiêu đề
 nt_normal: Bình thường
 nt_note: Ghi chú
@@ -1155,7 +1148,6 @@ ov_newname_too_long: Tên hành tinh tối đa %d ký tự.
 ov_news: Tin tức
 ov_of: trên
 ov_outlaw: 'Ngoài vòng pháp luật đến:'
-ov_password: Mật khẩu
 ov_place: Vị trí
 ov_planet: Hành tinh
 ov_planet_abandoned: Đã xóa hành tinh.
@@ -1348,33 +1340,7 @@ sys_refferal_text: Người chơi %s, do bạn chiêu mộ, đã đạt %s đi�
 sys_refferal_title: Thưởng người chơi %s
 sys_techlist: Hàng chờ nghiên cứu
 team: Đội ngũ
-teamAdmin: Quản trị viên
-teamAdminLong: Có thể dùng công cụ đặc biệt để vận hành game
-teamAktiv: Đang hoạt động
-teamAlumni: Thành viên đội trước đây / không hoạt động
-teamAlumniLong: Chúng tôi xin cảm ơn
-teamCommunity: Hỗ trợ cộng đồng
-teamCommunityLong: Họ ở đây vì bạn khi bạn cần hỗ trợ.<br>Dù vấn đề gì, cứ liên hệ!<br>Chúng tôi sẽ cố gắng tìm ra giải pháp.<br>Có câu hỏi, hay điều muốn giãi bày, kể cả ẩn danh? Hãy đến nói chuyện với chúng tôi.<br>Chúng tôi cũng là cầu nối giữa người chơi và các mod.
-teamContributor: Cộng tác viên
-teamContributorLong: Giúp xây dựng dự án.
-teamDatabase: Truy cập cơ sở dữ liệu
-teamDev: Lập trình viên
-teamDevLong: Bảo trì và phát triển dự án<br>Có quyền vào khu Discord thảo luận dev
-teamDiscordName: Tên Discord
-teamEmergency: Đội khẩn cấp
-teamEmergencyLong: Được người dùng ping qua Discord "@Emergency Response Team" khi máy chủ gặp sự cố
-teamIngameName: Tên trong game
-teamLegend: Giải thích vai trò và quyền hạn
-teamMod: Điều hành viên
-teamModLong: Xử lý các vụ việc và vấn đề của bạn<br>Làm việc vì một game công bằng cho mọi người<br>Chịu trách nhiệm về xử phạt<br>Có quyền vào khu Discord thảo luận mod<br>Có quyền vào khu Discord thảo luận dev<br>Có quyền vào khu Discord họp ticket với dev
-teamNo: Không
-teamPlayer: Người chơi
 teamRole: Vai trò
-teamScripte: Duyệt script
-teamScripteLong: Duyệt các script do người chơi viết để đội ngũ<br>quyết định có cho phép hay không
-teamTickets: Truy cập ticket
-teamTicketsLong: Có thể đọc tất cả ticket đang mở
-teamYes: Có
 ti_admin_close: Đã đóng ticket!
 ti_admin_open: Đã mở ticket!
 ti_answer: Trả lời
@@ -1383,12 +1349,15 @@ ti_category: Danh mục
 ti_close: Ticket đã đóng
 ti_create: 'Ticket được tạo vào '
 ti_create_head: Tạo ticket
-ti_create_info: |-
-  <p>Khi tạo ticket hỗ trợ, hãy mô tả vấn đề của bạn càng chi tiết càng tốt!</p>
+ti_create_info: '<p>Khi tạo ticket hỗ trợ, hãy mô tả vấn đề của bạn càng chi tiết càng tốt!</p>
+
   <p>Mô tả chi tiết giúp rút ngắn thời gian giải quyết và tránh qua lại tốn thời gian.</p>
-  <p>Với các vấn đề liên quan đến tài khoản, cung cấp thông tin tài khoản liên quan giúp phân loại ticket và rút ngắn thời gian xử lý.</p>
+
+  <p>Với các vấn đề liên quan đến tài khoản, cung cấp thông tin tài khoản liên quan giúp phân loại ticket và rút ngắn thời gian xử lý.</p>'
 ti_date: Ngày
 ti_error_closed: Ticket này đã đóng nên không thể trả lời.
+ti_error_too_many_open: Bạn đã có %d ticket đang mở. Hãy đợi một ticket được đóng trước khi mở ticket mới.
+ti_error_rate_limited: Bạn đang mở ticket quá nhanh. Hãy thử lại sau.
 ti_error_no_subject: Hãy nhập chủ đề.
 ti_from: bởi
 ti_header: Hệ thống hỗ trợ
@@ -1399,7 +1368,6 @@ ti_new: Ticket mới
 ti_not_exist: 'Không tìm thấy ticket #%d.'
 ti_open: Mở ticket
 ti_overview: Quay lại
-ti_re: 'Re:'
 ti_read: Ticket cần đọc
 ti_responded: 'Ticket được trả lời vào '
 ti_status: Trạng thái
@@ -1430,7 +1398,6 @@ tkb_units: Đơn vị
 tkb_verlierer: <b>-Người thua-</b>
 tkb_week: tuần
 tn_delete_mode: Tài khoản của bạn sẽ bị xóa vào %s.
-tn_player_title: Hoàng đế
 tn_vacation_mode: Tài khoản của bạn đang ở chế độ nghỉ phép.
 tn_vacation_mode_kick: '<br><br>LƯU Ý: Chế độ nghỉ phép tự động tắt sau 4 tuần không hoạt động.'
 tn_vacation_mode_until: Tài khoản của bạn đang ở chế độ nghỉ phép ít nhất đến %s.
@@ -1527,128 +1494,10 @@ ui_nav_universe: Vũ trụ
 ui_nav_community: Cộng đồng
 ui_nav_help: Trợ giúp
 ui_nav_personal: Cá nhân
-al_applyform_reload: Tải lại
-al_default_request_text: Người chơi này không để lại lời nhắn.
-al_diplo_ground: 'Lý do:'
-al_diplo_war_end_confirm: Bạn có thật sự muốn kết thúc chiến tranh không?
-al_do_you_really_want_to_go_out: Bạn có thật sự muốn rời %s không?
-al_events: Sự kiện
-al_founder_cant_leave_alliance: Người sáng lập không thể cứ thế bỏ liên minh.
-al_legend: Mô tả
-al_legend_admin_alliance: Quản lý liên minh
-al_legend_check_requests: Xử lý đơn xin gia nhập
-al_legend_create_circular: Gửi tin nhắn toàn thể
-al_legend_disolve_alliance: Giải tán liên minh
-al_legend_kick_users: Loại bỏ thành viên
-al_legend_right_hand: Cánh tay phải
-al_legend_see_connected_users: Xem trạng thái trực tuyến
-al_legend_see_requests: Xem đơn xin gia nhập
-al_legend_see_users_list: Xem danh sách thành viên
-al_manage_change_name: Đổi tên liên minh
-al_manage_change_tag: Đổi thẻ liên minh
-al_no_events: Chưa có gì xảy ra.
-al_no_request_pending: Tổng cộng có %d đơn xin gia nhập
-al_request_from_user: Đơn từ người chơi
-al_tfkristall: Tổng tinh thể trong trường mảnh vỡ
-al_tfmetall: Tổng kim loại trong trường mảnh vỡ
-al_unitsloos: Đơn vị bị mất
-al_unitsshut: Đơn vị đã bắn hạ
-al_view_events: Xem sự kiện
-bd_add_to_list: Thêm vào hàng chờ xây dựng
-bd_build_defenses: Xây
-bd_completed: Xong
-bd_finished: Xong
-bd_lab_required: Hãy xây phòng nghiên cứu trên hành tinh này trước.
-bd_max_lvl: 'Cấp tối đa:'
-bd_on: trên
-bd_ready: Xong
-bd_research: Nghiên cứu
-bu_back: Quay lại
-cff_fleet_own: Hạm đội
-cff_fleet_target: Hạm đội
-cr_armor: Giáp
-cr_destroyed: Bị phá hủy!
-cr_first_round: (Hạm đội bị phá hủy ở hiệp 1)
-cr_lost_contact: Đã mất liên lạc với hạm đội của bạn.
-cr_shields: Khiên
-cr_total: Tổng
-cr_type: Loại
-cr_weapons: Vũ khí
-css_server_maintrace: 'Bảo trì máy chủ<br><br>Game hiện đang đóng.<br><br>Lý do: %s'
-fa_galaxy_not_exist: Thiên hà không tồn tại
-fa_mission_not_available: Nhiệm vụ không khả dụng
-fa_not_attack_yourself: Bạn không thể tự tấn công mình
-fa_system_not_exist: Hệ không tồn tại
-fgp_require: Yêu cầu
-fl_deploy_only_your_planets: Bạn chỉ có thể triển khai đến hành tinh của chính mình.
-fl_expedition_fleets_limit: Bạn đã đạt giới hạn thám hiểm.
-fl_no_empty_derbis: Không có trường mảnh vỡ ở đó!
-fl_no_hold_depot: Mục tiêu không có kho liên minh.
-fl_not_ally_deposit: Mục tiêu không có kho liên minh.
-fl_planet_populed: Đã thực dân hóa hành tinh!
-fl_register_shorcut: Tạo
-fl_shortcuts: Lối tắt
-fl_target_not_exists: Hành tinh mục tiêu không tồn tại.
-gl_avaible_grecyclers: Tàu tái chế khổng lồ
-gl_collect: Thu hoạch
-gl_free: Trống
-gl_free_desc: Một hành tinh lớn chưa có người ở, địa điểm lý tưởng cho thuộc địa mới.
-gl_name_activity: Tên (hoạt động)
 gl_points: Điểm
-gl_with: ' với '
-gl_wreckfield: Trường xác tàu
-gl_wreckfield_short: XT
-gl_yes: Có
-in_bonus: 'Bonus:'
-in_dest_durati: Thời lượng
-in_jump_gate_available: Số lượng
-in_needed: Yêu cầu
-in_range: Tầm cảm biến
-in_title_head: Thông tin về
-invalid_action: Thao tác không hợp lệ!
-lm_disclamer: Thông tin pháp lý
-lm_forums: Diễn đàn
-lm_queue: Hàng chờ
-ma_big_laser: Tháp laser nặng
-ma_big_protection_shield: Mái che khiên lớn
-ma_buster_canyon: Pháo plasma
-ma_gauss_canyon: Pháo Gauss
-ma_ionic_canyon: Pháo ion
-ma_misil_launcher: Bệ phóng tên lửa
-ma_small_laser: Tháp laser nhẹ
-ma_small_protection_shield: Mái che khiên nhỏ
 mg_action: Thao tác
-mg_date: Ngày
-mg_from: Từ
-mg_game_message: Tin nhắn game
-mg_game_operators: Vận hành viên game
 mg_message_type: Loại tin nhắn
-mg_msg_sended: Đã gửi tin nhắn!
-mg_no_text: Hãy viết tin nhắn trước.
-mg_receiver_block_pm: Người chơi này chặn tin nhắn riêng.
-mg_show_only_header_spy_reports: Chỉ hiện một phần báo cáo do thám
 mg_to: Đến
-mg_total: Tổng
-mg_write_mail_to_ops: Viết email cho
-op_deactivate_ipcheck: Tắt kiểm tra IP
-op_deactivate_ipcheck_descrip: Kiểm tra IP tự động đăng xuất bạn vì an toàn nếu IP của bạn thay đổi, hoặc nếu hai người dùng chung một tài khoản từ các IP khác nhau cùng lúc. Tắt nó làm giảm tính bảo mật của tài khoản!
-op_email_adress_descrip: Bạn có thể đổi địa chỉ email này bất cứ lúc nào. Nếu giữ nguyên trong 7 ngày, nó trở thành địa chỉ vĩnh viễn của bạn.
-op_error: Lỗi
-op_password_changed: Đã đổi mật khẩu.
-op_permanent_email_adress: Địa chỉ email vĩnh viễn
-op_seconds: Giây
-op_send_report: Báo cáo do thám
-op_show_planetmenu: Hiện menu hành tinh
-op_show_skin: Hiện giao diện
-op_toolt_data: Hiện chú thích cho
-op_username_changed: Đã đổi tên người dùng.
-ov_moving_fleets: Hạm đội đang di chuyển
-ov_no_admins_online: Hiện không có quản trị viên nào trực tuyến!
-ov_noreflink: Bạn chưa chiêu mộ người dùng nào.
-ov_online: Trực tuyến
-ov_players: Người chơi
-ov_reflink: Liên kết giới thiệu
-tkb_missing: '<br>Mất tích: Tài khoản người dùng không còn tồn tại.'
 tkb_unentschieden: <b>-Hòa-</b>
 source_code: Mã nguồn
 teamMemberName: Tên
@@ -1656,24 +1505,41 @@ teamMemberContact: Liên hệ
 teamMemberAbout: Giới thiệu
 teamEmpty: Chưa có thành viên đội nào được thêm.
 lm_board: Diễn đàn
-bd_depot_action: "Tiếp tế hạm đội"
-depot_title: "Kho liên minh"
-depot_intro: "Tại đây bạn có thể tiếp tế cho các hạm đội đồng minh đang đóng quân ở hành tinh này. Mỗi lần tiếp tế kéo dài thời gian đóng quân thêm 1 đến %s giờ (bằng cấp của kho) và tốn deuterium của hành tinh này. Một hạm đội không bao giờ được còn quá %s giờ đóng quân."
-depot_deuterium_stock: "Deuterium trên hành tinh này"
-depot_empty: "Không có hạm đội đồng minh nào đang đóng quân ở hành tinh này."
-depot_col_owner: "Người chơi"
-depot_col_ships: "Tàu"
-depot_col_stay_end: "Kết thúc đóng quân"
-depot_col_hourly: "Chi phí mỗi giờ"
-depot_col_supply: "Tiếp tế"
-depot_hours: "%s giờ"
-depot_cost: "Chi phí"
-depot_supply: "Tiếp tế"
-depot_full: "Đã đạt thời gian đóng quân tối đa"
-depot_done: "Đã tiếp tế cho hạm đội: thời gian đóng quân kéo dài thêm %s giờ với %s deuterium."
-depot_err_not_owner: "Hành tinh này không phải của bạn."
-depot_err_no_depot: "Hành tinh này không có kho liên minh."
-depot_err_hours: "Bạn có thể tiếp tế cho một hạm đội từ 1 đến %s giờ mỗi lần (bằng cấp của kho)."
-depot_err_fleet: "Hạm đội này không còn đóng quân ở hành tinh này nữa."
-depot_err_max_stay: "Một hạm đội chỉ được còn tối đa %s giờ đóng quân. Hãy chọn ít giờ hơn."
-depot_err_deuterium: "Hành tinh này không đủ deuterium: cần %s."
+bd_depot_action: Tiếp tế hạm đội
+depot_title: Kho liên minh
+depot_intro: Tại đây bạn có thể tiếp tế cho các hạm đội đồng minh đang đóng quân ở hành tinh này. Mỗi lần tiếp tế kéo dài thời gian đóng quân thêm 1 đến %s giờ (bằng cấp của kho) và tốn deuterium của hành tinh này. Một hạm đội không bao giờ được còn quá %s giờ đóng quân.
+depot_deuterium_stock: Deuterium trên hành tinh này
+depot_empty: Không có hạm đội đồng minh nào đang đóng quân ở hành tinh này.
+depot_col_owner: Người chơi
+depot_col_ships: Tàu
+depot_col_stay_end: Kết thúc đóng quân
+depot_col_hourly: Chi phí mỗi giờ
+depot_col_supply: Tiếp tế
+depot_hours: '%s giờ'
+depot_cost: Chi phí
+depot_supply: Tiếp tế
+depot_full: Đã đạt thời gian đóng quân tối đa
+depot_done: 'Đã tiếp tế cho hạm đội: thời gian đóng quân kéo dài thêm %s giờ với %s deuterium.'
+depot_err_not_owner: Hành tinh này không phải của bạn.
+depot_err_no_depot: Hành tinh này không có kho liên minh.
+depot_err_hours: Bạn có thể tiếp tế cho một hạm đội từ 1 đến %s giờ mỗi lần (bằng cấp của kho).
+depot_err_fleet: Hạm đội này không còn đóng quân ở hành tinh này nữa.
+depot_err_max_stay: Một hạm đội chỉ được còn tối đa %s giờ đóng quân. Hãy chọn ít giờ hơn.
+depot_err_deuterium: 'Hành tinh này không đủ deuterium: cần %s.'
+op_discord_hook_invalid: Webhook Discord không hợp lệ. Chỉ chấp nhận địa chỉ dạng https://discord.com/api/webhooks/...
+fl_push_guard: 'Vận chuyển này bị chặn: người chơi mục tiêu không gửi tài nguyên cho bạn gần đây và giá trị hàng hóa vượt quá giới hạn.'
+rl_too_many_requests: Quá nhiều yêu cầu trong thời gian ngắn. Hãy đợi %d giây rồi thử lại.
+lm_vote: Bình chọn
+vt_head: Bình chọn cho trò chơi
+vt_intro: Bình chọn trên các trang bên dưới để nhận phần thưởng trên hành tinh chính. Mỗi trang có thể bình chọn lại sau thời gian chờ.
+vt_site: Trang
+vt_reward: Phần thưởng
+vt_status: Trạng thái
+vt_ready: Sẵn sàng
+vt_wait: Còn %d giờ %d phút
+vt_button: Bình chọn
+vt_none: Hiện không có trang bình chọn nào.
+vt_postback_hint: Phần thưởng sẽ được cộng sau khi trang xác nhận lượt bình chọn của bạn.
+vt_notice_rewarded: Cảm ơn bạn đã bình chọn! Phần thưởng đã được cộng vào hành tinh chính.
+vt_notice_pending: Cảm ơn bạn đã bình chọn! Phần thưởng sẽ được cộng sau khi trang xác nhận lượt bình chọn của bạn.
+vt_notice_cooldown: Bạn phải đợi trước khi bình chọn lại trang này.

@@ -72,7 +72,6 @@ week_day:
   - Fri
   - Sat
 php_dateformat: M d, Y
-php_timeformat: h:i:s A
 lang_group_fun: "Fun languages"
 dialog_ok: "OK"
 dialog_cancel: "Cancel"

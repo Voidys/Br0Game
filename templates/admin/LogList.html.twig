@@ -2,7 +2,7 @@
 <div class="stack">
   <section class="card card--flush">
     <header class="card__head">
-      <h2 class="card__title">{{ icon('scroll-text') }}{{ log_target }} <span class="badge badge--muted">{{ count(LogArray) }}</span></h2>
+      <h2 class="card__title">{{ icon('scroll-text') }}{{ log_target }} <span class="badge badge--muted">{{ LogArray|length }}</span></h2>
       <div class="card__actions">
         <input type="search" class="table-filter" data-table-filter="#log-table" placeholder="{{ LNG.adm_filter_page }}">
         <a class="button btn--small" href="?page=log">{{ icon('arrow-left') }}{{ LNG.log_cat }}</a>

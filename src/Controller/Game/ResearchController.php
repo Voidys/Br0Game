@@ -28,12 +28,10 @@ use App\Game\Core\ResourceUpdate;
 use App\Game\Core\Singleton;
 
 /** Research: research queue of the player and the technology list. */
-#[\App\Routing\GamePage('game.php', 'research')]
-#[\App\Routing\GamePage('game.php', 'research', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'research')]
+#[\App\Controller\RequireModule('MODULE_RESEARCH')]
 class ResearchController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_RESEARCH';
-
     private const QUEUE_ELEMENT_ID = 0;
     private const QUEUE_LEVEL = 1;
     private const QUEUE_ELEMENT_TIME = 2;

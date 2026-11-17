@@ -62,7 +62,7 @@ final class GameKernel
         $root = $this->getRootPath();
         // Present the run like a request to the site root, so the request URLs (runtime httpRoot/httpBase)
         // resolve as on the web.
-        $this->useRequest(Request::createFromGlobals(), $root, 'index.php');
+        $this->useRequest(Request::createFromGlobals(), $root, 'index');
         $this->state->runtime->start('CLI', $this->state->requestServer);
 
         set_include_path($root);

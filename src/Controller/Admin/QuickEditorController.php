@@ -28,8 +28,7 @@ use App\Game\Core\Universe;
 /**
  * Quick editor for single planets and players (resources, buildings, fleets, authlevel, ...).
  */
-#[\App\Routing\GamePage('admin.php', 'quickEditor')]
-#[\App\Routing\GamePage('admin.php', 'quickEditor', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'quickEditor')]
 class QuickEditorController extends AbstractAdminController
 {
     /**

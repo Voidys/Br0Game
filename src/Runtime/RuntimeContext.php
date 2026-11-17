@@ -89,7 +89,7 @@ final class RuntimeContext
             $this->httpHost = (string) ($server['HTTP_HOST'] ?? '');
         }
 
-        // directory of the requested page: /uni1/game, /uni1/game.php and /uni1/ all give /uni1/
+        // directory of the requested page: /uni1/game and /uni1/ both give /uni1/
         $path = (string) parse_url($requestUrl, PHP_URL_PATH);
         $this->httpRoot = substr($path, 0, (int) strrpos($path, '/') + 1) ?: '/';
         $this->httpPath = $this->protocol . $this->httpHost . $this->httpRoot;

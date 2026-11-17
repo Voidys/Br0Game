@@ -18,7 +18,7 @@
 namespace App\Game\Missions;
 
 use OutOfRangeException;
-use App\Game\Core\StoredData;
+use App\Game\Core\BattleReportStore;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Database;
@@ -201,23 +201,14 @@ class MissionCasePiratebaseAttack extends MissionFunctions implements MissionInt
      */
     private function storeReport(BattleHandler $battleHandler, array $reportData, string $reportID, array $userAttack, array $userDefend): void
     {
-        $db = $this->db;
-        $sql = 'INSERT INTO %%RW%% SET
-            `rid`         = :reportId,
-            `raport`      = :reportData,
-            `time`        = :time,
-            `attacker`    = :attackers,
-            `defender`    = :defenders,
-		    `battleengine` = :battleengine;';
-
-        $db->insert($sql, [
-            ':reportId'     => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
-            ':time'         => $this->_fleet['arrival_time'],
-            ':attackers'    => implode(',', array_keys($userAttack)),
-            ':defenders'    => implode(',', array_keys($userDefend)),
-            ':battleengine' => $battleHandler->engine->getName(),
-        ]);
+        (new BattleReportStore($this->db))->insert(
+            $reportID,
+            $reportData,
+            $battleHandler->engine->getName(),
+            $this->_fleet['arrival_time'],
+            implode(',', array_keys($userAttack)),
+            implode(',', array_keys($userDefend)),
+        );
     }
 
     /**

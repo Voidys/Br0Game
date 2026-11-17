@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * links in the menu; the actions themselves stay their own pages (clearCache, statUpdate) and lead
  * back here.
  */
-#[\App\Routing\GamePage('admin.php', 'maintenance')]
-#[\App\Routing\GamePage('admin.php', 'maintenance', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'maintenance')]
 class MaintenanceController extends AbstractAdminController
 {
     /**

@@ -1,40 +1,18 @@
-biggest_solo: Größte Solo-Kämpfe
 build_ships: Insgesamt gebaute Schiffe
 buttonLostPassword: Passwort vergessen?
 buttonRegister: Registrieren
 buttonScreenshot: Screenshots
-chose_a_uni: Wähle ein Universum
 civil: Zivil
 colony: Kolonie
-CrystalStorage: Kristallspeicher
 deathstar: Todesstern
 destroyed_sats: Zerstörte Solarsatelliten
 disclamerLabelAddress: 'Spieladresse:'
 disclamerLabelMail: 'E-Mail:'
 disclamerLabelNotice: Weitere Informationen
 disclamerLabelPhone: 'Telefon:'
-disclamerRecaptcha: >-
-  Diese Seite nutzt reCAPTCHA. Es gelten die <a
-  href="https://policies.google.com/privacy">Datenschutzerklärung</a> und die <a
-  href="https://policies.google.com/terms">Nutzungsbedingungen</a> von Google.
 first_fights: Erste Kämpfe im Universum
-flown_expos: Insgesamt geflogene Expeditionen
 forum: Board
-found_res: Insgesamt gefundene Rohstoffe
-found_ships: Insgesamt gefundene Schiffe
-flownDeut: Insgesamt für Flüge verbrauchtes Deuterium
-galaxySpendDeut: Deuterium fürs Durchklicken der Galaxie
-gameInformations: |-
-  Ein Weltraum-Strategiespiel in Echtzeit.
-  Hunderte Spieler in jedem Universum.
-  Kein Download – du brauchst nur einen normalen Browser.
-  Kostenlos registrieren
-hof3_header: Hier leben die Legenden von Universum 3 weiter!
-hof4_header: Hier leben die Legenden von Universum 4 weiter!
-hof7_header: Hier leben die Legenden von Universum 7 weiter!
 hof_empty: "Noch keine Ruhmeshalle-Daten vorhanden."
-IonCannon: Ionenkanone
-least_reached_ach: Seltenste Achievements
 login_error_1: >-
   Falsche E-Mail oder falsches Passwort! Tipp: Passwortmanager tragen oft den
   Benutzernamen ein, du musst dich aber mit deiner E-Mail anmelden.
@@ -54,41 +32,21 @@ loginServerDesc: >-
   du dafür brauchst, ist ein normaler Webbrowser.
 loginWelcome: Willkommen bei %s
 Lowest_longterm_points: Vorregistrierte Accounts mit den wenigsten Punkten
-medAliens: Medium Aliens
 menu_banlist: Pranger
 menu_battlehall: Battle Hall
 menu_disclamer: Impressum
-menu_index: Startseite
 menu_news: News
-menu_register: Registrierung
 menu_rules: Regeln
 military: Militär
-most_achievements: Meiste gesammelte Achievements
-most_black_holes: Meiste gefundene schwarze Löcher
-most_build: Am meisten gebaut
-most_build_HF: Meiste gebaute Schwere Jäger
-most_defended_moons: Meiste erfolgreich verteidigte Monde
-most_destroyed_moons: Meiste zerstörte Monde
-most_expo_fights: Meiste Kämpfe gegen Aliens/Piraten
-most_fights: Meiste Siege / Niederlagen / Unentschieden
-most_reached_ach: Häufigste Achievements
-most_records: Meiste gesammelte Rekorde
 news_does_not_exist: Keine News vorhanden.
 news_from: Am %s von %s
-news_overview: News
-oldest_active_acc: Älteste aktive Accounts
 overall: Gesamt
 passwordBack: Zurück
-passwordCaptcha: Sicherheitscode
 passwordChangedMailSend: Dein neues Passwort ist unterwegs. Du bekommst gleich eine E-Mail.
 passwordChangedMailTitle: 'Neues Passwort für %s'
 passwordConfirmInfo: 'Klick auf den Button, damit dein Passwort zurückgesetzt wird. Das neue Passwort schicken wir dir per E-Mail.'
 passwordConfirmSubmit: 'Neues Passwort anfordern'
 passwordErrorMailEmpty: Diese E-Mail-Adresse kennen wir nicht.
-passwordErrorOnePerDay: >-
-  Für diesen Account wurde in den letzten 24 Stunden bereits ein Passwort
-  angefordert. Du kannst in 24 Stunden ein neues anfordern.
-passwordErrorUnknown: Mit diesen Angaben wurde kein Account gefunden.
 passwordErrorUsernameEmpty: Bitte gib einen Benutzernamen ein.
 passwordInfo: >-
   Passwort vergessen? Gib den Benutzernamen und die E-Mail-Adresse deines
@@ -103,20 +61,19 @@ passwordValidMailSend: Du bekommst gleich eine E-Mail mit den nächsten Schritte
 passwordValidMailTitle: 'Passwort zurücksetzen für %s'
 players: Spieler
 points_amount: Punkte / Anzahl
-realDesUnits: Tatsächlich zerstörte Einheiten
+powFailed: >-
+  Die automatische Bot-Prüfung ist fehlgeschlagen oder abgelaufen. Bitte gehe
+  zurück, warte einen Moment und sende das Formular erneut ab.
+powNoCrypto: >-
+  Dein Browser kann die automatische Bot-Prüfung nicht ausführen (sie benötigt
+  eine sichere https-Verbindung).
+powVerifying: Browser wird geprüft …
 registerBack: Zurück
-registerCaptcha: Sicherheitscode
-registerCaptchaDesc: >-
-  Gib die Zeichen unten ohne Leerzeichen in das leere Feld ein. Groß- und
-  Kleinschreibung spielen keine Rolle. Wenn du das Bild auch nach mehrmaligem
-  Neuladen nicht lesen kannst, wende dich an den Administrator dieser Seite.
-registerCaptchaReload: Captcha neu laden
 registerDataPrivacyDesc: Ich stimme der %s zu
 registerEmail: E-Mail
 registerEmailDesc: Bitte gib deine E-Mail-Adresse ein.
 registerEmailReplay: E-Mail wiederholen
 registerEmailReplayDesc: Gib deine E-Mail-Adresse zur Bestätigung noch einmal ein.
-registerErrorCaptcha: Der Sicherheitscode ist falsch.
 registerErrorDataPrivacy: Bitte akzeptiere die Datenschutzerklärung, um fortzufahren.
 registerErrorMailEmpty: Bitte gib eine E-Mail-Adresse ein.
 registerErrorMailExist: Diese E-Mail-Adresse ist bereits registriert.
@@ -131,9 +88,7 @@ registerErrorUsernameEmpty: Bitte gib einen Benutzernamen ein.
 registerErrorUsernameExist: Dieser Benutzername ist bereits vergeben.
 registerLanguage: Sprache
 registerMailCompleteTitle: Willkommen bei %s!
-registerMailVertifyError: 'Die E-Mail konnte nicht gesendet werden: %s'
 registerMailVertifyTitle: 'Aktiviere deinen Account für %s'
-registerNext: Weiter
 registerPassword: Passwort
 registerPasswordDesc: Dein Passwort muss mindestens %s Zeichen lang sein.
 registerPasswordReplay: Passwort wiederholen
@@ -160,8 +115,6 @@ registerWelcomePMText: >-
   Menü „Technologie“ links.<br>Wenn du weitere Fragen hast, wirf einen Blick in
   die FAQ oder ins Wiki, oder eröffne ein Support-Ticket.<br><br>Das Team
   wünscht dir viel Spaß beim Erkunden des Universums!
-rulesHeader: Regeln
-second_expo_deck: Haben ihr zweites Expeditionsdeck gestartet
 siteTitleBanList: Pranger
 siteTitleBattleHall: Battle Hall
 siteTitleDataPrivacy: Datenschutzerklärung
@@ -186,9 +139,6 @@ uni_reg_open: ' (nur Registrierung)'
 universe: Universum
 vertifyAdminMessage: Der Account „%s“ wurde aktiviert.
 vertifyNoUserFound: Ungültige Anfrage.
-votingPoints: Abstimmungspunkte
-wonAttack: Gewonnene Angriffe
-wonDefense: Gewonnene Verteidigungen
 home_menu: Menü
 home_meta_description: '%s – das Weltraumstrategie-Browsergame mit 2000er-Charme: Planeten ausbauen, Flotten bauen, Allianzen schmieden.'
 home_started: Läuft bereits!

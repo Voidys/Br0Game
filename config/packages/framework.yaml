@@ -38,6 +38,11 @@ framework:
             policy: sliding_window
             limit: '%app.pm_rate_limit%'
             interval: '%app.pm_rate_interval%'
+        # postbacks of the vote sites (App\Controller\VoteCallbackController): per client IP
+        vote_callback:
+            policy: sliding_window
+            limit: 60
+            interval: '1 minute'
         # CSP violation reports (App\Controller\CspReportController): per client IP
         csp_report:
             policy: sliding_window

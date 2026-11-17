@@ -17,27 +17,11 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\Session;
-
 /**
  * Logs the player out and shows the logout popup.
  */
-#[\App\Routing\GamePage('game.php', 'logout')]
-#[\App\Routing\GamePage('game.php', 'logout', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'logout')]
 class LogoutController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->setWindow('popup');
-    }
-
-    public function show(): Response
-    {
-        $this->state->auth->logout();
-        return $this->render('game/page.logout.default.html.twig');
-    }
+    use \App\Controller\Shared\LogoutPage;
 }

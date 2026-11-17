@@ -12,8 +12,7 @@ use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Swaps the login accounts of two players. */
-#[\App\Routing\GamePage('admin.php', 'accountswap')]
-#[\App\Routing\GamePage('admin.php', 'accountswap', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'accountswap')]
 class AccountswapController extends AbstractAdminController
 {
     /**

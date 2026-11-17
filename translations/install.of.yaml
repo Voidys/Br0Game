@@ -1,0 +1,201 @@
+back: Zurügg
+continue: Weiter
+continueUpgrade: Upgrade!
+install_desc: 'Um des Installationstool zu aktiviere, erstell die Datei "var/ENABLE_INSTALL_TOOL".<br> Der Dateiname unnerscheidet zwische Groß- un Gleinschreibung un hat kei Dateiendung.<br> Die Datei kann leer sein.
+
+  Sie werd automatisch gelöscht, wenn die Installation abgeschlosse is oder wenn sie älter als ei Schdund is.'
+install_title: Des Install-Tool is gesperrt
+intro_install: Zur Installation
+intro_lang: Sprache
+intro_text: 'Br0Game is ei Open-Source-Weltraum-Schdrategiespiel im Browser: Blanede ausbaue, forsche, Flodde losschicke un sich mit hunderte Schbieler gleichzeidisch messe.<br><br>Dieser Assistend richded ei neue Installation Schridt fer Schridt ei: Er prüft deinen Server, verbindet sich mit der Datenbank un legt sie an, baud die Tabelle uff, lässt dich dein Spiel benenne un erschdellt den Administrador.'
+intro_upgrade_head: Br0Game schon installiert?
+intro_upgrade_text: <p>Du hasd Br0Game bereids installiert un willsd nur updade?</p><p>Hier kannsd du deine alde Datenbank mid wenige Klicks aktualisiere!</p>
+intro_welcome: Herzlich willkommen bei Br0Game, gell!
+licence_accept: Akzeptierschd du alle Bedingunge der Lizenzbeschdimmunge? Du kannsd die Software nur installiere, wenn du die Lizenzbeschdimmunge akzeptierschd.
+licence_desc: Bidde les die folgende Lizenzbeschdimmunge. Nuddse die Bildlaufleiste, um des ganze Dokumend anzuzeische.
+licence_head: Lizenzbeschdimmunge
+licence_need_accept: Um mid der Installation weidermache zu könne, musst du die Lizenzbeschdimmunge akzeptiere.
+login: Login
+menu_install: Installiere
+menu_upgrade: Upgrade
+reg_dir: Ordner »%s« beschreibbar?
+reg_file: Datei »%s« beschreibbar?
+reg_not_found: Ned gefunde
+reg_not_writable: Ned beschreibbar
+reg_writable: Beschreibbar
+req_desc: Bevor die Installation weidergehe kann, prüft Br0Game dei Serverkonfiguration un deine Dateie, damit sichergestellt is, dass du Br0Game installiere un benutze kannst. Bidde les die Ergebnisse genau durch un fahr ned weiter, bevor alle erforderliche Tests bestanne sinn. Wenn du eine der Funktione, die unter den optionale Module stehe, nutze willsd, sorg dafer, dass die passende Tests auch bestanne werde.
+sql_close_reason: 'Des Universum wird eingerichtet.
+
+  Bidde warde.'
+sql_welcome: Herzlich willkomme bei Br0Game v
+step1_head: Datenbankzugang konfiguriere
+step1_mysql_dbname: Name der Datenbank
+step1_mysql_dbpass: Datenbank-Passwort
+step1_mysql_dbuser: Datenbank-Benutzername
+step1_mysql_migrationpass: Passwort fer die Datenbankmigration
+step1_mysql_migrationpass_info: Des Migrationspasswort wird abgefragt, wenn Datenbankännerunge odder Upgrades fer ei neue Spielversion nedwendisch sinn.
+step1_mysql_port: Datenbankserver-Port
+step1_mysql_prefix: 'Tabellenpräfix:'
+step2_conf_op_fail: config.php is ned beschreibbar!
+step2_config_exists: config.php scho vorhanne!
+step2_db_con_fail: Es kann kei Verbindung zur Datenbank aufgebaut werde. Details schdehn in der Fehlermeldung unne.
+step2_db_done: Verbindung zur Datenbank war erfolgreich!
+step2_db_no_dbname: Kein Datenbank-Name angegebe.
+step2_db_too_long: Des Tabellenpräfix is zu lang. Die maximale Länge is 36 Zeiche.
+step2_prefix_invalid: Des DB-Präfix darf nur Buchschtabe, Zahle un Unnerschtriche enthalte.
+step3_db_error: 'Fehler beim Erschdelle der Datenbank-Tabelle:'
+step3_head: Datenbank-Tabelle erschdelle
+step4_admin_mail: 'Kontakt-E-Mail-Adresse:'
+step4_admin_name: 'Benutzername vom Administrador:'
+step4_admin_name_desc: Bidde gib ei Benutzername mit ei Länge von 3 bis 20 Zeiche ein.
+step4_admin_pass: 'Administrador-Passwort:'
+step4_desc: Der Installationsassisdend erschdellt jeds ei Administradorkonto. Bidde gib dafer ei Benutzername, ei E-Mail-Adresse un ei Passwort ei.
+step4_head: Administrador erschdelle
+step6_desc: Du hasd Br0Game erfolgreich installiert.
+step6_head: Herzlichen Glückwunsch!
+title_install: Installer
+upgrade_available: Es sinn Updates fer dei Datenbank verfügbar! Die Datenbank is uff em Schdand vo Revision %s un kann durch ei Update uff Revision %s gebracht werde.
+upgrade_back: Zurügg
+upgrade_intro_welcome: Willkomme beim Datenbank-Upgrader!
+upgrade_message_admin: 'Administradore: Um des Datenbank-Upgrade zu installiere, gib des Migrationskennwort ei un fahr weiter.'
+upgrade_message_user: 'Schbieler: Bidde warde ei Momend, dann versuch uff „Zurügg zum Spiel“ zu klicke.'
+upgrade_notavailable: Die verwendete Revision %s is die aktuellste fer dei Datenbank.
+upgrade_nothingtodo: Kei Aktion erforderlich. Die Datenbank is scho uff em neuste Schdand vo Revision %s.
+upgrade_return: Zurügg zum Spiel
+upgrade_success: Update der Datenbank erfolgreich. Die Datenbank is jetzt uff em Schdand vo Revision %s.
+upgrade_title: Datenbank-Upgrade is erforderlich!
+ins_step_licence: Lizenz
+ins_step_requirements: Voraussetzunge
+ins_step_database: Datenbank
+ins_step_build: Tabelle
+ins_step_game: Spiel
+ins_step_admin: Administrador
+ins_step_done: Fertig
+ins_recheck: Nochmal prüfe
+ins_db_connection: Verbindung
+ins_db_createdb: Datenbank anlege, falls se noch ned existiert
+ins_db_connect: Verbinde & anlege
+ins_db_no_host: Kei Datenbank-Host angegebe.
+ins_db_name_invalid: Der Datenbankname darf nur Buchschtabe, Ziffern, _ un - enthalte (max. 64 Zeiche).
+ins_check_input: Eingabe geprüft
+ins_check_connect: Mid em Datenbankserver verbunne
+ins_check_database: Datenbank »%s«
+ins_db_missing: existiert ned („Datenbank anlege“ ankreuze odder selbst anlege)
+ins_db_create_fail: 'konnt ned angelegt werde:'
+ins_db_created: angelegt
+ins_db_exists: vorhanne
+ins_check_tables: Noch kei Tabelle mit dem Präfix »%s«
+ins_tables_exist: Es gibt scho %d Tabelle(n) mit dem Präfix. Wähl ein anneres Präfix odder ei anneres Datenbank.
+ins_check_write: '%s geschrieben'
+ins_build_desc: Der Installer legt jedsd Schridt fer Schridt die Spieltabelle an un füllt sie mid den Standardwerte.
+ins_task_tables: Tabelle anlege
+ins_task_migrations: Datenbank-Version eintrage
+ins_task_config: Spieleinschtellunge schreibe
+ins_task_universe: Universum 1 einrichde
+ins_build_start: Datenbank aufbaue
+ins_back_database: Zurügg zu den Datenbank-Einschtellunge
+ins_game_name: Spielname
+ins_game_name_info: 'Erscheint im Titel, in der Kopfzeile un in de E-Mails. Standard: Br0Game.'
+ins_default_theme: Standard-Design
+ins_default_theme_info: Design fer neue Accounts un Besucher; Schbieler könne es in ihre Einschtellunge wechsle.
+ins_game_name_invalid: Gib ei Spielname mid 1 bis 64 Zeiche ei.
+ins_theme_invalid: Unbekannts Design.
+ins_to_start: Zur Startseide
+ins_credits_head: Uff de Schulterne von Riese
+ins_credits_text: 'Br0Game setzt ei lange Reih vo Open-Source-Browserspiele fort. Respekt an alle, die es vor uns gebaud un am Lewe gehalde hawwe:'
+ins_credits_thanks: Danke an die pr0game-Gommunity fer des Spiel, aus dem dieses hier gewachse is.
+ins_licence_note: Freie Software unner der GNU AGPL v3
+ins_task_images: Bilder optimiere (WebP)
+ins_db_help: Br0Game speichert alles in ei MySQL- odder MariaDB-Datenbank. Die Werte unne kriesd du in deim Hosting-Panel (Bereich "Datenbanke" odder "MySQL") odder von der Person, die deinen Server eingerischt had. Had du MySQL selbst installiert, passe die Vorgabe meischtens.
+ins_db_host: Datenbankserver
+ins_db_host_info: Fasd immer "localhost". Manche Hoster nenne ei Name wie "db1.example.com".
+ins_db_name_info: Name der Datenbank fer des Spiel. Leg sie vorher im Hosting-Panel an odder lass sie vom Installer anlege (Kasdn drunner).
+ins_db_advanced: Erweidert (Port, Tabellenpräfix, Migrationspasswort) - normalerweise ned nedwendisch
+ins_db_prefix_info: Wird jedem Tabellenname vorangesdellt. Nur ännern, wenn du die Datenbank mid anderer Software deilsd.
+ins_db_migrationpw_info: 'Schützt die Update-Seide (install/?mode=upgrade) fer spätere Spiel-Updates. Leer lasse: Der Installer erzeugt ei starkes Passwort un zeigt es einmal uff der letzte Seide.'
+ins_db_migrationpw_placeholder: wird automadisch erzeugt
+ins_migrationpw_invalid: Des Migrationspasswort darf kei Anführungszeiche, Backslashes, $ odder Zeilenumbrüche enthalte.
+ins_err_technical: technische Details
+ins_err_access_denied: Der Datenbankserver hat Benutzername odder Passwort abgelehnt. Prüf beides uff Tippfehler (Groß-/Kleinschreibung zählt) im Hosting-Panel.
+ins_err_unknown_db: Die Datenbank gibt’s uff dem Server ned. Prüf den Name odder setz unne den Haken "Datenbank anlege".
+ins_err_no_privilege: Dieser Datenbankbenutzer darf die Datenbank ned benutze. Gib ihm im Hosting-Panel alle Rechte druff.
+ins_err_no_create: Dieser Benutzer darf kei Datenbanke anlege. Leg im Hosting-Panel ei leere Datenbank an un nimm den Haken "Datenbank anlege" raus.
+ins_err_socket: Der Socket vom Datenbankserver wurd ned gefunde. Versuch als Server "127.0.0.1" statt "localhost".
+ins_err_unreachable: Der Datenbankserver "%s" is ned erreischbar. Prüf Servername un Port un ob der Datenbankserver läuft. Viele Hoster erlaube Verbindunge nur von ihre eigene Webserver, meischtens is "localhost" richtisch.
+ins_game_desc: Gib deim Spiel ei Name un leg fest, wie es sich spielt. Alles hier lässt sich später in der Administration ännern (Admin - Einschtellunge).
+ins_group_general: Allgemein
+ins_uni_name: Name vom Universum
+ins_uni_name_info: Wird Schbieler bei der Universumswahl angezeigt. Leer = "Universum 1".
+ins_uni_name_invalid: Der Universumsname darf höchschdens 60 Zeiche habe.
+ins_language: Standardsprache
+ins_language_info: Sprache fer neue Besucher un fer dein Administradorkonto.
+ins_language_invalid: Unbekannde Sprache.
+ins_timezone: Zeidzone
+ins_timezone_info: Von deim Server vorausgewählt. Bestimmt die angezeischte Serverzeit.
+ins_timezone_invalid: Unbekannde Zeidzone.
+ins_group_speed: Spielgeschwindigkeid
+ins_speed_info: Wie schnell Gebäude, Forschung, Schiffe, Flodde un Produktion gehe. Klassisch is des Originaldembo; die schnellere Schdufe passe zu kleine Gommunities un kurze Runde.
+ins_speed_classic: Klassisch
+ins_speed_classic_info: Originaldembo, Runde dauern Monade
+ins_speed_fast: Schnell
+ins_speed_fast_info: etwa dreimal so schnell, Runde dauern Wochen
+ins_speed_blitz: Blitz
+ins_speed_blitz_info: bis zu zehnmal so schnell, Runde dauern Dage
+ins_speed_detail: Bauen/Forsche %bx, Flodde %fx, Rohschtoffe %rx
+ins_speed_invalid: Unbekannde Geschwindigkeitsschdufe.
+ins_group_players: Schbieler
+ins_registration: Registrierung
+ins_registration_open: Offe - jeder kann sich anmelde
+ins_registration_closed: Geschlosse - nur du legsd Konte an
+ins_registration_info: Wähl "geschlosse", solange du noch einrichtest. Schbeeder in Admin - Einschtellunge öffne.
+ins_registration_invalid: Unbekannde Registrierungs-Einschtellung.
+ins_bots: Computerschbieler (Bots)
+ins_bots_info: 0 bis 50. Bots spiele wie echte Schbieler mid unnerschiedliche Gewohnheite, damit ei neues Universum ned leer is. 0 = kei Bots.
+ins_bots_invalid: Die Anzahl vo Bots muss zwische 0 un 50 liege.
+ins_mail: E-Mails versende (Registrierung, Passwort zurücksetze)
+ins_mail_info: Standardmäßig aus. Nur einschalde, wenn dein Server Mails versende kann; SMTP richsd du schpäter in Admin - Einschtellunge ei.
+ins_admin_mail_info: Fer Passwort-Zurücksetze un als Kontaktadresse.
+ins_admin_mail_invalid: Gib ei gültige E-Mail-Adresse ei.
+ins_admin_pass_confirm: Passwort wiederhole
+ins_admin_pass_rules: Des Passwort braucht mindeschtens %d Zeiche (höchschdens 64). Ei Satz aus ei paar Wörter is leicht zu merke un schwer zu erraade.
+ins_admin_pass_short: Des Passwort braucht mindeschtens %d Zeiche.
+ins_admin_pass_long: Des Passwort darf höchschdens 64 Zeiche habe.
+ins_admin_pass_mismatch: Die beide Passwörter schdimme ned überein.
+ins_done_checklist: Dei Checkliste
+ins_done_login: Melde dich in der Administration an.
+ins_done_login_info: 'Du bisd scho als "%s" angemeldet. Des nägschte Mal nutz:'
+ins_done_cron: Cronjob einrichte (erforderlich).
+ins_done_cron_info: 'Ohne den geht im Spiel nix voran (Flodde, Bauschleife, Schdadischdike). Trag die Zeile in die Crontab vom Webserver-Benutzer ei (crontab -e) odder leg im Hosting-Panel ei Cronjob damit an:'
+ins_done_locked: Des Installationstool is jetzt gesperrt.
+ins_done_locked_info: Niemand kann den Assistende nochemal ausführe. Fer spätere Updates folg dem Update-Abschnitt der Dokumentation.
+ins_done_https: HTTPS verwende.
+ins_done_https_info: 'Du nutzt gerade unverschlüssseltes HTTP: Passwörter werde im Klartext übertrage. Richt en Zertifikat ei (zum Beispiel Let’s Encrypt), bevor du Schbieler einlädsd.'
+ins_done_https_ok: Diese Seide wurd iwwer HTTPS geliefert - sehr gut.
+ins_done_settings: Einschtellunge schbeeder ännern.
+ins_done_settings_info: 'Admin - Einschtellunge: Spielname, Geschwindigkeid, Registrierung, E-Mail (SMTP), Bots un vieles mehr.'
+ins_done_bots: Bots.
+ins_done_bots_info: '%d Bots wurd angelegt. Die handle, wenn der Cronjob läuft. Verwalt sie in der Administration.'
+ins_done_bots_failed: Der Administrador wurd angelegt, die Bots konnte aber ned erschdellt werde. Du kannsd sie schpäter in der Administration hinzufüge.
+ins_done_migrationpw: Schreib dein Migrationspasswort uff (wird nur einmal angezeigt).
+ins_done_migrationpw_info: Du brauchsd es fer Spiel-Updates. Es schdeht aach in config/game.php.
+ins_done_docs: 'Dokumentation:'
+ins_done_to_admin: Zur Administration
+ins_step_legal: Rechtliches
+ins_legal_desc: Leg fest, wo des Spiel gehosded wird un wie die Rechtstexte un des Community-Board starde. Des alles kannsd du schpäter im Admin-Bereich ännern (Einschtellunge, Seide).
+ins_group_privacy: Hosting-Region
+ins_privacy_info: Die Region bestimmt, welche Datenschutzerklärung standardmäßig verwendet wird.
+ins_privacy_eu: EU / EWR - DSGVO-Datenschutzerklärung
+ins_privacy_eu_info: Wähl des, wenn des Spiel in der Europäische Union odder im Europäische Wirtschaftsraum gehosded wird odder sich an Schbieler dort richded.
+ins_privacy_other: Außerhalb der EU - allgemeine Datenschutzerklärung
+ins_privacy_other_info: Ei allgemein verschtänddliche Datenschutzerklärung ohne Bezug uff die DSGVO.
+ins_group_rules: Regeln
+ins_rules_default: Standardregeln importiere
+ins_rules_default_info: Die Regelseide fängt mid den Standard-Spielregeln an, die du danach bearbeide kannsd.
+ins_rules_blank: Leer starte
+ins_rules_blank_info: Die Regelseide bleibt leer, bis du im Admin-Bereich eigene Regeln schreibsd.
+ins_group_community: Gommunity
+ins_board: Community-Board aktiviere
+ins_board_info: Ei Forum fer deine Schbieler. Wenn aus, sinn alle Board-Links ausgeblendet un die Board-Seide ned erreischbar.
+ins_legal_note: Die erzeugde Texte sinn nur Vorlage. Als Betreiber bisd du selbst fer die Rechtstexte deim Spiel verantwortlich un solltescht sie prüfe.
+ins_legal_region_invalid: Bidde wähl ei gültige Hosting-Region.
+ins_legal_rules_invalid: Bidde wähl, wie die Regeln starde solle.

@@ -8,7 +8,6 @@ Play: Schbielne
 Playername: Schbielername
 Register: Regisdrierne
 Settings: Einsdellungne
-Sitting_cancel: Sidding abbrechne
 Sitting_end: Sidding Ende
 Sitting_request: Sidding anfragne (ned brogrammierd)
 uni_status_regclosed_gameclosed: Geschlossne
@@ -20,63 +19,66 @@ Universe_start: Schdard
 Universe_status: 'Unifersums Schdadus: '
 Universes: Unifersne
 Your_universes: Deine Unifersne
-board_create: "Neuer Beitrag"
-board_edit_post: "Beitrag bearbeiten"
-board_sort: "Sortierung"
-board_sort_hot: "Hot"
-board_sort_new: "Neu"
-board_sort_top: "Top"
-board_period_all: "Gesamt"
-board_period_week: "Diese Woche"
-board_csort_best: "Beste"
-board_flair: "Kategorie"
-board_flair_all: "Alle"
-board_flair_general: "Allgemein"
-board_flair_guide: "Guide"
-board_flair_question: "Frage"
-board_flair_suggestion: "Vorschlag"
-board_flair_bug: "Bug"
-board_flair_offtopic: "Off-Topic"
-board_upvote: "Hochwerten"
-board_downvote: "Abwerten"
-board_pinned: "Angepinnt"
-board_locked: "Gesperrt"
-board_by: "von"
-board_comments: "Kommentare"
-board_empty: "Noch keine Beiträge. Schreib den ersten."
-board_no_comments: "Noch keine Kommentare."
-board_title: "Titel"
-board_body: "Text"
-board_publish: "Veröffentlichen"
-board_save: "Speichern"
-board_cancel: "Abbrechen"
-board_edit: "Bearbeiten"
-board_edited: "bearbeitet"
-board_delete: "Löschen"
-board_deleted: "[gelöscht]"
-board_deleted_user: "[gelöscht]"
-board_confirm_delete: "Wirklich löschen?"
-board_reply: "Antworten"
-board_collapse: "Thread einklappen"
-board_add_comment: "Kommentar schreiben"
-board_comment_send: "Kommentieren"
-board_mod_pin: "Anpinnen"
-board_mod_unpin: "Lösen"
-board_mod_lock: "Sperren"
-board_mod_unlock: "Entsperren"
-board_not_found: "Dieser Beitrag oder Kommentar existiert nicht."
-board_not_allowed: "Das darfst du nicht."
-board_err_csrf: "Die Anfrage konnte nicht verifiziert werden. Bitte Seite neu laden und erneut versuchen."
-board_err_title: "Bitte einen Titel eingeben."
-board_err_title_long: "Der Titel darf höchstens 200 Zeichen haben."
-board_err_body: "Bitte einen Text eingeben (nicht leer, nicht zu lang)."
-board_err_locked: "Dieser Beitrag ist gesperrt, keine neuen Kommentare."
-board_err_rate_post: "Bitte noch %d Sekunde(n) warten, bevor du den nächsten Beitrag schreibst."
-board_err_rate_comment: "Bitte noch %d Sekunde(n) warten, bevor du den nächsten Kommentar schreibst."
-board_ago_now: "gerade eben"
-board_ago_min: "vor %d Min."
-board_ago_hours: "vor %d Std."
-board_ago_days: "vor %d Tg."
-board_guest_hint: "Zum Posten, Kommentieren und Abstimmen bitte einloggen."
-board_guest_login: "Einloggen"
-board_guest_register: "Registrieren"
+board_create: Neuer Beitrag
+board_edit_post: Beitrag bearbeiten
+board_sort: Sortierung
+board_sort_hot: Hot
+board_sort_new: Neu
+board_sort_top: Top
+board_period_all: Gesamt
+board_period_week: Diese Woche
+board_csort_best: Beste
+board_flair: Kategorie
+board_flair_all: Alle
+board_flair_general: Allgemein
+board_flair_guide: Guide
+board_flair_question: Frage
+board_flair_suggestion: Vorschlag
+board_flair_bug: Bug
+board_flair_offtopic: Off-Topic
+board_upvote: Hochwerten
+board_downvote: Abwerten
+board_pinned: Angepinnt
+board_locked: Gesperrt
+board_by: von
+board_comments: Kommentare
+board_empty: Noch keine Beiträge. Schreib den ersten.
+board_no_comments: Noch keine Kommentare.
+board_title: Titel
+board_body: Text
+board_publish: Veröffentlichen
+board_save: Speichern
+board_cancel: Abbrechen
+board_edit: Bearbeiten
+board_edited: bearbeitet
+board_delete: Löschen
+board_deleted: '[gelöscht]'
+board_deleted_user: '[gelöscht]'
+board_confirm_delete: Wirklich löschen?
+board_reply: Antworten
+board_collapse: Thread einklappen
+board_add_comment: Kommentar schreiben
+board_comment_send: Kommentieren
+board_mod_pin: Anpinnen
+board_mod_unpin: Lösen
+board_mod_lock: Sperren
+board_mod_unlock: Entsperren
+board_not_found: Dieser Beitrag oder Kommentar existiert nicht.
+board_not_allowed: Das darfst du nicht.
+board_err_csrf: Die Anfrage konnte nicht verifiziert werden. Bitte Seite neu laden und erneut versuchen.
+board_err_title: Bitte einen Titel eingeben.
+board_err_title_long: Der Titel darf höchstens 200 Zeichen haben.
+board_err_body: Bitte einen Text eingeben (nicht leer, nicht zu lang).
+board_err_locked: Dieser Beitrag ist gesperrt, keine neuen Kommentare.
+board_err_rate_post: Bitte noch %d Sekunde(n) warten, bevor du den nächsten Beitrag schreibst.
+board_err_rate_comment: Bitte noch %d Sekunde(n) warten, bevor du den nächsten Kommentar schreibst.
+board_ago_now: gerade eben
+board_ago_min: vor %d Min.
+board_ago_hours: vor %d Std.
+board_ago_days: vor %d Tg.
+board_guest_hint: Zum Posten, Kommentieren und Abstimmen bitte einloggen.
+board_guest_login: Einloggen
+board_guest_register: Registrieren
+rl_board_err_self_vote: Du kannsd ned fer dein eigene Beidrach odder Gommendar abschdimme.
+rl_board_err_vote_cap: Dageslimid fer Schdimme erreischt. Versuch’s morje wieder.
+rl_board_err_write_cap: Dageslimid fer Beidrääsch un Gommendare erreischt. Versuch’s morje wieder.

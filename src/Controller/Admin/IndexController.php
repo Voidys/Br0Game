@@ -18,8 +18,7 @@
 namespace App\Controller\Admin;
 
 /** Admin entry point: redirects to the dashboard (the layout carries menu and navigation). */
-#[\App\Routing\GamePage('admin.php', 'index', default: true)]
-#[\App\Routing\GamePage('admin.php', 'index', default: true, uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'index', default: true)]
 class IndexController extends AbstractAdminController
 {
     /** admin entry (formerly the frameset): the admin layout now carries menu and navigation on every page */

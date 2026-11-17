@@ -1,72 +1,46 @@
+build_ships: Insgesamt gebaute Schiffe
 buttonLostPassword: Basswort wergessne?
 buttonRegister: Erschdelle deinene Accound!
 buttonScreenshot: Screne shods
-chose_a_uni: 'Wähle a Uniwersum '
+civil: Zivil
+colony: Kolonie
+deathstar: Todesstern
+destroyed_sats: Zerstörte Solarsatelliten
 disclamerLabelAddress: 'Adresse:'
 disclamerLabelMail: 'E-Mail Adresse:'
 disclamerLabelNotice: Weitere Informationen
 disclamerLabelPhone: 'Telefon Nr.:'
-disclamerRecaptcha: >-
-  Diese Seite nutzt reCAPTCHA und die Google <a
-  href="https://policies.google.com/privacy">Datenschutzerklärung</a> und <a
-  href="https://policies.google.com/terms">Nutzungsbedingungen</a> gelten.
+first_fights: Erste KB's des Unis
 forum: Forum
-gameInformations: |-
-  Ein Weltraum Schdrategiespiel- in Echdzeid hädichx8 .
-  Spiele zusammen mit hunderten Usern.
-  Kein Download, es wird nur ein Standardbrowser benötigt.
-  Kostenlose Registrierung
-login_error_1: >-
-  Falsche Email- oder Bassword tazächlich! Dibb: Bassworddresore in gimb
-  neisbeichern ofd den Usernamne, du mussd dich aber mid deiner Email- anmeldne
-  hätt i gsachd.
-login_error_2: >-
-  Jemand had sich von einem anderem Bezeh in deinem Accound eingeloggd
-  tazächlich sogar!
+hof_empty: Noch kei Ruhmeshalle-Daten vorhanne.
+login_error_1: 'Falsche Email- oder Bassword tazächlich! Dibb: Bassworddresore in gimb neisbeichern ofd den Usernamne, du mussd dich aber mid deiner Email- anmeldne hätt i gsachd.'
+login_error_2: Jemand had sich von einem anderem Bezeh in deinem Accound eingeloggd tazächlich sogar!
 login_error_3: 'Da isd deine Session abgelaufne tazächlich sogar! '
-login_error_4: >-
-  Es gab dsu fiele Loginfersuche des bascht scho. Bidde melde dich bei einem
-  Adminisdrador über Lord gorea für neue Logindadne- Halde deine Emailadresse-
-  dsur Ferifigadion bereid und alles.
+login_error_4: Es gab dsu fiele Loginfersuche des bascht scho. Bidde melde dich bei einem Adminisdrador über Lord gorea für neue Logindadne- Halde deine Emailadresse- dsur Ferifigadion bereid und alles.
 loginButton: Login
 loginEmail: E-Mail
 loginHeader: Login
 loginInfo: Mid dem Login agzeptiere ich die %s.
 loginPassword: Basswort
-loginServerDesc: >-
-  %s isd a WeltraumSchdrategiespiel- mid hunderdne Schbielern die erdumgreifend
-  <strong>gleichzeitig</strong> wersuchne der/die Beschde zu werdne. Alles was
-  ihr zum sbielne brauchd isd a Schdandardwebbrowser.
+loginServerDesc: '%s isd a WeltraumSchdrategiespiel- mid hunderdne Schbielern die erdumgreifend <strong>gleichzeitig</strong> wersuchne der/die Beschde zu werdne. Alles was ihr zum sbielne brauchd isd a Schdandardwebbrowser.'
 loginWelcome: Willgommne bei %s
+Lowest_longterm_points: Vorregistrierte Accounts mit den geringsten Punkten
 menu_banlist: Branger
 menu_battlehall: Baddle Hall
 menu_disclamer: Imbressum
-menu_index: Indeggs
 menu_news: News
-menu_register: Regischdration
 menu_rules: Regeln
+military: Militär
 news_does_not_exist: Keine News vorhanden!
 news_from: Am %s von %s
-news_overview: News
+overall: Gesamt
 passwordBack: Zurück
-passwordCaptcha: 'Sicherheidscode '
 passwordChangedMailSend: 'Du erhälschd in Gürze ne EMail- mid deinem neune Gennwort. '
 passwordChangedMailTitle: 'Neues Gennwort auf der Website: %s'
-passwordConfirmInfo: 'Glick auf den Knobf, dass dei Gennwort zurügggsetzd wird. Des neue Gennwort schiggn mir der per EMail.'
-passwordConfirmSubmit: 'Neues Gennwort anforderne'
+passwordConfirmInfo: Glick auf den Knobf, dass dei Gennwort zurügggsetzd wird. Des neue Gennwort schiggn mir der per EMail.
+passwordConfirmSubmit: Neues Gennwort anforderne
 passwordErrorMailEmpty: Du haschd geine EMailAdresse- angegebne!
-passwordErrorOnePerDay: >-
-  Das Gennwort für dieses Benutzergonto wurde in den ledzdne 24 Schdundne
-  bereids amal angeforderd tadsächlich sogar. Aus Sicherheidsgründne kann das
-  Gennwort eines Benudzers nur amal bro Dag angeforderd werdne des bascht scho.
-  Sie gönnene das Gennwort für dieses Benutzergonto in 24 Schdundne erneud
-  anfordern des bascht scho. 
-passwordErrorUnknown: Es gönnte gein Benutztergonto mid den Dadne gefundne werdne. Etzala
-passwordErrorUsernameEmpty: Du haschd geinene Benudernamne angegebne etzala!
-passwordInfo: >-
-  Wne du dein Gennwort wergessne haschd, musschd du den Benudzernamne und die
-  EMailAdresse- angebne, die du in deinem Brofil hinderlegd haschd. Etzala Wne
-  du die Dadne ned mehr weißd, wende dich an die Audorne.
+passwordInfo: Wne du dein Gennwort wergessne haschd, musschd du den Benudzernamne und die EMailAdresse- angebne, die du in deinem Brofil hinderlegd haschd. Etzala Wne du die Dadne ned mehr weißd, wende dich an die Audorne.
 passwordMail: E-Mail
 passwordNext: Weiter
 passwordSubmit: Absenden
@@ -74,19 +48,17 @@ passwordUsername: Benudzernamne
 passwordValidInValid: Ungüldiger Anfrage!
 passwordValidMailSend: 'Du erhälschd in Gürze ne EMail mid weiderne Informadionene. Etzala '
 passwordValidMailTitle: 'Kennwort vergessen auf der Website: %s'
+players: Spieler
+points_amount: Punkte / Anzahl
+powFailed: Die automadische Bot-Prüfung is fehlgeschlage odder abgelaufe. Bidde geh zurügg, warde en Moment un sende des Formular nochemal ab.
+powNoCrypto: Dein Browser kann die automadische Bot-Prüfung ned ausführe (sie braucht ei sichere https-Verbindung).
+powVerifying: Browser wird geprüft …
 registerBack: Zurück
-registerCaptcha: Sicherheitscode
-registerCaptchaDesc: >-
-  Bitte gebe die untenstehenden Zeichen ohne Leerstellen in das leere Feld ein.
-  Groß- und Kleinschreibung müssen nicht beachtet werden. Solltest du das Bild
-  auch nach mehrfachem Neuladen nicht entziffern können, wenden Sie sich an den
-  Administrator dieser Seite.
-registerCaptchaReload: Captcha neuladen.
+registerDataPrivacyDesc: Ich bin mit der %s einverstanden.
 registerEmail: E-Mail
 registerEmailDesc: Bitte geben deine E-Mail-Adresse ein!
 registerEmailReplay: E-Mail wiederhohlen
 registerEmailReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deiner E-Mail-Adresse!
-registerErrorCaptcha: Der Sicherheidscode ist falsch!
 registerErrorDataPrivacy: Du musst die Datenschutzbestimmungen bestätigen!
 registerErrorMailEmpty: Du musst eine E-Mail-Adresse angeben!
 registerErrorMailExist: Die EMailAdresse- isd bereids regischdriert - hätt ich gsachd!
@@ -101,9 +73,7 @@ registerErrorUsernameEmpty: Du hast keinen Usernamne eingeben!
 registerErrorUsernameExist: Der Username ist bereits vergeben!
 registerLanguage: Sprache
 registerMailCompleteTitle: Willgommne bei %s!
-registerMailVertifyError: 'Fehler beim Wersendne der Mail: %s'
 registerMailVertifyTitle: 'Agtivierung der Regischdrierung uff der Webseide: %s'
-registerNext: Weiter
 registerPassword: Basswort
 registerPasswordDesc: Das Basswort muss mindeschdens %s Zeichen lang sein.
 registerPasswordReplay: Basswort widerhohlen
@@ -111,28 +81,13 @@ registerPasswordReplayDesc: Bitte wiederhole zur Sicherheit die Eingabe deines B
 registerReferral: 'Geworben von:'
 registerRules: Regeln
 registerRulesDesc: Ich bin mit den %s einverstanden.
-registerSendComplete: >-
-  Wielne Dang für die Regischdration. Du erhälschd in Gürze ne EMail- mid
-  weiderne Informadionene .
+registerSendComplete: Wielne Dang für die Regischdration. Du erhälschd in Gürze ne EMail- mid weiderne Informadionene .
 registerTimezone: Zeitzone
 registerUsername: Username
-registerUsernameDesc: >-
-  Der Username muss mindeschdens 3 und derf maggsimal 25 Zeichne und derf nur
-  aus Zahlne, Buchschdabne, Bunkte, Binde- und Unterschdriche und Leerzeichne
-  beschdehne
+registerUsernameDesc: Der Username muss mindeschdens 3 und derf maggsimal 25 Zeichne und derf nur aus Zahlne, Buchschdabne, Bunkte, Binde- und Unterschdriche und Leerzeichne beschdehne
 registerWelcomePMSenderName: Adminischdrator
 registerWelcomePMSubject: Willgommne
-registerWelcomePMText: >-
-  Willgommne bei %s! Baue zuerschd a Solargraftwerg, den Energie wird für die
-  sbätere Rohstoffprodugtion benödigd und alles. Um diese zu baune, kligge lings
-  im Menu uff *ferstellt Schdimme:* "Äh, Gebäude". Danach baue des 4. Gebäude
-  von obne alda. Da du nun Energie haschd, gannst du anfangne Minene zu baune
-  tadsächlich sogar. Gehe dazu widda im Menü uff Gebäude und baue ne Medallmine,
-  danach scho widder ne Gristallmine hätt ich gsachd. Um Schiffe baune zu
-  gönnene musschd du zuerschd ne Raumschiffswerfd gebaud habne alde. Was dafür
-  benödigd wird findeschd du lings im Menüpungt Dechnologie tadsächlich sogar.
-  Das Deam wünschd dir wiel Schbaß beim Ergundne des Uniwersums alda! 
-rulesHeader: Regelwerk
+registerWelcomePMText: 'Willgommne bei %s! Baue zuerschd a Solargraftwerg, den Energie wird für die sbätere Rohstoffprodugtion benödigd und alles. Um diese zu baune, kligge lings im Menu uff *ferstellt Schdimme:* "Äh, Gebäude". Danach baue des 4. Gebäude von obne alda. Da du nun Energie haschd, gannst du anfangne Minene zu baune tadsächlich sogar. Gehe dazu widda im Menü uff Gebäude und baue ne Medallmine, danach scho widder ne Gristallmine hätt ich gsachd. Um Schiffe baune zu gönnene musschd du zuerschd ne Raumschiffswerfd gebaud habne alde. Was dafür benödigd wird findeschd du lings im Menüpungt Dechnologie tadsächlich sogar. Das Deam wünschd dir wiel Schbaß beim Ergundne des Uniwersums alda! '
 siteTitleBanList: Branger
 siteTitleBattleHall: Baddle Hall
 siteTitleDataPrivacy: Datenschutz
@@ -144,83 +99,46 @@ siteTitleNews: News
 siteTitleRegister: Regischdrierne
 siteTitleRules: Regeln
 siteTitleScreens: Screne shods
-uni_closed: ' (geschlossen)'
-uni_reg_closed: ' (Registrierung geschlossen)'
-uni_reg_open: ' (nur Registrierung)'
+spy: Spiosonden
+st_buildings: Gebäude
+st_defenses: Verteidigung
+st_fleets: Flotte
+st_points: Punkte
+st_researh: Forschung
+theme: Thema
 universe: Uniwersum
 vertifyAdminMessage: Der Username "%s" wurder agtiviert tazächlich sogar!
 vertifyNoUserFound: 'Ungüldiger Anfrage tazächlich sogar! '
-biggest_solo: "Größter Solo KB"
-build_ships: "Insgesamt gebaute Schiffe"
-civil: "Zivil"
-colony: "Kolonie"
-CrystalStorage: "Kristallspeicher"
-deathstar: "Todesstern"
-destroyed_sats: "Zerstörte Solarsatelliten"
-first_fights: "Erste KB's des Unis"
-flown_expos: "Insgesamt geflogene Expeditionen"
-flownDeut: "Insgesamt verbrauchtes Deuterium beim Fliegen"
-found_res: "Insgesamt gefundene Ressourcen"
-found_ships: "Insgesamt gefundene Schiffe"
-galaxySpendDeut: "Verbracuhtes Deut beim durchklicken der Galaxie"
-hof3_header: "Hier sind die Legenden von Uni 3 verewigt!"
-hof4_header: "Hier sind die Legenden von Uni 4 verewigt!"
-hof7_header: "Hier sind die Legenden von Uni 7 verewigt!"
-IonCannon: "Ionenkanone"
-least_reached_ach: "Seltenste Achievements"
-Lowest_longterm_points: "Vorregistrierte Accounts mit den geringsten Punkten"
-medAliens: "Medium Aliens"
-military: "Militär"
-most_achievements: "Am meistes gesammelte Achievements"
-most_black_holes: "Am meisten gefundene schwarze Löcher"
-most_build: "Am meisten gebaute"
-most_build_HF: "Meiste gebaute Schwere Jäger"
-most_defended_moons: "Meiste erfolgreiche Mondverteidigungen"
-most_destroyed_moons: "Meiste zerstörte Monde"
-most_expo_fights: "Am meisten bekämpfte Aliens/Piraten"
-most_fights: "Meisten Siege / Niederlagen / Unentschieden"
-most_reached_ach: "Meistvergebene Achievements"
-most_records: "Am meisten gesammelte Rekorde"
-oldest_active_acc: "Älteste aktive Accounts"
-overall: "Gesamt"
-players: "Spieler"
-points_amount: "Punkte / Anzahl"
-realDesUnits: "Wirklich zerstörte Units"
-registerDataPrivacyDesc: "Ich bin mit der %s einverstanden."
-second_expo_deck: "Haben ihr zweites Expeditions-Deck gestartet"
-spy: "Spiosonden"
-st_buildings: "Gebäude"
-st_defenses: "Verteidigung"
-st_fleets: "Flotte"
-st_points: "Punkte"
-st_researh: "Forschung"
-theme: "Thema"
-votingPoints: "Abstimmungspunkte"
-wonAttack: "Gewonnener Angriffe"
-wonDefense: "Gewonnene Verteidigung"
-home_menu: "Menü"
-home_meta_description: "%s – das Weltraumstrategie-Browsergame mit 2000er-Charme: Planeten ausbauen, Flotten bauen, Allianzen schmieden."
-home_started: "Läuft bereits!"
-home_starts_in: "Noch"
-home_team: "Team"
-home_meme_alt: "Comic-Meme vom {game_name}-Kommandodeck"
-home_meme_alt_deep_space_transit: "Comic: Zwei Kadetten in einem Shuttle – der eine sackt beim Anblick eines Asteroidenfelds zusammen, der andere strahlt einen leuchtenden Nebel an. „Normale Sektorpatrouille vs. einen unerforschten, rohstoffreichen Nebel finden.“"
-home_meme_alt_deuterium_joyride: "Comic: Ein müder Kommandant auf dem Beobachtungsdeck sieht zwei Rekruten draußen herumschweben – „Zusehen, wie die neuen Rekruten ihr ganzes Deuterium bei Spritztouren verbraten, während ich 12 Stunden auf meine Minen-Upgrades warte.“"
-home_meme_alt_enemy_fleet: "Comic: Ein Kadett greift sich panisch an den Kopf, während die Alarme blinken – „1000 feindliche Zerstörer im Anflug?! Ich dachte, dieser Sektor wäre sicher?!“"
-home_meme_alt_fleet_decimated: "Comic: Ein geschockter Soldat starrt ins Leere, während draußen hinter der zerborstenen Kuppel Schiffe explodieren – „Wenn du 20 Stunden Rohstoffe farmst und dann die Flotte eines Top-3-Spielers auftaucht und in 3 Sekunden alles zerlegt.“"
-home_meme_alt_solo_scouting: "Comic: Commander Kamioka grinst und legt einem Kadetten die Roboterhand auf die Schulter – „Keine Sorge, Kadett. Das Oberkommando hat ‚vollstes‘ Vertrauen in deine Solo-Aufklärungsmission ins All.“"
-home_meme_alt_this_is_fine: "Comic: Ein Hund im Raumanzug sitzt seelenruhig in der brennenden Kommandozentrale und sagt „This is fine“ – „Keine Sorge. Meine Flotte kommt nur 4 Stunden zu spät zurück.“"
-source_code: "Quellcode"
-news_back: "Zurück zu den News"
-lightbox_close: "Schließen"
-lightbox_prev: "Vorheriges Bild"
-lightbox_next: "Nächstes Bild"
-news_pinned: "Angepinnt"
-news_read_more: "Weiterlesen"
-news_latest: "Neueste News"
-news_all: "Alle News"
-csrf_invalid: "Die Sicherheitsprüfung der Anfrage ist fehlgeschlagen (Sitzung abgelaufen?). Bitte die Seite neu laden und es noch einmal versuchen."
-home_logged_in_head: "Dei Konto"
-home_logged_in_as: "Agmeldet als %s"
-home_continue: "Weida zu deine Universen"
-home_account_lobby: "Konto-Lobby"
+passwordErrorUsernameEmpty: Du haschd geinene Benudernamne angegebne etzala!
+uni_closed: ' (geschlossen)'
+uni_reg_closed: ' (Registrierung geschlossen)'
+uni_reg_open: ' (nur Registrierung)'
+home_menu: Menü
+home_meta_description: '%s – das Weltraumstrategie-Browsergame mit 2000er-Charme: Planeten ausbauen, Flotten bauen, Allianzen schmieden.'
+home_started: Läuft bereits!
+home_starts_in: Noch
+home_team: Team
+home_meme_alt: Comic-Meme vom {game_name}-Kommandodeck
+home_meme_alt_deep_space_transit: 'Comic: Zwei Kadetten in einem Shuttle – der eine sackt beim Anblick eines Asteroidenfelds zusammen, der andere strahlt einen leuchtenden Nebel an. „Normale Sektorpatrouille vs. einen unerforschten, rohstoffreichen Nebel finden.“'
+home_meme_alt_deuterium_joyride: 'Comic: Ein müder Kommandant auf dem Beobachtungsdeck sieht zwei Rekruten draußen herumschweben – „Zusehen, wie die neuen Rekruten ihr ganzes Deuterium bei Spritztouren verbraten, während ich 12 Stunden auf meine Minen-Upgrades warte.“'
+home_meme_alt_enemy_fleet: 'Comic: Ein Kadett greift sich panisch an den Kopf, während die Alarme blinken – „1000 feindliche Zerstörer im Anflug?! Ich dachte, dieser Sektor wäre sicher?!“'
+home_meme_alt_fleet_decimated: 'Comic: Ein geschockter Soldat starrt ins Leere, während draußen hinter der zerborstenen Kuppel Schiffe explodieren – „Wenn du 20 Stunden Rohstoffe farmst und dann die Flotte eines Top-3-Spielers auftaucht und in 3 Sekunden alles zerlegt.“'
+home_meme_alt_solo_scouting: 'Comic: Commander Kamioka grinst und legt einem Kadetten die Roboterhand auf die Schulter – „Keine Sorge, Kadett. Das Oberkommando hat ‚vollstes‘ Vertrauen in deine Solo-Aufklärungsmission ins All.“'
+home_meme_alt_this_is_fine: 'Comic: Ein Hund im Raumanzug sitzt seelenruhig in der brennenden Kommandozentrale und sagt „This is fine“ – „Keine Sorge. Meine Flotte kommt nur 4 Stunden zu spät zurück.“'
+source_code: Quellcode
+news_back: Zurück zu den News
+lightbox_close: Schließen
+lightbox_prev: Vorheriges Bild
+lightbox_next: Nächstes Bild
+news_pinned: Angepinnt
+news_read_more: Weiterlesen
+news_latest: Neueste News
+home_discord_online: Online
+home_discord_join: Trit unserem Discord bei
+news_all: Alle News
+csrf_invalid: Die Sicherheitsprüfung der Anfrage ist fehlgeschlagen (Sitzung abgelaufen?). Bitte die Seite neu laden und es noch einmal versuchen.
+home_logged_in_head: Dei Konto
+home_logged_in_as: Agmeldet als %s
+home_continue: Weida zu deine Universen
+home_account_lobby: Konto-Lobby
+rulesEmpty: Es wurde noch kei Regeln veröffendlicht.

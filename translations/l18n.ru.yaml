@@ -1,21 +1,19 @@
 dir: ltr
 js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
 months:
-  - Янв
-  - Фев
-  - Мар
-  - Апр
-  - Май
-  - Июн
-  - Июл
-  - Авг
-  - Сен
-  - Окт
-  - Ноя
-  - Дек
-php_dateformat: d. M Y
+- Янв
+- Фев
+- Мар
+- Апр
+- Май
+- Июн
+- Июл
+- Авг
+- Сен
+- Окт
+- Ноя
+- Дек
 php_tdformat: d. M Y, H:i:s
-php_timeformat: H:i:s
 short_day: d
 short_hour: h
 short_minute: m
@@ -62,11 +60,14 @@ timezones:
   '13': '[UTC + 13] Острова Феникс, Тонга'
   '14': '[UTC + 14] Остров Лайн'
 week_day:
-  - Вск
-  - Пнд
-  - Втр
-  - Срд
-  - Чтв
-  - Птн
-  - Сбт
-lang_group_fun: "Шуточные языки"
+- Вск
+- Пнд
+- Втр
+- Срд
+- Чтв
+- Птн
+- Сбт
+php_dateformat: d. M Y
+lang_group_fun: Шуточные языки
+dialog_ok: OK
+dialog_cancel: Отмена

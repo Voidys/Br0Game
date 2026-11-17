@@ -91,18 +91,18 @@ Achievement_text:
   '33': Повернутися з режиму відпустки.
   '34': Потрапити під атаку вперше. Ласкаво просимо до всесвіту.
   '35': Атакувати активного гравця, у якого менше 1/10 твоїх очок.
-  '36': |-
-    Отримати повідомлення, що містить один із таких фрагментів:
-    "Hurensohn", "gleichstarke Ziele", "gegen Schwächere", "ehrenlos"
+  '36': 'Отримати повідомлення, що містить один із таких фрагментів:
+
+    "Hurensohn", "gleichstarke Ziele", "gegen Schwächere", "ehrenlos"'
   '37': Бути знищеним об'єднаною атакою з 5 гравців.
   '38': Атакувати учасників власного альянсу. Дружній вогонь, хтось?
   '39': Атакувати когось рівно 42 кораблями.
   '40': Колонізувати планету щонайменше за піввсесвіту від себе.
   '41': Заблокувати флотовий слот на тиждень поганою пропозицією на ринку.
   '42': Потрапити до Зали битв 4 рази на боці переможених.
-  '43': |-
-    Виграти бій, коли твій обліковий запис позначено як неактивний,
-    на одній із твоїх планет, куди раніше прибув флот із часом польоту понад 7 днів.
+  '43': 'Виграти бій, коли твій обліковий запис позначено як неактивний,
+
+    на одній із твоїх планет, куди раніше прибув флот із часом польоту понад 7 днів.'
   '44': Виробляти ресурс на планеті понад 7 днів, працюючи з енергією менше 100%.
   '45': Виграти атаку проти гравця з топ-5 за обороною.
   '46': Спрацювати захист від башингу, запустивши міжпланетні ракети.
@@ -217,6 +217,7 @@ al_all_players: Усі гравці
 al_alliance: Альянс
 al_alliance_closed: Цей альянс не приймає нових учасників.
 al_alliance_full: Цей альянс заповнений. Спробуй інший.
+al_apply_rate_limited: Сьогодні ти надіслав забагато заявок. Спробуй завтра.
 al_alliance_make: Створити власний альянс
 al_alliance_min_points: Щоб подати заявку до цього альянсу, потрібно щонайменше %d очок.
 al_alliance_search: Пошук альянсів
@@ -231,8 +232,6 @@ al_apply_not_exists: Цієї заявки вже не існує.
 al_applyform_send: Надіслати
 al_back: Назад
 al_candidate: Кандидат
-al_change_submit: Змінити
-al_change_title: Змінити назву
 al_characters: символів
 al_circular_alliance: 'Альянс '
 al_circular_front_text: 'Учасник альянсу <b>%s</b> написав:'
@@ -340,13 +339,11 @@ al_memberlist_on: В мережі
 al_message: Повідомлення
 al_name: Змінити назву альянсу
 al_name_required: Введи назву альянсу.
-al_link_too_long: "Посилання занадто довге (не більше 255 символів)."
+al_link_too_long: Посилання занадто довге (не більше 255 символів).
 al_name_tag_too_long: Тег може містити щонайбільше 8 символів, а назва — 30.
 al_new_apply: Твій альянс отримав <a href="?page=alliance&mode=admin&action=manageApply">[заявку]</a> від гравця <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Новачок
-al_new_name: Змінити назву (3–30 символів)
 al_new_requests: 'Очікують: %d'
-al_new_tag: Змінити тег (3–8 символів)
 al_newname_specialchar: Назви й теги альянсів можуть містити лише літери, цифри, пробіли, підкреслення, дефіси й крапки.
 al_no_diplo: '-'
 al_no_ranks_defined: Рангів ще немає. Створи перший!
@@ -413,7 +410,6 @@ al_you_was_acceted: 'Тебе прийнято до альянсу '
 al_you_was_declined: 'Тобі відмовлено у вступі до альянсу '
 al_your_ally: Твій альянс
 al_your_request_title: Твоя заявка
-bad_forum_url: Посилання на форум недійсне.
 banned_message: 'Тебе заблоковано. <!--discord_url-->Якщо вважаєш, що це помилка, напиши нам у Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
 bd_actual_production: 'Поточне виробництво:'
 bd_available: 'Доступно: '
@@ -479,14 +475,13 @@ bs_acs_slot: Слот ACS
 bs_add_acs_slot: Додати слот ACS
 bs_atter: Нападник
 bs_cancel: Скинути
-bs_too_many_units: "Забагато юнітів для однієї симуляції (максимум %s)."
-bs_busy: "Симуляція вже триває, зачекай, поки вона завершиться."
+bs_too_many_units: Забагато юнітів для однієї симуляції (максимум %s).
+bs_busy: Симуляція вже триває, зачекай, поки вона завершиться.
 bs_deffer: Захисник
 bs_derbis_raport: 'Потрібно для переробки уламків: %s %s.'
 bs_load: Завантажити
 bs_load_invalid: Недійсний код поширення
 bs_load_no_input: Код поширення не введено
-bs_names: Назва корабля
 bs_reset: Скинути
 bs_send: Розрахувати
 bs_share: Поділитися
@@ -527,7 +522,7 @@ bu_player_not_exist: Такого гравця не існує.
 bu_rejected_request_body: Привіт, %s!<br>%s відхилив твій запит у друзі!
 bu_rejected_request_title: Запит у друзі відхилено!
 bu_request_exists: Для цього гравця вже є запит у друзі!
-bu_request_limit: 'Забагато запитів у друзі. Зачекай кілька хвилин, перш ніж надсилати нові.'
+bu_request_limit: Забагато запитів у друзі. Зачекай кілька хвилин, перш ніж надсилати нові.
 bu_request_message: Повідомлення із запитом
 bu_request_send: Запит у друзі надіслано.
 bu_request_text: Текст запиту
@@ -613,12 +608,14 @@ fl_already_invited: ' уже запрошено.'
 fl_ammount: Кораблі
 fl_arrival: Прибуття
 fl_arrival_time: Час прибуття
-fl_attack_confirm_buddy: |-
-  Ціль є у твоєму списку друзів.
-  Ти справді хочеш атакувати?
+fl_attack_confirm_buddy: 'Ціль є у твоєму списку друзів.
+
+  Ти справді хочеш атакувати?'
 fl_attack_confirm_diplo: У тебе є пакт (%s) із %s. Усе одно атакувати?
 fl_attack_confirm_outlaw: Атака на %s зробить тебе поза законом на 7 днів.
 fl_bash_protection: Це порушило б правило башингу.
+fl_daily_cap_reached: Досягнуто денний ліміт флотів (%1$d). Скидання через %2$dг %3$dхв.
+fl_daily_attack_cap_reached: Досягнуто денний ліміт атак (%1$d). Скидання через %2$dг %3$dхв.
 fl_beginning: Звідки
 fl_blocked: ' не приймає запрошень.'
 fl_bonus: Бонус
@@ -673,7 +670,6 @@ fl_modify_sac_name: Назва ACS
 fl_moon_shortcut: (М)
 fl_mt_fleet: Ринок флоту
 fl_mt_resources: Ринок ресурсів
-fl_multi_alarm: Мультитривога!
 fl_my_planets: Мої планети
 fl_new_mission_title: 'Нова місія: обери флот'
 fl_no_colony: Колонії немає
@@ -732,9 +728,9 @@ fl_target_exists: Цільова планета
 fl_trade_no_resource_loaded: Ти не завантажив жодних ресурсів.
 fl_trade_same_resource: Не можна продати %s за %s.
 fl_trade_to_many_resources_loaded: Можна продавати лише один тип ресурсу.
-fl_transfer_alert_message: |-
-  Увага!
-  Твій флот буде передано іншому гравцю!
+fl_transfer_alert_message: 'Увага!
+
+  Твій флот буде передано іншому гравцю!'
 fl_vacation_mode_active: Режим відпустки активний
 fl_visibility: Видимість
 fl_visibility_all: Усі
@@ -766,8 +762,6 @@ general_colors: Загальні кольори
 gl_actions: Дії
 gl_activity: (*)
 gl_activity_inactive: (%d хв)
-gl_ajax_status_fail: Помилка
-gl_ajax_status_ok: Готово
 gl_all_defenses: Уся оборона
 gl_alliance: Альянс
 gl_alliance_page: Сторінка альянсу
@@ -778,7 +772,6 @@ gl_avaible_spyprobes: Шпигунські зонди
 gl_banned: Заблокований / призупинений
 gl_buddy_request: Запит у друзі
 gl_colonizable: Можна колонізувати
-gl_debris: Уламки
 gl_debris_field: Поле уламків
 gl_diameter: Діаметр
 gl_features: Властивості
@@ -796,7 +789,6 @@ gl_missil_launch_action: Запустити ракети
 gl_missil_to_launch: Кількість (доступно <b>%d</b>)
 gl_missile_attack: Ракетна атака
 gl_moon: Місяць
-gl_no: Ні
 gl_no_deuterium_to_view_galaxy: Бракує дейтерію для перегляду галактики!
 gl_no_spy_report: Шпигунського звіту для цієї планети ще немає.
 gl_not_colonizable: Колонізувати не можна!
@@ -869,7 +861,6 @@ in_jump_gate_wait_time: 'Наступний стрибок можливий че
 in_level: Рівень
 in_missilesamount: Доступно
 in_missilestype: Тип ракети
-in_name: Назва
 in_prod_p_hour: За годину
 in_rf_again: Швидкий вогонь проти
 in_rf_explanation: 'Швидкий вогонь: у кожному раунді бою ця одиниця може стріляти кілька разів. Відсоток показує шанс ще одного пострілу після влучання в ціль такого типу.'
@@ -877,7 +868,6 @@ in_rf_from: Швидкий вогонь від
 in_shield_pt: Сила щита
 in_storage: Місткість
 in_struct_pt: Міцність корпусу
-in_units: Одиниця
 kontakt: Привіт!<br>На цій сторінці — люди, які ведуть, модерують і розробляють цей проєкт.<br>Є запитання чи проблеми? Звертайся.<br><br><!--discord_url-->Для кращого спілкування з нами та іншими гравцями ми підтримуємо сервер Discord. Знайдеш його <a href="{discord_url}">тут</a> або через меню.<br>Там ти знайдеш останні новини та найкращі меми з альянсів всесвіту.<br>Питай про ігрові механіки й ділися ідеями щодо майбутнього гри.<br><br><!--/discord_url-->Звісно, ми також відповідаємо на запитання щодо гри.<br>Пам'ятай, що ми граємо в цю гру як хобі, тому відповідь може прийти за кілька днів.<br>
 lm_administration: Адміністрація
 lm_alliance: Альянс
@@ -942,6 +932,7 @@ ma_impulse_drive_required: Потрібен імпульсний двигун
 ma_missiles_sended: ' ракет запущено. Ціль: '
 ma_no_missiles: Немає ракет
 ma_no_range: Ціль поза радіусом дії твоїх ракет.
+ma_own_planet: Ракетами не можна атакувати власну планету.
 ma_not_send_other_galaxy: 'Не можна відправляти ракети в іншу галактику. '
 ma_planet_doesnt_exists: 'Такої планети не існує. '
 ma_silo_level: 'Потрібна ракетна шахта 4-го рівня! '
@@ -989,6 +980,9 @@ mg_delete_unmarked: Видалити непозначені повідомлен
 mg_deleted: Повідомлення видалено.
 mg_empty_text: Введи текст
 mg_error: Отримувача не знайдено!
+mg_too_many_recipients: Можна писати не більше ніж %d гравцям одночасно.
+mg_text_too_long: Повідомлення занадто довге (не більше %d символів).
+mg_rate_limited: Повідомлення надсилаються занадто швидко. Зачекай кілька хвилин.
 mg_favorite: Додати до улюблених
 mg_favorite_filter_off: Показати всі
 mg_favorite_filter_on: Показати лише улюблені
@@ -997,7 +991,6 @@ mg_grouping_off: Показувати повідомлення без групу
 mg_grouping_on: Показувати повідомлення згрупованими
 mg_message: Повідомлення
 mg_message_send: Повідомлення надіслано!
-mg_message_title: Повідомлення
 mg_min_3_chars: Введи щонайменше 3 символи для пошуку
 mg_new: Нові
 mg_no_subject: Без теми
@@ -1044,7 +1037,7 @@ nt_dlte_note: Видалити
 nt_edit_note: Редагувати нотатку
 nt_important: Високий
 nt_no_text: Немає тексту
-nt_limit_reached: 'Ти досяг максимальної кількості нотаток (%1$d). Спочатку видали старі нотатки.'
+nt_limit_reached: Ти досяг максимальної кількості нотаток (%1$d). Спочатку видали старі нотатки.
 nt_no_title: Немає заголовка
 nt_normal: Звичайний
 nt_note: Нотатка
@@ -1159,7 +1152,6 @@ ov_newname_too_long: Назва планети може містити щона�
 ov_news: Новини
 ov_of: з
 ov_outlaw: 'Поза законом до:'
-ov_password: Пароль
 ov_place: Позиція
 ov_planet: Планета
 ov_planet_abandoned: Планету видалено.
@@ -1352,33 +1344,7 @@ sys_refferal_text: Гравець %s, якого ти запросив, набр
 sys_refferal_title: Бонус за гравця %s
 sys_techlist: Черга досліджень
 team: Команда
-teamAdmin: Адмін
-teamAdminLong: Може користуватися спеціальними інструментами для керування грою
-teamAktiv: Активні
-teamAlumni: Колишні / неактивні учасники команди
-teamAlumniLong: Наша подяка належить
-teamCommunity: Підтримка спільноти
-teamCommunityLong: Вони поруч, коли потрібна підтримка.<br>Яка б не була проблема — просто звертайся!<br>Ми зробимо все, щоб знайти рішення.<br>Є запитання чи хочеш виговоритися, навіть анонімно? Приходь поговорити.<br>Ми також є сполучною ланкою між гравцями та модераторами.
-teamContributor: Контриб'ютор
-teamContributorLong: Допомагає розбудовувати проєкт.
-teamDatabase: Доступ до бази даних
-teamDev: Розробник
-teamDevLong: Підтримує й розвиває проєкт<br>Має доступ до розділу Discord для обговорень розробки
-teamDiscordName: Ім'я в Discord
-teamEmergency: Аварійна команда
-teamEmergencyLong: Користувачі згадують її через наш Discord «@Emergency Response Team», коли сервери падають
-teamIngameName: Ігрове ім'я
-teamLegend: Ролі та права
-teamMod: Модератор
-teamModLong: Займається твоїми випадками та проблемами<br>Дбає про чесну гру для всіх<br>Відповідає за покарання<br>Має доступ до розділу Discord для обговорень модерації<br>Має доступ до розділу Discord для обговорень розробки<br>Має доступ до розділу Discord для зустрічей щодо тікетів із розробниками
-teamNo: Ні
-teamPlayer: Гравець
 teamRole: Роль
-teamScripte: Перевірка скриптів
-teamScripteLong: Перевіряє скрипти, створені гравцями, щоб команда<br>могла вирішити, чи дозволяти їх
-teamTickets: Доступ до тікетів
-teamTicketsLong: Може читати всі відкриті тікети
-teamYes: Так
 ti_admin_close: Тікет закрито!
 ti_admin_open: Тікет відкрито!
 ti_answer: Відповісти
@@ -1387,12 +1353,15 @@ ti_category: Категорія
 ti_close: Тікет закрито
 ti_create: 'Тікет створено '
 ti_create_head: Створити тікет
-ti_create_info: |-
-  <p>Створюючи тікет у підтримку, опиши свою проблему якомога докладніше!</p>
+ti_create_info: '<p>Створюючи тікет у підтримку, опиши свою проблему якомога докладніше!</p>
+
   <p>Докладний опис скорочує час вирішення й уникає тривалого листування.</p>
-  <p>У питаннях, пов'язаних з обліковими записами, відповідні дані облікового запису допомагають призначити тікет і скорочують час обробки.</p>
+
+  <p>У питаннях, пов''язаних з обліковими записами, відповідні дані облікового запису допомагають призначити тікет і скорочують час обробки.</p>'
 ti_date: Дата
 ti_error_closed: Цей тікет уже закрито, тож відповісти на нього не можна.
+ti_error_too_many_open: У тебе вже %d відкритих тікетів. Дочекайся закриття одного, перш ніж відкривати новий.
+ti_error_rate_limited: Тікети відкриваються занадто швидко. Спробуй пізніше.
 ti_error_no_subject: Введи тему.
 ti_from: від
 ti_header: Система підтримки
@@ -1403,7 +1372,6 @@ ti_new: Новий тікет
 ti_not_exist: Тікет №%d не знайдено.
 ti_open: Відкрити тікет
 ti_overview: Назад
-ti_re: 'Re:'
 ti_read: Тікет для прочитання
 ti_responded: 'Відповідь на тікет '
 ti_status: Статус
@@ -1434,7 +1402,6 @@ tkb_units: Одиниці
 tkb_verlierer: <b>-Переможений-</b>
 tkb_week: тиждень
 tn_delete_mode: Твій обліковий запис буде видалено %s.
-tn_player_title: Імператор
 tn_vacation_mode: Твій обліковий запис у режимі відпустки.
 tn_vacation_mode_kick: '<br><br>ЗВЕРНИ УВАГУ: режим відпустки автоматично вимикається після 4 тижнів неактивності.'
 tn_vacation_mode_until: Твій обліковий запис у режимі відпустки щонайменше до %s.
@@ -1531,128 +1498,10 @@ ui_nav_universe: Всесвіт
 ui_nav_community: Спільнота
 ui_nav_help: Допомога
 ui_nav_personal: Особисте
-al_applyform_reload: Оновити
-al_default_request_text: Цей гравець не залишив повідомлення.
-al_diplo_ground: 'Причина:'
-al_diplo_war_end_confirm: Справді завершити війну?
-al_do_you_really_want_to_go_out: Справді покинути %s?
-al_events: Події
-al_founder_cant_leave_alliance: Засновник не може просто так піти з альянсу.
-al_legend: Опис
-al_legend_admin_alliance: Керувати альянсом
-al_legend_check_requests: Опрацьовувати заявки
-al_legend_create_circular: Надсилати масові повідомлення
-al_legend_disolve_alliance: Розпустити альянс
-al_legend_kick_users: Виключати учасників
-al_legend_right_hand: Права рука
-al_legend_see_connected_users: Бачити статус у мережі
-al_legend_see_requests: Переглядати заявки
-al_legend_see_users_list: Переглядати список учасників
-al_manage_change_name: Змінити назву альянсу
-al_manage_change_tag: Змінити тег альянсу
-al_no_events: Ще нічого не відбулося.
-al_no_request_pending: 'Усього заявок: %d'
-al_request_from_user: Заявка від гравця
-al_tfkristall: Усього кристалу на полі уламків
-al_tfmetall: Усього металу на полі уламків
-al_unitsloos: Втрачено одиниць
-al_unitsshut: Збито одиниць
-al_view_events: Показати події
-bd_add_to_list: Додати до черги будівництва
-bd_build_defenses: Будувати
-bd_completed: Готово
-bd_finished: Готово
-bd_lab_required: Спершу збудуй на цій планеті дослідницьку лабораторію.
-bd_max_lvl: 'Макс. рівень:'
-bd_on: на
-bd_ready: Готово
-bd_research: Дослідження
-bu_back: Назад
-cff_fleet_own: Флот
-cff_fleet_target: Флоти
-cr_armor: Броня
-cr_destroyed: Знищено!
-cr_first_round: (Флот було знищено в 1-му раунді)
-cr_lost_contact: Зв'язок із твоїм флотом втрачено.
-cr_shields: Щити
-cr_total: Разом
-cr_type: Тип
-cr_weapons: Зброя
-css_server_maintrace: 'Технічне обслуговування сервера<br><br>Гру наразі закрито.<br><br>Причина: %s'
-fa_galaxy_not_exist: Галактики не існує
-fa_mission_not_available: Місія недоступна
-fa_not_attack_yourself: Не можна атакувати себе
-fa_system_not_exist: Системи не існує
-fgp_require: Потрібно
-fl_deploy_only_your_planets: Розгортати можна лише на власні планети.
-fl_expedition_fleets_limit: Ти досяг ліміту експедицій.
-fl_no_empty_derbis: Там немає поля уламків!
-fl_no_hold_depot: На цілі немає складу альянсу.
-fl_not_ally_deposit: На цілі немає складу альянсу.
-fl_planet_populed: Планету колонізовано!
-fl_register_shorcut: Створити
-fl_shortcuts: Закладки
-fl_target_not_exists: Цільової планети не існує.
-gl_avaible_grecyclers: Гігапереробник
-gl_collect: Зібрати
-gl_free: Вільно
-gl_free_desc: Велика незаселена планета — ідеальне місце для нової колонії.
-gl_name_activity: Ім'я (активність)
 gl_points: Очки
-gl_with: ' з '
-gl_wreckfield: Поле решток
-gl_wreckfield_short: ПР
-gl_yes: Так
-in_bonus: 'Бонус:'
-in_dest_durati: Тривалість
-in_jump_gate_available: Кількість
-in_needed: Потрібно
-in_range: Радіус сенсора
-in_title_head: Інформація про
-invalid_action: Недійсна дія!
-lm_disclamer: Правова інформація
-lm_forums: Форум
-lm_queue: Черги
-ma_big_laser: Велика лазерна турель
-ma_big_protection_shield: Велика щитова оболонка
-ma_buster_canyon: Плазмова гармата
-ma_gauss_canyon: Гаусова гармата
-ma_ionic_canyon: Іонна гармата
-ma_misil_launcher: Ракетна установка
-ma_small_laser: Мала лазерна турель
-ma_small_protection_shield: Мала щитова оболонка
 mg_action: Дія
-mg_date: Дата
-mg_from: Від
-mg_game_message: Ігрове повідомлення
-mg_game_operators: Оператори гри
 mg_message_type: Тип повідомлення
-mg_msg_sended: Повідомлення надіслано!
-mg_no_text: Спершу напиши повідомлення.
-mg_receiver_block_pm: Цей гравець блокує особисті повідомлення.
-mg_show_only_header_spy_reports: Показувати шпигунські звіти лише частково
 mg_to: Кому
-mg_total: Разом
-mg_write_mail_to_ops: Написати листа
-op_deactivate_ipcheck: Вимкнути перевірку IP
-op_deactivate_ipcheck_descrip: Перевірка IP автоматично виводить тебе з облікового запису для безпеки, якщо твій IP змінюється або двоє людей одночасно користуються одним обліковим записом з різних IP. Якщо вимкнути її, безпека твого облікового запису знизиться!
-op_email_adress_descrip: Цю електронну адресу можна змінити будь-коли. Якщо не змінювати її 7 днів, вона стає твоєю постійною адресою.
-op_error: Помилка
-op_password_changed: Пароль змінено.
-op_permanent_email_adress: Постійна електронна адреса
-op_seconds: Секунд
-op_send_report: Шпигунський звіт
-op_show_planetmenu: Показувати меню планет
-op_show_skin: Показувати тему
-op_toolt_data: Показувати підказку для
-op_username_changed: Ім'я користувача змінено.
-ov_moving_fleets: Флоти в русі
-ov_no_admins_online: Зараз немає адміністраторів у мережі!
-ov_noreflink: Ти нікого не запросив.
-ov_online: В мережі
-ov_players: Гравці
-ov_reflink: Реферальне посилання
-tkb_missing: '<br>Зниклий безвісти: облікового запису користувача більше не існує.'
 tkb_unentschieden: <b>-Нічия-</b>
 source_code: Вихідний код
 teamMemberName: Ім'я
@@ -1660,24 +1509,41 @@ teamMemberContact: Контакти
 teamMemberAbout: Про себе
 teamEmpty: Учасників команди ще не додано.
 lm_board: Форум
-bd_depot_action: "Постачання флотів"
-depot_title: "Склад альянсу"
-depot_intro: "Тут ти можеш постачати дружні флоти, які утримують позицію на цій планеті. Кожне постачання подовжує їхнє перебування на 1–%s год (рівень твого складу) і коштує дейтерію з цієї планети. У флоту ніколи не може залишатися понад %s год перебування."
-depot_deuterium_stock: "Дейтерій на цій планеті"
-depot_empty: "На цій планеті немає дружніх флотів, що утримують позицію."
-depot_col_owner: "Гравець"
-depot_col_ships: "Кораблі"
-depot_col_stay_end: "Кінець перебування"
-depot_col_hourly: "Вартість за годину"
-depot_col_supply: "Постачання"
-depot_hours: "%s год"
-depot_cost: "Вартість"
-depot_supply: "Постачити"
-depot_full: "Досягнуто максимальне перебування"
-depot_done: "Флот постачено: його перебування подовжено на %s год за %s дейтерію."
-depot_err_not_owner: "Ця планета не твоя."
-depot_err_no_depot: "На цій планеті немає складу альянсу."
-depot_err_hours: "Ти можеш постачити флот одразу на 1–%s год (рівень твого складу)."
-depot_err_fleet: "Цей флот більше не утримує позицію на цій планеті."
-depot_err_max_stay: "У флоту може залишатися щонайбільше %s год перебування. Обери менше годин."
-depot_err_deuterium: "Недостатньо дейтерію на цій планеті: потрібно %s."
+bd_depot_action: Постачання флотів
+depot_title: Склад альянсу
+depot_intro: Тут ти можеш постачати дружні флоти, які утримують позицію на цій планеті. Кожне постачання подовжує їхнє перебування на 1–%s год (рівень твого складу) і коштує дейтерію з цієї планети. У флоту ніколи не може залишатися понад %s год перебування.
+depot_deuterium_stock: Дейтерій на цій планеті
+depot_empty: На цій планеті немає дружніх флотів, що утримують позицію.
+depot_col_owner: Гравець
+depot_col_ships: Кораблі
+depot_col_stay_end: Кінець перебування
+depot_col_hourly: Вартість за годину
+depot_col_supply: Постачання
+depot_hours: '%s год'
+depot_cost: Вартість
+depot_supply: Постачити
+depot_full: Досягнуто максимальне перебування
+depot_done: 'Флот постачено: його перебування подовжено на %s год за %s дейтерію.'
+depot_err_not_owner: Ця планета не твоя.
+depot_err_no_depot: На цій планеті немає складу альянсу.
+depot_err_hours: Ти можеш постачити флот одразу на 1–%s год (рівень твого складу).
+depot_err_fleet: Цей флот більше не утримує позицію на цій планеті.
+depot_err_max_stay: У флоту може залишатися щонайбільше %s год перебування. Обери менше годин.
+depot_err_deuterium: 'Недостатньо дейтерію на цій планеті: потрібно %s.'
+op_discord_hook_invalid: Неправильний Discord webhook. Дозволені лише адреси виду https://discord.com/api/webhooks/...
+fl_push_guard: 'Цей транспорт заблоковано: цільовий гравець останнім часом не надсилав тобі ресурсів, а вартість вантажу перевищує ліміт.'
+rl_too_many_requests: Занадто багато запитів за короткий час. Зачекай %d сек. і спробуй знову.
+lm_vote: Голос
+vt_head: Проголосувати за гру
+vt_intro: Голосуй на сайтах нижче і отримай нагороду на головній планеті. Кожен сайт можна знову використати після перезарядки.
+vt_site: Сайт
+vt_reward: Нагорода
+vt_status: Статус
+vt_ready: Готово
+vt_wait: Знову через %d г %d хв
+vt_button: Голосувати
+vt_none: Зараз немає сайтів для голосування.
+vt_postback_hint: Нагорода надійде після того, як сайт підтвердить твій голос.
+vt_notice_rewarded: Дякуємо за голос! Нагороду додано на твою головну планету.
+vt_notice_pending: Дякуємо за голос! Нагорода надійде після підтвердження сайтом.
+vt_notice_cooldown: Щоб знову проголосувати на цьому сайті, потрібно почекати.

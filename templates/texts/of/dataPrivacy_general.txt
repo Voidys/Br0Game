@@ -1,0 +1,79 @@
+<p>Diese Datenschutzerklärung erklärt in einfachen Worten, welche personenbezogenen Daten {game_name} erhebt, wofür sie verwendet werden, wie lange sie gespeichert bleiben und wer sie sehen kann.</p>
+
+<h2>Wer diese Website betreibt</h2>
+<p>Diese Website wird vom Betreiber geführt. Name und Anschrift des Betreibers finden Sie auf der <a href="{contacts_url}">Kontaktseite</a>.<!--mail--> Per E-Mail erreichen Sie uns unter {contact_mail}.<!--/mail--></p>
+
+<h2>Aufruf der Website</h2>
+<p>Bei jedem Seitenaufruf erfasst der Webserver automatisch:</p>
+<ul>
+<li>Ihre IP-Adresse,</li>
+<li>Datum und Uhrzeit der Anfrage,</li>
+<li>die aufgerufene Adresse und die verweisende Seite,</li>
+<li>Browser und Betriebssystem (User-Agent),</li>
+<li>Statuscode und übertragene Datenmenge.</li>
+</ul>
+<p>Wir nutzen diese Daten, um die Website auszuliefern und sie stabil und sicher zu betreiben, etwa um Angriffe zu erkennen und abzuwehren. Server-Logdateien werden spätestens nach 7 Tagen gelöscht, außer sie werden als Beweis für einen konkreten Sicherheitsvorfall benötigt. In diesem Fall bleiben sie bis zur Klärung des Vorfalls gespeichert.</p>
+
+<h2>Konto- und Spielerdaten</h2>
+<p>Zum Spielen benötigen Sie ein Konto. Bei der Registrierung und im Spiel erheben wir:</p>
+<ul>
+<li>Kontoname, E-Mail-Adresse und Passwort (nur als gesalzener Hash gespeichert, nie im Klartext),</li>
+<li>Sprache, Zeitzone und Anzeigeeinstellungen,</li>
+<li>Zeitpunkt und IP-Adresse der Registrierung, Zeitpunkt und IP-Adresse des letzten Logins sowie fehlgeschlagene Anmeldeversuche,</li>
+<li>je Universum einen Spieler: Spielername und Spieldaten wie Planeten, Gebäude, Forschung, Flotten, Rohstoffe, Punkte, Erfolge, Kampf- und Spionageberichte.</li>
+</ul>
+<p>Diese Daten brauchen wir, um das Spiel bereitzustellen, für das Sie sich angemeldet haben. Ohne E-Mail-Adresse und Passwort kann kein Konto angelegt werden.</p>
+<p>Spielbedingt sind einige Daten für andere Spieler sichtbar: Spielername, Koordinaten Ihrer Planeten, Allianz, Punkte und Platzierungen (Statistik, Hall of Fame) sowie Inhalte, die Sie selbst veröffentlichen (Allianztexte<!--board-->, Beiträge im Board<!--/board-->).</p>
+
+<h2>Kommunikation im Spiel</h2>
+<p>Wenn Sie die Kommunikationsfunktionen nutzen, speichern wir deren Inhalt zusammen mit Absender, Empfängern und Zeitpunkt: private und Allianznachrichten, Buddy-Anfragen, Notizen, Support-Tickets<!--board--> sowie Beiträge, Kommentare und Bewertungen im Board<!--/board-->. Das geschieht, damit diese Funktionen funktionieren. Moderatoren können Support-Tickets lesen und, bei Verdacht auf einen Regelverstoß, die gemeldeten Inhalte.<!--messages--> Nachrichten werden nach {message_days} Tagen automatisch gelöscht.<!--/messages--></p>
+
+<h2>Fairplay und Schutz vor Missbrauch</h2>
+<p>Damit das Spiel fair bleibt und die Regeln durchgesetzt werden können (etwa das Verbot von Multi-Accounts und Pushing), nutzen wir:</p>
+<ul>
+<li>IP-Adressen aktiver Sitzungen und Logins, die zwischen Konten abgeglichen werden, um mehrere Konten an demselben Anschluss zu erkennen,</li>
+<li>Sitzungsdaten (Sitzungs-ID, IP-Adresse, letzte Aktivität), die nach Ablauf der Sitzung gelöscht werden,</li>
+<li>Notizen des Spielteams zu einzelnen Konten sowie Sperren mit Grund und Dauer,</li>
+<li>bei konkretem Verdacht auf einen Regelverstoß eines einzelnen Kontos eine Aufzeichnung der von diesem Konto aufgerufenen Seiten mit Zeitpunkt. Sie wird nach Abschluss der Prüfung gelöscht.</li>
+</ul>
+<p>Bei der Registrierung prüfen wir die Domain Ihrer E-Mail-Adresse anhand einer öffentlichen Liste von Wegwerf-Mail-Anbietern. Die Liste wird auf unseren Server geladen, Ihre Adresse wird dabei nicht übermittelt. Maßnahmen wie Sperren entscheiden Mitglieder des Spielteams, nicht ein automatisiertes Verfahren.</p>
+
+<h2>E-Mails</h2>
+<p>Wir senden E-Mails an Ihre registrierte Adresse, wenn sie für Ihr Konto nötig sind: Aktivierung des Kontos, Zurücksetzen des Passworts, Bestätigung einer neuen E-Mail-Adresse, Hinweise vor der Löschung eines inaktiven Kontos und wichtige Mitteilungen zum Spiel (etwa der Start eines neuen Universums). Wir versenden keine Newsletter und keine Werbung.</p>
+
+<h2>Schutz vor Bots</h2>
+<p>Registrierung und Passwort-Wiederherstellung sind vor automatisiertem Missbrauch durch eine kleine Rechenaufgabe geschützt, die Ihr Browser beim Öffnen des Formulars selbstständig löst. Sie wird auf unserem eigenen Server geprüft; es wird kein Drittanbieter kontaktiert, und es werden dafür weder Cookies noch Tracking-Kennungen verwendet.</p>
+
+<h2>Cookies und lokaler Speicher</h2>
+<p>Wir verwenden ausschließlich Cookies und Browserspeicher, die nötig sind, um den von Ihnen gewünschten Dienst bereitzustellen:</p>
+<ul>
+<li><strong>2Moons</strong>: Sitzungscookie, das Sie angemeldet hält. Es läuft 12 Stunden nach Ihrer letzten Aktivität ab, oder wenn Sie sich abmelden.</li>
+<li><strong>br0_device</strong>: zufällige Geräte-ID (2 Jahre). Pro Account wird nur ein Hash davon gespeichert, 90 Tage nach dem letzten Besuch, um mehrere Accounts am selben Browser zu erkennen.</li>
+<li><strong>lang</strong>: speichert die gewählte Sprache.</li>
+<li><strong>account</strong>: merkt sich, dass in diesem Browser schon einmal ein Login stattgefunden hat, damit die Startseite zuerst das Login zeigt. Es enthält keine personenbezogenen Daten.</li>
+<li>Lokaler Speicher: Anzeigeeinstellungen der Spieloberfläche (etwa die zuletzt geöffnete Nachrichtenkategorie). Sie bleiben in Ihrem Browser und werden nicht an uns übertragen.</li>
+</ul>
+<p>Wir verwenden keine Tracking-, Analyse- oder Werbecookies und erstellen keine Nutzerprofile zu Marketingzwecken.</p>
+
+<h2>Wer Ihre Daten sehen kann</h2>
+<p>Ihre Daten werden von Mitgliedern des Spielteams (Administratoren und Moderatoren) bearbeitet, soweit ihre Aufgaben das erfordern. Technische Dienstleister arbeiten in unserem Auftrag und nur nach unserer Weisung: der Hosting-Anbieter der Server und gegebenenfalls der E-Mail-Versanddienst. Andere Spieler sehen die unter „Konto- und Spielerdaten“ und „Kommunikation im Spiel“ beschriebenen Daten. An Behörden geben wir Daten nur weiter, wenn wir gesetzlich dazu verpflichtet sind. Wir verkaufen keine personenbezogenen Daten.</p>
+<p>Links zu externen Diensten (etwa Discord oder dem Wiki) führen Sie nur zu diesen Diensten. Dort werden Daten erst verarbeitet, wenn Sie den Link öffnen, und zwar nach der Datenschutzerklärung des jeweiligen Anbieters.</p>
+
+<h2>Speicherdauer</h2>
+<ul>
+<li>Sie können Ihr Konto in den Kontoeinstellungen löschen. Es wird nach einer Wartezeit von {deletion_days} Tagen entfernt. In dieser Zeit können Sie die Löschung zurücknehmen.</li>
+<!--inactive--><li>Spieler, die {inactive_days} Tage nicht aktiv waren, werden automatisch gelöscht. Sofern das Spiel Warn-E-Mails versendet, erhalten Sie vorher eine.</li>
+<!--/inactive--><li>Konten ohne Spieler werden nach 30 Tagen ohne Aktivität gelöscht.</li>
+<li>Server-Logdateien: höchstens 7 Tage, siehe „Aufruf der Website“.</li>
+<li>Daten, die wir aus rechtlichen Gründen aufbewahren müssen oder zur Klärung von Rechtsansprüchen benötigen, werden nur so lange wie nötig aufbewahrt.</li>
+<li>Datenbanksicherungen enthalten den Stand zum Zeitpunkt der Sicherung. Sie werden für begrenzte Zeit aufbewahrt und im Wechsel ersetzt.</li>
+</ul>
+
+<h2>Ihre Möglichkeiten</h2>
+<p>Ihre Kontodaten können Sie in den Kontoeinstellungen ändern und dort jederzeit Ihr Konto löschen. Wenn Sie wissen möchten, welche Daten wir über Sie gespeichert haben, sie berichtigen oder entfernen lassen möchten oder andere Fragen zu Ihren Daten haben, wenden Sie sich an die Kontaktdaten auf der <a href="{contacts_url}">Kontaktseite</a><!--mail--> oder per E-Mail an {contact_mail}<!--/mail-->. Je nach Wohnort können Ihnen weitere Rechte nach dem dort geltenden Datenschutzrecht zustehen, und Sie können sich an die zuständige Datenschutzbehörde wenden.</p>
+
+<h2>Sicherheit</h2>
+<p>Alle Verbindungen zu dieser Website sind verschlüsselt (TLS), Passwörter werden nur als Hash gespeichert, und auf personenbezogene Daten haben nur die Mitglieder des Spielteams Zugriff, die sie benötigen. Wir treffen keine Entscheidungen über Sie, die ausschließlich auf automatisierter Verarbeitung beruhen.</p>
+
+<h2>Änderungen</h2>
+<p>Wir passen diese Datenschutzerklärung an, wenn sich die Website oder die rechtlichen Vorgaben ändern. Es gilt die jeweils auf dieser Seite veröffentlichte Fassung.</p>

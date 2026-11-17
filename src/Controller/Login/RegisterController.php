@@ -27,8 +27,7 @@ use App\Game\Core\Session;
 use App\Game\Core\Mail;
 
 /** Registration: creates an account and its first player (modes: show, send). */
-#[\App\Routing\GamePage('index.php', 'register')]
-#[\App\Routing\GamePage('index.php', 'register', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'register')]
 class RegisterController extends AbstractLoginController
 {
     public function initialize(): void
@@ -74,7 +73,8 @@ class RegisterController extends AbstractLoginController
 
     /**
      * Registers a new account (mode=send). Request: username, password, passwordReplay, email, emailReplay, rules, privacy
-     * (checkboxes, must be 1), lang, time (timezone), referralID. Validation (all errors are collected and shown together): rate
+     * (checkboxes, must be 1), lang, time (timezone), referralID, pow (bot-check solution) and the empty honeypot `website`;
+     * without a valid solution the request is refused first. Validation (all errors are collected and shown together): rate
      * limit per IP, valid and free account name, password of at least 6 characters and equal repetition, valid, non-disposable
      * and unused e-mail (also against pending registrations), rules and privacy accepted. Stores a pending row in ACCOUNTS_VALID;
      * sends the verification mail, or, when mail/validation is off, redirects straight to the verification link.
@@ -83,6 +83,8 @@ class RegisterController extends AbstractLoginController
     {
         $LNG = $this->state->LNG;
         $config = $this->configs->get();
+
+        $this->requireBotCheck('./?page=register', $LNG['registerBack']);
 
         if (!$this->rateLimits->allowRegistration($this->sessions()->getClientIp())) {
             $this->printMessage($LNG['login_error_4'], [[

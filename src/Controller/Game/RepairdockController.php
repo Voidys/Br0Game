@@ -27,12 +27,10 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
 
 /** Repair dock: repairs ships from the wreck field of the current planet. */
-#[\App\Routing\GamePage('game.php', 'repairdock')]
-#[\App\Routing\GamePage('game.php', 'repairdock', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'repairdock')]
+#[\App\Controller\RequireModule('MODULE_REPAIR_DOCK')]
 class RepairdockController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_REPAIR_DOCK';
-
     public static $defaultController = 'show';
 
     public function initialize(): void

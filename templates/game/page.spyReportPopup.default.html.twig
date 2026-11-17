@@ -2,7 +2,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.gl_show_spy_report }}{{ parent() }}{% endblock %}
 {% block content %}
-{% if spyReports|count > 0 %}
+{% if spyReports|length > 0 %}
     <div id="stuff" jsthings='
     {
     "impulseEngineTech":{{ impulse_motor_tech }},

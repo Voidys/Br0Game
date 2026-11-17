@@ -215,6 +215,7 @@ al_all_players: 所有玩家
 al_alliance: 联盟
 al_alliance_closed: 这个联盟暂不接受新成员。
 al_alliance_full: 这个联盟已满员，试试别的吧。
+al_apply_rate_limited: 今天发出的申请过多，请明天再试。
 al_alliance_make: 创建你自己的联盟
 al_alliance_min_points: 你至少需要 %d 积分才能申请加入这个联盟。
 al_alliance_search: 搜索联盟
@@ -229,8 +230,6 @@ al_apply_not_exists: 该申请已不存在。
 al_applyform_send: 发送
 al_back: 返回
 al_candidate: 申请人
-al_change_submit: 修改
-al_change_title: 修改标题
 al_characters: 个字符
 al_circular_alliance: 联盟
 al_circular_front_text: 联盟成员 <b>%s</b> 写道：
@@ -338,13 +337,11 @@ al_memberlist_on: 在线
 al_message: 消息
 al_name: 修改联盟名称
 al_name_required: 请输入联盟名称。
-al_link_too_long: "链接太长（最多 255 个字符）。"
+al_link_too_long: 链接太长（最多 255 个字符）。
 al_name_tag_too_long: 标签最多 8 个字符，名称最多 30 个字符。
 al_new_apply: 你的联盟收到了玩家 <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a> 的<a href="?page=alliance&mode=admin&action=manageApply">[入盟申请]</a>。
 al_new_member_rank_text: 新成员
-al_new_name: 修改名称（3-30 个字符）
 al_new_requests: '%d 个待处理'
-al_new_tag: 修改标签（3-8 个字符）
 al_newname_specialchar: 联盟名称和标签只能包含字母、数字、空格、下划线、连字符和句点。
 al_no_diplo: '-'
 al_no_ranks_defined: 还没有职位。创建第一个吧！
@@ -411,7 +408,6 @@ al_you_was_acceted: '你已被接受加入联盟 '
 al_you_was_declined: '你被拒绝加入联盟 '
 al_your_ally: 你的联盟
 al_your_request_title: 你的申请
-bad_forum_url: 论坛链接无效。
 banned_message: 你已被封禁。<!--discord_url-->如果你认为这是误判，请在 Discord 上联系我们：<a href="{discord_url}">{discord_url}</a><!--/discord_url-->
 bd_actual_production: 当前产量：
 bd_available: 可用：
@@ -477,14 +473,13 @@ bs_acs_slot: 联合攻击栏位
 bs_add_acs_slot: 添加联合攻击栏位
 bs_atter: 进攻方
 bs_cancel: 重置
-bs_too_many_units: "单次模拟的单位太多了（最多 %s）。"
-bs_busy: "已有模拟正在运行，请等它结束。"
+bs_too_many_units: 单次模拟的单位太多了（最多 %s）。
+bs_busy: 已有模拟正在运行，请等它结束。
 bs_deffer: 防守方
 bs_derbis_raport: 回收残骸所需：%s %s。
 bs_load: 加载
 bs_load_invalid: 分享码无效
 bs_load_no_input: 未输入分享码
-bs_names: 舰船名称
 bs_reset: 重置
 bs_send: 计算
 bs_share: 分享
@@ -525,7 +520,7 @@ bu_player_not_exist: 该玩家不存在。
 bu_rejected_request_body: 你好 %s，<br>%s 拒绝了你的好友请求！
 bu_rejected_request_title: 好友请求被拒绝！
 bu_request_exists: 已经有一个针对该玩家的好友请求了！
-bu_request_limit: '好友请求太多了，请等几分钟再继续发送。'
+bu_request_limit: 好友请求太多了，请等几分钟再继续发送。
 bu_request_message: 请求留言
 bu_request_send: 好友请求已发送。
 bu_request_text: 请求留言
@@ -617,6 +612,8 @@ fl_attack_confirm_buddy: '目标在你的好友列表中。
 fl_attack_confirm_diplo: 你有一份协议（%s），对方是 %s。仍要攻击吗？
 fl_attack_confirm_outlaw: 攻击 %s 会让你成为法外之徒，持续 7 天。
 fl_bash_protection: 这会违反攻击限制规则。
+fl_daily_cap_reached: 已达到每日舰队上限 %1$d，将在 %2$d 小时 %3$d 分钟后重置。
+fl_daily_attack_cap_reached: 已达到每日攻击上限 %1$d，将在 %2$d 小时 %3$d 分钟后重置。
 fl_beginning: 出发地
 fl_blocked: ' 不接受邀请。'
 fl_bonus: 加成
@@ -671,7 +668,6 @@ fl_modify_sac_name: 联合攻击名称
 fl_moon_shortcut: (月)
 fl_mt_fleet: 舰队市场
 fl_mt_resources: 资源市场
-fl_multi_alarm: 多账号警报！
 fl_my_planets: 我的星球
 fl_new_mission_title: 新任务：选择舰队
 fl_no_colony: 没有殖民地
@@ -764,8 +760,6 @@ general_colors: 通用颜色
 gl_actions: 操作
 gl_activity: (*)
 gl_activity_inactive: (%d 分钟)
-gl_ajax_status_fail: 失败
-gl_ajax_status_ok: 完成
 gl_all_defenses: 所有防御设施
 gl_alliance: 联盟
 gl_alliance_page: 联盟页面
@@ -776,7 +770,6 @@ gl_avaible_spyprobes: 间谍探测器
 gl_banned: 已封禁 / 已停权
 gl_buddy_request: 好友请求
 gl_colonizable: 可殖民
-gl_debris: 残骸
 gl_debris_field: 残骸场
 gl_diameter: 直径
 gl_features: 属性
@@ -794,7 +787,6 @@ gl_missil_launch_action: 发射导弹
 gl_missil_to_launch: 数量（可用 <b>%d</b> 枚）
 gl_missile_attack: 导弹攻击
 gl_moon: 月球
-gl_no: 否
 gl_no_deuterium_to_view_galaxy: 重氢不足，无法查看星系！
 gl_no_spy_report: 这颗星球还没有间谍报告。
 gl_not_colonizable: 无法殖民！
@@ -867,7 +859,6 @@ in_jump_gate_wait_time: 下次可跳跃时间：
 in_level: 等级
 in_missilesamount: 可用
 in_missilestype: 导弹类型
-in_name: 名称
 in_prod_p_hour: 每小时
 in_rf_again: 对其速射
 in_rf_explanation: 速射：每个战斗回合，该单位可能连续开火多次。百分比表示击中该类型目标后再开一炮的几率。
@@ -875,7 +866,6 @@ in_rf_from: 被其速射
 in_shield_pt: 护盾值
 in_storage: 仓储
 in_struct_pt: 结构强度
-in_units: 单位
 kontakt: 你好！<br>这个页面列出了负责运营、管理和开发这个项目的人。<br>有问题或遇到麻烦？联系我们吧。<br><br><!--discord_url-->为了更好地与我们和其他玩家交流，我们开设了 Discord 服务器。你可以在<a href="{discord_url}">这里</a>或通过菜单找到它。<br>你能在那里看到最新消息，以及宇宙中各联盟的最佳梗图。<br>可以询问游戏机制，也欢迎分享你对游戏未来的想法。<br><br><!--/discord_url-->当然，游戏内的问题我们也会解答。<br>请注意，我们是出于兴趣在运营这款游戏，所以回复可能需要几天。<br>
 lm_administration: 管理
 lm_alliance: 联盟
@@ -940,6 +930,7 @@ ma_impulse_drive_required: 需要脉冲引擎
 ma_missiles_sended: ' 枚导弹已发射。目标：'
 ma_no_missiles: 没有导弹
 ma_no_range: 目标超出了你的导弹射程。
+ma_own_planet: 不能用导弹攻击自己的星球。
 ma_not_send_other_galaxy: 你不能向其他星系发射导弹。
 ma_planet_doesnt_exists: 这颗星球不存在。
 ma_silo_level: 需要导弹发射井 4 级！
@@ -987,6 +978,9 @@ mg_delete_unmarked: 删除此类型中未标记的消息
 mg_deleted: 消息已删除。
 mg_empty_text: 请输入内容
 mg_error: 找不到收件人！
+mg_too_many_recipients: 一次最多只能发送给 %d 名玩家。
+mg_text_too_long: 消息过长（最多 %d 个字符）。
+mg_rate_limited: 发送消息过快，请稍等几分钟。
 mg_favorite: 标为收藏
 mg_favorite_filter_off: 显示全部
 mg_favorite_filter_on: 仅显示收藏
@@ -995,7 +989,6 @@ mg_grouping_off: 不分组显示消息
 mg_grouping_on: 分组显示消息
 mg_message: 消息
 mg_message_send: 消息已发送！
-mg_message_title: 消息
 mg_min_3_chars: 请至少输入 3 个字符再搜索
 mg_new: 新
 mg_no_subject: 无主题
@@ -1042,7 +1035,7 @@ nt_dlte_note: 删除
 nt_edit_note: 编辑笔记
 nt_important: 高
 nt_no_text: 无内容
-nt_limit_reached: '你的笔记数量已达上限（%1$d）。请先删除旧笔记。'
+nt_limit_reached: 你的笔记数量已达上限（%1$d）。请先删除旧笔记。
 nt_no_title: 无标题
 nt_normal: 普通
 nt_note: 笔记
@@ -1157,7 +1150,6 @@ ov_newname_too_long: 星球名称最多 %d 个字符。
 ov_news: 新闻
 ov_of: /
 ov_outlaw: 法外之徒状态持续至：
-ov_password: 密码
 ov_place: 排名
 ov_planet: 星球
 ov_planet_abandoned: 星球已删除。
@@ -1350,33 +1342,7 @@ sys_refferal_text: 你招募的玩家 %s 达到了 %s 积分。
 sys_refferal_title: 玩家奖励 %s
 sys_techlist: 研究队列
 team: 团队
-teamAdmin: 管理员
-teamAdminLong: 可以使用特殊工具来运营游戏
-teamAktiv: 活跃
-teamAlumni: 前任 / 不活跃的团队成员
-teamAlumniLong: 衷心感谢
-teamCommunity: 社区支持
-teamCommunityLong: 你需要帮助时，他们随时都在。<br>无论遇到什么问题，尽管联系他们！<br>我们会尽力找到解决办法。<br>有疑问，或者想倾诉点什么，哪怕匿名也行？来找我们聊聊。<br>我们也是玩家和管理员之间的桥梁。
-teamContributor: 贡献者
-teamContributorLong: 帮助共建这个项目。
-teamDatabase: 数据库权限
-teamDev: 开发者
-teamDevLong: 维护和开发这个项目<br>可以进入 Discord 的开发讨论区
-teamDiscordName: Discord 名称
-teamEmergency: 应急小组
-teamEmergencyLong: 服务器宕机时，用户会通过我们的 Discord“@Emergency Response Team”呼叫他们
-teamIngameName: 游戏内名称
-teamLegend: 角色与权限说明
-teamMod: 管理员（版主）
-teamModLong: 处理你的案件和问题<br>为所有人维护公平的游戏环境<br>负责处罚<br>可以进入 Discord 的管理讨论区<br>可以进入 Discord 的开发讨论区<br>可以进入 Discord 的与开发者的工单会议区
-teamNo: 否
-teamPlayer: 玩家
 teamRole: 角色
-teamScripte: 脚本审核
-teamScripteLong: 审核玩家自制的脚本，让团队<br>决定是否允许使用
-teamTickets: 工单权限
-teamTicketsLong: 可以旁听所有未结工单
-teamYes: 是
 ti_admin_close: 工单已关闭！
 ti_admin_open: 工单已打开！
 ti_answer: 回复
@@ -1392,6 +1358,8 @@ ti_create_info: '<p>创建客服工单时，请尽可能详细地描述你的问
   <p>如果问题与账号有关，提供相关的账号信息有助于工单分配，并缩短处理时间。</p>'
 ti_date: 日期
 ti_error_closed: 这个工单已经关闭，无法再回复。
+ti_error_too_many_open: 你已有 %d 个未结工单。请等待其中一个关闭后再开新工单。
+ti_error_rate_limited: 开工单过于频繁，请稍后再试。
 ti_error_no_subject: 请输入主题。
 ti_from: 来自
 ti_header: 客服系统
@@ -1402,7 +1370,6 @@ ti_new: 新工单
 ti_not_exist: '找不到工单 #%d。'
 ti_open: 打开工单
 ti_overview: 返回
-ti_re: 回复：
 ti_read: 待阅读的工单
 ti_responded: '工单回复于 '
 ti_status: 状态
@@ -1433,7 +1400,6 @@ tkb_units: 单位
 tkb_verlierer: <b>-败者-</b>
 tkb_week: 周
 tn_delete_mode: 你的账号将在 %s 被删除。
-tn_player_title: 统帅
 tn_vacation_mode: 你的账号处于假期模式。
 tn_vacation_mode_kick: <br><br>请注意：假期模式在 4 周不活跃后会自动关闭。
 tn_vacation_mode_until: 你的账号处于假期模式，至少持续到 %s。
@@ -1530,128 +1496,10 @@ ui_nav_universe: 宇宙
 ui_nav_community: 社区
 ui_nav_help: 帮助
 ui_nav_personal: 个人
-al_applyform_reload: 刷新
-al_default_request_text: 这名玩家没有留言。
-al_diplo_ground: 理由：
-al_diplo_war_end_confirm: 确定要结束战争吗？
-al_do_you_really_want_to_go_out: 确定要退出 %s 吗？
-al_events: 事件
-al_founder_cant_leave_alliance: 创始人不能就这样离开联盟。
-al_legend: 说明
-al_legend_admin_alliance: 管理联盟
-al_legend_check_requests: 处理申请
-al_legend_create_circular: 发送群发消息
-al_legend_disolve_alliance: 解散联盟
-al_legend_kick_users: 移除成员
-al_legend_right_hand: 副盟主
-al_legend_see_connected_users: 查看在线状态
-al_legend_see_requests: 查看申请
-al_legend_see_users_list: 查看成员列表
-al_manage_change_name: 修改联盟名称
-al_manage_change_tag: 修改联盟标签
-al_no_events: 还没有发生任何事件。
-al_no_request_pending: 共有 %d 个申请
-al_request_from_user: 来自玩家的申请
-al_tfkristall: 残骸场晶体总计
-al_tfmetall: 残骸场金属总计
-al_unitsloos: 损失单位
-al_unitsshut: 击毁单位
-al_view_events: 显示事件
-bd_add_to_list: 加入建造队列
-bd_build_defenses: 建造
-bd_completed: 完成
-bd_finished: 完成
-bd_lab_required: 请先在这颗星球上建造研究实验室。
-bd_max_lvl: 最高等级：
-bd_on: 于
-bd_ready: 完成
-bd_research: 研究
-bu_back: 返回
-cff_fleet_own: 舰队
-cff_fleet_target: 舰队
-cr_armor: 装甲
-cr_destroyed: 已摧毁！
-cr_first_round: （舰队在第 1 回合被摧毁）
-cr_lost_contact: 与你的舰队失去了联系。
-cr_shields: 护盾
-cr_total: 合计
-cr_type: 类型
-cr_weapons: 武器
-css_server_maintrace: 服务器维护<br><br>游戏目前已关闭。<br><br>原因：%s
-fa_galaxy_not_exist: 星系不存在
-fa_mission_not_available: 任务不可用
-fa_not_attack_yourself: 你不能攻击自己
-fa_system_not_exist: 星系位置不存在
-fgp_require: 需要
-fl_deploy_only_your_planets: 你只能部署到自己的星球。
-fl_expedition_fleets_limit: 你已达到远征上限。
-fl_no_empty_derbis: 那里没有残骸场！
-fl_no_hold_depot: 目标处没有联盟太空站。
-fl_not_ally_deposit: 目标处没有联盟太空站。
-fl_planet_populed: 星球已殖民！
-fl_register_shorcut: 创建
-fl_shortcuts: 快捷方式
-fl_target_not_exists: 目标星球不存在。
-gl_avaible_grecyclers: 巨型回收船
-gl_collect: 收取
-gl_free: 空闲
-gl_free_desc: 一颗无人居住的大型星球，是建立新殖民地的理想之地。
-gl_name_activity: 名称（活跃度）
 gl_points: 积分
-gl_with: ' 带有 '
-gl_wreckfield: 残骸场
-gl_wreckfield_short: 残
-gl_yes: 是
-in_bonus: 加成：
-in_dest_durati: 耗时
-in_jump_gate_available: 数量
-in_needed: 所需
-in_range: 感应范围
-in_title_head: 信息：
-invalid_action: 无效的操作！
-lm_disclamer: 版权信息
-lm_forums: 论坛
-lm_queue: 队列
-ma_big_laser: 重型激光炮
-ma_big_protection_shield: 大型护盾罩
-ma_buster_canyon: 等离子炮
-ma_gauss_canyon: 高斯炮
-ma_ionic_canyon: 离子炮
-ma_misil_launcher: 导弹发射器
-ma_small_laser: 轻型激光炮
-ma_small_protection_shield: 小型护盾罩
 mg_action: 操作
-mg_date: 日期
-mg_from: 发件人
-mg_game_message: 游戏消息
-mg_game_operators: 游戏运营
 mg_message_type: 消息类型
-mg_msg_sended: 消息已发送！
-mg_no_text: 请先写点内容。
-mg_receiver_block_pm: 这名玩家屏蔽了私信。
-mg_show_only_header_spy_reports: 只显示部分间谍报告
 mg_to: 收件人
-mg_total: 合计
-mg_write_mail_to_ops: 给运营发邮件：
-op_deactivate_ipcheck: 关闭 IP 检查
-op_deactivate_ipcheck_descrip: IP 检查会在你的 IP 变化，或有两个人同时从不同 IP 使用同一账号时，为了安全自动将你登出。关闭它会降低账号安全性！
-op_email_adress_descrip: 你可以随时修改这个邮箱地址。如果 7 天内不再更改，它就会成为你的永久地址。
-op_error: 错误
-op_password_changed: 密码已修改。
-op_permanent_email_adress: 永久邮箱地址
-op_seconds: 秒
-op_send_report: 间谍报告
-op_show_planetmenu: 显示星球菜单
-op_show_skin: 显示皮肤
-op_toolt_data: 显示提示框：
-op_username_changed: 用户名已修改。
-ov_moving_fleets: 飞行中的舰队
-ov_no_admins_online: 目前没有管理员在线！
-ov_noreflink: 你还没有招募过任何用户。
-ov_online: 在线
-ov_players: 玩家
-ov_reflink: 推荐链接
-tkb_missing: <br>失踪：该用户账号已不存在。
 tkb_unentschieden: <b>-平局-</b>
 source_code: 源代码
 teamMemberName: 名称
@@ -1659,24 +1507,41 @@ teamMemberContact: 联系方式
 teamMemberAbout: 简介
 teamEmpty: 还没有添加任何团队成员。
 lm_board: 论坛
-bd_depot_action: "补给舰队"
-depot_title: "联盟货栈"
-depot_intro: "你可以在这里补给驻守在这颗星球上的友军舰队。每次补给将其停留时间延长 1 到 %s 小时（即货栈的等级），并消耗这颗星球上的重氢。舰队剩余的停留时间永远不能超过 %s 小时。"
-depot_deuterium_stock: "这颗星球上的重氢"
-depot_empty: "没有友军舰队驻守在这颗星球上。"
-depot_col_owner: "玩家"
-depot_col_ships: "舰船"
-depot_col_stay_end: "停留结束"
-depot_col_hourly: "每小时费用"
-depot_col_supply: "补给"
-depot_hours: "%s 小时"
-depot_cost: "费用"
-depot_supply: "补给"
-depot_full: "已达最长停留时间"
-depot_done: "舰队已补给：停留时间延长 %s 小时，花费 %s 重氢。"
-depot_err_not_owner: "这颗星球不是你的。"
-depot_err_no_depot: "这颗星球上没有联盟货栈。"
-depot_err_hours: "你一次可以为一支舰队补给 1 到 %s 小时（即货栈的等级）。"
-depot_err_fleet: "这支舰队已不再驻守在这颗星球上。"
-depot_err_max_stay: "一支舰队最多只能剩余 %s 小时的停留时间，请选择更少的小时数。"
-depot_err_deuterium: "这颗星球上的重氢不足：需要 %s。"
+bd_depot_action: 补给舰队
+depot_title: 联盟货栈
+depot_intro: 你可以在这里补给驻守在这颗星球上的友军舰队。每次补给将其停留时间延长 1 到 %s 小时（即货栈的等级），并消耗这颗星球上的重氢。舰队剩余的停留时间永远不能超过 %s 小时。
+depot_deuterium_stock: 这颗星球上的重氢
+depot_empty: 没有友军舰队驻守在这颗星球上。
+depot_col_owner: 玩家
+depot_col_ships: 舰船
+depot_col_stay_end: 停留结束
+depot_col_hourly: 每小时费用
+depot_col_supply: 补给
+depot_hours: '%s 小时'
+depot_cost: 费用
+depot_supply: 补给
+depot_full: 已达最长停留时间
+depot_done: 舰队已补给：停留时间延长 %s 小时，花费 %s 重氢。
+depot_err_not_owner: 这颗星球不是你的。
+depot_err_no_depot: 这颗星球上没有联盟货栈。
+depot_err_hours: 你一次可以为一支舰队补给 1 到 %s 小时（即货栈的等级）。
+depot_err_fleet: 这支舰队已不再驻守在这颗星球上。
+depot_err_max_stay: 一支舰队最多只能剩余 %s 小时的停留时间，请选择更少的小时数。
+depot_err_deuterium: 这颗星球上的重氢不足：需要 %s。
+op_discord_hook_invalid: Discord Webhook 无效，仅允许 https://discord.com/api/webhooks/... 格式的网址。
+fl_push_guard: 此运输已被拦截：目标玩家近期未向你发送资源，且货物价值超过上限。
+rl_too_many_requests: 短时间内请求过多，请等待 %d 秒后再试。
+lm_vote: 投票
+vt_head: 为游戏投票
+vt_intro: 为下列网站投票，即可在你的主星球获得奖励。每个网站在冷却时间结束后可再次投票。
+vt_site: 网站
+vt_reward: 奖励
+vt_status: 状态
+vt_ready: 可投票
+vt_wait: '%d 小时 %d 分钟后可再次投票'
+vt_button: 投票
+vt_none: 目前没有可投票的网站。
+vt_postback_hint: 网站确认你的投票后，奖励才会发放。
+vt_notice_rewarded: 感谢投票！奖励已添加到你的主星球。
+vt_notice_pending: 感谢投票！网站确认你的投票后，奖励才会发放。
+vt_notice_cooldown: 在此网站再次投票前，你需要等待。

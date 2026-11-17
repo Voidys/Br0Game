@@ -15,30 +15,11 @@
 
 namespace App\Controller\Game;
 
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * Team page with links to the player cards of the game team.
  */
-#[\App\Routing\GamePage('game.php', 'team')]
-#[\App\Routing\GamePage('game.php', 'team', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'team')]
 class TeamController extends AbstractGameController
 {
-    public function initialize(): void
-    {
-        parent::initialize();
-    }
-
-    /**
-     * Lists the team members (TEAM_MEMBERS) with links to their player cards.
-     */
-    public function show(): Response
-    {
-        // the team is maintained in the admin team section (team_members), the same list as the public team page
-        $this->assign([
-            'members' => $this->db->select('SELECT name, position, description, contact FROM %%TEAM_MEMBERS%% ORDER BY sort ASC, id ASC;'),
-        ]);
-
-        return $this->render('game/page.team.default.html.twig');
-    }
+    use \App\Controller\Shared\TeamPage;
 }

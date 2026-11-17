@@ -213,6 +213,7 @@ al_all_players: Alle spelers
 al_alliance: Alliantie
 al_alliance_closed: Deze alliantie neemt geen nieuwe leden aan.
 al_alliance_full: Deze alliantie is vol. Probeer een andere.
+al_apply_rate_limited: Je hebt vandaag te veel aanvragen verstuurd. Probeer het morgen opnieuw.
 al_alliance_make: Richt je eigen alliantie op
 al_alliance_min_points: Je hebt minstens %d punten nodig om bij deze alliantie te solliciteren.
 al_alliance_search: Allianties zoeken
@@ -227,8 +228,6 @@ al_apply_not_exists: Die sollicitatie bestaat niet meer.
 al_applyform_send: Versturen
 al_back: Terug
 al_candidate: Kandidaat
-al_change_submit: Wijzigen
-al_change_title: Titel wijzigen
 al_characters: tekens
 al_circular_alliance: 'Alliantie '
 al_circular_front_text: 'Alliantielid <b>%s</b> schreef:'
@@ -336,13 +335,11 @@ al_memberlist_on: Online
 al_message: Bericht
 al_name: Alliantienaam wijzigen
 al_name_required: Voer een alliantienaam in.
-al_link_too_long: "De link is te lang (maximaal 255 tekens)."
+al_link_too_long: De link is te lang (maximaal 255 tekens).
 al_name_tag_too_long: De tag mag maximaal 8 tekens hebben en de naam 30.
 al_new_apply: Je alliantie heeft <a href="?page=alliance&mode=admin&action=manageApply">[een sollicitatie]</a> ontvangen van speler <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: Nieuw lid
-al_new_name: Naam wijzigen (3-30 tekens)
 al_new_requests: '%d in behandeling'
-al_new_tag: Tag wijzigen (3-8 tekens)
 al_newname_specialchar: Alliantienamen en -tags mogen alleen letters, cijfers, spaties, underscores, streepjes en punten bevatten.
 al_no_diplo: '-'
 al_no_ranks_defined: Nog geen rangen. Maak de eerste aan!
@@ -409,7 +406,6 @@ al_you_was_acceted: 'Je bent geaccepteerd bij '
 al_you_was_declined: 'Je bent afgewezen bij '
 al_your_ally: Jouw alliantie
 al_your_request_title: Jouw sollicitatie
-bad_forum_url: De forumlink is ongeldig.
 banned_message: 'Je bent verbannen. <!--discord_url-->Denk je dat dit een vergissing is, stuur ons dan een bericht op Discord: <a href="{discord_url}">{discord_url}</a><!--/discord_url-->'
 bd_actual_production: 'Huidige productie:'
 bd_available: 'Beschikbaar: '
@@ -475,14 +471,13 @@ bs_acs_slot: ACS-slot
 bs_add_acs_slot: ACS-slot toevoegen
 bs_atter: Aanvaller
 bs_cancel: Herstellen
-bs_too_many_units: "Te veel eenheden voor één simulatie (maximaal %s)."
-bs_busy: "Er loopt al een simulatie, wacht tot die klaar is."
+bs_too_many_units: Te veel eenheden voor één simulatie (maximaal %s).
+bs_busy: Er loopt al een simulatie, wacht tot die klaar is.
 bs_deffer: Verdediger
 bs_derbis_raport: 'Nodig om het puin te recyclen: %s %s.'
 bs_load: Laden
 bs_load_invalid: Ongeldige deelcode
 bs_load_no_input: Geen deelcode ingevoerd
-bs_names: Scheepsnaam
 bs_reset: Resetten
 bs_send: Berekenen
 bs_share: Delen
@@ -523,7 +518,7 @@ bu_player_not_exist: Die speler bestaat niet.
 bu_rejected_request_body: Hallo %s,<br>%s heeft je vriendschapsverzoek geweigerd!
 bu_rejected_request_title: Vriendschapsverzoek geweigerd!
 bu_request_exists: Er is al een vriendschapsverzoek voor deze speler!
-bu_request_limit: 'Te veel vriendschapsverzoeken. Wacht een paar minuten voordat je er meer verstuurt.'
+bu_request_limit: Te veel vriendschapsverzoeken. Wacht een paar minuten voordat je er meer verstuurt.
 bu_request_message: Verzoekbericht
 bu_request_send: Vriendschapsverzoek verstuurd.
 bu_request_text: Verzoektekst
@@ -615,6 +610,8 @@ fl_attack_confirm_buddy: 'Het doelwit staat op je vriendenlijst.
 fl_attack_confirm_diplo: Je hebt een verdrag (%s) met %s. Toch aanvallen?
 fl_attack_confirm_outlaw: Als je %s aanvalt, word je 7 dagen vogelvrij.
 fl_bash_protection: Dat zou de bashregel overtreden.
+fl_daily_cap_reached: Dagelijkse vlootlimiet van %1$d bereikt. Die reset over %2$dh %3$dmin.
+fl_daily_attack_cap_reached: Dagelijkse aanvalslimiet van %1$d bereikt. Die reset over %2$dh %3$dmin.
 fl_beginning: Herkomst
 fl_blocked: ' accepteert geen uitnodigingen.'
 fl_bonus: Bonus
@@ -669,7 +666,6 @@ fl_modify_sac_name: ACS-naam
 fl_moon_shortcut: (M)
 fl_mt_fleet: Vlootmarkt
 fl_mt_resources: Grondstoffenmarkt
-fl_multi_alarm: Multi-alarm!
 fl_my_planets: Mijn planeten
 fl_new_mission_title: 'Nieuwe missie: kies vloot'
 fl_no_colony: Er is geen kolonie
@@ -762,8 +758,6 @@ general_colors: Algemene kleuren
 gl_actions: Acties
 gl_activity: (*)
 gl_activity_inactive: (%d min)
-gl_ajax_status_fail: Mislukt
-gl_ajax_status_ok: Klaar
 gl_all_defenses: Alle verdedigingen
 gl_alliance: Alliantie
 gl_alliance_page: Alliantiepagina
@@ -774,7 +768,6 @@ gl_avaible_spyprobes: Spionagesondes
 gl_banned: Verbannen / geschorst
 gl_buddy_request: Vriendschapsverzoek
 gl_colonizable: Koloniseerbaar
-gl_debris: Puin
 gl_debris_field: Puinveld
 gl_diameter: Diameter
 gl_features: Eigenschappen
@@ -792,7 +785,6 @@ gl_missil_launch_action: Raketten lanceren
 gl_missil_to_launch: Aantal (<b>%d</b> beschikbaar)
 gl_missile_attack: Raketaanval
 gl_moon: Maan
-gl_no: Nee
 gl_no_deuterium_to_view_galaxy: Niet genoeg deuterium om de melkweg te bekijken!
 gl_no_spy_report: Nog geen spionagerapport voor deze planeet.
 gl_not_colonizable: Niet koloniseerbaar!
@@ -865,7 +857,6 @@ in_jump_gate_wait_time: 'Volgende sprong mogelijk over:'
 in_level: Niveau
 in_missilesamount: Beschikbaar
 in_missilestype: Raketsoort
-in_name: Naam
 in_prod_p_hour: Per uur
 in_rf_again: Snelvuur tegen
 in_rf_explanation: 'Snelvuur: Elke gevechtsronde kan deze eenheid meerdere keren vuren. Het percentage toont de kans op een extra schot na een treffer op een doel van dat type.'
@@ -873,7 +864,6 @@ in_rf_from: Snelvuur van
 in_shield_pt: Schildkracht
 in_storage: Opslag
 in_struct_pt: Structurele integriteit
-in_units: Eenheid
 kontakt: Hoi!<br>Op deze pagina zie je de mensen die dit project runnen, modereren en ontwikkelen.<br>Vragen of problemen? Neem contact op.<br><br><!--discord_url-->Voor een betere uitwisseling met ons en met andere spelers hebben we een Discord-server. Je vindt hem <a href="{discord_url}">hier</a> of via het menu.<br>Daar vind je het laatste nieuws plus de beste memes uit de allianties van het universum.<br>Vraag naar spelmechanismen en deel je ideeën voor de toekomst van het spel.<br><br><!--/discord_url-->Natuurlijk beantwoorden we ook je vragen over het spel.<br>Houd er rekening mee dat we het spel als hobby spelen, dus antwoorden kunnen een paar dagen duren.<br>
 lm_administration: Beheer
 lm_alliance: Alliantie
@@ -938,6 +928,7 @@ ma_impulse_drive_required: Impulsaandrijving vereist
 ma_missiles_sended: ' raketten gelanceerd. Doel: '
 ma_no_missiles: Geen raketten
 ma_no_range: Het doel ligt buiten het bereik van je raketten.
+ma_own_planet: Je kunt je eigen planeet niet met raketten aanvallen.
 ma_not_send_other_galaxy: 'Je kunt geen raketten naar een andere melkweg sturen. '
 ma_planet_doesnt_exists: 'Die planeet bestaat niet. '
 ma_silo_level: 'Silo niveau 4 vereist! '
@@ -985,6 +976,9 @@ mg_delete_unmarked: Niet-gemarkeerde berichten van dit type verwijderen
 mg_deleted: Bericht verwijderd.
 mg_empty_text: Voer een tekst in
 mg_error: Ontvanger niet gevonden!
+mg_too_many_recipients: Je kunt in één keer maximaal %d spelers een bericht sturen.
+mg_text_too_long: Het bericht is te lang (maximaal %d tekens).
+mg_rate_limited: Je verstuurt berichten te snel. Wacht even een paar minuten.
 mg_favorite: Als favoriet markeren
 mg_favorite_filter_off: Alles tonen
 mg_favorite_filter_on: Alleen favorieten tonen
@@ -993,7 +987,6 @@ mg_grouping_off: Berichten niet gegroepeerd tonen
 mg_grouping_on: Berichten gegroepeerd tonen
 mg_message: Bericht
 mg_message_send: Bericht verstuurd!
-mg_message_title: Berichten
 mg_min_3_chars: Voer minstens 3 tekens in om te zoeken
 mg_new: Nieuw
 mg_no_subject: Geen onderwerp
@@ -1040,7 +1033,7 @@ nt_dlte_note: Verwijderen
 nt_edit_note: Notitie bewerken
 nt_important: Hoog
 nt_no_text: Geen tekst
-nt_limit_reached: 'Je hebt het maximale aantal notities (%1$d) bereikt. Verwijder eerst oude notities.'
+nt_limit_reached: Je hebt het maximale aantal notities (%1$d) bereikt. Verwijder eerst oude notities.
 nt_no_title: Geen titel
 nt_normal: Normaal
 nt_note: Notitie
@@ -1155,7 +1148,6 @@ ov_newname_too_long: De planeetnaam mag maximaal %d tekens hebben.
 ov_news: Nieuws
 ov_of: van
 ov_outlaw: 'Vogelvrij tot:'
-ov_password: Wachtwoord
 ov_place: Positie
 ov_planet: Planeet
 ov_planet_abandoned: Planeet verwijderd.
@@ -1348,33 +1340,7 @@ sys_refferal_text: De speler %s, door jou geronseld, heeft %s punten bereikt.
 sys_refferal_title: Spelersbonus %s
 sys_techlist: Onderzoekswachtrij
 team: Het team
-teamAdmin: Beheerder
-teamAdminLong: Kan speciale tools gebruiken om het spel te runnen
-teamAktiv: Actief
-teamAlumni: Voormalige / inactieve teamleden
-teamAlumniLong: Onze dank gaat uit naar
-teamCommunity: Communitysupport
-teamCommunityLong: Zij zijn er voor je wanneer je hulp nodig hebt.<br>Wat het probleem ook is, neem gewoon contact op!<br>We doen ons best om een oplossing te vinden.<br>Vragen, of iets van je hart te schrijven, ook anoniem? Kom met ons praten.<br>We zijn ook de schakel tussen spelers en de mods.
-teamContributor: Bijdrager
-teamContributorLong: Helpt mee aan het project.
-teamDatabase: Toegang tot database
-teamDev: Ontwikkelaar
-teamDevLong: Onderhoudt en ontwikkelt het project<br>Heeft toegang tot het Discord-gedeelte voor ontwikkelaarsoverleg
-teamDiscordName: Discord-naam
-teamEmergency: Noodteam
-teamEmergencyLong: Wordt door gebruikers via onze Discord "@Emergency Response Team" gepingd wanneer servers uitvallen
-teamIngameName: Naam in het spel
-teamLegend: Rollen en rechten uitgelegd
-teamMod: Moderator
-teamModLong: Behandelt je zaken en problemen<br>Zorgt voor een eerlijk spel voor iedereen<br>Verantwoordelijk voor straffen<br>Heeft toegang tot het Discord-gedeelte voor modoverleg<br>Heeft toegang tot het Discord-gedeelte voor ontwikkelaarsoverleg<br>Heeft toegang tot het Discord-gedeelte voor ticketoverleg met ontwikkelaars
-teamNo: Nee
-teamPlayer: Speler
 teamRole: Rol
-teamScripte: Scriptcontrole
-teamScripteLong: Controleert door spelers gemaakte scripts zodat het team<br>kan beslissen of ze worden toegestaan
-teamTickets: Toegang tot tickets
-teamTicketsLong: Kan meelezen op alle openstaande tickets
-teamYes: Ja
 ti_admin_close: Ticket gesloten!
 ti_admin_open: Ticket geopend!
 ti_answer: Beantwoorden
@@ -1390,6 +1356,8 @@ ti_create_info: '<p>Beschrijf je probleem zo gedetailleerd mogelijk wanneer je e
   <p>Bij problemen met accounts helpen relevante accountgegevens bij het toewijzen van het ticket en verkorten ze de afhandeltijd.</p>'
 ti_date: Datum
 ti_error_closed: Dit ticket is al gesloten, dus het kan niet meer worden beantwoord.
+ti_error_too_many_open: Je hebt al %d open tickets. Wacht tot er één is gesloten voordat je een nieuwe opent.
+ti_error_rate_limited: Je opent tickets te snel. Probeer het later opnieuw.
 ti_error_no_subject: Voer een onderwerp in.
 ti_from: door
 ti_header: Supportsysteem
@@ -1400,7 +1368,6 @@ ti_new: Nieuw ticket
 ti_not_exist: 'Ticket #%d niet gevonden.'
 ti_open: Ticket openen
 ti_overview: Terug
-ti_re: 'Re:'
 ti_read: Ticket om te lezen
 ti_responded: 'Ticket beantwoord op '
 ti_status: Status
@@ -1431,7 +1398,6 @@ tkb_units: Eenheden
 tkb_verlierer: <b>-Verliezer-</b>
 tkb_week: week
 tn_delete_mode: Je account wordt verwijderd op %s.
-tn_player_title: Keizer
 tn_vacation_mode: Je account staat in vakantiemodus.
 tn_vacation_mode_kick: '<br><br>LET OP: De vakantiemodus wordt automatisch uitgeschakeld na 4 weken inactiviteit.'
 tn_vacation_mode_until: Je account staat in vakantiemodus tot minstens %s.
@@ -1528,128 +1494,10 @@ ui_nav_universe: Universum
 ui_nav_community: Community
 ui_nav_help: Hulp
 ui_nav_personal: Persoonlijk
-al_applyform_reload: Opnieuw laden
-al_default_request_text: Deze speler heeft geen bericht achtergelaten.
-al_diplo_ground: 'Reden:'
-al_diplo_war_end_confirm: Wil je de oorlog echt beëindigen?
-al_do_you_really_want_to_go_out: Wil je %s echt verlaten?
-al_events: Gebeurtenissen
-al_founder_cant_leave_alliance: De oprichter kan niet zomaar bij de alliantie weglopen.
-al_legend: Beschrijving
-al_legend_admin_alliance: Alliantie beheren
-al_legend_check_requests: Sollicitaties verwerken
-al_legend_create_circular: Rondschrijven versturen
-al_legend_disolve_alliance: Alliantie opheffen
-al_legend_kick_users: Leden verwijderen
-al_legend_right_hand: Rechterhand
-al_legend_see_connected_users: Online-status zien
-al_legend_see_requests: Sollicitaties bekijken
-al_legend_see_users_list: Ledenlijst bekijken
-al_manage_change_name: Alliantienaam wijzigen
-al_manage_change_tag: Alliantietag wijzigen
-al_no_events: Er is nog niets gebeurd.
-al_no_request_pending: Er zijn in totaal %d sollicitatie(s)
-al_request_from_user: Sollicitatie van speler
-al_tfkristall: Totaal kristal in puinvelden
-al_tfmetall: Totaal metaal in puinvelden
-al_unitsloos: Verloren eenheden
-al_unitsshut: Neergeschoten eenheden
-al_view_events: Gebeurtenissen tonen
-bd_add_to_list: Aan bouwwachtrij toevoegen
-bd_build_defenses: Bouwen
-bd_completed: Klaar
-bd_finished: Klaar
-bd_lab_required: Bouw eerst een onderzoekslab op deze planeet.
-bd_max_lvl: 'Max. niveau:'
-bd_on: op
-bd_ready: Klaar
-bd_research: Onderzoek
-bu_back: Terug
-cff_fleet_own: Vloot
-cff_fleet_target: Vloten
-cr_armor: Pantser
-cr_destroyed: Vernietigd!
-cr_first_round: (De vloot werd in ronde 1 vernietigd)
-cr_lost_contact: Het contact met je vloot is verbroken.
-cr_shields: Schilden
-cr_total: Totaal
-cr_type: Type
-cr_weapons: Wapens
-css_server_maintrace: 'Serveronderhoud<br><br>Het spel is momenteel gesloten.<br><br>Reden: %s'
-fa_galaxy_not_exist: Melkweg bestaat niet
-fa_mission_not_available: Missie niet beschikbaar
-fa_not_attack_yourself: Je kunt jezelf niet aanvallen
-fa_system_not_exist: Stelsel bestaat niet
-fgp_require: Vereist
-fl_deploy_only_your_planets: Je kunt alleen stationeren op je eigen planeten.
-fl_expedition_fleets_limit: Je hebt je expeditielimiet bereikt.
-fl_no_empty_derbis: Daar is geen puinveld!
-fl_no_hold_depot: Er is geen alliantiedepot bij het doel.
-fl_not_ally_deposit: Er is geen alliantiedepot bij het doel.
-fl_planet_populed: Planeet gekoloniseerd!
-fl_register_shorcut: Aanmaken
-fl_shortcuts: Snelkoppelingen
-fl_target_not_exists: De doelplaneet bestaat niet.
-gl_avaible_grecyclers: Gigarecycler
-gl_collect: Oogsten
-gl_free: Vrij
-gl_free_desc: Een grote onbewoonde planeet, een ideale plek voor een nieuwe kolonie.
-gl_name_activity: Naam (activiteit)
 gl_points: Punten
-gl_with: ' met '
-gl_wreckfield: Wrakveld
-gl_wreckfield_short: WV
-gl_yes: Ja
-in_bonus: 'Bonus:'
-in_dest_durati: Duur
-in_jump_gate_available: Aantal
-in_needed: Vereist
-in_range: Sensorbereik
-in_title_head: Informatie over
-invalid_action: Ongeldige actie!
-lm_disclamer: Colofon
-lm_forums: Forum
-lm_queue: Wachtrijen
-ma_big_laser: Grote laser
-ma_big_protection_shield: Grote planetaire schildkoepel
-ma_buster_canyon: Plasmawerper
-ma_gauss_canyon: Gausskanon
-ma_ionic_canyon: Ioncanon
-ma_misil_launcher: Raketwerper
-ma_small_laser: Kleine laser
-ma_small_protection_shield: Kleine planetaire schildkoepel
 mg_action: Actie
-mg_date: Datum
-mg_from: Van
-mg_game_message: Spelbericht
-mg_game_operators: Spelbeheerders
 mg_message_type: Berichttype
-mg_msg_sended: Bericht verstuurd!
-mg_no_text: Schrijf eerst een bericht.
-mg_receiver_block_pm: Deze speler blokkeert privéberichten.
-mg_show_only_header_spy_reports: Spionagerapporten maar gedeeltelijk tonen
 mg_to: Aan
-mg_total: Totaal
-mg_write_mail_to_ops: Schrijf een e-mail naar
-op_deactivate_ipcheck: IP-controle uitschakelen
-op_deactivate_ipcheck_descrip: De IP-controle logt je voor de veiligheid automatisch uit als je IP-adres verandert, of als twee mensen tegelijk met verschillende IP-adressen één account gebruiken. Uitschakelen verlaagt de beveiliging van je account!
-op_email_adress_descrip: Je kunt dit e-mailadres op elk moment wijzigen. Laat je het 7 dagen ongewijzigd, dan wordt het je permanente adres.
-op_error: Fout
-op_password_changed: Wachtwoord gewijzigd.
-op_permanent_email_adress: Permanent e-mailadres
-op_seconds: Seconden
-op_send_report: Spionagerapport
-op_show_planetmenu: Planeetmenu tonen
-op_show_skin: Skin tonen
-op_toolt_data: Tooltip tonen voor
-op_username_changed: Gebruikersnaam gewijzigd.
-ov_moving_fleets: Vloten onderweg
-ov_no_admins_online: Op dit moment geen beheerders online!
-ov_noreflink: Je hebt nog geen gebruikers geronseld.
-ov_online: Online
-ov_players: Spelers
-ov_reflink: Verwijzingslink
-tkb_missing: '<br>Vermist: het gebruikersaccount bestaat niet meer.'
 tkb_unentschieden: <b>-Gelijkspel-</b>
 source_code: Broncode
 teamMemberName: Naam
@@ -1657,24 +1505,41 @@ teamMemberContact: Contact
 teamMemberAbout: Over
 teamEmpty: Er zijn nog geen teamleden toegevoegd.
 lm_board: Forum
-bd_depot_action: "Vloten bevoorraden"
-depot_title: "Alliantiedepot"
-depot_intro: "Bevriende vloten die op deze planeet blijven staan, kun je hier bevoorraden. Elke bevoorrading verlengt hun verblijf met 1 tot %s uur (het niveau van je depot) en kost deuterium van deze planeet. Een vloot mag nooit meer dan %s uur verblijf over hebben."
-depot_deuterium_stock: "Deuterium op deze planeet"
-depot_empty: "Er staan geen bevriende vloten op deze planeet."
-depot_col_owner: "Speler"
-depot_col_ships: "Schepen"
-depot_col_stay_end: "Verblijf eindigt"
-depot_col_hourly: "Kosten per uur"
-depot_col_supply: "Bevoorraden"
-depot_hours: "%s u"
-depot_cost: "Kosten"
-depot_supply: "Bevoorraden"
-depot_full: "Maximaal verblijf bereikt"
-depot_done: "De vloot is bevoorraad: het verblijf is %s u verlengd voor %s deuterium."
-depot_err_not_owner: "Deze planeet is niet van jou."
-depot_err_no_depot: "Deze planeet heeft geen alliantiedepot."
-depot_err_hours: "Je kunt een vloot in één keer voor 1 tot %s uur bevoorraden (het niveau van je depot)."
-depot_err_fleet: "Deze vloot staat niet meer op deze planeet."
-depot_err_max_stay: "Een vloot mag hoogstens %s uur verblijf over hebben. Kies minder uren."
-depot_err_deuterium: "Niet genoeg deuterium op deze planeet: %s nodig."
+bd_depot_action: Vloten bevoorraden
+depot_title: Alliantiedepot
+depot_intro: Bevriende vloten die op deze planeet blijven staan, kun je hier bevoorraden. Elke bevoorrading verlengt hun verblijf met 1 tot %s uur (het niveau van je depot) en kost deuterium van deze planeet. Een vloot mag nooit meer dan %s uur verblijf over hebben.
+depot_deuterium_stock: Deuterium op deze planeet
+depot_empty: Er staan geen bevriende vloten op deze planeet.
+depot_col_owner: Speler
+depot_col_ships: Schepen
+depot_col_stay_end: Verblijf eindigt
+depot_col_hourly: Kosten per uur
+depot_col_supply: Bevoorraden
+depot_hours: '%s u'
+depot_cost: Kosten
+depot_supply: Bevoorraden
+depot_full: Maximaal verblijf bereikt
+depot_done: 'De vloot is bevoorraad: het verblijf is %s u verlengd voor %s deuterium.'
+depot_err_not_owner: Deze planeet is niet van jou.
+depot_err_no_depot: Deze planeet heeft geen alliantiedepot.
+depot_err_hours: Je kunt een vloot in één keer voor 1 tot %s uur bevoorraden (het niveau van je depot).
+depot_err_fleet: Deze vloot staat niet meer op deze planeet.
+depot_err_max_stay: Een vloot mag hoogstens %s uur verblijf over hebben. Kies minder uren.
+depot_err_deuterium: 'Niet genoeg deuterium op deze planeet: %s nodig.'
+op_discord_hook_invalid: Ongeldige Discord-webhook. Alleen URL's van de vorm https://discord.com/api/webhooks/... zijn toegestaan.
+fl_push_guard: 'Dit transport is geblokkeerd: de doelspeler heeft recent geen grondstoffen naar jou gestuurd en de lading is boven de limiet.'
+rl_too_many_requests: Te veel verzoeken in korte tijd. Wacht %d seconde(n) en probeer het opnieuw.
+lm_vote: Stemmen
+vt_head: Stem op het spel
+vt_intro: Stem op onderstaande sites en ontvang een beloning op je hoofdplaneet. Elke site kun je na de wachttijd opnieuw een stem geven.
+vt_site: Site
+vt_reward: Beloning
+vt_status: Status
+vt_ready: Klaar
+vt_wait: Opnieuw over %d h %d min
+vt_button: Stemmen
+vt_none: Er zijn op dit moment geen stemsites.
+vt_postback_hint: De beloning komt binnen zodra de site je stem heeft bevestigd.
+vt_notice_rewarded: Bedankt voor je stem! De beloning is toegevoegd aan je hoofdplaneet.
+vt_notice_pending: Bedankt voor je stem! De beloning komt binnen zodra de site je stem heeft bevestigd.
+vt_notice_cooldown: Je moet even wachten voordat je opnieuw op deze site kunt stemmen.

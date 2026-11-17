@@ -91,8 +91,6 @@ sys_expe_back_home: Hạm đội của bạn đã trở về %1$s %2$s từ cu�
 sys_expe_back_home_ress: Nó mang về %s %s, %s %s và %s %s.
 sys_expe_back_home_ships_flound: 'Đã tìm thấy các tàu sau:'
 sys_expe_back_home_ships_lost: 'Các tàu sau đã bị mất:'
-sys_expe_blackholl_1: Hạm đội của bạn đã gặp một hố đen và bị phá hủy một phần!
-sys_expe_blackholl_2: Hạm đội của bạn đã gặp một hố đen và bị phá hủy hoàn toàn!
 sys_expe_depleted_max_1: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Nếu lúc nào thấy bất an, ta luôn có thể hợp lực với các đoàn thám hiểm khác đang bay quanh đây.'
 sys_expe_depleted_max_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Cứ thế này, ta sẽ phải đặt phao dẫn đường để xử lý hết lưu lượng này.'
 sys_expe_depleted_max_3: 'Ghi chép từ nhật ký của sĩ quan liên lạc: Có lẽ mở một cửa hàng lưu niệm ở đây còn có ích hơn là gửi thêm một cuộc thám hiểm nữa.'
@@ -107,7 +105,6 @@ sys_expe_depleted_not_2: 'Ghi chép từ nhật ký của sĩ quan liên lạc: 
 sys_expe_feqeuence_few: Hơn 10 cuộc thám hiểm trong 24 giờ qua
 sys_expe_feqeuence_many: Hơn 50 cuộc thám hiểm trong 24 giờ qua
 sys_expe_feqeuence_medium: Hơn 25 cuộc thám hiểm trong 24 giờ qua
-sys_expe_feqeuence_no: Ít cuộc thám hiểm trong 24 giờ qua
 sys_expe_found_goods: Đã khai thác được %s %s.
 sys_expe_found_ress_1_1: Đoàn thám hiểm của bạn phát hiện một cụm tiểu hành tinh nhỏ có thể khai thác được một ít tài nguyên.
 sys_expe_found_ress_1_2: Trên một tiểu hành tinh hẻo lánh, tìm thấy vài mỏ tài nguyên dễ khai thác và đã thu được nguyên liệu thành công.
@@ -122,7 +119,6 @@ sys_expe_found_ress_logbook_1: 'Ghi chép từ nhật ký của sĩ quan thứ n
 sys_expe_found_ress_logbook_2: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Giá mà có thêm vài tàu vận tải! Giờ chúng ta phải bỏ lại cả đống tài nguyên.'
 sys_expe_found_ress_logbook_3: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Chúng tôi đã vứt hết mọi thứ không cần nữa, nhưng vẫn không đủ chỗ cho số tài nguyên tìm được.'
 sys_expe_found_ress_logbook_4: 'Ghi chép từ nhật ký của sĩ quan thứ nhất: Ngay cả khi biến căng-tin và mọi phòng sinh hoạt thành kho chứa, chúng tôi vẫn không chở hết số tài nguyên tìm được.'
-sys_expe_found_ships: 'Các nhà nghiên cứu của bạn đã tìm thấy những tàu vũ trụ còn trong tình trạng hoàn hảo!<br>: '
 sys_expe_found_ships_1_1: Chúng ta đã phát hiện tàn tích của một đoàn thám hiểm tiền nhiệm! Các kỹ thuật viên đang kiểm tra xem có thể làm một số xác tàu hoạt động lại không.
 sys_expe_found_ships_1_2: Chúng ta đã tìm thấy một căn cứ hải tặc bị bỏ hoang. Vài con tàu cũ vẫn còn trong nhà chứa. Các kỹ thuật viên đang kiểm tra xem một số tàu còn dùng được không.
 sys_expe_found_ships_1_3: Đoàn thám hiểm của chúng ta tìm thấy một hành tinh gần như bị chiến tranh tàn phá hoàn toàn. Nhiều xác tàu trôi trên quỹ đạo. Các kỹ thuật viên đã thử sửa một số chiếc. Có lẽ chúng ta sẽ biết thêm chuyện gì đã xảy ra ở đây.

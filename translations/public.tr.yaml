@@ -1,18 +1,18 @@
+build_ships: Toplam inşa edilen gemiler
 buttonLostPassword: Şifreni mi unuttun?
 buttonRegister: Kayıt ol
 buttonScreenshot: Ekran görüntüleri
-chose_a_uni: Bir evren seç
+civil: Sivil
+colony: Koloni
+deathstar: Ölüm Yıldızı
+destroyed_sats: Yok edilen güneş uyduları
 disclamerLabelAddress: 'Oyun adresi:'
 disclamerLabelMail: 'Destek e-postası:'
 disclamerLabelNotice: Daha fazla bilgi
 disclamerLabelPhone: 'Telefon:'
-disclamerRecaptcha: Bu sayfa reCAPTCHA kullanır; Google <a href="https://policies.google.com/privacy">gizlilik bildirimi</a> ve <a href="https://policies.google.com/terms">kullanım şartları</a> geçerlidir.
+first_fights: Evrenin ilk savaşları
 forum: Forum
-gameInformations: |-
-  Gerçek zamanlı bir uzay strateji oyunu.
-  Her evrende yüzlerce oyuncu.
-  İndirme yok - tek ihtiyacın sıradan bir tarayıcı.
-  Ücretsiz kayıt
+hof_empty: Henüz Onur Salonu verisi yok.
 login_error_1: 'E-posta ya da şifre yanlış! İpucu: Şifre yöneticileri sık sık kullanıcı adını doldurur ama giriş yapmak için e-postanı kullanmalısın.'
 login_error_2: Hesabına başka bir cihazdan giriş yapıldı ya da IP adresin değişti.
 login_error_3: Oturumunun süresi doldu. Lütfen tekrar giriş yap.
@@ -24,26 +24,22 @@ loginInfo: Giriş yaparak %s kısmını kabul etmiş olursun.
 loginPassword: Şifre
 loginServerDesc: '%s, yüzlerce oyuncunun en iyi olmak için <strong>aynı anda</strong> yarıştığı bir uzay strateji oyunudur. Tek ihtiyacın sıradan bir web tarayıcısı.'
 loginWelcome: '%s''e hoş geldin'
+Lowest_longterm_points: En az puanlı ön kayıtlı hesaplar
 menu_banlist: Ban listesi
 menu_battlehall: Savaş Salonu
 menu_disclamer: İletişim
-menu_index: Ana sayfa
 menu_news: Haberler
-menu_register: Kayıt
 menu_rules: Kurallar
+military: Askeri
 news_does_not_exist: Henüz haber yok.
 news_from: '%s tarihinde, yazan: %s'
-news_overview: Haberler
+overall: Genel
 passwordBack: Geri
-passwordCaptcha: Güvenlik kodu
 passwordChangedMailSend: Yeni şifren yolda. Birazdan bir e-posta alacaksın.
 passwordChangedMailTitle: '%s için yeni şifre'
-passwordConfirmInfo: 'Şifreni sıfırlamak için düğmeye tıkla. Yeni şifreni sana e-posta ile göndereceğiz.'
-passwordConfirmSubmit: 'Bana yeni şifre gönder'
+passwordConfirmInfo: Şifreni sıfırlamak için düğmeye tıkla. Yeni şifreni sana e-posta ile göndereceğiz.
+passwordConfirmSubmit: Bana yeni şifre gönder
 passwordErrorMailEmpty: Bu e-posta adresini tanımıyoruz.
-passwordErrorOnePerDay: Bu hesap için son 24 saat içinde zaten bir şifre istendi. 24 saat sonra yeniden isteyebilirsin.
-passwordErrorUnknown: Bu bilgilerle bir hesap bulunamadı.
-passwordErrorUsernameEmpty: Kullanıcı adı girmedin!
 passwordInfo: Şifreni mi unuttun? Hesabının kullanıcı adını ve e-posta adresini gir. Hatırlamıyorsan bir yöneticiyle iletişime geç.
 passwordMail: E-posta
 passwordNext: İleri
@@ -52,15 +48,17 @@ passwordUsername: Kullanıcı adı
 passwordValidInValid: Geçersiz istek.
 passwordValidMailSend: Birazdan sonraki adımları içeren bir e-posta alacaksın.
 passwordValidMailTitle: '%s için şifre sıfırlama'
+players: Oyuncular
+points_amount: Puan / Miktar
+powFailed: Otomatik bot kontrolü başarısız oldu veya süresi doldu. Geri dön, bir süre bekle ve formu yeniden gönder.
+powNoCrypto: Tarayıcın otomatik bot kontrolünü çalıştıramıyor (güvenli bir https bağlantısı gerekir).
+powVerifying: Tarayıcın kontrol ediliyor …
 registerBack: Geri
-registerCaptcha: Güvenlik kodu
-registerCaptchaDesc: Aşağıdaki karakterleri boşluk bırakmadan boş alana yaz. Büyük/küçük harf fark etmez. Birkaç kez yeniledikten sonra da resmi okuyamazsan site yöneticisiyle iletişime geç.
-registerCaptchaReload: Captcha'yı yenile
+registerDataPrivacyDesc: '%s kısmını kabul ediyorum'
 registerEmail: E-posta
 registerEmailDesc: Lütfen e-posta adresini gir.
 registerEmailReplay: E-postayı tekrar gir
 registerEmailReplayDesc: Doğrulamak için e-posta adresini bir kez daha gir.
-registerErrorCaptcha: Güvenlik kodu yanlış!
 registerErrorDataPrivacy: Devam etmek için gizlilik politikasını kabul etmelisin.
 registerErrorMailEmpty: Lütfen bir e-posta adresi gir.
 registerErrorMailExist: Bu e-posta adresi zaten kayıtlı.
@@ -75,9 +73,7 @@ registerErrorUsernameEmpty: Lütfen bir kullanıcı adı gir.
 registerErrorUsernameExist: Bu kullanıcı adı zaten alınmış.
 registerLanguage: Dil
 registerMailCompleteTitle: '%s''e hoş geldin!'
-registerMailVertifyError: 'E-posta gönderilemedi: %s'
 registerMailVertifyTitle: '%s için hesabını etkinleştir'
-registerNext: Devam
 registerPassword: Şifre
 registerPasswordDesc: Şifren en az %s karakter uzunluğunda olmalı.
 registerPasswordReplay: Şifreyi tekrar gir
@@ -92,7 +88,6 @@ registerUsernameDesc: '3 ile 25 karakter kullan: harf, rakam, boşluk, nokta, ti
 registerWelcomePMSenderName: Yönetici
 registerWelcomePMSubject: Hoş geldin
 registerWelcomePMText: '%s''e hoş geldin! Önce bir Solar Enerji Santrali kur, çünkü kaynak üretmek için enerji gerekir. Soldaki menüden Binalar''ı aç ve Solar Enerji Santrali ile başla.<br>Enerjin olunca madenleri kurabilirsin. Binalar''da kal ve bir Metal Madeni, ardından bir Kristal Madeni inşa et.<br><br>Gemi üretmek için bir Tersane gerekir. Soldaki Teknolojiler menüsü, onu açmak için nelerin gerektiğini gösterir.<br>Başka sorun olursa SSS''ye ve wiki''ye bak ya da bir destek bileti aç.<br><br>Ekip, evreni keşfederken sana bol eğlenceler diler!'
-rulesHeader: Kurallar
 siteTitleBanList: Ban listesi
 siteTitleBattleHall: Savaş Salonu
 siteTitleDataPrivacy: Gizlilik politikası
@@ -104,83 +99,46 @@ siteTitleNews: Haberler
 siteTitleRegister: Kayıt ol
 siteTitleRules: Kurallar
 siteTitleScreens: Ekran görüntüleri
-uni_closed: ' (kapalı)'
-uni_reg_closed: ' (kayıtlar kapalı)'
-uni_reg_open: ' (yalnızca kayıt)'
+spy: Casus sondaları
+st_buildings: Binalar
+st_defenses: Savunma
+st_fleets: Filo
+st_points: Puan
+st_researh: Araştırma
+theme: Tema
 universe: Evren
 vertifyAdminMessage: '"%s" hesabı etkinleştirildi.'
 vertifyNoUserFound: Geçersiz istek.
-biggest_solo: "En büyük tekli savaşlar"
-build_ships: "Toplam inşa edilen gemiler"
-civil: "Sivil"
-colony: "Koloni"
-CrystalStorage: "Kristal Deposu"
-deathstar: "Ölüm Yıldızı"
-destroyed_sats: "Yok edilen güneş uyduları"
-first_fights: "Evrenin ilk savaşları"
-flown_expos: "Toplam gönderilen keşif seferleri"
-flownDeut: Uçuşlarda harcanan toplam Deuterium
-found_res: "Toplam bulunan kaynaklar"
-found_ships: "Toplam bulunan gemiler"
-galaxySpendDeut: Galaksiye göz atarken harcanan Deuterium
-hof3_header: Evren 3'ün efsaneleri burada yaşamaya devam ediyor!
-hof4_header: Evren 4'ün efsaneleri burada yaşamaya devam ediyor!
-hof7_header: Evren 7'nin efsaneleri burada yaşamaya devam ediyor!
-IonCannon: "İyon Topu"
-least_reached_ach: "En nadir başarımlar"
-Lowest_longterm_points: "En az puanlı ön kayıtlı hesaplar"
-medAliens: Orta boy uzaylılar
-military: "Askeri"
-most_achievements: "En çok başarım toplayanlar"
-most_black_holes: "En çok kara delikle karşılaşanlar"
-most_build: "En çok inşa edilen"
-most_build_HF: En çok Ağır Avcı inşa eden
-most_defended_moons: En başarılı ay savunmaları
-most_destroyed_moons: En çok yok edilen aylar
-most_expo_fights: "Uzaylılara/Korsanlara karşı en çok savaş"
-most_fights: "En çok Galibiyet / Yenilgi / Beraberlik"
-most_reached_ach: "En yaygın başarımlar"
-most_records: "En çok rekor toplayanlar"
-oldest_active_acc: "En eski aktif hesaplar"
-overall: "Genel"
-players: "Oyuncular"
-points_amount: "Puan / Miktar"
-realDesUnits: "Gerçekte yok edilen birimler"
-registerDataPrivacyDesc: '%s kısmını kabul ediyorum'
-second_expo_deck: "İkinci Keşif Destelerini başlattılar"
-spy: "Casus sondaları"
-st_buildings: "Binalar"
-st_defenses: "Savunma"
-st_fleets: "Filo"
-st_points: "Puan"
-st_researh: "Araştırma"
-theme: "Tema"
-votingPoints: Oylama puanları
-wonAttack: "Kazanılan saldırı"
-wonDefense: "Kazanılan savunma"
-home_menu: "Menü"
-home_meta_description: "%s – 2000'lerin tadında uzay strateji tarayıcı oyunu: gezegenlerini büyüt, filolar kur, ittifaklar kur."
-home_started: "Zaten çalışıyor!"
-home_starts_in: "Kalan"
-home_team: "Ekip"
-home_meme_alt: "{game_name} komuta güvertesinden çizgi roman memi"
+passwordErrorUsernameEmpty: Kullanıcı adı girmedin!
+uni_closed: ' (kapalı)'
+uni_reg_closed: ' (kayıtlar kapalı)'
+uni_reg_open: ' (yalnızca kayıt)'
+home_menu: Menü
+home_meta_description: '%s – 2000''lerin tadında uzay strateji tarayıcı oyunu: gezegenlerini büyüt, filolar kur, ittifaklar kur.'
+home_started: Zaten çalışıyor!
+home_starts_in: Kalan
+home_team: Ekip
+home_meme_alt: '{game_name} komuta güvertesinden çizgi roman memi'
 home_meme_alt_deep_space_transit: 'Çizgi roman: bir mekikte iki öğrenci asker - biri asteroit alanını görünce çöküyor, diğeri parlayan bir bulutsuya sırıtıyor. “Sıradan sektör devriyeleri vs. keşfedilmemiş, kaynak dolu bir bulutsu bulmak.”'
 home_meme_alt_deuterium_joyride: 'Çizgi roman: gözlem güvertesindeki yorgun bir komutan, dışarıda süzülen iki acemiyi izliyor - “Ben maden yükseltmelerim için 12 saat beklerken yeni acemilerin bütün Deuteriumlarını dışarıda gezintiye harcamasını izlemek.”'
 home_meme_alt_enemy_fleet: 'Çizgi roman: alarmlar yanıp sönerken bir öğrenci asker panikle başını tutuyor - “1000 düşman muhribi geliyor mu?! Bu sektör güvenli sanıyordum!”'
 home_meme_alt_fleet_decimated: 'Çizgi roman: şok geçirmiş bir asker, paramparça olmuş kubbenin dışında gemiler patlarken boş boş bakıyor - “20 saat kaynak topladıktan sonra ilk 3''teki bir oyuncunun filosu gelip her şeyi 3 saniyede dağıttığında.”'
 home_meme_alt_solo_scouting: 'Çizgi roman: Komutan Kamioka sırıtıyor ve robot elini bir öğrencinin omzuna koyuyor - “Merak etme, öğrenci. Yüksek Komuta, uzaya yapacağın tek kişilik keşif görevine ‘tamamen’ güveniyor.”'
 home_meme_alt_this_is_fine: 'Çizgi roman: uzay giysili bir köpek yanan komuta merkezinde sakince oturuyor ve “Bu iyi” diyor - “Merak etme. Filom sadece 4 saat geç dönüyor.”'
-source_code: "Kaynak kod"
-news_back: "Haberlere dön"
-lightbox_close: "Kapat"
-lightbox_prev: "Önceki görsel"
-lightbox_next: "Sonraki görsel"
-news_pinned: "Sabitlendi"
-news_read_more: "Devamını oku"
-news_latest: "Son haberler"
-news_all: "Tüm haberler"
+source_code: Kaynak kod
+news_back: Haberlere dön
+lightbox_close: Kapat
+lightbox_prev: Önceki görsel
+lightbox_next: Sonraki görsel
+news_pinned: Sabitlendi
+news_read_more: Devamını oku
+news_latest: Son haberler
+home_discord_online: Çevrimiçi
+home_discord_join: Discord sunucumuza katıl
+news_all: Tüm haberler
 csrf_invalid: Güvenlik kontrolü başarısız oldu (oturumunun süresi dolmuş olabilir). Sayfayı yenileyip tekrar dene.
-home_logged_in_head: "Hesabın"
-home_logged_in_as: "%s olarak giriş yaptın"
-home_continue: "Evrenlerine devam et"
-home_account_lobby: "Hesap lobisi"
+home_logged_in_head: Hesabın
+home_logged_in_as: '%s olarak giriş yaptın'
+home_continue: Evrenlerine devam et
+home_account_lobby: Hesap lobisi
+rulesEmpty: Henüz kural yayınlanmadı.

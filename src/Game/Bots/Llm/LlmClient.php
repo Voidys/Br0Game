@@ -48,12 +48,6 @@ class LlmClient
         return self::DEFAULT_BASE_URLS[$provider] ?? '';
     }
 
-    /** Provider key (one of PROVIDERS). */
-    public function getProvider(): string
-    {
-        return $this->provider;
-    }
-
     /**
      * Sends one prompt and returns the model's text. POST (JSON) to /messages (claude) or /chat/completions
      * (others); 10 s total, 8 s connect/idle, no redirects. openai gets max_completion_tokens, opencode_go the

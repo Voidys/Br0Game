@@ -13,8 +13,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 /**
  * Hall of fame of the universe the admin currently acts in: export (download), import (upload, replaces) and clear.
  */
-#[\App\Routing\GamePage('admin.php', 'hallOfFame')]
-#[\App\Routing\GamePage('admin.php', 'hallOfFame', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'hallOfFame')]
 class HallOfFameController extends AbstractAdminController
 {
     private HallOfFame $hallOfFame;

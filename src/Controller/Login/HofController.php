@@ -20,12 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Service\Attribute\Required;
 
 /** Public hall of fame: the rankings imported per universe (admin page hallOfFame). */
-#[\App\Routing\GamePage('index.php', 'hoF')]
-#[\App\Routing\GamePage('index.php', 'hoF', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'hoF')]
 class HofController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     private HallOfFame $hallOfFame;
 
     #[Required]

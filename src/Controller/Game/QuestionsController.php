@@ -24,12 +24,9 @@ use App\Game\Core\Singleton;
 /**
  * FAQ pages.
  */
-#[\App\Routing\GamePage('game.php', 'questions')]
-#[\App\Routing\GamePage('game.php', 'questions', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'questions')]
 class QuestionsController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

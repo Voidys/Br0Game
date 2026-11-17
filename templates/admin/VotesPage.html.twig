@@ -1,0 +1,176 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if editor %}
+  {% if voteSaved %}<div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.vt_saved }}</div></div>{% endif %}
+  {% for error in voteErrors %}<div class="notice notice--danger" role="alert">{{ icon('circle-alert') }}<div>{{ error }}</div></div>{% endfor %}
+
+  <form method="POST" action="?page=votes&amp;action=save" class="card" data-track-dirty>
+    <input name="id" type="hidden" value="{{ site.id }}">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon(site.id ? 'pencil' : 'plus') }}{{ site.id ? LNG.vt_edit_head : LNG.vt_create_head }}</h2>
+      <div class="card__actions"><a class="button btn--small" href="?page=votes">{{ icon('arrow-left') }}{{ LNG.vt_back }}</a></div>
+    </header>
+    <div class="card__body">
+      <div class="form-grid">
+        <div class="field-row">
+          <label for="vt-name">{{ LNG.vt_name }}</label>
+          <div class="field-control"><input type="text" id="vt-name" name="name" maxlength="80" required value="{{ site.name }}"></div>
+        </div>
+        <div class="field-row">
+          <label for="vt-url">{{ LNG.vt_vote_url }}</label>
+          <div class="field-control">
+            <input type="url" id="vt-url" name="vote_url" maxlength="500" required value="{{ site.vote_url }}">
+            <p class="field-help">{{ LNG.vt_vote_url_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="vt-image">{{ LNG.vt_image_url }}</label>
+          <div class="field-control">
+            <input type="url" id="vt-image" name="image_url" maxlength="500" value="{{ site.image_url }}">
+            <p class="field-help">{{ LNG.vt_image_url_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="vt-cooldown">{{ LNG.vt_cooldown }}</label>
+          <div class="field-control">
+            <input type="number" id="vt-cooldown" name="cooldown_hours" min="1" max="8760" value="{{ site.cooldown_hours }}">
+            <p class="field-help">{{ LNG.vt_cooldown_help }}</p>
+          </div>
+        </div>
+        {% for resource in resources %}
+        <div class="field-row">
+          <label for="vt-reward-{{ resource }}">{{ LNG['vt_res_' ~ resource] }}</label>
+          <div class="field-control"><input type="number" id="vt-reward-{{ resource }}" name="reward[{{ resource }}]" min="0" max="1000000000" value="{{ site.rewards[resource] }}"></div>
+        </div>
+        {% endfor %}
+        <div class="field-row">
+          <label for="vt-verification">{{ LNG.vt_verification }}</label>
+          <div class="field-control">
+            <select id="vt-verification" name="verification">
+              <option value="none"{% if site.verification == 'none' %} selected{% endif %}>{{ LNG.vt_verify_none }}</option>
+              <option value="postback"{% if site.verification == 'postback' %} selected{% endif %}>{{ LNG.vt_verify_postback }}</option>
+            </select>
+            <p class="field-help">{{ LNG.vt_verification_help }}</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="vt-sort">{{ LNG.vt_sort }}</label>
+          <div class="field-control"><input type="number" id="vt-sort" name="sort" value="{{ site.sort }}"></div>
+        </div>
+        <div class="field-row">
+          <label for="vt-active">{{ LNG.vt_active }}</label>
+          <div class="field-control"><input type="checkbox" id="vt-active" name="active" value="1"{% if site.active %} checked{% endif %}></div>
+        </div>
+        {% if site.id %}
+        <div class="field-row">
+          <label for="vt-renew">{{ LNG.vt_renew_secret }}</label>
+          <div class="field-control"><input type="checkbox" id="vt-renew" name="renew_secret" value="1"><p class="field-help">{{ LNG.vt_renew_secret_help }}</p></div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="form-actions"><button type="submit" class="btn--primary">{{ icon('save') }}{{ LNG.button_submit }}</button></div>
+  </form>
+
+  {% if postbackUrl %}
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('key-round') }}{{ LNG.vt_postback }}</h2></header>
+    <div class="card__body">
+      <p class="field-help">{{ LNG.vt_postback_help }}</p>
+      <dl class="kv">
+        <dt>{{ LNG.vt_postback_url }}</dt><dd><code>{{ postbackUrl }}</code></dd>
+        <dt>{{ LNG.vt_secret }}</dt><dd><code>{{ site.secret }}</code></dd>
+      </dl>
+    </div>
+  </section>
+  {% endif %}
+  {% else %}
+  {% if voteNotice %}<div class="notice notice--success">{{ icon('circle-check') }}<div>{{ voteNotice }}</div></div>{% endif %}
+  {% if not voteModuleOn %}<div class="notice notice--warning" role="alert">{{ icon('circle-alert') }}<div>{{ LNG.vt_module_off }} <a href="?page=module">{{ LNG.mu_module }}</a></div></div>{% endif %}
+
+  <section class="card card--flush">
+    <header class="card__head">
+      <h2 class="card__title">{{ icon('gift') }}{{ LNG.vt_sites }} <span class="badge badge--muted">{{ voteSites|length }}</span></h2>
+      <div class="card__actions"><a class="button btn--primary btn--small" href="?page=votes&amp;action=create">{{ icon('plus') }}{{ LNG.vt_add }}</a></div>
+    </header>
+    {% if voteSites|length > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>{{ LNG.vt_name }}</th>
+              <th>{{ LNG.vt_verification }}</th>
+              <th class="num">{{ LNG.vt_cooldown }}</th>
+              <th>{{ LNG.vt_reward }}</th>
+              <th class="num">{{ LNG.vt_clicks }}</th>
+              <th class="num">{{ LNG.vt_verified }}</th>
+              <th class="num">{{ LNG.vt_rewarded }}</th>
+              <th>{{ LNG.vt_active }}</th>
+              <th class="actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in voteSites %}
+            <tr>
+              <td><a href="?page=votes&amp;action=edit&amp;id={{ row.id }}">{{ row.name }}</a></td>
+              <td>{{ row.verification == 'postback' ? LNG.vt_verify_postback : LNG.vt_verify_none }}</td>
+              <td class="num">{{ row.cooldown_hours }}</td>
+              <td>{% for resource, amount in row.rewards %}{% if amount > 0 %}{{ LNG['vt_res_' ~ resource] }}: {{ pretty_number(amount) }}<br>{% endif %}{% endfor %}</td>
+              <td class="num">{{ row.totals.clicks }}</td>
+              <td class="num">{{ row.totals.verified }}</td>
+              <td class="num">{{ row.totals.rewarded }}</td>
+              <td>{% if row.active %}<span class="badge badge--ok">{{ LNG.vt_enabled }}</span>{% else %}<span class="badge badge--muted">{{ LNG.vt_disabled }}</span>{% endif %}</td>
+              <td class="actions nowrap">
+                <a class="button btn--small" href="?page=votes&amp;action=edit&amp;id={{ row.id }}" title="{{ LNG.adm_edit }}" aria-label="{{ LNG.adm_edit }}">{{ icon('pencil') }}</a>
+                <form method="POST" action="?page=votes&amp;action=toggle" class="inline-form">
+                  <input type="hidden" name="id" value="{{ row.id }}">
+                  <input type="hidden" name="active" value="{{ row.active ? 0 : 1 }}">
+                  <button type="submit" class="btn--small">{{ row.active ? LNG.vt_disable : LNG.vt_enable }}</button>
+                </form>
+                <form method="POST" action="?page=votes&amp;action=delete" class="inline-form">
+                  <input type="hidden" name="id" value="{{ row.id }}">
+                  <button type="submit" class="btn--small btn--danger" title="{{ LNG.vt_delete }}" data-confirm-danger data-confirm="{{ LNG.format('vt_confirm_delete', row.name)|e('html_attr') }}" aria-label="{{ LNG.vt_delete }}">{{ icon('trash-2') }}</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('gift') }}<p>{{ LNG.vt_empty }}</p></div></div>
+    {% endif %}
+  </section>
+
+  <section class="card card--flush">
+    <header class="card__head"><h2 class="card__title">{{ icon('clock') }}{{ LNG.vt_log }}</h2></header>
+    {% if voteLog|length > 0 %}
+    <div class="card__body">
+      <div class="table-wrap">
+        <table class="data data--compact">
+          <thead>
+            <tr><th>{{ LNG.vt_log_time }}</th><th>{{ LNG.vt_name }}</th><th>{{ LNG.vt_log_player }}</th><th>{{ LNG.vt_log_status }}</th><th>{{ LNG.vt_log_ip }}</th></tr>
+          </thead>
+          <tbody>
+            {% for row in voteLog %}
+            <tr>
+              <td class="nowrap">{{ row.time }}</td>
+              <td>{{ row.site_name }}</td>
+              <td>{{ row.username }} <small>#{{ row.user_id }}</small></td>
+              <td>{% if row.state == 'rewarded' %}<span class="badge badge--ok">{{ LNG.vt_status_rewarded }}</span>{% elseif row.state == 'verified' %}<span class="badge badge--warn">{{ LNG.vt_status_verified }}</span>{% else %}<span class="badge badge--muted">{{ LNG.vt_status_pending }}</span>{% endif %}</td>
+              <td>{{ row.ip }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="card__body"><div class="empty">{{ icon('clock') }}<p>{{ LNG.vt_log_empty }}</p></div></div>
+    {% endif %}
+  </section>
+  {% endif %}
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -129,8 +129,7 @@ class SessionManager
             $symfonySession->start();
             if ($symfonySession->has('obj')) {
                 $stored = $symfonySession->get('obj');
-                // sessions written before the switch to arrays hold a serialized Session: read once, rewritten as array on save
-                $session = is_array($stored) ? Session::fromArray($stored) : StoredData::decodeLegacySession($stored);
+                $session = is_array($stored) ? Session::fromArray($stored) : null;
                 if ($session === null) {
                     $this->create();
 
@@ -144,15 +143,6 @@ class SessionManager
         }
 
         return $this->state->session;
-    }
-
-    /** writes the game session into the Symfony session; GameResponseFactory calls it before the response */
-    public function saveCurrent(): void
-    {
-        $session = $this->state->session ?? null;
-        if ($session instanceof Session) {
-            $session->save();
-        }
     }
 
     /**

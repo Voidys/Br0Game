@@ -556,7 +556,7 @@ function maxShip(id) {
 }
 
 /** Fills every ship field with the maximum available. */
-export function maxShips() {
+function maxShips() {
 	let id;
 	qsa('input[name^="ship"]').forEach(function(input) {
 		maxShip(input.name);

@@ -28,8 +28,7 @@ use App\Game\Core\Universe;
 /**
  * Edit moderator rights per admin page and the authlevel of users.
  */
-#[\App\Routing\GamePage('admin.php', 'rights')]
-#[\App\Routing\GamePage('admin.php', 'rights', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'rights')]
 class RightsController extends AbstractAdminController
 {
     /** Only authlevel ADM may edit rights and levels (the menu shows the page to admins only). */

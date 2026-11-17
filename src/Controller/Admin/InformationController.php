@@ -29,8 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Server and game information for admins: health checks, server, database, game statistics,
  * logs and caches (data from App\Game\Core\ServerInfo).
  */
-#[\App\Routing\GamePage('admin.php', 'information')]
-#[\App\Routing\GamePage('admin.php', 'information', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'information')]
 class InformationController extends AbstractAdminController
 {
     public function __construct(

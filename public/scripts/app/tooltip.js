@@ -35,7 +35,7 @@ function safeUrl(value, { sameOrigin = false } = {}) {
  * that slipped through server-side escaping cannot add forms, handlers, scripts or foreign images. Forms are kept only
  * when the trigger carries data-tooltip-forms (set by the server template), and then only same-origin POST/GET forms.
  */
-export function sanitizeTooltip(html, allowForms = false) {
+function sanitizeTooltip(html, allowForms = false) {
   const source = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html').body;
   const target = document.createDocumentFragment();
   const copy = (from, into) => {

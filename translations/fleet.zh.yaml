@@ -91,8 +91,6 @@ sys_expe_back_home: 你的舰队已从 %3$s 的远征中返回 %1$s %2$s。
 sys_expe_back_home_ress: 带回了 %s %s、%s %s 和 %s %s。
 sys_expe_back_home_ships_flound: 发现了以下舰船：
 sys_expe_back_home_ships_lost: 以下舰船已损失：
-sys_expe_blackholl_1: 你的舰队遭遇了黑洞，部分被摧毁！
-sys_expe_blackholl_2: 你的舰队遭遇了黑洞，全部被摧毁！
 sys_expe_depleted_max_1: 通讯官日志记录：如果哪天我们觉得不安全，随时可以和在这里飞来飞去的其他远征队联手。
 sys_expe_depleted_max_2: 通讯官日志记录：再这样下去，我们得设置导航浮标来应付这么多的交通了。
 sys_expe_depleted_max_3: 通讯官日志记录：与其再派一支远征队，在这里开一家纪念品商店可能更有用。
@@ -107,7 +105,6 @@ sys_expe_depleted_not_2: 通讯官日志记录：成为第一批穿越未探索�
 sys_expe_feqeuence_few: 过去 24 小时内超过 10 次远征
 sys_expe_feqeuence_many: 过去 24 小时内超过 50 次远征
 sys_expe_feqeuence_medium: 过去 24 小时内超过 25 次远征
-sys_expe_feqeuence_no: 过去 24 小时内远征很少
 sys_expe_found_goods: 开采到了 %s %s。
 sys_expe_found_ress_1_1: 你的远征队发现了一小片小行星群，从中开采到了一些资源。
 sys_expe_found_ress_1_2: 在一颗偏远的小行星上，发现了几处容易开采的资源点，并成功提取了原材料。
@@ -122,7 +119,6 @@ sys_expe_found_ress_logbook_1: 大副日志记录：我们把每一寸空间都�
 sys_expe_found_ress_logbook_2: 大副日志记录：要是再多几艘运输舰就好了！现在我们只能丢下一大堆资源。
 sys_expe_found_ress_logbook_3: 大副日志记录：我们已经把不再需要的东西全扔了，可还是腾不出足够的空间来装下发现的所有资源。
 sys_expe_found_ress_logbook_4: 大副日志记录：就连把食堂和所有休息室都改成仓库，我们还是运不完发现的所有资源。
-sys_expe_found_ships: 你的研究人员发现了状态完好的飞船！<br>：
 sys_expe_found_ships_1_1: 我们发现了一支前辈远征队的残骸！我们的技术人员正在检查能否让其中一些残骸重新运转。
 sys_expe_found_ships_1_2: 我们发现了一座废弃的海盗基地。机库里还停着一些旧飞船。我们的技术人员正在检查其中有没有还能用的。
 sys_expe_found_ships_1_3: 我们的远征队发现了一颗几乎被战争彻底摧毁的星球。轨道上漂浮着各种飞船残骸。技术人员尝试修复其中一些。也许我们能进一步了解这里发生过什么。

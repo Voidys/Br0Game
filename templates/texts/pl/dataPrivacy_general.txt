@@ -1,0 +1,79 @@
+<p>Ta polityka prywatności wyjaśnia prostym językiem, jakie dane osobowe zbiera {game_name}, do czego są wykorzystywane, jak długo są przechowywane i kto może je zobaczyć.</p>
+
+<h2>Kto prowadzi tę stronę</h2>
+<p>Ta strona jest prowadzona przez jej operatora. Nazwa operatora i adres pocztowy są podane na <a href="{contacts_url}">stronie kontaktowej</a>.<!--mail--> Możesz skontaktować się z nami e-mailem pod adresem {contact_mail}.<!--/mail--></p>
+
+<h2>Odwiedzanie strony</h2>
+<p>Za każdym razem, gdy otwierasz stronę, serwer WWW automatycznie zapisuje:</p>
+<ul>
+<li>Twój adres IP,</li>
+<li>datę i godzinę żądania,</li>
+<li>żądany adres i stronę odsyłającą,</li>
+<li>przeglądarkę i system operacyjny (user agent),</li>
+<li>kod statusu i ilość przesłanych danych.</li>
+</ul>
+<p>Używamy tych danych, aby dostarczać stronę i utrzymywać ją w stabilnym i bezpiecznym stanie, na przykład aby wykrywać ataki i się przed nimi bronić. Pliki dziennika serwera są usuwane najpóźniej po 7 dniach, chyba że są potrzebne jako dowód w konkretnym incydencie bezpieczeństwa. W takim przypadku są przechowywane do czasu rozwiązania incydentu.</p>
+
+<h2>Konto i dane gracza</h2>
+<p>Aby grać, potrzebujesz konta. Podczas rejestracji i gry zbieramy:</p>
+<ul>
+<li>nazwę konta, adres e-mail i hasło (przechowywane wyłącznie jako solony hash, nigdy w postaci jawnej),</li>
+<li>język, strefę czasową i ustawienia wyświetlania,</li>
+<li>czas rejestracji, adres IP z chwili rejestracji, czas i adres IP ostatniego logowania oraz nieudane próby logowania,</li>
+<li>jednego gracza na wszechświat: nazwę gracza oraz dane z gry, takie jak planety, budynki, badania, floty, surowce, punkty, osiągnięcia, raporty z walk i szpiegostwa.</li>
+</ul>
+<p>Potrzebujemy tych danych, aby zapewnić grę, na którą się zapisałeś. Bez adresu e-mail i hasła nie można założyć konta.</p>
+<p>Charakter gry sprawia, że niektóre dane są widoczne dla innych graczy: nazwa gracza, współrzędne Twoich planet, sojusz, punkty i rankingi (statystyki, galeria sław) oraz treści, które sam zdecydujesz się opublikować (teksty sojuszu<!--board-->, wpisy na forum<!--/board-->).</p>
+
+<h2>Komunikacja w grze</h2>
+<p>Gdy korzystasz z funkcji komunikacji, zapisujemy ich treść wraz z nadawcą, odbiorcami i czasem: wiadomości prywatne i sojuszowe, prośby o dodanie do znajomych, notatki, zgłoszenia do supportu<!--board-->, a także wpisy, komentarze i głosy na forum<!--/board-->. Robimy to, aby funkcje działały. Moderatorzy mogą czytać zgłoszenia do supportu oraz, w przypadku podejrzenia naruszenia zasad, zgłoszone treści.<!--messages--> Wiadomości są automatycznie usuwane po {message_days} dniach.<!--/messages--></p>
+
+<h2>Fair play i ochrona przed nadużyciami</h2>
+<p>Aby gra była uczciwa i aby egzekwować zasady (na przykład zakaz multikont i wypychania kont), używamy:</p>
+<ul>
+<li>adresów IP aktywnych sesji i logowań, porównywanych między kontami w celu wykrycia kilku kont granych z tego samego połączenia,</li>
+<li>wpisów sesji (identyfikator sesji, adres IP, ostatnia aktywność), usuwanych po wygaśnięciu sesji,</li>
+<li>notatek zespołu gry o poszczególnych kontach oraz zapisów banów z ich powodem i czasem trwania,</li>
+<li>jeśli istnieje konkretne podejrzenie naruszenia zasad na jednym koncie, zapisu stron żądanych przez to konto wraz z czasem każdego żądania. Ten zapis jest usuwany po zakończeniu postępowania.</li>
+</ul>
+<p>Podczas rejestracji sprawdzamy domenę Twojego adresu e-mail z publiczną listą jednorazowych dostawców poczty. Lista jest pobierana na nasz serwer, a Twój adres nigdzie nie jest wysyłany. Działania, takie jak bany, podejmują członkowie zespołu gry, a nie proces automatyczny.</p>
+
+<h2>E-maile</h2>
+<p>Wysyłamy e-maile na adres, który podałeś przy rejestracji, gdy są one potrzebne do prowadzenia konta: aktywacja konta, reset hasła, potwierdzenie zmiany adresu e-mail, ostrzeżenia przed usunięciem nieaktywnego konta oraz ważne informacje o grze (na przykład start nowego wszechświata). Nie wysyłamy newsletterów ani reklam.</p>
+
+<h2>Ochrona przed botami</h2>
+<p>Rejestracja i formularz przypomnienia hasła są chronione przed zautomatyzowanymi nadużyciami przez niewielkie obliczenie, które Twoja przeglądarka wykonuje sama, gdy otworzysz formularz. Sprawdzenie odbywa się na naszym własnym serwerze; nie kontaktujemy się z żadną usługą zewnętrzną i nie używamy do tego plików cookie ani identyfikatorów śledzących.</p>
+
+<h2>Pliki cookie i pamięć lokalna</h2>
+<p>Używamy wyłącznie plików cookie i pamięci przeglądarki niezbędnych do świadczenia usługi, o którą prosisz:</p>
+<ul>
+<li><strong>2Moons</strong>: plik cookie sesji, który utrzymuje Cię zalogowanym. Wygasa 12 godzin po Twojej ostatniej aktywności lub po wylogowaniu.</li>
+<li><strong>br0_device</strong>: losowy identyfikator urządzenia (2 lata). Dla konta przechowywany jest tylko jego hash, przez 90 dni po ostatniej wizycie, w celu wykrycia kilku kont granych z tej samej przeglądarki.</li>
+<li><strong>lang</strong>: zapamiętuje wybrany przez Ciebie język.</li>
+<li><strong>account</strong>: zapamiętuje, że z tej przeglądarki logowano się już wcześniej, aby strona startowa mogła najpierw pokazać logowanie. Nie zawiera danych osobowych.</li>
+<li>Pamięć lokalna: preferencje wyświetlania interfejsu gry (na przykład ostatnio otwarta kategoria wiadomości). Pozostają w Twojej przeglądarce i nie są do nas wysyłane.</li>
+</ul>
+<p>Nie używamy plików cookie śledzących, analitycznych ani reklamowych i nie tworzymy profili użytkowników do celów marketingowych.</p>
+
+<h2>Kto może zobaczyć Twoje dane</h2>
+<p>Twoje dane są obsługiwane przez członków zespołu gry (administratorów i moderatorów) w zakresie, w jakim wymagają tego ich zadania. Dostawcy usług technicznych działają w naszym imieniu i wyłącznie zgodnie z naszymi poleceniami: dostawca hostingu serwerów oraz, jeśli dotyczy, usługa dostarczania poczty e-mail. Inni gracze widzą dane opisane w sekcjach „Konto i dane gracza” oraz „Komunikacja w grze”. Dane przekazujemy organom tylko wtedy, gdy jesteśmy do tego prawnie zobowiązani. Nie sprzedajemy danych osobowych.</p>
+<p>Linki do usług zewnętrznych (na przykład Discord lub wiki) prowadzą wyłącznie do tych usług. Dane są tam przetwarzane dopiero wtedy, gdy otworzysz link, zgodnie z polityką prywatności danego dostawcy.</p>
+
+<h2>Jak długo przechowujemy dane</h2>
+<ul>
+<li>Konto możesz usunąć w ustawieniach konta. Zostanie ono usunięte po {deletion_days}-dniowym okresie oczekiwania, w czasie którego możesz anulować usunięcie.</li>
+<!--inactive--><li>Gracze, którzy nie byli aktywni przez {inactive_days} dni, są usuwani automatycznie. Jeśli gra wysyła e-maile ostrzegawcze, otrzymasz jeden przed usunięciem.</li>
+<!--/inactive--><li>Konta bez żadnego gracza są usuwane po 30 dniach bez aktywności.</li>
+<li>Pliki dziennika serwera: nie dłużej niż 7 dni, zob. „Odwiedzanie strony”.</li>
+<li>Dane, które musimy zachować z przyczyn prawnych lub potrzebujemy do obsługi roszczeń prawnych, są przechowywane tylko tak długo, jak jest to konieczne.</li>
+<li>Kopie zapasowe bazy danych zawierają dane z chwili wykonania kopii. Są przechowywane przez ograniczony czas i cyklicznie zastępowane.</li>
+</ul>
+
+<h2>Twoje wybory</h2>
+<p>Dane swojego konta możesz zmienić w ustawieniach konta, a konto usunąć tam w dowolnym momencie. Jeśli chcesz dowiedzieć się, jakie dane o Tobie przechowujemy, chcesz je poprawić lub usunąć albo masz inne pytanie dotyczące swoich danych, skontaktuj się z nami, korzystając z danych na <a href="{contacts_url}">stronie kontaktowej</a><!--mail--> lub e-mailem pod adresem {contact_mail}<!--/mail-->. W zależności od miejsca zamieszkania możesz mieć dodatkowe prawa wynikające z lokalnego prawa ochrony danych i możesz zwrócić się do lokalnego organu ochrony danych.</p>
+
+<h2>Bezpieczeństwo</h2>
+<p>Wszystkie połączenia z tą stroną są szyfrowane (TLS), hasła są przechowywane wyłącznie jako hashe, a dostęp do danych osobowych ma tylko ta część zespołu gry, która go potrzebuje. Nie podejmujemy wobec Ciebie decyzji wyłącznie na podstawie zautomatyzowanego przetwarzania.</p>
+
+<h2>Zmiany</h2>
+<p>Aktualizujemy tę politykę prywatności, gdy zmienia się strona lub wymogi prawne. Obowiązuje wersja opublikowana na tej stronie.</p>

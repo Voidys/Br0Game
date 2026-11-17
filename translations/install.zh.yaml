@@ -1,0 +1,201 @@
+back: 返回
+continue: 继续
+continueUpgrade: 升级
+install_desc: '要启用安装工具，请创建文件 "var/ENABLE_INSTALL_TOOL"。<br> 文件名区分大小写，且没有扩展名。<br> 文件可以为空。
+
+  安装完成后会自动删除该文件；如果它的创建时间超过一小时，也会被删除。'
+install_title: 安装工具已被锁定
+intro_install: 安装
+intro_lang: 语言
+intro_text: Br0Game 是一款开源的浏览器太空战略游戏：建设你的星球、进行研究、派遣舰队，并与数百名玩家同时交战。<br><br>本向导将逐步完成全新安装：检查服务器、连接并创建数据库、建立数据表、为你的游戏命名并创建管理员账号。
+intro_upgrade_head: 已经安装过 Br0Game？
+intro_upgrade_text: <p>已经安装过 Br0Game，只想更新吗？</p><p>在这里只需点几下，即可更新现有数据库！</p>
+intro_welcome: 欢迎使用 Br0Game！
+licence_accept: 你是否接受许可条款？只有接受后才能安装本软件。
+licence_desc: 请阅读以下许可条款。使用滚动条查看完整文档。
+licence_head: 许可条款
+licence_need_accept: 你必须接受许可条款才能继续安装。
+login: 登录
+menu_install: 安装
+menu_upgrade: 升级
+reg_dir: 文件夹 &raquo;%s&laquo; 是否可写？
+reg_file: 文件 &raquo;%s&laquo; 是否可写？
+reg_not_found: 未找到
+reg_not_writable: 不可写
+reg_writable: 可写
+req_desc: 在继续安装之前，Br0Game 会检查你的服务器配置和文件，确保可以正常安装和使用。请仔细阅读检测结果，在所有必需检测项都通过之前不要继续。
+sql_close_reason: '正在设置宇宙。
+
+  请稍候。'
+sql_welcome: 欢迎使用 Br0Game v
+step1_head: 配置数据库访问
+step1_mysql_dbname: 数据库名称
+step1_mysql_dbpass: 数据库密码
+step1_mysql_dbuser: 数据库用户名
+step1_mysql_migrationpass: 数据库迁移密码
+step1_mysql_migrationpass_info: 当新游戏版本需要更改或升级数据库时，系统会要求输入此密码。
+step1_mysql_port: 数据库端口
+step1_mysql_prefix: 表前缀：
+step2_conf_op_fail: config.php 不可写！
+step2_config_exists: config.php 已存在！
+step2_db_con_fail: 无法连接数据库。请参阅下方的错误详情。
+step2_db_done: 数据库连接成功！
+step2_db_no_dbname: 未指定数据库名称。
+step2_db_too_long: 表前缀不能超过 36 个字符。
+step2_prefix_invalid: 表前缀只能包含字母、数字和下划线。
+step3_db_error: 创建数据表失败：
+step3_head: 创建数据表
+step4_admin_mail: 联系邮箱：
+step4_admin_name: 管理员用户名：
+step4_admin_name_desc: 请输入 3 到 20 个字符的用户名。
+step4_admin_pass: 管理员密码：
+step4_desc: 安装向导现在将创建管理员账号。请输入用户名、电子邮件地址和密码。
+step4_head: 创建管理员
+step6_desc: 你已成功安装 Br0Game。
+step6_head: 恭喜！
+title_install: 安装程序
+upgrade_available: 有可用的数据库更新。数据库当前版本为 %s，可更新至版本 %s。
+upgrade_back: 返回
+upgrade_intro_welcome: 欢迎使用数据库更新程序！
+upgrade_message_admin: 管理员：要安装数据库升级，请输入迁移密码后继续。
+upgrade_message_user: 玩家：请稍等片刻，然后尝试点击“返回游戏”。
+upgrade_notavailable: 版本 %s 已是你的数据库的最新版本。
+upgrade_nothingtodo: 无需任何操作。数据库已处于版本 %s。
+upgrade_return: 返回游戏
+upgrade_success: 数据库更新成功。数据库现已处于版本 %s。
+upgrade_title: 需要升级数据库！
+ins_step_licence: 许可
+ins_step_requirements: 环境要求
+ins_step_database: 数据库
+ins_step_build: 数据表
+ins_step_game: 游戏
+ins_step_admin: 管理员
+ins_step_done: 完成
+ins_recheck: 重新检查
+ins_db_connection: 连接
+ins_db_createdb: 如果数据库尚不存在，则创建它
+ins_db_connect: 连接并创建
+ins_db_no_host: 未指定数据库主机。
+ins_db_name_invalid: 数据库名称只能包含字母、数字、_ 和 -（最多 64 个字符）。
+ins_check_input: 输入已检查
+ins_check_connect: 已连接到数据库服务器
+ins_check_database: 数据库 »%s«
+ins_db_missing: 不存在（请勾选“创建数据库”或自行创建）
+ins_db_create_fail: 无法创建：
+ins_db_created: 已创建
+ins_db_exists: 已存在
+ins_check_tables: 尚无前缀为 »%s« 的数据表
+ins_tables_exist: 已存在 %d 个使用此前缀的数据表。请选择其他前缀或数据库。
+ins_check_write: 已写入 %s
+ins_build_desc: 安装程序现在将逐步创建游戏数据表，并填入默认值。
+ins_task_tables: 创建数据表
+ins_task_migrations: 登记数据库版本
+ins_task_config: 写入游戏设置
+ins_task_universe: 设置宇宙 1
+ins_build_start: 构建数据库
+ins_back_database: 返回数据库设置
+ins_game_name: 游戏名称
+ins_game_name_info: 显示在标题、页眉和电子邮件中。默认：Br0Game。
+ins_default_theme: 默认主题
+ins_default_theme_info: 新账号和访客使用的主题；玩家可在设置中切换。
+ins_game_name_invalid: 请输入 1 到 64 个字符的游戏名称。
+ins_theme_invalid: 未知主题。
+ins_to_start: 前往起始页
+ins_credits_head: 站在巨人的肩膀上
+ins_credits_text: Br0Game 延续了一长串开源浏览器游戏的传统。向所有在我们之前创造并维系它的人致敬：
+ins_credits_thanks: 感谢 pr0game 社区，本游戏正是由它发展而来。
+ins_licence_note: 依据 GNU AGPL v3 发布的自由软件
+ins_task_images: 优化图片（WebP）
+ins_db_help: Br0Game 将所有数据存储在 MySQL 或 MariaDB 数据库中。以下数值可从你的主机面板获取（查找“数据库”或“MySQL”），或询问搭建服务器的人。如果你自行安装了 MySQL，默认值通常即可使用。
+ins_db_host: 数据库服务器
+ins_db_host_info: 几乎总是“localhost”。部分主机会提供类似“db1.example.com”的名称。
+ins_db_name_info: 游戏所用数据库的名称。请先在主机面板中创建，或让安装程序代为创建（见下方提示框）。
+ins_db_advanced: 高级选项（端口、表前缀、迁移密码）——通常无需设置
+ins_db_prefix_info: 添加在每个表名前面。只有在与其他软件共用一个数据库时才需要修改。
+ins_db_migrationpw_info: 保护更新页面（install/?mode=upgrade），用于今后的游戏更新。留空则安装程序会生成一个强密码，并在最后一页显示一次。
+ins_db_migrationpw_placeholder: 自动生成
+ins_migrationpw_invalid: 迁移密码不得包含引号、反斜杠、$ 或换行符。
+ins_err_technical: 技术详情
+ins_err_access_denied: 数据库服务器拒绝了该用户名或密码。请在主机面板中仔细检查两者是否有误（区分大小写）。
+ins_err_unknown_db: 服务器上不存在此数据库。请检查名称，或勾选下方的“创建数据库”。
+ins_err_no_privilege: 此数据库用户无权使用该数据库。请在主机面板中为该用户授予该数据库的全部权限。
+ins_err_no_create: 此用户无权创建数据库。请在主机面板中创建一个空数据库，并取消勾选“创建数据库”。
+ins_err_socket: 未找到数据库服务器的套接字。请尝试使用主机“127.0.0.1”代替“localhost”。
+ins_err_unreachable: 无法连接数据库服务器“%s”。请检查主机名和端口，并确认数据库服务器正在运行。许多主机只允许来自自家 Web 服务器的连接，因此通常应使用“localhost”。
+ins_game_desc: 为你的游戏命名，并选择游戏方式。以下所有设置今后都可以在管理后台（管理 - 设置）中修改。
+ins_group_general: 常规
+ins_uni_name: 宇宙名称
+ins_uni_name_info: 玩家选择宇宙时显示。留空 = “宇宙 1”。
+ins_uni_name_invalid: 宇宙名称最多只能有 60 个字符。
+ins_language: 默认语言
+ins_language_info: 用于新访客和你的管理员账号的语言。
+ins_language_invalid: 未知语言。
+ins_timezone: 时区
+ins_timezone_info: 已根据你的服务器预先选择。用于显示服务器时间。
+ins_timezone_invalid: 未知时区。
+ins_group_speed: 游戏速度
+ins_speed_info: 建筑、研究、舰船、舰队和生产的速度。经典为原始节奏；较快的预设适合小型社区和短周期对局。
+ins_speed_classic: 经典
+ins_speed_classic_info: 原始节奏，一局持续数月
+ins_speed_fast: 快速
+ins_speed_fast_info: 约快三倍，一局持续数周
+ins_speed_blitz: 闪电
+ins_speed_blitz_info: 最快可达十倍，一局持续数天
+ins_speed_detail: 建筑/研究 %bx，舰队 %fx，资源 %rx
+ins_speed_invalid: 未知的速度预设。
+ins_group_players: 玩家
+ins_registration: 注册
+ins_registration_open: 开放 - 任何人都可以注册
+ins_registration_closed: 关闭 - 仅你可以创建账号
+ins_registration_info: 在你仍在设置时，请选择“关闭”。之后可在管理后台（管理 - 设置）中开放注册。
+ins_registration_invalid: 未知的注册设置。
+ins_bots: 电脑玩家（机器人）
+ins_bots_info: 0 到 50。机器人会以不同的习惯像真人玩家一样游戏，使新宇宙不至于空荡。0 = 不设置机器人。
+ins_bots_invalid: 机器人数量必须在 0 到 50 之间。
+ins_mail: 发送电子邮件（注册、找回密码）
+ins_mail_info: 默认关闭。仅当你的服务器可以发送邮件时才开启；之后可在管理后台（管理 - 设置）中配置 SMTP。
+ins_admin_mail_info: 用于找回密码，并作为联系地址。
+ins_admin_mail_invalid: 请输入有效的电子邮件地址。
+ins_admin_pass_confirm: 重复密码
+ins_admin_pass_rules: 密码至少需要 %d 个字符（最多 64 个）。由几个单词组成的句子既容易记住，又难以猜测。
+ins_admin_pass_short: 密码至少需要 %d 个字符。
+ins_admin_pass_long: 密码最多只能有 64 个字符。
+ins_admin_pass_mismatch: 两次输入的密码不一致。
+ins_done_checklist: 检查清单
+ins_done_login: 登录管理后台。
+ins_done_login_info: 你已以“%s”身份登录。下次请使用：
+ins_done_cron: 设置计划任务（必需）。
+ins_done_cron_info: 没有它，游戏中的任何内容都不会推进（舰队、建造队列、统计数据）。请将此行添加到 Web 服务器用户的 crontab（crontab -e）中，或在主机面板中用它创建计划任务：
+ins_done_locked: 安装工具现已锁定。
+ins_done_locked_info: 任何人都无法再次运行向导。今后更新时，请参阅文档中的升级部分。
+ins_done_https: 使用 HTTPS。
+ins_done_https_info: 你当前使用的是明文 HTTP：密码将以未加密的形式传输。请在邀请玩家之前配置证书（例如 Let's Encrypt）。
+ins_done_https_ok: 此页面通过 HTTPS 提供 - 很好。
+ins_done_settings: 稍后更改设置。
+ins_done_settings_info: 管理 - 设置：游戏名称、速度、注册、电子邮件（SMTP）、机器人等众多选项。
+ins_done_bots: 机器人。
+ins_done_bots_info: 已创建 %d 个机器人。它们会在计划任务运行时行动。可在管理后台中管理。
+ins_done_bots_failed: 管理员已创建，但无法创建机器人。你可以之后在管理后台中添加。
+ins_done_migrationpw: 请记下你的迁移密码（仅显示一次）。
+ins_done_migrationpw_info: 游戏更新时需要它。它也保存在 config/game.php 中。
+ins_done_docs: 文档：
+ins_done_to_admin: 前往管理后台
+ins_step_legal: 法律
+ins_legal_desc: 选择游戏的托管地区，以及法律页面和社区论坛的初始设置。之后可在管理区域（设置、页面）中更改所有这些内容。
+ins_group_privacy: 托管地区
+ins_privacy_info: 该地区决定默认使用哪份隐私政策。
+ins_privacy_eu: 欧盟 / 欧洲经济区 - GDPR 隐私政策
+ins_privacy_eu_info: 当游戏托管于欧盟或欧洲经济区，或面向那里的玩家时选择此项。
+ins_privacy_other: 欧盟以外 - 通用隐私政策
+ins_privacy_other_info: 一份通俗易懂、不涉及 GDPR 的隐私政策。
+ins_group_rules: 规则
+ins_rules_default: 导入默认规则
+ins_rules_default_info: 规则页面以标准游戏规则开始，之后可以编辑。
+ins_rules_blank: 从空白开始
+ins_rules_blank_info: 规则页面保持为空，直到你在管理区域中编写自己的规则。
+ins_group_community: 社区
+ins_board: 启用社区论坛
+ins_board_info: 为你的玩家提供的论坛。关闭后，所有论坛链接都会隐藏，论坛页面也不可用。
+ins_legal_note: 生成的文本仅为模板。作为运营者，你有责任对游戏的法律文本进行审核。
+ins_legal_region_invalid: 请选择有效的托管地区。
+ins_legal_rules_invalid: 请选择规则的初始方式。

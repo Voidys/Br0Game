@@ -82,6 +82,7 @@ final class AdminShell
                 ['hallOfFame', '', 'mu_hall_of_fame', 'ShowHallOfFamePage'],
                 ['team', '', 'adm_tab_team', 'ShowTeamPage'],
             ]],
+            ['adm_nav_voting', 'gift', [['votes', '', 'adm_nav_voting', 'ShowVotesPage']]],
             ['mu_flying_fleets', 'send', [['flyingFleet', '', 'mu_flying_fleets', 'ShowFlyingFleetPage']]],
         ],
         'mu_tools' => [

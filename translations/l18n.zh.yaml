@@ -68,5 +68,6 @@ week_day:
 - 周五
 - 周六
 php_dateformat: Y年n月j日
-php_timeformat: H:i:s
-lang_group_fun: "趣味语言"
+lang_group_fun: 趣味语言
+dialog_ok: 确定
+dialog_cancel: 取消

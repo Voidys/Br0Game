@@ -30,12 +30,10 @@ use App\Game\Core\PlayerUtil;
 use App\Game\Core\Singleton;
 
 /** Galaxy view: planets, debris and players of one solar system. */
-#[\App\Routing\GamePage('game.php', 'galaxy')]
-#[\App\Routing\GamePage('game.php', 'galaxy', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'galaxy')]
+#[\App\Controller\RequireModule('MODULE_RESEARCH')]
 class GalaxyController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_RESEARCH';
-
     public function initialize(): void
     {
         parent::initialize();
@@ -102,11 +100,7 @@ class GalaxyController extends AbstractGameController
             'currentmip'				=> $this->state->PLANET[$e->column(INTERPLANETARY_MISSILE)],
             'recyclers'   				=> $recyclerCount,
             'spyprobes'   				=> $this->state->PLANET[$e->column(SHIP_PROBE)],
-            'spyShips'					=> [SHIP_PROBE => $USER['spio_anz']],
             'settings_fleetactions'		=> $USER['settings_fleetactions'],
-            'current_galaxy'			=> $this->state->PLANET['galaxy'],
-            'current_system'			=> $this->state->PLANET['system'],
-            'current_planet'			=> $this->state->PLANET['planet'],
             'planet_type' 				=> $this->state->PLANET['planet_type'],
             'max_planets'               => $config->max_planets,
             'missileSelector'			=> $missileSelector,

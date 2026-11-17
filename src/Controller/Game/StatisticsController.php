@@ -29,12 +29,10 @@ use App\Game\Core\Universe;
 /**
  * Highscore pages for players and alliances (points, fleet, research, buildings, defense).
  */
-#[\App\Routing\GamePage('game.php', 'statistics')]
-#[\App\Routing\GamePage('game.php', 'statistics', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'statistics')]
+#[\App\Controller\RequireModule('MODULE_STATISTICS')]
 class StatisticsController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_STATISTICS';
-
     public function initialize(): void
     {
         parent::initialize();

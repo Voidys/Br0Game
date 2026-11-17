@@ -5,7 +5,7 @@ namespace App\Game\Missions\Expedition;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\BattleEngine\BattleResult;
-use App\Game\Core\StoredData;
+use App\Game\Core\BattleReportStore;
 
 /**
  * Stores the combat report of an expedition fight (table rw, in the format of the battle engine used) and builds the
@@ -101,20 +101,7 @@ HTML;
      */
     private function storeReport(BattleHandler $battleHandler, array $reportData, string $reportID): void
     {
-        $sql = "INSERT INTO %%RW%% SET
-			`rid` = :reportId,
-			`raport` = :reportData,
-			`time` = :time,
-			`attacker` = :attacker,
-            `battleengine` = :battleengine;";
-
-        $this->db->insert($sql, [
-            ':reportId' => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
-            ':time' => $this->fleet['stay_time'],
-            ':attacker' => $this->fleet['owner'],
-            ':battleengine' => $battleHandler->engine->getName(),
-        ]);
+        (new BattleReportStore($this->db))->insert($reportID, $reportData, $battleHandler->engine->getName(), $this->fleet['stay_time'], $this->fleet['owner']);
     }
 
     /**

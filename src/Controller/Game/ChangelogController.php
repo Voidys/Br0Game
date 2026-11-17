@@ -21,12 +21,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Parsedown;
 
 /** Changelog page: renders CHANGES.md. */
-#[\App\Routing\GamePage('game.php', 'changelog')]
-#[\App\Routing\GamePage('game.php', 'changelog', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'changelog')]
 class ChangelogController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

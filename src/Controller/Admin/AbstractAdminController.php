@@ -28,16 +28,6 @@ abstract class AbstractAdminController implements GameControllerInterface
     /** Pages every admin may open (former class names). */
     private const ALWAYS_ALLOWED = ['ShowIndexPage', 'ShowErrorPage', 'ShowOverviewPage', 'ShowMenuPage', 'ShowTopnavPage'];
 
-    public static function getGameMode(): string
-    {
-        return 'ADMIN';
-    }
-
-    public static function getEntryScript(): string
-    {
-        return 'admin.php';
-    }
-
     /**
      * Former admin checks, then the page's own constructor work (construct()), in the
      * original order: entry checks -> page constructor -> AbstractAdminPage permission check.

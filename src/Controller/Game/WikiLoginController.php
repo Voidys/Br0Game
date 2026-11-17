@@ -9,8 +9,7 @@ use App\Game\Core\WikiSsoCodeStore;
 /**
  * Single sign-on bridge to the wiki: posts a one-time code to the wiki login URL.
  */
-#[\App\Routing\GamePage('game.php', 'wikiLogin')]
-#[\App\Routing\GamePage('game.php', 'wikiLogin', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'wikiLogin')]
 class WikiLoginController extends AbstractGameController
 {
     private ?\App\Security\CspNonce $cspNonce = null;
@@ -21,8 +20,6 @@ class WikiLoginController extends AbstractGameController
     {
         $this->cspNonce = $cspNonce;
     }
-
-    public static $requireModule = 0;
 
     protected $disableEcoSystem = true;
 

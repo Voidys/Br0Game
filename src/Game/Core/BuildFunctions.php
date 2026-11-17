@@ -520,24 +520,7 @@ class BuildFunctions
     }
 
     /**
-     * Project occupied and maximum fields after applying a building queue.
-     *
-     * Terraformers and Moon Bases occupy a field like any other building; their
-     * extra fields are only available to later queue entries.
-     *
-     * Queue item format: [elementId, level, time, endTime, mode, cost?]
-     *
-     * Array adapter of queueFieldProjectionFor().
-     *
-     * @return array{current: int, max: int, valid: bool}
-     */
-    public function getQueueFieldProjection(array $PLANET, array $queue): array
-    {
-        return $this->queueFieldProjectionFor($this->models()->planet($PLANET), $queue)->toArray();
-    }
-
-    /**
-     * Typed version of getQueueFieldProjection(): replays the queue entry by entry against the field limit, without
+     * Replays the queue entry by entry against the field limit, without
      * changing the planet. Build entries need a free field at their turn (otherwise the projection is invalid and the replay
      * stops); destroy entries free one. A queued terraformer or moon base raises the limit only for the entries after it
      * (a destroyed one takes its bonus away again at once), so the replay tracks the two levels instead of changing a

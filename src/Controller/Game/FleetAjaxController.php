@@ -29,13 +29,10 @@ use App\Game\AdvancedStats\AdvancedStatsHandler;
 use App\Game\AdvancedStats\AdvancedStatsEnum;
 
 /** Fleet shortcuts from the galaxy view (XHR): spy probes, recyclers and missiles, answered as JSON codes. */
-#[\App\Routing\GamePage('game.php', 'fleetAjax')]
-#[\App\Routing\GamePage('game.php', 'fleetAjax', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetAjax')]
 class FleetAjaxController extends AbstractGameController
 {
     public $returnData = [];
-
-    public static $requireModule = 0;
 
     public function initialize(): void
     {

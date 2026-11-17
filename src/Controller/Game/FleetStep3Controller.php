@@ -23,12 +23,10 @@ use App\Game\Fleet\FleetDispatch;
 use App\Game\Fleet\FleetDispatchRefused;
 
 /** Fleet dispatch, step 3: validates the prepared fleet and sends it (FleetDispatch); refusals are shown as message page. */
-#[\App\Routing\GamePage('game.php', 'fleetStep3')]
-#[\App\Routing\GamePage('game.php', 'fleetStep3', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetStep3')]
+#[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep3Controller extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_FLEET_TABLE';
-
     public function initialize(): void
     {
         parent::initialize();

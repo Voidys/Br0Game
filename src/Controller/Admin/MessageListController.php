@@ -28,8 +28,7 @@ use App\Game\Core\Universe;
 /**
  * Message browser for admins: filter by category, sender and recipient, with delete.
  */
-#[\App\Routing\GamePage('admin.php', 'messageList')]
-#[\App\Routing\GamePage('admin.php', 'messageList', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'messageList')]
 class MessageListController extends AbstractAdminController
 {
     /**

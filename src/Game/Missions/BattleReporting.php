@@ -19,7 +19,7 @@ namespace App\Game\Missions;
 
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\BattleEngine\BattleResult;
-use App\Game\Core\StoredData;
+use App\Game\Core\BattleReportStore;
 
 /**
  * Report side of a fight for AbstractBattleMission: stores the combat report, sends the report messages, top-KB rows and the
@@ -30,26 +30,14 @@ trait BattleReporting
     /** Stores the combat report (table rw) for the fight in the format of the engine used. */
     protected function storeReport(BattleSetup $setup, BattleHandler $battleHandler, array $reportData, string $reportID): void
     {
-        $db = $this->db;
-        $userAttack = $setup->userAttack;
-        $userDefend = $setup->userDefend;
-
-        $sql = 'INSERT INTO %%RW%% SET
-            `rid` = :reportId,
-            `raport` = :reportData,
-            `time` = :time,
-            `attacker` = :attackers,
-            `defender` = :defenders,
-            `battleengine` = :battleengine;';
-
-        $db->insert($sql, [
-            ':reportId'     => $reportID,
-            ':reportData'   => $battleHandler->engine->getName() === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
-            ':time'         => $this->_fleet['arrival_time'],
-            ':attackers'    => implode(',', array_keys($userAttack)),
-            ':defenders'    => implode(',', array_keys($userDefend)),
-            ':battleengine' => $battleHandler->engine->getName(),
-        ]);
+        (new BattleReportStore($this->db))->insert(
+            $reportID,
+            $reportData,
+            $battleHandler->engine->getName(),
+            $this->_fleet['arrival_time'],
+            implode(',', array_keys($setup->userAttack)),
+            implode(',', array_keys($setup->userDefend)),
+        );
     }
 
     /**

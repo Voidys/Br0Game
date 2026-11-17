@@ -29,12 +29,10 @@ use App\Game\Core\Universe;
 /**
  * Support tickets of the player: list, create, view and answer.
  */
-#[\App\Routing\GamePage('game.php', 'ticket')]
-#[\App\Routing\GamePage('game.php', 'ticket', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'ticket')]
+#[\App\Controller\RequireModule('MODULE_SUPPORT')]
 class TicketController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_SUPPORT';
-
     /** open (not closed) tickets one player may have before new ones are refused */
     public const MAX_OPEN_TICKETS = 5;
 

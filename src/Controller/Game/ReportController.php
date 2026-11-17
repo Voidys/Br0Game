@@ -9,12 +9,9 @@ use App\Game\Core\Singleton;
 /**
  * Stores a client-side error/report comment of the player (ajax).
  */
-#[\App\Routing\GamePage('game.php', 'report')]
-#[\App\Routing\GamePage('game.php', 'report', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'report')]
 class ReportController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

@@ -23,12 +23,10 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Universe;
 
 /** Sensor phalanx: fleet movements around a scanned planet, costs deuterium. */
-#[\App\Routing\GamePage('game.php', 'phalanx')]
-#[\App\Routing\GamePage('game.php', 'phalanx', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'phalanx')]
+#[\App\Controller\RequireModule('MODULE_PHALANX')]
 class PhalanxController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_PHALANX';
-
     public function initialize(): void {}
 
     /**

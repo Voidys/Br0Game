@@ -27,8 +27,7 @@ use App\Game\Core\Config\ConfigFieldSchema;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Basic game settings of the emulated universe (schema driven form). */
-#[\App\Routing\GamePage('admin.php', 'configBasic')]
-#[\App\Routing\GamePage('admin.php', 'configBasic', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'configBasic')]
 class ConfigBasicController extends AbstractAdminController
 {
     /**

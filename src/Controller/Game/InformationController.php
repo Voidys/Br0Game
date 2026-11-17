@@ -29,12 +29,10 @@ use App\Game\Core\Singleton;
  * Element information popup: description, production/storage tables, jump gate and missile actions (modes: show,
  * sendFleet, destroyMissiles).
  */
-#[\App\Routing\GamePage('game.php', 'information')]
-#[\App\Routing\GamePage('game.php', 'information', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'information')]
+#[\App\Controller\RequireModule('MODULE_INFORMATION')]
 class InformationController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_INFORMATION';
-
     // protected $disableEcoSystem = true;
 
     public function initialize(): void

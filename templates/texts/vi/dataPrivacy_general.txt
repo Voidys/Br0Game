@@ -1,0 +1,79 @@
+<p>Chính sách bảo mật này giải thích bằng ngôn ngữ dễ hiểu những dữ liệu cá nhân nào {game_name} thu thập, dùng để làm gì, được giữ trong bao lâu và ai có thể xem.</p>
+
+<h2>Ai vận hành trang web này</h2>
+<p>Trang web này do đơn vị vận hành của nó điều hành. Tên và địa chỉ bưu điện của đơn vị vận hành được liệt kê tại <a href="{contacts_url}">trang liên hệ</a>.<!--mail--> Bạn có thể liên hệ với chúng tôi qua email tại {contact_mail}.<!--/mail--></p>
+
+<h2>Truy cập trang web</h2>
+<p>Mỗi khi bạn mở một trang, máy chủ web sẽ tự động ghi lại:</p>
+<ul>
+<li>địa chỉ IP của bạn,</li>
+<li>ngày và giờ của yêu cầu,</li>
+<li>địa chỉ được yêu cầu và trang giới thiệu (trang dẫn tới),</li>
+<li>trình duyệt và hệ điều hành (user agent),</li>
+<li>mã trạng thái và lượng dữ liệu được truyền.</li>
+</ul>
+<p>Chúng tôi dùng dữ liệu này để phân phối trang web và giữ cho nó ổn định, an toàn, ví dụ để phát hiện và chặn các cuộc tấn công. Tệp nhật ký máy chủ bị xóa chậm nhất sau 7 ngày, trừ khi chúng cần làm bằng chứng cho một sự cố bảo mật cụ thể. Khi đó, chúng được giữ cho đến khi sự cố được giải quyết xong.</p>
+
+<h2>Tài khoản và dữ liệu người chơi</h2>
+<p>Để chơi, bạn cần có tài khoản. Khi đăng ký và chơi, chúng tôi thu thập:</p>
+<ul>
+<li>tên tài khoản, địa chỉ email và mật khẩu (chỉ lưu dưới dạng băm có muối, không bao giờ lưu dạng văn bản thuần),</li>
+<li>ngôn ngữ, múi giờ và cài đặt hiển thị,</li>
+<li>thời điểm đăng ký, địa chỉ IP lúc đăng ký, thời điểm và địa chỉ IP của lần đăng nhập gần nhất, và các lần đăng nhập thất bại,</li>
+<li>một người chơi cho mỗi vũ trụ: tên người chơi và dữ liệu trò chơi như hành tinh, công trình, nghiên cứu, hạm đội, tài nguyên, điểm, thành tựu, báo cáo chiến đấu và do thám.</li>
+</ul>
+<p>Chúng tôi cần dữ liệu này để cung cấp trò chơi bạn đã đăng ký. Nếu không có địa chỉ email và mật khẩu thì không thể tạo tài khoản.</p>
+<p>Bản chất của trò chơi khiến một số dữ liệu hiển thị với người chơi khác: tên người chơi, tọa độ hành tinh của bạn, liên minh, điểm và xếp hạng (thống kê, bảng vinh danh), cùng nội dung bạn chọn đăng (văn bản liên minh<!--board-->, bài đăng trên bảng<!--/board-->).</p>
+
+<h2>Liên lạc trong trò chơi</h2>
+<p>Khi bạn dùng các tính năng liên lạc, chúng tôi lưu nội dung cùng với người gửi, người nhận và thời điểm: tin nhắn riêng và tin nhắn liên minh, lời mời kết bạn, ghi chú, ticket hỗ trợ<!--board-->, cùng bài viết, bình luận và bình chọn trên bảng<!--/board-->. Việc này nhằm giúp các tính năng hoạt động. Điều hành viên có thể đọc ticket hỗ trợ và, khi nghi ngờ vi phạm quy định, đọc nội dung bị báo cáo.<!--messages--> Tin nhắn được tự động xóa sau {message_days} ngày.<!--/messages--></p>
+
+<h2>Chơi công bằng và phòng chống lạm dụng</h2>
+<p>Để giữ trò chơi công bằng và thực thi quy định (ví dụ cấm đa tài khoản và ép giá qua tài khoản), chúng tôi sử dụng:</p>
+<ul>
+<li>địa chỉ IP của các phiên và lần đăng nhập đang hoạt động, được so sánh giữa các tài khoản để phát hiện nhiều tài khoản cùng chơi từ một kết nối,</li>
+<li>bản ghi phiên (ID phiên, địa chỉ IP, hoạt động gần nhất), bị xóa sau khi phiên hết hạn,</li>
+<li>ghi chú của đội ngũ trò chơi về từng tài khoản, và hồ sơ các lệnh cấm kèm lý do và thời hạn,</li>
+<li>nếu có nghi ngờ cụ thể về vi phạm quy định của một tài khoản, một bản ghi các trang mà tài khoản đó yêu cầu cùng thời điểm từng yêu cầu. Bản ghi này bị xóa khi việc điều tra kết thúc.</li>
+</ul>
+<p>Khi bạn đăng ký, chúng tôi kiểm tra tên miền email của bạn với một danh sách công khai các nhà cung cấp email dùng một lần. Danh sách được tải xuống máy chủ của chúng tôi và địa chỉ của bạn không được gửi đi đâu cả. Các biện pháp như cấm tài khoản do thành viên đội ngũ trò chơi quyết định, không phải bởi một quy trình tự động.</p>
+
+<h2>Email</h2>
+<p>Chúng tôi gửi email tới địa chỉ bạn đã đăng ký khi cần để vận hành tài khoản: kích hoạt tài khoản, đặt lại mật khẩu, xác nhận thay đổi địa chỉ email, cảnh báo trước khi tài khoản không hoạt động bị xóa, và thông báo quan trọng về trò chơi (ví dụ việc mở một vũ trụ mới). Chúng tôi không gửi bản tin hay quảng cáo.</p>
+
+<h2>Bảo vệ chống bot</h2>
+<p>Đăng ký và biểu mẫu quên mật khẩu được bảo vệ chống lạm dụng tự động bằng một phép tính nhỏ mà trình duyệt của bạn tự giải khi bạn mở biểu mẫu. Việc kiểm tra diễn ra trên máy chủ của chúng tôi; không có dịch vụ bên thứ ba nào được liên hệ, và không dùng cookie hay mã nhận dạng theo dõi nào cho việc này.</p>
+
+<h2>Cookie và bộ nhớ cục bộ</h2>
+<p>Chúng tôi chỉ dùng cookie và bộ nhớ trình duyệt cần thiết để cung cấp dịch vụ bạn yêu cầu:</p>
+<ul>
+<li><strong>2Moons</strong>: cookie phiên giữ cho bạn đăng nhập. Cookie hết hạn sau 12 giờ kể từ hoạt động gần nhất của bạn, hoặc khi bạn đăng xuất.</li>
+<li><strong>br0_device</strong>: ID thiết bị ngẫu nhiên (2 năm). Chỉ một bản băm của nó được lưu theo từng tài khoản, trong 90 ngày kể từ lần truy cập cuối, để phát hiện nhiều tài khoản cùng chơi từ một trình duyệt.</li>
+<li><strong>lang</strong>: ghi nhớ ngôn ngữ bạn đã chọn.</li>
+<li><strong>account</strong>: ghi nhớ rằng trình duyệt này đã từng được dùng để đăng nhập, để trang chủ có thể hiển thị màn hình đăng nhập trước. Cookie này không chứa dữ liệu cá nhân.</li>
+<li>Bộ nhớ cục bộ: các tùy chọn hiển thị của giao diện trò chơi (ví dụ danh mục tin nhắn đã mở gần nhất). Chúng nằm trong trình duyệt của bạn và không được gửi tới chúng tôi.</li>
+</ul>
+<p>Chúng tôi không dùng cookie theo dõi, phân tích hay quảng cáo, và chúng tôi không tạo hồ sơ người dùng cho mục đích tiếp thị.</p>
+
+<h2>Ai có thể xem dữ liệu của bạn</h2>
+<p>Dữ liệu của bạn được xử lý bởi các thành viên đội ngũ trò chơi (quản trị viên và điều hành viên) trong phạm vi nhiệm vụ của họ đòi hỏi. Các nhà cung cấp dịch vụ kỹ thuật làm việc thay mặt chúng tôi và chỉ theo chỉ dẫn của chúng tôi: nhà cung cấp hosting của máy chủ và, nếu có, dịch vụ gửi email. Người chơi khác thấy dữ liệu được mô tả trong "Tài khoản và dữ liệu người chơi" và "Liên lạc trong trò chơi". Chúng tôi chỉ cung cấp dữ liệu cho cơ quan chức năng khi có nghĩa vụ pháp lý. Chúng tôi không bán dữ liệu cá nhân.</p>
+<p>Các liên kết tới dịch vụ bên ngoài (ví dụ Discord hoặc wiki) chỉ đưa bạn đến các dịch vụ đó. Dữ liệu chỉ được xử lý ở đó khi bạn mở liên kết, theo chính sách bảo mật của nhà cung cấp tương ứng.</p>
+
+<h2>Dữ liệu được giữ trong bao lâu</h2>
+<ul>
+<li>Bạn có thể xóa tài khoản trong phần cài đặt tài khoản. Tài khoản sẽ bị gỡ sau thời gian chờ {deletion_days} ngày, trong thời gian đó bạn có thể hủy việc xóa.</li>
+<!--inactive--><li>Người chơi không hoạt động trong {inactive_days} ngày sẽ bị xóa tự động. Nếu trò chơi gửi email cảnh báo, bạn sẽ nhận được một email trước khi xóa.</li>
+<!--/inactive--><li>Tài khoản không có người chơi nào sẽ bị xóa sau 30 ngày không hoạt động.</li>
+<li>Tệp nhật ký máy chủ: không quá 7 ngày, xem "Truy cập trang web".</li>
+<li>Dữ liệu chúng tôi phải giữ vì lý do pháp lý, hoặc cần để xử lý các yêu cầu pháp lý, chỉ được giữ trong thời gian cần thiết.</li>
+<li>Bản sao lưu cơ sở dữ liệu chứa dữ liệu tại thời điểm sao lưu. Chúng được giữ trong thời gian có hạn và được thay thế theo vòng luân phiên.</li>
+</ul>
+
+<h2>Lựa chọn của bạn</h2>
+<p>Bạn có thể thay đổi dữ liệu tài khoản trong phần cài đặt tài khoản và xóa tài khoản ở đó bất cứ lúc nào. Nếu bạn muốn biết chúng tôi đang lưu những dữ liệu nào về bạn, muốn sửa hoặc xóa chúng, hoặc có câu hỏi khác về dữ liệu của bạn, hãy liên hệ với chúng tôi qua thông tin tại <a href="{contacts_url}">trang liên hệ</a><!--mail--> hoặc qua email tại {contact_mail}<!--/mail-->. Tùy nơi bạn sinh sống, bạn có thể có thêm quyền theo luật bảo vệ dữ liệu địa phương và có thể liên hệ cơ quan bảo vệ dữ liệu tại địa phương.</p>
+
+<h2>Bảo mật</h2>
+<p>Mọi kết nối tới trang web này đều được mã hóa (TLS), mật khẩu chỉ được lưu dưới dạng băm, và quyền truy cập dữ liệu cá nhân chỉ giới hạn trong các thành viên đội ngũ trò chơi cần đến nó. Chúng tôi không đưa ra quyết định về bạn chỉ dựa trên xử lý tự động.</p>
+
+<h2>Thay đổi</h2>
+<p>Chúng tôi cập nhật chính sách bảo mật này khi trang web hoặc yêu cầu pháp lý thay đổi. Phiên bản được công bố trên trang này có hiệu lực.</p>

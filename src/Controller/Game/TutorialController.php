@@ -14,12 +14,10 @@ use App\Game\Tutorials\TutorialUtil;
 /**
  * Tutorial actions (skip, claim, fulfil); every mode redirects back to the overview.
  */
-#[\App\Routing\GamePage('game.php', 'tutorial')]
-#[\App\Routing\GamePage('game.php', 'tutorial', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'tutorial')]
+#[\App\Controller\RequireModule('MODULE_TUTORIAL')]
 class TutorialController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_TUTORIAL';
-
     public function initialize(): void
     {
         parent::initialize();

@@ -10,8 +10,7 @@ use App\Runtime\ProjectPaths;
  * Empties the game error log (var/log/game.log) and returns to the maintenance page. POST only (CsrfPolicy); needs the
  * clear-cache right. The file is truncated, not deleted, so its owner and permissions stay.
  */
-#[\App\Routing\GamePage('admin.php', 'clearLog')]
-#[\App\Routing\GamePage('admin.php', 'clearLog', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'clearLog')]
 class ClearLogController extends AbstractAdminController
 {
     public const LOG_FILE = 'var/log/game.log';

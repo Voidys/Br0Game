@@ -32,12 +32,10 @@ use App\Game\Model\Planet;
 use App\Game\Model\User;
 
 /** Empire overview: resources, buildings, research and fleet of all planets (or moons) plus score charts. */
-#[\App\Routing\GamePage('game.php', 'empire')]
-#[\App\Routing\GamePage('game.php', 'empire', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'empire')]
+#[\App\Controller\RequireModule('MODULE_IMPERIUM')]
 class EmpireController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_IMPERIUM';
-
     public function initialize(): void
     {
         parent::initialize();

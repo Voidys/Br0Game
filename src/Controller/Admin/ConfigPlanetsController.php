@@ -24,8 +24,7 @@ use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Per-position planet defaults: temperature, fields and production bonuses. */
-#[\App\Routing\GamePage('admin.php', 'configPlanets')]
-#[\App\Routing\GamePage('admin.php', 'configPlanets', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'configPlanets')]
 class ConfigPlanetsController extends AbstractAdminController
 {
     /**

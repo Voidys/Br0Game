@@ -15,12 +15,10 @@ use App\Game\Core\Universe;
 /**
  * Popup with the latest spy reports of a coordinate (opened from the galaxy view).
  */
-#[\App\Routing\GamePage('game.php', 'spyReportPopup')]
-#[\App\Routing\GamePage('game.php', 'spyReportPopup', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'spyReportPopup')]
+#[\App\Controller\RequireModule('MODULE_MESSAGES')]
 class SpyReportPopupController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_MESSAGES';
-
     public function initialize(): void {}
 
     /**

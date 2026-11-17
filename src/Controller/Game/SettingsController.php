@@ -38,12 +38,9 @@ use App\Game\Core\Universe;
 /**
  * Player settings: account data, display, fleet and notification options, vacation mode and account deletion.
  */
-#[\App\Routing\GamePage('game.php', 'settings')]
-#[\App\Routing\GamePage('game.php', 'settings', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'settings')]
 class SettingsController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

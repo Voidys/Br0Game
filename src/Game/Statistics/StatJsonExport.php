@@ -23,10 +23,10 @@ class StatJsonExport
 
     /**
      * Writes the public statistics JSON files for every universe that has the stats-json module available and is open
-     * for players: `stats/stats_<name>_<date>_<hour>.json` and `stats_<name>.json` in the web root, with the newest
+     * for players: `stats/stats_<name>_<date>_<hour>.json`, with the newest
      * history snapshot older than `statsjson_delay` (rank, scores and battle stats per player).
      *
-     * Side effect: writes the two files per universe.
+     * Side effect: writes one file per universe.
      */
     public function export(): void
     {
@@ -38,10 +38,6 @@ class StatJsonExport
                 $name = $config->uni_name;
                 $name = str_replace(' ', '_', $name);
                 $fh = fopen($this->state->runtime->rootPath . 'stats/stats_' . $name . '_' . date('Y-m-d_H') . '.json', 'w+');
-                fwrite($fh, json_encode($scores, JSON_PRETTY_PRINT));
-                fclose($fh);
-
-                $fh = fopen($this->state->runtime->rootPath . 'stats_' . $name . '.json', 'w+');
                 fwrite($fh, json_encode($scores, JSON_PRETTY_PRINT));
                 fclose($fh);
             }

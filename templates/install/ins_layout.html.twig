@@ -21,9 +21,6 @@
   {% block script %}{% endblock %}
 </head>
 <body class="site site--install">
-{# the shared icon() helper points at ./styles/, the installer lives one level down #}
-{# raw: the body is already-rendered (escaped) layout markup, only the asset paths are rewritten #}
-{% apply replace({'href="./styles/': 'href="../styles/'})|raw %}
   <header class="site-header">
     <div class="site-wrap site-header__inner">
       <span class="site-brand">{{ icon('rocket') }}<span>Br0Game · {{ LNG.title_install }}</span></span>
@@ -76,6 +73,5 @@
   <footer class="site-footer">
     <div class="site-wrap site-footer__inner"><span>© Project Br0Game</span><span>{{ LNG.ins_licence_note }}</span></div>
   </footer>
-{% endapply %}
 </body>
 </html>

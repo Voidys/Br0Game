@@ -1,88 +1,89 @@
-<p>This privacy policy explains which personal data {game_name} processes, why, on which legal basis and for how long, and which rights you have under the General Data Protection Regulation (GDPR). Terms such as "personal data" and "processing" are used as defined in Art. 4 GDPR.</p>
+<p>Ta polityka prywatności wyjaśnia, jakie dane osobowe przetwarza {game_name}, dlaczego, na jakiej podstawie prawnej i jak długo, a także jakie prawa przysługują Ci na mocy Ogólnego rozporządzenia o ochronie danych (RODO, GDPR). Pojęcia takie jak „dane osobowe” i „przetwarzanie” są używane zgodnie z art. 4 RODO.</p>
 
-<h2>Controller</h2>
-<p>The controller within the meaning of Art. 4(7) GDPR is the operator of this website. The operator's name and postal address are listed on the <a href="{contacts_url}">contact page</a>.<!--mail--> You can reach us by email at {contact_mail}.<!--/mail--></p>
+<h2>Administrator</h2>
+<p>Administratorem w rozumieniu art. 4 pkt 7 RODO jest operator tej strony. Nazwa operatora i adres pocztowy są podane na <a href="{contacts_url}">stronie kontaktowej</a>.<!--mail--> Możesz skontaktować się z nami e-mailem pod adresem {contact_mail}.<!--/mail--></p>
 
-<h2>Visiting the website</h2>
-<p>Each time you open a page, the web server automatically records:</p>
+<h2>Odwiedzanie strony</h2>
+<p>Za każdym razem, gdy otwierasz stronę, serwer WWW automatycznie zapisuje:</p>
 <ul>
-<li>your IP address,</li>
-<li>the date and time of the request,</li>
-<li>the requested address and the referring page,</li>
-<li>the browser and operating system (user agent),</li>
-<li>the status code and the amount of data transferred.</li>
+<li>Twój adres IP,</li>
+<li>datę i godzinę żądania,</li>
+<li>żądany adres i stronę odsyłającą,</li>
+<li>przeglądarkę i system operacyjny (user agent),</li>
+<li>kod statusu i ilość przesłanych danych.</li>
 </ul>
-<p>We need this data to deliver the website and to keep it stable and secure, for example to detect and fend off attacks. The legal basis is Art. 6(1)(f) GDPR (our legitimate interest in a secure and working service). Server log files are deleted after 7 days at the latest, unless they are needed as evidence of a specific security incident. In that case they are kept until the incident has been resolved.</p>
+<p>Potrzebujemy tych danych, aby dostarczać stronę i utrzymywać ją w stabilnym i bezpiecznym stanie, na przykład aby wykrywać ataki i się przed nimi bronić. Podstawą prawną jest art. 6 ust. 1 lit. f RODO (nasz prawnie uzasadniony interes w bezpiecznej i sprawnie działającej usłudze). Pliki dziennika serwera są usuwane najpóźniej po 7 dniach, chyba że są potrzebne jako dowód w konkretnym incydencie bezpieczeństwa. W takim przypadku są przechowywane do czasu rozwiązania incydentu.</p>
 
-<h2>Account and player data</h2>
-<p>To play, you need an account. When you register and play, we process:</p>
+<h2>Konto i dane gracza</h2>
+<p>Aby grać, potrzebujesz konta. Podczas rejestracji i gry przetwarzamy:</p>
 <ul>
-<li>account name, email address and password (stored only as a salted hash, never in plain text),</li>
-<li>language, time zone and display settings,</li>
-<li>registration time, IP address at registration, time and IP address of the last login, and failed login attempts,</li>
-<li>one player per universe: player name and game data such as planets, buildings, research, fleets, resources, points, achievements, combat and espionage reports.</li>
+<li>nazwę konta, adres e-mail i hasło (przechowywane wyłącznie jako solony hash, nigdy w postaci jawnej),</li>
+<li>język, strefę czasową i ustawienia wyświetlania,</li>
+<li>czas rejestracji, adres IP z chwili rejestracji, czas i adres IP ostatniego logowania oraz nieudane próby logowania,</li>
+<li>jednego gracza na wszechświat: nazwę gracza oraz dane z gry, takie jak planety, budynki, badania, floty, surowce, punkty, osiągnięcia, raporty z walk i szpiegostwa.</li>
 </ul>
-<p>The legal basis is Art. 6(1)(b) GDPR: this data is needed to provide the game you signed up for. Without an email address and a password, no account can be created.</p>
-<p>The nature of the game makes some data visible to other players: player name, coordinates of your planets, alliance, points and rankings (statistics, hall of fame), and the content you choose to publish (alliance texts<!--board-->, board posts<!--/board-->).</p>
+<p>Podstawą prawną jest art. 6 ust. 1 lit. b RODO: te dane są potrzebne, aby zapewnić grę, na którą się zapisałeś. Bez adresu e-mail i hasła nie można założyć konta.</p>
+<p>Charakter gry sprawia, że niektóre dane są widoczne dla innych graczy: nazwa gracza, współrzędne Twoich planet, sojusz, punkty i rankingi (statystyki, galeria sław) oraz treści, które sam zdecydujesz się opublikować (teksty sojuszu<!--board-->, wpisy na forum<!--/board-->).</p>
 
-<h2>Communication within the game</h2>
-<p>When you use the communication features, we store their content together with the sender, the recipients and the time: private and alliance messages, buddy requests, notes, support tickets<!--board-->, and posts, comments and votes on the board<!--/board-->. This is done so that the features work (Art. 6(1)(b) GDPR). Moderators can read support tickets and, if a breach of the rules is suspected, the reported content.<!--messages--> Messages are deleted automatically after {message_days} days.<!--/messages--></p>
+<h2>Komunikacja w grze</h2>
+<p>Gdy korzystasz z funkcji komunikacji, zapisujemy ich treść wraz z nadawcą, odbiorcami i czasem: wiadomości prywatne i sojuszowe, prośby o dodanie do znajomych, notatki, zgłoszenia do supportu<!--board-->, a także wpisy, komentarze i głosy na forum<!--/board-->. Robimy to, aby funkcje działały (art. 6 ust. 1 lit. b RODO). Moderatorzy mogą czytać zgłoszenia do supportu oraz, w przypadku podejrzenia naruszenia zasad, zgłoszone treści.<!--messages--> Wiadomości są automatycznie usuwane po {message_days} dniach.<!--/messages--></p>
 
-<h2>Fair play and protection against abuse</h2>
-<p>To keep the game fair and to enforce the rules (for example the ban on multi-accounting and account pushing), we process:</p>
+<h2>Fair play i ochrona przed nadużyciami</h2>
+<p>Aby gra była uczciwa i aby egzekwować zasady (na przykład zakaz multikont i wypychania kont), przetwarzamy:</p>
 <ul>
-<li>IP addresses of active sessions and logins, compared between accounts to detect several accounts played from the same connection,</li>
-<li>session records (session ID, IP address, last activity), which are deleted after the session expires,</li>
-<li>notes by the game team on individual accounts, and records of bans with their reason and duration,</li>
-<li>if there is a concrete suspicion of a breach of the rules for a single account, a record of the pages requested by that account with the time of each request. This record is deleted once the investigation is complete.</li>
+<li>adresy IP aktywnych sesji i logowań, porównywane między kontami w celu wykrycia kilku kont granych z tego samego połączenia,</li>
+<li>wpisy sesji (identyfikator sesji, adres IP, ostatnia aktywność), usuwane po wygaśnięciu sesji,</li>
+<li>notatki zespołu gry o poszczególnych kontach oraz zapisy banów z ich powodem i czasem trwania,</li>
+<li>jeśli istnieje konkretne podejrzenie naruszenia zasad na jednym koncie, zapis stron żądanych przez to konto wraz z czasem każdego żądania. Ten zapis jest usuwany po zakończeniu postępowania.</li>
 </ul>
-<p>When you register, we check the domain of your email address against a public list of disposable email providers. The list is downloaded to our server, and your address is not sent anywhere.</p>
-<p>The legal basis is Art. 6(1)(f) GDPR (our legitimate interest, and that of all players, in a fair game and in preventing abuse). Measures such as bans are decided by members of the game team, not by an automated process.</p>
+<p>Podczas rejestracji sprawdzamy domenę Twojego adresu e-mail z publiczną listą jednorazowych dostawców poczty. Lista jest pobierana na nasz serwer, a Twój adres nigdzie nie jest wysyłany.</p>
+<p>Podstawą prawną jest art. 6 ust. 1 lit. f RODO (nasz prawnie uzasadniony interes, a także interes wszystkich graczy, w uczciwej grze i zapobieganiu nadużyciom). Działania, takie jak bany, podejmują członkowie zespołu gry, a nie proces automatyczny.</p>
 
-<h2>Emails</h2>
-<p>We send emails to the address you registered with when they are needed to run your account: activation of your account, resetting your password, confirming a change of your email address, warnings before an inactive account is deleted, and important notices about the game (for example the start of a new universe). The legal basis is Art. 6(1)(b) GDPR. We do not send newsletters or advertising.</p>
+<h2>E-maile</h2>
+<p>Wysyłamy e-maile na adres, który podałeś przy rejestracji, gdy są one potrzebne do prowadzenia konta: aktywacja konta, reset hasła, potwierdzenie zmiany adresu e-mail, ostrzeżenia przed usunięciem nieaktywnego konta oraz ważne informacje o grze (na przykład start nowego wszechświata). Podstawą prawną jest art. 6 ust. 1 lit. b RODO. Nie wysyłamy newsletterów ani reklam.</p>
 
-<!--recaptcha--><h2>Bot protection (Google reCAPTCHA)</h2>
-<p>Some forms (for example registration) are protected against automated abuse with Google reCAPTCHA, a service of Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. reCAPTCHA is loaded only when you submit a protected form. It then transmits your IP address, browser information and interaction data to Google, which assesses whether the request comes from a human. Google may also process this data in the USA. Google LLC is certified under the EU-U.S. Data Privacy Framework, on the basis of the European Commission's adequacy decision (Art. 45 GDPR). The legal basis is Art. 6(1)(f) GDPR (protection of our forms against spam and automated account creation). Further information is available in Google's privacy policy at https://policies.google.com/privacy.</p>
+<h2>Ochrona przed botami</h2>
+<p>Rejestracja i formularz przypomnienia hasła są chronione przed zautomatyzowanymi nadużyciami przez niewielkie obliczenie, które Twoja przeglądarka wykonuje sama, gdy otworzysz formularz. Sprawdzenie odbywa się na naszym własnym serwerze; nie kontaktujemy się z żadną usługą zewnętrzną i nie używamy do tego plików cookie ani identyfikatorów śledzących. Nasz serwer przetwarza dane techniczne żądania (w szczególności Twój adres IP), tak jak przy każdym innym żądaniu. Podstawą prawną jest art. 6 ust. 1 lit. f RODO (ochrona naszych formularzy przed spamem i automatycznym zakładaniem kont).</p>
 
-<!--/recaptcha--><h2>Cookies and local storage</h2>
-<p>We only use cookies and browser storage that are technically necessary to provide the service you request (§ 25(2) no. 2 TDDDG, Art. 6(1)(b) and (f) GDPR):</p>
+<h2>Pliki cookie i pamięć lokalna</h2>
+<p>Używamy wyłącznie plików cookie i pamięci przeglądarki, które są technicznie niezbędne do świadczenia usługi, o którą prosisz (§ 25 ust. 2 pkt 2 TDDDG, art. 6 ust. 1 lit. b i f RODO):</p>
 <ul>
-<li><strong>2Moons</strong>: session cookie that keeps you logged in. It expires 12 hours after your last activity, or when you log out.</li>
-<li><strong>lang</strong>: remembers the language you selected.</li>
-<li><strong>account</strong>: remembers that this browser has been used to log in, so the start page can show the login first. It contains no personal data.</li>
-<li>Local storage: display preferences of the game interface (for example the last opened message category). They stay in your browser and are not sent to us.</li>
+<li><strong>2Moons</strong>: plik cookie sesji, który utrzymuje Cię zalogowanym. Wygasa 12 godzin po Twojej ostatniej aktywności lub po wylogowaniu.</li>
+<li><strong>br0_device</strong>: losowy identyfikator urządzenia (2 lata). Dla konta przechowywany jest tylko jego hash, przez 90 dni po ostatniej wizycie, w celu wykrycia kilku kont granych z tej samej przeglądarki.</li>
+<li><strong>lang</strong>: zapamiętuje wybrany przez Ciebie język.</li>
+<li><strong>account</strong>: zapamiętuje, że z tej przeglądarki logowano się już wcześniej, aby strona startowa mogła najpierw pokazać logowanie. Nie zawiera danych osobowych.</li>
+<li>Pamięć lokalna: preferencje wyświetlania interfejsu gry (na przykład ostatnio otwarta kategoria wiadomości). Pozostają w Twojej przeglądarce i nie są do nas wysyłane.</li>
 </ul>
-<p>We do not use tracking, analytics or advertising cookies, and we do not create user profiles for marketing.</p>
+<p>Nie używamy plików cookie śledzących, analitycznych ani reklamowych i nie tworzymy profili użytkowników do celów marketingowych.</p>
 
-<h2>Recipients</h2>
-<p>Your data is processed by members of the game team (administrators and moderators) as far as their tasks require it. Technical service providers act on our behalf and only on our instructions (Art. 28 GDPR): the hosting provider of the servers and, where applicable, the email delivery service. Other players see the data described under "Account and player data" and "Communication within the game". We disclose data to authorities only if we are legally obliged to. We do not sell personal data.<!--recaptcha--> Apart from Google reCAPTCHA (see "Bot protection"), no data is transferred to countries outside the EU/EEA.<!--/recaptcha--></p>
-<p>Links to external services (for example Discord or the wiki) only take you to those services. Data is processed there only once you open the link, under the privacy policy of the respective provider.</p>
+<h2>Odbiorcy danych</h2>
+<p>Twoje dane są przetwarzane przez członków zespołu gry (administratorów i moderatorów) w zakresie, w jakim wymagają tego ich zadania. Dostawcy usług technicznych działają w naszym imieniu i wyłącznie zgodnie z naszymi poleceniami (art. 28 RODO): dostawca hostingu serwerów oraz, jeśli dotyczy, usługa dostarczania poczty e-mail. Inni gracze widzą dane opisane w sekcjach „Konto i dane gracza” oraz „Komunikacja w grze”. Dane ujawniamy organom tylko wtedy, gdy jesteśmy do tego prawnie zobowiązani. Nie sprzedajemy danych osobowych.</p>
+<p>Linki do usług zewnętrznych (na przykład Discord lub wiki) prowadzą wyłącznie do tych usług. Dane są tam przetwarzane dopiero wtedy, gdy otworzysz link, zgodnie z polityką prywatności danego dostawcy.</p>
 
-<h2>Storage period</h2>
+<h2>Okres przechowywania</h2>
 <ul>
-<li>You can delete your account in the account settings. It is removed after a waiting period of {deletion_days} days, during which you can cancel the deletion.</li>
-<!--inactive--><li>Players who have not been active for {inactive_days} days are deleted automatically. Where the game sends warning emails, you receive one before the deletion.</li>
-<!--/inactive--><li>Accounts without any player are deleted after 30 days without activity.</li>
-<li>Server log files: no longer than 7 days, see "Visiting the website".</li>
-<li>Data we must keep for legal reasons, or need to establish, exercise or defend legal claims, is restricted instead of deleted and kept only as long as necessary.</li>
-<li>Database backups contain the data at the time of the backup. They are kept for a limited time and replaced in rotation.</li>
+<li>Konto możesz usunąć w ustawieniach konta. Zostanie ono usunięte po {deletion_days}-dniowym okresie oczekiwania, w czasie którego możesz anulować usunięcie.</li>
+<!--inactive--><li>Gracze, którzy nie byli aktywni przez {inactive_days} dni, są usuwani automatycznie. Jeśli gra wysyła e-maile ostrzegawcze, otrzymasz jeden przed usunięciem.</li>
+<!--/inactive--><li>Konta bez żadnego gracza są usuwane po 30 dniach bez aktywności.</li>
+<li>Pliki dziennika serwera: nie dłużej niż 7 dni, zob. „Odwiedzanie strony”.</li>
+<li>Dane, które musimy zachować z przyczyn prawnych lub potrzebujemy do ustalenia, dochodzenia lub obrony roszczeń, są ograniczane zamiast usuwania i przechowywane tylko tak długo, jak jest to konieczne.</li>
+<li>Kopie zapasowe bazy danych zawierają dane z chwili wykonania kopii. Są przechowywane przez ograniczony czas i cyklicznie zastępowane.</li>
 </ul>
 
-<h2>Your rights</h2>
-<p>You have the following rights regarding your personal data:</p>
+<h2>Twoje prawa</h2>
+<p>Przysługują Ci następujące prawa dotyczące Twoich danych osobowych:</p>
 <ul>
-<li>access to your data and a copy of it (Art. 15 GDPR),</li>
-<li>rectification of incorrect data (Art. 16 GDPR),</li>
-<li>erasure (Art. 17 GDPR) and restriction of processing (Art. 18 GDPR),</li>
-<li>data portability in a structured, commonly used, machine-readable format (Art. 20 GDPR),</li>
-<li>withdrawal of a consent you have given, with effect for the future (Art. 7(3) GDPR).</li>
+<li>dostęp do Twoich danych i ich kopia (art. 15 RODO),</li>
+<li>sprostowanie nieprawidłowych danych (art. 16 RODO),</li>
+<li>usunięcie (art. 17 RODO) i ograniczenie przetwarzania (art. 18 RODO),</li>
+<li>przenoszenie danych w ustrukturyzowanym, powszechnie używanym formacie nadającym się do odczytu maszynowego (art. 20 RODO),</li>
+<li>wycofanie udzielonej zgody, ze skutkiem na przyszłość (art. 7 ust. 3 RODO).</li>
 </ul>
-<p><strong>Right to object (Art. 21 GDPR):</strong> where we process your data on the basis of Art. 6(1)(f) GDPR, you have the right to object at any time, on grounds relating to your particular situation. We will then stop the processing unless we can demonstrate compelling legitimate grounds that override your interests, rights and freedoms, or the processing serves the establishment, exercise or defence of legal claims.</p>
-<p>To exercise your rights, contact us using the details on the <a href="{contacts_url}">contact page</a><!--mail--> or by email at {contact_mail}<!--/mail-->. You also have the right to lodge a complaint with a data protection supervisory authority, in particular in the EU member state of your residence, your place of work or the place of the alleged infringement (Art. 77 GDPR).</p>
+<p><strong>Prawo sprzeciwu (art. 21 RODO):</strong> jeśli przetwarzamy Twoje dane na podstawie art. 6 ust. 1 lit. f RODO, masz prawo w każdym czasie wnieść sprzeciw z przyczyn związanych z Twoją szczególną sytuacją. Wtedy przestajemy przetwarzać dane, chyba że wykażemy istnienie ważnych prawnie uzasadnionych podstaw, nadrzędnych wobec Twoich interesów, praw i wolności, lub przetwarzanie służy ustaleniu, dochodzeniu lub obronie roszczeń.</p>
+<p>Aby skorzystać z przysługujących Ci praw, skontaktuj się z nami, korzystając z danych na <a href="{contacts_url}">stronie kontaktowej</a><!--mail--> lub e-mailem pod adresem {contact_mail}<!--/mail-->. Masz też prawo wnieść skargę do organu nadzorczego ds. ochrony danych, w szczególności w państwie członkowskim UE, w którym mieszkasz, pracujesz lub doszło do naruszenia (art. 77 RODO).</p>
 
-<h2>Automated decisions and security</h2>
-<p>We do not make decisions based solely on automated processing, including profiling, that produce legal effects for you or similarly significantly affect you (Art. 22 GDPR). All connections to this website are encrypted (TLS), passwords are stored only as hashes, and access to personal data is limited to the members of the game team who need it.</p>
+<h2>Decyzje zautomatyzowane i bezpieczeństwo</h2>
+<p>Nie podejmujemy decyzji opartych wyłącznie na zautomatyzowanym przetwarzaniu, w tym profilowaniu, które wywoływałyby wobec Ciebie skutki prawne lub podobnie istotnie na Ciebie wpływały (art. 22 RODO). Wszystkie połączenia z tą stroną są szyfrowane (TLS), hasła są przechowywane wyłącznie jako hashe, a dostęp do danych osobowych ma tylko ta część zespołu gry, która go potrzebuje.</p>
 
-<h2>Changes</h2>
-<p>We update this privacy policy when the website or the legal requirements change. The version published on this page applies.</p>
+<h2>Zmiany</h2>
+<p>Aktualizujemy tę politykę prywatności, gdy zmienia się strona lub wymogi prawne. Obowiązuje wersja opublikowana na tej stronie.</p>

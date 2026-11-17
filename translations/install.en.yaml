@@ -30,45 +30,18 @@ menu_install: Installation
 menu_upgrade: Upgrade
 reg_dir: Is the folder &raquo;%s&laquo; writable?
 reg_file: Is the file &raquo;%s&laquo; writable?
-reg_found: Found
-reg_gd_desc: >-
-  <strong>Optional</strong> — The graphics library &raquo;gdlib&laquo;
-  generates images dynamically. Without it, some features of the software
-  will not work.
-reg_gd_need: Installed version of the graphics library &raquo;gdlib&laquo;
-reg_global_desc: >-
-  Br0Game will still work if this setting is enabled. For security reasons,
-  however, it is recommended that you disable register_globals in PHP if
-  possible.
-reg_global_need: register_globals disabled?
-reg_iniset_need: PHP function &raquo;ini_set&laquo; available?
-reg_json_need: Extension &raquo;JSON&laquo; available?
-reg_no: 'No'
 reg_not_found: Not found
 reg_not_writable: Not writable
-reg_pdo_active: PDO extension support
-reg_pdo_desc: <strong>Required</strong> — PHP must have PDO support.
 reg_writable: Writable
-reg_yes: 'Yes'
 req_desc: >-
   Before installation can continue, Br0Game will check your server
   configuration and files to make sure it can be installed and used. Please
   read the results carefully and do not continue until all required tests
   have passed.
-req_head: System requirements
-req_php_need: Installed version of &raquo;PHP&laquo;
-req_php_need_desc: >-
-  <strong>Required</strong> — PHP is the server-side language Br0Game is
-  written in. Version 5.2.5 or higher is required for everything to work
-  correctly.
 sql_close_reason: |-
   The universe is being set up.
   Please wait.
 sql_welcome: Welcome to Br0Game v
-step1_desc: >-
-  Your server can run Br0Game. Next, enter your database connection details.
-  If you do not know them, contact your hosting provider or the Br0Game
-  support forums. Check the details carefully before continuing.
 step1_head: Configure database access
 step1_mysql_dbname: Database name
 step1_mysql_dbpass: Database password
@@ -79,40 +52,26 @@ step1_mysql_migrationpass_info: >-
   required for a new game version.
 step1_mysql_port: Database port
 step1_mysql_prefix: 'Table prefix:'
-step1_mysql_server: Database host or DSN
 step2_conf_op_fail: config.php is not writable!
 step2_config_exists: config.php already exists!
 step2_db_con_fail: Could not connect to the database. See the error details below.
 step2_db_done: Database connection successful!
 step2_db_no_dbname: No database name specified.
-step2_db_no_migrationpw: You have not specified the database migration password.
 step2_db_too_long: Table prefix cannot be longer than 36 characters.
 step2_prefix_invalid: >-
   The table prefix may only contain alphanumeric characters and underscores.
 step3_db_error: 'Failed to create the database tables:'
-step3_desc: >-
-  The database tables have been created and filled with default values.
-  Continue to the next step to finish installing Br0Game.
 step3_head: Create database tables
 step4_admin_mail: 'Contact e-mail:'
 step4_admin_name: 'Administrator username:'
 step4_admin_name_desc: Enter a username of 3 to 20 characters.
 step4_admin_pass: 'Administrator password:'
-step4_admin_pass_desc: Enter a password of 6 to 30 characters.
 step4_desc: >-
   The installation wizard will now create an administrator account. Please
   enter a username, e-mail address and password.
 step4_head: Create administrator
 step6_desc: 'You have successfully installed Br0Game.'
 step6_head: Congratulations!
-step6_info_additional: >-
-  Clicking the button below will take you to a form in the administration
-  area. Take a moment afterwards to familiarise yourself with the available
-  options.<br/><br/><strong>Please delete or rename
-  &raquo;var/ENABLE_INSTALL_TOOL&laquo; before you use the game. As long
-  as that file exists, your installation is at risk.</strong>
-step6_info_head: 'Get started with Br0Game!'
-step8_need_fields: You must fill in all fields.
 title_install: Installer
 upgrade_available: >-
   Database updates are available. The database is at revision %s and can be
@@ -139,8 +98,6 @@ ins_step_admin: 'Administrator'
 ins_step_done: 'Done'
 ins_recheck: 'Check again'
 ins_db_connection: 'Connection'
-ins_db_database: 'Database'
-ins_db_security: 'Security'
 ins_db_createdb: 'Create the database if it does not exist yet'
 ins_db_connect: 'Connect & create'
 ins_db_no_host: 'No database host specified.'

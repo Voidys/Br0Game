@@ -11,7 +11,6 @@ use App\Controller\Game\NotesController;
 use App\Controller\Game\PlayerCardController;
 use App\Controller\Game\ResearchController;
 use App\Controller\Game\ResourcesController;
-use App\Controller\Game\SearchController;
 use App\Controller\Game\ShipyardController;
 use App\Game\Core\EndOfRequest;
 use App\Game\Core\Language;
@@ -266,22 +265,6 @@ final class EconomyReviewFixesTest extends GameTestCase
         $this->call(new PlayerCardController(), 'toggleBlock');
         $this->assertSame(1, $count());
         $this->assertSame(1, (int) $this->db->selectSingle('SELECT block_dm FROM %%USERS_BLOCKLIST%% WHERE blocking_user = :id;', [':id' => $user['id']], 'block_dm'), 'the flag is 0/1');
-    }
-
-    public function testSearchSuggestionsAcceptEachKnownModeOnce(): void
-    {
-        [$user, $planet] = $this->createPlayer();
-        $this->prepare($user, $planet, ['type' => str_repeat('playername|', 500) . 'bogus', 'term' => 'tester'], 'GET');
-        $controller = (new SearchController())->withGameServices($this->db, $this->configs, $this->state);
-        $before = $this->db->getQueryCounter();
-        ob_start();
-        try {
-            $controller->autocomplete();
-        } catch (EndOfRequest) {
-        } finally {
-            ob_end_clean();
-        }
-        $this->assertLessThan(15, $this->db->getQueryCounter() - $before, 'one search for the one valid mode');
     }
 
     // ---- 09 name race

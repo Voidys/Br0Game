@@ -8,7 +8,6 @@ Play: Oyna
 Playername: Oyuncu adı
 Register: Kayıt ol
 Settings: Ayarlar
-Sitting_cancel: Oturmayı iptal et
 Sitting_end: Oturma sonu
 Sitting_request: Oturma talebi (henüz yok)
 uni_status_regclosed_gameclosed: Kapalı
@@ -20,63 +19,66 @@ Universe_start: Başlangıç
 Universe_status: 'Evren durumu: '
 Universes: Evrenler
 Your_universes: Evrenlerin
-board_create: "Yeni gönderi"
-board_edit_post: "Gönderiyi düzenle"
-board_sort: "Sırala"
-board_sort_hot: "Popüler"
-board_sort_new: "Yeni"
-board_sort_top: "En iyi"
-board_period_all: "Tüm zamanlar"
-board_period_week: "Bu hafta"
-board_csort_best: "En iyi"
-board_flair: "Etiket"
-board_flair_all: "Tümü"
-board_flair_general: "Genel"
-board_flair_guide: "Rehber"
-board_flair_question: "Soru"
-board_flair_suggestion: "Öneri"
-board_flair_bug: "Hata"
-board_flair_offtopic: "Konu dışı"
-board_upvote: "Olumlu oy"
-board_downvote: "Olumsuz oy"
-board_pinned: "Sabitlendi"
-board_locked: "Kilitli"
-board_by: "yazan"
-board_comments: "Yorumlar"
-board_empty: "Henüz gönderi yok. İlk gönderiyi sen yaz."
-board_no_comments: "Henüz yorum yok."
-board_title: "Başlık"
-board_body: "Metin"
-board_publish: "Yayınla"
-board_save: "Kaydet"
-board_cancel: "İptal"
-board_edit: "Düzenle"
-board_edited: "düzenlendi"
-board_delete: "Sil"
-board_deleted: "[silindi]"
-board_deleted_user: "[silindi]"
+board_create: Yeni gönderi
+board_edit_post: Gönderiyi düzenle
+board_sort: Sırala
+board_sort_hot: Popüler
+board_sort_new: Yeni
+board_sort_top: En iyi
+board_period_all: Tüm zamanlar
+board_period_week: Bu hafta
+board_csort_best: En iyi
+board_flair: Etiket
+board_flair_all: Tümü
+board_flair_general: Genel
+board_flair_guide: Rehber
+board_flair_question: Soru
+board_flair_suggestion: Öneri
+board_flair_bug: Hata
+board_flair_offtopic: Konu dışı
+board_upvote: Olumlu oy
+board_downvote: Olumsuz oy
+board_pinned: Sabitlendi
+board_locked: Kilitli
+board_by: yazan
+board_comments: Yorumlar
+board_empty: Henüz gönderi yok. İlk gönderiyi sen yaz.
+board_no_comments: Henüz yorum yok.
+board_title: Başlık
+board_body: Metin
+board_publish: Yayınla
+board_save: Kaydet
+board_cancel: İptal
+board_edit: Düzenle
+board_edited: düzenlendi
+board_delete: Sil
+board_deleted: '[silindi]'
+board_deleted_user: '[silindi]'
 board_confirm_delete: Bunu gerçekten silmek istiyor musun?
-board_reply: "Yanıtla"
-board_collapse: "Konuyu daralt"
-board_add_comment: "Yorum yaz"
-board_comment_send: "Yorum yap"
-board_mod_pin: "Sabitle"
-board_mod_unpin: "Sabitlemeyi kaldır"
-board_mod_lock: "Kilitle"
-board_mod_unlock: "Kilidi aç"
-board_not_found: "Bu gönderi veya yorum mevcut değil."
+board_reply: Yanıtla
+board_collapse: Konuyu daralt
+board_add_comment: Yorum yaz
+board_comment_send: Yorum yap
+board_mod_pin: Sabitle
+board_mod_unpin: Sabitlemeyi kaldır
+board_mod_lock: Kilitle
+board_mod_unlock: Kilidi aç
+board_not_found: Bu gönderi veya yorum mevcut değil.
 board_not_allowed: Bunu yapma iznin yok.
 board_err_csrf: İstek doğrulanamadı. Sayfayı yenileyip tekrar dene.
-board_err_title: "Lütfen bir başlık gir."
-board_err_title_long: "Başlık en fazla 200 karakter olabilir."
-board_err_body: "Lütfen bir metin gir (boş veya çok uzun olamaz)."
-board_err_locked: "Bu gönderi kilitli, yeni yorum yapılamaz."
-board_err_rate_post: "Bir sonraki gönderiden önce lütfen %d saniye daha bekle."
-board_err_rate_comment: "Bir sonraki yorumdan önce lütfen %d saniye daha bekle."
-board_ago_now: "az önce"
-board_ago_min: "%d dk önce"
-board_ago_hours: "%d sa önce"
-board_ago_days: "%d gün önce"
-board_guest_hint: "Gönderi yazmak, yorum yapmak ve oy vermek için giriş yap."
-board_guest_login: "Giriş yap"
-board_guest_register: "Kayıt ol"
+board_err_title: Lütfen bir başlık gir.
+board_err_title_long: Başlık en fazla 200 karakter olabilir.
+board_err_body: Lütfen bir metin gir (boş veya çok uzun olamaz).
+board_err_locked: Bu gönderi kilitli, yeni yorum yapılamaz.
+board_err_rate_post: Bir sonraki gönderiden önce lütfen %d saniye daha bekle.
+board_err_rate_comment: Bir sonraki yorumdan önce lütfen %d saniye daha bekle.
+board_ago_now: az önce
+board_ago_min: '%d dk önce'
+board_ago_hours: '%d sa önce'
+board_ago_days: '%d gün önce'
+board_guest_hint: Gönderi yazmak, yorum yapmak ve oy vermek için giriş yap.
+board_guest_login: Giriş yap
+board_guest_register: Kayıt ol
+rl_board_err_self_vote: Kendi gönderine veya yorumuna oy veremezsin.
+rl_board_err_vote_cap: Günlük oy limitine ulaşıldı. Yarın tekrar dene.
+rl_board_err_write_cap: Günlük gönderi ve yorum limitine ulaşıldı. Yarın tekrar dene.

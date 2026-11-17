@@ -1,11 +1,6 @@
-404_page: Du hast nicht die nötige Berechtigung dazu
 ac_account_data: Account-Daten
 ac_act_time: Letzten Aktivit&auml;t
 ac_ali_idid: 'ID:'
-ac_ali_logo_11: Allianzlogo
-ac_ali_text_11: Externe Seite
-ac_ali_text_22: Interne Seite
-ac_ali_text_33: Bewerbungstext
 ac_alliance: Allianz
 ac_ally_ranking: Statistik der Allianz
 ac_ally_web: Website der Allianz
@@ -25,29 +20,17 @@ ac_id_names_coords: ID, Name und Koordinaten
 ac_image: Allianzlogo
 ac_info_ally: 'Allianzinformation '
 ac_int_text: Internet Allianzseite
-ac_isnodestruyed: <font color=red>(Bisher wurden keine Monde zerstört)</font>
 ac_last_ip: IP bei letzter Aktivit&auml;t
 ac_leader: Führer
 ac_leyend: '[ Legende ]'
-ac_mail: E-Mail
-ac_minimize_maximize: Minimieren/Maximieren
 ac_moon: Mond
-ac_moons_no: <font color=red>(Kein Mond)</font>
-ac_more: (Mehr)
 ac_name: Name
 ac_name_ali: Name
-ac_no_alliance: <font color=red>(Keine Allianz)</font>
 ac_no_ally: Keine Allianz
-ac_no_character: Nur Ziffern akzeptiert!
 ac_no_img: Die Allianz hat kein Logo
-ac_no_moons: Der Spieler hat keinen Mond
-ac_no_rank_level: >-
-  Sie haben nicht die erforderliche Berechtigung um die Spielerinformationen
-  sehen zu dürfen!
 ac_no_text_ext: Die Allianz hat keine externe Seite erstellt
 ac_no_text_int: Die Allianz hat keine interne Seite erstellt
 ac_no_text_sol: Die Allainz hat keinen Bewerbungstext festgelegt
-ac_no_web: Die Allianz hat keine Website
 ac_note_k: >-
   <table><tr><th width=10%><font
   class="colorPositive">T+</font></th><th>Billiarde</th></tr><tr><th
@@ -60,7 +43,6 @@ ac_note_k: >-
   width=10%><font
   class="colorPositive">K</font></th><th>Tausend</th></tr></table>
 ac_on_vacation: 'Urlaubsmodus:'
-ac_perm_mail: permanente E-Mail
 ac_points_count: Score | Count
 ac_ranking: Statistik
 ac_recent_destroyed_planets: Kürzliche zerstörte Planeten
@@ -70,15 +52,12 @@ ac_register_time: Registiert seit
 ac_research: Forschung
 ac_see_ranking: Zeige Statistik
 ac_select_id_num: Manuelle Eingabe der ID (Optional)
-ac_select_one_id: Bitte w&auml;hle nur einen Spieler!
-ac_select_username: W&auml;hle Spieler
 ac_sol_text: Bewerbungstext
 ac_suspended_autor: Gesperrt für
 ac_suspended_longer: Bis
 ac_suspended_reason: Grund
 ac_suspended_time: Gesperrt
 ac_suspended_title: Sperre
-ac_swap_fail: 'Tausch fehlgeschlagen: %s'
 ac_swap_invalid: Ungültige Auswahl, bitte wählen Sie zwei verschiedene Benutzer!
 ac_swap_no_entry: Für einen oder beide Benutzer wurde kein Account gefunden.
 ac_swap_submit: Tauschen
@@ -89,20 +68,12 @@ ac_swap_user_b: Benutzer B
 ac_tag: Tag
 ac_temperature: Temp.
 ac_time_destruyed: Datum der Zerstörung
-ac_title: Account-Details
-ac_title_entry: 'Detailierte '
 ac_total_members: Mitgliederanzahl
 ac_total_points: 'Gesamt: '
-ac_urlnow: 'URL: '
-ac_user_id_required: Bitte w&auml;hle einen Spieler!
 ac_user_ranking: Statistik des Spielers
 ac_user_system: User-Agent
 ac_username_doesnt: Spieler existiert nicht!
 ac_view_image: Bild in neuem Fenster öffnen
-ac_view_image2: Bild öffnen
-ac_view_text_ext: Zeige externe Seite
-ac_view_text_int: Zeige interne Seite
-ac_view_text_sol: Zeige BEwerbungstext
 account_already_has_user: Der Account hat in diesem Universum bereits einen User
 accountID: Account ID
 ad_add_build_success: Hinzufügen der Gebäude war erfolgreich!
@@ -127,18 +98,14 @@ ad_ally_title: Allianz bearbeiten
 ad_ally_user_id: (UserID Eingeben)
 ad_authlevel_aa: '[Zeige Administratoren]'
 ad_authlevel_auth: Rank
-ad_authlevel_error: Du hast bereits den Rank!
-ad_authlevel_error_2: Wähle nur einen Spieler aus!
 ad_authlevel_error_3: Du kannst nicht den Rank vom Ersteller ändern!
 ad_authlevel_insert_id: 'Gebe ID ein (Optional):'
 ad_authlevel_jj: '[Zeige Spieler]'
 ad_authlevel_mm: '[Zeige Moderratoren]'
-ad_authlevel_name: Name
 ad_authlevel_oo: '[Zeige Operatoren]'
 ad_authlevel_succes: Rank wurde erfolgreich geändert
 ad_authlevel_title: 'Ränge'
 ad_authlevel_tt: '[Zeige Alle]'
-ad_back_to_menu: Zurück zum Hauptmenü
 ad_buildings: Gebäude
 ad_buildings_title: Gebäude bearbeiten
 ad_count: Anzahl
@@ -150,7 +117,6 @@ ad_delete_res_sucess: Löschen der Rohstoffe war erfolgreich!
 ad_delete_ships_sucess: Löschen der Schiffe war erfolgreich!
 ad_delete_tech_success: Löschen der Forschungen war erfolgreich!
 ad_editor_alliances: Allianz
-ad_editor_authlevels: verwalte Rechte
 ad_editor_buildings: Gebäude
 ad_editor_defenses: Verteidigung
 ad_editor_personal: Persönliche Daten
@@ -159,27 +125,19 @@ ad_editor_researchs: Forschung
 ad_editor_resources: Rohstoffe
 ad_editor_ships: Schiffe
 ad_editor_title: Account Editor
-ad_forgiven_id: Du musst eine ID eingeben!
 ad_levels: Anzahl der Stufe
-ad_main_title: Verwalten der Rohstoffe & Technologie
 ad_max: (max. %d)
 ad_number: ID
-ad_personal_email: E-mail
-ad_personal_email2: E-mail wiederholen
 ad_personal_name: Name
-ad_personal_pass: Passwort
 ad_personal_succes: Einstellungen gespeichert
 ad_personal_title: Persönliche Daten bearbeiten
 ad_personal_vacat: Urlaubsmodus
-ad_pla_change_id: Besitzer wechseln (UserID eingeben)
 ad_pla_change_p: Position des Planeten wechseln
 ad_pla_change_pp: 'Anhaken, um die Koordinaten zu ändern'
 ad_pla_delete_b: Alle Gebäude löschen
 ad_pla_delete_cb: Bauschleife löschen
 ad_pla_delete_d: Alle Verteidigungen löschen
 ad_pla_delete_hd: Schiffswerft und Verteidigungsanlagen Bauschleife löschen
-ad_pla_delete_planet: Planeten Löschen
-ad_pla_delete_planet_s: Planet erfolgreich gelöscht
 ad_pla_delete_s: Alle Schiffe löschen
 ad_pla_edit_diameter: Größe bearbeiten
 ad_pla_edit_fields: Felder bearbeiten
@@ -190,20 +148,15 @@ ad_pla_error_planets3: Die Koordinaten sind schon vergeben!
 ad_pla_error_planets4: Du kannst keinem Planeten einen Mond geben, der schon einen hat!
 ad_pla_error_planets5: Auf den Koordinaten muss ein Planet existieren
 ad_pla_error_planets6: Die Koordinaten liegen nicht innerhalb der Universumsgrenzen
-ad_pla_error_user: Der Spieler existiert nicht!
 ad_pla_succes: Veränderungen erfolgreich durchgeführt
 ad_pla_title: Planeten und/oder Monde bearbeiten
-ad_pla_title_a: 'Ein vorhandener Mond wechselt die Position mit'
 ad_pla_title_l: Wenn ein Mond vorhanden ist, wird seine Position auch geändert
-ad_planet_id: ID Planet oder Mond
 ad_research: Forschung
 ad_research_title: Forschungen bearbeiten
 ad_ships: Schiffe
 ad_ships_title: Schiffe bearbeiten
 adm_absenden: Absenden
-adm_bad_password: Falsches Passwort!
 adm_cp_index: Startseite
-adm_cp_logout: Verlassen
 adm_cp_title: Administrationszentrum
 adm_email: E-Mail
 adm_login: Login
@@ -216,14 +169,12 @@ an_btn_enable: Analyse aktivieren
 an_timestamp: Zeitstempel
 an_total_analyzed: Anzahl analysierter Spieler
 an_user_list: Spieler-Liste
-answer_new: 'Eine Antwort schreiben:'
 ap_aktivieren: Aktivieren
 ap_datum: Datum
 ap_del: Löschen
 ap_email: E-Mail
 ap_entfernen: ' entfernen möchtest?'
 ap_id: ID
-ap_insgesamt: 'Insgesamt '
 ap_ip: IP
 ap_nicht_aktivierte: ' nicht aktivierte User vorhanden.'
 ap_nicht_aktivierte_user: Nicht aktivierte User
@@ -235,8 +186,6 @@ bo_ban: Sperren
 bo_ban_change: Ändern
 bo_ban_player: Sperre aufheben/verändern
 bo_banned: ' Sperren erfolgreich'
-bo_bbb_go_act: '[ Neuladen ]'
-bo_bbb_go_back: '[ Zurück ]'
 bo_bbb_title_1: Suspension system
 bo_bbb_title_2: Wann soll die Sperre aufgehoben werden
 bo_bbb_title_3: Suspension System &bull; <font color=red>Dieser Spieler ist bereits gesperrt
@@ -254,10 +203,8 @@ bo_order_username: '[nach Namen sortieren]'
 bo_permanent: Permanente Sperre
 bo_reason: Sperrungsgrund
 bo_select_title: Zeige die Namen beginnend mit
-bo_suspended_panel: Suspension Panel
 bo_the_player: 'Spieler '
 bo_the_player2: 'Der Spieler '
-bo_time: Dauer der Sperre
 bo_total_accs: 'Accounts insgesamt: '
 bo_total_accs_banned: 'gesperrte Accounts: '
 bo_total_banneds: 'gesperrte Spieler: '
@@ -265,8 +212,6 @@ bo_total_users: 'Spieler insgesamt: '
 bo_unban: Entsperren
 bo_unban_player: Suspension List
 bo_unbanned: ' Sperre erfolgreich aufgehoben.'
-bo_user_doesnt_exist: Der Spieler existiert nicht!
-bo_user_select: Wähle...
 bo_username: Spielername
 bo_vacaations: Urlaubsmodus
 bo_vacation_mode: Urlaubsmodus
@@ -283,10 +228,6 @@ button_test: Testen
 button_test_negative: Test fehlgeschlagen
 button_test_positive: Test erfolgreich
 cc_cache_clear: Cache gelöscht
-close_t: Ticket wurde geschlossen.
-close_ticket: Ticket schließen
-count_res: Anzahl Rohstoffe
-cronjob_active: Nein
 cronjob_class: class
 cronjob_delete: Löschen
 cronjob_desc: >-
@@ -314,13 +255,7 @@ cronjob_error_month: Es wurden keine Monate definiert!
 cronjob_error_name: Es wurde kein Name eingeben!
 cronjob_headline: Cronjob ID
 cronjob_hours: Stunde
-cronjob_id: ID
-cronjob_inactive: Ja
-cronjob_inActive: Aktiv
-cronjob_is_lock: Ja
-cronjob_is_unlock: Nein
 cronjob_lastTime: Letzte Ausführung
-cronjob_lock: Locked
 cronjob_min: Minute
 cronjob_month: Monat
 cronjob_name: Name
@@ -339,14 +274,9 @@ cronName_pirates: Piratenbasen erstellen
 cronName_referral: Referral-Bonus
 cronName_statistic: Statistiken
 cronName_tracking: Statistik an globalen Server senden.
-cs_minutes: Minuten
-cs_resources: Rohstoffe
 cs_time_between_updates: Zeitinterval der Aktualisierungen der Statistiken
-cs_timeact_1: 'Letzte Update war am: '
-cs_users_per_block: Benutzer pro Block (min. 10)
 defenses_title: Verteidigung
 du_choose_tables: Tabellen auswählen
-du_header: Datenbank-Backup erstellen
 du_not_tables_selected: Du hast keine Tabellen zum sichern ausgewählt!
 du_select_all_tables: Alle Tabellen
 du_submit: Absenden
@@ -354,11 +284,7 @@ du_success: 'Backup erfolgreich erstellt! Datei: %s'
 email_reg: E-Mail Adresse
 email2_reg: E-Mail Adresse wiederholen
 empty_account_field: Keine Account ID angegeben
-er_data: Datum
 er_dlte_all: Alle löschen
-er_error_list: Fehlerliste
-er_errors: ' Fehler'
-er_type: Type
 et_encript: Generieren
 et_md5_encripter: PW Generator
 et_pass: Eingabe
@@ -378,7 +304,6 @@ exp_deck_save_success: Kartendeck-Konfiguration erfolgreich gespeichert!
 exp_deck_size_desc: Event-Größe (Small, Medium, Big, None)
 exp_deck_size_label: size
 exp_deck_statistics: Aktuelle Kartendeck-Statistiken
-exp_deck_title: Expeditions-Kartendeck Konfiguration
 exp_deck_total: Gesamt
 exp_deck_type_desc: Event-Typ (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
 exp_deck_type_label: type
@@ -390,7 +315,6 @@ exp_ships_findable: Findbar
 exp_ships_found_by: Finder-Schiffe
 exp_ships_select_finders: Finder auswählen
 exp_ships_ship: Schiff
-exp_ships_title: Findbare Schiffe konfigurieren
 ff_arrivaltime: Ankunft
 ff_del: Event deleted
 ff_endtime: Rückkehr
@@ -426,7 +350,6 @@ input_id_p_m: Planet oder Mond ID
 input_id_planet: 'Planeten-ID'
 input_id_user: Spieler ID
 input_text: 'Beschreibung:'
-invalid_mail_adress: Ungültige E-Mail Adresse
 lang_reg: Sprache
 log_admin: Administrator
 log_alliance: Bearbeitete Allianzen
@@ -436,7 +359,6 @@ log_element: Element
 log_id: ID
 log_info: Information
 log_log: Log
-log_menu: Logs anzeigen
 log_new: Nachher
 log_no_data: Keine Log-Daten vorhanden!
 log_old: Vorher
@@ -473,13 +395,11 @@ message_a: 'Status der Nachricht:'
 message_t: 'Status des Tickets:'
 mip_ip: IP
 mip_known: Genehmigt?
-mip_user: 'Spieler'
 ml_date: Datum
 ml_date_range: Zeitraum
 ml_deleted: Nachricht gelöscht
 ml_id: '#ID'
 ml_message_list: Nachrichtenliste
-ml_page: Seite
 ml_receiver: Empfänger
 ml_sender: Absender
 ml_subject: Betreff
@@ -501,13 +421,6 @@ mod_info: >-
   Module im Game<br><font color="red">Admins können weiterhin die Bereiche
   betreten!</font>
 mod_module: Module
-mod_power_config: Konfiguration am Game
-mod_power_edit: Spielerwerte ändern
-mod_power_loog: Aktionen loggen.
-mod_power_tools: Darf Tools nutzten(Glob. Nachrichten versenden)
-mod_power_view: Spielerwerte einsehen
-mod_range: Rank
-mod_title: Admin powers
 modul_0: Allianz
 modul_1: Mission - Angreifen
 modul_2: Bauen - Gebäude
@@ -560,22 +473,11 @@ modul_53: Tutorial
 modul_54: Tutorial-Belohnungen
 modul_55: Ehrenpunkte
 modul_56: Piratenbasen
-mr_mail_title: Deine Reise im %s beginnt bald!
-mr_menu_button: Mail Uni-Release
-mr_not_needed: Dieses Uni benötigt keine Erinnerungsmail, da es bereits geöffnet wurde.
-mr_send: Erinnerungen per Mail schicken
-mr_timestamp: 'Geplante Uni-Öffnung (unix):'
-mu_accountswap: Account-Tausch
 mu_active_planets: Aktive Planeten
-mu_add_delete_resources: Account Editor
-mu_ban_options: Ban-Panel
 mu_clear_cache: 'Cache leeren'
 mu_connected: Online
 mu_cronjob: Cronjobs
 mu_dump: Datenbank-Backup
-mu_error_list: DB Fehler
-mu_expeditiondeck: Expeditions-Kartendeck
-mu_expeditionships: 'Expedition: Findbare Schiffe'
 mu_flying_fleets: Fliegende Flotten
 mu_game_info: Informationen
 mu_general: 'Allgemein'
@@ -583,48 +485,22 @@ mu_giveaway: Giveaways
 mu_global_message: 'Globale Nachricht'
 mu_info_account_page: Account-Informationen
 mu_logs: Admin-Log
-mu_manage_users: User Verwalten
 mu_manual_points_update: 'Punkte aktualisieren'
 mu_md5_encripter: Passwort-Hash
 mu_mess_list: Nachrichtenliste
-mu_mod_update: Mod Versions Control
 mu_moderation_page: Rechte
 mu_module: Module
-mu_moon_list: Mondliste
-mu_moon_options: Mond Verwaltung
 mu_mpu_confirmation: >-
   Die Punkte werden automatisch aktualisiert. Um sie manuell zu aktualisieren,
   klicke OK
 mu_multiip_page: MultiIP
 mu_news: News
-mu_observation: Überwachung
-mu_optimize_db: Datenbank
-mu_planet_list: Planetenliste
-mu_planets_options: Options Planets
-mu_planetsettings: 'Planeten-Konfiguration'
 mu_search_page: Erweiterte Suche
-mu_settings: 'Server-Konfiguration'
-mu_stats_options: Statistik Options
 mu_support: Support-Tickets
 mu_tools: Tools
-mu_unisettings: 'Uni-Konfiguration'
 mu_universe: Universen
-mu_user_list: Spielerliste
-mu_user_logs: Log
 mu_users_settings: 'Spieler'
 mu_vaild_users: 'Aktive Spieler'
-mu_vertify: Vertify Game Content
-mvc_announcement: Ankündigung
-mvc_author: Author
-mvc_desc: Beschreibung
-mvc_download: Download
-mvc_link: Link
-mvc_title: Titel
-mvc_update_date: Released
-mvc_update_no: Aktuellste Version ist installiert!
-mvc_update_version: Aktuellste Version
-mvc_update_yes: Ein Update ist verfügbar!
-mvc_version: Version
 new_account_success: 'Neuer Account erstellt. ID: %d'
 new_add_account: Neuen Account hinzufügen
 new_add_user: Neuen Spieler hinzufügen
@@ -632,15 +508,11 @@ new_coord: Koordinaten
 new_creator_coor: Koordinaten
 new_creator_go_back: '[ Zurück zum Menü ]'
 new_creator_refresh: '[ Neu Laden ]'
-new_creator_title: Erstellen
 new_creator_title_a: Erstelle Account
 new_creator_title_l: Erstelle Monde
 new_creator_title_p: Erstelle Planeten
 new_creator_title_t: Testbenutzer erstellen
 new_creator_title_u: Erstelle User
-new_email: E-Mail
-new_name: Name
-new_pass: Passwort
 new_range: Rang
 new_title: Erstelle neuen Spieler
 new_title_acc: Erstelle neuen Account
@@ -648,50 +520,28 @@ new_user_success: 'Neuer Spieler erstellt. ID: %d, Planet= %d'
 nws_confirm: Bist du sicher, dass du die Nachricht %s entfernen willst?
 nws_content: Inhalt
 nws_create: News erstellen
-nws_date: Datum
 nws_del: Del
 nws_from: Von
 nws_head_create: News erstellen
 nws_head_edit: News %s bearbeiten
-nws_id: ID
 nws_news: News
 nws_title: Titel
-nws_total: Insgesamt %d News vorhanden
-one_is_no_0: Ja
-one_is_no_1: Nein
 one_is_yes_0: Nein
 one_is_yes_1: Ja
 online_users: Online
-only_numbers: Du kannst nur Zahlen eingeben!
-open_ticket: Ticket öffnen
-ow_config_file_writable: Die config.php ist beschreibar.
-ow_credits: Credits
-ow_database_errors: Es sind Fehler vorhanden!
-ow_developers: Entwickler
 ow_default_uri_missing: 'Mail-Links brauchen DEFAULT_URI (.env.local): Solange sie fehlt, werden Registrierungs- und Passwort-zurücksetzen-Mails nicht versendet.'
 ow_dir_not_writable: ./%s ist nicht beschreibar!
-ow_donate: Spende
 ow_file_detected: >-
   Die %s wurde gefunden. Bitte dies umbennen oder löschen, damit ihr Game
   geschützt ist.
-ow_forum: Forum
-ow_none: Keine Warnungen
-ow_overview: Kontrollzentrum
 ow_proyect_leader: "Ehemaliger Flottenadmiral (2Moons-Projektleitung)"
 ow_former_pr0game_crew: "Ehemalige pr0game-Crew"
 ow_crew_dev: "Entwicklung & Notfälle"
 ow_crew_mod: "Moderation"
 ow_crew_community: "Community"
 ow_pr0game_contributors: "pr0game-Code-Beitragende"
-ow_smtp_errors: >-
-  Überprüfe deine SMTP-Einstellungen! - Momentan können keine Mails gesendet
-  werden!
 ow_special_thanks: Besonderes Dankeschön
-ow_support: Support
-ow_title: Willkommen zu {game_name}
 ow_translator: Übersetzter
-ow_updates: Letzte Updates
-ow_welcome_text: 'Herzlich Willkommen zum allseits beliebten {game_name}. (:'
 pass_reg: Passwort
 pass2_reg: Passwort wiederholen
 player: Spielernamen
@@ -701,13 +551,11 @@ po_colony: Kolonie
 po_complete_all: Ungültige Daten oder schon in Benutzung
 po_complete_all2: Fehler in den Koordinaten!
 po_complete_succes: Planet erfolgreich erstellt!
-po_coor_1: Koordinaten
 po_fields_max: Felder
 po_galaxy: Galaxie
 po_name_planet: Planetenname
 po_planet: Planet
 po_system: System
-qe_allowmulti: Erlaube Multi
 qe_authattack: Admin Angriffschutz
 qe_build: Gebäude
 qe_change: Ändern
@@ -721,14 +569,11 @@ qe_fleet: Flotte
 qe_hpcoords: HP-Koordinaten
 qe_id: ID
 qe_info: Informationen
-qe_input: Eingabe
 qe_level: Stufe
-qe_name: Name
 qe_owner: Besitzter
 qe_password: Passwort
 qe_planetname: Planetenname
 qe_reset: Zurücksetzten
-qe_resetr: Zurücksetzten
 qe_resources: Rohstoffe
 qe_send: Absenden
 qe_submit: Absenden
@@ -1113,6 +958,38 @@ se_rank:
   - Moderator
   - Operator
   - Administrator
+se_pow_adaptive: Bot-Schutz - adaptive Schwierigkeit
+se_pow_adaptive_info: >-
+  An: auffällige IP-Adressen und Netze (/24 bzw. /64) bekommen eine deutlich
+  schwerere Aufgabe (viele Anfragen, Fehlversuche oder Registrierungen in kurzer
+  Zeit). Aus: alle Besucher bekommen die einfache Aufgabe, es werden keine
+  Zähler ausgewertet.
+se_pow_elevated_factor: Bot-Schutz - Faktor bei erhöhtem Risiko
+se_pow_elevated_factor_info: Die Aufgabe wird um diesen Faktor schwerer (Standard 20).
+se_pow_high_factor: Bot-Schutz - Faktor bei hohem Risiko
+se_pow_high_factor_info: Die Aufgabe wird um diesen Faktor schwerer (Standard 100).
+se_pow_max_cap: Bot-Schutz - Obergrenze der Schwierigkeit
+se_pow_max_cap_info: >-
+  Höchste Rechenzahl nach Anwendung der Faktoren. 1500000 dauert auf einem
+  langsamen Smartphone etwa 25 Sekunden.
+se_pow_sensitivity: Bot-Schutz - Empfindlichkeit der Risikoerkennung
+se_pow_sensitivity_info: >-
+  Prozent der Standard-Schwellen (erhöht ab 5 Anfragen/10 Min., 3 Fehlversuchen/Std.
+  oder 2 Registrierungen/24 Std. je IP; hoch ab 20 / 10 / 5; Netze das Dreifache).
+  200 = doppelt so viele Ereignisse nötig, 50 = halb so viele.
+se_pow_max_number: Bot-Schutz - Schwierigkeit (maximale Rechenzahl)
+se_pow_max_number_info: >-
+  Der Browser probiert bis zu dieser Zahl Hashes durch, im Schnitt die Hälfte.
+  25000 dauert deutlich unter einer Sekunde. Höher = mehr Aufwand für Bots.
+se_pow_min_seconds: Bot-Schutz - Mindestzeit bis zum Absenden (Sekunden)
+se_pow_min_seconds_info: >-
+  Formulare, die schneller als diese Zeit nach dem Laden abgeschickt werden,
+  werden abgelehnt. 0 schaltet die Prüfung ab.
+se_proofofwork: Bot-Schutz
+se_proofofwork_info: >-
+  Registrierung und Passwort-Wiederherstellung sind durch eine kleine
+  Rechenaufgabe geschützt, die der Browser selbständig und ohne Eingriff Dritter
+  löst.
 se_rebuild_protection: Wiederaufbau-Schutz
 se_rebuild_protection_info: >-
   Bei großen Verlusten wir Spielern ein Wiederaufbau-Schutz gegen weitere
@@ -1120,12 +997,6 @@ se_rebuild_protection_info: >-
   Transportkapazität müssen in einem Angriff vernichtet werden. Zudem muss dies
   mindestens den Noopschutzpunkten * 1000 an Units oder Kapazität entsprechen.
   Der Nutzer kann den Modus vorzeitig beenden.
-se_recaptcha: Recaptcha-Einstellungen
-se_recaptcha_info: >-
-  Recaptcha kann verwendet werden, um zwischen menschlichen Aktionen und
-  automatischen Aktionen zu unterscheiden.
-se_recaptcha_priv_key: Privater Recaptcha-Schlüssel
-se_recaptcha_pub_key: Öffentlicher Recaptcha-Schlüssel
 se_redis_connection_url: Redis - URL
 se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
 se_ref: Referallink
@@ -1279,28 +1150,11 @@ se_wreckfield_cooldown: Abklingzeit der Wrackfeld-Erstellung
 se_wreckfield_min_percent: Min. zerstörter Prozentsatz der gesamten Flotten-Units für ein Wrackfeld
 se_wreckfield_min_units: Min. zerstörte Units für ein Wrackfeld
 select_option: Wähle...
-sendit_a: Nachricht wurde eingefügt.
-sendit_error: 'Fehler:'
-sendit_error_msg: Du hast vergessen etwas einzutragen!
-sendit_t: Ticket wurde eingetragen.
 ships_title: Schiffe
-sp_admin_answer: '%s (Admin) schreib am %s<br><br><font color="red">%s</font>'
-sp_admin_closed: '%s (Admin) hat das Ticket am %s geschlossen!'
-sp_admin_open: '%s (Admin) hat das Ticket am %s geöffnet!'
 sp_answer_message: 'Es wurde auf Ihr Ticket #%d eine Antwort geschrieben!'
 sp_answer_message_title: 'Support Ticket #%d'
 status: Status
 subject: Betreff
-supp_admin_answer: Admin-Antwort
-supp_admin_system: Support-Adminpanel
-supp_close: Geschlossen
-supp_header: Support-System
-supp_header_g: Geschlossende Tickets
-supp_open: Offen
-supp_player_answer: Spieler-Antwort
-supp_player_write: '%s schreib am %s'
-supp_send: Absenden
-supp_ticket_close: Ticket geschlossen
 test_data_amount: Testbenutzeranzahl
 test_data_stage:
   - Beginn (Spionagesonden)
@@ -1311,46 +1165,16 @@ test_data_stage_label: Stage
 test_data_success: Testdaten erfolgreich erstellt
 test_data_title: Testbenutzerdaten erstellen
 text: Details
-ticket_id: '#Ticket-ID'
-ticket_new: Neues Ticket erstellen
-ticket_posted: Ticket vom
 time_days: Tage
 time_hours: Stunden
 time_minutes: Minuten
 time_seconds: Sekunden
 ul_sure_you_want_dlte: 'Möchtest du das wirklich löschen?'
 uni_reg: Universum
-up_add: 'Add:'
-up_aktuelle_updates: Aktuelle Updates
-up_alte_updates: Alte Updates
-up_chmod_error: Keine Schreibrechte für Ordner:\n\n
-up_del: 'Del:'
-up_delete_file: Erfolgreich gelöscht
-up_download_patch_files: Download Patch Dateien
-up_edit: 'Edit:'
-up_error_delete_file: ERROR! - Konnte Datei nicht löschen
-up_error_update: ERROR! - Konnte Datei nicht hochladen
-up_kein_update: Kein Update vorhanden!
-up_momentane_version: Momentane Version
-up_need_curl: >-
-  Fehler: cURL nicht vorhanden.<br />Das UpdateSystem von Br0Game benötigt cURL,
-  um die aktuellen Dateien herunter zu laden.
-up_no_xml_ext: >-
-  Fehler: XML Parser nicht vorhanden.<br />Das UpdateSystem von Br0Game benötigt
-  XML Parser, um die aktuellen Dateien verarbeiten zu können.
-up_offline: Update Server zur Zeit nicht verfügbar.
-up_ok_update: OK! - Updated
-up_revision: 'Revision '
-up_submit: Absenden
-up_update_ok_rev: 'UPDATE: OK! At Revision: '
-up_version: Version
-up_weiter: Weiter
 user_reg: Spielername
 uvs_actions: Aktionen
 uvs_back: Zurück
 uvs_delete: Löschen
-uvs_error: Ungültige oder Fehlerhafte Importfile!
-uvs_export: Exportieren
 uvs_id: Universum ID
 uvs_inactive: Inaktive Spieler
 uvs_name: Name
@@ -1363,26 +1187,12 @@ uvs_players: Spieler
 uvs_reload: Neuladen
 uvs_speeds: Spiel Faktoren (G/F/R/E/E)
 uvs_speeds_full: Spiel Faktoren (Game/Fleet/Resource/Expedition/Energy)
-uvs_upload: Hochladen
 vt_all: Überprüfe Alle Dateien
-vt_error: HashFile ist nicht verfügbar! - Update durchführen!
-vt_fail: Geänderte Dateien
-vt_filecss: Style-Dateien
-vt_fileerror: Fehler
-vt_filefail: 'geänderte Dateien '
-vt_filehtaccess: htaccess-Dateien
-vt_fileimg: Bild-Dateien
-vt_filejs: Javascript-Dateien
-vt_filenew: neue Dateien
-vt_fileok: Dateien OK
-vt_filephp: PHP-Dateien
-vt_filetpl: Template-Dateien
 vt_head: Überprüfe Spieldateien
 vt_info: >-
   Diese Liste enthält die Dateien, die modifziert wurden und nicht dem orginal
   entsprechen.<br>Wenn Sie selbst nichts am Spiel geändert haben, sollte Sie die
   Dateien mit dem Orginalen ersetzten.
-vt_loadfile: Lade Dateiliste
 adm_comments: Kommentare
 adm_analytics: Analytics
 ad_system: System
@@ -1403,7 +1213,6 @@ adm_dash_system: System
 adm_dash_version: Version
 adm_dash_php: PHP
 adm_dash_uni_status: Universumsstatus
-adm_dash_last_stats: Letzte Statistik
 adm_dash_credits: Credits
 adm_dash_project: Projektseite
 adm_confirm: Bist du sicher?
@@ -1422,7 +1231,6 @@ adm_ae_danger_zone: Gefahrenbereich
 adm_ae_group_planet: Planet / Mond
 adm_ae_group_player: Spieler
 adm_ae_menu_hint: 'Wähle, was bearbeitet werden soll. Spieler wählst du über die Spieler-ID aus, Planeten über die Planeten- oder Mond-ID.'
-adm_ae_officiers: Offiziere
 adm_ae_wipe: Planet zurücksetzen
 adm_ae_wipe_hint: 'Die markierten Bereiche werden vom Planeten gelöscht. Das lässt sich nicht rückgängig machen.'
 adm_as_confirm: Die Accounts der beiden gewählten Spieler wirklich tauschen?
@@ -1489,13 +1297,11 @@ adm_flight_preview: Flugzeit-Vorschau
 adm_flight_preview_help: Flugzeit von 1:1:1 zum Ziel mit Schiffsgeschwindigkeit 45.000 und Flottengeschwindigkeit 1; Uni-Typ, Galaxie-Typ, Max-Werte, Distanzfaktoren und Mindestdistanzen fließen live ein.
 adm_flight_ship_speed: Schiffsgeschwindigkeit
 adm_flight_time: Flugzeit
-adm_info_browser: Browser
 adm_info_col: Info
 adm_info_db_version: DB-Version
 adm_info_errorlog: Fehlerlog
 adm_info_game: Spiel
 adm_info_game_address: Spieladresse
-adm_info_game_path: Spielpfad
 adm_info_game_version: Spielversion
 adm_info_memory_limit: Speicherlimit
 adm_info_mysql_client: MySQL-Client
@@ -1646,7 +1452,6 @@ bot_duplicate: "Duplizieren"
 bot_edit: "Bearbeiten"
 bot_edit_profile: "Profil bearbeiten"
 bot_enabled: "aktiviert"
-bot_engine_missing: "Die Bot-Engine ist nicht installiert."
 bot_expedition_chance: "Expeditions-Chance pro Sitzung"
 bot_failed: "Fehlgeschlagen"
 bot_hours_every: "Stunden alle"
@@ -1696,13 +1501,11 @@ bot_summary: "Übersicht"
 bot_summary_actions: "Aktionen"
 bot_summary_mistakes: "Fehler"
 bot_summary_session: "Sitzung"
-bot_tab_bots: "Bots"
 bot_tab_profiles: "Profile"
 bot_tab_providers: "LLM-Anbieter"
 bot_test: "Verbindung testen"
 bot_testing: "Teste..."
 bot_time: "Zeit"
-bot_title: "Bots"
 bot_universe: "Universum"
 bot_w_defense: "Verteidigung"
 bot_w_energy: "Energie"
@@ -1712,7 +1515,6 @@ bot_w_research: "Forschung"
 bot_w_ships: "Schiffe"
 bot_w_storage: "Lager"
 bot_weights: "Gewichtungen"
-mu_bots: "Bots"
 adm_nav_bots: Bots
 adm_tab_bot_providers: LLM-Anbieter
 adm_tab_bot_profiles: Profile
@@ -1973,3 +1775,59 @@ adm_dash_unprotected_honor: "Ehrenpunkte-Limit pro Paar ist 0 (unbegrenzt Ehre z
 adm_dash_unprotected_bash: "Erklärte Kriege heben das Bash-Limit auf (bash_war_exempt)."
 adm_dash_unprotected_depot: "Depot-Haltezeiten kosten nur den günstigen Grundverbrauch (depot_cost_real_consumption aus)."
 adm_dash_unprotected_market: "Markt-Push-Toleranz liegt über 10 % (market_push_tolerance)."
+modul_57: "Vote-Seiten"
+adm_nav_voting: "Vote-Seiten"
+vt_sites: "Vote-Seiten"
+vt_add: "Seite hinzufügen"
+vt_create_head: "Neue Vote-Seite"
+vt_edit_head: "Vote-Seite bearbeiten"
+vt_back: "Zurück"
+vt_name: "Name"
+vt_vote_url: "Vote-URL"
+vt_vote_url_help: "Der Link, auf den die Spieler geschickt werden. {token} (Einmal-Token dieses Votes) und {userId} werden ersetzt."
+vt_image_url: "Bild-URL (optional)"
+vt_image_url_help: "Banner oder Logo neben der Seite auf der Spielerseite (https)."
+vt_cooldown: "Abklingzeit (Stunden)"
+vt_cooldown_help: "Eine Belohnung pro Spieler und Seite in diesem Zeitfenster, gezählt ab der letzten Belohnung."
+vt_reward: "Belohnung"
+vt_res_901: "Metall"
+vt_res_902: "Kristall"
+vt_res_903: "Deuterium"
+vt_verification: "Verifizierung"
+vt_verify_none: "Keine (Belohnung beim Klick)"
+vt_verify_postback: "Postback (Belohnung beim Callback der Seite)"
+vt_verification_help: "Ohne Verifizierung wird die Belohnung beim Klick auf den Vote-Button gezahlt (nur Abklingzeit). Bei Postback muss die Seite die Callback-URL aufrufen."
+vt_sort: "Reihenfolge"
+vt_active: "Aktiv"
+vt_enabled: "Aktiv"
+vt_disabled: "Inaktiv"
+vt_enable: "Aktivieren"
+vt_disable: "Deaktivieren"
+vt_delete: "Seite löschen"
+vt_renew_secret: "Neues Secret erzeugen"
+vt_renew_secret_help: "Macht die alte Postback-URL ungültig: bei der Vote-Seite aktualisieren."
+vt_postback: "Postback"
+vt_postback_url: "Callback-URL"
+vt_secret: "Secret"
+vt_postback_help: "Diese URL bei der Vote-Seite als Callback/Postback eintragen. {token} durch das Makro der Seite für den in der Vote-URL übergebenen Wert ersetzen. GET und POST werden akzeptiert; das Secret kann auch als Header X-Vote-Secret kommen."
+vt_saved: "Gespeichert."
+vt_deleted: "Vote-Seite gelöscht."
+vt_empty: "Noch keine Vote-Seiten."
+vt_confirm_delete: "Vote-Seite \"%s\" mit ihrem Log löschen?"
+vt_module_off: "Das Modul \"Vote-Seiten\" ist ausgeschaltet, Spieler sehen keine Vote-Seite."
+vt_error_name: "Der Name ist erforderlich."
+vt_error_vote_url: "Die Vote-URL muss eine gültige http(s)-Adresse sein."
+vt_error_image_url: "Die Bild-URL muss eine gültige http(s)-Adresse sein."
+vt_error_reward: "Belohnungen müssen zwischen 0 und 1.000.000.000 liegen."
+vt_clicks: "Klicks"
+vt_verified: "Verifiziert"
+vt_rewarded: "Belohnt"
+vt_log: "Letzte Votes"
+vt_log_time: "Zeit"
+vt_log_player: "Spieler"
+vt_log_status: "Status"
+vt_log_ip: "IP"
+vt_log_empty: "Noch keine Votes."
+vt_status_rewarded: "Belohnt"
+vt_status_verified: "Verifiziert, keine Belohnung"
+vt_status_pending: "Geklickt"

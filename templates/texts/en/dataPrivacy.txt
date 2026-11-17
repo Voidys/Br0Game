@@ -42,10 +42,10 @@
 <h2>Emails</h2>
 <p>We send emails to the address you registered with when they are needed to run your account: activation of your account, resetting your password, confirming a change of your email address, warnings before an inactive account is deleted, and important notices about the game (for example the start of a new universe). The legal basis is Art. 6(1)(b) GDPR. We do not send newsletters or advertising.</p>
 
-<!--recaptcha--><h2>Bot protection (Google reCAPTCHA)</h2>
-<p>Some forms (for example registration) are protected against automated abuse with Google reCAPTCHA, a service of Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. reCAPTCHA is loaded only when you submit a protected form. It then transmits your IP address, browser information and interaction data to Google, which assesses whether the request comes from a human. Google may also process this data in the USA. Google LLC is certified under the EU-U.S. Data Privacy Framework, on the basis of the European Commission's adequacy decision (Art. 45 GDPR). The legal basis is Art. 6(1)(f) GDPR (protection of our forms against spam and automated account creation). Further information is available in Google's privacy policy at https://policies.google.com/privacy.</p>
+<h2>Bot protection</h2>
+<p>Registration and the lost-password form are protected against automated abuse by a small computation that your browser solves on its own when you open the form. It is checked on our own server; no third-party service is contacted, and no cookies or tracking identifiers are used for it. Our server processes the technical data of the request (in particular your IP address) as with any other request. The legal basis is Art. 6(1)(f) GDPR (protection of our forms against spam and automated account creation).</p>
 
-<!--/recaptcha--><h2>Cookies and local storage</h2>
+<h2>Cookies and local storage</h2>
 <p>We only use cookies and browser storage that are technically necessary to provide the service you request (§ 25(2) no. 2 TDDDG, Art. 6(1)(b) and (f) GDPR):</p>
 <ul>
 <li><strong>2Moons</strong>: session cookie that keeps you logged in. It expires 12 hours after your last activity, or when you log out.</li>
@@ -57,7 +57,7 @@
 <p>We do not use tracking, analytics or advertising cookies, and we do not create user profiles for marketing.</p>
 
 <h2>Recipients</h2>
-<p>Your data is processed by members of the game team (administrators and moderators) as far as their tasks require it. Technical service providers act on our behalf and only on our instructions (Art. 28 GDPR): the hosting provider of the servers and, where applicable, the email delivery service. Other players see the data described under "Account and player data" and "Communication within the game". We disclose data to authorities only if we are legally obliged to. We do not sell personal data.<!--recaptcha--> Apart from Google reCAPTCHA (see "Bot protection"), no data is transferred to countries outside the EU/EEA.<!--/recaptcha--></p>
+<p>Your data is processed by members of the game team (administrators and moderators) as far as their tasks require it. Technical service providers act on our behalf and only on our instructions (Art. 28 GDPR): the hosting provider of the servers and, where applicable, the email delivery service. Other players see the data described under "Account and player data" and "Communication within the game". We disclose data to authorities only if we are legally obliged to. We do not sell personal data.</p>
 <p>Links to external services (for example Discord or the wiki) only take you to those services. Data is processed there only once you open the link, under the privacy policy of the respective provider.</p>
 
 <h2>Storage period</h2>

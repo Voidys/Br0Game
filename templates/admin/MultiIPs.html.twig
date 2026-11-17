@@ -6,7 +6,7 @@
         <label><input type="checkbox" id="showBanned" data-toggle-rows=".allBanned"> {{ LNG.adm_mip_show_banned }}</label>
         <label><input type="checkbox" id="showAllowed" data-toggle-rows=".allAllowed"> {{ LNG.adm_mip_show_allowed }}</label>
         <span class="toolbar__spacer"></span>
-        <span class="badge badge--muted">{{ count(multiGroups) }} {{ LNG.mip_ip }}</span>
+        <span class="badge badge--muted">{{ multiGroups|length }} {{ LNG.mip_ip }}</span>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
         <h2 class="card__title">{{ icon('network') }}<span class="mono">{{ multiEntry.multi_ip }}</span></h2>
         <div class="card__actions">
           <span class="muted small">{{ multiEntry.lastActivity }}</span>
-          <span class="badge badge--muted">{{ count(multiEntry.users) }}</span>
+          <span class="badge badge--muted">{{ multiEntry.users|length }}</span>
           {% if multiEntry.allowed != 0 %}
             <a data-method="post" class="button btn--small" href="admin?page=multiIP&amp;action=unknown&amp;id={{ multiID }}" title="{{ LNG.mip_known }}">{{ icon('circle-check') }}{{ LNG.mip_known }}</a>
           {% else %}

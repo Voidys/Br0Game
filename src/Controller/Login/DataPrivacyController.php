@@ -19,13 +19,11 @@ namespace App\Controller\Login;
 
 use Symfony\Component\HttpFoundation\Response;
 
-/** Public data privacy page, rendered from the CMS page "dataPrivacy". */
-#[\App\Routing\GamePage('index.php', 'dataPrivacy')]
-#[\App\Routing\GamePage('index.php', 'dataPrivacy', uniPrefix: true)]
+/** Data privacy page of the public and the account area, rendered from the CMS page "dataPrivacy". */
+#[\App\Routing\GamePage('index', 'dataPrivacy')]
+#[\App\Routing\GamePage('account', 'dataPrivacy')]
 class DataPrivacyController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     private \App\Content\ContentPages $contentPages;
 
     #[\Symfony\Contracts\Service\Attribute\Required]
@@ -40,7 +38,7 @@ class DataPrivacyController extends AbstractLoginController
     }
 
     /**
-     * Renders the CMS page "dataPrivacy" in the public layout.
+     * Renders the CMS page "dataPrivacy" in the layout of the area (login or account).
      */
     public function show(): Response
     {
@@ -50,6 +48,6 @@ class DataPrivacyController extends AbstractLoginController
             'cms_content' => new \Twig\Markup($page['content'], 'UTF-8'), // sanitized by ContentPages
         ]);
 
-        return $this->render('login/page.dataPrivacy.default.html.twig');
+        return $this->render(strtolower($this->state->runtime->mode) . '/page.dataPrivacy.default.html.twig');
     }
 }

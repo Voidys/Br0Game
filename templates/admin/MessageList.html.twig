@@ -60,7 +60,7 @@
       <h2 class="card__title">{{ icon('messages-square') }}{{ LNG.ml_message_list }}</h2>
       {{ ui.pager(page, maxPage, LNG.adm_pagination) }}
     </header>
-    {% if count(messageList) > 0 %}
+    {% if messageList|length > 0 %}
     <div class="card__body">
       <div class="table-wrap">
         <table class="data data--compact">

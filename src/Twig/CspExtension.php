@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 /**
  * `csp_nonce()`: the request's Content-Security-Policy nonce, for the `nonce` attribute of the rare
  * inline <script> a template still needs (data islands of type application/json need none), and
- * `csp_allow('recaptcha')`: the page loads that third-party feature, so the policy opens its sources.
+ * `csp_allow('<feature>')`: the page loads that third-party feature, so the policy opens its sources.
  */
 final class CspExtension extends AbstractExtension
 {

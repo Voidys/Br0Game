@@ -1,0 +1,1683 @@
+ac_account_data: Дані облікового запису
+ac_act_time: Дата останньої активності
+ac_ali_idid: 'ID:'
+ac_alliance: Альянс
+ac_ally_ranking: Статистика альянсів
+ac_ally_web: Вебсайт альянсу
+ac_auth_level: Ранг
+ac_banned: Заблоковано?
+ac_checkip_title: Перевірка IP
+ac_coords: Координати
+ac_diameter: Діаметр
+ac_enter_user_id: Вибери гравця
+ac_ext_text: Зовнішній текст
+ac_fields: Поля
+ac_filter_placeholder: Фільтр...
+ac_home_planet_coord: Координати головної планети
+ac_home_planet_id: ID головної планети
+ac_id_names_coords: ID, назва та координати
+ac_image: Логотип альянсу
+ac_info_ally: Інформація про альянс
+ac_int_text: Внутрішній текст
+ac_last_ip: Останній IP
+ac_leader: Лідер
+ac_leyend: '[ Легенда ]'
+ac_moon: Місяць
+ac_name: Назва
+ac_name_ali: Повна назва
+ac_no_ally: Немає альянсу
+ac_no_img: У цього альянсу немає логотипу
+ac_no_text_ext: У цього альянсу немає зовнішнього тексту
+ac_no_text_int: У цього альянсу немає внутрішнього тексту
+ac_no_text_sol: У цього альянсу немає тексту заявки
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Більше трильйона</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>Трильйон або більше</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>Мільярд або більше</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>Мільйон або більше</th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Тисяча або більше</th></tr></table>
+ac_on_vacation: Режим відпустки?
+ac_points_count: Очки | Кількість
+ac_ranking: Рейтинг
+ac_recent_destroyed_planets: Нещодавно знищені планети
+ac_reg_ip: IP при реєстрації
+ac_register_ally_time: Заснований
+ac_register_time: Зареєстрований
+ac_research: Дослідження
+ac_see_ranking: Переглянути статистику
+ac_select_id_num: Введи ID вручну (необов'язково)
+ac_sol_text: Текст заявки
+ac_suspended_autor: Заблокував
+ac_suspended_longer: До
+ac_suspended_reason: Причина
+ac_suspended_time: Заблоковано
+ac_suspended_title: Деталі блокування
+ac_swap_invalid: Неправильний вибір, обери двох різних користувачів!
+ac_swap_no_entry: Для одного або обох користувачів не знайдено запису облікового запису.
+ac_swap_submit: Поміняти
+ac_swap_success: Облікові записи успішно поміняно місцями.
+ac_swap_title: Обмін обліковими записами
+ac_swap_user_a: Користувач A
+ac_swap_user_b: Користувач B
+ac_tag: TAG
+ac_temperature: Темп.
+ac_time_destruyed: Дата знищення
+ac_total_members: Кількість учасників
+ac_total_points: 'Разом:'
+ac_user_ranking: Статистика гравців
+ac_user_system: Система гравців
+ac_username_doesnt: Гравця не існує!
+ac_view_image: Відкрити зображення в новому вікні
+account_already_has_user: Цей обліковий запис уже має гравця в цьому всесвіті
+accountID: ID облікового запису
+ad_add_build_success: Будівлі успішно додано!
+ad_add_defenses_success: Оборону успішно додано!
+ad_add_not_exist: ID не існує!
+ad_add_res_sucess: Ресурси успішно додано!
+ad_add_ships_sucess: Кораблі успішно додано!
+ad_add_tech_success: Дослідження успішно додано!
+ad_ally_change_id: Змінити засновника
+ad_ally_delete: Видалити альянс
+ad_ally_delete_u: Видалити учасника
+ad_ally_name: Назва альянсу
+ad_ally_not_exist: Альянсу не існує!
+ad_ally_not_exist2: Учасника не існує!
+ad_ally_not_exist3: Користувач не є учасником цього альянсу
+ad_ally_succes: Успішно
+ad_ally_tag: TAG альянсу
+ad_ally_text1: Опис альянсу
+ad_ally_text2: Внутрішній текст
+ad_ally_text3: Шаблон заявки
+ad_ally_title: Альянс
+ad_ally_user_id: (Введи ID користувача)
+ad_authlevel_aa: '[Показати адміністраторів]'
+ad_authlevel_auth: Ранг
+ad_authlevel_error_3: Не можна змінити ранг творця гри!
+ad_authlevel_insert_id: Введи ID вручну (необов'язково)
+ad_authlevel_jj: '[Показати гравців]'
+ad_authlevel_mm: '[Показати модераторів]'
+ad_authlevel_oo: '[Показати операторів]'
+ad_authlevel_succes: Ранг успішно змінено
+ad_authlevel_title: Ранги
+ad_authlevel_tt: '[Показати всіх]'
+ad_buildings: Будівлі
+ad_buildings_title: Будівлі
+ad_count: Кількість
+ad_defenses: Оборона
+ad_defenses_title: Оборона
+ad_delete_build_success: Будівлі успішно видалено!
+ad_delete_defenses_success: Оборону успішно видалено!
+ad_delete_res_sucess: Ресурси успішно видалено!
+ad_delete_ships_sucess: Кораблі успішно видалено!
+ad_delete_tech_success: Дослідження успішно видалено!
+ad_editor_alliances: Альянс
+ad_editor_buildings: Будівлі
+ad_editor_defenses: Оборона
+ad_editor_personal: Особисті дані
+ad_editor_planets: Планета і Місяць
+ad_editor_researchs: Дослідження
+ad_editor_resources: Ресурси
+ad_editor_ships: Кораблі
+ad_editor_title: Редактор облікового запису
+ad_levels: Рівень
+ad_number: ID
+ad_personal_name: Ім'я користувача
+ad_personal_succes: Налаштування збережено
+ad_personal_title: Редагування особистих даних
+ad_personal_vacat: Режим відпустки
+ad_pla_change_p: Координати планети
+ad_pla_change_pp: Постав позначку, щоб застосувати зміну координат
+ad_pla_delete_b: Видалити всі будівлі
+ad_pla_delete_cb: Очистити чергу будівництва
+ad_pla_delete_d: Видалити всю оборону
+ad_pla_delete_hd: Очистити чергу верфі та оборони
+ad_pla_delete_s: Видалити всі кораблі
+ad_pla_edit_diameter: Змінити діаметр
+ad_pla_edit_fields: Змінити поля
+ad_pla_edit_name: Назва
+ad_pla_error_planets: Місяці не можна передати іншому власнику
+ad_pla_error_planets2: Планети не існує
+ad_pla_error_planets3: Ці координати вже зайняті!
+ad_pla_error_planets4: Не можна призначити Місяць планеті, яка вже має Місяць!
+ad_pla_error_planets5: На цих координатах уже є планета
+ad_pla_error_planets6: Ці координати за межами всесвіту
+ad_pla_succes: Зміни успішно збережено
+ad_pla_title: Планети і Місяці
+ad_pla_title_l: Якщо є Місяць, його координати також буде змінено
+ad_research: Дослідження
+ad_research_title: Дослідження
+ad_ships: Кораблі
+ad_ships_title: Кораблі
+adm_absenden: Надіслати
+adm_cp_index: Головна
+adm_cp_title: Панель адміністрування
+adm_email: Е-пошта
+adm_login: Вхід
+adm_password: Пароль
+adm_username: Ім'я користувача
+an_analyzed_list: Проаналізовані гравці
+an_btn_disable: Вимкнути аналіз і видалити дані
+an_btn_enable: Увімкнути аналіз
+an_timestamp: Час
+an_total_analyzed: Кількість проаналізованих гравців
+an_user_list: Список гравців
+ap_aktivieren: Активувати
+ap_datum: Дата
+ap_del: Видалити
+ap_email: Е-пошта
+ap_entfernen: '?'
+ap_id: ID
+ap_ip: IP
+ap_nicht_aktivierte: неактивовані користувачі
+ap_nicht_aktivierte_user: Неактивовані користувачі
+ap_sicher: 'Ти впевнений, що хочеш видалити '
+ap_status: Статус
+ap_username: Ім'я користувача
+bo_accountname: Назва облікового запису
+bo_ban: Блокування
+bo_ban_change: Змінити
+bo_ban_player: Блокування / розблокування
+bo_banned: ' заблоковано.'
+bo_bbb_title_1: Система блокувань
+bo_bbb_title_2: Блокування закінчується
+bo_bbb_title_3: Система блокувань • <font color="red">Цей гравець заблокований</font>
+bo_bbb_title_4: Щоб скоротити залишок блокування, постав перед часом мінус, наприклад -5.<br>Якщо гравця заблоковано назавжди, додатний час замінює це на вказану тривалість.
+bo_bbb_title_5: Заблоковано до
+bo_bbb_title_6: Змінити дату
+bo_characters_1: Залишилось символів
+bo_characters_suus: Заблоковано
+bo_order_banned: '[Сортувати за блокуванням]'
+bo_order_id: '[Сортувати за ID]'
+bo_order_username: '[Сортувати за назвою]'
+bo_permanent: Постійне блокування
+bo_reason: Причина блокування
+bo_select_title: Показати назви, що починаються з
+bo_the_player: 'Гравець '
+bo_the_player2: 'Гравець '
+bo_total_accs: 'Усього облікових записів: '
+bo_total_accs_banned: 'Заблокованих облікових записів: '
+bo_total_banneds: 'Заблокованих гравців: '
+bo_total_users: 'Усього гравців: '
+bo_unban: Розблокувати
+bo_unban_player: Список блокувань
+bo_unbanned: ' розблоковано.'
+bo_username: Ім'я користувача
+bo_vacaations: Режим відпустки
+bo_vacation_mode: Режим відпустки
+buildings_title: Будівлі
+button_add: Додати
+button_cancel: Скасувати
+button_delete: Видалити
+button_deselect: Очистити вибір
+button_filter: Фільтр
+button_reset: Скинути
+button_submit: Надіслати
+button_test: Тест
+button_test_negative: Тест не пройдено
+button_test_positive: Тест пройдено
+cc_cache_clear: Кеш очищено
+cronjob_class: клас
+cronjob_delete: Видалити
+cronjob_desc: Вкажи час, коли має запускатися це cron-завдання. Умови поєднуються через «І», тож завдання запускається, лише коли збігаються всі вибрані умови. Вибір конкретних значень одразу в полях «День тижня» і «День» може зробити запуск нерегулярним; для принаймні одного з цих полів вибери «Усі».<br>«Усі» має пріоритет і замінює інші значення в цьому списку.
+cronjob_desc_class: Клас для виклику. Для includes/classes/cronjobs/foo.class.php введи «foo».
+cronjob_desc_name: Довільна назва для ідентифікації цього cron-завдання.
+cronjob_dom: День
+cronjob_dow: День тижня
+cronjob_edit: Редагувати
+cronjob_error_class: Клас не вказано!
+cronjob_error_dom: Дні не вибрано!
+cronjob_error_dow: День тижня не вибрано!
+cronjob_error_filenotfound: 'Вказаний файл не знайдено: '
+cronjob_error_hours: Години не вибрано!
+cronjob_error_min: Хвилини не вибрано!
+cronjob_error_month: Місяці не вибрано!
+cronjob_error_name: Назву не введено!
+cronjob_headline: ID cron-завдання
+cronjob_hours: Година
+cronjob_lastTime: Останній запуск
+cronjob_min: Хвилина
+cronjob_month: Місяць
+cronjob_name: Назва
+cronjob_new: Створити cron-завдання
+cronjob_nextTime: Наступний запуск
+cronjob_run: Запустити
+cronjob_selectall: Усі
+cronName_cleaner: Видалення старих даних
+cronName_bots: Боти
+cronName_disposable_email_domains: Оновити одноразові домени е-пошти
+cronName_fleets: Події флотів
+cronName_daily: Щоденні завдання
+cronName_databasedump: Резервна копія бази даних
+cronName_inactive: Видалення неактивних
+cronName_pirates: Створення піратських баз
+cronName_referral: Бонус за реферала
+cronName_statistic: Статистика
+cronName_statisticjson: Експорт stats.json
+cronName_tracking: Надсилання глобальної статистики сервера
+cs_time_between_updates: Час між оновленнями
+defenses_title: Оборона
+du_choose_tables: Вибери таблиці
+du_not_tables_selected: Не вибрано жодної таблиці для резервної копії!
+du_select_all_tables: Усі таблиці
+du_submit: Надіслати
+du_success: 'Резервну копію створено! Файл: %s'
+email_reg: Е-пошта
+email2_reg: Підтвердження е-пошти
+empty_account_field: Не вказано ID облікового запису
+et_encript: Згенерувати
+et_md5_encripter: Генератор MD5
+et_pass: Пароль
+et_result: Результат
+exp_deck_cards: Карти
+exp_deck_count_desc: Кількість карток цього типу в колоді
+exp_deck_count_label: кількість
+exp_deck_edit: Редагувати конфігурацію колоди карток
+exp_deck_event_type: Тип події
+exp_deck_example: 'Приклад:'
+exp_deck_format_help: 'Конфігурація колоди карток — це масив JSON, де кожен елемент описує тип картки з такими властивостями:'
+exp_deck_format_instructions: Інструкції щодо формату
+exp_deck_percentage: Відсоток
+exp_deck_save_success: Конфігурацію колоди карток збережено!
+exp_deck_size_desc: Розмір події (Small, Medium, Big, None)
+exp_deck_size_label: розмір
+exp_deck_statistics: Статистика поточної колоди карток
+exp_deck_total: Разом
+exp_deck_type_desc: Тип події (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
+exp_deck_type_label: тип
+exp_deck_warning: 'Увага: некоректний JSON буде відхилено'
+exp_ships_description: Для кожного активного корабля вибери, чи може експедиція його знайти і які кораблі можуть його знайти.
+exp_ships_findable: Можна знайти
+exp_ships_found_by: Кораблі-шукачі
+exp_ships_select_finders: Вибери кораблі-шукачі
+exp_ships_ship: Корабель
+ff_arrivaltime: Прибуття
+ff_del: Видалити
+ff_endtime: Повернення
+ff_fleetid: ID
+ff_holdtime: Утримувати до
+ff_lock: Заблокувати
+ff_mission: Місія
+ff_no_fleets: Зараз немає флотів у польоті
+ff_sendFleetBack: Відправити назад
+ff_sendFleetsBack: Відправити назад усі атаки
+ff_ships: Кораблі
+ff_startplanet: Планета відправлення
+ff_starttime: Старт
+ff_startuser: Відправник
+ff_targetplanet: Планета призначення
+ff_targetuser: Отримувач
+ff_unlock: Розблокувати
+ga_definetarget: Визначити цілі
+ga_homecoordinates: Лише головна планета
+ga_no_inactives: Виключити неактивних гравців
+ga_planettypes: Типи планет
+ga_selectplanettype: Вибери принаймні один тип планети!
+ga_success: Успішно!
+info_information: Додай цю інформацію, коли повідомляєш про помилку в <a href="%s" target="tracker">GitHub issues</a>.<br>Запити підтримки без цієї інформації не розглядаються.
+input_id: ID
+input_id_account: ID облікового запису
+input_id_ally: ID альянсу
+input_id_p_m: ID планети або Місяця
+input_id_planet: ID планети
+input_id_user: ID гравця
+lang_reg: Мова
+log_admin: Адміністратор
+log_alliance: Змінені альянси
+log_cat: 'Вибери категорію:'
+log_disclamersettings: Юридичне повідомлення
+log_element: Елемент
+log_id: ID
+log_info: Інфо
+log_log: Журнал
+log_new: Після
+log_no_data: У журналі немає даних!
+log_old: До
+log_planet: Змінені планети
+log_player: Змінені гравці
+log_present: Розподілені подарунки
+log_settings: Змінені налаштування
+log_ssettings: Конфігурація сервера
+log_statsettings: Налаштування статистики
+log_target_alliance: Змінений альянс
+log_target_planet: Змінена планета
+log_target_universe: Змінений розділ налаштувань
+log_target_user: Змінений гравець
+log_time: Час
+log_uni_short: Всесв.
+log_universe: Всесвіт
+log_usettings: Конфігурація всесвіту
+log_view: Перегляд
+ma_all: Усі
+ma_characters: Символів
+ma_message: Повідомлення
+ma_message_sended: Твоє повідомлення надіслано!
+ma_mode: Надіслати як
+ma_modes:
+- У грі
+- Е-пошта
+- У грі і е-поштою
+ma_none: Глобальні новини
+ma_send_global_message: Надіслати глобальне повідомлення
+ma_subject: Тема
+ma_subject_needed: Потрібна тема!
+ma_no_recipients: Жоден одержувач не відповідає фільтру, листи не надіслано.
+message_a: 'Статус повідомлення:'
+message_t: 'Статус тікета:'
+mip_known: Схвалено?
+ml_date: Дата
+ml_date_range: Період
+ml_deleted: Повідомлення видалено
+ml_id: '#ID'
+ml_message_list: Список повідомлень
+ml_receiver: Отримувач
+ml_sender: Відправник
+ml_subject: Тема
+ml_type: Тип повідомлення
+ml_type_submit: Надіслати
+mo_diameter: Діаметр
+mo_fields_avaibles: Поля
+mo_moon: Місяць
+mo_moon_added: Місяць успішно додано!
+mo_moon_name: Назва Місяця
+mo_moon_random: Випадково
+mo_moon_unavaible: На цій планеті вже є Місяць!
+mo_planet_doesnt_exist: Гравця не існує!
+mod_active: Активний
+mod_change_active: Увімкнути
+mod_change_deactive: Вимкнути
+mod_deactive: Неактивний
+mod_info: Ігрові модулі
+mod_module: Модулі
+modul_0: Альянс
+modul_1: Місія — Атака
+modul_2: Будівництво — Будівлі
+modul_3: Будівництво — Дослідження
+modul_4: Будівництво — Флоти
+modul_5: Будівництво — Оборона
+modul_6: Список друзів
+modul_9: Флот
+modul_10: Флот — Обробник подій
+modul_11: Галактика
+modul_12: Зал слави
+modul_13: Торговець
+modul_14: Інформація
+modul_15: Імперія
+modul_16: Повідомлення
+modul_17: Нотатки
+modul_19: Фаланга
+modul_20: Картка гравця
+modul_21: Список блокувань
+modul_22: Рекорди
+modul_23: Ресурси
+modul_24: Місія — Шпіонаж
+modul_25: Статистика
+modul_26: Пошук
+modul_27: Тікети підтримки
+modul_28: Дерево технологій
+modul_29: Місія — Знищення
+modul_30: Місія — Експедиція
+modul_32: Місія — Переробка
+modul_33: Місія — Утримання
+modul_34: Місія — Транспортування
+modul_35: Місія — Колонізація
+modul_36: Місія — Розгортання
+modul_38: Торговець металобрухтом
+modul_39: Симулятор бою
+modul_40: Місія — Ракетна атака
+modul_41: Швидкі флоти
+modul_42: Місія — ACS
+modul_43: Місія — Торгівля
+modul_44: Місія — Передача
+modul_45: Ринок — Ресурси
+modul_46: Ринок — Флоти
+modul_47: Статистика, залежна від шпигунських технологій
+modul_48: Ремонтний док
+modul_49: Захист ресурсів
+modul_50: Виключення гравців у режимі відпустки
+modul_51: Виключення друзів і учасників альянсу
+modul_52: Stats.json
+modul_53: Навчання
+modul_54: Нагороди за навчання
+modul_55: Очки честі
+modul_56: Піратські бази
+mu_active_planets: Активні планети
+mu_clear_cache: Очистити кеш
+mu_connected: Онлайн
+mu_cronjob: Cron-завдання
+mu_dump: Резервна копія бази даних
+mu_flying_fleets: Флоти в польоті
+mu_game_info: Інформація
+mu_general: Загальні
+mu_giveaway: Роздачі
+mu_global_message: Глобальне повідомлення
+mu_info_account_page: Інфо облікового запису
+mu_logs: Журнал адміністратора
+mu_manual_points_update: Оновити очки
+mu_md5_encripter: Хеш пароля
+mu_mess_list: Список повідомлень
+mu_moderation_page: Дозволи
+mu_module: Модулі
+mu_mpu_confirmation: Очки оновлюються автоматично. Натисни OK, щоб оновити їх зараз.
+mu_multiip_page: Кілька IP
+mu_news: Новини
+mu_search_page: Розширений пошук
+mu_support: Тікети підтримки
+mu_tools: Інструменти
+mu_universe: Всесвіт
+mu_users_settings: Гравці
+mu_vaild_users: Активні користувачі
+new_account_success: 'Створено новий обліковий запис. ID: %d'
+new_add_account: Додати новий обліковий запис
+new_add_user: Додати нового гравця
+new_coord: Координати
+new_creator_coor: Координати
+new_creator_go_back: '[ Повернутися до меню ]'
+new_creator_refresh: '[ Оновити ]'
+new_creator_title_a: Створити/видалити облікові записи
+new_creator_title_l: Створити/видалити Місяці
+new_creator_title_p: Створити/видалити планети
+new_creator_title_t: Створити тестового користувача
+new_creator_title_u: Створити/видалити користувачів
+new_range: Ранг
+new_title: Створити нового гравця
+new_title_acc: Створити новий обліковий запис
+new_user_success: 'Створено нового гравця. ID: %d, Планета: %d'
+nws_confirm: Ти впевнений, що хочеш видалити новину «%s»?
+nws_content: Вміст
+nws_create: Створити новину
+nws_del: Видалити
+nws_from: Від
+nws_head_create: Створити новину
+nws_head_edit: 'Редагування новини: %s'
+nws_news: Новини
+nws_title: Заголовок
+one_is_yes_0: Ні
+one_is_yes_1: Так
+online_users: Онлайн
+ow_default_uri_missing: 'Посилання в листах потребують DEFAULT_URI (.env.local): доки його не задано, листи реєстрації та скидання пароля не надсилаються.'
+ow_dir_not_writable: /%s недоступна для запису!
+ow_file_detected: Знайдено файл %s. З міркувань безпеки видали або перейменуй його.
+ow_proyect_leader: Колишній флотський адмірал (керівник проєкту 2Moons)
+ow_former_pr0game_crew: Колишня команда pr0game
+ow_crew_dev: Розробка та аварійні виправлення
+ow_crew_mod: Модерація
+ow_crew_community: Спільнота
+ow_pr0game_contributors: Учасники коду pr0game
+ow_special_thanks: Особлива подяка
+ow_translator: Перекладачі
+pass_reg: Пароль
+pass2_reg: Повтори пароль
+player: Гравець
+po_add_moon: Додати Місяць
+po_add_planet: Додати колонію
+po_colony: Колонія
+po_complete_all: Неправильні дані або вже використовуються!
+po_complete_all2: Неправильні координати!
+po_complete_succes: Планету успішно створено
+po_fields_max: Поля
+po_galaxy: Галактика
+po_name_planet: Назва планети
+po_planet: Планети
+po_system: Система
+qe_authattack: Захист адміністратора від атаки
+qe_build: Будівлі
+qe_change: Змінити
+qe_coords: Координати
+qe_count: Доступно
+qe_defensive: Оборона
+qe_edit_planet_sucess: Планету %s [%d:%d:%d] успішно змінено!
+qe_edit_player_sucess: 'Гравця %s (ID: %d) успішно змінено!'
+qe_fields: Поля
+qe_fleet: Флот
+qe_hpcoords: Координати головної планети
+qe_id: ID
+qe_info: Інфо
+qe_level: Рівень
+qe_owner: Власник
+qe_password: Пароль
+qe_planetname: Планета
+qe_reset: Скинути
+qe_resources: Ресурси
+qe_send: Надіслати
+qe_submit: Надіслати
+qe_tech: Дослідження
+qe_temp: Температура
+qe_username: Ім'я користувача
+re_buildings_lu: Скинути будівлі на Місяцях
+re_buildings_pl: Скинути будівлі
+re_buldings: Будівлі
+re_defenses: Скинути оборону
+re_defenses_and_ships: Кораблі і оборона
+re_general: Загальні
+re_inve: Дослідження
+re_investigations: Скинути дослідження
+re_player_and_planets: Гравці і планети
+re_reset_all: Скинути весь всесвіт
+re_reset_allys: Скинути всі альянси
+re_reset_banned: Скинути блокування
+re_reset_buddies: Скинути списки друзів
+re_reset_buldings: Скинути черги будівництва
+re_reset_errors: Скинути список помилок
+re_reset_excess: Налаштування успішно скинуто!
+re_reset_fleets: Скинути флоти в польоті
+re_reset_hangar: Скинути черги верфі та оборони
+re_reset_invest: Скинути черги досліджень
+re_reset_messages: Скинути всі повідомлення
+re_reset_moons: Скинути всі Місяці
+re_reset_notes: Скинути всі нотатки
+re_reset_planets: Скинути планети (видалити колонії)
+re_reset_player: Скинути гравців (видалити всіх)
+re_reset_rw: Скинути бойові звіти
+re_reset_statpoints: Скинути статистику
+re_reset_universe: Скинути всесвіт
+re_reset_universe_confirmation: Це не можна скасувати. Перш ніж натиснути OK, переконайся, що є резервна копія бази даних.
+re_resources: Ресурси
+re_resources_met_cry: Скинути всі ресурси (метал/кристал/дейтерій)
+re_ships: Скинути флоти
+researchs_title: Дослідження
+resources_title: Ресурси
+rp_done: Планети успішно переставлено
+rp_explain: Після натискання «Надіслати» дочекайся появи вікна. Переставлення може тривати кілька секунд.
+rp_header: Переставлення планет
+rp_planet_error: На одного гравця припадає більше ніж одна планета!
+rp_rights_error: Немає прав адміністратора!
+rp_universe_error: Всесвіт закрито не повністю!
+sb_final_memory: 'Використано пам''яті наприкінці: %e КБ / макс. %m КБ<br>'
+sb_sql_counts: 'SQL-запитів: %d'
+sb_start_memory: 'Використано пам''яті на початку: %i КБ / макс. %m КБ<br>'
+sb_stats_update: Статистику оновлено за %s с<br>
+sb_stats_updated: Статистику оновлено.<br>Підсумок:<br>
+sb_top_memory: 'Пік пам''яті: %p КБ / макс. %m КБ <br>'
+se__before: Попередня
+se__next: Наступна
+se_activity: Остання активність
+se_adm_attack: Захист адміністраторів
+se_adm_attack_info: Якщо увімкнено, адміністратори та модератори можуть зробити себе недоступними для атак.
+se_all_planet_pictures: Усі зображення планет
+se_all_planet_pictures_info: Дозволити всі зображення планет на всіх позиціях.
+se_alliance_create_min_points: Мінімум очок для заснування альянсу
+se_allys: Альянси
+se_asc_desc: За зростанням / за спаданням
+se_attacks: Налаштування атак
+se_auth: Ранг
+se_authlevels: Адміністратори
+se_ban: Заблоковано?
+se_ban_author: Заблокував
+se_ban_limit: До
+se_ban_reason: Причина
+se_ban_time: Заблоковано
+se_bash_per_planet: Ліміт bash на планету
+se_bash_per_planet_info: Як часто гравець може атакувати планету іншого гравця за 24 години (рахується для кожної планети). 0 = вимкнено
+se_bash_count_missiles: Ліміти bash враховують ракетні атаки
+se_bash_count_missiles_info: 'Міжпланетні ракетні атаки враховуються в лімітах bash так само, як атаки флотами (для гравця і для планети). Вимкнено: ракети не враховуються.'
+se_bash_per_user: Ліміт bash на гравця
+se_bash_per_user_info: Як часто гравець може атакувати іншого гравця за 24 години (з усіх планет разом). 0 = вимкнено
+se_block_planet_creation: Заблокувати
+se_board_enabled: Увімкнути дошку спільноти
+se_board_enabled_info: 'Вимкнено: усі посилання на дошку приховані, а сторінки дошки недоступні.'
+se_building_speed: Швидкість будівництва
+se_buildings: Налаштування будівель
+se_buildlist: Налаштування черг
+se_cascading_moon_chance: Каскадний шанс Місяця
+se_cascading_moon_chance_info: Додатковий шанс Місяця, що додається після кожної невдалої спроби з максимальним шансом. Діє лише на перший Місяць облікового запису. 0 = вимкнено
+se_catch_up: Механіка наздоганяння
+se_catch_up_info: Зменшує час будівництва й досліджень експоненційно, до коефіцієнта 10, залежно від різниці очок із першим гравцем. Від приблизно 90% очок лідера бонусу немає. Приблизно при 54% коефіцієнт дорівнює 2,5, при 27% — 5, при 11% — 7,5. Це перетворюється на діапазон від 1,0 до 0,5.
+se_catchup_percent: Максимальний бонус наздоганяння у відсотках
+se_close_reason: Повідомлення про закритий сервер
+se_colonisation_config: Налаштування колонізації
+se_configuration_title: Конфігурація сервера
+se_confirm_planet: 'Вибрану планету буде повністю скинуто. Продовжити? Назва планети:'
+se_contrac: Згорнути
+se_cookie_advert: Зміна назви cookie виводить усіх із системи.<br>Використовуй іншу назву, якщо запущено кілька всесвітів.
+se_cookie_name: Назва cookie
+se_crystal_basic_income: Базове видобування кристалу
+se_crystal_start: Початковий кристал
+se_crystal_start_info: Кристал, який отримує новий гравець на головній планеті.
+se_days: Днів
+se_debris_moon: Очищати уламки після Місяця
+se_debris_moon_info: Видаляє поле уламків після створення Місяця.
+se_debug: Режим налагодження
+se_debug_info: Записує SQL-запити та показує адміністраторам рядок стану з кількістю запитів і часом виконання.
+se_def_debris_percentage: Оборона в уламки
+se_def_debris_percentage_info: Відсоток знищеної оборони, який після атаки перетворюється на уламки.
+se_del_oldstuff: Видаляти повідомлення через
+se_del_oldstuff_info: Видаляє повідомлення та бойові звіти через X днів.
+se_del_user_automatic: Видаляти неактивних гравців через
+se_del_user_automatic_info: Видаляє гравців, які не входили в гру X днів. (0 = вимкнено)
+se_del_user_manually: Видаляти запитані облікові записи через
+se_del_user_manually_info: Видаляє гравців, які запросили видалення облікового запису, через X днів.
+se_del_user_sendmail: Надсилати нагадування через
+se_del_user_sendmail_info: Надсилає нагадування на е-пошту після X днів без входу.
+se_delete_succes_p: Успішно видалено
+se_delete_not_found: 'Нічого не видалено: гравця або планети не існує чи їх не можна видалити.'
+se_deuterium_basic_income: Базове видобування дейтерію
+se_deuterium_cost_galaxy: Витрати дейтерію на галактику
+se_deuterium_cost_galaxy_info: 'Витрати дейтерію за один перехід між галактиками (за замовчуванням: 10)'
+se_deuterium_start: Початковий дейтерій
+se_deuterium_start_info: Дейтерій, який отримує новий гравець на головній планеті.
+se_disclaimer: Налаштування юридичного повідомлення
+se_disclamer_address: Адреса
+se_disclamer_mail: Адреса е-пошти
+se_disclamer_notice: Додаткова інформація
+se_disclamer_phone: Номер телефону
+se_discord_exceptions_hook: Винятки та попередження
+se_discord_hooks: Discord Webhooks
+se_discord_logs_hook: Журнали
+se_discord_tickets_hook: Тікети
+se_dst: Літній час?
+se_dst_sel:
+- Ні
+- Так
+- Автоматично
+se_email: Е-пошта
+se_end: Дата завершення
+se_end_time: Час завершення
+se_energy_basic_income: Базове виробництво енергії
+se_energy_multiplier: Коефіцієнт енергії
+se_expand: Розгорнути
+se_expedition_parameters: Налаштування експедицій
+se_expo_hold_multiplier: Швидкість експедицій
+se_expo_hold_multiplier_info: 'Звичайна швидкість: 1'
+se_expo_ress_crys_chance: Шанс кристалу з експедицій
+se_expo_ress_deut_chance: Шанс дейтерію з експедицій
+se_expo_ress_met_chance: Шанс металу з експедицій
+se_factor_university: Коефіцієнт університету
+se_factor_university_info: Відсоток, на який кожен рівень університету скорочує час досліджень
+se_fields: Поля
+se_filter_title: Фільтр
+se_fleet_debris_percentage: Флот в уламки
+se_fleet_speed: Швидкість флоту
+se_fleet_speed_info: 'Звичайна швидкість: 1'
+se_forum_url: Посилання на форум
+se_galaxy: Галактика
+se_galaxy_distance_factor: Коефіцієнт відстані між галактиками
+se_galaxy_distance_factor_info: 'За замовчуванням: 20000, розрахунок: різниця галактик × коефіцієнт відстані між галактиками'
+se_galaxy_parameters: Налаштування галактики
+se_galaxy_type: Тип галактики
+se_galaxy_type_info: <TABLE><tr><td>Лінійні галактики</td><td>Відстань до системи 1 зростає з кожною системою в галактиці.</td></tr><tr><td>Кільцеві галактики</td><td>Остання і перша системи галактики з'єднані, тож відстань від далеких систем до першої зменшується.</td></tr><tr><td>Сферичні галактики</td><td>Кожна система в одній галактиці однаково віддалена від інших.</td></tr></TABLE>
+se_default_theme: Тема за замовчуванням
+se_default_theme_info: Тема для нових облікових записів і відвідувачів
+se_legal: Юридичне і спільнота
+se_privacy_region: Регіон розміщення (політика конфіденційності)
+se_privacy_region_info: 'Вибирає політику конфіденційності за замовчуванням: версію за GDPR (ЄС/ЄЕЗ) або загальну версію. Сторінки, які вже редагувалися, залишаються без змін; юридичні тексти відповідає оператор.'
+se_privacy_region_sel:
+  eu: ЄС / ЄЕЗ — політика конфіденційності за GDPR
+  other: Поза ЄС — загальна політика конфіденційності
+se_rules_default: Використовувати стандартні правила
+se_rules_default_info: 'Вимкнено: сторінка правил залишається порожньою, доки ти не напишеш власні правила в розділі Сторінки. Правила, які вже редагувалися, зберігаються.'
+se_source_url: URL вихідного коду
+se_source_url_info: Публічний репозиторій коду, на якому працює сервер; у футерах з'являється посилання «Вихідний код» (AGPL вимагає, щоб ти надав гравцям свої зміни). Порожньо — посилання приховано.
+se_game_name: Назва гри
+se_git_issues_link: Посилання на трекер помилок
+se_git_issues_link_info: Сторінка, де можна повідомити про помилки і проблеми
+se_id_owner: ID власника
+se_inactives: Неактивні
+se_initial_fields: 'Початкові поля:'
+se_initial_temp: 'Початкова температура:'
+se_input_a: A
+se_input_act_pla: ' активних планет'
+se_input_activity: Активність
+se_input_admm: ' адміністраторів'
+se_input_allyy: ' альянсів'
+se_input_asc: За зростанням
+se_input_authlevel: Ранг
+se_input_connect: ' гравців онлайн'
+se_input_d: D
+se_input_desc: За спаданням
+se_input_email: Е-пошта
+se_input_g: Галактика
+se_input_have_moon: Місяць?
+se_input_hay: 'Зараз '
+se_input_inact: ' неактивних гравців'
+se_input_inacti: Неактивність
+se_input_ip: IP
+se_input_longer: Тривалість
+se_input_members: Учасники
+se_input_members2: Учасники
+se_input_moonn: ' Місяців'
+se_input_name: Назва
+se_input_p: Планета
+se_input_planett: ' планет'
+se_input_prop: Власник
+se_input_register: Реєстрація
+se_input_s: Система
+se_input_submit: Пошук
+se_input_susss: ' заблоковано'
+se_input_time: Час
+se_input_userss: ' гравців'
+se_input_vacatii: ' гравців у режимі відпустки'
+se_intro: Слово або ключове слово
+se_iter_planet_creation: Ітеративно (за замовчуванням)
+se_jumpgate_factor: Перезарядка стрибкової брами
+se_jumpgate_factor_info: Коефіцієнт, на який ділиться час перезарядки стрибкової брами (за замовчуванням 1)
+se_lang: Мова
+se_limit: Ліміт
+se_line_galaxy: Лінійні галактики (за замовчуванням)
+se_line_uni: Лінійний всесвіт (за замовчуванням)
+se_mail_active: Увімкнути е-пошту
+se_mail_sel:
+- PHP mail()
+- Sendmail / Qmail
+- SMTP Auth
+se_mail_use: 'Спосіб надсилання пошти:'
+se_max_additional_planets: Макс. додаткових планет з астрофізики
+se_max_additional_planets_info: Додаткові планети, які гравець може колонізувати завдяки астрофізиці
+se_max_elements_build: Макс. черга будівництва
+se_max_elements_build_info: Максимальна кількість будівель у черзі будівництва
+se_max_elements_ships: Макс. черга верфі
+se_max_elements_ships_info: Максимальна кількість замовлень у черзі верфі
+se_max_elements_tech: Макс. черга досліджень
+se_max_elements_tech_info: Максимальна кількість пунктів у черзі досліджень
+se_max_fleet_per_build: Макс. одиниць в одному замовленні
+se_max_fleet_per_build_info: Максимальна кількість одиниць в одному замовленні верфі
+se_max_fleets_per_acs: Макс. флотів в ACS
+se_max_fleets_per_acs_info: Максимальна кількість флотів в одному ACS (за замовчуванням 16)
+se_max_galaxy: Макс. галактик
+se_max_galaxy_info: Максимальна кількість галактик у всесвіті
+se_max_initial_planets: Макс. планет без досліджень
+se_max_initial_planets_info: Кількість планет, які гравець може колонізувати з початку гри, без астрофізики
+se_max_overflow: Переповнення сховищ
+se_max_overflow_info: Коефіцієнт того, скільки ресурсів ще можна видобути з повним сховищем
+se_max_participants_per_acs: Макс. учасників в ACS
+se_max_participants_per_acs_info: Максимальна кількість учасників в одному ACS (за замовчуванням 5)
+se_max_planets: Макс. планет
+se_max_planets_info: 'Максимальна кількість планет в одній системі (за замовчуванням: 15)'
+se_max_player_planets: Макс. планет на гравця
+se_max_player_planets_info: Максимальна кількість колоній без досліджень
+se_max_system: Макс. систем
+se_max_system_info: Максимальна кількість систем в одній галактиці
+se_message_delete_days: Очищати видалені повідомлення через X днів
+se_messages: Повідомлення
+se_metal_basic_income: Базове видобування металу
+se_metal_start: Початковий метал
+se_metal_start_info: Метал, який отримує новий гравець на головній планеті.
+se_min_build_time: Мінімальний час будівництва
+se_min_build_time_info: Мінімальний час будівництва в секундах для будівель, досліджень, кораблів і оборони. За замовчуванням 1.<br>0 вимикає мінімум.<br>Вимкнення може спричинити помилки.
+se_missile_range_factor: Коефіцієнт дальності ракет
+se_moon_chance: Макс. шанс Місяця
+se_moon_chance_info: Максимальний шанс утворення Місяця
+se_moon_factor: Коефіцієнт шансу Місяця
+se_moon_factor_info: Множник шансу утворення Місяця
+se_moon_size_factor: Коефіцієнт розміру Місяця
+se_moon_size_factor_info: Множник розміру Місяця, 1 = за замовчуванням
+se_moons: Місяці
+se_name: Назва
+se_news: Налаштування новин
+se_no_data: Немає даних
+se_noob_inactives: Застосовувати коефіцієнт захисту новачків до неактивних гравців
+se_noob_protection: Захист новачків
+se_noob_protection_multi: Коефіцієнт захисту новачків
+se_noob_protection_multi_info: 'Атакувати можна лише гравців, чиї очки в межах твоїх очок × цей коефіцієнт. Приклад з 18: якщо в тебе 1 000 очок, можна атакувати гравців з меншими ніж 18 000 очок. Гравець із 20 000 очок може атакувати будь-кого з очками до 360 000, тож гравець із 50 000 очок і далі в його досяжності.'
+se_noob_protection_outlaw: Система поза законом
+se_noob_protection_outlaw_info: Дозволяє слабшим гравцям атакувати сильніших. Атакуючий стає поза законом на 7 днів і втрачає захист новачків.
+se_noob_protection_time: Захист новачків до X очок
+se_noob_protection_time_info: Гравці з таким або меншим рахунком залишаються під захистом новачків.
+se_normal_speed: 'Звичайна швидкість: 1'
+se_order_list_now: Пошук
+se_overview_news_frame: Увімкнути новини
+se_overview_news_frame_info: Якщо вимкнено, новини приховані на огляді.
+se_overview_news_text: Новини
+se_overview_news_text_info: Максимум 255 символів. HTML дозволено.
+se_pagees: Сторінки
+se_per_hour: на годину
+se_phalanx_range_factor: Коефіцієнт дальності фаланги
+se_piratebase: Піратські бази
+se_piratebase_fleet_percentage_max: 'Флот: максимум % від флоту гравця'
+se_piratebase_fleet_percentage_min: 'Флот: мінімум % від флоту гравця'
+se_piratebase_mainplanet_only: 'Ресурси: лише головна планета'
+se_piratebase_min_points: Мінімум очок
+se_piratebase_min_points_info: Мінімум очок, потрібний гравцеві, щоб могла з'явитися піратська база
+se_piratebase_ress_hours: 'Ресурси: години видобутку'
+se_planet: Планета
+se_planet_creation: Розміщення головних планет
+se_planet_creation_info: Нові головні планети можна розміщувати ітеративно через системи й галактики, випадково, блоками або 50% випадково і 50% блоками.<br>Випадкове розміщення заповнює галактики й системи рівномірно у випадкових позиціях.<br>Блокове розміщення вибирає систему, в якій уже є одна або дві планети. Якщо такої системи немає або гравців менше 50, розміщення відбувається випадково.
+se_planet_distance: Мін. відстань між планетами
+se_planet_distance_factor: Коефіцієнт відстані між планетами
+se_planet_distance_factor_info: 'За замовчуванням: 5, розрахунок: різниця планет × коефіцієнт відстані між планетами + мін. відстань між планетами'
+se_planet_distance_info: 'За замовчуванням: 1000, розрахунок: різниця планет × коефіцієнт відстані між планетами + мін. відстань між планетами'
+se_planet_parameters: Налаштування планет
+se_planet_ressource_bonus: Бонус ресурсів за положенням
+se_planet_ressource_bonus_info: Збільшує видобуток ресурсів на планеті на x% залежно від її положення.
+se_planet_size_factor: Коефіцієнт розміру планети
+se_planet_size_factor_info: Множник розміру планети, 1 = за замовчуванням
+se_planets: Планети
+se_planets_act: Активні планети
+se_planets_per_tech: Додаткові планети за рівень астрофізики
+se_planets_per_tech_info: Додаткові колонії, відкриті за кожен рівень астрофізики
+se_prepare_text: Текст підготовки сервера
+se_random_planet_creation: Випадково
+se_rank:
+- Гравець
+- Модератор
+- Оператор
+- Адміністратор
+se_pow_adaptive: Захист від ботів — адаптивна складність
+se_pow_adaptive_info: 'Увімкнено: підозрілі IP-адреси та мережі (/24 або /64) отримують значно складніше завдання (багато запитів, помилок або реєстрацій за короткий час). Вимкнено: усі відвідувачі отримують базове завдання, лічильники не враховуються.'
+se_pow_elevated_factor: Захист від ботів — коефіцієнт при підвищеному ризику
+se_pow_elevated_factor_info: Завдання стає у стільки разів складнішим (за замовчуванням 20).
+se_pow_high_factor: Захист від ботів — коефіцієнт при високому ризику
+se_pow_high_factor_info: Завдання стає у стільки разів складнішим (за замовчуванням 100).
+se_pow_max_cap: Захист від ботів — обмеження складності
+se_pow_max_cap_info: Найбільше число після застосування коефіцієнтів. 1500000 займає приблизно 25 секунд на повільному смартфоні.
+se_pow_sensitivity: Захист від ботів — чутливість виявлення ризику
+se_pow_sensitivity_info: Відсоток від стандартних порогів (підвищений ризик від 5 запитів/10 хв, 3 помилок/год або 2 реєстрацій/24 год на IP; високий від 20 / 10 / 5; для мереж утричі більше). 200 = потрібно вдвічі більше подій, 50 = удвічі менше.
+se_pow_max_number: Захист від ботів — складність (максимальне число)
+se_pow_max_number_info: Браузер перебирає хеші до цього числа, у середньому половину з них. 100000 займає приблизно від половини секунди до секунди. Більше означає більше роботи для ботів.
+se_pow_min_seconds: Захист від ботів — мінімальний час до надсилання (секунди)
+se_pow_min_seconds_info: Форми, надіслані раніше, ніж за цей час після завантаження, відхиляються. 0 вимикає перевірку.
+se_proofofwork: Захист від ботів
+se_proofofwork_info: Реєстрація і відновлення пароля захищені невеликим обчисленням, яке браузер виконує сам, без участі третіх сторін.
+se_rebuild_protection: Захист відбудови
+se_rebuild_protection_info: Після великих втрат гравці отримують захист відбудови від подальших атак через 6 годин, який діє 48 годин від атаки. За одну атаку має бути знищено 70% флоту або 80% місткості транспортів, і ці втрати мають становити щонайменше захист новачків (очки × 1 000) в одиницях або місткості. Гравець може завершити режим достроково.
+se_redis_connection_url: URL підключення Redis
+se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
+se_ref: Реферальне посилання
+se_ref_active: Увімкнути реферальні посилання
+se_ref_active_info: Реферальні посилання дозволяють гравцям запрошувати друзів. Запрошені гравці дають бонус.
+se_ref_bonus: Реферальний бонус
+se_ref_bonus_info: Темна матерія, яку отримує гравець, що запросив, за кожного запрошеного гравця.
+se_ref_max_referals: Максимум запрошень
+se_ref_max_referals_info: Максимальна кількість гравців, яких один користувач може запросити.
+se_ref_minpoints: Мінімум очок для бонусу
+se_ref_minpoints_info: Запрошений гравець має досягти цього рахунку, перш ніж запрошувач отримає бонус.
+se_research_speed: Швидкість досліджень
+se_resource_multiplier: Швидкість видобутку ресурсів
+se_resource_multiplier_info: 'Звичайна швидкість: 1'
+se_ress_chance: Шанси ресурсів
+se_ring_galaxy: Кільцеві галактики
+se_ring_uni: Кільцевий всесвіт
+se_save_parameters: Зберегти
+se_se_fleet_debris_percentage_info: Відсоток знищених флотів, які після атаки перетворюються на уламки
+se_search: Пошук
+se_search_alliance_0: ID
+se_search_alliance_1: Назва
+se_search_alliance_2: TAG
+se_search_alliance_3: Лідер
+se_search_alliance_4: Заснований
+se_search_alliance_5: Учасники
+se_search_banned_0: ID
+se_search_banned_1: Назва
+se_search_banned_2: Заблоковано від
+se_search_banned_3: Заблоковано до
+se_search_banned_4: Причина
+se_search_banned_5: Автор
+se_search_edit: Редагувати
+se_search_in: Для
+se_search_info: Пошук
+se_search_order: Сортування
+se_search_planets_0: ID
+se_search_planets_1: Назва
+se_search_planets_2: Власник
+se_search_planets_3: Остання активність
+se_search_planets_4: Галактика
+se_search_planets_5: Система
+se_search_planets_6: Планета
+se_search_planets_7: Є Місяць?
+se_search_title: Розширений пошук
+se_search_users_0: ID
+se_search_users_1: Назва
+se_search_users_2: Е-пошта
+se_search_users_3: Остання активність
+se_search_users_4: Дата реєстрації
+se_search_users_5: Останній IP
+se_search_users_6: Ранг
+se_search_users_7: Заблоковано?
+se_search_users_8: Відпустка?
+se_sendmail_inactive: Увімкнути нагадування е-поштою
+se_server_naame: Назва гри
+se_server_parameters: Налаштування всесвіту
+se_session_handler: Обробник сесій
+se_several_parameters: Інші налаштування
+se_shipyard_speed: Швидкість верфі
+se_silo_factor: Розмір ракетної шахти
+se_silo_factor_info: Множник розміру ракетної шахти
+se_smail_path: Шлях до Sendmail / Qmail
+se_smtp: Налаштування SMTP
+se_smtp_host: 'Хост SMTP:'
+se_smtp_host_info: Адреса твого SMTP-сервера.
+se_smtp_info: Налаштування SMTP, які використовуються для надсилання листів гравцям з сервера {game_name}.
+se_smtp_pass: 'Пароль SMTP:'
+se_smtp_port: 'Порт SMTP:'
+se_smtp_port_info: Порт SMTP-сервера. Зазвичай 25.
+se_smtp_sendmail: 'Відправник SMTP:'
+se_smtp_sendmail_info: Адреса відправника. Вона не обов'язково має збігатися з адресою для входу.
+se_smtp_ssl: 'SMTP SSL/TLS:'
+se_smtp_ssl_info: Шифрування між цим сервером і поштовим сервером. Потрібно рідко.
+se_smtp_ssl_sel:
+- Немає
+- SSL
+- TLS
+se_smtp_user: 'Ім''я користувача SMTP:'
+se_sphere_galaxy: Сферичні галактики
+se_sphere_uni: Сферичний всесвіт
+se_start: Дата початку
+se_start_time: Час початку
+se_stat: Нараховувати 0 очок адміністраторам
+se_stat_level: Починаючи з рангу
+se_stat_sel:
+- Ні
+- Так
+- Приховати адміністраторів
+se_stat_settings: Вартість 1 очка статистики
+se_statistics: Статистика
+se_statsjson_delay: Затримка stats.json
+se_storage_multiplier: Множник сховища ресурсів
+se_suspended: Заблоковано
+se_system: Система
+se_system_distance: Мін. відстань між системами
+se_system_distance_factor: Коефіцієнт відстані між системами
+se_system_distance_factor_info: 'За замовчуванням: 95, розрахунок: різниця систем × коефіцієнт відстані між системами + мін. відстань між системами'
+se_system_distance_info: 'За замовчуванням: 2700, розрахунок: різниця систем × коефіцієнт відстані між системами + мін. відстань між системами'
+se_tag: TAG
+se_temp: Градуси
+se_time_of_page: Сторінку створено
+se_timezone: Часовий пояс всесвіту
+se_trade_allowed_ships: 'Дозволені кораблі:'
+se_trade_charge: 'Комісія торговця:'
+se_trader: Налаштування торговця металобрухтом
+se_ttf_file: Шлях до TTF-файлу
+se_ttf_file_info: Потрібен для відображення кирилиці або китайських символів на банері статистики
+se_type_all: Звичайний пошук
+se_type_exact: Точний пошук
+se_type_first: Починається з
+se_type_last: Закінчується на
+se_type_typee: Тип
+se_uni_name: Назва всесвіту
+se_uni_status: Статус всесвіту
+se_uni_status_regclosed_gameclosed: Реєстрацію і вхід закрито (наприклад, на час обслуговування)
+se_uni_status_regclosed_gameopen: Реєстрацію закрито, вхід відкрито (наприклад, старі всесвіти)
+se_uni_status_regopen_gameclosed: Реєстрацію відкрито, вхід закрито (наприклад, нові всесвіти)
+se_uni_status_regopen_gameopen: Реєстрацію і вхід відкрито
+se_uni_type: Тип всесвіту
+se_uni_type_info: <TABLE><tr><td>Лінійний всесвіт</td><td>Відстань до галактики 1 зростає з кожною галактикою.</td></tr><tr><td>Кільцевий всесвіт</td><td>Остання і перша галактики з'єднані, тож відстань від далеких галактик до першої зменшується.</td></tr><tr><td>Сферичний всесвіт</td><td>Кожна галактика однаково віддалена від інших.</td></tr></TABLE>
+se_user_settings: Налаштування гравців
+se_user_valid: Перевірка е-пошти
+se_user_valid_info: Якщо увімкнено, гравці мають активувати облікові записи через е-пошту. SMTP має бути налаштовано нижче.
+se_users: Гравці
+se_vacat: Відпустка?
+se_vacations: Відпустка
+se_vmode_min_time: Мінімальний час відпустки
+se_vmode_min_time_info: Мінімальний час, який гравець має провести в режимі відпустки, у секундах
+se_wreckfield_cooldown: Перезарядка поля уламків
+se_wreckfield_min_percent: Мінімальний відсоток знищених одиниць флоту для поля уламків
+se_wreckfield_min_units: Мінімальна кількість знищених одиниць для поля уламків
+select_option: Вибери...
+ships_title: Кораблі
+sp_answer_message: 'На твій тікет #%d відповіли!'
+sp_answer_message_title: 'Тікет підтримки #%d'
+status: Статус
+subject: Тема
+test_data_amount: Кількість тестових користувачів
+test_data_stage:
+- Початок (шпигунський зонд)
+- Середина гри (лінкор, 1 Місяць)
+- Пізня гра (лінійний крейсер, фаланга)
+- Кінець гри (Зірка Смерті, стрибкова брама)
+test_data_stage_label: Етап
+test_data_success: Тестові дані успішно створено
+test_data_title: Створення тестових даних користувача
+text: Деталі
+time_days: Днів
+time_hours: Годин
+time_minutes: Хвилин
+time_seconds: Секунд
+ul_sure_you_want_dlte: Ти впевнений, що хочеш це видалити?
+uni_reg: Всесвіт
+user_reg: Назва
+uvs_actions: Дії
+uvs_back: Назад
+uvs_delete: Видалити
+uvs_id: ID всесвіту
+uvs_inactive: Неактивний
+uvs_name: Назва
+uvs_new: Додати всесвіт
+uvs_off: Закритий
+uvs_on: Відкритий
+uvs_open: Статус
+uvs_planets: Планети
+uvs_players: Гравці
+uvs_reload: Оновити
+uvs_speeds: Коефіцієнти швидкості (G/F/R/E)
+uvs_speeds_full: Коефіцієнти швидкості (гра/флот/ресурси/експедиція)
+vt_all: Усі файли
+vt_head: Перевірка файлів гри
+vt_info: Цей список показує файли, що відрізняються від оригіналу.<br>Якщо ти сам нічого не змінював у грі, замін ці файли оригінальними.
+adm_comments: Коментарі
+adm_analytics: Аналітика
+ad_system: Система
+adm_menu_filter: Фільтр меню …
+adm_menu_empty: Пункт меню не знайдено
+adm_menu_toggle: Меню
+adm_back_to_game: Назад до гри
+adm_drop_rights: Вихід
+adm_universe_switch: Всесвіт
+adm_dash_attention: Потребує уваги
+adm_dash_all_good: Усе добре — попереджень немає.
+adm_dash_online: Гравці онлайн (15 хв)
+adm_dash_players: Усього гравців
+adm_dash_tickets: Відкриті тікети
+adm_dash_fleets: Флоти в польоті
+adm_dash_quick: Швидкий доступ
+adm_dash_system: Система
+adm_dash_version: Версія
+adm_dash_php: PHP
+adm_dash_uni_status: Статус всесвіту
+adm_dash_credits: Подяки
+adm_dash_project: Домашня сторінка проєкту
+adm_confirm: Ти впевнений?
+adm_dash_cron_locked: 'Cron-завдання заблоковано (більше не виконується): %s'
+adm_dash_next_cron: Наступне cron-завдання
+adm_dash_cron_count: активних cron-завдань
+adm_unsaved_hint: Зміни набувають чинності після збереження.
+adm_sections: Розділи
+adm_skip: Перейти до вмісту
+adm_filter_page: Фільтр на цій сторінці …
+adm_actions: Дії
+adm_ac_no_destroyed: Нещодавно жодну планету не знищено.
+adm_ae_addremove_hint: Значення додаються до поточної кількості (Додати) або віднімаються від неї (Видалити). Значення 0 залишає запис без змін.
+adm_ae_confirm_remove: Справді відняти введені значення від поточної кількості?
+adm_ae_danger_zone: Небезпечна зона
+adm_ae_group_planet: Планета / Місяць
+adm_ae_group_player: Гравець
+adm_ae_menu_hint: Вибери, що редагувати. Гравці вибираються за ID гравця, планети — за ID планети або Місяця.
+adm_ae_wipe: Скинути планету
+adm_ae_wipe_hint: Відмічені розділи буде стерто з планети. Це не можна скасувати.
+adm_as_confirm: Справді поміняти облікові записи двох вибраних гравців?
+adm_as_explain: Двоє вибраних гравців міняються обліковими записами (даними для входу). Ігровий стан і планети залишаються за кожним гравцем, змінюється лише власник даних для входу. Вибери гравця A ліворуч і гравця B праворуч.
+adm_ban_accounts: Облікові записи
+adm_ban_duration: Тривалість
+adm_ban_users: Гравці
+adm_continue: Далі
+adm_coord_position: Позиція
+adm_cron_active: Активний
+adm_cron_click_disable: Натисни, щоб деактивувати
+adm_cron_click_enable: Натисни, щоб активувати
+adm_cron_click_lock: Натисни, щоб заблокувати
+adm_cron_click_unlock: Натисни, щоб розблокувати (зависший запуск)
+adm_cron_free: Вільний
+adm_cron_hint: Натисни на позначку стану, щоб перемкнути його
+adm_cron_inactive: Неактивний
+adm_cron_locked: Заблоковано
+adm_cron_state: Стан
+adm_giveaway_confirm: Суми буде зараховано на всі відповідні планети цього всесвіту. Продовжити?
+adm_giveaway_hint: Суми додаються до поточного запасу кожної відповідної планети. Поля з 0 не змінюються.
+adm_reset_warning: Усе відмічене нижче буде незворотно видалено або скинуто для цього всесвіту. Резервної копії і відміни немає.
+adm_rights_edit: Редагувати дозволи
+adm_rights_other: Інше
+adm_rights_page: Сторінка
+adm_rights_pick: Вибери гравця, дозволи якого хочеш редагувати.
+adm_uni_close: Закрити всесвіт
+adm_uni_open: Відкрити всесвіт
+adm_edit: Редагувати
+adm_ma_recipients: Одержувачі
+adm_ml_from: від
+adm_ml_to: до
+ac_detailed_planet_moon_info: Деталі планети і Місяця
+ad_max: (макс. %d)
+adm_password_info: Введи пароль, щоб підтвердити особу!
+button_des_se: вибрати/зняти вибір усіх
+er_dlte_all: Видалити всі
+input_id_moon: ID Місяця
+input_text: 'Опис:'
+mip_ip: IP
+adm_cfg_crystal_pct: Кристал %
+adm_cfg_deuterium_pct: Дейтерій %
+adm_cfg_fields_max: Поля макс.
+adm_cfg_fields_min: Поля мін.
+adm_cfg_metal_pct: Метал %
+adm_cfg_planet_props: Властивості планет за позицією
+adm_cfg_planet_props_hint: Температура в °C, поля, бонус видобутку в %
+adm_cfg_temp_max: Темп. макс.
+adm_cfg_temp_min: Темп. мін.
+adm_comment_col: Коментар
+adm_date_dd: дд
+adm_date_format: (дд.мм.рррр)
+adm_date_mm: мм
+adm_date_yyyy: рррр
+adm_exp_deck_err_card: 'Некоректний формат картки: тип, розмір або кількість відсутні'
+adm_exp_deck_err_count: 'Некоректна кількість карток: не може бути від''ємною'
+adm_exp_deck_err_empty: Колода має містити принаймні одну картку
+adm_exp_deck_err_format: 'Некоректний формат колоди: має бути масив'
+adm_exp_deck_err_json: Некоректний формат JSON
+adm_exp_ships_saved: Конфігурацію кораблів успішно збережено!
+adm_flight_distance: Відстань
+adm_flight_err_dist_missing: Заповни, будь ласка, усі значення відстані.
+adm_flight_err_format: Введи у форматі галактика:система:планета.
+adm_flight_err_galaxy_over: Галактика перевищує max_galaxy.
+adm_flight_err_max_missing: Заповни, будь ласка, max_galaxy, max_system і max_planets.
+adm_flight_err_min_one: Галактика, система і планета мають бути не менше 1.
+adm_flight_err_planet_over: Планета перевищує max_planets.
+adm_flight_err_system_over: Система перевищує max_system.
+adm_flight_fleet_speed: Швидкість флоту
+adm_flight_preview: Попередній перегляд часу польоту
+adm_flight_preview_help: Час польоту від 1:1:1 до цілі зі швидкістю корабля 45 000 і швидкістю флоту 1; тип всесвіту, тип галактики, максимальні значення, коефіцієнти відстані та мінімальні відстані застосовуються одразу.
+adm_flight_ship_speed: Швидкість корабля
+adm_flight_time: Час польоту
+adm_info_col: Інфо
+adm_info_db_version: Версія БД
+adm_info_errorlog: Журнал помилок
+adm_info_game: Гра
+adm_info_game_address: Адреса гри
+adm_info_game_version: Версія гри
+adm_info_memory_limit: Ліміт пам'яті
+adm_info_mysql_client: Клієнт MySQL
+adm_info_mysql_server: Сервер MySQL
+adm_info_php_version: Версія PHP
+adm_info_server: Сервер
+adm_info_server_info: Інформація про сервер
+adm_info_text: Як текст
+adm_info_timezone: Часовий пояс (PHP/конфіг/користувач)
+adm_loading: Завантаження …
+adm_log_not_found: Не знайдено в журналі
+adm_mip_activity: Активність
+adm_mip_show_allowed: Показати схвалені
+adm_mip_show_banned: Показати заблоковані
+adm_ml_end_day: День завершення
+adm_ml_end_month: Місяць завершення
+adm_ml_end_year: Рік завершення
+adm_ml_start_day: День початку
+adm_ml_start_month: Місяць початку
+adm_ml_start_year: Рік початку
+adm_pagination: Сторінки
+adm_permission_error: Доступ заборонено!
+adm_ti_all: Усі
+adm_ti_debug_errors: Налагодження/помилки
+adm_ti_user_tickets: Тікети користувачів
+adm_group_community: Спільнота
+adm_nav_accounts: Облікові записи
+adm_nav_expeditions: Експедиції
+adm_nav_messages: Повідомлення
+adm_nav_moderation: Модерація
+adm_nav_players: Гравці
+adm_nav_settings: Налаштування
+adm_tab_bans: Блокування
+adm_tab_card_deck: Колода карток
+adm_tab_create: Створити
+adm_tab_editor: Редактор
+adm_tab_findable_ships: Кораблі, які можна знайти
+adm_tab_moons: Місяці
+adm_tab_planets: Планети
+adm_tab_players: Гравці
+adm_tab_server: Сервер
+adm_tab_swap: Обмін
+adm_tab_universe: Всесвіт
+adm_maint_cache_text: Очищає кеші гри (мови, шаблони, ігрові дані) і перераховує час cron-завдань. Допомагає, коли зміни налаштувань або текстів не відображаються.
+adm_maint_log_head: Журнал гри
+adm_maint_log_text: Журнал помилок гри (var/log/game.log). Очищення спорожняє файл; нові помилки записуються знову одразу.
+adm_maint_log_size: Розмір
+adm_maint_log_changed: Остання зміна
+adm_maint_log_missing: Файл журналу ще не існує.
+adm_maint_log_clear: Очистити журнал гри
+adm_maint_log_confirm: Спорожнити var/log/game.log? Це не можна скасувати.
+adm_maint_log_cleared: Журнал гри очищено.
+adm_maint_log_failed: Не вдалося очистити журнал гри (файл недоступний для запису).
+adm_maint_points_text: Одразу перераховує очки і рейтинг. Інакше це виконується автоматично через cron-завдання статистики і при багатьох гравцях може тривати деякий час.
+adm_nav_maintenance: Обслуговування
+adm_nav_content: Контент
+adm_tab_pages: Сторінки
+adm_tab_team: Команда
+nws_back: Назад до списку
+nws_view: Перегляд
+nws_summary: Короткий опис
+nws_summary_help: Необов'язковий анонс для списку новин (макс. 300 символів). Порожньо = уривок тексту.
+nws_publish_date: Дата публікації
+nws_publish_help: 'Дата в майбутньому планує новину: вона з''явиться автоматично у вказаний час.'
+nws_status: Статус
+nws_status_draft: Чернетка
+nws_status_published: Опубліковано
+nws_status_scheduled: Заплановано
+nws_pinned: Закріплено
+nws_filter_all: Усі
+nws_filter_drafts: Чернетки
+nws_empty: Новин немає
+nws_saved: Новину збережено.
+nws_deleted: Новину видалено.
+nws_error_empty: Заголовок і текст не можуть бути порожніми.
+cms_page_contacts: Контакти
+cms_page_dataPrivacy: Конфіденційність даних
+cms_page_rules: Правила
+cms_language: Мова
+cms_status: Статус
+cms_status_default: За замовчуванням
+cms_status_edited: Змінено
+cms_last_edit: Остання зміна
+cms_title: Заголовок
+cms_content: Вміст
+cms_save: Зберегти сторінку
+cms_view: Переглянути сторінку
+cms_reset: Скинути до стандартного
+cms_reset_confirm: Видалити змінену версію і знову показати стандартний вміст?
+cms_saved: Сторінку збережено.
+cms_reset_done: Сторінку скинуто до стандартного вмісту.
+team_name: Назва
+team_position: Посада
+team_contact: Контакт (наприклад, Discord)
+team_description: Опис
+team_add: Додати учасника
+team_delete: Видалити
+team_move_up: Перемістити вгору
+team_move_down: Перемістити вниз
+team_save: Зберегти команду
+team_saved: Команду збережено.
+team_empty: Учасників команди ще немає.
+team_hint: Порядок рядків — це порядок на публічній сторінці команди. Рядки без назви під час збереження видаляються.
+nws_image: Зображення
+nws_image_remove: Видалити зображення
+nws_image_help: Необов'язково, одне зображення на новину (JPEG, PNG, GIF або WebP, макс. 8 МБ). Автоматично конвертується у WebP.
+bot_action: Дія
+bot_actions_per_session: Дій за сесію
+bot_active: Активний
+bot_active_none: Немає LLM (лише локальні запасні варіанти)
+bot_activity: Активність за годину
+bot_activity_info: 24 значення від 0 до 1 через кому (ймовірність, що бот не в мережі почне сесію; години 0–23)
+bot_alliance_chance: Ймовірність активності в альянсі за сесію
+bot_alliance_join_chance: Ймовірність подати заявку до альянсу ботів (за хід)
+bot_fleetsave_chance: Ймовірність врятувати флот (кінець сесії, загрози)
+bot_saving_discipline: Дисципліна накопичення (накопичує на мету замість дешевих покупок)
+bot_expedition_slots: Слотів флоту, що лишаються вільними для експедицій
+bot_api_key: Ключ API
+bot_base_url: Базова адреса
+bot_buddy_accept_chance: Ймовірність прийняти запит у друзі
+bot_cancel: Скасувати
+bot_chat_style: Підказка для стилю чату
+bot_raid_enabled: Рейди увімкнено
+bot_raid_chance: Сесії з рейдами
+bot_scout_range: Радіус розвідки (системи навколо своїх планет)
+bot_min_profit_ratio: Мінімальний коефіцієнт прибутку (здобич / паливо + втрати)
+bot_relentless_minutes: Серія рейдів після удару (хвилини, мін – макс)
+bot_recall_check_chance: Ймовірність повторної розвідки і перевірки відкликання перед ударом
+bot_max_attacks_per_target: Макс. атак на ціль за день
+bot_attack_bots: Атакувати інших ботів
+bot_attack_humans: Атакувати живих гравців
+bot_prefer_inactive: Перевага неактивним цілям (0–100)
+bot_check_interval: Інтервал перевірки входу
+bot_colonize_chance: Ймовірність колонізації за сесію
+bot_confirm_delete: Справді видалити?
+bot_confirm_restore: Скинути типові профілі до їхніх початкових значень?
+bot_csrf_error: Неправильний токен безпеки, онови сторінку.
+bot_days_zero_off: днів (0 = вимкнено)
+bot_default: типовий
+bot_defaults_restored: Типові профілі відновлено.
+bot_delete: Видалити
+bot_deleted: Видалено.
+bot_description: Опис
+bot_detail: Деталі
+bot_disabled: вимкнено
+bot_duplicate: Дублювати
+bot_edit: Редагувати
+bot_edit_profile: Редагувати профіль
+bot_enabled: увімкнено
+bot_expedition_chance: Ймовірність експедиції за сесію
+bot_failed: Помилка
+bot_hours_every: годин кожні
+bot_invalid_url: Базова адреса має починатися з http:// або https://.
+bot_key: Ключ
+bot_key_keep: залиш порожнім, щоб зберегти
+bot_key_not_set: не задано
+bot_key_stored: збережено
+bot_last_action: Остання дія
+bot_last_test: Останній тест
+bot_list: Боти
+bot_llm_advice: Дозволити LLM (імена і чат)
+bot_log: Останні дії
+bot_mistake_chance: Ймовірність помилки
+bot_mode: Режим бота
+bot_model: Модель
+bot_name: Назва
+bot_name_required: Введи назву.
+bot_new_profile: Новий профіль
+bot_next_tick: Наступна перевірка
+bot_none: Немає.
+bot_offline: не в мережі
+bot_online: в мережі
+bot_open_config: Налаштування всесвіту
+bot_pattern_shift: Зсув шаблону
+bot_player: Гравець
+bot_points: Очки
+bot_profile: Профіль
+bot_profile_default_locked: Типові профілі не можна видалити.
+bot_profile_in_use: Цей профіль ще використовується ботами.
+bot_profile_missing: Профіль не знайдено.
+bot_provider: Провайдер
+bot_providers_info: 'LLM необов''язковий і використовується лише для «людської» частини ботів: нікнейми, персони, назви планет і чат (відповіді на повідомлення, альянси, друзі). Ігрові рішення завжди ухвалюються локально. Без активного провайдера використовуються вбудовані генератори імен і готові повідомлення. Залиш поле ключа порожнім, щоб зберегти збережений ключ.'
+bot_randomness: Випадковість
+bot_reply_chance: Ймовірність відповіді (приватні повідомлення)
+bot_restore_defaults: Відновити типові
+bot_saved: Збережено.
+bot_session: Сесія
+bot_session_minutes: Тривалість сесії
+bot_skill: Навичка
+bot_skill_gain: Приріст за день
+bot_skill_max: Макс.
+bot_skill_start: Початок
+bot_spawn: Створити ботів
+bot_spawned: 'Створено ботів: %d.'
+bot_summary: Підсумок
+bot_summary_actions: дій
+bot_summary_mistakes: помилок
+bot_summary_session: сесія
+bot_tab_profiles: Профілі
+bot_tab_providers: Провайдери LLM
+bot_test: Перевірити з'єднання
+bot_testing: Перевірка...
+bot_time: Час
+bot_universe: Всесвіт
+bot_w_defense: Оборона
+bot_w_energy: Енергія
+bot_w_facilities: Споруди
+bot_w_mines: Шахти
+bot_w_research: Дослідження
+bot_w_ships: Кораблі
+bot_w_storage: Сховища
+bot_weights: Ваги
+adm_nav_bots: Боти
+adm_tab_bot_providers: Провайдери LLM
+adm_tab_bot_profiles: Профілі
+adm_tab_bot_list: Боти
+se_bots: Боти
+se_bots_enabled: Увімкнути ботів
+se_bots_enabled_info: Дозволяє ботам на сервері грати в цьому всесвіті. Cron-завдання обробляє їх раз на хвилину.
+se_bots_llm_daily_limit: Викликів LLM на бота за день
+se_bots_llm_daily_limit_info: Максимальна кількість викликів LLM, які може зробити один бот за день. Далі використовуються локальні запасні варіанти.
+se_bots_llm_enabled: Використовувати LLM для імен і чату
+se_bots_llm_enabled_info: Вмикає нікнейми, персони, назви планет і чат (повідомлення, альянси, друзі), згенеровані LLM через активного провайдера. Ігрові рішення завжди залишаються локальними.
+se_bots_max_count: Максимальна кількість ботів
+se_bots_max_count_info: Верхня межа створених ботів у цьому всесвіті.
+se_bots_ticks_per_run: Ботів за один запуск cron
+se_bots_ticks_per_run_info: Максимальна кількість ботів, яких обробляють за один запуск cron.
+se_bots_raids_enabled: Боти нападають на гравців
+se_bots_raids_enabled_info: Дозволяє ботам розвідувати, шпигувати і атакувати гравців та інших ботів поблизу за тими ж правилами, що й гравців (ліміт bash, захист, відпустка). Вимкнено за замовчуванням.
+adm_info_summary_fail: 'Невдалих перевірок: %s, попереджень: %s. Спочатку виправ невдалі перевірки.'
+adm_info_summary_warn: Невдалих перевірок немає, але %s попереджень потребують уваги.
+adm_info_summary_ok: Усі перевірки стану пройдено.
+adm_info_health: Перевірки стану
+adm_info_status_ok: OK
+adm_info_status_warn: Попередження
+adm_info_status_fail: Помилка
+adm_info_status_info: Інфо
+adm_info_chk_php: Версія PHP (8.4 або новіша)
+adm_info_chk_php_hint: Для гри потрібен PHP 8.4 або новіший.
+adm_info_chk_ext_required: Обов'язкові розширення PHP
+adm_info_chk_ext_required_hint: Встанови відсутні розширення, без них гра не працюватиме.
+adm_info_chk_ext_optional: Необов'язкові розширення PHP
+adm_info_chk_ext_optional_hint: Не обов'язкові, але вмикають швидші або додаткові функції (див. список розширень).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache вимкнено. Увімкни його на продакшені, він значно прискорює PHP.
+adm_info_chk_environment: Середовище (APP_ENV / налагодження)
+adm_info_chk_environment_hint: На публічному сервері запускай з APP_ENV=prod і вимкненим налагодженням.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: Виведення помилок на сторінках може розкрити внутрішні деталі. На публічних серверах постав display_errors=Off.
+adm_info_chk_writable: Каталоги з правом запису
+adm_info_chk_writable_hint: Користувач веб-сервера має мати право запису в ці каталоги (кеші, журнали, сесії, завантаження).
+adm_info_chk_install_tool: Інструмент встановлення
+adm_info_chk_install_tool_hint: Існує var/ENABLE_INSTALL_TOOL. Видали його, коли не встановлюєш гру.
+adm_info_chk_migrations: Міграції бази даних
+adm_info_chk_migrations_hint: Міграції очікують виконання. Вони застосуються під час наступного запиту до гри; якщо вони залишаються в очікуванні, перевір журнал.
+adm_info_chk_battle_engine: Бойовий рушій
+adm_info_chk_battle_engine_hint: Рушій Rust недоступний (bin/battlerust, bin/libbattlerust.so, proc_open). Бої йдуть на повільнішому рушії PHP.
+adm_info_chk_cron: Cron-завдання
+adm_info_chk_cron_hint: Cron, схоже, завис або не працює. Перевір, що bin/console app:cron:run запускається щохвилини, і розблокуй завислі завдання в розділі Cron-завдання.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Цей запит виконано не через HTTPS. Паролі та сесії передаються без шифрування.
+adm_info_chk_mail: Доставка пошти
+adm_info_chk_mail_hint: Пошта вимкнена або неповна (листи активації та скидання пароля не прийдуть). Див. налаштування.
+adm_info_chk_session: Обробник сесій
+adm_info_chk_session_hint: Перевір сховище сесій.
+adm_info_os: Операційна система
+adm_info_hostname: Ім'я хоста
+adm_info_max_exec: Максимальний час виконання
+adm_info_upload_max: Ліміт завантаження (upload_max_filesize)
+adm_info_post_max: Ліміт POST (post_max_size)
+adm_info_realpath: Кеш realpath
+adm_info_peak: Пік пам'яті цього запиту
+adm_info_cpu: Ядра ЦП
+adm_info_load: Середнє навантаження (1 / 5 / 15 хв)
+adm_info_uptime: Час роботи системи
+adm_info_disk: Диск (проєкт)
+adm_info_memory: Пам'ять системи
+adm_info_free_of: вільно %s з %s (використано %s %%)
+adm_info_opcache_line: 'використано %s з %s, частка попадань %s %%, скриптів у кеші: %s'
+adm_info_extensions: Розширення PHP
+adm_info_extensions_hint: Наведи для опису. Червоний = обов'язкове й відсутнє, сірий = необов'язкове й відсутнє.
+adm_info_required: обов'язкове
+adm_info_ext_pdo_mysql: Доступ до бази даних (PDO MySQL)
+adm_info_ext_intl: Форматування чисел, дат і мов
+adm_info_ext_mbstring: Робота з багатобайтовими рядками
+adm_info_ext_gd: Обробка зображень (аватари, зображення новин)
+adm_info_ext_curl: HTTP-запити (Discord, зовнішні API)
+adm_info_ext_json: Кодування і декодування JSON
+adm_info_ext_ctype: Перевірка типів символів
+adm_info_ext_opcache: Кешує скомпільований код PHP (швидкість)
+adm_info_ext_ffi: Інтерфейс викликів функцій (нативний код)
+adm_info_ext_ds: Швидкі структури даних
+adm_info_ext_redis: Сесії та кеш Redis
+adm_info_ext_imap: Доступ до поштової скриньки (IMAP)
+adm_info_database: База даних
+adm_info_db_schema: Схема
+adm_info_db_size: Розмір
+adm_info_tables: таблиць
+adm_info_pending: Очікувані міграції
+adm_info_db_uptime: Час роботи MySQL
+adm_info_threads: Підключені потоки
+adm_info_max: макс.
+adm_info_qps: Запитів за секунду (середнє)
+adm_info_queries: запитів
+adm_info_slow: Повільні запити
+adm_info_buffer_pool: Буферний пул InnoDB
+adm_info_top_tables: Найбільші таблиці
+adm_info_table: Таблиця
+adm_info_rows: рядків
+adm_info_data: Дані
+adm_info_index: Індекс
+adm_info_game_stats: Ігрова статистика
+adm_info_universe: Всесвіт
+adm_info_players: Гравці
+adm_info_accounts: Облікові записи
+adm_info_online: Онлайн
+adm_info_planets: Планети
+adm_info_moons: Місяці
+adm_info_fleets: Флоти в польоті
+adm_info_acs: Групи ACS
+adm_info_alliances: Альянси
+adm_info_messages: Повідомлення
+adm_info_unread: непрочитаних
+adm_info_activity: Активність і реєстрації
+adm_info_active: Активні гравці
+adm_info_registrations: Нові реєстрації
+adm_info_banned: Заблоковані гравці
+adm_info_vacation: У режимі відпустки
+adm_info_bots: Боти
+adm_info_points_avg: Середні очки
+adm_info_points_top: Найвищі очки
+adm_info_last_stats: Останнє оновлення статистики
+adm_info_market: Відкриті пропозиції на ринку
+adm_info_reports: Збережені бойові звіти
+adm_info_debris: Поля уламків з вмістом (метал / кристал)
+adm_info_resources: Ресурси на планетах
+adm_info_fleets_by_mission: Флоти за місіями
+adm_info_mission: Місія
+adm_info_no_fleets: Немає флотів у польоті.
+adm_info_reg_chart: Реєстрації за останні 30 днів
+adm_info_no_registrations: За останні 30 днів реєстрацій не було.
+adm_info_all_universes: Усі всесвіти
+adm_info_total: Разом
+adm_info_logs: Журнали та кеші
+adm_info_game_log: Журнал гри
+adm_info_errors_24h: Помилки за 24 год
+adm_info_warnings_24h: Попередження за 24 год
+adm_info_scanned: Перевірено (кінець файлу)
+adm_info_symfony_log: Журнал Symfony
+adm_info_lines: рядків
+adm_info_files: файлів
+adm_info_last_errors: Останні помилки
+adm_info_no_errors: У перевіреній частині журналу помилок немає.
+adm_info_time: Час сервера
+adm_info_timezone_of: Джерело
+adm_info_zone: Часовий пояс
+adm_info_tz_php: PHP
+adm_info_tz_config: Конфіг гри
+adm_info_tz_user: Твій обліковий запис
+adm_login_throttled: Забагато спроб. Спробуй ще раз за кілька хвилин.
+se_community_links: Посилання спільноти
+se_discord_url: URL запрошення в Discord
+se_discord_url_info: Посилання-запрошення на твій сервер Discord (https://...). Показується в меню, на сторінці входу, в листах і текстах. Порожньо — приховано.
+se_discord_widget_guild: ID сервера Discord (віджет онлайну)
+se_discord_widget_guild_info: ID твого сервера Discord (17–20 цифр; у налаштуваннях сервера → Widget має бути увімкнено «Enable Server Widget»). Показує блок із кількістю онлайну на стартовій сторінці, оновлюється кожні 5 хвилин. Порожньо — приховано.
+se_wiki_url: URL вікі
+se_wiki_url_info: Базова адреса зовнішньої вікі без кінцевого слеша (https://...). Посилання на вікі у FAQ, навчанні та правилах формуються з неї. Порожньо — приховано.
+se_donate_url: URL пожертв
+se_donate_url_info: Посилання для пожертв (https://...), показується в меню. Порожньо — приховано.
+se_userscripts_url: URL юзерскриптів
+se_userscripts_url_info: Сторінка з описом юзерскриптів для твоєї гри (https://...), посилання в налаштуваннях. Порожньо — приховано.
+se_bots_alliances_enabled: Боти створюють альянси
+se_bots_alliances_enabled_info: 'Боти засновують власні альянси і час від часу вступають в інші. Вимкнено: боти лишаються одинаками, нікуди не подають заявки і виходять з альянсів, де є учасниками (альянси, засновані ботом, залишаються).'
+se_bots_join_human_alliances: Боти можуть вступати в альянси гравців
+se_bots_join_human_alliances_info: 'Боти також можуть подавати заявки до альянсів, заснованих живими гравцями. Вимкнено: боти вступають лише в альянси ботів і виходять з альянсів гравців.'
+se_bot_reply_delay_hours: Затримка відповіді (години)
+se_bot_reply_delay_hours_info: Скільки годин найстаріше без відповіді приватне повідомлення гравця чекає, перш ніж бот відповість одним листом на всі очікувані повідомлення цього гравця. Також це мінімальний проміжок між двома повідомленнями, які бот ініціює сам (реакції на атаку, глум під час рейду), для одного гравця. 0 = без затримки.
+se_bot_chatter: Боти розмовляють
+se_bot_chatter_info: 'Увімкнено: боти відповідають на приватні повідомлення. Вимкнено: повідомлення все одно читаються і враховуються, але надсилаються лише реакції в бою (після атаки або рейду на гравця, який писав їм). Боти ніколи не пишуть гравцям першими.'
+mu_hall_of_fame: Зал слави
+hof_head: Зал слави (всесвіт)
+hof_view: Переглянути публічну сторінку
+hof_status: Статус
+hof_has_data: Дані є
+hof_entries: Записів рейтингу
+hof_updated: Останнє оновлення
+hof_no_data: Даних залу слави для цього всесвіту немає.
+hof_export: Експорт JSON
+hof_clear: Очистити дані
+hof_confirm_clear: Видалити дані залу слави цього всесвіту?
+hof_import: Імпорт JSON
+hof_file: JSON-файл
+hof_import_help: 'Формат: hall-of-fame, версія 1 (макс. 1 МБ). Замінює наявні дані цього всесвіту.'
+hof_confirm_import: Замінити наявні дані залу слави цього всесвіту?
+hof_imported: Зал слави імпортовано.
+hof_cleared: Дані залу слави видалено.
+hof_error_nofile: Не завантажено коректний файл.
+hof_error_invalid: 'Імпорт відхилено:'
+se_bash_war_exempt: Війни знімають ліміт bash
+se_bash_war_exempt_info: 'Атаки між альянсами у війні (прийняті, старші за один день) не враховуються в лімітах bash. Вимкнено: атаки під час війни враховуються як і всі інші.'
+se_honor_pair_cap: Чесні бої між парою (24 год)
+se_honor_pair_cap_info: Скільки чесних боїв між двома гравцями (в будь-якому напрямку) нараховують честь протягом 24 годин. Наступні бої враховуються як нейтральні. 0 = без обмежень.
+se_market_push_tolerance: Допустима різниця на ринку (push)
+se_market_push_tolerance_info: Допустима різниця вартості торгівлі на ринку у відсотках (0–90), після якої вона вважається push-торгівлею. За замовчуванням 30.
+se_transport_push_check: Захист від push-передач
+se_transport_push_check_info: Відхиляє транспорти, утримання і передачі (вантаж і кораблі) іншому гравцеві, якщо за останні 7 днів вартість надісланого йому перевищує вартість повернутого на більше, ніж вказаний нижче ліміт.
+se_transport_push_limit: Ліміт push-передач
+se_transport_push_limit_info: Вартість вантажу в одиницях дейтерію (ринкові співвідношення), вище якої діє захист. 0 = захист вимкнено.
+se_depot_cost_real_consumption: Вартість депо за реальним споживанням
+se_depot_cost_real_consumption_info: Депо альянсу бере реальну витрату палива флоту (з урахуванням двигунів і технологій палива власника) / 10 на годину замість базової витрати / 10.
+abuse_menu: Звіт про зловживання
+abuse_days: Днів
+abuse_apply: Застосувати
+abuse_weights: 'Ваги вартості метал : кристал : дейтерій'
+abuse_none: У цьому вікні нічого не знайдено.
+abuse_from: Від
+abuse_to: До
+abuse_count: Кількість
+abuse_sent: Надіслано
+abuse_back: Повернуто
+abuse_net: Чиста вартість
+abuse_linked: Пов'язано
+abuse_last: Останнє
+abuse_link_ip: той самий IP
+abuse_link_multi: мульти-група
+abuse_link_multi_known: мульти-група (відома)
+abuse_link_subnet: та сама підмережа (слабше)
+abuse_thresholds: 'Пороги: пара передач виводиться від %s одиниць металу в один бік, якщо назад повернуто не більше ніж %s; ринкові пари — від %s торгівель, позначаються при різниці понад %s. Порожні рядки означають, що нічого не досягло цих порогів (або в журналах нічого немає), а не що нічого не відбувалося.'
+abuse_transfers: Односторонні транспорти і утримання
+abuse_transfers_info: Транспорти, утримання і передачі кораблів (не відкликані; кораблі враховуються за вартістю будівництва) між двома гравцями, вантаж яких мав вартість щонайменше %s одиниць металу в один бік, а назад поверталося не більше %s цієї вартості. Сортовано за чистою вартістю; ваги — збережені ринкові співвідношення.
+abuse_trades: Повторювані торгівлі на ринку
+abuse_trades_info: Обміни ресурсами між тими самими двома гравцями, щонайменше %s разів. Співвідношення = вартість, віддана стороною, що віддала більше, поділена на вартість іншої сторони (1,00 = ринкова еталонна величина); понад %s різниці пара позначається.
+abuse_giver: Віддав більше
+abuse_receiver: Отримав більше
+abuse_ratio: Співвідношення
+abuse_outlier: викид
+abuse_protections: Надані захисти відбудови
+abuse_protections_info: Гравці, які отримали захист відбудови у вікні. Суперники — інша сторона бойового звіту цього бою; здобич — вартість, яку їхні флоти отримали в ньому (уламки і знищена вартість не зберігаються).
+abuse_protected: Захищений гравець
+abuse_granted: Надано
+abuse_opponents: Суперники
+abuse_loot: Здобич суперника
+abuse_report: Звіт
+abuse_recalls: Відкликання при прибутті або після
+abuse_recalls_info: Флоти атаки, ACS і знищення, відкликані, коли час прибуття вже настав (схема «відкликання після прибуття»).
+abuse_mission: Місія
+abuse_arrival: Прибуття
+abuse_recalled: Відкликано
+abuse_late: Після прибуття
+abuse_fought: бився
+abuse_mission_1: Атака
+abuse_mission_2: Атака ACS
+abuse_mission_9: Знищення
+abuse_missiles_skipped: 'Запуски ракет проти вмісту шахт не входять до цього звіту: таблиці не зберігають історії шахт для порівняння.'
+abuse_link_device: той самий пристрій
+abuse_graph: Кластери потоку вартості
+abuse_graph_info: 'Гравці, пов''язані потоком вартості за останні %s днів (фіксоване вікно): транспорти, утримання, передачі кораблів (за вартістю будівництва), ринкові торгівлі (обидві сторони) і здобич з атак, сумовані в обидва напрямки. Враховуються лише пари, між якими переміщено щонайменше %s одиниць металу і %s потоків; показуються зв''язані групи з двох і більше (топ %s за вартістю). Чиста вартість = вартість найбільш однобічної пари кластера (частка від його загальної вартості). Позначки зв''язків показують, чи мають учасники спільний IP, пристрій або мульти-групу з іншим учасником. Рядки читаються з обмеженням на джерело.'
+abuse_members: Учасники
+abuse_value: Загальна вартість
+abuse_flows: Потоки
+abuse_top_edge: Найбільш однобічна пара
+abuse_activity: Активність запусків флотів (24 год)
+abuse_activity_info: Облікові записи з найбільшою кількістю запусків флотів за останні 24 години; пік = запуски в найзавантаженішу годину. Постійні високі піки можуть вказувати на скриптову гру.
+abuse_player: Гравець
+abuse_launches: Запусків
+abuse_peak: Пік / година
+adm_dash_unprotected: 'Захист від зловживань у цьому всесвіті вимкнено:'
+adm_dash_unprotected_push: Захист push-передач для транспорту, утримання і передачі вимкнено (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: Ліміт чесних боїв 0 (необмежена честь між тими самими двома гравцями).
+adm_dash_unprotected_bash: Оголошені війни знімають ліміт bash (bash_war_exempt).
+adm_dash_unprotected_depot: Утримання в депо коштує за дешевою базовою витратою (depot_cost_real_consumption вимкнено).
+adm_dash_unprotected_market: Допустима різниця на ринку понад 10 % (market_push_tolerance).
+modul_57: Сайти голосування
+adm_nav_voting: Сайти голосування
+vt_sites: Сайти голосування
+vt_add: Додати сайт
+vt_create_head: Новий сайт голосування
+vt_edit_head: Редагувати сайт голосування
+vt_back: Назад
+vt_name: Назва
+vt_vote_url: URL голосування
+vt_vote_url_help: Посилання, на яке надсилаються гравці. {token} (одноразовий токен цього голосу) і {userId} замінюються.
+vt_image_url: URL зображення (необов'язково)
+vt_image_url_help: Банер або логотип, який показується поруч із сайтом на сторінці гравця (https).
+vt_cooldown: Перезарядка (години)
+vt_cooldown_help: Одна нагорода на гравця і сайт за цей проміжок часу, відлік від останньої нагороди.
+vt_reward: Нагорода
+vt_res_901: Метал
+vt_res_902: Кристал
+vt_res_903: Дейтерій
+vt_verification: Перевірка
+vt_verify_none: Немає (нагорода за клік)
+vt_verify_postback: Postback (нагорода за callback сайту)
+vt_verification_help: Без перевірки нагорода видається, коли гравець натискає кнопку голосування (лише перезарядка). З postback сайт має викликати URL callback.
+vt_sort: Порядок сортування
+vt_active: Активний
+vt_enabled: Активний
+vt_disabled: Неактивний
+vt_enable: Активувати
+vt_disable: Деактивувати
+vt_delete: Видалити сайт
+vt_renew_secret: Згенерувати новий секрет
+vt_renew_secret_help: 'Робить старий URL postback недійсним: онови його на сайті голосування.'
+vt_postback: Postback
+vt_postback_url: URL callback
+vt_secret: Секрет
+vt_postback_help: Вкажи цей URL на сайті голосування як callback/postback. Заміни {token} на макрос сайту для значення, яке він отримав в URL голосування. Приймаються GET і POST; секрет також можна надсилати в заголовку X-Vote-Secret.
+vt_saved: Збережено.
+vt_deleted: Сайт голосування видалено.
+vt_empty: Сайтів голосування ще немає.
+vt_confirm_delete: Видалити сайт голосування «%s» і його журнал?
+vt_module_off: Модуль «Сайти голосування» вимкнено, гравці не бачать сторінки голосування.
+vt_error_name: Потрібна назва.
+vt_error_vote_url: URL голосування має бути коректною адресою http(s).
+vt_error_image_url: URL зображення має бути коректною адресою http(s).
+vt_error_reward: Суми нагород мають бути від 0 до 1 000 000 000.
+vt_clicks: Кліки
+vt_verified: Перевірено
+vt_rewarded: Нагороджено
+vt_log: Останні голоси
+vt_log_time: Час
+vt_log_player: Гравець
+vt_log_status: Статус
+vt_log_ip: IP
+vt_log_empty: Голосів ще немає.
+vt_status_rewarded: Нагороджено
+vt_status_verified: Перевірено, без нагороди
+vt_status_pending: Натиснуто

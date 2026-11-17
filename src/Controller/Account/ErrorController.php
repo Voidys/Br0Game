@@ -8,15 +8,11 @@
 
 namespace App\Controller\Account;
 
-use App\Game\Core\Singleton;
-
 /** Error page of the account area. */
-#[\App\Routing\GamePage('account.php', 'error')]
-#[\App\Routing\GamePage('account.php', 'error', uniPrefix: true)]
+#[\App\Routing\GamePage('account', 'error')]
 class ErrorController extends AbstractAccountController
 {
-    public static $requireModule = 0;
-
+    use \App\Controller\Shared\ErrorPage;
     protected $disableEcoSystem = true;
 
     /**
@@ -35,13 +31,4 @@ class ErrorController extends AbstractAccountController
             'topname'           => $LNG->format('Back'),
         ]);
     }
-
-    /** the area's error page with a message (ends the request) */
-    public function showError($Message, $fullSide = true, $redirect = null)
-    {
-        $this->initialize();
-        $this->printMessage($Message, null, $redirect, $fullSide);
-    }
-
-    public function show() {}
 }

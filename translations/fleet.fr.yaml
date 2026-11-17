@@ -24,7 +24,6 @@ fleet_attack_1: La flotte attaquante tire avec une force de
 fleet_attack_2: sur le défenseur. Les boucliers du défenseur absorbent
 fleet_defs_1: La flotte du défenseur tire avec une force de
 fleet_defs_2: sur l'attaquant. Les boucliers de l'attaquant absorbent
-spy_attack_with: Attaque avec
 spy_best_planet: Meilleure planète
 spy_best_resources_per_second: Meilleure production par seconde
 spy_energy: Énergie
@@ -43,7 +42,6 @@ sys_and: et
 sys_attack_attacker_pos: Attaquant
 sys_attack_defender_pos: Défenseur
 sys_attack_round: Tour
-sys_attack_techologies: 'Armes : %d %% Boucliers : %d %% Blindage : %d %% '
 sys_attack_title: 'Les flottes suivantes s''opposent : '
 sys_attacker_lostunits: 'Pertes de l''attaquant :'
 sys_attacker_won: L'attaquant a gagné la bataille !
@@ -52,7 +50,6 @@ sys_colo_allisok: Ta flotte est arrivée aux coordonnées %s. Les colons commenc
   à s'installer sur la nouvelle planète.
 sys_colo_badpos: 'Ta flotte est arrivée aux coordonnées %s. Aucune colonisation
   n''est possible ici : les colons, déçus, sont rentrés.'
-sys_colo_defaultname: Colonie
 sys_colo_maxcolo: 'Ta flotte est arrivée aux coordonnées %s. Impossible de s''installer :
   tu ne peux posséder que %d planètes.'
 sys_colo_mess_from: Colonisation
@@ -137,8 +134,6 @@ sys_expe_back_home: Ta flotte est revenue de l'expédition à %3$s vers %1$s %2$
 sys_expe_back_home_ress: Elle rapporte %s %s, %s %s et %s %s.
 sys_expe_back_home_ships_flound: 'Les vaisseaux suivants ont été trouvés :'
 sys_expe_back_home_ships_lost: 'Les vaisseaux suivants ont été perdus :'
-sys_expe_blackholl_1: Ta flotte a rencontré un trou noir et a été en partie détruite !
-sys_expe_blackholl_2: Ta flotte a rencontré un trou noir et a été entièrement détruite !
 sys_expe_depleted_max_1: 'Extrait du journal de bord de l''officier de communication :
   si nous nous sentons un jour en danger, nous pourrons toujours faire équipe avec
   les autres expéditions qui rôdent dans le coin.'
@@ -171,7 +166,6 @@ sys_expe_depleted_not_2: 'Extrait du journal de bord de l''officier de communica
 sys_expe_feqeuence_few: Plus de 10 expéditions au cours des dernières 24 heures
 sys_expe_feqeuence_many: Plus de 50 expéditions au cours des dernières 24 heures
 sys_expe_feqeuence_medium: Plus de 25 expéditions au cours des dernières 24 heures
-sys_expe_feqeuence_no: Peu d'expéditions au cours des dernières 24 heures
 sys_expe_found_goods: '%s %s ont été extraits.'
 sys_expe_found_ress_1_1: Ton expédition a découvert un petit amas d'astéroïdes dont
   on a pu extraire quelques ressources.
@@ -210,8 +204,6 @@ sys_expe_found_ress_logbook_3: 'Extrait du journal de bord du second : nous avo
 sys_expe_found_ress_logbook_4: 'Extrait du journal de bord du second : même après
   avoir transformé la cafétéria et tous les salons en soutes, nous n''avons pas
   pu transporter toutes les ressources trouvées.'
-sys_expe_found_ships: 'Tes chercheurs ont trouvé des vaisseaux en parfait état !<br>
-  : '
 sys_expe_found_ships_1_1: Nous avons découvert les restes d'une expédition précédente !
   Nos techniciens vérifient s'ils peuvent remettre quelques épaves en état de marche.
 sys_expe_found_ships_1_2: Nous avons trouvé une base pirate abandonnée. Quelques
@@ -338,7 +330,6 @@ sys_mess_attack_cancel: |-
   La bataille à %s %s a été annulée.
   Le serveur n'a pas pu la calculer.
 sys_mess_attack_report: Rapport de combat
-sys_mess_destruc_report: 'Rapport : Destruction de la Lune'
 sys_mess_fleetback: Retour de flotte
 sys_mess_piratebase_gone: Ta flotte est arrivée à %s, mais la base pirate n'y est
   plus. La flotte rentre à sa base.
@@ -383,7 +374,6 @@ sys_ship_repaired: Réparé
 sys_ship_shield: Boucliers
 sys_ship_type: Type
 sys_ship_weapon: Armes
-sys_spy_defenses: Défenses
 sys_spy_fleet: Flotte
 sys_stat_mess: Ta flotte de %s %s est arrivée à %s %s %s et a livré %s %s, %s %s
   et %s %s. %s

@@ -30,8 +30,7 @@ use App\Game\Core\Universe;
 /**
  * Universe administration: list, open/close, create and delete universes.
  */
-#[\App\Routing\GamePage('admin.php', 'universe')]
-#[\App\Routing\GamePage('admin.php', 'universe', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'universe')]
 class UniverseController extends AbstractAdminController
 {
     private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;

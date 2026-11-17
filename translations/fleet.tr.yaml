@@ -22,7 +22,6 @@ fleet_attack_1: 'Saldıran filo, savunana şu güçle ateş ediyor:'
 fleet_attack_2: '. Savunanın kalkanları şu kadar hasarı emiyor:'
 fleet_defs_1: 'Savunan filo, saldırana şu güçle ateş ediyor:'
 fleet_defs_2: '. Saldıranın kalkanları şu kadar hasarı emiyor:'
-spy_attack_with: İle saldır
 spy_best_planet: En iyi gezegen
 spy_best_resources_per_second: Saniyedeki en iyi kaynak
 spy_energy: Enerji
@@ -41,14 +40,12 @@ sys_and: ve
 sys_attack_attacker_pos: Saldıran
 sys_attack_defender_pos: Savunan
 sys_attack_round: Tur
-sys_attack_techologies: 'Silahlar: %d %% Kalkanlar: %d %% Zırh: %d %% '
 sys_attack_title: 'Şu filolar karşı karşıya geldi: '
 sys_attacker_lostunits: 'Saldıranın kayıpları:'
 sys_attacker_won: Saldıran savaşı kazandı!
 sys_both_won: 'Savaş berabere bitti! '
 sys_colo_allisok: Filon %s koordinatlarına ulaştı. Yerleşimciler yeni gezegeni kolonileştirmeye başladı.
 sys_colo_badpos: Filon %s koordinatlarına ulaştı. Orada yerleşim mümkün değil, yerleşimciler hayal kırıklığıyla eve döndü.
-sys_colo_defaultname: Koloni
 sys_colo_maxcolo: 'Filon %s koordinatlarına ulaştı. Yerleşim mümkün değil: en fazla %d gezegenin olabilir.'
 sys_colo_mess_from: Kolonileştirme
 sys_colo_mess_report: Kolonileştirme raporu
@@ -94,8 +91,6 @@ sys_expe_back_home: Filonuz %3$s'deki seferden %1$s %2$s'ye geri döndü.
 sys_expe_back_home_ress: 'Şunları getiriyor: %s %s, %s %s ve %s %s.'
 sys_expe_back_home_ships_flound: 'Şu gemiler bulundu:'
 sys_expe_back_home_ships_lost: 'Şu gemiler kayboldu:'
-sys_expe_blackholl_1: Filon bir kara delikle karşılaştı ve kısmen yok oldu!
-sys_expe_blackholl_2: Filon bir kara delikle karşılaştı ve tamamen yok oldu!
 sys_expe_depleted_max_1: 'İletişim subayının seyir defterinden: Kendimizi güvende hissetmezsek, buralarda uçan diğer keşif filolarıyla her zaman güçlerimizi birleştirebiliriz.'
 sys_expe_depleted_max_2: 'İletişim subayının seyir defterinden: Böyle devam ederse, tüm bu trafiği yönetmek için seyrüsefer şamandıraları koymamız gerekecek.'
 sys_expe_depleted_max_3: 'İletişim subayının seyir defterinden: Belki bir keşif seferi daha göndermektense burada bir hediyelik eşya dükkânı açmak daha mantıklı olur.'
@@ -110,7 +105,6 @@ sys_expe_depleted_not_2: 'İletişim subayının seyir defterinden: Keşfedilmem
 sys_expe_feqeuence_few: Son 24 saatte 10'dan fazla keşif
 sys_expe_feqeuence_many: Son 24 saatte 50'den fazla keşif
 sys_expe_feqeuence_medium: Son 24 saatte 25'ten fazla keşif
-sys_expe_feqeuence_no: Son 24 saatte az sayıda keşif
 sys_expe_found_goods: '%s %s çıkarıldı.'
 sys_expe_found_ress_1_1: Keşif filon küçük bir asteroit kümesi buldu; buradan bir miktar kaynak çıkarılabildi.
 sys_expe_found_ress_1_2: Uzak bir gezegencikte kolay ulaşılabilen birkaç kaynak sahası bulundu ve hammadde başarıyla çıkarıldı.
@@ -125,7 +119,6 @@ sys_expe_found_ress_logbook_1: 'Birinci subayın seyir defterinden: Boş kalan h
 sys_expe_found_ress_logbook_2: 'Birinci subayın seyir defterinden: Keşke birkaç nakliye gemimiz daha olsaydı! Şimdi bir sürü kaynağı geride bırakmak zorundayız.'
 sys_expe_found_ress_logbook_3: 'Birinci subayın seyir defterinden: Artık ihtiyacımız olmayan her şeyi zaten dışarı attık ama bulduğumuz kaynaklara yine de yeterince yer açamıyoruz.'
 sys_expe_found_ress_logbook_4: 'Birinci subayın seyir defterinden: Kafeteryayı ve tüm dinlenme salonlarını depoya çevirdik, yine de bulduğumuz kaynakların hepsini taşıyamadık.'
-sys_expe_found_ships: 'Araştırmacılar mükemmel durumda uzay gemileri buldu!<br>: '
 sys_expe_found_ships_1_1: Önceki bir keşif filosunun kalıntılarını bulduk! Teknisyenlerimiz enkazlardan bazılarını yeniden çalıştırıp çalıştıramayacaklarını kontrol ediyor.
 sys_expe_found_ships_1_2: Terk edilmiş bir korsan üssü bulduk. Hangarda hâlâ birkaç eski gemi duruyor. Teknisyenlerimiz bazılarının kullanılabilir olup olmadığını kontrol ediyor.
 sys_expe_found_ships_1_3: Keşif filon, savaşlarla neredeyse tamamen harap olmuş bir gezegen buldu. Yörüngede çeşitli gemi enkazları sürükleniyordu. Teknisyenler bazılarını onarmaya çalıştı. Belki burada ne olduğunu daha iyi anlarız.
@@ -176,7 +169,6 @@ sys_mess_attack_cancel: |-
   %s %s konumundaki savaş iptal edildi.
   Sunucu savaşı hesaplayamadı.
 sys_mess_attack_report: Savaş raporu
-sys_mess_destruc_report: Ay Yoketme Raporu
 sys_mess_fleetback: Filo dönüşü
 sys_mess_piratebase_gone: Filon %s konumuna ulaştı ama korsan üssü artık orada değil. Filo eve dönüyor.
 sys_mess_spy_activity: Karşı istihbarat raporu
@@ -210,7 +202,6 @@ sys_ship_repaired: Onarıldı
 sys_ship_shield: Kalkanlar
 sys_ship_type: Gemi türü
 sys_ship_weapon: Silahlar
-sys_spy_defenses: Savunma
 sys_spy_fleet: Filo
 sys_stat_mess: '%s %s konumundan çıkan filon %s %s %s konumuna ulaştı ve %s %s, %s %s ve %s %s teslim etti. %s'
 sys_stat_mess_stay: Konuşlanan filo

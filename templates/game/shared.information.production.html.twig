@@ -1,4 +1,4 @@
-{% set count = count(productionTable.usedResource) %}
+{% set count = productionTable.usedResource|length %}
 
 <table>
 	<tbody>

@@ -29,8 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Creates accounts, players, moons, planets and test data. Each form (`mode=<tab>`) is handled by its class in
  * App\Game\Admin\Creator; this controller picks the tab.
  */
-#[\App\Routing\GamePage('admin.php', 'creator')]
-#[\App\Routing\GamePage('admin.php', 'creator', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'creator')]
 class CreatorController extends AbstractAdminController
 {
     /**

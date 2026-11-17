@@ -1,19 +1,19 @@
 dir: ltr
 js_tdformat: '[M] [D] [d] [H]:[i]:[s]'
 months:
-  - Січ
-  - Лют
-  - Бер
-  - Кві
-  - Тра
-  - Чер
-  - Лип
-  - Сер
-  - Вер
-  - Жов
-  - Лис
-  - Гру
-php_tdformat: 'j M Y, H:i:s'
+- Січ
+- Лют
+- Бер
+- Кві
+- Тра
+- Чер
+- Лип
+- Сер
+- Вер
+- Жов
+- Лис
+- Гру
+php_tdformat: j M Y, H:i:s
 short_day: д
 short_hour: г
 short_minute: х
@@ -60,13 +60,14 @@ timezones:
   '13': '[UTC + 13] Тонга, острови Фенікс'
   '14': '[UTC + 14] Острів Лайн'
 week_day:
-  - Нд
-  - Пн
-  - Вт
-  - Ср
-  - Чт
-  - Пт
-  - Сб
+- Нд
+- Пн
+- Вт
+- Ср
+- Чт
+- Пт
+- Сб
 php_dateformat: d.m.Y
-php_timeformat: H:i:s
-lang_group_fun: "Жартівливі мови"
+lang_group_fun: Жартівливі мови
+dialog_ok: OK
+dialog_cancel: Скасувати

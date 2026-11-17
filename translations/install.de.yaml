@@ -31,33 +31,12 @@ licence_need_accept: >-
   Lizenzbestimmungen akzeptieren.
 login: Login
 menu_install: Installieren
-menu_intro: Intro
-menu_license: Lizenz
 menu_upgrade: Upgrade
 reg_dir: Ordner &raquo;%s&laquo; beschreibbar?
 reg_file: Datei &raquo;%s&laquo; beschreibbar?
-reg_found: Gefunden
-reg_gd_desc: >-
-  <strong>Optional</strong> — Grafikbearbeitungs-Bibliothek &raquo;gdlib&laquo;
-  ist für die dynamische Generierung von Bildern zuständig. Ohne sie werden
-  einige Funktionalitäten der Software nicht funktionieren.
-reg_gd_need: Installierte Version der Grafikbearbeitungs-Bibliothek &raquo;gdlib&laquo;
-reg_global_desc: >-
-  Br0Game wird auch funktionieren, wenn diese Einstellung aktiviert ist.
-  Allerdings wird aus Sicherheitsgründen empfohlen, register_globals in der
-  PHP-Installation zu deaktivieren, falls dies möglich ist.
-reg_global_need: register_globals deaktiviert?
-reg_iniset_need: PHP-Funktion &raquo;ini_set&laquo; vorhanden?
-reg_json_need: Erweiterung &raquo;JSON&laquo; verfügbar?
-reg_no: Nein
 reg_not_found: Nicht Gefunden
 reg_not_writable: Nicht Beschreibbar
-reg_pdo_active: Unterstützung der &raquo;PDO&laquo; Extension
-reg_pdo_desc: >-
-  <strong>Voraussetzung</strong> — Du musst Unterstützung für PDO in PHP
-  bereitstellen.
 reg_writable: Beschreibbar
-reg_yes: Ja
 req_desc: >-
   Bevor die Installation fortgesetzt werden kann, wird Br0Game einige Tests zu
   deiner Server-Konfiguration und deinen Dateien durchführen, um
@@ -66,23 +45,10 @@ req_desc: >-
   erforderlichen Tests bestanden sind. Falls du irgendeine der Funktionen, die
   unter den optionalen Modulen aufgeführt sind, nutzen möchtest, solltest du
   sicherstellen, dass die entsprechenden Tests auch bestanden werden.
-req_head: Benötigte Systemvoraussetzungen
-req_php_need: Installierte Version der Skriptsprache &raquo;PHP&laquo;
-req_php_need_desc: >-
-  <strong>Voraussetzung</strong> — PHP ist die Serverseitige Sprache, in der
-  Br0Game geschrieben ist. Damit Br0Game ohne Einschränkungen funktioniert, wird
-  die PHP Version 5.2.5 vorrausgesetzt.
 sql_close_reason: |-
   Das Universum wird eingerichtet. 
   Bitte warten.
 sql_welcome: Herzlich Willkommen zu Br0Game v
-step1_desc: >-
-  Nachdem nun festgestellt wurde, dass Br0Game auf deinem Server betrieben
-  werden kann, musst du noch einige Informationen angeben. Wenn du nicht weißt,
-  wie die Verbindungsdaten für deine Datenbank lauten, kontaktiere bitte als
-  erstes deinen Webhosting-Provider oder wende dich an die Br0Game
-  Support-Foren. Wenn du Daten eingibst, prüfe diese bitte sorgfältig, bevor du
-  fortfährst.
 step1_head: Datenbankzugang konfigurieren
 step1_mysql_dbname: Name der Datenbank
 step1_mysql_dbpass: Datenbank-Passwort
@@ -93,8 +59,6 @@ step1_mysql_migrationpass_info: >-
   für eine neue Spielversion erforderlich sind.
 step1_mysql_port: Datenbankserver-Port
 step1_mysql_prefix: 'Tabellenprefix:'
-step1_mysql_server: Datenbankserver-Hostname oder DSN
-step2_conf_create: config.php erfolgreich erstellt...
 step2_conf_op_fail: config.php ist nicht beschreibbar!
 step2_config_exists: config.php bereits vorhanden!
 step2_db_con_fail: >-
@@ -102,38 +66,22 @@ step2_db_con_fail: >-
   unten angezeigter Fehlermeldung.
 step2_db_done: Verbindung zur Datenbank war erfolgreich!
 step2_db_no_dbname: Kein Datenbank-Name angegeben.
-step2_db_no_migrationpw: Sie haben das Migrationskennwort für die Datenbank nicht angegeben
 step2_db_too_long: >-
   Das angegebene Tabellen-Präfix ist zu lang. Die maximale Länge beträgt 36
   Zeichen.
 step2_prefix_invalid: Der DB-Prefix darf nur alphanumerische Zeichen und Unterstriche enthalten.
 step3_db_error: 'Fehler beim Erstellen der Datenbank-Tabellen:'
-step3_desc: >-
-  Die von Br0Game genutzten Datenbank-Tabellen wurden nun erstellt und mit
-  einigen Ausgangswerten gefüllt. Geh weiter zum nächsten Schritt, um die
-  Installation von Br0Game abzuschließen.
 step3_head: Datenbank-Tabellen erstellen
 step4_admin_mail: 'Kontakt-E-Mail-Adresse:'
 step4_admin_name: 'Benutzername des Administrators:'
 step4_admin_name_desc: Bitte gib einen Benutzernamen mit einer Länge von 3 bis 20 Zeichen ein.
 step4_admin_pass: 'Administrator-Passwort:'
-step4_admin_pass_desc: Bitte gib ein Passwort mit einer Länge von 6 bis 30 Zeichen ein.
 step4_desc: >-
   Der Installationsassistent erstellt nun ein Administrator-Konto für Sie. Bitte
   geben Sie dazu einen Benutzernamen, eine E-Mail-Adresse und ein Kennwort ein.
 step4_head: Administrator erstellen
 step6_desc: 'Du hast Br0Game erfolgreich installiert.'
 step6_head: Herzlichen Glückwunsch!
-step6_info_additional: >-
-  Wenn du unten auf die Schaltfläche klickst, wirst du zu einem Formular im
-  Administrations-Bereich weitergeleitet. Anschließend solltest du dir etwas
-  Zeit nehmen, um die verfügbaren Optionen kennen zu
-  lernen.<br/><br/><strong>Bitte lösche die Datei
-  &raquo;var/ENABLE_INSTALL_TOOL&laquo; oder nenne es um, bevor du dein
-  Spiel benutzt. Solange diese Datei existiert, ist dein Spiel potenziell
-  gefährdet!</strong>
-step6_info_head: 'Starte mit Br0Game durch!'
-step8_need_fields: Du muust alle Felder ausfüllen.
 title_install: Installer
 upgrade_available: >-
   Es sind Updates für deine Datenbank verfügbar! Die Datenbank ist auf dem Stand
@@ -150,7 +98,6 @@ upgrade_notavailable: Die verwendete Revision %s ist die Aktuellste für deine D
 upgrade_nothingtodo: >-
   Keine Aktion erforderlich. Datenbank ist bereits auf dem neusten Stand von
   Revision %s.
-upgrade_required_rev: Der Updater kann nur ab Revision r2579 (pr0game v1.7) oder höher updaten.
 upgrade_return: Zurück zum Spiel
 upgrade_success: >-
   Update der Datenbank erfolgreich. Datenbank ist jetzt auf dem Stand von
@@ -165,8 +112,6 @@ ins_step_admin: 'Administrator'
 ins_step_done: 'Fertig'
 ins_recheck: 'Erneut prüfen'
 ins_db_connection: 'Verbindung'
-ins_db_database: 'Datenbank'
-ins_db_security: 'Sicherheit'
 ins_db_createdb: 'Datenbank anlegen, falls sie noch nicht existiert'
 ins_db_connect: 'Verbinden & anlegen'
 ins_db_no_host: 'Kein Datenbank-Host angegeben.'

@@ -24,12 +24,9 @@ use App\Game\Core\Singleton;
 /**
  * Game rules page.
  */
-#[\App\Routing\GamePage('game.php', 'rules')]
-#[\App\Routing\GamePage('game.php', 'rules', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'rules')]
 class RulesController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

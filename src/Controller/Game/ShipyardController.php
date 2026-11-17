@@ -26,12 +26,9 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Singleton;
 
 /** Shipyard and defence: build queue, ship/defence lists and hangar filters (modes: show, saveFilters). */
-#[\App\Routing\GamePage('game.php', 'shipyard')]
-#[\App\Routing\GamePage('game.php', 'shipyard', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'shipyard')]
 class ShipyardController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public static $defaultController = 'show';
 
     private const QUEUE_ELEMENT_ID = 0;

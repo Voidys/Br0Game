@@ -1,0 +1,262 @@
+faq_overview: FAQ
+questions:
+  '1':
+    '1':
+      body: '<p>Dieser Abschnitt behandelt die wichdischte Gebäude: was du zuerscht baue solldest un wofür jedes gut is. Ei blühendes Imperium entsteht, wenn du sie in sinnvoller Reihefolg ausbaust.</p>
+
+        <h3>Solarkraftwerk</h3>
+
+        <p>Baue es als Erschdes. Deine Minen brauche Energie, um Metall, Kristall un Deuterium zu produziere. Sobald des Kraftwerk fertisch is, siehsd du in der Rohschtoffleiste un uff der Rohschtoffseide, wie viel Energie du hasd.</p>
+
+        <h3>Metallmine</h3>
+
+        <p>Metall is eener vo de drei Rohschtoffe. Fasd alles, was du baust odder erforschst, koschd Metall, deshalb had der Ausbau dieser Mine Priorität. Halt sie am Anfang einige Schdufe vor deine andere Minen.</p>
+
+        <h3>Kristallmine un Deuteriumsynthetisierer</h3>
+
+        <p>Kristall wird fer Gebäude, Schiffe un Forschung gebraucht. Dervon produzierschd weniger als Metall, un des macht ihn wertvoller; schpäter im Spiel is er oft hart umgämpft. Deuterium treibt deine Flodde an, kann im Fusionskraftwerk zu Energie verbrennt werde un wird fer mehrere wichtige Gebäude un Forschunge gebraucht (darunner des Forschungslabor).</p>
+
+        <p>Mehr Informatione: <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>'
+      title: Schridd 1
+    '2':
+      body: '<p>Um dein Imperium wachsen zu lasse un mid anderen Schbieler zu interagiere, brauchsd du weidere Gebäude. Mid Forschung un ei Raumschiffwerft schtartesd du de Aufbau deiner Flodde un der planedarischen Verteidigung.</p>
+
+        <h3>Raumschiffwerft</h3>
+
+        <p>Hier werde alle Schiffe (un Verteidigungsanlage) gebaud. Die Werft schtehd früh zur Verfügung, aber fer viele Schiffsklasse brauchsd du zusätzlich Forschung. Des Menü „Technologie“ lischtet die Voraussetzunge fer jedes Schiff un jede Verteidigungsanlage auf. Je höher die Schdufe der Raumschiffwerft, desto schneller wird gebaud.</p>
+
+        <h3>Forschungslabor</h3>
+
+        <p>Hier schtartesd du Forschunge. Sie schalte Gebäude, Schiffe, Verteidigungsanlage un weidere Forschunge frei, un manche Technologie gewe außerdem Boni uff bereits Vorhandenes. Der Ausbau vom Forschungslabor beschleunischt die Forschung.</p>
+
+        <h3>Roboterfabrik</h3>
+
+        <p>Die Roboterfabrik is unverzichtbar. Höhere Schdufe verkürze die Bauzeit vo Gebäude un beschleunische auch die Schiffsproduktion. Wern die Bauzeide lang, bau die Roboterfabrik aus, um sie wieder zu senke.</p>'
+      title: Schridd 2
+    '3':
+      body: '<p>Dieser Abschnitt behandelt die Verteidigung deines Planede un die erschde Flottebewegunge: wie du Flodde losschickschd un wie du mid anderen Schbieler umgehsd.</p>
+
+        <h3>Galaxieansicht</h3>
+
+        <p>Hier findesd du andere Schbieler. Du siehsd Details zu anderen Blanede un kannsd Deile deiner Flodde direkt aus dieser Ansicht losschicke. Außerdem kannsd Schbielern schreibe odder en Planede ausspioniere, wenn du Schbionagesonde zur Verfügung had.</p>
+
+        <h3>Flodde verschicke</h3>
+
+        <p>Flodde kannsd aus der Galaxieansicht odder über des Flottemenü losschicke. Wähl erschd, wie viele Schiffe jeden Typ fliege solle. Leg dann des Ziel (Koordinade aus der Galaxieansicht) un die Geschwindischkeit fest. Zum Schluss wählsd du den Auftrag, etwa Angreife, Schtationiere, Halte, Abbaue odder Transport.</p>
+
+        <h3>Verteidigung</h3>
+
+        <p>Sobald du ei Raumschiffwerft hasd, kannsd du aach Verteidigungsanlage baue. Sie schütze den Planede un kämpfe zusammen mit jeder Flodde, die beim Einschlag ei Angriffs vor Ort is. Anners als Schiffe werd etwa 70 % aller zerstörte Verteidigungsanlage nach dem Kampf repariert.</p>'
+      title: Schridd 3
+    category: Anfänger-Dibbs
+  '2':
+    '1':
+      body: '<h3>Raiden</h3>
+
+        <p>Raiden heißt, andere Schbieler anzugreife, um ihne Rohschtoffe abzunehme. Die gängische Arde:</p>
+
+        <ul>
+
+        <li>Farmraid</li>
+
+        <li>Fleetangriff</li>
+
+        <li>TF-Raid</li>
+
+        <li>Abfange</li>
+
+        </ul>
+
+        <h3>Farmraid</h3>
+
+        <p>Des sinn die häufigschte Angriffe in ei Universum. Du schpionierschd Blanede in der Nähe aus un schickschd klein Flodde los, die genuch Laderaum un Feierkraft habe, um ei schwache Verteidigung zu durchbreche un trotzdem Gewinn zu mache: Die erbeuteten Rohschtoffe solle des verbrauchte Deuterium plus deine eigene Verluste übersteige.</p>
+
+        <h3>Fleetangriff</h3>
+
+        <p>Die Königsklasse vom Raiden: die Jagd uff Flodde anderer Schbieler. Neben Schbionagesonde un etwas Glück zähle hier Sensorenphalanx un gudes Timing. Hasd du ei lohnende Flodde entdeggt, musst du sie noch abfange un des Trümmerfeld recycle. Des is oft schwierig, weil lohnende Flodde dei Recyclerkapazität übersteige kenne – dann musst du neben der Kampfflodde aach die Recycler un gegebenenfalls Verbandsangriff-Partner koordinieren.</p>
+
+        <h3>TF-Raid</h3>
+
+        <p>Die bequemste, aber aach unbeliebtste Art, Gewinn zu mache: Du baust Trümmerfelder ab, die andere Schbieler erzeugt had. Trümmer gehörn dem, der sie abbaut, deshalb sorgt der Klau vo Trümmerfelder oft fer bös Blut.</p>
+
+        <h3>Abfange</h3>
+
+        <p>Der Lebensinhalt ei Fleeters besteht drin, Flodde zu baue un Flodde zu zerschdöre. Du findesd ned immer untädische Schiffe, deshalb heißt’s bei gude Schbieler oft: abfange, während sie saven odder ei Angriff fliege. Des is ned leicht, denn es gibt Wege, sich dervor zu schütze.</p>
+
+        <ul>
+
+        <li><p>Ei Mond macht des Abfange leichter, weil die Sensorenphalanx Flottebewegunge uff Blanede in Reichweite scanne kann (ned uff Monde). Findesd du ei Flodde, die sich lohnt, rechne ihre Restflugzeit aus – vor allem die Rückflugzeit nach der Ankunft. Dafer reiche die Triebwerksschdufe (Verbrennungstriebwerk, Impulstriebwerk, Hyperraumantrieb) aus ei Schbionagebericht, per Hand odder mid ei Flugzeitrechner. Ei genaue Uhr hilft. Time deine Flodde un die Recycler so, dass sie etwa 3–5 Sekunde nach dem Ziel uff dessen Blanede odder Mond ankomme. Aach die Recycler müsse gut getimt sei.</p></li>
+
+        <li><p>Um ei Flodde abzufange, die vom Mond zu ei Trümmerfeld fliegt, brauchsd du ungefähr die Schdartzeit. Erzeug an den Schdelle, wo du den Abbau vermutesd, ei sichtbares Trümmerfeld (zum Beschpiel mid Schbionagesonde). Berechne, wie lang ihre Flodde bis dordhin braucht, beobachte des System un aktualisier, bis des Feld verschwindet. Merk dir die Zeit, addier den Rückflug un time deine Flodde un die Recycler ei paar Sekunde hinter die Ankunft.</p>
+
+        <p><b>Achtung:</b> Des klappt ned immer. Ei vorausgeschickter Recycler, der des Feld zuerscht abräumt, is ei häufiger Konter.</p></li>
+
+        <li>Ei weidere Form vom Abfange is des Halte uff em Planede ei Freundes, um ihn zu schütze: Angreifer müsse abbreche, weil die verteidigende Flodde zu schtark wär. Des Risiko, so abgefange zu werde, kannsd du mid ei Savescan senke.</li>
+
+        <li><p>Fliegt ei Schbieler vo ei Planede zum andere uff Schdationiere un ruft die Flodde dann zurück, verschwindet sie aus der Sensorenphalanx. Beobachte sein Saveverhalde (wann er schtartet un wann er zurückruft). Wenn du ei Rückruf erwartest, phalanxe den Planede im Sekundentakt. Sobald die Flodde verschwindet, notier die Zeit, addier den Rückflug un komm etwa 4–6 Sekunde schpäter mid Flodde un Recycler an.</p>
+
+        <p>Flüchtet er per Save vom Mond aufs Trümmerfeld un schickt Recycler voraus, is Abfange fasd unmöglich – es sei denn, du zerschdörsd den Mond. Schick Todesschterne mid dem Auftrag Zerschdöre. Is der Mond weg, fliegt die Flodde zum Planede zurück; phalanxe diesen Planede un häng dich ei paar Sekunde hinter sie.</p>
+
+        <p>All die Techniken funktioniere deutlich besser, wenn du die Gewohnheite vom Ziel kennsd – zum Beschpiel ei Save jeden Abend um 23 Uhr odder Online-Kumme mittags um 12. Schtudier den Schbieler, bevor du ihn abfängsd.</p></li>
+
+        </ul>
+
+        <p>Mehr im Wiki: <a href="{wiki_url}/wiki/Saven" target="_blank">Saven</a>, <a href="{wiki_url}/wiki/Sensorenphalanx" target="_blank">Sensorenphalanx</a>.</p>'
+      title: Raiden
+    '2':
+      body: '<h3>Angreife mid dem Verband</h3>
+
+        <p>Um gemeinsam anzugreife, schick erschd ei Flodde mid dem Auftrag Angreife zum Ziel. Nach dem Schtart öffnesd du des Flottemenü un wandelschd diese Flodde iwwer „Verband“ in ei Verbandsangriff um. Dord kannsd du den Verband umbenenne un anner Schbieler einlade; der Schbieler, der den Angriff gschtartet had, is automadisch eingelade. Jeder eingelade Schbieler schickt dann seine eigene Schiffe mid dem Auftrag „Verbandsangriff“ zu denselbe Koordinade.</p>
+
+        <p>Der Verband fliegt immer so lang, wie die langsamste beteiligte Flodde braucht. Schnellere Flodde, die schpäter dazukomme, verkürze die Restzeit ned. Langsamere Flodde erhöhe die Restzeit uff ihre eigene Flugzeit. In der Regel könne höchschdens 5 Schbieler un 16 Flodde an ei Verbandsangriff teilnehme (die Einschtellunge vom Universum könne abweiche). Ei beitretende Flodde darf die Restflugzeit um höchschdens 30 % verlängern. Bleibe 100 Minude, darf ei beitretende Flodde höchschdens 130 Minude brauche.</p>
+
+        <p><b>Achtung:</b> Wenn der Gründer vom Verband seine Flodde zurückruft, werde aach alle anner Flodde im Verband zurückgerufe.</p>
+
+        <h3>Verteidige mid dem Verband</h3>
+
+        <p>Wennsd du angegriffe wirschd, können Allianzmidglieder un Buddys helfe. Sie schicke ei Flodde zu den angegriffene Koordinade, wähle die Haltedauer un nutze den Auftrag „Halte“. Neben dem Deuterium fer den Flug falle beim Schtart zusätzliche Haltekoschde an, abhängisch von Flottegröße un Dauer. Solang sie bei dir halte, kämpfe sie in jedem Kampf uff diesem Planede odder Mond mid un erscheine in Schbionageberichte, als wär’s deine eigene Schiffe. Time des Halte so, dass die Flodde kurz vor dem Angreifer ankummt, damit ei Savescan sie möglischst ned sieht. Haltende Schbieler könne ihre Flodde jederzeit im Flottemenü zurückrufe; sonst wartet die Flodde die Haltedauer ab un fliegt dann nach Hause.</p>
+
+        <h3>Deuterium pro Schdund Halte</h3>
+
+        <p>Kleiner Transporter: 5<br>
+
+        Großer Transporter: 5<br>
+
+        Leichter Jäger: 2<br>
+
+        Schwerer Jäger: 7<br>
+
+        Kreuzer: 30<br>
+
+        Schlachtschiff: 50<br>
+
+        Kolonieschiff: 100<br>
+
+        Recycler: 30<br>
+
+        Schbionagesonde: 1/10<br>
+
+        Bomber: 100<br>
+
+        Zerschdörer: 100<br>
+
+        Todesschtern: 1/10</p>'
+      title: Allianzkampfsystem
+    '3':
+      body: '<p>Ei Mond kann entschtehe, wenn ei Trümmerfeld mid mindeschtens 100.000 Einheite entschtehd (1 % Mondchance). Die Chance is bei 20 % gedeggelt, egal wie groß des Feld is.</p>
+
+        <h3>Allgemeines</h3>
+
+        <p>Monde lasse sich wie Blanede umbenenne, aber „(Mond)“ bleibt im Name. Du kannsd höchschdens ein Mond pro Planede had. Mid ei Mond kannsd du außerhalb der Sicht ei Sensorenphalanx saven, deshalb lohnt sich’s, relativ früh ei zu erzeugen. Uff ei Mond kannsd du Roboterfabrik, Raumschiffwerft, Metallschpeicher, Kristallschpeicher, Deuteriumtank, Allianzdepot, Mondbasis, Sensorenphalanx un Schprungtor baue.</p>
+
+        <h3>Mondschuss</h3>
+
+        <p>Ei Mondschuss is die gezielte Zerschdörung vo Schiffe, um ei Trümmerfeld zu erzeuge. Üblich sinn Leichte Jäger: Bei 30 % der Flodde un 0 % fer Verteidigung im Trümmerfeld ergebe 1.667 Leichte Jäger ei Mondchance vo 20 %. Sie sinn billisch zu verliere un lande sehr nah am Maximum. Zerschdörd ei schtärkerer Schbieler beim schwächere Leichte Jäger, darf jeder des Trümmerfeld abbaue. Greift ei schwächerer Schbieler ei schtärkeren mid Schiffe an, die sterwe solle, darf nur der schwächere abbaue – sonst wär’s Pushe. Monde un Mondversuche falle unner die Pushing-Regeln.</p>
+
+        <p>In ei Universum, wo aach Verteidigung Trümmer erzeugt, is es oft besser, Verteidigung zu baue un sie in mehrere Wellen zerlege zu lasse, um mehrere Mondversuche zu kriegen. Üblich sinn 3.334 Raketenwerfer odder 3.334 Leichte Lasergeschütze.</p>
+
+        <p>Wenn ei Mond entschtehd, schtehd im Kampfbericht, dass sich die enorme Mengen an freiem Metall un Kristall anziehe un ei Trabant um den Planede bilde.</p>
+
+        <p>Mondchance vo 1 bis 19 %: zufällische Größe. Mondchance vo 20 %: mehr als 8.000 km Durchmesser. Ei Mond wird nie größer als 8.944 km.</p>
+
+        <h3>Gebäude</h3>
+
+        <p>Schpeicher lohne sich uff ei Mond meischtens ned, weil dord nix produziert wird. Ei Raumschiffwerft is aach selte nützlich: Die Bauzeide sinn lang, un Schiffe kannsd du uff dem Planede baue. Ob sich ei Allianzdepot lohnt, is umschtritte; es belegt außerdem wertvolle Felder.</p>
+
+        <p>Die drei Gebäude, die’s nur uff dem Mond gibt:</p>
+
+        <ul>
+
+        <li><p><b>Mondbasis</b><br>Schafft zusätzliche Baufelder: 3 pro Schdufe, vo denen eins fer des nägschte Ausbau der Mondbasis draufgeht.</p></li>
+
+        <li><p><b>Sensorenphalanx</b><br>Zeigt Flottebewegunge uff feindliche Blanede (ned uff Monde). Die Reichweite schteigt mid jeder Schdufe.</p></li>
+
+        <li><p><b>Schprungtor</b><br>Bewegt Schiffe sofort vo ei Mond zum andere. Rohschtoffe können ned mitreise. Nach ei Schprung braucht des Tor Zeit zum Abkühle (üblicherweis ei Schdund), sonst überhitzt es.</p></li>
+
+        </ul>
+
+        <p>Ei gängische Bau-Reihefolg fer Monde:<br>
+
+        <b>Legende:</b><br>
+
+        MB – Mondbasis<br>
+
+        SP – Sensorenphalanx<br>
+
+        ST – Schprungtor<br>
+
+        RB – Roboterfabrik</p>
+
+        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
+
+        Danach kannsd du die Sensorenphalanx weidr ausbaue, wenn du die Rohschtoffe had. Du kannsd aach ei paar Schdufe der Roboterfabrik abreiße un die Felder fer die Phalanx nutze.</p>
+
+        <h3>Zerschdörung</h3>
+
+        <p>Ei Mond lässt sich nur mid Todesschtern zerschdöre. Wähl im Auftragsmenü „Zerschdöre“ schtatt „Angreife“. Jede Flodde uff dem Mond muss erschd vernischtet werde; überlebende Todesschtern könne bei der Zerschdörung vom Mond selbst noch verloren geh. Ei Mondzerschdörung erzeugt kei Trümmerfeld.</p>
+
+        <h3>Mondangriffe mid Todesschtern</h3>
+
+        <p>Chance uff Mondzerschdörung: (100 − Wurzel(Mondgröße)) × Wurzel(Anzahl Todesschtern). Chance, dass die angreifende Todesschtern zerschdört werde: Wurzel(Mondgröße) / 2. Je größer der Mond, desto riskanter die Zerschdörung.</p>
+
+        <h3>Mondchance un Mondgröße</h3>
+
+        <p>100.000 Trümmereinheite ergebe 1 % Mondchance. Maximale Chance: 20 %. Seit ei schpäter Ännerung had jeder Mond die maximale Anzahl bebaubarer Felder (79). Früher war des ABRUNDEN((Durchmesser / 1000)²). Größtmöglicher Mond: 8.944 km Durchmesser, 79 Felder.</p>
+
+        <p>Mehr im Wiki: <a href="{wiki_url}/wiki/Mond" target="_blank">Monde</a>, <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>'
+      title: Monde
+    '4':
+      body: '<h3>Wie gründ ich ei Allianz?</h3>
+
+        <p>Öffne im Menü links „Allianz“ un dann „Eigene Allianz gründe“. Gib ei Allianz-Tag (die kurze Abkürzung) un ei Allianzname ei. Beschpiel: Ei Allianz mid dem Name „Die Top Ally“ könnt des Tag „DTA“ verwende.</p>
+
+        <p>Erlaubt sinn nur Buchschtabe, Zahle un Leerzeiche. Nach der Eingabe vo Tag un Name klickschd du uff „Erschtelle“. Is der Name odder des Tag schon vergeben, kriegsd du ei Fehlermeldung un musst was anneres wähle. Bei Erfolg siehsd du ei Bestädischung; „Weiter“ öffnet dein noch leere Allianzmenü, des du jederzeit iwwer „Allianz“ im Menü links erreischt. Ganz oben siehsd du dein Tag un deinen Name.</p>
+
+        <p>Drunner findesd du:<br>
+
+        Midglieder: alle Midglieder mid Punkte, Koordinade vom Heimadplanede, Beidrittsdatum un Onlinestatus. Ei Klick uff die Schpaltekeppe sortiert die Lischte.<br>
+
+        Dein Rang: dein Rangname plus ei Link zur Allianzverwaltung.<br>
+
+        Rundnachrichte: ei Nachricht an die ganze Allianz odder an ausgewählte Ränge.</p>
+
+        <h3>Allianzverwaltung</h3>
+
+        <p>Unner „Ränge“ legsd du die Rechte der einzelne Ränge fest, zum Beschpiel des Recht, die Allianz aufzulöse odder Rundnachrichte zu verschigge. Unner „Midglieder“ kannsd du Schbieler rauswerfe, Ränge vergebe un sehe, wie viele Dage sie offline warn. Außerdem kannsd du Allianz-Tag un Allianzname ännern.</p>
+
+        <p>Die „Textverwaltung“ bearbeitet die Allianztexte. Der externe Text is fer alle Schbieler sichtbar, der interne nur fer Midglieder. Der Bewerbungstext is ei Vorlage fer Schbieler, die sich bewerbe.</p>
+
+        <p>Unner „Optione“ kannsd du ei Banner-Bild un ei Allianzforum verlinke, festlege, ob Bewerbunge möglich sinn, un den Rangname vom Gründer bestimme. Lässt du des Feld leer, lautet der Rang „Gründer“.</p>
+
+        <p>Du kannsd die Allianz auflöse odder an ei anneres Midglied übergebe, des dann Gründer wird.</p>'
+      title: Allianze
+    '5':
+      body: '<h3>Wo find ich weidere Informatione?</h3>
+
+        <!--wiki_url--><p>Des Wiki is die erschde Anlaufschtell:</p>
+
+        <p><a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki-Startseide</a><br>
+
+        <a href="{wiki_url}/wiki/Buildorder" target="_blank">Buildorder</a><br>
+
+        <a href="{wiki_url}/wiki/%C3%96konomik" target="_blank">Spielschtile (Miner, Raider, Comber)</a><br>
+
+        <a href="{wiki_url}/wiki/Saven" target="_blank">Saven</a><br>
+
+        <a href="{wiki_url}/wiki/Slippys_progame_flottensicherung_leitfaden" target="_blank">Saven-Leitfaden</a><br>
+
+        <a href="{wiki_url}/wiki/Expoanleitung" target="_blank">Expeditione</a></p><!--/wiki_url-->
+
+        <p>Deutsch (owiki):<br>
+
+        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Aufbautaktike</a><br>
+
+        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Spielschtil: Miner</a><br>
+
+        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Spielschtil: Fleeter</a><br>
+
+        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Spielschtil: Comber</a><br>
+
+        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Saven</a></p>'
+      title: Links
+    category: Erweiderte Informatione

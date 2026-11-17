@@ -1,253 +1,197 @@
 back: Wróć
 continue: Dalej
 continueUpgrade: Aktualizuj!
-install_desc: >-
-  Aby włączyć narzędzie instalacyjne, utwórz plik
-  "var/ENABLE_INSTALL_TOOL"<br> W nazwie pliku uwzględniana jest wielkość
-  liter i nie ma końcówki typu pliku.<br> Plik może być pusty. 
-
-  Zostanie on automatycznie usunięty po zakończeniu instalacji lub jeśli jest
-  starszy niż godzinę.
+install_desc: "Aby włączyć narzędzie instalacyjne, utwórz plik \"var/ENABLE_INSTALL_TOOL\"<br> W nazwie pliku uwzględniana jest wielkość liter i nie ma końcówki typu pliku.<br> Plik może być pusty. \nZostanie on automatycznie usunięty po zakończeniu instalacji lub jeśli jest starszy niż godzinę."
 install_title: Narzędzie instalacyjne jest zablokowane
 intro_install: Przejdź do instalacji
 intro_lang: Język
-intro_text: >-
-  Br0Game to najlepszy klon Ogame.<br>Br0Game to najnowsza i najbardziej
-  stabilna wersja Xnova, jaka kiedykolwiek powstała. Cechuje ją przyjazność,
-  elastyczność i dynamiczność, jak również najwyższa jakość obsługi. System
-  przeprowadzi Cię przez proces instalacji lub też aktualizacji aktualnej wersji
-  do najnowszej. Jeśli masz jakiekolwiek problemy nie wahaj się zadać pytania na
-  naszym forum poświęconemu rozwojowi i wsparciu.<br><br>Br0Game podlega
-  licencji GNU GPL v3. Licencje przeczytasz po kliknięciu odpowiedniego linku w
-  menu.<br><br>Przed instalacją skrypt sprawdzi, czy twój serwer spełnia
-  minimalne wymagania.
+intro_text: Br0Game to najlepszy klon Ogame.<br>Br0Game to najnowsza i najbardziej stabilna wersja Xnova, jaka kiedykolwiek powstała. Cechuje ją przyjazność, elastyczność i dynamiczność, jak również najwyższa jakość obsługi. System przeprowadzi Cię przez proces instalacji lub też aktualizacji aktualnej wersji do najnowszej. Jeśli masz jakiekolwiek problemy nie wahaj się zadać pytania na naszym forum poświęconemu rozwojowi i wsparciu.<br><br>Br0Game podlega licencji GNU GPL v3. Licencje przeczytasz po kliknięciu odpowiedniego linku w menu.<br><br>Przed instalacją skrypt sprawdzi, czy twój serwer spełnia minimalne wymagania.
 intro_upgrade_head: Zainstalować Br0Game?
-intro_upgrade_text: >-
-  <p>Br0Game zainstalowane, chcesz teraz sprawdzić
-  aktualizacje?</p><p>Aktualizacje!</p>
+intro_upgrade_text: <p>Br0Game zainstalowane, chcesz teraz sprawdzić aktualizacje?</p><p>Aktualizacje!</p>
 intro_welcome: Serdecznie witamy w Br0Game!
-licence_accept: >-
-  Możesz zainstalować ten program tylko wtedy, gdy zgadasz sie z postanowieniami
-  licencji.
+licence_accept: Możesz zainstalować ten program tylko wtedy, gdy zgadasz sie z postanowieniami licencji.
 licence_desc: Prosze przeczytać licencję, przewiń by przeczytać całą!.
 licence_head: Licencja
 licence_need_accept: By przejść dalej zaakceptuj licencję.
 login: Login
 menu_install: Instalacja
-menu_intro: Intro
-menu_license: Licencja
 menu_upgrade: Aktualizacja
 reg_dir: Katalogi &raquo;%s&laquo; zapisywalne ?
 reg_file: Dane &raquo;%s&laquo; zapisywalne?
-reg_found: Znalazłem
-reg_gd_desc: >-
-  <strong>Opcjonalne</strong> — Biblioteka graficzna &raquo;gdlib&laquo; jest
-  potrzebna do generowania grafik w "locie". Bez niej nie wykorzystasz
-  wszystkich możliwości Br0Game.
-reg_gd_need: Zainstalowana wersja biblioteki graficznej &raquo;gdlib&laquo;
-reg_global_desc: >-
-  Br0Game nie będzie funkcjonował gdy register_globals jest aktywne. Z powodów
-  bezpieczeństwa zaleca się by, register_globals wyłączyć w ustawieniach php.
-reg_global_need: register_globals deaktywowane?
-reg_iniset_need: Funkcja php &raquo;ini_set&laquo; dostępna?
-reg_json_need: Dostępny &raquo;JSON&laquo; ?
-reg_no: Nie
 reg_not_found: Nie znalazłem
 reg_not_writable: Nie zapisywalny
 reg_writable: zapisywalny
-reg_yes: Tak
-req_desc: >-
-  Br0Game sprawdzi teraz konfigurację twojego serwera. Czytaj uważnie wyniki
-  testów nim przejdziesz dalej. Jeśli chcesz używać opcjonalnych modułów to
-  upewnij się że dodatkowe testy mają wynik pozytywny..
-req_head: Wymagania systemowe
-req_php_need: Minimalna wersja &raquo;PHP&laquo;
-req_php_need_desc: >-
-  <strong>Wymagane</strong> — PHP to język skryptowy wykonywane po stronie
-  serwera, Br0Game jest w nim napisany. Do poprawnej instalacji wymagana wersja
-  minimalna to PHP Version 5.2.5.
-sql_close_reason: |-
-  Wszechświat jest w trakcie tworzenia. 
-  Proszę czekać.
+req_desc: Br0Game sprawdzi teraz konfigurację twojego serwera. Czytaj uważnie wyniki testów nim przejdziesz dalej. Jeśli chcesz używać opcjonalnych modułów to upewnij się że dodatkowe testy mają wynik pozytywny..
+sql_close_reason: "Wszechświat jest w trakcie tworzenia. \nProszę czekać."
 sql_welcome: Serdecznie witamy na Br0Game v
-step1_desc: >-
-  Tutaj musisz podać dane do połączenia się z baza mysql, jeśli ich nie znasz
-  skontaktują się usługodwacą hostingu, lub napisz na forum wsparcia.
 step1_head: Konfiguracja bazy danych
 step1_mysql_dbname: Nazwa bazy danych
 step1_mysql_dbpass: Hasło
 step1_mysql_dbuser: Nazwa użytkownika
 step1_mysql_migrationpass: Hasło migracji bazy danych
-step1_mysql_migrationpass_info: >-
-  Hasło migracji zostanie poproszony, gdy wymagane będą zmiany w bazie danych
-  lub aktualizacje dla nowej wersji gry.
+step1_mysql_migrationpass_info: Hasło migracji zostanie poproszony, gdy wymagane będą zmiany w bazie danych lub aktualizacje dla nowej wersji gry.
 step1_mysql_port: Port serwera
 step1_mysql_prefix: 'Prefix tabeli:'
-step1_mysql_server: Adres serwera mysql
-step2_conf_create: config.php utworzono pomyślnie
 step2_conf_op_fail: config.php jest nie zapisywalny!
 step2_config_exists: config.php już istnieje!
 step2_db_con_fail: Nie można połączyć z bazą danych, szczegóły poniżej.
 step2_db_done: Połączenie z bazą danych ustalone!
 step2_db_no_dbname: Nie znaleziono bazy danych o takiej nazwie.
-step2_db_no_migrationpw: Nie określono hasła migracji dla bazy danych
 step2_db_too_long: Nazwa tabeli jest za długa, maksymalnie 36 znaków.
 step2_prefix_invalid: Prefix może mieć tylko litery i cyfry ewentualnie znak podkreślenia.
 step3_db_error: 'Błąd podczas łączenia do bazy danych:'
-step3_desc: Tabele utworzone, przejdź do następnego kroku.
 step3_head: Instalacja tabeli
 step4_admin_mail: 'Adres kontaktowy email:'
 step4_admin_name: 'Nazwa konta administratora:'
 step4_admin_name_desc: Nazwa musi mieć od 3 do 20 znaków.
 step4_admin_pass: 'Hasło:'
-step4_admin_pass_desc: Minimalna długość hasła to 6 a maksymalnie 30 znaków.
-step4_desc: >-
-  Kreator instalacji utworzy teraz konto administratora, proszę podać hasło,
-  nazwę użytkownika i adres email.
+step4_desc: Kreator instalacji utworzy teraz konto administratora, proszę podać hasło, nazwę użytkownika i adres email.
 step4_head: Dane administratora
 step6_desc: Zainstalowałeś prawidłowo Br0Game.
 step6_head: Gratualcje!
-step6_info_additional: >-
-  Po kliknięciu zostaniesz przeniesiony na stronę zarządzania
-  grą.<br/><br/><strong>Skasuj plik &raquo;var/ENABLE_INSTALL_TOOL&laquo;
-  nim gra zostanie udostępniona, w przeciwnym wypadku bezpieczeństwo serwera
-  będzie zagrożone!</strong>
-step6_info_head: Możesz już grać!
 title_install: Instalator
-upgrade_available: >-
-  Dostępna jest aktualizacja bazy danych. Aktualna wersja bazy to %s i może
-  zostać zaktualizowana do wersji %s.<br><br>Wybierz z menu wersję do której
-  chcesz zaktualizować:
+upgrade_available: 'Dostępna jest aktualizacja bazy danych. Aktualna wersja bazy to %s i może zostać zaktualizowana do wersji %s.<br><br>Wybierz z menu wersję do której chcesz zaktualizować:'
 upgrade_back: Wróć
 upgrade_intro_welcome: Witaj w aktualizatorze bazy danych!
-upgrade_message_admin: >-
-  Administratorzy: Aby zainstalować aktualizację bazy danych, wpisz hasło
-  migracji i kontynuuj.
+upgrade_message_admin: 'Administratorzy: Aby zainstalować aktualizację bazy danych, wpisz hasło migracji i kontynuuj.'
 upgrade_message_user: 'Gracze: Poczekaj chwilę, a następnie spróbuj kliknąć „Wróć do gry”'
 upgrade_notavailable: Wersja %s bazy to aktualna wersja!.
 upgrade_nothingtodo: Baza danych aktualna z wersją %s.
-upgrade_required_rev: Aktualizator bazy danych działa od wersji r2579 (pr0game v1.7) lub wyższej!.
 upgrade_return: Wróć do gry
 upgrade_success: Aktualizacja przebiegła pomyślnie, baza danych została zaktualizowana do %s.
 upgrade_title: Konieczna jest aktualizacja bazy danych!
-reg_pdo_active: "Obsługa rozszerzenia PDO"
-reg_pdo_desc: "<strong>Wymagane</strong> — PHP musi mieć obsługę PDO."
-step8_need_fields: "Musisz wypełnić wszystkie pola."
-ins_step_licence: "Licencja"
-ins_step_requirements: "Wymagania"
-ins_step_database: "Baza danych"
-ins_step_build: "Tabele"
-ins_step_game: "Gra"
-ins_step_admin: "Administrator"
-ins_step_done: "Gotowe"
-ins_recheck: "Sprawdź ponownie"
-ins_db_connection: "Połączenie"
-ins_db_database: "Baza danych"
-ins_db_security: "Bezpieczeństwo"
-ins_db_createdb: "Utwórz bazę danych, jeśli jeszcze nie istnieje"
-ins_db_connect: "Połącz i utwórz"
-ins_db_no_host: "Nie podano hosta bazy danych."
-ins_db_name_invalid: "Nazwa bazy danych może zawierać tylko litery, cyfry, _ i - (maks. 64 znaki)."
-ins_check_input: "Dane sprawdzone"
-ins_check_connect: "Połączono z serwerem bazy danych"
-ins_check_database: "Baza danych »%s«"
-ins_db_missing: "nie istnieje (zaznacz „utwórz bazę danych” lub utwórz ją samodzielnie)"
-ins_db_create_fail: "nie udało się utworzyć:"
-ins_db_created: "utworzono"
-ins_db_exists: "istnieje"
-ins_check_tables: "Brak jeszcze tabel z prefiksem »%s«"
-ins_tables_exist: "Tabele z tym prefiksem już istnieją (%d). Wybierz inny prefiks lub bazę danych."
-ins_check_write: "Zapisano %s"
-ins_build_desc: "Instalator tworzy teraz tabele gry i wypełnia je wartościami domyślnymi, krok po kroku."
-ins_task_tables: "Utwórz tabele"
-ins_task_migrations: "Zarejestruj wersję bazy danych"
-ins_task_config: "Zapisz ustawienia gry"
-ins_task_universe: "Skonfiguruj uniwersum 1"
-ins_build_start: "Zbuduj bazę danych"
-ins_back_database: "Wróć do ustawień bazy danych"
-ins_game_name: "Nazwa gry"
-ins_game_name_info: "Wyświetlana w tytule, nagłówku i e-mailach. Domyślnie: Br0Game."
-ins_default_theme: "Domyślny motyw"
-ins_default_theme_info: "Motyw dla nowych kont i odwiedzających; gracze mogą go zmienić w ustawieniach."
-ins_game_name_invalid: "Podaj nazwę gry o długości od 1 do 64 znaków."
-ins_theme_invalid: "Nieznany motyw."
-ins_to_start: "Do strony startowej"
-ins_credits_head: "Na ramionach gigantów"
-ins_credits_text: "Br0Game kontynuuje długą linię otwartoźródłowych gier przeglądarkowych. Szacunek dla wszystkich, którzy zbudowali ją i podtrzymywali przy życiu przed nami:"
-ins_credits_thanks: "Dziękujemy, społeczności pr0game, za grę, z której ta wyrosła."
-ins_licence_note: "Wolne oprogramowanie na licencji GNU AGPL v3"
-ins_task_images: "Optymalizuj obrazy (WebP)"
-ins_db_help: "Br0Game przechowuje wszystko w bazie danych MySQL lub MariaDB. Poniższe wartości otrzymasz w panelu swojego hostingu (szukaj „Bazy danych” lub „MySQL”) albo od osoby, która skonfigurowała serwer. Jeśli samodzielnie zainstalowałeś MySQL, zwykle działają wartości domyślne."
-ins_db_host: "Serwer bazy danych"
-ins_db_host_info: "Prawie zawsze „localhost”. Niektórzy dostawcy podają nazwę typu „db1.example.com”."
-ins_db_name_info: "Nazwa bazy danych dla gry. Utwórz ją najpierw w panelu hostingu lub pozwól instalatorowi ją utworzyć (patrz ramka poniżej)."
-ins_db_advanced: "Zaawansowane (port, prefiks tabel, hasło migracji) - zwykle niepotrzebne"
-ins_db_prefix_info: "Dodawany przed każdą nazwą tabeli. Zmieniaj tylko, jeśli dzielisz jedną bazę danych z innym oprogramowaniem."
-ins_db_migrationpw_info: "Chroni stronę aktualizacji (install/?mode=upgrade) przy późniejszych aktualizacjach gry. Pozostaw puste, a instalator wygeneruje silne hasło i pokaże je raz na ostatniej stronie."
-ins_db_migrationpw_placeholder: "generowane automatycznie"
-ins_migrationpw_invalid: "Hasło migracji nie może zawierać cudzysłowów, ukośników odwrotnych, $ ani znaków nowej linii."
-ins_err_technical: "szczegóły techniczne"
-ins_err_access_denied: "Serwer bazy danych odrzucił nazwę użytkownika lub hasło. Sprawdź oba w panelu hostingu pod kątem literówek (wielkość liter ma znaczenie)."
-ins_err_unknown_db: "Ta baza danych nie istnieje na serwerze. Sprawdź nazwę lub zaznacz poniżej „Utwórz bazę danych”."
-ins_err_no_privilege: "Ten użytkownik bazy danych nie ma uprawnień do tej bazy. Nadaj mu w panelu hostingu wszystkie uprawnienia do niej."
-ins_err_no_create: "Ten użytkownik nie ma uprawnień do tworzenia baz danych. Utwórz pustą bazę w panelu hostingu i odznacz „Utwórz bazę danych”."
-ins_err_socket: "Nie znaleziono gniazda serwera bazy danych. Spróbuj hosta „127.0.0.1” zamiast „localhost”."
-ins_err_unreachable: "Serwer bazy danych „%s” jest nieosiągalny. Sprawdź nazwę hosta i port oraz czy serwer bazy danych działa. Wielu dostawców zezwala tylko na połączenia z własnych serwerów WWW, więc zwykle właściwy jest „localhost”."
-ins_game_desc: "Nazwij swoją grę i wybierz, jak ma działać. Wszystko tutaj można później zmienić w administracji (Admin - Ustawienia)."
-ins_group_general: "Ogólne"
-ins_uni_name: "Nazwa uniwersum"
-ins_uni_name_info: "Wyświetlana graczom przy wyborze uniwersum. Puste = „Uniwersum 1”."
-ins_uni_name_invalid: "Nazwa uniwersum może mieć maksymalnie 60 znaków."
-ins_language: "Domyślny język"
-ins_language_info: "Język dla nowych odwiedzających i konta administratora."
-ins_language_invalid: "Nieznany język."
-ins_timezone: "Strefa czasowa"
-ins_timezone_info: "Wstępnie wybrana na podstawie serwera. Używana do wyświetlanego czasu serwera."
-ins_timezone_invalid: "Nieznana strefa czasowa."
-ins_group_speed: "Szybkość gry"
-ins_speed_info: "Jak szybko przebiegają budowy, badania, statki, floty i produkcja. Klasyczna to oryginalne tempo; szybsze ustawienia pasują do małych społeczności i krótkich rund."
-ins_speed_classic: "Klasyczna"
-ins_speed_classic_info: "oryginalne tempo, rundy trwają miesiącami"
-ins_speed_fast: "Szybka"
-ins_speed_fast_info: "około trzy razy szybciej, rundy trwają tygodniami"
-ins_speed_blitz: "Blitz"
-ins_speed_blitz_info: "do dziesięciu razy szybciej, rundy trwają dniami"
-ins_speed_detail: "Budowa/badania %bx, floty %fx, surowce %rx"
-ins_speed_invalid: "Nieznane ustawienie szybkości."
-ins_group_players: "Gracze"
-ins_registration: "Rejestracja"
-ins_registration_open: "Otwarta - każdy może się zarejestrować"
-ins_registration_closed: "Zamknięta - tylko ty możesz tworzyć konta"
-ins_registration_info: "Wybierz „zamknięta”, dopóki jeszcze konfigurujesz. Później możesz ją otworzyć w Admin - Ustawienia."
-ins_registration_invalid: "Nieznane ustawienie rejestracji."
-ins_bots: "Gracze komputerowi (boty)"
-ins_bots_info: "Od 0 do 50. Boty grają jak prawdziwi gracze o różnych nawykach, więc nowe uniwersum nie jest puste. 0 = brak botów."
-ins_bots_invalid: "Liczba botów musi mieścić się w zakresie od 0 do 50."
-ins_mail: "Wysyłaj e-maile (rejestracja, reset hasła)"
-ins_mail_info: "Domyślnie wyłączone. Włącz tylko, gdy serwer może wysyłać pocztę; SMTP można skonfigurować później w Admin - Ustawienia."
-ins_admin_mail_info: "Używany do resetowania haseł i jako adres kontaktowy."
-ins_admin_mail_invalid: "Podaj poprawny adres e-mail."
-ins_admin_pass_confirm: "Powtórz hasło"
-ins_admin_pass_rules: "Hasło musi mieć co najmniej %d znaków (maksymalnie 64). Zdanie złożone z kilku słów łatwo zapamiętać i trudno odgadnąć."
-ins_admin_pass_short: "Hasło musi mieć co najmniej %d znaków."
-ins_admin_pass_long: "Hasło może mieć maksymalnie 64 znaki."
-ins_admin_pass_mismatch: "Oba hasła nie są zgodne."
-ins_done_checklist: "Twoja lista kontrolna"
-ins_done_login: "Zaloguj się do administracji."
-ins_done_login_info: "Jesteś już zalogowany jako „%s”. Następnym razem użyj:"
-ins_done_cron: "Skonfiguruj cronjob (wymagane)."
-ins_done_cron_info: "Bez niego nic w grze nie postępuje (floty, kolejki budowy, statystyki). Dodaj tę linię do crontab użytkownika serwera WWW (crontab -e) lub utwórz z nią cronjob w panelu hostingu:"
-ins_done_locked: "Narzędzie instalacyjne jest teraz zablokowane."
-ins_done_locked_info: "Nikt nie może ponownie uruchomić kreatora. Aby zaktualizować później, postępuj według sekcji aktualizacji w dokumentacji."
-ins_done_https: "Używaj HTTPS."
-ins_done_https_info: "Korzystasz ze zwykłego HTTP: hasła są przesyłane bez szyfrowania. Skonfiguruj certyfikat (np. Let's Encrypt), zanim zaprosisz graczy."
-ins_done_https_ok: "Ta strona została dostarczona przez HTTPS - dobrze."
-ins_done_settings: "Zmień ustawienia później."
-ins_done_settings_info: "Admin - Ustawienia: nazwa gry, szybkość, rejestracja, e-mail (SMTP), boty i wiele więcej."
-ins_done_bots: "Boty."
-ins_done_bots_info: "Utworzono %d botów. Działają, gdy uruchamia się cronjob. Zarządzaj nimi w administracji."
-ins_done_bots_failed: "Administrator został utworzony, ale nie udało się utworzyć botów. Możesz dodać je później w administracji."
-ins_done_migrationpw: "Zapisz swoje hasło migracji (pokazywane tylko raz)."
-ins_done_migrationpw_info: "Potrzebujesz go do aktualizacji gry. Jest też zapisane w config/game.php."
-ins_done_docs: "Dokumentacja:"
-ins_done_to_admin: "Do administracji"
+ins_step_licence: Licencja
+ins_step_requirements: Wymagania
+ins_step_database: Baza danych
+ins_step_build: Tabele
+ins_step_game: Gra
+ins_step_admin: Administrator
+ins_step_done: Gotowe
+ins_recheck: Sprawdź ponownie
+ins_db_connection: Połączenie
+ins_db_createdb: Utwórz bazę danych, jeśli jeszcze nie istnieje
+ins_db_connect: Połącz i utwórz
+ins_db_no_host: Nie podano hosta bazy danych.
+ins_db_name_invalid: Nazwa bazy danych może zawierać tylko litery, cyfry, _ i - (maks. 64 znaki).
+ins_check_input: Dane sprawdzone
+ins_check_connect: Połączono z serwerem bazy danych
+ins_check_database: Baza danych »%s«
+ins_db_missing: nie istnieje (zaznacz „utwórz bazę danych” lub utwórz ją samodzielnie)
+ins_db_create_fail: 'nie udało się utworzyć:'
+ins_db_created: utworzono
+ins_db_exists: istnieje
+ins_check_tables: Brak jeszcze tabel z prefiksem »%s«
+ins_tables_exist: Tabele z tym prefiksem już istnieją (%d). Wybierz inny prefiks lub bazę danych.
+ins_check_write: Zapisano %s
+ins_build_desc: Instalator tworzy teraz tabele gry i wypełnia je wartościami domyślnymi, krok po kroku.
+ins_task_tables: Utwórz tabele
+ins_task_migrations: Zarejestruj wersję bazy danych
+ins_task_config: Zapisz ustawienia gry
+ins_task_universe: Skonfiguruj uniwersum 1
+ins_build_start: Zbuduj bazę danych
+ins_back_database: Wróć do ustawień bazy danych
+ins_game_name: Nazwa gry
+ins_game_name_info: 'Wyświetlana w tytule, nagłówku i e-mailach. Domyślnie: Br0Game.'
+ins_default_theme: Domyślny motyw
+ins_default_theme_info: Motyw dla nowych kont i odwiedzających; gracze mogą go zmienić w ustawieniach.
+ins_game_name_invalid: Podaj nazwę gry o długości od 1 do 64 znaków.
+ins_theme_invalid: Nieznany motyw.
+ins_to_start: Do strony startowej
+ins_credits_head: Na ramionach gigantów
+ins_credits_text: 'Br0Game kontynuuje długą linię otwartoźródłowych gier przeglądarkowych. Szacunek dla wszystkich, którzy zbudowali ją i podtrzymywali przy życiu przed nami:'
+ins_credits_thanks: Dziękujemy, społeczności pr0game, za grę, z której ta wyrosła.
+ins_licence_note: Wolne oprogramowanie na licencji GNU AGPL v3
+ins_task_images: Optymalizuj obrazy (WebP)
+ins_db_help: Br0Game przechowuje wszystko w bazie danych MySQL lub MariaDB. Poniższe wartości otrzymasz w panelu swojego hostingu (szukaj „Bazy danych” lub „MySQL”) albo od osoby, która skonfigurowała serwer. Jeśli samodzielnie zainstalowałeś MySQL, zwykle działają wartości domyślne.
+ins_db_host: Serwer bazy danych
+ins_db_host_info: Prawie zawsze „localhost”. Niektórzy dostawcy podają nazwę typu „db1.example.com”.
+ins_db_name_info: Nazwa bazy danych dla gry. Utwórz ją najpierw w panelu hostingu lub pozwól instalatorowi ją utworzyć (patrz ramka poniżej).
+ins_db_advanced: Zaawansowane (port, prefiks tabel, hasło migracji) - zwykle niepotrzebne
+ins_db_prefix_info: Dodawany przed każdą nazwą tabeli. Zmieniaj tylko, jeśli dzielisz jedną bazę danych z innym oprogramowaniem.
+ins_db_migrationpw_info: Chroni stronę aktualizacji (install/?mode=upgrade) przy późniejszych aktualizacjach gry. Pozostaw puste, a instalator wygeneruje silne hasło i pokaże je raz na ostatniej stronie.
+ins_db_migrationpw_placeholder: generowane automatycznie
+ins_migrationpw_invalid: Hasło migracji nie może zawierać cudzysłowów, ukośników odwrotnych, $ ani znaków nowej linii.
+ins_err_technical: szczegóły techniczne
+ins_err_access_denied: Serwer bazy danych odrzucił nazwę użytkownika lub hasło. Sprawdź oba w panelu hostingu pod kątem literówek (wielkość liter ma znaczenie).
+ins_err_unknown_db: Ta baza danych nie istnieje na serwerze. Sprawdź nazwę lub zaznacz poniżej „Utwórz bazę danych”.
+ins_err_no_privilege: Ten użytkownik bazy danych nie ma uprawnień do tej bazy. Nadaj mu w panelu hostingu wszystkie uprawnienia do niej.
+ins_err_no_create: Ten użytkownik nie ma uprawnień do tworzenia baz danych. Utwórz pustą bazę w panelu hostingu i odznacz „Utwórz bazę danych”.
+ins_err_socket: Nie znaleziono gniazda serwera bazy danych. Spróbuj hosta „127.0.0.1” zamiast „localhost”.
+ins_err_unreachable: Serwer bazy danych „%s” jest nieosiągalny. Sprawdź nazwę hosta i port oraz czy serwer bazy danych działa. Wielu dostawców zezwala tylko na połączenia z własnych serwerów WWW, więc zwykle właściwy jest „localhost”.
+ins_game_desc: Nazwij swoją grę i wybierz, jak ma działać. Wszystko tutaj można później zmienić w administracji (Admin - Ustawienia).
+ins_group_general: Ogólne
+ins_uni_name: Nazwa uniwersum
+ins_uni_name_info: Wyświetlana graczom przy wyborze uniwersum. Puste = „Uniwersum 1”.
+ins_uni_name_invalid: Nazwa uniwersum może mieć maksymalnie 60 znaków.
+ins_language: Domyślny język
+ins_language_info: Język dla nowych odwiedzających i konta administratora.
+ins_language_invalid: Nieznany język.
+ins_timezone: Strefa czasowa
+ins_timezone_info: Wstępnie wybrana na podstawie serwera. Używana do wyświetlanego czasu serwera.
+ins_timezone_invalid: Nieznana strefa czasowa.
+ins_group_speed: Szybkość gry
+ins_speed_info: Jak szybko przebiegają budowy, badania, statki, floty i produkcja. Klasyczna to oryginalne tempo; szybsze ustawienia pasują do małych społeczności i krótkich rund.
+ins_speed_classic: Klasyczna
+ins_speed_classic_info: oryginalne tempo, rundy trwają miesiącami
+ins_speed_fast: Szybka
+ins_speed_fast_info: około trzy razy szybciej, rundy trwają tygodniami
+ins_speed_blitz: Blitz
+ins_speed_blitz_info: do dziesięciu razy szybciej, rundy trwają dniami
+ins_speed_detail: Budowa/badania %bx, floty %fx, surowce %rx
+ins_speed_invalid: Nieznane ustawienie szybkości.
+ins_group_players: Gracze
+ins_registration: Rejestracja
+ins_registration_open: Otwarta - każdy może się zarejestrować
+ins_registration_closed: Zamknięta - tylko ty możesz tworzyć konta
+ins_registration_info: Wybierz „zamknięta”, dopóki jeszcze konfigurujesz. Później możesz ją otworzyć w Admin - Ustawienia.
+ins_registration_invalid: Nieznane ustawienie rejestracji.
+ins_bots: Gracze komputerowi (boty)
+ins_bots_info: Od 0 do 50. Boty grają jak prawdziwi gracze o różnych nawykach, więc nowe uniwersum nie jest puste. 0 = brak botów.
+ins_bots_invalid: Liczba botów musi mieścić się w zakresie od 0 do 50.
+ins_mail: Wysyłaj e-maile (rejestracja, reset hasła)
+ins_mail_info: Domyślnie wyłączone. Włącz tylko, gdy serwer może wysyłać pocztę; SMTP można skonfigurować później w Admin - Ustawienia.
+ins_admin_mail_info: Używany do resetowania haseł i jako adres kontaktowy.
+ins_admin_mail_invalid: Podaj poprawny adres e-mail.
+ins_admin_pass_confirm: Powtórz hasło
+ins_admin_pass_rules: Hasło musi mieć co najmniej %d znaków (maksymalnie 64). Zdanie złożone z kilku słów łatwo zapamiętać i trudno odgadnąć.
+ins_admin_pass_short: Hasło musi mieć co najmniej %d znaków.
+ins_admin_pass_long: Hasło może mieć maksymalnie 64 znaki.
+ins_admin_pass_mismatch: Oba hasła nie są zgodne.
+ins_done_checklist: Twoja lista kontrolna
+ins_done_login: Zaloguj się do administracji.
+ins_done_login_info: 'Jesteś już zalogowany jako „%s”. Następnym razem użyj:'
+ins_done_cron: Skonfiguruj cronjob (wymagane).
+ins_done_cron_info: 'Bez niego nic w grze nie postępuje (floty, kolejki budowy, statystyki). Dodaj tę linię do crontab użytkownika serwera WWW (crontab -e) lub utwórz z nią cronjob w panelu hostingu:'
+ins_done_locked: Narzędzie instalacyjne jest teraz zablokowane.
+ins_done_locked_info: Nikt nie może ponownie uruchomić kreatora. Aby zaktualizować później, postępuj według sekcji aktualizacji w dokumentacji.
+ins_done_https: Używaj HTTPS.
+ins_done_https_info: 'Korzystasz ze zwykłego HTTP: hasła są przesyłane bez szyfrowania. Skonfiguruj certyfikat (np. Let''s Encrypt), zanim zaprosisz graczy.'
+ins_done_https_ok: Ta strona została dostarczona przez HTTPS - dobrze.
+ins_done_settings: Zmień ustawienia później.
+ins_done_settings_info: 'Admin - Ustawienia: nazwa gry, szybkość, rejestracja, e-mail (SMTP), boty i wiele więcej.'
+ins_done_bots: Boty.
+ins_done_bots_info: Utworzono %d botów. Działają, gdy uruchamia się cronjob. Zarządzaj nimi w administracji.
+ins_done_bots_failed: Administrator został utworzony, ale nie udało się utworzyć botów. Możesz dodać je później w administracji.
+ins_done_migrationpw: Zapisz swoje hasło migracji (pokazywane tylko raz).
+ins_done_migrationpw_info: Potrzebujesz go do aktualizacji gry. Jest też zapisane w config/game.php.
+ins_done_docs: 'Dokumentacja:'
+ins_done_to_admin: Do administracji
+ins_step_legal: Prawne
+ins_legal_desc: Wybierz, gdzie gra jest hostowana i jak zaczną się strony prawne oraz forum społeczności. Wszystko to możesz później zmienić w panelu administracyjnym (Ustawienia, Strony).
+ins_group_privacy: Region hostingu
+ins_privacy_info: Region decyduje, która polityka prywatności jest używana domyślnie.
+ins_privacy_eu: UE / EOG - polityka prywatności zgodna z RODO
+ins_privacy_eu_info: Wybierz, gdy gra jest hostowana w Unii Europejskiej lub Europejskim Obszarze Gospodarczym albo kierowana do graczy stamtąd.
+ins_privacy_other: Poza UE - ogólna polityka prywatności
+ins_privacy_other_info: Prosta w języku polityka prywatności bez odwołań do RODO.
+ins_group_rules: Regulamin
+ins_rules_default: Zaimportuj domyślny regulamin
+ins_rules_default_info: Strona regulaminu zaczyna się od standardowych zasad gry, które możesz potem edytować.
+ins_rules_blank: Zacznij od pustej strony
+ins_rules_blank_info: Strona regulaminu pozostaje pusta, dopóki nie napiszesz własnych zasad w panelu administracyjnym.
+ins_group_community: Społeczność
+ins_board: Włącz forum społeczności
+ins_board_info: Forum dla Twoich graczy. Po wyłączeniu wszystkie linki do forum są ukryte, a strony forum niedostępne.
+ins_legal_note: Wygenerowane teksty są jedynie szablonami. Jako operator odpowiadasz za teksty prawne swojej gry i powinieneś je sprawdzić.
+ins_legal_region_invalid: Wybierz poprawny region hostingu.
+ins_legal_rules_invalid: Wybierz, jak ma wyglądać początek regulaminu.

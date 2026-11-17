@@ -32,8 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Edits a player: resources, ships, defenses, buildings, research, personal data, planets and alliance. Each tab
  * (`edit=<tab>`) is handled by its class in App\Game\Admin\AccountEditor; this controller picks the tab.
  */
-#[\App\Routing\GamePage('admin.php', 'accountEditor')]
-#[\App\Routing\GamePage('admin.php', 'accountEditor', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'accountEditor')]
 class AccountEditorController extends AbstractAdminController
 {
     /**

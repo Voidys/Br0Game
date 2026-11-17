@@ -31,12 +31,10 @@ use App\Game\Core\Universe;
  * Fleet movements: flying fleets, fleet selection for dispatch, recall and alliance combat groups (modes: show,
  * createACS, loadACS).
  */
-#[\App\Routing\GamePage('game.php', 'fleetTable')]
-#[\App\Routing\GamePage('game.php', 'fleetTable', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetTable')]
+#[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetTableController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_FLEET_TABLE';
-
     public function initialize(): void
     {
         parent::initialize();

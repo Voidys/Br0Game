@@ -12,12 +12,9 @@ use App\Game\Core\Database;
 use App\Game\Core\Singleton;
 
 /** Ends the player's rebuild protection early (XHR). */
-#[\App\Routing\GamePage('game.php', 'rebuildProtectionAjax')]
-#[\App\Routing\GamePage('game.php', 'rebuildProtectionAjax', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'rebuildProtectionAjax')]
 class RebuildProtectionAjaxController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

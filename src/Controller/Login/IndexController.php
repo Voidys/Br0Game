@@ -23,8 +23,7 @@ use DateTimeZone;
 use App\Runtime\ProjectPaths;
 
 /** Start page: welcome text, login form, universe starts, the hourly meme and the latest news. */
-#[\App\Routing\GamePage('index.php', 'index', default: true)]
-#[\App\Routing\GamePage('index.php', 'index', default: true, uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'index', default: true)]
 class IndexController extends AbstractLoginController
 {
     private \App\Community\DiscordWidget $discordWidget;
@@ -54,9 +53,6 @@ class IndexController extends AbstractLoginController
         if (!empty($referralID)) {
             $this->redirectTo('./?page=register&referralID=' . $referralID);
         }
-
-        $countcaptchakey = 0;
-
 
         $universeStarts = [];
         $now = time();
@@ -98,7 +94,6 @@ class IndexController extends AbstractLoginController
         $this->assign([
             'code'              => $loginCode,
             'rulesUrl'          => './?page=rules&lang=' . ($this->state->requestCookies['lang'] ?? 'de'),
-            'countcaptchakey'   => $countcaptchakey,
             'universeStarts'    => $universeStarts,
         ] + $this->memes() + $this->latestNews() + $this->discordWidgetData());
 

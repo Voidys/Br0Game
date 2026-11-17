@@ -133,7 +133,7 @@
           </tr>
         {% endfor %}
       <tr>
-          {% if count(FleetsOnPlanet) == 0 %}
+          {% if FleetsOnPlanet|length == 0 %}
             <td id="cargospace" data="{{ LNG['in_capacity'] }}">&nbsp;</td>
             <td colspan="2" class="num">{{ LNG.fl_no_ships }}</td>
           {% else %}
@@ -198,9 +198,9 @@
       {% for key, entry in watchList %}
           <tr>
             <td>{% if key==0 %}{{ entry.name }}{% else %}{{ entry.coords }} {{ entry.name }} ({{ entry.level }}){% endif %}</td>
-            <td class="num {{ (resourceTable[901].current>=entry.metal) ? 'colorPositive':'colorNegative' }}">{{ php_number_format(entry.metal, 0, ",", ".") }}</td>
-            <td class="num {{ (resourceTable[902].current>=entry.crystal) ? 'colorPositive':'colorNegative' }}">{{ php_number_format(entry.crystal, 0, ",", ".") }}</td>
-            <td class="num {{ (resourceTable[903].current>=entry.deuterium) ? 'colorPositive':'colorNegative' }}">{{ php_number_format(entry.deuterium, 0, ",", ".") }}</td>
+            <td class="num {{ (resourceTable[901].current>=entry.metal) ? 'colorPositive':'colorNegative' }}">{{ entry.metal|number_format(0, ",", ".") }}</td>
+            <td class="num {{ (resourceTable[902].current>=entry.crystal) ? 'colorPositive':'colorNegative' }}">{{ entry.crystal|number_format(0, ",", ".") }}</td>
+            <td class="num {{ (resourceTable[903].current>=entry.deuterium) ? 'colorPositive':'colorNegative' }}">{{ entry.deuterium|number_format(0, ",", ".") }}</td>
             <td class="num">
               <span class="{% if FleetsOnPlanet[202].count >= entry.needed202 %}colorPositive{% else %}colorNegative{% endif %}">{{ entry.needed202 }}</span> / <span class="{% if FleetsOnPlanet[203].count >= entry.needed203 %}colorPositive{% else %}colorNegative{% endif %}">{{ entry.needed203 }}</span>
             </td>

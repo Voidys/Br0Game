@@ -21,8 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Game\Core\Singleton;
 
 /** Admin dashboard: security notices, player and universe statistics, system and cron status. */
-#[\App\Routing\GamePage('admin.php', 'overview')]
-#[\App\Routing\GamePage('admin.php', 'overview', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'overview')]
 class OverviewController extends AbstractAdminController
 {
     /**

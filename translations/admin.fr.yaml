@@ -1,11 +1,6 @@
-404_page: Vous n'avez pas d'autorisations suffisantes pour accéder à cette page
 ac_account_data: Données Utilisateur
 ac_act_time: Date de la dernière activité
 ac_ali_idid: 'ID:'
-ac_ali_logo_11: Logs Alliance
-ac_ali_text_11: Texte externe
-ac_ali_text_22: Texte interne
-ac_ali_text_33: Texte de candidature
 ac_alliance: Alliance
 ac_ally_ranking: Statistiques Alliances
 ac_ally_web: Website Alliance
@@ -13,7 +8,6 @@ ac_auth_level: Grade
 ac_banned: Bannis ?
 ac_checkip_title: Vérification IP
 ac_coords: Coordonnées
-ac_detailed_planet_moon_info: Détails des Planètes et Lunes
 ac_diameter: Diamètre
 ac_enter_user_id: Selectionnez Joueurs
 ac_ext_text: Texte externe
@@ -25,34 +19,19 @@ ac_id_names_coords: ID, Nom and Coordonnées
 ac_image: Logs Alliance
 ac_info_ally: Infos Alliance
 ac_int_text: Texte interne
-ac_isnodestruyed: <font color=red>(Il n'y a pas eu de Planètes détruites récemment)</font>
 ac_last_ip: Dernière IP
 ac_leader: Leader
 ac_leyend: '[ Légende ]'
-ac_mail: Email
-ac_minimize_maximize: Réduire/Agrandir
 ac_moon: Lune
-ac_moons_no: <font color=red>(Pas de Lune)</font>
-ac_more: (Plus)
 ac_name: Nom
 ac_name_ali: Nom Complet
-ac_no_alliance: <font color=red>(Pas d'Alliance)</font>
 ac_no_ally: Pas d'Alliance
-ac_no_character: Pas de lettres, seulement des nombres !
 ac_no_img: L'Alliance n\a pas de Logo
-ac_no_moons: Le Joueur n'a pas de Lunes
-ac_no_rank_level: >-
-  Vous n'avez pas l' autorisation suffisante pour voir les informations sur ce
-  joueur !
 ac_no_text_ext: L'Alliance n\a pas de Texte externe
 ac_no_text_int: L'Alliance n\a pas de Texte interne
 ac_no_text_sol: L'Alliance n\a pas de Texte de candidature
-ac_no_web: L'Alliance n\a pas de Site Internet
-ac_note_k: >-
-  <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Dépasse
-  les Milliards</th></tr>
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Dépasse les Milliards</th></tr>
 ac_on_vacation: En mode Vacances ?
-ac_perm_mail: Email Permanent
 ac_points_count: Score | Compte
 ac_ranking: Classement
 ac_recent_destroyed_planets: Planètes détruites récemment
@@ -62,39 +41,30 @@ ac_register_time: Enregistré
 ac_research: Recherches
 ac_see_ranking: Voir Statistiques
 ac_select_id_num: Ecrire ID# manuellement (Optionnel)
-ac_select_one_id: SVP choisissez seulement un Joueur !
-ac_select_username: Sélectionnez Joueur
 ac_sol_text: Texte de candidature
 ac_suspended_autor: Bannis pour
 ac_suspended_longer: Jusqu'à
 ac_suspended_reason: Raison
 ac_suspended_time: Bannis
 ac_suspended_title: Bannissements
-ac_swap_fail: "Échec de l'échange\_: %s"
-ac_swap_invalid: "Sélection invalide, veuillez choisir deux utilisateurs différents\_!"
+ac_swap_invalid: Sélection invalide, veuillez choisir deux utilisateurs différents !
 ac_swap_no_entry: Aucune entrée de compte trouvée pour un ou les deux utilisateurs.
 ac_swap_submit: Échanger
 ac_swap_success: Les comptes ont été échangés avec succès.
 ac_swap_title: Échanger des comptes
-ac_swap_user_a: "Utilisateur\_A"
+ac_swap_user_a: Utilisateur A
 ac_swap_user_b: Utilisateur B
 ac_tag: TAG
 ac_temperature: Temp.
 ac_time_destruyed: Date de la Destruction Totale
-ac_title: Détails Compte
-ac_title_entry: Detaillé
 ac_total_members: Nombre de Membres
 ac_total_points: 'Total : '
-ac_urlnow: 'URL: '
-ac_user_id_required: Vous devez sélectionner un Joueur !
 ac_user_ranking: Statistiques Joueur
 ac_user_system: Information Joueur
 ac_username_doesnt: Pas de Joueur correspondant!
 ac_view_image: Voir image dans une autre fenêtre
-ac_view_image2: Voir Image
-ac_view_text_ext: Montrer Texte externe
-ac_view_text_int: Montrer Texte interne
-ac_view_text_sol: Montrer Application Text
+account_already_has_user: Ce compte possède déjà un joueur dans cet univers
+accountID: ID du compte
 ad_add_build_success: Bâtiments ajouté avec succès !
 ad_add_defenses_success: Défenses ajoutées avec succès !
 ad_add_not_exist: L'ID n'existe pas!
@@ -117,18 +87,14 @@ ad_ally_title: Editer Alliances
 ad_ally_user_id: (Entrer ID joueur)
 ad_authlevel_aa: '[Voir Administrateurs]'
 ad_authlevel_auth: Grade
-ad_authlevel_error: Vous avez déjà ce grade !
-ad_authlevel_error_2: Entrez seulement un joueur !
 ad_authlevel_error_3: Vous ne pouvez pas changez le grade du Créateur du Jeu !
 ad_authlevel_insert_id: Entrer manuellement ID (Optionnel)
 ad_authlevel_jj: '[Voir Joueurs]'
 ad_authlevel_mm: '[Voir Modérateurs]'
-ad_authlevel_name: Nom
 ad_authlevel_oo: '[Voir Opérateurs]'
 ad_authlevel_succes: Statut changé avec succès !
 ad_authlevel_title: Grades
 ad_authlevel_tt: '[Voir Tous]'
-ad_back_to_menu: Retour au menu général
 ad_buildings: Bâtiments
 ad_buildings_title: Editer Bâtiments
 ad_count: Ajouter
@@ -140,7 +106,6 @@ ad_delete_res_sucess: Ressources supprimées avec succès !
 ad_delete_ships_sucess: Vaisseaux supprimés avec succès !
 ad_delete_tech_success: Recherches supprimées avec succès !
 ad_editor_alliances: Alliance
-ad_editor_authlevels: Gérer les autorisations
 ad_editor_buildings: Bâtiments
 ad_editor_defenses: Défenses
 ad_editor_personal: Données peronnelles
@@ -149,27 +114,18 @@ ad_editor_researchs: Recherches
 ad_editor_resources: Ressources
 ad_editor_ships: Vaisseaux
 ad_editor_title: Editeur de comptes
-ad_forgiven_id: Vous devez entrer un ID !
 ad_levels: Ajouter niveaux
-ad_main_title: Gérer Ressources and Technologies
-ad_max: (max. % d)
 ad_number: ID
-ad_personal_email: Addresse Email
-ad_personal_email2: Adresse Email permanente
 ad_personal_name: Nom
-ad_personal_pass: Mot de passe
 ad_personal_succes: Paramètres changés avec succès !
 ad_personal_title: Editer Données personelles
 ad_personal_vacat: Mode Vacances ?
-ad_pla_change_id: Changer le titualire (Entrer ID Utilisateur)
 ad_pla_change_p: Changer la position de cette planète
 ad_pla_change_pp: Souligner le changement de postion
 ad_pla_delete_b: Supprimer tous les bâtiments
 ad_pla_delete_cb: Supprimer la file d'attente de construction
 ad_pla_delete_d: Supprimer toutes les défenses
 ad_pla_delete_hd: Supprimer le chantier spatial et files d'attente de défenses
-ad_pla_delete_planet: Supprimer Planète
-ad_pla_delete_planet_s: Planète supprimée avec succès !
 ad_pla_delete_s: Supprimer tous les vaisseaux
 ad_pla_edit_diameter: Editer Diamètre Planète
 ad_pla_edit_fields: Editer Cases Planètes
@@ -180,25 +136,19 @@ ad_pla_error_planets3: Les coordonnées demandées sont déjà utilisées !
 ad_pla_error_planets4: Vous ne pouvez pas déplacer la lune vers une planète qui en a déjà une !
 ad_pla_error_planets5: Les coordonnées sélectionnées doivent avoir une planète !
 ad_pla_error_planets6: Les coordonnées ne sont pas dans les limites de l'univers
-ad_pla_error_user: Le joueur n'existe pas !
 ad_pla_succes: Changement effectués avec succès !
 ad_pla_title: Editer Planètes et/ou Lunes
-ad_pla_title_a: Si Lune il y a Alors changement de mains
 ad_pla_title_l: Si Lune il y a Alors sa position sera changée
-ad_planet_id: ID Planète ou Lune
 ad_research: Recherches
 ad_research_title: Editer Recherches
 ad_ships: Vaisseaux
 ad_ships_title: Editer Vaisseaux
 adm_absenden: Envoyer
-adm_bad_password: Mot de passe incorrect !
 adm_cp_index: Accueil
-adm_cp_logout: Quitter
 adm_cp_title: Administration
 adm_email: Email
 adm_login: Connectez-vous
 adm_password: Mot de passe
-adm_password_info: S'il vous plaît entrer votre mot de passe pour la vérification du compte !
 adm_username: Nom d'utilisateur
 an_analyzed_list: Joueurs analysés
 an_btn_disable: Désactiver l'analyse et supprimer les données
@@ -206,14 +156,12 @@ an_btn_enable: Activer l'analyse
 an_timestamp: Horodatage
 an_total_analyzed: Nombre de joueurs analysés
 an_user_list: Liste des joueurs
-answer_new: 'Laissez une réponse:'
 ap_aktivieren: Activer
 ap_datum: Date
 ap_del: Supprimer
 ap_email: E-Mail
 ap_entfernen: ' à supprimer ?'
 ap_id: ID
-ap_insgesamt: 'total '
 ap_ip: IP
 ap_nicht_aktivierte: ' utilisateur plus disponible.'
 ap_nicht_aktivierte_user: L'utilisateur ne s'est pas activé
@@ -222,38 +170,32 @@ ap_status: Etat
 ap_username: Nom d'utilisateur
 bo_accountname: Nom du compte
 bo_ban: Bannir
+bo_ban_change: Modifier
 bo_ban_player: Bannir/Editer Bannisement
 bo_banned: ' a été bannis avec succès.'
-bo_bbb_go_act: '[ Actualiser ]'
-bo_bbb_go_back: '[ Retour ]'
 bo_bbb_title_1: Système bannissement
 bo_bbb_title_2: Quand le bannissement sera levé
 bo_bbb_title_3: 'Système bannissement<br><font color=red>Note: Cet utilisateur est déjà banni !'
-bo_bbb_title_4: >-
-  In order to reduce the time duration, it is necessary to add a "-" before the
-  numbers, such as: -5<br>With previous perma-lock, the lock is reduced to the
-  entered positive time
+bo_bbb_title_4: 'In order to reduce the time duration, it is necessary to add a "-" before the numbers, such as: -5<br>With previous perma-lock, the lock is reduced to the entered positive time'
 bo_bbb_title_5: Banni jusqu'à
 bo_bbb_title_6: Changer date
 bo_characters_1: 'Caractères disponibles : '
-bo_characters_suus: "\_ (Banni)"
+bo_characters_suus:   (Banni)
 bo_order_banned: '[Ranger par Joueurs bannis]'
 bo_order_id: '[Ranger par ID Joueur]'
 bo_order_username: '[Ranger par Nom de Joueur]'
 bo_permanent: Ban permanent
 bo_reason: Raison du bannissement
 bo_select_title: Afficher les noms commençant par
-bo_suspended_panel: Outils de bannissement
 bo_the_player: 'Joueur '
 bo_the_player2: 'Le Joueur '
-bo_time: Temps de bannissement
+bo_total_accs: 'Total des comptes : '
+bo_total_accs_banned: 'Comptes bannis : '
 bo_total_banneds: 'Total Joueurs bannis : '
 bo_total_users: 'Total Joueurs : '
 bo_unban: Dèbannir
 bo_unban_player: Liste des joueurs bannuis
 bo_unbanned: ' Il a levé le bannissement correctement.'
-bo_user_doesnt_exist: Le joueur n'existe pas !
-bo_user_select: Sélectionnez ...
 bo_username: Nom du Joueur
 bo_vacaations: Vacances ?
 bo_vacation_mode: Mode Vacances
@@ -261,7 +203,6 @@ buildings_title: Bâtiments
 button_add: Ajouter
 button_cancel: Annuler
 button_delete: Supprimer
-button_des_se: Sélectionner / Désélectionner tout
 button_deselect: Déselectionnez
 button_filter: Filtrer
 button_reset: Redémarrer
@@ -270,23 +211,10 @@ button_test: Test
 button_test_negative: Test failed
 button_test_positive: Test successful
 cc_cache_clear: Cache vidé
-close_t: Le ticket a été fermé.
-close_ticket: Ticket fermé
-count_res: Quantité de Ressources
-cronjob_active: Non
 cronjob_class: class
 cronjob_delete: Supprimer
-cronjob_desc: >-
-  Ici suit l'entrée du temps d'invocation des Cronjobs. Les conditions sont et
-  connectés, ce qui signifie que le Cronjobs ne fonctionnera que si toutes les
-  conditions sont remplies. La sélection simultanée des valeurs individuelles
-  "Wochentag" et "Tag" peut etre la cause que le Cronjobs s'exectue
-  irréguliérement. Ici l'option "Alle" doit etre utilisé lorsque au moins une
-  condition est séléctionnée.<br>"Alle" aura la priorité et remplacera les
-  paramétres de la liste de sélection.
-cronjob_desc_class: >-
-  Entrée de la classe a etre invoquée. Includes/classes/cronjobs/foo.class.php
-  appeller "foo" doit etre entréé.
+cronjob_desc: Ici suit l'entrée du temps d'invocation des Cronjobs. Les conditions sont et connectés, ce qui signifie que le Cronjobs ne fonctionnera que si toutes les conditions sont remplies. La sélection simultanée des valeurs individuelles "Wochentag" et "Tag" peut etre la cause que le Cronjobs s'exectue irréguliérement. Ici l'option "Alle" doit etre utilisé lorsque au moins une condition est séléctionnée.<br>"Alle" aura la priorité et remplacera les paramétres de la liste de sélection.
+cronjob_desc_class: Entrée de la classe a etre invoquée. Includes/classes/cronjobs/foo.class.php appeller "foo" doit etre entréé.
 cronjob_desc_name: Nom au choix pour identifer les Cronjobs.
 cronjob_dom: Jour
 cronjob_dow: Jour de la semaine
@@ -301,13 +229,7 @@ cronjob_error_month: Aucun mois défini!
 cronjob_error_name: Il n'avait pas de nom entrer
 cronjob_headline: Cronjob ID
 cronjob_hours: Heure
-cronjob_id: ID
-cronjob_inactive: Oui
-cronjob_inActive: Active
-cronjob_is_lock: Oui
-cronjob_is_unlock: Non
 cronjob_lastTime: Dernière exécution
-cronjob_lock: Verrouiller
 cronjob_min: Minute
 cronjob_month: Mois
 cronjob_name: Nom
@@ -316,35 +238,27 @@ cronjob_nextTime: Prochaine fois
 cronjob_run: Exécuter
 cronjob_selectall: Tous
 cronName_cleaner: Supprimer les anciennes données
-cronName_bots: "Bots"
-cronName_disposable_email_domains: "Mettre à jour les domaines e-mail jetables"
-cronName_fleets: "Événements de flotte"
+cronName_bots: Bots
+cronName_disposable_email_domains: Mettre à jour les domaines e-mail jetables
+cronName_fleets: Événements de flotte
 cronName_daily: Tâches journaliéres
 cronName_databasedump: Backup de base de données
 cronName_inactive: Supprimer inactive
 cronName_pirates: Créer des bases de pirates
 cronName_referral: Bonus de parrainage
 cronName_statistic: Statistiques
+cronName_statisticjson: Exporter stats.json
 cronName_tracking: Envoyer des statistiques globaux du serveur
-cs_minutes: Minutes
-cs_resources: Ressources
 cs_time_between_updates: 'Temps entre deux mises à jour de statistiques :'
-cs_timeact_1: 'La Dernière mise à jour a eu lieu à : '
-cs_users_per_block: Joueurs traités par bloc statistique (minimum sur 10)
 defenses_title: Défenses
 du_choose_tables: Sélectionner les tables
-du_header: Backup base de données
 du_not_tables_selected: Vous n'avez pas séléctioner de tables pour le backup!
 du_select_all_tables: Toutes les tables
 du_submit: Envoi
 du_success: 'Backup creer avec succes! Fichier: %s'
 email_reg: Email
 email2_reg: Email (2éme fois)
-er_data: Date
-er_dlte_all: Supprimer Tout
-er_error_list: Liste des erreurs
-er_errors: Erreurs
-er_type: Type
+empty_account_field: Aucun ID de compte indiqué
 et_encript: Encrypter
 et_md5_encripter: Générateur MD5
 et_pass: Mot de passe
@@ -355,18 +269,22 @@ exp_deck_count_label: count
 exp_deck_edit: Modifier la configuration du jeu de cartes
 exp_deck_event_type: Type d'événement
 exp_deck_example: 'Exemple:'
-exp_deck_format_help: "La configuration du jeu de cartes est un tableau JSON où chaque élément représente un type de carte avec les propriétés suivantes\_:"
+exp_deck_format_help: 'La configuration du jeu de cartes est un tableau JSON où chaque élément représente un type de carte avec les propriétés suivantes :'
 exp_deck_format_instructions: Instructions de formatage
 exp_deck_percentage: Pourcentage
-exp_deck_save_success: "La configuration du jeu de cartes a été enregistrée avec succès\_!"
+exp_deck_save_success: La configuration du jeu de cartes a été enregistrée avec succès !
 exp_deck_size_desc: Taille de l'événement (Small, Medium, Big, None)
 exp_deck_size_label: size
 exp_deck_statistics: Statistiques actuelles du jeu de cartes
-exp_deck_title: Configuration du jeu de cartes d'expédition
 exp_deck_total: Total
 exp_deck_type_desc: Type d'événement (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
 exp_deck_type_label: type
-exp_deck_warning: "Attention\_:\_un JSON invalide sera rejeté"
+exp_deck_warning: Attention : un JSON invalide sera rejeté
+exp_ships_description: Pour chaque vaisseau actif, choisissez si les expéditions peuvent le trouver et quels vaisseaux peuvent le trouver.
+exp_ships_findable: Trouvable
+exp_ships_found_by: Vaisseaux chercheurs
+exp_ships_select_finders: Sélectionner les vaisseaux chercheurs
+exp_ships_ship: Vaisseau
 ff_arrivaltime: 'Heure de expéditeur '
 ff_del: Supprimer
 ff_endtime: Temps d'arrivé
@@ -390,17 +308,13 @@ ga_no_inactives: Seulement les joueurs actifs<br>Ne sera pas offert aux joueurs 
 ga_planettypes: Type de Planéte
 ga_selectplanettype: Sélectionne une planéte!
 ga_success: Succés!
-info_information: >-
-  Soumettre les bugs à : <a href="%s" target="tracker">GitHub</a><br>Ou
-  bien Il n'y a aucun support !
+info_information: 'Soumettre les bugs à : <a href="%s" target="tracker">GitHub</a><br>Ou bien Il n''y a aucun support !'
 input_id: ID
 input_id_account: Account ID
 input_id_ally: ID Alliance
-input_id_moon: ID Lune
 input_id_p_m: ID Planete ou Lune
 input_id_planet: ID Planete
 input_id_user: ID Joueur
-input_text: 'Description:'
 lang_reg: Langue
 log_admin: Administrateur
 log_alliance: Alliances traitées
@@ -410,7 +324,6 @@ log_element: Element
 log_id: ID
 log_info: Info
 log_log: Connexion
-log_menu: Menu de Connexion
 log_new: Après
 log_no_data: Il n'existe aucunes données à partir du journal available!
 log_old: Avant
@@ -435,24 +348,22 @@ ma_message: Message
 ma_message_sended: Votre message a été envoyé !
 ma_mode: Comme d'expédition
 ma_modes:
-  - INGAME Message
-  - E-Mail Message
-  - INGAME & E-Mail Message
+- INGAME Message
+- E-Mail Message
+- INGAME & E-Mail Message
 ma_none: Message global
 ma_send_global_message: Envoyer un message global
 ma_subject: Sujet
 ma_subject_needed: Vous devez entrer un sujet !
-ma_no_recipients: 'Aucun destinataire ne correspond au filtre, aucun e-mail n''a été envoyé.'
+ma_no_recipients: Aucun destinataire ne correspond au filtre, aucun e-mail n'a été envoyé.
 message_a: 'Status du message:'
 message_t: 'Status du Ticket:'
-mip_ip: IP
 mip_known: Approuvé?
-mip_user: Utilisateur
 ml_date: Date
 ml_date_range: P;tériode
+ml_deleted: Message supprimé
 ml_id: '#ID'
 ml_message_list: Liste des messages
-ml_page: Page
 ml_receiver: Destinataire
 ml_sender: Exp;téditeur
 ml_subject: Sujet
@@ -472,15 +383,6 @@ mod_change_deactive: Désactivé
 mod_deactive: Inactif
 mod_info: Modules dans le Jeu
 mod_module: Modules
-mod_power_config: Pouvoir configurer le jeu
-mod_power_edit: Editer Pouvoirs
-mod_power_loog: >-
-  Vos actions sur le panneau de configuration seront sauvées dans le fichier
-  historique.
-mod_power_tools: Pouvoir manipuler les outils
-mod_power_view: Pouvoir d'observation
-mod_range: Grade
-mod_title: Pouvoirs Admin
 modul_0: Alliance
 modul_1: Mission - Attaquer
 modul_2: Construction - Bâtiments
@@ -531,23 +433,13 @@ modul_51: Coup de pied de Buddy et Alliance
 modul_52: Stats.json
 modul_53: Tutoriel
 modul_54: Tutoriel récompenses
+modul_55: Points d'honneur
 modul_56: Bases pirates
-mr_mail_title: Ton voyage au %s va bientôt commencer !
-mr_menu_button: Mail Uni-Release
-mr_not_needed: Cet uni n'a pas besoin d'un email de rappel car il a déjà été ouvert
-mr_send: Envoyer les rappels par mail
-mr_timestamp: 'Ouverture programmée de l''uni (unix):'
-mu_accountswap: Échange de compte
 mu_active_planets: Planètes Actives
-mu_add_delete_resources: Editeur de Compte
-mu_ban_options: Outils de bannissement
 mu_clear_cache: Vider le Cache
 mu_connected: En ligne
 mu_cronjob: Cronjobs
 mu_dump: Database Backup
-mu_error_list: Erreurs Base de Données
-mu_expeditiondeck: Jeu de cartes d'expédition
-mu_expeditionships: 'Expédition : navires repérables'
 mu_flying_fleets: Flottes en vol
 mu_game_info: Information
 mu_general: Général
@@ -555,107 +447,59 @@ mu_giveaway: Giveaways
 mu_global_message: Message Global
 mu_info_account_page: Information sur le compte
 mu_logs: Admin-Log
-mu_manage_users: Gestion des utilisateurs
 mu_manual_points_update: Mettre à jour les Points manuellement
 mu_md5_encripter: Encrypteur MD5
 mu_mess_list: Liste des messages
-mu_mod_update: Contrôle Mod Version
 mu_moderation_page: Autorisations
 mu_module: Module
-mu_moon_list: Liste des Lunes
-mu_moon_options: Options Lune
-mu_mpu_confirmation: >-
-  Les Points sont automatiquement mis à jour. Pour les mettre à jour
-  manuellement, Cliquer sur OK
+mu_mpu_confirmation: Les Points sont automatiquement mis à jour. Pour les mettre à jour manuellement, Cliquer sur OK
 mu_multiip_page: MultiIP
 mu_news: Actualités
-mu_observation: Observatoire
-mu_optimize_db: Base de Données
-mu_planet_list: Liste des Planètes
-mu_planets_options: Options Planètes
-mu_planetsettings: Configuration de la planète
 mu_search_page: Recherche avancée
-mu_settings: Configuration
-mu_stats_options: Options Statistiques
 mu_support: Support Tickets
 mu_tools: Utilitaires
-mu_unisettings: Configuration univers
 mu_universe: Univers
-mu_user_list: Liste des joueurs
-mu_user_logs: Log
 mu_users_settings: Editer Menu
 mu_vaild_users: Activité Utilisateur
-mu_vertify: Vérifiez le contenu du jeu
-mvc_announcement: Annonce
-mvc_author: Auteur
-mvc_desc: Description
-mvc_download: Télécharger
-mvc_link: Lien
-mvc_title: Titre
-mvc_update_date: Publiée
-mvc_update_no: La dernière version est insatllée !
-mvc_update_version: Dernière version
-mvc_update_yes: Une mise à jour est disponible !
-mvc_version: Version
-new_account_success: "Nouveau compte créé. ID\_:\_%d"
+new_account_success: Nouveau compte créé. ID : %d
+new_add_account: Ajouter un nouveau compte
 new_add_user: Ajouter un utilisateur
 new_coord: Coordonnées
 new_creator_coor: Coordonnées
 new_creator_go_back: '[ Retour au Menu ]'
 new_creator_refresh: '[ Actualiser ]'
-new_creator_title: Créateur
+new_creator_title_a: Créer/supprimer des comptes
 new_creator_title_l: Créer/supprimer Lunes
 new_creator_title_p: Créer/supprimer Planètes
 new_creator_title_t: Créer un utilisateur test
 new_creator_title_u: Créer/supprimer Joueurs
-new_email: E-mail
-new_name: Nom
-new_pass: Mot de passe
 new_range: Grade
 new_title: Ajouter un nouvel utilisateur
-new_user_success: "Nouveau joueur créé. ID\_: %d, Planète= %d"
+new_title_acc: Créer un nouveau compte
+new_user_success: 'Nouveau joueur créé. ID : %d, Planète= %d'
 nws_confirm: Etes vous sûr de vouloir supprimer le message %s ?
 nws_content: Contenus
 nws_create: Création Actualités
-nws_date: Date
 nws_del: Supprimer
 nws_from: de
 nws_head_create: Créer Actualités
 nws_head_edit: '%s de travail sur les actualités'
-nws_id: ID
 nws_news: Actualités
 nws_title: Titre
-nws_total: Total %d Actualités disponibles
-one_is_no_0: Oui
-one_is_no_1: Non
 one_is_yes_0: Non
 one_is_yes_1: Oui
 online_users: En Ligne
-only_numbers: Vous pouvez seulement entrer des nombres !
-open_ticket: Ticket ouvert
-ow_config_file_writable: >-
-  Le fichier config.php est en mode écriture, nous vous recommandons de définir
-  les permissions du fichier en CHMOD 444 (lecture seule).
-ow_credits: Credits
-ow_database_errors: Il y a des erreurs présentes !
-ow_developers: Developpeur
 ow_default_uri_missing: 'Les liens des e-mails ont besoin de DEFAULT_URI (.env.local) : tant qu''elle n''est pas définie, les e-mails d''inscription et de réinitialisation du mot de passe ne sont pas envoyés.'
 ow_dir_not_writable: ./%s n\est pas inscriptible!
-ow_donate: Donation
-ow_file_detected: >-
-  Le %s n'a été trouvée. S'il vous plaît renommer ou supprimer-le, puis votre
-  jeu sera protégé.
-ow_forum: Forums
-ow_none: Aucun avertissement
-ow_overview: Panneau de configuration
-ow_proyect_leader: "Ancien amiral de la flotte (chef de projet 2Moons)"
-ow_smtp_errors: Vérifiez vos paramètres SMTP ! - Actuellement aucun mails ne sont envoyés !
+ow_file_detected: Le %s n'a été trouvée. S'il vous plaît renommer ou supprimer-le, puis votre jeu sera protégé.
+ow_proyect_leader: Ancien amiral de la flotte (chef de projet 2Moons)
+ow_former_pr0game_crew: Ancienne équipe de pr0game
+ow_crew_dev: Développement et urgences
+ow_crew_mod: Modération
+ow_crew_community: Communauté
+ow_pr0game_contributors: Contributeurs au code de pr0game
 ow_special_thanks: Remerciements spéciaux
-ow_support: Support
-ow_title: Bienvenue sur Xnova Reborn
 ow_translator: Traducteurs
-ow_updates: Dernières mise à jour
-ow_welcome_text: Bienvenue sur le server Xnova Reborn
 pass_reg: Mots de passe
 pass2_reg: Mots de passe (2éme fois)
 player: Joueur
@@ -664,16 +508,12 @@ po_add_planet: Ajouter Planète
 po_colony: Colonie
 po_complete_all: Données invalides ou coordonnées déjà utilisées !
 po_complete_all2: Erreur dans les coordonnées !
-po_complete_succes: >-
-  Planète créée avec succès ! | <a href="AccountEditorPage.php">Editer
-  planète</a>
-po_coor_1: Coordonnées
+po_complete_succes: Planète créée avec succès ! | <a href="AccountEditorPage.php">Editer planète</a>
 po_fields_max: Cases
 po_galaxy: Galaxie
 po_name_planet: Nom de la Planète
 po_planet: Planète
 po_system: Système solaire
-qe_allowmulti: Autorisé Multi IP
 qe_authattack: Protection contre les attaques admin
 qe_build: Construction
 qe_change: Changement
@@ -687,14 +527,11 @@ qe_fleet: Flottes
 qe_hpcoords: HP-Coordonnées
 qe_id: ID
 qe_info: Information
-qe_input: Entrée
 qe_level: Niveau
-qe_name: Nom
 qe_owner: Propriétaire
 qe_password: Mot de passe
 qe_planetname: Planète
 qe_reset: Reset
-qe_resetr: Reset
 qe_resources: Ressources
 qe_send: Soumettre
 qe_submit: Soumettre
@@ -728,20 +565,14 @@ re_reset_player: Réinitialiser joueur (supprimer tous)
 re_reset_rw: Reset Rapports de Combats
 re_reset_statpoints: Reset Statistiques
 re_reset_universe: Reset Univers
-re_reset_universe_confirmation: >-
-  En cliquant sur OK, vous réinitialisez votre univers à son état par défaut.
-  Cette opération ne peut être inversée ! Il est de votre responsabilité de
-  faire une sauvegarde de votre base de données <br> Toutefois, si vous faites
-  un * Redémarrage * de votre univers, les comptes ne seront pas supprimés.
+re_reset_universe_confirmation: En cliquant sur OK, vous réinitialisez votre univers à son état par défaut. Cette opération ne peut être inversée ! Il est de votre responsabilité de faire une sauvegarde de votre base de données <br> Toutefois, si vous faites un * Redémarrage * de votre univers, les comptes ne seront pas supprimés.
 re_resources: Ressources
 re_resources_met_cry: Reset Métal, Cristal and Deutérium
 re_ships: Reset Vaisseaux
 researchs_title: Recherches
 resources_title: Ressources
 rp_done: Les planètes ont été remaniées avec succès
-rp_explain: >-
-  Après avoir cliqué sur Envoyer, veuillez patienter jusqu'à ce que la fenêtre
-  contextuelle apparaisse. Le repositionnement peut prendre plusieurs secondes!
+rp_explain: Après avoir cliqué sur Envoyer, veuillez patienter jusqu'à ce que la fenêtre contextuelle apparaisse. Le repositionnement peut prendre plusieurs secondes!
 rp_header: Remaniement des planètes
 rp_planet_error: Il y a plus d'une planète par joueur!
 rp_rights_error: Pas de droits d'administrateur!
@@ -756,9 +587,7 @@ se__before: Précédent
 se__next: Suivant
 se_activity: Dernière activité
 se_adm_attack: Protection Admin
-se_adm_attack_info: >-
-  Cochez la case si vous voulez que les administrateurs soient protégé contre
-  toutes les formes d'attaques
+se_adm_attack_info: Cochez la case si vous voulez que les administrateurs soient protégé contre toutes les formes d'attaques
 se_all_planet_pictures: Toutes les images planétaires.
 se_all_planet_pictures_info: Permet à tous les enchérisseurs planétaires sur toutes les positions
 se_alliance_create_min_points: Nombre minimum de points pour rejoindre une alliance.
@@ -772,36 +601,29 @@ se_ban_author: Bannis pour
 se_ban_limit: Jusqu'à
 se_ban_reason: Raison
 se_ban_time: Bannis
+se_bash_per_planet: Limite de bash par planète
+se_bash_per_planet_info: Combien de fois un joueur peut attaquer la planète d'un autre joueur par 24 heures (compté par planète). 0 = désactivé
+se_bash_count_missiles: Les limites bash comptent les attaques par missiles
+se_bash_count_missiles_info: 'Les attaques par missiles interplanétaires comptent comme les attaques de flotte pour les limites bash (par joueur et par planète). Désactivé : les missiles ne sont pas comptés.'
+se_bash_per_user: Limite de bash par joueur
+se_bash_per_user_info: Combien de fois un joueur peut attaquer un autre joueur par 24 heures (toutes planètes confondues). 0 = désactivé
+se_block_planet_creation: Bloc
+se_board_enabled: Activer le forum de la communauté
+se_board_enabled_info: 'Désactivé : tous les liens vers le forum sont masqués et les pages du forum ne sont pas disponibles.'
 se_building_speed: Vitesse de construction
 se_buildings: Paramètres du bâtiment
 se_buildlist: Liste des paramètres de construction
 se_cascading_moon_chance: Chance de lune en cascade
-se_cascading_moon_chance_info: >-
-  Chance de lune supplémentaire qui s'ajoute à chaque essai de lune raté avec la
-  chance de lune maximale. Ne s'applique qu'à la première lune d'un compte. 0 =
-  désactivé
+se_cascading_moon_chance_info: Chance de lune supplémentaire qui s'ajoute à chaque essai de lune raté avec la chance de lune maximale. Ne s'applique qu'à la première lune d'un compte. 0 = désactivé
 se_catch_up: Mécanisme de rattrapage
-se_catch_up_info: >-
-  Mécanisme de rattrapage qui augmente de manière exponentielle, jusqu'à un
-  facteur 10 selon l'écart de points avec le premier joueur, et qui réduit les
-  temps de construction et de recherche. À partir d'environ 90% des points, les
-  joueurs ne reçoivent plus de bonus. A environ 54%, c'est un facteur de 2,5, à
-  environ 27% un facteur de 5 et à environ 11% un facteur de 7,5, qui est
-  converti en 1,0 à 0,5 maximum.
+se_catch_up_info: Mécanisme de rattrapage qui augmente de manière exponentielle, jusqu'à un facteur 10 selon l'écart de points avec le premier joueur, et qui réduit les temps de construction et de recherche. À partir d'environ 90% des points, les joueurs ne reçoivent plus de bonus. A environ 54%, c'est un facteur de 2,5, à environ 27% un facteur de 5 et à environ 11% un facteur de 7,5, qui est converti en 1,0 à 0,5 maximum.
 se_catchup_percent: Bonus de rattrapage maximum en pourcentage
-se_close_reason: >-
-  Message serveur - Mettez le statut de votre server (Maintenance par exmple)
-  ici
+se_close_reason: Message serveur - Mettez le statut de votre server (Maintenance par exmple) ici
 se_colonisation_config: Configuration de la colonisation
 se_configuration_title: Configuration
-se_confirm_planet: >-
-  La Planète (principale ou colonie) sélectionnée va être complètement
-  supprimée, souhaitez-vous continuez ? Nom de la Planète :
+se_confirm_planet: 'La Planète (principale ou colonie) sélectionnée va être complètement supprimée, souhaitez-vous continuez ? Nom de la Planète :'
 se_contrac: Réduire
-se_cookie_advert: >-
-  Si vous changez le nom du Cookie, tous les joueurs doivent se
-  relogguer.<br>Les Cookies sont seulement utilisés dans une configuration
-  multi-univers.<br>Le Nom du Cookie ne doit pas contenir d'espaces !
+se_cookie_advert: Si vous changez le nom du Cookie, tous les joueurs doivent se relogguer.<br>Les Cookies sont seulement utilisés dans une configuration multi-univers.<br>Le Nom du Cookie ne doit pas contenir d'espaces !
 se_cookie_name: Nom du Cookie
 se_crystal_basic_income: Production de base en Cristal
 se_crystal_start: Démarrer en Cristal
@@ -810,10 +632,7 @@ se_days: Jours
 se_debris_moon: Supprimer TF par la lune
 se_debris_moon_info: Efface le TF, après qu'une lune était originaire.
 se_debug: Debug Mode
-se_debug_info: >-
-  Le Mode Debug active l'enregistrement de toutes les commandes SQL. Les
-  administrateurs obtiennent une barre d'état avec le nombre de requêtes SQL et
-  les scripts d'exécution.
+se_debug_info: Le Mode Debug active l'enregistrement de toutes les commandes SQL. Les administrateurs obtiennent une barre d'état avec le nombre de requêtes SQL et les scripts d'exécution.
 se_def_debris_percentage: Pourcentage des Défenses transformé en débris après une attaque
 se_def_debris_percentage_info: Pourcentage des Défenses transformé en débris après une attaque
 se_del_oldstuff: 'Supprimer message après '
@@ -842,41 +661,54 @@ se_discord_logs_hook: Logs
 se_discord_tickets_hook: Tickets
 se_dst: Heure d\été ?
 se_dst_sel:
-  - Non
-  - Oui
-  - Automatique
+- Non
+- Oui
+- Automatique
 se_email: Email
 se_end: Date de fin
 se_end_time: Heure de fin
 se_energy_basic_income: Production d'énergie de base
 se_energy_multiplier: Facteur d'ènergie (vitesse)
 se_expand: Développer
+se_expedition_parameters: Paramètres d'expédition
 se_expo_hold_multiplier: Vitesse Expo
 se_expo_hold_multiplier_info: 'Vitesse normale Expo : 1 <br> Paramètre recommandé maximum: 20'
 se_expo_ress_crys_chance: Chance d'obtenir du cristal dans les expéditions
 se_expo_ress_deut_chance: Chance de Deutérium dans les expéditions
 se_expo_ress_met_chance: Chance de métal dans les expéditions
 se_factor_university: Facteur de l'Université
-se_factor_university_info: >-
-  Spécifie être réduit par le pourcentage de la recherche universitaire par
-  niveau
+se_factor_university_info: Spécifie être réduit par le pourcentage de la recherche universitaire par niveau
 se_fields: Cases
 se_filter_title: Filtrer
 se_fleet_debris_percentage: Pourcentage des Flottes transformé en débris après une attaque
 se_fleet_speed: Vitesse des Flottes
-se_fleet_speed_info: >-
-  Vitesse normale des Flotte : 1 <br> Vitesse des Flottes maximum recommandée :
-  20
+se_fleet_speed_info: 'Vitesse normale des Flotte : 1 <br> Vitesse des Flottes maximum recommandée : 20'
 se_forum_url: Lien vers votre Forum
 se_galaxy: Galaxie
 se_galaxy_distance_factor: Facteur de distance de la galaxie
-se_galaxy_distance_factor_info: "Valeur par défaut\_: 20 000, Calcul\_:\_différence de galaxie * facteur de distance de galaxie"
+se_galaxy_distance_factor_info: 'Valeur par défaut : 20 000, Calcul : différence de galaxie * facteur de distance de galaxie'
+se_galaxy_parameters: Paramètres de galaxie
+se_galaxy_type: Type de galaxie
+se_galaxy_type_info: <TABLE><tr><td>Galaxies linéaires</td><td>La distance au système 1 augmente avec chaque système de la galaxie.</td></tr><tr><td>Galaxies en anneau</td><td>Le dernier et le premier système d'une galaxie sont reliés, la distance entre les systèmes éloignés et le premier est donc réduite.</td></tr><tr><td>Galaxies sphériques</td><td>Tous les systèmes d'une même galaxie sont à égale distance les uns des autres.</td></tr></TABLE>
+se_default_theme: Thème par défaut
+se_default_theme_info: Thème pour les nouveaux comptes et les visiteurs
+se_legal: Mentions légales et communauté
+se_privacy_region: Région d'hébergement (politique de confidentialité)
+se_privacy_region_info: 'Choisit la politique de confidentialité par défaut : version RGPD (UE/EEE) ou version générale. Les pages déjà modifiées restent inchangées ; l''opérateur est responsable des textes juridiques.'
+se_privacy_region_sel:
+  eu: UE / EEE - politique de confidentialité RGPD
+  other: Hors UE - politique de confidentialité générale
+se_rules_default: Utiliser les règles par défaut
+se_rules_default_info: 'Désactivé : la page des règles reste vide tant que tu n''as pas écrit tes propres règles dans Pages. Les règles déjà modifiées sont conservées.'
+se_source_url: URL du code source
+se_source_url_info: Dépôt public du code exécuté par ce serveur, lié comme « Code source » dans les pieds de page (l'AGPL demande de proposer vos modifications aux joueurs). Vide = lien masqué.
 se_game_name: Nom (Jeu)
 se_git_issues_link: Link to Code Issues Page
 se_git_issues_link_info: Link to the page where you can report bugs and issues
 se_id_owner: ID du propriétaire
 se_inactives: Inactifs
 se_initial_fields: Cases Planète Mère
+se_initial_temp: 'Température de départ :'
 se_input_a: A
 se_input_act_pla: ' Planètes actives'
 se_input_activity: Activité
@@ -910,15 +742,18 @@ se_input_time: Temps
 se_input_userss: ' Utilisateurs'
 se_input_vacatii: ' Utilisateurs en vacances'
 se_intro: Mot ou mot-clé
+se_iter_planet_creation: Itératif (par défaut)
 se_jumpgate_factor: Aller charge de grille
 se_jumpgate_factor_info: Facteur par lequel le temps d'attente sera divisé
 se_lang: Langage
 se_limit: Limite
+se_line_galaxy: Galaxies linéaires (par défaut)
+se_line_uni: Univers linéaire (par défaut)
 se_mail_active: Activer la messagerie
 se_mail_sel:
-  - PHP mail() Fonction
-  - Envoyer un mail / Qmail
-  - SMTP Auth
+- PHP mail() Fonction
+- Envoyer un mail / Qmail
+- SMTP Auth
 se_mail_use: Messagerie actuelle
 se_max_additional_planets: Montant maximum de colonies avec Astrophysique
 se_max_additional_planets_info: Combien de planétes l'utilisateur peut avoir avec Astrophysique
@@ -935,13 +770,9 @@ se_max_fleets_per_acs_info: Flottes maximum dans un composite (AKS)
 se_max_galaxy: Max galaxie
 se_max_galaxy_info: Nombre maximum de galaxies dans l'univers
 se_max_initial_planets: Max Planéte sans recherche
-se_max_initial_planets_info: >-
-  Dés le départ, le joueur a la possibilité d'occuper le nombre spécifié de
-  planétes
+se_max_initial_planets_info: Dés le départ, le joueur a la possibilité d'occuper le nombre spécifié de planétes
 se_max_overflow: Débordement de mémoire
-se_max_overflow_info: >-
-  Combien de ressources peuvent être produites dans le facteur de roulements
-  complète
+se_max_overflow_info: Combien de ressources peuvent être produites dans le facteur de roulements complète
 se_max_participants_per_acs: Max. participants/ACS (attack on cooperation)
 se_max_participants_per_acs_info: Maximum number of participants in ACS (Default-5)
 se_max_planets: Max Planète
@@ -950,16 +781,13 @@ se_max_player_planets: Planètes Maximum / Joueurs
 se_max_player_planets_info: Nombre maximum de colonies sans recherche
 se_max_system: Max Système solaire
 se_max_system_info: Nombre maximum de Système solaire dans l'univers
+se_message_delete_days: Purger les messages supprimés après X jours
+se_messages: Messages
 se_metal_basic_income: Production de base en Métal
 se_metal_start: Démarrer en métal
 se_metal_start_info: Indique combien de métal est présent sur la nouvelle planète.
 se_min_build_time: Construction minimum
-se_min_build_time_info: >-
-  Ici vous ajustez le minimum de temps de construction pour les Bâtiments,
-  Recherches, ainsi que les Flottes et Défenses. Cette valeur par défaut est de
-  1 seconde.<br>Si 0 est tapé, la fonction est désactivée<br><font
-  color=orange>Attention - Dans certains cas, des bugs peuvent survenir si la
-  valeur 0 est est entrée ! </font>
+se_min_build_time_info: Ici vous ajustez le minimum de temps de construction pour les Bâtiments, Recherches, ainsi que les Flottes et Défenses. Cette valeur par défaut est de 1 seconde.<br>Si 0 est tapé, la fonction est désactivée<br><font color=orange>Attention - Dans certains cas, des bugs peuvent survenir si la valeur 0 est est entrée ! </font>
 se_missile_range_factor: Facteur de portée des missiles
 se_moon_chance: Max Lune chances
 se_moon_chance_info: Maximum de chances de lune, une origine
@@ -974,49 +802,37 @@ se_no_data: Il n'y a pas de données
 se_noob_inactives: Appliquer le facteur de protection Noob aux joueurs inactifs
 se_noob_protection: Protection Newbie
 se_noob_protection_multi: Facteur Protection Newbie
-se_noob_protection_multi_info: >-
-  Vous ne pouvez attaquer que les utilisateurs dont les points sont entre vos
-  points * (montant), par exemple *18 , cela signifie que si vous avez 1000
-  points, vous pouvez attaquer les utilisateurs avec moins de 18000 points, ou,
-  si vous avez 50000 points, vous pouvez être attaqué par les utilisateurs dont
-  vous entrez dans leurs points de portée, comme si un ennemi ou un utilisateur
-  neutre a 20000 points, * 18 sera 360000, vous êtes donc à leur portée et tu
-  peux être attaqué par lui
+se_noob_protection_multi_info: Vous ne pouvez attaquer que les utilisateurs dont les points sont entre vos points * (montant), par exemple *18 , cela signifie que si vous avez 1000 points, vous pouvez attaquer les utilisateurs avec moins de 18000 points, ou, si vous avez 50000 points, vous pouvez être attaqué par les utilisateurs dont vous entrez dans leurs points de portée, comme si un ennemi ou un utilisateur neutre a 20000 points, * 18 sera 360000, vous êtes donc à leur portée et tu peux être attaqué par lui
 se_noob_protection_outlaw: Système hors-la-loi
-se_noob_protection_outlaw_info: >-
-  Active la fonctionnalité qui permet aux joueurs faibles d'attaquer les joueurs
-  forts, mais l'attaquant deviendra alors un hors-la-loi pendant 7 jours et
-  perdra la protection des noob.
+se_noob_protection_outlaw_info: Active la fonctionnalité qui permet aux joueurs faibles d'attaquer les joueurs forts, mais l'attaquant deviendra alors un hors-la-loi pendant 7 jours et perdra la protection des noob.
 se_noob_protection_time: Protection Newbie x Points
 se_noob_protection_time_info: La protection Newbie est active pour ce joueur jusqu'à ce Score
 se_normal_speed: 'Vitesse normale du Jeu : 1 <br> Vitesse de Jeu maximum recommandée : 20'
 se_order_list_now: Ordre de la recherche
 se_overview_news_frame: Ativer actualités
-se_overview_news_frame_info: >-
-  Si cette fonction est désactivée, les actualités seront supprimés de la Vue
-  générale.
+se_overview_news_frame_info: Si cette fonction est désactivée, les actualités seront supprimés de la Vue générale.
 se_overview_news_text: Actualités
 se_overview_news_text_info: Max 255 Caractères!
 se_pagees: Pages
 se_per_hour: Par heure
 se_phalanx_range_factor: Facteur de portée des phalanges
 se_piratebase: Bases pirates
-se_piratebase_fleet_percentage_max: "Flotte\_:\_% maximum de la flotte des joueurs"
-se_piratebase_fleet_percentage_min: "Flotte\_:\_% minimum de la flotte des joueurs"
-se_piratebase_mainplanet_only: "Ressources\_: uniquement de la planète principale"
+se_piratebase_fleet_percentage_max: Flotte : % maximum de la flotte des joueurs
+se_piratebase_fleet_percentage_min: Flotte : % minimum de la flotte des joueurs
+se_piratebase_mainplanet_only: 'Ressources : uniquement de la planète principale'
 se_piratebase_min_points: Points minimum
 se_piratebase_min_points_info: Points minimum qu'un joueur doit avoir pour obtenir une base de pirates
 se_piratebase_ress_hours: 'Ressources : Heures de production'
 se_planet: Planète
+se_planet_creation: Placement de la planète mère
+se_planet_creation_info: Les nouvelles planètes mères peuvent être placées de façon itérative à travers les systèmes et galaxies, aléatoirement, par blocs, ou 50 % aléatoirement et 50 % par blocs.<br>Le placement aléatoire remplit uniformément galaxies et systèmes à des positions aléatoires.<br>Le placement par blocs choisit un système qui contient déjà une ou deux planètes. Si aucun système de ce type n'existe ou s'il y a moins de 50 joueurs, le placement est aléatoire.
 se_planet_distance: Distance minimale de la planète
 se_planet_distance_factor: Facteur de distance des planètes
-se_planet_distance_factor_info: "Valeur par défaut\_: 5, Calcul\_:\_différence planétaire * facteur de distance planétaire + 1000"
-se_planet_distance_info: "Valeur par défaut\_:\_1\_000, Calcul\_:\_Différence planétaire * Facteur de distance planétaire + Distance minimale des planètes"
+se_planet_distance_factor_info: 'Valeur par défaut : 5, Calcul : différence planétaire * facteur de distance planétaire + 1000'
+se_planet_distance_info: Valeur par défaut : 1 000, Calcul : Différence planétaire * Facteur de distance planétaire + Distance minimale des planètes
 se_planet_parameters: Paramètre Planète Mère
 se_planet_ressource_bonus: 'Augmentation des ressources liée à la position de la planète '
-se_planet_ressource_bonus_info: >-
-  Augmente la quantité de ressources produites sur la planète de x %, en
-  fonction de la position de la planète.
+se_planet_ressource_bonus_info: Augmente la quantité de ressources produites sur la planète de x %, en fonction de la position de la planète.
 se_planet_size_factor: Multiplanète
 se_planet_size_factor_info: Taille Planète multiplicateur
 se_planets: Planètes
@@ -1024,45 +840,47 @@ se_planets_act: Planètes Actives
 se_planets_per_tech: Planétes supplémentaires par niveau d'astrophysique
 se_planets_per_tech_info: Quantité de colonies déverrouiller par niveau
 se_prepare_text: Texte de préparation du serveur
+se_random_planet_creation: Aléatoire
 se_rank:
-  - Joueur
-  - Modérateur
-  - Opérateur
-  - Administrateur
+- Joueur
+- Modérateur
+- Opérateur
+- Administrateur
+se_pow_adaptive: Protection anti-bots - difficulté adaptative
+se_pow_adaptive_info: 'Activé : les adresses IP et réseaux suspects (/24 ou /64) reçoivent un calcul beaucoup plus difficile (beaucoup de requêtes, d''échecs ou d''inscriptions en peu de temps). Désactivé : chaque visiteur reçoit le calcul de base et aucun compteur n''est lu.'
+se_pow_elevated_factor: Protection anti-bots - facteur en cas de risque accru
+se_pow_elevated_factor_info: Le calcul devient autant de fois plus difficile (par défaut 20).
+se_pow_high_factor: Protection anti-bots - facteur en cas de risque élevé
+se_pow_high_factor_info: Le calcul devient autant de fois plus difficile (par défaut 100).
+se_pow_max_cap: Protection anti-bots - plafond de difficulté
+se_pow_max_cap_info: Nombre le plus élevé après application des facteurs. 1500000 prend environ 25 secondes sur un smartphone lent.
+se_pow_sensitivity: Protection anti-bots - sensibilité de détection des risques
+se_pow_sensitivity_info: Pourcentage des seuils par défaut (accru à partir de 5 requêtes/10 min, 3 échecs/heure ou 2 inscriptions/24 h par IP ; élevé à partir de 20 / 10 / 5 ; pour les réseaux, trois fois plus). 200 = deux fois plus d'événements nécessaires, 50 = moitié moins.
+se_pow_max_number: Protection anti-bots - difficulté (nombre maximum)
+se_pow_max_number_info: Le navigateur essaie des hachages jusqu'à ce nombre, la moitié en moyenne. 100000 prend environ une demi-seconde à une seconde. Plus la valeur est élevée, plus le travail demandé aux bots est important.
+se_pow_min_seconds: Protection anti-bots - délai minimum avant l'envoi (secondes)
+se_pow_min_seconds_info: Les formulaires envoyés plus vite que ce délai après le chargement sont refusés. 0 désactive la vérification.
+se_proofofwork: Protection anti-bots
+se_proofofwork_info: L'inscription et la récupération de mot de passe sont protégées par un petit calcul que le navigateur effectue lui-même, sans aucun tiers.
 se_rebuild_protection: Reconstruire la protection
-se_rebuild_protection_info: >-
-  En cas de pertes importantes, les joueurs bénéficient d'une protection de
-  reconstruction contre d'autres attaques après 6 heures et pendant 48 heures
-  après l'attaque. 70 % de la flotte ou 80 % de la capacité de transport doivent
-  être détruits en une seule attaque. En outre, cela doit correspondre au moins
-  aux points de protection Noop * 1000 en unités ou en capacité. L'utilisateur
-  peut mettre fin au mode prématurément.
-se_recaptcha: Paramètres de recaptcha
-se_recaptcha_info: >-
-  Recaptcha peut être utilisé pour faire la différence entre les actions
-  humaines et les actions automatiques.
-se_recaptcha_priv_key: Clé privée Recaptcha
-se_recaptcha_pub_key: Clé publique Recaptcha
+se_rebuild_protection_info: En cas de pertes importantes, les joueurs bénéficient d'une protection de reconstruction contre d'autres attaques après 6 heures et pendant 48 heures après l'attaque. 70 % de la flotte ou 80 % de la capacité de transport doivent être détruits en une seule attaque. En outre, cela doit correspondre au moins aux points de protection Noop * 1000 en unités ou en capacité. L'utilisateur peut mettre fin au mode prématurément.
 se_redis_connection_url: URL de connexion redis
 se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
 se_ref: Lien de parrainage
 se_ref_active: Activer les lien de parrainage
-se_ref_active_info: >-
-  Lien de parrainage donne aux joueurs la possibilité de renvoyer plus d'amis.
-  Cela vous donnera des bonus de joueurs
+se_ref_active_info: Lien de parrainage donne aux joueurs la possibilité de renvoyer plus d'amis. Cela vous donnera des bonus de joueurs
 se_ref_bonus: Lien de parrainage bonus
 se_ref_bonus_info: Nombre de matière noire, l'utilisateur obtient le recrutement par utilisateur.
 se_ref_max_referals: Saisi maximale
 se_ref_max_referals_info: Nombre maximum de joueurs recruté par utilisateur
 se_ref_minpoints: Des points de bonus pour les Min
-se_ref_minpoints_info: >-
-  L'utilisateur a renvoyé d'atteindre ces seuils afin que l'utilisateur obtient
-  son bonus promotionnel.
+se_ref_minpoints_info: L'utilisateur a renvoyé d'atteindre ces seuils afin que l'utilisateur obtient son bonus promotionnel.
 se_research_speed: Vitesse de recherche
 se_resource_multiplier: Vitesse de Production des Ressources
-se_resource_multiplier_info: >-
-  Vitesse normale de Production : 1 <br> Vitesse de Production maximum
-  recommandée : 20
+se_resource_multiplier_info: 'Vitesse normale de Production : 1 <br> Vitesse de Production maximum recommandée : 20'
+se_ress_chance: Probabilités de ressources
+se_ring_galaxy: Galaxies en anneau
+se_ring_uni: Univers en anneau
 se_save_parameters: Enregistrer
 se_se_fleet_debris_percentage_info: Pourcentage des Flottes transformé en débris après une attaque
 se_search: Chercher
@@ -1112,55 +930,48 @@ se_smail_path: Chemin pour envoyer un mail / Qmail
 se_smtp: Paramètres SMTP
 se_smtp_host: 'Hôte SMTP :'
 se_smtp_host_info: Tappez l'adresse de votre serveur SMTP ici.
-se_smtp_info: >-
-  Entrez votre serveur SMTP ici. Cela permet au logiciel Br0Game de communiquer
-  avec vos joueurs à travers votre serveur SMTP.
+se_smtp_info: Entrez votre serveur SMTP ici. Cela permet au logiciel Br0Game de communiquer avec vos joueurs à travers votre serveur SMTP.
 se_smtp_pass: 'Mot de passe SMTP : '
 se_smtp_port: 'PORT SMTP :'
-se_smtp_port_info: >-
-  Tapez le port de votre serveur SMTP ici ... <br> Le Port SMTP Standard est :
-  25
+se_smtp_port_info: 'Tapez le port de votre serveur SMTP ici ... <br> Le Port SMTP Standard est : 25'
 se_smtp_sendmail: 'Expéditeur SMTP :'
-se_smtp_sendmail_info: >-
-  C'est là que votre courrier revient. L'adresse courriel de retour entré ici,
-  n'a pas besoin d'être la même que l'adresse électronique d'envoi
+se_smtp_sendmail_info: C'est là que votre courrier revient. L'adresse courriel de retour entré ici, n'a pas besoin d'être la même que l'adresse électronique d'envoi
 se_smtp_ssl: 'SMTP Paramètres Encryption : Pas d''Encryption/SSL/TLS :'
-se_smtp_ssl_info: >-
-  Ici vous pouvez choisir si une connexion sécurisée entre votre serveur SMTP et
-  le serveur web doit être construite. Cela est nécessaire dans de rares cas
+se_smtp_ssl_info: Ici vous pouvez choisir si une connexion sécurisée entre votre serveur SMTP et le serveur web doit être construite. Cela est nécessaire dans de rares cas
 se_smtp_ssl_sel:
-  - Pas d'Encryption
-  - SSL
-  - TLS
+- Pas d'Encryption
+- SSL
+- TLS
 se_smtp_user: 'Username SMTP : '
+se_sphere_galaxy: Galaxies sphériques
+se_sphere_uni: Univers sphérique
 se_start: Date de début
 se_start_time: Heure de début
 se_stat: Les administrateurs peuvent-ils apparaître dans le classement des joueurs ?
-se_stat_level: >-
-  Plus haut joueurs classés qui peuvent apparaître dans le classement des
-  joueurs ?
+se_stat_level: Plus haut joueurs classés qui peuvent apparaître dans le classement des joueurs ?
 se_stat_sel:
-  - Non
-  - Oui
-  - Cacher les Admins
+- Non
+- Oui
+- Cacher les Admins
 se_stat_settings: '1 point Jeu est égal à x Points Ressources : '
 se_statistics: Réglage des paramètres des statistiques
+se_statsjson_delay: Délai de stats.json
+se_storage_multiplier: Multiplicateur de stockage des ressources
 se_suspended: Bannis
 se_system: Système
 se_system_distance: Distance minimale du système
 se_system_distance_factor: Facteur de distance du système
-se_system_distance_factor_info: "Valeur par défaut\_: 95, Calcul\_:\_différence du système * facteur de distance du système + 2700"
-se_system_distance_info: "Valeur par défaut\_:\_2\_700, Calcul\_:\_différence du système * facteur de distance du système + distance minimale du système"
+se_system_distance_factor_info: 'Valeur par défaut : 95, Calcul : différence du système * facteur de distance du système + 2700'
+se_system_distance_info: Valeur par défaut : 2 700, Calcul : différence du système * facteur de distance du système + distance minimale du système
 se_tag: TAG
+se_temp: Degrés
 se_time_of_page: 'Page créée en '
 se_timezone: Fuseau Horaire
 se_trade_allowed_ships: 'Navires autorisés:'
 se_trade_charge: Frais du Marchand
 se_trader: Réglages Flotte Marchand
 se_ttf_file: Chemin vers le fichier FFT
-se_ttf_file_info: >-
-  Le FTT est nécessaire afin d'afficher les caractères cyrilliques bannière des
-  statistiques ou des caractères chinois
+se_ttf_file_info: Le FTT est nécessaire afin d'afficher les caractères cyrilliques bannière des statistiques ou des caractères chinois
 se_type_all: Recherche normal
 se_type_exact: Expression exacte
 se_type_first: finir avec n'importe quels termes
@@ -1172,97 +983,45 @@ se_uni_status_regclosed_gameclosed: Inscription et connexion fermées (par exemp
 se_uni_status_regclosed_gameopen: Inscription fermée, connexion ouverte (ex. anciennes universités)
 se_uni_status_regopen_gameclosed: Inscription ouverte, connexion fermée (par ex. nouvelles universités)
 se_uni_status_regopen_gameopen: Inscription et connexion ouvertes
+se_uni_type: Type d'univers
+se_uni_type_info: <TABLE><tr><td>Univers linéaire</td><td>La distance à la galaxie 1 augmente avec chaque galaxie.</td></tr><tr><td>Univers en anneau</td><td>La dernière et la première galaxie sont reliées, la distance entre les galaxies éloignées et la première est donc réduite.</td></tr><tr><td>Univers sphérique</td><td>Toutes les galaxies sont à égale distance les unes des autres.</td></tr></TABLE>
 se_user_settings: Réglages joueurs
 se_user_valid: Vérification de l'adresse Mail
-se_user_valid_info: >-
-  Si ce paramètre est actif, les joueurs devront cliquer sur un lien
-  d'activation qui leur ait envoyé par email.<br>Note: Cela nécessite que les
-  paramètres SMTP pour le serveur SMTP soient remplis ci-dessous.
+se_user_valid_info: 'Si ce paramètre est actif, les joueurs devront cliquer sur un lien d''activation qui leur ait envoyé par email.<br>Note: Cela nécessite que les paramètres SMTP pour le serveur SMTP soient remplis ci-dessous.'
 se_users: Joueurs
 se_vacat: Vacances
 se_vacations: Vacances
 se_vmode_min_time: Durée minimale du mode vacances
-se_vmode_min_time_info: >-
-  Spécifie combien de temps un utilisateur doit être au moins en mode vacances.
-  (en secondes)
+se_vmode_min_time_info: Spécifie combien de temps un utilisateur doit être au moins en mode vacances. (en secondes)
 se_wreckfield_cooldown: Temps de recharge de la création de Wreckfield
-se_wreckfield_min_percent: >-
-  Pourcentage minimal de destruction du total des unités de la flotte pour un
-  champ d'épaves
+se_wreckfield_min_percent: Pourcentage minimal de destruction du total des unités de la flotte pour un champ d'épaves
 se_wreckfield_min_units: Minimum d'unités détruites pour un champ d'épaves
 select_option: Sélectionnez ...
-sendit_a: Envoi de message a été ajouté.
-sendit_error: 'Erreur:'
-sendit_error_msg: Veuillez insérer quelque chose!
-sendit_t: Le ticket a été envoyé.
 ships_title: Vaisseaux
-sp_admin_answer: '%s (Admin) a écrit sur %s<br><br><font color="red">%s</font>'
-sp_admin_closed: '%s (Admin) a fermé le ticket le %s !'
-sp_admin_open: '%s (Admin) a ouvert le ticket le %s !'
 sp_answer_message: 'Sur Votre ticket #%d une réponse a été postée!'
 sp_answer_message_title: 'Support Ticket #%d'
 status: Status
 subject: Sujet
-supp_admin_answer: Réponse de l'administrateur
-supp_admin_system: Support de panneau d'administration
-supp_close: Fermé
-supp_header: Systéme de support
-supp_header_g: Tickets férmé
-supp_open: Ouvert
-supp_player_answer: Réponse du joueur
-supp_player_write: '%s écrit le %s'
-supp_send: Envoi
-supp_ticket_close: Ticket fermé
 test_data_amount: Montant utilisateur test
 test_data_stage:
-  - Début (Sondes espion)
-  - Milieu de partie (cuirassé, 1 lune)
-  - Jeu tardif (Battlecruiser, Phalanx)
-  - Fin du jeu (Deathstar, Jumpgate)
+- Début (Sondes espion)
+- Milieu de partie (cuirassé, 1 lune)
+- Jeu tardif (Battlecruiser, Phalanx)
+- Fin du jeu (Deathstar, Jumpgate)
 test_data_stage_label: Stage
 test_data_success: Données de test créées avec succès
 test_data_title: Créer des données utilisateur de test
 text: Détails
-ticket_id: Support ID
-ticket_new: Nouveau Ticket
-ticket_posted: Ticket de
 time_days: Jours
 time_hours: Heures
 time_minutes: Minutes
 time_seconds: Secondes
 ul_sure_you_want_dlte: Etes-vous sûr de vouloir supprimer ?
 uni_reg: Univers
-up_add: 'Ajouter :'
-up_aktuelle_updates: Mises à jour en cours
-up_alte_updates: Anciennes mises à jour
-up_chmod_error: Aucune permission d'écriture pour le dossier:\n\n%s
-up_del: 'Supprimer :'
-up_delete_file: Supprimé avec succès
-up_download_patch_files: Télécharger Fichiers Patch
-up_edit: 'Editer :'
-up_error_delete_file: ERREUR! - Impossible de supprimer le fichier
-up_error_update: ERREUR!
-up_kein_update: Pas de mise à jour disponible !
-up_momentane_version: Version momentanée
-up_need_curl: >-
-  Erreur: cURL n'est pas disponible.<br />Br0Game système de mise à jour
-  nécessite cURL, pour charger les données réelles téléchargées.
-up_no_xml_ext: >-
-  Erreur: XML Parser n'est pas présent.<br>Le maintien de Br0Game exige Parser
-  XML pour traiter les fichiers présents.
-up_offline: Mise a jour serveur non disponible.
-up_ok_update: OK! - Mis à jour
-up_revision: 'Révision '
-up_submit: Envoyer
-up_update_ok_rev: 'UPDATE: OK! A la Révision : '
-up_version: Version
-up_weiter: Autre
 user_reg: Nom
 uvs_actions: Actions
 uvs_back: Retour
 uvs_delete: Supprimer
-uvs_error: Importer un fichier non valide!
-uvs_export: Exporter
 uvs_id: ID
 uvs_inactive: Inactif(s)
 uvs_name: Nom
@@ -1275,554 +1034,650 @@ uvs_players: Joueurs
 uvs_reload: Rechargement
 uvs_speeds: Vitesses
 uvs_speeds_full: Facteur de vitesses(Jeu/Flotte/Resources/Expédition)
-uvs_upload: Envoyer
 vt_all: Tous les fichiers
-vt_error: Le Hash du fichier n'est pas disponible ! Effectuer une mise à jour
-vt_fail: Fichiers modifiès
-vt_filecss: Fichiers CSS
-vt_fileerror: Erreur
-vt_filefail: Fichiers modifier
-vt_filehtaccess: Fichiers HTACESS
-vt_fileimg: Fichiers Image
-vt_filejs: Fichiers Java Script
-vt_filenew: Nouveau fichier
-vt_fileok: Fichiers Ok
-vt_filephp: PHP File
-vt_filetpl: Fichiers Template
 vt_head: Vèrifier les fichiers du jeu
-vt_info: >-
-  Cette liste contient les fichiers qui ont été modifier, et ne pas correspondre
-  à l'original.<br>Si vous n'avez pas changé le jeu lui-même, remplacez les
-  fichiers avec les originaux.
-vt_loadfile: Chargement de la listes des fichiers
-account_already_has_user: "Ce compte possède déjà un joueur dans cet univers"
-accountID: "ID du compte"
-bo_ban_change: "Modifier"
-cronName_statisticjson: "Exporter stats.json"
-empty_account_field: "Aucun ID de compte indiqué"
-exp_ships_description: "Pour chaque vaisseau actif, choisissez si les expéditions peuvent le trouver et quels vaisseaux peuvent le trouver."
-exp_ships_findable: "Trouvable"
-exp_ships_found_by: "Vaisseaux chercheurs"
-exp_ships_select_finders: "Sélectionner les vaisseaux chercheurs"
-exp_ships_ship: "Vaisseau"
-exp_ships_title: "Configurer les vaisseaux trouvables"
-ml_deleted: "Message supprimé"
-modul_55: "Points d'honneur"
-new_add_account: "Ajouter un nouveau compte"
-new_creator_title_a: "Créer/supprimer des comptes"
-new_title_acc: "Créer un nouveau compte"
-se_bash_per_planet: "Limite de bash par planète"
-se_bash_per_planet_info: "Combien de fois un joueur peut attaquer la planète d'un autre joueur par 24 heures (compté par planète). 0 = désactivé"
-se_bash_per_user: "Limite de bash par joueur"
-se_bash_per_user_info: "Combien de fois un joueur peut attaquer un autre joueur par 24 heures (toutes planètes confondues). 0 = désactivé"
-se_block_planet_creation: "Bloc"
-se_expedition_parameters: "Paramètres d'expédition"
-se_galaxy_parameters: "Paramètres de galaxie"
-se_galaxy_type: "Type de galaxie"
-se_galaxy_type_info: "<TABLE><tr><td>Galaxies linéaires</td><td>La distance au système 1 augmente avec chaque système de la galaxie.</td></tr><tr><td>Galaxies en anneau</td><td>Le dernier et le premier système d'une galaxie sont reliés, la distance entre les systèmes éloignés et le premier est donc réduite.</td></tr><tr><td>Galaxies sphériques</td><td>Tous les systèmes d'une même galaxie sont à égale distance les uns des autres.</td></tr></TABLE>"
-se_default_theme: "Thème par défaut"
-se_default_theme_info: "Thème pour les nouveaux comptes et les visiteurs"
-se_source_url: "URL du code source"
-se_source_url_info: "Dépôt public du code exécuté par ce serveur, lié comme « Code source » dans les pieds de page (l'AGPL demande de proposer vos modifications aux joueurs). Vide = lien masqué."
-se_initial_temp: "Température de départ :"
-se_iter_planet_creation: "Itératif (par défaut)"
-se_line_galaxy: "Galaxies linéaires (par défaut)"
-se_line_uni: "Univers linéaire (par défaut)"
-se_message_delete_days: "Purger les messages supprimés après X jours"
-se_messages: "Messages"
-se_planet_creation: "Placement de la planète mère"
-se_planet_creation_info: "Les nouvelles planètes mères peuvent être placées de façon itérative à travers les systèmes et galaxies, aléatoirement, par blocs, ou 50 % aléatoirement et 50 % par blocs.<br>Le placement aléatoire remplit uniformément galaxies et systèmes à des positions aléatoires.<br>Le placement par blocs choisit un système qui contient déjà une ou deux planètes. Si aucun système de ce type n'existe ou s'il y a moins de 50 joueurs, le placement est aléatoire."
-se_random_planet_creation: "Aléatoire"
-se_ress_chance: "Probabilités de ressources"
-se_ring_galaxy: "Galaxies en anneau"
-se_ring_uni: "Univers en anneau"
-se_sphere_galaxy: "Galaxies sphériques"
-se_sphere_uni: "Univers sphérique"
-se_statsjson_delay: "Délai de stats.json"
-se_storage_multiplier: "Multiplicateur de stockage des ressources"
-se_temp: "Degrés"
-se_uni_type: "Type d'univers"
-se_uni_type_info: "<TABLE><tr><td>Univers linéaire</td><td>La distance à la galaxie 1 augmente avec chaque galaxie.</td></tr><tr><td>Univers en anneau</td><td>La dernière et la première galaxie sont reliées, la distance entre les galaxies éloignées et la première est donc réduite.</td></tr><tr><td>Univers sphérique</td><td>Toutes les galaxies sont à égale distance les unes des autres.</td></tr></TABLE>"
-adm_comments: "Commentaires"
-adm_analytics: "Analytique"
-ad_system: "Système"
-adm_menu_filter: "Filtrer le menu …"
-adm_menu_empty: "Aucune entrée de menu trouvée"
-adm_menu_toggle: "Menu"
-adm_back_to_game: "Retour au jeu"
-adm_drop_rights: "Déconnexion"
-adm_universe_switch: "Univers"
-adm_dash_attention: "À surveiller"
-adm_dash_all_good: "Tout va bien – aucun avertissement."
-adm_dash_online: "Joueurs en ligne (15 min)"
-adm_dash_players: "Total des joueurs"
-adm_dash_tickets: "Tickets ouverts"
-adm_dash_fleets: "Flottes en vol"
-adm_dash_quick: "Accès rapide"
-adm_dash_system: "Système"
-adm_dash_version: "Version"
-adm_dash_php: "PHP"
-adm_dash_uni_status: "État de l'univers"
-adm_dash_last_stats: "Dernière exécution des statistiques"
-adm_dash_credits: "Crédits"
-adm_dash_project: "Page du projet"
-adm_confirm: "Êtes-vous sûr ?"
-adm_dash_cron_locked: "Cronjob verrouillé (ne s'exécute plus) : %s"
-adm_dash_next_cron: "Prochain cronjob"
-adm_dash_cron_count: "cronjobs actifs"
-adm_unsaved_hint: "Les modifications prennent effet une fois enregistrées."
-adm_sections: "Sections"
-adm_skip: "Aller au contenu"
-adm_filter_page: "Filtrer cette page …"
-adm_actions: "Actions"
-adm_ac_no_destroyed: "Aucune planète n'a été détruite récemment."
-adm_ae_addremove_hint: "Les valeurs sont ajoutées à la quantité actuelle (Ajouter) ou soustraites de celle-ci (Supprimer). Une valeur de 0 laisse l'entrée inchangée."
-adm_ae_confirm_remove: "Soustraire vraiment les valeurs saisies de la quantité actuelle ?"
-adm_ae_danger_zone: "Zone dangereuse"
-adm_ae_group_planet: "Planète / lune"
-adm_ae_group_player: "Joueur"
-adm_ae_menu_hint: "Choisissez ce qu'il faut modifier. Les joueurs sont sélectionnés par ID de joueur, les planètes par ID de planète ou de lune."
-adm_ae_officiers: "Officiers"
-adm_ae_wipe: "Réinitialiser la planète"
-adm_ae_wipe_hint: "Les zones cochées sont effacées de la planète. Cette action est irréversible."
-adm_as_confirm: "Échanger vraiment les comptes des deux joueurs sélectionnés ?"
-adm_as_explain: "Les deux joueurs sélectionnés échangent leurs comptes (identifiants de connexion). L'état du jeu et les planètes restent chez chaque joueur, seuls les identifiants changent de propriétaire. Choisissez le joueur A à gauche et le joueur B à droite."
-adm_ban_accounts: "Comptes"
-adm_ban_duration: "Durée"
-adm_ban_users: "Joueurs"
-adm_continue: "Continuer"
-adm_coord_position: "Position"
-adm_cron_active: "Actif"
-adm_cron_click_disable: "Cliquer pour désactiver"
-adm_cron_click_enable: "Cliquer pour activer"
-adm_cron_click_lock: "Cliquer pour verrouiller"
-adm_cron_click_unlock: "Cliquer pour déverrouiller (exécution bloquée)"
-adm_cron_free: "Libre"
-adm_cron_hint: "Cliquez sur un badge d'état pour le basculer"
-adm_cron_inactive: "Inactif"
-adm_cron_locked: "Verrouillé"
-adm_cron_state: "État"
-adm_giveaway_confirm: "Les montants sont crédités à toutes les planètes correspondantes de cet univers. Continuer ?"
-adm_giveaway_hint: "Les montants sont ajoutés au stock actuel de chaque planète correspondante. Les champs laissés à 0 restent inchangés."
-adm_reset_warning: "Tout ce qui est coché ci-dessous est définitivement supprimé ou réinitialisé pour cet univers. Il n'y a ni sauvegarde ni annulation possible."
-adm_rights_edit: "Modifier les permissions"
-adm_rights_other: "Autres"
-adm_rights_page: "Page"
-adm_rights_pick: "Choisissez le joueur dont vous voulez modifier les permissions."
-adm_uni_close: "Fermer l'univers"
-adm_uni_open: "Ouvrir l'univers"
-adm_edit: "Modifier"
-adm_ma_recipients: "Destinataires"
-adm_ml_from: "de"
-adm_ml_to: "à"
-invalid_mail_adress: "Adresse e-mail invalide"
-adm_cfg_crystal_pct: "Cristal %"
-adm_cfg_deuterium_pct: "Deutérium %"
-adm_cfg_fields_max: "Cases max."
-adm_cfg_fields_min: "Cases min."
-adm_cfg_metal_pct: "Métal %"
-adm_cfg_planet_props: "Propriétés des planètes par position"
-adm_cfg_planet_props_hint: "Température en °C, cases, bonus de production en %"
-adm_cfg_temp_max: "Temp. max."
-adm_cfg_temp_min: "Temp. min."
-adm_comment_col: "Commentaire"
-adm_date_dd: "jj"
-adm_date_format: "(jj.mm.aaaa)"
-adm_date_mm: "mm"
-adm_date_yyyy: "aaaa"
-adm_exp_deck_err_card: "Format de carte invalide : le type, la taille ou le nombre est manquant"
-adm_exp_deck_err_count: "Nombre de cartes invalide : ne doit pas être négatif"
-adm_exp_deck_err_empty: "Le deck doit contenir au moins une carte"
-adm_exp_deck_err_format: "Format de deck invalide : doit être un tableau"
-adm_exp_deck_err_json: "Format JSON invalide"
-adm_exp_ships_saved: "Configuration des vaisseaux enregistrée avec succès !"
-adm_flight_distance: "Distance"
-adm_flight_err_dist_missing: "Veuillez remplir toutes les valeurs de distance."
-adm_flight_err_format: "Veuillez saisir au format galaxie:système:planète."
-adm_flight_err_galaxy_over: "La galaxie dépasse max_galaxy."
-adm_flight_err_max_missing: "Veuillez remplir max_galaxy, max_system et max_planets."
-adm_flight_err_min_one: "Galaxie, système et planète doivent valoir au moins 1."
-adm_flight_err_planet_over: "La planète dépasse max_planets."
-adm_flight_err_system_over: "Le système dépasse max_system."
-adm_flight_fleet_speed: "Vitesse de la flotte"
-adm_flight_preview: "Aperçu du temps de vol"
-adm_flight_preview_help: "Temps de vol de 1:1:1 vers la cible avec une vitesse de vaisseau de 45 000 et une vitesse de flotte de 1 ; le type d'univers, le type de galaxie, les valeurs maximales, les facteurs de distance et les distances minimales sont appliqués en direct."
-adm_flight_ship_speed: "Vitesse du vaisseau"
-adm_flight_time: "Temps de vol"
-adm_info_browser: "Navigateur"
-adm_info_col: "Info"
-adm_info_db_version: "Version de la BDD"
-adm_info_errorlog: "Journal d'erreurs"
-adm_info_game: "Jeu"
-adm_info_game_address: "Adresse du jeu"
-adm_info_game_path: "Chemin du jeu"
-adm_info_game_version: "Version du jeu"
-adm_info_memory_limit: "Limite de mémoire"
-adm_info_mysql_client: "Client MySQL"
-adm_info_mysql_server: "Serveur MySQL"
-adm_info_php_version: "Version de PHP"
-adm_info_server: "Serveur"
-adm_info_server_info: "Infos serveur"
-adm_info_text: "Sous forme de texte"
-adm_info_timezone: "Fuseau horaire (PHP/config/utilisateur)"
-adm_loading: "Chargement …"
-adm_log_not_found: "Introuvable dans le journal"
-adm_mip_activity: "Activité"
-adm_mip_show_allowed: "Afficher les approuvés"
-adm_mip_show_banned: "Afficher les bannis"
-adm_ml_end_day: "Jour de fin"
-adm_ml_end_month: "Mois de fin"
-adm_ml_end_year: "Année de fin"
-adm_ml_start_day: "Jour de début"
-adm_ml_start_month: "Mois de début"
-adm_ml_start_year: "Année de début"
-adm_pagination: "Pagination"
-adm_permission_error: "Permission refusée !"
-adm_ti_all: "Tous"
-adm_ti_debug_errors: "Débogage/erreurs"
-adm_ti_user_tickets: "Tickets des utilisateurs"
-adm_group_community: "Communauté"
-adm_nav_accounts: "Comptes"
-adm_nav_expeditions: "Expéditions"
-adm_nav_messages: "Messages"
-adm_nav_moderation: "Modération"
-adm_nav_players: "Joueurs"
-adm_nav_settings: "Paramètres"
-adm_tab_bans: "Bannissements"
-adm_tab_card_deck: "Jeu de cartes"
-adm_tab_create: "Créer"
-adm_tab_editor: "Éditeur"
-adm_tab_findable_ships: "Vaisseaux trouvables"
-adm_tab_moons: "Lunes"
-adm_tab_planets: "Planètes"
-adm_tab_players: "Joueurs"
-adm_tab_server: "Serveur"
-adm_tab_swap: "Échange"
-adm_tab_universe: "Univers"
-adm_maint_cache_text: "Vide les caches du jeu (langues, modèles, données du jeu) et recalcule les horaires des cronjobs. Utile lorsque des modifications de paramètres ou de textes n'apparaissent pas."
-adm_maint_points_text: "Recalcule immédiatement les points et le classement. Sinon, cela se fait automatiquement via le cronjob des statistiques et peut prendre un moment avec beaucoup de joueurs."
-adm_nav_maintenance: "Maintenance"
-adm_nav_content: "Contenu"
-adm_tab_pages: "Pages"
-adm_tab_team: "Équipe"
-nws_back: "Retour à la liste"
-nws_view: "Voir"
-nws_summary: "Résumé"
-nws_summary_help: "Accroche facultative pour la liste des actualités (max. 300 caractères). Vide = extrait du texte."
-nws_publish_date: "Date de publication"
-nws_publish_help: "Une date future programme l'actualité : elle apparaîtra alors automatiquement."
-nws_status: "Statut"
-nws_status_draft: "Brouillon"
-nws_status_published: "Publiée"
-nws_status_scheduled: "Programmée"
-nws_pinned: "Épinglée"
-nws_filter_all: "Toutes"
-nws_filter_drafts: "Brouillons"
-nws_empty: "Aucune actualité"
-nws_saved: "Actualité enregistrée."
-nws_deleted: "Actualité supprimée."
-nws_error_empty: "Le titre et le texte ne doivent pas être vides."
-cms_page_contacts: "Contacts"
-cms_page_dataPrivacy: "Protection des données"
-cms_page_rules: "Règles"
-cms_language: "Langue"
-cms_status: "Statut"
-cms_status_default: "Par défaut"
-cms_status_edited: "Modifiée"
-cms_last_edit: "Dernière modification"
-cms_title: "Titre"
-cms_content: "Contenu"
-cms_save: "Enregistrer la page"
-cms_view: "Voir la page"
-cms_reset: "Rétablir par défaut"
-cms_reset_confirm: "Supprimer la version modifiée et afficher à nouveau le contenu par défaut ?"
-cms_saved: "Page enregistrée."
-cms_reset_done: "Page rétablie au contenu par défaut."
-team_name: "Nom"
-team_position: "Fonction"
-team_contact: "Contact (p. ex. Discord)"
-team_description: "Description"
-team_add: "Ajouter un membre"
-team_delete: "Retirer"
-team_move_up: "Monter"
-team_move_down: "Descendre"
-team_save: "Enregistrer l'équipe"
-team_saved: "Équipe enregistrée."
-team_empty: "Aucun membre d'équipe pour l'instant."
-team_hint: "L'ordre des lignes est l'ordre sur la page publique de l'équipe. Les lignes sans nom sont supprimées à l'enregistrement."
-nws_image: "Image"
-nws_image_remove: "Retirer l'image"
-nws_image_help: "Facultatif, une image par actualité (JPEG, PNG, GIF ou WebP, max. 8 Mo). Convertie automatiquement en WebP."
-bot_action: "Action"
-bot_actions_per_session: "Actions par session"
-bot_active: "Actif"
-bot_active_none: "Aucun LLM (solutions locales uniquement)"
-bot_activity: "Activité par heure"
-bot_activity_info: "24 valeurs séparées par des virgules de 0 à 1 (probabilité qu'un bot hors ligne démarre une session, heures 0-23)"
-bot_alliance_chance: "Probabilité d'activité d'alliance par session"
-bot_alliance_join_chance: "Probabilité de postuler à une alliance de bots (par tour)"
-bot_fleetsave_chance: "Probabilité de mettre la flotte à l’abri (fin de session, menaces)"
-bot_saving_discipline: "Discipline d’épargne (économise pour son objectif au lieu de petits achats)"
-bot_expedition_slots: "Slots de flotte gardés libres pour les expéditions"
-bot_api_key: "Clé API"
-bot_base_url: "URL de base"
-bot_buddy_accept_chance: "Probabilité d'accepter une demande d'ami"
-bot_cancel: "Annuler"
-bot_chat_style: "Indication de style de chat"
-bot_raid_enabled: "Raids activés"
-bot_raid_chance: "Sessions avec raid"
-bot_scout_range: "Portée de repérage (systèmes autour des planètes propres)"
-bot_min_profit_ratio: "Ratio de profit minimal (butin / carburant + pertes)"
-bot_relentless_minutes: "Série de raids après un coup (minutes, min - max)"
-bot_recall_check_chance: "Probabilité d’un nouvel espionnage et d’un contrôle de rappel avant l’impact"
-bot_max_attacks_per_target: "Attaques max. par cible et par jour"
-bot_attack_bots: "Attaquer les autres bots"
-bot_attack_humans: "Attaquer les joueurs humains"
-bot_prefer_inactive: "Préférence pour les cibles inactives (0-100)"
-bot_check_interval: "Intervalle de vérification de connexion"
-bot_colonize_chance: "Probabilité de colonisation par session"
-bot_confirm_delete: "Vraiment supprimer ?"
-bot_confirm_restore: "Réinitialiser les profils par défaut à leurs valeurs d'origine ?"
-bot_csrf_error: "Jeton de sécurité invalide, veuillez recharger la page."
-bot_days_zero_off: "jours (0 = désactivé)"
-bot_default: "par défaut"
-bot_defaults_restored: "Profils par défaut restaurés."
-bot_delete: "Supprimer"
-bot_deleted: "Supprimé."
-bot_description: "Description"
-bot_detail: "Détail"
-bot_disabled: "désactivé"
-bot_duplicate: "Dupliquer"
-bot_edit: "Modifier"
-bot_edit_profile: "Modifier le profil"
-bot_enabled: "activé"
-bot_engine_missing: "Le moteur de bots n'est pas installé."
-bot_expedition_chance: "Probabilité d'expédition par session"
-bot_failed: "Échec"
-bot_hours_every: "heures toutes les"
-bot_invalid_url: "L'URL de base doit commencer par http:// ou https://."
-bot_key: "Clé"
-bot_key_keep: "laisser vide pour conserver"
-bot_key_not_set: "non définie"
-bot_key_stored: "enregistrée"
-bot_last_action: "Dernière action"
-bot_last_test: "Dernier test"
-bot_list: "Bots"
-bot_llm_advice: "Autoriser le LLM (noms et chat)"
-bot_log: "Actions récentes"
-bot_mistake_chance: "Probabilité d'erreur"
-bot_mode: "Mode du bot"
-bot_model: "Modèle"
-bot_name: "Nom"
-bot_name_required: "Veuillez saisir un nom."
-bot_new_profile: "Nouveau profil"
-bot_next_tick: "Prochaine vérification"
-bot_none: "Aucun."
-bot_offline: "hors ligne"
-bot_online: "en ligne"
-bot_open_config: "Paramètres de l'univers"
-bot_pattern_shift: "Décalage du schéma"
-bot_player: "Joueur"
-bot_points: "Points"
-bot_profile: "Profil"
-bot_profile_default_locked: "Les profils par défaut ne peuvent pas être supprimés."
-bot_profile_in_use: "Ce profil est encore utilisé par des bots."
-bot_profile_missing: "Profil introuvable."
-bot_provider: "Fournisseur"
-bot_providers_info: "Le LLM est facultatif et n'est utilisé que pour le côté humain des bots : pseudos, personnages, noms de planètes et chat (réponses aux messages, alliances, amis). Les décisions de jeu sont toujours prises en local. Sans fournisseur actif, des générateurs de noms et des messages prédéfinis intégrés sont utilisés. Laissez le champ de clé vide pour conserver la clé enregistrée."
-bot_randomness: "Aléatoire"
-bot_reply_chance: "Probabilité de réponse (messages privés)"
-bot_restore_defaults: "Rétablir les valeurs par défaut"
-bot_saved: "Enregistré."
-bot_session: "Session"
-bot_session_minutes: "Durée de session"
-bot_skill: "Compétence"
-bot_skill_gain: "Gain par jour"
-bot_skill_max: "Max."
-bot_skill_start: "Début"
-bot_spawn: "Créer des bots"
-bot_spawned: "%d bot(s) créé(s)."
-bot_summary: "Résumé"
-bot_summary_actions: "actions"
-bot_summary_mistakes: "erreurs"
-bot_summary_session: "session"
-bot_tab_bots: "Bots"
-bot_tab_profiles: "Profils"
-bot_tab_providers: "Fournisseurs LLM"
-bot_test: "Tester la connexion"
-bot_testing: "Test en cours..."
-bot_time: "Heure"
-bot_title: "Bots"
-bot_universe: "Univers"
-bot_w_defense: "Défense"
-bot_w_energy: "Énergie"
-bot_w_facilities: "Installations"
-bot_w_mines: "Mines"
-bot_w_research: "Recherche"
-bot_w_ships: "Vaisseaux"
-bot_w_storage: "Stockage"
-bot_weights: "Pondérations"
-mu_bots: "Bots"
-adm_nav_bots: "Bots"
-adm_tab_bot_providers: "Fournisseurs LLM"
-adm_tab_bot_profiles: "Profils"
-adm_tab_bot_list: "Bots"
-se_bots: "Bots"
-se_bots_enabled: "Activer les bots"
-se_bots_enabled_info: "Permet aux bots côté serveur de jouer dans cet univers. Ils sont traités par le cronjob une fois par minute."
-se_bots_llm_daily_limit: "Appels LLM par bot et par jour"
-se_bots_llm_daily_limit_info: "Nombre maximal d'appels LLM qu'un bot peut effectuer par jour. Ensuite, des solutions locales sont utilisées."
-se_bots_llm_enabled: "Utiliser le LLM pour les noms et le chat"
-se_bots_llm_enabled_info: "Active les pseudos, personnages, noms de planètes et le chat (messages, alliances, amis) générés par LLM via le fournisseur actif. Les décisions de jeu restent toujours locales."
-se_bots_max_count: "Nombre maximal de bots"
-se_bots_max_count_info: "Limite supérieure de bots créés dans cet univers."
-se_bots_ticks_per_run: "Bots par exécution du cron"
-se_bots_ticks_per_run_info: "Nombre maximal de bots traités lors d'une exécution du cron."
-se_bots_raids_enabled: "Les bots attaquent d’autres joueurs"
-se_bots_raids_enabled_info: "Permet aux bots de repérer, espionner et attaquer les joueurs et autres bots proches, avec les mêmes règles que les joueurs (limite de bash, protection, mode vacances). Désactivé par défaut."
-adm_info_summary_fail: "%s vérification(s) échouée(s), %s avertissement(s). Corrigez d'abord les vérifications échouées."
-adm_info_summary_warn: "Aucune vérification échouée, mais %s avertissement(s) méritent attention."
-adm_info_summary_ok: "Toutes les vérifications d'état ont réussi."
-adm_info_health: "Vérifications d'état"
-adm_info_status_ok: "OK"
-adm_info_status_warn: "Avertissement"
-adm_info_status_fail: "Échec"
-adm_info_status_info: "Info"
-adm_info_chk_php: "Version de PHP (8.4 ou plus récente)"
-adm_info_chk_php_hint: "Le jeu nécessite PHP 8.4 ou plus récent."
-adm_info_chk_ext_required: "Extensions PHP requises"
-adm_info_chk_ext_required_hint: "Installez les extensions manquantes, le jeu ne fonctionnera pas sans elles."
-adm_info_chk_ext_optional: "Extensions PHP facultatives"
-adm_info_chk_ext_optional_hint: "Non requises, mais elles activent des fonctions plus rapides ou supplémentaires (voir la liste des extensions)."
-adm_info_chk_opcache: "OPcache"
-adm_info_chk_opcache_hint: "OPcache est désactivé. Activez-le en production, il accélère beaucoup PHP."
-adm_info_chk_environment: "Environnement (APP_ENV / débogage)"
-adm_info_chk_environment_hint: "Exécutez avec APP_ENV=prod et le débogage désactivé sur un serveur public."
-adm_info_chk_display_errors: "display_errors"
-adm_info_chk_display_errors_hint: "L'affichage des erreurs dans les pages peut révéler des détails internes. Définissez display_errors=Off sur les serveurs publics."
-adm_info_chk_writable: "Répertoires accessibles en écriture"
-adm_info_chk_writable_hint: "L'utilisateur du serveur web doit pouvoir écrire dans ces répertoires (caches, journaux, sessions, téléversements)."
-adm_info_chk_install_tool: "Outil d'installation"
-adm_info_chk_install_tool_hint: "var/ENABLE_INSTALL_TOOL existe. Supprimez-le lorsque vous n'installez pas."
-adm_info_chk_migrations: "Migrations de base de données"
-adm_info_chk_migrations_hint: "Des migrations sont en attente. Elles sont appliquées à la prochaine requête du jeu ; consultez le journal si elles restent en attente."
-adm_info_chk_battle_engine: "Moteur de combat"
-adm_info_chk_battle_engine_hint: "Le moteur Rust est inutilisable (bin/battlerust, bin/libbattlerust.so, proc_open). Les combats utilisent le moteur PHP, plus lent."
-adm_info_chk_cron: "Cronjobs"
-adm_info_chk_cron_hint: "Le cron semble bloqué ou ne s'exécute pas. Vérifiez que bin/console app:cron:run s'exécute chaque minute et déverrouillez les tâches bloquées dans Cronjobs."
-adm_info_chk_https: "HTTPS"
-adm_info_chk_https_hint: "Cette requête n'a pas utilisé HTTPS. Mots de passe et sessions circulent non chiffrés."
-adm_info_chk_mail: "Envoi d'e-mails"
-adm_info_chk_mail_hint: "L'envoi d'e-mails est désactivé ou incomplet (les e-mails d'activation et de réinitialisation de mot de passe n'arriveront pas). Voir les paramètres."
-adm_info_chk_session: "Gestionnaire de sessions"
-adm_info_chk_session_hint: "Vérifiez le stockage des sessions."
-adm_info_os: "Système d'exploitation"
-adm_info_hostname: "Nom d'hôte"
-adm_info_max_exec: "Temps d'exécution max."
-adm_info_upload_max: "Limite de téléversement (upload_max_filesize)"
-adm_info_post_max: "Limite POST (post_max_size)"
-adm_info_realpath: "Cache realpath"
-adm_info_peak: "Pic de mémoire de cette requête"
-adm_info_cpu: "Cœurs CPU"
-adm_info_load: "Charge moyenne (1 / 5 / 15 min)"
-adm_info_uptime: "Disponibilité du système"
-adm_info_disk: "Disque (projet)"
-adm_info_memory: "Mémoire système"
-adm_info_free_of: "%s libres sur %s (%s %% utilisés)"
-adm_info_opcache_line: "%s sur %s utilisés, taux de réussite %s %%, %s scripts en cache"
-adm_info_extensions: "Extensions PHP"
-adm_info_extensions_hint: "Survolez pour voir l'usage. Rouge = requise et manquante, gris = facultative et manquante."
-adm_info_required: "requise"
-adm_info_ext_pdo_mysql: "Accès à la base de données (PDO MySQL)"
-adm_info_ext_intl: "Formatage des nombres, dates et langues"
-adm_info_ext_mbstring: "Gestion des chaînes multioctets"
-adm_info_ext_gd: "Traitement d'images (avatars, images d'actualités)"
-adm_info_ext_curl: "Requêtes HTTP (Discord, API externes)"
-adm_info_ext_json: "Encodage et décodage JSON"
-adm_info_ext_ctype: "Vérification des types de caractères"
-adm_info_ext_opcache: "Met en cache le code PHP compilé (vitesse)"
-adm_info_ext_ffi: "Interface de fonctions externes (code natif)"
-adm_info_ext_ds: "Structures de données rapides"
-adm_info_ext_redis: "Sessions et cache Redis"
-adm_info_ext_imap: "Accès à la boîte mail (IMAP)"
-adm_info_database: "Base de données"
-adm_info_db_schema: "Schéma"
-adm_info_db_size: "Taille"
-adm_info_tables: "tables"
-adm_info_pending: "Migrations en attente"
-adm_info_db_uptime: "Disponibilité de MySQL"
-adm_info_threads: "Threads connectés"
-adm_info_max: "max"
-adm_info_qps: "Requêtes par seconde (moyenne)"
-adm_info_queries: "requêtes"
-adm_info_slow: "Requêtes lentes"
-adm_info_buffer_pool: "Buffer pool InnoDB"
-adm_info_top_tables: "Plus grandes tables"
-adm_info_table: "Table"
-adm_info_rows: "lignes"
-adm_info_data: "Données"
-adm_info_index: "Index"
-adm_info_game_stats: "Statistiques du jeu"
-adm_info_universe: "Univers"
-adm_info_players: "Joueurs"
-adm_info_accounts: "Comptes"
-adm_info_online: "En ligne"
-adm_info_planets: "Planètes"
-adm_info_moons: "Lunes"
-adm_info_fleets: "Flottes en vol"
-adm_info_acs: "Groupes de SAC"
-adm_info_alliances: "Alliances"
-adm_info_messages: "Messages"
-adm_info_unread: "non lus"
-adm_info_activity: "Activité et inscriptions"
-adm_info_active: "Joueurs actifs"
-adm_info_registrations: "Nouvelles inscriptions"
-adm_info_banned: "Joueurs bannis"
-adm_info_vacation: "En mode vacances"
-adm_info_bots: "Joueurs bots"
-adm_info_points_avg: "Points moyens"
-adm_info_points_top: "Points maximum"
-adm_info_last_stats: "Dernière mise à jour des statistiques"
-adm_info_market: "Offres de marché ouvertes"
-adm_info_reports: "Rapports de combat enregistrés"
-adm_info_debris: "Champs de débris avec contenu (métal / cristal)"
-adm_info_resources: "Ressources stockées sur les planètes"
-adm_info_fleets_by_mission: "Flottes par mission"
-adm_info_mission: "Mission"
-adm_info_no_fleets: "Aucune flotte en vol."
-adm_info_reg_chart: "Inscriptions, 30 derniers jours"
-adm_info_no_registrations: "Aucune inscription ces 30 derniers jours."
-adm_info_all_universes: "Tous les univers"
-adm_info_total: "Total"
-adm_info_logs: "Journaux et caches"
-adm_info_game_log: "Journal du jeu"
-adm_info_errors_24h: "Erreurs, dernières 24 h"
-adm_info_warnings_24h: "Avertissements, dernières 24 h"
-adm_info_scanned: "Analysé (fin du fichier)"
-adm_info_symfony_log: "Journal Symfony"
-adm_info_lines: "lignes"
-adm_info_files: "fichiers"
-adm_info_last_errors: "Dernières erreurs"
-adm_info_no_errors: "Aucune erreur dans la partie analysée du journal."
-adm_info_time: "Heure du serveur"
-adm_info_timezone_of: "Source"
-adm_info_zone: "Fuseau horaire"
-adm_info_tz_php: "PHP"
-adm_info_tz_config: "Configuration du jeu"
-adm_info_tz_user: "Votre compte"
-adm_login_throttled: "Trop de tentatives. Veuillez réessayer dans quelques minutes."
-bo_total_accs: "Total des comptes : "
-bo_total_accs_banned: "Comptes bannis : "
-se_community_links: "Liens communautaires"
-se_discord_url: "URL d'invitation Discord"
-se_discord_url_info: "Lien d'invitation de votre serveur Discord (https://...). Affiché dans le menu, la page de connexion, les e-mails et les textes. Vide = masqué."
-se_wiki_url: "URL du wiki"
-se_wiki_url_info: "URL de base d'un wiki externe, sans barre oblique finale (https://...). Les liens wiki de la FAQ, du tutoriel et des règles en sont déduits. Vide = masqués."
-se_donate_url: "URL de don"
-se_donate_url_info: "Lien pour les dons (https://...), affiché dans le menu. Vide = masqué."
-se_userscripts_url: "URL des userscripts"
-se_userscripts_url_info: "Page présentant des userscripts pour votre jeu (https://...), liée dans les paramètres. Vide = masqué."
-se_bots_alliances_enabled: "Les bots forment des alliances"
-se_bots_alliances_enabled_info: "Les bots fondent leurs propres alliances et en rejoignent parfois d'autres. Désactivé : les bots restent des loups solitaires, ne postulent nulle part et quittent les alliances dont ils sont membres (les alliances fondées par un bot restent)."
-se_bots_join_human_alliances: "Les bots peuvent rejoindre les alliances de joueurs"
-se_bots_join_human_alliances_info: "Les bots peuvent aussi postuler dans les alliances fondées par des joueurs humains. Désactivé : les bots ne rejoignent que des alliances fondées par des bots et quittent les alliances de joueurs."
+vt_info: Cette liste contient les fichiers qui ont été modifier, et ne pas correspondre à l'original.<br>Si vous n'avez pas changé le jeu lui-même, remplacez les fichiers avec les originaux.
+adm_comments: Commentaires
+adm_analytics: Analytique
+ad_system: Système
+adm_menu_filter: Filtrer le menu …
+adm_menu_empty: Aucune entrée de menu trouvée
+adm_menu_toggle: Menu
+adm_back_to_game: Retour au jeu
+adm_drop_rights: Déconnexion
+adm_universe_switch: Univers
+adm_dash_attention: À surveiller
+adm_dash_all_good: Tout va bien – aucun avertissement.
+adm_dash_online: Joueurs en ligne (15 min)
+adm_dash_players: Total des joueurs
+adm_dash_tickets: Tickets ouverts
+adm_dash_fleets: Flottes en vol
+adm_dash_quick: Accès rapide
+adm_dash_system: Système
+adm_dash_version: Version
+adm_dash_php: PHP
+adm_dash_uni_status: État de l'univers
+adm_dash_credits: Crédits
+adm_dash_project: Page du projet
+adm_confirm: Êtes-vous sûr ?
+adm_dash_cron_locked: 'Cronjob verrouillé (ne s''exécute plus) : %s'
+adm_dash_next_cron: Prochain cronjob
+adm_dash_cron_count: cronjobs actifs
+adm_unsaved_hint: Les modifications prennent effet une fois enregistrées.
+adm_sections: Sections
+adm_skip: Aller au contenu
+adm_filter_page: Filtrer cette page …
+adm_actions: Actions
+adm_ac_no_destroyed: Aucune planète n'a été détruite récemment.
+adm_ae_addremove_hint: Les valeurs sont ajoutées à la quantité actuelle (Ajouter) ou soustraites de celle-ci (Supprimer). Une valeur de 0 laisse l'entrée inchangée.
+adm_ae_confirm_remove: Soustraire vraiment les valeurs saisies de la quantité actuelle ?
+adm_ae_danger_zone: Zone dangereuse
+adm_ae_group_planet: Planète / lune
+adm_ae_group_player: Joueur
+adm_ae_menu_hint: Choisissez ce qu'il faut modifier. Les joueurs sont sélectionnés par ID de joueur, les planètes par ID de planète ou de lune.
+adm_ae_wipe: Réinitialiser la planète
+adm_ae_wipe_hint: Les zones cochées sont effacées de la planète. Cette action est irréversible.
+adm_as_confirm: Échanger vraiment les comptes des deux joueurs sélectionnés ?
+adm_as_explain: Les deux joueurs sélectionnés échangent leurs comptes (identifiants de connexion). L'état du jeu et les planètes restent chez chaque joueur, seuls les identifiants changent de propriétaire. Choisissez le joueur A à gauche et le joueur B à droite.
+adm_ban_accounts: Comptes
+adm_ban_duration: Durée
+adm_ban_users: Joueurs
+adm_continue: Continuer
+adm_coord_position: Position
+adm_cron_active: Actif
+adm_cron_click_disable: Cliquer pour désactiver
+adm_cron_click_enable: Cliquer pour activer
+adm_cron_click_lock: Cliquer pour verrouiller
+adm_cron_click_unlock: Cliquer pour déverrouiller (exécution bloquée)
+adm_cron_free: Libre
+adm_cron_hint: Cliquez sur un badge d'état pour le basculer
+adm_cron_inactive: Inactif
+adm_cron_locked: Verrouillé
+adm_cron_state: État
+adm_giveaway_confirm: Les montants sont crédités à toutes les planètes correspondantes de cet univers. Continuer ?
+adm_giveaway_hint: Les montants sont ajoutés au stock actuel de chaque planète correspondante. Les champs laissés à 0 restent inchangés.
+adm_reset_warning: Tout ce qui est coché ci-dessous est définitivement supprimé ou réinitialisé pour cet univers. Il n'y a ni sauvegarde ni annulation possible.
+adm_rights_edit: Modifier les permissions
+adm_rights_other: Autres
+adm_rights_page: Page
+adm_rights_pick: Choisissez le joueur dont vous voulez modifier les permissions.
+adm_uni_close: Fermer l'univers
+adm_uni_open: Ouvrir l'univers
+adm_edit: Modifier
+adm_ma_recipients: Destinataires
+adm_ml_from: de
+adm_ml_to: à
+ac_detailed_planet_moon_info: Détails des Planètes et Lunes
+ad_max: (max. % d)
+adm_password_info: S'il vous plaît entrer votre mot de passe pour la vérification du compte !
+button_des_se: Sélectionner / Désélectionner tout
+er_dlte_all: Supprimer Tout
+input_id_moon: ID Lune
+input_text: 'Description:'
+mip_ip: IP
+adm_cfg_crystal_pct: Cristal %
+adm_cfg_deuterium_pct: Deutérium %
+adm_cfg_fields_max: Cases max.
+adm_cfg_fields_min: Cases min.
+adm_cfg_metal_pct: Métal %
+adm_cfg_planet_props: Propriétés des planètes par position
+adm_cfg_planet_props_hint: Température en °C, cases, bonus de production en %
+adm_cfg_temp_max: Temp. max.
+adm_cfg_temp_min: Temp. min.
+adm_comment_col: Commentaire
+adm_date_dd: jj
+adm_date_format: (jj.mm.aaaa)
+adm_date_mm: mm
+adm_date_yyyy: aaaa
+adm_exp_deck_err_card: 'Format de carte invalide : le type, la taille ou le nombre est manquant'
+adm_exp_deck_err_count: 'Nombre de cartes invalide : ne doit pas être négatif'
+adm_exp_deck_err_empty: Le deck doit contenir au moins une carte
+adm_exp_deck_err_format: 'Format de deck invalide : doit être un tableau'
+adm_exp_deck_err_json: Format JSON invalide
+adm_exp_ships_saved: Configuration des vaisseaux enregistrée avec succès !
+adm_flight_distance: Distance
+adm_flight_err_dist_missing: Veuillez remplir toutes les valeurs de distance.
+adm_flight_err_format: Veuillez saisir au format galaxie:système:planète.
+adm_flight_err_galaxy_over: La galaxie dépasse max_galaxy.
+adm_flight_err_max_missing: Veuillez remplir max_galaxy, max_system et max_planets.
+adm_flight_err_min_one: Galaxie, système et planète doivent valoir au moins 1.
+adm_flight_err_planet_over: La planète dépasse max_planets.
+adm_flight_err_system_over: Le système dépasse max_system.
+adm_flight_fleet_speed: Vitesse de la flotte
+adm_flight_preview: Aperçu du temps de vol
+adm_flight_preview_help: Temps de vol de 1:1:1 vers la cible avec une vitesse de vaisseau de 45 000 et une vitesse de flotte de 1 ; le type d'univers, le type de galaxie, les valeurs maximales, les facteurs de distance et les distances minimales sont appliqués en direct.
+adm_flight_ship_speed: Vitesse du vaisseau
+adm_flight_time: Temps de vol
+adm_info_col: Info
+adm_info_db_version: Version de la BDD
+adm_info_errorlog: Journal d'erreurs
+adm_info_game: Jeu
+adm_info_game_address: Adresse du jeu
+adm_info_game_version: Version du jeu
+adm_info_memory_limit: Limite de mémoire
+adm_info_mysql_client: Client MySQL
+adm_info_mysql_server: Serveur MySQL
+adm_info_php_version: Version de PHP
+adm_info_server: Serveur
+adm_info_server_info: Infos serveur
+adm_info_text: Sous forme de texte
+adm_info_timezone: Fuseau horaire (PHP/config/utilisateur)
+adm_loading: Chargement …
+adm_log_not_found: Introuvable dans le journal
+adm_mip_activity: Activité
+adm_mip_show_allowed: Afficher les approuvés
+adm_mip_show_banned: Afficher les bannis
+adm_ml_end_day: Jour de fin
+adm_ml_end_month: Mois de fin
+adm_ml_end_year: Année de fin
+adm_ml_start_day: Jour de début
+adm_ml_start_month: Mois de début
+adm_ml_start_year: Année de début
+adm_pagination: Pagination
+adm_permission_error: Permission refusée !
+adm_ti_all: Tous
+adm_ti_debug_errors: Débogage/erreurs
+adm_ti_user_tickets: Tickets des utilisateurs
+adm_group_community: Communauté
+adm_nav_accounts: Comptes
+adm_nav_expeditions: Expéditions
+adm_nav_messages: Messages
+adm_nav_moderation: Modération
+adm_nav_players: Joueurs
+adm_nav_settings: Paramètres
+adm_tab_bans: Bannissements
+adm_tab_card_deck: Jeu de cartes
+adm_tab_create: Créer
+adm_tab_editor: Éditeur
+adm_tab_findable_ships: Vaisseaux trouvables
+adm_tab_moons: Lunes
+adm_tab_planets: Planètes
+adm_tab_players: Joueurs
+adm_tab_server: Serveur
+adm_tab_swap: Échange
+adm_tab_universe: Univers
+adm_maint_cache_text: Vide les caches du jeu (langues, modèles, données du jeu) et recalcule les horaires des cronjobs. Utile lorsque des modifications de paramètres ou de textes n'apparaissent pas.
+adm_maint_log_head: Journal du jeu
+adm_maint_log_text: Journal des erreurs du jeu (var/log/game.log). Vider le journal vide le fichier ; les nouvelles erreurs sont à nouveau écrites tout de suite.
+adm_maint_log_size: Taille
+adm_maint_log_changed: Dernière modification
+adm_maint_log_missing: Le fichier journal n'existe pas encore.
+adm_maint_log_clear: Vider le journal du jeu
+adm_maint_log_confirm: Vider var/log/game.log ? Cette action est irréversible.
+adm_maint_log_cleared: Le journal du jeu a été vidé.
+adm_maint_log_failed: Le journal du jeu n'a pas pu être vidé (fichier non accessible en écriture).
+adm_maint_points_text: Recalcule immédiatement les points et le classement. Sinon, cela se fait automatiquement via le cronjob des statistiques et peut prendre un moment avec beaucoup de joueurs.
+adm_nav_maintenance: Maintenance
+adm_nav_content: Contenu
+adm_tab_pages: Pages
+adm_tab_team: Équipe
+nws_back: Retour à la liste
+nws_view: Voir
+nws_summary: Résumé
+nws_summary_help: Accroche facultative pour la liste des actualités (max. 300 caractères). Vide = extrait du texte.
+nws_publish_date: Date de publication
+nws_publish_help: 'Une date future programme l''actualité : elle apparaîtra alors automatiquement.'
+nws_status: Statut
+nws_status_draft: Brouillon
+nws_status_published: Publiée
+nws_status_scheduled: Programmée
+nws_pinned: Épinglée
+nws_filter_all: Toutes
+nws_filter_drafts: Brouillons
+nws_empty: Aucune actualité
+nws_saved: Actualité enregistrée.
+nws_deleted: Actualité supprimée.
+nws_error_empty: Le titre et le texte ne doivent pas être vides.
+cms_page_contacts: Contacts
+cms_page_dataPrivacy: Protection des données
+cms_page_rules: Règles
+cms_language: Langue
+cms_status: Statut
+cms_status_default: Par défaut
+cms_status_edited: Modifiée
+cms_last_edit: Dernière modification
+cms_title: Titre
+cms_content: Contenu
+cms_save: Enregistrer la page
+cms_view: Voir la page
+cms_reset: Rétablir par défaut
+cms_reset_confirm: Supprimer la version modifiée et afficher à nouveau le contenu par défaut ?
+cms_saved: Page enregistrée.
+cms_reset_done: Page rétablie au contenu par défaut.
+team_name: Nom
+team_position: Fonction
+team_contact: Contact (p. ex. Discord)
+team_description: Description
+team_add: Ajouter un membre
+team_delete: Retirer
+team_move_up: Monter
+team_move_down: Descendre
+team_save: Enregistrer l'équipe
+team_saved: Équipe enregistrée.
+team_empty: Aucun membre d'équipe pour l'instant.
+team_hint: L'ordre des lignes est l'ordre sur la page publique de l'équipe. Les lignes sans nom sont supprimées à l'enregistrement.
+nws_image: Image
+nws_image_remove: Retirer l'image
+nws_image_help: Facultatif, une image par actualité (JPEG, PNG, GIF ou WebP, max. 8 Mo). Convertie automatiquement en WebP.
+bot_action: Action
+bot_actions_per_session: Actions par session
+bot_active: Actif
+bot_active_none: Aucun LLM (solutions locales uniquement)
+bot_activity: Activité par heure
+bot_activity_info: 24 valeurs séparées par des virgules de 0 à 1 (probabilité qu'un bot hors ligne démarre une session, heures 0-23)
+bot_alliance_chance: Probabilité d'activité d'alliance par session
+bot_alliance_join_chance: Probabilité de postuler à une alliance de bots (par tour)
+bot_fleetsave_chance: Probabilité de mettre la flotte à l’abri (fin de session, menaces)
+bot_saving_discipline: Discipline d’épargne (économise pour son objectif au lieu de petits achats)
+bot_expedition_slots: Slots de flotte gardés libres pour les expéditions
+bot_api_key: Clé API
+bot_base_url: URL de base
+bot_buddy_accept_chance: Probabilité d'accepter une demande d'ami
+bot_cancel: Annuler
+bot_chat_style: Indication de style de chat
+bot_raid_enabled: Raids activés
+bot_raid_chance: Sessions avec raid
+bot_scout_range: Portée de repérage (systèmes autour des planètes propres)
+bot_min_profit_ratio: Ratio de profit minimal (butin / carburant + pertes)
+bot_relentless_minutes: Série de raids après un coup (minutes, min - max)
+bot_recall_check_chance: Probabilité d’un nouvel espionnage et d’un contrôle de rappel avant l’impact
+bot_max_attacks_per_target: Attaques max. par cible et par jour
+bot_attack_bots: Attaquer les autres bots
+bot_attack_humans: Attaquer les joueurs humains
+bot_prefer_inactive: Préférence pour les cibles inactives (0-100)
+bot_check_interval: Intervalle de vérification de connexion
+bot_colonize_chance: Probabilité de colonisation par session
+bot_confirm_delete: Vraiment supprimer ?
+bot_confirm_restore: Réinitialiser les profils par défaut à leurs valeurs d'origine ?
+bot_csrf_error: Jeton de sécurité invalide, veuillez recharger la page.
+bot_days_zero_off: jours (0 = désactivé)
+bot_default: par défaut
+bot_defaults_restored: Profils par défaut restaurés.
+bot_delete: Supprimer
+bot_deleted: Supprimé.
+bot_description: Description
+bot_detail: Détail
+bot_disabled: désactivé
+bot_duplicate: Dupliquer
+bot_edit: Modifier
+bot_edit_profile: Modifier le profil
+bot_enabled: activé
+bot_expedition_chance: Probabilité d'expédition par session
+bot_failed: Échec
+bot_hours_every: heures toutes les
+bot_invalid_url: L'URL de base doit commencer par http:// ou https://.
+bot_key: Clé
+bot_key_keep: laisser vide pour conserver
+bot_key_not_set: non définie
+bot_key_stored: enregistrée
+bot_last_action: Dernière action
+bot_last_test: Dernier test
+bot_list: Bots
+bot_llm_advice: Autoriser le LLM (noms et chat)
+bot_log: Actions récentes
+bot_mistake_chance: Probabilité d'erreur
+bot_mode: Mode du bot
+bot_model: Modèle
+bot_name: Nom
+bot_name_required: Veuillez saisir un nom.
+bot_new_profile: Nouveau profil
+bot_next_tick: Prochaine vérification
+bot_none: Aucun.
+bot_offline: hors ligne
+bot_online: en ligne
+bot_open_config: Paramètres de l'univers
+bot_pattern_shift: Décalage du schéma
+bot_player: Joueur
+bot_points: Points
+bot_profile: Profil
+bot_profile_default_locked: Les profils par défaut ne peuvent pas être supprimés.
+bot_profile_in_use: Ce profil est encore utilisé par des bots.
+bot_profile_missing: Profil introuvable.
+bot_provider: Fournisseur
+bot_providers_info: 'Le LLM est facultatif et n''est utilisé que pour le côté humain des bots : pseudos, personnages, noms de planètes et chat (réponses aux messages, alliances, amis). Les décisions de jeu sont toujours prises en local. Sans fournisseur actif, des générateurs de noms et des messages prédéfinis intégrés sont utilisés. Laissez le champ de clé vide pour conserver la clé enregistrée.'
+bot_randomness: Aléatoire
+bot_reply_chance: Probabilité de réponse (messages privés)
+bot_restore_defaults: Rétablir les valeurs par défaut
+bot_saved: Enregistré.
+bot_session: Session
+bot_session_minutes: Durée de session
+bot_skill: Compétence
+bot_skill_gain: Gain par jour
+bot_skill_max: Max.
+bot_skill_start: Début
+bot_spawn: Créer des bots
+bot_spawned: '%d bot(s) créé(s).'
+bot_summary: Résumé
+bot_summary_actions: actions
+bot_summary_mistakes: erreurs
+bot_summary_session: session
+bot_tab_profiles: Profils
+bot_tab_providers: Fournisseurs LLM
+bot_test: Tester la connexion
+bot_testing: Test en cours...
+bot_time: Heure
+bot_universe: Univers
+bot_w_defense: Défense
+bot_w_energy: Énergie
+bot_w_facilities: Installations
+bot_w_mines: Mines
+bot_w_research: Recherche
+bot_w_ships: Vaisseaux
+bot_w_storage: Stockage
+bot_weights: Pondérations
+adm_nav_bots: Bots
+adm_tab_bot_providers: Fournisseurs LLM
+adm_tab_bot_profiles: Profils
+adm_tab_bot_list: Bots
+se_bots: Bots
+se_bots_enabled: Activer les bots
+se_bots_enabled_info: Permet aux bots côté serveur de jouer dans cet univers. Ils sont traités par le cronjob une fois par minute.
+se_bots_llm_daily_limit: Appels LLM par bot et par jour
+se_bots_llm_daily_limit_info: Nombre maximal d'appels LLM qu'un bot peut effectuer par jour. Ensuite, des solutions locales sont utilisées.
+se_bots_llm_enabled: Utiliser le LLM pour les noms et le chat
+se_bots_llm_enabled_info: Active les pseudos, personnages, noms de planètes et le chat (messages, alliances, amis) générés par LLM via le fournisseur actif. Les décisions de jeu restent toujours locales.
+se_bots_max_count: Nombre maximal de bots
+se_bots_max_count_info: Limite supérieure de bots créés dans cet univers.
+se_bots_ticks_per_run: Bots par exécution du cron
+se_bots_ticks_per_run_info: Nombre maximal de bots traités lors d'une exécution du cron.
+se_bots_raids_enabled: Les bots attaquent d’autres joueurs
+se_bots_raids_enabled_info: Permet aux bots de repérer, espionner et attaquer les joueurs et autres bots proches, avec les mêmes règles que les joueurs (limite de bash, protection, mode vacances). Désactivé par défaut.
+adm_info_summary_fail: '%s vérification(s) échouée(s), %s avertissement(s). Corrigez d''abord les vérifications échouées.'
+adm_info_summary_warn: Aucune vérification échouée, mais %s avertissement(s) méritent attention.
+adm_info_summary_ok: Toutes les vérifications d'état ont réussi.
+adm_info_health: Vérifications d'état
+adm_info_status_ok: OK
+adm_info_status_warn: Avertissement
+adm_info_status_fail: Échec
+adm_info_status_info: Info
+adm_info_chk_php: Version de PHP (8.4 ou plus récente)
+adm_info_chk_php_hint: Le jeu nécessite PHP 8.4 ou plus récent.
+adm_info_chk_ext_required: Extensions PHP requises
+adm_info_chk_ext_required_hint: Installez les extensions manquantes, le jeu ne fonctionnera pas sans elles.
+adm_info_chk_ext_optional: Extensions PHP facultatives
+adm_info_chk_ext_optional_hint: Non requises, mais elles activent des fonctions plus rapides ou supplémentaires (voir la liste des extensions).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache est désactivé. Activez-le en production, il accélère beaucoup PHP.
+adm_info_chk_environment: Environnement (APP_ENV / débogage)
+adm_info_chk_environment_hint: Exécutez avec APP_ENV=prod et le débogage désactivé sur un serveur public.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: L'affichage des erreurs dans les pages peut révéler des détails internes. Définissez display_errors=Off sur les serveurs publics.
+adm_info_chk_writable: Répertoires accessibles en écriture
+adm_info_chk_writable_hint: L'utilisateur du serveur web doit pouvoir écrire dans ces répertoires (caches, journaux, sessions, téléversements).
+adm_info_chk_install_tool: Outil d'installation
+adm_info_chk_install_tool_hint: var/ENABLE_INSTALL_TOOL existe. Supprimez-le lorsque vous n'installez pas.
+adm_info_chk_migrations: Migrations de base de données
+adm_info_chk_migrations_hint: Des migrations sont en attente. Elles sont appliquées à la prochaine requête du jeu ; consultez le journal si elles restent en attente.
+adm_info_chk_battle_engine: Moteur de combat
+adm_info_chk_battle_engine_hint: Le moteur Rust est inutilisable (bin/battlerust, bin/libbattlerust.so, proc_open). Les combats utilisent le moteur PHP, plus lent.
+adm_info_chk_cron: Cronjobs
+adm_info_chk_cron_hint: Le cron semble bloqué ou ne s'exécute pas. Vérifiez que bin/console app:cron:run s'exécute chaque minute et déverrouillez les tâches bloquées dans Cronjobs.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Cette requête n'a pas utilisé HTTPS. Mots de passe et sessions circulent non chiffrés.
+adm_info_chk_mail: Envoi d'e-mails
+adm_info_chk_mail_hint: L'envoi d'e-mails est désactivé ou incomplet (les e-mails d'activation et de réinitialisation de mot de passe n'arriveront pas). Voir les paramètres.
+adm_info_chk_session: Gestionnaire de sessions
+adm_info_chk_session_hint: Vérifiez le stockage des sessions.
+adm_info_os: Système d'exploitation
+adm_info_hostname: Nom d'hôte
+adm_info_max_exec: Temps d'exécution max.
+adm_info_upload_max: Limite de téléversement (upload_max_filesize)
+adm_info_post_max: Limite POST (post_max_size)
+adm_info_realpath: Cache realpath
+adm_info_peak: Pic de mémoire de cette requête
+adm_info_cpu: Cœurs CPU
+adm_info_load: Charge moyenne (1 / 5 / 15 min)
+adm_info_uptime: Disponibilité du système
+adm_info_disk: Disque (projet)
+adm_info_memory: Mémoire système
+adm_info_free_of: '%s libres sur %s (%s %% utilisés)'
+adm_info_opcache_line: '%s sur %s utilisés, taux de réussite %s %%, %s scripts en cache'
+adm_info_extensions: Extensions PHP
+adm_info_extensions_hint: Survolez pour voir l'usage. Rouge = requise et manquante, gris = facultative et manquante.
+adm_info_required: requise
+adm_info_ext_pdo_mysql: Accès à la base de données (PDO MySQL)
+adm_info_ext_intl: Formatage des nombres, dates et langues
+adm_info_ext_mbstring: Gestion des chaînes multioctets
+adm_info_ext_gd: Traitement d'images (avatars, images d'actualités)
+adm_info_ext_curl: Requêtes HTTP (Discord, API externes)
+adm_info_ext_json: Encodage et décodage JSON
+adm_info_ext_ctype: Vérification des types de caractères
+adm_info_ext_opcache: Met en cache le code PHP compilé (vitesse)
+adm_info_ext_ffi: Interface de fonctions externes (code natif)
+adm_info_ext_ds: Structures de données rapides
+adm_info_ext_redis: Sessions et cache Redis
+adm_info_ext_imap: Accès à la boîte mail (IMAP)
+adm_info_database: Base de données
+adm_info_db_schema: Schéma
+adm_info_db_size: Taille
+adm_info_tables: tables
+adm_info_pending: Migrations en attente
+adm_info_db_uptime: Disponibilité de MySQL
+adm_info_threads: Threads connectés
+adm_info_max: max
+adm_info_qps: Requêtes par seconde (moyenne)
+adm_info_queries: requêtes
+adm_info_slow: Requêtes lentes
+adm_info_buffer_pool: Buffer pool InnoDB
+adm_info_top_tables: Plus grandes tables
+adm_info_table: Table
+adm_info_rows: lignes
+adm_info_data: Données
+adm_info_index: Index
+adm_info_game_stats: Statistiques du jeu
+adm_info_universe: Univers
+adm_info_players: Joueurs
+adm_info_accounts: Comptes
+adm_info_online: En ligne
+adm_info_planets: Planètes
+adm_info_moons: Lunes
+adm_info_fleets: Flottes en vol
+adm_info_acs: Groupes de SAC
+adm_info_alliances: Alliances
+adm_info_messages: Messages
+adm_info_unread: non lus
+adm_info_activity: Activité et inscriptions
+adm_info_active: Joueurs actifs
+adm_info_registrations: Nouvelles inscriptions
+adm_info_banned: Joueurs bannis
+adm_info_vacation: En mode vacances
+adm_info_bots: Joueurs bots
+adm_info_points_avg: Points moyens
+adm_info_points_top: Points maximum
+adm_info_last_stats: Dernière mise à jour des statistiques
+adm_info_market: Offres de marché ouvertes
+adm_info_reports: Rapports de combat enregistrés
+adm_info_debris: Champs de débris avec contenu (métal / cristal)
+adm_info_resources: Ressources stockées sur les planètes
+adm_info_fleets_by_mission: Flottes par mission
+adm_info_mission: Mission
+adm_info_no_fleets: Aucune flotte en vol.
+adm_info_reg_chart: Inscriptions, 30 derniers jours
+adm_info_no_registrations: Aucune inscription ces 30 derniers jours.
+adm_info_all_universes: Tous les univers
+adm_info_total: Total
+adm_info_logs: Journaux et caches
+adm_info_game_log: Journal du jeu
+adm_info_errors_24h: Erreurs, dernières 24 h
+adm_info_warnings_24h: Avertissements, dernières 24 h
+adm_info_scanned: Analysé (fin du fichier)
+adm_info_symfony_log: Journal Symfony
+adm_info_lines: lignes
+adm_info_files: fichiers
+adm_info_last_errors: Dernières erreurs
+adm_info_no_errors: Aucune erreur dans la partie analysée du journal.
+adm_info_time: Heure du serveur
+adm_info_timezone_of: Source
+adm_info_zone: Fuseau horaire
+adm_info_tz_php: PHP
+adm_info_tz_config: Configuration du jeu
+adm_info_tz_user: Votre compte
+adm_login_throttled: Trop de tentatives. Veuillez réessayer dans quelques minutes.
+se_community_links: Liens communautaires
+se_discord_url: URL d'invitation Discord
+se_discord_url_info: Lien d'invitation de votre serveur Discord (https://...). Affiché dans le menu, la page de connexion, les e-mails et les textes. Vide = masqué.
+se_discord_widget_guild: ID du serveur Discord (widget en ligne)
+se_discord_widget_guild_info: 'ID de ton serveur Discord (17 à 20 chiffres ; dans Paramètres du serveur → Widget, « Activer le widget du serveur » doit être activé). Affiche un encadré avec le nombre de connectés sur la page d''accueil, actualisé toutes les 5 minutes. Vide : masqué.'
+se_wiki_url: URL du wiki
+se_wiki_url_info: URL de base d'un wiki externe, sans barre oblique finale (https://...). Les liens wiki de la FAQ, du tutoriel et des règles en sont déduits. Vide = masqués.
+se_donate_url: URL de don
+se_donate_url_info: Lien pour les dons (https://...), affiché dans le menu. Vide = masqué.
+se_userscripts_url: URL des userscripts
+se_userscripts_url_info: Page présentant des userscripts pour votre jeu (https://...), liée dans les paramètres. Vide = masqué.
+se_bots_alliances_enabled: Les bots forment des alliances
+se_bots_alliances_enabled_info: 'Les bots fondent leurs propres alliances et en rejoignent parfois d''autres. Désactivé : les bots restent des loups solitaires, ne postulent nulle part et quittent les alliances dont ils sont membres (les alliances fondées par un bot restent).'
+se_bots_join_human_alliances: Les bots peuvent rejoindre les alliances de joueurs
+se_bots_join_human_alliances_info: 'Les bots peuvent aussi postuler dans les alliances fondées par des joueurs humains. Désactivé : les bots ne rejoignent que des alliances fondées par des bots et quittent les alliances de joueurs.'
+se_bot_reply_delay_hours: Délai de réponse (heures)
+se_bot_reply_delay_hours_info: Nombre d'heures pendant lesquelles le plus ancien message privé sans réponse d'un joueur attend avant qu'un bot réponde à tous les messages en attente de ce joueur dans une seule réponse. C'est aussi l'écart minimum entre deux messages initiés par les bots (réactions à une attaque, provocations lors d'un pillage) envoyés au même joueur. 0 = pas de délai.
+se_bot_chatter: Les bots discutent
+se_bot_chatter_info: 'Activé : les bots répondent aux messages privés. Désactivé : les messages sont toujours lus et comptés, mais seules les réactions de combat (après avoir été attaqué ou pillé par un joueur qui leur avait écrit) sont envoyées. Les bots n''écrivent jamais en premier aux joueurs.'
+mu_hall_of_fame: Panthéon
+hof_head: Panthéon (univers)
+hof_view: Voir la page publique
+hof_status: Statut
+hof_has_data: Données présentes
+hof_entries: Entrées du classement
+hof_updated: Dernière mise à jour
+hof_no_data: Aucune donnée du panthéon pour cet univers.
+hof_export: Exporter le JSON
+hof_clear: Effacer les données
+hof_confirm_clear: Supprimer les données du panthéon de cet univers ?
+hof_import: Importer le JSON
+hof_file: Fichier JSON
+hof_import_help: 'Format : hall-of-fame, version 1 (1 Mo max.). Remplace les données existantes de cet univers.'
+hof_confirm_import: Remplacer les données existantes du panthéon de cet univers ?
+hof_imported: Panthéon importé.
+hof_cleared: Données du panthéon supprimées.
+hof_error_nofile: Aucun fichier valide n'a été envoyé.
+hof_error_invalid: 'Import refusé :'
+se_bash_war_exempt: Les guerres lèvent la limite bash
+se_bash_war_exempt_info: 'Les attaques entre alliances en guerre (acceptées, de plus d''un jour) ne comptent pas pour les limites bash. Désactivé : les attaques de guerre comptent comme les autres.'
+se_honor_pair_cap: Combats honorables par paire (24 h)
+se_honor_pair_cap_info: Nombre de combats honorables entre les deux mêmes joueurs (dans un sens ou dans l'autre) qui rapportent de l'honneur sur 24 heures. Les combats suivants comptent comme neutres. 0 = illimité.
+se_market_push_tolerance: Tolérance de pression sur le marché
+se_market_push_tolerance_info: 'Écart de valeur accepté pour un échange sur le marché, en pourcentage (0 à 90), avant qu''il soit compté comme une pression. Par défaut : 30.'
+se_transport_push_check: Garde anti-pression par transport
+se_transport_push_check_info: Refuse les transports, stationnements et transferts (ressources et vaisseaux) vers un autre joueur lorsque, sur les 7 derniers jours, la valeur envoyée à ce joueur dépasse de plus de la limite ci-dessous la valeur qu'il a renvoyée.
+se_transport_push_limit: Limite de pression par transport
+se_transport_push_limit_info: Valeur de la cargaison en unités de deutérium (ratios du marché) au-delà de laquelle la garde s'applique. 0 = garde désactivée.
+se_depot_cost_real_consumption: Coût du dépôt selon la consommation réelle
+se_depot_cost_real_consumption_info: Le dépôt d'alliance facture la consommation réelle de carburant de la flotte (avec les technologies de propulsion et de carburant du propriétaire) / 10 par heure, au lieu de la consommation de base / 10.
+abuse_menu: Rapport d'abus
+abuse_days: Jours
+abuse_apply: Appliquer
+abuse_weights: 'Poids de la valeur métal : cristal : deutérium'
+abuse_none: Rien n'a été trouvé sur cette période.
+abuse_from: Du
+abuse_to: Au
+abuse_count: Nombre
+abuse_sent: Envoyé
+abuse_back: Renvoyé
+abuse_net: Valeur nette
+abuse_linked: Lié
+abuse_last: Dernier
+abuse_link_ip: même IP
+abuse_link_multi: groupe multi
+abuse_link_multi_known: groupe multi (connu)
+abuse_link_subnet: même sous-réseau (plus faible)
+abuse_thresholds: 'Seuils : une paire de transferts apparaît lorsqu''un sens dépasse %s unités de métal et qu''au plus %s reviennent ; les paires de marché sont listées à partir de %s échanges, signalées au-delà d''un écart de %s. Aucune ligne signifie que rien n''a atteint ces seuils (ou que les journaux sont vides), pas qu''il ne s''est rien passé.'
+abuse_transfers: Transports et stationnements à sens unique
+abuse_transfers_info: Transports, stationnements et transferts de vaisseaux (non rappelés ; vaisseaux comptés au coût de construction) entre deux joueurs dont la cargaison valait au moins %s unités de métal dans un sens, alors qu'au plus %s de cette valeur est revenue. Trié par valeur nette ; les poids sont les ratios de marché enregistrés.
+abuse_trades: Échanges répétés sur le marché
+abuse_trades_info: Échanges de ressources entre les deux mêmes joueurs, au moins %s fois. Ratio = valeur donnée par le camp qui a le plus donné, divisée par celle de l'autre camp (1,00 = référence du marché) ; au-delà d'un écart de %s, la paire est signalée.
+abuse_giver: A le plus donné
+abuse_receiver: A le plus reçu
+abuse_ratio: Ratio
+abuse_outlier: aberrant
+abuse_protections: Protections de reconstruction accordées
+abuse_protections_info: Joueurs ayant reçu une protection de reconstruction sur la période. Les adversaires sont l'autre partie du rapport de combat de cet affrontement ; le butin est la valeur que leurs flottes y ont gagnée (les débris et la valeur détruite ne sont pas enregistrés).
+abuse_protected: Joueur protégé
+abuse_granted: Accordée
+abuse_opponents: Adversaires
+abuse_loot: Butin de l'adversaire
+abuse_report: Rapport
+abuse_recalls: Rappels à l'arrivée ou après
+abuse_recalls_info: Flottes d'attaque, ACS et destruction rappelées alors que l'heure d'arrivée était déjà atteinte (schéma de rappel après arrivée).
+abuse_mission: Mission
+abuse_arrival: Arrivée
+abuse_recalled: Rappelée
+abuse_late: Après l'arrivée
+abuse_fought: combattu
+abuse_mission_1: Attaque
+abuse_mission_2: Attaque ACS
+abuse_mission_9: Destruction
+abuse_missiles_skipped: 'Les lancements de missiles par rapport au contenu des silos ne font pas partie de ce rapport : les tables ne contiennent pas d''historique des silos pour comparer.'
+abuse_link_device: même appareil
+abuse_graph: Groupes de flux de valeur
+abuse_graph_info: 'Joueurs liés par des flux de valeur sur les %s derniers jours (fenêtre fixe) : transports, stationnements, transferts de vaisseaux (au coût de construction), échanges sur le marché (les deux sens) et butin d''attaques, additionnés dans les deux directions. Seules les paires ayant déplacé au moins %s unités de métal et %s flux sont reliées ; les groupes connectés d''au moins deux joueurs sont listés (top %s par valeur). Net = valeur de la paire la plus unilatérale du groupe (part de sa valeur totale). Les indicateurs de lien montrent si des membres partagent une IP, un appareil ou un groupe multi avec un autre membre. Les lignes sont lues avec une limite par source.'
+abuse_members: Membres
+abuse_value: Valeur totale
+abuse_flows: Flux
+abuse_top_edge: Paire la plus unilatérale
+abuse_activity: Activité de lancement de flottes (24 h)
+abuse_activity_info: Comptes ayant le plus de lancements de flottes sur les 24 dernières heures ; pic = lancements pendant l'heure la plus chargée. Des pics élevés et constants peuvent indiquer un jeu scripté.
+abuse_player: Joueur
+abuse_launches: Lancements
+abuse_peak: Pic / heure
+adm_dash_unprotected: 'Les protections anti-abus sont désactivées dans cet univers :'
+adm_dash_unprotected_push: La garde anti-pression pour transport, stationnement et transfert est désactivée (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: La limite de combats honorables est à 0 (honneur illimité entre les deux mêmes joueurs).
+adm_dash_unprotected_bash: Les guerres déclarées lèvent la limite bash (bash_war_exempt).
+adm_dash_unprotected_depot: Les stationnements au dépôt coûtent la consommation de base réduite (depot_cost_real_consumption désactivé).
+adm_dash_unprotected_market: La tolérance de pression sur le marché dépasse 10 % (market_push_tolerance).
+modul_57: Sites de vote
+adm_nav_voting: Sites de vote
+vt_sites: Sites de vote
+vt_add: Ajouter un site
+vt_create_head: Nouveau site de vote
+vt_edit_head: Modifier le site de vote
+vt_back: Retour
+vt_name: Nom
+vt_vote_url: URL de vote
+vt_vote_url_help: Le lien vers lequel les joueurs sont envoyés. {token} (jeton à usage unique de ce vote) et {userId} sont remplacés.
+vt_image_url: URL de l'image (facultatif)
+vt_image_url_help: Bannière ou logo affiché à côté du site sur la page du joueur (https).
+vt_cooldown: Délai d'attente (heures)
+vt_cooldown_help: Une récompense par joueur et par site dans cet intervalle, compté depuis la dernière récompense.
+vt_reward: Récompense
+vt_res_901: Métal
+vt_res_902: Cristal
+vt_res_903: Deutérium
+vt_verification: Vérification
+vt_verify_none: Aucune (récompense au clic)
+vt_verify_postback: Postback (récompense à l'appel du site)
+vt_verification_help: Sans vérification, la récompense est versée lorsque le joueur clique sur le bouton de vote (délai d'attente uniquement). Avec postback, le site doit appeler l'URL de rappel.
+vt_sort: Ordre
+vt_active: Actif
+vt_enabled: Actif
+vt_disabled: Inactif
+vt_enable: Activer
+vt_disable: Désactiver
+vt_delete: Supprimer le site
+vt_renew_secret: Générer un nouveau secret
+vt_renew_secret_help: 'Invalide l''ancienne URL de postback : mets-la à jour sur le site de vote.'
+vt_postback: Postback
+vt_postback_url: URL de rappel
+vt_secret: Secret
+vt_postback_help: Saisis cette URL sur le site de vote comme callback/postback. Remplace {token} par la macro du site pour la valeur reçue dans l'URL de vote. GET et POST sont acceptés ; le secret peut aussi être envoyé dans l'en-tête X-Vote-Secret.
+vt_saved: Enregistré.
+vt_deleted: Site de vote supprimé.
+vt_empty: Aucun site de vote pour le moment.
+vt_confirm_delete: Supprimer le site de vote "%s" et son journal ?
+vt_module_off: Le module « Sites de vote » est désactivé, les joueurs ne voient aucune page de vote.
+vt_error_name: Le nom est obligatoire.
+vt_error_vote_url: L'URL de vote doit être une adresse http(s) valide.
+vt_error_image_url: L'URL de l'image doit être une adresse http(s) valide.
+vt_error_reward: Les montants de récompense doivent être compris entre 0 et 1 000 000 000.
+vt_clicks: Clics
+vt_verified: Vérifiés
+vt_rewarded: Récompensés
+vt_log: Votes récents
+vt_log_time: Heure
+vt_log_player: Joueur
+vt_log_status: Statut
+vt_log_ip: IP
+vt_log_empty: Aucun vote pour le moment.
+vt_status_rewarded: Récompensé
+vt_status_verified: Vérifié, sans récompense
+vt_status_pending: Cliqué

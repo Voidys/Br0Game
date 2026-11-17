@@ -22,8 +22,7 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Universe;
 
 /** JSON username search for the admin autocomplete fields. */
-#[\App\Routing\GamePage('admin.php', 'autoComplete')]
-#[\App\Routing\GamePage('admin.php', 'autoComplete', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'autoComplete')]
 class AutoCompleteController extends AbstractAdminController
 {
     /**

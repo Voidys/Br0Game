@@ -24,8 +24,7 @@ use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Lists pending account activations and deletes entries. */
-#[\App\Routing\GamePage('admin.php', 'active')]
-#[\App\Routing\GamePage('admin.php', 'active', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'active')]
 class ActiveController extends AbstractAdminController
 {
     /**

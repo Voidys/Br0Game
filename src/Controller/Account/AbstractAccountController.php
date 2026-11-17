@@ -31,16 +31,6 @@ abstract class AbstractAccountController implements GameControllerInterface
 
     use RendersPages;
 
-    public static function getGameMode(): string
-    {
-        return 'ACCOUNT';
-    }
-
-    public static function getEntryScript(): string
-    {
-        return 'account.php';
-    }
-
     protected static function templateArea(): string
     {
         return 'account';
@@ -186,7 +176,6 @@ abstract class AbstractAccountController implements GameControllerInterface
             'basepath'          => $this->state->runtime->protocol . $this->state->runtime->httpHost . $this->state->runtime->httpBase,
             'TIMEZONESTRING'    => $ACCOUNT['timezone'],
             'signalColors'      => $ACCOUNT['signalColors'],
-            'captchakey'        => $config->recaptcha_pub_key,
         ]);
     }
 

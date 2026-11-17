@@ -21,8 +21,7 @@ use App\Game\Core\Singleton;
 /**
  * Advanced statistics page of the player.
  */
-#[\App\Routing\GamePage('game.php', 'advancedStats')]
-#[\App\Routing\GamePage('game.php', 'advancedStats', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'advancedStats')]
 class AdvancedStatsController extends AbstractGameController
 {
     public function initialize(): void
@@ -107,7 +106,6 @@ class AdvancedStatsController extends AbstractGameController
             'expo'      => $expo,
             'first'     => $first,
             'rest'      => $rest,
-            'userId'    => $USER['id'],
         ]);
 
         return $this->render('game/page.advancedStats.default.html.twig');

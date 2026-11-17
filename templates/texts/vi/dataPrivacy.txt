@@ -1,88 +1,89 @@
-<p>Chính sách quyền riêng tư này giải thích {game_name} xử lý những dữ liệu cá nhân nào, vì sao, dựa trên cơ sở pháp lý nào và trong bao lâu, cũng như bạn có những quyền gì theo Quy định chung về bảo vệ dữ liệu (GDPR). Các thuật ngữ như "dữ liệu cá nhân" và "xử lý" được dùng theo định nghĩa tại Điều 4 GDPR.</p>
+<p>Chính sách bảo mật này giải thích {game_name} xử lý những dữ liệu cá nhân nào, vì sao, dựa trên căn cứ pháp lý nào, trong bao lâu, và bạn có những quyền gì theo Quy định chung về bảo vệ dữ liệu (GDPR). Các thuật ngữ như "dữ liệu cá nhân" và "xử lý" được hiểu theo định nghĩa tại Điều 4 GDPR.</p>
 
 <h2>Bên kiểm soát dữ liệu</h2>
-<p>Bên kiểm soát dữ liệu theo nghĩa của Điều 4(7) GDPR là nhà vận hành của website này. Tên và địa chỉ bưu điện của nhà vận hành được nêu trên <a href="{contacts_url}">trang liên hệ</a>.<!--mail--> Bạn có thể liên hệ chúng tôi qua email tại {contact_mail}.<!--/mail--></p>
+<p>Bên kiểm soát dữ liệu theo Điều 4(7) GDPR là đơn vị vận hành trang web này. Tên và địa chỉ bưu điện của đơn vị vận hành được liệt kê tại <a href="{contacts_url}">trang liên hệ</a>.<!--mail--> Bạn có thể liên hệ với chúng tôi qua email tại {contact_mail}.<!--/mail--></p>
 
-<h2>Truy cập website</h2>
-<p>Mỗi khi bạn mở một trang, máy chủ web tự động ghi lại:</p>
+<h2>Truy cập trang web</h2>
+<p>Mỗi khi bạn mở một trang, máy chủ web sẽ tự động ghi lại:</p>
 <ul>
 <li>địa chỉ IP của bạn,</li>
 <li>ngày và giờ của yêu cầu,</li>
-<li>địa chỉ được yêu cầu và trang giới thiệu,</li>
+<li>địa chỉ được yêu cầu và trang giới thiệu (trang dẫn tới),</li>
 <li>trình duyệt và hệ điều hành (user agent),</li>
 <li>mã trạng thái và lượng dữ liệu được truyền.</li>
 </ul>
-<p>Chúng tôi cần dữ liệu này để cung cấp website và giữ cho nó ổn định, an toàn, ví dụ để phát hiện và ngăn chặn các cuộc tấn công. Cơ sở pháp lý là Điều 6(1)(f) GDPR (lợi ích hợp pháp của chúng tôi trong việc có một dịch vụ an toàn và hoạt động tốt). Tệp nhật ký máy chủ được xóa chậm nhất sau 7 ngày, trừ khi cần làm bằng chứng cho một sự cố an ninh cụ thể. Trong trường hợp đó, chúng được giữ cho đến khi sự cố được giải quyết.</p>
+<p>Chúng tôi cần dữ liệu này để phân phối trang web và giữ cho nó ổn định, an toàn, ví dụ để phát hiện và chặn các cuộc tấn công. Căn cứ pháp lý là Điều 6(1)(f) GDPR (lợi ích hợp pháp của chúng tôi trong việc giữ dịch vụ an toàn và hoạt động tốt). Tệp nhật ký máy chủ bị xóa chậm nhất sau 7 ngày, trừ khi chúng cần làm bằng chứng cho một sự cố bảo mật cụ thể. Khi đó, chúng được giữ cho đến khi sự cố được giải quyết xong.</p>
 
 <h2>Tài khoản và dữ liệu người chơi</h2>
-<p>Để chơi, bạn cần một tài khoản. Khi bạn đăng ký và chơi, chúng tôi xử lý:</p>
+<p>Để chơi, bạn cần có tài khoản. Khi đăng ký và chơi, chúng tôi xử lý:</p>
 <ul>
-<li>tên tài khoản, địa chỉ email và mật khẩu (chỉ lưu dưới dạng hàm băm có muối, không bao giờ lưu dạng văn bản thuần),</li>
+<li>tên tài khoản, địa chỉ email và mật khẩu (chỉ lưu dưới dạng băm có muối, không bao giờ lưu dạng văn bản thuần),</li>
 <li>ngôn ngữ, múi giờ và cài đặt hiển thị,</li>
 <li>thời điểm đăng ký, địa chỉ IP lúc đăng ký, thời điểm và địa chỉ IP của lần đăng nhập gần nhất, và các lần đăng nhập thất bại,</li>
-<li>mỗi vũ trụ một người chơi: tên người chơi và dữ liệu game như hành tinh, công trình, nghiên cứu, hạm đội, tài nguyên, điểm, thành tựu, báo cáo chiến đấu và báo cáo do thám.</li>
+<li>một người chơi cho mỗi vũ trụ: tên người chơi và dữ liệu trò chơi như hành tinh, công trình, nghiên cứu, hạm đội, tài nguyên, điểm, thành tựu, báo cáo chiến đấu và do thám.</li>
 </ul>
-<p>Cơ sở pháp lý là Điều 6(1)(b) GDPR: dữ liệu này cần thiết để cung cấp game mà bạn đã đăng ký. Không có địa chỉ email và mật khẩu thì không thể tạo tài khoản.</p>
-<p>Do bản chất của game, một số dữ liệu hiển thị với người chơi khác: tên người chơi, tọa độ các hành tinh của bạn, liên minh, điểm và bảng xếp hạng (thống kê, đại sảnh danh vọng), cùng nội dung bạn chọn công khai (văn bản liên minh, bài đăng trên diễn đàn).</p>
+<p>Căn cứ pháp lý là Điều 6(1)(b) GDPR: dữ liệu này cần thiết để cung cấp trò chơi bạn đã đăng ký. Nếu không có địa chỉ email và mật khẩu thì không thể tạo tài khoản.</p>
+<p>Bản chất của trò chơi khiến một số dữ liệu hiển thị với người chơi khác: tên người chơi, tọa độ hành tinh của bạn, liên minh, điểm và xếp hạng (thống kê, bảng vinh danh), cùng nội dung bạn chọn đăng (văn bản liên minh<!--board-->, bài đăng trên bảng<!--/board-->).</p>
 
-<h2>Liên lạc trong game</h2>
-<p>Khi bạn dùng các tính năng liên lạc, chúng tôi lưu nội dung của chúng cùng với người gửi, người nhận và thời gian: tin nhắn riêng và tin nhắn liên minh, lời mời kết bạn, ghi chú, ticket hỗ trợ, và bài đăng, bình luận và bình chọn trên diễn đàn. Việc này được thực hiện để các tính năng hoạt động (Điều 6(1)(b) GDPR). Điều hành viên có thể đọc ticket hỗ trợ và, nếu nghi ngờ vi phạm quy tắc, đọc nội dung được báo cáo.<!--messages--> Tin nhắn được tự động xóa sau {message_days} ngày.<!--/messages--></p>
+<h2>Liên lạc trong trò chơi</h2>
+<p>Khi bạn dùng các tính năng liên lạc, chúng tôi lưu nội dung cùng với người gửi, người nhận và thời điểm: tin nhắn riêng và tin nhắn liên minh, lời mời kết bạn, ghi chú, ticket hỗ trợ<!--board-->, cùng bài viết, bình luận và bình chọn trên bảng<!--/board-->. Việc này nhằm giúp các tính năng hoạt động (Điều 6(1)(b) GDPR). Điều hành viên có thể đọc ticket hỗ trợ và, khi nghi ngờ vi phạm quy định, đọc nội dung bị báo cáo.<!--messages--> Tin nhắn được tự động xóa sau {message_days} ngày.<!--/messages--></p>
 
-<h2>Chơi công bằng và bảo vệ chống lạm dụng</h2>
-<p>Để giữ cho game công bằng và thực thi quy tắc (ví dụ cấm đa tài khoản và đẩy điểm tài khoản), chúng tôi xử lý:</p>
+<h2>Chơi công bằng và phòng chống lạm dụng</h2>
+<p>Để giữ trò chơi công bằng và thực thi quy định (ví dụ cấm đa tài khoản và ép giá qua tài khoản), chúng tôi xử lý:</p>
 <ul>
-<li>địa chỉ IP của các phiên và lần đăng nhập đang hoạt động, được so sánh giữa các tài khoản để phát hiện nhiều tài khoản chơi từ cùng một kết nối,</li>
-<li>bản ghi phiên (ID phiên, địa chỉ IP, hoạt động gần nhất), được xóa khi phiên hết hạn,</li>
-<li>ghi chú của đội ngũ game về từng tài khoản, và bản ghi các lệnh cấm cùng lý do và thời hạn,</li>
-<li>nếu có nghi ngờ cụ thể về vi phạm quy tắc đối với một tài khoản, bản ghi các trang mà tài khoản đó đã yêu cầu cùng thời điểm của từng yêu cầu. Bản ghi này được xóa khi cuộc điều tra hoàn tất.</li>
+<li>địa chỉ IP của các phiên và lần đăng nhập đang hoạt động, được so sánh giữa các tài khoản để phát hiện nhiều tài khoản cùng chơi từ một kết nối,</li>
+<li>bản ghi phiên (ID phiên, địa chỉ IP, hoạt động gần nhất), bị xóa sau khi phiên hết hạn,</li>
+<li>ghi chú của đội ngũ trò chơi về từng tài khoản, và hồ sơ các lệnh cấm kèm lý do và thời hạn,</li>
+<li>nếu có nghi ngờ cụ thể về vi phạm quy định của một tài khoản, một bản ghi các trang mà tài khoản đó yêu cầu cùng thời điểm từng yêu cầu. Bản ghi này bị xóa khi việc điều tra kết thúc.</li>
 </ul>
-<p>Khi bạn đăng ký, chúng tôi kiểm tra tên miền của địa chỉ email của bạn với một danh sách công khai các nhà cung cấp email dùng một lần. Danh sách được tải về máy chủ của chúng tôi, và địa chỉ của bạn không được gửi đi đâu cả.</p>
-<p>Cơ sở pháp lý là Điều 6(1)(f) GDPR (lợi ích hợp pháp của chúng tôi, và của mọi người chơi, trong một game công bằng và việc ngăn chặn lạm dụng). Các biện pháp như cấm do các thành viên đội ngũ game quyết định, không phải do quy trình tự động.</p>
+<p>Khi bạn đăng ký, chúng tôi kiểm tra tên miền email của bạn với một danh sách công khai các nhà cung cấp email dùng một lần. Danh sách được tải xuống máy chủ của chúng tôi và địa chỉ của bạn không được gửi đi đâu cả.</p>
+<p>Căn cứ pháp lý là Điều 6(1)(f) GDPR (lợi ích hợp pháp của chúng tôi, và của tất cả người chơi, trong việc giữ trò chơi công bằng và ngăn chặn lạm dụng). Các biện pháp như cấm tài khoản do thành viên đội ngũ trò chơi quyết định, không phải bởi một quy trình tự động.</p>
 
 <h2>Email</h2>
-<p>Chúng tôi gửi email đến địa chỉ bạn đã đăng ký khi cần thiết để vận hành tài khoản của bạn: kích hoạt tài khoản, đặt lại mật khẩu, xác nhận việc đổi địa chỉ email, cảnh báo trước khi tài khoản không hoạt động bị xóa, và thông báo quan trọng về game (ví dụ khi một vũ trụ mới bắt đầu). Cơ sở pháp lý là Điều 6(1)(b) GDPR. Chúng tôi không gửi bản tin hay quảng cáo.</p>
+<p>Chúng tôi gửi email tới địa chỉ bạn đã đăng ký khi cần để vận hành tài khoản: kích hoạt tài khoản, đặt lại mật khẩu, xác nhận thay đổi địa chỉ email, cảnh báo trước khi tài khoản không hoạt động bị xóa, và thông báo quan trọng về trò chơi (ví dụ việc mở một vũ trụ mới). Căn cứ pháp lý là Điều 6(1)(b) GDPR. Chúng tôi không gửi bản tin hay quảng cáo.</p>
 
-<!--recaptcha--><h2>Chống bot (Google reCAPTCHA)</h2>
-<p>Một số biểu mẫu (ví dụ đăng ký) được bảo vệ khỏi lạm dụng tự động bằng Google reCAPTCHA, một dịch vụ của Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland. reCAPTCHA chỉ được tải khi bạn gửi một biểu mẫu được bảo vệ. Sau đó nó truyền địa chỉ IP, thông tin trình duyệt và dữ liệu tương tác của bạn đến Google, nơi đánh giá xem yêu cầu có đến từ con người hay không. Google cũng có thể xử lý dữ liệu này tại Hoa Kỳ. Google LLC được chứng nhận theo Khung bảo mật dữ liệu EU-Hoa Kỳ, trên cơ sở quyết định về mức độ bảo vệ tương xứng của Ủy ban châu Âu (Điều 45 GDPR). Cơ sở pháp lý là Điều 6(1)(f) GDPR (bảo vệ biểu mẫu của chúng tôi khỏi thư rác và việc tạo tài khoản tự động). Thông tin thêm có trong chính sách quyền riêng tư của Google tại https://policies.google.com/privacy.</p>
+<h2>Bảo vệ chống bot</h2>
+<p>Đăng ký và biểu mẫu quên mật khẩu được bảo vệ chống lạm dụng tự động bằng một phép tính nhỏ mà trình duyệt của bạn tự giải khi bạn mở biểu mẫu. Việc kiểm tra diễn ra trên máy chủ của chúng tôi; không có dịch vụ bên thứ ba nào được liên hệ, và không dùng cookie hay mã theo dõi nào cho việc này. Máy chủ của chúng tôi xử lý dữ liệu kỹ thuật của yêu cầu (đặc biệt là địa chỉ IP của bạn) như với mọi yêu cầu khác. Căn cứ pháp lý là Điều 6(1)(f) GDPR (bảo vệ các biểu mẫu của chúng tôi khỏi spam và việc tạo tài khoản tự động).</p>
 
-<!--/recaptcha--><h2>Cookie và bộ nhớ cục bộ</h2>
+<h2>Cookie và bộ nhớ cục bộ</h2>
 <p>Chúng tôi chỉ dùng cookie và bộ nhớ trình duyệt cần thiết về mặt kỹ thuật để cung cấp dịch vụ bạn yêu cầu (§ 25(2) số 2 TDDDG, Điều 6(1)(b) và (f) GDPR):</p>
 <ul>
-<li><strong>2Moons</strong>: cookie phiên giữ cho bạn đăng nhập. Nó hết hạn 12 giờ sau hoạt động gần nhất của bạn, hoặc khi bạn đăng xuất.</li>
+<li><strong>2Moons</strong>: cookie phiên giữ cho bạn đăng nhập. Cookie hết hạn sau 12 giờ kể từ hoạt động gần nhất của bạn, hoặc khi bạn đăng xuất.</li>
+<li><strong>br0_device</strong>: ID thiết bị ngẫu nhiên (2 năm). Chỉ một bản băm của nó được lưu theo từng tài khoản, trong 90 ngày kể từ lần truy cập cuối, để phát hiện nhiều tài khoản cùng chơi từ một trình duyệt.</li>
 <li><strong>lang</strong>: ghi nhớ ngôn ngữ bạn đã chọn.</li>
-<li><strong>account</strong>: ghi nhớ rằng trình duyệt này đã được dùng để đăng nhập, để trang chủ có thể hiện phần đăng nhập trước. Nó không chứa dữ liệu cá nhân.</li>
-<li>Bộ nhớ cục bộ: tùy chọn hiển thị của giao diện game (ví dụ mục tin nhắn mở gần nhất). Chúng ở lại trong trình duyệt của bạn và không được gửi cho chúng tôi.</li>
+<li><strong>account</strong>: ghi nhớ rằng trình duyệt này đã từng được dùng để đăng nhập, để trang chủ có thể hiển thị màn hình đăng nhập trước. Cookie này không chứa dữ liệu cá nhân.</li>
+<li>Bộ nhớ cục bộ: các tùy chọn hiển thị của giao diện trò chơi (ví dụ danh mục tin nhắn đã mở gần nhất). Chúng nằm trong trình duyệt của bạn và không được gửi tới chúng tôi.</li>
 </ul>
-<p>Chúng tôi không dùng cookie theo dõi, phân tích hay quảng cáo, và không tạo hồ sơ người dùng cho mục đích tiếp thị.</p>
+<p>Chúng tôi không dùng cookie theo dõi, phân tích hay quảng cáo, và chúng tôi không tạo hồ sơ người dùng cho mục đích tiếp thị.</p>
 
-<h2>Bên nhận dữ liệu</h2>
-<p>Dữ liệu của bạn được các thành viên đội ngũ game (quản trị viên và điều hành viên) xử lý trong phạm vi nhiệm vụ của họ đòi hỏi. Các nhà cung cấp dịch vụ kỹ thuật hoạt động thay mặt chúng tôi và chỉ theo chỉ dẫn của chúng tôi (Điều 28 GDPR): nhà cung cấp hosting của các máy chủ và, nếu có, dịch vụ gửi email. Người chơi khác thấy dữ liệu được mô tả trong "Tài khoản và dữ liệu người chơi" và "Liên lạc trong game". Chúng tôi chỉ tiết lộ dữ liệu cho cơ quan chức năng nếu có nghĩa vụ pháp lý. Chúng tôi không bán dữ liệu cá nhân.<!--recaptcha--> Ngoài Google reCAPTCHA (xem "Chống bot"), không có dữ liệu nào được chuyển đến các quốc gia ngoài EU/EEA.<!--/recaptcha--></p>
-<p>Các liên kết đến dịch vụ bên ngoài (ví dụ Discord hoặc wiki) chỉ đưa bạn đến các dịch vụ đó. Dữ liệu chỉ được xử lý ở đó khi bạn mở liên kết, theo chính sách quyền riêng tư của nhà cung cấp tương ứng.</p>
+<h2>Người nhận dữ liệu</h2>
+<p>Dữ liệu của bạn được xử lý bởi các thành viên đội ngũ trò chơi (quản trị viên và điều hành viên) trong phạm vi nhiệm vụ của họ đòi hỏi. Các nhà cung cấp dịch vụ kỹ thuật làm việc thay mặt chúng tôi và chỉ theo chỉ dẫn của chúng tôi (Điều 28 GDPR): nhà cung cấp hosting của máy chủ và, nếu có, dịch vụ gửi email. Người chơi khác thấy dữ liệu được mô tả trong "Tài khoản và dữ liệu người chơi" và "Liên lạc trong trò chơi". Chúng tôi chỉ cung cấp dữ liệu cho cơ quan chức năng khi có nghĩa vụ pháp lý. Chúng tôi không bán dữ liệu cá nhân.</p>
+<p>Các liên kết tới dịch vụ bên ngoài (ví dụ Discord hoặc wiki) chỉ đưa bạn đến các dịch vụ đó. Dữ liệu chỉ được xử lý ở đó khi bạn mở liên kết, theo chính sách bảo mật của nhà cung cấp tương ứng.</p>
 
-<h2>Thời hạn lưu trữ</h2>
+<h2>Thời gian lưu trữ</h2>
 <ul>
-<li>Bạn có thể xóa tài khoản trong cài đặt tài khoản. Nó được gỡ bỏ sau thời gian chờ {deletion_days} ngày, trong thời gian đó bạn có thể hủy việc xóa.</li>
-<!--inactive--><li>Người chơi không hoạt động trong {inactive_days} ngày sẽ bị xóa tự động. Khi game gửi email cảnh báo, bạn sẽ nhận một email trước khi bị xóa.</li>
+<li>Bạn có thể xóa tài khoản trong phần cài đặt tài khoản. Tài khoản sẽ bị gỡ sau thời gian chờ {deletion_days} ngày, trong thời gian đó bạn có thể hủy việc xóa.</li>
+<!--inactive--><li>Người chơi không hoạt động trong {inactive_days} ngày sẽ bị xóa tự động. Nếu trò chơi gửi email cảnh báo, bạn sẽ nhận được một email trước khi xóa.</li>
 <!--/inactive--><li>Tài khoản không có người chơi nào sẽ bị xóa sau 30 ngày không hoạt động.</li>
-<li>Tệp nhật ký máy chủ: không quá 7 ngày, xem "Truy cập website".</li>
-<li>Dữ liệu chúng tôi phải giữ vì lý do pháp lý, hoặc cần để xác lập, thực hiện hay bảo vệ yêu cầu pháp lý, sẽ bị hạn chế xử lý thay vì bị xóa và chỉ được giữ trong thời gian cần thiết.</li>
-<li>Bản sao lưu cơ sở dữ liệu chứa dữ liệu tại thời điểm sao lưu. Chúng được giữ trong thời gian có hạn và được thay thế luân phiên.</li>
+<li>Tệp nhật ký máy chủ: không quá 7 ngày, xem "Truy cập trang web".</li>
+<li>Dữ liệu chúng tôi phải giữ vì lý do pháp lý, hoặc cần để thiết lập, thực thi hay bảo vệ các yêu cầu pháp lý, sẽ bị hạn chế thay vì xóa và chỉ được giữ trong thời gian cần thiết.</li>
+<li>Bản sao lưu cơ sở dữ liệu chứa dữ liệu tại thời điểm sao lưu. Chúng được giữ trong thời gian có hạn và được thay thế theo vòng luân phiên.</li>
 </ul>
 
 <h2>Quyền của bạn</h2>
 <p>Bạn có các quyền sau đối với dữ liệu cá nhân của mình:</p>
 <ul>
-<li>truy cập dữ liệu của bạn và nhận bản sao (Điều 15 GDPR),</li>
-<li>chỉnh sửa dữ liệu không chính xác (Điều 16 GDPR),</li>
+<li>truy cập dữ liệu của bạn và nhận một bản sao (Điều 15 GDPR),</li>
+<li>sửa dữ liệu không chính xác (Điều 16 GDPR),</li>
 <li>xóa (Điều 17 GDPR) và hạn chế xử lý (Điều 18 GDPR),</li>
-<li>di chuyển dữ liệu theo định dạng có cấu trúc, phổ biến, máy có thể đọc được (Điều 20 GDPR),</li>
-<li>rút lại sự đồng ý đã đưa ra, có hiệu lực cho tương lai (Điều 7(3) GDPR).</li>
+<li>di chuyển dữ liệu theo định dạng có cấu trúc, thông dụng và đọc được bằng máy (Điều 20 GDPR),</li>
+<li>rút lại sự đồng ý bạn đã cho, có hiệu lực từ thời điểm đó trở đi (Điều 7(3) GDPR).</li>
 </ul>
-<p><strong>Quyền phản đối (Điều 21 GDPR):</strong> khi chúng tôi xử lý dữ liệu của bạn dựa trên Điều 6(1)(f) GDPR, bạn có quyền phản đối bất cứ lúc nào, vì những lý do liên quan đến hoàn cảnh cụ thể của bạn. Khi đó chúng tôi sẽ ngừng xử lý trừ khi chúng tôi chứng minh được những căn cứ hợp pháp thuyết phục lấn át lợi ích, quyền và tự do của bạn, hoặc việc xử lý phục vụ cho việc xác lập, thực hiện hay bảo vệ yêu cầu pháp lý.</p>
-<p>Để thực hiện quyền của bạn, hãy liên hệ chúng tôi theo thông tin trên <a href="{contacts_url}">trang liên hệ</a><!--mail--> hoặc qua email tại {contact_mail}<!--/mail-->. Bạn cũng có quyền khiếu nại với cơ quan giám sát bảo vệ dữ liệu, đặc biệt tại quốc gia thành viên EU nơi bạn cư trú, nơi bạn làm việc hoặc nơi xảy ra vi phạm bị cho là có (Điều 77 GDPR).</p>
+<p><strong>Quyền phản đối (Điều 21 GDPR):</strong> khi chúng tôi xử lý dữ liệu của bạn dựa trên Điều 6(1)(f) GDPR, bạn có quyền phản đối bất cứ lúc nào, dựa trên lý do liên quan đến hoàn cảnh cụ thể của bạn. Khi đó chúng tôi sẽ dừng xử lý, trừ khi chúng tôi chứng minh được có căn cứ hợp pháp thuyết phục vượt trội lợi ích, quyền và tự do của bạn, hoặc việc xử lý nhằm thiết lập, thực thi hay bảo vệ các yêu cầu pháp lý.</p>
+<p>Để thực hiện các quyền của bạn, hãy liên hệ với chúng tôi qua thông tin tại <a href="{contacts_url}">trang liên hệ</a><!--mail--> hoặc qua email tại {contact_mail}<!--/mail-->. Bạn cũng có quyền khiếu nại lên cơ quan giám sát bảo vệ dữ liệu, đặc biệt ở quốc gia thành viên EU nơi bạn cư trú, làm việc, hoặc nơi xảy ra vi phạm được cho là (Điều 77 GDPR).</p>
 
 <h2>Quyết định tự động và bảo mật</h2>
-<p>Chúng tôi không đưa ra quyết định chỉ dựa trên xử lý tự động, kể cả lập hồ sơ, tạo ra hiệu lực pháp lý đối với bạn hoặc ảnh hưởng đáng kể tương tự đến bạn (Điều 22 GDPR). Mọi kết nối đến website này đều được mã hóa (TLS), mật khẩu chỉ được lưu dưới dạng hàm băm, và quyền truy cập dữ liệu cá nhân chỉ giới hạn ở những thành viên đội ngũ game cần đến nó.</p>
+<p>Chúng tôi không đưa ra quyết định chỉ dựa trên xử lý tự động, kể cả lập hồ sơ, tạo ra hệ quả pháp lý hoặc ảnh hưởng đáng kể tới bạn (Điều 22 GDPR). Mọi kết nối tới trang web này đều được mã hóa (TLS), mật khẩu chỉ được lưu dưới dạng băm, và quyền truy cập dữ liệu cá nhân chỉ giới hạn trong các thành viên đội ngũ trò chơi cần đến nó.</p>
 
 <h2>Thay đổi</h2>
-<p>Chúng tôi cập nhật chính sách quyền riêng tư này khi website hoặc yêu cầu pháp lý thay đổi. Phiên bản được đăng trên trang này là phiên bản có hiệu lực.</p>
+<p>Chúng tôi cập nhật chính sách bảo mật này khi trang web hoặc yêu cầu pháp lý thay đổi. Phiên bản được công bố trên trang này có hiệu lực.</p>

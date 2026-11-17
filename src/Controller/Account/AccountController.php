@@ -16,8 +16,7 @@ use App\Game\Core\Session;
 use App\Game\Core\Singleton;
 
 /** Account lobby: lists the universes with the account's players and enters one (modes: show, send). */
-#[\App\Routing\GamePage('account.php', 'account', default: true)]
-#[\App\Routing\GamePage('account.php', 'account', default: true, uniPrefix: true)]
+#[\App\Routing\GamePage('account', 'account', default: true)]
 class AccountController extends AbstractAccountController
 {
     public function initialize(): void

@@ -1,0 +1,1683 @@
+ac_account_data: Accountgegevens
+ac_act_time: Datum laatste activiteit
+ac_ali_idid: 'ID:'
+ac_alliance: Alliantie
+ac_ally_ranking: Alliantiestatistieken
+ac_ally_web: Alliantiewebsite
+ac_auth_level: Rang
+ac_banned: Geblokkeerd?
+ac_checkip_title: IP-controle
+ac_coords: Coördinaten
+ac_diameter: Diameter
+ac_enter_user_id: Selecteer een speler
+ac_ext_text: Externe tekst
+ac_fields: Velden
+ac_filter_placeholder: Filteren...
+ac_home_planet_coord: Coördinaten hoofdplaneet
+ac_home_planet_id: ID hoofdplaneet
+ac_id_names_coords: ID, naam en coördinaten
+ac_image: Alliantielogo
+ac_info_ally: Alliantie-informatie
+ac_int_text: Interne tekst
+ac_last_ip: Laatste IP
+ac_leader: Leider
+ac_leyend: '[ Legenda ]'
+ac_moon: Maan
+ac_name: Naam
+ac_name_ali: Volledige naam
+ac_no_ally: Geen alliantie
+ac_no_img: Deze alliantie heeft geen logo
+ac_no_text_ext: Deze alliantie heeft geen externe tekst
+ac_no_text_int: Deze alliantie heeft geen interne tekst
+ac_no_text_sol: Deze alliantie heeft geen sollicitatietekst
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Meer dan een biljoen</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>Biljoen of meer</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>Miljard of meer</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>Miljoen of meer</th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Duizend of meer</th></tr></table>
+ac_on_vacation: Vakantiemodus?
+ac_points_count: Punten | Aantal
+ac_ranking: Ranglijst
+ac_recent_destroyed_planets: Recent vernietigde planeten
+ac_reg_ip: IP bij registratie
+ac_register_ally_time: Opgericht
+ac_register_time: Geregistreerd
+ac_research: Onderzoek
+ac_see_ranking: Statistieken bekijken
+ac_select_id_num: ID handmatig invoeren (optioneel)
+ac_sol_text: Sollicitatietekst
+ac_suspended_autor: Geblokkeerd door
+ac_suspended_longer: Tot
+ac_suspended_reason: Reden
+ac_suspended_time: Geblokkeerd
+ac_suspended_title: Blokkadegegevens
+ac_swap_invalid: Ongeldige selectie, kies twee verschillende gebruikers!
+ac_swap_no_entry: Voor een of beide gebruikers is geen accountgegeven gevonden.
+ac_swap_submit: Wisselen
+ac_swap_success: Accounts succesvol gewisseld.
+ac_swap_title: Accounts wisselen
+ac_swap_user_a: Gebruiker A
+ac_swap_user_b: Gebruiker B
+ac_tag: TAG
+ac_temperature: Temp.
+ac_time_destruyed: Datum van vernietiging
+ac_total_members: Aantal leden
+ac_total_points: 'Totaal:'
+ac_user_ranking: Spelerstatistieken
+ac_user_system: Spelersysteem
+ac_username_doesnt: De speler bestaat niet!
+ac_view_image: Afbeelding openen in een nieuw venster
+account_already_has_user: Dit account heeft al een speler in dit universum
+accountID: Account-ID
+ad_add_build_success: Gebouwen succesvol toegevoegd!
+ad_add_defenses_success: Verdediging succesvol toegevoegd!
+ad_add_not_exist: ID bestaat niet!
+ad_add_res_sucess: Grondstoffen succesvol toegevoegd!
+ad_add_ships_sucess: Schepen succesvol toegevoegd!
+ad_add_tech_success: Onderzoek succesvol toegevoegd!
+ad_ally_change_id: Oprichter wijzigen
+ad_ally_delete: Alliantie verwijderen
+ad_ally_delete_u: Lid verwijderen
+ad_ally_name: Alliantienaam
+ad_ally_not_exist: De alliantie bestaat niet!
+ad_ally_not_exist2: Het lid bestaat niet!
+ad_ally_not_exist3: De gebruiker is geen lid van deze alliantie
+ad_ally_succes: Gelukt
+ad_ally_tag: Alliantie-TAG
+ad_ally_text1: Alliantiebeschrijving
+ad_ally_text2: Interne tekst
+ad_ally_text3: Sollicitatiesjabloon
+ad_ally_title: Alliantie
+ad_ally_user_id: (Gebruikers-ID invoeren)
+ad_authlevel_aa: '[Beheerders tonen]'
+ad_authlevel_auth: Rang
+ad_authlevel_error_3: Je kunt de rang van de spelmaker niet wijzigen!
+ad_authlevel_insert_id: ID handmatig invoeren (optioneel)
+ad_authlevel_jj: '[Spelers tonen]'
+ad_authlevel_mm: '[Moderators tonen]'
+ad_authlevel_oo: '[Operators tonen]'
+ad_authlevel_succes: Rang succesvol gewijzigd
+ad_authlevel_title: Rangen
+ad_authlevel_tt: '[Alles tonen]'
+ad_buildings: Gebouwen
+ad_buildings_title: Gebouwen
+ad_count: Aantal
+ad_defenses: Verdediging
+ad_defenses_title: Verdediging
+ad_delete_build_success: Gebouwen succesvol verwijderd!
+ad_delete_defenses_success: Verdediging succesvol verwijderd!
+ad_delete_res_sucess: Grondstoffen succesvol verwijderd!
+ad_delete_ships_sucess: Schepen succesvol verwijderd!
+ad_delete_tech_success: Onderzoek succesvol verwijderd!
+ad_editor_alliances: Alliantie
+ad_editor_buildings: Gebouwen
+ad_editor_defenses: Verdediging
+ad_editor_personal: Persoonlijke gegevens
+ad_editor_planets: Planeet & maan
+ad_editor_researchs: Onderzoek
+ad_editor_resources: Grondstoffen
+ad_editor_ships: Schepen
+ad_editor_title: Accounteditor
+ad_levels: Niveau
+ad_number: ID
+ad_personal_name: Gebruikersnaam
+ad_personal_succes: Instellingen opgeslagen
+ad_personal_title: Persoonlijke gegevens bewerken
+ad_personal_vacat: Vakantiemodus
+ad_pla_change_p: Planeetcoördinaten
+ad_pla_change_pp: Vink aan om de coördinaatwijziging toe te passen
+ad_pla_delete_b: Alle gebouwen verwijderen
+ad_pla_delete_cb: Bouwwachtrij leegmaken
+ad_pla_delete_d: Alle verdediging verwijderen
+ad_pla_delete_hd: Scheepswerf- en verdedigingswachtrij leegmaken
+ad_pla_delete_s: Alle schepen verwijderen
+ad_pla_edit_diameter: Diameter bewerken
+ad_pla_edit_fields: Velden bewerken
+ad_pla_edit_name: Naam
+ad_pla_error_planets: Manen kunnen niet van eigenaar wisselen
+ad_pla_error_planets2: De planeet bestaat niet
+ad_pla_error_planets3: Deze coördinaten zijn al in gebruik!
+ad_pla_error_planets4: Je kunt geen maan toewijzen aan een planeet die al een maan heeft!
+ad_pla_error_planets5: Er staat al een planeet op deze coördinaten
+ad_pla_error_planets6: Deze coördinaten liggen buiten de grenzen van het universum
+ad_pla_succes: Wijzigingen succesvol opgeslagen
+ad_pla_title: Planeten en manen
+ad_pla_title_l: Als er een maan bestaat, worden ook zijn coördinaten gewijzigd
+ad_research: Onderzoek
+ad_research_title: Onderzoek
+ad_ships: Schepen
+ad_ships_title: Schepen
+adm_absenden: Verzenden
+adm_cp_index: Start
+adm_cp_title: Beheerpaneel
+adm_email: E-mail
+adm_login: Inloggen
+adm_password: Wachtwoord
+adm_username: Gebruikersnaam
+an_analyzed_list: Geanalyseerde spelers
+an_btn_disable: Analyse uitschakelen en gegevens verwijderen
+an_btn_enable: Analyse inschakelen
+an_timestamp: Tijdstempel
+an_total_analyzed: Aantal geanalyseerde spelers
+an_user_list: Spelerlijst
+ap_aktivieren: Activeren
+ap_datum: Datum
+ap_del: Verwijderen
+ap_email: E-mail
+ap_entfernen: '?'
+ap_id: ID
+ap_ip: IP
+ap_nicht_aktivierte: niet-geactiveerde gebruikers
+ap_nicht_aktivierte_user: Niet-geactiveerde gebruikers
+ap_sicher: 'Weet je zeker dat je wilt verwijderen '
+ap_status: Status
+ap_username: Gebruikersnaam
+bo_accountname: Accountnaam
+bo_ban: Blokkeren
+bo_ban_change: Wijzigen
+bo_ban_player: Blokkeren / deblokkeren
+bo_banned: ' is geblokkeerd.'
+bo_bbb_title_1: Blokkadesysteem
+bo_bbb_title_2: Blokkade verloopt
+bo_bbb_title_3: Blokkadesysteem • <font color="red">Deze speler is geblokkeerd</font>
+bo_bbb_title_4: Om de resterende blokkade te verkorten, zet je een min voor de tijd, bijvoorbeeld -5.<br>Als de speler permanent is geblokkeerd, vervangt een positieve tijd de permanente blokkade door die duur.
+bo_bbb_title_5: Geblokkeerd tot
+bo_bbb_title_6: Datum wijzigen
+bo_characters_1: Resterende tekens
+bo_characters_suus: Geblokkeerd
+bo_order_banned: '[Sorteren op blokkade]'
+bo_order_id: '[Sorteren op ID]'
+bo_order_username: '[Sorteren op naam]'
+bo_permanent: Permanente blokkade
+bo_reason: Reden van blokkade
+bo_select_title: Namen tonen die beginnen met
+bo_the_player: 'Speler '
+bo_the_player2: 'Speler '
+bo_total_accs: 'Totaal aantal accounts: '
+bo_total_accs_banned: 'Geblokkeerde accounts: '
+bo_total_banneds: 'Geblokkeerde spelers: '
+bo_total_users: 'Totaal aantal spelers: '
+bo_unban: Deblokkeren
+bo_unban_player: Blokkadelijst
+bo_unbanned: ' is gedeblokkeerd.'
+bo_username: Gebruikersnaam
+bo_vacaations: Vakantiemodus
+bo_vacation_mode: Vakantiemodus
+buildings_title: Gebouwen
+button_add: Toevoegen
+button_cancel: Annuleren
+button_delete: Verwijderen
+button_deselect: Selectie wissen
+button_filter: Filteren
+button_reset: Resetten
+button_submit: Verzenden
+button_test: Testen
+button_test_negative: Test mislukt
+button_test_positive: Test geslaagd
+cc_cache_clear: Cache geleegd
+cronjob_class: klasse
+cronjob_delete: Verwijderen
+cronjob_desc: Stel de tijden in waarop deze cronjob moet draaien. Voorwaarden worden gecombineerd met EN, dus de job draait alleen als alle geselecteerde voorwaarden kloppen. Specifieke waarden kiezen bij zowel "Dag van de week" als "Dag" kan ervoor zorgen dat de job onregelmatig draait; gebruik "Alle" voor minstens een van die velden.<br>"Alle" heeft voorrang en overschrijft de andere waarden in die lijst.
+cronjob_desc_class: Klasse om aan te roepen. Voor includes/classes/cronjobs/foo.class.php voer je "foo" in.
+cronjob_desc_name: Een zelfgekozen naam om deze cronjob te herkennen.
+cronjob_dom: Dag
+cronjob_dow: Dag van de week
+cronjob_edit: Bewerken
+cronjob_error_class: Geen klasse opgegeven!
+cronjob_error_dom: Geen dagen geselecteerd!
+cronjob_error_dow: Geen dag van de week geselecteerd!
+cronjob_error_filenotfound: 'Het opgegeven bestand is niet gevonden: '
+cronjob_error_hours: Geen uren geselecteerd!
+cronjob_error_min: Geen minuten geselecteerd!
+cronjob_error_month: Geen maanden geselecteerd!
+cronjob_error_name: Geen naam ingevoerd!
+cronjob_headline: Cronjob-ID
+cronjob_hours: Uur
+cronjob_lastTime: Laatste run
+cronjob_min: Minuut
+cronjob_month: Maand
+cronjob_name: Naam
+cronjob_new: Cronjob aanmaken
+cronjob_nextTime: Volgende run
+cronjob_run: Uitvoeren
+cronjob_selectall: Alle
+cronName_cleaner: Oude gegevens verwijderen
+cronName_bots: Bots
+cronName_disposable_email_domains: Wegwerp-e-maildomeinen bijwerken
+cronName_fleets: Vlootgebeurtenissen
+cronName_daily: Dagelijkse taken
+cronName_databasedump: Databaseback-up
+cronName_inactive: Inactieve spelers verwijderen
+cronName_pirates: Piratenbasissen aanmaken
+cronName_referral: Verwijzingsbonus
+cronName_statistic: Statistieken
+cronName_statisticjson: stats.json exporteren
+cronName_tracking: Globale serverstatistieken versturen
+cs_time_between_updates: Tijd tussen updates
+defenses_title: Verdediging
+du_choose_tables: Tabellen selecteren
+du_not_tables_selected: Je hebt geen tabellen geselecteerd voor de back-up!
+du_select_all_tables: Alle tabellen
+du_submit: Verzenden
+du_success: 'Back-up succesvol aangemaakt! Bestand: %s'
+email_reg: E-mail
+email2_reg: E-mail bevestigen
+empty_account_field: Geen account-ID opgegeven
+et_encript: Genereren
+et_md5_encripter: MD5-generator
+et_pass: Wachtwoord
+et_result: Resultaat
+exp_deck_cards: Kaarten
+exp_deck_count_desc: Aantal kaarten van dit type in de stapel
+exp_deck_count_label: aantal
+exp_deck_edit: Configuratie van de kaartstapel bewerken
+exp_deck_event_type: Gebeurtenistype
+exp_deck_example: 'Voorbeeld:'
+exp_deck_format_help: 'De configuratie van de kaartstapel is een JSON-array waarin elk item een kaarttype voorstelt met de volgende eigenschappen:'
+exp_deck_format_instructions: Opmaakinstructies
+exp_deck_percentage: Percentage
+exp_deck_save_success: Configuratie van de kaartstapel succesvol opgeslagen!
+exp_deck_size_desc: Gebeurtenisgrootte (Small, Medium, Big, None)
+exp_deck_size_label: grootte
+exp_deck_statistics: Huidige statistieken van de kaartstapel
+exp_deck_total: Totaal
+exp_deck_type_desc: Gebeurtenistype (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
+exp_deck_type_label: type
+exp_deck_warning: 'Let op: ongeldige JSON wordt geweigerd'
+exp_ships_description: Kies voor elk actief schip of expedities het kan vinden en welke schepen het kunnen vinden.
+exp_ships_findable: Vindbaar
+exp_ships_found_by: Vindende schepen
+exp_ships_select_finders: Vindende schepen selecteren
+exp_ships_ship: Schip
+ff_arrivaltime: Aankomst
+ff_del: Verwijderen
+ff_endtime: Terugkeer
+ff_fleetid: ID
+ff_holdtime: Vasthouden tot
+ff_lock: Vergrendelen
+ff_mission: Opdracht
+ff_no_fleets: Er zijn momenteel geen vloten onderweg
+ff_sendFleetBack: Terugsturen
+ff_sendFleetsBack: Alle aanvallen terugsturen
+ff_ships: Schepen
+ff_startplanet: Vertrekplaneet
+ff_starttime: Vertrek
+ff_startuser: Afzender
+ff_targetplanet: Doelplaneet
+ff_targetuser: Ontvanger
+ff_unlock: Ontgrendelen
+ga_definetarget: Doelen bepalen
+ga_homecoordinates: Alleen hoofdplaneet
+ga_no_inactives: Inactieve spelers uitsluiten
+ga_planettypes: Planeettypen
+ga_selectplanettype: Selecteer minstens één planeettype!
+ga_success: Gelukt!
+info_information: Gebruik deze informatie wanneer je een bug meldt in de <a href="%s" target="tracker">GitHub-issues</a>.<br>Supportverzoeken zonder deze informatie worden niet behandeld.
+input_id: ID
+input_id_account: Account-ID
+input_id_ally: Alliantie-ID
+input_id_p_m: Planeet- of maan-ID
+input_id_planet: Planeet-ID
+input_id_user: Speler-ID
+lang_reg: Taal
+log_admin: Beheerder
+log_alliance: Gewijzigde allianties
+log_cat: 'Kies een categorie:'
+log_disclamersettings: Juridische kennisgeving
+log_element: Element
+log_id: ID
+log_info: Info
+log_log: Logboek
+log_new: Na
+log_no_data: Er zijn geen gegevens in het logboek!
+log_old: Voor
+log_planet: Gewijzigde planeten
+log_player: Gewijzigde spelers
+log_present: Uitgedeelde geschenken
+log_settings: Gewijzigde instellingen
+log_ssettings: Serverconfiguratie
+log_statsettings: Statistiekinstellingen
+log_target_alliance: Gewijzigde alliantie
+log_target_planet: Gewijzigde planeet
+log_target_universe: Gewijzigd instellingengedeelte
+log_target_user: Gewijzigde speler
+log_time: Tijd
+log_uni_short: Uni
+log_universe: Universum
+log_usettings: Universumconfiguratie
+log_view: Bekijken
+ma_all: Alle
+ma_characters: Tekens
+ma_message: Bericht
+ma_message_sended: Je bericht is verzonden!
+ma_mode: Verzenden als
+ma_modes:
+- In het spel
+- E-mail
+- In het spel & e-mail
+ma_none: Algemeen nieuws
+ma_send_global_message: Algemeen bericht versturen
+ma_subject: Onderwerp
+ma_subject_needed: Een onderwerp is verplicht!
+ma_no_recipients: Geen ontvangers voldoen aan het filter, er is geen e-mail verstuurd.
+message_a: 'Berichtstatus:'
+message_t: 'Ticketstatus:'
+mip_known: Goedgekeurd?
+ml_date: Datum
+ml_date_range: Periode
+ml_deleted: Bericht verwijderd
+ml_id: '#ID'
+ml_message_list: Berichtenlijst
+ml_receiver: Ontvanger
+ml_sender: Afzender
+ml_subject: Onderwerp
+ml_type: Berichttype
+ml_type_submit: Verzenden
+mo_diameter: Diameter
+mo_fields_avaibles: Velden
+mo_moon: Maan
+mo_moon_added: Maan succesvol toegevoegd!
+mo_moon_name: Naam van de maan
+mo_moon_random: Willekeurig
+mo_moon_unavaible: Deze planeet heeft al een maan!
+mo_planet_doesnt_exist: De speler bestaat niet!
+mod_active: Actief
+mod_change_active: Inschakelen
+mod_change_deactive: Uitschakelen
+mod_deactive: Inactief
+mod_info: Spelmodules
+mod_module: Modules
+modul_0: Alliantie
+modul_1: Opdracht — Aanvallen
+modul_2: Bouwen — Gebouwen
+modul_3: Bouwen — Onderzoek
+modul_4: Bouwen — Vloten
+modul_5: Bouwen — Verdediging
+modul_6: Vriendenlijst
+modul_9: Vloot
+modul_10: Vloot — Gebeurtenishandler
+modul_11: Melkweg
+modul_12: Hall of Fame
+modul_13: Handelaar
+modul_14: Info
+modul_15: Rijk
+modul_16: Berichten
+modul_17: Notities
+modul_19: Phalanx
+modul_20: Spelerkaart
+modul_21: Blokkadelijst
+modul_22: Records
+modul_23: Grondstoffen
+modul_24: Opdracht — Spioneren
+modul_25: Statistieken
+modul_26: Zoeken
+modul_27: Supporttickets
+modul_28: Technologieboom
+modul_29: Opdracht — Vernietigen
+modul_30: Opdracht — Expeditie
+modul_32: Opdracht — Recyclen
+modul_33: Opdracht — Vasthouden
+modul_34: Opdracht — Transport
+modul_35: Opdracht — Kolonisatie
+modul_36: Opdracht — Stationeren
+modul_38: Schrootkoopman
+modul_39: Gevechtssimulator
+modul_40: Opdracht — Raketenaanval
+modul_41: Vlootsnelkoppelingen
+modul_42: Opdracht — ACS
+modul_43: Opdracht — Handel
+modul_44: Opdracht — Overdracht
+modul_45: Markt — Grondstoffen
+modul_46: Markt — Vloot
+modul_47: Spionagetechniekafhankelijke statistieken
+modul_48: Reparatiedok
+modul_49: Grondstoffen veiligstellen
+modul_50: Eruitgooien bij vakantiemodus
+modul_51: Eruitgooien van vrienden en alliantie
+modul_52: Stats.json
+modul_53: Tutorial
+modul_54: Tutorialbeloningen
+modul_55: Eerpunten
+modul_56: Piratenbasissen
+mu_active_planets: Actieve planeten
+mu_clear_cache: Cache wissen
+mu_connected: Online
+mu_cronjob: Cronjobs
+mu_dump: Databaseback-up
+mu_flying_fleets: Vloten onderweg
+mu_game_info: Informatie
+mu_general: Algemeen
+mu_giveaway: Weggeefacties
+mu_global_message: Algemeen bericht
+mu_info_account_page: Accountinfo
+mu_logs: Beheerlogboek
+mu_manual_points_update: Punten bijwerken
+mu_md5_encripter: Wachtwoordhash
+mu_mess_list: Berichtenlijst
+mu_moderation_page: Rechten
+mu_module: Modules
+mu_mpu_confirmation: Punten worden automatisch bijgewerkt. Klik op OK om ze nu bij te werken.
+mu_multiip_page: Meerdere IP's
+mu_news: Nieuws
+mu_search_page: Geavanceerd zoeken
+mu_support: Supporttickets
+mu_tools: Hulpmiddelen
+mu_universe: Universum
+mu_users_settings: Spelers
+mu_vaild_users: Actieve gebruikers
+new_account_success: 'Nieuw account aangemaakt. ID: %d'
+new_add_account: Nieuw account toevoegen
+new_add_user: Nieuwe speler toevoegen
+new_coord: Coördinaten
+new_creator_coor: Coördinaten
+new_creator_go_back: '[ Terug naar menu ]'
+new_creator_refresh: '[ Vernieuwen ]'
+new_creator_title_a: Accounts aanmaken/verwijderen
+new_creator_title_l: Manen aanmaken/verwijderen
+new_creator_title_p: Planeten aanmaken/verwijderen
+new_creator_title_t: Testspeler aanmaken
+new_creator_title_u: Spelers aanmaken/verwijderen
+new_range: Rang
+new_title: Nieuwe speler aanmaken
+new_title_acc: Een nieuw account aanmaken
+new_user_success: 'Nieuwe speler aangemaakt. ID: %d, planeet: %d'
+nws_confirm: Weet je zeker dat je het nieuwsbericht "%s" wilt verwijderen?
+nws_content: Inhoud
+nws_create: Nieuws aanmaken
+nws_del: Verwijderen
+nws_from: Van
+nws_head_create: Nieuws aanmaken
+nws_head_edit: 'Nieuws bewerken: %s'
+nws_news: Nieuws
+nws_title: Titel
+one_is_yes_0: Nee
+one_is_yes_1: Ja
+online_users: Online
+ow_default_uri_missing: 'Maillinks hebben DEFAULT_URI (.env.local) nodig: zolang dat niet is ingesteld, worden registratie- en wachtwoordresetmails niet verstuurd.'
+ow_dir_not_writable: /%s is niet schrijfbaar!
+ow_file_detected: Het bestand %s is gevonden. Verwijder of hernoem het om veiligheidsredenen.
+ow_proyect_leader: Voormalig vlootadmiraal (projectleider 2Moons)
+ow_former_pr0game_crew: Voormalig pr0game-team
+ow_crew_dev: Ontwikkeling & noodgevallen
+ow_crew_mod: Moderatie
+ow_crew_community: Community
+ow_pr0game_contributors: Codebijdragers aan pr0game
+ow_special_thanks: Speciale dank
+ow_translator: Vertalers
+pass_reg: Wachtwoord
+pass2_reg: Wachtwoord bevestigen
+player: Speler
+po_add_moon: Maan toevoegen
+po_add_planet: Kolonie toevoegen
+po_colony: Kolonie
+po_complete_all: Ongeldige gegevens of al in gebruik!
+po_complete_all2: Ongeldige coördinaten!
+po_complete_succes: Planeet succesvol aangemaakt
+po_fields_max: Velden
+po_galaxy: Melkweg
+po_name_planet: Planeetnaam
+po_planet: Planeten
+po_system: Stelsel
+qe_authattack: Beveiliging tegen aanvallen door beheerders
+qe_build: Gebouwen
+qe_change: Wijzigen
+qe_coords: Coördinaten
+qe_count: Beschikbaar
+qe_defensive: Verdediging
+qe_edit_planet_sucess: Planeet %s [%d:%d:%d] succesvol bewerkt!
+qe_edit_player_sucess: 'Speler %s (ID: %d) succesvol bewerkt!'
+qe_fields: Velden
+qe_fleet: Vloot
+qe_hpcoords: Coördinaten hoofdplaneet
+qe_id: ID
+qe_info: Info
+qe_level: Niveau
+qe_owner: Eigenaar
+qe_password: Wachtwoord
+qe_planetname: Planeet
+qe_reset: Resetten
+qe_resources: Grondstoffen
+qe_send: Verzenden
+qe_submit: Verzenden
+qe_tech: Onderzoek
+qe_temp: Temperatuur
+qe_username: Gebruikersnaam
+re_buildings_lu: Gebouwen op maan resetten
+re_buildings_pl: Gebouwen resetten
+re_buldings: Gebouwen
+re_defenses: Verdediging resetten
+re_defenses_and_ships: Schepen en verdediging
+re_general: Algemeen
+re_inve: Onderzoek
+re_investigations: Onderzoek resetten
+re_player_and_planets: Spelers en planeten
+re_reset_all: Het hele universum resetten
+re_reset_allys: Alle allianties resetten
+re_reset_banned: Blokkades resetten
+re_reset_buddies: Vriendenlijsten resetten
+re_reset_buldings: Bouwwachtrijen resetten
+re_reset_errors: Foutenlijst resetten
+re_reset_excess: Instellingen succesvol gereset!
+re_reset_fleets: Vloten onderweg resetten
+re_reset_hangar: Scheepswerf- en verdedigingswachtrijen resetten
+re_reset_invest: Onderzoekswachtrijen resetten
+re_reset_messages: Alle berichten resetten
+re_reset_moons: Alle manen resetten
+re_reset_notes: Alle notities resetten
+re_reset_planets: Planeten resetten (kolonies verwijderen)
+re_reset_player: Spelers resetten (alles verwijderen)
+re_reset_rw: Gevechtsrapporten resetten
+re_reset_statpoints: Statistieken resetten
+re_reset_universe: Universum resetten
+re_reset_universe_confirmation: Dit kan niet ongedaan worden gemaakt. Zorg dat je een databaseback-up hebt voordat je op OK klikt.
+re_resources: Grondstoffen
+re_resources_met_cry: Alle grondstoffen resetten (metaal/kristal/deuterium)
+re_ships: Vloten resetten
+researchs_title: Onderzoek
+resources_title: Grondstoffen
+rp_done: Planeten succesvol opnieuw verdeeld
+rp_explain: Wacht nadat je op Verzenden hebt geklikt tot het pop-upvenster verschijnt. Het verplaatsen kan enkele seconden duren.
+rp_header: Planeten opnieuw verdelen
+rp_planet_error: Er is meer dan één planeet per speler!
+rp_rights_error: Geen beheerdersrechten!
+rp_universe_error: Het universum is niet volledig gesloten!
+sb_final_memory: 'Gebruikt geheugen aan het eind: %e KB / max. %m KB<br>'
+sb_sql_counts: 'SQL-query''s: %d'
+sb_start_memory: 'Gebruikt geheugen bij start: %i KB / max. %m KB<br>'
+sb_stats_update: Statistieken bijgewerkt in %s seconden<br>
+sb_stats_updated: Statistieken bijgewerkt.<br>Samenvatting:<br>
+sb_top_memory: 'Piekgeheugen: %p KB / max. %m KB <br>'
+se__before: Vorige
+se__next: Volgende
+se_activity: Laatste activiteit
+se_adm_attack: Beveiliging tegen beheerders
+se_adm_attack_info: Wanneer dit aan staat, kunnen beheerders en moderators zichzelf onaantastbaar maken.
+se_all_planet_pictures: Alle planeetafbeeldingen
+se_all_planet_pictures_info: Alle planeetafbeeldingen op alle posities toestaan.
+se_alliance_create_min_points: Minimaal aantal punten om een alliantie op te richten
+se_allys: Allianties
+se_asc_desc: Oplopend / aflopend
+se_attacks: Aanvalsinstellingen
+se_auth: Rang
+se_authlevels: Beheerders
+se_ban: Geblokkeerd?
+se_ban_author: Geblokkeerd door
+se_ban_limit: Tot
+se_ban_reason: Reden
+se_ban_time: Geblokkeerd
+se_bash_per_planet: Bash-limiet per planeet
+se_bash_per_planet_info: Hoe vaak een speler per 24 uur de planeet van een andere speler mag aanvallen (per planeet geteld). 0 = uit
+se_bash_count_missiles: Bash-limieten tellen raketaanvallen mee
+se_bash_count_missiles_info: 'Interplanetaire raketaanvallen tellen mee als vlootaanvallen voor de bash-limieten (per speler en per planeet). Uit: raketten worden niet meegeteld.'
+se_bash_per_user: Bash-limiet per speler
+se_bash_per_user_info: Hoe vaak een speler per 24 uur een andere speler mag aanvallen (over alle planeten heen). 0 = uit
+se_block_planet_creation: Blokkeren
+se_board_enabled: Communitybord inschakelen
+se_board_enabled_info: 'Uit: alle bordlinks zijn verborgen en de bordpagina''s zijn niet beschikbaar.'
+se_building_speed: Bouwsnelheid
+se_buildings: Gebouwinstellingen
+se_buildlist: Wachtrijinstellingen
+se_cascading_moon_chance: Cascaderende maankans
+se_cascading_moon_chance_info: Extra maankans die na elke mislukte maanpoging bij de maximale kans wordt toegevoegd. Geldt alleen voor de eerste maan van een account. 0 = uit
+se_catch_up: Inhaalmechanisme
+se_catch_up_info: Verkort bouw- en onderzoekstijden exponentieel met maximaal een factor 10, afhankelijk van de puntenachterstand op de eerste speler. Vanaf ongeveer 90% van de punten van de leider is er geen bonus. Bij ongeveer 54% is de factor 2,5, bij 27% is hij 5 en bij 11% is hij 7,5. Dit wordt omgezet naar een bereik van 1,0 tot 0,5.
+se_catchup_percent: Maximale inhaalbonus in procent
+se_close_reason: Bericht voor gesloten server
+se_colonisation_config: Koloniseringsinstellingen
+se_configuration_title: Serverconfiguratie
+se_confirm_planet: 'De geselecteerde planeet wordt volledig gereset. Wil je doorgaan? Planeetnaam:'
+se_contrac: Inklappen
+se_cookie_advert: Het wijzigen van de cookienaam logt iedereen uit.<br>Gebruik een andere naam als je meerdere universums draait.
+se_cookie_name: Cookienaam
+se_crystal_basic_income: Basis kristalproductie
+se_crystal_start: Startkristal
+se_crystal_start_info: Kristal dat nieuwe spelers op hun hoofdplaneet krijgen.
+se_days: Dagen
+se_debris_moon: Puin opruimen na maan
+se_debris_moon_info: Verwijdert het puinveld nadat een maan is aangemaakt.
+se_debug: Debugmodus
+se_debug_info: Logt SQL-query's en toont voor beheerders een statusbalk met het aantal query's en de looptijd.
+se_def_debris_percentage: Verdediging in puin
+se_def_debris_percentage_info: Percentage van de vernietigde verdediging dat na een aanval in puin verandert.
+se_del_oldstuff: Berichten verwijderen na
+se_del_oldstuff_info: Verwijdert berichten en gevechtsrapporten na X dagen.
+se_del_user_automatic: Inactieve spelers verwijderen na
+se_del_user_automatic_info: Verwijdert spelers die X dagen niet zijn ingelogd. (0 = uitgeschakeld)
+se_del_user_manually: Aangevraagde accounts verwijderen na
+se_del_user_manually_info: Verwijdert spelers die om accountverwijdering hebben gevraagd na X dagen.
+se_del_user_sendmail: Herinnering versturen na
+se_del_user_sendmail_info: Stuurt een herinneringsmail na X dagen zonder login.
+se_delete_succes_p: Succesvol verwijderd
+se_delete_not_found: 'Niets verwijderd: de speler of planeet bestaat niet of kan niet worden verwijderd.'
+se_deuterium_basic_income: Basis deuteriumproductie
+se_deuterium_cost_galaxy: Deuteriumkosten melkweg
+se_deuterium_cost_galaxy_info: 'Deuteriumkosten per klik op de melkweg (standaard: 10)'
+se_deuterium_start: Startdeuterium
+se_deuterium_start_info: Deuterium dat nieuwe spelers op hun hoofdplaneet krijgen.
+se_disclaimer: Instellingen juridische kennisgeving
+se_disclamer_address: Adres
+se_disclamer_mail: E-mailadres
+se_disclamer_notice: Meer informatie
+se_disclamer_phone: Telefoonnummer
+se_discord_exceptions_hook: Uitzonderingen & waarschuwingen
+se_discord_hooks: Discord-webhooks
+se_discord_logs_hook: Logs
+se_discord_tickets_hook: Tickets
+se_dst: Zomertijd?
+se_dst_sel:
+- Nee
+- Ja
+- Automatisch
+se_email: E-mail
+se_end: Einddatum
+se_end_time: Eindtijd
+se_energy_basic_income: Basis energieproductie
+se_energy_multiplier: Energiefactor
+se_expand: Uitklappen
+se_expedition_parameters: Expeditie-instellingen
+se_expo_hold_multiplier: Expeditiesnelheid
+se_expo_hold_multiplier_info: 'Normale snelheid: 1'
+se_expo_ress_crys_chance: Kans op kristal bij expedities
+se_expo_ress_deut_chance: Kans op deuterium bij expedities
+se_expo_ress_met_chance: Kans op metaal bij expedities
+se_factor_university: Universiteitsfactor
+se_factor_university_info: Percentage waarmee elk universiteitsniveau de onderzoekstijd verkort
+se_fields: Velden
+se_filter_title: Filteren
+se_fleet_debris_percentage: Vloot in puin
+se_fleet_speed: Vlootsnelheid
+se_fleet_speed_info: 'Normale snelheid: 1'
+se_forum_url: Forumlink
+se_galaxy: Melkweg
+se_galaxy_distance_factor: Afstandsfactor melkweg
+se_galaxy_distance_factor_info: 'Standaard: 20000, berekening: melkwegverschil × afstandsfactor melkweg'
+se_galaxy_parameters: Melkweg-instellingen
+se_galaxy_type: Melkwegtype
+se_galaxy_type_info: <TABLE><tr><td>Lineaire melkwegstelsels</td><td>De afstand tot stelsel 1 neemt toe met elk stelsel in de melkweg.</td></tr><tr><td>Ringmelkwegen</td><td>Het laatste en het eerste stelsel van een melkweg zijn verbonden, zodat de afstand van de verste stelsels tot het eerste kleiner wordt.</td></tr><tr><td>Bolmelkwegen</td><td>Elk stelsel in dezelfde melkweg staat even ver van de andere af.</td></tr></TABLE>
+se_default_theme: Standaardthema
+se_default_theme_info: Thema voor nieuwe accounts en bezoekers
+se_legal: Juridisch en community
+se_privacy_region: Hostinglocatie (privacybeleid)
+se_privacy_region_info: 'Kiest het standaard privacybeleid: AVG-versie (EU/EER) of algemene versie. Pagina''s die al bewerkt zijn, blijven ongewijzigd; de beheerder is verantwoordelijk voor de juridische teksten.'
+se_privacy_region_sel:
+  eu: EU / EER - privacybeleid volgens de AVG
+  other: Buiten de EU - algemeen privacybeleid
+se_rules_default: Standaardregels gebruiken
+se_rules_default_info: 'Uit: de regelpagina blijft leeg tot je zelf regels schrijft onder Pagina''s. Regels die al bewerkt zijn, blijven behouden.'
+se_source_url: URL broncode
+se_source_url_info: Publieke repository van de code die deze server draait, getoond als "Broncode" in de voetteksten (de AGPL vraagt om je wijzigingen aan spelers aan te bieden). Leeg verbergt de link.
+se_game_name: Spelnaam
+se_git_issues_link: Link naar de issuetracker
+se_git_issues_link_info: Pagina waar bugs en problemen gemeld kunnen worden
+se_id_owner: Eigenaar-ID
+se_inactives: Inactief
+se_initial_fields: 'Startvelden:'
+se_initial_temp: 'Starttemperatuur:'
+se_input_a: A
+se_input_act_pla: ' actieve planeten'
+se_input_activity: Activiteit
+se_input_admm: ' beheerders'
+se_input_allyy: ' allianties'
+se_input_asc: Oplopend
+se_input_authlevel: Rang
+se_input_connect: ' spelers online'
+se_input_d: D
+se_input_desc: Aflopend
+se_input_email: E-mail
+se_input_g: Melkweg
+se_input_have_moon: Maan?
+se_input_hay: 'Momenteel '
+se_input_inact: ' inactieve spelers'
+se_input_inacti: Inactiviteit
+se_input_ip: IP
+se_input_longer: Duur
+se_input_members: Leden
+se_input_members2: Leden
+se_input_moonn: ' manen'
+se_input_name: Naam
+se_input_p: Planeet
+se_input_planett: ' planeten'
+se_input_prop: Eigenaar
+se_input_register: Registratie
+se_input_s: Stelsel
+se_input_submit: Zoeken
+se_input_susss: ' geblokkeerd'
+se_input_time: Tijd
+se_input_userss: ' spelers'
+se_input_vacatii: ' spelers in vakantiemodus'
+se_intro: Woord of trefwoord
+se_iter_planet_creation: Iteratief (standaard)
+se_jumpgate_factor: Sprongpoortherlaadtijd
+se_jumpgate_factor_info: Factor waarmee de herlaadtijd van de sprongpoort wordt gedeeld (standaard 1)
+se_lang: Taal
+se_limit: Limiet
+se_line_galaxy: Lineaire melkwegen (standaard)
+se_line_uni: Lineair universum (standaard)
+se_mail_active: E-mail inschakelen
+se_mail_sel:
+- PHP mail()
+- Sendmail / Qmail
+- SMTP-authenticatie
+se_mail_use: 'Mailmethode:'
+se_max_additional_planets: Max. extra planeten via astrofysica
+se_max_additional_planets_info: Extra planeten die een speler via astrofysica kan koloniseren
+se_max_elements_build: Max. bouwwachtrij
+se_max_elements_build_info: Maximaal aantal gebouwen in de bouwwachtrij
+se_max_elements_ships: Max. scheepswerfwachtrij
+se_max_elements_ships_info: Maximaal aantal opdrachten in de scheepswerfwachtrij
+se_max_elements_tech: Max. onderzoekswachtrij
+se_max_elements_tech_info: Maximaal aantal items in de onderzoekswachtrij
+se_max_fleet_per_build: Max. eenheden per opdracht
+se_max_fleet_per_build_info: Maximaal aantal eenheden per scheepswerfopdracht
+se_max_fleets_per_acs: Max. vloten per ACS
+se_max_fleets_per_acs_info: Maximaal aantal vloten in één ACS (standaard 16)
+se_max_galaxy: Max. melkwegen
+se_max_galaxy_info: Maximaal aantal melkwegen in het universum
+se_max_initial_planets: Max. planeten zonder onderzoek
+se_max_initial_planets_info: Aantal planeten dat een speler vanaf het begin kan koloniseren, zonder astrofysica
+se_max_overflow: Opslagoverloop
+se_max_overflow_info: Factor voor hoeveel grondstoffen er nog geproduceerd kunnen worden bij volle opslag
+se_max_participants_per_acs: Max. deelnemers per ACS
+se_max_participants_per_acs_info: Maximaal aantal deelnemers in één ACS (standaard 5)
+se_max_planets: Max. planeten
+se_max_planets_info: 'Maximaal aantal planeten per stelsel (standaard: 15)'
+se_max_player_planets: Max. planeten per speler
+se_max_player_planets_info: Maximaal aantal kolonies zonder onderzoek
+se_max_system: Max. stelsels
+se_max_system_info: Maximaal aantal stelsels per melkweg
+se_message_delete_days: Verwijderde berichten opschonen na X dagen
+se_messages: Berichten
+se_metal_basic_income: Basis metaalproductie
+se_metal_start: Startmetaal
+se_metal_start_info: Metaal dat nieuwe spelers op hun hoofdplaneet krijgen.
+se_min_build_time: Minimale bouwtijd
+se_min_build_time_info: Minimale bouwtijd in seconden voor gebouwen, onderzoek, schepen en verdediging. Standaard is 1.<br>0 schakelt het minimum uit.<br>Uitschakelen kan bugs veroorzaken.
+se_missile_range_factor: Raketbereikfactor
+se_moon_chance: Max. maankans
+se_moon_chance_info: Maximale kans dat een maan ontstaat
+se_moon_factor: Factor maankans
+se_moon_factor_info: Vermenigvuldiger voor de kans dat een maan ontstaat
+se_moon_size_factor: Factor maangrootte
+se_moon_size_factor_info: Vermenigvuldiger voor de grootte van manen, 1 = standaard
+se_moons: Manen
+se_name: Naam
+se_news: Nieuwsinstellingen
+se_no_data: Geen gegevens
+se_noob_inactives: Noobbeschermingsfactor toepassen op inactieve spelers
+se_noob_protection: Noobbescherming
+se_noob_protection_multi: Noobbeschermingsfactor
+se_noob_protection_multi_info: 'Je kunt alleen spelers aanvallen wier punten binnen jouw punten × deze factor liggen. Voorbeeld met 18: heb je 1.000 punten, dan kun je spelers met minder dan 18.000 punten aanvallen. Een speler met 20.000 punten kan iedereen tot 360.000 punten aanvallen, dus een speler met 50.000 punten valt nog binnen zijn bereik.'
+se_noob_protection_outlaw: Vogelvrijsysteem
+se_noob_protection_outlaw_info: Laat zwakkere spelers sterkere spelers aanvallen. De aanvaller wordt 7 dagen vogelvrij en verliest de noobbescherming.
+se_noob_protection_time: Noobbescherming tot X punten
+se_noob_protection_time_info: Spelers op of onder deze score blijven onder de noobbescherming.
+se_normal_speed: 'Normale snelheid: 1'
+se_order_list_now: Zoeken
+se_overview_news_frame: Nieuws inschakelen
+se_overview_news_frame_info: Als dit uit staat, wordt het nieuws op het overzicht verborgen.
+se_overview_news_text: Nieuws
+se_overview_news_text_info: Maximaal 255 tekens. HTML is toegestaan.
+se_pagees: Pagina's
+se_per_hour: per uur
+se_phalanx_range_factor: Phalanx-bereikfactor
+se_piratebase: Piratenbasissen
+se_piratebase_fleet_percentage_max: 'Vloot: maximum % van de vloot van de speler'
+se_piratebase_fleet_percentage_min: 'Vloot: minimum % van de vloot van de speler'
+se_piratebase_mainplanet_only: 'Grondstoffen: alleen hoofdplaneet'
+se_piratebase_min_points: Minimum punten
+se_piratebase_min_points_info: Minimum aantal punten dat een speler nodig heeft voordat een piratenbasis kan verschijnen
+se_piratebase_ress_hours: 'Grondstoffen: uren productie'
+se_planet: Planeet
+se_planet_creation: Plaatsing hoofdplaneet
+se_planet_creation_info: Nieuwe hoofdplaneten kunnen iteratief door stelsels en melkwegen worden geplaatst, willekeurig, in blokken, of 50% willekeurig en 50% in blokken.<br>Willekeurige plaatsing vult melkwegen en stelsels gelijkmatig op willekeurige posities.<br>Blokplaatsing kiest een stelsel dat al één of twee planeten heeft. Bestaat zo'n stelsel niet, of zijn er minder dan 50 spelers, dan is de plaatsing willekeurig.
+se_planet_distance: Min. planeetafstand
+se_planet_distance_factor: Planeetafstandsfactor
+se_planet_distance_factor_info: 'Standaard: 5, berekening: planeetverschil × planeetafstandsfactor + min. planeetafstand'
+se_planet_distance_info: 'Standaard: 1000, berekening: planeetverschil × planeetafstandsfactor + min. planeetafstand'
+se_planet_parameters: Planeet-instellingen
+se_planet_ressource_bonus: Grondstoffenbonus op basis van positie
+se_planet_ressource_bonus_info: Verhoogt de grondstofproductie op de planeet met x%, afhankelijk van de positie.
+se_planet_size_factor: Planeetgrootte-factor
+se_planet_size_factor_info: Vermenigvuldiger voor de planeetgrootte, 1 = standaard
+se_planets: Planeten
+se_planets_act: Actieve planeten
+se_planets_per_tech: Extra planeten per astrofysicaniveau
+se_planets_per_tech_info: Extra kolonies die per astrofysicaniveau vrijkomen
+se_prepare_text: Tekst bij serervoorbereiding
+se_random_planet_creation: Willekeurig
+se_rank:
+- Speler
+- Moderator
+- Operator
+- Beheerder
+se_pow_adaptive: Botbescherming - adaptieve moeilijkheid
+se_pow_adaptive_info: 'Aan: verdachte IP-adressen en netwerken (/24 of /64) krijgen een veel moeilijkere puzzel (veel verzoeken, mislukkingen of registraties in korte tijd). Uit: elke bezoeker krijgt de basispuzzel en er worden geen tellers gelezen.'
+se_pow_elevated_factor: Botbescherming - factor bij verhoogd risico
+se_pow_elevated_factor_info: De puzzel wordt zoveel keer moeilijker (standaard 20).
+se_pow_high_factor: Botbescherming - factor bij hoog risico
+se_pow_high_factor_info: De puzzel wordt zoveel keer moeilijker (standaard 100).
+se_pow_max_cap: Botbescherming - bovengrens moeilijkheid
+se_pow_max_cap_info: Hoogste getal na toepassing van de factoren. 1500000 duurt ongeveer 25 seconden op een trage smartphone.
+se_pow_sensitivity: Botbescherming - gevoeligheid risicodetectie
+se_pow_sensitivity_info: Procent van de standaarddrempels (verhoogd vanaf 5 verzoeken/10 min., 3 mislukkingen/uur of 2 registraties/24 u per IP; hoog vanaf 20 / 10 / 5; netwerken het drievoud). 200 = dubbel zoveel gebeurtenissen nodig, 50 = half zoveel.
+se_pow_max_number: Botbescherming - moeilijkheid (maximumgetal)
+se_pow_max_number_info: De browser probeert hashes tot dit getal, gemiddeld de helft ervan. 100000 duurt ongeveer een halve tot een seconde. Hoger betekent meer werk voor bots.
+se_pow_min_seconds: Botbescherming - minimale tijd voor verzenden (seconden)
+se_pow_min_seconds_info: Formulieren die sneller na het laden worden verzonden, worden geweigerd. 0 schakelt de controle uit.
+se_proofofwork: Botbescherming
+se_proofofwork_info: Registratie en verloren wachtwoord worden beschermd door een kleine berekening die de browser zelf oplost, zonder derde partij.
+se_rebuild_protection: Herbouwbescherming
+se_rebuild_protection_info: Na zware verliezen krijgen spelers na 6 uur herbouwbescherming tegen verdere aanvallen, die 48 uur duurt vanaf de aanval. Er moet in één aanval 70% van de vloot of 80% van de transportcapaciteit worden vernietigd, en dat verlies moet in eenheden of capaciteit minstens noobbeschermingspunten × 1.000 zijn. De speler kan de modus eerder beëindigen.
+se_redis_connection_url: Redis-verbindings-URL
+se_redis_connection_url_info: redis[s]://[[gebruikersnaam][:wachtwoord]@][host][:poort][/databasenummer]
+se_ref: Verwijzingslink
+se_ref_active: Verwijzingslinks inschakelen
+se_ref_active_info: Met verwijzingslinks kunnen spelers vrienden uitnodigen. Geworven spelers geven een bonus.
+se_ref_bonus: Verwijzingsbonus
+se_ref_bonus_info: Donkere materie die de verwijzende speler ontvangt per geworven speler.
+se_ref_max_referals: Maximaal aantal verwijzingen
+se_ref_max_referals_info: Maximaal aantal spelers dat één gebruiker kan werven.
+se_ref_minpoints: Minimale punten voor bonus
+se_ref_minpoints_info: De geworven speler moet deze score halen voordat de verwijzer de bonus ontvangt.
+se_research_speed: Onderzoekssnelheid
+se_resource_multiplier: Grondstofproductiesnelheid
+se_resource_multiplier_info: 'Normale snelheid: 1'
+se_ress_chance: Grondstofkansen
+se_ring_galaxy: Ringmelkwegen
+se_ring_uni: Ringuniversum
+se_save_parameters: Opslaan
+se_se_fleet_debris_percentage_info: Percentage van de vernietigde vloten dat na een aanval in puin verandert
+se_search: Zoeken
+se_search_alliance_0: ID
+se_search_alliance_1: Naam
+se_search_alliance_2: TAG
+se_search_alliance_3: Leider
+se_search_alliance_4: Opgericht
+se_search_alliance_5: Leden
+se_search_banned_0: ID
+se_search_banned_1: Naam
+se_search_banned_2: Geblokkeerd van
+se_search_banned_3: Geblokkeerd tot
+se_search_banned_4: Reden
+se_search_banned_5: Auteur
+se_search_edit: Bewerken
+se_search_in: Voor
+se_search_info: Zoeken
+se_search_order: Sorteren
+se_search_planets_0: ID
+se_search_planets_1: Naam
+se_search_planets_2: Eigenaar
+se_search_planets_3: Laatste activiteit
+se_search_planets_4: Melkweg
+se_search_planets_5: Stelsel
+se_search_planets_6: Planeet
+se_search_planets_7: Heeft een maan?
+se_search_title: Geavanceerd zoeken
+se_search_users_0: ID
+se_search_users_1: Naam
+se_search_users_2: E-mail
+se_search_users_3: Laatste activiteit
+se_search_users_4: Registratiedatum
+se_search_users_5: Laatste IP
+se_search_users_6: Rang
+se_search_users_7: Geblokkeerd?
+se_search_users_8: Vakantie?
+se_sendmail_inactive: Herinneringsmails inschakelen
+se_server_naame: Spelnaam
+se_server_parameters: Universuminstellingen
+se_session_handler: Sessiehandler
+se_several_parameters: Overige instellingen
+se_shipyard_speed: Scheepswerfsnelheid
+se_silo_factor: Grootte raketensilo
+se_silo_factor_info: Vermenigvuldiger voor de grootte van de raketensilo
+se_smail_path: Pad naar Sendmail / Qmail
+se_smtp: SMTP-instellingen
+se_smtp_host: 'SMTP-host:'
+se_smtp_host_info: Adres van je SMTP-server.
+se_smtp_info: SMTP-instellingen die worden gebruikt om mail vanaf de server {game_name} naar spelers te sturen.
+se_smtp_pass: 'SMTP-wachtwoord:'
+se_smtp_port: 'SMTP-poort:'
+se_smtp_port_info: Poort van de SMTP-server. Meestal 25.
+se_smtp_sendmail: 'SMTP-afzender:'
+se_smtp_sendmail_info: Afzenderadres. Dit hoeft niet gelijk te zijn aan het inlogadres.
+se_smtp_ssl: 'SMTP SSL/TLS:'
+se_smtp_ssl_info: Versleuteling tussen deze server en de mailserver. Zelden nodig.
+se_smtp_ssl_sel:
+- Geen
+- SSL
+- TLS
+se_smtp_user: 'SMTP-gebruikersnaam:'
+se_sphere_galaxy: Bolmelkwegen
+se_sphere_uni: Bolvormig universum
+se_start: Startdatum
+se_start_time: Starttijd
+se_stat: Geef beheerders 0 punten
+se_stat_level: Vanaf rang
+se_stat_sel:
+- Nee
+- Ja
+- Beheerders verbergen
+se_stat_settings: Waarde van 1 statistiekpunt
+se_statistics: Statistieken
+se_statsjson_delay: Vertraging stats.json
+se_storage_multiplier: Vermenigvuldiger grondstofopslag
+se_suspended: Geblokkeerd
+se_system: Stelsel
+se_system_distance: Min. stelselafstand
+se_system_distance_factor: Stelselafstandsfactor
+se_system_distance_factor_info: 'Standaard: 95, berekening: stelselverschil × stelselafstandsfactor + min. stelselafstand'
+se_system_distance_info: 'Standaard: 2700, berekening: stelselverschil × stelselafstandsfactor + min. stelselafstand'
+se_tag: TAG
+se_temp: Graden
+se_time_of_page: Pagina aangemaakt
+se_timezone: Tijdzone universum
+se_trade_allowed_ships: 'Toegestane schepen:'
+se_trade_charge: 'Handelaarskosten:'
+se_trader: Instellingen schrootkoopman
+se_ttf_file: Pad naar TTF-bestand
+se_ttf_file_info: Nodig om Cyrillische of Chinese tekens op de statistiekbanner weer te geven
+se_type_all: Normaal zoeken
+se_type_exact: Exact zoeken
+se_type_first: Begint met
+se_type_last: Eindigt op
+se_type_typee: Type
+se_uni_name: Naam van het universum
+se_uni_status: Universumstatus
+se_uni_status_regclosed_gameclosed: Registratie en inloggen gesloten (bijv. onderhoud)
+se_uni_status_regclosed_gameopen: Registratie gesloten, inloggen open (bijv. oude universums)
+se_uni_status_regopen_gameclosed: Registratie open, inloggen gesloten (bijv. nieuwe universums)
+se_uni_status_regopen_gameopen: Registratie en inloggen open
+se_uni_type: Universumtype
+se_uni_type_info: <TABLE><tr><td>Lineair universum</td><td>De afstand tot melkweg 1 neemt toe met elke melkweg.</td></tr><tr><td>Ringuniversum</td><td>De laatste en eerste melkwegen zijn verbonden, zodat de afstand van de verre melkwegen tot de eerste kleiner wordt.</td></tr><tr><td>Bolvormig universum</td><td>Elke melkweg staat even ver van de andere af.</td></tr></TABLE>
+se_user_settings: Spelerinstellingen
+se_user_valid: E-mailvalidatie
+se_user_valid_info: Als dit aan staat, moeten spelers hun account via e-mail activeren. SMTP moet hieronder zijn ingesteld.
+se_users: Spelers
+se_vacat: Vakantie?
+se_vacations: Vakantie
+se_vmode_min_time: Minimale vakantieduur
+se_vmode_min_time_info: Minimale tijd die een speler in de vakantiemodus moet blijven, in seconden
+se_wreckfield_cooldown: Wrakveld-wachttijd
+se_wreckfield_min_percent: Minimaal vernietigd percentage van de vlootunits voor een wrakveld
+se_wreckfield_min_units: Minimaal vernietigde units voor een wrakveld
+select_option: Kies...
+ships_title: Schepen
+sp_answer_message: 'Er is een reactie geplaatst op je ticket #%d!'
+sp_answer_message_title: 'Supportticket #%d'
+status: Status
+subject: Onderwerp
+test_data_amount: Aantal testspelers
+test_data_stage:
+- Begin (spionagesonde)
+- Midden in het spel (slagschip, 1 maan)
+- Laat in het spel (slagkruiser, phalanx)
+- Eind van het spel (Ster des Doods, sprongpoort)
+test_data_stage_label: Fase
+test_data_success: Testdata succesvol aangemaakt
+test_data_title: Testspelerdata aanmaken
+text: Details
+time_days: Dagen
+time_hours: Uren
+time_minutes: Minuten
+time_seconds: Seconden
+ul_sure_you_want_dlte: Weet je zeker dat je dit wilt verwijderen?
+uni_reg: Universum
+user_reg: Naam
+uvs_actions: Acties
+uvs_back: Terug
+uvs_delete: Verwijderen
+uvs_id: Universum-ID
+uvs_inactive: Inactief
+uvs_name: Naam
+uvs_new: Universum toevoegen
+uvs_off: Gesloten
+uvs_on: Open
+uvs_open: Status
+uvs_planets: Planeten
+uvs_players: Spelers
+uvs_reload: Opnieuw laden
+uvs_speeds: Snelheidsfactoren (G/F/R/E)
+uvs_speeds_full: Snelheidsfactoren (spel/vloot/grondstof/expeditie)
+vt_all: Alle bestanden
+vt_head: Spelbestanden controleren
+vt_info: Deze lijst toont bestanden die afwijken van het origineel.<br>Als je het spel zelf niet hebt aangepast, vervang deze bestanden dan door de originele versies.
+adm_comments: Opmerkingen
+adm_analytics: Analyse
+ad_system: Systeem
+adm_menu_filter: Menu filteren …
+adm_menu_empty: Geen menu-item gevonden
+adm_menu_toggle: Menu
+adm_back_to_game: Terug naar het spel
+adm_drop_rights: Uitloggen
+adm_universe_switch: Universum
+adm_dash_attention: Vereist aandacht
+adm_dash_all_good: Alles in orde – geen waarschuwingen.
+adm_dash_online: Spelers online (15 min)
+adm_dash_players: Spelers totaal
+adm_dash_tickets: Open tickets
+adm_dash_fleets: Vloten onderweg
+adm_dash_quick: Snelle toegang
+adm_dash_system: Systeem
+adm_dash_version: Versie
+adm_dash_php: PHP
+adm_dash_uni_status: Universumstatus
+adm_dash_credits: Credits
+adm_dash_project: Projectpagina
+adm_confirm: Weet je het zeker?
+adm_dash_cron_locked: 'Cronjob vergrendeld (draait niet meer): %s'
+adm_dash_next_cron: Volgende cronjob
+adm_dash_cron_count: actieve cronjobs
+adm_unsaved_hint: Wijzigingen gaan in zodra je opslaat.
+adm_sections: Secties
+adm_skip: Naar inhoud springen
+adm_filter_page: Deze pagina filteren …
+adm_actions: Acties
+adm_ac_no_destroyed: Er zijn recent geen planeten vernietigd.
+adm_ae_addremove_hint: Waarden worden bij het huidige bedrag opgeteld (Toevoegen) of ervan afgetrokken (Verwijderen). Een waarde van 0 laat het item ongewijzigd.
+adm_ae_confirm_remove: Ingevoerde waarden echt van het huidige bedrag aftrekken?
+adm_ae_danger_zone: Gevarenzone
+adm_ae_group_planet: Planeet / maan
+adm_ae_group_player: Speler
+adm_ae_menu_hint: Kies wat je wilt bewerken. Spelers worden geselecteerd op speler-ID, planeten op planeet- of maan-ID.
+adm_ae_wipe: Planeet resetten
+adm_ae_wipe_hint: De aangevinkte onderdelen worden van de planeet gewist. Dit kan niet ongedaan worden gemaakt.
+adm_as_confirm: Accounts van de twee geselecteerde spelers echt wisselen?
+adm_as_explain: De twee geselecteerde spelers wisselen van account (inloggegevens). Spelstand en planeten blijven bij elke speler; alleen de inloggegevens wisselen van eigenaar. Kies links speler A en rechts speler B.
+adm_ban_accounts: Accounts
+adm_ban_duration: Duur
+adm_ban_users: Spelers
+adm_continue: Doorgaan
+adm_coord_position: Positie
+adm_cron_active: Actief
+adm_cron_click_disable: Klik om te deactiveren
+adm_cron_click_enable: Klik om te activeren
+adm_cron_click_lock: Klik om te vergrendelen
+adm_cron_click_unlock: Klik om te ontgrendelen (vastgelopen run)
+adm_cron_free: Vrij
+adm_cron_hint: Klik op een statuslabel om het te wisselen
+adm_cron_inactive: Inactief
+adm_cron_locked: Vergrendeld
+adm_cron_state: Status
+adm_giveaway_confirm: De bedragen worden bijgeschreven op alle passende planeten van dit universum. Doorgaan?
+adm_giveaway_hint: Bedragen worden bij de huidige voorraad van elke passende planeet opgeteld. Velden die op 0 staan, blijven ongewijzigd.
+adm_reset_warning: Alles dat hieronder is aangevinkt, wordt permanent verwijderd of gereset voor dit universum. Er is geen back-up en er kan niets ongedaan worden gemaakt.
+adm_rights_edit: Rechten bewerken
+adm_rights_other: Overig
+adm_rights_page: Pagina
+adm_rights_pick: Kies de speler wiens rechten je wilt bewerken.
+adm_uni_close: Universum sluiten
+adm_uni_open: Universum openen
+adm_edit: Bewerken
+adm_ma_recipients: Ontvangers
+adm_ml_from: van
+adm_ml_to: tot
+ac_detailed_planet_moon_info: Details van planeet en maan
+ad_max: (max. %d)
+adm_password_info: Voer je wachtwoord in om je identiteit te bevestigen!
+button_des_se: alles selecteren/deselecteren
+er_dlte_all: Alles verwijderen
+input_id_moon: Maan-ID
+input_text: 'Beschrijving:'
+mip_ip: IP
+adm_cfg_crystal_pct: Kristal %
+adm_cfg_deuterium_pct: Deuterium %
+adm_cfg_fields_max: Velden max.
+adm_cfg_fields_min: Velden min.
+adm_cfg_metal_pct: Metaal %
+adm_cfg_planet_props: Planeeteigenschappen per positie
+adm_cfg_planet_props_hint: Temperatuur in °C, velden, productiebonus in %
+adm_cfg_temp_max: Temp. max.
+adm_cfg_temp_min: Temp. min.
+adm_comment_col: Opmerking
+adm_date_dd: dd
+adm_date_format: (dd-mm-jjjj)
+adm_date_mm: mm
+adm_date_yyyy: jjjj
+adm_exp_deck_err_card: 'Ongeldig kaartformaat: type, grootte of aantal ontbreekt'
+adm_exp_deck_err_count: 'Ongeldig aantal kaarten: mag niet negatief zijn'
+adm_exp_deck_err_empty: De stapel moet minstens één kaart bevatten
+adm_exp_deck_err_format: 'Ongeldig stapelformaat: moet een array zijn'
+adm_exp_deck_err_json: Ongeldig JSON-formaat
+adm_exp_ships_saved: Scheepsconfiguratie succesvol opgeslagen!
+adm_flight_distance: Afstand
+adm_flight_err_dist_missing: Vul alle afstandswaarden volledig in.
+adm_flight_err_format: Voer in het formaat melkweg:stelsel:planeet in.
+adm_flight_err_galaxy_over: Melkweg overschrijdt max_galaxy.
+adm_flight_err_max_missing: Vul max_galaxy, max_system en max_planets volledig in.
+adm_flight_err_min_one: Melkweg, stelsel en planeet moeten minstens 1 zijn.
+adm_flight_err_planet_over: Planeet overschrijdt max_planets.
+adm_flight_err_system_over: Stelsel overschrijdt max_system.
+adm_flight_fleet_speed: Vlootsnelheid
+adm_flight_preview: Voorbeeld vliegtijd
+adm_flight_preview_help: Vliegtijd van 1:1:1 naar het doel met scheepssnelheid 45.000 en vlootsnelheid 1; universumtype, melkwegtype, maximumwaarden, afstandsfactoren en minimumafstanden worden direct toegepast.
+adm_flight_ship_speed: Scheepssnelheid
+adm_flight_time: Vliegtijd
+adm_info_col: Info
+adm_info_db_version: DB-versie
+adm_info_errorlog: Foutenlogboek
+adm_info_game: Spel
+adm_info_game_address: Speeladres
+adm_info_game_version: Spelversie
+adm_info_memory_limit: Geheugenlimiet
+adm_info_mysql_client: MySQL-client
+adm_info_mysql_server: MySQL-server
+adm_info_php_version: PHP-versie
+adm_info_server: Server
+adm_info_server_info: Serverinfo
+adm_info_text: Als tekst
+adm_info_timezone: Tijdzone (PHP/config/gebruiker)
+adm_loading: Laden …
+adm_log_not_found: Niet gevonden in het logboek
+adm_mip_activity: Activiteit
+adm_mip_show_allowed: Goedgekeurde tonen
+adm_mip_show_banned: Geblokkeerde tonen
+adm_ml_end_day: Einddag
+adm_ml_end_month: Eindmaand
+adm_ml_end_year: Eindjaar
+adm_ml_start_day: Startdag
+adm_ml_start_month: Startmaand
+adm_ml_start_year: Startjaar
+adm_pagination: Paginering
+adm_permission_error: Toegang geweigerd!
+adm_ti_all: Alle
+adm_ti_debug_errors: Debug/fouten
+adm_ti_user_tickets: Tickets van spelers
+adm_group_community: Community
+adm_nav_accounts: Accounts
+adm_nav_expeditions: Expedities
+adm_nav_messages: Berichten
+adm_nav_moderation: Moderatie
+adm_nav_players: Spelers
+adm_nav_settings: Instellingen
+adm_tab_bans: Blokkades
+adm_tab_card_deck: Kaartstapel
+adm_tab_create: Aanmaken
+adm_tab_editor: Editor
+adm_tab_findable_ships: Vindbare schepen
+adm_tab_moons: Manen
+adm_tab_planets: Planeten
+adm_tab_players: Spelers
+adm_tab_server: Server
+adm_tab_swap: Wisselen
+adm_tab_universe: Universum
+adm_maint_cache_text: Wist de spelcaches (talen, sjablonen, spelgegevens) en herberekent de cronjobtijden. Helpt wanneer wijzigingen in instellingen of teksten niet zichtbaar worden.
+adm_maint_log_head: Spellogboek
+adm_maint_log_text: Foutenlogboek van het spel (var/log/game.log). Leegmaken leegt het bestand; nieuwe fouten worden meteen weer geschreven.
+adm_maint_log_size: Grootte
+adm_maint_log_changed: Laatste wijziging
+adm_maint_log_missing: Het logbestand bestaat nog niet.
+adm_maint_log_clear: Spellogboek leegmaken
+adm_maint_log_confirm: var/log/game.log leegmaken? Dit kan niet ongedaan worden gemaakt.
+adm_maint_log_cleared: Het spellogboek is leeggemaakt.
+adm_maint_log_failed: Het spellogboek kon niet worden leeggemaakt (bestand niet schrijfbaar).
+adm_maint_points_text: Herberekent direct de punten en de ranglijst. Anders gebeurt dit automatisch via de statistiek-cronjob en kan het bij veel spelers even duren.
+adm_nav_maintenance: Onderhoud
+adm_nav_content: Inhoud
+adm_tab_pages: Pagina's
+adm_tab_team: Team
+nws_back: Terug naar de lijst
+nws_view: Bekijken
+nws_summary: Samenvatting
+nws_summary_help: Optionele inleiding voor de nieuwslijst (max. 300 tekens). Leeg = uittreksel van de tekst.
+nws_publish_date: Publicatiedatum
+nws_publish_help: 'Een datum in de toekomst plant het nieuws in: het verschijnt dan automatisch.'
+nws_status: Status
+nws_status_draft: Concept
+nws_status_published: Gepubliceerd
+nws_status_scheduled: Gepland
+nws_pinned: Vastgepind
+nws_filter_all: Alle
+nws_filter_drafts: Concepten
+nws_empty: Geen nieuwsberichten
+nws_saved: Nieuws opgeslagen.
+nws_deleted: Nieuws verwijderd.
+nws_error_empty: Titel en tekst mogen niet leeg zijn.
+cms_page_contacts: Contact
+cms_page_dataPrivacy: Gegevensbescherming
+cms_page_rules: Regels
+cms_language: Taal
+cms_status: Status
+cms_status_default: Standaard
+cms_status_edited: Bewerkt
+cms_last_edit: Laatste bewerking
+cms_title: Titel
+cms_content: Inhoud
+cms_save: Pagina opslaan
+cms_view: Pagina bekijken
+cms_reset: Terugzetten naar standaard
+cms_reset_confirm: De bewerkte versie verwijderen en weer de standaardinhoud tonen?
+cms_saved: Pagina opgeslagen.
+cms_reset_done: Pagina teruggezet naar de standaardinhoud.
+team_name: Naam
+team_position: Functie
+team_contact: Contact (bijv. Discord)
+team_description: Beschrijving
+team_add: Lid toevoegen
+team_delete: Verwijderen
+team_move_up: Omhoog
+team_move_down: Omlaag
+team_save: Team opslaan
+team_saved: Team opgeslagen.
+team_empty: Nog geen teamleden.
+team_hint: De volgorde van de rijen is de volgorde op de openbare teampagina. Rijen zonder naam worden bij opslaan verwijderd.
+nws_image: Afbeelding
+nws_image_remove: Afbeelding verwijderen
+nws_image_help: Optioneel, één afbeelding per nieuwsbericht (JPEG, PNG, GIF of WebP, max. 8 MB). Wordt automatisch naar WebP omgezet.
+bot_action: Actie
+bot_actions_per_session: Acties per sessie
+bot_active: Actief
+bot_active_none: Geen LLM (alleen lokale terugvalopties)
+bot_activity: Activiteit per uur
+bot_activity_info: 24 komma-gescheiden waarden van 0 tot 1 (kans dat een offline bot een sessie start, uren 0-23)
+bot_alliance_chance: Kans op alliantieactiviteit per sessie
+bot_alliance_join_chance: Kans om bij een botalliantie te solliciteren (per beurt)
+bot_fleetsave_chance: Kans op vlootveiligstelling (einde sessie, dreigingen)
+bot_saving_discipline: Spaardiscipline (spaart voor het doel in plaats van goedkope aankopen)
+bot_expedition_slots: Vlootplaatsen vrijhouden voor expedities
+bot_api_key: API-sleutel
+bot_base_url: Basis-URL
+bot_buddy_accept_chance: Kans dat een vriendschapsverzoek wordt geaccepteerd
+bot_cancel: Annuleren
+bot_chat_style: Hint voor chatstijl
+bot_raid_enabled: Overvallen ingeschakeld
+bot_raid_chance: Sessies waarin wordt overvallen
+bot_scout_range: Verkenningsbereik (stelsels rond eigen planeten)
+bot_min_profit_ratio: Minimale winstverhouding (buit / brandstof + verliezen)
+bot_relentless_minutes: Overvalreeks na een treffer (minuten, min - max)
+bot_recall_check_chance: Kans op een nieuwe spionage en terugroepcontrole vóór de inslag
+bot_max_attacks_per_target: Max. aanvallen per doel en dag
+bot_attack_bots: Andere bots aanvallen
+bot_attack_humans: Menselijke spelers aanvallen
+bot_prefer_inactive: Voorkeur voor inactieve doelen (0-100)
+bot_check_interval: Interval loginscontrole
+bot_colonize_chance: Kans op kolonisatie per sessie
+bot_confirm_delete: Echt verwijderen?
+bot_confirm_restore: De standaardprofielen terugzetten naar hun oorspronkelijke waarden?
+bot_csrf_error: Ongeldig beveiligingstoken, herlaad de pagina.
+bot_days_zero_off: dagen (0 = uit)
+bot_default: standaard
+bot_defaults_restored: Standaardprofielen teruggezet.
+bot_delete: Verwijderen
+bot_deleted: Verwijderd.
+bot_description: Beschrijving
+bot_detail: Detail
+bot_disabled: uitgeschakeld
+bot_duplicate: Dupliceren
+bot_edit: Bewerken
+bot_edit_profile: Profiel bewerken
+bot_enabled: ingeschakeld
+bot_expedition_chance: Kans op expeditie per sessie
+bot_failed: Mislukt
+bot_hours_every: uur elke
+bot_invalid_url: De basis-URL moet beginnen met http:// of https://.
+bot_key: Sleutel
+bot_key_keep: leeg laten om te behouden
+bot_key_not_set: niet ingesteld
+bot_key_stored: opgeslagen
+bot_last_action: Laatste actie
+bot_last_test: Laatste test
+bot_list: Bots
+bot_llm_advice: LLM toestaan (namen en chat)
+bot_log: Recente acties
+bot_mistake_chance: Kans op fouten
+bot_mode: Botmodus
+bot_model: Model
+bot_name: Naam
+bot_name_required: Vul een naam in.
+bot_new_profile: Nieuw profiel
+bot_next_tick: Volgende controle
+bot_none: Geen.
+bot_offline: offline
+bot_online: online
+bot_open_config: Universuminstellingen
+bot_pattern_shift: Patroonverschuiving
+bot_player: Speler
+bot_points: Punten
+bot_profile: Profiel
+bot_profile_default_locked: Standaardprofielen kunnen niet worden verwijderd.
+bot_profile_in_use: Dit profiel wordt nog door bots gebruikt.
+bot_profile_missing: Profiel niet gevonden.
+bot_provider: Aanbieder
+bot_providers_info: 'De LLM is optioneel en wordt alleen gebruikt voor de menselijke kant van de bots: bijnamen, persona''s, planeetnamen en chat (antwoorden op berichten, allianties, vrienden). Spelbeslissingen worden altijd lokaal genomen. Zonder actieve aanbieder worden ingebouwde naamgenerators en vaste berichten gebruikt. Laat het sleutelveld leeg om de opgeslagen sleutel te behouden.'
+bot_randomness: Willekeur
+bot_reply_chance: Antwoordkans (privéberichten)
+bot_restore_defaults: Standaardwaarden herstellen
+bot_saved: Opgeslagen.
+bot_session: Sessie
+bot_session_minutes: Sessieduur
+bot_skill: Vaardigheid
+bot_skill_gain: Toename per dag
+bot_skill_max: Max.
+bot_skill_start: Start
+bot_spawn: Bots aanmaken
+bot_spawned: '%d bot(s) aangemaakt.'
+bot_summary: Samenvatting
+bot_summary_actions: acties
+bot_summary_mistakes: fouten
+bot_summary_session: sessie
+bot_tab_profiles: Profielen
+bot_tab_providers: LLM-aanbieders
+bot_test: Verbinding testen
+bot_testing: Testen...
+bot_time: Tijd
+bot_universe: Universum
+bot_w_defense: Verdediging
+bot_w_energy: Energie
+bot_w_facilities: Faciliteiten
+bot_w_mines: Mijnen
+bot_w_research: Onderzoek
+bot_w_ships: Schepen
+bot_w_storage: Opslag
+bot_weights: Gewichten
+adm_nav_bots: Bots
+adm_tab_bot_providers: LLM-aanbieders
+adm_tab_bot_profiles: Profielen
+adm_tab_bot_list: Bots
+se_bots: Bots
+se_bots_enabled: Bots inschakelen
+se_bots_enabled_info: Laat bots aan de serverkant in dit universum spelen. Ze worden elke minuut door de cronjob verwerkt.
+se_bots_llm_daily_limit: LLM-aanroepen per bot per dag
+se_bots_llm_daily_limit_info: Maximaal aantal LLM-aanroepen dat één bot per dag mag doen. Daarna worden lokale terugvalopties gebruikt.
+se_bots_llm_enabled: LLM gebruiken voor namen en chat
+se_bots_llm_enabled_info: Schakelt LLM-gegenereerde bijnamen, persona's, planeetnamen en chat (berichten, allianties, vrienden) in via de actieve aanbieder. Spelbeslissingen blijven altijd lokaal.
+se_bots_max_count: Maximaal aantal bots
+se_bots_max_count_info: Bovengrens voor aangemaakte bots in dit universum.
+se_bots_ticks_per_run: Bots per cronrun
+se_bots_ticks_per_run_info: Maximaal aantal bots dat in één cronrun wordt verwerkt.
+se_bots_raids_enabled: Bots overvallen andere spelers
+se_bots_raids_enabled_info: Laat bots spelers en andere bots in de buurt verkennen, bespioneren en aanvallen, onder dezelfde regels als spelers (bash-limiet, bescherming, vakantie). Standaard uit.
+adm_info_summary_fail: '%s controle(s) mislukt, %s waarschuwing(en). Los eerst de mislukte controles op.'
+adm_info_summary_warn: Geen mislukte controles, maar %s waarschuwing(en) vragen om aandacht.
+adm_info_summary_ok: Alle gezondheidscontroles zijn geslaagd.
+adm_info_health: Gezondheidscontroles
+adm_info_status_ok: OK
+adm_info_status_warn: Waarschuwing
+adm_info_status_fail: Mislukt
+adm_info_status_info: Info
+adm_info_chk_php: PHP-versie (8.4 of nieuwer)
+adm_info_chk_php_hint: Het spel heeft PHP 8.4 of nieuwer nodig.
+adm_info_chk_ext_required: Vereiste PHP-extensies
+adm_info_chk_ext_required_hint: Installeer de ontbrekende extensies; het spel werkt er niet zonder.
+adm_info_chk_ext_optional: Optionele PHP-extensies
+adm_info_chk_ext_optional_hint: Niet vereist, maar ze zorgen voor snellere of extra functies (zie de extensielijst).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache staat uit. Zet het aan in productie, dat versnelt PHP sterk.
+adm_info_chk_environment: Omgeving (APP_ENV / debug)
+adm_info_chk_environment_hint: Draai op een publieke server met APP_ENV=prod en debug uit.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: Foutmeldingen in pagina's kunnen interne gegevens lekken. Zet display_errors op Off op publieke servers.
+adm_info_chk_writable: Schrijfbare mappen
+adm_info_chk_writable_hint: De webserver-gebruiker moet naar deze mappen kunnen schrijven (caches, logs, sessies, uploads).
+adm_info_chk_install_tool: Installatietool
+adm_info_chk_install_tool_hint: var/ENABLE_INSTALL_TOOL bestaat. Verwijder het als je niet aan het installeren bent.
+adm_info_chk_migrations: Databasemigraties
+adm_info_chk_migrations_hint: Er staan migraties open. Ze worden bij het volgende spelverzoek toegepast; controleer het logboek als ze open blijven staan.
+adm_info_chk_battle_engine: Gevechtsengine
+adm_info_chk_battle_engine_hint: De Rust-engine is niet bruikbaar (bin/battlerust, bin/libbattlerust.so, proc_open). Gevechten draaien op de langzamere PHP-engine.
+adm_info_chk_cron: Cronjobs
+adm_info_chk_cron_hint: Cron lijkt vast te zitten of draait niet. Controleer of bin/console app:cron:run elke minuut draait en ontgrendel vastgelopen jobs onder Cronjobs.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Dit verzoek gebruikte geen HTTPS. Wachtwoorden en sessies gaan onversleuteld over de lijn.
+adm_info_chk_mail: Maillevering
+adm_info_chk_mail_hint: Mail is uit of onvolledig ingesteld (activeringsmails en wachtwoordresets komen niet aan). Zie de instellingen.
+adm_info_chk_session: Sessiehandler
+adm_info_chk_session_hint: Controleer de sessieopslag.
+adm_info_os: Besturingssysteem
+adm_info_hostname: Hostnaam
+adm_info_max_exec: Max. uitvoeringstijd
+adm_info_upload_max: Uploadlimiet (upload_max_filesize)
+adm_info_post_max: POST-limiet (post_max_size)
+adm_info_realpath: Realpath-cache
+adm_info_peak: Piekgeheugen van dit verzoek
+adm_info_cpu: CPU-kernen
+adm_info_load: Belasting (gemiddeld 1 / 5 / 15 min)
+adm_info_uptime: Systeemuptime
+adm_info_disk: Schijf (project)
+adm_info_memory: Systeemgeheugen
+adm_info_free_of: '%s vrij van %s (%s %% gebruikt)'
+adm_info_opcache_line: '%s van %s gebruikt, trefpercentage %s %%, %s scripts in cache'
+adm_info_extensions: PHP-extensies
+adm_info_extensions_hint: Houd de muis erboven voor het doel. Rood = vereist en ontbrekend, grijs = optioneel en ontbrekend.
+adm_info_required: vereist
+adm_info_ext_pdo_mysql: Databasetoegang (PDO MySQL)
+adm_info_ext_intl: Opmaak van getallen, datums en talen
+adm_info_ext_mbstring: Verwerking van meerbytige tekst
+adm_info_ext_gd: Afbeeldingsverwerking (avatars, nieuwsafbeeldingen)
+adm_info_ext_curl: HTTP-verzoeken (Discord, externe API's)
+adm_info_ext_json: JSON coderen en decoderen
+adm_info_ext_ctype: Controle van tekentypen
+adm_info_ext_opcache: Slaat gecompileerde PHP-code op in de cache (snelheid)
+adm_info_ext_ffi: Foreign function interface (native code)
+adm_info_ext_ds: Snelle datastructuren
+adm_info_ext_redis: Redis-sessies en -cache
+adm_info_ext_imap: Toegang tot mailboxen (IMAP)
+adm_info_database: Database
+adm_info_db_schema: Schema
+adm_info_db_size: Grootte
+adm_info_tables: tabellen
+adm_info_pending: Openstaande migraties
+adm_info_db_uptime: MySQL-uptime
+adm_info_threads: Verbonden threads
+adm_info_max: max
+adm_info_qps: Query's per seconde (gemiddeld)
+adm_info_queries: query's
+adm_info_slow: Trage query's
+adm_info_buffer_pool: InnoDB buffer pool
+adm_info_top_tables: Grootste tabellen
+adm_info_table: Tabel
+adm_info_rows: rijen
+adm_info_data: Data
+adm_info_index: Index
+adm_info_game_stats: Spelstatistieken
+adm_info_universe: Universum
+adm_info_players: Spelers
+adm_info_accounts: Accounts
+adm_info_online: Online
+adm_info_planets: Planeten
+adm_info_moons: Manen
+adm_info_fleets: Vloten onderweg
+adm_info_acs: ACS-groepen
+adm_info_alliances: Allianties
+adm_info_messages: Berichten
+adm_info_unread: ongelezen
+adm_info_activity: Activiteit en registraties
+adm_info_active: Actieve spelers
+adm_info_registrations: Nieuwe registraties
+adm_info_banned: Geblokkeerde spelers
+adm_info_vacation: In vakantiemodus
+adm_info_bots: Botspelers
+adm_info_points_avg: Gemiddelde punten
+adm_info_points_top: Hoogste punten
+adm_info_last_stats: Laatste statistiekupdate
+adm_info_market: Open marktaanbiedingen
+adm_info_reports: Opgeslagen gevechtsrapporten
+adm_info_debris: Puinvelden met inhoud (metaal / kristal)
+adm_info_resources: Grondstoffen opgeslagen op planeten
+adm_info_fleets_by_mission: Vloten per opdracht
+adm_info_mission: Opdracht
+adm_info_no_fleets: Geen vloten onderweg.
+adm_info_reg_chart: Registraties, laatste 30 dagen
+adm_info_no_registrations: Geen registraties in de laatste 30 dagen.
+adm_info_all_universes: Alle universums
+adm_info_total: Totaal
+adm_info_logs: Logboeken en caches
+adm_info_game_log: Spellogboek
+adm_info_errors_24h: Fouten, laatste 24 u
+adm_info_warnings_24h: Waarschuwingen, laatste 24 u
+adm_info_scanned: Gescand (einde bestand)
+adm_info_symfony_log: Symfony-logboek
+adm_info_lines: regels
+adm_info_files: bestanden
+adm_info_last_errors: Laatste fouten
+adm_info_no_errors: Geen fouten in het gescande deel van het logboek.
+adm_info_time: Servertijd
+adm_info_timezone_of: Bron
+adm_info_zone: Tijdzone
+adm_info_tz_php: PHP
+adm_info_tz_config: Spelconfiguratie
+adm_info_tz_user: Je account
+adm_login_throttled: Te veel pogingen. Probeer het over een paar minuten opnieuw.
+se_community_links: Communitylinks
+se_discord_url: Discord-uitnodigingslink
+se_discord_url_info: Uitnodigingslink van je Discord-server (https://...). Wordt getoond in het menu, de loginpagina, e-mails en teksten. Leeg verbergt hem.
+se_discord_widget_guild: Discord-server-ID (online-widget)
+se_discord_widget_guild_info: ID van je Discord-server (17-20 cijfers; Serverinstellingen → Widget, "Serverwidget inschakelen" moet aanstaan). Toont een vak met het aantal online leden op de startpagina, elke 5 minuten bijgewerkt. Leeg verbergt het.
+se_wiki_url: Wiki-URL
+se_wiki_url_info: Basis-URL van een externe wiki, zonder slash aan het eind (https://...). Wikilinks in de FAQ, tutorial en regels worden hiermee opgebouwd. Leeg verbergt ze.
+se_donate_url: Donatie-URL
+se_donate_url_info: Link voor donaties (https://...), getoond in het menu. Leeg verbergt hem.
+se_userscripts_url: Userscripts-URL
+se_userscripts_url_info: Pagina met uitleg over userscripts voor je spel (https://...), gelinkt in de instellingen. Leeg verbergt hem.
+se_bots_alliances_enabled: Bots vormen allianties
+se_bots_alliances_enabled_info: 'Bots richten hun eigen allianties op en treden af en toe bij andere toe. Uit: bots blijven alleen, solliciteren nergens en verlaten allianties waar ze lid van zijn (allianties die een bot heeft opgericht blijven bestaan).'
+se_bots_join_human_alliances: Bots mogen spelersallianties joinen
+se_bots_join_human_alliances_info: 'Bots mogen ook solliciteren bij allianties die door menselijke spelers zijn opgericht. Uit: bots treden alleen toe tot allianties van bots en verlaten spelersallianties.'
+se_bot_reply_delay_hours: Antwoordvertraging (uren)
+se_bot_reply_delay_hours_info: Uren die het oudste onbeantwoorde privébericht van een speler wacht voordat een bot alle openstaande berichten van die speler in één antwoord beantwoordt. Ook de minimale tussenpoos tussen twee door bots gestarte berichten (reacties op aanvallen, uitdagingen bij overvallen) aan dezelfde speler. 0 = geen vertraging.
+se_bot_chatter: Bots chatten
+se_bot_chatter_info: 'Aan: bots antwoorden op privéberichten. Uit: berichten worden nog wel gelezen en geteld, maar er worden alleen gevechtsreacties verstuurd (na een aanval of overval op een speler die hen heeft geschreven). Bots schrijven nooit als eerste.'
+mu_hall_of_fame: Hall of Fame
+hof_head: Hall of Fame (universum)
+hof_view: Openbare pagina bekijken
+hof_status: Status
+hof_has_data: Gegevens aanwezig
+hof_entries: Ranglijstregels
+hof_updated: Laatst bijgewerkt
+hof_no_data: Geen Hall of Fame-gegevens voor dit universum.
+hof_export: JSON exporteren
+hof_clear: Gegevens wissen
+hof_confirm_clear: De Hall of Fame-gegevens van dit universum verwijderen?
+hof_import: JSON importeren
+hof_file: JSON-bestand
+hof_import_help: 'Formaat: hall-of-fame, versie 1 (max. 1 MB). Vervangt de bestaande gegevens van dit universum.'
+hof_confirm_import: De bestaande Hall of Fame-gegevens van dit universum vervangen?
+hof_imported: Hall of Fame geïmporteerd.
+hof_cleared: Hall of Fame-gegevens verwijderd.
+hof_error_nofile: Er is geen geldig bestand geüpload.
+hof_error_invalid: 'Import geweigerd:'
+se_bash_war_exempt: Oorlogen heffen de bash-limiet op
+se_bash_war_exempt_info: 'Aanvallen tussen allianties in oorlog (geaccepteerd, ouder dan één dag) tellen niet mee voor de bash-limieten. Uit: oorlogsaanvallen tellen mee zoals alle andere.'
+se_honor_pair_cap: Eervolle gevechten per paar (24 u)
+se_honor_pair_cap_info: Hoeveel eervolle gevechten tussen dezelfde twee spelers (in beide richtingen) binnen 24 uur eer opleveren. Verdere gevechten tellen neutraal. 0 = onbeperkt.
+se_market_push_tolerance: Tolerantie marktduw
+se_market_push_tolerance_info: Geaccepteerd waardeverschil van een handel op de markt in procent (0-90) voordat die als duwen geldt. Standaard 30.
+se_transport_push_check: Bescherming tegen transportduw
+se_transport_push_check_info: Weigert transporten, vasthoudacties en overdrachten (lading en schepen) naar een andere speler wanneer de waarde die naar hen is gestuurd in de afgelopen 7 dagen de waarde die zij terugstuurden met meer dan onderstaande limiet overschrijdt.
+se_transport_push_limit: Limiet transportduw
+se_transport_push_limit_info: Ladingwaarde in deuteriumeenheden (marktverhoudingen) waarboven de bescherming geldt. 0 = bescherming uit.
+se_depot_cost_real_consumption: Depotkosten op basis van werkelijk verbruik
+se_depot_cost_real_consumption_info: Het alliantiedepot rekent het werkelijke brandstofverbruik van de vloot (met de aandrijf- en brandstoftechnieken van de eigenaar) / 10 per uur, in plaats van het basisverbruik / 10.
+abuse_menu: Misbruikrapport
+abuse_days: Dagen
+abuse_apply: Toepassen
+abuse_weights: 'Waardegewichten metaal : kristal : deuterium'
+abuse_none: Niets gevonden in dit venster.
+abuse_from: Van
+abuse_to: Tot
+abuse_count: Aantal
+abuse_sent: Verstuurd
+abuse_back: Teruggekomen
+abuse_net: Nettowaarde
+abuse_linked: Gekoppeld
+abuse_last: Laatste
+abuse_link_ip: zelfde IP
+abuse_link_multi: multigroep
+abuse_link_multi_known: multigroep (bekend)
+abuse_link_subnet: zelfde subnet (zwakker)
+abuse_thresholds: 'Drempels: een transferpaar wordt getoond vanaf %s metaaleenheden in één richting met hooguit %s terug; marktparen vanaf %s handels, gemarkeerd boven %s verschil. Geen rijen betekent dat niets deze limieten heeft bereikt (of dat de logboeken niets bevatten), niet dat er niets gebeurd is.'
+abuse_transfers: Eenzijdige transporten en vasthoudacties
+abuse_transfers_info: Transporten, vasthoudacties en schepenoverdrachten (niet teruggeroepen; schepen geteld tegen bouwkosten) tussen twee spelers waarvan de lading in één richting minstens %s metaaleenheden waard was terwijl hooguit %s van die waarde terugkwam. Gesorteerd op nettowaarde; de gewichten zijn de opgeslagen marktverhoudingen.
+abuse_trades: Herhaalde marktruilen
+abuse_trades_info: Grondstofruilen tussen dezelfde twee spelers, minstens %s keer. Verhouding = waarde gegeven door de partij die meer gaf gedeeld door de andere partij (1,00 = gelijk aan de marktreferentie); boven %s verschil wordt het paar gemarkeerd.
+abuse_giver: Gaf meer
+abuse_receiver: Ontving meer
+abuse_ratio: Verhouding
+abuse_outlier: uitschieter
+abuse_protections: Herbouwbeschermingen toegekend
+abuse_protections_info: Spelers die in het venster een herbouwbescherming kregen. Tegenstanders zijn de andere partij in het gevechtsrapport van die strijd; buit is de waarde die hun vloten er per saldo mee wonnen (puin en vernietigde waarde worden niet opgeslagen).
+abuse_protected: Beschermde speler
+abuse_granted: Toegekend
+abuse_opponents: Tegenstanders
+abuse_loot: Buit van tegenstanders
+abuse_report: Rapport
+abuse_recalls: Terugroepacties bij of na aankomst
+abuse_recalls_info: Aanval-, ACS- en vernietigingsvloten die werden teruggeroepen toen de aankomsttijd al was bereikt (patroon terugroepen na aankomst).
+abuse_mission: Opdracht
+abuse_arrival: Aankomst
+abuse_recalled: Teruggeroepen
+abuse_late: Na aankomst
+abuse_fought: gevochten
+abuse_mission_1: Aanval
+abuse_mission_2: ACS-aanval
+abuse_mission_9: Vernietigen
+abuse_missiles_skipped: 'Raketlanceringen tegenover de inhoud van silo''s maken geen deel uit van dit rapport: de tabellen bevatten geen silogeschiedenis om mee te vergelijken.'
+abuse_link_device: zelfde apparaat
+abuse_graph: Waardestroomclusters
+abuse_graph_info: 'Spelers die door waardestromen aan elkaar zijn gekoppeld in de afgelopen %s dagen (vast venster): transporten, vasthoudacties, schepenoverdrachten (tegen bouwkosten), marktruilen (beide kanten) en gevechtsbuit, samengeteld over beide richtingen. Alleen paren waarbij minstens %s metaaleenheden en %s stromen bewogen zijn, worden verbonden; verbonden groepen van twee of meer worden getoond (top %s op waarde). Netto = waarde van het meest eenzijdige paar van het cluster (aandeel van het totaal). Koppelvlaggen tonen of leden een IP, apparaat of multigroep delen met een ander lid. Rijen worden per bron beperkt ingelezen.'
+abuse_members: Leden
+abuse_value: Totale waarde
+abuse_flows: Stromen
+abuse_top_edge: Meest eenzijdige paar
+abuse_activity: Vlootlanceringen (24 u)
+abuse_activity_info: Accounts met de meeste vlootlanceringen in de afgelopen 24 uur; piek = lanceringen in het drukste uur. Aanhoudend hoge pieken kunnen wijzen op gescript spelen.
+abuse_player: Speler
+abuse_launches: Lanceringen
+abuse_peak: Piek / uur
+adm_dash_unprotected: 'Beschermingen tegen misbruik staan uit in dit universum:'
+adm_dash_unprotected_push: Bescherming tegen duwen voor transport, vasthouden en overdracht staat uit (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: Eervolle-paarlimiet is 0 (onbeperkte eer tussen dezelfde twee spelers).
+adm_dash_unprotected_bash: Verklaarde oorlogen heffen de bash-limiet op (bash_war_exempt).
+adm_dash_unprotected_depot: Depotlading kost het goedkope basisverbruik (depot_cost_real_consumption uit).
+adm_dash_unprotected_market: Tolerantie marktduw is hoger dan 10 % (market_push_tolerance).
+modul_57: Stemsites
+adm_nav_voting: Stemsites
+vt_sites: Stemsites
+vt_add: Site toevoegen
+vt_create_head: Nieuwe stemsite
+vt_edit_head: Stemsite bewerken
+vt_back: Terug
+vt_name: Naam
+vt_vote_url: Stem-URL
+vt_vote_url_help: De link waarnaar spelers worden gestuurd. {token} (eenmalig token van deze stem) en {userId} worden vervangen.
+vt_image_url: Afbeeldings-URL (optioneel)
+vt_image_url_help: Banner of logo die naast de site op de spelerpagina wordt getoond (https).
+vt_cooldown: Wachttijd (uren)
+vt_cooldown_help: Eén beloning per speler en site in dit tijdvenster, geteld vanaf de laatste beloning.
+vt_reward: Beloning
+vt_res_901: Metaal
+vt_res_902: Kristal
+vt_res_903: Deuterium
+vt_verification: Verificatie
+vt_verify_none: Geen (beloning bij klikken)
+vt_verify_postback: Postback (beloning bij callback van de site)
+vt_verification_help: Zonder verificatie wordt de beloning uitbetaald wanneer de speler op de stemknop klikt (alleen wachttijd). Met postback moet de site de callback-URL aanroepen.
+vt_sort: Sorteervolgorde
+vt_active: Actief
+vt_enabled: Actief
+vt_disabled: Inactief
+vt_enable: Activeren
+vt_disable: Deactiveren
+vt_delete: Site verwijderen
+vt_renew_secret: Nieuw geheim genereren
+vt_renew_secret_help: 'Maakt de oude postback-URL ongeldig: werk deze bij op de stemsite.'
+vt_postback: Postback
+vt_postback_url: Callback-URL
+vt_secret: Geheim
+vt_postback_help: Vul deze URL bij de stemsite in als callback/postback. Vervang {token} door de macro van de site voor de waarde die het in de stem-URL heeft ontvangen. GET en POST worden geaccepteerd; het geheim kan ook worden meegestuurd als header X-Vote-Secret.
+vt_saved: Opgeslagen.
+vt_deleted: Stemsite verwijderd.
+vt_empty: Nog geen stemsites.
+vt_confirm_delete: De stemsite "%s" en het logboek ervan verwijderen?
+vt_module_off: De module "Stemsites" staat uit; spelers zien geen stempagina.
+vt_error_name: De naam is verplicht.
+vt_error_vote_url: De stem-URL moet een geldig http(s)-adres zijn.
+vt_error_image_url: De afbeeldings-URL moet een geldig http(s)-adres zijn.
+vt_error_reward: Beloningsbedragen moeten tussen 0 en 1.000.000.000 liggen.
+vt_clicks: Klikken
+vt_verified: Geverifieerd
+vt_rewarded: Beloond
+vt_log: Recente stemmen
+vt_log_time: Tijd
+vt_log_player: Speler
+vt_log_status: Status
+vt_log_ip: IP
+vt_log_empty: Nog geen stemmen.
+vt_status_rewarded: Beloond
+vt_status_verified: Geverifieerd, geen beloning
+vt_status_pending: Geklikt

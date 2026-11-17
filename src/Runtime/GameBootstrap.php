@@ -33,7 +33,6 @@ final class GameBootstrap
         private \App\Game\Core\FlyingFleetHandler $fleetHandler,
         private \App\Game\Core\ErrorReporter $errorReporter,
         private \App\Security\GameAuth $auth,
-        private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient,
     ) {}
 
     /**
@@ -46,19 +45,15 @@ final class GameBootstrap
      * module MODULE_FLEET_EVENTS), loads USER (with unread message count and points), lifts an expired ban,
      * applies language, theme and timezone, then gates on bans (error page), universe status (closed/registration
      * only block normal players) and, for INGAME, locks the active planet row (FOR UPDATE) and loads PLANETS.
-     * Optionally logs analytics and verifies a submitted reCAPTCHA token.
+     * Optionally logs analytics.
      * A battle report link (page=raport, no other parameter) works without session or user.
      * LOGIN: only the language. ACCOUNT: loads the account row (or a guest stub for the public board).
      *
-     * Side effects: DB writes (ban reset, analytics, reCAPTCHA log, fleet events), game session writes, redirects and
+     * Side effects: DB writes (ban reset, analytics, fleet events), game session writes, redirects and
      * error pages that end the request via EndOfRequest.
      */
     public function run(): void
     {
-        if (isset($this->state->requestPost['GLOBALS']) || isset($this->state->requestQuery['GLOBALS'])) {
-            throw new \App\Game\Core\EndOfRequest('You cannot set the GLOBALS-array from outside the script.');
-        }
-
         // Symfony Security for the game code (logged-in account, login, logout)
         $this->state->auth = $this->auth;
 
@@ -151,7 +146,7 @@ final class GameBootstrap
     /**
      * Boot of INGAME, ADMIN and CRON requests after the session is known: loads the session, game data and due fleet
      * events, the player (USER) and his language/theme/timezone, gates on bans and universe status, loads the planet
-     * (INGAME) or admin rights (ADMIN), logs analytics and verifies a reCAPTCHA token. A battle report link
+     * (INGAME) or admin rights (ADMIN), logs analytics. A battle report link
      * (`raportWithoutSession`) skips the player and planet loading.
      *
      * @return Language the language of the player (also stored in `state->LNG`)
@@ -193,7 +188,6 @@ final class GameBootstrap
 
         $this->gateUniverseStatus($LNG, $config, $raportWithoutSession);
         $this->logAnalytics();
-        $this->verifyRecaptcha($config);
 
         return $LNG;
     }
@@ -367,40 +361,6 @@ final class GameBootstrap
                 ':onlinetime'   => $this->state->runtime->timestamp,
                 ':requestedUri' => $this->state->requestServer['REQUEST_URI'],
             ]);
-        }
-    }
-
-    /**
-     * Verifies a submitted `rcaptcha` token against Google (when a private key is configured) and logs successful
-     * checks (user, score, URL) into RECAPTCHA.
-     */
-    private function verifyRecaptcha($config): void
-    {
-        $db     = $this->db;
-
-        $privKey = $config->recaptcha_priv_key;
-        $rcaptcha = $this->http()->_GP('rcaptcha', '');
-        if ($privKey !== "" && $rcaptcha !== "") {
-            try {
-                $response = $this->httpClient->request('POST', 'https://www.google.com/recaptcha/api/siteverify', [
-                    'body' => ['secret' => $privKey, 'response' => $rcaptcha],
-                    'max_redirects' => 0,
-                ])->getContent(false);
-            } catch (\Throwable) {
-                $response = '';
-            }
-            $arrResponse = json_decode($response, true);
-            $sql = "insert into %%RECAPTCHA%% (userId, success, time, score, url) VALUES (:userId, :success, :time, :score, :url);";
-
-            if (isset($arrResponse) && $arrResponse['success'] == true) {
-                $db->insert($sql, [
-                    ':userId'   => $this->state->USER['id'],
-                    ':success'  => $arrResponse['success'],
-                    ':time'     => $this->state->runtime->timestamp,
-                    ':score'    => $arrResponse['score'],
-                    ':url'      => $this->state->requestServer['REQUEST_URI'],
-                ]);
-            }
         }
     }
 

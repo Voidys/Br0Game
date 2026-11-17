@@ -151,12 +151,6 @@ parameters:
 			path: src/Controller/Account/BoardController.php
 
 		-
-			message: '#^Property App\\Controller\\Account\\DataPrivacyController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Account/DataPrivacyController.php
-
-		-
 			message: '#^Method App\\Controller\\Account\\ErrorController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -191,18 +185,6 @@ parameters:
 			identifier: missingType.property
 			count: 1
 			path: src/Controller/Account/ErrorController.php
-
-		-
-			message: '#^Property App\\Controller\\Account\\ErrorController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Account/ErrorController.php
-
-		-
-			message: '#^Property App\\Controller\\Account\\LogoutController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Account/LogoutController.php
 
 		-
 			message: '#^Method App\\Controller\\Account\\RegisterController\:\:send\(\) has no return type specified\.$#'
@@ -1045,12 +1027,6 @@ parameters:
 			path: src/Controller/Game/AllianceController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\AllianceController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/AllianceController.php
-
-		-
 			message: '#^Property App\\Controller\\Game\\AllianceController\:\:\$rights type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -1063,20 +1039,8 @@ parameters:
 			path: src/Controller/Game/AllianceDepotController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\BanListController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/BanListController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\BattleHallController\:\:assembleSelectors\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/BattleHallController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\BattleHallController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/BattleHallController.php
 
@@ -1093,24 +1057,6 @@ parameters:
 			path: src/Controller/Game/BattleSimulatorController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\BattleSimulatorController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/BattleSimulatorController.php
-
-		-
-			message: '#^Method App\\Controller\\Game\\BoardController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/BoardController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\BoardController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/BoardController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\BuddyListController\:\:accept\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1125,12 +1071,6 @@ parameters:
 		-
 			message: '#^Method App\\Controller\\Game\\BuddyListController\:\:send\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/BuddyListController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\BuddyListController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/BuddyListController.php
 
@@ -1157,24 +1097,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Controller/Game/BuildingsController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\BuildingsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/BuildingsController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\ChangelogController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/ChangelogController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\EmpireController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/EmpireController.php
 
 		-
 			message: '#^Method App\\Controller\\Game\\ErrorController\:\:show\(\) has no return type specified\.$#'
@@ -1208,12 +1130,6 @@ parameters:
 
 		-
 			message: '#^Property App\\Controller\\Game\\ErrorController\:\:\$disableEcoSystem has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/ErrorController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\ErrorController\:\:\$requireModule has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/ErrorController.php
@@ -1255,12 +1171,6 @@ parameters:
 			path: src/Controller/Game/FleetAjaxController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\FleetAjaxController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetAjaxController.php
-
-		-
 			message: '#^Property App\\Controller\\Game\\FleetAjaxController\:\:\$returnData has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -1273,20 +1183,8 @@ parameters:
 			path: src/Controller/Game/FleetDealerController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\FleetDealerController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetDealerController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\FleetMissileController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/FleetMissileController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetMissileController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/FleetMissileController.php
 
@@ -1307,30 +1205,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Controller/Game/FleetStep1Controller.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetStep1Controller\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetStep1Controller.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetStep2Controller\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetStep2Controller.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetStep3Controller\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetStep3Controller.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetStepAjaxController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetStepAjaxController.php
 
 		-
 			message: '#^Property App\\Controller\\Game\\FleetStepAjaxController\:\:\$returnData has no type specified\.$#'
@@ -1361,18 +1235,6 @@ parameters:
 			identifier: parameterByRef.type
 			count: 1
 			path: src/Controller/Game/FleetTableController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\FleetTableController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/FleetTableController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\GalaxyController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/GalaxyController.php
 
 		-
 			message: '#^Method App\\Controller\\Game\\InformationController\:\:destroyMissiles\(\) has no return type specified\.$#'
@@ -1409,24 +1271,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Game/InformationController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\InformationController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/InformationController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\LogoutController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/LogoutController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\MarketPlaceController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/MarketPlaceController.php
 
 		-
 			message: '#^Method App\\Controller\\Game\\MessagesController\:\:action\(\) has no return type specified\.$#'
@@ -1483,12 +1327,6 @@ parameters:
 			path: src/Controller/Game/MessagesController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\MessagesController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/MessagesController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\NotesController\:\:delete\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1497,12 +1335,6 @@ parameters:
 		-
 			message: '#^Method App\\Controller\\Game\\NotesController\:\:insert\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/NotesController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\NotesController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/NotesController.php
 
@@ -1523,18 +1355,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Game/OverviewController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\OverviewController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/OverviewController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\PhalanxController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/PhalanxController.php
 
 		-
 			message: '#^Method App\\Controller\\Game\\PlayerCardController\:\:get_achievements\(\) has no return type specified\.$#'
@@ -1771,31 +1591,19 @@ parameters:
 			path: src/Controller/Game/PlayerCardController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\PlayerCardController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/PlayerCardController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\QuestionsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/QuestionsController.php
-
-		-
-			message: '#^Method App\\Controller\\Game\\RaportController\:\:BCWrapperPreRev2321\(\) has no return type specified\.$#'
+			message: '#^Method App\\Controller\\Game\\RaportController\:\:applyViewerPerspective\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Game/RaportController.php
 
 		-
-			message: '#^Method App\\Controller\\Game\\RaportController\:\:BCWrapperPreRev2321\(\) has parameter \$combatReport with no type specified\.$#'
+			message: '#^Method App\\Controller\\Game\\RaportController\:\:applyViewerPerspective\(\) has parameter \$combatReport with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Controller/Game/RaportController.php
 
 		-
-			message: '#^Method App\\Controller\\Game\\RaportController\:\:BCWrapperPreRev2321\(\) has parameter \$isDefender with no type specified\.$#'
+			message: '#^Method App\\Controller\\Game\\RaportController\:\:applyViewerPerspective\(\) has parameter \$isDefender with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Controller/Game/RaportController.php
@@ -1807,32 +1615,14 @@ parameters:
 			path: src/Controller/Game/RaportController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\RaportController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/RaportController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\RebuildProtectionAjaxController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Game/RebuildProtectionAjaxController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\RebuildProtectionAjaxController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/RebuildProtectionAjaxController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\RecordsController\:\:groupRecords\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/Controller/Game/RecordsController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\RecordsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/RecordsController.php
 
@@ -1849,20 +1639,8 @@ parameters:
 			path: src/Controller/Game/RepairdockController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\RepairdockController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/RepairdockController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\ReportController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/ReportController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\ReportController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/ReportController.php
 
@@ -1885,28 +1663,10 @@ parameters:
 			path: src/Controller/Game/ResearchController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\ResearchController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/ResearchController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\ResourcesController\:\:send\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Game/ResourcesController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\ResourcesController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/ResourcesController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\RulesController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/RulesController.php
 
 		-
 			message: '#^Method App\\Controller\\Game\\SearchController\:\:_getSearchList\(\) has no return type specified\.$#'
@@ -1933,18 +1693,6 @@ parameters:
 			path: src/Controller/Game/SearchController.php
 
 		-
-			message: '#^Method App\\Controller\\Game\\SearchController\:\:autocomplete\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/SearchController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\SearchController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/SearchController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\SettingsController\:\:checkVMode\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -1965,12 +1713,6 @@ parameters:
 		-
 			message: '#^Method App\\Controller\\Game\\SettingsController\:\:toggleVacation\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/SettingsController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\SettingsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/SettingsController.php
 
@@ -2005,38 +1747,8 @@ parameters:
 			path: src/Controller/Game/ShipyardController.php
 
 		-
-			message: '#^Property App\\Controller\\Game\\ShipyardController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/ShipyardController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\SpyReportPopupController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/SpyReportPopupController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\StatisticsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/StatisticsController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\TechtreeController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/TechtreeController.php
-
-		-
 			message: '#^Method App\\Controller\\Game\\TicketController\:\:send\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Game/TicketController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\TicketController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/TicketController.php
 
@@ -2049,12 +1761,6 @@ parameters:
 		-
 			message: '#^PHPDoc tag @param references unknown parameter\: \$goal$#'
 			identifier: parameter.notFound
-			count: 1
-			path: src/Controller/Game/TutorialController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\TutorialController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/TutorialController.php
 
@@ -2078,12 +1784,6 @@ parameters:
 
 		-
 			message: '#^Property App\\Controller\\Game\\WikiLoginController\:\:\$disableEcoSystem has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Game/WikiLoginController.php
-
-		-
-			message: '#^Property App\\Controller\\Game\\WikiLoginController\:\:\$requireModule has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: src/Controller/Game/WikiLoginController.php
@@ -2119,18 +1819,6 @@ parameters:
 			path: src/Controller/Login/AbstractLoginController.php
 
 		-
-			message: '#^Method App\\Controller\\Login\\AbstractLoginController\:\:redirectPost\(\) has parameter \$postFields with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Controller/Login/AbstractLoginController.php
-
-		-
-			message: '#^Method App\\Controller\\Login\\AbstractLoginController\:\:redirectPost\(\) has parameter \$url with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Controller/Login/AbstractLoginController.php
-
-		-
 			message: '#^Method App\\Controller\\Login\\AbstractLoginController\:\:redirectTo\(\) has parameter \$url with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -2159,36 +1847,6 @@ parameters:
 			identifier: deadCode.unreachable
 			count: 1
 			path: src/Controller/Login/AbstractLoginController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\BanListController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/BanListController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\BattleHallController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/BattleHallController.php
-
-		-
-			message: '#^Method App\\Controller\\Login\\BoardController\:\:show\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Controller/Login/BoardController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\DataPrivacyController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/DataPrivacyController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\DisclamerController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/DisclamerController.php
 
 		-
 			message: '#^Method App\\Controller\\Login\\ErrorController\:\:show\(\) has no return type specified\.$#'
@@ -2227,18 +1885,6 @@ parameters:
 			path: src/Controller/Login/ErrorController.php
 
 		-
-			message: '#^Property App\\Controller\\Login\\ErrorController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/ErrorController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\HofController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/HofController.php
-
-		-
 			message: '#^Method App\\Controller\\Login\\IndexController\:\:discordWidgetData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -2263,12 +1909,6 @@ parameters:
 			path: src/Controller/Login/LoginController.php
 
 		-
-			message: '#^Property App\\Controller\\Login\\LoginController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/LoginController.php
-
-		-
 			message: '#^Method App\\Controller\\Login\\LostPasswordController\:\:newPassword\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2277,12 +1917,6 @@ parameters:
 		-
 			message: '#^Method App\\Controller\\Login\\LostPasswordController\:\:send\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Login/LostPasswordController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\LostPasswordController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Login/LostPasswordController.php
 
@@ -2311,22 +1945,10 @@ parameters:
 			path: src/Controller/Login/NewsController.php
 
 		-
-			message: '#^Property App\\Controller\\Login\\NewsController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/NewsController.php
-
-		-
 			message: '#^Method App\\Controller\\Login\\RegisterController\:\:send\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Controller/Login/RegisterController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\ScreensController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: src/Controller/Login/ScreensController.php
 
 		-
 			message: '#^Method App\\Controller\\Login\\VertifyController\:\:_activeUser\(\) has no return type specified\.$#'
@@ -2343,12 +1965,6 @@ parameters:
 		-
 			message: '#^Method App\\Controller\\Login\\VertifyController\:\:show\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Controller/Login/VertifyController.php
-
-		-
-			message: '#^Property App\\Controller\\Login\\VertifyController\:\:\$requireModule has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: src/Controller/Login/VertifyController.php
 
@@ -4003,18 +3619,6 @@ parameters:
 			path: src/Game/Core/BuildFunctions.php
 
 		-
-			message: '#^Method App\\Game\\Core\\BuildFunctions\:\:getQueueFieldProjection\(\) has parameter \$PLANET with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/BuildFunctions.php
-
-		-
-			message: '#^Method App\\Game\\Core\\BuildFunctions\:\:getQueueFieldProjection\(\) has parameter \$queue with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/BuildFunctions.php
-
-		-
 			message: '#^Property App\\Game\\Core\\BuildFunctions\:\:\$bonusList type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4178,12 +3782,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Game\\Core\\Database\:\:getConnectionConfig\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/Database.php
-
-		-
-			message: '#^Method App\\Game\\Core\\Database\:\:getDbTableNames\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Game/Core/Database.php
@@ -5614,12 +5212,6 @@ parameters:
 			path: src/Game/Core/PlayerUtil.php
 
 		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:blockHP\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
 			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:calculateMaxPlanetFields\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -5675,18 +5267,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:clearPlanets\(\) has parameter \$USER with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:compare_honor_fights\(\) has parameter \$referenceFights with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:compare_honor_fights\(\) has parameter \$userFights with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Game/Core/PlayerUtil.php
@@ -5836,18 +5416,6 @@ parameters:
 			path: src/Game/Core/PlayerUtil.php
 
 		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:get_honor_percent\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:linearHP\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
 			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:maxPlanetCount\(\) has parameter \$USER with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5885,12 +5453,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:player_stb_settings\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Core/PlayerUtil.php
-
-		-
-			message: '#^Method App\\Game\\Core\\PlayerUtil\:\:randomHP\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Game/Core/PlayerUtil.php
@@ -6275,18 +5837,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Game\\Core\\SQLDumper\:\:nativeDumpToFile\(\) has parameter \$filePath with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Game/Core/SQLDumper.php
-
-		-
-			message: '#^Method App\\Game\\Core\\SQLDumper\:\:restoreDatabase\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Core/SQLDumper.php
-
-		-
-			message: '#^Method App\\Game\\Core\\SQLDumper\:\:restoreDatabase\(\) has parameter \$filePath with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Game/Core/SQLDumper.php
@@ -7528,18 +7078,6 @@ parameters:
 			path: src/Game/Missions/MissionCasePiratebaseSpy.php
 
 		-
-			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:estimateRecyclers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Missions/MissionCasePiratebaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:estimateRecyclers\(\) has parameter \$recycleValue with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Game/Missions/MissionCasePiratebaseSpy.php
-
-		-
 			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:getClassIDs\(\) has parameter \$fleetAmount with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -7565,18 +7103,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:getDangerValue\(\) has parameter \$spyData with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Game/Missions/MissionCasePiratebaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:getRecyleValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Missions/MissionCasePiratebaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCasePiratebaseSpy\:\:getRecyleValue\(\) has parameter \$spyData with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Game/Missions/MissionCasePiratebaseSpy.php
@@ -7660,18 +7186,6 @@ parameters:
 			path: src/Game/Missions/MissionCaseSpy.php
 
 		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:estimateRecyclers\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:estimateRecyclers\(\) has parameter \$recycleValue with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
 			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getDangerValue\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -7684,24 +7198,6 @@ parameters:
 			path: src/Game/Missions/MissionCaseSpy.php
 
 		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetDefense\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetDefense\(\) has parameter \$targetPlanet with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetDefense\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
 			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetFleet\(\) has parameter \$targetPlanet with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -7710,18 +7206,6 @@ parameters:
 		-
 			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getPlanetFleet\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getRecyleValue\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Game/Missions/MissionCaseSpy.php
-
-		-
-			message: '#^Method App\\Game\\Missions\\MissionCaseSpy\:\:getRecyleValue\(\) has parameter \$spyData with no type specified\.$#'
-			identifier: missingType.parameter
 			count: 1
 			path: src/Game/Missions/MissionCaseSpy.php
 
@@ -8536,12 +8020,6 @@ parameters:
 			path: src/Runtime/GameBootstrap.php
 
 		-
-			message: '#^Method App\\Runtime\\GameBootstrap\:\:verifyRecaptcha\(\) has parameter \$config with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Runtime/GameBootstrap.php
-
-		-
 			message: '#^Method App\\Runtime\\InstallService\:\:applyGameSettings\(\) has parameter \$values with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -8768,12 +8246,6 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 1
 			path: src/Twig/LanguageView.php
-
-		-
-			message: '#^Method App\\Twig\\TemplateExtension\:\:numberFormat\(\) has parameter \$num with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Twig/TemplateExtension.php
 
 		-
 			message: '#^Offset numeric\-string does not exist on list\<string\>\.$#'

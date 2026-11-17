@@ -151,5 +151,5 @@ links or executable inline `<script>`. Instead:
   can sit on top of a page that has its own island). Twig `merge` renumbers integer keys: pass lists of rows, not maps.
 - **Unavoidable inline scripts** (none today besides the importmap) carry `nonce="{{ csp_nonce() }}"`.
 - **Styles**: inline `style=""` attributes and `<style>` blocks stay allowed (`style-src 'unsafe-inline'`).
-- **Third parties**: a page that loads reCAPTCHA calls `{{ csp_allow('recaptcha') }}`.
+- **Third parties**: a page that loads a third-party feature calls `{{ csp_allow('<feature>') }}` (features: `ContentSecurityPolicy::FEATURES`, none at the moment).
 - **Config**: `CSP_MODE=enforce|report|off`; reports at `/csp-report` -> `var/log/csp.log`.

@@ -1,102 +1,58 @@
-biggest_solo: Pinakamalalaking solo na laban
 build_ships: Kabuuang barkong naitayo
 buttonLostPassword: Nakalimutan ang password?
 buttonRegister: Magrehistro
 buttonScreenshot: Mga Screenshot
 civil: Sibilyan
 colony: Kolonya
-CrystalStorage: Imbakan ng Crystal
 deathstar: Death Star
 destroyed_sats: Mga nasirang solar satellite
 disclamerLabelAddress: 'Address ng Laro:'
 disclamerLabelMail: 'Email ng Support:'
 disclamerLabelNotice: Karagdagang impormasyon
 disclamerLabelPhone: 'Telepono:'
-disclamerRecaptcha: >-
-  Gumagamit ang page na ito ng reCAPTCHA, at nalalapat ang <a
-  href="https://policies.google.com/privacy">privacy statement</a> at <a
-  href="https://policies.google.com/terms">terms of use</a> ng Google.
 first_fights: Mga unang laban sa universe
-flown_expos: Kabuuang expedition na naipadala
-flownDeut: Kabuuang Deuterium na nagastos sa mga biyahe
 forum: Board
-found_res: Kabuuang resource na natagpuan
-found_ships: Kabuuang barkong natagpuan
-galaxySpendDeut: Deuterium na nagastos sa pag-browse ng galaxy
-gameInformations: |-
-  Isang space strategy game na real time.
-  Daan-daang manlalaro sa bawat universe.
-  Walang download - sapat na ang karaniwang browser.
-  Libreng pagrehistro
-hof3_header: Dito nabubuhay ang mga alamat ng Universe 3!
-hof4_header: Dito nabubuhay ang mga alamat ng Universe 4!
-hof7_header: Dito nabubuhay ang mga alamat ng Universe 7!
-IonCannon: Ion Cannon
-least_reached_ach: Pinakabihirang achievement
-login_error_1: >-
-  Maling email o password! Tip: madalas na pinupunan ng mga password manager ang
-  iyong username, pero email ang dapat mong gamitin sa pag-log in.
-login_error_2: >-
-  Naka-log in ang account mo sa ibang device, o nagbago ang iyong IP address.
+hof_empty: Wala pang data sa hall of fame.
+login_error_1: 'Maling email o password! Tip: madalas na pinupunan ng mga password manager ang iyong username, pero email ang dapat mong gamitin sa pag-log in.'
+login_error_2: Naka-log in ang account mo sa ibang device, o nagbago ang iyong IP address.
 login_error_3: Nag-expire na ang session mo. Mag-log in ulit.
-login_error_4: 'Sobrang dami ng login attempt. Maghintay ng 15 minuto at subukan ulit.'
+login_error_4: Sobrang dami ng login attempt. Maghintay ng 15 minuto at subukan ulit.
 loginButton: Mag-log in
 loginEmail: Email
 loginHeader: Login
 loginInfo: Sa pag-log in, tinatanggap ko ang %s.
 loginPassword: Password
-loginServerDesc: >-
-  Ang %s ay isang space strategy game kung saan daan-daang manlalaro ang
-  nagpapaligsahan <strong>nang sabay-sabay</strong> para maging pinakamahusay.
-  Karaniwang web browser lang ang kailangan mo.
+loginServerDesc: Ang %s ay isang space strategy game kung saan daan-daang manlalaro ang nagpapaligsahan <strong>nang sabay-sabay</strong> para maging pinakamahusay. Karaniwang web browser lang ang kailangan mo.
 loginWelcome: Maligayang pagdating sa %s
 Lowest_longterm_points: Mga preregistered na account na may pinakakaunting puntos
-medAliens: Katamtamang mga Alien
 menu_banlist: Ban List
 menu_battlehall: Battle Hall
 menu_disclamer: Contact
-menu_index: Home
 menu_news: Balita
 menu_rules: Mga Patakaran
 military: Militar
-most_achievements: Pinakamaraming nakolektang achievement
-most_black_holes: Pinakamaraming black hole na nakasalubong
-most_build: Pinakamaraming naitayo
-most_build_HF: Pinakamaraming Heavy Fighter na naitayo
-most_defended_moons: Pinakamaraming matagumpay na depensa ng buwan
-most_destroyed_moons: Pinakamaraming nawasak na buwan
-most_expo_fights: Pinakamaraming laban sa mga alien/pirata
-most_fights: Pinakamaraming Panalo / Talo / Tabla
-most_reached_ach: Pinakakaraniwang achievement
-most_records: Pinakamaraming nakolektang record
 news_does_not_exist: Walang available na balita.
 news_from: Noong %s ni %s
-oldest_active_acc: Pinakamatatandang aktibong account
 overall: Pangkalahatan
 passwordBack: Bumalik
 passwordChangedMailSend: Papunta na ang bago mong password. Makakatanggap ka ng email sa lalong madaling panahon.
-passwordChangedMailTitle: 'Bagong password para sa %s'
-passwordConfirmInfo: 'I-click ang button para i-reset ang password mo. Ipapadala namin sa iyo ang bagong password sa email.'
-passwordConfirmSubmit: 'Padalhan ako ng bagong password'
+passwordChangedMailTitle: Bagong password para sa %s
+passwordConfirmInfo: I-click ang button para i-reset ang password mo. Ipapadala namin sa iyo ang bagong password sa email.
+passwordConfirmSubmit: Padalhan ako ng bagong password
 passwordErrorMailEmpty: Hindi namin kilala ang email address na iyan.
-passwordErrorOnePerDay: >-
-  May humiling na ng password para sa account na ito sa nakaraang 24 oras.
-  Puwede kang humiling ulit pagkatapos ng 24 oras.
-passwordErrorUnknown: Walang account na nakita sa mga detalyeng iyan.
-passwordInfo: >-
-  Nakalimutan ang password? Ilagay ang username at email address ng iyong
-  account. Kung hindi mo na matandaan ang mga ito, makipag-ugnayan sa isang
-  administrator.
+passwordInfo: Nakalimutan ang password? Ilagay ang username at email address ng iyong account. Kung hindi mo na matandaan ang mga ito, makipag-ugnayan sa isang administrator.
 passwordMail: Email
 passwordNext: Susunod
 passwordSubmit: Ipadala
 passwordUsername: Username
 passwordValidInValid: Hindi valid na request.
 passwordValidMailSend: Makakatanggap ka ng email sa lalong madaling panahon na may mga susunod na hakbang.
-passwordValidMailTitle: 'Pag-reset ng password para sa %s'
+passwordValidMailTitle: Pag-reset ng password para sa %s
 players: Mga Manlalaro
 points_amount: Puntos / Dami
-realDesUnits: Tunay na nawasak na unit
+powFailed: Nabigo o nag-expire ang awtomatikong bot check. Bumalik ka, maghintay sandali at isumite ulit ang form.
+powNoCrypto: Hindi kayang patakbuhin ng browser mo ang awtomatikong bot check (kailangan nito ng secure na https connection).
+powVerifying: Sinusuri ang browser mo …
 registerBack: Bumalik
 registerDataPrivacyDesc: Sumasang-ayon ako sa %s
 registerEmail: Email
@@ -117,7 +73,7 @@ registerErrorUsernameEmpty: Maglagay ng username.
 registerErrorUsernameExist: May gumagamit na ng username na iyan.
 registerLanguage: Wika
 registerMailCompleteTitle: Maligayang pagdating sa %s!
-registerMailVertifyTitle: 'I-activate ang iyong account sa %s'
+registerMailVertifyTitle: I-activate ang iyong account sa %s
 registerPassword: Password
 registerPasswordDesc: Dapat hindi bababa sa %s character ang password mo.
 registerPasswordReplay: Ulitin ang Password
@@ -125,26 +81,13 @@ registerPasswordReplayDesc: Ilagay ulit ang parehong password.
 registerReferral: 'Inirefer ni:'
 registerRules: Mga Patakaran
 registerRulesDesc: Sumasang-ayon ako sa %s
-registerSendComplete: >-
-  Salamat sa pagrehistro! Tingnan ang iyong email (pati ang spam folder) para sa
-  mga susunod na hakbang.
+registerSendComplete: Salamat sa pagrehistro! Tingnan ang iyong email (pati ang spam folder) para sa mga susunod na hakbang.
 registerTimezone: Time zone
 registerUsername: Username
-registerUsernameDesc: >-
-  Gumamit ng 3 hanggang 25 character: titik, numero, espasyo, tuldok, gitling
-  at underscore.
+registerUsernameDesc: 'Gumamit ng 3 hanggang 25 character: titik, numero, espasyo, tuldok, gitling at underscore.'
 registerWelcomePMSenderName: Administrator
 registerWelcomePMSubject: Maligayang pagdating
-registerWelcomePMText: >-
-  Maligayang pagdating sa %s! Una, magtayo ng Solar Power Plant, dahil kailangan
-  ng energy para makagawa ng resource. Buksan ang Buildings sa menu sa kaliwa
-  at simulan sa Solar Power Plant.<br>Kapag may energy ka na, puwede ka nang
-  magtayo ng mga mine. Manatili sa Buildings at magtayo ng Metal Mine, tapos
-  Crystal Mine.<br><br>Para makagawa ng mga barko, kailangan mo ng Shipyard.
-  Ipinapakita ng Technologies menu sa kaliwa kung ano ang kailangan para ma-unlock
-  ito.<br>Kung may iba ka pang tanong, tingnan ang FAQ, ang wiki, o magbukas ng
-  support ticket.<br><br>Masayang paggalugad sa universe mula sa buong team!
-second_expo_deck: Sinimulan ang ikalawang Expedition Deck
+registerWelcomePMText: Maligayang pagdating sa %s! Una, magtayo ng Solar Power Plant, dahil kailangan ng energy para makagawa ng resource. Buksan ang Buildings sa menu sa kaliwa at simulan sa Solar Power Plant.<br>Kapag may energy ka na, puwede ka nang magtayo ng mga mine. Manatili sa Buildings at magtayo ng Metal Mine, tapos Crystal Mine.<br><br>Para makagawa ng mga barko, kailangan mo ng Shipyard. Ipinapakita ng Technologies menu sa kaliwa kung ano ang kailangan para ma-unlock ito.<br>Kung may iba ka pang tanong, tingnan ang FAQ, ang wiki, o magbukas ng support ticket.<br><br>Masayang paggalugad sa universe mula sa buong team!
 siteTitleBanList: Ban List
 siteTitleBattleHall: Battle Hall
 siteTitleDataPrivacy: Privacy Policy
@@ -166,21 +109,7 @@ theme: Theme
 universe: Universe
 vertifyAdminMessage: Na-activate na ang account na "%s".
 vertifyNoUserFound: Hindi valid na request.
-votingPoints: Voting Points
-wonAttack: Napanalunang Atake
-wonDefense: Napanalunang Depensa
-chose_a_uni: Pumili ng universe
-menu_register: Pagrehistro
-news_overview: Balita
-passwordCaptcha: Security code
 passwordErrorUsernameEmpty: Hindi ka nakapaglagay ng username!
-registerCaptcha: Security code
-registerCaptchaDesc: Ilagay sa blangkong field ang mga character sa ibaba, nang walang espasyo. Hindi mahalaga ang laki ng titik. Kung hindi mo pa rin mabasa ang larawan matapos mag-reload nang ilang beses, makipag-ugnayan sa administrator ng site.
-registerCaptchaReload: I-reload ang captcha
-registerErrorCaptcha: Mali ang security code!
-registerMailVertifyError: 'Hindi naipadala ang email: %s'
-registerNext: Magpatuloy
-rulesHeader: Mga Patakaran
 uni_closed: ' (sarado)'
 uni_reg_closed: ' (sarado ang pagrerehistro)'
 uni_reg_open: ' (pagrerehistro lang)'
@@ -189,24 +118,27 @@ home_meta_description: '%s – ang space strategy browser game na may alindog ng
 home_started: Tumatakbo na!
 home_starts_in: Sa loob ng
 home_team: Team
-home_meme_alt: 'Comic meme mula sa command deck ng {game_name}'
-home_meme_alt_deep_space_transit: "Comic: dalawang cadet sa isang shuttle – ang isa ay napaupo sa panghihina sa nakitang asteroid field, ang isa naman ay nakangiti sa kumikinang na nebula. “Karaniwang patrol sa sector vs. pagkakatuklas ng hindi pa nasasaliksik na nebula na mayaman sa resource.”"
-home_meme_alt_deuterium_joyride: "Comic: isang pagod na commander sa observation deck ang nanonood sa dalawang recruit na lumulutang sa labas – “Pinapanood ang mga bagong recruit na ubusin ang lahat ng Deuterium nila sa joyride sa labas habang naghihintay ako ng 12 oras para sa mga upgrade ng mine ko.”"
-home_meme_alt_enemy_fleet: "Comic: hawak ng isang cadet ang ulo niya sa pagkataranta habang kumikislap ang mga alarm – “1000 kalabang destroyer ang paparating?! Akala ko ligtas ang sector na ito?!”"
-home_meme_alt_fleet_decimated: "Comic: isang sundalong gulat na gulat ang nakatitig habang sumasabog ang mga barko sa labas ng basag na dome – “Kapag 20 oras kang nag-farm ng resource tapos biglang dumating ang fleet ng isang top 3 player at winasak ang lahat sa loob ng 3 segundo.”"
-home_meme_alt_solo_scouting: "Comic: nakangiti si Commander Kamioka at ipinatong ang robotic niyang kamay sa balikat ng isang cadet – “Huwag kang mag-alala, cadet. ‘Buong-buo’ ang tiwala ng High Command sa solo scouting mission mo sa kalawakan.”"
-home_meme_alt_this_is_fine: "Comic: isang aso sa space suit ang kalmadong nakaupo sa nasusunog na command hub at nagsabing “This is fine” – “Huwag kang mag-alala. 4 na oras lang namang huli ang balik ng fleet ko.”"
+home_meme_alt: Comic meme mula sa command deck ng {game_name}
+home_meme_alt_deep_space_transit: 'Comic: dalawang cadet sa isang shuttle – ang isa ay napaupo sa panghihina sa nakitang asteroid field, ang isa naman ay nakangiti sa kumikinang na nebula. “Karaniwang patrol sa sector vs. pagkakatuklas ng hindi pa nasasaliksik na nebula na mayaman sa resource.”'
+home_meme_alt_deuterium_joyride: 'Comic: isang pagod na commander sa observation deck ang nanonood sa dalawang recruit na lumulutang sa labas – “Pinapanood ang mga bagong recruit na ubusin ang lahat ng Deuterium nila sa joyride sa labas habang naghihintay ako ng 12 oras para sa mga upgrade ng mine ko.”'
+home_meme_alt_enemy_fleet: 'Comic: hawak ng isang cadet ang ulo niya sa pagkataranta habang kumikislap ang mga alarm – “1000 kalabang destroyer ang paparating?! Akala ko ligtas ang sector na ito?!”'
+home_meme_alt_fleet_decimated: 'Comic: isang sundalong gulat na gulat ang nakatitig habang sumasabog ang mga barko sa labas ng basag na dome – “Kapag 20 oras kang nag-farm ng resource tapos biglang dumating ang fleet ng isang top 3 player at winasak ang lahat sa loob ng 3 segundo.”'
+home_meme_alt_solo_scouting: 'Comic: nakangiti si Commander Kamioka at ipinatong ang robotic niyang kamay sa balikat ng isang cadet – “Huwag kang mag-alala, cadet. ‘Buong-buo’ ang tiwala ng High Command sa solo scouting mission mo sa kalawakan.”'
+home_meme_alt_this_is_fine: 'Comic: isang aso sa space suit ang kalmadong nakaupo sa nasusunog na command hub at nagsabing “This is fine” – “Huwag kang mag-alala. 4 na oras lang namang huli ang balik ng fleet ko.”'
 source_code: Source code
 news_back: Bumalik sa balita
-lightbox_close: "Isara"
-lightbox_prev: "Nakaraang larawan"
-lightbox_next: "Susunod na larawan"
+lightbox_close: Isara
+lightbox_prev: Nakaraang larawan
+lightbox_next: Susunod na larawan
 news_pinned: Naka-pin
 news_read_more: Magbasa pa
 news_latest: Pinakabagong balita
+home_discord_online: Online
+home_discord_join: Sumali sa Discord namin
 news_all: Lahat ng balita
-csrf_invalid: 'Hindi pumasa ang security check (maaaring nag-expire na ang session mo). I-reload ang page at subukan ulit.'
-home_logged_in_head: "Iyong account"
-home_logged_in_as: "Naka-log in bilang %s"
-home_continue: "Magpatuloy sa iyong mga universe"
-home_account_lobby: "Lobby ng account"
+csrf_invalid: Hindi pumasa ang security check (maaaring nag-expire na ang session mo). I-reload ang page at subukan ulit.
+home_logged_in_head: Iyong account
+home_logged_in_as: Naka-log in bilang %s
+home_continue: Magpatuloy sa iyong mga universe
+home_account_lobby: Lobby ng account
+rulesEmpty: Wala pang nalalathalang patakaran.

@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Team members shown on the public team page (./?page=team), edited in one form.
  */
-#[\App\Routing\GamePage('admin.php', 'team')]
-#[\App\Routing\GamePage('admin.php', 'team', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'team')]
 class TeamController extends AbstractAdminController
 {
     /**

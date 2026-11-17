@@ -11,8 +11,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 /**
  * Editable default pages (contacts, data privacy, rules) per language, see App\Content\ContentPages.
  */
-#[\App\Routing\GamePage('admin.php', 'pages')]
-#[\App\Routing\GamePage('admin.php', 'pages', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'pages')]
 class PagesController extends AbstractAdminController
 {
     /** slug => public URL */

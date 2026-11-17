@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  * The token is a Symfony CSRF token with id TOKEN_ID (per session, masked), submitted as header
  * X-CSRF-Token (fetch/XHR) or as form/query field "_csrf" (see public/scripts/app/csrf.js).
  *
- * Route names of game pages are "game_<area>_<page>[_uni]" (App\Routing\GamePage), area being one of
+ * Route names of game pages are "game_<area>_<page>" (App\Routing\GamePage), area being one of
  * index (login), game, account, admin.
  */
 final class CsrfPolicy

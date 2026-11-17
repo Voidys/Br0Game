@@ -47,17 +47,6 @@ final class ContentSecurityPolicyTest extends TestCase
         self::assertNull($csp->areaOf(new Request()));
     }
 
-    public function testRecaptchaSourcesOnlyWhenAsked(): void
-    {
-        $csp = new ContentSecurityPolicy();
-
-        self::assertStringNotContainsString('google.com', $csp->build('n'));
-        $policy = $csp->build('n', ['recaptcha']);
-        self::assertStringContainsString("script-src 'self' 'nonce-n' https://www.google.com https://www.gstatic.com", $policy);
-        self::assertStringContainsString("frame-src 'self' https://www.google.com", $policy);
-        self::assertStringContainsString("connect-src 'self' https://www.google.com", $policy);
-    }
-
     /** the wiki SSO hand-off opens exactly the wiki origin as form target, for that response only */
     public function testExtraSourcesAreMergedPerResponse(): void
     {

@@ -29,12 +29,10 @@ use App\Game\Core\Universe;
 /**
  * Records page: highest building and research levels of the universe next to the player's own.
  */
-#[\App\Routing\GamePage('game.php', 'records')]
-#[\App\Routing\GamePage('game.php', 'records', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'records')]
+#[\App\Controller\RequireModule('MODULE_RECORDS')]
 class RecordsController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_RECORDS';
-
     public function initialize(): void
     {
         parent::initialize();
@@ -65,10 +63,9 @@ class RecordsController extends AbstractGameController
         $userTechResult = $this->ownResearchLevels();
         $userBuildResult = $this->ownBuildingMaxLevels();
 
-        [$defenseList, $fleetList, $researchList, $buildList] = $this->groupRecords($recordResult);
+        [, $fleetList, $researchList, $buildList] = $this->groupRecords($recordResult);
 
         $this->assign([
-            'defenseList'   => $defenseList,
             'fleetList'     => $fleetList,
             'researchList'  => $researchList,
             'buildList'     => $buildList,

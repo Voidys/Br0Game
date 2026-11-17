@@ -22,7 +22,6 @@ fleet_attack_1: La flota atacante dispara con una fuerza total de
 fleet_attack_2: sobre el defensor. Los escudos del defensor absorben
 fleet_defs_1: La flota defensora dispara con una fuerza total de
 fleet_defs_2: sobre el atacante. Los escudos del atacante absorben
-spy_attack_with: Ataque con
 spy_best_planet: Mejor planeta
 spy_best_resources_per_second: Mejores recursos por segundo
 spy_energy: Energía
@@ -41,14 +40,12 @@ sys_and: 'y'
 sys_attack_attacker_pos: Atacante
 sys_attack_defender_pos: Defensor
 sys_attack_round: Ronda
-sys_attack_techologies: 'Armas: %d %% Escudo: %d %% Blindaje: %d %% '
 sys_attack_title: 'Las siguientes flotas se enfrentan en: '
 sys_attacker_lostunits: 'Pérdidas del atacante:'
 sys_attacker_won: ¡El atacante ha ganado la batalla!
 sys_both_won: '¡La batalla termina en empate! '
 sys_colo_allisok: Tu flota ha llegado a las coordenadas %s. Los colonos han empezado a construir la nueva colonia.
 sys_colo_badpos: Tu flota ha llegado a las coordenadas %s. Aquí no se puede colonizar, así que los colonos han vuelto a casa decepcionados.
-sys_colo_defaultname: Colonia
 sys_colo_maxcolo: 'Tu flota ha llegado a las coordenadas %s. No se puede colonizar: solo puedes tener %d planetas.'
 sys_colo_mess_from: Colonización
 sys_colo_mess_report: Informe de colonización
@@ -94,8 +91,6 @@ sys_expe_back_home: Tu flota ha regresado a %1$s %2$s de la expedición a %3$s.
 sys_expe_back_home_ress: Trae %s %s, %s %s y %s %s.
 sys_expe_back_home_ships_flound: 'Se han encontrado las siguientes naves:'
 sys_expe_back_home_ships_lost: 'Se han perdido las siguientes naves:'
-sys_expe_blackholl_1: ¡Tu flota ha encontrado un agujero negro y ha quedado parcialmente destruida!
-sys_expe_blackholl_2: ¡Tu flota ha encontrado un agujero negro y ha quedado completamente destruida!
 sys_expe_depleted_max_1: 'Entrada del diario del oficial de comunicaciones: Si alguna vez nos sentimos inseguros, siempre podemos unir fuerzas con las otras expediciones que vuelan por aquí.'
 sys_expe_depleted_max_2: 'Entrada del diario del oficial de comunicaciones: Si esto sigue así, tendremos que instalar boyas de navegación para gestionar tanto tráfico.'
 sys_expe_depleted_max_3: 'Entrada del diario del oficial de comunicaciones: Quizá sería más útil abrir aquí una tienda de recuerdos que enviar otra expedición más.'
@@ -110,7 +105,6 @@ sys_expe_depleted_not_2: 'Entrada del diario del oficial de comunicaciones: Da g
 sys_expe_feqeuence_few: Más de 10 expediciones en las últimas 24 horas
 sys_expe_feqeuence_many: Más de 50 expediciones en las últimas 24 horas
 sys_expe_feqeuence_medium: Más de 25 expediciones en las últimas 24 horas
-sys_expe_feqeuence_no: Pocas expediciones en las últimas 24 horas
 sys_expe_found_goods: Se han extraído %s %s.
 sys_expe_found_ress_1_1: Tu expedición ha descubierto un pequeño cúmulo de asteroides del que se han podido extraer algunos recursos.
 sys_expe_found_ress_1_2: En un planetoide remoto se han encontrado varios campos de recursos de fácil acceso y se han extraído materias primas con éxito.
@@ -125,7 +119,6 @@ sys_expe_found_ress_logbook_1: 'Entrada del diario del primer oficial: Hemos apr
 sys_expe_found_ress_logbook_2: 'Entrada del diario del primer oficial: ¡Si tuviéramos unos cuantos cargueros más! Ahora tendremos que dejar atrás montones de recursos.'
 sys_expe_found_ress_logbook_3: 'Entrada del diario del primer oficial: Ya hemos tirado todo lo que no necesitamos, pero aun así no conseguimos hacer sitio para todos los recursos que hemos encontrado.'
 sys_expe_found_ress_logbook_4: 'Entrada del diario del primer oficial: Incluso después de convertir la cafetería y todas las salas de descanso en bodegas, no hemos podido transportar todos los recursos que encontramos.'
-sys_expe_found_ships: '¡Tus investigadores han encontrado naves en perfecto estado!<br>: '
 sys_expe_found_ships_1_1: ¡Hemos descubierto los restos de una expedición anterior! Nuestros técnicos están comprobando si pueden volver a poner en marcha algunos de los restos.
 sys_expe_found_ships_1_2: Hemos encontrado una base pirata abandonada. En el hangar todavía hay algunas naves viejas. Nuestros técnicos están comprobando si siguen siendo utilizables.
 sys_expe_found_ships_1_3: Nuestra expedición ha encontrado un planeta casi completamente arrasado por las guerras. En órbita flotaban varios restos de naves. Los técnicos intentaron reparar algunos. Quizá podamos averiguar más de lo que pasó aquí.
@@ -176,7 +169,6 @@ sys_mess_attack_cancel: 'La batalla en %s %s ha sido cancelada.
 
   El servidor no pudo calcularla.'
 sys_mess_attack_report: Informe de ataque
-sys_mess_destruc_report: 'Reporte: Destrucción de la luna'
 sys_mess_fleetback: Regreso de flota
 sys_mess_piratebase_gone: 'Tu flota ha llegado a %s, pero la base pirata ya no está allí. La flota regresa a casa.'
 sys_mess_spy_activity: Informe de contraespionaje
@@ -212,7 +204,6 @@ sys_ship_repaired: Reparado
 sys_ship_shield: Escudo
 sys_ship_type: Tipo
 sys_ship_weapon: Armas
-sys_spy_defenses: defensas
 sys_spy_fleet: Flota
 sys_stat_mess: Tu flota de %s %s ha llegado a %s %s %s y ha entregado %s %s, %s %s y %s %s. %s
 sys_stat_mess_stay: Flota estacionada

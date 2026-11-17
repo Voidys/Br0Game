@@ -79,6 +79,10 @@ services:
     App\Game\Core\DeviceLinks:
         arguments:
             $secret: '%kernel.secret%'
+    # bot check of the public forms (self-hosted proof of work, single-use challenge ids live in the app cache)
+    App\Security\ProofOfWork:
+        arguments:
+            $secret: '%kernel.secret%'
     App\Game\Core\ViewHelpers: ~
     App\Game\Core\ErrorReporter: ~
     App\Game\Cronjob\Cronjob: ~

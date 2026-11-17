@@ -9,13 +9,13 @@ const startTime = () => window.startTime ?? now().getTime();
 const elapsed = () => (now().getTime() - startTime()) / 1000;
 
 /** Writes the current server time (window.tdformat) into every `.servertime` element. */
-export function updateClock() {
+function updateClock() {
   const text = getFormatedDate(now().getTime(), window.tdformat ?? '[H]:[i]:[s]');
   qsa('.servertime').forEach((el) => { el.textContent = text; });
 }
 
 /** Refreshes `.countdown` (data-time = absolute end in seconds since page render) and `.buildcountdown` (timestamp = remaining seconds at render time). */
-export function updateCountdowns() {
+function updateCountdowns() {
   qsa('.countdown').forEach((el) => {
     const rest = Number(el.dataset.time) - elapsed();
     el.textContent = rest <= 0 ? '-' : getRestTimeFormat(rest);

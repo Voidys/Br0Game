@@ -231,8 +231,6 @@ al_apply_not_exists: That application no longer exists.
 al_applyform_send: Send
 al_back: Back
 al_candidate: Candidate
-al_change_submit: Change
-al_change_title: Change title
 al_characters: characters
 al_circular_alliance: 'Alliance '
 al_circular_front_text: 'Alliance member <b>%s</b> wrote:'
@@ -360,9 +358,7 @@ al_new_apply: >-
   href="?page=alliance&mode=admin&action=manageApply">[an application]</a> from
   player <a href="#" data-action="dialog-playercard" data-id="%s" data-name="%s"><b>%s</b></a>.
 al_new_member_rank_text: New Member
-al_new_name: Change name (3-30 characters)
 al_new_requests: '%d pending'
-al_new_tag: Change tag (3-8 characters)
 al_newname_specialchar: Alliance names and tags can only contain letters, numbers, spaces, underscores, dashes and periods.
 al_no_diplo: '-'
 al_no_ranks_defined: 'No ranks yet. Create the first one!'
@@ -429,7 +425,6 @@ al_you_was_acceted: 'You have been accepted into '
 al_you_was_declined: 'You were rejected from '
 al_your_ally: Your alliance
 al_your_request_title: Your application
-bad_forum_url: The forum link is invalid.
 banned_message: >-
   You have been banned. <!--discord_url-->If you think this was a mistake, message us on Discord:
   <a href="{discord_url}">{discord_url}</a><!--/discord_url-->
@@ -504,7 +499,6 @@ bs_derbis_raport: 'Required for recycling debris: %s %s.'
 bs_load: Load
 bs_load_invalid: Invalid share code
 bs_load_no_input: No share code entered
-bs_names: Ship Name
 bs_reset: Reset
 bs_send: Calculate
 bs_share: Share
@@ -698,7 +692,6 @@ fl_modify_sac_name: ACS name
 fl_moon_shortcut: (M)
 fl_mt_fleet: Fleet market
 fl_mt_resources: Resource market
-fl_multi_alarm: Multi alarm!
 fl_my_planets: My planets
 fl_new_mission_title: 'New mission: Select fleet'
 fl_no_colony: There is no colony
@@ -791,8 +784,6 @@ general_colors: General colors
 gl_actions: Actions
 gl_activity: (*)
 gl_activity_inactive: (%d min)
-gl_ajax_status_fail: Failed
-gl_ajax_status_ok: Done
 gl_all_defenses: All defenses
 gl_alliance: Alliance
 gl_alliance_page: Alliance Page
@@ -803,7 +794,6 @@ gl_avaible_spyprobes: Spy Probes
 gl_banned: Banned / Suspended
 gl_buddy_request: Friend request
 gl_colonizable: Colonizable
-gl_debris: Debris
 gl_debris_field: Debris Field
 gl_diameter: Diameter
 gl_features: Properties
@@ -821,7 +811,6 @@ gl_missil_launch_action: Launch Missiles
 gl_missil_to_launch: 'Quantity (<b>%d</b> available)'
 gl_missile_attack: Missile attack
 gl_moon: Moon
-gl_no: 'No'
 gl_no_deuterium_to_view_galaxy: 'Not enough deuterium to view the galaxy!'
 gl_no_spy_report: No spy report for this planet yet.
 gl_not_colonizable: Not colonizable!
@@ -894,7 +883,6 @@ in_jump_gate_wait_time: 'Next jump possible in:'
 in_level: Level
 in_missilesamount: Available
 in_missilestype: Missile type
-in_name: Name
 in_prod_p_hour: Hourly
 in_rf_again: Rapidfire against
 in_rf_explanation: >-
@@ -905,7 +893,6 @@ in_rf_from: Rapidfire from
 in_shield_pt: Shield Power
 in_storage: Storage
 in_struct_pt: Structural Integrity
-in_units: Unit
 kontakt: 'Hi!<br>This page shows the people who run, moderate and develop this project.<br>Got questions or problems? Get in touch.<br><br><!--discord_url-->For a better exchange with us and with other players, we run a Discord server. You''ll find it <a href="{discord_url}">here</a> or via the menu.<br>There you''ll find the latest news plus the best memes from the alliances of the universe.<br>Ask about game mechanics and share your ideas for the game''s future.<br><br><!--/discord_url-->Of course, we also answer your in-game questions.<br>Please keep in mind that we play the game as a hobby, so replies may take a few days.<br>'
 lm_administration: Administration
 lm_alliance: Alliance
@@ -1029,7 +1016,6 @@ mg_grouping_off: Show messages not grouped
 mg_grouping_on: Show messages grouped together
 mg_message: Message
 mg_message_send: 'Message sent!'
-mg_message_title: Messages
 mg_min_3_chars: Enter at least 3 characters to search
 mg_new: New
 mg_no_subject: No subject
@@ -1195,7 +1181,6 @@ ov_newname_too_long: 'The planet name may have at most %d characters.'
 ov_news: News
 ov_of: of
 ov_outlaw: 'Outlaw until:'
-ov_password: Password
 ov_place: Position
 ov_planet: Planet
 ov_planet_abandoned: Planet deleted.
@@ -1388,35 +1373,7 @@ sys_refferal_text: The player %s, recruited by you, reached %s points.
 sys_refferal_title: Player Bonus %s
 sys_techlist: Research queue
 team: The team
-teamAdmin: Admin
-teamAdminLong: Can use special tools to run the game
-teamAktiv: Active
-teamAlumni: Former / Inactive team members
-teamAlumniLong: Our thanks go out to
-teamCommunity: Community Support
-teamCommunityLong: 'They''re here for you when you need support.<br>Whatever the issue, just get in touch!<br>We''ll do our best to find a solution.<br>Questions, or something to get off your chest, even anonymously? Come talk to us.<br>We also act as the link between players and the mods.'
-teamContributor: Contributor
-teamContributorLong: Helps build the project.
-teamDatabase: Database access
-teamDev: Developer
-teamDevLong: >-
-  Maintains and develops the project<br>Has access to Discord section for dev
-  discussions
-teamDiscordName: Discord Name
-teamEmergency: Emergency team
-teamEmergencyLong: 'Gets pinged via our Discord "@Emergency Response Team" by users when servers go down'
-teamIngameName: In-game name
-teamLegend: Roles and rights explained
-teamMod: Moderator
-teamModLong: 'Handles your cases and issues<br>Works for a fair game for everyone<br>Responsible for punishments<br>Has access to the Discord section for mod discussions<br>Has access to the Discord section for dev discussions<br>Has access to the Discord section for ticket meetings with devs'
-teamNo: 'No'
-teamPlayer: Player
 teamRole: Role
-teamScripte: Script review
-teamScripteLong: 'Reviews player-made scripts so the team<br>can decide whether to allow them'
-teamTickets: Ticket access
-teamTicketsLong: Can read along on all open tickets
-teamYes: 'Yes'
 ti_admin_close: Ticket closed!
 ti_admin_open: Ticket opened!
 ti_answer: Respond
@@ -1440,7 +1397,6 @@ ti_new: New ticket
 ti_not_exist: 'Ticket #%d not found.'
 ti_open: Open Ticket
 ti_overview: Back
-ti_re: 'Re:'
 ti_read: Ticket to read
 ti_responded: 'Ticket replied on '
 ti_status: Status
@@ -1471,7 +1427,6 @@ tkb_units: Units
 tkb_verlierer: <b>-Loser-</b>
 tkb_week: week
 tn_delete_mode: 'Your account will be deleted on %s.'
-tn_player_title: Emperor
 tn_vacation_mode: Your account is in vacation mode.
 tn_vacation_mode_kick: >-
   <br><br>PLEASE NOTE: Vacation mode is automatically deactivated after 4 weeks
@@ -1570,128 +1525,10 @@ ui_nav_universe: Universe
 ui_nav_community: Community
 ui_nav_help: Help
 ui_nav_personal: Personal
-al_applyform_reload: Reload
-al_default_request_text: This player didn't leave a message.
-al_diplo_ground: 'Reason:'
-al_diplo_war_end_confirm: Do you really want to end the war?
-al_do_you_really_want_to_go_out: Do you really want to leave %s?
-al_events: Events
-al_founder_cant_leave_alliance: The founder can't just walk away from the alliance.
-al_legend: Description
-al_legend_admin_alliance: Manage alliance
-al_legend_check_requests: Process applications
-al_legend_create_circular: Send mass messages
-al_legend_disolve_alliance: Dissolve alliance
-al_legend_kick_users: Remove members
-al_legend_right_hand: Right hand
-al_legend_see_connected_users: See online status
-al_legend_see_requests: View applications
-al_legend_see_users_list: View member list
-al_manage_change_name: Change alliance name
-al_manage_change_tag: Change alliance tag
-al_no_events: Nothing has happened yet.
-al_no_request_pending: There are %d application(s) in total
-al_request_from_user: Application from player
-al_tfkristall: Total debris field crystal
-al_tfmetall: Total debris field metal
-al_unitsloos: Units lost
-al_unitsshut: Units shot
-al_view_events: Show events
-bd_add_to_list: Add to build queue
-bd_build_defenses: Build
-bd_completed: Done
-bd_finished: Done
-bd_lab_required: Build a research lab on this planet first.
-bd_max_lvl: 'Max. level:'
-bd_on: 'on'
-bd_ready: Done
-bd_research: Research
-bu_back: Back
-cff_fleet_own: Fleet
-cff_fleet_target: Fleets
-cr_armor: Armor
-cr_destroyed: Destroyed!
-cr_first_round: (The fleet was destroyed in round 1)
-cr_lost_contact: Contact with your fleet has been lost.
-cr_shields: Shields
-cr_total: Total
-cr_type: Type
-cr_weapons: Weapons
-css_server_maintrace: 'Server maintenance<br><br>The game is currently closed.<br><br>Reason: %s'
-fa_galaxy_not_exist: Galaxy does not exist
-fa_mission_not_available: Mission not available
-fa_not_attack_yourself: You cannot attack yourself
-fa_system_not_exist: System does not exist
-fgp_require: Requires
-fl_deploy_only_your_planets: You can only deploy to your own planets.
-fl_expedition_fleets_limit: You've reached your expedition limit.
-fl_no_empty_derbis: 'There''s no debris field there!'
-fl_no_hold_depot: There's no alliance depot at the target.
-fl_not_ally_deposit: There's no alliance depot at the target.
-fl_planet_populed: Planet colonized!
-fl_register_shorcut: Create
-fl_shortcuts: Shortcuts
-fl_target_not_exists: The target planet doesn't exist.
-gl_avaible_grecyclers: Giga recycler
-gl_collect: Harvest
-gl_free: Free
-gl_free_desc: A large uninhabited planet, an ideal spot for a new colony.
-gl_name_activity: Name (activity)
 gl_points: Points
-gl_with: ' with '
-gl_wreckfield: Wreck field
-gl_wreckfield_short: WF
-gl_yes: 'Yes'
-in_bonus: 'Bonus:'
-in_dest_durati: Duration
-in_jump_gate_available: Amount
-in_needed: Required
-in_range: Sensor range
-in_title_head: Information on
-invalid_action: Invalid action!
-lm_disclamer: Imprint
-lm_forums: Forum
-lm_queue: Queues
-ma_big_laser: Heavy laser turret
-ma_big_protection_shield: Large shield dome
-ma_buster_canyon: Plasma turret
-ma_gauss_canyon: Gauss cannon
-ma_ionic_canyon: Ion cannon
-ma_misil_launcher: Missile launcher
-ma_small_laser: Light laser turret
-ma_small_protection_shield: Small shield dome
 mg_action: Action
-mg_date: Date
-mg_from: From
-mg_game_message: Game Message
-mg_game_operators: Game operators
 mg_message_type: Message type
-mg_msg_sended: Message sent!
-mg_no_text: Please write a message first.
-mg_receiver_block_pm: This player blocks private messages.
-mg_show_only_header_spy_reports: Show spy reports partially only
 mg_to: To
-mg_total: Total
-mg_write_mail_to_ops: Write an email to
-op_deactivate_ipcheck: Disable IP check
-op_deactivate_ipcheck_descrip: 'The IP check logs you out automatically for safety if your IP changes, or if two people use one account from different IPs at the same time. Turning it off lowers your account''s security!'
-op_email_adress_descrip: You can change this email address at any time. If you leave it unchanged for 7 days, it becomes your permanent address.
-op_error: Error
-op_password_changed: Password changed.
-op_permanent_email_adress: Permanent email address
-op_seconds: Seconds
-op_send_report: Spy report
-op_show_planetmenu: Show planet menu
-op_show_skin: Show skin
-op_toolt_data: Show tooltip for
-op_username_changed: Username changed.
-ov_moving_fleets: Fleets in motion
-ov_no_admins_online: 'No admins online right now!'
-ov_noreflink: You have not recruited any users.
-ov_online: Online
-ov_players: Players
-ov_reflink: Referral link
-tkb_missing: '<br>Missing in Action: The user account no longer exists.'
 tkb_unentschieden: '<b>-Draw-</b>'
 source_code: Source code
 teamMemberName: Name
@@ -1724,3 +1561,17 @@ depot_err_deuterium: "Not enough deuterium on this planet: %s needed."
 op_discord_hook_invalid: "Invalid Discord webhook. Only https://discord.com/api/webhooks/... URLs are allowed."
 fl_push_guard: "This transport is blocked: the target player has not sent you resources recently and the cargo value is above the limit."
 rl_too_many_requests: "Too many requests in a short time. Please wait %d second(s) and try again."
+lm_vote: "Vote"
+vt_head: "Vote for the game"
+vt_intro: "Vote on the sites below and get a reward on your main planet. Each site can be voted on again after its cooldown."
+vt_site: "Site"
+vt_reward: "Reward"
+vt_status: "Status"
+vt_ready: "Ready"
+vt_wait: "Again in %d h %d min"
+vt_button: "Vote"
+vt_none: "There are no vote sites right now."
+vt_postback_hint: "The reward arrives after the site has confirmed your vote."
+vt_notice_rewarded: "Thanks for voting! The reward was added to your main planet."
+vt_notice_pending: "Thanks for voting! The reward arrives after the site has confirmed your vote."
+vt_notice_cooldown: "You have to wait before voting on this site again."

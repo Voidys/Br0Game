@@ -214,8 +214,7 @@ final class ContentPages
      * Placeholders: {game_name}, {contacts_url}, {contact_mail} (mailto link), {deletion_days} (account
      * deletion waiting period), {inactive_days} (automatic deletion of inactive players),
      * {message_days} (message expiry). Optional parts between <!--name--> and <!--/name--> are kept
-     * only while the feature is in use: "mail" (a contact address is set), "recaptcha" (reCAPTCHA
-     * keys are configured), "inactive" and "messages" (the period is greater than zero), "board" (the community board is enabled).
+     * only while the feature is in use: "mail" (a contact address is set), "inactive" and "messages" (the period is greater than zero), "board" (the community board is enabled).
      */
     private function privacyPolicy(string $text): string
     {
@@ -225,7 +224,6 @@ final class ContentPages
 
         $features = [
             'mail' => $mail !== '',
-            'recaptcha' => trim((string) $this->config->get('recaptcha_pub_key', '')) !== '',
             'inactive' => $days('del_user_automatic') > 0,
             'messages' => $days('message_delete_days') > 0,
             'board' => (int) $this->config->get('board_enabled', '1') !== 0,

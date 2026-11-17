@@ -4,7 +4,6 @@ juliaBattleEngine/shipinfos.csv
 package-lock.json
 vendor/
 stats/*.json
-stats*.json
 stats.json
 .well-known/
 404.html

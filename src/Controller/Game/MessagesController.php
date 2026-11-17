@@ -26,12 +26,10 @@ use App\Game\Messages\MessageMailbox;
 /**
  * Message center: category list, paged message list (grouped, favourites, search), mark/delete actions, and the write and forward popups.
  */
-#[\App\Routing\GamePage('game.php', 'messages')]
-#[\App\Routing\GamePage('game.php', 'messages', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'messages')]
+#[\App\Controller\RequireModule('MODULE_MESSAGES')]
 class MessagesController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_MESSAGES';
-
     public function initialize(): void
     {
         parent::initialize();
@@ -294,7 +292,6 @@ class MessagesController extends AbstractGameController
         $this->addScript('message.js');
         $this->assign([
             'MessID'		                => $MessCategory,
-            'MessageCount'	                => $list['MessageCount'],
             'MessageList'	                => $list['MessageList'],
             'CategoryList'	                => $list['CategoryList'],
             'page'			                => $list['page'],

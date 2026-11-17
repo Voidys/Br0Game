@@ -23,12 +23,9 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Session;
 
 /** Login target: the form POST is handled by Symfony Security; a direct visit is sent back to the start page. */
-#[\App\Routing\GamePage('index.php', 'login')]
-#[\App\Routing\GamePage('index.php', 'login', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'login')]
 class LoginController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

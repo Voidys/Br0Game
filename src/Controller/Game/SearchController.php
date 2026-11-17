@@ -24,14 +24,12 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /**
- * Search for players, planets and alliances (form, result list, autocomplete data).
+ * Search for players, planets and alliances (form, result list).
  */
-#[\App\Routing\GamePage('game.php', 'search')]
-#[\App\Routing\GamePage('game.php', 'search', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'search')]
+#[\App\Controller\RequireModule('MODULE_SEARCH')]
 class SearchController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_SEARCH';
-
     public function initialize(): void
     {
         parent::initialize();
@@ -196,51 +194,6 @@ class SearchController extends AbstractGameController
     }
 
     /**
-     * JSON suggestions (XHR). Request: type (one or several modes joined with |), term. Up to 5 hits per mode with the matching part
-     * highlighted.
-     */
-    public function autocomplete()
-    {
-        $LNG = $this->state->LNG;
-
-        $this->setWindow('ajax');
-
-        $seachMode 	= $this->http()->_GP('type', 'playername');
-        $searchText	= $this->http()->_GP('term', '', UTF8_SUPPORT);
-
-        $searchList	= [];
-
-        // only the four known modes, each once (the term is searched once per mode)
-        $seachModes	= array_values(array_intersect(array_unique(explode('|', $seachMode)), ['playername', 'planetname', 'allytag', 'allyname']));
-
-        if (empty($searchText)) {
-            $this->sendJSON([]);
-        }
-
-        foreach ($seachModes as $search) {
-            $searchData	= $this->_getSearchList($search, $searchText, 5);
-            foreach ($searchData as $data) {
-                switch ($search) {
-                    case 'playername':
-                        $searchList[]	= ['label' => $data['username'], 'category' => $LNG['sh_player_name'], 'type' => 'playername'];
-                        break;
-                    case 'planetname':
-                        $searchList[]	= ['label' => $data['planetname'], 'category' => $LNG['sh_planet_name'], 'type' => 'planetname'];
-                        break;
-                    case "allytag":
-                        $searchList[]	= ['label' => $data['allytag'], 'category' => $LNG['sh_alliance_tag'], 'type' => 'allytag'];
-                        break;
-                    case "allyname":
-                        $searchList[]	= ['label' => $data['allyname'], 'category' => $LNG['sh_alliance_name'], 'type' => 'allyname'];
-                        break;
-                }
-            }
-        }
-
-        $this->sendJSON($searchList);
-    }
-
-    /**
      * Result list (ajax fragment). Request: type, search; at most SEARCH_LIMIT rows; alliance searches use the alliance template.
      */
     public function result(): Response
@@ -275,14 +228,10 @@ class SearchController extends AbstractGameController
     public function show(): Response
     {
         $LNG = $this->state->LNG;
-        $THEME = $this->state->THEME;
-        $seachMode 		= $this->http()->_GP('type', 'playername');
-
         $modeSelector	= ['playername' => $LNG['sh_player_name'], 'planetname' => $LNG['sh_planet_name'], 'allytag' => $LNG['sh_alliance_tag'], 'allyname' => $LNG['sh_alliance_name']];
         $this->addScript('search.js');
         $this->assign([
             'modeSelector'	=> $modeSelector,
-            'seachMode'		=> $seachMode,
         ]);
 
         return $this->render('game/page.search.default.html.twig');

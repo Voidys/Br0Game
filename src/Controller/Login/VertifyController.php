@@ -27,12 +27,9 @@ use App\Game\Core\AccountUtil;
 use App\Game\Core\Mail;
 
 /** Account verification link from the registration mail (modes: show, json). */
-#[\App\Routing\GamePage('index.php', 'vertify')]
-#[\App\Routing\GamePage('index.php', 'vertify', uniPrefix: true)]
+#[\App\Routing\GamePage('index', 'vertify')]
 class VertifyController extends AbstractLoginController
 {
-    public static $requireModule = 0;
-
     public function initialize(): void
     {
         parent::initialize();

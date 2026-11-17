@@ -28,12 +28,10 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Interplanetary missile attack: validates the target and launches the missiles. */
-#[\App\Routing\GamePage('game.php', 'fleetMissile')]
-#[\App\Routing\GamePage('game.php', 'fleetMissile', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetMissile')]
+#[\App\Controller\RequireModule('MODULE_MISSILEATTACK')]
 class FleetMissileController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_MISSILEATTACK';
-
     public function initialize(): void
     {
         parent::initialize();

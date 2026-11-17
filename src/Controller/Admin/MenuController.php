@@ -18,8 +18,7 @@
 namespace App\Controller\Admin;
 
 /** Former admin menu frame: redirects to the dashboard. */
-#[\App\Routing\GamePage('admin.php', 'menu')]
-#[\App\Routing\GamePage('admin.php', 'menu', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'menu')]
 class MenuController extends AbstractAdminController
 {
     /** former menu frame: the admin layout now carries menu and navigation on every page */

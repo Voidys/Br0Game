@@ -20,8 +20,7 @@ namespace App\Controller\Admin;
 use App\Game\Core\Singleton;
 
 /** Clears the game caches and returns to the maintenance page. */
-#[\App\Routing\GamePage('admin.php', 'clearCache')]
-#[\App\Routing\GamePage('admin.php', 'clearCache', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'clearCache')]
 class ClearCacheController extends AbstractAdminController
 {
     /**

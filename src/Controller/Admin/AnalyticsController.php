@@ -10,8 +10,7 @@ use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Player statistics: user counts and the list of online players. */
-#[\App\Routing\GamePage('admin.php', 'analytics')]
-#[\App\Routing\GamePage('admin.php', 'analytics', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'analytics')]
 class AnalyticsController extends AbstractAdminController
 {
     /**

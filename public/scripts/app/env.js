@@ -6,7 +6,7 @@
  * (window.serverTime, startTime, Ready, Lang, days, months, tdformat, decimalSeparator, ...).
  *
  * Keys of the island: offset (seconds), date ([y, m(1-12), d, h, i, s] of the server clock at render
- * time), gamename is taken from the document title; ready, skin, lang, headInfo, auth, days[], months[],
+ * time), gamename is taken from the document title; ready, lang, days[], months[],
  * tdformat, timezone, queryString, isPlayerCardActive, decimalSeparator, numberSuffixes[], debug.
  */
 import { pageData, handleErr } from './core.js';
@@ -18,14 +18,10 @@ const serverTimeDelta = new Date(year, month - 1, day, hour, minute, second).get
 Object.defineProperty(window, 'serverTime', { get: () => new Date(Date.now() + serverTimeDelta), configurable: true });
 Object.assign(window, {
   ServerTimezoneOffset: env.offset ?? 0,
-  serverTimeDelta,
   startTime: window.serverTime.getTime(),
   Gamename: document.title,
   Ready: env.ready ?? '',
-  Skin: env.skin ?? '',
   Lang: env.lang ?? '',
-  head_info: env.headInfo ?? '',
-  auth: env.auth ?? 0,
   days: env.days ?? [],
   months: env.months ?? [],
   localtimezonestring: env.timezone ?? '',
@@ -35,7 +31,6 @@ Object.assign(window, {
   queryString: env.queryString ?? '',
   isPlayerCardActive: env.isPlayerCardActive ?? false,
   decimalSeparator: env.decimalSeparator,
-  userLang: env.lang ?? '',
   numberSuffixes: env.numberSuffixes ?? [],
   viewShortlyNumber: env.viewShortlyNumber ?? false,
   vacation: env.vacation ?? false,

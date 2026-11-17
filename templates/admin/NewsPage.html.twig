@@ -66,7 +66,7 @@
   {% else %}
   <section class="card card--flush">
     <header class="card__head">
-      <h2 class="card__title">{{ icon('newspaper') }}{{ LNG.nws_news }} <span class="badge badge--muted">{{ count(NewsList) }}</span></h2>
+      <h2 class="card__title">{{ icon('newspaper') }}{{ LNG.nws_news }} <span class="badge badge--muted">{{ NewsList|length }}</span></h2>
       <div class="card__actions"><a class="button btn--primary btn--small" href="?page=news&amp;action=create">{{ icon('plus') }}{{ LNG.nws_create }}</a></div>
     </header>
     <div class="toolbar">
@@ -74,7 +74,7 @@
       <a class="button btn--small"{% if newsFilter == 'published' %} aria-current="true"{% endif %} href="?page=news&amp;filter=published">{{ LNG.nws_status_published }}</a>
       <a class="button btn--small"{% if newsFilter == 'drafts' %} aria-current="true"{% endif %} href="?page=news&amp;filter=drafts">{{ LNG.nws_filter_drafts }}</a>
     </div>
-    {% if count(NewsList) > 0 %}
+    {% if NewsList|length > 0 %}
     <div class="card__body">
       <div class="table-wrap">
         <table class="data">

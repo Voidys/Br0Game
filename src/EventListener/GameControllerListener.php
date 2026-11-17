@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Controller\GameControllerInterface;
+use App\Routing\GamePage;
 use App\Runtime\GameKernel;
 use App\Runtime\GameResponseFactory;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
@@ -37,28 +38,31 @@ final class GameControllerListener
         }
 
         $request = $event->getRequest();
-        $uni = $request->attributes->get('uni');
-        if ($uni !== null && !$request->server->has('REDIRECT_UNI')) {
+        // route attribute `uni` is "uni5/" or ""
+        $uni = substr((string) $request->attributes->get('uni'), 3, -1);
+        if ($uni !== '' && !$request->server->has('REDIRECT_UNI')) {
             $request->server->set('REDIRECT_UNI', $uni);
         }
 
+        $area = (string) $request->attributes->get('_area');
+        $mode = GamePage::MODES[$area];
         $kernel = $this->kernel;
         $responses = $this->responses;
         // over the in-game request budget (RateLimitListener): boot the game for the theme and show the message page instead of the page
         $retryAfter = $request->attributes->get(RateLimitListener::RETRY_AFTER);
         if (is_int($retryAfter) && method_exists($object, 'showRateLimited')) {
-            $event->setController(static function () use ($object, $kernel, $responses, $retryAfter) {
-                return $responses->run(static function () use ($object, $kernel, $retryAfter): void {
-                    $kernel->boot($object::getGameMode(), $object::getEntryScript());
+            $event->setController(static function () use ($object, $kernel, $responses, $retryAfter, $mode, $area) {
+                return $responses->run(static function () use ($object, $kernel, $retryAfter, $mode, $area): void {
+                    $kernel->boot($mode, $area);
                     $object->showRateLimited($retryAfter);
                 });
             });
 
             return;
         }
-        $event->setController(static function (...$arguments) use ($controller, $object, $kernel, $responses) {
-            return $responses->run(static function () use ($controller, $object, $kernel, $arguments) {
-                $kernel->boot($object::getGameMode(), $object::getEntryScript());
+        $event->setController(static function (...$arguments) use ($controller, $object, $kernel, $responses, $mode, $area) {
+            return $responses->run(static function () use ($controller, $object, $kernel, $arguments, $mode, $area) {
+                $kernel->boot($mode, $area);
                 $object->initialize();
 
                 return $controller(...$arguments);

@@ -25,7 +25,6 @@ fleet_attack_1: Die angreifende Flotte feuert mit einer Stärke von
 fleet_attack_2: auf den Verteidiger. Die Schilde des Verteidigers absorbieren
 fleet_defs_1: Die verteidigende Flotte feuert mit einer Stärke von
 fleet_defs_2: auf den Angreifer. Die Schilde des Angreifers absorbieren
-spy_attack_with: angreifen mit
 spy_best_planet: Bester Planet
 spy_best_resources_per_second: Beste Rohstoffe pro Sekunde
 spy_energy: Energie
@@ -44,7 +43,6 @@ sys_and: und
 sys_attack_attacker_pos: Angreifer
 sys_attack_defender_pos: Verteidiger
 sys_attack_round: Runde
-sys_attack_techologies: 'Waffen: %d %% Hülle: %d %% Schilde: %d %% '
 sys_attack_title: Folgende Flotten stehen sich gegenüber am
 sys_attacker_lostunits: Der Angreifer hat insgesamt
 sys_attacker_won: Der Angreifer hat die Schlacht gewonnen!
@@ -55,7 +53,6 @@ sys_colo_allisok: >-
 sys_colo_badpos: >-
   Eine deiner Flotten erreicht die Koordinaten %s. Hier wurde keine
   Siedlungsmöglichkeit gefunden, enttäuscht kehrten deine Siedler zurück.
-sys_colo_defaultname: Kolonie
 sys_colo_maxcolo: >-
   Eine deiner Flotten erreicht die Koordinaten %s. Eine Besiedelung ist nicht
   möglich, da du nicht mehr als %d Planeten haben kannst.
@@ -167,10 +164,6 @@ sys_expe_back_home: >-
 sys_expe_back_home_ress: Sie haben %s %s, %s %s und %s %s mitgebracht.
 sys_expe_back_home_ships_flound: 'Es wurden folgende Schiffe gefunden:'
 sys_expe_back_home_ships_lost: 'Es gingen folgende Schiffe verloren:'
-sys_expe_blackholl_1: >-
-  Deine Flotte traf auf ein schwarzes Loch und wurde teilweise zerstört!
-sys_expe_blackholl_2: >-
-  Deine Flotte traf auf ein schwarzes Loch und wurde komplett zerstört!
 sys_expe_depleted_max_1: >-
   Logbuch des Kommunikationsoffiziers: Wenn wir uns zu unsicher fühlen, können
   wir uns ja mit all den anderen Expeditionen, die hier herumfliegen,
@@ -213,7 +206,6 @@ sys_expe_depleted_not_2: >-
 sys_expe_feqeuence_few: Mehr als 10 Expeditionen in den letzten 24 Stunden
 sys_expe_feqeuence_many: Mehr als 50 Expeditionen in den letzten 24 Stunden
 sys_expe_feqeuence_medium: Mehr als 25 Expeditionen in den letzten 24 Stunden
-sys_expe_feqeuence_no: Wenige Expeditionen in den letzten 24 Stunden
 sys_expe_found_goods: Es wurden %s %s abgebaut.
 sys_expe_found_ress_1_1: >-
   Deine Expedition hat einen kleinen Asteroidenschwarm entdeckt, aus dem einige
@@ -262,9 +254,6 @@ sys_expe_found_ress_logbook_4: >-
   Logbuch des ersten Offiziers: Auch nachdem wir die Cafeteria und alle
   Aufenthaltsräume in Lagerräume umgewandelt haben, können wir immer noch nicht
   alle gefundenen Rohstoffe transportieren.
-sys_expe_found_ships: >-
-  Deine Forscher haben Raumschiffe in einwandfreiem Zustand
-  gefunden!<br>Geborgen wurden:
 sys_expe_found_ships_1_1: >-
   Wir sind auf die Überreste einer Vorgängerexpedition gestoßen! Unsere
   Techniker prüfen, ob sie einige der Wracks wieder flugfähig bekommen.
@@ -431,7 +420,6 @@ sys_mess_attack_cancel: |-
   Die Schlacht bei %s %s wurde abgebrochen.
   Der Server konnte sie nicht berechnen.
 sys_mess_attack_report: Kampfbericht
-sys_mess_destruc_report: 'Bericht: Zerstörung eines Mondes'
 sys_mess_fleetback: Flottenrückkehr
 sys_mess_piratebase_gone: 'Deine Flotte hat %s erreicht, aber die Piratenbasis ist nicht mehr dort. Die Flotte kehrt nach Hause zurück.'
 sys_mess_spy_activity: Spionageabwehr
@@ -476,7 +464,6 @@ sys_ship_repaired: Repariert
 sys_ship_shield: Schilde
 sys_ship_type: Typ
 sys_ship_weapon: Waffen
-sys_spy_defenses: Verteidigung
 sys_spy_fleet: Flotte
 sys_stat_mess: >-
   Deine Flotte von %s %s erreicht den %s %s %s und liefert %s %s, %s %s und %s

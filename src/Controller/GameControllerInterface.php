@@ -9,12 +9,6 @@ namespace App\Controller;
  */
 interface GameControllerInterface
 {
-    /** Game area: LOGIN, INGAME, ADMIN or ACCOUNT (the former MODE constant). */
-    public static function getGameMode(): string;
-
-    /** Original entry script of the area, e.g. "index.php" (identifies the area; URLs drop the extension). */
-    public static function getEntryScript(): string;
-
     /** Runs after the game is bootstrapped, before the action (former page constructor work). */
     public function initialize(): void;
 }

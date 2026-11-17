@@ -18,12 +18,10 @@ use App\Game\Market\MarketRules;
 use App\Game\Market\MarketTradeHistory;
 
 /** Market place: player trade offers for resources and fleets. */
-#[\App\Routing\GamePage('game.php', 'marketPlace')]
-#[\App\Routing\GamePage('game.php', 'marketPlace', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'marketPlace')]
+#[\App\Controller\RequireModule('MODULE_MISSION_TRADE')]
 class MarketPlaceController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_MISSION_TRADE';
-
     public function initialize(): void
     {
         parent::initialize();

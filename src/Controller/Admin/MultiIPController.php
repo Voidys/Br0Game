@@ -27,8 +27,7 @@ use App\Game\Core\Universe;
 /**
  * Multi account list (accounts sharing an IP address); entries can be marked as known or unknown.
  */
-#[\App\Routing\GamePage('admin.php', 'multiIP')]
-#[\App\Routing\GamePage('admin.php', 'multiIP', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'multiIP')]
 class MultiIPController extends AbstractAdminController
 {
     /**

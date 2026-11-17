@@ -22,8 +22,7 @@ use App\Game\Core\Session;
 use App\Game\Core\Singleton;
 
 /** Leaves the admin area: drops admin access from the session and returns to the game. */
-#[\App\Routing\GamePage('admin.php', 'logout')]
-#[\App\Routing\GamePage('admin.php', 'logout', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'logout')]
 class LogoutController extends AbstractAdminController
 {
     /**

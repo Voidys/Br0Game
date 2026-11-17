@@ -41,10 +41,10 @@
 <h2>Emails</h2>
 <p>We send emails to the address you registered with when they are needed to run your account: activation of your account, resetting your password, confirming a change of your email address, warnings before an inactive account is deleted, and important notices about the game (for example the start of a new universe). We do not send newsletters or advertising.</p>
 
-<!--recaptcha--><h2>Bot protection (Google reCAPTCHA)</h2>
-<p>Some forms (for example registration) are protected against automated abuse with Google reCAPTCHA, a service provided by Google. reCAPTCHA is loaded only when you submit a protected form. It then sends your IP address, browser information and interaction data to Google, which assesses whether the request comes from a human. Google may process this data in other countries, including the USA. Further information is available in Google's privacy policy at https://policies.google.com/privacy.</p>
+<h2>Bot protection</h2>
+<p>Registration and the lost-password form are protected against automated abuse by a small computation that your browser solves on its own when you open the form. It is checked on our own server; no third-party service is contacted, and no cookies or tracking identifiers are used for it.</p>
 
-<!--/recaptcha--><h2>Cookies and local storage</h2>
+<h2>Cookies and local storage</h2>
 <p>We only use cookies and browser storage that are needed to provide the service you request:</p>
 <ul>
 <li><strong>2Moons</strong>: session cookie that keeps you logged in. It expires 12 hours after your last activity, or when you log out.</li>
@@ -56,7 +56,7 @@
 <p>We do not use tracking, analytics or advertising cookies, and we do not create user profiles for marketing.</p>
 
 <h2>Who can see your data</h2>
-<p>Your data is handled by members of the game team (administrators and moderators) as far as their tasks require it. Technical service providers work on our behalf and only on our instructions: the hosting provider of the servers and, where applicable, the email delivery service. Other players see the data described under "Account and player data" and "Communication within the game". We pass data on to authorities only if we are legally obliged to. We do not sell personal data.<!--recaptcha--> Apart from Google reCAPTCHA (see "Bot protection"), we do not send your data to other companies.<!--/recaptcha--></p>
+<p>Your data is handled by members of the game team (administrators and moderators) as far as their tasks require it. Technical service providers work on our behalf and only on our instructions: the hosting provider of the servers and, where applicable, the email delivery service. Other players see the data described under "Account and player data" and "Communication within the game". We pass data on to authorities only if we are legally obliged to. We do not sell personal data.</p>
 <p>Links to external services (for example Discord or the wiki) only take you to those services. Data is handled there only once you open the link, under the privacy policy of the respective provider.</p>
 
 <h2>How long data is kept</h2>

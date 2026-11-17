@@ -26,8 +26,7 @@ use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Read-only overview of one player: account, planets, resources, buildings, fleet and defense. */
-#[\App\Routing\GamePage('admin.php', 'accountData')]
-#[\App\Routing\GamePage('admin.php', 'accountData', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'accountData')]
 class AccountDataController extends AbstractAdminController
 {
     /**

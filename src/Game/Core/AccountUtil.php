@@ -158,7 +158,7 @@ class AccountUtil
         ]);
 
         // account-level leftovers (board posts are kept as public content)
-        foreach (['LOSTPASSWORD' => 'accountID', 'RECAPTCHA' => 'accountId', 'SESSION' => 'accountID'] as $table => $column) {
+        foreach (['LOSTPASSWORD' => 'accountID', 'SESSION' => 'accountID'] as $table => $column) {
             $db->delete('DELETE FROM %%' . $table . '%% WHERE `' . $column . '` = :accountId;', [
                 ':accountId'   => $accountId,
             ]);

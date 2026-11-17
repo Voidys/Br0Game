@@ -1,7 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
-{% set countRank = count(availableRanks) %}
+{% set countRank = availableRanks|length %}
 <form action="game?page=alliance&amp;mode=admin&amp;action=permissionsSend" method="post">
 <input type="hidden" value="1" name="send">
 	<div class="table-scroll">

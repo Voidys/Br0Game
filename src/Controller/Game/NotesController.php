@@ -27,12 +27,10 @@ use App\Game\Core\Universe;
 /**
  * Personal notes of the player (list, edit popup, delete).
  */
-#[\App\Routing\GamePage('game.php', 'notes')]
-#[\App\Routing\GamePage('game.php', 'notes', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'notes')]
+#[\App\Controller\RequireModule('MODULE_NOTICE')]
 class NotesController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_NOTICE';
-
     private const MAX_NOTES = 100;
     private const MAX_TEXT_LENGTH = 10000;
 

@@ -79,3 +79,6 @@ board_ago_days: '%d 天前'
 board_guest_hint: 登录后即可发帖、评论和投票。
 board_guest_login: 登录
 board_guest_register: 注册
+rl_board_err_self_vote: 不能给自己的帖子或评论投票。
+rl_board_err_vote_cap: 今日投票次数已达上限，请明天再试。
+rl_board_err_write_cap: 今日发帖和评论次数已达上限，请明天再试。

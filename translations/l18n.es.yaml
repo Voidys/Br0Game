@@ -1,32 +1,26 @@
 dir: ltr
 js_tdformat: '[D] [d] de [M] [H]:[i]:[s]'
 months:
-  - Ene
-  - Feb
-  - Mar
-  - Abr
-  - May
-  - Jun
-  - Jul
-  - Ago
-  - Sep
-  - Oct
-  - Nov
-  - Dic
-php_dateformat: d. M Y
+- Ene
+- Feb
+- Mar
+- Abr
+- May
+- Jun
+- Jul
+- Ago
+- Sep
+- Oct
+- Nov
+- Dic
 php_tdformat: d. M Y, H:i:s
-php_timeformat: H:i:s
 short_day: d
 short_hour: h
 short_minute: m
 short_second: s
 timezones:
-  '-1': >-
-    [UTC - 1] Azores Estándar Tiempo, Cape Verde Tiempo, Eastern Greenland
-    Tiempo
-  '-2': >-
-    [UTC - 2] Fernando de Noronha Tiempo, South Georgia &amp; the South Sandwich
-    Islands Tiempo
+  '-1': '[UTC - 1] Azores Estándar Tiempo, Cape Verde Tiempo, Eastern Greenland Tiempo'
+  '-2': '[UTC - 2] Fernando de Noronha Tiempo, South Georgia &amp; the South Sandwich Islands Tiempo'
   '-3': '[UTC - 3] Amazon Estándar Tiempo, Central Greenland Tiempo'
   '-3.5': '[UTC - 3:30] Newfoundland Estándar Tiempo'
   '-4': '[UTC - 4] Atlantic Estándar Tiempo'
@@ -53,13 +47,9 @@ timezones:
   '6': '[UTC + 6] Bangladesh Tiempo, Bhutan Tiempo, Novosibirsk Estándar Tiempo'
   '6.5': '[UTC + 6:30] Cocos Islands Tiempo, Myanmar Tiempo'
   '7': '[UTC + 7] Indochina Tiempo, Krasnoyarsk Estándar Tiempo'
-  '8': >-
-    [UTC + 8] Chinese Estándar Tiempo, Australian Western Estándar Tiempo,
-    Irkutsk Estándar Tiempo
+  '8': '[UTC + 8] Chinese Estándar Tiempo, Australian Western Estándar Tiempo, Irkutsk Estándar Tiempo'
   '8.75': '[UTC + 8:45] Southeastern Western Australia Estándar Tiempo'
-  '9': >-
-    [UTC + 9] Japan Estándar Tiempo, Korea Estándar Tiempo, Chita Estándar
-    Tiempo
+  '9': '[UTC + 9] Japan Estándar Tiempo, Korea Estándar Tiempo, Chita Estándar Tiempo'
   '9.5': '[UTC + 9:30] Australian Central Estándar Tiempo'
   '10': '[UTC + 10] Australian Eastern Estándar Tiempo, Vladivostok Estándar Tiempo'
   '10.5': '[UTC + 10:30] Lord Howe Estándar Tiempo'
@@ -70,11 +60,14 @@ timezones:
   '13': '[UTC + 13] Tonga Tiempo, Phoenix Islands Tiempo'
   '14': '[UTC + 14] Line Island Tiempo'
 week_day:
-  - Domingo
-  - Lunes
-  - Martes
-  - Miercoles
-  - Jueves
-  - Viernes
-  - Sabado
-lang_group_fun: "Idiomas de broma"
+- Domingo
+- Lunes
+- Martes
+- Miercoles
+- Jueves
+- Viernes
+- Sabado
+php_dateformat: d. M Y
+lang_group_fun: Idiomas de broma
+dialog_ok: Aceptar
+dialog_cancel: Cancelar

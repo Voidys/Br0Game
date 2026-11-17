@@ -91,8 +91,6 @@ sys_expe_back_home: Je vloot is van de expeditie op %3$s teruggekeerd naar %1$s 
 sys_expe_back_home_ress: Hij levert %s %s, %s %s en %s %s af.
 sys_expe_back_home_ships_flound: 'De volgende schepen werden gevonden:'
 sys_expe_back_home_ships_lost: 'De volgende schepen gingen verloren:'
-sys_expe_blackholl_1: Je vloot kwam een zwart gat tegen en is gedeeltelijk vernietigd!
-sys_expe_blackholl_2: Je vloot kwam een zwart gat tegen en is volledig vernietigd!
 sys_expe_depleted_max_1: 'Aantekening uit het logboek van de communicatieofficier: Als we ons ooit onveilig voelen, kunnen we altijd de krachten bundelen met de andere expedities die hier rondvliegen.'
 sys_expe_depleted_max_2: 'Aantekening uit het logboek van de communicatieofficier: Als dit zo doorgaat, moeten we navigatieboeien plaatsen om al dit verkeer aan te kunnen.'
 sys_expe_depleted_max_3: 'Aantekening uit het logboek van de communicatieofficier: Misschien is het nuttiger om hier een souvenirwinkel te openen dan weer een expeditie te sturen.'
@@ -107,7 +105,6 @@ sys_expe_depleted_not_2: 'Aantekening uit het logboek van de communicatieofficie
 sys_expe_feqeuence_few: Meer dan 10 expedities in de afgelopen 24 uur
 sys_expe_feqeuence_many: Meer dan 50 expedities in de afgelopen 24 uur
 sys_expe_feqeuence_medium: Meer dan 25 expedities in de afgelopen 24 uur
-sys_expe_feqeuence_no: Weinig expedities in de afgelopen 24 uur
 sys_expe_found_goods: '%s %s zijn gewonnen.'
 sys_expe_found_ress_1_1: Je expeditie heeft een kleine asteroïdecluster ontdekt waaruit wat grondstoffen konden worden gewonnen.
 sys_expe_found_ress_1_2: Op een afgelegen planetoïde werden meerdere makkelijk bereikbare grondstofvelden gevonden en er werden met succes grondstoffen gewonnen.
@@ -122,7 +119,6 @@ sys_expe_found_ress_logbook_1: 'Aantekening uit het logboek van de eerste offici
 sys_expe_found_ress_logbook_2: 'Aantekening uit het logboek van de eerste officier: Hadden we maar een paar vrachtschepen meer! Nu moeten we een hoop grondstoffen achterlaten.'
 sys_expe_found_ress_logbook_3: 'Aantekening uit het logboek van de eerste officier: We hebben alles overboord gegooid wat we niet meer nodig hebben, maar we kunnen nog steeds niet genoeg ruimte maken voor alle gevonden grondstoffen.'
 sys_expe_found_ress_logbook_4: 'Aantekening uit het logboek van de eerste officier: Zelfs toen we de kantine en alle lounges tot opslagruimtes ombouwden, konden we nog steeds niet alle gevonden grondstoffen vervoeren.'
-sys_expe_found_ships: 'Je onderzoekers hebben ruimteschepen gevonden die in perfecte staat waren!<br>: '
 sys_expe_found_ships_1_1: We hebben de resten van een eerdere expeditie ontdekt! Onze technici controleren of ze een paar van de wrakken weer aan de praat kunnen krijgen.
 sys_expe_found_ships_1_2: We hebben een verlaten piratenbasis gevonden. Een paar oude schepen staan nog in de hangar. Onze technici controleren of sommige schepen nog bruikbaar zijn.
 sys_expe_found_ships_1_3: Onze expeditie vond een planeet die bijna volledig door oorlogen verwoest was. In de baan dreven verschillende scheepswrakken. De technici probeerden er een paar te repareren. Misschien komen we meer te weten over wat hier is gebeurd.

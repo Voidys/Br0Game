@@ -60,12 +60,6 @@ final class BattleResult
         return $this->startDefenders ??= BattleFleet::listFromArrays($this->rounds[0]['defenders'] ?? []);
     }
 
-    /** Whether the attacker won. */
-    public function attackerWon(): bool
-    {
-        return $this->won === ATTACKER;
-    }
-
     /**
      * Legacy array layout of the combat result (won, debris, rw, unitLost, repaired, wreckfield, duration,
      * unitLostPerSideAndUser, transportCapacityLostPerSideAndUser).

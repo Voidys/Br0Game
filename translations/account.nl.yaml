@@ -79,3 +79,6 @@ board_ago_days: '%d d geleden'
 board_guest_hint: Log in om te posten, te reageren en te stemmen.
 board_guest_login: Inloggen
 board_guest_register: Registreren
+rl_board_err_self_vote: Je kunt niet stemmen op je eigen bericht of reactie.
+rl_board_err_vote_cap: Dagelijkse stemlimiet bereikt. Probeer het morgen opnieuw.
+rl_board_err_write_cap: Dagelijkse limiet voor berichten en reacties bereikt. Probeer het morgen opnieuw.

@@ -51,6 +51,7 @@ final class ReferralChainTest extends GameTestCase
         $controller->setSecurityServices($container->get(AuthRateLimits::class), $container->get(CanonicalUrl::class));
 
         if ($controller instanceof LoginRegister) {
+            $controller->setBotProtection($container->get(\App\Security\BotProtection::class));
             $controller->initialize();
         }
 
@@ -94,6 +95,16 @@ final class ReferralChainTest extends GameTestCase
         return $this->accountRow($id);
     }
 
+    /** a valid bot-check solution (the form field `pow`), solved by brute force like the browser does */
+    private function botCheckSolution(): string
+    {
+        $challenge = self::container()->get(\App\Security\ProofOfWork::class)->issue(500, 0, time() - 10);
+        for ($n = 0; hash('sha256', $challenge['salt'] . $n) !== $challenge['challenge']; $n++) {
+        }
+
+        return base64_encode((string) json_encode(['salt' => $challenge['salt'], 'challenge' => $challenge['challenge'], 'signature' => $challenge['signature'], 'number' => $n]));
+    }
+
     private function registerPlayer(array $account, string $username): ?array
     {
         $controller = $this->wire(new AccountRegister());
@@ -110,6 +121,7 @@ final class ReferralChainTest extends GameTestCase
             'username' => 'refpend', 'password' => 'secret12', 'passwordReplay' => 'secret12',
             'email' => 'refpend@example.com', 'emailReplay' => 'refpend@example.com',
             'rules' => 1, 'privacy' => 1, 'lang' => 'en', 'time' => 'Europe/Berlin', 'referralID' => $recruiter['id'],
+            'pow' => $this->botCheckSolution(), 'website' => '',
         ]);
 
         $pending = $this->db->selectSingle('SELECT * FROM %%ACCOUNTS_VALID%% WHERE accountname = :n;', [':n' => 'refpend']);

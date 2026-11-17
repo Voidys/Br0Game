@@ -26,12 +26,9 @@ use App\Game\Core\Singleton;
 /**
  * Battle report page (/game?page=raport): renders a stored combat report for its participants.
  */
-#[\App\Routing\GamePage('game.php', 'raport')]
-#[\App\Routing\GamePage('game.php', 'raport', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'raport')]
 class RaportController extends AbstractGameController
 {
-    public static $requireModule = 0;
-
     protected $disableEcoSystem = true;
 
     public function initialize(): void
@@ -40,48 +37,10 @@ class RaportController extends AbstractGameController
     }
 
     /**
-     * Backwards compatibility: converts combat reports stored before revision 2321 (old moon, simulator, debris and unit layouts) into the current
-     * report structure. $isDefender selects the perspective.
+     * Marks whether a wreck field was created and hides repair data from viewers that are not the defender.
      */
-    private function BCWrapperPreRev2321($combatReport, $isDefender)
+    private function applyViewerPerspective($combatReport, $isDefender)
     {
-        if (isset($combatReport['moon']['desfail'])) {
-            $combatReport['moon']	= [
-                'moonName'				=> $combatReport['moon']['name'],
-                'moonChance'			=> $combatReport['moon']['chance'],
-                'moonDestroySuccess'	=> !$combatReport['moon']['desfail'],
-                'fleetDestroyChance'	=> $combatReport['moon']['chance2'],
-                'fleetDestroySuccess'	=> !$combatReport['moon']['fleetfail'],
-            ];
-        } elseif (isset($combatReport['moon'][0])) {
-            $combatReport['moon']	= [
-                'moonName'				=> $combatReport['moon'][1],
-                'moonChance'			=> $combatReport['moon'][0],
-                'moonDestroySuccess'	=> !$combatReport['moon'][2],
-                'fleetDestroyChance'	=> $combatReport['moon'][3],
-                'fleetDestroySuccess'	=> !$combatReport['moon'][4],
-            ];
-        }
-
-        if (isset($combatReport['simu'])) {
-            $combatReport['additionalInfo'] = $combatReport['simu'];
-        }
-
-        if (isset($combatReport['debris'][0])) {
-            $combatReport['debris'] = [
-                901	=> $combatReport['debris'][0],
-                902	=> $combatReport['debris'][1],
-            ];
-        }
-
-        if (!empty($combatReport['steal']['metal'])) {
-            $combatReport['steal'] = [
-                901	=> $combatReport['steal']['metal'],
-                902	=> $combatReport['steal']['crystal'],
-                903	=> $combatReport['steal']['deuterium'],
-            ];
-        }
-
         $combatReport['wreckfield_created'] = !empty($combatReport['wreckfield']);
         if (!$isDefender) {
             $combatReport['repaired'] = [];
@@ -92,7 +51,7 @@ class RaportController extends AbstractGameController
     }
 
     /**
-     * Combat report (request: raport = report id from RW). Participants (attacker or defender id lists; old reports without lists have no participants),
+     * Combat report (request: raport = report id from RW). Participants (attacker or defender id lists),
      * admins and members of the alliances of participants see the full report; everybody else only a reduced one with the participants' names
      * (from TOPKB_USERS). Renders the template for the battle engine stored with the report (`rust` or classic). Unknown ids end in a message.
      */
@@ -144,7 +103,7 @@ class RaportController extends AbstractGameController
         }
 
         $combatReport['time']	= $this->viewHelpers()->formatDate($LNG['php_tdformat'], $combatReport['time'], $USER['timezone']);
-        $combatReport			= $this->BCWrapperPreRev2321($combatReport, $isDefender);
+        $combatReport			= $this->applyViewerPerspective($combatReport, $isDefender);
 
         if ($reportData['battleengine'] === 'rust') {
             $combatReport = $this->sortRustRounds($combatReport);
@@ -164,7 +123,7 @@ class RaportController extends AbstractGameController
     }
 
     /**
-     * Decides what the viewer may see: participants (attacker or defender id lists, empty lists from before r2484 list nobody),
+     * Decides what the viewer may see: participants (attacker or defender id lists),
      * admins (also treated as defenders) and members of the alliances of any participant get the full report.
      *
      * @param array<string, mixed> $reportData RW row with the attacker and defender id lists
@@ -175,7 +134,6 @@ class RaportController extends AbstractGameController
         $USER = $this->state->USER;
         $db = $this->db;
 
-        // an empty id list (reports from before r2484) lists no participant: such reports are not public
         $attackers = explode(",", $reportData['attacker']);
         $defenders = explode(",", $reportData['defender']);
         $isAttacker = in_array((string) $USER['id'], $attackers, true);

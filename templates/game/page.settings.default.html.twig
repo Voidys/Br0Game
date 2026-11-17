@@ -37,7 +37,7 @@
 					<td>{{ LNG.op_timezone }}</td>
 					<td>{{ forms.html_options({'name': 'timezone', 'options': Selectors.timezones, 'selected': timezone}) }}</td>
 				</tr>
-				{% if count(Selectors.lang) > 1 %}
+				{% if Selectors.lang|length > 1 %}
 					<tr>
 						<td>{{ LNG.op_lang }}</td>
 						<td>{{ forms.html_options({'name': 'language', 'options': Selectors.lang, 'selected': userLang}) }}</td>
@@ -57,13 +57,13 @@
 						{{ forms.html_options({'name': 'planetOrder', 'options': Selectors.SortUpDown, 'selected': planetOrder}) }}
 					</td>
 				</tr>
-				{% if count(Selectors.ImageSkins|default([])) > 1 %}
+				{% if (Selectors.ImageSkins|default([]))|length > 1 %}
 					<tr>
 						<td>{{ LNG.op_skin_example }} (IMG)</td>
 						<td>{{ forms.html_options({'options': Selectors.ImageSkins, 'selected': imageTheme, 'name': "imageTheme", 'id': "imageTheme"}) }}</td>
 					</tr>
 				{% endif %}
-				{% if count(Selectors.CssSkins|default([])) > 1 %}
+				{% if (Selectors.CssSkins|default([]))|length > 1 %}
 					<tr>
 						<td>{{ LNG.op_skin_example }} (CSS)</td>
 						<td>{{ forms.html_options({'options': Selectors.CssSkins, 'selected': cssTheme, 'name': "cssTheme", 'id': "cssTheme"}) }}</td>

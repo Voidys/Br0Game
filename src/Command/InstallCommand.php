@@ -284,7 +284,7 @@ final class InstallCommand extends Command
 
         try {
             try {
-                $this->kernel->boot('INSTALL', 'install/index.php');
+                $this->kernel->boot('INSTALL', 'install/index');
             } catch (EndOfRequest $end) {
                 throw new \RuntimeException('The game could not be started.', 0, $end);
             }

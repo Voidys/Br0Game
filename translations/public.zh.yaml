@@ -1,37 +1,18 @@
-biggest_solo: 最大单人战役
 build_ships: 舰船建造总数
 buttonLostPassword: 忘记密码？
 buttonRegister: 注册
 buttonScreenshot: 截图
 civil: 民用
 colony: 殖民地
-CrystalStorage: 晶体仓库
 deathstar: 死星
 destroyed_sats: 被摧毁的太阳能卫星
 disclamerLabelAddress: 游戏地址：
 disclamerLabelMail: 客服邮箱：
 disclamerLabelNotice: 更多信息
 disclamerLabelPhone: 电话：
-disclamerRecaptcha: 本页面使用 reCAPTCHA，并适用 Google 的<a href="https://policies.google.com/privacy">隐私声明</a>和<a href="https://policies.google.com/terms">服务条款</a>。
 first_fights: 宇宙中的首批战斗
-flown_expos: 远征飞行总数
-flownDeut: 飞行消耗的重氢总量
 forum: 论坛
-found_res: 发现的资源总量
-found_ships: 发现的舰船总数
-galaxySpendDeut: 浏览星系消耗的重氢
-gameInformations: '实时太空策略游戏。
-
-  每个宇宙都有数百名玩家。
-
-  无需下载，普通浏览器即可畅玩。
-
-  免费注册'
-hof3_header: 3 号宇宙的传奇在此流传！
-hof4_header: 4 号宇宙的传奇在此流传！
-hof7_header: 7 号宇宙的传奇在此流传！
-IonCannon: 离子炮
-least_reached_ach: 最稀有的成就
+hof_empty: 暂无名人堂数据。
 login_error_1: 邮箱或密码错误！提示：密码管理器常常会自动填入用户名，但你需要用邮箱登录。
 login_error_2: 你的账号在另一台设备上登录了，或者你的 IP 地址已更改。
 login_error_3: 你的会话已过期，请重新登录。
@@ -44,36 +25,21 @@ loginPassword: 密码
 loginServerDesc: '%s 是一款太空策略游戏，数百名玩家<strong>同时</strong>竞逐榜首。你只需要一个普通的浏览器。'
 loginWelcome: 欢迎来到 %s
 Lowest_longterm_points: 积分最低的预注册账号
-medAliens: 中型外星人
 menu_banlist: 封禁名单
 menu_battlehall: 战斗大厅
 menu_disclamer: 联系我们
-menu_index: 首页
 menu_news: 新闻
 menu_rules: 规则
 military: 军事
-most_achievements: 收集成就最多
-most_black_holes: 遭遇黑洞最多
-most_build: 建造最多
-most_build_HF: 建造重型战斗机最多
-most_defended_moons: 成功防守月球最多
-most_destroyed_moons: 摧毁月球最多
-most_expo_fights: 对战外星人/海盗最多
-most_fights: 胜 / 负 / 平 最多
-most_reached_ach: 最常见的成就
-most_records: 收集纪录最多
 news_does_not_exist: 暂无新闻。
 news_from: '%s，作者 %s'
-oldest_active_acc: 最老的活跃账号
 overall: 总榜
 passwordBack: 返回
 passwordChangedMailSend: 你的新密码已在路上，很快就会收到邮件。
 passwordChangedMailTitle: '%s 的新密码'
-passwordConfirmInfo: '点击按钮重置你的密码，我们会把新密码发送到你的邮箱。'
-passwordConfirmSubmit: '给我发送新密码'
+passwordConfirmInfo: 点击按钮重置你的密码，我们会把新密码发送到你的邮箱。
+passwordConfirmSubmit: 给我发送新密码
 passwordErrorMailEmpty: 我们不认识这个邮箱地址。
-passwordErrorOnePerDay: 过去 24 小时内已申请过该账号的密码。请 24 小时后再申请。
-passwordErrorUnknown: 找不到与这些信息匹配的账号。
 passwordInfo: 忘记密码了？请输入你账号的用户名和邮箱地址。如果你记不起来了，请联系管理员。
 passwordMail: 邮箱
 passwordNext: 下一步
@@ -84,7 +50,9 @@ passwordValidMailSend: 你很快会收到一封邮件，里面有后续步骤。
 passwordValidMailTitle: 重置 %s 的密码
 players: 玩家
 points_amount: 积分 / 数量
-realDesUnits: 实际被摧毁的单位
+powFailed: 自动机器人检测失败或已过期。请返回，稍等片刻后重新提交表单。
+powNoCrypto: 你的浏览器无法运行自动机器人检测（需要安全的 https 连接）。
+powVerifying: 正在检查你的浏览器 …
 registerBack: 返回
 registerDataPrivacyDesc: 我同意%s
 registerEmail: 邮箱
@@ -120,7 +88,6 @@ registerUsernameDesc: 请使用 3 到 25 个字符：字母、数字、空格、
 registerWelcomePMSenderName: 管理员
 registerWelcomePMSubject: 欢迎
 registerWelcomePMText: 欢迎来到 %s！首先建造一座太阳能电站，因为生产资源需要能量。点击左侧菜单的“建筑”，从太阳能电站开始。<br>有了能量，就可以建造矿场了。继续留在“建筑”页面，先建金属矿，再建晶体矿。<br><br>建造舰船需要造船厂。左侧的“科技”菜单会告诉你解锁它需要满足哪些条件。<br>如果还有其他疑问，请查看常见问题、维基，或者提交客服工单。<br><br>团队祝你在宇宙中探索愉快！
-second_expo_deck: 开启了第二个远征甲板
 siteTitleBanList: 封禁名单
 siteTitleBattleHall: 战斗大厅
 siteTitleDataPrivacy: 隐私政策
@@ -142,21 +109,7 @@ theme: 主题
 universe: 宇宙
 vertifyAdminMessage: 账号“%s”已激活。
 vertifyNoUserFound: 无效的请求。
-votingPoints: 投票积分
-wonAttack: 进攻获胜
-wonDefense: 防守获胜
-chose_a_uni: 选择宇宙
-menu_register: 注册
-news_overview: 新闻
-passwordCaptcha: 验证码
 passwordErrorUsernameEmpty: 你还没有输入用户名！
-registerCaptcha: 验证码
-registerCaptchaDesc: 请把下方图片中的字符输入空白栏，不要加空格，不区分大小写。如果刷新几次后仍然看不清图片，请联系网站管理员。
-registerCaptchaReload: 刷新验证码
-registerErrorCaptcha: 验证码不正确！
-registerMailVertifyError: 邮件发送失败：%s
-registerNext: 继续
-rulesHeader: 规则
 uni_closed: （已关闭）
 uni_reg_closed: （已关闭注册）
 uni_reg_open: （仅开放注册）
@@ -180,9 +133,12 @@ lightbox_next: 下一张
 news_pinned: 置顶
 news_read_more: 阅读更多
 news_latest: 最新新闻
+home_discord_online: 在线
+home_discord_join: 加入我们的 Discord
 news_all: 全部新闻
 csrf_invalid: 安全检查失败（你的会话可能已过期）。请刷新页面后重试。
-home_logged_in_head: "你的账号"
-home_logged_in_as: "已登录为 %s"
-home_continue: "继续前往你的宇宙"
-home_account_lobby: "账号大厅"
+home_logged_in_head: 你的账号
+home_logged_in_as: 已登录为 %s
+home_continue: 继续前往你的宇宙
+home_account_lobby: 账号大厅
+rulesEmpty: 尚未发布任何规则。

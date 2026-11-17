@@ -27,8 +27,7 @@ use App\Twig\GameEscaping;
 use Twig\Markup;
 
 /** Bans and unbans players and login accounts. */
-#[\App\Routing\GamePage('admin.php', 'ban')]
-#[\App\Routing\GamePage('admin.php', 'ban', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'ban')]
 class BanController extends AbstractAdminController
 {
     /**

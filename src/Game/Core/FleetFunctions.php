@@ -242,12 +242,6 @@ class FleetFunctions
         return $this->fleetString()->serialize($fleet);
     }
 
-    /** @see AcsService::getACSDuration() */
-    public function getACSDuration(int $acsId): int
-    {
-        return $this->acs()->getACSDuration($acsId);
-    }
-
     /** @see AcsService::setACSTime() */
     public function setACSTime(int $timeDifference, int $acsId): bool
     {

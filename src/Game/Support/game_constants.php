@@ -8,8 +8,6 @@
 
 const DEFAULT_THEME = 'br0game';
 
-const COMBAT_ENGINE = 'xnova';
-
 // For Fatal Errors!
 const DEFAULT_LANG = 'de';
 
@@ -46,15 +44,8 @@ const USERNAME_CHANGETIME = 604800;
 // Max Results in Searchpage (-1 = disable)
 const SEARCH_LIMIT = 25;
 
-// Messages per page at message list
-const MESSAGES_PER_PAGE = 10;
-
 // banned users per page at ban list
 const BANNED_USERS_PER_PAGE = 25;
-
-// How much IP Block ll be checked
-// 1 = (AAA); 2 = (AAA.BBB); 3 = (AAA.BBB.CCC)
-const COMPARE_IP_BLOCKS = 2;
 
 // Max Round on Combats
 const MAX_ATTACK_ROUNDS = 6;
@@ -64,9 +55,6 @@ const ENABLE_SIMULATOR_LINK = true;
 
 // Max. User Session in Seconds
 const SESSION_LIFETIME = 43200;
-
-// ENABLE Mutlialert on sending fleets
-const ENABLE_MULTIALERT = false;
 
 // UTF-8 support for names (required for non-english chars!)
 const UTF8_SUPPORT = true;
@@ -100,13 +88,7 @@ const SPY_VIEW_FACTOR = 1;
 // Bash Settings
 const BASH_TIME = 86400;
 
-// Bash rule on wars:
-// 0 = NORMAL
-// 1 = ON WAR, BASH RULE IS DEACTIVE
-const BASH_WAR = 1;
-
 // MINIMUM FLEET TIME MUST HIGHER THEN BASH_TIME
-const FLEETLOG_AGE = 86400;
 
 // Root IDs
 const ROOT_UNI = 1;
@@ -120,7 +102,6 @@ const AUTH_USR = 0;
 
 // Planet types
 const TYPE_PLANET = '1';
-const TYPE_DEBRIS = '2'; //unused
 const TYPE_MOON = '3';
 
 // Modules
@@ -175,6 +156,7 @@ const MODULE_TUTORIAL = 53;
 const MODULE_TUTORIAL_REWARDS = 54;
 const MODULE_HONORPOINTS = 55;               // Honorpoints for players
 const MODULE_PIRATE_BASES = 56;              // Pirate Bases Cronjob and related features
+const MODULE_VOTING = 57;                    // Vote sites with rewards (vote_sites, vote_log)
 
 // module id => name map: GameBootstrap::registerModules()
 
@@ -183,29 +165,6 @@ const FLEET_OUTWARD = 0;
 const FLEET_RETURN = 1;
 const FLEET_HOLD = 2;
 const FLEET_DESTROYED = 3;
-
-// ELEMENT FLAGS
-const ELEMENT_BUILD = 1; # ID 0 - 99
-const ELEMENT_TECH = 2; # ID 101 - 199
-const ELEMENT_FLEET = 4; # ID 201 - 399
-const ELEMENT_DEFENSIVE = 8; # ID 401 - 599
-const ELEMENT_OFFICIER = 16; # ID 601 - 699
-const ELEMENT_BONUS = 32; # ID 701 - 799
-const ELEMENT_RACE = 64; # ID 801 - 899
-const ELEMENT_PLANET_RESOURCE = 128; # ID 901 - 949
-const ELEMENT_USER_RESOURCE = 256; # ID 951 - 999
-
-// .. 512, 1024, 2048, 4096, 8192, 16384, 32768
-
-const ELEMENT_PRODUCTION = 65536;
-const ELEMENT_STORAGE = 131072;
-const ELEMENT_ONEPERPLANET = 262144;
-const ELEMENT_BOUNS = 524288;
-const ELEMENT_BUILD_ON_PLANET = 1048576;
-const ELEMENT_BUILD_ON_MOONS = 2097152;
-const ELEMENT_RESOURCE_ON_TF = 4194304;
-const ELEMENT_RESOURCE_ON_FLEET = 8388608;
-const ELEMENT_RESOURCE_ON_STEAL = 16777216;
 
 // Resources
 
@@ -236,7 +195,6 @@ const SPRUNGTOR = 43;
 const SILO = 44;
 
 // shiptypes
-const SHIP_TYPE_UNKNOWN = 'unknown';
 const SHIP_TYPE_RECYCLER = 'recycler';
 
 // ships
@@ -254,23 +212,7 @@ const SHIP_SOLSAT = 212;
 const SHIP_DESTROYER = 213;
 const SHIP_RIP = 214;
 const SHIP_BATTLECRUISER = 215;
-const LUNE_NOIR = 216;
-const EV_TRANSPORTER = 217;
-const STAR_CRASHER = 218;
-const BATTLE_RECYCLER = 219;
-const STEEL_COLLOSSUS = 220;
-const STORM_BLADE = 221;
-const HEAVY_CRUISER = 222;
-const SHILD_DRONE = 223;
-const IMPROVISED_ASSAULT_TRANSPORTER = 224;
-const STORM_TRANSPORTER = 225;
-const COLOSSAL_BATTLE_TRANSPORTER = 226;
-const GIGA_RECYKLER = 226;
-const OPTIMIZED_RECYCLER = 227;
-const OMEGA_RECYCLER = 228;
-const VIPER = 229;
 const INTERCEPTOR = 230;
-const BEHEMOTH = 231;
 const VOID_TITAN = 232;
 
 // Defense
@@ -278,15 +220,9 @@ const MISSILE_LAUNCHER = 401;
 const LIGHT_LASER_TURRET = 402;
 const HEAVY_LASER_TURRET = 403;
 const GAUSS_CANNON = 404;
-const ION_CANNON = 405;
 const PLASMA_CANNON = 406;
 const SMALL_SHIELD_DOME = 407;
 const LARGE_SHIELD_DOME = 408;
-const PLANET_PROTECTOR = 409;
-const GRAVITON_CANON = 410;
-const ORBITAL_STATION = 411;
-const BUNKER = 412;
-const TITAN_LASER = 413;
 const DECOY = 414;
 
 // MISSILES
@@ -312,7 +248,6 @@ const MISSION_PIRATEBASE_SPY = 21;
 const MISSION_PIRATEBASE_RECYCLING = 22;
 
 // general time constants
-const TIME_30_MIN = 1800;
 const TIME_1_HOUR = 3600;
 const TIME_6_HOURS = 21600;
 const TIME_12_HOURS = 43200;
@@ -331,11 +266,6 @@ const STATUS_LOGIN_ONLY = 3;
 const UNIVERSE_LINEAR = 0;
 const UNIVERSE_CIRCULAR = 1;
 const UNIVERSE_BALL = 2;
-
-// galaxy type
-const GALAXY_LINEAR = 0;
-const GALAXY_CIRCULAR = 1;
-const GALAXY_BALL = 2;
 
 // technologies
 const SPY_TECH = 106;

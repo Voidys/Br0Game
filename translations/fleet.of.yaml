@@ -29,7 +29,6 @@ fleet_attack_2: >-
   absorbieren
 fleet_defs_1: Die Werteidigende Flodde schiesschd mid einer Leischdung won
 fleet_defs_2: 'auf den Angreifer etzala. Die Schilde des Angreifers absorbierne '
-spy_attack_with: angreifen mit
 spy_best_planet: bester Planet
 spy_best_resources_per_second: beste Ress pro Sekunde
 spy_energy: Energie
@@ -48,7 +47,6 @@ sys_and: und
 sys_attack_attacker_pos: Angreifer
 sys_attack_defender_pos: Werteidiger
 sys_attack_round: Runde
-sys_attack_techologies: 'Waffne habne %d %% Hülle isd %d %% Schilde habne %d %% '
 sys_attack_title: Folgende Floddne schdehne sich genüber am
 sys_attacker_lostunits: Der Angreifene had insgesamd
 sys_attacker_won: Der Angreifer had die Schlachd gewonnen tazächlich
@@ -59,7 +57,6 @@ sys_colo_allisok: >-
 sys_colo_badpos: >-
   Eine deiner Floddne erreichd die Goordinatne %s Hier wurde geine
   Siedlungsmöglichgeit gefundne, enddäuschd gehrtne deine Siedler zurügg.
-sys_colo_defaultname: Golonie
 sys_colo_maxcolo: >-
   Eine deiner Floddne erreichd die Goordinatne %s Eine Besiedelung isd ned
   möglich, da du ned mehr als %d Blanetne habne gannst, hätt ich gsachd.
@@ -181,8 +178,6 @@ sys_expe_back_home: >-
 sys_expe_back_home_ress: Sie haben %s %s, %s %s und %s %s midgebrachd.
 sys_expe_back_home_ships_flound: 'Es wurdne folgende Schiffe gefundne: '
 sys_expe_back_home_ships_lost: 'Es gingne folgende Schiffe werlorne: '
-sys_expe_blackholl_1: Deine Flodde draf uff a schwarzes Loch und wurde deilweise zermeddld etzala!
-sys_expe_blackholl_2: 'Deine Flodde draf uff ein schwarzes Loch und wurde gomplett zermeddld! '
 sys_expe_depleted_max_1: >-
   Logbuch Nachdrag des Gommunikationsoffiziers: Wene wir uns zu unsicher fühlne
   gönnene wir uns ja mid all den anderne Exbeditionene, die hier herum fliegne,
@@ -226,7 +221,6 @@ sys_expe_depleted_not_2: >-
 sys_expe_feqeuence_few: Mehr als 10 Eggsbedidionene in den leddsne 24 Schdundne
 sys_expe_feqeuence_many: Mehr als 50 Eggsbedidionene in den leddsne 24 Schdundn
 sys_expe_feqeuence_medium: Mehr als 25 Eggsbedidionene in den leddsne 24 Schdundn
-sys_expe_feqeuence_no: Wenige Eggsbedidionene in 24 Schdundne
 sys_expe_found_goods: Es wurden %s %s abgebaud.
 sys_expe_found_ress_1_1: >-
   Deine Exbedition had nene gleinene Aschderoidenschwarm entdeggt, aus dem
@@ -278,9 +272,6 @@ sys_expe_found_ress_logbook_4: >-
   Eindrag aus dem Logbuch des ersdne Offidsiers: Auch nachdem wir die Cafederia
   und alle Aufendhaldsräume in Lagerräume umgewandeld habne, gönnene wir immer
   noch ned alle Ressourcne dransbordierne, die wir gefundne habne.
-sys_expe_found_ships: >-
-  Deine Forscher habne Raumschiffe in einwandfreiem Zuschdand gefundne alda!
-  .<br>Bergne gonntne sie sie tadsächlich sogar:
 sys_expe_found_ships_1_1: >-
   Wir sind uff die Überreschde einer Worgängerexpedition geschdoßne tazächlich!
   Unsere Dechniker  schaune, ob sie einiche der Wraggs scho widder Flugfähig
@@ -457,7 +448,6 @@ sys_mess_attack_cancel: |-
   Die Schlacht bei %s %s wurde abgesagt.
   Der Server konnte sie nicht berechnen.
 sys_mess_attack_report: Gampfbericht
-sys_mess_destruc_report: 'Berichd: Zerschdörung eines Mondes'
 sys_mess_fleetback: 'Floddenrüggkehr '
 sys_mess_piratebase_gone: 'Deine Flotte hat %s erreicht, aber die Piratenbasis ist nicht mehr dort. Die Flotte kehrt nach Hause zurück.'
 sys_mess_spy_activity: Schbionage Aktivität
@@ -503,7 +493,6 @@ sys_ship_repaired: Rebariert
 sys_ship_shield: Schilde
 sys_ship_type: Düb
 sys_ship_weapon: Bewaff.
-sys_spy_defenses: 'Werteidigung '
 sys_spy_fleet: Flodde
 sys_stat_mess: >-
   Deine Flodde fon %s %s erreichd den %s %s %s und lieferd  %s %s, %s %s und %s

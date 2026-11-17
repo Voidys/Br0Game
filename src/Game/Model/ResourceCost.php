@@ -43,23 +43,6 @@ final readonly class ResourceCost
     }
 
     /**
-     * Only the resources with a non-zero cost, keyed by resource id, in the order metal, crystal, deuterium, energy.
-     *
-     * @return array<int, int|float>
-     */
-    public function nonZero(): array
-    {
-        $result = [];
-        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT, RESOURCE_ENERGY] as $resourceId) {
-            if ($this->of($resourceId) != 0) {
-                $result[$resourceId] = $this->of($resourceId);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * All four resources keyed by resource id in the order metal, crystal, deuterium, energy: the shape of
      * `$pricelist[$id]['cost']`.
      *

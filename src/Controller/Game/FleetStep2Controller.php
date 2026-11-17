@@ -29,12 +29,10 @@ use App\Game\Core\Singleton;
 use App\Game\Core\Universe;
 
 /** Fleet dispatch, step 2: mission, cargo and trade options (modes: show, checkResources). */
-#[\App\Routing\GamePage('game.php', 'fleetStep2')]
-#[\App\Routing\GamePage('game.php', 'fleetStep2', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetStep2')]
+#[\App\Controller\RequireModule('MODULE_FLEET_TABLE')]
 class FleetStep2Controller extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_FLEET_TABLE';
-
     public function initialize(): void
     {
         parent::initialize();

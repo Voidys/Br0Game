@@ -8,7 +8,7 @@ use App\Game\Core\StoredData;
 use PHPUnit\Framework\TestCase;
 
 /**
- * StoredData: JSON for database columns, tolerant reading of legacy serialize() rows, nothing else.
+ * StoredData: JSON for database columns.
  */
 final class StoredDataTest extends TestCase
 {
@@ -30,25 +30,6 @@ final class StoredDataTest extends TestCase
     {
         $this->assertSame([], StoredData::decode(null));
         $this->assertSame([], StoredData::decode(''));
-    }
-
-    public function testLegacySerializedRowsAreStillReadable(): void
-    {
-        $this->assertSame(self::QUEUE, StoredData::decode(serialize(self::QUEUE)));
-        $this->assertSame([], StoredData::decode('a:0:{}'));
-    }
-
-    public function testLegacyObjectsAreNeverInstantiated(): void
-    {
-        $this->expectException(\UnexpectedValueException::class);
-        StoredData::decode('O:8:"stdClass":0:{}');
-    }
-
-    public function testObjectsNestedInALegacyArrayBecomeIncompleteClasses(): void
-    {
-        $data = StoredData::decode('a:1:{i:0;O:8:"stdClass":1:{s:1:"a";i:1;}}');
-
-        $this->assertInstanceOf(\__PHP_Incomplete_Class::class, $data[0]);
     }
 
     public function testGarbageThrows(): void

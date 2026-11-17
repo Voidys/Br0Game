@@ -12,13 +12,10 @@ use App\Game\Core\HTTP;
 use App\Game\Core\Session;
 
 /** Fleet dispatch helper (XHR): drops the fleet prepared in the session when the dispatch pages are left. */
-#[\App\Routing\GamePage('game.php', 'fleetStepAjax')]
-#[\App\Routing\GamePage('game.php', 'fleetStepAjax', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'fleetStepAjax')]
 class FleetStepAjaxController extends AbstractGameController
 {
     public $returnData = [];
-
-    public static $requireModule = 0;
 
     public function initialize(): void
     {

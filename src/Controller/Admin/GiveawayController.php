@@ -27,8 +27,7 @@ use App\Game\Core\Universe;
 /**
  * Gives resources and dark matter to the players (or planets/moons) of the universe.
  */
-#[\App\Routing\GamePage('admin.php', 'giveaway')]
-#[\App\Routing\GamePage('admin.php', 'giveaway', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'giveaway')]
 class GiveawayController extends AbstractAdminController
 {
     /**

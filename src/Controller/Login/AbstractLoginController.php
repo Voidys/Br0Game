@@ -41,16 +41,6 @@ abstract class AbstractLoginController implements GameControllerInterface
         render as private renderPage;
     }
 
-    public static function getGameMode(): string
-    {
-        return 'LOGIN';
-    }
-
-    public static function getEntryScript(): string
-    {
-        return 'index.php';
-    }
-
     protected static function templateArea(): string
     {
         return 'login';
@@ -73,6 +63,31 @@ abstract class AbstractLoginController implements GameControllerInterface
             $this->setWindow($this->defaultWindow);
         } else {
             $this->setWindow('ajax');
+        }
+    }
+
+    protected \App\Security\BotProtection $botProtection;
+
+    /** Container (setter) injection of the bot check used by the public forms. */
+    #[\Symfony\Contracts\Service\Attribute\Required]
+    public function setBotProtection(\App\Security\BotProtection $botProtection): void
+    {
+        $this->botProtection = $botProtection;
+    }
+
+    /**
+     * Refuses the request with a message page (and a way back to the form) unless the form carries a valid bot-check
+     * solution (field `pow`) and an empty honeypot (field `website`); see BotProtection.
+     */
+    protected function requireBotCheck(string $backUrl, string $backLabel): void
+    {
+        $passed = $this->botProtection->passes(
+            $this->http()->rawInput(\App\Security\BotProtection::FIELD),
+            $this->http()->rawInput(\App\Security\BotProtection::HONEYPOT),
+            $this->sessions()->getClientIp(),
+        );
+        if (!$passed) {
+            $this->printMessage($this->state->LNG['powFailed'], [['label' => $backLabel, 'url' => $backUrl]]);
         }
     }
 
@@ -232,16 +247,5 @@ abstract class AbstractLoginController implements GameControllerInterface
         $this->save();
         $this->http()->redirectTo($url);
         throw new EndOfRequest();
-    }
-
-    /** sends the browser to $url with a self-submitting POST form */
-    protected function redirectPost($url, $postFields): never
-    {
-        $this->assign([
-            'url'    		=> $url,
-            'postFields'	=> $postFields,
-        ]);
-
-        $this->display('login/info.redirectPost.html.twig');
     }
 }

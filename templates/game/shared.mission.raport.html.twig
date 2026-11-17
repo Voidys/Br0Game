@@ -11,7 +11,7 @@
 </table>
 {% endif %}
 <div class="w-100 text-center">
-{% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} {{ Raport.time }}{% if isset(Raport.duration) %} ({{ round(Raport.duration, 4) }} s){% endif %}:<br><br>
+{% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} {{ Raport.time }}{% if isset(Raport.duration) %} ({{ Raport.duration|round(4) }} s){% endif %}:<br><br>
 {% for Round, RoundInfo in Raport.rounds %}
 {% if not (isset(Info) and Round > 0 and not loop.last) %}
 <table class="auto">
@@ -151,7 +151,7 @@
 <br><br>
 {% if Raport.result == php_const('ATTACKER') %}
 {{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.steal) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
+{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == Raport.steal|length %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
 {% elseif Raport.result == php_const('DEFENDER') %}
 {{ LNG.sys_defender_won }}
 {% else %}
@@ -160,7 +160,7 @@
 <br><br>
 {{ LNG.sys_attacker_lostunits }} {{ pretty_number(Raport['units'][0]) }} {{ LNG.sys_units }}<br>
 {{ LNG.sys_defender_lostunits }} {{ pretty_number(Raport['units'][1]) }} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == count(Raport.debris) %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
+{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == Raport.debris|length %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
 {% if Raport.mode == 1 %}
 	{# Destruction #}
 	{% if Raport.moon.moonDestroySuccess == -1 %}
@@ -205,8 +205,8 @@
 
 {% if not empty(Raport.repaired) %}
 	<br>
-	{% set lastRound = count(Raport.rounds)-1 %}
-	{% set lastDefender = count(Raport.rounds[0].defender)-1 %}
+	{% set lastRound = Raport.rounds|length - 1 %}
+	{% set lastDefender = Raport.rounds[0].defender|length - 1 %}
 	<table class="auto">
 	<tr>
 		<td>

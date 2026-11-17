@@ -18,7 +18,7 @@
 namespace App\Controller\Game;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Game\Core\StoredData;
+use App\Game\Core\BattleReportStore;
 use App\Game\BattleEngine\BattleFleet;
 use App\Game\BattleEngine\BattleHandler;
 use App\Game\Core\Config;
@@ -29,12 +29,10 @@ use App\Game\Core\Singleton;
 /**
  * Battle simulator: prepares the form with the player's techs and resources and renders the simulated report.
  */
-#[\App\Routing\GamePage('game.php', 'battleSimulator')]
-#[\App\Routing\GamePage('game.php', 'battleSimulator', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'battleSimulator')]
+#[\App\Controller\RequireModule('MODULE_SIMULATOR')]
 class BattleSimulatorController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_SIMULATOR';
-
     /** Most ships and defenses of all slots together one simulation may contain (a fight of 20 million per side takes about 17 s of CPU). */
     public const MAX_SIMULATED_UNITS = 10000000;
 
@@ -304,14 +302,7 @@ class BattleSimulatorController extends AbstractGameController
     {
         $reportID = bin2hex(random_bytes(16));
 
-        $sql = "INSERT INTO %%RW%% SET rid = :reportID, raport = :reportData, time = :time, attacker = :marker, battleengine = :battleengine;";
-        $this->db->insert($sql, [
-            ':reportID'     => $reportID,
-            ':reportData'   => $engineName === 'rust' ? compressToBase64(json_encode($reportData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) : StoredData::encode($reportData),
-            ':time'         => $this->state->runtime->timestamp,
-            ':marker'       => $simMarker,
-            ':battleengine' => $engineName,
-        ]);
+        (new BattleReportStore($this->db))->insert($reportID, $reportData, $engineName, $this->state->runtime->timestamp, $simMarker);
 
         return $reportID;
     }

@@ -26,8 +26,7 @@ use App\Game\Core\Universe;
 /**
  * Switches the game modules (config `moduls`) of the emulated universe on or off.
  */
-#[\App\Routing\GamePage('admin.php', 'module')]
-#[\App\Routing\GamePage('admin.php', 'module', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'module')]
 class ModuleController extends AbstractAdminController
 {
     /**

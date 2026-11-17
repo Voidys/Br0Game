@@ -1,11 +1,6 @@
-404_page: Bu sayfaya erisim yetkiniz yok!
 ac_account_data: Hesap Bilgileri
 ac_act_time: Son aktivite
 ac_ali_idid: 'ID:'
-ac_ali_logo_11: Ittifak Logoso
-ac_ali_text_11: Herkese acik metin
-ac_ali_text_22: ittifak ici metin
-ac_ali_text_33: Basvuru metni
 ac_alliance: ittifak
 ac_ally_ranking: Ittifak istatistikkleri
 ac_ally_web: Anlasma
@@ -13,7 +8,6 @@ ac_auth_level: Seviye
 ac_banned: ceza?
 ac_checkip_title: IP adresini kontrol et
 ac_coords: Koordinatlar
-ac_detailed_planet_moon_info: Gezegen ve Ay detaylari
 ac_diameter: Genislik
 ac_enter_user_id: Oyuncu seciniz
 ac_ext_text: Herkeze Acik Metin
@@ -25,38 +19,19 @@ ac_id_names_coords: ID, Isim ve Koordinatlar
 ac_image: Ittifak Logosu
 ac_info_ally: Ittifak Bilgileri
 ac_int_text: Ittifak Ici Metin
-ac_isnodestruyed: <font color=red>(Son zamanlarda yokedilmeis gezegen yok)</font>
 ac_last_ip: Son baglandigi IP
 ac_leader: Kurucu
 ac_leyend: '[ Bilgiler ]'
-ac_mail: Email
-ac_minimize_maximize: Minimize/Maximize
 ac_moon: Ay
-ac_moons_no: <font color=red>(AY YOK)</font>
-ac_more: (daha fazlasi)
 ac_name: Isim
 ac_name_ali: Isim
-ac_no_alliance: <font color=red>(ITTIFAK YOK)</font>
 ac_no_ally: Ittifak Yok
-ac_no_character: Sadece rakam girebilirsiniz!
 ac_no_img: Ittifagin logosu yok
-ac_no_moons: Bu oyuncunun AY yok
-ac_no_rank_level: Bilgiyi gormek icin yeterli yetkiniz yok
 ac_no_text_ext: Ittifak, herkeze acik metin girmemis
 ac_no_text_int: ittifak, ittifak ici metin girmemis
 ac_no_text_sol: Ittifak, basvuru metni girmemis
-ac_no_web: Ittifagin web sayfasi yok
-ac_note_k: >-
-  <table><tr><th width=10%><font
-  class="colorPositive">T+</font></th><th>Trilyondan fazla</th></tr><tr><th
-  width=10%><font class="colorPositive">T</font></th><th>1 Trilyon
-  Civari</th></tr><tr><th width=10%><font
-  class="colorPositive">B</font></th><th>Asagi Yukari 1 Milyar</th></tr><tr><th
-  width=10%><font class="colorPositive">M</font></th><th>Asagi Yukari 1 Milyon
-  </th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Asagi
-  Yukari 1000</th></tr></table>
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Trilyondan fazla</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>1 Trilyon Civari</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>Asagi Yukari 1 Milyar</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>Asagi Yukari 1 Milyon </th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Asagi Yukari 1000</th></tr></table>
 ac_on_vacation: Tatil?
-ac_perm_mail: Kalici Email
 ac_points_count: Puan | Hesap
 ac_ranking: Siralama
 ac_recent_destroyed_planets: Son zamalarda yokedilmis gezegen
@@ -66,15 +41,12 @@ ac_register_time: Kayit Tarihi
 ac_research: Arastirma
 ac_see_ranking: Istatistiklere Bakiniz
 ac_select_id_num: Manuel olarak ID gir (opsiyonel)
-ac_select_one_id: Sadece bir oyuncu seciniz!
-ac_select_username: Oyuncu Sec
 ac_sol_text: Basvuru Metni
 ac_suspended_autor: Cezayi Veren
 ac_suspended_longer: Bitis
 ac_suspended_reason: Nedeni
 ac_suspended_time: Cezali
 ac_suspended_title: Cezalari Gor
-ac_swap_fail: 'Değiştirme başarısız oldu: %s'
 ac_swap_invalid: Geçersiz seçim, lütfen iki farklı kullanıcı seçin!
 ac_swap_no_entry: Bir veya her iki kullanıcı için hesap girişi bulunamadı.
 ac_swap_submit: Takas
@@ -85,20 +57,14 @@ ac_swap_user_b: Kullanıcı B
 ac_tag: TAG
 ac_temperature: Sicaklik
 ac_time_destruyed: Yokedilen toplam
-ac_title: Hesap Bilgileri
-ac_title_entry: Detaylar
 ac_total_members: Uye Sayisi
 ac_total_points: 'Toplam : '
-ac_urlnow: 'URL:'
-ac_user_id_required: Bir oyuncu secmelisiniz!
 ac_user_ranking: Oyuncu Istatistikleri
 ac_user_system: Oyuncu Sistemi
 ac_username_doesnt: Boyle bir oyuncu yok!
 ac_view_image: Logoyu yeni pencerede gor
-ac_view_image2: logoyu gor
-ac_view_text_ext: Herkeze acik metni goster
-ac_view_text_int: Ittifak ici metni goster
-ac_view_text_sol: Basvuru metnini goster
+account_already_has_user: Bu hesabın bu evrende zaten bir oyuncusu var
+accountID: Hesap ID
 ad_add_build_success: Binalar basariyla guncellendi!!
 ad_add_defenses_success: Savunma uniteleri basariyla guncellendi!
 ad_add_not_exist: Boyle bir ID yok!
@@ -121,18 +87,14 @@ ad_ally_title: Ittifak Duzenle
 ad_ally_user_id: (ID Giriniz)
 ad_authlevel_aa: '[Adminleri listele]'
 ad_authlevel_auth: Yetki
-ad_authlevel_error: Bu yetki sizde var zaten!
-ad_authlevel_error_2: Sadece tek uye seciniz!
 ad_authlevel_error_3: Oyunun sahibini buradan degistirebilirsiniz!
 ad_authlevel_insert_id: Enter ID manually (optional)
 ad_authlevel_jj: '[Oyunculari listele]'
 ad_authlevel_mm: '[Moderatorleri listele]'
-ad_authlevel_name: Isim
 ad_authlevel_oo: '[Operatorleri listele]'
 ad_authlevel_succes: Yetki seviyesi basariyla degistirildi
 ad_authlevel_title: Yetkiler
 ad_authlevel_tt: '[Hepsini Listele]'
-ad_back_to_menu: Ana Menuye Don
 ad_buildings: Bina
 ad_buildings_title: Binalar
 ad_count: Kademe/Miktar
@@ -144,7 +106,6 @@ ad_delete_res_sucess: Kaynaklar basariyla silindi!
 ad_delete_ships_sucess: Gemi sayisi basariyla guncellendi!
 ad_delete_tech_success: Arastirma basariyla silindi!
 ad_editor_alliances: Ittifak
-ad_editor_authlevels: Izinler
 ad_editor_buildings: Binalar
 ad_editor_defenses: Savunma
 ad_editor_personal: Uye Duzenle
@@ -153,27 +114,18 @@ ad_editor_researchs: Arastirma
 ad_editor_resources: Hammadde
 ad_editor_ships: Gemiler
 ad_editor_title: Duzenleme Menusu
-ad_forgiven_id: Mutlaka ID girmelsiniz!
 ad_levels: Kademe
-ad_main_title: Kaynaklar ve Teknolojiler
-ad_max: (max. %d)
 ad_number: ID
-ad_personal_email: Email
-ad_personal_email2: Email (tekrar)
 ad_personal_name: Isim
-ad_personal_pass: Sifre
 ad_personal_succes: Ayarlar Kaydedildi
 ad_personal_title: Uye Duzenle
 ad_personal_vacat: Tatil Modu
-ad_pla_change_id: Gezegen ID degistir
 ad_pla_change_p: Koordinatlar
 ad_pla_change_pp: Koordinatlari degistirmek icin tiklayiniz
 ad_pla_delete_b: Butun binalari sil
 ad_pla_delete_cb: Insaa uretim listesini sil
 ad_pla_delete_d: Butun savunmayi sil
 ad_pla_delete_hd: Tersane uretim listesini sil
-ad_pla_delete_planet: Gezegeni sil
-ad_pla_delete_planet_s: Gezegen basari ile silindi
 ad_pla_delete_s: Butun gemileri sil
 ad_pla_edit_diameter: Genislik Degistir
 ad_pla_edit_fields: Alani Degistir
@@ -184,25 +136,19 @@ ad_pla_error_planets3: Koordinatlarda mevcut gezegen var!
 ad_pla_error_planets4: Eger gezegende ay varsa modifiye edemezsiniz!
 ad_pla_error_planets5: Ayni koordinatlarda baska gezegen var
 ad_pla_error_planets6: Koordinatlar evrenin sınırları dahilinde değil
-ad_pla_error_user: Boyle bir oyuncu yok!
 ad_pla_succes: Degisiklikler basariyla tamamlandi
 ad_pla_title: Gezegen ve Aylar
-ad_pla_title_a: Gezegende ay varsa, ismi degistirelebilsin mi
 ad_pla_title_l: Eger gezegende ay varsa, mevcut gezegenle beraber ay da tasinir
-ad_planet_id: Gezegen yada AY ID
 ad_research: Arastirma Teknigi
 ad_research_title: Arastirma
 ad_ships: Gemi Adi
 ad_ships_title: Gemiler
 adm_absenden: Enter
-adm_bad_password: Yanlis Sifre!
 adm_cp_index: Admin Ana Sayfa
-adm_cp_logout: Oyuna Geri Don
 adm_cp_title: Administration Panel
 adm_email: E-mail
 adm_login: Giris
 adm_password: Sifre
-adm_password_info: Admin menusu icin sifreni gir
 adm_username: Kullanici Adi
 an_analyzed_list: Analiz edilen oyuncular
 an_btn_disable: Analizi devre dışı bırakın ve verileri silin
@@ -216,7 +162,6 @@ ap_del: Sil
 ap_email: Email
 ap_entfernen: Silinecek!
 ap_id: ID
-ap_insgesamt: Genel
 ap_ip: IP
 ap_nicht_aktivierte: Oyuncu tarafindan onaylanmadi
 ap_nicht_aktivierte_user: Oyuncu aktif edilmedi
@@ -225,17 +170,13 @@ ap_status: Durum
 ap_username: Oyuncu Ismi
 bo_accountname: Hesap adı
 bo_ban: Banla
+bo_ban_change: Değiştir
 bo_ban_player: Ceza Ver/Kaldir
 bo_banned: ' Basariyla Banlandi'
-bo_bbb_go_act: '[Yenile]'
-bo_bbb_go_back: '[Geri]'
 bo_bbb_title_1: Ceza Sistemi
 bo_bbb_title_2: Bitis Tarihi
 bo_bbb_title_3: Ceza Sistemi • <font color="red">Bu oyuncu kilitli</font>
-bo_bbb_title_4: >-
-  In order to reduce the time duration, it is necessary to add a "-" before the
-  numbers, such as: -5<br>With previous perma-lock, the lock is reduced to the
-  entered positive time
+bo_bbb_title_4: 'In order to reduce the time duration, it is necessary to add a "-" before the numbers, such as: -5<br>With previous perma-lock, the lock is reduced to the entered positive time'
 bo_bbb_title_5: Kilitli
 bo_bbb_title_6: Son guncelleme tarihi
 bo_characters_1: Kalan Karakter
@@ -246,10 +187,8 @@ bo_order_username: '[Isme gore sirala]'
 bo_permanent: Hesabi Kapat
 bo_reason: Ban/Ceza Nedeni
 bo_select_title: 'Isim Seciniz.... '
-bo_suspended_panel: Cezalilar
 bo_the_player: 'Oyuncu '
 bo_the_player2: Oyuncu
-bo_time: Ispat
 bo_total_accs: 'Toplam hesaplar: '
 bo_total_accs_banned: 'Cezali hesaplar: '
 bo_total_banneds: 'Cezali Oyuncu : '
@@ -257,8 +196,6 @@ bo_total_users: 'Toplam Oyuncu : '
 bo_unban: Bani Kaldir
 bo_unban_player: Cezali Listesi
 bo_unbanned: ' Ban/Ceza Basariyla kaldirildi'
-bo_user_doesnt_exist: Boyle bir oyuncu yok!
-bo_user_select: Sec ...
 bo_username: Oyuncu Ismi
 bo_vacaations: Tatil Modu
 bo_vacation_mode: Tatil Modu
@@ -266,7 +203,6 @@ buildings_title: Binalar
 button_add: Ekle
 button_cancel: İptal
 button_delete: Sil
-button_des_se: Hepsi/Hicbiri
 button_deselect: Secileni Sil
 button_filter: Filtrele
 button_reset: Temizle
@@ -275,16 +211,10 @@ button_test: Test
 button_test_negative: Test failed
 button_test_positive: Test successful
 cc_cache_clear: Bellek temizlendi!
-count_res: Hammadde Miktari
-cronjob_active: Hayir
 cronjob_class: class
 cronjob_delete: Sil
-cronjob_desc: >-
-  Burada gorev icin gerekli ayar ve zamanlamalar var. Ancak butun sartlar yerine
-  getirilirse zamanlanmis gorev calisir.
-cronjob_desc_class: >-
-  Goreci calistiracak class dosyasi.  mesela
-  Includes/classes/cronjobs/foo.class.php "foo" mutlaka eklenmelli.
+cronjob_desc: Burada gorev icin gerekli ayar ve zamanlamalar var. Ancak butun sartlar yerine getirilirse zamanlanmis gorev calisir.
+cronjob_desc_class: Goreci calistiracak class dosyasi.  mesela Includes/classes/cronjobs/foo.class.php "foo" mutlaka eklenmelli.
 cronjob_desc_name: Gorev icin herhangi bir isim seciniz.
 cronjob_dom: Gun
 cronjob_dow: Hangi Gun
@@ -299,13 +229,7 @@ cronjob_error_month: Ay girilmedi!
 cronjob_error_name: Isim girilmedi!
 cronjob_headline: Cronjob ID
 cronjob_hours: Saat
-cronjob_id: ID
-cronjob_inactive: Evet
-cronjob_inActive: Aktif
-cronjob_is_lock: Evet
-cronjob_is_unlock: Hayir
 cronjob_lastTime: Son koşu
-cronjob_lock: Kilitli
 cronjob_min: Dakika
 cronjob_month: Ay
 cronjob_name: Isim
@@ -314,35 +238,27 @@ cronjob_nextTime: Bir Sonraki
 cronjob_run: Çalıştır
 cronjob_selectall: Hepsini sec
 cronName_cleaner: Eski Veriyi Sil
-cronName_bots: "Botlar"
-cronName_disposable_email_domains: "Tek kullanımlık e-posta alan adlarını güncelle"
-cronName_fleets: "Filo olayları"
+cronName_bots: Botlar
+cronName_disposable_email_domains: Tek kullanımlık e-posta alan adlarını güncelle
+cronName_fleets: Filo olayları
 cronName_daily: Gunluk Gorevler
 cronName_databasedump: Database backup
 cronName_inactive: Inaktifleri Sil
 cronName_pirates: Korsan üsleri oluşturun
 cronName_referral: Referans Bonusu
 cronName_statistic: Istatistikler
+cronName_statisticjson: stats.json dışa aktar
 cronName_tracking: Global Server Istatistik Guncellemesi
-cs_minutes: once
-cs_resources: hammadde
 cs_time_between_updates: Guncelleme zaman araligi
-cs_timeact_1: 'Son guncelleme:'
-cs_users_per_block: Blok basina kullanici (min. 10)
 defenses_title: Savunma
 du_choose_tables: Tablo Sec
-du_header: Veritabani Yedekle
 du_not_tables_selected: Lutfen yedeklemek istediginiz tabloyu seciniz!
 du_select_all_tables: Butun Tablolar
 du_submit: Tamam
 du_success: 'Basariyla yedeklendi! Dosya Adi: %s'
 email_reg: Email
 email2_reg: Email (tekrar)
-er_data: Tarih
-er_dlte_all: Hepsini Sil
-er_error_list: Hata Listesi
-er_errors: Hatalar
-er_type: Tur
+empty_account_field: Hesap ID girilmedi
 et_encript: Kod olustur
 et_md5_encripter: MD5 Kodlama
 et_pass: Sifre (eger girmek isterseniz)
@@ -353,20 +269,22 @@ exp_deck_count_label: count
 exp_deck_edit: Kart Destesi Yapılandırmasını Düzenle
 exp_deck_event_type: Etkinlik Türü
 exp_deck_example: 'Örnek:'
-exp_deck_format_help: >-
-  Kart destesi yapılandırması, her öğenin aşağıdaki özelliklere sahip bir kart
-  türünü temsil ettiği bir JSON dizisidir:
+exp_deck_format_help: 'Kart destesi yapılandırması, her öğenin aşağıdaki özelliklere sahip bir kart türünü temsil ettiği bir JSON dizisidir:'
 exp_deck_format_instructions: Talimatları Biçimlendir
 exp_deck_percentage: Yüzde
 exp_deck_save_success: Kart destesi yapılandırması başarıyla kaydedildi!
 exp_deck_size_desc: Etkinlik boyutu (Small, Medium, Big, None)
 exp_deck_size_label: size
 exp_deck_statistics: Güncel Kart Destesi İstatistikleri
-exp_deck_title: Keşif Kartı Destesi Yapılandırması
 exp_deck_total: Toplam
 exp_deck_type_desc: Etkinlik türü (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
 exp_deck_type_label: type
 exp_deck_warning: 'Uyarı: Geçersiz JSON reddedilecek'
+exp_ships_description: Her aktif gemi için, keşif seferlerinin onu bulup bulamayacağını ve hangi gemilerin bulabileceğini seç.
+exp_ships_findable: Bulunabilir
+exp_ships_found_by: Arayıcı gemiler
+exp_ships_select_finders: Arayıcı gemileri seç
+exp_ships_ship: Gemi
 ff_arrivaltime: Varis Zamani
 ff_del: Sil
 ff_endtime: Geri Donus Zamani
@@ -390,13 +308,10 @@ ga_no_inactives: Sadece aktif oyuncular<br>(i)(I) Inaktif oyunculara gonderme
 ga_planettypes: Gezegen Turu
 ga_selectplanettype: Gezegen Seciniz!
 ga_success: Basariyla hesaplara eklendi!
-info_information: >-
-  Buglari foruma  <a href="%s" target="tracker">GitHub</a><br>yada destek
-  sayfasindan bildirebilirsiniz!
+info_information: Buglari foruma  <a href="%s" target="tracker">GitHub</a><br>yada destek sayfasindan bildirebilirsiniz!
 input_id: ID
 input_id_account: Account ID
 input_id_ally: Ittifak ID
-input_id_moon: Ay ID
 input_id_p_m: Gezegen yada Ay ID
 input_id_planet: Gezegen ID
 input_id_user: Oyuncu ID
@@ -409,7 +324,6 @@ log_element: Element
 log_id: ID
 log_info: Bilgi
 log_log: Kayit
-log_menu: Kayit Menusu
 log_new: Sonra
 log_no_data: Herhangi bir kayit yok!
 log_old: Once
@@ -434,22 +348,22 @@ ma_message: Mesaj
 ma_message_sended: Your message has been sent!
 ma_mode: Iletisim Metodu
 ma_modes:
-  - Game
-  - Mail
-  - Game&Mail
+- Game
+- Mail
+- Game&Mail
 ma_none: Genel Duyuru
 ma_send_global_message: Genel Mesaj Gonder
 ma_subject: Konu
 ma_subject_needed: You must add the subject!
-ma_no_recipients: 'Filtreye uyan alici yok, e-posta gonderilmedi.'
-mip_ip: IP
+ma_no_recipients: Filtreye uyan alici yok, e-posta gonderilmedi.
+message_a: 'Mesaj durumu:'
+message_t: 'Talep durumu:'
 mip_known: Onay?
-mip_user: Oyuncu
 ml_date: Tarih
 ml_date_range: Periyot
+ml_deleted: Mesaj silindi
 ml_id: '#ID'
 ml_message_list: Mesaj listesi
-ml_page: Sayfa
 ml_receiver: Kime
 ml_sender: Kimden
 ml_subject: Konu
@@ -469,13 +383,6 @@ mod_change_deactive: Inaktif Et
 mod_deactive: Su an Inaaktif
 mod_info: Oyundaki Moduller
 mod_module: Moduller
-mod_power_config: Ayar Yetkileri
-mod_power_edit: Yetkiyi Duzenle
-mod_power_loog: Log Yetkileri
-mod_power_tools: Araclarla ilgili yetkiler
-mod_power_view: Gozlem Yetkisi
-mod_range: Yetki Duzeyi
-mod_title: Admin Yetkileri
 modul_0: Ittifak
 modul_1: Saldiri
 modul_2: Binalar
@@ -512,7 +419,12 @@ modul_36: Konuslanmak
 modul_38: Hurdaci
 modul_39: Savas Simulatoru
 modul_40: Filo Kisayollari
+modul_41: Filo kısayolları
 modul_42: Ittifak Saldirisi
+modul_43: Görev — Ticaret
+modul_44: Görev — Aktarım
+modul_45: Pazar — Kaynaklar
+modul_46: Pazar — Filo
 modul_47: Casus Teknolojisine Bağlı İstatistikler
 modul_48: Onarım rıhtımı
 modul_49: Güvenli kaynaklar
@@ -521,23 +433,13 @@ modul_51: Buddy ve Alliance'dan tekme
 modul_52: Stats.json
 modul_53: Öğretici
 modul_54: Eğitim ödülleri
+modul_55: Onur puanları
 modul_56: Korsan üsleri
-mr_mail_title: '%s''lerde yolculuğunuz başlamak üzere!'
-mr_menu_button: Mail Uni-Release
-mr_not_needed: Bu uni zaten açılmış olduğu için bir hatırlatma e-postasına ihtiyaç duymuyor
-mr_send: Hatırlatıcıları posta ile gönder
-mr_timestamp: 'Planlanmış uni açılışı (unix):'
-mu_accountswap: Hesap takası
 mu_active_planets: Aktif Gezegenler
-mu_add_delete_resources: Hesaplari Duzenle
-mu_ban_options: Ceza/Ban Sistemi
 mu_clear_cache: Bellegi Temizle
 mu_connected: Online
 mu_cronjob: Zamanlanmis Gorevler
 mu_dump: Veritabani Yedekle
-mu_error_list: Errors in Data Base
-mu_expeditiondeck: Keşif Kartı Destesi
-mu_expeditionships: 'Keşif: Bulunabilir gemiler'
 mu_flying_fleets: Filo Hareketleri
 mu_game_info: Bilgi
 mu_general: '**Genel**'
@@ -545,119 +447,73 @@ mu_giveaway: Genel Hediye/Evrene Dagit
 mu_global_message: Genel Mesaj
 mu_info_account_page: Hesap Bilgileri (Yonetici/Moderator)
 mu_logs: Admin Log
-mu_manage_users: Oyunculari Duzenle
 mu_manual_points_update: Manual Puan
 mu_md5_encripter: MD5 Kodlama
 mu_mess_list: Mesaj Listesi
-mu_mod_update: MOD versiyon kontrolu
 mu_moderation_page: Izinler
 mu_module: Moduller
-mu_moon_list: Ay Listesi
-mu_moon_options: Ay Ayarlari
-mu_mpu_confirmation: >-
-  Mevcur degeleri guncelliyorsunuz, bunu yaparak su an serverdaki guncel
-  aktiviteler hakkinda bilgi sahibi yapar (Bellek kullanimi, SQL, vb.)
+mu_mpu_confirmation: Mevcur degeleri guncelliyorsunuz, bunu yaparak su an serverdaki guncel aktiviteler hakkinda bilgi sahibi yapar (Bellek kullanimi, SQL, vb.)
 mu_multiip_page: Multi IPs
 mu_news: Haberler
-mu_observation: '**Oyun Menusu**'
-mu_optimize_db: Veritabani Kontrol
-mu_planet_list: Gezegen Listesi
-mu_planets_options: Gezegen Ayarlari
-mu_planetsettings: Gezegensel konfigürasyon
 mu_search_page: Gelismis Arama
-mu_settings: Server Ayarlari
-mu_stats_options: Istatistik Ayarlari
 mu_support: Destek Bileti
 mu_tools: '**Araclar**'
-mu_unisettings: Evren Ayarlari
 mu_universe: Evren
-mu_user_list: Oyuncu Listesi
-mu_user_logs: Admin Log
 mu_users_settings: '**Duzenleme Menusu**'
 mu_vaild_users: Oyuncu aktiviteleri
-mu_vertify: Oyun Indexini Kontrol et
-mvc_announcement: Duyurular
-mvc_author: Yapan
-mvc_desc: Aciklama
-mvc_download: Download
-mvc_link: Link
-mvc_title: Baslik
-mvc_update_date: Guncelleme tarihi
-mvc_update_no: Mod guncellendi!
-mvc_update_version: Guncel
-mvc_update_yes: Yeni guncelleme var!
-mvc_version: Versiyon
 new_account_success: 'Yeni hesap oluşturuldu. Kimlik: %d'
+new_add_account: Yeni hesap ekle
 new_add_user: Yeni oyuncu ekle
 new_coord: Koordinatlar
 new_creator_coor: Koordinatlar
 new_creator_go_back: '[ Menuye Geri Don ]'
 new_creator_refresh: '[ Yenile ]'
-new_creator_title: Olustur
+new_creator_title_a: Hesap oluştur/sil
 new_creator_title_l: Ay Olustur
 new_creator_title_p: Gezegen Olustur
 new_creator_title_t: Test kullanıcısı oluştur
 new_creator_title_u: Kullanici Olustur
-new_email: E-Mail
-new_name: Isim
-new_pass: Sifre
 new_range: Sira
 new_title: Yeni Oyuncu Olustur
+new_title_acc: Yeni hesap oluştur
 new_user_success: 'Yeni oyuncu oluşturuldu. Kimlik: %d, Gezegen= %d'
 nws_confirm: '%s baslikli mesaji silmek istediginize eminmisiniz?'
 nws_content: Icerik
 nws_create: Yeni Duyuru Olustur
-nws_date: Tarih
 nws_del: Sil
 nws_from: Gonderen
 nws_head_create: Yeni Duyuru Olustur
 nws_head_edit: Su an %s adli duyurudasiniz
-nws_id: ID
 nws_news: Duyurular
 nws_title: Baslik
-nws_total: Toplam %d duyuru mevcut
-one_is_no_0: Evet
-one_is_no_1: Hayir
 one_is_yes_0: Hayir
 one_is_yes_1: Evet
 online_users: Online
-only_numbers: Sadece rakam girebilirsiniz!
-ow_config_file_writable: >-
-  config.php su an yazilabilir, duzenlenebilir yada silinebilir!Lutfen 440
-  moduna getiriniz (salt okunur).
-ow_credits: Katkida Bulunanlar
-ow_database_errors: Veritabaninda hatalar mevcut. <a href="ErrorPage.php">Hatalari Goster</a>
-ow_developers: Kod Gelistiricileri
 ow_default_uri_missing: 'E-posta bağlantıları için DEFAULT_URI (.env.local) gerekir: ayarlanana kadar kayıt ve şifre sıfırlama e-postaları gönderilmez.'
 ow_dir_not_writable: /%s klasorune yazilamaz!
-ow_donate: Kodu Gelistirenlere Bagis
 ow_file_detected: ' %s adli dosya saptandi. Guvenlik nedeniyle dosyayi silin yada adini degistirin'
-ow_forum: Forum
-ow_none: Mevcut Uyari Yok
-ow_overview: Kontrol
-ow_proyect_leader: "Eski filo amirali (2Moons proje lideri)"
-ow_smtp_errors: SMTP ayarlari kontrol ediliyor! -Su an mail gonderemezsiniz!
+ow_proyect_leader: Eski filo amirali (2Moons proje lideri)
+ow_former_pr0game_crew: Eski pr0game ekibi
+ow_crew_dev: Geliştirme ve acil durumlar
+ow_crew_mod: Moderasyon
+ow_crew_community: Topluluk
+ow_pr0game_contributors: pr0game kod katkıda bulunanları
 ow_special_thanks: Ozel Tesekkur
-ow_support: Destek
-ow_title: AUGAME - En yeni gelistirilmis uzay strateji Oyunu!
 ow_translator: Ceviri
-ow_updates: Son Guncellemeler
-ow_welcome_text: En populer online MMORPG oyununa hosgeldiniz!
 pass_reg: Sifre
 pass2_reg: Sifre (tekrar)
+player: Oyuncu
 po_add_moon: Ay Ekle
 po_add_planet: Koloni Ekle
 po_colony: Koloni
 po_complete_all: 'Hata: Girilen veriler eksik yada zaten sistemde var!'
 po_complete_all2: Koordinat hatasi!
 po_complete_succes: Oyuncu basari ile kaydedildi
-po_coor_1: Koordinat
 po_fields_max: Alan
 po_galaxy: Galaksi
 po_name_planet: Gezegen Adi
 po_planet: Gezegen
 po_system: Sistem
-qe_allowmulti: Multi IP ye izin ver
 qe_authattack: Admin korumasi
 qe_build: Binalar
 qe_change: Degistir
@@ -671,14 +527,11 @@ qe_fleet: Filo
 qe_hpcoords: Ana Gezegen
 qe_id: ID
 qe_info: Bilgi
-qe_input: Duzenle
 qe_level: Kademe
-qe_name: Birim
 qe_owner: Oyuncu
 qe_password: Sifre
 qe_planetname: Gezegen
 qe_reset: Yeniden Baslat
-qe_resetr: Sifirla
 qe_resources: Kaynaklar
 qe_send: Gonder
 qe_submit: Gonder
@@ -712,19 +565,14 @@ re_reset_player: Butun oyunculari sil
 re_reset_rw: Butun Savas Raporlarini Sil
 re_reset_statpoints: Istatistikleri Sil
 re_reset_universe: Ayarlari Sifirla
-re_reset_universe_confirmation: >-
-  OK dedikten sonra veritabanindan tablolar haric butun veriler silinecek. Bunu
-  yaptiktan sonra geri alma sansiniz yok. Sadece eger elinizde veritabaninin
-  yedegi varsa onu tekrar yukleyebilirsiniz!
+re_reset_universe_confirmation: OK dedikten sonra veritabanindan tablolar haric butun veriler silinecek. Bunu yaptiktan sonra geri alma sansiniz yok. Sadece eger elinizde veritabaninin yedegi varsa onu tekrar yukleyebilirsiniz!
 re_resources: Kaynaklar
 re_resources_met_cry: Hammaddeler sil (Metal/Kristal/Deuterium)
 re_ships: Filolari sil
 researchs_title: Arastirma
 resources_title: Hammaddeler
 rp_done: Gezegenler başarıyla yeniden karıştırıldı
-rp_explain: >-
-  Gönder'e tıkladıktan sonra, lütfen açılır pencere görünene kadar bekleyin.
-  Yeniden konumlandırma birkaç saniye sürebilir!
+rp_explain: Gönder'e tıkladıktan sonra, lütfen açılır pencere görünene kadar bekleyin. Yeniden konumlandırma birkaç saniye sürebilir!
 rp_header: Gezegenleri yeniden karıştırın
 rp_planet_error: Oyuncu başına birden fazla gezegen var!
 rp_rights_error: Yönetici hakları yok!
@@ -753,31 +601,29 @@ se_ban_author: Cezayi Veren
 se_ban_limit: Up
 se_ban_reason: Ceza Nedeni
 se_ban_time: suspended
+se_bash_per_planet: Gezegen başına bash limiti
+se_bash_per_planet_info: Bir oyuncunun 24 saatte başka bir oyuncunun gezegenine kaç kez saldırabileceği (gezegen başına sayılır). 0 = kapalı
+se_bash_count_missiles: Bash limitleri roket saldırılarını sayar
+se_bash_count_missiles_info: 'Gezegenler arası roket saldırıları, filo saldırıları gibi bash limitlerine (oyuncu ve gezegen başına) dahil edilir. Kapalı: roketler sayılmaz.'
+se_bash_per_user: Oyuncu başına bash limiti
+se_bash_per_user_info: Bir oyuncunun 24 saatte başka bir oyuncuya kaç kez saldırabileceği (tüm gezegenlerde). 0 = kapalı
+se_block_planet_creation: Blok
+se_board_enabled: Topluluk panosunu etkinleştir
+se_board_enabled_info: 'Kapalı: tüm pano bağlantıları gizlenir ve pano sayfaları kullanılamaz.'
 se_building_speed: Bina hızı
 se_buildings: Bina ayarları
 se_buildlist: Insa/Uretim/Arastirma Listesi
 se_cascading_moon_chance: Basamaklı ay şansı
-se_cascading_moon_chance_info: >-
-  Maksimum ay şansı ile başarısız Ay denemesi başına eklenen ek ay şansı.
-  Yalnızca bir hesaptaki ilk ay için geçerlidir. 0 = kapalı
+se_cascading_moon_chance_info: Maksimum ay şansı ile başarısız Ay denemesi başına eklenen ek ay şansı. Yalnızca bir hesaptaki ilk ay için geçerlidir. 0 = kapalı
 se_catch_up: Yakalama mekanizması
-se_catch_up_info: >-
-  İlk oyuncuyla aradaki puan farkına bağlı olarak inşa ve araştırma sürelerini
-  katlanarak 10 kata kadar azaltan yakalama mekaniği. Puanların yaklaşık
-  %90'ından itibaren oyuncular artık bonus almazlar. Yaklaşık %54'te 2,5 faktör,
-  yaklaşık %27'de 5 faktör ve yaklaşık %11'de 7,5 faktördür, bu da 1,0'dan
-  maksimum 0,5'e dönüştürülür.
+se_catch_up_info: İlk oyuncuyla aradaki puan farkına bağlı olarak inşa ve araştırma sürelerini katlanarak 10 kata kadar azaltan yakalama mekaniği. Puanların yaklaşık %90'ından itibaren oyuncular artık bonus almazlar. Yaklaşık %54'te 2,5 faktör, yaklaşık %27'de 5 faktör ve yaklaşık %11'de 7,5 faktördür, bu da 1,0'dan maksimum 0,5'e dönüştürülür.
 se_catchup_percent: Yüzde olarak maksimum yakalama bonusu
 se_close_reason: Server offline mesaji
 se_colonisation_config: <font color="yellow">Koloni Ayarlari</font>
 se_configuration_title: Server Ayarlari
-se_confirm_planet: >-
-  Secilen gezegen (ana gezegen olsun olmasin) tamamen silinecek. Eminmisiniz?.
-  Gezegen Adi:
+se_confirm_planet: 'Secilen gezegen (ana gezegen olsun olmasin) tamamen silinecek. Eminmisiniz?. Gezegen Adi:'
 se_contrac: Geri Al
-se_cookie_advert: >-
-  Eger cerezler (cookie) degistiginde tekrar login olmaniz lazim.<br>Eger birden
-  fazla evreniniz varsa degistirmeniz onerilir.
+se_cookie_advert: Eger cerezler (cookie) degistiginde tekrar login olmaniz lazim.<br>Eger birden fazla evreniniz varsa degistirmeniz onerilir.
 se_cookie_name: Cerezler
 se_crystal_basic_income: Kristal Ana Gelir
 se_crystal_start: Kristal Baslangic
@@ -788,15 +634,11 @@ se_debris_moon_info: Ay olustugu zaman harabe kabolsun mu
 se_debug: Hata Ayiklama(Debug) modu
 se_debug_info: Hata ayiklama(Debug) modu su an yapilan istisare kayitlarini gosteriyor.
 se_def_debris_percentage: Savunmadan cikan harabe
-se_def_debris_percentage_info: >-
-  Buradan saldirida kaybedilen savunmadan cikan harabe yuzdesini
-  ayarlayabilirsiniz
+se_def_debris_percentage_info: Buradan saldirida kaybedilen savunmadan cikan harabe yuzdesini ayarlayabilirsiniz
 se_del_oldstuff: Mesajlari su kadar gun sonra silinecek
 se_del_oldstuff_info: Mesaj ve raporlarin kac gun sonra silinecegini buradan ayarlayabilirsiniz.
 se_del_user_automatic: Inaktiflerin silinme zamani
-se_del_user_automatic_info: >-
-  Inaktif oyuncularin otomatik olarak kac gun sonra silinecegini buradan
-  ayarlayabilirsiniz.
+se_del_user_automatic_info: Inaktif oyuncularin otomatik olarak kac gun sonra silinecegini buradan ayarlayabilirsiniz.
 se_del_user_manually: Hesabin silinme suresi
 se_del_user_manually_info: Oyuncu hesabimi sil dediginde, hesabin silinmesi icin gereken gun.
 se_del_user_sendmail: Hatirlatma mesaji
@@ -819,15 +661,16 @@ se_discord_logs_hook: Logs
 se_discord_tickets_hook: Tickets
 se_dst: Yaz/Kis saati uygulamasi
 se_dst_sel:
-  - Evet
-  - Hayir
-  - Otomatik
+- Evet
+- Hayir
+- Otomatik
 se_email: E-mail
 se_end: Bitiş tarihi
 se_end_time: Bitiş saati
 se_energy_basic_income: Temel Enerji Üretimi
 se_energy_multiplier: Enerji Faktoru
 se_expand: Genislet
+se_expedition_parameters: Keşif seferi ayarları
 se_expo_hold_multiplier: Kesif Hizi
 se_expo_hold_multiplier_info: 'Normal hiz: 1'
 se_expo_ress_crys_chance: Seferlerde Kristal Şansı
@@ -844,12 +687,28 @@ se_forum_url: Forum Linki
 se_galaxy: Galaksi
 se_galaxy_distance_factor: Galaksi uzaklığı faktörü
 se_galaxy_distance_factor_info: 'Varsayılan: 20000, Hesaplama: Galaksi farkı * galaksi mesafesi faktörü'
+se_galaxy_parameters: Galaksi ayarları
+se_galaxy_type: Galaksi türü
+se_galaxy_type_info: <TABLE><tr><td>Doğrusal galaksiler</td><td>1. sistemin uzaklığı galaksideki her sistemle artar.</td></tr><tr><td>Halka galaksiler</td><td>Bir galaksinin son ve ilk sistemleri birbirine bağlıdır, bu yüzden uzak sistemlerden ilkine olan mesafe azalır.</td></tr><tr><td>Küre galaksiler</td><td>Aynı galaksideki her sistem diğerlerine eşit uzaklıktadır.</td></tr></TABLE>
+se_default_theme: Varsayılan tema
+se_default_theme_info: Yeni hesaplar ve ziyaretçiler için tema
+se_legal: Yasal ve topluluk
+se_privacy_region: Barındırma bölgesi (gizlilik politikası)
+se_privacy_region_info: 'Varsayılan gizlilik politikasını seçer: GDPR sürümü (AB/AEA) veya genel sürüm. Daha önce düzenlenmiş sayfalar değişmez; yasal metinlerden operatör sorumludur.'
+se_privacy_region_sel:
+  eu: AB / AEA - GDPR gizlilik politikası
+  other: AB dışı - genel gizlilik politikası
+se_rules_default: Varsayılan kuralları kullan
+se_rules_default_info: 'Kapalı: kendi kurallarını Sayfalar bölümünden yazana kadar kurallar sayfası boş kalır. Daha önce düzenlenmiş kurallar korunur.'
+se_source_url: Kaynak kod URL'si
+se_source_url_info: Bu sunucunun çalıştırdığı kodun herkese açık deposu; alt bilgilerde "Kaynak kod" olarak bağlanır (AGPL, değişikliklerinizi oyunculara sunmanızı ister). Boş bırakılırsa bağlantı gizlenir.
 se_game_name: Oyun ismi
 se_git_issues_link: Link to Code Issues Page
 se_git_issues_link_info: Link to the page where you can report bugs and issues
 se_id_owner: ID
 se_inactives: Inaktif
 se_initial_fields: 'Baslangic Alani:'
+se_initial_temp: 'Başlangıç sıcaklığı:'
 se_input_a: A
 se_input_act_pla: gezegen/ler Actif
 se_input_activity: Activity
@@ -883,20 +742,21 @@ se_input_time: Zaman
 se_input_userss: Kullanici/lar
 se_input_vacatii: oyuncu/lar tatilde
 se_intro: Aramak istediginiz kelime(opsiyonel)
+se_iter_planet_creation: Sıralı (varsayılan)
 se_jumpgate_factor: Sicrama Gecidi
 se_jumpgate_factor_info: Bekleme süresinin bölüneceği faktör
 se_lang: Dil
 se_limit: Limit
+se_line_galaxy: Doğrusal galaksiler (varsayılan)
+se_line_uni: Doğrusal evren (varsayılan)
 se_mail_active: Emaili aktif et?
 se_mail_sel:
-  - Function PHP mail()
-  - Sendmail / Qmail
-  - SMTP Auth
+- Function PHP mail()
+- Sendmail / Qmail
+- SMTP Auth
 se_mail_use: 'Email versiyonu:'
 se_max_additional_planets: Maksimum koloni sayisi (arastirmalar dahil)
-se_max_additional_planets_info: >-
-  Bu secenekle oyuncunun arastirmalarin da katkisi ile toplam kac koloniye sahip
-  olabilecegini bulabilirsiniz 
+se_max_additional_planets_info: 'Bu secenekle oyuncunun arastirmalarin da katkisi ile toplam kac koloniye sahip olabilecegini bulabilirsiniz '
 se_max_elements_build: Maximum Bina Sayisi
 se_max_elements_build_info: Insaa listesine eklenebilecek max. bina sayisi
 se_max_elements_ships: Max. Tersane Uretimi
@@ -910,9 +770,7 @@ se_max_fleets_per_acs_info: Ittifak saldirisina katilacak max. filo sayisi (Vars
 se_max_galaxy: Max. Galaksi
 se_max_galaxy_info: Evrendeki maksimum galaksi miktari
 se_max_initial_planets: Maksimum koloni sayisi (arastirmalar/subay haric)
-se_max_initial_planets_info: >-
-  Bu secenekle oyuncunun herhangi bir arastirma olmadan sahip olabilecegi koloni
-  sayisi
+se_max_initial_planets_info: Bu secenekle oyuncunun herhangi bir arastirma olmadan sahip olabilecegi koloni sayisi
 se_max_overflow: Hammadde/Kaynak Uretimi
 se_max_overflow_info: Hammadde/Kaynak Uretimi faktoru
 se_max_participants_per_acs: Max. participants/ACS (attack on cooperation)
@@ -923,14 +781,13 @@ se_max_player_planets: kesifle max gezegen
 se_max_player_planets_info: Kesifsiz max gezegen
 se_max_system: Max. Gunes Sistemi
 se_max_system_info: Her galaksi basina dusen sistem sayisi
+se_message_delete_days: Silinen mesajları X gün sonra temizle
+se_messages: Mesajlar
 se_metal_basic_income: Metal Ana Gelir
 se_metal_start: Metal Baslangic
 se_metal_start_info: Oyuncunun oyuna basladigindaki metal miktari
 se_min_build_time: Min. Yapi/uretim suresi
-se_min_build_time_info: >-
-  Eger 1 secilirse, nanit, robot, tersane, arastirma kac olursa olsun minimum
-  uretim zamani 1 saniye olur. Eger 0 secilirse, o zaman hizi etkileyen binalar
-  izin verirse aninda yani 0 saniyede uretim/insa gerceklesir.
+se_min_build_time_info: Eger 1 secilirse, nanit, robot, tersane, arastirma kac olursa olsun minimum uretim zamani 1 saniye olur. Eger 0 secilirse, o zaman hizi etkileyen binalar izin verirse aninda yani 0 saniyede uretim/insa gerceklesir.
 se_missile_range_factor: Füze menzil faktörü
 se_moon_chance: Max. Ay cikma ihtimali
 se_moon_chance_info: Max ay cikma yuzdesi
@@ -945,21 +802,11 @@ se_no_data: Veri bulunamadi
 se_noob_inactives: Aktif olmayan oyunculara noob koruma faktörü uygulayın
 se_noob_protection: Zayif Oyuncu Korumasi
 se_noob_protection_multi: Zayif/Guclu oyuncu puan katsayisi
-se_noob_protection_multi_info: >-
-  Bu ayarla sadirabildikleriniz : Sizin puan x buradaki katsayi. Ornek olarak
-  x5, bunin anlami eger 1000 puaniniz varsa sadece 5x1000 yani puani 5000'den az
-  olan oyunculara saldirabilirsiniz, yada, eger 50.000 puaniniz varsa 50.000/10
-  = 10.000 ve 50.000x10 =100.000 puanlari arasindaki oyuncularsa
-  savasabilirsiniz.
+se_noob_protection_multi_info: 'Bu ayarla sadirabildikleriniz : Sizin puan x buradaki katsayi. Ornek olarak x5, bunin anlami eger 1000 puaniniz varsa sadece 5x1000 yani puani 5000''den az olan oyunculara saldirabilirsiniz, yada, eger 50.000 puaniniz varsa 50.000/10 = 10.000 ve 50.000x10 =100.000 puanlari arasindaki oyuncularsa savasabilirsiniz.'
 se_noob_protection_outlaw: Kanun kaçağı sistemi
-se_noob_protection_outlaw_info: >-
-  Zayıf oyuncuların güçlü oyunculara saldırmasına olanak tanıyan özelliği
-  etkinleştirir, ancak saldırgan daha sonra 7 gün boyunca kanun kaçağı haline
-  gelir ve çaylak korumasını kaybeder.
+se_noob_protection_outlaw_info: Zayıf oyuncuların güçlü oyunculara saldırmasına olanak tanıyan özelliği etkinleştirir, ancak saldırgan daha sonra 7 gün boyunca kanun kaçağı haline gelir ve çaylak korumasını kaybeder.
 se_noob_protection_time: Zayif oyuncu koruma puani
-se_noob_protection_time_info: >-
-  Buradan oyuncunun kac puana kadar zayif oyuncu olarak gosterildigini
-  ayarlayabilirsiniz
+se_noob_protection_time_info: Buradan oyuncunun kac puana kadar zayif oyuncu olarak gosterildigini ayarlayabilirsiniz
 se_normal_speed: 'Normal hiz: 1'
 se_order_list_now: Sirala
 se_overview_news_frame: Duyurular aktif
@@ -977,51 +824,51 @@ se_piratebase_min_points: Minimum puan
 se_piratebase_min_points_info: Bir oyuncunun korsan üssü alabilmesi için sahip olması gereken minimum puanlar
 se_piratebase_ress_hours: 'Kaynaklar: Üretim saatleri'
 se_planet: Gezegen
+se_planet_creation: Ana gezegen yerleşimi
+se_planet_creation_info: Yeni ana gezegenler sistemler ve galaksiler boyunca sıralı, rastgele, bloklar halinde veya %50 rastgele ve %50 blok olarak yerleştirilebilir.<br>Rastgele yerleşim galaksileri ve sistemleri rastgele konumlarda eşit şekilde doldurur.<br>Blok yerleşimi, içinde zaten bir veya iki gezegen bulunan bir sistem seçer. Böyle bir sistem yoksa veya 50'den az oyuncu varsa yerleşim rastgeledir.
 se_planet_distance: Min Gezegen mesafesi
 se_planet_distance_factor: Gezegen mesafe faktörü
 se_planet_distance_factor_info: 'Varsayılan: 5, Hesaplama: Gezegen farkı * gezegen mesafe faktörü + 1000'
-se_planet_distance_info: >-
-  Varsayılan: 1000, Hesaplama: Gezegen farkı * gezegen mesafe faktörü + min
-  gezegen mesafesi
+se_planet_distance_info: 'Varsayılan: 1000, Hesaplama: Gezegen farkı * gezegen mesafe faktörü + min gezegen mesafesi'
 se_planet_parameters: <font color=yellow>Gezegen Ayarlari</font>
 se_planet_ressource_bonus: Gezegen konumuyla ilgili kaynak artışı
-se_planet_ressource_bonus_info: >-
-  Gezegenin konumuna bağlı olarak gezegende üretilen kaynak miktarını % x
-  oranında artırır
+se_planet_ressource_bonus_info: Gezegenin konumuna bağlı olarak gezegende üretilen kaynak miktarını % x oranında artırır
 se_planet_size_factor: Gezegenin Buyuklugu
 se_planet_size_factor_info: Gezegen alani katsayisi
 se_planets: Gezegen
 se_planets_act: Actif Gezegen
 se_planets_per_tech: Kesif Arastirmasindan Gelen koloni
-se_planets_per_tech_info: >-
-  Her kademe kesif arastirmasi secilen kadar gezegenin koloni olarak
-  alinabilmesini saglar
+se_planets_per_tech_info: Her kademe kesif arastirmasi secilen kadar gezegenin koloni olarak alinabilmesini saglar
 se_prepare_text: Sunucu hazırlama metni
+se_random_planet_creation: Rastgele
 se_rank:
-  - Oyuncu
-  - Moderator
-  - Yonetici
-  - Admin
+- Oyuncu
+- Moderator
+- Yonetici
+- Admin
+se_pow_adaptive: Bot koruması - uyarlanabilir zorluk
+se_pow_adaptive_info: 'Açık: şüpheli IP adresleri ve ağlar (/24 veya /64) kısa sürede çok sayıda istek, hata veya kayıt yaptığında çok daha zor bir bulmaca alır. Kapalı: tüm ziyaretçiler temel bulmacayı alır ve sayaçlar okunmaz.'
+se_pow_elevated_factor: Bot koruması - yükseltilmiş risk faktörü
+se_pow_elevated_factor_info: Bulmaca bu kadar kat zorlaşır (varsayılan 20).
+se_pow_high_factor: Bot koruması - yüksek risk faktörü
+se_pow_high_factor_info: Bulmaca bu kadar kat zorlaşır (varsayılan 100).
+se_pow_max_cap: Bot koruması - zorluk üst sınırı
+se_pow_max_cap_info: Faktörler uygulandıktan sonraki en yüksek sayı. 1500000, yavaş bir akıllı telefonda yaklaşık 25 saniye sürer.
+se_pow_sensitivity: Bot koruması - risk algılama hassasiyeti
+se_pow_sensitivity_info: Varsayılan eşiklerin yüzdesi (IP başına 5 istek/10 dk., 3 hata/saat veya 2 kayıt/24 sa. ile yükseltilmiş; 20 / 10 / 5 ile yüksek; ağlarda üç kat). 200 = iki kat fazla olay gerekir, 50 = yarısı.
+se_pow_max_number: Bot koruması - zorluk (en yüksek sayı)
+se_pow_max_number_info: Tarayıcı bu sayıya kadar hash dener, ortalama yarısını. 100000 yaklaşık yarım saniye ile bir saniye arasında sürer. Daha yüksek değer botlar için daha fazla iş demektir.
+se_pow_min_seconds: Bot koruması - göndermeden önce en az süre (saniye)
+se_pow_min_seconds_info: Sayfa yüklendikten sonra bundan daha hızlı gönderilen formlar reddedilir. 0 kontrolü kapatır.
+se_proofofwork: Bot koruması
+se_proofofwork_info: Kayıt ve şifre sıfırlama, tarayıcının kendi başına çözdüğü küçük bir hesaplamayla korunur; üçüncü taraf gerekmez.
 se_rebuild_protection: Korumanın yeniden inşası
-se_rebuild_protection_info: >-
-  Büyük kayıplar durumunda, oyunculara saldırıdan sonraki 48 saat boyunca 6 saat
-  sonra başka saldırılara karşı yeniden inşa koruması verilir. Bir saldırıda %70
-  filo veya %80 taşıma kapasitesi yok edilmelidir. Ayrıca bu, birim veya
-  kapasite olarak en az Noop koruma puanı * 1000'e karşılık gelmelidir.
-  Kullanıcı modu zamanından önce sonlandırabilir.
-se_recaptcha: Recaptcha ayarları
-se_recaptcha_info: >-
-  Recaptcha, insan eylemleri ile otomatik eylemler arasında ayrım yapmak için
-  kullanılabilir.
-se_recaptcha_priv_key: Recaptcha özel anahtarı
-se_recaptcha_pub_key: Recaptcha genel anahtarı
+se_rebuild_protection_info: Büyük kayıplar durumunda, oyunculara saldırıdan sonraki 48 saat boyunca 6 saat sonra başka saldırılara karşı yeniden inşa koruması verilir. Bir saldırıda %70 filo veya %80 taşıma kapasitesi yok edilmelidir. Ayrıca bu, birim veya kapasite olarak en az Noop koruma puanı * 1000'e karşılık gelmelidir. Kullanıcı modu zamanından önce sonlandırabilir.
 se_redis_connection_url: Redis Bağlantı URL'si
 se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
 se_ref: Referans Linki
 se_ref_active: Referans linkini aktif et
-se_ref_active_info: >-
-  Referans linki/davet linki, oyuncuya daha fazla oyuncu ve arkadas davet etme
-  firsati verir. Bu ayni zamanda oyuncuya KM bonusu verir.
+se_ref_active_info: Referans linki/davet linki, oyuncuya daha fazla oyuncu ve arkadas davet etme firsati verir. Bu ayni zamanda oyuncuya KM bonusu verir.
 se_ref_bonus: Referans Link bonus
 se_ref_bonus_info: Her davet basina alinabilecek Karanlik Madde miktari.
 se_ref_max_referals: Maksimum referans sayisi
@@ -1031,10 +878,11 @@ se_ref_minpoints_info: Davet edilen oyuncu bu puana eristiginde referansi veren 
 se_research_speed: Araştırma hızı
 se_resource_multiplier: Hammadde Uretim Hizi
 se_resource_multiplier_info: 'Normal hiz: 1'
+se_ress_chance: Kaynak şansları
+se_ring_galaxy: Halka galaksiler
+se_ring_uni: Halka evren
 se_save_parameters: Kaydet
-se_se_fleet_debris_percentage_info: >-
-  Buradan saldirida kaybedilen gemilerden cikan harabe yuzdesini
-  ayarlayabilirsiniz
+se_se_fleet_debris_percentage_info: Buradan saldirida kaybedilen gemilerden cikan harabe yuzdesini ayarlayabilirsiniz
 se_search: Ara
 se_search_alliance_0: ID
 se_search_alliance_1: Isim
@@ -1082,9 +930,7 @@ se_smail_path: Dosya dizini
 se_smtp: <font color="yellow"> SMTP Ayarlari</font>
 se_smtp_host: 'SMTP Host:'
 se_smtp_host_info: SMTP server adresiniz.
-se_smtp_info: >-
-  SMTP server ayarlarini girerek AuGame server ile oyuncular arasinda haberlesme
-  SMTP Mail sunucusu tarafindan saglanir.
+se_smtp_info: SMTP server ayarlarini girerek AuGame server ile oyuncular arasinda haberlesme SMTP Mail sunucusu tarafindan saglanir.
 se_smtp_pass: 'SMTP Sifresi:'
 se_smtp_port: 'SMTP Portu:'
 se_smtp_port_info: SMTP port numarasi. Genelde SMTP port numarasi 25 tir
@@ -1093,29 +939,32 @@ se_smtp_sendmail_info: Email adresinizi giriniz. Gonderen adres ile ayni olmasi 
 se_smtp_ssl: 'SMTP SSL/TLS :'
 se_smtp_ssl_info: Buradan nasil bir link sectiginizi gorebilirsiniz!
 se_smtp_ssl_sel:
-  - Otomatik
-  - SSL
-  - TLS
+- Otomatik
+- SSL
+- TLS
 se_smtp_user: 'SMTP Kullanici Adi:'
+se_sphere_galaxy: Küre galaksiler
+se_sphere_uni: Küre evren
 se_start: Başlangıç ​​tarihi
 se_start_time: Başlangıç saati
 se_stat: '"0" Puan (istatistiklerde gozuksun mu)'
 se_stat_level: Yetki Seviyesi
 se_stat_sel:
-  - Hayir
-  - Evet
-  - Adminleri listeleme
+- Hayir
+- Evet
+- Adminleri listeleme
 se_stat_settings: 1 puan icin gereken maden miktari
 se_statistics: Istatistikler
+se_statsjson_delay: stats.json gecikmesi
+se_storage_multiplier: Kaynak depolama çarpanı
 se_suspended: Cezali
 se_system: Sistem
 se_system_distance: Minimum Sistem mesafesi
 se_system_distance_factor: Sistem mesafe faktörü
 se_system_distance_factor_info: 'Varsayılan: 95, Hesaplama: Sistem farkı * sistem mesafe faktörü + 2700'
-se_system_distance_info: >-
-  Varsayılan: 2700, Hesaplama: Sistem farkı * sistem mesafe faktörü + min sistem
-  mesafesi
+se_system_distance_info: 'Varsayılan: 2700, Hesaplama: Sistem farkı * sistem mesafe faktörü + min sistem mesafesi'
 se_tag: TAG
+se_temp: Derece
 se_time_of_page: Page created in
 se_timezone: Zaman Dilimi
 se_trade_allowed_ships: 'Hurdaciya verilebilecek gemiler:'
@@ -1134,11 +983,11 @@ se_uni_status_regclosed_gameclosed: Kayıt ve giriş kapalı (örn. bakım)
 se_uni_status_regclosed_gameopen: Kayıt kapalı, giriş açık (örn. eski üniversiteler)
 se_uni_status_regopen_gameclosed: Kayıt açık, giriş kapalı (örn. yeni üniversiteler)
 se_uni_status_regopen_gameopen: Kayıt ve giriş açık
+se_uni_type: Evren türü
+se_uni_type_info: <TABLE><tr><td>Doğrusal evren</td><td>1. galaksinin uzaklığı her galaksiyle artar.</td></tr><tr><td>Halka evren</td><td>Son ve ilk galaksiler birbirine bağlıdır, bu yüzden uzak galaksilerden ilkine olan mesafe azalır.</td></tr><tr><td>Küre evren</td><td>Her galaksi diğerlerine eşit uzaklıktadır.</td></tr></TABLE>
 se_user_settings: <font color="yellow"> Oyuncu Ayarlari</font>
 se_user_valid: Email aktivasyonu
-se_user_valid_info: >-
-  Eger bu secenek isaretli olursa, oyuncular kayit olduklarinda maillerine gelen
-  aktivasyon linkinden hesaplarini aktive etmeleri gerekmetedir.
+se_user_valid_info: Eger bu secenek isaretli olursa, oyuncular kayit olduklarinda maillerine gelen aktivasyon linkinden hesaplarini aktive etmeleri gerekmetedir.
 se_users: Uyeler
 se_vacat: Tatil Modu?
 se_vacations: Tatil
@@ -1149,50 +998,30 @@ se_wreckfield_min_percent: Min, bir enkaz alanı için toplam filo birimlerinin 
 se_wreckfield_min_units: Min bir enkaz alanı için birimleri yok etti
 select_option: Seciniz ...
 ships_title: Gemiler
+sp_answer_message: 'Talebine #%d numarasıyla bir yanıt yazıldı!'
+sp_answer_message_title: 'Destek talebi #%d'
+status: Durum
+subject: Konu
 test_data_amount: Kullanıcı miktarını test edin
 test_data_stage:
-  - Başlangıç ​​(Casus sondaları)
-  - Oyun Ortası (Savaş Gemisi, 1 Ay)
-  - Geç Oyun (Battlecruiser, Phalanx)
-  - Oyunu Sonlandır (Ölüm Yıldızı, Jumpgate)
+- Başlangıç ​​(Casus sondaları)
+- Oyun Ortası (Savaş Gemisi, 1 Ay)
+- Geç Oyun (Battlecruiser, Phalanx)
+- Oyunu Sonlandır (Ölüm Yıldızı, Jumpgate)
 test_data_stage_label: Stage
 test_data_success: Test verileri başarıyla oluşturuldu
 test_data_title: Test kullanıcısı verileri oluşturun
+text: Ayrıntılar
 time_days: Gun
 time_hours: Saat
 time_minutes: Dakika
 time_seconds: Saniye
 ul_sure_you_want_dlte: Silmek istediginize eminmisiniz?
 uni_reg: Evren
-up_add: 'Eklendi:'
-up_aktuelle_updates: Guncel updateler
-up_alte_updates: Eski updateler
-up_chmod_error: 'Dosyayi degistirme yetkisi yok : \n\n'
-up_del: 'Silindi:'
-up_delete_file: Basariyla silindi
-up_download_patch_files: Yamayi indir
-up_edit: 'Duzenlendi:'
-up_error_delete_file: Hata - Dosya silmek mumkun degil
-up_error_update: Hata - Dosya yuklemek mumkun degil
-up_kein_update: Yeni guncelleme yok
-up_momentane_version: Guncel versiyon
-up_need_curl: 'Hata: CURL girilmemis.<br> Augame guncellemeleri icin cURL girmelisiniz'
-up_no_xml_ext: >-
-  Hata: XML Parser girilmemis.<br>Augame server otomatik bakim icin XML Parser
-  girmelisiniz.
-up_offline: Sunucuyla baglanti kurulamadi
-up_ok_update: Guncellendi
-up_revision: Revizyon
-up_submit: Gonder
-up_update_ok_rev: 'Bir sonraki surume kadar guncellendi :'
-up_version: Versiyon
-up_weiter: Sonraki
 user_reg: Isim
 uvs_actions: Aksiyon
 uvs_back: Geri
 uvs_delete: Sil
-uvs_error: 'Hata: Dosya yuklenemedi'
-uvs_export: Export
 uvs_id: Evren ismi
 uvs_inactive: Inaktif
 uvs_name: Isim
@@ -1205,590 +1034,650 @@ uvs_players: Oyuncular
 uvs_reload: 'Yeniden yukleniyor.. '
 uvs_speeds: Hiz Faktorleri (G/F/R/E)
 uvs_speeds_full: Hiz Faktorleri (Game/Fleet/Resource/Expedition)
-uvs_upload: Upload
 vt_all: Butun Dosyalar
-vt_error: Hasfile dosyasi yok! - Guncelle!
-vt_fail: Degisen Dosyalar
-vt_filecss: CSS dosyalari
-vt_fileerror: Hata
-vt_filefail: Degismis Dosyalar
-vt_filehtaccess: HTACESS Dosyasi
-vt_fileimg: Resim Dosyalari
-vt_filejs: Java Script dosyalari
-vt_filenew: Yeni Dosya
-vt_fileok: Dosyalar Tamam
-vt_filephp: PHP Dosyalari
-vt_filetpl: Sablon Dosyalari
 vt_head: Oyun dosyalari kontrolu
-vt_info: >-
-  Bu listedeki dosyalar guncellenmis ve orijinalinden farki olan
-  dosyalardir.<br>Eger siz bir degisiklik yapmadiysaniz mutlaka orijinali ile
-  degistirin.
-vt_loadfile: Dosya listesi yukleniyor
-account_already_has_user: "Bu hesabın bu evrende zaten bir oyuncusu var"
-accountID: "Hesap ID"
-bo_ban_change: "Değiştir"
-cronName_statisticjson: "stats.json dışa aktar"
-empty_account_field: "Hesap ID girilmedi"
-exp_ships_description: "Her aktif gemi için, keşif seferlerinin onu bulup bulamayacağını ve hangi gemilerin bulabileceğini seç."
-exp_ships_findable: "Bulunabilir"
-exp_ships_found_by: "Arayıcı gemiler"
-exp_ships_select_finders: "Arayıcı gemileri seç"
-exp_ships_ship: "Gemi"
-exp_ships_title: "Bulunabilir gemileri yapılandır"
-ml_deleted: "Mesaj silindi"
-modul_55: "Onur puanları"
-new_add_account: "Yeni hesap ekle"
-new_creator_title_a: "Hesap oluştur/sil"
-new_title_acc: "Yeni hesap oluştur"
-se_bash_per_planet: "Gezegen başına bash limiti"
-se_bash_per_planet_info: "Bir oyuncunun 24 saatte başka bir oyuncunun gezegenine kaç kez saldırabileceği (gezegen başına sayılır). 0 = kapalı"
-se_bash_per_user: "Oyuncu başına bash limiti"
-se_bash_per_user_info: "Bir oyuncunun 24 saatte başka bir oyuncuya kaç kez saldırabileceği (tüm gezegenlerde). 0 = kapalı"
-se_block_planet_creation: "Blok"
-se_expedition_parameters: "Keşif seferi ayarları"
-se_galaxy_parameters: "Galaksi ayarları"
-se_galaxy_type: "Galaksi türü"
-se_galaxy_type_info: "<TABLE><tr><td>Doğrusal galaksiler</td><td>1. sistemin uzaklığı galaksideki her sistemle artar.</td></tr><tr><td>Halka galaksiler</td><td>Bir galaksinin son ve ilk sistemleri birbirine bağlıdır, bu yüzden uzak sistemlerden ilkine olan mesafe azalır.</td></tr><tr><td>Küre galaksiler</td><td>Aynı galaksideki her sistem diğerlerine eşit uzaklıktadır.</td></tr></TABLE>"
-se_default_theme: "Varsayılan tema"
-se_default_theme_info: "Yeni hesaplar ve ziyaretçiler için tema"
-se_source_url: "Kaynak kod URL'si"
-se_source_url_info: "Bu sunucunun çalıştırdığı kodun herkese açık deposu; alt bilgilerde \"Kaynak kod\" olarak bağlanır (AGPL, değişikliklerinizi oyunculara sunmanızı ister). Boş bırakılırsa bağlantı gizlenir."
-se_initial_temp: "Başlangıç sıcaklığı:"
-se_iter_planet_creation: "Sıralı (varsayılan)"
-se_line_galaxy: "Doğrusal galaksiler (varsayılan)"
-se_line_uni: "Doğrusal evren (varsayılan)"
-se_message_delete_days: "Silinen mesajları X gün sonra temizle"
-se_messages: "Mesajlar"
-se_planet_creation: "Ana gezegen yerleşimi"
-se_planet_creation_info: "Yeni ana gezegenler sistemler ve galaksiler boyunca sıralı, rastgele, bloklar halinde veya %50 rastgele ve %50 blok olarak yerleştirilebilir.<br>Rastgele yerleşim galaksileri ve sistemleri rastgele konumlarda eşit şekilde doldurur.<br>Blok yerleşimi, içinde zaten bir veya iki gezegen bulunan bir sistem seçer. Böyle bir sistem yoksa veya 50'den az oyuncu varsa yerleşim rastgeledir."
-se_random_planet_creation: "Rastgele"
-se_ress_chance: "Kaynak şansları"
-se_ring_galaxy: "Halka galaksiler"
-se_ring_uni: "Halka evren"
-se_sphere_galaxy: "Küre galaksiler"
-se_sphere_uni: "Küre evren"
-se_statsjson_delay: "stats.json gecikmesi"
-se_storage_multiplier: "Kaynak depolama çarpanı"
-se_temp: "Derece"
-se_uni_type: "Evren türü"
-se_uni_type_info: "<TABLE><tr><td>Doğrusal evren</td><td>1. galaksinin uzaklığı her galaksiyle artar.</td></tr><tr><td>Halka evren</td><td>Son ve ilk galaksiler birbirine bağlıdır, bu yüzden uzak galaksilerden ilkine olan mesafe azalır.</td></tr><tr><td>Küre evren</td><td>Her galaksi diğerlerine eşit uzaklıktadır.</td></tr></TABLE>"
-adm_comments: "Yorumlar"
-adm_analytics: "Analitik"
-ad_system: "Sistem"
-adm_menu_filter: "Menüyü filtrele …"
-adm_menu_empty: "Menü girişi bulunamadı"
-adm_menu_toggle: "Menü"
-adm_back_to_game: "Oyuna dön"
-adm_drop_rights: "Çıkış"
-adm_universe_switch: "Evren"
-adm_dash_attention: "Dikkat gerektiriyor"
-adm_dash_all_good: "Her şey yolunda – uyarı yok."
-adm_dash_online: "Çevrimiçi oyuncular (15 dk)"
-adm_dash_players: "Toplam oyuncu"
-adm_dash_tickets: "Açık talepler"
-adm_dash_fleets: "Uçuştaki filolar"
-adm_dash_quick: "Hızlı erişim"
-adm_dash_system: "Sistem"
-adm_dash_version: "Sürüm"
-adm_dash_php: "PHP"
-adm_dash_uni_status: "Evren durumu"
-adm_dash_last_stats: "Son istatistik çalıştırması"
-adm_dash_credits: "Emeği geçenler"
-adm_dash_project: "Proje ana sayfası"
-adm_confirm: "Emin misin?"
-adm_dash_cron_locked: "Cronjob kilitli (artık çalışmıyor): %s"
-adm_dash_next_cron: "Sonraki cronjob"
-adm_dash_cron_count: "aktif cronjob"
-adm_unsaved_hint: "Değişiklikler kaydettiğinde geçerli olur."
-adm_sections: "Bölümler"
-adm_skip: "İçeriğe geç"
-adm_filter_page: "Bu sayfayı filtrele …"
-adm_actions: "İşlemler"
-adm_ac_no_destroyed: "Yakın zamanda hiçbir gezegen yok edilmedi."
-adm_ae_addremove_hint: "Değerler mevcut miktara eklenir (Ekle) veya ondan çıkarılır (Sil). 0 değeri girişi değiştirmez."
-adm_ae_confirm_remove: "Girilen değerler mevcut miktardan gerçekten çıkarılsın mı?"
-adm_ae_danger_zone: "Tehlikeli bölge"
-adm_ae_group_planet: "Gezegen / ay"
-adm_ae_group_player: "Oyuncu"
-adm_ae_menu_hint: "Neyi düzenleyeceğini seç. Oyuncular oyuncu ID'siyle, gezegenler gezegen veya ay ID'siyle seçilir."
-adm_ae_officiers: "Subaylar"
-adm_ae_wipe: "Gezegeni sıfırla"
-adm_ae_wipe_hint: "İşaretli alanlar gezegenden silinir. Bu geri alınamaz."
-adm_as_confirm: "Seçilen iki oyuncunun hesapları gerçekten değiştirilsin mi?"
-adm_as_explain: "Seçilen iki oyuncu hesaplarını (giriş bilgilerini) değiştirir. Oyun durumu ve gezegenler her oyuncuda kalır, yalnızca giriş bilgilerinin sahibi değişir. Soldan A oyuncusunu, sağdan B oyuncusunu seç."
-adm_ban_accounts: "Hesaplar"
-adm_ban_duration: "Süre"
-adm_ban_users: "Oyuncular"
-adm_continue: "Devam"
-adm_coord_position: "Konum"
-adm_cron_active: "Aktif"
-adm_cron_click_disable: "Devre dışı bırakmak için tıkla"
-adm_cron_click_enable: "Etkinleştirmek için tıkla"
-adm_cron_click_lock: "Kilitlemek için tıkla"
-adm_cron_click_unlock: "Kilidi açmak için tıkla (takılan çalıştırma)"
-adm_cron_free: "Boş"
-adm_cron_hint: "Değiştirmek için bir durum rozetine tıkla"
-adm_cron_inactive: "Pasif"
-adm_cron_locked: "Kilitli"
-adm_cron_state: "Durum"
-adm_giveaway_confirm: "Miktarlar bu evrendeki tüm eşleşen gezegenlere eklenir. Devam edilsin mi?"
-adm_giveaway_hint: "Miktarlar eşleşen her gezegenin mevcut stoğuna eklenir. 0 bırakılan alanlar değişmez."
-adm_reset_warning: "Aşağıda işaretlenen her şey bu evren için kalıcı olarak silinir veya sıfırlanır. Yedek ve geri alma yoktur."
-adm_rights_edit: "İzinleri düzenle"
-adm_rights_other: "Diğer"
-adm_rights_page: "Sayfa"
-adm_rights_pick: "İzinlerini düzenlemek istediğin oyuncuyu seç."
-adm_uni_close: "Evreni kapat"
-adm_uni_open: "Evreni aç"
-adm_edit: "Düzenle"
-adm_ma_recipients: "Alıcılar"
-adm_ml_from: "kimden"
-adm_ml_to: "kime"
-invalid_mail_adress: "Geçersiz e-posta adresi"
-adm_cfg_crystal_pct: "Kristal %"
-adm_cfg_deuterium_pct: "Doteryum %"
-adm_cfg_fields_max: "Maks. alan"
-adm_cfg_fields_min: "Min. alan"
-adm_cfg_metal_pct: "Metal %"
-adm_cfg_planet_props: "Konuma göre gezegen özellikleri"
-adm_cfg_planet_props_hint: "Sıcaklık °C cinsinden, alanlar, üretim bonusu %"
-adm_cfg_temp_max: "Maks. sıcaklık"
-adm_cfg_temp_min: "Min. sıcaklık"
-adm_comment_col: "Yorum"
-adm_date_dd: "gg"
-adm_date_format: "(gg.aa.yyyy)"
-adm_date_mm: "aa"
-adm_date_yyyy: "yyyy"
-adm_exp_deck_err_card: "Geçersiz kart biçimi: tür, boyut veya adet eksik"
-adm_exp_deck_err_count: "Geçersiz kart adedi: negatif olamaz"
-adm_exp_deck_err_empty: "Deste en az bir kart içermelidir"
-adm_exp_deck_err_format: "Geçersiz deste biçimi: dizi olmalıdır"
-adm_exp_deck_err_json: "Geçersiz JSON biçimi"
-adm_exp_ships_saved: "Gemi yapılandırması başarıyla kaydedildi!"
-adm_flight_distance: "Mesafe"
-adm_flight_err_dist_missing: "Lütfen tüm mesafe değerlerini eksiksiz doldur."
-adm_flight_err_format: "Lütfen galaksi:sistem:gezegen biçiminde gir."
-adm_flight_err_galaxy_over: "Galaksi max_galaxy değerini aşıyor."
-adm_flight_err_max_missing: "Lütfen max_galaxy, max_system ve max_planets değerlerini eksiksiz doldur."
-adm_flight_err_min_one: "Galaksi, sistem ve gezegen en az 1 olmalıdır."
-adm_flight_err_planet_over: "Gezegen max_planets değerini aşıyor."
-adm_flight_err_system_over: "Sistem max_system değerini aşıyor."
-adm_flight_fleet_speed: "Filo hızı"
-adm_flight_preview: "Uçuş süresi önizlemesi"
-adm_flight_preview_help: "1:1:1'den hedefe, 45.000 gemi hızı ve 1 filo hızıyla uçuş süresi; evren türü, galaksi türü, azami değerler, mesafe çarpanları ve asgari mesafeler anında uygulanır."
-adm_flight_ship_speed: "Gemi hızı"
-adm_flight_time: "Uçuş süresi"
-adm_info_browser: "Tarayıcı"
-adm_info_col: "Bilgi"
-adm_info_db_version: "Veritabanı sürümü"
-adm_info_errorlog: "Hata günlüğü"
-adm_info_game: "Oyun"
-adm_info_game_address: "Oyun adresi"
-adm_info_game_path: "Oyun yolu"
-adm_info_game_version: "Oyun sürümü"
-adm_info_memory_limit: "Bellek sınırı"
-adm_info_mysql_client: "MySQL istemcisi"
-adm_info_mysql_server: "MySQL sunucusu"
-adm_info_php_version: "PHP sürümü"
-adm_info_server: "Sunucu"
-adm_info_server_info: "Sunucu bilgisi"
-adm_info_text: "Metin olarak"
-adm_info_timezone: "Saat dilimi (PHP/yapılandırma/kullanıcı)"
-adm_loading: "Yükleniyor …"
-adm_log_not_found: "Günlükte bulunamadı"
-adm_mip_activity: "Etkinlik"
-adm_mip_show_allowed: "Onaylananları göster"
-adm_mip_show_banned: "Yasaklananları göster"
-adm_ml_end_day: "Bitiş günü"
-adm_ml_end_month: "Bitiş ayı"
-adm_ml_end_year: "Bitiş yılı"
-adm_ml_start_day: "Başlangıç günü"
-adm_ml_start_month: "Başlangıç ayı"
-adm_ml_start_year: "Başlangıç yılı"
-adm_pagination: "Sayfalama"
-adm_permission_error: "İzin reddedildi!"
-adm_ti_all: "Tümü"
-adm_ti_debug_errors: "Hata ayıklama/hatalar"
-adm_ti_user_tickets: "Kullanıcı talepleri"
-adm_group_community: "Topluluk"
-adm_nav_accounts: "Hesaplar"
-adm_nav_expeditions: "Keşif seferleri"
-adm_nav_messages: "Mesajlar"
-adm_nav_moderation: "Moderasyon"
-adm_nav_players: "Oyuncular"
-adm_nav_settings: "Ayarlar"
-adm_tab_bans: "Yasaklar"
-adm_tab_card_deck: "Kart destesi"
-adm_tab_create: "Oluştur"
-adm_tab_editor: "Düzenleyici"
-adm_tab_findable_ships: "Bulunabilir gemiler"
-adm_tab_moons: "Aylar"
-adm_tab_planets: "Gezegenler"
-adm_tab_players: "Oyuncular"
-adm_tab_server: "Sunucu"
-adm_tab_swap: "Takas"
-adm_tab_universe: "Evren"
-adm_maint_cache_text: "Oyun önbelleklerini (diller, şablonlar, oyun verileri) temizler ve cronjob zamanlarını yeniden hesaplar. Ayar veya metin değişiklikleri görünmediğinde işe yarar."
-adm_maint_points_text: "Puanları ve sıralamayı hemen yeniden hesaplar. Aksi halde bu, istatistik cronjob'u ile otomatik çalışır ve çok oyuncu varsa biraz sürebilir."
-adm_nav_maintenance: "Bakım"
-adm_nav_content: "İçerik"
-adm_tab_pages: "Sayfalar"
-adm_tab_team: "Ekip"
-nws_back: "Listeye dön"
-nws_view: "Görüntüle"
-nws_summary: "Özet"
-nws_summary_help: "Haber listesi için isteğe bağlı kısa tanıtım (maks. 300 karakter). Boş = metinden alıntı."
-nws_publish_date: "Yayın tarihi"
-nws_publish_help: "Gelecekteki bir tarih haberi zamanlar: o zaman otomatik olarak görünür."
-nws_status: "Durum"
-nws_status_draft: "Taslak"
-nws_status_published: "Yayınlandı"
-nws_status_scheduled: "Zamanlandı"
-nws_pinned: "Sabitlendi"
-nws_filter_all: "Tümü"
-nws_filter_drafts: "Taslaklar"
-nws_empty: "Haber yok"
-nws_saved: "Haber kaydedildi."
-nws_deleted: "Haber silindi."
-nws_error_empty: "Başlık ve metin boş olamaz."
-cms_page_contacts: "İletişim"
-cms_page_dataPrivacy: "Veri gizliliği"
-cms_page_rules: "Kurallar"
-cms_language: "Dil"
-cms_status: "Durum"
-cms_status_default: "Varsayılan"
-cms_status_edited: "Düzenlendi"
-cms_last_edit: "Son düzenleme"
-cms_title: "Başlık"
-cms_content: "İçerik"
-cms_save: "Sayfayı kaydet"
-cms_view: "Sayfayı görüntüle"
-cms_reset: "Varsayılana sıfırla"
-cms_reset_confirm: "Düzenlenen sürüm silinip varsayılan içerik yeniden gösterilsin mi?"
-cms_saved: "Sayfa kaydedildi."
-cms_reset_done: "Sayfa varsayılan içeriğe sıfırlandı."
-team_name: "İsim"
-team_position: "Görev"
-team_contact: "İletişim (ör. Discord)"
-team_description: "Açıklama"
-team_add: "Üye ekle"
-team_delete: "Kaldır"
-team_move_up: "Yukarı taşı"
-team_move_down: "Aşağı taşı"
-team_save: "Ekibi kaydet"
-team_saved: "Ekip kaydedildi."
-team_empty: "Henüz ekip üyesi yok."
-team_hint: "Satırların sırası, herkese açık ekip sayfasındaki sıradır. Adı olmayan satırlar kaydedilirken atılır."
-nws_image: "Görsel"
-nws_image_remove: "Görseli kaldır"
-nws_image_help: "İsteğe bağlı, haber başına bir görsel (JPEG, PNG, GIF veya WebP, maks. 8 MB). Otomatik olarak WebP'ye dönüştürülür."
-bot_action: "İşlem"
-bot_actions_per_session: "Oturum başına işlem"
-bot_active: "Aktif"
-bot_active_none: "LLM yok (yalnızca yerel yedekler)"
-bot_activity: "Saatlik etkinlik"
-bot_activity_info: "0 ile 1 arasında virgülle ayrılmış 24 değer (çevrimdışı bir botun oturum başlatma şansı, saatler 0-23)"
-bot_alliance_chance: "Oturum başına ittifak etkinliği şansı"
-bot_alliance_join_chance: "Bot ittifakına başvurma şansı (tur başına)"
-bot_fleetsave_chance: "Filoyu kurtarma şansı (oturum sonu, tehdit)"
-bot_saving_discipline: "Tasarruf disiplini (küçük alımlar yerine hedef için biriktirir)"
-bot_expedition_slots: "Seferler için boş tutulan filo slotları"
-bot_api_key: "API anahtarı"
-bot_base_url: "Temel URL"
-bot_buddy_accept_chance: "Arkadaşlık isteğini kabul etme şansı"
-bot_cancel: "İptal"
-bot_chat_style: "Sohbet stili ipucu"
-bot_raid_enabled: "Baskınlar açık"
-bot_raid_chance: "Baskına çıkan oturumlar"
-bot_scout_range: "Keşif menzili (kendi gezegenlerinin çevresindeki sistemler)"
-bot_min_profit_ratio: "Asgari kâr oranı (ganimet / yakıt + kayıplar)"
-bot_relentless_minutes: "Başarılı vuruştan sonra baskın serisi (dakika, en az - en çok)"
-bot_recall_check_chance: "Çarpışmadan önce yeniden casusluk ve geri çağırma kontrolü şansı"
-bot_max_attacks_per_target: "Hedef başına günlük en fazla saldırı"
-bot_attack_bots: "Diğer botlara saldır"
-bot_attack_humans: "İnsan oyunculara saldır"
-bot_prefer_inactive: "Pasif hedef tercihi (0-100)"
-bot_check_interval: "Giriş kontrol aralığı"
-bot_colonize_chance: "Oturum başına kolonileştirme şansı"
-bot_confirm_delete: "Gerçekten silinsin mi?"
-bot_confirm_restore: "Varsayılan profiller özgün değerlerine sıfırlansın mı?"
-bot_csrf_error: "Geçersiz güvenlik belirteci, lütfen sayfayı yenile."
-bot_days_zero_off: "gün (0 = kapalı)"
-bot_default: "varsayılan"
-bot_defaults_restored: "Varsayılan profiller geri yüklendi."
-bot_delete: "Sil"
-bot_deleted: "Silindi."
-bot_description: "Açıklama"
-bot_detail: "Ayrıntı"
-bot_disabled: "devre dışı"
-bot_duplicate: "Çoğalt"
-bot_edit: "Düzenle"
-bot_edit_profile: "Profili düzenle"
-bot_enabled: "etkin"
-bot_engine_missing: "Bot motoru yüklü değil."
-bot_expedition_chance: "Oturum başına keşif seferi şansı"
-bot_failed: "Başarısız"
-bot_hours_every: "saatte bir"
-bot_invalid_url: "Temel URL http:// veya https:// ile başlamalıdır."
-bot_key: "Anahtar"
-bot_key_keep: "korumak için boş bırak"
-bot_key_not_set: "ayarlanmadı"
-bot_key_stored: "kayıtlı"
-bot_last_action: "Son işlem"
-bot_last_test: "Son test"
-bot_list: "Botlar"
-bot_llm_advice: "LLM'e izin ver (isimler ve sohbet)"
-bot_log: "Son işlemler"
-bot_mistake_chance: "Hata şansı"
-bot_mode: "Bot modu"
-bot_model: "Model"
-bot_name: "İsim"
-bot_name_required: "Lütfen bir isim gir."
-bot_new_profile: "Yeni profil"
-bot_next_tick: "Sonraki kontrol"
-bot_none: "Yok."
-bot_offline: "çevrimdışı"
-bot_online: "çevrimiçi"
-bot_open_config: "Evren ayarları"
-bot_pattern_shift: "Desen kaydırma"
-bot_player: "Oyuncu"
-bot_points: "Puan"
-bot_profile: "Profil"
-bot_profile_default_locked: "Varsayılan profiller silinemez."
-bot_profile_in_use: "Bu profil hâlâ botlar tarafından kullanılıyor."
-bot_profile_missing: "Profil bulunamadı."
-bot_provider: "Sağlayıcı"
-bot_providers_info: "LLM isteğe bağlıdır ve yalnızca botların insani yönü için kullanılır: takma adlar, kişilikler, gezegen isimleri ve sohbet (mesajlara yanıtlar, ittifaklar, arkadaşlar). Oyun kararları her zaman yerel olarak verilir. Aktif sağlayıcı yoksa yerleşik isim üreticileri ve hazır mesajlar kullanılır. Kayıtlı anahtarı korumak için anahtar alanını boş bırak."
-bot_randomness: "Rastgelelik"
-bot_reply_chance: "Yanıt şansı (özel mesajlar)"
-bot_restore_defaults: "Varsayılanları geri yükle"
-bot_saved: "Kaydedildi."
-bot_session: "Oturum"
-bot_session_minutes: "Oturum süresi"
-bot_skill: "Beceri"
-bot_skill_gain: "Günlük artış"
-bot_skill_max: "Maks."
-bot_skill_start: "Başlangıç"
-bot_spawn: "Bot oluştur"
-bot_spawned: "%d bot oluşturuldu."
-bot_summary: "Özet"
-bot_summary_actions: "işlem"
-bot_summary_mistakes: "hata"
-bot_summary_session: "oturum"
-bot_tab_bots: "Botlar"
-bot_tab_profiles: "Profiller"
-bot_tab_providers: "LLM sağlayıcıları"
-bot_test: "Bağlantıyı test et"
-bot_testing: "Test ediliyor..."
-bot_time: "Zaman"
-bot_title: "Botlar"
-bot_universe: "Evren"
-bot_w_defense: "Savunma"
-bot_w_energy: "Enerji"
-bot_w_facilities: "Tesisler"
-bot_w_mines: "Madenler"
-bot_w_research: "Araştırma"
-bot_w_ships: "Gemiler"
-bot_w_storage: "Depolar"
-bot_weights: "Ağırlıklar"
-mu_bots: "Botlar"
-adm_nav_bots: "Botlar"
-adm_tab_bot_providers: "LLM sağlayıcıları"
-adm_tab_bot_profiles: "Profiller"
-adm_tab_bot_list: "Botlar"
-se_bots: "Botlar"
-se_bots_enabled: "Botları etkinleştir"
-se_bots_enabled_info: "Sunucu tarafı botların bu evrende oynamasına izin verir. Cronjob tarafından dakikada bir işlenirler."
-se_bots_llm_daily_limit: "Bot ve gün başına LLM çağrısı"
-se_bots_llm_daily_limit_info: "Bir botun günde yapabileceği azami LLM çağrısı sayısı. Sonrasında yerel yedekler kullanılır."
-se_bots_llm_enabled: "İsimler ve sohbet için LLM kullan"
-se_bots_llm_enabled_info: "Aktif sağlayıcıyla LLM tarafından üretilen takma adları, kişilikleri, gezegen isimlerini ve sohbeti (mesajlar, ittifaklar, arkadaşlar) etkinleştirir. Oyun kararları her zaman yerel kalır."
-se_bots_max_count: "Azami bot sayısı"
-se_bots_max_count_info: "Bu evrende oluşturulan botlar için üst sınır."
-se_bots_ticks_per_run: "Cron çalıştırması başına bot"
-se_bots_ticks_per_run_info: "Bir cron çalıştırmasında işlenen azami bot sayısı."
-se_bots_raids_enabled: "Botlar diğer oyunculara saldırır"
-se_bots_raids_enabled_info: "Botların yakındaki oyuncuları ve diğer botları, oyuncularla aynı kurallarla (bash sınırı, koruma, tatil modu) keşfetmesine, casusluk yapmasına ve saldırmasına izin verir. Varsayılan olarak kapalı."
-adm_info_summary_fail: "%s kontrol başarısız, %s uyarı. Önce başarısız kontrolleri düzelt."
-adm_info_summary_warn: "Başarısız kontrol yok, ancak %s uyarıya bakılmalı."
-adm_info_summary_ok: "Tüm sağlık kontrolleri geçti."
-adm_info_health: "Sağlık kontrolleri"
-adm_info_status_ok: "Tamam"
-adm_info_status_warn: "Uyarı"
-adm_info_status_fail: "Başarısız"
-adm_info_status_info: "Bilgi"
-adm_info_chk_php: "PHP sürümü (8.4 veya daha yeni)"
-adm_info_chk_php_hint: "Oyun PHP 8.4 veya daha yenisini gerektirir."
-adm_info_chk_ext_required: "Gerekli PHP eklentileri"
-adm_info_chk_ext_required_hint: "Eksik eklentileri kur, oyun onlar olmadan çalışmaz."
-adm_info_chk_ext_optional: "İsteğe bağlı PHP eklentileri"
-adm_info_chk_ext_optional_hint: "Gerekli değildir ancak daha hızlı veya ek özellikleri etkinleştirir (eklenti listesine bak)."
-adm_info_chk_opcache: "OPcache"
-adm_info_chk_opcache_hint: "OPcache kapalı. Canlı ortamda etkinleştir, PHP'yi çok hızlandırır."
-adm_info_chk_environment: "Ortam (APP_ENV / hata ayıklama)"
-adm_info_chk_environment_hint: "Herkese açık bir sunucuda APP_ENV=prod ve hata ayıklama kapalı olarak çalıştır."
-adm_info_chk_display_errors: "display_errors"
-adm_info_chk_display_errors_hint: "Sayfalardaki hata çıktısı iç bilgileri sızdırabilir. Herkese açık sunucularda display_errors=Off ayarla."
-adm_info_chk_writable: "Yazılabilir dizinler"
-adm_info_chk_writable_hint: "Web sunucusu kullanıcısı bu dizinlere yazabilmelidir (önbellekler, günlükler, oturumlar, yüklemeler)."
-adm_info_chk_install_tool: "Kurulum aracı"
-adm_info_chk_install_tool_hint: "var/ENABLE_INSTALL_TOOL mevcut. Kurulum yapmıyorsan sil."
-adm_info_chk_migrations: "Veritabanı geçişleri"
-adm_info_chk_migrations_hint: "Bekleyen geçişler var. Sonraki oyun isteğinde uygulanırlar; beklemede kalırlarsa günlüğe bak."
-adm_info_chk_battle_engine: "Savaş motoru"
-adm_info_chk_battle_engine_hint: "Rust motoru kullanılamıyor (bin/battlerust, bin/libbattlerust.so, proc_open). Savaşlar daha yavaş PHP motorunda çalışır."
-adm_info_chk_cron: "Cronjob'lar"
-adm_info_chk_cron_hint: "Cron takılmış görünüyor veya çalışmıyor. bin/console app:cron:run komutunun dakikada bir çalıştığını kontrol et ve takılan işleri Cronjob'lar altında aç."
-adm_info_chk_https: "HTTPS"
-adm_info_chk_https_hint: "Bu istek HTTPS kullanmadı. Parolalar ve oturumlar şifresiz iletilir."
-adm_info_chk_mail: "E-posta gönderimi"
-adm_info_chk_mail_hint: "E-posta devre dışı veya eksik (etkinleştirme ve parola sıfırlama e-postaları ulaşmaz). Ayarlara bak."
-adm_info_chk_session: "Oturum işleyicisi"
-adm_info_chk_session_hint: "Oturum depolamasını kontrol et."
-adm_info_os: "İşletim sistemi"
-adm_info_hostname: "Ana makine adı"
-adm_info_max_exec: "Azami çalışma süresi"
-adm_info_upload_max: "Yükleme sınırı (upload_max_filesize)"
-adm_info_post_max: "POST sınırı (post_max_size)"
-adm_info_realpath: "Realpath önbelleği"
-adm_info_peak: "Bu isteğin azami bellek kullanımı"
-adm_info_cpu: "CPU çekirdekleri"
-adm_info_load: "Yük ortalaması (1 / 5 / 15 dk)"
-adm_info_uptime: "Sistem çalışma süresi"
-adm_info_disk: "Disk (proje)"
-adm_info_memory: "Sistem belleği"
-adm_info_free_of: "%s boş / %s (%%%s kullanıldı)"
-adm_info_opcache_line: "%s / %s kullanıldı, isabet oranı %%%s, %s betik önbellekte"
-adm_info_extensions: "PHP eklentileri"
-adm_info_extensions_hint: "Amacını görmek için üzerine gel. Kırmızı = gerekli ve eksik, gri = isteğe bağlı ve eksik."
-adm_info_required: "gerekli"
-adm_info_ext_pdo_mysql: "Veritabanı erişimi (PDO MySQL)"
-adm_info_ext_intl: "Sayı, tarih ve dil biçimlendirme"
-adm_info_ext_mbstring: "Çok baytlı dize işleme"
-adm_info_ext_gd: "Görsel işleme (avatarlar, haber görselleri)"
-adm_info_ext_curl: "HTTP istekleri (Discord, harici API'ler)"
-adm_info_ext_json: "JSON kodlama ve çözme"
-adm_info_ext_ctype: "Karakter türü kontrolleri"
-adm_info_ext_opcache: "Derlenmiş PHP kodunu önbelleğe alır (hız)"
-adm_info_ext_ffi: "Yabancı işlev arayüzü (yerel kod)"
-adm_info_ext_ds: "Hızlı veri yapıları"
-adm_info_ext_redis: "Redis oturumları ve önbelleği"
-adm_info_ext_imap: "Posta kutusu erişimi (IMAP)"
-adm_info_database: "Veritabanı"
-adm_info_db_schema: "Şema"
-adm_info_db_size: "Boyut"
-adm_info_tables: "tablo"
-adm_info_pending: "Bekleyen geçişler"
-adm_info_db_uptime: "MySQL çalışma süresi"
-adm_info_threads: "Bağlı iş parçacıkları"
-adm_info_max: "maks."
-adm_info_qps: "Saniyedeki sorgu (ortalama)"
-adm_info_queries: "sorgu"
-adm_info_slow: "Yavaş sorgular"
-adm_info_buffer_pool: "InnoDB arabellek havuzu"
-adm_info_top_tables: "En büyük tablolar"
-adm_info_table: "Tablo"
-adm_info_rows: "satır"
-adm_info_data: "Veri"
-adm_info_index: "Dizin"
-adm_info_game_stats: "Oyun istatistikleri"
-adm_info_universe: "Evren"
-adm_info_players: "Oyuncular"
-adm_info_accounts: "Hesaplar"
-adm_info_online: "Çevrimiçi"
-adm_info_planets: "Gezegenler"
-adm_info_moons: "Aylar"
-adm_info_fleets: "Uçuştaki filolar"
-adm_info_acs: "ACS grupları"
-adm_info_alliances: "İttifaklar"
-adm_info_messages: "Mesajlar"
-adm_info_unread: "okunmamış"
-adm_info_activity: "Etkinlik ve kayıtlar"
-adm_info_active: "Aktif oyuncular"
-adm_info_registrations: "Yeni kayıtlar"
-adm_info_banned: "Yasaklı oyuncular"
-adm_info_vacation: "Tatil modunda"
-adm_info_bots: "Bot oyuncular"
-adm_info_points_avg: "Ortalama puan"
-adm_info_points_top: "En yüksek puan"
-adm_info_last_stats: "Son istatistik güncellemesi"
-adm_info_market: "Açık pazar teklifleri"
-adm_info_reports: "Kayıtlı savaş raporları"
-adm_info_debris: "İçeriği olan enkaz alanları (metal / kristal)"
-adm_info_resources: "Gezegenlerde depolanan kaynaklar"
-adm_info_fleets_by_mission: "Göreve göre filolar"
-adm_info_mission: "Görev"
-adm_info_no_fleets: "Uçuşta filo yok."
-adm_info_reg_chart: "Kayıtlar, son 30 gün"
-adm_info_no_registrations: "Son 30 günde kayıt yok."
-adm_info_all_universes: "Tüm evrenler"
-adm_info_total: "Toplam"
-adm_info_logs: "Günlükler ve önbellekler"
-adm_info_game_log: "Oyun günlüğü"
-adm_info_errors_24h: "Hatalar, son 24 saat"
-adm_info_warnings_24h: "Uyarılar, son 24 saat"
-adm_info_scanned: "Taranan (dosya sonu)"
-adm_info_symfony_log: "Symfony günlüğü"
-adm_info_lines: "satır"
-adm_info_files: "dosya"
-adm_info_last_errors: "Son hatalar"
-adm_info_no_errors: "Günlüğün taranan kısmında hata yok."
-adm_info_time: "Sunucu saati"
-adm_info_timezone_of: "Kaynak"
-adm_info_zone: "Saat dilimi"
-adm_info_tz_php: "PHP"
-adm_info_tz_config: "Oyun yapılandırması"
-adm_info_tz_user: "Hesabın"
-adm_login_throttled: "Çok fazla deneme. Lütfen birkaç dakika sonra tekrar dene."
-message_a: "Mesaj durumu:"
-message_t: "Talep durumu:"
-modul_41: "Filo kısayolları"
-modul_43: "Görev — Ticaret"
-modul_44: "Görev — Aktarım"
-modul_45: "Pazar — Kaynaklar"
-modul_46: "Pazar — Filo"
-player: "Oyuncu"
-sp_answer_message: "Talebine #%d numarasıyla bir yanıt yazıldı!"
-sp_answer_message_title: "Destek talebi #%d"
-status: "Durum"
-subject: "Konu"
-text: "Ayrıntılar"
-answer_new: "Yanıt yaz:"
-close_t: "Talep kapatıldı."
-close_ticket: "Talebi kapat"
-input_text: "Açıklama:"
-open_ticket: "Talebi aç"
-sendit_a: "Mesaj eklendi."
-sendit_error: "Hata:"
-sendit_error_msg: "Bir şeyi doldurmayı unuttun!"
-sendit_t: "Talep gönderildi."
-sp_admin_answer: "%s (Yönetici) %s tarihinde yazdı<br><br><font color=\"red\">%s</font>"
-sp_admin_closed: "%s (Yönetici) talebi %s tarihinde kapattı!"
-sp_admin_open: "%s (Yönetici) talebi %s tarihinde açtı!"
-supp_admin_answer: "Yönetici yanıtı"
-supp_admin_system: "Destek yönetim paneli"
-supp_close: "Kapalı"
-supp_header: "Destek sistemi"
-supp_header_g: "Kapalı talepler"
-supp_open: "Açık"
-supp_player_answer: "Oyuncu yanıtı"
-supp_player_write: "%s, %s tarihinde yazdı"
-supp_send: "Gönder"
-supp_ticket_close: "Talep kapatıldı"
-ticket_id: "#Talep ID"
-ticket_new: "Yeni talep oluştur"
-ticket_posted: "Talep sahibi"
-se_community_links: "Topluluk bağlantıları"
-se_discord_url: "Discord davet URL'si"
-se_discord_url_info: "Discord sunucunuzun davet bağlantısı (https://...). Menüde, giriş sayfasında, e-postalarda ve metinlerde gösterilir. Boş = gizli."
-se_wiki_url: "Wiki URL'si"
-se_wiki_url_info: "Harici bir wikinin taban URL'si, sonda eğik çizgi olmadan (https://...). SSS, eğitim ve kurallardaki wiki bağlantıları bundan oluşturulur. Boş = gizli."
-se_donate_url: "Bağış URL'si"
-se_donate_url_info: "Bağış bağlantısı (https://...), menüde gösterilir. Boş = gizli."
-se_userscripts_url: "Userscript URL'si"
-se_userscripts_url_info: "Oyununuz için userscript'leri anlatan sayfa (https://...), ayarlarda bağlanır. Boş = gizli."
-se_bots_alliances_enabled: "Botlar ittifak kurar"
-se_bots_alliances_enabled_info: "Botlar kendi ittifaklarını kurar ve ara sıra başkalarına katılır. Kapalı: botlar yalnız kurt olarak kalır, hiçbir yere başvurmaz ve üye oldukları ittifaklardan ayrılır (bir botun kurduğu ittifaklar kalır)."
-se_bots_join_human_alliances: "Botlar oyuncu ittifaklarına katılabilir"
-se_bots_join_human_alliances_info: "Botlar insan oyuncuların kurduğu ittifaklara da başvurabilir. Kapalı: botlar yalnızca botların kurduğu ittifaklara katılır ve oyuncu ittifaklarından ayrılır."
+vt_info: Bu listedeki dosyalar guncellenmis ve orijinalinden farki olan dosyalardir.<br>Eger siz bir degisiklik yapmadiysaniz mutlaka orijinali ile degistirin.
+adm_comments: Yorumlar
+adm_analytics: Analitik
+ad_system: Sistem
+adm_menu_filter: Menüyü filtrele …
+adm_menu_empty: Menü girişi bulunamadı
+adm_menu_toggle: Menü
+adm_back_to_game: Oyuna dön
+adm_drop_rights: Çıkış
+adm_universe_switch: Evren
+adm_dash_attention: Dikkat gerektiriyor
+adm_dash_all_good: Her şey yolunda – uyarı yok.
+adm_dash_online: Çevrimiçi oyuncular (15 dk)
+adm_dash_players: Toplam oyuncu
+adm_dash_tickets: Açık talepler
+adm_dash_fleets: Uçuştaki filolar
+adm_dash_quick: Hızlı erişim
+adm_dash_system: Sistem
+adm_dash_version: Sürüm
+adm_dash_php: PHP
+adm_dash_uni_status: Evren durumu
+adm_dash_credits: Emeği geçenler
+adm_dash_project: Proje ana sayfası
+adm_confirm: Emin misin?
+adm_dash_cron_locked: 'Cronjob kilitli (artık çalışmıyor): %s'
+adm_dash_next_cron: Sonraki cronjob
+adm_dash_cron_count: aktif cronjob
+adm_unsaved_hint: Değişiklikler kaydettiğinde geçerli olur.
+adm_sections: Bölümler
+adm_skip: İçeriğe geç
+adm_filter_page: Bu sayfayı filtrele …
+adm_actions: İşlemler
+adm_ac_no_destroyed: Yakın zamanda hiçbir gezegen yok edilmedi.
+adm_ae_addremove_hint: Değerler mevcut miktara eklenir (Ekle) veya ondan çıkarılır (Sil). 0 değeri girişi değiştirmez.
+adm_ae_confirm_remove: Girilen değerler mevcut miktardan gerçekten çıkarılsın mı?
+adm_ae_danger_zone: Tehlikeli bölge
+adm_ae_group_planet: Gezegen / ay
+adm_ae_group_player: Oyuncu
+adm_ae_menu_hint: Neyi düzenleyeceğini seç. Oyuncular oyuncu ID'siyle, gezegenler gezegen veya ay ID'siyle seçilir.
+adm_ae_wipe: Gezegeni sıfırla
+adm_ae_wipe_hint: İşaretli alanlar gezegenden silinir. Bu geri alınamaz.
+adm_as_confirm: Seçilen iki oyuncunun hesapları gerçekten değiştirilsin mi?
+adm_as_explain: Seçilen iki oyuncu hesaplarını (giriş bilgilerini) değiştirir. Oyun durumu ve gezegenler her oyuncuda kalır, yalnızca giriş bilgilerinin sahibi değişir. Soldan A oyuncusunu, sağdan B oyuncusunu seç.
+adm_ban_accounts: Hesaplar
+adm_ban_duration: Süre
+adm_ban_users: Oyuncular
+adm_continue: Devam
+adm_coord_position: Konum
+adm_cron_active: Aktif
+adm_cron_click_disable: Devre dışı bırakmak için tıkla
+adm_cron_click_enable: Etkinleştirmek için tıkla
+adm_cron_click_lock: Kilitlemek için tıkla
+adm_cron_click_unlock: Kilidi açmak için tıkla (takılan çalıştırma)
+adm_cron_free: Boş
+adm_cron_hint: Değiştirmek için bir durum rozetine tıkla
+adm_cron_inactive: Pasif
+adm_cron_locked: Kilitli
+adm_cron_state: Durum
+adm_giveaway_confirm: Miktarlar bu evrendeki tüm eşleşen gezegenlere eklenir. Devam edilsin mi?
+adm_giveaway_hint: Miktarlar eşleşen her gezegenin mevcut stoğuna eklenir. 0 bırakılan alanlar değişmez.
+adm_reset_warning: Aşağıda işaretlenen her şey bu evren için kalıcı olarak silinir veya sıfırlanır. Yedek ve geri alma yoktur.
+adm_rights_edit: İzinleri düzenle
+adm_rights_other: Diğer
+adm_rights_page: Sayfa
+adm_rights_pick: İzinlerini düzenlemek istediğin oyuncuyu seç.
+adm_uni_close: Evreni kapat
+adm_uni_open: Evreni aç
+adm_edit: Düzenle
+adm_ma_recipients: Alıcılar
+adm_ml_from: kimden
+adm_ml_to: kime
+ac_detailed_planet_moon_info: Gezegen ve Ay detaylari
+ad_max: (max. %d)
+adm_password_info: Admin menusu icin sifreni gir
+button_des_se: Hepsi/Hicbiri
+er_dlte_all: Hepsini Sil
+input_id_moon: Ay ID
+input_text: 'Açıklama:'
+mip_ip: IP
+adm_cfg_crystal_pct: Kristal %
+adm_cfg_deuterium_pct: Doteryum %
+adm_cfg_fields_max: Maks. alan
+adm_cfg_fields_min: Min. alan
+adm_cfg_metal_pct: Metal %
+adm_cfg_planet_props: Konuma göre gezegen özellikleri
+adm_cfg_planet_props_hint: Sıcaklık °C cinsinden, alanlar, üretim bonusu %
+adm_cfg_temp_max: Maks. sıcaklık
+adm_cfg_temp_min: Min. sıcaklık
+adm_comment_col: Yorum
+adm_date_dd: gg
+adm_date_format: (gg.aa.yyyy)
+adm_date_mm: aa
+adm_date_yyyy: yyyy
+adm_exp_deck_err_card: 'Geçersiz kart biçimi: tür, boyut veya adet eksik'
+adm_exp_deck_err_count: 'Geçersiz kart adedi: negatif olamaz'
+adm_exp_deck_err_empty: Deste en az bir kart içermelidir
+adm_exp_deck_err_format: 'Geçersiz deste biçimi: dizi olmalıdır'
+adm_exp_deck_err_json: Geçersiz JSON biçimi
+adm_exp_ships_saved: Gemi yapılandırması başarıyla kaydedildi!
+adm_flight_distance: Mesafe
+adm_flight_err_dist_missing: Lütfen tüm mesafe değerlerini eksiksiz doldur.
+adm_flight_err_format: Lütfen galaksi:sistem:gezegen biçiminde gir.
+adm_flight_err_galaxy_over: Galaksi max_galaxy değerini aşıyor.
+adm_flight_err_max_missing: Lütfen max_galaxy, max_system ve max_planets değerlerini eksiksiz doldur.
+adm_flight_err_min_one: Galaksi, sistem ve gezegen en az 1 olmalıdır.
+adm_flight_err_planet_over: Gezegen max_planets değerini aşıyor.
+adm_flight_err_system_over: Sistem max_system değerini aşıyor.
+adm_flight_fleet_speed: Filo hızı
+adm_flight_preview: Uçuş süresi önizlemesi
+adm_flight_preview_help: 1:1:1'den hedefe, 45.000 gemi hızı ve 1 filo hızıyla uçuş süresi; evren türü, galaksi türü, azami değerler, mesafe çarpanları ve asgari mesafeler anında uygulanır.
+adm_flight_ship_speed: Gemi hızı
+adm_flight_time: Uçuş süresi
+adm_info_col: Bilgi
+adm_info_db_version: Veritabanı sürümü
+adm_info_errorlog: Hata günlüğü
+adm_info_game: Oyun
+adm_info_game_address: Oyun adresi
+adm_info_game_version: Oyun sürümü
+adm_info_memory_limit: Bellek sınırı
+adm_info_mysql_client: MySQL istemcisi
+adm_info_mysql_server: MySQL sunucusu
+adm_info_php_version: PHP sürümü
+adm_info_server: Sunucu
+adm_info_server_info: Sunucu bilgisi
+adm_info_text: Metin olarak
+adm_info_timezone: Saat dilimi (PHP/yapılandırma/kullanıcı)
+adm_loading: Yükleniyor …
+adm_log_not_found: Günlükte bulunamadı
+adm_mip_activity: Etkinlik
+adm_mip_show_allowed: Onaylananları göster
+adm_mip_show_banned: Yasaklananları göster
+adm_ml_end_day: Bitiş günü
+adm_ml_end_month: Bitiş ayı
+adm_ml_end_year: Bitiş yılı
+adm_ml_start_day: Başlangıç günü
+adm_ml_start_month: Başlangıç ayı
+adm_ml_start_year: Başlangıç yılı
+adm_pagination: Sayfalama
+adm_permission_error: İzin reddedildi!
+adm_ti_all: Tümü
+adm_ti_debug_errors: Hata ayıklama/hatalar
+adm_ti_user_tickets: Kullanıcı talepleri
+adm_group_community: Topluluk
+adm_nav_accounts: Hesaplar
+adm_nav_expeditions: Keşif seferleri
+adm_nav_messages: Mesajlar
+adm_nav_moderation: Moderasyon
+adm_nav_players: Oyuncular
+adm_nav_settings: Ayarlar
+adm_tab_bans: Yasaklar
+adm_tab_card_deck: Kart destesi
+adm_tab_create: Oluştur
+adm_tab_editor: Düzenleyici
+adm_tab_findable_ships: Bulunabilir gemiler
+adm_tab_moons: Aylar
+adm_tab_planets: Gezegenler
+adm_tab_players: Oyuncular
+adm_tab_server: Sunucu
+adm_tab_swap: Takas
+adm_tab_universe: Evren
+adm_maint_cache_text: Oyun önbelleklerini (diller, şablonlar, oyun verileri) temizler ve cronjob zamanlarını yeniden hesaplar. Ayar veya metin değişiklikleri görünmediğinde işe yarar.
+adm_maint_log_head: Oyun günlüğü
+adm_maint_log_text: Oyunun hata günlüğü (var/log/game.log). Temizlemek dosyayı boşaltır; yeni hatalar hemen tekrar yazılır.
+adm_maint_log_size: Boyut
+adm_maint_log_changed: Son değişiklik
+adm_maint_log_missing: Günlük dosyası henüz yok.
+adm_maint_log_clear: Oyun günlüğünü temizle
+adm_maint_log_confirm: var/log/game.log boşaltılsın mı? Bu işlem geri alınamaz.
+adm_maint_log_cleared: Oyun günlüğü temizlendi.
+adm_maint_log_failed: Oyun günlüğü temizlenemedi (dosya yazılabilir değil).
+adm_maint_points_text: Puanları ve sıralamayı hemen yeniden hesaplar. Aksi halde bu, istatistik cronjob'u ile otomatik çalışır ve çok oyuncu varsa biraz sürebilir.
+adm_nav_maintenance: Bakım
+adm_nav_content: İçerik
+adm_tab_pages: Sayfalar
+adm_tab_team: Ekip
+nws_back: Listeye dön
+nws_view: Görüntüle
+nws_summary: Özet
+nws_summary_help: Haber listesi için isteğe bağlı kısa tanıtım (maks. 300 karakter). Boş = metinden alıntı.
+nws_publish_date: Yayın tarihi
+nws_publish_help: 'Gelecekteki bir tarih haberi zamanlar: o zaman otomatik olarak görünür.'
+nws_status: Durum
+nws_status_draft: Taslak
+nws_status_published: Yayınlandı
+nws_status_scheduled: Zamanlandı
+nws_pinned: Sabitlendi
+nws_filter_all: Tümü
+nws_filter_drafts: Taslaklar
+nws_empty: Haber yok
+nws_saved: Haber kaydedildi.
+nws_deleted: Haber silindi.
+nws_error_empty: Başlık ve metin boş olamaz.
+cms_page_contacts: İletişim
+cms_page_dataPrivacy: Veri gizliliği
+cms_page_rules: Kurallar
+cms_language: Dil
+cms_status: Durum
+cms_status_default: Varsayılan
+cms_status_edited: Düzenlendi
+cms_last_edit: Son düzenleme
+cms_title: Başlık
+cms_content: İçerik
+cms_save: Sayfayı kaydet
+cms_view: Sayfayı görüntüle
+cms_reset: Varsayılana sıfırla
+cms_reset_confirm: Düzenlenen sürüm silinip varsayılan içerik yeniden gösterilsin mi?
+cms_saved: Sayfa kaydedildi.
+cms_reset_done: Sayfa varsayılan içeriğe sıfırlandı.
+team_name: İsim
+team_position: Görev
+team_contact: İletişim (ör. Discord)
+team_description: Açıklama
+team_add: Üye ekle
+team_delete: Kaldır
+team_move_up: Yukarı taşı
+team_move_down: Aşağı taşı
+team_save: Ekibi kaydet
+team_saved: Ekip kaydedildi.
+team_empty: Henüz ekip üyesi yok.
+team_hint: Satırların sırası, herkese açık ekip sayfasındaki sıradır. Adı olmayan satırlar kaydedilirken atılır.
+nws_image: Görsel
+nws_image_remove: Görseli kaldır
+nws_image_help: İsteğe bağlı, haber başına bir görsel (JPEG, PNG, GIF veya WebP, maks. 8 MB). Otomatik olarak WebP'ye dönüştürülür.
+bot_action: İşlem
+bot_actions_per_session: Oturum başına işlem
+bot_active: Aktif
+bot_active_none: LLM yok (yalnızca yerel yedekler)
+bot_activity: Saatlik etkinlik
+bot_activity_info: 0 ile 1 arasında virgülle ayrılmış 24 değer (çevrimdışı bir botun oturum başlatma şansı, saatler 0-23)
+bot_alliance_chance: Oturum başına ittifak etkinliği şansı
+bot_alliance_join_chance: Bot ittifakına başvurma şansı (tur başına)
+bot_fleetsave_chance: Filoyu kurtarma şansı (oturum sonu, tehdit)
+bot_saving_discipline: Tasarruf disiplini (küçük alımlar yerine hedef için biriktirir)
+bot_expedition_slots: Seferler için boş tutulan filo slotları
+bot_api_key: API anahtarı
+bot_base_url: Temel URL
+bot_buddy_accept_chance: Arkadaşlık isteğini kabul etme şansı
+bot_cancel: İptal
+bot_chat_style: Sohbet stili ipucu
+bot_raid_enabled: Baskınlar açık
+bot_raid_chance: Baskına çıkan oturumlar
+bot_scout_range: Keşif menzili (kendi gezegenlerinin çevresindeki sistemler)
+bot_min_profit_ratio: Asgari kâr oranı (ganimet / yakıt + kayıplar)
+bot_relentless_minutes: Başarılı vuruştan sonra baskın serisi (dakika, en az - en çok)
+bot_recall_check_chance: Çarpışmadan önce yeniden casusluk ve geri çağırma kontrolü şansı
+bot_max_attacks_per_target: Hedef başına günlük en fazla saldırı
+bot_attack_bots: Diğer botlara saldır
+bot_attack_humans: İnsan oyunculara saldır
+bot_prefer_inactive: Pasif hedef tercihi (0-100)
+bot_check_interval: Giriş kontrol aralığı
+bot_colonize_chance: Oturum başına kolonileştirme şansı
+bot_confirm_delete: Gerçekten silinsin mi?
+bot_confirm_restore: Varsayılan profiller özgün değerlerine sıfırlansın mı?
+bot_csrf_error: Geçersiz güvenlik belirteci, lütfen sayfayı yenile.
+bot_days_zero_off: gün (0 = kapalı)
+bot_default: varsayılan
+bot_defaults_restored: Varsayılan profiller geri yüklendi.
+bot_delete: Sil
+bot_deleted: Silindi.
+bot_description: Açıklama
+bot_detail: Ayrıntı
+bot_disabled: devre dışı
+bot_duplicate: Çoğalt
+bot_edit: Düzenle
+bot_edit_profile: Profili düzenle
+bot_enabled: etkin
+bot_expedition_chance: Oturum başına keşif seferi şansı
+bot_failed: Başarısız
+bot_hours_every: saatte bir
+bot_invalid_url: Temel URL http:// veya https:// ile başlamalıdır.
+bot_key: Anahtar
+bot_key_keep: korumak için boş bırak
+bot_key_not_set: ayarlanmadı
+bot_key_stored: kayıtlı
+bot_last_action: Son işlem
+bot_last_test: Son test
+bot_list: Botlar
+bot_llm_advice: LLM'e izin ver (isimler ve sohbet)
+bot_log: Son işlemler
+bot_mistake_chance: Hata şansı
+bot_mode: Bot modu
+bot_model: Model
+bot_name: İsim
+bot_name_required: Lütfen bir isim gir.
+bot_new_profile: Yeni profil
+bot_next_tick: Sonraki kontrol
+bot_none: Yok.
+bot_offline: çevrimdışı
+bot_online: çevrimiçi
+bot_open_config: Evren ayarları
+bot_pattern_shift: Desen kaydırma
+bot_player: Oyuncu
+bot_points: Puan
+bot_profile: Profil
+bot_profile_default_locked: Varsayılan profiller silinemez.
+bot_profile_in_use: Bu profil hâlâ botlar tarafından kullanılıyor.
+bot_profile_missing: Profil bulunamadı.
+bot_provider: Sağlayıcı
+bot_providers_info: 'LLM isteğe bağlıdır ve yalnızca botların insani yönü için kullanılır: takma adlar, kişilikler, gezegen isimleri ve sohbet (mesajlara yanıtlar, ittifaklar, arkadaşlar). Oyun kararları her zaman yerel olarak verilir. Aktif sağlayıcı yoksa yerleşik isim üreticileri ve hazır mesajlar kullanılır. Kayıtlı anahtarı korumak için anahtar alanını boş bırak.'
+bot_randomness: Rastgelelik
+bot_reply_chance: Yanıt şansı (özel mesajlar)
+bot_restore_defaults: Varsayılanları geri yükle
+bot_saved: Kaydedildi.
+bot_session: Oturum
+bot_session_minutes: Oturum süresi
+bot_skill: Beceri
+bot_skill_gain: Günlük artış
+bot_skill_max: Maks.
+bot_skill_start: Başlangıç
+bot_spawn: Bot oluştur
+bot_spawned: '%d bot oluşturuldu.'
+bot_summary: Özet
+bot_summary_actions: işlem
+bot_summary_mistakes: hata
+bot_summary_session: oturum
+bot_tab_profiles: Profiller
+bot_tab_providers: LLM sağlayıcıları
+bot_test: Bağlantıyı test et
+bot_testing: Test ediliyor...
+bot_time: Zaman
+bot_universe: Evren
+bot_w_defense: Savunma
+bot_w_energy: Enerji
+bot_w_facilities: Tesisler
+bot_w_mines: Madenler
+bot_w_research: Araştırma
+bot_w_ships: Gemiler
+bot_w_storage: Depolar
+bot_weights: Ağırlıklar
+adm_nav_bots: Botlar
+adm_tab_bot_providers: LLM sağlayıcıları
+adm_tab_bot_profiles: Profiller
+adm_tab_bot_list: Botlar
+se_bots: Botlar
+se_bots_enabled: Botları etkinleştir
+se_bots_enabled_info: Sunucu tarafı botların bu evrende oynamasına izin verir. Cronjob tarafından dakikada bir işlenirler.
+se_bots_llm_daily_limit: Bot ve gün başına LLM çağrısı
+se_bots_llm_daily_limit_info: Bir botun günde yapabileceği azami LLM çağrısı sayısı. Sonrasında yerel yedekler kullanılır.
+se_bots_llm_enabled: İsimler ve sohbet için LLM kullan
+se_bots_llm_enabled_info: Aktif sağlayıcıyla LLM tarafından üretilen takma adları, kişilikleri, gezegen isimlerini ve sohbeti (mesajlar, ittifaklar, arkadaşlar) etkinleştirir. Oyun kararları her zaman yerel kalır.
+se_bots_max_count: Azami bot sayısı
+se_bots_max_count_info: Bu evrende oluşturulan botlar için üst sınır.
+se_bots_ticks_per_run: Cron çalıştırması başına bot
+se_bots_ticks_per_run_info: Bir cron çalıştırmasında işlenen azami bot sayısı.
+se_bots_raids_enabled: Botlar diğer oyunculara saldırır
+se_bots_raids_enabled_info: Botların yakındaki oyuncuları ve diğer botları, oyuncularla aynı kurallarla (bash sınırı, koruma, tatil modu) keşfetmesine, casusluk yapmasına ve saldırmasına izin verir. Varsayılan olarak kapalı.
+adm_info_summary_fail: '%s kontrol başarısız, %s uyarı. Önce başarısız kontrolleri düzelt.'
+adm_info_summary_warn: Başarısız kontrol yok, ancak %s uyarıya bakılmalı.
+adm_info_summary_ok: Tüm sağlık kontrolleri geçti.
+adm_info_health: Sağlık kontrolleri
+adm_info_status_ok: Tamam
+adm_info_status_warn: Uyarı
+adm_info_status_fail: Başarısız
+adm_info_status_info: Bilgi
+adm_info_chk_php: PHP sürümü (8.4 veya daha yeni)
+adm_info_chk_php_hint: Oyun PHP 8.4 veya daha yenisini gerektirir.
+adm_info_chk_ext_required: Gerekli PHP eklentileri
+adm_info_chk_ext_required_hint: Eksik eklentileri kur, oyun onlar olmadan çalışmaz.
+adm_info_chk_ext_optional: İsteğe bağlı PHP eklentileri
+adm_info_chk_ext_optional_hint: Gerekli değildir ancak daha hızlı veya ek özellikleri etkinleştirir (eklenti listesine bak).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache kapalı. Canlı ortamda etkinleştir, PHP'yi çok hızlandırır.
+adm_info_chk_environment: Ortam (APP_ENV / hata ayıklama)
+adm_info_chk_environment_hint: Herkese açık bir sunucuda APP_ENV=prod ve hata ayıklama kapalı olarak çalıştır.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: Sayfalardaki hata çıktısı iç bilgileri sızdırabilir. Herkese açık sunucularda display_errors=Off ayarla.
+adm_info_chk_writable: Yazılabilir dizinler
+adm_info_chk_writable_hint: Web sunucusu kullanıcısı bu dizinlere yazabilmelidir (önbellekler, günlükler, oturumlar, yüklemeler).
+adm_info_chk_install_tool: Kurulum aracı
+adm_info_chk_install_tool_hint: var/ENABLE_INSTALL_TOOL mevcut. Kurulum yapmıyorsan sil.
+adm_info_chk_migrations: Veritabanı geçişleri
+adm_info_chk_migrations_hint: Bekleyen geçişler var. Sonraki oyun isteğinde uygulanırlar; beklemede kalırlarsa günlüğe bak.
+adm_info_chk_battle_engine: Savaş motoru
+adm_info_chk_battle_engine_hint: Rust motoru kullanılamıyor (bin/battlerust, bin/libbattlerust.so, proc_open). Savaşlar daha yavaş PHP motorunda çalışır.
+adm_info_chk_cron: Cronjob'lar
+adm_info_chk_cron_hint: Cron takılmış görünüyor veya çalışmıyor. bin/console app:cron:run komutunun dakikada bir çalıştığını kontrol et ve takılan işleri Cronjob'lar altında aç.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Bu istek HTTPS kullanmadı. Parolalar ve oturumlar şifresiz iletilir.
+adm_info_chk_mail: E-posta gönderimi
+adm_info_chk_mail_hint: E-posta devre dışı veya eksik (etkinleştirme ve parola sıfırlama e-postaları ulaşmaz). Ayarlara bak.
+adm_info_chk_session: Oturum işleyicisi
+adm_info_chk_session_hint: Oturum depolamasını kontrol et.
+adm_info_os: İşletim sistemi
+adm_info_hostname: Ana makine adı
+adm_info_max_exec: Azami çalışma süresi
+adm_info_upload_max: Yükleme sınırı (upload_max_filesize)
+adm_info_post_max: POST sınırı (post_max_size)
+adm_info_realpath: Realpath önbelleği
+adm_info_peak: Bu isteğin azami bellek kullanımı
+adm_info_cpu: CPU çekirdekleri
+adm_info_load: Yük ortalaması (1 / 5 / 15 dk)
+adm_info_uptime: Sistem çalışma süresi
+adm_info_disk: Disk (proje)
+adm_info_memory: Sistem belleği
+adm_info_free_of: '%s boş / %s (%%%s kullanıldı)'
+adm_info_opcache_line: '%s / %s kullanıldı, isabet oranı %%%s, %s betik önbellekte'
+adm_info_extensions: PHP eklentileri
+adm_info_extensions_hint: Amacını görmek için üzerine gel. Kırmızı = gerekli ve eksik, gri = isteğe bağlı ve eksik.
+adm_info_required: gerekli
+adm_info_ext_pdo_mysql: Veritabanı erişimi (PDO MySQL)
+adm_info_ext_intl: Sayı, tarih ve dil biçimlendirme
+adm_info_ext_mbstring: Çok baytlı dize işleme
+adm_info_ext_gd: Görsel işleme (avatarlar, haber görselleri)
+adm_info_ext_curl: HTTP istekleri (Discord, harici API'ler)
+adm_info_ext_json: JSON kodlama ve çözme
+adm_info_ext_ctype: Karakter türü kontrolleri
+adm_info_ext_opcache: Derlenmiş PHP kodunu önbelleğe alır (hız)
+adm_info_ext_ffi: Yabancı işlev arayüzü (yerel kod)
+adm_info_ext_ds: Hızlı veri yapıları
+adm_info_ext_redis: Redis oturumları ve önbelleği
+adm_info_ext_imap: Posta kutusu erişimi (IMAP)
+adm_info_database: Veritabanı
+adm_info_db_schema: Şema
+adm_info_db_size: Boyut
+adm_info_tables: tablo
+adm_info_pending: Bekleyen geçişler
+adm_info_db_uptime: MySQL çalışma süresi
+adm_info_threads: Bağlı iş parçacıkları
+adm_info_max: maks.
+adm_info_qps: Saniyedeki sorgu (ortalama)
+adm_info_queries: sorgu
+adm_info_slow: Yavaş sorgular
+adm_info_buffer_pool: InnoDB arabellek havuzu
+adm_info_top_tables: En büyük tablolar
+adm_info_table: Tablo
+adm_info_rows: satır
+adm_info_data: Veri
+adm_info_index: Dizin
+adm_info_game_stats: Oyun istatistikleri
+adm_info_universe: Evren
+adm_info_players: Oyuncular
+adm_info_accounts: Hesaplar
+adm_info_online: Çevrimiçi
+adm_info_planets: Gezegenler
+adm_info_moons: Aylar
+adm_info_fleets: Uçuştaki filolar
+adm_info_acs: ACS grupları
+adm_info_alliances: İttifaklar
+adm_info_messages: Mesajlar
+adm_info_unread: okunmamış
+adm_info_activity: Etkinlik ve kayıtlar
+adm_info_active: Aktif oyuncular
+adm_info_registrations: Yeni kayıtlar
+adm_info_banned: Yasaklı oyuncular
+adm_info_vacation: Tatil modunda
+adm_info_bots: Bot oyuncular
+adm_info_points_avg: Ortalama puan
+adm_info_points_top: En yüksek puan
+adm_info_last_stats: Son istatistik güncellemesi
+adm_info_market: Açık pazar teklifleri
+adm_info_reports: Kayıtlı savaş raporları
+adm_info_debris: İçeriği olan enkaz alanları (metal / kristal)
+adm_info_resources: Gezegenlerde depolanan kaynaklar
+adm_info_fleets_by_mission: Göreve göre filolar
+adm_info_mission: Görev
+adm_info_no_fleets: Uçuşta filo yok.
+adm_info_reg_chart: Kayıtlar, son 30 gün
+adm_info_no_registrations: Son 30 günde kayıt yok.
+adm_info_all_universes: Tüm evrenler
+adm_info_total: Toplam
+adm_info_logs: Günlükler ve önbellekler
+adm_info_game_log: Oyun günlüğü
+adm_info_errors_24h: Hatalar, son 24 saat
+adm_info_warnings_24h: Uyarılar, son 24 saat
+adm_info_scanned: Taranan (dosya sonu)
+adm_info_symfony_log: Symfony günlüğü
+adm_info_lines: satır
+adm_info_files: dosya
+adm_info_last_errors: Son hatalar
+adm_info_no_errors: Günlüğün taranan kısmında hata yok.
+adm_info_time: Sunucu saati
+adm_info_timezone_of: Kaynak
+adm_info_zone: Saat dilimi
+adm_info_tz_php: PHP
+adm_info_tz_config: Oyun yapılandırması
+adm_info_tz_user: Hesabın
+adm_login_throttled: Çok fazla deneme. Lütfen birkaç dakika sonra tekrar dene.
+se_community_links: Topluluk bağlantıları
+se_discord_url: Discord davet URL'si
+se_discord_url_info: Discord sunucunuzun davet bağlantısı (https://...). Menüde, giriş sayfasında, e-postalarda ve metinlerde gösterilir. Boş = gizli.
+se_discord_widget_guild: Discord sunucu kimliği (çevrimiçi widget'ı)
+se_discord_widget_guild_info: Discord sunucunuzun kimliği (17-20 rakam; Sunucu Ayarları → Widget bölümünde "Sunucu Widget'ını Etkinleştir" açık olmalı). Başlangıç sayfasında her 5 dakikada bir yenilenen, çevrimiçi sayısını gösteren bir kutu gösterir. Boş bırakılırsa gizlenir.
+se_wiki_url: Wiki URL'si
+se_wiki_url_info: Harici bir wikinin taban URL'si, sonda eğik çizgi olmadan (https://...). SSS, eğitim ve kurallardaki wiki bağlantıları bundan oluşturulur. Boş = gizli.
+se_donate_url: Bağış URL'si
+se_donate_url_info: Bağış bağlantısı (https://...), menüde gösterilir. Boş = gizli.
+se_userscripts_url: Userscript URL'si
+se_userscripts_url_info: Oyununuz için userscript'leri anlatan sayfa (https://...), ayarlarda bağlanır. Boş = gizli.
+se_bots_alliances_enabled: Botlar ittifak kurar
+se_bots_alliances_enabled_info: 'Botlar kendi ittifaklarını kurar ve ara sıra başkalarına katılır. Kapalı: botlar yalnız kurt olarak kalır, hiçbir yere başvurmaz ve üye oldukları ittifaklardan ayrılır (bir botun kurduğu ittifaklar kalır).'
+se_bots_join_human_alliances: Botlar oyuncu ittifaklarına katılabilir
+se_bots_join_human_alliances_info: 'Botlar insan oyuncuların kurduğu ittifaklara da başvurabilir. Kapalı: botlar yalnızca botların kurduğu ittifaklara katılır ve oyuncu ittifaklarından ayrılır.'
+se_bot_reply_delay_hours: Yanıt gecikmesi (saat)
+se_bot_reply_delay_hours_info: Bir oyuncunun yanıtsız en eski özel mesajı, botların o oyuncunun bekleyen tüm mesajlarına tek yanıtta cevap vermeden önce kaç saat bekleyeceği. Aynı zamanda aynı oyuncuya bot tarafından başlatılan iki mesaj (saldırı tepkileri, baskın alaylarında) arasındaki en kısa aralıktır. 0 = gecikme yok.
+se_bot_chatter: Botlar sohbet etsin
+se_bot_chatter_info: 'Açık: botlar özel mesajlara yanıt verir. Kapalı: mesajlar yine okunur ve sayılır, ama yalnızca savaş tepkileri (kendilerine yazan bir oyuncuya saldırıldığında veya baskın yapıldığında) gönderilir. Botlar asla ilk yazmaz.'
+mu_hall_of_fame: Onur Salonu
+hof_head: Onur Salonu (evren)
+hof_view: Herkese açık sayfayı görüntüle
+hof_status: Durum
+hof_has_data: Veri mevcut
+hof_entries: Sıralama kayıtları
+hof_updated: Son güncelleme
+hof_no_data: Bu evren için Onur Salonu verisi yok.
+hof_export: JSON dışa aktar
+hof_clear: Veriyi temizle
+hof_confirm_clear: Bu evrenin Onur Salonu verileri silinsin mi?
+hof_import: JSON içe aktar
+hof_file: JSON dosyası
+hof_import_help: 'Biçim: hall-of-fame, sürüm 1 (en fazla 1 MB). Bu evrenin mevcut verilerinin yerine geçer.'
+hof_confirm_import: Bu evrenin mevcut Onur Salonu verileri değiştirilsin mi?
+hof_imported: Onur Salonu içe aktarıldı.
+hof_cleared: Onur Salonu verileri silindi.
+hof_error_nofile: Geçerli bir dosya yüklenmedi.
+hof_error_invalid: 'İçe aktarma reddedildi:'
+se_bash_war_exempt: Savaşlar bash limitini kaldırır
+se_bash_war_exempt_info: 'Savaştaki ittifaklar arasındaki saldırılar (kabul edilmiş, bir günden eski) bash limitlerine dahil edilmez. Kapalı: savaş saldırıları diğerleri gibi sayılır.'
+se_honor_pair_cap: Oyuncu çifti başına onurlu savaş (24 sa)
+se_honor_pair_cap_info: Aynı iki oyuncu arasında (her iki yönde) 24 saat içinde kaç onurlu savaşın onur kazandırdığı. Sonraki savaşlar nötr sayılır. 0 = sınırsız.
+se_market_push_tolerance: Pazar itme toleransı
+se_market_push_tolerance_info: Bir pazar takasının itme sayılması öncesinde kabul edilen değer farkı yüzdesi (0-90). Varsayılan 30.
+se_transport_push_check: Nakliye itme koruması
+se_transport_push_check_info: Son 7 günde bir oyuncuya gönderilen değer, ondan geri gelen değeri aşağıdaki limitten fazla geçerse, o oyuncuya yapılan nakliyeleri, bekletmeleri ve transferleri (kaynak ve gemiler) reddeder.
+se_transport_push_limit: Nakliye itme limiti
+se_transport_push_limit_info: Korumanın devreye gireceği, deuterium birimi cinsinden yük değeri (pazar oranlarıyla). 0 = koruma kapalı.
+se_depot_cost_real_consumption: Depo maliyeti gerçek tüketime göre
+se_depot_cost_real_consumption_info: İttifak deposu, temel tüketim / 10 yerine, filonun gerçek yakıt tüketimini (sahibinin itki ve yakıt teknolojileriyle) / 10 saat başına üzerinden alır.
+abuse_menu: Kötüye kullanım raporu
+abuse_days: Gün
+abuse_apply: Uygula
+abuse_weights: 'Değer ağırlıkları metal : kristal : deuterium'
+abuse_none: Bu aralıkta hiçbir şey bulunamadı.
+abuse_from: Başlangıç
+abuse_to: Bitiş
+abuse_count: Sayı
+abuse_sent: Gönderilen
+abuse_back: Geri dönen
+abuse_net: Net değer
+abuse_linked: Bağlantılı
+abuse_last: Son
+abuse_link_ip: aynı IP
+abuse_link_multi: multi grubu
+abuse_link_multi_known: multi grubu (bilinen)
+abuse_link_subnet: aynı alt ağ (daha zayıf)
+abuse_thresholds: 'Eşikler: bir transfer çifti, tek yönde en az %s metal biriminden ve geri dönen en fazla %s ile listelenir; pazar çiftleri en az %s takas için, %s farkın üzerinde işaretlenir. Satır yoksa bu sınırlara hiçbir şey ulaşmamıştır (ya da günlükler boştur), hiçbir şey olmadığı anlamına gelmez.'
+abuse_transfers: Tek yönlü nakliyeler ve bekletmeler
+abuse_transfers_info: İki oyuncu arasındaki nakliyeler, bekletmeler ve gemi transferleri (geri çağrılmamış; gemiler yapım maliyetiyle sayılır); tek yönde yükü en az %s metal birimi değerindeyken geri dönen değer en fazla %s. Net değere göre sıralı; ağırlıklar saklanan pazar oranlarıdır.
+abuse_trades: Tekrarlanan pazar takasları
+abuse_trades_info: Aynı iki oyuncu arasındaki kaynak takasları, en az %s kez. Oran = daha fazla veren tarafın verdiği değerin diğer tarafa bölünmesi (1.00 = pazar referansında); %s farkın üzerinde çift işaretlenir.
+abuse_giver: Daha çok verdi
+abuse_receiver: Daha çok aldı
+abuse_ratio: Oran
+abuse_outlier: aykırı
+abuse_protections: Verilen yeniden inşa korumaları
+abuse_protections_info: Aralıkta yeniden inşa koruması alan oyuncular. Rakipler, o savaşın savaş raporunun diğer tarafıdır; ganimet, filolarının o savaşta kazandığı değerdir (enkaz ve yok edilen değer saklanmaz).
+abuse_protected: Korunan oyuncu
+abuse_granted: Verildi
+abuse_opponents: Rakipler
+abuse_loot: Rakip ganimeti
+abuse_report: Rapor
+abuse_recalls: Varıştan anında veya sonra geri çağrılanlar
+abuse_recalls_info: Varış süresine ulaşıldıktan sonra geri çağrılan saldırı, ACS ve yok etme filoları (varış sonrası geri çağırma örüntüsü).
+abuse_mission: Görev
+abuse_arrival: Varış
+abuse_recalled: Geri çağrıldı
+abuse_late: Varıştan sonra
+abuse_fought: savaştı
+abuse_mission_1: Saldırı
+abuse_mission_2: ACS saldırısı
+abuse_mission_9: Yok etme
+abuse_missiles_skipped: 'Roket fırlatmaları ile silo içerikleri bu raporun parçası değildir: tablolarda karşılaştırılacak silo geçmişi yoktur.'
+abuse_link_device: aynı cihaz
+abuse_graph: Değer akışı kümeleri
+abuse_graph_info: 'Son %s günde (sabit aralık) değer akışıyla bağlantılı oyuncular: nakliyeler, bekletmeler, gemi transferleri (yapım maliyetiyle), pazar takasları (her iki taraf) ve saldırı ganimeti; iki yönde toplanır. Yalnızca en az %s metal birimi ve %s akış taşıyan çiftler bağlanır; iki veya daha fazla bağlı oyuncudan oluşan gruplar listelenir (değere göre ilk %s). Net = kümenin en tek yönlü çiftinin değeri (toplam değerindeki payı). Bağlantı işaretleri, üyelerin başka bir üyeyle IP, cihaz veya multi grubunu paylaşıp paylaşmadığını gösterir. Satırlar kaynak başına sınırlı okunur.'
+abuse_members: Üyeler
+abuse_value: Toplam değer
+abuse_flows: Akışlar
+abuse_top_edge: En tek yönlü çift
+abuse_activity: Filo gönderme etkinliği (24 sa)
+abuse_activity_info: Son 24 saatte en çok filo gönderen hesaplar; zirve = en yoğun saat dilimindeki gönderim sayısı. Sürekli yüksek zirveler otomatik oynamaya işaret edebilir.
+abuse_player: Oyuncu
+abuse_launches: Gönderimler
+abuse_peak: Zirve / saat
+adm_dash_unprotected: 'Bu evrende kötüye kullanım korumaları kapalı:'
+adm_dash_unprotected_push: Nakliye, bekletme ve transfer için itme koruması kapalı (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: Oyuncu çifti başına onurlu savaş limiti 0 (aynı iki oyuncu arasında sınırsız onur).
+adm_dash_unprotected_bash: İlan edilmiş savaşlar bash limitini kaldırıyor (bash_war_exempt).
+adm_dash_unprotected_depot: Bekletme depoları ucuz temel tüketim üzerinden ücretlendiriliyor (depot_cost_real_consumption kapalı).
+adm_dash_unprotected_market: Pazar itme toleransı %10'un üzerinde (market_push_tolerance).
+modul_57: Oy siteleri
+adm_nav_voting: Oy siteleri
+vt_sites: Oy siteleri
+vt_add: Site ekle
+vt_create_head: Yeni oy sitesi
+vt_edit_head: Oy sitesini düzenle
+vt_back: Geri
+vt_name: Ad
+vt_vote_url: Oy URL'si
+vt_vote_url_help: Oyuncuların yönlendirildiği bağlantı. {token} (bu oyun tek kullanımlık jetonu) ve {userId} yerine konur.
+vt_image_url: Görsel URL'si (isteğe bağlı)
+vt_image_url_help: Oyuncu sayfasında siteyin yanında gösterilen afiş veya logo (https).
+vt_cooldown: Bekleme süresi (saat)
+vt_cooldown_help: Bu süre aralığında oyuncu ve site başına bir ödül, son ödülden itibaren sayılır.
+vt_reward: Ödül
+vt_res_901: Metal
+vt_res_902: Kristal
+vt_res_903: Deuterium
+vt_verification: Doğrulama
+vt_verify_none: Yok (tıklamada ödül)
+vt_verify_postback: Postback (sitenin geri çağrısında ödül)
+vt_verification_help: Doğrulama olmadan ödül, oyuncu oy düğmesine tıkladığında verilir (yalnızca bekleme süresi). Postback ile site, geri çağrı URL'sini çağırmalıdır.
+vt_sort: Sıralama
+vt_active: Aktif
+vt_enabled: Aktif
+vt_disabled: Pasif
+vt_enable: Etkinleştir
+vt_disable: Devre dışı bırak
+vt_delete: Siteyi sil
+vt_renew_secret: Yeni gizli anahtar oluştur
+vt_renew_secret_help: 'Eski postback URL''sini geçersiz kılar: oy sitesinde güncelle.'
+vt_postback: Postback
+vt_postback_url: Geri çağrı URL'si
+vt_secret: Gizli anahtar
+vt_postback_help: Bu URL'yi oy sitesinde callback/postback olarak gir. {token} yerine, sitenin oy URL'sinde aldığı değer için kullandığı makroyu yaz. GET ve POST kabul edilir; gizli anahtar ayrıca X-Vote-Secret başlığıyla da gönderilebilir.
+vt_saved: Kaydedildi.
+vt_deleted: Oy sitesi silindi.
+vt_empty: Henüz oy sitesi yok.
+vt_confirm_delete: '"%s" oy sitesi ve günlüğü silinsin mi?'
+vt_module_off: '"Oy siteleri" modülü kapalı; oyuncular oy sayfasını görmüyor.'
+vt_error_name: Ad zorunludur.
+vt_error_vote_url: Oy URL'si geçerli bir http(s) adresi olmalıdır.
+vt_error_image_url: Görsel URL'si geçerli bir http(s) adresi olmalıdır.
+vt_error_reward: Ödül miktarları 0 ile 1.000.000.000 arasında olmalıdır.
+vt_clicks: Tıklamalar
+vt_verified: Doğrulanan
+vt_rewarded: Ödüllendirilen
+vt_log: Son oylar
+vt_log_time: Zaman
+vt_log_player: Oyuncu
+vt_log_status: Durum
+vt_log_ip: IP
+vt_log_empty: Henüz oy yok.
+vt_status_rewarded: Ödüllendirildi
+vt_status_verified: Doğrulandı, ödül yok
+vt_status_pending: Tıklandı

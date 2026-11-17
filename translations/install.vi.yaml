@@ -1,0 +1,201 @@
+back: Quay lại
+continue: Tiếp tục
+continueUpgrade: Nâng cấp
+install_desc: 'Để bật công cụ cài đặt, hãy tạo tệp "var/ENABLE_INSTALL_TOOL".<br> Tên tệp phân biệt chữ hoa chữ thường và không có phần mở rộng.<br> Tệp có thể để trống.
+
+  Tệp sẽ tự động bị xóa khi cài đặt xong, hoặc khi đã tồn tại quá một giờ.'
+install_title: Công cụ cài đặt đang bị khóa
+intro_install: Cài đặt
+intro_lang: Ngôn ngữ
+intro_text: 'Br0Game là trò chơi chiến lược không gian mã nguồn mở chạy trên trình duyệt: xây dựng hành tinh, nghiên cứu, điều hạm đội và giao chiến với hàng trăm người chơi cùng lúc.<br><br>Trình hướng dẫn này thiết lập một bản cài đặt mới theo từng bước: kiểm tra máy chủ, kết nối và tạo cơ sở dữ liệu, tạo các bảng, đặt tên cho trò chơi và tạo tài khoản quản trị viên.'
+intro_upgrade_head: Bạn đã cài Br0Game rồi?
+intro_upgrade_text: <p>Đã cài Br0Game và chỉ muốn cập nhật?</p><p>Bạn có thể cập nhật cơ sở dữ liệu hiện có chỉ với vài cú nhấp chuột tại đây!</p>
+intro_welcome: Chào mừng đến với Br0Game!
+licence_accept: Bạn có chấp nhận các điều khoản giấy phép không? Bạn chỉ có thể cài đặt phần mềm nếu chấp nhận.
+licence_desc: Vui lòng đọc các điều khoản giấy phép bên dưới. Dùng thanh cuộn để xem toàn bộ văn bản.
+licence_head: Điều khoản giấy phép
+licence_need_accept: Bạn phải chấp nhận điều khoản giấy phép để tiếp tục cài đặt.
+login: Đăng nhập
+menu_install: Cài đặt
+menu_upgrade: Nâng cấp
+reg_dir: Thư mục &raquo;%s&laquo; có ghi được không?
+reg_file: Tệp &raquo;%s&laquo; có ghi được không?
+reg_not_found: Không tìm thấy
+reg_not_writable: Không ghi được
+reg_writable: Ghi được
+req_desc: Trước khi tiếp tục cài đặt, Br0Game sẽ kiểm tra cấu hình máy chủ và các tệp để đảm bảo có thể cài đặt và sử dụng. Hãy đọc kỹ kết quả và đừng tiếp tục cho đến khi mọi kiểm tra bắt buộc đều đạt.
+sql_close_reason: 'Đang thiết lập vũ trụ.
+
+  Vui lòng đợi.'
+sql_welcome: Chào mừng đến với Br0Game v
+step1_head: Cấu hình kết nối cơ sở dữ liệu
+step1_mysql_dbname: Tên cơ sở dữ liệu
+step1_mysql_dbpass: Mật khẩu cơ sở dữ liệu
+step1_mysql_dbuser: Tên người dùng cơ sở dữ liệu
+step1_mysql_migrationpass: Mật khẩu migration cơ sở dữ liệu
+step1_mysql_migrationpass_info: Bạn sẽ được yêu cầu nhập mật khẩu này khi cơ sở dữ liệu cần thay đổi hoặc nâng cấp cho phiên bản trò chơi mới.
+step1_mysql_port: Cổng cơ sở dữ liệu
+step1_mysql_prefix: 'Tiền tố bảng:'
+step2_conf_op_fail: config.php không ghi được!
+step2_config_exists: config.php đã tồn tại!
+step2_db_con_fail: Không thể kết nối cơ sở dữ liệu. Xem chi tiết lỗi bên dưới.
+step2_db_done: Kết nối cơ sở dữ liệu thành công!
+step2_db_no_dbname: Chưa chỉ định tên cơ sở dữ liệu.
+step2_db_too_long: Tiền tố bảng không được dài quá 36 ký tự.
+step2_prefix_invalid: Tiền tố bảng chỉ được chứa chữ cái, chữ số và dấu gạch dưới.
+step3_db_error: 'Không tạo được các bảng cơ sở dữ liệu:'
+step3_head: Tạo bảng cơ sở dữ liệu
+step4_admin_mail: 'Email liên hệ:'
+step4_admin_name: 'Tên người dùng quản trị viên:'
+step4_admin_name_desc: Nhập tên người dùng từ 3 đến 20 ký tự.
+step4_admin_pass: 'Mật khẩu quản trị viên:'
+step4_desc: Trình cài đặt sẽ tạo tài khoản quản trị viên. Hãy nhập tên người dùng, địa chỉ email và mật khẩu.
+step4_head: Tạo quản trị viên
+step6_desc: Bạn đã cài đặt Br0Game thành công.
+step6_head: Chúc mừng!
+title_install: Trình cài đặt
+upgrade_available: Có bản cập nhật cơ sở dữ liệu. Cơ sở dữ liệu đang ở revision %s và có thể được cập nhật lên revision %s.
+upgrade_back: Quay lại
+upgrade_intro_welcome: Chào mừng đến với trình cập nhật cơ sở dữ liệu!
+upgrade_message_admin: 'Quản trị viên: Để cài đặt bản nâng cấp cơ sở dữ liệu, hãy nhập mật khẩu migration rồi tiếp tục.'
+upgrade_message_user: 'Người chơi: Vui lòng đợi một chút, sau đó thử nhấn "Quay lại trò chơi".'
+upgrade_notavailable: Revision %s đã là bản mới nhất của cơ sở dữ liệu.
+upgrade_nothingtodo: Không cần thao tác. Cơ sở dữ liệu đã ở revision %s.
+upgrade_return: Quay lại trò chơi
+upgrade_success: Cập nhật cơ sở dữ liệu thành công. Cơ sở dữ liệu hiện ở revision %s.
+upgrade_title: Cần nâng cấp cơ sở dữ liệu!
+ins_step_licence: Giấy phép
+ins_step_requirements: Yêu cầu
+ins_step_database: Cơ sở dữ liệu
+ins_step_build: Bảng
+ins_step_game: Trò chơi
+ins_step_admin: Quản trị viên
+ins_step_done: Hoàn tất
+ins_recheck: Kiểm tra lại
+ins_db_connection: Kết nối
+ins_db_createdb: Tạo cơ sở dữ liệu nếu chưa tồn tại
+ins_db_connect: Kết nối & tạo
+ins_db_no_host: Chưa chỉ định máy chủ cơ sở dữ liệu.
+ins_db_name_invalid: Tên cơ sở dữ liệu chỉ được chứa chữ cái, chữ số, _ và - (tối đa 64 ký tự).
+ins_check_input: Đã kiểm tra dữ liệu nhập
+ins_check_connect: Đã kết nối tới máy chủ cơ sở dữ liệu
+ins_check_database: Cơ sở dữ liệu »%s«
+ins_db_missing: chưa tồn tại (đánh dấu "tạo cơ sở dữ liệu" hoặc tự tạo)
+ins_db_create_fail: 'không thể tạo:'
+ins_db_created: đã tạo
+ins_db_exists: đã tồn tại
+ins_check_tables: Chưa có bảng nào với tiền tố »%s«
+ins_tables_exist: Đã có %d bảng với tiền tố này. Hãy chọn tiền tố hoặc cơ sở dữ liệu khác.
+ins_check_write: Đã ghi %s
+ins_build_desc: Trình cài đặt sẽ tạo các bảng của trò chơi và điền giá trị mặc định, từng bước một.
+ins_task_tables: Tạo bảng
+ins_task_migrations: Đăng ký phiên bản cơ sở dữ liệu
+ins_task_config: Ghi cài đặt trò chơi
+ins_task_universe: Thiết lập vũ trụ 1
+ins_build_start: Xây dựng cơ sở dữ liệu
+ins_back_database: Quay lại cài đặt cơ sở dữ liệu
+ins_game_name: Tên trò chơi
+ins_game_name_info: 'Hiển thị ở tiêu đề, thanh đầu trang và email. Mặc định: Br0Game.'
+ins_default_theme: Giao diện mặc định
+ins_default_theme_info: Giao diện cho tài khoản mới và khách; người chơi có thể đổi trong cài đặt.
+ins_game_name_invalid: Nhập tên trò chơi từ 1 đến 64 ký tự.
+ins_theme_invalid: Giao diện không tồn tại.
+ins_to_start: Đến trang chủ
+ins_credits_head: Đứng trên vai những người khổng lồ
+ins_credits_text: 'Br0Game tiếp nối một dòng dài các trò chơi trình duyệt mã nguồn mở. Xin tri ân tất cả những ai đã xây dựng và giữ cho chúng sống trước chúng tôi:'
+ins_credits_thanks: Cảm ơn cộng đồng pr0game, trò chơi đã làm nền tảng cho dự án này.
+ins_licence_note: Phần mềm tự do theo GNU AGPL v3
+ins_task_images: Tối ưu hình ảnh (WebP)
+ins_db_help: Br0Game lưu toàn bộ dữ liệu trong cơ sở dữ liệu MySQL hoặc MariaDB. Bạn lấy các giá trị bên dưới từ bảng điều khiển hosting (tìm "Databases" hoặc "MySQL") hoặc từ người thiết lập máy chủ. Nếu tự cài MySQL, giá trị mặc định thường dùng được.
+ins_db_host: Máy chủ cơ sở dữ liệu
+ins_db_host_info: Hầu như luôn là "localhost". Một số hosting cho tên dạng "db1.example.com".
+ins_db_name_info: Tên cơ sở dữ liệu của trò chơi. Hãy tạo trước trong bảng điều khiển hosting, hoặc để trình cài đặt tạo (xem khung bên dưới).
+ins_db_advanced: Nâng cao (cổng, tiền tố bảng, mật khẩu migration) - thường không cần
+ins_db_prefix_info: Được thêm vào trước mọi tên bảng. Chỉ đổi khi dùng chung cơ sở dữ liệu với phần mềm khác.
+ins_db_migrationpw_info: Bảo vệ trang cập nhật (install/?mode=upgrade) cho các bản cập nhật trò chơi sau này. Để trống thì trình cài đặt sẽ tạo mật khẩu mạnh và hiển thị một lần ở trang cuối.
+ins_db_migrationpw_placeholder: được tạo tự động
+ins_migrationpw_invalid: Mật khẩu migration không được chứa dấu nháy, dấu gạch chéo ngược, $ hoặc ký tự xuống dòng.
+ins_err_technical: chi tiết kỹ thuật
+ins_err_access_denied: Máy chủ cơ sở dữ liệu từ chối tên người dùng hoặc mật khẩu. Hãy kiểm tra lại cả hai trong bảng điều khiển hosting (có phân biệt chữ hoa chữ thường).
+ins_err_unknown_db: Cơ sở dữ liệu này không tồn tại trên máy chủ. Hãy kiểm tra tên, hoặc đánh dấu "Tạo cơ sở dữ liệu" bên dưới.
+ins_err_no_privilege: Người dùng cơ sở dữ liệu này không có quyền sử dụng cơ sở dữ liệu đó. Hãy cấp toàn bộ quyền cho người dùng trong bảng điều khiển hosting.
+ins_err_no_create: Người dùng này không có quyền tạo cơ sở dữ liệu. Hãy tạo một cơ sở dữ liệu trống trong bảng điều khiển hosting và bỏ đánh dấu "Tạo cơ sở dữ liệu".
+ins_err_socket: Không tìm thấy socket của máy chủ cơ sở dữ liệu. Hãy thử máy chủ "127.0.0.1" thay vì "localhost".
+ins_err_unreachable: Không thể kết nối tới máy chủ cơ sở dữ liệu "%s". Hãy kiểm tra tên máy chủ, cổng và xem máy chủ cơ sở dữ liệu có đang chạy không. Nhiều hosting chỉ cho phép kết nối từ chính máy chủ web của họ, nên "localhost" thường là đúng.
+ins_game_desc: Đặt tên cho trò chơi và chọn cách vận hành. Mọi thứ ở đây đều có thể đổi sau này trong trang quản trị (Admin - Cài đặt).
+ins_group_general: Chung
+ins_uni_name: Tên vũ trụ
+ins_uni_name_info: Hiển thị cho người chơi khi họ chọn vũ trụ. Để trống = "Vũ trụ 1".
+ins_uni_name_invalid: Tên vũ trụ chỉ được tối đa 60 ký tự.
+ins_language: Ngôn ngữ mặc định
+ins_language_info: Ngôn ngữ cho khách mới và tài khoản quản trị viên của bạn.
+ins_language_invalid: Ngôn ngữ không tồn tại.
+ins_timezone: Múi giờ
+ins_timezone_info: Được chọn sẵn theo máy chủ. Dùng để hiển thị giờ máy chủ.
+ins_timezone_invalid: Múi giờ không tồn tại.
+ins_group_speed: Tốc độ trò chơi
+ins_speed_info: Tốc độ xây dựng, nghiên cứu, đóng tàu, hạm đội và sản xuất. Cổ điển là nhịp độ gốc; các mức nhanh hơn phù hợp với cộng đồng nhỏ và ván ngắn.
+ins_speed_classic: Cổ điển
+ins_speed_classic_info: nhịp độ gốc, một ván kéo dài nhiều tháng
+ins_speed_fast: Nhanh
+ins_speed_fast_info: nhanh gấp khoảng ba lần, một ván kéo dài vài tuần
+ins_speed_blitz: Chớp nhoáng
+ins_speed_blitz_info: nhanh gấp tối đa mười lần, một ván kéo dài vài ngày
+ins_speed_detail: Xây dựng/nghiên cứu %bx, hạm đội %fx, tài nguyên %rx
+ins_speed_invalid: Mức tốc độ không tồn tại.
+ins_group_players: Người chơi
+ins_registration: Đăng ký
+ins_registration_open: Mở - bất kỳ ai cũng có thể đăng ký
+ins_registration_closed: Đóng - chỉ bạn có thể tạo tài khoản
+ins_registration_info: Chọn "đóng" trong lúc bạn còn đang thiết lập. Bạn có thể mở lại sau trong Admin - Cài đặt.
+ins_registration_invalid: Cài đặt đăng ký không tồn tại.
+ins_bots: Người chơi máy (bot)
+ins_bots_info: Từ 0 đến 50. Bot chơi như người thật với thói quen khác nhau, nên vũ trụ mới không bị trống. 0 = không có bot.
+ins_bots_invalid: Số lượng bot phải từ 0 đến 50.
+ins_mail: Gửi email (đăng ký, đặt lại mật khẩu)
+ins_mail_info: Mặc định tắt. Chỉ bật khi máy chủ có thể gửi thư; bạn có thể cấu hình SMTP sau trong Admin - Cài đặt.
+ins_admin_mail_info: Dùng để đặt lại mật khẩu và làm địa chỉ liên hệ.
+ins_admin_mail_invalid: Nhập một địa chỉ email hợp lệ.
+ins_admin_pass_confirm: Nhập lại mật khẩu
+ins_admin_pass_rules: Mật khẩu cần ít nhất %d ký tự (tối đa 64). Một câu ngắn vài từ vừa dễ nhớ vừa khó đoán.
+ins_admin_pass_short: Mật khẩu cần ít nhất %d ký tự.
+ins_admin_pass_long: Mật khẩu chỉ được tối đa 64 ký tự.
+ins_admin_pass_mismatch: Hai mật khẩu không khớp.
+ins_done_checklist: Danh sách kiểm tra của bạn
+ins_done_login: Đăng nhập vào trang quản trị.
+ins_done_login_info: 'Bạn đã đăng nhập với tên "%s". Lần sau hãy dùng:'
+ins_done_cron: Thiết lập cron job (bắt buộc).
+ins_done_cron_info: 'Không có nó, mọi thứ trong trò chơi sẽ không tiến triển (hạm đội, hàng đợi công trình, thống kê). Thêm dòng này vào crontab của người dùng máy chủ web (crontab -e) hoặc tạo cron job với nó trong bảng điều khiển hosting:'
+ins_done_locked: Công cụ cài đặt hiện đã bị khóa.
+ins_done_locked_info: Không ai có thể chạy lại trình hướng dẫn. Để cập nhật sau này, hãy làm theo phần nâng cấp trong tài liệu.
+ins_done_https: Hãy dùng HTTPS.
+ins_done_https_info: 'Bạn đang dùng HTTP thường: mật khẩu sẽ được truyền không mã hóa. Hãy cài chứng chỉ (ví dụ Let''s Encrypt) trước khi mời người chơi.'
+ins_done_https_ok: Trang này được phục vụ qua HTTPS - tốt.
+ins_done_settings: Đổi cài đặt sau.
+ins_done_settings_info: 'Admin - Cài đặt: tên trò chơi, tốc độ, đăng ký, email (SMTP), bot và nhiều mục khác.'
+ins_done_bots: Bot.
+ins_done_bots_info: Đã tạo %d bot. Chúng hoạt động khi cron job chạy. Quản lý chúng trong trang quản trị.
+ins_done_bots_failed: Đã tạo quản trị viên, nhưng không tạo được bot. Bạn có thể thêm sau trong trang quản trị.
+ins_done_migrationpw: Hãy ghi lại mật khẩu migration (chỉ hiển thị một lần).
+ins_done_migrationpw_info: Bạn cần nó để cập nhật trò chơi. Mật khẩu cũng được lưu trong config/game.php.
+ins_done_docs: 'Tài liệu:'
+ins_done_to_admin: Đến trang quản trị
+ins_step_legal: Pháp lý
+ins_legal_desc: Chọn nơi máy chủ đặt và cách các trang pháp lý cùng bảng cộng đồng bắt đầu. Bạn có thể đổi tất cả sau trong khu quản trị (Cài đặt, Trang).
+ins_group_privacy: Khu vực đặt máy chủ
+ins_privacy_info: Khu vực này quyết định chính sách bảo mật nào được dùng mặc định.
+ins_privacy_eu: EU / EEA - chính sách bảo mật theo GDPR
+ins_privacy_eu_info: Chọn khi máy chủ được đặt tại Liên minh châu Âu hoặc Khu vực kinh tế châu Âu, hoặc nhắm tới người chơi ở đó.
+ins_privacy_other: Ngoài EU - chính sách bảo mật chung
+ins_privacy_other_info: Chính sách bảo mật viết bằng ngôn ngữ dễ hiểu, không dẫn chiếu GDPR.
+ins_group_rules: Quy định
+ins_rules_default: Nhập quy định mặc định
+ins_rules_default_info: Trang quy định bắt đầu với luật chơi chuẩn, bạn có thể sửa sau.
+ins_rules_blank: Bắt đầu trống
+ins_rules_blank_info: Trang quy định để trống cho đến khi bạn viết quy định riêng trong khu quản trị.
+ins_group_community: Cộng đồng
+ins_board: Bật bảng cộng đồng
+ins_board_info: Diễn đàn cho người chơi. Khi tắt, mọi liên kết tới bảng sẽ bị ẩn và các trang bảng không khả dụng.
+ins_legal_note: Các văn bản được tạo ra chỉ là mẫu. Là người vận hành, bạn chịu trách nhiệm về văn bản pháp lý của trò chơi và nên xem lại.
+ins_legal_region_invalid: Hãy chọn khu vực đặt máy chủ hợp lệ.
+ins_legal_rules_invalid: Hãy chọn cách quy định sẽ bắt đầu.

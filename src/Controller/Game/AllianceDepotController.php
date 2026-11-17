@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Alliance Depot of the current planet: lists the friendly fleets that hold here and extends their stay for deuterium
  * (rules in AllianceDepot). POST action=supply with fleet and hours supplies one fleet.
  */
-#[\App\Routing\GamePage('game.php', 'allianceDepot')]
-#[\App\Routing\GamePage('game.php', 'allianceDepot', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'allianceDepot')]
 class AllianceDepotController extends AbstractGameController
 {
     public static $defaultController = 'show';

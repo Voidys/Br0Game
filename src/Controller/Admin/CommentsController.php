@@ -9,8 +9,7 @@ use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Lists the admin comments stored on players of the universe. */
-#[\App\Routing\GamePage('admin.php', 'comments')]
-#[\App\Routing\GamePage('admin.php', 'comments', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'comments')]
 class CommentsController extends AbstractAdminController
 {
     /**

@@ -26,8 +26,7 @@ use App\Runtime\ProjectPaths;
 /**
  * News editor: list, create, edit and delete the news shown on the login page.
  */
-#[\App\Routing\GamePage('admin.php', 'news')]
-#[\App\Routing\GamePage('admin.php', 'news', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'news')]
 class NewsController extends AbstractAdminController
 {
     /** widths of the srcset variants made for an uploaded news image */

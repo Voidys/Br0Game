@@ -40,15 +40,11 @@ final class ContentSecurityPolicy
 
     /**
      * Optional third-party sources, opened only for pages that ask (csp_allow('<feature>')):
-     * feature => directive => sources.
+     * feature => directive => sources (none at the moment: the bot protection is self-hosted).
+     *
+     * @var array<string, array<string, list<string>>>
      */
-    private const FEATURES = [
-        'recaptcha' => [
-            'script-src' => ['https://www.google.com', 'https://www.gstatic.com'],
-            'frame-src' => ['https://www.google.com', 'https://www.gstatic.com'],
-            'connect-src' => ['https://www.google.com'],
-        ],
-    ];
+    private const FEATURES = [];
 
     /** @param list<string> $enforcedAreas areas that are enforced when the mode is "enforce" */
     public function __construct(
@@ -77,6 +73,7 @@ final class ContentSecurityPolicy
             'object-src' => ["'none'"],
         ];
         foreach ($features as $feature) {
+            // @phpstan-ignore foreach.emptyArray, nullCoalesce.offset (FEATURES is empty at the moment, the mechanism stays)
             foreach (self::FEATURES[$feature] ?? [] as $directive => $sources) {
                 $directives[$directive] = [...($directives[$directive] ?? ["'self'"]), ...$sources];
             }

@@ -5,7 +5,7 @@
  * modules read (window.serverTime, ServerTimezoneOffset, days, months, tdformat, confirmText, ...).
  *
  * Keys of the island: offset (seconds), date ([y, m(1-12), d, h, i, s] of the server clock at render
- * time), ready, skin, lang, headInfo, days[], months[], tdformat, confirmText, auth, queryString,
+ * time), ready, lang, days[], months[], tdformat, confirmText, queryString,
  * timezone, debug.
  */
 import { handleErr } from '../app/core.js';
@@ -28,14 +28,11 @@ if (element) {
     startTime: window.serverTime.getTime(),
     Gamename: document.title,
     Ready: config.ready ?? '',
-    Skin: config.skin ?? '',
     Lang: config.lang ?? '',
-    head_info: config.headInfo ?? '',
     days: config.days ?? [],
     months: config.months ?? [],
     tdformat: config.tdformat ?? '',
     confirmText: config.confirmText ?? '',
-    auth: config.auth ?? 0,
     queryString: config.queryString ?? '',
     localtimezonestring: config.timezone ?? '',
   });

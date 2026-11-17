@@ -15,7 +15,6 @@ months:
   - Dez
 php_dateformat: d. M Y
 php_tdformat: d. M Y, H:i:s
-php_timeformat: H:i:s
 short_day: d
 short_hour: h
 short_minute: m

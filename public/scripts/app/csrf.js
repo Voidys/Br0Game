@@ -19,7 +19,7 @@ const HEADER = 'X-CSRF-Token';
 const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS'];
 
 /** the session's CSRF token ('' when the page has none, e.g. static error pages) */
-export function csrfToken() {
+function csrfToken() {
   return document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 }
 

@@ -391,16 +391,6 @@ final class ElementCatalog
     }
 
     /**
-     * Buildings per planet type (`$reslist['allow']`: 1 planet, 3 moon), for loops over every type.
-     *
-     * @return array<int, list<int>>
-     */
-    public function allowedMap(): array
-    {
-        return $this->allowed;
-    }
-
-    /**
      * Ships per ship type (`$reslist['ship_type']`: unknown, civil, military, recycler), for loops over every type.
      *
      * @return array<string, list<int>>

@@ -21,7 +21,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Exception;
 
 /**
- * Sends e-mail through PHPMailer using the settings mail_use (0 = PHP mail(), 2 = SMTP; the old sendmail mode is rejected), SMTP host/port/ssl/user/password, sender address and game name.
+ * Sends e-mail through PHPMailer using the settings mail_use (0 = PHP mail(), 2 = SMTP), SMTP host/port/ssl/user/password, sender address and game name.
  */
 class Mail
 {
@@ -86,7 +86,7 @@ class Mail
     }
 
     /**
-     * Configured PHPMailer instance (transport, sender). @throws \Exception for the unsupported sendmail mode.
+     * Configured PHPMailer instance (transport, sender).
      */
     private function getMailObject(): PHPMailer
     {
@@ -105,10 +105,8 @@ class Mail
                 $mail->Username         = $config->smtp_user;
                 $mail->Password         = $config->smtp_pass;
             }
-        } elseif ($config->mail_use == 0) {
-            $mail->IsMail();
         } else {
-            throw new Exception("sendmail is deprecated, use SMTP instead!");
+            $mail->IsMail();
         }
 
         $mailFromAddress	= $config->smtp_sendmail;

@@ -1,0 +1,79 @@
+<p>Bu gizlilik politikası, {game_name} tarafından hangi kişisel verilerin toplandığını, bunların ne için kullanıldığını, ne kadar süre saklandığını ve kimlerin görebildiğini sade bir dille açıklar.</p>
+
+<h2>Bu web sitesini kim işletiyor</h2>
+<p>Bu web sitesi, işletmecisi tarafından yürütülür. İşletmecinin adı ve posta adresi <a href="{contacts_url}">iletişim sayfasında</a> yer alır.<!--mail--> Bize e-posta ile {contact_mail} adresinden ulaşabilirsin.<!--/mail--></p>
+
+<h2>Web sitesini ziyaret etme</h2>
+<p>Bir sayfayı her açtığında web sunucusu otomatik olarak şunları kaydeder:</p>
+<ul>
+<li>IP adresin,</li>
+<li>isteğin tarih ve saati,</li>
+<li>istenen adres ve yönlendiren sayfa,</li>
+<li>tarayıcı ve işletim sistemi (user agent),</li>
+<li>durum kodu ve aktarılan veri miktarı.</li>
+</ul>
+<p>Bu verileri web sitesini sunmak ve güvenli ve istikrarlı tutmak için kullanırız; örneğin saldırıları tespit etmek ve önlemek için. Sunucu günlük dosyaları, belirli bir güvenlik olayının kanıtı olarak gerekmedikçe en geç 7 gün sonra silinir. Böyle bir durumda olay çözülene kadar saklanır.</p>
+
+<h2>Hesap ve oyuncu verileri</h2>
+<p>Oynamak için bir hesaba ihtiyacın var. Kayıt olup oynadığında şunları topluyoruz:</p>
+<ul>
+<li>hesap adı, e-posta adresi ve şifre (yalnızca tuzlanmış bir hash olarak saklanır, asla düz metin olarak değil),</li>
+<li>dil, saat dilimi ve görüntüleme ayarları,</li>
+<li>kayıt zamanı, kayıt sırasındaki IP adresi, son girişin zamanı ve IP adresi ile başarısız giriş denemeleri,</li>
+<li>evren başına bir oyuncu: oyuncu adı ile gezegenler, binalar, araştırmalar, filolar, kaynaklar, puanlar, başarımlar, savaş ve casusluk raporları gibi oyun verileri.</li>
+</ul>
+<p>Bu verilere, kaydolduğun oyunu sunabilmek için ihtiyacımız var. E-posta adresi ve şifre olmadan hesap oluşturulamaz.</p>
+<p>Oyunun doğası bazı verileri diğer oyuncular için görünür kılar: oyuncu adı, gezegenlerinin koordinatları, ittifak, puanlar ve sıralamalar (istatistikler, Onur Salonu) ve yayımlamayı seçtiğin içerikler (ittifak metinleri<!--board-->, pano gönderileri<!--/board-->).</p>
+
+<h2>Oyun içi iletişim</h2>
+<p>İletişim özelliklerini kullandığında, içeriklerini gönderen, alıcılar ve zamanla birlikte saklarız: özel ve ittifak mesajları, arkadaşlık istekleri, notlar, destek talepleri<!--board-->, ayrıca pano gönderileri, yorumlar ve oylar<!--/board-->. Bu, özelliklerin çalışması için yapılır. Moderatörler destek taleplerini ve kurallara aykırılık şüphesi varsa bildirilen içerikleri okuyabilir.<!--messages--> Mesajlar {message_days} gün sonra otomatik olarak silinir.<!--/messages--></p>
+
+<h2>Adil oyun ve kötüye kullanıma karşı koruma</h2>
+<p>Oyunu adil tutmak ve kuralları uygulamak için (örneğin multi hesap ve hesap itme yasağı), şunları kullanırız:</p>
+<ul>
+<li>aktif oturumların ve girişlerin IP adresleri; aynı bağlantıdan oynanan birden çok hesabı tespit etmek için hesaplar arasında karşılaştırılır,</li>
+<li>oturum kayıtları (oturum kimliği, IP adresi, son etkinlik); oturum sona erdikten sonra silinir,</li>
+<li>oyun ekibinin bireysel hesaplar hakkındaki notları ve yasakların nedeni ve süresiyle kayıtları,</li>
+<li>tek bir hesap için kurallara aykırılığa dair somut bir şüphe varsa, o hesabın istediği sayfaların ve her isteğin zamanının kaydı. Bu kayıt, inceleme tamamlandığında silinir.</li>
+</ul>
+<p>Kaydolduğunda e-posta adresinin alan adını, kamuya açık tek kullanımlık e-posta sağlayıcıları listesiyle karşılaştırırız. Liste sunucumuza indirilir ve adresin hiçbir yere gönderilmez. Yasak gibi önlemlere otomatik bir süreç değil, oyun ekibinin üyeleri karar verir.</p>
+
+<h2>E-postalar</h2>
+<p>Hesabını yürütmek için gerektiğinde, kayıt olurken verdiğin adrese e-posta göndeririz: hesap etkinleştirme, şifre sıfırlama, e-posta adresi değişikliğinin onaylanması, etkin olmayan bir hesap silinmeden önce uyarılar ve oyunla ilgili önemli duyurular (örneğin yeni bir evrenin başlaması). Bülten veya reklam göndermeyiz.</p>
+
+<h2>Bot koruması</h2>
+<p>Kayıt ve şifremi unuttum formu, formu açtığında tarayıcının kendi kendine çözdüğü küçük bir hesaplama ile otomatik kötüye kullanıma karşı korunur. Kontrol kendi sunucumuzda yapılır; hiçbir üçüncü taraf hizmetle iletişim kurulmaz ve bunun için çerez veya izleme kimliği kullanılmaz.</p>
+
+<h2>Çerezler ve yerel depolama</h2>
+<p>Yalnızca talep ettiğin hizmeti sağlamak için teknik olarak gerekli çerezleri ve tarayıcı depolamasını kullanırız:</p>
+<ul>
+<li><strong>2Moons</strong>: oturumunu açık tutan oturum çerezi. Son etkinliğinden 12 saat sonra veya çıkış yaptığında sona erer.</li>
+<li><strong>br0_device</strong>: rastgele cihaz kimliği (2 yıl). Hesap başına yalnızca hash'i, son ziyaretten sonra 90 gün saklanır; aynı tarayıcıdan oynanan birden çok hesabı tespit etmek için.</li>
+<li><strong>lang</strong>: seçtiğin dili hatırlar.</li>
+<li><strong>account</strong>: bu tarayıcının daha önce giriş yapmak için kullanıldığını hatırlar; böylece başlangıç sayfası önce giriş ekranını gösterebilir. Kişisel veri içermez.</li>
+<li>Yerel depolama: oyun arayüzünün görüntüleme tercihleri (örneğin en son açılan mesaj kategorisi). Bunlar tarayıcında kalır ve bize gönderilmez.</li>
+</ul>
+<p>Takip, analiz veya reklam çerezleri kullanmayız ve pazarlama için kullanıcı profilleri oluşturmayız.</p>
+
+<h2>Verilerini kimler görebilir</h2>
+<p>Verilerin, görevlerinin gerektirdiği ölçüde oyun ekibinin üyeleri (yöneticiler ve moderatörler) tarafından işlenir. Teknik hizmet sağlayıcılar bizim adımıza ve yalnızca bizim talimatlarımızla çalışır: sunucuların barındırma sağlayıcısı ve uygun olduğunda e-posta teslim hizmeti. Diğer oyuncular, "Hesap ve oyuncu verileri" ve "Oyun içi iletişim" altında açıklanan verileri görür. Verileri yalnızca yasal bir zorunluluğumuz olduğunda yetkililere aktarırız. Kişisel verileri satmayız.</p>
+<p>Dış hizmetlere (örneğin Discord veya wiki) verilen bağlantılar sizi yalnızca o hizmetlere götürür. Veriler orada, yalnızca bağlantıyı açtığında ve ilgili sağlayıcının gizlilik politikası kapsamında işlenir.</p>
+
+<h2>Verilerin ne kadar süre saklandığı</h2>
+<ul>
+<li>Hesabını hesap ayarlarında silebilirsin. Hesap, {deletion_days} gün süren bekleme süresinin ardından silinir; bu süre boyunca silmeyi iptal edebilirsin.</li>
+<!--inactive--><li>{inactive_days} gün etkin olmayan oyuncular otomatik olarak silinir. Oyun uyarı e-postaları gönderiyorsa, silinmeden önce bir tane alırsın.</li>
+<!--/inactive--><li>Hiçbir oyuncusu olmayan hesaplar, 30 gün etkinlik olmadan silinir.</li>
+<li>Sunucu günlük dosyaları: en fazla 7 gün, bkz. "Web sitesini ziyaret etme".</li>
+<li>Yasal nedenlerle tutmak zorunda olduğumuz veya yasal taleplerle ilgilenmek için ihtiyaç duyduğumuz veriler, yalnızca gerektiği kadar saklanır.</li>
+<li>Veritabanı yedekleri, yedeğin alındığı andaki verileri içerir. Sınırlı bir süre saklanır ve sırayla yenilenir.</li>
+</ul>
+
+<h2>Seçimlerin</h2>
+<p>Hesap verilerini hesap ayarlarında değiştirebilir ve hesabını istediğin zaman orada silebilirsin. Hakkında hangi verileri tuttuğumuzu öğrenmek, düzeltilmesini veya silinmesini istemek ya da verilerinle ilgili başka bir sorun için <a href="{contacts_url}">iletişim sayfasındaki</a><!--mail--> bilgileri kullanarak veya {contact_mail}<!--/mail--> adresine e-posta göndererek bize ulaşabilirsin. Yaşadığın yere bağlı olarak yerel veri koruma mevzuatı kapsamında ek haklarına sahip olabilirsin ve yerel veri koruma otoritene başvurabilirsin.</p>
+
+<h2>Güvenlik</h2>
+<p>Bu web sitesine yapılan tüm bağlantılar şifrelenir (TLS), şifreler yalnızca hash olarak saklanır ve kişisel verilere erişim, ihtiyacı olan oyun ekibi üyeleriyle sınırlıdır. Hakkında yalnızca otomatik işlemeye dayanarak karar vermeyiz.</p>
+
+<h2>Değişiklikler</h2>
+<p>Web sitesi veya yasal gereklilikler değiştiğinde bu gizlilik politikasını güncelleriz. Bu sayfada yayımlanan sürüm geçerlidir.</p>

@@ -1,0 +1,1683 @@
+ac_account_data: Thông tin tài khoản
+ac_act_time: Lần hoạt động cuối
+ac_ali_idid: 'ID:'
+ac_alliance: Liên minh
+ac_ally_ranking: Thống kê liên minh
+ac_ally_web: Website liên minh
+ac_auth_level: Cấp bậc
+ac_banned: Bị cấm?
+ac_checkip_title: Kiểm tra IP
+ac_coords: Tọa độ
+ac_diameter: Đường kính
+ac_enter_user_id: Chọn người chơi
+ac_ext_text: Văn bản công khai
+ac_fields: Ô
+ac_filter_placeholder: Lọc...
+ac_home_planet_coord: Tọa độ hành tinh chính
+ac_home_planet_id: ID hành tinh chính
+ac_id_names_coords: ID, tên và tọa độ
+ac_image: Logo liên minh
+ac_info_ally: Thông tin liên minh
+ac_int_text: Văn bản nội bộ
+ac_last_ip: IP gần nhất
+ac_leader: Thủ lĩnh
+ac_leyend: '[ Chú giải ]'
+ac_moon: Mặt trăng
+ac_name: Tên
+ac_name_ali: Tên đầy đủ
+ac_no_ally: Không có liên minh
+ac_no_img: Liên minh này chưa có logo
+ac_no_text_ext: Liên minh này chưa có văn bản công khai
+ac_no_text_int: Liên minh này chưa có văn bản nội bộ
+ac_no_text_sol: Liên minh này chưa có văn bản đơn xin gia nhập
+ac_note_k: <table><tr><th width=10%><font class="colorPositive">T+</font></th><th>Hơn một nghìn tỷ</th></tr><tr><th width=10%><font class="colorPositive">T</font></th><th>Một nghìn tỷ trở lên</th></tr><tr><th width=10%><font class="colorPositive">B</font></th><th>Một tỷ trở lên</th></tr><tr><th width=10%><font class="colorPositive">M</font></th><th>Một triệu trở lên</th></tr><tr><th width=10%><font class="colorPositive">K</font></th><th>Một nghìn trở lên</th></tr></table>
+ac_on_vacation: Chế độ kỳ nghỉ?
+ac_points_count: Điểm | Số lượng
+ac_ranking: Xếp hạng
+ac_recent_destroyed_planets: Hành tinh bị phá hủy gần đây
+ac_reg_ip: IP đăng ký
+ac_register_ally_time: Thành lập
+ac_register_time: Ngày đăng ký
+ac_research: Nghiên cứu
+ac_see_ranking: Xem thống kê
+ac_select_id_num: Nhập ID thủ công (không bắt buộc)
+ac_sol_text: Văn bản đơn xin gia nhập
+ac_suspended_autor: Bị cấm bởi
+ac_suspended_longer: Đến
+ac_suspended_reason: Lý do
+ac_suspended_time: Bị cấm lúc
+ac_suspended_title: Chi tiết lệnh cấm
+ac_swap_invalid: Lựa chọn không hợp lệ, hãy chọn hai người chơi khác nhau!
+ac_swap_no_entry: Không tìm thấy tài khoản cho một hoặc cả hai người chơi.
+ac_swap_submit: Đổi
+ac_swap_success: Đã đổi tài khoản thành công.
+ac_swap_title: Đổi tài khoản
+ac_swap_user_a: Người dùng A
+ac_swap_user_b: Người dùng B
+ac_tag: TAG
+ac_temperature: Nhiệt độ
+ac_time_destruyed: Ngày bị phá hủy
+ac_total_members: Số thành viên
+ac_total_points: 'Tổng:'
+ac_user_ranking: Thống kê người chơi
+ac_user_system: Hệ thống người chơi
+ac_username_doesnt: Người chơi không tồn tại!
+ac_view_image: Mở ảnh trong cửa sổ mới
+account_already_has_user: Tài khoản này đã có người chơi trong vũ trụ này
+accountID: ID tài khoản
+ad_add_build_success: Đã thêm công trình thành công!
+ad_add_defenses_success: Đã thêm phòng thủ thành công!
+ad_add_not_exist: ID không tồn tại!
+ad_add_res_sucess: Đã thêm tài nguyên thành công!
+ad_add_ships_sucess: Đã thêm tàu thành công!
+ad_add_tech_success: Đã thêm nghiên cứu thành công!
+ad_ally_change_id: Đổi người sáng lập
+ad_ally_delete: Xóa liên minh
+ad_ally_delete_u: Xóa thành viên
+ad_ally_name: Tên liên minh
+ad_ally_not_exist: Liên minh không tồn tại!
+ad_ally_not_exist2: Thành viên không tồn tại!
+ad_ally_not_exist3: Người dùng không phải thành viên của liên minh này
+ad_ally_succes: Thành công
+ad_ally_tag: TAG liên minh
+ad_ally_text1: Mô tả liên minh
+ad_ally_text2: Văn bản nội bộ
+ad_ally_text3: Mẫu đơn xin gia nhập
+ad_ally_title: Liên minh
+ad_ally_user_id: (Nhập ID người dùng)
+ad_authlevel_aa: '[Hiện quản trị viên]'
+ad_authlevel_auth: Cấp bậc
+ad_authlevel_error_3: Bạn không thể đổi cấp bậc của người tạo trò chơi!
+ad_authlevel_insert_id: Nhập ID thủ công (không bắt buộc)
+ad_authlevel_jj: '[Hiện người chơi]'
+ad_authlevel_mm: '[Hiện kiểm duyệt viên]'
+ad_authlevel_oo: '[Hiện vận hành viên]'
+ad_authlevel_succes: Đã đổi cấp bậc thành công
+ad_authlevel_title: Cấp bậc
+ad_authlevel_tt: '[Hiện tất cả]'
+ad_buildings: Công trình
+ad_buildings_title: Công trình
+ad_count: Số lượng
+ad_defenses: Phòng thủ
+ad_defenses_title: Phòng thủ
+ad_delete_build_success: Đã xóa công trình thành công!
+ad_delete_defenses_success: Đã xóa phòng thủ thành công!
+ad_delete_res_sucess: Đã xóa tài nguyên thành công!
+ad_delete_ships_sucess: Đã xóa tàu thành công!
+ad_delete_tech_success: Đã xóa nghiên cứu thành công!
+ad_editor_alliances: Liên minh
+ad_editor_buildings: Công trình
+ad_editor_defenses: Phòng thủ
+ad_editor_personal: Thông tin cá nhân
+ad_editor_planets: Hành tinh & mặt trăng
+ad_editor_researchs: Nghiên cứu
+ad_editor_resources: Tài nguyên
+ad_editor_ships: Tàu
+ad_editor_title: Trình chỉnh sửa tài khoản
+ad_levels: Cấp
+ad_number: ID
+ad_personal_name: Tên người dùng
+ad_personal_succes: Đã lưu cài đặt
+ad_personal_title: Sửa thông tin cá nhân
+ad_personal_vacat: Chế độ kỳ nghỉ
+ad_pla_change_p: Tọa độ hành tinh
+ad_pla_change_pp: Chọn để áp dụng thay đổi tọa độ
+ad_pla_delete_b: Xóa tất cả công trình
+ad_pla_delete_cb: Xóa hàng đợi công trình
+ad_pla_delete_d: Xóa tất cả phòng thủ
+ad_pla_delete_hd: Xóa hàng đợi xưởng tàu và phòng thủ
+ad_pla_delete_s: Xóa tất cả tàu
+ad_pla_edit_diameter: Sửa đường kính
+ad_pla_edit_fields: Sửa số ô
+ad_pla_edit_name: Tên
+ad_pla_error_planets: Mặt trăng không thể đổi chủ sở hữu
+ad_pla_error_planets2: Hành tinh không tồn tại
+ad_pla_error_planets3: Tọa độ này đã được sử dụng!
+ad_pla_error_planets4: Không thể gán mặt trăng cho hành tinh đã có mặt trăng!
+ad_pla_error_planets5: Đã có hành tinh tại tọa độ này
+ad_pla_error_planets6: Tọa độ này nằm ngoài giới hạn vũ trụ
+ad_pla_succes: Đã lưu thay đổi thành công
+ad_pla_title: Hành tinh và mặt trăng
+ad_pla_title_l: Nếu có mặt trăng, tọa độ của nó cũng sẽ được thay đổi
+ad_research: Nghiên cứu
+ad_research_title: Nghiên cứu
+ad_ships: Tàu
+ad_ships_title: Tàu
+adm_absenden: Gửi
+adm_cp_index: Trang chủ
+adm_cp_title: Bảng điều khiển quản trị
+adm_email: Email
+adm_login: Đăng nhập
+adm_password: Mật khẩu
+adm_username: Tên người dùng
+an_analyzed_list: Người chơi đã phân tích
+an_btn_disable: Tắt phân tích và xóa dữ liệu
+an_btn_enable: Bật phân tích
+an_timestamp: Thời gian
+an_total_analyzed: Số người chơi đã phân tích
+an_user_list: Danh sách người chơi
+ap_aktivieren: Kích hoạt
+ap_datum: Ngày
+ap_del: Xóa
+ap_email: Email
+ap_entfernen: '?'
+ap_id: ID
+ap_ip: IP
+ap_nicht_aktivierte: người dùng chưa kích hoạt
+ap_nicht_aktivierte_user: Người dùng chưa kích hoạt
+ap_sicher: 'Bạn có chắc chắn muốn xóa '
+ap_status: Trạng thái
+ap_username: Tên người dùng
+bo_accountname: Tên tài khoản
+bo_ban: Cấm
+bo_ban_change: Đổi
+bo_ban_player: Cấm / bỏ cấm
+bo_banned: ' đã bị cấm.'
+bo_bbb_title_1: Hệ thống cấm
+bo_bbb_title_2: Lệnh cấm hết hạn
+bo_bbb_title_3: Hệ thống cấm • <font color="red">Người chơi này đang bị cấm</font>
+bo_bbb_title_4: Để rút ngắn thời gian cấm còn lại, thêm dấu trừ trước thời gian, ví dụ -5.<br>Nếu người chơi bị cấm vĩnh viễn, nhập thời gian dương sẽ thay thế bằng khoảng thời gian đó.
+bo_bbb_title_5: Cấm đến
+bo_bbb_title_6: Đổi ngày
+bo_characters_1: Ký tự còn lại
+bo_characters_suus: Bị cấm
+bo_order_banned: '[Sắp xếp theo cấm]'
+bo_order_id: '[Sắp xếp theo ID]'
+bo_order_username: '[Sắp xếp theo tên]'
+bo_permanent: Cấm vĩnh viễn
+bo_reason: Lý do cấm
+bo_select_title: Hiện tên bắt đầu bằng
+bo_the_player: 'Người chơi '
+bo_the_player2: 'Người chơi '
+bo_total_accs: 'Tổng số tài khoản: '
+bo_total_accs_banned: 'Số tài khoản bị cấm: '
+bo_total_banneds: 'Số người chơi bị cấm: '
+bo_total_users: 'Tổng số người chơi: '
+bo_unban: Bỏ cấm
+bo_unban_player: Danh sách cấm
+bo_unbanned: ' đã được bỏ cấm.'
+bo_username: Tên người dùng
+bo_vacaations: Chế độ kỳ nghỉ
+bo_vacation_mode: Chế độ kỳ nghỉ
+buildings_title: Công trình
+button_add: Thêm
+button_cancel: Hủy
+button_delete: Xóa
+button_deselect: Bỏ chọn
+button_filter: Lọc
+button_reset: Đặt lại
+button_submit: Gửi
+button_test: Kiểm tra
+button_test_negative: Kiểm tra thất bại
+button_test_positive: Kiểm tra thành công
+cc_cache_clear: Đã xóa bộ nhớ đệm
+cronjob_class: lớp
+cronjob_delete: Xóa
+cronjob_desc: Đặt thời điểm cronjob này chạy. Các điều kiện được kết hợp bằng AND, nên job chỉ chạy khi mọi điều kiện đã chọn đều khớp. Chọn giá trị cụ thể ở cả "Thứ trong tuần" và "Ngày" có thể làm job chạy không đều; hãy dùng "Tất cả" cho ít nhất một trong hai trường.<br>"Tất cả" được ưu tiên và ghi đè các giá trị khác trong danh sách đó.
+cronjob_desc_class: Lớp cần gọi. Với includes/classes/cronjobs/foo.class.php, nhập "foo".
+cronjob_desc_name: Tên tùy chọn để nhận diện cronjob này.
+cronjob_dom: Ngày
+cronjob_dow: Thứ trong tuần
+cronjob_edit: Sửa
+cronjob_error_class: Chưa chỉ định lớp!
+cronjob_error_dom: Chưa chọn ngày!
+cronjob_error_dow: Chưa chọn thứ trong tuần!
+cronjob_error_filenotfound: 'Không tìm thấy tệp đã chỉ định: '
+cronjob_error_hours: Chưa chọn giờ!
+cronjob_error_min: Chưa chọn phút!
+cronjob_error_month: Chưa chọn tháng!
+cronjob_error_name: Chưa nhập tên!
+cronjob_headline: ID cronjob
+cronjob_hours: Giờ
+cronjob_lastTime: Lần chạy cuối
+cronjob_min: Phút
+cronjob_month: Tháng
+cronjob_name: Tên
+cronjob_new: Tạo cronjob
+cronjob_nextTime: Lần chạy tiếp
+cronjob_run: Chạy
+cronjob_selectall: Tất cả
+cronName_cleaner: Xóa dữ liệu cũ
+cronName_bots: Bot
+cronName_disposable_email_domains: Cập nhật danh sách tên miền email dùng một lần
+cronName_fleets: Sự kiện hạm đội
+cronName_daily: Tác vụ hằng ngày
+cronName_databasedump: Sao lưu cơ sở dữ liệu
+cronName_inactive: Xóa tài khoản không hoạt động
+cronName_pirates: Tạo căn cứ cướp biển
+cronName_referral: Thưởng giới thiệu
+cronName_statistic: Thống kê
+cronName_statisticjson: Xuất stats.json
+cronName_tracking: Gửi thống kê máy chủ toàn cục
+cs_time_between_updates: Thời gian giữa các lần cập nhật
+defenses_title: Phòng thủ
+du_choose_tables: Chọn bảng
+du_not_tables_selected: Bạn chưa chọn bảng nào để sao lưu!
+du_select_all_tables: Tất cả bảng
+du_submit: Gửi
+du_success: 'Đã tạo bản sao lưu thành công! Tệp: %s'
+email_reg: Email
+email2_reg: Xác nhận email
+empty_account_field: Chưa nhập ID tài khoản
+et_encript: Tạo
+et_md5_encripter: Công cụ tạo MD5
+et_pass: Mật khẩu
+et_result: Kết quả
+exp_deck_cards: Thẻ
+exp_deck_count_desc: Số thẻ loại này trong bộ bài
+exp_deck_count_label: số lượng
+exp_deck_edit: Sửa cấu hình bộ bài thẻ
+exp_deck_event_type: Loại sự kiện
+exp_deck_example: 'Ví dụ:'
+exp_deck_format_help: 'Cấu hình bộ bài thẻ là một mảng JSON, trong đó mỗi phần tử là một loại thẻ với các thuộc tính sau:'
+exp_deck_format_instructions: Hướng dẫn định dạng
+exp_deck_percentage: Tỷ lệ phần trăm
+exp_deck_save_success: Đã lưu cấu hình bộ bài thẻ thành công!
+exp_deck_size_desc: Kích thước sự kiện (Small, Medium, Big, None)
+exp_deck_size_label: kích thước
+exp_deck_statistics: Thống kê bộ bài thẻ hiện tại
+exp_deck_total: Tổng
+exp_deck_type_desc: Loại sự kiện (Res, Ships, Pirates, Aliens, BlackHole, Fast, Slow, Nothing)
+exp_deck_type_label: loại
+exp_deck_warning: 'Cảnh báo: JSON không hợp lệ sẽ bị từ chối'
+exp_ships_description: Với mỗi tàu đang hoạt động, chọn xem thám hiểm có thể tìm thấy nó không và tàu nào có thể tìm thấy nó.
+exp_ships_findable: Có thể tìm thấy
+exp_ships_found_by: Tàu tìm kiếm
+exp_ships_select_finders: Chọn tàu tìm kiếm
+exp_ships_ship: Tàu
+ff_arrivaltime: Đến nơi
+ff_del: Xóa
+ff_endtime: Quay về
+ff_fleetid: ID
+ff_holdtime: Giữ đến
+ff_lock: Khóa
+ff_mission: Nhiệm vụ
+ff_no_fleets: Hiện không có hạm đội nào đang di chuyển
+ff_sendFleetBack: Trả về
+ff_sendFleetsBack: Trả về tất cả đợt tấn công
+ff_ships: Tàu
+ff_startplanet: Hành tinh xuất phát
+ff_starttime: Xuất phát
+ff_startuser: Người gửi
+ff_targetplanet: Hành tinh đích
+ff_targetuser: Người nhận
+ff_unlock: Mở khóa
+ga_definetarget: Chọn mục tiêu
+ga_homecoordinates: Chỉ hành tinh chính
+ga_no_inactives: Loại trừ người chơi không hoạt động
+ga_planettypes: Loại hành tinh
+ga_selectplanettype: Chọn ít nhất một loại hành tinh!
+ga_success: Thành công!
+info_information: Dùng thông tin này khi báo lỗi trên <a href="%s" target="tracker">GitHub issues</a>.<br>Yêu cầu hỗ trợ không có thông tin này sẽ không được xử lý.
+input_id: ID
+input_id_account: ID tài khoản
+input_id_ally: ID liên minh
+input_id_p_m: ID hành tinh hoặc mặt trăng
+input_id_planet: ID hành tinh
+input_id_user: ID người chơi
+lang_reg: Ngôn ngữ
+log_admin: Quản trị viên
+log_alliance: Liên minh đã chỉnh sửa
+log_cat: 'Chọn danh mục:'
+log_disclamersettings: Thông báo pháp lý
+log_element: Phần tử
+log_id: ID
+log_info: Thông tin
+log_log: Nhật ký
+log_new: Sau
+log_no_data: Nhật ký không có dữ liệu!
+log_old: Trước
+log_planet: Hành tinh đã chỉnh sửa
+log_player: Người chơi đã chỉnh sửa
+log_present: Quà đã phát
+log_settings: Cài đặt đã chỉnh sửa
+log_ssettings: Cấu hình máy chủ
+log_statsettings: Cài đặt thống kê
+log_target_alliance: Liên minh đã thay đổi
+log_target_planet: Hành tinh đã thay đổi
+log_target_universe: Mục cài đặt đã thay đổi
+log_target_user: Người chơi đã thay đổi
+log_time: Thời gian
+log_uni_short: Vũ trụ
+log_universe: Vũ trụ
+log_usettings: Cấu hình vũ trụ
+log_view: Xem
+ma_all: Tất cả
+ma_characters: Ký tự
+ma_message: Tin nhắn
+ma_message_sended: Tin nhắn của bạn đã được gửi!
+ma_mode: Gửi qua
+ma_modes:
+- Trong trò chơi
+- Email
+- Trong trò chơi & email
+ma_none: Tin tức toàn cầu
+ma_send_global_message: Gửi tin nhắn toàn cầu
+ma_subject: Tiêu đề
+ma_subject_needed: Cần nhập tiêu đề!
+ma_no_recipients: Không có người nhận nào khớp bộ lọc, chưa gửi thư nào.
+message_a: 'Trạng thái tin nhắn:'
+message_t: 'Trạng thái ticket:'
+mip_known: Đã duyệt?
+ml_date: Ngày
+ml_date_range: Khoảng thời gian
+ml_deleted: Đã xóa tin nhắn
+ml_id: '#ID'
+ml_message_list: Danh sách tin nhắn
+ml_receiver: Người nhận
+ml_sender: Người gửi
+ml_subject: Tiêu đề
+ml_type: Loại tin nhắn
+ml_type_submit: Gửi
+mo_diameter: Đường kính
+mo_fields_avaibles: Ô
+mo_moon: Mặt trăng
+mo_moon_added: Đã thêm mặt trăng thành công!
+mo_moon_name: Tên mặt trăng
+mo_moon_random: Ngẫu nhiên
+mo_moon_unavaible: Hành tinh này đã có mặt trăng!
+mo_planet_doesnt_exist: Người chơi không tồn tại!
+mod_active: Đang bật
+mod_change_active: Bật
+mod_change_deactive: Tắt
+mod_deactive: Đã tắt
+mod_info: Module trò chơi
+mod_module: Module
+modul_0: Liên minh
+modul_1: Nhiệm vụ — Tấn công
+modul_2: Xây dựng — Công trình
+modul_3: Xây dựng — Nghiên cứu
+modul_4: Xây dựng — Hạm đội
+modul_5: Xây dựng — Phòng thủ
+modul_6: Danh sách bạn bè
+modul_9: Hạm đội
+modul_10: Hạm đội — Xử lý sự kiện
+modul_11: Thiên hà
+modul_12: Bảng vinh danh
+modul_13: Thương nhân
+modul_14: Thông tin
+modul_15: Đế chế
+modul_16: Tin nhắn
+modul_17: Ghi chú
+modul_19: Phalanx
+modul_20: Hồ sơ người chơi
+modul_21: Danh sách cấm
+modul_22: Kỷ lục
+modul_23: Tài nguyên
+modul_24: Nhiệm vụ — Do thám
+modul_25: Thống kê
+modul_26: Tìm kiếm
+modul_27: Ticket hỗ trợ
+modul_28: Cây công nghệ
+modul_29: Nhiệm vụ — Hủy diệt
+modul_30: Nhiệm vụ — Thám hiểm
+modul_32: Nhiệm vụ — Thu hồi
+modul_33: Nhiệm vụ — Giữ
+modul_34: Nhiệm vụ — Vận chuyển
+modul_35: Nhiệm vụ — Thuộc địa hóa
+modul_36: Nhiệm vụ — Triển khai
+modul_38: Thương nhân phế liệu
+modul_39: Mô phỏng chiến đấu
+modul_40: Nhiệm vụ — Tấn công tên lửa
+modul_41: Lối tắt hạm đội
+modul_42: Nhiệm vụ — ACS
+modul_43: Nhiệm vụ — Giao thương
+modul_44: Nhiệm vụ — Chuyển giao
+modul_45: Thị trường — Tài nguyên
+modul_46: Thị trường — Hạm đội
+modul_47: Thống kê phụ thuộc công nghệ do thám
+modul_48: Xưởng sửa chữa
+modul_49: Bảo vệ tài nguyên
+modul_50: Đá khỏi chế độ kỳ nghỉ
+modul_51: Đá khỏi bạn bè và liên minh
+modul_52: Stats.json
+modul_53: Hướng dẫn
+modul_54: Phần thưởng hướng dẫn
+modul_55: Điểm danh dự
+modul_56: Căn cứ cướp biển
+mu_active_planets: Hành tinh đang hoạt động
+mu_clear_cache: Xóa bộ nhớ đệm
+mu_connected: Trực tuyến
+mu_cronjob: Cron job
+mu_dump: Sao lưu cơ sở dữ liệu
+mu_flying_fleets: Hạm đội đang bay
+mu_game_info: Thông tin
+mu_general: Chung
+mu_giveaway: Phát quà
+mu_global_message: Tin nhắn toàn cầu
+mu_info_account_page: Thông tin tài khoản
+mu_logs: Nhật ký quản trị
+mu_manual_points_update: Cập nhật điểm
+mu_md5_encripter: Băm mật khẩu
+mu_mess_list: Danh sách tin nhắn
+mu_moderation_page: Quyền hạn
+mu_module: Module
+mu_mpu_confirmation: Điểm được cập nhật tự động. Nhấn OK để cập nhật ngay.
+mu_multiip_page: Nhiều IP
+mu_news: Tin tức
+mu_search_page: Tìm kiếm nâng cao
+mu_support: Ticket hỗ trợ
+mu_tools: Công cụ
+mu_universe: Vũ trụ
+mu_users_settings: Người chơi
+mu_vaild_users: Người dùng đang hoạt động
+new_account_success: 'Đã tạo tài khoản mới. ID: %d'
+new_add_account: Thêm tài khoản mới
+new_add_user: Thêm người chơi mới
+new_coord: Tọa độ
+new_creator_coor: Tọa độ
+new_creator_go_back: '[ Quay lại menu ]'
+new_creator_refresh: '[ Làm mới ]'
+new_creator_title_a: Tạo/xóa tài khoản
+new_creator_title_l: Tạo/xóa mặt trăng
+new_creator_title_p: Tạo/xóa hành tinh
+new_creator_title_t: Tạo người chơi thử nghiệm
+new_creator_title_u: Tạo/xóa người chơi
+new_range: Cấp bậc
+new_title: Tạo người chơi mới
+new_title_acc: Tạo tài khoản mới
+new_user_success: 'Đã tạo người chơi mới. ID: %d, Hành tinh: %d'
+nws_confirm: Bạn có chắc chắn muốn xóa tin "%s"?
+nws_content: Nội dung
+nws_create: Tạo tin tức
+nws_del: Xóa
+nws_from: Từ
+nws_head_create: Tạo tin tức
+nws_head_edit: 'Sửa tin tức: %s'
+nws_news: Tin tức
+nws_title: Tiêu đề
+one_is_yes_0: Không
+one_is_yes_1: Có
+online_users: Trực tuyến
+ow_default_uri_missing: 'Liên kết trong email cần DEFAULT_URI (.env.local): cho đến khi đặt giá trị này, email đăng ký và đặt lại mật khẩu sẽ không được gửi.'
+ow_dir_not_writable: /%s không ghi được!
+ow_file_detected: Đã tìm thấy tệp %s. Vì lý do bảo mật, hãy xóa hoặc đổi tên tệp này.
+ow_proyect_leader: Cựu đô đốc hạm đội (trưởng dự án 2Moons)
+ow_former_pr0game_crew: Cựu thành viên pr0game
+ow_crew_dev: Phát triển & xử lý sự cố
+ow_crew_mod: Kiểm duyệt
+ow_crew_community: Cộng đồng
+ow_pr0game_contributors: Người đóng góp mã nguồn pr0game
+ow_special_thanks: Cảm ơn đặc biệt
+ow_translator: Người dịch
+pass_reg: Mật khẩu
+pass2_reg: Xác nhận mật khẩu
+player: Người chơi
+po_add_moon: Thêm mặt trăng
+po_add_planet: Thêm thuộc địa
+po_colony: Thuộc địa
+po_complete_all: Dữ liệu không hợp lệ hoặc đã được sử dụng!
+po_complete_all2: Tọa độ không hợp lệ!
+po_complete_succes: Đã tạo hành tinh thành công
+po_fields_max: Ô
+po_galaxy: Thiên hà
+po_name_planet: Tên hành tinh
+po_planet: Hành tinh
+po_system: Hệ
+qe_authattack: Bảo vệ quản trị viên khỏi tấn công
+qe_build: Công trình
+qe_change: Đổi
+qe_coords: Tọa độ
+qe_count: Có sẵn
+qe_defensive: Phòng thủ
+qe_edit_planet_sucess: Đã sửa hành tinh %s [%d:%d:%d] thành công!
+qe_edit_player_sucess: 'Đã sửa người chơi %s (ID: %d) thành công!'
+qe_fields: Ô
+qe_fleet: Hạm đội
+qe_hpcoords: Tọa độ chính
+qe_id: ID
+qe_info: Thông tin
+qe_level: Cấp
+qe_owner: Chủ sở hữu
+qe_password: Mật khẩu
+qe_planetname: Hành tinh
+qe_reset: Đặt lại
+qe_resources: Tài nguyên
+qe_send: Gửi
+qe_submit: Gửi
+qe_tech: Nghiên cứu
+qe_temp: Nhiệt độ
+qe_username: Tên người dùng
+re_buildings_lu: Đặt lại công trình mặt trăng
+re_buildings_pl: Đặt lại công trình
+re_buldings: Công trình
+re_defenses: Đặt lại phòng thủ
+re_defenses_and_ships: Tàu và phòng thủ
+re_general: Chung
+re_inve: Nghiên cứu
+re_investigations: Đặt lại nghiên cứu
+re_player_and_planets: Người chơi và hành tinh
+re_reset_all: Đặt lại toàn bộ vũ trụ
+re_reset_allys: Đặt lại tất cả liên minh
+re_reset_banned: Đặt lại lệnh cấm
+re_reset_buddies: Đặt lại danh sách bạn bè
+re_reset_buldings: Đặt lại hàng đợi công trình
+re_reset_errors: Đặt lại danh sách lỗi
+re_reset_excess: Đã đặt lại cài đặt thành công!
+re_reset_fleets: Đặt lại hạm đội đang bay
+re_reset_hangar: Đặt lại hàng đợi xưởng tàu và phòng thủ
+re_reset_invest: Đặt lại hàng đợi nghiên cứu
+re_reset_messages: Đặt lại tất cả tin nhắn
+re_reset_moons: Đặt lại tất cả mặt trăng
+re_reset_notes: Đặt lại tất cả ghi chú
+re_reset_planets: Đặt lại hành tinh (xóa thuộc địa)
+re_reset_player: Đặt lại người chơi (xóa tất cả)
+re_reset_rw: Đặt lại báo cáo chiến đấu
+re_reset_statpoints: Đặt lại thống kê
+re_reset_universe: Đặt lại vũ trụ
+re_reset_universe_confirmation: Không thể hoàn tác. Hãy chắc chắn bạn đã sao lưu cơ sở dữ liệu trước khi nhấn OK.
+re_resources: Tài nguyên
+re_resources_met_cry: Đặt lại tất cả tài nguyên (kim loại/tinh thể/deuterium)
+re_ships: Đặt lại hạm đội
+researchs_title: Nghiên cứu
+resources_title: Tài nguyên
+rp_done: Đã xáo trộn hành tinh thành công
+rp_explain: Sau khi nhấn Gửi, hãy đợi cửa sổ hiện lên. Việc đổi vị trí có thể mất vài giây.
+rp_header: Xáo trộn hành tinh
+rp_planet_error: Có nhiều hơn một hành tinh cho mỗi người chơi!
+rp_rights_error: Không có quyền quản trị!
+rp_universe_error: Vũ trụ chưa đóng hoàn toàn!
+sb_final_memory: 'Bộ nhớ đã dùng khi kết thúc: %e KB / tối đa %m KB<br>'
+sb_sql_counts: 'Số truy vấn SQL: %d'
+sb_start_memory: 'Bộ nhớ đã dùng khi bắt đầu: %i KB / tối đa %m KB<br>'
+sb_stats_update: Đã cập nhật thống kê sau %s giây<br>
+sb_stats_updated: Đã cập nhật thống kê.<br>Tóm tắt:<br>
+sb_top_memory: 'Bộ nhớ đỉnh: %p KB / tối đa %m KB <br>'
+se__before: Trước
+se__next: Sau
+se_activity: Hoạt động cuối
+se_adm_attack: Bảo vệ quản trị viên
+se_adm_attack_info: Khi bật, quản trị viên và kiểm duyệt viên có thể tự làm mình không thể bị tấn công.
+se_all_planet_pictures: Mọi ảnh hành tinh
+se_all_planet_pictures_info: Cho phép mọi ảnh hành tinh ở tất cả vị trí.
+se_alliance_create_min_points: Số điểm tối thiểu để thành lập liên minh
+se_allys: Liên minh
+se_asc_desc: Tăng dần / giảm dần
+se_attacks: Cài đặt tấn công
+se_auth: Cấp bậc
+se_authlevels: Quản trị viên
+se_ban: Bị cấm?
+se_ban_author: Bị cấm bởi
+se_ban_limit: Đến
+se_ban_reason: Lý do
+se_ban_time: Bị cấm
+se_bash_per_planet: Giới hạn tấn công (bash) mỗi hành tinh
+se_bash_per_planet_info: Số lần một người chơi có thể tấn công hành tinh của người chơi khác trong 24 giờ (tính theo từng hành tinh). 0 = tắt
+se_bash_count_missiles: Giới hạn bash tính cả tấn công tên lửa
+se_bash_count_missiles_info: 'Tấn công tên lửa liên hành tinh được tính như tấn công hạm đội vào giới hạn bash (theo người chơi và theo hành tinh). Tắt: tên lửa không được tính.'
+se_bash_per_user: Giới hạn tấn công (bash) mỗi người chơi
+se_bash_per_user_info: Số lần một người chơi có thể tấn công người chơi khác trong 24 giờ (trên tất cả hành tinh). 0 = tắt
+se_block_planet_creation: Chặn
+se_board_enabled: Bật bảng cộng đồng
+se_board_enabled_info: 'Tắt: mọi liên kết tới bảng sẽ bị ẩn và các trang bảng không khả dụng.'
+se_building_speed: Tốc độ xây dựng
+se_buildings: Cài đặt công trình
+se_buildlist: Cài đặt hàng đợi
+se_cascading_moon_chance: Tỷ lệ mặt trăng nối tiếp
+se_cascading_moon_chance_info: Tỷ lệ mặt trăng được cộng thêm sau mỗi lần thử tạo mặt trăng thất bại ở mức tối đa. Chỉ áp dụng cho mặt trăng đầu tiên của một tài khoản. 0 = tắt
+se_catch_up: Cơ chế đuổi kịp
+se_catch_up_info: Giảm thời gian xây dựng và nghiên cứu theo hàm mũ, tối đa 10 lần, tùy theo khoảng cách điểm với người chơi đứng đầu. Từ khoảng 90% điểm của người dẫn đầu thì không có thưởng. Ở khoảng 54% hệ số là 2.5, ở 27% là 5 và ở 11% là 7.5. Giá trị này được quy về khoảng từ 1.0 xuống 0.5.
+se_catchup_percent: Thưởng đuổi kịp tối đa (%)
+se_close_reason: Thông báo khi máy chủ đóng
+se_colonisation_config: Cài đặt thuộc địa hóa
+se_configuration_title: Cấu hình máy chủ
+se_confirm_planet: 'Hành tinh đã chọn sẽ bị đặt lại hoàn toàn. Bạn có muốn tiếp tục? Tên hành tinh:'
+se_contrac: Thu gọn
+se_cookie_advert: Đổi tên cookie sẽ đăng xuất tất cả mọi người.<br>Hãy dùng tên khác nếu bạn chạy nhiều vũ trụ.
+se_cookie_name: Tên cookie
+se_crystal_basic_income: Sản lượng tinh thể cơ bản
+se_crystal_start: Tinh thể khởi đầu
+se_crystal_start_info: Tinh thể được cấp cho người chơi mới tại hành tinh chính.
+se_days: Ngày
+se_debris_moon: Dọn mảnh vỡ sau khi tạo mặt trăng
+se_debris_moon_info: Xóa trường mảnh vỡ sau khi mặt trăng được tạo.
+se_debug: Chế độ gỡ lỗi
+se_debug_info: Ghi lại truy vấn SQL và hiện thanh trạng thái với số truy vấn và thời gian chạy cho quản trị viên.
+se_def_debris_percentage: Phòng thủ thành mảnh vỡ
+se_def_debris_percentage_info: Tỷ lệ phòng thủ bị phá hủy sẽ thành mảnh vỡ sau một trận đánh.
+se_del_oldstuff: Xóa tin nhắn sau
+se_del_oldstuff_info: Xóa tin nhắn và báo cáo chiến đấu sau X ngày.
+se_del_user_automatic: Xóa người chơi không hoạt động sau
+se_del_user_automatic_info: Xóa người chơi không đăng nhập trong X ngày. (0 = tắt)
+se_del_user_manually: Xóa tài khoản yêu cầu xóa sau
+se_del_user_manually_info: Xóa người chơi đã yêu cầu xóa tài khoản sau X ngày.
+se_del_user_sendmail: Gửi nhắc nhở sau
+se_del_user_sendmail_info: Gửi email nhắc nhở sau X ngày không đăng nhập.
+se_delete_succes_p: Đã xóa thành công
+se_delete_not_found: 'Không xóa được gì: người chơi hoặc hành tinh không tồn tại hoặc không thể xóa.'
+se_deuterium_basic_income: Sản lượng deuterium cơ bản
+se_deuterium_cost_galaxy: Chi phí deuterium khi xem thiên hà
+se_deuterium_cost_galaxy_info: 'Chi phí deuterium cho mỗi lần xem thiên hà (mặc định: 10)'
+se_deuterium_start: Deuterium khởi đầu
+se_deuterium_start_info: Deuterium được cấp cho người chơi mới tại hành tinh chính.
+se_disclaimer: Cài đặt thông báo pháp lý
+se_disclamer_address: Địa chỉ
+se_disclamer_mail: Địa chỉ email
+se_disclamer_notice: Thông tin thêm
+se_disclamer_phone: Số điện thoại
+se_discord_exceptions_hook: Ngoại lệ & cảnh báo
+se_discord_hooks: Webhook Discord
+se_discord_logs_hook: Nhật ký
+se_discord_tickets_hook: Ticket
+se_dst: Giờ mùa hè?
+se_dst_sel:
+- Không
+- Có
+- Tự động
+se_email: E-mail
+se_end: Ngày kết thúc
+se_end_time: Thời gian kết thúc
+se_energy_basic_income: Sản lượng năng lượng cơ bản
+se_energy_multiplier: Hệ số năng lượng
+se_expand: Mở rộng
+se_expedition_parameters: Cài đặt thám hiểm
+se_expo_hold_multiplier: Tốc độ thám hiểm
+se_expo_hold_multiplier_info: 'Tốc độ bình thường: 1'
+se_expo_ress_crys_chance: Tỷ lệ nhận tinh thể từ thám hiểm
+se_expo_ress_deut_chance: Tỷ lệ nhận deuterium từ thám hiểm
+se_expo_ress_met_chance: Tỷ lệ nhận kim loại từ thám hiểm
+se_factor_university: Hệ số đại học
+se_factor_university_info: Phần trăm mà mỗi cấp đại học giảm thời gian nghiên cứu
+se_fields: Ô
+se_filter_title: Lọc
+se_fleet_debris_percentage: Hạm đội thành mảnh vỡ
+se_fleet_speed: Tốc độ hạm đội
+se_fleet_speed_info: 'Tốc độ bình thường: 1'
+se_forum_url: Liên kết diễn đàn
+se_galaxy: Thiên hà
+se_galaxy_distance_factor: Hệ số khoảng cách thiên hà
+se_galaxy_distance_factor_info: 'Mặc định: 20000, cách tính: chênh lệch thiên hà × hệ số khoảng cách thiên hà'
+se_galaxy_parameters: Cài đặt thiên hà
+se_galaxy_type: Loại thiên hà
+se_galaxy_type_info: <TABLE><tr><td>Thiên hà thẳng</td><td>Khoảng cách tới hệ 1 tăng theo từng hệ trong thiên hà.</td></tr><tr><td>Thiên hà vòng</td><td>Hệ cuối và hệ đầu của thiên hà được nối với nhau, nên khoảng cách từ các hệ xa tới hệ đầu được rút ngắn.</td></tr><tr><td>Thiên hà cầu</td><td>Mọi hệ trong cùng thiên hà đều cách đều nhau.</td></tr></TABLE>
+se_default_theme: Giao diện mặc định
+se_default_theme_info: Giao diện cho tài khoản mới và khách truy cập
+se_legal: Pháp lý và cộng đồng
+se_privacy_region: Khu vực đặt máy chủ (chính sách bảo mật)
+se_privacy_region_info: 'Chọn chính sách bảo mật mặc định: bản GDPR (EU/EEA) hoặc bản chung. Các trang đã được chỉnh sửa sẽ giữ nguyên; người vận hành chịu trách nhiệm về văn bản pháp lý.'
+se_privacy_region_sel:
+  eu: EU / EEA - chính sách bảo mật theo GDPR
+  other: Ngoài EU - chính sách bảo mật chung
+se_rules_default: Dùng quy định mặc định
+se_rules_default_info: 'Tắt: trang quy định để trống cho đến khi bạn viết quy định riêng trong mục Trang. Quy định đã chỉnh sửa sẽ được giữ lại.'
+se_source_url: Đường dẫn mã nguồn
+se_source_url_info: Kho mã công khai của mã nguồn máy chủ này, được liên kết là "Mã nguồn" ở chân trang (AGPL yêu cầu bạn cung cấp các thay đổi cho người chơi). Để trống sẽ ẩn liên kết.
+se_game_name: Tên trò chơi
+se_git_issues_link: Liên kết tới trình theo dõi lỗi
+se_git_issues_link_info: Trang để báo cáo lỗi và vấn đề
+se_id_owner: ID chủ sở hữu
+se_inactives: Không hoạt động
+se_initial_fields: 'Số ô khởi đầu:'
+se_initial_temp: 'Nhiệt độ khởi đầu:'
+se_input_a: A
+se_input_act_pla: ' hành tinh đang hoạt động'
+se_input_activity: Hoạt động
+se_input_admm: ' quản trị viên'
+se_input_allyy: ' liên minh'
+se_input_asc: Tăng dần
+se_input_authlevel: Cấp bậc
+se_input_connect: ' người chơi trực tuyến'
+se_input_d: D
+se_input_desc: Giảm dần
+se_input_email: E-mail
+se_input_g: Thiên hà
+se_input_have_moon: Mặt trăng?
+se_input_hay: 'Hiện có '
+se_input_inact: ' người chơi không hoạt động'
+se_input_inacti: Không hoạt động
+se_input_ip: IP
+se_input_longer: Thời hạn
+se_input_members: Thành viên
+se_input_members2: Thành viên
+se_input_moonn: ' mặt trăng'
+se_input_name: Tên
+se_input_p: Hành tinh
+se_input_planett: ' hành tinh'
+se_input_prop: Chủ sở hữu
+se_input_register: Đăng ký
+se_input_s: Hệ
+se_input_submit: Tìm
+se_input_susss: ' bị cấm'
+se_input_time: Thời gian
+se_input_userss: ' người chơi'
+se_input_vacatii: ' người chơi đang nghỉ'
+se_intro: Từ hoặc từ khóa
+se_iter_planet_creation: Lặp (mặc định)
+se_jumpgate_factor: Thời gian hồi cổng nhảy
+se_jumpgate_factor_info: Thời gian hồi cổng nhảy được chia cho hệ số này (mặc định 1)
+se_lang: Ngôn ngữ
+se_limit: Giới hạn
+se_line_galaxy: Thiên hà thẳng (mặc định)
+se_line_uni: Vũ trụ thẳng (mặc định)
+se_mail_active: Bật email
+se_mail_sel:
+- PHP mail()
+- Sendmail / Qmail
+- SMTP có xác thực
+se_mail_use: 'Phương thức gửi mail:'
+se_max_additional_planets: Số hành tinh tối đa thêm từ thiên văn học
+se_max_additional_planets_info: Số hành tinh thuộc địa thêm mà người chơi có thể chiếm qua thiên văn học
+se_max_elements_build: Hàng đợi công trình tối đa
+se_max_elements_build_info: Số công trình tối đa trong hàng đợi xây dựng
+se_max_elements_ships: Hàng đợi xưởng tàu tối đa
+se_max_elements_ships_info: Số lệnh tối đa trong hàng đợi xưởng tàu
+se_max_elements_tech: Hàng đợi nghiên cứu tối đa
+se_max_elements_tech_info: Số mục tối đa trong hàng đợi nghiên cứu
+se_max_fleet_per_build: Số đơn vị tối đa mỗi lệnh
+se_max_fleet_per_build_info: Số đơn vị tối đa trong mỗi lệnh xưởng tàu
+se_max_fleets_per_acs: Số hạm đội tối đa mỗi ACS
+se_max_fleets_per_acs_info: Số hạm đội tối đa trong một ACS (mặc định 16)
+se_max_galaxy: Số thiên hà tối đa
+se_max_galaxy_info: Số thiên hà tối đa trong vũ trụ
+se_max_initial_planets: Số hành tinh tối đa khi chưa nghiên cứu
+se_max_initial_planets_info: Số hành tinh người chơi có thể thuộc địa hóa từ đầu, khi chưa có thiên văn học
+se_max_overflow: Tràn kho
+se_max_overflow_info: Hệ số số tài nguyên vẫn có thể sản xuất khi kho đầy
+se_max_participants_per_acs: Số người tham gia tối đa mỗi ACS
+se_max_participants_per_acs_info: Số người tham gia tối đa trong một ACS (mặc định 5)
+se_max_planets: Số hành tinh tối đa
+se_max_planets_info: 'Số hành tinh tối đa mỗi hệ (mặc định: 15)'
+se_max_player_planets: Số hành tinh tối đa mỗi người chơi
+se_max_player_planets_info: Số thuộc địa tối đa khi chưa nghiên cứu
+se_max_system: Số hệ tối đa
+se_max_system_info: Số hệ tối đa mỗi thiên hà
+se_message_delete_days: Xóa vĩnh viễn tin nhắn đã xóa sau X ngày
+se_messages: Tin nhắn
+se_metal_basic_income: Sản lượng kim loại cơ bản
+se_metal_start: Kim loại khởi đầu
+se_metal_start_info: Kim loại được cấp cho người chơi mới tại hành tinh chính.
+se_min_build_time: Thời gian xây dựng tối thiểu
+se_min_build_time_info: Thời gian xây dựng tối thiểu (giây) cho công trình, nghiên cứu, tàu và phòng thủ. Mặc định là 1.<br>0 sẽ tắt giới hạn này.<br>Tắt giới hạn này có thể gây lỗi.
+se_missile_range_factor: Hệ số tầm bắn tên lửa
+se_moon_chance: Tỷ lệ mặt trăng tối đa
+se_moon_chance_info: Tỷ lệ tối đa để hình thành mặt trăng
+se_moon_factor: Hệ số tỷ lệ mặt trăng
+se_moon_factor_info: Hệ số nhân cho tỷ lệ hình thành mặt trăng
+se_moon_size_factor: Hệ số kích thước mặt trăng
+se_moon_size_factor_info: Hệ số nhân cho kích thước mặt trăng, 1 = mặc định
+se_moons: Mặt trăng
+se_name: Tên
+se_news: Cài đặt tin tức
+se_no_data: Không có dữ liệu
+se_noob_inactives: Áp dụng hệ số bảo vệ người mới cho người chơi không hoạt động
+se_noob_protection: Bảo vệ người mới
+se_noob_protection_multi: Hệ số bảo vệ người mới
+se_noob_protection_multi_info: 'Bạn chỉ có thể tấn công người chơi có điểm nằm trong khoảng điểm của bạn × hệ số này. Ví dụ với 18: nếu bạn có 1.000 điểm, bạn có thể tấn công người chơi dưới 18.000 điểm. Người chơi 20.000 điểm có thể tấn công bất kỳ ai tới 360.000 điểm, nên người 50.000 điểm vẫn nằm trong tầm.'
+se_noob_protection_outlaw: Hệ thống ngoài vòng pháp luật
+se_noob_protection_outlaw_info: Cho phép người chơi yếu hơn tấn công người mạnh hơn. Người tấn công trở thành kẻ ngoài vòng pháp luật trong 7 ngày và mất bảo vệ người mới.
+se_noob_protection_time: Bảo vệ người mới đến X điểm
+se_noob_protection_time_info: Người chơi có điểm bằng hoặc thấp hơn mức này vẫn được bảo vệ người mới.
+se_normal_speed: 'Tốc độ bình thường: 1'
+se_order_list_now: Tìm
+se_overview_news_frame: Bật tin tức
+se_overview_news_frame_info: Nếu tắt, tin tức sẽ bị ẩn trên trang tổng quan.
+se_overview_news_text: Tin tức
+se_overview_news_text_info: Tối đa 255 ký tự. Cho phép HTML.
+se_pagees: Trang
+se_per_hour: mỗi giờ
+se_phalanx_range_factor: Hệ số tầm Phalanx
+se_piratebase: Căn cứ cướp biển
+se_piratebase_fleet_percentage_max: 'Hạm đội: tỷ lệ % tối đa của hạm đội người chơi'
+se_piratebase_fleet_percentage_min: 'Hạm đội: tỷ lệ % tối thiểu của hạm đội người chơi'
+se_piratebase_mainplanet_only: 'Tài nguyên: chỉ hành tinh chính'
+se_piratebase_min_points: Điểm tối thiểu
+se_piratebase_min_points_info: Điểm tối thiểu người chơi cần có trước khi căn cứ cướp biển có thể xuất hiện
+se_piratebase_ress_hours: 'Tài nguyên: số giờ sản xuất'
+se_planet: Hành tinh
+se_planet_creation: Vị trí hành tinh chính
+se_planet_creation_info: Hành tinh chính mới có thể được đặt lần lượt qua các hệ và thiên hà, ngẫu nhiên, theo khối, hoặc 50% ngẫu nhiên và 50% theo khối.<br>Đặt ngẫu nhiên lấp đầy đều các thiên hà và hệ ở vị trí ngẫu nhiên.<br>Đặt theo khối chọn một hệ đã có một hoặc hai hành tinh. Nếu không có hệ như vậy hoặc có dưới 50 người chơi thì đặt ngẫu nhiên.
+se_planet_distance: Khoảng cách hành tinh tối thiểu
+se_planet_distance_factor: Hệ số khoảng cách hành tinh
+se_planet_distance_factor_info: 'Mặc định: 5, cách tính: chênh lệch hành tinh × hệ số khoảng cách hành tinh + khoảng cách hành tinh tối thiểu'
+se_planet_distance_info: 'Mặc định: 1000, cách tính: chênh lệch hành tinh × hệ số khoảng cách hành tinh + khoảng cách hành tinh tối thiểu'
+se_planet_parameters: Cài đặt hành tinh
+se_planet_ressource_bonus: Thưởng tài nguyên theo vị trí
+se_planet_ressource_bonus_info: Tăng sản lượng tài nguyên trên hành tinh thêm x%, tùy theo vị trí.
+se_planet_size_factor: Hệ số kích thước hành tinh
+se_planet_size_factor_info: Hệ số nhân cho kích thước hành tinh, 1 = mặc định
+se_planets: Hành tinh
+se_planets_act: Hành tinh đang hoạt động
+se_planets_per_tech: Hành tinh thêm mỗi cấp thiên văn học
+se_planets_per_tech_info: Số thuộc địa thêm được mở khóa mỗi cấp thiên văn học
+se_prepare_text: Văn bản chuẩn bị máy chủ
+se_random_planet_creation: Ngẫu nhiên
+se_rank:
+- Người chơi
+- Kiểm duyệt viên
+- Vận hành viên
+- Quản trị viên
+se_pow_adaptive: Chống bot - độ khó thích ứng
+se_pow_adaptive_info: 'Bật: địa chỉ IP và mạng đáng ngờ (/24 hoặc /64) nhận câu đố khó hơn nhiều (nhiều yêu cầu, lỗi hoặc đăng ký trong thời gian ngắn). Tắt: mọi khách truy cập đều nhận câu đố cơ bản và không đếm bộ đếm nào.'
+se_pow_elevated_factor: Chống bot - hệ số khi rủi ro tăng
+se_pow_elevated_factor_info: Câu đố sẽ khó hơn gấp này lần (mặc định 20).
+se_pow_high_factor: Chống bot - hệ số khi rủi ro cao
+se_pow_high_factor_info: Câu đố sẽ khó hơn gấp này lần (mặc định 100).
+se_pow_max_cap: Chống bot - giới hạn độ khó
+se_pow_max_cap_info: Số cao nhất sau khi áp dụng hệ số. 1500000 mất khoảng 25 giây trên điện thoại chậm.
+se_pow_sensitivity: Chống bot - độ nhạy phát hiện rủi ro
+se_pow_sensitivity_info: Phần trăm các ngưỡng mặc định (tăng từ 5 yêu cầu/10 phút, 3 lỗi/giờ hoặc 2 đăng ký/24 giờ mỗi IP; cao từ 20 / 10 / 5; mạng gấp ba lần). 200 = cần gấp đôi số sự kiện, 50 = một nửa.
+se_pow_max_number: Chống bot - độ khó (số tối đa)
+se_pow_max_number_info: Trình duyệt thử các giá trị băm tới số này, trung bình một nửa. 100000 mất khoảng nửa giây đến một giây. Số càng lớn thì bot càng tốn công.
+se_pow_min_seconds: Chống bot - thời gian tối thiểu trước khi gửi (giây)
+se_pow_min_seconds_info: Biểu mẫu được gửi nhanh hơn mức này sau khi tải sẽ bị từ chối. 0 = tắt kiểm tra.
+se_proofofwork: Chống bot
+se_proofofwork_info: Đăng ký và quên mật khẩu được bảo vệ bằng một phép tính nhỏ do trình duyệt tự giải, không cần bên thứ ba.
+se_rebuild_protection: Bảo vệ tái thiết
+se_rebuild_protection_info: Sau tổn thất nặng, người chơi được bảo vệ tái thiết khỏi các đợt tấn công tiếp theo sau 6 giờ, kéo dài 48 giờ kể từ lúc bị tấn công. Phải phá hủy 70% hạm đội hoặc 80% sức chứa vận chuyển trong một lần tấn công, và tổn thất đó phải ít nhất bằng điểm bảo vệ người mới × 1.000 tính theo đơn vị hoặc sức chứa. Người chơi có thể kết thúc chế độ này sớm.
+se_redis_connection_url: URL kết nối Redis
+se_redis_connection_url_info: redis[s]://[[username][:password]@][host][:port][/db-number]
+se_ref: Liên kết giới thiệu
+se_ref_active: Bật liên kết giới thiệu
+se_ref_active_info: Liên kết giới thiệu cho phép người chơi mời bạn bè. Người chơi được mời sẽ mang lại thưởng.
+se_ref_bonus: Thưởng giới thiệu
+se_ref_bonus_info: Vật chất tối (Dark Matter) người giới thiệu nhận được cho mỗi người chơi được mời.
+se_ref_max_referals: Số lượt giới thiệu tối đa
+se_ref_max_referals_info: Số người chơi tối đa một người dùng có thể mời.
+se_ref_minpoints: Điểm tối thiểu để nhận thưởng
+se_ref_minpoints_info: Người được mời phải đạt số điểm này thì người giới thiệu mới nhận được thưởng.
+se_research_speed: Tốc độ nghiên cứu
+se_resource_multiplier: Tốc độ sản xuất tài nguyên
+se_resource_multiplier_info: 'Tốc độ bình thường: 1'
+se_ress_chance: Tỷ lệ tài nguyên
+se_ring_galaxy: Thiên hà vòng
+se_ring_uni: Vũ trụ vòng
+se_save_parameters: Lưu
+se_se_fleet_debris_percentage_info: Tỷ lệ hạm đội bị phá hủy thành mảnh vỡ sau một trận đánh
+se_search: Tìm kiếm
+se_search_alliance_0: ID
+se_search_alliance_1: Tên
+se_search_alliance_2: TAG
+se_search_alliance_3: Thủ lĩnh
+se_search_alliance_4: Thành lập
+se_search_alliance_5: Thành viên
+se_search_banned_0: ID
+se_search_banned_1: Tên
+se_search_banned_2: Bị cấm từ
+se_search_banned_3: Cấm đến
+se_search_banned_4: Lý do
+se_search_banned_5: Người cấm
+se_search_edit: Sửa
+se_search_in: Tìm cho
+se_search_info: Tìm kiếm
+se_search_order: Sắp xếp
+se_search_planets_0: ID
+se_search_planets_1: Tên
+se_search_planets_2: Chủ sở hữu
+se_search_planets_3: Hoạt động cuối
+se_search_planets_4: Thiên hà
+se_search_planets_5: Hệ
+se_search_planets_6: Hành tinh
+se_search_planets_7: Có mặt trăng?
+se_search_title: Tìm kiếm nâng cao
+se_search_users_0: ID
+se_search_users_1: Tên
+se_search_users_2: E-mail
+se_search_users_3: Hoạt động cuối
+se_search_users_4: Ngày đăng ký
+se_search_users_5: IP gần nhất
+se_search_users_6: Cấp bậc
+se_search_users_7: Bị cấm?
+se_search_users_8: Nghỉ?
+se_sendmail_inactive: Bật email nhắc nhở
+se_server_naame: Tên trò chơi
+se_server_parameters: Cài đặt vũ trụ
+se_session_handler: Bộ xử lý phiên
+se_several_parameters: Cài đặt khác
+se_shipyard_speed: Tốc độ xưởng tàu
+se_silo_factor: Kích thước hầm tên lửa
+se_silo_factor_info: Hệ số nhân cho kích thước hầm tên lửa
+se_smail_path: Đường dẫn tới Sendmail / Qmail
+se_smtp: Cài đặt SMTP
+se_smtp_host: 'Máy chủ SMTP:'
+se_smtp_host_info: Địa chỉ máy chủ SMTP của bạn.
+se_smtp_info: Cài đặt SMTP dùng để gửi mail từ máy chủ {game_name} tới người chơi.
+se_smtp_pass: 'Mật khẩu SMTP:'
+se_smtp_port: 'Cổng SMTP:'
+se_smtp_port_info: Cổng của máy chủ SMTP. Thường là 25.
+se_smtp_sendmail: 'Người gửi SMTP:'
+se_smtp_sendmail_info: Địa chỉ người gửi. Không nhất thiết phải trùng với địa chỉ đăng nhập.
+se_smtp_ssl: 'SSL/TLS SMTP:'
+se_smtp_ssl_info: Kiểu mã hóa giữa máy chủ này và máy chủ mail. Hiếm khi cần.
+se_smtp_ssl_sel:
+- Không
+- SSL
+- TLS
+se_smtp_user: 'Tên người dùng SMTP:'
+se_sphere_galaxy: Thiên hà cầu
+se_sphere_uni: Vũ trụ cầu
+se_start: Ngày bắt đầu
+se_start_time: Thời gian bắt đầu
+se_stat: Gán 0 điểm cho quản trị viên
+se_stat_level: Từ cấp bậc
+se_stat_sel:
+- Không
+- Có
+- Ẩn quản trị viên
+se_stat_settings: Giá trị của 1 điểm thống kê
+se_statistics: Thống kê
+se_statsjson_delay: Độ trễ stats.json
+se_storage_multiplier: Hệ số dung lượng kho tài nguyên
+se_suspended: Bị cấm
+se_system: Hệ
+se_system_distance: Khoảng cách hệ tối thiểu
+se_system_distance_factor: Hệ số khoảng cách hệ
+se_system_distance_factor_info: 'Mặc định: 95, cách tính: chênh lệch hệ × hệ số khoảng cách hệ + khoảng cách hệ tối thiểu'
+se_system_distance_info: 'Mặc định: 2700, cách tính: chênh lệch hệ × hệ số khoảng cách hệ + khoảng cách hệ tối thiểu'
+se_tag: TAG
+se_temp: Độ
+se_time_of_page: Trang được tạo lúc
+se_timezone: Múi giờ vũ trụ
+se_trade_allowed_ships: 'Tàu được phép:'
+se_trade_charge: 'Phí thương nhân:'
+se_trader: Cài đặt thương nhân phế liệu
+se_ttf_file: Đường dẫn tới tệp TTF
+se_ttf_file_info: Cần để hiển thị ký tự Cyrillic hoặc tiếng Trung trên banner thống kê
+se_type_all: Tìm kiếm thường
+se_type_exact: Tìm chính xác
+se_type_first: Bắt đầu bằng
+se_type_last: Kết thúc bằng
+se_type_typee: Loại
+se_uni_name: Tên vũ trụ
+se_uni_status: Trạng thái vũ trụ
+se_uni_status_regclosed_gameclosed: Đăng ký và đăng nhập đóng (ví dụ bảo trì)
+se_uni_status_regclosed_gameopen: Đăng ký đóng, đăng nhập mở (ví dụ vũ trụ cũ)
+se_uni_status_regopen_gameclosed: Đăng ký mở, đăng nhập đóng (ví dụ vũ trụ mới)
+se_uni_status_regopen_gameopen: Đăng ký và đăng nhập mở
+se_uni_type: Loại vũ trụ
+se_uni_type_info: <TABLE><tr><td>Vũ trụ thẳng</td><td>Khoảng cách tới thiên hà 1 tăng theo từng thiên hà.</td></tr><tr><td>Vũ trụ vòng</td><td>Thiên hà cuối và đầu được nối với nhau, nên khoảng cách từ các thiên hà xa tới thiên hà đầu được rút ngắn.</td></tr><tr><td>Vũ trụ cầu</td><td>Mọi thiên hà đều cách đều nhau.</td></tr></TABLE>
+se_user_settings: Cài đặt người chơi
+se_user_valid: Xác thực email
+se_user_valid_info: Nếu bật, người chơi phải kích hoạt tài khoản qua email. Phải cấu hình SMTP bên dưới.
+se_users: Người chơi
+se_vacat: Nghỉ?
+se_vacations: Kỳ nghỉ
+se_vmode_min_time: Thời gian nghỉ tối thiểu
+se_vmode_min_time_info: Thời gian tối thiểu người chơi phải ở chế độ nghỉ, tính bằng giây
+se_wreckfield_cooldown: Thời gian chờ bãi phế tích
+se_wreckfield_min_percent: Tỷ lệ tối thiểu đơn vị hạm đội bị phá hủy để tạo bãi phế tích
+se_wreckfield_min_units: Số đơn vị bị phá hủy tối thiểu để tạo bãi phế tích
+select_option: Chọn...
+ships_title: Tàu
+sp_answer_message: 'Đã có phản hồi cho ticket #%d của bạn!'
+sp_answer_message_title: 'Ticket hỗ trợ #%d'
+status: Trạng thái
+subject: Tiêu đề
+test_data_amount: Số người chơi thử nghiệm
+test_data_stage:
+- Giai đoạn đầu (thám báo)
+- Giữa trận (thiết giáp hạm, 1 mặt trăng)
+- Hậu kỳ (tuần dương hạm, Phalanx)
+- Cuối game (Sao Chết, cổng nhảy)
+test_data_stage_label: Giai đoạn
+test_data_success: Đã tạo dữ liệu người chơi thử nghiệm thành công
+test_data_title: Tạo dữ liệu người chơi thử nghiệm
+text: Chi tiết
+time_days: Ngày
+time_hours: Giờ
+time_minutes: Phút
+time_seconds: Giây
+ul_sure_you_want_dlte: Bạn có chắc chắn muốn xóa mục này?
+uni_reg: Vũ trụ
+user_reg: Tên
+uvs_actions: Thao tác
+uvs_back: Quay lại
+uvs_delete: Xóa
+uvs_id: ID vũ trụ
+uvs_inactive: Không hoạt động
+uvs_name: Tên
+uvs_new: Thêm vũ trụ
+uvs_off: Đóng
+uvs_on: Mở
+uvs_open: Trạng thái
+uvs_planets: Hành tinh
+uvs_players: Người chơi
+uvs_reload: Tải lại
+uvs_speeds: Hệ số tốc độ (G/F/R/E)
+uvs_speeds_full: Hệ số tốc độ (Trò chơi/Hạm đội/Tài nguyên/Thám hiểm)
+vt_all: Tất cả tệp
+vt_head: Kiểm tra tệp trò chơi
+vt_info: Danh sách này hiển thị các tệp khác với bản gốc.<br>Nếu bạn chưa tự thay đổi trò chơi, hãy thay các tệp này bằng bản gốc.
+adm_comments: Bình luận
+adm_analytics: Phân tích
+ad_system: Hệ thống
+adm_menu_filter: Lọc menu …
+adm_menu_empty: Không tìm thấy mục menu
+adm_menu_toggle: Menu
+adm_back_to_game: Quay lại trò chơi
+adm_drop_rights: Đăng xuất
+adm_universe_switch: Vũ trụ
+adm_dash_attention: Cần chú ý
+adm_dash_all_good: Mọi thứ ổn – không có cảnh báo.
+adm_dash_online: Người chơi trực tuyến (15 phút)
+adm_dash_players: Tổng số người chơi
+adm_dash_tickets: Ticket đang mở
+adm_dash_fleets: Hạm đội đang bay
+adm_dash_quick: Truy cập nhanh
+adm_dash_system: Hệ thống
+adm_dash_version: Phiên bản
+adm_dash_php: PHP
+adm_dash_uni_status: Trạng thái vũ trụ
+adm_dash_credits: Ghi công
+adm_dash_project: Trang dự án
+adm_confirm: Bạn có chắc chắn không?
+adm_dash_cron_locked: 'Cronjob bị khóa (không còn chạy): %s'
+adm_dash_next_cron: Cronjob tiếp theo
+adm_dash_cron_count: cronjob đang hoạt động
+adm_unsaved_hint: Thay đổi có hiệu lực sau khi bạn lưu.
+adm_sections: Mục
+adm_skip: Bỏ qua tới nội dung
+adm_filter_page: Lọc trang này …
+adm_actions: Thao tác
+adm_ac_no_destroyed: Gần đây không có hành tinh nào bị phá hủy.
+adm_ae_addremove_hint: Giá trị được cộng vào số hiện có (Thêm) hoặc trừ đi khỏi số đó (Xóa). Giá trị 0 giữ nguyên mục.
+adm_ae_confirm_remove: Thật sự trừ các giá trị đã nhập khỏi số hiện có?
+adm_ae_danger_zone: Vùng nguy hiểm
+adm_ae_group_planet: Hành tinh / mặt trăng
+adm_ae_group_player: Người chơi
+adm_ae_menu_hint: Chọn mục cần chỉnh sửa. Người chơi được chọn theo ID người chơi, hành tinh theo ID hành tinh hoặc mặt trăng.
+adm_ae_wipe: Đặt lại hành tinh
+adm_ae_wipe_hint: Các mục được chọn sẽ bị xóa khỏi hành tinh. Không thể hoàn tác.
+adm_as_confirm: Thật sự đổi tài khoản của hai người chơi đã chọn?
+adm_as_explain: Hai người chơi được chọn sẽ đổi tài khoản (thông tin đăng nhập). Trạng thái trò chơi và hành tinh vẫn thuộc về từng người, chỉ thông tin đăng nhập đổi chủ. Chọn người chơi A bên trái và người chơi B bên phải.
+adm_ban_accounts: Tài khoản
+adm_ban_duration: Thời hạn
+adm_ban_users: Người chơi
+adm_continue: Tiếp tục
+adm_coord_position: Vị trí
+adm_cron_active: Đang bật
+adm_cron_click_disable: Nhấn để tắt
+adm_cron_click_enable: Nhấn để bật
+adm_cron_click_lock: Nhấn để khóa
+adm_cron_click_unlock: Nhấn để mở khóa (lần chạy bị treo)
+adm_cron_free: Rảnh
+adm_cron_hint: Nhấn vào nhãn trạng thái để chuyển đổi
+adm_cron_inactive: Tắt
+adm_cron_locked: Đã khóa
+adm_cron_state: Trạng thái
+adm_giveaway_confirm: Số lượng sẽ được cộng cho mọi hành tinh khớp trong vũ trụ này. Tiếp tục?
+adm_giveaway_hint: Số lượng được cộng vào kho hiện có của mọi hành tinh khớp. Ô để 0 sẽ không thay đổi.
+adm_reset_warning: Mọi mục được chọn bên dưới sẽ bị xóa hoặc đặt lại vĩnh viễn cho vũ trụ này. Không có bản sao lưu và không thể hoàn tác.
+adm_rights_edit: Sửa quyền hạn
+adm_rights_other: Khác
+adm_rights_page: Trang
+adm_rights_pick: Chọn người chơi mà bạn muốn sửa quyền hạn.
+adm_uni_close: Đóng vũ trụ
+adm_uni_open: Mở vũ trụ
+adm_edit: Sửa
+adm_ma_recipients: Người nhận
+adm_ml_from: từ
+adm_ml_to: đến
+ac_detailed_planet_moon_info: Chi tiết hành tinh và mặt trăng
+ad_max: (tối đa %d)
+adm_password_info: Nhập mật khẩu để xác minh danh tính!
+button_des_se: chọn/bỏ chọn tất cả
+er_dlte_all: Xóa tất cả
+input_id_moon: ID mặt trăng
+input_text: 'Mô tả:'
+mip_ip: IP
+adm_cfg_crystal_pct: Tinh thể %
+adm_cfg_deuterium_pct: Deuterium %
+adm_cfg_fields_max: Ô tối đa
+adm_cfg_fields_min: Ô tối thiểu
+adm_cfg_metal_pct: Kim loại %
+adm_cfg_planet_props: Thuộc tính hành tinh theo vị trí
+adm_cfg_planet_props_hint: Nhiệt độ tính bằng °C, số ô, thưởng sản lượng tính bằng %
+adm_cfg_temp_max: Nhiệt độ tối đa
+adm_cfg_temp_min: Nhiệt độ tối thiểu
+adm_comment_col: Bình luận
+adm_date_dd: dd
+adm_date_format: (dd.mm.yyyy)
+adm_date_mm: mm
+adm_date_yyyy: yyyy
+adm_exp_deck_err_card: 'Định dạng thẻ không hợp lệ: thiếu loại, kích thước hoặc số lượng'
+adm_exp_deck_err_count: 'Số lượng thẻ không hợp lệ: không được âm'
+adm_exp_deck_err_empty: Bộ bài phải có ít nhất một thẻ
+adm_exp_deck_err_format: 'Định dạng bộ bài không hợp lệ: phải là một mảng'
+adm_exp_deck_err_json: Định dạng JSON không hợp lệ
+adm_exp_ships_saved: Đã lưu cấu hình tàu thành công!
+adm_flight_distance: Khoảng cách
+adm_flight_err_dist_missing: Hãy điền đầy đủ mọi giá trị khoảng cách.
+adm_flight_err_format: Hãy nhập theo định dạng thiên hà:hệ:hành tinh.
+adm_flight_err_galaxy_over: Thiên hà vượt quá max_galaxy.
+adm_flight_err_max_missing: Hãy điền đầy đủ max_galaxy, max_system và max_planets.
+adm_flight_err_min_one: Thiên hà, hệ và hành tinh phải ít nhất bằng 1.
+adm_flight_err_planet_over: Hành tinh vượt quá max_planets.
+adm_flight_err_system_over: Hệ vượt quá max_system.
+adm_flight_fleet_speed: Tốc độ hạm đội
+adm_flight_preview: Xem trước thời gian bay
+adm_flight_preview_help: Thời gian bay từ 1:1:1 đến mục tiêu với tốc độ tàu 45.000 và tốc độ hạm đội 1; loại vũ trụ, loại thiên hà, giá trị tối đa, hệ số khoảng cách và khoảng cách tối thiểu được áp dụng ngay.
+adm_flight_ship_speed: Tốc độ tàu
+adm_flight_time: Thời gian bay
+adm_info_col: Thông tin
+adm_info_db_version: Phiên bản CSDL
+adm_info_errorlog: Nhật ký lỗi
+adm_info_game: Trò chơi
+adm_info_game_address: Địa chỉ trò chơi
+adm_info_game_version: Phiên bản trò chơi
+adm_info_memory_limit: Giới hạn bộ nhớ
+adm_info_mysql_client: Client MySQL
+adm_info_mysql_server: Server MySQL
+adm_info_php_version: Phiên bản PHP
+adm_info_server: Máy chủ
+adm_info_server_info: Thông tin máy chủ
+adm_info_text: Dạng văn bản
+adm_info_timezone: Múi giờ (PHP/cấu hình/người dùng)
+adm_loading: Đang tải …
+adm_log_not_found: Không tìm thấy trong nhật ký
+adm_mip_activity: Hoạt động
+adm_mip_show_allowed: Hiện đã duyệt
+adm_mip_show_banned: Hiện bị cấm
+adm_ml_end_day: Ngày kết thúc
+adm_ml_end_month: Tháng kết thúc
+adm_ml_end_year: Năm kết thúc
+adm_ml_start_day: Ngày bắt đầu
+adm_ml_start_month: Tháng bắt đầu
+adm_ml_start_year: Năm bắt đầu
+adm_pagination: Phân trang
+adm_permission_error: Không có quyền!
+adm_ti_all: Tất cả
+adm_ti_debug_errors: Gỡ lỗi/lỗi
+adm_ti_user_tickets: Ticket người dùng
+adm_group_community: Cộng đồng
+adm_nav_accounts: Tài khoản
+adm_nav_expeditions: Thám hiểm
+adm_nav_messages: Tin nhắn
+adm_nav_moderation: Kiểm duyệt
+adm_nav_players: Người chơi
+adm_nav_settings: Cài đặt
+adm_tab_bans: Cấm
+adm_tab_card_deck: Bộ bài thẻ
+adm_tab_create: Tạo
+adm_tab_editor: Chỉnh sửa
+adm_tab_findable_ships: Tàu có thể tìm thấy
+adm_tab_moons: Mặt trăng
+adm_tab_planets: Hành tinh
+adm_tab_players: Người chơi
+adm_tab_server: Máy chủ
+adm_tab_swap: Đổi
+adm_tab_universe: Vũ trụ
+adm_maint_cache_text: Xóa bộ nhớ đệm của trò chơi (ngôn ngữ, giao diện, dữ liệu trò chơi) và tính lại thời gian cron job. Hữu ích khi thay đổi cài đặt hoặc văn bản chưa hiện ra.
+adm_maint_log_head: Nhật ký trò chơi
+adm_maint_log_text: Nhật ký lỗi của trò chơi (var/log/game.log). Xóa sẽ làm trống tệp; lỗi mới sẽ được ghi lại ngay.
+adm_maint_log_size: Kích thước
+adm_maint_log_changed: Thay đổi lần cuối
+adm_maint_log_missing: Tệp nhật ký chưa tồn tại.
+adm_maint_log_clear: Xóa nhật ký trò chơi
+adm_maint_log_confirm: Làm trống var/log/game.log? Không thể hoàn tác.
+adm_maint_log_cleared: Đã xóa nhật ký trò chơi.
+adm_maint_log_failed: Không xóa được nhật ký trò chơi (tệp không ghi được).
+adm_maint_points_text: Tính lại điểm và bảng xếp hạng ngay. Nếu không, việc này tự chạy qua cron job thống kê và có thể mất một lúc khi có nhiều người chơi.
+adm_nav_maintenance: Bảo trì
+adm_nav_content: Nội dung
+adm_tab_pages: Trang
+adm_tab_team: Đội ngũ
+nws_back: Quay lại danh sách
+nws_view: Xem
+nws_summary: Tóm tắt
+nws_summary_help: Đoạn giới thiệu tùy chọn cho danh sách tin tức (tối đa 300 ký tự). Để trống = trích đoạn của nội dung.
+nws_publish_date: Ngày đăng
+nws_publish_help: 'Ngày trong tương lai sẽ lên lịch tin tức: tin sẽ tự hiện vào thời điểm đó.'
+nws_status: Trạng thái
+nws_status_draft: Bản nháp
+nws_status_published: Đã đăng
+nws_status_scheduled: Đã lên lịch
+nws_pinned: Ghim
+nws_filter_all: Tất cả
+nws_filter_drafts: Bản nháp
+nws_empty: Chưa có tin tức nào
+nws_saved: Đã lưu tin tức.
+nws_deleted: Đã xóa tin tức.
+nws_error_empty: Tiêu đề và nội dung không được để trống.
+cms_page_contacts: Liên hệ
+cms_page_dataPrivacy: Bảo mật dữ liệu
+cms_page_rules: Quy định
+cms_language: Ngôn ngữ
+cms_status: Trạng thái
+cms_status_default: Mặc định
+cms_status_edited: Đã chỉnh sửa
+cms_last_edit: Lần sửa cuối
+cms_title: Tiêu đề
+cms_content: Nội dung
+cms_save: Lưu trang
+cms_view: Xem trang
+cms_reset: Đặt lại mặc định
+cms_reset_confirm: Xóa bản đã chỉnh sửa và hiện lại nội dung mặc định?
+cms_saved: Đã lưu trang.
+cms_reset_done: Đã đặt lại trang về nội dung mặc định.
+team_name: Tên
+team_position: Vai trò
+team_contact: Liên hệ (ví dụ Discord)
+team_description: Mô tả
+team_add: Thêm thành viên
+team_delete: Xóa
+team_move_up: Lên
+team_move_down: Xuống
+team_save: Lưu đội ngũ
+team_saved: Đã lưu đội ngũ.
+team_empty: Chưa có thành viên nào.
+team_hint: Thứ tự các dòng là thứ tự trên trang đội ngũ công khai. Dòng không có tên sẽ bị bỏ khi lưu.
+nws_image: Hình ảnh
+nws_image_remove: Xóa hình ảnh
+nws_image_help: Tùy chọn, mỗi tin một hình (JPEG, PNG, GIF hoặc WebP, tối đa 8 MB). Tự động chuyển sang WebP.
+bot_action: Hành động
+bot_actions_per_session: Hành động mỗi phiên
+bot_active: Đang bật
+bot_active_none: Không dùng LLM (chỉ dự phòng cục bộ)
+bot_activity: Hoạt động mỗi giờ
+bot_activity_info: 24 giá trị cách nhau bằng dấu phẩy, từ 0 đến 1 (xác suất bot ngoại tuyến bắt đầu một phiên, giờ 0-23)
+bot_alliance_chance: Xác suất hoạt động liên minh mỗi phiên
+bot_alliance_join_chance: Xác suất xin gia nhập liên minh bot (mỗi lượt)
+bot_fleetsave_chance: Xác suất cứu hạm đội (kết thúc phiên, mối đe dọa)
+bot_saving_discipline: Kỷ luật tiết kiệm (để dành cho mục tiêu thay vì mua rẻ)
+bot_expedition_slots: Số slot hạm đội dành cho thám hiểm
+bot_api_key: Khóa API
+bot_base_url: URL gốc
+bot_buddy_accept_chance: Xác suất chấp nhận lời mời bạn bè
+bot_cancel: Hủy
+bot_chat_style: Gợi ý phong cách trò chuyện
+bot_raid_enabled: Bật tấn công cướp
+bot_raid_chance: Phiên tấn công cướp
+bot_scout_range: Phạm vi do thám (hệ quanh hành tinh của mình)
+bot_min_profit_ratio: Tỷ lệ lợi nhuận tối thiểu (chiến lợi phẩm / nhiên liệu + tổn thất)
+bot_relentless_minutes: Chuỗi tấn công sau một đòn (phút, tối thiểu - tối đa)
+bot_recall_check_chance: Xác suất do thám lại và kiểm tra rút quân trước khi va chạm
+bot_max_attacks_per_target: Số đợt tấn công tối đa mỗi mục tiêu và mỗi ngày
+bot_attack_bots: Tấn công bot khác
+bot_attack_humans: Tấn công người chơi thật
+bot_prefer_inactive: Ưu tiên mục tiêu không hoạt động (0-100)
+bot_check_interval: Khoảng thời gian kiểm tra đăng nhập
+bot_colonize_chance: Xác suất thuộc địa hóa mỗi phiên
+bot_confirm_delete: Thật sự xóa?
+bot_confirm_restore: Đặt lại các hồ sơ mặc định về giá trị gốc?
+bot_csrf_error: Mã bảo mật không hợp lệ, hãy tải lại trang.
+bot_days_zero_off: ngày (0 = tắt)
+bot_default: mặc định
+bot_defaults_restored: Đã khôi phục hồ sơ mặc định.
+bot_delete: Xóa
+bot_deleted: Đã xóa.
+bot_description: Mô tả
+bot_detail: Chi tiết
+bot_disabled: đã tắt
+bot_duplicate: Nhân bản
+bot_edit: Sửa
+bot_edit_profile: Sửa hồ sơ
+bot_enabled: đã bật
+bot_expedition_chance: Xác suất thám hiểm mỗi phiên
+bot_failed: Thất bại
+bot_hours_every: giờ một lần
+bot_invalid_url: URL gốc phải bắt đầu bằng http:// hoặc https://.
+bot_key: Khóa
+bot_key_keep: để trống để giữ nguyên
+bot_key_not_set: chưa đặt
+bot_key_stored: đã lưu
+bot_last_action: Hành động gần nhất
+bot_last_test: Lần kiểm tra gần nhất
+bot_list: Bot
+bot_llm_advice: Cho phép LLM (tên và trò chuyện)
+bot_log: Hành động gần đây
+bot_mistake_chance: Xác suất mắc lỗi
+bot_mode: Chế độ bot
+bot_model: Mô hình
+bot_name: Tên
+bot_name_required: Hãy nhập tên.
+bot_new_profile: Hồ sơ mới
+bot_next_tick: Lần kiểm tra kế tiếp
+bot_none: Không có.
+bot_offline: ngoại tuyến
+bot_online: trực tuyến
+bot_open_config: Cài đặt vũ trụ
+bot_pattern_shift: Dịch chuyển mẫu
+bot_player: Người chơi
+bot_points: Điểm
+bot_profile: Hồ sơ
+bot_profile_default_locked: Không thể xóa hồ sơ mặc định.
+bot_profile_in_use: Hồ sơ này vẫn đang được bot sử dụng.
+bot_profile_missing: Không tìm thấy hồ sơ.
+bot_provider: Nhà cung cấp
+bot_providers_info: 'LLM là tùy chọn, chỉ dùng cho phần người chơi của bot: biệt danh, tính cách, tên hành tinh và trò chuyện (trả lời tin nhắn, liên minh, bạn bè). Quyết định trong trò chơi luôn được đưa ra cục bộ. Khi không có nhà cung cấp nào đang bật, bộ sinh tên và tin nhắn có sẵn sẽ được dùng. Để trống ô khóa để giữ khóa đã lưu.'
+bot_randomness: Tính ngẫu nhiên
+bot_reply_chance: Xác suất trả lời (tin nhắn riêng)
+bot_restore_defaults: Khôi phục mặc định
+bot_saved: Đã lưu.
+bot_session: Phiên
+bot_session_minutes: Độ dài phiên
+bot_skill: Kỹ năng
+bot_skill_gain: Tăng mỗi ngày
+bot_skill_max: Tối đa
+bot_skill_start: Khởi đầu
+bot_spawn: Tạo bot
+bot_spawned: Đã tạo %d bot.
+bot_summary: Tóm tắt
+bot_summary_actions: hành động
+bot_summary_mistakes: lỗi
+bot_summary_session: phiên
+bot_tab_profiles: Hồ sơ
+bot_tab_providers: Nhà cung cấp LLM
+bot_test: Kiểm tra kết nối
+bot_testing: Đang kiểm tra...
+bot_time: Thời gian
+bot_universe: Vũ trụ
+bot_w_defense: Phòng thủ
+bot_w_energy: Năng lượng
+bot_w_facilities: Công trình hỗ trợ
+bot_w_mines: Mỏ
+bot_w_research: Nghiên cứu
+bot_w_ships: Tàu
+bot_w_storage: Kho
+bot_weights: Trọng số
+adm_nav_bots: Bot
+adm_tab_bot_providers: Nhà cung cấp LLM
+adm_tab_bot_profiles: Hồ sơ
+adm_tab_bot_list: Bot
+se_bots: Bot
+se_bots_enabled: Bật bot
+se_bots_enabled_info: Cho phép bot phía máy chủ chơi trong vũ trụ này. Chúng được cron job xử lý mỗi phút một lần.
+se_bots_llm_daily_limit: Số lần gọi LLM mỗi bot mỗi ngày
+se_bots_llm_daily_limit_info: Số lần gọi LLM tối đa một bot có thể thực hiện trong ngày. Sau đó sẽ dùng phương án dự phòng cục bộ.
+se_bots_llm_enabled: Dùng LLM cho tên và trò chuyện
+se_bots_llm_enabled_info: Bật biệt danh, tính cách, tên hành tinh và trò chuyện (tin nhắn, liên minh, bạn bè) do LLM tạo, qua nhà cung cấp đang bật. Quyết định trong trò chơi luôn được đưa ra cục bộ.
+se_bots_max_count: Số bot tối đa
+se_bots_max_count_info: Giới hạn trên cho số bot được tạo trong vũ trụ này.
+se_bots_ticks_per_run: Số bot mỗi lần chạy cron
+se_bots_ticks_per_run_info: Số bot tối đa được xử lý trong một lần chạy cron.
+se_bots_raids_enabled: Bot tấn công người chơi khác
+se_bots_raids_enabled_info: Cho phép bot do thám, gián điệp và tấn công người chơi cùng bot khác gần đó, theo cùng luật với người chơi (giới hạn bash, bảo vệ, kỳ nghỉ). Mặc định tắt.
+adm_info_summary_fail: '%s kiểm tra thất bại, %s cảnh báo. Hãy sửa các kiểm tra thất bại trước.'
+adm_info_summary_warn: Không có kiểm tra thất bại, nhưng %s cảnh báo cần xem lại.
+adm_info_summary_ok: Mọi kiểm tra sức khỏe đều đạt.
+adm_info_health: Kiểm tra sức khỏe
+adm_info_status_ok: OK
+adm_info_status_warn: Cảnh báo
+adm_info_status_fail: Thất bại
+adm_info_status_info: Thông tin
+adm_info_chk_php: Phiên bản PHP (8.4 trở lên)
+adm_info_chk_php_hint: Trò chơi cần PHP 8.4 trở lên.
+adm_info_chk_ext_required: Tiện ích mở rộng PHP bắt buộc
+adm_info_chk_ext_required_hint: Hãy cài các tiện ích còn thiếu, trò chơi sẽ không chạy nếu thiếu.
+adm_info_chk_ext_optional: Tiện ích mở rộng PHP tùy chọn
+adm_info_chk_ext_optional_hint: Không bắt buộc, nhưng giúp chạy nhanh hơn hoặc bật thêm tính năng (xem danh sách tiện ích).
+adm_info_chk_opcache: OPcache
+adm_info_chk_opcache_hint: OPcache đang tắt. Hãy bật trên máy chủ thật, nó giúp PHP chạy nhanh hơn nhiều.
+adm_info_chk_environment: Môi trường (APP_ENV / gỡ lỗi)
+adm_info_chk_environment_hint: Trên máy chủ công khai, hãy chạy với APP_ENV=prod và tắt chế độ gỡ lỗi.
+adm_info_chk_display_errors: display_errors
+adm_info_chk_display_errors_hint: Lỗi hiển thị trên trang có thể làm lộ thông tin nội bộ. Trên máy chủ công khai, hãy đặt display_errors=Off.
+adm_info_chk_writable: Thư mục có thể ghi
+adm_info_chk_writable_hint: Người dùng máy chủ web phải ghi được vào các thư mục này (bộ nhớ đệm, nhật ký, phiên, tải lên).
+adm_info_chk_install_tool: Công cụ cài đặt
+adm_info_chk_install_tool_hint: var/ENABLE_INSTALL_TOOL đang tồn tại. Hãy xóa khi bạn không cài đặt.
+adm_info_chk_migrations: Migration cơ sở dữ liệu
+adm_info_chk_migrations_hint: Có migration đang chờ. Chúng sẽ được áp dụng ở yêu cầu trò chơi tiếp theo; nếu vẫn chờ, hãy kiểm tra nhật ký.
+adm_info_chk_battle_engine: Bộ máy chiến đấu
+adm_info_chk_battle_engine_hint: Bộ máy Rust không dùng được (bin/battlerust, bin/libbattlerust.so, proc_open). Trận đánh sẽ chạy trên bộ máy PHP chậm hơn.
+adm_info_chk_cron: Cron job
+adm_info_chk_cron_hint: Cron có vẻ bị treo hoặc không chạy. Kiểm tra bin/console app:cron:run chạy mỗi phút và mở khóa các job bị treo trong mục Cronjob.
+adm_info_chk_https: HTTPS
+adm_info_chk_https_hint: Yêu cầu này không dùng HTTPS. Mật khẩu và phiên đăng nhập được truyền không mã hóa.
+adm_info_chk_mail: Gửi mail
+adm_info_chk_mail_hint: Mail đang tắt hoặc chưa đầy đủ (mail kích hoạt và đặt lại mật khẩu sẽ không tới nơi). Xem lại cài đặt.
+adm_info_chk_session: Bộ xử lý phiên
+adm_info_chk_session_hint: Hãy kiểm tra nơi lưu trữ phiên.
+adm_info_os: Hệ điều hành
+adm_info_hostname: Tên máy
+adm_info_max_exec: Thời gian thực thi tối đa
+adm_info_upload_max: Giới hạn tải lên (upload_max_filesize)
+adm_info_post_max: Giới hạn POST (post_max_size)
+adm_info_realpath: Bộ nhớ đệm realpath
+adm_info_peak: Bộ nhớ đỉnh của yêu cầu này
+adm_info_cpu: Số nhân CPU
+adm_info_load: Tải trung bình (1 / 5 / 15 phút)
+adm_info_uptime: Thời gian hoạt động của hệ thống
+adm_info_disk: Đĩa (dự án)
+adm_info_memory: Bộ nhớ hệ thống
+adm_info_free_of: còn trống %s / %s (đã dùng %s %%)
+adm_info_opcache_line: đã dùng %s / %s, tỷ lệ trúng %s %%, %s script trong bộ nhớ đệm
+adm_info_extensions: Tiện ích mở rộng PHP
+adm_info_extensions_hint: Di chuột để xem mục đích. Đỏ = bắt buộc và còn thiếu, xám = tùy chọn và còn thiếu.
+adm_info_required: bắt buộc
+adm_info_ext_pdo_mysql: Truy cập cơ sở dữ liệu (PDO MySQL)
+adm_info_ext_intl: Định dạng số, ngày và ngôn ngữ
+adm_info_ext_mbstring: Xử lý chuỗi đa byte
+adm_info_ext_gd: Xử lý hình ảnh (avatar, hình tin tức)
+adm_info_ext_curl: Yêu cầu HTTP (Discord, API bên ngoài)
+adm_info_ext_json: Mã hóa và giải mã JSON
+adm_info_ext_ctype: Kiểm tra kiểu ký tự
+adm_info_ext_opcache: Lưu mã PHP đã biên dịch (tốc độ)
+adm_info_ext_ffi: Giao diện hàm ngoài (mã gốc)
+adm_info_ext_ds: Cấu trúc dữ liệu nhanh
+adm_info_ext_redis: Phiên và bộ nhớ đệm Redis
+adm_info_ext_imap: Truy cập hộp thư (IMAP)
+adm_info_database: Cơ sở dữ liệu
+adm_info_db_schema: Lược đồ
+adm_info_db_size: Kích thước
+adm_info_tables: bảng
+adm_info_pending: Migration đang chờ
+adm_info_db_uptime: Thời gian hoạt động của MySQL
+adm_info_threads: Luồng đang kết nối
+adm_info_max: tối đa
+adm_info_qps: Truy vấn mỗi giây (trung bình)
+adm_info_queries: truy vấn
+adm_info_slow: Truy vấn chậm
+adm_info_buffer_pool: Bộ đệm InnoDB
+adm_info_top_tables: Bảng lớn nhất
+adm_info_table: Bảng
+adm_info_rows: dòng
+adm_info_data: Dữ liệu
+adm_info_index: Chỉ mục
+adm_info_game_stats: Thống kê trò chơi
+adm_info_universe: Vũ trụ
+adm_info_players: Người chơi
+adm_info_accounts: Tài khoản
+adm_info_online: Trực tuyến
+adm_info_planets: Hành tinh
+adm_info_moons: Mặt trăng
+adm_info_fleets: Hạm đội đang bay
+adm_info_acs: Nhóm ACS
+adm_info_alliances: Liên minh
+adm_info_messages: Tin nhắn
+adm_info_unread: chưa đọc
+adm_info_activity: Hoạt động và đăng ký
+adm_info_active: Người chơi đang hoạt động
+adm_info_registrations: Đăng ký mới
+adm_info_banned: Người chơi bị cấm
+adm_info_vacation: Đang ở chế độ kỳ nghỉ
+adm_info_bots: Người chơi bot
+adm_info_points_avg: Điểm trung bình
+adm_info_points_top: Điểm cao nhất
+adm_info_last_stats: Lần cập nhật thống kê gần nhất
+adm_info_market: Chào giá thị trường đang mở
+adm_info_reports: Báo cáo chiến đấu đã lưu
+adm_info_debris: Bãi mảnh vỡ có tài nguyên (kim loại / tinh thể)
+adm_info_resources: Tài nguyên lưu trên hành tinh
+adm_info_fleets_by_mission: Hạm đội theo nhiệm vụ
+adm_info_mission: Nhiệm vụ
+adm_info_no_fleets: Không có hạm đội nào đang bay.
+adm_info_reg_chart: Đăng ký, 30 ngày gần nhất
+adm_info_no_registrations: Không có đăng ký nào trong 30 ngày gần nhất.
+adm_info_all_universes: Tất cả vũ trụ
+adm_info_total: Tổng
+adm_info_logs: Nhật ký và bộ nhớ đệm
+adm_info_game_log: Nhật ký trò chơi
+adm_info_errors_24h: Lỗi, 24 giờ gần nhất
+adm_info_warnings_24h: Cảnh báo, 24 giờ gần nhất
+adm_info_scanned: Đã quét (cuối tệp)
+adm_info_symfony_log: Nhật ký Symfony
+adm_info_lines: dòng
+adm_info_files: tệp
+adm_info_last_errors: Lỗi gần nhất
+adm_info_no_errors: Không có lỗi trong phần nhật ký đã quét.
+adm_info_time: Giờ máy chủ
+adm_info_timezone_of: Nguồn
+adm_info_zone: Múi giờ
+adm_info_tz_php: PHP
+adm_info_tz_config: Cấu hình trò chơi
+adm_info_tz_user: Tài khoản của bạn
+adm_login_throttled: Quá nhiều lần thử. Hãy thử lại sau vài phút.
+se_community_links: Liên kết cộng đồng
+se_discord_url: Đường dẫn mời Discord
+se_discord_url_info: Liên kết mời vào máy chủ Discord của bạn (https://...). Hiển thị trong menu, trang đăng nhập, email và văn bản. Để trống sẽ ẩn.
+se_discord_widget_guild: ID máy chủ Discord (widget trực tuyến)
+se_discord_widget_guild_info: ID máy chủ Discord của bạn (17-20 chữ số; Cài đặt máy chủ → Widget, phải bật "Enable Server Widget"). Hiện một khung với số người trực tuyến ở trang chủ, làm mới mỗi 5 phút. Để trống sẽ ẩn.
+se_wiki_url: URL wiki
+se_wiki_url_info: Đường dẫn gốc của wiki bên ngoài, không có dấu / cuối (https://...). Liên kết wiki trong FAQ, hướng dẫn và quy định được tạo từ đây. Để trống sẽ ẩn các liên kết.
+se_donate_url: URL quyên góp
+se_donate_url_info: Liên kết quyên góp (https://...), hiện trong menu. Để trống sẽ ẩn.
+se_userscripts_url: URL userscript
+se_userscripts_url_info: Trang mô tả userscript cho trò chơi của bạn (https://...), được liên kết trong cài đặt. Để trống sẽ ẩn.
+se_bots_alliances_enabled: Bot lập liên minh
+se_bots_alliances_enabled_info: 'Bot tự lập liên minh và thỉnh thoảng gia nhập liên minh khác. Tắt: bot đi một mình, không xin gia nhập đâu và rời các liên minh đang tham gia (liên minh do bot lập vẫn giữ nguyên).'
+se_bots_join_human_alliances: Bot có thể gia nhập liên minh người chơi
+se_bots_join_human_alliances_info: 'Bot cũng có thể xin gia nhập liên minh do người chơi thật lập. Tắt: bot chỉ gia nhập liên minh do bot lập và rời các liên minh của người chơi.'
+se_bot_reply_delay_hours: Độ trễ trả lời (giờ)
+se_bot_reply_delay_hours_info: Số giờ tin nhắn riêng chưa trả lời lâu nhất của người chơi phải chờ trước khi bot trả lời tất cả tin đang chờ của người đó trong một lần. Cũng là khoảng cách tối thiểu giữa hai tin do bot chủ động gửi (phản ứng khi bị tấn công, chọc tức khi tấn công) tới cùng một người chơi. 0 = không trễ.
+se_bot_chatter: Bot trò chuyện
+se_bot_chatter_info: 'Bật: bot trả lời tin nhắn riêng. Tắt: tin nhắn vẫn được đọc và đếm, nhưng chỉ gửi phản ứng chiến đấu (sau khi bị tấn công hoặc tấn công người chơi đã nhắn cho chúng). Bot không bao giờ nhắn trước.'
+mu_hall_of_fame: Bảng vinh danh
+hof_head: Bảng vinh danh (vũ trụ)
+hof_view: Xem trang công khai
+hof_status: Trạng thái
+hof_has_data: Có dữ liệu
+hof_entries: Số mục xếp hạng
+hof_updated: Cập nhật lần cuối
+hof_no_data: Vũ trụ này chưa có dữ liệu bảng vinh danh.
+hof_export: Xuất JSON
+hof_clear: Xóa dữ liệu
+hof_confirm_clear: Xóa dữ liệu bảng vinh danh của vũ trụ này?
+hof_import: Nhập JSON
+hof_file: Tệp JSON
+hof_import_help: 'Định dạng: hall-of-fame, phiên bản 1 (tối đa 1 MB). Sẽ thay thế dữ liệu hiện có của vũ trụ này.'
+hof_confirm_import: Thay thế dữ liệu bảng vinh danh hiện có của vũ trụ này?
+hof_imported: Đã nhập bảng vinh danh.
+hof_cleared: Đã xóa dữ liệu bảng vinh danh.
+hof_error_nofile: Chưa tải lên tệp hợp lệ.
+hof_error_invalid: 'Nhập bị từ chối:'
+se_bash_war_exempt: Chiến tranh bỏ qua giới hạn bash
+se_bash_war_exempt_info: 'Các đợt tấn công giữa các liên minh đang có chiến tranh (đã được chấp nhận, cũ hơn một ngày) không tính vào giới hạn bash. Tắt: tấn công trong chiến tranh được tính như mọi đợt khác.'
+se_honor_pair_cap: Số trận danh dự mỗi cặp (24 giờ)
+se_honor_pair_cap_info: Số trận danh dự giữa cùng hai người chơi (theo cả hai chiều) được cộng danh dự trong 24 giờ. Các trận sau đó được tính là trung lập. 0 = không giới hạn.
+se_market_push_tolerance: Dung sai giao dịch chợ
+se_market_push_tolerance_info: Chênh lệch giá trị được chấp nhận của một giao dịch chợ tính theo phần trăm (0-90) trước khi bị tính là ép giá. Mặc định 30.
+se_transport_push_check: Chốt chặn ép giá vận chuyển
+se_transport_push_check_info: Từ chối vận chuyển, giữ và chuyển (hàng hóa và tàu) sang người chơi khác khi trong 7 ngày gần nhất, giá trị gửi cho họ vượt quá giá trị họ gửi lại quá mức giới hạn bên dưới.
+se_transport_push_limit: Giới hạn ép giá vận chuyển
+se_transport_push_limit_info: Giá trị hàng hóa tính bằng đơn vị deuterium (theo tỷ giá chợ) mà trên đó chốt chặn được áp dụng. 0 = tắt chốt chặn.
+se_depot_cost_real_consumption: Chi phí kho trạm theo mức tiêu thụ thực
+se_depot_cost_real_consumption_info: Kho trạm liên minh tính mức tiêu thụ nhiên liệu thực tế của hạm đội (theo công nghệ động cơ và nhiên liệu của chủ sở hữu) / 10 mỗi giờ thay vì mức tiêu thụ cơ bản / 10.
+abuse_menu: Báo cáo lạm dụng
+abuse_days: Ngày
+abuse_apply: Áp dụng
+abuse_weights: 'Trọng số giá trị kim loại : tinh thể : deuterium'
+abuse_none: Không tìm thấy gì trong khoảng này.
+abuse_from: Từ
+abuse_to: Đến
+abuse_count: Số lượng
+abuse_sent: Đã gửi
+abuse_back: Đã trả về
+abuse_net: Giá trị ròng
+abuse_linked: Liên kết
+abuse_last: Lần cuối
+abuse_link_ip: cùng IP
+abuse_link_multi: nhóm multi
+abuse_link_multi_known: nhóm multi (đã biết)
+abuse_link_subnet: cùng subnet (yếu hơn)
+abuse_thresholds: 'Ngưỡng: một cặp chuyển giao được liệt kê khi một chiều từ %s đơn vị kim loại trở lên, với tối đa %s chiều ngược lại; cặp giao dịch chợ từ %s giao dịch, bị đánh dấu khi chênh lệch trên %s. Không có dòng nào nghĩa là không cặp nào chạm ngưỡng (hoặc nhật ký trống), không có nghĩa là không có gì xảy ra.'
+abuse_transfers: Vận chuyển và giữ một chiều
+abuse_transfers_info: Vận chuyển, giữ và chuyển tàu (chưa bị thu hồi; tàu tính theo giá chế tạo) giữa hai người chơi mà hàng hóa một chiều có giá trị ít nhất %s đơn vị kim loại trong khi chiều ngược lại có tối đa %s. Sắp xếp theo giá trị ròng; trọng số là tỷ giá chợ đã lưu.
+abuse_trades: Giao dịch chợ lặp lại
+abuse_trades_info: Giao dịch tài nguyên giữa cùng hai người chơi, ít nhất %s lần. Tỷ lệ = giá trị bên cho nhiều chia cho bên kia (1.00 = bằng giá tham chiếu chợ); trên %s chênh lệch thì cặp bị đánh dấu.
+abuse_giver: Cho nhiều hơn
+abuse_receiver: Nhận nhiều hơn
+abuse_ratio: Tỷ lệ
+abuse_outlier: bất thường
+abuse_protections: Cấp bảo vệ tái thiết
+abuse_protections_info: Người chơi được cấp bảo vệ tái thiết trong khoảng này. Đối thủ là phía bên kia của báo cáo chiến đấu trận đó; chiến lợi phẩm là giá trị hạm đội của họ thu được (mảnh vỡ và giá trị bị phá hủy không được lưu).
+abuse_protected: Người chơi được bảo vệ
+abuse_granted: Được cấp
+abuse_opponents: Đối thủ
+abuse_loot: Chiến lợi phẩm của đối thủ
+abuse_report: Báo cáo
+abuse_recalls: Rút quân khi đã tới nơi hoặc sau khi tới
+abuse_recalls_info: Các hạm đội tấn công, ACS và hủy diệt bị rút khi thời gian đến đã đạt (kiểu rút sau khi đến).
+abuse_mission: Nhiệm vụ
+abuse_arrival: Đến nơi
+abuse_recalled: Đã rút
+abuse_late: Sau khi đến
+abuse_fought: đã chiến đấu
+abuse_mission_1: Tấn công
+abuse_mission_2: Tấn công ACS
+abuse_mission_9: Hủy diệt
+abuse_missiles_skipped: 'Số lần phóng tên lửa so với nội dung hầm không thuộc báo cáo này: các bảng không lưu lịch sử hầm để so sánh.'
+abuse_link_device: cùng thiết bị
+abuse_graph: Cụm luồng giá trị
+abuse_graph_info: 'Người chơi được liên kết qua luồng giá trị trong %s ngày gần nhất (khoảng cố định): vận chuyển, giữ, chuyển tàu (theo giá chế tạo), giao dịch chợ (cả hai bên) và chiến lợi phẩm, cộng cả hai chiều. Chỉ nối các cặp đã chuyển ít nhất %s đơn vị kim loại và %s luồng; các nhóm liên kết từ hai người trở lên được liệt kê (top %s theo giá trị). Ròng = giá trị của cặp một chiều nhất trong cụm (tỷ lệ trên tổng giá trị). Cờ liên kết cho biết thành viên có chung IP, thiết bị hay nhóm multi với thành viên khác không. Số dòng đọc được giới hạn cho mỗi nguồn.'
+abuse_members: Thành viên
+abuse_value: Tổng giá trị
+abuse_flows: Luồng
+abuse_top_edge: Cặp một chiều nhất
+abuse_activity: Hoạt động xuất quân (24 giờ)
+abuse_activity_info: Các tài khoản xuất quân nhiều nhất trong 24 giờ gần nhất; đỉnh = số lần xuất quân trong giờ bận nhất. Đỉnh cao đều đặn có thể là dấu hiệu chơi bằng script.
+abuse_player: Người chơi
+abuse_launches: Lần xuất quân
+abuse_peak: Đỉnh / giờ
+adm_dash_unprotected: 'Các chốt chặn chống lạm dụng đang tắt trong vũ trụ này:'
+adm_dash_unprotected_push: Chốt chặn ép giá cho vận chuyển, giữ và chuyển đang tắt (transport_push_check / transport_push_limit).
+adm_dash_unprotected_honor: Giới hạn trận danh dự là 0 (danh dự không giới hạn giữa cùng hai người chơi).
+adm_dash_unprotected_bash: Chiến tranh đã khai báo bỏ qua giới hạn bash (bash_war_exempt).
+adm_dash_unprotected_depot: Chi phí giữ kho trạm đang theo mức tiêu thụ cơ bản thấp (depot_cost_real_consumption tắt).
+adm_dash_unprotected_market: Dung sai ép giá chợ trên 10 % (market_push_tolerance).
+modul_57: Trang bình chọn
+adm_nav_voting: Trang bình chọn
+vt_sites: Trang bình chọn
+vt_add: Thêm trang
+vt_create_head: Trang bình chọn mới
+vt_edit_head: Sửa trang bình chọn
+vt_back: Quay lại
+vt_name: Tên
+vt_vote_url: URL bình chọn
+vt_vote_url_help: Liên kết người chơi được chuyển tới. {token} (mã dùng một lần của lượt bình chọn này) và {userId} sẽ được thay thế.
+vt_image_url: URL hình ảnh (tùy chọn)
+vt_image_url_help: Banner hoặc logo hiện cạnh trang trên trang người chơi (https).
+vt_cooldown: Thời gian chờ (giờ)
+vt_cooldown_help: Một phần thưởng mỗi người chơi và mỗi trang trong khoảng thời gian này, tính từ phần thưởng gần nhất.
+vt_reward: Phần thưởng
+vt_res_901: Kim loại
+vt_res_902: Tinh thể
+vt_res_903: Deuterium
+vt_verification: Xác minh
+vt_verify_none: Không (thưởng khi nhấn)
+vt_verify_postback: Postback (thưởng khi trang gọi lại)
+vt_verification_help: Không xác minh thì phần thưởng được trả khi người chơi nhấn nút bình chọn (chỉ theo thời gian chờ). Với postback, trang bình chọn phải gọi URL callback.
+vt_sort: Thứ tự sắp xếp
+vt_active: Đang bật
+vt_enabled: Đang bật
+vt_disabled: Đã tắt
+vt_enable: Bật
+vt_disable: Tắt
+vt_delete: Xóa trang
+vt_renew_secret: Tạo bí mật mới
+vt_renew_secret_help: 'Làm mất hiệu lực URL postback cũ: hãy cập nhật ở trang bình chọn.'
+vt_postback: Postback
+vt_postback_url: URL callback
+vt_secret: Bí mật
+vt_postback_help: Nhập URL này vào trang bình chọn làm callback/postback. Thay {token} bằng macro của trang cho giá trị nhận được trong URL bình chọn. Chấp nhận GET và POST; bí mật cũng có thể gửi qua header X-Vote-Secret.
+vt_saved: Đã lưu.
+vt_deleted: Đã xóa trang bình chọn.
+vt_empty: Chưa có trang bình chọn nào.
+vt_confirm_delete: Xóa trang bình chọn "%s" và nhật ký của nó?
+vt_module_off: Module "Trang bình chọn" đang tắt, người chơi không thấy trang bình chọn.
+vt_error_name: Tên là bắt buộc.
+vt_error_vote_url: URL bình chọn phải là địa chỉ http(s) hợp lệ.
+vt_error_image_url: URL hình ảnh phải là địa chỉ http(s) hợp lệ.
+vt_error_reward: Số phần thưởng phải nằm trong khoảng từ 0 đến 1.000.000.000.
+vt_clicks: Lượt nhấn
+vt_verified: Đã xác minh
+vt_rewarded: Đã thưởng
+vt_log: Lượt bình chọn gần đây
+vt_log_time: Thời gian
+vt_log_player: Người chơi
+vt_log_status: Trạng thái
+vt_log_ip: IP
+vt_log_empty: Chưa có lượt bình chọn nào.
+vt_status_rewarded: Đã thưởng
+vt_status_verified: Đã xác minh, không thưởng
+vt_status_pending: Đã nhấn

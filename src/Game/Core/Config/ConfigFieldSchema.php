@@ -95,7 +95,7 @@ class ConfigFieldSchema
             (new Schema\BasicSmtpFields())->fields($LNG),
             (new Schema\BasicUserSettingsFields())->fields($LNG),
             (new Schema\BasicMessagesFields())->fields($LNG),
-            (new Schema\BasicRecaptchaFields())->fields($LNG),
+            (new Schema\BasicProofOfWorkFields())->fields($LNG),
             (new Schema\BasicDisclaimerFields())->fields($LNG),
             (new Schema\BasicLegalFields())->fields($LNG),
             (new Schema\BasicStatisticsFields())->fields($LNG),

@@ -68,5 +68,6 @@ week_day:
 - vr
 - za
 php_dateformat: d-m-Y
-php_timeformat: H:i:s
-lang_group_fun: "Fun-talen"
+lang_group_fun: Fun-talen
+dialog_ok: OK
+dialog_cancel: Annuleren

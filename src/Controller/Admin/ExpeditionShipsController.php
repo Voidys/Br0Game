@@ -25,8 +25,7 @@ use App\Game\Core\Universe;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Edits the ships that expeditions can find in a universe. */
-#[\App\Routing\GamePage('admin.php', 'expeditionShips')]
-#[\App\Routing\GamePage('admin.php', 'expeditionShips', uniPrefix: true)]
+#[\App\Routing\GamePage('admin', 'expeditionShips')]
 class ExpeditionShipsController extends AbstractAdminController
 {
     /**

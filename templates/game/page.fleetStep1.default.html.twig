@@ -110,7 +110,7 @@
         </div>
       </td>
     </tr>
-    {% if shortcutList|count == 0 %}
+    {% if shortcutList|length == 0 %}
       <tr class="shortcut-none">
         <td colspan="{{ themeSettings.SHORTCUT_ROWS_ON_FLEET1 }}">{{ LNG.fl_no_shortcuts }}</td>
       </tr>

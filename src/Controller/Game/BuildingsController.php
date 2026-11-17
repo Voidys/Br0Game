@@ -31,12 +31,10 @@ use App\Game\Model\Planet;
 use App\Game\Model\User;
 
 /** Buildings: build queue of the current planet, start/cancel/demolish buildings and the building list. */
-#[\App\Routing\GamePage('game.php', 'buildings')]
-#[\App\Routing\GamePage('game.php', 'buildings', uniPrefix: true)]
+#[\App\Routing\GamePage('game', 'buildings')]
+#[\App\Controller\RequireModule('MODULE_BUILDING')]
 class BuildingsController extends AbstractGameController
 {
-    public static $requireModule = 'MODULE_BUILDING';
-
     private const QUEUE_ELEMENT_ID = 0;
     private const QUEUE_LEVEL = 1;
     private const QUEUE_ELEMENT_TIME = 2;

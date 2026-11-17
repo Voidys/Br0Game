@@ -1,270 +1,197 @@
 back: Geri
 continue: Devam Et
 continueUpgrade: Guncellestir!
-install_desc: >-
-  Kurulum Aracını etkinleştirmek için dosyayı "var/ENABLE_INSTALL_TOOL"<br>
-  Dosya adı büyük/küçük harfe duyarlıdır ve dosya türü sonu yoktur.<br> Dosya
-  boş olabilir. 
-
-  Kurulum tamamlandıktan sonra veya bir saatten eskiyse otomatik olarak
-  silinecektir.
+install_desc: "Kurulum Aracını etkinleştirmek için dosyayı \"var/ENABLE_INSTALL_TOOL\"<br> Dosya adı büyük/küçük harfe duyarlıdır ve dosya türü sonu yoktur.<br> Dosya boş olabilir. \nKurulum tamamlandıktan sonra veya bir saatten eskiyse otomatik olarak silinecektir."
 install_title: Kurulum Aracı kilitli
 intro_install: To installation
 intro_lang: Dil
-intro_text: >-
-  Br0Game en iyi ogame projelerinden birisidir.<br>Br0Game mevcut gelistirilmis
-  en yeni ve guvenilir Xnova versiyonudur. Br0Game gerek kullanim kolayligi,
-  gerek kod esnekligi, dinamizmi, kod kalitesi ve islevleri ile goz almaktadir.
-  Her zaman sizin beklentilerinizden daha iyi olmaya calistik. <br><br>
-  Kurulumdaki direktifler kurulum esnasinda size rehberlik edecektir. Her sorun
-  ve problemde, bize danismak icin kesinlikle tereddut etmeyin!<br><br>The
-  Br0Game bir acik kod uygulamasidir ve GNU GPL v3 lisanslidir. Lisans hakkinda
-  bilgi edinmek icin asagidaki "Lisans" linkine tiklayabilirsiniz.  <br><br>
-  Kurulum islemine baslamadan once sisteminiz Br0Game kurmak icin gerekli
-  ozelliklere sahip olup olmadigi test edilecektir. 
+intro_text: 'Br0Game en iyi ogame projelerinden birisidir.<br>Br0Game mevcut gelistirilmis en yeni ve guvenilir Xnova versiyonudur. Br0Game gerek kullanim kolayligi, gerek kod esnekligi, dinamizmi, kod kalitesi ve islevleri ile goz almaktadir. Her zaman sizin beklentilerinizden daha iyi olmaya calistik. <br><br> Kurulumdaki direktifler kurulum esnasinda size rehberlik edecektir. Her sorun ve problemde, bize danismak icin kesinlikle tereddut etmeyin!<br><br>The Br0Game bir acik kod uygulamasidir ve GNU GPL v3 lisanslidir. Lisans hakkinda bilgi edinmek icin asagidaki "Lisans" linkine tiklayabilirsiniz.  <br><br> Kurulum islemine baslamadan once sisteminiz Br0Game kurmak icin gerekli ozelliklere sahip olup olmadigi test edilecektir. '
 intro_upgrade_head: Sisteminizde Br0Game mevcut kurulu mu?
-intro_upgrade_text: >-
-  <p>Sisteminizde Br0Game kurulu, kolay bir guncelleme
-  istermisiniz?</p><p>Buraya tiklayarak sisteminizin eski veritabanini bir kac
-  tiklama ile guncelleyebilirsiniz.!</p>
+intro_upgrade_text: <p>Sisteminizde Br0Game kurulu, kolay bir guncelleme istermisiniz?</p><p>Buraya tiklayarak sisteminizin eski veritabanini bir kac tiklama ile guncelleyebilirsiniz.!</p>
 intro_welcome: Hosgeldin yeni Br0Game Kullanicisi!
-licence_accept: >-
-  Br0Game kurulumuna devam etmek icin, lisans sartlarini kabul etmeniz
-  gerekmektedir. 
+licence_accept: 'Br0Game kurulumuna devam etmek icin, lisans sartlarini kabul etmeniz gerekmektedir. '
 licence_desc: Lutfen asagidaki lisans kosullarini iyice okuyunuz.
 licence_head: Lisans Kosullari
 licence_need_accept: Eger kuruluma devam etmek istiyorsaniz lisans kosullarini kabul etmelisiniz.
 login: Giris
 menu_install: Kurulum
-menu_intro: Tanitim
-menu_license: Lisans
 menu_upgrade: Guncelle
 reg_dir: Klasor &raquo;%s&laquo; Kaydedilebilir mi?
 reg_file: Dosya &raquo;%s&laquo; Kaydedilebilir mi?
-reg_found: Bulundu
-reg_gd_desc: >-
-  <strong>Opsiyonel</strong> — Grapfik isleme kutuphanesi &raquo;gdlib&laquo;
-  sistemdeki dinamik resimlerin olusturma isinden sorumludur. Bu olmadan
-  sistemdeki bazi fonksiyonlar calismayabilir.
-reg_gd_need: Yuklu GD PHP Script var mi? &raquo;gdlib&laquo;
-reg_global_desc: >-
-  Br0Game globaller aktif olsun olsun olmasin calisacaktir. Ama, eger mumkunse
-  guvenlik onlemleri bunu inaktif yapmaniz onerilir.
-reg_global_need: Globallerin kaydi aktif mi?
-reg_iniset_need: PHP fonksiyonu &raquo;ini_set&laquo; uygun mu?
-reg_json_need: ' &raquo;JSON&laquo; uzantisi uygun mu?'
-reg_no: Hayir
 reg_not_found: Bulunamadi
 reg_not_writable: Kaydedilemez
-reg_pdo_active: PDO Aktif
-reg_pdo_desc: >-
-  PHP Veri Nesneleri (PDO) eklentisi, PHP'deki veritabanlarina erismek için
-  hafif ve tutarli bir arayuz tanimlar. PDO arayuzu tanimi bulunan her
-  veritabani surucuusu, veritabanina ozgu ozellikleri siradan eklenti islevleri
-  olarak ifade edebilir.
 reg_writable: Kaydedilebilir
-reg_yes: Evet
-req_desc: >-
-  Kuruluma baslamadan once Br0Game sistemin kurulum icin uygun olup olmadigini
-  test edecek. Sonuclari dikkatlice okumaniz tavsiye edilir ve butun testleri
-  gecmeden bir sonraki adima gecmeyiniz
-req_head: System Gereksinimleri
-req_php_need: Mevcut script dili/versiyonu &raquo;PHP&laquo;
-req_php_need_desc: >-
-  <strong>Gereken:</strong> — PHP Br0Game yazilim dilidir. Bu sebeple, butun
-  fonksiyonlarin tam calisabilmesi icin mevcut PHP versiyonu 5.2.5 yada ustu
-  olmasi gereklidir. 
-sql_close_reason: |-
-  Evren kuruluyor. 
-  Lütfen bekleyin.Oyun su an kapali
+req_desc: Kuruluma baslamadan once Br0Game sistemin kurulum icin uygun olup olmadigini test edecek. Sonuclari dikkatlice okumaniz tavsiye edilir ve butun testleri gecmeden bir sonraki adima gecmeyiniz
+sql_close_reason: "Evren kuruluyor. \nLütfen bekleyin.Oyun su an kapali"
 sql_welcome: Br0Game'a hosgeldiniz
-step1_desc: >-
-  Br0Game sisteminize kurululabilir. Simdi, veritabanina baglanmak icin
-  asagidaki bilgileri girmelisiniz. Eger gerekli bilgileri bilmiyorsaniz, domain
-  (alan) saglayiciniz ile irtibata geciniz yada Br0Game forumlarindaki
-  direktifleri okuyunuz.
 step1_head: Kurulum veritabanini konfigure et
 step1_mysql_dbname: Veritabani
 step1_mysql_dbpass: Veritabani-Sifre
 step1_mysql_dbuser: Veritabani-Kullanici adi
 step1_mysql_migrationpass: Veritabanı taşıma şifresi
-step1_mysql_migrationpass_info: >-
-  Yeni bir oyun sürümü için veritabanı değişiklikleri veya yükseltmeleri
-  gerektiğinde geçiş şifresi sorulacaktır.
+step1_mysql_migrationpass_info: Yeni bir oyun sürümü için veritabanı değişiklikleri veya yükseltmeleri gerektiğinde geçiş şifresi sorulacaktır.
 step1_mysql_port: Veritabani-Port
 step1_mysql_prefix: 'Veritabani prefix eki: <br /> Degistirmeniz gerekmez'
-step1_mysql_server: Veritabani sinicisi <br /> SQL Server
-step2_conf_create: config.php basariyla olustu!
 step2_conf_op_fail: config.php yazilamadi!
 step2_config_exists: config.php zaten mevcut!
 step2_db_con_fail: 'Veritabanina baglanirken hata olustu. Detaylar : '
 step2_db_done: Basari ile veritabananina baglandi!
 step2_db_no_dbname: Veritabani adi girmediniz.
-step2_db_no_migrationpw: Veritabanı için geçiş şifresini belirtmediniz
 step2_db_too_long: Prefiks eki cok uzun. En fazla 36 hane olabilir.
-step2_prefix_invalid: >-
-  Prefix eki sadece alfanumerik karakterlerden olusur ve son karakter altcizgi (
-  _ ) olmalidir. 
+step2_prefix_invalid: 'Prefix eki sadece alfanumerik karakterlerden olusur ve son karakter altcizgi ( _ ) olmalidir. '
 step3_db_error: 'Veritabani tablolari olusturulamadi:'
-step3_desc: >-
-  Br0Game veritabani icin mevcut tablolar yaratildi ve varsayilan degerler
-  yuklendi. Bir sonraki isleme gecip kurulumu tamamlamak icin;
 step3_head: Veritabani dosyalari olusturuluyor
 step4_admin_mail: 'E-mail adresi:'
 step4_admin_name: 'Admin-kullanici adi:'
 step4_admin_name_desc: 3-20 karakter arasi kullanici adi giriniz.
 step4_admin_pass: 'Admin sifresi:'
-step4_admin_pass_desc: 6-30 karakter arasi sifre giriniz
-step4_desc: >-
-  Kurulum sihirbazi simdi sizin icin admin hesabi yaratacak. Asagiya kullanici
-  adi, sifre ve mail adresinizi yaziniz.
+step4_desc: Kurulum sihirbazi simdi sizin icin admin hesabi yaratacak. Asagiya kullanici adi, sifre ve mail adresinizi yaziniz.
 step4_head: Admin Hesabi
 step6_desc: Br0Game sisteminize basari ile kuruldu
 step6_head: Kurulum basari ile tamamlandi!
-step6_info_additional: >-
-  Asagidaki butona tiklayarak Br0Game admin sayfasina yonlendirileceksiniz.
-  Br0Game admin araclarini buradan inceleyebilirsiniz.<br/><br/><strong>
-  &raquo;var/ENABLE_INSTALL_TOOL&laquo; dosyasini silmeyi unutmayiniz. Eger
-  bu dosya sisteminizde kalirsa baska birisinin oyunu tekrar kurmasina izin
-  vererek kurulumunuzu buyuk riske atarsiniz!</strong>
-step6_info_head: Br0Game kullanilmaya hazir!
-step8_need_fields: Zorunlu alanlari doldurmadiniz. Lutfen geri giderek butnu alanlari doldurunuz!
 title_install: Kurulum
-upgrade_available: >-
-  Veritabaniniz icin gerekli guncellemeler! Veritabaninizin su anki surumu  %s
-  ve surum %s guncellenebilir.<br><br Lutfen asagidaki menuden ilk SQL
-  guncellemesini tiklayiniz:
+upgrade_available: 'Veritabaniniz icin gerekli guncellemeler! Veritabaninizin su anki surumu  %s ve surum %s guncellenebilir.<br><br Lutfen asagidaki menuden ilk SQL guncellemesini tiklayiniz:'
 upgrade_back: Geri
 upgrade_intro_welcome: Veritabani guncellemeye hosgeldiniz!
-upgrade_message_admin: >-
-  Yöneticiler: Veritabanı yükseltmesini yüklemek için geçiş şifresini yazın ve
-  devam edin.
-upgrade_message_user: >-
-  Oyuncular: Lütfen kısa bir süre bekleyin ve ardından "Oyuna dön" seçeneğine
-  tıklamayı deneyin.
+upgrade_message_admin: 'Yöneticiler: Veritabanı yükseltmesini yüklemek için geçiş şifresini yazın ve devam edin.'
+upgrade_message_user: 'Oyuncular: Lütfen kısa bir süre bekleyin ve ardından "Oyuna dön" seçeneğine tıklamayı deneyin.'
 upgrade_notavailable: Mevcut surum %s zaten son versiyon.
 upgrade_nothingtodo: Herhangi bir eylem gerekmiyor. Veritabani surum  %s icin uygun.
-upgrade_required_rev: >-
-  Guncelleme programi versiyon  r2579 (pr0game v1. 7) yada ust versiyonlari icin
-  uygulanabilir.
 upgrade_return: Oyuna dön
 upgrade_success: Guncelleme basari ile tamamlandi. Veritabaniniz su an surum  %s icin uygun.
 upgrade_title: Veritabanı yükseltmesi gerekli!
-ins_step_licence: "Lisans"
-ins_step_requirements: "Gereksinimler"
-ins_step_database: "Veritabanı"
-ins_step_build: "Tablolar"
-ins_step_game: "Oyun"
-ins_step_admin: "Yönetici"
-ins_step_done: "Bitti"
-ins_recheck: "Tekrar kontrol et"
-ins_db_connection: "Bağlantı"
-ins_db_database: "Veritabanı"
-ins_db_security: "Güvenlik"
-ins_db_createdb: "Veritabanı henüz yoksa oluştur"
-ins_db_connect: "Bağlan ve oluştur"
-ins_db_no_host: "Veritabanı sunucusu belirtilmedi."
-ins_db_name_invalid: "Veritabanı adı yalnızca harf, rakam, _ ve - içerebilir (maks. 64 karakter)."
-ins_check_input: "Girdi kontrol edildi"
-ins_check_connect: "Veritabanı sunucusuna bağlanıldı"
-ins_check_database: "Veritabanı »%s«"
-ins_db_missing: "mevcut değil (\"veritabanını oluştur\" seçeneğini işaretle veya kendin oluştur)"
-ins_db_create_fail: "oluşturulamadı:"
-ins_db_created: "oluşturuldu"
-ins_db_exists: "mevcut"
-ins_check_tables: "»%s« önekiyle henüz tablo yok"
-ins_tables_exist: "Bu önekle %d tablo zaten mevcut. Başka bir önek veya veritabanı seç."
-ins_check_write: "%s yazıldı"
-ins_build_desc: "Kurulum aracı şimdi oyun tablolarını oluşturup varsayılan değerlerle doldurur, adım adım."
-ins_task_tables: "Tabloları oluştur"
-ins_task_migrations: "Veritabanı sürümünü kaydet"
-ins_task_config: "Oyun ayarlarını yaz"
-ins_task_universe: "Evren 1'i kur"
-ins_build_start: "Veritabanını oluştur"
-ins_back_database: "Veritabanı ayarlarına dön"
-ins_game_name: "Oyun adı"
-ins_game_name_info: "Başlıkta, üst bilgide ve e-postalarda gösterilir. Varsayılan: Br0Game."
-ins_default_theme: "Varsayılan tema"
-ins_default_theme_info: "Yeni hesaplar ve ziyaretçiler için tema; oyuncular ayarlarından değiştirebilir."
-ins_game_name_invalid: "1 ile 64 karakter arasında bir oyun adı gir."
-ins_theme_invalid: "Bilinmeyen tema."
-ins_to_start: "Başlangıç sayfasına"
-ins_credits_head: "Devlerin omuzlarında"
-ins_credits_text: "Br0Game, açık kaynaklı tarayıcı oyunlarının uzun bir geleneğini sürdürür. Bizden önce onu inşa eden ve yaşatan herkese saygılar:"
-ins_credits_thanks: "Bu oyunun filizlendiği oyun için teşekkürler, pr0game topluluğu."
-ins_licence_note: "GNU AGPL v3 altında özgür yazılım"
-ins_task_images: "Görselleri optimize et (WebP)"
-ins_db_help: "Br0Game her şeyi bir MySQL veya MariaDB veritabanında saklar. Aşağıdaki değerleri hosting panelinden (\"Veritabanları\" veya \"MySQL\" bölümüne bak) ya da sunucunu kuran kişiden alırsın. MySQL'i kendin kurduysan varsayılanlar genellikle çalışır."
-ins_db_host: "Veritabanı sunucusu"
-ins_db_host_info: "Neredeyse her zaman \"localhost\". Bazı hosting firmaları \"db1.example.com\" gibi bir ad verir."
-ins_db_name_info: "Oyun için veritabanı adı. Önce hosting panelinde oluştur veya kurulum aracının oluşturmasına izin ver (aşağıdaki kutuya bak)."
-ins_db_advanced: "Gelişmiş (port, tablo öneki, geçiş parolası) - normalde gerekmez"
-ins_db_prefix_info: "Her tablo adının önüne eklenir. Yalnızca bir veritabanını başka yazılımlarla paylaşıyorsan değiştir."
-ins_db_migrationpw_info: "Sonraki oyun güncellemeleri için güncelleme sayfasını (install/?mode=upgrade) korur. Boş bırakırsan kurulum aracı güçlü bir parola üretir ve son sayfada bir kez gösterir."
-ins_db_migrationpw_placeholder: "otomatik üretilir"
-ins_migrationpw_invalid: "Geçiş parolası tırnak işareti, ters eğik çizgi, $ veya satır sonu içeremez."
-ins_err_technical: "teknik ayrıntılar"
-ins_err_access_denied: "Veritabanı sunucusu kullanıcı adını veya parolayı reddetti. Her ikisini de hosting panelinde yazım hatası açısından kontrol et (büyük/küçük harf önemlidir)."
-ins_err_unknown_db: "Bu veritabanı sunucuda mevcut değil. Adı kontrol et veya aşağıdaki \"Veritabanını oluştur\" seçeneğini işaretle."
-ins_err_no_privilege: "Bu veritabanı kullanıcısının o veritabanını kullanma izni yok. Hosting panelinde ona üzerinde tüm yetkileri ver."
-ins_err_no_create: "Bu kullanıcının veritabanı oluşturma izni yok. Hosting panelinde boş bir veritabanı oluştur ve \"Veritabanını oluştur\" işaretini kaldır."
-ins_err_socket: "Veritabanı sunucusu soketi bulunamadı. \"localhost\" yerine \"127.0.0.1\" ana makinesini dene."
-ins_err_unreachable: "\"%s\" veritabanı sunucusuna ulaşılamıyor. Ana makine adını ve portu, ayrıca veritabanı sunucusunun çalıştığını kontrol et. Birçok hosting yalnızca kendi web sunucularından gelen bağlantılara izin verir, bu yüzden genellikle \"localhost\" doğrudur."
-ins_game_desc: "Oyununa bir ad ver ve nasıl oynanacağını seç. Buradaki her şey daha sonra yönetimden değiştirilebilir (Yönetici - Ayarlar)."
-ins_group_general: "Genel"
-ins_uni_name: "Evren adı"
-ins_uni_name_info: "Oyunculara evren seçerken gösterilir. Boş = \"Evren 1\"."
-ins_uni_name_invalid: "Evren adı en fazla 60 karakter olabilir."
-ins_language: "Varsayılan dil"
-ins_language_info: "Yeni ziyaretçiler ve yönetici hesabın için dil."
-ins_language_invalid: "Bilinmeyen dil."
-ins_timezone: "Saat dilimi"
-ins_timezone_info: "Sunucundan önceden seçilir. Görüntülenen sunucu saati için kullanılır."
-ins_timezone_invalid: "Bilinmeyen saat dilimi."
-ins_group_speed: "Oyun hızı"
-ins_speed_info: "Binaların, araştırmanın, gemilerin, filoların ve üretimin ne kadar hızlı ilerlediği. Klasik özgün hızdır; daha hızlı ön ayarlar küçük topluluklara ve kısa turlara uygundur."
-ins_speed_classic: "Klasik"
-ins_speed_classic_info: "özgün hız, turlar aylar sürer"
-ins_speed_fast: "Hızlı"
-ins_speed_fast_info: "yaklaşık üç kat hızlı, turlar haftalar sürer"
-ins_speed_blitz: "Blitz"
-ins_speed_blitz_info: "on kata kadar hızlı, turlar günler sürer"
-ins_speed_detail: "İnşaat/araştırma %bx, filolar %fx, kaynaklar %rx"
-ins_speed_invalid: "Bilinmeyen hız ön ayarı."
-ins_group_players: "Oyuncular"
-ins_registration: "Kayıt"
-ins_registration_open: "Açık - herkes kaydolabilir"
-ins_registration_closed: "Kapalı - hesapları yalnızca sen oluşturabilirsin"
-ins_registration_info: "Kurulumu yaparken \"kapalı\"yı seç. Daha sonra Yönetici - Ayarlar'dan açabilirsin."
-ins_registration_invalid: "Bilinmeyen kayıt ayarı."
-ins_bots: "Bilgisayar oyuncuları (botlar)"
-ins_bots_info: "0 ile 50 arası. Botlar farklı alışkanlıklara sahip gerçek oyuncular gibi oynar, böylece yeni bir evren boş kalmaz. 0 = bot yok."
-ins_bots_invalid: "Bot sayısı 0 ile 50 arasında olmalıdır."
-ins_mail: "E-posta gönder (kayıt, parola sıfırlama)"
-ins_mail_info: "Varsayılan olarak kapalı. Yalnızca sunucun posta gönderebiliyorsa aç; SMTP'yi daha sonra Yönetici - Ayarlar'dan kurabilirsin."
-ins_admin_mail_info: "Parola sıfırlamaları için ve iletişim adresi olarak kullanılır."
-ins_admin_mail_invalid: "Geçerli bir e-posta adresi gir."
-ins_admin_pass_confirm: "Parolayı tekrarla"
-ins_admin_pass_rules: "Parola en az %d karakter olmalıdır (en fazla 64). Birkaç kelimelik bir cümle akılda kalması kolay, tahmin edilmesi zor bir paroladır."
-ins_admin_pass_short: "Parola en az %d karakter olmalıdır."
-ins_admin_pass_long: "Parola en fazla 64 karakter olabilir."
-ins_admin_pass_mismatch: "İki parola eşleşmiyor."
-ins_done_checklist: "Kontrol listen"
-ins_done_login: "Yönetime giriş yap."
-ins_done_login_info: "Zaten \"%s\" olarak giriş yaptın. Bir dahaki sefere şunu kullan:"
-ins_done_cron: "Cronjob'u kur (zorunlu)."
-ins_done_cron_info: "Bunsuz oyunda hiçbir şey ilerlemez (filolar, inşaat kuyrukları, istatistikler). Bu satırı web sunucusu kullanıcısının crontab'ına ekle (crontab -e) veya hosting panelinde bununla bir cronjob oluştur:"
-ins_done_locked: "Kurulum aracı artık kilitli."
-ins_done_locked_info: "Hiç kimse sihirbazı yeniden çalıştıramaz. Daha sonra güncellemek için belgelerdeki güncelleme bölümünü izle."
-ins_done_https: "HTTPS kullan."
-ins_done_https_info: "Düz HTTP üzerindesin: parolalar şifresiz iletilir. Oyuncu davet etmeden önce bir sertifika kur (örneğin Let's Encrypt)."
-ins_done_https_ok: "Bu sayfa HTTPS üzerinden sunuldu - güzel."
-ins_done_settings: "Ayarları daha sonra değiştir."
-ins_done_settings_info: "Yönetici - Ayarlar: oyun adı, hız, kayıt, e-posta (SMTP), botlar ve çok daha fazlası."
-ins_done_bots: "Botlar."
-ins_done_bots_info: "%d bot oluşturuldu. Cronjob çalıştığında hareket ederler. Onları yönetimden yönet."
-ins_done_bots_failed: "Yönetici oluşturuldu, ancak botlar oluşturulamadı. Onları daha sonra yönetimden ekleyebilirsin."
-ins_done_migrationpw: "Geçiş parolanı not et (yalnızca bir kez gösterilir)."
-ins_done_migrationpw_info: "Oyun güncellemeleri için gerekir. Ayrıca config/game.php içinde saklanır."
-ins_done_docs: "Belgeler:"
-ins_done_to_admin: "Yönetime git"
+ins_step_licence: Lisans
+ins_step_requirements: Gereksinimler
+ins_step_database: Veritabanı
+ins_step_build: Tablolar
+ins_step_game: Oyun
+ins_step_admin: Yönetici
+ins_step_done: Bitti
+ins_recheck: Tekrar kontrol et
+ins_db_connection: Bağlantı
+ins_db_createdb: Veritabanı henüz yoksa oluştur
+ins_db_connect: Bağlan ve oluştur
+ins_db_no_host: Veritabanı sunucusu belirtilmedi.
+ins_db_name_invalid: Veritabanı adı yalnızca harf, rakam, _ ve - içerebilir (maks. 64 karakter).
+ins_check_input: Girdi kontrol edildi
+ins_check_connect: Veritabanı sunucusuna bağlanıldı
+ins_check_database: Veritabanı »%s«
+ins_db_missing: mevcut değil ("veritabanını oluştur" seçeneğini işaretle veya kendin oluştur)
+ins_db_create_fail: 'oluşturulamadı:'
+ins_db_created: oluşturuldu
+ins_db_exists: mevcut
+ins_check_tables: »%s« önekiyle henüz tablo yok
+ins_tables_exist: Bu önekle %d tablo zaten mevcut. Başka bir önek veya veritabanı seç.
+ins_check_write: '%s yazıldı'
+ins_build_desc: Kurulum aracı şimdi oyun tablolarını oluşturup varsayılan değerlerle doldurur, adım adım.
+ins_task_tables: Tabloları oluştur
+ins_task_migrations: Veritabanı sürümünü kaydet
+ins_task_config: Oyun ayarlarını yaz
+ins_task_universe: Evren 1'i kur
+ins_build_start: Veritabanını oluştur
+ins_back_database: Veritabanı ayarlarına dön
+ins_game_name: Oyun adı
+ins_game_name_info: 'Başlıkta, üst bilgide ve e-postalarda gösterilir. Varsayılan: Br0Game.'
+ins_default_theme: Varsayılan tema
+ins_default_theme_info: Yeni hesaplar ve ziyaretçiler için tema; oyuncular ayarlarından değiştirebilir.
+ins_game_name_invalid: 1 ile 64 karakter arasında bir oyun adı gir.
+ins_theme_invalid: Bilinmeyen tema.
+ins_to_start: Başlangıç sayfasına
+ins_credits_head: Devlerin omuzlarında
+ins_credits_text: 'Br0Game, açık kaynaklı tarayıcı oyunlarının uzun bir geleneğini sürdürür. Bizden önce onu inşa eden ve yaşatan herkese saygılar:'
+ins_credits_thanks: Bu oyunun filizlendiği oyun için teşekkürler, pr0game topluluğu.
+ins_licence_note: GNU AGPL v3 altında özgür yazılım
+ins_task_images: Görselleri optimize et (WebP)
+ins_db_help: Br0Game her şeyi bir MySQL veya MariaDB veritabanında saklar. Aşağıdaki değerleri hosting panelinden ("Veritabanları" veya "MySQL" bölümüne bak) ya da sunucunu kuran kişiden alırsın. MySQL'i kendin kurduysan varsayılanlar genellikle çalışır.
+ins_db_host: Veritabanı sunucusu
+ins_db_host_info: Neredeyse her zaman "localhost". Bazı hosting firmaları "db1.example.com" gibi bir ad verir.
+ins_db_name_info: Oyun için veritabanı adı. Önce hosting panelinde oluştur veya kurulum aracının oluşturmasına izin ver (aşağıdaki kutuya bak).
+ins_db_advanced: Gelişmiş (port, tablo öneki, geçiş parolası) - normalde gerekmez
+ins_db_prefix_info: Her tablo adının önüne eklenir. Yalnızca bir veritabanını başka yazılımlarla paylaşıyorsan değiştir.
+ins_db_migrationpw_info: Sonraki oyun güncellemeleri için güncelleme sayfasını (install/?mode=upgrade) korur. Boş bırakırsan kurulum aracı güçlü bir parola üretir ve son sayfada bir kez gösterir.
+ins_db_migrationpw_placeholder: otomatik üretilir
+ins_migrationpw_invalid: Geçiş parolası tırnak işareti, ters eğik çizgi, $ veya satır sonu içeremez.
+ins_err_technical: teknik ayrıntılar
+ins_err_access_denied: Veritabanı sunucusu kullanıcı adını veya parolayı reddetti. Her ikisini de hosting panelinde yazım hatası açısından kontrol et (büyük/küçük harf önemlidir).
+ins_err_unknown_db: Bu veritabanı sunucuda mevcut değil. Adı kontrol et veya aşağıdaki "Veritabanını oluştur" seçeneğini işaretle.
+ins_err_no_privilege: Bu veritabanı kullanıcısının o veritabanını kullanma izni yok. Hosting panelinde ona üzerinde tüm yetkileri ver.
+ins_err_no_create: Bu kullanıcının veritabanı oluşturma izni yok. Hosting panelinde boş bir veritabanı oluştur ve "Veritabanını oluştur" işaretini kaldır.
+ins_err_socket: Veritabanı sunucusu soketi bulunamadı. "localhost" yerine "127.0.0.1" ana makinesini dene.
+ins_err_unreachable: '"%s" veritabanı sunucusuna ulaşılamıyor. Ana makine adını ve portu, ayrıca veritabanı sunucusunun çalıştığını kontrol et. Birçok hosting yalnızca kendi web sunucularından gelen bağlantılara izin verir, bu yüzden genellikle "localhost" doğrudur.'
+ins_game_desc: Oyununa bir ad ver ve nasıl oynanacağını seç. Buradaki her şey daha sonra yönetimden değiştirilebilir (Yönetici - Ayarlar).
+ins_group_general: Genel
+ins_uni_name: Evren adı
+ins_uni_name_info: Oyunculara evren seçerken gösterilir. Boş = "Evren 1".
+ins_uni_name_invalid: Evren adı en fazla 60 karakter olabilir.
+ins_language: Varsayılan dil
+ins_language_info: Yeni ziyaretçiler ve yönetici hesabın için dil.
+ins_language_invalid: Bilinmeyen dil.
+ins_timezone: Saat dilimi
+ins_timezone_info: Sunucundan önceden seçilir. Görüntülenen sunucu saati için kullanılır.
+ins_timezone_invalid: Bilinmeyen saat dilimi.
+ins_group_speed: Oyun hızı
+ins_speed_info: Binaların, araştırmanın, gemilerin, filoların ve üretimin ne kadar hızlı ilerlediği. Klasik özgün hızdır; daha hızlı ön ayarlar küçük topluluklara ve kısa turlara uygundur.
+ins_speed_classic: Klasik
+ins_speed_classic_info: özgün hız, turlar aylar sürer
+ins_speed_fast: Hızlı
+ins_speed_fast_info: yaklaşık üç kat hızlı, turlar haftalar sürer
+ins_speed_blitz: Blitz
+ins_speed_blitz_info: on kata kadar hızlı, turlar günler sürer
+ins_speed_detail: İnşaat/araştırma %bx, filolar %fx, kaynaklar %rx
+ins_speed_invalid: Bilinmeyen hız ön ayarı.
+ins_group_players: Oyuncular
+ins_registration: Kayıt
+ins_registration_open: Açık - herkes kaydolabilir
+ins_registration_closed: Kapalı - hesapları yalnızca sen oluşturabilirsin
+ins_registration_info: Kurulumu yaparken "kapalı"yı seç. Daha sonra Yönetici - Ayarlar'dan açabilirsin.
+ins_registration_invalid: Bilinmeyen kayıt ayarı.
+ins_bots: Bilgisayar oyuncuları (botlar)
+ins_bots_info: 0 ile 50 arası. Botlar farklı alışkanlıklara sahip gerçek oyuncular gibi oynar, böylece yeni bir evren boş kalmaz. 0 = bot yok.
+ins_bots_invalid: Bot sayısı 0 ile 50 arasında olmalıdır.
+ins_mail: E-posta gönder (kayıt, parola sıfırlama)
+ins_mail_info: Varsayılan olarak kapalı. Yalnızca sunucun posta gönderebiliyorsa aç; SMTP'yi daha sonra Yönetici - Ayarlar'dan kurabilirsin.
+ins_admin_mail_info: Parola sıfırlamaları için ve iletişim adresi olarak kullanılır.
+ins_admin_mail_invalid: Geçerli bir e-posta adresi gir.
+ins_admin_pass_confirm: Parolayı tekrarla
+ins_admin_pass_rules: Parola en az %d karakter olmalıdır (en fazla 64). Birkaç kelimelik bir cümle akılda kalması kolay, tahmin edilmesi zor bir paroladır.
+ins_admin_pass_short: Parola en az %d karakter olmalıdır.
+ins_admin_pass_long: Parola en fazla 64 karakter olabilir.
+ins_admin_pass_mismatch: İki parola eşleşmiyor.
+ins_done_checklist: Kontrol listen
+ins_done_login: Yönetime giriş yap.
+ins_done_login_info: 'Zaten "%s" olarak giriş yaptın. Bir dahaki sefere şunu kullan:'
+ins_done_cron: Cronjob'u kur (zorunlu).
+ins_done_cron_info: 'Bunsuz oyunda hiçbir şey ilerlemez (filolar, inşaat kuyrukları, istatistikler). Bu satırı web sunucusu kullanıcısının crontab''ına ekle (crontab -e) veya hosting panelinde bununla bir cronjob oluştur:'
+ins_done_locked: Kurulum aracı artık kilitli.
+ins_done_locked_info: Hiç kimse sihirbazı yeniden çalıştıramaz. Daha sonra güncellemek için belgelerdeki güncelleme bölümünü izle.
+ins_done_https: HTTPS kullan.
+ins_done_https_info: 'Düz HTTP üzerindesin: parolalar şifresiz iletilir. Oyuncu davet etmeden önce bir sertifika kur (örneğin Let''s Encrypt).'
+ins_done_https_ok: Bu sayfa HTTPS üzerinden sunuldu - güzel.
+ins_done_settings: Ayarları daha sonra değiştir.
+ins_done_settings_info: 'Yönetici - Ayarlar: oyun adı, hız, kayıt, e-posta (SMTP), botlar ve çok daha fazlası.'
+ins_done_bots: Botlar.
+ins_done_bots_info: '%d bot oluşturuldu. Cronjob çalıştığında hareket ederler. Onları yönetimden yönet.'
+ins_done_bots_failed: Yönetici oluşturuldu, ancak botlar oluşturulamadı. Onları daha sonra yönetimden ekleyebilirsin.
+ins_done_migrationpw: Geçiş parolanı not et (yalnızca bir kez gösterilir).
+ins_done_migrationpw_info: Oyun güncellemeleri için gerekir. Ayrıca config/game.php içinde saklanır.
+ins_done_docs: 'Belgeler:'
+ins_done_to_admin: Yönetime git
+ins_step_legal: Yasal
+ins_legal_desc: Oyunun nerede barındırılacağını ve yasal sayfalarla topluluk panosunun nasıl başlayacağını seç. Bunların hepsini daha sonra yönetim alanından değiştirebilirsin (Ayarlar, Sayfalar).
+ins_group_privacy: Barındırma bölgesi
+ins_privacy_info: Bölge, varsayılan olarak hangi gizlilik politikasının kullanılacağını belirler.
+ins_privacy_eu: AB / AEA - GDPR gizlilik politikası
+ins_privacy_eu_info: Oyun Avrupa Birliği veya Avrupa Ekonomik Alanı'nda barındırılıyorsa ya da oradaki oyuncuları hedefliyorsa bunu seç.
+ins_privacy_other: AB dışı - genel gizlilik politikası
+ins_privacy_other_info: GDPR'a atıfta bulunmayan, sade dille yazılmış bir gizlilik politikası.
+ins_group_rules: Kurallar
+ins_rules_default: Varsayılan kuralları içe aktar
+ins_rules_default_info: Kurallar sayfası standart oyun kurallarıyla başlar; bunları daha sonra düzenleyebilirsin.
+ins_rules_blank: Boş başla
+ins_rules_blank_info: Yönetim alanında kendi kurallarını yazana kadar kurallar sayfası boş kalır.
+ins_group_community: Topluluk
+ins_board: Topluluk panosunu etkinleştir
+ins_board_info: Oyuncularınız için bir forum. Kapalıyken tüm pano bağlantıları gizlenir ve pano sayfaları kullanılamaz.
+ins_legal_note: Oluşturulan metinler yalnızca şablondur. Operatör olarak oyununun yasal metinlerinden sen sorumlusun ve bunları gözden geçirmelisin.
+ins_legal_region_invalid: Lütfen geçerli bir barındırma bölgesi seç.
+ins_legal_rules_invalid: Lütfen kuralların nasıl başlayacağını seç.

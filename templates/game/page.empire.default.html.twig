@@ -97,7 +97,7 @@
         </td>
         <td class="num">
           {{ pretty_number(array_sum(resourceArray)) }}
-          {% if in_array(elementID, php_array(901, 902, 903)) %}
+          {% if elementID in [901, 902, 903] %}
             {% if enableShowProdPerHour == "true" %}
               <br><span class="colorPositive">
                 {{ pretty_number(array_sum(planetList.resourcePerHour[elementID])) }} /h
@@ -119,7 +119,7 @@
         {% for planetID, resource in resourceArray %}
           <td class="num">
             {{ pretty_number(resource) }}
-            {% if in_array(elementID, php_array(901, 902, 903)) %}
+            {% if elementID in [901, 902, 903] %}
               {% if planetList.planet_type[planetID] == 1 %}
                 {% if enableShowProdPerHour == "true" %}
                   <br><span {% if planetList.resourceProductionPercent[elementID][planetID] < 10 %}
