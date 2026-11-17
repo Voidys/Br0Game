@@ -18,7 +18,7 @@ in alliances.
 [![Last commit](https://img.shields.io/github/last-commit/Voidys/Br0Game)](https://github.com/Voidys/Br0Game/commits/main)
 
 [**Install guide**](docs/INSTALL.md) · [**Download**](https://github.com/Voidys/Br0Game/releases/latest) ·
-[Changelog](docs/CHANGELOG.md) · [Report a bug](https://github.com/Voidys/Br0Game/issues)
+[Changelog](CHANGES.md) · [Report a bug](https://github.com/Voidys/Br0Game/issues)
 
 </div>
 
@@ -78,7 +78,7 @@ The game rules are the same as before; everything around them is new.
   - the installer generates the app secret;
   - Google Analytics and the voting feature were removed.
 
-The full list, step by step, is in the **[changelog](docs/CHANGELOG.md)**.
+The full list, step by step, is in the **[changelog](CHANGES.md)**.
 
 ## Quick start
 
@@ -98,9 +98,9 @@ readers too.
 2. Check the file:
 
    ```sh
-   sha256sum -c br0game-1.26.1.zip.sha256            # Linux
-   shasum -a 256 br0game-1.26.1.zip                  # macOS: compare with the .sha256 file
-   certutil -hashfile br0game-1.26.1.zip SHA256      # Windows: compare with the .sha256 file
+   sha256sum -c br0game-1.26.2.zip.sha256            # Linux
+   shasum -a 256 br0game-1.26.2.zip                  # macOS: compare with the .sha256 file
+   certutil -hashfile br0game-1.26.2.zip SHA256      # Windows: compare with the .sha256 file
    ```
 
 3. Upload and extract it. Set your domain's **document root to the `public/` folder**.
