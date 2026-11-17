@@ -16,75 +16,33 @@
         {% endfor %}
     </style>
     <div>
-        <div class="tutorial-box">
-            {% include 'game/shared.tutorial.html.twig' %}
-        </div>
-        <div class="message-box">
-        </div>
-        
-        <div class="infos">
-            <div class="planeto">
-                <a href="#" data-dialog="{{ path('game_overview_actions') }}" data-dialog-width="400" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
-            </div>
-            {{ LNG.ov_server_time }}: <span class="servertime">{{ servertime }}</span>
-            <br>
-            {{ LNG.ov_admins_online }}
-            {% for ID, Name in AdminsOnline %}
-                &nbsp;&bull;&nbsp;
-                <a class="colorPositive" href="#" data-action="dialog-pm" data-id="{{ ID }}">{{ Name }}</a>
-            {% endfor %}
-            &nbsp;&bull;&nbsp;<a class="colorPositive" href="{{ path('game_ticket_show') }}">{{ LNG.ov_ticketbot }}</a>&nbsp;&bull;&nbsp;
-            <br><br>
-            {{ LNG.ov_points }} {% if rankInfo %}{{ LNG.format('ov_userrank_info', rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}
-            {% if outlawTime %}
-                <br><span class="colorNegative">{{ LNG.ov_outlaw }} {{ outlawTime }}</span>
-            {% endif %}
-            {% if isCatchUp %}
-                <br>{{ catchUp }} %
-            {% endif %}
-            <br><br>
-            <span class="bold">
-                {{ LNG.ov_rulesnotify }}&nbsp;<a href="{{ path('login_rules') }}" data-dialog data-dialog-width="820" class="rules-link">[{{ LNG.ov_rules }}]</a>
-            </span>
-            {% if is_news %}
-                <div class="hidden-div" id="hidden-div">
-                    <span class="news-title">
-                        {{ LNG.ov_news }}:
-                    </span>
-                    <br><br>
-                    {# raw: universe news text, HTML written by admins in the universe settings (makebr only adds <br>) #}{{ news|raw }}
-                    <br>
-                    <span class="block mt-2 text-center">
-                        <button id="chkbtn2">{{ LNG.ov_checknews_hide }}</button>
-                    </span>
-                </div>
-                <span class="block mt-2">
-                    <button id="chkbtn">{{ LNG.ov_checknews_show }}</button>
-                </span>
-            {% endif %}
-        </div>
-
-        <div class="infos">
-            <div class="planeto">
-                {{ LNG.ov_events }} <button id="chkbtn1">{{ LNG.ov_fleetbutton_hide }}</button>
-                <span style="display:none" id="tn3">
-                    <button id="chkbtn3">{{ LNG.ov_fleetbutton_show }}</button>
-                </span>
-            </div>
-
+        {% set hostileCount = 0 %}
+        {% set nextRest = null %}
+        {% for fleet in fleets %}
+            {% if fleet.hostile %}{% set hostileCount = hostileCount + 1 %}{% endif %}
+            {% if nextRest is null or fleet.resttime < nextRest %}{% set nextRest = fleet.resttime %}{% endif %}
+        {% endfor %}
+        <details class="infos accordion overview-events{% if hostileCount %} accordion--warn{% endif %}" id="events-accordion" data-key="overview-events" data-force-open="{{ hostileCount ? 1 : 0 }}" open>
+            <summary class="planeto accordion__head">
+                <span class="accordion__title">{% if hostileCount %}{{ icon('triangle-alert') }} {% endif %}{{ LNG.ov_events }}</span>
+                <span class="accordion__summary">{% if fleets %}{{ fleets|length }} &middot; <span class="fleets" data-fleet-time="{{ nextRest }}">{{ getRestTimeFormat(nextRest) }}</span>{% else %}0{% endif %}{% if hostileCount %} &middot; <span class="event-list__flag">{{ LNG.ov_event_hostile }} {{ hostileCount }}</span>{% endif %}</span>
+                <span class="accordion__sign" aria-hidden="true"></span>
+            </summary>
             <ul class="event-list" id="hidden-div2">
                 {% for index, fleet in fleets %}
-                    <li>
+                    <li{% if fleet.hostile %} class="event-list__hostile"{% endif %}>
+                      {% if fleet.hostile %}<span class="event-list__flag">{{ icon('triangle-alert') }} {{ LNG.ov_event_hostile }}</span>{% endif %}
                       <span data-time="{{ fleet.returntime }}" class="statictimer"></span> |
                       <span id="fleettime_{{ index }}" class="fleets" data-fleet-end-time="{{ fleet.returntime }}" data-fleet-time="{{ fleet.resttime }}">
                             {{ getRestTimeFormat(fleet.resttime) }}
                         </span>
-                        <td id="fleettime_{{ index }}">{{ fleet.text }}</td>
+                        <span id="fleettext_{{ index }}">{{ fleet.text }}</span>
                     </li>
+                {% else %}
+                    <li class="empty-state empty-state--inline"><p>{{ LNG.ov_no_fleets }}</p></li>
                 {% endfor %}
             </ul>
-            &nbsp;
-        </div>
+        </details>
 
         <div class="infos{% if Moon %} infos-with-moon{% endif %}">
             <div class="planeto">
@@ -203,6 +161,53 @@
                 {{ LNG.ov_position }}: <a href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a>
             </div>
             &nbsp;<br>
+        </div>
+
+        <div class="tutorial-box">
+            {% include 'game/shared.tutorial.html.twig' %}
+        </div>
+        <div class="message-box">
+        </div>
+        
+        <div class="infos overview-info">
+            <div class="planeto">
+                <a href="#" data-dialog="{{ path('game_overview_actions') }}" data-dialog-width="400" title="{{ LNG.ov_planetmenu }}">{{ LNG["type_planet_#{planet_type}"] }} {{ planetname }}</a> ({{ username }})
+            </div>
+            <dl class="stat-list">
+                <dt>{{ LNG.ov_server_time }}</dt>
+                <dd><span class="servertime">{{ servertime }}</span></dd>
+                <dt>{{ LNG.ov_points }}</dt>
+                <dd>{% if rankInfo %}{{ LNG.format('ov_userrank_info', rankInfo.points, LNG.ov_place, rankInfo.rank, rankInfo.rank, LNG.ov_of, rankInfo.usersCount) }}{% else %}-{% endif %}</dd>
+                {% if outlawTime %}
+                    <dt class="colorNegative">{{ LNG.ov_outlaw }}</dt>
+                    <dd class="colorNegative">{{ outlawTime }}</dd>
+                {% endif %}
+                {% if isCatchUp %}
+                    <dt>%</dt>
+                    <dd>{{ catchUp }} %</dd>
+                {% endif %}
+                <dt>{{ LNG.ov_admins_online|trim|trim(':')|trim }}</dt>
+                <dd>{% for ID, Name in AdminsOnline %}<a class="colorPositive" href="#" data-action="dialog-pm" data-id="{{ ID }}">{{ Name }}</a> &bull; {% endfor %}<a class="colorPositive" href="{{ path('game_ticket_show') }}">{{ LNG.ov_ticketbot }}</a></dd>
+            </dl>
+            <p class="stat-list__note">
+                {{ LNG.ov_rulesnotify }}&nbsp;<a href="{{ path('login_rules') }}" data-dialog data-dialog-width="820" class="rules-link">[{{ LNG.ov_rules }}]</a>
+            </p>
+            {% if is_news %}
+                <div class="hidden-div" id="hidden-div">
+                    <span class="news-title">
+                        {{ LNG.ov_news }}:
+                    </span>
+                    <br><br>
+                    {# raw: universe news text, HTML written by admins in the universe settings (makebr only adds <br>) #}{{ news|raw }}
+                    <br>
+                    <span class="block mt-2 text-center">
+                        <button id="chkbtn2">{{ LNG.ov_checknews_hide }}</button>
+                    </span>
+                </div>
+                <span class="block mt-2">
+                    <button id="chkbtn">{{ LNG.ov_checknews_show }}</button>
+                </span>
+            {% endif %}
         </div>
 
         <div class="infos">

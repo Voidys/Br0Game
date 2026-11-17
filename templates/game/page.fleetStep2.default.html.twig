@@ -2,6 +2,9 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
+{% include 'game/shared.fleetSummary.html.twig' %}
+{% set backQuery = {galaxy: galaxy, system: system, planet: planet, type: type, target_mission: mission} %}
+{% for shipId, shipCount in FleetList %}{% set backQuery = backQuery|merge({('ship' ~ shipId): shipCount}) %}{% endfor %}
 <form action="{{ path('game_fleet_step3_show') }}" method="post" data-on-submit="check-resources" id="form" class="form-page">
 <input type="hidden" name="token" value="{{ token }}">
 {% if Exchange %}
@@ -162,10 +165,10 @@
 		</tr>
 		{% endif %}
         <tr id="submit">
-			<td colspan="2" class="form-actions"><input value="{{ LNG.fl_continue }}" type="submit" data-action="send-fleet"/></td>
+			<td colspan="2" class="form-actions"><a class="btn-back" href="{{ path('game_fleet_step1_show', backQuery) }}">{{ icon('arrow-left') }}{{ LNG.sys_back }}</a><input value="{{ LNG.fl_send_fleet }}" type="submit" data-action="send-fleet" class="btn-send"/></td>
         </tr>
 		<tr id="wait" style="display:none;">
-			<td colspan="2" class="ctr">{{ LNG.fl_continue }}</td>
+			<td colspan="2" class="ctr">{{ LNG.fl_sending }}</td>
 		</tr>
     </table>
 </form>
@@ -178,6 +181,8 @@
 	questionList: questionList,
 	tradeMarket: tradeMarket,
 	targetMission: mission,
+	fleet: FleetList,
+	target: [galaxy, system, planet, type],
 	urls: {
 		checkResources: path('game_fleet_step2_check_resources'),
 		release: path('game_fleet_step_ajax_show'),

@@ -54,7 +54,8 @@ class FleetStep1Controller extends AbstractGameController
         [$Fleet, $FleetRoom] = $this->selectedShips();
 
         if (empty($Fleet)) {
-            return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl());
+            // code 1: no ship chosen (the fleet page says so inline)
+            return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl(1));
         }
 
         $FleetData = [
@@ -72,6 +73,13 @@ class FleetStep1Controller extends AbstractGameController
             'fleetMinDuration'  => MIN_FLEET_TIME,
         ];
 
+        // post/redirect/get: the posted selection becomes a GET url, so reload and browser back work and nothing is resubmitted
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
+            return $this->redirectToRoute('game_fleet_step1_show', $this->selectionQuery($Fleet, [
+                'galaxy' => $targetGalaxy, 'system' => $targetSystem, 'planet' => $targetPlanet, 'type' => $targetType,
+                'target_mission' => $mission,
+            ]));
+        }
         // validate before anything is stored: a refused fleet must not occupy a token
         if ($unavailable = $this->checkShipsAvailable($Fleet)) {
             return $unavailable;
@@ -84,19 +92,12 @@ class FleetStep1Controller extends AbstractGameController
 
         $this->addScript('flotten.js');
 
-        $pirateBase = null;
-        if ($this->viewHelpers()->isModuleAvailable(MODULE_PIRATE_BASES)) {
-            $db = $this->db;
-            $sql = "SELECT `galaxy`, `system` FROM %%PIRATE_BASES%% 
-                WHERE `id_owner` = :owner";
-            $pirateBase = $db->selectSingle($sql, [
-                ':owner'   => $USER['id'],
-            ]);
-        }
+        $pirateBase = $this->pirateBase((int) $USER['id']);
 
         return $this->render('game/page.fleetStep1.default.html.twig', [
             'token'         => $token,
             'mission'       => $mission,
+            'FleetList'     => $Fleet,
             'shortcutList'  => $shortcutList,
             'colonyList'    => $colonyList,
             'pirateBase'    => $pirateBase,
@@ -111,6 +112,40 @@ class FleetStep1Controller extends AbstractGameController
             'fleetdata'     => $FleetData,
             'config'        => $this->universeGeometry(),
         ]);
+    }
+
+    /**
+     * GET parameters of the step-1 url for a posted selection: the target fields, the preset cargo and ship<id> = count per chosen ship.
+     *
+     * @param array<int, int|string> $fleet ship id => count
+     * @param array<string, int> $target galaxy, system, planet, type, target_mission
+     * @return array<string, int|string>
+     */
+    private function selectionQuery(array $fleet, array $target): array
+    {
+        $query = $target + [
+            'met_storage' => $this->input()->string('met_storage'),
+            'krist_storage' => $this->input()->string('krist_storage'),
+            'deut_storage' => $this->input()->string('deut_storage'),
+        ];
+        foreach ($fleet as $shipId => $count) {
+            $query['ship' . $shipId] = $count;
+        }
+
+        return $query;
+    }
+
+    /** Galaxy and system of the player's pirate base (module MODULE_PIRATE_BASES), null without the module or a base. */
+    private function pirateBase(int $userId): ?array
+    {
+        if (!$this->viewHelpers()->isModuleAvailable(MODULE_PIRATE_BASES)) {
+            return null;
+        }
+        $base = $this->db->selectSingle('SELECT `galaxy`, `system` FROM %%PIRATE_BASES%% WHERE `id_owner` = :owner', [
+            ':owner' => $userId,
+        ]);
+
+        return is_array($base) ? $base : null;
     }
 
     /**

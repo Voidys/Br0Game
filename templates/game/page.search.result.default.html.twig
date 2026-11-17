@@ -1,3 +1,4 @@
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block content %}
 <table id="resulttable">
@@ -18,6 +19,8 @@
 		<td class="ctr"><a href="{{ path('game_galaxy_show', {galaxy: searchRow.galaxy, system: searchRow.system}) }}">[{{ searchRow.galaxy }}:{{ searchRow.system }}:{{ searchRow.planet }}]</a></td>
 		<td class="num">{{ searchRow.rank }}</td>
 	</tr>
+	{% else %}
+	{{ c.empty_row(6, LNG.sh_no_players, null) }}
 	{% endfor %}
 </table>
 {% endblock %}

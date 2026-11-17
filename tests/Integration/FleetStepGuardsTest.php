@@ -102,8 +102,12 @@ final class FleetStepGuardsTest extends GameTestCase
     public function testStepOneStoresNothingForShipsThePlanetDoesNotHave(): void
     {
         [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 2]);
-        $controller = $this->controller(FleetStep1Controller::class, $user, $planet, ['ship202' => 50], 'POST');
+        // the POST only redirects to the GET url (post/redirect/get) and stores nothing yet
+        $post = $this->controller(FleetStep1Controller::class, $user, $planet, ['ship202' => 50], 'POST');
+        $this->assertTrue($post->show()->isRedirection(), 'the posted selection is redirected to a GET url');
+        $this->assertEmpty($this->session($post)->fleet ?? [], 'the POST stores no token');
 
+        $controller = $this->controller(FleetStep1Controller::class, $user, $planet, ['ship202' => 50], 'GET');
         $response = $controller->show();
         $this->assertFalse($response->isRedirection(), 'a message page is shown');
         $this->assertStringContainsString($this->state->LNG['fl_not_all_ship_avalible'], html_entity_decode((string) $response->getContent(), ENT_QUOTES));

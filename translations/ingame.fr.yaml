@@ -897,7 +897,7 @@ lm_shipshard: Chantier Spatial
 lm_statistics: Classement
 lm_support: Ticket Support
 lm_technology: Technologie
-lm_topkb: Hall of Fame
+lm_topkb: Hall des batailles
 lo_continue: Clique pour continuer.
 lo_logout: Tu as été déconnecté. À bientôt !
 lo_notify: Redirection dans <span id="seconds">5</span> secondes
@@ -1223,10 +1223,10 @@ rs_calculate: Enregistrer les modifications
 rs_daily: Production quotidienne
 rs_lvl: Niveau
 rs_production_on_planet: Ressources produites sur « %s »
-rs_ramp_up: Tout activer
+rs_ramp_up: 'Tout à 100 %'
 rs_ress_bonus: Bonus (via les recherches)
 rs_ress_bonus_position: Bonus (à travers la position de la planète)
-rs_shut_down: Tout arrêter
+rs_shut_down: 'Tout à 0 %'
 rs_storage_capacity: Capacité de stockage
 rs_sum: Production horaire
 rs_weekly: Production hebdomadaire
@@ -1393,7 +1393,7 @@ tkb_owners: Joueurs impliqués
 tkb_platz: Rang
 tkb_self: les miens
 tkb_timeframe: Période
-tkb_top: Hall of Fame
+tkb_top: Hall des batailles
 tkb_units: Unités
 tkb_verlierer: <b>-Perdant-</b>
 tkb_week: semaine
@@ -1486,6 +1486,7 @@ ui_queue: File d'attente
 ui_queue_free: emplacement libre
 ui_points: Points
 ui_close: Fermer
+ui_storage_full: "Stockage plein : production arrêtée"
 ui_messages: Messages
 ui_server_time: Heure du serveur
 ui_planet: Planète
@@ -1543,3 +1544,88 @@ vt_postback_hint: La récompense arrive une fois que le site a confirmé ton vot
 vt_notice_rewarded: Merci d'avoir voté ! La récompense a été ajoutée à ta planète principale.
 vt_notice_pending: Merci d'avoir voté ! La récompense arrive une fois que le site a confirmé ton vote.
 vt_notice_cooldown: Tu dois attendre avant de voter à nouveau sur ce site.
+mg_confirm_delete_one: "Supprimer ce message ?"
+mg_confirm_delete_bulk: "Supprimer ces messages ? Cette action est irréversible."
+mg_group_mark: "Marquer comme lu"
+mg_group_delete: "Supprimer"
+mg_pick_category: "Choisissez une catégorie ci-dessus pour voir ses messages."
+mg_no_messages: "Aucun message."
+mg_select_message: "Sélectionner le message"
+mg_search_player: "Rechercher un joueur"
+mg_remove_receiver: "Retirer le destinataire"
+mg_no_receiver: "Choisissez au moins un destinataire."
+nt_confirm_delete: "Supprimer les notes cochées ?"
+nt_priority_legend: "Couleur = priorité : vert faible, jaune normale, rouge haute"
+al_save_all_hint: "Les deux boutons Enregistrer enregistrent les textes et les options ensemble."
+al_dissolve_btn: "Dissoudre l'alliance..."
+al_transfer_btn: "Transférer l'alliance..."
+al_dissolve_hint: "Cela supprime définitivement l'alliance et retire tous les membres. Impossible d'annuler."
+al_transfer_hint: "Transfère la direction à un autre membre. Tu perds le rang de fondateur."
+al_transfer_confirm: "Transférer l'alliance au membre sélectionné ? Tu perds la direction."
+al_kick: "Exclure"
+al_find_results: "Résultats"
+al_find_browse: "Plus grandes alliances"
+al_find_none_yet: "Il n'y a pas encore d'alliance dans cet univers."
+al_no_inside_text: "Pas encore de texte pour les membres."
+bd_needs: 'Requiert'
+bd_missing: 'Manque'
+honorfights: "Combats d'honneur"
+pl_block_head: "Bloquer"
+pl_block_hint: "Prend effet immédiatement, pas de bouton Enregistrer."
+st_my_rank: "Aller à mon rang"
+st_legend_noob: "Protection des débutants"
+rec_intro: "Le niveau le plus élevé atteint dans cet univers pour chaque bâtiment et recherche, comparé au tien."
+as_intro: "Compteurs détaillés de ta propre activité (expéditions, constructions, pertes, destructions). Le classement de tous les joueurs se trouve dans Statistiques."
+as_show_empty: "Afficher les lignes vides"
+op_sections: "Aller à"
+op_save_hint: "Les modifications ne s'appliquent qu'après l'enregistrement."
+op_dlte_account_confirm: "Supprimer vraiment ton compte ? Il est entièrement supprimé après au moins 7 jours ; d'ici là, tu peux annuler la suppression."
+ti_none: "Tu n'as pas encore de ticket. Lis d'abord la %s ; si cela ne suffit pas, crée un ticket."
+ti_faq_first: "Consulte d'abord la FAQ : beaucoup de questions y trouvent leur réponse."
+team_contact_hint: "Besoin d'aide ? Ouvre un ticket via %s."
+cl_hint: "Modifications techniques du logiciel du jeu, les plus récentes en premier. Clique sur une entrée pour la déplier."
+cl_empty: "Aucune modification enregistrée."
+toc_contents: "Sommaire"
+sh_hint: "Saisis au moins deux caractères, puis appuie sur Entrée ou Rechercher."
+sh_search_type: "Rechercher"
+sh_search_text: "Texte de recherche"
+sh_no_players: "Rien trouvé. Vérifie l'orthographe ou essaie un texte plus court."
+sh_no_alliances: "Aucune alliance trouvée. Vérifie l'orthographe ou essaie un texte plus court."
+fl_no_ship_selected: "Choisis au moins un vaisseau."
+fl_recall_confirm: "Rappeler cette flotte ? Elle fait demi-tour maintenant et rentre à %s."
+fl_recall_return: "De retour si rappelée maintenant"
+fl_no_fleets: "Aucune flotte en mission."
+fl_quick_fleets: "Flottes rapides"
+fl_quick_fleets_hint: "Rien d'enregistré. Enregistre une combinaison de vaisseaux sous \"Flottes perso\" plus bas : elle apparaît ici en un clic, ainsi que ta dernière mission."
+fl_load_hint: "Prérempli avec le stock de cette planète. Les boutons de fret suggèrent combien de vaisseaux le transportent ; vide-le si tu n'envoies rien."
+fl_load_clear: "Vider"
+fl_cargo_options_hint: "Rouge : tu n'as pas assez de ce vaisseau. Clique sur une icône de vaisseau pour le présélectionner avec la cible."
+fl_summary: "Résumé de l'envoi"
+fl_coord_range: "Coordonnées invalides. Autorisé : galaxie 1-%d, système 1-%d, position 1-%d."
+fl_sending: "Envoi de la flotte..."
+ft_rate_info: 'Le marchand garde %s%% de la valeur du vaisseau et paie le reste en ressources.'
+ft_per_ship: 'Paiement par vaisseau'
+ft_receive: 'Tu reçois'
+market_tab_resources: 'Marché des ressources'
+market_tab_fleets: 'Marché des flottes'
+market_ratio_label: 'Comparer les offres au ratio'
+market_ratio_hint: 'Définit le taux utilisé pour la colonne Ratio ; la ressource choisie sert de base.'
+market_no_offers: 'Aucune offre pour le moment.'
+gl_recycle_needs: "Recycler (recycleur requis)"
+gl_keys_hint: "Clavier : flèches ou A D changent de système, W S de galaxie."
+rs_ramp_up_confirm: 'Mettre tous les producteurs à 100 % et enregistrer ?'
+rs_shut_down_confirm: 'Mettre tous les producteurs à 0 % et enregistrer ? La production s’arrête.'
+rs_energy_deficit: 'Déficit d’énergie : les mines tournent sous leur niveau réglé jusqu’au retour de l’équilibre.'
+ov_event_hostile: 'Hostile'
+ov_no_fleets: 'Aucun mouvement de flotte.'
+al_chart_x: "Temps (il y a x heures)"
+al_chart_y: "Points"
+as_sub_count: "Expéditions"
+as_sub_found: "Trouvailles"
+as_sub_lost: "Pertes"
+as_sub_first: "Premières fois"
+op_notifications: "Notifications"
+rs_full_in: 'Stock plein dans'
+rs_full_now: 'Plein'
+fl_prepared_gone: "Cette flotte n'est plus préparée (expirée, libérée ou déjà envoyée). Recommence."
+gl_legend_activity: "Actif ces 15 dernières min, puis (minutes) jusqu'à 60"

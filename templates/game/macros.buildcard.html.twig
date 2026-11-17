@@ -1,0 +1,29 @@
+{# Shared pieces of the build cards (buildings, research, hangar, defense): cost chips, "why not" lines, build time. #}
+
+{# One nowrap chip per resource; deficits in the negative colour. Hidden entirely by the caller at max level. #}
+{% macro costs(Element) %}
+  <div class="cost-list">
+    {% for RessID, RessAmount in Element.costResources %}
+      <span class="cost"><a href="#" data-action="dialog-info" data-id="{{ RessID }}" class="tooltip" {{ tooltip(include('game/tooltip.element.html.twig', {id: RessID})) }}>{{ LNG.tech[RessID] }}</a>: <b class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</b></span>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+{# "Needs: Research Lab 15, Energy Technology 3": only the requirements that are not met yet. #}
+{% macro needs(requirements) %}
+  <span class="reason">{{ LNG.bd_needs }}:
+    {% set first = true %}
+    {% for requireID, NeedLevel in requirements %}{% if NeedLevel.own < NeedLevel.count %}{% if not first %}, {% endif %}{% set first = false %}<a href="#" data-action="dialog-info" data-id="{{ requireID }}">{{ LNG.tech[requireID] }} {{ NeedLevel.count }}</a>{% endif %}{% endfor %}
+  </span>
+{% endmacro %}
+
+{# "Missing: Metal 120, Energy 898" (only what is really missing) plus the "buildable in" countdown when it can be computed. #}
+{% macro missing(Element) %}
+  {% set names = [] %}
+  {% for ResType, ResCount in Element.costOverflow %}{% if ResCount != 0 %}{% set names = names|merge([LNG.tech[ResType] ~ ' ' ~ pretty_number(ResCount)]) %}{% endif %}{% endfor %}
+  <span class="reason reason--bad">{% if names %}{{ LNG.bd_missing }}: {{ names|join(', ') }}{% else %}{{ LNG.bd_remaining }}{% endif %}</span>
+  {% if Element.timetobuild is defined and Element.timetobuild != 0 %}<span class="hint">{{ LNG.whenbuildable }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></span>{% endif %}
+{% endmacro %}
+
+{# "Time: 34m 35s" (the language strings differ in whether they carry a colon). #}
+{% macro time(seconds) %}<span class="build-time">{{ LNG.fgf_time|trim|trim(':')|trim }}: <span class="statictime" timestamp="{{ seconds }}"></span></span>{% endmacro %}

@@ -41,6 +41,7 @@ final class ConfigurableRememberMeHandler implements RememberMeHandlerInterface
         }
     }
 
+    /** Account of a valid cookie (signature, expiry, password hash checked by the inner handler); refused while the option is off. */
     public function consumeRememberMeCookie(RememberMeDetails $rememberMeDetails): UserInterface
     {
         if ($this->policy->rememberMeLifetime() === 0) {
@@ -55,6 +56,7 @@ final class ConfigurableRememberMeHandler implements RememberMeHandlerInterface
         $this->inner()->clearRememberMeCookie();
     }
 
+    /** Symfony's signature handler with the current lifetime from SessionPolicy, built on first use (cookie options as in security.yaml). */
     private function inner(): SignatureRememberMeHandler
     {
         return $this->inner ??= new SignatureRememberMeHandler(

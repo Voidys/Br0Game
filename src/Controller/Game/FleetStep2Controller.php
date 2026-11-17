@@ -46,14 +46,15 @@ class FleetStep2Controller extends AbstractGameController
         $LNG = $this->state->LNG;
         $this->addScript('flotten.js');
 
-        $targetGalaxy = $this->input()->int('galaxy');
-        $targetSystem = $this->input()->int('system');
-        $targetPlanet = $this->input()->int('planet');
-        $targetType = $this->input()->int('type');
-        $targetMission = $this->input()->int('target_mission', -1);
-        $fleetSpeed = $this->input()->int('speed');
-        $fleetGroupPublicId = $this->input()->string('group');
-        $token = $this->input()->string('token');
+        [$targetGalaxy, $targetSystem, $targetPlanet, $targetType, $targetMission, $fleetSpeed, $fleetGroupPublicId, $token] = $this->stepInput();
+
+        // post/redirect/get: the posted choice becomes a GET url, so reload and browser back work and nothing is resubmitted
+        if (($this->state->requestServer['REQUEST_METHOD'] ?? '') === 'POST') {
+            return $this->redirectToRoute('game_fleet_step2_show', [
+                'token' => $token, 'galaxy' => $targetGalaxy, 'system' => $targetSystem, 'planet' => $targetPlanet, 'type' => $targetType,
+                'target_mission' => $targetMission, 'speed' => $fleetSpeed, 'group' => $fleetGroupPublicId,
+            ]);
+        }
 
         $session = $this->sessions()->load();
         $fleet = $session->fleet;
@@ -70,9 +71,6 @@ class FleetStep2Controller extends AbstractGameController
             return $MissionOutput;
         }
 
-        if ($targetMission == -1) {
-            $targetMission = $this->preferredMission($MissionOutput['MissionSelector'], $targetMission);
-        }
         // validate the speed first: the flight duration divides by it
         if (!$this->fleetFunctions()->checkUserSpeed((int) $fleetSpeed)) {
             return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl(0));
@@ -81,10 +79,10 @@ class FleetStep2Controller extends AbstractGameController
         [$MaxFleetSpeed, $distance, $duration, $consumption] = $this->flightPlan($fleetArray, $targetGalaxy, $targetSystem, $targetPlanet, $fleetSpeed);
 
         if ($consumption > $PLANET['deuterium']) {
-            return $this->backToFleetTable($LNG['fl_not_enough_deuterium']);
+            return $this->backToFleetTable($LNG['fl_not_enough_deuterium'], $fleetArray, ['galaxy' => $targetGalaxy, 'system' => $targetSystem, 'planet' => $targetPlanet, 'planettype' => $targetType]);
         }
 
-        $fleet[$token] = array_merge($fleet[$token], [
+        $fleet = $this->storeFlight($session, $fleet, $token, [
             'speed' => $MaxFleetSpeed,
             'distance' => $distance,
             'targetGalaxy' => $targetGalaxy,
@@ -95,16 +93,8 @@ class FleetStep2Controller extends AbstractGameController
             'fleetSpeed' => $fleetSpeed,
             'ownPlanet' => $PLANET['id'],
         ]);
-        $session->fleet = $fleet;
-        $session->save();
 
-        if ($targetMission == 0) {
-            $targetMission = $this->guessMission($MissionOutput['MissionSelector'], $targetPlanetData, $fleetArray);
-        }
-
-        if (!empty($fleetGroup) && $targetMission == Mission::Attack->value) {
-            $targetMission  = Mission::Acs->value;
-        }
+        $targetMission = $this->resolveMission($targetMission, $MissionOutput['MissionSelector'], $targetPlanetData, $fleetArray, $fleetGroup);
 
         $questionList = $this->confirmationQuestions($targetPlanetData, $targetGalaxy, $targetSystem);
 
@@ -119,7 +109,71 @@ class FleetStep2Controller extends AbstractGameController
             return $unavailable;
         }
 
-        return $this->render('game/page.fleetStep2.default.html.twig', $this->formVariables($questionList, $fleetData, $consumption, $targetMission, $MissionOutput, $tradeMarket, $token, $duration, $fleet[$token]['predefinedResources']));
+        $variables = $this->formVariables($questionList, $fleetData, $consumption, $targetMission, $MissionOutput, $tradeMarket, $token, $duration, $fleet[$token]['predefinedResources']);
+
+        return $this->render('game/page.fleetStep2.default.html.twig', [
+            'galaxy' => $targetGalaxy,
+            'system' => $targetSystem,
+            'planet' => $targetPlanet,
+            'type' => $targetType,
+            'targetName' => (string) ($targetPlanetData['name'] ?? ''),
+            'targetOwner' => (string) ($targetPlanetData['owner_name'] ?? ''),
+            'FleetList' => $fleetArray,
+        ] + $variables);
+    }
+
+    /**
+     * Request fields of the step: galaxy, system, planet, type, target_mission (-1 = pick), speed, group (public combat group id), token.
+     *
+     * @return array{int, int, int, int, int, int, string, string}
+     */
+    private function stepInput(): array
+    {
+        $input = $this->input();
+
+        return [
+            $input->int('galaxy'), $input->int('system'), $input->int('planet'), $input->int('type'),
+            $input->int('target_mission', -1), $input->int('speed'), $input->string('group'), $input->string('token'),
+        ];
+    }
+
+    /**
+     * The mission to preselect: -1 = the best of the player's mission priorities, 0 = guessed from target and fleet
+     * (guessMission()); an attack on an alliance combat group becomes ACS. Same order as before the split.
+     *
+     * @param list<int>|array<int, mixed> $missionSelector possible missions
+     * @param array<string, mixed> $targetPlanetData
+     * @param array<int, int|string> $fleetArray
+     */
+    private function resolveMission(int $targetMission, array $missionSelector, array $targetPlanetData, array $fleetArray, mixed $fleetGroup): int
+    {
+        if ($targetMission == -1) {
+            $targetMission = $this->preferredMission($missionSelector, $targetMission);
+        }
+        if ($targetMission == 0) {
+            $targetMission = $this->guessMission($missionSelector, $targetPlanetData, $fleetArray);
+        }
+        if (!empty($fleetGroup) && $targetMission == Mission::Attack->value) {
+            $targetMission = Mission::Acs->value;
+        }
+
+        return (int) $targetMission;
+    }
+
+    /**
+     * Merges the flight data (speed, distance, target, combat group, origin) into the session fleet entry of the token and saves the session.
+     *
+     * @param array<string, array<string, mixed>> $fleet session fleets by token
+     * @param array<string, mixed> $flight
+     * @return array<string, array<string, mixed>> the updated fleets
+     */
+    private function storeFlight(\App\Game\Core\Session $session, array $fleet, string $token, array $flight): array
+    {
+        $fleet[$token] = array_merge($fleet[$token], $flight);
+        $session->fleet = $fleet;
+        $session->save();
+
+        return $fleet;
     }
 
     /**
@@ -135,7 +189,7 @@ class FleetStep2Controller extends AbstractGameController
         $LNG = $this->state->LNG;
         if ($targetType == 2 && !empty($targetPlanetData) && ($targetPlanetData['der_metal'] + $targetPlanetData['der_crystal']) == 0
             && $targetPlanetData['tf_active'] == 0) {
-            return $this->backToFleetTable($LNG['fl_error_empty_derbis']);
+            return $this->backToFleetTable($LNG['fl_error_empty_derbis'], $fleetArray, ['galaxy' => (int) $targetGalaxy, 'system' => (int) $targetSystem, 'planet' => (int) $targetPlanet, 'planettype' => (int) $targetType]);
         }
 
         $MissionOutput = $this->fleetFunctions()->getFleetMissions($this->state->USER, [
@@ -148,7 +202,7 @@ class FleetStep2Controller extends AbstractGameController
         ], $targetPlanetData);
 
         if (empty($MissionOutput['MissionSelector'])) {
-            return $this->backToFleetTable($LNG['fl_empty_target']);
+            return $this->backToFleetTable($LNG['fl_empty_target'], $fleetArray, ['galaxy' => (int) $targetGalaxy, 'system' => (int) $targetSystem, 'planet' => (int) $targetPlanet, 'planettype' => (int) $targetType]);
         }
 
         return $MissionOutput;
@@ -179,7 +233,7 @@ class FleetStep2Controller extends AbstractGameController
 
     /**
      * Template variables of the mission form: questions, fleet data, the chosen mission and the selectors from
-     * FleetFunctions::getFleetMissions(), the trade market and the origin planet coordinates.
+     * FleetFunctions::getFleetMissions(), the trade market. The caller adds the target (coordinates, name, owner) and the ships.
      *
      * @param array<int, string> $questionList mission => confirmation question
      * @param array<string, mixed> $fleetData fleetroom and consumption
@@ -189,7 +243,6 @@ class FleetStep2Controller extends AbstractGameController
      */
     private function formVariables(array $questionList, array $fleetData, mixed $consumption, mixed $targetMission, array $MissionOutput, ?array $tradeMarket, mixed $token, mixed $duration, mixed $predefinedResources): array
     {
-        $PLANET = $this->state->PLANET;
         $LNG = $this->state->LNG;
 
         return [
@@ -197,10 +250,6 @@ class FleetStep2Controller extends AbstractGameController
             'fleetdata'         => $fleetData,
             'consumption'       => floatToString($consumption),
             'mission'           => $targetMission,
-            'galaxy'            => $PLANET['galaxy'],
-            'system'            => $PLANET['system'],
-            'planet'            => $PLANET['planet'],
-            'type'              => $PLANET['planet_type'],
             'MissionSelector'   => $MissionOutput['MissionSelector'],
             'StaySelector'      => $MissionOutput['StayBlock'],
             'Exchange'          => $MissionOutput['Exchange'],
@@ -213,13 +262,22 @@ class FleetStep2Controller extends AbstractGameController
     }
 
     /**
-     * The message page with $message and a back link to the fleet page.
+     * The message page with $message and a back link to the fleet page (keeping the chosen ships and the target).
+     *
+     * @param array<int, int|float> $fleetArray ship id => count
+     * @param array<string, int> $target galaxy/system/planet/planettype/target_mission query of the link
      */
-    private function backToFleetTable(mixed $message): Response
+    private function backToFleetTable(mixed $message, array $fleetArray = [], array $target = []): Response
     {
+        // the ships ride along in the URL hash (fleetTable.js fills the amounts from it), so a refused target does not lose the selection
+        $hash = [];
+        foreach ($fleetArray as $shipId => $count) {
+            $hash[] = 'ship_input[' . (int) $shipId . ']=' . (int) $count;
+        }
+
         return $this->messageResponse($message, [[
             'label' => $this->state->LNG['sys_back'],
-            'url'   => $this->router->generate('game_fleet_table_show'),
+            'url'   => $this->router->generate('game_fleet_table_show', $target) . ($hash ? '#' . implode('&', $hash) : ''),
         ]]);
     }
 
@@ -238,7 +296,7 @@ class FleetStep2Controller extends AbstractGameController
         $fleetGroup = 0;
 
         if ($targetPlanet == $config->max_planets + 3) {
-            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `tf_active`
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, 0 as `tf_active`, '' as `name`, '' as `owner_name`
                 FROM %%PIRATE_BASES%% 
                 WHERE `universe` = :universe AND `galaxy` = :targetGalaxy AND `system` = :targetSystem AND `id_owner` = :userId;";
             $targetPlanetData = $db->selectSingle($sql, [
@@ -259,7 +317,8 @@ class FleetStep2Controller extends AbstractGameController
                 ], 'id');
             }
 
-            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, `tf_active`
+            $sql = "SELECT `id`, `id_owner`, `der_metal`, `der_crystal`, `tf_active`, `name`,
+                    (SELECT `username` FROM %%USERS%% WHERE %%USERS%%.`id` = %%PLANETS%%.`id_owner`) as `owner_name`
                 FROM %%PLANETS%%
                 WHERE `universe` = :universe AND `galaxy` = :targetGalaxy AND
                 `system` = :targetSystem AND `planet` = :targetPlanet AND `planet_type` = :planetType;";

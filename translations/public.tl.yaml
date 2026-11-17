@@ -143,3 +143,14 @@ home_logged_in_as: Naka-log in bilang %s
 home_continue: Magpatuloy sa iyong mga universe
 home_account_lobby: Lobby ng account
 rulesEmpty: Wala pang nalalathalang patakaran.
+loginLostPasswordOff: "Nakalimutan ang password? %s"
+loginContactTeam: "Makipag-ugnayan sa team."
+home_step_build: "Magtayo ng mga mina, pananaliksik at shipyard sa iyong mga planeta."
+home_step_fleet: "Magpadala ng mga fleet: mag-explore, makipagkalakalan, umatake o ipagtanggol."
+home_step_alliance: "Sumali sa isang alyansa at umakyat sa ranggo."
+home_hof_desc: "Mga nanalo sa mga natapos na round"
+home_battlehall_desc: "Ang pinakamalalaking labanan ng kasalukuyang round"
+memorialFilter: "Mga alaalang labanan"
+toc_contents: "Nilalaman"
+loginRememberHint: "Huwag gamitin sa nakabahaging computer."
+home_step_rules: "Basahin ang %s bago magsimula."

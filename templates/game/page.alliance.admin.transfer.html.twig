@@ -1,22 +1,22 @@
 {% import '_macros/forms.html.twig' as forms -%}
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
+{{ c.breadcrumb([{label: LNG.lm_alliance, url: path('game_alliance_show')}, {label: LNG.al_manage_alliance, url: path('game_alliance_admin')}, {label: LNG.al_transfer_alliance}]) }}
 <form action="{{ path('game_alliance_admin_transfer_send') }}" method="post">
 <table class="form-table">
 	<tr>
 		<th colspan="2">{{ LNG.al_transfer_alliance }}</th>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_transfer_to }}:</td>
-		<td>{{ forms.html_options({'name': 'newleader', 'options': transferUserList}) }}</td>
+		<td><label for="newleader">{{ LNG.al_transfer_to }}:</label></td>
+		<td>{{ forms.html_options({'id': 'newleader', 'name': 'newleader', 'options': transferUserList}) }}</td>
 	</tr>
 	<tr>
-		<td colspan="2" class="form-actions"><input type="submit" value="{{ LNG.al_transfer_submit }}"></td>
-	</tr>
-	<tr>
-		<th colspan="2"><a href="{{ path('game_alliance_admin') }}">{{ LNG.al_back }}</a></th>
+		<td colspan="2" class="form-actions"><button type="submit" class="btn--danger" data-confirm-danger data-confirm="{{ LNG.al_transfer_confirm|e('html_attr') }}">{{ LNG.al_transfer_submit }}</button></td>
 	</tr>
 </table>
 </form>
+{{ c.back(path('game_alliance_admin'), LNG.al_back) }}
 {% endblock %}

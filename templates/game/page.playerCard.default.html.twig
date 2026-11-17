@@ -2,6 +2,20 @@
 {% block title %}{{ LNG.lm_playercard }}{{ parent() }}{% endblock %}
 {% block content %}
 	<script type="module" src="./scripts/game/playercard.js?v={{ asset_version }}"></script>
+<header class="pcard-head">
+	<div class="pcard-head__who">
+		<h1 class="pcard-head__name">{{ name }}</h1>
+		<p class="pcard-head__meta">
+			{% if allyname %}<a href="{{ path('game_alliance_info', {id: allyid}) }}">{{ allyname }}</a> &middot; {% endif %}{{ LNG.pl_range }} {{ total_rank }} &middot; {{ total_points }} {{ LNG.pl_points }} &middot; <a href="{{ path('game_galaxy_show', {galaxy: galaxy, system: system}) }}">[{{ galaxy }}:{{ system }}:{{ planet }}]</a>
+		</p>
+	</div>
+	{% if id != yourid %}
+	<div class="pcard-head__actions">
+		<a class="button" href="#" data-action="dialog-pm" data-id="{{ id }}">{{ icon('mail') }}{{ LNG.pl_message }}</a>
+		<a class="button" href="#" data-action="dialog-buddy" data-id="{{ id }}">{{ icon('user-plus') }}{{ LNG.pl_buddy }}</a>
+	</div>
+	{% endif %}
+</header>
 <table>
 	<tr>
 		<th colspan="5">{{ LNG.pl_overview }}</th>
@@ -127,7 +141,7 @@
 		</tr>
 		{% if isModuleAvailable(constant('MODULE_HONORPOINTS')) %}
 			<tr>
-				<th colspan="5">{{ LNG.honorpoints }}:</th>
+				<th colspan="5">{{ LNG.honorpoints }}</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -142,7 +156,7 @@
 			<td colspan="2"></td>
 			</tr>
 			<tr>
-				<th colspan="5">{{ LNG.honorfights }}:</th>
+				<th colspan="5">{{ LNG.honorfights }}</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -174,7 +188,7 @@
 			</tr>
 		{% endif %}
 		<tr>
-			<th colspan="5">{{ playerdestory }}:</th>
+			<th colspan="5">{{ playerdestory }}</th>
 		</tr>
 		<tr>
 			<td></td>
@@ -201,7 +215,7 @@
 			<td colspan="2"></td>
 		</tr>
 		<tr>
-			<th colspan="5">{{ realdestory }}:</th>
+			<th colspan="5">{{ realdestory }}</th>
 		</tr>
 		<tr>
 			<td></td>
@@ -253,7 +267,7 @@
 			<td colspan="2"></td>
 		</tr>
 		<tr>
-			<th colspan="5">{{ LNG.honorpoints }}:</th>
+			<th colspan="5">{{ LNG.honorpoints }}</th>
 		</tr>
 		<tr>
 			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
@@ -268,7 +282,7 @@
 			<td colspan="2"></td>
 		</tr>
 		<tr>
-			<th colspan="5">{{ LNG.honorfights }}:</th>
+			<th colspan="5">{{ LNG.honorfights }}</th>
 		</tr>
 		<tr>
 			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
@@ -295,7 +309,7 @@
 			<td colspan="2"></td>
 		</tr>
 		<tr>
-			<th colspan="5">{{ playerdestory }}:</th>
+			<th colspan="5">{{ playerdestory }}</th>
 		</tr>
 		<tr>
 			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
@@ -322,7 +336,7 @@
 			<td colspan="2"></td>
 		</tr>
 		<tr>
-			<th colspan="5">{{ realdestory }}:</th>
+			<th colspan="5">{{ realdestory }}</th>
 		</tr>
 		<tr>
 			<td><div class="tooltip1"><img src="./styles/resource/images/icons/lock.webp" height="10" width="10"><span class="tooltiptext">{{ LNG.spytech_playercard.level6 }}</span></div></td>
@@ -351,25 +365,22 @@
 	{% endif %}
 {% if id != yourid %}
 	<tr>
-		<th colspan="5">{{ LNG.pl_etc }}</th>
-	</tr>
-	<tr>
-		<td></td>
-		<td colspan="1"><a href="#" data-action="dialog-buddy" data-id="{{ id }}">{{ LNG.pl_buddy }}</a></td>
-		<td colspan="3"><a href="#" data-action="dialog-pm" data-id="{{ id }}" title="{{ LNG.pl_message }}">{{ LNG.pl_message }}</a></td>
+		<th colspan="5">{{ LNG.pl_block_head }}</th>
 	</tr>
 	{% if targetRights == 0 %}
-		<form action="{{ path('game_player_card_toggle_block', {id: id}) }}" method="post">
 			<tr>
 				<td></td>
 				<td colspan="1"><label for="blockTrade">{{ LNG.blockTrade }}</label> <input data-action="player-block" data-id="{{ id }}" data-url="{{ path('game_player_card_toggle_block') }}" name="blockTrade" id="blockTrade" type="checkbox" value="1" {% if blockTrade == 1 %}checked="checked" {% endif %}></td>
 				<td colspan="3"><label for="blockDm">{{ LNG.blockDm }}</label> <input data-action="player-block" data-id="{{ id }}" data-url="{{ path('game_player_card_toggle_block') }}" name="blockDm" id="blockDm" type="checkbox" value="1" {% if blockDm == 1 %}checked="checked" {% endif %}></td>
 			</tr>
-		</form>
+			<tr>
+				<td></td>
+				<td colspan="4"><span class="hint">{{ LNG.pl_block_hint }}</span></td>
+			</tr>
 	{% endif %}
 {% endif %}
 	<tr>
-		<th colspan="5">{{ LNG.Achievements }}:</th>
+		<th colspan="5">{{ LNG.Achievements }}</th>
 	</tr>
 	<tr>
 		<td colspan="5">

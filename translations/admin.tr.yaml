@@ -607,6 +607,8 @@ se_bash_count_missiles: Bash limitleri roket saldırılarını sayar
 se_bash_count_missiles_info: 'Gezegenler arası roket saldırıları, filo saldırıları gibi bash limitlerine (oyuncu ve gezegen başına) dahil edilir. Kapalı: roketler sayılmaz.'
 se_bash_per_user: Oyuncu başına bash limiti
 se_bash_per_user_info: Bir oyuncunun 24 saatte başka bir oyuncuya kaç kez saldırabileceği (tüm gezegenlerde). 0 = kapalı
+se_update_check: "Güncelleme denetimi"
+se_update_check_info: "Yönetim panosu açıldığında (en çok 6 saatte bir) GitHub'dan (api.github.com) en son sürümü sorar ve yeni sürümleri duyurur. Sunucunuz hakkında veri göndermez. Giden istek yapılmaması için kapatın."
 se_cookie_consent: "Çerez bildirimi"
 se_cookie_consent_info: "Ziyaretçi seçim yapana kadar altta çerez bildirimi gösterir (\"Tümünü kabul et\" veya \"Yalnızca gerekli olanlar\"; cookie_consent çerezinde bir yıl saklanır)."
 se_block_planet_creation: Blok
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Açık talepler
 adm_dash_fleets: Uçuştaki filolar
 adm_dash_quick: Hızlı erişim
 adm_dash_system: Sistem
+adm_update_available: "Güncelleme mevcut"
+adm_update_released: "yayınlandı"
+adm_update_you_run: "çalışan sürüm"
+adm_update_notes: "Sürüm notları"
+adm_update_howto: "Nasıl güncellenir"
+adm_update_check_now: "Şimdi denetle"
+adm_update_check: "Güncelleme denetimi"
+adm_update_up_to_date: "Güncel"
 adm_dash_version: Sürüm
 adm_dash_php: PHP
 adm_dash_uni_status: Evren durumu

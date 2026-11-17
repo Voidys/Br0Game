@@ -1,7 +1,9 @@
 {% import '_macros/forms.html.twig' as forms -%}
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_statistics }}{{ parent() }}{% endblock %}
 {% block content %}
+{{ c.rankings_nav('statistics') }}
 <form name="stats" id="stats" method="get" action="{{ path('game_statistics_show') }}">
 	<table>
 		<tr>
@@ -18,6 +20,7 @@
 		</tr>
 	</table>
 </form>
+{% if who == 1 and RangeList|filter(r => r.id == CUser_id)|length %}<p class="stats-jump"><a class="button btn--small" href="#my-rank">{{ icon('user') }}{{ LNG.st_my_rank }}</a></p>{% endif %}
 <table>
 {% if who == 1 %}
 	{% include 'game/shared.statistics.playerTable.html.twig' %}
@@ -25,4 +28,5 @@
 	{% include 'game/shared.statistics.allianceTable.html.twig' %}
 {% endif %}
 </table>
+<p class="legend stats-legend"><span><b>{{ LNG.gl_short_newbie }}</b> {{ LNG.st_legend_noob }}</span><span><b>{{ LNG.gl_short_vacation }}</b> {{ LNG.gl_vacation }}</span><span><b>{{ LNG.gl_short_inactive }}</b> {{ LNG.gl_inactive_seven }}</span><span><b>{{ LNG.gl_short_long_inactive }}</b> {{ LNG.gl_inactive_twentyeight }}</span><span><b>{{ LNG.gl_short_ban }}</b> {{ LNG.gl_banned }}</span></p>
 {% endblock %}

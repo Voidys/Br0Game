@@ -607,6 +607,8 @@ se_bash_count_missiles: Bash-limieten tellen raketaanvallen mee
 se_bash_count_missiles_info: 'Interplanetaire raketaanvallen tellen mee als vlootaanvallen voor de bash-limieten (per speler en per planeet). Uit: raketten worden niet meegeteld.'
 se_bash_per_user: Bash-limiet per speler
 se_bash_per_user_info: Hoe vaak een speler per 24 uur een andere speler mag aanvallen (over alle planeten heen). 0 = uit
+se_update_check: "Updatecontrole"
+se_update_check_info: "Vraagt bij het openen van het beheerdashboard (hooguit elke 6 uur) GitHub (api.github.com) om de nieuwste release en meldt nieuwe versies. Er worden geen gegevens over je server verstuurd. Uitschakelen om geen uitgaande verzoeken te doen."
 se_cookie_consent: "Cookiemelding"
 se_cookie_consent_info: "Toont onderaan een cookiemelding totdat de bezoeker kiest (\"Alles accepteren\" of \"Alleen noodzakelijke\"; een jaar opgeslagen in de cookie cookie_consent)."
 se_block_planet_creation: Blokkeren
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Open tickets
 adm_dash_fleets: Vloten onderweg
 adm_dash_quick: Snelle toegang
 adm_dash_system: Systeem
+adm_update_available: "Update beschikbaar"
+adm_update_released: "uitgebracht op"
+adm_update_you_run: "je draait"
+adm_update_notes: "Release-notities"
+adm_update_howto: "Zo update je"
+adm_update_check_now: "Nu controleren"
+adm_update_check: "Updatecontrole"
+adm_update_up_to_date: "Up-to-date"
 adm_dash_version: Versie
 adm_dash_php: PHP
 adm_dash_uni_status: Universumstatus

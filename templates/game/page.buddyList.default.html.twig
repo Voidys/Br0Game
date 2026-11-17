@@ -1,6 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_buddylist }}{{ parent() }}{% endblock %}
 {% block content %}
+<div class="table-scroll">
 <table>
 <tr><th colspan="5">{{ LNG.bu_buddy_list }}</th></tr>
 {% if otherRequestList %}
@@ -73,4 +74,5 @@
 <tr><td colspan="5">{{ LNG.bu_no_buddys }}</td></tr>
 {% endfor %}
 </table>
+</div>
 {% endblock %}

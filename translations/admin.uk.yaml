@@ -607,6 +607,8 @@ se_bash_count_missiles: Ліміти bash враховують ракетні а
 se_bash_count_missiles_info: 'Міжпланетні ракетні атаки враховуються в лімітах bash так само, як атаки флотами (для гравця і для планети). Вимкнено: ракети не враховуються.'
 se_bash_per_user: Ліміт bash на гравця
 se_bash_per_user_info: Як часто гравець може атакувати іншого гравця за 24 години (з усіх планет разом). 0 = вимкнено
+se_update_check: "Перевірка оновлень"
+se_update_check_info: "Під час відкриття панелі адміністратора (не частіше ніж раз на 6 годин) запитує в GitHub (api.github.com) останній реліз і повідомляє про нові версії. Дані про ваш сервер не надсилаються. Вимкніть, щоб не надсилати вихідних запитів."
 se_cookie_consent: "Повідомлення про cookie"
 se_cookie_consent_info: "Показує внизу повідомлення про cookie, доки відвідувач не зробить вибір (\"Прийняти всі\" або \"Лише необхідні\"; зберігається рік у cookie cookie_consent)."
 se_block_planet_creation: Заблокувати
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Відкриті тікети
 adm_dash_fleets: Флоти в польоті
 adm_dash_quick: Швидкий доступ
 adm_dash_system: Система
+adm_update_available: "Доступне оновлення"
+adm_update_released: "випущено"
+adm_update_you_run: "у вас встановлено"
+adm_update_notes: "Примітки до випуску"
+adm_update_howto: "Як оновити"
+adm_update_check_now: "Перевірити зараз"
+adm_update_check: "Перевірка оновлень"
+adm_update_up_to_date: "Актуальна версія"
 adm_dash_version: Версія
 adm_dash_php: PHP
 adm_dash_uni_status: Статус всесвіту

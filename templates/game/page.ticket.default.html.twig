@@ -1,12 +1,13 @@
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_support }}{{ parent() }}{% endblock %}
 {% block content %}
 <table>
 	<tr>
-		<th colspan="5">{{ LNG.ti_header }}</th>
+		<th colspan="5">{{ LNG.lm_support }}</th>
 	</tr>
 	<tr>
-		<td colspan="5"><a href="{{ path('game_ticket_create') }}">{{ LNG.ti_new }}</a></td>
+		<td colspan="5"><a class="button" href="{{ path('game_ticket_create') }}">{{ icon('plus') }}{{ LNG.ti_new }}</a></td>
 	</tr>
 	<tr>
 		<th class="num">{{ LNG.ti_id }}</th>
@@ -23,6 +24,9 @@
 		<td>{{ TicketInfo.time }}</td>
 		<td class="ctr">{% if TicketInfo.status == 0 %}<span class="color-green">{{ LNG.ti_status_open }}</span>{% elseif TicketInfo.status == 1 %}<span class="color-orange">{{ LNG.ti_status_answer }}</span>{% else %}<span class="colorNegative">{{ LNG.ti_status_closed }}</span>{% endif %}</td>
 	</tr>
+	{% else %}
+	{% set faqLink %}<a href="{{ path('game_questions_show') }}">{{ LNG.lm_faq }}</a>{% endset %}
+	<tr><td colspan="5" class="empty-state-cell"><div class="empty-state"><p>{{ LNG.format('ti_none', faqLink) }}</p><a href="{{ path('game_ticket_create') }}">{{ LNG.ti_new }}</a></div></td></tr>
 	{% endfor %}
 </table>
 {% endblock %}

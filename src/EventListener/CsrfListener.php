@@ -95,6 +95,11 @@ final class CsrfListener
             return new JsonResponse(['error' => true, 'csrf' => true, 'message' => $message], Response::HTTP_FORBIDDEN);
         }
 
+        // the phalanx popup is only meant to be opened from the galaxy view; typed or bookmarked, it leads back into the game
+        if ($request->isMethod('GET') && $request->attributes->get('_route') === 'game_phalanx_show') {
+            return $this->bounce($request);
+        }
+
         $page = '<!DOCTYPE html><html lang="' . $locale . '"><head><meta charset="utf-8"><title>403</title></head>'
             . '<body><p>' . htmlspecialchars($message, ENT_QUOTES) . '</p>'
             . '<p><a href="' . htmlspecialchars($request->getBasePath() . '/', ENT_QUOTES) . '">&larr;</a></p></body></html>';

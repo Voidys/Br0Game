@@ -1,6 +1,6 @@
 {% import '_macros/forms.html.twig' as forms -%}
 {# One solar system of the galaxy view. The page includes it; GalaxyController::rows() renders it alone for the client-side navigation (scripts/game/galaxy.js replaces #galaxy-view). #}
-<div id="galaxy-view" data-galaxy="{{ galaxy }}" data-system="{{ system }}">
+<div id="galaxy-view" data-galaxy="{{ galaxy }}" data-system="{{ system }}" tabindex="-1">
   <form action="{{ path('game_fleet_missile_show') }}" method="post">
     <input type="hidden" name="galaxy" value="{{ galaxy }}">
     <input type="hidden" name="system" value="{{ system }}">
@@ -28,26 +28,26 @@
 
   <div class="galaxy-grid-container">
     <div class="galaxy-grid-row header">
-      <div class="galaxy-grid-header position centered" data-small-text="{{ LNG.gl_pos }}">{{ LNG.gl_pos }}</div>
-      <div class="galaxy-grid-header galaxy-planet" data-small-text="{{ LNG.gl_planet }}">{{ LNG.gl_planet }}</div>
-      <div class="galaxy-grid-header galaxy-moon" data-small-text="{{ LNG.type_planet_short_3 }}">{{ LNG.gl_moon }}</div>
-      <div class="galaxy-grid-header galaxy-debris" data-small-text="{{ LNG.type_planet_short_2 }}">{{ LNG.gl_debris_field }}</div>
-      <div class="galaxy-grid-header galaxy-player" data-small-text="{{ LNG.gl_player }}">{{ LNG.gl_player_estate }} [{{ LNG.gl_alliance }}]</div>
-      <div class="galaxy-grid-header galaxy-actions" data-small-text="{{ LNG.gl_actions }}">{{ LNG.gl_actions }}</div>
+      <div class="galaxy-grid-header position centered">{{ LNG.gl_pos }}</div>
+      <div class="galaxy-grid-header galaxy-planet">{{ LNG.gl_planet }}</div>
+      <div class="galaxy-grid-header galaxy-moon">{{ LNG.gl_moon }}</div>
+      <div class="galaxy-grid-header galaxy-debris">{{ LNG.gl_debris_field }}</div>
+      <div class="galaxy-grid-header galaxy-player">{{ LNG.gl_player_estate }} [{{ LNG.gl_alliance }}]</div>
+      <div class="galaxy-grid-header galaxy-actions">{{ LNG.gl_actions }}</div>
     </div>
 
     {% for planet in planetDataNew %}
       {% set currentPlanet = GalaxyRows[planet.planet_position] %}
       {% if currentPlanet is not defined or currentPlanet is null %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" tabindex="-1" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
             {{ planet.planet_position }}
           </div>
-          <div class="galaxy-grid-item span5"></div>
+          <div class="galaxy-grid-item span5 galaxy-free-note">{{ colonizable[planet.planet_position] == 'colorPositive' ? LNG.gl_colonizable : LNG.gl_not_colonizable }}</div>
         </div>
       {% elseif currentPlanet.destroyed == true %}
         <div class="galaxy-grid-row empty {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ colonizable[planet.planet_position] == 'colorPositive' ? 'free' : 'blocked' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" tabindex="-1" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item span2">{{ LNG.gl_planet_destroyed }}</div>
@@ -62,7 +62,7 @@
         </div>
       {% else %}
         <div class="galaxy-grid-row {{ cycle(['odd', 'even'], loop.index0) }}" data-info="p_{{ planet.planet_position }}">
-          <div class="galaxy-grid-item position centered galaxy-pos--{{ currentPlanet.ownPlanet ? 'own' : 'taken' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
+          <div class="galaxy-grid-item position centered galaxy-pos--{{ currentPlanet.ownPlanet ? 'own' : 'taken' }} {{ colonizable[planet.planet_position] }} tooltip_sticky" tabindex="-1" {{ tooltip(include('game/tooltip.galaxy.colonizable.html.twig')) }}>
             {{ planet.planet_position }}
           </div>
           <div class="galaxy-grid-item galaxy-planet">
@@ -116,6 +116,16 @@
                   {{ icon('file-search', currentPlanet.spyReportTitle) }}
                 </a>
               {% endif %}
+              {% if currentPlanet.missions[1] %}
+                <a class="galaxy-action galaxy-action--attack" href="{{ path('game_fleet_table_show', {galaxy: galaxy, system: system, planet: planet.planet_position, planettype: 1, target_mission: 1}) }}" title="{{ LNG.type_mission_1 }}">
+                  {{ icon('swords', LNG.type_mission_1) }}
+                </a>
+              {% endif %}
+              {% if currentPlanet.missions[3] %}
+                <a class="galaxy-action galaxy-action--transport" href="{{ path('game_fleet_table_show', {galaxy: galaxy, system: system, planet: planet.planet_position, planettype: 1, target_mission: 3}) }}" title="{{ LNG.type_mission_3 }}">
+                  {{ icon('truck', LNG.type_mission_3) }}
+                </a>
+              {% endif %}
               {% if currentPlanet.action.message %}
                 <a href="#" class="galaxy-action" data-action="dialog-pm" data-id="{{ currentPlanet.user.id }}" title="{{ LNG.write_message }}">
                   {{ icon('mail', LNG.write_message) }}
@@ -144,7 +154,7 @@
       {% endif %}
     {% endfor %}
     <div class="galaxy-grid-row empty even">
-      <div class="galaxy-grid-item centered">
+      <div class="galaxy-grid-item position centered">
         {{ max_planets + 1 }}
       </div>
       <div class="galaxy-grid-item centered span5">
@@ -152,7 +162,7 @@
       </div>
     </div>
     <div class="galaxy-grid-row empty odd">
-      <div class="galaxy-grid-item centered">
+      <div class="galaxy-grid-item position centered">
         {{ max_planets + 2 }}
       </div>
       <div class="galaxy-grid-item centered span5">
@@ -205,6 +215,19 @@
           </table>
         {% endset %}
         <a class="tooltip" {{ tooltip(tt_legend) }}>{{ LNG.gl_legend }}</a>
+      </div>
+    </div>
+    <div class="galaxy-grid-row legend-line">
+      <div class="galaxy-grid-item galaxy-legend">
+        <span class="galaxy-legend__item"><span class="colorPositive">{{ LNG.gl_pos }}</span> {{ LNG.gl_colonizable }}</span>
+        <span class="galaxy-legend__item"><span class="colorNegative">{{ LNG.gl_pos }}</span> {{ LNG.gl_not_colonizable }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-noob">{{ LNG.gl_short_newbie }}</span> {{ LNG.gl_week_player }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-strong">{{ LNG.gl_short_strong }}</span> {{ LNG.gl_strong_player }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-vacation">{{ LNG.gl_short_vacation }}</span> {{ LNG.gl_vacation }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-banned">{{ LNG.gl_short_ban }}</span> {{ LNG.gl_banned }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-inactive">{{ LNG.gl_short_inactive }}</span> {{ LNG.gl_inactive_seven }}</span>
+        <span class="galaxy-legend__item"><span class="galaxy-short-longinactive">{{ LNG.gl_short_long_inactive }}</span> {{ LNG.gl_inactive_twentyeight }}</span>
+        <span class="galaxy-legend__item"><span>{{ LNG.gl_activity }}</span> {{ LNG.gl_legend_activity }}</span>
       </div>
     </div>
     <div class="galaxy-grid-row stats">

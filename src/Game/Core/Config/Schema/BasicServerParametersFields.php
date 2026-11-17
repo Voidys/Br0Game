@@ -106,6 +106,12 @@ final class BasicServerParametersFields
                 'options' => \App\Game\Core\Fonts::ttfOptions() ?: [\App\Game\Core\Fonts::DEFAULT_TTF => basename(\App\Game\Core\Fonts::DEFAULT_TTF)],
                 'default' => \App\Game\Core\Fonts::DEFAULT_TTF,
             ],
+            // admin dashboard asks GitHub for the latest release (outbound request, see App\Runtime\UpdateCheck)
+            'update_check' => [
+                'type' => ConfigFieldSchema::TYPE_CHECKBOX,
+                'transform' => 'bool',
+                'default' => true,
+            ],
             'session_handler' => [
                 'type' => ConfigFieldSchema::TYPE_SELECT,
                 'transform' => 'string',

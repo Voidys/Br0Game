@@ -1,7 +1,9 @@
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
 {% set countRank = availableRanks|length %}
+{{ c.breadcrumb([{label: LNG.lm_alliance, url: path('game_alliance_show')}, {label: LNG.al_manage_alliance, url: path('game_alliance_admin')}, {label: LNG.al_manage_ranks}]) }}
 <form action="{{ path('game_alliance_admin_permissions_send') }}" method="post">
 	<div class="table-scroll">
 	<table class="rank-table">
@@ -12,15 +14,15 @@
 		<td class="ctr">{{ LNG.al_dlte }}</td>
 		<td>{{ LNG.al_rank_name }}</td>
 		{% for rankName in availableRanks %}
-		<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="" width="16" height="16"></td>
+		<td class="ctr"><img class="inline" src="styles/resource/images/alliance/{{ rankName }}.png" alt="{{ LNG.al_rank_desc[rankName]|e('html_attr') }}" title="{{ LNG.al_rank_desc[rankName]|e('html_attr') }}" width="16" height="16"></td>
 		{% endfor %}
 	</tr>
 	{% for rowId, rankRow in rankList %}
 	<tr>
-		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="{{ path('game_alliance_admin_permissions_send', {deleteRank: rowId}) }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="" width="16" height="16"></a>{% endif %}</td>
-		<td><input type="text" class="control-wide" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
+		<td class="ctr">{% if changeableRanks[rowId] and rowId != ownRankId %}<a data-method="post" href="{{ path('game_alliance_admin_permissions_send', {deleteRank: rowId}) }}"><img class="inline" src="styles/resource/images/alliance/CLOSE.webp" alt="{{ LNG.al_dlte|e('html_attr') }}" title="{{ LNG.al_dlte|e('html_attr') }}" width="16" height="16"></a>{% endif %}</td>
+		<td><input type="text" class="control-wide" aria-label="{{ LNG.al_rank_name|e('html_attr') }}" name="rank[{{ rowId }}][rankName]" value="{{ rankRow.rankName }}"{% if not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
 		{% for rankId, rankName in availableRanks %}
-		<td class="ctr"><input type="checkbox" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
+		<td class="ctr"><input type="checkbox" aria-label="{{ LNG.al_rank_desc[rankName]|e('html_attr') }}" name="rank[{{ rowId }}][{{ rankId }}]" value="1"{% if rankRow[rankName] %} checked{% endif %}{% if not ownRights[rankName] or not changeableRanks[rowId] or rowId == ownRankId %} disabled{% endif %}></td>
 		{% endfor %}
 	</tr>
 	{% else %}
@@ -40,12 +42,10 @@
 			<td colspan="{{ countRank + 1 }}">{{ LNG.al_rank_desc[rankName] }}</td>
 	</tr>
 		{% endfor %}
-	<tr>
-			<th colspan="{{ countRank + 2 }}"><a href="{{ path('game_alliance_admin') }}">{{ LNG.al_back }}</a></th>
-	</tr>
 	</table>
 	</div>
 </form>
+{{ c.back(path('game_alliance_admin'), LNG.al_back) }}
 
 <div id="new_alliance_rank" title="{{ LNG.al_create_new_rank }}" style="display:none;">
 	<form action="{{ path('game_alliance_admin_permissions_send') }}" method="post">

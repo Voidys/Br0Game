@@ -1,4 +1,4 @@
-import { qsa, post, pretty_number, pageData } from '../app/core.js';
+import { qsa, post, pretty_number, pageData, NotifyBox } from '../app/core.js';
 import { Dialog } from '../app/dialog.js';
 import { registerActions } from '../app/actions.js';
 import { closeTooltip, tooltipHtml } from '../app/tooltip.js';
@@ -77,6 +77,8 @@ const handleDoIt = (data) => {
   element.textContent = data.mess;
   statustable.hidden = false;
   statustable.append(element);
+  // the result as a toast under the top bar; the list below the grid keeps the log
+  NotifyBox(element.innerHTML, { kind: data.code === 600 ? 'success' : 'error', top: true, ms: 3500 });
 };
 
 /** Fills the interplanetary missile form with the target (galaxy, system, position, planet/moon type) and flight time (seconds), shows it and focuses the amount field. Returns false (cancels the link). */
@@ -91,7 +93,10 @@ const showMissileForm = (galaxy, system, planetPos, duration, type) => {
   const flyTime = document.getElementById('irakFlyTime');
   if (flyTime) flyTime.textContent = duration;
   const table = document.getElementById('missileForm');
-  if (table) table.hidden = false;
+  if (table) {
+    table.hidden = false;
+    table.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
   form.querySelector('input[name="SendMI"]')?.focus();
   return false;
 };
@@ -127,6 +132,17 @@ let loading = false;
 /** the navigation asked for while one was loading (only the newest one counts): [query function, push history entry] */
 let queued = null;
 
+/**
+ * Tells screen readers which system is shown now (live region #galaxy-status, no focus is taken from the buttons). When the
+ * move came from the keyboard shortcuts (nothing focused), focus goes to the new view so the next Tab starts at its first row.
+ */
+const announceSystem = (galaxy, system) => {
+  const labels = qsa('.galaxy-nav__label').map((label) => label.textContent.trim());
+  const status = document.getElementById('galaxy-status');
+  if (status) status.textContent = `${labels[0] ?? ''} ${galaxy}, ${labels[1] ?? ''} ${system}`;
+  if (document.activeElement === document.body) document.getElementById('galaxy-view')?.focus({ preventScroll: true });
+};
+
 /** Shows the fetched `#galaxy-view`: replaces the shown one, updates the coordinate fields and the history. */
 const showSystem = (next, push) => {
   closeTooltip();
@@ -137,6 +153,7 @@ const showSystem = (next, push) => {
   form.elements.system.value = system;
   readSystem();
   bindView();
+  announceSystem(galaxy, system);
   document.dispatchEvent(new Event('galaxy:shown'));
   if (push) history.pushState({ galaxy, system }, '', `${galaxyData.urls.galaxy}/${galaxy}/${system}`);
 };

@@ -699,7 +699,7 @@ fl_player_is_noob: 玩家处于新手保护中。
 fl_player_is_strong: 玩家太强了。
 fl_r: (回)
 fl_remove_all_ships: 无舰船
-fl_resources: 资源已装载！
+fl_resources: 装载资源
 fl_resources_left: 剩余载货量
 fl_return_time: 返回时间
 fl_returning: 返程
@@ -899,7 +899,7 @@ lm_shipshard: 造船厂
 lm_statistics: 统计
 lm_support: 客服
 lm_technology: 科技
-lm_topkb: 名人堂
+lm_topkb: 战斗大厅
 lo_continue: 点击继续。
 lo_logout: 你已退出登录。再见！
 lo_notify: 将在 <span id="seconds">5</span> 秒后跳转
@@ -1225,10 +1225,10 @@ rs_calculate: 保存更改
 rs_daily: 每日产量
 rs_lvl: 等级
 rs_production_on_planet: “%s”上生产的资源
-rs_ramp_up: 开启
+rs_ramp_up: '全部设为 100%'
 rs_ress_bonus: 加成（来自研究）
 rs_ress_bonus_position: 加成（来自星球位置）
-rs_shut_down: 关闭
+rs_shut_down: '全部设为 0%'
 rs_storage_capacity: 仓储容量
 rs_sum: 每小时产量
 rs_weekly: 每周产量
@@ -1395,7 +1395,7 @@ tkb_owners: 参与用户
 tkb_platz: 排名
 tkb_self: 仅自己的
 tkb_timeframe: 时间范围
-tkb_top: 名人堂
+tkb_top: 战斗大厅
 tkb_units: 单位
 tkb_verlierer: <b>-败者-</b>
 tkb_week: 周
@@ -1488,6 +1488,7 @@ ui_queue: 队列
 ui_queue_free: 空闲栏位
 ui_points: 积分
 ui_close: 关闭
+ui_storage_full: "Storage full: production stopped"
 ui_messages: 消息
 ui_server_time: 服务器时间
 ui_planet: 星球
@@ -1545,3 +1546,88 @@ vt_postback_hint: 网站确认你的投票后，奖励才会发放。
 vt_notice_rewarded: 感谢投票！奖励已添加到你的主星球。
 vt_notice_pending: 感谢投票！网站确认你的投票后，奖励才会发放。
 vt_notice_cooldown: 在此网站再次投票前，你需要等待。
+mg_confirm_delete_one: "删除这条消息？"
+mg_confirm_delete_bulk: "确定删除这些消息？此操作无法撤销。"
+mg_group_mark: "标记为已读"
+mg_group_delete: "删除"
+mg_pick_category: "请在上方选择一个分类以查看消息。"
+mg_no_messages: "暂无消息。"
+mg_select_message: "选择消息"
+mg_search_player: "搜索玩家"
+mg_remove_receiver: "移除收件人"
+mg_no_receiver: "请至少选择一位收件人。"
+nt_confirm_delete: "删除已标记的笔记？"
+nt_priority_legend: "颜色 = 优先级：绿色低，黄色普通，红色高"
+al_save_all_hint: "两个“保存”按钮会同时保存文本和选项。"
+al_dissolve_btn: "解散联盟..."
+al_transfer_btn: "转让联盟..."
+al_dissolve_hint: "这将永久删除联盟并移除所有成员，无法撤销。"
+al_transfer_hint: "将领导权移交给其他成员，你将失去创始人职位。"
+al_transfer_confirm: "将联盟转让给所选成员？你将失去领导权。"
+al_kick: "移除"
+al_find_results: "结果"
+al_find_browse: "最大的联盟"
+al_find_none_yet: "这个宇宙中还没有联盟。"
+al_no_inside_text: "暂无成员专属文本。"
+bd_needs: '需要'
+bd_missing: '缺少'
+honorfights: "荣誉战斗"
+pl_block_head: "屏蔽"
+pl_block_hint: "立即生效，无需点击保存。"
+st_my_rank: "跳到我的排名"
+st_legend_noob: "新手保护"
+rec_intro: "本宇宙中每种建筑和研究的最高等级，并与你的等级对比。"
+as_intro: "你个人活动的详细计数（探险、建造、损失、击毁）。所有玩家的排名请见“统计”页面。"
+as_show_empty: "显示空行"
+op_sections: "跳转到"
+op_save_hint: "更改需保存后才会生效。"
+op_dlte_account_confirm: "确定要删除账号吗？账号将在至少 7 天后被彻底删除，在此之前你可以取消删除。"
+ti_none: "你还没有工单。请先阅读%s；若仍无法解决，请创建工单。"
+ti_faq_first: "请先查看常见问题：许多问题那里已有解答。"
+team_contact_hint: "需要帮助？请通过%s提交工单。"
+cl_hint: "游戏软件的技术变更，最新的在前。点击条目可展开。"
+cl_empty: "暂无变更记录。"
+toc_contents: "目录"
+sh_hint: "请输入至少两个字符，然后按回车或点击搜索。"
+sh_search_type: "搜索类型"
+sh_search_text: "搜索内容"
+sh_no_players: "未找到结果。请检查拼写或尝试更短的文字。"
+sh_no_alliances: "未找到联盟。请检查拼写或尝试更短的文字。"
+fl_no_ship_selected: "请至少选择一艘舰船。"
+fl_recall_confirm: "召回这支舰队？它将立即掉头，并于 %s 返回。"
+fl_recall_return: "现在召回的返回时间"
+fl_no_fleets: "没有执行任务的舰队。"
+fl_quick_fleets: "快捷舰队"
+fl_quick_fleets_hint: "尚未保存任何内容。在下方“自定义舰队”中保存舰船组合，它会在这里成为一键快捷方式；你的上一次任务也会显示在这里。"
+fl_load_hint: "已按本星球库存预填。货运按钮会建议所需舰船数量；不携带资源时请清空。"
+fl_load_clear: "清空"
+fl_cargo_options_hint: "红色表示该舰船数量不足。点击舰船图标即可连同目标一起预选。"
+fl_summary: "派遣概要"
+fl_coord_range: "坐标无效。允许范围：星系 1-%d，恒星系 1-%d，位置 1-%d。"
+fl_sending: "正在派出舰队..."
+ft_rate_info: '商人会扣留飞船价值的 %s%%，其余部分以资源支付。'
+ft_per_ship: '每艘飞船的报酬'
+ft_receive: '你将获得'
+market_tab_resources: '资源市场'
+market_tab_fleets: '舰队市场'
+market_ratio_label: '按比例比较报价'
+market_ratio_hint: '设置“比例”列所用的汇率；所选资源为基准。'
+market_no_offers: '目前没有报价。'
+gl_recycle_needs: "回收（需要回收船）"
+gl_keys_hint: "键盘：方向键或 A D 切换恒星系，W S 切换星系。"
+rs_ramp_up_confirm: '将所有生产设施设为 100% 并保存？'
+rs_shut_down_confirm: '将所有生产设施设为 0% 并保存？生产将停止。'
+rs_energy_deficit: '能源不足：在能源恢复平衡之前，矿场将低于设定等级运转。'
+ov_event_hostile: '敌对'
+ov_no_fleets: '没有舰队行动。'
+al_chart_x: "时间（小时前）"
+al_chart_y: "积分"
+as_sub_count: "探险"
+as_sub_found: "发现"
+as_sub_lost: "损失"
+as_sub_first: "首次"
+op_notifications: "通知"
+rs_full_in: '仓库将满于'
+rs_full_now: '已满'
+fl_prepared_gone: "这支舰队已不再处于待派遣状态（已过期、已释放或已派出）。请重新开始。"
+gl_legend_activity: "最近 15 分钟内活跃，之后显示（分钟）至 60"

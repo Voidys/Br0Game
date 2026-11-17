@@ -143,3 +143,14 @@ home_logged_in_as: '%s olarak giriş yaptın'
 home_continue: Evrenlerine devam et
 home_account_lobby: Hesap lobisi
 rulesEmpty: Henüz kural yayınlanmadı.
+loginLostPasswordOff: "Şifreni mi unuttun? %s"
+loginContactTeam: "Ekiple iletişime geç."
+home_step_build: "Gezegenlerinde madenler, araştırma ve tersaneler inşa et."
+home_step_fleet: "Filolar gönder: keşfet, ticaret yap, saldır veya savun."
+home_step_alliance: "Bir ittifaka katıl ve sıralamada yüksel."
+home_hof_desc: "Biten turların kazananları"
+home_battlehall_desc: "Süren turun en büyük savaşları"
+memorialFilter: "Anıt savaşlar"
+toc_contents: "İçindekiler"
+loginRememberHint: "Ortak kullanılan bir bilgisayarda kullanma."
+home_step_rules: "Başlamadan önce %s oku."

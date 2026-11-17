@@ -607,6 +607,8 @@ se_bash_count_missiles: Les limites bash comptent les attaques par missiles
 se_bash_count_missiles_info: 'Les attaques par missiles interplanétaires comptent comme les attaques de flotte pour les limites bash (par joueur et par planète). Désactivé : les missiles ne sont pas comptés.'
 se_bash_per_user: Limite de bash par joueur
 se_bash_per_user_info: Combien de fois un joueur peut attaquer un autre joueur par 24 heures (toutes planètes confondues). 0 = désactivé
+se_update_check: "Vérification des mises à jour"
+se_update_check_info: "Interroge GitHub (api.github.com) pour la dernière version à l'ouverture du tableau de bord (au plus toutes les 6 heures) et signale les nouvelles versions. Aucune donnée sur votre serveur n'est envoyée. Désactiver pour éviter toute requête sortante."
 se_cookie_consent: "Bandeau de cookies"
 se_cookie_consent_info: "Affiche un bandeau de cookies en bas de page jusqu'à ce que le visiteur choisisse (\"Tout accepter\" ou \"Uniquement nécessaires\" ; enregistré un an dans le cookie cookie_consent)."
 se_block_planet_creation: Bloc
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Tickets ouverts
 adm_dash_fleets: Flottes en vol
 adm_dash_quick: Accès rapide
 adm_dash_system: Système
+adm_update_available: "Mise à jour disponible"
+adm_update_released: "publiée le"
+adm_update_you_run: "vous utilisez"
+adm_update_notes: "Notes de version"
+adm_update_howto: "Comment mettre à jour"
+adm_update_check_now: "Vérifier maintenant"
+adm_update_check: "Vérification des mises à jour"
+adm_update_up_to_date: "À jour"
 adm_dash_version: Version
 adm_dash_php: PHP
 adm_dash_uni_status: État de l'univers

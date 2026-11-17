@@ -90,7 +90,7 @@ registerWelcomePMSenderName: Administrator
 registerWelcomePMSubject: Willkommen
 registerWelcomePMText: Willkommen bei %s! Baue zuerst ein Solarkraftwerk, denn Energie wird für die spätere Rohstoffproduktion benötigt. Um diese zu bauen, klicke links im Menu auf "Gebäude". Danach baue das 4. Gebäude von oben. Da du nun Energie hast, kannst du anfangen Minen zu bauen. Gehe dazu wieder im Menü auf Gebäude und baue eine Metallmine, danach wieder eine Kristallmine. Um Schiffe bauen zu können musst du zuerst eine Raumschiffswerft gebaut haben. Was dafür benötigt wird findest du links im Menüpunkt Technologie. Das Team wünscht dir viel Spaß beim Erkunden des Universums!
 siteTitleBanList: Pranger
-siteTitleBattleHall: BattleHall
+siteTitleBattleHall: Battle Hall
 siteTitleDataPrivacy: Datenschutz
 siteTitleDisclamer: Impressum
 siteTitleHOF: Ruhmeshalle
@@ -143,3 +143,14 @@ home_logged_in_as: Angemeldet als %s
 home_continue: Weiter zu deinen Universen
 home_account_lobby: Konto-Lobby
 rulesEmpty: Es wurden noch keine Regeln veröffentlicht.
+loginLostPasswordOff: "Passwort vergessen? %s"
+loginContactTeam: "Wende dich an das Team."
+home_step_build: "Baue Minen, Forschung und Werften auf deinen Planeten."
+home_step_fleet: "Schicke Flotten los: erkunden, handeln, angreifen oder verteidigen."
+home_step_alliance: "Tritt einer Allianz bei und klettere in der Rangliste."
+home_hof_desc: "Sieger abgeschlossener Runden"
+home_battlehall_desc: "Die größten Schlachten der laufenden Runde"
+memorialFilter: "Gedenkkämpfe"
+toc_contents: "Inhalt"
+loginRememberHint: "Nicht auf einem gemeinsam genutzten Computer verwenden."
+home_step_rules: "Lies vor dem Start die %s."

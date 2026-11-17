@@ -143,3 +143,14 @@ home_logged_in_as: เข้าสู่ระบบแล้วในชื่�
 home_continue: ไปต่อที่จักรวาลของคุณ
 home_account_lobby: ล็อบบี้บัญชี
 rulesEmpty: ยังไม่มีการประกาศกฎ
+loginLostPasswordOff: "ลืมรหัสผ่าน? %s"
+loginContactTeam: "ติดต่อทีมงาน"
+home_step_build: "สร้างเหมือง การวิจัย และอู่ต่อยานบนดาวของคุณ"
+home_step_fleet: "ส่งกองเรือ: สำรวจ ค้าขาย โจมตี หรือป้องกัน"
+home_step_alliance: "เข้าร่วมพันธมิตรและไต่อันดับ"
+home_hof_desc: "ผู้ชนะของรอบที่จบแล้ว"
+home_battlehall_desc: "การรบที่ใหญ่ที่สุดของรอบปัจจุบัน"
+memorialFilter: "การรบอนุสรณ์"
+toc_contents: "สารบัญ"
+loginRememberHint: "อย่าใช้บนคอมพิวเตอร์ที่ใช้ร่วมกัน"
+home_step_rules: "อ่าน%sก่อนเริ่มเล่น"

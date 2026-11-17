@@ -71,7 +71,8 @@ final class FleetInputGuardsTest extends GameTestCase
             [$user, $planet] = $this->createPlayer([], ['small_ship_cargo' => 5, 'deuterium' => 100000]);
             $this->state->USER = $user;
             $this->state->PLANET = $planet;
-            $this->state->requestServer['REQUEST_METHOD'] = 'POST';
+            // validation runs on the GET of the step (a POST is only redirected there: post/redirect/get)
+            $this->state->requestServer['REQUEST_METHOD'] = 'GET';
             $controller = (new FleetStep2Controller())->withGameServices($this->db, $this->configs, $this->state);
             $session = $this->sessionOf($controller);
             $session->fleet = ['tok' => ['fleet' => [202 => 1], 'fleetRoom' => 5000, 'predefinedResources' => []]];

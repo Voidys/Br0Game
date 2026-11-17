@@ -5,7 +5,7 @@
 {% macro bulkbar(MessID, page, maxPage, fav, MessageList) %}
   <div class="msg-bulk">
     <label class="msg-select-all"><input type="checkbox" data-message-select-all> {{ LNG.mg_select_all }}</label>
-    <form class="control-group" action="{{ path('game_messages_action') }}" method="post">
+    <form class="control-group msg-bulk-form" action="{{ path('game_messages_action') }}" method="post" data-confirm-delete="{{ LNG.mg_confirm_delete_bulk }}">
       <input type="hidden" name="ajax" value="1">
       <input type="hidden" name="messcat" value="{{ MessID }}">
       <input type="hidden" name="site" value="{{ page }}">
@@ -13,13 +13,17 @@
         {% for Message in MessageList %}<input name="messageID[{{ Message.id }}]" value="1" type="checkbox" hidden>{% endfor %}
       {% endif %}
       <select name="action" aria-label="{{ LNG.mg_action }}">
-        <option value="readmarked">{{ LNG.mg_read_marked }}</option>
-        <option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
-        <option value="readall">{{ LNG.mg_read_all }}</option>
-        <option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
-        <option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
-        <option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
-        <option value="deleteall">{{ LNG.mg_delete_all }}</option>
+        <optgroup label="{{ LNG.mg_group_mark }}">
+          <option value="readmarked">{{ LNG.mg_read_marked }}</option>
+          <option value="readtypeall">{{ LNG.mg_read_type_all }}</option>
+          <option value="readall">{{ LNG.mg_read_all }}</option>
+        </optgroup>
+        <optgroup label="{{ LNG.mg_group_delete }}" class="msg-bulk__danger">
+          <option value="deletemarked">{{ LNG.mg_delete_marked }}</option>
+          <option value="deleteunmarked">{{ LNG.mg_delete_unmarked }}</option>
+          <option value="deletetypeall">{{ LNG.mg_delete_type_all }}</option>
+          <option value="deleteall">{{ LNG.mg_delete_all }}</option>
+        </optgroup>
       </select>
       <input value="{{ LNG.mg_confirm }}" type="submit">
     </form>
@@ -97,9 +101,12 @@
     </div>
   </div>
 
-  {{ _self.bulkbar(MessID, page, maxPage, fav, MessageList) }}
+  {% if MessageList is not empty %}{{ _self.bulkbar(MessID, page, maxPage, fav, MessageList) }}{% endif %}
 
   <div class="messages-container">
+    {% if MessageList is empty %}
+      <div class="empty-state">{{ icon('mail') }}<p>{{ MessID == -1 ? LNG.mg_pick_category : LNG.mg_no_messages }}</p></div>
+    {% endif %}
     {% set currentGroup = null %}
     {% for Message in MessageList %}
       {% set groupId = Message.grp_id == null ? Message.id : Message.grp_id %}
@@ -112,11 +119,12 @@
       {% set typeColor = Message.myself ? CategoryList[constant('App\\Game\\Enum\\MessageType::Favorites').value].color : CategoryList[Message.type].color %}
       <article id="message_{{ Message.id }}" class="message-item{% if Message.unread == 1 %} message-unread{% endif %}" style="--cat: {{ typeColor }}">
         <header class="message-head">
-          <input class="message-select" type="checkbox" name="messageID[{{ Message.id }}]" value="1" aria-label="{{ LNG.mg_select_all }}">
-          <span class="message-type">{{ LNG.mg_type[Message.type] }}{% if Message.unread == 1 %} <span class="message-new">{{ icon('mail') }} {{ LNG.mg_new }}</span>{% endif %}</span>
+          <input class="message-select" type="checkbox" name="messageID[{{ Message.id }}]" value="1" aria-label="{{ LNG.mg_select_message }}: {{ strip_tags(Message.from) }}">
+          <span class="message-type">{% if MessID in [100, 998, 999] %}{{ LNG.mg_type[Message.type] }}{% endif %}{% if Message.unread == 1 %} <span class="message-new">{{ icon('mail') }} {{ LNG.mg_new }}</span>{% endif %}</span>
           <span class="message-details" id="msgdetails_{{ Message.id }}"{% if spyCollapsed %} style="display: none;"{% endif %}>
             <span class="message-from">{{ Message.from|legacy_markup }}</span>
-            <span class="message-subject">{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# raw: subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
+            {% set subjectIsType = (Message.subject|striptags|trim|lower) == (LNG.mg_type[Message.type]|striptags|trim|lower) %}
+            <span class="message-subject"{% if subjectIsType %} hidden{% endif %}>{% if Message.forwarded %}<span class="message-fw">FW:</span> {% endif %}{# raw: subjects are stored encoded; system and admin subjects carry markup #}{{ Message.subject|raw }}</span>
           </span>
           {% if Message.type == constant('App\\Game\\Enum\\MessageType::SpyReport').value %}
             <span id="spytitle_{{ Message.id }}" class="spy-report-collapsed-title"{% if not spyCollapsed %} style="display: none;"{% endif %}>{{ Message.spyTitle }}</span>
@@ -131,9 +139,9 @@
             {% if Message.type == constant('App\\Game\\Enum\\MessageType::SpyReport').value %}
               <a href="#" class="msg-act" data-action="msg-toggle-spy" data-id="{{ Message.id }}" title="Toggle"><span id="imgtoggle_{{ Message.id }}" class="msg-toggle{% if spyCollapsed %} is-collapsed{% endif %}">{{ icon('chevron-up') }}{{ icon('chevron-down') }}</span></a>
             {% endif %}
-            <a href="#" class="msg-act msg-act--delete" data-action="msg-delete" data-url="{{ path('game_messages_delete') }}" data-id="{{ Message.id }}" data-group="group_{{ groupId }}" title="{{ LNG.mg_delete }}">{{ icon('trash-2') }}</a>
+            <a href="#" class="msg-act msg-act--delete" data-action="msg-delete" data-confirm="{{ LNG.mg_confirm_delete_one }}" data-confirm-danger data-url="{{ path('game_messages_delete') }}" data-id="{{ Message.id }}" data-group="group_{{ groupId }}" title="{{ LNG.mg_delete }}">{{ icon('trash-2') }}</a>
           </span>
-          {% if Message.type == constant('App\\Game\\Enum\\MessageType::User').value %}
+          {% if Message.type == constant('App\\Game\\Enum\\MessageType::User').value and Message.receiver is not empty %}
             <span class="message-receiver">{{ LNG.mg_to }}: {% for rec in Message.receiver %}{{ rec.receiver }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
           {% endif %}
         </header>

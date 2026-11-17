@@ -23,8 +23,10 @@
           <input type="button" value="{{ LNG.gl_sync }}" id="gala_sync">
         </div>
       </div>
+      <p class="hint galaxy-nav__keys">{{ LNG.gl_keys_hint }}</p>
     </div>
   </form>
+  <div id="galaxy-status" class="textForBlind" role="status" aria-live="polite"></div>
   {% include 'game/galaxy.system.html.twig' %}
 
   <div class="galaxy-grid-container" hidden id="fleetstatusrow">

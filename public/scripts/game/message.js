@@ -147,6 +147,17 @@ window.onPageInit(() => {
   if (qs('#message-open-all')) {
     initCategoryPreferences();
   }
+  // bulk form: every delete* action asks first (the question lives on the form, the choice is in the select)
+  for (const form of qsa('form.msg-bulk-form')) {
+    form.addEventListener('submit', async (event) => {
+      if (form.dataset.confirmed === '1' || !String(form.elements.action?.value).startsWith('delete')) return;
+      event.preventDefault();
+      if (await Dialog.confirm(form.dataset.confirmDelete, { danger: true })) {
+        form.dataset.confirmed = '1';
+        form.submit();
+      }
+    });
+  }
   // "select all" boxes (above and below the list) tick every message on the page
   for (const all of qsa('[data-message-select-all]')) {
     all.addEventListener('change', () => {
@@ -165,6 +176,10 @@ const sendAndClose = async (url, data) => {
 
 /** Send button of the write dialog: refuses an empty text, otherwise sends subject, text, group and the chosen receivers. */
 const check = () => {
+  if (receiver.length === 0) {
+    Dialog.alert(write.noReceiver);
+    return false;
+  }
   const text = qs('#text').value;
   if (text.length === 0) {
     Dialog.alert(write.emptyText);
@@ -180,6 +195,10 @@ const check = () => {
 
 /** Forward dialog: sends the message id to the chosen receivers. */
 const checkForward = () => {
+  if (receiver.length === 0) {
+    Dialog.alert(write.noReceiver);
+    return false;
+  }
   sendAndClose(`${write.forwardUrl}?ajax=1`, {
     id: write.messageID,
     'to[]': receiver,
@@ -276,8 +295,12 @@ const addUser = (id, username) => {
   entry.className = 'receiver';
   entry.id = `receiver-${id}`;
   entry.append(`${username} `);
-  const remove = document.createElement('span');
-  remove.textContent = 'X';
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'receiver__remove';
+  remove.setAttribute('aria-label', write.removeReceiver);
+  remove.title = write.removeReceiver;
+  remove.innerHTML = '<svg class="icon" aria-hidden="true"><use href="./styles/resource/icons/lucide.svg#i-x"></use></svg>';
   remove.addEventListener('click', () => removeUser(id));
   entry.append(remove);
   qs('#receiver-list').append(entry);

@@ -31,7 +31,7 @@ final class InstallLegalSettingsTest extends GameTestCase
         $checked = $this->service()->validateLegalSettings([], 'en');
 
         $this->assertNull($checked['error']);
-        $this->assertSame(['privacy_region' => 'eu', 'rules_default' => 'default', 'board_enabled' => false], $checked['values']);
+        $this->assertSame(['privacy_region' => 'eu', 'rules_default' => 'default', 'board_enabled' => false, 'cookie_consent' => false], $checked['values']);
     }
 
     public function testRejectsUnknownChoices(): void

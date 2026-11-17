@@ -607,6 +607,8 @@ se_bash_count_missiles: Limity bash liczą ataki rakietowe
 se_bash_count_missiles_info: 'Międzyplanetarne ataki rakietowe liczą się do limitów bash jak ataki flot (na gracza i na planetę). Wyłączone: rakiety nie są liczone.'
 se_bash_per_user: Limit bash na gracza
 se_bash_per_user_info: Ile razy gracz może zaatakować innego gracza w ciągu 24 godzin (na wszystkich planetach). 0 = wyłączone
+se_update_check: "Sprawdzanie aktualizacji"
+se_update_check_info: "Przy otwarciu panelu administratora (najwyżej co 6 godzin) pyta GitHub (api.github.com) o najnowsze wydanie i informuje o nowych wersjach. Nie wysyła żadnych danych o serwerze. Wyłącz, aby nie wykonywać żądań wychodzących."
 se_cookie_consent: "Informacja o cookie"
 se_cookie_consent_info: "Wyświetla u dołu informację o plikach cookie, dopóki odwiedzający nie wybierze (\"Zaakceptuj wszystkie\" lub \"Tylko niezbędne\"; zapis na rok w cookie cookie_consent)."
 se_block_planet_creation: Blok
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Otwarte zgłoszenia
 adm_dash_fleets: Floty w locie
 adm_dash_quick: Szybki dostęp
 adm_dash_system: System
+adm_update_available: "Dostępna aktualizacja"
+adm_update_released: "wydano"
+adm_update_you_run: "używasz"
+adm_update_notes: "Informacje o wydaniu"
+adm_update_howto: "Jak zaktualizować"
+adm_update_check_now: "Sprawdź teraz"
+adm_update_check: "Sprawdzanie aktualizacji"
+adm_update_up_to_date: "Aktualne"
 adm_dash_version: Wersja
 adm_dash_php: PHP
 adm_dash_uni_status: Status uniwersum

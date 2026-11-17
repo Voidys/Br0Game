@@ -1,4 +1,5 @@
 {% extends layout_template %}
+{% import 'game/macros.buildcard.html.twig' as b %}
 {% block title %}{{ LNG.lm_buildings }}{{ parent() }}{% endblock %}
 {% block content %}
   {% include 'game/shared.buildqueue.html.twig' with {queuePage: 'buildings'} %}
@@ -14,7 +15,7 @@
     {% for ID, Element in BuildInfoList %}
       <div class="infos {{ Element.filterClass }} {% if Element.fade %}unavailable{% endif %}" >
         <div class="buildn relative">
-          <a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level > 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
+          <a href="#" class="info-link" data-action="dialog-info" data-id="{{ ID }}" title="{{ LNG.tt_requirements }} / {{ LNG.fcm_info }}">{{ LNG.tech[ID] }} <span class="info-ico">{{ icon('info') }}</span></a>{% if Element.level > 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
             {% if ID == watch %}
               <a href="{{ path('game_buildings_show', {watch: 0}) }}">
                 <img class="watchlist-fav-button"  src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
@@ -33,65 +34,47 @@
             {{ LNG.tt_requirements }}: </br>
             {% for requireID, NeedLevel in Element.requirements %}
               <a href="#" data-action="dialog-info" data-id="{{ requireID }}">
-                <span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
+                <span class="{% if NeedLevel.own < NeedLevel.count %}colorNegative{% else %}colorPositive{% endif %}">
                   {{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
                 </span>
               </a>{% if not loop.last %}<br>{% endif %}
             {% endfor %}
-          {% else %}
-            {{ LNG.bd_remaining }}:<br>
-            {% for ResType, ResCount in Element.costOverflow %}
-              <a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: ResType, image: false})) }}>{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
-            {% endfor %}
-            {% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
-            <br>
-            {% if Element.infoEnergy %}
-              {{ LNG.bd_next_level }}<br>
-              {{ LNG.format(Element.infoEnergy.consumes ? 'bd_need_engine' : 'bd_more_engine', Element.infoEnergy.amount, LNG.tech[911]) }}<br>
-            {% endif %}
+          {% elseif Element.infoEnergy %}
+            {{ LNG.bd_next_level }}<br>
+            {{ LNG.format(Element.infoEnergy.consumes ? 'bd_need_engine' : 'bd_more_engine', Element.infoEnergy.amount, LNG.tech[911]) }}
           {% endif %}
         </div>
 
         <div class="buildl">
-          <span>
-            {% for RessID, RessAmount in Element.costResources %}
-              <a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: RessID})) }}>{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNeutral{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
-            {% endfor %}
-            
-            {% if Element.factor != null and not Element.requirements and Element.buyable %}
-              <span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
-            {% endif %}
-          </span>
-          <br><br>
+          {% set atMax = Element.maxLevel == Element.levelToBuild %}
+          {% if not atMax %}{{ b.costs(Element) }}{% endif %}
+          {% if Element.factor != null and not Element.requirements and Element.buyable %}
+            <span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}">{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
+          {% endif %}
           {% if vacation %}
-            <span class="colorNeutral">{{ LNG.op_options_vacation_activated }}</span>
+            <span class="reason">{{ LNG.op_options_vacation_activated }}</span>
           {% elseif Element.requirements %}
-            <span class="colorNeutral">{{ LNG.bd_requirements }}</span>
-          {% elseif Element.maxLevel == Element.levelToBuild %}
-            <span class="colorNeutral">{{ LNG.bd_maxlevel }}</span>
+            {{ b.needs(Element.requirements) }}
+          {% elseif atMax %}
+            <span class="reason">{{ LNG.bd_maxlevel }}</span>
           {% elseif not CanBuildElement %}
-            <span class="colorNeutral">{{ LNG.bd_buildlist_full }}</span>
+            <span class="reason">{{ LNG.bd_buildlist_full }}</span>
           {% elseif not RoomIsOk %}
-            <span class="colorNeutral">{{ LNG.bd_no_more_fields }}</span>
+            <span class="reason">{{ LNG.bd_no_more_fields }}</span>
           {% elseif not Element.buyable %}
-            <span class="colorNeutral">{{ LNG.bd_remaining }}</span>
+            {{ b.missing(Element) }}
           {% elseif (isBusy.research and (ID == 6 or ID == 31)) or (isBusy.shipyard and (ID == 15 or ID == 21)) or (isBusy.repairdock and (ID == 35)) %}
-            <span class="colorNeutral">{{ LNG.bd_working }}</span>
+            <span class="reason">{{ LNG.bd_working }}</span>
           {% else %}
             <form action="{{ path('game_buildings_command') }}" method="post" class="build_form">
               <input type="hidden" name="cmd" value="insert">
               <input type="hidden" name="building" value="{{ ID }}">
-              {% if userLang=="de" or userLang=="of" or userLang=="pi" %}
-                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}data-action="open-url" data-url="https://www.youtube.com/watch?v=u3dahwW0njk" {% endif %}>
-              {% else %}
-                <button type="submit" class="colorPositive build_submit" {% if ID==34 %}data-action="open-url" data-url="https://www.youtube.com/watch?v=tldGgGFe194" {% endif %}>
-              {% endif %}
-              {% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
+              <button type="submit" class="colorPositive build_submit">{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_build }}{% else %}{{ LNG.bd_build_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
             </form>
           {% endif %}
 
-          <br>
-          {{ LNG.fgf_time }}:<span class="statictime" timestamp="{{ Element.elementTime }}"></span>
+          <div class="build-meta">
+          {% if not atMax %}{{ b.time(Element.elementTime) }}{% endif %}
           {% if Element.level > 0 %}
             {% if ID == 43 %}<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.bd_jump_gate_action }}</a>{% endif %}
             {% if ID == 34 %}<a href="{{ path('game_alliance_depot_show') }}">{{ LNG.bd_depot_action }}</a>{% endif %}
@@ -121,10 +104,9 @@
                 </td>
               </tr>
             </table>
-            {% endset %}<br><a class="tooltip_sticky" data-tooltip-forms {{ tooltip(tt_destroy) }}>{{ LNG.bd_dismantle }}</a>{% endif %}
-          {% else %}
-            &nbsp;
+            {% endset %}<a class="tooltip_sticky build-meta__destroy" data-tooltip-forms {{ tooltip(tt_destroy) }}>{{ LNG.bd_dismantle }}</a>{% endif %}
           {% endif %}
+          </div>
         </div>
       </div>
     {% endfor %}

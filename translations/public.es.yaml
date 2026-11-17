@@ -27,7 +27,7 @@ loginServerDesc: '%s es un juego de estrategia espacial en el que cientos de jug
 loginWelcome: Bienvenido a %s
 Lowest_longterm_points: Cuentas preinscritas con menos puntos
 menu_banlist: Lista de baneos
-menu_battlehall: Salón de la Fama
+menu_battlehall: Salón de batallas
 menu_disclamer: Contacto
 menu_news: Noticias
 menu_rules: Reglas
@@ -90,7 +90,7 @@ registerWelcomePMSenderName: Administrador
 registerWelcomePMSubject: Bienvenido
 registerWelcomePMText: ¡Bienvenido a %s! Lo primero es construir una planta de energía solar, porque hace falta energía para producir recursos. Abre Edificios en el menú de la izquierda y empieza por la planta de energía solar.<br>Cuando tengas energía, ya puedes construir minas. Sigue en Edificios y levanta una mina de metal y después una de cristal.<br><br>Para construir naves necesitas un hangar. El menú Tecnología de la izquierda te muestra qué hace falta para desbloquearlo.<br>Si tienes más dudas, echa un vistazo a las FAQ, a la wiki o abre un ticket de soporte.<br><br>¡El equipo te desea mucha diversión explorando el universo!
 siteTitleBanList: Lista de baneos
-siteTitleBattleHall: Salón de la Fama
+siteTitleBattleHall: Salón de batallas
 siteTitleDataPrivacy: Política de privacidad
 siteTitleDisclamer: Contacto
 siteTitleHOF: Salón de la Fama
@@ -143,3 +143,14 @@ home_logged_in_as: Sesión iniciada como %s
 home_continue: Continuar a tus universos
 home_account_lobby: Sala de la cuenta
 rulesEmpty: Todavía no se ha publicado ninguna regla.
+loginLostPasswordOff: "¿Olvidaste tu contraseña? %s"
+loginContactTeam: "Contacta con el equipo."
+home_step_build: "Construye minas, investigación y astilleros en tus planetas."
+home_step_fleet: "Envía flotas: explora, comercia, ataca o defiende."
+home_step_alliance: "Únete a una alianza y sube en la clasificación."
+home_hof_desc: "Ganadores de las rondas terminadas"
+home_battlehall_desc: "Las mayores batallas de la ronda en curso"
+memorialFilter: "Batallas conmemorativas"
+toc_contents: "Contenido"
+loginRememberHint: "No lo uses en un ordenador compartido."
+home_step_rules: "Lee las %s antes de empezar."

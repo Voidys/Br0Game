@@ -697,7 +697,7 @@ fl_player_is_noob: El jugador está bajo protección de novato.
 fl_player_is_strong: El jugador es demasiado fuerte.
 fl_r: (R)
 fl_remove_all_ships: Ninguna nave
-fl_resources: ¡Recursos cargados!
+fl_resources: Cargar recursos
 fl_resources_left: Capacidad disponible
 fl_return_time: Hora de regreso
 fl_returning: Regresando
@@ -897,7 +897,7 @@ lm_shipshard: Hangar
 lm_statistics: Estadísticas
 lm_support: Soporte
 lm_technology: Tecnología
-lm_topkb: Salón de la Fama
+lm_topkb: Salón de batallas
 lo_continue: Pulsa aquí si no te redirige automáticamente.
 lo_logout: Has cerrado sesión. ¡Hasta pronto!
 lo_notify: Redirigiendo en <span id="seconds">5</span> segundos
@@ -1223,10 +1223,10 @@ rs_calculate: Guardar cambios
 rs_daily: Producción diaria
 rs_lvl: Nivel
 rs_production_on_planet: Recursos producidos en «%s»
-rs_ramp_up: Activar todo
+rs_ramp_up: 'Todo al 100 %'
 rs_ress_bonus: Bonificación (por investigación)
 rs_ress_bonus_position: Bonificación (por posición en el planeta)
-rs_shut_down: Apagar todo
+rs_shut_down: 'Todo al 0 %'
 rs_storage_capacity: Capacidad de almacenamiento
 rs_sum: Producción por hora
 rs_weekly: Producción semanal
@@ -1389,7 +1389,7 @@ tkb_owners: Participantes
 tkb_platz: Puesto
 tkb_self: solo propios
 tkb_timeframe: Periodo
-tkb_top: Salón de la Fama
+tkb_top: Salón de batallas
 tkb_units: Unidades
 tkb_verlierer: <b>-Perdedor-</b>
 tkb_week: semana
@@ -1482,6 +1482,7 @@ ui_queue: Cola
 ui_queue_free: hueco libre
 ui_points: Puntos
 ui_close: Cerrar
+ui_storage_full: "Almacén lleno: producción detenida"
 ui_messages: Mensajes
 ui_server_time: Hora del servidor
 ui_planet: Planeta
@@ -1539,3 +1540,88 @@ vt_postback_hint: La recompensa llega cuando el sitio confirma tu voto.
 vt_notice_rewarded: ¡Gracias por votar! La recompensa se ha añadido a tu planeta principal.
 vt_notice_pending: ¡Gracias por votar! La recompensa llega cuando el sitio confirma tu voto.
 vt_notice_cooldown: Debes esperar antes de volver a votar en este sitio.
+mg_confirm_delete_one: "¿Borrar este mensaje?"
+mg_confirm_delete_bulk: "¿Borrar estos mensajes? No se puede deshacer."
+mg_group_mark: "Marcar como leído"
+mg_group_delete: "Borrar"
+mg_pick_category: "Elige una categoría arriba para ver sus mensajes."
+mg_no_messages: "No hay mensajes."
+mg_select_message: "Seleccionar mensaje"
+mg_search_player: "Buscar jugador"
+mg_remove_receiver: "Quitar destinatario"
+mg_no_receiver: "Elige al menos un destinatario."
+nt_confirm_delete: "¿Borrar las notas marcadas?"
+nt_priority_legend: "Color = prioridad: verde baja, amarillo normal, rojo alta"
+al_save_all_hint: "Ambos botones Guardar guardan los textos y las opciones a la vez."
+al_dissolve_btn: "Disolver alianza..."
+al_transfer_btn: "Transferir alianza..."
+al_dissolve_hint: "Esto elimina la alianza de forma permanente y expulsa a todos los miembros. No se puede deshacer."
+al_transfer_hint: "Entrega el liderazgo a otro miembro. Pierdes el rango de fundador."
+al_transfer_confirm: "¿Transferir la alianza al miembro seleccionado? Perderás el liderazgo."
+al_kick: "Expulsar"
+al_find_results: "Resultados"
+al_find_browse: "Alianzas más grandes"
+al_find_none_yet: "Todavía no hay alianzas en este universo."
+al_no_inside_text: "Todavía no hay texto para los miembros."
+bd_needs: 'Requiere'
+bd_missing: 'Falta'
+honorfights: "Combates honorables"
+pl_block_head: "Bloquear"
+pl_block_hint: "Surte efecto de inmediato, no hay botón Guardar."
+st_my_rank: "Ir a mi puesto"
+st_legend_noob: "Protección de novato"
+rec_intro: "El nivel más alto alcanzado en este universo para cada edificio e investigación, comparado con el tuyo."
+as_intro: "Contadores detallados de tu propia actividad (expediciones, construcciones, pérdidas, destrucciones). La clasificación de todos los jugadores está en Estadísticas."
+as_show_empty: "Mostrar filas vacías"
+op_sections: "Ir a"
+op_save_hint: "Los cambios solo se aplican al guardar."
+op_dlte_account_confirm: "¿Eliminar tu cuenta de verdad? Se borra por completo tras al menos 7 días; hasta entonces puedes cancelar la eliminación."
+ti_none: "Todavía no tienes tickets. Lee primero las %s; si no te ayuda, crea un ticket."
+ti_faq_first: "Consulta primero las FAQ: muchas preguntas ya tienen respuesta ahí."
+team_contact_hint: "¿Necesitas ayuda? Abre un ticket en %s."
+cl_hint: "Cambios técnicos del software del juego, los más recientes primero. Haz clic en una entrada para desplegarla."
+cl_empty: "No hay cambios registrados."
+toc_contents: "Contenido"
+sh_hint: "Escribe al menos dos caracteres y pulsa Intro o Buscar."
+sh_search_type: "Buscar"
+sh_search_text: "Texto de búsqueda"
+sh_no_players: "No se encontró nada. Revisa la ortografía o prueba con un texto más corto."
+sh_no_alliances: "No se encontraron alianzas. Revisa la ortografía o prueba con un texto más corto."
+fl_no_ship_selected: "Elige al menos una nave."
+fl_recall_confirm: "¿Retirar esta flota? Da la vuelta ahora y vuelve a casa a las %s."
+fl_recall_return: "De vuelta si se retira ahora"
+fl_no_fleets: "No hay flotas en misión."
+fl_quick_fleets: "Flotas rápidas"
+fl_quick_fleets_hint: "Aún no hay nada guardado. Guarda una combinación de naves en \"Flotas propias\" más abajo y aparecerá aquí como atajo; tu última misión también aparece aquí."
+fl_load_hint: "Rellenado con las existencias de este planeta. Los botones de carga sugieren cuántas naves lo transportan; vacíalo si no envías nada."
+fl_load_clear: "Vaciar"
+fl_cargo_options_hint: "Rojo significa que no tienes suficientes de esa nave. Haz clic en un icono de nave para preseleccionarla junto con el objetivo."
+fl_summary: "Resumen del envío"
+fl_coord_range: "Coordenadas no válidas. Permitido: galaxia 1-%d, sistema 1-%d, posición 1-%d."
+fl_sending: "Enviando flota..."
+ft_rate_info: 'El comerciante se queda con el %s%% del valor de la nave y paga el resto en recursos.'
+ft_per_ship: 'Pago por nave'
+ft_receive: 'Recibes'
+market_tab_resources: 'Mercado de recursos'
+market_tab_fleets: 'Mercado de flotas'
+market_ratio_label: 'Comparar ofertas con la proporción'
+market_ratio_hint: 'Define el cambio usado en la columna Proporción; el recurso elegido es la base.'
+market_no_offers: 'Ahora mismo no hay ofertas.'
+gl_recycle_needs: "Reciclar (necesita reciclador)"
+gl_keys_hint: "Teclado: flechas o A D cambian de sistema, W S de galaxia."
+rs_ramp_up_confirm: '¿Poner todos los productores al 100 % y guardar?'
+rs_shut_down_confirm: '¿Poner todos los productores al 0 % y guardar? La producción se detiene.'
+rs_energy_deficit: 'Déficit de energía: las minas producen por debajo de su nivel hasta que la energía vuelva a equilibrarse.'
+ov_event_hostile: 'Hostil'
+ov_no_fleets: 'Sin movimientos de flota.'
+al_chart_x: "Tiempo (horas atrás)"
+al_chart_y: "Puntos"
+as_sub_count: "Expediciones"
+as_sub_found: "Hallazgos"
+as_sub_lost: "Pérdidas"
+as_sub_first: "Primeras veces"
+op_notifications: "Notificaciones"
+rs_full_in: 'Almacén lleno en'
+rs_full_now: 'Lleno'
+fl_prepared_gone: "Esta flota ya no está preparada (caducó, se liberó o ya se envió). Empieza de nuevo."
+gl_legend_activity: "Activo en los últimos 15 min, luego (minutos) hasta 60"

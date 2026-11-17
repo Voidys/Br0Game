@@ -27,7 +27,7 @@
 
 <ul class="resources" aria-label="{{ LNG.lm_resources|default('Resources') }}">
   {% for resourceID, resourceData in resourceTable %}
-    <li class="resource resource--{{ resourceData.name }}">
+    <li class="resource resource--{{ resourceData.name }}"{% if resourceData.max is defined and resourceData.max is not null and resourceData.current is not null and resourceData.current >= resourceData.max %} title="{{ LNG.ui_storage_full }}"{% endif %}>
       <a class="resource__icon"{% if noobInterface %} href="#" data-action="dialog-info" data-id="{{ resourceID }}"{% endif %}>
         <img src="{{ theme_asset('images/' ~ resourceData.name ~ '.gif') }}" alt="" width="32" height="22">
       </a>
@@ -41,9 +41,11 @@
           {% set full = (resourceData.max is defined and resourceData.max is not null) and resourceData.current >= resourceData.max %}
           {% set tip %}<div>{{ LNG.tech[resourceID] }}</div><div class="res_current{% if full %} colorNegative{% endif %}">{{ pretty_number(resourceData.current) }}</div>{% if resourceData.max is defined and resourceData.max is not null %}<div class="res_max colorPositive">{{ pretty_number(resourceData.max) }}</div>{% endif %}{% endset %}
           <span class="resource__value resource__value--full res_current{% if full %} colorNegative{% endif %}" id="current_{{ resourceData.name }}" data-ticker="current_{{ resourceData.name }}" data-real="{{ resourceData.current }}">{{ shortlyNumber ? shortly_number(resourceData.current) : pretty_number(resourceData.current) }}</span>
-          <span class="resource__value resource__value--short res_current tooltip{% if full %} colorNegative{% endif %}" data-ticker="current_{{ resourceData.name }}" data-tooltip-content="{{ tip|e('html') }}">{{ shortly_number(resourceData.current) }}</span>
+          <span class="resource__value resource__value--short res_current tooltip{% if full %} colorNegative{% endif %}" data-ticker="current_{{ resourceData.name }}" data-tooltip-content="{{ tip|e('html') }}">{{ shortly_number(resourceData.current, null, true) }}</span>
           {% if resourceData.max is defined and resourceData.max is not null %}
             <span class="resource__max res_max" id="max_{{ resourceData.name }}" data-real="{{ resourceData.max }}">{{ pretty_number(resourceData.max) }}</span>
+            <span class="resource__max resource__max--short">/ {{ shortly_number(resourceData.max, null, true) }}</span>
+            <span class="resource__bar{% if full %} is-full{% endif %}" data-ticker-bar="current_{{ resourceData.name }}" style="--fill: {{ resourceData.max > 0 ? min(100, resourceData.current / resourceData.max * 100)|round(1) : 0 }}%" aria-hidden="true"></span>
           {% endif %}
         {% endif %}
       </span>

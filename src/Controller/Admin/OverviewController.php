@@ -20,11 +20,14 @@ namespace App\Controller\Admin;
 use App\Game\Enum\AuthLevel;
 use App\Routing\GameRoute;
 use App\Runtime\InstallService;
+use App\Runtime\UpdateCheck;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Admin dashboard: security notices, player and universe statistics, system and cron status. */
 class OverviewController extends AbstractAdminController
 {
+    public function __construct(private readonly UpdateCheck $updateCheck) {}
+
     /**
      * Admin dashboard. Notices for ADM (leftover update.php / webinstall.php / var/ENABLE_INSTALL_TOOL, var/ directories that are not
      * writable), figures of the emulated universe (players online within the last 15 minutes, players, fleets), active cronjobs
@@ -65,7 +68,22 @@ class OverviewController extends AbstractAdminController
 
         $unprotected = $USER['authlevel'] >= AuthLevel::Admin->value ? $this->unprotectedWarnings($config) : [];
 
+        // update notice (admins only, off with the global setting update_check: then no request at all)
+        $update = null;
+        if ($USER['authlevel'] >= AuthLevel::Admin->value && ($config->update_check ?? true)) {
+            $update = $this->updateCheck->status();
+            if ($update['ok']) {
+                $update['publishedText'] = !empty($update['published']) ? $this->viewHelpers()->formatDate($LNG['php_tdformat'], $update['published'], $USER['timezone']) : '';
+                $update['checkedText'] = $this->viewHelpers()->formatDate($LNG['php_tdformat'], $update['checkedAt'], $USER['timezone']);
+            } else {
+                $update = null;
+            }
+        }
+
         $this->assign([
+            'update'            => $update,
+            'updateDocsUrl'     => UpdateCheck::UPDATE_DOCS_URL,
+            'gitVersion'        => is_dir($this->state->runtime->rootPath . '.git') ? $this->state->runtime->gitVersion : '',
             'unprotected'       => $unprotected,
             'Messages'          => $Message,
             'cronWarning'       => $cronWarning,
@@ -77,6 +95,17 @@ class OverviewController extends AbstractAdminController
         ]);
 
         return $this->render('admin/OverviewBody.html.twig');
+    }
+
+    /** POST: forgets the cached update check and looks again. */
+    #[GameRoute('admin', 'admin/overview/update-check', 'overview', 'updateCheck', ['POST'])]
+    public function updateCheck(): Response
+    {
+        if ($this->state->USER['authlevel'] >= AuthLevel::Admin->value && ($this->configs->get($this->universe()->getEmulated())->update_check ?? true)) {
+            $this->updateCheck->status(true);
+        }
+
+        return $this->redirectToRoute('admin_overview_show');
     }
 
     /**

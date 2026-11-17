@@ -1,0 +1,29 @@
+{# Dispatch summary bar of steps 2 and 3: mission, target, ships, fuel, duration and arrival. flotten.js keeps the #sum-* values live.
+   Needs: FleetList (ship id => count), galaxy/system/planet/type (target), mission; optional targetName, targetOwner, consumption, duration. #}
+<div class="fleet-summary" role="group" aria-label="{{ LNG.fl_summary }}">
+  <div class="fleet-summary__item"{% if mission is not defined or mission <= 0 %} hidden{% endif %} id="sum-mission-item">
+    <span class="fleet-summary__label">{{ LNG.fl_mission }}</span>
+    <strong id="sum-mission">{% if mission is defined and mission > 0 %}{{ LNG["type_mission_#{mission}"] }}{% endif %}</strong>
+  </div>
+  <div class="fleet-summary__item">
+    <span class="fleet-summary__label">{{ LNG.fl_destiny }}</span>
+    <strong id="sum-target">[{{ galaxy }}:{{ system }}:{{ planet }}] {{ LNG["type_planet_#{type}"] }}</strong>
+    {% if targetName is defined and targetName != '' %}<span class="fleet-summary__sub">{{ targetName }}{% if targetOwner != '' %} · {{ targetOwner }}{% endif %}</span>{% endif %}
+  </div>
+  <div class="fleet-summary__item fleet-summary__item--fleet">
+    <span class="fleet-summary__label">{{ LNG.fl_fleet }}</span>
+    <strong>{% for shipId, shipCount in FleetList %}{{ pretty_number(shipCount) }} {{ LNG.tech[shipId] }}{% if not loop.last %}, {% endif %}{% endfor %}</strong>
+  </div>
+  <div class="fleet-summary__item">
+    <span class="fleet-summary__label">{{ LNG.fl_fuel_consumption }}</span>
+    <strong id="sum-fuel">{% if consumption is defined %}{{ pretty_number(consumption) }}{% else %}-{% endif %}</strong>
+  </div>
+  <div class="fleet-summary__item">
+    <span class="fleet-summary__label">{{ LNG.fl_flying_time }}</span>
+    <strong id="sum-duration">{% if duration is defined %}{{ getRestTimeFormat(duration) }}{% else %}-{% endif %}</strong>
+  </div>
+  <div class="fleet-summary__item">
+    <span class="fleet-summary__label">{{ LNG.fl_flying_arrival }}</span>
+    <strong id="sum-eta">-</strong>
+  </div>
+</div>

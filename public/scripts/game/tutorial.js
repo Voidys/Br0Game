@@ -1,7 +1,4 @@
-/**
- * Tutorial box: the header folds the box, the state is kept in localStorage ('tutorial' = 'true' means
- * folded; the default is open).
- */
+/** Tutorial box: folding is the shared accordion (<details>, scripts/game/overview.js); this file only handles goal links. */
 import { registerActions } from '../app/actions.js';
 
 registerActions({
@@ -19,24 +16,3 @@ registerActions({
     return true;
   },
 });
-
-if (localStorage.getItem('tutorial') === null) {
-  localStorage.setItem('tutorial', 'false');
-}
-
-const box = document.getElementById('tutorial');
-const arrow = document.getElementById('tutorial-toggle');
-const header = document.getElementById('tutorial-header');
-
-if (box && arrow && header) {
-  const apply = (folded) => {
-    arrow.textContent = folded ? '▼' : '▲';
-    box.classList.toggle('hidden', folded);
-  };
-  apply(localStorage.getItem('tutorial') === 'true');
-  header.addEventListener('click', () => {
-    const folded = localStorage.getItem('tutorial') === 'false';
-    apply(folded);
-    localStorage.setItem('tutorial', folded.toString());
-  });
-}

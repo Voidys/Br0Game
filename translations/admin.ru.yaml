@@ -607,6 +607,8 @@ se_bash_count_missiles: Лимиты бэша учитывают ракетны�
 se_bash_count_missiles_info: 'Межпланетные ракетные атаки учитываются в лимитах бэша наравне с атаками флотов (на игрока и на планету). Выкл.: ракеты не учитываются.'
 se_bash_per_user: Лимит бэша на игрока
 se_bash_per_user_info: Сколько раз игрок может атаковать другого игрока за 24 часа (по всем планетам). 0 = выкл.
+se_update_check: "Проверка обновлений"
+se_update_check_info: "При открытии панели администратора (не чаще раза в 6 часов) запрашивает у GitHub (api.github.com) последний релиз и сообщает о новых версиях. Данные о вашем сервере не отправляются. Отключите, чтобы не отправлять исходящих запросов."
 se_cookie_consent: "Уведомление о cookie"
 se_cookie_consent_info: "Показывает внизу уведомление о cookie, пока посетитель не сделает выбор (\"Принять все\" или \"Только необходимые\"; хранится год в cookie cookie_consent)."
 se_block_planet_creation: Блок
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Открытые тикеты
 adm_dash_fleets: Флоты в полёте
 adm_dash_quick: Быстрый доступ
 adm_dash_system: Система
+adm_update_available: "Доступно обновление"
+adm_update_released: "выпущена"
+adm_update_you_run: "у вас установлена"
+adm_update_notes: "Примечания к выпуску"
+adm_update_howto: "Как обновить"
+adm_update_check_now: "Проверить сейчас"
+adm_update_check: "Проверка обновлений"
+adm_update_up_to_date: "Актуальная версия"
 adm_dash_version: Версия
 adm_dash_php: PHP
 adm_dash_uni_status: Статус вселенной

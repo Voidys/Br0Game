@@ -45,13 +45,22 @@ export function resourceTicker(config, init) {
   const amount = Math.max(0, Math.floor(parseFloat(config.available) + parseFloat(config.production) / 3600 * seconds));
   const limit = config.limit[1];
 
+  // fill bar under the value (top bar): share of the storage capacity
+  const bar = document.querySelector(`[data-ticker-bar="${config.valueElem}"]`);
+  if (bar && limit > 0) {
+    const fill = Math.min(100, amount / limit * 100);
+    bar.style.setProperty('--fill', `${fill.toFixed(1)}%`);
+    bar.classList.toggle('is-warn', fill >= 90 && fill < 100);
+    bar.classList.toggle('is-full', fill >= 100);
+  }
+
   for (const element of elements) {
     if (element.classList.contains('res_current_max')) continue;
     if (amount < limit) {
       if (amount >= limit * 0.9) element.classList.add('res_current_warn');
       if (window.viewShortlyNumber || element.classList.contains('tooltip')) {
         updateTooltip(element, amount, false);
-        element.innerHTML = shortly_number(amount);
+        element.innerHTML = shortly_number(amount, true);
       } else {
         element.innerHTML = pretty_number(amount);
       }

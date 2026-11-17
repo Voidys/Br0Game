@@ -2,10 +2,11 @@
 
 {% block page_id %}rules{% endblock %}
 {% block title %}{{ page_title|e }}{% endblock %}
+{% block script %}<script type="module" src="scripts/game/toc.js?v={{ asset_version }}"></script>{% endblock %}
 {% block content %}
 {% if rules_empty %}
   <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ rules_empty_text }}</div></div>
 {% else %}
-  <div class="rich-text rich-text--wide">{{ rules }}</div>
+  <div class="rich-text rich-text--wide" data-toc-label="{{ LNG.toc_contents|e('html_attr') }}">{{ rules }}</div>
 {% endif %}
 {% endblock %}

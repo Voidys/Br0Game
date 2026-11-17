@@ -10,6 +10,7 @@
 </header>
 
 <aside class="sidebar" id="sidebar" aria-label="{{ LNG.ui_menu|default('Menu') }}">
+  <button type="button" class="sidebar__close icon-button" data-sidebar-toggle aria-label="{{ LNG.ui_close }}">{{ icon('x') }}<span>{{ LNG.ui_close }}</span></button>
   {% include 'game/main.navigation.html.twig' %}
 </aside>
 <div class="sidebar-backdrop" aria-hidden="true"></div>

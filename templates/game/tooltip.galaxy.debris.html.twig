@@ -25,6 +25,11 @@
                         <td colspan='2'><a href='#' data-action='galaxy-mission' data-mission='8' data-planet='{{ id }}'>{{ LNG["type_mission_8"] }}</a></td>
                     </tr>
                 {% endif %}
+                {% if (missions[8] or missions[22]) and recyclers <= 0 %}
+                    <tr>
+                        <td colspan='2' class='tt-galaxy-disabled'>{{ LNG.gl_recycle_needs }}</td>
+                    </tr>
+                {% endif %}
                 {% if missions[22] and recyclers > 0 %}
                     <tr>
                         <th colspan='2'>{{ LNG.gl_actions }}</th>

@@ -141,6 +141,8 @@ class ResourcesController extends AbstractGameController
             RESOURCE_ENERGY => $totalProduction[RESOURCE_ENERGY],
         ];
 
+        $fullIn = $this->secondsUntilFull($totalProduction);
+
         if (isset($productionList[fusion_plant]['production'][RESOURCE_ENERGY])) {
             $productionList[fusion_plant]['production'][RESOURCE_ENERGY] = $productionList[fusion_plant]['production'][RESOURCE_ENERGY] - $bonusProduction[RESOURCE_ENERGY];
         }
@@ -157,6 +159,7 @@ class ResourcesController extends AbstractGameController
             'dailyProduction'                   => $dailyProduction,
             'weeklyProduction'                  => $weeklyProduction,
             'storage'                           => $storage,
+            'fullIn'                            => $fullIn,
             'metalProcTech'                     => $this->state->USER[$e->column(METAL_PROC_TECH)],
             'crystalProcTech'                   => $this->state->USER[$e->column(CRYSTAL_PROC_TECH)],
             'deuteriumProcTech'                 => $this->state->USER[$e->column(DEUTERIUM_PROC_TECH)],
@@ -164,6 +167,25 @@ class ResourcesController extends AbstractGameController
             'crystalBonusPercent'               => $crystal_bonus_percent * 100,
             'deuteriumBonusPercent'             => $deuterium_bonus_percent * 100,
         ]);
+    }
+
+    /**
+     * Seconds until each storage is full at the current hourly total: 0 = full already, null = production stands still or drains.
+     *
+     * @param array<int, int|float> $totalProduction hourly production by resource id
+     * @return array<int, int|null> metal, crystal, deuterium
+     */
+    private function secondsUntilFull(array $totalProduction): array
+    {
+        $fullIn = [];
+        foreach ([RESOURCE_METAL, RESOURCE_CRYSTAL, RESOURCE_DEUT] as $resourceId) {
+            $column = $this->elements()->column($resourceId);
+            $free = (float) $this->state->PLANET[$column . '_max'] - (float) $this->state->PLANET[$column];
+            $perHour = (float) $totalProduction[$resourceId];
+            $fullIn[$resourceId] = $free <= 0 ? 0 : ($perHour > 0 ? (int) ceil($free / $perHour * 3600) : null);
+        }
+
+        return $fullIn;
     }
 
     /**

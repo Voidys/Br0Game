@@ -697,7 +697,7 @@ fl_player_is_noob: Speler staat onder noobbescherming.
 fl_player_is_strong: Speler is te sterk.
 fl_r: (R)
 fl_remove_all_ships: Geen schepen
-fl_resources: Grondstoffen geladen!
+fl_resources: Grondstoffen laden
 fl_resources_left: Beschikbare capaciteit
 fl_return_time: Terugkeertijd
 fl_returning: Terugkerend
@@ -897,7 +897,7 @@ lm_shipshard: Werf
 lm_statistics: Statistieken
 lm_support: Support
 lm_technology: Technologieën
-lm_topkb: Hall of Fame
+lm_topkb: Gevechtshal
 lo_continue: Klik om door te gaan.
 lo_logout: Je bent uitgelogd. Tot snel!
 lo_notify: Doorverwijzing over <span id="seconds">5</span> seconden
@@ -1223,10 +1223,10 @@ rs_calculate: Wijzigingen opslaan
 rs_daily: Dagproductie
 rs_lvl: Niveau
 rs_production_on_planet: Op "%s" geproduceerde grondstoffen
-rs_ramp_up: Opstarten
+rs_ramp_up: 'Alles op 100%'
 rs_ress_bonus: Bonus (door onderzoek)
 rs_ress_bonus_position: Bonus (door planeetpositie)
-rs_shut_down: Uitschakelen
+rs_shut_down: 'Alles op 0%'
 rs_storage_capacity: Opslagcapaciteit
 rs_sum: Productie per uur
 rs_weekly: Weekproductie
@@ -1393,7 +1393,7 @@ tkb_owners: Betrokken gebruikers
 tkb_platz: Rang
 tkb_self: alleen eigen
 tkb_timeframe: Periode
-tkb_top: Hall of Fame
+tkb_top: Gevechtshal
 tkb_units: Eenheden
 tkb_verlierer: <b>-Verliezer-</b>
 tkb_week: week
@@ -1486,6 +1486,7 @@ ui_queue: Wachtrij
 ui_queue_free: vrij slot
 ui_points: Punten
 ui_close: Sluiten
+ui_storage_full: "Opslag vol: productie gestopt"
 ui_messages: Berichten
 ui_server_time: Servertijd
 ui_planet: Planeet
@@ -1543,3 +1544,88 @@ vt_postback_hint: De beloning komt binnen zodra de site je stem heeft bevestigd.
 vt_notice_rewarded: Bedankt voor je stem! De beloning is toegevoegd aan je hoofdplaneet.
 vt_notice_pending: Bedankt voor je stem! De beloning komt binnen zodra de site je stem heeft bevestigd.
 vt_notice_cooldown: Je moet even wachten voordat je opnieuw op deze site kunt stemmen.
+mg_confirm_delete_one: "Dit bericht verwijderen?"
+mg_confirm_delete_bulk: "Deze berichten echt verwijderen? Dit kan niet ongedaan worden gemaakt."
+mg_group_mark: "Als gelezen markeren"
+mg_group_delete: "Verwijderen"
+mg_pick_category: "Kies hierboven een categorie om de berichten te zien."
+mg_no_messages: "Geen berichten."
+mg_select_message: "Bericht selecteren"
+mg_search_player: "Speler zoeken"
+mg_remove_receiver: "Ontvanger verwijderen"
+mg_no_receiver: "Kies minstens één ontvanger."
+nt_confirm_delete: "De gemarkeerde notities verwijderen?"
+nt_priority_legend: "Kleur = prioriteit: groen laag, geel normaal, rood hoog"
+al_save_all_hint: "Beide Opslaan-knoppen slaan de teksten en de opties samen op."
+al_dissolve_btn: "Alliantie opheffen..."
+al_transfer_btn: "Alliantie overdragen..."
+al_dissolve_hint: "Dit verwijdert de alliantie definitief en verwijdert alle leden. Dit kan niet ongedaan worden gemaakt."
+al_transfer_hint: "Draag de leiding over aan een ander lid. Je verliest de oprichtersrang."
+al_transfer_confirm: "De alliantie overdragen aan het geselecteerde lid? Je verliest de leiding."
+al_kick: "Verwijderen"
+al_find_results: "Resultaten"
+al_find_browse: "Grootste allianties"
+al_find_none_yet: "Er zijn nog geen allianties in dit universum."
+al_no_inside_text: "Nog geen tekst voor leden."
+bd_needs: 'Vereist'
+bd_missing: 'Ontbreekt'
+honorfights: "Eregevechten"
+pl_block_head: "Blokkeren"
+pl_block_hint: "Werkt direct, er is geen Opslaan-knop."
+st_my_rank: "Naar mijn positie"
+st_legend_noob: "Beginnersbescherming"
+rec_intro: "Het hoogste niveau dat in dit universum is bereikt voor elk gebouw en onderzoek, vergeleken met dat van jou."
+as_intro: "Gedetailleerde tellers van je eigen activiteit (expedities, bouwwerken, verliezen, vernietigingen). De ranglijst van alle spelers staat bij Statistieken."
+as_show_empty: "Lege rijen tonen"
+op_sections: "Ga naar"
+op_save_hint: "Wijzigingen gelden pas na het opslaan."
+op_dlte_account_confirm: "Je account echt verwijderen? Het wordt na minimaal 7 dagen volledig verwijderd; tot die tijd kun je de verwijdering annuleren."
+ti_none: "Je hebt nog geen tickets. Lees eerst de %s; helpt dat niet, maak dan een ticket aan."
+ti_faq_first: "Kijk eerst in de FAQ: veel vragen worden daar beantwoord."
+team_contact_hint: "Hulp nodig? Open een ticket via %s."
+cl_hint: "Technische wijzigingen aan de spelsoftware, nieuwste eerst. Klik op een item om het uit te klappen."
+cl_empty: "Geen wijzigingen vastgelegd."
+toc_contents: "Inhoud"
+sh_hint: "Typ minstens twee tekens en druk op Enter of Zoeken."
+sh_search_type: "Zoeken naar"
+sh_search_text: "Zoektekst"
+sh_no_players: "Niets gevonden. Controleer de spelling of probeer een kortere tekst."
+sh_no_alliances: "Geen allianties gevonden. Controleer de spelling of probeer een kortere tekst."
+fl_no_ship_selected: "Kies minstens één schip."
+fl_recall_confirm: "Deze vloot terugroepen? Ze draait nu om en is om %s weer thuis."
+fl_recall_return: "Weer thuis bij terugroepen nu"
+fl_no_fleets: "Geen vloten onderweg."
+fl_quick_fleets: "Snelle vloten"
+fl_quick_fleets_hint: "Nog niets opgeslagen. Sla hieronder onder \"Eigen vloten\" een scheepscombinatie op, dan staat die hier als snelkoppeling; je laatste missie staat hier ook."
+fl_load_hint: "Vooraf ingevuld met de voorraad van deze planeet. De vrachtknoppen stellen voor hoeveel schepen het dragen; maak leeg als je niets meestuurt."
+fl_load_clear: "Leegmaken"
+fl_cargo_options_hint: "Rood betekent dat je er te weinig van hebt. Klik op een scheepspictogram om het samen met het doel voor te selecteren."
+fl_summary: "Overzicht van de verzending"
+fl_coord_range: "Ongeldige coördinaten. Toegestaan: sterrenstelsel 1-%d, systeem 1-%d, positie 1-%d."
+fl_sending: "Vloot wordt verstuurd..."
+ft_rate_info: 'De handelaar houdt %s%% van de scheepswaarde in en betaalt de rest uit in grondstoffen.'
+ft_per_ship: 'Uitbetaling per schip'
+ft_receive: 'Je ontvangt'
+market_tab_resources: 'Grondstoffenmarkt'
+market_tab_fleets: 'Vlootmarkt'
+market_ratio_label: 'Aanbiedingen vergelijken met verhouding'
+market_ratio_hint: 'Bepaalt de koers voor de kolom Verhouding; de gekozen grondstof is de basis.'
+market_no_offers: 'Op dit moment geen aanbiedingen.'
+gl_recycle_needs: "Recyclen (recycler nodig)"
+gl_keys_hint: "Toetsenbord: pijltjes of A D wisselen van systeem, W S van sterrenstelsel."
+rs_ramp_up_confirm: 'Alle producenten op 100% zetten en opslaan?'
+rs_shut_down_confirm: 'Alle producenten op 0% zetten en opslaan? De productie stopt.'
+rs_energy_deficit: 'Energietekort: de mijnen draaien onder hun ingestelde niveau tot de energie weer in balans is.'
+ov_event_hostile: 'Vijandig'
+ov_no_fleets: 'Geen vlootbewegingen.'
+al_chart_x: "Tijd (uren geleden)"
+al_chart_y: "Punten"
+as_sub_count: "Expedities"
+as_sub_found: "Vondsten"
+as_sub_lost: "Verliezen"
+as_sub_first: "Eerste keren"
+op_notifications: "Meldingen"
+rs_full_in: 'Opslag vol over'
+rs_full_now: 'Vol'
+fl_prepared_gone: "Deze vloot is niet meer voorbereid (verlopen, vrijgegeven of al verstuurd). Begin opnieuw."
+gl_legend_activity: "Actief in de laatste 15 min, daarna (minuten) tot 60"

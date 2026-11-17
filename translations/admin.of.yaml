@@ -607,6 +607,8 @@ se_bash_count_missiles: Bashlimids zählen Raketenangriffe
 se_bash_count_missiles_info: 'Interplanetare Raketenangriffe zählen wie Flottenangriffe fer die Bashlimids (pro Schbieler un pro Blanet). Aus: Raketen werden ned gezählt.'
 se_bash_per_user: Bashlimit pro User
 se_bash_per_user_info: Wie oft ein Spieler einen anderen Spieler pro 24h angreifen darf  (Alle Planeten zusammen). 0 = ausgeschaltet
+se_update_check: "Update-Prüfung"
+se_update_check_info: "Fragt beim Öffnen des Admin-Dashboards (höchstens alle 6 Stunden) bei GitHub (api.github.com) nach dem neuesten Release und meldet neue Versionen. Es werden keine Daten über deinen Server gesendet. Ausschalten, um keine ausgehende Anfrage zu senden."
 se_cookie_consent: "Cookie notice"
 se_cookie_consent_info: "Shows a notice about cookies at the bottom of the login area, account area and game until the visitor chooses (\"Accept all\" or \"Only necessary\"; stored in the cookie cookie_consent for one year). The operator is responsible for the legal texts."
 se_block_planet_creation: Block
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Offene Tickets
 adm_dash_fleets: Flotten unterwegs
 adm_dash_quick: Schnellzugriff
 adm_dash_system: System
+adm_update_available: "Update verfügbar"
+adm_update_released: "veröffentlicht"
+adm_update_you_run: "du nutzt"
+adm_update_notes: "Release-Notizen"
+adm_update_howto: "So aktualisierst du"
+adm_update_check_now: "Jetzt prüfen"
+adm_update_check: "Update-Prüfung"
+adm_update_up_to_date: "Aktuell"
 adm_dash_version: Version
 adm_dash_php: PHP
 adm_dash_uni_status: Universumsstatus

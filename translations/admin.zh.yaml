@@ -607,6 +607,8 @@ se_bash_count_missiles: 围攻限制计入导弹攻击
 se_bash_count_missiles_info: 星际导弹攻击与舰队攻击一样计入围攻限制（按玩家和按星球）。关闭：导弹不计入。
 se_bash_per_user: 每名玩家的围攻限制
 se_bash_per_user_info: 玩家每 24 小时可攻击另一名玩家的次数（所有星球合计）。0 = 关闭
+se_update_check: "更新检查"
+se_update_check_info: "打开管理仪表板时（最多每 6 小时一次）向 GitHub（api.github.com）查询最新版本并提示新版本。不会发送任何服务器数据。关闭后不发起任何外部请求。"
 se_cookie_consent: "Cookie 提示"
 se_cookie_consent_info: "在页面底部显示 Cookie 提示，直到访客作出选择（“全部接受”或“仅必要”；保存在 cookie_consent Cookie 中一年）。"
 se_block_planet_creation: 阻止
@@ -1056,6 +1058,14 @@ adm_dash_tickets: 未结工单
 adm_dash_fleets: 飞行中的舰队
 adm_dash_quick: 快捷入口
 adm_dash_system: 系统
+adm_update_available: "有可用更新"
+adm_update_released: "发布于"
+adm_update_you_run: "当前运行"
+adm_update_notes: "发行说明"
+adm_update_howto: "如何更新"
+adm_update_check_now: "立即检查"
+adm_update_check: "更新检查"
+adm_update_up_to_date: "已是最新"
 adm_dash_version: 版本
 adm_dash_php: PHP
 adm_dash_uni_status: 宇宙状态

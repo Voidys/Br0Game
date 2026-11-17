@@ -723,7 +723,7 @@ fl_player_is_noob: Player is under noob protection.
 fl_player_is_strong: Player is too strong.
 fl_r: (R)
 fl_remove_all_ships: No ships
-fl_resources: 'Resources loaded!'
+fl_resources: 'Load resources'
 fl_resources_left: Capacity available
 fl_return_time: Return time
 fl_returning: Returning
@@ -926,7 +926,7 @@ lm_shipshard: Hangar
 lm_statistics: Statistics
 lm_support: Support
 lm_technology: Technologies
-lm_topkb: Hall of Fame
+lm_topkb: Battle Hall
 lo_continue: Click to continue.
 lo_logout: 'You have been logged out. See you soon!'
 lo_notify: 'Redirecting in <span id="seconds">5</span> seconds'
@@ -1256,10 +1256,10 @@ rs_calculate: Save changes
 rs_daily: Daily Production
 rs_lvl: Level
 rs_production_on_planet: Resources produced on "%s"
-rs_ramp_up: Ramp up
+rs_ramp_up: 'Set all to 100%'
 rs_ress_bonus: Bonus (through Research)
 rs_ress_bonus_position: Bonus (through planet position)
-rs_shut_down: Shut down
+rs_shut_down: 'Set all to 0%'
 rs_storage_capacity: Storage Capacity
 rs_sum: Hourly Production
 rs_weekly: Weekly Production
@@ -1422,7 +1422,7 @@ tkb_owners: Users involved
 tkb_platz: Rank
 tkb_self: own only
 tkb_timeframe: Timeframe
-tkb_top: Hall of Fame
+tkb_top: Battle Hall
 tkb_units: Units
 tkb_verlierer: <b>-Loser-</b>
 tkb_week: week
@@ -1517,6 +1517,7 @@ ui_queue: Queue
 ui_queue_free: free slot
 ui_points: Points
 ui_close: Close
+ui_storage_full: "Storage full: production stopped"
 ui_messages: Messages
 ui_server_time: Server time
 ui_planet: Planet
@@ -1575,3 +1576,88 @@ vt_postback_hint: "The reward arrives after the site has confirmed your vote."
 vt_notice_rewarded: "Thanks for voting! The reward was added to your main planet."
 vt_notice_pending: "Thanks for voting! The reward arrives after the site has confirmed your vote."
 vt_notice_cooldown: "You have to wait before voting on this site again."
+mg_confirm_delete_one: "Delete this message?"
+mg_confirm_delete_bulk: "Really delete these messages? This cannot be undone."
+mg_group_mark: "Mark as read"
+mg_group_delete: "Delete"
+mg_pick_category: "Pick a category above to see its messages."
+mg_no_messages: "No messages here."
+mg_select_message: "Select message"
+mg_search_player: "Search player"
+mg_remove_receiver: "Remove recipient"
+mg_no_receiver: "Choose at least one recipient."
+nt_confirm_delete: "Delete the marked notes?"
+nt_priority_legend: "Colour = priority: green low, yellow normal, red high"
+al_save_all_hint: "Both Save buttons save the texts and the options together."
+al_dissolve_btn: "Dissolve alliance..."
+al_transfer_btn: "Transfer alliance..."
+al_dissolve_hint: "This permanently deletes the alliance and removes all members. It cannot be undone."
+al_transfer_hint: "Hand leadership over to another member. You lose the founder rank."
+al_transfer_confirm: "Transfer the alliance to the selected member? You lose leadership."
+al_kick: "Kick"
+al_find_results: "Results"
+al_find_browse: "Biggest alliances"
+al_find_none_yet: "There are no alliances in this universe yet."
+al_no_inside_text: "No text for members yet."
+bd_needs: 'Needs'
+bd_missing: 'Missing'
+honorfights: "Honor fights"
+pl_block_head: "Block"
+pl_block_hint: "Takes effect immediately, there is no Save button."
+st_my_rank: "Jump to my rank"
+st_legend_noob: "Newbie protection"
+rec_intro: "The highest level reached in this universe for every building and research, compared with your own."
+as_intro: "Detailed counters of your own activity (expeditions, builds, losses, kills). Rankings of all players are on the Statistics page."
+as_show_empty: "Show empty rows"
+op_sections: "Jump to"
+op_save_hint: "Changes apply after saving."
+op_dlte_account_confirm: "Really delete your account? It is removed completely after at least 7 days; until then you can cancel the deletion."
+ti_none: "You have no tickets yet. Read the %s first; if that does not help, create a ticket."
+ti_faq_first: "Check the FAQ first: many questions are answered there."
+team_contact_hint: "Need help? Open a ticket via %s."
+cl_hint: "Technical changes of the game software, newest first. Click an entry to expand it."
+cl_empty: "No changes recorded."
+toc_contents: "Contents"
+sh_hint: "Type at least two characters, then press Enter or Search."
+sh_search_type: "Search for"
+sh_search_text: "Search text"
+sh_no_players: "Nothing found. Check the spelling or try a shorter text."
+sh_no_alliances: "No alliances found. Check the spelling or try a shorter text."
+fl_no_ship_selected: "Select at least one ship."
+fl_recall_confirm: "Recall this fleet? It turns around now and is back home at %s."
+fl_recall_return: "Home again if recalled now"
+fl_no_fleets: "No fleets on mission."
+fl_quick_fleets: "Quick fleets"
+fl_quick_fleets_hint: "Nothing saved yet. Save a ship combination under \"Custom fleets\" below and it appears here as a one-click shortcut; your last mission shows up here too."
+fl_load_hint: "Prefilled with this planet's stock. The cargo buttons suggest how many ships carry it; clear it if you send nothing along."
+fl_load_clear: "Clear"
+fl_cargo_options_hint: "Red means you do not have enough of that ship. Click a ship icon to preselect it together with the target."
+fl_summary: "Dispatch summary"
+fl_coord_range: "Invalid coordinates. Allowed: galaxy 1-%d, system 1-%d, position 1-%d."
+fl_sending: "Sending fleet..."
+ft_rate_info: 'The dealer keeps %s%% of the ship value and pays out the rest in resources.'
+ft_per_ship: 'Payout per ship'
+ft_receive: 'You receive'
+market_tab_resources: 'Resource market'
+market_tab_fleets: 'Fleet market'
+market_ratio_label: 'Compare offers at ratio'
+market_ratio_hint: 'Sets the exchange rate used for the Ratio column; the selected resource is the baseline.'
+market_no_offers: 'No offers right now.'
+gl_recycle_needs: "Recycle (needs a recycler)"
+gl_keys_hint: "Keyboard: arrow keys or A D move the system, W S the galaxy."
+rs_ramp_up_confirm: 'Set every producer to 100% and save?'
+rs_shut_down_confirm: 'Set every producer to 0% and save? Production stops.'
+rs_energy_deficit: 'Energy deficit: the mines run below their set level until energy is back in balance.'
+ov_event_hostile: 'Hostile'
+ov_no_fleets: 'No fleet movements.'
+al_chart_x: "Time (hours ago)"
+al_chart_y: "Points"
+as_sub_count: "Expeditions"
+as_sub_found: "Finds"
+as_sub_lost: "Losses"
+as_sub_first: "First times"
+op_notifications: "Notifications"
+rs_full_in: 'Storage full in'
+rs_full_now: 'Full'
+fl_prepared_gone: "This fleet is no longer prepared (expired, released or already sent). Please start again."
+gl_legend_activity: "Active in the last 15 min, shown as (minutes ago) up to 60"

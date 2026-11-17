@@ -18,7 +18,6 @@ function updateVars()
 	el('metal').textContent = pretty_number(CostInfo[shipID][2][901] * (1 - Charge / 100));
 	el('crystal').textContent = pretty_number(CostInfo[shipID][2][902] * (1 - Charge / 100));
 	el('deuterium').textContent = pretty_number(CostInfo[shipID][2][903] * (1 - Charge / 100));
-	el('traderHead').textContent = CostInfo[shipID][1];
 	Reset();
 }
 
@@ -30,7 +29,7 @@ function MaxShips()
 	Total();
 }
 
-/** Total price for the typed amount (invalid or negative input becomes 0), discount applied. */
+/** Total payout for the typed amount (invalid or negative input becomes 0), discount applied; Send stays disabled at 0. */
 function Total()
 {
 	let Count	= el('count').value;
@@ -44,6 +43,7 @@ function Total()
 	el('total_metal').textContent = pretty_number(CostInfo[shipID][2][901] * Count * (1 - Charge / 100));
 	el('total_crystal').textContent = pretty_number(CostInfo[shipID][2][902] * Count * (1 - Charge / 100));
 	el('total_deuterium').textContent = pretty_number(CostInfo[shipID][2][903] * Count * (1 - Charge / 100));
+	el('trader-submit').disabled = !(Count > 0);
 }
 
 /** Clears amount and totals. */
@@ -53,6 +53,7 @@ function Reset()
 	el('total_metal').textContent = 0;
 	el('total_crystal').textContent = 0;
 	el('total_deuterium').textContent = 0;
+	el('trader-submit').disabled = true;
 }
 
 registerActions({

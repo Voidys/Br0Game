@@ -21,9 +21,10 @@
 		<td>{{ member.description|nl2br }}</td>
 	</tr>
 	{% else %}
-	<tr><td colspan="4">{{ LNG.teamEmpty }}</td></tr>
+	<tr><td colspan="4" class="empty-state-cell"><div class="empty-state"><p>{{ LNG.teamEmpty }}</p></div></td></tr>
 	{% endfor %}
 	</tbody>
 </table>
 </div>
+<p class="hint team-contact">{% set ticketLink %}<a href="{{ path('game_ticket_show') }}">{{ LNG.lm_support }}</a>{% endset %}{{ LNG.format('team_contact_hint', ticketLink) }}</p>
 {% endblock %}

@@ -1,7 +1,9 @@
 {% import '_macros/forms.html.twig' as forms -%}
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
+{{ c.breadcrumb([{label: LNG.lm_alliance, url: path('game_alliance_show')}, {label: LNG.al_manage_alliance}]) }}
 <table>
 	<tr>
 		<th>{{ LNG.al_manage_alliance }}</th>
@@ -30,13 +32,15 @@
 		<th colspan="3">{{ LNG.al_texts }}</th>
 	</tr>
 	<tr>
-		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'external'}) }}">{{ LNG.al_outside_text }}</a></td>
-		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'internal'}) }}">{{ LNG.al_inside_text }}</a></td>
-		<td class="ctr"><a href="{{ path('game_alliance_admin', {textMode: 'apply'}) }}">{{ LNG.al_request_text }}</a></td>
+		<td colspan="3" class="tab-links-cell"><nav class="tab-links" aria-label="{{ LNG.al_texts|e('html_attr') }}">
+			<a href="{{ path('game_alliance_admin', {textMode: 'external'}) }}"{% if textMode == 'external' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.al_outside_text }}</a>
+			<a href="{{ path('game_alliance_admin', {textMode: 'internal'}) }}"{% if textMode == 'internal' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.al_inside_text }}</a>
+			<a href="{{ path('game_alliance_admin', {textMode: 'apply'}) }}"{% if textMode == 'apply' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.al_request_text }}</a>
+		</nav></td>
 	</tr>
 	<tr>
 		<td colspan="3">
-			<textarea name="text" id="text" rows="15" {% if textMode == 'apply' %}maxlength="1000"{% endif %}>{{ text }}</textarea>
+			<textarea name="text" id="text" aria-label="{{ LNG.al_texts }}" rows="15" {% if textMode == 'apply' %}maxlength="1000"{% endif %}>{{ text }}</textarea>
 		</td>
 	</tr>
 	<tr>
@@ -46,52 +50,53 @@
 		</td>
 	</tr>
 </table>
+<p class="hint form-note">{{ LNG.al_save_all_hint }}</p>
 <table class="form-table">
 	<tr>
 		<th colspan="2">{{ LNG.al_manage_options }}</th>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_tag }}</td>
-		<td><input type="text" name="ally_tag" value="{{ ally_tag }}" maxlength="8" required></td>
+		<td><label for="f_ally_tag">{{ LNG.al_tag }}</label></td>
+		<td><input type="text" id="f_ally_tag" name="ally_tag" value="{{ ally_tag }}" maxlength="8" required></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_name }}</td>
-		<td><input type="text" name="ally_name" value="{{ ally_name }}" maxlength="30" required></td>
+		<td><label for="f_ally_name">{{ LNG.al_name }}</label></td>
+		<td><input type="text" id="f_ally_name" name="ally_name" value="{{ ally_name }}" maxlength="30" required></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_manage_founder_rank }}</td>
-		<td><input type="text" name="owner_range" value="{{ ally_owner_range }}" maxlength="32"></td>
+		<td><label for="f_owner_range">{{ LNG.al_manage_founder_rank }}</label></td>
+		<td><input type="text" id="f_owner_range" name="owner_range" value="{{ ally_owner_range }}" maxlength="32"></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_web_site }}</td>
-		<td><input type="text" class="control-wide" name="web" value="{{ ally_web }}" maxlength="255"></td>
+		<td><label for="f_web">{{ LNG.al_web_site }}</label></td>
+		<td><input type="text" class="control-wide" id="f_web" name="web" value="{{ ally_web }}" maxlength="255"></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_manage_image }}</td>
-		<td><input type="text" class="control-wide" name="image" value="{{ ally_image }}" maxlength="255"></td>
+		<td><label for="f_image">{{ LNG.al_manage_image }}</label></td>
+		<td><input type="text" class="control-wide" id="f_image" name="image" value="{{ ally_image }}" maxlength="255"></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_view_stats }}</td>
-		<td>{{ forms.html_options({'name': 'stats', 'options': YesNoSelector, 'selected': ally_stats_data}) }}</td>
+		<td><label for="f_stats">{{ LNG.al_view_stats }}</label></td>
+		<td>{{ forms.html_options({'id': 'f_stats', 'name': 'stats', 'options': YesNoSelector, 'selected': ally_stats_data}) }}</td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_view_diplo }}</td>
-		<td>{{ forms.html_options({'name': 'diplo', 'options': YesNoSelector, 'selected': ally_diplo_data}) }}</td>
+		<td><label for="f_diplo">{{ LNG.al_view_diplo }}</label></td>
+		<td>{{ forms.html_options({'id': 'f_diplo', 'name': 'diplo', 'options': YesNoSelector, 'selected': ally_diplo_data}) }}</td>
 	</tr>
 	<tr>
 		<th colspan="2">{{ LNG.al_manage_requests }}</th>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_manage_requests }}</td>
-		<td>{{ forms.html_options({'name': 'request_notallow', 'options': RequestSelector, 'selected': ally_request_notallow}) }}</td>
+		<td><label for="f_request_notallow">{{ LNG.al_manage_requests }}</label></td>
+		<td>{{ forms.html_options({'id': 'f_request_notallow', 'name': 'request_notallow', 'options': RequestSelector, 'selected': ally_request_notallow}) }}</td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_set_max_members }}</td>
-		<td>{{ ally_members }} / <input type="number" min="1" name="ally_max_members" value="{{ ally_max_members }}"></td>
+		<td><label for="f_ally_max_members">{{ LNG.al_set_max_members }}</label></td>
+		<td>{{ ally_members }} / <input type="number" min="1" id="f_ally_max_members" name="ally_max_members" value="{{ ally_max_members }}"></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_manage_request_min_points }}</td>
-		<td><input type="number" min="0" name="request_min_points" value="{{ ally_request_min_points }}"></td>
+		<td><label for="f_request_min_points">{{ LNG.al_manage_request_min_points }}</label></td>
+		<td><input type="number" min="0" id="f_request_min_points" name="request_min_points" value="{{ ally_request_min_points }}"></td>
 	</tr>
 	<tr>
 		<td colspan="2" class="form-actions">
@@ -103,26 +108,26 @@
 </form>
 {% endif %}
 {% if AllianceOwner %}
-<table>
+<table class="danger-zone">
 	<tr>
 		<th>{{ LNG.al_disolve_alliance }}</th>
 	</tr>
 	<tr>
-		<td><form action="{{ path('game_alliance_admin_close') }}" method="post"><input type="submit" value="{{ LNG.al_continue }}" data-confirm-danger data-confirm="{{ LNG.al_close_ally|e('html_attr') }}"></form></td>
+		<td>
+			<p class="hint">{{ LNG.al_dissolve_hint }}</p>
+			<form action="{{ path('game_alliance_admin_close') }}" method="post"><button type="submit" class="btn--danger" data-confirm-danger data-confirm="{{ (ally_name ~ ': ' ~ LNG.al_close_ally)|e('html_attr') }}">{{ icon('triangle-alert') }}{{ LNG.al_dissolve_btn }}</button></form>
+		</td>
 	</tr>
-</table>
-<table>
 	<tr>
 		<th>{{ LNG.al_transfer_alliance }}</th>
 	</tr>
 	<tr>
-		<td><form action="{{ path('game_alliance_admin_transfer') }}" method="get"><input type="submit" value="{{ LNG.al_continue }}"></form></td>
+		<td>
+			<p class="hint">{{ LNG.al_transfer_hint }}</p>
+			<form action="{{ path('game_alliance_admin_transfer') }}" method="get"><button type="submit" class="btn--danger">{{ LNG.al_transfer_btn }}</button></form>
+		</td>
 	</tr>
 </table>
 {% endif %}
-<table>
-	<tr>
-		<th colspan="9"><a href="{{ path('game_alliance_show') }}">{{ LNG.al_back }}</a></th>
-	</tr>
-</table>
+{{ c.back(path('game_alliance_show'), LNG.al_back) }}
 {% endblock %}

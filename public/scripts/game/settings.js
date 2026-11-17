@@ -10,3 +10,18 @@ registerActions({
     input.value = input.getAttribute('basecolor');
   },
 });
+
+/** Theme (CSS) select: a small preview of the chosen theme next to it (preview.png of the theme folder; hidden when there is none). */
+window.onPageInit(() => {
+  const select = document.getElementById('cssTheme');
+  const preview = document.getElementById('theme-preview');
+  if (!select || !preview) return;
+  const show = () => { preview.hidden = false; };
+  preview.addEventListener('load', show);
+  preview.addEventListener('error', () => { preview.hidden = true; });
+  select.addEventListener('change', () => {
+    preview.hidden = true;
+    preview.src = `${preview.dataset.base}${encodeURIComponent(select.value)}/preview.png`;
+  });
+  if (preview.complete && preview.naturalWidth > 0) show();
+});

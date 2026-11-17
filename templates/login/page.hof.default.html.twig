@@ -9,7 +9,7 @@
 {% else %}
   {% if universeSelect|length > 1 %}
   <form class="filter-bar" name="stats" id="stats" method="get" action="">
-    <select name="universe" id="universe" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
+    <select name="universe" id="universe" aria-label="{{ LNG.universe|e('html_attr') }}" class="changeUni" data-autosubmit>{{ forms.html_options({'options': universeSelect, 'selected': universe}) }}</select>
   </form>
   {% endif %}
   {% if hof.title %}<h2>{{ _self.lbl(hof.title) }}</h2>{% endif %}

@@ -105,7 +105,7 @@ class ViewHelpers
      * Compact number (÷1000 steps with the language's suffixes from NumberAbbreviation, e.g. 1.2 Mio); a decimal is
      * shown for non-integer values below 100 when $decimal is not given.
      */
-    public function shortlyNumber($number, $decimal = null)
+    public function shortlyNumber($number, $decimal = null, bool $significant = false)
     {
         $negate = $number < 0 ? -1 : 1;
         $number = abs($number);
@@ -124,6 +124,11 @@ class ViewHelpers
 
         if ($key > $maxKey) {
             $key = $maxKey;
+        }
+
+        if ($significant && $key !== 0) {
+            // three significant digits: 8,98 Mrd / 89,8 Mrd / 898 Mrd
+            $decimal = $number < 10 ? 2 : ($number < 100 ? 1 : 0);
         }
 
         if (!is_numeric($decimal)) {

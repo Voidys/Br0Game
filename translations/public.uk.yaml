@@ -143,3 +143,14 @@ home_logged_in_as: Ти увійшов як %s
 home_continue: Перейти до твоїх всесвітів
 home_account_lobby: Лобі акаунта
 rulesEmpty: Правила ще не опубліковано.
+loginLostPasswordOff: "Забули пароль? %s"
+loginContactTeam: "Зв'яжіться з командою."
+home_step_build: "Будуйте шахти, дослідження та верфі на своїх планетах."
+home_step_fleet: "Надсилайте флоти: досліджуйте, торгуйте, атакуйте або обороняйтесь."
+home_step_alliance: "Вступайте до альянсу та піднімайтеся в рейтингу."
+home_hof_desc: "Переможці завершених раундів"
+home_battlehall_desc: "Найбільші битви поточного раунду"
+memorialFilter: "Пам'ятні битви"
+toc_contents: "Зміст"
+loginRememberHint: "Не використовуйте на спільному комп'ютері."
+home_step_rules: "Прочитайте %s перед початком."

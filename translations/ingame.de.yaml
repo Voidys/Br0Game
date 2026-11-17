@@ -123,7 +123,7 @@ ach_filter_unlocked: Freigeschaltet
 ach_locked: Noch nicht freigeschaltet
 ach_progress: '%d von %d freigeschaltet'
 ach_unlocked_on: 'Freigeschaltet am %s'
-Achievements: Achievements
+Achievements: Erfolge
 admin_access_1: Du hast temporäre Admin-Rechte.
 admin_access_2: ', wenn du sie nicht dringend brauchst.'
 admin_access_link: Rechte deaktivieren
@@ -502,7 +502,7 @@ bu_accepted_request_body: Hallo %s,<br>%s hat deine Buddylistanfrage angenommen!
 bu_accepted_request_title: Buddylist-Anfrage akzeptiert!
 bu_action: Aktion
 bu_alliance: Allianz
-bu_buddy_list: Buddyliste
+bu_buddy_list: Freunde
 bu_cancel_request: Anfrage zurücknehmen
 bu_cannot_request_yourself: Du kannst dich nicht selbst als Buddy hinzufügen.
 bu_characters: Zeichen
@@ -892,7 +892,7 @@ lm_administration: Administration
 lm_alliance: Allianz
 lm_banned: Pranger
 lm_battlesim: Kampfsimulator
-lm_buddylist: Buddyliste
+lm_buddylist: Freunde
 lm_buildings: Gebäude
 lm_changelog: Changelog
 lm_dataPrivacy: Datenschutz
@@ -920,7 +920,7 @@ lm_shipshard: Raumschiffwerft
 lm_statistics: Statistik
 lm_support: Support
 lm_technology: Technologien
-lm_topkb: Battle Hall
+lm_topkb: Schlachtenhalle
 lo_continue: Klick hier, um sofort weiterzugehen.
 lo_logout: Du wurdest abgemeldet. Bis bald!
 lo_notify: Weiterleitung in <span id="seconds">5</span> s
@@ -1258,10 +1258,10 @@ rs_calculate: Speichern
 rs_daily: Pro Tag
 rs_lvl: Stufe
 rs_production_on_planet: Rohstoffproduktion auf Planet "%s"
-rs_ramp_up: Alles hochfahren
+rs_ramp_up: 'Alle auf 100 %'
 rs_ress_bonus: Bonus (durch Forschung)
 rs_ress_bonus_position: Bonus (durch Planetenposition)
-rs_shut_down: Alles herunterfahren
+rs_shut_down: 'Alle auf 0 %'
 rs_storage_capacity: Lagerkapazität
 rs_sum: Pro Stunde
 rs_weekly: Pro Woche
@@ -1426,7 +1426,7 @@ tkb_owners: Beteiligte
 tkb_platz: Platz
 tkb_self: eigene
 tkb_timeframe: Zeitfenster
-tkb_top: Hall of Fame
+tkb_top: Schlachtenhalle
 tkb_unentschieden: <b>-Unentschieden-</b>
 tkb_units: Einheiten
 tkb_verlierer: <b>-Verlierer-</b>
@@ -1517,6 +1517,7 @@ ui_queue: Bauschleife
 ui_queue_free: freier Platz
 ui_points: Punkte
 ui_close: Schließen
+ui_storage_full: "Lager voll: Produktion gestoppt"
 ui_messages: Nachrichten
 ui_server_time: Serverzeit
 ui_planet: Planet
@@ -1531,7 +1532,7 @@ teamMemberContact: Kontakt
 teamMemberAbout: Info
 teamEmpty: Es wurden noch keine Teammitglieder eingetragen.
 
-lm_board: Board
+lm_board: Forum
 bd_depot_action: "Flotten versorgen"
 depot_title: "Allianzdepot"
 depot_intro: "Befreundete Flotten, die an diesem Planeten halten, kannst du hier versorgen. Jede Versorgung verlängert ihren Aufenthalt um 1 bis %s Stunden (die Stufe deines Depots) und kostet Deuterium von diesem Planeten. Eine Flotte darf nie mehr als %s Stunden Aufenthalt übrig haben."
@@ -1570,3 +1571,88 @@ vt_postback_hint: "Die Belohnung kommt, sobald die Seite deinen Vote bestätigt 
 vt_notice_rewarded: "Danke fürs Voten! Die Belohnung wurde deinem Hauptplaneten gutgeschrieben."
 vt_notice_pending: "Danke fürs Voten! Die Belohnung kommt, sobald die Seite deinen Vote bestätigt hat."
 vt_notice_cooldown: "Du musst warten, bevor du auf dieser Seite erneut voten kannst."
+mg_confirm_delete_one: "Diese Nachricht löschen?"
+mg_confirm_delete_bulk: "Diese Nachrichten wirklich löschen? Das lässt sich nicht rückgängig machen."
+mg_group_mark: "Als gelesen markieren"
+mg_group_delete: "Löschen"
+mg_pick_category: "Wähle oben eine Kategorie, um ihre Nachrichten zu sehen."
+mg_no_messages: "Keine Nachrichten vorhanden."
+mg_select_message: "Nachricht auswählen"
+mg_search_player: "Spieler suchen"
+mg_remove_receiver: "Empfänger entfernen"
+mg_no_receiver: "Wähle mindestens einen Empfänger."
+nt_confirm_delete: "Die markierten Notizen löschen?"
+nt_priority_legend: "Farbe = Priorität: grün niedrig, gelb normal, rot hoch"
+al_save_all_hint: "Beide Speichern-Buttons speichern Texte und Optionen gemeinsam."
+al_dissolve_btn: "Allianz auflösen..."
+al_transfer_btn: "Allianz übertragen..."
+al_dissolve_hint: "Löscht die Allianz endgültig und entfernt alle Mitglieder. Das lässt sich nicht rückgängig machen."
+al_transfer_hint: "Übergibt die Führung an ein anderes Mitglied. Du verlierst den Gründerrang."
+al_transfer_confirm: "Die Allianz an das gewählte Mitglied übertragen? Du verlierst die Führung."
+al_kick: "Entfernen"
+al_find_results: "Ergebnisse"
+al_find_browse: "Größte Allianzen"
+al_find_none_yet: "In diesem Universum gibt es noch keine Allianzen."
+al_no_inside_text: "Noch kein Text für Mitglieder."
+bd_needs: 'Benötigt'
+bd_missing: 'Es fehlt'
+honorfights: "Ehrenkämpfe"
+pl_block_head: "Blockieren"
+pl_block_hint: "Wirkt sofort, ein Speichern-Button ist nicht nötig."
+st_my_rank: "Zu meinem Rang springen"
+st_legend_noob: "Neulingsschutz"
+rec_intro: "Die höchste in diesem Universum erreichte Stufe jedes Gebäudes und jeder Forschung, im Vergleich zu deiner eigenen."
+as_intro: "Detaillierte Zähler deiner eigenen Aktivität (Expeditionen, Bauten, Verluste, Abschüsse). Die Rangliste aller Spieler findest du unter Statistik."
+as_show_empty: "Leere Zeilen anzeigen"
+op_sections: "Springe zu"
+op_save_hint: "Änderungen gelten erst nach dem Speichern."
+op_dlte_account_confirm: "Account wirklich löschen? Er wird nach mindestens 7 Tagen endgültig entfernt; bis dahin kannst du die Löschung abbrechen."
+ti_none: "Du hast noch keine Tickets. Lies zuerst die %s; hilft das nicht weiter, erstelle ein Ticket."
+ti_faq_first: "Schau zuerst in die FAQ: Viele Fragen sind dort beantwortet."
+team_contact_hint: "Brauchst du Hilfe? Eröffne ein Ticket über %s."
+cl_hint: "Technische Änderungen an der Spielsoftware, neueste zuerst. Klicke einen Eintrag zum Aufklappen."
+cl_empty: "Keine Änderungen verzeichnet."
+toc_contents: "Inhalt"
+sh_hint: "Gib mindestens zwei Zeichen ein und drücke Enter oder Suchen."
+sh_search_type: "Suche nach"
+sh_search_text: "Suchtext"
+sh_no_players: "Nichts gefunden. Prüfe die Schreibweise oder probiere einen kürzeren Text."
+sh_no_alliances: "Keine Allianzen gefunden. Prüfe die Schreibweise oder probiere einen kürzeren Text."
+fl_no_ship_selected: "Wähle mindestens ein Schiff aus."
+fl_recall_confirm: "Flotte zurückrufen? Sie dreht jetzt um und ist um %s wieder zu Hause."
+fl_recall_return: "Wieder zu Hause bei Rückruf jetzt"
+fl_no_fleets: "Keine Flotten unterwegs."
+fl_quick_fleets: "Schnellflotten"
+fl_quick_fleets_hint: "Noch nichts gespeichert. Speichere unten unter \"Eigene Flotten\" eine Schiffskombination, dann erscheint sie hier als Ein-Klick-Abkürzung; auch deine letzte Mission steht hier."
+fl_load_hint: "Mit dem Bestand dieses Planeten vorausgefüllt. Die Fracht-Knöpfe schlagen vor, wie viele Schiffe das tragen; leeren, wenn du nichts mitschickst."
+fl_load_clear: "Leeren"
+fl_cargo_options_hint: "Rot heißt: Von diesem Schiff hast du nicht genug. Klick auf ein Schiffssymbol, um es samt Ziel vorzuwählen."
+fl_summary: "Zusammenfassung"
+fl_coord_range: "Ungültige Koordinaten. Erlaubt: Galaxie 1-%d, System 1-%d, Position 1-%d."
+fl_sending: "Flotte wird verschickt..."
+ft_rate_info: 'Der Händler behält %s%% des Schiffswerts ein und zahlt den Rest in Rohstoffen aus.'
+ft_per_ship: 'Auszahlung pro Schiff'
+ft_receive: 'Du erhältst'
+market_tab_resources: 'Rohstoffmarkt'
+market_tab_fleets: 'Flottenmarkt'
+market_ratio_label: 'Angebote vergleichen im Verhältnis'
+market_ratio_hint: 'Legt den Kurs für die Spalte Verhältnis fest; die gewählte Ressource ist die Basis.'
+market_no_offers: 'Zurzeit keine Angebote.'
+gl_recycle_needs: "Abbauen (Recycler nötig)"
+gl_keys_hint: "Tastatur: Pfeiltasten oder A D wechseln das System, W S die Galaxie."
+rs_ramp_up_confirm: 'Alle Produzenten auf 100 % setzen und speichern?'
+rs_shut_down_confirm: 'Alle Produzenten auf 0 % setzen und speichern? Die Produktion stoppt.'
+rs_energy_deficit: 'Energiemangel: Die Minen laufen unter ihrer eingestellten Stufe, bis die Energie wieder ausgeglichen ist.'
+ov_event_hostile: 'Feindlich'
+ov_no_fleets: 'Keine Flottenbewegungen.'
+al_chart_x: "Zeit (vor Stunden)"
+al_chart_y: "Punkte"
+as_sub_count: "Expeditionen"
+as_sub_found: "Funde"
+as_sub_lost: "Verluste"
+as_sub_first: "Erstmals"
+op_notifications: "Benachrichtigungen"
+rs_full_in: 'Lager voll in'
+rs_full_now: 'Voll'
+fl_prepared_gone: "Diese Flotte ist nicht mehr vorbereitet (abgelaufen, freigegeben oder schon verschickt). Bitte neu beginnen."
+gl_legend_activity: "In den letzten 15 Min. aktiv, danach als (Minuten) bis 60"

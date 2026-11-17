@@ -37,6 +37,8 @@ class FleetStep3Controller extends AbstractGameController
         if (($this->state->requestServer['REQUEST_METHOD'] ?? '') !== 'POST') {
             return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl(0));
         }
+        // post/redirect/get: the outcome is kept in the session and shown by result(), so reload and browser back never resend the fleet
+        $session = $this->sessions()->load();
         try {
             $variables = (new FleetDispatch($this->db, $this->configs, $this->state, $this->fleetCaps))->dispatch();
         } catch (FleetDispatchRefused $refused) {
@@ -44,15 +46,39 @@ class FleetStep3Controller extends AbstractGameController
                 return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl($refused->fleetPageCode));
             }
 
-            return $this->messageResponse($refused->getMessage(), array_map(
-                fn(array $button): array => ['label' => $button['label'], 'url' => $this->router->generate($button['url'])],
-                $refused->buttons,
-            ));
-        }
-        $goto = $this->router->generate($variables['goto']);
-        $gotoinsec = $variables['gotoinsec'];
-        unset($variables['goto'], $variables['gotoinsec']);
+            $session->fleetOutcome = [
+                'message' => $refused->getMessage(),
+                'buttons' => array_map(
+                    fn(array $button): array => ['label' => $button['label'], 'url' => $this->router->generate($button['url'])],
+                    $refused->buttons,
+                ),
+            ];
+            $session->save();
 
-        return $this->render('game/page.fleetStep3.default.html.twig', ['goto' => $goto, 'gotoinsec' => $gotoinsec] + $variables);
+            return $this->redirectToRoute('game_fleet_step3_result');
+        }
+        $variables['goto'] = $this->router->generate($variables['goto']);
+        $session->fleetOutcome = ['variables' => $variables];
+        $session->save();
+
+        return $this->redirectToRoute('game_fleet_step3_result');
+    }
+
+    /**
+     * Outcome of the last dispatch (confirmation with the redirect target and delay, or the refusal message); without one the fleet page.
+     */
+    #[GameRoute('game', 'game/fleet/result', 'fleetStep3', 'result', ['GET'])]
+    public function result(): Response
+    {
+        $outcome = $this->sessions()->load()->fleetOutcome;
+        if (!is_array($outcome)) {
+            return $this->redirectResponse($this->fleetFunctions()->fleetPageUrl(0));
+        }
+        if (isset($outcome['message'])) {
+            return $this->messageResponse($outcome['message'], $outcome['buttons']);
+        }
+        $variables = $outcome['variables'];
+
+        return $this->render('game/page.fleetStep3.default.html.twig', $variables);
     }
 }

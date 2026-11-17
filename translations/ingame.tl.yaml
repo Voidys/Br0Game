@@ -697,7 +697,7 @@ fl_player_is_noob: Nasa noob protection ang manlalaro.
 fl_player_is_strong: Masyadong malakas ang manlalaro.
 fl_r: (R)
 fl_remove_all_ships: Walang barko
-fl_resources: Nakargahan na ang resource!
+fl_resources: I-load ang resource
 fl_resources_left: Available na kapasidad
 fl_return_time: Oras ng pagbalik
 fl_returning: Pabalik
@@ -897,7 +897,7 @@ lm_shipshard: Hangar
 lm_statistics: Statistics
 lm_support: Support
 lm_technology: Mga Teknolohiya
-lm_topkb: Hall of Fame
+lm_topkb: Battle Hall
 lo_continue: I-click para magpatuloy.
 lo_logout: Nag-log out ka na. Hanggang sa muli!
 lo_notify: Magre-redirect sa loob ng <span id="seconds">5</span> segundo
@@ -1223,10 +1223,10 @@ rs_calculate: I-save ang mga pagbabago
 rs_daily: Araw-araw na Produksyon
 rs_lvl: Level
 rs_production_on_planet: Mga resource na nagawa sa "%s"
-rs_ramp_up: Pabilisin
+rs_ramp_up: 'Gawing 100% lahat'
 rs_ress_bonus: Bonus (mula sa Research)
 rs_ress_bonus_position: Bonus (mula sa posisyon ng planeta)
-rs_shut_down: Patayin
+rs_shut_down: 'Gawing 0% lahat'
 rs_storage_capacity: Kapasidad ng Imbakan
 rs_sum: Kada Oras na Produksyon
 rs_weekly: Lingguhang Produksyon
@@ -1389,7 +1389,7 @@ tkb_owners: Mga kasaling user
 tkb_platz: Rank
 tkb_self: sarili lang
 tkb_timeframe: Yugto ng panahon
-tkb_top: Hall of Fame
+tkb_top: Battle Hall
 tkb_units: Mga Unit
 tkb_verlierer: <b>-Talo-</b>
 tkb_week: linggo
@@ -1482,6 +1482,7 @@ ui_queue: Queue
 ui_queue_free: libreng slot
 ui_points: Puntos
 ui_close: Isara
+ui_storage_full: "Storage full: production stopped"
 ui_messages: Mga Mensahe
 ui_server_time: Oras ng server
 ui_planet: Planeta
@@ -1539,3 +1540,88 @@ vt_postback_hint: Darating ang reward pagkatapos kumpirmahin ng site ang vote mo
 vt_notice_rewarded: Salamat sa pag-vote! Idinagdag na ang reward sa main planeta mo.
 vt_notice_pending: Salamat sa pag-vote! Darating ang reward pagkatapos kumpirmahin ng site ang vote mo.
 vt_notice_cooldown: Kailangan mo pang maghintay bago ulit mag-vote sa site na ito.
+mg_confirm_delete_one: "Burahin ang mensaheng ito?"
+mg_confirm_delete_bulk: "Talagang burahin ang mga mensaheng ito? Hindi na ito maibabalik."
+mg_group_mark: "Markahan bilang nabasa"
+mg_group_delete: "Burahin"
+mg_pick_category: "Pumili ng kategorya sa itaas para makita ang mga mensahe."
+mg_no_messages: "Walang mensahe."
+mg_select_message: "Piliin ang mensahe"
+mg_search_player: "Maghanap ng manlalaro"
+mg_remove_receiver: "Alisin ang tatanggap"
+mg_no_receiver: "Pumili ng kahit isang tatanggap."
+nt_confirm_delete: "Burahin ang mga minarkahang tala?"
+nt_priority_legend: "Kulay = priyoridad: berde mababa, dilaw normal, pula mataas"
+al_save_all_hint: "Parehong sine-save ng dalawang Save button ang mga teksto at opsyon nang sabay."
+al_dissolve_btn: "Buwagin ang alyansa..."
+al_transfer_btn: "Ilipat ang alyansa..."
+al_dissolve_hint: "Permanenteng buburahin nito ang alyansa at aalisin ang lahat ng miyembro. Hindi na ito maibabalik."
+al_transfer_hint: "Ilipat ang pamumuno sa ibang miyembro. Mawawala ang ranggo mo bilang tagapagtatag."
+al_transfer_confirm: "Ilipat ang alyansa sa napiling miyembro? Mawawala ang pamumuno mo."
+al_kick: "Alisin"
+al_find_results: "Mga resulta"
+al_find_browse: "Pinakamalalaking alyansa"
+al_find_none_yet: "Wala pang alyansa sa uniberso na ito."
+al_no_inside_text: "Wala pang teksto para sa mga miyembro."
+bd_needs: 'Kailangan'
+bd_missing: 'Kulang'
+honorfights: "Mga marangal na laban"
+pl_block_head: "I-block"
+pl_block_hint: "Epektibo agad, walang Save button."
+st_my_rank: "Pumunta sa ranggo ko"
+st_legend_noob: "Proteksyon ng baguhan"
+rec_intro: "Ang pinakamataas na antas na naabot sa uniberso na ito para sa bawat gusali at pananaliksik, kumpara sa iyo."
+as_intro: "Mga detalyadong bilang ng sarili mong aktibidad (ekspedisyon, pagtatayo, pagkawala, pagwasak). Ang ranggo ng lahat ng manlalaro ay nasa Estadistika."
+as_show_empty: "Ipakita ang mga walang laman na hilera"
+op_sections: "Pumunta sa"
+op_save_hint: "Magkakabisa lang ang mga pagbabago pagkatapos i-save."
+op_dlte_account_confirm: "Talaga bang buburahin ang account mo? Ganap itong mabubura pagkalipas ng hindi bababa sa 7 araw; hanggang noon, maaari mong kanselahin ang pagbura."
+ti_none: "Wala ka pang ticket. Basahin muna ang %s; kung hindi nakatulong, gumawa ng ticket."
+ti_faq_first: "Tingnan muna ang FAQ: marami nang tanong ang may sagot doon."
+team_contact_hint: "Kailangan ng tulong? Magbukas ng ticket sa %s."
+cl_hint: "Mga teknikal na pagbabago sa software ng laro, pinakabago muna. I-click ang isang entry para palawakin."
+cl_empty: "Walang naitalang pagbabago."
+toc_contents: "Nilalaman"
+sh_hint: "Mag-type ng hindi bababa sa dalawang karakter, pagkatapos pindutin ang Enter o Hanapin."
+sh_search_type: "Hanapin ang"
+sh_search_text: "Teksto ng paghahanap"
+sh_no_players: "Walang nahanap. Suriin ang baybay o subukan ang mas maikling teksto."
+sh_no_alliances: "Walang nahanap na alyansa. Suriin ang baybay o subukan ang mas maikling teksto."
+fl_no_ship_selected: "Pumili ng kahit isang barko."
+fl_recall_confirm: "Ibalik ang fleet na ito? Babalik ito ngayon at nasa bahay na ng %s."
+fl_recall_return: "Uwi kung ibabalik ngayon"
+fl_no_fleets: "Walang fleet na nasa misyon."
+fl_quick_fleets: "Mabilis na fleet"
+fl_quick_fleets_hint: "Wala pang naka-save. Mag-save ng kombinasyon ng barko sa \"Custom fleets\" sa ibaba at lalabas ito rito bilang shortcut; lalabas din dito ang huling misyon mo."
+fl_load_hint: "Naka-prefill ng stock ng planetang ito. Ang mga cargo button ay nagmumungkahi kung ilang barko ang magdadala nito; i-clear kung walang ipapadala."
+fl_load_clear: "I-clear"
+fl_cargo_options_hint: "Pula ang ibig sabihin ay kulang ang barkong iyon. I-click ang icon ng barko para i-preselect kasama ang target."
+fl_summary: "Buod ng pagpapadala"
+fl_coord_range: "Di-wastong coordinate. Pinapayagan: galaxy 1-%d, system 1-%d, posisyon 1-%d."
+fl_sending: "Ipinapadala ang fleet..."
+ft_rate_info: 'Ang negosyante ay kumukuha ng %s%% ng halaga ng barko at ibinabayad ang natitira sa resources.'
+ft_per_ship: 'Bayad bawat barko'
+ft_receive: 'Matatanggap mo'
+market_tab_resources: 'Pamilihan ng resources'
+market_tab_fleets: 'Pamilihan ng fleet'
+market_ratio_label: 'Ihambing ang mga alok sa ratio'
+market_ratio_hint: 'Itinatakda ang palitan para sa Ratio na column; ang napiling resource ang batayan.'
+market_no_offers: 'Walang alok sa ngayon.'
+gl_recycle_needs: "I-recycle (kailangan ng recycler)"
+gl_keys_hint: "Keyboard: arrow keys o A D para sa system, W S para sa galaxy."
+rs_ramp_up_confirm: 'Gawing 100% ang lahat ng prodyuser at i-save?'
+rs_shut_down_confirm: 'Gawing 0% ang lahat ng prodyuser at i-save? Titigil ang produksyon.'
+rs_energy_deficit: 'Kulang sa enerhiya: mas mababa ang takbo ng mga minahan kaysa sa itinakdang antas hangga’t hindi pa balanse ang enerhiya.'
+ov_event_hostile: 'Kaaway'
+ov_no_fleets: 'Walang galaw ng fleet.'
+al_chart_x: "Oras (oras na ang nakalipas)"
+al_chart_y: "Puntos"
+as_sub_count: "Mga ekspedisyon"
+as_sub_found: "Mga natagpuan"
+as_sub_lost: "Mga pagkawala"
+as_sub_first: "Mga unang beses"
+op_notifications: "Mga abiso"
+rs_full_in: 'Puno ang imbakan sa'
+rs_full_now: 'Puno'
+fl_prepared_gone: "Hindi na handa ang fleet na ito (nag-expire, na-release o naipadala na). Magsimulang muli."
+gl_legend_activity: "Aktibo sa nakaraang 15 min, pagkatapos (minuto) hanggang 60"

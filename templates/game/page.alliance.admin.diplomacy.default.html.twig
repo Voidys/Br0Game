@@ -1,6 +1,8 @@
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_alliance }}{{ parent() }}{% endblock %}
 {% block content %}
+{{ c.breadcrumb([{label: LNG.lm_alliance, url: path('game_alliance_show')}, {label: LNG.al_manage_alliance, url: path('game_alliance_admin')}, {label: LNG.al_manage_diplo}]) }}
 <table>
 	<tr>
 		<th colspan="2">{{ LNG.al_diplo_head }}</th>
@@ -89,8 +91,6 @@
 		<td colspan="2">{{ LNG.al_diplo_no_accept }}</td>
 	</tr>	
 	{% endif %}
-	<tr>
-		<th colspan="2"><a href="{{ path('game_alliance_admin') }}">{{ LNG.al_back }}</a></th>
-	</tr>
 	</table>
+{{ c.back(path('game_alliance_admin'), LNG.al_back) }}
 {% endblock %}

@@ -1,6 +1,10 @@
 /* MinimalNoir: black and white variant of the dark glass theme for the classic game layout */
 
 :root {
+  --focus-color: var(--theme-text-strong);
+  /* shape: square skin, every control and panel has sharp corners (scale tokens, see css/app/base.css) */
+  --radius: 0; --radius-sm: 0; --radius-xs: 0; --pill-radius: 0;
+  --btn-radius: 0; --nav-link-radius: 0;
   --theme-text: #fff;
   --theme-text-strong: #fff;
   --theme-text-header: #e9e7e7;
@@ -60,7 +64,7 @@ input[type=number] {
 }
 
 body {
-  font-size: 0.75rem;
+  font-size: var(--fs-md);
   font-family: monospace;
   line-height: 0.75rem;
 }
@@ -109,7 +113,7 @@ th input {
 }
 
 td {
-  font-size: 0.6875rem;
+  font-size: var(--fs-sm);
   backdrop-filter: blur(0.625rem);
   -webkit-backdrop-filter: blur(0.0312rem);
   border: 0.0625rem solid var(--theme-line);
@@ -402,7 +406,7 @@ img {
 
 .hidden-div {
   border: 0.125rem solid #ee4d2e;
-  border-radius: 0.9375rem;
+  border-radius: var(--radius);
   margin: 0.1875rem;
   padding: 0.625rem 1.875rem;
   text-align: left;
@@ -415,7 +419,7 @@ img {
   padding: 0.625rem;
   text-align: center;
   height: auto;
-  font-size: 0.6875rem;
+  font-size: var(--fs-md);
 }
 
 .buildn {
@@ -438,7 +442,7 @@ img {
   margin: 0 auto;
   max-width: 25rem;
   background: #1b2e58d1;
-  border-radius: 1.5625rem;
+  border-radius: var(--pill-radius);
 }
 
 .shipl {
@@ -462,7 +466,7 @@ img {
   padding: 0.625rem;
   max-width: 18.75rem;
   background: #1b4c6e;
-  border-radius: 1.5625rem;
+  border-radius: var(--pill-radius);
   color: #e9ff79;
   text-transform: uppercase;
 }

@@ -179,8 +179,8 @@ export function pretty_number(value, dec = 0) {
   return window.decimalSeparator == 0 ? number_format(number, dec, ',', '.') : number_format(number, dec, '.', ',');
 }
 
-/** Abbreviated number (12.3 K, 4 M, ...) using the suffixes of `window.numberSuffixes` (defaults K, M, B, T, ...); one decimal below 100 in a unit. Returns HTML (non-breaking space). */
-export function shortly_number(number) {
+/** Abbreviated number (12.3 K, 4 M, ...) using the suffixes of `window.numberSuffixes` (defaults K, M, B, T, ...); one decimal below 100 in a unit (`significant`: three significant digits, 8,98 B / 89,8 B / 898 B). Returns HTML (non-breaking space). */
+export function shortly_number(number, significant = false) {
   const units = Array.isArray(window.numberSuffixes) && window.numberSuffixes.length
     ? window.numberSuffixes
     : ['', 'K', 'M', 'B', 'T', 'Q', 'Q+', 'S', 'S+', 'O', 'N'];
@@ -192,6 +192,7 @@ export function shortly_number(number) {
     value /= 1000;
   }
   const decimal = value !== Math.floor(value) && key !== 0 && value !== 0 && value < 100;
+  if (significant && key !== 0) return pretty_number(negate * value, value < 10 ? 2 : (value < 100 ? 1 : 0)) + `&nbsp;${units[key]}`;
   return pretty_number(negate * value, decimal ? 1 : 0) + (key !== 0 ? `&nbsp;${units[key]}` : '');
 }
 
@@ -304,14 +305,19 @@ export function OpenPopup(url, name, width) {
   return window.Dialog ? window.Dialog.open(target, width) : (location.href = target);
 }
 
-/** short notice in the corner (formerly the #tooltip "notify" box) */
-export function NotifyBox(text) {
+/**
+ * short notice in the corner (formerly the #tooltip "notify" box). `options.kind` ('success' | 'error') tints it,
+ * `options.top` shows it under the top bar, `options.ms` is how long it stays before fading (default 600).
+ */
+export function NotifyBox(text, options = {}) {
   const box = document.createElement('div');
   box.className = 'notify';
-  box.setAttribute('role', 'status');
+  if (options.kind) box.classList.add(`notify--${options.kind}`);
+  if (options.top) box.classList.add('notify--top');
+  box.setAttribute('role', options.kind === 'error' ? 'alert' : 'status');
   box.innerHTML = text;
   document.body.append(box);
-  window.setTimeout(() => fadeOut(box, 1000).then(() => box.remove()), 600);
+  window.setTimeout(() => fadeOut(box, 1000).then(() => box.remove()), options.ms ?? 600);
 }
 
 /** window.onerror handler: logs the error and tells the player (alert); returning true suppresses the browser's own report. */

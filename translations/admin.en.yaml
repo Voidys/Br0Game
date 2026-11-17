@@ -639,6 +639,8 @@ se_bash_per_user: Bash limit per player
 se_bash_per_user_info: >-
   How often a player can attack another player per 24 hours (across all
   planets). 0 = off
+se_update_check: "Update check"
+se_update_check_info: "Asks GitHub (api.github.com) for the latest release when the admin dashboard is opened (at most every 6 hours) and announces new versions. Sends no data about your server. Turn off to make no outbound request."
 se_cookie_consent: "Cookie notice"
 se_cookie_consent_info: "Shows a notice about cookies at the bottom of the login area, account area and game until the visitor chooses (\"Accept all\" or \"Only necessary\"; stored in the cookie cookie_consent for one year). The operator is responsible for the legal texts."
 se_block_planet_creation: Block
@@ -1159,6 +1161,14 @@ adm_dash_tickets: Open tickets
 adm_dash_fleets: Fleets in flight
 adm_dash_quick: Quick access
 adm_dash_system: System
+adm_update_available: "Update available"
+adm_update_released: "released"
+adm_update_you_run: "you run"
+adm_update_notes: "Release notes"
+adm_update_howto: "How to update"
+adm_update_check_now: "Check now"
+adm_update_check: "Update check"
+adm_update_up_to_date: "Up to date"
 adm_dash_version: Version
 adm_dash_php: PHP
 adm_dash_uni_status: Universe status

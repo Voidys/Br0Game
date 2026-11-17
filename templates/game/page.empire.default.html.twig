@@ -3,10 +3,16 @@
 {% block content %}
   <div class="table-scroll">
   <table class="empire-table">
-    <tbody>
-    <tr>
-      <th colspan="{{ colspan }}">{{ LNG.lv_imperium_title }}</th>
+    <thead>
+    <tr class="empire-head">
+      <th>{{ LNG.lv_imperium_title }}</th>
+      <th class="num" title="{{ LNG.lv_total }}">&Sigma; / &Oslash;</th>
+      {% for planetID, name in planetList.name %}
+        <th class="num"><a href="{{ path('game_overview_show', {cp: planetID}) }}" title="{{ name }}">{{ name }}</a></th>
+      {% endfor %}
     </tr>
+    </thead>
+    <tbody>
     <th colspan="{{ colspan }}">
       <span data-toggle-rows="chart"><span id="chart-toggle">▲</span> {{ LNG.lm_statistics }}</span>
     </th>
@@ -27,19 +33,19 @@
           <td class="num empire-col">
             <a href="{{ path('game_overview_show', {cp: image.id}) }}">
               {% if enablePlanetStyles == 0 %}
-                <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/' ~ image.picture ~ '.jpg') }}">
+                <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" alt="{{ planetList.name[image.id] }}" src="{{ theme_asset('planeten/' ~ image.picture ~ '.jpg') }}">
               {% else %}
                 {% if image.planet_style == 0 %}
-                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/' ~ image.picture ~ '.jpg') }}">
+                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" alt="{{ planetList.name[image.id] }}" src="{{ theme_asset('planeten/' ~ image.picture ~ '.jpg') }}">
                 {% endif %}
                 {% if image.planet_style == 1 %}
-                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/varianten/v1_magic/' ~ image.picture ~ '_v1_magic.webp') }}">
+                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" alt="{{ planetList.name[image.id] }}" src="{{ theme_asset('planeten/varianten/v1_magic/' ~ image.picture ~ '_v1_magic.webp') }}">
                 {% endif %}
                 {% if image.planet_style == 2 %}
-                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/varianten/v2_storm/' ~ image.picture ~ '_v2_storm.webp') }}">
+                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" alt="{{ planetList.name[image.id] }}" src="{{ theme_asset('planeten/varianten/v2_storm/' ~ image.picture ~ '_v2_storm.webp') }}">
                 {% endif %}
                 {% if image.planet_style == 3 %}
-                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" src="{{ theme_asset('planeten/varianten/v3_voronoi/' ~ image.picture ~ '_v3_voronoi.webp') }}">
+                  <img class="inline-block" width="80" height="80" loading="lazy" decoding="async" alt="{{ planetList.name[image.id] }}" src="{{ theme_asset('planeten/varianten/v3_voronoi/' ~ image.picture ~ '_v3_voronoi.webp') }}">
                 {% endif %}
               {% endif %}
             </a>

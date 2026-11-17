@@ -113,7 +113,7 @@
 		<td>{{ fleet.text }}</td>
 	</tr>
 	{% else %}
-		<tr><td colspan="3">{{ LNG.px_no_fleet }}</td></tr>
+		<tr><td colspan="3" class="empty-state">{{ icon('radar') }}<p>{{ LNG.px_no_fleet }}</p></td></tr>
 	{% endfor %}
 </table>
 {% endblock %}

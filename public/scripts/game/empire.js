@@ -9,6 +9,7 @@ const COLORS = { points: '#5aa9ff', buildings: '#6fcf8e', research: '#b28cff', f
 // ------------------------------------------------------------------ collapsible row groups
 
 const GROUPS = ['chart', 'ressources', 'buildings', 'technology', 'ships', 'defenses', 'missile'];
+const FOLDED_BY_DEFAULT = ['technology', 'ships', 'defenses', 'missile'];
 
 /** Collapses or expands a group of table rows (class = group name) and flips its arrow. */
 function showGroup(target, hidden) {
@@ -17,14 +18,16 @@ function showGroup(target, hidden) {
   if (arrow) arrow.textContent = hidden ? '▼' : '▲';
 }
 
-/** Restores the collapsed state of all groups from localStorage, toggles on click and stores the checkbox settings in cookies (`data-cookie`). The chart canvases are resized after the chart group opens (they measure 0x0 while hidden). */
+/** Restores the collapsed state of all groups from localStorage (the long lists start folded until the player opens them), toggles on click and stores the checkbox settings in cookies (`data-cookie`). The chart canvases are resized after the chart group opens (they measure 0x0 while hidden). */
 function initGroups() {
+  fitWatch();
   for (const target of GROUPS) {
-    showGroup(target, localStorage.getItem(target) === 'true');
+    const stored = localStorage.getItem(target);
+    showGroup(target, stored === null ? FOLDED_BY_DEFAULT.includes(target) : stored === 'true');
   }
   on(document, 'click', '[data-toggle-rows]', (event, el) => {
     const target = el.dataset.toggleRows;
-    const hidden = localStorage.getItem(target) !== 'true';
+    const hidden = !document.querySelector('.' + target)?.classList.contains('hidden');
     showGroup(target, hidden);
     localStorage.setItem(target, String(hidden));
     if (target === 'chart' && !hidden) {
@@ -33,6 +36,20 @@ function initGroups() {
     }
   });
   on(document, 'input', 'input[data-cookie]', (event, input) => cookie.set(input.dataset.cookie, input.checked));
+}
+
+/** Marks the table wrapper `.is-fit` while the table fits its width (then the page scrolls, header row sticks to the top bar); re-checked on resize and when row groups fold. */
+function fitWatch() {
+  const wrap = document.querySelector('.table-scroll:has(> .empire-table)');
+  if (!wrap) return;
+  const check = () => {
+    wrap.classList.remove('is-fit');
+    const fits = wrap.scrollWidth <= wrap.clientWidth + 1;
+    wrap.classList.toggle('is-fit', fits);
+  };
+  check();
+  new ResizeObserver(check).observe(wrap);
+  window.addEventListener('resize', check);
 }
 
 // ------------------------------------------------------------------ dataset visibility (remembered per chart)

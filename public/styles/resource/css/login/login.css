@@ -476,3 +476,15 @@ html.lightbox-open { overflow: hidden; }
   .lightbox__image { max-width: 100vw; max-height: 80dvh; border-inline: 0; border-radius: 0; }
   .lightbox__nav { top: auto; bottom: var(--space-3); translate: none; }
 }
+
+/* ------------------------------------------------------------------------------------ start page + registration extras */
+.uni-start .uni-countdown.is-open { padding: 0.05rem 0.55rem; border: 1px solid rgb(63 191 111 / 0.55); border-radius: 999px; background: rgb(63 191 111 / 0.14); color: #6fe09a; }
+.hero__steps { display: grid; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; list-style: none; max-width: 36rem; }
+.hero__steps li { display: flex; align-items: center; gap: var(--space-3); color: #c9d1db; font-size: var(--fs-sm); text-shadow: 0 1px 2px rgb(0 0 0 / 0.75); }
+.hero__steps .icon { flex: none; width: 1.15rem; height: 1.15rem; color: var(--nova-accent); }
+.login-meta span:has(a) a { text-decoration: underline; }
+@media (width >= 56rem) {
+  .form--register { max-width: 46rem; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-6); }
+  .form--register > .field { align-content: start; }
+  .form--register > :is(.pow-trap, .pow-status, .field--check, .form__actions, input[type="hidden"]) { grid-column: 1 / -1; }
+}

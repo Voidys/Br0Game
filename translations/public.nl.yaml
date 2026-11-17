@@ -143,3 +143,14 @@ home_logged_in_as: Ingelogd als %s
 home_continue: Verder naar je universums
 home_account_lobby: Accountlobby
 rulesEmpty: Er zijn nog geen regels gepubliceerd.
+loginLostPasswordOff: "Wachtwoord vergeten? %s"
+loginContactTeam: "Neem contact op met het team."
+home_step_build: "Bouw mijnen, onderzoek en werven op je planeten."
+home_step_fleet: "Stuur vloten: verken, handel, val aan of verdedig."
+home_step_alliance: "Sluit je aan bij een alliantie en klim in de ranglijst."
+home_hof_desc: "Winnaars van afgelopen rondes"
+home_battlehall_desc: "De grootste gevechten van de lopende ronde"
+memorialFilter: "Herdenkingsgevechten"
+toc_contents: "Inhoud"
+loginRememberHint: "Gebruik dit niet op een gedeelde computer."
+home_step_rules: "Lees de %s voordat je begint."

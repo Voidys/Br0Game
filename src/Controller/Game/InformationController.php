@@ -406,7 +406,65 @@ class InformationController extends AbstractGameController
             'FleetInfo'             => $FleetInfo,
             'gateData'              => $gateData,
             'spytechStatsEnabled'   => $this->viewHelpers()->isModuleAvailable(MODULE_SPYTECH_DEPENDENT_STATS),
+            'head'                  => $this->headFor($elementID),
         ]);
+    }
+
+    /**
+     * Header block of the info page: current level, cost of the next level (units: cost of one), the requirements with the
+     * player's own levels and the page where the element is built. Null for ids that are not buildable elements.
+     *
+     * @return array<string, mixed>|null
+     */
+    private function headFor(int $elementID): ?array
+    {
+        $e = $this->elements();
+        if (!$e->has($elementID)) {
+            return null;
+        }
+
+        $group = null;
+        foreach (['build' => 'buildings', 'tech' => 'research', 'fleet' => 'shipyard', 'defense' => 'defense', 'missile' => 'defense'] as $name => $page) {
+            if (in_array($elementID, $e->ids($name))) {
+                $group = ['name' => $name, 'page' => $page];
+                break;
+            }
+        }
+        if ($group === null) {
+            return null;
+        }
+
+        $userModel = $this->models()->user($this->state->USER);
+        $planetModel = $this->models()->planet($this->state->PLANET);
+        $column = $e->column($elementID);
+        $level = null;
+        $costs = [];
+        if ($group['name'] === 'build' || $group['name'] === 'tech') {
+            $level = (int) ($group['name'] === 'build' ? $this->state->PLANET[$column] : $this->state->USER[$column]);
+            $maxLevel = $e->get($elementID)->maxLevel;
+            if ($maxLevel != $level) {
+                $costs = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID, false, $level + 1);
+            }
+        } else {
+            $costs = $this->buildFunctions()->elementPriceFor($userModel, $planetModel, $elementID);
+        }
+
+        $requirements = [];
+        foreach ($e->get($elementID)->requirements as $requireID => $needed) {
+            $requireColumn = $e->column($requireID);
+            $requirements[$requireID] = [
+                'count' => $needed,
+                'own' => $this->state->PLANET[$requireColumn] ?? $this->state->USER[$requireColumn] ?? 0,
+            ];
+        }
+
+        return [
+            'group' => $group['name'],
+            'page' => $group['page'],
+            'level' => $level,
+            'costs' => array_filter($costs, static fn($amount) => $amount > 0),
+            'requirements' => $requirements,
+        ];
     }
 
     /**

@@ -1,0 +1,118 @@
+/*
+ * Community pages (alliance, search, statistics family, settings, tickets, changelog, player card): breadcrumbs,
+ * sub-navigation, tab links, danger zones, sticky save bar, collapsible changelog, player card header.
+ * Layer "components" (after tables-forms / components); colours come from the base tokens and the theme variables.
+ */
+@layer components {
+/* ---- breadcrumb "Alliance > Manage > Ranks" and the real "Back" button under sub pages */
+.crumbs { margin: 0 0 0.5rem; font-size: var(--fs-sm); }
+.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.4rem; margin: 0; padding: 0; list-style: none; }
+.crumbs li + li::before { content: "\203A"; margin-inline-end: 0.4rem; color: var(--c-muted); }
+.crumbs a { text-decoration: underline; }
+.crumbs [aria-current="page"] { color: var(--c-text); font-weight: 600; }
+.page-back { margin: 0.75rem 0 0; }
+.page-back .button { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 2rem; text-decoration: none; }
+
+/* ---- hints under forms and page intros */
+.form-note { margin: 0.5rem 0; }
+.page-intro { margin: 0 0 0.6rem; color: var(--c-muted); font-size: var(--fs-sm); }
+
+/* ---- dangerous buttons (dissolve, transfer, leave, delete): negative colour, filled on hover */
+:is(input, button).btn--danger {
+	border-color: color-mix(in oklab, var(--c-negative), var(--btn-border) 45%);
+	color: var(--c-negative);
+	display: inline-flex; align-items: center; gap: 0.4rem;
+	&:hover, &:focus-visible { border-color: var(--c-negative); background: var(--c-negative); color: #fff; }
+}
+input.btn--danger { display: inline-block; }
+.danger-zone > tbody > tr > th, table.danger-zone th { color: var(--c-negative); }
+.danger-zone .hint { margin: 0 0 0.5rem; }
+.danger-zone form { display: inline-block; margin: 0; }
+
+/* ---- tab links (alliance texts): clear active state like the tab strip */
+.tab-links-cell { padding-block: 0.4rem 0; }
+.tab-links { display: flex; flex-wrap: wrap; gap: 0.25rem; border-block-end: 0.0625rem solid var(--c-border-strong, #33475e); }
+.tab-links a {
+	padding: 0.4rem 0.85rem; border: 0.0625rem solid transparent; border-block-end: 0; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+	color: var(--c-muted); font-weight: 600; text-decoration: none;
+	&:hover { background: color-mix(in oklab, transparent, var(--c-text) 6%); color: var(--c-text); }
+	&.is-active { border-color: var(--c-border-strong, #33475e); background: var(--theme-raised, #141b24); color: var(--c-text); box-shadow: inset 0 -0.1875rem 0 var(--c-accent, #ee4d2e); }
+}
+
+/* ---- sub navigation between related pages (statistics, records, advanced stats, battle hall) */
+.subnav { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 0.75rem; }
+.subnav a {
+	padding: 0.3rem 0.8rem; border: 0.0625rem solid var(--btn-border, var(--c-border-strong)); border-radius: var(--pill-radius);
+	background: var(--btn-bg, transparent); color: var(--c-muted); font-size: var(--fs-sm); font-weight: 600; text-decoration: none;
+	&:hover { border-color: var(--c-accent); color: var(--c-text); }
+	&.is-active { border-color: var(--c-accent); background: color-mix(in oklab, var(--btn-bg, transparent), var(--c-accent) 22%); color: var(--c-text); }
+}
+.stats-jump { margin: 0 0 0.5rem; }
+.stats-jump .button { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0.6rem 0; color: var(--c-muted); font-size: var(--fs-xs); }
+tr.my-row > td { background: color-mix(in oklab, transparent, var(--c-positive) 10%); }
+html { scroll-padding-block-start: 4.5rem; }
+
+/* ---- advanced stats: all-empty rows hidden until asked for */
+.advanced-stats__toggle { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.5rem; color: var(--c-muted); font-size: var(--fs-sm); cursor: pointer; }
+.advanced-stats:not(:has(#as-show-empty:checked)) tr.is-empty { display: none; }
+body:not(:has(#rec-show-empty:checked)) .records-page tr.is-empty { display: none; }
+
+tr.sub-head th { padding-block: 0.3rem; font-size: var(--fs-xs); letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-muted); }
+
+/* ---- empty states in table cells, search hint */
+td.empty-state-cell { padding: 0; }
+.search-hint { margin: 0.5rem 0; }
+.team-contact { margin-block: 0.75rem 0; }
+
+/* ---- settings: jump list on top and a save bar that sticks to the bottom of the viewport */
+.jumplist { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.4rem; margin: 0 0 0.75rem; }
+.jumplist__label { margin-inline-end: 0.25rem; color: var(--c-muted); font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.jumplist a {
+	padding: 0.25rem 0.7rem; border: 0.0625rem solid var(--btn-border, var(--c-border-strong)); border-radius: var(--pill-radius);
+	background: var(--btn-bg, transparent); color: var(--c-text); font-size: var(--fs-sm); text-decoration: none;
+	&:hover { border-color: var(--c-accent); }
+	&.jumplist__danger { margin-inline-start: auto; border-color: color-mix(in oklab, var(--c-negative), var(--btn-border) 50%); color: var(--c-negative); }
+}
+.settings-save {
+	position: sticky; inset-block-end: 0; z-index: 5;
+	display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem;
+	margin-block: 0.5rem 1rem; padding: 0.55rem 0.75rem;
+	border: 0.0625rem solid var(--c-border-strong, #33475e); border-radius: var(--radius);
+	background: var(--c-bg-2, #0d1218); box-shadow: 0 -0.25rem 0.75rem rgb(0 0 0 / 0.35);
+	.hint { margin: 0 auto 0 0; }
+}
+#settings-form .theme-preview { display: block; margin-block-start: 0.4rem; border: 0.0625rem solid var(--c-border-strong); border-radius: var(--radius-sm); max-inline-size: 100%; height: auto; }
+#settings-form th[id], #danger { scroll-margin-block-start: 4.5rem; }
+
+/* ---- ranks table on phones: the name column stays visible while the permission columns scroll */
+.rank-table td:nth-child(2), .rank-table tr:nth-child(2) td:nth-child(2) { position: sticky; inset-inline-start: 0; background: var(--c-bg-2, #0d1218); z-index: 1; }
+
+/* ---- changelog: collapsible entries, no horizontal overflow */
+.changelog-text, .changelog-entry { overflow-wrap: anywhere; }
+.changelog-text :is(pre, code) { max-inline-size: 100%; }
+.changelog-text pre { overflow-x: auto; }
+.changelog-list { display: grid; gap: 0.35rem; margin-block: 0.5rem; }
+.changelog-entry {
+	border: 0.0625rem solid var(--c-border, #233142); border-radius: var(--radius-sm); background: var(--c-panel, transparent);
+	summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.6rem; padding: 0.5rem 0.75rem; font-weight: 600; cursor: pointer; }
+	&[open] summary { border-block-end: 0.0625rem solid var(--c-border, #233142); }
+	.changelog-text { padding: 0.5rem 0.75rem; }
+	ul { margin: 0.25rem 0; padding-inline-start: 1.25rem; }
+}
+.changelog-entry__commit { color: var(--c-muted); font-size: var(--fs-xs); font-weight: 400; }
+
+/* ---- player card: who and what to do first, the numbers below */
+.pcard-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin: 0 0 0.75rem; padding: 0.75rem 1rem; border: 0.0625rem solid var(--c-border-strong, #33475e); border-radius: var(--radius); background: var(--c-panel, transparent); }
+.pcard-head__name { margin: 0; font-size: 1.35rem; line-height: 1.2; }
+.pcard-head__meta { margin: 0.2rem 0 0; color: var(--c-muted); font-size: var(--fs-sm); }
+.pcard-head__actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pcard-head__actions .button { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; }
+
+@media (max-width: 40rem) {
+	.settings-save { margin-inline: -0.25rem; }
+	.jumplist a.jumplist__danger { margin-inline-start: 0; }
+	table.danger-zone tr:has(> td) { display: flex; flex-wrap: wrap; }
+	table.danger-zone td { flex: 1 1 100%; }
+}
+}

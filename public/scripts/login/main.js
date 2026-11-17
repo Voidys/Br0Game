@@ -38,6 +38,7 @@ function countdowns() {
       let rest = target - Math.floor(Date.now() / 1000);
       if (rest <= 0) {
         element.textContent = element.dataset.textDone ?? '';
+        element.classList.add('is-open');
         return false;
       }
       const days = Math.floor(rest / 86400); rest %= 86400;

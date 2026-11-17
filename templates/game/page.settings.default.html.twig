@@ -1,59 +1,75 @@
 {% import '_macros/forms.html.twig' as forms -%}
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_options }}{{ parent() }}{% endblock %}
 {% block content %}
+	<nav class="jumplist" aria-label="{{ LNG.op_sections|e('html_attr') }}">
+		<span class="jumplist__label">{{ LNG.op_sections }}</span>
+		<a href="#sec-account">{{ LNG.op_user_data }}</a>
+		<a href="#sec-general">{{ LNG.op_general_settings }}</a>
+		<a href="#sec-build">{{ LNG.op_build_pages }}</a>
+		<a href="#sec-galaxy">{{ LNG.op_galaxy_settings }}</a>
+		<a href="#sec-colors">{{ LNG.own_colors }}</a>
+		<a href="#sec-fleet">{{ LNG.fleetPrio }}</a>
+		<a class="jumplist__danger" href="#danger">{{ LNG.op_activate_vacation_mode }}</a>
+	</nav>
+	<form id="settings-form" action="{{ path('game_settings_send') }}" method="post">
 	<table class="form-table">
 		<tbody>
-			<form action="{{ path('game_settings_send') }}" method="post">
 				{% if userAuthlevel > 0 %}
 					<tr>
 						<th colspan="2">{{ LNG.op_admin_title_options }}</th>
 					</tr>
 					<tr>
-						<td>{{ LNG.op_admin_planets_protection }}</td>
-						<td><input name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked" {% endif %}></td>
-					</tr>
-					<tr>
-						<td>{{ LNG.op_admin_discord_id }}</td>
-						<td><input name="discord_id" value="{{ discord_id }}" type="text" maxlength="25"></td>
-					</tr>
-					<tr>
-						<td>{{ LNG.op_admin_discord_hook }}</td>
-						<td><input name="discord_hook" value="{{ discord_hook }}" type="text" maxlength="150"></td>
+						<td><label for="set_adminprotection">{{ LNG.op_admin_planets_protection }}</label></td>
+						<td><input id="set_adminprotection" name="adminprotection" type="checkbox" value="1" {% if adminProtection > 0 %}checked="checked" {% endif %}></td>
 					</tr>
 				{% endif %}
 				<tr>
-					<th colspan="2">{{ LNG.op_user_data }}</th>
+					<th colspan="2" id="sec-account">{{ LNG.op_user_data }}</th>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_username }}</td>
-					<td>{% if changeNickTime < 0 %}<input name="username" value="{{ username }}" type="text" maxlength="32">{% else %}{{ username }}{% endif %}</td>
+					<td><label for="set_username">{{ LNG.op_username }}</label></td>
+					<td>{% if changeNickTime < 0 %}<input id="set_username" name="username" value="{{ username }}" type="text" maxlength="32">{% else %}{{ username }}{% endif %}</td>
+				</tr>
+				{% if userAuthlevel > 0 %}
+					<tr>
+						<th colspan="2" id="sec-notify">{{ LNG.op_notifications }}</th>
+					</tr>
+					<tr>
+						<td><label for="set_discord_id">{{ LNG.op_admin_discord_id }}</label></td>
+						<td><input id="set_discord_id" name="discord_id" value="{{ discord_id }}" type="text" maxlength="25"></td>
+					</tr>
+					<tr>
+						<td><label for="set_discord_hook">{{ LNG.op_admin_discord_hook }}</label></td>
+						<td><input id="set_discord_hook" name="discord_hook" value="{{ discord_hook }}" type="text" maxlength="150"></td>
+					</tr>
+				{% endif %}
+				<tr>
+					<th colspan="2" id="sec-general">{{ LNG.op_general_settings }}</th>
 				</tr>
 				<tr>
-					<th colspan="2">{{ LNG.op_general_settings }}</th>
-				</tr>
-				<tr>
-					<td>{{ LNG.op_timezone }}</td>
-					<td>{{ forms.html_options({'name': 'timezone', 'options': Selectors.timezones, 'selected': timezone}) }}</td>
+					<td><label for="set_timezone">{{ LNG.op_timezone }}</label></td>
+					<td>{{ forms.html_options({'id': 'set_timezone', 'name': 'timezone', 'options': Selectors.timezones, 'selected': timezone}) }}</td>
 				</tr>
 				{% if Selectors.lang|length > 1 %}
 					<tr>
-						<td>{{ LNG.op_lang }}</td>
-						<td>{{ forms.html_options({'name': 'language', 'options': Selectors.lang, 'selected': userLang}) }}</td>
+						<td><label for="set_language">{{ LNG.op_lang }}</label></td>
+						<td>{{ forms.html_options({'id': 'set_language', 'name': 'language', 'options': Selectors.lang, 'selected': userLang}) }}</td>
 					</tr>
 				{% endif %}
 				<tr>
-					<td>{{ LNG.op_decimal_separator }}</td>
-					<td>{{ forms.html_options({'name': 'decimalSeparator', 'options': Selectors.decimalSeparators, 'selected': decimalSeparator}) }}</td>
+					<td><label for="set_decimalSeparator">{{ LNG.op_decimal_separator }}</label></td>
+					<td>{{ forms.html_options({'id': 'set_decimalSeparator', 'name': 'decimalSeparator', 'options': Selectors.decimalSeparators, 'selected': decimalSeparator}) }}</td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_sort_planets_by }}</td>
-					<td>{{ forms.html_options({'name': 'planetSort', 'options': Selectors.Sort, 'selected': planetSort}) }}</td>
+					<td><label for="set_planetSort">{{ LNG.op_sort_planets_by }}</label></td>
+					<td>{{ forms.html_options({'id': 'set_planetSort', 'name': 'planetSort', 'options': Selectors.Sort, 'selected': planetSort}) }}</td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_sort_kind }}</td>
+					<td><label for="set_planetOrder">{{ LNG.op_sort_kind }}</label></td>
 					<td>
-						{{ forms.html_options({'name': 'planetOrder', 'options': Selectors.SortUpDown, 'selected': planetOrder}) }}
+						{{ forms.html_options({'id': 'set_planetOrder', 'name': 'planetOrder', 'options': Selectors.SortUpDown, 'selected': planetOrder}) }}
 					</td>
 				</tr>
 				{% if (Selectors.ImageSkins|default([]))|length > 1 %}
@@ -65,72 +81,72 @@
 				{% if (Selectors.CssSkins|default([]))|length > 1 %}
 					<tr>
 						<td>{{ LNG.op_skin_example }} (CSS)</td>
-						<td>{{ forms.html_options({'options': Selectors.CssSkins, 'selected': cssTheme, 'name': "cssTheme", 'id': "cssTheme"}) }}</td>
+						<td>{{ forms.html_options({'options': Selectors.CssSkins, 'selected': cssTheme, 'name': "cssTheme", 'id': "cssTheme"}) }} <img class="theme-preview" id="theme-preview" src="./styles/theme/{{ cssTheme|e('url') }}/preview.png" data-base="./styles/theme/" alt="" width="200" height="125" loading="lazy" hidden></td>
 					</tr>
 				{% endif %}
 				<tr>
-					<td>{{ LNG.op_noob_interface }}</td>
-					<td><input name="noob_interface" type="checkbox" value="1" {% if noobInterface == 1 %}checked="checked"{% endif %}></td>
+					<td><label for="set_noob_interface">{{ LNG.op_noob_interface }}</label></td>
+					<td><input id="set_noob_interface" name="noob_interface" type="checkbox" value="1" {% if noobInterface == 1 %}checked="checked"{% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_enable_planet_styles }}</td>
-					<td><input name="enablePlanetStyles" type="checkbox" value="1" {% if enablePlanetStyles == 1 %}checked="checked"{% endif %}></td>
+					<td><label for="set_enablePlanetStyles">{{ LNG.op_enable_planet_styles }}</label></td>
+					<td><input id="set_enablePlanetStyles" name="enablePlanetStyles" type="checkbox" value="1" {% if enablePlanetStyles == 1 %}checked="checked"{% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_show_message_category }}</td>
-					<td><input name="showMessageCategory" type="checkbox" value="1" {% if showMessageCategory == 1 %}checked="checked"{% endif %}></td>
+					<td><label for="set_showMessageCategory">{{ LNG.op_show_message_category }}</label></td>
+					<td><input id="set_showMessageCategory" name="showMessageCategory" type="checkbox" value="1" {% if showMessageCategory == 1 %}checked="checked"{% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_active_build_messages }}</td>
-					<td><input name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_queueMessages">{{ LNG.op_active_build_messages }}</label></td>
+					<td><input id="set_queueMessages" name="queueMessages" type="checkbox" value="1" {% if queueMessages == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_active_spy_messages_mode }}</td>
-					<td><input name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_spyMessagesMode">{{ LNG.op_active_spy_messages_mode }}</label></td>
+					<td><input id="set_spyMessagesMode" name="spyMessagesMode" type="checkbox" value="1" {% if spyMessagesMode == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_collapse_spy_reports }}</td>
-					<td><input name="spyReportsCollapsed" type="checkbox" value="1" {% if spyReportsCollapsed == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_spyReportsCollapsed">{{ LNG.op_collapse_spy_reports }}</label></td>
+					<td><input id="set_spyReportsCollapsed" name="spyReportsCollapsed" type="checkbox" value="1" {% if spyReportsCollapsed == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_block_pm }}</td>
-					<td><input name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_blockPM">{{ LNG.op_block_pm }}</label></td>
+					<td><input id="set_blockPM" name="blockPM" type="checkbox" value="1" {% if blockPM == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.recordsOptIn }}</td>
-					<td><input name="recordsOptIn" type="checkbox" value="1" {% if recordsOptIn == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_recordsOptIn">{{ LNG.recordsOptIn }}</label></td>
+					<td><input id="set_recordsOptIn" name="recordsOptIn" type="checkbox" value="1" {% if recordsOptIn == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.colonyWarn }}</td>
-					<td><input name="colonyWarn" type="checkbox" value="1" {% if colonyWarn == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_colonyWarn">{{ LNG.colonyWarn }}</label></td>
+					<td><input id="set_colonyWarn" name="colonyWarn" type="checkbox" value="1" {% if colonyWarn == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.messagesPerPage }}</td>
-					<td><input name="messagesPerPage" value="{{ messagesPerPage }}" type="number" min="3" max="50"></td>
+					<td><label for="set_messagesPerPage">{{ LNG.messagesPerPage }}</label></td>
+					<td><input id="set_messagesPerPage" name="messagesPerPage" value="{{ messagesPerPage }}" type="number" min="3" max="50"></td>
 				</tr>
 
 				<tr>
-					<th colspan="2">{{ LNG.op_build_pages }}</th>
+					<th colspan="2" id="sec-build">{{ LNG.op_build_pages }}</th>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_show_all_buildable_elements }}</td>
-					<td><input name="show_all_buildable_elements" type="checkbox" value="1" {% if show_all_buildable_elements == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_show_all_buildable_elements">{{ LNG.op_show_all_buildable_elements }}</label></td>
+					<td><input id="set_show_all_buildable_elements" name="show_all_buildable_elements" type="checkbox" value="1" {% if show_all_buildable_elements == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_missing_requirements_opacity }}</td>
-					<td><input name="missing_requirements_opacity" type="checkbox" value="1" {% if missing_requirements_opacity == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_missing_requirements_opacity">{{ LNG.op_missing_requirements_opacity }}</label></td>
+					<td><input id="set_missing_requirements_opacity" name="missing_requirements_opacity" type="checkbox" value="1" {% if missing_requirements_opacity == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_missing_resources_opacity }}</td>
-					<td><input name="missing_resources_opacity" type="checkbox" value="1" {% if missing_resources_opacity == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_missing_resources_opacity">{{ LNG.op_missing_resources_opacity }}</label></td>
+					<td><input id="set_missing_resources_opacity" name="missing_resources_opacity" type="checkbox" value="1" {% if missing_resources_opacity == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_hide_useless }}</td>
-					<td><input name="hide_useless" type="checkbox" value="1" {% if hide_useless == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_hide_useless">{{ LNG.op_hide_useless }}</label></td>
+					<td><input id="set_hide_useless" name="hide_useless" type="checkbox" value="1" {% if hide_useless == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_hangar_filters }}</td>
-					<td><input name="hangarFiltersEnabled" type="checkbox" value="1" {% if hangarFiltersEnabled == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_hangarFiltersEnabled">{{ LNG.op_hangar_filters }}</label></td>
+					<td><input id="set_hangarFiltersEnabled" name="hangarFiltersEnabled" type="checkbox" value="1" {% if hangarFiltersEnabled == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
 					<td>{{ LNG.op_hangar_group_filters }}</td>
@@ -143,15 +159,15 @@
 				</tr>
 				
 				<tr>
-					<th colspan="2">{{ LNG.op_galaxy_settings }}</th>
+					<th colspan="2" id="sec-galaxy">{{ LNG.op_galaxy_settings }}</th>
 				</tr>
 				<tr>
-					<td><a title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</a></td>
-					<td><input name="spycount" value="{{ spycount }}" type="number"></td>
+					<td><label for="set_spycount"><a title="{{ LNG.op_spy_probes_number_descrip }}">{{ LNG.op_spy_probes_number }}</a></label></td>
+					<td><input id="set_spycount" name="spycount" value="{{ spycount }}" type="number"></td>
 				</tr>
 				<tr>
-					<td>{{ LNG.op_max_fleets_messages }}</td>
-					<td><input name="fleetactions" maxlength="2" value="{{ fleetActions }}" type="number"></td>
+					<td><label for="set_fleetactions">{{ LNG.op_max_fleets_messages }}</label></td>
+					<td><input id="set_fleetactions" name="fleetactions" maxlength="2" value="{{ fleetActions }}" type="number"></td>
 				</tr>
 
 				<tr>
@@ -159,176 +175,176 @@
 					<th>{{ LNG.op_show }}</th>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ theme_asset('img/e.gif') }}" alt="">{{ LNG.op_spy }}</td>
-					<td><input name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_galaxySpy"><img class="inline" src="{{ theme_asset('img/e.gif') }}" alt="">{{ LNG.op_spy }}</label></td>
+					<td><input id="set_galaxySpy" name="galaxySpy" type="checkbox" value="1" {% if galaxySpy == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ theme_asset('img/spy_report.png') }}" alt="">{{ LNG.op_spy_report }}</td>
-					<td><input name="galaxySpyReport" type="checkbox" value="1" {% if galaxySpyReport == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_galaxySpyReport"><img class="inline" src="{{ theme_asset('img/spy_report.png') }}" alt="">{{ LNG.op_spy_report }}</label></td>
+					<td><input id="set_galaxySpyReport" name="galaxySpyReport" type="checkbox" value="1" {% if galaxySpyReport == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><a title="{{ LNG.op_spy_report_fresh_time_tooltip }}">{{ LNG.op_spy_report_fresh_time }}</a></td>
-					<td><input name="spyReportFreshHours" value="{{ spyReportFreshHours }}" type="number"> {{ LNG.fl_hours }}</td>
+					<td><label for="set_spyReportFreshHours"><a title="{{ LNG.op_spy_report_fresh_time_tooltip }}">{{ LNG.op_spy_report_fresh_time }}</a></label></td>
+					<td><input id="set_spyReportFreshHours" name="spyReportFreshHours" value="{{ spyReportFreshHours }}" type="number"> {{ LNG.fl_hours }}</td>
 				</tr>
 				<tr>
-					<td><a title="{{ LNG.op_spy_report_recent_time_tooltip }}">{{ LNG.op_spy_report_recent_time }}</a></td>
-					<td><input name="spyReportRecentHours" value="{{ spyReportRecentHours }}" type="number"> {{ LNG.fl_hours }}</td>
+					<td><label for="set_spyReportRecentHours"><a title="{{ LNG.op_spy_report_recent_time_tooltip }}">{{ LNG.op_spy_report_recent_time }}</a></label></td>
+					<td><input id="set_spyReportRecentHours" name="spyReportRecentHours" value="{{ spyReportRecentHours }}" type="number"> {{ LNG.fl_hours }}</td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ theme_asset('img/m.gif') }}" alt="">{{ LNG.op_write_message }}</td>
-					<td><input name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_galaxyMessage"><img class="inline" src="{{ theme_asset('img/m.gif') }}" alt="">{{ LNG.op_write_message }}</label></td>
+					<td><input id="set_galaxyMessage" name="galaxyMessage" type="checkbox" value="1" {% if galaxyMessage == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ theme_asset('img/b.gif') }}" alt="">{{ LNG.op_add_to_buddy_list }}</td>
-					<td><input name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_galaxyBuddyList"><img class="inline" src="{{ theme_asset('img/b.gif') }}" alt="">{{ LNG.op_add_to_buddy_list }}</label></td>
+					<td><input id="set_galaxyBuddyList" name="galaxyBuddyList" type="checkbox" value="1" {% if galaxyBuddyList == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 				<tr>
-					<td><img class="inline" src="{{ theme_asset('img/r.gif') }}" alt="">{{ LNG.op_missile_attack }}</td>
-					<td><input name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked" {% endif %}></td>
+					<td><label for="set_galaxyMissle"><img class="inline" src="{{ theme_asset('img/r.gif') }}" alt="">{{ LNG.op_missile_attack }}</label></td>
+					<td><input id="set_galaxyMissle" name="galaxyMissle" type="checkbox" value="1" {% if galaxyMissle == 1 %}checked="checked" {% endif %}></td>
 				</tr>
 
 				<tr>
-					<th colspan="2" data-action="toggle-rows" data-target="custom-colors-options-1" class="clickable"><span id="custom-colors-options-1-toggle">▲</span> {{ LNG.own_colors }}</th>
+					<th colspan="2" id="sec-colors" data-action="toggle-rows" data-target="custom-colors-options-1" class="clickable"><span id="custom-colors-options-1-toggle">▲</span> {{ LNG.own_colors }}</th>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_1_own }}</td>
+					<td><label for="set_colorMission1Own">{{ LNG.type_mission_1_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission1Own" value="{{ colors.colorMission1Own }}" basecolor="{{ defaultColors.colorMission1Own }}">
+							<input id="set_colorMission1Own" type="color" name="colorMission1Own" value="{{ colors.colorMission1Own }}" basecolor="{{ defaultColors.colorMission1Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_2_own }}</td>
+					<td><label for="set_colorMission2Own">{{ LNG.type_mission_2_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission2Own" value="{{ colors.colorMission2Own }}" basecolor="{{ defaultColors.colorMission2Own }}">
+							<input id="set_colorMission2Own" type="color" name="colorMission2Own" value="{{ colors.colorMission2Own }}" basecolor="{{ defaultColors.colorMission2Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_2_friend }}</td>
+					<td><label for="set_colorMission2friend">{{ LNG.type_mission_2_friend }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission2friend" value="{{ colors.colorMission2friend }}" basecolor="{{ defaultColors.colorMission2friend }}">
+							<input id="set_colorMission2friend" type="color" name="colorMission2friend" value="{{ colors.colorMission2friend }}" basecolor="{{ defaultColors.colorMission2friend }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_3_own }}</td>
+					<td><label for="set_colorMission3Own">{{ LNG.type_mission_3_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission3Own" value="{{ colors.colorMission3Own }}" basecolor="{{ defaultColors.colorMission3Own }}">
+							<input id="set_colorMission3Own" type="color" name="colorMission3Own" value="{{ colors.colorMission3Own }}" basecolor="{{ defaultColors.colorMission3Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_4_own }}</td>
+					<td><label for="set_colorMission4Own">{{ LNG.type_mission_4_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission4Own" value="{{ colors.colorMission4Own }}" basecolor="{{ defaultColors.colorMission4Own }}">
+							<input id="set_colorMission4Own" type="color" name="colorMission4Own" value="{{ colors.colorMission4Own }}" basecolor="{{ defaultColors.colorMission4Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_5_own }}</td>
+					<td><label for="set_colorMission5Own">{{ LNG.type_mission_5_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission5Own" value="{{ colors.colorMission5Own }}" basecolor="{{ defaultColors.colorMission5Own }}">
+							<input id="set_colorMission5Own" type="color" name="colorMission5Own" value="{{ colors.colorMission5Own }}" basecolor="{{ defaultColors.colorMission5Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_6_own }}</td>
+					<td><label for="set_colorMission6Own">{{ LNG.type_mission_6_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission6Own" value="{{ colors.colorMission6Own }}" basecolor="{{ defaultColors.colorMission6Own }}">
+							<input id="set_colorMission6Own" type="color" name="colorMission6Own" value="{{ colors.colorMission6Own }}" basecolor="{{ defaultColors.colorMission6Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_7_own }}</td>
+					<td><label for="set_colorMission7Own">{{ LNG.type_mission_7_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission7Own" value="{{ colors.colorMission7Own }}" basecolor="{{ defaultColors.colorMission7Own }}">
+							<input id="set_colorMission7Own" type="color" name="colorMission7Own" value="{{ colors.colorMission7Own }}" basecolor="{{ defaultColors.colorMission7Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_7_own_return }}</td>
+					<td><label for="set_colorMission7OwnReturn">{{ LNG.type_mission_7_own_return }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission7OwnReturn" value="{{ colors.colorMission7OwnReturn }}" basecolor="{{ defaultColors.colorMission7OwnReturn }}">
+							<input id="set_colorMission7OwnReturn" type="color" name="colorMission7OwnReturn" value="{{ colors.colorMission7OwnReturn }}" basecolor="{{ defaultColors.colorMission7OwnReturn }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_8_own }}</td>
+					<td><label for="set_colorMission8Own">{{ LNG.type_mission_8_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission8Own" value="{{ colors.colorMission8Own }}" basecolor="{{ defaultColors.colorMission8Own }}">
-							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
-						</span>
-					</td>
-				</tr>
-				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_9_own }}</td>
-					<td>
-						<span class="control-group">
-							<input type="color" name="colorMission9Own" value="{{ colors.colorMission9Own }}" basecolor="{{ defaultColors.colorMission9Own }}">
+							<input id="set_colorMission8Own" type="color" name="colorMission8Own" value="{{ colors.colorMission8Own }}" basecolor="{{ defaultColors.colorMission8Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_10_own }}</td>
+					<td><label for="set_colorMission9Own">{{ LNG.type_mission_9_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission10Own" value="{{ colors.colorMission10Own }}" basecolor="{{ defaultColors.colorMission10Own }}">
+							<input id="set_colorMission9Own" type="color" name="colorMission9Own" value="{{ colors.colorMission9Own }}" basecolor="{{ defaultColors.colorMission9Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_15_own }}</td>
+					<td><label for="set_colorMission10Own">{{ LNG.type_mission_10_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission15Own" value="{{ colors.colorMission15Own }}" basecolor="{{ defaultColors.colorMission15Own }}">
+							<input id="set_colorMission10Own" type="color" name="colorMission10Own" value="{{ colors.colorMission10Own }}" basecolor="{{ defaultColors.colorMission10Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_16_own }}</td>
+					<td><label for="set_colorMission15Own">{{ LNG.type_mission_15_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission16Own" value="{{ colors.colorMission16Own }}" basecolor="{{ defaultColors.colorMission16Own }}">
+							<input id="set_colorMission15Own" type="color" name="colorMission15Own" value="{{ colors.colorMission15Own }}" basecolor="{{ defaultColors.colorMission15Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_17_own }}</td>
+					<td><label for="set_colorMission16Own">{{ LNG.type_mission_16_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission17Own" value="{{ colors.colorMission17Own }}" basecolor="{{ defaultColors.colorMission17Own }}">
+							<input id="set_colorMission16Own" type="color" name="colorMission16Own" value="{{ colors.colorMission16Own }}" basecolor="{{ defaultColors.colorMission16Own }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-1">
-					<td>{{ LNG.type_mission_return_own }}</td>
+					<td><label for="set_colorMission17Own">{{ LNG.type_mission_17_own }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMissionReturnOwn" value="{{ colors.colorMissionReturnOwn }}" basecolor="{{ defaultColors.colorMissionReturnOwn }}">
+							<input id="set_colorMission17Own" type="color" name="colorMission17Own" value="{{ colors.colorMission17Own }}" basecolor="{{ defaultColors.colorMission17Own }}">
+							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
+						</span>
+					</td>
+				</tr>
+				<tr class="hidden custom-colors-options-1">
+					<td><label for="set_colorMissionReturnOwn">{{ LNG.type_mission_return_own }}</label></td>
+					<td>
+						<span class="control-group">
+							<input id="set_colorMissionReturnOwn" type="color" name="colorMissionReturnOwn" value="{{ colors.colorMissionReturnOwn }}" basecolor="{{ defaultColors.colorMissionReturnOwn }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
@@ -338,126 +354,126 @@
 					<th colspan="2" data-action="toggle-rows" data-target="custom-colors-options-2" class="clickable"><span id="custom-colors-options-2-toggle">▲</span> {{ LNG.foreign_colors }}</th>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_1_foreign }}</td>
+					<td><label for="set_colorMission1Foreign">{{ LNG.type_mission_1_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission1Foreign" value="{{ colors.colorMission1Foreign }}" basecolor="{{ defaultColors.colorMission1Foreign }}">
+							<input id="set_colorMission1Foreign" type="color" name="colorMission1Foreign" value="{{ colors.colorMission1Foreign }}" basecolor="{{ defaultColors.colorMission1Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_2_foreign }}</td>
+					<td><label for="set_colorMission2Foreign">{{ LNG.type_mission_2_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission2Foreign" value="{{ colors.colorMission2Foreign }}" basecolor="{{ defaultColors.colorMission2Foreign }}">
+							<input id="set_colorMission2Foreign" type="color" name="colorMission2Foreign" value="{{ colors.colorMission2Foreign }}" basecolor="{{ defaultColors.colorMission2Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_3_foreign }}</td>
+					<td><label for="set_colorMission3Foreign">{{ LNG.type_mission_3_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission3Foreign" value="{{ colors.colorMission3Foreign }}" basecolor="{{ defaultColors.colorMission3Foreign }}">
+							<input id="set_colorMission3Foreign" type="color" name="colorMission3Foreign" value="{{ colors.colorMission3Foreign }}" basecolor="{{ defaultColors.colorMission3Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_4_foreign }}</td>
+					<td><label for="set_colorMission4Foreign">{{ LNG.type_mission_4_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission4Foreign" value="{{ colors.colorMission4Foreign }}" basecolor="{{ defaultColors.colorMission4Foreign }}">
+							<input id="set_colorMission4Foreign" type="color" name="colorMission4Foreign" value="{{ colors.colorMission4Foreign }}" basecolor="{{ defaultColors.colorMission4Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_5_foreign }}</td>
+					<td><label for="set_colorMission5Foreign">{{ LNG.type_mission_5_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission5Foreign" value="{{ colors.colorMission5Foreign }}" basecolor="{{ defaultColors.colorMission5Foreign }}">
+							<input id="set_colorMission5Foreign" type="color" name="colorMission5Foreign" value="{{ colors.colorMission5Foreign }}" basecolor="{{ defaultColors.colorMission5Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_6_foreign }}</td>
+					<td><label for="set_colorMission6Foreign">{{ LNG.type_mission_6_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission6Foreign" value="{{ colors.colorMission6Foreign }}" basecolor="{{ defaultColors.colorMission6Foreign }}">
+							<input id="set_colorMission6Foreign" type="color" name="colorMission6Foreign" value="{{ colors.colorMission6Foreign }}" basecolor="{{ defaultColors.colorMission6Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_7_foreign }}</td>
+					<td><label for="set_colorMission7Foreign">{{ LNG.type_mission_7_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission7Foreign" value="{{ colors.colorMission7Foreign }}" basecolor="{{ defaultColors.colorMission7Foreign }}">
+							<input id="set_colorMission7Foreign" type="color" name="colorMission7Foreign" value="{{ colors.colorMission7Foreign }}" basecolor="{{ defaultColors.colorMission7Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_8_foreign }}</td>
+					<td><label for="set_colorMission8Foreign">{{ LNG.type_mission_8_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission8Foreign" value="{{ colors.colorMission8Foreign }}" basecolor="{{ defaultColors.colorMission8Foreign }}">
-							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
-						</span>
-					</td>
-				</tr>
-				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_9_foreign }}</td>
-					<td>
-						<span class="control-group">
-							<input type="color" name="colorMission9Foreign" value="{{ colors.colorMission9Foreign }}" basecolor="{{ defaultColors.colorMission9Foreign }}">
+							<input id="set_colorMission8Foreign" type="color" name="colorMission8Foreign" value="{{ colors.colorMission8Foreign }}" basecolor="{{ defaultColors.colorMission8Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_10_foreign }}</td>
+					<td><label for="set_colorMission9Foreign">{{ LNG.type_mission_9_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission10Foreign" value="{{ colors.colorMission10Foreign }}" basecolor="{{ defaultColors.colorMission10Foreign }}">
+							<input id="set_colorMission9Foreign" type="color" name="colorMission9Foreign" value="{{ colors.colorMission9Foreign }}" basecolor="{{ defaultColors.colorMission9Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_15_foreign }}</td>
+					<td><label for="set_colorMission10Foreign">{{ LNG.type_mission_10_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission15Foreign" value="{{ colors.colorMission15Foreign }}" basecolor="{{ defaultColors.colorMission15Foreign }}">
+							<input id="set_colorMission10Foreign" type="color" name="colorMission10Foreign" value="{{ colors.colorMission10Foreign }}" basecolor="{{ defaultColors.colorMission10Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_16_foreign }}</td>
+					<td><label for="set_colorMission15Foreign">{{ LNG.type_mission_15_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission16Foreign" value="{{ colors.colorMission16Foreign }}" basecolor="{{ defaultColors.colorMission16Foreign }}">
+							<input id="set_colorMission15Foreign" type="color" name="colorMission15Foreign" value="{{ colors.colorMission15Foreign }}" basecolor="{{ defaultColors.colorMission15Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_17_foreign }}</td>
+					<td><label for="set_colorMission16Foreign">{{ LNG.type_mission_16_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMission17Foreign" value="{{ colors.colorMission17Foreign }}" basecolor="{{ defaultColors.colorMission17Foreign }}">
+							<input id="set_colorMission16Foreign" type="color" name="colorMission16Foreign" value="{{ colors.colorMission16Foreign }}" basecolor="{{ defaultColors.colorMission16Foreign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-2">
-					<td>{{ LNG.type_mission_return_foreign }}</td>
+					<td><label for="set_colorMission17Foreign">{{ LNG.type_mission_17_foreign }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorMissionReturnForeign" value="{{ colors.colorMissionReturnForeign }}" basecolor="{{ defaultColors.colorMissionReturnForeign }}">
+							<input id="set_colorMission17Foreign" type="color" name="colorMission17Foreign" value="{{ colors.colorMission17Foreign }}" basecolor="{{ defaultColors.colorMission17Foreign }}">
+							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
+						</span>
+					</td>
+				</tr>
+				<tr class="hidden custom-colors-options-2">
+					<td><label for="set_colorMissionReturnForeign">{{ LNG.type_mission_return_foreign }}</label></td>
+					<td>
+						<span class="control-group">
+							<input id="set_colorMissionReturnForeign" type="color" name="colorMissionReturnForeign" value="{{ colors.colorMissionReturnForeign }}" basecolor="{{ defaultColors.colorMissionReturnForeign }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
@@ -467,49 +483,49 @@
 					<th colspan="2" data-action="toggle-rows" data-target="custom-colors-options-3" class="clickable"><span id="custom-colors-options-3-toggle">▲</span> {{ LNG.general_colors }}</th>
 				</tr>
 				<tr class="hidden custom-colors-options-3">
-					<td>{{ LNG.positiv }}</td>
+					<td><label for="set_colorPositive">{{ LNG.positiv }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorPositive" value="{{ signalColors.colorPositive }}" basecolor="{{ defaultSignalColors.colorPositive }}">
+							<input id="set_colorPositive" type="color" name="colorPositive" value="{{ signalColors.colorPositive }}" basecolor="{{ defaultSignalColors.colorPositive }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-3">
-					<td>{{ LNG.negativ }}</td>
+					<td><label for="set_colorNegative">{{ LNG.negativ }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorNegative" value="{{ signalColors.colorNegative }}" basecolor="{{ defaultSignalColors.colorNegative }}">
+							<input id="set_colorNegative" type="color" name="colorNegative" value="{{ signalColors.colorNegative }}" basecolor="{{ defaultSignalColors.colorNegative }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-3">
-					<td>{{ LNG.neutral }}</td>
+					<td><label for="set_colorNeutral">{{ LNG.neutral }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorNeutral" value="{{ signalColors.colorNeutral }}" basecolor="{{ defaultSignalColors.colorNeutral }}">
+							<input id="set_colorNeutral" type="color" name="colorNeutral" value="{{ signalColors.colorNeutral }}" basecolor="{{ defaultSignalColors.colorNeutral }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 				<tr class="hidden custom-colors-options-3">
-					<td>{{ LNG.StaticTimer }}</td>
+					<td><label for="set_colorStaticTimer">{{ LNG.StaticTimer }}</label></td>
 					<td>
 						<span class="control-group">
-							<input type="color" name="colorStaticTimer" value="{{ colors.colorStaticTimer }}" basecolor="{{ defaultColors.colorStaticTimer }}">
+							<input id="set_colorStaticTimer" type="color" name="colorStaticTimer" value="{{ colors.colorStaticTimer }}" basecolor="{{ defaultColors.colorStaticTimer }}">
 							<button data-action="reset-color" type="button">{{ LNG['nt_reset'] }}</button>
 						</span>
 					</td>
 				</tr>
 
 				<tr>
-					<th colspan="2" data-action="toggle-rows" data-target="custom-mission-prio" class="clickable"><span id="custom-mission-prio-toggle">▲</span> {{ LNG.fleetPrio }}</th>
+					<th colspan="2" id="sec-fleet" data-action="toggle-rows" data-target="custom-mission-prio" class="clickable"><span id="custom-mission-prio-toggle">▲</span> {{ LNG.fleetPrio }}</th>
 				</tr>
 				{% for ID, score in missionPrios|default([]) %}
 					<tr class="hidden custom-mission-prio">
-						<td>{{ LNG[ID] }}</td>
-						<td><input min="0" max="99" type="number" name="{{ ID }}" value="{{ score }}"></td>
+						<td><label for="prio_{{ ID }}">{{ LNG[ID] }}</label></td>
+						<td><input id="prio_{{ ID }}" min="0" max="99" type="number" name="{{ ID }}" value="{{ score }}"></td>
 					</tr>
 				{% endfor %}
 
@@ -517,76 +533,68 @@
 					<th colspan="2">Scavengers Toolbox{% if game_config('userscripts_url') %} <a href="{{ game_config('userscripts_url')|e('html_attr') }}" target="_blank" rel="noopener">❓ FAQ ❓</a>{% endif %}</th>
 				</tr>
 				<tr>
-					<td>{{ LNG.stb_activ }}</td>
+					<td><label for="set_stb_enabled">{{ LNG.stb_activ }}</label></td>
 					<td>
-						<input name="stb_enabled" type="checkbox" value="1" {% if stb_enabled == 1 %}checked="checked" {% endif %}>
+						<input id="set_stb_enabled" name="stb_enabled" type="checkbox" value="1" {% if stb_enabled == 1 %}checked="checked" {% endif %}>
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_small_ress"><a title="{{ LNG.stb_low_ress_tooltip }}">{{ LNG.stb_low_ress }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_low_ress_tooltip }}">{{ LNG.stb_low_ress }}</a>
-					</td>
-					<td>
-						<input name="stb_small_ress" value="{{ stb_small_ress }}" type="number">
+						<input id="set_stb_small_ress" name="stb_small_ress" value="{{ stb_small_ress }}" type="number">
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_med_ress"><a title="{{ LNG.stb_mid_ress_tooltip }}">{{ LNG.stb_mid_ress }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_mid_ress_tooltip }}">{{ LNG.stb_mid_ress }}</a>
-					</td>
-					<td>
-						<input name="stb_med_ress" value="{{ stb_med_ress }}" type="number">
+						<input id="set_stb_med_ress" name="stb_med_ress" value="{{ stb_med_ress }}" type="number">
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_big_ress"><a title="{{ LNG.stb_big_ress_tooltip }}">{{ LNG.stb_big_ress }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_big_ress_tooltip }}">{{ LNG.stb_big_ress }}</a>
-					</td>
-					<td>
-						<input name="stb_big_ress" value="{{ stb_big_ress }}" type="number">
+						<input id="set_stb_big_ress" name="stb_big_ress" value="{{ stb_big_ress }}" type="number">
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_small_time"><a title="{{ LNG.stb_small_time_tooltip }}">{{ LNG.stb_small_time }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_small_time_tooltip }}">{{ LNG.stb_small_time }}</a>
-					</td>
-					<td>
-						<input name="stb_small_time" value="{{ stb_small_time }}" type="number">
+						<input id="set_stb_small_time" name="stb_small_time" value="{{ stb_small_time }}" type="number">
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_med_time"><a title="{{ LNG.stb_med_time_tooltip }}">{{ LNG.stb_med_time }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_med_time_tooltip }}">{{ LNG.stb_med_time }}</a>
-					</td>
-					<td>
-						<input name="stb_med_time" value="{{ stb_med_time }}" type="number">
+						<input id="set_stb_med_time" name="stb_med_time" value="{{ stb_med_time }}" type="number">
 					</td>
 				</tr>
 				<tr>
+					<td><label for="set_stb_big_time"><a title="{{ LNG.stb_big_time_tooltip }}">{{ LNG.stb_big_time }}</a></label></td>
 					<td>
-						<a title="{{ LNG.stb_big_time_tooltip }}">{{ LNG.stb_big_time }}</a>
-					</td>
-					<td>
-						<input name="stb_big_time" value="{{ stb_big_time }}" type="number">
+						<input id="set_stb_big_time" name="stb_big_time" value="{{ stb_big_time }}" type="number">
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" class="form-actions"><input value="{{ LNG.op_save_changes }}" type="submit"></td>
-				</tr>
-			</form>
-
+					</tbody>
+	</table>
+	<div class="settings-save">
+		<span class="hint">{{ LNG.op_save_hint }}</span>
+		<input value="{{ LNG.op_save_changes }}" type="submit" class="btn--primary">
+	</div>
+	</form>
+	<table class="form-table danger-zone" id="danger">
+		<tbody>
 			<tr>
 				<th colspan="2">{{ LNG.op_vacation_delete_mode }}</th>
 			</tr>
 			<tr>
 				<td class="ctr">
 					<form action="{{ path('game_settings_toggle_vacation') }}" method="post">
-						<input name="vacation" type="submit" value="{{ LNG.op_activate_vacation_mode }}" data-confirm="{{ LNG.op_activate_vacation_mode_confirm|e('html_attr') }}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_activate_vacation_mode_descrip }}">
+						<input name="vacation" type="submit" class="btn--danger" value="{{ LNG.op_activate_vacation_mode }}" data-confirm="{{ LNG.op_activate_vacation_mode_confirm|e('html_attr') }}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_activate_vacation_mode_descrip }}">
 					</form>
 				</td>
 				<td class="ctr">
 					<form action="{{ path('game_settings_toggle_delete') }}" method="post">
-						<input name="delete" type="submit" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}"> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_dlte_account_descrip }}">
+						<input name="delete" type="submit" class="btn--danger" value="{% if delete %}{{ LNG.op_stop_dlte_account }}{% else %}{{ LNG.op_dlte_account }}{% endif %}"{% if not delete %} data-confirm-danger data-confirm="{{ LNG.op_dlte_account_confirm|e('html_attr') }}"{% endif %}> <img src="./styles/resource/images/admin/i.webp" width="16" height="16" alt="" class="inline tooltip" data-tooltip-content="{{ LNG.op_dlte_account_descrip }}">
 					</form>
 				</td>
 			</tr>

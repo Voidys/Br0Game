@@ -9,9 +9,9 @@
 		<div class="prod-head">
 			<h2>{{ header }}</h2>
 			<div class="prod-actions">
-				<button type="button" data-prod-all="10">{{ LNG.rs_ramp_up }}</button>
-				<button type="button" data-prod-all="0">{{ LNG.rs_shut_down }}</button>
-				<input value="{{ LNG.rs_calculate }}" type="submit">
+				<button type="button" data-prod-all="10" data-confirm="{{ LNG.rs_ramp_up_confirm|e('html_attr') }}">{{ LNG.rs_ramp_up }}</button>
+				<button type="button" data-prod-all="0" data-confirm="{{ LNG.rs_shut_down_confirm|e('html_attr') }}" data-confirm-danger>{{ LNG.rs_shut_down }}</button>
+				<input value="{{ LNG.rs_calculate }}" type="submit" id="prod-save">
 			</div>
 		</div>
 		<div class="table-scroll">
@@ -75,6 +75,14 @@
 					<td class="num res-energy">-</td>
 					<td class="act"></td>
 				</tr>
+				<tr class="prod-storage">
+					<td>{{ LNG.rs_full_in }}</td>
+					{% for resId, cls in {901: 'res-metal', 902: 'res-crystal', 903: 'res-deuterium'} %}
+						<td class="num {{ cls }}">{% if fullIn[resId] is same as(0) %}<span class="colorNegative">{{ LNG.rs_full_now }}</span>{% elseif fullIn[resId] is null %}-{% else %}{{ getRestTimeFormat(fullIn[resId], true) }}{% endif %}</td>
+					{% endfor %}
+					<td class="num res-energy">-</td>
+					<td class="act"></td>
+				</tr>
 				<tr class="prod-total prod-sep">
 					<td>{{ LNG.rs_sum }}:</td>
 					<td class="num res-metal">{{ _self.val(totalProduction[901]) }}</td>
@@ -102,6 +110,7 @@
 			</tbody>
 		</table>
 		</div>
+		{% if totalProduction[911] < 0 %}<p class="reason reason--bad">{{ LNG.rs_energy_deficit }}</p>{% endif %}
 	</form>
 	<script type="module" src="./scripts/game/resources.js?v={{ asset_version }}"></script>
 {% endblock %}

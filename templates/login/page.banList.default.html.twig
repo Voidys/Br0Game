@@ -3,7 +3,7 @@
 {% block title %}{{ LNG.siteTitleBanList }}{{ parent() }}{% endblock %}
 {% block content %}
 {% if isMultiUniverse %}
-  <p>{{ forms.html_options({'options': universeSelect, 'selected': UNI, 'class': "changeUni", 'id': "universe", 'name': "universe"}) }}</p>
+  <p><label for="universe">{{ LNG.universe }}</label> {{ forms.html_options({'options': universeSelect, 'selected': UNI, 'class': "changeUni", 'id': "universe", 'name': "universe"}) }}</p>
 {% endif %}
 {% set pager %}
   <nav class="pager" aria-label="{{ LNG.mg_page }}">

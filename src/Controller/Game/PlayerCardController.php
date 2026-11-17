@@ -43,7 +43,8 @@ class PlayerCardController extends AbstractGameController
     {
         $USER = $this->state->USER;
         $LNG = $this->state->LNG;
-        $this->setWindow('popup');
+        // dialog request (ajax): bare card; opened directly (middle click, link): inside the game shell
+        $this->setWindow($this->state->runtime->ajax ? 'popup' : 'full');
 
         $PlayerID 	= $this->input()->int('id');
 

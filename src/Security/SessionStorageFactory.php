@@ -21,6 +21,7 @@ final class SessionStorageFactory implements SessionStorageFactoryInterface
         private readonly SessionPolicy $policy,
     ) {}
 
+    /** The native storage of the decorated factory with gc_maxlifetime set to the idle limit of SessionPolicy. */
     public function createStorage(?Request $request): SessionStorageInterface
     {
         $storage = $this->inner->createStorage($request);

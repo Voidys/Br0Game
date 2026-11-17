@@ -8,21 +8,21 @@
 		<th colspan="2">{{ LNG.al_diplo_create }}</th>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_diplo_ally }}</td>
-		<td>{{ forms.html_options({'name': "ally_id", 'values': IdList, 'output': AllyList}) }}</td>
+		<td><label for="d_ally_id">{{ LNG.al_diplo_ally }}</label></td>
+		<td>{{ forms.html_options({'id': "d_ally_id", 'name': "ally_id", 'values': IdList, 'output': AllyList}) }}</td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_diplo_level_des }}</td>
+		<td><label for="d_level">{{ LNG.al_diplo_level_des }}</label></td>
 		{% if diploMode == constant('App\\Game\\Enum\\DiploType::Peace').value %}
-			<td>{{ forms.html_options({'name': "level", 'values': range(7, 7), 'output': diploLevel, 'selected': diploMode}) }}</td>
+			<td>{{ forms.html_options({'id': "d_level", 'name': "level", 'values': range(7, 7), 'output': diploLevel, 'selected': diploMode}) }}</td>
 		{% else %}
-			<td>{{ forms.html_options({'name': "level", 'values': range(1, 6), 'output': diploLevel, 'selected': diploMode}) }}</td>
+			<td>{{ forms.html_options({'id': "d_level", 'name': "level", 'values': range(1, 6), 'output': diploLevel, 'selected': diploMode}) }}</td>
 		{% endif %}
 	</tr>
 	<tr>
-		<td>{{ LNG.al_diplo_text }}<br>(<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
+		<td><label for="d_text">{{ LNG.al_diplo_text }}</label><br>(<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
 		<td>
-			<textarea name="text" rows="10" data-on-keyup="char-count" data-target="cntChars" maxlength="5000"></textarea>
+			<textarea name="text" id="d_text" rows="10" data-on-keyup="char-count" data-target="cntChars" maxlength="5000"></textarea>
 		</td>
 	</tr>
 	<tr>

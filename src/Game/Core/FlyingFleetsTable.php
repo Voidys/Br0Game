@@ -312,6 +312,8 @@ class FlyingFleetsTable
             'text'          => new \Twig\Markup($EventString, 'UTF-8'),
             'returntime'    => $Time,
             'resttime'      => $Rest,
+            // someone else's fleet heading for one of the viewer's planets with a hostile mission (attack, ACS attack, spy, destroy, missile)
+            'hostile'       => $FleetState == 0 && $fleetRow['owner'] != $this->userId && $fleetRow['target_owner'] == $this->userId && in_array((int) $fleetRow['mission'], [1, 2, 6, 9, 10], true),
         ];
     }
 

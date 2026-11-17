@@ -1,6 +1,9 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
+  {% if notice %}
+  <div class="globalWarning" role="alert" id="fleet-notice">{{ icon('triangle-alert') }}<span>{{ notice }}</span></div>
+  {% endif %}
   {# experience points and cargo capacity per ship type for the live sums (scripts/game/fleetTable.js) #}
   {% set ships = [] %}
   {% for elementID, fleetArray in shiptypes %}
@@ -19,7 +22,7 @@
       </th>
     </tr>
     {% if FlyingFleetList %}
-    <tr>
+    <tr class="fleet-head">
       <td class="fleet-col-id ctr">{{ LNG.fl_number }}</td>
       <td class="fleet-col-mission ctr">{{ LNG.fl_mission }}</td>
       <td class="num">{{ LNG.fl_ammount }}</td>
@@ -32,9 +35,9 @@
     </tr>
     {% endif %}
       {% for FlyingFleetRow in FlyingFleetList %}
-        <tr>
+        <tr class="fleet-row">
           <td class="fleet-col-id ctr">{{ loop.index }}</td>
-          <td class="fleet-col-mission ctr">
+          <td class="fleet-col-mission ctr fl-mission">
             {% set tt_res %}<table class='tt-fleet-res'><tr><td>{{ LNG['tech'][901] }}</td><td>{{ FlyingFleetRow.metal }}</td></tr><tr><td>{{ LNG['tech'][902] }}</td><td>{{ FlyingFleetRow.crystal }}</td></tr><tr><td>{{ LNG['tech'][903] }}</td><td>{{ FlyingFleetRow.deuterium }}</td></tr></table>{% endset %}
             <a
               data-tooltip-content="{{ tt_res|e('html_attr') }}"
@@ -50,29 +53,29 @@
               {% endif %}
           </td>
           {% set tt_ships %}<table><tr><th colspan='2' class='text-center'>{{ LNG.fl_info_detail }}</th></tr>{% for shipID, shipCount in FlyingFleetRow.FleetList %}<tr><td class='transparent'>{{ LNG.tech[shipID] }}:</td><td class='transparent'>{{ shipCount }}</td></tr>{% endfor %}</table>{% endset %}
-          <td class="num"><a class="tooltip_sticky"
+          <td class="num fl-amount" data-label="{{ LNG.fl_ammount }}"><a class="tooltip_sticky"
                  data-tooltip-content="{{ tt_ships|e('html_attr') }}">{{ FlyingFleetRow.amount }}</a>
           </td>
-          <td class="ctr"><a
+          <td class="ctr fl-from" data-label="{{ LNG.fl_beginning }}"><a
               href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.startGalaxy, system: FlyingFleetRow.startSystem}) }}">[{{ FlyingFleetRow.startGalaxy }}:{{ FlyingFleetRow.startSystem }}:{{ FlyingFleetRow.startPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.startType}"] }})</a></td>
-          <td class="ctr{% if FlyingFleetRow.state == 0 %} fleet-active-time{% endif %}">{{ FlyingFleetRow.startTime }}</td>
-          <td class="ctr"><a
+          <td class="ctr fl-dep{% if FlyingFleetRow.state == 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_departure }}">{{ FlyingFleetRow.startTime }}</td>
+          <td class="ctr fl-to" data-label="{{ LNG.fl_destiny }}"><a
               href="{{ path('game_galaxy_show', {galaxy: FlyingFleetRow.endGalaxy, system: FlyingFleetRow.endSystem}) }}">[{{ FlyingFleetRow.endGalaxy }}:{{ FlyingFleetRow.endSystem }}:{{ FlyingFleetRow.endPlanet }}]({{ LNG["type_planet_short_#{FlyingFleetRow.endType}"] }})</a></td>
             {% if FlyingFleetRow.mission == 4 and FlyingFleetRow.state == 0 %}
-              <td class="ctr">-</td>
+              <td class="ctr fl-arr" data-label="{{ LNG.fl_arrival }}">-</td>
             {% else %}
-              <td class="ctr{% if FlyingFleetRow.state != 0 %} fleet-active-time{% endif %}">{{ FlyingFleetRow.endTime }}</td>
+              <td class="ctr fl-arr{% if FlyingFleetRow.state != 0 %} fleet-active-time{% endif %}" data-label="{{ LNG.fl_arrival }}">{{ FlyingFleetRow.endTime }}</td>
             {% endif %}
-          <td id="fleettime_{{ loop.index }}" class="fleets ctr"
+          <td id="fleettime_{{ loop.index }}" class="fleets ctr fl-time" data-label="{{ LNG.fl_objective }}"
               data-fleet-end-time="{{ FlyingFleetRow.returntime }}"
               data-fleet-time="{{ FlyingFleetRow.resttime }}">{{ getRestTimeFormat(FlyingFleetRow.resttime) }}</td>
-          <td class="act">
+          <td class="act fl-act">
               {% if not isVacation and FlyingFleetRow.state != 1 and FlyingFleetRow.no_returnable != 1 %}
                 <form action="{{ path('game_fleet_table_recall') }}" method="post">
                   <input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
-                  <input value="{{ LNG.fl_send_back }}" type="submit">
+                  <input value="{{ LNG.fl_send_back }}" type="submit" data-confirm="{{ LNG.fl_recall_confirm|replace({'%s': FlyingFleetRow.recallTime})|e('html_attr') }}" data-confirm-tpl="{{ LNG.fl_recall_confirm|e('html_attr') }}">
                 </form>
-                <span class="aborttime" starttime="{{ FlyingFleetRow.startTimestamp }}"></span>
+                <span class="aborttime" title="{{ LNG.fl_recall_return }}" starttime="{{ FlyingFleetRow.startTimestamp }}"></span>
                   {% if FlyingFleetRow.mission == 1 %}
                     <form action="{{ path('game_fleet_table_acs') }}" method="post">
                       <input name="fleetID" value="{{ FlyingFleetRow.id }}" type="hidden">
@@ -87,7 +90,7 @@
         </tr>
           {% else %}
         <tr>
-          <td colspan="9" class="ctr">-</td>
+          <td colspan="9"><div class="empty-state empty-state--inline">{{ icon('rocket') }}<p>{{ LNG.fl_no_fleets }}</p></div></td>
         </tr>
       {% endfor %}
       {% if maxFleetSlots == activeFleetSlots %}
@@ -100,60 +103,66 @@
     {% if acsData %}
         {% include 'game/shared.fleetTable.acsTable.html.twig' %}
     {% endif %}
-  <form action="{{ path('game_fleet_step1_show') }}" method="post">
+  <form action="{{ path('game_fleet_step1_show') }}" method="post" id="fleet-form" data-on-submit="fleet-validate" data-empty-msg="{{ LNG.fl_no_ship_selected|e('html_attr') }}">
     <input type="hidden" name="galaxy" value="{{ targetGalaxy }}">
     <input type="hidden" name="system" value="{{ targetSystem }}">
     <input type="hidden" name="planet" value="{{ targetPlanet }}">
     <input type="hidden" name="type" value="{{ targetType }}">
     <input type="hidden" name="target_mission" value="{{ targetMission }}">
-    <table>
+    <table class="fleet-select">
       <tr>
-        <th colspan="3">{{ LNG.fl_new_mission_title }}</th>
+        <th colspan="5">{{ LNG.fl_new_mission_title }}{% if targetMission > 0 %}: {{ LNG["type_mission_#{targetMission}"] }} [{{ targetGalaxy }}:{{ targetSystem }}:{{ targetPlanet }}]{% endif %}</th>
       </tr>
-      <tr>
-        <td>{{ LNG.fl_ship_type }}</td>
-        <td class="num">{{ LNG.fl_ship_available }}</td>
-        <td class="num">{% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|trim('/', 'right')|e('html_attr') }}/wiki/{% if lang != 'de' and lang != 'of' and lang != 'pi' %}En/{% endif %}Expeditionen" class="tooltip url" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</a>{% else %}<span class="tooltip" data-tooltip-content='{{ LNG.fl_expocap_explain }}' id="expocount" expocap="{{ maxExpo }}">-</span>{% endif %}</td>
+      <tbody id="ship-rows">
+      <tr class="fleet-select__head">
+        <td aria-sort="none"><button type="button" class="link sort-link" data-action="sort-ships" data-key="name">{{ LNG.fl_ship_type }}</button></td>
+        <td class="num fl-col-speed" aria-sort="none"><button type="button" class="link sort-link" data-action="sort-ships" data-key="speed">{{ LNG.fl_max_speed }}</button></td>
+        <td class="num fl-col-cap" aria-sort="none"><button type="button" class="link sort-link" data-action="sort-ships" data-key="cap">{{ LNG.fl_cargo_capacity }}</button></td>
+        <td class="num" aria-sort="none"><button type="button" class="link sort-link" data-action="sort-ships" data-key="count">{{ LNG.fl_ship_available }}</button></td>
+        <td class="num fl-col-exp">{% if game_config('wiki_url') %}<a{% if targetMission > 0 and targetMission != 15 %} hidden{% endif %} href="{{ game_config('wiki_url')|trim('/', 'right')|e('html_attr') }}/wiki/{% if lang != 'de' and lang != 'of' and lang != 'pi' %}En/{% endif %}Expeditionen" class="tooltip url" data-tooltip-content="{{ LNG.fl_expocap_explain|e('html_attr') }}" id="expocount" expocap="{{ maxExpo }}">-</a>{% else %}<span{% if targetMission > 0 and targetMission != 15 %} hidden{% endif %} class="tooltip" data-tooltip-content="{{ LNG.fl_expocap_explain|e('html_attr') }}" id="expocount" expocap="{{ maxExpo }}">-</span>{% endif %}</td>
       </tr>
         {% for FleetRow in FleetsOnPlanet %}
-          <tr>
-            <td>{% if FleetRow.speed != 0 %}{% set tt_speed %}<table><tr><td>{{ LNG.fl_speed_title }}</td><td>{{ FleetRow.speed }}</td></tr></table>{% endset %} <a class='tooltip'
-                                             data-tooltip-content="{{ tt_speed|e('html_attr') }}">{{ LNG.tech[FleetRow.id] }}</a>{% else %}{{ LNG.tech[FleetRow.id] }}{% endif %}
-            </td>
+          <tr class="ship-row" data-name="{{ LNG.tech[FleetRow.id] }}" data-count="{{ FleetRow.count }}" data-speed="{{ FleetRow.speed }}" data-cap="{{ shiptypes[FleetRow.id].capacity|default(0) }}">
+            <td>{{ LNG.tech[FleetRow.id] }}{% if FleetRow.speed != 0 %}<span class="ship-meta"><span title="{{ LNG.fl_max_speed }}">{{ icon('rocket') }} {{ pretty_number(FleetRow.speed) }}</span> <span title="{{ LNG.fl_cargo_capacity }}">{{ icon('truck') }} {{ pretty_number(shiptypes[FleetRow.id].capacity|default(0)) }}</span></span>{% endif %}</td>
+            <td class="num fl-col-speed">{% if FleetRow.speed != 0 %}{{ pretty_number(FleetRow.speed) }}{% else %}-{% endif %}</td>
+            <td class="num fl-col-cap">{{ pretty_number(shiptypes[FleetRow.id].capacity|default(0)) }}</td>
             <td class="num" id="ship{{ FleetRow.id }}_value" data-count="{{ FleetRow.count }}">{{ pretty_number(FleetRow.count) }}</td>
             <td class="num">
               {% if FleetRow.speed != 0 %}
                 <span class="control-group">
-                  <a href="#" data-action="no-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_null }}</a>
-                  <input type="number" name="ship{{ FleetRow.id }}" id="ship{{ FleetRow.id }}_input" value="0" class="fleet-amount">
-                  <a href="#" data-action="max-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_max }}</a>
+                  <button type="button" class="link" data-action="no-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_null }}</button>
+                  <input type="number" name="ship{{ FleetRow.id }}" id="ship{{ FleetRow.id }}_input" value="0" min="0" class="fleet-amount" aria-label="{{ LNG.tech[FleetRow.id] }}">
+                  <button type="button" class="link" data-action="max-ship" data-ship="ship{{ FleetRow.id }}">{{ LNG.fl_max }}</button>
                 </span>
               {% endif %}
             </td>
           </tr>
         {% endfor %}
+      </tbody>
       <tr>
+        <td colspan="5"><div class="fleet-select__foot">
+          <span id="cargospace" data="{{ LNG['in_capacity'] }}">&nbsp;</span>
           {% if FleetsOnPlanet|length == 0 %}
-            <td id="cargospace" data="{{ LNG['in_capacity'] }}">&nbsp;</td>
-            <td colspan="2" class="num">{{ LNG.fl_no_ships }}</td>
+            <span>{{ LNG.fl_no_ships }}</span>
           {% else %}
-            <td id="cargospace" colspan="2" data="{{ LNG['in_capacity'] }}">&nbsp;</td>
-            <td class="num">
-              <span class="control-group">
-                <a href="#" data-action="no-ships">{{ LNG.fl_remove_all_ships }}</a>
-                <a href="#" data-action="max-ships">{{ LNG.fl_select_all_ships }}</a>
-              </span>
-            </td>
+            <span class="control-group">
+              <button type="button" class="link" data-action="no-ships">{{ LNG.fl_remove_all_ships }}</button>
+              <button type="button" class="link" data-action="max-ships">{{ LNG.fl_select_all_ships }}</button>
+            </span>
           {% endif %}
+        </div></td>
       </tr>
-      <tr><td id="customfleets" colspan="3"></td></tr>
+      <tr><td colspan="5" class="quick-fleets"><span class="quick-fleets__label">{{ LNG.fl_quick_fleets }}</span> <span id="customfleets" class="quick-fleets__list"></span><span id="customfleets-hint" class="hint" hidden>{{ LNG.fl_quick_fleets_hint }}</span></td></tr>
         {% if maxFleetSlots != activeFleetSlots %}
       <tr>
-        <td colspan="3" class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></td>
+        <td colspan="5" class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></td>
       </tr>
         {% endif %}
     </table>
     <table>
+      <tr>
+        <th colspan="3">{{ LNG.fl_resources }}</th>
+      </tr>
       <tr>
         <td>{{ LNG['tech'][901] }}</td>
         <td>{{ LNG['tech'][902] }}</td>
@@ -161,17 +170,19 @@
       </tr>
       <tr>
         <td><input name="met_storage"
-                   type="number" class="fleet-amount fleet-amount--fill"
-                   placeholder="{{ LNG['tech'][901] }}"></td>
-        <td><input name="krist_storage" type="number" class="fleet-amount fleet-amount--fill"
-                   placeholder="{{ LNG['tech'][902] }}"></td>
-        <td><input name="deut_storage" type="number" class="fleet-amount fleet-amount--fill"
-                   placeholder="{{ LNG['tech'][903] }}"></td>
+                   type="number" min="0" class="fleet-amount fleet-amount--fill"
+                   placeholder="0" aria-label="{{ LNG['tech'][901] }}"></td>
+        <td><input name="krist_storage" type="number" min="0" class="fleet-amount fleet-amount--fill"
+                   placeholder="0" aria-label="{{ LNG['tech'][902] }}"></td>
+        <td><input name="deut_storage" type="number" min="0" class="fleet-amount fleet-amount--fill"
+                   placeholder="0" aria-label="{{ LNG['tech'][903] }}"></td>
       </tr>
       <tr>
         <td colspan="3" class="ctr">
           <button type="button" id="gt_select">{{ LNG['tech'][203] }}<span id="gt_amt"></span></button>
           <button type="button" id="kt_select">{{ LNG['tech'][202] }}<span id="kt_amt"></span></button>
+          <button type="button" class="link" data-action="clear-resources">{{ LNG.fl_load_clear }}</button>
+          <span class="hint">{{ LNG.fl_load_hint }}</span>
         </td>
       </tr>
     </table>
@@ -210,10 +221,12 @@
             </td>
           </tr>
       {% endfor %}
+    </tbody>
   </table>
+  <p class="hint">{{ LNG.fl_cargo_options_hint }}</p>
   </div>
   <br>
-  <table>
+  <table class="fleet-bonus">
     <tr>
       <th colspan="3">{{ LNG.fl_bonus }}</th>
     </tr>

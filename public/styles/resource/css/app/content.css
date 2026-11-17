@@ -96,7 +96,7 @@ textarea {
 }
 
 .unavailable {
-	opacity: 0.5;
+	opacity: 0.8; /* dimmed, but text stays above 4.5:1 on the dark themes (A-41) */
 }
 
 .textForBlind {
@@ -289,8 +289,21 @@ textarea {
 }
 
 .spyRaportFooter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
 	text-align: center;
 	padding-block-start: 0.5rem;
+}
+
+.spy-footer-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+
+	& .button { text-decoration: none; }
 }
 
 .spy-report-collapsible {
@@ -362,7 +375,7 @@ textarea {
 }
 
 .repairShipHeader {
-	border-radius: 0.9375rem 0.9375rem 0 0;
+	border-radius: var(--radius) var(--radius) 0 0;
 	padding: 0.375rem;
 	overflow: auto;
 	background: #256b99;
@@ -395,7 +408,7 @@ textarea {
 .tutorial {
 	background-color: #0e754281;
 	text-align: center;
-	border-radius: 0 0 0.9375rem 0.9375rem;
+	border-radius: 0 0 var(--radius) var(--radius);
 	padding: 0.3125rem 1.25rem;
 	overflow: auto;
 	block-size: auto;
@@ -407,7 +420,7 @@ textarea {
 .tutorial-header {
 	background-color: #032514;
 	text-align: center;
-	border-radius: 0.9375rem 0.9375rem 0 0;
+	border-radius: var(--radius) var(--radius) 0 0;
 	margin-block-start: 0.625rem;
 	padding: 0.3125rem;
 	cursor: pointer;
@@ -460,7 +473,7 @@ textarea {
 
 @container (max-width: 44rem) {
 	.msg-cats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-	.msg-cat { min-height: 2.75rem; padding: 0.25rem; font-size: 0.85em; }
+	.msg-cat { min-height: 2.75rem; padding: 0.25rem; font-size: var(--fs-sm); }
 }
 
 .msg-cat {
@@ -486,7 +499,7 @@ textarea {
 }
 
 .msg-cat__count {
-	font-size: 0.85em;
+	font-size: var(--fs-sm);
 	font-variant-numeric: tabular-nums;
 
 	& b { font-weight: normal; }
@@ -499,7 +512,7 @@ textarea {
 	justify-content: center;
 	gap: 0.25rem 1.25rem;
 	margin-block: 0.5rem 0.75rem;
-	font-size: 0.9em;
+	font-size: var(--fs-sm);
 
 	& label { display: inline-flex; align-items: center; gap: 0.25rem; cursor: pointer; }
 }
@@ -570,7 +583,7 @@ textarea {
 .message-subject { grid-area: subj; font-weight: bold; overflow-wrap: anywhere; }
 .message-head .spy-report-collapsed-title { grid-row: 1; grid-column: from-start / subj-end; padding: 0; }
 .message-date { grid-area: date; text-align: end; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.message-receiver { grid-column: from-start / -1; font-size: 0.9em; opacity: 0.8; }
+.message-receiver { grid-column: from-start / -1; font-size: var(--fs-sm); opacity: 0.8; }
 .message-fw { color: #FF6699; }
 
 .message-tools {
@@ -589,7 +602,7 @@ textarea {
 	gap: 0.125rem;
 	color: red;
 	font-weight: bold;
-	font-size: 0.85em;
+	font-size: var(--fs-sm);
 	text-transform: uppercase;
 	white-space: nowrap;
 }
@@ -863,80 +876,7 @@ textarea {
 
 /* ------------------------------------------------------------------ responsive */
 
-@media screen and (max-width: 66.875rem) {
-	.galaxy-grid-row {
-		grid-template-columns: 2.5rem 1fr 2.5rem 2.5rem;
-		grid-auto-flow: row;
-
-		&.sync {
-			grid-template-columns: 1fr 1fr 1fr;
-			grid-auto-flow: row;
-
-			& .upload {
-				grid-column: span 3;
-			}
-		}
-
-		&.header .galaxy-grid-header {
-			position: relative;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			color: transparent;
-
-			&::before {
-				content: attr(data-small-text);
-				visibility: visible;
-				position: absolute;
-				inset-inline: 0;
-				text-align: center;
-				color: #fff;
-			}
-		}
-
-		&.empty {
-			& .position {
-				grid-row: span 1;
-			}
-
-			& .galaxy-debris {
-				grid-column: span 1;
-			}
-		}
-	}
-
-	.galaxy-grid-item {
-		text-align: start;
-
-		&.span5 {
-			grid-column: span 3;
-		}
-	}
-
-	.galaxy-grid-header.position,
-	.galaxy-grid-item.position {
-		grid-row: span 2;
-	}
-
-	.galaxy-planet a img,
-	.galaxy-debris a img {
-		inline-size: 1.25rem;
-		block-size: 1.25rem;
-	}
-
-	.galaxy-player {
-		grid-column: span 3;
-	}
-
-	.galaxy-grid-header.galaxy-actions,
-	.galaxy-grid-item.galaxy-actions {
-		display: none;
-	}
-
-	.galaxy-debris-text {
-		display: none;
-	}
-}
+/* galaxy grid on narrow viewports: see tables-forms.css (galaxy: grid) */
 
 @media screen and (min-width: 43.75rem) and (max-width: 60.5625rem) {
 	.tutorial {
@@ -1090,7 +1030,7 @@ textarea {
 	background-color: black;
 	color: #fff;
 	text-align: center;
-	border-radius: 6px;
+	border-radius: var(--radius-sm);
 	padding: 5px 0;
 	position: absolute;
 	z-index: 1;
@@ -1253,8 +1193,11 @@ textarea {
 .tt-galaxy-label { width: 13.75rem; }
 
 /* fleet dealer */
-.fleet-dealer-pick { padding: 0.3125rem; }
-.fleet-dealer-body { clear: right; margin-top: 1.25rem; margin-left: 7.8125rem; }
+.fleet-dealer-grid { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.75rem 1.25rem; align-items: start; }
+.fleet-dealer-grid img { inline-size: 6rem; block-size: 6rem; object-fit: cover; }
+.fleet-dealer-pick { margin-block-start: 0; }
+.fleet-dealer-body p { margin-block: 0 0.625rem; }
+@media (max-width: 40rem) { .fleet-dealer-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* shipyard / repair dock: info box, wreck list link */
 .repair-infobox { border: 0.125rem solid red; text-align: center; background: transparent; padding: 0.3125rem; margin: 0 0 1rem; }
@@ -1330,7 +1273,7 @@ textarea {
 	padding: 0.375rem 0.75rem;
 	border: 0.0625rem solid transparent;
 	border-block-end: 0;
-	border-radius: 0.375rem 0.375rem 0 0;
+	border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 	background: transparent;
 	color: var(--tt-muted);
 	cursor: pointer;
@@ -1360,7 +1303,7 @@ textarea {
 	box-sizing: border-box;
 	padding: 0.25rem 0.125rem;
 	border: 0.0625rem solid var(--tt-line);
-	border-radius: 0.375rem;
+	border-radius: var(--radius-sm);
 	background: var(--tt-card);
 	color: inherit;
 	font: inherit;
@@ -1369,7 +1312,7 @@ textarea {
 	text-align: center;
 	cursor: pointer;
 	user-select: none;
-	& img { display: block; inline-size: 2.25rem; block-size: 2.25rem; border-radius: 0.25rem; object-fit: cover; }
+	& img { display: block; inline-size: 2.25rem; block-size: 2.25rem; border-radius: var(--radius-xs); object-fit: cover; }
 	&:focus-visible { outline: 0.125rem solid var(--tt-accent); outline-offset: 0.125rem; }
 	&[aria-pressed="true"] { border-color: var(--tt-accent); box-shadow: 0 0 0 0.125rem var(--tt-accent); }
 }
@@ -1382,8 +1325,8 @@ textarea {
 	white-space: nowrap;
 	min-inline-size: 1rem;
 	padding: 0 0.1875rem;
-	border-radius: 0.5rem;
-	font-size: 0.625rem;
+	border-radius: var(--radius);
+	font-size: var(--fs-xs);
 	font-weight: bold;
 	line-height: 1rem;
 	font-variant-numeric: tabular-nums;
@@ -1391,10 +1334,11 @@ textarea {
 	color: var(--c-accent-ink, #fff);
 }
 .tt-info { position: absolute; inset-block-start: 0; inset-inline-end: 0; display: flex; padding: 0.125rem; opacity: 0.55; & .icon { inline-size: 0.875rem; block-size: 0.875rem; } &:hover, &:focus-visible { opacity: 1; } }
+@media (pointer: coarse) { .tt-info { padding: 0.5rem; & .icon { inline-size: 1rem; block-size: 1rem; } } }
 .tt-owned .tt-node { border-color: color-mix(in srgb, var(--tt-met) 55%, var(--tt-line)); }
 .tt-available .tt-node { border-color: var(--tt-accent); }
 .tt-locked .tt-node > :not(.tt-info) { opacity: 0.55; }
-.tt-ghost .tt-node { padding: 0.1875rem 0.0625rem; border-style: dashed; font-size: 0.625rem; & img { inline-size: 1.5rem; block-size: 1.5rem; } }
+.tt-ghost .tt-node { padding: 0.1875rem 0.0625rem; border-style: dashed; font-size: var(--fs-xs); & img { inline-size: 1.5rem; block-size: 1.5rem; } }
 .tt-ghost { --tt-cell-w: 4.25rem; }
 .tt-edge { fill: none; stroke-width: 0.0625rem; stroke-linecap: round; opacity: 0.28; }
 .tt-edge.tt-met { stroke: var(--tt-met); }
@@ -1417,7 +1361,7 @@ textarea {
 	margin-block-start: 0.5rem;
 	padding: 0.5rem 0.75rem;
 	border: 0.0625rem solid var(--tt-line);
-	border-radius: 0.375rem;
+	border-radius: var(--radius-sm);
 	background: var(--c-bg-2, #0b111a);
 	font-size: 0.8125rem;
 	& p { margin: 0; }

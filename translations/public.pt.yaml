@@ -143,3 +143,14 @@ home_logged_in_as: Sessão iniciada como %s
 home_continue: Continuar para os teus universos
 home_account_lobby: Lobby da conta
 rulesEmpty: Ainda não foram publicadas regras.
+loginLostPasswordOff: "Esqueceu a senha? %s"
+loginContactTeam: "Fale com a equipe."
+home_step_build: "Construa minas, pesquisa e estaleiros nos seus planetas."
+home_step_fleet: "Envie frotas: explore, comercie, ataque ou defenda."
+home_step_alliance: "Junte-se a uma aliança e suba no ranking."
+home_hof_desc: "Vencedores das rodadas encerradas"
+home_battlehall_desc: "As maiores batalhas da rodada atual"
+memorialFilter: "Batalhas memoriais"
+toc_contents: "Conteúdo"
+loginRememberHint: "Não use em um computador compartilhado."
+home_step_rules: "Leia as %s antes de começar."

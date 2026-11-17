@@ -14,7 +14,7 @@
       {% if fleets is empty %}
         <tbody>
           <tr>
-            <td colspan="5" class="ctr">{{ LNG.depot_empty }}</td>
+            <td colspan="5" class="empty-state">{{ icon('handshake') }}<p>{{ LNG.depot_empty }}</p></td>
           </tr>
         </tbody>
       {% else %}

@@ -1,6 +1,7 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_banned }}{{ parent() }}{% endblock %}
 {% block content %}
+<div class="table-scroll">
 <table>
 	<tr>
 		<th colspan="5">{{ LNG.bn_players_banned_list }}</th>
@@ -33,8 +34,9 @@
 	</tr>
 	{% else %}
 	<tr>
-		<td colspan="5">{{ LNG.bn_no_players_banned }}</td>
-	</tr>	
+		<td colspan="5" class="empty-state-cell"><div class="empty-state"><p>{{ LNG.bn_no_players_banned }}</p></div></td>
+	</tr>
 	{% endif %}
 </table>
+</div>
 {% endblock %}

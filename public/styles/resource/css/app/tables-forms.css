@@ -203,6 +203,18 @@
     > .buildl .control-group { display: flex; inline-size: 100%; }
     > .buildl .control-group input[type="number"] { flex: 1 1 auto; inline-size: auto; min-inline-size: 0; }
     > .buildl input[type="submit"].b { inline-size: 100%; margin-block-start: 0.25rem; }
+    > .buildl .control-group input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+    > .buildl .control-group input[type="number"]::-webkit-inner-spin-button,
+    > .buildl .control-group input[type="number"]::-webkit-outer-spin-button { appearance: none; margin: 0; }
+    > .buildl .max-units { margin: 0.25rem 0 0; font-size: 0.8125rem; }
+    > .buildl .cost-list { display: flex; flex-wrap: wrap; gap: 0.125rem 0.875rem; margin-block-end: 0.375rem; }
+    > .buildl .cost { white-space: nowrap; }
+    > .buildl .reason, > .buildl .hint { margin-block: 0 0.375rem; }
+    > .buildl .reason ~ .build-meta { margin-block-start: 0; }
+    > .buildl .build-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.125rem 0.75rem; margin-block-start: 0.375rem; }
+    > .buildl .build-time { white-space: nowrap; }
+    > .buildl .build-meta__destroy { display: inline-flex; align-items: center; min-block-size: 1.5rem; cursor: pointer; text-decoration: underline; opacity: 0.8; }
+    > .buildl .build-meta__destroy:hover { opacity: 1; }
   }
 
   @media (max-width: 40rem) {
@@ -212,8 +224,94 @@
 
       > .buildn + .buildl img { display: block; inline-size: 4rem; block-size: 4rem; margin-inline-end: 0.5rem; }
       > .buildl + .buildl { padding-block-start: 0; }
+      > .buildl .build-meta__destroy { min-block-size: 2.25rem; }
     }
   }
+
+  /* empire: the matrix is its own scroll box (header row stays, first column stays on phones); folded row groups */
+  .empire-table tr.hidden { display: none; }
+  /* fits horizontally (class set by empire.js): the page scrolls and the header row sticks below the top bar;
+     otherwise the table scrolls sideways only and the label column sticks */
+  .table-scroll.is-fit:has(> .empire-table) { overflow: visible; }
+  .table-scroll:not(.is-fit) > .empire-table tr > :first-child {
+    position: sticky; inset-inline-start: 0; z-index: 1;
+    background-color: var(--theme-panel, var(--tv-bg-primary, #0d1014));
+  }
+  .empire-head > * {
+    position: sticky;
+    inset-block-start: var(--topbar-h, 6.5rem);
+    z-index: 2;
+    max-inline-size: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: var(--theme-raised, var(--tv-bg-primary, #0d1014));
+  }
+  .table-scroll:not(.is-fit) .empire-head > * { inset-block-start: 0; }
+  .empire-head > :first-child { inset-inline-start: 0; z-index: 3; text-align: start; }
+
+  /* info page header: artwork, name + level, costs of the next level, requirements, link to the build page */
+  .info-head { display: flex; gap: 0.875rem; align-items: flex-start; padding: 0.75rem; }
+  .info-head__img { flex: none; inline-size: 6rem; block-size: 6rem; object-fit: cover; border-radius: var(--radius-xs); }
+  .info-head__body { min-inline-size: 0; flex: 1; }
+  .info-head__title { margin: 0 0 0.375rem; font-size: 1.125rem; }
+  .info-head__level { font-weight: 400; opacity: 0.8; }
+  .info-head .cost-list { display: flex; flex-wrap: wrap; gap: 0.125rem 0.875rem; margin-block-end: 0.375rem; }
+  .info-head .cost { white-space: nowrap; }
+  .info-head__req { margin: 0 0 0.5rem; padding: 0; list-style: none; }
+  .info-head__link { font-weight: 600; text-decoration: underline; }
+  .rapidfire-table { inline-size: auto; min-inline-size: min(100%, 22rem); margin-block-start: 0.375rem; }
+
+  /* resources: unsaved production settings */
+  .prod-form #prod-save.is-dirty { outline: 0.125rem solid var(--c-accent, currentColor); outline-offset: 0.125rem; }
+
+  /* overview events: first block of the page, hostile arrivals stand out (border + icon + label, not colour only) */
+  /* accordion (native <details>): header bar with the +/- sign on the right; used by the overview events */
+  .accordion > summary { display: flex; align-items: center; gap: 0.75rem; list-style: none; cursor: pointer; text-align: start; }
+  .accordion > summary::-webkit-details-marker { display: none; }
+  .accordion__title { flex: 1 1 auto; font-weight: 600; display: inline-flex; align-items: center; gap: 0.375rem; .icon { inline-size: 1em; block-size: 1em; } }
+  .accordion__summary { flex: 0 1 auto; font-size: 0.8125rem; font-weight: 400; opacity: 0.85; font-variant-numeric: tabular-nums; }
+  .accordion[open] > summary .accordion__summary { display: none; }
+  .accordion__sign { flex: none; inline-size: 1.25rem; text-align: center; font-weight: 700; line-height: 1; }
+  .accordion__sign::before { content: "+"; }
+  .accordion[open] > summary .accordion__sign::before { content: "\2212"; }
+  .accordion > summary:focus-visible { outline: 0.125rem solid var(--c-accent, currentColor); outline-offset: -0.125rem; }
+  .accordion--warn > summary { background: color-mix(in oklab, var(--c-negative, #f05252) 22%, transparent); color: var(--c-negative, #f05252); }
+  .accordion--warn[open] > summary .accordion__summary { display: none; }
+  .overview-events .event-list { margin: 0; padding: 0.25rem 0.5rem; text-align: start; }
+  .overview-events .event-list li { padding: 0.25rem 0.5rem; margin-block: 0.125rem; border-inline-start: 0.25rem solid transparent; }
+  .overview-events .event-list__hostile {
+    border-inline-start-color: var(--c-negative, #f05252);
+    background: color-mix(in oklab, var(--c-negative, #f05252) 14%, transparent);
+  }
+  .event-list__flag {
+    display: inline-flex; align-items: center; gap: 0.25rem; margin-inline-end: 0.5rem;
+    font-weight: 700; text-transform: uppercase; font-size: 0.75rem; color: var(--c-negative, #f05252);
+    .icon { inline-size: 1em; block-size: 1em; }
+  }
+  .overview-events .empty-state { padding: 0.25rem 0.5rem; }
+  @media (max-width: 40rem) { .overview-events .event-list li { font-size: 0.8125rem; padding: 0.1875rem 0.375rem; } }
+
+  /* build cards: the title opens the info dialog (small info icon + underline on hover) */
+  .infos .buildn .info-link:hover { text-decoration: underline; }
+  .infos .buildn .info-ico { display: inline-flex; vertical-align: -0.125em; opacity: 0.6; .icon { inline-size: 0.875em; block-size: 0.875em; } }
+
+  /* overview info panel: label/value rows instead of one centred paragraph */
+  .overview-info .stat-list {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.25rem 1rem;
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+    & dt { opacity: 0.75; }
+    & dd { margin: 0; overflow-wrap: anywhere; }
+  }
+  .overview-info .stat-list__note { margin: 0; padding: 0 0.75rem 0.5rem; text-align: start; font-weight: 600; }
+  .tutorial-accordion:not([open]) > .tutorial-header { border-radius: var(--radius, 0.5rem); }
+  .tutorial-accordion > .tutorial-header { text-align: start; }
+  .tutorial-accordion .accordion__title { justify-content: center; }
+  .tutorial-header__goal { font-weight: 400; opacity: 0.85; }
 
   /* ------------------------------------------------------------------ overview: planet block and planet list
      Planet block: moon | artwork | status text in one wrapping row. Planet list: a grid of cards. */
@@ -255,6 +353,7 @@
      (buildings, research, hangar, repair dock); the buttons keep their ids, the selected one is tinted */
   .content .segmented {
     display: inline-flex;
+    flex-wrap: wrap;
     vertical-align: middle;
     border: 0.0625rem solid var(--c-border-strong, #33475e);
     border-radius: var(--btn-radius, 0.375rem);
@@ -290,6 +389,162 @@
     border-block-start: 0.0625rem solid var(--c-border, #233142);
   }
 
+  /* ------------------------------------------------------------------ fleet dispatch
+     .link        a button that reads as a link in every theme (none / max / all / sort); the classic themes colour `a`
+                  like body text, so it takes --c-link and an underline instead
+     .chip        pill button (quick fleets)
+     .btn-back    "Back" link next to the submit button
+     .fleet-summary  mission / target / fleet / fuel / duration / arrival bar of steps 2 and 3 */
+  :is(.content, .modal) button.link {
+    appearance: none;
+    display: inline;
+    inline-size: auto;
+    min-block-size: 0;
+    margin: 0;
+    padding: 0.125rem 0.25rem;
+    border: 0;
+    border-radius: var(--btn-radius, 0.25rem);
+    background: none;
+    box-shadow: none;
+    color: var(--c-link, #5b9cff);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.2em;
+    text-shadow: none;
+    cursor: pointer;
+    &:hover { background: none; color: var(--c-text, inherit); text-decoration-style: solid; }
+    &:focus-visible { outline: 0.125rem solid var(--c-accent, currentColor); outline-offset: 0.0625rem; }
+    @media (pointer: coarse) { min-block-size: 2.25rem; padding-inline: 0.5rem; }
+  }
+  .content .chip {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2rem;
+    padding: 0.125rem 0.75rem;
+    border: 0.0625rem solid var(--c-border-strong, #33475e);
+    border-radius: var(--pill-radius);
+    background: var(--c-panel-2, transparent);
+    box-shadow: none;
+    color: var(--c-text, inherit);
+    font: inherit;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    &:hover { border-color: var(--c-link, currentColor); background: var(--c-panel-2, transparent); }
+    &:focus-visible { outline: 0.125rem solid var(--c-accent, currentColor); outline-offset: 0.0625rem; }
+  }
+  .content .quick-fleets { text-align: start; }
+  .content .quick-fleets__label { margin-inline-end: 0.5rem; color: var(--c-muted, inherit); font-weight: 600; }
+  .content .quick-fleets__list { display: inline-flex; flex-wrap: wrap; gap: 0.375rem; vertical-align: middle; }
+  .content .quick-fleets .hint { display: inline; margin: 0; }
+
+  /* ship table: speed and cargo as columns, on phones as a line under the name */
+  .content .fleet-select td:not(:first-child, .fleet-select__foot) { white-space: nowrap; }
+  .content .fleet-select .fleet-select__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1rem; }
+  .content .fleet-select td.fl-col-speed, .content .fleet-select td.fl-col-cap { inline-size: 1%; }
+  .content .fleet-select td:first-child { inline-size: auto; }
+  .content .fleet-select .ship-meta { display: none; margin-block-start: 0.125rem; color: var(--c-muted, inherit); font-size: 0.75rem; }
+  .content .fleet-select .fleet-select__head > td { color: var(--c-muted, inherit); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .content .fleet-select .fleet-select__head .sort-link { font-weight: inherit; text-transform: inherit; letter-spacing: inherit; color: inherit; text-decoration: none; }
+  .content .fleet-select .fleet-select__head .sort-link:hover { color: var(--c-text, inherit); }
+  .content .fleet-select .sort-link::after {
+    content: '';
+    display: inline-block;
+    margin-inline-start: 0.375em;
+    border-inline: 0.3em solid transparent;
+    border-block-start: 0.35em solid currentColor;
+    opacity: 0;
+    vertical-align: 0.1em;
+  }
+  .content .fleet-select td[aria-sort="descending"] .sort-link::after { opacity: 1; }
+  .content .fleet-select td[aria-sort="ascending"] .sort-link::after { opacity: 1; border-block-start: 0; border-block-end: 0.35em solid currentColor; }
+  .content .fleet-select .control-group { gap: 0.375rem; }
+  @media (max-width: 40rem) {
+    .content .fleet-select .fl-col-speed, .content .fleet-select .fl-col-cap { display: none; }
+    .content .fleet-select .ship-meta { display: flex; flex-wrap: wrap; gap: 0 0.75rem; }
+    .content .fleet-select td:not(:first-child) { white-space: normal; }
+    .content .fleet-select td.num:has(.control-group) { white-space: nowrap; }
+    .content .fleet-select .fleet-amount { inline-size: 3.75rem; padding-inline: 0.25rem; }
+    .content .fleet-select .fleet-select__head > td { letter-spacing: 0; font-size: 0.6875rem; padding-inline: 0.25rem; }
+    .content .fleet-select td.num:has(.control-group) { padding-inline: 0.125rem; }
+    .content .fleet-select .control-group { gap: 0.125rem; }
+    .content .fleet-bonus :is(th, td) { white-space: normal; overflow-wrap: anywhere; hyphens: auto; letter-spacing: 0; }
+  }
+  .content .fleet-select .ship-meta .icon { inline-size: 0.875em; block-size: 0.875em; vertical-align: -0.1em; }
+  input.fleet-amount::placeholder { color: var(--c-muted, #8796a7); opacity: 0.55; }
+  .content input[aria-invalid="true"] { border-color: var(--c-negative, #f05252); outline-color: var(--c-negative, #f05252); }
+  .content #target-error { margin-block-start: 0.375rem; }
+
+  /* summary bar: what is being sent where */
+  .content .fleet-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-block-end: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 0.0625rem solid var(--c-border-strong, #33475e);
+    border-radius: var(--radius, 0.5rem);
+    background: var(--c-panel-2, transparent);
+  }
+  .content .fleet-summary__item { display: flex; flex-direction: column; min-inline-size: 0; }
+  .content .fleet-summary__item--fleet { flex: 1 1 14rem; }
+  .content .fleet-summary__item[hidden] { display: none; }
+  .content .fleet-summary__label { color: var(--c-muted, inherit); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+  .content .fleet-summary__item > strong { font-weight: 600; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+  .content .fleet-summary__sub { color: var(--c-muted, inherit); font-size: 0.75rem; }
+  @media (max-width: 40rem) {
+    .content .fleet-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
+    .content .fleet-summary__item--fleet { grid-column: 1 / -1; order: -1; }
+  }
+
+  /* submit row with a back link */
+  .content .form-actions .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-block-size: var(--control-h, 2.25rem);
+    padding-inline: 0.75rem;
+    color: var(--c-link, #5b9cff);
+    font-weight: 600;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.2em;
+    &:hover { color: var(--c-text, inherit); text-decoration-style: solid; }
+    & .icon { inline-size: 1em; block-size: 1em; }
+  }
+  .content td.form-actions:has(.btn-back) { display: table-cell; }
+  .content td.form-actions .btn-back { margin-inline-end: 1rem; }
+
+  /* flying fleets on phones: one card per fleet (countdown first, recall at the bottom) */
+  .content .flyingFleets .fl-mission .tooltip { font-weight: 600; }
+  .content .flyingFleets .empty-state { padding-block: 0.75rem; }
+  @media (max-width: 40rem) {
+    .content .flyingFleets, .content .flyingFleets tbody { display: block; inline-size: 100%; min-inline-size: 0; }
+    .content .flyingFleets .fleet-head { display: none; }
+    .content .flyingFleets tr.fleet-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "mission time" "from to" "dep arr" "amount act";
+      gap: 0.25rem 0.75rem;
+      padding: 0.5rem 0.625rem;
+      border-block-end: 0.0625rem solid var(--c-border, #233142);
+    }
+    .content .flyingFleets tr.fleet-row > td { display: block; inline-size: auto; padding: 0; border: 0; background: none; box-shadow: none; text-align: start; min-inline-size: 0; white-space: normal; }
+    .content .flyingFleets .fl-act :is(input[type="submit"], form) { inline-size: auto; min-inline-size: 0; }
+    .content .flyingFleets tr.fleet-row > td.fleet-col-id { display: none; }
+    .content .flyingFleets tr.fleet-row > td.fleet-col-mission { position: static; min-inline-size: 0; box-shadow: none; background: none; }
+    .content .flyingFleets .fl-mission { grid-area: mission; }
+    .content .flyingFleets .fl-time { grid-area: time; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .content .flyingFleets .fl-from { grid-area: from; }
+    .content .flyingFleets .fl-to { grid-area: to; }
+    .content .flyingFleets .fl-dep { grid-area: dep; }
+    .content .flyingFleets .fl-arr { grid-area: arr; }
+    .content .flyingFleets .fl-amount { grid-area: amount; }
+    .content .flyingFleets .fl-act { grid-area: act; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.375rem; }
+    .content .flyingFleets .fl-act form { margin: 0; }
+    .content .flyingFleets [data-label]::before { content: attr(data-label); display: block; color: var(--c-muted, inherit); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .content .flyingFleets .fl-time::before { text-align: end; }
+  }
+
   /* ------------------------------------------------------------------ galaxy: toolbar
      one centred row: [Galaxy ‹ n ›] [System ‹ n ›] [Show] [Save]; every control has the same height */
   .content .galaxy-nav { display: grid; justify-items: center; gap: 0.5rem; margin-block-end: 0.75rem; }
@@ -312,11 +567,11 @@
 
   /* ------------------------------------------------------------------ galaxy: grid
      fixed columns, one row height, no zebra, hairline separators; the footer is a balanced section */
-  .content .galaxy-grid-container { grid-template-columns: 3.25rem minmax(0, 1.5fr) 4.5rem minmax(0, 1.1fr) minmax(0, 1.5fr) minmax(0, 1.2fr); }
+  .content .galaxy-grid-container { grid-template-columns: 3.25rem minmax(0, 1.4fr) 4.5rem minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1.9fr); }
   .content .galaxy-grid-row { grid-column: 1 / -1; gap: 0; margin-block-end: 0; }
   .content .galaxy-grid-item, .content .galaxy-grid-header { padding: 0.25rem 0.625rem; font-weight: 400; }
   .content .galaxy-grid-header { font-weight: 600; min-block-size: 2.25rem; text-align: start; }
-  .content .galaxy-grid-row:not(.header, .legende, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.5rem; }
+  .content .galaxy-grid-row:not(.header, .legende, .legend-line, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.5rem; }
   .content .galaxy-grid-item { border-block-end: 0.0625rem solid var(--c-border, rgb(255 255 255 / 0.08)); }
   .content .galaxy-grid-item.centered, .content .galaxy-grid-header.centered,
   .content .galaxy-grid-item.galaxy-moon, .content .galaxy-grid-header.galaxy-moon,
@@ -350,13 +605,63 @@
     cursor: pointer;
   }
   @media (max-width: 66.875rem) {
-    .content .galaxy-grid-row:not(.header, .legende, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.25rem; }
+    .content .galaxy-grid-row:not(.header, .legende, .legend-line, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.25rem; }
     .content .galaxy-grid-row.stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .content .galaxy-grid-row.sync { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .content .galaxy-grid-row.sync .upload { grid-column: 1 / -1; }
     .content .galaxy-grid-row.sync .upload { flex-wrap: wrap; white-space: normal; }
     .content .galaxy-grid-row.sync button { max-inline-size: none; }
-    .content .galaxy-grid-item.galaxy-actions, .content .galaxy-grid-header.galaxy-actions { display: none; }
+  }
+
+
+  .content .galaxy-grid-row.legend-line { grid-template-columns: 1fr; }
+  .content .galaxy-legend { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; justify-content: flex-start; font-size: 0.75rem; color: var(--c-muted, inherit); }
+  .content .galaxy-legend__item { display: inline-flex; gap: 0.375rem; align-items: baseline; }
+  .content .galaxy-legend__item > :first-child { font-weight: 600; }
+  .content .galaxy-action:focus-visible, .content .galaxy-grid-row a:focus-visible, .content .galaxy-grid-row [tabindex="0"]:focus-visible { outline: 0.125rem solid var(--c-accent, currentColor); outline-offset: 0.0625rem; }
+  .content #galaxy-view:focus { outline: none; }
+  /* toasts: result of a galaxy mission, under the top bar */
+  .notify--top { inset-block: calc(var(--topbar-h, 3.5rem) + 0.5rem) auto; inset-inline: 0.75rem; margin-inline: auto; inline-size: fit-content; max-inline-size: calc(100vw - 1.5rem); }
+  .notify--success { border-color: var(--c-positive, #6fdc9b); }
+  .notify--error { border-color: var(--c-negative, #ff6b6b); }
+  .content .galaxy-free-note, .content .galaxy-nav__keys { color: var(--c-muted, inherit); font-size: 0.8125rem; }
+  .content .galaxy-nav__keys { margin: 0; text-align: center; }
+  .tt-galaxy-disabled { color: var(--c-muted, inherit); font-style: italic; }
+  .content .galaxy-action { inline-size: 2rem; block-size: 2rem; }
+  .content .galaxy-grid-item.galaxy-actions { gap: 0.125rem; }
+  .content .galaxy-action--attack { color: var(--c-negative, #ff6b6b); }
+
+  /* galaxy on tablets and phones: one card per occupied position, three lines
+     (planet, moon and debris / player / actions); the column headers are left out, the icons say it */
+  @media (max-width: 66.875rem) {
+    .content .galaxy-grid-row.header { display: none; }
+    .content .galaxy-grid-row:not(.header, .legende, .legend-line, .stats, .sync, .info) {
+      grid-template-columns: 2.5rem minmax(0, 1fr) 2.75rem 4.5rem;
+      grid-template-areas: "pos planet moon debris" "pos player player player" "pos actions actions actions";
+    }
+    .content .galaxy-grid-row:not(.header, .legende, .legend-line, .stats, .sync, .info) > .galaxy-grid-item { min-block-size: 2.25rem; }
+    .content .galaxy-grid-row > .position { grid-area: pos; align-self: stretch; }
+    .content .galaxy-grid-row > .galaxy-planet { grid-area: planet; }
+    .content .galaxy-grid-row > .galaxy-moon { grid-area: moon; }
+    .content .galaxy-grid-row > .galaxy-debris { grid-area: debris; flex-direction: column; row-gap: 0; padding-inline: 0.125rem; }
+    .content .galaxy-grid-row > .galaxy-player { grid-area: player; }
+    .content .galaxy-grid-row > .galaxy-actions { grid-area: actions; justify-content: flex-start; min-block-size: 2.75rem; }
+    .content .galaxy-grid-row > .galaxy-debris-text, .content .galaxy-debris-text { font-size: var(--fs-xs); line-height: 1.1; white-space: nowrap; }
+    .content .galaxy-grid-row.empty, .content .galaxy-grid-row.piratebase { grid-template-areas: none; grid-template-columns: 2.5rem minmax(0, 1fr); }
+    .content .galaxy-grid-row.empty > *, .content .galaxy-grid-row.piratebase > * { grid-area: auto; grid-column: auto; }
+    .content .galaxy-grid-row.empty > .galaxy-grid-item:not(.position) { grid-column: 2 / -1; justify-content: flex-start; }
+    .content .galaxy-grid-row > .galaxy-debris.span3 { grid-column: 3 / -1; }
+    .content .galaxy-action { inline-size: 2.5rem; block-size: 2.5rem; }
+    .content .galaxy-action .icon { inline-size: 1.25rem; block-size: 1.25rem; }
+    .content .galaxy-planet a img, .content .galaxy-debris a img { inline-size: 1.5rem; block-size: 1.5rem; }
+    .content .galaxy-grid-container { grid-template-columns: 1fr; }
+    .content .galaxy-grid-row { grid-column: 1 / -1; }
+    .content .galaxy-grid-row > .galaxy-actions:not(:has(.galaxy-action)) { display: none; }
+  }
+  @media (max-width: 40rem) {
+    .content .galaxy-grid-row.sync { grid-template-columns: 1fr; }
+    .content .galaxy-grid-row.sync button { max-inline-size: none; }
+    .content .galaxy-grid-row.stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   /* ------------------------------------------------------------------ messages: categories as calm, even chips
@@ -402,6 +707,10 @@
   }
   @media (max-width: 40rem) {
     .content .msg-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* long (German) names wrap instead of ending in an ellipsis */
+    .content .msg-cat { block-size: auto; min-block-size: 2.125rem; padding-block: 0.25rem; }
+    .content .msg-cat .msg-cat__name { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: break-word; hyphens: auto; font-size: 0.8125rem; line-height: 1.2; }
+    .content .msg-cat { gap: 0.375rem; padding-inline: 0.5rem; }
   }
 
 

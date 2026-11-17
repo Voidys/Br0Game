@@ -6,7 +6,10 @@
     {% if rulesEmpty %}
       <div class="notice notice--info" role="status">{{ icon('info') }}<div>{{ LNG.rulesEmpty }}</div></div>
     {% else %}
-      <div class="rich-text">{{ rules }}</div>
+      <div class="rich-text" data-toc-label="{{ LNG.toc_contents|e('html_attr') }}">{{ rules }}</div>
     {% endif %}
   </section>
+{% endblock %}
+{% block script %}{{ parent() }}
+<script type="module" src="./scripts/game/toc.js?v={{ asset_version }}"></script>
 {% endblock %}

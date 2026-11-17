@@ -51,6 +51,11 @@ const refreshTimers = () => {
     cdate.setMilliseconds(cdate.getMilliseconds() + (cdate - startdate));
     const dayDiff = Math.trunc((cdate - now()) / (1000 * 60 * 60 * 24));
     fleet.innerText = clock(cdate, dayDiff);
+    // the recall question names the return time of a recall right now (the clock above)
+    const recall = fleet.closest('td')?.querySelector('input[data-confirm-tpl]');
+    if (recall) {
+      recall.dataset.confirm = recall.dataset.confirmTpl.replace('%s', fleet.innerText);
+    }
   }
 };
 
@@ -170,16 +175,42 @@ const addFleetOption = (name) => {
   byId('cfleet_select').appendChild(option);
 };
 
-/** Rebuilds the list of quick links, one per stored custom fleet. */
+/** The mission of the last dispatch ({ships, target, mission, label}), remembered by the dispatch page (flotten.js); null when there is none. */
+const lastFleet = () => {
+  try {
+    const last = JSON.parse(localStorage.getItem('last_fleet') ?? 'null');
+    return last && last.ships && Object.keys(last.ships).length ? last : null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const chip = (label, action, data = {}) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'chip';
+  button.dataset.action = action;
+  Object.assign(button.dataset, data);
+  button.textContent = label;
+  return button;
+};
+
+/** Rebuilds the quick fleets: the last mission and one chip per stored custom fleet; the hint shows while there are none. */
 const showFleetLinks = () => {
-  byId('customfleets').innerHTML = Object.keys(storedFleets()).map((name) => {
-    const link = document.createElement('a');
-    link.href = '#';
-    link.dataset.action = 'custom-fleet';
-    link.dataset.name = name;
-    link.textContent = name;
-    return `   ${link.outerHTML}`;
-  }).join('');
+  const list = byId('customfleets');
+  list.replaceChildren();
+  const last = lastFleet();
+  if (last) {
+    const total = Object.values(last.ships).reduce((sum, amount) => sum + Number(amount), 0);
+    const [galaxy, system, planet] = last.target;
+    const button = chip(`${last.label} [${galaxy}:${system}:${planet}] · ${pretty_number(total)}`, 'last-fleet');
+    button.classList.add('chip--last');
+    list.append(button);
+  }
+  for (const name of Object.keys(storedFleets())) {
+    list.append(chip(name, 'custom-fleet', { name }));
+  }
+  byId('customfleets-hint').hidden = list.childElementCount > 0;
 };
 
 /** Saves the current ship amounts under the typed name as a custom fleet in localStorage (`custom_fleets`); an empty name is refused. */
@@ -235,6 +266,9 @@ const initCustomFleets = () => {
     break;
   }
   Object.keys(customFleets).forEach(addFleetOption);
+  if (Object.keys(customFleets).length > 0 && byId('customfleet').style.display === 'none') {
+    toggleCustomFleet();
+  }
 
   byId('cfleet_select').addEventListener('change', () => showFleet(byId('cfleet_select').value));
   byId('cf_save').addEventListener('click', saveFleet);
@@ -256,6 +290,71 @@ const applyCustomFleet = (name) => {
     }
   }
   showValues();
+};
+
+/** Quick chip "last mission": the ships (as far as the planet still has them), the target and the mission of the last dispatch go into the form. */
+const applyLastFleet = () => {
+  const last = lastFleet();
+  if (!last) {
+    return;
+  }
+  noShips();
+  for (const [id, amount] of Object.entries(last.ships)) {
+    const input = shipInput(id);
+    if (input) {
+      input.value = Math.min(Number(amount), Number(byId(`ship${id}_value`)?.dataset.count ?? 0));
+    }
+  }
+  const form = byId('fleet-form');
+  const [galaxy, system, planet, type] = last.target;
+  Object.entries({ galaxy, system, planet, type, target_mission: last.mission }).forEach(([name, value]) => {
+    form.elements[name].value = value;
+  });
+  showValues();
+};
+
+/** Continue without a ship: shows the reason above the table and focuses the first amount field (returns false to stop the submit). */
+const validateFleet = () => {
+  const form = byId('fleet-form');
+  const chosen = Array.from(form.querySelectorAll('input[name^="ship"]')).some((input) => Number(input.value) > 0);
+  if (chosen) {
+    return true;
+  }
+  let notice = byId('fleet-notice');
+  if (!notice) {
+    notice = document.createElement('div');
+    notice.id = 'fleet-notice';
+    notice.className = 'globalWarning';
+    notice.setAttribute('role', 'alert');
+    notice.append(document.createElement('span'));
+    document.querySelector('.content').prepend(notice);
+  }
+  notice.querySelector('span').textContent = form.dataset.emptyMsg;
+  notice.scrollIntoView({ block: 'nearest' });
+  form.querySelector('input[name^="ship"]')?.focus();
+  return false;
+};
+
+/** Sorts the ship rows by name, speed, cargo capacity or available amount (a second click on the same column reverses). */
+const sortShips = (button) => {
+  const key = button.dataset.key;
+  const body = byId('ship-rows');
+  const head = button.closest('td');
+  const descending = head.getAttribute('aria-sort') === 'ascending';
+  const value = (row) => (key === 'name' ? row.dataset.name : Number(row.dataset[key]));
+  const rows = Array.from(body.querySelectorAll('.ship-row')).sort((a, b) => {
+    const result = key === 'name' ? value(a).localeCompare(value(b)) : value(a) - value(b);
+    return descending ? -result : result;
+  });
+  body.append(...rows);
+  body.querySelectorAll('.fleet-select__head > td').forEach((cell) => cell.setAttribute('aria-sort', 'none'));
+  head.setAttribute('aria-sort', descending ? 'descending' : 'ascending');
+};
+
+/** Empties the three "resources to take along" fields. */
+const clearResources = () => {
+  ['met_storage', 'krist_storage', 'deut_storage'].forEach((name) => { field(name).value = ''; });
+  updateButtons();
 };
 
 /** Fills ship amounts from the URL hash (`#ship_input[<id>]=<amount>`), e.g. from a link in a report or the simulator. */
@@ -288,4 +387,8 @@ window.onPageInit(() => {
 registerActions({
   'toggle-custom-fleet': () => toggleCustomFleet(),
   'custom-fleet': (link) => applyCustomFleet(link.dataset.name),
+  'last-fleet': () => applyLastFleet(),
+  'fleet-validate': () => validateFleet(),
+  'sort-ships': (button) => sortShips(button),
+  'clear-resources': () => clearResources(),
 });

@@ -14,6 +14,20 @@
   {% else %}
     <div class="notice notice--success">{{ icon('circle-check') }}<div>{{ LNG.adm_dash_all_good }}</div></div>
   {% endif %}
+  {% if update and update.newer %}
+    <div class="notice notice--info" role="status">
+      {{ icon('rocket') }}
+      <div>
+        <strong>{{ LNG.adm_update_available }}: {{ update.latest }}{% if update.publishedText %} ({{ LNG.adm_update_released }} {{ update.publishedText }}){% endif %}</strong> — {{ LNG.adm_update_you_run }} {{ update.current }}{% if gitVersion %} <span class="muted">(git {{ gitVersion }})</span>{% endif %}
+        {% if update.notes %}<p class="muted small">{{ update.notes }}</p>{% endif %}
+        <p>
+          <a href="{{ update.url|e('html_attr') }}" target="_blank" rel="noopener">{{ LNG.adm_update_notes }}</a> ·
+          <a href="{{ updateDocsUrl|e('html_attr') }}" target="_blank" rel="noopener">{{ LNG.adm_update_howto }}</a>
+        </p>
+        <form method="post" action="{{ path('admin_overview_update_check') }}"><button type="submit" class="btn btn--small">{{ icon('refresh-cw') }} {{ LNG.adm_update_check_now }}</button></form>
+      </div>
+    </div>
+  {% endif %}
   {% if unprotected %}
     <div class="notice notice--warning" role="alert">
       {{ icon('triangle-alert') }}
@@ -68,6 +82,8 @@
       <div class="card__body">
         <dl class="kv">
           <dt>{{ LNG.adm_dash_version }}</dt><dd class="mono">{{ system.version }}</dd>
+          {% if update and not update.newer %}<dt>{{ LNG.adm_update_check }}</dt><dd><span class="badge badge--ok">{{ LNG.adm_update_up_to_date }}</span> <span class="muted small">{{ update.checkedText }}</span>
+            <form method="post" action="{{ path('admin_overview_update_check') }}" class="inline"><button type="submit" class="btn btn--small">{{ icon('refresh-cw') }} {{ LNG.adm_update_check_now }}</button></form></dd>{% endif %}
           <dt>{{ LNG.adm_dash_php }}</dt><dd class="mono">{{ system.php }}</dd>
           <dt>{{ LNG.adm_dash_uni_status }}</dt>
           <dd><span class="badge {{ system.uniStatusOpen ? 'badge--ok' : 'badge--warn' }}">{{ system.uniStatus }}</span></dd>

@@ -2,25 +2,29 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_fleet }}{{ parent() }}{% endblock %}
 {% block content %}
+{% include 'game/shared.fleetSummary.html.twig' %}
+{% set backQuery = {galaxy: galaxy, system: system, planet: planet, planettype: type, target_mission: mission} %}
+{% set backHash %}{% for shipId, shipCount in FleetList %}{% if not loop.first %}&{% endif %}ship_input[{{ shipId }}]={{ shipCount }}{% endfor %}{% endset %}
 <form action="{{ path('game_fleet_step2_show') }}" method="post" data-on-submit="check-target" id="form" class="form-page">
 	<input type="hidden" name="token" value="{{ token }}">
 	<input type="hidden" name="group" value="0">
 	<input type="hidden" name="target_mission" value="{{ mission }}">
 	<table class="form-table">
 		<tr>
-			<th colspan="2">{{ LNG.fl_send_fleet }}</th>
+			<th colspan="2">{{ LNG.fl_destiny }}</th>
 		</tr>
 		<tr>
 			<td>{{ LNG.fl_destiny }}</td>
 			<td>
 				<span class="control-group">
-				<input type="number" id="galaxy" name="galaxy" maxlength="4" data-on-input="update-vars" value="{{ galaxy }}" class="coord">
-				<input type="number" id="system" name="system" maxlength="6" data-on-input="update-vars" value="{{ system }}" class="coord">
-				<input type="number" id="planet" name="planet" maxlength="4" data-on-input="update-vars" value="{{ planet }}" class="coord">
+				<input type="number" id="galaxy" name="galaxy" min="1" max="{{ config.max_galaxy }}" maxlength="4" data-on-input="update-vars" value="{{ galaxy }}" class="coord" aria-label="{{ LNG.gl_galaxy }}">
+				<input type="number" id="system" name="system" min="1" max="{{ config.max_system }}" maxlength="6" data-on-input="update-vars" value="{{ system }}" class="coord" aria-label="{{ LNG.gl_solar_system }}">
+				<input type="number" id="planet" name="planet" min="1" max="{{ config.max_planets + 3 }}" maxlength="4" data-on-input="update-vars" value="{{ planet }}" class="coord" aria-label="{{ LNG.gl_planet }}">
 				<select id="type" name="type" data-on-change="update-vars">
 					{{ forms.html_options({'options': typeSelect, 'selected': type}) }}
 				</select>
 				</span>
+				<span class="reason reason--bad" id="target-error" role="alert" hidden></span>
 			</td>
 		</tr>
 		<tr>
@@ -173,7 +177,7 @@
 		{% endfor %}
 	</table>
 	{% endif %}
-	<div class="form-actions"><input type="submit" value="{{ LNG.fl_continue }}"></div>
+	<div class="form-actions"><a class="btn-back" href="{{ path('game_fleet_table_show', backQuery) }}#{{ backHash }}">{{ icon('arrow-left') }}{{ LNG.sys_back }}</a><input type="submit" value="{{ LNG.fl_continue }}"></div>
 </form>
 {% endblock %}
 {% block script %}{{ parent() }}
@@ -183,6 +187,7 @@
 	honorboost: honorboost,
 	config: config,
 	token: token,
+	texts: {coordRange: LNG.fl_coord_range},
 	urls: {
 		checkTarget: path('game_fleet_step1_check_target'),
 		saveShortcuts: path('game_fleet_step1_save_shortcuts'),

@@ -5,6 +5,41 @@
  * content.css and the theme (layer "legacy"). Loaded after tables-forms.css.
  */
 @layer components {
+/* ---- shared: empty states and "why unavailable" lines (use these instead of page-local variants)
+ * .empty-state   centred muted block for "nothing here yet": optional icon, one line, optional action link.
+ *   <div class="empty-state">{{ icon('info') }}<p>No fleets on mission.</p><a href="...">Send a fleet</a></div>
+ *   Direct children: svg.icon / .icon (muted, large), p (one line), a (action link). Works in a panel, card or td.
+ *   Use `.empty-state--inline` for a left-aligned one-line variant (no icon size boost, less padding).
+ * .reason        one-line "why can't I do this" under a disabled button/card: "Needs Research Lab 15".
+ *   `.reason--bad` marks a real deficit (negative colour), `.hint` is a neutral helper line (muted, smaller).
+ *   Both are prefixed with an info dot via icon() if you want, but need no icon. Colours meet 4.5:1 on dark panels.
+ */
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.375rem;
+	padding: 1.5rem 1rem;
+	text-align: center;
+	color: var(--theme-text-muted, var(--c-muted));
+
+	& > :is(svg, .icon) { inline-size: 2rem; block-size: 2rem; opacity: 0.7; }
+	& > p { margin: 0; font-size: 0.8125rem; color: inherit; }
+	& > a { font-weight: 600; text-decoration: underline; }
+}
+.empty-state--inline { flex-direction: row; justify-content: flex-start; padding: 0.5rem 0; text-align: start; & > :is(svg, .icon) { inline-size: 1em; block-size: 1em; } }
+td.empty-state, .empty-state > td { display: table-cell; }
+.reason, .hint {
+	display: block;
+	margin-block: 0.25rem 0;
+	font-size: 0.75rem;
+	line-height: 1.35;
+	color: var(--theme-text-muted, var(--c-muted));
+}
+.reason { color: var(--c-warning, #f0b429); }
+.reason--bad { color: var(--c-negative, #f05252); }
+.hint { font-style: italic; }
+
 /* ---- tables & forms: settings, fleet, galaxy, information */
 .fleet-amount { width: var(--control-num-w); }
 td.num .control-group { justify-content: flex-end; }
@@ -96,6 +131,25 @@ input.fleet-amount--fill { min-width: 0; }
 .msg-search input[type="search"] { flex: 1 1 auto; min-width: 0; max-width: 22rem; }
 
 .msg-bulk select { max-width: 100%; }
+.receiver { display: inline-flex; align-items: center; gap: 0.25rem; border-radius: var(--radius-sm, 0.25rem); }
+
+.receiver .receiver__remove {
+	min-block-size: 0;
+	box-shadow: none;
+	display: inline-grid;
+	place-items: center;
+	min-height: 0;
+	padding: 0.125rem;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+
+	& .icon { inline-size: 1rem; block-size: 1rem; }
+	&:hover, &:focus-visible { background: rgb(255 255 255 / 0.18); }
+}
+.msg-bulk select optgroup[label][class~="msg-bulk__danger"] { color: var(--c-negative, #f05252); }
 
 input.fleet-amount { max-width: 10em; }
 input.fleet-amount--fill { width: 100%; box-sizing: border-box; }
@@ -143,7 +197,7 @@ input.fleet-radio { width: 3.75rem; }
 	gap: 0.75rem;
 	padding: 0.75rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	background: var(--cr-surface);
 }
 .cr-hero__kind {
@@ -175,7 +229,7 @@ input.fleet-radio { width: 3.75rem; }
 	min-inline-size: 0;
 	padding: 0.75rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	text-align: center;
 	overflow-wrap: anywhere;
 
@@ -217,7 +271,7 @@ input.fleet-radio { width: 3.75rem; }
 	justify-content: center;
 	gap: 0.5rem;
 	padding: 0.5rem 0.75rem;
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	border: 0.0625rem solid var(--cr-line);
 	font-weight: 600;
 	text-align: center;
@@ -235,7 +289,7 @@ input.fleet-radio { width: 3.75rem; }
 	min-inline-size: 0;
 	padding: 0.65rem 0.75rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	background: var(--cr-surface);
 }
 .cr-stat__label, .cr-card__title, .cr-h {
@@ -264,7 +318,7 @@ input.fleet-radio { width: 3.75rem; }
 	inline-size: fit-content;
 	padding: 0.1rem 0.5rem;
 	border: 0.0625rem solid currentColor;
-	border-radius: 999px;
+	border-radius: var(--pill-radius);
 	font-size: 0.75rem;
 	font-weight: 600;
 }
@@ -284,7 +338,7 @@ input.fleet-radio { width: 3.75rem; }
 .cr-rounds { display: grid; gap: 0.5rem; }
 .cr-round {
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	background: var(--cr-surface);
 
 	& > summary {
@@ -295,7 +349,7 @@ input.fleet-radio { width: 3.75rem; }
 		padding: 0.55rem 0.75rem;
 		cursor: pointer;
 		list-style: none;
-		border-radius: 0.5rem;
+		border-radius: var(--radius);
 	}
 	& > summary::-webkit-details-marker { display: none; }
 	& > summary::after {
@@ -338,7 +392,7 @@ input.fleet-radio { width: 3.75rem; }
 .cr-fleet {
 	min-inline-size: 0;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.5rem;
+	border-radius: var(--radius);
 	overflow: hidden;
 }
 .cr-fleet__head {
@@ -418,7 +472,7 @@ input.fleet-radio { width: 3.75rem; }
 	min-inline-size: 3.5rem;
 	block-size: 0.25rem;
 	margin-block-start: 0.2rem;
-	border-radius: 0.125rem;
+	border-radius: var(--radius-xs);
 	background: color-mix(in srgb, var(--cr-neg) 45%, transparent);
 	overflow: hidden;
 
@@ -433,7 +487,7 @@ input.fleet-radio { width: 3.75rem; }
 .stats-round-tab {
 	padding: 0.3rem 0.8rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.375rem;
+	border-radius: var(--radius-sm);
 	background: none;
 	color: var(--cr-muted);
 	font: inherit;
@@ -448,7 +502,7 @@ input.fleet-radio { width: 3.75rem; }
 .stats-side-title {
 	padding: 0.35rem 0.75rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.375rem;
+	border-radius: var(--radius-sm);
 	background: rgb(255 255 255 / 0.05);
 	font-size: 0.8125rem;
 	font-weight: 600;
@@ -462,7 +516,7 @@ input.fleet-radio { width: 3.75rem; }
 	inline-size: 100%;
 	padding: 0.4rem 0.75rem;
 	border: 0.0625rem solid var(--cr-line);
-	border-radius: 0.375rem;
+	border-radius: var(--radius-sm);
 	background: rgb(255 255 255 / 0.03);
 	color: inherit;
 	font: inherit;

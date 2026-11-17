@@ -29,29 +29,35 @@ class AllianceApplicationService
     ) {}
 
     /**
-     * Alliances of the current universe whose name contains the text (best matches first, max. 25).
+     * Alliances of the current universe whose name contains the text (best matches first, max. 25). Without a text the
+     * biggest alliances are listed, so the page is browsable.
      *
-     * @return list<array{id: mixed, tag: mixed, members: mixed, name: mixed}>
+     * @return list<array{id: mixed, tag: mixed, members: mixed, name: mixed, maxMembers: mixed, open: bool}>
      */
     public function search(string $searchText): array
     {
         $searchList = [];
+
         if (empty($searchText)) {
-            return $searchList;
+            $sql = "SELECT id, ally_name, ally_tag, ally_members, ally_max_members, ally_request_notallow
+				FROM %%ALLIANCE%%
+				WHERE ally_universe = :universe
+				ORDER BY ally_members DESC, ally_name ASC LIMIT 25;";
+            $searchResult = $this->db->select($sql, [':universe' => $this->universe()->current()]);
+        } else {
+            $sql = "SELECT id, ally_name, ally_tag, ally_members, ally_max_members, ally_request_notallow
+				FROM %%ALLIANCE%%
+				WHERE ally_universe = :universe AND ally_name LIKE :searchTextLike
+				ORDER BY (
+				  IF(ally_name = :searchTextEqual, 1, 0) + IF(ally_name LIKE :searchTextLike, 1, 0)
+				) DESC,ally_name ASC LIMIT 25;";
+
+            $searchResult = $this->db->select($sql, [
+                ':universe' => $this->universe()->current(),
+                ':searchTextLike' => '%' . $searchText . '%',
+                ':searchTextEqual' => $searchText,
+            ]);
         }
-
-        $sql = "SELECT id, ally_name, ally_tag, ally_members
-			FROM %%ALLIANCE%%
-			WHERE ally_universe = :universe AND ally_name LIKE :searchTextLike
-			ORDER BY (
-			  IF(ally_name = :searchTextEqual, 1, 0) + IF(ally_name LIKE :searchTextLike, 1, 0)
-			) DESC,ally_name ASC LIMIT 25;";
-
-        $searchResult = $this->db->select($sql, [
-            ':universe' => $this->universe()->current(),
-            ':searchTextLike' => '%' . $searchText . '%',
-            ':searchTextEqual' => $searchText,
-        ]);
 
         foreach ($searchResult as $searchRow) {
             $searchList[] = [
@@ -59,6 +65,8 @@ class AllianceApplicationService
                 'tag' => $searchRow['ally_tag'],
                 'members' => $searchRow['ally_members'],
                 'name' => $searchRow['ally_name'],
+                'maxMembers' => $searchRow['ally_max_members'],
+                'open' => (int) $searchRow['ally_request_notallow'] === 0 && (int) $searchRow['ally_members'] < (int) $searchRow['ally_max_members'],
             ];
         }
 

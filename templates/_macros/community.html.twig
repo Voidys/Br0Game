@@ -1,0 +1,29 @@
+{#
+  Small page parts for the community pages (alliance, search, tickets, settings): breadcrumb trail, "back" link,
+  form label for table forms and an empty-state table row.
+#}
+{# crumbs: list of {label, url}; the last entry (no url) is the current page #}
+{% macro breadcrumb(crumbs) %}
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+{%- for crumb in crumbs %}<li>{% if crumb.url is defined and crumb.url %}<a href="{{ crumb.url }}">{{ crumb.label }}</a>{% else %}<span aria-current="page">{{ crumb.label }}</span>{% endif %}</li>{% endfor -%}
+</ol></nav>
+{% endmacro %}
+
+{% macro back(url, text) %}
+<p class="page-back"><a class="button" href="{{ url }}">{{ icon('chevron-left') }}{{ text }}</a></p>
+{% endmacro %}
+
+{# empty state inside a table: <tr><td colspan>.empty-state</td></tr>; action = {url, label} or null #}
+{% macro empty_row(colspan, text, action) %}
+<tr><td colspan="{{ colspan }}" class="empty-state-cell"><div class="empty-state"><p>{{ text }}</p>{% if action %}<a href="{{ action.url }}">{{ action.label }}</a>{% endif %}</div></td></tr>
+{% endmacro %}
+
+{# links between the ranking pages (statistics, records, advanced stats, battle hall); active = statistics|records|advanced|battlehall #}
+{% macro rankings_nav(active) %}
+<nav class="subnav" aria-label="{{ LNG.lm_statistics|e('html_attr') }}">
+	<a href="{{ path('game_statistics_show') }}"{% if active == 'statistics' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_statistics }}</a>
+	{% if isModuleAvailable(constant('MODULE_RECORDS')) %}<a href="{{ path('game_records_show') }}"{% if active == 'records' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_records }}</a>{% endif %}
+	<a href="{{ path('game_advanced_stats_show') }}"{% if active == 'advanced' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.advancedStats }}</a>
+	<a href="{{ path('game_battle_hall_show') }}"{% if active == 'battlehall' %} class="is-active" aria-current="page"{% endif %}>{{ LNG.lm_topkb }}</a>
+</nav>
+{% endmacro %}

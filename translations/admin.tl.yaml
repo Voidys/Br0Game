@@ -607,6 +607,8 @@ se_bash_count_missiles: Isinasama ng bash limit ang missile attack
 se_bash_count_missiles_info: 'Binibilang ang interplanetary na missile attack bilang fleet attack sa bash limit (kada manlalaro at kada planeta). Naka-off: hindi binibilang ang mga missile.'
 se_bash_per_user: Bash limit bawat manlalaro
 se_bash_per_user_info: Gaano kadalas makakaatake ang isang manlalaro sa ibang manlalaro kada 24 na oras (lahat ng planeta). 0 = naka-off
+se_update_check: "Pagsusuri ng update"
+se_update_check_info: "Nagtatanong sa GitHub (api.github.com) ng pinakabagong release kapag binuksan ang admin dashboard (hanggang isang beses kada 6 na oras) at nag-aanunsyo ng mga bagong bersyon. Walang data tungkol sa iyong server ang ipinapadala. I-off para walang outbound na request."
 se_cookie_consent: "Abiso sa cookie"
 se_cookie_consent_info: "Nagpapakita ng abiso sa cookie sa ibaba hanggang makapili ang bisita (\"Tanggapin lahat\" o \"Kinakailangan lang\"; isang taon na naka-save sa cookie na cookie_consent)."
 se_block_planet_creation: Block
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Mga bukas na ticket
 adm_dash_fleets: Mga fleet sa biyahe
 adm_dash_quick: Mabilis na access
 adm_dash_system: System
+adm_update_available: "May available na update"
+adm_update_released: "inilabas noong"
+adm_update_you_run: "gamit mo ang"
+adm_update_notes: "Mga tala sa release"
+adm_update_howto: "Paano mag-update"
+adm_update_check_now: "Suriin ngayon"
+adm_update_check: "Pagsusuri ng update"
+adm_update_up_to_date: "Napapanahon"
 adm_dash_version: Bersyon
 adm_dash_php: PHP
 adm_dash_uni_status: Status ng universe

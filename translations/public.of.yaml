@@ -143,3 +143,14 @@ home_logged_in_as: Agmeldet als %s
 home_continue: Weida zu deine Universen
 home_account_lobby: Konto-Lobby
 rulesEmpty: Es wurde noch kei Regeln veröffendlicht.
+loginLostPasswordOff: "Passwort vergessen? %s"
+loginContactTeam: "Wende dich an das Team."
+home_step_build: "Baue Minen, Forschung und Werften auf deinen Planeten."
+home_step_fleet: "Schicke Flotten los: erkunden, handeln, angreifen oder verteidigen."
+home_step_alliance: "Tritt einer Allianz bei und klettere in der Rangliste."
+home_hof_desc: "Sieger abgeschlossener Runden"
+home_battlehall_desc: "Die größten Schlachten der laufenden Runde"
+memorialFilter: "Gedenkkämpfe"
+toc_contents: "Inhalt"
+loginRememberHint: "Nicht auf einem gemeinsam genutzten Computer verwenden."
+home_step_rules: "Lies vor dem Start die %s."

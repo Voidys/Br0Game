@@ -697,7 +697,7 @@ fl_player_is_noob: Người chơi đang được bảo vệ người mới.
 fl_player_is_strong: Người chơi quá mạnh.
 fl_r: (R)
 fl_remove_all_ships: Bỏ chọn tàu
-fl_resources: Đã chất tài nguyên!
+fl_resources: Chất tài nguyên
 fl_resources_left: Sức chứa còn trống
 fl_return_time: Thời gian về
 fl_returning: Đang quay về
@@ -897,7 +897,7 @@ lm_shipshard: Xưởng đóng tàu
 lm_statistics: Thống kê
 lm_support: Hỗ trợ
 lm_technology: Công nghệ
-lm_topkb: Đại sảnh danh vọng
+lm_topkb: Sảnh chiến đấu
 lo_continue: Bấm để tiếp tục.
 lo_logout: Bạn đã đăng xuất. Hẹn gặp lại!
 lo_notify: Chuyển hướng sau <span id="seconds">5</span> giây
@@ -1223,10 +1223,10 @@ rs_calculate: Lưu thay đổi
 rs_daily: Sản lượng ngày
 rs_lvl: Cấp
 rs_production_on_planet: Tài nguyên sản xuất tại "%s"
-rs_ramp_up: Bật lên
+rs_ramp_up: 'Đặt tất cả 100%'
 rs_ress_bonus: Bonus (từ nghiên cứu)
 rs_ress_bonus_position: Bonus (từ vị trí hành tinh)
-rs_shut_down: Tắt
+rs_shut_down: 'Đặt tất cả 0%'
 rs_storage_capacity: Sức chứa kho
 rs_sum: Sản lượng giờ
 rs_weekly: Sản lượng tuần
@@ -1393,7 +1393,7 @@ tkb_owners: Người dùng tham gia
 tkb_platz: Hạng
 tkb_self: chỉ của bạn
 tkb_timeframe: Khoảng thời gian
-tkb_top: Đại sảnh danh vọng
+tkb_top: Sảnh chiến đấu
 tkb_units: Đơn vị
 tkb_verlierer: <b>-Người thua-</b>
 tkb_week: tuần
@@ -1486,6 +1486,7 @@ ui_queue: Hàng chờ
 ui_queue_free: ô trống
 ui_points: Điểm
 ui_close: Đóng
+ui_storage_full: "Storage full: production stopped"
 ui_messages: Tin nhắn
 ui_server_time: Giờ máy chủ
 ui_planet: Hành tinh
@@ -1543,3 +1544,88 @@ vt_postback_hint: Phần thưởng sẽ được cộng sau khi trang xác nhậ
 vt_notice_rewarded: Cảm ơn bạn đã bình chọn! Phần thưởng đã được cộng vào hành tinh chính.
 vt_notice_pending: Cảm ơn bạn đã bình chọn! Phần thưởng sẽ được cộng sau khi trang xác nhận lượt bình chọn của bạn.
 vt_notice_cooldown: Bạn phải đợi trước khi bình chọn lại trang này.
+mg_confirm_delete_one: "Xóa tin nhắn này?"
+mg_confirm_delete_bulk: "Thực sự xóa các tin nhắn này? Không thể hoàn tác."
+mg_group_mark: "Đánh dấu đã đọc"
+mg_group_delete: "Xóa"
+mg_pick_category: "Chọn một danh mục ở trên để xem tin nhắn."
+mg_no_messages: "Không có tin nhắn."
+mg_select_message: "Chọn tin nhắn"
+mg_search_player: "Tìm người chơi"
+mg_remove_receiver: "Bỏ người nhận"
+mg_no_receiver: "Chọn ít nhất một người nhận."
+nt_confirm_delete: "Xóa các ghi chú đã chọn?"
+nt_priority_legend: "Màu = ưu tiên: xanh lá thấp, vàng thường, đỏ cao"
+al_save_all_hint: "Cả hai nút Lưu đều lưu văn bản và tùy chọn cùng lúc."
+al_dissolve_btn: "Giải tán liên minh..."
+al_transfer_btn: "Chuyển nhượng liên minh..."
+al_dissolve_hint: "Thao tác này xóa vĩnh viễn liên minh và loại tất cả thành viên. Không thể hoàn tác."
+al_transfer_hint: "Giao quyền lãnh đạo cho thành viên khác. Bạn sẽ mất cấp bậc người sáng lập."
+al_transfer_confirm: "Chuyển liên minh cho thành viên đã chọn? Bạn sẽ mất quyền lãnh đạo."
+al_kick: "Loại"
+al_find_results: "Kết quả"
+al_find_browse: "Liên minh lớn nhất"
+al_find_none_yet: "Chưa có liên minh nào trong vũ trụ này."
+al_no_inside_text: "Chưa có văn bản dành cho thành viên."
+bd_needs: 'Cần'
+bd_missing: 'Thiếu'
+honorfights: "Trận chiến danh dự"
+pl_block_head: "Chặn"
+pl_block_hint: "Có hiệu lực ngay, không cần nút Lưu."
+st_my_rank: "Đến thứ hạng của tôi"
+st_legend_noob: "Bảo vệ người mới"
+rec_intro: "Cấp cao nhất đạt được trong vũ trụ này cho từng công trình và nghiên cứu, so với của bạn."
+as_intro: "Bộ đếm chi tiết về hoạt động của bạn (thám hiểm, xây dựng, tổn thất, tiêu diệt). Bảng xếp hạng mọi người chơi nằm ở trang Thống kê."
+as_show_empty: "Hiện các dòng trống"
+op_sections: "Chuyển đến"
+op_save_hint: "Thay đổi chỉ có hiệu lực sau khi lưu."
+op_dlte_account_confirm: "Bạn có thật sự muốn xóa tài khoản? Tài khoản sẽ bị xóa hoàn toàn sau ít nhất 7 ngày; trước đó bạn có thể hủy việc xóa."
+ti_none: "Bạn chưa có ticket nào. Hãy đọc %s trước; nếu chưa giải quyết được, hãy tạo ticket."
+ti_faq_first: "Hãy xem FAQ trước: nhiều câu hỏi đã có lời đáp ở đó."
+team_contact_hint: "Cần trợ giúp? Hãy mở ticket tại %s."
+cl_hint: "Các thay đổi kỹ thuật của phần mềm trò chơi, mới nhất ở trên. Nhấp vào một mục để mở rộng."
+cl_empty: "Chưa ghi nhận thay đổi nào."
+toc_contents: "Mục lục"
+sh_hint: "Nhập ít nhất hai ký tự rồi nhấn Enter hoặc Tìm kiếm."
+sh_search_type: "Tìm theo"
+sh_search_text: "Từ khóa tìm kiếm"
+sh_no_players: "Không tìm thấy gì. Hãy kiểm tra chính tả hoặc thử từ khóa ngắn hơn."
+sh_no_alliances: "Không tìm thấy liên minh nào. Hãy kiểm tra chính tả hoặc thử từ khóa ngắn hơn."
+fl_no_ship_selected: "Hãy chọn ít nhất một tàu."
+fl_recall_confirm: "Triệu hồi hạm đội này? Hạm đội quay đầu ngay và về đến nhà lúc %s."
+fl_recall_return: "Về đến nếu triệu hồi bây giờ"
+fl_no_fleets: "Không có hạm đội nào đang làm nhiệm vụ."
+fl_quick_fleets: "Hạm đội nhanh"
+fl_quick_fleets_hint: "Chưa lưu gì. Hãy lưu một tổ hợp tàu ở \"Hạm đội tùy chỉnh\" bên dưới, nó sẽ hiện ở đây dưới dạng lối tắt một lần bấm; nhiệm vụ gần nhất của bạn cũng hiện ở đây."
+fl_load_hint: "Điền sẵn theo kho của hành tinh này. Các nút vận tải gợi ý cần bao nhiêu tàu để chở; xóa nếu bạn không gửi gì kèm theo."
+fl_load_clear: "Xóa"
+fl_cargo_options_hint: "Màu đỏ nghĩa là bạn không đủ loại tàu đó. Bấm biểu tượng tàu để chọn sẵn cùng với mục tiêu."
+fl_summary: "Tóm tắt lệnh gửi"
+fl_coord_range: "Tọa độ không hợp lệ. Cho phép: thiên hà 1-%d, hệ 1-%d, vị trí 1-%d."
+fl_sending: "Đang gửi hạm đội..."
+ft_rate_info: 'Thương nhân giữ lại %s%% giá trị tàu và trả phần còn lại bằng tài nguyên.'
+ft_per_ship: 'Tiền trả cho mỗi tàu'
+ft_receive: 'Bạn nhận được'
+market_tab_resources: 'Chợ tài nguyên'
+market_tab_fleets: 'Chợ hạm đội'
+market_ratio_label: 'So sánh ưu đãi theo tỷ lệ'
+market_ratio_hint: 'Đặt tỷ giá dùng cho cột Tỷ lệ; tài nguyên được chọn là cơ sở.'
+market_no_offers: 'Hiện chưa có ưu đãi nào.'
+gl_recycle_needs: "Tái chế (cần tàu tái chế)"
+gl_keys_hint: "Bàn phím: phím mũi tên hoặc A D đổi hệ, W S đổi thiên hà."
+rs_ramp_up_confirm: 'Đặt mọi công trình sản xuất lên 100% và lưu?'
+rs_shut_down_confirm: 'Đặt mọi công trình sản xuất về 0% và lưu? Sản xuất sẽ dừng.'
+rs_energy_deficit: 'Thiếu năng lượng: các mỏ chạy dưới mức đã đặt cho đến khi năng lượng cân bằng trở lại.'
+ov_event_hostile: 'Thù địch'
+ov_no_fleets: 'Không có hạm đội di chuyển.'
+al_chart_x: "Thời gian (giờ trước)"
+al_chart_y: "Điểm"
+as_sub_count: "Thám hiểm"
+as_sub_found: "Phát hiện"
+as_sub_lost: "Tổn thất"
+as_sub_first: "Lần đầu"
+op_notifications: "Thông báo"
+rs_full_in: 'Kho đầy sau'
+rs_full_now: 'Đầy'
+fl_prepared_gone: "Hạm đội này không còn được chuẩn bị (hết hạn, đã giải phóng hoặc đã gửi). Hãy bắt đầu lại."
+gl_legend_activity: "Hoạt động trong 15 phút qua, sau đó hiện (phút) đến 60"

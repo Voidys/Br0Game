@@ -1223,10 +1223,10 @@ rs_calculate: Berechnen
 rs_daily: Bro Dag
 rs_lvl: Schdufe
 rs_production_on_planet: Rohstoffprodugtion uff Blanet "%s"
-rs_ramp_up: Alles hochfahren
+rs_ramp_up: 'Alle auf 100 %'
 rs_ress_bonus: Bonus (durch Forschung)
 rs_ress_bonus_position: Bonus (durch Planetenposition)
-rs_shut_down: Alles herunterfahren
+rs_shut_down: 'Alle auf 0 %'
 rs_storage_capacity: Lagergapazität
 rs_sum: Bro Schdunde
 rs_weekly: Bro  Woche
@@ -1389,7 +1389,7 @@ tkb_owners: Beteiligte
 tkb_platz: Blatz
 tkb_self: eigene
 tkb_timeframe: Zeitfenster
-tkb_top: Hall of Fame
+tkb_top: Baddle Hall
 tkb_units: Units
 tkb_verlierer: <b>-Werlierer-</b>
 tkb_week: Woche
@@ -1482,6 +1482,7 @@ ui_queue: Bauliste
 ui_queue_free: freier Platz
 ui_points: Punkte
 ui_close: Schließen
+ui_storage_full: "Storage full: production stopped"
 ui_messages: Nachrichten
 ui_server_time: Serverzeit
 ui_planet: Planet
@@ -1539,3 +1540,88 @@ vt_postback_hint: Die Belohnung kummt, sobald die Seid deinen Vote bestädischt 
 vt_notice_rewarded: Danke fers Voten! Die Belohnung wurd deim Hauptplanede gudgeschrieb.
 vt_notice_pending: Danke fers Voten! Die Belohnung kummt, sobald die Seid deinen Vote bestädischt had.
 vt_notice_cooldown: Du musst warde, bevor du uff dieser Seid erneut voten kannsd.
+mg_confirm_delete_one: "Dia Nachricht löschn?"
+mg_confirm_delete_bulk: "Die Nachrichtn wirklich löschn? Des geht nimmer zrück."
+mg_group_mark: "Als gelesn markiern"
+mg_group_delete: "Löschn"
+mg_pick_category: "Such dir oben a Kategorie aus, dann siggst die Nachrichtn."
+mg_no_messages: "Kane Nachrichtn do."
+mg_select_message: "Nachricht auswähln"
+mg_search_player: "Spieler suchn"
+mg_remove_receiver: "Empfänger wegnehma"
+mg_no_receiver: "Nimm mindestens oan Empfänger."
+nt_confirm_delete: "Die markierdn Notizn löschn?"
+nt_priority_legend: "Farb = Priorität: grün niedrig, gelb normal, rot hoch"
+al_save_all_hint: "Beide Speichern-Buttons speichern Texte und Optionen gemeinsam."
+al_dissolve_btn: "Allianz auflösen..."
+al_transfer_btn: "Allianz übertragen..."
+al_dissolve_hint: "Löscht die Allianz endgültig und entfernt alle Mitglieder. Das lässt sich nicht rückgängig machen."
+al_transfer_hint: "Übergibt die Führung an ein anderes Mitglied. Du verlierst den Gründerrang."
+al_transfer_confirm: "Die Allianz an das gewählte Mitglied übertragen? Du verlierst die Führung."
+al_kick: "Entfernen"
+al_find_results: "Ergebnisse"
+al_find_browse: "Größte Allianzen"
+al_find_none_yet: "In diesem Universum gibt es noch keine Allianzen."
+al_no_inside_text: "Noch kein Text für Mitglieder."
+bd_needs: 'Benötigt'
+bd_missing: 'Es fehlt'
+honorfights: "Ehrenkämpfe"
+pl_block_head: "Blockieren"
+pl_block_hint: "Wirkt sofort, ein Speichern-Button ist nicht nötig."
+st_my_rank: "Zu meinem Rang springen"
+st_legend_noob: "Neulingsschutz"
+rec_intro: "Die höchste in diesem Universum erreichte Stufe jedes Gebäudes und jeder Forschung, im Vergleich zu deiner eigenen."
+as_intro: "Detaillierte Zähler deiner eigenen Aktivität (Expeditionen, Bauten, Verluste, Abschüsse). Die Rangliste aller Spieler findest du unter Statistik."
+as_show_empty: "Leere Zeilen anzeigen"
+op_sections: "Springe zu"
+op_save_hint: "Änderungen gelten erst nach dem Speichern."
+op_dlte_account_confirm: "Account wirklich löschen? Er wird nach mindestens 7 Tagen endgültig entfernt; bis dahin kannst du die Löschung abbrechen."
+ti_none: "Du hast noch keine Tickets. Lies zuerst die %s; hilft das nicht weiter, erstelle ein Ticket."
+ti_faq_first: "Schau zuerst in die FAQ: Viele Fragen sind dort beantwortet."
+team_contact_hint: "Brauchst du Hilfe? Eröffne ein Ticket über %s."
+cl_hint: "Technische Änderungen an der Spielsoftware, neueste zuerst. Klicke einen Eintrag zum Aufklappen."
+cl_empty: "Keine Änderungen verzeichnet."
+toc_contents: "Inhalt"
+sh_hint: "Gib mindestens zwei Zeichen ein und drücke Enter oder Suchen."
+sh_search_type: "Suche nach"
+sh_search_text: "Suchtext"
+sh_no_players: "Nichts gefunden. Prüfe die Schreibweise oder probiere einen kürzeren Text."
+sh_no_alliances: "Keine Allianzen gefunden. Prüfe die Schreibweise oder probiere einen kürzeren Text."
+fl_no_ship_selected: "Wähl mindestens a Schiff aus."
+fl_recall_confirm: "Flodde zurückrufen? Die dreht etz um und is um %s widder dehaam."
+fl_recall_return: "Widder dehaam bei Rückruf etz"
+fl_no_fleets: "Kaa Flodde unnerwegs."
+fl_quick_fleets: "Schnellflodde"
+fl_quick_fleets_hint: "Noch nix gespeichert. Speicher unne unner \"Eigene Flodde\" a Schiffskombi, nacha steht se do als Ei-Klick-Abkürzung; dei letzte Mission aa."
+fl_load_hint: "Mit dem Bestand vo dem Planeten vorausgfüllt. Die Fracht-Knöpf schlogn vor, wie viel Schiff des dragn; leern, wenn nix mitgschickt werd."
+fl_load_clear: "Leern"
+fl_cargo_options_hint: "Rot haßt: Vo dem Schiff hast ned gnua. Klick auf a Schiffssymbol, zum Vorwähln samt Ziel."
+fl_summary: "Zammfassung"
+fl_coord_range: "Ungültige Koordinaten. Erlaubt: Galaxie 1-%d, System 1-%d, Position 1-%d."
+fl_sending: "Flodde werd verschiggt..."
+ft_rate_info: 'Der Händler behält %s%% des Schiffswerts ein und zahlt den Rest in Rohstoffen aus.'
+ft_per_ship: 'Auszahlung pro Schiff'
+ft_receive: 'Du erhältst'
+market_tab_resources: 'Rohstoffmarkt'
+market_tab_fleets: 'Flottenmarkt'
+market_ratio_label: 'Angebote vergleichen im Verhältnis'
+market_ratio_hint: 'Legt den Kurs für die Spalte Verhältnis fest; die gewählte Ressource ist die Basis.'
+market_no_offers: 'Zurzeit keine Angebote.'
+gl_recycle_needs: "Abbaua (Recycler nötig)"
+gl_keys_hint: "Tastatur: Pfeiltasten oder A D wechseln s System, W S die Galaxie."
+rs_ramp_up_confirm: 'Alle Produzenten auf 100 % setzen und speichern?'
+rs_shut_down_confirm: 'Alle Produzenten auf 0 % setzen und speichern? Die Produktion stoppt.'
+rs_energy_deficit: 'Energiemangel: Die Minen laufen unter ihrer eingestellten Stufe, bis die Energie wieder ausgeglichen ist.'
+ov_event_hostile: 'Feindlich'
+ov_no_fleets: 'Keine Flottenbewegungen.'
+al_chart_x: "Zeit (vor Stunden)"
+al_chart_y: "Punkte"
+as_sub_count: "Expeditionen"
+as_sub_found: "Funde"
+as_sub_lost: "Verluste"
+as_sub_first: "Erstmals"
+op_notifications: "Benachrichtigungen"
+rs_full_in: 'Lager voll in'
+rs_full_now: 'Voll'
+fl_prepared_gone: "Die Flodde is nemmer vorbereit (abgloffn, freigebn oder scho verschiggt). Fang bidde nei o."
+gl_legend_activity: "In de letzdn 15 Min. aktiv, dann (Minudn) bis 60"

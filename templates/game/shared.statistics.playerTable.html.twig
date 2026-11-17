@@ -6,7 +6,7 @@
 	<th class="num">{{ LNG.st_points }}</th>
 </tr>
 {% for RangeInfo in RangeList %}
-<tr>
+<tr{% if RangeInfo.id == CUser_id %} id="my-rank" class="my-row"{% endif %}>
 	<td class="num">{% set tt_rank %}{% if RangeInfo.ranking == 0 %}<span class='color-star'>*</span>{% elseif RangeInfo.ranking < 0 %}<span class='colorNegative'>-{{ RangeInfo.ranking }}</span>{% elseif RangeInfo.ranking > 0 %}<span class='color-green'>+{{ RangeInfo.ranking }}</span>{% endif %}{% endset %}<a class="tooltip" data-tooltip-content="{{ tt_rank|e('html_attr') }}">{{ RangeInfo.rank }}</a></td>
 	<td>
 		{% if type == 6 and who == 1 %}

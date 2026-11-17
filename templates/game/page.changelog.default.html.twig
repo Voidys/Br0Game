@@ -6,7 +6,17 @@
 	<th>{{ LNG.lm_changelog }}</th>
 </tr>
 <tr>
-	<td class="left changelog-text">{{ ChangelogList }}</td>
+	<td class="left changelog-text">{{ ChangelogIntro }}<p class="hint">{{ LNG.cl_hint }}</p></td>
 </tr>
 </table>
+<div class="changelog-list">
+{% for entry in ChangelogEntries %}
+	<details class="changelog-entry"{% if loop.first %} open{% endif %}>
+		<summary>{{ entry.title }}{% if entry.commit %} <code class="changelog-entry__commit">{{ entry.commit|slice(0, 8) }}</code>{% endif %}</summary>
+		<div class="changelog-text">{{ entry.body }}</div>
+	</details>
+{% else %}
+	<div class="empty-state"><p>{{ LNG.cl_empty }}</p></div>
+{% endfor %}
+</div>
 {% endblock %}

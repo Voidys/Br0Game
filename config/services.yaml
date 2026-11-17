@@ -7,6 +7,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    # admin update notice: latest-release endpoint (App\Runtime\UpdateCheck); override with env UPDATE_CHECK_URL
+    app.update_check_url: 'https://api.github.com/repos/Voidys/Br0Game/releases/latest'
     app.config_cache: true
     # game session storage unless SESSION_HANDLER_DSN is set (framework.session.handler_id)
     session_handler_default: 'file://%kernel.project_dir%/var/sessions'

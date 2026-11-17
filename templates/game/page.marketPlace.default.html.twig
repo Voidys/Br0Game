@@ -11,18 +11,18 @@
 	<tr>
 		{% if isModuleAvailable(constant('MODULE_MARKET_TRADE')) and isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 			<td>
-				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
+				<button id="resourceMBtn" class="marketOption selected">{{ LNG.market_tab_resources }}</button>
 			</td>
 			<td>
-				<button id="fleetMBtn" class="marketOption">Fleet market</button>
+				<button id="fleetMBtn" class="marketOption">{{ LNG.market_tab_fleets }}</button>
 			</td>
 		{% elseif isModuleAvailable(constant('MODULE_MARKET_TRADE')) %}
 			<td colspan="2">
-				<button id="resourceMBtn" class="marketOption selected">Resource market</button>
+				<button id="resourceMBtn" class="marketOption selected">{{ LNG.market_tab_resources }}</button>
 			</td>
 		{% elseif isModuleAvailable(constant('MODULE_MARKET_TRANSFER')) %}
 			<td colspan="2">
-				<button id="fleetMBtn" class="marketOption selected">Fleet market</button>
+				<button id="fleetMBtn" class="marketOption selected">{{ LNG.market_tab_fleets }}</button>
 			</td>
 		{% endif %}
 	</tr>
@@ -38,7 +38,7 @@
 
 <table class="ratio-ref form-table">
 	<tr class="ratio">
-		<td>Reference ratio:</td>
+		<td>{{ LNG.market_ratio_label }}<span class="hint">{{ LNG.market_ratio_hint }}</span></td>
 		<td id="ratioBaselines" class="ratio-baselines" data-metal="{{ ratio_base_metal }}" data-crystal="{{ ratio_base_crystal }}" data-deuterium="{{ ratio_base_deuterium }}">
 			<div class="ratio-grid">
 				<input type="text" inputmode="decimal" name="ratio-metal" value="{{ ratio_metal }}" autocomplete="off"/>
@@ -102,6 +102,8 @@
 	</thead>
 	<tbody>
 
+	{% set hasOffers0 = false %}{% for FlyingFleetRow in FlyingFleetList %}{% if FlyingFleetRow.type == 0 %}{% set hasOffers0 = true %}{% endif %}{% endfor %}
+	{% if not hasOffers0 %}<tr><td colspan="10" class="empty-state"><p>{{ LNG.market_no_offers }}</p></td></tr>{% endif %}
 	{% for FlyingFleetRow in FlyingFleetList %}
 	{% if FlyingFleetRow.type == 0 %}
 	<tr class='{% if FlyingFleetRow.diplo == 5 %}
@@ -222,6 +224,8 @@
 	</thead>
 	<tbody>
 
+	{% set hasOffers1 = false %}{% for FlyingFleetRow in FlyingFleetList %}{% if FlyingFleetRow.type == 1 %}{% set hasOffers1 = true %}{% endif %}{% endfor %}
+	{% if not hasOffers1 %}<tr><td colspan="10" class="empty-state"><p>{{ LNG.market_no_offers }}</p></td></tr>{% endif %}
 	{% for FlyingFleetRow in FlyingFleetList %}
 	{% if FlyingFleetRow.type == 1 %}
 	<tr class='{% if FlyingFleetRow.diplo == 5 %}

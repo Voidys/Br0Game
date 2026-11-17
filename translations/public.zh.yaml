@@ -143,3 +143,14 @@ home_logged_in_as: 已登录为 %s
 home_continue: 继续前往你的宇宙
 home_account_lobby: 账号大厅
 rulesEmpty: 尚未发布任何规则。
+loginLostPasswordOff: "忘记密码？%s"
+loginContactTeam: "请联系管理团队。"
+home_step_build: "在你的星球上建造矿场、研究所和船坞。"
+home_step_fleet: "派出舰队：探索、贸易、攻击或防守。"
+home_step_alliance: "加入联盟，攀升排行榜。"
+home_hof_desc: "已结束回合的获胜者"
+home_battlehall_desc: "当前回合最大的战斗"
+memorialFilter: "纪念战斗"
+toc_contents: "目录"
+loginRememberHint: "请勿在公用电脑上使用。"
+home_step_rules: "开始前请阅读%s。"

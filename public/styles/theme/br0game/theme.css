@@ -47,6 +47,7 @@
   --radius: 0.5rem;
   --radius-sm: 0.375rem;
   --radius-xs: 0.25rem;
+  --pill-radius: 6.1875rem;
   --shadow: var(--theme-shadow-float);
 
   /* shell */
@@ -155,7 +156,7 @@ html {
 
 body {
   font-family: var(--font);
-  font-size: 0.875rem;
+  font-size: var(--fs-md);
   color: var(--theme-text);
   background: transparent;
 }
@@ -271,7 +272,7 @@ tr:hover > td { background: var(--theme-hover); }
 tr:last-child > td { border-block-end: 0; }
 
 /* header cells that are really section titles (colspan) read as titles, not column labels */
-th[colspan] { color: var(--theme-text); text-transform: none; letter-spacing: 0.01em; font-size: 0.875rem; }
+th[colspan] { color: var(--theme-text); text-transform: none; letter-spacing: 0.01em; font-size: var(--fs-md); }
 
 table table, .tip td, .tip th, .transparent, header td, .raportMessage td {
   background: transparent;
@@ -376,7 +377,7 @@ tr:hover > td.transparent, tr:hover > td.no-background { background: transparent
 
 .b { background: var(--theme-raised); border: 0.0625rem solid var(--theme-border-strong); border-radius: var(--radius-sm); font-weight: 600; }
 .hidden-div { border: 0.0625rem solid var(--theme-border-strong); border-radius: var(--radius-sm); }
-.unavailable { opacity: 0.6; }
+.unavailable { opacity: 0.8; }
 
 /* ---------------------------------------------------------------- signal colours */
 .colorPositive, .success, .colony, .deploy, .harvest, .transport, .raportWin, .fleet-active-time, .honor-top { color: var(--theme-positive); }

@@ -143,3 +143,14 @@ home_logged_in_as: Đã đăng nhập với tên %s
 home_continue: Tiếp tục đến các vũ trụ của bạn
 home_account_lobby: Sảnh tài khoản
 rulesEmpty: Chưa có quy định nào được đăng.
+loginLostPasswordOff: "Quên mật khẩu? %s"
+loginContactTeam: "Hãy liên hệ với đội ngũ."
+home_step_build: "Xây mỏ, nghiên cứu và xưởng tàu trên các hành tinh của bạn."
+home_step_fleet: "Gửi hạm đội: thám hiểm, giao thương, tấn công hoặc phòng thủ."
+home_step_alliance: "Gia nhập liên minh và leo lên bảng xếp hạng."
+home_hof_desc: "Người thắng các vòng đã kết thúc"
+home_battlehall_desc: "Những trận chiến lớn nhất của vòng hiện tại"
+memorialFilter: "Trận chiến tưởng niệm"
+toc_contents: "Mục lục"
+loginRememberHint: "Không dùng trên máy tính dùng chung."
+home_step_rules: "Hãy đọc %s trước khi bắt đầu."

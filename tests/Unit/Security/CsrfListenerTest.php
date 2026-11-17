@@ -222,7 +222,10 @@ final class CsrfListenerTest extends TestCase
         $attributes = ['_area' => 'game', '_page' => 'phalanx', '_mode' => 'show'];
         $query = ['galaxy' => '1', 'system' => '2', 'planet' => '3'];
 
-        self::assertSame(403, $this->dispatch($this->request('GET', 'game_phalanx_show', $query, attributes: $attributes))->getResponse()?->getStatusCode());
+        // without the token the scan does not run: the visitor is sent back into the game (typed or bookmarked link)
+        $response = $this->dispatch($this->request('GET', 'game_phalanx_show', $query, attributes: $attributes))->getResponse();
+        self::assertNotNull($response);
+        self::assertTrue($response->isRedirection());
         self::assertFalse($this->dispatch($this->request('GET', 'game_phalanx_show', $query + [CsrfPolicy::FIELD => $this->token()], attributes: $attributes))->hasResponse());
     }
 

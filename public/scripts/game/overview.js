@@ -14,6 +14,26 @@ function remaining(el, umode) {
   return umode ? time : time - elapsed();
 }
 
+/** Accordions (<details class="accordion" data-key>): the open/closed choice is kept in localStorage (default open, data-default="closed" starts folded); data-force-open="1" (hostile fleet) keeps one open. */
+function initAccordions() {
+  document.querySelectorAll('details.accordion[data-key]').forEach((details) => {
+    const key = 'accordion:' + details.dataset.key;
+    const forced = details.dataset.forceOpen === '1';
+    const closedByDefault = details.dataset.default === 'closed';
+    try {
+      const stored = localStorage.getItem(key);
+      if (forced) details.open = true;
+      else if (stored === 'closed') details.open = false;
+      else if (stored === 'open') details.open = true;
+      else details.open = !closedByDefault;
+    } catch (e) { details.open = forced || !closedByDefault; }
+    details.addEventListener('toggle', () => {
+      if (forced) { details.open = true; return; }
+      try { localStorage.setItem(key, details.open ? 'open' : 'closed'); } catch (e) { /* ignore */ }
+    });
+  });
+}
+
 /** Starts the two 1 s intervals and the news/event toggle buttons. A finished repair countdown restarts with the 3-day (259200 s) cycle and switches the label to its alternative text. */
 function init() {
   const umode = qs('.timer')?.dataset.umode == 1;
@@ -62,16 +82,7 @@ function init() {
     if (newsShow) newsShow.style.display = '';
     if (news) news.style.display = 'none';
   });
-  on(document, 'click', '#chkbtn1', (event, button) => {
-    button.style.display = 'none';
-    document.getElementById('hidden-div2').style.display = 'none';
-    document.getElementById('tn3').style.display = '';
-  });
-  on(document, 'click', '#chkbtn3', () => {
-    document.getElementById('chkbtn1').style.display = '';
-    document.getElementById('hidden-div2').style.display = '';
-    document.getElementById('tn3').style.display = 'none';
-  });
+  initAccordions();
 }
 
 window.onPageInit(init);

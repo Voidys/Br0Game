@@ -1,4 +1,5 @@
 {% extends layout_template %}
+{% import 'game/macros.buildcard.html.twig' as b %}
 {% block title %}{{ LNG.lm_research }}{{ parent() }}{% endblock %}
 {% block content %}
 	{% if not hasLab %}<div class="hidden-div">{{ LNG.bd_no_lab }}</div>{% endif %}
@@ -17,7 +18,7 @@
 			{% if hide_useless == 0 or Element['max_useful_level'] == 0 or Element['level'] < Element['max_useful_level'] %}
 				<div class="infos {% if Element.fade %}unavailable{% endif %}" id="t{{ ID }}">
 					<div class="buildn relative">
-						<a href="#" data-action="dialog-info" data-id="{{ ID }}">{{ LNG.tech[ID] }}</a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
+						<a href="#" class="info-link" data-action="dialog-info" data-id="{{ ID }}" title="{{ LNG.tt_requirements }} / {{ LNG.fcm_info }}">{{ LNG.tech[ID] }} <span class="info-ico">{{ icon('info') }}</span></a>{% if Element.level != 0 %} ({{ LNG.bd_lvl }} {{ Element.level }}{% if Element.maxLevel != 255 %}/{{ Element.maxLevel }}{% endif %}){% endif %}
 						{% if ID == watch %}
 							<a href="{{ path('game_research_show', {watch: 0}) }}">
 								<img class="watchlist-fav-button" src="./styles/theme/nova/img/fav.webp" alt="Unwatch">
@@ -30,49 +31,38 @@
 					</div>
 					<div class="buildl">
 						<a href="#" data-action="dialog-info" data-id="{{ ID }}">
-							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" width="120" height="120" loading="lazy" decoding="async">
+							<img class="float-left" src="{{ theme_asset('gebaeude/' ~ ID ~ '.gif') }}" alt="{{ LNG.tech[ID] }}" width="120" height="120" loading="lazy" decoding="async">
 						</a>
 						{% if Element.requirements %}
 							{{ LNG.tt_requirements }}: </br>
 							{% for requireID, NeedLevel in Element.requirements %}
 								<a href="#" data-action="dialog-info" data-id="{{ requireID }}">
-								<span class="{% if NeedLevel.own < NeedLevel.count %}colorNeutral{% else %}colorPositive{% endif %}">
+								<span class="{% if NeedLevel.own < NeedLevel.count %}colorNegative{% else %}colorPositive{% endif %}">
 									{{ LNG.tech[requireID] }} ({{ LNG.tt_lvl }} {{ NeedLevel.own }}/{{ NeedLevel.count }})
 								</span>
 								</a>{% if not loop.last %}<br>{% endif %}
 							{% endfor %}
-						{% else %}
-							{{ LNG.bd_remaining }}:<br>
-							{% for ResType, ResCount in Element.costOverflow %}
-								<a href='#' data-action="dialog-info" data-id="{{ ResType }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: ResType})) }}>{{ LNG.tech[ResType] }}</a>: <span class="bold">{{ pretty_number(ResCount) }}</span><br>
-							{% endfor %}
-							{% if Element.timetobuild!= 0 %}<div>{{ LNG['whenbuildable'] }}: <span class="buildcountdown bold" timestamp="{{ Element.timetobuild }}"></span></div>{% endif %}
 						{% endif %}
 					</div>
 
 					<div class="buildl">
-						<span>
-							{% for RessID, RessAmount in Element.costResources %}
-								<a href='#' data-action="dialog-info" data-id="{{ RessID }}" class='tooltip' {{ tooltip(include('game/tooltip.element.html.twig', {id: RessID})) }}>{{ LNG.tech[RessID] }}</a>: <b><span class="{% if Element.costOverflow[RessID] == 0 %}colorPositive{% else %}colorNegative{% endif %}">{{ pretty_number(RessAmount) }}</span></b>
-							{% endfor %}
-							
-							{% if Element.factor != null and not Element.requirements and Element.buyable %}
-								<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}"><br>{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
-							{% endif %}
-						</span>
-						<br><br>
+						{% set atMax = Element.maxLevel == Element.levelToBuild %}
+						{% if not atMax %}{{ b.costs(Element) }}{% endif %}
+						{% if Element.factor != null and not Element.requirements and Element.buyable %}
+							<span class="colorNeutral tooltip" data-tooltip-content="{{ LNG.sys_catchup_tooltip }}">{{ LNG.format('sys_catchup_short', Element.factor) }} %</span>
+						{% endif %}
 						{% if vacation %}
-							<span class="colorNeutral">{{ LNG.op_options_vacation_activated }}</span>
+							<span class="reason">{{ LNG.op_options_vacation_activated }}</span>
 						{% elseif Element.requirements %}
-							<span class="colorNeutral">{{ LNG.bd_requirements }}</span>
-						{% elseif Element.maxLevel == Element.levelToBuild %}
-							<span class="colorNeutral">{{ LNG.bd_maxlevel }}</span>
+							{{ b.needs(Element.requirements) }}
+						{% elseif atMax %}
+							<span class="reason">{{ LNG.bd_maxlevel }}</span>
 						{% elseif IsLabinBuild %}
-							<span class="colorNeutral">{{ LNG.sys_buildlist_fail }}</span>
+							<span class="reason">{{ LNG.sys_buildlist_fail }}</span>
 						{% elseif IsFullQueue %}
-							<span class="colorNeutral">{{ LNG.bd_researclist_full }}</span>
+							<span class="reason">{{ LNG.bd_researclist_full }}</span>
 						{% elseif not Element.buyable %}
-							<span class="colorNeutral">{{ LNG.bd_remaining }}</span>
+							{{ b.missing(Element) }}
 						{% else %}
 							<form action="{{ path('game_research_command') }}" method="post" class="build_form">
 								<input type="hidden" name="cmd" value="insert">
@@ -80,9 +70,7 @@
 								<button type="submit" class="colorPositive build_submit">{% if Element.level == 0 and Element.levelToBuild == 0 %}{{ LNG.bd_tech }}{% else %}{{ LNG.bd_tech_next_level }}{{ Element.levelToBuild + 1 }}{% endif %}</button>
 							</form>
 						{% endif %}
-						</br>
-						{{ LNG.fgf_time }}
-						<span class="statictime" timestamp="{{ Element.elementTime }}"></span>
+						{% if not atMax %}<div class="build-meta">{{ b.time(Element.elementTime) }}</div>{% endif %}
 					</div>
 				</div>
 			{% endif %}

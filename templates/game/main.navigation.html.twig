@@ -9,7 +9,7 @@
   <section class="nav__group">
     <h2 class="nav__heading">{{ LNG.ui_nav_empire|default('Empire') }}</h2>
     <ul>
-      {{ nav.link(path('game_overview_show'), 'layout-dashboard', LNG.lm_overview, currentPage == 'overview') }}
+      {{ nav.link(path('game_overview_show'), 'layout-dashboard', LNG.lm_overview, currentPage in ['overview', 'tutorial']) }}
       {% if isModuleAvailable(constant('MODULE_IMPERIUM')) and (not noobInterface or not tutorial or tutorial['id'] > 10) %}
         {{ nav.link(path('game_empire_show'), 'globe', LNG.lm_empire, currentPage == 'empire') }}
       {% endif %}
@@ -44,13 +44,13 @@
         {{ nav.link(path('game_galaxy_show'), 'orbit', LNG.lm_galaxy, currentPage == 'galaxy') }}
       {% endif %}
       {% if (not noobInterface or not tutorial or tutorial['id'] > 6) %}
-        {{ nav.link(path('game_fleet_table_show'), 'send', LNG.lm_fleet, currentPage starts with 'fleet') }}
+        {{ nav.link(path('game_fleet_table_show'), 'send', LNG.lm_fleet, currentPage starts with 'fleet' and currentPage != 'fleetdealer') }}
       {% endif %}
       {% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
         {{ nav.link(path('game_messages_show'), 'mail', LNG.lm_messages ~ (new_message > 0 ? ' <span class="nav__count">' ~ new_message ~ '</span>' : ''), currentPage == 'messages') }}
       {% endif %}
       {% if isModuleAvailable(constant('MODULE_MISSION_TRADE')) and (not noobInterface or not tutorial) %}
-        {{ nav.link(path('game_market_place_show'), 'store', LNG.lm_marketplace, currentPage == 'marketplace') }}
+        {{ nav.link(path('game_market_place_show'), 'store', LNG.lm_marketplace, currentPage in ['marketplace', 'fleetdealer']) }}
       {% endif %}
       {% if isModuleAvailable(constant('MODULE_SIMULATOR')) and (not noobInterface or not tutorial or tutorial['id'] > 6) %}
         {{ nav.link(path('game_battle_simulator_show'), 'swords', LNG.lm_battlesim, currentPage == 'battlesimulator') }}
@@ -62,7 +62,7 @@
     <h2 class="nav__heading">{{ LNG.ui_nav_community|default('Community') }}</h2>
     <ul>
       {% if isModuleAvailable(constant('MODULE_ALLIANCE')) %}
-        {{ nav.link(path('game_alliance_show'), 'users', LNG.lm_alliance ~ (new_allyrequests > 0 ? ' <span class="nav__count">' ~ new_allyrequests ~ '</span>' : ''), currentPage == 'alliance') }}
+        {{ nav.link(path('game_alliance_show'), 'users', LNG.lm_alliance ~ (new_allyrequests > 0 ? ' <span class="nav__count">' ~ new_allyrequests ~ '</span>' : ''), currentPage in ['alliance', 'alliancedepot']) }}
       {% endif %}
       {% if isModuleAvailable(constant('MODULE_BUDDYLIST')) %}
         {{ nav.link(path('game_buddy_list_show'), 'user-plus', LNG.lm_buddylist ~ (new_buddyrequests > 0 ? ' <span class="nav__count">' ~ new_buddyrequests ~ '</span>' : ''), currentPage == 'buddylist') }}
@@ -119,7 +119,7 @@
     <h2 class="nav__heading">{{ LNG.ui_nav_personal|default('Personal') }}</h2>
     <ul>
       {% if isModuleAvailable(constant('MODULE_NOTICE')) and (not noobInterface or not tutorial) %}
-        {{ nav.link('#', 'sticky-note', LNG.lm_notes, false, ' data-action="popup" data-url="' ~ path('game_notes_show') ~ '" data-width="720"') }}
+        {{ nav.link(path('game_notes_show'), 'sticky-note', LNG.lm_notes, false, ' data-action="popup" data-url="' ~ path('game_notes_show') ~ '" data-width="720"') }}
       {% endif %}
       {{ nav.link(path('game_settings_show'), 'settings', LNG.lm_options, currentPage == 'settings') }}
       {% if account_id != 0 %}

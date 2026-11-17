@@ -3,33 +3,18 @@
   its height while entries are added or cancelled. Used by page.buildings and page.research with
   queuePage = 'buildings' | 'research'. buildlist.js drives #progressbar and #time of the active entry.
 #}
-{% set queueField = queuePage == 'research' ? 'tech' : 'building' %}
 {% set queueLength = Queue|length %}
 {% if queueSlots > 0 %}
   <ol id="buildlist" class="build-queue" aria-label="{{ LNG.ui_queue|default('Queue') }}">
     {% set ctime = 0 %}
     {% for List in Queue %}
       {% set ID = List.element %}
-      {% if queuePage == 'research' %}
-        {% set CQueue = ResearchList[ID] ?? null %}
-        {% set canRequeue = CQueue and CQueue.maxLevel != CQueue.level and not IsFullQueue and CQueue.buyable %}
-      {% else %}
-        {% set canRequeue = not (isBusy.research and (ID == 6 or ID == 31)) and not (isBusy.shipyard and (ID == 15 or ID == 21)) and not (isBusy.repairdock and ID == 35) and RoomIsOk and CanBuildElement and BuildInfoList[ID].buyable %}
-      {% endif %}
       {% set label %}{{ LNG.tech[ID] }} {{ List.level }}{% if List.destroy is defined and List.destroy %} {{ LNG.bd_dismantle }}{% endif %}{% if List.planet %} @ {{ List.planet }}{% endif %}{% endset %}
       {% set ctime = ctime + (loop.first ? List.resttime : List.time) %}
       <li class="build-queue__item{% if loop.first %} is-active{% endif %}">
         <span class="build-queue__pos">{{ loop.index }}</span>
         <span class="build-queue__name">
-          {% if canRequeue %}
-            <form class="build_form" action="{{ path('game_' ~ queuePage ~ '_command') }}" method="post">
-              <input type="hidden" name="cmd" value="insert">
-              <input type="hidden" name="{{ queueField }}" value="{{ ID }}">
-              <button type="submit" class="build-queue__requeue" title="{{ LNG.bd_build_next_level|default('') }}">{{ label }}</button>
-            </form>
-          {% else %}
-            {{ label }}
-          {% endif %}
+          {{ label }}
         </span>
         <span class="build-queue__time">
           {% if loop.first %}

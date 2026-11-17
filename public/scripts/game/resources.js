@@ -11,3 +11,8 @@ form?.addEventListener('click', (event) => {
 	form.querySelectorAll('select[name^="prod["]').forEach((select) => { select.value = value; });
 	form.requestSubmit();
 });
+
+// a changed selector marks "Save changes" so unsaved settings are visible
+form?.addEventListener('change', (event) => {
+	if (event.target.matches('select[name^="prod["]')) document.getElementById('prod-save')?.classList.add('is-dirty');
+});

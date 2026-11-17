@@ -697,7 +697,7 @@ fl_player_is_noob: Gracz jest pod ochroną nowicjusza.
 fl_player_is_strong: Gracz jest zbyt silny.
 fl_r: (R)
 fl_remove_all_ships: Żadnych statków
-fl_resources: Załadowane surowce!
+fl_resources: Załaduj surowce
 fl_resources_left: Wolne miejsce
 fl_return_time: Czas powrotu
 fl_returning: Lot powrotny
@@ -897,7 +897,7 @@ lm_shipshard: Stocznia
 lm_statistics: Statystyki
 lm_support: Pomoc techniczna
 lm_technology: Technologie
-lm_topkb: Galeria sław
+lm_topkb: Hala bitew
 lo_continue: Kliknij, żeby kontynuować.
 lo_logout: Wylogowano. Do zobaczenia!
 lo_notify: Przekierowanie za <span id="seconds">5</span> s
@@ -1223,10 +1223,10 @@ rs_calculate: Zapisz zmiany
 rs_daily: Produkcja dzienna
 rs_lvl: Poziom
 rs_production_on_planet: Surowce wyprodukowane na planecie „%s”
-rs_ramp_up: Włącz wszystko
+rs_ramp_up: 'Wszystko na 100%'
 rs_ress_bonus: Bonus (z badań)
 rs_ress_bonus_position: Bonus (z pozycji planety)
-rs_shut_down: Wyłącz wszystko
+rs_shut_down: 'Wszystko na 0%'
 rs_storage_capacity: Pojemność magazynów
 rs_sum: Produkcja godzinowa
 rs_weekly: Produkcja tygodniowa
@@ -1389,7 +1389,7 @@ tkb_owners: Zaangażowani gracze
 tkb_platz: Miejsce
 tkb_self: tylko własne
 tkb_timeframe: Okres
-tkb_top: Galeria sław
+tkb_top: Hala bitew
 tkb_units: Jednostki
 tkb_verlierer: <b>-Przegrany-</b>
 tkb_week: tydzień
@@ -1482,6 +1482,7 @@ ui_queue: Kolejka
 ui_queue_free: wolny slot
 ui_points: Punkty
 ui_close: Zamknij
+ui_storage_full: "Magazyn pełny: produkcja wstrzymana"
 ui_messages: Wiadomości
 ui_server_time: Czas serwera
 ui_planet: Planeta
@@ -1539,3 +1540,88 @@ vt_postback_hint: Nagroda pojawi się po potwierdzeniu głosu przez stronę.
 vt_notice_rewarded: Dzięki za głos! Nagroda została dodana do Twojej planety macierzystej.
 vt_notice_pending: Dzięki za głos! Nagroda pojawi się po potwierdzeniu głosu przez stronę.
 vt_notice_cooldown: Musisz poczekać, zanim ponownie zagłosujesz na tę stronę.
+mg_confirm_delete_one: "Usunąć tę wiadomość?"
+mg_confirm_delete_bulk: "Na pewno usunąć te wiadomości? Tego nie można cofnąć."
+mg_group_mark: "Oznacz jako przeczytane"
+mg_group_delete: "Usuń"
+mg_pick_category: "Wybierz powyżej kategorię, aby zobaczyć jej wiadomości."
+mg_no_messages: "Brak wiadomości."
+mg_select_message: "Zaznacz wiadomość"
+mg_search_player: "Szukaj gracza"
+mg_remove_receiver: "Usuń odbiorcę"
+mg_no_receiver: "Wybierz co najmniej jednego odbiorcę."
+nt_confirm_delete: "Usunąć zaznaczone notatki?"
+nt_priority_legend: "Kolor = priorytet: zielony niski, żółty normalny, czerwony wysoki"
+al_save_all_hint: "Oba przyciski Zapisz zapisują teksty i opcje razem."
+al_dissolve_btn: "Rozwiąż sojusz..."
+al_transfer_btn: "Przekaż sojusz..."
+al_dissolve_hint: "To trwale usuwa sojusz i wszystkich członków. Nie można tego cofnąć."
+al_transfer_hint: "Przekaż przywództwo innemu członkowi. Tracisz rangę założyciela."
+al_transfer_confirm: "Przekazać sojusz wybranemu członkowi? Stracisz przywództwo."
+al_kick: "Wyrzuć"
+al_find_results: "Wyniki"
+al_find_browse: "Największe sojusze"
+al_find_none_yet: "W tym wszechświecie nie ma jeszcze sojuszy."
+al_no_inside_text: "Brak jeszcze tekstu dla członków."
+bd_needs: 'Wymaga'
+bd_missing: 'Brakuje'
+honorfights: "Walki honorowe"
+pl_block_head: "Blokowanie"
+pl_block_hint: "Działa natychmiast, nie ma przycisku Zapisz."
+st_my_rank: "Przejdź do mojej pozycji"
+st_legend_noob: "Ochrona nowicjusza"
+rec_intro: "Najwyższy poziom osiągnięty w tym wszechświecie dla każdego budynku i badania, w porównaniu z Twoim."
+as_intro: "Szczegółowe liczniki Twojej aktywności (wyprawy, budowy, straty, zniszczenia). Ranking wszystkich graczy znajdziesz w Statystykach."
+as_show_empty: "Pokaż puste wiersze"
+op_sections: "Przejdź do"
+op_save_hint: "Zmiany obowiązują dopiero po zapisaniu."
+op_dlte_account_confirm: "Naprawdę usunąć konto? Zostanie całkowicie usunięte po co najmniej 7 dniach; do tego czasu możesz anulować usunięcie."
+ti_none: "Nie masz jeszcze zgłoszeń. Najpierw przeczytaj %s; jeśli to nie pomoże, utwórz zgłoszenie."
+ti_faq_first: "Zajrzyj najpierw do FAQ: wiele pytań ma tam odpowiedź."
+team_contact_hint: "Potrzebujesz pomocy? Otwórz zgłoszenie w %s."
+cl_hint: "Techniczne zmiany w oprogramowaniu gry, najnowsze na górze. Kliknij wpis, aby go rozwinąć."
+cl_empty: "Brak zapisanych zmian."
+toc_contents: "Spis treści"
+sh_hint: "Wpisz co najmniej dwa znaki i naciśnij Enter lub Szukaj."
+sh_search_type: "Szukaj"
+sh_search_text: "Szukany tekst"
+sh_no_players: "Nic nie znaleziono. Sprawdź pisownię lub spróbuj krótszego tekstu."
+sh_no_alliances: "Nie znaleziono sojuszy. Sprawdź pisownię lub spróbuj krótszego tekstu."
+fl_no_ship_selected: "Wybierz co najmniej jeden statek."
+fl_recall_confirm: "Odwołać tę flotę? Zawraca teraz i wróci do domu o %s."
+fl_recall_return: "Powrót po odwołaniu teraz"
+fl_no_fleets: "Brak flot w misji."
+fl_quick_fleets: "Szybkie floty"
+fl_quick_fleets_hint: "Nic jeszcze nie zapisano. Zapisz zestaw statków w \"Własne floty\" poniżej, a pojawi się tu jako skrót; ostatnia misja też."
+fl_load_hint: "Wstępnie wypełnione zasobami tej planety. Przyciski ładunku podpowiadają, ile statków to uniesie; wyczyść, jeśli nic nie wysyłasz."
+fl_load_clear: "Wyczyść"
+fl_cargo_options_hint: "Czerwony oznacza, że brakuje Ci tego statku. Kliknij ikonę statku, aby wybrać go razem z celem."
+fl_summary: "Podsumowanie wysyłki"
+fl_coord_range: "Nieprawidłowe współrzędne. Dozwolone: galaktyka 1-%d, układ 1-%d, pozycja 1-%d."
+fl_sending: "Wysyłanie floty..."
+ft_rate_info: 'Handlarz zatrzymuje %s%% wartości statku, resztę wypłaca w surowcach.'
+ft_per_ship: 'Wypłata za statek'
+ft_receive: 'Otrzymujesz'
+market_tab_resources: 'Rynek surowców'
+market_tab_fleets: 'Rynek flot'
+market_ratio_label: 'Porównaj oferty w proporcji'
+market_ratio_hint: 'Ustala kurs dla kolumny Proporcja; wybrany surowiec jest bazą.'
+market_no_offers: 'Brak ofert w tej chwili.'
+gl_recycle_needs: "Recykluj (wymaga recyklera)"
+gl_keys_hint: "Klawiatura: strzałki lub A D zmieniają układ, W S galaktykę."
+rs_ramp_up_confirm: 'Ustawić wszystkie źródła produkcji na 100% i zapisać?'
+rs_shut_down_confirm: 'Ustawić wszystkie źródła produkcji na 0% i zapisać? Produkcja się zatrzyma.'
+rs_energy_deficit: 'Niedobór energii: kopalnie pracują poniżej ustawionego poziomu, dopóki energia nie wróci do równowagi.'
+ov_event_hostile: 'Wrogi'
+ov_no_fleets: 'Brak ruchów flot.'
+al_chart_x: "Czas (godzin temu)"
+al_chart_y: "Punkty"
+as_sub_count: "Wyprawy"
+as_sub_found: "Znaleziska"
+as_sub_lost: "Straty"
+as_sub_first: "Pierwsze razy"
+op_notifications: "Powiadomienia"
+rs_full_in: 'Magazyn pełny za'
+rs_full_now: 'Pełny'
+fl_prepared_gone: "Ta flota nie jest już przygotowana (wygasła, została zwolniona lub już wysłana). Zacznij od nowa."
+gl_legend_activity: "Aktywny w ostatnich 15 min, potem (minuty) do 60"

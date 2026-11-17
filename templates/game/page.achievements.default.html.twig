@@ -24,10 +24,11 @@
     {% for achievement in achievements %}
       {% set image = theme_asset('achievements/achievement_' ~ achievement.id ~ '.jpg') %}
       <li class="ach-tile{% if achievement.unlocked %} is-unlocked{% endif %}" data-state="{{ achievement.unlocked ? 'unlocked' : 'locked' }}">
-        <button type="button" class="ach-tile__button" data-action="dialog-ach" data-id="{{ achievement.id }}">
+        <button type="button" class="ach-tile__button" data-action="dialog-ach" data-id="{{ achievement.id }}" title="{{ LNG.Achievement_text[achievement.id]|striptags }}">
           <img class="ach-tile__image" src="{{ image }}" alt="" width="56" height="56" loading="lazy">
           <span class="ach-tile__name">{{ LNG.Achievement_names[achievement.id] }}</span>
           <span class="ach-tile__meta">{% if achievement.unlocked %}{{ achievement.date }}{% else %}{{ icon('lock', LNG.ach_locked) }}{% endif %}</span>
+          {% if not achievement.unlocked %}<span class="ach-tile__hint">{{ LNG.Achievement_text[achievement.id]|striptags }}</span>{% endif %}
         </button>
         {% include 'game/shared.achievementInfo.html.twig' with {id: achievement.id, image: image, date: achievement.date, unlocked: achievement.unlocked} only %}
       </li>

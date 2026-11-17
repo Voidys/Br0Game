@@ -4,41 +4,43 @@
 <form action="{{ path('game_fleet_dealer_send') }}" method="post">
 	<input type="hidden" name="mode" value="send">
 	<table>
-        <tr>
-			<th>{{ LNG.ft_head }}</th>
+		<tr>
+			<th>{{ LNG.lm_fleettrader }}</th>
 		</tr>
-        <tr>
+		<tr>
 			<td>
-				<div class="transparent text-left float-left"><img id="img" alt=""></div>
-				<div class="transparent text-right float-right fleet-dealer-pick">
-					<select name="shipID" id="shipID" data-on-change="trader-update">
-						{% for shipID in shipIDs %}
-						<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
-						{% endfor %}
-					</select>
-				</div>
-				<div class="fleet-dealer-body">
-					<h2 id="traderHead"></h2>
-					<p>
-            {{ LNG.ft_count }}:
-            <span class="control-group">
-              <input type="text" id="count" name="count" data-on-keyup="trader-total" class="num">
-              <button data-action="trader-max">{{ LNG.ft_max }}</button>
-            </span>
-          </p>
-					<p>
-            {{ LNG.tech[901] }}: <span id="metal" class="bold"></span> &bull;
-            {{ LNG.tech[902] }}: <span id="crystal" class="bold"></span> &bull;
-            {{ LNG.tech[903] }}: <span id="deuterium" class="bold"></span>
-          </p>
-					<p>
-            {{ LNG.ft_total }}:
-            {{ LNG.tech[901] }}: <span id="total_metal" class="bold"></span> &bull;
-            {{ LNG.tech[902] }}: <span id="total_crystal" class="bold"></span> &bull;
-            {{ LNG.tech[903] }}: <span id="total_deuterium" class="bold"></span>
-          </p>
-					<p><input type="submit" value="{{ LNG.ft_absenden }}"></p>
-					<p>{{ LNG.ft_charge }}: {{ Charge }}%</p>
+				<p class="hint">{{ LNG.format('ft_rate_info', Charge) }}</p>
+				<div class="fleet-dealer-grid">
+					<div class="transparent text-left"><img id="img" alt=""></div>
+					<div class="fleet-dealer-body">
+						<p class="fleet-dealer-pick">
+							<select name="shipID" id="shipID" data-on-change="trader-update" aria-label="{{ LNG.ft_head }}">
+								{% for shipID in shipIDs %}
+								<option value="{{ shipID }}">{{ LNG.tech[shipID] }}</option>
+								{% endfor %}
+							</select>
+						</p>
+						<p>
+							{{ LNG.ft_per_ship }}:
+							{{ LNG.tech[901] }}: <span id="metal" class="bold"></span> &bull;
+							{{ LNG.tech[902] }}: <span id="crystal" class="bold"></span> &bull;
+							{{ LNG.tech[903] }}: <span id="deuterium" class="bold"></span>
+						</p>
+						<p>
+							{{ LNG.ft_count }}:
+							<span class="control-group">
+								<input type="text" id="count" name="count" data-on-keyup="trader-total" class="num" inputmode="numeric" autocomplete="off">
+								<button data-action="trader-max">{{ LNG.ft_max }}</button>
+							</span>
+						</p>
+						<p class="fleet-dealer-total">
+							{{ LNG.ft_receive }}:
+							{{ LNG.tech[901] }}: <span id="total_metal" class="bold colorPositive"></span> &bull;
+							{{ LNG.tech[902] }}: <span id="total_crystal" class="bold colorPositive"></span> &bull;
+							{{ LNG.tech[903] }}: <span id="total_deuterium" class="bold colorPositive"></span>
+						</p>
+						<p><input type="submit" id="trader-submit" value="{{ LNG.ft_absenden }}" disabled></p>
+					</div>
 				</div>
 			</td>
 		</tr>

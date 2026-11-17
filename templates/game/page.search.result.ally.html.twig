@@ -1,3 +1,4 @@
+{% import '_macros/community.html.twig' as c -%}
 {% extends layout_template %}
 {% block content %}
 <table id="resulttable">
@@ -14,6 +15,8 @@
 		<td class="num">{{ searchRow.allymembers }}</td>
 		<td class="num">{{ searchRow.allypoints }}</td>
 	</tr>
+	{% else %}
+	{{ c.empty_row(4, LNG.sh_no_alliances, null) }}
 	{% endfor %}
 </table>
 {% endblock %}

@@ -398,6 +398,12 @@ class FleetTableController extends AbstractGameController
             'targetType'            => $targetType,
             'targetMission'         => $targetMission,
             'acsData'               => $acsData,
+            // ?code=1: the dispatch step found no ship chosen; ?code=0: the prepared fleet is gone (expired, released or already sent)
+            'notice'                => match ($this->input()->int('code', -1)) {
+                1 => $LNG['fl_no_ship_selected'],
+                0 => $LNG['fl_prepared_gone'],
+                default => '',
+            },
             'isVacation'            => IsVacationMode($USER),
             'bonusAttack'           => $USER[$e->column(109)] * 10,
             'bonusShield'           => $USER[$e->column(110)] * 10,
@@ -473,6 +479,8 @@ class FleetTableController extends AbstractGameController
                 'returntime'        => $returnTime,
                 'resttime'          => $returnTime - $this->state->runtime->timestamp,
                 'startTimestamp'    => $fleetsRow['start_time'],
+                // when a recall now would bring the fleet home (the same rule as FleetLauncher::sendFleetBack())
+                'recallTime'        => $this->viewHelpers()->formatDate($LNG['php_tdformat'], 2 * $this->state->runtime->timestamp - $fleetsRow['start_time'], $USER['timezone']),
                 'FleetList'         => $FleetList[$fleetsRow['id']],
             ];
         }

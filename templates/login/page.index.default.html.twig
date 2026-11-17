@@ -6,6 +6,12 @@
     <section class="hero">
       <h1 class="hero__title">{{ LNG.format('loginWelcome', gameName) }}</h1>
       <p class="hero__text">{{ LNG.format('loginServerDesc', gameName) }}</p>
+      <ul class="hero__steps">
+        <li>{{ icon('hammer') }}<span>{{ LNG.home_step_build }}</span></li>
+        <li>{{ icon('rocket') }}<span>{{ LNG.home_step_fleet }}</span></li>
+        <li>{{ icon('users') }}<span>{{ LNG.home_step_alliance }}</span></li>
+        <li>{{ icon('scroll-text') }}<span>{% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}{{ LNG.format('home_step_rules', rulesLink) }}</span></li>
+      </ul>
       {% if loginAccountName is null %}
         <div class="hero__actions">
           <a class="button btn--primary btn-hero" href="{{ path('login_register_show') }}">{{ LNG.buttonRegister }}</a>
@@ -43,12 +49,13 @@
           <label>{{ LNG.loginEmail }}<input name="email" id="email" type="email" maxlength="64" autocomplete="username" required></label>
           <label>{{ LNG.loginPassword }}<input name="password" id="password" type="password" autocomplete="current-password" required></label>
           {% if rememberMeDays > 0 %}
-          <label class="login-form__remember"><input type="checkbox" name="_remember_me" value="1"> {{ LNG.format('loginRememberMe', rememberMeDays) }}</label>
+          <label class="login-form__remember"><input type="checkbox" name="_remember_me" value="1" aria-describedby="remember-hint"> {{ LNG.format('loginRememberMe', rememberMeDays) }}</label>
+          <small class="field__help" id="remember-hint">{{ LNG.loginRememberHint }}</small>
           {% endif %}
           <button type="submit" class="btn--primary">{{ LNG.loginButton }}</button>
         </form>
         <div class="login-meta">
-          {% if mailEnable %}<a href="{{ path('login_lost_password_show') }}">{{ LNG.buttonLostPassword }}</a>{% endif %}
+          {% if mailEnable %}<a href="{{ path('login_lost_password_show') }}">{{ LNG.buttonLostPassword }}</a>{% else %}{% set teamLink %}<a href="{{ path('login_team_show') }}">{{ LNG.loginContactTeam }}</a>{% endset %}<span>{{ LNG.format('loginLostPasswordOff', teamLink) }}</span>{% endif %}
           {% set rulesLink %}<a href="{{ rulesUrl }}">{{ LNG.menu_rules }}</a>{% endset %}
           <span>{{ LNG.format('loginInfo', rulesLink) }}</span>
         </div>
@@ -94,8 +101,8 @@
         <div class="links">
           {% if game_config('discord_url') and not discordWidget %}<a href="{{ game_config('discord_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('message-circle') }}Discord</a>{% endif %}
           {% if game_config('wiki_url') %}<a href="{{ game_config('wiki_url')|e('html_attr') }}" target="_blank" rel="noopener">{{ icon('book-open') }}Wiki</a>{% endif %}
-          <a href="{{ path('login_hof_show') }}">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
-          <a href="{{ path('login_battle_hall_show') }}">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>
+          <a href="{{ path('login_hof_show') }}" title="{{ LNG.home_hof_desc|e('html_attr') }}">{{ icon('trophy') }}{{ LNG.siteTitleHOF }}</a>
+          <a href="{{ path('login_battle_hall_show') }}" title="{{ LNG.home_battlehall_desc|e('html_attr') }}">{{ icon('swords') }}{{ LNG.menu_battlehall }}</a>
           <a href="{{ path('login_screens_show') }}">{{ icon('layers') }}{{ LNG.buttonScreenshot }}</a>
           <a href="{{ path('login_news_show') }}">{{ icon('newspaper') }}{{ LNG.menu_news }}</a>
         </div>

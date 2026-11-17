@@ -8,18 +8,18 @@
 		<th colspan="2">{{ LNG.al_circular_send_ciruclar }}</th>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_receiver }}</td>
+		<td><label for="c_rankID">{{ LNG.al_receiver }}</label></td>
 		<td>
-		{{ forms.html_options({'name': 'rankID', 'options': RangeList}) }}
+		{{ forms.html_options({'id': 'c_rankID', 'name': 'rankID', 'options': RangeList}) }}
 		</td>
 	</tr><tr>
-	<td>{{ LNG.mg_subject }}</td>
+	<td><label for="subject">{{ LNG.mg_subject }}</label></td>
 	<td><input type="text" name="subject" id="subject" maxlength="40" value="{{ LNG.mg_no_subject }}"></td>
 	</tr>
 	<tr>
-		<td>{{ LNG.al_message }} (<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
+		<td><label for="c_text">{{ LNG.al_message }}</label> (<span id="cntChars">0</span> / 5000 {{ LNG.al_characters }})</td>
 		<td>
-			<textarea name="text" rows="10" data-on-keyup="char-count" data-target="cntChars"></textarea>
+			<textarea name="text" id="c_text" rows="10" data-on-keyup="char-count" data-target="cntChars"></textarea>
 		</td>
 	</tr>
 	<tr>

@@ -703,7 +703,7 @@ fl_player_is_noob: Oyuncu çaylak korumasında.
 fl_player_is_strong: Oyuncu çok güçlü.
 fl_r: (D)
 fl_remove_all_ships: Gemi yok
-fl_resources: Yüklenen kaynaklar!
+fl_resources: Kaynak yükle
 fl_resources_left: Boş kapasite
 fl_return_time: Dönüş zamanı
 fl_returning: Dönüyor
@@ -903,7 +903,7 @@ lm_shipshard: Tersane
 lm_statistics: İstatistikler
 lm_support: Destek
 lm_technology: Teknolojiler
-lm_topkb: Şeref Listesi
+lm_topkb: Savaş Salonu
 lo_continue: Devam etmek için tıkla.
 lo_logout: Çıkış yaptın. Yakında görüşürüz!
 lo_notify: <span id="seconds">5</span> saniye içinde yönlendirileceksin
@@ -1229,10 +1229,10 @@ rs_calculate: Değişiklikleri kaydet
 rs_daily: 'Günlük üretim:'
 rs_lvl: Seviye
 rs_production_on_planet: '"%s" gezegeninde üretilen kaynaklar'
-rs_ramp_up: Tümünü çalıştır
+rs_ramp_up: 'Hepsini %100 yap'
 rs_ress_bonus: Bonus (araştırmalardan)
 rs_ress_bonus_position: Bonus (gezegen konumundan)
-rs_shut_down: Tümünü durdur
+rs_shut_down: 'Hepsini %0 yap'
 rs_storage_capacity: Depo kapasitesi
 rs_sum: Saatlik üretim
 rs_weekly: 'Haftalık üretim:'
@@ -1399,7 +1399,7 @@ tkb_owners: Katılan oyuncular
 tkb_platz: Sıra
 tkb_self: yalnızca kendi
 tkb_timeframe: Zaman aralığı
-tkb_top: Şeref Listesi
+tkb_top: Savaş Salonu
 tkb_units: Birimler
 tkb_verlierer: <b>-Kaybeden-</b>
 tkb_week: hafta
@@ -1492,6 +1492,7 @@ ui_queue: Kuyruk
 ui_queue_free: boş yuva
 ui_points: Puan
 ui_close: Kapat
+ui_storage_full: "Storage full: production stopped"
 ui_messages: Mesajlar
 ui_server_time: Sunucu saati
 ui_planet: Gezegen
@@ -1549,3 +1550,88 @@ vt_postback_hint: Ödül, site oyunu onayladıktan sonra gelir.
 vt_notice_rewarded: Oy verdiğin için teşekkürler! Ödül ana gezegenine eklendi.
 vt_notice_pending: Oy verdiğin için teşekkürler! Ödül, site oyunu onayladıktan sonra gelir.
 vt_notice_cooldown: Bu siteye tekrar oy vermeden önce beklemen gerekiyor.
+mg_confirm_delete_one: "Bu mesaj silinsin mi?"
+mg_confirm_delete_bulk: "Bu mesajlar gerçekten silinsin mi? Bu geri alınamaz."
+mg_group_mark: "Okundu olarak işaretle"
+mg_group_delete: "Sil"
+mg_pick_category: "Mesajları görmek için yukarıdan bir kategori seç."
+mg_no_messages: "Mesaj yok."
+mg_select_message: "Mesajı seç"
+mg_search_player: "Oyuncu ara"
+mg_remove_receiver: "Alıcıyı kaldır"
+mg_no_receiver: "En az bir alıcı seç."
+nt_confirm_delete: "İşaretli notlar silinsin mi?"
+nt_priority_legend: "Renk = öncelik: yeşil düşük, sarı normal, kırmızı yüksek"
+al_save_all_hint: "Her iki Kaydet düğmesi metinleri ve seçenekleri birlikte kaydeder."
+al_dissolve_btn: "İttifakı dağıt..."
+al_transfer_btn: "İttifakı devret..."
+al_dissolve_hint: "Bu işlem ittifakı kalıcı olarak siler ve tüm üyeleri çıkarır. Geri alınamaz."
+al_transfer_hint: "Liderliği başka bir üyeye devret. Kurucu rütbeni kaybedersin."
+al_transfer_confirm: "İttifak seçilen üyeye devredilsin mi? Liderliği kaybedersin."
+al_kick: "Çıkar"
+al_find_results: "Sonuçlar"
+al_find_browse: "En büyük ittifaklar"
+al_find_none_yet: "Bu evrende henüz ittifak yok."
+al_no_inside_text: "Henüz üyelere özel metin yok."
+bd_needs: 'Gerekli'
+bd_missing: 'Eksik'
+honorfights: "Onur savaşları"
+pl_block_head: "Engelle"
+pl_block_hint: "Hemen etkili olur, Kaydet düğmesi yok."
+st_my_rank: "Sıralamama git"
+st_legend_noob: "Acemi koruması"
+rec_intro: "Bu evrende her bina ve araştırma için ulaşılan en yüksek seviye, seninkiyle karşılaştırmalı."
+as_intro: "Kendi etkinliğinin ayrıntılı sayaçları (keşifler, inşaatlar, kayıplar, yok etmeler). Tüm oyuncuların sıralaması İstatistikler sayfasında."
+as_show_empty: "Boş satırları göster"
+op_sections: "Git"
+op_save_hint: "Değişiklikler yalnızca kaydettikten sonra geçerli olur."
+op_dlte_account_confirm: "Hesabın gerçekten silinsin mi? En az 7 gün sonra tamamen kaldırılır; o zamana kadar silmeyi iptal edebilirsin."
+ti_none: "Henüz biletin yok. Önce %s sayfasını oku; yardımcı olmazsa bilet oluştur."
+ti_faq_first: "Önce SSS'ye bak: birçok sorunun yanıtı orada."
+team_contact_hint: "Yardıma mı ihtiyacın var? %s üzerinden bilet aç."
+cl_hint: "Oyun yazılımının teknik değişiklikleri, en yeniler üstte. Açmak için bir girdiye tıkla."
+cl_empty: "Kayıtlı değişiklik yok."
+toc_contents: "İçindekiler"
+sh_hint: "En az iki karakter yaz, ardından Enter'a veya Ara'ya bas."
+sh_search_type: "Ara"
+sh_search_text: "Arama metni"
+sh_no_players: "Hiçbir şey bulunamadı. Yazımı kontrol et veya daha kısa bir metin dene."
+sh_no_alliances: "İttifak bulunamadı. Yazımı kontrol et veya daha kısa bir metin dene."
+fl_no_ship_selected: "En az bir gemi seç."
+fl_recall_confirm: "Bu filo geri çağrılsın mı? Şimdi döner ve %s saatinde eve ulaşır."
+fl_recall_return: "Şimdi çağrılırsa dönüş"
+fl_no_fleets: "Görevde filo yok."
+fl_quick_fleets: "Hızlı filolar"
+fl_quick_fleets_hint: "Henüz kayıtlı bir şey yok. Aşağıdaki \"Özel filolar\" bölümünde bir gemi kombinasyonu kaydet, burada tek tıkla görünsün; son görevin de burada çıkar."
+fl_load_hint: "Bu gezegenin stoğuyla önceden dolduruldu. Kargo düğmeleri kaç geminin taşıyacağını önerir; hiçbir şey göndermiyorsan temizle."
+fl_load_clear: "Temizle"
+fl_cargo_options_hint: "Kırmızı, o gemiden yeterince olmadığı anlamına gelir. Bir gemi simgesine tıklayarak hedefle birlikte seç."
+fl_summary: "Gönderim özeti"
+fl_coord_range: "Geçersiz koordinatlar. İzin verilen: galaksi 1-%d, sistem 1-%d, konum 1-%d."
+fl_sending: "Filo gönderiliyor..."
+ft_rate_info: 'Tüccar geminin değerinin %%%s kadarını alıkoyar, kalanını kaynak olarak öder.'
+ft_per_ship: 'Gemi başına ödeme'
+ft_receive: 'Alacağın'
+market_tab_resources: 'Kaynak pazarı'
+market_tab_fleets: 'Filo pazarı'
+market_ratio_label: 'Teklifleri şu oranda karşılaştır'
+market_ratio_hint: 'Oran sütununda kullanılan kuru belirler; seçilen kaynak temel alınır.'
+market_no_offers: 'Şu anda teklif yok.'
+gl_recycle_needs: "Geri dönüştür (geri dönüştürücü gerekir)"
+gl_keys_hint: "Klavye: ok tuşları veya A D sistemi, W S galaksiyi değiştirir."
+rs_ramp_up_confirm: 'Tüm üreticiler %100 yapılıp kaydedilsin mi?'
+rs_shut_down_confirm: 'Tüm üreticiler %0 yapılıp kaydedilsin mi? Üretim durur.'
+rs_energy_deficit: 'Enerji açığı: enerji dengeye gelene kadar madenler ayarlanan seviyenin altında çalışır.'
+ov_event_hostile: 'Düşman'
+ov_no_fleets: 'Filo hareketi yok.'
+al_chart_x: "Zaman (saat önce)"
+al_chart_y: "Puan"
+as_sub_count: "Keşifler"
+as_sub_found: "Buluntular"
+as_sub_lost: "Kayıplar"
+as_sub_first: "İlk kezler"
+op_notifications: "Bildirimler"
+rs_full_in: 'Depo dolana dek'
+rs_full_now: 'Dolu'
+fl_prepared_gone: "Bu filo artık hazır değil (süresi doldu, serbest bırakıldı veya zaten gönderildi). Baştan başla."
+gl_legend_activity: "Son 15 dk aktif, sonra (dakika) 60'a kadar"

@@ -80,7 +80,10 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
 
     protected function printPageError(string $message): never
     {
-        $this->printMessage($message);
+        // e.g. an inactive module: say what happened and offer the way back
+        $this->printMessage($message, [
+            ['url' => $this->router->generate('game_overview_show'), 'label' => $this->state->LNG['lm_overview']],
+        ]);
     }
 
     /** resource calculation of the current request (null for ajax requests and $disableEcoSystem) */

@@ -607,6 +607,8 @@ se_bash_count_missiles: การจำกัดการโจมตีซ้�
 se_bash_count_missiles_info: 'การโจมตีด้วยขีปนาวุธระหว่างดาวเคราะห์นับเป็นการโจมตีกองเรือเมื่อคำนวณการจำกัดการโจมตีซ้ำ (ต่อผู้เล่นและต่อดาวเคราะห์) ปิด: ไม่นับขีปนาวุธ'
 se_bash_per_user: จำกัดการโจมตีซ้ำต่อผู้เล่น
 se_bash_per_user_info: ผู้เล่นโจมตีผู้เล่นอีกคนได้กี่ครั้งต่อ 24 ชั่วโมง (รวมทุกดาวเคราะห์) 0 = ปิด
+se_update_check: "การตรวจสอบอัปเดต"
+se_update_check_info: "สอบถาม GitHub (api.github.com) เกี่ยวกับรุ่นล่าสุดเมื่อเปิดแดชบอร์ดผู้ดูแล (อย่างมากทุก 6 ชั่วโมง) และแจ้งรุ่นใหม่ จะไม่ส่งข้อมูลเกี่ยวกับเซิร์ฟเวอร์ของคุณ ปิดเพื่อไม่ให้มีคำขอขาออก"
 se_cookie_consent: "ประกาศคุกกี้"
 se_cookie_consent_info: "แสดงประกาศคุกกี้ด้านล่างจนกว่าผู้เข้าชมจะเลือก (\"ยอมรับทั้งหมด\" หรือ \"เฉพาะที่จำเป็น\" เก็บไว้หนึ่งปีในคุกกี้ cookie_consent)"
 se_block_planet_creation: บล็อก
@@ -1056,6 +1058,14 @@ adm_dash_tickets: คำร้องที่เปิดอยู่
 adm_dash_fleets: กองเรือที่กำลังเดินทาง
 adm_dash_quick: ทางลัด
 adm_dash_system: ระบบ
+adm_update_available: "มีอัปเดตใหม่"
+adm_update_released: "เผยแพร่เมื่อ"
+adm_update_you_run: "คุณใช้เวอร์ชัน"
+adm_update_notes: "บันทึกการออกรุ่น"
+adm_update_howto: "วิธีอัปเดต"
+adm_update_check_now: "ตรวจสอบตอนนี้"
+adm_update_check: "การตรวจสอบอัปเดต"
+adm_update_up_to_date: "เป็นรุ่นล่าสุด"
 adm_dash_version: เวอร์ชัน
 adm_dash_php: PHP
 adm_dash_uni_status: สถานะจักรวาล

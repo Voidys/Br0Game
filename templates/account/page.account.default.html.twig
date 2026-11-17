@@ -1,3 +1,4 @@
+{% macro state(status) %}{% if status == constant('STATUS_OPEN') %}{{ LNG["uni_status_regopen_gameopen"] }}{% elseif status == constant('STATUS_REG_ONLY') %}{{ LNG["uni_status_regopen_gameclosed"] }}{% elseif status == constant('STATUS_LOGIN_ONLY') %}{{ LNG["uni_status_regclosed_gameopen"] }}{% else %}{{ LNG["uni_status_regclosed_gameclosed"] }}{% endif %}{% endmacro %}
 {% extends layout_template %}
 
 {% block title %}
@@ -17,8 +18,8 @@
           <dt>{{ LNG["Playername"] }}</dt><dd>{{ universe["username"] }}</dd>
           <dt>{{ LNG["al_position"] }}</dt><dd>{{ universe["total_rank"] }}</dd>
           <dt>{{ LNG["Universe_start"] }}</dt><dd>{{ universe["start"] }}</dd>
-          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"] }}</dd>
-          <dt>{{ LNG["Sitting_end"] }}</dt><dd>-</dd>
+          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"]|default('-') ?: '-' }}</dd>
+          <dt>{{ LNG["Universe_status"]|trim(' :') }}</dt><dd>{{ _self.state(universe["uni_status"]) }}</dd>
         </dl>
         <div class="universe-card__actions">
           <form action="{{ path('account_account_send') }}" method="post">
@@ -31,13 +32,13 @@
               <button class="btn">{{ LNG["uni_status_regclosed_gameclosed"] }}</button>
             {% endif %}
           </form>
-          <button class="btn btn--secondary" disabled>{{ LNG["Sitting_request"] }}</button>
         </div>
       </article>
     {% endfor %}
     </div>
   </section>
 
+  {% if newUniverses %}
   <section class="acc-section" aria-labelledby="other-universes">
     <h1 class="acc-title" id="other-universes">{{ LNG["Other_universes"] }}</h1>
     <div class="universe-grid">
@@ -47,7 +48,7 @@
         <dl class="universe-card__facts">
           <dt>{{ LNG["Active_players"] }}</dt><dd>{{ (universe["active"]=="") ? 0 : universe["active"] }}</dd>
           <dt>{{ LNG["Universe_start"] }}</dt><dd>{{ universe["start"] }}</dd>
-          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"] }}</dd>
+          <dt>{{ LNG["Universe_end"] }}</dt><dd>{{ universe["end"]|default('-') ?: '-' }}</dd>
         </dl>
         <div class="universe-card__actions">
           {% if universe["uni_status"] == constant('STATUS_OPEN') or universe["uni_status"] == constant('STATUS_REG_ONLY') or authlevel == constant('App\\Game\\Enum\\AuthLevel::Admin').value %}
@@ -60,5 +61,6 @@
     {% endfor %}
     </div>
   </section>
+  {% endif %}
 </div>
 {% endblock %}

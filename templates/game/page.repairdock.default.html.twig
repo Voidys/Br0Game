@@ -1,10 +1,16 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_repairdock }}{{ parent() }}{% endblock %}
 {% block content %}
-  <p class="repair-infobox">{{ LNG.bd_repairdock_time }}: <span class="countdown" data-time="{{ wftime }}"></span></p><br><br>
   {% if repdock_level == 0 %}
-    <p class="repair-infobox">{{ LNG.bd_repairdock_required }}</p><br><br>
+    <div class="infos">
+      <div class="empty-state">
+        {{ icon('wrench') }}
+        <p>{{ LNG.bd_repairdock_required }}</p>
+        <a href="{{ path('game_buildings_show') }}">{{ LNG.lm_buildings }} &rarr;</a>
+      </div>
+    </div>
   {% else %}
+    <p class="repair-infobox">{{ LNG.bd_repairdock_time }}: <span class="countdown" data-time="{{ wftime }}"></span></p><br><br>
     {% if busy %}
       <p class="repair-infobox">{{ LNG.bd_repairdock_busy }}</p><br><br>
     {% endif %}

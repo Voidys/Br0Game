@@ -143,3 +143,14 @@ home_logged_in_as: Zalogowano jako %s
 home_continue: Przejdź do swoich uniwersów
 home_account_lobby: Lobby konta
 rulesEmpty: Regulamin nie został jeszcze opublikowany.
+loginLostPasswordOff: "Zapomniałeś hasła? %s"
+loginContactTeam: "Skontaktuj się z zespołem."
+home_step_build: "Buduj kopalnie, badania i stocznie na swoich planetach."
+home_step_fleet: "Wysyłaj floty: eksploruj, handluj, atakuj lub broń."
+home_step_alliance: "Dołącz do sojuszu i wspinaj się w rankingu."
+home_hof_desc: "Zwycięzcy zakończonych rund"
+home_battlehall_desc: "Największe bitwy trwającej rundy"
+memorialFilter: "Bitwy pamiątkowe"
+toc_contents: "Spis treści"
+loginRememberHint: "Nie używaj tego na współdzielonym komputerze."
+home_step_rules: "Przeczytaj %s przed startem."

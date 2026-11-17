@@ -34,7 +34,7 @@ loginServerDesc: >-
 loginWelcome: Willkommen bei %s
 Lowest_longterm_points: Vorregistrierte Accounts mit den wenigsten Punkten
 menu_banlist: Pranger
-menu_battlehall: Battle Hall
+menu_battlehall: Schlachtenhalle
 menu_disclamer: Impressum
 menu_news: News
 menu_rules: Regeln
@@ -117,7 +117,7 @@ registerWelcomePMText: >-
   die FAQ oder ins Wiki, oder eröffne ein Support-Ticket.<br><br>Das Team
   wünscht dir viel Spaß beim Erkunden des Universums!
 siteTitleBanList: Pranger
-siteTitleBattleHall: Battle Hall
+siteTitleBattleHall: Schlachtenhalle
 siteTitleDataPrivacy: Datenschutzerklärung
 siteTitleDisclamer: Impressum
 siteTitleHOF: Ruhmeshalle
@@ -169,3 +169,14 @@ home_logged_in_as: "Angemeldet als %s"
 home_continue: "Weiter zu deinen Universen"
 home_account_lobby: "Konto-Lobby"
 rulesEmpty: "Es wurden noch keine Regeln veröffentlicht."
+loginLostPasswordOff: "Passwort vergessen? %s"
+loginContactTeam: "Wende dich an das Team."
+home_step_build: "Baue Minen, Forschung und Werften auf deinen Planeten."
+home_step_fleet: "Schicke Flotten los: erkunden, handeln, angreifen oder verteidigen."
+home_step_alliance: "Tritt einer Allianz bei und klettere in der Rangliste."
+home_hof_desc: "Sieger abgeschlossener Runden"
+home_battlehall_desc: "Die größten Schlachten der laufenden Runde"
+memorialFilter: "Gedenkkämpfe"
+toc_contents: "Inhalt"
+loginRememberHint: "Nicht auf einem gemeinsam genutzten Computer verwenden."
+home_step_rules: "Lies vor dem Start die %s."

@@ -12,7 +12,7 @@ import { getRessource } from '../app/ticker.js';
  * with the document event "fleet:amounts" (the fleet table shows the sums).
  */
 const fleetPage = pageData('fleet-data');
-const { data, honorboost, config, token, questionList = {}, tradeMarket, urls = {} } = fleetPage;
+const { data, honorboost, config, token, questionList = {}, tradeMarket, urls = {}, texts = {} } = fleetPage;
 
 /** First form control with this name (the page has several fields of a name only in trade mode, where the first one counts). */
 const field = (name) => document.getElementsByName(name)[0];
@@ -33,6 +33,7 @@ const updateVars = (resetAcs = true) => {
   dataFlyTime = getDuration();
   dataFlyConsumption = getConsumption();
   dataFlyCargoSpace = storage();
+  validateTarget();
   if (config.max_planet < field('planet').value) {
     field('type').value = 1;
     field('type').disabled = true;
@@ -127,9 +128,61 @@ const refreshFormData = () => {
   document.getElementById('duration').textContent = `${hours}:${dezInt(minutes, 2)}:${dezInt(seconds, 2)} h`;
   document.getElementById('distance').textContent = pretty_number(dataFlyDistance);
   document.getElementById('maxspeed').textContent = pretty_number(data.maxspeed);
-  const color = dataFlyCargoSpace >= 0 ? 'lime' : 'red';
-  document.getElementById('consumption').innerHTML = `<font color="${color}">${pretty_number(dataFlyConsumption)}</font>`;
-  document.getElementById('storage').innerHTML = `<font color="${color}">${pretty_number(dataFlyCargoSpace)}</font>`;
+  const signal = dataFlyCargoSpace >= 0 ? 'colorPositive' : 'colorNegative';
+  setSignal(document.getElementById('consumption'), pretty_number(dataFlyConsumption), signal);
+  setSignal(document.getElementById('storage'), pretty_number(dataFlyCargoSpace), signal);
+  refreshSummary();
+};
+
+/** Puts `text` into the element as a span with the theme's positive / negative signal colour (colorPositive / colorNegative). */
+const setSignal = (element, text, signal) => {
+  const span = document.createElement('span');
+  span.className = signal;
+  span.textContent = text;
+  element.replaceChildren(span);
+};
+
+const summary = (id) => document.getElementById(`sum-${id}`);
+
+/** Keeps the summary bar (target, fuel, duration) in step with the form of the destination step. */
+const refreshSummary = () => {
+  if (!summary('target') || fleetPage.step !== 1) {
+    return;
+  }
+  const type = field('type');
+  summary('target').textContent = `[${field('galaxy').value}:${field('system').value}:${field('planet').value}] ${type.selectedOptions[0]?.textContent ?? ''}`;
+  summary('fuel').textContent = pretty_number(dataFlyConsumption);
+  summary('duration').textContent = document.getElementById('duration').textContent;
+};
+
+/** Arrival time in the summary bar. */
+const setSummaryArrival = (text) => {
+  if (summary('eta')) {
+    summary('eta').textContent = text;
+  }
+};
+
+/**
+ * Marks coordinates outside the universe (red field, message under the row) before the player submits; true when the target is valid.
+ * Positions beyond the last planet slot are the expedition and marketplace slots (and the pirate base when its link is offered).
+ */
+const validateTarget = () => {
+  const error = document.getElementById('target-error');
+  if (!error) {
+    return true;
+  }
+  const maxPosition = Number(config.max_planets) + (document.querySelector(`[data-action="set-target"][data-planet="${Number(config.max_planets) + 3}"]`) ? 3 : 2);
+  const limits = { galaxy: Number(config.max_galaxy), system: Number(config.max_system), planet: maxPosition };
+  let valid = true;
+  for (const [name, max] of Object.entries(limits)) {
+    const value = Number(field(name).value);
+    const bad = !Number.isInteger(value) || value < 1 || value > max;
+    field(name).setAttribute('aria-invalid', bad ? 'true' : 'false');
+    valid = valid && !bad;
+  }
+  error.hidden = valid;
+  error.textContent = valid ? '' : String(texts.coordRange ?? '').replace('%d', limits.galaxy).replace('%d', limits.system).replace('%d', limits.planet);
+  return valid;
 };
 
 /** Writes target coordinates and planet type (1 planet, 2 debris field, 3 moon) into the form. */
@@ -152,6 +205,7 @@ const fleetTime = () => {
   const endtime = dataFlyTime + dataFlyTime;
   document.getElementById('arrival').innerHTML = getFormatedDate(now().getTime() + 1000 * dataFlyTime, env.tdformat);
   document.getElementById('return').innerHTML = getFormatedDate(now().getTime() + 1000 * endtime, env.tdformat);
+  setSummaryArrival(document.getElementById('arrival').textContent);
 };
 
 /** Integer of a cargo field (NaN when empty). */
@@ -196,7 +250,7 @@ const selectedResources = () => {
 const calculateTransportCapacity = () => {
   const loaded = ['metal', 'crystal', 'deuterium'].reduce((sum, name) => sum + Math.abs(field(name).value), 0);
   const transportCapacity = data.fleetroom - data.consumption - loaded;
-  document.getElementById('remainingresources').innerHTML = `<font color=${transportCapacity < 0 ? 'red' : 'lime'}>${pretty_number(transportCapacity)}</font>`;
+  setSignal(document.getElementById('remainingresources'), pretty_number(transportCapacity), transportCapacity < 0 ? 'colorNegative' : 'colorPositive');
   updateTradeRatio();
   return transportCapacity;
 };
@@ -559,6 +613,10 @@ const submitForm = (enableDisabled = false) => {
 
 /** Step 1 submit: validates the target on the server (`checkTarget`); "OK" submits the form, otherwise the message is shown. Returns false (the real submit happens afterwards). */
 const checkTarget = () => {
+  if (!validateTarget()) {
+    field('galaxy').closest('form').querySelector('[aria-invalid="true"]')?.focus();
+    return false;
+  }
   removeBeforeUnload();
   const kolo = (typeof data.ships[208] === 'object') ? 1 : 0;
   const query = new URLSearchParams({
@@ -688,12 +746,34 @@ const sendFleet = (button) => {
   showWait();
   if (message) {
     Dialog.confirm(message).then((ok) => {
-      if (ok) button.form.requestSubmit(button);
-      else showSubmit();
+      if (ok) {
+        rememberFleet(mission);
+        button.form.requestSubmit(button);
+      } else showSubmit();
     });
     return false;
   }
+  rememberFleet(mission);
   return true;
+};
+
+/** Remembers the fleet being sent (ships, target, mission name) in localStorage for the "last mission" chip of the fleet page. */
+const rememberFleet = (mission) => {
+  try {
+    const label = document.querySelector(`label[for="radio_${mission}"]`)?.textContent.trim() ?? '';
+    localStorage.setItem('last_fleet', JSON.stringify({ ships: fleetPage.fleet, target: fleetPage.target, mission: Number(mission), label }));
+  } catch (error) {
+    // storage disabled or full: the chip is a convenience only
+  }
+};
+
+/** Shows the chosen mission in the summary bar. */
+const showMissionInSummary = (radio) => {
+  const label = document.querySelector(`label[for="${radio.id}"]`);
+  if (summary('mission') && label) {
+    summary('mission').textContent = label.textContent.trim();
+    document.getElementById('sum-mission-item').hidden = false;
+  }
 };
 
 /** Live arrival time of the flight in the player's timezone (page element #arr_time, `duration` attribute in seconds), with a day prefix "nT" for more than a day. */
@@ -707,6 +787,7 @@ const updateArrival = () => {
   const days = Math.floor((nd - now()) / (1000 * 60 * 60 * 24));
   const prefix = days > 0 ? `${days}T ` : '';
   arrival.innerText = `${prefix}${nd.getHours()}:${pad(nd.getMinutes(), 2)}:${pad(nd.getSeconds(), 2)}`;
+  setSummaryArrival(arrival.innerText);
 };
 
 const coords = (link) => [link.dataset.galaxy, link.dataset.system, link.dataset.planet, link.dataset.type];
@@ -721,7 +802,7 @@ registerActions({
   'save-shortcuts': () => saveShortcuts(),
   'add-shortcut': () => addShortcut(),
   'check-resources': () => checkResources(),
-  'check-hold': (radio) => checkHold(Number(radio.dataset.mission)),
+  'check-hold': (radio) => { checkHold(Number(radio.dataset.mission)); showMissionInSummary(radio); },
   'calc-capacity': () => { calculateTransportCapacity(); },
   'max-trade-offer': () => maxTradeOffer(),
   'max-resource': (link) => maxResource(link.dataset.resource),

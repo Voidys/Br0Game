@@ -607,6 +607,8 @@ se_bash_count_missiles: Giới hạn bash tính cả tấn công tên lửa
 se_bash_count_missiles_info: 'Tấn công tên lửa liên hành tinh được tính như tấn công hạm đội vào giới hạn bash (theo người chơi và theo hành tinh). Tắt: tên lửa không được tính.'
 se_bash_per_user: Giới hạn tấn công (bash) mỗi người chơi
 se_bash_per_user_info: Số lần một người chơi có thể tấn công người chơi khác trong 24 giờ (trên tất cả hành tinh). 0 = tắt
+se_update_check: "Kiểm tra cập nhật"
+se_update_check_info: "Hỏi GitHub (api.github.com) về bản phát hành mới nhất khi mở bảng điều khiển quản trị (tối đa 6 giờ một lần) và thông báo phiên bản mới. Không gửi dữ liệu nào về máy chủ của bạn. Tắt để không gửi yêu cầu ra ngoài."
 se_cookie_consent: "Thông báo cookie"
 se_cookie_consent_info: "Hiển thị thông báo cookie ở cuối trang cho đến khi khách chọn (\"Chấp nhận tất cả\" hoặc \"Chỉ cần thiết\"; lưu một năm trong cookie cookie_consent)."
 se_block_planet_creation: Chặn
@@ -1056,6 +1058,14 @@ adm_dash_tickets: Ticket đang mở
 adm_dash_fleets: Hạm đội đang bay
 adm_dash_quick: Truy cập nhanh
 adm_dash_system: Hệ thống
+adm_update_available: "Có bản cập nhật"
+adm_update_released: "phát hành"
+adm_update_you_run: "bạn đang chạy"
+adm_update_notes: "Ghi chú phát hành"
+adm_update_howto: "Cách cập nhật"
+adm_update_check_now: "Kiểm tra ngay"
+adm_update_check: "Kiểm tra cập nhật"
+adm_update_up_to_date: "Đã cập nhật"
 adm_dash_version: Phiên bản
 adm_dash_php: PHP
 adm_dash_uni_status: Trạng thái vũ trụ

@@ -10,12 +10,12 @@
         <td><label for="to">{{ LNG.mg_send_to }}</label></td>
         <td>
           <div class="search-receiver">
-            <input type="text" id="to" name="to" value="" data-on-input="msg-load-user" data-on-blur="msg-hide-search" data-on-focus="msg-show-search" autocomplete="off" placeholder="Suche Spieler">
+            <input type="text" id="to" name="to" value="" data-on-input="msg-load-user" data-on-blur="msg-hide-search" data-on-focus="msg-show-search" autocomplete="off" placeholder="{{ LNG.mg_search_player }}">
             <div class="select-box"></div>
           </div>
           <div id="receiver-list">
             {% for receiver in receiverList %}
-              <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <span data-action="msg-remove-user" data-id="{{ receiver.id }}">X</span></div>
+              <div class="receiver" id="receiver-{{ receiver.id }}">{{ receiver.username }} <button type="button" class="receiver__remove" data-action="msg-remove-user" data-id="{{ receiver.id }}" title="{{ LNG.mg_remove_receiver }}" aria-label="{{ LNG.mg_remove_receiver }}: {{ receiver.username }}">{{ icon('x') }}</button></div>
             {% endfor %}
           </div>
         </td>
@@ -55,6 +55,8 @@
     searchNote: LNG.mg_min_3_chars,
     searchNoUser: LNG.mg_no_user,
     emptyText: LNG.mg_empty_text,
+    noReceiver: LNG.mg_no_receiver,
+    removeReceiver: LNG.mg_remove_receiver,
     messageGroup: messageGroup|default(''),
     messageID: messageID|default(0),
     receiverList: receiverList|default({})

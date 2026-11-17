@@ -143,3 +143,14 @@ home_logged_in_as: Connecté en tant que %s
 home_continue: Continuer vers tes univers
 home_account_lobby: Salon du compte
 rulesEmpty: Aucune règle n'a encore été publiée.
+loginLostPasswordOff: "Mot de passe oublié ? %s"
+loginContactTeam: "Contactez l'équipe."
+home_step_build: "Construis des mines, de la recherche et des chantiers spatiaux sur tes planètes."
+home_step_fleet: "Envoie des flottes : explore, commerce, attaque ou défends."
+home_step_alliance: "Rejoins une alliance et grimpe dans le classement."
+home_hof_desc: "Vainqueurs des manches terminées"
+home_battlehall_desc: "Les plus grandes batailles de la manche en cours"
+memorialFilter: "Batailles commémoratives"
+toc_contents: "Sommaire"
+loginRememberHint: "Ne l'utilise pas sur un ordinateur partagé."
+home_step_rules: "Lis les %s avant de commencer."

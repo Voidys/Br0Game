@@ -105,8 +105,10 @@
 		</div>
 	{% endfor %}
 	<div class="spyRaportFooter">
-		<a href="game/fleet?galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={{ targetPlanet.planet_type < 4 ? 1 : 20 }}">{% if targetPlanet.planet_type < 4 %}{{ LNG.type_mission_1 }}{% else %}{{ LNG.type_mission_20 }}{% endif %}</a>
-		<br>{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ LNG.format('sys_mess_spy_lostproba', targetChance) }}{% endif %}
-		{% if isBattleSim %}<br><a target="_blank" href="game/simulator?{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}im[{{ elementID }}]={{ amount|intval }}&amp;{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
+		<span class="spy-footer-note">{% if totalShipDefCount > 0 and targetChance >= spyChance %}<span class="colorNegative">{{ LNG.sys_mess_spy_destroyed }}</span>{% else %}{{ LNG.format('sys_mess_spy_lostproba', targetChance) }}{% endif %}</span>
+		<span class="spy-footer-actions">
+			<a class="button" href="game/fleet?galaxy={{ targetPlanet.galaxy }}&amp;system={{ targetPlanet.system }}&amp;planet={{ targetPlanet.planet }}&amp;planettype={{ targetPlanet.planet_type }}&amp;target_mission={{ targetPlanet.planet_type < 4 ? 1 : 20 }}">{% if targetPlanet.planet_type < 4 %}{{ LNG.type_mission_1 }}{% else %}{{ LNG.type_mission_20 }}{% endif %}</a>
+			{% if isBattleSim %}<a class="button" target="_blank" href="game/simulator?{% for Class, elementIDs in spyData %}{% for elementID, amount in elementIDs %}im[{{ elementID }}]={{ amount|intval }}&amp;{% endfor %}{% endfor %}">{{ LNG.fl_simulate }}</a>{% endif %}
+		</span>
 	</div>
 </div>

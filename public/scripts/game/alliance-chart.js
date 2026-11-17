@@ -53,8 +53,8 @@ window.onPageInit(() => {
       interaction: { mode: 'nearby', intersect: true, nearbyDistance: 20, nearbyLimit: 8 },
       elements: { point: { radius: 1, hoverRadius: 4, hitRadius: 14 } },
       scales: {
-        x: { ticks: timeAgoTicks() },
-        y: { type: 'linear', beginAtZero: true, ticks: { callback: formatPoints } },
+        x: { ticks: timeAgoTicks(), title: { display: Boolean(data.xTitle), text: data.xTitle } },
+        y: { type: 'linear', beginAtZero: true, ticks: { callback: formatPoints }, title: { display: Boolean(data.yTitle), text: data.yTitle } },
       },
       plugins: {
         tooltip: {
