@@ -220,6 +220,7 @@ password `db`, name `db`), the game settings and your administrator account. The
 - [ ] Behind a reverse proxy or load balancer: `SYMFONY_TRUSTED_PROXIES` set (see below)
 - [ ] `DEFAULT_URI` in `.env.local` is your public address (the setup wizard writes it); e-mail links (password reset, account activation) use it. Without it (outside development) those mails are not sent (an error is logged per refused mail and the admin home page shows a warning): the Host header of a request is never used for links. The web installer writes it from the address you opened it at, `app:install` from `--base-url`; an existing install must add `DEFAULT_URI=https://your-domain` to `.env.local`
 - [ ] `TRUSTED_HOSTS` in `.env.local` lists the host names of your site (see below)
+- [ ] Anti-abuse settings reviewed per universe (Admin → universe settings, see below). Their defaults keep the classic, permissive rules; the admin home page lists every protection that is still off
 
 ### Reverse proxies and client IPs
 
@@ -252,6 +253,24 @@ TRUSTED_HOSTS=example.com,www.example.com
 
 Requests with any other `Host` header are answered with 400. Leave it empty during development (DDEV). Mail links do
 not depend on it: they are built from `DEFAULT_URI`.
+
+### Anti-abuse settings
+
+These universe settings decide how hard pushing and collusion are. Every default reproduces the classic rule, so a
+fresh universe is as open as the original game until you change them:
+
+| Setting | Default | Recommended | Effect |
+| --- | --- | --- | --- |
+| `transport_push_check` + `transport_push_limit` | off, `0` | on, e.g. `100000` | refuses transports, holds and transfers to another player when the 7-day value sent minus the value returned (deuterium units, transferred ships at cost) exceeds the limit; both must be set |
+| `market_push_tolerance` | `30` % | `10` | allowed value skew of a market trade |
+| `honor_pair_cap` | `0` (unlimited) | `3` | honourable fights per pair of players per day |
+| `bash_war_exempt` | on | off | a declared war lifts the bash limit (never between accounts sharing an IP or a multi group) |
+| `depot_cost_real_consumption` | off | on | alliance depot holds cost the fleet's real consumption |
+
+Always on, no setting: no rebuild protection after losing a fleet only to linked accounts (shared IP, multi group,
+alliance, buddy). By rule, interplanetary missile flights never occupy a fleet slot (they are still counted for bash
+protection, `bash_count_missiles`). The admin page "abuse report" lists one-sided transfers, repeated trades, rebuild
+protection grants and late recalls for review.
 
 ### What the game does for you
 

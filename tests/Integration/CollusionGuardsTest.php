@@ -10,6 +10,8 @@ use App\Game\BattleEngine\BattleLosses;
 use App\Game\BattleEngine\BattleResult;
 use App\Game\Core\AccountLinks;
 use App\Game\Core\BashRules;
+use App\Game\Core\FleetFunctions;
+use App\Game\Missions\MissionCaseAttack;
 use App\Tests\Support\GameTestCase;
 
 /**
@@ -123,5 +125,68 @@ final class CollusionGuardsTest extends GameTestCase
     {
         [, $planet] = $this->warScenario('10.9.9.9', '10.9.9.9');
         $this->assertTrue((new BashRules($this->db, $this->configs, $this->state))->checkBash((int) $planet['id']));
+    }
+
+    /**
+     * Runs a real attack mission (1000 battleships against 2000 small cargos on the defender's planet) and returns the
+     * defender's rebuild protection timestamp afterwards (0 = not granted).
+     *
+     * @param array<string, mixed> $userOverrides extra columns for the attacker (e.g. a shared IP)
+     */
+    private function fightAndReadProtection(array $userOverrides, bool $buddies): int
+    {
+        $this->setUniverseConfig(['noob_protection' => 1, 'rebuild_protection' => 1, 'noob_protection_time' => 1]);
+        $resource = $this->elements()->columnMap();
+        [$attacker, $attackerPlanet] = $this->createPlayer($userOverrides + ['computer_tech' => 5, 'user_lastip' => '10.1.0.1'], [$resource[207] => 1000, 'deuterium' => 1e7]);
+        [$defender, $defenderPlanet] = $this->createPlayer(['user_lastip' => '10.2.0.1', 'onlinetime' => time()], [$resource[202] => 2000]);
+        if ($buddies) {
+            $this->db->insert('INSERT INTO %%BUDDY%% SET sender = :a, owner = :b, universe = 1;', [':a' => $attacker['id'], ':b' => $defender['id']]);
+        }
+        $now = time();
+        $this->state->USER = $attacker;
+        $this->state->PLANET = $attackerPlanet;
+        $fleetId = (new FleetFunctions($this->db, $this->configs, $this->state))->sendFleet(
+            [207 => 1000],
+            MISSION_ATTACK,
+            (int) $attacker['id'],
+            (int) $attackerPlanet['id'],
+            (int) $attackerPlanet['galaxy'],
+            (int) $attackerPlanet['system'],
+            (int) $attackerPlanet['planet'],
+            1,
+            (int) $defender['id'],
+            (int) $defenderPlanet['id'],
+            (int) $defenderPlanet['galaxy'],
+            (int) $defenderPlanet['system'],
+            (int) $defenderPlanet['planet'],
+            1,
+            [901 => 0, 902 => 0, 903 => 0],
+            $now - 100,
+            $now - 100,
+            $now - 50,
+            0,
+            0,
+            0,
+            0,
+        );
+        $fleet = $this->db->selectSingle('SELECT * FROM %%FLEETS%% WHERE id = :id;', [':id' => $fleetId]);
+        (new MissionCaseAttack($fleet, $this->db, $this->configs, $this->state))->TargetEvent();
+
+        return (int) $this->db->selectSingle('SELECT rebuild_protection FROM %%USERS%% WHERE id = :id;', [':id' => $defender['id']], 'rebuild_protection');
+    }
+
+    public function testRealAttackGrantsRebuildProtectionAgainstAStranger(): void
+    {
+        $this->assertGreaterThan(0, $this->fightAndReadProtection([], false));
+    }
+
+    public function testRealAttackByABuddyGrantsNoRebuildProtection(): void
+    {
+        $this->assertSame(0, $this->fightAndReadProtection([], true));
+    }
+
+    public function testRealAttackFromTheSameIpGrantsNoRebuildProtection(): void
+    {
+        $this->assertSame(0, $this->fightAndReadProtection(['user_lastip' => '10.2.0.1'], false));
     }
 }
