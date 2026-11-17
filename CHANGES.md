@@ -1236,3 +1236,7 @@ Technical changes per step, newest last (started with the migration to PHP 8.4, 
 - Tooltips rendered once as `<template>` (`TooltipExtension`, `data-tooltip-ref`): galaxy 258 → 108 KB, buildings 121 → 63 KB, research 95 → 54 KB.
 - Messages: one query for per-type/unread/favourite counts, one window pass, text loaded for the shown page only, recipients in one query, rendered spy reports cached; statistics page cut in SQL before the joins, `statpoints` rank indexes (migration 1794902900), indexed last-run lookup.
 - Frontend: brotli/gzip for text/JSON/SVG and immutable caching for versioned assets in `public/.htaccess` and `docs/nginx.md`, font preload, lazy building images.
+
+## 158. Release 1.26.3
+
+- `install/VERSION` 1.26.3 (tag `v1.26.3`): path routes in every area, game enums, `PlayerUtil` replaced by services, typed `Singleton` state, `_GP` input layer gone, faster request path (cached universe config, fewer queries, galaxy without reload, tooltip templates, compressed/cached assets) (steps 156–157); README now names the `public/` document root for script installs too has a performance section (page/job numbers before → now) and screenshots (gallery retaken on the current UI); INSTALL troubleshooting covers 403 on `/install/` (wrong document root); admin bot spawn has a "mixed (all profiles)" option (`BotSpawner::spawnMixed()`, shared with the installer). Upgrading runs migrations 1794902700–1794902900 (applied automatically by the upgrade check).

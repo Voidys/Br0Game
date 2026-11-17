@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Runtime;
 
 use App\Game\Enum\AuthLevel;
-use App\Game\Bots\BotProfiles;
 use App\Game\Bots\BotSpawner;
 use App\Game\Core\Config\ConfigFieldSchema;
 use App\Game\Core\ConfigRegistry;
@@ -57,8 +56,6 @@ final class InstallService
         private Singleton $state,
         #[Autowire(lazy: true)]
         private BotSpawner $botSpawner,
-        #[Autowire(lazy: true)]
-        private BotProfiles $botProfiles,
         #[Autowire(param: 'kernel.project_dir')]
         string $projectDir,
     ) {
@@ -759,26 +756,7 @@ final class InstallService
     /** Spawns $count bots in universe 1, spread over the default profiles (mixed personalities). @return int number created */
     public function spawnBots(int $count): int
     {
-        if ($count <= 0) {
-            return 0;
-        }
-        $universe = (int) $this->universe()->current();
-        $profiles = $this->botProfiles->all();
-        if ($profiles === []) {
-            return 0;
-        }
-        $perProfile = array_fill(0, count($profiles), intdiv($count, count($profiles)));
-        for ($i = 0; $i < $count % count($profiles); $i++) {
-            $perProfile[$i]++;
-        }
-        $created = 0;
-        foreach (array_values($profiles) as $i => $profile) {
-            if ($perProfile[$i] > 0) {
-                $created += count($this->botSpawner->spawn($universe, (int) $profile['id'], $perProfile[$i]));
-            }
-        }
-
-        return $created;
+        return count($this->botSpawner->spawnMixed((int) $this->universe()->current(), $count));
     }
 
     /** the system cron line for this installation */

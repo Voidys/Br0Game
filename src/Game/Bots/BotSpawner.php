@@ -53,6 +53,28 @@ class BotSpawner
     }
 
     /**
+     * Creates $count bots spread evenly over all profiles (mixed personalities; the first profiles get the remainder).
+     *
+     * @return int[] ids of the created users
+     */
+    public function spawnMixed(int $universe, int $count): array
+    {
+        $profiles = array_values($this->profiles->all());
+        if ($count <= 0 || $profiles === []) {
+            return [];
+        }
+        $ids = [];
+        foreach ($profiles as $i => $profile) {
+            $share = intdiv($count, count($profiles)) + ($i < $count % count($profiles) ? 1 : 0);
+            if ($share > 0) {
+                $ids = [...$ids, ...$this->spawn($universe, (int) $profile['id'], $share)];
+            }
+        }
+
+        return $ids;
+    }
+
+    /**
      * spawn() with the universe's spawn lock held: counts the existing bots, then creates up to the allowed number.
      *
      * @param array<string, mixed> $profile

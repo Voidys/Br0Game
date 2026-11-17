@@ -1346,6 +1346,7 @@ bot_skill_gain: 每日增长
 bot_skill_max: 上限
 bot_skill_start: 起始
 bot_spawn: 生成机器人
+bot_profile_mixed: "混合（所有配置）"
 bot_spawned: 已创建 %d 个机器人。
 bot_summary: 摘要
 bot_summary_actions: 行动

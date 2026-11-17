@@ -1346,6 +1346,7 @@ bot_skill_gain: Ganho por dia
 bot_skill_max: Máx.
 bot_skill_start: Início
 bot_spawn: Gerar bots
+bot_profile_mixed: "Misto (todos os perfis)"
 bot_spawned: '%d bot(s) criado(s).'
 bot_summary: Resumo
 bot_summary_actions: ações

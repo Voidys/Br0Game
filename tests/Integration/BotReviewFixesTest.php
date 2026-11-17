@@ -58,4 +58,38 @@ final class BotReviewFixesTest extends GameTestCase
             }
         }
     }
+
+    public function testSpawnMixedSpreadsTheBotsOverAllProfiles(): void
+    {
+        $container = self::container();
+        $spawner = $container->get(BotSpawner::class);
+        $profiles = $container->get(BotProfiles::class)->all();
+        $count = count($profiles) + 2;
+        $existing = (int) $this->db->selectSingle('SELECT COUNT(*) AS c FROM %%BOT_PLAYERS%% WHERE universe = 1;', [], 'c');
+        $this->setUniverseConfig(['bots_max_count' => $existing + $count]);
+
+        $created = $spawner->spawnMixed(1, $count);
+
+        try {
+            $this->assertCount($count, $created);
+            $perProfile = [];
+            foreach ($created as $id) {
+                $profileId = (int) $this->db->selectSingle('SELECT profile_id FROM %%BOT_PLAYERS%% WHERE user_id = :id;', [':id' => $id], 'profile_id');
+                $perProfile[$profileId] = ($perProfile[$profileId] ?? 0) + 1;
+            }
+            // the first two profiles take the remainder, every other profile gets one
+            $expected = [];
+            foreach (array_values($profiles) as $i => $profile) {
+                $expected[(int) $profile['id']] = $i < 2 ? 2 : 1;
+            }
+            ksort($expected);
+            ksort($perProfile);
+            $this->assertSame($expected, $perProfile);
+            $this->assertSame([], $spawner->spawnMixed(1, 0));
+        } finally {
+            foreach ($created as $id) {
+                $spawner->remove((int) $id);
+            }
+        }
+    }
 }

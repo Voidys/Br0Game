@@ -192,6 +192,7 @@
       <form method="POST" action="{{ path('admin_bots_spawn') }}" class="toolbar">
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <select name="profile_id" aria-label="{{ LNG.bot_profile }}">
+          <option value="mixed">{{ LNG.bot_profile_mixed }}</option>
           {% for p in profiles %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
         </select>
         <input type="number" name="count" value="1" min="1" max="50" aria-label="{{ LNG.bot_spawn }}">

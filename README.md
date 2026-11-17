@@ -29,7 +29,9 @@ in alliances.
 ## Contents
 
 - [Highlights](#highlights)
+- [Screenshots](#screenshots)
 - [Features](#features)
+- [Performance](#performance)
 - [Quick start](#quick-start)
 - [Requirements](#requirements)
 - [Running a server](#running-a-server)
@@ -46,9 +48,22 @@ The game rules are the same as before; everything around them is new.
 | | |
 | --- | --- |
 | **81 game bugs fixed** | **3 critical** (a jump gate SQL injection, a repair dock duplication race, a cleaner that deleted every player), **11 high**, **26 medium**, **7 low-medium**, **34 low**. All are documented in [docs/GAMEBUGS.md](docs/GAMEBUGS.md) |
-| **Up to 48 % faster pages** | A typical game page went from 40 to 28 queries. The empire view went from 116 to 37 queries and the galaxy from 71 to 33 ([docs/PERFORMANCE.md](docs/PERFORMANCE.md)) |
+| **Pages up to 65 % faster** | A typical game page needs about 30 % less time and half the queries (40 → 20). The empire view went from 116 to 28 queries and the galaxy from 71 to 25. With the recommended production settings, pages take about half their old time ([details below](#performance)) |
 | **Up to 96 % faster background jobs** | The statistics cronjob went from 4375 to 66 queries, the records build is 96 % faster, and the resource update is 56 % faster |
-| **Smaller images** | Static images are served as WebP (53.7 MB → 12.7 MB) |
+| **Lighter downloads** | Static images are served as WebP (53.7 MB → 12.7 MB). Shipped scripts shrank from 3.1 MB to 512 KB, and the HTML of the galaxy and building pages roughly halved |
+
+## Screenshots
+
+| | |
+| :---: | :---: |
+| <a href="public/styles/resource/images/login/screens/01-overview.webp"><img src="public/styles/resource/images/login/screens/01-overview-720w.webp" alt="Planet overview" width="420"></a> | <a href="public/styles/resource/images/login/screens/02-buildings.webp"><img src="public/styles/resource/images/login/screens/02-buildings-720w.webp" alt="Buildings" width="420"></a> |
+| Planet overview | Buildings |
+| <a href="public/styles/resource/images/login/screens/07-empire.webp"><img src="public/styles/resource/images/login/screens/07-empire-720w.webp" alt="Empire with statistics charts" width="420"></a> | <a href="public/styles/resource/images/login/screens/11-admin-overview.webp"><img src="public/styles/resource/images/login/screens/11-admin-overview-720w.webp" alt="Admin panel home" width="420"></a> |
+| Empire with statistics charts | Admin panel |
+| <a href="public/styles/resource/images/login/screens/08-galaxy.webp"><img src="public/styles/resource/images/login/screens/08-galaxy-720w.webp" alt="Galaxy view" width="420"></a> | <a href="public/styles/resource/images/login/screens/06-techtree.webp"><img src="public/styles/resource/images/login/screens/06-techtree-720w.webp" alt="Technology tree" width="420"></a> |
+| Galaxy | Technology tree |
+
+All of them are in [`public/styles/resource/images/login/screens/`](public/styles/resource/images/login/screens/); a running game shows them on its start page under Screenshots.
 
 ## Features
 
@@ -80,6 +95,64 @@ The game rules are the same as before; everything around them is new.
 
 The full list, step by step, is in the **[changelog](CHANGES.md)**.
 
+## Performance
+
+Compared with the code before the performance work. Game results are unchanged: every change was checked with crawl
+diffs of all pages, and the statistics and resource routines were checked by running old and new code side by side.
+The method and the raw numbers are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
+
+**Pages.** The times are medians in production mode. "Tuned" adds the OPcache and Composer settings from
+[docs/INSTALL.md](docs/INSTALL.md). The two measuring rounds ran on different machines, so the time changes combine
+the ratios of both rounds.
+
+| Page | Queries before → now | Time, default | Time, tuned |
+| --- | ---: | ---: | ---: |
+| Start page | 8 → 5 | -26 % | -47 % |
+| News | 9 → 6 | -25 % | -55 % |
+| Account | 14 → 8 | -23 % | -50 % |
+| Overview | 48 → 25 | -29 % | -49 % |
+| Buildings | 40 → 20 | -26 % | -46 % |
+| Research | 40 → 21 | -31 % | -49 % |
+| Shipyard | 39 → 19 | -34 % | -52 % |
+| Galaxy | 71 → 25 | -41 % | -60 % |
+| Messages | 49 → 30 | -28 % | -48 % |
+| Statistics | 47 → 24 | -33 % | -59 % |
+| Empire | 116 → 28 | -54 % | -65 % |
+| Alliance | 41 → 31 | -30 % | -46 % |
+| Admin overview | 22 → 11 | -28 % | -52 % |
+
+**Background jobs** (1000 players, 5000 planets, 100k messages):
+
+| Job | Before | Now | Change |
+| --- | ---: | ---: | ---: |
+| Statistics cronjob | 1560 ms, 4375 queries | 213 ms, 66 queries | -86 % |
+| Statistics build | 601 ms, 1090 queries | 150 ms, 52 queries | -75 % |
+| Records build | 976 ms, 3281 queries | 35 ms, 10 queries | -96 % |
+| Resource update, 5000 planets | 2581 ms, 10000 queries | 1130 ms, 5000 queries | -56 % |
+| Resource update, 1000 planets with save | 951 ms | 644 ms | -32 % |
+| Fleet events, 600 due fleets | 2687 ms | 2048 ms | -24 % |
+
+**What else got faster:**
+- Galaxy:
+  - switching systems no longer reloads the page;
+  - with 100k messages a system switch takes about 28 ms instead of 168 ms, thanks to a new index.
+- Smaller pages: tooltips are sent once per page instead of once per element. The galaxy page went from 258 to 108 KB,
+  buildings from 121 to 63 KB and research from 95 to 54 KB.
+- Messages:
+  - one query for all counters;
+  - only the text of the shown page is loaded;
+  - spy reports are rendered once and then cached.
+- Every request:
+  - the universe config and the migration check are cached;
+  - fleet events, ban checks and tutorials cost no queries when there is nothing to do;
+  - read-only page views take no row locks.
+- Frontend:
+  - no jQuery (scripts 3.1 MB → 512 KB);
+  - brotli/gzip and long-term caching for versioned assets;
+  - preloaded fonts and lazy-loaded building images;
+  - WebP images;
+  - theme artwork 139 → 83 MB.
+
 ## Quick start
 
 Pick the way that fits you. **[docs/INSTALL.md](docs/INSTALL.md)** walks through each one, written for non-technical
@@ -98,9 +171,9 @@ readers too.
 2. Check the file:
 
    ```sh
-   sha256sum -c br0game-1.26.2.zip.sha256            # Linux
-   shasum -a 256 br0game-1.26.2.zip                  # macOS: compare with the .sha256 file
-   certutil -hashfile br0game-1.26.2.zip SHA256      # Windows: compare with the .sha256 file
+   sha256sum -c br0game-1.26.3.zip.sha256            # Linux
+   shasum -a 256 br0game-1.26.3.zip                  # macOS: compare with the .sha256 file
+   certutil -hashfile br0game-1.26.3.zip SHA256      # Windows: compare with the .sha256 file
    ```
 
 3. Upload and extract it. Set your domain's **document root to the `public/` folder**.
@@ -109,7 +182,7 @@ readers too.
    anyone who opens the page could set the game up.
 6. Add the cron job the last wizard page shows you.
 
-The ZIP is about 340 MB, mostly theme artwork. If your host's file manager can extract archives, upload the ZIP and
+The ZIP is about 80 MB, mostly theme artwork. If your host's file manager can extract archives, upload the ZIP and
 unpack it on the server instead of uploading the files over FTP.
 
 ### 2. Install script
@@ -133,6 +206,10 @@ It never runs `sudo` by itself. You can also run the installer directly:
 ```sh
 php bin/console app:install     # asks for everything, or pass --no-interaction with options (see --help)
 ```
+
+Then set your web server's **document root to the `public/` folder** of the install directory, not the project
+folder itself ([nginx example](docs/nginx.md); Apache: `DocumentRoot …/public` with `AllowOverride All`), and add the
+cron job (see [Running a server](#running-a-server)).
 
 ### 3. DDEV (try it on your PC)
 

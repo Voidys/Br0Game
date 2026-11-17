@@ -1346,6 +1346,7 @@ bot_skill_gain: Günlük artış
 bot_skill_max: Maks.
 bot_skill_start: Başlangıç
 bot_spawn: Bot oluştur
+bot_profile_mixed: "Karışık (tüm profiller)"
 bot_spawned: '%d bot oluşturuldu.'
 bot_summary: Özet
 bot_summary_actions: işlem

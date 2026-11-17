@@ -24,9 +24,9 @@ Download `br0game-<version>.zip` **only** from the
 `br0game-<version>.zip.sha256` file too. The checksum proves the file was not damaged or changed on the way. Compare
 it with your own calculation:
 
-* Windows (Command Prompt): `certutil -hashfile br0game-1.26.2.zip SHA256`
-* macOS: `shasum -a 256 br0game-1.26.2.zip`
-* Linux: `sha256sum -c br0game-1.26.2.zip.sha256` (both files in the same folder; it prints `OK`)
+* Windows (Command Prompt): `certutil -hashfile br0game-1.26.3.zip SHA256`
+* macOS: `shasum -a 256 br0game-1.26.3.zip`
+* Linux: `sha256sum -c br0game-1.26.3.zip.sha256` (both files in the same folder; it prints `OK`)
 
 On Windows and macOS, compare the printed value with the one in the `.sha256` file by eye. If they differ, download
 again and do not use the file.
@@ -47,7 +47,7 @@ Hosting that cannot offer PHP 8.4, or cannot run cron jobs every minute, is not 
 
 ### 3. Upload
 
-The ZIP is large (about 340 MB, mostly theme artwork), so an FTP upload of the unpacked files takes a while. If the
+The ZIP is large (about 80 MB, mostly theme artwork), so an FTP upload of the unpacked files takes a while. If the
 hoster's file manager supports it, upload the ZIP itself and extract it on the server ("Extract"/"Unzip"); that is much
 faster. Otherwise unpack the ZIP on your computer and upload **the content of the folder** `br0game-<version>` (including the
 hidden file `.env`) to your web space, ideally *next to* the public folder, not inside it, for
@@ -137,7 +137,7 @@ Useful options (`bash install.sh --help` lists everything):
 
 ```sh
 bash install.sh --mode server --dir /var/www/br0game          # skip the menu
-bash install.sh --version v1.26.2 ...                          # a specific release (default: latest)
+bash install.sh --version v1.26.3 ...                          # a specific release (default: latest)
 bash install.sh --dry-run --mode server --dir /tmp/x --yes    # show what would happen
 # unattended, secrets from the environment:
 BR0GAME_DB_PASSWORD=... BR0GAME_ADMIN_PASSWORD=... bash install.sh --mode server --dir /var/www/br0game --yes \
@@ -303,6 +303,7 @@ protection grants and late recalls for review.
 | Symptom | What to do |
 |---|---|
 | White page / "Error 500" right after upload | Look at `var/log/game.log` and the web server's error log. Most often: a **missing PHP extension** (compare with the list above, `php -m`), or PHP older than 8.4 for the web (not just the command line). |
+| "403 Forbidden" on `/install/` (or on every page) | The document root points at the project folder instead of `public/`: `/install/` then opens the real `install/` folder, which has no start page and may not be listed. Point the domain to `public/` ([step 4](#4-point-the-domain-to-the-public-folder)); permissions are not the cause. If the root is already `public/`: the web server user must be able to read `public/index.php`, and Apache needs `AllowOverride All`. |
 | "Not writable" in the wizard, or errors about `var/` | The web server user needs write access to `var/`, `config/`, `.env.local`, `public/uploads/`: 775/664 or `chgrp` to the web server group. |
 | Pages show but images/CSS 404, or every URL except the front page 404s | Rewriting is missing: nginx `try_files` as in [nginx.md](nginx.md); Apache `AllowOverride All` and `mod_rewrite`. |
 | Game works, but nothing happens in the background (no new statistics, fleets stuck) | The cron job is not running. Run the command by hand (`php bin/console app:cron:run`) and look at the output. In the admin panel open Information and read the health checks. Check the panel's cron logs and that the PHP binary is 8.4. |

@@ -1346,6 +1346,7 @@ bot_skill_gain: Pagtaas bawat araw
 bot_skill_max: Max
 bot_skill_start: Simula
 bot_spawn: Gumawa ng bot
+bot_profile_mixed: "Halo-halo (lahat ng profile)"
 bot_spawned: '%d bot ang nagawa.'
 bot_summary: Buod
 bot_summary_actions: mga aksyon

@@ -1346,6 +1346,7 @@ bot_skill_gain: Tăng mỗi ngày
 bot_skill_max: Tối đa
 bot_skill_start: Khởi đầu
 bot_spawn: Tạo bot
+bot_profile_mixed: "Hỗn hợp (tất cả hồ sơ)"
 bot_spawned: Đã tạo %d bot.
 bot_summary: Tóm tắt
 bot_summary_actions: hành động

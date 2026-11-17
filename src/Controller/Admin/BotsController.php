@@ -333,13 +333,17 @@ class BotsController extends AbstractAdminController
         $LNG = $this->state->LNG;
         $post = $this->state->requestPost;
 
+        $mixed = ($post['profile_id'] ?? '') === 'mixed';
         $profileId = (int) ($post['profile_id'] ?? 0);
         $count = max(1, min(50, (int) ($post['count'] ?? 1)));
-        if (!$this->profiles->get($profileId)) {
+        if (!$mixed && !$this->profiles->get($profileId)) {
             $this->flash($LNG['bot_profile_missing'], false);
         } else {
             try {
-                $ids = $this->spawner->spawn($this->universe()->getEmulated(), $profileId, $count);
+                $universe = $this->universe()->getEmulated();
+                $ids = $mixed
+                    ? $this->spawner->spawnMixed($universe, $count)
+                    : $this->spawner->spawn($universe, $profileId, $count);
                 $this->flash($LNG->format('bot_spawned', count($ids)));
             } catch (\Throwable $e) {
                 $this->flash($e->getMessage(), false);

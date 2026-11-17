@@ -1346,6 +1346,7 @@ bot_skill_gain: Toename per dag
 bot_skill_max: Max.
 bot_skill_start: Start
 bot_spawn: Bots aanmaken
+bot_profile_mixed: "Gemengd (alle profielen)"
 bot_spawned: '%d bot(s) aangemaakt.'
 bot_summary: Samenvatting
 bot_summary_actions: acties
