@@ -1,0 +1,18 @@
+{#
+  Optional cookie notice (config key cookie_consent, admin category "legal"): shown until the visitor chooses.
+  Included once by every shell (login/layout.base, game/layout.full, account/layout.full); scripts/app/consent.js
+  stores the choice in the first-party cookie "cookie_consent" (all|necessary). Not rendered when the flag is off
+  or the cookie is already set. The privacy link is the same in every area.
+#}
+{% if game_config('cookie_consent', '0') == '1' and app.request.cookies.get('cookie_consent') not in ['all', 'necessary'] %}
+  <section class="cookie-notice" role="region" aria-labelledby="cookie-notice-title" data-cookie-notice>
+    <div class="cookie-notice__text">
+      <strong id="cookie-notice-title">{{ LNG.cookie_notice_title }}</strong>
+      <p>{{ LNG.cookie_notice_text }} <a href="{{ path('login_data_privacy_show') }}">{{ LNG.cookie_notice_privacy }}</a></p>
+    </div>
+    <div class="cookie-notice__actions">
+      <button type="button" class="btn" data-cookie-choice="necessary">{{ LNG.cookie_notice_necessary }}</button>
+      <button type="button" class="btn btn--primary" data-cookie-choice="all">{{ LNG.cookie_notice_all }}</button>
+    </div>
+  </section>
+{% endif %}

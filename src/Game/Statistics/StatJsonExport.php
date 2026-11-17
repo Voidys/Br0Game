@@ -7,11 +7,17 @@ use App\Game\Core\ConfigRegistry;
 use App\Game\Core\Database;
 use App\Game\Core\GameUtilities;
 use App\Game\Core\Singleton;
+use App\Runtime\SafeFile;
 
-/** Export of the player statistics as public JSON files. */
+/** Export of the player statistics as public JSON files (public/stats/, served as /stats/...). */
 class StatJsonExport
 {
     use GameUtilities;
+
+    /** folder below the project root, inside the web root */
+    public const DIRECTORY = 'public/stats/';
+    /** days an hourly export file is kept */
+    public const KEEP_DAYS = 7;
 
     /** @param list<int> $universes ids of all universes */
     public function __construct(
@@ -23,13 +29,16 @@ class StatJsonExport
 
     /**
      * Writes the public statistics JSON files for every universe that has the stats-json module available and is open
-     * for players: `stats/stats_<name>_<date>_<hour>.json`, with the newest
+     * for players: `public/stats/stats_<name>_<date>_<hour>.json`, with the newest
      * history snapshot older than `statsjson_delay` (rank, scores and battle stats per player).
      *
-     * Side effect: writes one file per universe.
+     * Side effects: creates the folder when missing, writes one file per universe, deletes export files older than
+     * KEEP_DAYS.
      */
     public function export(): void
     {
+        $directory = $this->state->runtime->rootPath . self::DIRECTORY;
+        $written = false;
         foreach ($this->universes as $uni) {
             $config = $this->configs->get($uni);
 
@@ -37,9 +46,30 @@ class StatJsonExport
                 $scores = $this->loadScores($uni, $config);
                 $name = $config->uni_name;
                 $name = str_replace(' ', '_', $name);
-                $fh = fopen($this->state->runtime->rootPath . 'stats/stats_' . $name . '_' . date('Y-m-d_H') . '.json', 'w+');
-                fwrite($fh, json_encode($scores, JSON_PRETTY_PRINT));
-                fclose($fh);
+                if (!$written && !SafeFile::mkdir($directory)) {
+                    error_log('StatJsonExport: cannot create ' . $directory);
+
+                    return;
+                }
+                // the universe name is admin input: keep it to a safe file name
+                $name = preg_replace('/[^A-Za-z0-9_.-]/', '', $name) ?: 'uni' . $uni;
+                SafeFile::write($directory . 'stats_' . $name . '_' . date('Y-m-d_H') . '.json', (string) json_encode($scores, JSON_PRETTY_PRINT));
+                $written = true;
+            }
+        }
+
+        if ($written) {
+            $this->pruneOldFiles($directory);
+        }
+    }
+
+    /** deletes export files (stats_*.json) older than KEEP_DAYS */
+    private function pruneOldFiles(string $directory): void
+    {
+        $cutoff = time() - self::KEEP_DAYS * 86400;
+        foreach (glob($directory . 'stats_*.json') ?: [] as $file) {
+            if (SafeFile::mtime($file) < $cutoff) {
+                SafeFile::remove($file);
             }
         }
     }

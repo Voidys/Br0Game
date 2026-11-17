@@ -314,15 +314,15 @@ write_env_local() {
 prepare_permissions() {
     say "Preparing folders ..."
     if [ "$DRY_RUN" = 1 ]; then
-        say "  [dry-run] mkdir var/{cache,log,game,sessions,backups,share} public/uploads/news stats; chmod g+w"
+        say "  [dry-run] mkdir var/{cache,log,game,sessions,backups,share} public/uploads/news public/stats; chmod g+w"
         return
     fi
-    (cd "$DIR" && mkdir -p var/cache var/log var/game var/sessions var/backups var/share public/uploads/news public/stats stats config \
-        && chmod -R u+rwX,g+rwX var public/uploads public/stats stats config 2>/dev/null) || true
+    (cd "$DIR" && mkdir -p var/cache var/log var/game var/sessions var/backups var/share public/uploads/news public/stats config \
+        && chmod -R u+rwX,g+rwX var public/uploads public/stats config 2>/dev/null) || true
     say "  The web server's user (often www-data, nginx or apache) must be able to write to:"
-    say "    var/  public/uploads/  public/stats/  stats/  config/  .env.local"
+    say "    var/  public/uploads/  public/stats/  config/  .env.local"
     say "  If PHP runs as another user than you, this needs root once, for example:"
-    say "    sudo chgrp -R www-data $ABS_DIR/var $ABS_DIR/public/uploads $ABS_DIR/public/stats $ABS_DIR/stats $ABS_DIR/config $ABS_DIR/.env.local"
+    say "    sudo chgrp -R www-data $ABS_DIR/var $ABS_DIR/public/uploads $ABS_DIR/public/stats $ABS_DIR/config $ABS_DIR/.env.local"
     say "  (replace www-data with your web server user). After the installer has run,"
     say "  config/ can be made read-only again."
 }

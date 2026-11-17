@@ -3,7 +3,7 @@
  * static durations (.statictime[timestamp]), arrival clocks (.statictimer[data-time]) and the missile
  * flight time (#irakFlyTime). All derive from absolute server time, so hidden tabs can skip ticks.
  */
-import { qsa, now, pad, getFormatedDate, getFormatedTime, getRestTimeFormat, setVisibleInterval } from './core.js';
+import { qsa, now, pad, getFormatedDate, getFormatedTime, getRestTimeFormat } from './core.js';
 
 const startTime = () => window.startTime ?? now().getTime();
 const elapsed = () => (now().getTime() - startTime()) / 1000;
@@ -42,11 +42,25 @@ function staticTimes() {
   if (missile) missile.textContent = getFormatedTime(parseInt(missile.textContent, 10) || 0);
 }
 
+/** Clock and countdowns, run just after each full server second (a free-running 1 s interval drifted against it, so seconds were skipped or shown twice); skipped while the tab is hidden. */
+function tick() {
+  if (!document.hidden) {
+    updateClock();
+    updateCountdowns();
+  }
+  window.setTimeout(tick, 1000 - (now().getTime() % 1000) + 5);
+}
+
 /** Renders all time displays once and keeps clock and countdowns ticking every second (paused while the tab is hidden). */
 export function initTimers() {
   updateClock();
   updateCountdowns();
   staticTimes();
-  setVisibleInterval(updateClock, 1000);
-  setVisibleInterval(updateCountdowns, 1000);
+  window.setTimeout(tick, 1000 - (now().getTime() % 1000) + 5);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      updateClock();
+      updateCountdowns();
+    }
+  });
 }

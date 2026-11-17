@@ -607,6 +607,8 @@ se_bash_count_missiles: Isinasama ng bash limit ang missile attack
 se_bash_count_missiles_info: 'Binibilang ang interplanetary na missile attack bilang fleet attack sa bash limit (kada manlalaro at kada planeta). Naka-off: hindi binibilang ang mga missile.'
 se_bash_per_user: Bash limit bawat manlalaro
 se_bash_per_user_info: Gaano kadalas makakaatake ang isang manlalaro sa ibang manlalaro kada 24 na oras (lahat ng planeta). 0 = naka-off
+se_cookie_consent: "Abiso sa cookie"
+se_cookie_consent_info: "Nagpapakita ng abiso sa cookie sa ibaba hanggang makapili ang bisita (\"Tanggapin lahat\" o \"Kinakailangan lang\"; isang taon na naka-save sa cookie na cookie_consent)."
 se_block_planet_creation: Block
 se_board_enabled: I-enable ang community board
 se_board_enabled_info: 'Naka-off: nakatago ang lahat ng board link at hindi available ang board pages.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Universe
 adm_maint_cache_text: Binubura ang mga game cache (mga wika, template, game data) at kinakalkula ulit ang oras ng mga cron job. Nakakatulong ito kapag hindi lumalabas ang mga pagbabago sa mga setting o teksto.
 adm_maint_log_head: Log ng laro
 adm_maint_log_text: Error log ng laro (var/log/game.log). Ang pag-clear ay nagbubura ng laman ng file; agad na nasusulatan ulit ang mga bagong error.
+adm_migr_head: "Mga migration ng database"
+adm_migr_text: "Inilalapat ang mga pagbabago sa database na kasama ng update (halimbawa pagkatapos i-unpack ang bagong release sa ibabaw ng installation)."
+adm_migr_current: "Kasalukuyang revision ng database"
+adm_migr_pending: "Mga nakabinbing migration"
+adm_migr_backup: "Gumawa muna ng backup ng database."
+adm_migr_revision: "Revision"
+adm_migr_file: "File"
+adm_migr_status: "Katayuan"
+adm_migr_ok: "Tapos na"
+adm_migr_failed: "Nabigo"
+adm_migr_skipped: "Nilaktawang query"
+adm_migr_uptodate: "Napapanahon na ang database."
+adm_migr_confirm: "Patakbuhin ngayon ang lahat ng nakabinbing migration?"
+adm_migr_run: "Patakbuhin ang mga migration"
+adm_migr_result: "Resulta"
+adm_migr_nothing: "Walang nakabinbing migration."
 adm_maint_log_size: Laki
 adm_maint_log_changed: Huling pagbabago
 adm_maint_log_missing: Wala pa ang log file.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Limit ng transport push
 se_transport_push_limit_info: Halaga ng cargo sa deuterium unit (market ratio) kung saan nagsisimulang umepekto ang guard. 0 = naka-off ang guard.
 se_depot_cost_real_consumption: Gastos ng depot ayon sa aktuwal na konsumo
 se_depot_cost_real_consumption_info: Sinisingil ng alliance depot ang aktuwal na fuel consumption ng fleet (kasama ang drive at fuel tech ng may-ari) / 10 kada oras, sa halip na base consumption / 10.
+se_hours: Oras
+se_remember_me_days: '"Manatiling naka-login" ay tumatagal ng'
+se_remember_me_days_info: 'Mga araw na nananatili ang login na may tsek sa "Manatiling naka-login" kahit mag-restart ang browser o mag-expire ang session. Natatapos ito kapag nagpalit ng password. 0 ang nagpapatay sa opsyon.'
+se_session_lifetime: Nage-expire ang session pagkatapos ng kawalan ng aktibidad na
+se_session_lifetime_info: 'Mga oras na walang kahit anong request, pagkatapos nito ay mala-log out ang manlalaro ("nag-expire ang session").'
 abuse_menu: Ulat ng abuse
 abuse_days: Araw
 abuse_apply: Ilapat

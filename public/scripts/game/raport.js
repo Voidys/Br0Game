@@ -12,20 +12,23 @@ import { qs, qsa, on, show, hide, toggle, pageData, pretty_number } from '../app
  * (STAT_ORDER), plus a total over all rounds, each as fleet-to-fleet and ship-to-ship tables. Does nothing without round
  * data. DOM only; all numbers come from the server's battle engine result.
  */
+/** Lucide sprite icon (same markup as the Twig icon() helper) */
+const ico = (name) => '<svg class="icon" aria-hidden="true"><use href="./styles/resource/icons/lucide.svg#i-' + name + '"></use></svg>';
+
 function renderRaport() {
   const { raportData, shipNames = {}, raportLNG = {} } = pageData('raport-data');
   if (!raportData || !raportData.rounds) return;
 
   // Stat category labels & icons
   let STAT_LABELS = {
-    damage_done:        { label: raportLNG.damage_done,         icon: '⚔️', color: '#e74c3c' },
-    damage_dead:        { label: raportLNG.damage_dead,         icon: '💀', color: '#c0392b' },
-    shield_hit:         { label: raportLNG.shield_hit,          icon: '🛡️', color: '#3498db' },
-    ship_destroyed:     { label: raportLNG.ship_destroyed,      icon: '💥', color: '#e67e22' },
-    shield_bounced:     { label: raportLNG.shield_bounced,      icon: '🔰', color: '#2ecc71' },
-    rapid_fire_done:    { label: raportLNG.rapid_fire_done,     icon: '🔥', color: '#f39c12' },
-    explosion_triggered:{ label: raportLNG.explosion_triggered, icon: '🌋', color: '#9b59b6' },
-    stunned_done:       { label: raportLNG.stunned_done,        icon: '🌀', color: '#8e44ad' }
+    damage_done:        { label: raportLNG.damage_done,         icon: ico('swords'), color: '#e74c3c' },
+    damage_dead:        { label: raportLNG.damage_dead,         icon: ico('skull'), color: '#c0392b' },
+    shield_hit:         { label: raportLNG.shield_hit,          icon: ico('shield'), color: '#3498db' },
+    ship_destroyed:     { label: raportLNG.ship_destroyed,      icon: ico('circle-x'), color: '#e67e22' },
+    shield_bounced:     { label: raportLNG.shield_bounced,      icon: ico('shield-check'), color: '#2ecc71' },
+    rapid_fire_done:    { label: raportLNG.rapid_fire_done,     icon: ico('activity'), color: '#f39c12' },
+    explosion_triggered:{ label: raportLNG.explosion_triggered, icon: ico('triangle-alert'), color: '#9b59b6' },
+    stunned_done:       { label: raportLNG.stunned_done,        icon: ico('timer'), color: '#8e44ad' }
   };
 
   let STAT_ORDER = [
@@ -320,7 +323,7 @@ function renderRaport() {
     html += '<button class="' + (btnClass || 'stats-fleet-btn') + '" data-target="' + id + '" type="button">';
     html += '<span class="stats-acc-icon">' + icon + '</span>';
     html += '<span class="stats-acc-label">' + label + '</span>';
-    html += '<span class="stats-acc-arrow">▸</span>';
+    html += '<span class="stats-acc-arrow">' + ico('chevron-right') + '</span>';
     html += '</button>';
     html += '<div class="stats-fleet-body" id="' + id + '" style="display:none;">';
     html += content;
@@ -361,7 +364,7 @@ function renderRaport() {
         if (!tgtTable) continue;
 
         let tgtAccId = pfx + '-sf' + srcFid + '-tf' + tgtFid;
-        innerHtml += buildAccordion(tgtAccId, '🎯', tgtLabel, tgtTable, 'stats-target-accordion', 'stats-fleet-btn stats-target-btn');
+        innerHtml += buildAccordion(tgtAccId, ico('crosshair'), tgtLabel, tgtTable, 'stats-target-accordion', 'stats-fleet-btn stats-target-btn');
       }
 
       // Source fleet total (all targets merged) – show if multiple targets
@@ -378,7 +381,7 @@ function renderRaport() {
 
       // Always wrap in source fleet accordion
       let srcAccId = pfx + '-sf' + srcFid;
-      html += buildAccordion(srcAccId, '🚀', srcLabel, innerHtml, 'stats-fleet-accordion', 'stats-fleet-btn');
+      html += buildAccordion(srcAccId, ico('rocket'), srcLabel, innerHtml, 'stats-fleet-accordion', 'stats-fleet-btn');
     }
 
     // Grand total (all source + target fleets merged) – show if multiple source fleets
@@ -432,7 +435,7 @@ function renderRaport() {
         html += '<button class="stats-accordion-btn" data-target="' + accordionId + '" type="button">';
         html += '<span class="stats-acc-icon">' + meta.icon + '</span>';
         html += '<span class="stats-acc-label">' + meta.label + '</span>';
-        html += '<span class="stats-acc-arrow">▸</span>';
+        html += '<span class="stats-acc-arrow">' + ico('chevron-right') + '</span>';
         html += '</button>';
         html += '<div class="stats-accordion-body" id="' + accordionId + '" style="display:none;">';
         html += contentHtml;
@@ -511,8 +514,8 @@ function renderRaport() {
     // Event: Stat category accordion toggle and fleet / target sub-accordion toggle
     const toggleAccordion = (event, button) => {
       toggle(document.getElementById(button.dataset.target));
-      const arrow = qs('.stats-acc-arrow', button);
-      if (arrow) arrow.textContent = arrow.textContent === '▸' ? '▾' : '▸';
+      button.classList.toggle('is-open');
+      button.setAttribute('aria-expanded', button.classList.contains('is-open') ? 'true' : 'false');
     };
     on(container, 'click', '.stats-accordion-btn', toggleAccordion);
     on(container, 'click', '.stats-fleet-btn', toggleAccordion);

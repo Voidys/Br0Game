@@ -143,7 +143,9 @@ final class Installer
             $verifyString = 'KEEP_FILE';
             if (trim($content) !== $verifyString) {
                 // Delete the file if it is older than 3600s (1 hour)
-                unlink($enableInstallToolFile);
+                if (is_file($enableInstallToolFile)) {
+                    unlink($enableInstallToolFile);
+                }
             }
         }
         if (!is_file($enableInstallToolFile) && !($mode === 'upgrade' || $mode === 'doupgrade')) {
@@ -164,7 +166,9 @@ final class Installer
     private function authorizeUpgrade(array $database, string $enableInstallToolFile): \App\Game\Core\Session
     {
         if (!array_key_exists('migrationpw', $database) || empty($database['migrationpw'])) {
-            unlink($enableInstallToolFile);
+            if (is_file($enableInstallToolFile)) {
+                unlink($enableInstallToolFile);
+            }
             throw \App\Game\Core\EndOfRequest::withResponse(
                 $this->gameView()->messagePage('Migration password is not set. Please set migration password in config.php and try again.', false, 3, true),
             );
@@ -247,108 +251,36 @@ final class Installer
             throw new Exception('No tables found for dump.');
         }
 
-        set_time_limit(600);
-        $db = $this->db;
-        $sql = "INSERT INTO %%SYSTEM%% VALUES (:dbVersion);";
-        $fileList = $this->maintenance()->listMigrations();
-        foreach ($fileList as $fileInfo) {
-            switch ($fileInfo['fileExtension']) {
-                case 'php':
-                    $this->runPhpMigration($fileInfo, $session, $enableInstallToolFile);
-                    $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
-                    break;
-                case 'sql':
-                    $this->runSqlMigration($fileInfo, $session, $enableInstallToolFile, $sql);
-                    break;
+        $results = $this->migrations()->run();
+        foreach ($results as $result) {
+            if (!$result['ok']) {
+                if (is_file($enableInstallToolFile)) {
+                    unlink($enableInstallToolFile);
+                }
+                $session->delete();
+                throw new Exception(
+                    sprintf(
+                        'Update error.<br><br>Error on update %s:<br><pre>%s</pre><br><br>'
+                        . '<b><i>You should restore with a backup.</i></b>',
+                        htmlspecialchars($result['file']),
+                        htmlspecialchars($result['message']),
+                    ),
+                );
             }
         }
-
+        $fileList = $results;
         $revision = end($fileList);
-
-        $this->maintenance()->clearCache();
 
         $this->assign([
             'update'   => !empty($fileList),
-            'revision' => $revision['fileRevision'],
+            'revision' => $revision['revision'] ?? 0,
             'header'   => $LNG['menu_upgrade'],
         ]);
-        unlink($enableInstallToolFile);
+        if (is_file($enableInstallToolFile)) {
+            unlink($enableInstallToolFile);
+        }
         $session->delete();
         $this->show('ins_doupdate');
-    }
-
-    /**
-     * Runs one PHP migration as a CLI script from the project root (the script is copied there for the run and
-     * removed again). A non-zero exit removes the tool file, ends the session and throws with the script output.
-     *
-     * @param array{fileName: string, fileRevision: mixed} $fileInfo
-     */
-    private function runPhpMigration(array $fileInfo, \App\Game\Core\Session $session, string $enableInstallToolFile): void
-    {
-        // PHP migrations run as CLI scripts from the project root (the root is not web-reachable)
-        copy($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName'], $this->state->runtime->rootPath . $fileInfo['fileName']);
-        $migrationOutput = [];
-        exec(
-            'cd ' . escapeshellarg($this->state->runtime->rootPath) . ' && ' . escapeshellarg(PHP_BINDIR . '/php') . ' '
-            . escapeshellarg($fileInfo['fileName']) . ' 2>&1',
-            $migrationOutput,
-            $migrationExitCode,
-        );
-        if ($migrationExitCode !== 0) {
-            unlink($enableInstallToolFile);
-            unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
-            $session->delete();
-            throw new Exception(
-                sprintf(
-                    'Update error.<br><br>Error on update %s:<br><pre>%s</pre><br><br>'
-                    . '<b><i>You should restore with a backup.</i></b>',
-                    basename($fileInfo['fileName']),
-                    htmlspecialchars(implode("\n", $migrationOutput)),
-                ),
-            );
-        }
-        unlink($this->state->runtime->rootPath . $fileInfo['fileName']);
-    }
-
-    /**
-     * Runs one SQL migration (`%PREFIX%` replaced, queries split at `;\n`): failing single queries are logged and
-     * skipped; on any other exception the tool file is removed, the session ended and the error thrown. Records the
-     * version on success.
-     *
-     * @param array{fileName: string, fileRevision: mixed} $fileInfo
-     * @param string $versionSql INSERT statement of the version row
-     */
-    private function runSqlMigration(array $fileInfo, \App\Game\Core\Session $session, string $enableInstallToolFile, string $versionSql): void
-    {
-        $db = $this->db;
-        $sql = $versionSql;
-        $data = file_get_contents($this->state->runtime->rootPath . 'install/migrations/' . $fileInfo['fileName']);
-        try {
-            $queries    = explode(";\n", str_replace('%PREFIX%', $this->db->getTablePrefix(), $data));
-            $queries    = array_filter($queries);
-            foreach ($queries as $query) {
-                if (empty(trim($query))) {
-                    error_log('Query: [' . $query . '] is empty. File: ' . $fileInfo['fileName']);
-                    continue;
-                }
-                try {
-                    // alter table IF NOT EXISTS
-                    $this->db->nativeQuery(trim($query));
-                } catch (Exception $e) {
-                    error_log('Query: [' . $query . '] failed. Error: ' . $e->getMessage() . '. Skipped');
-                }
-            }
-            $db->insert($sql, [':dbVersion' => $fileInfo['fileRevision']]);
-        } catch (Exception $e) {
-            unlink($enableInstallToolFile);
-            $session->delete();
-            throw new Exception(
-                sprintf(
-                    'Update error.<br><br>%s<br><br><b><i>You should restore with a backup.</i></b>',
-                    $e->getMessage(),
-                ),
-            );
-        }
     }
 
     /** @param array<string, mixed> $variables */
@@ -565,6 +497,7 @@ final class Installer
             'privacy_region' => $post['privacy_region'] ?? 'eu',
             'rules_default' => $post['rules_default'] ?? 'default',
             'board_enabled' => isset($post['post']) ? !empty($post['board_enabled']) : true,
+            'cookie_consent' => !empty($post['cookie_consent']),
         ];
         $bots = max(0, min(50, (int) ($post['bots'] ?? $query['bots'] ?? 0)));
 

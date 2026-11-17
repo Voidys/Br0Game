@@ -22,6 +22,7 @@ loginEmail: Correo electrónico
 loginHeader: Iniciar sesión
 loginInfo: Al iniciar sesión, acepto las %s.
 loginPassword: Contraseña
+loginRememberMe: 'Mantener sesión iniciada durante %d días'
 loginServerDesc: '%s es un juego de estrategia espacial en el que cientos de jugadores compiten <strong>al mismo tiempo</strong> por ser los mejores. Solo necesitas un navegador web normal.'
 loginWelcome: Bienvenido a %s
 Lowest_longterm_points: Cuentas preinscritas con menos puntos

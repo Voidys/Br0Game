@@ -54,6 +54,7 @@ const MAX_ATTACK_ROUNDS = 6;
 const ENABLE_SIMULATOR_LINK = true;
 
 // Max. User Session in Seconds
+/** @deprecated default only; the idle limit is the admin setting session_lifetime (App\Security\SessionPolicy) */
 const SESSION_LIFETIME = 43200;
 
 // UTF-8 support for names (required for non-english chars!)

@@ -40,6 +40,15 @@ sys_and: i
 sys_attack_attacker_pos: Agresor
 sys_attack_defender_pos: Obrońca
 sys_attack_round: Runda
+cr_start: "Floty początkowe"
+cr_rounds: "Rundy"
+cr_debris: "Pole zniszczeń"
+cr_loot: "Łup"
+cr_losses: "Straty"
+cr_moon: "Szansa na księżyc"
+cr_lost_round: "Strata w tej rundzie"
+cr_lost_total: "Strata łącznie"
+cr_stats: "Statystyki bitwy"
 sys_attack_title: 'Doszło do starcia następujących flot: '
 sys_attacker_lostunits: "Straty agresora:"
 sys_attacker_won: "Agresor wygrał bitwę! Jego statki lądują w stolicy, a dowódca przyjmuje upokarzającą przegranego defiladę zwycięskich wojsk."

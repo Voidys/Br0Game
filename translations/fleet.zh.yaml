@@ -40,6 +40,15 @@ sys_and: 和
 sys_attack_attacker_pos: 进攻方
 sys_attack_defender_pos: 防守方
 sys_attack_round: 回合
+cr_start: "初始舰队"
+cr_rounds: "回合"
+cr_debris: "残骸场"
+cr_loot: "战利品"
+cr_losses: "损失"
+cr_moon: "月球几率"
+cr_lost_round: "本回合损失"
+cr_lost_total: "累计损失"
+cr_stats: "战斗统计"
 sys_attack_title: 以下舰队在此交战：
 sys_attacker_lostunits: 进攻方的损失：
 sys_attacker_won: 进攻方赢得了战斗！

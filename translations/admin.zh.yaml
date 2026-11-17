@@ -607,6 +607,8 @@ se_bash_count_missiles: 围攻限制计入导弹攻击
 se_bash_count_missiles_info: 星际导弹攻击与舰队攻击一样计入围攻限制（按玩家和按星球）。关闭：导弹不计入。
 se_bash_per_user: 每名玩家的围攻限制
 se_bash_per_user_info: 玩家每 24 小时可攻击另一名玩家的次数（所有星球合计）。0 = 关闭
+se_cookie_consent: "Cookie 提示"
+se_cookie_consent_info: "在页面底部显示 Cookie 提示，直到访客作出选择（“全部接受”或“仅必要”；保存在 cookie_consent Cookie 中一年）。"
 se_block_planet_creation: 阻止
 se_board_enabled: 启用社区论坛
 se_board_enabled_info: 关闭：所有论坛链接都会隐藏，论坛页面不可用。
@@ -1202,6 +1204,22 @@ adm_tab_universe: 宇宙
 adm_maint_cache_text: 清除游戏缓存（语言、模板、游戏数据），并重新计算计划任务的时间。当设置或文本的更改没有生效时可使用。
 adm_maint_log_head: 游戏日志
 adm_maint_log_text: 游戏的错误日志（var/log/game.log）。清空后文件将被清空；新的错误会立即再次写入。
+adm_migr_head: "数据库迁移"
+adm_migr_text: "应用更新附带的数据库更改（例如在已有安装上解压新版本之后）。"
+adm_migr_current: "当前数据库修订版本"
+adm_migr_pending: "待执行的迁移"
+adm_migr_backup: "请先备份数据库。"
+adm_migr_revision: "修订版本"
+adm_migr_file: "文件"
+adm_migr_status: "状态"
+adm_migr_ok: "完成"
+adm_migr_failed: "失败"
+adm_migr_skipped: "已跳过的查询"
+adm_migr_uptodate: "数据库已是最新。"
+adm_migr_confirm: "现在运行所有待执行的迁移吗？"
+adm_migr_run: "运行迁移"
+adm_migr_result: "结果"
+adm_migr_nothing: "没有待执行的迁移。"
 adm_maint_log_size: 大小
 adm_maint_log_changed: 最后更改
 adm_maint_log_missing: 日志文件尚不存在。
@@ -1567,6 +1585,11 @@ se_transport_push_limit: 运输推送限制
 se_transport_push_limit_info: 以重氢单位（市场比率）计的货物价值，超过此值时启用防护。0 = 关闭防护。
 se_depot_cost_real_consumption: 按实际消耗计算仓库费用
 se_depot_cost_real_consumption_info: 联盟仓库按舰队的实际燃料消耗（含所有者的推进与燃料科技）/ 10 每小时收费，而非基础消耗 / 10。
+se_hours: 小时
+se_remember_me_days: '“保持登录”的有效期为'
+se_remember_me_days_info: '勾选“保持登录”登录后，在浏览器重启和会话过期后仍保持有效的天数。修改密码会使其失效。0 表示禁用该选项。'
+se_session_lifetime: 会话在无活动达到以下时长后过期
+se_session_lifetime_info: '玩家在此时长内没有任何请求，将被登出（“会话已过期”）。'
 abuse_menu: 滥用报告
 abuse_days: 天
 abuse_apply: 应用

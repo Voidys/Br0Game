@@ -99,12 +99,12 @@ final class BasicServerParametersFields
     private function part2(Language $LNG): array
     {
         return [
+            // fonts found in public/styles/resource/fonts/; read through App\Game\Core\Fonts::resolveTtf() (safe fallback)
             'ttf_file' => [
-                'type' => ConfigFieldSchema::TYPE_TEXT,
-                'maxlength' => 255,
-                'size' => 60,
+                'type' => ConfigFieldSchema::TYPE_SELECT,
                 'transform' => 'string',
-                'default' => 'public/styles/resource/fonts/DroidSansMono.ttf',
+                'options' => \App\Game\Core\Fonts::ttfOptions() ?: [\App\Game\Core\Fonts::DEFAULT_TTF => basename(\App\Game\Core\Fonts::DEFAULT_TTF)],
+                'default' => \App\Game\Core\Fonts::DEFAULT_TTF,
             ],
             'session_handler' => [
                 'type' => ConfigFieldSchema::TYPE_SELECT,

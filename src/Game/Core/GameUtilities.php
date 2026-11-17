@@ -189,6 +189,11 @@ trait GameUtilities
         return $this->gameUtility(Maintenance::class);
     }
 
+    protected function migrations(): MigrationRunner
+    {
+        return $this->gameUtility(MigrationRunner::class);
+    }
+
     protected function hangarFilters(): HangarFilters
     {
         return $this->gameUtility(HangarFilters::class);

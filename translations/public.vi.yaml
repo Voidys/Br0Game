@@ -22,6 +22,7 @@ loginEmail: Email
 loginHeader: Đăng nhập
 loginInfo: Khi đăng nhập, tôi chấp nhận %s.
 loginPassword: Mật khẩu
+loginRememberMe: 'Giữ đăng nhập trong %d ngày'
 loginServerDesc: '%s là game chiến thuật không gian nơi hàng trăm người chơi cùng tranh tài <strong>cùng một lúc</strong> để trở thành người giỏi nhất. Bạn chỉ cần một trình duyệt web thông thường.'
 loginWelcome: Chào mừng đến với %s
 Lowest_longterm_points: Tài khoản đăng ký sớm có ít điểm nhất

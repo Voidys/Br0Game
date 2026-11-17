@@ -56,7 +56,7 @@
     {{ icon('globe') }}<span class="topbar__label">{{ uni_name }}</span>
   </span>
   <span class="topbar__item topbar__clock" title="{{ LNG.ui_server_time|default('Server time') }}">
-    {{ icon('clock') }}<span class="servertime"></span>
+    {{ icon('clock') }}<span class="servertime">{{ serverClock|default('') }}</span>
   </span>
   {% if isModuleAvailable(constant('MODULE_MESSAGES')) %}
     <a class="topbar__item{% if new_message > 0 %} has-badge{% endif %}" href="{{ path('game_messages_show') }}" title="{{ LNG.ui_messages|default('Messages') }}">

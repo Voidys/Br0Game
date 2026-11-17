@@ -1,0 +1,32 @@
+{# Combat report building blocks shared by the classic and the rust report template. #}
+
+{# Fleet card header: role, player, coordinates (hidden for viewers without access), tech levels in percent. #}
+{% macro fleet_head(role, name, coords, tech, hidden, gone) %}
+<header class="cr-fleet__head">
+	<span class="cr-fleet__role">{{ icon(role == 'attacker' ? 'swords' : 'shield') }}{{ role == 'attacker' ? LNG.sys_attack_attacker_pos : LNG.sys_attack_defender_pos }}</span>
+	<strong class="cr-fleet__name">{{ name }}</strong>
+	{% if hidden %}<span class="cr-coords">[XX:XX:XX]</span>{% elseif coords %}<span class="cr-coords">{{ coords }}</span>{% endif %}
+	{% if gone %}<span class="cr-pill cr-pill--lost">{{ icon('skull') }}{{ LNG.sys_destroyed }}</span>{% endif %}
+	{% if tech and not hidden %}
+	<ul class="cr-tech">
+		<li><span>{{ LNG.sys_ship_weapon }}</span> {{ tech[0] }}%</li>
+		<li><span>{{ LNG.sys_ship_shield }}</span> {{ tech[1] }}%</li>
+		<li><span>{{ LNG.sys_ship_armour }}</span> {{ tech[2] }}%</li>
+	</ul>
+	{% endif %}
+</header>
+{% endmacro %}
+
+{# Share of ships left as a small bar (the number next to it carries the information, the bar is only a visual aid). #}
+{% macro keep_bar(now, start) %}
+{% if start > 0 %}<span class="cr-keep" aria-hidden="true"><i style="inline-size: {{ ((now / start) * 100)|round }}%"></i></span>{% endif %}
+{% endmacro %}
+
+{# Round header line: ship totals per side, so a collapsed round already tells how the fight stands. #}
+{% macro round_title(title, attackers, defenders) %}
+<span class="cr-round__title">{{ title }}</span>
+<span class="cr-round__meta">
+	<span class="cr-round__side cr-round__side--attacker">{{ icon('swords', LNG.sys_attack_attacker_pos) }}{{ pretty_number(attackers) }}</span>
+	<span class="cr-round__side cr-round__side--defender">{{ icon('shield', LNG.sys_attack_defender_pos) }}{{ pretty_number(defenders) }}</span>
+</span>
+{% endmacro %}

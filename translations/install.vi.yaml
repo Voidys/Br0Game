@@ -195,6 +195,8 @@ ins_rules_default_info: Trang quy định bắt đầu với luật chơi chuẩ
 ins_rules_blank: Bắt đầu trống
 ins_rules_blank_info: Trang quy định để trống cho đến khi bạn viết quy định riêng trong khu quản trị.
 ins_group_community: Cộng đồng
+ins_cookie_consent: "Hiển thị thông báo đồng ý cookie (GDPR)"
+ins_cookie_consent_info: "Hiển thị cho khách truy cập thông báo về cookie mà trò chơi sử dụng. Khuyến nghị cho nhà vận hành phục vụ EU. Có thể thay đổi sau trong phần cài đặt."
 ins_board: Bật bảng cộng đồng
 ins_board_info: Diễn đàn cho người chơi. Khi tắt, mọi liên kết tới bảng sẽ bị ẩn và các trang bảng không khả dụng.
 ins_legal_note: Các văn bản được tạo ra chỉ là mẫu. Là người vận hành, bạn chịu trách nhiệm về văn bản pháp lý của trò chơi và nên xem lại.

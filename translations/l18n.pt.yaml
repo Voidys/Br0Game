@@ -71,3 +71,8 @@ php_dateformat: d. M Y
 lang_group_fun: Línguas para rir
 dialog_ok: OK
 dialog_cancel: Cancelar
+cookie_notice_title: "Cookies"
+cookie_notice_text: "Este site usa apenas cookies tecnicamente necessários (sessão, idioma, \"manter sessão\" se escolher, ligação de dispositivo). Cookies opcionais só são usados com o seu consentimento."
+cookie_notice_privacy: "Política de privacidade"
+cookie_notice_necessary: "Apenas necessários"
+cookie_notice_all: "Aceitar todos"

@@ -607,6 +607,8 @@ se_bash_count_missiles: Bash limitleri roket saldırılarını sayar
 se_bash_count_missiles_info: 'Gezegenler arası roket saldırıları, filo saldırıları gibi bash limitlerine (oyuncu ve gezegen başına) dahil edilir. Kapalı: roketler sayılmaz.'
 se_bash_per_user: Oyuncu başına bash limiti
 se_bash_per_user_info: Bir oyuncunun 24 saatte başka bir oyuncuya kaç kez saldırabileceği (tüm gezegenlerde). 0 = kapalı
+se_cookie_consent: "Çerez bildirimi"
+se_cookie_consent_info: "Ziyaretçi seçim yapana kadar altta çerez bildirimi gösterir (\"Tümünü kabul et\" veya \"Yalnızca gerekli olanlar\"; cookie_consent çerezinde bir yıl saklanır)."
 se_block_planet_creation: Blok
 se_board_enabled: Topluluk panosunu etkinleştir
 se_board_enabled_info: 'Kapalı: tüm pano bağlantıları gizlenir ve pano sayfaları kullanılamaz.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Evren
 adm_maint_cache_text: Oyun önbelleklerini (diller, şablonlar, oyun verileri) temizler ve cronjob zamanlarını yeniden hesaplar. Ayar veya metin değişiklikleri görünmediğinde işe yarar.
 adm_maint_log_head: Oyun günlüğü
 adm_maint_log_text: Oyunun hata günlüğü (var/log/game.log). Temizlemek dosyayı boşaltır; yeni hatalar hemen tekrar yazılır.
+adm_migr_head: "Veritabanı geçişleri"
+adm_migr_text: "Bir güncellemeyle gelen veritabanı değişikliklerini uygular (örneğin yeni bir sürümü kurulumun üzerine açtıktan sonra)."
+adm_migr_current: "Geçerli veritabanı revizyonu"
+adm_migr_pending: "Bekleyen geçişler"
+adm_migr_backup: "Önce bir veritabanı yedeği alın."
+adm_migr_revision: "Revizyon"
+adm_migr_file: "Dosya"
+adm_migr_status: "Durum"
+adm_migr_ok: "Tamamlandı"
+adm_migr_failed: "Başarısız"
+adm_migr_skipped: "Atlanan sorgu"
+adm_migr_uptodate: "Veritabanı güncel."
+adm_migr_confirm: "Bekleyen tüm geçişler şimdi çalıştırılsın mı?"
+adm_migr_run: "Geçişleri çalıştır"
+adm_migr_result: "Sonuç"
+adm_migr_nothing: "Bekleyen geçiş yoktu."
 adm_maint_log_size: Boyut
 adm_maint_log_changed: Son değişiklik
 adm_maint_log_missing: Günlük dosyası henüz yok.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Nakliye itme limiti
 se_transport_push_limit_info: Korumanın devreye gireceği, deuterium birimi cinsinden yük değeri (pazar oranlarıyla). 0 = koruma kapalı.
 se_depot_cost_real_consumption: Depo maliyeti gerçek tüketime göre
 se_depot_cost_real_consumption_info: İttifak deposu, temel tüketim / 10 yerine, filonun gerçek yakıt tüketimini (sahibinin itki ve yakıt teknolojileriyle) / 10 saat başına üzerinden alır.
+se_hours: Saat
+se_remember_me_days: '"Oturumu açık tut" süresi'
+se_remember_me_days_info: '"Oturumu açık tut" kutusu işaretli girişin tarayıcı yeniden başlatmalarından ve sona ermiş oturumlardan sağ kurtulduğu gün sayısı. Şifre değişikliği bunu sona erdirir. 0 seçeneği kapatır.'
+se_session_lifetime: 'Oturum, şu süre hareketsizlikten sonra sona erer:'
+se_session_lifetime_info: 'Hiçbir istek gönderilmeden geçen ve bundan sonra oyuncunun oturumunun kapatıldığı (“oturum sona erdi”) saat sayısı.'
 abuse_menu: Kötüye kullanım raporu
 abuse_days: Gün
 abuse_apply: Uygula

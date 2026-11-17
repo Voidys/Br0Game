@@ -1,0 +1,64 @@
+{% include 'admin/overall_header.html.twig' %}
+<div class="stack">
+  {% if results is not null %}
+    <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('list') }}{{ LNG.adm_migr_result }}</h2></header>
+      <div class="card__body">
+        {% if results is empty %}
+          <p class="muted">{{ LNG.adm_migr_nothing }}</p>
+        {% else %}
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th>{{ LNG.adm_migr_revision }}</th><th>{{ LNG.adm_migr_file }}</th><th>{{ LNG.adm_migr_status }}</th></tr></thead>
+              <tbody>
+                {% for result in results %}
+                  <tr>
+                    <td class="nowrap">{{ result.revision }}</td>
+                    <td>{{ result.file }}</td>
+                    <td>
+                      {% if result.ok %}
+                        <span class="badge badge--ok">{{ LNG.adm_migr_ok }}</span>
+                      {% else %}
+                        <span class="badge badge--danger">{{ LNG.adm_migr_failed }}</span>
+                        <pre>{{ result.message }}</pre>
+                      {% endif %}
+                      {% for warning in result.warnings %}
+                        <div class="muted"><span class="badge badge--warn">{{ LNG.adm_migr_skipped }}</span> {{ warning }}</div>
+                      {% endfor %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+  <section class="card">
+    <header class="card__head"><h2 class="card__title">{{ icon('database') }}{{ LNG.adm_migr_head }}</h2></header>
+    <div class="card__body">
+      <p class="muted">{{ LNG.adm_migr_text }}</p>
+      <p>{{ LNG.adm_migr_current }}: <strong>{{ dbVersion }}</strong></p>
+      {% if pending %}
+        <div class="notice notice--warning">{{ icon('triangle-alert') }}<div>{{ LNG.adm_migr_pending }} ({{ pending|length }}). {{ LNG.adm_migr_backup }}</div></div>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>{{ LNG.adm_migr_revision }}</th><th>{{ LNG.adm_migr_file }}</th></tr></thead>
+            <tbody>
+              {% for item in pending %}
+                <tr><td class="nowrap">{{ item.revision }}</td><td>{{ item.file }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p><span class="badge badge--ok">{{ LNG.adm_migr_uptodate }}</span></p>
+      {% endif %}
+    </div>
+    {% if pending %}
+      <footer class="card__foot"><a data-method="post" class="button btn--primary" href="{{ path('admin_migrations_run') }}" data-confirm="{{ LNG.adm_migr_confirm|e('html_attr') }}">{{ icon('database') }}{{ LNG.adm_migr_run }}</a></footer>
+    {% endif %}
+  </section>
+</div>
+{% include 'admin/overall_footer.html.twig' %}

@@ -607,6 +607,8 @@ se_bash_count_missiles: Giới hạn bash tính cả tấn công tên lửa
 se_bash_count_missiles_info: 'Tấn công tên lửa liên hành tinh được tính như tấn công hạm đội vào giới hạn bash (theo người chơi và theo hành tinh). Tắt: tên lửa không được tính.'
 se_bash_per_user: Giới hạn tấn công (bash) mỗi người chơi
 se_bash_per_user_info: Số lần một người chơi có thể tấn công người chơi khác trong 24 giờ (trên tất cả hành tinh). 0 = tắt
+se_cookie_consent: "Thông báo cookie"
+se_cookie_consent_info: "Hiển thị thông báo cookie ở cuối trang cho đến khi khách chọn (\"Chấp nhận tất cả\" hoặc \"Chỉ cần thiết\"; lưu một năm trong cookie cookie_consent)."
 se_block_planet_creation: Chặn
 se_board_enabled: Bật bảng cộng đồng
 se_board_enabled_info: 'Tắt: mọi liên kết tới bảng sẽ bị ẩn và các trang bảng không khả dụng.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Vũ trụ
 adm_maint_cache_text: Xóa bộ nhớ đệm của trò chơi (ngôn ngữ, giao diện, dữ liệu trò chơi) và tính lại thời gian cron job. Hữu ích khi thay đổi cài đặt hoặc văn bản chưa hiện ra.
 adm_maint_log_head: Nhật ký trò chơi
 adm_maint_log_text: Nhật ký lỗi của trò chơi (var/log/game.log). Xóa sẽ làm trống tệp; lỗi mới sẽ được ghi lại ngay.
+adm_migr_head: "Di chuyển cơ sở dữ liệu"
+adm_migr_text: "Áp dụng các thay đổi cơ sở dữ liệu đi kèm bản cập nhật (ví dụ sau khi giải nén bản phát hành mới đè lên bản cài đặt)."
+adm_migr_current: "Bản sửa đổi cơ sở dữ liệu hiện tại"
+adm_migr_pending: "Các bản di chuyển đang chờ"
+adm_migr_backup: "Hãy sao lưu cơ sở dữ liệu trước."
+adm_migr_revision: "Bản sửa đổi"
+adm_migr_file: "Tệp"
+adm_migr_status: "Trạng thái"
+adm_migr_ok: "Hoàn tất"
+adm_migr_failed: "Thất bại"
+adm_migr_skipped: "Truy vấn bị bỏ qua"
+adm_migr_uptodate: "Cơ sở dữ liệu đã được cập nhật."
+adm_migr_confirm: "Chạy tất cả các bản di chuyển đang chờ ngay bây giờ?"
+adm_migr_run: "Chạy di chuyển"
+adm_migr_result: "Kết quả"
+adm_migr_nothing: "Không có bản di chuyển nào đang chờ."
 adm_maint_log_size: Kích thước
 adm_maint_log_changed: Thay đổi lần cuối
 adm_maint_log_missing: Tệp nhật ký chưa tồn tại.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Giới hạn ép giá vận chuyển
 se_transport_push_limit_info: Giá trị hàng hóa tính bằng đơn vị deuterium (theo tỷ giá chợ) mà trên đó chốt chặn được áp dụng. 0 = tắt chốt chặn.
 se_depot_cost_real_consumption: Chi phí kho trạm theo mức tiêu thụ thực
 se_depot_cost_real_consumption_info: Kho trạm liên minh tính mức tiêu thụ nhiên liệu thực tế của hạm đội (theo công nghệ động cơ và nhiên liệu của chủ sở hữu) / 10 mỗi giờ thay vì mức tiêu thụ cơ bản / 10.
+se_hours: Giờ
+se_remember_me_days: '"Giữ đăng nhập" có hiệu lực trong'
+se_remember_me_days_info: 'Số ngày mà một lần đăng nhập có tích "Giữ đăng nhập" vẫn giữ được sau khi khởi động lại trình duyệt và phiên hết hạn. Đổi mật khẩu sẽ kết thúc hiệu lực này. 0 tắt tùy chọn.'
+se_session_lifetime: Phiên hết hạn sau khi không hoạt động trong
+se_session_lifetime_info: 'Số giờ không có yêu cầu nào, sau đó người chơi bị đăng xuất ("phiên đã hết hạn").'
 abuse_menu: Báo cáo lạm dụng
 abuse_days: Ngày
 abuse_apply: Áp dụng

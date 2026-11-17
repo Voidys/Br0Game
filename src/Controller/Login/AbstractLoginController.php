@@ -200,6 +200,8 @@ abstract class AbstractLoginController implements GameControllerInterface, Modul
             $data = [
                 'gameName' 				=> $config->game_name,
                 'mailEnable'			=> $config->mail_active,
+                // "stay logged in" checkbox on the login form, 0 = option off
+                'rememberMeDays'		=> (int) ($config->remember_me_days ?? \App\Security\SessionPolicy::DEFAULT_REMEMBER_DAYS),
                 'referralEnable'		=> $config->ref_active,
                 'lang'					=> $LNG->getLanguage(),
                 'UNI'					=> $this->universe()->current(),

@@ -22,6 +22,7 @@ loginEmail: E-mail
 loginHeader: Connexion
 loginInfo: En me connectant, j’accepte les %s.
 loginPassword: Mot de passe
+loginRememberMe: 'Rester connecté pendant %d jours'
 loginServerDesc: '%s est un jeu de stratégie spatiale où des centaines de joueurs s’affrontent <strong>en même temps</strong> pour devenir les meilleurs. Il te suffit d’un navigateur web classique.'
 loginWelcome: Bienvenue sur %s
 Lowest_longterm_points: Comptes préinscrits avec le moins de points

@@ -105,7 +105,8 @@ class AccountEditorController extends AbstractAdminController
                 if ($owner !== null && $owner !== false) {
                     $userIds[] = (int) $owner;
                 }
-                foreach ($this->db->select('SELECT `id` FROM %%USERS%% WHERE `ally_id` = :id;', [':id' => $id]) as $member) {
+                // id 0 = no alliance chosen yet (empty form): ally_id 0 would match every player without an alliance
+                foreach ($id > 0 ? $this->db->select('SELECT `id` FROM %%USERS%% WHERE `ally_id` = :id;', [':id' => $id]) : [] as $member) {
                     $userIds[] = (int) $member['id'];
                 }
                 $userIds[] = $this->input()->int('changeleader');

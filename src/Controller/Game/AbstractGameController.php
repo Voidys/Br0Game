@@ -416,8 +416,11 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
         $LNG = $this->state->LNG;
         $deletion = false;
         $accountId = $this->accountIdOfUser((int) $this->state->USER['id']);
+        if ($accountId === 0) {
+            return false; // guests (public battle report)
+        }
         $ACCOUNT = $this->accountUtil()->get_account($accountId);
-        if ($this->state->USER['db_deaktjava'] || $ACCOUNT['db_deaktjava']) {
+        if (!empty($this->state->USER['db_deaktjava']) || !empty($ACCOUNT['db_deaktjava'])) {
             $timestamp = $this->state->USER['db_deaktjava'] ? $this->state->USER['db_deaktjava'] : $ACCOUNT['db_deaktjava'];
             $deletion = $LNG->format('tn_delete_mode', $this->viewHelpers()->formatDate($LNG['php_tdformat'], $this->accountUtil()->getDeletionDate($timestamp, $config), $ACCOUNT['timezone']));
         }
@@ -447,6 +450,28 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
         return \App\Game\Core\CommunityLinks::navLinks($urls, !empty($wikiSsoUrl), $tutorialActive);
     }
 
+    /** the clock text in the format of scripts/app/core.js getFormatedDate() (language key js_tdformat) */
+    private function clockText(\DateTimeInterface $time): string
+    {
+        $LNG = $this->state->LNG;
+        $months = $LNG['months'] ?? [];
+        $days = $LNG['week_day'] ?? [];
+
+        return strtr((string) ($LNG['js_tdformat'] ?? '[H]:[i]:[s]'), [
+            '[d]' => $time->format('d'),
+            '[D]' => (string) ($days[(int) $time->format('w')] ?? ''),
+            '[m]' => $time->format('m'),
+            '[M]' => (string) ($months[(int) $time->format('n') - 1] ?? ''),
+            '[j]' => $time->format('j'),
+            '[Y]' => $time->format('Y'),
+            '[y]' => $time->format('y'),
+            '[G]' => $time->format('G'),
+            '[H]' => $time->format('H'),
+            '[i]' => $time->format('i'),
+            '[s]' => $time->format('s'),
+        ]);
+    }
+
     /**
      * Player, clock and theme settings of every non-ajax page.
      *
@@ -457,6 +482,8 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
         $USER = $this->state->USER;
         $THEME = $this->state->THEME;
 
+        // render time with milliseconds: the JS clock starts from it (whole request seconds made it jump on reload)
+        $now = microtime(true);
         $dateTimeServer = new DateTime("now");
         if (isset($USER['timezone'])) {
             try {
@@ -480,7 +507,10 @@ abstract class AbstractGameController implements GameControllerInterface, \App\C
             'uni_name' => $config->uni_name,
             'debug' => $config->debug,
             'version' => $config->version,
-            'date' => explode("|", date('Y\|n\|j\|G\|i\|s\|Z', $this->state->runtime->timestamp)),
+            'date' => explode("|", date('Y\|n\|j\|G\|i\|s\|Z', (int) $now)),
+            'dateMs' => (int) (($now - floor($now)) * 1000),
+            // first clock text, so the top bar does not change width when scripts/app/timers.js takes over
+            'serverClock' => $this->clockText((clone $dateTimeUser)->setTimestamp((int) $now)),
             'isPlayerCardActive' => $this->viewHelpers()->isModuleAvailable(MODULE_PLAYERCARD),
             'REV' => substr($config->version, -4),
             'Offset' => $dateTimeUser->getOffset() - $dateTimeServer->getOffset(),

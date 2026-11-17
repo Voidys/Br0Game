@@ -22,6 +22,7 @@ loginEmail: Email
 loginHeader: Login
 loginInfo: Sa pag-log in, tinatanggap ko ang %s.
 loginPassword: Password
+loginRememberMe: 'Manatiling naka-login sa loob ng %d araw'
 loginServerDesc: Ang %s ay isang space strategy game kung saan daan-daang manlalaro ang nagpapaligsahan <strong>nang sabay-sabay</strong> para maging pinakamahusay. Karaniwang web browser lang ang kailangan mo.
 loginWelcome: Maligayang pagdating sa %s
 Lowest_longterm_points: Mga preregistered na account na may pinakakaunting puntos

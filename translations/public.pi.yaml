@@ -22,6 +22,7 @@ loginEmail: E-Mail
 loginHeader: Login
 loginInfo: Mit dem Login akzeptiere ich die %s.
 loginPassword: Passwort
+loginRememberMe: 'Stay logged in for %d days'
 loginServerDesc: '%s ist ein Weltraum-Strategiespiel mit hunderten Spielern die erdumgreifend <strong>gleichzeitig</strong> versuchen der/die Beste zu werden. Alles was ihr zum spielen braucht ist ein Standardwebbrowser.'
 loginWelcome: Willkommen bei %s
 Lowest_longterm_points: Vorregistrierte Accounts mit den geringsten Punkten

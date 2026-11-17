@@ -100,6 +100,7 @@
       </div>
     </footer>
   {% endif %}
+  {% if bodyclass != 'popup' %}{% include 'shared/cookie_notice.html.twig' %}{% endif %}
   <script type="application/json" id="login-config">{{ {
     isMultiUniverse: isMultiUniverse,
     unisWildcast: unisWildcast,

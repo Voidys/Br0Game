@@ -607,6 +607,8 @@ se_bash_count_missiles: Bash-limieten tellen raketaanvallen mee
 se_bash_count_missiles_info: 'Interplanetaire raketaanvallen tellen mee als vlootaanvallen voor de bash-limieten (per speler en per planeet). Uit: raketten worden niet meegeteld.'
 se_bash_per_user: Bash-limiet per speler
 se_bash_per_user_info: Hoe vaak een speler per 24 uur een andere speler mag aanvallen (over alle planeten heen). 0 = uit
+se_cookie_consent: "Cookiemelding"
+se_cookie_consent_info: "Toont onderaan een cookiemelding totdat de bezoeker kiest (\"Alles accepteren\" of \"Alleen noodzakelijke\"; een jaar opgeslagen in de cookie cookie_consent)."
 se_block_planet_creation: Blokkeren
 se_board_enabled: Communitybord inschakelen
 se_board_enabled_info: 'Uit: alle bordlinks zijn verborgen en de bordpagina''s zijn niet beschikbaar.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Universum
 adm_maint_cache_text: Wist de spelcaches (talen, sjablonen, spelgegevens) en herberekent de cronjobtijden. Helpt wanneer wijzigingen in instellingen of teksten niet zichtbaar worden.
 adm_maint_log_head: Spellogboek
 adm_maint_log_text: Foutenlogboek van het spel (var/log/game.log). Leegmaken leegt het bestand; nieuwe fouten worden meteen weer geschreven.
+adm_migr_head: "Databasemigraties"
+adm_migr_text: "Voert databasewijzigingen uit die bij een update horen (bijvoorbeeld na het uitpakken van een nieuwe release over de installatie)."
+adm_migr_current: "Huidige databaserevisie"
+adm_migr_pending: "Openstaande migraties"
+adm_migr_backup: "Maak eerst een databaseback-up."
+adm_migr_revision: "Revisie"
+adm_migr_file: "Bestand"
+adm_migr_status: "Status"
+adm_migr_ok: "Klaar"
+adm_migr_failed: "Mislukt"
+adm_migr_skipped: "Overgeslagen query"
+adm_migr_uptodate: "De database is up-to-date."
+adm_migr_confirm: "Alle openstaande migraties nu uitvoeren?"
+adm_migr_run: "Migraties uitvoeren"
+adm_migr_result: "Resultaat"
+adm_migr_nothing: "Er stonden geen migraties open."
 adm_maint_log_size: Grootte
 adm_maint_log_changed: Laatste wijziging
 adm_maint_log_missing: Het logbestand bestaat nog niet.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Limiet transportduw
 se_transport_push_limit_info: Ladingwaarde in deuteriumeenheden (marktverhoudingen) waarboven de bescherming geldt. 0 = bescherming uit.
 se_depot_cost_real_consumption: Depotkosten op basis van werkelijk verbruik
 se_depot_cost_real_consumption_info: Het alliantiedepot rekent het werkelijke brandstofverbruik van de vloot (met de aandrijf- en brandstoftechnieken van de eigenaar) / 10 per uur, in plaats van het basisverbruik / 10.
+se_hours: Uren
+se_remember_me_days: '„Ingelogd blijven“ geldt voor'
+se_remember_me_days_info: 'Dagen dat een login met het vinkje „Ingelogd blijven“ een browserherstart en verlopen sessies overleeft. Een wachtwoordwijziging beëindigt dit. 0 schakelt de optie uit.'
+se_session_lifetime: Sessie verloopt na inactiviteit van
+se_session_lifetime_info: 'Uren zonder enig verzoek waarna een speler wordt uitgelogd („sessie verlopen“).'
 abuse_menu: Misbruikrapport
 abuse_days: Dagen
 abuse_apply: Toepassen

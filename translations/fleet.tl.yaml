@@ -43,6 +43,15 @@ sys_and: at
 sys_attack_attacker_pos: Umaatake
 sys_attack_defender_pos: Depensor
 sys_attack_round: Round
+cr_start: "Mga panimulang armada"
+cr_rounds: "Mga round"
+cr_debris: "Debris field"
+cr_loot: "Samsam"
+cr_losses: "Mga pagkalugi"
+cr_moon: "Tsansa ng buwan"
+cr_lost_round: "Nawala ngayong round"
+cr_lost_total: "Kabuuang nawala"
+cr_stats: "Estadistika ng labanan"
 sys_attack_title: 'Magkaharap ang mga sumusunod na fleet sa: '
 sys_attacker_lostunits: 'Mga pagkalugi ng umaatake:'
 sys_attacker_won: Nanalo ang umaatake sa laban!

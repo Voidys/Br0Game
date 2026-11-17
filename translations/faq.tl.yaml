@@ -1,154 +1,19 @@
 faq_overview: FAQ
-questions:
-  '1':
-    '1':
-      body: |-
-        <p>Tungkol sa mga pangunahing gusali ang bahaging ito: ano ang unang itatayo at para saan ang bawat isa. Nagsisimula ang masaganang imperyo sa pagtatayo ng mga ito sa tamang pagkakasunod-sunod.</p>
-        <h3>Solar Power Plant</h3>
-        <p>Ito ang unang itayo. Kailangan ng energy ng mga mine para makagawa ng metal, crystal at deuterium. Pagkatapos matapos ang plant, ipinapakita ng resource bar at ng Production page kung gaano karaming energy ang meron ka.</p>
-        <h3>Metal Mine</h3>
-        <p>Isa ang metal sa tatlong resource. Halos lahat ng itinatayo o ni-research mo ay may halagang metal, kaya prayoridad ang pagpapalawak ng mine na ito. Sa simula, panatilihin itong ilang level na mas mataas kaysa sa ibang mine mo.</p>
-        <h3>Crystal Mine at Deuterium Refinery</h3>
-        <p>Ginagamit ang crystal sa mga gusali, barko at research. Mas kaunti ang nagagawa mo nito kaysa sa metal, kaya mas mahalaga ito; sa mas huling bahagi ng laro, madalas itong pinag-aagawan nang matindi. Pinapatakbo ng deuterium ang mga fleet mo, puwede itong sunugin para gawing energy sa Fusion Power Plant, at kailangan ito ng ilang mahahalagang gusali at research (kasama ang Research Lab).</p>
-        <p>Karagdagang impormasyon: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: Hakbang 1
-    '2':
-      body: |-
-        <p>Para palaguin ang imperyo mo at makipag-ugnayan sa ibang manlalaro, kailangan mo ng mas maraming gusali. Ang research at Shipyard ang magpapahintulot sa iyong magsimula ng fleet at depensa ng planeta.</p>
-        <h3>Shipyard</h3>
-        <p>Dito itinatayo ang lahat ng barko (at depensa). Maaga nang available ang Shipyard, pero maraming klase ng barko ang nangangailangan pa ng karagdagang research. Nakalista sa Technologies menu ang mga kailangan para sa bawat barko at depensa. Mas mabilis magtayo ang mas mataas na level ng Shipyard.</p>
-        <h3>Research Lab</h3>
-        <p>Dito sinisimulan ang research. Binubuksan nito ang mga gusali, barko, depensa at karagdagang research, at ang ilang teknolohiya ay nagbibigay rin ng bonus sa mga meron ka na. Pinapabilis ng pagpapalawak ng Research Lab ang research.</p>
-        <h3>Robot Factory</h3>
-        <p>Mahalaga ang Robot Factory. Binabawasan ng mas mataas na level ang oras ng pagtatayo ng gusali at pinapabilis din ang paggawa ng barko. Kapag humaba na ang oras ng pagtatayo, palawakin ang Robot Factory para bumalik ito sa mas maikli.</p>
-      title: Hakbang 2
-    '3':
-      body: |-
-        <p>Tungkol sa pagdedepensa ng planeta mo at sa mga unang galaw ng fleet mo ang bahaging ito: paano magpadala ng fleet at paano makitungo sa ibang manlalaro.</p>
-        <h3>Galaxy view</h3>
-        <p>Gamitin ito para humanap ng ibang manlalaro. Makikita mo ang mga detalye ng ibang planeta at puwede kang magpadala ng bahagi ng fleet mo nang direkta mula sa view na ito. Puwede ka ring mag-message sa mga manlalaro, o espiyahan ang isang planeta kung may available kang Spy Probe.</p>
-        <h3>Pagpapadala ng fleet</h3>
-        <p>Puwedeng magpadala ng fleet mula sa Galaxy view o sa Fleets menu. Una, piliin kung ilang barko ng bawat uri ang ipapadala. Pagkatapos, itakda ang target (mga coordinate mula sa Galaxy view) at ang bilis. Panghuli, piliin ang mission, gaya ng Attack, Deploy, Hold, Recycle o Transport.</p>
-        <h3>Depensa</h3>
-        <p>Kapag may Shipyard ka na, puwede ka na ring magtayo ng depensa. Pinoprotektahan nila ang planeta at sama-samang lumalaban kasama ng anumang fleet na naroon kapag dumating ang atake. Hindi tulad ng mga barko, humigit-kumulang 70% ng mga nasirang depensa ang naaayos pagkatapos ng laban.</p>
-      title: Hakbang 3
-    category: Mga tip para sa mga baguhan
-  '2':
-    '1':
-      body: |-
-        <h3>Raiding</h3>
-        <p>Ang raiding ay pag-atake sa ibang manlalaro para kunin ang kanilang resource. Mga karaniwang uri:</p>
-        <ul>
-        <li>Farm raid</li>
-        <li>Fleet attack</li>
-        <li>Debris-field raid</li>
-        <li>Intercepting</li>
-        </ul>
-        <h3>Farm raid</h3>
-        <p>Ito ang pinakakaraniwang atake sa isang universe. Ini-espiya mo ang mga kalapit na planeta at nagpapadala ka ng maliliit na fleet na may sapat na cargo at firepower para basagin ang magaang depensa at kumita pa rin: dapat lumampas ang nakaw na resource sa nagastos na deuterium at sa sarili mong mga pagkalugi.</p>
-        <h3>Fleet attack</h3>
-        <p>Ang pinakamataas na antas ng raiding: paghuli sa mga fleet ng ibang manlalaro. Bukod sa mga Spy Probe at swerte, mahalaga ang Sensor Phalanx at tamang timing. Kapag may nakita kang fleet na sulit, kailangan mo pa rin itong abutan at i-recycle ang debris. Madalas mahirap ito, dahil maaaring lampas sa kapasidad ng recycler mo ang mga kumikitang fleet — kailangan mo pang i-coordinate ang mga recycler at, kung kinakailangan, ang mga kasosyo sa Alliance Combat System pati ang combat fleet.</p>
-        <h3>Debris-field raid</h3>
-        <p>Ang pinakamadali at pinakaayaw na paraan para kumita: pag-ani ng mga debris field na ginawa ng ibang manlalaro. Pag-aari ng nangolekta ang debris, kaya ang pagnanakaw ng mga field ay karaniwang sanhi ng samaan ng loob.</p>
-        <h3>Intercepting</h3>
-        <p>Trabaho ng fleeter ang magtayo ng fleet at sirain ang fleet. Hindi ka laging makakakita ng mga tambay na barko, kaya ang paghuli sa mahuhusay na manlalaro ay madalas nangangahulugang pagharang sa kanila habang nagfleet-save sila o habang lumilipad sila para umatake. Hindi ito madali; may mga paraan para ipagtanggol ang sarili laban dito.</p>
-        <ul>
-        <li><p>Mas pinadadali ng buwan ang intercepting, dahil kayang i-scan ng Sensor Phalanx ang mga galaw ng fleet sa mga planetang nasa saklaw (hindi sa mga buwan). Kung may nakita kang fleet na sulit abutan, kalkulahin ang natitirang oras ng biyahe nito — lalo na ang oras ng pagbalik pagkatapos nitong dumating. Sapat na ang level ng mga engine (Combustion, Impulse, Hyperspace) mula sa spy report para makalkula ito, mano-mano o gamit ang flight-time calculator. Nakakatulong ang eksaktong orasan. I-time ang fleet at mga recycler mo para dumating mga 3–5 segundo pagkatapos ng target sa planeta o buwan nila. Kailangan ding i-time ang mga recycler.</p></li>
-        <li><p>Para harangin ang fleet na lumilipad mula sa buwan papunta sa debris field, kailangan mo ng tinatayang oras ng launch. Gumawa ng nakikitang debris field sa mga lugar na sa tingin mo ay aanihin nila (halimbawa gamit ang mga Spy Probe). Kalkulahin kung gaano katagal makakarating doon ang fleet nila, bantayan ang system, at mag-refresh hanggang mawala ang field. Itala ang oras na iyon, idagdag ang balik na biyahe nila, at i-time ang fleet at mga recycler mo ng ilang segundo pagkatapos ng pagdating na iyon.</p>
-        <p><b>Tandaan:</b> hindi ito laging gumagana. Karaniwang panlaban ang recycler na pinauna para linisin muna ang field.</p></li>
-        <li>Isa pang uri ng intercept ang pag-hold sa planeta ng kaibigan para protektahan sila, na pipilitin ang mga umaatake na mag-recall dahil masyadong malakas ang depensang fleet. Mababawasan mo ang panganib na mahuli sa ganitong paraan gamit ang save scan.</li>
-        <li><p>Kung nag-deploy ang isang manlalaro mula sa isang planeta papunta sa isa pa at pagkatapos ay nag-recall, mawawala ang fleet sa Sensor Phalanx. Pag-aralan ang save pattern nila (kailan sila nag-la-launch at kailan sila nagre-recall). Kapag inaasahan mo ang recall, i-phalanx ang planeta bawat segundo. Sa sandaling mawala ang fleet, itala ang oras, idagdag ang balik na biyahe, at dumating mga 4–6 segundo pagkatapos kasama ang fleet at mga recycler.</p>
-        <p>Kung nagse-save sila mula sa buwan papunta sa debris field at nagpapauna ng mga recycler, halos imposible ang intercepting maliban kung wasakin mo ang buwan. Magpadala ng mga Death Star na may Destroy mission. Kapag nawasak na ang buwan, babalik ang fleet sa planeta; i-phalanx ang planetang iyon at sumingit ng ilang segundo pagkatapos nila.</p>
-        <p>Mas gumagana nang mas mahusay ang lahat ng teknik na ito kung alam mo ang mga gawi ng target — halimbawa, nagse-save tuwing alas-11 ng gabi, o nag-o-online tuwing tanghali. Pag-aralan ang manlalaro bago ka mag-intercept.</p></li>
-        </ul>
-        <p>Iba pa sa wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
-      title: Raiding
-    '2':
-      body: |-
-        <h3>Pag-atake gamit ang ACS</h3>
-        <p>Para umatake nang magkakasama, magpadala muna ng fleet na may mission na Attack sa target. Pagkatapos itong ma-launch, buksan ang Fleets menu at gamitin ang Federation para gawing ACS group ang fleet na iyon. Doon mo mapapalitan ang pangalan ng group at makakapag-imbita ng ibang manlalaro; awtomatikong naiimbita ang manlalarong nagsimula ng atake. Pagkatapos, ipapadala ng bawat inimbitahang manlalaro ang sarili niyang mga barko sa parehong coordinate na may mission na Alliance Attack.</p>
-        <p>Laging lumilipad ang group nang kasing-tagal ng pinakamabagal na kasaling fleet. Hindi nagpapaikli ng natitirang oras ang mas mabibilis na fleet na sasali nang huli. Pinahahaba ng mas mabagal na fleet ang natitirang oras hanggang sa sarili nilang oras ng biyahe. Karaniwan, hanggang 5 manlalaro at 16 na fleet ang puwedeng sumali sa isang ACS attack (maaaring magkaiba ang setting ng universe). Ang sumasaling fleet ay puwedeng magdagdag ng hanggang 30% lang sa natitirang oras ng biyahe. Kung 100 minuto ang natitira, ang sumasaling fleet ay puwedeng tumagal ng hanggang 130 minuto lang.</p>
-        <p><b>Babala:</b> kung mag-recall ang nagtatag ng ACS, ire-recall din ang bawat fleet sa group.</p>
-        <h3>Pagdedepensa gamit ang ACS</h3>
-        <p>Kung inaatake ka, puwedeng tumulong ang mga miyembro ng alliance at mga buddy. Magpapadala sila ng fleet sa mga coordinate na inaatake, pipiliin kung gaano katagal mananatili, at gagamitin ang mission na Hold. Bukod sa deuterium para sa biyahe, may karagdagang gastos sa hold na sinisingil sa launch depende sa laki ng fleet at tagal. Habang naka-hold sila, lumalaban sila sa bawat laban sa planeta o buwang iyon at lumalabas sila sa mga spy report na parang mga barko mo. I-time ang mga hold para dumating sandali bago ang umaatake para mas maliit ang tsansang makita sila ng save scan. Puwedeng mag-recall ang mga naka-hold na manlalaro mula sa Fleets menu anumang oras; kung hindi, hihintayin ng fleet na matapos ang hold at uuwi.</p>
-        <h3>Deuterium kada 1 oras ng hold</h3>
-        <p>Light Cargo: 5<br>
-        Heavy Cargo: 5<br>
-        Light Fighter: 2<br>
-        Heavy Fighter: 7<br>
-        Cruiser: 30<br>
-        Battleship: 50<br>
-        Colony Ship: 100<br>
-        Recycler: 30<br>
-        Spy Probe: 1/10<br>
-        Bomber: 100<br>
-        Destroyer: 100<br>
-        Death Star: 1/10</p>
-      title: Alliance Combat System
-    '3':
-      body: |-
-        <p>Maaaring mabuo ang buwan kapag nagawa ang debris field na hindi bababa sa 100,000 unit (1% moon chance). Hanggang 20% lang ang maximum ng tsansa, gaano man kalaki ang field.</p>
-        <h3>Pangkalahatan</h3>
-        <p>Puwedeng palitan ang pangalan ng mga buwan tulad ng mga planeta, pero mananatili ang “(Moon)” sa pangalan. Hanggang isang buwan lang ang puwede kada planeta. Hinahayaan ka ng buwan na mag-fleet-save nang hindi nakikita ng Sensor Phalanx, kaya sulit na gumawa nito nang medyo maaga. Sa buwan, puwede kang magtayo ng Robot Factory, Shipyard, Metal Storage, Crystal Storage, Deuterium Storage, Alliance Depot, Moon Base, Sensor Phalanx at Jumpgate.</p>
-        <h3>Moonshot</h3>
-        <p>Ang moonshot ay sadyang pagwasak ng mga barko para gumawa ng debris field. Karaniwang pinipili ang mga Light Fighter: sa 30% ng fleet at 0% ng depensa na napupunta sa debris, 1,667 Light Fighter ang magbibigay ng 20% moon chance. Mura silang mawala at halos pasok na sa cap. Kung winasak ng mas malakas na manlalaro ang mga Light Fighter sa mas mahinang manlalaro, sinuman ay puwedeng umani ng debris. Kung inatake ng mas mahinang manlalaro ang mas malakas gamit ang mga barkong sadyang ipapatay, ang mas mahinang manlalaro lang ang puwedeng umani — kung hindi, pushing iyon. Sakop ng mga patakaran sa pushing ang mga buwan at moon attempt.</p>
-        <p>Sa universe kung saan gumagawa rin ng debris ang depensa, madalas mas mainam na magtayo ng depensa at pabasagin ito sa ilang alon para sa ilang moon attempt. Karaniwang pinipili ang 3,334 Missile Launcher o 3,334 Light Laser Turret.</p>
-        <p>Kapag nabuo ang buwan, sinasabi ng combat report na nagsasama-sama ang napakaraming libreng metal at crystal at bumubuo ng satellite sa paligid ng planeta.</p>
-        <p>Moon chance na 1% hanggang 19%: random ang laki. Moon chance na 20%: higit sa 8,000 km ang diameter. Hindi kailanman lalampas sa 8,944 km ang laki ng buwan.</p>
-        <h3>Mga Gusali</h3>
-        <p>Karaniwang hindi sulit magtayo ng storage sa buwan dahil walang nagagawa roon. Bihira rin ang pakinabang ng Shipyard: mahaba ang oras ng pagtatayo, at puwede kang magtayo ng mga barko sa planeta. Pinagtatalunan ang Alliance Depot; umookupa rin ito ng mahahalagang field.</p>
-        <p>Ang tatlong gusaling para lang sa buwan:</p>
-        <ul>
-        <li><p><b>Moon Base</b><br>Nagdaragdag ng mga field na mapagtatayuan: 3 kada level, na isa rito ay kukunin ng susunod na upgrade ng Moon Base.</p></li>
-        <li><p><b>Sensor Phalanx</b><br>Ipinapakita ang mga galaw ng fleet sa mga planeta ng kaaway (hindi mga buwan). Lumalaki ang saklaw sa bawat level.</p></li>
-        <li><p><b>Jumpgate</b><br>Agad na naglilipat ng mga barko mula sa isang buwan papunta sa isa pa. Hindi makakasama ang mga resource. Pagkatapos ng jump, kailangan ng oras ng gate para lumamig (karaniwang isang oras) o mag-o-overheat ito.</p></li>
-        </ul>
-        <p>Karaniwang build order sa buwan:<br>
-        <b>Legend:</b><br>
-        MB – Moon Base<br>
-        SP – Sensor Phalanx<br>
-        ST – Jumpgate<br>
-        RB – Robot Factory</p>
-        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
-        Pagkatapos nito, puwede mong ipagpatuloy ang pagpapalawak ng Sensor Phalanx kung may resource ka. Puwede ka ring gibain ang ilang level ng Robot Factory at ilagay ang mga field na iyon sa phalanx.</p>
-        <h3>Pagwasak</h3>
-        <p>Mawawasak lang ang buwan gamit ang mga Death Star. Sa mission menu, piliin ang Destroy sa halip na Attack. Dapat munang wasakin ang anumang fleet sa buwan; ang mga Death Star na nakaligtas ay maaari pa ring mawala kapag nawasak ang buwan mismo. Walang debris field na nagagawa ang pagwasak ng buwan.</p>
-        <h3>Mga atake ng Death Star sa buwan</h3>
-        <p>Tsansa ng pagwasak sa buwan: (100 − sqrt(laki ng buwan)) × sqrt(bilang ng Death Star). Tsansa na mawasak ang mga umaatakeng Death Star: sqrt(laki ng buwan) / 2. Mas mapanganib wasakin ang mas malalaking buwan.</p>
-        <h3>Moon chance at laki</h3>
-        <p>100,000 debris unit ang nagbibigay ng 1% moon chance. Maximum na tsansa: 20%. Pagkatapos ng huling pagbabago, may maximum na bilang ng mapagtatayuang field (79) ang bawat buwan. Dati, ito ay FLOOR((diameter / 1000)²). Pinakamalaking posibleng buwan: 8,944 km ang diameter, 79 field.</p>
-        <p>Iba pa sa wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Mga Buwan</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: Mga Buwan
-    '4':
-      body: |-
-        <h3>Paano ako magtatatag ng alliance?</h3>
-        <p>Buksan ang Alliance sa menu sa kaliwa, tapos Create your own Alliance. Maglagay ng alliance tag (ang maikling daglat) at alliance name. Halimbawa: ang alliance na may pangalang “The Top Ally” ay puwedeng gumamit ng tag na “DTA”.</p>
-        <p>Titik, numero at espasyo lang ang pinapayagan. Pagkatapos mong maglagay ng tag at pangalan, i-click ang Create. Kung may gumagamit na ng pangalan o tag na iyon, makakakuha ka ng error at kailangan mong pumili ng iba. Kapag nagtagumpay, makikita mo ang kumpirmasyon; ang Continue ay magbubukas ng alliance menu mong wala pang laman, na laging mabubuksan mula sa Alliance sa menu sa kaliwa. Sa itaas, makikita mo ang tag at pangalan mo.</p>
-        <p>Sa ibaba nito, makikita mo ang:<br>
-        Members: bawat miyembro na may puntos, coordinate ng home planet, petsa ng pagsali at online status. I-click ang mga column header para mag-sort.<br>
-        Your Rank: ang pangalan ng rank mo, kasama ang link papunta sa alliance management.<br>
-        Mass messages: magpadala ng mensahe sa buong alliance o sa mga piling rank.</p>
-        <h3>Alliance management</h3>
-        <p>Hinahayaan ka ng Ranks na magtakda ng mga karapatan para sa bawat rank, halimbawa ang pagbuwag sa alliance o pagpapadala ng mass message. Hinahayaan ka ng Members na mag-kick ng mga manlalaro, magtalaga ng mga rank, at makita kung ilang araw na silang offline. Puwede mo ring baguhin ang alliance tag at pangalan.</p>
-        <p>Ine-edit ng Text Management ang mga teksto ng alliance. Ang external text ay nakikita ng bawat manlalaro; ang internal text ay para lang sa mga miyembro. Ang application text ay template para sa mga nag-a-apply.</p>
-        <p>Hinahayaan ka ng Options na mag-link ng banner image at alliance forum, pumili kung bukas ang mga application, at itakda ang pangalan ng founder rank mo. Kung iiwan mong blangko ito, Founder ang magiging rank.</p>
-        <p>Puwede mong buwagin ang alliance, o ilipat ito sa ibang miyembro, na magiging founder.</p>
-      title: Mga Alliance
-    '5':
-      body: |-
-        <h3>Saan ako makakahanap ng karagdagang impormasyon?</h3>
-        <!--wiki_url--><p>Ang wiki ang unang dapat tingnan:</p>
-        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">English wiki home</a><br>
-        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Build order</a><br>
-        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Mga istilo ng paglalaro (Miner, Raider, Comber)</a><br>
-        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a><br>
-        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Gabay sa fleet saving</a><br>
-        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Mga Expedition</a></p><!--/wiki_url-->
-        <p>German (owiki):<br>
-        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Build tactics</a><br>
-        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Istilo ng paglalaro: Miner</a><br>
-        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Istilo ng paglalaro: Fleeter</a><br>
-        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Istilo ng paglalaro: Comber</a><br>
-        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Fleet saving</a></p>
-      title: Mga Link
-    category: Karagdagang impormasyon
+faq_intro: "Mga sagot tungkol sa mekaniks ng laro, mga patakaran at mga menu. Maghanap o pumili ng kategorya."
+faq_search_label: "Maghanap sa FAQ"
+faq_search_placeholder: "Maghanap ng mga tanong at sagot (pindutin ang / para maghanap)"
+faq_clear: "I-clear ang paghahanap"
+faq_results_one: "1 resulta"
+faq_results_many: "{n} resulta"
+faq_no_results: "Walang resulta para sa “{q}”"
+faq_no_results_hint: "Suriin ang baybay, subukan ang mas kaunti o mas pangkalahatang salita, o mag-browse ng mga kategorya."
+faq_show_all: "Ipakita ang lahat ng kategorya"
+faq_entries_one: "1 artikulo"
+faq_entries_many: "{n} artikulo"
+faq_contents: "Sa artikulong ito"
+faq_prev: "Nakaraan"
+faq_next: "Susunod"
+faq_back: "Bumalik sa FAQ"
+faq_copy_link: "Kopyahin ang link sa seksyong ito"
+faq_link_copied: "Nakopya ang link"
+faq_to_top: "Bumalik sa itaas"

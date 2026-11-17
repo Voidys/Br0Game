@@ -71,3 +71,8 @@ php_dateformat: d-m-Y
 lang_group_fun: Fun-talen
 dialog_ok: OK
 dialog_cancel: Annuleren
+cookie_notice_title: "Cookies"
+cookie_notice_text: "Deze site gebruikt alleen technisch noodzakelijke cookies (inlogsessie, taal, \"ingelogd blijven\" als je dat kiest, apparaatkoppeling). Optionele cookies worden alleen met jouw toestemming gebruikt."
+cookie_notice_privacy: "Privacybeleid"
+cookie_notice_necessary: "Alleen noodzakelijke"
+cookie_notice_all: "Alles accepteren"

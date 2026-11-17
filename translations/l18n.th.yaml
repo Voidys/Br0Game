@@ -71,3 +71,8 @@ php_dateformat: j M Y
 lang_group_fun: ภาษาขำ ๆ
 dialog_ok: ตกลง
 dialog_cancel: ยกเลิก
+cookie_notice_title: "คุกกี้"
+cookie_notice_text: "เว็บไซต์นี้ใช้เฉพาะคุกกี้ที่จำเป็นทางเทคนิค (เซสชันการเข้าสู่ระบบ ภาษา \"คงการเข้าสู่ระบบ\" หากคุณเลือก การเชื่อมโยงอุปกรณ์) คุกกี้ทางเลือกจะใช้เมื่อคุณยินยอมเท่านั้น"
+cookie_notice_privacy: "นโยบายความเป็นส่วนตัว"
+cookie_notice_necessary: "เฉพาะที่จำเป็น"
+cookie_notice_all: "ยอมรับทั้งหมด"

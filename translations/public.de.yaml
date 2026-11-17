@@ -26,6 +26,7 @@ loginEmail: E-Mail
 loginHeader: Login
 loginInfo: Mit der Anmeldung akzeptiere ich die %s.
 loginPassword: Passwort
+loginRememberMe: '%d Tage angemeldet bleiben'
 loginServerDesc: >-
   %s ist ein Weltraum-Strategiespiel, in dem hunderte Spieler
   <strong>gleichzeitig</strong> darum kämpfen, die Besten zu werden. Alles, was

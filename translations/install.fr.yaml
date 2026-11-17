@@ -191,6 +191,8 @@ ins_rules_default_info: La page des règles commence avec les règles standard d
 ins_rules_blank: Commencer vide
 ins_rules_blank_info: La page des règles reste vide tant que tu n'as pas écrit tes propres règles dans l'espace d'administration.
 ins_group_community: Communauté
+ins_cookie_consent: "Afficher l'avis de consentement aux cookies (RGPD)"
+ins_cookie_consent_info: "Affiche aux visiteurs un avis sur les cookies utilisés par le jeu. Recommandé pour les exploitants qui s'adressent à l'UE. Modifiable plus tard dans les paramètres."
 ins_board: Activer le forum de la communauté
 ins_board_info: Un forum pour tes joueurs. Lorsqu'il est désactivé, tous les liens vers le forum sont masqués et les pages du forum ne sont pas disponibles.
 ins_legal_note: Les textes générés ne sont que des modèles. En tant qu'opérateur, tu es responsable des mentions légales de ton jeu et tu dois les relire.

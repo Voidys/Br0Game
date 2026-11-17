@@ -195,6 +195,8 @@ ins_rules_default_info: Die Regelseide fängt mid den Standard-Spielregeln an, d
 ins_rules_blank: Leer starte
 ins_rules_blank_info: Die Regelseide bleibt leer, bis du im Admin-Bereich eigene Regeln schreibsd.
 ins_group_community: Gommunity
+ins_cookie_consent: "Cookie-Hinweis anzeigen (DSGVO)"
+ins_cookie_consent_info: "Zeigt Besuchern einen Hinweis zu den vom Spiel verwendeten Cookies. Empfohlen für Betreiber, die die EU bedienen. Später in den Einstellungen änderbar."
 ins_board: Community-Board aktiviere
 ins_board_info: Ei Forum fer deine Schbieler. Wenn aus, sinn alle Board-Links ausgeblendet un die Board-Seide ned erreischbar.
 ins_legal_note: Die erzeugde Texte sinn nur Vorlage. Als Betreiber bisd du selbst fer die Rechtstexte deim Spiel verantwortlich un solltescht sie prüfe.

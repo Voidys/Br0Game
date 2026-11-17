@@ -3,7 +3,8 @@ config/game.php
 juliaBattleEngine/shipinfos.csv
 package-lock.json
 vendor/
-stats/*.json
+/stats/
+/public/stats/
 stats.json
 .well-known/
 404.html

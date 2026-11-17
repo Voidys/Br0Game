@@ -26,6 +26,7 @@ loginEmail: Email
 loginHeader: Login
 loginInfo: By logging in, I accept the %s.
 loginPassword: Password
+loginRememberMe: 'Stay logged in for %d days'
 loginServerDesc: >-
   %s is a space strategy game where hundreds of players compete
   <strong>at the same time</strong> to be the best. All you need is a standard

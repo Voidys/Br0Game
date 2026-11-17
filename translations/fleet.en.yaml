@@ -42,6 +42,15 @@ sys_and: and
 sys_attack_attacker_pos: Attacker
 sys_attack_defender_pos: Defender
 sys_attack_round: Round
+cr_start: "Starting fleets"
+cr_rounds: "Rounds"
+cr_debris: "Debris field"
+cr_loot: "Loot"
+cr_losses: "Losses"
+cr_moon: "Moon chance"
+cr_lost_round: "Lost this round"
+cr_lost_total: "Lost in total"
+cr_stats: "Battle statistics"
 sys_attack_title: 'The following fleets face each other on: '
 sys_attacker_lostunits: 'The attacker''s losses:'
 sys_attacker_won: The attacker has won the battle!

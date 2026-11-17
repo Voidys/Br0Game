@@ -40,6 +40,15 @@ sys_and: en
 sys_attack_attacker_pos: Aanvaller
 sys_attack_defender_pos: Verdediger
 sys_attack_round: Ronde
+cr_start: "Startvloten"
+cr_rounds: "Rondes"
+cr_debris: "Puinveld"
+cr_loot: "Buit"
+cr_losses: "Verliezen"
+cr_moon: "Kans op maan"
+cr_lost_round: "Verloren deze ronde"
+cr_lost_total: "Totaal verloren"
+cr_stats: "Gevechtsstatistieken"
 sys_attack_title: 'De volgende vloten staan tegenover elkaar op: '
 sys_attacker_lostunits: 'Verliezen van de aanvaller:'
 sys_attacker_won: De aanvaller heeft het gevecht gewonnen!

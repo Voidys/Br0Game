@@ -195,6 +195,8 @@ ins_rules_default_info: Nagsisimula ang rules page sa karaniwang tuntunin ng lar
 ins_rules_blank: Magsimulang blangko
 ins_rules_blank_info: Mananatiling walang laman ang rules page hangga't hindi ka sumusulat ng sarili mong tuntunin sa admin area.
 ins_group_community: Komunidad
+ins_cookie_consent: "Ipakita ang paunawa sa cookie consent (GDPR)"
+ins_cookie_consent_info: "Nagpapakita sa mga bisita ng paunawa tungkol sa mga cookie na ginagamit ng laro. Inirerekomenda para sa mga operator na naglilingkod sa EU. Mababago mamaya sa mga setting."
 ins_board: I-enable ang community board
 ins_board_info: Forum para sa mga manlalaro mo. Kapag naka-off, nakatago ang lahat ng board link at hindi available ang board pages.
 ins_legal_note: Mga template lang ang nagawang teksto. Bilang operator, ikaw ang responsable sa mga legal na teksto ng laro mo at dapat mo itong suriin.

@@ -1,154 +1,19 @@
 faq_overview: FAQ
-questions:
-  '1':
-    '1':
-      body: |-
-        <p>Cette partie présente les principaux bâtiments : ce qu’il faut construire en premier et à quoi sert chacun. Un empire florissant commence par une construction dans le bon ordre.</p>
-        <h3>Centrale solaire</h3>
-        <p>Construis-la en premier. Les mines ont besoin d’énergie pour produire métal, cristal et deutérium. Une fois la centrale terminée, la barre de ressources et la page Production indiquent l’énergie dont tu disposes.</p>
-        <h3>Mine de métal</h3>
-        <p>Le métal est l’une des trois ressources. Presque tout ce que tu construis ou recherches coûte du métal : développer cette mine est donc une priorité. Au début, garde-la plusieurs niveaux devant tes autres mines.</p>
-        <h3>Mine de cristal et synthétiseur de deutérium</h3>
-        <p>Le cristal sert aux bâtiments, aux vaisseaux et aux recherches. Tu en produis moins que de métal, ce qui le rend plus précieux ; plus tard dans la partie, il est souvent âprement disputé. Le deutérium alimente tes flottes, peut être brûlé pour produire de l’énergie dans la centrale de fusion, et il est indispensable à plusieurs bâtiments et recherches importants (dont le laboratoire de recherche).</p>
-        <p>Plus d’infos : <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: Étape 1
-    '2':
-      body: |-
-        <p>Pour développer ton empire et interagir avec les autres joueurs, il te faut d’autres bâtiments. La recherche et un chantier spatial te permettent de constituer une flotte et une défense planétaire.</p>
-        <h3>Chantier spatial</h3>
-        <p>Tous les vaisseaux (et toutes les défenses) sont construits ici. Le chantier spatial est disponible tôt, mais beaucoup de types de vaisseaux demandent encore des recherches supplémentaires. Le menu Technologie liste les prérequis de chaque vaisseau et de chaque défense. Plus le chantier spatial est développé, plus la construction est rapide.</p>
-        <h3>Laboratoire de recherche</h3>
-        <p>C’est ici que tu lances les recherches. Elles débloquent des bâtiments, des vaisseaux, des défenses et d’autres recherches, et certaines technologies donnent aussi des bonus à ce que tu possèdes déjà. Développer le laboratoire de recherche accélère les recherches.</p>
-        <h3>Usine de robots</h3>
-        <p>L’usine de robots est indispensable. Ses niveaux réduisent le temps de construction des bâtiments et accélèrent aussi la production de vaisseaux. Quand les temps de construction s’allongent, développe l’usine de robots pour les raccourcir.</p>
-      title: Étape 2
-    '3':
-      body: |-
-        <p>Cette partie traite de la défense de ta planète et de tes premiers mouvements de flotte : comment envoyer des flottes et comment composer avec les autres joueurs.</p>
-        <h3>Vue Galaxie</h3>
-        <p>Elle sert à trouver d’autres joueurs. Tu y vois les détails des autres planètes et tu peux envoyer une partie de ta flotte directement depuis cette vue. Tu peux aussi écrire aux joueurs, ou espionner une planète si tu as des sondes d’espionnage.</p>
-        <h3>Envoyer des flottes</h3>
-        <p>Les flottes s’envoient depuis la vue Galaxie ou depuis le menu Flotte. Choisis d’abord combien de vaisseaux de chaque type envoyer. Définis ensuite la cible (les coordonnées de la vue Galaxie) et la vitesse. Choisis enfin la mission, par exemple Attaquer, Déployer, Stationner, Recycler ou Transporter.</p>
-        <h3>Défense</h3>
-        <p>Dès que tu as un chantier spatial, tu peux aussi construire des défenses. Elles protègent la planète et combattent aux côtés de toute flotte présente quand une attaque arrive. Contrairement aux vaisseaux, environ 70 % des défenses détruites sont réparées après le combat.</p>
-      title: Étape 3
-    category: Conseils pour les débutants
-  '2':
-    '1':
-      body: |-
-        <h3>Raids</h3>
-        <p>Un raid consiste à attaquer d’autres joueurs pour leur prendre des ressources. Les types les plus courants :</p>
-        <ul>
-        <li>Raid de farm</li>
-        <li>Attaque de flotte</li>
-        <li>Raid de CDR</li>
-        <li>Interception</li>
-        </ul>
-        <h3>Raid de farm</h3>
-        <p>Ce sont les attaques les plus fréquentes dans un univers. Tu espionnes les planètes proches et envoies de petites flottes avec assez de capacité de transport et de puissance de feu pour percer une défense légère tout en restant rentables : les ressources volées doivent dépasser le deutérium dépensé plus tes propres pertes.</p>
-        <h3>Attaque de flotte</h3>
-        <p>Le haut niveau du raid : la chasse aux flottes des autres joueurs. Outre les sondes d’espionnage et la chance, une phalange de capteurs et un bon timing comptent beaucoup. Une fois repérée une flotte intéressante, il faut encore la rattraper et recycler les débris. C’est souvent difficile, car les flottes rentables peuvent dépasser la capacité de tes recycleurs : il faut alors coordonner les recycleurs et, si besoin, des partenaires d’attaque groupée en plus de la flotte de combat.</p>
-        <h3>Raid de CDR</h3>
-        <p>La façon la plus simple et la moins appréciée de faire du profit : récolter les champs de débris créés par d’autres joueurs. Les débris reviennent à celui qui les collecte, et voler des champs est une source fréquente de rancune.</p>
-        <h3>Interception</h3>
-        <p>Le métier d’un fleeter : construire de la flotte et détruire de la flotte. Tu ne trouveras pas toujours des vaisseaux au repos : pour attraper de bons joueurs, il faut souvent les intercepter pendant leur fleetsave ou pendant qu’ils volent vers une attaque. Ce n’est pas simple, et il existe des moyens de s’en défendre.</p>
-        <ul>
-        <li><p>Une lune facilite l’interception, car une phalange de capteurs peut scanner les mouvements de flotte des planètes à portée (pas des lunes). Si tu trouves une flotte qui vaut le coup, calcule son temps de vol restant, surtout le temps de retour après son arrivée. Les niveaux de réacteurs (à combustion, à impulsion, hyperespace) d’un rapport d’espionnage suffisent pour le calculer, à la main ou avec un calculateur de temps de vol. Une horloge précise aide. Cale ta flotte et tes recycleurs pour qu’ils arrivent environ 3 à 5 secondes après la cible, sur sa planète ou sa lune. Les recycleurs doivent eux aussi être synchronisés.</p></li>
-        <li><p>Pour intercepter une flotte qui vole d’une lune vers un champ de débris, il te faut une heure de départ approximative. Crée un champ de débris visible aux endroits où tu penses qu’ils iront récolter (par exemple avec des sondes d’espionnage). Calcule le temps que met leur flotte pour y arriver, surveille le système et actualise jusqu’à ce que le champ disparaisse. Note l’heure, ajoute leur vol de retour, et cale ta flotte et tes recycleurs quelques secondes après cette arrivée.</p>
-        <p><b>Remarque :</b> ça ne marche pas toujours. Un contre classique : envoyer d’abord un recycleur pour vider le champ.</p></li>
-        <li>Autre forme d’interception : stationner chez un ami pour le protéger, ce qui force les attaquants à rappeler leur flotte, car la flotte défensive serait trop forte. Un scan de sécurité (save scan) réduit le risque de se faire piéger ainsi.</li>
-        <li><p>Si un joueur déploie sa flotte d’une planète à l’autre puis la rappelle, elle disparaît de la phalange de capteurs. Observe son schéma de fleetsave (quand il lance et quand il rappelle). Quand tu attends un rappel, phalange la planète chaque seconde. Dès que la flotte disparaît, note l’heure, ajoute le vol de retour et arrive environ 4 à 6 secondes plus tard avec flotte et recycleurs.</p>
-        <p>S’il fait son fleetsave d’une lune vers un champ de débris en envoyant ses recycleurs devant, l’interception est presque impossible, sauf en détruisant la lune. Envoie des Étoiles de la mort avec la mission Détruire. Une fois la lune disparue, la flotte rentre sur la planète : phalange cette planète et glisse-toi quelques secondes derrière elle.</p>
-        <p>Toutes ces techniques marchent bien mieux si tu connais les habitudes de la cible, par exemple un fleetsave tous les soirs à 23 h 00, ou une connexion à midi. Étudiez le joueur avant d’intercepter.</p></li>
-        </ul>
-        <p>Plus d’infos dans le wiki : <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleetsave</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Phalange de capteurs</a>.</p>
-      title: Raids
-    '2':
-      body: |-
-        <h3>Attaquer en ACS</h3>
-        <p>Pour attaquer ensemble, envoie d’abord une flotte avec la mission Attaquer vers la cible. Une fois partie, ouvre le menu Flotte et utilise ACS pour transformer cette flotte en groupe d’attaque groupée. Tu peux y renommer le groupe et inviter d’autres joueurs ; le joueur qui a lancé l’attaque est invité automatiquement. Chaque joueur invité envoie ensuite ses propres vaisseaux aux mêmes coordonnées avec la mission Attaque groupée.</p>
-        <p>Le groupe vole toujours à la vitesse de la flotte participante la plus lente. Les flottes plus rapides qui rejoignent plus tard ne raccourcissent pas le temps restant. Les flottes plus lentes allongent le temps restant jusqu’à leur propre temps de vol. En général, 5 joueurs et 16 flottes au maximum peuvent rejoindre une attaque groupée (les réglages de l’univers peuvent différer). Une flotte qui rejoint ne peut pas allonger le temps de vol restant de plus de 30 %. S’il reste 100 minutes, une flotte qui rejoint peut mettre 130 minutes au maximum.</p>
-        <p><b>Attention :</b> si le fondateur de l’attaque groupée rappelle sa flotte, toutes les flottes du groupe sont rappelées aussi.</p>
-        <h3>Défendre en ACS</h3>
-        <p>Si tu es attaqué, les membres de ton alliance et tes amis peuvent t’aider. Ils envoient une flotte aux coordonnées attaquées, choisissent la durée de leur présence et utilisent la mission Stationner. Outre le deutérium du vol, des frais de stationnement supplémentaires sont facturés au départ, selon la taille de la flotte et la durée. Pendant qu’ils stationnent, ils participent à chaque combat sur cette planète ou cette lune et apparaissent dans les rapports d’espionnage comme s’ils étaient tes vaisseaux. Cale les arrivées juste avant l’attaquant pour qu’un scan de sécurité ait moins de chances de les voir. Les joueurs qui stationnent peuvent rappeler leur flotte à tout moment depuis le menu Flotte ; sinon la flotte attend la fin du stationnement puis rentre chez elle.</p>
-        <h3>Deutérium pour 1 heure de stationnement</h3>
-        <p>Petit transporteur : 5<br>
-        Grand transporteur : 5<br>
-        Chasseur léger : 2<br>
-        Chasseur lourd : 7<br>
-        Croiseur : 30<br>
-        Vaisseau de bataille : 50<br>
-        Vaisseau de colonisation : 100<br>
-        Recycleur : 30<br>
-        Sonde d’espionnage : 1/10<br>
-        Bombardier : 100<br>
-        Destructeur : 100<br>
-        Étoile de la mort : 1/10</p>
-      title: Attaque groupée (ACS)
-    '4':
-      body: |-
-        <h3>Comment fonder une alliance ?</h3>
-        <p>Ouvre Alliance dans le menu de gauche, puis Fonder ta propre Alliance. Saisis un tag d’alliance (l’abréviation) et un nom d’alliance. Exemple : une alliance nommée « Les Meilleurs Alliés » pourrait utiliser le tag « LMA ».</p>
-        <p>Seuls les lettres, les chiffres et les espaces sont autorisés. Après avoir saisi le tag et le nom, clique sur Créer. Si ce nom ou ce tag est déjà pris, une erreur s’affiche et tu dois en choisir un autre. En cas de succès, une confirmation s’affiche ; Continuer ouvre le menu de ton alliance, encore vide, que tu retrouves toujours via Alliance dans le menu de gauche. En haut, tu vois ton tag et ton nom.</p>
-        <p>En dessous, tu trouves :<br>
-        Membres : chaque membre avec ses points, les coordonnées de sa planète mère, sa date d’arrivée et son statut en ligne. Clique sur les en-têtes de colonne pour trier.<br>
-        Ton rang : le nom de ton rang, plus un lien vers la gestion de l’alliance.<br>
-        Messages globaux : envoie un message à toute l’alliance ou à certains rangs.</p>
-        <h3>Gestion de l’alliance</h3>
-        <p>Gérer les rangs permet de définir les droits de chaque rang, par exemple dissoudre l’alliance ou envoyer des messages globaux. Gérer les membres permet d’exclure des joueurs, d’attribuer des rangs et de voir depuis combien de jours ils sont hors ligne. Tu peux aussi modifier le tag et le nom de l’alliance.</p>
-        <p>Gestion des textes permet de modifier les textes de l’alliance. Le texte externe est visible par tous les joueurs ; le texte interne uniquement par les membres. Le texte de candidature sert de modèle pour ceux qui postulent.</p>
-        <p>Les Options permettent de lier une image de bannière et un forum d’alliance, de choisir si les candidatures sont ouvertes et de définir le nom du rang de fondateur. Si tu laisses ce champ vide, le rang s’appelle Fondateur.</p>
-        <p>Tu peux dissoudre l’alliance ou la transférer à un autre membre, qui devient alors le fondateur.</p>
-      title: Alliances
-    '5':
-      body: |-
-        <h3>Où trouver plus d’informations ?</h3>
-        <!--wiki_url--><p>Le wiki est le premier endroit où chercher :</p>
-        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Accueil du wiki (anglais)</a><br>
-        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Ordre de construction</a><br>
-        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Styles de jeu (Miner, Raider, Comber)</a><br>
-        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleetsave</a><br>
-        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Guide du fleetsave</a><br>
-        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expéditions</a></p><!--/wiki_url-->
-        <p>Allemand (owiki) :<br>
-        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Tactiques de construction</a><br>
-        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Style de jeu : Miner</a><br>
-        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Style de jeu : Fleeter</a><br>
-        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Style de jeu : Comber</a><br>
-        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Fleetsave</a></p>
-      title: Liens
-    category: Informations avancées
-    "3":
-      body: |-
-        <p>Une lune peut se former lorsqu'un champ de débris d'au moins 100 000 unités est créé (1 % de chance de lune). La chance est plafonnée à 20 %, quelle que soit la taille du champ.</p>
-        <h3>Général</h3>
-        <p>Les lunes peuvent être renommées comme les planètes, mais « (Lune) » reste dans le nom. Tu ne peux avoir qu'une seule lune par planète. Une lune permet de faire du fleetsave hors de vue d'une Phalange de capteurs, il vaut donc la peine d'en créer une relativement tôt. Sur une lune, tu peux construire Usine de robots, Chantier spatial, Hangar de métal, Hangar de cristal, Réservoir de deutérium, Dépôt de ravitaillement, Base lunaire, Phalange de capteurs et Porte de saut.</p>
-        <h3>Moonshot</h3>
-        <p>Un moonshot est la destruction délibérée de vaisseaux pour créer un champ de débris. Les Chasseurs légers sont le choix habituel : avec 30 % de flotte et 0 % de défense en débris, 1 667 Chasseurs légers donnent 20 % de chance de lune. Ils sont peu coûteux à perdre et arrivent très près du plafond. Si un joueur plus fort détruit des Chasseurs légers chez un joueur plus faible, tout le monde peut récolter les débris. Si un joueur plus faible attaque un joueur plus fort avec des vaisseaux destinés à mourir, seul le joueur plus faible peut récolter — sinon c'est du pushing. Les lunes et les tentatives de lune sont soumises aux règles de pushing.</p>
-        <p>Dans un univers où la défense crée aussi des débris, il est souvent préférable de construire de la défense et de la faire détruire en plusieurs vagues pour plusieurs tentatives de lune. 3 334 Lanceurs de missiles ou 3 334 Artilleries laser légères sont un choix courant.</p>
-        <p>Lorsqu'une lune se forme, le rapport de combat indique que d'énormes quantités de métal et de cristal libres se rassemblent et forment un satellite autour de la planète.</p>
-        <p>Chance de lune entre 1 % et 19 % : taille aléatoire. Chance de lune de 20 % : plus de 8 000 km de diamètre. Une lune n'est jamais plus grande que 8 944 km.</p>
-        <h3>Bâtiments</h3>
-        <p>Les hangars ne valent généralement pas la peine d'être construits sur une lune, car rien n'y est produit. Un chantier spatial est aussi rarement utile : les temps de construction sont longs, et tu peux construire des vaisseaux sur la planète. Le Dépôt de ravitaillement est discuté ; il occupe aussi de précieuses cases.</p>
-        <p>Les trois bâtiments exclusifs à la lune sont :</p>
-        <ul>
-        <li><p><b>Base lunaire</b><br>Ajoute des cases constructibles : 3 par niveau, dont une est prise par la prochaine amélioration de la base lunaire.</p></li>
-        <li><p><b>Phalange de capteurs</b><br>Montre les mouvements de flotte sur les planètes ennemies (pas les lunes). La portée augmente à chaque niveau.</p></li>
-        <li><p><b>Porte de saut</b><br>Déplace instantanément des vaisseaux d'une lune à une autre. Les ressources ne peuvent pas les accompagner. Après un saut, la porte a besoin de temps pour refroidir (généralement une heure), sinon elle surchauffe.</p></li>
-        </ul>
-        <p>Un ordre de construction courant pour une lune :<br>
-        <b>Légende :</b><br>
-        MB – Base lunaire<br>
-        SP – Phalange de capteurs<br>
-        ST – Porte de saut<br>
-        RB – Usine de robots</p>
-        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
-        Ensuite, tu peux continuer à développer la Phalange de capteurs si tu as les ressources. Tu peux aussi démolir quelques niveaux d'Usine de robots et consacrer ces cases à la phalange.</p>
-        <h3>Destruction</h3>
-        <p>Une lune ne peut être détruite qu'avec des Étoiles de la mort. Dans le menu des missions, choisis Détruire au lieu d'Attaquer. Toute flotte présente sur la lune doit d'abord être détruite ; les Étoiles de la mort survivantes peuvent encore être perdues lorsque la lune elle-même est détruite. La destruction d'une lune ne crée pas de champ de débris.</p>
-        <h3>Attaques de lune avec Étoile de la mort</h3>
-        <p>Chance de destruction de la lune : (100 − racine(taille de la lune)) × racine(nombre d'Étoiles de la mort). Chance que les Étoiles de la mort attaquantes soient détruites : racine(taille de la lune) / 2. Plus une lune est grande, plus il est risqué de la détruire.</p>
-        <h3>Chance et taille de la lune</h3>
-        <p>100 000 unités de débris donnent 1 % de chance de lune. Chance maximale : 20 %. Après une modification ultérieure, chaque lune a le nombre maximal de cases constructibles (79). Auparavant, c'était FLOOR((diamètre / 1000)²). Plus grande lune possible : 8 944 km de diamètre, 79 cases.</p>
-        <p>Plus d'infos dans le wiki : <a href="{wiki_url}/wiki/En/Mond" target="_blank">Lunes</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: "Lunes"
+faq_intro: "Réponses sur les mécaniques du jeu, les règles et les menus. Cherchez ou choisissez une catégorie."
+faq_search_label: "Rechercher dans la FAQ"
+faq_search_placeholder: "Rechercher des questions et réponses (touche / pour chercher)"
+faq_clear: "Effacer la recherche"
+faq_results_one: "1 résultat"
+faq_results_many: "{n} résultats"
+faq_no_results: "Aucun résultat pour « {q} »"
+faq_no_results_hint: "Vérifiez l'orthographe, essayez moins de mots ou des termes plus généraux, ou parcourez les catégories."
+faq_show_all: "Afficher toutes les catégories"
+faq_entries_one: "1 article"
+faq_entries_many: "{n} articles"
+faq_contents: "Dans cet article"
+faq_prev: "Précédent"
+faq_next: "Suivant"
+faq_back: "Retour à la FAQ"
+faq_copy_link: "Copier le lien vers cette section"
+faq_link_copied: "Lien copié"
+faq_to_top: "Haut de page"

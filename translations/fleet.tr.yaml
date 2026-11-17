@@ -40,6 +40,15 @@ sys_and: ve
 sys_attack_attacker_pos: Saldıran
 sys_attack_defender_pos: Savunan
 sys_attack_round: Tur
+cr_start: "Başlangıç filoları"
+cr_rounds: "Turlar"
+cr_debris: "Enkaz alanı"
+cr_loot: "Ganimet"
+cr_losses: "Kayıplar"
+cr_moon: "Ay şansı"
+cr_lost_round: "Bu turdaki kayıp"
+cr_lost_total: "Toplam kayıp"
+cr_stats: "Savaş istatistikleri"
 sys_attack_title: 'Şu filolar karşı karşıya geldi: '
 sys_attacker_lostunits: 'Saldıranın kayıpları:'
 sys_attacker_won: Saldıran savaşı kazandı!

@@ -201,7 +201,7 @@ export function initTooltips() {
   document.addEventListener('click', (event) => {
     const source = sourceOf(event.target);
     if (source) {
-      if (source.matches('a:not([href])') || isSticky(source)) event.preventDefault();
+      if (source.matches('a:not([href]), a[href="#"]') || isSticky(source)) event.preventDefault();
       if (current === source && tip?.style.display === 'block' && (pinned || !isSticky(source))) {
         close();
       } else {

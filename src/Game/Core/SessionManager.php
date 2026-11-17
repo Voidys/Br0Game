@@ -18,6 +18,12 @@ class SessionManager
         protected Singleton $state,
     ) {}
 
+    /** idle time in seconds after which a game session expires (admin setting session_lifetime) */
+    public function idleLifetime(): int
+    {
+        return \App\Security\SessionPolicy::idleSeconds($this->configs->get(ROOT_UNI)->session_lifetime ?? null);
+    }
+
     /** @internal for Session: request data and game state */
     public function gameState(): Singleton
     {

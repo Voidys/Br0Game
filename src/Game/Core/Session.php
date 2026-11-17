@@ -283,7 +283,17 @@ class Session
     }
 
     /**
-     * True if the session may be used: data present, last activity within SESSION_LIFETIME (12 h) and its row still
+     * Drops the session row and keeps this object from being written back, without touching cookies or the Symfony
+     * session (an idle session that a "stay logged in" cookie replaces on the next request).
+     */
+    public function discard(): void
+    {
+        $this->db->delete('DELETE FROM %%SESSION%% WHERE sessionID = :sessionId;', [':sessionId' => $this->manager->id()]);
+        $this->destroyed = true;
+    }
+
+    /**
+     * True if the session may be used: data present, last activity within the idle limit (setting session_lifetime) and its row still
      * exists in `session` (rows are removed by logout, password changes and the cleaner cronjob).
      */
     public function isValidSession()
@@ -299,7 +309,7 @@ class Session
             }
         }
 
-        if ($this->data['lastActivity'] < $this->manager->gameState()->runtime->timestamp - SESSION_LIFETIME) {
+        if ($this->data['lastActivity'] < $this->manager->gameState()->runtime->timestamp - $this->manager->idleLifetime()) {
             return false;
         }
 

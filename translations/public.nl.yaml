@@ -22,6 +22,7 @@ loginEmail: E-mail
 loginHeader: Login
 loginInfo: Door in te loggen ga ik akkoord met de %s.
 loginPassword: Wachtwoord
+loginRememberMe: 'Ingelogd blijven gedurende %d dagen'
 loginServerDesc: '%s is een ruimtestrategiespel waarin honderden spelers <strong>tegelijkertijd</strong> strijden om de beste te zijn. Een gewone webbrowser is alles wat je nodig hebt.'
 loginWelcome: Welkom bij %s
 Lowest_longterm_points: Voorgeregistreerde accounts met de minste punten

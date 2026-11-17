@@ -162,7 +162,7 @@ final class InstallService
             $writable = $exists ? is_writable($this->root . $file) : is_writable(dirname($this->root . $file));
             $add($LNG->format('reg_file', $file), $writable, $writable ? $LNG['reg_writable'] : $LNG['reg_not_writable']);
         }
-        foreach (['var/', 'var/game/', 'var/sessions/', 'var/backups/', 'var/log/', 'config/'] as $dir) {
+        foreach (['var/', 'var/game/', 'var/sessions/', 'var/backups/', 'var/log/', 'public/stats/', 'config/'] as $dir) {
             $exists = SafeFile::mkdir($this->root . $dir, 0777);
             $add(
                 $LNG->format('reg_dir', $dir),
@@ -669,7 +669,7 @@ final class InstallService
 
     /**
      * Validates the legal step. Keys of $input: privacy_region (eu|other), rules_default (default|blank),
-     * board_enabled (bool).
+     * board_enabled (bool), cookie_consent (bool, default off).
      *
      * @param array<string, mixed> $input
      * @return array{error: ?string, values: array<string, mixed>}
@@ -681,6 +681,7 @@ final class InstallService
             'privacy_region' => (string) ($input['privacy_region'] ?? 'eu'),
             'rules_default' => (string) ($input['rules_default'] ?? 'default'),
             'board_enabled' => !empty($input['board_enabled']),
+            'cookie_consent' => !empty($input['cookie_consent']),
         ];
 
         $error = match (true) {
@@ -703,6 +704,7 @@ final class InstallService
         $this->db->insert($global, [':key' => 'privacy_region', ':value' => $values['privacy_region']]);
         $this->db->insert($global, [':key' => 'rules_default', ':value' => $values['rules_default'] === 'default' ? '1' : '0']);
         $this->db->insert($global, [':key' => 'board_enabled', ':value' => $values['board_enabled'] ? '1' : '0']);
+        $this->db->insert($global, [':key' => 'cookie_consent', ':value' => !empty($values['cookie_consent']) ? '1' : '0']);
         $this->configs->invalidateCache();
         if ($this->configs->isLoaded()) {
             $this->configs->reload();

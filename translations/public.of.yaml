@@ -22,6 +22,7 @@ loginEmail: E-Mail
 loginHeader: Login
 loginInfo: Mid dem Login agzeptiere ich die %s.
 loginPassword: Basswort
+loginRememberMe: 'Stay logged in for %d days'
 loginServerDesc: '%s isd a WeltraumSchdrategiespiel- mid hunderdne Schbielern die erdumgreifend <strong>gleichzeitig</strong> wersuchne der/die Beschde zu werdne. Alles was ihr zum sbielne brauchd isd a Schdandardwebbrowser.'
 loginWelcome: Willgommne bei %s
 Lowest_longterm_points: Vorregistrierte Accounts mit den geringsten Punkten

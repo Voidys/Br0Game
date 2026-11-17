@@ -19,6 +19,25 @@ final class BasicUserSettingsFields
     {
         return [
             'user_settings' => [
+                // idle hours until a login expires and "stay logged in" days (0 = off), see App\Security\SessionPolicy
+                'session_lifetime' => [
+                    'type' => ConfigFieldSchema::TYPE_NUMBER,
+                    'maxlength' => 4,
+                    'size' => 4,
+                    'transform' => 'int',
+                    'min' => 1,
+                    'unit' => $LNG['se_hours'],
+                    'default' => 12,
+                ],
+                'remember_me_days' => [
+                    'type' => ConfigFieldSchema::TYPE_NUMBER,
+                    'maxlength' => 3,
+                    'size' => 3,
+                    'transform' => 'int',
+                    'min' => 0,
+                    'unit' => $LNG['se_days'],
+                    'default' => 30,
+                ],
                 'del_oldstuff' => [
                     'type' => ConfigFieldSchema::TYPE_NUMBER,
                     'maxlength' => 3,

@@ -607,6 +607,8 @@ se_bash_count_missiles: Bashlimits zählen Raketenangriffe
 se_bash_count_missiles_info: 'Interplanetare Raketenangriffe zählen wie Flottenangriffe für die Bashlimits (pro Spieler und pro Hafen). Aus: Raketen werden nicht gezählt.'
 se_bash_per_user: Bashlimit pro User
 se_bash_per_user_info: Wie oft ein Spieler einen anderen Spieler pro 24h angreifen darf  (Alle Planeten zusammen). 0 = ausgeschaltet
+se_cookie_consent: "Cookie notice"
+se_cookie_consent_info: "Shows a notice about cookies at the bottom of the login area, account area and game until the visitor chooses (\"Accept all\" or \"Only necessary\"; stored in the cookie cookie_consent for one year). The operator is responsible for the legal texts."
 se_block_planet_creation: Block
 se_board_enabled: Community-Board aktivieren
 se_board_enabled_info: 'Aus: Alle Board-Links sind ausgeblendet und die Board-Seiten nicht erreichbar.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Universum
 adm_maint_cache_text: Leert die Spiel-Caches (Sprachen, Templates, Spieldaten) und berechnet die Cronjob-Zeiten neu. Hilft, wenn Änderungen an Einstellungen oder Texten nicht sichtbar werden.
 adm_maint_log_head: Spiel-Log
 adm_maint_log_text: Fehlerprotokoll des Spiels (var/log/game.log). Leeren setzt die Datei auf null; neue Fehler werden sofort wieder geschrieben.
+adm_migr_head: "Datenbank-Migrationen"
+adm_migr_text: "Spielt Datenbankänderungen ein, die ein Update mitbringt (zum Beispiel nach dem Entpacken eines neuen Releases über die Installation)."
+adm_migr_current: "Aktuelle Datenbank-Revision"
+adm_migr_pending: "Ausstehende Migrationen"
+adm_migr_backup: "Lege zuerst ein Datenbank-Backup an."
+adm_migr_revision: "Revision"
+adm_migr_file: "Datei"
+adm_migr_status: "Status"
+adm_migr_ok: "Erledigt"
+adm_migr_failed: "Fehlgeschlagen"
+adm_migr_skipped: "Übersprungene Abfrage"
+adm_migr_uptodate: "Die Datenbank ist auf dem aktuellen Stand."
+adm_migr_confirm: "Alle ausstehenden Migrationen jetzt ausführen?"
+adm_migr_run: "Migrationen ausführen"
+adm_migr_result: "Ergebnis"
+adm_migr_nothing: "Es standen keine Migrationen aus."
 adm_maint_log_size: Größe
 adm_maint_log_changed: Zuletzt geändert
 adm_maint_log_missing: Die Log-Datei existiert noch nicht, Landratte.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Transport-Push-Limit
 se_transport_push_limit_info: Ladungswert in Deuteriumeinheiten (Marktkurse), ab dem der Schutz greift. 0 = Schutz aus.
 se_depot_cost_real_consumption: Depotkosten nach echtem Verbrauch
 se_depot_cost_real_consumption_info: Das Allianzdepot berechnet pro Stunde den tatsächlichen Treibstoffverbrauch der Flotte (mit Antriebs- und Treibstofftechs des Besitzers) / 10 statt des Basisverbrauchs / 10.
+se_hours: Hours
+se_remember_me_days: '"Stay logged in" lasts'
+se_remember_me_days_info: 'Days a login with the "stay logged in" box ticked survives browser restarts and expired sessions. A password change ends it. 0 disables the option.'
+se_session_lifetime: Session expires after inactivity of
+se_session_lifetime_info: 'Hours without any request after which a player is logged out ("session expired").'
 abuse_menu: Missbrauchsbericht
 abuse_days: Tage
 abuse_apply: Anwenden

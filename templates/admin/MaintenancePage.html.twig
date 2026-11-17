@@ -9,6 +9,13 @@
   {% endif %}
   {% if canClearCache %}
     <section class="card">
+      <header class="card__head"><h2 class="card__title">{{ icon('database') }}{{ LNG.adm_migr_head }}</h2></header>
+      <div class="card__body"><p class="muted">{{ LNG.adm_migr_text }}</p></div>
+      <footer class="card__foot"><a class="button btn--primary" href="{{ path('admin_migrations_show') }}">{{ icon('database') }}{{ LNG.adm_migr_head }}</a></footer>
+    </section>
+  {% endif %}
+  {% if canClearCache %}
+    <section class="card">
       <header class="card__head"><h2 class="card__title">{{ icon('file-text') }}{{ LNG.adm_maint_log_head }}</h2></header>
       <div class="card__body">
         <p class="muted">{{ LNG.adm_maint_log_text }}</p>

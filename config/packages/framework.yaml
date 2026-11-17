@@ -109,7 +109,9 @@ framework:
     session:
         name: 2Moons
         handler_id: '%env(default:session_handler_default:SESSION_HANDLER_DSN)%'
-        cookie_lifetime: 43200
+        # browser-session cookie; the idle limit is the admin setting session_lifetime (checked against the game
+        # session's lastActivity, gc_maxlifetime is set per request by App\Security\SessionStorageFactory)
+        cookie_lifetime: 0
         gc_maxlifetime: 43200
         cookie_path: /
         cookie_secure: auto

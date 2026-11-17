@@ -118,7 +118,7 @@ class UniverseController extends AbstractAdminController
 
     /**
      * Deletes a universe with all its data (community, fleet and player tables, marketplace, config), fixes the
-     * emulated universe and redirects the admin. The redirect target depends on whether only one
+     * emulated universe and redirects the admin to the universe list. The redirect target depends on whether only one
      * universe remains (then the root URL layout is used again and the session cookie is re-issued at the site root).
      */
     private function deleteUniverse(mixed $universe): Response
@@ -148,26 +148,23 @@ class UniverseController extends AbstractAdminController
 
         if (count($this->universe()->availableUniverses()) === 1) {
             // Transition multi-uni URL layout -> single-uni.
-            // setcookie() expires is a Unix timestamp (not a relative
-            // lifetime). Passing SESSION_LIFETIME (43200) expires the
-            // cookie in 1970 and logs the admin out (./?code=3).
-            // Session::init() already uses path=/; keep the cookie alive
-            // at site root after leaving /uniN/.
+            // Browser-session cookie like framework.session (cookie_lifetime 0);
+            // keep the cookie alive at site root after leaving /uniN/.
             $this->http()->sendCookie(
                 $this->sessions()->name(),
                 $this->sessions()->id(),
-                time() + SESSION_LIFETIME,
+                0,
                 '/',
                 null,
                 $this->state->runtime->https,
                 true,
             );
 
-            return $this->redirectResponse("../admin?reload=r");
+            return $this->redirectToRoute('admin_universe_show', ['uni' => '']);
         }
 
-        // Still multi-uni: reload admin so the list refreshes
-        return $this->redirectResponse("admin?reload=r");
+        // Still multi-uni: back to the refreshed universe list
+        return $this->redirectToRoute('admin_universe_show');
     }
 
     /**
@@ -291,7 +288,7 @@ class UniverseController extends AbstractAdminController
     /**
      * Creates the next universe: checks that /uniN/ URLs are rewritten by the web server (ends with a hint message
      * otherwise), inserts config and modules, creates an ADM player for the acting admin at 1:1:1 and redirects into the
-     * new universe.
+     * universe list.
      */
     private function createUniverse(): Response
     {
@@ -329,7 +326,7 @@ class UniverseController extends AbstractAdminController
             $this->http()->sendCookie(
                 $this->sessions()->name(),
                 $this->sessions()->id(),
-                SESSION_LIFETIME,
+                0,
                 $this->state->runtime->httpRoot . 'uni' . $USER['universe'] . '/',
                 null,
                 $this->state->runtime->https,
@@ -337,7 +334,8 @@ class UniverseController extends AbstractAdminController
             );
         }
 
-        return $this->redirectResponse("uni" . $USER['universe'] . "/admin?reload=r");
+        // back to the universe list (in the admin's own universe, whose URL may have just gained the uniN/ prefix)
+        return $this->redirectToRoute('admin_universe_show', ['uni' => 'uni' . $USER['universe'] . '/']);
     }
 
     /**

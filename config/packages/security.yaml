@@ -31,6 +31,10 @@ security:
             login_throttling:
                 max_attempts: 5
                 interval: '15 minutes'
+            # "stay logged in" (checkbox _remember_me on the login form): signed cookie, lifetime from the admin
+            # setting remember_me_days (0 = off), see App\Security\ConfigurableRememberMeHandler
+            remember_me:
+                service: App\Security\ConfigurableRememberMeHandler
             logout:
                 path: app_logout
                 target: /

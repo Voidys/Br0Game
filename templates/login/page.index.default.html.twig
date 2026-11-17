@@ -42,6 +42,9 @@
         <form class="login-form" id="login-form" name="login" action="{{ path('login_login_send') }}" data-action="{{ universe_path('login_login_send') }}" method="post">
           <label>{{ LNG.loginEmail }}<input name="email" id="email" type="email" maxlength="64" autocomplete="username" required></label>
           <label>{{ LNG.loginPassword }}<input name="password" id="password" type="password" autocomplete="current-password" required></label>
+          {% if rememberMeDays > 0 %}
+          <label class="login-form__remember"><input type="checkbox" name="_remember_me" value="1"> {{ LNG.format('loginRememberMe', rememberMeDays) }}</label>
+          {% endif %}
           <button type="submit" class="btn--primary">{{ LNG.loginButton }}</button>
         </form>
         <div class="login-meta">

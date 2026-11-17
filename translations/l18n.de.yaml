@@ -75,3 +75,8 @@ week_day:
 lang_group_fun: "Spaßsprachen"
 dialog_ok: "OK"
 dialog_cancel: "Abbrechen"
+cookie_notice_title: "Cookies"
+cookie_notice_text: "Diese Seite verwendet nur technisch notwendige Cookies (Login-Sitzung, Sprache, \"Angemeldet bleiben\" falls gewählt, Geräteverknüpfung). Optionale Cookies werden nur mit deiner Zustimmung genutzt."
+cookie_notice_privacy: "Datenschutzerklärung"
+cookie_notice_necessary: "Nur notwendige"
+cookie_notice_all: "Alle akzeptieren"

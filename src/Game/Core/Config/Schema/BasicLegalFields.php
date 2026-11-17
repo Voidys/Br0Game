@@ -34,6 +34,11 @@ final class BasicLegalFields
                     'transform' => 'bool',
                     'default' => true,
                 ],
+                'cookie_consent' => [
+                    'type' => ConfigFieldSchema::TYPE_CHECKBOX,
+                    'transform' => 'bool',
+                    'default' => false,
+                ],
                 'board_enabled' => [
                     'type' => ConfigFieldSchema::TYPE_CHECKBOX,
                     'transform' => 'bool',

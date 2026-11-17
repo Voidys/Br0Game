@@ -8,6 +8,8 @@
  * (pageData() in ./core.js). There are no inline handlers or inline scripts (Content-Security-Policy).
  */
 import './csrf.js';
+import './consent.js';
+import './anchors.js';
 import './core.js';
 import './env.js';
 import './dialog.js';

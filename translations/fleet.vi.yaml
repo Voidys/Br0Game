@@ -40,6 +40,15 @@ sys_and: và
 sys_attack_attacker_pos: Bên tấn công
 sys_attack_defender_pos: Bên phòng thủ
 sys_attack_round: Hiệp
+cr_start: "Hạm đội ban đầu"
+cr_rounds: "Các hiệp"
+cr_debris: "Bãi mảnh vỡ"
+cr_loot: "Chiến lợi phẩm"
+cr_losses: "Tổn thất"
+cr_moon: "Cơ hội tạo mặt trăng"
+cr_lost_round: "Mất trong hiệp này"
+cr_lost_total: "Tổng số đã mất"
+cr_stats: "Thống kê trận đánh"
 sys_attack_title: 'Các hạm đội sau đối đầu nhau tại: '
 sys_attacker_lostunits: 'Tổn thất của bên tấn công:'
 sys_attacker_won: Bên tấn công đã thắng trận!

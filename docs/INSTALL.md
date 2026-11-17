@@ -152,8 +152,8 @@ Afterwards:
 
 * **Web server:** document root `<dir>/public`. nginx: see [nginx.md](nginx.md). Apache: `DocumentRoot <dir>/public`,
   `AllowOverride All` (the `.htaccess` in `public/` does the rewriting), PHP via PHP-FPM or `mod_php` 8.4.
-* **Permissions:** the web server's user must write to `var/`, `public/uploads/`, `public/stats/`, `stats/`,
-  `config/` (until installed) and `.env.local`. For example `sudo chgrp -R www-data var public/uploads public/stats stats config .env.local`.
+* **Permissions:** the web server's user must write to `var/`, `public/uploads/`, `public/stats/`,
+  `config/` (until installed) and `.env.local`. For example `sudo chgrp -R www-data var public/uploads public/stats config .env.local`.
 * **Cron** (as the web server's user or your own): `* * * * * cd /var/www/br0game && php bin/console app:cron:run --quiet`;
   optional fleet driver every few seconds: `while true; do php bin/console app:fleets:run --quiet; sleep 5; done` (systemd/supervisor, see step 7)
 * **HTTPS:** e.g. `certbot --nginx`.
@@ -187,7 +187,7 @@ password `db`, name `db`), the game settings and your administrator account. The
 **Always back up first** (see [Backups](#backups)).
 
 * **ZIP installation:** download and verify the new ZIP. Replace all files of the project **except `config/` (your
-  `game.php`), `.env.local` (written by the installer), `var/`, `public/uploads/` and `stats/`** (delete the old folders `src`, `templates`,
+  `game.php`), `.env.local` (written by the installer), `var/`, `public/uploads/` and `public/stats/`** (delete the old folders `src`, `templates`,
   `translations`, `vendor`, `public`, `install`, `bin` first, then upload the new ones; do not merge old and new
   `vendor/`). Then open the site once: pending database migrations run automatically on that request. Read
   `CHANGES.md` for notes on the version.

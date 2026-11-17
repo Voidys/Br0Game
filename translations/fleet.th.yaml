@@ -40,6 +40,15 @@ sys_and: และ
 sys_attack_attacker_pos: ผู้โจมตี
 sys_attack_defender_pos: ผู้ป้องกัน
 sys_attack_round: รอบ
+cr_start: "กองยานเริ่มต้น"
+cr_rounds: "รอบ"
+cr_debris: "สนามเศษซาก"
+cr_loot: "ของที่ปล้นได้"
+cr_losses: "ความสูญเสีย"
+cr_moon: "โอกาสเกิดดวงจันทร์"
+cr_lost_round: "สูญเสียในรอบนี้"
+cr_lost_total: "สูญเสียทั้งหมด"
+cr_stats: "สถิติการรบ"
 sys_attack_title: "กองเรือต่อไปนี้เผชิญหน้ากันที่: "
 sys_attacker_lostunits: "ความสูญเสียของผู้โจมตี:"
 sys_attacker_won: "ผู้โจมตีชนะการรบ!"

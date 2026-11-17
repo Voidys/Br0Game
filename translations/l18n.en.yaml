@@ -75,3 +75,8 @@ php_dateformat: M d, Y
 lang_group_fun: "Fun languages"
 dialog_ok: "OK"
 dialog_cancel: "Cancel"
+cookie_notice_title: "Cookies"
+cookie_notice_text: "This site only uses technically necessary cookies (login session, language, \"stay logged in\" if you choose it, device link). Optional cookies are only used with your consent."
+cookie_notice_privacy: "Privacy policy"
+cookie_notice_necessary: "Only necessary"
+cookie_notice_all: "Accept all"

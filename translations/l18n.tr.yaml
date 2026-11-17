@@ -71,3 +71,8 @@ php_dateformat: d. M Y
 lang_group_fun: Eğlence dilleri
 dialog_ok: Tamam
 dialog_cancel: İptal
+cookie_notice_title: "Çerezler"
+cookie_notice_text: "Bu site yalnızca teknik olarak gerekli çerezleri kullanır (oturum, dil, seçersen \"oturumu açık tut\", cihaz bağlantısı). İsteğe bağlı çerezler yalnızca onayınla kullanılır."
+cookie_notice_privacy: "Gizlilik politikası"
+cookie_notice_necessary: "Yalnızca gerekli olanlar"
+cookie_notice_all: "Tümünü kabul et"

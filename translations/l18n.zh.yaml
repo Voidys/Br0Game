@@ -71,3 +71,8 @@ php_dateformat: Y年n月j日
 lang_group_fun: 趣味语言
 dialog_ok: 确定
 dialog_cancel: 取消
+cookie_notice_title: "Cookie"
+cookie_notice_text: "本站仅使用技术上必需的 Cookie（登录会话、语言、您选择时的“保持登录”、设备关联）。可选 Cookie 仅在您同意后使用。"
+cookie_notice_privacy: "隐私政策"
+cookie_notice_necessary: "仅必要"
+cookie_notice_all: "全部接受"

@@ -71,3 +71,8 @@ php_dateformat: d. M Y
 lang_group_fun: Шуточные языки
 dialog_ok: OK
 dialog_cancel: Отмена
+cookie_notice_title: "Cookie"
+cookie_notice_text: "Этот сайт использует только технически необходимые cookie (сессия входа, язык, \"оставаться в системе\" по вашему выбору, привязка устройства). Необязательные cookie используются только с вашего согласия."
+cookie_notice_privacy: "Политика конфиденциальности"
+cookie_notice_necessary: "Только необходимые"
+cookie_notice_all: "Принять все"

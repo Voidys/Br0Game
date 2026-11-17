@@ -71,3 +71,8 @@ php_dateformat: d. M Y
 lang_group_fun: Idiomas de broma
 dialog_ok: Aceptar
 dialog_cancel: Cancelar
+cookie_notice_title: "Cookies"
+cookie_notice_text: "Este sitio solo usa cookies técnicamente necesarias (sesión, idioma, \"mantener sesión\" si lo eliges, vínculo de dispositivo). Las cookies opcionales solo se usan con tu consentimiento."
+cookie_notice_privacy: "Política de privacidad"
+cookie_notice_necessary: "Solo necesarias"
+cookie_notice_all: "Aceptar todas"

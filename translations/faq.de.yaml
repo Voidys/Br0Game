@@ -1,154 +1,564 @@
 faq_overview: FAQ
+faq_intro: "Antworten zu Spielmechanik, Regeln und Menüs. Suche oder wähle eine Kategorie."
+faq_search_label: "FAQ durchsuchen"
+faq_search_placeholder: "Fragen und Antworten durchsuchen (Taste / drücken)"
+faq_clear: "Suche leeren"
+faq_results_one: "1 Treffer"
+faq_results_many: "{n} Treffer"
+faq_no_results: "Nichts gefunden für „{q}“"
+faq_no_results_hint: "Prüfe die Schreibweise, probiere weniger oder allgemeinere Wörter oder stöbere in den Kategorien."
+faq_show_all: "Alle Kategorien anzeigen"
+faq_entries_one: "1 Artikel"
+faq_entries_many: "{n} Artikel"
+faq_contents: "In diesem Artikel"
+faq_prev: "Zurück"
+faq_next: "Weiter"
+faq_back: "Zurück zur FAQ"
+faq_copy_link: "Link zu diesem Abschnitt kopieren"
+faq_link_copied: "Link kopiert"
+faq_to_top: "Nach oben"
 questions:
   '1':
+    category: "Erste Schritte"
     '1':
+      title: "Deine ersten Schritte"
       body: |-
-        <p>Dieser Abschnitt behandelt die wichtigsten Gebäude: was du zuerst bauen solltest und wofür jedes gut ist. Ein blühendes Imperium entsteht, wenn du sie in sinnvoller Reihenfolge ausbaust.</p>
-        <h3>Solarkraftwerk</h3>
-        <p>Baue es als Erstes. Deine Minen brauchen Energie, um Metall, Kristall und Deuterium zu produzieren. Sobald das Kraftwerk fertig ist, siehst du in der Rohstoffleiste und auf der Rohstoffseite, wie viel Energie du hast.</p>
-        <h3>Metallmine</h3>
-        <p>Metall ist einer der drei Rohstoffe. Fast alles, was du baust oder erforschst, kostet Metall, deshalb hat der Ausbau dieser Mine Priorität. Halte sie am Anfang einige Stufen vor deinen anderen Minen.</p>
-        <h3>Kristallmine und Deuteriumsynthetisierer</h3>
-        <p>Kristall wird für Gebäude, Schiffe und Forschung gebraucht. Davon produzierst du weniger als Metall, und das macht ihn wertvoller; später im Spiel ist er oft hart umkämpft. Deuterium treibt deine Flotten an, kann im Fusionskraftwerk zu Energie verbrannt werden und wird für mehrere wichtige Gebäude und Forschungen benötigt (darunter das Forschungslabor).</p>
-        <p>Mehr Informationen: <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>
-      title: Schritt 1
+        <p>Du startest mit einem Planeten und ein paar Rohstoffen (standardmäßig 500 Metall und 500 Kristall). Alles Weitere entsteht aus drei Rohstoffen, Metall, Kristall und Deuterium, sowie der Energie, die deine Minen am Laufen hält.</p>
+        <h2 id="order">Ein sinnvoller Start</h2>
+        <ol>
+        <li>Zuerst ein <b>Solarkraftwerk</b>. Ohne Energie laufen die Minen nicht richtig.</li>
+        <li>Dann die <b>Metallmine</b> und die <b>Kristallmine</b>. Metall braucht man für fast alles; halte es anfangs ein paar Stufen vor den anderen Minen.</li>
+        <li>Der <b>Deuteriumsynthetisierer</b>. Deuterium ist Flottentreibstoff und wird für wichtige Gebäude und Forschungen gebraucht.</li>
+        <li><b>Roboterfabrik</b> und <b>Forschungslabor</b>, sobald Bauzeiten lang werden oder die ersten Forschungen verfügbar sind.</li>
+        <li>Die <b>Raumschiffwerft</b> für ein paar Kleine Transporter und etwas Verteidigung.</li>
+        </ol>
+        <h2 id="queues">Bauschleifen</h2>
+        <p>Gebäude, Forschung und Werft haben jeweils eine eigene Schleife, du kannst also gleichzeitig bauen, forschen und Schiffe produzieren. Standardmäßig fasst die Schleife 5 Gebäude, 2 Forschungen und 10 Werftaufträge pro Planet; Universen können das ändern.</p>
+        <h2 id="progress">Wie Fortschritt gemessen wird</h2>
+        <p>Deine Punkte entstehen aus den investierten Rohstoffen, standardmäßig 1 Punkt je 1.000 Rohstoffeinheiten (siehe <a href="game/faq/11/3">Statistik und Punkte</a>). Das <a href="game/faq/1/3">Tutorial</a> führt dich durch die ersten Schritte und verteilt Belohnungen.</p>
     '2':
+      title: "Wo finde ich was?"
       body: |-
-        <p>Um dein Imperium wachsen zu lassen und mit anderen Spielern zu interagieren, brauchst du weitere Gebäude. Mit Forschung und einer Raumschiffwerft startest du den Aufbau deiner Flotte und der planetaren Verteidigung.</p>
-        <h3>Raumschiffwerft</h3>
-        <p>Hier werden alle Schiffe (und Verteidigungsanlagen) gebaut. Die Werft steht früh zur Verfügung, aber für viele Schiffsklassen brauchst du zusätzliche Forschung. Das Menü „Technologie“ listet die Voraussetzungen für jedes Schiff und jede Verteidigungsanlage auf. Je höher die Stufe der Raumschiffwerft, desto schneller wird gebaut.</p>
-        <h3>Forschungslabor</h3>
-        <p>Hier startest du Forschungen. Sie schalten Gebäude, Schiffe, Verteidigungsanlagen und weitere Forschungen frei, und manche Technologien geben außerdem Boni auf bereits Vorhandenes. Der Ausbau des Forschungslabors beschleunigt die Forschung.</p>
-        <h3>Roboterfabrik</h3>
-        <p>Die Roboterfabrik ist unverzichtbar. Höhere Stufen verkürzen die Bauzeit von Gebäuden und beschleunigen auch die Schiffsproduktion. Werden die Bauzeiten lang, baue die Roboterfabrik aus, um sie wieder zu senken.</p>
-      title: Schritt 2
+        <p>Die Seitenleiste gruppiert alle Seiten. Die wichtigsten:</p>
+        <table class="faq-table">
+        <tr><th>Seite</th><th>Wofür</th></tr>
+        <tr><td>Übersicht</td><td>Deine Planeten, laufende Bauaufträge sowie ein- und ausgehende Flotten.</td></tr>
+        <tr><td>Rohstoffe</td><td>Produktion pro Stunde, Energiebilanz und der Produktionsanteil jedes Gebäudes.</td></tr>
+        <tr><td>Gebäude, Forschung, Raumschiffwerft, Verteidigung</td><td>Bau, Forschung, Schiffe und Verteidigung. Jede Seite zeigt Kosten, Bauzeit und Voraussetzungen.</td></tr>
+        <tr><td>Technologien</td><td>Der Techtree mit den Voraussetzungen aller Gebäude, Forschungen, Schiffe und Verteidigungsanlagen.</td></tr>
+        <tr><td>Flotte, Galaxie</td><td>Flotten verschicken; Systeme durchsuchen, spionieren, angreifen, abbauen, Raketen starten.</td></tr>
+        <tr><td>Allianz, Buddyliste</td><td>Allianzverwaltung und Freundesliste.</td></tr>
+        <tr><td>Marktplatz, Schrotthändler</td><td>Rohstoffe oder Schiffe mit anderen Spielern handeln; Schiffe gegen Rohstoffe verkaufen.</td></tr>
+        <tr><td>Kampfsimulator</td><td>Kämpfe testen, bevor du eine Flotte losschickst.</td></tr>
+        <tr><td>Statistik, Rekorde, Battle Hall</td><td>Ranglisten, Rekorde des Universums und die größten Schlachten.</td></tr>
+        <tr><td>Imperium</td><td>Alle Planeten und Monde in einer Tabelle.</td></tr>
+        <tr><td>Nachrichten, Notizen, Support</td><td>Berichte und Post, eigene Notizen, Tickets ans Team.</td></tr>
+        <tr><td>Einstellungen, Regeln</td><td>Kontoeinstellungen, Urlaubsmodus und die Regeln dieses Universums.</td></tr>
+        </table>
+        <p>Manche Seiten gibt es nur, wenn das Universum das passende Modul aktiviert hat. Fehlt etwas, das hier beschrieben ist, frag im <a href="game/faq/11/4">Support</a> nach.</p>
     '3':
+      title: "Tutorial und Erfolge"
       body: |-
-        <p>Dieser Abschnitt behandelt die Verteidigung deines Planeten und die ersten Flottenbewegungen: wie du Flotten losschickst und wie du mit anderen Spielern umgehst.</p>
-        <h3>Galaxieansicht</h3>
-        <p>Hier findest du andere Spieler. Du siehst Details zu anderen Planeten und kannst Teile deiner Flotte direkt aus dieser Ansicht losschicken. Außerdem kannst du Spielern schreiben oder einen Planeten ausspionieren, wenn du Spionagesonden zur Verfügung hast.</p>
-        <h3>Flotten verschicken</h3>
-        <p>Flotten kannst du aus der Galaxieansicht oder über das Flottenmenü losschicken. Wähle zuerst, wie viele Schiffe jedes Typs fliegen sollen. Lege dann das Ziel (Koordinaten aus der Galaxieansicht) und die Geschwindigkeit fest. Zum Schluss wählst du den Auftrag, etwa Angreifen, Stationieren, Halten, Abbauen oder Transport.</p>
-        <h3>Verteidigung</h3>
-        <p>Sobald du eine Raumschiffwerft hast, kannst du auch Verteidigungsanlagen bauen. Sie schützen den Planeten und kämpfen zusammen mit jeder Flotte, die beim Einschlag eines Angriffs vor Ort ist. Anders als Schiffe werden etwa 70 % aller zerstörten Verteidigungsanlagen nach dem Kampf repariert.</p>
-      title: Schritt 3
-    category: Einsteiger-Tipps
-  '2':
-    '1':
-      body: |-
-        <h3>Raiden</h3>
-        <p>Raiden heißt, andere Spieler anzugreifen, um ihnen Rohstoffe abzunehmen. Die gängigen Arten:</p>
-        <ul>
-        <li>Farmraid</li>
-        <li>Fleetangriff</li>
-        <li>TF-Raid</li>
-        <li>Abfangen</li>
-        </ul>
-        <h3>Farmraid</h3>
-        <p>Das sind die häufigsten Angriffe in einem Universum. Du spionierst Planeten in der Nähe aus und schickst kleine Flotten los, die genug Laderaum und Feuerkraft haben, um eine schwache Verteidigung zu durchbrechen und trotzdem Gewinn zu machen: Die erbeuteten Rohstoffe sollten das verbrauchte Deuterium plus deine eigenen Verluste übersteigen.</p>
-        <h3>Fleetangriff</h3>
-        <p>Die Königsklasse des Raidens: die Jagd auf Flotten anderer Spieler. Neben Spionagesonden und etwas Glück zählen hier Sensorenphalanx und gutes Timing. Hast du eine lohnende Flotte entdeckt, musst du sie noch abfangen und das Trümmerfeld recyceln. Das ist oft schwierig, weil lohnende Flotten deine Recyclerkapazität übersteigen können – dann musst du neben der Kampfflotte auch die Recycler und gegebenenfalls Verbandsangriff-Partner koordinieren.</p>
-        <h3>TF-Raid</h3>
-        <p>Die bequemste, aber auch unbeliebteste Art, Gewinn zu machen: Du baust Trümmerfelder ab, die andere Spieler erzeugt haben. Trümmer gehören dem, der sie abbaut, deshalb sorgt der Klau von Trümmerfeldern oft für böses Blut.</p>
-        <h3>Abfangen</h3>
-        <p>Der Lebensinhalt eines Fleeters besteht darin, Flotte zu bauen und Flotte zu zerstören. Du findest nicht immer untätige Schiffe, deshalb heißt es bei guten Spielern oft: abfangen, während sie saven oder einen Angriff fliegen. Das ist nicht leicht, denn es gibt Wege, sich davor zu schützen.</p>
-        <ul>
-        <li><p>Ein Mond macht das Abfangen leichter, weil die Sensorenphalanx Flottenbewegungen auf Planeten in Reichweite scannen kann (nicht auf Monden). Findest du eine Flotte, die sich lohnt, rechne ihre Restflugzeit aus – vor allem die Rückflugzeit nach der Ankunft. Dafür reichen die Triebwerksstufen (Verbrennungstriebwerk, Impulstriebwerk, Hyperraumantrieb) aus einem Spionagebericht, per Hand oder mit einem Flugzeitrechner. Eine genaue Uhr hilft. Time deine Flotte und die Recycler so, dass sie etwa 3–5 Sekunden nach dem Ziel auf dessen Planet oder Mond ankommen. Auch die Recycler müssen gut getimt sein.</p></li>
-        <li><p>Um eine Flotte abzufangen, die vom Mond zu einem Trümmerfeld fliegt, brauchst du ungefähr die Startzeit. Erzeuge an den Stellen, an denen du den Abbau vermutest, ein sichtbares Trümmerfeld (zum Beispiel mit Spionagesonden). Berechne, wie lange ihre Flotte bis dorthin braucht, beobachte das System und aktualisiere, bis das Feld verschwindet. Merke dir diese Zeit, addiere den Rückflug und time deine Flotte und die Recycler ein paar Sekunden hinter diese Ankunft.</p>
-        <p><b>Achtung:</b> Das klappt nicht immer. Ein vorausgeschickter Recycler, der das Feld zuerst abräumt, ist ein häufiger Konter.</p></li>
-        <li>Eine weitere Form des Abfangens ist das Halten auf dem Planeten eines Freundes, um ihn zu schützen: Angreifer müssen abbrechen, weil die verteidigende Flotte zu stark wäre. Das Risiko, so abgefangen zu werden, kannst du mit einem Savescan senken.</li>
-        <li><p>Fliegt ein Spieler von einem Planeten zum anderen auf Stationieren und ruft die Flotte dann zurück, verschwindet sie aus der Sensorenphalanx. Beobachte sein Saveverhalten (wann er startet und wann er zurückruft). Wenn du einen Rückruf erwartest, phalanxe den Planeten im Sekundentakt. Sobald die Flotte verschwindet, notiere die Zeit, addiere den Rückflug und komme etwa 4–6 Sekunden später mit Flotte und Recyclern an.</p>
-        <p>Flüchtet er per Save vom Mond aufs Trümmerfeld und schickt Recycler voraus, ist Abfangen fast unmöglich – es sei denn, du zerstörst den Mond. Schicke Todessterne mit dem Auftrag Zerstören. Ist der Mond weg, fliegt die Flotte zum Planeten zurück; phalanxe diesen Planeten und hänge dich ein paar Sekunden hinter sie.</p>
-        <p>All diese Techniken funktionieren deutlich besser, wenn du die Gewohnheiten des Ziels kennst – zum Beispiel ein Save jeden Abend um 23 Uhr oder Online-Kommen mittags um 12. Studiere den Spieler, bevor du ihn abfängst.</p></li>
-        </ul>
-        <p>Mehr im Wiki: <a href="{wiki_url}/wiki/Saven" target="_blank">Saven</a>, <a href="{wiki_url}/wiki/Sensorenphalanx" target="_blank">Sensorenphalanx</a>.</p>
-      title: Raiden
-    '2':
-      body: |-
-        <h3>Angreifen mit dem Verband</h3>
-        <p>Um gemeinsam anzugreifen, schicke zuerst eine Flotte mit dem Auftrag „Angreifen“ zum Ziel. Nach dem Start öffnest du das Flottenmenü und wandelst diese Flotte über „Verband“ in einen Verbandsangriff um. Dort kannst du den Verband umbenennen und andere Spieler einladen; der Spieler, der den Angriff gestartet hat, ist automatisch eingeladen. Jeder eingeladene Spieler schickt dann seine eigenen Schiffe mit dem Auftrag „Verbandsangriff“ zu denselben Koordinaten.</p>
-        <p>Der Verband fliegt immer so lange, wie die langsamste beteiligte Flotte braucht. Schnellere Flotten, die später dazukommen, verkürzen die Restzeit nicht. Langsamere Flotten erhöhen die Restzeit auf ihre eigene Flugzeit. In der Regel können höchstens 5 Spieler und 16 Flotten an einem Verbandsangriff teilnehmen (die Einstellungen des Universums können abweichen). Eine beitretende Flotte darf die Restflugzeit um höchstens 30 % verlängern. Bleiben 100 Minuten, darf eine beitretende Flotte höchstens 130 Minuten brauchen.</p>
-        <p><b>Achtung:</b> Wenn der Gründer des Verbands seine Flotte zurückruft, werden auch alle anderen Flotten im Verband zurückgerufen.</p>
-        <h3>Verteidigen mit dem Verband</h3>
-        <p>Wirst du angegriffen, können Allianzmitglieder und Buddys helfen. Sie schicken eine Flotte zu den angegriffenen Koordinaten, wählen die Haltedauer und nutzen den Auftrag „Halten“. Neben dem Deuterium für den Flug fallen beim Start zusätzliche Haltekosten an, abhängig von Flottengröße und Dauer. Solange sie bei dir halten, kämpfen sie in jedem Kampf auf diesem Planeten oder Mond mit und erscheinen in Spionageberichten, als wären es deine eigenen Schiffe. Time das Halten so, dass die Flotte kurz vor dem Angreifer ankommt, damit ein Savescan sie möglichst nicht sieht. Haltende Spieler können ihre Flotte jederzeit im Flottenmenü zurückrufen; sonst wartet die Flotte die Haltezeit ab und fliegt dann nach Hause.</p>
-        <h3>Deuterium pro Stunde Halten</h3>
-        <p>Kleiner Transporter: 5<br>
-        Großer Transporter: 5<br>
-        Leichter Jäger: 2<br>
-        Schwerer Jäger: 7<br>
-        Kreuzer: 30<br>
-        Schlachtschiff: 50<br>
-        Kolonieschiff: 100<br>
-        Recycler: 30<br>
-        Spionagesonde: 1/10<br>
-        Bomber: 100<br>
-        Zerstörer: 100<br>
-        Todesstern: 1/10</p>
-      title: Allianzkampfsystem
-    '3':
-      body: |-
-        <p>Ein Mond kann entstehen, wenn ein Trümmerfeld mit mindestens 100.000 Einheiten entsteht (1 % Mondchance). Die Chance ist bei 20 % gedeckelt, egal wie groß das Feld ist.</p>
-        <h3>Allgemeines</h3>
-        <p>Monde lassen sich wie Planeten umbenennen, aber „(Mond)“ bleibt im Namen. Du kannst höchstens einen Mond pro Planet haben. Mit einem Mond kannst du außerhalb der Sicht einer Sensorenphalanx saven, deshalb lohnt es sich, relativ früh einen zu erzeugen. Auf einem Mond kannst du Roboterfabrik, Raumschiffwerft, Metallspeicher, Kristallspeicher, Deuteriumtank, Allianzdepot, Mondbasis, Sensorenphalanx und Sprungtor bauen.</p>
-        <h3>Mondschuss</h3>
-        <p>Ein Mondschuss ist die gezielte Zerstörung von Schiffen, um ein Trümmerfeld zu erzeugen. Üblich sind Leichte Jäger: Bei 30 % der Flotte und 0 % für Verteidigung im Trümmerfeld ergeben 1.667 Leichte Jäger eine Mondchance von 20 %. Sie sind billig zu verlieren und landen sehr nah am Maximum. Zerstört ein stärkerer Spieler beim schwächeren Leichte Jäger, darf jeder das Trümmerfeld abbauen. Greift ein schwächerer Spieler einen stärkeren mit Schiffen an, die sterben sollen, darf nur der schwächere abbauen – sonst wäre es Pushen. Monde und Mondversuche fallen unter die Pushing-Regeln.</p>
-        <p>In einem Universum, in dem auch Verteidigung Trümmer erzeugt, ist es oft besser, Verteidigung zu bauen und sie in mehreren Wellen zerlegen zu lassen, um mehrere Mondversuche zu bekommen. Üblich sind 3.334 Raketenwerfer oder 3.334 Leichte Lasergeschütze.</p>
-        <p>Wenn ein Mond entsteht, steht im Kampfbericht, dass sich die enormen Mengen an freiem Metall und Kristall anziehen und einen Trabanten um den Planeten bilden.</p>
-        <p>Mondchance von 1 bis 19 %: zufällige Größe. Mondchance von 20 %: mehr als 8.000 km Durchmesser. Ein Mond wird nie größer als 8.944 km.</p>
-        <h3>Gebäude</h3>
-        <p>Speicher lohnen sich auf einem Mond meist nicht, weil dort nichts produziert wird. Eine Raumschiffwerft ist ebenfalls selten nützlich: Die Bauzeiten sind lang, und Schiffe kannst du auf dem Planeten bauen. Ob sich ein Allianzdepot lohnt, ist umstritten; es belegt außerdem wertvolle Felder.</p>
-        <p>Die drei Gebäude, die es nur auf dem Mond gibt:</p>
-        <ul>
-        <li><p><b>Mondbasis</b><br>Schafft zusätzliche Baufelder: 3 pro Stufe, von denen eines für den nächsten Ausbau der Mondbasis draufgeht.</p></li>
-        <li><p><b>Sensorenphalanx</b><br>Zeigt Flottenbewegungen auf feindlichen Planeten (nicht auf Monden). Die Reichweite steigt mit jeder Stufe.</p></li>
-        <li><p><b>Sprungtor</b><br>Bewegt Schiffe sofort von einem Mond zum anderen. Rohstoffe können nicht mitreisen. Nach einem Sprung braucht das Tor Zeit zum Abkühlen (üblicherweise eine Stunde), sonst überhitzt es.</p></li>
-        </ul>
-        <p>Eine gängige Bau-Reihenfolge für Monde:<br>
-        <b>Legende:</b><br>
-        MB – Mondbasis<br>
-        SP – Sensorenphalanx<br>
-        ST – Sprungtor<br>
-        RB – Roboterfabrik</p>
-        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
-        Danach kannst du die Sensorenphalanx weiter ausbauen, wenn du die Rohstoffe hast. Du kannst auch einige Stufen der Roboterfabrik abreißen und diese Felder für die Phalanx nutzen.</p>
-        <h3>Zerstörung</h3>
-        <p>Ein Mond lässt sich nur mit Todessternen zerstören. Wähle im Auftragsmenü „Zerstören“ statt „Angreifen“. Jede Flotte auf dem Mond muss zuerst vernichtet werden; überlebende Todessterne können bei der Zerstörung des Mondes selbst noch verloren gehen. Eine Mondzerstörung erzeugt kein Trümmerfeld.</p>
-        <h3>Mondangriffe mit Todessternen</h3>
-        <p>Chance auf Mondzerstörung: (100 − Wurzel(Mondgröße)) × Wurzel(Anzahl Todessterne). Chance, dass die angreifenden Todessterne zerstört werden: Wurzel(Mondgröße) / 2. Je größer der Mond, desto riskanter die Zerstörung.</p>
-        <h3>Mondchance und Mondgröße</h3>
-        <p>100.000 Trümmereinheiten ergeben 1 % Mondchance. Maximale Chance: 20 %. Seit einer späteren Änderung hat jeder Mond die maximale Anzahl bebaubarer Felder (79). Früher war das ABRUNDEN((Durchmesser / 1000)²). Größtmöglicher Mond: 8.944 km Durchmesser, 79 Felder.</p>
-        <p>Mehr im Wiki: <a href="{wiki_url}/wiki/Mond" target="_blank">Monde</a>, <a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki</a>.</p>
-      title: Monde
+        <p>Ist das Tutorial im Universum aktiv, führt dich ein Tutorial-Kasten Schritt für Schritt: erste Minen und Verteidigung bauen, einen ersten Transport schicken, einen Spieler ausspionieren, ein Trümmerfeld abbauen, kolonisieren, eine Expedition starten, einen Planeten umbenennen, eine Buddy-Anfrage oder Allianzbewerbung senden. Erfüllte Ziele können Belohnungen bringen; du kannst einzelne Ziele oder das ganze Tutorial überspringen. Die <b>Anfängeroberfläche</b> in den Einstellungen hält das Menü kurz, bis du das Tutorial durchgearbeitet hast.</p>
+        <h2 id="achievements">Erfolge</h2>
+        <p>Die Seite Erfolge listet langfristige Ziele (erster Mond, erste Expeditionsfunde, große Schlachten und mehr). Sie werden beim Spielen von selbst freigeschaltet.</p>
     '4':
+      title: "Andere Spieler, Bots und Piratenbasen"
       body: |-
-        <h3>Wie gründe ich eine Allianz?</h3>
-        <p>Öffne im Menü links „Allianz“ und dann „Eigene Allianz gründen“. Gib ein Allianz-Tag (die kurze Abkürzung) und einen Allianznamen ein. Beispiel: Eine Allianz mit dem Namen „Die Top Ally“ könnte das Tag „DTA“ verwenden.</p>
-        <p>Erlaubt sind nur Buchstaben, Zahlen und Leerzeichen. Nach der Eingabe von Tag und Name klickst du auf „Erstellen“. Ist der Name oder das Tag schon vergeben, bekommst du eine Fehlermeldung und musst etwas anderes wählen. Bei Erfolg siehst du eine Bestätigung; „Weiter“ öffnet dein noch leeres Allianzmenü, das du jederzeit über „Allianz“ im Menü links erreichst. Ganz oben siehst du dein Tag und deinen Namen.</p>
-        <p>Darunter findest du:<br>
-        Mitglieder: alle Mitglieder mit Punkten, Koordinaten des Heimatplaneten, Beitrittsdatum und Onlinestatus. Ein Klick auf die Spaltenköpfe sortiert die Liste.<br>
-        Dein Rang: dein Rangname plus ein Link zur Allianzverwaltung.<br>
-        Rundnachrichten: eine Nachricht an die ganze Allianz oder an ausgewählte Ränge.</p>
-        <h3>Allianzverwaltung</h3>
-        <p>Unter „Ränge“ legst du die Rechte der einzelnen Ränge fest, zum Beispiel das Recht, die Allianz aufzulösen oder Rundnachrichten zu verschicken. Unter „Mitglieder“ kannst du Spieler rauswerfen, Ränge vergeben und sehen, wie viele Tage sie offline waren. Außerdem kannst du Allianz-Tag und Allianznamen ändern.</p>
-        <p>Die „Textverwaltung“ bearbeitet die Allianztexte. Der externe Text ist für alle Spieler sichtbar, der interne nur für Mitglieder. Der Bewerbungstext ist eine Vorlage für Spieler, die sich bewerben.</p>
-        <p>Unter „Optionen“ kannst du ein Banner-Bild und ein Allianzforum verlinken, festlegen, ob Bewerbungen möglich sind, und den Rangnamen des Gründers bestimmen. Lässt du das Feld leer, lautet der Rang „Gründer“.</p>
-        <p>Du kannst die Allianz auflösen oder an ein anderes Mitglied übergeben, das dann Gründer wird.</p>
-      title: Allianzen
+        <p>Jedes Universum teilst du mit anderen Spielern. Je nach Einstellung spielen auch serverseitige <b>Bots</b> mit. Bots folgen denselben Regeln wie Spieler; sind Bot-Raids aktiviert, erkunden, spionieren und greifen sie unter denselben Grenzen an (Bash-Limit, Schutz, Urlaubsmodus).</p>
+        <h2 id="pirates">Piratenbasen</h2>
+        <p>Hat das Universum Piratenbasen aktiviert, erscheint pro aktivem Spieler (in den letzten 7 Tagen online und mit Mindestpunktzahl) eine Basis in einem System eines seiner Planeten; sie wird wöchentlich ersetzt. Eine Basis enthält einen Teil der Schiffe dieses Spielers und einige Stunden Produktion; ein Raid erbeutet alle Rohstoffe, nicht nur die Hälfte. Anteil und Mindestpunktzahl legen die Universumseinstellungen fest.</p>
+  '2':
+    category: "Wirtschaft und Gebäude"
+    '1':
+      title: "Rohstoffe und Produktion"
+      body: |-
+        <p>Metall, Kristall und Deuterium erzeugen die Minen auf jedem Planeten, dazu kommt ein kleines <b>Grundeinkommen</b> pro Stunde (standardmäßig 20 Metall und 10 Kristall). Jede Mine braucht Energie.</p>
+        <h2 id="percent">Produktionsanteil</h2>
+        <p>Auf der Rohstoffseite kannst du jeden Produzenten auf 0-100&nbsp;% stellen. Niedrigere Werte brauchen weniger Energie und Deuterium (das Fusionskraftwerk verbrennt Deuterium) und produzieren weniger. So gleichst du Energie aus.</p>
+        <h2 id="factors">Was die Produktion beeinflusst</h2>
+        <ul>
+        <li>Die Minenstufe (die Produktion wächst stärker als linear, die Kosten ebenso).</li>
+        <li>Die Planetentemperatur: Der Deuteriumsynthetisierer liefert auf kalten Planeten mehr, ein Solarsatellit auf warmen.</li>
+        <li>Die Produktionsforschungen (Produktionsmaximierung Metall, Kristall, Deuterium): je +2&nbsp;% pro Stufe.</li>
+        <li>Der Rohstoff-Multiplikator des Universums.</li>
+        </ul>
+        <h2 id="full">Volles Lager</h2>
+        <p>Ist das Lager eines Rohstoffs voll, stoppt dessen Produktion auf diesem Planeten (standardmäßig genau an der Kapazitätsgrenze). Beute aus Raids oder Expeditionen kann dich darüber hinaus bringen.</p>
+    '2':
+      title: "Energie"
+      body: |-
+        <p>Minen verbrauchen Energie; die Rohstoffseite zeigt erzeugte und benötigte Energie. Übersteigt der Verbrauch die Erzeugung, wird <b>jeder Produzent gedrosselt</b>, auf erzeugt / benötigt seiner normalen Leistung. Ein Energiedefizit kostet dich also Metall, Kristall und Deuterium gleichermaßen.</p>
+        <h2 id="sources">Quellen</h2>
+        <ul>
+        <li><b>Solarkraftwerk</b>: günstig, ohne laufende Kosten. Baue es zuerst.</li>
+        <li><b>Fusionskraftwerk</b>: verbrennt Deuterium. Energie = 30 x Stufe x (1,05 + 0,01 x Energietechnik-Stufe)^Stufe, die Energietechnik macht es also besser.</li>
+        <li><b>Solarsatelliten</b>: werden in der Raumschiffwerft gebaut, brauchen keine Felder; die Energie hängt von der Planetentemperatur ab. Sie können abgeschossen werden und zählen im Kampf als Schiffe.</li>
+        </ul>
+    '3':
+      title: "Lager und Schutz vor Raubzügen"
+      body: |-
+        <p>Jeder Rohstoff hat eine Lagerkapazität (10.000 Einheiten ohne Lagergebäude), die mit der Stufe von Metallspeicher, Kristallspeicher und Deuteriumtank schnell wächst.</p>
+        <h2 id="stash">Schutz vor Plünderung</h2>
+        <p>Nutzt das Universum den Rohstoffschutz, schützt jede Lagerstufe 1&nbsp;% der Tagesproduktion dieses Rohstoffs auf dem Planeten vor Plünderung, bis maximal 10&nbsp;% (Lagerstufe 10). Außerdem kann ein Raid nie mehr als die Hälfte eines auf dem Planeten vorhandenen Rohstoffs mitnehmen; siehe <a href="game/faq/5/2">Beute</a>.</p>
+        <p>Der beste Schutz bleibt: Rohstoffe ausgeben, bevor du dich ausloggst, oder sie in eine Bauschleife stecken.</p>
+    '4':
+      title: "Gebäude bauen"
+      body: |-
+        <p>Jede Stufe kostet einen festen Faktor mehr als die vorherige (zum Beispiel 1,5 x bei der Metallmine, 1,6 x bei der Kristallmine, 2 x bei den meisten anderen Gebäuden). Die echten Preise zeigt die Gebäudeseite.</p>
+        <h2 id="time">Bauzeit</h2>
+        <p>Bei normaler Universumsgeschwindigkeit: (Metall- + Kristallkosten) / (2500 x (1 + Roboterfabrik-Stufe)) Stunden, pro Nanitenfabrik-Stufe halbiert. Die Roboterfabrik hilft auch auf Monden. Schiffe brauchen (Metall + Kristall) / (2500 x (1 + Werftstufe)) Stunden, ebenfalls pro Nanitenstufe halbiert; Forschung steht unter <a href="game/faq/3/1">Forschung</a>. Die Geschwindigkeitseinstellungen des Universums skalieren all das.</p>
+        <h2 id="cancel">Abbrechen und abreißen</h2>
+        <p>Beim Abbrechen eines Gebäudes oder einer Forschung bekommst du die vollen Kosten zurück. Ein abgebrochener Werftauftrag erstattet 60&nbsp;%. Ein Gebäude abzureißen dauert deutlich kürzer als es zu bauen (etwa 36&nbsp;%).</p>
+        <h2 id="catchup">Aufholhilfe</h2>
+        <p>Universen können eine Aufholhilfe aktivieren: Spieler weit hinter dem Führenden bauen und forschen günstiger und schneller, bis zum eingestellten Maximum (standardmäßig 50&nbsp;%).</p>
     '5':
+      title: "Planetenfelder und Terraformer"
       body: |-
-        <h3>Wo finde ich weitere Informationen?</h3>
-        <!--wiki_url--><p>Das Wiki ist die erste Anlaufstelle:</p>
-        <p><a href="{wiki_url}/wiki/Hauptseite" target="_blank">Wiki-Startseite</a><br>
-        <a href="{wiki_url}/wiki/Buildorder" target="_blank">Buildorder</a><br>
-        <a href="{wiki_url}/wiki/%C3%96konomik" target="_blank">Spielstile (Miner, Raider, Comber)</a><br>
-        <a href="{wiki_url}/wiki/Saven" target="_blank">Saven</a><br>
-        <a href="{wiki_url}/wiki/Slippys_progame_flottensicherung_leitfaden" target="_blank">Saven-Leitfaden</a><br>
-        <a href="{wiki_url}/wiki/Expoanleitung" target="_blank">Expeditionen</a></p><!--/wiki_url-->
-        <p>Deutsch (owiki):<br>
-        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Aufbautaktiken</a><br>
-        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Spielstil: Miner</a><br>
-        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Spielstil: Fleeter</a><br>
-        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Spielstil: Comber</a><br>
-        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Saven</a></p>
-      title: Links
-    category: Erweiterte Informationen
+        <p>Jeder Planet und Mond hat nur eine begrenzte Zahl von Feldern; jede Gebäudestufe auf einem Planeten belegt ein Feld (Forschung und Schiffe nicht).</p>
+        <ul>
+        <li><b>Terraformer</b> (nur Planeten): +5 Felder pro Stufe und auf jeder geraden Stufe +1 mehr; jede Stufe belegt selbst ein Feld. Er braucht Energie (die nicht verbraucht wird) und kann nicht abgerissen werden.</li>
+        <li><b>Mondbasis</b> (nur Monde): +3 Felder pro Stufe, belegt ebenfalls selbst ein Feld. Siehe <a href="game/faq/7/2">Mondgebäude</a>.</li>
+        </ul>
+    '6':
+      title: "Kolonien"
+      body: |-
+        <p>Freie Planeten besiedelst du mit einem <b>Kolonieschiff</b> (Mission Kolonisieren). Das Schiff wird verbraucht und wird zur neuen Kolonie. Du brauchst die Forschung Astrophysik.</p>
+        <h2 id="limit">Wie viele Planeten</h2>
+        <p>Standardmäßig ist die Gesamtzahl der Planeten (Heimatplanet eingerechnet) 1 + Astrophysik-Stufe / 2, aufgerundet, höchstens 12 Planeten:</p>
+        <p>Stufe 1-2 = 2 Planeten, 3-4 = 3, 5-6 = 4, 7-8 = 5, 9-10 = 6, 11-12 = 7, 13-14 = 8, 15-16 = 9, 17-18 = 10, 19-20 = 11, ab 21 = 12.</p>
+        <h2 id="positions">Welche Positionen</h2>
+        <p>Die äußeren und inneren Positionen erfordern mehr Astrophysik: Positionen 4-12 ab Stufe 1, Positionen 3 und 13 ab Stufe 4, Positionen 2 und 14 ab Stufe 6, Positionen 1 und 15 ab Stufe 8 (bei Systemen mit 15 Positionen).</p>
+  '3':
+    category: "Forschung"
+    '1':
+      title: "Forschung und Forschungslabor"
+      body: |-
+        <p>Geforscht wird im <b>Forschungslabor</b>, und das Ergebnis gilt für alle deine Planeten. Laborstufe und eine Liste von Voraussetzungen bestimmen, was du erforschen kannst; die Seite Technologien zeigt sie.</p>
+        <ul>
+        <li>Es läuft immer nur eine Forschung (die Schleife fasst standardmäßig 2). Solange geforscht wird, kann kein Forschungslabor ausgebaut werden.</li>
+        <li>Forschungszeit = (Metall- + Kristallkosten) / (1000 x (1 + Laborstufe)) Stunden bei normaler Geschwindigkeit. Ein <b>TechnoDome</b> verkürzt sie, standardmäßig um 8&nbsp;% pro Stufe.</li>
+        <li>Das <b>Intergalaktische Forschungsnetzwerk</b> lässt die Labore deiner anderen Planeten mithelfen: Jede Stufe nimmt ein weiteres Labor dazu (die höchsten, die die Laborvoraussetzung der Forschung selbst erfüllen), und ihre Stufen werden für die Berechnung addiert.</li>
+        <li>Beim Abbrechen einer laufenden Forschung bekommst du die vollen Kosten zurück.</li>
+        </ul>
+    '2':
+      title: "Was die Technologien bewirken"
+      body: |-
+        <h2 id="fleet">Flotte</h2>
+        <ul>
+        <li><b>Computertechnik</b>: +1 Flottenslot pro Stufe (du startest mit 1 Slot).</li>
+        <li><b>Verbrennungs-, Impuls- und Hyperraumantrieb</b>: Schiffe mit diesem Antrieb fliegen pro Stufe +10 / +20 / +30&nbsp;% der Grundgeschwindigkeit schneller. Manche Schiffe wechseln ab einer bestimmten Stufe den Antrieb (zum Beispiel der Kleine Transporter beim Impulstriebwerk). Die Impulsstufe bestimmt auch die Raketenreichweite.</li>
+        <li><b>Treibstoffeffizienz</b>: -2&nbsp;% Treibstoffverbrauch pro Stufe.</li>
+        <li><b>Astrophysik</b>: Kolonien, Expeditionen und besiedelbare Positionen, siehe <a href="game/faq/2/6">Kolonien</a> und <a href="game/faq/8/1">Expeditionen</a>.</li>
+        <li><b>Spionagetechnik</b>: bessere Spionageberichte; bestimmt auch, was du über anfliegende Flotten siehst.</li>
+        </ul>
+        <h2 id="combat">Kampf</h2>
+        <ul>
+        <li><b>Waffen-, Schild- und Raumschiffpanzerung</b>: +10&nbsp;% Angriff, Schild und Panzerung pro Stufe für alle deine Einheiten.</li>
+        <li>Laser-, Ionen- und Plasmatechnik schalten Waffen frei; die Gravitonforschung wird zur Monddestruktion gebraucht.</li>
+        </ul>
+        <h2 id="economy">Wirtschaft</h2>
+        <ul>
+        <li><b>Energietechnik</b>: erhöht die Leistung des Fusionskraftwerks und öffnet viele Technologien.</li>
+        <li><b>Produktionsmaximierung Metall / Kristall / Deuterium</b>: +2&nbsp;% Produktion pro Stufe.</li>
+        </ul>
+  '4':
+    category: "Flotte und Missionen"
+    '1':
+      title: "Eine Flotte losschicken"
+      body: |-
+        <ol>
+        <li><b>Schiffe wählen</b> auf der Flottenseite (oder aus der Galaxieansicht alles losschicken).</li>
+        <li><b>Ziel und Geschwindigkeit</b>: Gib die Koordinaten (Galaxie:System:Position) und den Typ ein: Planet, Trümmerfeld oder Mond. Die Geschwindigkeit liegt bei 10-100&nbsp;% in Zehnerschritten; langsamer ist billiger und dauert länger.</li>
+        <li><b>Mission und Ladung</b>: Wähle eine für das Ziel verfügbare Mission, lade bei Bedarf Rohstoffe und bestätige. Bei Halten, Expedition und Marktplatz wählst du außerdem die Verweildauer.</li>
+        </ol>
+        <p>Die Seite zeigt vor dem Bestätigen Flugzeit, Ankunftszeit und Treibstoff. Auf dem Planeten muss genug Deuterium für den Flug liegen.</p>
+        <p>Du kannst höchstens so viele Flotten gleichzeitig fliegen lassen, wie du <b>Flottenslots</b> hast: 1 + Computertechnik-Stufe. Expeditionen haben ein eigenes Limit, siehe <a href="game/faq/8/1">Expeditionen</a>.</p>
+    '2':
+      title: "Geschwindigkeit, Flugzeit und Treibstoff"
+      body: |-
+        <ul>
+        <li>Eine Flotte fliegt so schnell wie ihr <b>langsamstes Schiff</b>.</li>
+        <li>Schiffsgeschwindigkeit = Grundgeschwindigkeit x (1 + 0,1 / 0,2 / 0,3 x Antriebsstufe) für den besten Antrieb, den das Schiff nutzen kann; siehe <a href="game/faq/3/2">Technologien</a>.</li>
+        <li>Flugzeit = (3500 / (Geschwindigkeit&nbsp;% x 0,1) x Wurzel aus (Entfernung x 10 / Flottengeschwindigkeit) + 10) / Universums-Flottengeschwindigkeit. Das Minimum sind 5 Sekunden.</li>
+        <li>Die Entfernung wächst mit der Zahl der durchquerten Galaxien und Systeme; im selben System ist sie viel kürzer als in ein anderes System.</li>
+        <li>Der Treibstoffverbrauch steigt stärker, als die Flugzeit sinkt: langsamer fliegen spart Deuterium. Jede Stufe Treibstoffeffizienz senkt den Verbrauch um 2&nbsp;%.</li>
+        </ul>
+        <p>Manche Universen sind kreisförmig (Systeme oder Galaxien schließen sich). Die Flottenseite rechnet das schon ein.</p>
+    '3':
+      title: "Alle Missionen im Überblick"
+      body: |-
+        <table class="faq-table">
+        <tr><th>Mission</th><th>Ziel</th><th>Was passiert</th></tr>
+        <tr><td>Angreifen</td><td>Planet oder Mond eines anderen Spielers</td><td>Kampf; die Überlebenden kehren mit Beute zurück. Siehe <a href="game/faq/5/1">Kampf</a>.</td></tr>
+        <tr><td>Verbandsangriff</td><td>dasselbe, als Gruppe</td><td>Mehrere Spieler greifen gemeinsam an, siehe <a href="game/faq/9/3">Verband</a>.</td></tr>
+        <tr><td>Transport</td><td>jeder bewohnte Planet</td><td>Liefert Rohstoffe und kehrt zurück.</td></tr>
+        <tr><td>Stationieren</td><td>eigene Planeten oder Monde</td><td>Schiffe und Ladung bleiben dort; kein Rückflug.</td></tr>
+        <tr><td>Halten</td><td>Planet eines Allianzmitglieds oder Buddys</td><td>Die Flotte wartet und verteidigt den Planeten, siehe <a href="game/faq/9/4">Halten</a>.</td></tr>
+        <tr><td>Transfer</td><td>Planet eines Allianzmitglieds oder Buddys</td><td>Verschenkt Schiffe und Ladung; sie kommen nicht zurück.</td></tr>
+        <tr><td>Spionieren</td><td>Planet oder Mond eines anderen Spielers</td><td>Nur eine Flotte aus Sonden kann spionieren; siehe <a href="game/faq/6/1">Spionage</a>.</td></tr>
+        <tr><td>Kolonisieren</td><td>freie Planetenposition</td><td>Braucht ein Kolonieschiff, siehe <a href="game/faq/2/6">Kolonien</a>.</td></tr>
+        <tr><td>Abbauen</td><td>Trümmerfeld</td><td>Braucht Recycler, siehe <a href="game/faq/4/4">Trümmerfelder</a>.</td></tr>
+        <tr><td>Zerstören</td><td>ein Mond</td><td>Braucht Todessterne, siehe <a href="game/faq/7/5">Monddestruktion</a>.</td></tr>
+        <tr><td>Expedition</td><td>Expeditionsposition (16) eines Systems</td><td>Ereigniskarte, siehe <a href="game/faq/8/1">Expeditionen</a>.</td></tr>
+        <tr><td>Marktplatz</td><td>Handelsposition (17) eines Systems</td><td>Liefert die Waren eines <a href="game/faq/4/6">Marktplatz</a>-Handels.</td></tr>
+        <tr><td>Raketenangriff</td><td>Planet in Raketenreichweite</td><td>Raketen treffen die Verteidigung, siehe <a href="game/faq/5/5">Raketen</a>.</td></tr>
+        </table>
+        <p>Ob eine Mission angeboten wird, hängt vom Ziel und von den aktivierten Modulen des Universums ab. Feindliche Missionen gegen Spieler im Urlaubsmodus kehren um.</p>
+    '4':
+      title: "Trümmerfelder und Recycling"
+      body: |-
+        <p>Im Kampf zerstörte Schiffe hinterlassen ein <b>Trümmerfeld</b> an der Position des Ziels. Standardmäßig enthält es 30&nbsp;% der Metall- und Kristallkosten aller auf beiden Seiten zerstörten Schiffe und 0&nbsp;% für Verteidigung; Deuterium wird nie zu Trümmern. Beide Prozentwerte kann das Universum ändern.</p>
+        <ul>
+        <li>Schicke <b>Recycler</b> (Mission Abbauen, Zieltyp Trümmerfeld), um es einzusammeln. Eine Flotte lädt, soviel sie tragen kann; Metall und Kristall werden anteilig genommen, der Rest bleibt im Feld.</li>
+        <li>Jeder kann ein Trümmerfeld abbauen. Es gehört dem, der zuerst dort ist.</li>
+        <li>Auch abgeschossene Sonden hinterlassen beim Spionieren Trümmer.</li>
+        <li>Abbauseite und Bericht sagen dir, wie viele Recycler du für den Rest noch bräuchtest.</li>
+        </ul>
+    '5':
+      title: "Flotten zurückrufen"
+      body: |-
+        <p>Eine ausgehende Flotte rufst du auf der Flottenseite zurück. Sie dreht um und braucht für den Rückweg so lange, wie sie schon unterwegs war.</p>
+        <ul>
+        <li>Du kannst eine Flotte <b>nicht zurückrufen</b>, sobald sie ihr Ziel erreicht hat (die Ankunft wird zuerst abgewickelt, du kannst also keinem Kampf ausweichen), Expeditionsflotten nach der Ankunft sowie Interplanetarraketen.</li>
+        <li>Eine haltende Flotte kannst du vorzeitig zurückrufen; sie braucht dann so lange wie ihr Hinflug.</li>
+        <li>Ruft der Gründer eines Verbandsangriffs zurück, wird die ganze Gruppe zurückgerufen. Hinzugekommene Flotten rufen nur sich selbst zurück.</li>
+        </ul>
+    '6':
+      title: "Schrotthändler, Marktplatz und Transfer"
+      body: |-
+        <h2 id="dealer">Schrotthändler</h2>
+        <p>Der Schrotthändler kauft dir Schiffe für ihre Rohstoffkosten abzüglich einer Gebühr ab (standardmäßig 30&nbsp;%). Nur eine festgelegte Liste von Schiffen kann verkauft werden (standardmäßig vom Kleinen Transporter bis zum Schlachtkreuzer, ohne die größten Schiffe). Im Urlaubsmodus ist er nicht verfügbar.</p>
+        <h2 id="market">Marktplatz</h2>
+        <p>Spieler bieten Rohstoffe oder Schiffe an und setzen ihren Preis in anderen Rohstoffen. Die Lieferung übernehmen Flotten, die zur Handelsposition des Angebotssystems fliegen (Position 17 bei Systemen mit 15 Planeten, Mission Marktplatz). Die Referenzpreise ergeben sich aus abgeschlossenen Handeln der letzten 7 Tage (zwischen 0,5 und 5 gehalten).</p>
+        <h2 id="transfer">Transfer</h2>
+        <p>Die Mission Transfer gibt Schiffe und Rohstoffe an ein Allianzmitglied oder einen Buddy. Nichts kommt zurück.</p>
+        <p>Große einseitige Geschenke werden geprüft, siehe <a href="game/faq/10/5">Pushing und Handelslimits</a>.</p>
+  '5':
+    category: "Kampf"
+    '1':
+      title: "So läuft ein Kampf ab"
+      body: |-
+        <p>Erreicht eine angreifende Flotte ihr Ziel, kämpfen alle Angreifer (auch Verbandsteilnehmer) gegen die Verteidigung und Flotte des Planeten sowie alle dort haltenden Flotten. Es gibt höchstens <b>6 Runden</b>.</p>
+        <ul>
+        <li>In jeder Runde feuert jedes Schiff einmal auf ein zufälliges gegnerisches Schiff (Rapidfire kann weitere Schüsse bringen).</li>
+        <li>Ein Schild fängt einen Schuss zuerst ab; ein Schuss, der schwächer als 1&nbsp;% des Zielschilds ist, prallt ab. Schilde werden nach jeder Runde wiederhergestellt, Schäden an der Panzerung nicht.</li>
+        <li>Panzerung eines Schiffs = (Metall- + Kristallkosten) / 10. Schiffe unter 70&nbsp;% ihrer Panzerung können beim nächsten Treffer explodieren; je stärker beschädigt, desto wahrscheinlicher.</li>
+        <li><b>Rapidfire</b>: Steht der Zieltyp in der Rapidfire-Liste des Schützen mit dem Wert N, feuert er mit Wahrscheinlichkeit (N-1)/N noch einmal. Die Technologien-Seite zeigt es.</li>
+        <li>Waffen-, Schild- und Raumschiffpanzerungstechnik geben je 10&nbsp;% pro Stufe auf Angriff, Schild und Panzerung.</li>
+        <li>Alle Schüsse einer Runde fallen gleichzeitig; Schiffe mit 0 Panzerung werden nach der Runde entfernt.</li>
+        </ul>
+        <h2 id="result">Ergebnis</h2>
+        <p>Werden die Verteidiger ausgelöscht, gewinnt der Angreifer und plündert. Haben nach 6 Runden beide Seiten noch Schiffe, ist der Kampf unentschieden und niemand plündert. Werden die Angreifer ausgelöscht, gewinnt der Verteidiger. Der Kampfbericht mit allen Runden geht an alle Beteiligten; jeder Bericht hat einen öffentlichen Link.</p>
+    '2':
+      title: "Beute"
+      body: |-
+        <p>Nur ein siegreicher Angreifer plündert. Die freie Ladekapazität der überlebenden Angreiferschiffe (Spionagesonden zählen nicht) wird in dieser Reihenfolge gefüllt:</p>
+        <ol>
+        <li>bis zu 1/3 der Kapazität mit Metall,</li>
+        <li>die Hälfte der restlichen Kapazität mit Kristall,</li>
+        <li>der Rest mit Deuterium,</li>
+        <li>noch freier Platz wird wieder mit Metall (zur Hälfte) und Kristall aufgefüllt.</li>
+        </ol>
+        <p>Von jedem Rohstoff kann höchstens die <b>Hälfte des Planetenbestands</b> mitgenommen werden. Weitere Grenzen: der geschützte Teil durch <a href="game/faq/2/3">Lager</a> (falls aktiv). Spieler mit sehr schlechter Ehre können stärker geplündert werden, siehe <a href="game/faq/5/7">Ehrenpunkte</a>.</p>
+        <p>Piratenbasen sind die Ausnahme: Ein Raid dort nimmt alles mit, was die Kapazität zulässt.</p>
+    '3':
+      title: "Trümmer, Wracks und Reparaturdock"
+      body: |-
+        <h2 id="debris">Trümmer</h2>
+        <p>Siehe <a href="game/faq/4/4">Trümmerfelder und Recycling</a>: standardmäßig 30&nbsp;% des Metalls und Kristalls verlorener Schiffe.</p>
+        <h2 id="wreck">Wrackfeld</h2>
+        <p>Hat das Universum das Modul Reparaturdock, können Schiffe, die der <b>Planetenbesitzer</b> verliert (keine Verteidigung), ein <b>Wrackfeld</b> hinterlassen, aber nur wenn auf einmal viel verloren geht: standardmäßig mindestens 150.000 Wert-Einheiten und 75&nbsp;% der Flotte. Das Wrack enthält den Teil der Schiffe, der nicht zu Trümmern wurde.</p>
+        <h2 id="dock">Reparaturdock</h2>
+        <p>Ein Reparaturdock (nur Planeten) kann Wrackschiffe reparieren: Die Reparaturrate beträgt 24&nbsp;% + Stufe^1,5&nbsp;% der Wracks, höchstens 100&nbsp;%. Der Reparaturauftrag dauert so lange wie der Bau der Schiffe, aber mindestens bis 30 Minuten nach Entstehung des Wracks und höchstens 12 Stunden. Starte ihn innerhalb von 3 Tagen, dann nimm die reparierten Schiffe auf der Reparaturdock-Seite in Dienst; vergisst du es, kehren sie nach 3 Tagen automatisch in Dienst zurück. Wracks verfallen nach 72 Stunden.</p>
+    '4':
+      title: "Verteidigung"
+      body: |-
+        <ul>
+        <li>Verteidigungsanlagen kämpfen zusammen mit allen Flotten am Planeten. Sie fliegen nie.</li>
+        <li>Nach einem Kampf wird <b>zerstörte Verteidigung teilweise kostenlos wieder aufgebaut</b>: Gingen mehr als 10 Einheiten eines Typs verloren, kommen 60-80&nbsp;% davon zurück (zufällig); bei 10 oder weniger hat jede Einheit eine Chance von 70&nbsp;%.</li>
+        <li>Nicht wieder aufgebaute Verteidigung hinterlässt standardmäßig keine Trümmer.</li>
+        <li>Raketen zerstören Verteidigung, die <b>nicht</b> wieder aufgebaut wird, siehe <a href="game/faq/5/5">Raketen</a>.</li>
+        <li>Kleine und Große Schildkuppel, Gigantische Schildkuppel und Orbitale Verteidigungsplattform können nur einmal pro Planet gebaut werden.</li>
+        <li>Solarsatelliten auf dem Planeten kämpfen als Schiffe und zählen als Flotte, nicht als Verteidigung.</li>
+        </ul>
+    '5':
+      title: "Raketen"
+      body: |-
+        <p>Du brauchst ein <b>Raketensilo</b>. Standardmäßig fasst jede Stufe 10 Plätze; eine Abfangrakete belegt 1 Platz, eine Interplanetarrakete 2.</p>
+        <ul>
+        <li><b>Interplanetarraketen</b> greifen die Verteidigung eines Planeten in derselben Galaxie in Reichweite an. Sie werden verbraucht, können nicht zurückgerufen werden, und der Schaden hängt von deiner Waffentechnik ab.</li>
+        <li>Reichweite = 5 x Impulstriebwerk-Stufe - 1 Systeme (ein Universumsfaktor kann sie ändern). Flugzeit = (30 + 60 x Systementfernung) / Universums-Flottengeschwindigkeit Sekunden.</li>
+        <li>Wähle ein <b>Primärziel</b>: Dieser Verteidigungstyp wird zuerst getroffen. Sonst kommen zuerst die Raketenwerfer dran.</li>
+        <li><b>Abfangraketen</b> schießen anfliegende Raketen eins zu eins ab; der Verteidiger verliert pro abgefangener Rakete eine Abfangrakete.</li>
+        <li>Zerstörte Verteidigung wird nicht wieder aufgebaut.</li>
+        <li>Raketenangriffe zählen zum Bash-Limit, sofern das Universum das nicht abschaltet.</li>
+        </ul>
+    '6':
+      title: "Simulator und Kampfberichte"
+      body: |-
+        <p>Der <b>Kampfsimulator</b> spielt einen Kampf mit den Technologien und Flotten durch, die du eingibst, und zeigt Ergebnis und Verluste. Spionageberichte verlinken mit einem Klick dorthin. Simulierte Kämpfe haben dieselben Regeln wie echte, aber der Zufall (Rapidfire, Explosionen) kann zu leicht anderen Ergebnissen führen als der echte Kampf; simuliere mehrfach für eine Einschätzung.</p>
+        <p>Echte Kampfberichte liegen in deinen Nachrichten und haben einen öffentlichen Link, den du teilen kannst. Die Battle Hall listet die größten Schlachten des Universums.</p>
+    '7':
+      title: "Ehrenpunkte"
+      body: |-
+        <p>Nutzt das Universum Ehrenpunkte, bringen faire Kämpfe 1 gegen 1 beiden Spielern Ehrenpunkte, während der Angriff auf einen deutlich schwächeren Spieler den Angreifer Punkte kostet.</p>
+        <ul>
+        <li><b>Ehrenhaft</b> (beide gewinnen): Der Angreifer hat nicht mehr Punkte als der Verteidiger und ist militärisch nicht mehr als doppelt so stark, oder der Verteidiger ist ein bekannter Bandit.</li>
+        <li><b>Unehrenhaft</b> (Angreifer verliert Punkte): Die Militärpunkte des Angreifers sind mehr als doppelt so hoch wie die des Verteidigers (und der Abstand beträgt mehr als 10 Punkte), während der Verteidiger einen guten Ehrenrang hat.</li>
+        <li>Kämpfe gegen inaktive Spieler, Allianzmitglieder und Buddys sind neutral. Standardmäßig können dieselben zwei Spieler höchstens aus 3 Kämpfen in 24 Stunden Ehre erhalten.</li>
+        </ul>
+        <h2 id="effects">Auswirkungen</h2>
+        <ul>
+        <li>Hohe Ehre (500 Punkte und ein Platz unter den besten 30 / 20 / 10&nbsp;% des Universums) senkt deinen Flugtreibstoff um 5 / 12 / 20&nbsp;%.</li>
+        <li>Sehr niedrige Ehre (-500 Punkte oder schlechter, schlechteste 30 / 20 / 10&nbsp;%) bedeutet, dass Angreifer bis zu 60 / 80 / 100&nbsp;% deines Bestands statt der Hälfte plündern dürfen. Siehe <a href="game/faq/5/2">Beute</a>.</li>
+        </ul>
+  '6':
+    category: "Spionage"
+    '1':
+      title: "Spionieren mit Sonden"
+      body: |-
+        <p>Nur eine Flotte, die <b>ausschließlich aus Spionagesonden</b> besteht, kann die Mission Spionieren nutzen. Du bekommst einen Bericht in deinen Nachrichten, und das Ziel erfährt, dass eine fremde Flotte gesichtet wurde.</p>
+        <h2 id="level">Was der Bericht zeigt</h2>
+        <p>Rohstoffe sind immer sichtbar. Was du sonst siehst, hängt von der Zahl der Sonden und den Spionagetechnik-Stufen beider Spieler ab (deine <i>s</i>, die des Ziels <i>t</i>): Die für Flotten nötigen Sonden sind n0 = (|s - t|)^2, negativ, wenn deine Stufe höher ist. Verteidigung braucht n0 + 1 Sonden, Gebäude n0 + 3 und Forschung n0 + 5. Schicke lieber mehr Sonden, als du glaubst zu brauchen.</p>
+        <h2 id="risk">Gegenspionage</h2>
+        <p>Der Zielplanet kann die Sonden abschießen. Chance in&nbsp;% = 2^(t - s) x Sonden x (Schiffe und Verteidigung auf dem Planeten) x 0,0025, höchstens 100. Planeten ohne Schiffe oder Verteidigung schießen nie. Verlorene Sonden hinterlassen Trümmer. Der Bericht wird in jedem Fall zugestellt.</p>
+        <p>Ein Spionagebericht verlinkt auf den Kampfsimulator mit den Daten des Ziels.</p>
+    '2':
+      title: "Was du von anfliegenden Flotten siehst"
+      body: |-
+        <p>Deine eigene Spionagetechnik bestimmt auch, was die Übersicht über fremde Flotten auf dem Weg zu dir zeigt:</p>
+        <ul>
+        <li>Stufe 0-1: nur, dass sich eine Flotte nähert.</li>
+        <li>Stufe 2-3: wie viele Schiffe.</li>
+        <li>Stufe 4-7: welche Schiffstypen.</li>
+        <li>Ab Stufe 8: wie viele von jedem Typ.</li>
+        </ul>
+        <p>Auch Statistiken anderer Spieler können von deiner Spionagetechnik abhängen, wenn das Universum dieses Modul aktiviert hat.</p>
+  '7':
+    category: "Monde und Phalanx"
+    '1':
+      title: "Wie Monde entstehen"
+      body: |-
+        <p>Nach einem Kampf auf einem <b>Planeten</b>, der noch keinen Mond hat, kann ein Mond entstehen. Die Chance beträgt <b>1&nbsp;% je 100.000 Einheiten Trümmer, die in diesem Kampf entstehen</b> (Universumsfaktor gilt), höchstens das Maximum des Universums (standardmäßig 20&nbsp;%). Auf Monden entstehen keine Monde.</p>
+        <ul>
+        <li>Nur die Trümmer dieses Kampfes zählen: verlorene Schiffe beider Seiten und Verteidigung, wenn das Universum sie Trümmer erzeugen lässt.</li>
+        <li>Manche Universen leeren das Trümmerfeld, wenn ein Mond entsteht.</li>
+        <li>Universen können nach wiederholten Fehlversuchen bei maximaler Chance einen kaskadierenden Bonus geben, bis der erste Mond existiert.</li>
+        <li>Der Mond gehört dem Besitzer des Zielplaneten. Ein Planet kann nur einen Mond haben.</li>
+        </ul>
+        <h2 id="size">Größe</h2>
+        <p>Durchmesser = Wurzel aus (10-20 + 3 x Chance in&nbsp;%) x 1.000 km, mal der Größenfaktor des Universums. Bei 20&nbsp;% Chance sind das etwa 8.370 bis 8.940 km. Ein frischer Mond hat Platz für genau 1 Feld.</p>
+    '2':
+      title: "Mondgebäude"
+      body: |-
+        <p>Auf einem Mond kannst du Roboterfabrik, Raumschiffwerft, die drei Lagergebäude und die reinen Mondgebäude bauen:</p>
+        <h2 id="base">Mondbasis</h2>
+        <p>Jede Stufe gibt 3 Felder und belegt eines. Sie kann nicht abgerissen werden. Baue sie zuerst.</p>
+        <h2 id="phalanx">Sensorenphalanx</h2>
+        <p>Siehe <a href="game/faq/7/3">Sensorenphalanx</a>.</p>
+        <h2 id="gate">Sprungtor</h2>
+        <p>Siehe <a href="game/faq/7/4">Sprungtor</a>.</p>
+        <p>Monde produzieren keine Rohstoffe und haben wenige Felder: Plane dein Feldbudget, bevor du baust.</p>
+    '3':
+      title: "Sensorenphalanx"
+      body: |-
+        <p>Eine Sensorenphalanx auf einem Mond zeigt die Flottenbewegungen eines Planeten in <b>derselben Galaxie</b> innerhalb der Reichweite. Monde können nicht gescannt werden.</p>
+        <ul>
+        <li><b>Reichweite</b> = Stufe^2 - 1 Systeme (Stufe 1 deckt nur das eigene System ab), mal dem Universumsfaktor.</li>
+        <li><b>Kosten</b>: 5.000 Deuterium pro Scan, vom Mond abgezogen.</li>
+        <li>Du siehst Flotten, die vom gescannten Planeten starten oder dorthin fliegen: Ankünfte, Ende von Haltezeiten und Rückflüge. Stationierungen und Raketen werden nicht angezeigt.</li>
+        <li>Im Urlaubsmodus funktioniert sie nicht, ebenso nicht gegen Spieler, die du wegen des Schutzes nicht angreifen kannst.</li>
+        </ul>
+        <p>Öffne die Galaxieansicht vom Mond aus und klicke auf einen Planeten in Reichweite.</p>
+    '4':
+      title: "Sprungtor"
+      body: |-
+        <p>Sprungtore bewegen Schiffe ohne Zeitverlust und ohne Treibstoff zwischen zwei deiner eigenen Monde. Rohstoffe können nicht mitgenommen werden.</p>
+        <ul>
+        <li>Beide Tore müssen bereit sein. Nach einem Sprung braucht jedes Tor eine Abkühlzeit: 60 Minuten auf Stufe 1, mit jeder Stufe sinkend auf 10 Minuten ab Stufe 15 (ein Universumsfaktor kann das ändern).</li>
+        <li>Solarsatelliten können nicht springen.</li>
+        </ul>
+    '5':
+      title: "Monde zerstören"
+      body: |-
+        <p>Die Mission <b>Zerstören</b> steht gegen Monde zur Verfügung, wenn die Flotte <b>Todessterne</b> enthält. Eine Zerstörung findet nur statt, wenn der Angreifer den Kampf gewinnt.</p>
+        <ul>
+        <li><b>Chance zur Monddestruktion</b> in&nbsp;% = (100 - Wurzel aus dem Monddurchmesser) x Wurzel aus der Zahl der Todessterne, höchstens 100. Größere Monde sind schwerer zu zerstören.</li>
+        <li><b>Risiko für die Flotte</b>: Die angreifende Flotte geht mit einer Chance von (Wurzel aus dem Durchmesser) / 2&nbsp;% verloren, egal ob der Mond zerstört wird.</li>
+        <li>Auf dem Mond stationierte Flotten werden beim Zerstören des Mondes auf den Planeten verschoben. Ein zerstörter Mond hinterlässt keine Trümmer.</li>
+        </ul>
+  '8':
+    category: "Expeditionen"
+    '1':
+      title: "Eine Expedition losschicken"
+      body: |-
+        <p>Expeditionen gehen zu <b>Position 16</b> (die hinter dem letzten Planeten, bei Systemen mit 15 Planeten) eines beliebigen Systems. Sie brauchen die Forschung <b>Astrophysik</b>.</p>
+        <ul>
+        <li><b>Slots</b>: abgerundete Wurzel der Astrophysik-Stufe (Stufe 1-3 = 1, 4-8 = 2, 9-15 = 3, 16-24 = 4, ...). Sie sind von deinen normalen Flottenslots getrennt.</li>
+        <li><b>Aufenthalt</b>: höchstens 1 Stunde pro Astrophysik-Stufe (ein Universumsfaktor kann das ändern).</li>
+        <li>Eine Flotte nur aus Sonden kann nicht auf Expedition gehen.</li>
+        <li>Nach der Ankunft kann eine Expedition <b>nicht zurückgerufen</b> werden. Das Ereignis wird am Ende des Aufenthalts abgewickelt, dann fliegt die Flotte heim.</li>
+        <li>Expeditionsergebnisse stehen in deinen Nachrichten und werden in deiner Statistik gezählt.</li>
+        </ul>
+    '2':
+      title: "Was eine Expedition finden kann"
+      body: |-
+        <p>Jeder Spieler zieht Ereigniskarten aus einem persönlichen Deck, das gemischt und bei Leerung neu gefüllt wird; über die Zeit stimmen die Häufigkeiten also. Das Standarddeck mit 1.000 Karten (das Universum kann es ändern):</p>
+        <table class="faq-table">
+        <tr><th>Ereignis</th><th>Anteil</th><th>Details</th></tr>
+        <tr><td>Rohstoffe</td><td>37&nbsp;%</td><td>Kleiner, mittlerer oder großer Fund. Standardmäßig Metall zu 50&nbsp;%, Kristall zu 33&nbsp;%, Deuterium zu 17&nbsp;%.</td></tr>
+        <tr><td>Schiffe</td><td>26,4&nbsp;%</td><td>Schiffe schließen sich deiner Flotte an; nur bestimmte Schiffstypen können gefunden werden.</td></tr>
+        <tr><td>Nichts</td><td>19&nbsp;%</td><td>Die Flotte kehrt mit leeren Händen zurück.</td></tr>
+        <tr><td>Verzögerung</td><td>6,7&nbsp;%</td><td>Die Rückkehr dauert 2, 3 oder 5 Stunden länger (klein, mittel, groß).</td></tr>
+        <tr><td>Piraten</td><td>5,7&nbsp;%</td><td>Du kämpfst gegen eine Piratenflotte.</td></tr>
+        <tr><td>Aliens</td><td>2,6&nbsp;%</td><td>Du kämpfst gegen eine Alienflotte.</td></tr>
+        <tr><td>Schnellere Rückkehr</td><td>2,3&nbsp;%</td><td>Der Rückflug ist 20, 30 oder 50&nbsp;% kürzer.</td></tr>
+        <tr><td>Schwarzes Loch</td><td>0,3&nbsp;%</td><td>Die gesamte Flotte geht verloren.</td></tr>
+        </table>
+        <h2 id="size">Wie viel du findest</h2>
+        <p>Ein Rohstofffund skaliert mit dem Wert deiner Flotte (bis zu einer Obergrenze des Universums) und ist durch die Ladekapazität der Flotte begrenzt: Kleine Funde sind das 10-50-fache, mittlere das 50-100-fache, große das 100-200-fache einer Werteinheit; Kristallfunde werden halbiert, Deuteriumfunde durch drei geteilt. Nimm für große Funde Transporter mit.</p>
+        <h2 id="depletion">Erschöpfte Positionen</h2>
+        <p>Waren in den letzten 24 Stunden viele Expeditionen an denselben Koordinaten, kann die Karte zu „Nichts“ werden: Mehr als 10 Expeditionen geben 25&nbsp;% Chance, mehr als 25 geben 50&nbsp;%, mehr als 50 geben 75&nbsp;%. Verteile deine Expeditionen.</p>
+  '9':
+    category: "Allianzen und Verbände"
+    '1':
+      title: "Eine Allianz gründen und verwalten"
+      body: |-
+        <p>Öffne <b>Allianz</b> in der Seitenleiste und gründe eine mit Kürzel und Namen (Buchstaben, Zahlen und Leerzeichen; beides darf noch nicht vergeben sein). Manche Universen verlangen zum Gründen eine Mindestpunktzahl.</p>
+        <h2 id="manage">Verwaltung</h2>
+        <ul>
+        <li><b>Ränge</b>: Rechte pro Rang festlegen (Bewerbungen, Rauswerfen, Rundmails, ...).</li>
+        <li><b>Mitglieder</b>: Ränge vergeben, Mitglieder entfernen, sehen, wann sie zuletzt online waren.</li>
+        <li><b>Bewerbungen</b>: Rekrutierung öffnen oder schließen, Bewerbungen lesen und beantworten; der Bewerbungstext ist eine Vorlage für Bewerber.</li>
+        <li><b>Texte</b>: Der externe Text ist öffentlich, der interne nur für Mitglieder.</li>
+        <li><b>Rundmail</b> an alle oder ausgewählte Ränge.</li>
+        <li><b>Diplomatie</b> mit anderen Allianzen, siehe <a href="game/faq/9/2">Diplomatie</a>.</li>
+        <li>Du kannst die Allianz an ein anderes Mitglied übergeben oder auflösen.</li>
+        </ul>
+    '2':
+      title: "Allianzdiplomatie"
+      body: |-
+        <p>Allianzen können einander Pakte vorschlagen; die Gegenseite nimmt sie an oder lehnt sie ab. Arten: Hauptallianz, Flügel, Bündnis, Handelsabkommen, Nichtangriffspakt, Krieg, Geheimes Bündnis und Frieden.</p>
+        <p>Pakte halten die Beziehung zwischen zwei Allianzen fest. Angriffe zwischen Allianzen im <b>Krieg</b> können vom Bash-Limit ausgenommen sein (Universumseinstellung), sobald der Krieg vor mehr als einem Tag angenommen wurde und der Angreifer nicht per Kontoverknüpfung mit dem Ziel verbunden ist.</p>
+    '3':
+      title: "Gemeinsam angreifen (Verband)"
+      body: |-
+        <h2 id="start">Eine Gruppe starten</h2>
+        <p>Schicke zuerst eine Flotte mit der Mission <b>Angreifen</b>. Öffne dann die Flottenseite, nutze die Verbandsfunktion bei dieser Flotte und lade andere Spieler ein. Jeder eingeladene Spieler schickt seine eigene Flotte mit der Mission <b>Verbandsangriff</b> zu denselben Koordinaten.</p>
+        <h2 id="rules">Regeln</h2>
+        <ul>
+        <li>Die Gruppe kommt zusammen mit der langsamsten Flotte an.</li>
+        <li>Eine hinzukommende Flotte darf die Gruppe um höchstens <b>30&nbsp;%</b> der Restzeit verzögern.</li>
+        <li>Standardmäßig nimmt ein Verband höchstens 16 Flotten von höchstens 5 Spielern auf (Universumseinstellungen).</li>
+        <li>Die Beute wird nach Ladekapazität aufgeteilt; alle Teilnehmer kämpfen mit.</li>
+        </ul>
+        <p><b>Vorsicht:</b> Ruft der Gründer zurück, wird die ganze Gruppe zurückgerufen.</p>
+    '4':
+      title: "Verteidigen: Halten und Allianzdepot"
+      body: |-
+        <p>Schicke eine Flotte mit der Mission <b>Halten</b> zum Planeten eines Allianzmitglieds oder Buddys. Sie wartet 1, 2, 4, 8, 12, 16 oder 32 Stunden und kämpft, falls der Planet in der Zwischenzeit angegriffen wird, als Verteidiger. In Spionageberichten erscheint sie, als wäre sie Teil des Planeten.</p>
+        <ul>
+        <li>Beim Start entstehen keine Zusatzkosten außer dem Flugtreibstoff.</li>
+        <li>Die Zahl haltender Flotten und Spieler pro Planet ist durch die Verbands-Einstellungen des Universums begrenzt.</li>
+        <li>Du kannst eine haltende Flotte jederzeit zurückrufen.</li>
+        </ul>
+        <h2 id="depot">Allianzdepot</h2>
+        <p>Der Besitzer des Planeten kann haltende Flotten aus dem Allianzdepot mit Deuterium versorgen, damit sie länger bleiben: 1 bis (Depotstufe) Stunden pro Versorgung. Die Stundenkosten betragen ein Zehntel des summierten Grundverbrauchs der Flotte, aufgerundet. Eine Flotte hat nie mehr als 32 Stunden Restaufenthalt.</p>
+    '5':
+      title: "Buddys"
+      body: |-
+        <p>Freunde (Buddys) können sich Anfragen über die Buddyliste oder das Spielerprofil schicken. Buddys können einander Halten und Transfer schicken, sind von Ehrenpunkte-Änderungen ausgenommen und sehen sich in der Buddyliste.</p>
+        <p>Hat das Universum es aktiviert, werden Spieler, die länger als 7 Tage offline bleiben (außerhalb des Urlaubsmodus), automatisch aus Buddylisten und Allianzen entfernt.</p>
+  '10':
+    category: "Schutz und Urlaubsmodus"
+    '1':
+      title: "Anfängerschutz und Vogelfreie"
+      body: |-
+        <p>Der Schutz basiert auf <b>Punkten</b>. Standardmäßig ist ein Spieler geschützt, wenn er 5.000 Punkte oder weniger hat <b>und</b> der andere Spieler mehr als das Fünffache seiner Punkte hat. Beide Zahlen sind Universumseinstellungen, und der ganze Schutz kann abgeschaltet sein.</p>
+        <ul>
+        <li>Er gilt für Angriffe, Verbandsangriffe, Monddestruktion, Halten, Spionage, Raketenangriffe und Phalanx-Scans.</li>
+        <li>Er wirkt in beide Richtungen: Liegst <i>du</i> unter der Punktegrenze und der andere hat mehr als das Fünffache deiner Punkte, kannst du ihn ebenfalls nicht angreifen (außer das Universum nutzt das Vogelfrei-System, siehe unten).</li>
+        <li>Der Schutz gilt nicht für gesperrte Spieler und standardmäßig nicht für Spieler, die 7 Tage offline waren.</li>
+        <li>Die Galaxieansicht markiert geschützte Spieler (n = schwach, s = stark).</li>
+        </ul>
+        <h2 id="outlaw">Vogelfreie</h2>
+        <p>Nutzt das Universum das Vogelfrei-System, darf ein schwacher Spieler trotzdem einen viel stärkeren angreifen. Er wird dann <b>vogelfrei</b>: Der Schutz gilt für ihn 2 Tage lang nicht mehr (beim ersten Mal) bzw. 7 Tage (bei jedem weiteren Mal), der Starke darf also zurückschlagen.</p>
+    '2':
+      title: "Bash-Limit"
+      body: |-
+        <p>Das Bash-Limit verhindert wiederholte Angriffe auf dasselbe Ziel. Standardmäßig kannst du denselben <b>Planeten höchstens 6 Mal in 24 Stunden</b> angreifen; ein Limit pro Spieler lässt sich ebenfalls setzen (standardmäßig aus). Raketenangriffe zählen, sofern das Universum das nicht abschaltet.</p>
+        <ul>
+        <li>Mehrere Flotten einer Verbandsgruppe zählen als ein Angriff.</li>
+        <li>Spionage mit einer einzelnen Sonde zählt nicht.</li>
+        <li>Inaktive Ziele (7 Tage) sind nicht geschützt.</li>
+        <li>Hat das Universum „Krieg hebt das Bash-Limit auf“, zählen auch Angriffe zwischen Allianzen im Krieg nicht.</li>
+        </ul>
+    '3':
+      title: "Wiederaufbauschutz"
+      body: |-
+        <p>Standardmäßig aus. Aktiviert das Universum ihn (er setzt den Anfängerschutz voraus), erhält ein Spieler, der in einem Kampf das Meiste verliert, <b>Wiederaufbauschutz</b>: mehr als 70&nbsp;% des Werts seiner Flotte und Verteidigung oder mehr als 80&nbsp;% seiner Transportkapazität, und mindestens ein Mindestwert, der der Grenze des Anfängerschutzes folgt (höchstens 5.000.000 Einheiten).</p>
+        <ul>
+        <li>Er beginnt 3 Stunden nach dem Kampf (6 Stunden für die Spieler, die ihn angegriffen haben) und endet 48 Stunden nach dem Kampf. In dieser Zeit kann er nicht angegriffen werden.</li>
+        <li>Der Spieler kann ihn vorzeitig beenden.</li>
+        <li>Er wird höchstens einmal im Monat ausgelöst und nicht, wenn alle Gegner mit dem Verlierer verknüpft sind (gleiche IP, gleiches Gerät oder Multi-Gruppe, Allianz, Buddy).</li>
+        </ul>
+    '4':
+      title: "Urlaubsmodus"
+      body: |-
+        <p>Der Urlaubsmodus friert dein Konto ein, solange du weg bist. Aktiviere ihn unter <b>Einstellungen</b>.</p>
+        <ul>
+        <li>Es dürfen <b>keine Flotten</b> unterwegs sein.</li>
+        <li>Die Produktion stoppt auf allen Planeten; deine Bauschleifen pausieren und laufen bei deiner Rückkehr weiter. Bei dir haltende Flotten werden nach Hause geschickt.</li>
+        <li>Feindliche Missionen gegen dich kehren um (Angriffe, Spionage, Raketen).</li>
+        <li>Du kannst ihn erst nach der Mindestdauer verlassen (standardmäßig 48 Stunden).</li>
+        <li>Bei deiner Rückkehr startet die Produktion auf allen Planeten wieder mit 100&nbsp;%. Während deiner Abwesenheit wird nichts produziert.</li>
+        <li>Aktiviert das Universum es, werden Spieler im Urlaubsmodus, die 28 Tage offline waren, daraus entfernt.</li>
+        </ul>
+        <p>Lange inaktive Konten werden trotzdem gelöscht, ob mit oder ohne Urlaubsmodus, siehe <a href="game/faq/11/2">Inaktivität und Kontolöschung</a>.</p>
+    '5':
+      title: "Pushing und Handelslimits"
+      body: |-
+        <p>Pushing bedeutet, einem anderen Spieler (oft einem Zweitaccount) Rohstoffe oder Schiffe zuzuschieben. Es verstößt gegen die Regeln und wird automatisch geprüft.</p>
+        <ul>
+        <li>Standardmäßig wird ein Transport, Halten oder Transfer zu einem anderen Spieler abgelehnt, wenn du ihm in den letzten 7 Tagen mehr Wert geschickt hast, als er zurückgeschickt hat, und die Differenz größer als 100.000 ist (in Deuteriumäquivalent).</li>
+        <li>Marktplatz-Handel muss innerhalb der Push-Toleranz des Universums bleiben (angebotener und gewünschter Wert müssen nah beieinander liegen).</li>
+        <li>Konten mit derselben IP, demselben Gerät oder derselben Multi-Gruppe gelten als verknüpft und werden strenger behandelt.</li>
+        </ul>
+        <p>Die Regeln des Universums stehen auf der Regeln-Seite.</p>
+  '11':
+    category: "Konto und Einstellungen"
+    '1':
+      title: "Kontoeinstellungen"
+      body: |-
+        <p>Unter <b>Einstellungen</b> findest du:</p>
+        <ul>
+        <li><b>Benutzerdaten</b>: Benutzername (nur Buchstaben und Zahlen, einmal alle 7 Tage änderbar), E-Mail-Adresse, neues Passwort (mindestens 8 Zeichen; für Änderungen brauchst du dein aktuelles Passwort), Sprache, Zeitzone und Theme.</li>
+        <li><b>Allgemein</b>: Sortierung der Planeten, Abdunkeln nicht bezahlbarer Einträge, Werftfilter, zusammengefasste Spionageberichte, Nachrichtenoptionen, private Nachrichten blockieren und die <b>Anfängeroberfläche</b> (ein vereinfachtes Menü, das beim Durcharbeiten des Tutorials Einträge freischaltet).</li>
+        <li><b>Galaxie und Spionage</b>: wie viele Sonden aus der Galaxieansicht geschickt werden und wie alt ein Spionagebericht für „frisch“ oder „aktuell“ sein darf.</li>
+        <li><a href="game/faq/10/4">Urlaubsmodus</a> und die Kontolöschung („Gefahrenzone“).</li>
+        </ul>
+    '2':
+      title: "Inaktivität und Kontolöschung"
+      body: |-
+        <ul>
+        <li>Nach <b>7 Tagen</b> ohne Login wird ein Spieler als inaktiv (i) angezeigt, nach <b>28 Tagen</b> als lange inaktiv (I). Inaktive Spieler fallen nicht unter das Bash-Limit und standardmäßig nicht unter den punktebasierten Schutz.</li>
+        <li>Nach <b>90 Tagen</b> Offline-Zeit (Universumseinstellung, 0 = nie) wird das Konto automatisch gelöscht, samt Planeten und Flotten.</li>
+        <li>Beantragst du die Löschung selbst unter Einstellungen, geschieht sie nach mindestens 7 Tagen (Universumseinstellung); in der Zwischenzeit kannst du sie abbrechen.</li>
+        </ul>
+    '3':
+      title: "Statistik und Punkte"
+      body: |-
+        <p>Die Statistikseite ordnet Spieler und Allianzen nach Gesamtpunkten sowie nach Gebäuden, Forschung, Flotte und Verteidigung. Sie werden nach Zeitplan aktualisiert, nicht live.</p>
+        <ul>
+        <li>Punkte = investierte Rohstoffe geteilt durch 1.000 (Standard; Universumseinstellung).</li>
+        <li>Allianzpunkte zählen nur Mitglieder, die in den letzten 7 Tagen online waren.</li>
+        <li>Die Rekorde zeigen die höchsten Gebäude- und Forschungsstufen des Universums.</li>
+        <li>Hat das Universum es aktiviert, sind manche Statistiken nur mit genug Spionagetechnik sichtbar.</li>
+        </ul>
+    '4':
+      title: "Weitere Hilfe"
+      body: |-
+        <!--wiki_url--><h2 id="wiki">Wiki und Community</h2><p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Wiki-Startseite</a>, <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Bauordnungen</a>, <a href="{wiki_url}/wiki/En/Saven" target="_blank">Flottensaven</a>, <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expeditionen</a>.</p><!--/wiki_url-->
+        <h2 id="support">Support</h2>
+        <p>Fragen zu deinem Konto oder Fehler: Eröffne ein Ticket auf der Seite <b>Support</b>. Lies die Seite <b>Regeln</b>, bevor du raidest, handelst oder mehrere Konten nutzt.</p>

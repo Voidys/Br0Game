@@ -234,6 +234,8 @@ ins_rules_default_info: 'Die Regelseite startet mit den Standard-Spielregeln, di
 ins_rules_blank: 'Leer starten'
 ins_rules_blank_info: 'Die Regelseite bleibt leer, bis du im Admin-Bereich eigene Regeln schreibst.'
 ins_group_community: 'Community'
+ins_cookie_consent: "Cookie-Hinweis anzeigen (DSGVO)"
+ins_cookie_consent_info: "Zeigt Besuchern einen Hinweis zu den vom Spiel verwendeten Cookies. Empfohlen für Betreiber, die die EU bedienen. Später in den Einstellungen änderbar."
 ins_board: 'Community-Board aktivieren'
 ins_board_info: 'Ein Forum für deine Spieler. Wenn aus, sind alle Board-Links ausgeblendet und die Board-Seiten nicht erreichbar.'
 ins_legal_note: 'Die erzeugten Texte sind nur Vorlagen. Als Betreiber bist du selbst für die Rechtstexte deines Spiels verantwortlich und solltest sie prüfen.'

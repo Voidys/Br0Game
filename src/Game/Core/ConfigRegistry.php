@@ -215,7 +215,8 @@ class ConfigRegistry
         // Ensure all expected keys are present in global config
         $expectedKeys = array_keys($this->globalSchema()->getAllFields());
         $keysMissing = array_diff($expectedKeys, array_keys($globalConfig));
-        $sql = 'INSERT INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value);';
+        // IGNORE: a parallel request (cron, another page) may add the same missing key first
+        $sql = 'INSERT IGNORE INTO %%CONFIG%% (`key`, `value`) VALUES (:key, :value);';
         foreach ($keysMissing as $missingKey) {
             $fieldConfig = $this->globalSchema()->getField($missingKey);
             $db->insert($sql, [
@@ -267,7 +268,7 @@ class ConfigRegistry
         foreach ($universeConfigs as $uni => $configs) {
             $keysMissing = array_diff($expectedKeys, array_keys($configs));
 
-            $sql = 'INSERT INTO %%CONFIG_UNIVERSE%% (`uni`, `key`, `value`) VALUES (:uni, :key, :value);';
+            $sql = 'INSERT IGNORE INTO %%CONFIG_UNIVERSE%% (`uni`, `key`, `value`) VALUES (:uni, :key, :value);';
             foreach ($keysMissing as $missingKey) {
                 $fieldConfig = $this->universeSchema()->getField($missingKey);
                 $db->insert($sql, [

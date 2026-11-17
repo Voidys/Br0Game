@@ -40,6 +40,15 @@ sys_and: e
 sys_attack_attacker_pos: Atacante
 sys_attack_defender_pos: Defensor
 sys_attack_round: Ronda
+cr_start: "Frotas iniciais"
+cr_rounds: "Rondas"
+cr_debris: "Campo de destroços"
+cr_loot: "Saque"
+cr_losses: "Perdas"
+cr_moon: "Hipótese de lua"
+cr_lost_round: "Perdas nesta ronda"
+cr_lost_total: "Perdas totais"
+cr_stats: "Estatísticas da batalha"
 sys_attack_title: 'As seguintes frotas defrontam-se em: '
 sys_attacker_lostunits: 'Perdas do atacante: '
 sys_attacker_won: O atacante ganhou a batalha!

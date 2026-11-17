@@ -22,6 +22,7 @@ loginEmail: อีเมล
 loginHeader: เข้าสู่ระบบ
 loginInfo: การเข้าสู่ระบบถือว่าฉันยอมรับ%s
 loginPassword: รหัสผ่าน
+loginRememberMe: 'คงการเข้าสู่ระบบไว้ %d วัน'
 loginServerDesc: '%s คือเกมวางแผนอวกาศที่ผู้เล่นนับร้อยแข่งขันกัน<strong>พร้อมกัน</strong>เพื่อเป็นที่หนึ่ง แค่มีเว็บเบราว์เซอร์ทั่วไปก็เล่นได้'
 loginWelcome: ยินดีต้อนรับสู่ %s
 Lowest_longterm_points: บัญชีที่ลงทะเบียนล่วงหน้าที่มีคะแนนน้อยที่สุด

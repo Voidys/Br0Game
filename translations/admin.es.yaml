@@ -607,6 +607,8 @@ se_bash_count_missiles: Los límites bash cuentan los ataques con misiles
 se_bash_count_missiles_info: 'Los ataques con misiles interplanetarios cuentan como ataques de flota para los límites bash (por jugador y por planeta). Desactivado: los misiles no se cuentan.'
 se_bash_per_user: Límite de bash por jugador
 se_bash_per_user_info: Cuántas veces puede un jugador atacar a otro jugador cada 24 horas (en todos los planetas). 0 = desactivado
+se_cookie_consent: "Aviso de cookies"
+se_cookie_consent_info: "Muestra un aviso de cookies en la parte inferior hasta que el visitante elija (\"Aceptar todas\" o \"Solo necesarias\"; se guarda un año en la cookie cookie_consent)."
 se_block_planet_creation: Bloque
 se_board_enabled: Activar el foro de la comunidad
 se_board_enabled_info: 'Desactivado: todos los enlaces al foro se ocultan y las páginas del foro no están disponibles.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Universo
 adm_maint_cache_text: Vacía las cachés del juego (idiomas, plantillas, datos del juego) y recalcula los horarios de los cronjobs. Ayuda cuando los cambios en ajustes o textos no aparecen.
 adm_maint_log_head: Registro del juego
 adm_maint_log_text: Registro de errores del juego (var/log/game.log). Vaciarlo deja el archivo vacío; los nuevos errores se vuelven a escribir enseguida.
+adm_migr_head: "Migraciones de la base de datos"
+adm_migr_text: "Aplica los cambios de la base de datos que trae una actualización (por ejemplo, tras descomprimir una nueva versión sobre la instalación)."
+adm_migr_current: "Revisión actual de la base de datos"
+adm_migr_pending: "Migraciones pendientes"
+adm_migr_backup: "Haz primero una copia de seguridad de la base de datos."
+adm_migr_revision: "Revisión"
+adm_migr_file: "Archivo"
+adm_migr_status: "Estado"
+adm_migr_ok: "Hecho"
+adm_migr_failed: "Fallido"
+adm_migr_skipped: "Consulta omitida"
+adm_migr_uptodate: "La base de datos está actualizada."
+adm_migr_confirm: "¿Ejecutar ahora todas las migraciones pendientes?"
+adm_migr_run: "Ejecutar migraciones"
+adm_migr_result: "Resultado"
+adm_migr_nothing: "No había migraciones pendientes."
 adm_maint_log_size: Tamaño
 adm_maint_log_changed: Último cambio
 adm_maint_log_missing: El archivo de registro todavía no existe.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Límite de presión por transporte
 se_transport_push_limit_info: Valor de la carga en unidades de deuterio (proporciones del mercado) a partir del cual se aplica la protección. 0 = protección desactivada.
 se_depot_cost_real_consumption: Coste del depósito por consumo real
 se_depot_cost_real_consumption_info: El depósito de alianza cobra el consumo real de combustible de la flota (con las tecnologías de propulsión y combustible del propietario) / 10 por hora, en lugar del consumo base / 10.
+se_hours: Horas
+se_remember_me_days: '«Mantener sesión iniciada» dura'
+se_remember_me_days_info: 'Días que un inicio de sesión con la casilla «Mantener sesión iniciada» marcada sobrevive a los reinicios del navegador y a las sesiones caducadas. Un cambio de contraseña lo termina. 0 desactiva la opción.'
+se_session_lifetime: La sesión caduca tras un periodo de inactividad de
+se_session_lifetime_info: 'Horas sin ninguna petición tras las cuales se cierra la sesión de un jugador («sesión caducada»).'
 abuse_menu: Informe de abuso
 abuse_days: Días
 abuse_apply: Aplicar

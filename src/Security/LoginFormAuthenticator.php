@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -26,7 +27,7 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
  * password hasher (bcrypt hashes of the accounts table), with the game's rules around it:
  * failed logins are counted per account, accounts that still wait for their e-mail verification are
  * sent to the verification link when the universe does not require it, and visitors without login
- * are sent to the start page (code=3).
+ * are sent to the start page (code=3). "Stay logged in" is the firewall's remember_me (ConfigurableRememberMeHandler).
  *
  * Brute force is limited by the firewall's login_throttling (per IP + e-mail, see security.yaml): a
  * throttled attempt gets code=4. Every other failure answers with the same code=1, whether the
@@ -61,6 +62,8 @@ final class LoginFormAuthenticator extends AbstractAuthenticator implements Auth
         return new Passport(
             new UserBadge($email, fn(string $identifier): Account => $this->loadAccount($identifier, $password)),
             new CustomCredentials(fn(string $given, Account $account): bool => $this->checkPassword($given, $account), $password),
+            // "stay logged in" only when the box (_remember_me) was ticked; the handler skips it while the option is off
+            [new RememberMeBadge()],
         );
     }
 

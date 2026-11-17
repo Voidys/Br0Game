@@ -22,6 +22,7 @@ loginEmail: 邮箱
 loginHeader: 登录
 loginInfo: 登录即表示我接受%s。
 loginPassword: 密码
+loginRememberMe: '保持登录 %d 天'
 loginServerDesc: '%s 是一款太空策略游戏，数百名玩家<strong>同时</strong>竞逐榜首。你只需要一个普通的浏览器。'
 loginWelcome: 欢迎来到 %s
 Lowest_longterm_points: 积分最低的预注册账号

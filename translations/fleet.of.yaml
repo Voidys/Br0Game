@@ -47,6 +47,15 @@ sys_and: und
 sys_attack_attacker_pos: Angreifer
 sys_attack_defender_pos: Werteidiger
 sys_attack_round: Runde
+cr_start: "Startflotten"
+cr_rounds: "Rundn"
+cr_debris: "Trümmerfeld"
+cr_loot: "Beude"
+cr_losses: "Verluste"
+cr_moon: "Mondchance"
+cr_lost_round: "Verlorn in dera Rundn"
+cr_lost_total: "Insgesamd verlorn"
+cr_stats: "Kampfstatisdik"
 sys_attack_title: Folgende Floddne schdehne sich genüber am
 sys_attacker_lostunits: Der Angreifene had insgesamd
 sys_attacker_won: Der Angreifer had die Schlachd gewonnen tazächlich

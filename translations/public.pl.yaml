@@ -22,6 +22,7 @@ loginEmail: Adres e-mail
 loginHeader: Logowanie
 loginInfo: Logując się akceptujesz %s.
 loginPassword: Hasło
+loginRememberMe: 'Pozostań zalogowany przez %d dni'
 loginServerDesc: '%s to kosmiczna gra strategiczna, w której setki graczy rywalizują <strong>jednocześnie</strong> o miano najlepszego. Wystarczy zwykła przeglądarka.'
 loginWelcome: Witaj w %s
 Lowest_longterm_points: Wstępnie zarejestrowane konta z najmniejszą liczbą punktów

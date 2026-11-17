@@ -42,6 +42,15 @@ sys_and: et
 sys_attack_attacker_pos: Attaquant
 sys_attack_defender_pos: Défenseur
 sys_attack_round: Tour
+cr_start: "Flottes de départ"
+cr_rounds: "Tours"
+cr_debris: "Champ de débris"
+cr_loot: "Butin"
+cr_losses: "Pertes"
+cr_moon: "Chance de lune"
+cr_lost_round: "Perdus ce tour"
+cr_lost_total: "Perdus au total"
+cr_stats: "Statistiques du combat"
 sys_attack_title: 'Les flottes suivantes s''opposent : '
 sys_attacker_lostunits: 'Pertes de l''attaquant :'
 sys_attacker_won: L'attaquant a gagné la bataille !

@@ -1,0 +1,66 @@
+{# Defence rebuild, wreck field and honor points of a combat report. Expects Raport and repairRows ({id, units, destroyed, percent, left}). #}
+<div class="cr-extras">
+{% if repairRows %}
+<section class="cr-card" aria-labelledby="cr-repair">
+	<h3 class="cr-card__title" id="cr-repair">{{ icon('hammer') }}{{ LNG.sys_def_rebuild }}</h3>
+	<div class="cr-scroll">
+		<table class="cr-table">
+			<thead>
+				<tr>
+					<th scope="col">{{ LNG.sys_ship_type }}</th>
+					<th scope="col" class="num">{{ LNG.sys_ship_repaired }}</th>
+					<th scope="col" class="num">%</th>
+					<th scope="col" class="num">{{ LNG.sys_destroyed }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for row in repairRows %}
+				<tr>
+					<th scope="row">{{ LNG.shortNames[row.id] }}</th>
+					<td class="num">{{ pretty_number(row.units) }} <span class="cr-unit">/ {{ pretty_number(row.destroyed) }}</span></td>
+					<td class="num">{{ '%.1f'|format(row.percent) }}</td>
+					<td class="num">{% if row.left > 0 %}<span class="cr-loss">&minus;{{ pretty_number(row.left) }}</span>{% else %}{{ row.left }}{% endif %}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endif %}
+
+{% if Raport.wreckfield %}
+<section class="cr-card" aria-labelledby="cr-wreck">
+	<h3 class="cr-card__title" id="cr-wreck">{{ icon('layers') }}{{ LNG.sys_wreckfield_added }}</h3>
+	<div class="cr-scroll">
+		<table class="cr-table">
+			<tbody>
+				{% for ShipID, amount in Raport.wreckfield %}
+				<tr>
+					<th scope="row">{{ LNG.shortNames[ShipID] }}</th>
+					<td class="num">{{ pretty_number(amount) }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endif %}
+
+{% if Raport.honorpoints and (Raport.honorpoints.attackersH or Raport.honorpoints.defendersH) %}
+<section class="cr-card" aria-labelledby="cr-honor">
+	<h3 class="cr-card__title" id="cr-honor">{{ icon('medal') }}{{ LNG.sys_honorpoints_changed }}</h3>
+	<div class="cr-scroll">
+		<table class="cr-table">
+			<tbody>
+				{% for username, honorpointsChange in Raport.honorpoints.attackersH %}
+				<tr><th scope="row">{{ username }}</th><td class="num">{{ honorpointsChange }}</td></tr>
+				{% endfor %}
+				{% for username, honorpointsChange in Raport.honorpoints.defendersH %}
+				<tr><th scope="row">{{ username }}</th><td class="num">{{ honorpointsChange }}</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</section>
+{% endif %}
+</div>

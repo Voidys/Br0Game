@@ -71,3 +71,8 @@ php_dateformat: d/m/Y
 lang_group_fun: Ngôn ngữ vui
 dialog_ok: OK
 dialog_cancel: Hủy
+cookie_notice_title: "Cookie"
+cookie_notice_text: "Trang này chỉ dùng cookie cần thiết về mặt kỹ thuật (phiên đăng nhập, ngôn ngữ, \"ghi nhớ đăng nhập\" nếu bạn chọn, liên kết thiết bị). Cookie tùy chọn chỉ dùng khi bạn đồng ý."
+cookie_notice_privacy: "Chính sách quyền riêng tư"
+cookie_notice_necessary: "Chỉ cần thiết"
+cookie_notice_all: "Chấp nhận tất cả"

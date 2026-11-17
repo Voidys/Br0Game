@@ -19,6 +19,7 @@
         <input type="radio" name="privacy_region" value="other"{% if values.privacy_region == 'other' %} checked{% endif %}>
         <span><strong>{{ LNG.ins_privacy_other }}</strong><small class="install-hint">{{ LNG.ins_privacy_other_info }}</small></span>
       </label>
+      <label class="install-check install-field--wide"><input type="checkbox" name="cookie_consent" value="1"{% if values.cookie_consent %} checked{% endif %}> <span>{{ LNG.ins_cookie_consent }}<small class="install-hint">{{ LNG.ins_cookie_consent_info }}</small></span></label>
     </fieldset>
     <fieldset>
       <legend>{{ LNG.ins_group_rules }}</legend>

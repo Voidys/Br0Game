@@ -607,6 +607,8 @@ se_bash_count_missiles: Limity bash liczą ataki rakietowe
 se_bash_count_missiles_info: 'Międzyplanetarne ataki rakietowe liczą się do limitów bash jak ataki flot (na gracza i na planetę). Wyłączone: rakiety nie są liczone.'
 se_bash_per_user: Limit bash na gracza
 se_bash_per_user_info: Ile razy gracz może zaatakować innego gracza w ciągu 24 godzin (na wszystkich planetach). 0 = wyłączone
+se_cookie_consent: "Informacja o cookie"
+se_cookie_consent_info: "Wyświetla u dołu informację o plikach cookie, dopóki odwiedzający nie wybierze (\"Zaakceptuj wszystkie\" lub \"Tylko niezbędne\"; zapis na rok w cookie cookie_consent)."
 se_block_planet_creation: Blok
 se_board_enabled: Włącz forum społeczności
 se_board_enabled_info: 'Wyłączone: wszystkie linki do forum są ukryte, a strony forum niedostępne.'
@@ -1202,6 +1204,22 @@ adm_tab_universe: Uniwersum
 adm_maint_cache_text: Czyści pamięci podręczne gry (języki, szablony, dane gry) i przelicza czasy cronjobów. Pomaga, gdy zmiany ustawień lub tekstów nie są widoczne.
 adm_maint_log_head: Dziennik gry
 adm_maint_log_text: Dziennik błędów gry (var/log/game.log). Wyczyszczenie opróżnia plik; nowe błędy są zapisywane od razu.
+adm_migr_head: "Migracje bazy danych"
+adm_migr_text: "Stosuje zmiany w bazie danych dostarczane z aktualizacją (na przykład po rozpakowaniu nowego wydania na istniejącą instalację)."
+adm_migr_current: "Aktualna rewizja bazy danych"
+adm_migr_pending: "Oczekujące migracje"
+adm_migr_backup: "Najpierw wykonaj kopię zapasową bazy danych."
+adm_migr_revision: "Rewizja"
+adm_migr_file: "Plik"
+adm_migr_status: "Status"
+adm_migr_ok: "Gotowe"
+adm_migr_failed: "Niepowodzenie"
+adm_migr_skipped: "Pominięte zapytanie"
+adm_migr_uptodate: "Baza danych jest aktualna."
+adm_migr_confirm: "Uruchomić teraz wszystkie oczekujące migracje?"
+adm_migr_run: "Uruchom migracje"
+adm_migr_result: "Wynik"
+adm_migr_nothing: "Brak oczekujących migracji."
 adm_maint_log_size: Rozmiar
 adm_maint_log_changed: Ostatnia zmiana
 adm_maint_log_missing: Plik dziennika jeszcze nie istnieje.
@@ -1567,6 +1585,11 @@ se_transport_push_limit: Limit wypychania transportem
 se_transport_push_limit_info: Wartość ładunku w jednostkach deuteru (wg kursów rynkowych), powyżej której działa ochrona. 0 = ochrona wyłączona.
 se_depot_cost_real_consumption: Koszt magazynu wg rzeczywistego zużycia
 se_depot_cost_real_consumption_info: Magazyn sojuszu pobiera rzeczywiste zużycie paliwa floty (z napędami i technologiami paliwa właściciela) / 10 za godzinę zamiast bazowego zużycia / 10.
+se_hours: Godziny
+se_remember_me_days: '„Pozostań zalogowany” obowiązuje przez'
+se_remember_me_days_info: 'Dni, przez które logowanie z zaznaczonym polem „Pozostań zalogowany” przetrwa restart przeglądarki i wygasłe sesje. Zmiana hasła je kończy. 0 wyłącza tę opcję.'
+se_session_lifetime: Sesja wygasa po bezczynności trwającej
+se_session_lifetime_info: 'Godziny bez żadnego żądania, po których gracz zostaje wylogowany („sesja wygasła”).'
 abuse_menu: Raport nadużyć
 abuse_days: Dni
 abuse_apply: Zastosuj

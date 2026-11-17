@@ -297,7 +297,8 @@ class AccountUtil
             ':accountID'       => $accountId,
         ]);
 
-        return $account;
+        // unknown account (guest, deleted account): empty row instead of a type error
+        return is_array($account) ? $account : [];
     }
 
     /**

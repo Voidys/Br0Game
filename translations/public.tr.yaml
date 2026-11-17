@@ -22,6 +22,7 @@ loginEmail: E-posta
 loginHeader: Giriş
 loginInfo: Giriş yaparak %s kısmını kabul etmiş olursun.
 loginPassword: Şifre
+loginRememberMe: '%d gün oturumu açık tut'
 loginServerDesc: '%s, yüzlerce oyuncunun en iyi olmak için <strong>aynı anda</strong> yarıştığı bir uzay strateji oyunudur. Tek ihtiyacın sıradan bir web tarayıcısı.'
 loginWelcome: '%s''e hoş geldin'
 Lowest_longterm_points: En az puanlı ön kayıtlı hesaplar

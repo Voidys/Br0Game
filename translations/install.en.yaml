@@ -220,6 +220,8 @@ ins_rules_default_info: 'The rules page starts with the standard game rules, whi
 ins_rules_blank: 'Start blank'
 ins_rules_blank_info: 'The rules page stays empty until you write your own rules in the admin area.'
 ins_group_community: 'Community'
+ins_cookie_consent: "Show cookie consent notice (GDPR)"
+ins_cookie_consent_info: "Shows visitors a notice about the cookies the game uses. Recommended for operators serving the EU. Can be changed later in the settings."
 ins_board: 'Enable the community board'
 ins_board_info: 'A forum for your players. When off, all board links are hidden and the board pages are not available.'
 ins_legal_note: 'The generated texts are templates only. As the operator you are responsible for the legal texts of your game and should review them.'

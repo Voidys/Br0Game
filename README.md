@@ -251,7 +251,7 @@ The technical list for server admins:
   - writable folders, pending migrations and cron;
   - the battle engine, HTTPS and mail.
 - **Updates:** back up first ([how](docs/INSTALL.md#backups)).
-  - ZIP installs: replace all files **except** `config/`, `.env.local`, `var/`, `public/uploads/` and `stats/`
+  - ZIP installs: replace all files **except** `config/`, `.env.local`, `var/`, `public/uploads/` and `public/stats/`
     ([step by step](docs/INSTALL.md#updating)).
   - Git or script installs: `git pull && composer install --no-dev -o`, or `bash install.sh --dir .`.
   - Database changes are applied automatically on the next page load.

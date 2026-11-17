@@ -1,39 +1,58 @@
 {% extends layout_template %}
 {% block title %}{{ LNG.lm_faq }}{{ parent() }}{% endblock %}
 {% block content %}
-<table>
-	<tr>
-		<th>{{ LNG.faq_overview }}</th>
-	</tr>
-	<tr>
-		<td class="left faq-content">{% for categoryID, categoryRow in LNG.questions %}<h2>{{ categoryRow.category }}</h2>
-		<ul>
-		{% for questionID, questionRow in categoryRow %}
-		{% if is_numeric(questionID) %}
-			<li><a href="{{ path('game_questions_single', {categoryID: categoryID, questionID: questionID}) }}">{{ questionRow.title }}</a></li>
-		{% endif %}
-		{% endfor %}
-		</ul>
-		{% endfor %}</td>
-	</tr>
-</table>
+<link rel="stylesheet" href="./styles/resource/css/app/faq.css?v={{ asset_version }}">
+{% set index = [] %}
+{% set cats = [] %}
+{% for category in catalog %}
+  {% set cats = cats|merge([{id: category.id, name: category.name, icon: category.icon}]) %}
+  {% for entry in category.entries %}
+    {% set index = index|merge([{c: category.id, i: entry.id, t: entry.title, x: entry.text, u: path('game_questions_single', {categoryID: category.id, questionID: entry.id})}]) %}
+  {% endfor %}
+{% endfor %}
+{{ data_island('faq-index', {entries: index, categories: cats}) }}
+{{ data_island('faq-i18n', {
+  noResults: LNG.faq_no_results,
+  noResultsHint: LNG.faq_no_results_hint,
+  showAll: LNG.faq_show_all,
+  resultsOne: LNG.faq_results_one,
+  resultsMany: LNG.faq_results_many
+}) }}
+
+<div class="faq" data-faq-index>
+  <header class="faq-head">
+    <h1 class="faq-title">{{ icon('circle-help') }}{{ LNG.faq_overview }}</h1>
+    <p class="faq-lead">{{ LNG.faq_intro }}</p>
+    <form class="faq-search" role="search" action="{{ path('game_questions_show') }}" method="get">
+      <label class="faq-search__label" for="faq-q">{{ LNG.faq_search_label }}</label>
+      <div class="faq-search__field">
+        {{ icon('search') }}
+        <input id="faq-q" name="q" type="search" data-faq-input autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="{{ LNG.faq_search_placeholder }}" aria-controls="faq-results">
+        <kbd class="faq-kbd" aria-hidden="true">/</kbd>
+        <button type="button" class="faq-search__clear" data-faq-clear hidden aria-label="{{ LNG.faq_clear }}" title="{{ LNG.faq_clear }}">{{ icon('x') }}</button>
+      </div>
+    </form>
+    <p class="faq-status" role="status" aria-live="polite" data-faq-status></p>
+  </header>
+
+  <ul class="faq-results" id="faq-results" data-faq-results hidden></ul>
+
+  <div class="faq-categories" data-faq-categories>
+    {% for category in catalog %}
+    <section class="faq-cat" id="cat-{{ category.id }}" aria-labelledby="cat-{{ category.id }}-title">
+      <h2 class="faq-cat__title" id="cat-{{ category.id }}-title">
+        <span class="faq-cat__icon">{{ icon(category.icon) }}</span>
+        <span>{{ category.name }}</span>
+        <span class="faq-cat__count">{% if category.entries|length == 1 %}{{ LNG.faq_entries_one }}{% else %}{{ LNG.faq_entries_many|replace({'{n}': category.entries|length}) }}{% endif %}</span>
+      </h2>
+      <ul class="faq-cat__list">
+        {% for entry in category.entries %}
+        <li><a href="{{ path('game_questions_single', {categoryID: category.id, questionID: entry.id}) }}"><span>{{ entry.title }}</span>{{ icon('chevron-right') }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>
+<script type="module" src="./scripts/app/faq.js?v={{ asset_version }}"></script>
 {% endblock %}
-
-
-
-	{#{foreach $LNG.questions as $categoryID => $categoryRow}
-	<tr>
-		<th>{$categoryRow.category}</th>
-	</tr>
-	{foreach $categoryRow as $questionID => $questionRow}
-	{if is_numeric($questionID)}
-	<tr>
-		<th>{$questionRow.title}</th>
-	</tr>
-	<tr>
-		<td class="left">
-		{$questionRow.body}
-	</tr>
-	{/if}
-	{/foreach}
-	{/foreach}#}

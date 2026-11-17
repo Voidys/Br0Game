@@ -1,0 +1,73 @@
+{# Result hero, summary and notes of a combat report. Expects Raport, Info, recCapacity and the party lists heroAttackers/heroDefenders ({name, coords}). #}
+{% set reduced = Info is defined and Info is not null %}
+{% set won = Raport.result == constant('ATTACKER') ? 'attacker' : (Raport.result == constant('DEFENDER') ? 'defender' : 'draw') %}
+{% set debrisTotal = array_sum(Raport.debris) %}
+<article class="cr cr--{{ won }}">
+	<header class="cr-hero">
+		<p class="cr-hero__kind">{{ icon(Raport.mode == 1 ? 'moon' : 'swords') }}<span>{% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} <time>{{ Raport.time }}</time></span></p>
+		<div class="cr-hero__parties">
+			{% for side, parties in {attacker: heroAttackers, defender: heroDefenders} %}
+			<section class="cr-party cr-party--{{ side }}{% if won == side %} is-winner{% elseif won != 'draw' %} is-loser{% endif %}" aria-labelledby="cr-party-{{ side }}">
+				<h2 class="cr-party__role" id="cr-party-{{ side }}">{{ icon(won == side ? 'trophy' : (won == 'draw' ? 'handshake' : 'skull')) }}{{ side == 'attacker' ? LNG.sys_attack_attacker_pos : LNG.sys_attack_defender_pos }}</h2>
+				<ul class="cr-party__names">
+					{% for party in parties %}
+					<li><strong>{{ party.name }}</strong>{% if party.coords and not reduced %} <span class="cr-coords">{{ party.coords }}</span>{% endif %}</li>
+					{% endfor %}
+				</ul>
+				<p class="cr-party__loss"><span class="cr-label">{{ LNG.cr_losses }}</span> {% set lostUnits = Raport['units'][side == 'attacker' ? 0 : 1] %}<strong class="{{ lostUnits > 0 ? 'cr-loss' : 'cr-none' }}">{% if lostUnits > 0 %}&minus;{% endif %}{{ pretty_number(lostUnits) }}</strong> <span class="cr-unit">{{ LNG.sys_units }}</span></p>
+			</section>
+			{% if loop.first %}<span class="cr-hero__vs" aria-hidden="true">VS</span>{% endif %}
+			{% endfor %}
+		</div>
+		<p class="cr-verdict cr-verdict--{{ won }}">
+			{% if won == 'attacker' %}{{ icon('trophy') }}{{ LNG.sys_attacker_won }}{% elseif won == 'defender' %}{{ icon('shield-check') }}{{ LNG.sys_defender_won }}{% else %}{{ icon('handshake') }}{{ LNG.sys_both_won }}{% endif %}
+		</p>
+	</header>
+
+	<section class="cr-summary">
+		<div class="cr-stat">
+			<h3 class="cr-stat__label">{{ icon('orbit') }}{{ LNG.cr_debris }}</h3>
+			<dl class="cr-stat__list">
+				{% for elementID, amount in Raport.debris %}
+				<div><dt>{{ LNG.tech[elementID] }}</dt><dd>{{ pretty_number(amount) }}</dd></div>
+				{% else %}
+				<div><dd>0</dd></div>
+				{% endfor %}
+			</dl>
+		</div>
+		{% if won == 'attacker' %}
+		<div class="cr-stat">
+			<h3 class="cr-stat__label">{{ icon('truck') }}{{ LNG.cr_loot }}</h3>
+			<dl class="cr-stat__list">
+				{% for elementID, amount in Raport.steal %}
+				<div><dt>{{ LNG.tech[elementID] }}</dt><dd>{{ pretty_number(amount) }}</dd></div>
+				{% endfor %}
+			</dl>
+		</div>
+		{% endif %}
+		<div class="cr-stat">
+			<h3 class="cr-stat__label">{{ icon('moon') }}{{ LNG.cr_moon }}</h3>
+			{% if Raport.mode == 1 %}
+				{% if Raport.moon.moonDestroySuccess == -1 %}
+				<p class="cr-stat__text">{{ LNG.sys_destruc_stop }}</p>
+				{% else %}
+				<p class="cr-stat__text">{{ LNG.format('sys_destruc_lune', "#{Raport.moon.moonDestroyChance}") }}</p>
+				<p class="cr-stat__text">{{ LNG.sys_destruc_mess1 }}
+					{% if Raport.moon.moonDestroySuccess == 1 %}<strong class="cr-ok">{{ LNG.sys_destruc_reussi }}</strong>{% elseif Raport.moon.moonDestroySuccess == 0 %}<strong>{{ LNG.sys_destruc_null }}</strong>{% endif %}</p>
+				<p class="cr-stat__text">{{ LNG.format('sys_destruc_rip', "#{Raport.moon.fleetDestroyChance}") }}
+					{% if Raport.moon.fleetDestroySuccess == 1 %}<strong class="cr-bad">{{ LNG.sys_destruc_echec }}</strong>{% endif %}</p>
+				{% endif %}
+			{% else %}
+				<p class="cr-stat__value">{{ Raport.moon.moonChance }} %{% if Raport.moon.additionalChance and Raport.moon.additionalChance != 0 %} <span class="cr-unit">+ {{ Raport.moon.additionalChance }} %</span>{% endif %}</p>
+				{% if Raport.moon.moonName %}<p class="cr-pill cr-pill--ok">{{ icon('circle-check') }}{{ LNG.sys_moonbuilt }}</p>{% endif %}
+			{% endif %}
+		</div>
+	</section>
+
+	{% if debrisTotal > 0 or Raport.additionalInfo or Raport.wreckfield_created %}
+	<ul class="cr-notes">
+		{% if debrisTotal > 0 %}<li>{{ icon('refresh-cw') }}<span>{{ LNG.format('bs_derbis_raport', pretty_number(ceil(debrisTotal / recCapacity)), LNG['tech'][constant('SHIP_RECYCLER')]) }}</span></li>{% endif %}
+		{% if Raport.additionalInfo %}<li>{{ icon('info') }}<span>{{ Raport.additionalInfo }}</span></li>{% endif %}
+		{% if Raport.wreckfield_created %}<li>{{ icon('hammer') }}<span>{{ LNG.sys_wreckfield }}</span></li>{% endif %}
+	</ul>
+	{% endif %}

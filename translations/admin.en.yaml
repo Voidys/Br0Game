@@ -639,6 +639,8 @@ se_bash_per_user: Bash limit per player
 se_bash_per_user_info: >-
   How often a player can attack another player per 24 hours (across all
   planets). 0 = off
+se_cookie_consent: "Cookie notice"
+se_cookie_consent_info: "Shows a notice about cookies at the bottom of the login area, account area and game until the visitor chooses (\"Accept all\" or \"Only necessary\"; stored in the cookie cookie_consent for one year). The operator is responsible for the legal texts."
 se_block_planet_creation: Block
 se_board_enabled: Enable community board
 se_board_enabled_info: "Off: all board links are hidden and the board pages are not available."
@@ -1062,8 +1064,10 @@ se_timezone: Universe time zone
 se_trade_allowed_ships: 'Allowed ships:'
 se_trade_charge: 'Merchant fee:'
 se_trader: Scrap merchant settings
-se_ttf_file: Path to TTF file
-se_ttf_file_info: Needed to render Cyrillic or Chinese characters on the statistics banner
+se_ttf_file: Font (TTF/OTF)
+se_ttf_file_info: >-
+  Font files found in public/styles/resource/fonts/ (drop new files there).
+  If the chosen file is missing, the bundled DroidSansMono is used.
 se_type_all: Normal search
 se_type_exact: Exact search
 se_type_first: Starts with
@@ -1303,6 +1307,22 @@ adm_tab_universe: Universe
 adm_maint_cache_text: Clears the game caches (languages, templates, game data) and recalculates the cron job times. Helps when changes to settings or texts do not show up.
 adm_maint_log_head: "Game log"
 adm_maint_log_text: "Error log of the game (var/log/game.log). Clearing empties the file; new errors are written again right away."
+adm_migr_head: "Database migrations"
+adm_migr_text: "Applies database changes that come with an update (for example after unpacking a new release over the installation)."
+adm_migr_current: "Current database revision"
+adm_migr_pending: "Pending migrations"
+adm_migr_backup: "Create a database backup first."
+adm_migr_revision: "Revision"
+adm_migr_file: "File"
+adm_migr_status: "Status"
+adm_migr_ok: "Done"
+adm_migr_failed: "Failed"
+adm_migr_skipped: "Skipped query"
+adm_migr_uptodate: "The database is up to date."
+adm_migr_confirm: "Run all pending migrations now?"
+adm_migr_run: "Run migrations"
+adm_migr_result: "Result"
+adm_migr_nothing: "No migrations were pending."
 adm_maint_log_size: "Size"
 adm_maint_log_changed: "Last change"
 adm_maint_log_missing: "The log file does not exist yet."
@@ -1669,6 +1689,11 @@ se_transport_push_limit: "Transport push limit"
 se_transport_push_limit_info: "Cargo value in deuterium units (market ratios) above which the guard applies. 0 = guard off."
 se_depot_cost_real_consumption: "Depot cost by real consumption"
 se_depot_cost_real_consumption_info: "The alliance depot charges the fleet's actual fuel consumption (with the owner's drive and fuel techs) / 10 per hour instead of the base consumption / 10."
+se_hours: Hours
+se_remember_me_days: '"Stay logged in" lasts'
+se_remember_me_days_info: 'Days a login with the "stay logged in" box ticked survives browser restarts and expired sessions. A password change ends it. 0 disables the option.'
+se_session_lifetime: Session expires after inactivity of
+se_session_lifetime_info: 'Hours without any request after which a player is logged out ("session expired").'
 abuse_menu: "Abuse report"
 abuse_days: "Days"
 abuse_apply: "Apply"

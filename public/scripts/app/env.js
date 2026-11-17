@@ -16,7 +16,8 @@ import { pageData, handleErr } from './core.js';
 
 export function publishEnv(data = {}) {
   const [year, month, day, hour, minute, second] = (data.date ?? [1970, 1, 1, 0, 0, 0]).map(Number);
-  const serverTimeDelta = new Date(year, month - 1, day, hour, minute, second).getTime() - Date.now();
+  // dateMs: milliseconds of the render time, so a reload does not move the clock by up to a second
+  const serverTimeDelta = new Date(year, month - 1, day, hour, minute, second, Number(data.dateMs ?? 0)).getTime() - Date.now();
   Object.defineProperty(window, 'serverTime', { get: () => new Date(Date.now() + serverTimeDelta), configurable: true });
 
   const values = {

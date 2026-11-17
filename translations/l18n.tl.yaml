@@ -71,3 +71,8 @@ php_dateformat: M d, Y
 lang_group_fun: Pang-katuwaang wika
 dialog_ok: OK
 dialog_cancel: Kanselahin
+cookie_notice_title: "Cookies"
+cookie_notice_text: "Gumagamit lang ang site na ito ng mga teknikal na kinakailangang cookie (login session, wika, \"manatiling naka-login\" kung pipiliin mo, device link). Ang mga opsyonal na cookie ay gagamitin lang kapag pumayag ka."
+cookie_notice_privacy: "Patakaran sa privacy"
+cookie_notice_necessary: "Kinakailangan lang"
+cookie_notice_all: "Tanggapin lahat"

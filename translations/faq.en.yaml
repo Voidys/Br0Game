@@ -1,154 +1,575 @@
 faq_overview: FAQ
+faq_intro: "Answers about game mechanics, rules and menus. Search, or pick a category."
+faq_search_label: "Search the FAQ"
+faq_search_placeholder: "Search questions and answers (press / to focus)"
+faq_clear: "Clear search"
+faq_results_one: "1 result"
+faq_results_many: "{n} results"
+faq_no_results: "Nothing found for “{q}”"
+faq_no_results_hint: "Check the spelling, try fewer or more general words, or browse the categories."
+faq_show_all: "Show all categories"
+faq_entries_one: "1 article"
+faq_entries_many: "{n} articles"
+faq_contents: "In this article"
+faq_prev: "Previous"
+faq_next: "Next"
+faq_back: "Back to FAQ"
+faq_copy_link: "Copy link to this section"
+faq_link_copied: "Link copied"
+faq_to_top: "Back to top"
 questions:
   '1':
+    category: "Getting started"
+    icon: "rocket"
     '1':
+      title: "Your first steps"
       body: |-
-        <p>This section covers the main buildings: what to build first and what each one is for. A thriving empire starts with building them in a sensible order.</p>
-        <h3>Solar Power Plant</h3>
-        <p>Build this first. Mines need energy to produce metal, crystal and deuterium. After the plant finishes, the resource bar and the Production page show how much energy you have.</p>
-        <h3>Metal Mine</h3>
-        <p>Metal is one of the three resources. Almost everything you build or research costs metal, so expanding this mine is a priority. Early on, keep it several levels ahead of your other mines.</p>
-        <h3>Crystal Mine and Deuterium Refinery</h3>
-        <p>Crystal is used in buildings, ships and research. You produce less of it than metal, which makes it more valuable; later in the game it is often fiercely contested. Deuterium fuels your fleets, can be burned for energy in the Fusion Power Plant, and is required for several important buildings and researches (including the Research Lab).</p>
-        <p>More information: <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: Step 1
+        <p>You start with one planet and a few resources (500 metal and 500 crystal by default). Everything else is built from three resources, metal, crystal and deuterium, and the energy that keeps your mines running.</p>
+        <h2 id="order">A sensible opening</h2>
+        <ol>
+        <li><b>Solar Power Plant</b> first. Mines stop working properly without energy.</li>
+        <li><b>Metal Mine</b> next, then the <b>Crystal Mine</b>. Metal is needed for almost everything; keep it a few levels ahead of the other mines early on.</li>
+        <li><b>Deuterium Refinery</b>. Deuterium is fleet fuel and is needed for several important buildings and researches.</li>
+        <li><b>Robot Factory</b> and <b>Research Lab</b> as soon as construction gets slow or the first researches become available.</li>
+        <li><b>Shipyard</b> for a few Light Cargos and some defense.</li>
+        </ol>
+        <h2 id="queues">Queues</h2>
+        <p>Buildings, research and the shipyard each have their own queue, so you can build, research and produce ships at the same time. By default the queues hold 5 buildings, 2 researches and 10 shipyard orders per planet; universes may change that.</p>
+        <h2 id="progress">How progress is measured</h2>
+        <p>Your score comes from the resources you invest, by default 1 point per 1,000 resource units (see <a href="game/faq/11/3">Statistics and points</a>). The <a href="game/faq/1/3">tutorial</a> walks you through the first steps and hands out rewards.</p>
     '2':
+      title: "Where to find what"
       body: |-
-        <p>To grow your empire and interact with other players you need more buildings. Research and a Shipyard let you start a fleet and planetary defense.</p>
-        <h3>Shipyard</h3>
-        <p>All ships (and defenses) are built here. The Shipyard is available early, but many ship classes still need extra research. The Technologies menu lists the requirements for each ship and defense. Higher Shipyard levels build faster.</p>
-        <h3>Research Lab</h3>
-        <p>Research is started here. It unlocks buildings, ships, defenses and further research, and some technologies also give bonuses to things you already have. Expanding the Research Lab speeds up research.</p>
-        <h3>Robot Factory</h3>
-        <p>The Robot Factory is essential. Higher levels reduce building construction time and also speed up ship production. When build times get long, expand the Robot Factory to bring them back down.</p>
-      title: Step 2
+        <p>The side panel groups every page. The most important ones:</p>
+        <table class="faq-table">
+        <tr><th>Page</th><th>What it is for</th></tr>
+        <tr><td>Overview</td><td>Your planets, running queues and incoming or outgoing fleets.</td></tr>
+        <tr><td>Resources</td><td>Production per hour, energy balance and the production percentage of each building.</td></tr>
+        <tr><td>Buildings, Research, Hangar, Defenses</td><td>Construction, research, ships and defense. Each shows costs, build time and requirements.</td></tr>
+        <tr><td>Technologies</td><td>The tech tree with requirements for every building, research, ship and defense.</td></tr>
+        <tr><td>Fleet, Galaxy</td><td>Send fleets; browse systems, spy, attack, recycle, launch missiles.</td></tr>
+        <tr><td>Alliance, Friends</td><td>Alliance management and buddy list.</td></tr>
+        <tr><td>Marketplace, Fleet Trader</td><td>Trade resources or ships with other players; sell ships for resources.</td></tr>
+        <tr><td>Simulator</td><td>Test fights before you send a fleet.</td></tr>
+        <tr><td>Statistics, Records, Hall of Fame</td><td>Rankings, universe records and the biggest battles.</td></tr>
+        <tr><td>Empire</td><td>All your planets and moons in one table.</td></tr>
+        <tr><td>Messages, Notes, Support</td><td>Reports and mail, personal notes, tickets to the team.</td></tr>
+        <tr><td>Options, Rules</td><td>Account settings, vacation mode, and the rules of this universe.</td></tr>
+        </table>
+        <p>Some pages only exist when the universe enables the matching module; if something described here is missing, ask in <a href="game/faq/11/4">Support</a>.</p>
     '3':
+      title: "Tutorial and achievements"
       body: |-
-        <p>This section covers defending your planet and your first fleet moves: how to send fleets and how to deal with other players.</p>
-        <h3>Galaxy view</h3>
-        <p>Use it to find other players. You see details about other planets and can send parts of your fleet directly from this view. You can also message players, or spy on a planet if you have Spy Probes available.</p>
-        <h3>Sending fleets</h3>
-        <p>Fleets can be sent from the Galaxy view or from the Fleets menu. First choose how many ships of each type to send. Then set the target (coordinates from the Galaxy view) and the speed. Finally pick the mission, such as Attack, Deploy, Hold, Recycle or Transport.</p>
-        <h3>Defense</h3>
-        <p>Once you have a Shipyard, you can also build defenses. They protect the planet and fight together with any fleet that is present when an attack lands. Unlike ships, about 70% of destroyed defenses are repaired after combat.</p>
-      title: Step 3
-    category: Tips for beginners
-  '2':
-    '1':
-      body: |-
-        <h3>Raiding</h3>
-        <p>Raiding means attacking other players to take their resources. Common types:</p>
-        <ul>
-        <li>Farm raid</li>
-        <li>Fleet attack</li>
-        <li>Debris-field raid</li>
-        <li>Intercepting</li>
-        </ul>
-        <h3>Farm raid</h3>
-        <p>These are the most common attacks in a universe. You spy nearby planets and send small fleets with enough cargo and firepower to break light defense and still profit: stolen resources should exceed deuterium used plus your own losses.</p>
-        <h3>Fleet attack</h3>
-        <p>The high end of raiding: hunting other players' fleets. Besides Spy Probes and luck, a Sensor Phalanx and good timing matter. Once you spot a worthwhile fleet you still have to catch it and recycle the debris. That is often hard, because profitable fleets can exceed your recycler capacity — then you must coordinate recyclers and, if needed, Alliance Combat System partners as well as the combat fleet.</p>
-        <h3>Debris-field raid</h3>
-        <p>The easiest and least popular way to make a profit: harvesting debris fields that other players created. Debris belongs to whoever collects it, so stealing fields is a common source of bad blood.</p>
-        <h3>Intercepting</h3>
-        <p>A fleeter's job is to build fleet and destroy fleet. You will not always find idle ships, so catching good players often means intercepting them while they fleet-save or while they fly an attack. That is not easy; there are ways to defend against it.</p>
-        <ul>
-        <li><p>A moon makes intercepting easier, because a Sensor Phalanx can scan fleet movements on planets in range (not moons). If you find a fleet worth catching, work out its remaining flight time — especially the return time after it arrives. Engine levels (Combustion, Impulse, Hyperspace) from a spy report are enough to calculate this, by hand or with a flight-time calculator. A precise clock helps. Time your fleet and recyclers to arrive about 3–5 seconds after the target at their planet or moon. Recyclers need to be timed as well.</p></li>
-        <li><p>To intercept a fleet flying from a moon to a debris field, you need a rough launch time. Create a visible debris field at the spots you think they will harvest (for example with Spy Probes). Calculate how long their fleet takes to get there, watch the system, and refresh until the field disappears. Note that time, add their return flight, and time your fleet and recyclers a few seconds behind that arrival.</p>
-        <p><b>Note:</b> this does not always work. A recycler sent ahead to clear the field first is a common counter.</p></li>
-        <li>Another form of intercept is holding at a friend's planet to protect them, forcing attackers to recall because the defending fleet would be too strong. You can reduce the risk of being caught this way with a save scan.</li>
-        <li><p>If a player deploys from one planet to another and then recalls, the fleet disappears from the Sensor Phalanx. Watch their save pattern (when they launch and when they recall). When you expect a recall, phalanx the planet every second. The moment the fleet vanishes, note the time, add the return flight, and arrive about 4–6 seconds later with fleet and recyclers.</p>
-        <p>If they save from a moon to a debris field and send recyclers ahead, intercepting is almost impossible unless you destroy the moon. Send Death Stars with the Destroy mission. After the moon is gone, the fleet returns to the planet; phalanx that planet and slot in a few seconds behind them.</p>
-        <p>All of these techniques work much better if you know the target's habits — for example a save every evening at 23:00, or coming online at noon. Study the player before you intercept.</p></li>
-        </ul>
-        <p>More in the wiki: <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a>, <a href="{wiki_url}/wiki/En/Sensorenphalanx" target="_blank">Sensor Phalanx</a>.</p>
-      title: Raiding
-    '2':
-      body: |-
-        <h3>Attacking with ACS</h3>
-        <p>To attack together, first send a fleet with the mission Attack to the target. After it has launched, open the Fleets menu and use Federation to turn that fleet into an ACS group. There you can rename the group and invite other players; the player who started the attack is invited automatically. Each invited player then sends their own ships to the same coordinates with the mission Alliance Attack.</p>
-        <p>The group always flies as long as the slowest participating fleet. Faster fleets joining later do not shorten the remaining time. Slower fleets increase remaining time to their own flight time. Usually at most 5 players and 16 fleets can join one ACS attack (universe settings may differ). A joining fleet may increase remaining flight time by at most 30%. If 100 minutes remain, a joining fleet may take at most 130 minutes.</p>
-        <p><b>Warning:</b> if the ACS founder recalls, every fleet in the group is recalled as well.</p>
-        <h3>Defending with ACS</h3>
-        <p>If you are under attack, alliance members and buddies can help. They send a fleet to the coordinates being attacked, choose how long to stay, and use the mission Hold. Besides flight deuterium, extra hold costs are charged at launch depending on fleet size and duration. While they are holding, they fight in every battle on that planet or moon and appear on spy reports as if they were your ships. Time holds to arrive shortly before the attacker so a save scan is less likely to see them. Holding players can recall from the Fleets menu at any time; otherwise the fleet waits out the hold and returns home.</p>
-        <h3>Deuterium per 1 hour of hold</h3>
-        <p>Light Cargo: 5<br>
-        Heavy Cargo: 5<br>
-        Light Fighter: 2<br>
-        Heavy Fighter: 7<br>
-        Cruiser: 30<br>
-        Battleship: 50<br>
-        Colony Ship: 100<br>
-        Recycler: 30<br>
-        Spy Probe: 1/10<br>
-        Bomber: 100<br>
-        Destroyer: 100<br>
-        Death Star: 1/10</p>
-      title: Alliance Combat System
-    '3':
-      body: |-
-        <p>A moon can form when a debris field of at least 100,000 units is created (1% moon chance). The chance caps at 20%, no matter how large the field is.</p>
-        <h3>General</h3>
-        <p>Moons can be renamed like planets, but “(Moon)” stays in the name. You can have at most one moon per planet. A moon lets you fleet-save out of sight of a Sensor Phalanx, so it is worth creating one relatively early. On a moon you can build Robot Factory, Shipyard, Metal Storage, Crystal Storage, Deuterium Storage, Alliance Depot, Moon Base, Sensor Phalanx and Jumpgate.</p>
-        <h3>Moonshot</h3>
-        <p>A moonshot is the deliberate destruction of ships to create a debris field. Light Fighters are the usual choice: at 30% fleet and 0% defense into debris, 1,667 Light Fighters yield a 20% moon chance. They are cheap to lose and land very close to the cap. If a stronger player destroys Light Fighters at a weaker player, anyone may harvest the debris. If a weaker player attacks a stronger one with ships meant to die, only the weaker player may harvest — otherwise it is pushing. Moons and moon attempts fall under the pushing rules.</p>
-        <p>In a universe where defense also creates debris, it is often better to build defense and have it smashed in several waves for several moon attempts. 3,334 Missile Launchers or 3,334 Light Laser Turrets are a common choice.</p>
-        <p>When a moon forms, the combat report says that the enormous amounts of free metal and crystal draw together and form a satellite around the planet.</p>
-        <p>Moon chance between 1% and 19%: random size. Moon chance of 20%: more than 8,000 km diameter. A moon is never larger than 8,944 km.</p>
-        <h3>Buildings</h3>
-        <p>Storages are usually not worth building on a moon because nothing is produced there. A Shipyard is also rarely useful: build times are long, and you can build ships on the planet. An Alliance Depot is debated; it also occupies valuable fields.</p>
-        <p>The three moon-only buildings are:</p>
-        <ul>
-        <li><p><b>Moon Base</b><br>Adds buildable fields: 3 per level, one of which is taken by the next Moon Base upgrade.</p></li>
-        <li><p><b>Sensor Phalanx</b><br>Shows fleet movements at enemy planets (not moons). Range increases with each level.</p></li>
-        <li><p><b>Jumpgate</b><br>Moves ships instantly from one moon to another. Resources cannot go with them. After a jump, the gate needs time to cool down (typically one hour) or it overheats.</p></li>
-        </ul>
-        <p>A common moon build order:<br>
-        <b>Legend:</b><br>
-        MB – Moon Base<br>
-        SP – Sensor Phalanx<br>
-        ST – Jumpgate<br>
-        RB – Robot Factory</p>
-        <p>MB1 – RB1 – RB2 – MB2 – SP1 – RB3 – MB3 – SP2 – RB4 – MB4 – SP3 – RB5 – MB5 – SP4 – RB6 – MB6 – SP5 – SP6 – MB7 – SP7 – SP8 – MB8 – ST1<br>
-        After that you can keep expanding the Sensor Phalanx if you have the resources. You can also tear down some Robot Factory levels and put those fields into the phalanx.</p>
-        <h3>Destruction</h3>
-        <p>A moon can be destroyed only with Death Stars. In the mission menu choose Destroy instead of Attack. Any fleet on the moon must be destroyed first; surviving Death Stars can still be lost when the moon itself is destroyed. Moon destruction creates no debris field.</p>
-        <h3>Death Star moon attacks</h3>
-        <p>Moon destruction chance: (100 − sqrt(moon size)) × sqrt(number of Death Stars). Chance that the attacking Death Stars are destroyed: sqrt(moon size) / 2. Larger moons are riskier to destroy.</p>
-        <h3>Moon chance and size</h3>
-        <p>100,000 debris units give 1% moon chance. Maximum chance: 20%. After a later change, every moon has the maximum number of buildable fields (79). Previously this was FLOOR((diameter / 1000)²). Largest possible moon: 8,944 km diameter, 79 fields.</p>
-        <p>More in the wiki: <a href="{wiki_url}/wiki/En/Mond" target="_blank">Moons</a>, <a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">wiki</a>.</p>
-      title: Moons
+        <p>If the universe has the tutorial enabled, a tutorial box guides you step by step: build your first mines and defense, send a first transport, spy on a player, recycle debris, colonize, send an expedition, rename a planet, send a buddy request or alliance application. Completed goals can pay rewards; you can skip single goals, or the whole tutorial. The <b>beginner interface</b> in Options keeps the menu short until you have worked through the tutorial.</p>
+        <h2 id="achievements">Achievements</h2>
+        <p>The Achievements page lists long-term goals (first moon, first expedition finds, large battles and more). They unlock on their own while you play.</p>
     '4':
+      title: "Other players, bots and pirate bases"
       body: |-
-        <h3>How do I found an alliance?</h3>
-        <p>Open Alliance in the left menu, then Create your own Alliance. Enter an alliance tag (the short abbreviation) and an alliance name. Example: an alliance named “The Top Ally” might use the tag “DTA”.</p>
-        <p>Only letters, numbers and spaces are allowed. After you enter tag and name, click Create. If that name or tag is already taken, you get an error and must choose another. On success you see a confirmation; Continue opens your still-empty alliance menu, which you can always reach from Alliance in the left menu. At the top you see your tag and name.</p>
-        <p>Below that you will find:<br>
-        Members: every member with points, home-planet coordinates, join date and online status. Click column headers to sort.<br>
-        Your Rank: your rank name, plus a link to alliance management.<br>
-        Mass messages: send a message to the whole alliance or to selected ranks.</p>
-        <h3>Alliance management</h3>
-        <p>Ranks lets you set rights for each rank, for example dissolving the alliance or sending mass messages. Members lets you kick players, assign ranks, and see how many days they have been offline. You can also change the alliance tag and name.</p>
-        <p>Text Management edits alliance texts. The external text is visible to every player; the internal text only to members. The application text is a template for people who apply.</p>
-        <p>Options let you link a banner image and an alliance forum, choose whether applications are open, and set your founder rank name. If you leave that empty, the rank is Founder.</p>
-        <p>You can dissolve the alliance, or transfer it to another member, who then becomes the founder.</p>
-      title: Alliances
+        <p>Every universe is shared with other players. Depending on the universe settings, server-run <b>bots</b> may play along. Bots follow the same rules as players; if bot raids are enabled, they scout, spy and attack under the same limits (bash limit, protection, vacation mode).</p>
+        <h2 id="pirates">Pirate bases</h2>
+        <p>If the universe enables pirate bases, one base per active player (online within the last 7 days and above a minimum score) appears in a system of one of the player's planets and is replaced weekly. A base holds a share of that player's ships and a few hours of production; raiding one takes all of the resources, not just half. The universe settings define the share and the minimum score.</p>
+  '2':
+    category: "Economy and buildings"
+    icon: "building-2"
+    '1':
+      title: "Resources and production"
+      body: |-
+        <p>Metal, crystal and deuterium are produced by the mines on each planet, plus a small <b>basic income</b> per hour (by default 20 metal and 10 crystal). Every mine needs energy.</p>
+        <h2 id="percent">Production percentage</h2>
+        <p>On the Resources page you can set each producer to 0-100&nbsp;%. Lower settings use less energy and deuterium (the Fusion Power Plant burns deuterium) and produce less. Use this to balance energy.</p>
+        <h2 id="factors">What changes production</h2>
+        <ul>
+        <li>The mine level (production grows faster than linearly, and so does the cost).</li>
+        <li>Planet temperature: Deuterium Refinery output is higher on colder planets; a Solar Satellite yields more on warmer ones.</li>
+        <li>The production researches (Metal, Crystal, Deuterium Production): +2&nbsp;% per level each.</li>
+        <li>The universe resource multiplier.</li>
+        </ul>
+        <h2 id="full">Full storage</h2>
+        <p>Production on a planet stops for a resource once its storage is full (by default exactly at the capacity). Resources you collect from a raid or expedition can push you above it.</p>
+    '2':
+      title: "Energy"
+      body: |-
+        <p>Mines consume energy; the Resources page shows produced and used energy. If consumption exceeds production, <b>every producer is throttled</b> to produced / needed of its normal output, so an energy deficit costs you metal, crystal and deuterium alike.</p>
+        <h2 id="sources">Sources</h2>
+        <ul>
+        <li><b>Solar Power Plant</b>: cheap, no running cost. Build it first.</li>
+        <li><b>Fusion Power Plant</b>: burns deuterium. Energy = 30 x level x (1.05 + 0.01 x Energy Technology level)^level, so Energy Technology makes it better.</li>
+        <li><b>Solar Satellites</b>: built in the Hangar, no fields needed; energy depends on the planet's temperature. They can be shot down, so they count as ships in combat.</li>
+        </ul>
+    '3':
+      title: "Storage and protecting resources"
+      body: |-
+        <p>Each resource has a storage capacity (10,000 units without a storage building) that grows quickly with the level of the Metal Storage, Crystal Storage and Deuterium Storage.</p>
+        <h2 id="stash">Protection from raids</h2>
+        <p>If the universe uses the resource stash, each storage level protects 1&nbsp;% of that resource's daily production on the planet from looting, up to 10&nbsp;% (storage level 10). Besides that, a raid can never take more than half of a resource that is present on the planet; see <a href="game/faq/5/2">Loot</a>.</p>
+        <p>The best protection is still to spend resources before you log off, or to keep them in a queue.</p>
+    '4':
+      title: "Constructing buildings"
+      body: |-
+        <p>Each level costs a fixed factor more than the one before (for example 1.5 x for the Metal Mine, 1.6 x for the Crystal Mine, 2 x for most other buildings), so the Buildings page is the place to check real prices.</p>
+        <h2 id="time">Construction time</h2>
+        <p>At normal universe speed: (metal + crystal cost) / (2500 x (1 + Robot Factory level)) hours, halved for every Nanite Factory level. The Robot Factory also helps on moons. Ships are built in (metal + crystal) / (2500 x (1 + Shipyard level)) hours, again halved per Nanite level; research is covered in <a href="game/faq/3/1">Research</a>. Universe speed settings scale all of this.</p>
+        <h2 id="cancel">Cancelling and demolishing</h2>
+        <p>Cancelling a building or a research refunds the full cost. Cancelling a shipyard order refunds 60&nbsp;%. Demolishing a building takes much less time than building it (about 36&nbsp;%).</p>
+        <h2 id="catchup">Catch-up</h2>
+        <p>Universes may enable a catch-up mechanic: players far behind the leader build and research cheaper and faster, up to the configured maximum (by default 50&nbsp;%).</p>
     '5':
+      title: "Planet fields and the Terraformer"
       body: |-
-        <h3>Where can I find more information?</h3>
-        <!--wiki_url--><p>The wiki is the first place to look:</p>
-        <p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">English wiki home</a><br>
-        <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">Build order</a><br>
-        <a href="{wiki_url}/wiki/En/%C3%96konomik" target="_blank">Playstyles (Miner, Raider, Comber)</a><br>
-        <a href="{wiki_url}/wiki/En/Saven" target="_blank">Fleet saving</a><br>
-        <a href="{wiki_url}/wiki/En/Slippys_progame_flottensicherung_leitfaden" target="_blank">Fleet-saving guide</a><br>
-        <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">Expeditions</a></p><!--/wiki_url-->
-        <p>German (owiki):<br>
-        <a href="https://www.owiki.de/index.php/Aufbautaktik" target="_blank">Build tactics</a><br>
-        <a href="https://www.owiki.de/index.php/Miner" target="_blank">Playstyle: Miner</a><br>
-        <a href="https://www.owiki.de/index.php/Raideraccount" target="_blank">Playstyle: Fleeter</a><br>
-        <a href="https://www.owiki.de/index.php/Comber" target="_blank">Playstyle: Comber</a><br>
-        <a href="https://www.owiki.de/index.php/Saven" target="_blank">Fleet saving</a></p>
-      title: Links
-    category: Advanced information
+        <p>Every planet and moon has a limited number of fields; every building level on a planet uses one field (research and ships do not).</p>
+        <ul>
+        <li><b>Terraformer</b> (planets only): +5 fields per level, and +1 more on every even level; each level uses one field itself. It needs energy (not used up) and cannot be demolished.</li>
+        <li><b>Moon Base</b> (moons only): +3 fields per level, also using one field itself. See <a href="game/faq/7/2">Moon buildings</a>.</li>
+        </ul>
+    '6':
+      title: "Colonies"
+      body: |-
+        <p>Colonize free planets with a <b>Colony Ship</b> (mission Colonize). The ship is used up and turns into the new colony. You need the Astrophysics research.</p>
+        <h2 id="limit">How many planets</h2>
+        <p>By default the total number of planets (home planet included) is 1 + Astrophysics level / 2, rounded up, with a maximum of 12 planets:</p>
+        <p>Levels 1-2 = 2 planets, 3-4 = 3, 5-6 = 4, 7-8 = 5, 9-10 = 6, 11-12 = 7, 13-14 = 8, 15-16 = 9, 17-18 = 10, 19-20 = 11, 21+ = 12.</p>
+        <h2 id="positions">Which positions</h2>
+        <p>The outer and inner positions need more Astrophysics: positions 4-12 from level 1, positions 3 and 13 from level 4, positions 2 and 14 from level 6, positions 1 and 15 from level 8 (for a 15-position system).</p>
+  '3':
+    category: "Research"
+    icon: "flask-conical"
+    '1':
+      title: "Research and the Research Lab"
+      body: |-
+        <p>Research is done in the <b>Research Lab</b> and counts for all your planets. The lab level and a list of requirements decide what you can research; the Technologies page shows them.</p>
+        <ul>
+        <li>Only one research runs at a time (the queue holds 2 by default). While a research is running, no Research Lab can be upgraded.</li>
+        <li>Research time = (metal + crystal cost) / (1000 x (1 + lab level)) hours at normal speed. A <b>University</b> shortens it, by default 8&nbsp;% per level.</li>
+        <li>The <b>Intergalactic Research Network</b> lets the labs of your other planets help: each level adds one more lab (the highest ones that meet the research's own lab requirement), and their levels add up for the calculation.</li>
+        <li>Cancelling a running research refunds the full cost.</li>
+        </ul>
+    '2':
+      title: "What the technologies do"
+      body: |-
+        <h2 id="fleet">Fleet</h2>
+        <ul>
+        <li><b>Computer Technology</b>: +1 fleet slot per level (you start with 1 slot).</li>
+        <li><b>Combustion / Impulse / Hyperspace Engine</b>: ships using that drive fly +10 / +20 / +30&nbsp;% of the base speed per level. Some ships switch drives at a certain level (for example the Light Cargo with the Impulse Engine). Impulse level also sets the missile range.</li>
+        <li><b>Fuel Efficiency</b>: -2&nbsp;% fuel consumption per level.</li>
+        <li><b>Astrophysics</b>: colonies, expeditions and colonizable positions, see <a href="game/faq/2/6">Colonies</a> and <a href="game/faq/8/1">Expeditions</a>.</li>
+        <li><b>Spy Technology</b>: better espionage reports; also decides what you see about incoming fleets.</li>
+        </ul>
+        <h2 id="combat">Combat</h2>
+        <ul>
+        <li><b>Weapons, Shield and Armour Technology</b>: +10&nbsp;% attack, shield and armor per level for all your units.</li>
+        <li>Laser, Ion and Plasma Technology unlock weapons; Graviton Research is needed for moon destruction.</li>
+        </ul>
+        <h2 id="economy">Economy</h2>
+        <ul>
+        <li><b>Energy Technology</b>: raises Fusion Power Plant output and opens many technologies.</li>
+        <li><b>Metal / Crystal / Deuterium Production</b>: +2&nbsp;% production per level.</li>
+        </ul>
+  '4':
+    category: "Fleet and missions"
+    icon: "send"
+    '1':
+      title: "Sending a fleet"
+      body: |-
+        <ol>
+        <li><b>Select ships</b> on the Fleet page (or send everything from the Galaxy view).</li>
+        <li><b>Target and speed</b>: enter coordinates (galaxy:system:position) and the type: planet, debris field or moon. Speed is 10-100&nbsp;% in steps of 10; slower is cheaper and takes longer.</li>
+        <li><b>Mission and cargo</b>: pick a mission that is available for that target, load resources if needed and confirm. For Hold, Expedition and Trade you also choose how long to stay.</li>
+        </ol>
+        <p>The page shows flight time, arrival time and fuel before you confirm. The fleet needs enough deuterium on the planet to pay for the flight.</p>
+        <p>You can fly at most as many fleets at once as you have <b>fleet slots</b>: 1 + Computer Technology level. Expeditions have their own limit, see <a href="game/faq/8/1">Expeditions</a>.</p>
+    '2':
+      title: "Speed, flight time and fuel"
+      body: |-
+        <ul>
+        <li>A fleet flies as fast as its <b>slowest ship</b>.</li>
+        <li>Ship speed = base speed x (1 + 0.1 / 0.2 / 0.3 x drive level) for the best drive the ship can use; see <a href="game/faq/3/2">technologies</a>.</li>
+        <li>Flight time = (3500 / (speed&nbsp;% x 0.1) x square root of (distance x 10 / fleet speed) + 10) / universe fleet speed. The minimum is 5 seconds.</li>
+        <li>Distance grows with the number of galaxies and systems crossed; the same galaxy and system is far shorter than another system.</li>
+        <li>Fuel use rises faster than flight time falls: flying slower saves deuterium. Each Fuel Efficiency level reduces consumption by 2&nbsp;%.</li>
+        </ul>
+        <p>Some universes are circular (systems or galaxies wrap around). The Fleet page already includes that in its calculation.</p>
+    '3':
+      title: "All missions at a glance"
+      body: |-
+        <table class="faq-table">
+        <tr><th>Mission</th><th>Target</th><th>What happens</th></tr>
+        <tr><td>Attack</td><td>other player's planet or moon</td><td>Battle; the survivors return with loot. See <a href="game/faq/5/1">Combat</a>.</td></tr>
+        <tr><td>Alliance Attack</td><td>same, as a group</td><td>Several players attack together, see <a href="game/faq/9/3">ACS</a>.</td></tr>
+        <tr><td>Transport</td><td>any occupied planet</td><td>Delivers resources and returns.</td></tr>
+        <tr><td>Deploy</td><td>your own planets or moons</td><td>Ships and cargo stay there; no return flight.</td></tr>
+        <tr><td>Hold</td><td>planet of an alliance member or buddy</td><td>The fleet waits and defends the planet, see <a href="game/faq/9/4">Hold</a>.</td></tr>
+        <tr><td>Transfer</td><td>planet of an alliance member or buddy</td><td>Gives ships and cargo away; they do not come back.</td></tr>
+        <tr><td>Spying</td><td>other player's planet or moon</td><td>Only a fleet made of probes can spy; see <a href="game/faq/6/1">Spying</a>.</td></tr>
+        <tr><td>Colonize</td><td>free planet position</td><td>Needs a Colony Ship, see <a href="game/faq/2/6">Colonies</a>.</td></tr>
+        <tr><td>Recycle</td><td>debris field</td><td>Needs Recyclers, see <a href="game/faq/4/4">Recycling</a>.</td></tr>
+        <tr><td>Destroy</td><td>a moon</td><td>Needs Death Stars, see <a href="game/faq/7/5">Moon destruction</a>.</td></tr>
+        <tr><td>Expedition</td><td>expedition position (16) of a system</td><td>Event draw, see <a href="game/faq/8/1">Expeditions</a>.</td></tr>
+        <tr><td>Trade</td><td>trade position (17) of a system</td><td>Delivers goods of a <a href="game/faq/4/6">marketplace</a> trade.</td></tr>
+        <tr><td>Missile attack</td><td>planet in missile range</td><td>Missiles hit defense, see <a href="game/faq/5/5">Missiles</a>.</td></tr>
+        </table>
+        <p>Whether a mission is offered depends on the target and on which modules the universe has enabled. Hostile missions against players in vacation mode turn around.</p>
+    '4':
+      title: "Debris fields and recycling"
+      body: |-
+        <p>Ships destroyed in battle leave a <b>debris field</b> at the target's position. By default it holds 30&nbsp;% of the metal and crystal cost of all ships destroyed on both sides, and 0&nbsp;% for defense; deuterium never becomes debris. Universes can change both percentages.</p>
+        <ul>
+        <li>Send <b>Recyclers</b> (mission Recycle, target type debris field) to collect it. A fleet loads as much as it can carry; metal and crystal are taken proportionally, the rest stays in the field.</li>
+        <li>Anyone can collect a debris field. It belongs to whoever gets there first.</li>
+        <li>Probes shot down while spying also leave debris.</li>
+        <li>The recycle page and report tell you how many more Recyclers you would need.</li>
+        </ul>
+    '5':
+      title: "Recalling fleets"
+      body: |-
+        <p>You can recall an outgoing fleet on the Fleet page or the Overview. It turns around and needs as long to return as it has already been flying.</p>
+        <ul>
+        <li>You <b>cannot recall</b> a fleet once it reached its target (the arrival is resolved first, so you cannot dodge a battle), expedition fleets after arrival, or interplanetary missiles.</li>
+        <li>A fleet on Hold can be recalled early; it then needs as long as its outward flight took.</li>
+        <li>If the founder of an ACS attack recalls, the whole group is recalled. Joining fleets recall only themselves.</li>
+        </ul>
+    '6':
+      title: "Fleet Trader, Marketplace and transfers"
+      body: |-
+        <h2 id="dealer">Fleet Trader</h2>
+        <p>The Fleet Trader buys ships from you for their resource cost minus a fee (by default 30&nbsp;%). Only a configured list of ships can be sold (by default Light Cargo up to Battle Cruiser, without the largest ships). It is unavailable in vacation mode.</p>
+        <h2 id="market">Marketplace</h2>
+        <p>Players offer resources or ships and set their price in other resources. Trades are delivered by fleets flying to the trade position of the offer's system (position 17 in systems with 15 planets, mission Trade). The reference prices are derived from completed trades of the last 7 days (kept between 0.5 and 5).</p>
+        <h2 id="transfer">Transfer</h2>
+        <p>The mission Transfer gives ships and resources to an alliance member or a buddy. Nothing comes back.</p>
+        <p>Large one-sided gifts are checked, see <a href="game/faq/10/5">Pushing and trade limits</a>.</p>
+  '5':
+    category: "Combat"
+    icon: "swords"
+    '1':
+      title: "How a battle works"
+      body: |-
+        <p>When an attacking fleet reaches its target, all attacking fleets (including ACS participants) fight the planet's own defense and fleet plus all fleets holding there. There are at most <b>6 rounds</b>.</p>
+        <ul>
+        <li>In each round every ship fires once at a random enemy ship (rapid fire may add shots).</li>
+        <li>A shield absorbs a shot first; a shot that is weaker than 1&nbsp;% of the target's shield bounces off. Shields are restored after every round, damage to armor is not.</li>
+        <li>Armor of a ship = (metal + crystal cost) / 10. Ships below 70&nbsp;% of their armor can explode on the next hit; the more damaged, the more likely.</li>
+        <li><b>Rapid fire</b>: if the target type is in the shooter's rapid-fire list with value N, the shooter fires again with probability (N-1)/N. It is shown in the Technologies page.</li>
+        <li>Weapons, Shield and Armour Technology add 10&nbsp;% per level to attack, shield and armor.</li>
+        <li>All shots in a round are fired at once; ships that reach 0 armor are removed after the round.</li>
+        </ul>
+        <h2 id="result">Result</h2>
+        <p>If the defenders are wiped out, the attacker wins and loots. If both sides still have ships after 6 rounds, the battle is a draw and nobody loots. If the attackers are wiped out, the defender wins. The combat report, including every round, is sent to all parties; each report has a public link.</p>
+    '2':
+      title: "Loot"
+      body: |-
+        <p>Only a winning attacker loots. The free cargo capacity of the surviving attacking ships (spy probes do not count) is filled in this order:</p>
+        <ol>
+        <li>up to 1/3 of the capacity with metal,</li>
+        <li>half of the remaining capacity with crystal,</li>
+        <li>the rest with deuterium,</li>
+        <li>any space still left is refilled with metal (half) and crystal.</li>
+        </ol>
+        <p>For each resource at most <b>half of the planet's stock</b> can be taken. Further limits: the protected part from <a href="game/faq/2/3">storage</a> (if enabled). Players with a very bad honor record can be looted more than half, see <a href="game/faq/5/7">Honor points</a>.</p>
+        <p>Pirate bases are the exception: raiding one takes everything the capacity allows.</p>
+    '3':
+      title: "Debris, wrecks and the Repair Dock"
+      body: |-
+        <h2 id="debris">Debris</h2>
+        <p>See <a href="game/faq/4/4">Debris fields and recycling</a>: 30&nbsp;% of the lost ships' metal and crystal by default.</p>
+        <h2 id="wreck">Wreck field</h2>
+        <p>If the universe has the Repair Dock module, ships lost by the <b>planet's owner</b> (not defense) can leave a <b>wreck field</b>, but only if a lot was lost at once: by default at least 150,000 units of value and 75&nbsp;% of the fleet. The wreck holds the part of the ships that did not become debris.</p>
+        <h2 id="dock">Repair Dock</h2>
+        <p>A Repair Dock (planets only) can repair wrecked ships: the repair rate is 24&nbsp;% + level^1.5&nbsp;% of the wrecks, at most 100&nbsp;%. The repair order takes the ships' build time, but at least 30 minutes after the wreck appeared and at most 12 hours. Start it within 3 days, then put the repaired ships into service on the Repair Dock page; if you forget, they return to service automatically after 3 days. Wrecks expire after 72 hours.</p>
+    '4':
+      title: "Defense"
+      body: |-
+        <ul>
+        <li>Defense units fight together with all fleets at the planet. They never fly.</li>
+        <li>After a battle, <b>destroyed defense is partly rebuilt for free</b>: if more than 10 units of a type were lost, 60-80&nbsp;% of them come back (random); if 10 or fewer, each unit has a 70&nbsp;% chance.</li>
+        <li>Defense that is not rebuilt leaves no debris by default.</li>
+        <li>Missiles destroy defense that is <b>not</b> rebuilt, see <a href="game/faq/5/5">Missiles</a>.</li>
+        <li>Shield Domes, the Atmospheric Shield and the Orbital Defence Platform can be built only once per planet.</li>
+        <li>Solar Satellites on the planet fight as ships and count as fleet, not defense.</li>
+        </ul>
+    '5':
+      title: "Missiles"
+      body: |-
+        <p>You need a <b>Missile Silo</b>. By default each level holds 10 slots; an Interceptor Missile takes 1 slot, an Interplanetary Missile takes 2.</p>
+        <ul>
+        <li><b>Interplanetary Missiles</b> attack the defense of a planet in the same galaxy within range. They are used up, cannot be recalled, and the damage depends on your Weapons Technology.</li>
+        <li>Range = 5 x Impulse Engine level - 1 systems (a universe factor may change it). Flight time = (30 + 60 x system distance) / universe fleet speed seconds.</li>
+        <li>Choose a <b>primary target</b>: that defense type is hit first. Otherwise the Missile Launchers go first.</li>
+        <li><b>Interceptor Missiles</b> shoot down incoming missiles one for one; the defender loses one Interceptor per intercepted missile.</li>
+        <li>Destroyed defense is not rebuilt.</li>
+        <li>Missile attacks count towards the bash limits unless the universe turns that off.</li>
+        </ul>
+    '6':
+      title: "Simulator and combat reports"
+      body: |-
+        <p>The <b>Simulator</b> runs a fight with the technologies and fleets you enter and shows result and losses. Spy reports link into it with a click. Simulated fights have the same rules as real ones, but randomness (rapid fire, explosions) means results can differ slightly from the real battle; run it several times for an estimate.</p>
+        <p>Real combat reports are stored in your messages and have a public link, so you can share them. The Hall of Fame lists the biggest battles of the universe.</p>
+    '7':
+      title: "Honor points"
+      body: |-
+        <p>If the universe uses honor points, fair 1 vs 1 fights give both players honor points, while attacking a clearly weaker player costs the attacker points.</p>
+        <ul>
+        <li><b>Honorable</b> (both gain): the attacker has no more points than the defender and is not more than twice as strong militarily, or the defender is a known bandit.</li>
+        <li><b>Dishonorable</b> (attacker loses points): the attacker's military score is more than twice the defender's (and the gap is more than 10 points) while the defender has a good honor rank.</li>
+        <li>Fights against inactive players, alliance members and buddies are neutral. By default the same two players can earn honor from at most 3 fights in 24 hours.</li>
+        </ul>
+        <h2 id="effects">Effects</h2>
+        <ul>
+        <li>High honor (500 points and a place in the top 30 / 20 / 10&nbsp;% of the universe) reduces your flight fuel by 5 / 12 / 20&nbsp;%.</li>
+        <li>Very low honor (-500 points or worse, bottom 30 / 20 / 10&nbsp;%) means attackers may loot up to 60 / 80 / 100&nbsp;% of your stock instead of half. See <a href="game/faq/5/2">Loot</a>.</li>
+        </ul>
+  '6':
+    category: "Espionage"
+    icon: "scan-eye"
+    '1':
+      title: "Spying with probes"
+      body: |-
+        <p>Only a fleet made of <b>Spy Probes only</b> can use the mission Spying. You get a report in your messages and the target is told that a foreign fleet was seen.</p>
+        <h2 id="level">What the report shows</h2>
+        <p>Resources are always visible. What else you see depends on the number of probes and the Spy Technology levels of both players (yours <i>s</i>, the target's <i>t</i>): the probes needed for fleets are n0 = (|s - t|)^2, negative if you have the higher level. Defense needs n0 + 1 probes, buildings n0 + 3 and research n0 + 5. Send more probes than you think you need.</p>
+        <h2 id="risk">Counter-espionage</h2>
+        <p>The target planet may shoot the probes down. Chance in&nbsp;% = 2^(t - s) x probes x (ships and defense on the planet) x 0.0025, at most 100. Planets without ships or defense never shoot. Lost probes leave debris. The report is delivered in any case.</p>
+        <p>A spy report has a link to the Simulator with the target's data prefilled.</p>
+    '2':
+      title: "What you see of incoming fleets"
+      body: |-
+        <p>Your own Spy Technology level also decides what the Overview shows about foreign fleets heading to you:</p>
+        <ul>
+        <li>Level 0-1: only that a fleet approaches.</li>
+        <li>Level 2-3: how many ships.</li>
+        <li>Level 4-7: which ship types.</li>
+        <li>Level 8 and up: how many of each type.</li>
+        </ul>
+        <p>Statistics of other players may also depend on your Spy Technology if the universe enables that module.</p>
+  '7':
+    category: "Moons and phalanx"
+    icon: "moon"
+    '1':
+      title: "How moons are created"
+      body: |-
+        <p>A moon can form after a battle on a <b>planet</b> that has none yet. The chance is <b>1&nbsp;% per 100,000 units of debris created in that battle</b> (universe factor applies), at most the universe maximum (20&nbsp;% by default). Moons never form at moons.</p>
+        <ul>
+        <li>Only the debris of that battle counts: lost ships of both sides, and defense if the universe lets defense make debris.</li>
+        <li>Some universes clear the debris field when a moon forms.</li>
+        <li>Universes may add a cascading bonus after repeated failures at the maximum chance, until the first moon exists.</li>
+        <li>The moon belongs to the target planet's owner. A planet can only have one moon.</li>
+        </ul>
+        <h2 id="size">Size</h2>
+        <p>Diameter = square root of (10-20 + 3 x chance in&nbsp;%) x 1,000 km, times the universe size factor. At a 20&nbsp;% chance that is between about 8,370 and 8,940 km. A fresh moon has room for exactly 1 field.</p>
+    '2':
+      title: "Moon buildings"
+      body: |-
+        <p>On a moon you can build Robot Factory, Shipyard, the three storage buildings, and the moon-only buildings:</p>
+        <h2 id="base">Moon Base</h2>
+        <p>Each level gives 3 fields and uses one. It cannot be demolished. Build it first.</p>
+        <h2 id="phalanx">Sensor Phalanx</h2>
+        <p>See <a href="game/faq/7/3">Sensor Phalanx</a>.</p>
+        <h2 id="gate">Jumpgate</h2>
+        <p>See <a href="game/faq/7/4">Jumpgate</a>.</p>
+        <p>Moons produce no resources and, with few fields, cannot hold everything: plan the field budget before you build.</p>
+    '3':
+      title: "Sensor Phalanx"
+      body: |-
+        <p>A Sensor Phalanx on a moon shows the fleet movements of a planet in the <b>same galaxy</b> within range. Moons cannot be scanned.</p>
+        <ul>
+        <li><b>Range</b> = level^2 - 1 systems (level 1 covers only the own system), times the universe factor.</li>
+        <li><b>Cost</b>: 5,000 deuterium per scan, taken from the moon.</li>
+        <li>You see fleets that start from or fly to the scanned planet: arrivals, ends of holds and returns. Deployments and missiles are not shown.</li>
+        <li>It does not work in vacation mode, or against players you cannot attack because of protection.</li>
+        </ul>
+        <p>Open the Galaxy view from the moon and click a planet in range.</p>
+    '4':
+      title: "Jumpgate"
+      body: |-
+        <p>Jumpgates move ships between two of your own moons instantly and without fuel. Resources cannot be moved.</p>
+        <ul>
+        <li>Both gates must be ready. After a jump each gate needs a cooldown: 60 minutes at level 1, falling with every level to 10 minutes from level 15 (a universe factor may change it).</li>
+        <li>Solar Satellites cannot jump.</li>
+        </ul>
+    '5':
+      title: "Destroying moons"
+      body: |-
+        <p>The mission <b>Destroy</b> is available against moons if the fleet contains <b>Death Stars</b>. A destruction only happens after the attacker wins the battle.</p>
+        <ul>
+        <li><b>Moon destruction chance</b> in&nbsp;% = (100 - square root of moon diameter) x square root of the number of Death Stars, at most 100. Larger moons are harder to destroy.</li>
+        <li><b>Risk to the fleet</b>: the attacking fleet is lost with a chance of (square root of diameter) / 2&nbsp;%, whether or not the moon is destroyed.</li>
+        <li>Fleets stationed at the moon are moved to the planet when the moon is destroyed. A destroyed moon leaves no debris.</li>
+        </ul>
+  '8':
+    category: "Expeditions"
+    icon: "compass"
+    '1':
+      title: "Sending an expedition"
+      body: |-
+        <p>Expeditions go to <b>position 16</b> (the one behind the last planet, in systems with 15 planets) of any system. They need the <b>Astrophysics</b> research.</p>
+        <ul>
+        <li><b>Slots</b>: rounded down square root of the Astrophysics level (level 1-3 = 1, 4-8 = 2, 9-15 = 3, 16-24 = 4, ...). They are separate from your normal fleet slots.</li>
+        <li><b>Stay</b>: 1 hour per Astrophysics level at most (universe factor may change it).</li>
+        <li>A fleet that consists only of probes cannot go on an expedition.</li>
+        <li>After it arrives, an expedition <b>cannot be recalled</b>. The event is resolved when the stay ends, then the fleet flies home.</li>
+        <li>Expedition results are reported in your messages and counted in your Statistics.</li>
+        </ul>
+    '2':
+      title: "What an expedition can find"
+      body: |-
+        <p>Each player draws event cards from a personal deck that is shuffled and refilled when empty, so over time the frequencies match. The default deck of 1,000 cards (the universe can change it):</p>
+        <table class="faq-table">
+        <tr><th>Event</th><th>Share</th><th>Details</th></tr>
+        <tr><td>Resources</td><td>37&nbsp;%</td><td>Small, medium or big find. Metal 50&nbsp;%, crystal 33&nbsp;%, deuterium 17&nbsp;% of the time by default.</td></tr>
+        <tr><td>Ships</td><td>26.4&nbsp;%</td><td>Ships join your fleet; only certain ship types can be found.</td></tr>
+        <tr><td>Nothing</td><td>19&nbsp;%</td><td>The fleet comes back empty-handed.</td></tr>
+        <tr><td>Delay</td><td>6.7&nbsp;%</td><td>The return takes 2, 3 or 5 hours longer (small, medium, big).</td></tr>
+        <tr><td>Pirates</td><td>5.7&nbsp;%</td><td>You fight a pirate fleet.</td></tr>
+        <tr><td>Aliens</td><td>2.6&nbsp;%</td><td>You fight an alien fleet.</td></tr>
+        <tr><td>Faster return</td><td>2.3&nbsp;%</td><td>The return flight is 20, 30 or 50&nbsp;% shorter.</td></tr>
+        <tr><td>Black hole</td><td>0.3&nbsp;%</td><td>The whole fleet is lost.</td></tr>
+        </table>
+        <h2 id="size">How much you find</h2>
+        <p>A resource find scales with the value of your fleet (up to a universe cap) and is limited by the cargo capacity of the fleet: small finds are 10-50 x, medium 50-100 x, big 100-200 x a unit of value; crystal finds are halved, deuterium finds divided by three. Bring cargo ships for big finds.</p>
+        <h2 id="depletion">Depleted positions</h2>
+        <p>If many expeditions went to the same coordinates in the last 24 hours, the card may become "nothing": more than 10 expeditions give a 25&nbsp;% chance, more than 25 a 50&nbsp;% chance, more than 50 a 75&nbsp;% chance. Spread your expeditions.</p>
+  '9':
+    category: "Alliances and ACS"
+    icon: "handshake"
+    '1':
+      title: "Founding and managing an alliance"
+      body: |-
+        <p>Open <b>Alliance</b> in the side panel and create one with a tag and a name (letters, numbers and spaces; both must be unused). Some universes require a minimum score to found an alliance.</p>
+        <h2 id="manage">Management</h2>
+        <ul>
+        <li><b>Ranks</b>: define rights per rank (applications, kicking, mass messages, ...).</li>
+        <li><b>Members</b>: assign ranks, kick members, see when members were last online.</li>
+        <li><b>Applications</b>: open or close recruitment, read and answer applications; the application text is a template for applicants.</li>
+        <li><b>Texts</b>: the external text is public, the internal one members only.</li>
+        <li><b>Circular message</b> to everyone or selected ranks.</li>
+        <li><b>Diplomacy</b> with other alliances, see <a href="game/faq/9/2">Diplomacy</a>.</li>
+        <li>You can hand the alliance to another member or disband it.</li>
+        </ul>
+    '2':
+      title: "Alliance diplomacy"
+      body: |-
+        <p>Alliances can propose pacts to one another; the other side accepts or rejects them. Types: Main, Wing, Alliance, Trade Pact, Non-Aggression Pact, War, Secret Alliance and Peace.</p>
+        <p>Pacts record the relation between two alliances. Attacks between alliances at <b>war</b> may be exempt from the bash limit (universe setting) once the war was accepted more than a day ago and the attacker is not linked to the target by an account link.</p>
+    '3':
+      title: "Attacking together (ACS)"
+      body: |-
+        <h2 id="start">Starting a group</h2>
+        <p>First send a fleet with the mission <b>Attack</b>. Then open the Fleet page, use the ACS function on that fleet, and invite other players. Each invited player sends their own fleet to the same coordinates with the mission <b>Alliance Attack</b>.</p>
+        <h2 id="rules">Rules</h2>
+        <ul>
+        <li>The group arrives together with the slowest fleet.</li>
+        <li>A joining fleet can delay the group by at most <b>30&nbsp;%</b> of the remaining time.</li>
+        <li>By default a group takes at most 16 fleets from at most 5 players (universe settings).</li>
+        <li>The loot is split by capacity; all participants take part in the battle.</li>
+        </ul>
+        <p><b>Careful:</b> if the founder recalls, the whole group is recalled.</p>
+    '4':
+      title: "Defending: Hold and the Alliance Depot"
+      body: |-
+        <p>Send a fleet with the mission <b>Hold</b> to a planet of an alliance member or buddy. It waits for 1, 2, 4, 8, 12, 16 or 32 hours and, if the planet is attacked meanwhile, fights as a defender. It appears on spy reports as if it was part of the planet.</p>
+        <ul>
+        <li>There is no extra cost at launch beyond flight fuel.</li>
+        <li>The number of holding fleets and players per planet is limited by the ACS settings of the universe.</li>
+        <li>You can recall a holding fleet at any time.</li>
+        </ul>
+        <h2 id="depot">Alliance Depot</h2>
+        <p>The owner of the planet can supply holding fleets with deuterium from the Alliance Depot, so they can stay longer: 1 to (depot level) hours per supply. The hourly cost is one tenth of the fleet's summed base fuel consumption, rounded up. A fleet never has more than 32 hours of stay left.</p>
+    '5':
+      title: "Buddies"
+      body: |-
+        <p>Friends (buddies) can send each other requests from the Friends page or the player profile. Buddies can use Hold and Transfer to each other, are exempt from honor changes and see each other in the buddy list.</p>
+        <p>If the universe enables it, players who stay offline for more than 7 days (outside vacation mode) are removed from buddy lists and alliances automatically.</p>
+  '10':
+    category: "Protection and vacation"
+    icon: "shield-check"
+    '1':
+      title: "Newbie protection and outlaws"
+      body: |-
+        <p>Protection is based on <b>points</b>. By default a player is protected when he has 5,000 points or fewer <b>and</b> the other player has more than 5 times his points. Both numbers are universe settings, and the whole protection can be turned off.</p>
+        <ul>
+        <li>It covers attacks, Alliance Attacks, moon destruction, holding, spying, missile attacks and Sensor Phalanx scans.</li>
+        <li>It works both ways: if <i>you</i> are below the point limit and the other player has more than 5 times your points, you cannot attack him either (unless the universe uses the outlaw system, see below).</li>
+        <li>Protection does not apply to banned players, and by default not to players who were offline for 7 days.</li>
+        <li>The galaxy view marks protected players (N = weak, S = strong).</li>
+        </ul>
+        <h2 id="outlaw">Outlaws</h2>
+        <p>If the universe uses the outlaw system, a weak player may attack a much stronger one anyway. He then becomes an <b>outlaw</b>: protection no longer applies to him for 2 days (the first time) or 7 days (every further time), so the strong player can hit back.</p>
+    '2':
+      title: "Bash limit"
+      body: |-
+        <p>The bash limit stops repeated attacks on the same target. By default you can attack the same <b>planet at most 6 times in 24 hours</b>; a limit per player can be set as well (off by default). Missile attacks count unless the universe turns that off.</p>
+        <ul>
+        <li>Several fleets of one ACS group count as one attack.</li>
+        <li>Single-probe espionage does not count.</li>
+        <li>Inactive targets (7 days) are not protected.</li>
+        <li>If the universe has "wars lift the bash limit", attacks between alliances at war do not count either.</li>
+        </ul>
+    '3':
+      title: "Rebuild protection"
+      body: |-
+        <p>Off by default. If the universe enables it (it needs the noob protection), a player who loses most of his possessions in one fight gets <b>rebuild protection</b>: more than 70&nbsp;% of the value of his fleet and defense, or more than 80&nbsp;% of his transport capacity, and at least a minimum value that follows the noob protection limit (at most 5,000,000 units).</p>
+        <ul>
+        <li>It starts 3 hours after the fight (6 hours for the players who attacked him) and ends 48 hours after the fight. During that time he cannot be attacked.</li>
+        <li>The player can end it early.</li>
+        <li>It triggers at most once a month and not if all opponents are linked to the loser (same IP, device or multi group, alliance, buddy).</li>
+        </ul>
+    '4':
+      title: "Vacation mode"
+      body: |-
+        <p>Vacation mode freezes your account while you are away. Enable it under <b>Options</b>.</p>
+        <ul>
+        <li>You need to have <b>no fleets</b> flying.</li>
+        <li>Production stops on all planets; your queues pause and continue when you return. Fleets holding at your planets are sent home.</li>
+        <li>Hostile missions against you turn around (attacks, spying, missiles).</li>
+        <li>You can leave only after the minimum time (48 hours by default).</li>
+        <li>On your return, production restarts at 100&nbsp;% on all planets. Nothing is produced while you are away.</li>
+        <li>If the universe enables it, players in vacation mode who were offline for 28 days are removed from it.</li>
+        </ul>
+        <p>Accounts that are inactive for long are still deleted, vacation or not, see <a href="game/faq/11/2">Inactivity and account deletion</a>.</p>
+    '5':
+      title: "Pushing and trade limits"
+      body: |-
+        <p>Pushing means feeding resources or ships to another player (often a second account). It is against the rules and checked automatically.</p>
+        <ul>
+        <li>By default a transport, hold or transfer to another player is refused if, over the last 7 days, you sent that player more value than he sent back by more than 100,000 (in deuterium equivalent).</li>
+        <li>Market trades must stay within the universe's push tolerance (the offered and the requested value must be close).</li>
+        <li>Accounts with the same IP, device or multi group are linked and treated more strictly.</li>
+        </ul>
+        <p>The rules of the universe are on the Rules page.</p>
+  '11':
+    category: "Account and settings"
+    icon: "user-cog"
+    '1':
+      title: "Account settings"
+      body: |-
+        <p>Open <b>Options</b> for:</p>
+        <ul>
+        <li><b>User data</b>: username (letters and numbers only, can be changed once every 7 days), e-mail address, new password (at least 8 characters; you need your current password for changes), language, time zone and theme.</li>
+        <li><b>General</b>: sorting of planets, dimming of unaffordable items, shipyard filters, summarized spy reports, message options, blocking private messages, and the <b>beginner interface</b> (a simplified menu that unlocks entries as you progress through the tutorial).</li>
+        <li><b>Galaxy and spying</b>: how many probes are sent from the Galaxy view and how old a spy report may be to count as fresh or recent.</li>
+        <li><a href="game/faq/10/4">Vacation mode</a> and the account deletion (&quot;Danger Zone&quot;).</li>
+        </ul>
+    '2':
+      title: "Inactivity and account deletion"
+      body: |-
+        <ul>
+        <li>After <b>7 days</b> without a login a player is shown as inactive (i); after <b>28 days</b> as long inactive (I). Inactive players are not covered by the bash limit, and by default not by the point-based protection.</li>
+        <li>After <b>90 days</b> offline (universe setting, 0 = never) the account is deleted automatically, together with its planets and fleets.</li>
+        <li>If you request deletion yourself under Options, it happens after at least 7 days (universe setting); you can cancel it in the meantime.</li>
+        </ul>
+    '3':
+      title: "Statistics and points"
+      body: |-
+        <p>The Statistics page ranks players and alliances by total points and by buildings, research, fleet and defense. They are updated on a schedule, not live.</p>
+        <ul>
+        <li>Points = resources invested divided by 1,000 (default; universe setting).</li>
+        <li>Alliance points count only members who were online within 7 days.</li>
+        <li>Records show the highest building and research levels in the universe.</li>
+        <li>If the universe enables it, some statistics are only visible with enough Spy Technology.</li>
+        </ul>
+    '4':
+      title: "More help"
+      body: |-
+        <!--wiki_url--><h2 id="wiki">Wiki and community</h2><p><a href="{wiki_url}/wiki/En/Hauptseite" target="_blank">Wiki home</a>, <a href="{wiki_url}/wiki/En/Buildorder" target="_blank">build orders</a>, <a href="{wiki_url}/wiki/En/Saven" target="_blank">fleet saving</a>, <a href="{wiki_url}/wiki/En/Expoanleitung" target="_blank">expeditions</a>.</p><!--/wiki_url-->
+        <h2 id="support">Support</h2>
+        <p>Questions about your account or bugs: open a ticket on the <b>Support</b> page. Read the <b>Rules</b> page before you raid, trade or use several accounts.</p>

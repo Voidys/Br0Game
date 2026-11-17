@@ -1,303 +1,109 @@
 {% extends layout_template %}
 {% block title %}{{ pageTitle }}{{ parent() }}{% endblock %}
 {% block content %}
-{% if Info is defined and Info is not null %}
-<table>
-	<tr>
-		<td class="transparent raport-head raport-head-side {% if Raport.result == constant('ATTACKER') %}colorPositive{% elseif Raport.result == constant('DEFENDER') %}colorNegative{% else %}raport-draw{% endif %}">{{ Info[0] }}</td>
-		<td class="transparent raport-head">VS</td>
-		<td class="transparent raport-head raport-head-side {% if Raport.result == constant('DEFENDER') %}colorPositive{% elseif Raport.result == constant('ATTACKER') %}colorNegative{% else %}raport-draw{% endif %}">{{ Info[1] }}</td>
-	</tr>
-</table>
-{% endif %}
-<div class="w-100 text-center">
-{% if Raport.mode == 1 %}{{ LNG.sys_destruc_title }}{% else %}{{ LNG.sys_attack_title }}{% endif %} {{ Raport.time }}{% if Raport.duration is defined and Raport.duration is not null %} ({{ Raport.duration|round(4) }} s){% endif %}:<br><br>
-{% for Round, RoundInfo in Raport.rounds %}
-{% if not ((Info is defined and Info is not null) and Round > 0 and not loop.last) %}
-<table class="auto">
-	<tr>
-		{% for PlayerNr, Player in RoundInfo.attacker %}
-		{% set PlayerInfo = Raport.players[Player.userID] %}
-		<td class="transparent">
-			<table>
-				<tr>
-					<td>
-						{{ LNG.sys_attack_attacker_pos }} {{ PlayerInfo.name }} {% if Info is defined and Info is not null %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null %} ({{ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] }}){% endif %}){% endif %}
-						{% if Info is not defined or Info is null %}<br>{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%{% endif %}
+{% import 'game/shared.mission.raport.macros.html.twig' as cr %}
+{% set reduced = Info is defined and Info is not null %}
+{% set lastRound = Raport.rounds|length - 1 %}
 
-
-						<table>
-						{% if Player.ships %}
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent num">{{ LNG.shortNames[ShipID] }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[0]) }}
-										{% if Round > 0 and ShipData[0] - Raport.rounds[0].attacker[PlayerNr].ships[ShipID][0] %}
-											<br><span class="raport-loss"> ({{ pretty_number((ShipData[0] - Raport.rounds[0].attacker[PlayerNr].ships[ShipID][0])) }})</span>
-										{% endif %}
-									</td>
-								{% endfor %}
-							</tr>
-							{% if Info is not defined or Info is null %}
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[1]) }}</td>
-									{% endfor %}
-								</tr>
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[2]) }}</td>
-									{% endfor %}
-								</tr>
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[3]) }}</td>
-									{% endfor %}
-								</tr>
-							{% endif %}
-						{% else %}
-							<tr>
-								<td class="transparent">
-									<br>{{ LNG.sys_destroyed }}<br><br>
-								</td>
-							</tr>
-						{% endif %}
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-		{% endfor %}
-	</tr>
-</table>
-<table class="auto">
-	<tr>
-		{% for PlayerNr, Player in RoundInfo.defender %}
-		{% set PlayerInfo = Raport.players[Player.userID] %}
-		<td class="transparent">
-			<table>
-				<tr>
-					<td>
-						{{ LNG.sys_attack_defender_pos }} {{ PlayerInfo.name }} {% if Info is defined and Info is not null %}([XX:XX:XX]){% else %}([{{ PlayerInfo.koords[0] }}:{{ PlayerInfo.koords[1] }}:{{ PlayerInfo.koords[2] }}]{% if PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null %} ({{ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] }}){% endif %}){% endif %}
-						{% if Info is not defined or Info is null %}<br>{{ LNG.sys_ship_weapon }} {{ PlayerInfo.tech[0] }}% - {{ LNG.sys_ship_shield }} {{ PlayerInfo.tech[1] }}% - {{ LNG.sys_ship_armour }} {{ PlayerInfo.tech[2] }}%{% endif %}
-
-						<table>
-						{% if Player.ships %}
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_type }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent num">{{ LNG.shortNames[ShipID] }}</td>
-								{% endfor %}
-							</tr>
-							<tr>
-								<td class="transparent">{{ LNG.sys_ship_count }}</td>
-								{% for ShipID, ShipData in Player.ships %}
-								<td class="transparent num">{{ pretty_number(ShipData[0]) }}
-									{% if Round > 0 and ShipData[0] - Raport.rounds[0].defender[PlayerNr].ships[ShipID][0] %}
-										<br><span class="raport-loss"> ({{ pretty_number((ShipData[0] - Raport.rounds[0].defender[PlayerNr].ships[ShipID][0])) }})</span>
-									{% endif %}
-								</td>
-								{% endfor %}
-							</tr>
-							{% if Info is not defined or Info is null %}
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_weapon }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[1]) }}</td>
-									{% endfor %}
-								</tr>
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_shield }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[2]) }}</td>
-									{% endfor %}
-								</tr>
-								<tr>
-									<td class="transparent">{{ LNG.sys_ship_armour }}</td>
-									{% for ShipID, ShipData in Player.ships %}
-									<td class="transparent num">{{ pretty_number(ShipData[3]) }}</td>
-									{% endfor %}
-								</tr>
-							{% endif %}
-						{% else %}
-							<tr>
-								<td class="transparent">
-									<br>{{ LNG.sys_destroyed }}<br><br>
-								</td>
-							</tr>
-						{% endif %}
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-		{% endfor %}
-	</tr>
-</table>
-{% if not loop.last %}
-{{ LNG.fleet_attack_1 }} {{ pretty_number(RoundInfo.info[0]) }} {{ LNG.fleet_attack_2 }} {{ pretty_number(RoundInfo.info[3]) }} {{ LNG.damage }}<br>
-{{ LNG.fleet_defs_1 }} {{ pretty_number(RoundInfo.info[2]) }} {{ LNG.fleet_defs_2 }} {{ pretty_number(RoundInfo.info[1]) }} {{ LNG.damage }}<br><hr>
-{% endif %}
-{% endif %}{% endfor %}
-<br><br>
-{% if Raport.result == constant('ATTACKER') %}
-{{ LNG.sys_attacker_won }}<br>
-{{ LNG.sys_stealed_ressources }} {% for elementID, amount in Raport.steal %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == Raport.steal|length %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}
-{% elseif Raport.result == constant('DEFENDER') %}
-{{ LNG.sys_defender_won }}
+{# parties of the hero #}
+{% set heroAttackers = [] %}
+{% set heroDefenders = [] %}
+{% if reduced %}
+	{% set heroAttackers = [{name: Info[0]}] %}
+	{% set heroDefenders = [{name: Info[1]}] %}
 {% else %}
-{{ LNG.sys_both_won }}
-{% endif %}
-<br><br>
-{{ LNG.sys_attacker_lostunits }} {{ pretty_number(Raport['units'][0]) }} {{ LNG.sys_units }}<br>
-{{ LNG.sys_defender_lostunits }} {{ pretty_number(Raport['units'][1]) }} {{ LNG.sys_units }}<br>
-{{ LNG.debree_field_1 }} {% for elementID, amount in Raport.debris %}{{ pretty_number(amount) }} {{ LNG.tech[elementID] }}{% if (loop.index0 + 2) == Raport.debris|length %} {{ LNG.sys_and }} {% elseif not loop.last %}, {% endif %}{% endfor %}{{ LNG.debree_field_2 }}<br><br>
-{% if Raport.mode == 1 %}
-	{# Destruction #}
-	{% if Raport.moon.moonDestroySuccess == -1 %}
-		{# Attack not win #}
-		{{ LNG.sys_destruc_stop }}<br>
-	{% else %}
-		{# Attack win #}
-		{{ LNG.format('sys_destruc_lune', "#{Raport.moon.moonDestroyChance}") }}<br>{{ LNG.sys_destruc_mess1 }}
-		{% if Raport.moon.moonDestroySuccess == 1 %}
-			{# Destroy success #}
-			{{ LNG.sys_destruc_reussi }}
-		{% elseif Raport.moon.moonDestroySuccess == 0 %}
-			{# Destroy failed #}
-			{{ LNG.sys_destruc_null }}
-		{% endif %}
-		<br>
-		{{ LNG.format('sys_destruc_rip', "#{Raport.moon.fleetDestroyChance}") }}
-		{% if Raport.moon.fleetDestroySuccess == 1 %}
-			{# Fleet destroyed #}
-			<br>{{ LNG.sys_destruc_echec }}
-		{% endif %}
-	{% endif %}
-{% else %}
-	{# Normal Attack #}
-    {{ LNG.sys_moonproba }} {{ Raport.moon.moonChance }} %{% if Raport.moon.additionalChance and Raport.moon.additionalChance != 0 %} + {{ Raport.moon.additionalChance }} %{% endif %}<br>
-	{% if Raport.moon.moonName %}
-		{{ LNG.sys_moonbuilt }}
-	{% endif %}
+	{% for Player in Raport.rounds[0].attacker %}
+		{% set PlayerInfo = Raport.players[Player.userID] %}
+		{% set heroAttackers = heroAttackers|merge([{name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
+	{% endfor %}
+	{% for Player in Raport.rounds[0].defender %}
+		{% set PlayerInfo = Raport.players[Player.userID] %}
+		{% set heroDefenders = heroDefenders|merge([{name: PlayerInfo.name, coords: '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : '')}]) %}
+	{% endfor %}
 {% endif %}
 
-{% if array_sum(Raport.debris) > 0 %}
-	{{ LNG.format('bs_derbis_raport', pretty_number(ceil(array_sum(Raport.debris) / recCapacity)), LNG['tech'][constant('SHIP_RECYCLER')]) }}<br>
-{% endif %}
-
-{{ Raport.additionalInfo }}
-
-{% if Raport.wreckfield_created %}
-	<br>
-  {{ LNG.sys_wreckfield }}
-	<br>
-{% endif %}
-
+{# defence rebuild rows: repaired units against the defences that were destroyed in total (start minus end of the planet fleet) #}
+{% set repairRows = [] %}
 {% if Raport.repaired %}
-	<br>
-	{% set lastRound = Raport.rounds|length - 1 %}
 	{% set lastDefender = Raport.rounds[0].defender|length - 1 %}
-	<table class="auto">
-	<tr>
-		<td>
-			<table>
-				<tr>
-					<th colspan="4" class="transparent">{{ LNG.sys_def_rebuild }}</th>
-				</tr>
-				<tr>
-					<th class="transparent">{{ LNG.sys_ship_type }}</th>
-					<th class="transparent num">{{ LNG.sys_ship_repaired }}</th>
-					<th class="transparent num">%</th>
-					<th class="transparent num">{{ LNG.sys_destroyed }}</th>
-				</tr>
-				{% for ShipID, ShipData in Raport.repaired %}
-					<tr>
-						<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
-						<td class="transparent num">{{ ShipData.units }} /
-							{% if not Raport.rounds[lastRound].defender[lastDefender].ships or not Raport.rounds[lastRound].defender[lastDefender].ships[ShipID] %}
-								{{ Raport.rounds[0].defender[lastDefender].ships[ShipID][0] }}
-							{% else %}
-								{{ Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-Raport.rounds[lastRound].defender[lastDefender].ships[ShipID][0] }}
-							{% endif %}
-						</td>
-						<td class="transparent num">{{ ("%.1f"|format(ShipData.percent)) }}</td>
-						<td class="transparent num">
-							{% set dest = 0 %}
-							{% if not Raport.rounds[lastRound].defender[lastDefender].ships or not Raport.rounds[lastRound].defender[lastDefender].ships[ShipID] %}
-								{% set dest = Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-ShipData.units %}
-							{% else %}
-								{% set dest = Raport.rounds[0].defender[lastDefender].ships[ShipID][0]-Raport.rounds[lastRound].defender[lastDefender].ships[ShipID][0]-ShipData.units %}
-							{% endif %}
-							{% if dest > 0 %}
-								<span class="raport-loss">-{{ dest }}</span>
-							{% else %}
-								{{ dest }}
-							{% endif %}
-						</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</td>
-	</tr>
-	</table>
+	{% for ShipID, ShipData in Raport.repaired %}
+		{% set destroyed = (Raport.rounds[0].defender[lastDefender].ships[ShipID][0] ?? 0) - (Raport.rounds[lastRound].defender[lastDefender].ships[ShipID][0] ?? 0) %}
+		{% set repairRows = repairRows|merge([{id: ShipID, units: ShipData.units, destroyed: destroyed, percent: ShipData.percent, left: destroyed - ShipData.units}]) %}
+	{% endfor %}
 {% endif %}
 
-{% if Raport.wreckfield %}
-  <br>
-  <table class="auto">
-	<tr>
-		<td>
-			<table>
-				<tr>
-					<th colspan="2" class="transparent">{{ LNG.sys_wreckfield_added }}</th>
-				</tr>
-				{% for ShipID, amount in Raport.wreckfield %}
-					<tr>
-						<td class="transparent">{{ LNG.shortNames[ShipID] }}</td>
-						<td class="transparent num">{{ amount }}</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</td>
-	</tr>
-	</table>
-{% endif %}
+{% include 'game/shared.mission.raport.head.html.twig' %}
+	{% include 'game/shared.mission.raport.extras.html.twig' %}
 
-{% if Raport.honorpoints %}
-  <br>
-  <table class="auto">
-	<tr>
-		<td>
-			<table>
-				<tr>
-					<th colspan="2" class="transparent">{{ LNG.sys_honorpoints_changed }}</th>
-				</tr>
-				{% for username, honorpointsChange in Raport.honorpoints.attackersH %}
-					<tr>
-						<td class="transparent">{{ username }}</td>
-						<td class="transparent num">{{ honorpointsChange }}</td>
-					</tr>
+	<section class="cr-rounds" aria-labelledby="cr-rounds-title">
+		<h2 class="cr-h" id="cr-rounds-title">{{ icon('activity') }}{{ LNG.cr_rounds }} <span class="cr-unit">{{ lastRound }}</span></h2>
+		{% for Round, RoundInfo in Raport.rounds %}
+		{% if not (reduced and Round > 0 and not loop.last) %}
+		{% set sums = {attacker: 0, defender: 0} %}
+		{% for side in ['attacker', 'defender'] %}
+			{% set sum = 0 %}
+			{% for Player in RoundInfo[side] %}{% for ShipData in Player.ships %}{% set sum = sum + ShipData[0] %}{% endfor %}{% endfor %}
+			{% set sums = sums|merge({(side): sum}) %}
+		{% endfor %}
+		<details class="cr-round"{% if loop.last %} open{% endif %}>
+			<summary>{{ cr.round_title(Round == 0 ? LNG.cr_start : LNG.sys_attack_round ~ ' ' ~ Round, sums.attacker, sums.defender) }}</summary>
+			<div class="cr-round__body">
+				{% for side in ['attacker', 'defender'] %}
+				<div class="cr-side cr-side--{{ side }}">
+					{% for PlayerNr, Player in RoundInfo[side] %}
+					{% set PlayerInfo = Raport.players[Player.userID] %}
+					{% set startShips = Raport.rounds[0][side][PlayerNr].ships %}
+					{% set alive = 0 %}
+					{% for ShipData in Player.ships %}{% set alive = alive + ShipData[0] %}{% endfor %}
+					<section class="cr-fleet">
+						{{ cr.fleet_head(side, PlayerInfo.name, '[' ~ PlayerInfo.koords[0] ~ ':' ~ PlayerInfo.koords[1] ~ ':' ~ PlayerInfo.koords[2] ~ ']' ~ (PlayerInfo.koords[3] is defined and PlayerInfo.koords[3] is not null ? ' (' ~ LNG["type_planet_short_#{PlayerInfo.koords[3]}"] ~ ')' : ''), PlayerInfo.tech, reduced, Round > 0 and alive == 0) }}
+						<div class="cr-scroll">
+							<table class="cr-table cr-ships">
+								<thead>
+									<tr>
+										<th scope="col">{{ LNG.sys_ship_type }}</th>
+										<th scope="col" class="num">{{ LNG.sys_ship_count }}</th>
+										{% if Round > 0 %}<th scope="col" class="num">{{ LNG.cr_lost_total }}</th>{% endif %}
+										{% if not reduced %}
+										<th scope="col" class="num">{{ LNG.sys_ship_weapon }}</th>
+										<th scope="col" class="num">{{ LNG.sys_ship_shield }}</th>
+										<th scope="col" class="num">{{ LNG.sys_ship_armour }}</th>
+										{% endif %}
+									</tr>
+								</thead>
+								<tbody>
+									{% for ShipID, StartData in startShips %}
+									{% set ShipData = Player.ships[ShipID] ?? null %}
+									{% set now = ShipData[0] ?? 0 %}
+									{% set lost = StartData[0] - now %}
+									<tr{% if Round > 0 and now == 0 %} class="is-gone"{% endif %}>
+										<th scope="row">{{ LNG.shortNames[ShipID] }}</th>
+										<td class="num"><span class="cr-count">{{ pretty_number(now) }}</span>{% if Round > 0 %}{{ cr.keep_bar(now, StartData[0]) }}{% endif %}</td>
+										{% if Round > 0 %}<td class="num">{% if lost > 0 %}<span class="cr-loss">&minus;{{ pretty_number(lost) }}</span>{% else %}<span class="cr-none">0</span>{% endif %}</td>{% endif %}
+										{% if not reduced %}
+										<td class="num">{{ pretty_number(ShipData[1] ?? 0) }}</td>
+										<td class="num">{{ pretty_number(ShipData[2] ?? 0) }}</td>
+										<td class="num">{{ pretty_number(ShipData[3] ?? 0) }}</td>
+										{% endif %}
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</section>
+					{% endfor %}
+				</div>
 				{% endfor %}
-				{% for username, honorpointsChange in Raport.honorpoints.defendersH %}
-					<tr>
-						<td class="transparent">{{ username }}</td>
-						<td class="transparent num">{{ honorpointsChange }}</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</td>
-	</tr>
-	</table>
-{% endif %}
-</div>
+			</div>
+		</details>
+		{% if not loop.last %}
+		<div class="cr-exchange">
+			<p class="cr-exchange__att">{{ icon('crosshair') }}<span>{{ LNG.fleet_attack_1 }} <strong>{{ pretty_number(RoundInfo.info[0]) }}</strong> {{ LNG.fleet_attack_2 }} <strong>{{ pretty_number(RoundInfo.info[3]) }}</strong> {{ LNG.damage }}</span></p>
+			<p class="cr-exchange__def">{{ icon('shield') }}<span>{{ LNG.fleet_defs_1 }} <strong>{{ pretty_number(RoundInfo.info[2]) }}</strong> {{ LNG.fleet_defs_2 }} <strong>{{ pretty_number(RoundInfo.info[1]) }}</strong> {{ LNG.damage }}</span></p>
+		</div>
+		{% endif %}
+		{% endif %}
+		{% endfor %}
+	</section>
+</article>
 {% endblock %}

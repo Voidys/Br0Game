@@ -71,3 +71,8 @@ php_dateformat: d. M Y
 lang_group_fun: Języki dla zabawy
 dialog_ok: OK
 dialog_cancel: Anuluj
+cookie_notice_title: "Pliki cookie"
+cookie_notice_text: "Ta strona używa wyłącznie technicznie niezbędnych plików cookie (sesja logowania, język, \"zostań zalogowany\" jeśli wybierzesz, powiązanie urządzenia). Opcjonalne pliki cookie są używane tylko za Twoją zgodą."
+cookie_notice_privacy: "Polityka prywatności"
+cookie_notice_necessary: "Tylko niezbędne"
+cookie_notice_all: "Zaakceptuj wszystkie"

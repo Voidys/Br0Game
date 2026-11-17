@@ -195,6 +195,8 @@ ins_rules_default_info: 规则页面以标准游戏规则开始，之后可以�
 ins_rules_blank: 从空白开始
 ins_rules_blank_info: 规则页面保持为空，直到你在管理区域中编写自己的规则。
 ins_group_community: 社区
+ins_cookie_consent: "显示 Cookie 同意提示（GDPR）"
+ins_cookie_consent_info: "向访问者显示游戏所用 Cookie 的提示。建议面向欧盟的运营者启用。之后可在设置中更改。"
 ins_board: 启用社区论坛
 ins_board_info: 为你的玩家提供的论坛。关闭后，所有论坛链接都会隐藏，论坛页面也不可用。
 ins_legal_note: 生成的文本仅为模板。作为运营者，你有责任对游戏的法律文本进行审核。

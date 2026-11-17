@@ -82,7 +82,9 @@ final class GameBootstrap
             return;
         }
 
-        if ($this->maintenance()->checkDBUpgrade()) {
+        // the admin migration page stays reachable while migrations are pending
+        $migrationPage = $this->state->runtime->mode === 'ADMIN' && in_array($this->state->request?->attributes->get('_page'), ['migrations', 'maintenance'], true);
+        if (!$migrationPage && $this->maintenance()->checkDBUpgrade()) {
             $this->http()->redirectTo('install/?mode=upgrade');
         }
         $this->initGuestState();
@@ -443,8 +445,9 @@ final class GameBootstrap
 
     /**
      * The game session object follows the Symfony login: a fresh login (or another account) starts a
-     * new game session (no player chosen, no admin access); an idle session past SESSION_LIFETIME
-     * ends the login, and so does a missing session row (revoked or expired). Visitors without login were already
+     * new game session (no player chosen, no admin access); an idle session past the setting session_lifetime
+     * ends the login (with a "stay logged in" cookie only the session: the next request logs in again), and so does
+     * a missing session row (revoked or expired). Visitors without login were already
      * stopped by access_control.
      */
     private function syncGameSession(\App\Game\Core\Session $session): void
@@ -459,7 +462,11 @@ final class GameBootstrap
             $session->userId = 0;
             $session->adminAccess = 0;
             $session->save();
-        } elseif ((int) ($session->lastActivity ?? 0) < $this->state->runtime->timestamp - SESSION_LIFETIME) {
+        } elseif ((int) ($session->lastActivity ?? 0) < $this->state->runtime->timestamp - \App\Security\SessionPolicy::idleSeconds($this->configs->get(ROOT_UNI)->session_lifetime ?? null)) {
+            if ($this->auth->restartRememberedLogin($session)) {
+                // "stay logged in": drop the idle session, the next request logs in again with the remember-me cookie
+                $this->http()->redirectTo((string) $this->state->request?->getRequestUri(), true);
+            }
             $this->auth->logout();
             $this->http()->redirectTo('./?code=3');
         } elseif (!$session->isValidSession()) {

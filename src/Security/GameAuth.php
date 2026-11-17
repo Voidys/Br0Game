@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Security;
 
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Symfony Security as seen from the game code (reached as $state->auth): the logged-in account,
@@ -16,6 +18,8 @@ final class GameAuth
     public function __construct(
         private readonly Security $security,
         private readonly AccountProvider $accounts,
+        private readonly TokenStorageInterface $tokens,
+        private readonly RequestStack $requests,
     ) {}
 
     /** The logged-in login account, null for visitors. */
@@ -49,6 +53,27 @@ final class GameAuth
     public function login(int $accountId): void
     {
         $this->security->login($this->accounts->loadUserByIdentifier((string) $accountId), LoginFormAuthenticator::class, 'main');
+    }
+
+    /**
+     * For an expired idle session of a visitor with a "stay logged in" cookie: drops token, game and Symfony session but keeps the
+     * cookie, so the firewall checks it again on the next request (valid: new login, else the start page). False
+     * (nothing changed) without the cookie.
+     */
+    public function restartRememberedLogin(\App\Game\Core\Session $gameSession): bool
+    {
+        $request = $this->requests->getMainRequest();
+        if ($request === null || !$request->cookies->has(ConfigurableRememberMeHandler::COOKIE)) {
+            return false;
+        }
+
+        $gameSession->discard();
+        $this->tokens->setToken(null);
+        if ($request->hasSession()) {
+            $request->getSession()->invalidate();
+        }
+
+        return true;
     }
 
     /** ends the login (Symfony logout: token, session and the game's session row via GameLogoutListener) */

@@ -191,6 +191,8 @@ ins_rules_default_info: Kurallar sayfası standart oyun kurallarıyla başlar; b
 ins_rules_blank: Boş başla
 ins_rules_blank_info: Yönetim alanında kendi kurallarını yazana kadar kurallar sayfası boş kalır.
 ins_group_community: Topluluk
+ins_cookie_consent: "Çerez onayı bildirimini göster (GDPR)"
+ins_cookie_consent_info: "Ziyaretçilere oyunun kullandığı çerezler hakkında bir bildirim gösterir. AB'ye hizmet veren işletmeciler için önerilir. Daha sonra ayarlardan değiştirilebilir."
 ins_board: Topluluk panosunu etkinleştir
 ins_board_info: Oyuncularınız için bir forum. Kapalıyken tüm pano bağlantıları gizlenir ve pano sayfaları kullanılamaz.
 ins_legal_note: Oluşturulan metinler yalnızca şablondur. Operatör olarak oyununun yasal metinlerinden sen sorumlusun ve bunları gözden geçirmelisin.

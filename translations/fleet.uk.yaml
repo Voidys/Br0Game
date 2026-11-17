@@ -40,6 +40,15 @@ sys_and: і
 sys_attack_attacker_pos: Нападник
 sys_attack_defender_pos: Захисник
 sys_attack_round: Раунд
+cr_start: "Початкові флоти"
+cr_rounds: "Раунди"
+cr_debris: "Поле уламків"
+cr_loot: "Здобич"
+cr_losses: "Втрати"
+cr_moon: "Шанс місяця"
+cr_lost_round: "Втрати за раунд"
+cr_lost_total: "Втрати загалом"
+cr_stats: "Статистика бою"
 sys_attack_title: 'Такі флоти зійшлися в бою: '
 sys_attacker_lostunits: 'Втрати нападника:'
 sys_attacker_won: Нападник переміг у битві!

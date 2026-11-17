@@ -191,6 +191,8 @@ ins_rules_default_info: Strona regulaminu zaczyna się od standardowych zasad gr
 ins_rules_blank: Zacznij od pustej strony
 ins_rules_blank_info: Strona regulaminu pozostaje pusta, dopóki nie napiszesz własnych zasad w panelu administracyjnym.
 ins_group_community: Społeczność
+ins_cookie_consent: "Pokaż informację o zgodzie na pliki cookie (RODO)"
+ins_cookie_consent_info: "Wyświetla odwiedzającym informację o plikach cookie używanych przez grę. Zalecane dla operatorów obsługujących UE. Można zmienić później w ustawieniach."
 ins_board: Włącz forum społeczności
 ins_board_info: Forum dla Twoich graczy. Po wyłączeniu wszystkie linki do forum są ukryte, a strony forum niedostępne.
 ins_legal_note: Wygenerowane teksty są jedynie szablonami. Jako operator odpowiadasz za teksty prawne swojej gry i powinieneś je sprawdzić.
