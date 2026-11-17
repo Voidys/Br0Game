@@ -156,7 +156,6 @@ body.site {
 }
 .home__main, .home__side { display: grid; gap: var(--space-6); align-content: start; }
 .home__side { order: -1; }
-.home .recaptcha-note { grid-column: 1 / -1; margin-top: 0; }
 .hero__title { font-size: clamp(1.35rem, 1rem + 1.3vw, 2rem); color: #fff; }
 .hero__title em { font-style: normal; color: var(--nova-accent); }
 .hero__text { max-width: 36rem; margin: var(--space-3) 0 0; color: #c9d1db; font-size: 1rem; }
@@ -244,8 +243,6 @@ body.site {
 .site .site-account a:hover { color: #fff; }
 .site-account .icon { width: 1rem; height: 1rem; color: var(--nova-accent); }
 .login-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-3); font-size: var(--fs-sm); color: var(--c-muted); }
-.login-register { margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--nova-line); }
-.login-register .btn-hero { width: 100%; }
 
 /* messages (login errors, page notices) */
 .notice {
@@ -270,7 +267,6 @@ body.site {
 .notice--warning > .icon { color: var(--c-warning); }
 .notice--danger { border-color: rgb(240 82 82 / 0.55); background: rgb(240 82 82 / 0.08); }
 .notice--danger > .icon { color: var(--c-negative); }
-.recaptcha-note { margin-top: var(--space-6); color: var(--c-muted); font-size: var(--fs-xs); text-align: center; }
 
 /* ------------------------------------------------------------------------------------ content pages */
 
@@ -361,8 +357,6 @@ body.site {
 /* long legal texts (rules, privacy policy) use the full card width instead of the 76ch reading measure */
 .page-card .rich-text--wide { max-width: none; }
 .prose > :first-child { margin-top: 0; }
-.section-title { margin: var(--space-6) 0 var(--space-3); color: #fff; font-size: 0.95rem; }
-.page-card .panel__body > .section-title:first-child { margin-top: 0; }
 .facts { display: grid; grid-template-columns: minmax(8rem, max-content) minmax(0, 1fr); gap: var(--space-2) var(--space-6); margin: 0; }
 .facts dt { color: var(--c-muted); }
 .facts dd { margin: 0; overflow-wrap: anywhere; }
@@ -383,7 +377,6 @@ body.site {
 .HOF-Table .gold { color: gold; font-weight: 700; }
 .HOF-Table .silver { color: silver; font-weight: 700; }
 .HOF-Table .bronze { color: #c49a5e; font-weight: 700; }
-.HOF-Table .hof-result-separator { border: 0; border-top: 1px solid var(--nova-line); margin: 0.4rem 0; }
 table.team td { text-align: center; }
 table.team td:first-child { text-align: start; }
 

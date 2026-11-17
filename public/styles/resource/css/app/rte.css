@@ -56,7 +56,6 @@
     color: var(--c-text, #d5dce5);
     line-height: 1.55;
   }
-  .rte--basic .rte__area { min-height: 6rem; }
   .rte.is-empty .rte__area[data-placeholder]::before { content: attr(data-placeholder); position: absolute; color: var(--c-muted, #8796a7); pointer-events: none; }
   .rte.is-source .rte__area { display: none; }
   .rte .rte__source {

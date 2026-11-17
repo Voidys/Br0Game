@@ -20,6 +20,8 @@ use App\Runtime\SafeFile;
  *   shipped as WebP, templates may still ask for x.gif / x.jpg / x.png).
  *   4. nothing found: the theme path is returned, so a missing image shows up as before (404).
  *
+ * A folder that ships only `planeten/mond.webp` (no `mond01` .. `mond09`) answers every numbered moon with it.
+ *
  * A new theme overrides any image by putting a file at the same relative path into its folder, or reuses
  * existing artwork by declaring a set. tools/images/dedupe-theme-assets.php moves identical files out of the
  * theme folders into the shared folder (docs/themes.md).
@@ -101,14 +103,18 @@ final class ThemeAssets
         $map = [];
         foreach (self::chain($theme) as [$dir, $url]) {
             $files = self::scan($dir, '', $dirs);
+            $aliases = self::moonAliases($files);
             foreach ($files as $rel) {
                 $map[$rel] ??= $url . $rel;
             }
+            foreach ($aliases as $virtual => $rel) {
+                $map[$virtual] ??= $url . $rel;
+            }
             // `x.webp` also answers for a requested x.gif / x.jpg / x.png (converted artwork), after the exact files
-            foreach ($files as $rel) {
+            foreach (array_merge($files, array_keys($aliases)) as $rel) {
                 if (str_ends_with($rel, '.webp')) {
                     foreach (['gif', 'jpg', 'jpeg', 'png'] as $ext) {
-                        $map[substr($rel, 0, -4) . $ext] ??= $url . $rel;
+                        $map[substr($rel, 0, -4) . $ext] ??= $url . ($aliases[$rel] ?? $rel);
                     }
                 }
             }
@@ -119,6 +125,35 @@ final class ThemeAssets
         SafeFile::write($file, '<?php return ' . var_export(['dirs' => $dirs, 'map' => $map], true) . ';');
 
         return $map;
+    }
+
+    /**
+     * Moon pictures `mond01` .. `mond09` (and their variants `mond01_v1_magic`, ...) of a folder that ships only the
+     * single `mond` picture: the folder needs no nine identical copies, each number is answered by `mond`.
+     * A folder with at least one numbered moon of its own is left alone.
+     *
+     * @param list<string> $files
+     * @return array<string, string> virtual path => real path
+     */
+    private static function moonAliases(array $files): array
+    {
+        $aliases = [];
+        foreach ($files as $rel) {
+            if (!preg_match('#^(planeten/(?:varianten/[^/]+/)?)mond((?:_v\d_[a-z]+)?)\.webp$#', $rel, $m)) {
+                continue;
+            }
+            $numbered = false;
+            for ($i = 1; $i <= 9; $i++) {
+                $numbered = $numbered || in_array($m[1] . 'mond0' . $i . $m[2] . '.webp', $files, true);
+            }
+            if (!$numbered) {
+                for ($i = 1; $i <= 9; $i++) {
+                    $aliases[$m[1] . 'mond0' . $i . $m[2] . '.webp'] = $rel;
+                }
+            }
+        }
+
+        return $aliases;
     }
 
     /** @param array<string, int> $dirs directory (or file) => mtime it was built from; a missing folder counts as 0 */

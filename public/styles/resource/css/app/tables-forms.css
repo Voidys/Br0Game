@@ -55,7 +55,7 @@
 
   :is(.content, .modal) :is(th, td):is(.left, .text-left) { text-align: start; }
 
-  :is(.content, .modal) :is(th, td):is(.top, .align-top) { vertical-align: top; }
+  :is(.content, .modal) :is(th, td).top { vertical-align: top; }
 
   :is(.content, .modal) :is(th, td).act {
     width: 1%;

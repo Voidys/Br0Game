@@ -7,7 +7,7 @@ identical files are stored once in `public/styles/resource/theme-shared/`:
 ```
 theme-shared/common/          files every theme (or at least five) shares
 theme-shared/sets/<set>/      artwork of a group of themes, e.g. sets/nebula (DarkNebula, MinimalNoir, community, ...)
-                              and sets/classic (nova, EpicBlueXIII, gow)
+                              and sets/classic (nova)
 ```
 
 A theme declares the sets it can draw from in its `style.cfg`: `'assetSets' => ['nebula']` (an ordered list).

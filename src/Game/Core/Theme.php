@@ -63,7 +63,8 @@ class Theme
         $this->cssSkin = $Theme;
         $this->imageSkin = $Theme;
 
-        if ($cssTheme !== null) {
+        // a stored CSS theme that no longer exists (removed theme) keeps the image theme's own CSS
+        if ($cssTheme !== null && file_exists(\App\Runtime\ProjectPaths::ROOT . 'public/styles/theme/' . $cssTheme . '/style.cfg')) {
             $this->cssSkin = $cssTheme;
         }
         $this->setStyleSettings();

@@ -410,5 +410,3 @@
   .account-page .board .board-post { grid-template-columns: 1fr; }
 }
 
-/* reCAPTCHA badge hidden (popup pages) */
-.grecaptcha-badge { visibility: hidden; }

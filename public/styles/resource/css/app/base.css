@@ -484,34 +484,23 @@
   .text-left { text-align: left; }
   .text-center { text-align: center; }
   .text-right { text-align: right; }
-  .align-top { vertical-align: top; }
-  .align-middle { vertical-align: middle; }
   .nowrap { white-space: nowrap; }
   .bold { font-weight: 700; }
-  .text-warning { color: var(--c-warning); }
-  .text-muted { color: var(--c-muted); }
   .float-left { float: left; }
   .float-right { float: right; }
   .clickable { cursor: pointer; }
   .block { display: block; }
   .inline-block { display: inline-block; }
   .table-fixed { table-layout: fixed; }
-  .w-auto { width: auto; }
-  .w-10 { width: 10%; }
-  .w-20 { width: 20%; }
-  .w-25 { width: 25%; }
-  .w-33 { width: 33%; }
   .w-50 { width: 50%; }
-  .w-80 { width: 80%; }
-  .w-90 { width: 90%; }
-  .w-95 { width: 95%; }
   .w-100 { width: 100%; }
   .m-0 { margin: 0; }
-  .mt-1 { margin-top: var(--space-1); }
   .mt-2 { margin-top: var(--space-2); }
-  .mt-3 { margin-top: var(--space-3); }
   .mb-2 { margin-bottom: var(--space-2); }
-  .mb-3 { margin-bottom: var(--space-3); }
   .p-0 { padding: 0; }
-  .is-hidden { display: none; }
+}
+
+/* bot check (scripts/app/pow.js): honeypot field out of sight for humans and screen readers */
+@layer utilities {
+  .pow-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 }

@@ -1022,7 +1022,6 @@ body#questions .faq-content {
 
 	.flyingFleets-scroll {
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
 	}
 
 	table.flyingFleets {
@@ -1314,7 +1313,6 @@ body#questions .faq-content {
 /* combat report (rust engine) layout and battle statistics */
 	.scrollable-content {
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
 		width: 100%;
 		min-width: 0;
 	}
@@ -1440,7 +1438,6 @@ body#questions .faq-content {
 	/* Stat Tables */
 	.stat-table-wrap {
 		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
 	}
 	.stat-table {
 		width: 100%;
